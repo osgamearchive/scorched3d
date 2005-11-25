@@ -26,6 +26,7 @@
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 
 REGISTER_CLASS_SOURCE(GLWHudCondition);
@@ -82,11 +83,11 @@ void GLWScorchedInfo::draw()
 			if (ScorchedClient::instance()->
 				getOptionsTransient().getWindSpeed() == 0)
 			{
-				sprintf(buffer, "No Wind");
+				snprintf(buffer, 256, "No Wind");
 			}
 			else
 			{
-				sprintf(buffer, "Force %.0f", 
+				snprintf(buffer, 256, "Force %.0f", 
 					ScorchedClient::instance()->
 					getOptionsTransient().getWindSpeed());
 			}
@@ -182,8 +183,8 @@ void GLWScorchedInfo::draw()
 				int count = current->getAccessories().
 					getParachutes().getNoParachutes();
 				char buffer[128];
-				if (count >= 0) sprintf(buffer, "%i", count);
-				else sprintf(buffer, "In");
+				if (count >= 0) snprintf(buffer, 128, "%i", count);
+				else snprintf(buffer, 128, "In");
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
@@ -237,7 +238,7 @@ void GLWScorchedInfo::draw()
 			setToolTip(&model->getTips()->weaponTip);
 
 			static char buffer[256];
-			sprintf(buffer, "%s", 
+			snprintf(buffer, 256, "%s", 
 				current->getAccessories().getWeapons().getCurrent()->getName());
 			float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
 				getWidth(fontSize_, buffer);

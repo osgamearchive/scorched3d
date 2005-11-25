@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,23 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/NapalmMap.h>
-#include <GLEXT/GLState.h>
-#include <memory.h>
+#if !defined(__INCLUDE_LandscapeDefinitionCacheh_INCLUDE__)
+#define __INCLUDE_LandscapeDefinitionCacheh_INCLUDE__
 
-NapalmMap::NapalmMap(int width) : width_(width)
-{
-	entries_ = new float[(width_ + 1) * (width_ + 1)];
-	clear();
-}
+#include <landscape/LandscapeDefinition.h>
 
-NapalmMap::~NapalmMap()
+class ScorchedContext;
+class LandscapeTex;
+class LandscapeDefn;
+class LandscapeDefinitionCache
 {
-	delete [] entries_;
-	entries_ = 0;
-}
+public:
+	LandscapeDefinitionCache();
+	virtual ~LandscapeDefinitionCache();
 
-void NapalmMap::clear()
-{
-	memset(entries_, 0, sizeof(float) * (width_ + 1) * (width_ + 1));
-}
+	void setDefinition(ScorchedContext &context, LandscapeDefinition &defn);
+	LandscapeDefinition &getDefinition() { return defn_; }
+	LandscapeTex *getTex() { return cachedTex_; }
+	LandscapeDefn *getDefn() { return cachedDefn_; }
+	unsigned int getSeed() { return defn_.getSeed(); }
+
+protected:
+	LandscapeTex *cachedTex_;
+	LandscapeDefn *cachedDefn_;
+	LandscapeDefinition defn_;
+};
+
+#endif // __INCLUDE_LandscapeDefinitionCacheh_INCLUDE__

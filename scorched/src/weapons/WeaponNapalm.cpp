@@ -70,7 +70,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
 
 	// Make sure position is not underground
@@ -109,8 +109,8 @@ void WeaponNapalm::addNapalm(ScorchedContext &context,
 	// Ensure that the napalm has not hit the walls
 	// or anything outside the landscape
 	if (x > 1 && y > 1 &&
-		x < context.landscapeMaps->getHMap().getWidth() - 1 &&
-		y < context.landscapeMaps->getHMap().getWidth() - 1)
+		x < context.landscapeMaps->getGroundMaps().getMapWidth() - 1 &&
+		y < context.landscapeMaps->getGroundMaps().getMapHeight() - 1)
 	{
 		context.actionController->addAction(
 			new Napalm(x, y, this, playerId, data));

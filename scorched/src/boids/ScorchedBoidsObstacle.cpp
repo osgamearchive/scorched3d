@@ -113,20 +113,14 @@ ISectData ScorchedBoidsObstacle::IntersectionWithRay(const BoidVector & raydirec
 			break;
 		}
 
-		int posX = (int) position[0];
-		int posY = (int) position[1];
-		float posZ = 0.0f;
-		Vector normal(0.0f, 0.0f, 1.0f);
-		if (posX >= 0 && posX < 255 && posY >= 0 && posY < 255)
-		{
-			posZ = ScorchedClient::instance()->getLandscapeMaps().getHMap().
-				getHeight(posX, posY);
-			normal = ScorchedClient::instance()->getLandscapeMaps().getHMap().
-				getNormal(posX, posY);
-		}
-		if (posZ > position[2] - 3.0f)
+		if (ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+			getHeight((int) position[0], (int) position[1]) >
+			position[2] - 3.0f)
 		{
 			position -= direction;
+			Vector &normal = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+				getNormal((int) position[0], (int) position[1]);
+
 			result.intersectionflag = 1;
 			result.point.x = position[0];
 			result.point.y = position[2];

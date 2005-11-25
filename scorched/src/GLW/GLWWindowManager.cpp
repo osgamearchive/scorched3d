@@ -22,6 +22,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <dialogs/MainMenuDialog.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <XML/XMLFile.h>
 #include <limits.h>
 #include <set>

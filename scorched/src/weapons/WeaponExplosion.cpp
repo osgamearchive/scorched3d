@@ -21,13 +21,14 @@
 #include <weapons/WeaponExplosion.h>
 #include <weapons/Accessory.h>
 #include <engine/ActionController.h>
+#include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 
 WeaponExplosion::WeaponExplosion() : size_(0.0f), 
 	multiColored_(false), hurtAmount_(0.0f),
 	deformType_(Explosion::DeformNone),
-	createDebris_(true), createMushroom_(false),
+	createDebris_(true), createMushroomAmount_(0.0f),
 	createSplash_(true), windAffected_(true),
 	luminance_(true), animate_(false),
 	onlyHurtShield_(false),
@@ -74,10 +75,8 @@ bool WeaponExplosion::parseXML(OptionsGame &context,
 	accessoryNode->getNamedChild("nocreatesplash", noCreateSplashNode, false);
 	if (noCreateSplashNode) createSplash_ = false;
 
-	// Get the createMushroom node
-	XMLNode *createMushroomNode = 0;
-	accessoryNode->getNamedChild("createmushroom", createMushroomNode, false);
-	if (createMushroomNode) createMushroom_ = true;
+	// Get the createmushroomamount node
+	accessoryNode->getNamedChild("createmushroomamount", createMushroomAmount_, false);
 
 	// Get the no windaffecting
 	XMLNode *noWindAffectedNode = 0;

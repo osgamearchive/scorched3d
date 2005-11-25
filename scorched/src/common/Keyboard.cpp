@@ -170,7 +170,7 @@ bool Keyboard::loadKeyFile(bool loadDefaults)
 	std::map<std::string, KeyboardKey *> usedKeyMap_;
 
 	const char *fileName = getSettingsFile("keys.xml");
-	if (DefinesUtil::fileExists(fileName) && !loadDefaults)
+	if (s3d_fileExists(fileName) && !loadDefaults)
 	{
 		if (!loadKeyFile(fileName, usedKeyMap_)) return false;
 	}

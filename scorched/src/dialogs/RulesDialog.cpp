@@ -27,6 +27,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
 #include <client/ScorchedClient.h>
 
 RulesDialog *RulesDialog::instance_ = 0;
@@ -41,15 +42,24 @@ RulesDialog *RulesDialog::instance()
 }
 
 RulesDialog::RulesDialog() : 
-	GLWWindow("Rules", 0.0f, 0.0f, 460.0f, 395.0f, eSmallTitle,
+	GLWWindow("Rules", 0.0f, 0.0f, 540.0f, 395.0f, eSmallTitle,
 		"Shows the game rules for the game\n"
 		"in progress.")
 {
 	needCentered_ = true;
-	okId_ = addWidget(new GLWTextButton("Ok", 395, 10, 55, this, 
+	okId_ = addWidget(new GLWTextButton("Ok", 475, 10, 55, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	listView_ = (GLWListView *) addWidget(new GLWListView(10, 150, 440, 190, 100));
-	icon_ = (GLWIcon *) addWidget(new GLWIcon(45, 347, 370, 40));
+	motdTab_ = (GLWTab *)
+		addWidget(new GLWTab("MoTD", 10, 40, 520, 315));
+	rulesTab_ = (GLWTab *)
+		addWidget(new GLWTab("Rules", 10, 40, 520, 315));
+
+	motdList_ = (GLWListView *) motdTab_->
+		addWidget(new GLWListView(10, 10, 500, 240, 100));
+	rulesList_ = (GLWListView *) rulesTab_->
+		addWidget(new GLWListView(10, 10, 500, 130, 500));
+	icon_ = (GLWIcon *) motdTab_->
+		addWidget(new GLWIcon(65, 255, 390, 50));
 }
 
 RulesDialog::~RulesDialog()
@@ -64,7 +74,24 @@ void RulesDialog::addIcon(GLTexture *texture)
 
 void RulesDialog::addMOTD(const char *text)
 {
-	listView_->clear();
+	motdTab_->setDepressed();
+	motdList_->clear();
+	rulesList_->clear();
+
+	// Add all the server rules
+	std::list<OptionEntry *> &options =
+		ScorchedClient::instance()->getOptionsGame().getOptions();
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = options.begin();
+		itor != options.end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		rulesList_->addLine(
+			formatString("%s = %s",
+				entry->getName(),
+				entry->getValueAsString()));
+	}
 
 	// Add single or multiple lines
 	char *found = strchr(text, '\n');
@@ -74,7 +101,7 @@ void RulesDialog::addMOTD(const char *text)
 		while (found)
 		{
 			*found = '\0';
-			listView_->addLine(start);
+			motdList_->addLine(start);
 			start = found;
 			start++;
 
@@ -82,12 +109,12 @@ void RulesDialog::addMOTD(const char *text)
 		}
 		if (start[0] != '\0')
 		{
-			listView_->addLine(start);
+			motdList_->addLine(start);
 		}
 	}
 	else
 	{
-		listView_->addLine(text);
+		motdList_->addLine(text);
 	}
 }
 
@@ -95,12 +122,21 @@ void RulesDialog::draw()
 {
 	GLWWindow::draw();
 
+	if (rulesTab_->getDepressed())
+	{
+		drawRules();
+	}
+}
+
+void RulesDialog::drawRules()
+{
 	OptionsTransient &optionsT = ScorchedClient::instance()->getOptionsTransient();
 	OptionsGame &options = ScorchedClient::instance()->getOptionsGame();
 
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	float top = y_ + h_ - 230.0f;
+	float top = y_ + h_ - 40.0f;
+	float left = x_ + 22.0f;
 	Vector yellow(0.3f, 0.3f, 0.3f); // Hmm, thats not yellow
 	if (ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedClient::instance()->getOptionsGame().getNoMinPlayers())
@@ -108,7 +144,7 @@ void RulesDialog::draw()
 		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12,
-			x_ + 12.0f, top - 30.0f, 0.0f,
+			left, top - 30.0f, 0.0f,
 			"Game has not started yet");
 
 		int waitingFor = ScorchedClient::instance()->getOptionsGame().getNoMinPlayers() -
@@ -137,7 +173,7 @@ void RulesDialog::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				yellow,
 				12,
-				x_ + 12.0f, top - 45.0f, 0.0f,
+				left, top - 45.0f, 0.0f,
 				"Players waiting for you");
 		}
 		else
@@ -145,7 +181,7 @@ void RulesDialog::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				yellow,
 				12,
-				x_ + 12.0f, top - 45.0f, 0.0f,
+				left, top - 45.0f, 0.0f,
 				"Waiting for %i more players", 
 				waitingFor);
 		}
@@ -155,13 +191,13 @@ void RulesDialog::draw()
 		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12,
-			x_ + 12.0f, top - 30.0f, 0.0f,
+			left, top - 30.0f, 0.0f,
 			"Current round : %i", 
 			optionsT.getCurrentRoundNo());
 		GLWFont::instance()->getSmallPtFont()->draw(
 			yellow,
 			12,
-			x_ + 12.0f, top - 45.0f, 0.0f,
+			left, top - 45.0f, 0.0f,
 			"Total number of rounds : %i", 
 			options.getNoRounds());
 	}
@@ -169,37 +205,37 @@ void RulesDialog::draw()
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 75.0f, 0.0f,
+		left, top - 75.0f, 0.0f,
 		"Mod : %s", 
 		ScorchedClient::instance()->getOptionsGame().getMod());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 90.0f, 0.0f,
+		left, top - 90.0f, 0.0f,
 		"Game type : %s", 
 		ScorchedClient::instance()->getOptionsTransient().getGameType());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 105.0f, 0.0f,
+		left, top - 105.0f, 0.0f,
 		((options.getTeams() > 1)?"Teams : %i":"Teams : None"),
 		options.getTeams());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 120.0f, 0.0f,
+		left, top - 120.0f, 0.0f,
 		"Score Mode : %s", (options.getScoreType() == OptionsGame::ScoreWins)?"Most Wins":
 		((options.getScoreType() == OptionsGame::ScoreKills)?"Most Kills":"Most Money"));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 135.0f, 0.0f,
+		left, top - 135.0f, 0.0f,
 		((options.getShotTime() > 0)?"Shot time : %i (s)":"Shot time : Unlimited"),
 		options.getShotTime());
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		x_ + 12.0f, top - 150.0f, 0.0f,
+		left, top - 150.0f, 0.0f,
 		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"Buying time : Unlimited"),
 		options.getShotTime());
 }

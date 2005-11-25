@@ -22,6 +22,7 @@
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/MeshLOD.h>
 #include <GLEXT/GLTexture.h>
+#include <common/Defines.h>
 
 Mesh::Mesh(const char *name) : name_(name), texture_(0),
 	referencesBones_(false)

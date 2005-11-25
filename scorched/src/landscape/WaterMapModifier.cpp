@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/WaterMapModifier.h>
+#include <common/Defines.h>
 
 void WaterMapModifier::addWaterVisibility(
 	float waterHeight,
@@ -29,23 +30,23 @@ void WaterMapModifier::addWaterVisibility(
 	if (counter) counter->setNewOp("Water Visibility");
 
 	WaterMap::WaterEntry *currentEntry = wMap.heights_;
-	for (int y=0; y<wMap.getWidth(); y++)
+	for (int y=0; y<wMap.getMapHeight(); y++)
 	{
-		if (counter) counter->setNewPercentage((100.0f * float(y)) / float(wMap.getWidth()-1));
-		for (int x=0; x<wMap.getWidth(); x++)
+		if (counter) counter->setNewPercentage((100.0f * float(y)) / float(wMap.getMapHeight()-1));
+		for (int x=0; x<wMap.getMapWidth(); x++)
 		{
-			int posX = (x * (int) wMap.getWidthMult()) - 64;
-			int posY = (y * (int) wMap.getWidthMult()) - 64;
+			int posX = (x * (int) wMap.getMapWidthMult()) + wMap.getStartX();
+			int posY = (y * (int) wMap.getMapHeightMult()) + wMap.getStartY();
 
 			if (posX >= 0 && posY >= 0 &&
-				posX < hMap.getWidth() && posY < hMap.getWidth())
+				posX < hMap.getMapWidth() && posY < hMap.getMapHeight())
 			{
 				int posX1 = posX >> 3;
 				int posY1 = posY >> 3;
-				int posX2 = MIN(hMap.getMinWidth(), posX1 + 1);
+				int posX2 = MIN(hMap.getMapMinWidth(), posX1 + 1);
 				int posY2 = posY1;
 				int posX3 = posX1;
-				int posY3 = MIN(hMap.getMinWidth(), posY1 + 1);
+				int posY3 = MIN(hMap.getMapMinHeight(), posY1 + 1);
 				int posX4 = MAX(0, posX1 - 1);
 				int posY4 = posY1;
 				int posX5 = posX1;

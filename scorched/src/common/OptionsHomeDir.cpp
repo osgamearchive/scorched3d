@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/OptionsHomeDir.h>
+#include <common/Defines.h>
 
 OptionsHomeDir *OptionsHomeDir::instance_ = 0;
 

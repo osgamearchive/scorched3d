@@ -24,6 +24,86 @@
 #include <common/Logger.h>
 #include <string.h>
 
+static OptionEntryEnum::EnumEntry scoreEnum[] =
+{
+	{ "ScoreWins", 0 },
+	{ "ScoreKills", 1 },
+	{ "ScoreMoney", 2 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry turnEnum[] =
+{
+	{ "TurnSimultaneous", 0 },
+	{ "TurnSequentialLooserFirst", 1 },
+	{ "TurnSequentialRandom", 2 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry windForceEnum[] =
+{
+	{ "WindRandom", 0 },
+	{ "WindNone", 1 },
+	{ "Wind1", 2 },
+	{ "Wind2", 3 },
+	{ "Wind3", 4 },
+	{ "Wind4", 5 },
+	{ "Wind5", 6 },
+	{ "WindBreezy", 7 },
+	{ "WindGale", 8 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry windTypeEnum[] =
+{
+	{ "WindOnRound", 0 },
+	{ "WindOnMove", 1 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry wallEnum[] =
+{
+	{ "WallRandom", 0 },
+	{ "WallConcrete", 1 },
+	{ "WallBouncy", 2 },
+	{ "WallWrapAround", 3 },
+	{ "WallNone", 4 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry weapScaleEnum[] =
+{
+	{ "ScaleSmall", 0 },
+	{ "ScaleMedium", 1 },
+	{ "ScaleLarge", 2 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry resignEnum[] =
+{
+	{ "ResignStart", 0 },
+	{ "ResignEnd", 1 },
+	{ "ResignDueToHealth", 2 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry movementRestrictionEnum[] =
+{
+	{ "MovementRestrictionNone", 0 },
+	{ "MovementRestrictionLand", 1 },
+	{ "MovementRestrictionLandOrAbove", 2 },
+	{ "", -1 }
+};
+
+static OptionEntryEnum::EnumEntry teamBallanceEnum[] =
+{
+	{ "TeamBallanceNone", 0 },
+	{ "TeamBallanceAuto", 1 },
+	{ "TeamBallanceBotsVs", 2 },
+	{ "TeamBallanceAutoByScore", 3 },
+	{ "", -1 }
+};
+
 OptionsGame::OptionsGame() :
 	teams_(options_, "Teams",
 		"The number of teams (1 == no teams)", 0, 1, 1, 4),
@@ -76,17 +156,17 @@ OptionsGame::OptionsGame() :
 	residualPlayers_(options_, "ResidualPlayers",
 		"Players that leave will have the same state when reconnecting", 0, true),
 	resignMode_(options_, "ResignMode",
-		"When does a players resign take place", 0, int(ResignEnd), int(ResignStart), int(ResignDueToHealth)),
+		"When does a players resign take place", 0, int(ResignEnd), resignEnum),
 	movementRestriction_(options_, "MovementRestriction",
-		"Where a tank is allowed to move to", 0, int(MovementRestrictionNone), int(MovementRestrictionNone), int(MovementRestrictionLandOrAbove)),
+		"Where a tank is allowed to move to", 0, int(MovementRestrictionNone), movementRestrictionEnum),
 	depricatedAutoBallanceTeams_(options_, "AutoBallanceTeams",
 		"", OptionEntry::DataDepricated, true),
 	teamBallance_(options_, "TeamBallance",
-		"The mode of team auto-ballancing performed for team games", 0, int(TeamBallanceNone), int(TeamBallanceNone), int(TeamBallanceAutoByScore)),
+		"The mode of team auto-ballancing performed for team games", 0, int(TeamBallanceNone), teamBallanceEnum),
 	moneyPerHealthPoint_(options_, "MoneyPerHealthPoint",
 		"The money awarded is proportional to the amount of health removed", 0, true),
 	turnType_(options_, "TurnType", 
-		"The player turn mode", 0, 	int(TurnSequentialLooserFirst), int(TurnSimultaneous), int(TurnSequentialRandom)), // Data, default, min, max
+		"The player turn mode", 0, 	int(TurnSequentialLooserFirst), turnEnum), // Data, default, min, max
 	moneyBuyOnRound_(options_, "MoneyBuyOnRound", 
 		"The first round players are allowed to buy on", 0 ,2),
 	moneyWonForRound_(options_, "MoneyWonForRound", 
@@ -104,15 +184,15 @@ OptionsGame::OptionsGame() :
 	freeMarketAdjustment_(options_, "FreeMarketAdjustment",
 		"The scale of the adjustment changes made by the free market", 0, 100),
 	scoreType_(options_, "ScoreType",
-		"How the winnder is choosen", 0, int(ScoreWins), int(ScoreWins), int(ScoreMoney)),
+		"How the winnder is choosen", 0, int(ScoreWins), scoreEnum),
 	windForce_(options_, "WindForce", 
-		"The force of the wind", 0, int(WindRandom), int(WindRandom), int(WindGale)),
+		"The force of the wind", 0, int(WindRandom), windForceEnum),
 	windType_(options_, "WindType", 
-		"When the wind changes", 0, int(WindOnRound), int(WindOnRound), int(WindOnMove)),
+		"When the wind changes", 0, int(WindOnRound), windTypeEnum),
 	wallType_(options_, "WallType", 
-		"The type of walls allowed", 0, int(WallRandom), int(WallRandom), int(WallWrapAround)),
+		"The type of walls allowed", 0, int(WallRandom), wallEnum),
 	weapScale_(options_, "WeaponScale", 
-		"The scale of the weapons used", 0, int(ScaleMedium), int(ScaleSmall), int(ScaleLarge)),
+		"The scale of the weapons used", 0, int(ScaleMedium), weapScaleEnum),
 	masterListServer_(options_, "MasterListServer",
 		"The master list server for scorched3d", 0, "scorched3d.sourceforge.net"),
 	masterListServerURI_(options_, "MasterListServerURI",
@@ -175,7 +255,7 @@ OptionsGame::OptionsGame() :
 	char buffer[128];
 	for (int i=0; i<24; i++)
 	{
-		sprintf(buffer, "PlayerType%i", i+1);
+		snprintf(buffer, 128, "PlayerType%i", i+1);
 		playerType_[i] = new OptionEntryString(playerTypeOptions_,
 			buffer,
 			"The type of the player e.g. human, computer etc..", 0,

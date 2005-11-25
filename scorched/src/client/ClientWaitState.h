@@ -32,6 +32,8 @@ public:
 
 	virtual void enterState(const unsigned state);
 
+	void sendClientReady();
+
 protected:
 	static ClientWaitState *instance_;
 

@@ -92,8 +92,7 @@ public:
 	bool getFromBuffer(float &result);
 	bool getFromBuffer(bool &result);
 	bool getFromBuffer(unsigned int &result);
-	bool getFromBuffer(char *result);
-	bool getFromBuffer(std::string &string);
+	bool getFromBuffer(std::string &string, bool safe = true);
 
 	// Gets raw data from the buffer
 	// NOTE: Care must be taken to ensure that the data

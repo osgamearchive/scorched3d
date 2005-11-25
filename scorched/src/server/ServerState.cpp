@@ -68,22 +68,23 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateNewGame,
 		serverNewGame);
 	gameState.addStateStimulus(ServerStateNewGame, 
-		ServerStimulusNextRound, ServerStateNextRound);
+		ServerStimulusNewGameReady, ServerStateNewGameReady);
+
+	ServerShotState *serverShot = new ServerShotState();
+
+	// ServerStateNewGameReady
+	ServerReadyState *serverNewGameReady = new ServerReadyState(serverShot);
+	gameState.addStateEntry(ServerStateNewGameReady,
+		serverNewGameReady);
+	gameState.addStateStimulus(ServerStateNewGameReady, 
+		serverNewGameReady, ServerStateNextRound);
 
 	// ServerStateNextRound
-	ServerShotState *serverShot = new ServerShotState();
-	ServerNextRoundState *serverNextRound = new ServerNextRoundState(serverShot);
+	ServerNextRoundState *serverNextRound = new ServerNextRoundState();
 	gameState.addStateEntry(ServerStateNextRound,
 		serverNextRound);
 	gameState.addStateStimulus(ServerStateNextRound, 
-		ServerStimulusReady, ServerStateReady);
-
-	// ServerStateReady
-	ServerReadyState *serverReady = new ServerReadyState(serverShot);
-	gameState.addStateEntry(ServerStateReady,
-		serverReady);
-	gameState.addStateStimulus(ServerStateReady, 
-		serverReady, ServerStateNextShot);
+		ServerStimulusNextShot, ServerStateNextShot);
 
 	// ServerStateNextShot
 	ServerNextShotState *serverNextShot = new ServerNextShotState;
@@ -137,7 +138,14 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateStimulus(ServerStateShot,
 		ServerTooFewPlayersStimulus::instance(), ServerStateCheckForWinners);	
 	gameState.addStateStimulus(ServerStateShot,
-		serverShot, ServerStateReady);	
+		serverShot, ServerStateShotReady);
+
+	// ServerStateShotReady
+	ServerReadyState *serverShotReady = new ServerReadyState(serverShot);
+	gameState.addStateEntry(ServerStateShotReady,
+		serverShotReady);
+	gameState.addStateStimulus(ServerStateShotReady, 
+		serverShotReady, ServerStateNextShot);
 
 	// ServerStateCheckForWinners
 	ServerCheckForWinnersState *serverCheckForWinners = new ServerCheckForWinnersState;

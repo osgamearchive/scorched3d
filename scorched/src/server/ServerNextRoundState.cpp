@@ -26,15 +26,14 @@
 #include <tank/TankContainer.h>
 #include <scorched/ServerDialog.h>
 #include <engine/ActionController.h>
-#include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsGameStateMessage.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 
-ServerNextRoundState::ServerNextRoundState(ServerShotState *shot) :
-	shot_(shot)
+ServerNextRoundState::ServerNextRoundState()
 {
 }
 
@@ -67,26 +66,16 @@ void ServerNextRoundState::enterState(const unsigned state)
 		StatsLogger::instance()->roundStart(currentTanks);
 	}
 
-	// Set the wind for the next shot
-	Vector wind;
-	if (ScorchedServer::instance()->getOptionsTransient().getWindOn())
-	{
-		wind = ScorchedServer::instance()->getOptionsTransient().getWindDirection();
-		wind *= ScorchedServer::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
-	}
-	ScorchedServer::instance()->getActionController().getPhysics().setWind(wind);
-
-	// Make sure that no players have made shots
-	ServerShotHolder::instance()->clearShots();
-	shot_->getShotTime() = 0.0f;
+	// Set the physics for the next shot
+	ScorchedServer::instance()->getActionController().getPhysics().generate();
 
 	// Setup this list of players that need to move before this round is over
 	TurnController::instance()->nextRound();
 
-	// Tell all clients to start the next round
-	ComsNextRoundMessage message;
-	ComsMessageSender::sendToAllPlayingClients(message);
+	// Make sure all clients have the correct game settings
+	ComsGameStateMessage message;
+	ComsMessageSender::sendToAllPlayingClients(message);	
 
 	// Move into the ready state
-	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusReady);
+	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextShot);
 }

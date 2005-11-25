@@ -24,7 +24,10 @@
 #include <weapons/Accessory.h>
 #include <actions/ShotProjectile.h>
 #include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/ShadowMap.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/TankRenderer.h>
 #include <tank/TankContainer.h>
@@ -183,6 +186,14 @@ void MissileActionRenderer::draw(Action *action)
 			shot->getWeapon()->getModelID(), currentPlayer);
 	}
 
+	// Draw the missile
 	mesh_->setScale(scale_);
 	mesh_->draw(actualPos, actualdir, flareType_, rotation_);
+
+	// Draw the missile shadow
+	float aboveGround =
+		actualPos[2] - ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+		getHeight((int) actualPos[0], (int) actualPos[1]);
+	Landscape::instance()->getShadowMap().
+		addCircle(actualPos[0], actualPos[1], aboveGround / 10.0f);
 }

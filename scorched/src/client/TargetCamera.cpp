@@ -22,10 +22,13 @@
 #include <client/ScorchedClient.h>
 #include <actions/CameraPositionAction.h>
 #include <common/OptionsDisplay.h>
+#include <landscape/MovementMap.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefn.h>
+#include <landscape/Water.h>
 #include <engine/ViewPoints.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
@@ -34,7 +37,6 @@
 #include <common/LoggerI.h>
 #include <common/Defines.h>
 #include <math.h>
-#include <float.h>
 
 static const char *cameraNames[] = 
 {
@@ -173,49 +175,16 @@ float TargetCamera::minHeightFunc(int x, int y, void *data)
 		Landscape::instance()->getWater().getWaterHeight():0.0f);
 	float addition = 5.0f;
 
-	float h = 0;
-	if (x >= 0 && x < ScorchedClient::instance()->
-			getLandscapeMaps().getHMap().getWidth() &&
-		y >= 0 && y < ScorchedClient::instance()->
-			getLandscapeMaps().getHMap().getWidth())
-	{
-		h = ScorchedClient::instance()->getLandscapeMaps().
-			getHMap().getHeight(x, y) + addition;
-	}
-
-	if (x > -640 && x < 896 &&
-		y > -640 && y < 896)
-	{
-		int a = (x + 640) / 16;
-		int b = (y + 640) / 16;
-
-		h = MAX(h, ScorchedClient::instance()->getLandscapeMaps().
-			getSMap().getHeight(a, b) + addition);
-	}
-
+	float h = ScorchedClient::instance()->getLandscapeMaps().
+			getGroundMaps().getHeight(x, y) + addition;
 	return (h>heightMin + addition?h:heightMin + addition);
 }
 
 float TargetCamera::maxHeightFunc(int x, int y, void *data)
 {
-	if (!ScorchedClient::instance()->getLandscapeMaps().getRoof())
-	{
-		return FLT_MAX;
-	}
-
-	x = MAX(0, x);
-	y = MAX(0, y);
-	x = MIN(ScorchedClient::instance()->
-			getLandscapeMaps().getHMap().getWidth(), x);
-	y = MIN(ScorchedClient::instance()->
-			getLandscapeMaps().getHMap().getWidth(), y);
-
-	int size = ScorchedClient::instance()->
-		getLandscapeMaps().getHMap().getWidth() /
+	float h = 
 		ScorchedClient::instance()->getLandscapeMaps().
-		getRMap().getWidth();
-	float h = ScorchedClient::instance()->getLandscapeMaps().
-			getRMap().getHeight(x / size, y / size) - 2.0f;
+			getRoofMaps().getRoofHeight(x, y) - 2.0f;
 	return h;
 }
 
@@ -224,12 +193,11 @@ void TargetCamera::simulate(float frameTime, bool playing)
 	totalTime_ += frameTime * ParticleEngine::getFast();
 	while (totalTime_ > 0.05f)
 	{
-		if (ScorchedClient::instance()->getLandscapeMaps().getLandDfn() &&
-			!OptionsDisplay::instance()->getNoPrecipitation())
+		if (!OptionsDisplay::instance()->getNoPrecipitation())
 		{
-			LandscapeTex &tex = ScorchedClient::instance()->getLandscapeMaps().
-				getTex(ScorchedClient::instance()->getContext());
-			if (0 == strcmp("rain", tex.precipitationtype.c_str()))
+			LandscapeTex &tex = *ScorchedClient::instance()->getLandscapeMaps().
+				getDefinitions().getTex();
+			if (tex.precipitation->getType() == LandscapeTexType::ePrecipitationRain)
 			{
 				LandscapeTexPrecipitation *rain = (LandscapeTexPrecipitation *)
 					tex.precipitation;
@@ -238,7 +206,7 @@ void TargetCamera::simulate(float frameTime, bool playing)
 					rain->particles,
 					true);
 			}
-			else if (0 == strcmp("snow", tex.precipitationtype.c_str()))
+			else if (tex.precipitation->getType() == LandscapeTexType::ePrecipitationSnow)
 			{
 				LandscapeTexPrecipitation *snow = (LandscapeTexPrecipitation *)
 					tex.precipitation;
@@ -304,8 +272,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamTank:
 		{
 			Vector newPos(
-				DefinesUtil::getFastSin(currentRotation) * 8.0f, 
-				DefinesUtil::getFastCos(currentRotation) * 8.0f,
+				getFastSin(currentRotation) * 8.0f, 
+				getFastCos(currentRotation) * 8.0f,
 				0.0f);
 
 			Vector newPos2 = position - newPos;
@@ -329,8 +297,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamBehind:
 		{
 			Vector newPos(
-				DefinesUtil::getFastSin(currentRotation) * 25.0f, 
-				DefinesUtil::getFastCos(currentRotation) * 25.0f,
+				getFastSin(currentRotation) * 25.0f, 
+				getFastCos(currentRotation) * 25.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -341,8 +309,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamLeftFar:
 		{
 			Vector newPos(
-				DefinesUtil::getFastSin(currentRotation) * 65.0f, 
-				DefinesUtil::getFastCos(currentRotation) * 65.0f,
+				getFastSin(currentRotation) * 65.0f, 
+				getFastCos(currentRotation) * 65.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -353,8 +321,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamRightFar:
 		{
 			Vector newPos(
-				DefinesUtil::getFastSin(currentRotation) * 65.0f, 
-				DefinesUtil::getFastCos(currentRotation) * 65.0f,
+				getFastSin(currentRotation) * 65.0f, 
+				getFastCos(currentRotation) * 65.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -365,8 +333,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamLeft: 
 		{
 			Vector newPos(
-				DefinesUtil::getFastSin(currentRotation) * 10.0f, 
-				DefinesUtil::getFastCos(currentRotation) * 10.0f,
+				getFastSin(currentRotation) * 10.0f, 
+				getFastCos(currentRotation) * 10.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -377,8 +345,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamRight:
 		{
 			Vector newPos(
-				DefinesUtil::getFastSin(currentRotation) * 10.0f, 
-				DefinesUtil::getFastCos(currentRotation) * 10.0f,
+				getFastSin(currentRotation) * 10.0f, 
+				getFastCos(currentRotation) * 10.0f,
 				0.0f);
 			Vector newPos2 = position - newPos;
 
@@ -458,7 +426,7 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 	Line direction;
 	if (mainCam_.getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-		if (ScorchedClient::instance()->getLandscapeMaps().getHMap().
+		if (ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
 			getIntersect(direction, intersect))
 		{
 			skipRest = true;
@@ -473,16 +441,20 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 					getTankContainer().getCurrentTank();
 				if (currentTank && currentTank->getState().getState() == TankState::sNormal)
 				{
+					int landWidth = ScorchedClient::instance()->
+						getLandscapeMaps().getDefinitions().getDefn()->landscapewidth;
+					int landHeight = ScorchedClient::instance()->
+						getLandscapeMaps().getDefinitions().getDefn()->landscapeheight;
 					int posX = (int) intersect[0];
 					int posY = (int) intersect[1];
-					if (posX > 0 && posX < ScorchedClient::instance()->
-							getLandscapeMaps().getHMap().getWidth() &&
-						posY > 0 && posY < ScorchedClient::instance()->
-							getLandscapeMaps().getHMap().getWidth())
+					if (posX > 0 && posX < landWidth &&
+						posY > 0 && posY < landHeight)
 					{
-						MovementMap::MovementMapEntry &entry =
-							ScorchedClient::instance()->getLandscapeMaps().getMMap().
-							getEntry(posX, posY);
+						MovementMap mmap(landWidth, landHeight);
+						mmap.calculateForTank(currentTank,
+							ScorchedClient::instance()->getContext());
+
+						MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
 						if (entry.type == MovementMap::eMovement &&
 							entry.dist < currentTank->getAccessories().getFuel().getNoFuel())
 						{

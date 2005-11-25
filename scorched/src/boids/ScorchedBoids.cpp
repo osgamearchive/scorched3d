@@ -47,8 +47,8 @@ void ScorchedBoids::generate()
 	// Create some new boids based on the definitions in the
 	// landscape texture file
 	LandscapeTex &tex = 
-		ScorchedClient::instance()->getLandscapeMaps().getTex(
-			ScorchedClient::instance()->getContext());
+		*ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getTex();
 
 	std::vector<LandscapeTexBoids *> &boids = tex.boids;
 	std::vector<LandscapeTexBoids *>::iterator itor;

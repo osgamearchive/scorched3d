@@ -20,6 +20,7 @@
 
 #include <GLW/GLWListView.h>
 #include <GLW/GLWFont.h>
+#include <common/Defines.h>
 #include <stdio.h>
 
 REGISTER_CLASS_SOURCE(GLWListView);
@@ -55,7 +56,7 @@ void GLWListView::draw()
 			if (i >= 0 && i < (int) lines_.size())
 			{
 				GLWFont::instance()->getSmallPtFont()->drawWidth(
-					(int) w_,
+					(int) w_ - 20,
 					GLWFont::widgetFontColor, 10,
 					x_ + 5.0f, posY, 0.0f, "%s", lines_[i].c_str());
 				posY -= 12.0f;
@@ -107,7 +108,7 @@ void GLWListView::addLine(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	lines_.push_back(text);

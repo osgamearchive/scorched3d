@@ -265,10 +265,10 @@ void GLConsole::addLine(bool parse, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	int used = vsnprintf(text, TEXT_SIZE, fmt, ap);
 	va_end(ap);
 
-	DIALOG_ASSERT(strlen(text)<TEXT_SIZE);
+	DIALOG_ASSERT(used<TEXT_SIZE);
 	if (parse)
 	{
 		parseLine(text);

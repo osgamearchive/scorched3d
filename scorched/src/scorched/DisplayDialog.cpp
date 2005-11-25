@@ -265,8 +265,8 @@ void DisplayFrame::refreshKeysControls()
 			const char *stateName = "";
 			KeyboardKey::translateKeyNameValue(key->getKeys()[position].key, keyName);
 			KeyboardKey::translateKeyStateValue(key->getKeys()[position].state, stateName);
-			if (strcmp(stateName, "NONE") == 0) sprintf(buffer, "%s", keyName);
-			else sprintf(buffer, "<%s> %s", stateName, keyName);
+			if (strcmp(stateName, "NONE") == 0) snprintf(buffer, 256, "%s", keyName);
+			else snprintf(buffer, 256, "<%s> %s", stateName, keyName);
 		}
 		button->SetLabel(wxString(buffer, wxConvUTF8));
 	}
@@ -467,7 +467,7 @@ void DisplayFrame::refreshResolutions()
 	{
 		for(int i=0;modes[i];++i)
 		{
-			sprintf(string, "%i x %i", 
+			snprintf(string, 256, "%i x %i", 
 				modes[i]->w, modes[i]->h);
 
 			std::string newDisplay(string);
@@ -495,7 +495,7 @@ void DisplayFrame::refreshResolutions()
 		}
 	}
 
-	sprintf(string, "%i x %i", 
+	snprintf(string, 256, "%i x %i", 
 		OptionsDisplay::instance()->getScreenWidth(),
 		OptionsDisplay::instance()->getScreenHeight());
 	IDC_DISPLAY_CTRL->SetValue(wxString(string, wxConvUTF8));

@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponMirv.h>
 #include <weapons/AccessoryStore.h>
+#include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponMirv);
 

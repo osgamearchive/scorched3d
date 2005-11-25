@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,29 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_PatchTexCoordh_INCLUDE__)
+#define __INCLUDE_PatchTexCoordh_INCLUDE__
 
-#if !defined(__INCLUDE_ClientNextRoundHandlerh_INCLUDE__)
-#define __INCLUDE_ClientNextRoundHandlerh_INCLUDE__
+#include <common/DefinesAssert.h>
+#include <landscape/HeightMap.h>
 
-#include <coms/ComsMessageHandler.h>
-
-class ClientNextRoundHandler : 
-	public ComsMessageHandlerI
+class PatchTexCoord
 {
 public:
-	static ClientNextRoundHandler *instance();
+	PatchTexCoord();
+	virtual ~PatchTexCoord();
 
-	virtual bool processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader);
+	struct PatchTexCoordEntry
+	{
+		float txa;
+		float txb;
+	};
+
+	void generate(HeightMap *map);
+	inline PatchTexCoordEntry &getWidthEntry(int i)
+	{
+		DIALOG_ASSERT(i >=0 && i <= map_->getMapWidth());
+		return widthEntries_[i];
+	};
+	inline PatchTexCoordEntry &getHeightEntry(int i)
+	{
+		DIALOG_ASSERT(i >= 0 && i <= map_->getMapHeight());
+		return heightEntries_[i];
+	};
 
 protected:
-	static ClientNextRoundHandler *instance_;
-
-private:
-	ClientNextRoundHandler();
-	virtual ~ClientNextRoundHandler();
+	HeightMap *map_;
+	PatchTexCoordEntry *widthEntries_;
+	PatchTexCoordEntry *heightEntries_;
 };
 
-
-#endif
+#endif // __INCLUDE_PatchTexCoordh_INCLUDE__

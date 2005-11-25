@@ -22,14 +22,17 @@
 #define __INCLUDE_Landscapeh_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <landscape/Water.h>
-#include <landscape/PatchGrid.h>
-#include <landscape/LandscapePoints.h>
-#include <landscape/LandscapeSoundManager.h>
-#include <landscape/Smoke.h>
-#include <landscape/Wall.h>
-#include <landscape/ShadowMap.h>
+#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLTexture.h>
 
+class Wall;
+class ShadowMap;
+class Smoke;
+class ProgressCounter;
+class PatchGrid;
+class LandscapeSoundManager;
+class Water;
+class LandscapePoints;
 class ScorchedBoids;
 class Surround;
 class Sky;
@@ -48,15 +51,15 @@ public:
 	void generate(ProgressCounter *counter = 0);
 	void recalculate(int posX, int posY, int dist);
 	void restoreLandscapeTexture();
-	void reset();
+	void reset(ProgressCounter *counter = 0);
 
 	// Access to internal objects
-	Smoke &getSmoke() { return smoke_; }
-	ShadowMap &getShadowMap() { return shadowMap_; }
-	Wall &getWall() { return wall_; }
+	Smoke &getSmoke() { return *smoke_; }
+	ShadowMap &getShadowMap() { return *shadowMap_; }
+	Wall &getWall() { return *wall_; }
 	Sky &getSky() { return *sky_; }
-	Water &getWater() { return water_; }
-	PatchGrid &getPatchGrid() { return patchGrid_; }
+	Water &getWater() { return *water_; }
+	PatchGrid &getPatchGrid() { return *patchGrid_; }
 
 	// Textures created during landscape texturing
 	GLBitmap &getMainMap() { return mainMap_; }
@@ -91,17 +94,17 @@ protected:
 	static Landscape *instance_;
 
 	// All objects that are used to draw the scene
-	Wall wall_;
-	PatchGrid patchGrid_;
+	Wall *wall_;
+	PatchGrid *patchGrid_;
 	Sky *sky_;
 	ScorchedBoids *boids_;
 	Surround *surround_;
-	ShadowMap shadowMap_;
-	Smoke smoke_;
-	Water water_;
+	ShadowMap *shadowMap_;
+	Smoke *smoke_;
+	Water *water_;
 	LandscapeTextureType textureType_;
-	LandscapePoints points_;
-	LandscapeSoundManager soundManager_;
+	LandscapePoints *points_;
+	LandscapeSoundManager *soundManager_;
 
 	// Textures used for landscape
 	GLTexture texture_;

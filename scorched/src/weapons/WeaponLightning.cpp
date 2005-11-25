@@ -22,6 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
 #include <actions/Lightning.h>
+#include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLightning);
 

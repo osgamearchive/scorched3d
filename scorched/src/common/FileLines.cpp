@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/FileLines.h>
+#include <common/Defines.h>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -96,7 +97,7 @@ void FileLines::addLine(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);
 
 	fileLines_.push_back(text);

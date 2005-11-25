@@ -23,6 +23,7 @@
 #include <engine/ScorchedContext.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <common/OptionsDisplay.h>
+#include <landscape/ShadowMap.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 
@@ -49,7 +50,7 @@ void FlareActionRenderer::draw(Action *action)
 {
 	Vector &actualPos = ((PhysicsParticleMeta *)action)->getCurrentPosition();
 	float aboveGround =
-		actualPos[2] - action->getScorchedContext()->landscapeMaps->getHMap().
+		actualPos[2] - action->getScorchedContext()->landscapeMaps->getGroundMaps().
 		getHeight((int) actualPos[0], (int) actualPos[1]);
 	Landscape::instance()->getShadowMap().
 		addCircle(actualPos[0], actualPos[1], aboveGround / 10.0f);

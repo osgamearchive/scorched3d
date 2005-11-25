@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponMulti.h>
 #include <weapons/AccessoryStore.h>
+#include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponMulti);
 
@@ -42,7 +43,7 @@ bool WeaponMulti::parseXML(OptionsGame &context,
 	{
 		// Get the next weapon
 		char buffer[128];
-		sprintf(buffer, "subweapon%i", i);
+		snprintf(buffer, 128, "subweapon%i", i);
 		XMLNode *subNode = 0;
 		accessoryNode->getNamedChild(buffer, subNode, false);
 		if (!subNode) break;

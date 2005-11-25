@@ -58,7 +58,7 @@ void ServerReadyState::enterState(const unsigned state)
 	// Set the wait timer to the current time
 	time_ = 0.0f;
 
-	if (shotState_->getShotTime() == 0.0f)
+	if (state == ServerState::ServerStateNewGameReady)
 	{
 		idleTime_ = (float) ScorchedServer::instance()->
 			getOptionsGame().getIdleKickTime();
@@ -67,12 +67,12 @@ void ServerReadyState::enterState(const unsigned state)
 	{
 		idleTime_ = (float) ScorchedServer::instance()->
 			getOptionsGame().getIdleShotKickTime();
-	}
 
-	// Add on the time the shots took to simulate
-	// So we don't time clients out too quickly
-	time_ -= shotState_->getShotTime();
-	shotState_->getShotTime() = 0.0f;
+		// Add on the time the shots took to simulate
+		// So we don't time clients out too quickly
+		time_ -= shotState_->getShotTime();
+		shotState_->getShotTime() = 0.0f;
+	}
 
 	// Make all computer players ready
 	// And send out the first status messages

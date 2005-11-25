@@ -144,7 +144,7 @@ void BoidWorld::makeBoids(int boidCount, Vector &maxBounds, Vector &minBounds)
 			rand() % ((int)maxBounds[2] - (int)minBounds[2] - 2) + (int) minBounds[2] + 1,
 			rand() % 200 + 25);
 		} while (ScorchedClient::instance()->getLandscapeMaps().
-			getHMap().getInterpHeight((float) p.x, (float) p.z) > p.y);
+			getGroundMaps().getInterpHeight((float) p.x, (float) p.z) > p.y);
 
 		attitude = BoidVector(
 			rand() % 200 + 25, 

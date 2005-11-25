@@ -23,6 +23,7 @@
 #include <tankai/TankAILogic.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsDefenseMessage.h>
+#include <common/Defines.h>
 #include <sound/SoundUtils.h>
 #include <weapons/AccessoryStore.h>
 

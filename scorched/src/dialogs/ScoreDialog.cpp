@@ -25,6 +25,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
@@ -155,7 +156,7 @@ void ScoreDialog::draw()
 		moves[0] = '\0';
 		if (ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 		{
-			sprintf(moves, ",Move %i of %i", 
+			snprintf(moves, 256, ",Move %i of %i", 
 				ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo(),
 				ScorchedClient::instance()->getOptionsGame().getNoMaxRoundTurns());
 		}
@@ -263,7 +264,7 @@ void ScoreDialog::draw()
 			Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
 			if (current && !current->getState().getSpectator()) 
 			{
-				sprintf(strrank, "%i", rank);
+				snprintf(strrank, 10, "%i", rank);
 
 				addLine(current, y, strrank, finished);
 				tmpLastScoreValue += current->getScore().getMoney();

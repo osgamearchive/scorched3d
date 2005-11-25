@@ -32,13 +32,14 @@ namespace ServerState
 		ServerStateReset,
 		ServerStateStarting,
 		ServerStateNewGame,
+		ServerStateNewGameReady,
 		ServerStateNextRound,
-		ServerStateReady,
 		ServerStateNextShot,
 		ServerStateNextTurn,
 		ServerStatePlaying,
 		ServerStateBuying,
 		ServerStateShot,
+		ServerStateShotReady,
 		ServerStateScore,
 		ServerStateCheckForWinners
 	};
@@ -46,9 +47,10 @@ namespace ServerState
 	enum ServerStimulusEnum
 	{
 		ServerStimulusNewGame = 1,
-		ServerStimulusNextRound,
-		ServerStimulusReady,
+		ServerStimulusNewGameReady,
 		ServerStimulusNextTurn,
+		ServerStimulusNextRound,
+		ServerStimulusNextShot,
 		ServerStimulusPlaying,
 		ServerStimulusBuying,
 		ServerStimulusShot,

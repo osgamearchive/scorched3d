@@ -24,7 +24,7 @@
 #include <set>
 #include <list>
 #include <engine/ActionBuffer.h>
-#include <engine/PhysicsEngine.h>
+#include <engine/ScorchedPhysicsEngine.h>
 #include <engine/GameStateI.h>
 
 class ScorchedContext;
@@ -47,7 +47,7 @@ public:
 	bool &getActionLogging() { return actionTracing_; }
 
 	// Get the current physics engine
-	PhysicsEngine &getPhysics() { return physicsEngine_; }
+	ScorchedPhysicsEngine &getPhysics() { return physicsEngine_; }
 	ActionBuffer &getBuffer() { return buffer_; }
 	float getActionTime() { return time_; }
 
@@ -66,7 +66,7 @@ protected:
 	ScorchedContext *context_;
 	std::list<Action *> newActions_;
 	std::set<Action *> actions_;
-	PhysicsEngine physicsEngine_;
+	ScorchedPhysicsEngine physicsEngine_;
 	ActionBuffer buffer_;
 	int referenceCount_;
 	float speed_;

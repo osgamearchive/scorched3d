@@ -23,6 +23,7 @@
 
 #include <string>
 #include <time.h>
+#include <coms/NetBuffer.h>
 
 class ScorchedContext;
 class TankScore  

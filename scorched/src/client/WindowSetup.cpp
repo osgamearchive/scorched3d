@@ -199,7 +199,7 @@ void WindowSetup::setupGameWindows()
 	addCommonComponents(ClientState::StateWait);
 
 	// StateReady
-	addCommonComponents(ClientState::StateReady);
+	//addCommonComponents(ClientState::StateReady);
 
 	// StateBuyWeapons
 	addCommonComponents(ClientState::StateBuyWeapons);

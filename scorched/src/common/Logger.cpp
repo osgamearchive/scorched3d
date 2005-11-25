@@ -87,7 +87,7 @@ void Logger::log(const char *fmt, ...)
 	static char text[2048];
 	va_list ap;
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);
 
 	LoggerInfo info;

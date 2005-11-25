@@ -19,11 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
-#include <common/Defines.h>
 #include <tank/Tank.h>
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIStore.h>
 #include <engine/ScorchedContext.h>
+#include <common/Defines.h>
 
 Tank::Tank(ScorchedContext &context, 
 		   unsigned int playerId, 

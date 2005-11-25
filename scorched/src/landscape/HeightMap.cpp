@@ -18,25 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/Triangle.h>
-#include <common/Defines.h>
-#include <landscape/HeightMap.h>
 #include <float.h>
+#include <common/Triangle.h>
+#include <landscape/HeightMap.h>
+#include <common/Defines.h>
 
 Vector HeightMap::nvec(0.0f, 0.0f, 1.0f);
 static const int minMapShift = 3;
 
-HeightMap::HeightMap(const int width) :
-	width_(width)
+HeightMap::HeightMap() : 
+	hMap_(0), normals_(0), minMap_(0), maxMap_(0), backupMap_(0)
 {
-	hMap_ = new float[(width_ + 1) * (width_ + 1)];
-	normals_ = new Vector[(width_ + 1) * (width_ + 1)];
-
-	minWidth_ = width >> minMapShift;
-	minMap_ = new float[(minWidth_ + 1) * (minWidth_ + 1)];
-	maxMap_ = new float[(minWidth_ + 1) * (minWidth_ + 1)];
-
-	reset();
 }
 
 HeightMap::~HeightMap()
@@ -45,19 +37,48 @@ HeightMap::~HeightMap()
 	delete [] normals_;
 	delete [] minMap_;
 	delete [] maxMap_;
+	delete [] backupMap_;
+}
+
+void HeightMap::create(const int width, const int height)
+{
+	width_ = width; 
+	height_ = height;
+
+	delete [] hMap_;
+	delete [] normals_;
+	delete [] backupMap_;
+	hMap_ = new float[(width_ + 1) * (height_ + 1)];
+	normals_ = new Vector[(width_ + 1) * (height_ + 1)];
+	backupMap_ = new float[(width_ + 1) * (height_ + 1)];
+
+    delete [] minMap_;
+	delete [] maxMap_;
+	minWidth_ = width >> minMapShift;
+	minHeight_ = height >> minMapShift;
+	minMap_ = new float[(minWidth_ + 1) * (minHeight_ + 1)];
+	maxMap_ = new float[(minWidth_ + 1) * (minHeight_ + 1)];
+
+	reset();
+}
+
+void HeightMap::backup()
+{
+	memcpy(backupMap_, hMap_, sizeof(float)  * (width_ + 1) * (height_ + 1));
 }
 
 void HeightMap::reset()
 {
-	memset(hMap_, 0, sizeof(float)  * (width_ + 1) * (width_ + 1));
-	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (width_ + 1));
-	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) minMap_[i] = FLT_MAX;
-	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) maxMap_[i] = 0.0f;
+	memset(hMap_, 0, sizeof(float)  * (width_ + 1) * (height_ + 1));
+	memset(backupMap_, 0, sizeof(float)  * (width_ + 1) * (height_ + 1));
+	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (height_ + 1));
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = FLT_MAX;
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = 0.0f;
 }
 
 bool HeightMap::getVector(Vector &vec, int x, int y)
 {
-	if (x < 0 || y < 0 || x>width_ || y>width_) return false;
+	if (x < 0 || y < 0 || x>width_ || y>height_) return false;
 
 	vec[0] = (float) x;
 	vec[1] = (float) y;
@@ -143,15 +164,38 @@ float HeightMap::getDist(Vector &start, Vector &dir, Vector &pos)
 	return (pos - pt).Magnitude();
 }
 
-bool HeightMap::getIntersect(Line &direction, Vector &intersect)
+bool HeightMap::getIntersect(Line &line, Vector &intersect)
 {
+	Vector direction = -((Vector &)line.getDirection()).Normalize();
+	Vector start = line.getEnd();
+
+	for (int i=0; i<1000; i++)
+	{
+		if (getHeight((int) start[0], (int) start[1]) > start[2])
+		{
+			if (start[0] < 0 || start[0] > getMapWidth() ||
+				start[1] < 0 || start[1] > getMapHeight())
+			{
+				return false;
+			}
+
+			intersect = start;
+			return true;
+		}
+
+		start += direction;
+	}
+	return false;
+
+	/*
+
 	const float maxFloat = -999999;
 	const int searchSquareWidth_ = 3;
 
 	float maxdist = maxFloat;
 	for (int x=0; x<width_ - searchSquareWidth_; x+=searchSquareWidth_-1)
 	{
-		for (int y=0; y<width_ - searchSquareWidth_; y+=searchSquareWidth_-1)
+		for (int y=0; y<height_ - searchSquareWidth_; y+=searchSquareWidth_-1)
 		{
 			static Triangle triA;
 			triA.setPointComponents(
@@ -194,7 +238,7 @@ bool HeightMap::getIntersect(Line &direction, Vector &intersect)
 		}
 	}
 
-	return (maxdist != maxFloat);
+	return (maxdist != maxFloat);*/
 }
 
 float HeightMap::getInterpHeight(float w, float h)
@@ -263,20 +307,14 @@ void HeightMap::getInterpNormal(float w, float h, Vector &normal)
 	normal += normalDiffEF;
 }
 
-float &HeightMap::getHeightRef(int w, int h)
-{
-	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
-	return hMap_[(width_+1) * h + w];
-}
-
 void HeightMap::setHeight(int w, int h, float height)
 {
-	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_);
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=height_);
 	hMap_[(width_+1) * h + w] = height;
 
 	int newW = w >> minMapShift;
 	int newH = h >> minMapShift;
-	DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minWidth_);
+	DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minHeight_);
 	int minOffSet = (minWidth_+1) * newH + newW;
 	float *minHeight = &minMap_[minOffSet];
 	if (*minHeight > height)
@@ -292,16 +330,16 @@ void HeightMap::setHeight(int w, int h, float height)
 
 void HeightMap::resetMinHeight()
 {
-	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) minMap_[i] = FLT_MAX;
-	for (int i=0; i<(minWidth_ + 1) * (minWidth_ + 1); i++) maxMap_[i] = 0.0f;
-	for (int h=0; h<width_; h++)
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = FLT_MAX;
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = 0.0f;
+	for (int h=0; h<height_; h++)
 	{
 		for (int w=0; w<width_; w++)
 		{
 			float height = getHeight(w, h);
 			int newW = w >> minMapShift;
 			int newH = h >> minMapShift;
-			DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minWidth_);
+			DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minHeight_);
 			int minOffSet = (minWidth_+1) * newH + newW;
 			float *minHeight = &minMap_[minOffSet];
 			if (*minHeight > height)
@@ -319,14 +357,14 @@ void HeightMap::resetMinHeight()
 
 float HeightMap::getMinHeight(int w, int h)
 {
-	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minWidth_);
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minHeight_);
 	float minHeight = minMap_[(minWidth_+1) * h + w];
 	return minHeight;
 }
 
 float HeightMap::getMaxHeight(int w, int h)
 {
-	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minWidth_);
+	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minHeight_);
 	float maxHeight = maxMap_[(minWidth_+1) * h + w];
 	return maxHeight;
 }

@@ -19,32 +19,32 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapePoints.h>
+#include <landscape/LandscapeMaps.h>
 #include <landscape/MapPoints.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 #include <3dsparse/ModelRenderer.h>
 #include <GLEXT/GLState.h>
 
-LandscapePoints::LandscapePoints(HeightMap &map, int width, int points) :
-	pts_(0), noPts_(0)
+LandscapePoints::LandscapePoints()
 {
-	createPoints(map, width, points);
 }
 
 LandscapePoints::~LandscapePoints()
 {
-	delete [] pts_;
 }
 
 void LandscapePoints::draw()
 {
 	GLState currentState(GLState::TEXTURE_OFF);
-	Position *current = pts_;
-	for (int i=0; i<noPts_; i++)
+	for (int i=0; i<(int) points_.size(); i++)
 	{
+		Vector &current = points_[i];
+		current[2] = 
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
+				(int) current[0], (int) current[1]);
 		glPushMatrix();
-			glTranslatef(current->x, current->y, 
-				*current->height + 0.6f);
+			glTranslatef(current[0], current[1], current[2]);
 			glScalef(0.15f, 0.15f, 0.15f);
 			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
@@ -54,41 +54,39 @@ void LandscapePoints::draw()
 			case OptionsTransient::wallBouncy:
 				MapPoints::instance()->getBorderModelBounce()->draw();
 				break;
-			default:
+			case OptionsTransient::wallConcrete:
 				MapPoints::instance()->getBorderModelConcrete()->draw();
+				break;
+			default:
 				break;
 			}
 		glPopMatrix();
-		current++;
 	}
 }
 
-void LandscapePoints::createPoints(HeightMap &map, int width, int points)
+void LandscapePoints::generate()
 {
-	noPts_ = points * 4 - 4;
-	pts_ = new Position[noPts_];
-	Position *current = pts_;
+	points_.clear();
+
+	int width = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	int height = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+	int pointsX = width / 64; // Each point is 64 units appart
+	int pointsY = height / 64; // Each point is 64 units appart
+	
 	int i;
-	for (i=0; i<points; i++)
+	for (i=0; i<pointsX; i++)
 	{
-		float pos = float(width) / float(points-1) * float(i);
+		float pos = float(width) / float(pointsX-1) * float(i);
 
-		findPoint(map, current++, pos, 0.0f);
-		findPoint(map, current++, pos, float(width));
+		points_.push_back(Vector(pos, 0.0f));
+		points_.push_back(Vector(pos, float(height)));
 	}
-	for (i=1; i<points-1; i++)
+	for (i=1; i<pointsY-1; i++)
 	{
-		float pos = float(width) / float(points-1) * float(i);
+		float pos = float(height) / float(pointsY-1) * float(i);
 
-		findPoint(map, current++, 0.0f, pos);
-		findPoint(map, current++, float(width), pos);
+		points_.push_back(Vector(0.0f, pos));
+		points_.push_back(Vector(float(width), pos));
 	}
-}
-
-void LandscapePoints::findPoint(HeightMap &map, Position *pos, float x, float y)
-{
-	pos->x = x;
-	pos->y = y;
-	pos->height = &map.getHeightRef((int) x, (int) y);
 }
 

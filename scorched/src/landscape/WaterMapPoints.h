@@ -22,14 +22,16 @@
 #define __INCLUDE_WaterMapPointsh_INCLUDE__
 
 #include <landscape/WaterMap.h>
+#include <vector>
 
 class WaterMapPoints
 {
 public:
-	WaterMapPoints(WaterMap &map, int width, int points);
+	WaterMapPoints();
 	virtual ~WaterMapPoints();
 
 	void draw();
+	void generate(WaterMap &map, int mapWidth, int mapHeight);
 
 protected:
 	struct Position
@@ -37,11 +39,10 @@ protected:
 		float x;
 		float y;
 		WaterMap::WaterEntry *entry;
-	} *pts_;
-	int noPts_;
+	};
+	std::vector<Position> pts_;
 
-	void createPoints(WaterMap &map, int width, int points);
-	void findPoint(WaterMap &map, Position *pos, float x, float y);
+	void findPoint(WaterMap &map, float x, float y);
 };
 
 #endif

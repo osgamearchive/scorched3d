@@ -21,6 +21,7 @@
 #include <client/SpeedChange.h>
 #include <client/ScorchedClient.h>
 #include <common/Keyboard.h>
+#include <common/Defines.h>
 #include <engine/ActionController.h>
 #include <engine/ParticleEngine.h>
 #include <GLW/GLWFont.h>
@@ -58,7 +59,7 @@ void SpeedChange::draw(const unsigned state)
 	{
 		GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF); 
 		static char buffer[10];
-		sprintf(buffer, "%.1fX", speed);
+		snprintf(buffer, 10, "%.1fX", speed);
 
 		static Vector fontColor(0.7f, 0.7f, 0.2f);
 		GLWFont::instance()->getLargePtFont()->draw(fontColor, 20, 10.0f, 10.0f, 0.0f, buffer);

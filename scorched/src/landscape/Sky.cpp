@@ -20,6 +20,7 @@
 
 #include <landscape/Sky.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
 #include <client/ScorchedClient.h>
 
 Sky::Sky()
@@ -32,7 +33,9 @@ Sky::~Sky()
 
 void Sky::draw()
 {
-	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
+	LandscapeDefinitionCache &defnCache = ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions();
+	if (defnCache.getDefn()->roof->getType() == LandscapeDefnType::eRoofCavern)
 	{
 		roof_.draw();
 	}
@@ -44,7 +47,9 @@ void Sky::draw()
 
 void Sky::simulate(float frameTime)
 {
-	if (ScorchedClient::instance()->getLandscapeMaps().getRoof())
+	LandscapeDefinitionCache &defnCache = ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions();
+	if (defnCache.getDefn()->roof->getType() == LandscapeDefnType::eRoofCavern)
 	{
 	}
 	else

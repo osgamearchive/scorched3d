@@ -50,8 +50,7 @@ void SkyRoof::generate()
 void SkyRoof::makeNormal(Vector &position, Vector &normal)
 {
 	LandscapeTex &tex =
-		ScorchedClient::instance()->getLandscapeMaps().getTex(
-		ScorchedClient::instance()->getContext());
+		*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 	Vector &ambient = tex.skyambience;
 	Vector &diffuse = tex.skydiffuse;
 	Vector &sunPos = Landscape::instance()->getSky().getSun().getPosition();
@@ -66,26 +65,27 @@ void SkyRoof::makeNormal(Vector &position, Vector &normal)
 void SkyRoof::makeList()
 {	
 	HeightMap &rmap = ScorchedClient::instance()->
-		getLandscapeMaps().getRMap();
+		getLandscapeMaps().getRoofMaps().getRoofMap();
 	HeightMap &hmap = ScorchedClient::instance()->
-		getLandscapeMaps().getHMap();
+		getLandscapeMaps().getGroundMaps().getHeightMap();
 
-	float mult = float(hmap.getWidth()) / float(rmap.getWidth());
+	float multWidth = float(hmap.getMapWidth()) / float(rmap.getMapWidth());
+	float multHeight = float(hmap.getMapHeight()) / float(rmap.getMapHeight());
 	
 	glNewList(list_ = glGenLists(1), GL_COMPILE);
-		for (int j=0; j<rmap.getWidth(); j++)
+		for (int j=0; j<rmap.getMapHeight(); j++)
 		{
 			glBegin(GL_QUAD_STRIP);
-			for (int i=0; i<=rmap.getWidth(); i++)
+			for (int i=0; i<=rmap.getMapWidth(); i++)
 			{
-				Vector a(i * mult, j * mult, rmap.getHeight(i, j));
+				Vector a(i * multWidth, j * multHeight, rmap.getHeight(i, j));
 				makeNormal(a, rmap.getNormal(i, j));
-				glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);
+				glTexCoord2f(a[0] / float(rmap.getMapWidth()), a[1] / float(rmap.getMapHeight()));
 				glVertex3fv(a);
 				
-				Vector b(i * mult, (j + 1) * mult, rmap.getHeight(i, j + 1));
+				Vector b(i * multWidth, (j + 1) * multHeight, rmap.getHeight(i, j + 1));
 				makeNormal(b, rmap.getNormal(i, j + 1));
-				glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);
+				glTexCoord2f(b[0] / float(rmap.getMapWidth()), b[1] / float(rmap.getMapHeight()));
 				glVertex3fv(b);
 
 				tris_ += 2;
@@ -93,34 +93,41 @@ void SkyRoof::makeList()
 			glEnd();
 		}
 
-		for (int i=0; i<rmap.getWidth(); i++)
+		for (int i=0; i<rmap.getMapWidth(); i++)
 		{
 			{
-				Vector a(i * mult, 0.0f, rmap.getHeight(i, 0));
+				Vector a(i * multWidth, 0.0f, rmap.getHeight(i, 0));
 				Vector na = rmap.getNormal(i,0);
-				Vector b((i + 1) * mult, 0.0f, rmap.getHeight(i + 1, 0));
+				Vector b((i + 1) * multWidth, 0.0f, rmap.getHeight(i + 1, 0));
 				Vector nb = rmap.getNormal(i + 1, 0);
 				drawSegment(a, b, na, nb);
 			}
 			{
-				Vector b(i * mult, 256.0f, rmap.getHeight(i, rmap.getWidth()));
-				Vector nb = rmap.getNormal(i, rmap.getWidth());
-				Vector a((i + 1) * mult, 256.0f, rmap.getHeight(i + 1, rmap.getWidth()));
-				Vector na = rmap.getNormal(i + 1, rmap.getWidth());
+				Vector b(i * multWidth, (float) hmap.getMapHeight(), 
+					rmap.getHeight(i, rmap.getMapHeight()));
+				Vector nb = rmap.getNormal(i, rmap.getMapHeight());
+				Vector a((i + 1) * multWidth, (float) hmap.getMapHeight(), 
+					rmap.getHeight(i + 1, rmap.getMapHeight()));
+				Vector na = rmap.getNormal(i + 1, rmap.getMapHeight());
 				drawSegment(a, b, na, nb);
 			}
+		}
+		for (int i=0; i<rmap.getMapHeight(); i++)
+		{
 			{
-				Vector b(0.0f, i * mult, rmap.getHeight(0, i));
+				Vector b(0.0f, i * multHeight, rmap.getHeight(0, i));
 				Vector nb = rmap.getNormal(0, i);
-				Vector a(0.0f, (i + 1) * mult, rmap.getHeight(0, i + 1));
+				Vector a(0.0f, (i + 1) * multHeight, rmap.getHeight(0, i + 1));
 				Vector na = rmap.getNormal(0, i + 1);
 				drawSegment(a, b, na, nb);
 			}
 			{
-				Vector a(256.0f, i * mult, rmap.getHeight(rmap.getWidth(), i));
-				Vector na = rmap.getNormal(rmap.getWidth(), i);
-				Vector b(256.0f, (i + 1) * mult, rmap.getHeight(rmap.getWidth(), i + 1));
-				Vector nb = rmap.getNormal(rmap.getWidth(), i + 1);
+				Vector a((float) hmap.getMapWidth(), i * multHeight, 
+					rmap.getHeight(rmap.getMapWidth(), i));
+				Vector na = rmap.getNormal(rmap.getMapWidth(), i);
+				Vector b((float) hmap.getMapWidth(), (i + 1) * multHeight, 
+					rmap.getHeight(rmap.getMapWidth(), i + 1));
+				Vector nb = rmap.getNormal(rmap.getMapWidth(), i + 1);
 				drawSegment(a, b, na, nb);
 			}
 		}
@@ -131,10 +138,11 @@ void SkyRoof::makeList()
 void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 {
 	HeightMap &rmap = ScorchedClient::instance()->
-		getLandscapeMaps().getRMap();
+		getLandscapeMaps().getRoofMaps().getRoofMap();
+	HeightMap &hmap = ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getHeightMap();
 	LandscapeDefn &defn =
-		ScorchedClient::instance()->getLandscapeMaps().getDefn(
-		ScorchedClient::instance()->getContext());
+		*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getDefn();
 	LandscapeDefnRoofCavern *cavern = 
 		(LandscapeDefnRoofCavern *) defn.roof;
 	float hemispehereRadius = cavern->width;
@@ -143,8 +151,8 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 
 	float heighta = a[2];
 	float heightb = b[2];
-	Vector midPointA(128.0f, 128.0f, heighta);
-	Vector midPointB(128.0f, 128.0f, heightb);
+	Vector midPointA(float(hmap.getMapWidth() / 2), float(hmap.getMapHeight() / 2), heighta);
+	Vector midPointB(float(hmap.getMapWidth() / 2), float(hmap.getMapHeight() / 2), heightb);
 
 	Vector diffa = (a - midPointA);
 	Vector diffb = (b - midPointB);
@@ -155,7 +163,6 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 	diffa *= (hemispehereRadius - dista) / float(steps);
 	diffb *= (hemispehereRadius - distb) / float(steps);
 
-	Vector midPoint(128.0f, 128.0f, 0.0f);
 	glBegin(GL_QUAD_STRIP);
 	for (int i=0; i<=steps + 3; i++)
 	{
@@ -165,7 +172,7 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 			Vector f = (a - b).Normalize();
 			Vector n = e * f;
 
-			glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);
+			glTexCoord2f(a[0] / float(hmap.getMapWidth()), a[1] / float(hmap.getMapHeight()));
 			if (i < 1) n = na;
 			makeNormal(a, n);
 			glVertex3fv(a);
@@ -177,7 +184,7 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 			Vector e = (b - a).Normalize();
 			Vector n = e * f;
 
-			glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);
+			glTexCoord2f(b[0] / float(hmap.getMapWidth()), b[1] / float(hmap.getMapHeight()));
 			if (i < 1) n = nb;
 			makeNormal(b, n);
 			glVertex3fv(b);

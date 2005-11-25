@@ -18,16 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLConsoleRuleFn.h: interface for the GLConsoleRuleFn class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLCONSOLERULEFN_H__B0DEC68E_5D12_410F_AEA2_3BF1AF6B3319__INCLUDED_)
 #define AFX_GLCONSOLERULEFN_H__B0DEC68E_5D12_410F_AEA2_3BF1AF6B3319__INCLUDED_
 
 #include <GLEXT/GLConsoleRule.h>
-#include <common/Defines.h>
+#include <common/DefinesAssert.h>
 
 enum GLConsoleRuleAccessType
 {

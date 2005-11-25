@@ -91,7 +91,7 @@ XMLNode::XMLNode(const char *name, float content, NodeType type) :
 	name_(name), parent_(0), type_(type)
 {
 	char buffer[20];
-	sprintf(buffer, "%.2f", content);
+	snprintf(buffer, 20, "%.2f", content);
 	content_ = buffer;
 }
 
@@ -99,7 +99,7 @@ XMLNode::XMLNode(const char *name, int content, NodeType type) :
 	name_(name), parent_(0), type_(type)
 {
 	char buffer[20];
-	sprintf(buffer, "%i", content);
+	snprintf(buffer, 20, "%i", content);
 	content_ = buffer;
 }
 
@@ -107,7 +107,7 @@ XMLNode::XMLNode(const char *name, unsigned int content, NodeType type) :
 	name_(name), parent_(0), type_(type)
 {
 	char buffer[20];
-	sprintf(buffer, "%i", content);
+	snprintf(buffer, 20, "%i", content);
 	content_ = buffer;
 }
 
@@ -460,7 +460,8 @@ const char *XMLParser::getParseError()
 	XML_Error errorCode = XML_GetErrorCode(p_);
 
 	static char message[1024];
-	sprintf(message, "Parse Error, File %s: Line:%i Col:%i Error:%s",
+	snprintf(message, 1024,
+		"Parse Error, File %s: Line:%i Col:%i Error:%s",
 		source_.c_str(),
 		XML_GetCurrentLineNumber(p_),
 		XML_GetCurrentColumnNumber(p_),

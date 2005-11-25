@@ -21,27 +21,20 @@
 #if !defined(__INCLUDE_LandscapePointsh_INCLUDE__)
 #define __INCLUDE_LandscapePointsh_INCLUDE__
 
-#include <landscape/HeightMap.h>
+#include <common/Vector.h>
+#include <vector>
 
 class LandscapePoints
 {
 public:
-	LandscapePoints(HeightMap &map, int width, int points);
+	LandscapePoints();
 	virtual ~LandscapePoints();
 
+	void generate();
 	void draw();
 
 protected:
-	struct Position
-	{
-		float x;
-		float y;
-		float *height;
-	} *pts_;
-	int noPts_;
-
-	void createPoints(HeightMap &map, int width, int points);
-	void LandscapePoints::findPoint(HeightMap &map, Position *pos, float x, float y);
+	std::vector<Vector> points_;
 };
 
 #endif

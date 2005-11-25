@@ -27,7 +27,7 @@
 class Surround
 {
 public:
-	Surround(HeightMap &map, int width, int height);
+	Surround(HeightMap &map);
 	virtual ~Surround();
 
 	void draw();

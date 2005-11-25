@@ -25,6 +25,7 @@
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <string.h>
 
 unsigned int GLWTip::nextId_ = 0;
@@ -58,7 +59,7 @@ void GLWTip::setText(const char *title, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, TEXT_SIZE, fmt, ap);
 	va_end(ap);
 
 	texts_.clear();

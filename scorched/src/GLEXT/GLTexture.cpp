@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLStateExtension.h>
+#include <common/Defines.h>
 #include <set>
 
 static std::set<GLuint> usedNumbers_;

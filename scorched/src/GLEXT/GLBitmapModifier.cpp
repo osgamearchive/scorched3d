@@ -37,14 +37,15 @@ bool GLBitmapModifier::findIntersection(HeightMap &hMap,
 	float &pt0 = point[0];
 	float &pt1 = point[1];
 	float &pt2 = point[2];
-	int width = hMap.getWidth();
+	int width = hMap.getMapWidth();
+	int height = hMap.getMapHeight();
 
 	// Calculate how many pixels to jump for each itteration
 	if (fabsf(direction[0]) > fabsf(direction[1])) direction /= fabsf(direction[0]);
 	else direction /= fabsf(direction[1]);
 
 	while (pt0 >= 0.0f && pt1 >= 0.0f &&
-		pt0 <= width && pt1 <= width)
+		pt0 <= width && pt1 <= height)
 	{
 		float height = hMap.getHeight(int(point[0]), int(point[1])) - 0.1f;
 		float rayHeight = height - pt2;
@@ -90,22 +91,22 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 {
 	const float softShadow = 3.0f;
 	const int sideFade = 16;
-	const int mapWidth = 256; // Resolution of the light map
+	const int lightMapWidth = 256; // Resolution of the light map
 
 	if (counter) counter->setNewOp("Light Map");
 
 	// Itterate the dest bitmap pixels
-	GLfloat *bitmap = new GLfloat[mapWidth * mapWidth * 3];
+	GLfloat *bitmap = new GLfloat[lightMapWidth * lightMapWidth * 3];
 	GLfloat *bitmapBits = bitmap;
 	int y;
-	for (y=0; y<mapWidth; y++)
+	for (y=0; y<lightMapWidth; y++)
 	{
-		if (counter) counter->setNewPercentage(100.0f * float(y) / float(mapWidth));
+		if (counter) counter->setNewPercentage(100.0f * float(y) / float(lightMapWidth));
 
-		for (int x=0; x<mapWidth; x++)
+		for (int x=0; x<lightMapWidth; x++)
 		{
-			float dx = float(x)/float(mapWidth)*float(hMap.getWidth());
-			float dy = float(y)/float(mapWidth)*float(hMap.getWidth());
+			float dx = float(x)/float(lightMapWidth)*float(hMap.getMapWidth());
+			float dy = float(y)/float(lightMapWidth)*float(hMap.getMapWidth());
 			float dz = hMap.getInterpHeight(dx, dy);
 			
 			Vector testPosition(dx, dy, dz);
@@ -148,7 +149,7 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 	GLfloat *copyDest = new GLfloat[destBitmap.getWidth() * destBitmap.getHeight() * 3];
 	gluScaleImage(
 		GL_RGB, 
-		mapWidth, mapWidth, 
+		lightMapWidth, lightMapWidth, 
 		GL_FLOAT, bitmap,
 		destBitmap.getWidth(), destBitmap.getHeight(), 
 		GL_FLOAT, copyDest);
@@ -192,9 +193,9 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 	const float noiseMax = 0.4f;
 
 	float hMapMaxHeight = 0;
-	for (int ma=0; ma<hMap.getWidth(); ma++)
+	for (int ma=0; ma<hMap.getMapWidth(); ma++)
 	{
-		for (int mb=0;mb<hMap.getWidth(); mb++)
+		for (int mb=0;mb<hMap.getMapHeight(); mb++)
 		{
 			float height = hMap.getHeight(ma, mb);
 			if (height > hMapMaxHeight) hMapMaxHeight = height;
@@ -221,8 +222,10 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 			// Scale bitmap
 			gluScaleImage(
 				GL_RGB, 
-				origHeightBitmaps[i]->getWidth(), origHeightBitmaps[i]->getHeight(), GL_UNSIGNED_BYTE, origHeightBitmaps[i]->getBits(),
-				heightBitmaps[i]->getWidth(), heightBitmaps[i]->getHeight(), GL_UNSIGNED_BYTE, heightBitmaps[i]->getBits());
+				origHeightBitmaps[i]->getWidth(), origHeightBitmaps[i]->getHeight(), 
+				GL_UNSIGNED_BYTE, origHeightBitmaps[i]->getBits(),
+				heightBitmaps[i]->getWidth(), heightBitmaps[i]->getHeight(), 
+				GL_UNSIGNED_BYTE, heightBitmaps[i]->getBits());
 		}
 		else
 		{
@@ -250,8 +253,8 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 			destBitmap.getHeight(), 
 			GLBitmapItterator::wrap);
 	
-	GLfloat hdx = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getWidth();
-	GLfloat hdy = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getHeight();
+	GLfloat hdx = (GLfloat) hMap.getMapWidth() / (GLfloat) destBitmap.getWidth();
+	GLfloat hdy = (GLfloat) hMap.getMapHeight() / (GLfloat) destBitmap.getHeight();
 
 	GLubyte *destBits = destBitmap.getBits();
 
@@ -266,7 +269,9 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 			static Vector normal;
 			hMap.getInterpNormal(hx, hy, normal);
 			float height = hMap.getInterpHeight(hx, hy);
-			float offSetHeight = hMap.getInterpHeight((float)hMap.getWidth() - hx, (float)hMap.getWidth() - hy);
+			float offSetHeight = hMap.getInterpHeight(
+				(float)hMap.getMapWidth() - hx, 
+				(float)hMap.getMapHeight() - hy);
 			height *= (1.0f - (noiseMax/2.0f)) + ((offSetHeight*noiseMax)/hMapMaxHeight);
 
 			// Find the index of the current texture by deviding the height into strips
@@ -392,90 +397,6 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 	delete [] heightBitmaps;
 }
 
-static GLubyte getWaveAlpha(int x, int y,
-							HeightMap &hMap,
-							GLBitmap &destBitmap,
-							float waterHeight,
-							float offSet)
-{
-	int a = int((float(x) / float(destBitmap.getWidth()) * 384.0f) - 64.0f);
-	int b = int((float(y) / float(destBitmap.getHeight()) * 384.0f) - 64.0f);
-
-	GLubyte alpha = 0;
-	if (a>0 && b>0 &&
-		a<hMap.getWidth() && b<hMap.getWidth())
-	{
-		float height = hMap.getHeight(a, b);
-		if ((height > waterHeight - offSet) && (height <= waterHeight + offSet + offSet))
-		{
-			if (height > waterHeight)
-			{
-				alpha = GLubyte(255);
-			}
-			else
-			{
-				alpha = GLubyte(255.0f * (waterHeight - height)/offSet);
-			}
-		}
-	}	
-
-	return alpha;
-}
-
-void GLBitmapModifier::addWavesToBitmap(HeightMap &hMap,
-										GLBitmap &destBitmap,
-										float waterHeight,
-										float offSet,
-										Vector &color,
-										ProgressCounter *counter)
-{
-	if (counter) counter->setNewOp("Waves");
-
-	float matrix[5][5];
-	for (int i=0; i<5; i++)
-	{
-		for (int j=0; j<5; j++)
-		{
-			matrix[i][j] = 0.7f; // How much smoothing is done (> is more)
-			if (i==2 && j==2) matrix[i][j] = 4.0f;
-		}
-	}
-
-	GLubyte *destBits = destBitmap.getBits();
-	for (int y=0; y<destBitmap.getHeight(); y++)
-	{
-		if (counter) counter->setNewPercentage(100.0f * float(y) / float(destBitmap.getHeight()));
-
-		for (int x=0; x<destBitmap.getWidth(); x++)
-		{
-			// Total is used to catch corner cases
-			float total = 0.0f;
-			float inc = 0.0f;
-			for (int i=0; i<5; i++)
-			{
-				for (int j=0; j<5; j++)
-				{
-					int newx = i + x - 2;
-					int newy = j + y - 2;
-
-					inc += matrix[i][j] * float(getWaveAlpha(
-						newx, newy, hMap, 
-						destBitmap, waterHeight, offSet));
-					total += matrix[i][j];
-				}
-			}
-	 
-			GLubyte alpha = GLubyte(inc/total);
-
-			destBits[0] = GLubyte(255.0f * color[0]);
-			destBits[1] = GLubyte(255.0f * color[1]);
-			destBits[2] = GLubyte(255.0f * color[2]);
-			destBits[3] = alpha;
-			destBits+=4;
-		}
-	}
-}
-
 void GLBitmapModifier::removeWaterFromBitmap(HeightMap &hMap,
 							GLBitmap &srcBitmap,
 							GLBitmap &destBitmap,
@@ -491,8 +412,8 @@ void GLBitmapModifier::removeWaterFromBitmap(HeightMap &hMap,
 	GLubyte *srcBits = srcBitmap.getBits();
 	GLubyte *alphaBits = alphaBitmap.getBits();
 
-	GLfloat hdx = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getWidth();
-	GLfloat hdy = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getHeight();
+	GLfloat hdx = (GLfloat) hMap.getMapWidth() / (GLfloat) destBitmap.getWidth();
+	GLfloat hdy = (GLfloat) hMap.getMapHeight() / (GLfloat) destBitmap.getHeight();
 
 	GLfloat hy = 0.0f;
 	for (int y=0; y<srcBitmap.getHeight(); y++, hy+=hdy)
@@ -537,8 +458,8 @@ void GLBitmapModifier::addWaterToBitmap(HeightMap &hMap,
 								destBitmap.getHeight(), 
 								GLBitmapItterator::wrap);
 
-	GLfloat hdx = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getWidth();
-	GLfloat hdy = (GLfloat) hMap.getWidth() / (GLfloat) destBitmap.getHeight();
+	GLfloat hdx = (GLfloat) hMap.getMapWidth() / (GLfloat) destBitmap.getWidth();
+	GLfloat hdy = (GLfloat) hMap.getMapHeight() / (GLfloat) destBitmap.getHeight();
 
 	GLubyte *destBits = destBitmap.getBits();
 
@@ -640,8 +561,6 @@ void GLBitmapModifier::makeBitmapTransparent(GLBitmap &output,
 void GLBitmapModifier::addCircle(GLBitmap &destBitmap, 
 								 float sx, float sy, float sw, float opacity)
 {
-	const GLubyte minNum = 64;
-
 	int decrement = int(opacity * 125.0f);
 	float halfW = sw / 2.0f;
 

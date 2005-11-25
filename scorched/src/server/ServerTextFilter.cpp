@@ -18,11 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <wx/filefn.h>
+#include <vector>
 #include <server/ServerTextFilter.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
-#include <wx/filefn.h>
-#include <vector>
+#include <common/Defines.h>
 
 #define IS_SPACE(c) ((c < '0' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a') || c > 'z'))
 
@@ -86,7 +87,7 @@ void ServerTextFilter::filterString(std::string &inputText)
 		for (witor = words_.begin(); witor != words_.end(); witor++)
 		{
 			const char *word = (*witor).c_str();
-			char *pos = DefinesUtil::my_stristr(text, word);
+			char *pos = s3d_stristr(text, word);
 			if (pos)
 			{
 				// If they do then * out the word
@@ -149,7 +150,7 @@ void ServerTextFilter::loadFile()
 	const char *filename = 
 		getSettingsFile("filter-%i.txt", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!::DefinesUtil::fileExists(filename)) return;
+	if (!::s3d_fileExists(filename)) return;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
 	if (fileTime == lastReadTime_) return;

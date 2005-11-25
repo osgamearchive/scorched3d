@@ -67,13 +67,10 @@ dColliderFn * SkyRoofCollision::dLandscapeGetColliderFn(int num)
     return 0;
 }
 
-// Checks for collision between a Landscape and an AABB.
+// Checks for collision between a roof and an AABB.
 int SkyRoofCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 {
-	// Check we have a roof
-	if (!staticContext_->landscapeMaps->getRoof()) return 0;
-
-    // This function checks for contact between the Landscape and an AABB.
+    // This function checks for contact between the roof and an AABB.
     // It checks a larger region of terrain than strictly necessary and
     // will sometimes return true even if there is no collision, but will never
     // return false if there is a collision.
@@ -107,23 +104,17 @@ int SkyRoofCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 	int minY = (int)floor(aabb2[2]);
 	int maxY = (int)ceil(aabb2[3]);
 
-	int X = (minX + maxX) / 8;
-	int Y = (minY + maxY) / 8;
-	if (X > staticContext_->landscapeMaps->getRMap().getWidth()) 
-		X = staticContext_->landscapeMaps->getRMap().getWidth();
-	if (X < 0) X = 0;
-	if (Y > staticContext_->landscapeMaps->getRMap().getWidth()) 
-		Y = staticContext_->landscapeMaps->getRMap().getWidth();
-	if (Y < 0) Y = 0;
+	int X = (minX + maxX) / 2;
+	int Y = (minY + maxY) / 2;
 
 	// See if any heights in this area are in the bounding box
-	if (staticContext_->landscapeMaps->getRMap().
-		getHeight(X, Y) < aabb2[4]) return 1;
+	if (staticContext_->landscapeMaps->getRoofMaps().
+		getRoofHeight(X, Y) < aabb2[4]) return 1;
 
 	return 0;
 }
 
-// Checks for collision between a Landscape and a Sphere
+// Checks for collision between a Roof and a Sphere
 int SkyRoofCollision::dCollideLS (dGeomID o1, dGeomID o2, int flags,
         dContactGeom *basecontact, int skip)
 {
@@ -141,16 +132,14 @@ int SkyRoofCollision::dCollideLS (dGeomID o1, dGeomID o2, int flags,
 
 	// Check if the center of the spehere is in the landscape
 	float dist = sphereCentre[2] - 
-		staticContext_->landscapeMaps->getHMap().
-			getInterpHeight(sphereCentre[0] / 4.0f, sphereCentre[1] / 4.0f);
+		staticContext_->landscapeMaps->getRoofMaps().
+			getInterpRoofHeight(sphereCentre[0], sphereCentre[1]); 
 		
 	int num_contacts = 0;
-	bool landscapeCollision = (dist > 0.0f);
-	if (landscapeCollision)
+	bool rootCollision = (dist > 0.0f);
+	if (rootCollision)
 	{
-		Vector interN;
-		staticContext_->landscapeMaps->getHMap().
-			getInterpNormal(sphereCentre[0] / 4.0f, sphereCentre[1] / 4.0f, interN);
+		Vector interN(0.0f, 0.0f, -1.0f);
 
 		char *ptr = (char *) basecontact;
 		ptr += (num_contacts * skip);

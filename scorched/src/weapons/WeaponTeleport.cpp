@@ -21,6 +21,7 @@
 #include <weapons/WeaponTeleport.h>
 #include <engine/ActionController.h>
 #include <actions/Teleport.h>
+#include <common/Defines.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 
@@ -53,8 +54,8 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 {
 	float allowedHeight = 0.0f;
 
-	LandscapeTex &tex = context.landscapeMaps->getTex(context);
-	if (0 == strcmp(tex.bordertype.c_str(), "water"))
+	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
+	if (tex.border->getType() == LandscapeTexType::eWater)
 	{
 		LandscapeTexBorderWater *water = 
 			(LandscapeTexBorderWater *) tex.border;
@@ -67,7 +68,7 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 	{
 		position[0] = RAND * 235.0f + 10.0f;
 		position[1] = RAND * 235.0f + 10.0f;
-		float height = context.landscapeMaps->getHMap().getInterpHeight(
+		float height = context.landscapeMaps->getGroundMaps().getInterpHeight(
 			position[0], position[1]);
 		if (height > allowedHeight) break;
 

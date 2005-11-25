@@ -31,33 +31,10 @@
 #include <landscape/LandscapeTex.h>
 #include <landscape/SurroundDefault.h>
 
-SurroundDefault::SurroundDefault(HeightMap &map, int width, int height) :
-	listNo_(0)
+SurroundDefault::SurroundDefault(HeightMap &map) :
+	listNo_(0), map_(map)
 {
-	Vector centre(map.getWidth() / 2, map.getWidth() / 2, height);
-	Vector offset(width, width, height);
 
-	Vector offset2(map.getWidth() / 2, map.getWidth() / 2, height);
-	hMapBoxVerts_[0] = Vector(centre[0] - offset2[0], centre[1] - offset2[1], centre[2] - offset[2]);
-	hMapBoxVerts_[1] = Vector(centre[0] - offset2[0], centre[1] + offset2[1], centre[2] - offset[2]);
-	hMapBoxVerts_[2] = Vector(centre[0] + offset2[0], centre[1] + offset2[1], centre[2] - offset[2]);
-	hMapBoxVerts_[3] = Vector(centre[0] + offset2[0], centre[1] - offset2[1], centre[2] - offset[2]);
-
-	Vector offset3(width + map.getWidth() * 2, width + map.getWidth() * 2, height);
-	hMapBoxVerts_[4] = Vector(centre[0] - offset3[0], centre[1] - offset3[1], centre[2] - offset[2]);
-	hMapBoxVerts_[5] = Vector(centre[0] - offset3[0], centre[1] + offset3[1], centre[2] - offset[2]);
-	hMapBoxVerts_[6] = Vector(centre[0] + offset3[0], centre[1] + offset3[1], centre[2] - offset[2]);
-	hMapBoxVerts_[7] = Vector(centre[0] + offset3[0], centre[1] - offset3[1], centre[2] - offset[2]);
-
-	hMapBoxVerts_[8] = Vector(centre[0] - offset2[0], centre[1] - offset3[1], centre[2] - offset[2]);
-	hMapBoxVerts_[9] = Vector(centre[0] - offset2[0], centre[1] + offset3[1], centre[2] - offset[2]);
-	hMapBoxVerts_[10] = Vector(centre[0] + offset2[0], centre[1] + offset3[1], centre[2] - offset[2]);
-	hMapBoxVerts_[11] = Vector(centre[0] + offset2[0], centre[1] - offset3[1], centre[2] - offset[2]);
-
-	hMapBoxVerts_[12] = Vector(centre[0] - offset3[0], centre[1] - offset2[1], centre[2] - offset[2]);
-	hMapBoxVerts_[13] = Vector(centre[0] - offset3[0], centre[1] + offset2[1], centre[2] - offset[2]);
-	hMapBoxVerts_[14] = Vector(centre[0] + offset3[0], centre[1] + offset2[1], centre[2] - offset[2]);
-	hMapBoxVerts_[15] = Vector(centre[0] + offset3[0], centre[1] - offset2[1], centre[2] - offset[2]);
 }
 
 SurroundDefault::~SurroundDefault()
@@ -110,8 +87,40 @@ void SurroundDefault::generate()
 	listNo_ = 0;
 }
 
+void SurroundDefault::generateVerts()
+{
+	int width = 1536 + map_.getMapWidth();
+	int height = 1536 + map_.getMapHeight();
+	Vector centre(map_.getMapWidth() / 2, map_.getMapHeight() / 2, 0);
+	Vector offset(map_.getMapWidth() + width, map_.getMapHeight() + height, 0);
+
+	Vector offset2(map_.getMapWidth() / 2, map_.getMapHeight() / 2, 0);
+	hMapBoxVerts_[0] = Vector(centre[0] - offset2[0], centre[1] - offset2[1], 0.0f);
+	hMapBoxVerts_[1] = Vector(centre[0] - offset2[0], centre[1] + offset2[1], 0.0f);
+	hMapBoxVerts_[2] = Vector(centre[0] + offset2[0], centre[1] + offset2[1], 0.0f);
+	hMapBoxVerts_[3] = Vector(centre[0] + offset2[0], centre[1] - offset2[1], 0.0f);
+
+	Vector offset3(width + map_.getMapWidth() * 2, height + map_.getMapWidth() * 2, 0);
+	hMapBoxVerts_[4] = Vector(centre[0] - offset3[0], centre[1] - offset3[1], 0.0f);
+	hMapBoxVerts_[5] = Vector(centre[0] - offset3[0], centre[1] + offset3[1], 0.0f);
+	hMapBoxVerts_[6] = Vector(centre[0] + offset3[0], centre[1] + offset3[1], 0.0f);
+	hMapBoxVerts_[7] = Vector(centre[0] + offset3[0], centre[1] - offset3[1], 0.0f);
+
+	hMapBoxVerts_[8] = Vector(centre[0] - offset2[0], centre[1] - offset3[1], 0.0f);
+	hMapBoxVerts_[9] = Vector(centre[0] - offset2[0], centre[1] + offset3[1], 0.0f);
+	hMapBoxVerts_[10] = Vector(centre[0] + offset2[0], centre[1] + offset3[1], 0.0f);
+	hMapBoxVerts_[11] = Vector(centre[0] + offset2[0], centre[1] - offset3[1], 0.0f);
+
+	hMapBoxVerts_[12] = Vector(centre[0] - offset3[0], centre[1] - offset2[1], 0.0f);
+	hMapBoxVerts_[13] = Vector(centre[0] - offset3[0], centre[1] + offset2[1], 0.0f);
+	hMapBoxVerts_[14] = Vector(centre[0] + offset3[0], centre[1] + offset2[1], 0.0f);
+	hMapBoxVerts_[15] = Vector(centre[0] + offset3[0], centre[1] - offset2[1], 0.0f);
+}
+
 void SurroundDefault::generateList(bool detail)
 {
+	generateVerts();
+
 	const int dataOfs[8][4] = {
 		{8,11,3,0},
 		{1,2,10,9},
@@ -124,8 +133,7 @@ void SurroundDefault::generateList(bool detail)
 	};
 
 	LandscapeTex &tex =
-		ScorchedClient::instance()->getLandscapeMaps().getTex(
-		ScorchedClient::instance()->getContext());
+		*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 	Vector &ambient = tex.skyambience;
 	Vector &diffuse = tex.skydiffuse;
 	Vector &sunPos =

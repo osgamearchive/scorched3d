@@ -23,6 +23,7 @@
 #include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <coms/ComsMessageSender.h>
 #include <engine/ModFiles.h>
 #include <time.h>

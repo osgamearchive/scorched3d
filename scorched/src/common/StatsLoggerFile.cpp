@@ -46,7 +46,7 @@ void StatsLoggerFile::createLogger()
 	if (!statsLogger_)
 	{
 		char buffer[256];
-		sprintf(buffer, "StatsLog-%i-", 
+		snprintf(buffer, 256, "StatsLog-%i-", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
 		statsLogger_ = new FileLogger(buffer);
 	}
@@ -87,7 +87,7 @@ void StatsLoggerFile::updateStats(Tank *tank)
 char *StatsLoggerFile::allocateId() 
 { 
 	static char buffer[128];
-	sprintf(buffer, "%i-%i-%i", rand(), rand(), rand());
+	snprintf(buffer, 128, "%i-%i-%i", rand(), rand(), rand());
 	return buffer;
 }
 
@@ -124,7 +124,7 @@ void StatsLoggerFile::tankFired(Tank *firedTank, Weapon *weapon)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "fired \"%s\" [%s] \"%s\"", 
+	snprintf(message, 1024, "fired \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		weapon->getParent()->getName());
 
@@ -143,7 +143,7 @@ void StatsLoggerFile::tankResigned(Tank *resignedTank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "resigined \"%s\" [%s]", 
+	snprintf(message, 1024, "resigined \"%s\" [%s]", 
 		resignedTank->getName(), resignedTank->getUniqueId());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
@@ -160,7 +160,7 @@ void StatsLoggerFile::tankJoined(Tank *tank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "joined \"%s\" [%s]", 
+	snprintf(message, 1024, "joined \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
@@ -177,7 +177,7 @@ void StatsLoggerFile::tankConnected(Tank *tank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "connected \"%s\" [%s]", 
+	snprintf(message, 1024, "connected \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
@@ -194,7 +194,7 @@ void StatsLoggerFile::tankDisconnected(Tank *tank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "disconnected \"%s\" [%s]", 
+	snprintf(message, 1024, "disconnected \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
@@ -211,7 +211,7 @@ void StatsLoggerFile::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "killed \"%s\" [%s] \"%s\" [%s] \"%s\"", 
+	snprintf(message, 1024, "killed \"%s\" [%s] \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		deadTank->getName(), deadTank->getUniqueId(),
 		weapon->getParent()->getName());
@@ -230,7 +230,7 @@ void StatsLoggerFile::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *we
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "teamkilled \"%s\" [%s] \"%s\" [%s] \"%s\"", 
+	snprintf(message, 1024, "teamkilled \"%s\" [%s] \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		deadTank->getName(), deadTank->getUniqueId(),
 		weapon->getParent()->getName());
@@ -249,7 +249,7 @@ void StatsLoggerFile::tankSelfKilled(Tank *firedTank, Weapon *weapon)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "selfkilled \"%s\" [%s] \"%s\"", 
+	snprintf(message, 1024, "selfkilled \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		weapon->getParent()->getName());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
@@ -267,7 +267,7 @@ void StatsLoggerFile::tankWon(Tank *tank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "won \"%s\" [%s]", 
+	snprintf(message, 1024, "won \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
@@ -284,7 +284,7 @@ void StatsLoggerFile::tankOverallWinner(Tank *tank)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "overallwinner \"%s\" [%s]", 
+	snprintf(message, 1024, "overallwinner \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
@@ -301,7 +301,7 @@ void StatsLoggerFile::weaponFired(Weapon *weapon, bool deathAni)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "weaponfired \"%s\"", weapon->getParent()->getName());
+	snprintf(message, 1024, "weaponfired \"%s\"", weapon->getParent()->getName());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
 }
@@ -317,7 +317,7 @@ void StatsLoggerFile::weaponKilled(Weapon *weapon, bool deathAni)
 	if (nl) *nl = '\0';
 
 	char message[1024];
-	sprintf(message, "weaponkilled \"%s\"", weapon->getParent()->getName());
+	snprintf(message, 1024, "weaponkilled \"%s\"", weapon->getParent()->getName());
 	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
 	statsLogger_->logMessage(info);
 }

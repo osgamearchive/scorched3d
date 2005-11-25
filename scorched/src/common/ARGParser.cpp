@@ -102,7 +102,7 @@ bool ARGParser::parse(char *lpCmdLine)
 		else
 		{
 			char buffer[255];
-			sprintf(buffer, "ERROR: Unknown parameter : \"%s\"\n\n", firstCommand.c_str());
+			snprintf(buffer, 255, "ERROR: Unknown parameter : \"%s\"\n\n", firstCommand.c_str());
 			showArgs(buffer);
 			return false;
 		}
@@ -249,7 +249,7 @@ void ARGParser::showArgs(char *topString)
 		else if (itor->second.destI || itor->second.destInt) type = "<int>";
 
 		char buffer2[255];
-		sprintf(buffer2, "\t%s %s", itor->first.c_str(), type);
+		snprintf(buffer2, 255, "\t%s %s", itor->first.c_str(), type);
 		if (itor->second.help.size())
 		{
 			strcat(buffer2, std::string(abs(30 - int(strlen(buffer2))), ' ').c_str());

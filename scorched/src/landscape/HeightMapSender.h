@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,23 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_HeightMapSenderh_INCLUDE__)
+#define __INCLUDE_HeightMapSenderh_INCLUDE__
 
-#include <coms/ComsNextRoundMessage.h>
+#include <landscape/HeightMap.h>
+#include <coms/ComsHeightMapMessage.h>
+#include <common/ProgressCounter.h>
 
-ComsNextRoundMessage::ComsNextRoundMessage() : ComsMessage("ComsNextRoundMessage")
+namespace HeightMapSender
 {
-}
+	// Generate a heightmap diff that can be sent to a client
+	// Store it in the coms message ready to be sent
+	bool generateHMapDiff(
+		HeightMap &hMap, 
+		ComsHeightMapMessage &message,
+		ProgressCounter *counter = 0);
 
-ComsNextRoundMessage::~ComsNextRoundMessage()
-{
-}
+	// Take a height map diff that has been recieved and apply
+	// it to an already constructed heightmap
+	bool generateHMapFromDiff(
+		HeightMap &hMap, 
+		ComsHeightMapMessage &message,
+		ProgressCounter *counter = 0);
+};
 
-bool ComsNextRoundMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
-{
-	return true;
-}
-
-bool ComsNextRoundMessage::readMessage(NetBufferReader &reader)
-{
-	return true;
-}
+#endif // __INCLUDE_HeightMapSenderh_INCLUDE__

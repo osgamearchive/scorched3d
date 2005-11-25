@@ -29,6 +29,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
 #include <stdio.h>
@@ -125,12 +126,12 @@ void InventoryDialog::addPlayerWeapons()
 		GLWPanel *newPanel = (GLWPanel *)
 			sellTab_->addWidget(new GLWPanel(10.0f, (float) height, 315.0f, 20.0f, true));
 		newPanel->setToolTip(&current->getToolTip());
-		if (count >= 0) sprintf(buffer, "%i", count);
-		else sprintf(buffer, "In");
+		if (count >= 0) snprintf(buffer, 256, "%i", count);
+		else snprintf(buffer, 256, "In");
 		newPanel->addWidget(new GLWLabel(0, -2, buffer));
 		newPanel->addWidget(new GLWIcon(30, 2, 16, 16, current->getTexture()));
 		newPanel->addWidget(new GLWLabel(50, -2, (char *) current->getName()));
-		sprintf(buffer, "$%i/%i", current->getSellPrice(), 1);
+		snprintf(buffer, 256, "$%i/%i", current->getSellPrice(), 1);
 		newPanel->addWidget(new GLWLabel(205, -2, buffer));
 
 		height += 24;

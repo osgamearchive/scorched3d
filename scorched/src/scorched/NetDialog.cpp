@@ -127,7 +127,7 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 				ServerBrowser::instance()->getServerList().
 					getEntryValue(item, "maxplayers");
 			char text[256];
-			sprintf(text, "%s/%s", clients.c_str(), maxclients.c_str());
+			snprintf(text, 256, "%s/%s", clients.c_str(), maxclients.c_str());
 
 			return wxString(text, wxConvUTF8);
 		}
@@ -340,26 +340,26 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 			for (int i=0; i<noplayers; i++)
 			{
 				static char tmp[128];
-				sprintf(tmp, "pn%i", i);
+				snprintf(tmp, 128, "pn%i", i);
 				long index = IDC_PLAYER_LIST_CTRL->InsertItem(0, 
 					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
-				sprintf(tmp, "ps%i", i);
+				snprintf(tmp, 128, "ps%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 1, 
 					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
-				sprintf(tmp, "pt%i", i);
+				snprintf(tmp, 128, "pt%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 2, 
 					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
-				sprintf(tmp, "pm%i", i);
+				snprintf(tmp, 128, "pm%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 3, 
 					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 
-				sprintf(tmp, "pr%i", i);
+				snprintf(tmp, 128, "pr%i", i);
 				IDC_PLAYER_LIST_CTRL->
 					SetItem(index, 4, 
 					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
@@ -498,7 +498,7 @@ bool showNetLanDialog()
 		wxString username = IDC_EDIT_NAME_CTRL->GetValue();
 
 		char buffer[1024];
-		sprintf(buffer, "-connect \"%s\"", (const char *) value.mb_str(wxConvUTF8));
+		snprintf(buffer, 1024, "-connect \"%s\"", (const char *) value.mb_str(wxConvUTF8));
 
 		if (!password.empty())
 		{

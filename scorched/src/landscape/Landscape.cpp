@@ -19,15 +19,22 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Landscape.h>
+#include <landscape/LandscapePoints.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeSoundManager.h>
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/LandscapeDefinitions.h>
+#include <landscape/Smoke.h>
+#include <landscape/Wall.h>
+#include <landscape/ShadowMap.h>
 #include <landscape/Sky.h>
+#include <landscape/Water.h>
 #include <landscape/Surround.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
 #include <landscape/HeightMapRenderer.h>
+#include <landscape/PatchGrid.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
@@ -54,15 +61,22 @@ Landscape *Landscape::instance()
 }
 
 Landscape::Landscape() : 
-	patchGrid_(&ScorchedClient::instance()->getLandscapeMaps().getHMap(), 16), 
-	points_(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 256, 4), 
 	resetLandscape_(false), resetLandscapeTimer_(0.0f), 
 	textureType_(eDefault),
 	changeCount_(1)
 {
-	surround_ = new Surround(ScorchedClient::instance()->getLandscapeMaps().getHMap(), 1524, 256);
-	sky_ = new Sky;
-	boids_ = new ScorchedBoids;
+	soundManager_ = new LandscapeSoundManager();
+	patchGrid_ = new PatchGrid(
+		&ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 16), 
+	water_ = new Water();
+	points_ = new LandscapePoints();
+	surround_ = new Surround(
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap());
+	sky_ = new Sky();
+	boids_ = new ScorchedBoids();
+	smoke_ = new Smoke();
+	wall_ = new Wall();
+	shadowMap_ = new ShadowMap();
 
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		this, &Landscape::savePlan, "SavePlan");
@@ -91,12 +105,12 @@ void Landscape::simulate(const unsigned state, float frameTime)
 
 	float speedMult = ScorchedClient::instance()->
 		getActionController().getFast();
-	water_.simulate(frameTime * speedMult);
-	patchGrid_.simulate(frameTime);
+	water_->simulate(frameTime * speedMult);
+	patchGrid_->simulate(frameTime);
 	sky_->simulate(frameTime * speedMult);
-	wall_.simulate(frameTime * speedMult);
+	wall_->simulate(frameTime * speedMult);
 	boids_->simulate(frameTime * speedMult);
-	soundManager_.simulate(frameTime * speedMult);
+	soundManager_->simulate(frameTime * speedMult);
 
 	Sound::instance()->simulate(frameTime);
 }
@@ -110,8 +124,23 @@ void Landscape::recalculate(int posX, int posY, int dist)
 	}
 
 	// Recalculate the level of detail for the terrain
-	patchGrid_.recalculate(posX, posY, dist);
-	water_.recalculate();
+	patchGrid_->recalculate(posX, posY, dist);
+	water_->recalculate();
+}
+
+void Landscape::reset(ProgressCounter *counter)
+{
+	changeCount_++;
+
+	// Recalculate all landscape objects
+	// Ensure all objects use any new landscape
+	patchGrid_->reset(counter);
+	water_->reset();
+	ScorchedClient::instance()->getParticleEngine().killAll();
+	MainCamera::instance()->getTarget().
+		getPrecipitationEngine().killAll();
+	CameraDialog::instance()->getCamera().
+		getPrecipitationEngine().killAll();
 }
 
 void Landscape::draw(const unsigned state)
@@ -127,12 +156,12 @@ void Landscape::draw(const unsigned state)
 
 	sky_->draw();
 	drawLand();
-	points_.draw();
+	points_->draw();
 	surround_->draw();
-	water_.draw();
+	water_->draw();
 	boids_->draw();
-	ScorchedClient::instance()->getLandscapeMaps().getObjects().draw();
-	wall_.draw();
+	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw();
+	wall_->draw();
 
 	glDisable(GL_FOG); // NOTE: Fog off
 
@@ -195,9 +224,8 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Load the texture bitmaps from resources 
 	LandscapeTex *tex = 
-			&ScorchedClient::instance()->getLandscapeMaps().getTex(
-			ScorchedClient::instance()->getContext());
-	if (0 == strcmp(tex->texturetype.c_str(), "generate"))
+			ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
+	if (tex->texture->getType() == LandscapeTexType::eTextureGenerate)
 	{
 		LandscapeTexTextureGenerate *generate = 
 			(LandscapeTexTextureGenerate *) tex->texture;
@@ -220,7 +248,7 @@ void Landscape::generate(ProgressCounter *counter)
 
 		// Generate the new landscape
 		GLBitmapModifier::addHeightToBitmap(
-			ScorchedClient::instance()->getLandscapeMaps().getHMap(),
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
 			mainMap_,
 			bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
 
@@ -232,12 +260,14 @@ void Landscape::generate(ProgressCounter *counter)
 	else
 	{
 		dialogExit("Landscape",
-			"Failed to find heightmap type %s",
-			tex->texturetype.c_str());
+			"Failed to find heightmap type %i",
+			tex->texture->getType());
 	}
 
 	// Create the water (if any)
-	water_.generate();
+	patchGrid_->generate();
+	water_->generate(counter);
+	points_->generate();
 
 	// Add any boids
 	boids_->generate();
@@ -245,19 +275,19 @@ void Landscape::generate(ProgressCounter *counter)
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	GLBitmapModifier::addLightMapToBitmap(mainMap_,
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(),
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
 		sky_->getSun().getPosition(), 
 		tex->skyambience, tex->skydiffuse, counter);
 
-	// Add objects to the landscape (if any)
-	ScorchedClient::instance()->getLandscapeMaps().generateObjects(
-		ScorchedClient::instance()->getContext(), counter);
-
 	// Add shadows to the mainmap
 	{
-		float shadowMult = (float) getMainMap().getWidth() / 256.0f;
+		float shadowMultWidth = (float) getMainMap().getWidth() / 
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+		float shadowMultHeight = (float) getMainMap().getHeight() / 
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
 		std::multimap<unsigned int, LandscapeObjectsEntry*> &objects =
-			ScorchedClient::instance()->getLandscapeMaps().getObjects().getEntries();
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+				getObjects().getEntries();
 		std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
 		for (itor = objects.begin();
 			itor != objects.end();
@@ -265,9 +295,9 @@ void Landscape::generate(ProgressCounter *counter)
 		{
 			LandscapeObjectsEntry *entry = (*itor).second;
 			GLBitmapModifier::addCircle(getMainMap(),
-				entry->posX * shadowMult, 
-				entry->posY * shadowMult, 
-				entry->modelsize * entry->size * shadowMult, 1.0f);
+				entry->posX * shadowMultWidth, 
+				entry->posY * shadowMultHeight, 
+				entry->modelsize * entry->size * shadowMultWidth, 1.0f);
 		}
 	}
 
@@ -343,19 +373,16 @@ void Landscape::generate(ProgressCounter *counter)
 		}
 		sounds.push_back(sound);
 	}
-	soundManager_.initialize(sounds);
-
-	// Ensure that all components use new landscape
-	reset();
+	soundManager_->initialize(sounds);
 }
 
 void Landscape::updatePlanTexture()
 {
-	if (water_.getWaterOn())
+	if (water_->getWaterOn())
 	{
 		GLBitmapModifier::addWaterToBitmap(
-			ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
-			bitmapPlan_, water_.getWaterBitmap(), water_.getWaterHeight());
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
+			bitmapPlan_, water_->getWaterBitmap(), water_->getWaterHeight());
 	}
 	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, GL_RGB, false));
 }
@@ -381,7 +408,7 @@ void Landscape::drawLand()
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
-			shadowMap_.setTexture();
+			shadowMap_->setTexture();
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
@@ -398,17 +425,18 @@ void Landscape::drawLand()
 		if (OptionsDisplay::instance()->getNoROAM())
 		{
 			HeightMapRenderer::drawHeightMap(
-				ScorchedClient::instance()->getLandscapeMaps().getHMap());
+				ScorchedClient::instance()->getLandscapeMaps().
+					getGroundMaps().getHeightMap());
 		}
 		else
 		{
 			glColor3f(1.0f, 1.0f, 1.0f);
-			patchGrid_.draw(PatchSide::typeTop);
+			patchGrid_->draw(PatchSide::typeTop);
 
 			if (OptionsDisplay::instance()->getDrawNormals())
 			{
 				GLState currentState(GLState::TEXTURE_OFF);
-				patchGrid_.draw(PatchSide::typeNormals);
+				patchGrid_->draw(PatchSide::typeNormals);
 			}
 		}
 	}
@@ -440,28 +468,13 @@ void Landscape::drawLand()
 void Landscape::updatePlanATexture()
 {
 	GLBitmapModifier::removeWaterFromBitmap(
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
 		bitmapPlan_, bitmapPlanAlpha_, bitmapPlanAlphaAlpha_, 
-		(water_.getWaterOn()?water_.getWaterHeight():-50.0f));
+		(water_->getWaterOn()?water_->getWaterHeight():-50.0f));
 	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, GL_RGBA, false));
 	planAlphaTexture_.draw();
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
-}
-
-void Landscape::reset()
-{
-	// Recalculate all landscape objects
-	// Ensure all objects use any new landscape
-	recalculate(0, 0, 1000);
-	patchGrid_.forceCalculate(256);
-	changeCount_++;
-	water_.reset();
-	ScorchedClient::instance()->getParticleEngine().killAll();
-	MainCamera::instance()->getTarget().
-		getPrecipitationEngine().killAll();
-	CameraDialog::instance()->getCamera().
-		getPrecipitationEngine().killAll();
 }
 
 void Landscape::restoreLandscapeTexture()

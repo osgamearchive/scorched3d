@@ -30,6 +30,7 @@
 #include <string>
 
 class LandscapePlace;
+class HeightMap;
 class LandscapeObjects
 {
 public:
@@ -52,7 +53,7 @@ public:
 	void addObject(unsigned int x, unsigned int y, 
 		LandscapeObjectsEntry *entry);
 
-	LandscapeObjectsGroupEntry *getGroup(const char *name, bool create = false);
+	LandscapeObjectsGroupEntry *getGroup(const char *name, HeightMap *create = 0);
 	void clearGroups();
 
 	std::multimap<unsigned int, LandscapeObjectsEntry*> &getEntries() { return entries_; }

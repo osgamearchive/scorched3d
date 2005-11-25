@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_Meshh_INCLUDE__)
 #define __INCLUDE_Meshh_INCLUDE__
 
-#include <common/Defines.h>
+#include <common/DefinesAssert.h>
 #include <3dsparse/Face.h>
 #include <3dsparse/Vertex.h>
 #include <vector>

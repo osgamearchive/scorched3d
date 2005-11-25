@@ -85,7 +85,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	if (position[1] < 6.0f) position[1] = 6.0f;
 	else if (position[1] > 249.0f) position[1] = 249.0f;
 
-	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
 	if (position[2] < minHeight + 0.5f)
 	{
@@ -93,9 +93,9 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	}
 
 	bool ceiling = false;
-	if (context.landscapeMaps->getRoof())
 	{
-		float maxHeight = context.landscapeMaps->getRMap().getInterpHeight(
+		// This will return MAX_FLT when there is no roof
+		float maxHeight = context.landscapeMaps->getRoofMaps().getInterpRoofHeight(
 			position[0] / 4.0f, position[1] / 4.0f);
 		if (position[2] > maxHeight - 1.0f)
 		{

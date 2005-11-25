@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <3dsparse/MSModelFactory.h>
+#include <common/Defines.h>
 
 MSModelFactory::MSModelFactory() : lineNo_(0)
 {
@@ -278,7 +279,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 		if (sscanf(buffer, "%s", textureName) != 1)
 			returnError(fileName, "No material texture format");
 		textureName[strlen(textureName)-1] = '\0';
-		sprintf(fullTextureName, "%s/%s", filePath, &textureName[1]);
+		snprintf(fullTextureName, 256, "%s/%s", filePath, &textureName[1]);
 		while (sep=strchr(fullTextureName, '\\')) *sep = '/';
 
 		// alphamap
@@ -289,7 +290,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 		if (sscanf(buffer, "%s", textureNameAlpha) != 1)
 			returnError(fileName, "No material alpha texture format");
 		textureNameAlpha[strlen(textureNameAlpha)-1] = '\0';
-		sprintf(fullTextureAlphaName, "%s/%s", filePath, &textureNameAlpha[1]);
+		snprintf(fullTextureAlphaName, 256, "%s/%s", filePath, &textureNameAlpha[1]);
 		while (sep=strchr(fullTextureAlphaName, '\\')) *sep = '/';
 
 		int modelIndex = 0;
@@ -304,7 +305,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 				if (textureName[1]) // as the string starts with a "
 				{
 					mesh->setTextureName(fullTextureName);
-					if (!DefinesUtil::fileExists(fullTextureName))
+					if (!s3d_fileExists(fullTextureName))
 					{
 						returnError(fileName, 
 							formatString("Failed to find texture \"%s\"",
@@ -314,7 +315,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 				if (textureNameAlpha[1])
 				{
 					mesh->setATextureName(fullTextureAlphaName);
-					if (!DefinesUtil::fileExists(fullTextureAlphaName))
+					if (!s3d_fileExists(fullTextureAlphaName))
 					{
 						returnError(fileName,
 							formatString("Failed to find alpha texture \"%s\"",

@@ -25,6 +25,7 @@
 #include <engine/ActionController.h>
 #include <sound/SoundUtils.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
 

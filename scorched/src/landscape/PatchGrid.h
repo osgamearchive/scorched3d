@@ -18,25 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PatchGrid.h: interface for the PatchGrid class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_PATCHGRID_H__78A69B7D_B848_4675_B017_13626E4856D1__INCLUDED_)
 #define AFX_PATCHGRID_H__78A69B7D_B848_4675_B017_13626E4856D1__INCLUDED_
 
-
 #include <landscape/HeightMap.h>
 #include <landscape/Patch.h>
+#include <vector>
 
 class PatchGrid  
 {
 public:
 	PatchGrid(HeightMap *hMap, int patchSize);
 	virtual ~PatchGrid();
-
-	void forceCalculate(int threshold);
+	
+	void generate();
+	void reset(ProgressCounter *counter = 0);
+	void recalculateTankVariance();
 	void recalculate(int posX, int posY, int dist);
 	void draw(PatchSide::DrawType sides);
 	void simulate(float frameTime);
@@ -46,13 +43,15 @@ public:
 protected:
 	Vector lastPos_;
 	int drawnPatches_;
-	int width_;
+	int width_, height_;
 	int patchSize_;
 	float simulationTime_;
 	Patch **patches_;
 	HeightMap *hMap_;
+	PatchTexCoord coord_;
 
-	void reset();
+	void tesselate();
+	void visibility();
 };
 
 #endif // !defined(AFX_PATCHGRID_H__78A69B7D_B848_4675_B017_13626E4856D1__INCLUDED_)

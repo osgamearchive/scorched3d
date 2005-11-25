@@ -72,7 +72,7 @@ bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 		if (!(entry->getData() & OptionEntry::DataProtected) || useprotected)
 		{
 			buffer.addToBuffer(entry->getName());
-			buffer.addToBuffer(entry->getValueAsString());
+			buffer.addToBuffer(entry->getComsBufferValue());
 		}
 	}
 	buffer.addToBuffer("-"); // Marks the end of the entries
@@ -118,7 +118,7 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 		else
 		{
 			OptionEntry *entry = (*finditor).second;
-			if (!entry->setValueFromString(value.c_str())) return false;
+			if (!entry->setComsBufferValue(value.c_str())) return false;
 		}
 	}
 
@@ -270,14 +270,14 @@ OptionEntryInt::~OptionEntryInt()
 const char *OptionEntryInt::getValueAsString()
 {
 	static char value[256];
-	sprintf(value, "%i", value_);
+	snprintf(value, 256, "%i", value_);
 	return value;
 }
 
 const char *OptionEntryInt::getDefaultValueAsString()
 {
 	static char value[256];
-	sprintf(value, "%i", defaultValue_);
+	snprintf(value, 256, "%i", defaultValue_);
 	return value;
 }
 
@@ -307,8 +307,8 @@ bool OptionEntryInt::setIntArgument(int value)
 bool OptionEntryInt::addToArgParser(ARGParser &parser)
 {
 	char name[256], description[1024];
-	sprintf(name, "-%s", getName());
-	sprintf(description, "%s (Default : %s)",
+	snprintf(name, 256, "-%s", getName());
+	snprintf(description, 1024, "%s (Default : %s)",
 			(char *) getDescription(), 
 			(char *) getDefaultValueAsString());
 
@@ -325,18 +325,97 @@ OptionEntryBoundedInt::OptionEntryBoundedInt(std::list<OptionEntry *> &group,
 	OptionEntryInt(group, name, description, data, value), 
 	minValue_(minValue), maxValue_(maxValue)
 {
-	
 }
 
 OptionEntryBoundedInt::~OptionEntryBoundedInt()
 {
-	
 }
 
 bool OptionEntryBoundedInt::setValue(int value)
 {
 	if (value < minValue_ || value > maxValue_) return false;
 	return OptionEntryInt::setValue(value);
+}
+
+OptionEntryEnum::OptionEntryEnum(std::list<OptionEntry *> &group,
+											 const char *name,
+											 const char *description,
+											 unsigned int data,
+											 int value,
+											 OptionEntryEnum::EnumEntry enums[]) :
+	OptionEntryInt(group, name, description, data, value), 
+	enums_(enums)
+{	
+}
+
+OptionEntryEnum::~OptionEntryEnum()
+{
+}
+
+const char *OptionEntryEnum::getDescription()
+{
+	static std::string result;
+
+	result = description_;
+	for (EnumEntry *current = enums_; current->description[0]; current++)
+	{
+		result += formatString(" (\"%s\" - %i)",
+			current->description, current->value);
+	}
+
+	return result.c_str();
+}
+
+bool OptionEntryEnum::setValue(int value)
+{
+	for (EnumEntry *current = enums_; current->description[0]; current++)
+	{
+		if (current->value == value)
+		{
+			return OptionEntryInt::setValue(value);
+		}
+	}
+	return false;
+}
+
+const char *OptionEntryEnum::getDefaultValueAsString()
+{
+	for (EnumEntry *current = enums_; current->description[0]; current++)
+	{
+		if (current->value == defaultValue_)
+		{
+			return current->description;
+		}
+	}
+	return "-";
+}
+
+const char *OptionEntryEnum::getValueAsString()
+{
+	for (EnumEntry *current = enums_; current->description[0]; current++)
+	{
+		if (current->value == value_)
+		{
+			return current->description;
+		}
+	}
+	return "-";
+}
+
+bool OptionEntryEnum::setValueFromString(const char *string)
+{
+	for (EnumEntry *current = enums_; current->description[0]; current++)
+	{
+		if (0 == strcmp(current->description, string))
+		{
+			value_ = current->value;
+			return true;
+		}
+	}
+
+	int val;
+	if (sscanf(string, "%i", &val) != 1) return false;
+	return setValue(val);
 }
 
 OptionEntryBool::OptionEntryBool(std::list<OptionEntry *> &group,
@@ -399,8 +478,8 @@ bool OptionEntryBool::setBoolArgument(bool value)
 bool OptionEntryBool::addToArgParser(ARGParser &parser)
 {
 	char name[256], description[1024];
-	sprintf(name, "-%s", getName());
-	sprintf(description, "%s (Default : %s)",
+	snprintf(name, 256, "-%s", getName());
+	snprintf(description, 1024, "%s (Default : %s)",
 			(char *) getDescription(), 
 			(char *) getDefaultValueAsString());
 
@@ -459,8 +538,8 @@ bool OptionEntryString::setStringArgument(const char* value)
 bool OptionEntryString::addToArgParser(ARGParser &parser)
 {
 	char name[256], description[1024];
-	sprintf(name, "-%s", getName());
-	sprintf(description, "%s (Default : %s)",
+	snprintf(name, 256, "-%s", getName());
+	snprintf(description, 1024, "%s (Default : %s)",
 			(char *) getDescription(), 
 			(char *) getDefaultValueAsString());
 
@@ -487,14 +566,14 @@ OptionEntryFloat::~OptionEntryFloat()
 const char *OptionEntryFloat::getValueAsString()
 {
 	static char value[256];
-	sprintf(value, "%.2f", value_);
+	snprintf(value, 256, "%.2f", value_);
 	return value;
 }
 
 const char *OptionEntryFloat::getDefaultValueAsString()
 {
 	static char value[256];
-	sprintf(value, "%.2f", defaultValue_);
+	snprintf(value, 256, "%.2f", defaultValue_);
 	return value;
 }
 
@@ -541,7 +620,7 @@ OptionEntryVector::~OptionEntryVector()
 const char *OptionEntryVector::getValueAsString()
 {
 	static char value[256];
-	sprintf(value, "%.2f %.2f %.2f", 
+	snprintf(value, 256, "%.2f %.2f %.2f", 
 		value_[0], value_[1], value_[2]);
 	return value;
 }
@@ -549,7 +628,7 @@ const char *OptionEntryVector::getValueAsString()
 const char *OptionEntryVector::getDefaultValueAsString()
 {
 	static char value[256];
-	sprintf(value, "%.2f %.2f %.2f", 
+	snprintf(value, 256, "%.2f %.2f %.2f", 
 		defaultValue_[0], defaultValue_[1], defaultValue_[2]);
 	return value;
 }

@@ -32,6 +32,7 @@ public:
 	virtual ~HeightMapCollision();
 
 	static void setContext(ScorchedContext *context);
+	void generate();
 
 protected:
 	int landscapeClass_;
@@ -42,6 +43,7 @@ protected:
 	ScorchedCollisionInfo wallInfoLeft_;
 	ScorchedCollisionInfo wallInfoRight_;
 	ScorchedCollisionInfo info_;
+	dGeomID sidea_, sideb_, sidec_, sided_;
 
 	void create();
 

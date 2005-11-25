@@ -22,6 +22,7 @@
 #include <wx/utils.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <stdio.h>
 
@@ -51,6 +52,12 @@ OptionsDisplay::OptionsDisplay() :
 		"The players icon, must be GIF 32x32.", RAccess, ""),
 	buyTab_(options_, "BuyTab",
 		"The default buy tab", RWAccess, ""),
+	roamVarianceStart_(options_, "RoamVarianceStart",
+		"The minimum variance to allow", RWAccess, 2),
+	roamVarianceRamp_(options_, "RoamVarianceRamp",
+		"The variance ramping for each distance unit", RWAccess, 10),
+	roamVarianceTank_(options_, "RoamVarianceTank",
+		"The variance difference for ROAM areas with tanks on them", RWAccess, 50),
 	onlineUserName_(options_, "OnlineUserName",
 		"The player name that will be used for all online games.", RAccess | NoRestore, "Player"),
 	onlineTankModel_(options_, "OnlineTankModel",
@@ -173,7 +180,7 @@ OptionsDisplay::OptionsDisplay() :
 		"Only draw one sky layer.", RWAccess, false),
 	noSkyMovement_(options_, "NoSkyMovement",
 		"Do not animate the sky", RWAccess, false),
-	noROAM_(options_,"NoROAM", 
+	noROAM_(options_, "NoROAM", 
 		"Do not use ROAM algorithm", RWAccess, false),
 	noBOIDS_(options_,"NoBOIDS", 
 		"Do not use BOIDS", RWAccess, false),

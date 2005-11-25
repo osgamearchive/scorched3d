@@ -63,9 +63,10 @@ bool StatsLoggerMySQL::runQuery(const char *fmt, ...)
 	static char text[50000];
 	va_list ap;
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	int used = vsnprintf(text, 50000, fmt, ap);
 	va_end(ap);
 
+	if (used == 50000) return false;
 	return (mysql_real_query(mysql_, text, strlen(text)) == 0);
 }
 
@@ -580,7 +581,7 @@ char *StatsLoggerMySQL::tankRank(Tank *tank)
 				int rank = atoi(row[0]) + 1;
 
 				static char rankStr[100];
-				sprintf(rankStr, "%i", rank);
+				snprintf(rankStr, 100, "%i", rank);
 				retval = rankStr;
 			}
 			mysql_free_result(result);
@@ -621,8 +622,8 @@ char *StatsLoggerMySQL::getStatsId(Tank *tank)
 	createLogger();
 	if (!success_) return "";
 	int id = getPlayerId(tank->getUniqueId());
-	static char buffer[10];
-	sprintf(buffer, "%i", id);
+	static char buffer[25];
+	snprintf(buffer, 25, "%i", id);
 	return buffer;
 }
 

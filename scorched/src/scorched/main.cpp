@@ -57,7 +57,7 @@ bool parseCommandLine(int argc, char *argv[])
 	aParser.addEntry("-allowexceptions", &allowExceptions, 
 					 "Allows any program exceptions to be thrown (core dumps)");
 	if (!aParser.parse(argc, argv)) return false;
-	DefinesUtil::setSettingsDir(OptionsParam::instance()->getSettingsDir());
+	setSettingsDir(OptionsParam::instance()->getSettingsDir());
 
 	// Read display options from a file
 	// **This NEEDS to be after the arg parser**
@@ -88,9 +88,9 @@ bool parseCommandLine(int argc, char *argv[])
 		ScorchedProtocolVersion))
 	{
 		// The version has changed move the current mod directories
-		if (!DefinesUtil::dirExists(getSettingsFile("/oldmods")))
+		if (!s3d_dirExists(getSettingsFile("/oldmods")))
 		{
-			DefinesUtil::dirMake(getSettingsFile("/oldmods"));
+			s3d_dirMake(getSettingsFile("/oldmods"));
 		}
 		ModDirs dirs;
 		dirs.loadModDirs();
@@ -102,7 +102,7 @@ bool parseCommandLine(int argc, char *argv[])
 			const char *modDir = (*itor).c_str();
 			std::string src = getModFile(modDir);
 			std::string dest = getSettingsFile("/oldmods/%s-%u", modDir, time(0));
-			if (DefinesUtil::dirExists(src.c_str()))
+			if (s3d_dirExists(src.c_str()))
 			{
 				if (::wxRenameFile(wxString(src.c_str(), wxConvUTF8), 
 					wxString(dest.c_str(), wxConvUTF8)))
@@ -145,7 +145,7 @@ int _matherr(struct _exception  *e)
 int main(int argc, char *argv[])
 {
 	// Generate the version
-	sprintf(scorched3dAppName, "Scorched3D - Version %s (%s)", 
+	snprintf(scorched3dAppName, 128, "Scorched3D - Version %s (%s)", 
 		ScorchedVersion, ScorchedProtocolVersion);
 
 	srand((unsigned)time(0));
@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
 	case OptionsParam::ActionRunServer:
 	
 		// Load the server settings file
-		if (!DefinesUtil::fileExists(OptionsParam::instance()->getServerFile()))
+		if (!s3d_fileExists(OptionsParam::instance()->getServerFile()))
 		{
 			dialogExit(scorched3dAppName,
 				"Server file \"%s\" does not exist.",
@@ -290,7 +290,7 @@ int main(int argc, char *argv[])
 				if (OptionsParam::instance()->getClientFile()[0])
 				{
 					// If not load the client settings file
-					if (!DefinesUtil::fileExists(OptionsParam::instance()->getClientFile()))
+					if (!s3d_fileExists(OptionsParam::instance()->getClientFile()))
 					{
 						dialogExit(scorched3dAppName,
 							"Client file \"%s\" does not exist.",
@@ -302,7 +302,7 @@ int main(int argc, char *argv[])
 				else
 				{
 					// Or the client saved game
-					if (!DefinesUtil::fileExists(OptionsParam::instance()->getSaveFile()))
+					if (!s3d_fileExists(OptionsParam::instance()->getSaveFile()))
 					{
 						dialogExit(scorched3dAppName,
 							"Client save file \"%s\" does not exist.",

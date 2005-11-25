@@ -664,6 +664,36 @@
 				RelativePath="..\common\Defines.h">
 			</File>
 			<File
+				RelativePath="..\common\DefinesAssert.cpp">
+			</File>
+			<File
+				RelativePath="..\common\DefinesAssert.h">
+			</File>
+			<File
+				RelativePath="..\common\DefinesFile.cpp">
+			</File>
+			<File
+				RelativePath="..\common\DefinesFile.h">
+			</File>
+			<File
+				RelativePath="..\common\DefinesMath.cpp">
+			</File>
+			<File
+				RelativePath="..\common\DefinesMath.h">
+			</File>
+			<File
+				RelativePath="..\common\DefinesScorched.cpp">
+			</File>
+			<File
+				RelativePath="..\common\DefinesScorched.h">
+			</File>
+			<File
+				RelativePath="..\common\DefinesString.cpp">
+			</File>
+			<File
+				RelativePath="..\common\DefinesString.h">
+			</File>
+			<File
 				RelativePath="..\common\Display.cpp">
 			</File>
 			<File
@@ -821,6 +851,9 @@
 			</File>
 			<File
 				RelativePath="..\common\VectorLib.h">
+			</File>
+			<File
+				RelativePath="..\common\snprintf.c">
 			</File>
 		</Filter>
 		<Filter
@@ -1213,6 +1246,12 @@
 				RelativePath="..\engine\ScorchedContext.h">
 			</File>
 			<File
+				RelativePath="..\engine\ScorchedPhysicsEngine.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ScorchedPhysicsEngine.h">
+			</File>
+			<File
 				RelativePath="..\engine\ViewPoints.cpp">
 			</File>
 			<File
@@ -1239,6 +1278,12 @@
 			</File>
 			<File
 				RelativePath="..\landscape\DeformTextures.h">
+			</File>
+			<File
+				RelativePath="..\landscape\GroundMaps.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\GroundMaps.h">
 			</File>
 			<File
 				RelativePath="..\landscape\HeightMap.cpp">
@@ -1271,6 +1316,12 @@
 				RelativePath="..\landscape\HeightMapRenderer.h">
 			</File>
 			<File
+				RelativePath="..\landscape\HeightMapSender.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\HeightMapSender.h">
+			</File>
+			<File
 				RelativePath="..\landscape\Hemisphere.cpp">
 			</File>
 			<File
@@ -1293,6 +1344,12 @@
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeDefinition.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeDefinitionCache.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeDefinitionCache.h">
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeDefinitions.cpp">
@@ -1391,12 +1448,6 @@
 				RelativePath="..\landscape\MovementMap.h">
 			</File>
 			<File
-				RelativePath="..\landscape\NapalmMap.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\NapalmMap.h">
-			</File>
-			<File
 				RelativePath="..\landscape\Patch.cpp">
 			</File>
 			<File
@@ -1413,6 +1464,18 @@
 			</File>
 			<File
 				RelativePath="..\landscape\PatchSide.h">
+			</File>
+			<File
+				RelativePath="..\landscape\PatchTexCoord.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\PatchTexCoord.h">
+			</File>
+			<File
+				RelativePath="..\landscape\RoofMaps.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\RoofMaps.h">
 			</File>
 			<File
 				RelativePath="..\landscape\ShadowMap.cpp">
@@ -1843,6 +1906,12 @@
 				RelativePath="..\coms\ComsHaveModFilesMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsHeightMapMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHeightMapMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsKeepAliveMessage.cpp">
 			</File>
 			<File
@@ -1883,12 +1952,6 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsNewGameMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsNextRoundMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsNextRoundMessage.h">
 			</File>
 			<File
 				RelativePath="..\coms\ComsPlayedMoveMessage.cpp">
@@ -2403,6 +2466,12 @@
 				RelativePath="..\actions\Napalm.h">
 			</File>
 			<File
+				RelativePath="..\actions\NapalmMap.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\NapalmMap.h">
+			</File>
+			<File
 				RelativePath="..\actions\ShieldHit.cpp">
 			</File>
 			<File
@@ -2799,12 +2868,6 @@
 				RelativePath="..\client\ClientNewGameState.h">
 			</File>
 			<File
-				RelativePath="..\client\ClientNextRoundHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientNextRoundHandler.h">
-			</File>
-			<File
 				RelativePath="..\client\ClientPlayerAimHandler.cpp">
 			</File>
 			<File
@@ -2815,12 +2878,6 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientPlayerStatusHandler.h">
-			</File>
-			<File
-				RelativePath="..\client\ClientReadyState.cpp">
-			</File>
-			<File
-				RelativePath="..\client\ClientReadyState.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientRmPlayerHandler.cpp">

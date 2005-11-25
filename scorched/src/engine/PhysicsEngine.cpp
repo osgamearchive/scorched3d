@@ -24,8 +24,7 @@
 
 PhysicsEngine::PhysicsEngine() : 
 	world_(0), space_(0), 
-	contactgroup_(0), handler_(0),
-	context_(0)
+	contactgroup_(0), handler_(0)
 {
 	create();
 }
@@ -33,11 +32,6 @@ PhysicsEngine::PhysicsEngine() :
 PhysicsEngine::~PhysicsEngine()
 {
 	destroy();
-}
-
-void PhysicsEngine::setScorchedContext(ScorchedContext *context)
-{
-	context_ = context;
 }
 
 void PhysicsEngine::setCollisionHandler(PhysicsEngineCollision *handler)
@@ -50,7 +44,7 @@ bool PhysicsEngine::create()
 	// Create the simultion world
 	world_ = dWorldCreate();
 	space_ = dHashSpaceCreate(0);
-	contactgroup_ = dJointGroupCreate (0);
+	contactgroup_ = dJointGroupCreate(0);
 
 	// Setup the world's settings
 	dWorldSetGravity(world_,0,0,-10.0); // Set a default gravity (this will change)
@@ -59,11 +53,9 @@ bool PhysicsEngine::create()
 	return true;
 }
 
-void PhysicsEngine::setWind(Vector &wind)
+void PhysicsEngine::setGravity(Vector &gravity)
 {
-	DIALOG_ASSERT(context_);
-	float gravity = (float) context_->optionsGame->getGravity();
-	dWorldSetGravity(world_, wind[0], wind[1], wind[2] + gravity);
+	dWorldSetGravity(world_, gravity[0], gravity[1], gravity[2]);
 }
 
 void PhysicsEngine::destroy()
@@ -92,15 +84,6 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 		// We have collisions, ask the user to process them
 		engine->handler_->collision(o1, o2, contacts, numc);
 	}
-}
-
-void PhysicsEngine::addCollision(dGeomID o1, dGeomID o2, dContact &contact)
-{
-	dBodyID b1 = dGeomGetBody(o1);
-	dBodyID b2 = dGeomGetBody(o2);
-	dJointID c = dJointCreateContact(world_,
-		contactgroup_,&contact);
-	dJointAttach (c,b1,b2);
 }
 
 void PhysicsEngine::stepSimulation(float stepSize)

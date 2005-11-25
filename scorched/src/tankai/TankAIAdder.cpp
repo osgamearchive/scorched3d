@@ -18,19 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <set>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
 #include <tank/TankColorGenerator.h>
 #include <tank/TankContainer.h>
+#include <coms/ComsAddPlayerMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
-#include <coms/ComsAddPlayerMessage.h>
-#include <coms/ComsMessageSender.h>
-#include <set>
+#include <common/Defines.h>
 
 static unsigned int tankId_ = 2;
 
@@ -72,7 +73,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 		char uniqueId[256];
 		{
 			std::set<int> usedIds;
-			sprintf(uniqueId, "%s - computer - %%i", aiName);
+			snprintf(uniqueId, 256, "%s - computer - %%i", aiName);
 			std::map<unsigned int, Tank *> &playingTanks = 
 				context.getTankContainer().getPlayingTanks();
 			std::map<unsigned int, Tank *>::iterator playingItor;
@@ -94,7 +95,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 			int uniqueIdCount = 1;
 			while (usedIds.find(uniqueIdCount) != usedIds.end()) uniqueIdCount++;
 
-			sprintf(uniqueId, "%s - computer - %i", aiName, uniqueIdCount);
+			snprintf(uniqueId, 256, "%s - computer - %i", aiName, uniqueIdCount);
 		}
 
 		std::string newname = name;

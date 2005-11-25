@@ -23,6 +23,7 @@
 
 #include <common/Vector.h>
 
+class HeightMap;
 class SkyRoof
 {
 public:
@@ -37,7 +38,8 @@ protected:
 	unsigned int tris_;
 
 	void makeList();
-	void drawSegment(Vector &a, Vector &b, 
+	void drawSegment(
+		Vector &a, Vector &b, 
 		Vector &na, Vector &nb);
 	void makeNormal(Vector &position, Vector &normal);
 };

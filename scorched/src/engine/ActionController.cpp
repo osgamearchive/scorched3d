@@ -20,8 +20,6 @@
 
 #include <engine/ActionController.h>
 #include <common/Logger.h>
-#include <landscape/HeightMapCollision.h>
-#include <landscape/SkyRoofCollision.h>
 #include <list>
 
 ActionController::ActionController() : 
@@ -236,10 +234,8 @@ void ActionController::simulate(const unsigned state, float frameTime)
 	timePassed += frameTime;
 
 	// step size = 33 fps
+	physicsEngine_.resetContext();
 	const float stepSize = 0.033f;
-
-	HeightMapCollision::setContext(context_);
-	SkyRoofCollision::setContext(context_);
 	while (timePassed >= stepSize)
 	{
 		time_ += stepSize;

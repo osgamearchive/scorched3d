@@ -34,10 +34,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <engine/ActionController.h>
-#include <engine/ScorchedCollisionHandler.h>
 #include <engine/ModFiles.h>
-#include <landscape/HeightMapCollision.h>
-#include <landscape/SkyRoofCollision.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
@@ -121,7 +118,7 @@ bool startServer(bool local)
 	ServerDefenseHandler::instance();
 
 	// Set the mod
-	DefinesUtil::setDataFileMod(
+	setDataFileMod(
 		ScorchedServer::instance()->getOptionsGame().getMod());
 
 	// Load mod
@@ -132,13 +129,6 @@ bool startServer(bool local)
 			ScorchedServer::instance()->getOptionsGame().getMod(), false)) return false;
 	}
 
-	// Init physics
-	HeightMapCollision *hmcol = 
-		new HeightMapCollision(&ScorchedServer::instance()->getContext());
-	SkyRoofCollision *srcol = 
-		new SkyRoofCollision(&ScorchedServer::instance()->getContext());
-	ScorchedServer::instance()->getActionController().getPhysics().setCollisionHandler(
-		new ScorchedCollisionHandler(&ScorchedServer::instance()->getContext()));
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
 		ScorchedServer::instance()->getOptionsGame())) return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();

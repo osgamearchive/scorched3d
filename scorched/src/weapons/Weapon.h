@@ -23,7 +23,6 @@
 
 #include <weapons/AccessoryPart.h>
 #include <coms/NetBuffer.h>
-#include <common/Defines.h>
 #include <common/Vector.h>
 #include <engine/ScorchedContext.h>
 

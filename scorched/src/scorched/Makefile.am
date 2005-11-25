@@ -367,6 +367,8 @@ scorched3d_SOURCES = \
 	../landscape/DeformLandscape.h \
 	../landscape/DeformTextures.cpp \
 	../landscape/DeformTextures.h \
+	../landscape/GroundMaps.cpp \
+	../landscape/GroundMaps.h \
 	../landscape/HeightMap.cpp \
 	../landscape/HeightMap.h \
 	../landscape/HeightMapCollision.cpp \
@@ -377,6 +379,8 @@ scorched3d_SOURCES = \
 	../landscape/HeightMapModifier.h \
 	../landscape/HeightMapRenderer.cpp \
 	../landscape/HeightMapRenderer.h \
+	../landscape/HeightMapSender.cpp \
+	../landscape/HeightMapSender.h \
 	../landscape/Hemisphere.cpp \
 	../landscape/Hemisphere.h \
 	../landscape/InfoMap.cpp \
@@ -385,6 +389,8 @@ scorched3d_SOURCES = \
 	../landscape/Landscape.h \
 	../landscape/LandscapeDefinition.cpp \
 	../landscape/LandscapeDefinition.h \
+	../landscape/LandscapeDefinitionCache.cpp \
+	../landscape/LandscapeDefinitionCache.h \
 	../landscape/LandscapeDefinitions.cpp \
 	../landscape/LandscapeDefinitions.h \
 	../landscape/LandscapeDefn.cpp \
@@ -417,14 +423,14 @@ scorched3d_SOURCES = \
 	../landscape/MapPoints.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
-	../landscape/NapalmMap.cpp \
-	../landscape/NapalmMap.h \
 	../landscape/Patch.cpp \
 	../landscape/Patch.h \
 	../landscape/PatchGrid.cpp \
 	../landscape/PatchGrid.h \
 	../landscape/PatchSide.cpp \
 	../landscape/PatchSide.h \
+	../landscape/RoofMaps.cpp \
+	../landscape/RoofMaps.h \
 	../landscape/ShadowMap.cpp \
 	../landscape/ShadowMap.h \
 	../landscape/Sky.cpp \
@@ -565,6 +571,8 @@ scorched3d_SOURCES = \
 	../coms/ComsGameStoppedMessage.h \
 	../coms/ComsHaveModFilesMessage.cpp \
 	../coms/ComsHaveModFilesMessage.h \
+	../coms/ComsHeightMapMessage.cpp \
+	../coms/ComsHeightMapMessage.h \
 	../coms/ComsKeepAliveMessage.cpp \
 	../coms/ComsKeepAliveMessage.h \
 	../coms/ComsLastChanceMessage.cpp \
@@ -737,6 +745,8 @@ scorched3d_SOURCES = \
 	../actions/Laser.h \
 	../actions/Lightning.cpp \
 	../actions/Lightning.h \
+	../actions/NapalmMap.cpp \
+	../actions/NapalmMap.h \
 	../actions/Napalm.cpp \
 	../actions/Napalm.h \
 	../actions/ShieldHit.cpp \

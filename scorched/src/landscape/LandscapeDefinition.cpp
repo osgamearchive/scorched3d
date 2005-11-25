@@ -30,8 +30,7 @@ LandscapeDefinition::LandscapeDefinition(
 	const char *tex,
 	const char *defn,
 	unsigned int seed) :
-	tex_(tex), defn_(defn), seed_(seed),
-	cachedTex_(0), cachedDefn_(0)
+	tex_(tex), defn_(defn), seed_(seed)
 {
 }
 

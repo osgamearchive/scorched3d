@@ -24,51 +24,59 @@
 #include <stdlib.h>
 #include <common/ProgressCounter.h>
 #include <common/Vector.h>
-#include <common/Defines.h>
 
 class Line;
 
 class HeightMap  
 {
 public:
-	HeightMap(int width);
+	HeightMap();
 	virtual ~HeightMap();
 
+	void create(int width, int height);
+	void backup();
 	void reset();
 	void resetMinHeight();
-
 	void generateNormals(int minX, int maxX, int minY, 
 		int maxY, ProgressCounter *counter = 0);
-	int getWidth() { return width_; }
 
+	// Height map size fns
+	int getMapWidth() { return width_; }
+	int getMapHeight() { return height_; }
+	int getMapMinWidth() { return minWidth_; }
+	int getMapMinHeight() { return minHeight_; }
+
+	// Get height fns (z values)
+	float getMinHeight(int w, int h);
+	float getMaxHeight(int w, int h);
+	inline float getBackupHeight(int w, int h) {
+		if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
+			return backupMap_[(width_+1) * h + w]; 
+		return 0.0f; }
 	inline float getHeight(int w, int h) { 
-		if (w >= 0 && h >= 0 && w<=width_ && h<=width_) 
+		if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
 			return hMap_[(width_+1) * h + w]; 
 		return 0.0f; }
 	float getInterpHeight(float w, float h);
 
+	// Get normal functions
 	inline Vector &getNormal(int w, int h) {
-		if (w >= 0 && h >= 0 && w<=width_ && h<=width_) 
+		if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
 			return normals_[(width_+1) * h + w]; 
 		return nvec; }
 	void getInterpNormal(float w, float h, Vector &normal);
 
 	bool getIntersect(Line &direction, Vector &intersect);
 
-	float getMinHeight(int w, int h);
-	float getMaxHeight(int w, int h);
-	int getMinWidth() { return minWidth_; }
-
 	// Returns the actual internal HeightMap points
 	// Should not be used
-	float &getHeightRef(int w, int h); // Do not use to alter height
 	void setHeight(int w, int h, float height);
 	float *getData() { return hMap_; }
 
 protected:
 	static Vector nvec;
-	int width_, minWidth_;
-	float *hMap_;
+	int width_, height_, minWidth_, minHeight_;
+	float *hMap_, *backupMap_;
 	float *minMap_, *maxMap_;
 	Vector *normals_;
 

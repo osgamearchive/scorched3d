@@ -23,6 +23,7 @@
 #include <client/ScorchedClient.h>
 #include <client/Main2DCamera.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
 #include <engine/ViewPoints.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>
@@ -84,8 +85,10 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 		int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 		int windowX = Main2DCamera::instance()->getViewPort().getWidth();
 		int windowY = Main2DCamera::instance()->getViewPort().getHeight();
-		int mapWidth = ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
-		int mapHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+		float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getDefn()->landscapewidth;
+		float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getDefn()->landscapeheight;
 
 		scrollTime_ += frameTime;
 		while (scrollTime_ > 0.0f)
@@ -209,8 +212,10 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	KEYBOARDKEY("CAMERA_SCROLL_DOWN", scrollDown);
 	KEYBOARDKEY("CAMERA_SCROLL_LEFT", scrollLeft);
 	KEYBOARDKEY("CAMERA_SCROLL_RIGHT", scrollRight);
-	int mapWidth = ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
-	int mapHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+	float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().
+		getDefinitions().getDefn()->landscapewidth;
+	float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
+		getDefinitions().getDefn()->landscapeheight;
 	if (scrollUp->keyDown(buffer, keyState)) 
 		targetCam_.getCamera().scroll(GLCamera::eScrollUp, mapWidth, mapHeight);
 	else if (scrollDown->keyDown(buffer, keyState)) 

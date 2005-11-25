@@ -24,6 +24,7 @@
 #include <GLEXT/GLLuminance.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <common/Defines.h>
 
 GLLenseFlare *GLLenseFlare::instance_ = 0;
 

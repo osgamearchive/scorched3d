@@ -22,6 +22,7 @@
 #include <sprites/ExplosionTextures.h>
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
+#include <common/Defines.h>
 
 NapalmRenderer::NapalmRenderer(GLTextureSet *set) : 
 	textureNo_(0.0f), set_(set)
@@ -37,7 +38,7 @@ NapalmRenderer::~NapalmRenderer()
 void NapalmRenderer::draw(Particle *particle)
 {
 	particle->position_[2] = 
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
 			(int) particle->position_[0],
 			(int) particle->position_[1]) + particle->size_[1] * 2.0f;
 }

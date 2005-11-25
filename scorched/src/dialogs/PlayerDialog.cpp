@@ -30,6 +30,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
+#include <common/Defines.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -183,7 +184,7 @@ void PlayerDialog::windowDisplay()
 		for (int i=1; i<=ScorchedClient::instance()->getOptionsGame().getTeams(); i++)
 		{
 			char buffer[10];
-			sprintf(buffer, "Team %i", i);
+			snprintf(buffer, 10, "Team %i", i);
 			teamDropDown_->addText(buffer);
 		}	
 	}

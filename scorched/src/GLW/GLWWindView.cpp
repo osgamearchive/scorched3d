@@ -141,26 +141,30 @@ void GLWWindView::drawScene()
 	Landscape::instance()->getPlanTexture().draw(true);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	HeightMap &hmp = ScorchedClient::instance()->getLandscapeMaps().getHMap();
-	int sqSize = hmp.getWidth() / 16;
-	const float squareSize = 30.0f;
-	float heightPer = squareSize / float(hmp.getWidth()) * 2.0f;
+	HeightMap &hmp = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getHeightMap();
+	int maxSize = MAX(hmp.getMapWidth(), hmp.getMapHeight());
+	int sqSizeW = hmp.getMapWidth() / 16;
+	int sqSizeH = hmp.getMapHeight() / 16;
+	const float squareSizeWidth = 30.0f * float(hmp.getMapWidth()) / float(maxSize);
+	const float squareSizeHeight = 30.0f * float(hmp.getMapHeight()) / float(maxSize);
+	float heightPer = 30.0f / float(maxSize) * 2.0f;
 
-	for (int y=0; y<=hmp.getWidth()-sqSize; y+=sqSize)
+	for (int y=0; y<=hmp.getMapHeight()-sqSizeH; y+=sqSizeH)
 	{
 		glBegin(GL_QUAD_STRIP);
-		for (int x=0; x<=hmp.getWidth(); x+=sqSize)
+		for (int x=0; x<=hmp.getMapWidth(); x+=sqSizeW)
 		{
-			float xPer = float(x) / float(hmp.getWidth());
-			float yPer = float(y) / float(hmp.getWidth());
-			float yPer2 = float(y+sqSize) / float(hmp.getWidth());
+			float xPer = float(x) / float(hmp.getMapWidth());
+			float yPer = float(y) / float(hmp.getMapHeight());
+			float yPer2 = float(y+sqSizeH) / float(hmp.getMapHeight());
 
-			float xPos = xPer * squareSize * 2 - squareSize;
-			float yPos = yPer * squareSize * 2 - squareSize;
-			float yPos2 = yPer2 * squareSize * 2 - squareSize;
+			float xPos = xPer * squareSizeWidth * 2 - squareSizeWidth;
+			float yPos = yPer * squareSizeHeight * 2 - squareSizeHeight;
+			float yPos2 = yPer2 * squareSizeHeight * 2 - squareSizeHeight;
 
 			glTexCoord2f(xPer, yPer2);
-			glVertex3f(xPos, yPos2, hmp.getHeight(x, y+sqSize) * heightPer);
+			glVertex3f(xPos, yPos2, hmp.getHeight(x, y+sqSizeH) * heightPer);
 			glTexCoord2f(xPer, yPer);
 			glVertex3f(xPos, yPos, hmp.getHeight(x, y) * heightPer);
 		}
@@ -170,29 +174,29 @@ void GLWWindView::drawScene()
 	Landscape::instance()->getMagTexture().draw();
 	glBegin(GL_QUAD_STRIP);
 		glTexCoord2f(0.0f, 1.0f);
-		glVertex3f(-squareSize, -squareSize, 0.0f);
+		glVertex3f(-squareSizeWidth, -squareSizeHeight, 0.0f);
 		glTexCoord2f(0.0f, 0.0f);
-		glVertex3f(-squareSize, -squareSize, -10.0f);
+		glVertex3f(-squareSizeWidth, -squareSizeHeight, -10.0f);
 
 		glTexCoord2f(1.0f, 1.0f);
-		glVertex3f(squareSize, -squareSize, 0.0f);
+		glVertex3f(squareSizeWidth, -squareSizeHeight, 0.0f);
 		glTexCoord2f(1.0f, 0.0f);
-		glVertex3f(squareSize, -squareSize, -10.0f);
+		glVertex3f(squareSizeWidth, -squareSizeHeight, -10.0f);
 
 		glTexCoord2f(0.0f, 1.0f);
-		glVertex3f(squareSize, squareSize, 0.0f);
+		glVertex3f(squareSizeWidth, squareSizeHeight, 0.0f);
 		glTexCoord2f(0.0f, 0.0f);
-		glVertex3f(squareSize, squareSize, -10.0f);
+		glVertex3f(squareSizeWidth, squareSizeHeight, -10.0f);
 
 		glTexCoord2f(1.0f, 1.0f);
-		glVertex3f(-squareSize, squareSize, 0.0f);
+		glVertex3f(-squareSizeWidth, squareSizeHeight, 0.0f);
 		glTexCoord2f(1.0f, 0.0f);
-		glVertex3f(-squareSize, squareSize, -10.0f);
+		glVertex3f(-squareSizeWidth, squareSizeHeight, -10.0f);
 
 		glTexCoord2f(0.0f, 1.0f);
-		glVertex3f(-squareSize, -squareSize, 0.0f);
+		glVertex3f(-squareSizeWidth, -squareSizeHeight, 0.0f);
 		glTexCoord2f(0.0f, 0.0f);
-		glVertex3f(-squareSize, -squareSize, -10.0f);
+		glVertex3f(-squareSizeWidth, -squareSizeHeight, -10.0f);
 	glEnd();
 }
 

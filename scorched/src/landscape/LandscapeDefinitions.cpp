@@ -337,7 +337,7 @@ bool LandscapeDefinitions::landscapeEnabled(OptionsGame &context,
 	return false;
 }
 
-LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
+LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	OptionsGame &context)
 {
 	// Build a list of the maps that are enabled
@@ -409,10 +409,10 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 	if (!result) return 0;
 
 	// Return the chosen definition
-	unsigned int texPos = int(RAND * float(result->texs.size()));
-	unsigned int defnPos = int(RAND * float(result->defns.size()));
-	DIALOG_ASSERT(texPos < result->texs.size());
-	DIALOG_ASSERT(defnPos < result->defns.size());
+	unsigned int texPos = rand() % result->texs.size();
+	unsigned int defnPos = rand() % result->defns.size();
+	DIALOG_ASSERT(texPos >=0 && texPos < result->texs.size());
+	DIALOG_ASSERT(defnPos >= 0 && defnPos < result->defns.size());
 	std::string tex = result->texs[texPos].c_str();
 	std::string defn = result->defns[defnPos].c_str();
 	unsigned int seed = (unsigned int) rand();
@@ -421,8 +421,7 @@ LandscapeDefinition *LandscapeDefinitions::getRandomLandscapeDefn(
 		seed = (unsigned int) OptionsParam::instance()->getSeed();
 	}
 
-	LandscapeDefinition *entry = 
-		new LandscapeDefinition(
+	LandscapeDefinition entry(
 			tex.c_str(), defn.c_str(), seed);
 	return entry;
 }

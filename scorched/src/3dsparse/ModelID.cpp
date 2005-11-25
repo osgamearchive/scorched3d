@@ -75,8 +75,8 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		if (!modelNode->getNamedChild("mesh", meshNode)) return false;
 		const char *meshNameContent = meshNode->getContent();
 		static char meshName[1024];
-		sprintf(meshName, "%s/%s", directory, meshNameContent);
-		if (!DefinesUtil::fileExists(getDataFile(meshName)))
+		snprintf(meshName, 1024, "%s/%s", directory, meshNameContent);
+		if (!s3d_fileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",
@@ -89,8 +89,8 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		static char skinName[1024];
 		if (strcmp(skinNameContent, "none") != 0)
 		{
-			sprintf(skinName, "%s/%s", directory, skinNameContent);
-			if (!DefinesUtil::fileExists(getDataFile(skinName)))
+			snprintf(skinName, 1024, "%s/%s", directory, skinNameContent);
+			if (!s3d_fileExists(getDataFile(skinName)))
 			{
 				dialogMessage("Scorched Models",
 							"Skin file \"%s\" does not exist",
@@ -100,7 +100,7 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		}
 		else
 		{
-			sprintf(skinName, "%s", skinNameContent);
+			snprintf(skinName, 1024, "%s", skinNameContent);
 		}
 
 		meshName_ = meshName;
@@ -110,9 +110,9 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 	{
 		const char *meshNameContent = modelNode->getContent();
 		static char meshName[1024];
-		sprintf(meshName, "%s/%s", directory, meshNameContent);
+		snprintf(meshName, 1024, "%s/%s", directory, meshNameContent);
 
-		if (!DefinesUtil::fileExists(getDataFile(meshName)))
+		if (!s3d_fileExists(getDataFile(meshName)))
 		{
 			dialogMessage("Scorched Models",
 						"Mesh file \"%s\"does not exist",

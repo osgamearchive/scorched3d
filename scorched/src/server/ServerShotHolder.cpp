@@ -29,12 +29,15 @@
 #include <actions/TankResign.h>
 #include <actions/TankFired.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
+#include <landscape/MovementMap.h>
 #include <weapons/AccessoryStore.h>
+#include <coms/ComsMessageSender.h>
+#include <coms/ComsPlayerStatusMessage.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
-#include <coms/ComsMessageSender.h>
-#include <coms/ComsPlayerStatusMessage.h>
+#include <common/Defines.h>
 
 ServerShotHolder *ServerShotHolder::instance_ = 0;
 
@@ -217,12 +220,15 @@ void ServerShotHolder::processMoveMessage(ScorchedContext &context,
 
 	int posX = message.getPositionX();
 	int posY = message.getPositionY();
-	if (posX > 0 && posX < context.landscapeMaps->getHMap().getWidth() &&
-		posY > 0 && posY < context.landscapeMaps->getHMap().getWidth())
+	if (posX > 0 && posX < context.landscapeMaps->getDefinitions().getDefn()->landscapewidth &&
+		posY > 0 && posY < context.landscapeMaps->getDefinitions().getDefn()->landscapeheight)
 	{
-		context.landscapeMaps->getMMap().calculateForTank(tank, context);
+		MovementMap mmap(
+			context.landscapeMaps->getDefinitions().getDefn()->landscapewidth,
+			context.landscapeMaps->getDefinitions().getDefn()->landscapeheight);
+		mmap.calculateForTank(tank, context);
 		MovementMap::MovementMapEntry entry =
-			context.landscapeMaps->getMMap().getEntry(posX, posY);
+			mmap.getEntry(posX, posY);
 		if (entry.type == MovementMap::eMovement &&
 			entry.dist < tank->getAccessories().getFuel().getNoFuel())
 		{

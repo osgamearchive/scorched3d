@@ -23,6 +23,7 @@
 #include <dialogs/HelpButtonDialog.h>
 #include <sound/Sound.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLBitmap.h>
 

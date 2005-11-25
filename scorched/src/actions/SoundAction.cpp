@@ -22,6 +22,7 @@
 #include <weapons/WeaponSound.h>
 #include <weapons/AccessoryStore.h>
 #include <sound/SoundUtils.h>
+#include <common/Defines.h>
 
 REGISTER_ACTION_SOURCE(SoundAction);
 

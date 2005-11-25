@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <common/Defines.h>
 #include <engine/ModFileEntry.h>
 #include <engine/ModFiles.h>
 #include <zlib/zlib.h>
@@ -83,7 +84,7 @@ bool ModFileEntry::writeModFile(const char *fileName, const char *modName)
 		*dir = '\0';
 		const char *needdir = getModFile("%s/%s", 
 			modName, fileName);
-		if (!DefinesUtil::dirExists(needdir)) DefinesUtil::dirMake(needdir);
+		if (!s3d_dirExists(needdir)) s3d_dirMake(needdir);
 		*dir = '/';
 		dir++;
 	}

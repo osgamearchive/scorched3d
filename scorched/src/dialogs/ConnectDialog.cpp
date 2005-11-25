@@ -27,6 +27,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <engine/MainLoop.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>

@@ -22,6 +22,8 @@
 #include <string.h>
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/ShadowMap.h>
+#include <landscape/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 
@@ -63,58 +65,36 @@ void ShadowMap::setTexture()
 
 void ShadowMap::addSquare(float sx, float sy, float sw, float opacity)
 {
-	if (!GLStateExtension::glActiveTextureARB() ||
-		GLStateExtension::getNoTexSubImage() ||
-		OptionsDisplay::instance()->getNoShadows()) return;
-
-	shadowCount_++;
-	const GLubyte minNum = 64;
-	int decrement = int(opacity * 125.0f);
-	float halfW = sw / 2.0f;
-
-	float minX = sx - halfW;
-	float minY = sy - halfW;
-	float maxX = sx + halfW;
-	float maxY = sy + halfW;
-	/*minX /= 2.0f;
-	minY /= 2.0f;
-	maxX /= 2.0f;
-	maxY /= 2.0f;*/
-
-	minX = MAX(minX, 0.0f);
-	minY = MAX(minY, 0.0f);
-	maxX = MIN(maxX, size_ - 1.0f);
-	maxY = MIN(maxY, size_ - 1.0f);
-
-	int iSize = int(size_);
-	int xStart = int(minX);
-	int yStart = int(minY);
-	int xWidth = int(maxX - minX);
-	int yWidth = int(maxY - minY);
-	int yInc = size_ - xWidth;
-	if (xWidth <= 0 || yWidth <= 0) return;
-
-	GLubyte *start = &shadowBytes_[(yStart * iSize) + xStart];
-	for (int y=0; y<yWidth; y++, start += yInc)
-	{
-		for (int x=0; x<xWidth; x++, start++)
-		{
-			if (*start > decrement + minNum) (*start) -= (GLubyte) decrement;
-			else (*start = minNum);
-		}
-	}
+	addShadow(sx, sy, sw, opacity, false);
 }
 
 void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 {
-	if (!GLStateExtension::glActiveTextureARB() || 
+	addShadow(sx, sy, sw, opacity, true);
+}
+
+void ShadowMap::addShadow(float mapx, float mapy, float mapw, float opacity, bool circle)
+{
+	if (!GLStateExtension::glActiveTextureARB() ||
 		GLStateExtension::getNoTexSubImage() ||
 		OptionsDisplay::instance()->getNoShadows()) return;
 
+	int mapWidth = 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	int mapHeight = 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+
+	float sx = mapx * size_ / float(mapWidth);
+	float sy = mapy * size_ / float(mapHeight);
+	float sw = mapw * size_ / float(mapWidth); // Make sure the size is scaled
+	if (sx < 0 || sx >= size_ || sy < 0 || sy >= size_)
+	{
+		return;
+	}
+
 	shadowCount_++;
 	const GLubyte minNum = 64;
-
-	int decrement = int(opacity * 125.0f);
+	int decrement = int(opacity * 200.0f);
 	float halfW = sw / 2.0f;
 
 	float minX = sx - halfW;
@@ -133,37 +113,49 @@ void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 	int xWidth = int(maxX - minX);
 	int yWidth = int(maxY - minY);
 	int yInc = size_ - xWidth;
-
 	if (xWidth <= 0 || yWidth <= 0) return;
 
-	static float sintable[100];
-	static bool sintablemade = false;
-	if (!sintablemade)
+	if (circle)
 	{
-		sintablemade = true;
-		float degMult = 0.0314f;
-		for (int i=0; i<100; i++)
+		static float sintable[100];
+		static bool sintablemade = false;
+		if (!sintablemade)
 		{
-			float deg = float(i) * degMult;
-			sintable[i] = sinf(deg);
+			sintablemade = true;
+			float degMult = 0.0314f;
+			for (int i=0; i<100; i++)
+			{
+				float deg = float(i) * degMult;
+				sintable[i] = sinf(deg);
+			}
+		}
+		GLubyte *start = &shadowBytes_[(yStart * iSize) + xStart];
+		for (int y=0; y<yWidth; y++, start += yInc)
+		{
+			int deg = (y * 100) / yWidth;
+			int realXSize = int(sintable[deg] * xWidth);
+			int halfSize = (xWidth - realXSize) / 2;
+
+			start+=halfSize;
+			int x;
+			for (x=0; x<realXSize; x++, start++)
+			{
+				if (*start > decrement + minNum) (*start) -= (GLubyte) (decrement);
+				else (*start = minNum);
+			}
+			start+=xWidth - (halfSize + x);
 		}
 	}
-
-	GLubyte *start = &shadowBytes_[(yStart * iSize) + xStart];
-	for (int y=0; y<yWidth; y++, start += yInc)
+	else
 	{
-		int deg = (y * 100) / yWidth;
-		int realXSize = int(sintable[deg] * xWidth);
-		int halfSize = (xWidth - realXSize) / 2;
-
-		start+=halfSize;
-		int x;
-		for (x=0; x<realXSize; x++, start++)
+		GLubyte *start = &shadowBytes_[(yStart * iSize) + xStart];
+		for (int y=0; y<yWidth; y++, start += yInc)
 		{
-			if (*start > decrement + minNum) (*start) -= (GLubyte) (decrement);
-			else (*start = minNum);
+			for (int x=0; x<xWidth; x++, start++)
+			{
+				if (*start > decrement + minNum) (*start) -= (GLubyte) decrement;
+				else (*start = minNum);
+			}
 		}
-		start+=xWidth - (halfSize + x);
 	}
 }
-

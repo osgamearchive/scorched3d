@@ -32,6 +32,7 @@
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 
 ClientConnectionAcceptHandler *ClientConnectionAcceptHandler::instance_ = 0;
 
@@ -92,24 +93,34 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 
 	// Set the server specific gif for the current server
 	{
-		GLGif map;
+		GLTexture *texture = 0;
 		if (message.getServerGif().getBufferUsed() > 0)
 		{
 			// Use a custom icon
+			GLGif map;
 			map.loadFromBuffer(message.getServerGif());
+
+			// Set the texture
+			texture = new GLTexture;
+			texture->create(map, GL_RGB, false);
 		}
 		else
 		{
 			// Use the default icon
-			map.loadFromFile(getDataFile("data/windows/scorched.gif"));
+			std::string file1(getDataFile("data/windows/scorched.gif"));
+			std::string file2(getDataFile("data/windows/scorcheda.gif"));
+			GLGif map(file1.c_str(), file2.c_str(), false);
+
+			// Set the texture
+			texture = new GLTexture;
+			texture->create(map, GL_RGBA, false);
 		}
-		GLTexture *texture = new GLTexture;
-		texture->create(map, GL_RGB, false);
+		
 		RulesDialog::instance()->addIcon(texture);
 	}
 
 	// Set the mod
-	DefinesUtil::setDataFileMod(
+	setDataFileMod(
 		ScorchedClient::instance()->getOptionsGame().getMod());
 
 	// Load any mod files we currently have for the mod

@@ -25,6 +25,7 @@
 #include <engine/ParticleEmitter.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ParticleEngine.h>
+#include <common/Defines.h>
 
 TankDeadRenderer::TankDeadRenderer(
 	Weapon *weapon,

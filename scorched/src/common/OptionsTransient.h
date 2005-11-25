@@ -39,7 +39,8 @@ public:
 	{
 		wallConcrete = 0,
 		wallBouncy = 1,
-		wallWrapAround = 2
+		wallWrapAround = 2,
+		wallNone = 3
 	};
 	enum WallSide
 	{

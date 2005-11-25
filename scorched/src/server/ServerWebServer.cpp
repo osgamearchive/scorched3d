@@ -18,6 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include <server/ServerWebServer.h>
 #include <server/ServerWebHandler.h>
 #include <server/ServerCommon.h>
@@ -26,9 +29,7 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <common/Defines.h>
 
 ServerWebServer *ServerWebServer::instance_ = 0;
 

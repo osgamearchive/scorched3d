@@ -38,8 +38,8 @@ ExplosionNukeRendererEntry::ExplosionNukeRendererEntry(
 	float width = RAND * 0.5f + 1.0f;
     
 	cloudRotation_ = RAND * 360.0f;
-	rotation_[0] = DefinesUtil::getFastSin(rot) * width;
-	rotation_[1] = DefinesUtil::getFastCos(rot) * width;
+	rotation_[0] = getFastSin(rot) * width;
+	rotation_[1] = getFastCos(rot) * width;
 }
 
 ExplosionNukeRendererEntry::~ExplosionNukeRendererEntry()
@@ -70,7 +70,7 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 {
 	position_[2] -= size_;
 	float height = ScorchedClient::instance()->getLandscapeMaps().
-		getHMap().getHeight((int) position_[0], (int) position_[1]);
+		getGroundMaps().getHeight((int) position_[0], (int) position_[1]);
 	if (position_[2] < height) position_[2] = height;
 
 	if (!positions_)

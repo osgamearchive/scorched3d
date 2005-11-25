@@ -24,8 +24,6 @@
 #include <coms/ComsMessage.h>
 #include <string>
 
-class LandscapeTex;
-class LandscapeDefn;
 class LandscapeDefinition
 {
 public:
@@ -38,9 +36,6 @@ public:
 	const char *getDefn() { return defn_.c_str(); }
 	unsigned int getSeed() { return seed_; }
 
-	LandscapeTex *cachedTex_;
-	LandscapeDefn *cachedDefn_;
-
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
 
@@ -48,9 +43,6 @@ protected:
 	std::string tex_;
 	std::string defn_;
 	unsigned int seed_;
-
-	LandscapeDefinition(const LandscapeDefinition &other);
-	LandscapeDefinition &operator=(LandscapeDefinition &other);
 };
 
 #endif

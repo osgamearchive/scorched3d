@@ -38,6 +38,8 @@
 #include <landscape/DeformTextures.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/Landscape.h>
+#include <landscape/Water.h>
+#include <landscape/Smoke.h>
 #include <sprites/ExplosionNukeRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <math.h>
@@ -72,7 +74,7 @@ void Explosion::init()
 
 	if (!context_->serverMode) 
 	{
-		float height = context_->landscapeMaps->getHMap().getInterpHeight(
+		float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
 			position_[0], position_[1]);
 		float aboveGround = position_[2] - height;
 
@@ -191,11 +193,10 @@ void Explosion::init()
 			}
 		}
 
-		if (weapon_->getCreateMushroom() &&
+		if (weapon_->getCreateMushroomAmount() > 0.0f &&
 			aboveGround < 2.0f)
 		{
-			if (0 != strcmp(weapon_->getParent()->getName(), "Death's Head") || // Ooo nasty
-				RAND < 0.2f)
+			if (RAND <= weapon_->getCreateMushroomAmount())
 			{
 				context_->actionController->addAction(
 					new SpriteAction(
@@ -231,7 +232,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 		Vector newPosition = position_;
 		if (weapon_->getDeformType() == DeformUp)
 		{
-			newPosition[2] = context_->landscapeMaps->getHMap().
+			newPosition[2] = context_->landscapeMaps->getGroundMaps().
 				getInterpHeight(newPosition[0], newPosition[1]);			
 		}
 

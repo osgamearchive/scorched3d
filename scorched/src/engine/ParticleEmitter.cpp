@@ -232,8 +232,8 @@ void ParticleEmitter::emitExplosionRing(int number,
 		Vector velocity;
 		float ang = RAND * 2.0f * 3.14f;
 		float speed = 45.0f;
-		velocity[0] = DefinesUtil::getFastSin(ang) * speed;
-		velocity[1] = DefinesUtil::getFastCos(ang) * speed;
+		velocity[0] = getFastSin(ang) * speed;
+		velocity[1] = getFastCos(ang) * speed;
 		velocity[2] = 0.0f;
 
 		particle->texture_ = &ExplosionTextures::instance()->particleTexture;
@@ -257,8 +257,8 @@ void ParticleEmitter::emitDebris(int number,
 		float direction = RAND * 3.14f * 2.0f;
 		float speed = RAND * 25.0f + 5.0f;
 		float height = RAND * 25.0f + 15.0f;
-		Vector velocity(DefinesUtil::getFastSin(direction) * speed, 
-			DefinesUtil::getFastCos(direction) * speed, height);
+		Vector velocity(getFastSin(direction) * speed, 
+			getFastCos(direction) * speed, height);
 
 		if (RAND > 0.5f)
 		{

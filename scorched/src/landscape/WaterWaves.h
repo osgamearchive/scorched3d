@@ -41,7 +41,7 @@ public:
 	GLTexture &getWavesTexture1() { return wavesTexture1_; }
 	GLTexture &getWavesTexture2() { return wavesTexture2_; }
 	Vector &getWavesColor() { return wavesColor_; }
-	float *getWaveDistance() { return waveDistance_; }
+	float getWaveDistance(int x, int y);
 
 protected:
 	struct WaterWaveEntry 
@@ -54,25 +54,39 @@ protected:
 		Vector ptC;
 		Vector ptD;
 	};
-
-	bool wavePoints_[256 * 256];
-	float waveDistance_[64 * 64];
-	std::vector<WaterWaveEntry> paths1_;
-	std::vector<WaterWaveEntry> paths2_;
-	float totalTime_;
-	unsigned int pointCount_;
-	unsigned int removedCount_;
-
-	void findPoints(float waterHeight, ProgressCounter *counter);
-	bool findNextPath(float waterHeight, WaterMap &wmap, ProgressCounter *counter);
-	void findPath(std::vector<Vector> &points, int x, int y);
-	void constructLines(float waterHeight, WaterMap &wmap, std::vector<Vector> &points);
-	void drawBoxes(float totalTime, Vector &windDir, 
-		std::vector<WaterWaveEntry> &paths);
+	struct WaterWaveContext
+	{
+		int mapWidth;
+		int mapHeight;
+		int pointsWidth;
+		int pointsHeight;
+		int pointsMult;
+		bool *wavePoints;
+		unsigned int pointCount;
+		unsigned int removedCount;
+	};
 
 	GLTexture wavesTexture1_;
 	GLTexture wavesTexture2_;
 	Vector wavesColor_;
+
+	float *waveDistance_;
+	int distanceWidth_, distanceHeight_;
+	int distanceWidthMult_, distanceHeightMult_;
+	std::vector<WaterWaveEntry> paths1_;
+	std::vector<WaterWaveEntry> paths2_;
+	float totalTime_;
+
+	void findPoints(WaterWaveContext *context,
+		float waterHeight, ProgressCounter *counter);
+	bool findNextPath(WaterWaveContext *context,
+		float waterHeight, WaterMap &wmap, ProgressCounter *counter);
+	void findPath(WaterWaveContext *context,
+		std::vector<Vector> &points, int x, int y, ProgressCounter *counter);
+	void constructLines(WaterWaveContext *context,
+		float waterHeight, WaterMap &wmap, std::vector<Vector> &points);
+	void drawBoxes(float totalTime, Vector &windDir, 
+		std::vector<WaterWaveEntry> &paths);
 
 };
 

@@ -257,8 +257,11 @@ void OptionsTransient::newGameWall()
 	case OptionsGame::WallWrapAround:
 		wallType_.setValue((int) wallWrapAround);
 		break;
+	case OptionsGame::WallNone:
+		wallType_.setValue((int) wallNone);
+		break;
 	default:
-		float r = RAND * 3.0f;
+		float r = RAND * 4.0f;
 		wallType_.setValue((int) r);
 		break;
 	}

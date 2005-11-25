@@ -18,12 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdio.h>
 #include <tank/Tank.h>
 #include <tank/TankAdmin.h>
+#include <engine/ScorchedContext.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsGame.h>
-#include <engine/ScorchedContext.h>
-#include <stdio.h>
+#include <common/Defines.h>
 
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
 	state_(sPending), life_(100.0f), tank_(0),
@@ -88,7 +89,7 @@ void TankState::setLife(float life)
 const char *TankState::getStateString()
 {
 	static char string[1024];
-	sprintf(string, "%s - %s %s(%i hp)",
+	snprintf(string, 1024, "%s - %s %s(%i hp)",
 		((readyState_==sReady)?"Rdy":"Wait"),
 		getSmallStateString(),
 		(muted_?"muted ":""),

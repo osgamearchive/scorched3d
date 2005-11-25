@@ -22,6 +22,7 @@
 #include <landscape/LandscapeObjects.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/Landscape.h>
+#include <landscape/Water.h>
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
@@ -39,15 +40,19 @@ bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source)
 {
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
+	int groundMapWidth = ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapWidth();
+	int groundMapHeight = ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapHeight();
 
 	int a = int(cameraPos[0]);
 	int b = int(cameraPos[1]);
-	int x = MAX(0, MIN(a, 255));
-	int y = MAX(0, MIN(b, 255));
+	int x = MAX(0, MIN(a, groundMapWidth));
+	int y = MAX(0, MIN(b, groundMapHeight));
 
 	float distance = 255.0f;
 	LandscapeObjectsGroupEntry *groupEntry =
-		ScorchedClient::instance()->getLandscapeMaps().getObjects().getGroup(
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
 			name.c_str());
 	if (groupEntry)
 	{
@@ -77,14 +82,8 @@ bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source)
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
 
-	int a = int(cameraPos[0]) / 4;
-	int b = int(cameraPos[1]) / 4;
-	int x = MAX(0, MIN(a, 63));
-	int y = MAX(0, MIN(b, 63));
-
 	float distance = Landscape::instance()->getWater().
-		getWaves().getWaveDistance()[x + y * 64];
-	distance += fabsf(float(a - x)) + fabsf(float(b - y));
+		getWaves().getWaveDistance(int(cameraPos[0]), int(cameraPos[1]));
 	distance *= 4.0f * falloff;
 
 	Vector position(0.0f, 0.0f, distance + cameraPos[2]);

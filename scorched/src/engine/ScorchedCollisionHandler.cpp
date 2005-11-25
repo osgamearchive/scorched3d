@@ -24,6 +24,7 @@
 #include <actions/ShotBounce.h>
 #include <actions/WallHit.h>
 #include <actions/ShieldHit.h>
+#include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
@@ -283,31 +284,37 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			OptionsTransient::WallSide wallSide = (OptionsTransient::WallSide)
 				(otherInfo->id - CollisionIdWallLeft);
 
-			context_->actionController->addAction(
-				new WallHit(particlePositionV, wallSide));
-			collisionType = CollisionWall;
-
 			// Choose what to do depending on the wall
 			switch(context_->optionsTransient->getWallType())
 			{
 			case OptionsTransient::wallBouncy:
 				action = ParticleActionBounce;
+
+				context_->actionController->addAction(
+					new WallHit(particlePositionV, wallSide));
+				collisionType = CollisionWall;
 				break;
 			case OptionsTransient::wallWrapAround:
 				{
+					int mapWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
+					int mapHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();
 					Vector currentPosition = shot->getCurrentPosition();
+
+					context_->actionController->addAction(
+						new WallHit(particlePositionV, wallSide));
+					collisionType = CollisionWall;
 					action = ParticleActionNone; // Not strictly true as
 					// we are about to move the particle
 					switch (otherInfo->id)
 					{
 					case CollisionIdWallLeft:
-						currentPosition[0] = 245.0f;
+						currentPosition[0] = float(mapWidth - 10);
 						break;
 					case CollisionIdWallRight:
 						currentPosition[0] = 10.0f;
 						break;
 					case CollisionIdWallTop:
-						currentPosition[1] = 245.0f;
+						currentPosition[1] = float(mapHeight - 10);
 						break;
 					case CollisionIdWallBottom:
 						currentPosition[1] = 10.0f;
@@ -319,7 +326,13 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 					action = ParticalActionWarp;
 				}
 				break;
+			case OptionsTransient::wallNone:
+				action = ParticleActionNone;
+				break;
 			default:
+				context_->actionController->addAction(
+					new WallHit(particlePositionV, wallSide));
+				collisionType = CollisionWall;
 				action = ParticleActionFinished;
 				break;
 			}
@@ -494,6 +507,16 @@ void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2,
 	{
 		// Create the contact joints for this collision
 		contact.geom = contacts[i];
-		context_->actionController->getPhysics().addCollision(o1, o2, contact);
+
+		PhysicsEngine &engine =
+			context_->actionController->getPhysics();
+
+		dBodyID b1 = dGeomGetBody(o1);
+		dBodyID b2 = dGeomGetBody(o2);
+		dJointID c = dJointCreateContact(
+			engine.getWorld(),
+			engine.getContactGroup(),
+			&contact);
+		dJointAttach (c,b1,b2);
 	}
 }

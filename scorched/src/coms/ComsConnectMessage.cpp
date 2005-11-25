@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/ComsConnectMessage.h>
+#include <common/Defines.h>
 
 ComsConnectMessage::ComsConnectMessage()
 	: ComsMessage("ComsConnectMessage")
@@ -29,6 +30,11 @@ ComsConnectMessage::ComsConnectMessage()
 ComsConnectMessage::~ComsConnectMessage()
 {
 
+}
+
+void ComsConnectMessage::setNoPlayers(unsigned int players)
+{
+	char buf[10]; snprintf(buf, 10, "%i", players); setValue("numplayers", buf);
 }
 
 bool ComsConnectMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
@@ -57,6 +63,12 @@ bool ComsConnectMessage::readMessage(NetBufferReader &reader)
 
 		if (!reader.getFromBuffer(name)) return false;
 		if (!reader.getFromBuffer(value)) return false;
+
+		// Validate the user strings
+		if (strlen(value.c_str()) > 50)
+		{
+			((char *)value.c_str())[50] = '\0';
+		}
 
 		values_[name] = value;
 	}

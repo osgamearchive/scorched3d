@@ -51,13 +51,6 @@ namespace GLBitmapModifier
 							int destBitmapScaleSize,
 							ProgressCounter *counter = 0);
 
-	void addWavesToBitmap(HeightMap &hMap,
-							GLBitmap &destBitmap,
-							float waterHeight,
-							float offSet,
-							Vector &color,
-							ProgressCounter *counter = 0);
-
 	void addWaterToBitmap(HeightMap &hMap,
 							GLBitmap &destBitmap,
 							GLBitmap &waterBitmap,

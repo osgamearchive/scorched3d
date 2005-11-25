@@ -45,16 +45,24 @@ public:
 		Vector normal;
 	} *heights_;
 
-	WaterMap(int width, int squareWidth);
+	WaterMap();
 	virtual ~WaterMap();
 
 	void draw();
 	void simulate(float frameTime);
 	void addWave(int posX, int posY, float height);
+	void generate(int width, int height, 
+		int startX, int startY,
+		int mapMult, int squareWidth);
 
 	WaterEntry &getNearestWaterPoint(Vector &point);
-	int getWidth() { return width_; }
-	float getWidthMult() { return widthMult_; }
+	int getMapWidth() { return mapWidth_; }
+	int getMapHeight() { return mapHeight_; }
+	int getMapWidthMult() { return mapWidthMult_; }
+	int getMapHeightMult() { return mapHeightMult_; }
+	int getStartX() { return (int) startX_; }
+	int getStartY() { return (int) startY_; }
+
 	bool &getDrawNormals() { return drawNormals_; }
 	bool &getDrawVisiblePoints() { return drawVisiblePoints_; }
 	GLTextureBase *&getWaterTexture() { return waterTexture_; }
@@ -63,10 +71,11 @@ public:
 	void reset();
 
 protected:
-	int width_;
-	int squareSize_;
-	int noVisiblesWidth_;
-	float widthMult_;
+	float startX_, startY_;
+	int mapWidth_, mapHeight_;
+	int mapWidthMult_, mapHeightMult_;
+	int visibilitySquareSize_;
+	int noVisiblesWidth_, noVisiblesHeight_;
 	WaterMapSurround surround_;
 	struct VisibleEntry
 	{
@@ -79,7 +88,7 @@ protected:
 	GLTextureBase *waterTexture_;
 	GLTexture waterDetail_;
 
-	WaterEntry &getEntry(int i, int j) { return heights_[i + j * width_]; }
+	WaterEntry &getEntry(int i, int j) { return heights_[i + j * mapWidth_]; }
 	void generateSplash();
 	void calculateRipples();
 	void drawWater();

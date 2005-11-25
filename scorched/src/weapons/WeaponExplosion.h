@@ -42,7 +42,7 @@ public:
 	Explosion::DeformType getDeformType() { return deformType_; }
 	float getHurtAmount() { return hurtAmount_; }
 	bool getCreateDebris() { return createDebris_; }
-	bool getCreateMushroom() { return createMushroom_; }
+	float getCreateMushroomAmount() { return createMushroomAmount_; }
 	bool getCreateSplash() { return createSplash_; }
 	bool getWindAffected() { return windAffected_; }
 	bool getOnlyHurtShield() { return onlyHurtShield_; }
@@ -66,7 +66,7 @@ protected:
 	bool windAffected_;
 	bool multiColored_;
 	bool createDebris_;
-	bool createMushroom_;
+	float createMushroomAmount_;
 	bool createSplash_;
 	bool onlyHurtShield_;
 	bool animate_;

@@ -21,74 +21,14 @@
 #ifndef __DEFINES__
 #define __DEFINES__
 
-#include <stdarg.h>
-
 #ifndef _WIN32
 #include "porting.h"
 #endif
 
-#define PI 3.14159f
-#define TWOPI 6.28318f
-#define HALFPI 1.570795f
-
-// This is defined as a fn, so I can
-// A) Change it without recompiling everything
-// B) Put break points in the fn
-// C) Don't put windows headers in everything
-extern void dialogAssert(const char *lineText, const int line, const char *file);
-#define DIALOG_ASSERT(x) if(!(x)) dialogAssert(#x, __LINE__, __FILE__);
-
-extern void dialogMessage(const char *header, const char *fmt, ...);
-extern void dialogExit(const char *header, const char *fmt, ...);
-
-extern const char *formatString(const char *format, ...);
-extern const char *formatStringList(const char *format, va_list ap); 
-
-namespace DefinesUtil
-{
-extern float getFastSin(float angle);
-extern float getFastCos(float angle);
-extern char *my_stristr(const char *x, const char *y);
-extern void setSettingsDir(const char *dir);
-extern void setDataFileMod(const char *mod);
-extern const char *getDataFileMod();
-extern void fileDos2Unix(char *file);
-extern bool fileExists(const char *file);
-extern bool dirExists(const char *file);
-extern bool dirMake(const char *file);
-};
-
-extern bool checkDataFile(const char *file, ...);
-extern const char *getDataFile(const char *file, ...);
-extern const char *getDocFile(const char *file, ...);
-extern const char *getLogFile(const char *file, ...);
-extern const char *getSettingsFile(const char *file, ...);
-extern const char *getHomeFile(const char *file, ...);
-extern const char *getSaveFile(const char *file, ...);
-extern const char *getModFile(const char *file, ...);
-extern const char *getGlobalModFile(const char *file, ...);
-
-#define RAND ((float) rand() / (float) RAND_MAX)
-#define MAX(x,y) ((x)>(y)?(x):(y))
-#define MIN(x,y) ((x)<(y)?(x):(y))
-
-#ifdef NO_FLOAT_MATH
-
-#define sinf(x) ((float)sin(x))
-#define cosf(x) ((float)cos(x))
-#ifndef __DARWIN__
-#define fabsf(x) ((float)fabs(x))
-#endif
-#define sqrtf(x) ((float)sqrt(x))
-#define acosf(x) ((float)acos(x))
-#define atan2f(x,y) ((float)atan2(x,y))
-#define powf(x,y) ((float)pow(x,y))
-#define floorf(x) ((float)floor(x))
-
-#endif // NO_FLOAT_MATH
-
-extern unsigned int ScorchedPort;
-extern char *ScorchedVersion;
-extern char *ScorchedProtocolVersion;
+#include <common/DefinesString.h>
+#include <common/DefinesAssert.h>
+#include <common/DefinesMath.h>
+#include <common/DefinesScorched.h>
+#include <common/DefinesFile.h>
 
 #endif // __DEFINES__

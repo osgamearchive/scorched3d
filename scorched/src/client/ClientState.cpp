@@ -28,7 +28,6 @@
 #include <client/ShotCountDown.h>
 #include <client/SoftwareMouse.h>
 #include <client/MessageDisplay.h>
-#include <client/ClientReadyState.h>
 #include <client/ClientShotState.h>
 #include <client/ClientWaitState.h>
 #include <client/ClientNewGameState.h>
@@ -65,8 +64,6 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
 	gameState.addStateLoop(state, 
-		MainCamera::instance(), FrameTimer::instance());
-	gameState.addStateLoop(state, 
 		MainCamera::instance(), &TankRenderer::instance()->render3D);
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), Landscape::instance());
@@ -78,6 +75,8 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		MainCamera::instance(), &MainCamera::instance()->precipitation_);
 	gameState.addStateLoop(state, 
 		Main2DCamera::instance(), &TankRenderer::instance()->render2D);
+	gameState.addStateLoop(state, 
+		MainCamera::instance(), FrameTimer::instance());
 	if (!network)
 	{
 		gameState.addStateLoop(state, 
@@ -153,17 +152,6 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateNewGame, 
 		StimWait, StateWait);
 
-	// StateReady
-	addStandardComponents(gameState, StateReady, network);
-	gameState.addStateEntry(StateReady,
-		ClientReadyState::instance());
-	gameState.addStateStimulus(StateReady, 
-		StimGameStopped, StateWait);
-	gameState.addStateStimulus(StateReady, 
-		StimDisconnected, StateConnect);
-	gameState.addStateStimulus(StateReady, 
-		StimWait, StateWait);
-
 	// StateWait
 	addStandardComponents(gameState, StateWait, network);
 	gameState.addStateLoop(StateWait,
@@ -172,8 +160,6 @@ void ClientState::setupGameState(bool network)
 		TankAIHumanCtrl::instance());
 	gameState.addStateEntry(StateWait,
 		ClientWaitState::instance());
-	gameState.addStateStimulus(StateWait, 
-		StimReady, StateReady);
 	gameState.addStateStimulus(StateWait, 
 		StimGameStopped, StateWait);
 	gameState.addStateStimulus(StateWait, 
@@ -240,14 +226,14 @@ void ClientState::setupGameState(bool network)
 		TankAIHumanCtrl::instance());
 	gameState.addStateEntry(StateShot,
 		ClientShotState::instance());
+	gameState.addStateStimulus(StateShot,
+		ClientShotState::instance(), StateWait);
 	gameState.addStateStimulus(StateShot, 
 		StimDisconnected, StateConnect);
 	gameState.addStateStimulus(StateShot, 
 		StimWait, StateWait);
 	gameState.addStateStimulus(StateShot, 
 		StimGameStopped, StateWait);
-	gameState.addStateStimulus(StateShot, 
-		ClientShotState::instance(), StateReady);
 
 	// StateScore
 	addStandardComponents(gameState, StateScore, network);

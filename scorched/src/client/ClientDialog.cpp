@@ -28,6 +28,7 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Gamma.h>
+#include <common/Defines.h>
 #include <cgext/CGLoader.h>
 #include <stdio.h>
 #include <time.h>

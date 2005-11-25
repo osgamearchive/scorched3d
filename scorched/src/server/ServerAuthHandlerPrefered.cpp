@@ -21,6 +21,7 @@
 #include <server/ServerAuthHandlerPrefered.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <wx/filefn.h>
@@ -101,7 +102,7 @@ bool ServerAuthHandlerPrefered::load()
 	const char *filename = 
 		getSettingsFile("preferedplayers-%i.xml", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!::DefinesUtil::fileExists(filename)) return true;
+	if (!::s3d_fileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
 	if (fileTime == lastReadTime_) return true;

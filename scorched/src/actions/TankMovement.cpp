@@ -25,8 +25,11 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
+#include <landscape/MovementMap.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <sound/Sound.h>
 
 static const int NoMovementTransitions = 4;
@@ -82,10 +85,13 @@ void TankMovement::init()
 	// Lower 32 bits = y position
 	// Upper 32 bits = x positions
 	std::list<unsigned int> positions;
-	context_->landscapeMaps->getMMap().calculateForTank(tank, *context_, true);
+	MovementMap mmap(
+		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
+		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight);
+	mmap.calculateForTank(tank, *context_, true);
 	
 	MovementMap::MovementMapEntry entry =
-		context_->landscapeMaps->getMMap().getEntry(positionX_, positionY_);
+		mmap.getEntry(positionX_, positionY_);
 	if (entry.type == MovementMap::eMovement)
 	{
 		// Add the end (destination) point to the list of points for the tank
@@ -101,7 +107,7 @@ void TankMovement::init()
 			unsigned int x = pt >> 16;
 			unsigned int y = pt & 0xffff;
 			positions.push_front(pt);
-			entry = context_->landscapeMaps->getMMap().getEntry(x, y);
+			entry = mmap.getEntry(x, y);
 		}
 	}
 	
@@ -118,18 +124,13 @@ void TankMovement::init()
 		{
 			unsigned int secpt = (*itor);
 
-			float firstx = float(fistpt >> 16);
-			float firsty = float(fistpt & 0xffff);
-			float *firstHeight = 
-				&context_->landscapeMaps->getHMap().getHeightRef(int(firstx), int(firsty));
-			float secx = float(secpt >> 16);
-			float secy = float(secpt & 0xffff);
-			float *secondHeight = 
-				&context_->landscapeMaps->getHMap().getHeightRef(int(secx), int(secy));
-
-			float diffX = secx - firstx;
-			float diffY = secy - firsty;
-			float ang = (atan2f(diffY, diffX) / 3.14f * 180.0f) - 90.0f;
+			int firstx = int(fistpt >> 16);
+			int firsty = int(fistpt & 0xffff);
+			int secx = int(secpt >> 16);
+			int secy = int(secpt & 0xffff);
+			int diffX = secx - firstx;
+			int diffY = secy - firsty;
+			float ang = (atan2f((float) diffY, (float) diffX) / 3.14f * 180.0f) - 90.0f;
 
 			for (int i=0; i<NoMovementTransitions; i++)
 			{
@@ -137,9 +138,10 @@ void TankMovement::init()
 				float currentY = firsty + diffY/float(NoMovementTransitions)*float(i+1);
 				expandedPositions_.push_back(
 					PositionEntry(
+						firstx, firsty, 
+						secx, secy,
 						currentX, currentY, 
-						ang, (i==(NoMovementTransitions-1)),
-						firstHeight, secondHeight));
+						ang, (i==(NoMovementTransitions-1))));
 			}
 		}
 	}
@@ -226,9 +228,12 @@ void TankMovement::moveTank(Tank *tank)
 	float y = expandedPositions_.front().y;
 	float a = expandedPositions_.front().ang;
 	bool useF = expandedPositions_.front().useFuel;
-	float *firstz = expandedPositions_.front().heighta;
-	float *secondz = expandedPositions_.front().heightb;
-	float z = context_->landscapeMaps->getHMap().getInterpHeight(x, y);
+
+	float firstz = context_->landscapeMaps->getGroundMaps().getHeight(
+		expandedPositions_.front().firstX, expandedPositions_.front().firstY);
+	float secondz = context_->landscapeMaps->getGroundMaps().getHeight(
+		expandedPositions_.front().secondX, expandedPositions_.front().secondY);
+	float z = context_->landscapeMaps->getGroundMaps().getInterpHeight(x, y);
 	expandedPositions_.pop_front();
 
 	// Form the new tank position
@@ -236,7 +241,7 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Check we are not trying to climb to high (this may be due
 	// to the landscape changing after we started move)
-	if (*secondz - *firstz > context_->optionsGame->getMaxClimbingDistance())
+	if (secondz - firstz > context_->optionsGame->getMaxClimbingDistance())
 	{
 		expandedPositions_.clear();
 	}

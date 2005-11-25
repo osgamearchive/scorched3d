@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Patch.h: interface for the Patch class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_PATCH_H__0714E972_F796_4BAF_878D_0D0288F10888__INCLUDED_)
 #define AFX_PATCH_H__0714E972_F796_4BAF_878D_0D0288F10888__INCLUDED_
 
@@ -32,7 +27,8 @@
 class Patch  
 {
 public:
-	Patch(HeightMap *map_, int x, int y, int width, int totalWidth);
+	Patch(HeightMap *map, PatchTexCoord *coord, 
+		int x, int y, int width);
 	virtual ~Patch();
 
 	void computeVariance();
@@ -40,11 +36,13 @@ public:
 	void reset();
 	void draw(PatchSide::DrawType side);
 
-	TriNode *getLeftTri();
-	TriNode *getRightTri();
+	TriNode *getLeftTri() { return leftSide_.getTriNode(); }
+	TriNode *getRightTri() { return rightSide_.getTriNode(); }
+	Vector &getMidPoint() { return midPoint_; }
 
 	bool &getForceVariance() { return forceVariance_; }
 	bool &getRecalculate() { return recalculate_; }
+	bool &getVisible() { return visible_; }
 
 	int getX() { return x_; }
 	int getY() { return y_; }
@@ -53,9 +51,10 @@ public:
 protected:
 	bool forceVariance_;
 	bool recalculate_;
+	bool visible_;
 	int x_, y_, width_;
-	HeightMap *map_;
 	PatchSide leftSide_, rightSide_;
+	Vector midPoint_;
 };
 
 #endif // !defined(AFX_PATCH_H__0714E972_F796_4BAF_878D_0D0288F10888__INCLUDED_)

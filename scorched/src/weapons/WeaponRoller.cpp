@@ -79,7 +79,7 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &oldposition, Vector &velocity,
 	unsigned int data)
 {
-	float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		oldposition[0], oldposition[1]);
 
 	// Make sure position is not underground
@@ -99,14 +99,13 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 		// Make a slightly different starting position
 		position[0] += RAND * 2.0f - 1.0f;
 		position[1] += RAND * 2.0f - 1.0f;
-		float minHeight = context.landscapeMaps->getHMap().getInterpHeight(
+		float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 			position[0], position[1]) + 1.0f;
 		if (position[2] < minHeight) position[2] = minHeight;
 				
 		// Check if we have hit the roof (quite litteraly)
-		if (context.landscapeMaps->getRoof())
 		{
-			float maxHeight = context.landscapeMaps->getRMap().getInterpHeight(
+			float maxHeight = context.landscapeMaps->getRoofMaps().getInterpRoofHeight(
 				position[0] / 4.0f, position[1] / 4.0f);
 			if (position[2] > maxHeight - 1.0f)
 			{
@@ -155,8 +154,8 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
 	if (position[0] > 1 && position[1] > 1 &&
-		position[0] < context.landscapeMaps->getHMap().getWidth() - 1 &&
-		position[1] < context.landscapeMaps->getHMap().getWidth() - 1)
+		position[0] < context.landscapeMaps->getGroundMaps().getMapWidth() - 1 &&
+		position[1] < context.landscapeMaps->getGroundMaps().getMapHeight() - 1)
 	{
 		Vector velocity(RAND - 0.5f, RAND - 0.5f, 2.0f * RAND);
 		context.actionController->addAction(

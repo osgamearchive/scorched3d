@@ -155,7 +155,7 @@ bool showServerSDialog()
 	OptionsGame tmpOptions;
 	std::string serverFileSrc = getDataFile("data/server.xml");
 	std::string serverFileDest = getSettingsFile("server.xml");
-	if (DefinesUtil::fileExists(serverFileDest.c_str()))
+	if (s3d_fileExists(serverFileDest.c_str()))
 	{
 		tmpOptions.readOptionsFromFile((char *) serverFileDest.c_str());
 	}

@@ -22,12 +22,15 @@
 #include <tankgraph/TankModelStore.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/ShadowMap.h>
+#include <landscape/Smoke.h>
 #include <landscape/Hemisphere.h>
 #include <tank/TankLib.h>
 #include <actions/TankFalling.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/ModelRenderer.h>
 #include <weapons/Shield.h>
@@ -109,7 +112,7 @@ void TankModelRenderer::draw(bool currentTank)
 	Landscape::instance()->getShadowMap().addCircle(
 		tank_->getPhysics().getTankPosition()[0], 
 		tank_->getPhysics().getTankPosition()[1], 
-		3.0f * modelSize);
+		4.0f * modelSize);
 
 	// Draw the tank model
 	model_->draw(currentTank, 
@@ -158,7 +161,7 @@ void TankModelRenderer::drawSecond()
 
 	Vector &position = tank_->getPhysics().getTankPosition();
 	float height = position[2];
-	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
 		getHeight((int) position[0], (int) position[1]);
 	if (height < groundHeight)
 	{
@@ -473,7 +476,7 @@ void TankModelRenderer::drawArrow()
 
 	Vector &position = tank_->getPhysics().getTankPosition();
 	float height = position[2];
-	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
 		getHeight((int) position[0], (int) position[1]);
 	if (height < groundHeight)
 	{
@@ -528,7 +531,7 @@ void TankModelRenderer::drawLife()
 
 	Vector &position = tank_->getPhysics().getTankPosition();
 	float height = position[2];
-	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getHMap().
+	float groundHeight = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
 		getHeight((int) position[0], (int) position[1]);
 	if (height < groundHeight)
 	{

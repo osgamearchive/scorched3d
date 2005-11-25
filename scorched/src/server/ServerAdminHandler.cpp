@@ -25,6 +25,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
+#include <common/Defines.h>
 #include <coms/ComsAdminMessage.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>

@@ -136,7 +136,7 @@ const char *GLConsoleRuleFn::getValue()
 		break;
 	case GLConsoleRuleTypeNumber:
 		static char buffer[10];
-		sprintf(buffer,"%.2f", user_->getNumberParam(name_.c_str()));
+		snprintf(buffer, 10, "%.2f", user_->getNumberParam(name_.c_str()));
 		value = buffer;
 		break;
 	case GLConsoleRuleTypeString:

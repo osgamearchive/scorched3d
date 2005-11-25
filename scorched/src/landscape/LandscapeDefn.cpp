@@ -86,6 +86,7 @@ bool LandscapeDefnRoofCavern::readXML(XMLNode *node)
 	if (!node->getNamedChild("height", height)) return false;
 	{
 		XMLNode *heightNode;
+		std::string heightmaptype;
 		if (!node->getNamedChild("heightmap", heightNode)) return false;
 		if (!heightNode->getNamedParameter("type", heightmaptype)) return false;
 		if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
@@ -124,8 +125,6 @@ bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
 		landhillsmin, landhillsmax)) return false;
 	if (!parseMinMax(node, "landheight", 
 		landheightmin, landheightmax)) return false;
-	if (!node->getNamedChild("landwidthx", landwidthx)) return false;
-	if (!node->getNamedChild("landwidthy", landwidthy)) return false;
 	if (!parseMinMax(node, "landpeakwidthx", 
 		landpeakwidthxmin, landpeakwidthxmax)) return false;
 	if (!parseMinMax(node, "landpeakwidthy", 
@@ -156,9 +155,12 @@ bool LandscapeDefn::readXML(XMLNode *node)
 	if (!node->getNamedChild("name", name)) return false;
 	if (!node->getNamedChild("minplayers", minplayers)) return false;
 	if (!node->getNamedChild("maxplayers", maxplayers)) return false;
+	if (!node->getNamedChild("landscapewidth", landscapewidth)) return false;
+	if (!node->getNamedChild("landscapeheight", landscapeheight)) return false;
 
 	{
 		XMLNode *startNode;
+		std::string tankstarttype;
 		if (!node->getNamedChild("tankstart", startNode)) return false;
 		if (!startNode->getNamedParameter("type", tankstarttype)) return false;
 		if (!(tankstart = fetchTankStartDefnType(tankstarttype.c_str()))) return false;
@@ -166,6 +168,7 @@ bool LandscapeDefn::readXML(XMLNode *node)
 	}
 	{
 		XMLNode *heightNode;
+		std::string heightmaptype;
 		if (!node->getNamedChild("heightmap", heightNode)) return false;
 		if (!heightNode->getNamedParameter("type", heightmaptype)) return false;
 		if (!(heightmap = fetchHeightMapDefnType(heightmaptype.c_str()))) return false;
@@ -173,6 +176,7 @@ bool LandscapeDefn::readXML(XMLNode *node)
 	}
 	{
 		XMLNode *surroundNode;
+		std::string surroundtype;
 		if (!node->getNamedChild("surround", surroundNode)) return false;
 		if (!surroundNode->getNamedParameter("type", surroundtype)) return false;
 		if (!(surround = fetchSurroundDefnType(surroundtype.c_str()))) return false;
@@ -180,6 +184,7 @@ bool LandscapeDefn::readXML(XMLNode *node)
 	}
 	{
 		XMLNode *roofNode;
+		std::string rooftype;
 		if (!node->getNamedChild("roof", roofNode)) return false;
 		if (!roofNode->getNamedParameter("type", rooftype)) return false;
 		if (!(roof = fetchRoofMapDefnType(rooftype.c_str()))) return false;

@@ -213,7 +213,7 @@ bool NetBufferReader::getFromBuffer(unsigned int &result)
 	return true;
 }
 
-bool NetBufferReader::getFromBuffer(std::string &result)
+bool NetBufferReader::getFromBuffer(std::string &result, bool safe)
 {
 	int i;
 	for (i=0; buffer_[readSize_ + i]; i++);
@@ -222,6 +222,14 @@ bool NetBufferReader::getFromBuffer(std::string &result)
 	char *value = new char[i+1]; // Another one just in case
 	if (getDataFromBuffer(value, i))
 	{
+		if (safe)
+		{
+			for (int j=0; j<i; j++)
+			{
+				if (value[j] == '%') value[j] = ' ';
+			}
+		}
+
 		result = value;
 		delete [] value;
 
@@ -230,14 +238,6 @@ bool NetBufferReader::getFromBuffer(std::string &result)
 
 	delete [] value;
 	return false;
-}
-
-bool NetBufferReader::getFromBuffer(char *result)
-{
-	int i;
-	for (i=0; buffer_[readSize_ + i]; i++);
-	i++;
-	return getDataFromBuffer(result, i);;
 }
 
 bool NetBufferReader::getDataFromBuffer(void *dest, int len)

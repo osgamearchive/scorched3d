@@ -41,7 +41,7 @@ bool ServerBanned::load(bool force)
 	const char *filename = 
 		getSettingsFile("banned-%i.xml", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!DefinesUtil::fileExists(filename)) return true;
+	if (!s3d_fileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
 	if (!force && fileTime == lastReadTime_) return true;

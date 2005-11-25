@@ -24,14 +24,20 @@
 class WaterMapSurround  
 {
 public:
-	WaterMapSurround(int width, int widthMult);
+	WaterMapSurround();
 	virtual ~WaterMapSurround();
 
+	void generate(int mapWidth, int mapHeight,
+		int startX, int startY,
+		int mapWidthMult, int mapHeightMult);
 	void draw();
 
 protected:
-	int width_, widthMult_;
+	float startX_, startY_;
+	int mapWidth_, mapWidthMult_;
+	int mapHeight_, mapHeightMult_;
 	int triangles_;
+	unsigned int listNo_;
 
 	void drawPoint(Vector &start, Vector &diff, 
 		int numberX, int maxX,

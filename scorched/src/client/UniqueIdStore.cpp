@@ -111,7 +111,7 @@ const char *UniqueIdStore::getUniqueId(unsigned int ip)
 	}
 
 	static char buffer[128];
-	sprintf(buffer, "");
+	buffer[0] = '\0';
 	return buffer;
 }
 

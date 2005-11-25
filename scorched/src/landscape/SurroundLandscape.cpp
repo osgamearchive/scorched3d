@@ -51,8 +51,7 @@ void SurroundLandscape::generate()
 void SurroundLandscape::makeNormal(Vector &position, Vector &normal)
 {
 	LandscapeTex &tex =
-		ScorchedClient::instance()->getLandscapeMaps().getTex(
-		ScorchedClient::instance()->getContext());
+		*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 	Vector &ambient = tex.skyambience;
 	Vector &diffuse = tex.skydiffuse;
 	Vector &sunPos = Landscape::instance()->getSky().getSun().getPosition();
@@ -71,23 +70,33 @@ void SurroundLandscape::makeNormal(Vector &position, Vector &normal)
 }
 
 void SurroundLandscape::makeList()
-{	
-	HeightMap &smap = ScorchedClient::instance()->
-		getLandscapeMaps().getSMap();
+{
+	HeightMap &smap = 	
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getSurroundMap();
+	int mapWidth =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	int mapHeight =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+
 	float mult = 16.0f;
+	int stopWidth = 640 / 16;
+	int startWidth = stopWidth + mapWidth / 16;
+	int stopHeight = 640 / 16;
+	int startHeight = stopHeight + mapHeight / 16;
+
 	Vector offset(-640.0f, -640.0f, 0.0f);
-	Vector center(128.0f, 128.0f, 0.0f);
+	Vector center(mapWidth / 2.0f, mapHeight / 2.0f, 0.0f);
 
 	glNewList(list_ = glGenLists(1), GL_COMPILE);
-	for (int j=0; j<96; j++)
+	for (int j=0; j<smap.getMapHeight(); j++)
 	{
 		glBegin(GL_QUAD_STRIP);
-		for (int i=0; i<=96; i++)
+		for (int i=0; i<=smap.getMapWidth(); i++)
 		{
-			if (j>=40 && j<56 && i>40 && i<56)
+			if (j>=stopHeight && j<startHeight && i>stopWidth && i<startWidth)
 			{
-				if (i==41) glEnd();
-				if (i==55) glBegin(GL_QUAD_STRIP);
+				if (i==stopWidth+1) glEnd();
+				if (i==startWidth-1) glBegin(GL_QUAD_STRIP);
 			}
 			else
 			{
@@ -96,7 +105,7 @@ void SurroundLandscape::makeList()
 					(j + 1) * mult + offset[1], 
 					smap.getHeight(i, j + 1) + offset[2]);
 				makeNormal(b, smap.getNormal(i, j + 1));
-				glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);
+				glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);  // Tile the tex every 64 pixels
 				glVertex3fv(b);
 
 				Vector a(
@@ -104,7 +113,7 @@ void SurroundLandscape::makeList()
 					j * mult + offset[1], 
 					smap.getHeight(i, j) + offset[2]);
 				makeNormal(a, smap.getNormal(i, j));
-				glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);
+				glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);  // Tile the tex every 64 pixels
 				glVertex3fv(a);
 
 				tris_ += 2;

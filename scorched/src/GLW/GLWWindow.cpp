@@ -26,6 +26,7 @@
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
+#include <common/Defines.h>
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;

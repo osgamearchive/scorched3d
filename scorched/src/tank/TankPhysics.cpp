@@ -248,13 +248,13 @@ const char *TankPhysics::getRotationString()
 
 	if (OptionsDisplay::instance()->getUseHexidecimal())
 	{
-		sprintf(messageBuffer, "0x%x (0x%x)", 
+		snprintf(messageBuffer, 255, "0x%x (0x%x)", 
 				int(360.0f - getRotationGunXY()),
 				int(rotDiff));
 	}
 	else
 	{
-		sprintf(messageBuffer, "%.1f (%+.1f)", 
+		snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
 				360.0f - getRotationGunXY(),
 				rotDiff);
 	}
@@ -269,13 +269,13 @@ const char *TankPhysics::getElevationString()
 
 	if (OptionsDisplay::instance()->getUseHexidecimal())
 	{
-		sprintf(messageBuffer, "0x%x (0X%x)", 
+		snprintf(messageBuffer, 255, "0x%x (0X%x)", 
 				int(getRotationGunYZ()),
 				int(rotDiff));
 	}
 	else
 	{
-		sprintf(messageBuffer, "%.1f (%+.1f)", 
+		snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
 				getRotationGunYZ(),
 				rotDiff);
 	}
@@ -289,13 +289,13 @@ const char *TankPhysics::getPowerString()
 
 	if (OptionsDisplay::instance()->getUseHexidecimal())
 	{
-		sprintf(messageBuffer, "0X%x (0X%x)", 		
+		snprintf(messageBuffer, 255, "0X%x (0X%x)", 		
 				int(getPower()),
 				int(powDiff));
 	}
 	else
 	{
-		sprintf(messageBuffer, "%.1f (%+.1f)", 		
+		snprintf(messageBuffer, 255, "%.1f (%+.1f)", 		
 				getPower(),
 				powDiff);
 	}

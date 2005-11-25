@@ -18,11 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <time.h>
 #include <server/ServerRegistration.h>
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
-#include <time.h>
+#include <common/Defines.h>
 
 ServerRegistration *ServerRegistration::instance_ = 0;
 
@@ -39,7 +40,8 @@ ServerRegistration::ServerRegistration() :
 	netServer_(new NetServerHTTPProtocolSend)
 {
 	static char buffer[1024];
-	sprintf(buffer, 
+	snprintf(buffer, 
+		1024,
 		"GET %s/servers.php?register=%s&port=%i HTTP/1.0\r\n"
 		"User-Agent: Scorched3D\r\n"
 		"Host: %s\r\n"

@@ -25,6 +25,7 @@
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/utils.h>
@@ -245,7 +246,7 @@ bool SettingsFrame::TransferDataToWindow()
 		for (i=24; i>=0; i--)
 		{
 			char string[20];
-			sprintf(string, "%i", i);
+			snprintf(string, 20, "%i", i);
 
 			if (i > 1)
 			{
@@ -256,17 +257,17 @@ bool SettingsFrame::TransferDataToWindow()
 		}
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->Append(wxT("0"));
 
-		sprintf(buffer, "%i", context_.getNoMinPlayers());
+		snprintf(buffer, 25, "%i", context_.getNoMinPlayers());
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsPlayers::IDC_SERVER_MIN_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players that must be on the server before a game starts.", wxConvUTF8));
 
-		sprintf(buffer, "%i", context_.getNoMaxPlayers());
+		snprintf(buffer, 25, "%i", context_.getNoMaxPlayers());
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsPlayers::IDC_SERVER_MAX_PLAYERS_CTRL->SetToolTip(
 			wxString("The maximum number of players that can be on the server.", wxConvUTF8));
 
-		sprintf(buffer, "%i", context_.getRemoveBotsAtPlayers());
+		snprintf(buffer, 25, "%i", context_.getRemoveBotsAtPlayers());
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsPlayers::IDC_SERVER_REMOVEBOT_PLAYERS_CTRL->SetToolTip(
 			wxString("The number of players to allow before remvoing bots.", wxConvUTF8));
@@ -328,10 +329,10 @@ bool SettingsFrame::TransferDataToWindow()
 		int i;
 		for (i=50; i>=1; i-=1)
 		{	
-			sprintf(buffer, "%i", i);
+			snprintf(buffer, 25, "%i", i);
 			SettingsEco::IDC_BUYONROUND_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
-		sprintf(buffer, "%i", context_.getBuyOnRound());
+		snprintf(buffer, 25, "%i", context_.getBuyOnRound());
 		SettingsEco::IDC_BUYONROUND_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_BUYONROUND_CTRL->SetToolTip(
 			wxString("Players will be allowed to buy more weapons on this round.", wxConvUTF8));
@@ -346,17 +347,17 @@ bool SettingsFrame::TransferDataToWindow()
 		// Money per hit
 		for (i=2000; i>=0; i-=50)
 		{	
-			sprintf(buffer, "%i", i);
+			snprintf(buffer, 25, "%i", i);
 			SettingsEco::IDC_MONEYPERHIT_CTRL->Append(wxString(buffer, wxConvUTF8));
 			SettingsEco::IDC_MONEYPERKILL_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
-		sprintf(buffer, "%i", context_.getMoneyWonPerHitPoint());
+		snprintf(buffer, 25, "%i", context_.getMoneyWonPerHitPoint());
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYPERHIT_CTRL->SetToolTip(
 			wxString("The money awarded for HITTING another tank.\n"
 				"This is multiplied by the weapons arms level\n"
 					 "and health points removed (if switched on).", wxConvUTF8));
-		sprintf(buffer, "%i", context_.getMoneyWonPerKillPoint());
+		snprintf(buffer, 25, "%i", context_.getMoneyWonPerKillPoint());
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYPERKILL_CTRL->SetToolTip(
 			wxString("The money awarded for KILLING another tank.\n"
@@ -371,20 +372,20 @@ bool SettingsFrame::TransferDataToWindow()
 		// Start Money
 		for (i=250000; i>=0; i-=5000)
 		{	
-			sprintf(buffer, "%i", i);
+			snprintf(buffer, 25, "%i", i);
 			SettingsEco::IDC_STARTMONEY_CTRL->Append(wxString(buffer, wxConvUTF8));
 			SettingsEco::IDC_MONEYPERROUND_CTRL->Append(wxString(buffer, wxConvUTF8));
 			SettingsEco::IDC_MONEYROUND_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
-		sprintf(buffer, "%i", context_.getStartMoney());
+		snprintf(buffer, 25, "%i", context_.getStartMoney());
 		SettingsEco::IDC_STARTMONEY_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_STARTMONEY_CTRL->SetToolTip(
 			wxString("The money each tank will start the game with.", wxConvUTF8));
-		sprintf(buffer, "%i", context_.getMoneyWonForRound());
+		snprintf(buffer, 25, "%i", context_.getMoneyWonForRound());
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYPERROUND_CTRL->SetToolTip(
 			wxString("The money awarded to the last tank surviving a round.", wxConvUTF8));
-		sprintf(buffer, "%i", context_.getMoneyPerRound());
+		snprintf(buffer, 25, "%i", context_.getMoneyPerRound());
 		SettingsEco::IDC_MONEYROUND_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_MONEYROUND_CTRL->SetToolTip(
 			wxString("The money given to every tank at the end of each round.", wxConvUTF8));
@@ -392,10 +393,10 @@ bool SettingsFrame::TransferDataToWindow()
 		// Interest
 		for (i=100; i>=0; i-=5)
 		{	
-			sprintf(buffer, "%i", i);
+			snprintf(buffer, 25, "%i", i);
 			SettingsEco::IDC_INTEREST_CTRL->Append(wxString(buffer, wxConvUTF8));
 		}
-		sprintf(buffer, "%i", context_.getInterest());
+		snprintf(buffer, 25, "%i", context_.getInterest());
 		SettingsEco::IDC_INTEREST_CTRL->SetValue(wxString(buffer, wxConvUTF8));
 		SettingsEco::IDC_INTEREST_CTRL->SetToolTip(
 			wxString("The amount of monetary interest gained at the end of each round.", wxConvUTF8));
@@ -418,7 +419,7 @@ bool SettingsFrame::TransferDataToWindow()
 		for (int i=0; i<=5; i++)
 		{
 			char buffer[25];
-			sprintf(buffer, "Force %i%s", i, ((i==0)?" (No Wind)":""));
+			snprintf(buffer, 25, "Force %i%s", i, ((i==0)?" (No Wind)":""));
 			SettingsEnv::IDC_COMBO_FORCE_CTRL->Append(
 				wxString(buffer, wxConvUTF8), (void *) (i+1));
 		}
@@ -450,6 +451,8 @@ bool SettingsFrame::TransferDataToWindow()
 			(void *) OptionsGame::WallBouncy);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append(wxT("Wrap"), 
 			(void *) OptionsGame::WallWrapAround);
+		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->Append(wxT("None"), 
+			(void *) OptionsGame::WallNone);
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetSelection(
 			context_.getWallType());
 		SettingsEnv::IDC_COMBO_WALLTYPE_CTRL->SetToolTip(
@@ -471,7 +474,7 @@ bool SettingsFrame::TransferDataToWindow()
 		for (int i=0; i<=20; i++)
 		{
 			char buffer[25];
-			sprintf(buffer, "%i", i, i);
+			snprintf(buffer, 25, "%i", i, i);
 			if (i<=10)
 			{
 				SettingsEnv::IDC_COMBO_STARTARMSLEVEL_CTRL->Append(wxString(buffer, wxConvUTF8), (void *) i);
@@ -557,7 +560,7 @@ bool SettingsFrame::TransferDataToWindow()
 		char string[256];
 		for (i=2; i<=4; i++)
 		{
-			sprintf(string, "%i", i);	
+			snprintf(string, 25, "%i", i);	
 			SettingsMain::IDC_TEAMS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_TEAMS_CTRL->SetSelection(
@@ -568,7 +571,7 @@ bool SettingsFrame::TransferDataToWindow()
 		// Rounds combo
 		for (i=1; i<50; i++)
 		{
-			sprintf(string, "%i", i);	
+			snprintf(string, 256, "%i", i);	
 			SettingsMain::IDC_SERVER_ROUNDS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_SERVER_ROUNDS_CTRL->SetSelection(
@@ -579,7 +582,7 @@ bool SettingsFrame::TransferDataToWindow()
 		// Shots combo
 		for (i=0; i<50; i++)
 		{
-			sprintf(string, "%i", i);	
+			snprintf(string, 256, "%i", i);	
 			SettingsMain::IDC_NOSHOTS_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_NOSHOTS_CTRL->SetSelection(
@@ -602,8 +605,8 @@ bool SettingsFrame::TransferDataToWindow()
 		// The waiting time
 		for (i=0; i<=90; i+=5)
 		{
-			sprintf(string, "%i Seconds", i);
-			if (i==0) sprintf(string, "%i (Infinite)", i);	
+			snprintf(string, 256, "%i Seconds", i);
+			if (i==0) snprintf(string, 256, "%i (Infinite)", i);	
 			SettingsMain::IDC_SHOT_TIME_CTRL->Append(wxString(string, wxConvUTF8));
 			SettingsMain::IDC_BUYING_TIME_CTRL->Append(wxString(string, wxConvUTF8));
 			SettingsMain::IDC_START_TIME_CTRL->Append(wxString(string, wxConvUTF8));
@@ -639,8 +642,8 @@ bool SettingsFrame::TransferDataToWindow()
 		// Download speed
 		for (i=0; i<=250000; i+=5000)
 		{
-			sprintf(string, "%i bytes/sec", i);
-			if (i==0) sprintf(string, "%i (No download)", i);	
+			snprintf(string, 256, "%i bytes/sec", i);
+			if (i==0) snprintf(string, 256, "%i (No download)", i);	
 			SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->Append(wxString(string, wxConvUTF8));
 		}
 		SettingsMain::IDC_DOWNLOAD_SPEED_CTRL->SetSelection(
@@ -847,15 +850,15 @@ bool SettingsFrame::TransferDataFromWindow()
 bool showSettingsDialog(bool server, OptionsGame &context)
 {
 	// Set the current mod
-	std::string modValue = DefinesUtil::getDataFileMod();
-	DefinesUtil::setDataFileMod(context.getMod());
+	std::string modValue = getDataFileMod();
+	setDataFileMod(context.getMod());
 
 	// Show the settings
 	SettingsFrame frame(server, context);
 	bool result = (frame.ShowModal() == wxID_OK);
 
 	// Reset the mod
-	DefinesUtil::setDataFileMod(modValue.c_str());
+	setDataFileMod(modValue.c_str());
 
 	return result;
 }

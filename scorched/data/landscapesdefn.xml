@@ -4,6 +4,8 @@
 		<name>oldstyle</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -14,13 +16,11 @@
 		<heightmap type="generate">
 			<mask></mask>
 			<landhills>
-				<min>60</min><max>80</max>
+				<min>120</min><max>180</max>
 			</landhills>
 			<landheight>
 				<min>30</min><max>40</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -38,6 +38,8 @@
    		<name>lowlands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -53,8 +55,6 @@
 			<landheight>
 				<min>10</min><max>20</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -72,6 +72,8 @@
    		<name>hilly</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -87,8 +89,6 @@
 			<landheight>
 				<min>50</min><max>70</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -106,6 +106,8 @@
    		<name>ridge</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -121,8 +123,6 @@
 			<landheight>
 				<min>30</min><max>40</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -140,6 +140,8 @@
    		<name>islands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -148,8 +150,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -176,8 +176,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>20</max>
 			</landpeakwidthx>
@@ -195,6 +193,8 @@
    		<name>halfed</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -210,8 +210,6 @@
 			<landheight>
 				<min>30</min><max>40</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -229,6 +227,8 @@
    		<name>valley</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<roof type="sky"></roof>
 		<tankstart type="height">
@@ -244,8 +244,6 @@
 			<landheight>
 				<min>50</min><max>70</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -263,6 +261,8 @@
 		<name>cavern</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
@@ -280,8 +280,6 @@
 				<landheight>
 					<min>40</min><max>70</max>
 				</landheight>
-				<landwidthx>64</landwidthx>
-				<landwidthy>64</landwidthy>
 				<landpeakwidthx>
 					<min>2</min><max>8</max>
 				</landpeakwidthx>
@@ -303,8 +301,6 @@
 			<landheight>
 				<min>50</min><max>70</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>

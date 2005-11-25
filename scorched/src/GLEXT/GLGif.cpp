@@ -29,20 +29,80 @@
 #include <wx/mstream.h>
 
 GLGif::GLGif() :
-	width_(0), height_(0), bits_(0)
+	width_(0), height_(0), bits_(0), alpha_(false)
 {
 
 }
 
 GLGif::GLGif(const char * filename) :
-	bits_(0), width_(0), height_(0)
+	bits_(0), width_(0), height_(0), alpha_(false)
 {
 	loadFromFile(filename);
 }
 
+GLGif::GLGif(const char * filename, const char *alphafilename, bool invert) : 
+	bits_(0), width_(0), height_(0), alpha_(false)
+{
+	GLGif bitmap(filename);
+	GLGif alpha(alphafilename);
+
+	if (bitmap.getBits() && alpha.getBits() && 
+		bitmap.getWidth() == alpha.getWidth() &&
+		bitmap.getHeight() == alpha.getHeight())
+	{
+		createBlank(bitmap.getWidth(), bitmap.getHeight(), true);
+		GLubyte *bbits = bitmap.getBits();
+		GLubyte *abits = alpha.getBits();
+		GLubyte *bits = getBits();
+		for (int y=0; y<bitmap.getHeight(); y++)
+		{
+			for (int x=0; x<bitmap.getWidth(); x++)
+			{
+				bits[0] = bbits[0];
+				bits[1] = bbits[1];
+				bits[2] = bbits[2];
+
+				GLubyte avg = GLubyte(int(abits[0] + abits[1] + abits[2]) / 3);
+				if (invert)
+				{
+					bits[3] = GLubyte(255 - avg);
+				}
+				else
+				{
+					bits[3] = avg;
+				}
+
+				bbits += 3;
+				abits += 3;
+				bits += 4;
+			}
+		}
+	}
+}
+
 GLGif::~GLGif()
 {
+	clear();
+}
+
+void GLGif::clear()
+{
 	delete [] bits_;
+	bits_ = 0;
+	width_ = 0;
+	height_ = 0;
+}
+
+void GLGif::createBlank(int width, int height, bool alpha, unsigned char fill)
+{
+	clear();
+	width_ = width;
+	height_ = height;
+	alpha_ = alpha;
+	int bitsize = getComponents() * width * height;
+
+	bits_ = new GLubyte[bitsize];
+	memset(bits_, fill, bitsize);
 }
 
 bool GLGif::loadFromFile(const char * filename)

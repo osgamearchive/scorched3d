@@ -26,6 +26,7 @@
 #include <client/ClientMain.h>
 #include <engine/MainLoop.h>
 #include <common/Clock.h>
+#include <common/Defines.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLBitmap.h>
 #include <math.h>

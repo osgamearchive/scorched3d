@@ -21,19 +21,16 @@
 #if !defined(__INCLUDE_ServerNextRoundStateh_INCLUDE__)
 #define __INCLUDE_ServerNextRoundStateh_INCLUDE__
 
-#include <server/ServerShotState.h>
+#include <engine/GameStateI.h>
 
 class ServerNextRoundState : 
 	public GameStateI
 {
 public:
-	ServerNextRoundState(ServerShotState *shot);
+	ServerNextRoundState();
 	virtual ~ServerNextRoundState();
 
 	virtual void enterState(const unsigned state);
-
-protected:
-	ServerShotState *shot_;
 
 };
 

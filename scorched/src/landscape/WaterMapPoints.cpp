@@ -25,23 +25,20 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 
-WaterMapPoints::WaterMapPoints(WaterMap &map, int width, int points) :
-	pts_(0), noPts_(0)
+WaterMapPoints::WaterMapPoints()
 {
-	createPoints(map, width, points);
 }
 
 WaterMapPoints::~WaterMapPoints()
 {
-	delete [] pts_;
 }
 
 void WaterMapPoints::draw()
 {
 	GLState currentState(GLState::TEXTURE_OFF);
-	Position *current = pts_;
-	for (int i=0; i<noPts_; i++)
+	for (int i=0; i<(int) pts_.size(); i++)
 	{
+		Position *current = &pts_[i];
 		glPushMatrix();
 			glTranslatef(current->x, current->y, 
 				current->entry->height + 0.6f);
@@ -56,41 +53,45 @@ void WaterMapPoints::draw()
 			case OptionsTransient::wallBouncy:
 				MapPoints::instance()->getBorderModelBounce()->draw();
 				break;
-			default:
+			case OptionsTransient::wallConcrete:
 				MapPoints::instance()->getBorderModelConcrete()->draw();
+				break;
+			default:
 				break;
 			}
 		glPopMatrix();
-		current++;
 	}
 }
 
-void WaterMapPoints::createPoints(WaterMap &map, int width, int points)
+void WaterMapPoints::generate(WaterMap &map, int mapWidth, int mapHeight)
 {
-	noPts_ = points * 4 - 4;
-	pts_ = new Position[noPts_];
-	Position *current = pts_;
+	int pointsWidth = mapWidth / 64; // One point every 64 units
+	int pointsHeight = mapHeight / 64; // One point every 64 units
+
+	pts_.clear();
 	int i;
-	for (i=0; i<points; i++)
+	for (i=0; i<pointsWidth; i++)
 	{
-		float pos = float(width) / float(points-1) * float(i);
+		float pos = float(mapWidth) / float(pointsWidth-1) * float(i);
 
-		findPoint(map, current++, pos, 0.0f);
-		findPoint(map, current++, pos, float(width));
+		findPoint(map, pos, 0.0f);
+		findPoint(map, pos, float(mapHeight));
 	}
-	for (i=1; i<points-1; i++)
+	for (i=1; i<pointsHeight-1; i++)
 	{
-		float pos = float(width) / float(points-1) * float(i);
+		float pos = float(mapHeight) / float(pointsHeight-1) * float(i);
 
-		findPoint(map, current++, 0.0f, pos);
-		findPoint(map, current++, float(width), pos);
+		findPoint(map, 0.0f, pos);
+		findPoint(map, float(mapWidth), pos);
 	}
 }
 
-void WaterMapPoints::findPoint(WaterMap &map, Position *pos, float x, float y)
+void WaterMapPoints::findPoint(WaterMap &map, float x, float y)
 {
+	Position pos;
 	Vector point(x, y);
-	pos->x = x;
-	pos->y = y;
-	pos->entry = &map.getNearestWaterPoint(point);
+	pos.x = x;
+	pos.y = y;
+	pos.entry = &map.getNearestWaterPoint(point);
+	pts_.push_back(pos);
 }

@@ -20,6 +20,7 @@
 
 #include <client/ClientShotState.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientWaitState.h>
 #include <engine/ActionController.h>
 #include <engine/ViewPoints.h>
 #include <common/OptionsParam.h>
@@ -57,7 +58,9 @@ bool ClientShotState::acceptStateChange(const unsigned state,
 	// All the shots have finished, move to finished
 	if (ScorchedClient::instance()->getActionController().noReferencedActions())
 	{
-		return true;
+		// Tell the server we have finished processing the landscape
+		ClientWaitState::instance()->sendClientReady();
+		return false;
 	}
 
 	return false;

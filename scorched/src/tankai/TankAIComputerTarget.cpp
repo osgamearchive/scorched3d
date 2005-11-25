@@ -22,6 +22,7 @@
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
 #include <server/ScorchedServer.h>
+#include <common/DefinesMath.h>
 
 TankAIComputerTarget::TankAIComputerTarget()
 {

@@ -20,15 +20,16 @@
 
 #include <landscape/HeightMapLoader.h>
 #include <common/RandomGenerator.h>
+#include <common/Defines.h>
 
 void HeightMapLoader::saveTerrain(HeightMap &hmap, GLBitmap &bitmap)
 {
-	bitmap.createBlank(hmap.getWidth(), hmap.getWidth());
+	bitmap.createBlank(hmap.getMapWidth(), hmap.getMapHeight());
 
 	GLubyte *bits = bitmap.getBits();
-	for (int y=0; y<hmap.getWidth(); y++)
+	for (int y=0; y<hmap.getMapHeight(); y++)
 	{
-		for (int x=0; x<hmap.getWidth(); x++)
+		for (int x=0; x<hmap.getMapWidth(); x++)
 		{
 			float height = hmap.getHeight(x,y);
 			bits[0] = GLubyte(height);
@@ -48,17 +49,17 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 	if (counter) counter->setNewOp("Loading Landscape");
 	hmap.reset();
 
-	GLfloat dhx =  (GLfloat) bitmap.getWidth() / (GLfloat) (hmap.getWidth()+1);
-	GLfloat dhy =  (GLfloat) bitmap.getHeight() / (GLfloat) (hmap.getWidth()+1);
+	GLfloat dhx =  (GLfloat) bitmap.getWidth() / (GLfloat) (hmap.getMapWidth()+1);
+	GLfloat dhy =  (GLfloat) bitmap.getHeight() / (GLfloat) (hmap.getMapHeight()+1);
 	GLubyte *bits = bitmap.getBits();
 
 	int bwidth = 3 * bitmap.getWidth();
 	bwidth   = (bwidth + 3) & ~3;
 
 	GLfloat hy = 0.0f;
-	for (int by=0; by<=hmap.getWidth(); by++, hy+=dhy)
+	for (int by=0; by<=hmap.getMapHeight(); by++, hy+=dhy)
 	{
-		if (counter) counter->setNewPercentage((100.0f * float(by)) / float(hmap.getWidth()));
+		if (counter) counter->setNewPercentage((100.0f * float(by)) / float(hmap.getMapHeight()));
 
 		int ihy = (int) hy;
 		int ihy2 = ihy + 1; if (ihy2 >= bitmap.getHeight()) ihy2--;
@@ -66,7 +67,7 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 		GLubyte *posYB = (GLubyte*) (bitmap.getBits() + (ihy2 * bwidth));
 
 		GLfloat hx = 0.0f;
-		for (int bx=0; bx<=hmap.getWidth(); bx++, hx+=dhx)
+		for (int bx=0; bx<=hmap.getMapWidth(); bx++, hx+=dhx)
 		{
 			int ihx = (int) hx;
 			int ihx2 = ihx + 1; if (ihx2 >= bitmap.getWidth()) ihx2--;
@@ -90,19 +91,18 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 	}
 
 	if (levelSurround) HeightMapModifier::levelSurround(hmap);
-	hmap.generateNormals(0, hmap.getWidth(), 0, hmap.getWidth(), counter);
+	hmap.generateNormals(0, hmap.getMapWidth(), 0, hmap.getMapHeight(), counter);
 }
 
 bool HeightMapLoader::generateTerrain(
 	unsigned int seed,
 	LandscapeDefnType *defn,
-	const char *defnType,
 	HeightMap &hmap,
 	bool &levelSurround,
 	ProgressCounter *counter)
 {
 	// Do we generate or load the landscape
-	if (0 == strcmp(defnType, "file"))
+	if (defn->getType() == LandscapeDefnType::eHeightMapFile)
 	{
 		LandscapeDefnHeightMapFile *file = 
 			(LandscapeDefnHeightMapFile *) defn;
@@ -127,7 +127,7 @@ bool HeightMapLoader::generateTerrain(
 				counter);
 		}
 	}
-	else if (0 == strcmp(defnType, "generate"))
+	else if (defn->getType() == LandscapeDefnType::eHeightMapGenerate)
 	{
 		LandscapeDefnHeightMapGenerate *generate = 
 			(LandscapeDefnHeightMapGenerate *) defn;
@@ -149,8 +149,8 @@ bool HeightMapLoader::generateTerrain(
 	else 
 	{
 		dialogMessage("HeightMapLoader", 
-			"Error: Unkown generate type %s",
-			defnType);
+			"Error: Unkown generate type %i",
+			defn->getType());
 		return false;
 	}
 	

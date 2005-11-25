@@ -21,32 +21,28 @@
 #ifndef _comsLevelMessage_h
 #define _comsLevelMessage_h
 
-#include <coms/ComsMessage.h>
+#include <coms/ComsHeightMapMessage.h>
+#include <landscape/LandscapeDefinition.h>
 
-class LandscapeDefinition;
 class ComsLevelMessage : public ComsMessage
 {
 public:
 	ComsLevelMessage();
 	virtual ~ComsLevelMessage();
 
-	void createMessage(LandscapeDefinition *hdef,
-					   unsigned char *levelData,
-					   unsigned int levelLen);
+	void createMessage(LandscapeDefinition &hdef);
 
 	// Accessors
-	LandscapeDefinition *getHmapDefn();
-	unsigned char *getLevelData() { return levelData_; }
-	unsigned int getLevelLen() { return levelLen_; }
+	LandscapeDefinition &getGroundMapsDefn();
+	ComsHeightMapMessage &getHeightMap() { return hMap_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	LandscapeDefinition *hdef_;
-	unsigned char *levelData_;
-	unsigned int levelLen_;
+	LandscapeDefinition hdef_;
+	ComsHeightMapMessage hMap_;
 
 private:
 	ComsLevelMessage(const ComsLevelMessage &);

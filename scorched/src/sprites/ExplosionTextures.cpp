@@ -22,6 +22,7 @@
 #include <XML/XMLFile.h>
 #include <sprites/ExplosionTextures.h>
 #include <landscape/Landscape.h>
+#include <common/Defines.h>
 #include <stdio.h>
 
 ExplosionTextures *ExplosionTextures::instance_ = 0;
@@ -194,7 +195,7 @@ GLBitmap &ExplosionTextures::getScorchBitmap(const char *name)
 		}
 
 		const char *fileName = getDataFile(name);
-		if (DefinesUtil::fileExists(fileName))
+		if (s3d_fileExists(fileName))
 		{
 			GLBitmap *map = new GLBitmap;
 			if (map->loadFromFile(fileName, false))

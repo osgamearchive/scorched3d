@@ -20,7 +20,7 @@
 
 #include <client/ClientLastChanceHandler.h>
 #include <client/ScorchedClient.h>
-#include <client/ClientReadyState.h>
+#include <client/ClientWaitState.h>
 #include <client/ClientState.h>
 #include <common/Logger.h>
 #include <engine/ActionController.h>
@@ -64,7 +64,6 @@ bool ClientLastChanceHandler::processMessage(unsigned int destinationId,
 	ScorchedClient::instance()->getActionController().clear(true);
 
 	// Move to the correct state
-	ClientReadyState::instance()->enterState(ClientState::StateReady);
-
+	ClientWaitState::instance()->sendClientReady();
 	return true;
 }

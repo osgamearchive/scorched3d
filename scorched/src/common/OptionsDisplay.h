@@ -46,6 +46,18 @@ public:
 	void setTankModelSize(int value) { tankModelSize_.setValue(value); }
 	const char *getTankModelSizeToolTip() { return tankModelSize_.getDescription(); }
 
+	int getRoamVarianceRamp() { return roamVarianceRamp_.getValue(); }
+	void setRoamVarianceRamp(int value) { roamVarianceRamp_.setValue(value); }
+	const char *getRoamVarianceRampToolTip() { return roamVarianceRamp_.getDescription(); }
+
+	int getRoamVarianceStart() { return roamVarianceStart_.getValue(); }
+	void setRoamVarianceStart(int value) { roamVarianceStart_.setValue(value); }
+	const char *getRoamVarianceStartToolTip() { return roamVarianceStart_.getDescription(); }
+
+	int getRoamVarianceTank() { return roamVarianceTank_.getValue(); }
+	void setRoamVarianceTank(int value) { roamVarianceTank_.setValue(value); }
+	const char *getRoamVarianceTankToolTip() { return roamVarianceTank_.getDescription(); }
+
 	int getNumberExplosionParts() { return explosionParts_.getValue(); }
 	void setNumberExplosionParts(int value) { explosionParts_.setValue(value); }
 	const char *getNumberExplosionPartsToolTip() { return explosionParts_.getDescription(); }
@@ -437,6 +449,9 @@ protected:
 	OptionEntryBool drawPlayerHealth_;
 	OptionEntryBool noTrees_;
 	OptionEntryBool noDepthSorting_;
+	OptionEntryInt roamVarianceStart_;
+	OptionEntryInt roamVarianceRamp_;
+	OptionEntryInt roamVarianceTank_;
 	OptionEntryBool noROAM_;
 	OptionEntryBool noBOIDS_;
 	OptionEntryBool noTessalation_;

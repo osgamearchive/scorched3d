@@ -22,6 +22,7 @@
 #include <client/ServerBrowserServerList.h>
 #include <client/ScorchedClient.h>
 #include <common/Logger.h>
+#include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <time.h>
 
@@ -54,7 +55,7 @@ ServerBrowserServerList::ServerBrowserServerList() :
 {
 	// Create the message that will be sent to the master server
 	static char buffer[1024];
-	sprintf(buffer, 
+	snprintf(buffer, 1024,
 		"GET %s/servers.php HTTP/1.0\r\n"
 		"User-Agent: Scorched3D\r\n"
 		"Host: %s\r\n"
@@ -158,7 +159,8 @@ bool ServerBrowserServerList::fetchLANList()
 			// Get the name attribute
 			ServerBrowserEntry newEntry;
 			char hostName[256];
-			sprintf(hostName,
+			snprintf(hostName,
+					256,
 					"%s:%i",
 					NetInterface::getIpName(addr),
 					(port - 1));

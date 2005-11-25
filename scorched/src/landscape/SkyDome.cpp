@@ -32,6 +32,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/FileList.h>
+#include <common/Defines.h>
 
 SkyDome::SkyDome() : 
 	xy_(0.0f), 
@@ -79,6 +80,7 @@ void SkyDome::simulate(float frameTime)
 
 void SkyDome::draw()
 {
+	Vector &pos = MainCamera::instance()->getCamera().getCurrentPos();
 	// Cannot use a display list for heimisphere as we change texture
 	// coordinates all the time
 	glPushMatrix();
@@ -89,8 +91,7 @@ void SkyDome::draw()
 				Landscape::instance()->getSky().getSun().getPosition().Normalize();
 
 			LandscapeTex &tex =
-				ScorchedClient::instance()->getLandscapeMaps().getTex(
-				ScorchedClient::instance()->getContext());
+				*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 			Hemisphere::createColored(layer1_, 
 				1800, 250, 30, 30,
 				Landscape::instance()->getSkyColorsMap(),
@@ -98,8 +99,8 @@ void SkyDome::draw()
 				tex.skytimeofday);
 		}
 
-		// Translate scene so it is in the middle of the land
-		glTranslatef(128.0f, 128.0f, -15.0f);
+		// Translate scene so it is in the middle of the camera
+		glTranslatef(pos[0], pos[1], -15.0f);
 		GLState mainState2(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 		drawLayer(layer1_, 1800, 250, 0.0f, 0.0f, true);
 	glPopMatrix();
@@ -112,7 +113,7 @@ void SkyDome::draw()
 	{
 		glPushMatrix();
 			// Translate scene so it is in the middle of the land
-			glTranslatef(128.0f, 128.0f, -15.0f);
+			glTranslatef(pos[0], pos[1], -15.0f);
 
 			// Rotate the scene so clouds blow the correct way
 			float slowXY = xy_ / 1.5f;

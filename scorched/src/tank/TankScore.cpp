@@ -18,9 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/OptionsGame.h>
 #include <tank/TankScore.h>
 #include <engine/ScorchedContext.h>
+#include <common/OptionsGame.h>
+#include <common/Defines.h>
 
 // The maximum amount of money allowed by anyone
 // Range limited to 0 -> maxMoney
@@ -62,7 +63,7 @@ const char *TankScore::getTimePlayedString()
 	div_t playedTimeHr = div((int) seconds, 3600);
 	div_t playedTime = div(playedTimeHr.rem, 60);
 
-	sprintf(timestr, "%i:%i:%i secs",
+	snprintf(timestr, 256, "%i:%i:%i secs",
 		playedTimeHr.quot,
 		playedTime.quot,
 		playedTime.rem);
@@ -73,7 +74,7 @@ const char *TankScore::getTimePlayedString()
 const char *TankScore::getScoreString()
 {
 	static char score[256];
-	sprintf(score, "%i/%i/%i K/W/$", 
+	snprintf(score, 256, "%i/%i/%i K/W/$", 
 		getKills(),
 		getWins(),
 		getMoney());

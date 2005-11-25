@@ -22,7 +22,6 @@
 #define __INCLUDE_OptionsHomeDirh_INCLUDE__
 
 #include <common/OptionEntry.h>
-#include <common/Defines.h>
 
 class OptionsHomeDir
 {

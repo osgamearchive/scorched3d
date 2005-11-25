@@ -21,6 +21,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <common/Vector.h>
 #include <landscape/Hemisphere.h>
+#include <common/Defines.h>
 #include <vector>
 #include <math.h>
 

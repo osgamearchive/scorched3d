@@ -24,6 +24,7 @@
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefinition.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
 #include <engine/ParticleEmitter.h>
@@ -32,8 +33,6 @@
 
 Water::Water() :
 	height_(25.0f),
-	wMap_(64, 8), 
-	wMapPoints_(wMap_, 256, 4),
 	resetWater_(false), resetWaterTimer_(0.0f), 
 	waterOn_(false)
 {
@@ -50,9 +49,9 @@ void Water::draw()
 
 	glPushMatrix();
 		glTranslatef(0.0f, 0.0f, height_);
-		wWaves_.draw();
 		wMapPoints_.draw();
 		wMap_.draw();
+		wWaves_.draw();
 	glPopMatrix();
 }
 
@@ -63,7 +62,7 @@ void Water::reset()
 
 	WaterMapModifier::addWaterVisibility(
 		height_,
-		ScorchedClient::instance()->getLandscapeMaps().getHMap(), 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
 		wMap_);
 	wMap_.reset();
 }
@@ -86,7 +85,8 @@ void Water::simulate(float frameTime)
 			// Re-calculate the water (what water is visible)
 			WaterMapModifier::addWaterVisibility(
 				height_,
-				ScorchedClient::instance()->getLandscapeMaps().getHMap(), wMap_);
+				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
+				wMap_);
 
 			// Re-calculate the landsacpe on the wind indicator
 			resetWater_ = false;
@@ -99,18 +99,32 @@ void Water::simulate(float frameTime)
 
 void Water::generate(ProgressCounter *counter)
 {
-	LandscapeTex &tex = ScorchedClient::instance()->getLandscapeMaps().getTex(
-		ScorchedClient::instance()->getContext());
-	if (0 == strcmp(tex.bordertype.c_str(), "none"))
+	LandscapeTex &tex = *ScorchedClient::instance()->getLandscapeMaps().
+		getDefinitions().getTex();
+	if (tex.border->getType() == LandscapeTexType::eNone)
 	{
 		waterOn_ = false;
 	}
-	else if (0 == strcmp(tex.bordertype.c_str(), "water"))
+	else if (tex.border->getType() == LandscapeTexType::eWater)
 	{
 		LandscapeTexBorderWater *water = 
 			(LandscapeTexBorderWater *) tex.border;
 
 		height_ = water->height;
+		int mapWidth = 
+			ScorchedClient::instance()->getLandscapeMaps().
+				getGroundMaps().getMapWidth();
+		int mapHeight = 
+			ScorchedClient::instance()->getLandscapeMaps().
+				getGroundMaps().getMapHeight();
+		int waterMapWidth = mapWidth / 4;
+		int waterMapHeight = mapHeight / 4;
+
+		wMap_.generate(waterMapWidth, waterMapHeight, // Number of square in map
+			-waterMapWidth, -waterMapHeight, // Starting coord of lower left square
+			6, // How large each square is
+			8); // How large each visiblity square is
+		wMapPoints_.generate(wMap_, mapWidth, mapHeight);
 
 		waterOn_ = true;
 		const char *wave1 = getDataFile(
@@ -163,18 +177,23 @@ void Water::generate(ProgressCounter *counter)
 	else
 	{
 		dialogExit("Landscape",
-			"Failed to find border type %s",
-			tex.bordertype.c_str());
+			"Failed to find border type %i",
+			tex.border->getType());
 	}
 }
 
 void Water::addWave(Vector position, float height)
 {
-	float mult = wMap_.getWidthMult();
-	int posX = int((position[0] + 64.0f) / mult);
-	int posY = int((position[1] + 64.0f) / mult);
+	float widthMult = (float) wMap_.getMapWidthMult();
+	float heightMult = (float) wMap_.getMapHeightMult();
+	int posX = int((position[0] - wMap_.getStartX()) / widthMult);
+	int posY = int((position[1] - wMap_.getStartY()) / heightMult);
 
-	wMap_.addWave(posX, posY, height);
+	if (posX >= 0 && posX < wMap_.getMapWidth() &&
+		posY >= 0 && posY < wMap_.getMapHeight())
+	{
+		wMap_.addWave(posX, posY, height);
+	}
 }
 
 bool Water::explosion(Vector position, float size)

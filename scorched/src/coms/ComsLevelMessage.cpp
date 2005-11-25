@@ -23,59 +23,36 @@
 #include <common/Defines.h>
 
 ComsLevelMessage::ComsLevelMessage() :
-	ComsMessage("ComsLevelMessage"),
-	levelData_(0), levelLen_(0), hdef_(0)
+	ComsMessage("ComsLevelMessage")
 {
 
 }
 
 ComsLevelMessage::~ComsLevelMessage()
 {
-	delete [] levelData_;
-	levelData_ = 0;
-	hdef_ = 0;
 }
 
-void ComsLevelMessage::createMessage(LandscapeDefinition *hdef,
-									 unsigned char *levelData,
-									 unsigned int levelLen)
+void ComsLevelMessage::createMessage(LandscapeDefinition &hdef)
 {
 	hdef_ = hdef;
-	levelData_ = levelData;
-	levelLen_ = levelLen;
 }
 
-LandscapeDefinition *ComsLevelMessage::getHmapDefn()
+LandscapeDefinition &ComsLevelMessage::getGroundMapsDefn()
 { 
-	LandscapeDefinition *result = hdef_;
-	hdef_ = 0;
-	return result; 
+	return hdef_; 
 }
 
 bool ComsLevelMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
-	DIALOG_ASSERT(levelData_ && levelLen_ && hdef_);
-
-	if (!hdef_->writeMessage(buffer)) return false;
-	buffer.addToBuffer(levelLen_);
-	if (levelLen_ && levelData_)
-	{
-		buffer.addDataToBuffer(levelData_, levelLen_);
-	}
+	if (!hdef_.writeMessage(buffer)) return false;
+	if (!hMap_.writeMessage(buffer, destinationId)) return false;
 	return true;
 }
 
 bool ComsLevelMessage::readMessage(NetBufferReader &reader)
 {
-	hdef_ = new LandscapeDefinition;
-	if (!hdef_->readMessage(reader)) return false;
-	if (!reader.getFromBuffer(levelLen_)) return false;
-	if (levelLen_)
-	{
-		if (levelData_) delete [] levelData_;
-		levelData_ = new unsigned char[levelLen_];
-		if (!reader.getDataFromBuffer(levelData_, levelLen_)) return false;
-	}
+	if (!hdef_.readMessage(reader)) return false;
+	if (!hMap_.readMessage(reader)) return false;
 	return true;
 }
 

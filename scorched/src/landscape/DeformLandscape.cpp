@@ -31,14 +31,14 @@ bool DeformLandscape::deformLandscape(
 	Vector &pos, float radius, bool down, DeformPoints &map,
 	unsigned int playerId)
 {
-	HeightMap &hmap = context.landscapeMaps->getHMap();
+	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 
 	bool hits = false;
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
 
 	float lowestHeight = 
-		context.landscapeMaps->getTex(context).lowestlandheight;
+		context.landscapeMaps->getDefinitions().getTex()->lowestlandheight;
 
 	// Take out or add a chunk into the landsacpe
 	for (int x=-iradius; x<=iradius; x++)
@@ -48,8 +48,8 @@ bool DeformLandscape::deformLandscape(
 			map.map[x+iradius][y+iradius] = -1.0f;
 
 			Vector newPos(pos[0] + x, pos[1] + y, pos[2]);
-			if (((int) newPos[0] >=0) && (newPos[0] < hmap.getWidth()) &&
-				((int) newPos[1] >=0) && (newPos[1] < hmap.getWidth()))
+			if (((int) newPos[0] >=0) && (newPos[0] < hmap.getMapWidth()) &&
+				((int) newPos[1] >=0) && (newPos[1] < hmap.getMapHeight()))
 			{
 				float dist = (pos - newPos).Magnitude();
 
@@ -100,8 +100,8 @@ bool DeformLandscape::deformLandscape(
 						if (currentHeight < newPos[2] + explosionDepth)
 						{
 							if (newPos[0] == 0 || newPos[1] == 0 ||
-								newPos[0] == hmap.getWidth() -1 ||
-								newPos[1] == hmap.getWidth() -1)
+								newPos[0] == hmap.getMapWidth() -1 ||
+								newPos[1] == hmap.getMapHeight() -1)
 							{
 							}
 							else
@@ -123,8 +123,8 @@ bool DeformLandscape::deformLandscape(
 	{
 		// Recalcualte the normals
 		hmap.generateNormals(
-			MAX(0, (int) (pos[0] - radius - 3.0f)), MIN(hmap.getWidth(), (int) (pos[0] + radius + 4.0f)),
-			MAX(0, (int) (pos[1] - radius - 3.0f)), MIN(hmap.getWidth(), (int) (pos[1] + radius + 3.0f)));
+			MAX(0, (int) (pos[0] - radius - 3.0f)), MIN(hmap.getMapWidth(), (int) (pos[0] + radius + 4.0f)),
+			MAX(0, (int) (pos[1] - radius - 3.0f)), MIN(hmap.getMapHeight(), (int) (pos[1] + radius + 3.0f)));
 
 		// Kill the trees/objects
 		{
@@ -136,7 +136,7 @@ bool DeformLandscape::deformLandscape(
 					{
 						unsigned int x = (unsigned int) (pos[0] + i);
 						unsigned int y = (unsigned int) (pos[1] + j);
-						context.landscapeMaps->getObjects().removeObjects(
+						context.landscapeMaps->getGroundMaps().getObjects().removeObjects(
 							context, x, y, 1, playerId);
 					}
 				}
@@ -150,7 +150,7 @@ bool DeformLandscape::deformLandscape(
 void DeformLandscape::flattenArea(
 	ScorchedContext &context, Vector &tankPos, unsigned int playerId)
 {
-	HeightMap &hmap = context.landscapeMaps->getHMap();
+	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 	int posX = (int) tankPos[0];
 	int posY = (int) tankPos[1];
 
@@ -162,8 +162,8 @@ void DeformLandscape::flattenArea(
 			int ix = posX + x;
 			int iy = posY + y;
 			if (ix >= 0 && iy >= 0 &&
-				ix < hmap.getWidth() &&
-				iy < hmap.getWidth())
+				ix < hmap.getMapWidth() &&
+				iy < hmap.getMapHeight())
 			{
 				hmap.setHeight(ix, iy, tankPos[2]);
 			}
@@ -172,14 +172,15 @@ void DeformLandscape::flattenArea(
 
 	// Recalcualte the normals
 	hmap.generateNormals(
-		MAX(0, posX - 3), MIN(hmap.getWidth(), posX + 3),
-		MAX(0, posY - 3), MIN(hmap.getWidth(), posY + 3));
+		MAX(0, posX - 3), MIN(hmap.getMapWidth(), posX + 3),
+		MAX(0, posY - 3), MIN(hmap.getMapHeight(), posY + 3));
 
 	// Remove objects
 	{
 		unsigned int x = (unsigned int) (posX);
 		unsigned int y = (unsigned int) (posY);
-		context.landscapeMaps->getObjects().removeObjects(
+		context.landscapeMaps->getGroundMaps().getObjects().removeObjects(
 			context, x, y, 3, playerId);
 	}
 }
+

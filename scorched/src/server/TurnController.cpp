@@ -18,13 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <vector>
+#include <set>
 #include <server/TurnController.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
 #include <common/OptionsTransient.h>
-#include <vector>
-#include <set>
+#include <common/Defines.h>
 
 TurnController *TurnController::instance_ = 0;
 

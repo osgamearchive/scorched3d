@@ -30,6 +30,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankContainer.h>
 #include <common/Vector.h>
+#include <common/Defines.h>
 #include <math.h>
 
 REGISTER_CLASS_SOURCE(GLWPlanView);
@@ -95,45 +96,85 @@ void GLWPlanView::drawMap()
 
 void GLWPlanView::drawTexture()
 {
+	// Draw the camera pointer
+	float mapWidth = (float) ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapWidth();
+	float mapHeight = (float) ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapHeight();
+	float maxWidth = MAX(mapWidth, mapHeight);
+
+	Vector lowerLeft(0.0f, 0.0f, 0.0f);
+	Vector upperRight(mapWidth / maxWidth, mapHeight / maxWidth, 0.0f);
+	lowerLeft[0] += (maxWidth - mapWidth) / maxWidth / 2.0f;
+	upperRight[0] += (maxWidth - mapWidth) / maxWidth / 2.0f;
+	lowerLeft[1] += (maxWidth - mapHeight) / maxWidth / 2.0f;
+	upperRight[1] += (maxWidth - mapHeight) / maxWidth / 2.0f;
+
 	// Draw the square of land
 	glColor3f(1.0f, 1.0f, 1.0f);
 	Landscape::instance()->getPlanATexture().draw(true);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1.0f, 0.0f);
-		glVertex2f(1.0f, 0.0f);
+		glVertex2f(upperRight[0], lowerLeft[1]);
 		glTexCoord2f(1.0f, 1.0f);
-		glVertex2f(1.0f, 1.0f);
+		glVertex2f(upperRight[0], upperRight[1]);
 		glTexCoord2f(0.0f, 1.0f);
-		glVertex2f(0.0f, 1.0f);
+		glVertex2f(lowerLeft[0], upperRight[1]);
 		glTexCoord2f(0.0f, 0.0f);
-		glVertex2f(0.0f, 0.0f);
+		glVertex2f(lowerLeft[0], lowerLeft[1]);
 	glEnd();
 }
 
 void GLWPlanView::drawCameraPointer()
 {
 	// Draw the camera pointer
-	glColor3f(0.9f, 0.9f, 1.0f);
 	float mapWidth = (float) ScorchedClient::instance()->
-		getLandscapeMaps().getHMap().getWidth();
+		getLandscapeMaps().getGroundMaps().getMapWidth();
+	float mapHeight = (float) ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapHeight();
+	float maxWidth = MAX(mapWidth, mapHeight);
+
+	Vector mid(0.5f, 0.5f);
+	// Get camera positions
 	Vector currentPos = MainCamera::instance()->
 		getCamera().getCurrentPos();
 	Vector lookAt = MainCamera::instance()->
 		getCamera().getLookAt();
-	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
 
-	static Vector mid(128.0f, 128.0f);
+	// Force camera positions between 0 and 1
+	currentPos[0] += (maxWidth - mapWidth) / 2.0f;
+	currentPos[1] += (maxWidth - mapHeight) / 2.0f;
+	currentPos[0] /= maxWidth;
+	currentPos[1] /= maxWidth;
 	currentPos[2] = 0.0f;
-	float dist = (currentPos - mid).Magnitude();
-	if (dist > 128.0f)
-	{
-		currentPos -= mid;
-		currentPos *= 128.0f / dist;
-		currentPos += mid;
-	}
-	currentPos /= mapWidth;
+	lookAt[0] += (maxWidth - mapWidth) / 2.0f;
+	lookAt[1] += (maxWidth - mapHeight) / 2.0f;
+	lookAt[0] /= maxWidth;
+	lookAt[1] /= maxWidth;
+	lookAt[2] = 0.0f;
 
+	// Make sure currentpos doesn't go outside boundries
+	currentPos -= mid;
+	float distance = currentPos.Magnitude();
+	if (distance > 0.5f)
+	{
+		currentPos *= 0.5f / distance;
+	}
+	currentPos += mid;
+
+	// Make sure look at doesn't go outside boundries
+	lookAt -= mid;
+	distance = lookAt.Magnitude();
+	if (distance > 0.48f)
+	{
+		lookAt *= 0.48f / distance;
+	}
+	lookAt += mid;
+
+	// Draw direction arrows
+	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
 	Vector directionPerp = direction.get2DPerp();
+	glColor3f(0.9f, 0.9f, 1.0f);
 	glBegin(GL_LINES);
 		glVertex3fv(currentPos);
 		glVertex3fv(currentPos - (direction + directionPerp) / 2.0f);
@@ -142,6 +183,15 @@ void GLWPlanView::drawCameraPointer()
 		glVertex3fv(currentPos - (direction + directionPerp) / 4.0f);
 		glVertex3fv(currentPos - (direction - directionPerp) / 4.0f);
 	glEnd();
+
+	glEnable(GL_LINE_STIPPLE);
+	glLineStipple(1, 0x0F0F);
+	glColor3f(0.7f, 0.7f, 0.7f);
+	glBegin(GL_LINES);
+		glVertex3fv(currentPos);
+		glVertex3fv(lookAt);
+	glEnd();
+	glDisable(GL_LINE_STIPPLE);
 }
 
 void GLWPlanView::drawTanks()
@@ -151,8 +201,12 @@ void GLWPlanView::drawTanks()
 	if (currentTanks.empty()) return;
 
 	// Draw the current tank bolder
-	float width = (float) 
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+	float mapWidth = (float) 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	float mapHeight = (float) 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+	float maxWidth = MAX(mapWidth, mapHeight);
+
 	Vector position;
 	drawCurrentTank();
 
@@ -172,7 +226,9 @@ void GLWPlanView::drawTanks()
 		{
 			glColor3fv(tank->getColor());
 			position = tank->getPhysics().getTankPosition();
-			position /= width;
+			position[0] += (maxWidth - mapWidth) / 2.0f;
+			position[1] += (maxWidth - mapHeight) / 2.0f;
+			position /= maxWidth;
 
 			if ((flash_ && tank->getState().getReadyState() == TankState::SNotReady) ||
 				tank->getState().getReadyState() == TankState::sReady)
@@ -207,13 +263,18 @@ void GLWPlanView::drawCurrentTank()
 		ClientState::StatePlaying) return;
 
 	// Calculate the constants
-	float width = (float) 
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+	float mapWidth = (float) 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	float mapHeight = (float) 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+	float maxWidth = MAX(mapWidth, mapHeight);
 	float scale = animationTime_ / maxAnimationTime;
 	Vector position;
 	float rot = -currentTank->getPhysics().getRotationGunXY() * degToRad;
 	position = currentTank->getPhysics().getTankPosition();
-	position /= width;
+	position[0] += (maxWidth - mapWidth) / 2.0f;
+	position[1] += (maxWidth - mapHeight) / 2.0f;
+	position /= maxWidth;
 
 	// Build a display list to build the ring
 	// only once
@@ -245,8 +306,8 @@ void GLWPlanView::drawCurrentTank()
 		glBegin(GL_LINES);
 			glVertex2f(0.0f, 0.0f);
 			glVertex2f(
-				DefinesUtil::getFastSin(rot) * 0.07f, 
-				DefinesUtil::getFastCos(rot) * 0.07f);
+				getFastSin(rot) * 0.07f, 
+				getFastCos(rot) * 0.07f);
 		glEnd();
 	glPopMatrix();
 
@@ -259,13 +320,18 @@ void GLWPlanView::mouseDown(float x, float y, bool &skipRest)
 		skipRest = true;
 
 		float mapWidth = (float) ScorchedClient::instance()->
-			getLandscapeMaps().getHMap().getWidth();
+			getLandscapeMaps().getGroundMaps().getMapWidth();
+		float mapHeight = (float) ScorchedClient::instance()->
+			getLandscapeMaps().getGroundMaps().getMapHeight();
+		float maxWidth = MAX(mapWidth, mapHeight);
 
-		float mapX = ((x - x_) / w_) * mapWidth;
-		float mapY = ((y - y_) / h_) * mapWidth;
+		float mapX = ((x - x_) / w_) * maxWidth;
+		float mapY = ((y - y_) / h_) * maxWidth;
+		mapX -= (maxWidth - mapWidth) / 2.0f;
+		mapY -= (maxWidth - mapHeight) / 2.0f;
 
 		Vector lookAt(mapX, mapY, ScorchedClient::instance()->
-			getLandscapeMaps().getHMap().getInterpHeight(mapX, mapY) + 5.0f);
+			getLandscapeMaps().getGroundMaps().getInterpHeight(mapX, mapY) + 5.0f);
 		MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
 		MainCamera::instance()->getCamera().setLookAt(lookAt);
 	}

@@ -22,7 +22,6 @@
 #define __INCLUDE_OptionsGameh_INCLUDE__
 
 #include <common/OptionEntry.h>
-#include <common/Defines.h>
 
 class OptionsGame
 {
@@ -64,7 +63,8 @@ public:
 		WallRandom = 0,
 		WallConcrete = 1,
 		WallBouncy = 2,
-		WallWrapAround = 3
+		WallWrapAround = 3,
+		WallNone = 4
 	};
 	enum WeapScale
 	{
@@ -397,7 +397,7 @@ protected:
 	OptionEntryInt gravity_;
 	OptionEntryInt minFallingDistance_;
 	OptionEntryInt maxClimbingDistance_;
-	OptionEntryBoundedInt scoreType_;
+	OptionEntryEnum scoreType_;
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;
 	OptionEntryBoundedInt numberOfMinPlayers_;
@@ -415,18 +415,18 @@ protected:
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryInt idleKickTime_;
 	OptionEntryInt idleShotKickTime_;
-	OptionEntryBoundedInt teamBallance_;
+	OptionEntryEnum teamBallance_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool depricatedAutoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
-	OptionEntryBoundedInt resignMode_;
-	OptionEntryBoundedInt movementRestriction_;
-	OptionEntryBoundedInt turnType_;
-	OptionEntryBoundedInt windForce_;
-	OptionEntryBoundedInt windType_;
-	OptionEntryBoundedInt wallType_;
-	OptionEntryBoundedInt weapScale_;
+	OptionEntryEnum resignMode_;
+	OptionEntryEnum movementRestriction_;
+	OptionEntryEnum turnType_;
+	OptionEntryEnum windForce_;
+	OptionEntryEnum windType_;
+	OptionEntryEnum wallType_;
+	OptionEntryEnum weapScale_;
 	OptionEntryInt modDownloadSpeed_;
 	OptionEntryInt maxAvatarSize_;
 	OptionEntryString mod_;

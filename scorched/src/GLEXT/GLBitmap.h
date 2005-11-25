@@ -86,32 +86,32 @@ public:
 	For RGB mode bitmaps 3 bytes are used per pixel.
 	For RGBA mode bitmaps 4 bytes are used per pixel.
 	*/
-	virtual GLubyte *getBits();
+	virtual GLubyte *getBits() { return newbits_; }
 	/** 
 	Get the width of this bitmap in pixels.
 	*/
-	virtual int getWidth();
+	virtual int getWidth() { return width_; }
 	/**
 	Get the height of this bitmap in pixels.
 	*/
-	virtual int getHeight();
+	virtual int getHeight() { return height_; }
 	
 	/**
 	Returns the byte alignment for this bitmap (always 4).
 	*/
-	virtual int getAlignment();
+	virtual int getAlignment() { return 4; }
 	/**
 	Returns the number of components being used to store
 	the bitmap information.
 	For RGB mode bitmaps 3 bytes/components are used per pixel.
 	For RGBA mode bitmaps 4 bytes/components are used per pixel.	
 	*/
-	virtual int getComponents();
+	virtual int getComponents() { return alpha_?4:3; }
 	/**
 	Returns the alpha mode of the bitmap.
 	True = RGBA, False = RGB.
 	*/
-	virtual bool getAlpha();
+	virtual bool getAlpha() { return alpha_; }
 
 	/** 
 	Multiplies the alpha channel my the given multiplier

@@ -18,22 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __DEFINESFILE__
+#define __DEFINESFILE__
 
-#if !defined(__INCLUDE_ComsNextRoundMessageh_INCLUDE__)
-#define __INCLUDE_ComsNextRoundMessageh_INCLUDE__
+extern void s3d_fileDos2Unix(char *file);
+extern bool s3d_fileExists(const char *file);
+extern bool s3d_dirExists(const char *file);
+extern bool s3d_dirMake(const char *file);
+extern char *s3d_getHomeDir();
 
-#include <coms/ComsMessage.h>
-
-class ComsNextRoundMessage : public ComsMessage
-{
-public:
-	ComsNextRoundMessage();
-	virtual ~ComsNextRoundMessage();
-
-	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
-    virtual bool readMessage(NetBufferReader &reader);
-};
-
-
-#endif
+#endif // __DEFINESFILE__

@@ -29,7 +29,6 @@
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #undef __MACH__
 #include <SDL/SDL_opengl.h>
-#include <common/Defines.h>
 
 class GLState  
 {

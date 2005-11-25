@@ -22,6 +22,7 @@
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
+#include <common/Defines.h>
 #include <SDL/SDL.h>
 
 GLBitmap::GLBitmap() :
@@ -37,7 +38,7 @@ GLBitmap::GLBitmap(int startWidth, int startHeight, bool alpha, unsigned char fi
 }
 
 GLBitmap::GLBitmap(const char * filename, bool alpha) :
-	newbits_(NULL), width_(0), height_(0), alpha_(alpha)
+	newbits_(0), width_(0), height_(0), alpha_(alpha)
 {
 	if (filename)
 	{
@@ -46,7 +47,7 @@ GLBitmap::GLBitmap(const char * filename, bool alpha) :
 }
 
 GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert) : 
-	newbits_(NULL), width_(0), height_(0), alpha_(false)
+	newbits_(0), width_(0), height_(0), alpha_(false)
 {
 	GLBitmap bitmap(filename, false);
 	GLBitmap alpha(alphafilename, false);
@@ -134,36 +135,6 @@ void GLBitmap::clear()
 	newbits_ = 0;
 	width_ = 0;
 	height_ = 0;
-}
-
-GLubyte *GLBitmap::getBits()
-{
-	return newbits_;
-}
-
-int GLBitmap::getWidth()
-{
-	return width_;
-}
-
-int GLBitmap::getHeight()
-{
-	return height_;
-}
-
-int GLBitmap::getAlignment()
-{
-	return 4;
-}
-
-int GLBitmap::getComponents()
-{
-	return alpha_?4:3;
-}
-
-bool GLBitmap::getAlpha()
-{
-	return alpha_;
 }
 
 void GLBitmap::alphaMult(float mult)

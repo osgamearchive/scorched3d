@@ -22,6 +22,7 @@
 #include <GLEXT/GLState.h>
 #include <XML/XMLParser.h>
 #include <3dsparse/ModelStore.h>
+#include <common/Defines.h>
 
 REGISTER_CLASS_SOURCE(GLWIcon);
 

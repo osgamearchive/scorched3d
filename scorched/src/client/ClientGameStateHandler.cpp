@@ -23,6 +23,8 @@
 #include <tank/TankContainer.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/Landscape.h>
+#include <landscape/PatchGrid.h>
 #include <coms/ComsGameStateMessage.h>
 #include <common/OptionsTransient.h>
 #include <common/Vector.h>
@@ -58,14 +60,8 @@ bool ClientGameStateHandler::processMessage(unsigned int id,
 	ComsGameStateMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// Set the wind for the next shot
-	Vector wind;
-	if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
-	{
-		wind = ScorchedClient::instance()->getOptionsTransient().getWindDirection();
-		wind *= ScorchedClient::instance()->getOptionsTransient().getWindSpeed() / 2.0f;
-	}
-	ScorchedClient::instance()->getActionController().getPhysics().setWind(wind);
+	// Set the physics for the next shot
+	ScorchedClient::instance()->getActionController().getPhysics().generate();
 
 	// Make sure no objects are around the tanks
 	std::map<unsigned int, Tank *> &tanks = 
@@ -79,7 +75,7 @@ bool ClientGameStateHandler::processMessage(unsigned int id,
 		if (tank->getState().getState() == TankState::sNormal &&
 			!tank->getState().getSpectator())
 		{
-			ScorchedClient::instance()->getLandscapeMaps().getObjects().
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().
 				removeObjects(
 				ScorchedClient::instance()->getContext(),
 					(unsigned int ) tank->getPhysics().getTankPosition()[0],
@@ -88,6 +84,7 @@ bool ClientGameStateHandler::processMessage(unsigned int id,
 					0);
 		}
 	}
+	Landscape::instance()->getPatchGrid().recalculateTankVariance();
 
 	return true;
 }

@@ -27,16 +27,20 @@
 
 void HeightMapModifier::levelSurround(HeightMap &hmap)
 {
-	for (int x=0; x<=hmap.getWidth(); x++)
-	{
-		hmap.setHeight(0, x, 0.0f);
-		hmap.setHeight(1, x, 0.0f);
-		hmap.setHeight(hmap.getWidth(), x, 0.0f);
-		hmap.setHeight(hmap.getWidth()-1, x, 0.0f);
+	for (int x=0; x<=hmap.getMapWidth(); x++)
+	{	
 		hmap.setHeight(x, 0, 0.0f);
 		hmap.setHeight(x, 1, 0.0f);
-		hmap.setHeight(x, hmap.getWidth(), 0.0f);
-		hmap.setHeight(x, hmap.getWidth()-1, 0.0f);
+		hmap.setHeight(x, hmap.getMapHeight(), 0.0f);
+		hmap.setHeight(x, hmap.getMapHeight()-1, 0.0f);
+	}
+
+	for (int y=0; y<=hmap.getMapHeight(); y++)
+	{
+		hmap.setHeight(0, y, 0.0f);
+		hmap.setHeight(1, y, 0.0f);
+		hmap.setHeight(hmap.getMapWidth(), y, 0.0f);
+		hmap.setHeight(hmap.getMapWidth()-1, y, 0.0f);
 	}
 }
 
@@ -47,7 +51,7 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 	if (defn.landsmoothing == 0.0f) return;
 	if (counter) counter->setNewOp("Smoothing");
 
-	float *newhMap_ = new float[(hmap.getWidth()+1) * (hmap.getWidth()+1)];
+	float *newhMap_ = new float[(hmap.getMapWidth()+1) * (hmap.getMapHeight()+1)];
 
 	float matrix[5][5];
 	for (int i=0; i<5; i++)
@@ -60,10 +64,10 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 	}
 
 	int x;
-	for (x=0; x<=hmap.getWidth(); x++)
+	for (x=0; x<=hmap.getMapWidth(); x++)
 	{
-		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getWidth()));
-		for (int y=0; y<=hmap.getWidth(); y++)
+		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getMapWidth()));
+		for (int y=0; y<=hmap.getMapHeight(); y++)
 		{
 			// Total is used to catch corner cases
 			float total = 0.0f;
@@ -74,8 +78,8 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 				{
 					int newi = i + x - 2;
 					int newj = j + y - 2;
-					if (newi>=0 && newi <= hmap.getWidth() &&
-						newj>=0 && newj <= hmap.getWidth())
+					if (newi>=0 && newi <= hmap.getMapWidth() &&
+						newj>=0 && newj <= hmap.getMapHeight())
 					{
 						inc += matrix[i][j] * hmap.getHeight(newi, newj);
 						total += matrix[i][j];
@@ -83,14 +87,14 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 				}
 			}
 
-			newhMap_[(hmap.getWidth()+1) * y + x] = inc / total;
+			newhMap_[(hmap.getMapWidth()+1) * y + x] = inc / total;
 		}
 	}
 
 	float *start = newhMap_;
-	for (x=0; x<=hmap.getWidth(); x++)
+	for (int y=0; y<=hmap.getMapHeight(); y++)
 	{
-		for (int y=0; y<=hmap.getWidth(); y++)
+		for (x=0; x<=hmap.getMapWidth(); x++)
 		{
 			hmap.setHeight(x, y, *(start++));
 		}
@@ -109,10 +113,10 @@ void HeightMapModifier::scale(HeightMap &hmap,
 	float min = hmap.getHeight(0,0);
 
 	int x;
-	for (x=0; x<=hmap.getWidth(); x++)
+	for (x=0; x<=hmap.getMapWidth(); x++)
 	{
-		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getWidth()));
-		for (int y=0; y<=hmap.getWidth(); y++)
+		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getMapWidth()));
+		for (int y=0; y<=hmap.getMapHeight(); y++)
 		{
 			if (hmap.getHeight(x,y) > max) max = hmap.getHeight(x,y);
 			if (hmap.getHeight(x,y) < min) min = hmap.getHeight(x,y);
@@ -125,10 +129,10 @@ void HeightMapModifier::scale(HeightMap &hmap,
 		defn.landheightmin;
 	float per = realMax / max;
 
-	for (x=0; x<=hmap.getWidth(); x++)
+	for (x=0; x<=hmap.getMapWidth(); x++)
 	{
-		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getWidth()));
-		for (int y=0; y<=hmap.getWidth(); y++)
+		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getMapWidth()));
+		for (int y=0; y<=hmap.getMapHeight(); y++)
 		{
 			float height = hmap.getHeight(x,y);
 			hmap.setHeight(x,y, height * per);
@@ -140,17 +144,22 @@ void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start,
 									  float sizew, float sizew2, float sizeh,
 									  RandomGenerator &offsetGenerator)
 {
+	float maxdist = MAX(sizew2, sizew);
 	float sizewsq = sizew * sizew * 1.2f;
+	int startx = MAX(0, int(start[0] - maxdist));
+	int starty = MAX(0, int(start[1] - maxdist));
+	int endx = MIN(hmap.getMapWidth(), int(start[0] + maxdist));
+	int endy = MIN(hmap.getMapHeight(), int(start[1] + maxdist));
+
 	float posX, posY;
-	int width = hmap.getWidth();
-	for (int x=0; x<=width; x++)
+	for (int x=startx; x<=endx; x++)
 	{
-		for (int y=0; y<=width; y++)
+		for (int y=starty; y<=endy; y++)
 		{
-			posX = float(x) * sizew2 / sizew;
+			posX = float(x);
 			posY = float(y);
 
-			float distX = posX - start[0];
+			float distX = (posX - start[0]) * sizew2 / sizew;
 			float distY = posY - start[1];
 			float distsq = distX * distX + distY * distY;
 
@@ -196,12 +205,12 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 
 	// Generate the landscape
 	hmap.reset();
-	float useWidthX = defn.landwidthx;
-	float useWidthY = defn.landwidthy;
-	float useBorderX = float(hmap.getWidth() - defn.landwidthx) / 2.0f;
-	float useBorderY = float(hmap.getWidth() - defn.landwidthy) / 2.0f;
-	float maskMultX = float(maskMap.getWidth()) / float(hmap.getWidth());
-	float maskMultY = float(maskMap.getHeight()) / float(hmap.getWidth());
+	float useWidthX = (float) hmap.getMapWidth(); // Use all the width
+	float useWidthY = (float) hmap.getMapHeight();
+	float useBorderX = (float(hmap.getMapWidth()) - useWidthX) / 2.0f;
+	float useBorderY = (float(hmap.getMapHeight()) - useWidthY) / 2.0f;
+	float maskMultX = float(maskMap.getWidth()) / float(hmap.getMapWidth());
+	float maskMultY = float(maskMap.getHeight()) / float(hmap.getMapHeight());
 
 	const int noItter = int((defn.landhillsmax - defn.landhillsmin) *
 		generator.getRandFloat() + defn.landhillsmin);
@@ -229,20 +238,20 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 		}
 
 		// Choose a point for this hemisphere
-		float sx = (generator.getRandFloat() * (float(hmap.getWidth()) - 
+		float sx = (generator.getRandFloat() * (float(hmap.getMapWidth()) - 
 												(bordersizex * 2))) + bordersizex;
-		float sy = (generator.getRandFloat() * (float(hmap.getWidth()) - 
+		float sy = (generator.getRandFloat() * (float(hmap.getMapHeight()) - 
 												(bordersizey * 2))) + bordersizey;
 
 		// Check if the point passes the mask
 		bool ok = true;
-		if (int(sx) >= 0 && int(sx) < hmap.getWidth() &&
-			int(sy) >= 0 && int(sy) < hmap.getWidth())
+		if (int(sx) >= 0 && int(sx) < hmap.getMapWidth() &&
+			int(sy) >= 0 && int(sy) < hmap.getMapHeight())
 		{
 			int bx = int(sx * maskMultX);
 			int by = maskMap.getWidth() - int(sy * maskMultY);
 			if (bx >= 0 && bx < maskMap.getWidth() && 
-				by >= 0 && by < maskMap.getWidth())
+				by >= 0 && by < maskMap.getHeight())
 			{
 			GLubyte maskPt = maskMap.getBits()[(bx * 3) + (by * maskMap.getWidth() * 3)];
 
@@ -263,5 +272,6 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	if (defn.levelsurround) levelSurround(hmap);
 	smooth(hmap, defn, counter);
 	if (defn.levelsurround) levelSurround(hmap);
-	hmap.generateNormals(0, hmap.getWidth(), 0, hmap.getWidth(), counter);
+	hmap.generateNormals(0, hmap.getMapWidth(), 0, hmap.getMapHeight(), counter);
 }
+

@@ -22,6 +22,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
 #include <dialogs/BackdropDialog.h>
+#include <common/Defines.h>
 
 GLTexture BackdropDialog::backTex_ = GLTexture();
 GLuint BackdropDialog::displayList_ = 0;

@@ -54,7 +54,7 @@ public:
 	bool readLandscapeDefinitions();
 	void clearLandscapeDefinitions();
 
-	LandscapeDefinition *getRandomLandscapeDefn(OptionsGame &context);
+	LandscapeDefinition getRandomLandscapeDefn(OptionsGame &context);
 	LandscapeTex *getTex(const char *name);
 	LandscapeDefn *getDefn(const char *name);
 	LandscapePlace *getPlace(const char *name);

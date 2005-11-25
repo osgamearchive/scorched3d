@@ -88,11 +88,10 @@ bool SingleSFrame::TransferDataToWindow()
 	char string[20];
 	for (i=24; i>1; i--)
 	{
-		char string[20];
-		sprintf(string, "%i", i);
+		snprintf(string, 20, "%i", i);
 		IDC_CLIENT_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
 	}
-	sprintf(string, "%i", options_.getNoMaxPlayers());
+	snprintf(string, 20, "%i", options_.getNoMaxPlayers());
 	IDC_CLIENT_PLAYERS_CTRL->SetValue(wxString(string, wxConvUTF8));
 	IDC_CLIENT_PLAYERS_CTRL->SetToolTip(
 		wxString(wxT("The number of players that will play in this game.\n")
@@ -134,7 +133,7 @@ bool showSingleSDialog()
 	OptionsGame tmpOptions;
 	std::string customFilePathSrc = getDataFile("data/singlecustom.xml");
 	std::string customFilePathDest = getSettingsFile("singlecustom.xml");
-	if (DefinesUtil::fileExists(customFilePathDest.c_str()))
+	if (s3d_fileExists(customFilePathDest.c_str()))
 	{
 		tmpOptions.readOptionsFromFile((char *) customFilePathDest.c_str());
 	}

@@ -23,6 +23,7 @@
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 
 ServerAuthHandlerMinKills::ServerAuthHandlerMinKills() : 
 	minKills_(-1), maxKills_(-1)

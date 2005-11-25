@@ -18,11 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_MovementMaph_INCLUDE__)
 #define __INCLUDE_MovementMaph_INCLUDE__
 
-#include <common/Defines.h>
 #include <landscape/HeightMap.h>
 #include <map>
 
@@ -49,21 +47,16 @@ public:
 		unsigned int srcEntry;
 	};
 
-	MovementMap(HeightMap &hMap, int width);
+	MovementMap(int width, int height);
 	virtual ~MovementMap();
 
-	void clear();
 	void calculateForTank(Tank *tank, ScorchedContext &context, bool maxFuel = false);
 	void movementTexture();
-
-	MovementMapEntry &getEntry(int w, int h) { 
-		DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_); 
-		return entries_[(width_+1) * h + w]; }
+	MovementMapEntry &getEntry(int w, int h);
 
 protected:
-	int width_;
 	MovementMapEntry *entries_;
-	HeightMap &hMap_;
+	int width_, height_;
 
 	unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y);
 	void addPoint(unsigned int x, unsigned int y, 

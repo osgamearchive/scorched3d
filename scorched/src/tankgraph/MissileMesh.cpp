@@ -65,14 +65,7 @@ MissileMesh::~MissileMesh()
 
 void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float rotation)
 {
-	// Draw the missile shadow
-	float aboveGround =
-		position[2] - ScorchedClient::instance()->getLandscapeMaps().getHMap().
-		getHeight((int) position[0], (int) position[1]);
-	Landscape::instance()->getShadowMap().
-		addCircle(position[0], position[1], aboveGround / 10.0f);
-
-	// Firgure out the opengl roation matrix from the direction
+	// Figure out the opengl roation matrix from the direction
 	// of the fired missile
 	Vector dir = direction.Normalize();
 	const float radToDeg = 180.0f / 3.14f;
@@ -104,18 +97,18 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 
         float newX = fpos[0];
 		float newY = 
-			(fpos[1] * DefinesUtil::getFastCos(angYZRad)) - 
-			(fpos[2] * DefinesUtil::getFastSin(angYZRad));
+			(fpos[1] * getFastCos(angYZRad)) - 
+			(fpos[2] * getFastSin(angYZRad));
 		float newZ = 
-			(fpos[1] * DefinesUtil::getFastSin(angYZRad)) + 
-			(fpos[2] * DefinesUtil::getFastCos(angYZRad)); 
+			(fpos[1] * getFastSin(angYZRad)) + 
+			(fpos[2] * getFastCos(angYZRad)); 
 
 		float newX2 = 
-			(newX * DefinesUtil::getFastCos(angXYRad)) - 
-			(newY * DefinesUtil::getFastSin(angXYRad));
+			(newX * getFastCos(angXYRad)) - 
+			(newY * getFastSin(angXYRad));
 		float newY2 = 
-			(newX * DefinesUtil::getFastSin(angXYRad)) + 
-			(newY * DefinesUtil::getFastCos(angXYRad)); 
+			(newX * getFastSin(angXYRad)) + 
+			(newY * getFastCos(angXYRad)); 
 		float newZ2 = newZ;
 
 		Vector newPos;

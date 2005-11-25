@@ -23,6 +23,7 @@
 #include <client/SpeedChange.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
+#include <client/ClientWaitState.h>
 #include <client/WindowSetup.h>
 #include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
@@ -94,9 +95,8 @@ void ClientNewGameState::enterState(const unsigned state)
 	ScorchedClient::instance()->getMainLoop().getTimer().getTimeDifference();
 
 	// Make sure the landscape has been optimized
-	Landscape::instance()->recalculate(0, 0, 10000);
+	Landscape::instance()->reset(ProgressDialog::instance());
 
-	// Stimulate into the next round state
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	// Tell the server we have finished processing the landscape
+	ClientWaitState::instance()->sendClientReady();
 }
-

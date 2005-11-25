@@ -45,8 +45,8 @@ static LandscapeTexType *fetchTextureTexType(const char *type)
 static LandscapeTexType *fetchPrecipitationTexType(const char *type)
 {
 	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
-	if (0 == strcmp(type, "rain")) return new LandscapeTexPrecipitation;
-	if (0 == strcmp(type, "snow")) return new LandscapeTexPrecipitation;
+	if (0 == strcmp(type, "rain")) return new LandscapeTexPrecipitationRain;
+	if (0 == strcmp(type, "snow")) return new LandscapeTexPrecipitationSnow;
 	dialogMessage("LandscapeTexType", "Unknown precipitation type %s", type);
 	return 0;
 }
@@ -81,6 +81,7 @@ bool LandscapeTexEvent::readXML(XMLNode *node)
 {
 	{
 		XMLNode *conditionNode;
+		std::string conditiontype;
 		if (!node->getNamedChild("condition", conditionNode)) return false;
 		if (!conditionNode->getNamedParameter("type", conditiontype)) return false;
 		if (!(condition = fetchConditionTexType(conditiontype.c_str()))) return false;
@@ -88,6 +89,7 @@ bool LandscapeTexEvent::readXML(XMLNode *node)
 	}
 	{
 		XMLNode *actionNode;
+		std::string actiontype;
 		if (!node->getNamedChild("action", actionNode)) return false;
 		if (!actionNode->getNamedParameter("type", actiontype)) return false;
 		if (!(action = fetchActionTexType(actiontype.c_str()))) return false;
@@ -284,6 +286,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	}
 	{
 		XMLNode *borderNode;
+		std::string bordertype;
 		if (!node->getNamedChild("border", borderNode)) return false;
 		if (!borderNode->getNamedParameter("type", bordertype)) return false;
 		if (!(border = fetchBorderTexType(bordertype.c_str()))) return false;
@@ -291,6 +294,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	}
 	{
 		XMLNode *textureNode;
+		std::string texturetype;
 		if (!node->getNamedChild("texture", textureNode)) return false;
 		if (!textureNode->getNamedParameter("type", texturetype)) return false;
 		if (!(texture = fetchTextureTexType(texturetype.c_str()))) return false;
@@ -298,6 +302,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	}
 	{
 		XMLNode *precipitationNode;
+		std::string precipitationtype;
 		if (!node->getNamedChild("precipitation", precipitationNode)) return false;
 		if (!precipitationNode->getNamedParameter("type", precipitationtype)) return false;
 		if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;

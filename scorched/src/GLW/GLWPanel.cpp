@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLState.h>
 #include <XML/XMLParser.h>
+#include <common/Defines.h>
 #include <GLW/GLWTranslate.h>
 #include <GLW/GLWPanel.h>
 #include <GLW/GLWTab.h>

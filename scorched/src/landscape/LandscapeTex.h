@@ -30,13 +30,29 @@ class ScorchedContext;
 class LandscapeTexType
 {
 public:
+	enum TexType
+	{
+		eNone,
+		eConditionTime,
+		eActionFireWeapon,
+		eEvent,
+		ePrecipitationRain,
+		ePrecipitationSnow,
+		eBoids,
+		eWater,
+		eTextureGenerate,
+
+	};
+
 	virtual bool readXML(XMLNode *node) = 0;
+	virtual TexType getType() = 0;
 };
 
 class LandscapeTexTypeNone : public LandscapeTexType
 {
 public:
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eNone; }
 };
 
 class LandscapeTexCondition : public LandscapeTexType
@@ -53,6 +69,7 @@ public:
 
 	virtual float getNextEventTime();
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eConditionTime; }
 };
 
 class LandscapeTexAction : public LandscapeTexType
@@ -68,6 +85,7 @@ public:
 
 	virtual void fireAction(ScorchedContext &context);
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eActionFireWeapon; }
 };
 
 class LandscapeTexEvent : public LandscapeTexType
@@ -75,12 +93,11 @@ class LandscapeTexEvent : public LandscapeTexType
 public:
 	virtual ~LandscapeTexEvent();
 
-	std::string conditiontype;
-	std::string actiontype;
 	LandscapeTexCondition *condition;
 	LandscapeTexAction *action;
 
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eEvent; }
 };
 
 class LandscapeTexPrecipitation : public LandscapeTexType
@@ -89,6 +106,18 @@ public:
 	int particles;
 
 	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeTexPrecipitationRain : public LandscapeTexPrecipitation
+{
+public:
+	virtual TexType getType() { return ePrecipitationRain; }
+};
+
+class LandscapeTexPrecipitationSnow : public LandscapeTexPrecipitation
+{
+public:
+	virtual TexType getType() { return ePrecipitationSnow; }
 };
 
 class LandscapeTexBoids : public LandscapeTexType
@@ -106,8 +135,8 @@ public:
 	int soundmaxsimul;
 	std::list<std::string> sounds;
 
-
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eBoids; }
 };
 
 class LandscapeTexBorderWater : public LandscapeTexType
@@ -121,6 +150,7 @@ public:
 	Vector wavecolor;
 
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eWater; }
 };
 
 class LandscapeTexTextureGenerate : public LandscapeTexType
@@ -137,6 +167,7 @@ public:
 	std::string texture4;
 
 	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eTextureGenerate; }
 };
 
 class LandscapeDefinitions;
@@ -163,11 +194,8 @@ public:
 	Vector skydiffuse;
 	Vector skyambience;
 
-	std::string bordertype;
 	LandscapeTexType *border;
-	std::string texturetype;
 	LandscapeTexType *texture;
-	std::string precipitationtype;
 	LandscapeTexType *precipitation;
 
 	std::vector<std::string> sounds;

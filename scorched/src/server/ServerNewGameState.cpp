@@ -18,6 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <set>
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
 #include <server/ScorchedServer.h>
@@ -25,17 +26,10 @@
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <client/ClientSave.h>
-#include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
-#include <common/Clock.h>
-#include <common/StatsLogger.h>
-#include <common/Logger.h>
 #include <tankai/TankAIAdder.h>
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
 #include <weapons/EconomyStore.h>
-#include <coms/ComsNextRoundMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -43,8 +37,15 @@
 #include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <landscape/DeformLandscape.h>
+#include <landscape/HeightMapSender.h>
 #include <GLEXT/GLBitmap.h>
-#include <set>
+#include <common/OptionsTransient.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
+#include <common/Clock.h>
+#include <common/StatsLogger.h>
+#include <common/Logger.h>
+#include <common/Defines.h>
 
 extern Clock serverTimer;
 
@@ -123,27 +124,18 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkBots();
 
 	// Generate the new level
-	LandscapeDefinition *defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
+	LandscapeDefinition defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
 		*ScorchedServer::instance()->getContext().optionsGame);
-	if (!defn)
-	{
-		dialogExit("ServerNewGameState", 
-			"No available landscapes are configured for the server.");
-	}
-	ScorchedServer::instance()->getContext().landscapeMaps->generateHMap(
+	ScorchedServer::instance()->getContext().landscapeMaps->generateMaps(
 		ScorchedServer::instance()->getContext(), defn);
-	ScorchedServer::instance()->getContext().landscapeMaps->generateObjects(
-		ScorchedServer::instance()->getContext());
 
 	// Set the start positions for the tanks
 	// Must be generated after the level as it alters the
 	// level
 	LandscapeDefn &tankDefn = 
-		ScorchedServer::instance()->getLandscapeMaps().getDefn(
-			ScorchedServer::instance()->getContext());
+		*ScorchedServer::instance()->getLandscapeMaps().getDefinitions().getDefn();
 	calculateStartPosition(
 		tankDefn.tankstart, 
-		tankDefn.tankstarttype.c_str(), 
 		ScorchedServer::instance()->getContext());
 
 	// Add pending tanks (all tanks should be pending) into the game
@@ -158,7 +150,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	serverTimer.getTimeDifference();
 
 	// Move into the state that waits for players to become ready
-	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextRound);
+	ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNewGameReady);
 }
 
 int ServerNewGameState::addTanksToGame(const unsigned state,
@@ -198,20 +190,24 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		ServerCommon::sendString(0, "Game options have been changed!");
 		newGameMessage.addGameState(); 
 	}
-	if (!ScorchedServer::instance()->getLandscapeMaps().generateHMapDiff(
-		ScorchedServer::instance()->getContext(),
-		newGameMessage.getLevelMessage()))
+
+	// Add the height map info
+	newGameMessage.getLevelMessage().createMessage(
+		ScorchedServer::instance()->getLandscapeMaps().getDefinitions().getDefinition());
+	if (!HeightMapSender::generateHMapDiff(
+		ScorchedServer::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
+		newGameMessage.getLevelMessage().getHeightMap()))
 	{
 		Logger::log( "ERROR: Failed to generate diff");
 	}
 
 	// Check if the generated landscape is too large to send to the clients
-	if (newGameMessage.getLevelMessage().getLevelLen() >
+	if (newGameMessage.getLevelMessage().getHeightMap().getLevelLen() >
 		(unsigned int) ScorchedServer::instance()->getOptionsGame().getMaxLandscapeSize())
 	{
 		ServerCommon::serverLog(0, "Landscape too large to send to waiting clients.");
 		ServerCommon::sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
-			newGameMessage.getLevelMessage().getLevelLen());
+			newGameMessage.getLevelMessage().getHeightMap().getLevelLen());
 		return 0;
 	}
 
@@ -262,13 +258,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 				ComsGameStateMessage stateMessage;
 				ComsMessageSender::sendToSingleClient(stateMessage,
 					destination);
-
-				// Make sure client says it is ready
-				if (state == ServerState::ServerStateReady)
-				{
-					ComsNextRoundMessage nrmessage;
-					ComsMessageSender::sendToSingleClient(nrmessage, destination);
-				}
 			}
 		}
 	}
@@ -278,7 +267,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 
 void ServerNewGameState::calculateStartPosition(
 	LandscapeDefnType *defn,
-	const char *type,
 	ScorchedContext &context)
 {
 	Vector tankPos;
@@ -287,7 +275,7 @@ void ServerNewGameState::calculateStartPosition(
 	float tankCloseness = 0.0f;
 	GLBitmap tankMask(256, 256, false);
 
-	if (0 == strcmp(type, "height"))
+	if (defn->getType() == LandscapeDefnType::eStartHeight)
 	{
 		LandscapeDefnStartHeight *height = 
 			(LandscapeDefnStartHeight *) defn;
@@ -303,8 +291,8 @@ void ServerNewGameState::calculateStartPosition(
 	else
 	{
 		dialogExit("ServerNewGameState",
-			"Failed to find tank start type \"%s\"",
-			type);
+			"Failed to find tank start type \"%i\"",
+			defn->getType());
 	}
 
 	std::map<unsigned int, Tank *> &tanks = 
@@ -324,11 +312,11 @@ void ServerNewGameState::calculateStartPosition(
 			tooClose = false;
 
 			// Find a new position for the tank
-			float posX = float (context.landscapeMaps->getHMap().getWidth() - tankBorder * 2) * 
+			float posX = float (context.landscapeMaps->getDefinitions().getDefn()->landscapewidth - tankBorder * 2) * 
 				RAND + float(tankBorder);
-			float posY = float (context.landscapeMaps->getHMap().getWidth() - tankBorder * 2) * 
+			float posY = float (context.landscapeMaps->getDefinitions().getDefn()->landscapeheight - tankBorder * 2) * 
 				RAND + float(tankBorder);
-			float height = context.landscapeMaps->getHMap().
+			float height = context.landscapeMaps->getGroundMaps().
 				getHeight((int) posX, (int) posY);
 			tankPos = Vector(posX, posY, height);
 
@@ -345,9 +333,9 @@ void ServerNewGameState::calculateStartPosition(
 			{
 				// Find the mask position
 				int maskX = int(posX * float(tankMask.getWidth())) / 
-					context.landscapeMaps->getHMap().getWidth();
-				int maskY = (int(posY * float(tankMask.getHeight())) / 
-					context.landscapeMaps->getHMap().getWidth());
+					context.landscapeMaps->getDefinitions().getDefn()->landscapewidth;
+				int maskY = int(posY * float(tankMask.getHeight())) / 
+					context.landscapeMaps->getDefinitions().getDefn()->landscapeheight;
 				unsigned char *maskPos = tankMask.getBits() +
 					maskX * 3 + maskY * tankMask.getWidth() * 3;
 					
@@ -423,7 +411,7 @@ void ServerNewGameState::calculateStartPosition(
 		}
 
 		// Get the height of the tank
-		tankPos[2] = context.landscapeMaps->getHMap().getInterpHeight(
+		tankPos[2] = context.landscapeMaps->getGroundMaps().getInterpHeight(
 			tankPos[0], tankPos[1]);
 	
 		// Set the starting position of the tank

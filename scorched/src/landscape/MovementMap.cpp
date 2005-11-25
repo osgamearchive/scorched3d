@@ -20,16 +20,18 @@
 
 #include <landscape/MovementMap.h>
 #include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
 #include <tank/Tank.h>
 #include <memory.h>
 
-MovementMap::MovementMap(HeightMap &hMap, int width) : hMap_(hMap), width_(width)
+MovementMap::MovementMap(int width, int height) :
+	width_(width), height_(height)
 {
-	entries_ = new MovementMapEntry[(width_ + 1) * (width_ + 1)];
-	clear();
+	entries_ = new MovementMapEntry[(width + 1) * (height + 1)];
+	memset(entries_, 0, sizeof(MovementMapEntry) * (width + 1) * (height + 1));
 }
 
 MovementMap::~MovementMap()
@@ -38,14 +40,19 @@ MovementMap::~MovementMap()
 	entries_ = 0;
 }
 
-void MovementMap::clear()
-{
-	memset(entries_, 0, sizeof(MovementMapEntry) * (width_ + 1) * (width_ + 1));
-}
-
 unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y)
 {
 	return (x << 16) | (y & 0xffff);
+}
+
+MovementMap::MovementMapEntry &MovementMap::getEntry(int w, int h)
+{ 
+	if (w >= 0 && h >= 0 && w<=width_ && h<=width_)
+	{
+		return entries_[(width_+1) * h + w];
+	}
+	static MovementMapEntry entry(MovementMap::eNoMovement, 1000.0f, 0);
+	return entry;
 }
 
 void MovementMap::addPoint(unsigned int x, unsigned int y, 
@@ -58,15 +65,15 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 {
 	// Check that we are not going outside the arena
 	if (x < 0 || y < 0 ||
-		y > (unsigned int) hMap_.getWidth() ||
-		x > (unsigned int) hMap_.getWidth()) return;
+		x > (unsigned int) width_ ||
+		y > (unsigned int) height_) return;
 
 	// Form this point
 	unsigned int pt = POINT_TO_UINT(x, y);
 
 	// Find how much the tank has to climb to reach this new point
 	// check that this is acceptable
-	float newHeight = hMap_.getHeight(
+	float newHeight = y > (unsigned int) context.landscapeMaps->getGroundMaps().getHeight(
 		(int) x, (int) y);
 
 	float MaxTankClimbHeight = float(context.optionsGame->
@@ -107,10 +114,8 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 
 void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool maxFuel)
 {
-	clear();
-
 	// Check if the tank is buried and cannot move
-	float landscapeHeight = hMap_.getInterpHeight(
+	float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		tank->getPhysics().getTankPosition()[0],
 		tank->getPhysics().getTankPosition()[1]);
 	float tankHeight = 
@@ -129,8 +134,8 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 		context.optionsGame->getMovementRestriction() ==
 		OptionsGame::MovementRestrictionLandOrAbove)
 	{
-		LandscapeTex &tex = context.landscapeMaps->getTex(context);
-		if (0 == strcmp(tex.bordertype.c_str(), "water"))
+		LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
+		if (tex.border->getType() == LandscapeTexType::eWater)
 		{
 			LandscapeTexBorderWater *water = 
 				(LandscapeTexBorderWater *) tex.border;
@@ -185,7 +190,7 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 				unsigned int y = pt & 0xffff;
 
 				float height = 
-					hMap_.getHeight(
+					context.landscapeMaps->getGroundMaps().getHeight(
 					(int) x, (int) y);
 
 				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
@@ -222,10 +227,10 @@ void MovementMap::movementTexture()
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
 
-	float width = 
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
-	float height = 
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+	float width = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	float height = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
 
 	GLubyte *src = Landscape::instance()->getMainMap().getBits();
 	GLubyte *dest = newMap.getBits();

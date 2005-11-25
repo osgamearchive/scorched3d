@@ -29,6 +29,7 @@
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/FileLogger.h>
+#include <common/Defines.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/NetInterface.h>
@@ -40,7 +41,7 @@ void ServerCommon::startFileLogger()
 	if (!serverFileLogger) 
 	{
 		char buffer[256];
-		sprintf(buffer, "ServerLog-%i-", 
+		snprintf(buffer, 256, "ServerLog-%i-", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
 
 		serverFileLogger = new FileLogger(buffer);
@@ -63,7 +64,7 @@ void ServerCommon::sendStringMessage(unsigned int dest, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 1024, fmt, ap);
 	va_end(ap);	
 
 	ComsTextMessage message(text, 0, true);
@@ -83,7 +84,7 @@ void ServerCommon::sendString(unsigned int dest, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 1024, fmt, ap);
 	va_end(ap);	
 
 	ComsTextMessage message(text);
@@ -104,7 +105,7 @@ void ServerCommon::sendStringAdmin(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 1024, fmt, ap);
 	va_end(ap);	
 
 	std::map<unsigned int, Tank *> &tanks = 
@@ -295,7 +296,7 @@ void ServerCommon::serverLog(unsigned int playerId, const char *fmt, ...)
 		// Add the actual log message
 		va_list ap;
 		va_start(ap, fmt);
-		vsprintf(text, fmt, ap);
+		vsnprintf(text, 2048, fmt, ap);
 		va_end(ap);
 
 		Logger::log(text);

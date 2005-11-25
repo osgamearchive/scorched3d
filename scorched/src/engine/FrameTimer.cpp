@@ -23,6 +23,7 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <sound/Sound.h>
 #include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
@@ -30,6 +31,8 @@
 #include <engine/ActionController.h>
 #include <engine/ParticleEngine.h>
 #include <landscape/Landscape.h>
+#include <landscape/PatchGrid.h>
+#include <landscape/ShadowMap.h>
 
 FrameTimer *FrameTimer::instance_ = 0;
 

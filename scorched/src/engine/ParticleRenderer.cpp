@@ -27,6 +27,7 @@
 #include <sprites/ExplosionNukeRenderer.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/ShadowMap.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
@@ -95,16 +96,12 @@ void ParticleRendererQuads::renderParticle(Particle &particle)
 	float posX = particle.position_[0];
 	float posY = particle.position_[1];
 	float posZ = particle.position_[2];
-	if (particle.shadow_ &&
-		posX < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth() &&
-		posX > 0.0f &&
-		posY < ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth() &&
-		posY > 0.0f)
+	if (particle.shadow_)
 	{
 		float aboveGround =
 			posZ - ScorchedClient::instance()->getLandscapeMaps().
-			getHMap().getHeight(
-			int (posX), int(posY));
+			getGroundMaps().getHeight(
+			int(posX), int(posY));
 		float smokeAlpha = particle.alpha_ + .2f; 
 		if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
 		Landscape::instance()->getShadowMap().
@@ -189,25 +186,25 @@ void ParticleRendererMushroom::renderParticle(Particle &particle)
 	particle.shadow_ = false;
 	particle.position_[0] = oldPosition[0];
 	particle.position_[1] = oldPosition[1] + 
-		DefinesUtil::getFastSin(renderer->getCloudRotation() + 2.0f) * 2.0f;
+		getFastSin(renderer->getCloudRotation() + 2.0f) * 2.0f;
 	particle.position_[2] = oldPosition[2] + 
-		DefinesUtil::getFastCos(renderer->getCloudRotation() + 2.0f) * 2.0f;
+		getFastCos(renderer->getCloudRotation() + 2.0f) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.shadow_ = false;
 	particle.position_[0] = oldPosition[0];
 	particle.position_[1] = oldPosition[1] + 
-		DefinesUtil::getFastSin(renderer->getCloudRotation() + 4.0f) * 2.0f;
+		getFastSin(renderer->getCloudRotation() + 4.0f) * 2.0f;
 	particle.position_[2] = oldPosition[2] + 
-		DefinesUtil::getFastCos(renderer->getCloudRotation() + 4.0f) * 2.0f;
+		getFastCos(renderer->getCloudRotation() + 4.0f) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.shadow_ = shadow;
 	particle.position_[0] = oldPosition[0];
 	particle.position_[1] = oldPosition[1] + 
-		DefinesUtil::getFastSin(renderer->getCloudRotation()) * 2.0f;
+		getFastSin(renderer->getCloudRotation()) * 2.0f;
 	particle.position_[2] = oldPosition[2] + 
-		DefinesUtil::getFastCos(renderer->getCloudRotation()) * 2.0f;
+		getFastCos(renderer->getCloudRotation()) * 2.0f;
 	ParticleRendererQuads::getInstance()->renderParticle(particle);
 
 	particle.position_ = oldPosition;

@@ -18,44 +18,51 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ScorchedClient.h>
-#include <client/ClientNextRoundHandler.h>
-#include <client/ClientState.h>
-#include <coms/ComsNextRoundMessage.h>
+#include <coms/ComsHeightMapMessage.h>
+#include <common/Defines.h>
 
-ClientNextRoundHandler *ClientNextRoundHandler::instance_ = 0;
-
-ClientNextRoundHandler *ClientNextRoundHandler::instance()
+ComsHeightMapMessage::ComsHeightMapMessage() :
+	ComsMessage("ComsHeightMapMessage"),
+	levelData_(0), levelLen_(0)
 {
-	if (!instance_)
+
+}
+
+ComsHeightMapMessage::~ComsHeightMapMessage()
+{
+	delete [] levelData_;
+	levelData_ = 0;
+}
+
+void ComsHeightMapMessage::createMessage(
+	unsigned char *levelData,
+	unsigned int levelLen)
+{
+	levelData_ = levelData;
+	levelLen_ = levelLen;
+}
+
+bool ComsHeightMapMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+{
+	DIALOG_ASSERT(levelData_ && levelLen_);
+
+	buffer.addToBuffer(levelLen_);
+	if (levelLen_ && levelData_)
 	{
-		instance_ = new ClientNextRoundHandler;
+		buffer.addDataToBuffer(levelData_, levelLen_);
 	}
-	return instance_;
-}
-
-ClientNextRoundHandler::ClientNextRoundHandler()
-{
-	ScorchedClient::instance()->getComsMessageHandler().addHandler(
-		"ComsNextRoundMessage",
-		this);
-}
-
-ClientNextRoundHandler::~ClientNextRoundHandler()
-{
-}
-
-bool ClientNextRoundHandler::processMessage(unsigned int id,
-	const char *messageType,
-	NetBufferReader &reader)
-{
-	// Decode the connect message
-	ComsNextRoundMessage message;
-	if (!message.readMessage(reader)) return false;
-
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
-	ScorchedClient::instance()->getGameState().checkStimulate();
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimReady);
-    
 	return true;
 }
+
+bool ComsHeightMapMessage::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(levelLen_)) return false;
+	if (levelLen_)
+	{
+		if (levelData_) delete [] levelData_;
+		levelData_ = new unsigned char[levelLen_];
+		if (!reader.getDataFromBuffer(levelData_, levelLen_)) return false;
+	}
+	return true;
+}
+

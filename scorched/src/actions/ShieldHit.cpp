@@ -21,6 +21,7 @@
 #include <actions/ShieldHit.h>
 #include <sound/SoundUtils.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/Accessory.h>
 #include <weapons/Shield.h>

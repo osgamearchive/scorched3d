@@ -55,14 +55,14 @@ void InfoMap::showHeightBands()
 	GLBitmap newMap(
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
-	float heights[
+	float *heights = new float[
 		Landscape::instance()->getMainMap().getWidth() *
 		Landscape::instance()->getMainMap().getHeight()];
 
-	const float width =
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
-	const float height =
-		ScorchedClient::instance()->getLandscapeMaps().getHMap().getWidth();
+	const float width = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	const float height = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
 	const float sqSizeWidth = width / float(newMap.getWidth());
 	const float sqSizeHeight = height / float(newMap.getHeight());
 	const float heightSep = 3.0f;
@@ -76,7 +76,7 @@ void InfoMap::showHeightBands()
 			float posX = float(x) * sqSizeWidth;
 			heights[x + y * newMap.getWidth()] = 
 				ScorchedClient::instance()->getLandscapeMaps().
-					getHMap().getInterpHeight(posX, posY);
+					getGroundMaps().getInterpHeight(posX, posY);
 		}
 	}
 
@@ -126,6 +126,8 @@ void InfoMap::showHeightBands()
 
 	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
+
+	delete [] heights;
 }
 
 void InfoMap::showGrid()

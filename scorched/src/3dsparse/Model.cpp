@@ -20,6 +20,7 @@
 
 #include <3dsparse/Model.h>
 #include <3dsparse/ModelMaths.h>
+#include <common/Defines.h>
 
 Model::Model() : startFrame_(0), totalFrames_(0)
 {

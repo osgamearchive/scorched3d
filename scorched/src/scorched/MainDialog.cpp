@@ -143,11 +143,11 @@ void runScorched3D(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 1024, fmt, ap);
 	va_end(ap);
 
 	char path[1024];
-	sprintf(path, "%s %s", exeName, text);
+	snprintf(path, 1024, "%s %s", exeName, text);
 
 	ScorchedProcess *process = new ScorchedProcess();
 	long result = ::wxExecute(wxString(path, wxConvUTF8), wxEXEC_ASYNC, process);

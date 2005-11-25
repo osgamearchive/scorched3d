@@ -85,7 +85,7 @@ bool TankLib::intersection(ScorchedContext &context,
 
 	do
 	{
-		if (position[2] < context.landscapeMaps->getHMap().getInterpHeight(
+		if (position[2] < context.landscapeMaps->getGroundMaps().getInterpHeight(
 			position[0], position[1]))
 		{
 			return true;

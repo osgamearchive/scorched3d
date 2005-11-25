@@ -52,15 +52,22 @@ protected:
 	// A list containing smooth positions
 	struct PositionEntry
 	{
-		PositionEntry(float newx, float newy, float newa, bool useF,
-			float *ha, float *hb) :
-		x(newx), y(newy), ang(newa), useFuel(useF), heighta(ha), heightb(hb)
+		PositionEntry(
+			int fX, int fY,
+			int sX, int sY,
+			float newx, float newy, float newa, bool useF) :
+		firstX(fX), firstY(fY),
+		secondX(sX), secondY(sY),
+		x(newx), y(newy), ang(newa), 
+		useFuel(useF)
 		{}
+
+		int firstX, firstY;
+		int secondX, secondY;
 
 		float x, y;
 		float ang;
 		bool useFuel;
-		float *heighta, *heightb;
 	};
 	std::list<PositionEntry> expandedPositions_;
 	float timePassed_;

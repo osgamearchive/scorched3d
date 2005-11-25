@@ -31,6 +31,7 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/StatsLogger.h>
+#include <common/Defines.h>
 #include <coms/NetBufferUtil.h>
 #include <coms/NetInterface.h>
 #include <server/ServerState.h>
@@ -135,7 +136,7 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 		case 2:
 			{
 				char buffer[256];
-				sprintf(buffer, "dest=%i ip=%s id=%i", 
+				snprintf(buffer, 256, "dest=%i ip=%s id=%i", 
 					tank->getDestinationId(), 
 					NetInterface::getIpName(tank->getIpAddress()), 
 					tank->getPlayerId());
@@ -402,7 +403,7 @@ ServerFrame::ServerFrame(const char *name) :
 	{
 		TankAI *ai = (*aiitor);
 		char buffer[256];
-		sprintf(buffer, "Add %s", ai->getName());
+		snprintf(buffer, 256, "Add %s", ai->getName());
 		menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, wxString(buffer, wxConvUTF8));
 	}
 
@@ -535,19 +536,19 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 	char buffer[256];
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	sprintf(buffer, "%i/%i Players", tanks.size(), 
+	snprintf(buffer, 256, "%i/%i Players", tanks.size(), 
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 0);
 	frame->statusBar_->SetStatusText(
 		(ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f)?
 			wxT("Not Playing"):wxT("Playing")), 1);
-	sprintf(buffer, "Round %i/%i, %i/%i Moves",
+	snprintf(buffer, 256, "Round %i/%i, %i/%i Moves",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds(),
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 2);
-	sprintf(buffer, "BI:%i BO:%i P:%i C:%i",
+	snprintf(buffer, 256, "BI:%i BO:%i P:%i C:%i",
 		NetInterface::getBytesIn(),
 		NetInterface::getBytesOut(),
 		NetInterface::getPings(),
@@ -841,10 +842,11 @@ void ServerFrame::onShowOptions(wxCommandEvent &event)
 void showServerDialog()
 {
 	char serverName[1024];
-	sprintf(serverName, "Scorched 3D Dedicated Server [ %s : %i ] [%s]",
-			ScorchedServer::instance()->getOptionsGame().getServerName(), 
-			ScorchedServer::instance()->getOptionsGame().getPortNo(), 
-			(ScorchedServer::instance()->getOptionsGame().getPublishServer()?"Published":"Not Published"));
+	snprintf(serverName, 1024,
+		"Scorched 3D Dedicated Server [ %s : %i ] [%s]",
+		ScorchedServer::instance()->getOptionsGame().getServerName(), 
+		ScorchedServer::instance()->getOptionsGame().getPortNo(), 
+		(ScorchedServer::instance()->getOptionsGame().getPublishServer()?"Published":"Not Published"));
 
 	frame = new ServerFrame(serverName);
 	frame->Show();

@@ -22,9 +22,12 @@
 #include <GLEXT/GLBitmap.h>
 #include <sprites/WallActionRenderer.h>
 #include <engine/ScorchedContext.h>
+#include <landscape/Wall.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeDefn.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
 
 GLTexture WallActionRenderer::texture_ = GLTexture();
 
@@ -72,7 +75,7 @@ void WallActionRenderer::init(Action *action)
 		break;
 	case OptionsTransient::RightSide:
 		pos[0] = (float) 
-			action->getScorchedContext()->landscapeMaps->getHMap().getWidth();
+			action->getScorchedContext()->landscapeMaps->getDefinitions().getDefn()->landscapewidth;
 		xOff_ = -offset; yOff_ = 0.0f;
 		offSet1 = Vector(0.0f, 1.0f, 1.0f);
 		offSet2 = Vector(0.0f, 1.0f, -1.0f);
@@ -90,7 +93,7 @@ void WallActionRenderer::init(Action *action)
 	default:
 	case OptionsTransient::BotSide:
 		pos[1] = (float) 
-			action->getScorchedContext()->landscapeMaps->getHMap().getWidth();
+			action->getScorchedContext()->landscapeMaps->getDefinitions().getDefn()->landscapeheight;
 		xOff_ = 0.0f; yOff_ = offset;
 		offSet1 = Vector(1.0f, 0.0f, 1.0f);
 		offSet2 = Vector(1.0f, 0.0f, -1.0f);

@@ -80,11 +80,11 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
-	float height = context.landscapeMaps->getHMap().
+	float height = context.landscapeMaps->getGroundMaps().
 		getInterpHeight(position[0], position[1]);
 	if (position[2] < height + 1.0f)
 	{
-		position[2] = context.landscapeMaps->getHMap().
+		position[2] = context.landscapeMaps->getGroundMaps().
 			getInterpHeight(position[0], position[1]) / 2.0f;
 	}
 

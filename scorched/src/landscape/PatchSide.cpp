@@ -25,11 +25,12 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/PatchSide.h>
 
-PatchSide::PatchSide(HeightMap *hMap, int left, int top, int width, int totalWidth) : 
+PatchSide::PatchSide(HeightMap *hMap, PatchTexCoord *coord, 
+	int left, int top, int width) : 
 	triNodePool_(*TriNodePool::instance()),
-	hMap_(hMap),
+	hMap_(hMap), coord_(coord),
 	variance_(hMap, left, top, width),
-	left_(left), top_(top), width_(width), totalWidth_(totalWidth)
+	left_(left), top_(top), width_(width)
 {
 
 }
@@ -159,7 +160,7 @@ void PatchSide::recursTessellate( TriNode *tri,
 		split(tri);														// Split this triangle.
 
 		if (tri->LeftChild &&											// If this triangle was split, try to split it's children as well.
-			((abs(leftX - rightX) >= 4) || (abs(leftY - rightY) >= 4 )))	// Tessellate all the way down to one vertex per height field entry
+			((abs(leftX - rightX) >= 2) || (abs(leftY - rightY) >= 2 )))	// Tessellate all the way down to one vertex per height field entry
 		{
 			recursTessellate( tri->LeftChild,   apexX,  apexY, leftX, leftY, centerX, centerY,    node<<1 , currentVariance);
 			recursTessellate( tri->RightChild, rightX, rightY, apexX, apexY, centerX, centerY, 1+(node<<1), currentVariance);
@@ -182,24 +183,6 @@ void PatchSide::recursRender( TriNode *tri,
 							int apexX, int apexY, 
 							int node, DrawType side)
 {
-	struct PatchTexCoord
-	{
-		GLfloat txa;
-		GLfloat txb;
-	};
-
-	static PatchTexCoord texArray[257];
-	static bool initArray = false;
-	if (!initArray)
-	{
-		for (int i=0; i<257; i++)
-		{
-			texArray[i].txa = GLfloat(i) / 256.0f; // TODO need better way!!
-			texArray[i].txb = (GLfloat(i) / 256.0f) * 64.0f;
-		}
-		initArray = true;
-	}
-
 	if ( tri->LeftChild )
 	{
 		int centerX = (leftX + rightX) >> 1;
@@ -221,39 +204,39 @@ void PatchSide::recursRender( TriNode *tri,
 			GLDynamicVertexArray::instance()->addFloat((GLfloat) leftX);
 			GLDynamicVertexArray::instance()->addFloat((GLfloat) leftY);
 			GLDynamicVertexArray::instance()->addFloat(leftZ);
-			GLDynamicVertexArray::instance()->addFloat(texArray[leftX].txa);
-			GLDynamicVertexArray::instance()->addFloat(texArray[leftY].txa);
+			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(leftX).txa);
+			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(leftY).txa);
 			if (GLStateExtension::glClientActiveTextureARB() &&
 				GLStateExtension::getTextureUnits() > 2)
 			{
-				GLDynamicVertexArray::instance()->addFloat(texArray[leftX].txb);
-				GLDynamicVertexArray::instance()->addFloat(texArray[leftY].txb);
+				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(leftX).txb);
+				GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(leftY).txb);
 			}
 
 			// Right
 			GLDynamicVertexArray::instance()->addFloat((GLfloat) rightX);
 			GLDynamicVertexArray::instance()->addFloat((GLfloat) rightY);
 			GLDynamicVertexArray::instance()->addFloat(rightZ);
-			GLDynamicVertexArray::instance()->addFloat(texArray[rightX].txa);
-			GLDynamicVertexArray::instance()->addFloat(texArray[rightY].txa);
+			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(rightX).txa);
+			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(rightY).txa);
 			if (GLStateExtension::glClientActiveTextureARB() &&
 				GLStateExtension::getTextureUnits() > 2)
 			{
-				GLDynamicVertexArray::instance()->addFloat(texArray[rightX].txb);
-				GLDynamicVertexArray::instance()->addFloat(texArray[rightY].txb);
+				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(rightX).txb);
+				GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(rightY).txb);
 			}
 
 			// Apex
 			GLDynamicVertexArray::instance()->addFloat((GLfloat) apexX);
 			GLDynamicVertexArray::instance()->addFloat((GLfloat) apexY);
 			GLDynamicVertexArray::instance()->addFloat(apexZ);
-			GLDynamicVertexArray::instance()->addFloat(texArray[apexX].txa);
-			GLDynamicVertexArray::instance()->addFloat(texArray[apexY].txa);
+			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(apexX).txa);
+			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(apexY).txa);
 			if (GLStateExtension::glClientActiveTextureARB() &&
 				GLStateExtension::getTextureUnits() > 2)
 			{
-				GLDynamicVertexArray::instance()->addFloat(texArray[apexX].txb);
-				GLDynamicVertexArray::instance()->addFloat(texArray[apexY].txb);
+				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(apexX).txb);
+				GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(apexY).txb);
 			}
 
 			if (GLDynamicVertexArray::instance()->getSpace() < 100)

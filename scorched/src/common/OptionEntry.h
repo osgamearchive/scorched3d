@@ -52,14 +52,19 @@ public:
 	virtual ~OptionEntry();
 
 	const char *getName() { return name_.c_str(); }
-	const char *getDescription() { return description_.c_str(); }
-	unsigned getData() { return data_; }
+	virtual const char *getDescription() { return description_.c_str(); }
+	virtual unsigned getData() { return data_; }
 
 	virtual EntryType getEntryType() = 0;
 	virtual const char *getDefaultValueAsString() = 0;
 	virtual const char *getValueAsString() = 0;
 	virtual bool setValueFromString(const char *string) = 0;
 	virtual bool addToArgParser(ARGParser &parser) = 0;
+
+	virtual const char *getComsBufferValue() 
+		{ return getValueAsString(); }
+	virtual bool setComsBufferValue(const char *string) 
+		{ return setValueFromString(string); }
 
 protected:
 	unsigned int data_;
@@ -133,6 +138,40 @@ public:
 
 protected:
 	int minValue_, maxValue_;
+
+};
+
+class OptionEntryEnum : public OptionEntryInt
+{
+public:
+	struct EnumEntry
+	{
+		char *description;
+		int value;
+	};
+
+	OptionEntryEnum(std::list<OptionEntry *> &group,
+						  const char *name, 
+						  const char *description,
+						  unsigned int data,
+						  int value,
+						  OptionEntryEnum::EnumEntry enums[]);
+	virtual ~OptionEntryEnum();
+
+	virtual bool setValue(int value);
+	virtual const char *getDescription();
+
+	virtual const char *getDefaultValueAsString();
+	virtual const char *getValueAsString();
+	virtual bool setValueFromString(const char *string);
+
+	virtual const char *getComsBufferValue() 
+		{ return OptionEntryInt::getValueAsString(); }
+	virtual bool setComsBufferValue(const char *string) 
+		{ return OptionEntryInt::setValueFromString(string); }
+
+protected:
+	EnumEntry *enums_;
 
 };
 

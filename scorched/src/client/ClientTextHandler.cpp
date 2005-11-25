@@ -30,6 +30,7 @@
 #include <sound/SoundUtils.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
+#include <common/Defines.h>
 
 ClientTextHandler *ClientTextHandler::instance_ = 0;
 

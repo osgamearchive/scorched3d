@@ -18,21 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// PatchSide.h: interface for the PatchSide class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_PATCHSIDE_H__318589BF_F297_4A61_A052_3D7DFC06178A__INCLUDED_)
 #define AFX_PATCHSIDE_H__318589BF_F297_4A61_A052_3D7DFC06178A__INCLUDED_
 
 #include <landscape/Variance.h>
+#include <landscape/PatchTexCoord.h>
 #include <landscape/TriNodePool.h>
 
 class PatchSide  
 {
 public:
-	PatchSide(HeightMap *hMap, int left, int top, int width, int totalWidth);
+	PatchSide(HeightMap *hMap, PatchTexCoord *coord, 
+		int left, int top, int width);
 	virtual ~PatchSide();
 
 	void computeVariance();
@@ -52,9 +49,9 @@ public:
 
 protected:
 	HeightMap *hMap_;
+	PatchTexCoord *coord_;
 	TriNodePool &triNodePool_;
 	int left_, top_, width_;
-	int totalWidth_;
 	TriNode baseTriNode_;
 	Variance variance_;
 

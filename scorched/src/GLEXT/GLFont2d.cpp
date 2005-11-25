@@ -56,7 +56,7 @@ int GLFont2d::getWidth(float size, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	float width = 0.0f;
@@ -75,7 +75,7 @@ void GLFont2d::draw(Vector &color, float size,
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false);
@@ -89,7 +89,7 @@ void GLFont2d::drawA(Vector &color, float alpha, float size,
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, false);
@@ -103,7 +103,7 @@ void GLFont2d::drawOutline(Vector &color, float size, float size2,
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false, size2);
@@ -118,7 +118,7 @@ void GLFont2d::drawSubStr(int start, int len,
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	int s = start;
@@ -143,7 +143,7 @@ void GLFont2d::drawWidth(int len, Vector &color, float size,
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	int l = 0;
@@ -165,7 +165,7 @@ void GLFont2d::drawBilboard(Vector &color, float alpha, float size,
 	va_list ap;
 
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsnprintf(text, 2048, fmt, ap);
 	va_end(ap);	
 
 	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, true);

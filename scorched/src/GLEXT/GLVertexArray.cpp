@@ -21,6 +21,7 @@
 #include <GLEXT/GLVertexArray.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
+#include <common/Defines.h>
 #include <stdlib.h>
 
 // ************ NOTE VBO TURNED OFF FOR NOW ************** //

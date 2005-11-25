@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ShadowMap.h: interface for the ShadowMap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SHADOWMAP_H__50A1C655_51B8_4B47_982E_58C20CD21815__INCLUDED_)
 #define AFX_SHADOWMAP_H__50A1C655_51B8_4B47_982E_58C20CD21815__INCLUDED_
 
@@ -45,6 +40,8 @@ protected:
 	GLTexture shadowTexture_;
 	GLubyte *shadowBytes_;
 	GLint size_, sizeSq_;
+
+	void addShadow(float sx, float sy, float sw, float opacity, bool circle);
 
 };
 

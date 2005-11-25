@@ -19,9 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ScorchedClient.h>
+#include <landscape/LandscapeMaps.h>
 #include <landscape/Wall.h>
 #include <sound/SoundUtils.h>
 #include <GLEXT/GLBitmap.h>
+#include <common/Defines.h>
 
 Wall::Wall()
 {
@@ -42,14 +44,20 @@ void Wall::draw()
 		texture_.create(map, GL_RGBA, true);
 	}
 
-	static Vector botA(0.0f, 0.0f, 0.0f);
-	static Vector botB(256.0f, 0.0f, 0.0f);
-	static Vector botC(256.0f, 256.0f, 0.0f);
-	static Vector botD(0.0f, 256.0f, 0.0f);
-	static Vector topA(0.0f, 0.0f, 256.0f);
-	static Vector topB(256.0f, 0.0f, 256.0f);
-	static Vector topC(256.0f, 256.0f, 256.0f);
-	static Vector topD(0.0f, 256.0f, 256.0f);
+	float wallWidth = (float)
+		ScorchedClient::instance()->getLandscapeMaps().
+			getGroundMaps().getMapWidth();
+	float wallHeight = (float)
+		ScorchedClient::instance()->getLandscapeMaps().
+			getGroundMaps().getMapHeight();
+	Vector botA(0.0f, 0.0f, 0.0f);
+	Vector botB(wallWidth, 0.0f, 0.0f);
+	Vector botC(wallWidth, wallHeight, 0.0f);
+	Vector botD(0.0f, wallHeight, 0.0f);
+	Vector topA(0.0f, 0.0f, 256.0f);
+	Vector topB(wallWidth, 0.0f, 256.0f);
+	Vector topC(wallWidth, wallHeight, 256.0f);
+	Vector topD(0.0f, wallHeight, 256.0f);
 
 	if (fadeTime_[OptionsTransient::LeftSide] > 0.0f ||
 		fadeTime_[OptionsTransient::BotSide] > 0.0f ||

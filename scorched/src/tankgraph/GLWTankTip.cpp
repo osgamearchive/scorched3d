@@ -24,6 +24,7 @@
 #include <weapons/Accessory.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/MovementMap.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>
@@ -50,7 +51,7 @@ void TankUndoMenu::showItems(float x, float y)
 	for (int i=0; i<(int) oldShots.size(); i++)
 	{
 		char buffer[128];
-		sprintf(buffer, "%s%i: Pwr:%.1f Ele:%.1f Rot:%.1f",
+		snprintf(buffer, 128, "%s%i: Pwr:%.1f Ele:%.1f Rot:%.1f",
 			(oldShots[i].current?"* ":"  "),
 			i, oldShots[i].power, oldShots[i].ele,
 			(360.0f - oldShots[i].rot));
@@ -120,11 +121,12 @@ void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 	{
 		if (Landscape::instance()->getTextureType() != Landscape::eMovement)
 		{
-			ScorchedClient::instance()->getLandscapeMaps().
-				getMMap().calculateForTank(tank_,
+			MovementMap mmap(
+				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
+				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
+			mmap.calculateForTank(tank_,
 					ScorchedClient::instance()->getContext());
-			ScorchedClient::instance()->getLandscapeMaps().
-				getMMap().movementTexture();
+			mmap.movementTexture();
 		}
 	}
 }
@@ -159,7 +161,7 @@ void TankBatteryTip::showItems(float x, float y)
 	for (int i=1; i<=MIN(tank_->getAccessories().getBatteries().getNoBatteries(),10); i++)
 	{
 		char buffer[128];
-		sprintf(buffer, "Use %i", i);
+		snprintf(buffer, 128, "Use %i", i);
 		entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) i));
 	}
 	entries.push_back(GLWSelectorEntry("Cancel", &offTip, 0, 0, (void *) 0));
@@ -211,13 +213,13 @@ void TankShieldTip::showItems(float x, float y)
 		char buffer[128];
 		if (count >= 0)
 		{
-			sprintf(buffer, "%s (%i)", 
+			snprintf(buffer, 128, "%s (%i)", 
 				current->getName(),
 				count);
 		}
 		else
 		{
-			sprintf(buffer, "%s (In)",
+			snprintf(buffer, 128, "%s (In)",
 				current->getName());
 		}
 		entries.push_back(GLWSelectorEntry(buffer, &current->getToolTip(), 
@@ -235,8 +237,8 @@ void TankShieldTip::populate()
 		char buffer[128];
 		int count = tank_->getAccessories().getShields().getShieldCount(
 			tank_->getAccessories().getShields().getCurrentShield());
-		if (count >= 0) sprintf(buffer, "%i", count);
-		else sprintf(buffer, "Infinite");
+		if (count >= 0) snprintf(buffer, 128, "%i", count);
+		else snprintf(buffer, 128, "Infinite");
 
 		setText("Shields",
 			"Protect the tank from taking shot damage.\n"
@@ -299,8 +301,8 @@ void TankParachutesTip::populate()
 {
 	int count = tank_->getAccessories().getParachutes().getNoParachutes();
 	char buffer[128];
-	if (count >= 0) sprintf(buffer, "%i", count);
-	else sprintf(buffer, "Infinite");
+	if (count >= 0) snprintf(buffer, 128, "%i", count);
+	else snprintf(buffer, 128, "Infinite");
 	setText("Parachutes",
 		"Prevents the tank from taking damage\n"
 		"when falling.  Must be enabled before\n"
@@ -325,8 +327,8 @@ void TankParachutesTip::showItems(float x, float y)
 	if (count != 0)
 	{
 		char buffer[128];
-		if (count >= 0) sprintf(buffer, "On (%i)", count);
-		else sprintf(buffer, "On (In)");
+		if (count >= 0) snprintf(buffer, 128, "On (%i)", count);
+		else snprintf(buffer, 128, "On (In)");
 		entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 1));
 	}
 	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, (void *) 0));
@@ -432,13 +434,13 @@ void TankWeaponTip::showItems(float x, float y)
 		char buffer[128];
 		if (count > 0)
 		{
-			sprintf(buffer, "%s (%i)", 
+			snprintf(buffer, 128, "%s (%i)", 
 				weapon->getName(),
 				count);
 		}
 		else
 		{
-			sprintf(buffer, "%s (In)", 
+			snprintf(buffer, 128, "%s (In)", 
 				weapon->getName());
 		}
 		entries.push_back(GLWSelectorEntry(buffer, &weapon->getToolTip(), 

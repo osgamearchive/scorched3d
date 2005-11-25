@@ -33,12 +33,14 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
 #include <common/FileLogger.h>
+#include <common/Defines.h>
 #include <common/Logger.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsTextMessage.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/MovementMap.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
@@ -50,12 +52,12 @@
 TankMenus::TankMenus() : logger_("ClientLog")
 {
 	new GLConsoleRuleMethodIAdapter<Landscape>(
-		Landscape::instance(), &Landscape::reset, "ResetLandscape");
+		Landscape::instance(), &Landscape::updatePlanTexture, "ResetPlan");
 	new GLConsoleRuleMethodIAdapter<Landscape>(
-		Landscape::instance(), &Landscape::updatePlanTexture, "RecalculatePlan");
-	new GLConsoleRuleMethodIAdapter<Landscape>(
-		Landscape::instance(), &Landscape::updatePlanATexture, "RecalculateAPlan");
+		Landscape::instance(), &Landscape::updatePlanATexture, "ResetAPlan");
 
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::resetLandscape, "ResetLandscape");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
@@ -126,6 +128,11 @@ void TankMenus::showTextureDetails()
 		formatString("%i bytes", GLTexture::getTextureSpace()));
 }
 
+void TankMenus::resetLandscape()
+{
+	Landscape::instance()->reset();
+}
+
 void TankMenus::showInventory()
 {
 	std::map<unsigned int, Tank *> &tanks = 
@@ -193,7 +200,7 @@ void TankMenus::showTankDetails()
 		}
 
 		char buffer[1024];
-		sprintf(buffer, "%c %8s - \"%10s\" (%s)", 
+		snprintf(buffer, 1024, "%c %8s - \"%10s\" (%s)", 
 			currentTank == tank?'>':' ',
 			description,
 			tank->getName(), modelId.getModelName());
@@ -328,9 +335,12 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				}
 				else
 				{
-					ScorchedClient::instance()->getLandscapeMaps().getMMap().calculateForTank(firstTank,
-						ScorchedClient::instance()->getContext());
-					ScorchedClient::instance()->getLandscapeMaps().getMMap().movementTexture();
+					MovementMap mmap(
+						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
+						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
+					mmap.calculateForTank(
+						firstTank, ScorchedClient::instance()->getContext());
+					mmap.movementTexture();
 				}
 				break;
 			default:
@@ -394,12 +404,12 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		static char buffer[1024];
 		if (accessoryCount > 0)
 		{
-			sprintf(buffer, "%s (%i)", 
+			snprintf(buffer, 1024, "%s (%i)", 
 				accessory->getName(), accessoryCount);
 		}
 		else
 		{
-			sprintf(buffer, "%s (In)", 
+			snprintf(buffer, 1024, "%s (In)", 
 				accessory->getName());
 		}
 		menuItems_.push_back(accessory);
@@ -424,4 +434,5 @@ bool TankMenus::AccessoryMenu::getEnabled(const char* menuName)
 	}
 	return false;
 }
+
 

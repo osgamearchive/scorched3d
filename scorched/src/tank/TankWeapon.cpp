@@ -18,14 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <stdio.h>
+#include <set>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Weapon.h>
 #include <tank/TankWeapon.h>
 #include <engine/ScorchedContext.h>
-#include <stdio.h>
-#include <set>
+#include <common/Defines.h>
+#include <common/OptionsGame.h>
 
 TankWeapon::TankWeapon(ScorchedContext &context) : 
 	currentWeapon_(0), context_(context)
@@ -206,7 +206,7 @@ const char *TankWeapon::getWeaponString()
 {
 	static char buffer[256];
 	int count = getWeaponCount(getCurrent());
-	sprintf(buffer, ((count>0)?"%s (%i)":"%s (In)"),
+	snprintf(buffer, 256, ((count>0)?"%s (%i)":"%s (In)"),
 		getCurrent()->getName(), count);
 	return buffer;
 }

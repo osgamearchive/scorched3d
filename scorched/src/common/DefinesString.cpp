@@ -18,26 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_NapalmMaph_INCLUDE__)
-#define __INCLUDE_NapalmMaph_INCLUDE__
+#include <string>
+#include <stdlib.h>
+#include <common/DefinesAssert.h>
+#include <common/DefinesString.h>
 
-#include <common/Defines.h>
-
-class NapalmMap
+char *s3d_stristr(const char *x, const char *y)
 {
-public:
-	NapalmMap(int width);
-	virtual ~NapalmMap();
+	std::string newX(x);
+	std::string newY(y);
+	_strlwr((char *) newX.c_str());
+	_strlwr((char *) newY.c_str());
 
-	float &getHeight(int w, int h) { 
-		DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=width_); 
-		return entries_[(width_+1) * h + w]; }
+	char *result = strstr(newX.c_str(), newY.c_str());
+	if (!result) return 0;
 
-protected:
-	float *entries_;
-	int width_;
+	return (char *)(x + (result - newX.c_str()));
+}
 
-	void clear();
-};
+const char *formatStringList(const char *format, va_list ap)
+{
+	static char buffer[20048];
+	if (vsnprintf(buffer, 20048, format, ap) > 20000)
+	{
+		dialogAssert("buffer > 20000", __LINE__, __FILE__);
+	}
+	return buffer;
+}
 
-#endif
+const char *formatString(const char *file, ...)
+{
+	va_list ap; 
+	va_start(ap, file); 
+	const char *result = formatStringList(file, ap);
+	va_end(ap); 
+
+	return result;
+}

@@ -952,7 +952,9 @@ scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/snowm.bmp \
 	data/textures/talk.bmp \
 	data/textures/waves.bmp \
-	data/textures/waves2.bmp
+	data/textures/waves2.bmp \
+	data/textures/shield.bmp \
+	data/textures/shielda.bmp
 scorcheddatatexturesbordershielddir = ${datadir}/data/textures/bordershield
 scorcheddatatexturesbordershield_DATA = data/textures/bordershield/grid.bmp \
 	data/textures/bordershield/grid2.bmp \

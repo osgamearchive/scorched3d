@@ -27,6 +27,7 @@
 #include <tankai/TankAIHumanCtrl.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
 #include <coms/ComsPlayedMoveMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <client/ClientState.h>
@@ -173,13 +174,13 @@ void AutoDefenseDialog::displayCurrent()
 		char buffer[256];
 		if (shieldcount > 0)
 		{
-			sprintf(buffer, "%s (%i)",
+			snprintf(buffer, 256, "%s (%i)",
 				shield->getName(),
 				shieldcount);
 		}
 		else
 		{
-			sprintf(buffer, "%s (In)",
+			snprintf(buffer, 256, "%s (In)",
 				shield->getName());
 		}
 		ddshields_->addText(GLWSelectorEntry(buffer,
@@ -198,12 +199,12 @@ void AutoDefenseDialog::displayCurrent()
 		char buffer[256];
 		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
 		{
-			sprintf(buffer, "Parachutes On (%i)",
+			snprintf(buffer, 256, "Parachutes On (%i)",
 				tank->getAccessories().getParachutes().getNoParachutes());
 		}
 		else
 		{
-			sprintf(buffer, "Parachutes On (In)");
+			snprintf(buffer, 256, "Parachutes On (In)");
 		}
 		ddpara_->addText(GLWSelectorEntry(buffer, &paraOnTip));
 	}
@@ -215,13 +216,13 @@ void AutoDefenseDialog::displayCurrent()
 		char buffer[256];
 		if (tank->getAccessories().getShields().getShieldCount(currentShield) > 0)
 		{
-			sprintf(buffer, "%s (%i)",
+			snprintf(buffer, 256, "%s (%i)",
 				currentShield->getName(),
 				tank->getAccessories().getShields().getShieldCount(currentShield));
 		}
 		else
 		{
-			sprintf(buffer, "%s (In)",
+			snprintf(buffer, 256, "%s (In)",
 				currentShield->getName());
 		}
 		ddshields_->setText(buffer);
@@ -235,12 +236,12 @@ void AutoDefenseDialog::displayCurrent()
 		char buffer[256];
 		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
 		{
-			sprintf(buffer, "Parachutes On (%i)",
+			snprintf(buffer, 256, "Parachutes On (%i)",
 				tank->getAccessories().getParachutes().getNoParachutes());
 		}
 		else
 		{
-			sprintf(buffer, "Parachutes On (In)");
+			snprintf(buffer, 256, "Parachutes On (In)");
 		}	
 		ddpara_->setText(buffer);
 	}

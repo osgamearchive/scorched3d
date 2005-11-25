@@ -25,28 +25,15 @@
 #include <GLEXT/GLCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>
 
 PatchGrid::PatchGrid(HeightMap *hMap, int patchSize) :
 	hMap_(hMap), lastPos_(-1, -2, -3), patchSize_(patchSize),
-	simulationTime_(0.0f), drawnPatches_(0)
+	simulationTime_(0.0f), drawnPatches_(0), patches_(0)
 {
- 	width_ = (hMap_->getWidth()+1) / patchSize;
-	patches_ = new Patch*[width_ * width_];
-	for (int y=0; y<width_; y++)
-	{
-		for (int x=0; x<width_; x++)
-		{
-			patches_[x + y * width_] = 
-				new Patch(hMap, 
-							x * patchSize, 
-							y * patchSize, 
-							patchSize, 
-							hMap->getWidth() - 1);
-		}
-	}
 }
 
 PatchGrid::~PatchGrid()
@@ -54,62 +41,92 @@ PatchGrid::~PatchGrid()
 	delete [] patches_;
 }
 
+void PatchGrid::generate()
+{
+	delete [] patches_;
+	
+	width_ = (hMap_->getMapWidth()+1) / patchSize_;
+	height_ = (hMap_->getMapHeight()+1) / patchSize_;
+	coord_.generate(hMap_);
+	
+	patches_ = new Patch*[width_ * height_];
+	for (int y=0; y<height_; y++)
+	{
+		for (int x=0; x<width_; x++)
+		{
+			patches_[x + y * width_] = 
+				new Patch(hMap_, &coord_,
+					x * patchSize_, 
+					y * patchSize_, 
+					patchSize_);
+		}
+	}
+}
+
 void PatchGrid::simulate(float frameTime)
 {
 	const float SimulationTimeStep = 0.25f;
 
+	// Only-recalculate 1/SimulationTimeStep variances per second
 	simulationTime_ += frameTime;
 	while (simulationTime_ > SimulationTimeStep)
 	{
 		simulationTime_ -= SimulationTimeStep;
-		forceCalculate(3);
+
+		// Recalculate the first un-calculated variance
+		Patch **patch = patches_;
+		int totalChanged = 0;
+		int patchTotal = width_ * height_;
+		for (int p=0; p<patchTotal; p++)
+		{			
+			if ((*patch)->getRecalculate())
+			{
+				(*patch)->getRecalculate() = false;
+				(*patch)->computeVariance();
+				if (++totalChanged >= 3) break;
+			}
+			patch++;
+		}
 	}
 }
 
-void PatchGrid::forceCalculate(int threshold)
+void PatchGrid::reset(ProgressCounter *counter)
 {
-	unsigned tessCount = 0;
+	if (counter) counter->setNewOp("Patch Grid");
+
+	// Totaly recalculate all patch grid variances
 	Patch **patch = patches_;
-	for (int p=0; p<width_ * width_; p++)
+	int totalPatches = width_ * height_;
+	for (int p=0; p<totalPatches; p++)
 	{			
-		if ((*patch)->getRecalculate())
-		{
-			tessCount++;
-			(*patch)->getRecalculate() = false;
-			(*patch)->computeVariance();
-		}
-		if (tessCount >= (unsigned) threshold) return;
+		(*patch)->getRecalculate() = false;
+		(*patch)->computeVariance();
+
+		if (counter) counter->setNewPercentage(
+			100.0f * float(p) / float(totalPatches));
 
 		patch++;
 	}
-}
 
-void PatchGrid::recalculate(int posX, int posY, int dist)
-{
+	// Recalculate all the variances due to tanks positions
+	recalculateTankVariance();
+
 	// Make sure the next frame has everything reset
 	// and recalculated
 	lastPos_ = Vector(-1, -2, -3);
+}
 
-	// Recompute the variances for any patches that
-	// may have changed
+void PatchGrid::recalculateTankVariance()
+{
+	// Mark all patches as normal (non-tank) variance levels
 	Patch **patch = patches_;
-	for (int p=0; p<width_ * width_; p++)
+	for (int p=0; p<width_ * height_; p++)
 	{
-		Patch *current = (*patch);
-
-		int distX = abs(current->getX() - posX);
-		int distY = abs(current->getY() - posY);
-
-		current->getForceVariance() = false;
-		if (distX < dist + current->getWidth() &&
-			distY < dist + current->getWidth())
-		{
-			current->getRecalculate() = true;
-		}
-
+		(*patch)->getForceVariance() = false;
 		patch++;
 	}
 
+	// Mark any patches with tanks on as better variance levels
 	// Ensure that any patches with tanks on them are drawn with
 	// a very low varaince
 	std::map<unsigned int, Tank *> &tanks = 
@@ -134,34 +151,65 @@ void PatchGrid::recalculate(int posX, int posY, int dist)
 			if (posXI < 0) posXI = 0;
 			else if (posXI >= width_) posXI = width_ - 1;
 			if (posYI < 0) posYI = 0;
-			else if (posYI >= width_) posYI = width_ - 1;
+			else if (posYI >= height_) posYI = height_ - 1;
 
 			patches_[posXI + posYI * width_]->getForceVariance() = true;
 		}
 	}
 }
 
-void PatchGrid::reset()
+void PatchGrid::recalculate(int posX, int posY, int dist)
+{
+	// Make sure the next frame has everything reset
+	// and recalculated
+	lastPos_ = Vector(-1, -2, -3);
+
+	// Tag the any patches that may have changed
+	// so their variances are checked
+	Patch **patch = patches_;
+	for (int p=0; p<width_ * height_; p++)
+	{
+		Patch *current = (*patch);
+
+		int distX = abs(current->getX() - posX);
+		int distY = abs(current->getY() - posY);
+		if (distX < dist + current->getWidth() &&
+			distY < dist + current->getWidth())
+		{
+			current->getRecalculate() = true;
+		}
+
+		patch++;
+	}
+
+	// Recalculate all the variances due to tanks positions
+	recalculateTankVariance();
+}
+
+void PatchGrid::tesselate()
 {
 	if (OptionsDisplay::instance()->getNoTessalation()) return;
 
 	// Only need to recalculate patches if the viewing camera has changed
 	// position
 	Vector &pos = GLCamera::getCurrentCamera()->getCurrentPos();
-	if (pos == lastPos_) return;
+	if (fabs(pos[0] - lastPos_[0]) < 1.0f &&
+		fabs(pos[1] - lastPos_[1]) < 1.0f &&
+		fabs(pos[2] - lastPos_[2]) < 1.0f)
+	{
+		return;
+	}
 	lastPos_ = pos;
 
-	// Reset the triangles being used
-	TriNodePool::instance()->reset();
-
 	// Link all the patches together.
+	TriNodePool::instance()->reset();
 	Patch **patch = patches_;
-	for (int y=0; y<width_; y++)
+	for (int y=0; y<height_; y++)
 	{
 		for (int x=0; x<width_; x++)
 		{
 			(*patch)->reset();
-			
+
 			if ( x < width_-1 ) (*patch)->getLeftTri()->LeftNeighbor = (*(patch+1))->getRightTri();
 			else (*patch)->getLeftTri()->LeftNeighbor = 0;
 
@@ -171,7 +219,7 @@ void PatchGrid::reset()
 			if ( y > 0 ) (*patch)->getLeftTri()->RightNeighbor = (*(patch-width_))->getRightTri();
 			else (*patch)->getLeftTri()->RightNeighbor = 0;
 
-			if ( y < width_-1 ) (*patch)->getRightTri()->RightNeighbor = (*(patch+width_))->getLeftTri();
+			if ( y < height_-1 ) (*patch)->getRightTri()->RightNeighbor = (*(patch+width_))->getLeftTri();
 			else (*patch)->getRightTri()->RightNeighbor = 0;
 
 			patch++;
@@ -179,58 +227,66 @@ void PatchGrid::reset()
 	}
 
 	// Tessalate
+	Vector point;
 	patch = patches_;
-	for (int p=0; p<width_ * width_; p++)
+	for (int p=0; p<width_ * height_; p++)
 	{
-		static Vector point;
-		point[0] = float((*patch)->getX() + ((*patch)->getWidth() / 2));
-		point[1] = float((*patch)->getY() + ((*patch)->getWidth() / 2));
-		point[2] = float(hMap_->getHeight((int) point[0], (int) point[1]));
-		point -= pos;
-
-		unsigned variance = 30;
-		if ((*patch)->getForceVariance())
+		if ((*patch)->getVisible())
 		{
-			variance = 10;
-		}
-		float distance = point.Magnitude();
-		if (distance > 60)
-		{
-			variance += unsigned ((distance - 60) * 1);
-		}
-		if (variance > 100) variance = 100;
+			point = (*patch)->getMidPoint();
+			point[2] = float(hMap_->getHeight((int) point[0], (int) point[1]));
+			point -= pos;
 
-		(*patch)->tessalate(variance);
+			// Ramp is stored in a factor of 10 i.e. devide by 10
+			float distance = point.Magnitude();
+			float start = 
+				float(OptionsDisplay::instance()->getRoamVarianceStart());
+			float ramp = distance * 
+				float(OptionsDisplay::instance()->getRoamVarianceRamp()) / 10.0f;
+			float tank = 0.0f;
+			if ((*patch)->getForceVariance())
+			{
+				tank = (float) OptionsDisplay::instance()->getRoamVarianceTank();
+			}
+
+			float fvariance = start + ramp - tank;
+			if (fvariance < start) fvariance = start;
+
+			unsigned variance = unsigned(fvariance);
+			(*patch)->tessalate(variance);
+		}
+
 		patch++;
 	}
 }
 
-void PatchGrid::draw(PatchSide::DrawType sides)
+void PatchGrid::visibility()
 {
-	reset();
-
 	GLCameraFrustum *frustum = GLCameraFrustum::instance();
+	int divideWidth = hMap_->getMapWidth() / hMap_->getMapMinWidth();
+	int divideHeight = hMap_->getMapHeight() / hMap_->getMapMinHeight();
 
-	unsigned tessCount = 0;
-	glColor3f(1.0f, 1.0f, 1.0f);
-	switch(sides)
+	// Check visibility
+	Vector point, point2;
+	Patch **patch = patches_;
+	for (int y=0; y<height_; y++)
 	{
-	case PatchSide::typeTop:
-	{
-		Vector point, point2;
-		drawnPatches_ = 0;
-		int divideWidth = hMap_->getWidth() / hMap_->getMinWidth();
-		int divideHeight = hMap_->getWidth() / hMap_->getMinWidth();
-		Patch **patch = patches_;
-		for (int p=0; p<width_ * width_; p++)
-		{			
-			point2[0] = point[0] = float((*patch)->getX() + ((*patch)->getWidth() / 2));
-			point2[1] = point[1] = float((*patch)->getY() + ((*patch)->getWidth() / 2));
+		for (int x=0; x<width_; x++)
+		{
+			// Check patch visibility
+			point = (*patch)->getMidPoint();
+			point2 = (*patch)->getMidPoint();
+			point2[2] = MAX(
+				hMap_->getMaxHeight(((*patch)->getX() + 2) / divideWidth, 
+					((*patch)->getY() + 2)  / divideHeight),
+				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divideWidth, 
+					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight )) / 2.0f;
 			point[2] = MAX(
 				hMap_->getMaxHeight(((*patch)->getX() + 2) / divideWidth, 
 					((*patch)->getY() + 2)  / divideHeight),
 				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divideWidth, 
 					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight )) / 2.0f;
+
 			float width = MAX(point[2], (*patch)->getWidth() + 5.0f);
 
 			if (OptionsDisplay::instance()->getDrawBoundingSpheres())
@@ -248,24 +304,39 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 					glTranslatef(point[0], point[1], point[2]);
 					gluSphere(obj, width, 6, 6);
 				glPopMatrix();
+				glColor3f(1.0f, 1.0f, 0.0f);
 				glPushMatrix();
-					glTranslatef(point2[0], point2[1], point2[2]);
+					glTranslatef(point2[0], point2[1], point2[2] + 0.1f);
 					gluSphere(obj, width, 6, 6);
 				glPopMatrix();
 			}
 
-			if (frustum->sphereInFrustum(point, width) ||
-				frustum->sphereInFrustum(point2, width)) 
+			bool pt1 = frustum->sphereInFrustum(point, width);
+			bool pt2 = frustum->sphereInFrustum(point2, width);
+			(*patch)->getVisible() = (pt1 || pt2);
+
+			patch++;
+		}
+	}
+}
+
+void PatchGrid::draw(PatchSide::DrawType sides)
+{
+	visibility();
+	tesselate();
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	switch(sides)
+	{
+	case PatchSide::typeTop:
+	{
+		drawnPatches_ = 0;
+		Patch **patch = patches_;
+		for (int p=0; p<width_ * height_; p++)
+		{			
+			if ((*patch)->getVisible())
 			{
 				drawnPatches_ ++;
-				if ((*patch)->getRecalculate() &&
-					tessCount < 0)
-				{
-					tessCount++;
-					(*patch)->getRecalculate() = false;
-					(*patch)->computeVariance();
-				}
-
 				(*patch)->draw(sides);
 			}
 
@@ -279,9 +350,12 @@ void PatchGrid::draw(PatchSide::DrawType sides)
 		glNormal3f(0.0f, 0.0f, 1.0f);
 		glBegin(GL_LINES);
 		Patch **patch = patches_;
-		for (int p=0; p<width_ * width_; p++)
+		for (int p=0; p<width_ * height_; p++)
 		{
-			(*patch++)->draw(sides);
+			if ((*patch)->getVisible())
+			{
+				(*patch++)->draw(sides);
+			}
 		}
 		glEnd();
 	}

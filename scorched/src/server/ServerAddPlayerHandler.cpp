@@ -29,6 +29,7 @@
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
+#include <common/Defines.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -200,18 +201,6 @@ void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 	// Ensure this name does not have any "bad" words in it
 	ScorchedServerUtil::instance()->textFilter.filterString(sentname);
 
-	// Ensure this name does not have the bot name in it
-	const char *botPrefix = 
-		ScorchedServer::instance()->getOptionsGame().getBotNamePrefix();
-	char *botPrefixPos = DefinesUtil::my_stristr(sentname.c_str(), botPrefix);
-	if (botPrefixPos)
-	{
-		for (int i=0; i<(int) strlen(botPrefix); i++, botPrefixPos++)
-		{
-			(*botPrefixPos) = ' ';
-		}
-	}		
-
 	// Form the correct player name
 	// Remove spaces from the front of the name and
 	// unwanted characters from middle
@@ -229,6 +218,18 @@ void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 		else if (*nameMiddle == '[') *nameMiddle = '(';
 		else if (*nameMiddle == '%') *nameMiddle = '$'; // Save problems with special chars
 	}
+
+	// Ensure this name does not have the bot name in it
+	const char *botPrefix = 
+		ScorchedServer::instance()->getOptionsGame().getBotNamePrefix();
+	char *botPrefixPos = s3d_stristr(sentname.c_str(), botPrefix);
+	if (botPrefixPos)
+	{
+		for (int i=0; i<(int) strlen(botPrefix); i++, botPrefixPos++)
+		{
+			(*botPrefixPos) = ' ';
+		}
+	}		
 
 	// Check the client provides a name with a least 1 char in it
 	// and the name is less than 16 chars

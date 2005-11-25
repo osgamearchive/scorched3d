@@ -21,6 +21,7 @@
 #include <landscape/LandscapeSoundManager.h>
 #include <landscape/LandscapeSound.h>
 #include <common/OptionsDisplay.h>
+#include <common/Defines.h>
 #include <sound/Sound.h>
 
 LandscapeSoundManager::LandscapeSoundManager() : lastTime_(0)

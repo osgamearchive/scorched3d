@@ -28,6 +28,7 @@
 #include <GLW/GLWTranslate.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Accessory.h>
+#include <common/Defines.h>
 
 REGISTER_CLASS_SOURCE(GLWWeaponModel);
 

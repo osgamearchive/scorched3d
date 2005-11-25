@@ -118,10 +118,23 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
+	// Check for no players when a dedicated server is being used
+	if (message.getNoPlayers() > 1 &&
+		OptionsParam::instance()->getDedicatedServer())
+	{
+		ServerCommon::serverLog(destinationId, 
+			"Client connecting with %u players",
+			message.getNoPlayers());
+		ServerCommon::kickDestination(destinationId, true);
+		return true;
+
+	}
+
 	// Check player availability
-	if ((int) message.getNoPlayers() > 
-		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
-		ScorchedServer::instance()->getTankContainer().getNoOfTanks())
+	if (message.getNoPlayers() > 
+		(unsigned int)
+		(ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
+		ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 	{
 		ServerCommon::sendString(destinationId, 
 			"--------------------------------------------------\n"
@@ -148,36 +161,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			
 			ServerCommon::kickDestination(destinationId, true);
 			return true;
-		}
-	}
-
-	// Check if a player from this destination has connected already
-	std::map<unsigned int, Tank *> &playingTanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator playingItor;
-	for (playingItor = playingTanks.begin();
-		playingItor != playingTanks.end();
-		playingItor++)
-	{
-		Tank *current = (*playingItor).second;
-		if (current->getDestinationId() == destinationId)
-		{
-			Logger::log( "Duplicate connection from destination \"%i\"", 
-				destinationId);
-			ServerCommon::kickDestination(destinationId);
-			return true;
-		}
-		
-		if (!ScorchedServer::instance()->getOptionsGame().getAllowSameIP() &&
-			ipAddress != 0)
-		{
-			if (ipAddress == current->getIpAddress())
-			{
-				Logger::log( "Duplicate ip connection from destination \"%i\"", 
-					destinationId);
-				ServerCommon::kickDestination(destinationId);
-				return true;
-			}
 		}
 	}
 	

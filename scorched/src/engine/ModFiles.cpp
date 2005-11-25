@@ -83,20 +83,20 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 	{
 		// Get and check the user mod directory exists
 		const char *modDir = getModFile(mod);
-		if (DefinesUtil::dirExists(modDir))
+		if (s3d_dirExists(modDir))
 		{
 			if (!loadModDir(modDir, mod)) return false;
 		}
 		else
 		{
-			if (createDir) DefinesUtil::dirMake(modDir);
+			if (createDir) s3d_dirMake(modDir);
 		}
 	}
 
 	{
 		// Get and check global mod directory
 		const char *modDir = getGlobalModFile(mod);
-		if (DefinesUtil::dirExists(modDir))
+		if (s3d_dirExists(modDir))
 		{
 			if (!loadModDir(modDir, mod)) return false;
 		}
@@ -178,7 +178,7 @@ bool ModFiles::loadModFile(const char *fullFileName,
 	// name of the directory that contains it
 	int modDirLen = strlen(modDir);
 	shortFileName += modDirLen;
-	DefinesUtil::fileDos2Unix((char *) shortFileName);
+	s3d_fileDos2Unix((char *) shortFileName);
 	while (shortFileName[0] == '/') shortFileName++;
 
 	// Check that all files are lower case
@@ -218,9 +218,9 @@ bool ModFiles::loadModFile(const char *fullFileName,
 bool ModFiles::writeModFiles(const char *mod)
 {
 	const char *modDir = getModFile(mod);
-	if (!DefinesUtil::dirExists(modDir))
+	if (!s3d_dirExists(modDir))
 	{
-		DefinesUtil::dirMake(modDir);
+		s3d_dirMake(modDir);
 	}
 
 	std::map<std::string, ModFileEntry *>::iterator itor;

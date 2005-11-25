@@ -20,6 +20,7 @@
 
 #include <common/Keyboard.h>
 #include <common/OptionsDisplay.h>
+#include <common/DefinesScorched.h>
 #include <sound/Sound.h>
 #include <weapons/Accessory.h>
 #include <GLEXT/GLConsole.h>
@@ -181,7 +182,8 @@ void TankAIHuman::autoAim()
 	if (MainCamera::instance()->getCamera().
 		getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-		if (ScorchedClient::instance()->getLandscapeMaps().getHMap().getIntersect(direction, intersect))
+		if (ScorchedClient::instance()->getLandscapeMaps().
+			getGroundMaps().getIntersect(direction, intersect))
         {
 			Vector &position = currentTank_->getPhysics().getTankPosition();
 

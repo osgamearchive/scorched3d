@@ -25,6 +25,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
 #include <coms/ComsNewGameMessage.h>
 #include <engine/ModFiles.h>
 #include <dialogs/PlayerDialog.h>
@@ -32,6 +33,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <landscape/Landscape.h>
+#include <landscape/HeightMapSender.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelStore.h>
 
@@ -116,10 +118,14 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		ProgressDialog::instance()->changeTip();
 
 		// Generate new landscape
-		if (!ScorchedClient::instance()->getLandscapeMaps().generateHMapFromDiff(
+		ScorchedClient::instance()->getLandscapeMaps().generateMaps(
 			ScorchedClient::instance()->getContext(),
-			message.getLevelMessage(),
-			ProgressDialog::instance()))
+			message.getLevelMessage().getGroundMapsDefn(),
+			ProgressDialog::instance());
+
+		if (!HeightMapSender::generateHMapFromDiff(
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
+			message.getLevelMessage().getHeightMap()))
 		{
 			dialogExit("Scorched3D", "Failed to generate heightmap diff");
 		}

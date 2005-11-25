@@ -63,6 +63,7 @@ void ServerMessageHandler::messageSent(NetMessage &message)
 
 void ServerMessageHandler::clientConnected(NetMessage &message)
 {
+	// Check if this destination has been banned
 	if (message.getIpAddress() != 0 &&
 		ScorchedServerUtil::instance()->bannedPlayers.getBanned(message.getIpAddress(), "") == 
 		ServerBanned::Banned)
@@ -72,13 +73,44 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 			NetInterface::getIpName(message.getIpAddress()));
 		ScorchedServer::instance()->getNetInterface().
 			disconnectClient(message.getDestinationId());
+		return;
 	}
-	else
+
+	// Check if a player from this destination has connected already
+	std::map<unsigned int, Tank *> &playingTanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator playingItor;
+	for (playingItor = playingTanks.begin();
+		playingItor != playingTanks.end();
+		playingItor++)
 	{
-		Logger::log( "Client connected dest=\"%i\" ip=\"%s\"", 
-			message.getDestinationId(),
-			NetInterface::getIpName(message.getIpAddress()));
+		Tank *current = (*playingItor).second;
+		if (current->getDestinationId() == message.getDestinationId())
+		{
+			Logger::log("Duplicate connection from destination \"%i\"", 
+				message.getDestinationId());
+			ScorchedServer::instance()->getNetInterface().
+				disconnectClient(message.getDestinationId());
+			return;
+		}
+		
+		if (!ScorchedServer::instance()->getOptionsGame().getAllowSameIP() &&
+			message.getIpAddress() != 0)
+		{
+			if (message.getIpAddress() == current->getIpAddress())
+			{
+				Logger::log("Duplicate ip connection from ip address \"%s\"", 
+					NetInterface::getIpName(message.getIpAddress()));
+				ScorchedServer::instance()->getNetInterface().
+					disconnectClient(message.getDestinationId());
+				return;
+			}
+		}
 	}
+
+	Logger::log( "Client connected dest=\"%i\" ip=\"%s\"", 
+		message.getDestinationId(),
+		NetInterface::getIpName(message.getIpAddress()));
 }
 
 void ServerMessageHandler::clientDisconnected(NetMessage &message)

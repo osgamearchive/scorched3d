@@ -25,21 +25,16 @@
 
 void HeightMapRenderer::drawHeightMap(HeightMap &map)
 {
-	/*static GLuint displayList_ = 0;
-	if (!displayList_)
-	{
-		glNewList(displayList_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);*/
-
-		float width = map.getWidth();
-		float height = map.getWidth();
+		float width = (float) map.getMapWidth();
+		float height = (float) map.getMapHeight();
 
 		// Draw the triangles
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_TRIANGLES);
 		int x;
-		for (x=0; x<map.getWidth()-1; x++)
+		for (x=0; x<map.getMapWidth()-1; x++)
 		{
-			for (int y=0; y<map.getWidth()-1; y++)
+			for (int y=0; y<map.getMapHeight()-1; y++)
 			{
 				glTexCoord2f(float(x) / width, float(y) / height);
 				glNormal3fv(map.getNormal(x, y));
@@ -69,9 +64,9 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 			// Draw the normals
 			glColor3f(0.0f, 1.0f, 0.0f);
 			glBegin(GL_LINES);
-			for (x=0; x<=map.getWidth(); x++)
+			for (x=0; x<=map.getMapWidth(); x++)
 			{
-				for (int y=0; y<=map.getWidth(); y++)
+				for (int y=0; y<=map.getMapWidth(); y++)
 				{
 					Vector &Normal = map.getNormal(x, y);
 					Vector Position((float)x, (float)y, map.getHeight(x, y));
@@ -82,11 +77,4 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 			}			
 			glEnd();
 		}
-
-		/*glEndList();
-	}
-	else
-	{
-		glCallList(displayList_);
-	}*/
 }

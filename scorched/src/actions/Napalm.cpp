@@ -34,6 +34,7 @@
 #include <landscape/LandscapeTex.h>
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <client/ScorchedClient.h>
 
 REGISTER_ACTION_SOURCE(Napalm);
@@ -64,6 +65,9 @@ void Napalm::init()
 		set_ = ExplosionTextures::instance()->getTextureSetByName(
 			weapon_->getNapalmTexture());
 	}
+	nmap_.create(
+		context_->landscapeMaps->getGroundMaps().getMapWidth(),
+		context_->landscapeMaps->getGroundMaps().getMapHeight());
 }
 
 void Napalm::simulate(float frameTime, bool &remove)
@@ -86,7 +90,7 @@ void Napalm::simulate(float frameTime, bool &remove)
 				if (count == 0)
 				{
 					float posZ = 
-						ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
 						entry->posX, entry->posY);
 					Landscape::instance()->getSmoke().
 						addSmoke(float(entry->posX), float(entry->posY), posZ);
@@ -150,8 +154,8 @@ float Napalm::getHeight(int x, int y)
 {
 	LandscapeMaps *hmap = context_->landscapeMaps;
 	if (x < 0 || y < 0 ||
-		x > hmap->getHMap().getWidth() ||
-		y > hmap->getHMap().getWidth())
+		x > hmap->getGroundMaps().getMapWidth() ||
+		y > hmap->getGroundMaps().getMapHeight())
 	{
 		// The height at the sides of the landscape is huge
 		// so we will never go there with the napalm
@@ -162,8 +166,8 @@ float Napalm::getHeight(int x, int y)
 	// height of all the napalm on this square
 	// the napalm builds up and get higher so
 	// we can go over small bumps
-	return hmap->getHMap().getHeight(x, y) +
-		hmap->getNMap().getHeight(x, y);
+	return hmap->getGroundMaps().getHeight(x, y) +
+		nmap_.getNapalmHeight(x, y);
 }
 
 void Napalm::simulateRmStep()
@@ -178,7 +182,7 @@ void Napalm::simulateRmStep()
 	int y = entry->posY;
 	delete entry;
 
-	context_->landscapeMaps->getNMap().getHeight(x, y) -= NapalmHeight;
+	nmap_.getNapalmHeight(x, y) -= NapalmHeight;
 }
 
 void Napalm::simulateAddStep()
@@ -193,8 +197,8 @@ void Napalm::simulateAddStep()
 		// Napalm does not go under water (for now)
 		// Perhaps we could add a boiling water sound at some point
 		float waterHeight = -10.0f;
-		LandscapeTex &tex = context_->landscapeMaps->getTex(*context_);
-		if (0 == strcmp(tex.bordertype.c_str(), "water"))
+		LandscapeTex &tex = *context_->landscapeMaps->getDefinitions().getTex();
+		if (tex.border->getType() == LandscapeTexType::eWater)
 		{
 			LandscapeTexBorderWater *water = 
 				(LandscapeTexBorderWater *) tex.border;
@@ -256,21 +260,21 @@ void Napalm::simulateAddStep()
 
 	if (!weapon_->getNoObjectDamage())
 	{
-		context_->landscapeMaps->getObjects().burnObjects(
+		context_->landscapeMaps->getGroundMaps().getObjects().burnObjects(
 			*context_,
 			(unsigned int) x_, (unsigned int) y_,
 			playerId_);
-		context_->landscapeMaps->getObjects().burnObjects(
+		context_->landscapeMaps->getGroundMaps().getObjects().burnObjects(
 			*context_,
 			(unsigned int) x_ + 1, (unsigned int) y_ + 1,
 			playerId_);
-		context_->landscapeMaps->getObjects().burnObjects(
+		context_->landscapeMaps->getGroundMaps().getObjects().burnObjects(
 			*context_,
 			(unsigned int) x_ - 1, (unsigned int) y_ - 1,
 			playerId_);
 	}
 
-	context_->landscapeMaps->getNMap().getHeight(x_, y_) += NapalmHeight;
+	nmap_.getNapalmHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 
 	// Calculate every time as the landscape may change

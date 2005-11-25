@@ -21,10 +21,11 @@
 #if !defined(__INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__)
 #define __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__
 
+class HeightMap;
 class LandscapeObjectsGroupEntry
 {
 public:
-	LandscapeObjectsGroupEntry();
+	LandscapeObjectsGroupEntry(HeightMap &map);
 	virtual ~LandscapeObjectsGroupEntry();
 
 	void addObject(int x, int y);
@@ -34,7 +35,9 @@ public:
 	int getObjectCount();
 
 protected:
-	float distance[64 * 64];
+	float *distance_;
+	int mapWidth_, mapHeight_;
+	int mapWidthMult_, mapHeightMult_;
 	int count_;
 };
 

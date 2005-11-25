@@ -46,8 +46,7 @@ public:
 	void setPassword(const char *password) { setValue("password", password); }
 	void setUniqueId(const char *uid) { setValue("uid", uid); }
 	void setHostDesc(const char *host) { setValue("host", host); }
-	void setNoPlayers(unsigned int players) { 
-		char buf[10]; sprintf(buf, "%i", players); setValue("numplayers", buf); }
+	void setNoPlayers(unsigned int players);
 
 	const char *getVersion() { return getValue("version"); }
 	const char *getProtocolVersion() { return getValue("pversion"); }

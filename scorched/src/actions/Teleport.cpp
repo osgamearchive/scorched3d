@@ -22,6 +22,7 @@
 #include <actions/CameraPositionAction.h>
 #include <sprites/WallActionRenderer.h>
 #include <common/OptionsParam.h>
+#include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
@@ -90,7 +91,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 		Tank *tank = context_->tankContainer->getTankById(playerId_);
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
-			float height = context_->landscapeMaps->getHMap().getInterpHeight(
+			float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
 				position_[0], position_[1]);
 			position_[2] = height;
 

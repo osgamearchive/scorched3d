@@ -29,13 +29,24 @@
 class LandscapeDefnType
 {
 public:
+	enum DefnType
+	{
+		eNone,
+		eStartHeight,
+		eRoofCavern,
+		eHeightMapFile,
+		eHeightMapGenerate
+	};
+
 	virtual bool readXML(XMLNode *node) = 0;
+	virtual DefnType getType() = 0;
 };
 
 class LandscapeDefnTypeNone : public LandscapeDefnType
 {
 public:
 	virtual bool readXML(XMLNode *node);
+	virtual DefnType getType() { return eNone; }
 };
 
 class LandscapeDefnStartHeight : public LandscapeDefnType
@@ -46,6 +57,7 @@ public:
 	std::string startmask;
 
 	virtual bool readXML(XMLNode *node);
+	virtual DefnType getType() { return eStartHeight; }
 };
 
 class LandscapeDefnRoofCavern : public LandscapeDefnType
@@ -56,10 +68,10 @@ public:
 
 	float width;
 	float height;
-	std::string heightmaptype;
 	LandscapeDefnType *heightmap;
 
 	virtual bool readXML(XMLNode *node);
+	virtual DefnType getType() { return eRoofCavern; }
 };
 
 class LandscapeDefnHeightMapFile : public LandscapeDefnType
@@ -69,6 +81,7 @@ public:
 	bool levelsurround;
 
 	virtual bool readXML(XMLNode *node);
+	virtual DefnType getType() { return eHeightMapFile; }
 };
 
 class LandscapeDefnHeightMapGenerate : public LandscapeDefnType
@@ -77,7 +90,6 @@ public:
 	std::string mask;
 	float landhillsmax, landhillsmin;
 	float landheightmax, landheightmin;
-	float landwidthx, landwidthy;
 	float landpeakwidthxmax, landpeakwidthxmin;
 	float landpeakwidthymax, landpeakwidthymin;
 	float landpeakheightmax, landpeakheightmin;
@@ -85,6 +97,7 @@ public:
 	bool levelsurround;
 
 	virtual bool readXML(XMLNode *node);
+	virtual DefnType getType() { return eHeightMapGenerate; }
 };
 
 class LandscapeDefn
@@ -96,14 +109,12 @@ public:
 	std::string name;
 	int minplayers;
 	int maxplayers;
+	int landscapewidth;
+	int landscapeheight;
 
-	std::string rooftype;
 	LandscapeDefnType *roof;
-	std::string surroundtype;
 	LandscapeDefnType *surround;
-	std::string tankstarttype;
 	LandscapeDefnType *tankstart;
-	std::string heightmaptype;
 	LandscapeDefnType *heightmap;
 
 	bool readXML(XMLNode *node);

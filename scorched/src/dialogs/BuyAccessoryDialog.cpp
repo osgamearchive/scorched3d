@@ -28,6 +28,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
+#include <common/Defines.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>

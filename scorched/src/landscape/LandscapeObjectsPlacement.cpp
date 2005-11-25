@@ -26,6 +26,7 @@
 #include <landscape/LandscapePlace.h>
 #include <landscape/DeformLandscape.h>
 #include <GLEXT/GLBitmapModifier.h>
+#include <common/Defines.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/ModelRenderer.h>
 
@@ -39,7 +40,12 @@ void LandscapeObjectPlacementTrees::generateObjects(
 	unsigned char objectMap[64 * 64];
 	memset(objectMap, 0, sizeof(unsigned char) * 64 * 64);
 
+	int groundMapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
+	int groundMapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
+
 	// A few points where trees will be clustered around
+	int treeMapMultWidth  = groundMapWidth / 64;
+	int treeMapMultHeight = groundMapHeight / 64;
 	for (int i=0; i<placement.numclusters; i++)
 	{
 		// Get a random point
@@ -49,10 +55,12 @@ void LandscapeObjectPlacementTrees::generateObjects(
 		// Check point is in the correct height band
 		float height = 
 			context.landscapeMaps->
-				getHMap().getHeight(x * 4, y * 4);
+				getGroundMaps().getHeight(
+					x * treeMapMultWidth, y * treeMapMultHeight);
 		Vector &normal =
 			context.landscapeMaps->
-				getHMap().getNormal(x * 4, y * 4);
+				getGroundMaps().getNormal(
+					x * treeMapMultWidth, y * treeMapMultHeight);
 		if (height > placement.minheight && 
 			height < placement.maxheight && 
 			normal[2] > 0.7f)
@@ -70,10 +78,12 @@ void LandscapeObjectPlacementTrees::generateObjects(
 				{
 					Vector &normal =
 						context.landscapeMaps->
-						getHMap().getNormal(newX * 4, newY * 4);
+						getGroundMaps().getNormal(
+							newX * treeMapMultWidth, newY * treeMapMultHeight);
 					height = 
 						context.landscapeMaps->
-						getHMap().getHeight(newX * 4, newY *4);
+						getGroundMaps().getHeight(
+							newX * treeMapMultWidth, newY * treeMapMultHeight);
 					if (height > placement.minheight && 
 						height < placement.maxheight && 
 						normal[2] > 0.7f)
@@ -166,8 +176,9 @@ void LandscapeObjectPlacementTrees::generateObjects(
 	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
-		group = context.landscapeMaps->getObjects().getGroup(
-			placement.groupname.c_str(), true);
+		group = context.landscapeMaps->getGroundMaps().getObjects().getGroup(
+			placement.groupname.c_str(), 
+			&context.landscapeMaps->getGroundMaps().getHeightMap());
 	}
 
 	// Add lots of trees, more chance of adding a tree where
@@ -179,20 +190,20 @@ void LandscapeObjectPlacementTrees::generateObjects(
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		int x = int(generator.getRandFloat() * 1023.0f);
-		int y = int(generator.getRandFloat() * 1023.0f);
-		int nx = x / 16;
-		int ny = y / 16;
+		int rx = int(generator.getRandFloat() * float(groundMapWidth));
+		int ry = int(generator.getRandFloat() * float(groundMapHeight));
+		int nx = rx / treeMapMultWidth;
+		int ny = ry / treeMapMultHeight;
 		int r = objectMap[nx + 64 * ny];
 		int nr = int (generator.getRandFloat() * 512.0f);
 
 		if (nr < r)
 		{
-			float lx = float(x) / 4.0f;
-			float ly = float(y) / 4.0f;
+			float lx = float(rx);
+			float ly = float(ry);
 			float height = 
 				context.landscapeMaps->
-					getHMap().getInterpHeight(lx, ly);
+					getGroundMaps().getInterpHeight(lx, ly);
 
 			if (height > placement.minheight + 0.5f)
 			{
@@ -234,7 +245,7 @@ void LandscapeObjectPlacementTrees::generateObjects(
 					entry->modelsize = modelSize;
 				}
 
-				context.landscapeMaps->getObjects().addObject(
+				context.landscapeMaps->getGroundMaps().getObjects().addObject(
 					(unsigned int) lx,
 					(unsigned int) ly,
 					entry);
@@ -255,6 +266,9 @@ void LandscapeObjectPlacementMask::generateObjects(
 	ScorchedContext &context,
 	ProgressCounter *counter)
 {
+	int groundMapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
+	int groundMapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
+
 	bool pine = true;
 	float snowHeight = 20.0f;
 	float modelSize = 1.0f;
@@ -302,8 +316,9 @@ void LandscapeObjectPlacementMask::generateObjects(
 	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
-		group = context.landscapeMaps->getObjects().getGroup(
-			placement.groupname.c_str(), true);
+		group = context.landscapeMaps->getGroundMaps().getObjects().getGroup(
+			placement.groupname.c_str(),
+			&context.landscapeMaps->getGroundMaps().getHeightMap());
 	}
 
 	const int NoIterations = placement.numobjects;
@@ -313,8 +328,8 @@ void LandscapeObjectPlacementMask::generateObjects(
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		float lx = generator.getRandFloat() * 255.0f;
-		float ly = generator.getRandFloat() * 255.0f;
+		float lx = generator.getRandFloat() * float(groundMapWidth);
+		float ly = generator.getRandFloat() * float(groundMapHeight);
 		float lr = generator.getRandFloat() * 360.0f;
 		
 		if (placement.xsnap > 0.0f) 
@@ -329,22 +344,22 @@ void LandscapeObjectPlacementMask::generateObjects(
 		{
 			lr = float(int(lr / placement.angsnap)) * placement.angsnap;
 		}
-		lx = MIN(MAX(0.0f, lx), 255.0f);
-		ly = MIN(MAX(0.0f, ly), 255.0f);
+		lx = MIN(MAX(0.0f, lx), float(groundMapWidth));
+		ly = MIN(MAX(0.0f, ly), float(groundMapHeight));
 
 		float height = 
 			context.landscapeMaps->
-				getHMap().getInterpHeight(lx, ly);
+				getGroundMaps().getInterpHeight(lx, ly);
 		Vector normal;
 		context.landscapeMaps->
-			getHMap().getInterpNormal(lx, ly, normal);
+			getGroundMaps().getInterpNormal(lx, ly, normal);
 		if (height > placement.minheight && 
 			height < placement.maxheight &&
 			normal[2] > placement.minslope)
 		{
 				
-			int mx = int(map.getWidth() * (lx / 255.0f));
-			int my = int(map.getWidth() * (ly / 255.0f));
+			int mx = int(map.getWidth() * (lx / float(groundMapWidth)));
+			int my = int(map.getWidth() * (ly / float(groundMapHeight)));
 			GLubyte *bits = map.getBits() +
 				mx * 3 + my * map.getWidth() * 3;
 			if (bits[0] > 127)
@@ -354,7 +369,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 				{
 					float distsq = placement.mincloseness * placement.mincloseness;
 					std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
-						context.landscapeMaps->getObjects().getEntries();
+						context.landscapeMaps->getGroundMaps().getObjects().getEntries();
 					std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
 					for (itor = entries.begin();
 						itor != entries.end();
@@ -411,7 +426,7 @@ void LandscapeObjectPlacementMask::generateObjects(
 						entry->modelsize = modelSize;
 					}
 
-					context.landscapeMaps->getObjects().addObject(
+					context.landscapeMaps->getGroundMaps().getObjects().addObject(
 						(unsigned int) lx,
 						(unsigned int) ly,
 						entry);
@@ -472,8 +487,9 @@ void LandscapeObjectPlacementDirect::generateObjects(
 	LandscapeObjectsGroupEntry *group = 0;
 	if (placement.groupname.c_str()[0])
 	{
-		group = context.landscapeMaps->getObjects().getGroup(
-			placement.groupname.c_str(), true);
+		group = context.landscapeMaps->getGroundMaps().getObjects().getGroup(
+			placement.groupname.c_str(), 
+			&context.landscapeMaps->getGroundMaps().getHeightMap());
 	}
 
 	std::list<LandscapePlaceObjectsPlacementDirect::Position>::iterator itor;
@@ -488,7 +504,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 		LandscapePlaceObjectsPlacementDirect::Position position = (*itor);
 		float height = 
 			context.landscapeMaps->
-				getHMap().getInterpHeight(position.position[0], position.position[1]);
+				getGroundMaps().getInterpHeight(position.position[0], position.position[1]);
 		if (position.position[2] == 0.0f) position.position[2] = height;
 
 		LandscapeObjectsEntry *entry = 0;
@@ -529,7 +545,7 @@ void LandscapeObjectPlacementDirect::generateObjects(
 			entry->modelsize = modelSize;
 		}
 
-		context.landscapeMaps->getObjects().addObject(
+		context.landscapeMaps->getGroundMaps().getObjects().addObject(
 			(unsigned int) position.position[0],
 			(unsigned int) position.position[1],
 			entry);

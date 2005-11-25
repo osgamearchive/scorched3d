@@ -117,9 +117,9 @@ SingleFrame::SingleFrame() :
 	{
 		const char *modName = (*itor).c_str();
 			
-		DefinesUtil::setDataFileMod(modName);
+		setDataFileMod(modName);
 		std::string modGamesFile = getDataFile("data/singlegames.xml");
-		DefinesUtil::setDataFileMod("none");
+		setDataFileMod("none");
 		if (noModGamesFile == modGamesFile &&
 			0 != strcmp(modName, "none")) continue;
 		
@@ -159,7 +159,7 @@ void SingleFrame::addModButton(
 	const char *mod,
 	wxSizer *sizer)
 {
-	DefinesUtil::setDataFileMod(mod);
+	setDataFileMod(mod);
 	
 	SingleGames games;
 	if (!games.parse(getDataFile("data/singlegames.xml"))) 
@@ -170,7 +170,7 @@ void SingleFrame::addModButton(
 		(char *) games.icon.c_str(), 
 		this, sizer, refData);
 
-	DefinesUtil::setDataFileMod("none");
+	setDataFileMod("none");
 }
 
 void SingleFrame::onLoadButton(wxCommandEvent &event)

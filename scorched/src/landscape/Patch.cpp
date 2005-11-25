@@ -18,23 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Patch.cpp: implementation of the Patch class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
 #include <landscape/Patch.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Patch::Patch(HeightMap *map, int x, int y, int width, int totalWidth) :
-	map_(map), x_(x), y_(y), width_(width),
-	leftSide_(map, x, y, width, totalWidth),
-	rightSide_(map, x+width, y+width, -width, totalWidth),
-	forceVariance_(false), recalculate_(false)
+Patch::Patch(HeightMap *map, PatchTexCoord *coord, 
+	int x, int y, int width) :
+	x_(x), y_(y), width_(width),
+	leftSide_(map, coord, x, y, width),
+	rightSide_(map, coord, x+width, y+width, -width),
+	forceVariance_(false), recalculate_(false), visible_(true),
+	midPoint_(x + width / 2, y + width / 2, 0)
 {
 
 }
@@ -69,14 +62,4 @@ void Patch::draw(PatchSide::DrawType side)
 {
 	leftSide_.draw(side);
 	rightSide_.draw(side);
-}
-
-TriNode *Patch::getLeftTri()
-{
-	return leftSide_.getTriNode();
-}
-
-TriNode *Patch::getRightTri()
-{
-	return rightSide_.getTriNode();
 }

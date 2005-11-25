@@ -1056,7 +1056,7 @@ yyerrhandle:
 int aseerror(const char *errmsg)
 {
 	char buffer[1024];
-	sprintf(buffer, "%i:%s\n", aselineno, errmsg);
+	snprintf(buffer, 1024, "%i:%s\n", aselineno, errmsg);
 	dialogMessage("Lexer", buffer);
     return 0;
 }
@@ -1064,7 +1064,7 @@ int aseerror(const char *errmsg)
 int asewarning(const char *warningmsg)
 {
 	char buffer[1024];
-	sprintf(buffer, "%i:%s\n", aselineno, warningmsg);
+	snprintf(buffer, 1024, "%i:%s\n", aselineno, warningmsg);
 	dialogMessage("Lexer", buffer);
     return 0;
 }
@@ -1072,7 +1072,7 @@ int asewarning(const char *warningmsg)
 int asedebug(const char *debugmsg)
 {
 	char buffer[1024];
-	sprintf(buffer, "%i:%s\n", aselineno, debugmsg);
+	snprintf(buffer, 1024, "%i:%s\n", aselineno, debugmsg);
 	dialogMessage("Lexer", buffer);
     return 0;
 }

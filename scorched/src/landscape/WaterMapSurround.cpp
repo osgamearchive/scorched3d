@@ -24,9 +24,11 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
 #include <landscape/WaterMapSurround.h>
+#include <landscape/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
 
-WaterMapSurround::WaterMapSurround(int width, int widthMult) :
-	width_(width), widthMult_(widthMult), triangles_(0)
+WaterMapSurround::WaterMapSurround() :
+	triangles_(0), listNo_(0)
 {
 
 }
@@ -36,27 +38,41 @@ WaterMapSurround::~WaterMapSurround()
 
 }
 
+void WaterMapSurround::generate(int mapWidth, int mapHeight,
+	int startX, int startY,
+	int mapWidthMult, int mapHeightMult)
+{
+	startX_ = (float) startX; startY_ = (float) startY;
+	mapWidth_  = mapWidth;
+	mapWidthMult_ = mapWidthMult;
+	mapHeight_ = mapHeight;
+	mapHeightMult_ = mapHeightMult;
+	triangles_ = 0;
+
+	if (listNo_ != 0)
+	{
+		glDeleteLists(listNo_, 1);
+		listNo_ = 0;
+	}
+}
+
 void WaterMapSurround::draw()
 {
-	static GLuint listNo = 0;
-	if (listNo == 0)
+	if (listNo_ == 0)
 	{
-		glNewList(listNo = glGenLists(1), GL_COMPILE);
+		glNewList(listNo_ = glGenLists(1), GL_COMPILE);
 			generateList();
 		glEndList();
 	}
-	glCallList(listNo);
+	glCallList(listNo_);
 
 	GLInfo::addNoTriangles(triangles_);
 }
 
 void WaterMapSurround::drawPoint(Vector &start, Vector &diff, 
-								 int numberX, int maxX, 
-								 int numberY, int maxY)
+	int numberX, int maxX, 
+	int numberY, int maxY)
 {
-	const float centerX = 128.0f;
-	const float centerY = 128.0f;
-
 	float numberYf = (float) numberY;
 	float maxYf = (float) maxY;
 	float numberXf = (float) numberX;
@@ -69,17 +85,6 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 	numberYf *= multiplier;
 
 	Vector pos = start + (diff * numberYf / maxYf);
-
-	/*Vector centerpos(centerX, centerY, pos[2]);
-	float dist = (pos - centerpos).Magnitude();
-	const float startDist = (float) sqrt((128 + 64) * (128 + 64) + (128 + 64) * (128 + 64)) + 1.0f;
-	if (dist > startDist)
-	{
-		float leftDist = dist - startDist;
-		pos[2] -= 10.0f * ((float) pow(1.001, leftDist) - 1.0f);
-	}*/
-	//pos[2] -= height_ * (numberYf / maxYf);
-
 	if (GLStateExtension::glMultiTextCoord2fARB()) 
 	{
 		GLStateExtension::glMultiTextCoord2fARB()
@@ -92,10 +97,18 @@ void WaterMapSurround::drawPoint(Vector &start, Vector &diff,
 
 void WaterMapSurround::generateList()
 {
-	const float largeMin = -64 -1024;
-	const float largeMax = 64 + 1024 + 256;
-	const float largeLen = largeMax - largeMin;
-	const float largeMult = largeLen / width_;
+	const float mapWidth = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	const float mapHeight = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+	const float largeMinWidth = startX_ - 1024;
+	const float largeMaxWidth = -startX_ + 1024 + mapWidth;
+	const float largeMinHeight = startY_ - 1024;
+	const float largeMaxHeight = -startY_ + 1024 + mapHeight;
+	const float largeLenWidth = largeMaxWidth - largeMinWidth;
+	const float largeLenHeight = largeMaxHeight - largeMinHeight;
+	const float largeMultWidth = largeLenWidth / mapWidth_;
+	const float largeMultHeight = largeLenHeight / mapHeight_;
 	
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	glColor4f(0.7f, 0.7f, 0.7f, 0.9f);
@@ -103,60 +116,60 @@ void WaterMapSurround::generateList()
 	int maxSquares = 10;
 	for (int j=0; j<maxSquares; j++)
 	{
-		float pointX = -64;
-		float pointY = -64;
-		float lpointX = largeMin;
-		float lpointY = largeMin;
+		float pointX = startX_;
+		float pointY = startY_;
+		float lpointX = largeMinWidth;
+		float lpointY = largeMinHeight;
 
 		glBegin(GL_QUAD_STRIP);
 		int i;
-		for (i=0; i<width_-1; i++)
+		for (i=0; i<mapWidth_-1; i++)
 		{
 			Vector start(pointX, pointY, 0.0f);
 			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
-			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
-			drawPoint(start, diff, i, width_ - 1, j + 1, maxSquares);
+			drawPoint(start, diff, i, mapWidth_ - 1, j, maxSquares);
+			drawPoint(start, diff, i, mapWidth_ - 1, j + 1, maxSquares);
 
-			pointX += widthMult_;
-			lpointX += largeMult;
+			pointX += mapWidthMult_;
+			lpointX += largeMultWidth;
 		}
-		for (i=0; i<width_ - 1; i++)
+		for (i=0; i<mapHeight_ - 1; i++)
 		{
 			Vector start(pointX, pointY, 0.0f);
 			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
-			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
-			drawPoint(start, diff, i, width_ - 1, j + 1, maxSquares);
+			drawPoint(start, diff, i, mapHeight_ - 1, j, maxSquares);
+			drawPoint(start, diff, i, mapHeight_ - 1, j + 1, maxSquares);
 
-			pointY += widthMult_;
-			lpointY += largeMult;		
+			pointY += mapHeightMult_;
+			lpointY += largeMultHeight;		
 		}
-		for (i=0; i<width_ - 1; i++)
+		for (i=0; i<mapWidth_ - 1; i++)
 		{
 			Vector start(pointX, pointY, 0.0f);
 			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
-			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
-			drawPoint(start, diff, i, width_ - 1, j + 1, maxSquares);
+			drawPoint(start, diff, i, mapWidth_ - 1, j, maxSquares);
+			drawPoint(start, diff, i, mapWidth_ - 1, j + 1, maxSquares);
 
-			pointX -= widthMult_;
-			lpointX -= largeMult;	
+			pointX -= mapWidthMult_;
+			lpointX -= largeMultWidth;	
 		}
-		for (i=0; i<width_; i++)
+		for (i=0; i<mapHeight_; i++)
 		{
 			Vector start(pointX, pointY, 0.0f);
 			Vector end(lpointX, lpointY, 0.0f);
 			Vector diff = end - start;
 
-			drawPoint(start, diff, i, width_ - 1, j, maxSquares);
-			drawPoint(start, diff, i, width_ - 1, j + 1, maxSquares);
+			drawPoint(start, diff, i, mapHeight_ - 1, j, maxSquares);
+			drawPoint(start, diff, i, mapHeight_ - 1, j + 1, maxSquares);
 
-			pointY -= widthMult_;
-			lpointY -= largeMult;		
+			pointY -= mapHeightMult_;
+			lpointY -= largeMultHeight;		
 		}
 		glEnd();
 	}

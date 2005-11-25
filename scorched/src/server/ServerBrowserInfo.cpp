@@ -138,15 +138,15 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 {
 	char *serverName = (char *) ScorchedServer::instance()->getOptionsGame().getServerName();
 	char version[256];
-	sprintf(version, "%s (%s)", ScorchedVersion, ScorchedProtocolVersion);
+	snprintf(version, 256, "%s (%s)", ScorchedVersion, ScorchedProtocolVersion);
 	unsigned currentState = ScorchedServer::instance()->getGameState().getState();
 	bool started = !ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f);
 	char players[25];
-	sprintf(players, "%i", ScorchedServer::instance()->getTankContainer().getNoOfTanks());
+	snprintf(players, 25, "%i", ScorchedServer::instance()->getTankContainer().getNoOfTanks());
 	char maxplayers[25];
-	sprintf(maxplayers, "%i", ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
+	snprintf(maxplayers, 25, "%i", ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 	char type[100];
-	sprintf(type, "%s (%s)", 
+	snprintf(type, 100, "%s (%s)", 
 		ScorchedServer::instance()->getOptionsTransient().getGameType(),
 		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
 	wxString osDesc = ::wxGetOsDescription();
@@ -203,16 +203,16 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 		Tank *tank = (*tankItor).second;
 		static char tmp[128];
 
-		sprintf(tmp, "pn%i", i);
+		snprintf(tmp, 128, "pn%i", i);
 		reply.push_back(addTag(tmp, tank->getName()));
 
-		sprintf(tmp, "ps%i", i);
+		snprintf(tmp, 128, "ps%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getScoreString()));
 
-		sprintf(tmp, "pt%i", i);
+		snprintf(tmp, 128, "pt%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getTimePlayedString()));
 
-		sprintf(tmp, "pm%i", i);
+		snprintf(tmp, 128, "pm%i", i);
 		switch (tank->getTeam())
 		{
 		case 1: reply.push_back(addTag(tmp, "Red")); break;
@@ -222,7 +222,7 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 		default: reply.push_back(addTag(tmp, "None")); break;
 		}
 
-		sprintf(tmp, "pr%i", i);
+		snprintf(tmp, 128, "pr%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getStatsRank()));
 	}
 

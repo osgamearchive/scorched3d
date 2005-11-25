@@ -19,23 +19,31 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeObjectsGroupEntry.h>
+#include <landscape/HeightMap.h>
 #include <common/Defines.h>
 #include <common/Vector.h>
 
-LandscapeObjectsGroupEntry::LandscapeObjectsGroupEntry() :
-	count_(0)
+LandscapeObjectsGroupEntry::LandscapeObjectsGroupEntry(HeightMap &map) :
+	count_(0), distance_(0)
 {
-	for (int a=0; a<64; a++)
+	mapWidthMult_ = 4;
+	mapHeightMult_ = 4;
+	mapWidth_ = map.getMapWidth() / mapWidthMult_;
+	mapHeight_ = map.getMapHeight() / mapHeightMult_;
+
+	distance_ = new float[mapWidth_ * mapHeight_];
+	for (int a=0; a<mapWidth_; a++)
 	{
-		for (int b=0; b<64; b++)
+		for (int b=0; b<mapHeight_; b++)
 		{
-			distance[a + b * 64] = 255.0f;
+			distance_[a + b * mapWidth_] = 255.0f;
 		}
 	}
 }
 
 LandscapeObjectsGroupEntry::~LandscapeObjectsGroupEntry()
 {
+	delete [] distance_;
 }
 
 int LandscapeObjectsGroupEntry::getObjectCount()
@@ -45,12 +53,12 @@ int LandscapeObjectsGroupEntry::getObjectCount()
 
 float LandscapeObjectsGroupEntry::getDistance(int x, int y)
 {
-	x /= 4;
-	y /= 4;
+	x /= mapWidthMult_;
+	y /= mapHeightMult_;
 
-	if (x >=0 && x < 64 && y >=0 && y < 64)
+	if (x >=0 && x < mapWidth_ && y >=0 && y < mapHeight_)
 	{
-		return distance[x + y * 64];
+		return distance_[x + y * mapWidth_];
 	}
 	return 255.0f;
 }
@@ -58,19 +66,19 @@ float LandscapeObjectsGroupEntry::getDistance(int x, int y)
 void LandscapeObjectsGroupEntry::addObject(int x, int y)
 {
 	count_ ++;
-	x /= 4;
-	y /= 4;
+	x /= mapWidthMult_;
+	y /= mapHeightMult_;
 
-	if (x >=0 && x < 64 && y >=0 && y < 64)
+	if (x >=0 && x < mapWidth_ && y >=0 && y < mapHeight_)
 	{
 		Vector posA(x, y, 0);
-		for (int a=0; a<64; a++)
+		for (int a=0; a<mapWidth_; a++)
 		{
-			for (int b=0; b<64; b++)
+			for (int b=0; b<mapHeight_; b++)
 			{
 				Vector posB(a, b, 0);
 				float d = (posB - posA).Magnitude();
-				distance[a + b * 64] = MIN(distance[a + b * 64], d);
+				distance_[a + b * mapWidth_] = MIN(distance_[a + b * mapWidth_], d);
 			}
 		}
 	}
@@ -78,11 +86,11 @@ void LandscapeObjectsGroupEntry::addObject(int x, int y)
 
 void LandscapeObjectsGroupEntry::removeObject(int x, int y)
 {
-	x /= 4;
-	y /= 4;
-	if (x >=0 && x < 64 && y >=0 && y < 64)
+	x /= mapWidthMult_;
+	y /= mapHeightMult_;
+	if (x >=0 && x < mapWidth_ && y >=0 && y < mapHeight_)
 	{
-		distance[x + y * 64] += 2.0f;
+		distance_[x + y * mapWidth_] += 2.0f;
 	}
 
 	count_ --;

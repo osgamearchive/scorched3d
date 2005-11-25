@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/NetInterface.h>
+#include <common/Defines.h>
 
 unsigned int NetInterface::bytesIn_ = 0;
 unsigned int NetInterface::bytesOut_ = 0;
@@ -36,7 +37,7 @@ NetInterface::~NetInterface()
 const char *NetInterface::getIpName(unsigned int ipAddress)
 {
 	static char result[128];
-	sprintf(result, "%u.%u.%u.%u", 
+	snprintf(result, 128, "%u.%u.%u.%u", 
 		(ipAddress & 0xFF000000) >> 24,
 		(ipAddress & 0x00FF0000) >> 16,
 		(ipAddress & 0x0000FF00) >> 8,

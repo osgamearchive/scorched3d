@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
-#include <common/Defines.h>
 #include <common/Vector.h>
+#include <common/Defines.h>
 
 Vector Vector::nullVector;
 

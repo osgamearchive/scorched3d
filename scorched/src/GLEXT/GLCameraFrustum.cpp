@@ -49,8 +49,7 @@ void GLCameraFrustum::normalize(float vector[4])
    float fT = (float) sqrt(
 	   vector[0] * vector[0] + 
 	   vector[1] * vector[1] + 
-	   vector[2] * vector[2] +
-	   vector[3] * vector[3]);
+	   vector[2] * vector[2]);
 
    vector[0] /= fT;
    vector[1] /= fT;
@@ -155,10 +154,12 @@ bool GLCameraFrustum::pointInFrustum(Vector &point)
 {
 	for (int iCurPlane = 0; iCurPlane<6; iCurPlane++)
 	{
-		if (s.frustum_[iCurPlane][0] * point[0] + 
+		float value = 
+			s.frustum_[iCurPlane][0] * point[0] + 
 			s.frustum_[iCurPlane][1] * point[1] + 
 			s.frustum_[iCurPlane][2] * point[2] + 
-			s.frustum_[iCurPlane][3] <= 0)
+			s.frustum_[iCurPlane][3];
+		if (value <= 0)
 		{
 			return false;
 		}
@@ -171,10 +172,12 @@ bool GLCameraFrustum::sphereInFrustum(Vector &point, float fRadius)
 {
 	for (int iCurPlane = 0; iCurPlane<6; iCurPlane++)
 	{
-		if (s.frustum_[iCurPlane][0] * point[0] + 
+		float value = 
+			s.frustum_[iCurPlane][0] * point[0] + 
 			s.frustum_[iCurPlane][1] * point[1] + 
 			s.frustum_[iCurPlane][2] * point[2] + 
-			s.frustum_[iCurPlane][3] <= -fRadius)
+			s.frustum_[iCurPlane][3];
+		if (value <= -fRadius)
 		{
 			return false;
 		}

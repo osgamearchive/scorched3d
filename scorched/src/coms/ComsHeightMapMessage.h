@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,24 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientReadyStateh_INCLUDE__)
-#define __INCLUDE_ClientReadyStateh_INCLUDE__
+#if !defined(__INCLUDE_ComsHeightMapMessageh_INCLUDE__)
+#define __INCLUDE_ComsHeightMapMessageh_INCLUDE__
 
-#include <engine/GameStateI.h>
+#include <coms/ComsMessage.h>
 
-class ClientReadyState : public GameStateI
+class ComsHeightMapMessage : public ComsMessage
 {
 public:
-	static ClientReadyState *instance();
+	ComsHeightMapMessage();
+	virtual ~ComsHeightMapMessage();
 
-	virtual void enterState(const unsigned state);
+	void createMessage(unsigned char *levelData,
+					   unsigned int levelLen);
+
+	// Accessors
+	unsigned char *getLevelData() { return levelData_; }
+	unsigned int getLevelLen() { return levelLen_; }
+
+	// Inherited from ComsMessage
+    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
+    virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	static ClientReadyState *instance_;
+	unsigned char *levelData_;
+	unsigned int levelLen_;
 
 private:
-	ClientReadyState();
-	virtual ~ClientReadyState();
-};
+	ComsHeightMapMessage(const ComsHeightMapMessage &);
+	const ComsHeightMapMessage & operator=(const ComsHeightMapMessage &);
 
-#endif
+};
+#endif // __INCLUDE_ComsHeightMapMessageh_INCLUDE__

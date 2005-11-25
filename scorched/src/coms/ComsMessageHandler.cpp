@@ -135,7 +135,7 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 	if (itor == recvHandlerMap_.end())
 	{
 		char buffer[1024];
-		sprintf(buffer, "Failed to find RECV message type handler \"%s\"",
+		snprintf(buffer, 1024, "Failed to find RECV message type handler \"%s\"",
 			messageType.c_str());
 
 		if (connectionHandler_)
@@ -150,7 +150,7 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 		messageTypeStr, reader))
 	{
 		char buffer[1024];
-		sprintf(buffer, "Failed to handle RECV message type \"%s\"",
+		snprintf(buffer, 1024, "Failed to handle RECV message type \"%s\"",
 			messageType.c_str());
 
 		if (connectionHandler_)
@@ -189,7 +189,7 @@ void ComsMessageHandler::processSentMessage(NetMessage &message)
 		messageTypeStr, reader))
 	{
 		char buffer[1024];
-		sprintf(buffer, "Failed to handle SENT message type \"%s\"",
+		snprintf(buffer, 1024, "Failed to handle SENT message type \"%s\"",
 			messageType.c_str());
 
 		if (connectionHandler_)

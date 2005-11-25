@@ -32,15 +32,15 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	bool down, GLBitmap &scorchedMap, 
 	DeformLandscape::DeformPoints &map)
 {
-	HeightMap &hmap = ScorchedClient::instance()->getLandscapeMaps().getHMap();
+	HeightMap &hmap = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap();
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
 
 	// Recalculate landscape
 	Landscape::instance()->recalculate((int) pos[0], (int) pos[1], (int) radius);
 
-	float pixelsPerSW = (float)(Landscape::instance()->getMainMap().getWidth() / hmap.getWidth());
-	float pixelsPerSH = (float)(Landscape::instance()->getMainMap().getHeight() / hmap.getWidth());
+	float pixelsPerSW = (float)(Landscape::instance()->getMainMap().getWidth() / hmap.getMapWidth());
+	float pixelsPerSH = (float)(Landscape::instance()->getMainMap().getHeight() / hmap.getMapWidth());
 
 	GLint x = GLint((pos[0] - radius) * pixelsPerSW);
 	GLint y = GLint((pos[1] - radius) * pixelsPerSH);

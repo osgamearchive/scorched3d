@@ -23,6 +23,7 @@
 
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
+#include <common/DefinesAssert.h>
 
 class GLDynamicVertexArray
 {

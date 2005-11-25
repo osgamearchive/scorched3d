@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <landscape/Smoke.h>
 #include <client/ScorchedClient.h>
+#include <common/Defines.h>
 
 SmokeCounter::SmokeCounter(float minTime, float timeDiff) :
 	currentTime_(0.0f), minTime_(minTime), timeDiff_(timeDiff)

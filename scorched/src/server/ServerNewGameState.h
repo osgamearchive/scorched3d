@@ -46,7 +46,6 @@ protected:
 	static void checkTeamsBotsVs();
 	void calculateStartPosition(
 		LandscapeDefnType *defn,
-		const char *type,
 		ScorchedContext &contex);
 };
 

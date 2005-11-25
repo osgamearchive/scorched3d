@@ -24,6 +24,7 @@
 #include <GLEXT/GLConsole.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsAdminMessage.h>
+#include <common/Defines.h>
 
 ClientAdmin *ClientAdmin::instance_ = 0;
 

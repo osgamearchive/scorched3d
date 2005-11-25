@@ -86,7 +86,7 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
-	DefinesUtil::setDataFileMod(mod);
+	setDataFileMod(mod);
 
 	addTitleToWindow(this, topsizer, 
 		getDataFile("data/windows/scorched.bmp"),
@@ -111,7 +111,7 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 			desc, icon, 
 			this, gridsizer, refData);
 	}
-	DefinesUtil::setDataFileMod("none");
+	setDataFileMod("none");
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 

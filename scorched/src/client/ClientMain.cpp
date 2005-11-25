@@ -38,7 +38,6 @@
 #include <client/ClientFileHandler.h>
 #include <client/ClientPlayerAimHandler.h>
 #include <client/ClientActionsHandler.h>
-#include <client/ClientNextRoundHandler.h>
 #include <client/ClientLastChanceHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <client/ClientPlayerStatusHandler.h>
@@ -49,10 +48,7 @@
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowManager.h>
-#include <landscape/HeightMapCollision.h>
-#include <landscape/SkyRoofCollision.h>
 #include <engine/MainLoop.h>
-#include <engine/ScorchedCollisionHandler.h>
 #include <engine/ActionController.h>
 #include <dialogs/ProgressDialog.h>
 #include <coms/NetServer.h>
@@ -69,6 +65,7 @@
 #include <common/Display.h>
 #include <common/Gamma.h>
 #include <common/Clock.h>
+#include <common/Defines.h>
 #include <sound/Sound.h>
 #include <SDL/SDL.h>
 
@@ -153,20 +150,12 @@ bool startClient(ProgressCounter *progressCounter)
 	ClientFileHandler::instance();
 	ClientGameStoppedHandler::instance();
 	ClientStartGameHandler::instance();
-	ClientNextRoundHandler::instance();
 	ClientLastChanceHandler::instance();
 	ClientGameStateHandler::instance();
 	ClientDefenseHandler::instance();
 	ClientActionsHandler::instance();
 	ClientPlayerStatusHandler::instance();
 	ClientScoreHandler::instance();
-
-	HeightMapCollision *hmcol = 
-		new HeightMapCollision(&ScorchedClient::instance()->getContext());
-	SkyRoofCollision *srcol = 
-		new SkyRoofCollision(&ScorchedClient::instance()->getContext());
-	ScorchedClient::instance()->getActionController().getPhysics().setCollisionHandler(
-		new ScorchedCollisionHandler(&ScorchedClient::instance()->getContext()));
 
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");

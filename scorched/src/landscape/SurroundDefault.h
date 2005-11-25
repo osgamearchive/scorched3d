@@ -26,7 +26,7 @@
 class SurroundDefault  
 {
 public:
-	SurroundDefault(HeightMap &map, int width, int height);
+	SurroundDefault(HeightMap &map);
 	virtual ~SurroundDefault();
 
 	void draw();
@@ -34,8 +34,10 @@ public:
 
 protected:
 	unsigned int listNo_;
+	HeightMap &map_;
 	Vector hMapBoxVerts_[16];
 	void generateList(bool detail);
+	void generateVerts();
 
 };
 

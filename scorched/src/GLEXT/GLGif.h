@@ -30,14 +30,17 @@ class GLGif : public GLImage
 public:
 	GLGif();
 	GLGif(const char *filename);
+	GLGif(const char *filename, const char *alphafilename, bool invert = true);
 	virtual ~GLGif();
 
 	virtual GLubyte *getBits() { return bits_; }
 	virtual int getWidth() { return width_; }
 	virtual int getHeight() { return height_; }
 	virtual int getAlignment() { return 4; }
-	virtual int getComponents() { return 3; }
+	virtual int getComponents() { return alpha_?4:3; }
 
+	void clear();
+	void createBlank(int width, int height, bool alpha = false, unsigned char fill = 255);
 	bool loadFromFile(const char *filename);
 	bool loadFromBuffer(NetBuffer &buffer);
 
@@ -45,6 +48,7 @@ protected:
 	GLubyte *bits_;
 	int width_;
 	int height_;
+	bool alpha_;
 
 	bool loadFromStream(wxInputStream *ifStream);
 

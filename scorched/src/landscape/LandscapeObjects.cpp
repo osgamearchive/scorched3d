@@ -58,7 +58,7 @@ void LandscapeObjects::clearGroups()
 }
 
 LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
-	const char *name, bool create)
+	const char *name, HeightMap *create)
 {
 	std::map<std::string, LandscapeObjectsGroupEntry*>::iterator findItor =
 		groups_.find(name);
@@ -68,7 +68,7 @@ LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
 	}
 	if (create)
 	{
-		LandscapeObjectsGroupEntry *entry = new LandscapeObjectsGroupEntry;
+		LandscapeObjectsGroupEntry *entry = new LandscapeObjectsGroupEntry(*create);
 		groups_[name] = entry;
 		return entry;
 	}

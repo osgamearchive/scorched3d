@@ -26,9 +26,11 @@
 #include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
+#include <math.h>
 
 WaterWaves::WaterWaves() : 
-	totalTime_(0.0f), pointCount_(0), removedCount_(0)
+	totalTime_(0.0f), 
+	waveDistance_(0)
 {
 
 }
@@ -39,22 +41,44 @@ WaterWaves::~WaterWaves()
 
 void WaterWaves::generateWaves(float waterHeight, WaterMap &wmap, ProgressCounter *counter)
 {
-	memset(wavePoints_, 0, 256 * 256 * sizeof(bool));
-	for (int a=0; a<64; a++)
+	int mapWidth = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getMapWidth();
+	int mapHeight = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getMapHeight();
+
+	// Wave points
+	WaterWaveContext context;
+	context.pointCount = 0;
+	context.removedCount = 0;
+	context.pointsMult = 1;
+	context.mapWidth = mapWidth;
+	context.mapHeight = mapHeight;
+	context.pointsWidth = mapWidth / context.pointsMult;
+	context.pointsHeight = mapHeight / context.pointsMult;
+	context.wavePoints = new bool[context.pointsWidth * context.pointsHeight];
+	memset(context.wavePoints, 0, 
+		context.pointsWidth * context.pointsHeight * sizeof(bool));
+
+	// Wave distance
+	distanceWidthMult_ = 4;
+	distanceHeightMult_ = 4;
+	distanceWidth_ = mapWidth / distanceWidthMult_;
+	distanceHeight_ = mapHeight / distanceHeightMult_;
+	delete [] waveDistance_;
+	waveDistance_ = new float[distanceWidth_ * distanceHeight_];
+	for (int a=0; a<distanceWidth_; a++)
 	{
-		for (int b=0; b<64; b++)
+		for (int b=0; b<distanceHeight_; b++)
 		{
-			waveDistance_[a + b * 64] = 255.0f;
+			waveDistance_[a + b * distanceWidth_] = 255.0f;
 		}
 	}
 	paths1_.clear();
 	paths2_.clear();
-	pointCount_ = 0;
-	removedCount_ = 0;
 
 	// Find all of the points that are equal to a certain height (the water height)
 	if (counter) counter->setNewOp("Creating waves 1");
-	findPoints(waterHeight, counter);
+	findPoints(&context, waterHeight, counter);
 
 	// Do this after the findPoints so the waveDistance array is always completed
 	if (OptionsDisplay::instance()->getNoWaves()) return;
@@ -62,73 +86,105 @@ void WaterWaves::generateWaves(float waterHeight, WaterMap &wmap, ProgressCounte
 
 	// Find the list of points that are next to eachother
 	if (counter) counter->setNewOp("Creating waves 2");
-	while (findNextPath(waterHeight, wmap, counter)) {}
+	while (findNextPath(&context,
+		waterHeight, wmap, counter)) {}
+
+	delete [] context.wavePoints;
 }
 
-void WaterWaves::findPoints(float waterHeight, ProgressCounter *counter)
+void WaterWaves::findPoints(WaterWaveContext *context,
+	float waterHeight, ProgressCounter *counter)
 {
-	for (int y=1; y<255; y++)
+	int distanceCount = 0;
+	for (int y=context->pointsMult; 
+		y<context->mapHeight - context->pointsMult; 
+		y+=context->pointsMult)
 	{
-		if (counter) counter->setNewPercentage(float(y)/float(255)*100.0f);
-		for (int x=1; x<255; x++)
+		if (counter) counter->setNewPercentage(float(y)/
+			float(context->pointsHeight)*100.0f);
+		for (int x=context->pointsMult; 
+			x<context->mapWidth - context->pointsMult; 
+			x+=context->pointsMult)
 		{
 			float height =
 				ScorchedClient::instance()->getLandscapeMaps().
-				getHMap().getHeight(x, y);
+					getGroundMaps().getHeight(x, y);
 			if (height > waterHeight - 4.0f && height < waterHeight)
 			{
 				float height2=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getHMap().getHeight(x+1, y);
+					getGroundMaps().getHeight(x+context->pointsMult, y);
 				float height3=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getHMap().getHeight(x-1, y);
+					getGroundMaps().getHeight(x-context->pointsMult, y);
 				float height4=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getHMap().getHeight(x, y+1);
+					getGroundMaps().getHeight(x, y+context->pointsMult);
 				float height5=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getHMap().getHeight(x, y-1);
+					getGroundMaps().getHeight(x, y-context->pointsMult);
 
 				if (height2 > waterHeight || height3 > waterHeight ||
 					height4 > waterHeight || height5 > waterHeight)
 				{
-					if ((x % 2 == 0) && (y % 2 == 0))
+					if (++distanceCount % 2 == 0)
 					{
 						Vector posA((float) x, (float) y, 0.0f);
-						for (int b=0; b<64; b++)
+						for (int b=0; b<distanceHeight_; b++)
 						{
-							for (int a=0; a<64; a++)
+							for (int a=0; a<distanceWidth_; a++)
 							{
-								Vector posB(float(a * 4.0f), float(b * 4.0f), 0.0f);
+								Vector posB(
+									float(float(a) / float(distanceWidth_) * float(context->pointsWidth)), 
+									float(float(b) / float(distanceHeight_) * float(context->pointsHeight)), 0.0f);
 								float distance = (posB - posA).Magnitude();
-								waveDistance_[a + b * 64] = MIN(waveDistance_[a + b * 64], distance);
+								waveDistance_[a + b * distanceWidth_] = MIN(waveDistance_[a + b * distanceWidth_], distance);
 							}
 						}
 					}
 
-					wavePoints_[x + y * 256] = true;
-					pointCount_ ++;
+					{
+						int a = x / context->pointsMult;
+						int b = y / context->pointsMult;
+						bool &pts = context->wavePoints[
+							a + b * context->pointsWidth];
+						if (!pts)
+						{
+							context->pointCount ++;
+							pts = true;
+						}
+					}
 				}
 			}
 		}
 	}
 }
 
-bool WaterWaves::findNextPath(float waterHeight, WaterMap &wmap, ProgressCounter *counter)
+float WaterWaves::getWaveDistance(int posx, int posy)
 {
-	static std::vector<Vector> points;
-	points.clear();
+	int a = int(posx) / distanceWidthMult_;
+	int b = int(posy) / distanceHeightMult_;
+	int x = MAX(0, MIN(a, (distanceWidth_ - 1)));
+	int y = MAX(0, MIN(b, (distanceHeight_ - 1)));
 
-	if (counter) counter->setNewPercentage(float(removedCount_)/float(pointCount_)*100.0f);
-	for (int y=1; y<255; y++)
+	float distance = waveDistance_[x + y * distanceWidth_];
+	distance += fabsf(float(a - x)) + fabsf(float(b - y));
+	return distance;
+}
+
+bool WaterWaves::findNextPath(WaterWaveContext *context,
+	float waterHeight, WaterMap &wmap, ProgressCounter *counter)
+{
+	std::vector<Vector> points;
+
+	for (int y=1; y<context->pointsHeight; y++)
 	{
-		for (int x=1; x<255; x++)
+		for (int x=1; x<context->pointsWidth; x++)
 		{
-			if (wavePoints_[x + y * 256]) 
+			if (context->wavePoints[x + y * context->pointsWidth]) 
 			{
-				findPath(points, x, y);
-				constructLines(waterHeight, wmap, points);
+				findPath(context, points, x, y, counter);
+				constructLines(context, waterHeight, wmap, points);
 				return true;			
 			}
 		}
@@ -137,23 +193,49 @@ bool WaterWaves::findNextPath(float waterHeight, WaterMap &wmap, ProgressCounter
 	return false;
 }
 
-void WaterWaves::findPath(std::vector<Vector> &points, int x, int y)
+void WaterWaves::findPath(WaterWaveContext *context,
+	std::vector<Vector> &points, 
+	int x, int y, ProgressCounter *counter)
 {
-	points.push_back(Vector(float(x), float(y), 0.0f));
+	if (x < 0 || x >= context->pointsWidth ||
+		y < 0 || y >= context->pointsHeight)
+	{
+		return;
+	}
 
-	wavePoints_[x + y * 256] = false;
-	removedCount_ ++;
-	if (wavePoints_[(x+1) + y * 256]) findPath(points, x+1, y);
-	else if (wavePoints_[(x-1) + y * 256]) findPath(points, x-1, y);
-	else if (wavePoints_[x + (y-1) * 256]) findPath(points, x, y-1);
-	else if (wavePoints_[x + (y+1) * 256]) findPath(points, x, y+1);
-	else if (wavePoints_[(x-1) + (y-1) * 256]) findPath(points, x-1, y-1);
-	else if (wavePoints_[(x-1) + (y+1) * 256]) findPath(points, x-1, y+1);
-	else if (wavePoints_[(x+1) + (y+1) * 256]) findPath(points, x+1, y+1);
-	else if (wavePoints_[(x+1) + (y-1) * 256]) findPath(points, x+1, y-1);
+	context->removedCount ++;
+	points.push_back(
+		Vector(
+			float(x * context->pointsMult), 
+			float(y * context->pointsMult), 
+			0.0f));
+	
+	if (counter && context->removedCount % 50 == 0) 
+		counter->setNewPercentage(
+			float(context->removedCount)/float(context->pointCount)*100.0f);
+
+	context->wavePoints[x + y * context->pointsWidth] = false;
+	if (context->wavePoints[(x+1) + y * context->pointsWidth]) 
+		findPath(context, points, x+1, y, counter);
+	else if (context->wavePoints[(x-1) + y * context->pointsWidth]) 
+		findPath(context, points, x-1, y, counter);
+	else if (context->wavePoints[x + (y-1) * context->pointsWidth]) 
+		findPath(context, points, x, y-1, counter);
+	else if (context->wavePoints[x + (y+1) * context->pointsWidth]) 
+		findPath(context, points, x, y+1, counter);
+	else if (context->wavePoints[(x-1) + (y-1) * context->pointsWidth]) 
+		findPath(context, points, x-1, y-1, counter);
+	else if (context->wavePoints[(x-1) + (y+1) * context->pointsWidth]) 
+		findPath(context, points, x-1, y+1, counter);
+	else if (context->wavePoints[(x+1) + (y+1) * context->pointsWidth]) 
+		findPath(context, points, x+1, y+1, counter);
+	else if (context->wavePoints[(x+1) + (y-1) * context->pointsWidth]) 
+		findPath(context, points, x+1, y-1, counter);
 }
 
-void WaterWaves::constructLines(float waterHeight, WaterMap &wmap, std::vector<Vector> &points)
+void WaterWaves::constructLines(WaterWaveContext *context,
+	float waterHeight, 
+	WaterMap &wmap, std::vector<Vector> &points)
 {
 	Vector ptA;
 	Vector ptB;
@@ -174,12 +256,12 @@ void WaterWaves::constructLines(float waterHeight, WaterMap &wmap, std::vector<V
 			int newx = int(current[0] + perp[0] * 3.0f);
 			int newy = int(current[1] + perp[1] * 3.0f);
 			if (newx <= 0 || newy <= 0 ||
-				newx >= 256 || newy >= 256)
+				newx >= context->mapWidth || newy >= context->mapHeight)
 			{
 			}
 			else
 			{
-				if (ScorchedClient::instance()->getLandscapeMaps().getHMap().getHeight(
+				if (ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
 					newx, newy) > waterHeight)
 				{
 					perp =- perp;
@@ -234,6 +316,7 @@ void WaterWaves::draw()
 	Vector windDirPerp = windDir.Normalize();
 
 	GLState state(GLState::BLEND_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON); 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glDepthMask(GL_FALSE);
 
 	wavesTexture1_.draw(true);
@@ -247,6 +330,7 @@ void WaterWaves::draw()
 	drawBoxes(totalTime_ + 5.0f, windDirPerp, paths2_);
 
 	glDepthMask(GL_TRUE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void WaterWaves::drawBoxes(float totalTime, Vector &windDirPerp, 
@@ -275,7 +359,7 @@ void WaterWaves::drawBoxes(float totalTime, Vector &windDirPerp,
 	endlen *= 2.0f;
 
 	// Draw the actual texture boxes
-	glColor4f(wavesColor_[0], wavesColor_[1], wavesColor_[2], alpha);
+	glColor4f(wavesColor_[0], wavesColor_[1], wavesColor_[2], alpha * 0.3f);
 	glBegin(GL_QUADS);
 		Vector ptA, ptB, ptC, ptD;
 		std::vector<WaterWaveEntry>::iterator itor = paths.begin();

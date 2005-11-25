@@ -73,7 +73,8 @@ bool ServerPlayerReadyHandler::processMessage(unsigned int destinationId,
 	}
 
 	// Check the message is sent in the correct state
-	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateReady)
+	if (ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateNewGameReady &&
+		ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateShotReady)
 	{
 		return true;
 	}

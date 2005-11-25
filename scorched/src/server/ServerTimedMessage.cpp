@@ -18,14 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <wx/filefn.h>
+#include <time.h>
 #include <server/ServerTimedMessage.h>
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
+#include <XML/XMLFile.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
-#include <XML/XMLFile.h>
-#include <wx/filefn.h>
-#include <time.h>
+#include <common/Defines.h>
 
 ServerTimedMessage::ServerTimedMessage() : 
 	lastReadTime_(0), lastCheckTime_(0)
@@ -76,7 +77,7 @@ bool ServerTimedMessage::load()
 	const char *filename = 
 		getSettingsFile("messages-%i.xml", 
 			ScorchedServer::instance()->getOptionsGame().getPortNo());
-	if (!DefinesUtil::fileExists(filename)) return true;
+	if (!s3d_fileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
 	if (fileTime == lastReadTime_) return true;

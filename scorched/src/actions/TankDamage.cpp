@@ -25,6 +25,7 @@
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
 #include <landscape/LandscapeMaps.h>
@@ -190,7 +191,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				{
 					// The tank is not dead check if it needs to fall
 					Vector &position = damagedTank->getPhysics().getTankPosition();
-					if (context_->landscapeMaps->getHMap().
+					if (context_->landscapeMaps->getGroundMaps().
 						getInterpHeight(position[0], position[1]) < position[2])
 					{
 						// Check this tank is not already falling

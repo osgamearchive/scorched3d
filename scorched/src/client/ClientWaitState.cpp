@@ -19,6 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ClientWaitState.h>
+#include <client/ScorchedClient.h>
+#include <client/ClientState.h>
+#include <tank/TankContainer.h>
+#include <coms/ComsMessageSender.h>
+#include <coms/ComsPlayerReadyMessage.h>
 
 ClientWaitState *ClientWaitState::instance_ = 0;
 
@@ -42,4 +47,29 @@ ClientWaitState::~ClientWaitState()
 void ClientWaitState::enterState(const unsigned state)
 {
 
+}
+
+void ClientWaitState::sendClientReady()
+{
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+
+	// move into player or main state place
+	// The server will move the client into the main state
+	// when all clients+server are ready
+	std::map<unsigned int, Tank *> &playingTanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = playingTanks.begin();
+		itor != playingTanks.end();
+		itor++)
+	{
+		Tank *current = (*itor).second;
+
+		if (current->getDestinationId() == 
+			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
+		{
+			ComsPlayerReadyMessage readyMessage(current->getPlayerId());
+			ComsMessageSender::sendToServer(readyMessage);
+		}
+	}
 }
