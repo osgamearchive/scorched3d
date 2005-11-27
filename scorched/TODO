@@ -18,6 +18,7 @@ Fixed: More acurate and faster landscape clicking code
 Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
 
+Added: Ships can be drawn using shipping lanes around the island
 Added: Tabs to the rules dialog and better scorched logo
 Added: Scorched3D settings that are enums take text values
 Added: Landscapes don't need to be square
@@ -33,7 +34,6 @@ Dvorak keyboard support is broken
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
 Bots using lasers
-Ships
 Tutorial mode
 Changing menus to be icons
 New game modes
