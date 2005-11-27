@@ -174,6 +174,38 @@ bool LandscapeTexBoids::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
+// LandscapeTexShipGroup
+bool LandscapeTexShip::readXML(XMLNode *node)
+{
+	XMLNode *modelnode;
+	if (!node->getNamedChild("model", modelnode)) return false;
+	if (!model.initFromNode(".", modelnode)) return false;
+	if (!node->getNamedChild("scale", scale)) return false;
+	return node->failChildren();
+}
+
+bool LandscapeTexShipGroup::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("speed", speed)) return false;
+	if (!node->getNamedChild("controlpoints", controlpoints)) return false;
+	if (!node->getNamedChild("controlpointswidth", controlpointswidth)) return false;
+	if (!node->getNamedChild("controlpointsheight", controlpointsheight)) return false;
+	if (!node->getNamedChild("controlpointsrand", controlpointsrand)) return false;
+	if (!node->getNamedChild("starttime", starttime)) return false;
+
+	{
+		XMLNode *shipNode;
+		while (node->getNamedChild("ship", shipNode, false))
+		{
+			LandscapeTexShip *ship = new LandscapeTexShip;
+			if (!ship->readXML(shipNode)) return false;
+			ships.push_back(ship);
+		}
+	}
+
+	return node->failChildren();
+}
+
 // LandscapeTexBorderWater 
 bool LandscapeTexBorderWater::readXML(XMLNode *node)
 {
@@ -232,8 +264,13 @@ LandscapeTex::~LandscapeTex()
 	{
 		delete boids[i];
 	}
+	for (unsigned int i=0; i<shipgroups.size(); i++)
+	{
+		delete shipgroups[i];
+	}
 	boids.clear();
 	events.clear();
+	shipgroups.clear();
 }
 
 bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
@@ -329,6 +366,17 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 			boids.push_back(boid);
 		}
 		if (!boidsNode->failChildren()) return false;
+	}
+	{
+		XMLNode *shipGroupsNode, *shipGroupNode;
+		if (!node->getNamedChild("shipgroups", shipGroupsNode)) return false;
+		while (shipGroupsNode->getNamedChild("shipgroup", shipGroupNode, false))
+		{
+			LandscapeTexShipGroup *shipGroup = new LandscapeTexShipGroup;
+			if (!shipGroup->readXML(shipGroupNode)) return false;
+			shipgroups.push_back(shipGroup);
+		}
+		if (!shipGroupsNode->failChildren()) return false;
 	}
 	return node->failChildren();
 }

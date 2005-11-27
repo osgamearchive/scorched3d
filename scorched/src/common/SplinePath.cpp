@@ -20,7 +20,10 @@
 
 #include <common/SplinePath.h>
 #include <common/SplineCurve.h>
+#include <common/Defines.h>
+#include <common/Logger.h>
 #include <GLEXT/GLState.h>
+#include <math.h>
 
 SplinePath::SplinePath() : 
 	pathTime_(0.0f), pointsPerSecond_(0.0f)
@@ -54,11 +57,30 @@ void SplinePath::simulate(float frameTime)
 
 Vector &SplinePath::getPathPosition()
 {
+	float currentPointTime = pathTime_ * pointsPerSecond_;
+	return getPosition(currentPointTime);
+}
+
+Vector &SplinePath::getPathDirection()
+{
+	static Vector direction;
+
+	float currentPointTime = pathTime_ * pointsPerSecond_;
+	Vector pos1 = getPosition(currentPointTime);
+	Vector pos2 = getPosition(currentPointTime + 0.5f);
+
+	direction = pos2 - pos1;
+	direction.StoreNormalize();
+
+	return direction;
+}
+
+Vector &SplinePath::getPosition(float currentPointTime)
+{
 	static Vector position;
 
 	int noPoints = (int) pathPoints_.size();
-	float currentPointTime = pathTime_ * pointsPerSecond_;
-	int currentPointId = (int) currentPointTime;
+	int currentPointId = (int) floorf(currentPointTime);
 	float currentPointDiff = currentPointTime - float(currentPointId);
 	currentPointId = currentPointId % noPoints;
 	int nextPointId = currentPointId + 1;
@@ -70,30 +92,12 @@ Vector &SplinePath::getPathPosition()
 	Vector diff = nextPoint - currentPoint;
 	diff *= currentPointDiff;
 
+	Logger::log("%.2f %.2f %i %i", currentPointTime, currentPointDiff, currentPointId, nextPointId);
+
 	position = currentPoint;
 	position += diff;
 
 	return position;
-}
-
-Vector &SplinePath::getPathDirection()
-{
-	static Vector direction;
-
-	int noPoints = (int) pathPoints_.size();
-	float currentPointTime = pathTime_ * pointsPerSecond_;
-	int currentPointId = (int) currentPointTime;
-	currentPointId = currentPointId % noPoints;
-	int nextPointId = currentPointId + 1;
-	nextPointId = nextPointId % noPoints;
-
-	Vector &currentPoint = pathPoints_[currentPointId];
-	Vector &nextPoint = pathPoints_[nextPointId];
-
-	direction = nextPoint - currentPoint;
-	direction.StoreNormalize();
-
-	return direction;
 }
 
 void SplinePath::draw()

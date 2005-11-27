@@ -49,6 +49,8 @@ protected:
 	std::vector<Vector> pathPoints_;
 	float pathTime_;
 	float pointsPerSecond_;
+
+	Vector &getPosition(float time);
 };
 
 #endif // __INCLUDE_SplinePathh_INCLUDE__

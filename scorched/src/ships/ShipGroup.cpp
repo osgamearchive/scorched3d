@@ -20,8 +20,10 @@
 
 #include <ships/ShipGroup.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
 
 ShipGroup::ShipGroup()
 {
@@ -29,36 +31,100 @@ ShipGroup::ShipGroup()
 
 ShipGroup::~ShipGroup()
 {
+	while(!ships_.empty())
+	{
+		Ship *ship = ships_.back();
+		ships_.pop_back();
+		delete ship;
+	}
 }
 
-void ShipGroup::generate()
+void ShipGroup::generate(LandscapeTexShipGroup *shipGroup)
 {
 	int mapWidth = 
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+		ScorchedClient::instance()->getLandscapeMaps().
+			getGroundMaps().getMapWidth();
 	int mapHeight =
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+		ScorchedClient::instance()->getLandscapeMaps().
+			getGroundMaps().getMapHeight();
+	float waterHeight = 0.0f;
+	LandscapeTex &tex = 
+		*ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getTex();
+
+	if (tex.border->getType() == LandscapeTexType::eWater)
+	{
+		LandscapeTexBorderWater *water = 
+			(LandscapeTexBorderWater *) tex.border;
+       	waterHeight = water->height;
+	}
 
 	std::vector<Vector> controlPoints;
-	for (float i=0.0f; i<360.0f; i+=45.0f)
+	controlPoints.push_back(Vector::nullVector);
+	float diff = 360.0f / float(shipGroup->controlpoints);
+	for (float i=0.0f; i<360.0f; i+=diff)
 	{
-		float dist = RAND * 400 + 250.0f;
-		float x = getFastSin(i / 180.0f * PI) * dist + float(mapWidth) / 2.0f;
-		float y = getFastCos(i / 180.0f * PI) * dist + float(mapHeight) / 2.0f;
+		float distWidth = RAND * shipGroup->controlpointsrand + shipGroup->controlpointswidth;
+		float distHeight = RAND * shipGroup->controlpointsrand + shipGroup->controlpointsheight;
+		float x = getFastSin(i / 180.0f * PI) * distWidth + float(mapWidth) / 2.0f;
+		float y = getFastCos(i / 180.0f * PI) * distHeight + float(mapHeight) / 2.0f;
 
-		Vector pt(x,y,10.0f);
+		Vector pt(x,y,waterHeight);
 		controlPoints.push_back(pt);
 	}
-	controlPoints.push_back(controlPoints[0]);
 
-	path_.generate(controlPoints, 200, 3, 5.0f);
+	Vector midPt = (controlPoints[1] + controlPoints.back()) / 2.0;
+	controlPoints.push_back(midPt);
+	controlPoints.front() = midPt;
+
+	path_.generate(controlPoints, 200, 3, shipGroup->speed);
+	path_.simulate(shipGroup->starttime);
+
+	std::vector<LandscapeTexShip *>::iterator itor;
+	for (itor = shipGroup->ships.begin();
+		itor != shipGroup->ships.end();
+		itor++)
+	{
+		LandscapeTexShip *texShip = (*itor);
+
+		Ship *ship = new Ship(texShip);
+		Vector offset(RAND * 200.0f, RAND * 200.0f - 100.0f);
+		ship->getOffSet() = offset;
+		ships_.push_back(ship);
+	}
 }
 
 void ShipGroup::simulate(float frameTime)
 {
 	path_.simulate(frameTime);
+
+	std::vector<Ship *>::iterator itor;
+	for (itor = ships_.begin();
+		itor != ships_.end();
+		itor++)
+	{
+		Ship *ship = (*itor);
+		ship->simulate(frameTime);
+	}
 }
 
 void ShipGroup::draw()
 {
-	path_.draw();
+	if (OptionsDisplay::instance()->getDrawShipPaths())
+	{
+		path_.draw();
+	}
+
+	Vector &position = path_.getPathPosition();
+	Vector &direction = path_.getPathDirection();
+	Vector directionPerp = direction.get2DPerp();
+
+	std::vector<Ship *>::iterator itor;
+	for (itor = ships_.begin();
+		itor != ships_.end();
+		itor++)
+	{
+		Ship *ship = (*itor);
+		ship->draw(position, direction, directionPerp);
+	}
 }

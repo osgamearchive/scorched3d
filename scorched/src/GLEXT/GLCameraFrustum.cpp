@@ -21,6 +21,7 @@
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <common/OptionsDisplay.h>
 
 GLCameraFrustum *GLCameraFrustum::instance_ = 0;
 
@@ -170,6 +171,23 @@ bool GLCameraFrustum::pointInFrustum(Vector &point)
 
 bool GLCameraFrustum::sphereInFrustum(Vector &point, float fRadius)
 {
+	if (OptionsDisplay::instance()->getDrawBoundingSpheres())
+	{
+		static GLUquadric *obj = 0;
+		if (!obj)
+		{
+			obj = gluNewQuadric();
+			gluQuadricDrawStyle(obj, GLU_LINE);
+		}
+
+		GLState glState(GLState::TEXTURE_OFF);
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glPushMatrix();
+			glTranslatef(point[0], point[1], point[2]);
+			gluSphere(obj, fRadius, 6, 6);
+		glPopMatrix();
+	}
+
 	for (int iCurPlane = 0; iCurPlane<6; iCurPlane++)
 	{
 		float value = 

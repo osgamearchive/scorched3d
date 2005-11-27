@@ -20,6 +20,9 @@
 
 #include <ships/ScorchedShips.h>
 #include <common/OptionsDisplay.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
+#include <client/ScorchedClient.h>
 
 ScorchedShips::ScorchedShips()
 {
@@ -38,10 +41,20 @@ void ScorchedShips::generate()
 		delete group;
 	}
 
-	/*
-	ShipGroup *group = new ShipGroup;
-	group->generate();
-	groups_.push_back(group);*/
+	LandscapeTex &tex = 
+		*ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getTex();
+	
+	std::vector<LandscapeTexShipGroup *>::iterator itor;
+	for (itor = tex.shipgroups.begin();
+		itor != tex.shipgroups.end();
+		itor++)
+	{
+		LandscapeTexShipGroup *texShipGroup = (*itor);
+		ShipGroup *group = new ShipGroup;
+		group->generate(texShipGroup);
+		groups_.push_back(group);
+	}
 }
 
 void ScorchedShips::simulate(float frameTime)

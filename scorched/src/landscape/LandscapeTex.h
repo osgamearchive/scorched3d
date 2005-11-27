@@ -41,6 +41,8 @@ public:
 		eBoids,
 		eWater,
 		eTextureGenerate,
+		eShipGroup,
+		eShip
 
 	};
 
@@ -139,6 +141,33 @@ public:
 	virtual TexType getType() { return eBoids; }
 };
 
+class LandscapeTexShip : public LandscapeTexType
+{
+public:
+	ModelID model;
+	float scale;
+
+	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eShip; }
+};
+
+
+class LandscapeTexShipGroup : public LandscapeTexType
+{
+public:
+	float speed;
+	int controlpoints;
+	float controlpointswidth;
+	float controlpointsheight;
+	float controlpointsrand;
+	float starttime;
+
+	std::vector<LandscapeTexShip *> ships;
+
+	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eShipGroup; }
+};
+
 class LandscapeTexBorderWater : public LandscapeTexType
 {
 public:
@@ -202,6 +231,7 @@ public:
 	std::vector<std::string> placements;
 	std::vector<LandscapeTexEvent *> events;
 	std::vector<LandscapeTexBoids *> boids;
+	std::vector<LandscapeTexShipGroup *> shipgroups;
 
 	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 

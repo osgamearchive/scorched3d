@@ -164,6 +164,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Show landscape normals on the landscape", RWAccess, false),
 	drawBoundingSpheres_(options_, "DrawBoundingSpheres", 
 		"Show landscape bounding spheres on the landscape", RWAccess, false),
+	drawShipPaths_(options_, "DrawShipPaths", 
+		"Show paths for the ships", RWAccess, false),
 	frameTimer_(options_, "FrameTimer",
 		"Show the current number of frames per second (FPS)", RWAccess, false),
 	noSkins_(options_,"NoTankSkins", 

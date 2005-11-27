@@ -82,6 +82,28 @@
 				</sounds>
 			</boid>
 		</boids>
+		<shipgroups>
+			<shipgroup>
+				<speed>1.0</speed>
+				<controlpoints>8</controlpoints>
+				<controlpointswidth>250</controlpointswidth>
+				<controlpointsheight>250</controlpointsheight>
+				<controlpointsrand>400</controlpointsrand>
+				<starttime>600</starttime>
+				<ship>
+					<scale>0.25</scale>
+					<model type="MilkShape">data/meshes/destroyer/destroyer.txt</model>
+				</ship>
+				<ship>
+					<scale>0.1</scale>
+					<model type="MilkShape">data/meshes/ddg24/ddg24.txt</model>
+				</ship>
+				<ship>
+					<scale>0.1</scale>
+					<model type="MilkShape">data/meshes/ddg24/ddg24.txt</model>
+				</ship>
+			</shipgroup>
+		</shipgroups>
 	</tex>
 	<tex>
 		<name>night</name>
@@ -163,6 +185,7 @@
 				</sounds>
 			</boid>
 		</boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>hell</name>
@@ -215,6 +238,7 @@
 			</event>
 		</events>
 		<boids></boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>sand</name>
@@ -280,6 +304,7 @@
 				</sounds>
 			</boid>
 		</boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>snow</name>
@@ -326,6 +351,7 @@
 		</precipitation>
 		<events></events>
 		<boids></boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>tropical</name>
@@ -379,7 +405,7 @@
 				<maxvelocity>1.0</maxvelocity>
 				<maxacceleration>1.0</maxacceleration>
 				<cruisedistance>1.0</cruisedistance>
-				<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+				<model type="MilkShape">data/meshes/arara/arara.txt</model>
 				<sounds>
 					<mintime>0</mintime>
 					<maxtime>4</maxtime>
@@ -392,6 +418,7 @@
 				</sounds>
 			</boid>
 		</boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>vulcano</name>
@@ -437,6 +464,7 @@
 		<precipitation type="none"></precipitation>
 		<events></events>
 		<boids></boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>storm</name>
@@ -495,6 +523,7 @@
 			</event>
 		</events>
 		<boids></boids>
+		<shipgroups></shipgroups>
 	</tex>
 	<tex>
 		<name>cavern</name>
@@ -560,5 +589,6 @@
 				</sounds>
 			</boid>
 		</boids>
+		<shipgroups></shipgroups>
 	</tex>
 </texs>

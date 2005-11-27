@@ -22,19 +22,22 @@
 #define __INCLUDE_ShipGrouph_INCLUDE__
 
 #include <common/SplinePath.h>
+#include <ships/Ship.h>
 
+class LandscapeTexShipGroup;
 class ShipGroup
 {
 public:
 	ShipGroup();
 	virtual ~ShipGroup();
 
-	void generate();
+	void generate(LandscapeTexShipGroup *shipGroup);
 	void draw();
 	void simulate(float frameTime);
 
 protected:
 	SplinePath path_;
+	std::vector<Ship *> ships_;
 };
 
 #endif // __INCLUDE_ShipGrouph_INCLUDE__

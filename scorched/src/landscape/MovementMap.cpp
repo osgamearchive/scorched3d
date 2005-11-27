@@ -73,7 +73,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 
 	// Find how much the tank has to climb to reach this new point
 	// check that this is acceptable
-	float newHeight = y > (unsigned int) context.landscapeMaps->getGroundMaps().getHeight(
+	float newHeight = context.landscapeMaps->getGroundMaps().getHeight(
 		(int) x, (int) y);
 
 	float MaxTankClimbHeight = float(context.optionsGame->

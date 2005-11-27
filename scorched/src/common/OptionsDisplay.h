@@ -238,6 +238,10 @@ public:
 	void setDrawBoundingSpheres(bool value) { drawBoundingSpheres_.setValue(value); }
 	const char *getDrawBoundingSpheresToolTip() { return drawBoundingSpheres_.getDescription(); }
 
+	bool getDrawShipPaths() { return drawShipPaths_.getValue(); }
+	void setDrawShipPaths(bool value) { drawShipPaths_.setValue(value); }
+	const char *getDrawShipPathsToolTip() { return drawShipPaths_.getDescription(); }
+
 	bool getDrawPlayerNames() { return drawPlayerNames_.getValue(); }
 	void setDrawPlayerNames(bool value) { drawPlayerNames_.setValue(value); }
 	const char *getDrawPlayerNamesToolTip() { return drawPlayerNames_.getDescription(); }
@@ -440,6 +444,7 @@ protected:
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
 	OptionEntryBool drawBoundingSpheres_;
+	OptionEntryBool drawShipPaths_;
 	OptionEntryBool noLenseFlare_;
 	OptionEntryBool noSkins_;
 	OptionEntryBool sortAccessories_;
