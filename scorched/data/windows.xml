@@ -1,5 +1,49 @@
 <windows>
 	<window>
+		<name>Talk </name>
+		<states>all</states>
+		<visible>false</visible>
+		<key>SHOW_TALK_DIALOG</key>
+		<windowlevel>200000</windowlevel>
+		<w>-400</w>
+		<h>20</h>
+		<x>200</x>
+		<y>5</y>
+		<description>Talk to to other opponents</description>
+		<items>
+			<item>
+				<widget type="GLWTalkBox">
+					<x>0</x><y>0</y>
+					<w>0</w><h>0</h>
+					<parentsized>true</parentsized>
+					<mode>say</mode>
+				</widget>
+			</item>
+		</items>
+	</window>	
+	<window>
+		<name>TeamTalk </name>
+		<states>all</states>
+		<visible>false</visible>
+		<key>SHOW_TEAM_TALK_DIALOG</key>
+		<windowlevel>200000</windowlevel>
+		<w>-400</w>
+		<h>20</h>
+		<x>200</x>
+		<y>5</y>
+		<description>Talk to to other opponents in the same team</description>
+		<items>
+			<item>
+				<widget type="GLWTalkBox">
+					<x>0</x><y>0</y>
+					<w>0</w><h>0</h>
+					<parentsized>true</parentsized>
+					<mode>teamsay</mode>
+				</widget>
+			</item>
+		</items>
+	</window>		
+	<window>
 		<name>Log</name>
 		<states>all</states>
 		<visible>true</visible>
@@ -8,7 +52,7 @@
 		<w>-400</w>
 		<h>100</h>
 		<x>200</x>
-		<y>0</y>
+		<y>20</y>
 		<description>Shows log messages</description>
 		<disabled/>
 		<items>

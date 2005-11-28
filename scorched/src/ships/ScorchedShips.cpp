@@ -34,12 +34,12 @@ ScorchedShips::~ScorchedShips()
 
 void ScorchedShips::generate()
 {
-	while (!groups_.empty())
+	/*while (!groups_.empty())
 	{
 		ShipGroup *group = groups_.back();
 		groups_.pop_back();
 		delete group;
-	}
+	}*/
 
 	LandscapeTex &tex = 
 		*ScorchedClient::instance()->getLandscapeMaps().
@@ -51,9 +51,9 @@ void ScorchedShips::generate()
 		itor++)
 	{
 		LandscapeTexShipGroup *texShipGroup = (*itor);
-		ShipGroup *group = new ShipGroup;
+		/*ShipGroup *group = new ShipGroup;
 		group->generate(texShipGroup);
-		groups_.push_back(group);
+		groups_.push_back(group);*/
 	}
 }
 
@@ -61,14 +61,14 @@ void ScorchedShips::simulate(float frameTime)
 {
 	if (!OptionsDisplay::instance()->getNoShips())
 	{
-		std::vector<ShipGroup *>::iterator itor;
+		/*std::vector<ShipGroup *>::iterator itor;
 		for (itor = groups_.begin();
 			itor != groups_.end();
 			itor++)
 		{
 			ShipGroup *group = *itor;
 			group->simulate(frameTime);
-		}
+		}*/
 	}
 }
 
@@ -76,13 +76,13 @@ void ScorchedShips::draw()
 {
 	if (!OptionsDisplay::instance()->getNoShips())
 	{
-		std::vector<ShipGroup *>::iterator itor;
+		/*std::vector<ShipGroup *>::iterator itor;
 		for (itor = groups_.begin();
 			itor != groups_.end();
 			itor++)
 		{
 			ShipGroup *group = *itor;
 			group->draw();
-		}
+		}*/
 	}
 }

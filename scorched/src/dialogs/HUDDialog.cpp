@@ -73,8 +73,10 @@ HUDDialog::~HUDDialog()
 {
 }
 
-void HUDDialog::windowDisplay()
+void HUDDialog::display()
 {
+	GLWWindow::display();
+
 	nameBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getDrawPlayerNames());
 	sightBox_->getCheckBox().setState(

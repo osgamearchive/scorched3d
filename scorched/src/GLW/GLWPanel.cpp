@@ -240,6 +240,38 @@ void GLWPanel::keyDown(char *buffer, unsigned int keyState,
 	}
 }
 
+void GLWPanel::display()
+{
+	std::list<GLWPanelEntry>::reverse_iterator itor;
+	for (itor = widgets_.rbegin();
+		itor != widgets_.rend();
+		itor++)
+	{
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			(*itor).widget->display();
+		}
+	}
+}
+
+void GLWPanel::hide()
+{
+	std::list<GLWPanelEntry>::reverse_iterator itor;
+	for (itor = widgets_.rbegin();
+		itor != widgets_.rend();
+		itor++)
+	{
+		GLWPanelEntry &entry = *itor;
+		if (!entry.condition || 
+			entry.condition->getResult(entry.widget))
+		{
+			(*itor).widget->hide();
+		}
+	}
+}
+
 bool GLWPanel::initFromXML(XMLNode *node)
 {
 	if (!GLWidget::initFromXML(node)) return false;

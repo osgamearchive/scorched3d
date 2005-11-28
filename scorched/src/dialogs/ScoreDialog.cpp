@@ -77,8 +77,9 @@ ScoreDialog::~ScoreDialog()
 
 }
 
-void ScoreDialog::windowDisplay()
+void ScoreDialog::display()
 {
+	GLWWindow::display();
 	calculateScores();
 }
 

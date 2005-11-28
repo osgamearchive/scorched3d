@@ -36,7 +36,6 @@
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
-#include <dialogs/TalkDialog.h>
 #include <dialogs/TalkSettingsDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
@@ -100,12 +99,6 @@ void WindowSetup::addCommonComponents(unsigned state)
 		GLWWindowManager::instance()->addWindow(state, 
 			ScoreDialog::instance(), scoreKey, false);
 	}
-	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
-	GLWWindowManager::instance()->addWindow(state, 
-		TalkDialog::instance(), talkKey, false);
-	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
-	GLWWindowManager::instance()->addWindow(state, 
-		TeamTalkDialog::instance(), teamTalkKey, false);
 	GLWWindowManager::instance()->addWindow(state, 
 		TalkSettingsDialog::instance(), 0, false);
 
@@ -135,8 +128,6 @@ void WindowSetup::addCommonComponents(unsigned state)
 void WindowSetup::setupStartWindows()
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
-	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
-	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
 	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
@@ -144,12 +135,6 @@ void WindowSetup::setupStartWindows()
 	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
 
 	// StateConnect
-	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
-		TalkDialog::instance(), talkKey, false);
-	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
-		TeamTalkDialog::instance(), teamTalkKey, false);
-	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
-		TalkSettingsDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -162,12 +147,6 @@ void WindowSetup::setupStartWindows()
 			GLWSelector::instance(), 0, true);
 
 	// StateGetPlayers
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		TalkDialog::instance(), talkKey, false);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		TeamTalkDialog::instance(), teamTalkKey, false);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		TalkSettingsDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
@@ -187,8 +166,6 @@ void WindowSetup::setupStartWindows()
 void WindowSetup::setupGameWindows()
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
-	KEYBOARDKEY("SHOW_TALK_DIALOG", talkKey);
-	KEYBOARDKEY("SHOW_TEAM_TALK_DIALOG", teamTalkKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
 	KEYBOARDKEY("SHOW_AIM_DIALOG", aimKey);
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);

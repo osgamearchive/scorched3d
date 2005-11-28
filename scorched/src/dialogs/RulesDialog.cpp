@@ -248,16 +248,18 @@ void RulesDialog::buttonDown(unsigned int id)
 	}
 }
 
-void RulesDialog::windowDisplay()
+void RulesDialog::display()
 {
+	GLWWindow::display();
 	if (OptionsParam::instance()->getScreenSaverMode())
 	{
 		GLWWindowManager::instance()->hideWindow(getId());
 	}
 }
 
-void RulesDialog::windowHide()
+void RulesDialog::hide()
 {
+	GLWWindow::hide();
 	GLWWindowManager::instance()->showWindow(
 		PlayerDialog::instance()->getId());	
 }

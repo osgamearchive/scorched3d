@@ -82,6 +82,8 @@ public:
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
+	virtual void display();
+	virtual void hide();
 
 	virtual bool initFromXML(XMLNode *node);
 	virtual void clear();

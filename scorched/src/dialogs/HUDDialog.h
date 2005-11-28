@@ -35,7 +35,7 @@ public:
 	virtual void buttonDown(unsigned int id);
 
 	// Inherited from GLWWindow
-	virtual void windowDisplay();
+	virtual void display();
 
 protected:
 	static HUDDialog *instance_;

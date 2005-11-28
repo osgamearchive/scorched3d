@@ -32,7 +32,7 @@ public:
 	static SaveDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
-	virtual void windowDisplay();
+	virtual void display();
 protected:
 	unsigned int okId_, cancelId_;
 	static SaveDialog *instance_;

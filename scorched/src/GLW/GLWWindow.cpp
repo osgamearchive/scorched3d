@@ -71,16 +71,6 @@ void GLWWindow::windowInit(const unsigned state)
 
 }
 
-void GLWWindow::windowDisplay()
-{
-
-}
-
-void GLWWindow::windowHide()
-{
-
-}
-
 void GLWWindow::drawOutlinePoints(float x, float y, float w, float h)
 {
 	float tw = titleWidth;

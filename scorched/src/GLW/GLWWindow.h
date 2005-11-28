@@ -51,8 +51,6 @@ public:
 	virtual ~GLWWindow();
 
 	virtual bool initFromXML(XMLNode *node);
-	virtual void windowDisplay();
-	virtual void windowHide();
 	virtual void windowInit(const unsigned state);
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);

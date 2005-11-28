@@ -31,7 +31,7 @@ public:
 	static ScoreDialog *instance2();
 
 	// Inherited from GLWWindow
-	virtual void windowDisplay();
+	virtual void display();
 	virtual void windowInit(const unsigned state);
 	virtual void draw();
 

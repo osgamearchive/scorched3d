@@ -162,8 +162,10 @@ void PlayerDialog::keyDown(char *buffer, unsigned int keyState,
 	if (OptionsParam::instance()->getConnectedToServer()) skipRest = true;
 }
 
-void PlayerDialog::windowDisplay()
+void PlayerDialog::display()
 {	
+	GLWWindow::display();
+
 	if (!viewer_)
 	{
 		GLWPanel *infoPanel = new GLWPanel(10.0f, 40.0f, 445.0f, 210.0f,

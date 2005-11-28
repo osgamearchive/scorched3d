@@ -51,6 +51,10 @@ public:
 				 Vector &color, float size, 
 				 float x, float y, float z, 
 				 const char *fmt, ...);
+	void drawWidthRhs(int width, 
+				 Vector &color, float size, 
+				 float x, float y, float z, 
+				 const char *fmt, ...);
 	void drawSubStr(int start, int len,
 				 Vector &color, float size, 
 				 float x, float y, float z, 

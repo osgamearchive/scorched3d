@@ -488,6 +488,12 @@
 				RelativePath="..\GLW\GLWTab.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWTalkBox.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTalkBox.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWTankFire.cpp">
 			</File>
 			<File
@@ -1096,12 +1102,6 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\SkipDialog.h">
-			</File>
-			<File
-				RelativePath="..\dialogs\TalkDialog.cpp">
-			</File>
-			<File
-				RelativePath="..\dialogs\TalkDialog.h">
 			</File>
 			<File
 				RelativePath="..\dialogs\TalkSettingsDialog.cpp">
@@ -3729,18 +3729,6 @@
 			</File>
 			<File
 				RelativePath="..\ships\ScorchedShips.h">
-			</File>
-			<File
-				RelativePath="..\ships\Ship.cpp">
-			</File>
-			<File
-				RelativePath="..\ships\Ship.h">
-			</File>
-			<File
-				RelativePath="..\ships\ShipGroup.cpp">
-			</File>
-			<File
-				RelativePath="..\ships\ShipGroup.h">
 			</File>
 		</Filter>
 	</Files>

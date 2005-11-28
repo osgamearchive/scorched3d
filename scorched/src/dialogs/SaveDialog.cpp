@@ -74,8 +74,10 @@ SaveDialog::~SaveDialog()
 
 }
 
-void SaveDialog::windowDisplay()
+void SaveDialog::display()
 {
+	GLWWindow::display();
+
 	const char *text = formatString("saved-%i", time(0));
 	textBox_->setText(text);
 }

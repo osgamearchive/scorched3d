@@ -33,7 +33,7 @@ class PlayerDialog : public GLWWindow,
 public:
 	static PlayerDialog *instance();
 
-	virtual void windowDisplay();
+	virtual void display();
 	virtual void draw();
 
 	// Inherited from GLWWindow

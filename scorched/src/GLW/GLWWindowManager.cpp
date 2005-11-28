@@ -114,7 +114,7 @@ void GLWWindowManager::setCurrentEntry(const unsigned state)
 				shownWindows.find(window->getId());
 			if (shownPrev == shownWindows.end())
 			{
-				window->windowDisplay();
+				window->display();
 			}
 		}
 		else
@@ -125,7 +125,7 @@ void GLWWindowManager::setCurrentEntry(const unsigned state)
 				shownWindows.find(window->getId());
 			if (shownPrev != shownWindows.end())
 			{
-				window->windowHide();
+				window->hide();
 			}
 		}
 	}
@@ -154,7 +154,7 @@ bool GLWWindowManager::showWindow(unsigned id)
 		{
 			GLWWindow *window = idToWindow_[id];
 			(*itor).second = true;
-			window->windowDisplay();
+			window->display();
 			moveToFront(id);
 
 			return true;
@@ -232,7 +232,7 @@ bool GLWWindowManager::hideWindow(unsigned id)
 		if ((*itor).second)
 		{
 			GLWWindow *window = idToWindow_[id];
-			window->windowHide();
+			window->hide();
 
 			(*itor).second = false;
 			return true;

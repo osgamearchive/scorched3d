@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ScorchedShipsh_INCLUDE__)
 #define __INCLUDE_ScorchedShipsh_INCLUDE__
 
-#include <ships/ShipGroup.h>
+//#include <ships/ShipGroup.h>
 
 class ScorchedShips
 {
@@ -34,7 +34,7 @@ public:
 	void draw();
 
 protected:
-	std::vector<ShipGroup *> groups_;
+	//std::vector<ShipGroup *> groups_;
 };
 
 #endif // __INCLUDE_ScorchedShipsh_INCLUDE__

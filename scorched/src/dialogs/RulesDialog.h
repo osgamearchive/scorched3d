@@ -33,8 +33,8 @@ class RulesDialog : public GLWWindow ,
 public:
 	static RulesDialog *instance();
 
-	virtual void windowHide();
-	virtual void windowDisplay();
+	virtual void hide();
+	virtual void display();
 	virtual void buttonDown(unsigned int id);
 	virtual void draw();
 

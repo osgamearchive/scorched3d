@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,58 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TalkDialogh_INCLUDE__)
-#define __INCLUDE_TalkDialogh_INCLUDE__
+#if !defined(__INCLUDE_GLWTalkBoxh_INCLUDE__)
+#define __INCLUDE_GLWTalkBoxh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWTextButton.h>
-#include <GLW/GLWTextBox.h>
-#include <GLW/GLWCheckBox.h>
+#include <GLW/GLWidget.h>
+#include <string>
 
-class TalkDialog : public GLWWindow,
-						  public GLWButtonI
+class GLWTalkBox : public GLWidget
 {
 public:
-	static TalkDialog *instance();
+	enum TalkMode
+	{
+		eSay,
+		eTeamSay
+	};
 
-	// Inherited from GLWButtonI
+	GLWTalkBox();
+	virtual ~GLWTalkBox();
+
 	virtual void draw();
-	virtual void buttonDown(unsigned int id);
-	virtual void windowDisplay();
-
-	void setTeamTalk();
-
-	// Inherited from GLWWindow
+	virtual void simulate(float frameTime);
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
+	virtual void display();
 
+	virtual bool initFromXML(XMLNode *node);
+
+	REGISTER_CLASS_HEADER(GLWTalkBox);
 protected:
-	static TalkDialog *instance_;
-	GLWTextBox *talkText_;
-	GLWTextButton *ok_, *cancel_, *mute_;
-	GLWCheckBox *teamBox_;
-
-private:
-	TalkDialog();
-	virtual ~TalkDialog();
-
+	std::string text_;
+	float ctime_;
+	bool cursor_;
+	int maxTextLen_;
+	bool parentSized_;
+	TalkMode mode_;
+	TalkMode defaultMode_;
 };
 
-class TeamTalkDialog : public GLWWindow
-{
-public:
-	static TeamTalkDialog *instance();
-
-	virtual void windowDisplay();
-
-protected:
-	static TeamTalkDialog *instance_;
-
-private:
-	TeamTalkDialog();
-	virtual ~TeamTalkDialog();
-
-};
-
-#endif
+#endif // __INCLUDE_GLWTalkBoxh_INCLUDE__

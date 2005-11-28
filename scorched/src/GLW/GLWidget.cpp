@@ -107,6 +107,16 @@ void GLWidget::keyDown(char *buffer, unsigned int keyState,
 
 }
 
+void GLWidget::display()
+{
+
+}
+
+void GLWidget::hide()
+{
+
+}
+
 bool GLWidget::initFromXML(XMLNode *node)
 {
 	if (!node->getNamedChild("x", x_)) return false;

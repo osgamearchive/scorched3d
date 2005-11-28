@@ -31,7 +31,7 @@ public:
 	static QuitDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
-	virtual void windowDisplay();
+	virtual void display();
 
 protected:
 	GLWTextButton *okButton_, *quitButton_;

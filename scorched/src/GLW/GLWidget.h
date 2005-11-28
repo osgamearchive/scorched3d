@@ -48,6 +48,8 @@ public:
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
+	virtual void display();
+	virtual void hide();
 
 	// Accessors
 	unsigned int getId() { return id_; }

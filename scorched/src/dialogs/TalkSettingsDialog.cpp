@@ -34,7 +34,7 @@ TalkSettingsDialog *TalkSettingsDialog::instance()
 }
 
 TalkSettingsDialog::TalkSettingsDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 440.0f, 480.0f, 0,
+	GLWWindow("Talk Mute", 10.0f, 10.0f, 440.0f, 480.0f, 0,
 		"Show the current talk settings")
 {
 	windowLevel_ = 45000;
@@ -82,8 +82,10 @@ void TalkSettingsDialog::addPlayers()
 	}
 }
 
-void TalkSettingsDialog::windowDisplay()
+void TalkSettingsDialog::display()
 {
+	GLWWindow::display();
+
 	needCentered_ = true;
 	addPlayers();
 }
