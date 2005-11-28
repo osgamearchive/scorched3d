@@ -3730,6 +3730,18 @@
 			<File
 				RelativePath="..\ships\ScorchedShips.h">
 			</File>
+			<File
+				RelativePath="..\ships\Ship.cpp">
+			</File>
+			<File
+				RelativePath="..\ships\Ship.h">
+			</File>
+			<File
+				RelativePath="..\ships\ShipGroup.cpp">
+			</File>
+			<File
+				RelativePath="..\ships\ShipGroup.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -18,23 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedShipsh_INCLUDE__)
-#define __INCLUDE_ScorchedShipsh_INCLUDE__
+#if !defined(__INCLUDE_Shiph_INCLUDE__)
+#define __INCLUDE_Shiph_INCLUDE__
 
-#include <ships/ShipGroup.h>
+#include <3dsparse/ModelRenderer.h>
 
-class ScorchedShips
+class ModelID;
+class LandscapeTexShip;
+class Ship
 {
 public:
-	ScorchedShips();
-	virtual ~ScorchedShips();
+	Ship(LandscapeTexShip *texShip);
+	virtual ~Ship();
 
-	void generate();
+	float getSize() { return size_; }
+	Vector &getOffSet() { return offset_; }
+	void draw(Vector &position, Vector &direction, Vector &directionPerp);
 	void simulate(float frameTime);
-	void draw();
 
 protected:
-	std::vector<ShipGroup *> groups_;
+	Vector offset_;
+	ModelRenderer *ship_;
+	float size_;
+	float scale_;
 };
 
-#endif // __INCLUDE_ScorchedShipsh_INCLUDE__
+#endif // __INCLUDE_Shiph_INCLUDE__
