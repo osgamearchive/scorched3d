@@ -4,6 +4,8 @@
 		<name>oldstyle</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -12,8 +14,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -40,8 +40,6 @@
 			<landheight>
 				<min>30</min><max>40</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -59,6 +57,8 @@
    		<name>lowlands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -67,8 +67,6 @@
 			<landheight>
 				<min>20</min><max>40</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -95,8 +93,6 @@
 			<landheight>
 				<min>10</min><max>20</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -114,6 +110,8 @@
    		<name>hilly</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -122,8 +120,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -150,8 +146,6 @@
 			<landheight>
 				<min>50</min><max>70</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -169,6 +163,8 @@
    		<name>ridge</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -177,8 +173,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -205,8 +199,6 @@
 			<landheight>
 				<min>30</min><max>40</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -224,6 +216,8 @@
    		<name>islands</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -232,8 +226,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -260,8 +252,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>20</max>
 			</landpeakwidthx>
@@ -279,6 +269,8 @@
    		<name>halfed</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -287,8 +279,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -315,8 +305,6 @@
 			<landheight>
 				<min>30</min><max>40</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -334,6 +322,8 @@
    		<name>valley</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -342,8 +332,6 @@
 			<landheight>
 				<min>20</min><max>40</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -370,8 +358,6 @@
 			<landheight>
 				<min>50</min><max>70</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -389,6 +375,8 @@
 		<name>cavern</name>
 		<minplayers>0</minplayers>
 		<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
 		<surround type="none"></surround>
 		<tankstart type="height">
 			<startcloseness>20</startcloseness>
@@ -406,8 +394,6 @@
 				<landheight>
 					<min>40</min><max>70</max>
 				</landheight>
-				<landwidthx>64</landwidthx>
-				<landwidthy>64</landwidthy>
 				<landpeakwidthx>
 					<min>2</min><max>8</max>
 				</landpeakwidthx>
@@ -429,8 +415,6 @@
 			<landheight>
 				<min>50</min><max>70</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>10</min><max>50</max>
 			</landpeakwidthx>
@@ -453,6 +437,8 @@
     	<name>Mountains</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -461,8 +447,6 @@
 			<landheight>
 				<min>40</min><max>80</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -489,8 +473,6 @@
 			<landheight>
 				<min>50</min><max>75</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>15</min><max>35</max>
 			</landpeakwidthx>
@@ -508,6 +490,8 @@
     	<name>bighill</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -516,8 +500,6 @@
 			<landheight>
 				<min>50</min><max>100</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -544,8 +526,6 @@
 			<landheight>
 				<min>75</min><max>75</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>35</min><max>100</max>
 			</landpeakwidthx>
@@ -563,6 +543,8 @@
     	<name>donuthills</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -571,8 +553,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -599,8 +579,6 @@
 			<landheight>
 				<min>50</min><max>50</max>
 			</landheight>
-			<landwidthx>256</landwidthx>
-			<landwidthy>256</landwidthy>
 			<landpeakwidthx>
 				<min>20</min><max>50</max>
 			</landpeakwidthx>
@@ -618,6 +596,8 @@
     	<name>apoccity</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="none"></surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
@@ -634,6 +614,8 @@
     	<name>world</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="none"></surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
@@ -650,6 +632,8 @@
     	<name>USA</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>320</landscapewidth>
+		<landscapeheight>200</landscapeheight>
     	<surround type="none"></surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
@@ -666,6 +650,8 @@
     	<name>volcano</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -674,8 +660,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -703,6 +687,8 @@
     	<name>bullseye</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="none"></surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
@@ -719,6 +705,8 @@
     	<name>plateau</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="none"></surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">
@@ -735,6 +723,8 @@
     	<name>pillars</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -743,8 +733,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -772,6 +760,8 @@
     	<name>colosseum</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -780,8 +770,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -809,6 +797,8 @@
     	<name>ruffles</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -817,8 +807,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -846,6 +834,8 @@
     	<name>maze</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -854,8 +844,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -883,6 +871,8 @@
     	<name>castle</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -891,8 +881,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -927,6 +915,8 @@
     	<name>moon</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -935,8 +925,6 @@
 			<landheight>
 				<min>40</min><max>75</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>5</min><max>10</max>
 			</landpeakwidthx>
@@ -964,6 +952,8 @@
     	<name>pyramids</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -972,8 +962,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1001,6 +989,8 @@
     	<name>weathered</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1009,8 +999,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1038,6 +1026,8 @@
     	<name>hex isle</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1046,8 +1036,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1075,6 +1063,8 @@
     	<name>two towers</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1083,8 +1073,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1112,6 +1100,8 @@
     	<name>craters</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1120,8 +1110,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1149,6 +1137,8 @@
     	<name>pyramids2</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1157,8 +1147,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1186,6 +1174,8 @@
     	<name>desert mesa</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1194,8 +1184,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1223,6 +1211,8 @@
     	<name>terraces</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1231,8 +1221,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1260,6 +1248,8 @@
     	<name>steppes</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1268,8 +1258,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1297,6 +1285,8 @@
     	<name>nexus canyon</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1305,8 +1295,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1334,6 +1322,8 @@
     	<name>hillcity</name>
     	<minplayers>4</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1342,8 +1332,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>
@@ -1378,6 +1366,8 @@
     	<name>arizonaislands</name>
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
+		<landscapewidth>256</landscapewidth>
+		<landscapeheight>256</landscapeheight>
     	<surround type="generate">
 			<mask>data/landscapes/surround-mask.bmp</mask>
 			<landhills>
@@ -1386,8 +1376,6 @@
 			<landheight>
 				<min>30</min><max>50</max>
 			</landheight>
-			<landwidthx>96</landwidthx>
-			<landwidthy>96</landwidthy>
 			<landpeakwidthx>
 				<min>2</min><max>3</max>
 			</landpeakwidthx>

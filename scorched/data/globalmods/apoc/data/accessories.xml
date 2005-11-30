@@ -701,7 +701,7 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<nowindaffected/>
-					<createmushroom/>
+					<createmushroomamount>1.0</createmushroomamount>
 					<minlife>2</minlife>
 					<maxlife>3</maxlife>
 					<hurtamount>1.0</hurtamount>
@@ -1987,7 +1987,7 @@ Does 133% collision damage to shields.</description>
 				<hurtamount>1.0</hurtamount>
 				<deform>down</deform>
 				<size>18</size>
-				<createmushroom/>
+				<createmushroomamount>1.0</createmushroomamount>
 				<minlife>0.5</minlife>
 				<maxlife>1.5</maxlife>
 				<explosionshake>4.0</explosionshake>
@@ -2014,7 +2014,7 @@ Does 166% collision damage to shields.</description>
 			<projectilemodel type='MilkShape'>fatman/fatman.txt</projectilemodel>
 			<collisionaction type='WeaponExplosion'>
 				<armslevel>2</armslevel>
-				<createmushroom/>
+				<createmushroomamount>1.0</createmushroomamount>
 				<hurtamount>1.1</hurtamount>
 				<deform>down</deform>
 				<size>24</size>
@@ -2135,7 +2135,7 @@ Does 200% collision damage to shields.</description>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<nowindaffected/>
-					<createmushroom/>
+					<createmushroomamount>1.0</createmushroomamount>
 					<minlife>2</minlife>
 					<maxlife>3</maxlife>
 					<hurtamount>1.2</hurtamount>
@@ -3007,7 +3007,7 @@ out in a random direction.</description>
 						<deform>down</deform>
 						<hurtamount>1.0</hurtamount>
 						<size>18</size>
-						<createmushroom/>
+						<createmushroomamount>1.0</createmushroomamount>
 						<explosionsound>explosions/xlarge.wav</explosionsound>
 						<explosiontexture>exp04</explosiontexture>
 						<explosionshake>2.0</explosionshake>
