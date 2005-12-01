@@ -78,7 +78,7 @@ function getDirectionParameter($paramname)
 function getCompareParameter($paramname)
 {
 	global $HTTP_GET_VARS;
-	$compare = ( isset($HTTP_GET_VARS[$paramname]) ) ? htmlspecialchars($HTTP_GET_VARS[$paramname]) : '<=';
+	$compare = ( isset($HTTP_GET_VARS[$paramname]) ) ? urldecode($HTTP_GET_VARS[$paramname]) : Null;
 	if ($compare != '<=' && $compare != '<' && $compare != '=' && 
 		$compare != '>' && $compare != '>=') $compare = '<=';
 	return $compare;

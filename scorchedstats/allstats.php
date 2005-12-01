@@ -313,8 +313,8 @@ if ($filterby=='none' or $filterby==Null){
 	$filter='';
 }
 else {
-	$wherequery = "WHERE prefixid=".$prefixid." and seriesid=".$seriesid." and (".$filterby." ".urldecode($filtercompare)." ".$filtervalue.")";
-	$filter=", filter: ".columnformat($filterby)." ".urldecode($filtercompare)." ".$filtervalue;
+	$wherequery = "WHERE prefixid=".$prefixid." and seriesid=".$seriesid." and (".$filterby." ".$filtercompare." ".$filtervalue.")";
+	$filter=", filter: ".columnformat($filterby)." ".$filtercompare." ".$filtervalue;
 }
 
 //Query requested info from the database and setup table for displaying it
