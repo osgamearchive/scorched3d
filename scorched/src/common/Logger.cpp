@@ -22,6 +22,7 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_thread.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -32,6 +33,7 @@
 // ************************************************
 
 static SDL_mutex *logMutex_ = 0;
+static Uint32 threadId = (Uint32) -1;
 Logger * Logger::instance_ = 0;
 
 Logger * Logger::instance()
@@ -95,6 +97,11 @@ void Logger::log(const char *fmt, ...)
 	addLog(info);
 
 	SDL_UnlockMutex(logMutex_);
+
+	if (SDL_ThreadID() == threadId)
+	{
+		processLogEntries();
+	}
 }
 
 void Logger::log(const LoggerInfo &info)
@@ -147,6 +154,11 @@ void Logger::addLog(LoggerInfo &info)
 
 void Logger::processLogEntries()
 {
+	if (threadId == (Uint32) -1)
+	{
+		threadId = SDL_ThreadID();
+	}
+
 	Logger::instance();
 
 	SDL_LockMutex(logMutex_);

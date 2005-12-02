@@ -32,7 +32,8 @@
 
 PatchGrid::PatchGrid(HeightMap *hMap, int patchSize) :
 	hMap_(hMap), lastPos_(-1, -2, -3), patchSize_(patchSize),
-	simulationTime_(0.0f), drawnPatches_(0), patches_(0)
+	simulationTime_(0.0f), drawnPatches_(0), patches_(0),
+	width_(0), height_(0)
 {
 }
 
@@ -73,6 +74,7 @@ void PatchGrid::generate()
 
 void PatchGrid::simulate(float frameTime)
 {
+	DIALOG_ASSERT(patches_);
 	const float SimulationTimeStep = 0.25f;
 
 	// Only-recalculate 1/SimulationTimeStep variances per second
@@ -100,6 +102,7 @@ void PatchGrid::simulate(float frameTime)
 
 void PatchGrid::reset(ProgressCounter *counter)
 {
+	DIALOG_ASSERT(patches_);
 	if (counter) counter->setNewOp("Patch Grid");
 
 	// Totaly recalculate all patch grid variances
@@ -126,6 +129,8 @@ void PatchGrid::reset(ProgressCounter *counter)
 
 void PatchGrid::recalculateTankVariance()
 {
+	if (!patches_) return;
+
 	// Mark all patches as normal (non-tank) variance levels
 	Patch **patch = patches_;
 	for (int p=0; p<width_ * height_; p++)
@@ -168,6 +173,8 @@ void PatchGrid::recalculateTankVariance()
 
 void PatchGrid::recalculate(int posX, int posY, int dist)
 {
+	DIALOG_ASSERT(patches_);
+
 	// Make sure the next frame has everything reset
 	// and recalculated
 	lastPos_ = Vector(-1, -2, -3);
@@ -308,6 +315,7 @@ void PatchGrid::visibility()
 
 void PatchGrid::draw(PatchSide::DrawType sides)
 {
+	DIALOG_ASSERT(patches_);
 	visibility();
 	tesselate();
 
