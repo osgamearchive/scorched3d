@@ -51,64 +51,72 @@ MovementMap::MovementMapEntry &MovementMap::getEntry(int w, int h)
 	{
 		return entries_[(width_+1) * h + w];
 	}
-	static MovementMapEntry entry(MovementMap::eNoMovement, 1000.0f, 0);
+	static MovementMapEntry entry(MovementMap::eNoMovement, 1000.0f, 0, 0);
 	return entry;
 }
 
 void MovementMap::addPoint(unsigned int x, unsigned int y, 
 					 float height, float dist,
-					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
-					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
+					 std::list<unsigned int> &edgeList,
 					 unsigned int sourcePt,
 					 ScorchedContext &context,
-					 float minHeight)
+					 float minHeight,
+					 unsigned int epoc)
 {
 	// Check that we are not going outside the arena
 	if (x < 0 || y < 0 ||
 		x > (unsigned int) width_ ||
 		y > (unsigned int) height_) return;
 
-	// Form this point
-	unsigned int pt = POINT_TO_UINT(x, y);
+	// Check if we can already reach this point
+	// Through a shorted already visited path
+	// That is not a current edge point
+	MovementMapEntry &priorEntry = getEntry(x, y);
+	if (priorEntry.type == eMovement &&
+		priorEntry.epoc < epoc)
+	{
+		return;
+	}
 
 	// Find how much the tank has to climb to reach this new point
 	// check that this is acceptable
 	float newHeight = context.landscapeMaps->getGroundMaps().getHeight(
 		(int) x, (int) y);
 
+	// Check water height 
+	if (newHeight < minHeight) return; 
+
+	// Check climing height
 	float MaxTankClimbHeight = float(context.optionsGame->
 		getMaxClimbingDistance()) / 10.0f;
 	if (newHeight - height > MaxTankClimbHeight) return;
-	if (newHeight < minHeight) return; // Water height 
-
-	// Check if we can already reach this point
-	// Through a shorted already visited path
-	std::map<unsigned int, MovementMap::MovementMapEntry>::iterator ptFind;
-	ptFind = pointsMap.find(pt);
-	if (ptFind != pointsMap.end()) return;
 
 	// Check if we can also reach this point from another edge point
-	std::map<unsigned int, MovementMap::MovementMapEntry>::iterator edgeFind;
-	edgeFind = edgeMap.find(pt);
-	if (edgeFind != edgeMap.end())
+	if (priorEntry.epoc == epoc)
 	{
-		// Ensure that the sortest edge route is kept
-		if (dist < (*edgeFind).second.dist)
+		// Check if this prior edge is further than the current
+		if (dist < priorEntry.dist)
 		{
-			// Update the newer shorter route
-			edgeMap[pt] = MovementMap::MovementMapEntry(
+			// If so set the distance etc
+			priorEntry = MovementMap::MovementMapEntry(
 				MovementMap::eMovement,
 				dist,
-				sourcePt);
+				sourcePt,
+				epoc);
 		}
 	}
 	else
 	{
-		// Ensure this is the first route here add it
-		edgeMap[pt] = MovementMap::MovementMapEntry(
-				MovementMap::eMovement,
-				dist,
-				sourcePt);
+		// Add this new edge to the list of edges
+		unsigned int pt = POINT_TO_UINT(x, y);
+
+		// Set the distance etc
+		edgeList.push_back(pt);
+		priorEntry = MovementMap::MovementMapEntry(
+			MovementMap::eMovement,
+			dist,
+			sourcePt,
+			epoc);
 	}
 }
 
@@ -153,7 +161,7 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 		}
 	}
 
-	// Move
+	// Setup movement variables
 	unsigned int posX = (unsigned int) 
 		tank->getPhysics().getTankPosition()[0];
 	unsigned int posY = (unsigned int) 
@@ -161,60 +169,55 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 	float fuel = (float) tank->getAccessories().getFuel().getNoFuel();
 	if (maxFuel) fuel = 90.0f;
 
-	std::map<unsigned int, MovementMapEntry> edgeMap;
-	std::map<unsigned int, MovementMapEntry> pointsMap;
+	// Add this point to the movement map
+	unsigned int epoc = 0;
+	getEntry(posX, posY) = 
+		MovementMap::MovementMapEntry(
+			MovementMap::eMovement,
+			0.0f,
+			0,
+			epoc);
 
+	// And add it to the list of next edge points
+	std::list<unsigned int> edgeList;
 	unsigned int pt = POINT_TO_UINT(posX, posY);
-	edgeMap[pt] = MovementMap::MovementMapEntry(
-				MovementMap::eMovement,
-				0.0f,
-				0);
+	edgeList.push_back(pt);
 
-	std::map<unsigned int, float> newEdges;
-	while (!edgeMap.empty())
+	// Find all the edges for the current edges and so on
+	while (!edgeList.empty())
 	{
-		pointsMap.insert(edgeMap.begin(), edgeMap.end());
-		std::map<unsigned int, MovementMapEntry> tmpEdgeMap = edgeMap;
-		edgeMap.clear();
+		epoc++;
 
-		std::map<unsigned int, MovementMapEntry>::iterator edgeItor;
-		for (edgeItor = tmpEdgeMap.begin();
-			edgeItor != tmpEdgeMap.end();
+		std::list<unsigned int> tmpEdgeList = edgeList;
+		edgeList.clear();
+
+		std::list<unsigned int>::iterator edgeItor;
+		for (edgeItor = tmpEdgeList.begin();
+			edgeItor != tmpEdgeList.end();
 			edgeItor++)
 		{
-			float dist = (*edgeItor).second.dist;
+			unsigned int pt = (*edgeItor);
+			unsigned int x = pt >> 16;
+			unsigned int y = pt & 0xffff;
+
+			MovementMapEntry &priorEntry = getEntry(x, y);
+			float dist = priorEntry.dist;
 			if (dist <= fuel)
 			{
-				unsigned int pt = (*edgeItor).first;
-				unsigned int x = pt >> 16;
-				unsigned int y = pt & 0xffff;
-
 				float height = 
 					context.landscapeMaps->getGroundMaps().getHeight(
 					(int) x, (int) y);
 
-				addPoint(x+1, y, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x, y+1, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x-1, y, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x, y-1, height, dist + 1, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x+1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x-1, y+1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x-1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
-				addPoint(x+1, y-1, height, dist + 1.4f, edgeMap, pointsMap, pt, context, waterHeight);
+				addPoint(x+1, y, height, dist + 1, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x, y+1, height, dist + 1, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x-1, y, height, dist + 1, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x, y-1, height, dist + 1, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x+1, y+1, height, dist + 1.4f, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x-1, y+1, height, dist + 1.4f, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x-1, y-1, height, dist + 1.4f, edgeList, pt, context, waterHeight, epoc);
+				addPoint(x+1, y-1, height, dist + 1.4f, edgeList, pt, context, waterHeight, epoc);
 			}
 		}
-	}
-
-	std::map<unsigned int, MovementMapEntry>::iterator finalItor;
-	for (finalItor = pointsMap.begin();
-		finalItor != pointsMap.end();
-		finalItor++)
-	{
-		unsigned int pt = (*finalItor).first;
-		unsigned int x = pt >> 16;
-		unsigned int y = pt & 0xffff;
-
-		getEntry(x, y) = (*finalItor).second;
 	}
 }
 

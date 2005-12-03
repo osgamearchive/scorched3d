@@ -22,7 +22,7 @@
 #define __INCLUDE_MovementMaph_INCLUDE__
 
 #include <landscape/HeightMap.h>
-#include <map>
+#include <list>
 
 class Tank;
 class ScorchedContext;
@@ -40,11 +40,13 @@ public:
 		MovementMapEntry(
 			MovementMapEntryType t,
 			float d,
-			unsigned int s) : type(t), dist(d), srcEntry(s) {}
+			unsigned int s,
+			unsigned int e) : type(t), dist(d), srcEntry(s), epoc(e) {}
 
 		MovementMapEntryType type;
 		float dist;
 		unsigned int srcEntry;
+		unsigned int epoc;
 	};
 
 	MovementMap(int width, int height);
@@ -61,11 +63,11 @@ protected:
 	unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y);
 	void addPoint(unsigned int x, unsigned int y, 
 					 float height, float dist,
-					 std::map<unsigned int, MovementMap::MovementMapEntry> &edgeMap,
-					 std::map<unsigned int, MovementMap::MovementMapEntry> &pointsMap,
+					 std::list<unsigned int> &edgeList,
 					 unsigned int sourcePt,
 					 ScorchedContext &context,
-					 float minHeight);
+					 float minHeight,
+					 unsigned int epoc);
 
 };
 
