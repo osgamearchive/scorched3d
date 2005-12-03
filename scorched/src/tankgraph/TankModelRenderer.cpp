@@ -367,15 +367,16 @@ void TankModelRenderer::drawShield()
 			else glCallList(largeListNo);
 		glPopMatrix();
 
-		/*shieldtexture->draw();
+		float aspect = float(GLViewPort::getHeight()) / float(GLViewPort::getWidth());
+		shieldtexture->draw();
 		GLCameraFrustum::instance()->drawBilboard(
 			position,
 			color,
 			1.0f - shieldHit_,
 			shield->getActualRadius(), 
-			shield->getActualRadius(),
-			false, // Additive
-			0); // texcoord*/
+			shield->getActualRadius() * aspect,
+			true, // Additive
+			0); // texcoord
 	}
 }
 
