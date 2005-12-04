@@ -117,13 +117,31 @@ void Water::generate(ProgressCounter *counter)
 		int mapHeight = 
 			ScorchedClient::instance()->getLandscapeMaps().
 				getGroundMaps().getMapHeight();
-		int waterMapWidth = mapWidth / 4;
-		int waterMapHeight = mapHeight / 4;
+
+		const int mapDivider = 4;
+		int waterMapWidth = mapWidth / mapDivider;
+		int waterMapHeight = mapHeight / mapDivider;
+		if (mapWidth % mapDivider != 0 ||
+			mapHeight % mapDivider != 0)
+		{
+			dialogExit("Scorched3D",
+				"Water dimensions must be a factor of %i",
+				mapDivider);
+		}
+
+		const int visibilityDivider = 8;
+		if (waterMapWidth % visibilityDivider != 0 ||
+			waterMapHeight % visibilityDivider != 0)
+		{
+			dialogExit("Scorched3D",
+				"Water dimensions must be a factor of %i",
+				visibilityDivider * mapDivider);
+		}
 
 		wMap_.generate(waterMapWidth, waterMapHeight, // Number of square in map
 			-waterMapWidth, -waterMapHeight, // Starting coord of lower left square
 			6, // How large each square is
-			8); // How large each visiblity square is
+			visibilityDivider); // How large each visiblity square is
 		wMapPoints_.generate(wMap_, mapWidth, mapHeight);
 
 		waterOn_ = true;

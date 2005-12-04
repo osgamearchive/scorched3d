@@ -21,7 +21,6 @@
 #include <common/SplinePath.h>
 #include <common/SplineCurve.h>
 #include <common/Defines.h>
-#include <common/Logger.h>
 #include <GLEXT/GLState.h>
 #include <math.h>
 
@@ -55,49 +54,35 @@ void SplinePath::simulate(float frameTime)
 	pathTime_ += frameTime;
 }
 
-Vector &SplinePath::getPathPosition()
+void SplinePath::getPathAttrs(Vector &position, Vector &direction)
 {
 	float currentPointTime = pathTime_ * pointsPerSecond_;
-	return getPosition(currentPointTime);
-}
-
-Vector &SplinePath::getPathDirection()
-{
-	static Vector direction;
-
-	float currentPointTime = pathTime_ * pointsPerSecond_;
-	Vector pos1 = getPosition(currentPointTime);
-	Vector pos2 = getPosition(currentPointTime + 0.5f);
-
-	direction = pos2 - pos1;
-	direction.StoreNormalize();
-
-	return direction;
-}
-
-Vector &SplinePath::getPosition(float currentPointTime)
-{
-	static Vector position;
 
 	int noPoints = (int) pathPoints_.size();
 	int currentPointId = (int) floorf(currentPointTime);
 	float currentPointDiff = currentPointTime - float(currentPointId);
 	currentPointId = currentPointId % noPoints;
 	int nextPointId = currentPointId + 1;
-	noPoints = noPoints % noPoints;
+	nextPointId = nextPointId % noPoints;
+	int nextNextPointId = currentPointId + 2;
+	nextNextPointId = nextNextPointId % noPoints;
 
 	Vector &currentPoint = pathPoints_[currentPointId];
 	Vector &nextPoint = pathPoints_[nextPointId];
+	Vector &nextNextPoint = pathPoints_[nextNextPointId];
 
 	Vector diff = nextPoint - currentPoint;
+	Vector nextDiff = nextNextPoint - nextPoint;
+	Vector diffDiff = nextDiff - diff;
+
+	diffDiff *= currentPointDiff;
+	direction = diff;
+	direction += diffDiff;
+	direction.StoreNormalize();
+
 	diff *= currentPointDiff;
-
-	Logger::log("%.2f %.2f %i %i", currentPointTime, currentPointDiff, currentPointId, nextPointId);
-
 	position = currentPoint;
 	position += diff;
-
-	return position;
 }
 
 void SplinePath::draw()
@@ -126,7 +111,9 @@ void SplinePath::draw()
 			glVertex3fv(pt);
 		}
 		glColor3f(0.5f, 0.5f, 1.0f);
-		glVertex3fv(getPathPosition());
+		Vector position, direction;
+		getPathAttrs(position, direction);
+		glVertex3fv(position);
 	glEnd();
 
 	glPointSize(1.0f);

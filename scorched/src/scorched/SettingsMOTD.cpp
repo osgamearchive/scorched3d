@@ -23,6 +23,6 @@ static wxTextCtrl *IDC_MOTD_CTRL = 0;
 static void createControls(wxWindow *parent, wxSizer *topsizer)
 {
 	IDC_MOTD_CTRL = new wxTextCtrl(parent, -1, wxT(""), 
-		wxDefaultPosition, wxSize(200, 100), wxTE_MULTILINE);
+		wxDefaultPosition, wxSize(380, 100), wxTE_MULTILINE);
 	topsizer->Add(IDC_MOTD_CTRL, 1, wxGROW | wxALL, 10);
 }

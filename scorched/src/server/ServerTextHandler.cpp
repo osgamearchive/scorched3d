@@ -121,7 +121,9 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		{
 			if (message.getTeamOnlyMessage())
 			{
-				// Send all team messages to everyone in the team
+				// Send all team messages to everyone in the team (or any admins)
+				// Only send to the same destination once
+				std::set<unsigned int> doneDests;
 				std::map<unsigned int, Tank *> &tanks =
 					ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 				std::map<unsigned int, Tank *>::iterator itor;
@@ -133,8 +135,13 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 					if (tank->getTeam() == currentTank->getTeam() ||
 						currentTank->getState().getAdmin())
 					{
-						ComsMessageSender::sendToSingleClient(newMessage,
-							currentTank->getDestinationId());
+						if (doneDests.find(currentTank->getDestinationId()) ==
+							doneDests.end())
+						{
+							doneDests.insert(currentTank->getDestinationId());
+							ComsMessageSender::sendToSingleClient(newMessage,
+								currentTank->getDestinationId());
+						}
 					}
 				}
 			}

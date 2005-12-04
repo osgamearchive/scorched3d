@@ -115,8 +115,9 @@ void ShipGroup::draw()
 		path_.draw();
 	}
 
-	Vector &position = path_.getPathPosition();
-	Vector &direction = path_.getPathDirection();
+	Vector position;
+	Vector direction;
+	path_.getPathAttrs(position, direction);
 	Vector directionPerp = direction.get2DPerp();
 
 	std::vector<Ship *>::iterator itor;

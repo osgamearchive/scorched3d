@@ -38,8 +38,7 @@ public:
 
 	void draw();
 	void simulate(float frameTime);
-	Vector &getPathPosition();
-	Vector &getPathDirection();
+	void getPathAttrs(Vector &position, Vector &direction);
 
 	std::vector<Vector> &getControlPoints() { return controlPoints_; }
 	std::vector<Vector> &getPathPoints() { return pathPoints_; }
@@ -49,8 +48,6 @@ protected:
 	std::vector<Vector> pathPoints_;
 	float pathTime_;
 	float pointsPerSecond_;
-
-	Vector &getPosition(float time);
 };
 
 #endif // __INCLUDE_SplinePathh_INCLUDE__

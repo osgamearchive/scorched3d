@@ -106,7 +106,7 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 		for (int x=0; x<lightMapWidth; x++)
 		{
 			float dx = float(x)/float(lightMapWidth)*float(hMap.getMapWidth());
-			float dy = float(y)/float(lightMapWidth)*float(hMap.getMapWidth());
+			float dy = float(y)/float(lightMapWidth)*float(hMap.getMapHeight());
 			float dz = hMap.getInterpHeight(dx, dy);
 			
 			Vector testPosition(dx, dy, dz);

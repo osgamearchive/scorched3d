@@ -357,7 +357,12 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	}
 
 	// Check we have a least one map
-	if (passedLandscapes.empty()) return 0;
+	if (passedLandscapes.empty())
+	{
+		dialogExit("Scorched3D",
+			"No existing landscapes are enabled (Landscapes : %s)",
+			context.getLandscapes());
+	}
 
 	// Map cycle mode
 	LandscapeDefinitionsEntry *result = 0;
@@ -406,7 +411,11 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	}
 
 	// Check we found map
-	if (!result) return 0;
+	if (!result)
+	{
+		dialogExit("Scorched3D",
+			"Failed to select a landscape definition");
+	}
 
 	// Return the chosen definition
 	unsigned int texPos = rand() % result->texs.size();

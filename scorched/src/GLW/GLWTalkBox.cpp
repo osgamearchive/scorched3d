@@ -130,7 +130,8 @@ void GLWTalkBox::keyDown(char *buffer, unsigned int keyState,
 						text_ = "";
 						mode_ = eSay;
 					}
-					else if (0 == stricmp(&text_[1], "teamsay "))
+					else if (0 == stricmp(&text_[1], "teamsay ") ||
+						0 == stricmp(&text_[1], "party "))
 					{
 						text_ = "";
 						mode_ = eTeamSay;

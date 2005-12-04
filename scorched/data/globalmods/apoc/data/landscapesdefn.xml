@@ -633,7 +633,7 @@
     	<minplayers>0</minplayers>
     	<maxplayers>24</maxplayers>
 		<landscapewidth>320</landscapewidth>
-		<landscapeheight>240</landscapeheight>
+		<landscapeheight>224</landscapeheight>
     	<surround type="none"></surround>
 		<roof type="sky"></roof>
     	<tankstart type="height">

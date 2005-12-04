@@ -48,7 +48,7 @@ void PatchGrid::generate()
 		hMap_->getMapHeight() % patchSize_ != 0)
 	{
 		dialogMessage("Scorched3D",
-			"ERROR: Landscape size must be a multiple of %i",
+			"Landscape dimensions must be a factor of %i",
 			patchSize_);
 	}
 

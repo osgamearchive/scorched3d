@@ -30,14 +30,14 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	buttonSizer->Add(IDC_SERVER_MIN_PLAYERS_CTRL = 
 		new wxComboBox(parent, -1,
 		wxT(""),
-		wxDefaultPosition, wxDefaultSize,
+		wxDefaultPosition, wxSize(70, -1),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	buttonSizer->Add(new wxStaticText(parent, -1,
 		wxT("Max Players :")), 0, wxALIGN_CENTER | wxRIGHT | wxLEFT, 5);
 	buttonSizer->Add(IDC_SERVER_MAX_PLAYERS_CTRL = 
 		new wxComboBox(parent, IDC_SERVER_MAX_PLAYERS,
 		wxT(""),
-		wxDefaultPosition, wxDefaultSize,
+		wxDefaultPosition, wxSize(70, -1),
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);	
 
 	wxBoxSizer *buttonSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -67,7 +67,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		playerSizer->Add(IDC_COMBO_PTYPE_CTRL[i] = 
 			new wxComboBox(parent, -1,
 			wxT(""),
-			wxDefaultPosition, wxDefaultSize,
+			wxDefaultPosition, wxSize(70, -1),
 			0, 0, wxCB_READONLY));
 		sizer->Add(playerSizer, 0, wxALIGN_RIGHT | wxALL, 2);
 	}
@@ -79,7 +79,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 	botSizer->Add(IDC_EDIT3_CTRL = 
 		new wxTextCtrl(parent, -1,
 		wxT(""),
-		wxDefaultPosition, wxSize((int) 214.5, (int) 21)), 
+		wxDefaultPosition, wxSize(100, -1)), 
 		0, wxALIGN_CENTER);
 }
 
