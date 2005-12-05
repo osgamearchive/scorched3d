@@ -19,6 +19,7 @@ Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
 Fixed: Faster movement calculation speed
 
+Added: Better/different shield graphics
 Added: Better/less intrusive talk dialog
 Added: Ships can be drawn using shipping lanes around the island
 Added: Tabs to the rules dialog and better scorched logo
@@ -39,7 +40,6 @@ Bots using lasers
 Tutorial mode
 Changing menus to be icons
 New game modes
-Better/different shield graphics (1/2 done)
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
 Stars

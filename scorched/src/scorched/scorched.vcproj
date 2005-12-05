@@ -2287,52 +2287,6 @@
 			<File
 				RelativePath="..\ode\util.h">
 			</File>
-			<Filter
-				Name="XML"
-				Filter="">
-				<File
-					RelativePath="..\XML\XMLFile.cpp">
-				</File>
-				<File
-					RelativePath="..\XML\XMLFile.h">
-				</File>
-				<File
-					RelativePath="..\XML\XMLParser.cpp">
-				</File>
-				<File
-					RelativePath="..\XML\XMLParser.h">
-				</File>
-				<File
-					RelativePath="..\XML\XMLStringBuffer.cpp">
-				</File>
-				<File
-					RelativePath="..\XML\XMLStringBuffer.h">
-				</File>
-				<File
-					RelativePath="..\XML\expat.h">
-				</File>
-				<File
-					RelativePath="..\XML\expat_config.h">
-				</File>
-				<File
-					RelativePath="..\XML\winconfig.h">
-				</File>
-				<File
-					RelativePath="..\XML\xmlparse.c">
-				</File>
-				<File
-					RelativePath="..\XML\xmlrole.c">
-				</File>
-				<File
-					RelativePath="..\XML\xmlrole.h">
-				</File>
-				<File
-					RelativePath="..\XML\xmltok.c">
-				</File>
-				<File
-					RelativePath="..\XML\xmltok.h">
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="resources"
@@ -3741,6 +3695,52 @@
 			</File>
 			<File
 				RelativePath="..\ships\ShipGroup.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="XML"
+			Filter="">
+			<File
+				RelativePath="..\XML\XMLFile.cpp">
+			</File>
+			<File
+				RelativePath="..\XML\XMLFile.h">
+			</File>
+			<File
+				RelativePath="..\XML\XMLParser.cpp">
+			</File>
+			<File
+				RelativePath="..\XML\XMLParser.h">
+			</File>
+			<File
+				RelativePath="..\XML\XMLStringBuffer.cpp">
+			</File>
+			<File
+				RelativePath="..\XML\XMLStringBuffer.h">
+			</File>
+			<File
+				RelativePath="..\XML\expat.h">
+			</File>
+			<File
+				RelativePath="..\XML\expat_config.h">
+			</File>
+			<File
+				RelativePath="..\XML\winconfig.h">
+			</File>
+			<File
+				RelativePath="..\XML\xmlparse.c">
+			</File>
+			<File
+				RelativePath="..\XML\xmlrole.c">
+			</File>
+			<File
+				RelativePath="..\XML\xmlrole.h">
+			</File>
+			<File
+				RelativePath="..\XML\xmltok.c">
+			</File>
+			<File
+				RelativePath="..\XML\xmltok.h">
 			</File>
 		</Filter>
 	</Files>

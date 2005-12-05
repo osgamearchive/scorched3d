@@ -37,8 +37,11 @@ AccessoryStore::~AccessoryStore()
 
 }
 
-bool AccessoryStore::parseFile(OptionsGame &context)
+bool AccessoryStore::parseFile(
+	OptionsGame &context, ProgressCounter *counter)
 {
+	if (counter) counter->setNewOp("Loading weapons");
+
 	const char *fileName = getDataFile("data/accessories.xml");
 	clearAccessories();
 
@@ -62,9 +65,14 @@ bool AccessoryStore::parseFile(OptionsGame &context)
 	}
 
 	// Itterate all of the accessories in the file
+	int noChildren = file.getRootNode()->getChildren().size();
+	int childCount = 0;
 	XMLNode *currentNode = 0;
 	while (file.getRootNode()->getNamedChild("accessory", currentNode, false))
 	{
+		if (counter) counter->setNewPercentage(
+			float(++childCount) / float(noChildren) * 100.0f);
+
 		// Parse the accessory
 		Accessory *accessory = new Accessory();
 		if (!accessory->parseXML(context, this, currentNode))

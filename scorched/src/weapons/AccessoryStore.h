@@ -26,6 +26,7 @@
 #include <map>
 #include <weapons/Weapon.h>
 #include <weapons/Accessory.h>
+#include <common/ProgressCounter.h>
 
 class XMLNode;
 class AccessoryStore
@@ -34,7 +35,7 @@ public:
 	AccessoryStore();
 	virtual ~AccessoryStore();
 
-	bool parseFile(OptionsGame &context);
+	bool parseFile(OptionsGame &context, ProgressCounter *counter = 0);
 	void clearAccessories();
 
 	Accessory *findByAccessoryType(AccessoryPart::AccessoryType type);

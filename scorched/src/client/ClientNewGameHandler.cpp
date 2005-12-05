@@ -146,7 +146,8 @@ bool ClientNewGameHandler::initialize()
 
 	// Load the accessory files
 	if (!ScorchedClient::instance()->getAccessoryStore().parseFile(
-		ScorchedClient::instance()->getOptionsGame())) return false;
+		ScorchedClient::instance()->getOptionsGame(),
+		ProgressDialog::instance())) return false;
 
 	// Load the landscape definitions
 	if (!ScorchedClient::instance()->getLandscapes().readLandscapeDefinitions()) return false;
