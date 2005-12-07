@@ -19,6 +19,7 @@ Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
 Fixed: Faster movement calculation speed
 
+Added: Allow access to tank explosion animation (Animation: ExplosionRingRenderer)
 Added: Better/different shield graphics
 Added: Better/less intrusive talk dialog
 Added: Ships can be drawn using shipping lanes around the island
@@ -43,7 +44,6 @@ New game modes
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
 Stars
-Allow access to tank explosion animation
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

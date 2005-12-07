@@ -18,32 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ExplosionRingRendererh_INCLUDE__)
+#define __INCLUDE_ExplosionRingRendererh_INCLUDE__
 
-#if !defined(__INCLUDE_TankDeadRendererh_INCLUDE__)
-#define __INCLUDE_TankDeadRendererh_INCLUDE__
+#include <sprites/MetaActionRenderer.h>
+#include <GLEXT/GLTexture.h>
 
-#include <engine/Action.h>
-#include <weapons/Weapon.h>
-#include <sprites/ExplosionRingRenderer.h>
-
-class TankDeadRenderer : public ActionRenderer
+class ExplosionRingRenderer : public MetaActionRenderer
 {
 public:
-	TankDeadRenderer(Weapon *weapon,
-		unsigned int killedPlayerId,
-		unsigned int firedPlayerId);
-	virtual ~TankDeadRenderer();
+	ExplosionRingRenderer();
+	virtual ~ExplosionRingRenderer();
+
+	virtual void init(unsigned int playerId,
+		Vector &position, Vector &velocity,
+		const char *data);
 
 	virtual void draw(Action *action);
-	virtual void simulate(Action *action, float frametime, bool &removeAction);
+	virtual void simulate(Action *action, float frameTime, bool &remove);
 
-protected:
-	ExplosionRingRenderer ringRenderer_;
-	Weapon *weapon_;
-	unsigned int killedPlayerId_;
-	unsigned int firedPlayerId_;
-
+	REGISTER_CLASS_HEADER(ExplosionRingRenderer);
+private:
+	Vector position_;
+	std::string data_;
 };
-
 
 #endif
