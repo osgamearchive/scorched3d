@@ -328,7 +328,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	Vector color;
 	unsigned int tankId = 0;
 	const char *playerName = "";
-	TankModelId modelId("Random");
+	TargetModelId modelId("Random");
 	if (extraSpectator)
 	{
 		tankId = 1;

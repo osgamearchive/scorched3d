@@ -22,7 +22,7 @@
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
 
-TankModel::TankModel(TankModelId &id, ModelID &modelId) :
+TankModel::TankModel(TargetModelId &id, ModelID &modelId) :
 	init_(false),
 	id_(id), modelId_(modelId), tankMesh_(0)
 {
@@ -33,7 +33,7 @@ TankModel::~TankModel()
 {
 }
 
-TankModelId &TankModel::getId() 
+TargetModelId &TankModel::getId() 
 { 
 	return id_; 
 }

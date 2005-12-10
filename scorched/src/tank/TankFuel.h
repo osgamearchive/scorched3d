@@ -30,7 +30,7 @@ public:
 	TankFuel(ScorchedContext &context);
 	virtual ~TankFuel();
 
-	void reset();
+	void newMatch();
 	void newGame();
 	void rmFuel(int no);
 	void addFuel(int no);

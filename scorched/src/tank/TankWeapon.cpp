@@ -36,7 +36,7 @@ TankWeapon::~TankWeapon()
 {
 }
 
-void TankWeapon::reset()
+void TankWeapon::newMatch()
 {
 	weapons_.clear();
 	currentWeapon_ = 0;

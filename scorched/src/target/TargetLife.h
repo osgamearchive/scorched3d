@@ -18,37 +18,43 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
-#define AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_
+#if !defined(__INCLUDE_TargetLifeh_INCLUDE__)
+#define __INCLUDE_TargetLifeh_INCLUDE__
 
+#include <engine/ScorchedCollisionIds.h>
+#include <engine/PhysicsEngine.h>
 #include <coms/NetBuffer.h>
-#include <map>
-#include <list>
 
-class Accessory;
 class ScorchedContext;
-class TankShields  
+class TargetLife
 {
 public:
-	TankShields(ScorchedContext &context);
-	virtual ~TankShields();
+	TargetLife(ScorchedContext &context, unsigned int playerId);
+	virtual ~TargetLife();
 
-	void newMatch();
+	void newGame();
 
-	void addShield(Accessory *sh, int count);
-	void rmShield(Accessory *sh, int count);
+	// Position
+	void setPosition(Vector &pos);
 
-	int getShieldCount(Accessory *shield);
-	std::list<Accessory *> getAllShields(bool sort=false);
+	// Tank Life / Health
+	float getLife() { return life_; }
+	void setLife(float life);
 
-	// Serialize
-    bool writeMessage(NetBuffer &buffer, bool writeAccessories);
-    bool readMessage(NetBufferReader &reader);
+	// Serialize the tank
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
 
 protected:
 	ScorchedContext &context_;
-	std::map<Accessory *, int> shields_;
+
+	float life_;
+
+	// Physics engine stuff
+	dGeomID targetGeom_;
+	ScorchedCollisionInfo targetInfo_;
 
 };
 
-#endif // !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
+#endif // __INCLUDE_TargetLifeh_INCLUDE__
+

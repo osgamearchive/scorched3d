@@ -72,7 +72,7 @@ Tank *TankAIComputerTarget::findNearTankToShootAt()
 	std::list<std::pair<float, Tank *> > sortedTanks;
 	TankLib::getTanksSortedByDistance(
 		ScorchedServer::instance()->getContext(),
-		currentTank_->getPhysics().getTankPosition(), 
+		currentTank_->getPosition().getTankPosition(), 
 		sortedTanks,
 		currentTank_->getTeam());
 
@@ -179,7 +179,7 @@ void TankAIComputerTarget::shotLanded(
 	{
 		Tank *tank = (*itor).second;
 		unsigned int dist = (unsigned int)
-			(position - tank->getPhysics().getTankPosition()).Magnitude();
+			(position - tank->getPosition().getTankPosition()).Magnitude();
 		if (dist < currentDist)
 		{
 			currentTank = tank;
@@ -221,7 +221,7 @@ void TankAIComputerTarget::addTankToHitList(unsigned int firer, int count)
 	}
 }
 
-void TankAIComputerTarget::reset()
+void TankAIComputerTarget::newMatch()
 {
 	hitlist_.clear();
 }

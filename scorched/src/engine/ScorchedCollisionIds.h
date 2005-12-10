@@ -41,9 +41,8 @@ enum ScorchedCollisionId
 	CollisionIdWallRight,
 	CollisionIdWallTop,
 	CollisionIdWallBottom,
-	CollisionIdTank,
-	CollisionIdShieldSmall,
-	CollisionIdShieldLarge,
+	CollisionIdTarget,
+	CollisionIdShield,
 	CollisionIdSprite,
 	CollisionIdBounce
 };

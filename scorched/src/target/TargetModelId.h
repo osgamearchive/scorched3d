@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _tankModelId_h
-#define _tankModelId_h
+#ifndef _TargetModelId_h
+#define _TargetModelId_h
 
 #include <coms/NetBuffer.h>
 
@@ -33,14 +33,14 @@ public:
 };
 
 // The model used for this tank
-class TankModelId
+class TargetModelId
 {
 public:
-	TankModelId(const char *modelName);
-	TankModelId(const TankModelId &);
-	virtual ~TankModelId();
+	TargetModelId(const char *modelName);
+	TargetModelId(const TargetModelId &);
+	virtual ~TargetModelId();
 
-	const TankModelId & operator=(const TankModelId &);
+	const TargetModelId & operator=(const TargetModelId &);
 
 	// The name of the model that should be used for this tank
 	const char *getModelName() { return modelName_.c_str(); }
@@ -60,5 +60,5 @@ protected:
 
 };
 
-#endif // _tankModelId_h
+#endif // _TargetModelId_h
 

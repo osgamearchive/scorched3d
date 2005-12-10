@@ -37,7 +37,7 @@ public:
 		float frameTime, char *buffer, unsigned int keyState);
 	virtual void endPlayMove();
 	virtual void newGame();
-	virtual void reset();
+	virtual void newMatch();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,

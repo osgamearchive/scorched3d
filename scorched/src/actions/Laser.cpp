@@ -95,7 +95,7 @@ void Laser::simulate(float frameTime, bool &remove)
 						!current->getState().getSpectator() &&
 						current->getPlayerId() != playerId_)
 					{
-						if ((current->getPhysics().getTankPosition() -
+						if ((current->getPosition().getTankPosition() -
 							pos).Magnitude() < weapon_->getHurtRadius())
 						{
 							damagedTanks_.insert(current->getPlayerId());

@@ -106,19 +106,6 @@ Tank *TankContainer::getCurrentTank()
 	return 0;
 }
 
-void TankContainer::newGame()
-{
-	// Tell each tank a new game has started
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		mainitor != playingTanks_.end();
-		mainitor++)
-	{
-		Tank *current = (*mainitor).second;
-		current->newGame();
-	}
-}
-
 void TankContainer::clientNewGame()
 {
 	// Tell each tank a new game has started
@@ -132,7 +119,7 @@ void TankContainer::clientNewGame()
 	}
 }
 
-void TankContainer::resetTanks()
+void TankContainer::newMatch()
 {
 	// Reset all tanks
 	std::map<unsigned int, Tank *>::iterator mainitor;
@@ -141,7 +128,7 @@ void TankContainer::resetTanks()
 		 mainitor++)
 	{
 		Tank *current = (*mainitor).second;
-		current->reset();
+		current->newMatch();
 	}
 }
 

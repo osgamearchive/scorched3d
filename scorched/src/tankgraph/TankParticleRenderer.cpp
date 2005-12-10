@@ -39,7 +39,7 @@ void TankParticleRenderer::simulateParticle(Particle &particle, float time)
 	{
 		// Tank and particle alive
 		particle.life_ = 1000.0f; // Alive
-		particle.position_ = tank->getPhysics().getTankPosition();
+		particle.position_ = tank->getPosition().getTankPosition();
 	}
 	else
 	{

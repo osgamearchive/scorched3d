@@ -60,7 +60,7 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 	{
 		// Create the new tank and add it to the tank container
 		// Collections
-		TankModelId modelId(message.getModelName());
+		TargetModelId modelId(message.getModelName());
 		tank = new Tank(
 			ScorchedClient::instance()->getContext(),
 			message.getPlayerId(),

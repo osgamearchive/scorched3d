@@ -39,20 +39,14 @@ TankAccessories::~TankAccessories()
 
 }
 
-void TankAccessories::reset()
+void TankAccessories::newMatch()
 {
-	tankWeapon_.reset();
-	tankPara_.reset();
-	tankShield_.reset();
-	tankAuto_.reset();
-	tankBatteries_.reset();
-	tankFuel_.reset();
-}
-
-void TankAccessories::newGame()
-{
-	tankPara_.newGame();
-	tankShield_.newGame();
+	tankWeapon_.newMatch();
+	tankPara_.newMatch();
+	tankShield_.newMatch();
+	tankAuto_.newMatch();
+	tankBatteries_.newMatch();
+	tankFuel_.newMatch();
 }
 
 std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)

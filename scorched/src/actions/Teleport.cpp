@@ -80,7 +80,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile(weapon_->getSound()));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					activateSound, tank->getPhysics().getTankPosition());
+					activateSound, tank->getPosition().getTankPosition());
 			}
 		}
 	}
@@ -95,7 +95,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 				position_[0], position_[1]);
 			position_[2] = height;
 
-			tank->getPhysics().setTankPosition(position_);
+			tank->setTargetPosition(position_);
 			DeformLandscape::flattenArea(*context_, position_, 0);
 		}
 

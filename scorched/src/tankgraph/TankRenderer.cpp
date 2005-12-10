@@ -120,8 +120,8 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 		if (tank->getState().getState() == TankState::sNormal)
 		{
 			float dist = approx_distance(
-				tank->getPhysics().getTankPosition()[0] - campos[0],
-				tank->getPhysics().getTankPosition()[1] - campos[1]);
+				tank->getPosition().getTankPosition()[0] - campos[0],
+				tank->getPosition().getTankPosition()[1] - campos[1]);
 			sortedTanks.push_back(std::pair<float, Tank *>(dist, tank));
 		}
 	}

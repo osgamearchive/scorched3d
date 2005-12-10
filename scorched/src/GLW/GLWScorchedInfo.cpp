@@ -171,7 +171,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eParachuteCount:
 			setToolTip(&model->getTips()->paraTip);
-			if (!current->getAccessories().getParachutes().parachutesEnabled())
+			if (!current->getParachute().parachutesEnabled())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
@@ -197,11 +197,11 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.0f",
-				current->getState().getLife());
+				current->getLife().getLife());
 		break;
 		case eShieldCount:
 			setToolTip(&model->getTips()->shieldTip);
-			if (!current->getAccessories().getShields().getCurrentShield())
+			if (!current->getShield().getCurrentShield())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
@@ -214,7 +214,7 @@ void GLWScorchedInfo::draw()
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"%.0f",
-					current->getAccessories().getShields().getShieldPower());
+					current->getShield().getShieldPower());
 			}
 		break;
 		case eBatteryCount:
@@ -290,14 +290,14 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.1f",
-				360.0f - current->getPhysics().getRotationGunXY());
+				360.0f - current->getPosition().getRotationGunXY());
 		break;
 		case eRotationDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%+.1f",
-				current->getPhysics().getRotationXYDiff());
+				current->getPosition().getRotationXYDiff());
 		break;
 		case eElevation:
 			setToolTip(&model->getTips()->elevationTip);
@@ -305,14 +305,14 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.1f",
-				current->getPhysics().getRotationGunYZ());
+				current->getPosition().getRotationGunYZ());
 		break;
 		case eElevationDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%+.1f",
-				current->getPhysics().getRotationYZDiff());
+				current->getPosition().getRotationYZDiff());
 		break;
 		case ePower:
 			setToolTip(&model->getTips()->powerTip);
@@ -320,14 +320,14 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%.1f",
-				current->getPhysics().getPower());
+				current->getPosition().getPower());
 		break;
 		case ePowerDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				"%+.1f",
-				current->getPhysics().getPowerDiff());
+				current->getPosition().getPowerDiff());
 		break;
 	}
 }

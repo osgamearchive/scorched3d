@@ -246,8 +246,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	if (currentTank && 
 		currentTank->getState().getState() == TankState::sNormal)
 	{
-		position = currentTank->getPhysics().getTankTurretPosition();
-		currentRotation = (180.0f - currentTank->getPhysics().getRotationGunXY()) / 57.32f;
+		position = currentTank->getPosition().getTankTurretPosition();
+		currentRotation = (180.0f - currentTank->getPosition().getRotationGunXY()) / 57.32f;
 	}
 
 	bool viewFromBehindTank = false;
@@ -370,8 +370,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 			if (playing &&
 				currentTank && currentTank->getState().getState() == TankState::sNormal)
 			{
-				float currentElevation = (currentTank->getPhysics().getRotationGunYZ()) / 160.0f;
-				Vector newPos = currentTank->getPhysics().getTankGunPosition();
+				float currentElevation = (currentTank->getPosition().getRotationGunYZ()) / 160.0f;
+				Vector newPos = currentTank->getPosition().getTankGunPosition();
 				Vector diff = newPos - position;
 				Vector newPos2 = position + (diff);
 				newPos2[2] += 0.5f;

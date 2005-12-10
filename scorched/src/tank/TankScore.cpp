@@ -32,7 +32,7 @@ TankScore::TankScore(ScorchedContext &context) :
 	statsRank_("-")
 {
 	startTime_ = lastStatTime_ = time(0);
-	reset();
+	newMatch();
 }
 
 TankScore::~TankScore()
@@ -40,7 +40,7 @@ TankScore::~TankScore()
 
 }
 
-void TankScore::reset()
+void TankScore::newMatch()
 {
 	money_ = 0;
 	setMoney(context_.optionsGame->getStartMoney());

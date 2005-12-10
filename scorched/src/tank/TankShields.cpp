@@ -28,17 +28,15 @@
 TankShields::TankShields(ScorchedContext &context) :
 	context_(context)
 {
-	setCurrentShield(0);
 }
 
 TankShields::~TankShields()
 {
 }
 
-void TankShields::reset()
+void TankShields::newMatch()
 {
 	shields_.clear();
-	newGame();
 
 	std::list<Accessory *> accessories = 
 		context_.accessoryStore->getAllOthers();
@@ -63,37 +61,6 @@ void TankShields::reset()
 				}
 			}
 		}
-	}
-}
-
-void TankShields::newGame()
-{
-	setCurrentShield(0);
-}
-
-void TankShields::setCurrentShield(Accessory *sh)
-{
-	std::map<Accessory *, int>::iterator itor = shields_.find(sh);
-	if (itor != shields_.end())
-	{
-		power_ = 100.0f;
-		currentShield_ = sh;
-		rmShield(sh, 1);
-	}
-	else
-	{
-		currentShield_ = 0;
-		power_ = 0;
-	}
-}
-
-void TankShields::setShieldPower(float power)
-{
-	power_ = power;
-	if (power_ <= 0.0f)
-	{
-		power_ = 0.0f;
-		setCurrentShield(0);
 	}
 }
 
@@ -155,9 +122,6 @@ std::list<Accessory *> TankShields::getAllShields(bool sort)
 
 bool TankShields::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(power_);
-	buffer.addToBuffer((unsigned int)(currentShield_?currentShield_->getAccessoryId():0));
-
 	if (writeAccessories)
 	{
 		std::map<Accessory *, int>::iterator itor;
@@ -181,11 +145,6 @@ bool TankShields::writeMessage(NetBuffer &buffer, bool writeAccessories)
 bool TankShields::readMessage(NetBufferReader &reader)
 {
 	unsigned int shieldId;
-	if (!reader.getFromBuffer(power_)) return false;
-	if (!reader.getFromBuffer(shieldId)) return false;
-	if (shieldId == 0) currentShield_ = 0;
-	else currentShield_ = context_.accessoryStore->findByAccessoryId(shieldId);
-
 	std::set<Accessory *> coveredShields;
 
 	int totalShields = 0;

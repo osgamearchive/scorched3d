@@ -18,37 +18,58 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
-#define AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_
+#include <target/TargetModelId.h>
 
-#include <coms/NetBuffer.h>
-#include <map>
-#include <list>
-
-class Accessory;
-class ScorchedContext;
-class TankShields  
+TankModelIdRenderer::TankModelIdRenderer()
 {
-public:
-	TankShields(ScorchedContext &context);
-	virtual ~TankShields();
+}
 
-	void newMatch();
+TankModelIdRenderer::~TankModelIdRenderer()
+{
+}
 
-	void addShield(Accessory *sh, int count);
-	void rmShield(Accessory *sh, int count);
+TargetModelId::TargetModelId(const char *modelName) :
+	modelName_(modelName),
+	modelIdRenderer_(0)
+{
 
-	int getShieldCount(Accessory *shield);
-	std::list<Accessory *> getAllShields(bool sort=false);
+}
 
-	// Serialize
-    bool writeMessage(NetBuffer &buffer, bool writeAccessories);
-    bool readMessage(NetBufferReader &reader);
+TargetModelId::TargetModelId(const TargetModelId &other) :
+	modelName_(other.modelName_),
+	modelIdRenderer_(0)
+{
 
-protected:
-	ScorchedContext &context_;
-	std::map<Accessory *, int> shields_;
+}
 
-};
+TargetModelId::~TargetModelId()
+{
+	delete modelIdRenderer_;
+}
 
-#endif // !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
+const TargetModelId & TargetModelId::operator=(const TargetModelId &other)
+{
+	modelName_ = other.modelName_;
+	modelIdRenderer_ = 0;
+	return *this;
+}
+
+bool TargetModelId::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(modelName_);
+	return true;
+}
+
+bool TargetModelId::readMessage(NetBufferReader &reader)
+{
+	std::string newName;
+	if (!reader.getFromBuffer(newName)) return false;
+	if (0 != strcmp(newName.c_str(), modelName_.c_str()))
+	{
+		modelName_ = newName;
+		delete modelIdRenderer_;
+		modelIdRenderer_ = 0;
+	}
+
+	return true;
+}

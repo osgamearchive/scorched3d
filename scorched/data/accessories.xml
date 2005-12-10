@@ -47,7 +47,7 @@ work.</description>
 		<bundlesize>3</bundlesize>
 		<cost>20000</cost>
 		<accessoryaction type='Shield'>
-			<radius>small</radius>
+			<radius>3.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>1.0</r>
@@ -71,7 +71,7 @@ work.</description>
 		<bundlesize>2</bundlesize>
 		<cost>25000</cost>
 		<accessoryaction type='Shield'>
-			<radius>large</radius>
+			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>1.0</r>
@@ -96,7 +96,7 @@ they work.</description>
 		<bundlesize>3</bundlesize>
 		<cost>30000</cost>
 		<accessoryaction type='ShieldReflective'>
-			<radius>large</radius>
+			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<deflectfactor>1.0</deflectfactor>
 			<color>
@@ -122,7 +122,7 @@ be activated before they work.</description>
 		<bundlesize>2</bundlesize>
 		<cost>10000</cost>
 		<accessoryaction type='ShieldMag'>
-			<radius>large</radius>
+			<radius>3.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>50</deflectpower>
 			<color>
@@ -148,7 +148,7 @@ activated before they work.</description>
 		<bundlesize>2</bundlesize>
 		<cost>25000</cost>
 		<accessoryaction type='ShieldMag'>
-			<radius>large</radius>
+			<radius>6.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>100</deflectpower>
 			<color>

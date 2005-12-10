@@ -152,8 +152,8 @@ void PatchGrid::recalculateTankVariance()
 		Tank *current = (*itor).second;
 		if (current->getState().getState() == TankState::sNormal)
 		{
-			float posX = current->getPhysics().getTankPosition()[0];
-			float posY = current->getPhysics().getTankPosition()[1];
+			float posX = current->getPosition().getTankPosition()[0];
+			float posY = current->getPosition().getTankPosition()[1];
 
 			posX /= float(patchSize_);
 			posY /= float(patchSize_);

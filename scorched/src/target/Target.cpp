@@ -1,0 +1,79 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2003
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+#include <math.h>
+#include <target/Target.h>
+#include <engine/ScorchedContext.h>
+#include <common/Defines.h>
+
+Target::Target(unsigned int playerId, 
+	TargetModelId &modelId, 
+	ScorchedContext &context) :
+	playerId_(playerId),
+	context_(context),
+	life_(context, playerId), 
+	model_(modelId),
+	shield_(context, playerId)
+{
+}
+
+Target::~Target()
+{
+}
+
+void Target::newGame()
+{
+	life_.newGame();
+	shield_.newGame();
+	parachute_.newGame();
+}
+
+void Target::setTargetPosition(Vector &pos)
+{
+	targetPosition_ = pos;
+	life_.setPosition(pos);
+	shield_.setPosition(pos);
+}
+
+bool Target::writeMessage(NetBuffer &buffer)
+{
+	if (!model_.writeMessage(buffer)) return false;
+	if (!shield_.writeMessage(buffer)) return false;
+	if (!life_.writeMessage(buffer)) return false;
+	if (!parachute_.writeMessage(buffer)) return false;
+
+	// Do after shield and life so their position is set
+	buffer.addToBuffer(targetPosition_);
+	return true;
+}
+
+bool Target::readMessage(NetBufferReader &reader)
+{
+	if (!model_.readMessage(reader)) return false;
+	if (!shield_.readMessage(reader)) return false;
+	if (!life_.readMessage(reader)) return false;
+	if (!parachute_.readMessage(reader)) return false;
+
+	// Do after shield and life so their position is set
+	Vector pos;
+	if (!reader.getFromBuffer(pos)) return false;
+	setTargetPosition(pos);
+	return true;
+}

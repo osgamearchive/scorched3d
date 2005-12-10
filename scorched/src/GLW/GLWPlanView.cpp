@@ -225,7 +225,7 @@ void GLWPlanView::drawTanks()
 			!tank->getState().getSpectator())
 		{
 			glColor3fv(tank->getColor());
-			position = tank->getPhysics().getTankPosition();
+			position = tank->getPosition().getTankPosition();
 			position[0] += (maxWidth - mapWidth) / 2.0f;
 			position[1] += (maxWidth - mapHeight) / 2.0f;
 			position /= maxWidth;
@@ -270,8 +270,8 @@ void GLWPlanView::drawCurrentTank()
 	float maxWidth = MAX(mapWidth, mapHeight);
 	float scale = animationTime_ / maxAnimationTime;
 	Vector position;
-	float rot = -currentTank->getPhysics().getRotationGunXY() * degToRad;
-	position = currentTank->getPhysics().getTankPosition();
+	float rot = -currentTank->getPosition().getRotationGunXY() * degToRad;
+	position = currentTank->getPosition().getTankPosition();
 	position[0] += (maxWidth - mapWidth) / 2.0f;
 	position[1] += (maxWidth - mapHeight) / 2.0f;
 	position /= maxWidth;

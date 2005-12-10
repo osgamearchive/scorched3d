@@ -179,7 +179,7 @@ void TankDead::simulate(float frameTime, bool &remove)
 			Weapon *weapon = context_->accessoryStore->getDeathAnimation();
 			if (weapon)
 			{
-				Vector position = killedTank->getPhysics().getTankPosition();
+				Vector position = killedTank->getPosition().getTankPosition();
 				Vector velocity;
 				weapon->fireWeapon(*context_, firedPlayerId_, 
 					position, velocity, Weapon::eDataDeathAnimation);
@@ -216,7 +216,7 @@ bool TankDead::readAction(NetBufferReader &reader)
 		{
 			const float ShowTime = 5.0f;
 			ActionMeta *pos = new CameraPositionAction(
-				killedTank->getPhysics().getTankPosition(), ShowTime,
+				killedTank->getPosition().getTankPosition(), ShowTime,
 				20);
 			context_->actionController->getBuffer().clientAdd(-4.0f, pos);
 		}

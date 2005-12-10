@@ -64,7 +64,6 @@ protected:
 		unsigned int shotId,
 		unsigned int hitId,
 		Vector &collisionPos,
-		Shield::ShieldSize size,
 		PhysicsParticleMeta *shot,
 		float hitPercentage,
 		float &deflectPower);

@@ -35,8 +35,7 @@ public:
 	TankAccessories(ScorchedContext &context);
 	virtual ~TankAccessories();
 
-	void reset();
-	void newGame(); // Called at the start of each game
+	void newMatch();
 	void add(Accessory *accessory);
 	void rm(Accessory *accessory);
 

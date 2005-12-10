@@ -29,7 +29,7 @@
 float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)
 {
 	Vector currentdirection = 
-			targetTank->getPhysics().getTankPosition() - position;
+			targetTank->getPosition().getTankPosition() - position;
 	float maxdistance2D = sqrtf(currentdirection[0] * 
 		currentdirection[0] + currentdirection[1] * currentdirection[1]);
 	return maxdistance2D;

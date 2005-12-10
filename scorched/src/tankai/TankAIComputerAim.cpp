@@ -138,7 +138,7 @@ bool TankAIComputerAim::newRefineLastShot(Tank *tank,
 
 	// We can use the shot position gained from other tanks
 	// Find the closest x and closest y shot made so far
-	Vector tankPosition = tank->getPhysics().getTankPosition();
+	Vector tankPosition = tank->getPosition().getTankPosition();
 	std::map<unsigned int, ShotListEntry>::iterator outeritor;
 	for (outeritor = madeShots_.begin();
 		outeritor != madeShots_.end();
@@ -265,8 +265,8 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 		}
 
 		// Get the current distance to tank
-		float distToTank = (currentTank_->getPhysics().getTankPosition() - 
-			tank->getPhysics().getTankPosition()).Magnitude();
+		float distToTank = (currentTank_->getPosition().getTankPosition() - 
+			tank->getPosition().getTankPosition()).Magnitude();
 
 		// Set the initial values to the initial entry
 		float closestLessDistToTank = 0.0f;
@@ -286,7 +286,7 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 			itor != shotList.end();
 			itor++)
 		{
-			float newDistToTank = (currentTank_->getPhysics().getTankPosition() - 
+			float newDistToTank = (currentTank_->getPosition().getTankPosition() - 
 				(*itor).finalpos).Magnitude();
 			if (newDistToTank > closestLessDistToTank &&
 				newDistToTank <= distToTank)
@@ -329,9 +329,9 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 			// Make adjustments for the wind
 			if(ScorchedServer::instance()->getOptionsTransient().getWindOn())
 			{
-				Vector dirToTank = tank->getPhysics().getTankPosition() - 
-					currentTank_->getPhysics().getTankPosition();
-				Vector dirToShot = tank->getPhysics().getTankPosition() - 
+				Vector dirToTank = tank->getPosition().getTankPosition() - 
+					currentTank_->getPosition().getTankPosition();
+				Vector dirToShot = tank->getPosition().getTankPosition() - 
 					closestMorePos;	
 
 				// Work only in 2D
@@ -403,7 +403,7 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 	if (finditor != madeShots_.end())
 	{
 		noShots = (*finditor).second.shotCount;
-		distance = (targetTank->getPhysics().getTankPosition()-
+		distance = (targetTank->getPosition().getTankPosition()-
 			(*finditor).second.lastShot).Magnitude();
 	}
 
@@ -411,8 +411,8 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 	// If not then try an ordinary shot
 	if (!TankLib::getSniperShotTowardsPosition(
 		ScorchedServer::instance()->getContext(),
-		currentTank_->getPhysics().getTankPosition(), 
-		targetTank->getPhysics().getTankPosition(), sniperDist_, 
+		currentTank_->getPosition().getTankPosition(), 
+		targetTank->getPosition().getTankPosition(), sniperDist_, 
 		angleXYDegs, angleYZDegs, power,
 		checkNearCollision_))
 	{
@@ -426,27 +426,27 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 			// Makes a randow powered shot towards the target
 			TankLib::getShotTowardsPosition(
 				ScorchedServer::instance()->getContext(),
-				currentTank_->getPhysics().getTankPosition(), 
-				targetTank->getPhysics().getTankPosition(), 
+				currentTank_->getPosition().getTankPosition(), 
+				targetTank->getPosition().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);
 		}
 
 		// Set the parameters
 		// Sets the angle of the gun and the power
-		currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
-		currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-		currentTank_->getPhysics().changePower(power, false);
+		currentTank_->getPosition().rotateGunXY(angleXYDegs, false);
+		currentTank_->getPosition().rotateGunYZ(angleYZDegs, false);
+		currentTank_->getPosition().changePower(power, false);
 
 		// Check we will not kill ourselves
 		if (checkNearCollision_)
 		{
 			// Check we don't collide with ground within a near distance
-			float distance = (currentTank_->getPhysics().getTankPosition() - 
-				targetTank->getPhysics().getTankPosition()).Magnitude();
+			float distance = (currentTank_->getPosition().getTankPosition() - 
+				targetTank->getPosition().getTankPosition()).Magnitude();
 			int allowedIntersectDist = int(distance / 2.0f);
 			while (TankLib::intersection(
 				ScorchedServer::instance()->getContext(), 
-				currentTank_->getPhysics().getTankGunPosition() - Vector(0.0f, 0.0f, 0.5f), 
+				currentTank_->getPosition().getTankGunPosition() - Vector(0.0f, 0.0f, 0.5f), 
 				angleXYDegs, angleYZDegs, power, allowedIntersectDist))
 			{
 				angleYZDegs += 5.0f;
@@ -470,9 +470,9 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 
 	// Set the parameters
 	// Sets the angle of the gun and the power
-	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
-	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-	currentTank_->getPhysics().changePower(power, false);
+	currentTank_->getPosition().rotateGunXY(angleXYDegs, false);
+	currentTank_->getPosition().rotateGunYZ(angleYZDegs, false);
+	currentTank_->getPosition().changePower(power, false);
 
 	return AimOk;
 }
@@ -491,9 +491,9 @@ TankAIComputerAim::AimResult TankAIComputerAim::randomAim(
 
 	// Set the parameters
 	// Sets the angle of the gun and the power
-	currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
-	currentTank_->getPhysics().rotateGunYZ(angleYZDegs, false);
-	currentTank_->getPhysics().changePower(power, false);
+	currentTank_->getPosition().rotateGunXY(angleXYDegs, false);
+	currentTank_->getPosition().rotateGunYZ(angleYZDegs, false);
+	currentTank_->getPosition().changePower(power, false);
 
 	return AimOk;
 }

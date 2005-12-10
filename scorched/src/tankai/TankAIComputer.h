@@ -35,9 +35,9 @@ public:
 	virtual ~TankAIComputer();
 
 	// Inherited from TankAI
-	virtual void reset();
+	virtual void newMatch();
 	virtual void newGame();
-	virtual bool parseConfig(AccessoryStore &store, XMLNode *node);
+	virtual bool parseConfig(AccessoryStore *store, XMLNode *node);
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
 	virtual void shotLanded(ScorchedCollisionType action,
 		ScorchedCollisionInfo *collision,

@@ -360,7 +360,7 @@ void Napalm::simulateDamage()
 			if (tank->getState().getState() == TankState::sNormal)
 			{
 				// Check if this tank is in the damage field
-				Vector &tankPos = tank->getPhysics().getTankPosition();
+				Vector &tankPos = tank->getPosition().getTankPosition();
 				if (tankPos[0] > napalmX - EffectRadius &&
 					tankPos[0] < napalmX + EffectRadius &&
 					tankPos[1] > napalmY - EffectRadius &&

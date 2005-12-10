@@ -110,7 +110,7 @@ void ServerDefenseHandler::processDefenseMessage(
 		if (tank->getAccessories().getBatteries().getNoBatteries() > 0)
 		{
 			tank->getAccessories().getBatteries().rmBatteries(1);
-			tank->getState().setLife(tank->getState().getLife() + 10.0f);
+			tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
 
 			ComsMessageSender::sendToAllPlayingClients(message);
 		}
@@ -124,7 +124,8 @@ void ServerDefenseHandler::processDefenseMessage(
 			{
 				if (tank->getAccessories().getShields().getShieldCount(accessory) != 0)
 				{
-					tank->getAccessories().getShields().setCurrentShield(accessory);
+					tank->getAccessories().getShields().rmShield(accessory, 1);
+					tank->getShield().setCurrentShield(accessory);
 
 					ComsMessageSender::sendToAllPlayingClients(message);
 				}
@@ -133,12 +134,10 @@ void ServerDefenseHandler::processDefenseMessage(
 		break;
 	case ComsDefenseMessage::eShieldDown:
 		{
-			Accessory *shield =
-				tank->getAccessories().getShields().getCurrentShield();
+			Accessory *shield = tank->getShield().getCurrentShield();
 			if (shield)
 			{
-				tank->getAccessories().getShields().setCurrentShield(0);
-
+				tank->getShield().setCurrentShield(0);
 				ComsMessageSender::sendToAllPlayingClients(message);
 			}
 		}	
@@ -146,15 +145,15 @@ void ServerDefenseHandler::processDefenseMessage(
 	case ComsDefenseMessage::eParachutesUp:
 		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 		{
-			tank->getAccessories().getParachutes().setParachutesEnabled(true);
+			tank->getParachute().setParachutesEnabled(true);
 
 			ComsMessageSender::sendToAllPlayingClients(message);
 		}
 		break;
 	case ComsDefenseMessage::eParachutesDown:
-		if (tank->getAccessories().getParachutes().parachutesEnabled())
+		if (tank->getParachute().parachutesEnabled())
 		{
-			tank->getAccessories().getParachutes().setParachutesEnabled(false);
+			tank->getParachute().setParachutesEnabled(false);
 
 			ComsMessageSender::sendToAllPlayingClients(message);
 		}

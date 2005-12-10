@@ -36,16 +36,15 @@ Shield::~Shield()
 bool Shield::parseXML(OptionsGame &context,
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	// Get the accessory radius
-	XMLNode *radiusNode = 0;
-	if (!accessoryNode->getNamedChild("radius", radiusNode)) return false; 
-	radius_ = ((strcmp(radiusNode->getContent(), "large")==0)?ShieldSizeLarge:ShieldSizeSmall);
-
 	// Get the remove power 
 	if (!accessoryNode->getNamedChild("removepower", removePower_)) return false;
 
 	// Get the penetration
 	if (!accessoryNode->getNamedChild("penetration", penetration_)) return false;
+
+	// Get the penetration
+	if (!accessoryNode->getNamedChild("radius", radius_)) return false;
+	if (radius_ <= 0.0f) return accessoryNode->returnError("Shield radius must be > 0");
 
 	// Get the collision sound
 	if (!accessoryNode->getNamedChild("collisionsound", collisionSound_)) return false;

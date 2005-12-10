@@ -103,8 +103,8 @@ void GLWTankTracker::draw()
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)
 		{
-			setCurrentX(currentTank->getPhysics().getRotationGunXY());
-			setCurrentY(currentTank->getPhysics().getRotationGunYZ());
+			setCurrentX(currentTank->getPosition().getRotationGunXY());
+			setCurrentY(currentTank->getPosition().getRotationGunYZ());
 		}
 	}
 	GLWTracker::draw();
@@ -120,8 +120,8 @@ void GLWTankTracker::currentChanged(unsigned int id, float valueX, float valueY)
 		{
 			if (id == getId())
 			{
-				currentTank->getPhysics().rotateGunXY(valueX, false);
-				currentTank->getPhysics().rotateGunYZ(valueY, false);
+				currentTank->getPosition().rotateGunXY(valueX, false);
+				currentTank->getPosition().rotateGunYZ(valueY, false);
 			}
 		}
 	}	

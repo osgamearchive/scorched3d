@@ -62,9 +62,9 @@ void TankFired::simulate(float frameTime, bool &remove)
 			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
-			tank->getPhysics().rotateGunXY(rotXY_, false);
-			tank->getPhysics().rotateGunYZ(rotXZ_, false);
-			tank->getPhysics().madeShot();
+			tank->getPosition().rotateGunXY(rotXY_, false);
+			tank->getPosition().rotateGunYZ(rotXZ_, false);
+			tank->getPosition().madeShot();
 
 			if (!context_->serverMode) 
 			{
@@ -84,7 +84,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 							getDataFile("data/wav/%s", 
 							weapon_->getParent()->getActivationSound()));
 					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-						firedSound, tank->getPhysics().getTankPosition());
+						firedSound, tank->getPosition().getTankPosition());
 				}
 			}
 
@@ -92,7 +92,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 			{
 				Weapon *muzzleFlash = context_->accessoryStore->getMuzzelFlash();
 				if (muzzleFlash) muzzleFlash->fireWeapon(*context_, playerId_, 
-					tank->getPhysics().getTankGunPosition(), Vector::nullVector, 0);
+					tank->getPosition().getTankGunPosition(), Vector::nullVector, 0);
 			}
 		}
 	}

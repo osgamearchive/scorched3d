@@ -32,7 +32,7 @@ public:
 	TankScore(ScorchedContext &context);
 	virtual ~TankScore();
 
-	void reset();
+	void newMatch();
 
 	int getKills() { return kills_; }
 	void setKills(int kills) { kills_ = kills; }

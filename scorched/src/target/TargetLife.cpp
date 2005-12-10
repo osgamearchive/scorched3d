@@ -18,40 +18,65 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sprites/TankDeadRenderer.h>
-#include <tank/TankContainer.h>
-#include <client/ScorchedClient.h>
+#include <target/TargetLife.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <common/Defines.h>
 
-TankDeadRenderer::TankDeadRenderer(
-	Weapon *weapon,
-	unsigned int killedPlayerId, unsigned int firedPlayerId) :
-	weapon_(weapon), 
-	killedPlayerId_(killedPlayerId), firedPlayerId_(firedPlayerId)
+TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
+	context_(context),
+	targetInfo_(CollisionIdTarget),
+	life_(100.0f)
 {
+	// The tank collision object
+	targetGeom_ = 
+		dCreateSphere(context.actionController->getPhysics().getSpace(), 2.0f);
+	targetInfo_.data = (void *) playerId;
+	dGeomSetData(targetGeom_, &targetInfo_);
+	dGeomDisable(targetGeom_);
 }
 
-TankDeadRenderer::~TankDeadRenderer()
+TargetLife::~TargetLife()
 {
+	dGeomDestroy(targetGeom_);
 }
 
-void TankDeadRenderer::draw(Action *action)
+void TargetLife::newGame()
 {
+	setLife(100.0f);
 }
 
-void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAction)
+void TargetLife::setLife(float life)
 {
-	Tank *killedTank = ScorchedClient::instance()->
-		getTankContainer().getTankById(killedPlayerId_);                                                                           
-	if (killedTank)
+	life_ = life;
+
+	if (life_ >= 100) life_ = 100;
+	if (life_ <= 0)
 	{
-		Vector position = 
-			killedTank->getPosition().getTankPosition();
-		ringRenderer_.init(0, position, Vector::nullVector, "data/wav/explosions/tank.wav");
-		ringRenderer_.simulate(action, frametime, removeAction);
+		life_ = 0;
+		dGeomDisable(targetGeom_);
 	}
+	else
+	{
+		dGeomEnable(targetGeom_);
+	}
+}
 
-	// Remove this action on the first itteration
-	removeAction = true;
+void TargetLife::setPosition(Vector &pos)
+{
+	dGeomSetPosition(targetGeom_, pos[0], pos[1], pos[2]);
+}
+
+bool TargetLife::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(life_);
+	return true;
+}
+
+bool TargetLife::readMessage(NetBufferReader &reader)
+{
+	float l;
+	if (!reader.getFromBuffer(l)) return false;
+	setLife(l);
+	return true;
 }

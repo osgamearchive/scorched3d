@@ -55,7 +55,7 @@ public:
 		float frameTime, char *buffer, unsigned int keyState) = 0;
 	virtual void endPlayMove();
 	virtual void newGame() = 0;
-	virtual void reset() = 0;
+	virtual void newMatch() = 0;
 	
 	// Set the tank and context this ai is for
 	virtual void setTank(Tank *tank);

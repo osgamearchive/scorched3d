@@ -3495,22 +3495,16 @@
 				RelativePath="..\tank\TankMod.h">
 			</File>
 			<File
-				RelativePath="..\tank\TankModelId.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankModelId.h">
-			</File>
-			<File
 				RelativePath="..\tank\TankParachutes.cpp">
 			</File>
 			<File
 				RelativePath="..\tank\TankParachutes.h">
 			</File>
 			<File
-				RelativePath="..\tank\TankPhysics.cpp">
+				RelativePath="..\tank\TankPosition.cpp">
 			</File>
 			<File
-				RelativePath="..\tank\TankPhysics.h">
+				RelativePath="..\tank\TankPosition.h">
 			</File>
 			<File
 				RelativePath="..\tank\TankScore.cpp">
@@ -3747,6 +3741,40 @@
 			</File>
 			<File
 				RelativePath="..\XML\xmltok.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="target"
+			Filter="">
+			<File
+				RelativePath="..\target\Target.cpp">
+			</File>
+			<File
+				RelativePath="..\target\Target.h">
+			</File>
+			<File
+				RelativePath="..\target\TargetLife.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetLife.h">
+			</File>
+			<File
+				RelativePath="..\target\TargetModelId.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetModelId.h">
+			</File>
+			<File
+				RelativePath="..\target\TargetParachute.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetParachute.h">
+			</File>
+			<File
+				RelativePath="..\target\TargetShield.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetShield.h">
 			</File>
 		</Filter>
 	</Files>

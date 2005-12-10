@@ -164,7 +164,7 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 		else
 		{
 			Vector color;
-			TankModelId model("");
+			TargetModelId model("");
 			Tank tank(
 				ScorchedServer::instance()->getContext(),
 				playerId, // PlayerId

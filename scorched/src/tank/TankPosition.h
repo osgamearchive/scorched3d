@@ -18,17 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankPhysicsh_INCLUDE__)
-#define __INCLUDE_TankPhysicsh_INCLUDE__
+#if !defined(__INCLUDE_TankPositionh_INCLUDE__)
+#define __INCLUDE_TankPositionh_INCLUDE__
 
-#include <engine/ScorchedCollisionIds.h>
-#include <engine/PhysicsEngine.h>
 #include <coms/NetBuffer.h>
 #include <vector>
 
 class Tank;
 class ScorchedContext;
-class TankPhysics
+class TankPosition
 {
 public:
 
@@ -43,8 +41,8 @@ public:
 		bool current;
 	};
 
-	TankPhysics(ScorchedContext &context, unsigned int playerId);
-	virtual ~TankPhysics();
+	TankPosition(ScorchedContext &context, unsigned int playerId);
+	virtual ~TankPosition();
 
 	void setTank(Tank *tank) { tank_ = tank; }
 
@@ -75,7 +73,6 @@ public:
 	float changePower(float power, bool diff=true);
 
 	// Position
-	void setTankPosition(Vector &pos);
 	Vector &getVelocityVector();
 	Vector &getTankPosition(); // Position of center bottom of tank
 	Vector &getTankTurretPosition(); // Position of center of turret
@@ -85,35 +82,15 @@ public:
 	const char *getElevationString();
 	const char *getPowerString();
 
-	// Physics
-	void enablePhysics();
-	void disablePhysics();
-
-	// Serialize the tank
-	bool writeMessage(NetBuffer &buffer);
-	bool readMessage(NetBufferReader &reader);
-
 protected:
 	ScorchedContext &context_;
 	Tank *tank_;
-
-	// Position
-	Vector position_;
 
 	// Turret angles
 	std::vector<ShotEntry> oldShots_;
 	float turretRotXY_, turretRotYZ_, power_;
 	float oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
 	float angle_;
-
-	// Physics engine stuff
-	dGeomID tankGeom_;
-	dGeomID shieldSmallGeom_;
-	dGeomID shieldLargeGeom_;
-	ScorchedCollisionInfo tankInfo_;
-	ScorchedCollisionInfo shieldSmallInfo_;
-	ScorchedCollisionInfo shieldLargeInfo_;
-
 };
 
 #endif

@@ -34,7 +34,7 @@ TankFuel::~TankFuel()
 {
 }
 
-void TankFuel::reset()
+void TankFuel::newMatch()
 {
 	fuelCount_ = 0;
 	infinite_ = false;

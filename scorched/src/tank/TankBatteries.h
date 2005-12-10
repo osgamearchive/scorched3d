@@ -30,7 +30,7 @@ public:
 	TankBatteries(ScorchedContext &context);
 	virtual ~TankBatteries();
 
-	void reset();
+	void newMatch();
 	void newGame();
 	void rmBatteries(int no);
 	void addBatteries(int no);

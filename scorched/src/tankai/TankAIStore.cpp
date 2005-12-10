@@ -45,7 +45,7 @@ void TankAIStore::clearAIs()
 	}
 }
 
-bool TankAIStore::loadAIs(AccessoryStore &store)
+bool TankAIStore::loadAIs(AccessoryStore *store)
 {
 	// Load key definition file
 	XMLFile file;
@@ -88,7 +88,12 @@ bool TankAIStore::loadAIs(AccessoryStore &store)
 		{
 			return false;
 		}
-		if (!currentNode->failChildren()) return false;
+		if (store)
+		{
+			// Only check the rest of the children
+			// when we are not doing a shallow load
+			if (!currentNode->failChildren()) return false;
+		}
 
 		addAI(computer);
 	}

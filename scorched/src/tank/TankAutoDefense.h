@@ -30,7 +30,7 @@ public:
 	TankAutoDefense(ScorchedContext &context);
 	virtual ~TankAutoDefense();
 
-	void reset();
+	void newMatch();
 
 	void addDefense();
 	void rmDefense();

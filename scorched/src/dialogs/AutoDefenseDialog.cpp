@@ -210,7 +210,7 @@ void AutoDefenseDialog::displayCurrent()
 	}
 
 	// Set the currently shown items
-	Accessory *currentShield = tank->getAccessories().getShields().getCurrentShield();
+	Accessory *currentShield = tank->getShield().getCurrentShield();
 	if (currentShield)
 	{
 		char buffer[256];
@@ -231,7 +231,7 @@ void AutoDefenseDialog::displayCurrent()
 	{
 		ddshields_->setText("Shields Off");
 	}
-	if (tank->getAccessories().getParachutes().parachutesEnabled())
+	if (tank->getParachute().parachutesEnabled())
 	{
 		char buffer[256];
 		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)

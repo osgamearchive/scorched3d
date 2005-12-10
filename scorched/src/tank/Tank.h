@@ -24,13 +24,13 @@
 #include <tank/TankAccessories.h>
 #include <tank/TankScore.h>
 #include <tank/TankState.h>
-#include <tank/TankPhysics.h>
-#include <tank/TankModelId.h>
+#include <tank/TankPosition.h>
 #include <tank/TankMod.h>
 #include <tank/TankAvatar.h>
 #include <tankai/TankAI.h>
+#include <target/Target.h>
 
-class Tank  
+class Tank : public Target
 {
 public:
 	// Constructor for tank
@@ -39,20 +39,20 @@ public:
 		unsigned int playerId, 
 		unsigned int destinationId,
 		const char *name, 
-		Vector &color, TankModelId &modelId);
+		Vector &color, 
+		TargetModelId &modelId);
 	virtual ~Tank();
 
 	// Called when the state changes
-	void reset();
-	void newGame();
-	void clientNewGame();
+	virtual void newMatch();
+	virtual void newGame();
+	virtual void clientNewGame();
 
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer, bool writeAccessories);
 	bool readMessage(NetBufferReader &reader);
 
 	// The base attributes of the tank
-	unsigned int getPlayerId() { return playerId_; }
 	unsigned int getDestinationId() { return destinationId_; }
 	void setDestinationId(unsigned int id) { destinationId_ = id; }
 	unsigned int getTeam() { return team_; }
@@ -68,8 +68,6 @@ public:
 	void setHostDesc(const char *id) { hostDesc_ = id; }
 	TankAI *getTankAI() { return tankAI_; }
 	void setTankAI(TankAI *ai);
-	TankModelId &getModel() { return model_; }
-	void setModel(TankModelId &model) { model_ = model; }
 	Vector &getColor();
 	void setColor(Vector &color) { color_ = color; }
 	unsigned int getIpAddress() { return ipAddress_; }
@@ -78,17 +76,16 @@ public:
 	// Other attributes
 	TankAccessories& getAccessories() { return accessories_; }
 	TankScore &getScore() { return score_; }
-	TankPhysics &getPhysics() { return physics_; }
+	TankPosition &getPosition() { return position_; }
 	TankState &getState() { return state_; }
 	TankMod &getMod() { return mod_; }
 	TankAvatar &getAvatar() { return avatar_; }
 
 protected:
 	ScorchedContext &context_;
-	TankModelId model_;
 	TankAccessories accessories_;
 	TankScore score_;
-	TankPhysics physics_;
+	TankPosition position_;
 	TankState state_;
 	TankMod mod_;
 	TankAvatar avatar_;

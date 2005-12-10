@@ -38,7 +38,7 @@ public:
 		Weapon *weapon, unsigned int firer, 
 		Vector &position,
 		unsigned int landedCounter);
-	void reset();
+	void newMatch();
 	void tankHurt(Weapon *weapon, unsigned int firer);
 
 	Tank *findTankToShootAt();

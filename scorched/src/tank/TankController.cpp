@@ -43,7 +43,7 @@ void TankController::explosion(ScorchedContext &context,
 
 		// Get how close the exposion was
 		Vector direction = position - 
-			current->getPhysics().getTankPosition();
+			current->getPosition().getTankPosition();
 		float dist = direction.Magnitude();
 		float dist2d = sqrtf(direction[0] * direction[0] + 
 			direction[1] * direction[1]);

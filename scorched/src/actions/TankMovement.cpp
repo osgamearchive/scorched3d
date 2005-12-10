@@ -75,7 +75,7 @@ void TankMovement::init()
 			Sound::instance()->fetchOrCreateBuffer((char *)
 				getDataFile("data/wav/movement/tankmove.wav"));
 		moveSoundSource_ = new VirtualSoundSource(VirtualSoundPriority::eAction, true, false);
-		moveSoundSource_->setPosition(tank->getPhysics().getTankPosition());
+		moveSoundSource_->setPosition(tank->getPosition().getTankPosition());
 		moveSoundSource_->play(moveSound);
 	}
 
@@ -217,7 +217,7 @@ void TankMovement::simulationMove(float frameTime)
 		// If this is the very last movement made
 		// Ensure all tanks always end in the same place
 		context_->actionController->addAction(
-			new TankMovementEnd(tank->getPhysics().getTankPosition(),
+			new TankMovementEnd(tank->getPosition().getTankPosition(),
 				tank->getPlayerId()));
 	}
 }
@@ -251,8 +251,8 @@ void TankMovement::moveTank(Tank *tank)
 		if (useF) tank->getAccessories().getFuel().rmFuel(1);
 
 		// Actually move the tank
-		tank->getPhysics().rotateTank(a);
-		tank->getPhysics().setTankPosition(newPos);
+		tank->getPosition().rotateTank(a);
+		tank->setTargetPosition(newPos);
 
 		// Set viewpoints
 		if (vPoint_) vPoint_->setPosition(newPos);

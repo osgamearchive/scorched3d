@@ -24,17 +24,9 @@
 #include <weapons/AccessoryPart.h>
 #include <common/Vector.h>
 
-const float ShieldSizeSmallSize = 3.0f;
-const float ShieldSizeLargeSize = 6.0f;
-
 class Shield : public AccessoryPart
 {
 public:
-	enum ShieldSize
-	{
-		ShieldSizeSmall,
-		ShieldSizeLarge
-	};
 	enum ShieldType
 	{
 		ShieldTypeNormal,
@@ -52,10 +44,7 @@ public:
 	const char *getCollisionSound();
 	float getHitRemovePower() { return removePower_; }
 	float getHitPenetration() { return penetration_; }
-	ShieldSize getRadius() { return radius_; }
-	float getActualRadius() 
-		{ return ((getRadius()==Shield::ShieldSizeSmall)?
-			ShieldSizeSmallSize:ShieldSizeLargeSize); }
+	float getActualRadius() { return radius_; }
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
 	virtual ShieldType getShieldType();
@@ -64,10 +53,10 @@ public:
 
 protected:
 	std::string collisionSound_;
-	ShieldSize radius_;
 	Vector color_;
 	float removePower_;
 	float penetration_;
+	float radius_;
 	bool halfShield_;
 };
 

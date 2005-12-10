@@ -33,7 +33,7 @@ TankBatteries::~TankBatteries()
 {
 }
 
-void TankBatteries::reset()
+void TankBatteries::newMatch()
 {
 	infinite_ = false;
 	batteryCount_ = 0;

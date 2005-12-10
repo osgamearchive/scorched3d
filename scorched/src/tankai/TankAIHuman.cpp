@@ -55,7 +55,7 @@ void TankAIHuman::newGame()
 {
 }
 
-void TankAIHuman::reset()
+void TankAIHuman::newMatch()
 {
 }
 
@@ -86,13 +86,13 @@ void TankAIHuman::playMove(const unsigned state,
 
 	if (!elevateSound_) elevateSound_ = 
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
-	elevateSound_->setPosition(currentTank_->getPhysics().getTankPosition());
+	elevateSound_->setPosition(currentTank_->getPosition().getTankPosition());
 	if (!rotateSound_) rotateSound_ =
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
-	rotateSound_->setPosition(currentTank_->getPhysics().getTankPosition());
+	rotateSound_->setPosition(currentTank_->getPosition().getTankPosition());
 	if (!startSound_) startSound_ =
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, false, false);
-	startSound_->setPosition(currentTank_->getPhysics().getTankPosition());
+	startSound_->setPosition(currentTank_->getPosition().getTankPosition());
 
 	moveLeftRight(buffer, keyState, frameTime);
 	moveUpDown(buffer, keyState, frameTime);
@@ -119,7 +119,7 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("ENABLE_SHIELDS", shieldKey);
 	if (shieldKey->keyDown(buffer, keyState, false))
 	{
-		if (!currentTank_->getAccessories().getShields().getCurrentShield())
+		if (!currentTank_->getShield().getCurrentShield())
 		{
 			std::list<Accessory *> shields = 
 				currentTank_->getAccessories().getShields().getAllShields();
@@ -133,7 +133,7 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("USE_BATTERY", batteryKey);
 	if (batteryKey->keyDown(buffer, keyState, false))
 	{
-		if (currentTank_->getState().getLife() < 100.0f)
+		if (currentTank_->getLife().getLife() < 100.0f)
 		{
 			useBattery();
 		}
@@ -142,7 +142,7 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("UNDO_MOVE", undoKey);
 	if (undoKey->keyDown(buffer, keyState, false))
 	{
-		currentTank_->getPhysics().undo();
+		currentTank_->getPosition().undo();
 	}
 
 	KEYBOARDKEY("CHANGE_UP_WEAPON", weaponUpKey);
@@ -185,14 +185,14 @@ void TankAIHuman::autoAim()
 		if (ScorchedClient::instance()->getLandscapeMaps().
 			getGroundMaps().getIntersect(direction, intersect))
         {
-			Vector &position = currentTank_->getPhysics().getTankPosition();
+			Vector &position = currentTank_->getPosition().getTankPosition();
 
 			// Calculate direction
 			Vector direction = intersect - position;
 			float angleXYRads = atan2f(direction[1], direction[0]);
 			float angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
 			
-			currentTank_->getPhysics().rotateGunXY(angleXYDegs, false);
+			currentTank_->getPosition().rotateGunXY(angleXYDegs, false);
 			leftRightHUD();
 
 			TankModelRendererAIM::setAimPosition(intersect);
@@ -230,7 +230,7 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		else if (rightKS) mult *= 0.25f;
 		else if (rightKVS) mult *= 0.05f;
 
-		currentTank_->getPhysics().rotateGunXY(-45.0f * mult);
+		currentTank_->getPosition().rotateGunXY(-45.0f * mult);
 		currentLRMoving = true;
 
 		leftRightHUD();
@@ -242,7 +242,7 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		else if (leftKS) mult *= 0.25f;
 		else if (leftKVS) mult *= 0.05f;
 
-		currentTank_->getPhysics().rotateGunXY(45.0f * mult);
+		currentTank_->getPosition().rotateGunXY(45.0f * mult);
 		currentLRMoving = true;
 
 		leftRightHUD();
@@ -268,9 +268,9 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 
 void TankAIHuman::leftRightHUD()
 {		
-	float rot = currentTank_->getPhysics().getRotationGunXY() / 360.0f;
+	float rot = currentTank_->getPosition().getRotationGunXY() / 360.0f;
 	TankModelRendererHUD::setText("Rot:", 
-		currentTank_->getPhysics().getRotationString(), rot * 100.0f);
+		currentTank_->getPosition().getRotationString(), rot * 100.0f);
 }
 
 void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTime)
@@ -323,7 +323,7 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		else if (upKS) mult *= 0.25f;
 		else if (upKVS) mult *= 0.05f;
 
-		currentTank_->getPhysics().rotateGunYZ(-45.0f * mult);
+		currentTank_->getPosition().rotateGunYZ(-45.0f * mult);
 		currentUDMoving = true;
 
 		upDownHUD();
@@ -335,7 +335,7 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		else if (downKS) mult *= 0.25f;
 		else if (downKVS) mult *= 0.05f;
 
-		currentTank_->getPhysics().rotateGunYZ(45.0f * mult);
+		currentTank_->getPosition().rotateGunYZ(45.0f * mult);
 		currentUDMoving = true;
 
 		upDownHUD();
@@ -361,9 +361,9 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 
 void TankAIHuman::upDownHUD()
 {
-	float rot = currentTank_->getPhysics().getRotationGunYZ() / 90.0f;
+	float rot = currentTank_->getPosition().getRotationGunYZ() / 90.0f;
 	TankModelRendererHUD::setText("Ele:", 
-		currentTank_->getPhysics().getElevationString(), rot * 100.0f);
+		currentTank_->getPosition().getElevationString(), rot * 100.0f);
 }
 
 void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime)
@@ -395,7 +395,7 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		else if (incKS) mult *= 0.25f;
 		else if (incKVS) mult *= 0.05f;
 
-		currentTank_->getPhysics().changePower(250.0f * mult);
+		currentTank_->getPosition().changePower(250.0f * mult);
 		currentPMoving = true;
 
 		powerHUD();
@@ -407,7 +407,7 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		else if (decKS) mult *= 0.25f;
 		else if (decKVS) mult *= 0.05f;
 
-		currentTank_->getPhysics().changePower(-250.0f * mult);
+		currentTank_->getPosition().changePower(-250.0f * mult);
 		currentPMoving = true;
 
 		powerHUD();
@@ -431,9 +431,9 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 void TankAIHuman::powerHUD()
 {
-	float power = currentTank_->getPhysics().getPower() / 1000.0f;
+	float power = currentTank_->getPosition().getPower() / 1000.0f;
 	TankModelRendererHUD::setText("Pwr:", 
-		currentTank_->getPhysics().getPowerString(), power * 100.0f);
+		currentTank_->getPosition().getPowerString(), power * 100.0f);
 }
 
 
@@ -447,9 +447,9 @@ void TankAIHuman::fireShot()
 		ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
 		comsMessage.setShot(
 			currentWeapon->getAccessoryId(),
-			currentTank_->getPhysics().getRotationGunXY(),
-			currentTank_->getPhysics().getRotationGunYZ(),
-			currentTank_->getPhysics().getPower());
+			currentTank_->getPosition().getRotationGunXY(),
+			currentTank_->getPosition().getRotationGunYZ(),
+			currentTank_->getPosition().getPower());
 
 		// If so we send this move to the server
 		ComsMessageSender::sendToServer(comsMessage);

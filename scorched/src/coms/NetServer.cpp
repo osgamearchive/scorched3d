@@ -90,8 +90,9 @@ bool NetServer::start(int port)
 		return false;
 	}
 
-	// TODO we seem to be able to open the same port
+	// we seem to be able to open the same port
 	// multiple times!!!
+	// This is fixed as the server info port catches it
 	server_=SDLNet_TCP_Open(&ip);
 	if (!server_)
 	{

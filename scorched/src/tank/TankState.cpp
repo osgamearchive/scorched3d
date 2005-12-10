@@ -27,30 +27,27 @@
 #include <common/Defines.h>
 
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
-	state_(sPending), life_(100.0f), tank_(0),
+	state_(sPending), tank_(0),
 	readyState_(sReady), admin_(0),
 	context_(context), spectator_(false), loading_(false),
 	muted_(false), adminTries_(0),
 	skipshots_(false)
 {
-
 }
 
 TankState::~TankState()
 {
 }
 
-void TankState::reset()
+void TankState::newMatch()
 {
 	setState(sDead);
 	readyState_ = sReady;
-	life_ = 100.0f;
 }
 
 void TankState::newGame()
 {
-	setState(sDead);
-	life_ = 100.0f;
+	setState(sNormal);
 }
 
 void TankState::clientNewGame()
@@ -63,27 +60,20 @@ void TankState::setState(State s)
 	if (loading_) return;
 
 	state_ = s;
-	if (state_ == sNormal) tank_->getPhysics().enablePhysics();
-	else tank_->getPhysics().disablePhysics();
+
+ 	if (state_ != sNormal)
+	{
+		// Make sure the target and shield physics
+		// are disabled
+		tank_->getLife().setLife(0.0f);
+		tank_->getShield().setCurrentShield(0);
+	}
 }
 
 void TankState::setAdmin(TankAdmin *admin)
 { 
 	delete admin_; 
 	admin_ = admin; 
-}
-
-void TankState::setLife(float life)
-{
-	life_ = life;
-
-	if (life_ >= 100) life_ = 100;
-	if (life_ <= 0) life_ = 0;
-	if (context_.optionsGame->getLimitPowerByHealth())
-	{
-		if (tank_->getPhysics().getPower() > life_ * 10.0f) 
-			tank_->getPhysics().changePower(life_ * 10.0f, false);
-	}
 }
 
 const char *TankState::getStateString()
@@ -93,7 +83,7 @@ const char *TankState::getStateString()
 		((readyState_==sReady)?"Rdy":"Wait"),
 		getSmallStateString(),
 		(muted_?"muted ":""),
-		(int) life_);
+		(int) tank_->getLife().getLife());
 	return string;
 }
 
@@ -107,7 +97,6 @@ const char *TankState::getSmallStateString()
 bool TankState::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((int) state_);
-	buffer.addToBuffer(life_);
 	buffer.addToBuffer(spectator_);
 	buffer.addToBuffer(loading_);
 	return true;
@@ -118,9 +107,7 @@ bool TankState::readMessage(NetBufferReader &reader)
 	int s;
 	if (!reader.getFromBuffer(s)) return false;
 	setState((TankState::State) s);
-	if (!reader.getFromBuffer(life_)) return false;
 	if (!reader.getFromBuffer(spectator_)) return false;
 	if (!reader.getFromBuffer(loading_)) return false;
 	return true;
 }
-

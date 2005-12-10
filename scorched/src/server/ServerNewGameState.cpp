@@ -113,9 +113,6 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Setup landscape and tank start pos
 	ServerCommon::serverLog(0, "Generating landscape");
-	// Move all pending and dead tanks into the fray
-	// Set them all to not ready
-	ScorchedServer::instance()->getContext().tankContainer->newGame();
 
 	// Check teams are even
 	checkTeams();
@@ -237,7 +234,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 			else if (state == ServerState::ServerStateNewGame)
 			{
 				// This tank is now playing
-				tank->getState().setState(TankState::sNormal);
+				tank->newGame();
 			}
 			else
 			{
@@ -396,7 +393,7 @@ void ServerNewGameState::calculateStartPosition(
 					itor != mainitor;
 					itor++)
 				{
-					if ((tankPos - (*itor).second->getPhysics().getTankPosition()).Magnitude() < 
+					if ((tankPos - (*itor).second->getPosition().getTankPosition()).Magnitude() < 
 						closeness) 
 					{
 						tooClose = true;
@@ -416,7 +413,7 @@ void ServerNewGameState::calculateStartPosition(
 	
 		// Set the starting position of the tank
 		DeformLandscape::flattenArea(context, tankPos, 0);
-		tank->getPhysics().setTankPosition(tankPos);
+		tank->setTargetPosition(tankPos);
 	}
 }
 

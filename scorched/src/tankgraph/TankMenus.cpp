@@ -184,7 +184,7 @@ void TankMenus::showTankDetails()
 	{
 		Tank *tank = (*itor).second;
 
-		TankModelId &modelId = tank->getModel();
+		TargetModelId &modelId = tank->getModel();
 
 		const char *description = "Unknown";
 		Tank *otherTank = ScorchedServer::instance()->
@@ -313,7 +313,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 			{
 			case AccessoryPart::AccessoryParachute:
 				tankAI->parachutesUpDown(
-					!firstTank->getAccessories().getParachutes().parachutesEnabled());
+					!firstTank->getParachute().parachutesEnabled());
 				break;
 			case AccessoryPart::AccessoryShield:
 				// TODO No way of putting the shield off!
@@ -323,7 +323,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				firstTank->getAccessories().getWeapons().setWeapon(accessory);
 				break;
 			case AccessoryPart::AccessoryBattery:
-				if (firstTank->getState().getLife() < 100.0f)
+				if (firstTank->getLife().getLife() < 100.0f)
 				{
 					tankAI->useBattery();
 				}
@@ -374,10 +374,10 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		switch (accessory->getType())
 		{
 		case AccessoryPart::AccessoryParachute:
-			sel = firstTank->getAccessories().getParachutes().parachutesEnabled();
+			sel = firstTank->getParachute().parachutesEnabled();
 			break;
 		case AccessoryPart::AccessoryShield:
-			sel = (firstTank->getAccessories().getShields().getCurrentShield() == accessory);
+			sel = (firstTank->getShield().getCurrentShield() == accessory);
 			break;
 		case AccessoryPart::AccessoryWeapon:
 			sel = (firstTank->getAccessories().getWeapons().getCurrent() == accessory);

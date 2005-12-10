@@ -80,7 +80,7 @@ void TankFalling::init()
 		fallingTanks[fallingPlayerId_] = this;
 
 		// Store the start positions
-		tankStartPosition_ = current->getPhysics().getTankPosition();
+		tankStartPosition_ = current->getPosition().getTankPosition();
 
 		for (int i=0; i<4; i++)
 		{
@@ -89,7 +89,7 @@ void TankFalling::init()
 
 			// The sphere is 0.25 radius
 			Vector nullVelocity;
-			Vector initPos = current->getPhysics().getTankPosition();	
+			Vector initPos = current->getPosition().getTankPosition();	
 			switch (i)
 			{
 			case 0:
@@ -145,7 +145,7 @@ void TankFalling::simulate(float frameTime, bool &remove)
 		{
 			if (position[0] != 0.0f || position[1] != 0.0f || position[2] != 0.0f)
 			{
-				tank->getPhysics().setTankPosition(position);
+				tank->setTargetPosition(position);
 			}
 		}
 	}

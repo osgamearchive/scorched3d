@@ -18,14 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankParachutes.h>
+#include <tank/Tank.h>
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsGame.h>
 #include <stdio.h>
 
 TankParachutes::TankParachutes(ScorchedContext &context) :
-	context_(context), parachutesEnabled_(0), 
-	parachuteCount_(0), parachuteThreshold_(0.0f)
+	context_(context),
+	parachuteCount_(0), 
+	parachuteThreshold_(0.0f),
+	tank_(0)
 {
 }
 
@@ -33,24 +35,9 @@ TankParachutes::~TankParachutes()
 {
 }
 
-void TankParachutes::setParachutesEnabled(bool enabled)
+void TankParachutes::newMatch()
 {
-	if (enabled && (parachuteCount_ == -1 || parachuteCount_ > 0))
-	{
-		parachutesEnabled_ = true;
-	}
-	else
-	{
-		parachutesEnabled_ = false;
-	}
-}
-
-void TankParachutes::reset()
-{
-	parachutesEnabled_ = false;
 	parachuteCount_ = 0;
-	setParachutesEnabled(false);	
-
 	std::list<Accessory *> accessories = 
 		context_.accessoryStore->getAllOthers();
 	std::list<Accessory *>::iterator itor;
@@ -77,24 +64,15 @@ void TankParachutes::reset()
 	}
 }
 
-void TankParachutes::newGame()
-{
-	setParachutesEnabled(false);
-}
-
 void TankParachutes::useParachutes(int no)
 {
 	if (parachuteCount_ > 0)
 	{
 		parachuteCount_ -= no;
-		if (parachuteCount_ > 0)
-		{
-			setParachutesEnabled(parachutesEnabled_);
-		}
-		else
+		if (parachuteCount_ <= 0)
 		{
 			parachuteCount_ = 0;
-			setParachutesEnabled(false);
+			tank_->getParachute().setParachutesEnabled(false);
 		}
 	}
 }
@@ -102,7 +80,6 @@ void TankParachutes::useParachutes(int no)
 void TankParachutes::addParachutes(int no)
 {
 	parachuteCount_+=no;
-	setParachutesEnabled(parachutesEnabled_);
 }
 
 bool TankParachutes::writeMessage(NetBuffer &buffer, bool writeAccessories)
@@ -110,12 +87,10 @@ bool TankParachutes::writeMessage(NetBuffer &buffer, bool writeAccessories)
 	if (writeAccessories)
 	{
 		buffer.addToBuffer(parachuteCount_);
-		buffer.addToBuffer(parachutesEnabled_);
 	}
 	else
 	{
 		buffer.addToBuffer((int) 0);
-		buffer.addToBuffer(false);
 	}
 	buffer.addToBuffer(parachuteThreshold_);
 	return true;
@@ -124,7 +99,6 @@ bool TankParachutes::writeMessage(NetBuffer &buffer, bool writeAccessories)
 bool TankParachutes::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(parachuteCount_)) return false;
-	if (!reader.getFromBuffer(parachutesEnabled_)) return false;
 	if (!reader.getFromBuffer(parachuteThreshold_)) return false;
 	return true;
 }

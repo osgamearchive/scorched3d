@@ -78,8 +78,8 @@ bool ClientGameStateHandler::processMessage(unsigned int id,
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().
 				removeObjects(
 				ScorchedClient::instance()->getContext(),
-					(unsigned int ) tank->getPhysics().getTankPosition()[0],
-					(unsigned int ) tank->getPhysics().getTankPosition()[1],
+					(unsigned int ) tank->getPosition().getTankPosition()[0],
+					(unsigned int ) tank->getPosition().getTankPosition()[1],
 					3,
 					0);
 		}

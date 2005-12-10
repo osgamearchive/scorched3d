@@ -26,10 +26,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 
-TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
-	tankInfo_(CollisionIdTank),
-	shieldSmallInfo_(CollisionIdShieldSmall),
-	shieldLargeInfo_(CollisionIdShieldLarge),
+TankPosition::TankPosition(ScorchedContext &context, unsigned int playerId) :
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
 	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
 	power_(1000.0f), oldPower_(1000.0f),
@@ -38,54 +35,13 @@ TankPhysics::TankPhysics(ScorchedContext &context, unsigned int playerId) :
 	// Only make the very first shot random angle
 	oldTurretRotXY_ = turretRotXY_ = RAND * 360;
 	oldTurretRotYZ_ = turretRotYZ_ = RAND * 90;
-
-	// The tank collision object
-	tankGeom_ = 
-		dCreateSphere(context.actionController->getPhysics().getSpace(), 2.0f);
-	tankInfo_.data = (void *) playerId;
-	dGeomSetData(tankGeom_, &tankInfo_);
-
-	// The tank shield collision object
-	shieldSmallGeom_ =
-		dCreateSphere(context.actionController->getPhysics().getSpace(), 3.0f);
-	shieldLargeGeom_ =
-		dCreateSphere(context.actionController->getPhysics().getSpace(), 6.0f);
-	shieldSmallInfo_.data = (void *) playerId;
-	shieldLargeInfo_.data = (void *) playerId;
-	dGeomSetData(shieldSmallGeom_, &shieldSmallInfo_);
-	dGeomSetData(shieldLargeGeom_, &shieldLargeInfo_);
 }
 
-TankPhysics::~TankPhysics()
+TankPosition::~TankPosition()
 {
-	dGeomDestroy(tankGeom_);
-	dGeomDestroy(shieldSmallGeom_);
-	dGeomDestroy(shieldLargeGeom_);
 }
 
-void TankPhysics::enablePhysics()
-{
-	dGeomEnable(tankGeom_);
-	dGeomEnable(shieldSmallGeom_);
-	dGeomEnable(shieldLargeGeom_);
-}
-
-void TankPhysics::disablePhysics()
-{
-	dGeomDisable(tankGeom_);
-	dGeomDisable(shieldSmallGeom_);
-	dGeomDisable(shieldLargeGeom_);
-}
-
-void TankPhysics::setTankPosition(Vector &pos)
-{
-	position_ = pos;
-	dGeomSetPosition(tankGeom_, pos[0], pos[1], pos[2]);
-	dGeomSetPosition(shieldSmallGeom_, pos[0], pos[1], pos[2]);
-	dGeomSetPosition(shieldLargeGeom_, pos[0], pos[1], pos[2]);
-}
-
-std::vector<TankPhysics::ShotEntry> &TankPhysics::getOldShots()
+std::vector<TankPosition::ShotEntry> &TankPosition::getOldShots()
 {
 	std::vector<ShotEntry>::iterator itor;
 	for (itor = oldShots_.begin();
@@ -102,7 +58,7 @@ std::vector<TankPhysics::ShotEntry> &TankPhysics::getOldShots()
 	return oldShots_; 
 }
 
-void TankPhysics::clientNewGame()
+void TankPosition::clientNewGame()
 {
 	oldPower_ = power_ = 1000.0f;
 	angle_ = 0.0f;
@@ -110,7 +66,7 @@ void TankPhysics::clientNewGame()
 	madeShot();
 }
 
-void TankPhysics::madeShot()
+void TankPosition::madeShot()
 {
 	oldPower_ = power_;
 	oldTurretRotXY_ = turretRotXY_;
@@ -130,7 +86,7 @@ void TankPhysics::madeShot()
 	}
 }
 
-void TankPhysics::revertSettings(unsigned int index)
+void TankPosition::revertSettings(unsigned int index)
 {
 	if (index < oldShots_.size())
 	{
@@ -145,14 +101,14 @@ void TankPhysics::revertSettings(unsigned int index)
 	}
 }
 
-void TankPhysics::undo()
+void TankPosition::undo()
 {
 	rotateGunXY(oldTurretRotXY_, false);
 	rotateGunYZ(oldTurretRotYZ_, false);
 	changePower(oldPower_, false);
 }
 
-Vector &TankPhysics::getTankGunPosition()
+Vector &TankPosition::getTankGunPosition()
 {
 	static Vector tankGunPosition;
 	tankGunPosition = TankLib::getGunPosition(
@@ -162,27 +118,27 @@ Vector &TankPhysics::getTankGunPosition()
 	return tankGunPosition;
 }
 
-Vector &TankPhysics::getTankTurretPosition()
+Vector &TankPosition::getTankTurretPosition()
 {
 	static Vector tankTurretPosition;
-	tankTurretPosition = position_;
+	tankTurretPosition = getTankPosition();
 	tankTurretPosition[2] += 1.0f;//model_->getTurretHeight();
 
 	return tankTurretPosition;
 }
 
-Vector &TankPhysics::getTankPosition()
+Vector &TankPosition::getTankPosition()
 { 
-	return position_; 
+	return tank_->getTargetPosition();
 }
 
-Vector &TankPhysics::getVelocityVector()
+Vector &TankPosition::getVelocityVector()
 {
 	return TankLib::getVelocityVector(
 		getRotationGunXY(), getRotationGunYZ());
 }
 
-float TankPhysics::rotateGunXY(float angle, bool diff)
+float TankPosition::rotateGunXY(float angle, bool diff)
 {
 	if (diff) turretRotXY_ += angle;
 	else turretRotXY_ = angle;
@@ -193,7 +149,7 @@ float TankPhysics::rotateGunXY(float angle, bool diff)
 	return turretRotXY_;
 }
 
-float TankPhysics::rotateGunYZ(float angle, bool diff)
+float TankPosition::rotateGunYZ(float angle, bool diff)
 {
 	if (diff) turretRotYZ_ += angle;
 	else turretRotYZ_ = angle;
@@ -204,7 +160,7 @@ float TankPhysics::rotateGunYZ(float angle, bool diff)
 	return turretRotYZ_;
 }
 
-float TankPhysics::changePower(float power, bool diff)
+float TankPosition::changePower(float power, bool diff)
 {
 	if (diff) power_ += power;
 	else power_ = power;
@@ -212,8 +168,8 @@ float TankPhysics::changePower(float power, bool diff)
 	if (power_ < 0.0f) power_ = 0.0f;
 	if (context_.optionsGame->getLimitPowerByHealth())
 	{
-		if (power_ > tank_->getState().getLife() * 10.0f) 
-			power_ = tank_->getState().getLife() * 10.0f;
+		if (power_ > tank_->getLife().getLife() * 10.0f) 
+			power_ = tank_->getLife().getLife() * 10.0f;
 	}
 	else
 	{
@@ -223,7 +179,7 @@ float TankPhysics::changePower(float power, bool diff)
 	return power_;
 }
 
-float TankPhysics::getRotationXYDiff()
+float TankPosition::getRotationXYDiff()
 {
 	float rotDiff = (360.0f - turretRotXY_) - (360.0f - oldTurretRotXY_);
 	if (rotDiff > 180.0f) rotDiff -= 360.0f;
@@ -231,17 +187,17 @@ float TankPhysics::getRotationXYDiff()
 	return rotDiff;
 }
 
-float TankPhysics::getRotationYZDiff()
+float TankPosition::getRotationYZDiff()
 {
 	return turretRotYZ_ - oldTurretRotYZ_;
 }
 
-float TankPhysics::getPowerDiff()
+float TankPosition::getPowerDiff()
 {
 	return power_ - oldPower_;
 }
 
-const char *TankPhysics::getRotationString()
+const char *TankPosition::getRotationString()
 {
 	static char messageBuffer[255];
 	float rotDiff = getRotationXYDiff();
@@ -262,7 +218,7 @@ const char *TankPhysics::getRotationString()
 	return messageBuffer;
 }
 
-const char *TankPhysics::getElevationString()
+const char *TankPosition::getElevationString()
 {
 	static char messageBuffer[255];
 	float rotDiff = getRotationYZDiff();
@@ -282,7 +238,7 @@ const char *TankPhysics::getElevationString()
 	return messageBuffer;
 }
 
-const char *TankPhysics::getPowerString()
+const char *TankPosition::getPowerString()
 {
 	static char messageBuffer[255];
 	float powDiff = getPowerDiff();
@@ -302,23 +258,3 @@ const char *TankPhysics::getPowerString()
 
 	return messageBuffer;
 }
-
-bool TankPhysics::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_[0]);
-	buffer.addToBuffer(position_[1]);
-	buffer.addToBuffer(position_[2]);
-	return true;
-}
-
-bool TankPhysics::readMessage(NetBufferReader &reader)
-{
-	Vector pos;
-	if (!reader.getFromBuffer(pos[0])) return false;
-	if (!reader.getFromBuffer(pos[1])) return false;
-	if (!reader.getFromBuffer(pos[2])) return false;
-	setTankPosition(pos);
-	angle_ = 0.0f;
-	return true;
-}
-

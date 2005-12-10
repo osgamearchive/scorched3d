@@ -150,8 +150,8 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 		getTankContainer().getTankById(playerId);
 	if (tank)
 	{
-		tank->getState().setLife(
-			tank->getState().getLife() - slap);
+		tank->getLife().setLife(
+			tank->getLife().getLife() - slap);
 		sendString(0,
 			"Slapping player \"%s\" %.0f",
 			tank->getName(), slap);

@@ -95,7 +95,7 @@ void GLWTankSlider::draw()
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)
 		{
-			setCurrent(currentTank->getPhysics().getPower());
+			setCurrent(currentTank->getPosition().getPower());
 		}
 	}
 	
@@ -112,7 +112,7 @@ void GLWTankSlider::currentChanged(unsigned int id, float value)
 		{
 			if (id == getId())
 			{
-				currentTank->getPhysics().changePower(value, false);
+				currentTank->getPosition().changePower(value, false);
 			}
 		}
 	}

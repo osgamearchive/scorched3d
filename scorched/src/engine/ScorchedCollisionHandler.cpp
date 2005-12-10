@@ -112,7 +112,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
 	case CollisionIdWallLeft:
-	case CollisionIdTank:
+	case CollisionIdTarget:
 		{
 			Vector bouncePositionV(
 				(float) bouncePosition[0],
@@ -121,8 +121,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 			particle->collision(bouncePositionV);
 		}
 		break;
-	case CollisionIdShieldSmall:
-	case CollisionIdShieldLarge:
+	case CollisionIdShield:
 		{
 			Vector bouncePositionV(
 				(float) bouncePosition[0],
@@ -134,8 +133,6 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 				particle->getPlayerId(),
 				id, 
 				bouncePositionV, 
-				((otherInfo->id==CollisionIdShieldLarge)?
-				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 				particle,
 				particle->getWeapon()->getShieldHurtFactor(),
 				deflectPower);
@@ -233,8 +230,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		// Two shots collide
 		action = ParticleActionNone;
 		break;
-	case CollisionIdShieldLarge:
-	case CollisionIdShieldSmall:
+	case CollisionIdShield:
 		// May have collided with shield
 		{
 			// Only collide with other peoples shields
@@ -242,8 +238,6 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				shot->getPlayerId(),
 				id, 
 				particlePositionV, 
-				((otherInfo->id==CollisionIdShieldLarge)?
-				Shield::ShieldSizeLarge:Shield::ShieldSizeSmall),
 				shot,
 				shot->getWeapon()->getShieldHurtFactor(),
 				deflectPower);
@@ -253,7 +247,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			}
 		}
 		break;
-	case CollisionIdTank:
+	case CollisionIdTarget:
 		// A shot collides with a tank
 		{
 			// Only collide with other tanks
@@ -395,7 +389,6 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	unsigned int shotId,
 	unsigned int hitId,
 	Vector &collisionPos,
-	Shield::ShieldSize size,
 	PhysicsParticleMeta *shot,
 	float hitPercentage,
 	float &deflectPower)
@@ -405,11 +398,10 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	if (hitTank && hitTank->getState().getState() == TankState::sNormal &&
 		hitTank->getState().getSpectator() == false)
 	{
-		Accessory *accessory = hitTank->getAccessories().getShields().getCurrentShield();
+		Accessory *accessory = hitTank->getShield().getCurrentShield();
 		if (accessory)
 		{
 			Shield *shield = (Shield *) accessory->getAction();
-			if (shield->getRadius() == size)
 			{
 				// Check if this tank is under the shield
 				bool passed = true;
@@ -422,8 +414,8 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 					Tank *shotTank = context_->tankContainer->getTankById(shotId);
 					if (shotTank)
 					{
-						float distance = (shotTank->getPhysics().getTankPosition() -
-							hitTank->getPhysics().getTankPosition()).Magnitude();
+						float distance = (shotTank->getPosition().getTankPosition() -
+							hitTank->getPosition().getTankPosition()).Magnitude();
 						float shieldSize = shield->getActualRadius();
 						if (distance < shieldSize)
 						{
@@ -438,7 +430,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 					if (shield->getHalfShield())
 					{
 						Vector normal = (collisionPos - 
-							hitTank->getPhysics().getTankPosition()).Normalize();
+							hitTank->getPosition().getTankPosition()).Normalize();
 						Vector up(0.0f, 0.0f, 1.0f);
 						passed = (normal.dotP(up) > 0.7f);
 					}
@@ -476,8 +468,8 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 
 							if (hitPercentage > 0.0f)
 							{
-								hitTank->getAccessories().getShields().setShieldPower(
-									hitTank->getAccessories().getShields().getShieldPower() -
+								hitTank->getShield().setShieldPower(
+									hitTank->getShield().getShieldPower() -
 									shield->getHitRemovePower() * hitPercentage);
 							}
 						}

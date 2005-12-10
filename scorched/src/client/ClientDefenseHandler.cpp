@@ -78,7 +78,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile("data/wav/%s", battery->getActivationSound()));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					batSound, tank->getPhysics().getTankPosition());
+					batSound, tank->getPosition().getTankPosition());
 			}
 
 			if (tank->getDestinationId() != 
@@ -87,7 +87,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 				tank->getAccessories().getBatteries().addBatteries(1);
 			}
 
-			tank->getState().setLife(tank->getState().getLife() + 10.0f);
+			tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
 			tank->getAccessories().getBatteries().rmBatteries(1);
 		}
 		break;
@@ -102,7 +102,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile("data/wav/%s", accessory->getActivationSound()));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					activateSound, tank->getPhysics().getTankPosition());
+					activateSound, tank->getPosition().getTankPosition());
 
 				if (tank->getDestinationId() != 
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
@@ -110,13 +110,14 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 					// Make sure tank has this shield
 					tank->getAccessories().getShields().addShield(accessory, 1);
 				}
-				tank->getAccessories().getShields().setCurrentShield(accessory);
+				tank->getAccessories().getShields().rmShield(accessory, 1);
+				tank->getShield().setCurrentShield(accessory);
 			}
 		}
 		break;
 	case ComsDefenseMessage::eShieldDown:
 		{
-			tank->getAccessories().getShields().setCurrentShield(0);
+			tank->getShield().setCurrentShield(0);
 		}	
 		break;
 	case ComsDefenseMessage::eParachutesUp:
@@ -130,15 +131,15 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile("data/wav/%s", parachute->getActivationSound()));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					paraSound, tank->getPhysics().getTankPosition());
+					paraSound, tank->getPosition().getTankPosition());
 			}
 
-			tank->getAccessories().getParachutes().setParachutesEnabled(true);
+			tank->getParachute().setParachutesEnabled(true);
 		}
 		break;
 	case ComsDefenseMessage::eParachutesDown:
 		{
-			tank->getAccessories().getParachutes().setParachutesEnabled(false);
+			tank->getParachute().setParachutesEnabled(false);
 		}
 		break;
 	}

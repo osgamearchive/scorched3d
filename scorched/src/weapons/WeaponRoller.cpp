@@ -127,9 +127,9 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 			{
 				Tank *current = (*itor).second;
 				Vector &tankPos = 
-					current->getPhysics().getTankPosition();
+					current->getPosition().getTankPosition();
 				Accessory *accessory = 
-					current->getAccessories().getShields().getCurrentShield();
+					current->getShield().getCurrentShield();
 				if (accessory)
 				{
 					Shield *shield = (Shield *) accessory->getAction();

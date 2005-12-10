@@ -179,7 +179,7 @@ void ServerShotHolder::processPlayedMoveMessage(ScorchedContext &context,
 				}
 				else if (context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
 				{
-					if (RAND * 100.0f <= tank->getState().getLife())
+					if (RAND * 100.0f <= tank->getLife().getLife())
 					{
 						processResignMessage(context, message, tank);
 					}
@@ -285,18 +285,18 @@ void ServerShotHolder::processFiredMessage(ScorchedContext &context,
 					context.actionController->addAction(fired);
 
 					// Set the tank to have the correct rotation etc..
-					tank->getPhysics().rotateGunXY(
+					tank->getPosition().rotateGunXY(
 						message.getRotationXY(), false);
-					tank->getPhysics().rotateGunYZ(
+					tank->getPosition().rotateGunYZ(
 						message.getRotationYZ(), false);
-					tank->getPhysics().changePower(
+					tank->getPosition().changePower(
 						message.getPower(), false);
 
 					// Create the action for the weapon and
 					// add it to the action controller
-					Vector velocity = tank->getPhysics().getVelocityVector() *
-						(tank->getPhysics().getPower() + 1.0f);
-					Vector position = tank->getPhysics().getTankGunPosition();
+					Vector velocity = tank->getPosition().getVelocityVector() *
+						(tank->getPosition().getPower() + 1.0f);
+					Vector position = tank->getPosition().getTankGunPosition();
 
 					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity, 0);
 					StatsLogger::instance()->tankFired(tank, weapon);

@@ -58,7 +58,7 @@ void TankSay::init()
 			// put a speach bubble over the talking tank
 			Vector white(1.0f, 1.0f, 1.0f);
 			TalkRenderer *talk = new TalkRenderer(
-				tank->getPhysics().getTankTurretPosition(),
+				tank->getPosition().getTankTurretPosition(),
 				white);
 			context_->actionController->addAction(new SpriteAction(talk));
 

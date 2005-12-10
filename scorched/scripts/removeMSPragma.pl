@@ -17,6 +17,7 @@ my @dirs =
 	"scorched",
 	"sprites",
 	"tankai",
+	"target",
 	"XML",
 	"ships",
 	"tankgraph",

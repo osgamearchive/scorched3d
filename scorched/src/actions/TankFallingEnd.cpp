@@ -76,7 +76,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 			damage = 0.0f;
 		}
 		else
-		if (current->getAccessories().getParachutes().parachutesEnabled())
+		if (current->getParachute().parachutesEnabled())
 		{
 			if (dist >= current->getAccessories().getParachutes().getThreshold())
 			{
@@ -87,7 +87,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 		}
 
 		// Move the tank to the final position
-		current->getPhysics().setTankPosition(endPosition_);
+		current->setTargetPosition(endPosition_);
 		DeformLandscape::flattenArea(*context_, endPosition_, 0);
 
 		// Add the damage to the tank

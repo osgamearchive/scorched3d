@@ -108,7 +108,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 
 		Vector color = TankColorGenerator::instance()->getNextColor(
 			context.getTankContainer().getPlayingTanks());
-		TankModelId modelId(modelName);	
+		TargetModelId modelId(modelName);	
 		Tank *tank = new Tank(
 			context.getContext(),
 			getNextTankId(),

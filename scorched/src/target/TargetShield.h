@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,58 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankModelId.h>
+#if !defined(__INCLUDE_TargetShieldh_INCLUDE__)
+#define __INCLUDE_TargetShieldh_INCLUDE__
 
-TankModelIdRenderer::TankModelIdRenderer()
+#include <engine/ScorchedCollisionIds.h>
+#include <engine/PhysicsEngine.h>
+#include <coms/NetBuffer.h>
+
+class Accessory;
+class ScorchedContext;
+class TargetShield
 {
-}
+public:
+	TargetShield(ScorchedContext &context,
+		unsigned int playerId);
+	virtual ~TargetShield();
 
-TankModelIdRenderer::~TankModelIdRenderer()
-{
-}
+	virtual void newGame();
 
-TankModelId::TankModelId(const char *modelName) :
-	modelName_(modelName),
-	modelIdRenderer_(0)
-{
+	Accessory *getCurrentShield() { return currentShield_; }
+	void setCurrentShield(Accessory *sh);
 
-}
+	void setPosition(Vector &position);
 
-TankModelId::TankModelId(const TankModelId &other) :
-	modelName_(other.modelName_),
-	modelIdRenderer_(0)
-{
+	float getShieldPower() { return power_; }
+	void setShieldPower(float power);
 
-}
+	// Serialize
+    bool writeMessage(NetBuffer &buffer);
+    bool readMessage(NetBufferReader &reader);
 
-TankModelId::~TankModelId()
-{
-	delete modelIdRenderer_;
-}
+protected:
+	Vector position_;
+	ScorchedContext &context_;
+	Accessory *currentShield_;
+	float power_;
 
-const TankModelId & TankModelId::operator=(const TankModelId &other)
-{
-	modelName_ = other.modelName_;
-	modelIdRenderer_ = 0;
-	return *this;
-}
+	// Physics item
+	dGeomID shieldGeom_;
+	ScorchedCollisionInfo shieldInfo_;
+};
 
-bool TankModelId::writeMessage(NetBuffer &buffer)
-{
-	buffer.addToBuffer(modelName_);
-	return true;
-}
-
-bool TankModelId::readMessage(NetBufferReader &reader)
-{
-	std::string newName;
-	if (!reader.getFromBuffer(newName)) return false;
-	if (0 != strcmp(newName.c_str(), modelName_.c_str()))
-	{
-		modelName_ = newName;
-		delete modelIdRenderer_;
-		modelIdRenderer_ = 0;
-	}
-
-	return true;
-}
+#endif // __INCLUDE_TargetShieldh_INCLUDE__

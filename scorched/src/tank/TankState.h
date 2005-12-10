@@ -49,7 +49,7 @@ public:
 
 	// State Modifiers
 	void newGame();
-	void reset();
+	void newMatch();
 	void clientNewGame();
 	
 	// State
@@ -74,10 +74,6 @@ public:
 	const char *getStateString();
 	const char *getSmallStateString();
 
-	// Tank Life / Health
-	float getLife() { return life_; }
-	void setLife(float life);
-
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
 	bool readMessage(NetBufferReader &reader);
@@ -87,7 +83,6 @@ protected:
 	ScorchedContext &context_;
 	State state_;
 	ReadyState readyState_;
-	float life_;
 	TankAdmin *admin_; int adminTries_;
 	bool spectator_;
 	bool loading_;

@@ -56,7 +56,7 @@ void TankScored::init()
 	{
 		if (!context_->serverMode) 
 		{
-			Vector position = tank->getPhysics().getTankPosition();
+			Vector position = tank->getPosition().getTankPosition();
 			position[0] += RAND * 5.0f - 2.5f;
 			position[1] += RAND * 5.0f - 2.5f;
 			position[2] += RAND * 5.0f - 2.5f;

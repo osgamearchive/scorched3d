@@ -43,10 +43,9 @@ public:
 	Tank *getTankByPos(unsigned int pos);
 	Tank *getTankByName(const char *name);
 	
-	void newGame();
 	void clientNewGame();
 	
-	void resetTanks();
+	void newMatch();
 	void setAllDead();
 	void removeAllTanks();
 	void setAllNotReady();

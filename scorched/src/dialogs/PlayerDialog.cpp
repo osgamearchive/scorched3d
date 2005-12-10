@@ -196,19 +196,7 @@ void PlayerDialog::display()
 	if (!init)
 	{
 		init = true;
-
-		if (OptionsParam::instance()->getConnectedToServer())
-		{
-			static AccessoryStore accessoryStore;
-			accessoryStore.parseFile(
-				ScorchedClient::instance()->getOptionsGame());
-			tankAIStore.loadAIs(accessoryStore);
-		}
-		else
-		{
-			tankAIStore.loadAIs(
-				ScorchedClient::instance()->getAccessoryStore());
-		}
+		tankAIStore.loadAIs(0);
 	}
 
 	// Add player types

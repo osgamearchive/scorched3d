@@ -25,6 +25,7 @@
 #include <string>
 #include <coms/NetBuffer.h>
 
+class Tank;
 class ScorchedContext;
 class TankParachutes  
 {
@@ -32,16 +33,14 @@ public:
 	TankParachutes(ScorchedContext &context);
 	virtual ~TankParachutes();
 
-	void reset();
-	void newGame();
+	void setTank(Tank *tank) { tank_ = tank; }
+
+	void newMatch();
 	void useParachutes(int no=1);
 	void addParachutes(int no);
 
 	int getNoParachutes() { return parachuteCount_; }
 	float getThreshold() { return parachuteThreshold_; }
-
-	bool parachutesEnabled() { return parachutesEnabled_; }
-	void setParachutesEnabled(bool enabled);
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);
@@ -49,9 +48,9 @@ public:
 
 protected:
 	int parachuteCount_;
-	bool parachutesEnabled_;
 	float parachuteThreshold_;
 	ScorchedContext &context_;
+	Tank *tank_;
 
 };
 

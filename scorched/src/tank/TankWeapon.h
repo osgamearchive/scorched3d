@@ -34,7 +34,7 @@ public:
 	TankWeapon(ScorchedContext &context);
 	virtual ~TankWeapon();
 
-	void reset();
+	void newMatch();
 
 	void addWeapon(Accessory *wp, int count); // (count < 0) == infinite
 	void rmWeapon(Accessory *wp, int count);

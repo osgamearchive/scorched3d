@@ -19,6 +19,7 @@ Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
 Fixed: Faster movement calculation speed
 
+Added: Tank shields can be any size
 Added: Allow access to tank explosion animation (Animation: ExplosionRingRenderer)
 Added: Better/different shield graphics
 Added: Better/less intrusive talk dialog

@@ -124,7 +124,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		}
 	}
 
-	TankModelId modelId(message.getModelName());
+	TargetModelId modelId(message.getModelName());
 	tank->setName(name.c_str());
 	tank->setModel(modelId);
 

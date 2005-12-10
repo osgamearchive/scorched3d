@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,37 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
-#define AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_
+#if !defined(__INCLUDE_TargetParachuteh_INCLUDE__)
+#define __INCLUDE_TargetParachuteh_INCLUDE__
 
 #include <coms/NetBuffer.h>
-#include <map>
-#include <list>
 
-class Accessory;
-class ScorchedContext;
-class TankShields  
+class TargetParachute
 {
 public:
-	TankShields(ScorchedContext &context);
-	virtual ~TankShields();
+	TargetParachute();
+	virtual ~TargetParachute();
 
-	void newMatch();
+	void newGame();
 
-	void addShield(Accessory *sh, int count);
-	void rmShield(Accessory *sh, int count);
+	void setParachutesEnabled(bool enabled);
+	bool parachutesEnabled() { return parachutesEnabled_; }
 
-	int getShieldCount(Accessory *shield);
-	std::list<Accessory *> getAllShields(bool sort=false);
-
-	// Serialize
-    bool writeMessage(NetBuffer &buffer, bool writeAccessories);
+    bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	ScorchedContext &context_;
-	std::map<Accessory *, int> shields_;
+	bool parachutesEnabled_;
 
 };
 
-#endif // !defined(AFX_TANKSHIELDS_H__88E5EA32_F84D_41E3_AF97_01CBD2874CE3__INCLUDED_)
+#endif // __INCLUDE_TargetParachuteh_INCLUDE__

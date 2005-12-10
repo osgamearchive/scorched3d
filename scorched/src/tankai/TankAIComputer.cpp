@@ -73,7 +73,7 @@ void TankAIComputer::setTank(Tank *tank)
 	TankAI::setTank(tank);
 }
 
-bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
+bool TankAIComputer::parseConfig(AccessoryStore *store, XMLNode *node)
 {
 	// Name
 	std::string name;
@@ -85,6 +85,9 @@ bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 	description_.setText(
 		name.c_str(),
 		description.c_str());
+
+
+	if (!store) return true; ////// Shallow parse
 
 	// Defenses
 	bool noDefenses;
@@ -114,7 +117,7 @@ bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 	{
 		TankAIComputerBuyer buyer;
 		tankBuyers_.push_back(buyer);
-		if (!tankBuyers_.back().parseConfig(store, weaponsNode)) return false;
+		if (!tankBuyers_.back().parseConfig(*store, weaponsNode)) return false;
 	}
 	if (tankBuyers_.empty())
 	{
@@ -129,11 +132,11 @@ bool TankAIComputer::parseConfig(AccessoryStore &store, XMLNode *node)
 	return node->failChildren();
 }
 
-void TankAIComputer::reset()
+void TankAIComputer::newMatch()
 {
 	//getTankBuyer()->dumpAccessories();
 
-	tankTarget_.reset();
+	tankTarget_.newMatch();
 }
 
 void TankAIComputer::newGame()
@@ -167,7 +170,7 @@ void TankAIComputer::shotLanded(ScorchedCollisionType action,
 			// Pretend the shot went through the wall so 
 			// the ai gets the length it would have travelled and thus
 			// knows to back of the power
-			newPosition =  (position - currentTank_->getPhysics().getTankPosition()) / 4.0f + position;
+			newPosition =  (position - currentTank_->getPosition().getTankPosition()) / 4.0f + position;
 		}
 		
 		tankAim_.ourShotLanded(weapon, newPosition);
@@ -198,7 +201,7 @@ void TankAIComputer::selectFirstShield()
 		if (!shieldList.empty())
 		{
 			Accessory *shield = shieldList.front();
-			if (!currentTank_->getAccessories().getShields().getCurrentShield())
+			if (!currentTank_->getShield().getCurrentShield())
 			{
 				shieldsUpDown(shield->getAccessoryId());
 			}
@@ -212,14 +215,14 @@ void TankAIComputer::raiseDefenses()
 	if (currentTank_->getAccessories().getParachutes().getNoParachutes() != 0 &&
 		useParachutes_)
 	{
-		if (!currentTank_->getAccessories().getParachutes().parachutesEnabled())
+		if (!currentTank_->getParachute().parachutesEnabled())
 		{
 			parachutesUpDown(true);
 		}
 	}
 
 	// Try to raise shields (fails if we don't have any)
-	if (!currentTank_->getAccessories().getShields().getCurrentShield() &&
+	if (!currentTank_->getShield().getCurrentShield() &&
 		useShields_)
 	{
 		if (currentTank_->getAccessories().getShields().getAllShields().size())
@@ -250,7 +253,7 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 
 	// Use batteries if we need to and have them
 	while (useBatteries_ &&
-		currentTank_->getState().getLife() < 100.0f &&
+		currentTank_->getLife().getLife() < 100.0f &&
 		currentTank_->getAccessories().getBatteries().getNoBatteries() > 0)
 	{
 		useBattery();
@@ -259,7 +262,7 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	// Is there any point in making a move
 	// Done after select weapons to allow batteries to be used
 	if (useResign_ &&
-		currentTank_->getState().getLife() < 10) 
+		currentTank_->getLife().getLife() < 10) 
 	{
 		resign();
 		return;
@@ -324,9 +327,9 @@ void TankAIComputer::fireShot()
 			new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
 		message->setShot(
 			currentWeapon->getAccessoryId(),
-			currentTank_->getPhysics().getRotationGunXY(),
-			currentTank_->getPhysics().getRotationGunYZ(),
-			currentTank_->getPhysics().getPower());
+			currentTank_->getPosition().getRotationGunXY(),
+			currentTank_->getPosition().getRotationGunYZ(),
+			currentTank_->getPosition().getPower());
 	
 		ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
 	}

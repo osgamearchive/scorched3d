@@ -32,7 +32,7 @@ public:
 	TankAIStore();
 	virtual ~TankAIStore();
 
-	bool loadAIs(AccessoryStore &store);
+	bool loadAIs(AccessoryStore *store); // (Store == 0) == shallow parse
 	void clearAIs();
 
 	std::list<TankAI*> &getAis() { return ais_; }

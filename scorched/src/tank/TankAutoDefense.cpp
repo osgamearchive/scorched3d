@@ -31,7 +31,7 @@ TankAutoDefense::~TankAutoDefense()
 {
 }
 
-void TankAutoDefense::reset()
+void TankAutoDefense::newMatch()
 {
 	haveDefense_ = false;
 	

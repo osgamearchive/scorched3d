@@ -64,7 +64,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 		if (tank)
 		{
 			Accessory *accessory = 
-				tank->getAccessories().getShields().getCurrentShield();
+				tank->getShield().getCurrentShield();
 			if (accessory)
 			{
 				Shield *shield = (Shield *) accessory->getAction();
@@ -84,8 +84,8 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 					}
 				}
 
-				tank->getAccessories().getShields().setShieldPower(
-					tank->getAccessories().getShields().getShieldPower() -
+				tank->getShield().setShieldPower(
+					tank->getShield().getShieldPower() -
 					shield->getHitRemovePower() * hitPercentage_);
 			}
 		}

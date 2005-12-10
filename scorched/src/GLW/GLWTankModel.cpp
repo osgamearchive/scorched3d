@@ -74,8 +74,8 @@ void GLWTankModel::draw()
 		Vector position;
 		model->getModel()->draw(
 			false, 0.0f, position, 0.0f,
-			current->getPhysics().getRotationGunXY(),
-			current->getPhysics().getRotationGunYZ(),
+			current->getPosition().getRotationGunXY(),
+			current->getPosition().getRotationGunYZ(),
 			true);
 	glPopMatrix();
 }

@@ -16,6 +16,7 @@ my @dirs =
 	"scorched",
 	"ships",
 	"server",
+	"target",
 	"sprites",
 	"tank",
 	"tankai",

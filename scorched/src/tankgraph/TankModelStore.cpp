@@ -92,7 +92,7 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		XMLNode *nameNode;
 		if (!currentNode->getNamedChild("name", nameNode)) return false;
 		const char *modelName = nameNode->getContent();
-		TankModelId id(modelName);
+		TargetModelId id(modelName);
 
 		// Get the model node
 		XMLNode *modelNode;

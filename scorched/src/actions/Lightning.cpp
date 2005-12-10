@@ -300,7 +300,7 @@ void Lightning::damageTanks(Vector &position,
 			!tank->getState().getSpectator() &&
 			tank->getPlayerId() != playerId_)
 		{
-			float distance = (tank->getPhysics().getTankPosition() -
+			float distance = (tank->getPosition().getTankPosition() -
 				position).Magnitude();
 			if (distance < weapon_->getSegHurtRadius())
 			{

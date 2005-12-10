@@ -76,14 +76,14 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				if (damage_ > 0.0f)
 				{
 					float shieldDamage = 0.0f;
-					Accessory *sh = damagedTank->getAccessories().getShields().getCurrentShield();
+					Accessory *sh = damagedTank->getShield().getCurrentShield();
 					if (sh && useShieldDamage_)
 					{
 						Shield *shield = (Shield *) sh->getAction();
 						float shieldPowerRequired = 
 							damage_ * shield->getHitPenetration();
 						float shieldPower = 
-							damagedTank->getAccessories().getShields().getShieldPower();
+							damagedTank->getShield().getShieldPower();
 						if (shieldPower > shieldPowerRequired)
 						{
 							shieldPower -= shieldPowerRequired;
@@ -96,7 +96,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 							damage_ -= p;
 						}
 
-						damagedTank->getAccessories().getShields().setShieldPower(shieldPower);
+						damagedTank->getShield().setShieldPower(shieldPower);
 					}
 				}
 
@@ -105,7 +105,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 				{
 					if (!context_->serverMode)
 					{
-						Vector position = damagedTank->getPhysics().getTankPosition();
+						Vector position = damagedTank->getPosition().getTankPosition();
 						position[0] += RAND * 5.0f - 2.5f;
 						position[1] += RAND * 5.0f - 2.5f;
 						position[2] += RAND * 5.0f - 2.5f;
@@ -120,13 +120,18 @@ void TankDamage::simulate(float frameTime, bool &remove)
 					}
 
 					// Remove the life
-					if (damage_ > damagedTank->getState().getLife()) damage_ = 
-						damagedTank->getState().getLife();
-					damagedTank->getState().setLife(damagedTank->getState().getLife() - damage_);
+					if (damage_ > damagedTank->getLife().getLife()) damage_ = 
+						damagedTank->getLife().getLife();
+					damagedTank->getLife().setLife(damagedTank->getLife().getLife() - damage_);
+					if (context_->optionsGame->getLimitPowerByHealth())
+					{
+						if (damagedTank->getPosition().getPower() > damagedTank->getLife().getLife() * 10.0f) 
+							damagedTank->getPosition().changePower(damagedTank->getLife().getLife() * 10.0f, false);
+					}
 
 					// Check if the tank is dead
 					bool killedTank = false;
-					if (damagedTank->getState().getLife() == 0.0f)
+					if (damagedTank->getLife().getLife() == 0.0f)
 					{
 						// The tank has died, make it blow up etc...
 						TankDead *deadTank = 
@@ -190,7 +195,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 					damagedTank->getState().getState() != TankState::sDead)
 				{
 					// The tank is not dead check if it needs to fall
-					Vector &position = damagedTank->getPhysics().getTankPosition();
+					Vector &position = damagedTank->getPosition().getTankPosition();
 					if (context_->landscapeMaps->getGroundMaps().
 						getInterpHeight(position[0], position[1]) < position[2])
 					{
@@ -202,7 +207,7 @@ void TankDamage::simulate(float frameTime, bool &remove)
 							// Tank falling
 							context_->actionController->addAction(
 								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
-									damagedTank->getAccessories().getParachutes().parachutesEnabled(),
+									damagedTank->getParachute().parachutesEnabled(),
 									data_));
 						}
 					}
@@ -247,7 +252,7 @@ bool TankDamage::readAction(NetBufferReader &reader)
 		{
 			const float ShowTime = 4.0f;
 			ActionMeta *pos = new CameraPositionAction(
-				damagedTank->getPhysics().getTankPosition(), ShowTime,
+				damagedTank->getPosition().getTankPosition(), ShowTime,
 				15);
 			context_->actionController->getBuffer().clientAdd(-3.0f, pos);
 		}

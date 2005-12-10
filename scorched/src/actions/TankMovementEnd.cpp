@@ -54,11 +54,11 @@ void TankMovementEnd::simulate(float frameTime, bool &remove)
 		context_->tankContainer->getTankById(playerId_);
 	if (current)
 	{
-		current->getPhysics().rotateTank(0.0f);
+		current->getPosition().rotateTank(0.0f);
 		if (current->getState().getState() == TankState::sNormal)
 		{
 			// Move the tank to the final position
-			current->getPhysics().setTankPosition(position_);
+			current->setTargetPosition(position_);
 			DeformLandscape::flattenArea(*context_, position_, 0);
 		}
 	}

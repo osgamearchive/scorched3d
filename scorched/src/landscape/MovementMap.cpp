@@ -124,10 +124,10 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 {
 	// Check if the tank is buried and cannot move
 	float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
-		tank->getPhysics().getTankPosition()[0],
-		tank->getPhysics().getTankPosition()[1]);
+		tank->getPosition().getTankPosition()[0],
+		tank->getPosition().getTankPosition()[1]);
 	float tankHeight = 
-		tank->getPhysics().getTankPosition()[2];
+		tank->getPosition().getTankPosition()[2];
 	float MaxTankClimbHeight = float(context.optionsGame->
 		getMaxClimbingDistance()) / 10.0f;
 	if (landscapeHeight > tankHeight + MaxTankClimbHeight)
@@ -155,17 +155,17 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 	if (context.optionsGame->getMovementRestriction() ==
 		OptionsGame::MovementRestrictionLandOrAbove)
 	{
-		if (waterHeight > tank->getPhysics().getTankPosition()[2] - 0.1f)
+		if (waterHeight > tank->getPosition().getTankPosition()[2] - 0.1f)
 		{
-			waterHeight = tank->getPhysics().getTankPosition()[2] - 0.1f;
+			waterHeight = tank->getPosition().getTankPosition()[2] - 0.1f;
 		}
 	}
 
 	// Setup movement variables
 	unsigned int posX = (unsigned int) 
-		tank->getPhysics().getTankPosition()[0];
+		tank->getPosition().getTankPosition()[0];
 	unsigned int posY = (unsigned int) 
-		tank->getPhysics().getTankPosition()[1];
+		tank->getPosition().getTankPosition()[1];
 	float fuel = (float) tank->getAccessories().getFuel().getNoFuel();
 	if (maxFuel) fuel = 90.0f;
 
