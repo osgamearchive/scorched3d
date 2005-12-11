@@ -21,42 +21,39 @@
 #ifndef _TargetModelId_h
 #define _TargetModelId_h
 
-#include <coms/NetBuffer.h>
-
-// An abstract class that can be used to derive from
-// to define an object that will render the tank
-class TankModelIdRenderer
-{
-public:
-	TankModelIdRenderer();
-	virtual ~TankModelIdRenderer();
-};
+#include <3dsparse/ModelID.h>
 
 // The model used for this tank
+class TargetModelIdRenderer;
 class TargetModelId
 {
 public:
-	TargetModelId(const char *modelName);
+	TargetModelId(const char *tankModelName); // Used for tanks
+	TargetModelId(ModelID &targetModel); // Used for targets
 	TargetModelId(const TargetModelId &);
 	virtual ~TargetModelId();
 
 	const TargetModelId & operator=(const TargetModelId &);
 
 	// The name of the model that should be used for this tank
-	const char *getModelName() { return modelName_.c_str(); }
+	const char *getTankModelName() { return tankModelName_.c_str(); }
+
+	// The model that should be used for this target
+	ModelID &getTargetModel() { return targetModel_; }
 
 	// Class that can be used to add rendering functionality
 	// to the tank
-	TankModelIdRenderer *getModelIdRenderer() { return modelIdRenderer_; }
-	void setModelIdRenderer(TankModelIdRenderer *ptr) { modelIdRenderer_ = ptr; }
+	TargetModelIdRenderer *getModelIdRenderer() { return modelIdRenderer_; }
+	void setModelIdRenderer(TargetModelIdRenderer *ptr) { modelIdRenderer_ = ptr; }
 
 	// Serialize the modelid
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::string modelName_;
-	TankModelIdRenderer *modelIdRenderer_;
+	std::string tankModelName_;
+	ModelID targetModel_;
+	TargetModelIdRenderer *modelIdRenderer_;
 
 };
 

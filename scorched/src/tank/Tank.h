@@ -53,6 +53,7 @@ public:
 	bool readMessage(NetBufferReader &reader);
 
 	// The base attributes of the tank
+	virtual TargetType getTargetType() { return eTank; }
 	unsigned int getDestinationId() { return destinationId_; }
 	void setDestinationId(unsigned int id) { destinationId_ = id; }
 	unsigned int getTeam() { return team_; }

@@ -37,7 +37,8 @@ ScorchedContext::ScorchedContext(const char *name) :
 	actionController = new ActionController();
 	accessoryStore = new AccessoryStore();
 	gameState = new GameState(name);
-	tankContainer = new TankContainer();
+	targetContainer = new TargetContainer();
+	tankContainer = new TankContainer(*targetContainer);
 	landscapeMaps = new LandscapeMaps();
 	comsMessageHandler = new ComsMessageHandler();
 	netInterface = (NetInterface *) 0;

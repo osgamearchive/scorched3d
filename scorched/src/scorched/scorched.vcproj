@@ -630,22 +630,34 @@
 				RelativePath="..\tankgraph\TankModelStore.h">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TankParticleRenderer.cpp">
+				RelativePath="..\tankgraph\TargetModeIdlRenderer.cpp">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TankParticleRenderer.h">
+				RelativePath="..\tankgraph\TargetModelIdRenderer.h">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TankRenderer.cpp">
+				RelativePath="..\tankgraph\TargetModelRenderer.cpp">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TankRenderer.h">
+				RelativePath="..\tankgraph\TargetModelRenderer.h">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TracerStore.cpp">
+				RelativePath="..\tankgraph\TargetParticleRenderer.cpp">
 			</File>
 			<File
-				RelativePath="..\tankgraph\TracerStore.h">
+				RelativePath="..\tankgraph\TargetParticleRenderer.h">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TargetRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TargetRenderer.h">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TracerRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TracerRenderer.h">
 			</File>
 		</Filter>
 		<Filter
@@ -3751,6 +3763,12 @@
 			</File>
 			<File
 				RelativePath="..\target\Target.h">
+			</File>
+			<File
+				RelativePath="..\target\TargetContainer.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetContainer.h">
 			</File>
 			<File
 				RelativePath="..\target\TargetLife.cpp">

@@ -147,7 +147,10 @@ void runScorched3D(const char *fmt, ...)
 	va_end(ap);
 
 	char path[1024];
-	snprintf(path, 1024, "%s %s", exeName, text);
+	snprintf(path, 1024, "%s -settingsdir %s %s", 
+		exeName, 
+		OptionsParam::instance()->getSettingsDir(), 
+		text);
 
 	ScorchedProcess *process = new ScorchedProcess();
 	long result = ::wxExecute(wxString(path, wxConvUTF8), wxEXEC_ASYNC, process);

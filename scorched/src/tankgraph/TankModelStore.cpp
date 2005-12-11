@@ -174,7 +174,7 @@ TankModel *TankModelStore::getRandomModel()
 	int pos = (int) (RAND * (float)models_.size());
 	TankModel *model = models_[pos % models_.size()];
 
-	if (strcmp(model->getId().getModelName(), "Random") == 0) return getRandomModel();
+	if (strcmp(model->getId().getTankModelName(), "Random") == 0) return getRandomModel();
 	return model;
 }
 
@@ -191,7 +191,7 @@ TankModel *TankModelStore::getModelByName(const char *name)
 		 itor++)
 	{
 		TankModel *current = (*itor);
-		if (0 == strcmp(current->getId().getModelName(), name))
+		if (0 == strcmp(current->getId().getTankModelName(), name))
 		{
 			return current;
 		}

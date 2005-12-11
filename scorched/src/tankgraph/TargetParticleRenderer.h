@@ -18,15 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankParticleRendererh_INCLUDE__)
-#define __INCLUDE_TankParticleRendererh_INCLUDE__
+#if !defined(__INCLUDE_TargetParticleRendererh_INCLUDE__)
+#define __INCLUDE_TargetParticleRendererh_INCLUDE__
 
 #include <engine/ParticleRenderer.h>
 
-class TankParticleRenderer : public ParticleRenderer
+class TargetParticleRenderer : public ParticleRenderer
 {
 public:
-	static TankParticleRenderer *getInstance();
+	static TargetParticleRenderer *getInstance();
 	virtual void renderParticle(Particle &particle);
 	virtual void simulateParticle(Particle &particle, float time);
 	virtual void recycleParticle(Particle &particle);

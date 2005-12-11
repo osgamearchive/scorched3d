@@ -85,7 +85,7 @@ int TankModel::getNoTris()
 
 bool TankModel::lessThan(TankModel *other)
 {
-	return (strcmp(id_.getModelName(), other->id_.getModelName()) < 0);
+	return (strcmp(id_.getTankModelName(), other->id_.getTankModelName()) < 0);
 }
 
 bool TankModel::isOfCatagory(const char *catagory)

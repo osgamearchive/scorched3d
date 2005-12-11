@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,43 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
+#if !defined(__INCLUDE_TargetModelRendererh_INCLUDE__)
+#define __INCLUDE_TargetModelRendererh_INCLUDE__
 
-class AccessoryStore;
-class ActionController;
-class GameState;
-class TargetContainer;
-class TankContainer;
-class LandscapeMaps;
-class ComsMessageHandler;
-class NetInterface;
-class OptionsGameWrapper;
-class OptionsTransient;
-class ViewPoints;
-class ModFiles;
-class LandscapeDefinitions;
+#include <tankgraph/TargetModelIdRenderer.h>
+#include <3dsparse/ModelRenderer.h>
+#include <target/Target.h>
 
-class ScorchedContext
+class TargetModelRenderer : public TargetModelIdRenderer
 {
 public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+	TargetModelRenderer(Target *target);
+	virtual ~TargetModelRenderer();
 
-	ActionController *actionController;
-	GameState *gameState;
-	TargetContainer *targetContainer;
-	TankContainer *tankContainer;
-	LandscapeMaps *landscapeMaps;
-	ComsMessageHandler *comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGameWrapper *optionsGame;
-	OptionsTransient *optionsTransient;
-	ViewPoints *viewPoints;
-	ModFiles *modFiles;
-	AccessoryStore *accessoryStore;
-	LandscapeDefinitions *landscapes;
-	bool serverMode;
+	virtual void simulate(float frameTime);
+	virtual void draw();
+	virtual void drawSecond();
+	virtual void draw2d();
+
+protected:
+	Target *target_;
+	ModelRenderer *modelRenderer_;
+	bool canSeeTank_;
 };
 
-#endif
+#endif // __INCLUDE_TargetModelRendererh_INCLUDE__

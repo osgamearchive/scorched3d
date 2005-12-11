@@ -316,7 +316,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 			ComsAddPlayerMessage message(currentPlayerId_,
 				playerName_->getText().c_str(),
 				Vector(),
-				model->getId().getModelName(),
+				model->getId().getTankModelName(),
 				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
 				((ScorchedClient::instance()->getOptionsGame().getTeams() > 1)?
 				teamDropDown_->getCurrentPosition() + 1:0),

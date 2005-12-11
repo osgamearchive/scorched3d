@@ -25,6 +25,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLConsole.h>
 #include <XML/XMLParser.h>
+#include <common/Defines.h>
 
 REGISTER_CLASS_SOURCE(GLWTalkBox);
 

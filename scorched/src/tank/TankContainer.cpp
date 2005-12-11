@@ -20,7 +20,10 @@
 
 #include <tank/TankContainer.h>
 
-TankContainer::TankContainer() : playerId_(0), destinationId_(0)
+TankContainer::TankContainer(TargetContainer &targets) : 
+	targets_(targets),
+	playerId_(0), 
+	destinationId_(0)
 {
 
 }
@@ -32,75 +35,67 @@ TankContainer::~TankContainer()
 
 void TankContainer::addTank(Tank *tank)
 {
-	playingTanks_[tank->getPlayerId()] = tank;
+	targets_.addTarget(tank);
 }
 
 Tank *TankContainer::removeTank(unsigned int playerId)
 {
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = playingTanks_.begin();
-		itor != playingTanks_.end();
-		itor++)
-	{
-		Tank *current = (*itor).second;
-		if (current->getPlayerId() == playerId)
-		{
-			playingTanks_.erase(itor);
-			return current;
-		}
-	}
-
-	return 0;
+	Target *target = targets_.removeTarget(playerId);
+	DIALOG_ASSERT(!target || target->getTargetType() == Target::eTank);
+	return (Tank *) target;
 }
 
 Tank *TankContainer::getTankByPos(unsigned int pos)
 {
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		mainitor != playingTanks_.end();
-		mainitor++, pos--)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		if (pos <=0) return (*mainitor).second;
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *tank = (Tank *) target;
+			if (pos-- <= 0) return tank;
+		}
 	}
 	return 0;
 }
 
 Tank *TankContainer::getTankById(unsigned int id)
 {
-	std::map<unsigned int, Tank *>::iterator mainitor =
-		playingTanks_.find(id);
-	if (mainitor != playingTanks_.end())
-	{
-		return (*mainitor).second;
-	}
-	return 0;
+	Target *target = targets_.getTargetById(id);
+	DIALOG_ASSERT(!target || target->getTargetType() == Target::eTank);
+	return (Tank *) target;
 }
 
 Tank *TankContainer::getTankByName(const char *name)
 {
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		if (0 == strcmp((*mainitor).second->getName(),name)) return (*mainitor).second;
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *tank = (Tank *) target;
+			if (0 == strcmp(tank->getName(),name)) return tank;
+		}
 	}
 	return 0;
 }
 
 Tank *TankContainer::getCurrentTank()
 {
-	if (!playingTanks_.empty())
+	if (playerId_)
 	{
-		if (playerId_)
+		static Tank *currentPlayer = 0;
+		if (!currentPlayer || currentPlayer->getPlayerId() != playerId_)
 		{
-			static Tank *currentPlayer = 0;
-			if (!currentPlayer || currentPlayer->getPlayerId() != playerId_)
-			{
-				currentPlayer = getTankById(playerId_);
-			}
-			return currentPlayer;
+			currentPlayer = getTankById(playerId_);
 		}
+		return currentPlayer;
 	}
 
 	return 0;
@@ -108,42 +103,34 @@ Tank *TankContainer::getCurrentTank()
 
 void TankContainer::clientNewGame()
 {
-	// Tell each tank a new game has started
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		mainitor != playingTanks_.end();
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
 		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-		current->clientNewGame();
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *tank = (Tank *) target;
+			tank->clientNewGame();
+		}
 	}
 }
 
 void TankContainer::newMatch()
 {
-	// Reset all tanks
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-		current->newMatch();
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *tank = (Tank *) target;
+			tank->newMatch();
+		}
 	}
-}
-
-void TankContainer::removeAllTanks()
-{
-	// Remove all tanks
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
-	{
-		Tank *current = (*mainitor).second;
-		delete current;
-	}
-	playingTanks_.clear();
 }
 
 int TankContainer::teamCount()
@@ -152,18 +139,23 @@ int TankContainer::teamCount()
 	int team2 = 0;
 	int team3 = 0;
 	int team4 = 0;
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-		if (current->getState().getState() == TankState::sNormal)
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
 		{
-			if (current->getTeam() == 1) team1=1;
-			if (current->getTeam() == 2) team2=1;
-			if (current->getTeam() == 3) team3=1;
-			if (current->getTeam() == 4) team4=1;
+			Tank *current = (Tank *) target;
+			if (current->getState().getState() == TankState::sNormal)
+			{
+				if (current->getTeam() == 1) team1=1;
+				if (current->getTeam() == 2) team2=1;
+				if (current->getTeam() == 3) team3=1;
+				if (current->getTeam() == 4) team4=1;
+			}
 		}
 	}
 	return team1 + team2 + team3 + team4;
@@ -172,16 +164,19 @@ int TankContainer::teamCount()
 int TankContainer::aliveCount()
 {
 	int alive = 0;
-
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-		if (current->getState().getState() == TankState::sNormal)
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
 		{
-			alive++;
+			Tank *current = (Tank *) target;
+			if (current->getState().getState() == TankState::sNormal)
+			{
+				alive++;
+			}
 		}
 	}
 	return alive;
@@ -189,33 +184,41 @@ int TankContainer::aliveCount()
 
 void TankContainer::setAllDead()
 {
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-		if (current->getState().getState() != TankState::sPending)
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
 		{
-			current->getState().setState(TankState::sDead);
+			Tank *current = (Tank *) target;
+			if (current->getState().getState() != TankState::sPending)
+			{
+				current->getState().setState(TankState::sDead);
+			}
 		}
 	}
 }
 
 bool TankContainer::allReady()
 {
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-
-		// current check tanks that are not pending
-		if (current->getState().getState() != TankState::sPending)
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
 		{
-			if (current->getState().getReadyState() == 
-				TankState::SNotReady) return false;
+			Tank *current = (Tank *) target;
+
+			// current check tanks that are not pending
+			if (current->getState().getState() != TankState::sPending)
+			{
+				if (current->getState().getReadyState() == 
+					TankState::SNotReady) return false;
+			}
 		}
 	}
 	return true;
@@ -223,17 +226,21 @@ bool TankContainer::allReady()
 
 void TankContainer::setAllNotReady()
 {
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-
-		// current check tanks that are not pending
-		if (current->getState().getState() != TankState::sPending)
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
 		{
-			current->getState().setNotReady();
+			Tank *current = (Tank *) target;
+
+			// current check tanks that are not pending
+			if (current->getState().getState() != TankState::sPending)
+			{
+				current->getState().setNotReady();
+			}
 		}
 	}
 }
@@ -241,13 +248,55 @@ void TankContainer::setAllNotReady()
 int TankContainer::getNoOfNonSpectatorTanks()
 {
 	int count = 0;
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = playingTanks_.begin();
-		 mainitor != playingTanks_.end();
-		 mainitor++)
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
 	{
-		Tank *current = (*mainitor).second;
-		if (!current->getState().getSpectator()) count++;
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *current = (Tank *) target;
+			if (!current->getState().getSpectator()) count++;
+		}
 	}
+	return count;
+}
+
+std::map<unsigned int, Tank *> &TankContainer::getPlayingTanks()
+{
+	static std::map<unsigned int, Tank *> tanks;
+	tanks.clear();
+
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
+	{
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *current = (Tank *) target;
+			tanks[current->getPlayerId()] = current;
+		}
+	}	
+
+	return tanks;
+}
+
+int TankContainer::getNoOfTanks()
+{
+	int count = 0;
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
+	{
+		Target *target = (*mainitor).second;
+		if (target->getTargetType() == Target::eTank)
+		{
+			count++;
+		}
+	}	
 	return count;
 }

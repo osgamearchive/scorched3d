@@ -18,73 +18,70 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TankRenderer.h>
+#include <tankgraph/TargetRenderer.h>
+#include <tankgraph/TargetParticleRenderer.h>
+#include <tankgraph/TargetModelRenderer.h>
 #include <tankgraph/TankModelRenderer.h>
-#include <tankgraph/TankParticleRenderer.h>
+#include <tankgraph/TracerRenderer.h>
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
 #include <algorithm>
 
-TankRenderer *TankRenderer::instance_ = 0;
+TargetRenderer *TargetRenderer::instance_ = 0;
 
-TankRenderer *TankRenderer::instance()
+TargetRenderer *TargetRenderer::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new TankRenderer;
+		instance_ = new TargetRenderer;
 	}
 	return instance_;
 }
 
-TankRenderer::TankRenderer()
+TargetRenderer::TargetRenderer()
 {
 }
 
-TankRenderer::~TankRenderer()
+TargetRenderer::~TargetRenderer()
 {
 }
 
-void TankRenderer::Renderer2D::draw(const unsigned state)
+void TargetRenderer::Renderer2D::draw(const unsigned state)
 {
-	TankRenderer::instance()->draw(TankRenderer::Type2D, state);
+	TargetRenderer::instance()->draw(TargetRenderer::Type2D, state);
 }
 
-void TankRenderer::Renderer3D::draw(const unsigned state)
+void TargetRenderer::Renderer3D::draw(const unsigned state)
 {
-	TankRenderer::instance()->tracerStore_.draw(state);
-	TankRenderer::instance()->draw(TankRenderer::Type3D, state);
+	TracerRenderer::instance()->draw(state);
+	TargetRenderer::instance()->draw(TargetRenderer::Type3D, state);
 }
 
-void TankRenderer::Renderer3D::simulate(const unsigned state, float simTime)
+void TargetRenderer::Renderer3D::simulate(const unsigned state, float simTime)
 {
 	// Simulate the HUD
 	TankModelRendererHUD::simulate(simTime);
 	TankModelRendererAIM::simulate(simTime);
 
 	// Simulate all of the tanks
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
 		itor++)
 	{
-		Tank *tank = (*itor).second;
+		Target *target = (*itor).second;
 
-		TankModelRenderer *model = (TankModelRenderer *) 
-			tank->getModel().getModelIdRenderer();
-		if (model && tank->getState().getState() == TankState::sNormal)
+		TargetModelIdRenderer *model =
+			target->getModel().getModelIdRenderer();
+		if (model)
 		{
 			model->simulate(simTime);
 		}
 	}
-}
-
-void TankRenderer::newGame()
-{
-	tracerStore_.newGame();
 }
 
 static inline float approx_distance(float  dx, float dy)
@@ -93,58 +90,78 @@ static inline float approx_distance(float  dx, float dy)
    return approx;
 }
 
-static inline bool lt_distance(const std::pair<float, Tank *> &o1, 
-	const std::pair<float, Tank *> &o2) 
+static inline bool lt_distance(const std::pair<float, Target *> &o1, 
+	const std::pair<float, Target *> &o2) 
 { 
 	return o1.first > o2.first;
 }
 
-void TankRenderer::draw(DrawType dt, const unsigned state)
+void TargetRenderer::draw(DrawType dt, const unsigned state)
 {
-	Tank *currentTank =
-		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	Vector &campos = MainCamera::instance()->getCamera().getCurrentPos();
 
 	// Sort all of the tanks
-	std::vector<std::pair<float, Tank *> > sortedTanks;	
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
+	std::vector<std::pair<float, Target *> > sortedTargets;	
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
 		itor++)
 	{
-		Tank *tank = (*itor).second;
+		Target *target = (*itor).second;
 
-		// Only ever try to draw alive tanks
-		if (tank->getState().getState() == TankState::sNormal)
+		bool add = false;
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *tank = (Tank *) target;
+			if (tank->getState().getState() == TankState::sNormal)
+			{
+				// Only ever try to draw alive tanks
+				add = true;
+			}
+		}
+		else
+		{
+			add = true;
+		}
+
+		if (add)
 		{
 			float dist = approx_distance(
-				tank->getPosition().getTankPosition()[0] - campos[0],
-				tank->getPosition().getTankPosition()[1] - campos[1]);
-			sortedTanks.push_back(std::pair<float, Tank *>(dist, tank));
+				target->getTargetPosition()[0] - campos[0],
+				target->getTargetPosition()[1] - campos[1]);
+			sortedTargets.push_back(std::pair<float, Target *>(dist, target));
 		}
 	}
 
 	// Sort tanks
-	std::sort(sortedTanks.begin(), sortedTanks.end(), lt_distance); 
+	std::sort(sortedTargets.begin(), sortedTargets.end(), lt_distance); 
 
 	// Draw all of the tanks
-	std::vector<std::pair<float, Tank *> >::iterator sortedItor;
-	for (sortedItor = sortedTanks.begin();
-		sortedItor != sortedTanks.end();
+	std::vector<std::pair<float, Target *> >::iterator sortedItor;
+	for (sortedItor = sortedTargets.begin();
+		sortedItor != sortedTargets.end();
 		sortedItor++)
 	{
-		Tank *tank = (*sortedItor).second;
+		Target *target = (*sortedItor).second;
 
 		// Check we have the tank model for each tank
 		// If not load the model from the store
-		TankModelRenderer *model = (TankModelRenderer *) 
-			tank->getModel().getModelIdRenderer();
+		TargetModelIdRenderer *model =
+			target->getModel().getModelIdRenderer();
 		if (!model)
 		{
-			model = new TankModelRenderer(tank);
-			tank->getModel().setModelIdRenderer(model);
+			if (target->getTargetType() == Target::eTank)
+			{
+				model = new TankModelRenderer((Tank*) target);
+				target->getModel().setModelIdRenderer(model);
+			}
+			else
+			{
+				model = new TargetModelRenderer(target);
+				target->getModel().setModelIdRenderer(model);
+			}
 		}
 		
 		// Check if we have made the particle
@@ -171,25 +188,18 @@ void TankRenderer::draw(DrawType dt, const unsigned state)
 
 				model->setMadeParticle(true);
 				particle->life_ = 1000.0f;
-				particle->renderer_ = TankParticleRenderer::getInstance();
-				particle->userData_ = new unsigned(tank->getPlayerId());
+				particle->renderer_ = TargetParticleRenderer::getInstance();
+				particle->userData_ = new unsigned(target->getPlayerId());
 			}
 		}
 
-		// draw tanks
-		bool current = false;
-		if (state == ClientState::StatePlaying)
-		{
-			current = (tank == currentTank);
-		}
-	
 		switch (dt)
 		{
 		case Type3D:
-			model->draw(current);
+			model->draw();
 			break;
 		case Type2D:
-			model->draw2d(current);
+			model->draw2d();
 			break;
 		}
 	}

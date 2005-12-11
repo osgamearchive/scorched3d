@@ -18,57 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_TargetRendererh_INCLUDE__)
+#define __INCLUDE_TargetRendererh_INCLUDE__
 
-#if !defined(__INCLUDE_TracerStoreh_INCLUDE__)
-#define __INCLUDE_TracerStoreh_INCLUDE__
-
-#include <list>
-#include <map>
-#include <common/Vector.h>
-#include <GLEXT/GLState.h>
 #include <engine/GameStateI.h>
+#include <tankgraph/TankMenus.h>
 
-class Tank;
-class TracerStore : public GameStateI
+class TargetRenderer
 {
 public:
-	struct TracerLinePoint
+	static TargetRenderer *instance();
+
+	struct Renderer3D : public GameStateI
 	{
-		Vector position;
-		Vector cross;
-	};
+		// Inherited from GameStateI
+		virtual void draw(const unsigned state);
+		virtual void simulate(const unsigned state, float simTime);
+	} render3D;
+	struct Renderer2D : public GameStateI
+	{
+		// Inherited from GameStateI
+		virtual void draw(const unsigned state);
+	} render2D;
 
-	TracerStore();
-	virtual ~TracerStore();
-
-	virtual void draw(const unsigned state);
-
-	void drawTracerEnd(Vector &position);
-	void drawSmokeTracer(std::list<TracerLinePoint> &positions);
-
-	void newGame();
-	void clearTracers();
-	void addTracer(unsigned int tank, 
-		Vector &position);
-	void addSmokeTracer(unsigned int tank, 
-		Vector &position, std::list<TracerLinePoint> &positions);
-
+	friend struct Renderer3D;
+	friend struct Renderer2D;
 protected:
-	class TraceEntry
+	static TargetRenderer *instance_;
+	enum DrawType
 	{
-	public:
-		TraceEntry(unsigned int t = 0) : tank(t) {}
-
-		unsigned int tank;
-		std::list<Vector> points;
-		std::list<std::list<TracerLinePoint> > lines;
+		Type3D,
+		Type2D
 	};
+	TankMenus menus_;
 
-	std::map<unsigned int, TraceEntry> traceEntries_;
-	TraceEntry *current_;
-	GLUquadric *obj_;
-	GLuint listNo_;
+	void draw(DrawType dt, const unsigned state);
 
+private:
+	TargetRenderer();
+	virtual ~TargetRenderer();
 };
 
 

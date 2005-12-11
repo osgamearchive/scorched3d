@@ -19,24 +19,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <target/TargetModelId.h>
+#include <tankgraph/TargetModelIdRenderer.h>
 
-TankModelIdRenderer::TankModelIdRenderer()
+TargetModelId::TargetModelId(const char *tankModelName) :
+	tankModelName_(tankModelName),
+	modelIdRenderer_(0)
 {
+
 }
 
-TankModelIdRenderer::~TankModelIdRenderer()
-{
-}
-
-TargetModelId::TargetModelId(const char *modelName) :
-	modelName_(modelName),
+TargetModelId::TargetModelId(ModelID &targetModel) :
+	targetModel_(targetModel),
 	modelIdRenderer_(0)
 {
 
 }
 
 TargetModelId::TargetModelId(const TargetModelId &other) :
-	modelName_(other.modelName_),
+	tankModelName_(other.tankModelName_),
+	targetModel_(other.targetModel_),
 	modelIdRenderer_(0)
 {
 
@@ -45,18 +46,21 @@ TargetModelId::TargetModelId(const TargetModelId &other) :
 TargetModelId::~TargetModelId()
 {
 	delete modelIdRenderer_;
+	modelIdRenderer_ = 0;
 }
 
 const TargetModelId & TargetModelId::operator=(const TargetModelId &other)
 {
-	modelName_ = other.modelName_;
+	tankModelName_ = other.tankModelName_;
+	targetModel_ = other.targetModel_;
 	modelIdRenderer_ = 0;
 	return *this;
 }
 
 bool TargetModelId::writeMessage(NetBuffer &buffer)
 {
-	buffer.addToBuffer(modelName_);
+	buffer.addToBuffer(tankModelName_);
+	targetModel_.writeModelID(buffer);
 	return true;
 }
 
@@ -64,12 +68,20 @@ bool TargetModelId::readMessage(NetBufferReader &reader)
 {
 	std::string newName;
 	if (!reader.getFromBuffer(newName)) return false;
-	if (0 != strcmp(newName.c_str(), modelName_.c_str()))
+	if (0 != strcmp(newName.c_str(), tankModelName_.c_str()))
 	{
-		modelName_ = newName;
+		tankModelName_ = newName;
 		delete modelIdRenderer_;
 		modelIdRenderer_ = 0;
 	}
+	ModelID newId;
+	if (!newId.readModelID(reader)) return false;
+	if (0 != strcmp(newId.getStringHash(), targetModel_.getStringHash()))
+	{
+		targetModel_ = newId;
+		delete modelIdRenderer_;
+		modelIdRenderer_ = 0;
+	}	
 
 	return true;
 }

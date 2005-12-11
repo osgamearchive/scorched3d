@@ -282,7 +282,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			tank->getPlayerId(),
 			tank->getName(),
 			tank->getColor(),
-			tank->getModel().getModelName(),
+			tank->getModel().getTankModelName(),
 			tank->getDestinationId(),
 			tank->getTeam()); 
 		oldPlayerMessage.setPlayerIconName(tank->getAvatar().getName());
@@ -414,7 +414,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tank->getPlayerId(),
 		tank->getName(),
 		tank->getColor(),
-		tank->getModel().getModelName(),
+		tank->getModel().getTankModelName(),
 		tank->getDestinationId(),
 		tank->getTeam());
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);

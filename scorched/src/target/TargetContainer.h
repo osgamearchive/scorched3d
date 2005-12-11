@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,53 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_TargetContainerh_INCLUDE__)
+#define __INCLUDE_TargetContainerh_INCLUDE__
 
-#if !defined(__INCLUDE_TankRendererh_INCLUDE__)
-#define __INCLUDE_TankRendererh_INCLUDE__
+#include <target/Target.h>
+#include <map>
 
-#include <engine/GameStateI.h>
-#include <tankgraph/TankMenus.h>
-#include <tankgraph/TracerStore.h>
-
-class TankRenderer
+class TargetContainer
 {
 public:
-	static TankRenderer *instance();
+	TargetContainer();
+	virtual ~TargetContainer();
 
-	TracerStore &getTracerStore() { return tracerStore_; }
+	void addTarget(Target *target);
+	Target *removeTarget(unsigned int playerId);
+	Target *getTargetById(unsigned int id);
+	
+	std::map<unsigned int, Target *> &getTargets() { return targets_; }
 
-	struct Renderer3D : public GameStateI
-	{
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
-	} render3D;
-	struct Renderer2D : public GameStateI
-	{
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-	} render2D;
-
-	void newGame();
-
-	friend struct Renderer3D;
-	friend struct Renderer2D;
 protected:
-	static TankRenderer *instance_;
-	enum DrawType
-	{
-		Type3D,
-		Type2D
-	};
-	TankMenus menus_;
-	TracerStore tracerStore_;
+	std::map<unsigned int, Target *> targets_;
 
-	void draw(DrawType dt, const unsigned state);
-
-private:
-	TankRenderer();
-	virtual ~TankRenderer();
 };
 
-
-#endif
+#endif // __INCLUDE_TargetContainerh_INCLUDE__

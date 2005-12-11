@@ -147,7 +147,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 				tank->getPlayerId(),
 				tank->getName(),
 				tank->getColor(),
-				tank->getModel().getModelName(),
+				tank->getModel().getTankModelName(),
 				tank->getDestinationId(),
 				tank->getTeam()); 
 			addPlayerMessage.setPlayerIconName(tank->getAvatar().getName());

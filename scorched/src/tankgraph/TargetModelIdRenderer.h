@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,43 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
+#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
+#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
 
-class AccessoryStore;
-class ActionController;
-class GameState;
-class TargetContainer;
-class TankContainer;
-class LandscapeMaps;
-class ComsMessageHandler;
-class NetInterface;
-class OptionsGameWrapper;
-class OptionsTransient;
-class ViewPoints;
-class ModFiles;
-class LandscapeDefinitions;
+#include <target/Target.h>
 
-class ScorchedContext
+class TargetModelIdRenderer
 {
 public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+	TargetModelIdRenderer();
+	virtual ~TargetModelIdRenderer();
 
-	ActionController *actionController;
-	GameState *gameState;
-	TargetContainer *targetContainer;
-	TankContainer *tankContainer;
-	LandscapeMaps *landscapeMaps;
-	ComsMessageHandler *comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGameWrapper *optionsGame;
-	OptionsTransient *optionsTransient;
-	ViewPoints *viewPoints;
-	ModFiles *modFiles;
-	AccessoryStore *accessoryStore;
-	LandscapeDefinitions *landscapes;
-	bool serverMode;
+	virtual void simulate(float frameTime) = 0;
+	virtual void draw() = 0; // Called during the main drawing loop
+	virtual void drawSecond() = 0; // Called during the particle drawing loop
+	virtual void draw2d() = 0; // Called during the 2d drawing loop
+
+	bool getMadeParticle() { return particleMade_; }
+	void setMadeParticle(bool p) { particleMade_ = p; }
+
+protected:
+	bool particleMade_;
+
+	void drawShield(Target *target, float shieldHit, float totalTime);
+	void drawParachute(Target *target);
 };
 
-#endif
+#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__

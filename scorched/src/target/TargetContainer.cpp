@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,43 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedContexth_INCLUDE__)
-#define __INCLUDE_ScorchedContexth_INCLUDE__
+#include <target/TargetContainer.h>
 
-class AccessoryStore;
-class ActionController;
-class GameState;
-class TargetContainer;
-class TankContainer;
-class LandscapeMaps;
-class ComsMessageHandler;
-class NetInterface;
-class OptionsGameWrapper;
-class OptionsTransient;
-class ViewPoints;
-class ModFiles;
-class LandscapeDefinitions;
-
-class ScorchedContext
+TargetContainer::TargetContainer()
 {
-public:
-	ScorchedContext(const char *name);
-	virtual ~ScorchedContext();
+}
 
-	ActionController *actionController;
-	GameState *gameState;
-	TargetContainer *targetContainer;
-	TankContainer *tankContainer;
-	LandscapeMaps *landscapeMaps;
-	ComsMessageHandler *comsMessageHandler;
-	NetInterface *netInterface;
-	OptionsGameWrapper *optionsGame;
-	OptionsTransient *optionsTransient;
-	ViewPoints *viewPoints;
-	ModFiles *modFiles;
-	AccessoryStore *accessoryStore;
-	LandscapeDefinitions *landscapes;
-	bool serverMode;
-};
+TargetContainer::~TargetContainer()
+{
+}
 
-#endif
+void TargetContainer::addTarget(Target *target)
+{
+	targets_[target->getPlayerId()] = target;
+}
+
+Target *TargetContainer::removeTarget(unsigned int playerId)
+{
+    std::map<unsigned int, Target *>::iterator itor =
+		targets_.find(playerId);
+	if (itor != targets_.end())
+	{
+		Target *current = (*itor).second;
+		targets_.erase(itor);
+		return current;		
+	}
+	return 0;
+}
+
+Target *TargetContainer::getTargetById(unsigned int id)
+{
+	std::map<unsigned int, Target *>::iterator mainitor =
+		targets_.find(id);
+	if (mainitor != targets_.end())
+	{
+		return (*mainitor).second;
+	}
+	return 0;
+}

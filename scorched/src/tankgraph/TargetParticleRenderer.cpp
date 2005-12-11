@@ -18,68 +18,65 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TankParticleRenderer.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetParticleRenderer.h>
+#include <tankgraph/TargetModelIdRenderer.h>
 #include <engine/Particle.h>
-#include <tank/TankContainer.h>
+#include <target/TargetContainer.h>
 #include <client/ScorchedClient.h>
 
-TankParticleRenderer *TankParticleRenderer::getInstance()
+TargetParticleRenderer *TargetParticleRenderer::getInstance()
 {
-	static TankParticleRenderer instance_;
+	static TargetParticleRenderer instance_;
 	return &instance_;
 }
 
-void TankParticleRenderer::simulateParticle(Particle &particle, float time)
+void TargetParticleRenderer::simulateParticle(Particle &particle, float time)
 {
-	Tank *tank =
-		ScorchedClient::instance()->getTankContainer().getTankById(
+	Target *target =
+		ScorchedClient::instance()->getTargetContainer().getTargetById(
 			*((unsigned*) particle.userData_));
-	if (tank)
+	if (target)
 	{
-		// Tank and particle alive
+		// Target and particle alive
 		particle.life_ = 1000.0f; // Alive
-		particle.position_ = tank->getPosition().getTankPosition();
+		particle.position_ = target->getTargetPosition();
 	}
 	else
 	{
-		// Tank expired but particle has not
+		// Target expired but particle has not
 		particle.life_ = 0.0f; // Dead
 	}
 }
 
-void TankParticleRenderer::renderParticle(Particle &particle)
+void TargetParticleRenderer::renderParticle(Particle &particle)
 {
-	Tank *tank =
-		ScorchedClient::instance()->getTankContainer().getTankById(
+	Target *target =
+		ScorchedClient::instance()->getTargetContainer().getTargetById(
 			*((unsigned*) particle.userData_));
-	if (tank)
+	if (target)
 	{
-		if (tank->getState().getState() == TankState::sNormal)
+		TargetModelIdRenderer *model =
+			target->getModel().getModelIdRenderer();
+		if (model)
 		{
-			TankModelRenderer *model = (TankModelRenderer *) 
-				tank->getModel().getModelIdRenderer();
-			if (model)
-			{
-				model->drawSecond();
-				glDepthMask(GL_FALSE);
-			}
+			model->drawSecond();
+			glDepthMask(GL_FALSE);
 		}
 	}
 }
 
-void TankParticleRenderer::recycleParticle(Particle &particle)
+void TargetParticleRenderer::recycleParticle(Particle &particle)
 {
-	Tank *tank =
-		ScorchedClient::instance()->getTankContainer().getTankById(
+	Target *target =
+		ScorchedClient::instance()->getTargetContainer().getTargetById(
 			*((unsigned*) particle.userData_));
-	if (tank)
+	if (target)
 	{
-		TankModelRenderer *model = (TankModelRenderer *) 
-			tank->getModel().getModelIdRenderer();
+		TargetModelIdRenderer *model = 
+			target->getModel().getModelIdRenderer();
 		if (model)
 		{
-			// Particle expired but tank has not
+			// Particle expired but Target has not
 			model->setMadeParticle(false);
 		}
 	}

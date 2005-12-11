@@ -203,7 +203,7 @@ void TankMenus::showTankDetails()
 		snprintf(buffer, 1024, "%c %8s - \"%10s\" (%s)", 
 			currentTank == tank?'>':' ',
 			description,
-			tank->getName(), modelId.getModelName());
+			tank->getName(), modelId.getTankModelName());
 		GLConsole::instance()->addLine(false, buffer);
 	}
 

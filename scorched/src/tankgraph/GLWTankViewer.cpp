@@ -130,7 +130,7 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 		itor++)
 	{
 		TankModel *model = (*itor);
-		if (0==strcmp(model->getId().getModelName(),"Random"))
+		if (0==strcmp(model->getId().getTankModelName(),"Random"))
 		{
 			models_.erase(itor);
 			std::vector<TankModel *> tmpVector;
@@ -147,7 +147,7 @@ const char *GLWTankViewer::getModelName()
 	const char *name = "None";
 	if (!models_.empty())
 	{
-		name = models_[selected_]->getId().getModelName();
+		name = models_[selected_]->getId().getTankModelName();
 	}
 	return name;
 }
@@ -215,7 +215,7 @@ void GLWTankViewer::draw()
 				{
 					toolTip_.setText(
 						"Model",
-						models_[vectorPos]->getId().getModelName());			
+						models_[vectorPos]->getId().getTankModelName());			
 				}
 
 				float scale = 22.0f / 60.0f * TankSquareSize;
@@ -294,7 +294,7 @@ void GLWTankViewer::drawCaption(int pos)
 	GLWFont::instance()->getSmallPtFont()->
 		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 75.0f, 0.0f, 
-			models_[pos]->getId().getModelName());
+			models_[pos]->getId().getTankModelName());
 	GLWFont::instance()->getSmallPtFont()->
 		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 63.0f, 0.0f, 
@@ -349,7 +349,7 @@ void GLWTankViewer::selectModelByName(const char *name)
 		 itor++, currentSel ++)
 	{
 		TankModel *current = (*itor);
-		if (0 == strcmp(current->getId().getModelName(), name))
+		if (0 == strcmp(current->getId().getTankModelName(), name))
 		{
 			selected_ = currentSel;
 			return;

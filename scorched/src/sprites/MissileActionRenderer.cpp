@@ -29,7 +29,6 @@
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <tankgraph/TankModelRenderer.h>
-#include <tankgraph/TankRenderer.h>
 #include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
@@ -165,7 +164,7 @@ void MissileActionRenderer::draw(Action *action)
 		if (current)
 		{
 			glColor3fv(current->getColor());
-			TankRenderer::instance()->getTracerStore().drawSmokeTracer(
+			TracerRenderer::instance()->drawSmokeTracer(
 				shot->getPositions());
 		}
 	}

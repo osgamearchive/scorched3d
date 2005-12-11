@@ -22,6 +22,7 @@
 #define __INCLUDE_DefaultTankRendererh_INCLUDE__
 
 #include <tank/Tank.h>
+#include <tankgraph/TargetModelIdRenderer.h>
 #include <tankgraph/TankModel.h>
 #include <tankgraph/GLWTankTip.h>
 #include <GLEXT/GLState.h>
@@ -62,29 +63,26 @@ protected:
 
 };
 
-class TankModelRenderer : public TankModelIdRenderer
+class TankModelRenderer : public TargetModelIdRenderer
 {
 public:
 	TankModelRenderer(Tank *tank);
 	virtual ~TankModelRenderer();
 
-	virtual void draw(bool currentTank);
+	virtual void draw();
 	virtual void drawSecond();
-	virtual void draw2d(bool currentTank);
+	virtual void draw2d();
 	virtual void fired();
 	virtual void shieldHit();
 	virtual void simulate(float frameTime);
 
 	TankModel *getModel() { return model_; }
 	GLWTankTips *getTips() { return &tankTips_; }
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
 
 protected:
 	Tank *tank_;
 	TankModel *model_;
 	GLWTankTips tankTips_;
-	bool particleMade_;
 	float fireOffSet_;
 	float shieldHit_;
 	float smokeTime_, smokeWaitForTime_;
@@ -93,9 +91,7 @@ protected:
 	GLdouble posX_, posY_, posZ_; // 2d Position
 
 	void storeTank2DPos();
-	void drawParachute();
 	void drawLife();
-	void drawShield();
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);
 	void drawSight();
 	void drawArrow();

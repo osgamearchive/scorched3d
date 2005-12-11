@@ -33,6 +33,7 @@ public:
 	AccessoryStore &getAccessoryStore() { return *context_.accessoryStore; }
 	GameState &getGameState() { return *context_.gameState; }
 	TankContainer &getTankContainer() { return *context_.tankContainer; }
+	TargetContainer &getTargetContainer() { return *context_.targetContainer; }
 	TankDeadContainer &getTankDeadContainer() { return *deadContainer_; }
 	ActionController &getActionController() { return *context_.actionController; }
 	LandscapeMaps &getLandscapeMaps() { return *context_.landscapeMaps; }

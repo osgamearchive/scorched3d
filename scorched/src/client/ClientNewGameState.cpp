@@ -27,7 +27,7 @@
 #include <client/WindowSetup.h>
 #include <tank/TankContainer.h>
 #include <landscape/Landscape.h>
-#include <tankgraph/TankRenderer.h>
+#include <tankgraph/TracerRenderer.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWWindowSkinManager.h>
@@ -80,7 +80,7 @@ void ClientNewGameState::enterState(const unsigned state)
 			
 		initOnce = true;
 	}
-	TankRenderer::instance()->newGame();
+	TracerRenderer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
 
 	// Remove all actions (graphical objects) from the last round

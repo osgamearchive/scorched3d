@@ -29,6 +29,12 @@
 class Target  
 {
 public:
+	enum TargetType
+	{
+		eOther = 0,
+		eTank = 1
+	};
+
 	Target(unsigned int playerId, 
 		TargetModelId &modelId, 
 		ScorchedContext &context);
@@ -40,6 +46,7 @@ public:
 	void setModel(TargetModelId &model) { model_ = model; }
 	void setTargetPosition(Vector &position);
 
+	virtual TargetType getTargetType() { return eOther; }
 	unsigned int getPlayerId() { return playerId_; }
 	Vector &getTargetPosition() { return targetPosition_; }
 	TargetLife &getLife() { return life_; }

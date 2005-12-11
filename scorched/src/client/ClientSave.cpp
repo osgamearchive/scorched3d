@@ -184,7 +184,7 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 					tank.getPlayerId(),
 					tank.getName(),
 					tank.getColor(),
-					tank.getModel().getModelName(),
+					tank.getModel().getTankModelName(),
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
 					tank.getTeam(),
 					tankAIStr.c_str());

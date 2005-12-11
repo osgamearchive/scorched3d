@@ -26,6 +26,7 @@
 #include <landscape/Smoke.h>
 #include <landscape/Hemisphere.h>
 #include <tank/TankLib.h>
+#include <tank/TankContainer.h>
 #include <actions/TankFalling.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
@@ -68,19 +69,20 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), shieldHit_(0.0f),
 	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
-	totalTime_(0.0f),
-	particleMade_(false)
+	totalTime_(0.0f)
 {
 	model_ = TankModelStore::instance()->getModelByName(
-		tank->getModel().getModelName());
+		tank->getModel().getTankModelName());
 }
 
 TankModelRenderer::~TankModelRenderer()
 {
 }
 
-void TankModelRenderer::draw(bool currentTank)
+void TankModelRenderer::draw()
 {
+	if (tank_->getState().getState() != TankState::sNormal) return;
+
 	if (TankModelRendererAIM::drawAim())
 	{
 		GLState texState(GLState::TEXTURE_OFF);
@@ -115,6 +117,8 @@ void TankModelRenderer::draw(bool currentTank)
 		4.0f * modelSize);
 
 	// Draw the tank model
+	bool currentTank = 
+		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank());
 	model_->draw(currentTank, 
 		tank_->getPosition().getAngle(),
 		tank_->getPosition().getTankPosition(), 
@@ -137,27 +141,14 @@ void TankModelRenderer::draw(bool currentTank)
 
 void TankModelRenderer::drawSecond()
 {
-	if (!canSeeTank_) return;
+	if (!canSeeTank_ ||
+		tank_->getState().getState() != TankState::sNormal) return;
 
 	// Draw the arrow
 	drawArrow();
 
-	// Draw the parachutes (if any)
-	std::map<unsigned int, TankFalling *>::iterator findItor = 
-		TankFalling::fallingTanks.find(tank_->getPlayerId());
-	if (findItor != TankFalling::fallingTanks.end())
-	{
-		if ((*findItor).second->getParachutes())
-		{
-			drawParachute();
-		}
-	}
-
-	// Draw the current shield (if any)
-	if (tank_->getShield().getCurrentShield())
-	{
-		drawShield();
-	}
+	drawParachute(tank_);
+	drawShield(tank_, shieldHit_, totalTime_);
 
 	Vector &position = tank_->getPosition().getTankPosition();
 	float height = position[2];
@@ -228,193 +219,6 @@ void TankModelRenderer::drawSight()
 	glPopMatrix();
 }
 
-void TankModelRenderer::drawShield()
-{
-	// Create the shield textures
-	static GLTexture *shieldtexture = 0;
-	static GLTexture *texture = 0;
-	static GLTexture *texture2 = 0;
-	static GLTexture *magtexture = 0;
-	static GLUquadric *obj = 0;
-	if (!texture)
-	{
-		std::string file1 = getDataFile("data/textures/bordershield/grid2.bmp");
-		GLBitmap map(file1.c_str(), file1.c_str(), false);
-		texture = new GLTexture;
-		texture->create(map, GL_RGBA, true);
-
-		std::string file2 = getDataFile("data/textures/bordershield/grid22.bmp");
-		GLBitmap map2(file2.c_str(), file2.c_str(), false);
-		texture2 = new GLTexture;
-		texture2->create(map2, GL_RGBA, true);
-
-		std::string file3 = getDataFile("data/textures/shield2.bmp");
-		GLBitmap map3(file3.c_str(), file3.c_str(), false);
-		magtexture = new GLTexture;
-		magtexture->create(map3, GL_RGBA, true);
-
-		std::string file4 = getDataFile("data/textures/shield.bmp");
-		std::string file5 = getDataFile("data/textures/shielda.bmp");
-		GLBitmap map4(file4.c_str(), file5.c_str(), false);
-		map4.alphaMult(4.0f);
-		shieldtexture = new GLTexture;
-		shieldtexture->create(map4, GL_RGBA, true);
-
-		obj = gluNewQuadric();
-		gluQuadricTexture(obj, GL_TRUE);
-	}
-
-	// Create the shield objects
-	static unsigned int smallListNo = 0;
-	static unsigned int smallHalfListNo = 0;
-	static unsigned int spiralListNo = 0;
-	GLTexture magTexture;
-	if (!smallListNo)
-	{
-		glNewList(smallListNo = glGenLists(1), GL_COMPILE);
-			gluSphere(obj, 1.0f, 8, 8);
-		glEndList();
-		glNewList(smallHalfListNo = glGenLists(1), GL_COMPILE);
-			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, true);
-			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, false);
-		glEndList();
-		glNewList(spiralListNo = glGenLists(1), GL_COMPILE);
-			float height = 0.0f;
-			float width = 0.0f;
-			float totalA = 5.0f * PI;
-			float aInc = PI / 6.0f;
-			glBegin(GL_QUAD_STRIP);
-			for (float a=0.0f; a<totalA; a+=aInc)
-			{
-				height += 0.05f;
-				width += 0.05f;
-				float x = getFastSin(a) * width;
-				float y = getFastCos(a) * width;
-				float z = height;
-				glTexCoord2f(a / totalA, 0.0f);
-				glVertex3f(x, y, z);
-				glTexCoord2f(a / totalA, 1.0f);
-				glVertex3f(x, y, z - 0.4f);
-			}
-			glEnd();
-
-			height = 0.0f;
-			width = 0.0f;
-			glBegin(GL_QUAD_STRIP);
-			for (float a=0.0f; a<5.0f * PI; a+=PI/6.0f)
-			{
-				height += 0.05f;
-				width += 0.05f;
-				float x = getFastSin(a) * width;
-				float y = getFastCos(a) * width;
-				float z = height;
-				glTexCoord2f(a / totalA, 0.0f);
-				glVertex3f(x, y, z - 0.4f);
-				glTexCoord2f(a / totalA, 1.0f);
-				glVertex3f(x, y, z);
-			}
-			glEnd();
-		glEndList();
-	}
-
-	// Draw the actual shield
-	Accessory *accessory = tank_->getShield().getCurrentShield();
-	if (!accessory) return;
-	Shield *shield = (Shield *) accessory->getAction();
-
-	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
-	Vector &position = tank_->getPosition().getTankPosition();
-	Vector &color = shield->getColor();
-	if (shield->getShieldType() == Shield::ShieldTypeMag)
-	{
-		magtexture->draw();
-
-		glDepthMask(GL_FALSE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glColor4f(color[0], color[1], color[2], 0.4f);
-		glPushMatrix();
-			glTranslatef(position[0], position[1], position[2] + 1.0f);
-			float scale = shield->getActualRadius() / 3.0f;
-			glScalef(scale, scale, scale);
-
-			glRotatef(totalTime_ * 800.0f, 0.0f, 0.0f, 1.0f);
-			glCallList(spiralListNo);
-			glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
-			glCallList(spiralListNo);
-			glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
-			glCallList(spiralListNo);
-		glPopMatrix();
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDepthMask(GL_TRUE);
-	}
-	else if (shield->getHalfShield())
-	{
-		texture->draw();
-		glPushMatrix();
-			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
-			glTranslatef(position[0], position[1], position[2]);
-			glScalef(shield->getActualRadius(), shield->getActualRadius(), shield->getActualRadius());
-			glCallList(smallHalfListNo);
-		glPopMatrix();
-	}
-	else
-	{
-		texture->draw();
-		glPushMatrix();
-			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit_);
-			glTranslatef(position[0], position[1], position[2]);
-			glScalef(shield->getActualRadius(), shield->getActualRadius(), shield->getActualRadius());
-			glCallList(smallListNo);
-		glPopMatrix();
-
-		float aspect = float(GLViewPort::getHeight()) / float(GLViewPort::getWidth());
-		shieldtexture->draw();
-		GLCameraFrustum::instance()->drawBilboard(
-			position,
-			color,
-			1.0f - shieldHit_,
-			shield->getActualRadius(), 
-			shield->getActualRadius() * aspect,
-			true, // Additive
-			0); // texcoord
-	}
-}
-
-void TankModelRenderer::drawParachute()
-{
-	static GLuint listNo = 0;
-	if (!listNo)
-	{
-		float a;
-		glNewList(listNo = glGenLists(1), GL_COMPILE);
-			glColor3f(1.0f, 1.0f, 1.0f);
-			glBegin(GL_LINES);
-				for (a=0.0f; a< 3.14f*2.0f; a+=3.14f / 4.0f)
-				{
-					glVertex3f(0.0f, 0.0f, 0.0f);
-					glVertex3f(sinf(a) * 2.0f, cosf(a) * 2.0f, 2.0f);
-				}
-			glEnd();
-			glBegin(GL_TRIANGLE_FAN);
-				glVertex3f(0.0f, 0.0f, 3.0f);
-
-				glColor3f(0.5f, 0.5f, 0.5f);
-				for (a=3.14f*2.0f; a> 0.0f; a-=3.14f / 4.0f)
-				{
-					glVertex3f(sinf(a) * 2.0f, cosf(a) * 2.0f, 2.0f);
-				}				
-			glEnd();
-		glEndList();
-	}
-
-	Vector &position = tank_->getPosition().getTankPosition();
-	GLState state(GLState::TEXTURE_OFF);
-	glPushMatrix();
-		glTranslatef(position[0], position[1], position[2]);
-		glCallList(listNo);
-	glPopMatrix();
-}
-
 void TankModelRenderer::fired()
 {
 	fireOffSet_ = -0.25f;
@@ -427,6 +231,8 @@ void TankModelRenderer::shieldHit()
 
 void TankModelRenderer::simulate(float frameTime)
 {
+	if (tank_->getState().getState() != TankState::sNormal) return;
+
 	totalTime_ += frameTime;
 
 	if (fireOffSet_ < 0.0f)
@@ -634,7 +440,7 @@ void TankModelRenderer::storeTank2DPos()
 	}
 }
 
-void TankModelRenderer::draw2d(bool currentTank)
+void TankModelRenderer::draw2d()
 {
 	if (!canSeeTank_) return;
 
@@ -643,7 +449,7 @@ void TankModelRenderer::draw2d(bool currentTank)
 		float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
 
 	// Draw the hightlighted ring around the tank
-	if (currentTank)
+	if (tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank())
 	{
 		GLState firstState(GLState::DEPTH_OFF);
 		if (TankModelRendererHUD::drawText())
