@@ -43,7 +43,16 @@
 			<ambientsound>trees</ambientsound>
 		</ambientsounds>
 		<precipitation type="none"></precipitation>
-		<events></events>
+		<events>
+			<!--<event>
+				<condition type="time">
+					<mintime>3.0</mintime>
+					<maxtime>3.0</maxtime>
+				</condition>
+				<action type="addpowerup">
+				</action>
+			</event>-->
+		</events>
 		<boids>
 			<boid>
 				<count>20</count>
@@ -68,7 +77,7 @@
 				<count>3</count>
 				<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
 				<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
-				<maxvelocity>20.0</maxvelocity>
+				<maxvelocity>15.0</maxvelocity>
 				<maxacceleration>5.0</maxacceleration>
 				<cruisedistance>10.0</cruisedistance>
 				<model type="MilkShape">data/meshes/f18/f18.txt</model>

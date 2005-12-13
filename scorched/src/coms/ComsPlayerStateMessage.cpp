@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <tank/TankContainer.h>
+#include <set>
 
 ComsPlayerStateMessage::ComsPlayerStateMessage() : 
 	ComsMessage("ComsPlayerStateMessage")
@@ -67,6 +68,9 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 
 bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 {
+	// Update all targets with the state from the targets on the
+	// server
+	std::set<unsigned int> updatedTargets;
 	int count = 0;
 	if (!reader.getFromBuffer(count)) return false;
 	for (int i=0; i<count; i++)
@@ -78,8 +82,27 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 		if (target)
 		{
 			if (!target->readMessage(reader)) return false;
+			updatedTargets.insert(target->getPlayerId());
 		}
 		else return false;
 	}
+
+	// Remove any targets the client has but the server does not
+	std::map<unsigned int, Target *> targets = // Note copy
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		unsigned int playerId = (*itor).first;
+		if (updatedTargets.find(playerId) == updatedTargets.end())
+		{
+			Target *removedTarget = 
+				ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
+			delete removedTarget;
+		}
+	}
+	
 	return true;
 }

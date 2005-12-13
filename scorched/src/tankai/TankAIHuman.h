@@ -72,6 +72,7 @@ protected:
 	VirtualSoundSource *elevateSound_;
 	VirtualSoundSource *rotateSound_;
 	VirtualSoundSource *startSound_;
+	VirtualSoundSource *powerSound_;
 
 };
 

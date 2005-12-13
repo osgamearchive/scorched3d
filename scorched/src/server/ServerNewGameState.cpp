@@ -114,6 +114,9 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Setup landscape and tank start pos
 	ServerCommon::serverLog(0, "Generating landscape");
 
+	// Remove any old targets
+	removeTargets();
+
 	// Check teams are even
 	checkTeams();
 
@@ -668,6 +671,26 @@ void ServerNewGameState::checkBots()
 					ais_.erase(findItor);
 				}
 			}
+		}
+	}
+}
+
+void ServerNewGameState::removeTargets()
+{
+	std::map<unsigned int, Target *> targets = // Note copy
+		ScorchedServer::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		unsigned int playerId = (*itor).first;
+		Target *target = (*itor).second;
+		if (target->getTargetType() != Target::eTank)
+		{
+			Target *removedTarget = 
+				ScorchedServer::instance()->getTargetContainer().removeTarget(playerId);
+			delete removedTarget;
 		}
 	}
 }

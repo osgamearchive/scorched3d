@@ -37,7 +37,7 @@
 #include <stdio.h>
 
 TankAIHuman::TankAIHuman() :
-	elevateSound_(0), rotateSound_(0), startSound_(0)
+	elevateSound_(0), rotateSound_(0), startSound_(0), powerSound_(0)
 {
 	description_.setText("Human",
 		"A human controlled player\n"
@@ -49,6 +49,7 @@ TankAIHuman::~TankAIHuman()
 	delete elevateSound_;
 	delete rotateSound_;
 	delete startSound_;
+	delete powerSound_;
 }
 
 void TankAIHuman::newGame()
@@ -93,6 +94,9 @@ void TankAIHuman::playMove(const unsigned state,
 	if (!startSound_) startSound_ =
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, false, false);
 	startSound_->setPosition(currentTank_->getPosition().getTankPosition());
+	if (!powerSound_) powerSound_ =
+		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
+	powerSound_->setPosition(currentTank_->getPosition().getTankPosition());
 
 	moveLeftRight(buffer, keyState, frameTime);
 	moveUpDown(buffer, keyState, frameTime);
@@ -169,6 +173,7 @@ void TankAIHuman::endPlayMove()
 {
 	if (elevateSound_) elevateSound_->stop();
 	if (rotateSound_) rotateSound_->stop();
+	if (powerSound_) powerSound_->stop();
 }
 
 void TankAIHuman::autoAim()
@@ -415,14 +420,14 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 	if (PMoving != currentPMoving)
 	{
-		CACHE_SOUND(elevate, (char *) getDataFile("data/wav/movement/elevate.wav"));
+		CACHE_SOUND(power, (char *) getDataFile("data/wav/movement/power.wav"));
 		if (currentPMoving)
 		{
-			elevateSound_->play(elevate);
+			powerSound_->play(power);
 		}
 		else
 		{
-			elevateSound_->stop();
+			powerSound_->stop();
 		}
 
 		PMoving = currentPMoving;

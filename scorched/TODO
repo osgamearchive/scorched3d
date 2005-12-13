@@ -19,11 +19,13 @@ Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
 Fixed: Faster movement calculation speed
 
+Added: New tank elevate, rotate, thunder sounds (thanks Shockwave)
 Added: Tank shields can be any size
 Added: Allow access to tank explosion animation (Animation: ExplosionRingRenderer)
 Added: Better/different shield graphics
 Added: Better/less intrusive talk dialog
 Added: Ships can be drawn using shipping lanes around the island
+Added: Some great ship models (thanks Shockwave)
 Added: Tabs to the rules dialog and better scorched logo
 Added: Scorched3D settings that are enums take text values
 Added: Landscapes don't need to be square

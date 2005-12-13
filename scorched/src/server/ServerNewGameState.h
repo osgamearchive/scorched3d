@@ -39,6 +39,7 @@ public:
 		bool addState = false);
 	static void checkTeams();
 	static void checkBots();
+	static void removeTargets();
 
 protected:
 

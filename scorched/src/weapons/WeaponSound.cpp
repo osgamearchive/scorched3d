@@ -22,6 +22,7 @@
 #include <engine/ActionController.h>
 #include <actions/SoundAction.h>
 #include <common/Defines.h>
+#include <stdlib.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponSound);
 
@@ -35,12 +36,23 @@ WeaponSound::~WeaponSound()
 
 }
 
+const char *WeaponSound::getSound()
+{
+	std::string &sound = sounds_[rand() % sounds_.size()];
+	return sound.c_str();
+}
+
 bool WeaponSound::parseXML(OptionsGame &context, 
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
-	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
-	if (!checkDataFile("%s", getSound())) return false;
+
+	std::string sound;
+	while (accessoryNode->getNamedChild("sound", sound, false))
+	{
+		if (!checkDataFile("%s", sound.c_str())) return false;
+		sounds_.push_back(sound);
+	}
 	return true;
 }
 

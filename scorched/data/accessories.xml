@@ -118,7 +118,7 @@ Mag shields reflect any shots that hit
 them but only from above. Shields must 
 be activated before they work.</description>
 		<icon>mag.bmp</icon>
-		<activationsound>shield/activate.wav</activationsound>
+		<activationsound>shield/activmag.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>10000</cost>
 		<accessoryaction type='ShieldMag'>
@@ -144,7 +144,7 @@ Mag shields reflect any shots that hit
 them but only from above. Shields must be 
 activated before they work.</description>
 		<icon>smag.bmp</icon>
-		<activationsound>shield/activate.wav</activationsound>
+		<activationsound>shield/activmag.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>25000</cost>
 		<accessoryaction type='ShieldMag'>
@@ -1159,6 +1159,8 @@ trace of the shot path.</description>
 			<aimedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponSound'>
 					<sound>data/wav/misc/thunder.wav</sound>
+					<sound>data/wav/misc/thunder2.wav</sound>
+					<sound>data/wav/misc/thunder3.wav</sound>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
 					<delay>0.5</delay>

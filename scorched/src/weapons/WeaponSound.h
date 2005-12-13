@@ -22,6 +22,7 @@
 #define __INCLUDE_WeaponSoundh_INCLUDE__
 
 #include <weapons/Weapon.h>
+#include <vector>
 
 class WeaponSound : public Weapon
 {
@@ -32,7 +33,7 @@ public:
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
 
-	const char *getSound() { return sound_.c_str(); }
+	const char *getSound();
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -41,7 +42,7 @@ public:
 
 	REGISTER_ACCESSORY_HEADER(WeaponSound, AccessoryPart::AccessoryWeapon);
 protected:
-	std::string sound_;
+	std::vector<std::string> sounds_;
 };
 
 #endif // __INCLUDE_WeaponSoundh_INCLUDE__
