@@ -26,7 +26,7 @@
 #include <common/RandomGenerator.h>
 #include <list>
 
-class Tank;
+class Target;
 class Lightning : public ActionMeta
 {
 public:
@@ -66,14 +66,14 @@ protected:
 	unsigned int playerId_;
 	unsigned int data_;
 
-	void damageTanks(Vector &position, 
-		std::map<Tank *, float> &hurtMap);
+	void damageTargets(Vector &position, 
+		std::map<Target *, float> &hurtMap);
 	void dispaceDirection(Vector &direction, 
 		Vector &originalDirection, float angle);
 	void generateLightning(int id, int depth, float size, 
 		Vector &originalPosition, Vector &originalDirection,
 		Vector &position, Vector &direction,
-		std::map<Tank *, float> &hurtMap);
+		std::map<Target *, float> &hurtMap);
 };
 
 #endif // __INCLUDE_Lightningh_INCLUDE__

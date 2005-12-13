@@ -26,7 +26,6 @@
 TankParachutes::TankParachutes(ScorchedContext &context) :
 	context_(context),
 	parachuteCount_(0), 
-	parachuteThreshold_(0.0f),
 	tank_(0)
 {
 }
@@ -92,13 +91,11 @@ bool TankParachutes::writeMessage(NetBuffer &buffer, bool writeAccessories)
 	{
 		buffer.addToBuffer((int) 0);
 	}
-	buffer.addToBuffer(parachuteThreshold_);
 	return true;
 }
 
 bool TankParachutes::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(parachuteCount_)) return false;
-	if (!reader.getFromBuffer(parachuteThreshold_)) return false;
 	return true;
 }

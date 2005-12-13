@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sprites/TankDeadRenderer.h>
-#include <tank/TankContainer.h>
+#include <target/TargetContainer.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
@@ -42,12 +42,11 @@ void TankDeadRenderer::draw(Action *action)
 
 void TankDeadRenderer::simulate(Action *action, float frametime, bool &removeAction)
 {
-	Tank *killedTank = ScorchedClient::instance()->
-		getTankContainer().getTankById(killedPlayerId_);                                                                           
-	if (killedTank)
+	Target *killedTarget = ScorchedClient::instance()->
+		getTargetContainer().getTargetById(killedPlayerId_);                                                                           
+	if (killedTarget)
 	{
-		Vector position = 
-			killedTank->getPosition().getTankPosition();
+		Vector position = killedTarget->getTargetPosition();
 		ringRenderer_.init(0, position, Vector::nullVector, "data/wav/explosions/tank.wav");
 		ringRenderer_.simulate(action, frametime, removeAction);
 	}

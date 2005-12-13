@@ -33,6 +33,7 @@ public:
 	virtual void draw() = 0; // Called during the main drawing loop
 	virtual void drawSecond() = 0; // Called during the particle drawing loop
 	virtual void draw2d() = 0; // Called during the 2d drawing loop
+	virtual void shieldHit() = 0;
 
 	bool getMadeParticle() { return particleMade_; }
 	void setMadeParticle(bool p) { particleMade_ = p; }

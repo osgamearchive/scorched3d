@@ -169,6 +169,30 @@ protected:
 	Tank *tank_;
 };
 
+class TargetTip : public GLWTip
+{
+public:
+	TargetTip(Target *target);
+	virtual ~TargetTip();
+
+	virtual void populate();
+protected:
+	Target *target_;
+};
+
+class GLWTargetTips
+{
+public:
+	GLWTargetTips(Target *target);
+	virtual ~GLWTargetTips();
+
+	TargetTip targetTip;
+
+private:
+	GLWTargetTips(const GLWTargetTips &);
+	const GLWTargetTips & operator=(const GLWTargetTips &);
+};
+
 class GLWTankTips 
 {
 public:

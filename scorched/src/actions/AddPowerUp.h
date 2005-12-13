@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,37 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)
-#define AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_
+#if !defined(__INCLUDE_AddPowerUph_INCLUDE__)
+#define __INCLUDE_AddPowerUph_INCLUDE__
 
-#include <engine/ScorchedContext.h>
-#include <common/Vector.h>
+#include <engine/ActionMeta.h>
 
-class Tank;
-class Weapon;
-class TankController
+class AddPowerUp : public ActionMeta
 {
 public:
-	static void explosion(ScorchedContext &context,
-		Weapon *weapon, unsigned int firer, 
-		Vector &position, float radius,
-		float damageAmount,
-		bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
-	static void damageTank(ScorchedContext &context,
-		Tank *tank, 
-		Weapon *weapon,
-		unsigned int firer,
-		float damage,
-		bool useShieldDamage, bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
+	AddPowerUp();
+	AddPowerUp(unsigned int playerId, Vector &position);
+	virtual ~AddPowerUp();
 
-private:
-	TankController();
-	virtual ~TankController();
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
+
+	REGISTER_ACTION_HEADER(AddPowerUp);
+
+protected:
+	Vector position_;
+	unsigned int playerId_;
 
 };
 
-#endif // !defined(AFX_TANKCONTROLLER_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)
+#endif // __INCLUDE_AddPowerUph_INCLUDE__

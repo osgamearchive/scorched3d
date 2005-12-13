@@ -30,6 +30,7 @@
 #include <actions/TankFalling.h>
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <3dsparse/ModelStore.h>
@@ -118,7 +119,8 @@ void TankModelRenderer::draw()
 
 	// Draw the tank model
 	bool currentTank = 
-		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank());
+		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank() &&
+		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
 	model_->draw(currentTank, 
 		tank_->getPosition().getAngle(),
 		tank_->getPosition().getTankPosition(), 
@@ -449,7 +451,10 @@ void TankModelRenderer::draw2d()
 		float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
 
 	// Draw the hightlighted ring around the tank
-	if (tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank())
+	bool currentTank = 
+		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank() &&
+		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
+	if (currentTank)
 	{
 		GLState firstState(GLState::DEPTH_OFF);
 		if (TankModelRendererHUD::drawText())

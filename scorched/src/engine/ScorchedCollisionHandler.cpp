@@ -254,13 +254,25 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			if (shot->getPlayerId() != id)
 			{
 				// Make sure tank we are colliding with is alive
-				Tank *tank = context_->tankContainer->getTankById(id);
-				if (tank &&
-					tank->getState().getState() == TankState::sNormal &&
-					tank->getState().getSpectator() == false)
+				Target *target = context_->targetContainer->getTargetById(id);
+				if (target)
 				{
-					action = ParticleActionFinished;
-					collisionType = CollisionFinished;
+					if (target->getTargetType() == Target::eTank)
+					{
+						Tank *tank = (Tank *) target;
+						if (tank &&
+							tank->getState().getState() == TankState::sNormal &&
+							tank->getState().getSpectator() == false)
+						{
+							action = ParticleActionFinished;
+							collisionType = CollisionFinished;
+						}
+					}
+					else
+					{
+						action = ParticleActionFinished;
+						collisionType = CollisionFinished;
+					}
 				}
 			}
 			else
@@ -393,94 +405,87 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	float hitPercentage,
 	float &deflectPower)
 {
-	// Check tank still exists and is alive
-	Tank *hitTank = context_->tankContainer->getTankById(hitId);
-	if (hitTank && hitTank->getState().getState() == TankState::sNormal &&
-		hitTank->getState().getSpectator() == false)
+	// Check the target still exists
+	Target *hitTarget = context_->targetContainer->getTargetById(hitId);
+	if (!hitTarget) return ParticleActionNone;
+
+	// Check target (if tank) is still alive
+	if (!hitTarget->getAlive()) return ParticleActionNone;
+	
+	// Check tank has a shield
+	Accessory *accessory = hitTarget->getShield().getCurrentShield();
+	if (!accessory) return ParticleActionNone;
+	Shield *shield = (Shield *) accessory->getAction();
+
+	// Did this tank fire the shot
+	if (shotId == hitId)
 	{
-		Accessory *accessory = hitTank->getShield().getCurrentShield();
-		if (accessory)
+		return ParticleActionNone;
+	}
+
+	// Is this tank in the shield
+	// This should always be a tank as it is the one firing
+	Tank *shotTank = context_->tankContainer->getTankById(shotId);
+	if (shotTank)
+	{
+		float distance = (shotTank->getPosition().getTankPosition() -
+			hitTarget->getTargetPosition()).Magnitude();
+		float shieldSize = shield->getActualRadius();
+		if (distance < shieldSize)
 		{
-			Shield *shield = (Shield *) accessory->getAction();
-			{
-				// Check if this tank is under the shield
-				bool passed = true;
-				if (shotId == hitId)
-				{
-					passed = false;
-				}
-				else
-				{
-					Tank *shotTank = context_->tankContainer->getTankById(shotId);
-					if (shotTank)
-					{
-						float distance = (shotTank->getPosition().getTankPosition() -
-							hitTank->getPosition().getTankPosition()).Magnitude();
-						float shieldSize = shield->getActualRadius();
-						if (distance < shieldSize)
-						{
-							passed = false;
-						}
-					}
-				}
-
-				// Check for half shields
-				if (passed)
-				{
-					if (shield->getHalfShield())
-					{
-						Vector normal = (collisionPos - 
-							hitTank->getPosition().getTankPosition()).Normalize();
-						Vector up(0.0f, 0.0f, 1.0f);
-						passed = (normal.dotP(up) > 0.7f);
-					}
-				}
-
-				// Check for other shield types
-				if (passed)
-				{
-					switch (shield->getShieldType())
-					{
-					case Shield::ShieldTypeNormal:
-						if (hitPercentage > 0.0f) 
-						{
-							context_->actionController->addAction(
-								new ShieldHit(hitTank->getPlayerId(),
-								collisionPos,
-								hitPercentage));
-						}
-						return ParticleActionFinished;
-					case Shield::ShieldTypeReflective:
-						deflectPower = ((ShieldReflective *)shield)->getDeflectFactor();
-						if (hitPercentage > 0.0f)
-						{
-							context_->actionController->addAction(
-								new ShieldHit(hitTank->getPlayerId(),
-								collisionPos,
-								hitPercentage));
-						}
-						return ParticleActionBounce;
-					case Shield::ShieldTypeMag:
-						{
-							ShieldMag *magShield = (ShieldMag *) shield;
-							Vector force(0.0f, 0.0f, magShield->getDeflectPower());
-							shot->applyForce(force);
-
-							if (hitPercentage > 0.0f)
-							{
-								hitTank->getShield().setShieldPower(
-									hitTank->getShield().getShieldPower() -
-									shield->getHitRemovePower() * hitPercentage);
-							}
-						}
-						return ParticleActionNone;
-					}
-				}
-			}
+			return ParticleActionNone;
 		}
 	}
 
-	return ParticleActionNone;
+    // Check for half shields
+	if (shield->getHalfShield())
+	{
+		Vector normal = (collisionPos - 
+			hitTarget->getTargetPosition()).Normalize();
+		Vector up(0.0f, 0.0f, 1.0f);
+		if (!(normal.dotP(up) > 0.7f))
+		{
+			return ParticleActionNone;
+		}
+	}
+
+	// Check for other shield types
+	switch (shield->getShieldType())
+	{
+	case Shield::ShieldTypeNormal:
+		if (hitPercentage > 0.0f) 
+		{
+			context_->actionController->addAction(
+				new ShieldHit(hitTarget->getPlayerId(),
+				collisionPos,
+				hitPercentage));
+		}
+		return ParticleActionFinished;
+	case Shield::ShieldTypeReflective:
+		deflectPower = ((ShieldReflective *)shield)->getDeflectFactor();
+		if (hitPercentage > 0.0f)
+		{
+			context_->actionController->addAction(
+				new ShieldHit(hitTarget->getPlayerId(),
+				collisionPos,
+				hitPercentage));
+		}
+		return ParticleActionBounce;
+	case Shield::ShieldTypeMag:
+		{
+			ShieldMag *magShield = (ShieldMag *) shield;
+			Vector force(0.0f, 0.0f, magShield->getDeflectPower());
+			shot->applyForce(force);
+
+			if (hitPercentage > 0.0f)
+			{
+				hitTarget->getShield().setShieldPower(
+					hitTarget->getShield().getShieldPower() -
+					shield->getHitRemovePower() * hitPercentage);
+			}
+		}
+		return ParticleActionNone;
+	}
 }
 
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 

@@ -110,23 +110,7 @@ void TargetRenderer::draw(DrawType dt, const unsigned state)
 		itor++)
 	{
 		Target *target = (*itor).second;
-
-		bool add = false;
-		if (target->getTargetType() == Target::eTank)
-		{
-			Tank *tank = (Tank *) target;
-			if (tank->getState().getState() == TankState::sNormal)
-			{
-				// Only ever try to draw alive tanks
-				add = true;
-			}
-		}
-		else
-		{
-			add = true;
-		}
-
-		if (add)
+		if (target->getAlive())
 		{
 			float dist = approx_distance(
 				target->getTargetPosition()[0] - campos[0],

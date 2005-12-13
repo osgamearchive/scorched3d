@@ -23,8 +23,9 @@
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/DeformLandscape.h>
-#include <tank/TankContainer.h>
-#include <tank/TankController.h>
+#include <target/TargetContainer.h>
+#include <target/TargetDamageCalc.h>
+#include <tank/Tank.h>
 
 REGISTER_ACTION_SOURCE(TankFallingEnd);
 
@@ -59,9 +60,9 @@ void TankFallingEnd::init()
 
 void TankFallingEnd::simulate(float frameTime, bool &remove)
 {
-	Tank *current = 
-		context_->tankContainer->getTankById(fallingPlayerId_);
-	if (current && current->getState().getState() == TankState::sNormal)
+	Target *current = 
+		context_->targetContainer->getTargetById(fallingPlayerId_);
+	if (current && current->getAlive())
 	{
 		// Find how far we have falled to get the total damage
 		float dist = (startPosition_ - endPosition_).Magnitude();
@@ -78,11 +79,16 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 		else
 		if (current->getParachute().parachutesEnabled())
 		{
-			if (dist >= current->getAccessories().getParachutes().getThreshold())
+			const float ParachuteThreshold = 0.0f;
+			if (dist >= ParachuteThreshold)
 			{
 				// No damage we were using parachutes
 				damage = 0.0f;
-				current->getAccessories().getParachutes().useParachutes();
+				if (current->getTargetType() == Target::eTank)
+				{
+					Tank *currentTank = (Tank *) current;
+					currentTank->getAccessories().getParachutes().useParachutes();
+				}
 			}
 		}
 
@@ -91,7 +97,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 		DeformLandscape::flattenArea(*context_, endPosition_, 0);
 
 		// Add the damage to the tank
-		TankController::damageTank(
+		TargetDamageCalc::damageTarget(
 			*context_,
 			current, weapon_, 
 			firedPlayerId_, damage, 

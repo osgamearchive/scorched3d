@@ -49,10 +49,11 @@ public:
 	virtual void clientNewGame();
 
 	// Serialize the tank
-	bool writeMessage(NetBuffer &buffer, bool writeAccessories);
-	bool readMessage(NetBufferReader &reader);
+	virtual bool writeMessage(NetBuffer &buffer, bool writeAccessories);
+	virtual bool readMessage(NetBufferReader &reader);
 
 	// The base attributes of the tank
+	virtual bool getAlive();
 	virtual TargetType getTargetType() { return eTank; }
 	unsigned int getDestinationId() { return destinationId_; }
 	void setDestinationId(unsigned int id) { destinationId_ = id; }
@@ -60,9 +61,6 @@ public:
 	void setTeam(unsigned int team) { team_ = team; }
 	unsigned int getKeepAlive() { return keepAlive_; }
 	void setKeepAlive(unsigned int ka) { keepAlive_ = ka; }
-	const char *getName() { return name_.c_str(); }
-	void setName(const char *name) { name_ = name; }
-	unsigned int getNameLen() { return name_.size(); }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
 	void setUniqueId(const char *id) { uniqueId_ = id; }
 	const char *getHostDesc() { return hostDesc_.c_str(); }
@@ -92,7 +90,6 @@ protected:
 	TankAvatar avatar_;
 	TankAI *tankAI_;
 	Vector color_;
-	std::string name_;
 	std::string uniqueId_;
 	std::string hostDesc_;
 	unsigned int team_;

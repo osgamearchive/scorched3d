@@ -19,13 +19,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/TankDamage.h>
-#include <actions/TankDead.h>
 #include <actions/TankFalling.h>
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
+#include <sprites/TankDeadRenderer.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
 #include <common/Defines.h>
+#include <common/LoggerI.h>
+#include <common/Logger.h>
+#include <common/StatsLogger.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
 #include <landscape/LandscapeMaps.h>
@@ -64,160 +68,309 @@ void TankDamage::simulate(float frameTime, bool &remove)
 	if (firstTime_)
 	{
 		firstTime_ = false;
-
-		// Find the tank that has been damaged
-		Tank *damagedTank = 
-			context_->tankContainer->getTankById(damagedPlayerId_);
-		if (damagedTank)
-		{
-			if (damagedTank->getState().getState() == TankState::sNormal)
-			{
-				// Remove any damage from shield first
-				if (damage_ > 0.0f)
-				{
-					float shieldDamage = 0.0f;
-					Accessory *sh = damagedTank->getShield().getCurrentShield();
-					if (sh && useShieldDamage_)
-					{
-						Shield *shield = (Shield *) sh->getAction();
-						float shieldPowerRequired = 
-							damage_ * shield->getHitPenetration();
-						float shieldPower = 
-							damagedTank->getShield().getShieldPower();
-						if (shieldPower > shieldPowerRequired)
-						{
-							shieldPower -= shieldPowerRequired;
-							damage_ = 0.0f;
-						}
-						else
-						{
-							float p = (shieldPowerRequired - shieldPower) / shield->getHitPenetration();
-							shieldPower = 0.0f;
-							damage_ -= p;
-						}
-
-						damagedTank->getShield().setShieldPower(shieldPower);
-					}
-				}
-
-				// Remove the remaining damage from the tank
-				if (damage_ > 0.0f && !shieldOnlyDamage_)
-				{
-					if (!context_->serverMode)
-					{
-						Vector position = damagedTank->getPosition().getTankPosition();
-						position[0] += RAND * 5.0f - 2.5f;
-						position[1] += RAND * 5.0f - 2.5f;
-						position[2] += RAND * 5.0f - 2.5f;
-
-						Vector redColor(0.75f, 0.0f, 0.0f);
-						context_->actionController->addAction(
-							new SpriteAction(
-								new TextActionRenderer(
-									position,
-									redColor,
-									formatString("%.0f", damage_))));
-					}
-
-					// Remove the life
-					if (damage_ > damagedTank->getLife().getLife()) damage_ = 
-						damagedTank->getLife().getLife();
-					damagedTank->getLife().setLife(damagedTank->getLife().getLife() - damage_);
-					if (context_->optionsGame->getLimitPowerByHealth())
-					{
-						if (damagedTank->getPosition().getPower() > damagedTank->getLife().getLife() * 10.0f) 
-							damagedTank->getPosition().changePower(damagedTank->getLife().getLife() * 10.0f, false);
-					}
-
-					// Check if the tank is dead
-					bool killedTank = false;
-					if (damagedTank->getLife().getLife() == 0.0f)
-					{
-						// The tank has died, make it blow up etc...
-						TankDead *deadTank = 
-							new TankDead(weapon_, damagedPlayerId_, firedPlayerId_, data_);
-						context_->actionController->addAction(deadTank);
-
-						// The tank is now dead
-						damagedTank->getState().setState(TankState::sDead);
-						killedTank = true;
-					}
-
-					// Add any score got from this endevour
-					Tank *firedTank = 
-						context_->tankContainer->getTankById(firedPlayerId_);
-					if (firedTank)
-					{	
-						// Calculate the score (more for more damage and the most if you kill them)
-						int score = 0;
-						if (killedTank) score = context_->optionsGame->getMoneyWonPerKillPoint() *
-								weapon_->getArmsLevel();
-						else score = context_->optionsGame->getMoneyWonPerHitPoint() *
-								weapon_->getArmsLevel();
-
-						// Make this a percentage if you want
-						if (context_->optionsGame->getMoneyPerHealthPoint()) 
-							score = (score * int(damage_)) / 100;
-
-						// Remove score for self kills
-						if (damagedPlayerId_ ==  firedPlayerId_) score *= -1;
-						else
-						{
-							if ((context_->optionsGame->getTeams() > 1) &&
-								(firedTank->getTeam() == damagedTank->getTeam()))
-							{
-								score *= -1;
-							}
-						}
-
-						// Calculate the wins
-						int wins = 0;
-						if (killedTank) wins = (damagedPlayerId_ ==  firedPlayerId_)?-1:1;
-
-						// Add the new score (if any)
-						if (wins != 0 || score > 0)
-						{
-							TankScored *scored = new TankScored(firedPlayerId_, 
-								score,
-								wins,
-								0);
-							context_->actionController->addAction(scored);
-						}
-					}
-				}
-
-				// Tell this tanks ai that is has been hurt by another tank
-				TankAI *ai = damagedTank->getTankAI();
-				if (ai) ai->tankHurt(weapon_, firedPlayerId_);
-
-				// Check if the tank needs to fall
-				if (checkFall_ &&
-					damagedTank->getState().getState() != TankState::sDead)
-				{
-					// The tank is not dead check if it needs to fall
-					Vector &position = damagedTank->getPosition().getTankPosition();
-					if (context_->landscapeMaps->getGroundMaps().
-						getInterpHeight(position[0], position[1]) < position[2])
-					{
-						// Check this tank is not already falling
-						std::map<unsigned int, TankFalling *>::iterator findItor =
-							TankFalling::fallingTanks.find(damagedPlayerId_);
-						if (findItor == TankFalling::fallingTanks.end())
-						{
-							// Tank falling
-							context_->actionController->addAction(
-								new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
-									damagedTank->getParachute().parachutesEnabled(),
-									data_));
-						}
-					}
-				}
-			}
-		}
+		calculateDamage();
 	}
 
 	remove = true;
 	Action::simulate(frameTime, remove);
+}
+
+void TankDamage::calculateDamage()
+{
+	// Find the tank that has been damaged
+	Target *damagedTarget = 
+		context_->targetContainer->getTargetById(damagedPlayerId_);
+	if (!damagedTarget || !damagedTarget->getAlive()) return;
+
+	// Remove any damage from shield first
+	if (damage_ > 0.0f)
+	{
+		float shieldDamage = 0.0f;
+		Accessory *sh = damagedTarget->getShield().getCurrentShield();
+		if (sh && useShieldDamage_)
+		{
+			Shield *shield = (Shield *) sh->getAction();
+			float shieldPowerRequired = 
+				damage_ * shield->getHitPenetration();
+			float shieldPower = 
+				damagedTarget->getShield().getShieldPower();
+			if (shieldPower > shieldPowerRequired)
+			{
+				shieldPower -= shieldPowerRequired;
+				damage_ = 0.0f;
+			}
+			else
+			{
+				float p = (shieldPowerRequired - shieldPower) / shield->getHitPenetration();
+				shieldPower = 0.0f;
+				damage_ -= p;
+			}
+
+			damagedTarget->getShield().setShieldPower(shieldPower);
+		}
+	}
+
+	// Remove the remaining damage from the tank
+	if (damage_ > 0.0f && !shieldOnlyDamage_)
+	{
+		if (!context_->serverMode)
+		{
+			Vector position = damagedTarget->getTargetPosition();
+			position[0] += RAND * 5.0f - 2.5f;
+			position[1] += RAND * 5.0f - 2.5f;
+			position[2] += RAND * 5.0f - 2.5f;
+
+			Vector redColor(0.75f, 0.0f, 0.0f);
+			context_->actionController->addAction(
+				new SpriteAction(
+					new TextActionRenderer(
+						position,
+						redColor,
+						formatString("%.0f", damage_))));
+		}
+
+		// Remove the life
+		if (damage_ > damagedTarget->getLife().getLife()) damage_ = 
+			damagedTarget->getLife().getLife();
+		damagedTarget->getLife().setLife(damagedTarget->getLife().getLife() - damage_);
+		if (context_->optionsGame->getLimitPowerByHealth() &&
+			damagedTarget->getTargetType() == Target::eTank)
+		{
+			Tank *damagedTank = (Tank *) damagedTarget;
+			if (damagedTank->getPosition().getPower() > damagedTank->getLife().getLife() * 10.0f) 
+				damagedTank->getPosition().changePower(damagedTank->getLife().getLife() * 10.0f, false);
+		}
+
+		// Check if the tank is dead
+		bool killedTank = false;
+		if (damagedTarget->getLife().getLife() == 0.0f)
+		{
+			// The tank has died, make it blow up etc...
+			calculateDeath();
+
+			if (damagedTarget->getTargetType() == Target::eTank)
+			{
+				// The tank is now dead
+				Tank *damagedTank = (Tank *) damagedTarget;
+				damagedTank->getState().setState(TankState::sDead);
+			}
+
+			killedTank = true;
+		}
+
+		// Add any score got from this endevour
+		// Should always be a tank that has fired
+		Tank *firedTank = 
+			context_->tankContainer->getTankById(firedPlayerId_);
+		if (firedTank && damagedTarget->getTargetType() == Target::eTank)
+		{	
+			Tank *damagedTank = (Tank *) damagedTarget;
+
+			// Calculate the score (more for more damage and the most if you kill them)
+			int score = 0;
+			if (killedTank) score = context_->optionsGame->getMoneyWonPerKillPoint() *
+					weapon_->getArmsLevel();
+			else score = context_->optionsGame->getMoneyWonPerHitPoint() *
+					weapon_->getArmsLevel();
+
+			// Make this a percentage if you want
+			if (context_->optionsGame->getMoneyPerHealthPoint()) 
+				score = (score * int(damage_)) / 100;
+
+			// Remove score for self kills
+			if (damagedPlayerId_ ==  firedPlayerId_) score *= -1;
+			else
+			{
+				if ((context_->optionsGame->getTeams() > 1) &&
+					(firedTank->getTeam() == damagedTank->getTeam()))
+				{
+					score *= -1;
+				}
+			}
+
+			// Calculate the wins
+			int wins = 0;
+			if (killedTank) wins = (damagedPlayerId_ ==  firedPlayerId_)?-1:1;
+
+			// Add the new score (if any)
+			if (wins != 0 || score > 0)
+			{
+				TankScored *scored = new TankScored(firedPlayerId_, 
+					score,
+					wins,
+					0);
+				context_->actionController->addAction(scored);
+			}
+		}
+	}
+
+	// Tell this tanks ai that is has been hurt by another tank
+	if (damagedTarget->getTargetType() == Target::eTank)
+	{
+		Tank *damagedTank = (Tank *) damagedTarget;
+		TankAI *ai = damagedTank->getTankAI();
+		if (ai) ai->tankHurt(weapon_, firedPlayerId_);
+	}
+
+	// Check if the tank needs to fall
+	if (checkFall_ &&
+		damagedTarget->getAlive())
+	{
+		// The tank is not dead check if it needs to fall
+		Vector &position = damagedTarget->getTargetPosition();
+		if (context_->landscapeMaps->getGroundMaps().
+			getInterpHeight(position[0], position[1]) < position[2])
+		{
+			// Check this tank is not already falling
+			std::map<unsigned int, TankFalling *>::iterator findItor =
+				TankFalling::fallingTanks.find(damagedPlayerId_);
+			if (findItor == TankFalling::fallingTanks.end())
+			{
+				// Tank falling
+				context_->actionController->addAction(
+					new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
+						damagedTarget->getParachute().parachutesEnabled(),
+						data_));
+			}
+		}
+	}
+}
+
+void TankDamage::calculateDeath()
+{
+	Target *killedTarget = 
+		context_->targetContainer->getTargetById(damagedPlayerId_);
+	if (!killedTarget) return;
+
+	// Log the death
+	logDeath();
+
+	// Add the explosion sprites
+	if (!context_->serverMode) 
+	{
+		context_->actionController->addAction(
+			new SpriteAction(
+				new TankDeadRenderer(
+					weapon_, damagedPlayerId_, firedPlayerId_)));
+	}
+
+	// Add the tank death explosion
+	// Make the tank explode in one of many ways
+	Weapon *weapon = context_->accessoryStore->getDeathAnimation();
+	if (weapon)
+	{
+		Vector position = killedTarget->getTargetPosition();
+		Vector velocity;
+		weapon->fireWeapon(*context_, firedPlayerId_, 
+			position, velocity, Weapon::eDataDeathAnimation);
+		StatsLogger::instance()->weaponFired(weapon, true);
+	}
+}
+
+void TankDamage::logDeath()
+{
+	GLTexture *weaponTexture = 0;
+	if (!context_->serverMode)
+	{
+		Accessory *accessory = 
+			context_->accessoryStore->
+			findByAccessoryId(weapon_->getParent()->getAccessoryId());
+		if (accessory)
+		{
+			weaponTexture = accessory->getTexture();
+		}
+	}
+
+	// Print the banner on who killed who
+	Target *killedTarget = 
+		context_->targetContainer->getTargetById(damagedPlayerId_);
+	if (killedTarget->getTargetType() != Target::eTank) return;
+	Tank *killedTank = (Tank *) killedTarget;
+
+	Tank *firedTank = 
+		context_->tankContainer->getTankById(firedPlayerId_);
+	if (firedTank)
+	{
+		if (!context_->serverMode ||
+			OptionsParam::instance()->getDedicatedServer())
+		{
+			if (damagedPlayerId_ == firedPlayerId_)
+			{
+				StatsLogger::instance()->
+					tankSelfKilled(firedTank, weapon_);
+				StatsLogger::instance()->
+					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+				
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" killed self with a %s",
+						killedTank->getName(),
+						weapon_->getParent()->getName()));
+				info.setPlayerId(firedPlayerId_);
+				info.setOtherPlayerId(damagedPlayerId_);
+				info.setIcon(weaponTexture);
+				Logger::log(info);
+			}
+			else if ((context_->optionsGame->getTeams() > 1) &&
+					(firedTank->getTeam() == killedTank->getTeam())) 
+			{
+				StatsLogger::instance()->
+					tankTeamKilled(firedTank, killedTank, weapon_);
+				StatsLogger::instance()->
+					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" team killed \"%s\" with a %s",
+						firedTank->getName(),
+						killedTank->getName(),
+						weapon_->getParent()->getName()));
+				info.setPlayerId(firedPlayerId_);
+				info.setOtherPlayerId(damagedPlayerId_);
+				info.setIcon(weaponTexture);
+				Logger::log(info);
+			}
+			else
+			{
+				StatsLogger::instance()->
+					tankKilled(firedTank, killedTank, weapon_);
+				StatsLogger::instance()->
+					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" killed \"%s\" with a %s",
+					firedTank->getName(),
+					killedTank->getName(),
+					weapon_->getParent()->getName()));
+				info.setPlayerId(firedPlayerId_);
+				info.setOtherPlayerId(damagedPlayerId_);
+				info.setIcon(weaponTexture);
+				Logger::log(info);
+			}
+		}
+	}
+	else if (firedPlayerId_ == 0)
+	{
+		if (!context_->serverMode ||
+			OptionsParam::instance()->getDedicatedServer())
+		{
+			static Tank firedTank(*context_, 0, 0, "Environment", 
+				Vector::nullVector, killedTarget->getModel());
+			firedTank.setUniqueId("Environment");
+			StatsLogger::instance()->
+				tankKilled(&firedTank, killedTank, weapon_); 
+			StatsLogger::instance()->
+				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+
+			LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" killed \"%s\" with a \"%s\"",
+				firedTank.getName(),
+				killedTank->getName(),
+				weapon_->getParent()->getName()));
+			info.setPlayerId(firedPlayerId_);
+			info.setOtherPlayerId(damagedPlayerId_);
+			info.setIcon(weaponTexture);
+			Logger::log(info);
+		}
+	}
 }
 
 bool TankDamage::writeAction(NetBuffer &buffer)
@@ -244,15 +397,15 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 
-	Tank *damagedTank = 
-		context_->tankContainer->getTankById(damagedPlayerId_);
-	if (damagedTank)
+	Target *damagedTarget = 
+		context_->targetContainer->getTargetById(damagedPlayerId_);
+	if (damagedTarget)
 	{
-		if (damagedTank->getState().getState() == TankState::sNormal)
+		if (damagedTarget->getAlive())
 		{
 			const float ShowTime = 4.0f;
 			ActionMeta *pos = new CameraPositionAction(
-				damagedTank->getPosition().getTankPosition(), ShowTime,
+				damagedTarget->getTargetPosition(), ShowTime,
 				15);
 			context_->actionController->getBuffer().clientAdd(-3.0f, pos);
 		}

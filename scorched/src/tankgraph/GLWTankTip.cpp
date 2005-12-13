@@ -546,6 +546,42 @@ void TankTip::populate()
 	}
 }
 
+TargetTip::TargetTip(Target *target) : 
+	target_(target)
+{
+}
+
+TargetTip::~TargetTip()
+{
+}
+
+void TargetTip::populate()
+{
+	if (target_->getShield().getCurrentShield())
+	{
+		setText(target_->getName(), 
+				"Life   : %.0f/100\n"
+				"Shield : %.0f/100",
+				target_->getLife().getLife(),
+				target_->getShield().getShieldPower());
+	}
+	else
+	{
+		setText(target_->getName(), 
+				"Life   : %.0f/100",
+				target_->getLife().getLife());
+	}
+}
+
+GLWTargetTips::GLWTargetTips(Target *target) : 
+	targetTip(target)
+{
+}
+
+GLWTargetTips::~GLWTargetTips()
+{
+}
+
 GLWTankTips::GLWTankTips(Tank *tank) : 
 	tankTip(tank),
 	undoMenu(tank),

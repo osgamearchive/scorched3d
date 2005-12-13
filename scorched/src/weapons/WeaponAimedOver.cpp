@@ -21,8 +21,8 @@
 #include <weapons/WeaponAimedOver.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
+#include <tank/Tank.h>
 #include <tank/TankLib.h>
-#include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <list>
 #include <math.h>

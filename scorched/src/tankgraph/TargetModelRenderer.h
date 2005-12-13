@@ -22,6 +22,7 @@
 #define __INCLUDE_TargetModelRendererh_INCLUDE__
 
 #include <tankgraph/TargetModelIdRenderer.h>
+#include <tankgraph/GLWTankTip.h>
 #include <3dsparse/ModelRenderer.h>
 #include <target/Target.h>
 
@@ -35,11 +36,17 @@ public:
 	virtual void draw();
 	virtual void drawSecond();
 	virtual void draw2d();
+	virtual void shieldHit();
 
 protected:
 	Target *target_;
 	ModelRenderer *modelRenderer_;
 	bool canSeeTank_;
+	float shieldHit_, totalTime_;
+	double posX_, posY_, posZ_;
+	GLWTargetTips targetTips_;
+
+	void storeTank2DPos();
 };
 
 #endif // __INCLUDE_TargetModelRendererh_INCLUDE__

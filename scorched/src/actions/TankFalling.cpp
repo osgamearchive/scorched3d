@@ -20,7 +20,7 @@
 
 #include <actions/TankFalling.h>
 #include <actions/TankFallingEnd.h>
-#include <tank/TankContainer.h>
+#include <target/TargetContainer.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
@@ -72,15 +72,15 @@ TankFalling::~TankFalling()
 
 void TankFalling::init()
 {
-	Tank *current = 
-		context_->tankContainer->getTankById(fallingPlayerId_);
+	Target *current = 
+		context_->targetContainer->getTargetById(fallingPlayerId_);
 	if (current && 
 		fallingTanks.find(fallingPlayerId_) == fallingTanks.end())
 	{
 		fallingTanks[fallingPlayerId_] = this;
 
 		// Store the start positions
-		tankStartPosition_ = current->getPosition().getTankPosition();
+		tankStartPosition_ = current->getTargetPosition();
 
 		for (int i=0; i<4; i++)
 		{
@@ -89,7 +89,7 @@ void TankFalling::init()
 
 			// The sphere is 0.25 radius
 			Vector nullVelocity;
-			Vector initPos = current->getPosition().getTankPosition();	
+			Vector initPos = current->getTargetPosition();	
 			switch (i)
 			{
 			case 0:
@@ -140,12 +140,12 @@ void TankFalling::simulate(float frameTime, bool &remove)
 			spherePosition[2] - 0.25f);
 
 		// Move the tank to the new position
-		Tank *tank = context_->tankContainer->getTankById(fallingPlayerId_);
-		if (tank && tank ->getState().getState() == TankState::sNormal)
+		Target *target = context_->targetContainer->getTargetById(fallingPlayerId_);
+		if (target && target->getAlive())
 		{
 			if (position[0] != 0.0f || position[1] != 0.0f || position[2] != 0.0f)
 			{
-				tank->setTargetPosition(position);
+				target->setTargetPosition(position);
 			}
 		}
 	}
@@ -212,9 +212,9 @@ void TankFalling::collision()
 {
 	// Create end action
 	Vector position;
-	Tank *current = 
-		context_->tankContainer->getTankById(fallingPlayerId_);
-	if (current && current->getState().getState() == TankState::sNormal)
+	Target *current = 
+		context_->targetContainer->getTargetById(fallingPlayerId_);
+	if (current && current->getAlive())
 	{
 		// Calcuate the end position
 		Vector spherePosition;

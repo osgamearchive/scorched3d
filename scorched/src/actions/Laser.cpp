@@ -23,7 +23,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
-#include <tank/TankContainer.h>
+#include <target/TargetContainer.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <GLEXT/GLState.h>
@@ -76,29 +76,28 @@ void Laser::simulate(float frameTime, bool &remove)
 		firstTime_ = false;
 		if (damage_ > 0.0f && direction_.Magnitude() > 0.0f)
 		{
-			std::set<unsigned int> damagedTanks_;
+			std::set<unsigned int> damagedTargets_;
 
 			// Build a set of all tanks in the path of the laser
 			Vector pos = position_;
 			Vector dir = direction_.Normalize() / 10.0f;
 			while ((pos - position_).Magnitude() < length_)
 			{
-				std::map<unsigned int, Tank *> &playingTanks = 
-					context_->tankContainer->getPlayingTanks();
-				std::map<unsigned int, Tank *>::iterator itor;
-				for (itor = playingTanks.begin();
-					itor != playingTanks.end();
+				std::map<unsigned int, Target *> &targets = 
+					context_->targetContainer->getTargets();
+				std::map<unsigned int, Target *>::iterator itor;
+				for (itor = targets.begin();
+					itor != targets.end();
 					itor++)
 				{
-					Tank *current = (*itor).second;
-					if (current->getState().getState() == TankState::sNormal &&
-						!current->getState().getSpectator() &&
+					Target *current = (*itor).second;
+					if (current->getAlive() &&
 						current->getPlayerId() != playerId_)
 					{
-						if ((current->getPosition().getTankPosition() -
+						if ((current->getTargetPosition() -
 							pos).Magnitude() < weapon_->getHurtRadius())
 						{
-							damagedTanks_.insert(current->getPlayerId());
+							damagedTargets_.insert(current->getPlayerId());
 						}
 					}
 				}
@@ -108,14 +107,14 @@ void Laser::simulate(float frameTime, bool &remove)
 
 			// Subtract set amount from all tanks
 			std::set<unsigned int>::iterator itor;
-			for (itor = damagedTanks_.begin();
-				itor != damagedTanks_.end();
+			for (itor = damagedTargets_.begin();
+				itor != damagedTargets_.end();
 				itor++)
 			{
-				unsigned int damagedTank = (*itor);
+				unsigned int damagedTarget = (*itor);
 				context_->actionController->addAction(
 					new TankDamage(
-						weapon_, damagedTank, playerId_,
+						weapon_, damagedTarget, playerId_,
 						damage_, false, false, false, data_));
 			}
 		}

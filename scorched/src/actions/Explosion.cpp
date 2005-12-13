@@ -20,7 +20,7 @@
 
 #include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
-#include <tank/TankController.h>
+#include <target/TargetDamageCalc.h>
 #include <sound/SoundUtils.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -268,7 +268,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 			weapon_->getDeformType() != DeformNone)
 		{
 			// Check the tanks for damage
-			TankController::explosion(
+			TargetDamageCalc::explosion(
 				*context_,
 				weapon_, playerId_, 
 				newPosition, 

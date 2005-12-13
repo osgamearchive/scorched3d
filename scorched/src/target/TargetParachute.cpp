@@ -39,9 +39,9 @@ void TargetParachute::setParachutesEnabled(bool enabled)
 	parachutesEnabled_ = enabled;
 }
 
-bool TargetParachute::writeMessage(NetBuffer &buffer)
+bool TargetParachute::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(parachutesEnabled_);
+	buffer.addToBuffer(writeAccessories?parachutesEnabled_:false);
 	return true;
 }
 

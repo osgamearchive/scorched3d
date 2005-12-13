@@ -26,7 +26,7 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
-#include <tank/TankContainer.h>
+#include <target/TargetContainer.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>
 
@@ -142,18 +142,18 @@ void PatchGrid::recalculateTankVariance()
 	// Mark any patches with tanks on as better variance levels
 	// Ensure that any patches with tanks on them are drawn with
 	// a very low varaince
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
 		itor++)
 	{
-		Tank *current = (*itor).second;
-		if (current->getState().getState() == TankState::sNormal)
+		Target *current = (*itor).second;
+		if (current->getAlive())
 		{
-			float posX = current->getPosition().getTankPosition()[0];
-			float posY = current->getPosition().getTankPosition()[1];
+			float posX = current->getTargetPosition()[0];
+			float posY = current->getTargetPosition()[1];
 
 			posX /= float(patchSize_);
 			posY /= float(patchSize_);

@@ -2408,6 +2408,12 @@
 				RelativePath="..\actions\ActionVector.h">
 			</File>
 			<File
+				RelativePath="..\actions\AddPowerUp.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\AddPowerUp.h">
+			</File>
+			<File
 				RelativePath="..\actions\Animation.cpp">
 			</File>
 			<File
@@ -2502,12 +2508,6 @@
 			</File>
 			<File
 				RelativePath="..\actions\TankDamage.h">
-			</File>
-			<File
-				RelativePath="..\actions\TankDead.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\TankDead.h">
 			</File>
 			<File
 				RelativePath="..\actions\TankFalling.cpp">
@@ -3477,12 +3477,6 @@
 				RelativePath="..\tank\TankContainer.h">
 			</File>
 			<File
-				RelativePath="..\tank\TankController.cpp">
-			</File>
-			<File
-				RelativePath="..\tank\TankController.h">
-			</File>
-			<File
 				RelativePath="..\tank\TankDeadContainer.cpp">
 			</File>
 			<File
@@ -3769,6 +3763,12 @@
 			</File>
 			<File
 				RelativePath="..\target\TargetContainer.h">
+			</File>
+			<File
+				RelativePath="..\target\TargetDamageCalc.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetDamageCalc.h">
 			</File>
 			<File
 				RelativePath="..\target\TargetLife.cpp">

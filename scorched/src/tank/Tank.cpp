@@ -32,7 +32,7 @@ Tank::Tank(ScorchedContext &context,
 		Vector &color, 
 		TargetModelId &modelId) :
 	context_(context),
-	Target(playerId, modelId, context), 
+	Target(playerId, modelId, name, context), 
 	destinationId_(destinationId),
 	color_(color), 
 	position_(context, playerId),
@@ -40,7 +40,6 @@ Tank::Tank(ScorchedContext &context,
 	score_(context), 
 	state_(context, playerId), 
 	accessories_(context),
-	name_(name), 
 	team_(0), 
 	ipAddress_(0), 
 	keepAlive_(0)
@@ -86,6 +85,12 @@ void Tank::clientNewGame()
 	state_.clientNewGame();
 }
 
+bool Tank::getAlive()
+{
+	return (getState().getState() == TankState::sNormal &&
+		getState().getSpectator() == false);
+}
+
 Vector &Tank::getColor()
 {
 	static Vector red(1.0f, 0.0f, 0.0f);
@@ -101,8 +106,7 @@ Vector &Tank::getColor()
 
 bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (!Target::writeMessage(buffer)) return false;  // Base class 1st
-	buffer.addToBuffer(name_);
+	if (!Target::writeMessage(buffer, writeAccessories)) return false;  // Base class 1st
 	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(team_);
 	buffer.addToBuffer(color_);
@@ -115,7 +119,6 @@ bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 bool Tank::readMessage(NetBufferReader &reader)
 {
 	if (!Target::readMessage(reader)) return false; // Base class 1st
-	if (!reader.getFromBuffer(name_)) return false;
 	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(team_)) return false;
 	if (!reader.getFromBuffer(color_)) return false;

@@ -20,9 +20,13 @@
 
 #include <landscape/LandscapeTex.h>
 #include <landscape/LandscapeDefinitions.h>
+#include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
+#include <tankai/TankAIAdder.h>
 #include <common/Defines.h>
+#include <actions/AddPowerUp.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
@@ -61,6 +65,7 @@ static LandscapeTexCondition *fetchConditionTexType(const char *type)
 static LandscapeTexAction *fetchActionTexType(const char *type)
 {
 	if (0 == strcmp(type, "fireweapon")) return new LandscapeTexActionFireWeapon;
+	if (0 == strcmp(type, "addpowerup")) return new LandscapeTexActionAddPowerUp;
 	dialogMessage("LandscapeTexType", "Unknown action type %s", type);
 	return 0;
 }
@@ -133,6 +138,24 @@ void LandscapeTexActionFireWeapon::fireAction(ScorchedContext &context)
 bool LandscapeTexActionFireWeapon::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("weapon", weapon)) return false;
+	return node->failChildren();
+}
+
+// LandscapeTexActionAddPowerUp
+void LandscapeTexActionAddPowerUp::fireAction(ScorchedContext &context)
+{
+	float x = RAND * context.landscapeMaps->getGroundMaps().getMapWidth();
+	float y = RAND * context.landscapeMaps->getGroundMaps().getMapHeight();
+	Vector position(x, y, 10.0f);
+	position[2] = context.landscapeMaps->
+		getGroundMaps().getHeight((int) position[0], (int) position[1]);
+
+	Action *action = new AddPowerUp(TankAIAdder::getNextTankId(), position);
+	context.actionController->addAction(action);
+}
+
+bool LandscapeTexActionAddPowerUp::readXML(XMLNode *node)
+{
 	return node->failChildren();
 }
 

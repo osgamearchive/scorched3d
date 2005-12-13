@@ -25,8 +25,10 @@
 
 Target::Target(unsigned int playerId, 
 	TargetModelId &modelId, 
+	const char *name,
 	ScorchedContext &context) :
 	playerId_(playerId),
+	name_(name),
 	context_(context),
 	life_(context, playerId), 
 	model_(modelId),
@@ -45,6 +47,11 @@ void Target::newGame()
 	parachute_.newGame();
 }
 
+bool Target::getAlive()
+{
+	return (life_.getLife() > 0.0f);
+}
+
 void Target::setTargetPosition(Vector &pos)
 {
 	targetPosition_ = pos;
@@ -52,12 +59,13 @@ void Target::setTargetPosition(Vector &pos)
 	shield_.setPosition(pos);
 }
 
-bool Target::writeMessage(NetBuffer &buffer)
+bool Target::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
+	buffer.addToBuffer(name_);
 	if (!model_.writeMessage(buffer)) return false;
 	if (!shield_.writeMessage(buffer)) return false;
 	if (!life_.writeMessage(buffer)) return false;
-	if (!parachute_.writeMessage(buffer)) return false;
+	if (!parachute_.writeMessage(buffer, writeAccessories)) return false;
 
 	// Do after shield and life so their position is set
 	buffer.addToBuffer(targetPosition_);
@@ -66,6 +74,7 @@ bool Target::writeMessage(NetBuffer &buffer)
 
 bool Target::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(name_)) return false;
 	if (!model_.readMessage(reader)) return false;
 	if (!shield_.readMessage(reader)) return false;
 	if (!life_.readMessage(reader)) return false;

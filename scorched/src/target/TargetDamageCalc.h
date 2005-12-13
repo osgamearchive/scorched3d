@@ -18,37 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(AFX_TargetDamageCalc_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)
+#define AFX_TargetDamageCalc_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_
 
-#if !defined(__INCLUDE_TankDeadh_INCLUDE__)
-#define __INCLUDE_TankDeadh_INCLUDE__
+#include <engine/ScorchedContext.h>
+#include <common/Vector.h>
 
-#include <engine/ActionMeta.h>
-#include <weapons/Weapon.h>
-
-class TankDead : public ActionMeta
+class Target;
+class Weapon;
+class TargetDamageCalc
 {
 public:
-	TankDead();
-	TankDead(Weapon *weapon, unsigned int killedPlayerId,
-			unsigned int firedPlayerId,
-			unsigned int data);
-	virtual ~TankDead();
+	static void explosion(ScorchedContext &context,
+		Weapon *weapon, unsigned int firer, 
+		Vector &position, float radius,
+		float damageAmount,
+		bool checkFall,
+		bool shieldOnlyDamage,
+		unsigned int data);
+	static void damageTarget(ScorchedContext &context,
+		Target *target, 
+		Weapon *weapon,
+		unsigned int firer,
+		float damage,
+		bool useShieldDamage, bool checkFall,
+		bool shieldOnlyDamage,
+		unsigned int data);
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
+private:
+	TargetDamageCalc();
+	virtual ~TargetDamageCalc();
 
-	REGISTER_ACTION_HEADER(TankDead);
-
-protected:
-	bool firstTime_;
-	
-	Weapon *weapon_;
-	unsigned int data_;
-	unsigned int killedPlayerId_;
-	unsigned int firedPlayerId_;
 };
 
-
-#endif
+#endif // !defined(AFX_TargetDamageCalc_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_)

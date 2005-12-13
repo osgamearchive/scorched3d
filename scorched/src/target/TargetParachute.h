@@ -34,7 +34,7 @@ public:
 	void setParachutesEnabled(bool enabled);
 	bool parachutesEnabled() { return parachutesEnabled_; }
 
-    bool writeMessage(NetBuffer &buffer);
+    bool writeMessage(NetBuffer &buffer, bool writeAccessories);
     bool readMessage(NetBufferReader &reader);
 
 protected:

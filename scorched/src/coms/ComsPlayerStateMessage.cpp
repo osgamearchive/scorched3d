@@ -36,22 +36,31 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 
 bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedServer::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
 
 	// Add count
-	buffer.addToBuffer((int) tanks.size());
+	buffer.addToBuffer((int) targets.size());
 
 	// For each tank
-	for (itor = tanks.begin();
-		itor != tanks.end();
+	for (itor = targets.begin();
+		itor != targets.end();
 		itor++)
 	{
 		// Add each tank
-		Tank *tank = (*itor).second;
-		buffer.addToBuffer(tank->getPlayerId());
-		if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
+		Target *target = (*itor).second;
+		buffer.addToBuffer(target->getPlayerId());
+
+		if (target->getTargetType() == Target::eTank)
+		{
+			Tank *tank = (Tank *) target;
+			if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
+		}
+		else
+		{
+			if (!target->writeMessage(buffer, true)) return false;
+		}
 	}
 	return true;
 }
@@ -64,11 +73,11 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 	{
 		unsigned int playerId;
 		if (!reader.getFromBuffer(playerId)) return false;
-		Tank *tank = ScorchedClient::instance()->getTankContainer().
-			getTankById(playerId);
-		if (tank)
+		Target *target = ScorchedClient::instance()->getTargetContainer().
+			getTargetById(playerId);
+		if (target)
 		{
-			if (!tank->readMessage(reader)) return false;
+			if (!target->readMessage(reader)) return false;
 		}
 		else return false;
 	}

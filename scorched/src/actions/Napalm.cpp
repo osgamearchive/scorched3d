@@ -20,8 +20,8 @@
 
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
-#include <tank/TankContainer.h>
-#include <tank/TankController.h>
+#include <target/TargetContainer.h>
+#include <target/TargetDamageCalc.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/ExplosionTextures.h>
@@ -331,13 +331,13 @@ void Napalm::simulateDamage()
 	// Store how much each tank is damaged
 	// Keep in a map so we don't need to create multiple
 	// damage actions.  Now we only create one per tank
-	static std::map<Tank *, float> tankDamage;
+	static std::map<Target *, float> TargetDamageCalc;
 
 	// Get the tanks
-	std::map<unsigned int, Tank *> &tanks = 
-		context_->tankContainer->getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator tankItor;
-	std::map<unsigned int, Tank *>::iterator endTankItor = tanks.end();
+	std::map<unsigned int, Target *> &targets = 
+		context_->targetContainer->getTargets();
+	std::map<unsigned int, Target *>::iterator targetItor;
+	std::map<unsigned int, Target *>::iterator endTargetItor = targets.end();
 
 	// Add damage into the damage map for each napalm point that is near to
 	// the tanks
@@ -352,29 +352,29 @@ void Napalm::simulateDamage()
 		int napalmX = entry->posX;
 		int napalmY = entry->posY;
 
-		for (tankItor = tanks.begin();
-			tankItor != endTankItor;
-			tankItor++)
+		for (targetItor = targets.begin();
+			targetItor != endTargetItor;
+			targetItor++)
 		{
-			Tank *tank = (*tankItor).second;
-			if (tank->getState().getState() == TankState::sNormal)
+			Target *target = (*targetItor).second;
+			if (target->getAlive())
 			{
 				// Check if this tank is in the damage field
-				Vector &tankPos = tank->getPosition().getTankPosition();
+				Vector &tankPos = target->getTargetPosition();
 				if (tankPos[0] > napalmX - EffectRadius &&
 					tankPos[0] < napalmX + EffectRadius &&
 					tankPos[1] > napalmY - EffectRadius &&
 					tankPos[1] < napalmY + EffectRadius)
 				{
-					std::map<Tank *, float>::iterator damageItor = 
-						tankDamage.find(tank);
-					if (damageItor == tankDamage.end())
+					std::map<Target *, float>::iterator damageItor = 
+						TargetDamageCalc.find(target);
+					if (damageItor == TargetDamageCalc.end())
 					{
-						tankDamage[tank] = damagePerPointSecond;
+						TargetDamageCalc[target] = damagePerPointSecond;
 					}
 					else
 					{
-						tankDamage[tank] += damagePerPointSecond;
+						TargetDamageCalc[target] += damagePerPointSecond;
 					}
 				}
 			}
@@ -382,21 +382,21 @@ void Napalm::simulateDamage()
 	}
 
 	// Add all the damage to the tanks (if any)
-	if (!tankDamage.empty())
+	if (!TargetDamageCalc.empty())
 	{
-		std::map<Tank *, float>::iterator damageItor;
-		for (damageItor = tankDamage.begin();
-			damageItor != tankDamage.end();
+		std::map<Target *, float>::iterator damageItor;
+		for (damageItor = TargetDamageCalc.begin();
+			damageItor != TargetDamageCalc.end();
 			damageItor++)
 		{
-			Tank *tank = (*damageItor).first;
+			Target *target = (*damageItor).first;
 			float damage = (*damageItor).second;
 
 			// Add damage to the tank
-			TankController::damageTank(*context_, tank, weapon_, 
+			TargetDamageCalc::damageTarget(*context_, target, weapon_, 
 				playerId_, damage, true, false, false, data_);
 		}
-		tankDamage.clear();
+		TargetDamageCalc.clear();
 	}
 }
 

@@ -30,6 +30,8 @@ TargetContainer::~TargetContainer()
 
 void TargetContainer::addTarget(Target *target)
 {
+	DIALOG_ASSERT(
+		targets_.find(target->getPlayerId()) == targets_.end());
 	targets_[target->getPlayerId()] = target;
 }
 

@@ -23,11 +23,17 @@
 #include <landscape/ShadowMap.h>
 #include <3dsparse/ModelStore.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
+#include <GLW/GLWToolTip.h>
+#include <client/MainCamera.h>
 
 TargetModelRenderer::TargetModelRenderer(Target *target) :
 	target_(target),
-	canSeeTank_(false)
+	canSeeTank_(false),
+	shieldHit_(0.0f), totalTime_(0.0f),
+	posX_(0.0), posY_(0.0), posZ_(0.0),
+	targetTips_(target)
 {
 	modelRenderer_ = new ModelRenderer(
 		ModelStore::instance()->loadModel(target_->getModel().getTargetModel()));
@@ -39,6 +45,13 @@ TargetModelRenderer::~TargetModelRenderer()
 
 void TargetModelRenderer::simulate(float frameTime)
 {
+	totalTime_ += frameTime;
+	if (shieldHit_ > 0.0f)
+	{
+		shieldHit_ -= frameTime / 25.0f;
+		if (shieldHit_ < 0.0f) shieldHit_ = 0.0f;
+	}
+
 	modelRenderer_->simulate(frameTime);
 }
 
@@ -53,6 +66,8 @@ void TargetModelRenderer::draw()
 		return;
 	}
 
+	storeTank2DPos();
+
 	// Add the tank shadow
 	Landscape::instance()->getShadowMap().addCircle(
 		target_->getTargetPosition()[0], 
@@ -65,12 +80,18 @@ void TargetModelRenderer::draw()
 			target_->getTargetPosition()[0], 
 			target_->getTargetPosition()[1], 
 			target_->getTargetPosition()[2]);
-		modelRenderer_->draw();
+		glScalef(0.01f, 0.01f, 0.01f);
+		modelRenderer_->drawBottomAligned();
 	glPopMatrix();
 }
 
 void TargetModelRenderer::draw2d()
 {
+	if (!canSeeTank_) return;
+
+	// Add the tooltip that displays the tank info
+	GLWToolTip::instance()->addToolTip(&targetTips_.targetTip,
+		float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
 }
 
 void TargetModelRenderer::drawSecond()
@@ -78,5 +99,47 @@ void TargetModelRenderer::drawSecond()
 	if (!canSeeTank_) return;
 
 	drawParachute(target_);
-	drawShield(target_, 0.0f, 0.0f);
+	drawShield(target_, shieldHit_, totalTime_);
+}
+
+void TargetModelRenderer::shieldHit()
+{
+	shieldHit_ = 0.25f;
+}
+
+void TargetModelRenderer::storeTank2DPos()
+{
+	Vector &tankTurretPos = 
+		target_->getTargetPosition();
+	Vector camDir = 
+		MainCamera::instance()->getCamera().getLookAt() - 
+		MainCamera::instance()->getCamera().getCurrentPos();
+	Vector tankDir = tankTurretPos - 
+		MainCamera::instance()->getCamera().getCurrentPos();
+
+	if (camDir.dotP(tankDir) < 0.0f)
+	{
+		posX_ = - 1000.0;
+	}
+	else
+	{
+		static GLdouble modelMatrix[16];
+		static GLdouble projMatrix[16];
+		static GLint viewport[4];
+
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+		glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
+		glGetIntegerv(GL_VIEWPORT, viewport);
+
+		viewport[2] = GLViewPort::getWidth();
+		viewport[3] = GLViewPort::getHeight();
+		int result = gluProject(
+			tankTurretPos[0], 
+			tankTurretPos[1], 
+			tankTurretPos[2],
+			modelMatrix, projMatrix, viewport,
+			&posX_, 
+			&posY_,
+			&posZ_);
+	}
 }

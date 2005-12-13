@@ -18,32 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankController.h>
+#include <target/TargetDamageCalc.h>
 #include <tank/TankContainer.h>
 #include <common/Vector.h>
 #include <engine/ActionController.h>
 #include <actions/TankDamage.h>
 
-void TankController::explosion(ScorchedContext &context,
+void TargetDamageCalc::explosion(ScorchedContext &context,
 							   Weapon *weapon, unsigned int firer, 
 							   Vector &position, float radius,
 							   float damageAmount, bool checkFall,
 							   bool shieldOnlyDamage,
 							   unsigned int data)
 {
-	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer->getPlayingTanks();
-	for (itor = tanks.begin();
-		itor != tanks.end();
+	std::map<unsigned int, Target *>::iterator itor;
+	std::map<unsigned int, Target *> &targets = 
+		context.targetContainer->getTargets();
+	for (itor = targets.begin();
+		itor != targets.end();
 		itor++)
 	{
-		Tank *current = (*itor).second;
-		if (current->getState().getState() != TankState::sNormal) continue;
+		Target *current = (*itor).second;
+		if (!current->getAlive()) continue;
 
 		// Get how close the exposion was
-		Vector direction = position - 
-			current->getPosition().getTankPosition();
+		Vector direction = position - current->getTargetPosition();
 		float dist = direction.Magnitude();
 		float dist2d = sqrtf(direction[0] * direction[0] + 
 			direction[1] * direction[1]);
@@ -59,20 +58,20 @@ void TankController::explosion(ScorchedContext &context,
 				damage = 100.0f - damage;
 			}
 
-			damageTank(context, current, weapon, firer, 
+			damageTarget(context, current, weapon, firer, 
 				damage * damageAmount, true, checkFall, shieldOnlyDamage, data);
 		}
 		else if (dist2d < radius + 5.0f)
 		{
 			// explosion under tank
-			damageTank(context, current, weapon, firer, 
+			damageTarget(context, current, weapon, firer, 
 				0, true, checkFall, shieldOnlyDamage, data);
 		}
 	}
 }
 
-void TankController::damageTank(ScorchedContext &context,
-								Tank *tank, Weapon *weapon, 
+void TargetDamageCalc::damageTarget(ScorchedContext &context,
+								Target *target, Weapon *weapon, 
 								unsigned int firer, float damage,
 								bool useShieldDamage, bool checkFall,
 								bool shieldOnlyDamage,
@@ -80,7 +79,7 @@ void TankController::damageTank(ScorchedContext &context,
 {
 	// Remove the correct damage from the tanks
 	TankDamage *tankDamage = new TankDamage(
-		weapon, tank->getPlayerId(), firer, 
+		weapon, target->getPlayerId(), firer, 
 		damage, useShieldDamage, checkFall, shieldOnlyDamage, data);
 	context.actionController->addAction(tankDamage);
 }

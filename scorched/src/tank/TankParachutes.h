@@ -40,7 +40,6 @@ public:
 	void addParachutes(int no);
 
 	int getNoParachutes() { return parachuteCount_; }
-	float getThreshold() { return parachuteThreshold_; }
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);

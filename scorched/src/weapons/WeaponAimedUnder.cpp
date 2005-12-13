@@ -22,7 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankLib.h>
-#include <tank/TankContainer.h>
+#include <tank/Tank.h>
 #include <common/Defines.h>
 #include <list>
 #include <math.h>

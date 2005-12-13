@@ -37,25 +37,35 @@ public:
 
 	Target(unsigned int playerId, 
 		TargetModelId &modelId, 
+		const char *name, 
 		ScorchedContext &context);
 	virtual ~Target();
 
 	virtual void newGame();
 
+	// Position
 	TargetModelId &getModel() { return model_; }
 	void setModel(TargetModelId &model) { model_ = model; }
 	void setTargetPosition(Vector &position);
+	Vector &getTargetPosition() { return targetPosition_; }
 
+	virtual bool getAlive();
 	virtual TargetType getTargetType() { return eOther; }
 	unsigned int getPlayerId() { return playerId_; }
-	Vector &getTargetPosition() { return targetPosition_; }
+
+	// Weapons
 	TargetLife &getLife() { return life_; }
 	TargetShield &getShield() { return shield_; }
 	TargetParachute &getParachute() { return parachute_; }
 
+	// Name
+	const char *getName() { return name_.c_str(); }
+	void setName(const char *name) { name_ = name; }
+	unsigned int getNameLen() { return name_.size(); }
+
 	// Serialize the target
-	bool writeMessage(NetBuffer &buffer);
-	bool readMessage(NetBufferReader &reader);
+	virtual bool writeMessage(NetBuffer &buffer, bool writeAccessories);
+	virtual bool readMessage(NetBufferReader &reader);
 
 protected:
 	unsigned int playerId_;
@@ -65,6 +75,7 @@ protected:
 	TargetLife life_;
 	TargetShield shield_;
 	TargetParachute parachute_;
+	std::string name_;
 
 };
 

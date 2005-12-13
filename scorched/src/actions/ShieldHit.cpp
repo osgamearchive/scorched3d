@@ -25,8 +25,8 @@
 #include <engine/ScorchedContext.h>
 #include <weapons/Accessory.h>
 #include <weapons/Shield.h>
-#include <tank/TankContainer.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <target/TargetContainer.h>
+#include <tankgraph/TargetModelIdRenderer.h>
 
 REGISTER_ACTION_SOURCE(ShieldHit);
 
@@ -59,12 +59,12 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 
-		Tank *tank = 
-			context_->tankContainer->getTankById(playerId_);
-		if (tank)
+		Target *target = 
+			context_->targetContainer->getTargetById(playerId_);
+		if (target)
 		{
 			Accessory *accessory = 
-				tank->getShield().getCurrentShield();
+				target->getShield().getCurrentShield();
 			if (accessory)
 			{
 				Shield *shield = (Shield *) accessory->getAction();
@@ -76,16 +76,16 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 						shieldSound, position_);
 
-					TankModelRenderer *model = (TankModelRenderer *) 
-						tank->getModel().getModelIdRenderer();
+					TargetModelIdRenderer *model = 
+						target->getModel().getModelIdRenderer();
 					if (model)
 					{
 						model->shieldHit();
 					}
 				}
 
-				tank->getShield().setShieldPower(
-					tank->getShield().getShieldPower() -
+				target->getShield().setShieldPower(
+					target->getShield().getShieldPower() -
 					shield->getHitRemovePower() * hitPercentage_);
 			}
 		}

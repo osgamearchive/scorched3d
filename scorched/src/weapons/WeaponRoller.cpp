@@ -24,7 +24,7 @@
 #include <actions/ShotBounce.h>
 #include <common/Defines.h>
 #include <engine/ActionController.h>
-#include <tank/TankContainer.h>
+#include <target/TargetContainer.h>
 #include <landscape/LandscapeMaps.h>
 #include <math.h>
 
@@ -118,16 +118,16 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 		while (!ok)
 		{
 			ok = true;
-			std::map<unsigned int, Tank *> &tanks = 
-				context.tankContainer->getPlayingTanks();
-			std::map<unsigned int, Tank *>::iterator itor;
-			for (itor = tanks.begin();
-				itor != tanks.end();
+			std::map<unsigned int, Target *> &targets = 
+				context.targetContainer->getTargets();
+			std::map<unsigned int, Target *>::iterator itor;
+			for (itor = targets.begin();
+				itor != targets.end();
 				itor++)
 			{
-				Tank *current = (*itor).second;
+				Target *current = (*itor).second;
 				Vector &tankPos = 
-					current->getPosition().getTankPosition();
+					current->getTargetPosition();
 				Accessory *accessory = 
 					current->getShield().getCurrentShield();
 				if (accessory)

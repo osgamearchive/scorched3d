@@ -45,13 +45,16 @@ public:
 
 protected:
 	bool firstTime_;
-	
 	Weapon *weapon_;
 	unsigned int damagedPlayerId_;
 	unsigned int firedPlayerId_;
 	float damage_;
 	bool useShieldDamage_, checkFall_, shieldOnlyDamage_;
 	unsigned int data_;
+
+	void calculateDamage();
+	void calculateDeath();
+	void logDeath();
 };
 
 
