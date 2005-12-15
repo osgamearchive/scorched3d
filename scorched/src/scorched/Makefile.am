@@ -125,6 +125,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWSpinBox.h \
 	../GLW/GLWTab.cpp \
 	../GLW/GLWTab.h \
+	../GLW/GLWTalkBox.cpp \
+	../GLW/GLWTalkBox.h \
 	../GLW/GLWTankFire.cpp \
 	../GLW/GLWTankFire.h \
 	../GLW/GLWTankModel.cpp \
@@ -169,12 +171,16 @@ scorched3d_SOURCES = \
 	../tankgraph/TankModelRenderer.h \
 	../tankgraph/TankModelStore.cpp \
 	../tankgraph/TankModelStore.h \
-	../tankgraph/TankParticleRenderer.cpp \
-	../tankgraph/TankParticleRenderer.h \
-	../tankgraph/TankRenderer.cpp \
-	../tankgraph/TankRenderer.h \
-	../tankgraph/TracerStore.cpp \
-	../tankgraph/TracerStore.h \
+	../tankgraph/TargetModeIdlRenderer.cpp \
+	../tankgraph/TargetModelIdRenderer.h \
+	../tankgraph/TargetModelRenderer.cpp \
+	../tankgraph/TargetModelRenderer.h \
+	../tankgraph/TargetParticleRenderer.cpp \
+	../tankgraph/TargetParticleRenderer.h \
+	../tankgraph/TargetRenderer.cpp \
+	../tankgraph/TargetRenderer.h \
+	../tankgraph/TracerRenderer.cpp \
+	../tankgraph/TracerRenderer.h \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
 	../common/Clock.cpp \
@@ -322,8 +328,6 @@ scorched3d_SOURCES = \
 	../dialogs/SkipAllDialog.h \
 	../dialogs/SkipDialog.cpp \
 	../dialogs/SkipDialog.h \
-	../dialogs/TalkDialog.cpp \
-	../dialogs/TalkDialog.h \
 	../dialogs/TalkSettingsDialog.cpp \
 	../dialogs/TalkSettingsDialog.h \
 	../engine/Action.cpp \
@@ -711,20 +715,6 @@ scorched3d_SOURCES = \
 	../ode/timer.h \
 	../ode/util.cpp \
 	../ode/util.h \
-	../XML/XMLFile.cpp \
-	../XML/XMLFile.h \
-	../XML/XMLParser.cpp \
-	../XML/XMLParser.h \
-	../XML/XMLStringBuffer.cpp \
-	../XML/XMLStringBuffer.h \
-	../XML/expat.h \
-	../XML/expat_config.h \
-	../XML/winconfig.h \
-	../XML/xmlparse.c \
-	../XML/xmlrole.c \
-	../XML/xmlrole.h \
-	../XML/xmltok.c \
-	../XML/xmltok.h \
 	../zlib/adler32.c \
 	../zlib/compress.c \
 	../zlib/crc32.c \
@@ -752,6 +742,8 @@ scorched3d_SOURCES = \
 	../zlib/zutil.h \
 	../actions/ActionVector.cpp \
 	../actions/ActionVector.h \
+	../actions/AddPowerUp.cpp \
+	../actions/AddPowerUp.h \
 	../actions/Animation.cpp \
 	../actions/Animation.h \
 	../actions/CameraPositionAction.cpp \
@@ -784,8 +776,6 @@ scorched3d_SOURCES = \
 	../actions/SpriteProjectile.h \
 	../actions/TankDamage.cpp \
 	../actions/TankDamage.h \
-	../actions/TankDead.cpp \
-	../actions/TankDead.h \
 	../actions/TankFalling.cpp \
 	../actions/TankFalling.h \
 	../actions/TankFallingEnd.cpp \
@@ -812,6 +802,8 @@ scorched3d_SOURCES = \
 	../sprites/ExplosionLaserBeamRenderer.h \
 	../sprites/ExplosionNukeRenderer.cpp \
 	../sprites/ExplosionNukeRenderer.h \
+	../sprites/ExplosionRingRenderer.cpp \
+	../sprites/ExplosionRingRenderer.h \
 	../sprites/ExplosionTextures.cpp \
 	../sprites/ExplosionTextures.h \
 	../sprites/FlareActionRenderer.cpp \
@@ -1065,8 +1057,6 @@ scorched3d_SOURCES = \
 	../tank/TankColorGenerator.h \
 	../tank/TankContainer.cpp \
 	../tank/TankContainer.h \
-	../tank/TankController.cpp \
-	../tank/TankController.h \
 	../tank/TankDeadContainer.cpp \
 	../tank/TankDeadContainer.h \
 	../tank/TankFuel.cpp \
@@ -1075,12 +1065,10 @@ scorched3d_SOURCES = \
 	../tank/TankLib.h \
 	../tank/TankMod.cpp \
 	../tank/TankMod.h \
-	../tank/TankModelId.cpp \
-	../tank/TankModelId.h \
 	../tank/TankParachutes.cpp \
 	../tank/TankParachutes.h \
-	../tank/TankPhysics.cpp \
-	../tank/TankPhysics.h \
+	../tank/TankPosition.cpp \
+	../tank/TankPosition.h \
 	../tank/TankScore.cpp \
 	../tank/TankScore.h \
 	../tank/TankShields.cpp \
@@ -1135,7 +1123,37 @@ scorched3d_SOURCES = \
 	../tankai/TankAIStrings.h \
 	../ships/ScorchedShips.cpp \
 	../ships/ScorchedShips.h \
+	../ships/Ship.cpp \
+	../ships/Ship.h \
 	../ships/ShipGroup.cpp \
-	../ships/ShipGroup.h
+	../ships/ShipGroup.h \
+	../XML/XMLFile.cpp \
+	../XML/XMLFile.h \
+	../XML/XMLParser.cpp \
+	../XML/XMLParser.h \
+	../XML/XMLStringBuffer.cpp \
+	../XML/XMLStringBuffer.h \
+	../XML/expat.h \
+	../XML/expat_config.h \
+	../XML/winconfig.h \
+	../XML/xmlparse.c \
+	../XML/xmlrole.c \
+	../XML/xmlrole.h \
+	../XML/xmltok.c \
+	../XML/xmltok.h \
+	../target/Target.cpp \
+	../target/Target.h \
+	../target/TargetContainer.cpp \
+	../target/TargetContainer.h \
+	../target/TargetDamageCalc.cpp \
+	../target/TargetDamageCalc.h \
+	../target/TargetLife.cpp \
+	../target/TargetLife.h \
+	../target/TargetModelId.cpp \
+	../target/TargetModelId.h \
+	../target/TargetParachute.cpp \
+	../target/TargetParachute.h \
+	../target/TargetShield.cpp \
+	../target/TargetShield.h
 
 INCLUDES = -I../porting -I.. 

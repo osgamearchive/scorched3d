@@ -90,10 +90,14 @@ void ServerTextFilter::filterString(std::string &inputText)
 			char *pos = s3d_stristr(text, word);
 			if (pos)
 			{
-				// If they do then * out the word
-				for (int i=0; i<(int) strlen(word); i++)
+				// Only filter out if the words is at the start or end of the word
+				if (pos == text || (pos - text) + strlen(word) == strlen(text))
 				{
-					pos[i] = '*';
+					// If they do then * out the word
+					for (int i=0; i<(int) strlen(word); i++)
+					{
+						pos[i] = '*';
+					}
 				}
 			}
 		}

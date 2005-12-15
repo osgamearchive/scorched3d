@@ -706,6 +706,15 @@ scorcheddatameshesf18_DATA = data/meshes/f18/f18.bmp \
 scorcheddatameshesseagulldir = ${datadir}/data/meshes/seagull
 scorcheddatameshesseagull_DATA = data/meshes/seagull/gull.bmp \
 	data/meshes/seagull/seagull.txt
+scorcheddatameshesararadir = ${datadir}/data/meshes/arara
+scorcheddatameshesarara_DATA = data/meshes/arara/arara.bmp \
+	data/meshes/arara/arara.txt
+scorcheddatameshesddg24dir = ${datadir}/data/meshes/ddg24
+scorcheddatameshesddg24_DATA = data/meshes/ddg24/ddg24.bmp \
+	data/meshes/ddg24/ddg24.txt
+scorcheddatameshesdestroyerdir = ${datadir}/data/meshes/destroyer
+scorcheddatameshesdestroyer_DATA = data/meshes/destroyer/destroy.bmp \
+	data/meshes/destroyer/destroyer.txt
 scorcheddatatalkdir = ${datadir}/data/talk
 scorcheddatatalk_DATA = data/talk/talk1.txt \
 	data/talk/talk2.txt
@@ -994,7 +1003,8 @@ scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/snowm.bmp \
 	data/textures/talk.bmp \
 	data/textures/waves.bmp \
-	data/textures/waves2.bmp
+	data/textures/waves2.bmp \
+	data/textures/shield2.bmp
 scorcheddatatexturesbordershielddir = ${datadir}/data/textures/bordershield
 scorcheddatatexturesbordershield_DATA = data/textures/bordershield/grid.bmp \
 	data/textures/bordershield/grid2.bmp \
