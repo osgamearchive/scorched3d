@@ -123,7 +123,7 @@ void Logger::addLog(LoggerInfo &info)
 	info.setTime(time);
 
 	// Add single or multiple lines
-	char *found = strchr(info.getMessage(), '\n');
+	char *found = (char *) strchr(info.getMessage(), '\n');
 	char *start = (char *) info.getMessage();
 	if (found)
 	{

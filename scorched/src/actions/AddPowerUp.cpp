@@ -21,18 +21,24 @@
 #include <actions/AddPowerUp.h>
 #include <engine/ScorchedContext.h>
 #include <target/TargetContainer.h>
+#include <target/TargetDamageCalc.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/PowerUp.h>
+#include <weapons/Shield.h>
 
 REGISTER_ACTION_SOURCE(AddPowerUp);
 
-AddPowerUp::AddPowerUp()
+AddPowerUp::AddPowerUp() :
+	powerUp_(0)
 {
 }
 
 AddPowerUp::AddPowerUp(unsigned int playerId,
-	Vector &position) :
+	Vector &position,
+	PowerUp *powerUp) :
 	position_(position),
-	playerId_(playerId)
+	playerId_(playerId),
+	powerUp_(powerUp)
 {
 
 }
@@ -47,17 +53,28 @@ void AddPowerUp::init()
 
 void AddPowerUp::simulate(float frameTime, bool &remove)
 {
-	ModelID model;
-	model.initFromString("MilkShape", "data\\accessories\\banana\\banana.txt", "");
-	TargetModelId targetModel(model);
-	Target *target = new Target(playerId_, targetModel, "PowerUp", *context_);
+	TargetModelId targetModelId(powerUp_->getPowerUpModel());
+	Target *target = new Target(playerId_, 
+		targetModelId, 
+		"PowerUp", *context_);
 	target->newGame();
 	target->setTargetPosition(position_);
 
-	Accessory *accessory = context_->accessoryStore->findByPrimaryAccessoryName("Shield");
-	target->getShield().setCurrentShield(accessory);
+	if (powerUp_->getShield())
+	{
+		target->getShield().setCurrentShield(
+			powerUp_->getShield()->getParent());
+	}
+	if (powerUp_->getParachute())
+	{
+		target->getParachute().setParachutesEnabled(true);
+	}
 
 	context_->targetContainer->addTarget(target);
+
+	// Check if this new target can fall
+	TargetDamageCalc::damageTarget(*context_, target, powerUp_, 
+		0, 0.0f, false, true, false, 0);
 
 	remove = true;
 	Action::simulate(frameTime, remove);
@@ -67,6 +84,7 @@ bool AddPowerUp::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(position_);
 	buffer.addToBuffer(playerId_);
+	context_->accessoryStore->writeWeapon(buffer, powerUp_);
 	return true;
 }
 
@@ -74,5 +92,7 @@ bool AddPowerUp::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
+	powerUp_ = (PowerUp *) context_->accessoryStore->readWeapon(reader); 
+	if (!powerUp_) return false;
 	return true;
 }

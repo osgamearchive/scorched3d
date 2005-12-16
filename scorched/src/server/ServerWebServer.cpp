@@ -145,7 +145,7 @@ void ServerWebServer::processMessage(NetMessage &message)
 			// Get POST query fields if any
 			if (post)
 			{
-				char *sep = strstr(buffer, "\r\n\r\n");
+				char *sep = (char *) strstr(buffer, "\r\n\r\n");
 				if (sep)
 				{
 					sep += 4;
@@ -155,14 +155,14 @@ void ServerWebServer::processMessage(NetMessage &message)
 		
 			// Check it has a url
 			const char *url = buffer + (get?4:5);
-			char *eol = strchr(url, ' ');
+			char *eol = (char *) strchr(url, ' ');
 			if (eol)
 			{
 				*eol = '\0';
 				if (*url)
 				{
 					// Get GET query fields if any
-					char *sep = strchr(url, '?');
+					char *sep = (char *) strchr(url, '?');
 					if (sep)
 					{
 						*sep = '\0'; sep++;

@@ -246,7 +246,7 @@ static void onJoinButtonExec(NetLanFrame *frame)
 
 	std::string host = (const char *) value.mb_str(wxConvUTF8);
 	std::string hostPart;
-	char *colon = strchr(host.c_str(), ':');
+	char *colon = (char *) strchr(host.c_str(), ':');
 	if (colon) 
 	{
 		*colon = '\0';

@@ -49,7 +49,9 @@
 					<mintime>3.0</mintime>
 					<maxtime>3.0</maxtime>
 				</condition>
-				<action type="addpowerup">
+				<action type="fireweapon">
+					<weapon>TestPowerUp</weapon>
+				</action>
 				</action>
 			</event>-->
 		</events>

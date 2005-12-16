@@ -35,7 +35,6 @@ public:
 		eNone,
 		eConditionTime,
 		eActionFireWeapon,
-		eActionAddPowerUp,
 		eEvent,
 		ePrecipitationRain,
 		ePrecipitationSnow,
@@ -89,15 +88,6 @@ public:
 	virtual void fireAction(ScorchedContext &context);
 	virtual bool readXML(XMLNode *node);
 	virtual TexType getType() { return eActionFireWeapon; }
-};
-
-class LandscapeTexActionAddPowerUp : public LandscapeTexAction
-{
-public:
-
-	virtual void fireAction(ScorchedContext &context);
-	virtual bool readXML(XMLNode *node);
-	virtual TexType getType() { return eActionAddPowerUp; }
 };
 
 class LandscapeTexEvent : public LandscapeTexType

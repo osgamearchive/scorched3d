@@ -23,11 +23,12 @@
 
 #include <engine/ActionMeta.h>
 
+class PowerUp;
 class AddPowerUp : public ActionMeta
 {
 public:
 	AddPowerUp();
-	AddPowerUp(unsigned int playerId, Vector &position);
+	AddPowerUp(unsigned int playerId, Vector &position, PowerUp *powerUp);
 	virtual ~AddPowerUp();
 
 	virtual void init();
@@ -40,6 +41,7 @@ public:
 protected:
 	Vector position_;
 	unsigned int playerId_;
+	PowerUp *powerUp_;
 
 };
 

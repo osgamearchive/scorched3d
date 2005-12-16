@@ -68,7 +68,7 @@ void ProgressDialog::changeTip()
 	needsCentered();
 
 	const char *tip = tips_.getRandomLine();
-	char *nl = strchr(tip, ':');
+	char *nl = (char *) strchr(tip, ':');
 	if (nl)
 	{
 		*nl = '\0';

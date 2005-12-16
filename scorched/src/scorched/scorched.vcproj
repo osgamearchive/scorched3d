@@ -1692,6 +1692,12 @@
 				RelativePath="..\weapons\Parachute.h">
 			</File>
 			<File
+				RelativePath="..\weapons\PowerUp.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\PowerUp.h">
+			</File>
+			<File
 				RelativePath="..\weapons\Shield.cpp">
 			</File>
 			<File
@@ -2118,9 +2124,6 @@
 			</File>
 			<File
 				RelativePath="..\ode\collision_kernel.h">
-			</File>
-			<File
-				RelativePath="..\ode\collision_quadtreespace.cpp">
 			</File>
 			<File
 				RelativePath="..\ode\collision_space.cpp">

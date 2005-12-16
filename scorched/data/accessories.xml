@@ -1301,4 +1301,15 @@ and shields damaging the tank directly.</description>
 			<explosionsound>explosions/medium.wav</explosionsound>
 		</accessoryaction>
 	</accessory>
+	<accessory>
+		<name>TestPowerUp</name>
+		<armslevel>9</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<description>A test powerup</description>
+		<accessoryaction type='PowerUp'>
+			<powerupmodel type="MilkShape">banana/banana.txt</powerupmodel>
+			<shield>Shield</shield>
+			<parachute>none</parachute>
+		</accessoryaction>
+	</accessory>
 </accessories>
