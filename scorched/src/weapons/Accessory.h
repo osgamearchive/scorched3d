@@ -51,7 +51,6 @@ public:
 	const int getOriginalPrice() { return originalPrice_; }
 	const int getBundle() { return bundle_; }
 	const int getArmsLevel() { return armsLevel_; }
-	const int getDeathAnimationWeight() { return deathAnimationWeight_; }
 	const int getMaximumNumber() { return maximumNumber_; }
 	const int getStartingNumber() { return startingNumber_; }
 	GLWTip &getToolTip() { return toolTip_; }
@@ -90,7 +89,6 @@ protected:
 	int armsLevel_;
 	int sellPrice_;
 	int originalSellPrice_;
-	int deathAnimationWeight_;
 	int maximumNumber_;
 	int startingNumber_;
 	float modelScale_;

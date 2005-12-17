@@ -91,6 +91,12 @@ bool Tank::getAlive()
 		getState().getSpectator() == false);
 }
 
+Weapon *Tank::getDeathAction()
+{
+	setDeathAction(context_.accessoryStore->getDeathAnimation());
+	return Target::getDeathAction();
+}
+
 Vector &Tank::getColor()
 {
 	static Vector red(1.0f, 0.0f, 0.0f);

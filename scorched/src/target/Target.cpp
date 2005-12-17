@@ -32,7 +32,8 @@ Target::Target(unsigned int playerId,
 	context_(context),
 	life_(context, playerId), 
 	model_(modelId),
-	shield_(context, playerId)
+	shield_(context, playerId),
+	deathAction_(0)
 {
 }
 

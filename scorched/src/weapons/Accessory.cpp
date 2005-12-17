@@ -39,7 +39,7 @@ Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(1), armsLevel_(0),
 	texture_(0), modelScale_(1.0f),
-	deathAnimationWeight_(0), maximumNumber_(0),
+	maximumNumber_(0),
 	startingNumber_(0),
 	muzzleFlash_(true)
 {
@@ -78,9 +78,6 @@ bool Accessory::parseXML(OptionsGame &context,
 	{
 		if (!checkDataFile("data/wav/%s", getActivationSound())) return false;
 	}
-
-	// Get the deathWeight
-	accessoryNode->getNamedChild("deathanimationweight", deathAnimationWeight_, false);
 
 	// Get the accessory bundle
 	accessoryNode->getNamedChild("bundlesize", bundle_, false);

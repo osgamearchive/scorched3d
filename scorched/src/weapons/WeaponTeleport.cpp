@@ -20,10 +20,10 @@
 
 #include <weapons/WeaponTeleport.h>
 #include <engine/ActionController.h>
-#include <actions/Teleport.h>
-#include <common/Defines.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
+#include <actions/Teleport.h>
+#include <common/Defines.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponTeleport);
 
@@ -52,10 +52,10 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
+	// Mininum height
 	float allowedHeight = 0.0f;
-
 	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
-	if (tex.border->getType() == LandscapeTexType::eWater)
+		if (tex.border->getType() == LandscapeTexType::eWater)
 	{
 		LandscapeTexBorderWater *water = 
 			(LandscapeTexBorderWater *) tex.border;
@@ -63,17 +63,19 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 		allowedHeight = water->height;
 	}
 
-	bool found = false;
-	while (!found)
+	int mapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
+	int mapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
+
+	if (position[0] > 5.0f && 
+		position[1] > 5.0f &&
+		position[0] < float(mapWidth - 5) &&
+		position[1] < float(mapHeight - 5))
 	{
-		position[0] = RAND * 235.0f + 10.0f;
-		position[1] = RAND * 235.0f + 10.0f;
-		float height = context.landscapeMaps->getGroundMaps().getInterpHeight(
+		float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 			position[0], position[1]);
-		if (height > allowedHeight) break;
-
-		allowedHeight -= 0.1f;
+		if (landscapeHeight >= allowedHeight - 1.0f)
+		{
+			context.actionController->addAction(new Teleport(position, playerId, this));
+		}
 	}
-
-	context.actionController->addAction(new Teleport(position, playerId, this));
 }

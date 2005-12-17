@@ -1722,6 +1722,12 @@
 				RelativePath="..\weapons\Weapon.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponAddTarget.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponAddTarget.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponAimedOver.cpp">
 			</File>
 			<File
@@ -1750,6 +1756,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponExplosion.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponInvokeWeapon.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponInvokeWeapon.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponLaser.cpp">
@@ -1804,6 +1816,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponProjectile.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponRandomChoice.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponRandomChoice.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponRedirect.cpp">
@@ -2411,10 +2429,10 @@
 				RelativePath="..\actions\ActionVector.h">
 			</File>
 			<File
-				RelativePath="..\actions\AddPowerUp.cpp">
+				RelativePath="..\actions\AddTarget.cpp">
 			</File>
 			<File
-				RelativePath="..\actions\AddPowerUp.h">
+				RelativePath="..\actions\AddTarget.h">
 			</File>
 			<File
 				RelativePath="..\actions\Animation.cpp">
@@ -2647,12 +2665,6 @@
 			</File>
 			<File
 				RelativePath="..\sprites\TalkRenderer.h">
-			</File>
-			<File
-				RelativePath="..\sprites\TankDeadRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\TankDeadRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\TextActionRenderer.cpp">

@@ -18,31 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_AddPowerUph_INCLUDE__)
-#define __INCLUDE_AddPowerUph_INCLUDE__
+#if !defined(__INCLUDE_WeaponInvokeWeaponh_INCLUDE__)
+#define __INCLUDE_WeaponInvokeWeaponh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <weapons/Weapon.h>
 
-class PowerUp;
-class AddPowerUp : public ActionMeta
+class WeaponInvokeWeapon  : public Weapon
 {
 public:
-	AddPowerUp();
-	AddPowerUp(unsigned int playerId, Vector &position, PowerUp *powerUp);
-	virtual ~AddPowerUp();
+	WeaponInvokeWeapon();
+	virtual ~WeaponInvokeWeapon();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
-	REGISTER_ACTION_HEADER(AddPowerUp);
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	REGISTER_ACCESSORY_HEADER(WeaponInvokeWeapon, AccessoryPart::AccessoryWeapon);
 
 protected:
-	Vector position_;
-	unsigned int playerId_;
-	PowerUp *powerUp_;
+	Weapon *invokeWeapon_;
 
 };
 
-#endif // __INCLUDE_AddPowerUph_INCLUDE__
+
+#endif // __INCLUDE_WeaponInvokeWeaponh_INCLUDE__

@@ -486,6 +486,7 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 		}
 		return ParticleActionNone;
 	}
+	return ParticleActionNone;
 }
 
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 

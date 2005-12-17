@@ -18,26 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PowerUph_INCLUDE__)
-#define __INCLUDE_PowerUph_INCLUDE__
+#if !defined(__INCLUDE_WeaponRandomChoiceh_INCLUDE__)
+#define __INCLUDE_WeaponRandomChoiceh_INCLUDE__
 
 #include <weapons/Weapon.h>
+#include <list>
 
-class PowerUp : public Weapon
+class WeaponRandomChoice  : public Weapon
 {
 public:
-	PowerUp();
-	virtual ~PowerUp();
+	WeaponRandomChoice();
+	virtual ~WeaponRandomChoice();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
-	void fireWeapon(ScorchedContext &context, 
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(PowerUp, AccessoryPart::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponRandomChoice, AccessoryPart::AccessoryWeapon);
 
 protected:
+	struct WeaponWeight
+	{
+		int weight;
+		Weapon *weapon;
+	};
+
+	int totalWeight_;
+	std::list<WeaponWeight> weaponsChoice_;
+
 };
 
-#endif // __INCLUDE_PowerUph_INCLUDE__
+#endif // __INCLUDE_WeaponRandomChoiceh_INCLUDE__

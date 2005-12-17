@@ -18,81 +18,85 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/AddPowerUp.h>
+#include <actions/AddTarget.h>
 #include <engine/ScorchedContext.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
 #include <weapons/AccessoryStore.h>
-#include <weapons/PowerUp.h>
+#include <weapons/WeaponAddTarget.h>
 #include <weapons/Shield.h>
 
-REGISTER_ACTION_SOURCE(AddPowerUp);
+REGISTER_ACTION_SOURCE(AddTarget);
 
-AddPowerUp::AddPowerUp() :
-	powerUp_(0)
+AddTarget::AddTarget() :
+	addTarget_(0)
 {
 }
 
-AddPowerUp::AddPowerUp(unsigned int playerId,
+AddTarget::AddTarget(unsigned int playerId,
 	Vector &position,
-	PowerUp *powerUp) :
+	WeaponAddTarget *addTarget) :
 	position_(position),
 	playerId_(playerId),
-	powerUp_(powerUp)
+	addTarget_(addTarget)
 {
 
 }
 
-AddPowerUp::~AddPowerUp()
+AddTarget::~AddTarget()
 {
 }
 
-void AddPowerUp::init()
+void AddTarget::init()
 {
 }
 
-void AddPowerUp::simulate(float frameTime, bool &remove)
+void AddTarget::simulate(float frameTime, bool &remove)
 {
-	TargetModelId targetModelId(powerUp_->getPowerUpModel());
+	TargetModelId targetModelId(addTarget_->getTargetModel());
 	Target *target = new Target(playerId_, 
 		targetModelId, 
 		"PowerUp", *context_);
 	target->newGame();
 	target->setTargetPosition(position_);
 
-	if (powerUp_->getShield())
+	if (addTarget_->getShield())
 	{
 		target->getShield().setCurrentShield(
-			powerUp_->getShield()->getParent());
+			addTarget_->getShield()->getParent());
 	}
-	if (powerUp_->getParachute())
+	if (addTarget_->getParachute())
 	{
 		target->getParachute().setParachutesEnabled(true);
+	}
+	if (addTarget_->getDeathAction())
+	{
+		target->setDeathAction(addTarget_->getDeathAction());
 	}
 
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall
-	TargetDamageCalc::damageTarget(*context_, target, powerUp_, 
+	TargetDamageCalc::damageTarget(*context_, target, addTarget_, 
 		0, 0.0f, false, true, false, 0);
 
 	remove = true;
 	Action::simulate(frameTime, remove);
 }
 
-bool AddPowerUp::writeAction(NetBuffer &buffer)
+bool AddTarget::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(position_);
 	buffer.addToBuffer(playerId_);
-	context_->accessoryStore->writeWeapon(buffer, powerUp_);
+	context_->accessoryStore->writeWeapon(buffer, addTarget_);
 	return true;
 }
 
-bool AddPowerUp::readAction(NetBufferReader &reader)
+bool AddTarget::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
-	powerUp_ = (PowerUp *) context_->accessoryStore->readWeapon(reader); 
-	if (!powerUp_) return false;
+	addTarget_ = (WeaponAddTarget *) context_->accessoryStore->readWeapon(reader); 
+	if (!addTarget_) return false;
 	return true;
 }

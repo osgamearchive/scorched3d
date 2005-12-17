@@ -55,10 +55,7 @@ bool WeaponAimedUnder::parseXML(OptionsGame &context,
 	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
-		dialogMessage("Accessory",
-			"Sub weapon of wrong type \"%s\"",
-			accessory->getAccessoryTypeName());
-		return false;
+		return subNode->returnError("Failed to find sub weapon, not a weapon");
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 	

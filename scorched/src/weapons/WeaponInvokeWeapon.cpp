@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,58 +18,51 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponMulti.h>
+#include <weapons/WeaponInvokeWeapon.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponMulti);
+REGISTER_ACCESSORY_SOURCE(WeaponInvokeWeapon);
 
-WeaponMulti::WeaponMulti()
+WeaponInvokeWeapon::WeaponInvokeWeapon() :
+	invokeWeapon_(0)
 {
 
 }
 
-WeaponMulti::~WeaponMulti()
+WeaponInvokeWeapon::~WeaponInvokeWeapon()
 {
 
 }
 
-bool WeaponMulti::parseXML(OptionsGame &context, 
+bool WeaponInvokeWeapon::parseXML(OptionsGame &context, 
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
-	for (int i=1;;i++)
+	std::string invoke;
+	if (!accessoryNode->getNamedChild("invoke", invoke)) return false;
+	Accessory *accessory = store->findByPrimaryAccessoryName(invoke.c_str());
+	if (!accessory)
 	{
-		// Get the next weapon
-		char buffer[128];
-		snprintf(buffer, 128, "subweapon%i", i);
-		XMLNode *subNode = 0;
-		accessoryNode->getNamedChild(buffer, subNode, false);
-		if (!subNode) break;
-		
-		// Check next weapon is correct type
-		AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
-		if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
-		{
-			return subNode->returnError("Failed to find sub weapon, not a weapon");
-		}
-		subWeapons_.push_back((Weapon*) accessory);
+		return accessoryNode->returnError(
+			formatString("Failed to find accessory named %s",
+				invoke.c_str()));
 	}
 
-	return true;
+	AccessoryPart *accessoryPart = accessory->getAction();
+	if (!accessoryPart || accessoryPart->getType() != AccessoryPart::AccessoryWeapon)
+	{
+		return accessoryNode->returnError("Failed to find sub weapon, not a weapon");
+	}
+	invokeWeapon_ = (Weapon*) accessoryPart;
+
+	return accessoryNode->failChildren();
 }
 
-void WeaponMulti::fireWeapon(ScorchedContext &context,
+void WeaponInvokeWeapon::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	std::list<Weapon *>::iterator itor;
-	for (itor = subWeapons_.begin();
-		 itor != subWeapons_.end();
-		 itor++)
-	{
-		Weapon *weapon = *itor;
-		weapon->fireWeapon(context, playerId, position, velocity, data);
-	}
+	invokeWeapon_->fireWeapon(context, playerId, position, velocity, data);
 }

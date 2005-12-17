@@ -26,6 +26,7 @@
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
 
+class Weapon;
 class Target  
 {
 public:
@@ -57,6 +58,8 @@ public:
 	TargetLife &getLife() { return life_; }
 	TargetShield &getShield() { return shield_; }
 	TargetParachute &getParachute() { return parachute_; }
+	void setDeathAction(Weapon *deathAction) { deathAction_ = deathAction; }
+	virtual Weapon *getDeathAction() { return deathAction_; }
 
 	// Name
 	const char *getName() { return name_.c_str(); }
@@ -76,6 +79,7 @@ protected:
 	TargetShield shield_;
 	TargetParachute parachute_;
 	std::string name_;
+	Weapon *deathAction_;
 
 };
 

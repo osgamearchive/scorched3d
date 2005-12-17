@@ -71,6 +71,7 @@ public:
 	void setColor(Vector &color) { color_ = color; }
 	unsigned int getIpAddress() { return ipAddress_; }
 	void setIpAddress(unsigned int ipAddress) { ipAddress_ = ipAddress; }
+	virtual Weapon *getDeathAction();
 
 	// Other attributes
 	TankAccessories& getAccessories() { return accessories_; }

@@ -97,19 +97,29 @@ bool AccessoryStore::parseFile(
 		if (accessory->getAction()->getType() == AccessoryPart::AccessoryWeapon)
 		{
 			Weapon *weapon = (Weapon *) accessory->getAction();
-
-			if (0 == strcmp(weapon->getAccessoryTypeName(), "WeaponMuzzle"))
+			if (0 == strcmp(accessory->getName(), "WeaponMuzzle"))
 			{
 				muzzleFlash_ = weapon;
 			}
-			for (int i=0; i<accessory->getDeathAnimationWeight(); i++)
+			else if (0 == strcmp(accessory->getName(), "WeaponDeathAnimation"))
 			{
-				deathAnimations_.push_back(weapon);
+				deathAnimation_ = weapon;
 			}
 		}	
 
 		// Add to the map so references can find it
 		parsingNodes_[accessory->getName()] = currentNode;
+	}
+
+	if (!muzzleFlash_)
+	{
+		return file.getRootNode()->returnError(
+			"Failed to find WeaponMuzzle weapon used for muzzle flash.");
+	}
+	if (!deathAnimation_)
+	{
+		return file.getRootNode()->returnError(
+			"Failed to find WeaponDeathAnimation weapon used for tank explosions.");
 	}
 
 	// Clear mapping as it now contains invalid pointers
@@ -248,9 +258,7 @@ Weapon *AccessoryStore::getMuzzelFlash()
 
 Weapon *AccessoryStore::getDeathAnimation()
 {
-	int pos = int(float(deathAnimations_.size()) * RAND);
-	if (pos < (int) deathAnimations_.size()) return deathAnimations_[pos];
-	return 0;
+	return deathAnimation_;
 }
 
 Accessory *AccessoryStore::findByAccessoryType(AccessoryPart::AccessoryType type)
@@ -319,7 +327,7 @@ void AccessoryStore::clearAccessories()
 	AccessoryPart::resetAccessoryPartIds();
 	Accessory::resetAccessoryIds();
 	muzzleFlash_ = 0;
-	deathAnimations_.clear();
+	deathAnimation_ = 0;
 	while (!accessories_.empty())
 	{
 		Accessory *accessory = accessories_.front();

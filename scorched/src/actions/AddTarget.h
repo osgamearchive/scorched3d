@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_AddTargeth_INCLUDE__)
+#define __INCLUDE_AddTargeth_INCLUDE__
 
-#if !defined(__INCLUDE_TankDeadRendererh_INCLUDE__)
-#define __INCLUDE_TankDeadRendererh_INCLUDE__
+#include <engine/ActionMeta.h>
 
-#include <engine/Action.h>
-#include <weapons/Weapon.h>
-#include <sprites/ExplosionRingRenderer.h>
-
-class TankDeadRenderer : public ActionRenderer
+class WeaponAddTarget;
+class AddTarget : public ActionMeta
 {
 public:
-	TankDeadRenderer(Weapon *weapon,
-		unsigned int killedPlayerId,
-		unsigned int firedPlayerId);
-	virtual ~TankDeadRenderer();
+	AddTarget();
+	AddTarget(unsigned int playerId, Vector &position, WeaponAddTarget *addTarget);
+	virtual ~AddTarget();
 
-	virtual void draw(Action *action);
-	virtual void simulate(Action *action, float frametime, bool &removeAction);
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
+
+	REGISTER_ACTION_HEADER(AddTarget);
 
 protected:
-	ExplosionRingRenderer ringRenderer_;
-	Weapon *weapon_;
-	unsigned int killedPlayerId_;
-	unsigned int firedPlayerId_;
+	Vector position_;
+	unsigned int playerId_;
+	WeaponAddTarget *addTarget_;
 
 };
 
-
-#endif
+#endif // __INCLUDE_AddTargeth_INCLUDE__

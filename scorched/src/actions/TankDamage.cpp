@@ -23,7 +23,6 @@
 #include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
-#include <sprites/TankDeadRenderer.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
@@ -245,18 +244,9 @@ void TankDamage::calculateDeath()
 	// Log the death
 	logDeath();
 
-	// Add the explosion sprites
-	if (!context_->serverMode) 
-	{
-		context_->actionController->addAction(
-			new SpriteAction(
-				new TankDeadRenderer(
-					weapon_, damagedPlayerId_, firedPlayerId_)));
-	}
-
 	// Add the tank death explosion
 	// Make the tank explode in one of many ways
-	Weapon *weapon = context_->accessoryStore->getDeathAnimation();
+	Weapon *weapon = killedTarget->getDeathAction();
 	if (weapon)
 	{
 		Vector position = killedTarget->getTargetPosition();

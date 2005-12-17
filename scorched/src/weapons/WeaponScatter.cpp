@@ -20,6 +20,8 @@
 
 #include <weapons/WeaponScatter.h>
 #include <weapons/AccessoryStore.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeTex.h>
 #include <common/Defines.h>
 #include <math.h>
 
@@ -48,15 +50,12 @@ bool WeaponScatter::parseXML(OptionsGame &context,
 	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
-		dialogMessage("Accessory",
-			"Sub weapon of wrong type \"%s\"",
-			accessory->getAccessoryTypeName());
-		return false;
+		return subNode->returnError("Failed to find sub weapon, not a weapon");
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 
-	if (!accessoryNode->getNamedChild("position", position_)) return false;
-	if (!accessoryNode->getNamedChild("positionoffset", positionOffset_)) return false;
+	if (!accessoryNode->getNamedChild("height", height_)) return false;
+	if (!accessoryNode->getNamedChild("landonly", landonly_)) return false;
 	if (!accessoryNode->getNamedChild("direction", direction_)) return false;
 	if (!accessoryNode->getNamedChild("directionoffset", directionOffset_)) return false;
 
@@ -67,19 +66,50 @@ void WeaponScatter::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &p, Vector &v,
 	unsigned int data)
 {
+	// Mininum height, if we are grounding
+	float allowedHeight = 0.0f;
+	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
+		if (tex.border->getType() == LandscapeTexType::eWater)
+	{
+		LandscapeTexBorderWater *water = 
+			(LandscapeTexBorderWater *) tex.border;
+
+		allowedHeight = water->height;
+	}
+
+	int mapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
+	int mapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
+
 	Vector pos, vel;
-	pos[0] += position_[0] - positionOffset_[0] + 
-		positionOffset_[0] * 2.0f * RAND;
-	pos[1] += position_[1] - positionOffset_[1] + 
-		positionOffset_[1] * 2.0f * RAND;
-	pos[2] += position_[2] - positionOffset_[2] + 
-		positionOffset_[2] * 2.0f * RAND;
 	vel[0] += direction_[0] - directionOffset_[0] + 
 		directionOffset_[0] * 2.0f * RAND;
 	vel[1] += direction_[1] - directionOffset_[1] + 
 		directionOffset_[1] * 2.0f * RAND;
 	vel[2] += direction_[2] - directionOffset_[2] + 
 		directionOffset_[2] * 2.0f * RAND;
+
+	bool ok = false;
+	while (!ok)
+	{
+		ok = true;
+		pos[0] = RAND * float(mapWidth - 10) + 5.0f;
+		pos[1] = RAND * float(mapHeight - 10) + 5.0f;
+		pos[2] = height_;
+		if (height_ == 0.0f)
+		{
+			pos[2] = context.landscapeMaps->getGroundMaps().getInterpHeight(
+				pos[0], pos[1]);
+		}
+
+		if (landonly_)
+		{
+			if (pos[2] < allowedHeight)
+			{
+				ok = false;
+				allowedHeight -= 0.01f;
+			}
+		}
+	}
 
 	aimedWeapon_->fireWeapon(context, playerId, pos, vel, data);
 }

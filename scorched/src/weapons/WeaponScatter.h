@@ -40,8 +40,9 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponScatter, AccessoryPart::AccessoryWeapon);
 
 protected:
-	Vector position_, direction_;
-	Vector positionOffset_, directionOffset_;
+	float height_;
+	Vector direction_, directionOffset_;
+	bool landonly_;
 	Weapon *aimedWeapon_;
 
 };

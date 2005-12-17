@@ -18,16 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PowerUph_INCLUDE__)
-#define __INCLUDE_PowerUph_INCLUDE__
+#if !defined(__INCLUDE_WeaponAddTargeth_INCLUDE__)
+#define __INCLUDE_WeaponAddTargeth_INCLUDE__
 
 #include <weapons/Weapon.h>
+#include <3dsparse/ModelID.h>
 
-class PowerUp : public Weapon
+class Shield;
+class Parachute;
+class WeaponAddTarget : public Weapon
 {
 public:
-	PowerUp();
-	virtual ~PowerUp();
+	WeaponAddTarget();
+	virtual ~WeaponAddTarget();
+
+	ModelID &getTargetModel() { return targetModelId_; }
+	Shield *getShield() { return shield_; }
+	Parachute *getParachute() { return parachute_; }
+	Weapon *getDeathAction() { return deathAction_; }
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
@@ -35,9 +43,13 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(PowerUp, AccessoryPart::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponAddTarget, AccessoryPart::AccessoryWeapon);
 
 protected:
+	ModelID targetModelId_;
+	Shield *shield_;
+	Parachute *parachute_;
+	Weapon *deathAction_;
 };
 
-#endif // __INCLUDE_PowerUph_INCLUDE__
+#endif // __INCLUDE_WeaponAddTargeth_INCLUDE__

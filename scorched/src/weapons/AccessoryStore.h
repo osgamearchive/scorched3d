@@ -65,9 +65,9 @@ protected:
 
 	std::list<Accessory *> accessories_;
 	std::list<AccessoryPart *> accessoryParts_;
-	std::vector<Weapon *> deathAnimations_;
 	std::map<std::string, XMLNode *> parsingNodes_;
 	Weapon *muzzleFlash_;
+	Weapon *deathAnimation_;
 
 };
 
