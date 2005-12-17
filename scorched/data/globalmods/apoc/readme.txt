@@ -44,16 +44,17 @@ Changes Since 3.1
             - Increased cost from $25,000 to $30,000
             - Slowed down the pace by a few seconds to make it easier to watch
         - Shields:
+            - Decreased radius of Heavy Shield slightly (between regular and ultra size)
             - Increased base projectile damage done to Heavy Force Shield from 10 to 15
             - Increased Mag Deflect's <deflectpower> from 50% to 75%
             - Reworked shield <penetration> values.
                 - Regular shields offer most raw damage resistance, then mags, then force shields.
             - Flattened out base projectile collision damage for all regular shields at 10%
             - Flattened out base projectile collision damage for all force shields at 15%
-            - Updated descriptions to include some info about the total amdount of damage they can absorb
+            - Updated descriptions to include some info about the total amount of damage they can absorb
                 and how much damage they take when being hit by projectiles by default
         - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
-        - Reduced shield collision damage on diggers by 33% to 60% to decrease their use as shield busters
+        - Reduced shield collision damage on diggers to decrease their usefulness as shield busters
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
         - Added another projectile to Apoc/Dday/Strangelove waves
@@ -77,6 +78,10 @@ Changes Since 3.1
     Landscapes:
     	- New Nuclear Power Plant Building
     		- Explodes and releases massive amounts of fallout that travels down wind
+    	- Moon maps:
+	        - Removed clouds (there is no atmosphere on the moon of course.. :P)
+	        - Decreased darkness (fog) slightly on moon maps
+	        - Increased diffuse and reduced ambient light to reflect actual moon lighting (shadows are pitch black)
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
         
     Other:

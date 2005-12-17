@@ -194,6 +194,20 @@
 	<place>
 		<name>moon</name>
 		<placements>
+			<!--<placement type="direct"> 
+				<removeaction>none</removeaction> 
+				<burnaction>none</burnaction> 
+				<groupname>planets</groupname>
+				<object type="model"> 
+					<model type="MilkShape">data/accessories/objects/earth_half.txt</model> 
+					<modelburnt type="MilkShape">data/accessories/objects/earth_half.txt</modelburnt> 
+				</object> 
+				<position> 
+					<position><A>1536</A><B>0</B><C>5</C></position> 
+					<rotation>0</rotation> 
+					<size>2</size> 
+				</position> 
+			</placement>-->
 			<placement type="mask">
 				<numobjects>75</numobjects>
 				<mask>data/landscapes/masks/anywhere.bmp</mask>

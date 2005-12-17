@@ -60,7 +60,7 @@ Capacity: 150 dmg pts | Collision Damage: 10%</description>
 		<bundlesize>2</bundlesize>
 		<cost>8000</cost>
 		<accessoryaction type='Shield'>
-			<radius>small</radius>
+			<radius>3.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>1.0</r>
@@ -83,7 +83,7 @@ Capacity: 200 dmg pts | Collision Damage: 10%</description>
 		<bundlesize>2</bundlesize>
 		<cost>12000</cost>
 		<accessoryaction type='Shield'>
-			<radius>large</radius>
+			<radius>4.5</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>1.0</r>
@@ -106,7 +106,7 @@ Capacity: 250 dmg pts | Collision Damage: 10%</description>
 		<bundlesize>1</bundlesize>
 		<cost>12000</cost>
 		<accessoryaction type='Shield'>
-			<radius>large</radius>
+			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>0.0</r>
@@ -131,7 +131,7 @@ Capacity: 100 dmg pts | Collision Damage: 15%</description>
 		<cost>8000</cost>
 		<accessoryaction type='ShieldReflective'>
 			<deflectfactor>0.75</deflectfactor>
-			<radius>small</radius>
+			<radius>3.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>0.5</r>
@@ -156,7 +156,7 @@ Capacity: 150 dmg pts | Collision Damage: 15%</description>
 		<cost>12000</cost>
 		<accessoryaction type='ShieldReflective'>
 			<deflectfactor>1.0</deflectfactor>
-			<radius>large</radius>
+			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>0.25</r>
@@ -181,7 +181,7 @@ Capacity: 125 dmg pts | Collision Damage: Timed</description>
 		<bundlesize>2</bundlesize>
 		<cost>8000</cost>
 		<accessoryaction type='ShieldMag'>
-			<radius>large</radius>
+			<radius>3.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>75</deflectpower>
 			<color>
@@ -207,7 +207,7 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		<bundlesize>1</bundlesize>
 		<cost>12000</cost>
 		<accessoryaction type='ShieldMag'>
-			<radius>large</radius>
+			<radius>6.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>100</deflectpower>
 			<color>
