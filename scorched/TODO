@@ -19,7 +19,10 @@ Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
 Fixed: Faster movement calculation speed
 Fixed: Made swear filter less obtrusive
+Fixed: Tank explosion now more configurable
 
+Added: WeaponRandomChoice, WeaponInvokeWeapon, WeaponAddTarget weapon primitives
+Added: Teleport to weapon explosion point
 Added: New tank elevate, rotate, thunder sounds (thanks Shockwave)
 Added: Tank shields can be any size
 Added: Allow access to tank explosion animation (Animation: ExplosionRingRenderer)
@@ -48,7 +51,6 @@ New game modes
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
 Stars
-Teleport to weapon explosion point
 Power ups
 Bases with physics and shields
 
