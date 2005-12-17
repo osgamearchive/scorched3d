@@ -1,5 +1,5 @@
 ----------------------------------------------------
-             Apocalypse v3.2 Information
+             Apocalypse v4.0 Information
 ----------------------------------------------------
 Apocalypse is a modification for Scorched 3D which adds many new weapons, items, and landscapes
 for use with this awesome game.  The mod is the product of work by several people (named in authors.txt).
@@ -185,6 +185,7 @@ Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in
 ----------------------------------------------------
 Hv Frc Shield   - Larger, more powerful version of the force shield
 Ultra Shield    - Most powerful standard defensive shield
+Heavy Mag       - Larger version of the mag deflect
 
 ----------------------------------------------------
                   Apocalypse Maps
