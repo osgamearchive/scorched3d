@@ -509,43 +509,43 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 				</subweapon1>
 				<subweapon2 type='WeaponNull'>
 				</subweapon2>
-				<subweapon3 type='WeaponInvokeWeapon'>
-					<invoke>Gas Leak</invoke>
+				<subweapon3 type='WeaponReference'>
+					<weapon>Gas Leak</weapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
 					<delay>0.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Gas Leak</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
 					<delay>1.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Gas Leak</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
 					</delayedweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponDelay'>
 					<delay>1.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Gas Leak</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
 					</delayedweapon>
 				</subweapon6>
 				<subweapon7 type='WeaponDelay'>
 					<delay>2.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Gas Leak</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
 					</delayedweapon>
 				</subweapon7>
 				<subweapon8 type='WeaponDelay'>
 					<delay>2.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Gas Leak</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
 					</delayedweapon>
 				</subweapon8>
 				<subweapon9 type='WeaponDelay'>
 					<delay>3.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Gas Leak</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
 					</delayedweapon>
 				</subweapon9>
 				<subweapon10 type='WeaponDelay'>
@@ -1202,8 +1202,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon1>
@@ -1217,8 +1217,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>75</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon2>
@@ -1232,8 +1232,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>120</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon3>
@@ -1247,8 +1247,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon4>
@@ -1269,8 +1269,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt2</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon1>
@@ -1284,8 +1284,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>75</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt2</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon2>
@@ -1299,8 +1299,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>120</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt2</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon3>
@@ -1314,8 +1314,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt2</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt2</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon4>
@@ -1336,8 +1336,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt3</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon1>
@@ -1351,8 +1351,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>75</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt3</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon2>
@@ -1366,8 +1366,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>120</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt3</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon3>
@@ -1381,8 +1381,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>BurstBolt3</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>BurstBolt3</weapon>
 					</nextaction>
 				</aimedweapon>
 			</subweapon4>
@@ -2062,8 +2062,8 @@ Does 166% collision damage to shields.</description>
 					<explosiontexture>none</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon4>
-				<subweapon5 type='WeaponInvokeWeapon'>
-					<invoke>Tank Explosion</invoke>
+				<subweapon5 type='WeaponReference'>
+					<weapon>Tank Explosion</weapon>
 				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
@@ -2088,25 +2088,25 @@ Does 166% collision damage to shields.</description>
 		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>FalloutExplosion</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>FalloutExplosion</weapon>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
 				<delay>1.0</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>FalloutExplosion</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FalloutExplosion</weapon>
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>2.0</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>FalloutExplosion</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FalloutExplosion</weapon>
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type='WeaponDelay'>
 				<delay>3.0</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>FalloutExplosion</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FalloutExplosion</weapon>
 				</delayedweapon>
 			</subweapon4>
 		</accessoryaction>
@@ -2145,8 +2145,8 @@ Does 200% collision damage to shields.</description>
 				<subweapon2 type='WeaponDelay'>
 					<delay>2.0</delay>
 					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponInvokeWeapon'>
-							<invoke>TsarFallout</invoke>
+						<subweapon1 type='WeaponReference'>
+							<weapon>TsarFallout</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponRedirect'>
 							<habs>false</habs>
@@ -2155,8 +2155,8 @@ Does 200% collision damage to shields.</description>
 							<vredirect>90</vredirect>
 							<nextaction type='WeaponTranslate'>
 								<translatedist>24</translatedist>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>TsarFallout</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
 								</nextaction>
 							</nextaction>
 						</subweapon2>
@@ -2167,8 +2167,8 @@ Does 200% collision damage to shields.</description>
 							<vredirect>90</vredirect>
 							<nextaction type='WeaponTranslate'>
 								<translatedist>24</translatedist>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>TsarFallout</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
 								</nextaction>
 							</nextaction>
 						</subweapon3>
@@ -2179,8 +2179,8 @@ Does 200% collision damage to shields.</description>
 							<vredirect>90</vredirect>
 							<nextaction type='WeaponTranslate'>
 								<translatedist>24</translatedist>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>TsarFallout</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
 								</nextaction>
 							</nextaction>
 						</subweapon4>
@@ -2191,8 +2191,8 @@ Does 200% collision damage to shields.</description>
 							<vredirect>90</vredirect>
 							<nextaction type='WeaponTranslate'>
 								<translatedist>24</translatedist>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>TsarFallout</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>TsarFallout</weapon>
 								</nextaction>
 							</nextaction>
 						</subweapon5>
@@ -2296,8 +2296,8 @@ in rapid succession</description>
 				<vabs>false</vabs>
 				<hredirect>0.0</hredirect>
 				<vredirect>0.0</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>M2 Round</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>M2 Round</weapon>
 					<armslevel>6</armslevel>
 				</nextaction>
 			</subweapon1>
@@ -2308,8 +2308,8 @@ in rapid succession</description>
 				<vredirect>1.0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>0.34</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>M2 Round</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
 						<armslevel>6</armslevel>
 					</delayedweapon>
 				</nextaction>
@@ -2321,8 +2321,8 @@ in rapid succession</description>
 				<vredirect>1.0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>0.68</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>M2 Round</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
 						<armslevel>6</armslevel>
 					</delayedweapon>
 				</nextaction>
@@ -2334,8 +2334,8 @@ in rapid succession</description>
 				<vredirect>-1.0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>1.02</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>M2 Round</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
 						<armslevel>6</armslevel>
 					</delayedweapon>
 				</nextaction>
@@ -2347,8 +2347,8 @@ in rapid succession</description>
 				<vredirect>-1.0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>1.36</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>M2 Round</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>M2 Round</weapon>
 						<armslevel>6</armslevel>
 					</delayedweapon>
 				</nextaction>
@@ -2764,16 +2764,16 @@ in a random direction.</description>
 				<skin>white.bmp</skin>
 			</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponInvokeWeapon'>
-					<invoke>MirvBomblet</invoke>
+				<subweapon1 type='WeaponReference'>
+					<weapon>MirvBomblet</weapon>
 				</subweapon1>
 				<subweapon2 type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>false</vabs>
 					<hredirect>7.5</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>MirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>MirvBomblet</weapon>
 					</nextaction>
 				</subweapon2>
 				<subweapon3 type='WeaponRedirect'>
@@ -2781,8 +2781,8 @@ in a random direction.</description>
 					<vabs>false</vabs>
 					<hredirect>15</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>MirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>MirvBomblet</weapon>
 					</nextaction>
 				</subweapon3>
 				<subweapon4 type='WeaponRedirect'>
@@ -2790,8 +2790,8 @@ in a random direction.</description>
 					<vabs>false</vabs>
 					<hredirect>-7.5</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>MirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>MirvBomblet</weapon>
 					</nextaction>
 				</subweapon4>
 				<subweapon5 type='WeaponRedirect'>
@@ -2799,8 +2799,8 @@ in a random direction.</description>
 					<vabs>false</vabs>
 					<hredirect>-15</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>MirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>MirvBomblet</weapon>
 					</nextaction>
 				</subweapon5>
 			</collisionaction>
@@ -2829,16 +2829,16 @@ direction of the firer.</description>
 			<skin>white.bmp</skin> 
 		</projectilemodel> 
 		<collisionaction type='WeaponMulti'> 
-			<subweapon1 type='WeaponInvokeWeapon'> 
-			   <invoke>MirvBomblet</invoke> 
+			<subweapon1 type='WeaponReference'> 
+			   <weapon>MirvBomblet</weapon> 
 			</subweapon1> 
 			<subweapon2 type='WeaponRedirect'> 
 			   <habs>false</habs> 
 			   <vabs>false</vabs> 
 			   <hredirect>0</hredirect> 
 			   <vredirect>4</vredirect> 
-			   <nextaction type='WeaponInvokeWeapon'> 
-			      <invoke>MirvBomblet</invoke> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
 			   </nextaction> 
 			</subweapon2> 
 			<subweapon3 type='WeaponRedirect'> 
@@ -2846,8 +2846,8 @@ direction of the firer.</description>
 			   <vabs>false</vabs> 
 			   <hredirect>0</hredirect> 
 			   <vredirect>8</vredirect> 
-			   <nextaction type='WeaponInvokeWeapon'> 
-			      <invoke>MirvBomblet</invoke> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
 			   </nextaction> 
 			</subweapon3> 
 			<subweapon4 type='WeaponRedirect'> 
@@ -2855,8 +2855,8 @@ direction of the firer.</description>
 			   <vabs>false</vabs> 
 			   <hredirect>0</hredirect> 
 			   <vredirect>-4</vredirect> 
-			   <nextaction type='WeaponInvokeWeapon'> 
-			      <invoke>MirvBomblet</invoke> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
 			   </nextaction> 
 			</subweapon4> 
 			<subweapon5 type='WeaponRedirect'> 
@@ -2864,8 +2864,8 @@ direction of the firer.</description>
 			   <vabs>false</vabs> 
 			   <hredirect>0</hredirect> 
 			   <vredirect>-8</vredirect> 
-			   <nextaction type='WeaponInvokeWeapon'> 
-			      <invoke>MirvBomblet</invoke> 
+			   <nextaction type='WeaponReference'> 
+			      <weapon>MirvBomblet</weapon> 
 			   </nextaction> 
 			</subweapon5> 
 		</collisionaction> 
@@ -2903,16 +2903,16 @@ many small warheads in a line.</description>
 			<projectilescale>3.0</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/megamirv.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'> 
-				<subweapon1 type='WeaponInvokeWeapon'> 
-				   <invoke>MegaBomblet</invoke> 
+				<subweapon1 type='WeaponReference'> 
+				   <weapon>MegaBomblet</weapon> 
 				</subweapon1> 
 				<subweapon2 type='WeaponRedirect'> 
 				   <habs>false</habs> 
 				   <vabs>false</vabs> 
 				   <hredirect>0</hredirect> 
 				   <vredirect>4</vredirect> 
-				   <nextaction type='WeaponInvokeWeapon'> 
-				      <invoke>MegaBomblet</invoke> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
 				   </nextaction> 
 				</subweapon2> 
 				<subweapon3 type='WeaponRedirect'> 
@@ -2920,8 +2920,8 @@ many small warheads in a line.</description>
 				   <vabs>false</vabs> 
 				   <hredirect>0</hredirect> 
 				   <vredirect>8</vredirect> 
-				   <nextaction type='WeaponInvokeWeapon'> 
-				      <invoke>MegaBomblet</invoke> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
 				   </nextaction> 
 				</subweapon3> 
 				<subweapon4 type='WeaponRedirect'> 
@@ -2929,8 +2929,8 @@ many small warheads in a line.</description>
 				   <vabs>false</vabs> 
 				   <hredirect>0</hredirect> 
 				   <vredirect>-4</vredirect> 
-				   <nextaction type='WeaponInvokeWeapon'> 
-				      <invoke>MegaBomblet</invoke> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
 				   </nextaction> 
 				</subweapon4> 
 				<subweapon5 type='WeaponRedirect'> 
@@ -2938,8 +2938,8 @@ many small warheads in a line.</description>
 				   <vabs>false</vabs> 
 				   <hredirect>0</hredirect> 
 				   <vredirect>-8</vredirect> 
-				   <nextaction type='WeaponInvokeWeapon'> 
-				      <invoke>MegaBomblet</invoke> 
+				   <nextaction type='WeaponReference'> 
+				      <weapon>MegaBomblet</weapon> 
 				   </nextaction> 
 				</subweapon5> 
 			</collisionaction> 
@@ -2966,8 +2966,8 @@ out in random directions.</description>
 				<nowarheads>8</nowarheads>
 				<hspreaddist>0.8</hspreaddist>
 				<vspreaddist>2.5</vspreaddist>
-				<aimedweapon type='WeaponInvokeWeapon'>
-					<invoke>MegaBomblet</invoke>
+				<aimedweapon type='WeaponReference'>
+					<weapon>MegaBomblet</weapon>
 				</aimedweapon>
 			</collisionaction>
 		</accessoryaction>
@@ -3104,8 +3104,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>315</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon1>
@@ -3116,8 +3116,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon2>
@@ -3128,8 +3128,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>45</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon3>
@@ -3140,8 +3140,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>90</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon4>
@@ -3152,8 +3152,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>135</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon5>
@@ -3164,8 +3164,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>180</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon6>
@@ -3176,8 +3176,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>225</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon7>
@@ -3188,8 +3188,8 @@ out in a random direction.</description>
 					<vabs>true</vabs>
 					<hredirect>270</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Apoc Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Apoc Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon8>
@@ -3225,8 +3225,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 				<subweapon2 type='WeaponVelocity'>
 					<velocitychange>0.5</velocitychange>
 					<aimedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponInvokeWeapon'>
-							<invoke>Apoc Flower</invoke>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Apoc Flower</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
 							<delay>2.66</delay>
@@ -3235,8 +3235,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 								<vabs>false</vabs>
 								<hredirect>22.5</hredirect>
 								<vredirect>0</vredirect>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>Apoc Flower</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>Apoc Flower</weapon>
 								</nextaction>
 							</delayedweapon>
 						</subweapon2>
@@ -3260,13 +3260,13 @@ For best spread, shoot @ 1000 power below 60 degrees
 				</subweapon3>
 				<!-- Clouds -->
 				<subweapon4 type='WeaponMulti'>
-					<subweapon1 type='WeaponInvokeWeapon'>
-						<invoke>Clouds-Red</invoke>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
 					</subweapon1>
 					<subweapon2 type='WeaponDelay'>
 						<delay>3.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon2>
 				</subweapon4>
@@ -3389,8 +3389,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>315</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon1>
@@ -3401,8 +3401,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon2>
@@ -3413,8 +3413,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>45</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon3>
@@ -3425,8 +3425,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>90</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon4>
@@ -3437,8 +3437,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>135</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon5>
@@ -3449,8 +3449,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>180</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon6>
@@ -3461,8 +3461,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>225</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon7>
@@ -3473,8 +3473,8 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<vabs>true</vabs>
 					<hredirect>270</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Dmsday Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Dmsday Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon8>
@@ -3509,8 +3509,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 				<subweapon2 type='WeaponVelocity'>
 					<velocitychange>0.6</velocitychange>
 					<aimedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponInvokeWeapon'>
-							<invoke>Dmsday Flower</invoke>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Dmsday Flower</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
 							<delay>4.0</delay>
@@ -3519,8 +3519,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 								<vabs>false</vabs>
 								<hredirect>22.5</hredirect>
 								<vredirect>0</vredirect>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>Dmsday Flower</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>Dmsday Flower</weapon>
 								</nextaction>
 							</delayedweapon>
 						</subweapon2>
@@ -3548,25 +3548,25 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 				</subweapon3>
 				<!-- Clouds -->
 				<subweapon4 type='WeaponMulti'>
-					<subweapon1 type='WeaponInvokeWeapon'>
-						<invoke>Clouds-Red</invoke>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
 					</subweapon1>
 					<subweapon2 type='WeaponDelay'>
 						<delay>3.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon2>
 					<subweapon3 type='WeaponDelay'>
 						<delay>6.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon3>
 					<subweapon4 type='WeaponDelay'>
 						<delay>9.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon4>
 					<subweapon5 type='WeaponDelay'>
@@ -3583,8 +3583,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 								<vredirect>90</vredirect>
 								<nextaction type='WeaponTranslate'>
 									<translatedist>25</translatedist>
-									<nextaction type='WeaponInvokeWeapon'>
-										<invoke>Clouds-Red</invoke>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
 									</nextaction>
 								</nextaction>
 							</aimedweapon>
@@ -3604,8 +3604,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 								<vredirect>90</vredirect>
 								<nextaction type='WeaponTranslate'>
 									<translatedist>25</translatedist>
-									<nextaction type='WeaponInvokeWeapon'>
-										<invoke>Clouds-Red</invoke>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
 									</nextaction>
 								</nextaction>
 							</aimedweapon>
@@ -3625,8 +3625,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 								<vredirect>90</vredirect>
 								<nextaction type='WeaponTranslate'>
 									<translatedist>25</translatedist>
-									<nextaction type='WeaponInvokeWeapon'>
-										<invoke>Clouds-Red</invoke>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
 									</nextaction>
 								</nextaction>
 							</aimedweapon>
@@ -3793,8 +3793,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>315</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon1>
@@ -3805,8 +3805,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon2>
@@ -3817,8 +3817,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>45</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon3>
@@ -3829,8 +3829,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>90</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon4>
@@ -3841,8 +3841,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>135</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon5>
@@ -3853,8 +3853,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>180</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon6>
@@ -3865,8 +3865,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>225</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon7>
@@ -3877,8 +3877,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<vabs>true</vabs>
 					<hredirect>270</hredirect>
 					<vredirect>45</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Strange Segment</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Strange Segment</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon8>
@@ -3923,8 +3923,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 				<nextaction type='WeaponTranslate'>
 					<translatedist>25</translatedist>
 					<nextaction type='WeaponMulti'>
-						<subweapon1 type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
 							<delay>1.5</delay>
@@ -3933,16 +3933,16 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 									<delay>0</delay>
 									<delayedweapon type='WeaponMulti'>
 										<subweapon1 type='WeaponSkyFlash'></subweapon1>
-										<subweapon2 type='WeaponInvokeWeapon'>
-											<invoke>StrangeBolt</invoke>
+										<subweapon2 type='WeaponReference'>
+											<weapon>StrangeBolt</weapon>
 										</subweapon2>
 										<subweapon3 type='WeaponRedirect'>
 											<habs>false</habs>
 											<vabs>true</vabs>
 											<hredirect>180</hredirect>
 											<vredirect>90</vredirect>
-											<nextaction type='WeaponInvokeWeapon'>
-												<invoke>StrangeBolt</invoke>
+											<nextaction type='WeaponReference'>
+												<weapon>StrangeBolt</weapon>
 											</nextaction>
 										</subweapon3>
 										<subweapon4 type='WeaponAimedOver'>
@@ -3955,8 +3955,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 												<vabs>true</vabs>
 												<hredirect>0</hredirect>
 												<vredirect>135</vredirect>
-												<nextaction type='WeaponInvokeWeapon'>
-													<invoke>StrangeBolt</invoke>
+												<nextaction type='WeaponReference'>
+													<weapon>StrangeBolt</weapon>
 												</nextaction>
 											</aimedweapon>
 										</subweapon4>
@@ -3967,8 +3967,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 								</subweapon1>
 								<subweapon2 type='WeaponTranslate'>
 									<translatedist>25</translatedist>
-									<nextaction type='WeaponInvokeWeapon'>
-										<invoke>Clouds-Red</invoke>
+									<nextaction type='WeaponReference'>
+										<weapon>Clouds-Red</weapon>
 									</nextaction>
 								</subweapon2>
 							</delayedweapon>
@@ -4033,8 +4033,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 				<subweapon3 type='WeaponVelocity'>
 					<velocitychange>0.7</velocitychange>
 					<aimedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponInvokeWeapon'>
-							<invoke>Dmsday Flower</invoke>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Dmsday Flower</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
 							<delay>4.0</delay>
@@ -4043,8 +4043,8 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 								<vabs>false</vabs>
 								<hredirect>22.5</hredirect>
 								<vredirect>0</vredirect>
-								<nextaction type='WeaponInvokeWeapon'>
-									<invoke>Strange Flower</invoke>
+								<nextaction type='WeaponReference'>
+									<weapon>Strange Flower</weapon>
 								</nextaction>
 							</delayedweapon>
 						</subweapon2>
@@ -4052,43 +4052,43 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 				</subweapon3>
 				<!-- Clouds -->
 				<subweapon4 type='WeaponMulti'>
-					<subweapon1 type='WeaponInvokeWeapon'>
-						<invoke>Clouds-Red</invoke>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
 					</subweapon1>
 					<subweapon2 type='WeaponDelay'>
 						<delay>3.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon2>
 					<subweapon3 type='WeaponDelay'>
 						<delay>6.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon3>
 					<subweapon4 type='WeaponDelay'>
 						<delay>9.0</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon4>
 					<subweapon5 type='WeaponDelay'>
 						<delay>1.5</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Lightning Clouds</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Clouds</weapon>
 						</delayedweapon>
 					</subweapon5>
 					<subweapon6 type='WeaponDelay'>
 						<delay>4.5</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Lightning Clouds</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Clouds</weapon>
 						</delayedweapon>
 					</subweapon6>
 					<subweapon7 type='WeaponDelay'>
 						<delay>7.5</delay>
-						<delayedweapon type='WeaponInvokeWeapon'>
-							<invoke>Lightning Clouds</invoke>
+						<delayedweapon type='WeaponReference'>
+							<weapon>Lightning Clouds</weapon>
 						</delayedweapon>
 					</subweapon7>
 				</subweapon4>
@@ -4333,8 +4333,8 @@ around attack nearby opponents twice</description>
 							<percentagemiss>10</percentagemiss>
 							<maxaimdistance>30</maxaimdistance>
 							<inaccuracy>0</inaccuracy>
-							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>Hornet1</invoke>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Hornet1</weapon>
 							</aimedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
@@ -4360,8 +4360,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>10</percentagemiss>
 						<maxaimdistance>35</maxaimdistance>
 						<inaccuracy>0</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet1</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet1</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon4>
@@ -4372,8 +4372,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>10</percentagemiss>
 						<maxaimdistance>40</maxaimdistance>
 						<inaccuracy>0</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet1</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet1</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon5>
@@ -4384,8 +4384,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>10</percentagemiss>
 						<maxaimdistance>45</maxaimdistance>
 						<inaccuracy>0</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet1</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet1</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon6>
@@ -4397,8 +4397,8 @@ around attack nearby opponents twice</description>
 							<percentagemiss>15</percentagemiss>
 							<maxaimdistance>50</maxaimdistance>
 							<inaccuracy>5</inaccuracy>
-							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>Hornet2</invoke>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Hornet2</weapon>
 							</aimedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
@@ -4424,8 +4424,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>15</percentagemiss>
 						<maxaimdistance>50</maxaimdistance>
 						<inaccuracy>5</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet2</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet2</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon8>
@@ -4436,8 +4436,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>15</percentagemiss>
 						<maxaimdistance>55</maxaimdistance>
 						<inaccuracy>5</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet2</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet2</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon9>
@@ -4448,8 +4448,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>15</percentagemiss>
 						<maxaimdistance>55</maxaimdistance>
 						<inaccuracy>5</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet2</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet2</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon10>
@@ -4461,8 +4461,8 @@ around attack nearby opponents twice</description>
 							<percentagemiss>20</percentagemiss>
 							<maxaimdistance>60</maxaimdistance>
 							<inaccuracy>10</inaccuracy>
-							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>Hornet3</invoke>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Hornet3</weapon>
 							</aimedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
@@ -4488,8 +4488,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>20</percentagemiss>
 						<maxaimdistance>60</maxaimdistance>
 						<inaccuracy>10</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet3</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet3</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon12>
@@ -4500,8 +4500,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>20</percentagemiss>
 						<maxaimdistance>60</maxaimdistance>
 						<inaccuracy>10</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet3</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet3</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon13>
@@ -4512,8 +4512,8 @@ around attack nearby opponents twice</description>
 						<percentagemiss>20</percentagemiss>
 						<maxaimdistance>60</maxaimdistance>
 						<inaccuracy>10</inaccuracy>
-						<aimedweapon type='WeaponInvokeWeapon'>
-							<invoke>Hornet3</invoke>
+						<aimedweapon type='WeaponReference'>
+							<weapon>Hornet3</weapon>
 						</aimedweapon>
 					</delayedweapon>
 				</subweapon14>
@@ -4537,8 +4537,8 @@ around attack nearby opponents twice</description>
 			<projectilescale>6</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponInvokeWeapon'>
-					<invoke>Hornet Nest</invoke>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Hornet Nest</weapon>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
 					<delay>4.0</delay>
@@ -4554,8 +4554,8 @@ around attack nearby opponents twice</description>
 							<projectilescale>4</projectilescale>
 							<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
-								<subweapon1 type='WeaponInvokeWeapon'>
-									<invoke>Hornet Nest</invoke>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Hornet Nest</weapon>
 								</subweapon1>
 								<subweapon2 type='WeaponDelay'>
 									<delay>4.0</delay>
@@ -4570,8 +4570,8 @@ around attack nearby opponents twice</description>
 											<spinspeed>0</spinspeed>
 											<projectilescale>3</projectilescale>
 											<projectilemodel type='MilkShape'>weapons/redhornet.txt</projectilemodel>
-											<collisionaction type='WeaponInvokeWeapon'>
-												<invoke>Hornet Nest</invoke>
+											<collisionaction type='WeaponReference'>
+												<weapon>Hornet Nest</weapon>
 											</collisionaction>
 										</aimedweapon>
 									</delayedweapon>
@@ -4809,16 +4809,16 @@ random direction. </description>
 			<apexcollision></apexcollision>
 			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponInvokeWeapon'>
-					<invoke>NapMirvBomblet</invoke>
+				<subweapon1 type='WeaponReference'>
+					<weapon>NapMirvBomblet</weapon>
 				</subweapon1>
 				<subweapon2 type='WeaponRedirect'>
 					<habs>false</habs>
 					<vabs>false</vabs>
 					<hredirect>5</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>NapMirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
 					</nextaction>
 				</subweapon2>
 				<subweapon3 type='WeaponRedirect'>
@@ -4826,8 +4826,8 @@ random direction. </description>
 					<vabs>false</vabs>
 					<hredirect>10</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>NapMirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
 					</nextaction>
 				</subweapon3>
 				<subweapon4 type='WeaponRedirect'>
@@ -4835,8 +4835,8 @@ random direction. </description>
 					<vabs>false</vabs>
 					<hredirect>-5</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>NapMirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
 					</nextaction>
 				</subweapon4>
 				<subweapon5 type='WeaponRedirect'>
@@ -4844,8 +4844,8 @@ random direction. </description>
 					<vabs>false</vabs>
 					<hredirect>-10</hredirect>
 					<vredirect>0</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>NapMirvBomblet</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
 					</nextaction>
 				</subweapon5>
 			</collisionaction>
@@ -5104,8 +5104,8 @@ any tanks near the flames will lose life.</description>
 		<model type='MilkShape'>weapons/fthrower.txt</model>
 		<modelscale>4.0</modelscale>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>Flame Stream</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Flame Stream</weapon>
 			</subweapon1>
 			<subweapon2 type='WeaponRedirect'>
 				<habs>false</habs>
@@ -5114,8 +5114,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>1</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>0.50</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon2>
@@ -5126,8 +5126,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>1.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon3>
@@ -5138,8 +5138,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>1.50</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon4>
@@ -5150,8 +5150,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>2</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>2.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon5>
@@ -5162,8 +5162,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>2.50</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon6>
@@ -5174,8 +5174,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>-1</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>3.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon7>
@@ -5186,8 +5186,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>0</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>3.50</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon8>
@@ -5198,8 +5198,8 @@ any tanks near the flames will lose life.</description>
 				<vredirect>-1</vredirect>
 				<nextaction type='WeaponDelay'>
 					<delay>4.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Flame Stream</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
 					</delayedweapon>
 				</nextaction>
 			</subweapon9>
@@ -5491,17 +5491,17 @@ point releases many explosive napalm warheads.</description>
 					<explosiontexture>exp04</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon1>
-				<subweapon2 type='WeaponInvokeWeapon'>
-					<invoke>Clouds-Red</invoke>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Clouds-Red</weapon>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
 					<delay>1.0</delay>
 					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponInvokeWeapon'>
-							<invoke>Hell Segment</invoke>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Hell Segment</weapon>
 						</subweapon1>
-						<subweapon2 type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Red</invoke>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Clouds-Red</weapon>
 						</subweapon2>
 					</delayedweapon>
 				</subweapon3>
@@ -5524,11 +5524,11 @@ point releases many explosive napalm warheads.</description>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
 							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponInvokeWeapon'>
-									<invoke>Hell Segment</invoke>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Hell Segment</weapon>
 								</subweapon1>
-								<subweapon2 type='WeaponInvokeWeapon'>
-									<invoke>Clouds-Red</invoke>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Clouds-Red</weapon>
 								</subweapon2>
 							</nextaction>
 						</nextaction>
@@ -5544,11 +5544,11 @@ point releases many explosive napalm warheads.</description>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
 							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponInvokeWeapon'>
-									<invoke>Hell Segment</invoke>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Hell Segment</weapon>
 								</subweapon1>
-								<subweapon2 type='WeaponInvokeWeapon'>
-									<invoke>Clouds-Red</invoke>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Clouds-Red</weapon>
 								</subweapon2>
 							</nextaction>
 						</nextaction>
@@ -5564,11 +5564,11 @@ point releases many explosive napalm warheads.</description>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
 							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponInvokeWeapon'>
-									<invoke>Hell Segment</invoke>
+								<subweapon1 type='WeaponReference'>
+									<weapon>Hell Segment</weapon>
 								</subweapon1>
-								<subweapon2 type='WeaponInvokeWeapon'>
-									<invoke>Clouds-Red</invoke>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Clouds-Red</weapon>
 								</subweapon2>
 							</nextaction>
 						</nextaction>
@@ -6014,8 +6014,8 @@ physical damage.</description>
 					<explosiontexture>cloud00-5</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon1>
-				<subweapon2 type='WeaponInvokeWeapon'>
-					<invoke>Clouds-Grey</invoke>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Clouds-Grey</weapon>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
 					<delay>1.0</delay>
@@ -6025,12 +6025,12 @@ physical damage.</description>
 							<percentagemiss>20</percentagemiss>
 							<maxaimdistance>50</maxaimdistance>
 							<inaccuracy>20</inaccuracy>
-							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>Rain Segment</invoke>
+							<aimedweapon type='WeaponReference'>
+								<weapon>Rain Segment</weapon>
 							</aimedweapon>
 						</subweapon1>
-						<subweapon2 type='WeaponInvokeWeapon'>
-							<invoke>Clouds-Grey</invoke>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Clouds-Grey</weapon>
 						</subweapon2>
 					</delayedweapon>
 				</subweapon3>
@@ -6058,12 +6058,12 @@ physical damage.</description>
 									<percentagemiss>20</percentagemiss>
 									<maxaimdistance>50</maxaimdistance>
 									<inaccuracy>20</inaccuracy>
-									<aimedweapon type='WeaponInvokeWeapon'>
-										<invoke>Rain Segment</invoke>
+									<aimedweapon type='WeaponReference'>
+										<weapon>Rain Segment</weapon>
 									</aimedweapon>
 								</subweapon1>
-								<subweapon2 type='WeaponInvokeWeapon'>
-									<invoke>Clouds-Grey</invoke>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
 								</subweapon2>
 							</nextaction>
 						</nextaction>
@@ -6084,12 +6084,12 @@ physical damage.</description>
 									<percentagemiss>20</percentagemiss>
 									<maxaimdistance>50</maxaimdistance>
 									<inaccuracy>20</inaccuracy>
-									<aimedweapon type='WeaponInvokeWeapon'>
-										<invoke>Rain Segment</invoke>
+									<aimedweapon type='WeaponReference'>
+										<weapon>Rain Segment</weapon>
 									</aimedweapon>
 								</subweapon1>
-								<subweapon2 type='WeaponInvokeWeapon'>
-									<invoke>Clouds-Grey</invoke>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
 								</subweapon2>
 							</nextaction>
 						</nextaction>
@@ -6110,12 +6110,12 @@ physical damage.</description>
 									<percentagemiss>20</percentagemiss>
 									<maxaimdistance>50</maxaimdistance>
 									<inaccuracy>20</inaccuracy>
-									<aimedweapon type='WeaponInvokeWeapon'>
-										<invoke>Rain Segment</invoke>
+									<aimedweapon type='WeaponReference'>
+										<weapon>Rain Segment</weapon>
 									</aimedweapon>
 								</subweapon1>
-								<subweapon2 type='WeaponInvokeWeapon'>
-									<invoke>Clouds-Grey</invoke>
+								<subweapon2 type='WeaponReference'>
+									<weapon>Clouds-Grey</weapon>
 								</subweapon2>
 							</nextaction>
 						</nextaction>
@@ -6906,8 +6906,8 @@ distance from your tank in the direction you aim</description>
 					<vredirect>90</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>30</translatedist>
-						<nextaction type='WeaponInvokeWeapon'>
-							<invoke>DirtColumn</invoke>
+						<nextaction type='WeaponReference'>
+							<weapon>DirtColumn</weapon>
 						</nextaction>
 					</nextaction>
 				</subweapon1>
@@ -6918,8 +6918,8 @@ distance from your tank in the direction you aim</description>
 					<vredirect>90</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>30</translatedist>
-						<nextaction type='WeaponInvokeWeapon'>
-							<invoke>DirtColumn</invoke>
+						<nextaction type='WeaponReference'>
+							<weapon>DirtColumn</weapon>
 						</nextaction>
 					</nextaction>
 				</subweapon2>
@@ -6930,8 +6930,8 @@ distance from your tank in the direction you aim</description>
 					<vredirect>90</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>30</translatedist>
-						<nextaction type='WeaponInvokeWeapon'>
-							<invoke>DirtColumn</invoke>
+						<nextaction type='WeaponReference'>
+							<weapon>DirtColumn</weapon>
 						</nextaction>
 					</nextaction>
 				</subweapon3>
@@ -6948,16 +6948,16 @@ distance from your tank in the direction you aim</description>
 		<cost>10000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>Wall Of Dirt</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Wall Of Dirt</weapon>
 			</subweapon1>
 			<subweapon2 type='WeaponRedirect'>
 				<habs>false</habs>
 				<vabs>true</vabs>
 				<hredirect>72</hredirect>
 				<vredirect>90</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Wall Of Dirt</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Wall Of Dirt</weapon>
 				</nextaction>
 			</subweapon2>
 			<subweapon3 type='WeaponRedirect'>
@@ -6965,8 +6965,8 @@ distance from your tank in the direction you aim</description>
 				<vabs>true</vabs>
 				<hredirect>144</hredirect>
 				<vredirect>90</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Wall Of Dirt</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Wall Of Dirt</weapon>
 				</nextaction>
 			</subweapon3>
 			<subweapon4 type='WeaponRedirect'>
@@ -6974,8 +6974,8 @@ distance from your tank in the direction you aim</description>
 				<vabs>true</vabs>
 				<hredirect>212</hredirect>
 				<vredirect>90</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Wall Of Dirt</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Wall Of Dirt</weapon>
 				</nextaction>
 			</subweapon4>
 			<subweapon5 type='WeaponRedirect'>
@@ -6983,8 +6983,8 @@ distance from your tank in the direction you aim</description>
 				<vabs>true</vabs>
 				<hredirect>284</hredirect>
 				<vredirect>90</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Wall Of Dirt</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Wall Of Dirt</weapon>
 				</nextaction>
 			</subweapon5>
 		</accessoryaction>
@@ -7168,15 +7168,15 @@ distance from your tank in the direction you aim</description>
 		<armslevel>1</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>Meteor3</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Meteor3</weapon>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
 				<delay>0.2</delay>
 				<delayedweapon type='WeaponVelocity'>
 					<velocitychange>0.75</velocitychange>
-					<aimedweapon type='WeaponInvokeWeapon'>
-						<invoke>Meteor2</invoke>
+					<aimedweapon type='WeaponReference'>
+						<weapon>Meteor2</weapon>
 					</aimedweapon>
 				</delayedweapon>
 			</subweapon2>
@@ -7184,8 +7184,8 @@ distance from your tank in the direction you aim</description>
 				<delay>0.4</delay>
 				<delayedweapon type='WeaponVelocity'>
 					<velocitychange>0.5</velocitychange>
-					<aimedweapon type='WeaponInvokeWeapon'>
-						<invoke>Meteor1</invoke>
+					<aimedweapon type='WeaponReference'>
+						<weapon>Meteor1</weapon>
 					</aimedweapon>
 				</delayedweapon>
 			</subweapon3>
@@ -7246,13 +7246,13 @@ YOU CANNOT AIM THIS WEAPON!</description>
 																<percentagemiss>20</percentagemiss>
 																<maxaimdistance>35</maxaimdistance>
 																<inaccuracy>20</inaccuracy>
-																<aimedweapon type='WeaponInvokeWeapon'>
-																	<invoke>Meteor1</invoke>
+																<aimedweapon type='WeaponReference'>
+																	<weapon>Meteor1</weapon>
 																</aimedweapon>
 															</delayedweapon>
 														</subweapon1>
-														<subweapon2 type='WeaponInvokeWeapon'>
-															<invoke>Meteor2</invoke>
+														<subweapon2 type='WeaponReference'>
+															<weapon>Meteor2</weapon>
 														</subweapon2>
 														<subweapon3 type='WeaponExplosion'>
 															<nocreatedebris/>
@@ -7269,8 +7269,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 												</aimedweapon>
 											</delayedweapon>
 										</subweapon1>
-										<subweapon2 type='WeaponInvokeWeapon'>
-											<invoke>MeteorCluster</invoke>
+										<subweapon2 type='WeaponReference'>
+											<weapon>MeteorCluster</weapon>
 										</subweapon2>
 										<subweapon3 type='WeaponExplosion'>
 											<hurtamount>0</hurtamount>
@@ -7283,8 +7283,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 											<explosionsound>explosions/quake.wav</explosionsound>
 											<explosiontexture>exp04</explosiontexture>
 										</subweapon3>
-										<subweapon4 type='WeaponInvokeWeapon'>
-											<invoke>Clouds-Red</invoke>
+										<subweapon4 type='WeaponReference'>
+											<weapon>Clouds-Red</weapon>
 										</subweapon4>
 									</nextaction>
 								</nextaction>
@@ -8058,8 +8058,8 @@ missiles target nearby tanks.</description>
 																																		</subweapon2>
 																																	</nextaction>
 																																</subweapon1>
-																																<subweapon2 type='WeaponInvokeWeapon'>
-																																	<invoke>Strike Bolt</invoke>
+																																<subweapon2 type='WeaponReference'>
+																																	<weapon>Strike Bolt</weapon>
 																																</subweapon2>
 																															</nextaction>
 																														</aimedweapon>
@@ -8090,8 +8090,8 @@ missiles target nearby tanks.</description>
 																											</subweapon2>
 																										</nextaction>
 																									</subweapon1>
-																									<subweapon2 type='WeaponInvokeWeapon'>
-																										<invoke>Strike Bolt</invoke>
+																									<subweapon2 type='WeaponReference'>
+																										<weapon>Strike Bolt</weapon>
 																									</subweapon2>
 																								</nextaction>
 																							</aimedweapon>
@@ -8122,8 +8122,8 @@ missiles target nearby tanks.</description>
 																				</subweapon2>
 																			</nextaction>
 																		</subweapon1>
-																		<subweapon2 type='WeaponInvokeWeapon'>
-																			<invoke>Strike Bolt</invoke>
+																		<subweapon2 type='WeaponReference'>
+																			<weapon>Strike Bolt</weapon>
 																		</subweapon2>
 																	</nextaction>
 																</aimedweapon>
@@ -8154,8 +8154,8 @@ missiles target nearby tanks.</description>
 													</subweapon2>
 												</nextaction>
 											</subweapon1>
-											<subweapon2 type='WeaponInvokeWeapon'>
-												<invoke>Strike Bolt</invoke>
+											<subweapon2 type='WeaponReference'>
+												<weapon>Strike Bolt</weapon>
 											</subweapon2>
 										</nextaction>
 									</aimedweapon>
@@ -8197,19 +8197,19 @@ YOU CANNOT AIM THIS WEAPON</description>
 			<height>80</height>
 			<landonly>false</landonly>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>	
 			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponInvokeWeapon'>
-					<invoke>Clouds-Grey</invoke>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Clouds-Grey</weapon>
 				</subweapon1>
-				<subweapon2 type='WeaponInvokeWeapon'>
-					<invoke>Lightning Bolt</invoke>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Lightning Bolt</weapon>
 					<armslevel>1</armslevel>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
 					<delay>0.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Lightning Bolt</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Lightning Bolt</weapon>
 						<armslevel>1</armslevel>
 					</delayedweapon>
 				</subweapon3>
@@ -8634,8 +8634,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>0</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon2>
 						<subweapon3 type='WeaponRedirect'>
@@ -8643,8 +8643,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>22.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon3>
 						<subweapon4 type='WeaponRedirect'>
@@ -8652,8 +8652,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>45</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon4>
 						<subweapon5 type='WeaponRedirect'>
@@ -8661,8 +8661,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>67.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon5>
 						<subweapon6 type='WeaponRedirect'>
@@ -8670,8 +8670,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>90</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon6>
 						<subweapon7 type='WeaponRedirect'>
@@ -8679,8 +8679,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>0</hredirect>
 							<vredirect>112.5</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon7>
 						<subweapon8 type='WeaponRedirect'>
@@ -8688,8 +8688,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>135</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon8>
 						<subweapon9 type='WeaponRedirect'>
@@ -8697,8 +8697,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>157.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon9>
 						<subweapon10 type='WeaponRedirect'>
@@ -8706,8 +8706,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>180</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon10>
 						<subweapon11 type='WeaponRedirect'>
@@ -8715,8 +8715,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>202.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon11>
 						<subweapon12 type='WeaponRedirect'>
@@ -8724,8 +8724,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>225</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon12>
 						<subweapon13 type='WeaponRedirect'>
@@ -8733,8 +8733,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>247.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon13>
 						<subweapon14 type='WeaponRedirect'>
@@ -8742,8 +8742,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>270</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon14>
 						<subweapon15 type='WeaponRedirect'>
@@ -8751,8 +8751,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>292.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon15>
 						<subweapon16 type='WeaponRedirect'>
@@ -8760,8 +8760,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>315</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon16>
 						<subweapon17 type='WeaponRedirect'>
@@ -8769,8 +8769,8 @@ energy wave that ripples outward horizontally</description>
 							<vabs>true</vabs>
 							<hredirect>337.5</hredirect>
 							<vredirect>90</vredirect>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>S-Wave Branch</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>S-Wave Branch</weapon>
 							</nextaction>
 						</subweapon17>
 					</delayedweapon>
@@ -8779,55 +8779,55 @@ energy wave that ripples outward horizontally</description>
 					<animation>ExplosionLaserBeamRenderer</animation>
 					<data>none</data>
 				</subweapon2>
-				<subweapon3 type='WeaponInvokeWeapon'>
-					<invoke>Spark Burst</invoke>
+				<subweapon3 type='WeaponReference'>
+					<weapon>Spark Burst</weapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
 					<delay>0.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst</weapon>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
 					<delay>1.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst2</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst2</weapon>
 					</delayedweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponDelay'>
 					<delay>1.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst2</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst2</weapon>
 					</delayedweapon>
 				</subweapon6>
 				<subweapon7 type='WeaponDelay'>
 					<delay>2.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst2</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst2</weapon>
 					</delayedweapon>
 				</subweapon7>
 				<subweapon8 type='WeaponDelay'>
 					<delay>2.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst3</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst3</weapon>
 					</delayedweapon>
 				</subweapon8>
 				<subweapon9 type='WeaponDelay'>
 					<delay>3.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst3</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst3</weapon>
 					</delayedweapon>
 				</subweapon9>
 				<subweapon10 type='WeaponDelay'>
 					<delay>3.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst3</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst3</weapon>
 					</delayedweapon>
 				</subweapon10>
 				<subweapon11 type='WeaponDelay'>
 					<delay>4.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Spark Burst3</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst3</weapon>
 					</delayedweapon>
 				</subweapon11>
 			</collisionaction>
@@ -8838,17 +8838,17 @@ energy wave that ripples outward horizontally</description>
 		<armslevel>1</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>Clouds-Grey</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Clouds-Grey</weapon>
 			</subweapon1>
-			<subweapon2 type='WeaponInvokeWeapon'>
-				<invoke>Lightning Bolt</invoke>
+			<subweapon2 type='WeaponReference'>
+				<weapon>Lightning Bolt</weapon>
 				<armslevel>1</armslevel>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>0.5</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>Lightning Bolt</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>Lightning Bolt</weapon>
 					<armslevel>1</armslevel>
 				</delayedweapon>
 			</subweapon3>
@@ -8877,10 +8877,10 @@ YOU CANNOT AIM THIS WEAPON!</description>
 			<height>80</height>
 			<landonly>false</landonly>
 			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>	
 			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponInvokeWeapon'>
-					<invoke>Storm Segment</invoke>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Storm Segment</weapon>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
 					<delay>1.0</delay>
@@ -8891,8 +8891,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>Storm Segment</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
@@ -8906,8 +8906,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>Storm Segment</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
@@ -8921,8 +8921,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>Storm Segment</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
@@ -8936,22 +8936,22 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<vredirect>90</vredirect>
 						<nextaction type='WeaponTranslate'>
 							<translatedist>25</translatedist>
-							<nextaction type='WeaponInvokeWeapon'>
-								<invoke>Storm Segment</invoke>
+							<nextaction type='WeaponReference'>
+								<weapon>Storm Segment</weapon>
 							</nextaction>
 						</nextaction>
 					</delayedweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponDelay'>
 					<delay>2.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Storm Segment</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Storm Segment</weapon>
 					</delayedweapon>
 				</subweapon6>
 				<subweapon7 type='WeaponDelay'>
 					<delay>4.0</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>Clouds-Grey</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Clouds-Grey</weapon>
 					</delayedweapon>
 				</subweapon7>
 				<subweapon8 type='WeaponSound'>
@@ -9270,7 +9270,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 			<height>0</height>
 			<landonly>true</landonly>
 			<direction><A>0</A><B>0</B><C>0</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>	
 			<aimedweapon type='WeaponDelay'>
 				<delay>2.0</delay>
 				<delayedweapon type='WeaponMulti'>
@@ -9420,8 +9420,8 @@ Less power = less range but more damage</description>
 		<cost>12000</cost>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>Laser</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Laser</weapon>
 				<armslevel>4</armslevel>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
@@ -9431,8 +9431,8 @@ Less power = less range but more damage</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Laser</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Laser</weapon>
 						<armslevel>4</armslevel>
 					</nextaction>
 				</delayedweapon>
@@ -9444,8 +9444,8 @@ Less power = less range but more damage</description>
 					<vabs>false</vabs>
 					<hredirect>0</hredirect>
 					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>Laser</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>Laser</weapon>
 						<armslevel>4</armslevel>
 					</nextaction>
 				</delayedweapon>
@@ -9559,8 +9559,8 @@ Less power = less range but more damage</description>
 				<vredirect>0</vredirect>
 				<nextaction type='WeaponTranslate'>
 					<translatedist>5</translatedist>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>SatLaser</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>SatLaser</weapon>
 					</nextaction>
 				</nextaction>
 			</subweapon1>
@@ -9568,8 +9568,8 @@ Less power = less range but more damage</description>
 				<delay>0.5</delay>
 				<delayedweapon type='WeaponTranslate'>
 					<translatedist>0</translatedist>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>SatLaser</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>SatLaser</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon2>
@@ -9577,8 +9577,8 @@ Less power = less range but more damage</description>
 				<delay>1.0</delay>
 				<delayedweapon type='WeaponTranslate'>
 					<translatedist>5</translatedist>
-					<nextaction type='WeaponInvokeWeapon'>
-						<invoke>SatLaser</invoke>
+					<nextaction type='WeaponReference'>
+						<weapon>SatLaser</weapon>
 					</nextaction>
 				</delayedweapon>
 			</subweapon3>
@@ -9602,8 +9602,8 @@ Less power = less range but more damage</description>
 				<shieldhurtfactor>0.5</shieldhurtfactor>
 				<projectilescale>0.1</projectilescale>
 				<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
-				<collisionaction type='WeaponInvokeWeapon'>
-					<invoke>SatTriLaser</invoke>
+				<collisionaction type='WeaponReference'>
+					<weapon>SatTriLaser</weapon>
 				</collisionaction>
 			</aimedweapon>
 		</accessoryaction>
@@ -9627,8 +9627,8 @@ Less power = less range but more damage</description>
 					<mesh>roller.ase</mesh>
 					<skin>white.bmp</skin>
 				</projectilemodel>
-				<collisionaction type='WeaponInvokeWeapon'>
-					<invoke>SatTriLaser</invoke>
+				<collisionaction type='WeaponReference'>
+					<weapon>SatTriLaser</weapon>
 				</collisionaction>
 			</aimedweapon>
 		</accessoryaction>
@@ -9651,8 +9651,8 @@ Less power = less range but more damage</description>
 					<vredirect>180</vredirect>
 					<nextaction type='WeaponTranslate'>
 						<translatedist>15</translatedist>
-						<nextaction type='WeaponInvokeWeapon'>
-							<invoke>SatDigLaser</invoke>
+						<nextaction type='WeaponReference'>
+							<weapon>SatDigLaser</weapon>
 						</nextaction>
 					</nextaction>
 				</nextaction>
@@ -9664,34 +9664,34 @@ Less power = less range but more damage</description>
 		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>SatTransLaser</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>SatTransLaser</weapon>
 			</subweapon1>
-			<subweapon2 type='WeaponInvokeWeapon'>
-				<invoke>SatFunkLaser</invoke>
+			<subweapon2 type='WeaponReference'>
+				<weapon>SatFunkLaser</weapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>0.5</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>SatTransLaser</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>SatTransLaser</weapon>
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type='WeaponDelay'>
 				<delay>0.5</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>SatFunkLaser</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>SatFunkLaser</weapon>
 				</delayedweapon>
 			</subweapon4>
 			<subweapon5 type='WeaponDelay'>
 				<delay>1.0</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>SatTransLaser</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>SatTransLaser</weapon>
 				</delayedweapon>
 			</subweapon5>
 			<subweapon6 type='WeaponDelay'>
 				<delay>1.0</delay>
-				<delayedweapon type='WeaponInvokeWeapon'>
-					<invoke>SatFunkLaser</invoke>
+				<delayedweapon type='WeaponReference'>
+					<weapon>SatFunkLaser</weapon>
 				</delayedweapon>
 			</subweapon6>
 		</accessoryaction>
@@ -9711,8 +9711,8 @@ all targets in the area.</description>
 			<showendpoint></showendpoint>
 			<nocreateflame/>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponInvokeWeapon'>
-					<invoke>Smoke-Orange</invoke>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Smoke-Orange</weapon>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
 					<delay>1.5</delay>
@@ -9722,20 +9722,20 @@ all targets in the area.</description>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
 					<delay>3.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>SatSegment</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>SatSegment</weapon>
 					</delayedweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
 					<delay>5.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>SatSegment</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>SatSegment</weapon>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
 					<delay>7.5</delay>
-					<delayedweapon type='WeaponInvokeWeapon'>
-						<invoke>SatSegment</invoke>
+					<delayedweapon type='WeaponReference'>
+						<weapon>SatSegment</weapon>
 					</delayedweapon>
 				</subweapon5>
 			</collisionaction>
@@ -9808,16 +9808,16 @@ This weapon has a limited range and line of site.</description>
 		<model type="MilkShape">weapons/shotgunshell.txt</model>
 		<activationsound>shoot/shotgun.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponInvokeWeapon'>
-				<invoke>Shotgun Pellet</invoke>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Shotgun Pellet</weapon>
 			</subweapon1>
 			<subweapon2 type='WeaponRedirect'>
 				<habs>false</habs>
 				<vabs>false</vabs>
 				<hredirect>1.0</hredirect>
 				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Shotgun Pellet</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
 				</nextaction>
 			</subweapon2>
 			<subweapon3 type='WeaponRedirect'>
@@ -9825,8 +9825,8 @@ This weapon has a limited range and line of site.</description>
 				<vabs>false</vabs>
 				<hredirect>-1.0</hredirect>
 				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Shotgun Pellet</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
 				</nextaction>
 			</subweapon3>
 			<subweapon4 type='WeaponRedirect'>
@@ -9834,8 +9834,8 @@ This weapon has a limited range and line of site.</description>
 				<vabs>false</vabs>
 				<hredirect>-1.0</hredirect>
 				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Shotgun Pellet</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
 				</nextaction>
 			</subweapon4>
 			<subweapon5 type='WeaponRedirect'>
@@ -9843,8 +9843,8 @@ This weapon has a limited range and line of site.</description>
 				<vabs>false</vabs>
 				<hredirect>1.0</hredirect>
 				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponInvokeWeapon'>
-					<invoke>Shotgun Pellet</invoke>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
 				</nextaction>
 			</subweapon5>
 			<subweapon6 type='WeaponDelay'>
