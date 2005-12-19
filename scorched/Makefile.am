@@ -370,7 +370,10 @@ scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/dat
 	data/globalmods/apoc/data/accessories/objects/rock3.txt \
 	data/globalmods/apoc/data/accessories/objects/rock4.txt \
 	data/globalmods/apoc/data/accessories/objects/smalloakburnt.txt \
-	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt
+	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt \
+	data/globalmods/apoc/data/accessories/objects/earth.bmp \
+	data/globalmods/apoc/data/accessories/objects/earth.txt \
+	data/globalmods/apoc/data/accessories/objects/earth_half.txt
 scorcheddataglobalmodsapocdataaccessoriesoffice3dir = ${datadir}/data/globalmods/apoc/data/accessories/office3
 scorcheddataglobalmodsapocdataaccessoriesoffice3_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesofficeplaza1dir = ${datadir}/data/globalmods/apoc/data/accessories/officeplaza1
@@ -543,7 +546,8 @@ scorcheddataglobalmodsapocdatatextureslandscapemoon_DATA = data/globalmods/apoc/
 	data/globalmods/apoc/data/textures/landscape/moon/texture0.bmp \
 	data/globalmods/apoc/data/textures/landscape/moon/texture1.bmp \
 	data/globalmods/apoc/data/textures/landscape/moon/texture2.bmp \
-	data/globalmods/apoc/data/textures/landscape/moon/texture3.bmp
+	data/globalmods/apoc/data/textures/landscape/moon/texture3.bmp \
+	data/globalmods/apoc/data/textures/landscape/moon/sky.bmp
 scorcheddataglobalmodsapocdatatextureswiconsdir = ${datadir}/data/globalmods/apoc/data/textures/wicons
 scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/textures/wicons/ablast.bmp \
 	data/globalmods/apoc/data/textures/wicons/anapalm.bmp \
@@ -715,6 +719,23 @@ scorcheddatameshesddg24_DATA = data/meshes/ddg24/ddg24.bmp \
 scorcheddatameshesdestroyerdir = ${datadir}/data/meshes/destroyer
 scorcheddatameshesdestroyer_DATA = data/meshes/destroyer/destroy.bmp \
 	data/meshes/destroyer/destroyer.txt
+scorcheddatameshescarrierdir = ${datadir}/data/meshes/carrier
+scorcheddatameshescarrier_DATA = data/meshes/carrier/carrier.txt \
+	data/meshes/carrier/nimitz.bmp
+scorcheddatameshesfishboatdir = ${datadir}/data/meshes/fishboat
+scorcheddatameshesfishboat_DATA = data/meshes/fishboat/fishboat.bmp \
+	data/meshes/fishboat/fishboat.txt
+scorcheddatameshesjollyrogerdir = ${datadir}/data/meshes/jollyroger
+scorcheddatameshesjollyroger_DATA = data/meshes/jollyroger/jollyroger.txt \
+	data/meshes/jollyroger/pflag1.bmp \
+	data/meshes/jollyroger/pflag2.bmp \
+	data/meshes/jollyroger/ship.bmp
+scorcheddatameshessailboatdir = ${datadir}/data/meshes/sailboat
+scorcheddatameshessailboat_DATA = data/meshes/sailboat/sailboat.bmp \
+	data/meshes/sailboat/sailboat.txt
+scorcheddatameshessubdir = ${datadir}/data/meshes/sub
+scorcheddatameshessub_DATA = data/meshes/sub/black.bmp \
+	data/meshes/sub/sub.txt
 scorcheddatatalkdir = ${datadir}/data/talk
 scorcheddatatalk_DATA = data/talk/talk1.txt \
 	data/talk/talk2.txt
@@ -1267,17 +1288,22 @@ scorcheddatawavmisc_DATA = data/wav/misc/apache_1.wav \
 	data/wav/misc/teleport.wav \
 	data/wav/misc/text.wav \
 	data/wav/misc/thunder.wav \
-	data/wav/misc/wolf.wav
+	data/wav/misc/wolf.wav \
+	data/wav/misc/thunder2.wav \
+	data/wav/misc/thunder3.wav
 scorcheddatawavmovementdir = ${datadir}/data/wav/movement
 scorcheddatawavmovement_DATA = data/wav/movement/elevate.wav \
 	data/wav/movement/movement.wav \
 	data/wav/movement/tankmove.wav \
-	data/wav/movement/turn.wav
+	data/wav/movement/turn.wav \
+	data/wav/movement/power.wav
 scorcheddatawavshielddir = ${datadir}/data/wav/shield
 scorcheddatawavshield_DATA = data/wav/shield/activate.wav \
 	data/wav/shield/activateforce.wav \
 	data/wav/shield/hit.wav \
-	data/wav/shield/hit2.wav
+	data/wav/shield/hit2.wav \
+	data/wav/shield/activate3.wav \
+	data/wav/shield/activmag.wav
 scorcheddatawavshootdir = ${datadir}/data/wav/shoot
 scorcheddatawavshoot_DATA = data/wav/shoot/flare.wav \
 	data/wav/shoot/large.wav \

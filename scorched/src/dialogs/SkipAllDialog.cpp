@@ -57,9 +57,11 @@ void SkipAllDialog::simulate(float frameTime)
 {
 	if (skipAll_)
 	{
-		label_->setText(formatString("Skipping move in %i...", (int) timeLeft_));
-		timeLeft_ -= ScorchedClient::instance()->getMainLoop().getDrawTime();
-		if (timeLeft_ < 0.0f)
+		unsigned int currentTime = time(0);
+		unsigned int passedTime = currentTime - startTime_;
+
+		label_->setText(formatString("Skipping move in %i...", (5 - passedTime)));
+		if (passedTime == 5)
 		{
 			Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 			if (firstTank)
@@ -79,7 +81,7 @@ void SkipAllDialog::simulate(float frameTime)
 
 void SkipAllDialog::windowInit(const unsigned state)
 {
-	timeLeft_ = 5.0f;
+	startTime_ = time(0);
 	skipAll_ = false;
 
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();

@@ -516,6 +516,8 @@ scorched3d_SOURCES = \
 	../weapons/Fuel.h \
 	../weapons/Parachute.cpp \
 	../weapons/Parachute.h \
+	../weapons/PowerUp.cpp \
+	../weapons/PowerUp.h \
 	../weapons/Shield.cpp \
 	../weapons/Shield.h \
 	../weapons/ShieldMag.cpp \
@@ -524,6 +526,8 @@ scorched3d_SOURCES = \
 	../weapons/ShieldReflective.h \
 	../weapons/Weapon.cpp \
 	../weapons/Weapon.h \
+	../weapons/WeaponAddTarget.cpp \
+	../weapons/WeaponAddTarget.h \
 	../weapons/WeaponAimedOver.cpp \
 	../weapons/WeaponAimedOver.h \
 	../weapons/WeaponAimedUnder.cpp \
@@ -534,6 +538,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponDelay.h \
 	../weapons/WeaponExplosion.cpp \
 	../weapons/WeaponExplosion.h \
+	../weapons/WeaponInvokeWeapon.cpp \
+	../weapons/WeaponInvokeWeapon.h \
 	../weapons/WeaponLaser.cpp \
 	../weapons/WeaponLaser.h \
 	../weapons/WeaponLeapFrog.cpp \
@@ -552,6 +558,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponNull.h \
 	../weapons/WeaponProjectile.cpp \
 	../weapons/WeaponProjectile.h \
+	../weapons/WeaponRandomChoice.cpp \
+	../weapons/WeaponRandomChoice.h \
 	../weapons/WeaponRedirect.cpp \
 	../weapons/WeaponRedirect.h \
 	../weapons/WeaponReference.cpp \
@@ -655,7 +663,6 @@ scorched3d_SOURCES = \
 	../ode/collision.h \
 	../ode/collision_kernel.cpp \
 	../ode/collision_kernel.h \
-	../ode/collision_quadtreespace.cpp \
 	../ode/collision_space.cpp \
 	../ode/collision_space.h \
 	../ode/collision_space_internal.h \
@@ -742,8 +749,8 @@ scorched3d_SOURCES = \
 	../zlib/zutil.h \
 	../actions/ActionVector.cpp \
 	../actions/ActionVector.h \
-	../actions/AddPowerUp.cpp \
-	../actions/AddPowerUp.h \
+	../actions/AddTarget.cpp \
+	../actions/AddTarget.h \
 	../actions/Animation.cpp \
 	../actions/Animation.h \
 	../actions/CameraPositionAction.cpp \
@@ -820,8 +827,6 @@ scorched3d_SOURCES = \
 	../sprites/SphereActionRenderer.h \
 	../sprites/TalkRenderer.cpp \
 	../sprites/TalkRenderer.h \
-	../sprites/TankDeadRenderer.cpp \
-	../sprites/TankDeadRenderer.h \
 	../sprites/TextActionRenderer.cpp \
 	../sprites/TextActionRenderer.h \
 	../sprites/WallActionRenderer.cpp \

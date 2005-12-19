@@ -37,7 +37,7 @@ public:
 protected:
 	unsigned int cancelId_;
 	GLWLabel *label_;
-	float timeLeft_;
+	unsigned int startTime_;
 	bool skipAll_;
 
 	static SkipAllDialog *instance_;
