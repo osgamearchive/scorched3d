@@ -221,15 +221,6 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>ExplosionLaserBeamRenderer</name>
-		<armslevel>0</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponAnimation'>
-			<animation>ExplosionLaserBeamRenderer</animation>
-			<data>data/wav/misc/laserdeath.wav</data>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>WeaponMuzzle</name>
 		<armslevel>0</armslevel>
 		<description>The muzzle flash for guns</description>
@@ -1767,7 +1758,7 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 	</accessory>
 	<accessory>
 		<name>Tank Explosion</name>
-		<armslevel>10</armslevel>
+		<armslevel>6</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<activationsound>explosions/tank.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
@@ -2062,8 +2053,8 @@ Does 166% collision damage to shields.</description>
 					<explosiontexture>none</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon4>
-				<subweapon5 type='WeaponReference'>
-					<weapon>Tank Explosion</weapon>
+				<subweapon5 type='WeaponInvokeWeapon'>
+					<invoke>Tank Explosion</invoke>
 				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
@@ -2246,6 +2237,103 @@ EMPs do more damage to shields than to tanks.</description>
 					</delayedweapon>
 				</subweapon2>
 			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Shotgun Pellet</name>
+		<armslevel>9</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>0.5</shieldhurtfactor>
+			<nocreatesmoke/>
+			<nocreateflame/>
+			<enginesound>none</enginesound>
+			<timedcollision>1.5</timedcollision>
+			<projectilescale>0.15</projectilescale>
+			<projectilemodel type='ase'>
+				<mesh>roller.ase</mesh>
+				<skin>white.bmp</skin>
+			</projectilemodel>
+			<collisionaction type='WeaponExplosion'> 
+				<nocreatedebris/> 
+				<hurtamount>0.25</hurtamount> 
+				<deform>none</deform> 
+				<size>3</size> 
+				<explosiontexture>cloud00</explosiontexture> 
+				<explosionsound>none</explosionsound> 
+			</collisionaction> 
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Shotgun</name>
+		<armslevel>9</armslevel>
+		<description>Shoots 5 pellets in a small spread.
+This weapon has a limited range and line of site.</description>
+		<icon>shotgun.bmp</icon>
+		<bundlesize>5</bundlesize>
+		<cost>1000</cost>
+		<modelscale>0.75</modelscale>
+		<model type="MilkShape">weapons/shotgunshell.txt</model>
+		<activationsound>shoot/shotgun.wav</activationsound>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Shotgun Pellet</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>1.0</hredirect>
+				<vredirect>1.0</vredirect>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1.0</hredirect>
+				<vredirect>1.0</vredirect>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
+				</nextaction>
+			</subweapon3>
+			<subweapon4 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-1.0</hredirect>
+				<vredirect>-1.0</vredirect>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
+				</nextaction>
+			</subweapon4>
+			<subweapon5 type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>1.0</hredirect>
+				<vredirect>-1.0</vredirect>
+				<nextaction type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
+				</nextaction>
+			</subweapon5>
+			<subweapon6 type='WeaponDelay'>
+				<delay>0.7</delay>
+				<delayedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>-90.0</hredirect>
+					<vredirect>45</vredirect>
+					<nextaction type='WeaponVelocity'>
+						<velocitychange>0.15</velocitychange>
+						<aimedweapon type='WeaponProjectile'>
+							<nocreateflame/>
+							<enginesound>none</enginesound>
+							<projectilescale>0.25</projectilescale>
+							<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
+							<collisionaction type='WeaponNull'></collisionaction>
+						</aimedweapon>
+					</nextaction>
+				</delayedweapon>
+			</subweapon6>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -9742,130 +9830,106 @@ all targets in the area.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Teleport</name>
+		<name>Teleporter</name>
 		<armslevel>6</armslevel>
-		<description>A teleport moves you to a random location
+		<description>A teleporter moves you to a random location
 on the map after a short delay.</description>
 		<icon>teleport.bmp</icon>
 		<activationsound>none</activationsound>
 		<bundlesize>1</bundlesize>
 		<nomuzzleflash/>
 		<cost>10000</cost>
-		<accessoryaction type='WeaponTeleport'>
-			<sound>data/wav/misc/teleport.wav</sound>
-			<delay>2.5</delay>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type="WeaponScatter">
+				<height>0</height>
+				<landonly>true</landonly>
+				<direction><A>0</A><B>0</B><C>0</C></direction>
+				<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+				<aimedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponTeleport'>
+						<sound>data/wav/misc/teleport.wav</sound>
+						<delay>2.5</delay>
+					</subweapon1>
+					<subweapon2 type='WeaponDelay'>
+						<delay>2.5</delay>
+						<delayedweapon type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</delayedweapon>
+					</subweapon2>
+				</aimedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponAnimation'>
+					<animation>ExplosionRingRenderer</animation>
+					<data>none</data>
+				</delayedweapon>
+			</subweapon2>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Blink Device</name>
 		<armslevel>4</armslevel>
-		<description>Instantly moves you to a random location
-on the map.</description>
+		<description>Blink devices move you to a random location
+on the map almost instantly.</description>
 		<icon>teleport.bmp</icon>
 		<activationsound>none</activationsound>
 		<bundlesize>1</bundlesize>
 		<nomuzzleflash/>
 		<cost>15000</cost>
-		<accessoryaction type='WeaponTeleport'>
-			<sound>data/wav/misc/teleport.wav</sound>
-			<delay>0</delay>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Shotgun Pellet</name>
-		<armslevel>9</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponProjectile'>
-			<shieldhurtfactor>0.5</shieldhurtfactor>
-			<nocreatesmoke/>
-			<nocreateflame/>
-			<enginesound>none</enginesound>
-			<timedcollision>1.5</timedcollision>
-			<projectilescale>0.15</projectilescale>
-			<projectilemodel type='ase'>
-				<mesh>roller.ase</mesh>
-				<skin>white.bmp</skin>
-			</projectilemodel>
-			<collisionaction type='WeaponExplosion'> 
-				<nocreatedebris/> 
-				<hurtamount>0.25</hurtamount> 
-				<deform>none</deform> 
-				<size>3</size> 
-				<explosiontexture>cloud00</explosiontexture> 
-				<explosionsound>none</explosionsound> 
-			</collisionaction> 
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Shotgun</name>
-		<armslevel>9</armslevel>
-		<description>Shoots 5 pellets in a small spread.
-This weapon has a limited range and line of site.</description>
-		<icon>shotgun.bmp</icon>
-		<bundlesize>5</bundlesize>
-		<cost>1000</cost>
-		<modelscale>0.75</modelscale>
-		<model type="MilkShape">weapons/shotgunshell.txt</model>
-		<activationsound>shoot/shotgun.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponReference'>
-				<weapon>Shotgun Pellet</weapon>
+			<subweapon1 type="WeaponScatter">
+				<height>0</height>
+				<landonly>true</landonly>
+				<direction><A>0</A><B>0</B><C>0</C></direction>
+				<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+				<aimedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponTeleport'>
+						<sound>data/wav/misc/teleport.wav</sound>
+						<delay>0.5</delay>
+					</subweapon1>
+					<subweapon2 type='WeaponDelay'>
+						<delay>0.5</delay>
+						<delayedweapon type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</delayedweapon>
+					</subweapon2>
+				</aimedweapon>
 			</subweapon1>
-			<subweapon2 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1.0</hredirect>
-				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
+			<subweapon2 type='WeaponAnimation'>
+				<animation>ExplosionRingRenderer</animation>
+				<data>none</data>
 			</subweapon2>
-			<subweapon3 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1.0</hredirect>
-				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
-			</subweapon3>
-			<subweapon4 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1.0</hredirect>
-				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
-			</subweapon4>
-			<subweapon5 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1.0</hredirect>
-				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
-			</subweapon5>
-			<subweapon6 type='WeaponDelay'>
-				<delay>0.7</delay>
-				<delayedweapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>true</vabs>
-					<hredirect>-90.0</hredirect>
-					<vredirect>45</vredirect>
-					<nextaction type='WeaponVelocity'>
-						<velocitychange>0.15</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<nocreateflame/>
-							<enginesound>none</enginesound>
-							<projectilescale>0.25</projectilescale>
-							<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
-							<collisionaction type='WeaponNull'></collisionaction>
-						</aimedweapon>
-					</nextaction>
-				</delayedweapon>
-			</subweapon6>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Transporter</name>
+		<armslevel>4</armslevel>
+		<description>A transporter moves you to where the 
+marker projectile lands on the map.</description>
+		<icon>teleport.bmp</icon>
+		<activationsound>shoot/small.wav</activationsound>
+		<bundlesize>1</bundlesize>
+		<modelscale>0.5</modelscale>
+		<cost>20000</cost>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilescale>0.5</projectilescale>
+			<spinspeed>1.0</spinspeed>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponTeleport'>
+					<sound>data/wav/misc/teleport.wav</sound>
+					<delay>1.0</delay>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>1.0</delay>
+					<delayedweapon type='WeaponAnimation'>
+						<animation>ExplosionRingRenderer</animation>
+						<data>none</data>
+					</delayedweapon>
+				</subweapon2>
+			</collisionaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -9880,7 +9944,7 @@ This weapon has a limited range and line of site.</description>
 			</subweapon1>
 			<subweapon2 type='WeaponRandomChoice'>
 				<weaponchoice1>
-					<weight>32</weight>
+					<weight>24</weight>
 					<weapon type='WeaponInvokeWeapon'>
 						<invoke>Acid Blast</invoke>
 					</weapon>
