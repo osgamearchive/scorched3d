@@ -15,7 +15,9 @@ Changes Since 3.1
             - Basically takes place of the old style MOAB behaviour, a big explosion & crater
             - Slightly smaller explosion crater than old MOAB
             - Invisible radioactive fallout does additional damage to surrounding tanks
-        - Blink Device, an instant teleporter (no delay)
+        - Blink Device, a prototype near-instant teleporter
+        	- However, the new technology is unstable and frequently collapses in a violent explosion
+        - Transporter, shoots a marker projectile and then transports the user to that location
             
     Other Accessory Changes:
         - Sat. Strike:
@@ -137,6 +139,7 @@ Acid Rain       - Non damaging, earth eating rain
 Acid Splash     - Explodes on impact and splashes dirt eating bomblets all over the area
 Apocalypse      - Warhead that splits a few times in the air realeasing many medium sized nuclear warheads
 Baby Napalm     - Weak version of napalm
+Blink Device    - Prototype, near-instant teleporter.  Portal created is unstable.
 Bottomless Pit  - Creates a narrow but deep pit at the point of impact
 BouncingBetty   - Bomb that bounces and releases multiple explosive warheads
 Bunny Bomb      - MIRV with leaping warheads
@@ -177,6 +180,7 @@ Shockwave       - Creates a massive energy wave which ripples outwards without d
 Strangelove     - The end game weapon, scaled up dmsday device
 Suicide Bomb    - Detonates yourself causing a huge, powerful explosion
 The Travolta    - Super-sized Funky Bomb
+Transporter     - Transports the user to the location of a marker projectile
 Tsar Bomba      - Largest single nuclear explosive bomb ever made
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
 

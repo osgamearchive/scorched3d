@@ -8551,12 +8551,12 @@ through the ground aimed at nearby tanks</description>
 				<hredirect>0</hredirect>
 				<vredirect>10</vredirect>
 				<nextaction type='WeaponTranslate'>
-					<translatedist>8</translatedist>
+					<translatedist>6</translatedist>
 					<nextaction type='WeaponMulti'>
 						<subweapon1 type='WeaponDelay'>
 							<delay>0.75</delay>
 							<delayedweapon type='WeaponTranslate'>
-								<translatedist>10</translatedist>
+								<translatedist>9</translatedist>
 								<nextaction type='WeaponMulti'>
 									<subweapon1 type='WeaponDelay'>
 										<delay>0.75</delay>
@@ -9846,17 +9846,23 @@ on the map after a short delay.</description>
 				<direction><A>0</A><B>0</B><C>0</C></direction>
 				<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
 				<aimedweapon type='WeaponMulti'>
-					<subweapon1 type='WeaponTeleport'>
-						<sound>data/wav/misc/teleport.wav</sound>
-						<delay>2.5</delay>
+					<subweapon1 type='WeaponDelay'>
+						<delay>1.5</delay>
+						<delayedweapon type='WeaponSound'>
+							<sound>data/wav/misc/teleport.wav</sound>
+						</delayedweapon>
 					</subweapon1>
-					<subweapon2 type='WeaponDelay'>
+					<subweapon2 type='WeaponTeleport'>
+						<sound>data/wav/misc/beamup.wav</sound>
+						<delay>2.5</delay>
+					</subweapon2>
+					<subweapon3 type='WeaponDelay'>
 						<delay>2.5</delay>
 						<delayedweapon type='WeaponAnimation'>
 							<animation>ExplosionRingRenderer</animation>
 							<data>none</data>
 						</delayedweapon>
-					</subweapon2>
+					</subweapon3>
 				</aimedweapon>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
@@ -9869,15 +9875,270 @@ on the map after a short delay.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Unstable Portal</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<!-- Sparking Effects -->
+	 		<subweapon1 type='WeaponMulti'>
+				<subweapon1 type='WeaponDelay'>
+					<delay>1.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Spark Burst</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>1.5</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst</weapon>
+					</delayedweapon>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Spark Burst2</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponDelay'>
+					<delay>2.5</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Spark Burst2</weapon>
+					</delayedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponDelay'>
+					<delay>3.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Spark Burst3</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon5>
+				<subweapon6 type='WeaponDelay'>
+					<delay>3.5</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Spark Burst3</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon6>
+				<subweapon7 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Spark Burst3</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</subweapon2>
+					</delayedweapon>
+				</subweapon7>
+			</subweapon1>
+			<!-- Shock Wave -->
+			<subweapon2 type='WeaponDelay'>
+				<delay>3.7</delay>
+				<delayedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponExplosion'>
+						<minlife>1.0</minlife>
+						<maxlife>2.0</maxlife>
+						<nocreatedebris/>
+						<nowindaffected/>
+						<createmushroomamount>1.0</createmushroomamount>
+						<animate/>
+						<hurtamount>1.2</hurtamount>
+						<deform>down</deform>
+						<size>16</size>
+						<explosionshake>4.0</explosionshake>
+						<explosionsound>none</explosionsound>
+						<explosiontexture>exp05</explosiontexture>
+					</subweapon1>
+					<subweapon2 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon2>
+					<subweapon3 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>22.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon3>
+					<subweapon4 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>45</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon4>
+					<subweapon5 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>67.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon5>
+					<subweapon6 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>90</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon6>
+					<subweapon7 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>112.5</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon7>
+					<subweapon8 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>135</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon8>
+					<subweapon9 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>157.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon9>
+					<subweapon10 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>180</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon10>
+					<subweapon11 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>202.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon11>
+					<subweapon12 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>225</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon12>
+					<subweapon13 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>247.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon13>
+					<subweapon14 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>270</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon14>
+					<subweapon15 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>292.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon15>
+					<subweapon16 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>315</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon16>
+					<subweapon17 type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>337.5</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>S-Wave Branch</weapon>
+						</nextaction>
+					</subweapon17>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>0.5</delay>
+				<delayedweapon type='WeaponSound'>
+					<sound>data/wav/misc/riftcollapse.wav</sound>
+				</delayedweapon>
+			</subweapon3>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Blink Device</name>
-		<armslevel>4</armslevel>
-		<description>Blink devices move you to a random location
-on the map almost instantly.</description>
+		<armslevel>3</armslevel>
+		<description>Utilizes a prototype teleportation system
+which teleports the user almost instantly.
+The technology is still unstable though,
+sometimes causing the rift to collapse
+violently on one or both sides of the portal.</description>
 		<icon>teleport.bmp</icon>
 		<activationsound>none</activationsound>
 		<bundlesize>1</bundlesize>
 		<nomuzzleflash/>
-		<cost>15000</cost>
+		<cost>20000</cost>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type="WeaponScatter">
 				<height>0</height>
@@ -9896,27 +10157,57 @@ on the map almost instantly.</description>
 							<data>none</data>
 						</delayedweapon>
 					</subweapon2>
+					<!-- Rift collapses at teleport destination -->
+					<subweapon3 type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>8</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>2</weight>
+							<weapon type='WeaponDelay'>
+								<delay>1.0</delay>
+								<delayedweapon type='WeaponInvokeWeapon'>
+									<invoke>Unstable Portal</invoke>
+								</delayedweapon>
+							</weapon>
+						</weaponchoice2>
+					</subweapon3>
 				</aimedweapon>
 			</subweapon1>
 			<subweapon2 type='WeaponAnimation'>
 				<animation>ExplosionRingRenderer</animation>
 				<data>none</data>
 			</subweapon2>
+			<!-- Rift collapses at teleport origin -->
+			<subweapon3 type='WeaponRandomChoice'>
+				<weaponchoice1>
+					<weight>6</weight>
+					<weapon type='WeaponNull'></weapon>
+				</weaponchoice1>
+				<weaponchoice2>
+					<weight>4</weight>
+				 	<weapon type='WeaponInvokeWeapon'>
+				 		<invoke>Unstable Portal</invoke>
+					</weapon>
+				</weaponchoice2>
+			</subweapon3>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Transporter</name>
 		<armslevel>4</armslevel>
-		<description>A transporter moves you to where the 
-marker projectile lands on the map.</description>
+		<description>A transporter fires a marker projectile
+which you are teleported to after it lands.</description>
 		<icon>teleport.bmp</icon>
-		<activationsound>shoot/small.wav</activationsound>
+		<activationsound>misc/beamup.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<modelscale>0.5</modelscale>
 		<cost>20000</cost>
+		<model type='MilkShape'>weapons/shockbomblet.txt</model>
 		<accessoryaction type='WeaponProjectile'>
-			<projectilescale>0.5</projectilescale>
 			<spinspeed>1.0</spinspeed>
+			<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
+			<nocreateflame/>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponTeleport'>
 					<sound>data/wav/misc/teleport.wav</sound>
