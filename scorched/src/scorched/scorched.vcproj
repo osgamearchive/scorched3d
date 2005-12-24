@@ -1848,12 +1848,6 @@
 				RelativePath="..\weapons\WeaponRoller.h">
 			</File>
 			<File
-				RelativePath="..\weapons\WeaponScatter.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\WeaponScatter.h">
-			</File>
-			<File
 				RelativePath="..\weapons\WeaponScatterDirection.cpp">
 			</File>
 			<File
