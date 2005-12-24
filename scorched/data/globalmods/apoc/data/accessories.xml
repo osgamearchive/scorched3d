@@ -7311,7 +7311,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 			<nextaction type="WeaponScatterPosition">
 				<landheight>false</landheight>
 				<landonly>false</landonly>
-				<scatterpercentage>90</scatterpercentage>
+				<scatterpercentage>25</scatterpercentage>
 				<aimedweapon type="WeaponScatterDirection">
 					<direction><A>0</A><B>0</B><C>-1</C></direction>
 					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
@@ -8304,7 +8304,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 			<nextaction type="WeaponScatterPosition">
 				<landheight>false</landheight>
 				<landonly>false</landonly>
-				<scatterpercentage>90</scatterpercentage>
+				<scatterpercentage>60</scatterpercentage>
 				<aimedweapon type="WeaponScatterDirection">
 					<direction><A>0</A><B>0</B><C>-1</C></direction>
 					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
@@ -8990,7 +8990,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 			<nextaction type="WeaponScatterPosition">
 				<landheight>false</landheight>
 				<landonly>false</landonly>
-				<scatterpercentage>90</scatterpercentage>
+				<scatterpercentage>75</scatterpercentage>
 				<aimedweapon type="WeaponScatterDirection">
 					<direction><A>0</A><B>0</B><C>-1</C></direction>
 					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
@@ -9389,7 +9389,7 @@ YOU CANNOT AIM THIS WEAPON</description>
 			<nextaction type="WeaponScatterPosition">
 				<landheight>true</landheight>
 				<landonly>true</landonly>
-				<scatterpercentage>40</scatterpercentage>
+				<scatterpercentage>35</scatterpercentage>
 				<aimedweapon type='WeaponDelay'>
 					<delay>2.0</delay>
 					<delayedweapon type='WeaponMulti'>
@@ -9873,7 +9873,7 @@ on the map after a short delay.</description>
 		<cost>10000</cost>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type="WeaponCenterPosition">
-				<height>150</height>
+				<height>0</height>
 				<nextaction type="WeaponScatterPosition">
 					<landheight>true</landheight>
 					<landonly>true</landonly>
@@ -10174,8 +10174,25 @@ violently on one or both sides of the portal.</description>
 		<nomuzzleflash/>
 		<cost>20000</cost>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type="WeaponCenterPosition">
-				<height>150</height>
+			<subweapon1 type='WeaponAnimation'>
+				<animation>ExplosionRingRenderer</animation>
+				<data>none</data>
+			</subweapon1>
+			<!-- Rift collapses at teleport origin -->
+			<subweapon2 type='WeaponRandomChoice'>
+				<weaponchoice1>
+					<weight>6</weight>
+					<weapon type='WeaponNull'></weapon>
+				</weaponchoice1>
+				<weaponchoice2>
+					<weight>4</weight>
+				 	<weapon type='WeaponInvokeWeapon'>
+				 		<invoke>Unstable Portal</invoke>
+					</weapon>
+				</weaponchoice2>
+			</subweapon2>
+			<subweapon3 type="WeaponCenterPosition">
+				<height>0</height>
 				<nextaction type="WeaponScatterPosition">
 					<landheight>true</landheight>
 					<landonly>true</landonly>
@@ -10210,23 +10227,6 @@ violently on one or both sides of the portal.</description>
 						</subweapon3>
 					</aimedweapon>
 				</nextaction>
-			</subweapon1>
-			<subweapon2 type='WeaponAnimation'>
-				<animation>ExplosionRingRenderer</animation>
-				<data>none</data>
-			</subweapon2>
-			<!-- Rift collapses at teleport origin -->
-			<subweapon3 type='WeaponRandomChoice'>
-				<weaponchoice1>
-					<weight>6</weight>
-					<weapon type='WeaponNull'></weapon>
-				</weaponchoice1>
-				<weaponchoice2>
-					<weight>4</weight>
-				 	<weapon type='WeaponInvokeWeapon'>
-				 		<invoke>Unstable Portal</invoke>
-					</weapon>
-				</weaponchoice2>
 			</subweapon3>
 		</accessoryaction>
 	</accessory>
