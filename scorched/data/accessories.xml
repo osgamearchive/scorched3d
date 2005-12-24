@@ -1136,71 +1136,83 @@ trace of the shot path.</description>
 		<name>Lightning</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>150</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponSound'>
-					<sound>data/wav/misc/thunder.wav</sound>
-					<sound>data/wav/misc/thunder2.wav</sound>
-					<sound>data/wav/misc/thunder3.wav</sound>
-				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>0.5</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponSkyFlash'></subweapon1>
-						<subweapon2 type='WeaponLightning'>
-							<conelength>190</conelength>
-							<seglength>6</seglength>
-							<segvar>12</segvar>
-							<size>4</size>
-							<sizevar>-1</sizevar>
-							<minsize>0.1</minsize>
-							<splitprob>0.1</splitprob>
-							<splitvar>0.03</splitvar>
-							<deathprob>0.03</deathprob>
-							<derivangle>0.5</derivangle>
-							<anglevar>0.94</anglevar>
-							<totaltime>1</totaltime>
-							<seghurt>0</seghurt>
-							<seghurtradius>0</seghurtradius>
-							<sound>none</sound>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponSound'>
+							<sound>data/wav/misc/thunder.wav</sound>
+							<sound>data/wav/misc/thunder2.wav</sound>
+							<sound>data/wav/misc/thunder3.wav</sound>
+						</subweapon1>
+						<subweapon2 type='WeaponDelay'>
+							<delay>0.5</delay>
+							<delayedweapon type='WeaponMulti'>
+								<subweapon1 type='WeaponSkyFlash'></subweapon1>
+								<subweapon2 type='WeaponLightning'>
+									<conelength>190</conelength>
+									<seglength>6</seglength>
+									<segvar>12</segvar>
+									<size>4</size>
+									<sizevar>-1</sizevar>
+									<minsize>0.1</minsize>
+									<splitprob>0.1</splitprob>
+									<splitvar>0.03</splitvar>
+									<deathprob>0.03</deathprob>
+									<derivangle>0.5</derivangle>
+									<anglevar>0.94</anglevar>
+									<totaltime>1</totaltime>
+									<seghurt>0</seghurt>
+									<seghurtradius>0</seghurtradius>
+									<sound>none</sound>
+								</subweapon2>
+							</delayedweapon>
 						</subweapon2>
-					</delayedweapon>
-				</subweapon2>
-			</aimedweapon>
+					</aimedweapon>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Meteor</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>150</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedweapon type='WeaponAimedOver'>
-				<nowarheads>5</nowarheads>
-				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>0</maxaimdistance>
-				<inaccuracy>10</inaccuracy>
-				<aimedweapon type='WeaponProjectile'>
-					<projectilemodel type='ase'>
-						<mesh>roller.ase</mesh>
-						<skin>magma.bmp</skin>
-					</projectilemodel>
-					<collisionaction type='WeaponExplosion'>
-						<hurtamount>0.0</hurtamount>
-						<deform>none</deform>
-						<size>4</size>
-						<explosionsound>explosions/small.wav</explosionsound>
-						<explosiontexture>exp04</explosiontexture>
-					</collisionaction>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponAimedOver'>
+						<nowarheads>5</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponProjectile'>
+							<projectilemodel type='ase'>
+								<mesh>roller.ase</mesh>
+								<skin>magma.bmp</skin>
+							</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<hurtamount>0.0</hurtamount>
+								<deform>none</deform>
+								<size>4</size>
+								<explosionsound>explosions/small.wav</explosionsound>
+								<explosiontexture>exp04</explosiontexture>
+							</collisionaction>
+						</aimedweapon>
+					</aimedweapon>
 				</aimedweapon>
-			</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -1263,46 +1275,17 @@ and shields damaging the tank directly.</description>
 		<model type="MilkShape">teleport/teleport.txt</model>
 		<nomuzzleflash/>
 		<cost>15000</cost>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>0</height>
-			<landonly>true</landonly>
-			<direction><A>0</A><B>0</B><C>0</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedweapon type='WeaponTeleport'>
-				<sound>data/wav/misc/teleport.wav</sound>
-				<delay>2.0</delay>
-			</aimedweapon>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>TreeExplode</name>
-		<armslevel>9</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<description>A test weapon for testing trees exploding!</description>
-		<icon>missile.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>1875</cost>
-		<activationsound>shoot/medium.wav</activationsound>
-		<modelscale>0.75</modelscale>
-		<accessoryaction type='WeaponExplosion'>
-			<hurtamount>0.0</hurtamount>
-			<deform>none</deform>
-			<size>6</size>
-			<explosiontexture>exp00</explosiontexture>
-			<explosionsound>explosions/medium.wav</explosionsound>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>TestPowerUp</name>
-		<armslevel>9</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<description>A test powerup</description>
-		<accessoryaction type='WeaponAddTarget'>
-			<targetmodel type="MilkShape">banana/banana.txt</targetmodel>
-			<shield>Shield</shield>
-			<parachute>none</parachute>
-			<deathaction type='WeaponNull'>
-			</deathaction>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>true</landheight>
+				<landonly>true</landonly>
+				<scatterpercentage>90</scatterpercentage>	
+				<aimedweapon type='WeaponTeleport'>
+					<sound>data/wav/misc/teleport.wav</sound>
+					<delay>2.0</delay>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -1372,6 +1355,49 @@ and shields damaging the tank directly.</description>
 				<sound>data/wav/misc/teleport.wav</sound>
 				<delay>2.0</delay>
 			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	
+	
+	
+	
+	<accessory>
+		<name>TreeExplode</name>
+		<armslevel>9</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<description>A test weapon for testing trees exploding!</description>
+		<icon>missile.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>1875</cost>
+		<activationsound>shoot/medium.wav</activationsound>
+		<modelscale>0.75</modelscale>
+		<accessoryaction type='WeaponExplosion'>
+			<hurtamount>0.0</hurtamount>
+			<deform>none</deform>
+			<size>6</size>
+			<explosiontexture>exp00</explosiontexture>
+			<explosionsound>explosions/medium.wav</explosionsound>
+		</accessoryaction>
+	</accessory>	
+	<accessory>
+		<name>TestPowerUp</name>
+		<armslevel>9</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<description>A test powerup</description>
+		<accessoryaction type="WeaponCenterPosition">
+			<height>0</height>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>true</landheight>
+				<landonly>true</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type='WeaponAddTarget'>
+					<targetmodel type="MilkShape">banana/banana.txt</targetmodel>
+					<shield>Shield</shield>
+					<parachute>none</parachute>
+					<deathaction type='WeaponNull'>
+					</deathaction>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 </accessories>

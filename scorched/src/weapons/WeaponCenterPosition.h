@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WeaponScatter_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
-#define AFX_WeaponScatter_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
+#if !defined(__INCLUDE_WeaponCenterPositionh_INCLUDE__)
+#define __INCLUDE_WeaponCenterPositionh_INCLUDE__
 
 #include <weapons/Weapon.h>
 
-class WeaponScatter  : public Weapon
+class WeaponCenterPosition  : public Weapon
 {
 public:
-	WeaponScatter();
-	virtual ~WeaponScatter();
+	WeaponCenterPosition();
+	virtual ~WeaponCenterPosition();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
@@ -37,14 +37,11 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(WeaponScatter, AccessoryPart::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponCenterPosition, AccessoryPart::AccessoryWeapon);
 
 protected:
 	float height_;
-	Vector direction_, directionOffset_;
-	bool landonly_;
-	Weapon *aimedWeapon_;
-
+	Weapon *nextAction_;
 };
 
-#endif // !defined(AFX_WeaponScatter_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#endif // __INCLUDE_WeaponCenterPositionh_INCLUDE__

@@ -18,26 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponScatter.h>
+#include <weapons/WeaponScatterDirection.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 #include <common/Defines.h>
 #include <math.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponScatter);
+REGISTER_ACCESSORY_SOURCE(WeaponScatterDirection);
 
-WeaponScatter::WeaponScatter()
+WeaponScatterDirection::WeaponScatterDirection()
 {
 
 }
 
-WeaponScatter::~WeaponScatter()
+WeaponScatterDirection::~WeaponScatterDirection()
 {
 
 }
 
-bool WeaponScatter::parseXML(OptionsGame &context, 
+bool WeaponScatterDirection::parseXML(OptionsGame &context, 
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
@@ -54,33 +54,17 @@ bool WeaponScatter::parseXML(OptionsGame &context,
 	}
 	aimedWeapon_ = (Weapon*) accessory;
 
-	if (!accessoryNode->getNamedChild("height", height_)) return false;
-	if (!accessoryNode->getNamedChild("landonly", landonly_)) return false;
 	if (!accessoryNode->getNamedChild("direction", direction_)) return false;
 	if (!accessoryNode->getNamedChild("directionoffset", directionOffset_)) return false;
 
 	return true;
 }
 
-void WeaponScatter::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &p, Vector &v,
+void WeaponScatterDirection::fireWeapon(ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &v,
 	unsigned int data)
 {
-	// Mininum height, if we are grounding
-	float allowedHeight = 0.0f;
-	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
-		if (tex.border->getType() == LandscapeTexType::eWater)
-	{
-		LandscapeTexBorderWater *water = 
-			(LandscapeTexBorderWater *) tex.border;
-
-		allowedHeight = water->height;
-	}
-
-	int mapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
-	int mapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
-
-	Vector pos, vel;
+	Vector vel;
 	vel[0] += direction_[0] - directionOffset_[0] + 
 		directionOffset_[0] * 2.0f * RAND;
 	vel[1] += direction_[1] - directionOffset_[1] + 
@@ -88,29 +72,5 @@ void WeaponScatter::fireWeapon(ScorchedContext &context,
 	vel[2] += direction_[2] - directionOffset_[2] + 
 		directionOffset_[2] * 2.0f * RAND;
 
-	bool ok = false;
-	while (!ok)
-	{
-		ok = true;
-		pos[0] = RAND * float(mapWidth - 10) + 5.0f;
-		pos[1] = RAND * float(mapHeight - 10) + 5.0f;
-		pos[2] = height_;
-		if (height_ == 0.0f)
-		{
-			pos[2] = context.landscapeMaps->getGroundMaps().getInterpHeight(
-				pos[0], pos[1]);
-		}
-
-		if (landonly_)
-		{
-			if (pos[2] < allowedHeight)
-			{
-				ok = false;
-				allowedHeight -= 0.01f;
-			}
-		}
-	}
-
-	aimedWeapon_->fireWeapon(context, playerId, pos, vel, data);
+	aimedWeapon_->fireWeapon(context, playerId, position, vel, data);
 }
-

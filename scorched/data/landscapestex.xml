@@ -52,7 +52,6 @@
 				<action type="fireweapon">
 					<weapon>TestPowerUp</weapon>
 				</action>
-				</action>
 			</event>-->
 		</events>
 		<boids>

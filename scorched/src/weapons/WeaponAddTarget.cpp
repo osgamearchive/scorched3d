@@ -55,7 +55,7 @@ bool WeaponAddTarget::parseXML(OptionsGame &context,
 	if (0 != strcmp(shield.c_str(), "none"))
 	{
 		shield_ = (Shield *) store->
-			findByPrimaryAccessoryName(shield.c_str());
+			findByPrimaryAccessoryName(shield.c_str())->getAction();
 	}
 
 	// Does target have parachutes
@@ -64,7 +64,7 @@ bool WeaponAddTarget::parseXML(OptionsGame &context,
 	if (0 != strcmp(parachute.c_str(), "none"))
 	{
 		parachute_ = (Parachute *) store->
-			findByPrimaryAccessoryName(parachute.c_str());
+			findByPrimaryAccessoryName(parachute.c_str())->getAction();
 	}
 
 	// Get the next weapon
@@ -83,13 +83,9 @@ bool WeaponAddTarget::parseXML(OptionsGame &context,
 }
 
 void WeaponAddTarget::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &oldPosition, Vector &velocity,
+	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	Vector position = oldPosition;
-	position[2] = context.landscapeMaps->
-		getGroundMaps().getHeight((int) position[0], (int) position[1]);
-
 	Action *action = new AddTarget(TankAIAdder::getNextTankId(), position, this);
 	context.actionController->addAction(action);
 }

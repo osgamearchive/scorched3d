@@ -1746,6 +1746,12 @@
 				RelativePath="..\weapons\WeaponAnimation.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponCenterPosition.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponCenterPosition.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponDelay.cpp">
 			</File>
 			<File
@@ -1846,6 +1852,18 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponScatter.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatterDirection.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatterDirection.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatterPosition.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponScatterPosition.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponSkyFlash.cpp">
