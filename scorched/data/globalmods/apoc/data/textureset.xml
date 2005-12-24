@@ -133,6 +133,9 @@
 	<textureset name="light00-3">
 		<texture>textures/explode/light00_3.bmp</texture>
 	</textureset>
+	<textureset name="light01">
+		<texture>textures/explode/light01_1.bmp</texture>
+	</textureset>
 	<textureset name="smoke-orange">
 		<texture>textures/explode/smoke-orange.bmp</texture>
 	</textureset>

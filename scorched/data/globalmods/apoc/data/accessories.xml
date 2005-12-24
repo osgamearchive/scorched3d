@@ -8605,7 +8605,7 @@ through the ground aimed at nearby tanks</description>
 													<hurtamount>0</hurtamount>
 													<deform>none</deform>
 													<size>10</size>
-													<explosiontexture>light00</explosiontexture>
+													<explosiontexture>light01</explosiontexture>
 													<explosionsound>none</explosionsound>
 												</subweapon2>
 											</nextaction>
@@ -8629,7 +8629,7 @@ through the ground aimed at nearby tanks</description>
 										<hurtamount>0</hurtamount>
 										<deform>none</deform>
 										<size>8</size>
-										<explosiontexture>light00</explosiontexture>
+										<explosiontexture>light01</explosiontexture>
 										<explosionsound>none</explosionsound>
 									</subweapon3>
 								</nextaction>
@@ -8653,7 +8653,7 @@ through the ground aimed at nearby tanks</description>
 							<hurtamount>0</hurtamount>
 							<deform>none</deform>
 							<size>6</size>
-							<explosiontexture>light00</explosiontexture>
+							<explosiontexture>light01</explosiontexture>
 							<explosionsound>none</explosionsound>
 						</subweapon3>
 					</nextaction>
