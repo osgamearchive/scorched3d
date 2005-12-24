@@ -1045,71 +1045,83 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		<name>Lightning</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>150</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponSound'>
-					<sound>data/wav/misc/thunder.wav</sound>
-					<sound>data/wav/misc/thunder2.wav</sound>
-					<sound>data/wav/misc/thunder3.wav</sound>
-				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>0.5</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponSkyFlash'></subweapon1>
-						<subweapon2 type='WeaponLightning'>
-							<conelength>190</conelength>
-							<seglength>6</seglength>
-							<segvar>12</segvar>
-							<size>4</size>
-							<sizevar>-1</sizevar>
-							<minsize>0.1</minsize>
-							<splitprob>0.1</splitprob>
-							<splitvar>0.03</splitvar>
-							<deathprob>0.03</deathprob>
-							<derivangle>0.5</derivangle>
-							<anglevar>0.94</anglevar>
-							<totaltime>1</totaltime>
-							<seghurt>0</seghurt>
-							<seghurtradius>0</seghurtradius>
-							<sound>none</sound>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponSound'>
+							<sound>data/wav/misc/thunder.wav</sound>
+							<sound>data/wav/misc/thunder2.wav</sound>
+							<sound>data/wav/misc/thunder3.wav</sound>
+						</subweapon1>
+						<subweapon2 type='WeaponDelay'>
+							<delay>0.5</delay>
+							<delayedweapon type='WeaponMulti'>
+								<subweapon1 type='WeaponSkyFlash'></subweapon1>
+								<subweapon2 type='WeaponLightning'>
+									<conelength>190</conelength>
+									<seglength>6</seglength>
+									<segvar>12</segvar>
+									<size>4</size>
+									<sizevar>-1</sizevar>
+									<minsize>0.1</minsize>
+									<splitprob>0.1</splitprob>
+									<splitvar>0.03</splitvar>
+									<deathprob>0.03</deathprob>
+									<derivangle>0.5</derivangle>
+									<anglevar>0.94</anglevar>
+									<totaltime>1</totaltime>
+									<seghurt>0</seghurt>
+									<seghurtradius>0</seghurtradius>
+									<sound>none</sound>
+								</subweapon2>
+							</delayedweapon>
 						</subweapon2>
-					</delayedweapon>
-				</subweapon2>
-			</aimedweapon>
+					</aimedweapon>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Meteor</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>150</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedweapon type='WeaponAimedOver'>
-				<nowarheads>5</nowarheads>
-				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>0</maxaimdistance>
-				<inaccuracy>10</inaccuracy>
-				<aimedweapon type='WeaponProjectile'>
-					<projectilemodel type='ase'>
-						<mesh>roller.ase</mesh>
-						<skin>magma.bmp</skin>
-					</projectilemodel>
-					<collisionaction type='WeaponExplosion'>
-						<hurtamount>0.0</hurtamount>
-						<deform>none</deform>
-						<size>4</size>
-						<explosionsound>explosions/small.wav</explosionsound>
-						<explosiontexture>exp04</explosiontexture>
-					</collisionaction>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponAimedOver'>
+						<nowarheads>5</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponProjectile'>
+							<projectilemodel type='ase'>
+								<mesh>roller.ase</mesh>
+								<skin>magma.bmp</skin>
+							</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<hurtamount>0.0</hurtamount>
+								<deform>none</deform>
+								<size>4</size>
+								<explosionsound>explosions/small.wav</explosionsound>
+								<explosiontexture>exp04</explosiontexture>
+							</collisionaction>
+						</aimedweapon>
+					</aimedweapon>
 				</aimedweapon>
-			</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -7294,115 +7306,121 @@ YOU CANNOT AIM THIS WEAPON!</description>
 			<mesh>roller.ase</mesh>
 			<skin>molten.bmp</skin>
 		</model>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>200</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<nowarheads>8</nowarheads>
-							<percentagemiss>100</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>100</inaccuracy>
-							<aimedweapon type='WeaponRedirect'>
-								<habs>false</habs>
-								<vabs>true</vabs>
-								<hredirect>0</hredirect>
-								<vredirect>90</vredirect>
-								<nextaction type='WeaponTranslate'>
-									<translatedist>50</translatedist>
-									<nextaction type='WeaponMulti'>
-										<subweapon1 type='WeaponDelay'>
-											<delay>1.0</delay>
-											<delayedweapon type='WeaponAimedOver'>
-												<nowarheads>1</nowarheads>
-												<percentagemiss>20</percentagemiss>
-												<maxaimdistance>50</maxaimdistance>
-												<inaccuracy>15</inaccuracy>
-												<aimedweapon type='WeaponProjectile'>
-													<apexcollision></apexcollision>
-													<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
-													<collisionaction type='WeaponMulti'>
-														<subweapon1 type='WeaponDelay'>
-															<delay>1.0</delay>
-															<delayedweapon type='WeaponAimedOver'>
-																<nowarheads>2</nowarheads>
-																<percentagemiss>20</percentagemiss>
-																<maxaimdistance>35</maxaimdistance>
-																<inaccuracy>20</inaccuracy>
-																<aimedweapon type='WeaponReference'>
-																	<weapon>Meteor1</weapon>
-																</aimedweapon>
-															</delayedweapon>
-														</subweapon1>
-														<subweapon2 type='WeaponReference'>
-															<weapon>Meteor2</weapon>
-														</subweapon2>
-														<subweapon3 type='WeaponExplosion'>
-															<nocreatedebris/>
-															<minlife>4</minlife>
-															<maxlife>6</maxlife>
-															<animate/>
-															<hurtamount>0</hurtamount>
-															<deform>none</deform>
-															<size>24</size>
-															<explosionsound>shoot/flare.wav</explosionsound>
-															<explosiontexture>exp04</explosiontexture>
-														</subweapon3>
-													</collisionaction>
-												</aimedweapon>
-											</delayedweapon>
-										</subweapon1>
-										<subweapon2 type='WeaponReference'>
-											<weapon>MeteorCluster</weapon>
-										</subweapon2>
-										<subweapon3 type='WeaponExplosion'>
-											<hurtamount>0</hurtamount>
-											<nocreatedebris/>
-											<minlife>4</minlife>
-											<maxlife>6</maxlife>
-											<deform>none</deform>
-											<size>24</size>
-											<explosionshake>4.0</explosionshake>
-											<explosionsound>explosions/quake.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-										</subweapon3>
-										<subweapon4 type='WeaponReference'>
-											<weapon>Clouds-Red</weapon>
-										</subweapon4>
-									</nextaction>
-								</nextaction>
-							</aimedweapon>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponDelay'>
+							<delay>2.0</delay>
+							<delayedweapon type='WeaponMulti'>
+								<subweapon1 type='WeaponAimedOver'>
+									<nowarheads>8</nowarheads>
+									<percentagemiss>100</percentagemiss>
+									<maxaimdistance>0</maxaimdistance>
+									<inaccuracy>100</inaccuracy>
+									<aimedweapon type='WeaponRedirect'>
+										<habs>false</habs>
+										<vabs>true</vabs>
+										<hredirect>0</hredirect>
+										<vredirect>90</vredirect>
+										<nextaction type='WeaponTranslate'>
+											<translatedist>50</translatedist>
+											<nextaction type='WeaponMulti'>
+												<subweapon1 type='WeaponDelay'>
+													<delay>1.0</delay>
+													<delayedweapon type='WeaponAimedOver'>
+														<nowarheads>1</nowarheads>
+														<percentagemiss>20</percentagemiss>
+														<maxaimdistance>50</maxaimdistance>
+														<inaccuracy>15</inaccuracy>
+														<aimedweapon type='WeaponProjectile'>
+															<apexcollision></apexcollision>
+															<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+															<collisionaction type='WeaponMulti'>
+																<subweapon1 type='WeaponDelay'>
+																	<delay>1.0</delay>
+																	<delayedweapon type='WeaponAimedOver'>
+																		<nowarheads>2</nowarheads>
+																		<percentagemiss>20</percentagemiss>
+																		<maxaimdistance>35</maxaimdistance>
+																		<inaccuracy>20</inaccuracy>
+																		<aimedweapon type='WeaponReference'>
+																			<weapon>Meteor1</weapon>
+																		</aimedweapon>
+																	</delayedweapon>
+																</subweapon1>
+																<subweapon2 type='WeaponReference'>
+																	<weapon>Meteor2</weapon>
+																</subweapon2>
+																<subweapon3 type='WeaponExplosion'>
+																	<nocreatedebris/>
+																	<minlife>4</minlife>
+																	<maxlife>6</maxlife>
+																	<animate/>
+																	<hurtamount>0</hurtamount>
+																	<deform>none</deform>
+																	<size>24</size>
+																	<explosionsound>shoot/flare.wav</explosionsound>
+																	<explosiontexture>exp04</explosiontexture>
+																</subweapon3>
+															</collisionaction>
+														</aimedweapon>
+													</delayedweapon>
+												</subweapon1>
+												<subweapon2 type='WeaponReference'>
+													<weapon>MeteorCluster</weapon>
+												</subweapon2>
+												<subweapon3 type='WeaponExplosion'>
+													<hurtamount>0</hurtamount>
+													<nocreatedebris/>
+													<minlife>4</minlife>
+													<maxlife>6</maxlife>
+													<deform>none</deform>
+													<size>24</size>
+													<explosionshake>4.0</explosionshake>
+													<explosionsound>explosions/quake.wav</explosionsound>
+													<explosiontexture>exp04</explosiontexture>
+												</subweapon3>
+												<subweapon4 type='WeaponReference'>
+													<weapon>Clouds-Red</weapon>
+												</subweapon4>
+											</nextaction>
+										</nextaction>
+									</aimedweapon>
+								</subweapon1>
+								<subweapon2 type='WeaponExplosion'>
+									<nocreatedebris/>
+									<minlife>3</minlife>
+									<maxlife>4</maxlife>
+									<animate/>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>16</size>
+									<explosionsound>explosions/lightning.wav</explosionsound>
+									<explosiontexture>exp04</explosiontexture>
+								</subweapon2>
+							</delayedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
 							<nocreatedebris/>
-							<minlife>3</minlife>
-							<maxlife>4</maxlife>
+							<minlife>4</minlife>
+							<maxlife>6</maxlife>
 							<animate/>
 							<hurtamount>0</hurtamount>
 							<deform>none</deform>
-							<size>16</size>
-							<explosionsound>explosions/lightning.wav</explosionsound>
+							<size>24</size>
+							<explosionsound>shoot/flare.wav</explosionsound>
 							<explosiontexture>exp04</explosiontexture>
 						</subweapon2>
-					</delayedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<minlife>4</minlife>
-					<maxlife>6</maxlife>
-					<animate/>
-					<hurtamount>0</hurtamount>
-					<deform>none</deform>
-					<size>24</size>
-					<explosionsound>shoot/flare.wav</explosionsound>
-					<explosiontexture>exp04</explosiontexture>
-				</subweapon2>
-			</aimedweapon>
+					</aimedweapon>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -8281,36 +8299,42 @@ YOU CANNOT AIM THIS WEAPON</description>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>2.5</modelscale>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>80</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>	
-			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponReference'>
-					<weapon>Clouds-Grey</weapon>
-				</subweapon1>
-				<subweapon2 type='WeaponReference'>
-					<weapon>Lightning Bolt</weapon>
-					<armslevel>1</armslevel>
-				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>0.5</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Lightning Bolt</weapon>
-						<armslevel>1</armslevel>
-					</delayedweapon>
-				</subweapon3>
-				<subweapon4 type='WeaponSound'>
-					<sound>data/wav/explosions/thunder.wav</sound>
-				</subweapon4>
-				<subweapon5 type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponSound'>
-						<sound>data/wav/explosions/lightningbolt.wav</sound>
-					</delayedweapon>
-				</subweapon5>
-			</aimedweapon>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Clouds-Grey</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Lightning Bolt</weapon>
+							<armslevel>1</armslevel>
+						</subweapon2>
+						<subweapon3 type='WeaponDelay'>
+							<delay>0.5</delay>
+							<delayedweapon type='WeaponReference'>
+								<weapon>Lightning Bolt</weapon>
+								<armslevel>1</armslevel>
+							</delayedweapon>
+						</subweapon3>
+						<subweapon4 type='WeaponSound'>
+							<sound>data/wav/explosions/thunder.wav</sound>
+						</subweapon4>
+						<subweapon5 type='WeaponDelay'>
+							<delay>2.0</delay>
+							<delayedweapon type='WeaponSound'>
+								<sound>data/wav/explosions/lightningbolt.wav</sound>
+							</delayedweapon>
+						</subweapon5>
+					</aimedweapon>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -8961,91 +8985,97 @@ YOU CANNOT AIM THIS WEAPON!</description>
 		<activationsound>explosions/shockwave.wav</activationsound>
 		<model type='MilkShape'>weapons/shockrocket.txt</model>
 		<modelscale>5.0</modelscale>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>80</height>
-			<landonly>false</landonly>
-			<direction><A>0</A><B>0</B><C>-1</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>	
-			<aimedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponReference'>
-					<weapon>Storm Segment</weapon>
-				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>1.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>0</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type="WeaponScatterDirection">
+					<direction><A>0</A><B>0</B><C>-1</C></direction>
+					<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Storm Segment</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponDelay'>
+							<delay>1.0</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>0</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Storm Segment</weapon>
+									</nextaction>
+								</nextaction>
+							</delayedweapon>
+						</subweapon2>
+						<subweapon3 type='WeaponDelay'>
+							<delay>2.0</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>90</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Storm Segment</weapon>
+									</nextaction>
+								</nextaction>
+							</delayedweapon>
+						</subweapon3>
+						<subweapon4 type='WeaponDelay'>
+							<delay>3.0</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>180</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Storm Segment</weapon>
+									</nextaction>
+								</nextaction>
+							</delayedweapon>
+						</subweapon4>
+						<subweapon5 type='WeaponDelay'>
+							<delay>4.0</delay>
+							<delayedweapon type='WeaponRedirect'>
+								<habs>false</habs>
+								<vabs>true</vabs>
+								<hredirect>270</hredirect>
+								<vredirect>90</vredirect>
+								<nextaction type='WeaponTranslate'>
+									<translatedist>25</translatedist>
+									<nextaction type='WeaponReference'>
+										<weapon>Storm Segment</weapon>
+									</nextaction>
+								</nextaction>
+							</delayedweapon>
+						</subweapon5>
+						<subweapon6 type='WeaponDelay'>
+							<delay>2.0</delay>
+							<delayedweapon type='WeaponReference'>
 								<weapon>Storm Segment</weapon>
-							</nextaction>
-						</nextaction>
-					</delayedweapon>
-				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>90</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<weapon>Storm Segment</weapon>
-							</nextaction>
-						</nextaction>
-					</delayedweapon>
-				</subweapon3>
-				<subweapon4 type='WeaponDelay'>
-					<delay>3.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>180</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<weapon>Storm Segment</weapon>
-							</nextaction>
-						</nextaction>
-					</delayedweapon>
-				</subweapon4>
-				<subweapon5 type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>270</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponReference'>
-								<weapon>Storm Segment</weapon>
-							</nextaction>
-						</nextaction>
-					</delayedweapon>
-				</subweapon5>
-				<subweapon6 type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Storm Segment</weapon>
-					</delayedweapon>
-				</subweapon6>
-				<subweapon7 type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Clouds-Grey</weapon>
-					</delayedweapon>
-				</subweapon7>
-				<subweapon8 type='WeaponSound'>
-					<sound>data/wav/explosions/thunder.wav</sound>
-				</subweapon8>
-			</aimedweapon>
+							</delayedweapon>
+						</subweapon6>
+						<subweapon7 type='WeaponDelay'>
+							<delay>4.0</delay>
+							<delayedweapon type='WeaponReference'>
+								<weapon>Clouds-Grey</weapon>
+							</delayedweapon>
+						</subweapon7>
+						<subweapon8 type='WeaponSound'>
+							<sound>data/wav/explosions/thunder.wav</sound>
+						</subweapon8>
+					</aimedweapon>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -9354,88 +9384,90 @@ YOU CANNOT AIM THIS WEAPON</description>
 		<cost>50000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>flare.txt</model>
-		<accessoryaction type="WeaponScatter">
+		<accessoryaction type="WeaponCenterPosition">
 			<height>0</height>
-			<landonly>true</landonly>
-			<direction><A>0</A><B>0</B><C>0</C></direction>
-			<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>	
-			<aimedweapon type='WeaponDelay'>
-				<delay>2.0</delay>
-				<delayedweapon type='WeaponMulti'>
-					<subweapon1 type='WeaponDelay'>
-						<delay>1</delay>
-						<delayedweapon type='WeaponMulti'>
-							<subweapon1 type='WeaponDelay'>
-								<delay>1</delay>
-								<delayedweapon type='WeaponMulti'>
-									<subweapon1 type='WeaponDelay'>
-										<delay>1</delay>
-										<delayedweapon type='WeaponMulti'>
-											<subweapon1 type='WeaponDelay'>
-												<delay>1</delay>
-												<delayedweapon type='WeaponExplosion'>
+			<nextaction type="WeaponScatterPosition">
+				<landheight>true</landheight>
+				<landonly>true</landonly>
+				<scatterpercentage>40</scatterpercentage>
+				<aimedweapon type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponDelay'>
+							<delay>1</delay>
+							<delayedweapon type='WeaponMulti'>
+								<subweapon1 type='WeaponDelay'>
+									<delay>1</delay>
+									<delayedweapon type='WeaponMulti'>
+										<subweapon1 type='WeaponDelay'>
+											<delay>1</delay>
+											<delayedweapon type='WeaponMulti'>
+												<subweapon1 type='WeaponDelay'>
+													<delay>1</delay>
+													<delayedweapon type='WeaponExplosion'>
+														<armslevel>1</armslevel>
+														<nocreatedebris/>
+														<nocreatesplash/>
+														<hurtamount>0.3</hurtamount>
+														<deform>none</deform>
+														<size>128</size>
+														<explosionshake>4.0</explosionshake>
+														<explosiontexture>none</explosiontexture>
+														<explosionsound>none</explosionsound>
+													</delayedweapon>
+												</subweapon1>
+												<subweapon2 type='WeaponExplosion'>
 													<armslevel>1</armslevel>
 													<nocreatedebris/>
 													<nocreatesplash/>
 													<hurtamount>0.3</hurtamount>
 													<deform>none</deform>
 													<size>128</size>
-													<explosionshake>4.0</explosionshake>
+													<explosionshake>6.0</explosionshake>
 													<explosiontexture>none</explosiontexture>
 													<explosionsound>none</explosionsound>
-												</delayedweapon>
-											</subweapon1>
-											<subweapon2 type='WeaponExplosion'>
-												<armslevel>1</armslevel>
-												<nocreatedebris/>
-												<nocreatesplash/>
-												<hurtamount>0.3</hurtamount>
-												<deform>none</deform>
-												<size>128</size>
-												<explosionshake>6.0</explosionshake>
-												<explosiontexture>none</explosiontexture>
-												<explosionsound>none</explosionsound>
-											</subweapon2>
-										</delayedweapon>
-									</subweapon1>
-									<subweapon2 type='WeaponExplosion'>
-										<armslevel>1</armslevel>
-										<nocreatedebris/>
-										<nocreatesplash/>
-										<hurtamount>0.3</hurtamount>
-										<deform>none</deform>
-										<size>128</size>
-										<explosionshake>4.0</explosionshake>
-										<explosiontexture>none</explosiontexture>
-										<explosionsound>none</explosionsound>
-									</subweapon2>
-								</delayedweapon>
-							</subweapon1>
-							<subweapon2 type='WeaponExplosion'>
-								<armslevel>1</armslevel>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<hurtamount>0.3</hurtamount>
-								<deform>none</deform>
-								<size>128</size>
-								<explosionshake>4.0</explosionshake>
-								<explosiontexture>none</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</subweapon2>
-						</delayedweapon>
-					</subweapon1>
-					<subweapon2 type='WeaponExplosion'>
-						<armslevel>1</armslevel>
-						<nocreatedebris/>
-						<hurtamount>0.3</hurtamount>
-						<deform>none</deform>
-						<size>128</size>
-						<explosionshake>3.0</explosionshake>
-						<explosiontexture>none</explosiontexture>
-						<explosionsound>explosions/quake.wav</explosionsound>
-					</subweapon2>
-				</delayedweapon>
-			</aimedweapon>
+												</subweapon2>
+											</delayedweapon>
+										</subweapon1>
+										<subweapon2 type='WeaponExplosion'>
+											<armslevel>1</armslevel>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<hurtamount>0.3</hurtamount>
+											<deform>none</deform>
+											<size>128</size>
+											<explosionshake>4.0</explosionshake>
+											<explosiontexture>none</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon2>
+									</delayedweapon>
+								</subweapon1>
+								<subweapon2 type='WeaponExplosion'>
+									<armslevel>1</armslevel>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.3</hurtamount>
+									<deform>none</deform>
+									<size>128</size>
+									<explosionshake>4.0</explosionshake>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</subweapon2>
+							</delayedweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponExplosion'>
+							<armslevel>1</armslevel>
+							<nocreatedebris/>
+							<hurtamount>0.3</hurtamount>
+							<deform>none</deform>
+							<size>128</size>
+							<explosionshake>3.0</explosionshake>
+							<explosiontexture>none</explosiontexture>
+							<explosionsound>explosions/quake.wav</explosionsound>
+						</subweapon2>
+					</delayedweapon>
+				</aimedweapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -9840,30 +9872,32 @@ on the map after a short delay.</description>
 		<nomuzzleflash/>
 		<cost>10000</cost>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type="WeaponScatter">
-				<height>0</height>
-				<landonly>true</landonly>
-				<direction><A>0</A><B>0</B><C>0</C></direction>
-				<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-				<aimedweapon type='WeaponMulti'>
-					<subweapon1 type='WeaponDelay'>
-						<delay>1.5</delay>
-						<delayedweapon type='WeaponSound'>
-							<sound>data/wav/misc/teleport.wav</sound>
-						</delayedweapon>
-					</subweapon1>
-					<subweapon2 type='WeaponTeleport'>
-						<sound>data/wav/misc/beamup.wav</sound>
-						<delay>2.5</delay>
-					</subweapon2>
-					<subweapon3 type='WeaponDelay'>
-						<delay>2.5</delay>
-						<delayedweapon type='WeaponAnimation'>
-							<animation>ExplosionRingRenderer</animation>
-							<data>none</data>
-						</delayedweapon>
-					</subweapon3>
-				</aimedweapon>
+			<subweapon1 type="WeaponCenterPosition">
+				<height>150</height>
+				<nextaction type="WeaponScatterPosition">
+					<landheight>true</landheight>
+					<landonly>true</landonly>
+					<scatterpercentage>90</scatterpercentage>
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponDelay'>
+							<delay>1.5</delay>
+							<delayedweapon type='WeaponSound'>
+								<sound>data/wav/misc/teleport.wav</sound>
+							</delayedweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponTeleport'>
+							<sound>data/wav/misc/beamup.wav</sound>
+							<delay>2.5</delay>
+						</subweapon2>
+						<subweapon3 type='WeaponDelay'>
+							<delay>2.5</delay>
+							<delayedweapon type='WeaponAnimation'>
+								<animation>ExplosionRingRenderer</animation>
+								<data>none</data>
+							</delayedweapon>
+						</subweapon3>
+					</aimedweapon>
+				</nextaction>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
 				<delay>2.0</delay>
@@ -10140,40 +10174,42 @@ violently on one or both sides of the portal.</description>
 		<nomuzzleflash/>
 		<cost>20000</cost>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type="WeaponScatter">
-				<height>0</height>
-				<landonly>true</landonly>
-				<direction><A>0</A><B>0</B><C>0</C></direction>
-				<directionoffset><A>0</A><B>0</B><C>0</C></directionoffset>		
-				<aimedweapon type='WeaponMulti'>
-					<subweapon1 type='WeaponTeleport'>
-						<sound>data/wav/misc/teleport.wav</sound>
-						<delay>0.5</delay>
-					</subweapon1>
-					<subweapon2 type='WeaponDelay'>
-						<delay>0.5</delay>
-						<delayedweapon type='WeaponAnimation'>
-							<animation>ExplosionRingRenderer</animation>
-							<data>none</data>
-						</delayedweapon>
-					</subweapon2>
-					<!-- Rift collapses at teleport destination -->
-					<subweapon3 type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>8</weight>
-							<weapon type='WeaponNull'></weapon>
-						</weaponchoice1>
-						<weaponchoice2>
-							<weight>2</weight>
-							<weapon type='WeaponDelay'>
-								<delay>1.0</delay>
-								<delayedweapon type='WeaponInvokeWeapon'>
-									<invoke>Unstable Portal</invoke>
-								</delayedweapon>
-							</weapon>
-						</weaponchoice2>
-					</subweapon3>
-				</aimedweapon>
+			<subweapon1 type="WeaponCenterPosition">
+				<height>150</height>
+				<nextaction type="WeaponScatterPosition">
+					<landheight>true</landheight>
+					<landonly>true</landonly>
+					<scatterpercentage>90</scatterpercentage>
+					<aimedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponTeleport'>
+							<sound>data/wav/misc/teleport.wav</sound>
+							<delay>0.5</delay>
+						</subweapon1>
+						<subweapon2 type='WeaponDelay'>
+							<delay>0.5</delay>
+							<delayedweapon type='WeaponAnimation'>
+								<animation>ExplosionRingRenderer</animation>
+								<data>none</data>
+							</delayedweapon>
+						</subweapon2>
+						<!-- Rift collapses at teleport destination -->
+						<subweapon3 type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>8</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>2</weight>
+								<weapon type='WeaponDelay'>
+									<delay>1.0</delay>
+									<delayedweapon type='WeaponInvokeWeapon'>
+										<invoke>Unstable Portal</invoke>
+									</delayedweapon>
+								</weapon>
+							</weaponchoice2>
+						</subweapon3>
+					</aimedweapon>
+				</nextaction>
 			</subweapon1>
 			<subweapon2 type='WeaponAnimation'>
 				<animation>ExplosionRingRenderer</animation>
