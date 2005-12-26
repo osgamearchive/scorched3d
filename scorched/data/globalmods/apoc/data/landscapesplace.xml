@@ -786,6 +786,20 @@
 					<size>0.066</size> 
 				</position> 
 			</placement>
+			<placement type="direct">
+				<removeaction>Nuclear Plant</removeaction> 
+				<burnaction>Nuclear Plant</burnaction> 
+				<groupname>factories</groupname>
+				<object type="model"> 
+					<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model> 
+					<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt> 
+				</object> 
+				<position> 
+					<position><A>128</A><B>128</B><C>0</C></position> 
+					<rotation>0</rotation> 
+					<size>0.075</size> 
+				</position> 
+			</placement>
 			<placement type="mask">
 				<numobjects>120</numobjects>
 				<mask>data/landscapes/masks/city2urban2.bmp</mask>
@@ -1124,7 +1138,7 @@
 				</object>
 			</placement>
 			<placement type="mask">
-				<numobjects>6</numobjects>
+				<numobjects>2</numobjects>
 				<mask>data/landscapes/masks/city1rural.bmp</mask>
 				<minheight>10</minheight>
 				<maxheight>75</maxheight>

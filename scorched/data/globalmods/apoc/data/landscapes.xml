@@ -528,22 +528,6 @@
 			<item>moon</item>
 		</tex>
 	</landscape>
-	<landscape>
-		<name>City Blocks</name>
-		<description></description>
-		<picture>hillcity-pic.bmp</picture>
-		<weight>100</weight>
-		<defn>
-			<item>hillcity</item>
-		</defn>
-		<tex>
-			<item>city1-summer</item>
-			<item>city1-winter</item>
-			<item>city1-storm</item>
-			<item>sand</item>
-			<item>tropical</item>
-		</tex>
-	</landscape>
 	
 	<!--
 	Maps designed by ShoCkwaVe

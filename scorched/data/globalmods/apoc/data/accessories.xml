@@ -683,6 +683,393 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Fallout Damage1</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<nocreatesplash/>
+				<hurtamount>0.05</hurtamount>
+				<deform>none</deform>
+				<size>35</size>
+				<explosiontexture>none</explosiontexture>
+				<explosionsound>none</explosionsound>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>40</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>45</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>3.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fallout Damage2</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponDelay'>
+				<delay>4.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>5.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>6.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>7.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fallout Damage3</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponDelay'>
+				<delay>8.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>9.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>10.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>11.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fallout Damage4</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponDelay'>
+				<delay>12.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>13.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>14.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>15.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.05</hurtamount>
+					<deform>none</deform>
+					<size>50</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Nuclear Fallout</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilescale>0.01</projectilescale>
+			<projectilemodel type='ase'>
+				<mesh>roller.ase</mesh>
+				<skin>green.bmp</skin>
+			</projectilemodel>
+			<nocreatesmoke/>
+			<nocreateflame/>
+			<collisionaction type='WeaponMulti'>
+				<!-- Secondary Visible Explosions -->
+				<subweapon1 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<noluminance/>
+					<nowindaffected/>
+					<minlife>7</minlife>
+					<maxlife>8</maxlife>
+					<animate/>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>10</size>
+					<explosiontexture>gas00</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<noluminance/>
+						<nowindaffected/>
+						<minlife>6</minlife>
+						<maxlife>8</maxlife>
+						<animate/>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>12</size>
+						<explosiontexture>gas00</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</delayedweapon>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
+					<delay>8.0</delay>
+					<delayedweapon type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<noluminance/>
+						<nowindaffected/>
+						<minlife>6</minlife>
+						<maxlife>8</maxlife>
+						<animate/>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>12</size>
+						<explosiontexture>gas00</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</delayedweapon>
+				</subweapon3>
+				<!-- Secondary Damaging Explosions -->
+				<subweapon4 type='WeaponMulti'>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Fallout Damage1</weapon>
+					</subweapon1>
+					<subweapon2 type='WeaponReference'>
+						<weapon>Fallout Damage2</weapon>
+					</subweapon2>
+					<subweapon3 type='WeaponReference'>
+						<weapon>Fallout Damage3</weapon>
+					</subweapon3>
+				</subweapon4>
+				<!-- Tertiary Visible Explosions -->
+				<subweapon5 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>true</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponTranslate'>
+						<translatedist>1</translatedist>
+						<nextaction type='WeaponProjectile'>
+							<projectilescale>0.01</projectilescale>
+							<projectilemodel type='ase'>
+								<mesh>roller.ase</mesh>
+								<skin>green.bmp</skin>
+							</projectilemodel>
+							<nocreatesmoke/>
+							<nocreateflame/>
+							<collisionaction type='WeaponMulti'>
+								<subweapon1 type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>6</minlife>
+									<maxlife>8</maxlife>
+									<animate/>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>10</size>
+									<explosiontexture>gas00</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</subweapon1>
+								<subweapon2 type='WeaponDelay'>
+									<delay>4.0</delay>
+									<delayedweapon type='WeaponExplosion'>
+										<nocreatedebris/>
+										<nocreatesplash/>
+										<noluminance/>
+										<nowindaffected/>
+										<minlife>6</minlife>
+										<maxlife>8</maxlife>
+										<animate/>
+										<hurtamount>0</hurtamount>
+										<deform>none</deform>
+										<size>12</size>
+										<explosiontexture>gas00</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</delayedweapon>
+								</subweapon2>
+								<subweapon3 type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>true</vabs>
+									<hredirect>0</hredirect>
+									<vredirect>0</vredirect>
+									<nextaction type='WeaponTranslate'>
+										<translatedist>1</translatedist>
+										<nextaction type='WeaponProjectile'>
+											<projectilescale>0.01</projectilescale>
+											<projectilemodel type='ase'>
+												<mesh>roller.ase</mesh>
+												<skin>green.bmp</skin>
+											</projectilemodel>
+											<nocreatesmoke/>
+											<nocreateflame/>
+											<collisionaction type='WeaponMulti'>
+												<subweapon1 type='WeaponExplosion'>
+													<nocreatedebris/>
+													<nocreatesplash/>
+													<noluminance/>
+													<nowindaffected/>
+													<minlife>6</minlife>
+													<maxlife>8</maxlife>
+													<animate/>
+													<hurtamount>0</hurtamount>
+													<deform>none</deform>
+													<size>10</size>
+													<explosiontexture>gas00</explosiontexture>
+													<explosionsound>none</explosionsound>
+												</subweapon1>
+												<!-- Tertiary Damage Explosions -->
+												<subweapon2 type='WeaponReference'>
+													<weapon>Fallout Damage1</weapon>
+												</subweapon2>
+												<subweapon3 type='WeaponReference'>
+													<weapon>Fallout Damage2</weapon>
+												</subweapon3>
+											</collisionaction>
+										</nextaction>
+									</nextaction>
+								</subweapon3>
+							</collisionaction>
+						</nextaction>
+					</nextaction>
+				</subweapon5>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Nuclear Plant</name>
 		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -694,14 +1081,21 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<createmushroomamount>1.0</createmushroomamount>
 					<minlife>2</minlife>
 					<maxlife>3</maxlife>
-					<hurtamount>1.0</hurtamount>
+					<hurtamount>0</hurtamount>
 					<deform>down</deform>
-					<size>32</size>
+					<size>24</size>
 					<explosionshake>4.0</explosionshake>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
+				<subweapon2 type='WeaponExplosion'>
+					<hurtamount>1.0</hurtamount>
+					<deform>none</deform>
+					<size>32</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
 					<delay>1.0</delay>
 					<delayedweapon type='WeaponMulti'>
 						<!-- Primary Visible Explosions -->
@@ -774,104 +1168,23 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 						</subweapon1>
 						<!-- Primary Damaging Explosions -->
 						<subweapon2 type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<hurtamount>0.05</hurtamount>
-								<deform>none</deform>
-								<size>35</size>
-								<explosiontexture>none</explosiontexture>
-								<explosionsound>none</explosionsound>
+							<subweapon1 type='WeaponReference'>
+								<weapon>Fallout Damage1</weapon>
 							</subweapon1>
-							<subweapon2 type='WeaponDelay'>
-								<delay>1.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>40</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
+							<subweapon2 type='WeaponReference'>
+								<weapon>Fallout Damage2</weapon>
 							</subweapon2>
-							<subweapon3 type='WeaponDelay'>
-								<delay>2.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>45</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
+							<subweapon3 type='WeaponReference'>
+								<weapon>Fallout Damage3</weapon>
 							</subweapon3>
-							<subweapon4 type='WeaponDelay'>
-								<delay>3.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>50</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
+							<subweapon4 type='WeaponReference'>
+								<weapon>Fallout Damage4</weapon>
 							</subweapon4>
-							<subweapon5 type='WeaponDelay'>
-								<delay>4.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>50</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon5>
-							<subweapon6 type='WeaponDelay'>
-								<delay>5.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>50</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon6>
-							<subweapon7 type='WeaponDelay'>
-								<delay>6.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>50</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon7>
-							<subweapon8 type='WeaponDelay'>
-								<delay>7.0</delay>
-								<delayedweapon type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.05</hurtamount>
-									<deform>none</deform>
-									<size>50</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</delayedweapon>
-							</subweapon8>
 						</subweapon2>
 					</delayedweapon>
-				</subweapon2>
-				<!-- Secondary Visible Explosions (wind affected) -->
-				<subweapon3 type='WeaponAimedOver'>
+				</subweapon3>
+				<!-- Wind Affected Explosions -->
+				<subweapon4 type='WeaponAimedOver'>
 					<percentagemiss>0</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>0</inaccuracy>
@@ -881,163 +1194,28 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 						<vabs>true</vabs>
 						<hredirect>0</hredirect>
 						<vredirect>0</vredirect>
-						<nextaction type='WeaponVelocity'>
-							<velocitychange>1.25</velocitychange>
-							<aimedweapon type='WeaponProjectile'>
-								<projectilescale>0.01</projectilescale>
-								<projectilemodel type='ase'>
-									<mesh>roller.ase</mesh>
-									<skin>green.bmp</skin>
-								</projectilemodel>
-								<nocreatesmoke/>
-								<nocreateflame/>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponExplosion'>
-										<nocreatedebris/>
-										<nocreatesplash/>
-										<noluminance/>
-										<nowindaffected/>
-										<minlife>7</minlife>
-										<maxlife>8</maxlife>
-										<animate/>
-										<hurtamount>0</hurtamount>
-										<deform>none</deform>
-										<size>10</size>
-										<explosiontexture>gas00</explosiontexture>
-										<explosionsound>none</explosionsound>
-									</subweapon1>
-									<subweapon2 type='WeaponDelay'>
-										<delay>4.0</delay>
-										<delayedweapon type='WeaponExplosion'>
-											<nocreatedebris/>
-											<nocreatesplash/>
-											<noluminance/>
-											<nowindaffected/>
-											<minlife>6</minlife>
-											<maxlife>8</maxlife>
-											<animate/>
-											<hurtamount>0</hurtamount>
-											<deform>none</deform>
-											<size>12</size>
-											<explosiontexture>gas00</explosiontexture>
-											<explosionsound>none</explosionsound>
-										</delayedweapon>
-									</subweapon2>
-									<subweapon3 type='WeaponDelay'>
-										<delay>8.0</delay>
-										<delayedweapon type='WeaponExplosion'>
-											<nocreatedebris/>
-											<nocreatesplash/>
-											<noluminance/>
-											<nowindaffected/>
-											<minlife>6</minlife>
-											<maxlife>8</maxlife>
-											<animate/>
-											<hurtamount>0</hurtamount>
-											<deform>none</deform>
-											<size>12</size>
-											<explosiontexture>gas00</explosiontexture>
-											<explosionsound>none</explosionsound>
-										</delayedweapon>
-									</subweapon3>
-									<subweapon4 type='WeaponRedirect'>
-										<habs>false</habs>
-										<vabs>true</vabs>
-										<hredirect>0</hredirect>
-										<vredirect>0</vredirect>
-										<nextaction type='WeaponTranslate'>
-											<translatedist>1</translatedist>
-											<nextaction type='WeaponProjectile'>
-												<projectilescale>0.01</projectilescale>
-												<projectilemodel type='ase'>
-													<mesh>roller.ase</mesh>
-													<skin>green.bmp</skin>
-												</projectilemodel>
-												<nocreatesmoke/>
-												<nocreateflame/>
-												<collisionaction type='WeaponMulti'>
-													<subweapon1 type='WeaponExplosion'>
-														<nocreatedebris/>
-														<nocreatesplash/>
-														<noluminance/>
-														<nowindaffected/>
-														<minlife>6</minlife>
-														<maxlife>8</maxlife>
-														<animate/>
-														<hurtamount>0</hurtamount>
-														<deform>none</deform>
-														<size>10</size>
-														<explosiontexture>gas00</explosiontexture>
-														<explosionsound>none</explosionsound>
-													</subweapon1>
-													<subweapon2 type='WeaponDelay'>
-														<delay>4.0</delay>
-														<delayedweapon type='WeaponExplosion'>
-															<nocreatedebris/>
-															<nocreatesplash/>
-															<noluminance/>
-															<nowindaffected/>
-															<minlife>6</minlife>
-															<maxlife>8</maxlife>
-															<animate/>
-															<hurtamount>0</hurtamount>
-															<deform>none</deform>
-															<size>12</size>
-															<explosiontexture>gas00</explosiontexture>
-															<explosionsound>none</explosionsound>
-														</delayedweapon>
-													</subweapon2>
-													<subweapon3 type='WeaponRedirect'>
-														<habs>false</habs>
-														<vabs>true</vabs>
-														<hredirect>0</hredirect>
-														<vredirect>0</vredirect>
-														<nextaction type='WeaponTranslate'>
-															<translatedist>1</translatedist>
-															<nextaction type='WeaponProjectile'>
-																<projectilescale>0.01</projectilescale>
-																<projectilemodel type='ase'>
-																	<mesh>roller.ase</mesh>
-																	<skin>green.bmp</skin>
-																</projectilemodel>
-																<nocreatesmoke/>
-																<nocreateflame/>
-																<collisionaction type='WeaponMulti'>
-																	<subweapon1 type='WeaponExplosion'>
-																		<nocreatedebris/>
-																		<nocreatesplash/>
-																		<noluminance/>
-																		<nowindaffected/>
-																		<minlife>6</minlife>
-																		<maxlife>8</maxlife>
-																		<animate/>
-																		<hurtamount>0</hurtamount>
-																		<deform>none</deform>
-																		<size>10</size>
-																		<explosiontexture>gas00</explosiontexture>
-																		<explosionsound>none</explosionsound>
-																	</subweapon1>
-																	<subweapon2 type='WeaponNull'>
-																	</subweapon2>
-																</collisionaction>
-															</nextaction>
-														</nextaction>
-													</subweapon3>
-												</collisionaction>
-											</nextaction>
-										</nextaction>
-									</subweapon4>
-								</collisionaction>
-							</aimedweapon>
+						<nextaction type='WeaponMulti'>
+							<subweapon1 type='WeaponVelocity'>
+								<velocitychange>1.4</velocitychange>
+								<aimedweapon type='WeaponReference'>
+									<weapon>Nuclear Fallout</weapon>
+								</aimedweapon>
+							</subweapon1>
+							<subweapon2 type='WeaponVelocity'>
+								<velocitychange>1.2</velocitychange>
+								<aimedweapon type='WeaponReference'>
+									<weapon>Nuclear Fallout</weapon>
+								</aimedweapon>
+							</subweapon2>
 						</nextaction>
 					</aimedweapon>
-				</subweapon3>
-				<subweapon4 type='WeaponDelay'>
+				</subweapon4>
+				<subweapon5 type='WeaponDelay'>
 					<delay>4.0</delay>
 					<delayedweapon type='WeaponSound'>
 						<sound>data/wav/explosions/radiation.wav</sound>
 					</delayedweapon>
-				</subweapon4>
+				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>

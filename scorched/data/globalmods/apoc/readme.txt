@@ -85,6 +85,7 @@ Changes Since 3.1
 	        - Decreased darkness (fog) slightly on moon maps
 	        - Increased diffuse and reduced ambient light to reflect actual moon lighting (shadows are pitch black)
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
+        - Removed City Blocks map
         
     Other:
         - Added a "Hard Target" AI type that does not shoot but will use defenses, good for testing
