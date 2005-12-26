@@ -62,9 +62,9 @@
 			<item>ridge</item>
 		</defn>
 		<tex>
-			<item>city1-summer</item>
-			<item>city1-winter</item>
-			<item>city1-storm</item>
+			<item>default</item>
+			<item>snow</item>
+			<item>storm</item>
 			<item>sand</item>
 			<item>tropical</item>
 		</tex>
