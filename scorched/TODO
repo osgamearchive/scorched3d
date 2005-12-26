@@ -51,9 +51,11 @@ Changing menus to be icons
 New game modes
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
-Stars
+Stars/moon
 Power ups
 Bases with physics and shields
+Tanks models restricted to sides
+Versioning in mod files
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
