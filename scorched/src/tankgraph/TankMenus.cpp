@@ -84,6 +84,15 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	{
 		logToFile();
 	}
+
+	if (false) // Debuging
+	{
+		logToFile();
+		ScorchedServer::instance()->getGameState().getStateLogging() = true;
+		ScorchedClient::instance()->getGameState().getStateLogging() = true;
+		ScorchedServer::instance()->getComsMessageHandler().getMessageLogging() = true;
+		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging() = true;
+	}
 }
 
 TankMenus::~TankMenus()

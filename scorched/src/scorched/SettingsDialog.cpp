@@ -21,7 +21,6 @@
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
 #include <server/ScorchedServer.h>
-#include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
@@ -51,7 +50,6 @@ namespace SettingsMain
 };
 namespace SettingsPlayers 
 { 
-static AccessoryStore accessoryStore;
 static TankAIStore tankAIStore;
 #include "SettingsPlayers.cpp" 
 }
@@ -279,9 +277,7 @@ bool SettingsFrame::TransferDataToWindow()
 
 		// Reload the AIs in case a new mod has been loaded
 		SettingsPlayers::tankAIStore.clearAIs();
-		SettingsPlayers::accessoryStore.clearAccessories();
-		SettingsPlayers::accessoryStore.parseFile(context_);
-		SettingsPlayers::tankAIStore.loadAIs(&SettingsPlayers::accessoryStore);
+		SettingsPlayers::tankAIStore.loadAIs(0);
 
 		std::list<TankAI *> &ais = 
 			SettingsPlayers::tankAIStore.getAis();

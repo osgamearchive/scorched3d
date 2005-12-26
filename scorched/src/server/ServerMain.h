@@ -18,11 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ServerMainh_INCLUDE__)
 #define __INCLUDE_ServerMainh_INCLUDE__
 
-bool startServer(bool local);
+class ProgressCounter;
+bool startServer(bool local, ProgressCounter *counter = 0);
 void serverMain();
 void serverLoop();
 void consoleServer();

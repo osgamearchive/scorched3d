@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/NapalmMap.h>
+#include <common/DefinesAssert.h>
 #include <memory.h>
 
 NapalmMap::NapalmMap() : entries_(0)
@@ -33,6 +34,8 @@ NapalmMap::~NapalmMap()
 
 float &NapalmMap::getNapalmHeight(int w, int h) 
 {
+	DIALOG_ASSERT(entries_);
+
 	if (w >= 0 && h >= 0 && w<=width_ && h<=height_)
 	{
         return entries_[(width_+1) * h + w]; 
@@ -55,5 +58,8 @@ void NapalmMap::create(int width, int height)
 
 void NapalmMap::clear()
 {
-	memset(entries_, 0, sizeof(float) * (width_ + 1) * (height_ + 1));
+	if (entries_)
+	{
+		memset(entries_, 0, sizeof(float) * (width_ + 1) * (height_ + 1));
+	}
 }

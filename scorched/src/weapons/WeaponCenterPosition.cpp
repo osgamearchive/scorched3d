@@ -65,9 +65,10 @@ void WeaponCenterPosition::fireWeapon(ScorchedContext &context,
 	int mapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
 	int mapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
 
-	position[0] = mapWidth / 2.0f;
-	position[1] = mapHeight / 2.0f;
-	position[2] = height_;
+	Vector newPositon = position;
+	newPositon[0] = mapWidth / 2.0f;
+	newPositon[1] = mapHeight / 2.0f;
+	newPositon[2] = height_;
 	
-	nextAction_->fireWeapon(context, playerId, position, velocity, data);
+	nextAction_->fireWeapon(context, playerId, newPositon, velocity, data);
 }

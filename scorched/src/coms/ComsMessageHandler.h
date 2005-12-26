@@ -63,7 +63,7 @@ public:
 class ComsMessageHandler : public NetMessageHandlerI
 {
 public:
-	ComsMessageHandler();
+	ComsMessageHandler(const char *instanceName = "");
 	virtual ~ComsMessageHandler();
 
 	// Used to add a handler for a specific message type
@@ -80,6 +80,7 @@ public:
 	bool &getMessageLogging() { return comsMessageLogging_; }
 
 protected:
+	std::string instanceName_;
 	std::map<std::string, ComsMessageHandlerI *> recvHandlerMap_;
 	std::map<std::string, ComsMessageHandlerSentI *> sentHandlerMap_;
 	ComsMessageConnectionHandlerI *connectionHandler_;

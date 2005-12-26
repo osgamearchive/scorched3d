@@ -22,6 +22,7 @@
 #define __INCLUDE_WeaponInvokeWeaponh_INCLUDE__
 
 #include <weapons/Weapon.h>
+#include <set>
 
 class WeaponInvokeWeapon  : public Weapon
 {
@@ -41,6 +42,7 @@ public:
 
 protected:
 	Weapon *invokeWeapon_;
+	static std::set<Weapon *> weaponStack_;
 
 };
 

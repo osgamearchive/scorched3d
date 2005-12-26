@@ -372,6 +372,11 @@ void GameState::setState(const unsigned state)
 			name_.c_str(),
 			state);
 	}
+
+	if (stateLogging_)
+	{
+		Logger::log( "%s::setStateFinished(%i)", name_.c_str(), state);
+	}
 }
 
 bool GameState::checkStimulate()

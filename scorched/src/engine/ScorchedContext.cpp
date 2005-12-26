@@ -40,7 +40,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	targetContainer = new TargetContainer();
 	tankContainer = new TankContainer(*targetContainer);
 	landscapeMaps = new LandscapeMaps();
-	comsMessageHandler = new ComsMessageHandler();
+	comsMessageHandler = new ComsMessageHandler(name);
 	netInterface = (NetInterface *) 0;
 	optionsGame = new OptionsGameWrapper();
 	optionsTransient = new OptionsTransient(*optionsGame);

@@ -61,6 +61,7 @@
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
+#include <server/ServerMain.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
 #include <SDL/SDL.h>
@@ -85,7 +86,7 @@ void checkSettings()
 	}
 }
 
-bool startServer(bool local)
+bool startServer(bool local, ProgressCounter *counter)
 {
 	checkSettings();
 
@@ -130,7 +131,8 @@ bool startServer(bool local)
 	}
 
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
-		ScorchedServer::instance()->getOptionsGame())) return false;
+		ScorchedServer::instance()->getOptionsGame(),
+		counter)) return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	if (!ScorchedServer::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 

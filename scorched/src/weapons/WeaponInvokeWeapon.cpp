@@ -22,6 +22,8 @@
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 
+std::set<Weapon *> WeaponInvokeWeapon::weaponStack_;
+
 REGISTER_ACCESSORY_SOURCE(WeaponInvokeWeapon);
 
 WeaponInvokeWeapon::WeaponInvokeWeapon() :
@@ -64,5 +66,14 @@ void WeaponInvokeWeapon::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
+	if (weaponStack_.find(invokeWeapon_) != weaponStack_.end())
+	{
+		dialogExit("Scorched3D",
+			"WeaponInvokeWeapon recursive called for weapon %s",
+			invokeWeapon_->getParent()->getName());
+	}
+    
+	weaponStack_.insert(invokeWeapon_);
 	invokeWeapon_->fireWeapon(context, playerId, position, velocity, data);
+	weaponStack_.erase(invokeWeapon_);
 }

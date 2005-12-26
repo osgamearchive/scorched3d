@@ -419,7 +419,8 @@ bool Napalm::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(data_)) return false;
 
 	const float ShowTime = 5.0f;
-	Vector position((float) x_, (float) y_, getHeight(x_, y_));
+	Vector position((float) x_, (float) y_, context_->landscapeMaps->
+		getGroundMaps().getHeight(x_, y_));
 	ActionMeta *pos = new CameraPositionAction(
 		position, ShowTime, 5);
 	context_->actionController->getBuffer().clientAdd(-4.0f, pos);

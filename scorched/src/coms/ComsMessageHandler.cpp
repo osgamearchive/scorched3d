@@ -34,7 +34,8 @@ ComsMessageHandlerSentI::~ComsMessageHandlerSentI()
 {
 }
 
-ComsMessageHandler::ComsMessageHandler() : 
+ComsMessageHandler::ComsMessageHandler(const char *instanceName) : 
+	instanceName_(instanceName),
 	connectionHandler_(0), comsMessageLogging_(false)
 {
 }
@@ -126,8 +127,9 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log( "ComsMessageHandler::processReceiveMessage(%s, %i)",
-					messageType.c_str(), message.getDestinationId());
+		Logger::log( "%s::process(%s, %i)",
+			instanceName_.c_str(),
+			messageType.c_str(), message.getDestinationId());
 	}
 
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =
@@ -157,6 +159,13 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 			connectionHandler_->clientError(message,
 				buffer);
 		return;
+	}
+
+	if (comsMessageLogging_)
+	{
+		Logger::log( "%s::processFinished(%s, %i)",
+			instanceName_.c_str(),
+			messageType.c_str(), message.getDestinationId());
 	}
 }
 

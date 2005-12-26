@@ -2116,11 +2116,11 @@ Does 166% collision damage to shields.</description>
 	</accessory>
 	<accessory>
 		<name>Tsar Bomba</name>
-		<armslevel>2</armslevel>
+		<armslevel>2</armslevel>we
 		<description>The largest single nuclear explosion
 bomb ever constructed.  Fallout does
 further damage to surrounding area.
-Does 200% collision damage to shields.</description>
+Does 200 percent collision damage to shields.</description>
 		<icon>nuke.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>20000</cost>
@@ -5732,8 +5732,7 @@ remove earth from under them.</description>
 		<armslevel>7</armslevel>
 		<description>Riot Blasts are a larger version of the Riot
 Charge.  The destroy a wider angle of dirt, and
-the thickness of the wedge destroyed is also greater.
-		</description>
+the thickness of the wedge destroyed is also greater.</description>
 		<icon>rblast.bmp</icon>
 		<bundlesize>4</bundlesize>
 		<cost>1000</cost>
