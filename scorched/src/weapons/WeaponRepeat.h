@@ -18,29 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_EventContainerh_INCLUDE__)
-#define __INCLUDE_EventContainerh_INCLUDE__
+#if !defined(__INCLUDE_WeaponRepeath_INCLUDE__)
+#define __INCLUDE_WeaponRepeath_INCLUDE__
 
-#include <landscape/LandscapeTex.h>
-#include <map>
+#include <weapons/Weapon.h>
 
-class EventContainer
+class WeaponRepeat  : public Weapon
 {
 public:
-	EventContainer();
-	virtual ~EventContainer();
+	WeaponRepeat();
+	virtual ~WeaponRepeat();
 
-	void initialize(LandscapeTex *tex);
-	void simulate(float frameTime, ScorchedContext &context);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	REGISTER_ACCESSORY_HEADER(WeaponRepeat, AccessoryPart::AccessoryWeapon);
 
 protected:
-	struct EventEntry
-	{
-		float eventTime;
-		int eventNumber;
-	};
+	Weapon *repeatWeapon_;
+	int repeat_;
 
-	std::map<LandscapeTexEvent *, EventEntry> events_;
 };
-
-#endif // __INCLUDE_EventContainerh_INCLUDE__
+#endif // __INCLUDE_WeaponRepeath_INCLUDE__

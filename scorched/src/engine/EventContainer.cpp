@@ -38,26 +38,31 @@ void EventContainer::initialize(LandscapeTex *tex)
 		itor++)
 	{
 		LandscapeTexEvent *event = (*itor);
-		float nextTime = event->condition->getNextEventTime();
-		events_[event] = nextTime;
+
+		EventEntry entry;
+		entry.eventNumber = 0;
+		entry.eventTime = 
+			event->condition->getNextEventTime(++entry.eventNumber);
+		events_[event] = entry;
 	}
 }
 
 void EventContainer::simulate(float frameTime, ScorchedContext &context)
 {
-	std::map<LandscapeTexEvent *, float>::iterator itor;
+	std::map<LandscapeTexEvent *, EventEntry>::iterator itor;
 	for (itor = events_.begin();
 		itor != events_.end();
 		itor++)
 	{
 		LandscapeTexEvent *event = (*itor).first;
-		float &nextTime = (*itor).second;
+		EventEntry &entry = (*itor).second;
 		
-		nextTime -= frameTime;
-		if (nextTime < 0.0f)
+		entry.eventTime -= frameTime;
+		if (entry.eventTime < 0.0f)
 		{
 			event->action->fireAction(context);
-			nextTime = event->condition->getNextEventTime();
+			entry.eventTime = 
+				event->condition->getNextEventTime(++entry.eventNumber);
 		}
 	}	
 }

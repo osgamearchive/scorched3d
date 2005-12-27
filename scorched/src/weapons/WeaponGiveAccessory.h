@@ -18,26 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PowerUph_INCLUDE__)
-#define __INCLUDE_PowerUph_INCLUDE__
+#if !defined(__INCLUDE_WeaponGiveAccessoryh_INCLUDE__)
+#define __INCLUDE_WeaponGiveAccessoryh_INCLUDE__
 
-#include <weapons/Weapon.h>
+#include <actions/PowerUp.h>
 
-class PowerUp : public Weapon
+class WeaponGiveAccessory  : public WeaponPowerUp
 {
 public:
-	PowerUp();
-	virtual ~PowerUp();
+	WeaponGiveAccessory();
+	virtual ~WeaponGiveAccessory();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
-	void fireWeapon(ScorchedContext &context, 
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	REGISTER_ACCESSORY_HEADER(PowerUp, AccessoryPart::AccessoryWeapon);
+	// Inherited from WeaponPowerUp
+	virtual void invokePowerUp(
+		ScorchedContext &context,
+		unsigned int playerId, Vector &position);
+
+	REGISTER_ACCESSORY_HEADER(WeaponGiveAccessory, AccessoryPart::AccessoryWeapon);
 
 protected:
+	Accessory *giveAccessory_;
+	int number_;
+
 };
 
-#endif // __INCLUDE_PowerUph_INCLUDE__
+#endif // __INCLUDE_WeaponGiveAccessoryh_INCLUDE__

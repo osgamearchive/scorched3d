@@ -60,7 +60,7 @@ public:
 class LandscapeTexCondition : public LandscapeTexType
 {
 public:
-	virtual float getNextEventTime() = 0;
+	virtual float getNextEventTime(int eventNumber) = 0;
 };
 
 class LandscapeTexConditionTime : public LandscapeTexCondition
@@ -68,8 +68,20 @@ class LandscapeTexConditionTime : public LandscapeTexCondition
 public:
 	float mintime;
 	float maxtime;
+	bool singletimeonly;
 
-	virtual float getNextEventTime();
+	virtual float getNextEventTime(int eventNumber);
+	virtual bool readXML(XMLNode *node);
+	virtual TexType getType() { return eConditionTime; }
+};
+
+class LandscapeTexConditionRandom : public LandscapeTexCondition
+{
+public:
+	float randomchance;
+	float randomdelay;
+
+	virtual float getNextEventTime(int eventNumber);
 	virtual bool readXML(XMLNode *node);
 	virtual TexType getType() { return eConditionTime; }
 };

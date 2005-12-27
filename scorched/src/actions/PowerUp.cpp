@@ -18,27 +18,54 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/PowerUp.h>
+#include <actions/PowerUp.h>
+#include <weapons/AccessoryStore.h>
 
-REGISTER_ACCESSORY_SOURCE(PowerUp);
+REGISTER_ACTION_SOURCE(PowerUp);
 
 PowerUp::PowerUp()
 {
+}
+
+PowerUp::PowerUp(unsigned int playerId, 
+	Vector &position, 
+	WeaponPowerUp *powerUp) :
+	position_(position),
+	playerId_(playerId),
+	powerUp_(powerUp)
+{
+
 }
 
 PowerUp::~PowerUp()
 {
 }
 
-bool PowerUp::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+void PowerUp::init()
 {
-	return accessoryNode->failChildren();
 }
 
-void PowerUp::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &oldPosition, Vector &velocity,
-	unsigned int data)
+void PowerUp::simulate(float frameTime, bool &remove)
 {
+	powerUp_->invokePowerUp(*context_, playerId_, position_);
 
+	remove = true;
+	Action::simulate(frameTime, remove);
+}
+
+bool PowerUp::writeAction(NetBuffer &buffer)
+{
+	buffer.addToBuffer(position_);
+	buffer.addToBuffer(playerId_);
+	context_->accessoryStore->writeWeapon(buffer, powerUp_);
+	return true;
+}
+
+bool PowerUp::readAction(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(position_)) return false;
+	if (!reader.getFromBuffer(playerId_)) return false;
+	powerUp_ = (WeaponPowerUp *) context_->accessoryStore->readWeapon(reader); 
+	if (!powerUp_) return false;
+	return true;
 }

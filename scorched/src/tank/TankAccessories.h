@@ -36,7 +36,7 @@ public:
 	virtual ~TankAccessories();
 
 	void newMatch();
-	void add(Accessory *accessory);
+	void add(Accessory *accessory, int count = -1);
 	void rm(Accessory *accessory);
 
 	int getAccessoryCount(Accessory *accessory);

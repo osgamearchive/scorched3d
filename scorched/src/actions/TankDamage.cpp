@@ -212,8 +212,7 @@ void TankDamage::calculateDamage()
 	}
 
 	// Check if the tank needs to fall
-	if (checkFall_ &&
-		damagedTarget->getAlive())
+	if (checkFall_ && damagedTarget->getAlive())
 	{
 		// The tank is not dead check if it needs to fall
 		Vector &position = damagedTarget->getTargetPosition();
@@ -232,6 +231,17 @@ void TankDamage::calculateDamage()
 						data_));
 			}
 		}
+	}
+
+	// DO LAST
+	// If the tank is a target, remove the target
+	if (!damagedTarget->getAlive() &&
+		damagedTarget->getTargetType() == Target::eOther)
+	{
+		Target *removedTarget = 
+			context_->targetContainer->
+				removeTarget(damagedTarget->getPlayerId());
+		delete removedTarget;
 	}
 }
 

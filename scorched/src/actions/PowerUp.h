@@ -18,29 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_EventContainerh_INCLUDE__)
-#define __INCLUDE_EventContainerh_INCLUDE__
+#if !defined(__INCLUDE_PowerUph_INCLUDE__)
+#define __INCLUDE_PowerUph_INCLUDE__
 
-#include <landscape/LandscapeTex.h>
-#include <map>
+#include <weapons/Weapon.h>
+#include <engine/ActionMeta.h>
 
-class EventContainer
+class WeaponPowerUp : public Weapon
 {
 public:
-	EventContainer();
-	virtual ~EventContainer();
-
-	void initialize(LandscapeTex *tex);
-	void simulate(float frameTime, ScorchedContext &context);
-
-protected:
-	struct EventEntry
-	{
-		float eventTime;
-		int eventNumber;
-	};
-
-	std::map<LandscapeTexEvent *, EventEntry> events_;
+	virtual void invokePowerUp(
+		ScorchedContext &context,
+		unsigned int playerId, Vector &position) = 0;
 };
 
-#endif // __INCLUDE_EventContainerh_INCLUDE__
+class PowerUp : public ActionMeta
+{
+public:
+	PowerUp();
+	PowerUp(unsigned int playerId, 
+		Vector &position, 
+		WeaponPowerUp *powerUp);
+	virtual ~PowerUp();
+
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
+
+	REGISTER_ACTION_HEADER(PowerUp);
+
+protected:
+	Vector position_;
+	unsigned int playerId_;
+	WeaponPowerUp *powerUp_;
+
+};
+
+#endif // __INCLUDE_PowerUph_INCLUDE__

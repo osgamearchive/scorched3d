@@ -1693,12 +1693,6 @@
 				RelativePath="..\weapons\Parachute.h">
 			</File>
 			<File
-				RelativePath="..\weapons\PowerUp.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\PowerUp.h">
-			</File>
-			<File
 				RelativePath="..\weapons\Shield.cpp">
 			</File>
 			<File
@@ -1763,6 +1757,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponExplosion.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveAccessory.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveAccessory.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponInvokeWeapon.cpp">
@@ -1841,6 +1841,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponReference.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponRepeat.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponRepeat.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponRoller.cpp">
@@ -2488,6 +2494,12 @@
 			</File>
 			<File
 				RelativePath="..\actions\NapalmMap.h">
+			</File>
+			<File
+				RelativePath="..\actions\PowerUp.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\PowerUp.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShieldHit.cpp">

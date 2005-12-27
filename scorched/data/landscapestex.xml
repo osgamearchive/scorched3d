@@ -45,9 +45,9 @@
 		<precipitation type="none"></precipitation>
 		<events>
 			<!--<event>
-				<condition type="time">
-					<mintime>3.0</mintime>
-					<maxtime>3.0</maxtime>
+				<condition type="random">
+					<randomchance>0.5</randomchance>
+					<randomdelay>0.0</randomdelay>
 				</condition>
 				<action type="fireweapon">
 					<weapon>TestPowerUp</weapon>
@@ -241,6 +241,7 @@
 				<condition type="time">
 					<mintime>5.0</mintime>
 					<maxtime>5.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Meteor</weapon>
@@ -526,6 +527,7 @@
 				<condition type="time">
 					<mintime>3.0</mintime>
 					<maxtime>8.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Lightning</weapon>

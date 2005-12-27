@@ -1384,20 +1384,25 @@ and shields damaging the tank directly.</description>
 		<armslevel>9</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<description>A test powerup</description>
-		<accessoryaction type="WeaponCenterPosition">
-			<height>0</height>
-			<nextaction type="WeaponScatterPosition">
-				<landheight>true</landheight>
-				<landonly>true</landonly>
-				<scatterpercentage>90</scatterpercentage>
-				<aimedweapon type='WeaponAddTarget'>
-					<targetmodel type="MilkShape">banana/banana.txt</targetmodel>
-					<shield>Shield</shield>
-					<parachute>none</parachute>
-					<deathaction type='WeaponNull'>
-					</deathaction>
-				</aimedweapon>
-			</nextaction>
+		<accessoryaction type="WeaponRepeat">
+			<repeat>10</repeat>
+			<repeatweapon type="WeaponCenterPosition">
+				<height>150</height>
+				<nextaction type="WeaponScatterPosition">
+					<landheight>false</landheight>
+					<landonly>true</landonly>
+					<scatterpercentage>75</scatterpercentage>
+					<aimedweapon type='WeaponAddTarget'>
+						<targetmodel type="MilkShape">banana/banana.txt</targetmodel>
+						<shield>Shield</shield>
+						<parachute>Parachute</parachute>
+						<deathaction type='WeaponGiveAccessory'>
+							<giveaccessory>Nuke</giveaccessory>
+							<number>10</number>
+						</deathaction>
+					</aimedweapon>
+				</nextaction>
+			</repeatweapon>
 		</accessoryaction>
 	</accessory>
 </accessories>

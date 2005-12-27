@@ -26,6 +26,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <float.h>
 
 static LandscapeTexType *fetchBorderTexType(const char *type)
 {
@@ -54,6 +55,7 @@ static LandscapeTexType *fetchPrecipitationTexType(const char *type)
 static LandscapeTexCondition *fetchConditionTexType(const char *type)
 {
 	if (0 == strcmp(type, "time")) return new LandscapeTexConditionTime;
+	if (0 == strcmp(type, "random")) return new LandscapeTexConditionRandom;
 	dialogMessage("LandscapeTexType", "Unknown condition type %s", type);
 	return 0;
 }
@@ -100,8 +102,14 @@ bool LandscapeTexEvent::readXML(XMLNode *node)
 }
 
 // LandscapeTexConditionTime
-float LandscapeTexConditionTime::getNextEventTime()
+float LandscapeTexConditionTime::getNextEventTime(int eventNumber)
 {
+	if (eventNumber > 1 &&
+		singletimeonly)
+	{
+		return FLT_MAX;
+	}
+
 	return RAND * (maxtime - mintime) + mintime;
 }
 
@@ -109,6 +117,29 @@ bool LandscapeTexConditionTime::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("mintime", mintime)) return false;
 	if (!node->getNamedChild("maxtime", maxtime)) return false;
+	if (!node->getNamedChild("singletimeonly", singletimeonly)) return false;
+	return node->failChildren();
+}
+
+// LandscapeTexConditionRandom
+float LandscapeTexConditionRandom::getNextEventTime(int eventNumber)
+{
+	if (eventNumber > 1)
+	{
+		return FLT_MAX;
+	}
+
+	if (RAND < randomchance)
+	{
+		return randomdelay;
+	}
+	return FLT_MAX;
+}
+
+bool LandscapeTexConditionRandom::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("randomchance", randomchance)) return false;
+	if (!node->getNamedChild("randomdelay", randomdelay)) return false;
 	return node->failChildren();
 }
 

@@ -140,27 +140,32 @@ int TankAccessories::getAccessoryCount(Accessory *accessory)
 	return 0;
 }
 
-void TankAccessories::add(Accessory *accessory)
+void TankAccessories::add(Accessory *accessory, int count)
 {
+	if (count == -1)
+	{
+		count = accessory->getBundle();
+	}
+
 	switch (accessory->getType())
 	{
 	case AccessoryPart::AccessoryAutoDefense:
 		tankAuto_.addDefense();
 		break;
 	case AccessoryPart::AccessoryWeapon:
-		tankWeapon_.addWeapon(accessory, accessory->getBundle());
+		tankWeapon_.addWeapon(accessory, count);
 		break;
 	case AccessoryPart::AccessoryParachute:
-		tankPara_.addParachutes(accessory->getBundle());
+		tankPara_.addParachutes(count);
 		break;
 	case AccessoryPart::AccessoryShield:
-		tankShield_.addShield(accessory, accessory->getBundle());
+		tankShield_.addShield(accessory, count);
 		break;
 	case AccessoryPart::AccessoryBattery:
-		tankBatteries_.addBatteries(accessory->getBundle());
+		tankBatteries_.addBatteries(count);
 		break;
 	case AccessoryPart::AccessoryFuel:
-		tankFuel_.addFuel(accessory->getBundle());
+		tankFuel_.addFuel(count);
 		break;
 	}
 }
