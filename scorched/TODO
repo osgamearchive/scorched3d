@@ -22,6 +22,10 @@ Fixed: Made swear filter less obtrusive
 Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
 
+Added: Sun/moon texture can be configured
+Added: Targets (models) that can have shields, parachutes, health etc...
+Added: WeaponRepeat, WeaponGiveAccessory weapon primitives
+Added: WeaponScatterDirection, WeaponScatterPosition, WeaponCenterPosition
 Added: WeaponRandomChoice, WeaponInvokeWeapon, WeaponAddTarget weapon primitives
 Added: Teleport to weapon explosion point
 Added: New tank elevate, rotate, thunder sounds (thanks Shockwave)
@@ -53,6 +57,7 @@ Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
 Stars/moon
 Power ups
+Swell from boats
 Bases with physics and shields
 Tanks models restricted to sides
 Versioning in mod files

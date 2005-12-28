@@ -67,5 +67,6 @@ void Sky::generate()
 {
 	dome_.generate();
 	roof_.generate();
+	sun_.generate();
 }
 

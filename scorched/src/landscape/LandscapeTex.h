@@ -224,6 +224,7 @@ public:
 	std::string scorch;
 	Vector fog;
 	Vector suncolor;
+	std::string suntexture;
 	float fogdensity;
 	float lowestlandheight;
 	std::string skytexture;

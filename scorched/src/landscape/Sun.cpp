@@ -29,6 +29,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLViewPort.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -44,6 +45,7 @@ void Sun::setPosition(float sunRotXY, float sunRotYZ)
 {
 	LandscapeDefn &defn = *ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions().getDefn();
+
 	sunRotXY = sunRotXY / 180.0f * 3.14f;
 	sunRotYZ = sunRotYZ / 180.0f * 3.14f;
 	position_ = Vector(
@@ -52,24 +54,28 @@ void Sun::setPosition(float sunRotXY, float sunRotYZ)
 		(sinf(sunRotYZ) * 900.0f));
 }
 
+void Sun::generate()
+{
+	LandscapeTex &tex = *ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions().getTex();
+
+	std::string file = getDataFile(tex.suntexture.c_str());
+	GLBitmap map(file.c_str(), file.c_str(), false);
+	DIALOG_ASSERT(texture_.replace(map, GL_RGBA, true));
+}
+
 void Sun::draw()
 {
-	if (!texture_.textureValid())
-	{
-		std::string file = getDataFile("data/textures/glow1.bmp");
-		GLBitmap map(file.c_str(), file.c_str(), false);
-		DIALOG_ASSERT(texture_.create(map, GL_RGBA, true));
-	}
-
 	GLState currentStateOne(GLState::TEXTURE_ON | GLState::DEPTH_OFF | GLState::BLEND_ON);
 	texture_.draw();
 
+	float aspect = float(GLViewPort::getHeight()) / float(GLViewPort::getWidth());
 	LandscapeTex &tex = *ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions().getTex();
 	GLCameraFrustum::instance()->drawBilboard(
 		position_, tex.suncolor, 
 		0.7f, // alpha
-		60.0f, 50.0f, // width, height
+		60.0f, 60.0f * aspect, // width, height
 		true, // additive texture
 		0); // tex coord
 }

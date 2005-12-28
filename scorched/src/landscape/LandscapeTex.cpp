@@ -312,6 +312,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	if (!node->getNamedChild("scorch", scorch)) return false;
 	if (!node->getNamedChild("fog", fog)) return false;
 	if (!node->getNamedChild("suncolor", suncolor)) return false;
+	if (!node->getNamedChild("suntexture", suntexture)) return false;
 	if (!node->getNamedChild("fogdensity", fogdensity)) return false;
 	if (!node->getNamedChild("lowestlandheight", lowestlandheight)) return false;
 	if (!node->getNamedChild("skytexture", skytexture)) return false;
@@ -329,6 +330,7 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	if (!checkDataFile(skytexture.c_str())) return false;
 	if (!checkDataFile(skytexturemask.c_str())) return false;
 	if (!checkDataFile(skycolormap.c_str())) return false;
+	if (!checkDataFile(suntexture.c_str())) return false;
 
 	{
 		XMLNode *placementsNode;

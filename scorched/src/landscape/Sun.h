@@ -33,6 +33,7 @@ public:
 
 	void draw();
 	void setPosition(float sunRotXY, float sunRotYZ);
+	void generate();
 
 	Vector &getPosition() { return position_; }
 
