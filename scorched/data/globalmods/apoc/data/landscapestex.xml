@@ -15,6 +15,7 @@
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.8</A><B>0.8</B><C>0.9</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -104,6 +105,7 @@
 		<skydiffuse><A>0.4</A><B>0.4</B><C>0.4</C></skydiffuse>
 		<fog><A>0.2</A><B>0.2</B><C>0.2</C></fog>
 		<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fogdensity>0.0011</fogdensity>
 		<border type="water">
 			<reflection>data/textures/landscape/default/cubemap.bmp</reflection>
@@ -185,6 +187,7 @@
 		<skyambience><A>0.5</A><B>0.5</B><C>0.5</C></skyambience>
 		<skydiffuse><A>0.5</A><B>0.5</B><C>0.5</C></skydiffuse>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.8</A><B>0.1</B><C>0.1</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -214,6 +217,7 @@
 				<condition type="time">
 					<mintime>5.0</mintime>
 					<maxtime>5.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Meteor</weapon>
@@ -238,6 +242,7 @@
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -304,6 +309,7 @@
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
 		<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.8</A><B>0.5</B><C>0.3</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -352,6 +358,7 @@
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
 		<suncolor><A>1.0</A><B>0.0</B><C>0.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -419,6 +426,7 @@
 		<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 		<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -465,6 +473,7 @@
 		<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
 		<skydiffuse><A>0.2</A><B>0.2</B><C>0.2</C></skydiffuse>
 		<suncolor><A>0.8</A><B>0.8</B><C>0.8</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.5</A><B>0.5</B><C>0.5</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<border type="water">
@@ -500,6 +509,7 @@
 				<condition type="time">
 					<mintime>0.0</mintime>
 					<maxtime>5.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Lightning</weapon>
@@ -524,6 +534,7 @@
 		<skyambience><A>0.5</A><B>0.5</B><C>0.5</C></skyambience>
 		<skydiffuse><A>0.5</A><B>0.5</B><C>0.5</C></skydiffuse>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<fog><A>0.3</A><B>0.3</B><C>0.3</C></fog>
 		<fogdensity>0.003</fogdensity>
 		<border type="water">
@@ -592,6 +603,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/sand/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -694,6 +706,7 @@
 		<fog><A>0</A><B>0</B><C>0</C></fog>
 		<fogdensity>0.0033</fogdensity>
 		<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="none"></border>
 		<texture type="generate">
 			<rockside>data/textures/landscape/moon/texture0.bmp</rockside>
@@ -714,6 +727,7 @@
 				<condition type="time">
 					<mintime>5.0</mintime>
 					<maxtime>5.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Meteor</weapon>
@@ -740,6 +754,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="none"></border>
 		<texture type="generate">
 			<rockside>data/textures/landscape/sand/texture2.bmp</rockside>
@@ -813,6 +828,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -901,6 +917,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1007,6 +1024,7 @@
 		<fog><A>0.5</A><B>0.5</B><C>0.5</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/storm/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1044,8 +1062,9 @@
 		<events>
 			<event>
 				<condition type="time">
-					<mintime>0.0</mintime>
-					<maxtime>5.0</maxtime>
+					<mintime>3.0</mintime>
+					<maxtime>8.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Lightning</weapon>
@@ -1106,6 +1125,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1195,6 +1215,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1301,6 +1322,7 @@
 		<fog><A>0.5</A><B>0.5</B><C>0.5</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/storm/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1338,8 +1360,9 @@
 		<events>
 			<event>
 				<condition type="time">
-					<mintime>0.0</mintime>
-					<maxtime>5.0</maxtime>
+					<mintime>3.0</mintime>
+					<maxtime>8.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Lightning</weapon>
@@ -1400,6 +1423,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/snow/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1489,6 +1513,7 @@
 		<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/tropical/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1595,6 +1620,7 @@
 		<fog><A>0.5</A><B>0.5</B><C>0.5</C></fog>
 		<fogdensity>0.001</fogdensity>
 		<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
+		<suntexture>data/textures/glow1.bmp</suntexture>
 		<border type="water">
 			<reflection>data/textures/landscape/storm/cubemap.bmp</reflection>
 			<texture>data/textures/landscape/default/water.bmp</texture>
@@ -1634,6 +1660,7 @@
 				<condition type="time">
 					<mintime>0.0</mintime>
 					<maxtime>5.0</maxtime>
+					<singletimeonly>false</singletimeonly>
 				</condition>
 				<action type="fireweapon">
 					<weapon>Lightning</weapon>
