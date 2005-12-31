@@ -306,7 +306,6 @@ LandscapeTex::~LandscapeTex()
 
 bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
-	if (!node->getNamedChild("name", name)) return false;
 	if (!node->getNamedChild("detail", detail)) return false;
 	if (!node->getNamedChild("magmasmall", magmasmall)) return false;
 	if (!node->getNamedChild("scorch", scorch)) return false;
@@ -338,8 +337,10 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 		std::string placement;
 		while (placementsNode->getNamedChild("placement", placement, false))
 		{
-			if (!definitions->getPlace(placement.c_str())) return false;
-			placements.push_back(placement);
+			LandscapePlace *landscapePlace = 
+				definitions->getPlace(placement.c_str(), true);
+			if (!landscapePlace) return false;
+			placements.push_back(landscapePlace);
 		}
 		if (!placementsNode->failChildren()) return false;
 	}
@@ -349,8 +350,10 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 		std::string sound;
 		while (soundsNode->getNamedChild("ambientsound", sound, false))
 		{
-			if (!definitions->getSound(sound.c_str())) return false;
-			sounds.push_back(sound);
+			LandscapeSound *landscapeSound = 
+				definitions->getSound(sound.c_str(), true);
+			if (!landscapeSound) return false;
+			sounds.push_back(landscapeSound);
 		}
 		if (!soundsNode->failChildren()) return false;
 	}

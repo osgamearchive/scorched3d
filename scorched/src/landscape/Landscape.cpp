@@ -364,20 +364,12 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add any ambientsounds
 	std::list<LandscapeSound *> sounds;
-	std::vector<std::string>::iterator soundItor;
+	std::vector<LandscapeSound *>::iterator soundItor;
 	for (soundItor = tex->sounds.begin();
 		soundItor != tex->sounds.end();
 		soundItor++)
 	{
-		const char *soundName = (*soundItor).c_str();
-		LandscapeSound *sound = 
-			ScorchedClient::instance()->getLandscapes().getSound(soundName);
-		if (!sound) 
-		{
-			dialogExit("Landscape",
-				"Failed to find sound type %s",
-				soundName);
-		}
+		LandscapeSound *sound = (*soundItor);
 		sounds.push_back(sound);
 	}
 	soundManager_->initialize(sounds);

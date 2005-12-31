@@ -130,9 +130,8 @@ LandscapePlace::~LandscapePlace()
 	objectstype.clear();
 }
 
-bool LandscapePlace::readXML(XMLNode *node)
+bool LandscapePlace::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
-	if (!node->getNamedChild("name", name)) return false;
 	{
 		XMLNode *placementsNode, *placementNode;
 		if (!node->getNamedChild("placements", placementsNode)) return false;

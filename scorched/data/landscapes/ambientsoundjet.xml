@@ -1,0 +1,14 @@
+<ambientsound>
+	<sounds>
+		<sound>
+			<position type="absolute">
+				<position><A>128</A><B>128</B><C>50</C></position>
+			</position>
+			<timing type="repeat">
+				<min>60</min>
+				<max>120</max>
+			</timing>
+			<sound>data/wav/misc/jet.wav</sound>
+		</sound>
+	</sounds>
+</ambientsound>

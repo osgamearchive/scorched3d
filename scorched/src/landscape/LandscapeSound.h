@@ -103,16 +103,16 @@ public:
 	LandscapeSoundTiming *timing;
 };
 
+class LandscapeDefinitions;
 class LandscapeSound
 {
 public:
 	LandscapeSound();
 	virtual ~LandscapeSound();
 
-	std::string name;
 	std::vector<LandscapeSoundType *> objects;
 
-	bool readXML(XMLNode *node);
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 
 private:
 	LandscapeSound(const LandscapeSound &other);

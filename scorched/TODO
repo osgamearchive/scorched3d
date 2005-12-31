@@ -21,6 +21,7 @@ Fixed: Faster movement calculation speed
 Fixed: Made swear filter less obtrusive
 Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
+Fixed: Moved sections in landscapesound, landscapeplace, landscapetex and landscapedefn files to seperate files (splitlandscapefile.pl)
 
 Added: Sun/moon texture can be configured
 Added: Targets (models) that can have shields, parachutes, health etc...
@@ -59,7 +60,7 @@ Stars/moon
 Power ups
 Swell from boats
 Bases with physics and shields
-Tanks models restricted to sides
+Tanks models restricted by team
 Versioning in mod files
 
 -- Server Stuff

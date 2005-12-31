@@ -101,18 +101,17 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
+class LandscapeDefinitions;
 class LandscapePlace
 {
 public:
 	LandscapePlace();
 	virtual ~LandscapePlace();
 
-	std::string name;
-
 	std::vector<std::string> objectstype;
 	std::vector<LandscapePlaceType *> objects;
 
-	bool readXML(XMLNode *node);
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 
 private:
 	LandscapePlace(const LandscapePlace &other);

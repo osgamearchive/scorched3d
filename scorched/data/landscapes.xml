@@ -6,17 +6,17 @@
 		<picture>oldstyle.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>oldstyle</item>
+			<item>data/landscapes/defnoldstyle.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
-			<item>night</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texnight.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -25,14 +25,14 @@
 		<picture>lowlands.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>lowlands</item>
+			<item>data/landscapes/defnlowlands.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>night</item>
-			<item>sand</item>
-			<item>tropical</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texnight.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -41,12 +41,12 @@
 		<picture>hilly.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>hilly</item>
+			<item>data/landscapes/defnhilly.xml</item>
 		</defn>
 		<tex>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -55,14 +55,14 @@
 		<picture>ridge.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>ridge</item>
+			<item>data/landscapes/defnridge.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>sand</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -71,17 +71,17 @@
 		<picture>islands.bmp</picture>
 		<weight>33</weight>
 		<defn>
-			<item>islands</item>
+			<item>data/landscapes/defnislands.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>night</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texnight.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -90,17 +90,17 @@
 		<picture>halved.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>halfed</item>
+			<item>data/landscapes/defnhalfed.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>night</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texnight.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -109,16 +109,16 @@
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>valley</item>
+			<item>data/landscapes/defnvalley.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -127,10 +127,10 @@
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>cavern</item>
+			<item>data/landscapes/defncavern.xml</item>
 		</defn>
 		<tex>
-			<item>cavern</item>
+			<item>data/landscapes/texcavern.xml</item>
 		</tex>
 	</landscape>
 </landscapes>

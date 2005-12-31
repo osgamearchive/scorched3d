@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 
+class LandscapeDefinitions;
 class LandscapeDefnType
 {
 public:
@@ -106,7 +107,6 @@ public:
 	LandscapeDefn();
 	virtual ~LandscapeDefn();
 
-	std::string name;
 	int minplayers;
 	int maxplayers;
 	int landscapewidth;
@@ -117,7 +117,7 @@ public:
 	LandscapeDefnType *tankstart;
 	LandscapeDefnType *heightmap;
 
-	bool readXML(XMLNode *node);
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 
 private:
 	LandscapeDefn(const LandscapeDefn &other);

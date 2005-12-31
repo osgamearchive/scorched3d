@@ -1383,6 +1383,9 @@
 				RelativePath="..\landscape\LandscapeDefinitions.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeDefinitionsItem.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapeDefn.cpp">
 			</File>
 			<File
@@ -3354,18 +3357,6 @@
 			</File>
 			<File
 				RelativePath="..\..\data\landscapes.xml">
-			</File>
-			<File
-				RelativePath="..\..\data\landscapesdefn.xml">
-			</File>
-			<File
-				RelativePath="..\..\data\landscapesplace.xml">
-			</File>
-			<File
-				RelativePath="..\..\data\landscapessound.xml">
-			</File>
-			<File
-				RelativePath="..\..\data\landscapestex.xml">
 			</File>
 			<File
 				RelativePath="..\..\data\motd.txt">

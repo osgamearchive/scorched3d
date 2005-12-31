@@ -211,6 +211,8 @@ public:
 	virtual TexType getType() { return eTextureGenerate; }
 };
 
+class LandscapeSound;
+class LandscapePlace;
 class LandscapeDefinitions;
 class LandscapeTex
 {
@@ -218,7 +220,6 @@ public:
 	LandscapeTex();
 	virtual ~LandscapeTex();
 
-	std::string name;
 	std::string detail;
 	std::string magmasmall;
 	std::string scorch;
@@ -240,8 +241,8 @@ public:
 	LandscapeTexType *texture;
 	LandscapeTexType *precipitation;
 
-	std::vector<std::string> sounds;
-	std::vector<std::string> placements;
+	std::vector<LandscapeSound *> sounds;
+	std::vector<LandscapePlace *> placements;
 	std::vector<LandscapeTexEvent *> events;
 	std::vector<LandscapeTexBoids *> boids;
 	std::vector<LandscapeTexShipGroup *> shipgroups;

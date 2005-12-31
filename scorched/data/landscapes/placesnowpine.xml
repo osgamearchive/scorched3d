@@ -1,0 +1,17 @@
+<place>
+	<placements>
+		<placement type="trees">
+			<numobjects>1000000</numobjects>
+			<numclusters>25</numclusters>
+			<minheight>8</minheight>
+			<maxheight>30</maxheight>
+			<removeaction></removeaction>
+			<burnaction></burnaction>
+			<groupname>trees</groupname>
+			<object type="tree">
+				<tree>pine</tree>
+				<snow>10</snow>
+			</object>
+		</placement>
+	</placements>		
+</place>

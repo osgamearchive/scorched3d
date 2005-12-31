@@ -150,9 +150,8 @@ LandscapeDefn::~LandscapeDefn()
 {
 }
 
-bool LandscapeDefn::readXML(XMLNode *node)
+bool LandscapeDefn::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
-	if (!node->getNamedChild("name", name)) return false;
 	if (!node->getNamedChild("minplayers", minplayers)) return false;
 	if (!node->getNamedChild("maxplayers", maxplayers)) return false;
 	if (!node->getNamedChild("landscapewidth", landscapewidth)) return false;

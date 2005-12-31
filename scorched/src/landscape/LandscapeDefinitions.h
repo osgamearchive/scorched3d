@@ -22,10 +22,19 @@
 #define __INCLUDE_LandscapeDefinitionsh_INCLUDE__
 
 #include <landscape/LandscapeDefinition.h>
+#include <landscape/LandscapeDefinitionsItem.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>
 #include <list>
+#include <map>
+
+class LandscapeDefinitions;
+class LandscapePlace;
+class LandscapeSound;
+class LandscapeDefn;
+class LandscapeTex;
+class OptionsGame;
 
 class LandscapeDefinitionsEntry
 {
@@ -37,14 +46,9 @@ public:
 	std::string description;  // Description of this landscape definition type
 	std::string picture; // Visible view of this landscape definition type
 
-	virtual bool readXML(XMLNode *node);
+	virtual bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 };
 
-class LandscapePlace;
-class LandscapeSound;
-class LandscapeDefn;
-class LandscapeTex;
-class OptionsGame;
 class LandscapeDefinitions
 {
 public:
@@ -55,10 +59,10 @@ public:
 	void clearLandscapeDefinitions();
 
 	LandscapeDefinition getRandomLandscapeDefn(OptionsGame &context);
-	LandscapeTex *getTex(const char *name);
-	LandscapeDefn *getDefn(const char *name);
-	LandscapePlace *getPlace(const char *name);
-	LandscapeSound *getSound(const char *sound);
+	LandscapeTex *getTex(const char *file, bool load = false);
+	LandscapeDefn *getDefn(const char *file, bool load = false);
+	LandscapePlace *getPlace(const char *file, bool load = false);
+	LandscapeSound *getSound(const char *file, bool load = false);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
 	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
@@ -66,16 +70,10 @@ public:
 
 protected:
 	std::list<LandscapeDefinitionsEntry> entries_;
-	std::list<LandscapeTex*> texs_;
-	std::list<LandscapeDefn*> defns_;
-	std::list<LandscapePlace*> places_;
-	std::list<LandscapeSound*> sounds_;
-
-	bool readDefinitions();
-	bool readTexs();
-	bool readDefns();
-	bool readPlaces();
-	bool readSounds();
+	LandscapeDefinitionsItem<LandscapeTex> texs_;
+	LandscapeDefinitionsItem<LandscapeDefn> defns_;
+	LandscapeDefinitionsItem<LandscapePlace> places_;
+	LandscapeDefinitionsItem<LandscapeSound> sounds_;
 
 };
 

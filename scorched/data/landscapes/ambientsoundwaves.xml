@@ -1,0 +1,9 @@
+<ambientsound>
+	<sounds>
+		<sound>
+			<position type="water"><falloff>1.0</falloff></position>
+			<timing type="looped"></timing>
+			<sound>data/wav/misc/oceanwaves.wav</sound>
+		</sound>
+	</sounds>
+</ambientsound>

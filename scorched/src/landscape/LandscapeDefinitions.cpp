@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-bool LandscapeDefinitionsEntry::readXML(XMLNode *node)
+bool LandscapeDefinitionsEntry::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
 	if (!node->getNamedChild("name", name)) return false;
 	if (!node->getNamedChild("weight", weight)) return false;
@@ -40,10 +40,22 @@ bool LandscapeDefinitionsEntry::readXML(XMLNode *node)
 	XMLNode *tex, *defn, *tmp;
 	if (!node->getNamedChild("defn", defn)) return false;
 	while (defn->getNamedChild("item", tmp, false, true))
-		defns.push_back(tmp->getContent());
+	{
+		const char *landscapeDefnFile = tmp->getContent();
+		LandscapeDefn *landscapeDefn = 
+			definitions->getDefn(landscapeDefnFile, true);
+		if (!landscapeDefn) return false;
+		defns.push_back(landscapeDefnFile);
+	}
 	if (!node->getNamedChild("tex", tex)) return false;
 	while (tex->getNamedChild("item", tmp, false, true))
-		texs.push_back(tmp->getContent());
+	{
+		const char *landscapeTexFile = tmp->getContent();
+		LandscapeTex *landscapeTex = 
+			definitions->getTex(landscapeTexFile, true);
+		if (!landscapeTex) return false;
+		texs.push_back(landscapeTexFile);
+	}
 
 	DIALOG_ASSERT(!texs.empty() && !defns.empty());
 	return node->failChildren();
@@ -60,210 +72,33 @@ LandscapeDefinitions::~LandscapeDefinitions()
 void LandscapeDefinitions::clearLandscapeDefinitions()
 {
 	entries_.clear();
-	while (!texs_.empty()) 
-	{
-		delete texs_.front();
-		texs_.pop_front();
-	}
-	while (!defns_.empty())
-	{
-		delete defns_.front();
-		defns_.pop_front();
-	}
-	while (!places_.empty())
-	{
-		delete places_.front();
-		places_.pop_front();
-	}
+	defns_.clearItems();
+	texs_.clearItems();
+	sounds_.clearItems();
+	places_.clearItems();
+}
+
+LandscapeTex *LandscapeDefinitions::getTex(const char *file, bool load)
+{
+	return texs_.getItem(this, file, load);
+}
+
+LandscapePlace *LandscapeDefinitions::getPlace(const char *file, bool load)
+{
+	return places_.getItem(this, file, load);
+}
+
+LandscapeSound *LandscapeDefinitions::getSound(const char *file, bool load)
+{
+	return sounds_.getItem(this, file, load);
+}
+
+LandscapeDefn *LandscapeDefinitions::getDefn(const char *file, bool load)
+{
+	return defns_.getItem(this, file, load);
 }
 
 bool LandscapeDefinitions::readLandscapeDefinitions()
-{
-	if (!readPlaces()) return false;
-	if (!readSounds()) return false;
-	if (!readTexs()) return false;
-	if (!readDefns()) return false;
-	if (!readDefinitions()) return false;
-	return true;
-}
-
-bool LandscapeDefinitions::readSounds()
-{
-	// Load landscape definition file
-	XMLFile file;
-	if (!file.readFile(getDataFile("data/landscapessound.xml")) ||
-		!file.getRootNode())
-	{
-		dialogMessage("Scorched Landscape",
-			"Failed to parse \"data/landscapessound.xml\"\n%s",
-			file.getParserError());
-		return false;
-	}
-	// Itterate all of the landscapes in the file
-	std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-	for (childrenItor = children.begin();
-		childrenItor != children.end();
-		childrenItor++)
-	{
-		LandscapeSound *newSound = new LandscapeSound;
-		if (!newSound->readXML(*childrenItor))
-		{
-			dialogMessage("Scorched Landscape",
-				"Failed to parse  \"data/landscapessound.xml\"");
-			return false;
-		}
-		sounds_.push_back(newSound);
-	}
-	return true;
-}
-
-bool LandscapeDefinitions::readPlaces()
-{
-	// Load landscape definition file
-	XMLFile file;
-	if (!file.readFile(getDataFile("data/landscapesplace.xml")) ||
-		!file.getRootNode())
-	{
-		dialogMessage("Scorched Landscape",
-			"Failed to parse \"data/landscapesplace.xml\"\n%s",
-			file.getParserError());
-		return false;
-	}
-	// Itterate all of the landscapes in the file
-	std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-	for (childrenItor = children.begin();
-		childrenItor != children.end();
-		childrenItor++)
-	{
-		LandscapePlace *newPlace = new LandscapePlace;
-		if (!newPlace->readXML(*childrenItor))
-		{
-			dialogMessage("Scorched Landscape",
-				"Failed to parse  \"data/landscapesplace.xml\"");
-			return false;
-		}
-		places_.push_back(newPlace);
-	}
-	return true;
-}
-
-bool LandscapeDefinitions::readTexs()
-{
-	// Load landscape definition file
-	XMLFile file;
-	if (!file.readFile(getDataFile("data/landscapestex.xml")) ||
-		!file.getRootNode())
-	{
-		dialogMessage("Scorched Landscape",
-			"Failed to parse \"data/landscapestex.xml\"\n%s",
-			file.getParserError());
-		return false;
-	}
-	// Itterate all of the landscapes in the file
-	std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-	for (childrenItor = children.begin();
-		childrenItor != children.end();
-		childrenItor++)
-	{
-		LandscapeTex *newTex = new LandscapeTex;
-		if (!newTex->readXML(this, *childrenItor))
-		{
-			dialogMessage("Scorched Landscape",
-				"Failed to parse  \"data/landscapestex.xml\"");
-			return false;
-		}
-		texs_.push_back(newTex);
-	}
-	return true;
-}
-
-LandscapeTex *LandscapeDefinitions::getTex(const char *name)
-{
-	std::list<LandscapeTex*>::iterator itor;
-	for (itor = texs_.begin();
-		itor != texs_.end();
-		itor++)
-	{
-		LandscapeTex *tex = (*itor);
-		if (0 == strcmp(tex->name.c_str(), name)) return tex;
-	}
-	return 0;
-}
-
-bool LandscapeDefinitions::readDefns()
-{
-	// Load landscape definition file
-	XMLFile file;
-	if (!file.readFile(getDataFile("data/landscapesdefn.xml")) ||
-		!file.getRootNode())
-	{
-		dialogMessage("Scorched Landscape",
-			"Failed to parse \"data/landscapesdefn.xml\"\n%s",
-			file.getParserError());
-		return false;
-	}
-	// Itterate all of the landscapes in the file
-	std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-	for (childrenItor = children.begin();
-		childrenItor != children.end();
-		childrenItor++)
-	{
-		LandscapeDefn *newDefn = new LandscapeDefn;
-		if (!newDefn->readXML(*childrenItor))
-		{
-			dialogMessage("Scorched Landscape",
-				"Failed to parse  \"data/landscapesdefn.xml\"");
-			return false;
-		}
-		defns_.push_back(newDefn);
-	}
-	return true;
-}
-
-LandscapePlace *LandscapeDefinitions::getPlace(const char *name)
-{
-	std::list<LandscapePlace *>::iterator itor;
-	for (itor = places_.begin();
-		itor != places_.end();
-		itor++)
-	{
-		LandscapePlace *place = *itor;
-		if (0 == strcmp(place->name.c_str(), name)) return place;
-	}
-	return 0;
-}
-
-LandscapeSound *LandscapeDefinitions::getSound(const char *name)
-{
-	std::list<LandscapeSound *>::iterator itor;
-	for (itor = sounds_.begin();
-		itor != sounds_.end();
-		itor++)
-	{
-		LandscapeSound *sound = *itor;
-		if (0 == strcmp(sound->name.c_str(), name)) return sound;
-	}
-	return 0;
-}
-
-LandscapeDefn *LandscapeDefinitions::getDefn(const char *name)
-{
-	std::list<LandscapeDefn *>::iterator itor;
-	for (itor = defns_.begin();
-		itor != defns_.end();
-		itor++)
-	{
-		LandscapeDefn *defn = *itor;
-		if (0 == strcmp(defn->name.c_str(), name)) return defn;
-	}
-	return 0;
-}
-
-bool LandscapeDefinitions::readDefinitions()
 {
 	// Load landscape definition file
 	XMLFile file;
@@ -275,6 +110,7 @@ bool LandscapeDefinitions::readDefinitions()
 					  file.getParserError());
 		return false;
 	}
+
 	// Itterate all of the landscapes in the file
 	std::list<XMLNode *>::iterator childrenItor;
 		std::list<XMLNode *> &children = file.getRootNode()->getChildren();
@@ -283,40 +119,7 @@ bool LandscapeDefinitions::readDefinitions()
 		childrenItor++)
 	{
 		LandscapeDefinitionsEntry newDefn;
-		if (!newDefn.readXML(*childrenItor))
-		{
-			dialogMessage("Scorched Landscape", 
-					  "Failed to parse \"data/landscapes.xml\"");
-			return false;
-		}
-		std::vector<std::string>::iterator checkItor;
-		for (checkItor = newDefn.texs.begin();
-			checkItor != newDefn.texs.end();
-			checkItor++)
-		{
-			const char *name = (*checkItor).c_str();
-			if (!getTex(name))
-			{
-				dialogMessage("Scorched Landscape", 
-						"Failed to find tex named \"%s\" in \"data/landscapes.xml\"",
-						name);
-				return false;
-			}
-		}
-		for (checkItor = newDefn.defns.begin();
-			checkItor != newDefn.defns.end();
-			checkItor++)
-		{
-			const char *name = (*checkItor).c_str();
-			if (!getDefn(name))
-			{
-				dialogMessage("Scorched Landscape", 
-						"Failed to find defn named \"%s\" in \"data/landscapes.xml\"",
-						name);
-				return false;
-			}
-		}
-
+		if (!newDefn.readXML(this, *childrenItor)) return false;
 		entries_.push_back(newDefn);
 	}
 	return true;

@@ -1,0 +1,9 @@
+<ambientsound>
+	<sounds>
+		<sound>
+			<position type="ambient"></position>
+			<timing type="looped"></timing>
+			<sound>data/wav/misc/rain.wav</sound>
+		</sound>
+	</sounds>
+</ambientsound>

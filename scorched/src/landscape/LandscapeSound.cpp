@@ -197,9 +197,8 @@ LandscapeSound::~LandscapeSound()
 	objects.clear();
 }
 
-bool LandscapeSound::readXML(XMLNode *node)
+bool LandscapeSound::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
-	if (!node->getNamedChild("name", name)) return false;
 	{
 		XMLNode *soundsNode, *soundNode;
 		if (!node->getNamedChild("sounds", soundsNode)) return false;

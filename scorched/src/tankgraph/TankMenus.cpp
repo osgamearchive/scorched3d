@@ -325,7 +325,6 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 					!firstTank->getParachute().parachutesEnabled());
 				break;
 			case AccessoryPart::AccessoryShield:
-				// TODO No way of putting the shield off!
 				tankAI->shieldsUpDown(accessory->getAccessoryId());
 				break;
 			case AccessoryPart::AccessoryWeapon:

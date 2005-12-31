@@ -117,19 +117,12 @@ void GroundMaps::generateObjects(
 	// Do this now as it adds shadows to the mainmap
 	objects_.removeAllObjects();
 	{
-		std::vector<std::string>::iterator itor;
+		std::vector<LandscapePlace *>::iterator itor;
 		for (itor = tex->placements.begin();
 			itor != tex->placements.end();
 			itor++)
 		{
-			LandscapePlace *place = context.landscapes->getPlace(
-					(*itor).c_str());
-			if (!place)
-			{
-				dialogExit("LandscapeMaps",
-					"Failed to find placements type %s",
-					(*itor).c_str());
-			}
+			LandscapePlace *place = (*itor);
 			RandomGenerator objectsGenerator;
 			objectsGenerator.seed(defnCache_.getSeed());
 			objects_.generate(objectsGenerator, *place, context, counter);
