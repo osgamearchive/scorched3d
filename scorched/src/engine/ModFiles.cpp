@@ -21,6 +21,7 @@
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/FileList.h>
 #include <wx/dir.h>
 #include <wx/utils.h>
 #include <stdio.h>
@@ -108,11 +109,17 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 	{
 		std::string modDir = getDataFile("");
 		loadModFile(getDataFile("data/accessories.xml"), modDir.c_str(), mod);
-		/*loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
-		loadModFile(getDataFile("data/landscapesdefn.xml"), modDir.c_str(), mod);
-		loadModFile(getDataFile("data/landscapestex.xml"), modDir.c_str(), mod);
-		loadModFile(getDataFile("data/landscapesplace.xml"), modDir.c_str(), mod);
-		loadModFile(getDataFile("data/landscapessound.xml"), modDir.c_str(), mod);*/
+		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
+		FileList fList((char *) getDataFile("data/landscapes"), "*.xml");
+		std::list<std::string> &files = fList.getFiles();
+		std::list<std::string>::iterator itor;
+		for (itor = files.begin();
+			itor != files.end();
+			itor++)
+		{
+			const char *file = (*itor).c_str();
+			loadModFile(file, modDir.c_str(), mod);
+		}
 	}
 	
 	{

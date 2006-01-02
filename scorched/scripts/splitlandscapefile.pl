@@ -17,10 +17,18 @@ foreach (@filelines)
 	s/\t//;
 	if (/<name>(\w+)<\/name>/)
 	{
-		$name = $1;
+		if ($name eq "")
+		{
+			$name = $1;
+		}
+		else
+		{
+			$content .= $_;
+		}
 	}
 	elsif (/<$tag>/)
 	{
+		$name = "";
 		$content = $_;
 	}
 	else 
@@ -34,6 +42,5 @@ foreach (@filelines)
 		open(OUT, ">$outfile") || die "ERROR: Cannot write $outfile";
 		print OUT $content;
 		close(OUT);
-		$content = "";
 	}
 }
