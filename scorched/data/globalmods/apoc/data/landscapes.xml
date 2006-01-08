@@ -6,18 +6,19 @@
 		<picture>oldstyle.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>oldstyle</item>
+			<item>data/landscapes/defnoldstyle.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
-			<item>moon</item>
-			<item>desert</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texnight.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -26,14 +27,14 @@
 		<picture>lowlands.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>lowlands</item>
+			<item>data/landscapes/defnlowlands.xml</item>
 		</defn>
 		<tex>
-			<item>city1-summer</item>
-			<item>tropical</item>
-			<item>storm</item>
-			<item>moon</item>
-			<item>desert</item>
+			<item>data/landscapes/texcity1_summer.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -42,15 +43,15 @@
 		<picture>hilly.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>hilly</item>
+			<item>data/landscapes/defnhilly.xml</item>
 		</defn>
 		<tex>
-			<item>city1-winter</item>
-			<item>city1-storm</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>moon</item>
-			<item>desert</item>
+			<item>data/landscapes/texcity1_winter.xml</item>
+			<item>data/landscapes/texcity1_storm.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -59,14 +60,14 @@
 		<picture>ridge.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>ridge</item>
+			<item>data/landscapes/defnridge.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>snow</item>
-			<item>storm</item>
-			<item>sand</item>
-			<item>tropical</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/textropical.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -75,16 +76,16 @@
 		<picture>islands.bmp</picture>
 		<weight>33</weight>
 		<defn>
-			<item>islands</item>
+			<item>data/landscapes/defnislands.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>sand</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
-			<item>moon</item>
-			<item>desert</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -93,16 +94,16 @@
 		<picture>halved.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>halfed</item>
+			<item>data/landscapes/defnhalfed.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -111,17 +112,17 @@
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>valley</item>
+			<item>data/landscapes/defnvalley.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>storm</item>
-			<item>moon</item>
-			<item>desert</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -130,10 +131,10 @@
 		<picture>valley.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>cavern</item>
+			<item>data/landscapes/defncavern.xml</item>
 		</defn>
 		<tex>
-			<item>cavern</item>
+			<item>data/landscapes/texcavern.xml</item>
 		</tex>
 	</landscape>
 	
@@ -149,13 +150,13 @@
 		<picture>mountains-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>Mountains</item>
+			<item>data/landscapes/defnmountains.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>snow</item>
-			<item>storm</item>
-			<item>vulcano</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
 		</tex>
     </landscape>
     <landscape>
@@ -164,13 +165,13 @@
 		<picture>bighill-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>bighill</item>
+			<item>data/landscapes/defnbighill.xml</item>
 		</defn>
 		<tex>
-			<item>moon</item>
-			<item>desert</item>
-			<item>tropical</item>
-			<item>vulcano</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -179,14 +180,14 @@
 		<picture>ring.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>donuthills</item>
+			<item>data/landscapes/defndonuthills.xml</item>
 		</defn>
 		<tex>
-			<item>moon</item>
-			<item>desert</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -195,15 +196,15 @@
 		<picture>apoccity-pic.bmp</picture>
 		<weight>200</weight>
 		<defn>
-			<item>apoccity</item>
+			<item>data/landscapes/defnapoccity.xml</item>
 		</defn>
 		<tex>
-			<item>city1-winter</item>
-			<item>city1-summer</item>
-			<item>city1-storm</item>
-			<item>city2-winter</item>
-			<item>city2-summer</item>
-			<item>city2-storm</item>
+			<item>data/landscapes/texcity1_winter.xml</item>
+			<item>data/landscapes/texcity1_summer.xml</item>
+			<item>data/landscapes/texcity1_storm.xml</item>
+			<item>data/landscapes/texcity2_winter.xml</item>
+			<item>data/landscapes/texcity2_summer.xml</item>
+			<item>data/landscapes/texcity2_storm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -212,10 +213,10 @@
 		<picture>world.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>world</item>
+			<item>data/landscapes/defnworld.xml</item>
 		</defn>
 		<tex>
-			<item>sand</item>
+			<item>data/landscapes/texsand.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -224,10 +225,10 @@
 		<picture>usa.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>USA</item>
+			<item>data/landscapes/defnusa.xml</item>
 		</defn>
 		<tex>
-			<item>usa-summer</item>
+			<item>data/landscapes/texusa_summer.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -236,13 +237,13 @@
 		<picture>maze-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>maze</item>
+			<item>data/landscapes/defnmaze.xml</item>
 		</defn>
 		<tex>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -251,12 +252,12 @@
 		<picture>volcano-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>volcano</item>
+			<item>data/landscapes/defnvolcano.xml</item>
 		</defn>
 		<tex>
-			<item>storm</item>
-			<item>tropical</item>
-			<item>vulcano</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -265,14 +266,14 @@
 		<picture>pillars-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>pillars</item>
+			<item>data/landscapes/defnpillars.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>tropical</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -281,15 +282,15 @@
 		<picture>colosseum-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>colosseum</item>
+			<item>data/landscapes/defncolosseum.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -298,15 +299,15 @@
 		<picture>ruffles-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>ruffles</item>
+			<item>data/landscapes/defnruffles.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -315,12 +316,12 @@
 		<picture>bullseye.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>bullseye</item>
+			<item>data/landscapes/defnbullseye.xml</item>
 		</defn>
 		<tex>
-			<item>city3-summer</item>
-			<item>city3-winter</item>
-			<item>city3-storm</item>
+			<item>data/landscapes/texcity3_summer.xml</item>
+			<item>data/landscapes/texcity3_winter.xml</item>
+			<item>data/landscapes/texcity3_storm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -329,15 +330,15 @@
 		<picture>plateau-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>plateau</item>
+			<item>data/landscapes/defnplateau.xml</item>
 		</defn>
 		<tex>
-			<item>city1-winter</item>
-			<item>city1-summer</item>
-			<item>city1-storm</item>
-			<item>city2-winter</item>
-			<item>city2-summer</item>
-			<item>city2-storm</item>
+			<item>data/landscapes/texcity1_winter.xml</item>
+			<item>data/landscapes/texcity1_summer.xml</item>
+			<item>data/landscapes/texcity1_storm.xml</item>
+			<item>data/landscapes/texcity2_winter.xml</item>
+			<item>data/landscapes/texcity2_summer.xml</item>
+			<item>data/landscapes/texcity2_storm.xml</item>
 		</tex>
 	</landscape>
 	
@@ -353,11 +354,11 @@
 		<picture>castle-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>castle</item>
+			<item>data/landscapes/defncastle.xml</item>
 		</defn>
 		<tex>
-			<item>sand</item>
-			<item>snow</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -366,10 +367,10 @@
 		<picture>moon-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>moon</item>
+			<item>data/landscapes/defnmoon.xml</item>
 		</defn>
 		<tex>
-			<item>moon</item>
+			<item>data/landscapes/texmoon.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -378,10 +379,10 @@
 		<picture>pyramids-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>pyramids</item>
+			<item>data/landscapes/defnpyramids.xml</item>
 		</defn>
 		<tex>
-			<item>desert</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -390,14 +391,14 @@
 		<picture>weathered-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>weathered</item>
+			<item>data/landscapes/defnweathered.xml</item>
 		</defn>
 		<tex>
-			<item>city1-summer</item>
-			<item>city1-winter</item>
-			<item>city1-storm</item>
-			<item>moon</item>
-			<item>tropical</item>
+			<item>data/landscapes/texcity1_summer.xml</item>
+			<item>data/landscapes/texcity1_winter.xml</item>
+			<item>data/landscapes/texcity1_storm.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/textropical.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -406,15 +407,15 @@
 		<picture>hexIsle-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>hex isle</item>
+			<item>data/landscapes/defnhexisle.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>hell</item>
-			<item>sand</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texhell.xml</item>
+			<item>data/landscapes/texsand.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -423,16 +424,16 @@
 		<picture>twotowers-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>two towers</item>
+			<item>data/landscapes/defntwotowers.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>moon</item>
-			<item>desert</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -441,10 +442,10 @@
 		<picture>craters-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>craters</item>
+			<item>data/landscapes/defncraters.xml</item>
 		</defn>
 		<tex>
-			<item>moon</item>
+			<item>data/landscapes/texmoon.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -453,10 +454,10 @@
 		<picture>pyramids-v2-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>pyramids2</item>
+			<item>data/landscapes/defnpyramids2.xml</item>
 		</defn>
 		<tex>
-			<item>desert</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -465,15 +466,15 @@
 		<picture>desertmesa-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>desert mesa</item>
+			<item>data/landscapes/defndesertmesa.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>snow</item>
-			<item>storm</item>
-			<item>moon</item>
-			<item>tropical</item>
-			<item>desert</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -482,16 +483,16 @@
 		<picture>terraces-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>terraces</item>
+			<item>data/landscapes/defnterraces.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>moon</item>
-			<item>desert</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -500,16 +501,16 @@
 		<picture>steppes-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>steppes</item>
+			<item>data/landscapes/defnsteppes.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>moon</item>
-			<item>desert</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -518,14 +519,14 @@
 		<picture>nexuscanyon-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>nexus canyon</item>
+			<item>data/landscapes/defnnexuscanyon.xml</item>
 		</defn>
 		<tex>
-			<item>city1-summer</item>
-			<item>city1-winter</item>
-			<item>city1-storm</item>
-			<item>tropical</item>
-			<item>moon</item>
+			<item>data/landscapes/texcity1_summer.xml</item>
+			<item>data/landscapes/texcity1_winter.xml</item>
+			<item>data/landscapes/texcity1_storm.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
 		</tex>
 	</landscape>
 	
@@ -541,16 +542,16 @@
 		<picture>arizonaislands-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>arizonaislands</item>
+			<item>data/landscapes/defnarizonaislands.xml</item>
 		</defn>
 		<tex>
-			<item>default</item>
-			<item>moon</item>
-			<item>desert</item>
-			<item>snow</item>
-			<item>tropical</item>
-			<item>vulcano</item>
-			<item>storm</item>
+			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texvulcano.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
 		</tex>
 	</landscape>
 </landscapes>

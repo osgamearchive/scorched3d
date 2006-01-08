@@ -1,0 +1,92 @@
+<ambientsound>
+	<sounds>
+		<sound>
+			<position type="group">
+				<name>offices</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/carhorn1.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>offices</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/carhorn2.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>offices</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/carhorn3.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>offices</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>50</max>
+			</timing>
+			<sound>data/wav/misc/carhorn4.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>offices</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>50</max>
+			</timing>
+			<sound>data/wav/misc/carhorn5.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>offices</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/carhorn6.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>houses</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>60</max>
+			</timing>
+			<sound>data/wav/misc/firetruck.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>houses</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>60</max>
+			</timing>
+			<sound>data/wav/misc/policecar.wav</sound>
+		</sound>
+	</sounds>
+</ambientsound>

@@ -1,0 +1,78 @@
+<ambientsound>
+	<sounds>
+		<sound>
+			<position type="group">
+				<name>skyscrapers</name>
+				<falloff>2.0</falloff>
+			</position>
+			<timing type="looped"></timing>
+			<sound>data/wav/misc/citysounds.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>houses</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/dog.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>houses</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>60</max>
+			</timing>
+			<sound>data/wav/misc/dog2.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>houses</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/dog3.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>farms</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/rooster.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>farms</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>10</min>
+				<max>40</max>
+			</timing>
+			<sound>data/wav/misc/cows.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>farms</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="repeat">
+				<min>20</min>
+				<max>50</max>
+			</timing>
+			<sound>data/wav/misc/sheep.wav</sound>
+		</sound>
+	</sounds>
+</ambientsound>

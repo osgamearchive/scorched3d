@@ -1,0 +1,94 @@
+<place>
+	<placements>
+		<placement type="mask">
+			<numobjects>2000</numobjects>
+			<mask>data/landscapes/masks/usa-pines.bmp</mask>
+			<minheight>8</minheight>
+			<maxheight>30</maxheight>
+			<mincloseness>0.5</mincloseness>
+			<minslope>0.5</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<angsnap>0</angsnap>
+			<removeaction></removeaction>
+			<burnaction></burnaction>
+			<groupname>trees</groupname>
+			<object type="tree">
+				<tree>pine</tree>
+				<snow>20</snow>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>2000</numobjects>
+			<mask>data/landscapes/masks/usa-palms.bmp</mask>
+			<minheight>5</minheight>
+			<maxheight>20</maxheight>
+			<mincloseness>0.5</mincloseness>
+			<minslope>0.5</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<angsnap>0</angsnap>
+			<removeaction></removeaction>
+			<burnaction></burnaction>
+			<groupname>trees</groupname>
+			<object type="tree">
+				<tree>palm</tree>
+				<snow>100</snow>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>500</numobjects>
+			<mask>data/landscapes/masks/usa-cactus.bmp</mask>
+			<minheight>5</minheight>
+			<maxheight>20</maxheight>
+			<mincloseness>0.5</mincloseness>
+			<minslope>0.5</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<angsnap>0</angsnap>
+			<removeaction></removeaction>
+			<burnaction></burnaction>
+			<groupname></groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/objects/cactussmall.txt</model>
+				<modelburnt type="MilkShape">data/accessories/objects/cactussmallburnt.txt</modelburnt>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>50</numobjects>
+			<mask>data/landscapes/masks/usa-pines.bmp</mask>
+			<minheight>5</minheight>
+			<maxheight>20</maxheight>
+			<mincloseness>1</mincloseness>
+			<minslope>0.5</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<angsnap>0</angsnap>
+			<removeaction></removeaction>
+			<burnaction></burnaction>
+			<groupname></groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/objects/deer1.txt</model>
+				<modelburnt type="MilkShape">data/accessories/objects/deerburnt.txt</modelburnt>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>50</numobjects>
+			<mask>data/landscapes/masks/usa-pines.bmp</mask>
+			<minheight>5</minheight>
+			<maxheight>20</maxheight>
+			<mincloseness>1</mincloseness>
+			<minslope>0.5</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<angsnap>0</angsnap>
+			<removeaction></removeaction>
+			<burnaction></burnaction>
+			<groupname></groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/objects/deer2.txt</model>
+				<modelburnt type="MilkShape">data/accessories/objects/deerburnt.txt</modelburnt>
+			</object>
+		</placement>
+	</placements>
+</place>
