@@ -23,7 +23,6 @@
 
 #include <engine/ModFileEntry.h>
 #include <map>
-#include <list>
 
 class ModFiles
 {
@@ -53,22 +52,6 @@ private:
 	ModFiles(const ModFiles&other);
 	ModFiles &operator=(ModFiles &other);
 
-};
-
-class ModDirs
-{
-public:
-	ModDirs();
-	virtual ~ModDirs();
-
-	bool loadModDirs();
-	std::list<std::string> &getDirs() { return dirs_; }
-
-protected:
-	std::list<std::string> dirs_;
-	
-	bool loadModDir(const char *dir);
-	bool loadModFile(const char *fileName);
 };
 
 #endif

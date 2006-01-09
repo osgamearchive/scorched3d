@@ -18,37 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/OptionsHomeDir.h>
-#include <common/Defines.h>
+#if !defined(__INCLUDE_ModDirsh_INCLUDE__)
+#define __INCLUDE_ModDirsh_INCLUDE__
 
-OptionsHomeDir *OptionsHomeDir::instance_ = 0;
+#include <engine/ModInfo.h>
+#include <list>
 
-OptionsHomeDir *OptionsHomeDir::instance()
+class ModDirs
 {
-	if (!instance_) instance_ = new OptionsHomeDir;
-	return instance_;
-}
+public:
+	ModDirs();
+	virtual ~ModDirs();
 
-OptionsHomeDir::OptionsHomeDir() :
-	directoryVersion_(options_, "DirectoryVersion",
-		"The Scorched Protocol version of the settings directory", 0, "")
-{
-}
+	bool loadModDirs();
+	std::list<ModInfo> &getDirs() { return dirs_; }
 
-OptionsHomeDir::~OptionsHomeDir()
-{
-}
+protected:
+	std::list<ModInfo> dirs_;
+	
+	bool loadModDir(const char *dir, bool global);
+	bool loadModFile(const char *fileName, bool global);
+};
 
-bool OptionsHomeDir::writeOptionsToFile()
-{
-	const char *path = getSettingsFile("homedir.xml");
-	if (!OptionEntryHelper::writeToFile(options_, (char *) path)) return false;
-	return true;
-}
-
-bool OptionsHomeDir::readOptionsFromFile()
-{
-	const char *path = getSettingsFile("homedir.xml");
-	if (!OptionEntryHelper::readFromFile(options_, (char *) path)) return false;
-	return true;
-}
+#endif // __INCLUDE_ModDirsh_INCLUDE__

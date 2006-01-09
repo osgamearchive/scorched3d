@@ -18,31 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_OptionsHomeDirh_INCLUDE__)
-#define __INCLUDE_OptionsHomeDirh_INCLUDE__
+#if !defined(__INCLUDE_ModInfoh_INCLUDE__)
+#define __INCLUDE_ModInfoh_INCLUDE__
 
-#include <common/OptionEntry.h>
+#include <string>
+#include <list>
 
-class OptionsHomeDir
+class ModInfo
 {
 public:
-	static OptionsHomeDir *instance();
+	struct MenuEntry
+	{
+		std::string icon;
+		std::string description;
+		std::string gamefile;
+	};
 
-	const char *getDirectoryVersion() { return directoryVersion_.getValue(); }
-	void setDirectoryVersion(const char *value) { directoryVersion_.setValue(value); }
-	const char *getDirectoryVersionToolTip() { return directoryVersion_.getDescription(); }
+	ModInfo(const char *name);
+	virtual ~ModInfo();
 
-	bool writeOptionsToFile();
-	bool readOptionsFromFile();
+	bool parse(const char *fileName);
+
+	const char *getName() { return name_.c_str(); }
+	const char *getUrl() { return url_.c_str(); }
+	const char *getIcon() { return icon_.c_str(); }
+	const char *getDescription() { return description_.c_str(); }
+	const char *getProtocolVersion() { return protocolversion_.c_str(); }
+	std::list<MenuEntry> &getMenuEntries() { return entries_; }
 
 protected:
-	static OptionsHomeDir *instance_;
-	std::list<OptionEntry *> options_;
-	OptionEntryString directoryVersion_;
-
-private:
-	OptionsHomeDir();
-	virtual ~OptionsHomeDir();
+	std::string name_;
+	std::string url_;
+	std::string icon_;
+	std::string description_;
+	std::string protocolversion_;
+	std::list<MenuEntry> entries_;
 };
 
-#endif // __INCLUDE_OptionsHomeDirh_INCLUDE__
+#endif // __INCLUDE_ModInfoh_INCLUDE__

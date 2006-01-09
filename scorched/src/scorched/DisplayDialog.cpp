@@ -22,6 +22,7 @@
 #include <scorched/MainDialog.h>
 #include <scorched/KeyDialog.h>
 #include <coms/NetInterface.h>
+#include <engine/ModDirs.h>
 #include <engine/ModFiles.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
@@ -361,6 +362,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NODETAILTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDetailTextureToolTip(), wxConvUTF8));
 	IDC_NOBOIDS_CTRL->SetValue(OptionsDisplay::instance()->getNoBOIDS());
 	IDC_NOBOIDS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBOIDSToolTip(), wxConvUTF8));
+	IDC_NOSHIPS_CTRL->SetValue(OptionsDisplay::instance()->getNoShips());
+	IDC_NOSHIPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoShipsToolTip(), wxConvUTF8));
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
 	IDC_MORERES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMoreResToolTip(), wxConvUTF8));
 	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
@@ -542,6 +545,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue().mb_str(wxConvUTF8));
 	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
 	OptionsDisplay::instance()->setNoBOIDS(IDC_NOBOIDS_CTRL->GetValue());
+	OptionsDisplay::instance()->setNoShips(IDC_NOSHIPS_CTRL->GetValue());
 	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());
 	OptionsDisplay::instance()->setSwapYAxis(IDC_SWAPYAXIS_CTRL->GetValue());
 	OptionsDisplay::instance()->setClientLogToFile(IDC_LOGGING_CTRL->GetValue());

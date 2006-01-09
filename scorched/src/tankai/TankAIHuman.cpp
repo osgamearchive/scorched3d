@@ -508,9 +508,6 @@ void TankAIHuman::parachutesUpDown(bool on)
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
 		on?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown);
-
-	// Check if we are running in a NET/LAN environment
-	// If so we send this defense action to the server
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
@@ -520,9 +517,6 @@ void TankAIHuman::shieldsUpDown(unsigned int shieldId)
 		currentTank_->getPlayerId(),
 		(shieldId!=0)?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
 		shieldId);
-	
-	// Check if we are running in a NET/LAN environment
-	// If so we send this defense action to the server
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
@@ -531,8 +525,5 @@ void TankAIHuman::useBattery()
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
 		ComsDefenseMessage::eBatteryUse);
-
-	// Check if we are running in a NET/LAN environment
-	// If so we send this defense action to the server
 	ComsMessageSender::sendToServer(defenseMessage);
 }

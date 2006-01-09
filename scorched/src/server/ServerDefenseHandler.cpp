@@ -23,8 +23,8 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
-#include <tankai/TankAILogic.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
 #include <coms/ComsDefenseMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <weapons/AccessoryStore.h>
@@ -103,6 +103,8 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 void ServerDefenseHandler::processDefenseMessage(
 	ComsDefenseMessage &message, Tank *tank)
 {
+	bool sendMessage = false;
+
 	// Actually perform the required action
 	switch (message.getChange())
 	{
@@ -111,8 +113,7 @@ void ServerDefenseHandler::processDefenseMessage(
 		{
 			tank->getAccessories().getBatteries().rmBatteries(1);
 			tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
-
-			ComsMessageSender::sendToAllPlayingClients(message);
+			sendMessage = true;
 		}
 		break;
 	case ComsDefenseMessage::eShieldUp:
@@ -126,8 +127,7 @@ void ServerDefenseHandler::processDefenseMessage(
 				{
 					tank->getAccessories().getShields().rmShield(accessory, 1);
 					tank->getShield().setCurrentShield(accessory);
-
-					ComsMessageSender::sendToAllPlayingClients(message);
+					sendMessage = true;
 				}
 			}
 		}
@@ -138,7 +138,7 @@ void ServerDefenseHandler::processDefenseMessage(
 			if (shield)
 			{
 				tank->getShield().setCurrentShield(0);
-				ComsMessageSender::sendToAllPlayingClients(message);
+				sendMessage = true;
 			}
 		}	
 		break;
@@ -146,17 +146,27 @@ void ServerDefenseHandler::processDefenseMessage(
 		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 		{
 			tank->getParachute().setParachutesEnabled(true);
-
-			ComsMessageSender::sendToAllPlayingClients(message);
+			sendMessage = true;
 		}
 		break;
 	case ComsDefenseMessage::eParachutesDown:
 		if (tank->getParachute().parachutesEnabled())
 		{
 			tank->getParachute().setParachutesEnabled(false);
-
-			ComsMessageSender::sendToAllPlayingClients(message);
+			sendMessage = true;
 		}
 		break;
+	}
+
+	if (sendMessage)
+	{
+			if (ScorchedServer::instance()->getOptionsGame().getDelayedDefenseActivation())
+			{
+				ComsMessageSender::sendToSingleClient(message, tank->getDestinationId());
+			}
+			else
+			{
+				ComsMessageSender::sendToAllPlayingClients(message);
+			}
 	}
 }

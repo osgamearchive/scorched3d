@@ -109,6 +109,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 	{
 		std::string modDir = getDataFile("");
 		loadModFile(getDataFile("data/accessories.xml"), modDir.c_str(), mod);
+		loadModFile(getDataFile("data/modinfo.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
 		FileList fList((char *) getDataFile("data/landscapes"), "*.xml");
 		std::list<std::string> &files = fList.getFiles();
@@ -364,66 +365,5 @@ bool ModFiles::importModFiles(const char **mod, const char *fileName)
 	}
 
 	fclose(in);
-	return true;
-}
-
-ModDirs::ModDirs()
-{
-}
-
-ModDirs::~ModDirs()
-{
-}
-
-bool ModDirs::loadModDirs()
-{
-	dirs_.push_back("none");
-	if (!loadModDir(getModFile(""))) return false;
-	if (!loadModDir(getGlobalModFile(""))) return false;
-	return true;
-}
-	
-bool ModDirs::loadModDir(const char *dirName)
-{
-	wxDir dir(wxString(dirName, wxConvUTF8));
-	if (dir.IsOpened())
-	{
-		wxString filename;
-		bool cont = dir.GetFirst(&filename, wxT(""), wxDIR_DIRS);
-		while (cont)
-		{
-			if (!loadModFile(filename.mb_str(wxConvUTF8))) return false;
-			cont = dir.GetNext(&filename);
-		}
-	}
-	return true;
-}
-
-bool ModDirs::loadModFile(const char *fileName)
-{
-	if (strstr(fileName, "CVS")) return true;
-
-	std::string oldFileName(fileName);
-	_strlwr((char *) fileName);
-
-	if (strcmp(oldFileName.c_str(), fileName) != 0)
-	{
-		dialogMessage("ModDirs",
-			"ERROR: All mod directories must have lower case filenames.\n"
-			"Directory \"%s\" has upper case charaters in it",
-			fileName);
-		return false;
-	}
-	
-	std::list<std::string>::iterator itor;
-	for (itor = dirs_.begin();
-		itor != dirs_.end();
-		itor++)
-	{
-		std::string name = (*itor);
-		if (0 == strcmp(name.c_str(), fileName)) return true;
-	}
-	dirs_.push_back(fileName);
-	
 	return true;
 }

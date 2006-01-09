@@ -26,11 +26,10 @@
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerMain.h>
-#include <engine/ModFiles.h>
+#include <engine/ModDirs.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsHomeDir.h>
 #include <common/ARGParser.h>
 #include <common/Defines.h>
 #include <common/OptionsTransient.h>
@@ -82,45 +81,10 @@ bool parseCommandLine(int argc, char *argv[])
 	// Write the new options back the the file
 	OptionsDisplay::instance()->writeOptionsToFile();
 
-	// Read the current home directory options
-	OptionsHomeDir::instance()->readOptionsFromFile();
-	if (0 != strcmp(OptionsHomeDir::instance()->getDirectoryVersion(),
-		ScorchedProtocolVersion))
-	{
-		// The version has changed move the current mod directories
-		if (!s3d_dirExists(getSettingsFile("/oldmods")))
-		{
-			s3d_dirMake(getSettingsFile("/oldmods"));
-		}
-		ModDirs dirs;
-		dirs.loadModDirs();
-		std::list<std::string>::iterator itor;
-		for (itor = dirs.getDirs().begin();
-			itor != dirs.getDirs().end();
-			itor++)
-		{
-			const char *modDir = (*itor).c_str();
-			std::string src = getModFile(modDir);
-			std::string dest = getSettingsFile("/oldmods/%s-%u", modDir, time(0));
-			if (s3d_dirExists(src.c_str()))
-			{
-				if (::wxRenameFile(wxString(src.c_str(), wxConvUTF8), 
-					wxString(dest.c_str(), wxConvUTF8)))
-				{
-					dialogMessage("Scorched3D",
-						"Mod directory\n"
-						"\"%s\"\n"
-						"was moved to\n"
-						"\"%s\"\n"
-						"as it may be incompatable with this version of Scorched3D",
-						src.c_str(), dest.c_str());
-				}
-			}
-		}
-
-		OptionsHomeDir::instance()->setDirectoryVersion(ScorchedProtocolVersion);
-		OptionsHomeDir::instance()->writeOptionsToFile();
-	}
+	// Check that the mods are uptodate with the current scorched3d
+	// version
+	ModDirs dirs;
+	dirs.loadModDirs();
 
 	// Read the game options (allows us to modify any settings only 
 	// used by the chooser screens)

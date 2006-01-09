@@ -806,12 +806,6 @@
 				RelativePath="..\common\OptionsGame.h">
 			</File>
 			<File
-				RelativePath="..\common\OptionsHomeDir.cpp">
-			</File>
-			<File
-				RelativePath="..\common\OptionsHomeDir.h">
-			</File>
-			<File
 				RelativePath="..\common\OptionsParam.cpp">
 			</File>
 			<File
@@ -1199,6 +1193,12 @@
 				RelativePath="..\engine\MetaClass.h">
 			</File>
 			<File
+				RelativePath="..\engine\ModDirs.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ModDirs.h">
+			</File>
+			<File
 				RelativePath="..\engine\ModFileEntry.cpp">
 			</File>
 			<File
@@ -1209,6 +1209,12 @@
 			</File>
 			<File
 				RelativePath="..\engine\ModFiles.h">
+			</File>
+			<File
+				RelativePath="..\engine\ModInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\engine\ModInfo.h">
 			</File>
 			<File
 				RelativePath="..\engine\Particle.cpp">
@@ -2780,12 +2786,6 @@
 				RelativePath="SingleDialog.h">
 			</File>
 			<File
-				RelativePath="SingleGames.cpp">
-			</File>
-			<File
-				RelativePath="SingleGames.h">
-			</File>
-			<File
 				RelativePath="SingleSDialog.cpp">
 			</File>
 			<File
@@ -3692,12 +3692,6 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIHumanCtrl.h">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAILogic.cpp">
-			</File>
-			<File
-				RelativePath="..\tankai\TankAILogic.h">
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIStore.cpp">

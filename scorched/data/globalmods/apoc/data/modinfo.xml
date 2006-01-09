@@ -1,32 +1,33 @@
-<games>
+<modinfo>
 	<main>
-		<description>Start a single or multi-player game.
+		<description>Start a single or multi-player Apocalypse mod game.
 One or more people play against themselves or the computer.</description>
-		<icon>data/windows/tank2.bmp</icon>
-		<url>http://www.scorched3d.co.uk</url>
+		<icon>data/windows/nuke.bmp</icon>
+		<url>http://apochq.handwired.net/</url>
+		<protocolversion>ca</protocolversion>
 	</main>
 	<game>
-		<description>Start an target practice game.
+		<description>Start a target practice Apocalypse mod game.
 Play a practice level against targets that don't fire back.</description>
 		<icon>data/windows/target.bmp</icon>
 		<gamefile>data/singletarget.xml</gamefile>
 	</game>
 	<game>
-		<description>Start an easy single player game.
+		<description>Start an easy single player Apocalypse game.
 Play a quick game against easy computer players.</description>
-		<icon>data/windows/tank-easy.bmp</icon>
+		<icon>data/windows/nuke-easy.bmp</icon>
 		<gamefile>data/singleeasy.xml</gamefile>
 	</game>
 	<game>
-		<description>Start an normal single player game.
+		<description>Start an normal single player Apocalypse game.
 Play a quick game against normal strength computer players.</description>
-		<icon>data/windows/tank-med.bmp</icon>
+		<icon>data/windows/nuke-med.bmp</icon>
 		<gamefile>data/singlenormal.xml</gamefile>
 	</game>
 	<game>
-		<description>Start an hard single player game.
+		<description>Start an hard single player Apocalypse game.
 Play a quick game against hard computer players.</description>
-		<icon>data/windows/tank-hard.bmp</icon>
+		<icon>data/windows/nuke-hard.bmp</icon>
 		<gamefile>data/singlehard.xml</gamefile>
 	</game>
-</games>
+</modinfo>

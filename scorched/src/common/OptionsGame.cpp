@@ -245,6 +245,8 @@ OptionsGame::OptionsGame() :
 		"Only allow authenticated players to connect", 0, "none"),
 	cycleMaps_(options_, "CycleMaps",
 		"Cycle through the maps instead of using the probablity", 0, false),
+	delayedDefenseActivation_(options_, "DelayedDefenseActivation",
+		"Changes to shields and parachutes are only seen after the aiming phase", 0, false),
 	randomizeBotNames_(options_, "RandomizeBotNames",
 		"Choose random bot names instread of sequential names", 0, false),
 	computersDeathTalk_(options_, "ComputersDeathTalk",

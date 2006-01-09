@@ -23,7 +23,7 @@
 #include <wx/image.h>
 #include <wx/filedlg.h>
 #include <scorched/MainDialog.h>
-#include <scorched/SingleGames.h>
+#include <engine/ModInfo.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -48,13 +48,13 @@ public:
 class SingleChoiceFrame: public wxDialog
 {
 public:
-	SingleChoiceFrame(const char *mod);
+	SingleChoiceFrame(ModInfo &info);
 
 protected:
 	void onChoiceButton(wxCommandEvent &event);
 	void onScorchedButton(wxCommandEvent &event);
 
-	SingleGames games;
+	ModInfo info_;
 
 private:
     DECLARE_EVENT_TABLE()
@@ -74,9 +74,10 @@ BEGIN_EVENT_TABLE(SingleChoiceFrame, wxDialog)
 	EVT_BUTTON(ID_BUTTON_CHOICE + 9,  SingleChoiceFrame::onChoiceButton)
 END_EVENT_TABLE()
 
-SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
+SingleChoiceFrame::SingleChoiceFrame(ModInfo &info) :
 	wxDialog(getMainDialog(), -1, wxString(scorched3dAppName, wxConvUTF8), 
-	wxDefaultPosition, wxDefaultSize)
+	wxDefaultPosition, wxDefaultSize),
+	info_(info)
 {
 	// Create the positioning sizer
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
@@ -86,22 +87,20 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 	wxIcon icon(getDataFile("data/windows/tank2.ico"), wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 #endif
-	setDataFileMod(mod);
-
+	setDataFileMod(info_.getName());
 	addTitleToWindow(this, topsizer, 
 		getDataFile("data/windows/scorched.bmp"),
 		ID_BUTTON_SCORCHED3D);
+	setDataFileMod("none");
 
 	int useId = ID_BUTTON_CHOICE;
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
-	if (!games.parse(getDataFile("data/singlegames.xml"))) 
-		dialogExit("SingleChoiceFrame", "Failed to load games");
-	std::list<SingleGames::Entry>::iterator itor;
-	for (itor = games.entries.begin();
-		itor != games.entries.end();
+	std::list<ModInfo::MenuEntry>::iterator itor;
+	for (itor = info_.getMenuEntries().begin();
+		itor != info_.getMenuEntries().end();
 		itor++)
 	{
-		SingleGames::Entry &entry = (*itor);
+		ModInfo::MenuEntry &entry = (*itor);
 		char *icon = (char *) entry.icon.c_str();
 		char *desc = (char *) entry.description.c_str();
 
@@ -111,7 +110,7 @@ SingleChoiceFrame::SingleChoiceFrame(const char *mod) :
 			desc, icon, 
 			this, gridsizer, refData);
 	}
-	setDataFileMod("none");
+
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 
@@ -143,10 +142,10 @@ void SingleChoiceFrame::onChoiceButton(wxCommandEvent &event)
 
 void SingleChoiceFrame::onScorchedButton(wxCommandEvent &event)
 {
-	showURL(games.url.c_str());
+	showURL(info_.getUrl());
 }
 
-bool showSingleChoiceDialog(const char *mod)
+bool showSingleChoiceDialog(ModInfo &mod)
 {
 	SingleChoiceFrame frame(mod);
 	return (frame.ShowModal() == wxID_OK);

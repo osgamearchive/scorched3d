@@ -213,6 +213,9 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NOBOIDS_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No birds"));
 	detailSizer2->Add(IDC_NOBOIDS_CTRL, 0);
+	IDC_NOSHIPS_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No ships"));
+	detailSizer2->Add(IDC_NOSHIPS_CTRL, 0);
 	IDC_NOTREES_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No trees"));
 	detailSizer2->Add(IDC_NOTREES_CTRL, 0);
@@ -420,12 +423,13 @@ static void updateModList()
 	ModDirs dirs;
 	if (dirs.loadModDirs())
 	{
-		std::list<std::string>::iterator itor;
+		std::list<ModInfo>::iterator itor;
 		for (itor = dirs.getDirs().begin();
 			itor != dirs.getDirs().end();
 			itor++)
 		{
-			modbox->Append(wxString((*itor).c_str(), wxConvUTF8));
+			ModInfo &info = (*itor);
+			modbox->Append(wxString(info.getName(), wxConvUTF8));
 		}
 	}
 }

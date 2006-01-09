@@ -35,6 +35,7 @@ ComsActionsMessage::~ComsActionsMessage()
 
 bool ComsActionsMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
+	if (!stateMessage_.writeMessage(buffer, destinationId)) return false;
 	buffer.addToBuffer(totalTime_);
 	if (!ScorchedServer::instance()->getActionController().getBuffer().
 		writeMessage(buffer)) return false;
@@ -43,6 +44,7 @@ bool ComsActionsMessage::writeMessage(NetBuffer &buffer, unsigned int destinatio
 
 bool ComsActionsMessage::readMessage(NetBufferReader &reader)
 {
+	if (!stateMessage_.readMessage(reader)) return false;
 	if (!reader.getFromBuffer(totalTime_)) return false;
 	if (!ScorchedClient::instance()->getActionController().getBuffer().
 		readMessage(reader)) return false;

@@ -24,12 +24,11 @@
 #include <wx/filedlg.h>
 #include <scorched/MainDialog.h>
 #include <scorched/SingleSDialog.h>
-#include <scorched/SingleGames.h>
 #include <scorched/SingleChoiceDialog.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
-#include <engine/ModFiles.h>
+#include <engine/ModDirs.h>
 
 extern char scorched3dAppName[128];
 
@@ -45,10 +44,10 @@ enum
 class SingleFrameData : public wxObjectRefData
 {
 public:
-	SingleFrameData(const char *m) : mod(m) { }
+	SingleFrameData(ModInfo &m) : mod(m) { }
 	virtual ~SingleFrameData() { }
 
-	std::string mod;
+	ModInfo mod;
 };
 
 class SingleFrame: public wxDialog
@@ -64,7 +63,8 @@ public:
 protected:
 	void addModButton(
 		int &count,
-		const char *mod, wxSizer *sizer);
+		ModInfo &mod, 
+		wxSizer *sizer);
 
 private:
     DECLARE_EVENT_TABLE()
@@ -106,24 +106,21 @@ SingleFrame::SingleFrame() :
 		ID_BUTTON_SCORCHED3D);
 
 	int count = ID_BUTTON_GAME;
-	std::string noModGamesFile = getDataFile("data/singlegames.xml");
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("SingleFrame", "Failed to load mod dirs");	
-	std::list<std::string>::iterator itor;
+	std::list<ModInfo>::iterator itor;
 	for (itor = modDirs.getDirs().begin();
 		itor != modDirs.getDirs().end();
 		itor++)
 	{
-		const char *modName = (*itor).c_str();
+		ModInfo &info = (*itor);
+		const char *modName = info.getName();
 			
-		setDataFileMod(modName);
-		std::string modGamesFile = getDataFile("data/singlegames.xml");
-		setDataFileMod("none");
-		if (noModGamesFile == modGamesFile &&
-			0 != strcmp(modName, "none")) continue;
-		
-		addModButton(count, modName, gridsizer);
+		if (!info.getMenuEntries().empty())
+		{
+			addModButton(count, info, gridsizer);
+		}
 	}
 
 	{
@@ -156,21 +153,14 @@ SingleFrame::SingleFrame() :
 
 void SingleFrame::addModButton(
 	int &count,
-	const char *mod,
+	ModInfo &info,
 	wxSizer *sizer)
 {
-	setDataFileMod(mod);
-	
-	SingleGames games;
-	if (!games.parse(getDataFile("data/singlegames.xml"))) 
-		dialogExit("SingleFrame", "Failed to load \"%s\" games", mod);
-	wxObjectRefData *refData = new SingleFrameData(mod);
+	wxObjectRefData *refData = new SingleFrameData(info);
 	addButtonToWindow(count++, 
-		(char *) games.description.c_str(), 
-		(char *) games.icon.c_str(), 
+		(char *) info.getDescription(), 
+		(char *) info.getIcon(), 
 		this, sizer, refData);
-
-	setDataFileMod("none");
 }
 
 void SingleFrame::onLoadButton(wxCommandEvent &event)
@@ -195,9 +185,8 @@ void SingleFrame::onGameButton(wxCommandEvent &event)
 	SingleFrameData *data = 
 		(SingleFrameData *) object->GetRefData();
 	if (!data) return;
-	const char *mod = data->mod.c_str();
 
-	if (showSingleChoiceDialog(mod))
+	if (showSingleChoiceDialog(data->mod))
 	{
 		EndModal(wxID_OK);
 	}

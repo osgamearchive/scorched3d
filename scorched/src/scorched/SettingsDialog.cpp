@@ -509,9 +509,19 @@ bool SettingsFrame::TransferDataToWindow()
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->Append(wxT("Round Start or End (Due to Health)"), 
 			(void *) OptionsGame::ResignDueToHealth);
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetSelection(
-			context_.getResignMode());
+			int(context_.getResignMode()?1:0));
 		SettingsEnv::IDC_RESIGNENDROUND_CTRL->SetToolTip(
 			wxString("During which part of the round players resign.", wxConvUTF8));	
+
+		// Defense Mode
+		SettingsEnv::IDC_DEFENSEMODE_CTRL->Append(wxT("During Aim"), 
+			(void *) false);
+		SettingsEnv::IDC_DEFENSEMODE_CTRL->Append(wxT("After Aim"), 
+			(void *) true);
+		SettingsEnv::IDC_DEFENSEMODE_CTRL->SetSelection(
+			context_.getDelayedDefenseActivation());
+		SettingsEnv::IDC_DEFENSEMODE_CTRL->SetToolTip(
+			wxString(context_.getDelayedDefenseActivationToolTip(), wxConvUTF8));	
 
 		// Movement restriction Mode
 		SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->Append(wxT("None"), 
@@ -783,6 +793,10 @@ bool SettingsFrame::TransferDataFromWindow()
 		context_.setResignMode((OptionsGame::ResignType) (int)
 			SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetClientData(
 				SettingsEnv::IDC_RESIGNENDROUND_CTRL->GetSelection()));
+
+		context_.setDelayedDefenseActivation(((int)
+			SettingsEnv::IDC_DEFENSEMODE_CTRL->GetClientData(
+				SettingsEnv::IDC_DEFENSEMODE_CTRL->GetSelection())) == 1);
 
 		context_.setMovementRestriction((OptionsGame::MovementRestrictionType) (int)
 			SettingsEnv::IDC_MOVEMENTRESTRICTION_CTRL->GetClientData(

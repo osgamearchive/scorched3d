@@ -23,7 +23,7 @@
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
-#include <engine/ModFiles.h>
+#include <engine/ModDirs.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <wx/dir.h>
@@ -120,12 +120,13 @@ bool ServerSFrame::TransferDataToWindow()
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
-	std::list<std::string>::iterator itor;
+	std::list<ModInfo>::iterator itor;
 	for (itor = modDirs.getDirs().begin();
 		itor != modDirs.getDirs().end();
 		itor++)
 	{
-		IDC_SERVER_MOD_CTRL->Append(wxString((*itor).c_str(), wxConvUTF8));
+		ModInfo &info = *itor;
+		IDC_SERVER_MOD_CTRL->Append(wxString(info.getName(), wxConvUTF8));
 	}
 	if (IDC_SERVER_MOD_CTRL->FindString(wxString(options_.getMod(), wxConvUTF8)) != -1)
 		IDC_SERVER_MOD_CTRL->SetValue(wxString(options_.getMod(), wxConvUTF8));

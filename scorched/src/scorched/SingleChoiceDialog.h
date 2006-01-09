@@ -21,6 +21,7 @@
 #if !defined(__INCLUDE_SingleChoiceDialogh_INCLUDE__)
 #define __INCLUDE_SingleChoiceDialogh_INCLUDE__
 
-bool showSingleChoiceDialog(const char *mod);
+class ModInfo;
+bool showSingleChoiceDialog(ModInfo &mod);
 
 #endif // __INCLUDE_SingleChoiceDialogh_INCLUDE__

@@ -18,26 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <scorched/SingleGames.h>
+#include <engine/ModInfo.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
 
-SingleGames::SingleGames()
+ModInfo::ModInfo(const char *name) :
+	name_(name)
 {
 
 }
 
-SingleGames::~SingleGames()
+ModInfo::~ModInfo()
 {
 }
 
-bool SingleGames::parse(const char *fileName)
+bool ModInfo::parse(const char *fileName)
 {
-	entries.clear();
+	entries_.clear();
 	XMLFile file;
 	if (!file.readFile(fileName))
 	{
-		dialogMessage("SingleGames", 
+		dialogMessage("ModInfo", 
 			"Failed to parse \"%s\":%s\n", 
 					  fileName,
 					  file.getParserError());
@@ -45,30 +46,39 @@ bool SingleGames::parse(const char *fileName)
 	}
 	if (!file.getRootNode())
 	{
-		dialogMessage("SingleGames",
-					  "Failed to find single games definition file \"%s\"",
+		dialogMessage("ModInfo",
+					  "Failed to find mod info definition file \"%s\"",
 					  fileName);
 		return false;		
 	}
 
+	std::string tmpicon, tmpgamefile;
 	XMLNode *mainNode = 0;
 	if (!file.getRootNode()->getNamedChild("main", mainNode)) return false;
-	if (!mainNode->getNamedChild("description", description)) return false;
-	if (!mainNode->getNamedChild("icon", icon)) return false;
-	if (!mainNode->getNamedChild("url", url)) return false;
-	if (!checkDataFile(icon.c_str())) return false;
+	if (!mainNode->getNamedChild("description", description_)) return false;
+	if (!mainNode->getNamedChild("icon", tmpicon)) return false;
+	if (!mainNode->getNamedChild("url", url_)) return false;
+	if (!mainNode->getNamedChild("protocolversion", protocolversion_)) return false;
+
+	icon_ = getDataFile(tmpicon.c_str());
+	if (!checkDataFile(icon_.c_str())) return false;
 
 	XMLNode *gameNode = 0;
 	while (file.getRootNode()->getNamedChild("game", gameNode, false))
 	{
-		Entry entry;
+		MenuEntry entry;
 		if (!gameNode->getNamedChild("description", entry.description)) return false;
-		if (!gameNode->getNamedChild("icon", entry.icon)) return false;
-		if (!gameNode->getNamedChild("gamefile", entry.gamefile)) return false;
+		if (!gameNode->getNamedChild("icon", tmpicon)) return false;
+		if (!gameNode->getNamedChild("gamefile", tmpgamefile)) return false;
+
+		entry.icon = getDataFile(tmpicon.c_str());
 		if (!checkDataFile(entry.icon.c_str())) return false;
+	
+		entry.gamefile = getDataFile(tmpgamefile.c_str());
 		if (!checkDataFile(entry.gamefile.c_str())) return false;
+
 		if (!gameNode->failChildren()) return false;
-		entries.push_back(entry);
+		entries_.push_back(entry);
 	}
 
 	return file.getRootNode()->failChildren();

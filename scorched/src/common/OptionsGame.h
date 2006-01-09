@@ -288,6 +288,10 @@ public:
 	void setGiveAllWeapons(bool value) { giveAllWeapons_.setValue(value); }
 	const char *getGiveAllWeaponsToolTip() { return giveAllWeapons_.getDescription(); }
 
+	bool getDelayedDefenseActivation() { return delayedDefenseActivation_.getValue(); }
+	void setDelayedDefenseActivation(bool value) { delayedDefenseActivation_.setValue(value); }
+	const char *getDelayedDefenseActivationToolTip() { return delayedDefenseActivation_.getDescription(); }
+
 	bool getCycleMaps() { return cycleMaps_.getValue(); }
 	void setCycleMaps(bool value) { cycleMaps_.setValue(value); }
 	const char *getCycleMapsToolTip() { return cycleMaps_.getDescription(); }
@@ -420,6 +424,7 @@ protected:
 	OptionEntryBool limitPowerByHealth_;
 	OptionEntryBool depricatedAutoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
+	OptionEntryBool delayedDefenseActivation_;
 	OptionEntryEnum resignMode_;
 	OptionEntryEnum movementRestriction_;
 	OptionEntryEnum turnType_;

@@ -93,6 +93,13 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		wxDefaultPosition, wxDefaultSize,
 		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
 	sizer->Add(new wxStaticText(parent, -1,
+		wxT("Defense Activation")), 0, wxALIGN_CENTER);
+	sizer->Add(IDC_DEFENSEMODE_CTRL = 
+		new wxComboBox(parent, -1,
+		wxT(""),
+		wxDefaultPosition, wxDefaultSize,
+		0, 0, wxCB_READONLY), 0, wxALIGN_CENTER);
+	sizer->Add(new wxStaticText(parent, -1,
 		wxT("Movement Restrictions")), 0, wxALIGN_CENTER);
 	sizer->Add(IDC_MOVEMENTRESTRICTION_CTRL = 
 		new wxComboBox(parent, -1,

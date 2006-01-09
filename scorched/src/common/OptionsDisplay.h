@@ -91,7 +91,7 @@ public:
 	const char *getNoBOIDSToolTip() { return noBOIDS_.getDescription(); }
 
 	bool getNoShips() { return noShips_.getValue(); }
-	void setNoShip(bool value) { noShips_.setValue(value); }	
+	void setNoShips(bool value) { noShips_.setValue(value); }	
 	const char *getNoShipsToolTip() { return noShips_.getDescription(); }
 
 	bool getNoShadows() { return noShadows_.getValue(); }
