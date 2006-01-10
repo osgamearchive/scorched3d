@@ -23,6 +23,7 @@ Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
 Fixed: Moved sections in landscapesound, landscapeplace, landscapetex and landscapedefn files to seperate files (splitlandscapefile.pl)
 
+Added: Versioning in mod files (singlegames.xml moved to modinfo.xml)
 Added: Server option to have shields and parachutes activate at the end of the aiming phase
 Added: Sun/moon texture can be configured
 Added: Targets (models) that can have shields, parachutes, health etc...
@@ -62,7 +63,6 @@ Power ups
 Swell from boats
 Bases with physics and shields
 Tanks models restricted by team
-Versioning in mod files
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
