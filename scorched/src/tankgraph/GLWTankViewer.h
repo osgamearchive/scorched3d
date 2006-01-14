@@ -38,8 +38,7 @@ public:
 
 	void selectModelByName(const char *name);
 	const char *getModelName();
-
-	void setTankModels(std::vector<TankModel *> &models);
+	void setTeam(int team);
 
 	// Inhertied from GLWDropDownI
 	virtual void select(unsigned int id, const int pos, GLWSelectorEntry value);
@@ -64,7 +63,9 @@ protected:
 	float rotXY_, rotYZ_;
 	float rotXYD_, rotYZD_;
 	int selected_;
+	int team_;
 
+	void setTankModels(std::vector<TankModel *> &models);
 	virtual void drawItem(int pos, bool selected);
 	virtual void drawCaption(int pos);
 

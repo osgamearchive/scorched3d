@@ -27,6 +27,7 @@
 #include <coms/ComsMessageHandler.h>
 #include <common/OptionsTransient.h>
 #include <tank/TankContainer.h>
+#include <tankgraph/TankModelStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <weapons/AccessoryStore.h>
@@ -47,6 +48,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	viewPoints = new ViewPoints();
 	modFiles = new ModFiles();
 	landscapes = new LandscapeDefinitions();
+	tankModelStore = new TankModelStore();
 
 	viewPoints->setContext(this);
 	actionController->setScorchedContext(this);

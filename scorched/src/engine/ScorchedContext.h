@@ -34,6 +34,7 @@ class OptionsTransient;
 class ViewPoints;
 class ModFiles;
 class LandscapeDefinitions;
+class TankModelStore;
 
 class ScorchedContext
 {
@@ -54,6 +55,7 @@ public:
 	ModFiles *modFiles;
 	AccessoryStore *accessoryStore;
 	LandscapeDefinitions *landscapes;
+	TankModelStore *tankModelStore;
 	bool serverMode;
 };
 

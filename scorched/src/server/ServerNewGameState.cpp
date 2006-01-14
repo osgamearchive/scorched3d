@@ -29,6 +29,7 @@
 #include <tankai/TankAIAdder.h>
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
+#include <tankgraph/TankModelStore.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
@@ -440,20 +441,42 @@ void ServerNewGameState::checkTeams()
 		}
 	}
 
-	// Do we check teams
-	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1) return;
-
-	switch (ScorchedServer::instance()->getOptionsGame().getTeamBallance())
+	// Do we check teams ballance
+	if (ScorchedServer::instance()->getOptionsGame().getTeams() != 1)
 	{
-		case OptionsGame::TeamBallanceAuto:
-		case OptionsGame::TeamBallanceAutoByScore:
-			checkTeamsAuto();
-			break;
-		case OptionsGame::TeamBallanceBotsVs:
-			checkTeamsBotsVs();
-			break;
-		default:
-			break;
+		// Check for team ballance types
+		switch (ScorchedServer::instance()->getOptionsGame().getTeamBallance())
+		{
+			case OptionsGame::TeamBallanceAuto:
+			case OptionsGame::TeamBallanceAutoByScore:
+				checkTeamsAuto();
+				break;
+			case OptionsGame::TeamBallanceBotsVs:
+				checkTeamsBotsVs();
+				break;
+			default:
+				break;
+		}
+	}
+
+	// Make sure everyone is using a team model
+	for (mainitor = playingTanks.begin();
+		 mainitor != playingTanks.end();
+		 mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (!current->getState().getSpectator())
+		{
+			TankModel *model = 
+				ScorchedServer::instance()->getTankModels().getModelByName(
+					current->getModel().getTankModelName(),
+					current->getTeam());
+			if (0 != strcmp(model->getId().getTankModelName(),
+				current->getModel().getTankModelName()))
+			{
+				current->setModel(model->getId());
+			}
+		}
 	}
 }
 
@@ -660,8 +683,7 @@ void ServerNewGameState::checkBots()
 					if (noPlayers < requiredPlayers)
 					{
 						// This player does not exist add them
-						TankAIAdder::addTankAI(*ScorchedServer::instance(),
-							playerType, "Random", "", true);
+						TankAIAdder::addTankAI(*ScorchedServer::instance(), playerType);
 						noPlayers++;
 					}
 				}

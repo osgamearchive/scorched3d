@@ -443,8 +443,7 @@ void ServerFrame::onPlayerAdd(int i)
 			TankAI *ai = (*aiitor);
 			if (aicount == i)
 			{
-				TankAIAdder::addTankAI(*ScorchedServer::instance(),
-					ai->getName(), "Random", "", true);
+				TankAIAdder::addTankAI(*ScorchedServer::instance(), ai->getName());
 			}
 		}
 	}

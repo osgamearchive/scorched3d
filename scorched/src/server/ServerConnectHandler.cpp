@@ -328,7 +328,11 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	Vector color;
 	unsigned int tankId = 0;
 	const char *playerName = "";
-	TargetModelId modelId("Random");
+
+	// The model, this will be turned into a "proper" model
+	// in the player choice dialog
+	TargetModelId modelId("Random"); 
+	
 	if (extraSpectator)
 	{
 		tankId = 1;

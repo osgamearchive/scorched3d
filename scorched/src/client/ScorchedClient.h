@@ -45,6 +45,7 @@ public:
 	ModFiles &getModFiles() { return *context_.modFiles; }
 	ParticleEngine &getParticleEngine() { return *particleEngine_; }
 	LandscapeDefinitions &getLandscapes() { return *context_.landscapes; }
+	TankModelStore &getTankModels() { return *context_.tankModelStore; }
 
 protected:
 	static ScorchedClient *instance_;

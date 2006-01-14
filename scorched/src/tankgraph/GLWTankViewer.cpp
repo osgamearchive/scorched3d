@@ -20,6 +20,9 @@
 
 #include <tankgraph/GLWTankViewer.h>
 #include <tankgraph/TankModelStore.h>
+#include <3dsparse/ModelStore.h>
+#include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTranslate.h>
 
@@ -40,12 +43,13 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	rot_(0.0f), selected_(0),
 	rotXY_(0.0f), rotYZ_(0.0f), 
 	rotXYD_(1.0f), rotYZD_(1.0f),
+	team_(0),
 	catagoryChoice_(x + TankSquareSize * numH + TankPadding + 10.0f, 
 					y + TankSquareSize * numV + TankPadding - 25.0f,
 					TankInfo)
 {
 	std::set<std::string> &catagories = 
-		TankModelStore::instance()->getModelCatagories();
+		ScorchedClient::instance()->getTankModels().getModelCatagories();
 	std::set<std::string>::iterator catItor;
 	for (catItor = catagories.begin();
 		 catItor != catagories.end();
@@ -56,7 +60,7 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 
 	catagoryChoice_.setHandler(this);
 	catagoryChoice_.setText("All");
-	select(0, 0, GLWSelectorEntry("All"));
+	select(0, 0, GLWSelectorEntry(catagoryChoice_.getText()));
 
 	catagoryChoice_.setToolTip(new GLWTip("Model Catagory",
 		"Displays the currently selected model catagory.\n"
@@ -74,6 +78,12 @@ GLWTankViewer::~GLWTankViewer()
 
 }
 
+void GLWTankViewer::setTeam(int team)
+{
+	team_ = team;
+	select(0, 0, GLWSelectorEntry(catagoryChoice_.getText()));
+}
+
 void GLWTankViewer::select(unsigned int id, 
 						   const int pos, 
 						   GLWSelectorEntry value)
@@ -81,16 +91,42 @@ void GLWTankViewer::select(unsigned int id,
 	std::vector<TankModel *> newmodels;
 
 	std::vector<TankModel *> &models = 
-		TankModelStore::instance()->getModels();
+		ScorchedClient::instance()->getTankModels().getModels();
 	std::vector<TankModel *>::iterator modelItor;
 	for (modelItor = models.begin();
 		 modelItor != models.end();
 		 modelItor++)
 	{
-		TankModel *model = (*modelItor);
-		if (model->isOfCatagory(value.getText()))
+		TankModel *tankModel = (*modelItor);
+		if (tankModel->isOfCatagory(value.getText()))
 		{
-			newmodels.push_back(model);
+			// Check if this tank is allowed for this team
+			if (!tankModel->isOfTeam(team_))
+			{
+				continue;
+			}
+
+			// Get the model file to determine if the file is too large
+			if (OptionsDisplay::instance()->getTankDetail() != 2)
+			{
+				Model *model = ModelStore::instance()->loadModel(
+					tankModel->getTankModelID());
+				if (strcmp(tankModel->getId().getTankModelName(), "Random") != 0)
+				{
+					// Check if the model uses too many triangles
+					int triangles = model->getNumberTriangles();
+					if (OptionsDisplay::instance()->getTankDetail() == 0)
+					{
+						if (triangles > 250) continue;
+					}
+					else if (OptionsDisplay::instance()->getTankDetail() == 1)
+					{
+						if (triangles > 500) continue;
+					}
+				}
+			}
+
+			newmodels.push_back(tankModel);
 		}
 	}
 

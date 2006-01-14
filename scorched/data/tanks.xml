@@ -9,11 +9,13 @@
 	<tank>
 		<name>Cannon</name>
 		<catagory>Artillery</catagory>
+		<team>1</team>
 		<model type="MilkShape">cannon/cannon.txt</model>
 	</tank>	
 	<tank>
 		<name>Tiger II</name>
 		<catagory>Tank</catagory>
+		<team>2</team>
 		<model type="MilkShape">tiger2/tiger2.txt</model>
 	</tank>	
 	<tank>

@@ -26,7 +26,7 @@ TankModel::TankModel(TargetModelId &id, ModelID &modelId) :
 	init_(false),
 	id_(id), modelId_(modelId), tankMesh_(0)
 {
-	catagories_.push_back("All");
+	catagories_.insert("All");
 }
 
 TankModel::~TankModel()
@@ -88,14 +88,28 @@ bool TankModel::lessThan(TankModel *other)
 	return (strcmp(id_.getTankModelName(), other->id_.getTankModelName()) < 0);
 }
 
+void TankModel::addCatagory(const char *catagory)
+{
+	catagories_.insert(catagory);
+}
+
 bool TankModel::isOfCatagory(const char *catagory)
 {
-	std::list<std::string>::iterator itor;
-	for (itor = catagories_.begin();
-		 itor != catagories_.end();
-		 itor++)
-	{
-		if ((*itor) == catagory) return true;
-	}
-	return false;
+	std::set<std::string>::iterator itor =
+		catagories_.find(catagory);
+	return (itor != catagories_.end());
+}
+
+void TankModel::addTeam(int team)
+{
+	teams_.insert(team);
+}
+
+bool TankModel::isOfTeam(int team)
+{
+	if (team == 0) return true; // No Team
+	if (teams_.empty()) return true; // Tank not in a team
+	std::set<int>::iterator itor =
+		teams_.find(team);
+	return (itor != teams_.end());
 }

@@ -45,6 +45,7 @@ public:
 	ModFiles &getModFiles() { return *context_.modFiles; }
 	LandscapeDefinitions &getLandscapes() { return *context_.landscapes; }
 	TankAIStore &getTankAIs() { return *tankAIStore_; }
+	TankModelStore &getTankModels() { return *context_.tankModelStore; }
 
 protected:
 	static ScorchedServer *instance_;

@@ -38,6 +38,7 @@
 #include <landscape/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
+#include <tankgraph/TankModelStore.h>
 #include <scorched/ServerDialog.h>
 #include <server/ServerTimedMessage.h>
 #include <server/ServerMessageHandler.h>
@@ -133,6 +134,8 @@ bool startServer(bool local, ProgressCounter *counter)
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
 		ScorchedServer::instance()->getOptionsGame(),
 		counter)) return false;
+	if (!ScorchedServer::instance()->getTankModels().loadTankMeshes())
+		return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	if (!ScorchedServer::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 

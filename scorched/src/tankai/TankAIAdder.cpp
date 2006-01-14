@@ -24,6 +24,7 @@
 #include <tankai/TankAIStrings.h>
 #include <tank/TankColorGenerator.h>
 #include <tank/TankContainer.h>
+#include <tankgraph/TankModelStore.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
@@ -51,20 +52,12 @@ void TankAIAdder::addTankAIs(ScorchedServer &context)
 			context.getOptionsGame().getPlayerType(i);
 		if (0 != stricmp(playerType, "Human"))
 		{
-			std::string botName = 
-				context.getOptionsGame().getBotNamePrefix();
-			botName += TankAIStrings::instance()->getAIPlayerName();
-
-			addTankAI(context, playerType, "Random", botName.c_str());
+			addTankAI(context, playerType);
 		}
 	}
 }
 
-void TankAIAdder::addTankAI(ScorchedServer &context,
-							const char *aiName,
-							const char *modelName,
-							const char *name,
-							bool raiseEvent)
+void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 {
 	TankAI *ai = context.getTankAIs().getAIByName(aiName);
 	if (ai)
@@ -98,17 +91,26 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 			snprintf(uniqueId, 256, "%s - computer - %i", aiName, uniqueIdCount);
 		}
 
-		std::string newname = name;
-		if (newname.size() == 0)
+		// Chose this tanks team
+		int team = 0;
+		if (context.getOptionsGame().getTeams() > 1)
 		{
-			newname = 
-				context.getOptionsGame().getBotNamePrefix();
-			newname += TankAIStrings::instance()->getAIPlayerName();
+			team = context.getOptionsTransient().getLeastUsedTeam(
+				context.getTankContainer());
 		}
 
+		// For the tank ai's name
+		std::string newname = 
+			context.getOptionsGame().getBotNamePrefix();
+		newname += TankAIStrings::instance()->getAIPlayerName();
+
+		// Form the tank ai model
 		Vector color = TankColorGenerator::instance()->getNextColor(
 			context.getTankContainer().getPlayingTanks());
-		TargetModelId modelId(modelName);	
+		TargetModelId modelId =
+			context.getTankModels().getRandomModel(team)->getId();
+
+		// Create the new tank
 		Tank *tank = new Tank(
 			context.getContext(),
 			getNextTankId(),
@@ -124,8 +126,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 
 		if (context.getOptionsGame().getTeams() > 1)
 		{
-			tank->setTeam(context.getOptionsTransient().getLeastUsedTeam(
-				context.getTankContainer()));
+			tank->setTeam(team);
 		}
 
 		if (OptionsParam::instance()->getDedicatedServer())
@@ -140,7 +141,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context,
 		StatsLogger::instance()->tankConnected(tank);
 		StatsLogger::instance()->tankJoined(tank);
 
-		if (raiseEvent)
+		if (true) // Raise an event
 		{
 			// Tell the clients to create this tank
 			ComsAddPlayerMessage addPlayerMessage(

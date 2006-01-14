@@ -104,6 +104,7 @@ PlayerDialog::PlayerDialog() :
 	teamLabel->setToolTip(teamTip);
 	teamDropDown_ = (GLWDropDown *) 
 		infoPanel->addWidget(new GLWDropDown(320, 5, 120));
+	teamDropDown_->setHandler(this);
 	teamDropDown_->setToolTip(teamTip);
 
 	// Create computer type choice
@@ -136,6 +137,7 @@ void PlayerDialog::draw()
 		{
 			teamDropDown_->setCurrentPosition(newTeam - 1);
 			allocatedTeam_ = newTeam;
+			viewer_->setTeam(newTeam);
 		}
 	}
 	GLWWindow::draw();
@@ -144,13 +146,20 @@ void PlayerDialog::draw()
 void PlayerDialog::select(unsigned int id, const int pos, 
 	GLWSelectorEntry value)
 {
-	if (0 == strcmp("Human", value.getText()))
+	if (id == typeDropDown_->getId())
 	{
-		imageList_->setCurrent("player.gif");
+		if (0 == strcmp("Human", value.getText()))
+		{
+			imageList_->setCurrent("player.gif");
+		}
+		else
+		{
+			imageList_->setCurrent("computer.gif");
+		}
 	}
-	else
+	else if (id == teamDropDown_->getId())
 	{
-		imageList_->setCurrent("computer.gif");
+		viewer_->setTeam(getCurrentTeam());
 	}
 }
 
@@ -288,6 +297,12 @@ unsigned int PlayerDialog::getNextPlayer(unsigned int current)
 	return 0;
 }
 
+int PlayerDialog::getCurrentTeam()
+{
+	return ((ScorchedClient::instance()->getOptionsGame().getTeams() > 1)?
+		teamDropDown_->getCurrentPosition() + 1:0);
+}
+
 void PlayerDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
@@ -307,7 +322,9 @@ void PlayerDialog::buttonDown(unsigned int id)
 
 			// Get the model type (turns a "Random" choice into a proper name)
 			TankModel *model = 
-				TankModelStore::instance()->getModelByName(viewer_->getModelName());
+				ScorchedClient::instance()->getTankModels().
+					getModelByName(viewer_->getModelName(), 
+					getCurrentTeam());
 
 			// Get the player type
 			const char *playerType = typeDropDown_->getText();
@@ -318,8 +335,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 				Vector(),
 				model->getId().getTankModelName(),
 				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
-				((ScorchedClient::instance()->getOptionsGame().getTeams() > 1)?
-				teamDropDown_->getCurrentPosition() + 1:0),
+				getCurrentTeam(),
 				playerType);
 			// Add avatar (if not one)
 			Tank *tank = ScorchedClient::instance()->getTankContainer().

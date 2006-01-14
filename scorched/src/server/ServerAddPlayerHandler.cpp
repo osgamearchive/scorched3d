@@ -35,6 +35,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/NetLoopBack.h>
 #include <tankai/TankAIStore.h>
+#include <tankgraph/TankModelStore.h>
 #include <tank/TankContainer.h>
 
 ServerAddPlayerHandler *ServerAddPlayerHandler::instance_ = 0;
@@ -123,10 +124,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 			}
 		}
 	}
-
-	TargetModelId modelId(message.getModelName());
 	tank->setName(name.c_str());
-	tank->setModel(modelId);
 
 	bool noAvatar = !tank->getAvatar().getName()[0] 
 		&& message.getPlayerIconName()[0];
@@ -183,6 +181,13 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 				ScorchedServer::instance()->getTankContainer()));
 		}
 	}
+
+	// Make sure the model is available and for the correct team
+	// Do this AFTER the team has been set
+	TankModel *tankModel = 
+		ScorchedServer::instance()->getTankModels().
+			getModelByName(message.getModelName(), tank->getTeam());
+	tank->setModel(tankModel->getId());
 
 	// If we are in a waiting for players state then we can
 	// send the state of these new players

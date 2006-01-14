@@ -23,6 +23,8 @@ Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
 Fixed: Moved sections in landscapesound, landscapeplace, landscapetex and landscapedefn files to seperate files (splitlandscapefile.pl)
 
+Added: Powerups that can be bought or "dropped" from buildings etc... (WeaponGiveAcccessory)
+Added: Tanks models restricted by team (team tag in tanks.xml)
 Added: Bots can now use lasers (sniper tag in tankais.xml use this weapon when in sniper distance)
 Added: Versioning in mod files (singlegames.xml moved to modinfo.xml)
 Added: Server option to have shields and parachutes activate at the end of the aiming phase
@@ -53,17 +55,15 @@ Dvorak keyboard support is broken
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Bots using lasers
 Tutorial mode
 Changing menus to be icons
 New game modes
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
 Stars/moon
-Power ups
+Nedd more power up types
 Swell from boats
 Bases with physics and shields
-Tanks models restricted by team
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

@@ -21,22 +21,9 @@
 #include <tankgraph/TankModelStore.h>
 #include <tankgraph/TankModel.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
 #include <3dsparse/Model.h>
 #include <3dsparse/ModelStore.h>
 #include <XML/XMLFile.h>
-
-TankModelStore *TankModelStore::instance_ = 0;
-
-TankModelStore *TankModelStore::instance()
-{
-	if (!instance_)
-	{
-	  instance_ = new TankModelStore();
-	}
-
-	return instance_;
-}
 
 TankModelStore::TankModelStore()
 {
@@ -110,25 +97,6 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 			return false;
 		}
 
-		// Get the model file to determine if the file is too large
-		if (OptionsDisplay::instance()->getTankDetail() != 2)
-		{
-			Model *model = ModelStore::instance()->loadModel(modelId);
-			if (strcmp(modelName, "Random") != 0)
-			{
-				// Check if the model uses too many triangles
-				int triangles = model->getNumberTriangles();
-				if (OptionsDisplay::instance()->getTankDetail() == 0)
-				{
-					if (triangles > 250) continue;
-				}
-				else if (OptionsDisplay::instance()->getTankDetail() == 1)
-				{
-					if (triangles > 500) continue;
-				}
-			}
-		}
-
 		// Create the tank model
 		TankModel *model = new TankModel(id, modelId);
 
@@ -148,18 +116,22 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		}
 
 		// Read all of the tank display catagories
-		std::list<XMLNode *>::iterator catItor;
-		for (catItor = currentNode->getChildren().begin();
-			catItor != currentNode->getChildren().end();
-			catItor++)
+		std::string catagory;
+		while (currentNode->getNamedChild("catagory", catagory, false))
 		{
-			XMLNode *catNode = *catItor;
-			if (strcmp(catNode->getName(), "catagory") == 0)
-			{
-				model->getCatagories().push_back(catNode->getContent());
-				modelCatagories_.insert(catNode->getContent());
-			}
+			model->addCatagory(catagory.c_str());
+			modelCatagories_.insert(catagory.c_str());
 		}
+
+		// Read all of the tank team catagories
+		int team;
+		while (currentNode->getNamedChild("team", team, false))
+		{
+			model->addTeam(team);
+		}
+
+		// Check there are no more nodes in this node
+		if (!currentNode->failChildren()) return false;
 
 		// Add this model to the store
 		models_.push_back(model);
@@ -167,23 +139,33 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 	return true;
 }
 
-TankModel *TankModelStore::getRandomModel()
+TankModel *TankModelStore::getRandomModel(int team)
 {
-	DIALOG_ASSERT(models_.size());
+	std::vector<TankModel *> models;
+	std::vector<TankModel *>::iterator itor;
+	for (itor = models_.begin();
+		itor != models_.end();
+		itor++)
+	{
+		TankModel *model = (*itor);
 
-	int pos = (int) (RAND * (float)models_.size());
-	TankModel *model = models_[pos % models_.size()];
+		if (strcmp(model->getId().getTankModelName(), "Random") != 0)
+		{
+			if (model->isOfTeam(team)) models.push_back(model);
+		}
+	}
 
-	if (strcmp(model->getId().getTankModelName(), "Random") == 0) return getRandomModel();
+	DIALOG_ASSERT(models.size());
+	TankModel *model = models_[rand() % models.size()];
 	return model;
 }
 
-TankModel *TankModelStore::getModelByName(const char *name)
+TankModel *TankModelStore::getModelByName(const char *name, int team)
 {
 	DIALOG_ASSERT(models_.size());
 
 	// A hack to allow the random model
-	if (strcmp(name, "Random") == 0) return getRandomModel();
+	if (strcmp(name, "Random") == 0) return getRandomModel(team);
 
 	std::vector<TankModel *>::iterator itor;
 	for (itor = models_.begin();
@@ -191,11 +173,12 @@ TankModel *TankModelStore::getModelByName(const char *name)
 		 itor++)
 	{
 		TankModel *current = (*itor);
-		if (0 == strcmp(current->getId().getTankModelName(), name))
+		if (0 == strcmp(current->getId().getTankModelName(), name) &&
+			current->isOfTeam(team))
 		{
 			return current;
 		}
 	}
 
-	return getRandomModel();
+	return getRandomModel(team);
 }

@@ -108,8 +108,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	const char *addType = getField(fields, "add");
 	if (addType)
 	{
-		TankAIAdder::addTankAI(*ScorchedServer::instance(),
-			addType, "Random", "", true);
+		TankAIAdder::addTankAI(*ScorchedServer::instance(), addType);
 	}
 
 	// Player Entries

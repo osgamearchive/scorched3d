@@ -72,8 +72,8 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
 	totalTime_(0.0f)
 {
-	model_ = TankModelStore::instance()->getModelByName(
-		tank->getModel().getTankModelName());
+	model_ = ScorchedClient::instance()->getTankModels().getModelByName(
+		tank->getModel().getTankModelName(), tank_->getTeam());
 }
 
 TankModelRenderer::~TankModelRenderer()

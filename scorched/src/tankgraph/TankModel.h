@@ -25,7 +25,7 @@
 #include <3dsparse/ModelID.h>
 #include <tankgraph/TankMesh.h>
 #include <common/Vector.h>
-#include <list>
+#include <set>
 #include <string>
 
 class TankModel
@@ -48,7 +48,10 @@ public:
 	TankMesh *getTankMesh() { return tankMesh_; }
 
 	bool isOfCatagory(const char *catagory);
-	std::list<std::string> &getCatagories() { return catagories_; }
+	void addCatagory(const char *catagory);
+
+	void addTeam(int team);
+	bool isOfTeam(int team);
 
 protected:
 	bool init_;
@@ -56,7 +59,8 @@ protected:
 	ModelID modelId_;
 	ModelID projectileModelId_;
 	TankMesh *tankMesh_;
-	std::list<std::string> catagories_;
+	std::set<std::string> catagories_;
+	std::set<int> teams_;
 
 };
 

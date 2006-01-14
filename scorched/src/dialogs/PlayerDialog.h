@@ -64,6 +64,7 @@ protected:
 	unsigned int currentPlayerId_;
 
 	void nextPlayer();
+	int getCurrentTeam();
 	unsigned int getNextPlayer(unsigned int current);
 
 };

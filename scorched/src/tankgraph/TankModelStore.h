@@ -30,25 +30,22 @@
 class TankModelStore
 {
 public:
-	static TankModelStore* instance();
+	TankModelStore();
+	virtual ~TankModelStore();
 
 	bool loadTankMeshes(ProgressCounter *counter = 0);
 
-	TankModel *getModelByName(const char *name);
-	TankModel *getRandomModel();
+	TankModel *getModelByName(const char *name, int team);
+	TankModel *getRandomModel(int team);
 
 	std::vector<TankModel *> &getModels() { return models_; }
 	std::set<std::string> &getModelCatagories() { return modelCatagories_; }
 
 protected:
-	static TankModelStore* instance_;
 	std::vector<TankModel *> models_;
 	std::set<std::string, std::less<std::string> > modelCatagories_;
 
 private:
-	TankModelStore();
-	virtual ~TankModelStore();
-
 	TankModelStore(const TankModelStore &);
 	const TankModelStore & operator=(const TankModelStore &);
 
