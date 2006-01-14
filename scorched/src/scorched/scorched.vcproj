@@ -2901,6 +2901,12 @@
 				RelativePath="..\client\ClientPlayerAimHandler.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientPlayerStateHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayerStateHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientPlayerStatusHandler.cpp">
 			</File>
 			<File
