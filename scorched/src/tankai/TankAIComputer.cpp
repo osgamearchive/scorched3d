@@ -273,15 +273,25 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 	{
 		int noShots;
 		float distance;
+		bool sniper = false;
+
 		TankAIComputerAim::AimResult 
-			aimResult = tankAim_.aimAtTank(target, distance, noShots);
+			aimResult = tankAim_.aimAtTank(target, getTankBuyer(), 
+				distance, noShots, sniper);
 
 		if (aimResult == TankAIComputerAim::AimOk)
 		{
 			std::vector<Accessory *> weapons;
-			if (distance < 15.0f && noShots > 1)
+			if (sniper)
 			{
-				weapons = getTankBuyer()->getWeaponType("explosionlarge");
+				weapons = getTankBuyer()->getWeaponType("sniper");
+			}
+			if (weapons.empty())
+			{
+				if (distance < 15.0f && noShots > 1)
+				{
+					weapons = getTankBuyer()->getWeaponType("explosionlarge");
+				}
 			}
 			if (weapons.empty())
 			{

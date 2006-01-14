@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAIComputerAim.h>
+#include <tankai/TankAIComputerBuyer.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
@@ -27,7 +28,8 @@
 #include <math.h>
 #include <float.h>
 
-TankAIComputerAim::TankAIComputerAim() : lastShot_(0)
+TankAIComputerAim::TankAIComputerAim() : 
+	lastShot_(0), sniperWobble_(0.0f)
 {
 	newGame();
 }
@@ -48,6 +50,11 @@ void TankAIComputerAim::newGame()
 bool TankAIComputerAim::parseConfig(XMLNode *node)
 {
 	if (!node->getNamedChild("aimsniper", sniperDist_)) return false;
+	if (sniperDist_ > 0.0f)
+	{
+		if (!node->getNamedChild("sniperwobble", sniperWobble_)) return false;
+	}
+
 	if (!node->getNamedChild("aimtype", aimType_)) return false;
 	if (0 != strcmp(aimType_.c_str(), "newrefined") &&
 		0 != strcmp(aimType_.c_str(), "refined") &&
@@ -93,22 +100,23 @@ void TankAIComputerAim::setTank(Tank *tank)
 }
 
 TankAIComputerAim::AimResult TankAIComputerAim::aimAtTank(
-	Tank *tank, float &distance, int &noShots)
+	Tank *tank, TankAIComputerBuyer *buyer,
+	float &distance, int &noShots, bool &sniper)
 {
 	if (!tank) return AimFailed;
 
 	if (0 == strcmp(aimType_.c_str(), "refined") ||
 		0 == strcmp(aimType_.c_str(), "newrefined"))
 	{
-		return refinedAim(tank, true, distance, noShots);
+		return refinedAim(tank, buyer, true, distance, noShots, sniper);
 	}
 	else if (0 == strcmp(aimType_.c_str(), "guess"))
 	{
-		return refinedAim(tank, false, distance, noShots);
+		return refinedAim(tank, buyer, false, distance, noShots, sniper);
 	}
 	else if (0 == strcmp(aimType_.c_str(), "random"))
 	{
-		return randomAim(distance, noShots);
+		return randomAim(distance, noShots, sniper);
 	}
 	else DIALOG_ASSERT(0);
 
@@ -386,7 +394,8 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 }
 
 TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
-	Tank *targetTank, bool refine, float &distance, int &noShots)
+	Tank *targetTank, TankAIComputerBuyer *buyer,
+	bool refine, float &distance, int &noShots, bool &sniper)
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = 0.0f; 
@@ -409,13 +418,23 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 
 	// Check if we can make a sniper shot to the target
 	// If not then try an ordinary shot
-	if (!TankLib::getSniperShotTowardsPosition(
+	std::vector<Accessory *> sniperWeapons = buyer->getWeaponType("sniper");
+	if (TankLib::getSniperShotTowardsPosition(
 		ScorchedServer::instance()->getContext(),
 		currentTank_->getPosition().getTankPosition(), 
 		targetTank->getPosition().getTankPosition(), sniperDist_, 
 		angleXYDegs, angleYZDegs, power,
-		checkNearCollision_))
+		checkNearCollision_ && sniperWeapons.empty()))
 	{
+		angleXYDegs += (RAND * -sniperWobble_) + (sniperWobble_ / 2.0f);
+		angleYZDegs += (RAND * -sniperWobble_) + (sniperWobble_ / 2.0f);
+
+		sniper = true;
+	}
+	else
+	{
+		sniper = false;
+
 		// Try to refine an already made shot
 		// This happens if we have already made a shot at this target then
 		// try to make the next shot even better
@@ -478,7 +497,7 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 }
 
 TankAIComputerAim::AimResult TankAIComputerAim::randomAim(
-	float &distance, int &noShots)
+	float &distance, int &noShots, bool &sniper)
 {
 	// Find the angle + power etc.. to use
 	float angleXYDegs = RAND * 360.0f;
@@ -488,6 +507,7 @@ TankAIComputerAim::AimResult TankAIComputerAim::randomAim(
 	// No idea
 	noShots = int(RAND * 10.0f);
 	distance = RAND * 100.0f;
+	sniper = false;
 
 	// Set the parameters
 	// Sets the angle of the gun and the power

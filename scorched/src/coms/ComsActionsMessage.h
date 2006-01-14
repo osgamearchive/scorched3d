@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ComsActionsMessageh_INCLUDE__)
 #define __INCLUDE_ComsActionsMessageh_INCLUDE__
 
-#include <coms/ComsPlayerStateMessage.h>
+#include <coms/ComsMessage.h>
 
 class ComsActionsMessage : public ComsMessage
 {
@@ -37,7 +37,6 @@ public:
 
 protected:
 	float totalTime_;
-	ComsPlayerStateMessage stateMessage_;
 
 private:
 	ComsActionsMessage(const ComsActionsMessage &);

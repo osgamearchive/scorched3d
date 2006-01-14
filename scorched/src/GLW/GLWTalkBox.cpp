@@ -126,13 +126,14 @@ void GLWTalkBox::keyDown(char *buffer, unsigned int keyState,
 
 				if (text_[0] == '\\' || text_[0] == '/')
 				{
-					if (0 == stricmp(&text_[1], "say "))
+					if (0 == stricmp(&text_[1], "say ") ||
+						0 == stricmp(&text_[1], "s "))
 					{
 						text_ = "";
 						mode_ = eSay;
 					}
-					else if (0 == stricmp(&text_[1], "teamsay ") ||
-						0 == stricmp(&text_[1], "party "))
+					else if (0 == stricmp(&text_[1], "team ") ||
+						0 == stricmp(&text_[1], "t "))
 					{
 						text_ = "";
 						mode_ = eTeamSay;

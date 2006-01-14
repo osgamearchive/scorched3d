@@ -68,13 +68,14 @@ bool TankAIComputerBuyer::parseConfig(AccessoryStore &store, XMLNode *node)
 		if (!addAccessory(store, wname.c_str(),  wlevel)) return false;
 
 		if (0 != strcmp(wtype.c_str(), "dig") &&
+			0 != strcmp(wtype.c_str(), "sniper") &&
 			0 != strcmp(wtype.c_str(), "explosionsmall") &&
 			0 != strcmp(wtype.c_str(), "explosionlarge") &&
 			0 != strcmp(wtype.c_str(), "defense"))
 		{
 			dialogExit("TankAIComputerBuyer",
 				"Unknown ai weapon type \"%s\"\n"
-				"Should be one of dig, defense, explosionsmall, explosionlarge", 
+				"Should be one of dig, sniper, defense, explosionsmall, explosionlarge", 
 				wtype.c_str());
 		}
 		buyTypes_.insert(

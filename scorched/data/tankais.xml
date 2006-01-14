@@ -5,6 +5,7 @@
 Cyborgs are like Sharks, except they can 
 use batteries.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>4</sniperwobble>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -16,6 +17,7 @@ use batteries.</description>
 			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
 			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Laser</name><level>20</level><type>sniper</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
@@ -26,6 +28,7 @@ use batteries.</description>
 			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
 			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Laser</name><level>20</level><type>sniper</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Spread MIRV</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Death's Head</name><level>30</level><type>explosionlarge</type></weapon>
@@ -41,6 +44,7 @@ Sharks are like Choosers, except they take
 grudges against players that are 
 shooting at them.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>6</sniperwobble>
 		<aimtype>refined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -65,6 +69,7 @@ Choosers are like Tossers, except they can
 also fire in straight line when close 
 enough.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>8</sniperwobble>
 		<aimtype>refined</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>

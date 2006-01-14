@@ -24,6 +24,7 @@
 #include <tank/Tank.h>
 #include <XML/XMLParser.h>
 
+class TankAIComputerBuyer;
 class TankAIComputerAim
 {
 public:
@@ -41,7 +42,8 @@ public:
 	bool parseConfig(XMLNode *node);
 	void newGame();
 	void ourShotLanded(Weapon *weapon, Vector &position);
-	AimResult aimAtTank(Tank *tank, float &distance, int &noShots);
+	AimResult aimAtTank(Tank *tank, TankAIComputerBuyer *buyer,
+		float &distance, int &noShots, bool &sniper);
 
 protected:
 	struct MadeShot
@@ -65,12 +67,14 @@ protected:
 	unsigned int lastShot_;
 	Tank *currentTank_;
 	float sniperDist_;
+	float sniperWobble_;
 	std::map<unsigned int, ShotListEntry> madeShots_;
 	std::string aimType_;
 	bool checkNearCollision_;
 
-	AimResult randomAim(float &distance, int &noShots);
-	AimResult refinedAim(Tank *tank, bool refine, float &distance, int &noShots);
+	AimResult randomAim(float &distance, int &noShots, bool &sniper);
+	AimResult refinedAim(Tank *tank, TankAIComputerBuyer *buyer,
+		bool refine, float &distance, int &noShots, bool &sniper);
 	bool refineLastShot(Tank *tank, float &angleXYDegs, 
 		float &angleYZDegs, float &power);
 	bool oldRefineLastShot(Tank *tank, 

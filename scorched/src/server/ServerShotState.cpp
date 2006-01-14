@@ -29,6 +29,7 @@
 #include <actions/ShowScore.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsPlayerStateMessage.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefinition.h>
@@ -48,6 +49,13 @@ ServerShotState::~ServerShotState()
 
 void ServerShotState::enterState(const unsigned state)
 {
+	// Send the player state to all players to ensure that the playing field
+	// is consistent before the shots start
+	// This should be done before the actual shots are fired or
+	// any play is made
+	ComsPlayerStateMessage playerState;
+	ComsMessageSender::sendToAllPlayingClients(playerState);
+
 	// Reset the counts in the action controller
 	ScorchedServer::instance()->getActionController().resetTime();
 	ScorchedServer::instance()->getActionController().clear();

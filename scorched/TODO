@@ -23,6 +23,7 @@ Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
 Fixed: Moved sections in landscapesound, landscapeplace, landscapetex and landscapedefn files to seperate files (splitlandscapefile.pl)
 
+Added: Bots can now use lasers (sniper tag in tankais.xml use this weapon when in sniper distance)
 Added: Versioning in mod files (singlegames.xml moved to modinfo.xml)
 Added: Server option to have shields and parachutes activate at the end of the aiming phase
 Added: Sun/moon texture can be configured
