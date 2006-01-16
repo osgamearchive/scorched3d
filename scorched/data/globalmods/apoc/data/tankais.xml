@@ -1,10 +1,10 @@
 <ais>
 	<ai>
-		<name>Cyborg</name>
+		<name>Sniper</name>
 		<description>A computer controlled player.
-Cyborgs are like Sharks, except they can 
-use batteries.</description>
-		<aimsniper>50</aimsniper>
+Snipers prefer to use laser weapons and guns.</description>
+		<aimsniper>75</aimsniper>
+		<sniperwobble>2</sniperwobble>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -13,11 +13,39 @@ use batteries.</description>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
 			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
 			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+			<weapon><name>Laser</name><level>20</level><type>sniper</type></weapon>
+			<weapon><name>Heavy Laser</name><level>20</level><type>sniper</type></weapon>
+			<weapon><name>Laser Cannon</name><level>30</level><type>sniper</type></weapon>
+			<weapon><name>M2 Machinegun</name><level>20</level><type>explosionsmall</type></weapon>
+			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
+			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
+		</weaponset>
+	</ai>
+	
+	<ai>
+		<name>Cyborg</name>
+		<description>A computer controlled player.
+Cyborgs are like Sharks, except they can 
+use batteries.</description>
+		<aimsniper>50</aimsniper>
+		<sniperwobble>4</sniperwobble>
+		<aimtype>newrefined</aimtype>
+		<targettype>agressor</targettype>
+		<nodefenses>false</nodefenses>
+		<noresign>false</noresign>
+		<availableforrandom>true</availableforrandom>
+		<checknearcollision>true</checknearcollision>
+		<weaponset>
+			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
+			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
+			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
+			<weapon><name>Laser</name><level>20</level><type>sniper</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
 			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
@@ -30,6 +58,7 @@ use batteries.</description>
 A Pyro is a refined version of the cyborg
 that prefers to use fire-based weaponry.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>4</sniperwobble>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -55,6 +84,7 @@ that prefers to use fire-based weaponry.</description>
 Chemists are Cyborgs that specialize in the
 use of bio/chemical weaponry.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>4</sniperwobble>
 		<aimtype>refined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -80,6 +110,7 @@ use of bio/chemical weaponry.</description>
 Shockers are Cyborgs that specialize in
 the use of energy based weaponset.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>4</sniperwobble>
 		<aimtype>newrefined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -105,6 +136,7 @@ Sharks are like Choosers, except they take
 grudges against players that are 
 shooting at them.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>6</sniperwobble>
 		<aimtype>refined</aimtype>
 		<targettype>agressor</targettype>
 		<nodefenses>false</nodefenses>
@@ -113,8 +145,8 @@ shooting at them.</description>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
 			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionsmall</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
@@ -129,6 +161,7 @@ Choosers are like Tossers, except they can
 also fire in straight line when close 
 enough.</description>
 		<aimsniper>50</aimsniper>
+		<sniperwobble>4</sniperwobble>
 		<aimtype>refined</aimtype>
 		<targettype>nearest</targettype>
 		<nodefenses>false</nodefenses>
@@ -137,8 +170,8 @@ enough.</description>
 		<checknearcollision>true</checknearcollision>
 		<weaponset>
 			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionsmall</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
@@ -161,8 +194,8 @@ time to kill them.</description>
 		<checknearcollision>false</checknearcollision>
 		<weaponset>
 			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionsmall</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionsmall</type></weapon>
+			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
 			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
