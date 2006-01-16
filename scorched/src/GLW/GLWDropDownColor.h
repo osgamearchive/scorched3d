@@ -18,40 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_GLWDropDownColorh_INCLUDE__)
+#define __INCLUDE_GLWDropDownColorh_INCLUDE__
 
-#if !defined(__INCLUDE_TankColorGeneratorh_INCLUDE__)
-#define __INCLUDE_TankColorGeneratorh_INCLUDE__
+#include <GLW/GLWDropDown.h>
 
-#include <map>
-#include <vector>
-#include <common/Vector.h>
-
-class Tank;
-class TankColorGenerator
+class GLWDropDownColor : public GLWDropDown
 {
 public:
-	static TankColorGenerator *instance();
+	GLWDropDownColor(float x = 0.0f, float y = 0.0f, float w = 0.0f);
+	virtual ~GLWDropDownColor();
 
-	Vector &getNextColor(std::map<unsigned int, Tank *> &tanks);
+	void addColor(Vector &color);
+	Vector &getCurrentColor();
+	void setCurrentColor(Vector &color);
 
-	bool colorAvailable(
-		Vector &color, std::map<unsigned int, Tank *> &tanks,
-		Tank *currentTank = 0);
-	std::vector<Vector *> getAvailableColors(std::map<unsigned int, Tank *> &tanks,
-		Tank *currentTank = 0);
+	// Inherited from GLWidget
+	virtual void draw();
 
-	static Vector &getTeamColor(int team);
-	static const char *getTeamName(int team);
+	REGISTER_CLASS_HEADER(GLWDropDownColor);
 
-protected:
-	static TankColorGenerator *instance_;
-	std::vector<Vector *> availableColors_;
-
-	void addColor(unsigned r, unsigned g, unsigned b);
-
-private:
-	TankColorGenerator();
-	virtual ~TankColorGenerator();
 };
 
 #endif

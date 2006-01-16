@@ -25,6 +25,7 @@
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIStrings.h>
 #include <tank/TankContainer.h>
+#include <tank/TankColorGenerator.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
@@ -33,6 +34,7 @@
 #include <common/Defines.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
+#include <GLEXT/GLBitmap.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <stdio.h>
@@ -69,6 +71,10 @@ PlayerDialog::PlayerDialog() :
 		false, true, true);
 	addWidget(infoPanel);
 
+	// Create a texture to display the player color selector
+	GLBitmap map(getDataFile("data/windows/white.bmp"));
+	colorTexture_.create(map);
+
 	// Create players avatar choice
 	avatarTip1_.setText("Avatar", 
 		"The current player's avatar.\n"
@@ -99,13 +105,25 @@ PlayerDialog::PlayerDialog() :
 	GLWTip *teamTip = new GLWTip("Team Selection",
 		"Change the team this player will join.\n"
 		"This is only available when playing team games.");
-	GLWLabel *teamLabel = (GLWLabel *) 
+	teamLabel_ = (GLWLabel *) 
 		infoPanel->addWidget(new GLWLabel(250, 5, "Team:"));
-	teamLabel->setToolTip(teamTip);
-	teamDropDown_ = (GLWDropDown *) 
-		infoPanel->addWidget(new GLWDropDown(320, 5, 120));
+	teamLabel_->setToolTip(teamTip);
+	teamDropDown_ = (GLWDropDownText *) 
+		infoPanel->addWidget(new GLWDropDownText(320, 5, 120));
 	teamDropDown_->setHandler(this);
 	teamDropDown_->setToolTip(teamTip);
+
+	// Create color choice
+	GLWTip *colorTip = new GLWTip("Color Selection",
+		"Change the color this player displayed as.\n"
+		"This is only available when playing non-team games.");
+	colorLabel_ = (GLWLabel *) 
+		infoPanel->addWidget(new GLWLabel(250, 5, "Color:"));
+	colorLabel_->setToolTip(colorTip);
+	colorDropDown_ = (GLWDropDownColor *) 
+		infoPanel->addWidget(new GLWDropDownColor(320, 5, 120));
+	colorDropDown_->setHandler(this);
+	colorDropDown_->setToolTip(colorTip);
 
 	// Create computer type choice
 	GLWTip *typeTip = new GLWTip("Player Type",
@@ -115,8 +133,8 @@ PlayerDialog::PlayerDialog() :
 	GLWLabel *typeLabel = (GLWLabel *) 
 		infoPanel->addWidget(new GLWLabel(50, 5, "Type:"));
 	typeLabel->setToolTip(typeTip);
-	typeDropDown_ = (GLWDropDown *) 
-		infoPanel->addWidget(new GLWDropDown(120, 5, 120));
+	typeDropDown_ = (GLWDropDownText *) 
+		infoPanel->addWidget(new GLWDropDownText(120, 5, 120));
 	typeDropDown_->setHandler(this);
 	typeDropDown_->setToolTip(typeTip);
 }
@@ -184,22 +202,6 @@ void PlayerDialog::display()
 		addWidget(infoPanel);
 	}
 
-	// Add teams
-	teamDropDown_->clear();
-	if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
-	{
-		teamDropDown_->addText("None");
-	}
-	else
-	{
-		for (int i=1; i<=ScorchedClient::instance()->getOptionsGame().getTeams(); i++)
-		{
-			char buffer[10];
-			snprintf(buffer, 10, "Team %i", i);
-			teamDropDown_->addText(buffer);
-		}	
-	}
-
 	static TankAIStore tankAIStore;
 	static bool init = false;
 	if (!init)
@@ -208,9 +210,30 @@ void PlayerDialog::display()
 		tankAIStore.loadAIs(0);
 	}
 
+	// Add teams
+	teamDropDown_->clear();
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
+	{
+		teamDropDown_->addText("None");
+		teamDropDown_->setVisible(false);
+		teamLabel_->setVisible(false);
+	}
+	else
+	{
+		for (int i=1; i<=ScorchedClient::instance()->getOptionsGame().getTeams(); i++)
+		{
+			const char *name = TankColorGenerator::getTeamName(i);
+			GLWSelectorEntry entry(name, 0, false, &colorTexture_, 0);
+			entry.getColor() = TankColorGenerator::getTeamColor(i);
+			teamDropDown_->addEntry(entry);
+		}	
+		colorDropDown_->setVisible(false);
+		colorLabel_->setVisible(false);
+	}
+
 	// Add player types
 	typeDropDown_->clear();
-	typeDropDown_->addText(GLWSelectorEntry("Human", 
+	typeDropDown_->addEntry(GLWSelectorEntry("Human", 
 		&tankAIStore.getAIByName("Human")->getDescription()));
 	if (!OptionsParam::instance()->getConnectedToServer())
 	{
@@ -219,7 +242,7 @@ void PlayerDialog::display()
 			aiitor != tankAIStore.getAis().end();
 			aiitor++)
 		{
-			typeDropDown_->addText(
+			typeDropDown_->addEntry(
 				GLWSelectorEntry((*aiitor)->getName(),
 					&(*aiitor)->getDescription()));
 		}
@@ -235,40 +258,61 @@ void PlayerDialog::nextPlayer()
 	if (currentPlayerId_ == 0)
 	{
 		GLWWindowManager::instance()->hideWindow(getId());
+		return;
+	}
+
+	Tank *tank = 
+		ScorchedClient::instance()->getTankContainer().getTankById(currentPlayerId_);
+	if (OptionsParam::instance()->getConnectedToServer())
+	{
+		// If we are connected online then use the online name
+		playerName_->setText(
+			OptionsDisplay::instance()->getOnlineUserName());
+		viewer_->selectModelByName(
+			OptionsDisplay::instance()->getOnlineTankModel());
+		if (!imageList_->setCurrent(
+			OptionsDisplay::instance()->getOnlineUserIcon()))
+		{
+			imageList_->setCurrent("player.gif");
+		}
 	}
 	else
 	{
-		Tank *tank = 
-			ScorchedClient::instance()->getTankContainer().getTankById(currentPlayerId_);
-		if (OptionsParam::instance()->getConnectedToServer())
-		{
-			// If we are connected online then use the online name
-			playerName_->setText(
-				OptionsDisplay::instance()->getOnlineUserName());
-			viewer_->selectModelByName(
-				OptionsDisplay::instance()->getOnlineTankModel());
-			if (!imageList_->setCurrent(
-				OptionsDisplay::instance()->getOnlineUserIcon()))
-			{
-				imageList_->setCurrent("player.gif");
-			}
-		}
-		else
-		{
-			// Else use the default names
-			if (tank) playerName_->setText(tank->getName());
-		}
+		// Else use the default names
+		if (tank) playerName_->setText(tank->getName());
+	}
 		
-		if (tank->getState().getSpectator())
+	if (tank->getState().getSpectator())
+	{
+		imageList_->setEnabled(true);
+		imageList_->setToolTip(&avatarTip1_);
+	}
+	else
+	{
+		imageList_->setEnabled(false);
+		imageList_->setToolTip(&avatarTip2_);
+	}
+
+	// Add colors
+	colorDropDown_->clear();
+	if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
+	{
+		std::map<unsigned int, Tank *> tanks =
+			ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+		std::vector<Vector *> availableColors =
+			TankColorGenerator::instance()->getAvailableColors(tanks, tank);
+		std::vector<Vector *>::iterator itor;
+		for (itor = availableColors.begin();
+			itor != availableColors.end();
+			itor++)
 		{
-			imageList_->setEnabled(true);
-			imageList_->setToolTip(&avatarTip1_);
+			Vector &color = *(*itor);
+			GLWSelectorEntry entry("", 0, false, &colorTexture_, 0);
+			entry.getColor() = color;
+			entry.getTextureWidth() = 32;
+			colorDropDown_->addEntry(entry);
 		}
-		else
-		{
-			imageList_->setEnabled(false);
-			imageList_->setToolTip(&avatarTip2_);
-		}
+		colorDropDown_->setCurrentColor(tank->getColor());
 	}
 }
 
@@ -327,12 +371,12 @@ void PlayerDialog::buttonDown(unsigned int id)
 					getCurrentTeam());
 
 			// Get the player type
-			const char *playerType = typeDropDown_->getText();
+			const char *playerType = typeDropDown_->getCurrentText();
 
 			// Add this player
 			ComsAddPlayerMessage message(currentPlayerId_,
 				playerName_->getText().c_str(),
-				Vector(),
+				colorDropDown_->getCurrentColor(),
 				model->getId().getTankModelName(),
 				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
 				getCurrentTeam(),

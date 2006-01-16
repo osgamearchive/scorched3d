@@ -26,6 +26,7 @@
 #include <common/Logger.h>
 #include <tank/TankSort.h>
 #include <tank/TankContainer.h>
+#include <tank/TankColorGenerator.h>
 #include <coms/ComsScoreMessage.h>
 #include <coms/ComsMessageSender.h>
 
@@ -74,25 +75,12 @@ void ServerScoreState::enterState(const unsigned state)
 			ServerCommon::serverLog(0, "The game is a draw!");
 			ServerCommon::sendStringMessage(0, "The game is a draw!");
 		}
-		else if (winningTeam == 1)
+		else
 		{
-			ServerCommon::serverLog(0, "Red team is the overall winner!");
-			ServerCommon::sendStringMessage(0, "Red team is the overall winner!");
-		}
-		else if (winningTeam == 2)
-		{
-			ServerCommon::serverLog(0, "Blue team is the overall winner!");
-			ServerCommon::sendStringMessage(0, "Blue team is the overall winner!");
-		} 
-		else if (winningTeam == 3)
-		{
-			ServerCommon::serverLog(0, "Green team is the overall winner!");
-			ServerCommon::sendStringMessage(0, "Green team is the overall winner!");
-		} 
-		else if (winningTeam == 4)
-		{
-			ServerCommon::serverLog(0, "Yellow team is the overall winner!");
-			ServerCommon::sendStringMessage(0, "Yellow team is the overall winner!");
+			ServerCommon::serverLog(0, "%s team is the overall winner!",
+				TankColorGenerator::getTeamName(winningTeam));
+			ServerCommon::sendStringMessage(0, "%s team is the overall winner!",
+				TankColorGenerator::getTeamName(winningTeam));
 		}
 		
 		// Score all the winning tanks as overall winners

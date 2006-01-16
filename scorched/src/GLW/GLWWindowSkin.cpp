@@ -48,8 +48,5 @@ bool GLWWindowSkin::initFromXML(XMLNode *node)
 	// Key
 	if (!node->getNamedChild("key", key_)) return false;
 
-	// Visible
-	if (!node->getNamedChild("visible", visible_)) return false;
-
 	return true;
 }

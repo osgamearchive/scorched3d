@@ -74,6 +74,10 @@ public:
 	void setBrightness(int value) { brightness_.setValue(value); }
 	const char *getBrightnessToolTip() { return brightness_.getDescription(); }
 
+	bool getSmoothLines() { return smoothLines_.getValue(); }
+	void setSmoothLines(bool value) { smoothLines_.setValue(value); }
+	const char *getSmoothLinesToolTip() { return smoothLines_.getDescription(); }
+
 	bool getFrameTimer() { return frameTimer_.getValue(); }
 	void setFrameTimer(bool value) { frameTimer_.setValue(value); }	
 	const char *getFrameTimerToolTip() { return frameTimer_.getDescription(); }
@@ -421,6 +425,7 @@ protected:
 	OptionEntryBool useHex_;
 	OptionEntryBool saveWindowPositions_;
 	OptionEntryBool doubleBuffer_;
+	OptionEntryBool smoothLines_;
 	OptionEntryBool moreRes_;
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;

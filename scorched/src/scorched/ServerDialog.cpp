@@ -25,6 +25,7 @@
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 #include <tank/TankContainer.h>
+#include <tank/TankColorGenerator.h>
 #include <engine/ModFiles.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
@@ -153,11 +154,7 @@ wxString ServerPlayerListControl::OnGetItemText(long item, long column) const
 			return wxString((char *) tank->getState().getStateString(), wxConvUTF8);
 			break;
 		case 6:
-			if (tank->getTeam() == 0) return wxT("None");
-			else if (tank->getTeam() == 1) return wxT("Red");
-			else if (tank->getTeam() == 2) return wxT("Blue");
-			else if (tank->getTeam() == 3) return wxT("Green");
-			else if (tank->getTeam() == 4) return wxT("Yellow");
+			return wxString((char *) TankColorGenerator::getTeamName(tank->getTeam()), wxConvUTF8);
 			break;
 		case 7:
 			return wxString(tank->getHostDesc(), wxConvUTF8);

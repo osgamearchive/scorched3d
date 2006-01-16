@@ -27,6 +27,7 @@
 #include <common/Defines.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
+#include <tank/TankColorGenerator.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <string.h>
@@ -213,14 +214,7 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 		reply.push_back(addTag(tmp, tank->getScore().getTimePlayedString()));
 
 		snprintf(tmp, 128, "pm%i", i);
-		switch (tank->getTeam())
-		{
-		case 1: reply.push_back(addTag(tmp, "Red")); break;
-		case 2: reply.push_back(addTag(tmp, "Blue")); break;
-		case 3: reply.push_back(addTag(tmp, "Green")); break;
-		case 4: reply.push_back(addTag(tmp, "Yellow")); break;
-		default: reply.push_back(addTag(tmp, "None")); break;
-		}
+		reply.push_back(addTag(tmp, TankColorGenerator::getTeamName(tank->getTeam()))); 
 
 		snprintf(tmp, 128, "pr%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getStatsRank()));

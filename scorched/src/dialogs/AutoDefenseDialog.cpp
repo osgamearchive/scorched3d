@@ -45,13 +45,13 @@ AutoDefenseDialog::AutoDefenseDialog() :
 		addWidget(new GLWPanel(10, 245, 420, 50),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 
-	ddpara_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 170, 420),
+	ddpara_ = (GLWDropDownText *) addWidget(new GLWDropDownText(120, 170, 420),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddpara_->setHandler(this);
 	ddpara_->setToolTip(new GLWTip("Enable Parachutes",
 		"Choose to enable parachutes before the\n"
 		"beginning of the next round."));
-	ddshields_ = (GLWDropDown *) addWidget(new GLWDropDown(120, 200, 420),
+	ddshields_ = (GLWDropDownText *) addWidget(new GLWDropDownText(120, 200, 420),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddshields_->setToolTip(new GLWTip("Choose Shields",
 		"Choose the shield to use at the beginning\n"
@@ -164,7 +164,7 @@ void AutoDefenseDialog::displayCurrent()
 	std::list<Accessory *>::iterator shieldsItor;
 	std::list<Accessory *> shields = 
 		tank->getAccessories().getShields().getAllShields();
-	ddshields_->addText(GLWSelectorEntry("Shields Off", &shieldsOffTip));
+	ddshields_->addEntry(GLWSelectorEntry("Shields Off", &shieldsOffTip));
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
 		shieldsItor++)
@@ -183,7 +183,7 @@ void AutoDefenseDialog::displayCurrent()
 			snprintf(buffer, 256, "%s (In)",
 				shield->getName());
 		}
-		ddshields_->addText(GLWSelectorEntry(buffer,
+		ddshields_->addEntry(GLWSelectorEntry(buffer,
 			&shield->getToolTip(), 0, shield->getTexture()));
 	}
 
@@ -193,7 +193,7 @@ void AutoDefenseDialog::displayCurrent()
 	static GLWTip paraOnTip("Parachutesields On",
 		"Turns on parachutes.");
 	ddpara_->clear();
-	ddpara_->addText(GLWSelectorEntry("Parachutes Off", &paraOffTip));
+	ddpara_->addEntry(GLWSelectorEntry("Parachutes Off", &paraOffTip));
 	if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 	{
 		char buffer[256];
@@ -206,7 +206,7 @@ void AutoDefenseDialog::displayCurrent()
 		{
 			snprintf(buffer, 256, "Parachutes On (In)");
 		}
-		ddpara_->addText(GLWSelectorEntry(buffer, &paraOnTip));
+		ddpara_->addEntry(GLWSelectorEntry(buffer, &paraOnTip));
 	}
 
 	// Set the currently shown items
@@ -225,11 +225,11 @@ void AutoDefenseDialog::displayCurrent()
 			snprintf(buffer, 256, "%s (In)",
 				currentShield->getName());
 		}
-		ddshields_->setText(buffer);
+		ddshields_->setCurrentText(buffer);
 	}
 	else
 	{
-		ddshields_->setText("Shields Off");
+		ddshields_->setCurrentText("Shields Off");
 	}
 	if (tank->getParachute().parachutesEnabled())
 	{
@@ -243,11 +243,11 @@ void AutoDefenseDialog::displayCurrent()
 		{
 			snprintf(buffer, 256, "Parachutes On (In)");
 		}	
-		ddpara_->setText(buffer);
+		ddpara_->setCurrentText(buffer);
 	}
 	else
 	{
-		ddpara_->setText("Parachutes Off");
+		ddpara_->setCurrentText("Parachutes Off");
 	}
 }
 

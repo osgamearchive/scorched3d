@@ -241,6 +241,11 @@ void GLWToolTip::draw(const unsigned state)
 	else if (posX + posW > camWidth) posX -= posX + posW - camWidth;
 
 	{
+		if (OptionsDisplay::instance()->getSmoothLines())
+		{
+			glEnable(GL_LINE_SMOOTH);
+		}
+
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glColor4f(0.5f, 0.5f, 1.0f, 0.8f * alpha);	
 		glBegin(GL_TRIANGLE_FAN);
@@ -259,6 +264,11 @@ void GLWToolTip::draw(const unsigned state)
 				posW, posH, 10.0f);
 		glEnd();
 		glLineWidth(1.0f);
+
+		if (OptionsDisplay::instance()->getSmoothLines())
+		{
+			glDisable(GL_LINE_SMOOTH);
+		}
 	}
 
 	float pos = posY + posH - 16.0f;

@@ -31,6 +31,7 @@
 #include <common/OptionsParam.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
+#include <tank/TankColorGenerator.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 
@@ -133,7 +134,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 			tank->getScore().getTimePlayedString(),
 			tank->getScore().getScoreString(),
 			tank->getState().getStateString(),
-			(tank->getTeam() == 0?"None":(tank->getTeam() == 1?"Red":(tank->getTeam() == 2?"Blue":(tank->getTeam() == 2?"Green":"Yellow")))),
+			TankColorGenerator::getTeamName(tank->getTeam()),
 			tank->getPlayerId()
 		);
 	}

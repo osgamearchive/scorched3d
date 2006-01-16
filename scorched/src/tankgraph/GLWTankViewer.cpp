@@ -59,8 +59,8 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	}
 
 	catagoryChoice_.setHandler(this);
-	catagoryChoice_.setText("All");
-	select(0, 0, GLWSelectorEntry(catagoryChoice_.getText()));
+	catagoryChoice_.setCurrentPosition(0);
+	select(0, 0, GLWSelectorEntry(catagoryChoice_.getCurrentText()));
 
 	catagoryChoice_.setToolTip(new GLWTip("Model Catagory",
 		"Displays the currently selected model catagory.\n"
@@ -81,7 +81,7 @@ GLWTankViewer::~GLWTankViewer()
 void GLWTankViewer::setTeam(int team)
 {
 	team_ = team;
-	select(0, 0, GLWSelectorEntry(catagoryChoice_.getText()));
+	select(0, 0, GLWSelectorEntry(catagoryChoice_.getCurrentText()));
 }
 
 void GLWTankViewer::select(unsigned int id, 

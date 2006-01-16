@@ -23,6 +23,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
 GLWSelectorEntry::GLWSelectorEntry(const char *text, 
 			GLWTip *tooltip, 
@@ -33,7 +34,9 @@ GLWSelectorEntry::GLWSelectorEntry(const char *text,
 	tip_(tooltip),
 	selected_(selected),
 	icon_(icon),
-	userData_(userData)
+	userData_(userData),
+	color_(1.0f, 1.0f, 1.0f),
+	textureWidth_(0)
 {
 
 }
@@ -51,8 +54,9 @@ GLWSelector *GLWSelector::instance()
 
 GLWSelector::GLWSelector() :
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0, ""), 
-	visible_(false), showState_(0)
+	showState_(0)
 {
+	visible_ = false;
 	windowLevel_ = 1000;
 }
 
@@ -135,6 +139,14 @@ void GLWSelector::draw()
 		return;
 	}
 
+	unsigned int state = 0;
+	if (OptionsDisplay::instance()->getSmoothLines())
+	{
+		state |= GLState::BLEND_ON;
+		glEnable(GL_LINE_SMOOTH);
+	}
+	GLState currentState(state);
+
 	std::list<GLWSelectorPart *>::iterator itor;
 	for (itor = parts_.begin();
 		itor != parts_.end();
@@ -142,6 +154,11 @@ void GLWSelector::draw()
 	{
 		GLWSelectorPart *part = (*itor);
 		part->draw();
+	}
+
+	if (OptionsDisplay::instance()->getSmoothLines())
+	{
+		glDisable(GL_LINE_SMOOTH);
 	}
 }
 

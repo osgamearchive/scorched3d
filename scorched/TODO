@@ -23,7 +23,9 @@ Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
 Fixed: Moved sections in landscapesound, landscapeplace, landscapetex and landscapedefn files to seperate files (splitlandscapefile.pl)
 
-Added: A static sky later that can be used for stars
+Added: Gui dialogs are now smoothed (AA) can be turned off for greater performance
+Added: Players can choose their own colors when not in team mode
+Added: A static sky layer that can be used for stars
 Added: Powerups that can be bought or "dropped" from buildings etc... (WeaponGiveAcccessory)
 Added: Tanks models restricted by team (team tag in tanks.xml)
 Added: Bots can now use lasers (sniper tag in tankais.xml use this weapon when in sniper distance)

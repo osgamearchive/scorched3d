@@ -363,6 +363,18 @@
 				RelativePath="..\GLW\GLWDropDown.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWDropDownColor.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWDropDownColor.h">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWDropDownText.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWDropDownText.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWFileView.cpp">
 			</File>
 			<File

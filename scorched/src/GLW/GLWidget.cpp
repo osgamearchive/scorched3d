@@ -31,7 +31,7 @@ unsigned int GLWidget::nextId_ = 0;
 static GLuint listNo = 0;
 
 GLWidget::GLWidget(float x, float y, float w, float h) : 
-	id_(++nextId_), parent_(0), userData_(0),
+	id_(++nextId_), parent_(0), userData_(0), visible_(true),
 	x_(x), y_(y), w_(w), h_(h), tooltip_(0), tooltipTransparent_(false)
 {
 }
@@ -119,6 +119,7 @@ void GLWidget::hide()
 
 bool GLWidget::initFromXML(XMLNode *node)
 {
+	node->getNamedChild("visible", visible_, false);
 	if (!node->getNamedChild("x", x_)) return false;
 	if (!node->getNamedChild("y", y_)) return false;
 	if (!node->getNamedChild("w", w_)) return false;

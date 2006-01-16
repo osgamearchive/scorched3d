@@ -44,11 +44,15 @@ public:
 	GLTexture *getIcon() { return icon_; }
 	bool getSelected() { return selected_; }
 	void *getUserData() { return userData_; }
+	Vector &getColor() { return color_; }
+	int &getTextureWidth() { return textureWidth_; }
 	
 protected:
 	std::string text_;
 	GLTexture *icon_;
+	int textureWidth_;
 	GLWTip *tip_;
+	Vector color_;
 	bool selected_;
 	void *userData_;
 };
@@ -99,7 +103,6 @@ protected:
 	std::list<GLWSelectorPart *> parts_;
 	unsigned int showState_;
 	GLWSelectorI *user_;
-	bool visible_;
 
 private:
 	GLWSelector();

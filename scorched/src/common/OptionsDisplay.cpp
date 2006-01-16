@@ -106,6 +106,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Draw the names above the tanks", RWAccess, true),
 	drawPlayerIcons_(options_, "DrawPlayerIcons",
 		"Draw the icons above the tanks", RWAccess, true),
+	smoothLines_(options_, "SmoothLines",
+		"Smooth/AA the dialog lines", RWAccess, true),
 	drawPlayerSight_(options_, "DrawPlayerSight",
 		"Draw the aiming sight infront of the tanks", RWAccess, true),
 	oldSightPosition_(options_, "OldSightPosition",

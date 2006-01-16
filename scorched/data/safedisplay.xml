@@ -47,4 +47,10 @@
   	<name>NoVBO</name>
   	<value>on</value>
   </option>
+	<!-- Smooth/AA the dialog lines -->
+	<!-- (default value : "on") -->
+	<option>
+		<name>SmoothLines</name>
+		<value>off</value>
+	</option>
 </options>

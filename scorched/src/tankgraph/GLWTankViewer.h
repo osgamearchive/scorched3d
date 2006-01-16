@@ -23,7 +23,7 @@
 
 #include <GLW/GLWScrollW.h>
 #include <GLW/GLWPanel.h>
-#include <GLW/GLWDropDown.h>
+#include <GLW/GLWDropDownText.h>
 #include <GLW/GLWToolTip.h>
 #include <tankgraph/TankModel.h>
 #include <vector>
@@ -53,7 +53,7 @@ public:
 
 	REGISTER_CLASS_HEADER(GLWTankViewer);
 protected:
-	GLWDropDown catagoryChoice_;
+	GLWDropDownText catagoryChoice_;
 	GLWScrollW scrollBar_;
 	GLWPanel infoWindow_;
 	GLWTip toolTip_;

@@ -42,11 +42,11 @@ public:
 	virtual ~GLWDropDown();
 
 	void setHandler(GLWDropDownI *handler);
-	void addText(GLWSelectorEntry text);
-	void setText(const char *text) { text_ = text; }
-	const char *getText() { return text_.c_str(); }
+	void addEntry(GLWSelectorEntry text);
+
 	void setCurrentPosition(int pos);
 	int getCurrentPosition();
+	GLWSelectorEntry *getCurrentEntry();
 
 	// Inherited from GLWidget
 	virtual void draw();
@@ -67,8 +67,8 @@ public:
 
 	REGISTER_CLASS_HEADER(GLWDropDown);
 protected:
-	std::string text_;
 	std::list<GLWSelectorEntry> texts_;
+	GLWSelectorEntry *current_;
 	GLWPushButton button_;
 	GLWDropDownI *handler_;
 

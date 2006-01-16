@@ -57,6 +57,8 @@ public:
 	virtual void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
 	virtual void setParent(GLWPanel *parent);
 	virtual void layout();
+	void setVisible(bool visible) { visible_ = visible; }
+	bool getVisible() { return visible_; }
 	void setUserData(void *data) { userData_ = data; }
 	void *getUserData() { return userData_; }
 
@@ -84,6 +86,7 @@ protected:
 	float x_, y_, w_, h_;
 	GLWTip *tooltip_;
 	bool tooltipTransparent_;
+	bool visible_;
 	GLWPanel *parent_;
 	void *userData_;
 

@@ -27,6 +27,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
@@ -267,7 +268,13 @@ void GLWWindow::drawMaximizedWindow()
 
 void GLWWindow::draw()
 {
-	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
+	unsigned int state = GLState::DEPTH_OFF | GLState::TEXTURE_OFF;
+	if (OptionsDisplay::instance()->getSmoothLines())
+	{
+		state |= GLState::BLEND_ON;
+		glEnable(GL_LINE_SMOOTH);
+	}
+	GLState currentState(state);
 
 	if (!initPosition_)
 	{
@@ -288,6 +295,11 @@ void GLWWindow::draw()
 	}
 
 	drawMaximizedWindow();
+
+	if (OptionsDisplay::instance()->getSmoothLines())
+	{
+		glDisable(GL_LINE_SMOOTH);
+	}
 }
 
 void GLWWindow::mouseDown(float x, float y, bool &skipRest)

@@ -37,6 +37,7 @@
 #include <tankai/TankAIStore.h>
 #include <tankgraph/TankModelStore.h>
 #include <tank/TankContainer.h>
+#include <tank/TankColorGenerator.h>
 
 ServerAddPlayerHandler *ServerAddPlayerHandler::instance_ = 0;
 
@@ -125,6 +126,21 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		}
 	}
 	tank->setName(name.c_str());
+
+	// Player has set a new color
+	if (tank->getTeam() == 0 &&
+		message.getPlayerColor() != tank->getColor())
+	{
+		// Check the color is not already in use
+		std::map<unsigned int, Tank *> &tanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		if (TankColorGenerator::instance()->colorAvailable(
+			message.getPlayerColor(), tanks, tank))
+		{
+			// Set this color
+			tank->setColor(message.getPlayerColor());
+		}
+	}
 
 	bool noAvatar = !tank->getAvatar().getName()[0] 
 		&& message.getPlayerIconName()[0];

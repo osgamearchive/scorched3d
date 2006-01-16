@@ -32,9 +32,9 @@ GLWDropDownI::~GLWDropDownI()
 REGISTER_CLASS_SOURCE(GLWDropDown);
 
 GLWDropDown::GLWDropDown(float x, float y, float w) :
-	GLWidget(x, y, w, 25.0f), text_("None"), 
+	GLWidget(x, y, w, 25.0f), 
 	button_(x + w - 22.0f, y + 2.0f, 20.0f, 21.0f),
-	handler_(0)
+	handler_(0), current_(0)
 {
 	button_.setHandler(this);
 }
@@ -51,7 +51,13 @@ void GLWDropDown::setHandler(GLWDropDownI *handler)
 
 void GLWDropDown::clear()
 {
+	current_ = 0;
 	texts_.clear();
+}
+
+GLWSelectorEntry *GLWDropDown::getCurrentEntry()
+{
+	return current_;
 }
 
 int GLWDropDown::getCurrentPosition()
@@ -63,7 +69,7 @@ int GLWDropDown::getCurrentPosition()
 		itor++, pos++)
 	{
 		GLWSelectorEntry &entry = *itor;
-		if (strcmp(text_.c_str(), entry.getText()) == 0)
+		if (current_ == &entry)
 		{
 			return pos;
 		}
@@ -81,18 +87,23 @@ void GLWDropDown::setCurrentPosition(int pos)
 		itor++)
 	{
 		GLWSelectorEntry &entry = *itor;
-		text_ = entry.getText();
+		current_ = &entry;
 		if (position++ >= pos) break;
+	}
+
+	if (handler_)
+	{
+		handler_->select(id_, pos, *current_);
 	}
 }
 
-void GLWDropDown::addText(GLWSelectorEntry text)
+void GLWDropDown::addEntry(GLWSelectorEntry text)
 {
-	if (texts_.empty())
-	{
-		text_ = text.getText();
-	}
 	texts_.push_back(text);
+	if (!current_)
+	{
+		current_ = &texts_.back();
+	}
 }
 
 void GLWDropDown::draw()
@@ -118,11 +129,6 @@ void GLWDropDown::draw()
 		glVertex2d(x_ + w_ - 17.0f + offset, y_ + 17.0f - offset);
 		glVertex2d(x_ + w_ - 12.0f + offset, y_ + 7.0f - offset);
 	glEnd();
-
-	GLWFont::instance()->getLargePtFont()->drawWidth(
-		(int) w_ - 25,
-		GLWFont::widgetFontColor, 14,
-		x_ + 5.0f, y_ + 5.0f, 0.0f, text_.c_str());
 }
 
 void GLWDropDown::buttonDown(unsigned int id)
@@ -160,14 +166,24 @@ void GLWDropDown::setY(float y)
 	button_.setY(y + 2.0f); 
 }
 
-void GLWDropDown::itemSelected(GLWSelectorEntry *entry, int position)
+void GLWDropDown::itemSelected(GLWSelectorEntry *entry, int pos)
 {
 	button_.getPressed() = false;
-	text_ = entry->getText();
+
+	int position = 0;
+	std::list<GLWSelectorEntry>::iterator itor;
+	for (itor = texts_.begin();
+		itor != texts_.end();
+		itor++)
+	{
+		GLWSelectorEntry &entry = *itor;
+		current_ = &entry;
+		if (position++ >= pos) break;
+	}
+
 	if (handler_)
 	{
-		handler_->select(id_, position, *entry);
-		return;
+		handler_->select(id_, position, *current_);
 	}
 }
 

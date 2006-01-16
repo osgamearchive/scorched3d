@@ -100,8 +100,9 @@ void GLWPanel::simulate(float frameTime)
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		{
 			entry.widget->simulate(frameTime);
 		}
@@ -147,8 +148,9 @@ void GLWPanel::draw()
 				itor++)
 			{
 				GLWPanelEntry &entry = *itor;
-				if (!entry.condition || 
-					entry.condition->getResult(entry.widget))
+				if ((*itor).widget->getVisible() &&
+					(!entry.condition || 
+					entry.condition->getResult(entry.widget)))
 				{
 					glPushMatrix();
 						(*itor).widget->draw();
@@ -172,8 +174,9 @@ void GLWPanel::mouseDown(float x, float y, bool &skipRest)
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		{
 			(*itor).widget->mouseDown(x, y, skipRest);
 			if (skipRest) break;
@@ -194,8 +197,9 @@ void GLWPanel::mouseUp(float x, float y, bool &skipRest)
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		(*itor).widget->mouseUp(x, y, skipRest);
 		if (skipRest) break;
 	}
@@ -212,8 +216,9 @@ void GLWPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		{
 			(*itor).widget->mouseDrag(mx, my, x, y, skipRest);
 			if (skipRest) break;
@@ -231,8 +236,9 @@ void GLWPanel::keyDown(char *buffer, unsigned int keyState,
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		{
 			(*itor).widget->keyDown(buffer, keyState, history, hisCount, skipRest);
 			if (skipRest) break;
@@ -248,8 +254,9 @@ void GLWPanel::display()
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		{
 			(*itor).widget->display();
 		}
@@ -264,8 +271,9 @@ void GLWPanel::hide()
 		itor++)
 	{
 		GLWPanelEntry &entry = *itor;
-		if (!entry.condition || 
-			entry.condition->getResult(entry.widget))
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
 		{
 			(*itor).widget->hide();
 		}

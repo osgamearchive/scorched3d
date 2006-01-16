@@ -25,6 +25,9 @@
 #include <GLW/GLWButton.h>
 #include <GLW/GLWTextBox.h>
 #include <GLW/GLWImageList.h>
+#include <GLW/GLWLabel.h>
+#include <GLW/GLWDropDownColor.h>
+#include <GLEXT/GLTexture.h>
 #include <tankgraph/GLWTankViewer.h>
 
 class PlayerDialog : public GLWWindow,
@@ -53,12 +56,16 @@ protected:
 	virtual ~PlayerDialog();
 
 	static PlayerDialog *instance_;
-	GLWDropDown *typeDropDown_;
-	GLWDropDown *teamDropDown_;
+	GLWDropDownText *typeDropDown_;
+	GLWDropDownText *teamDropDown_;
+	GLWDropDownColor *colorDropDown_;
+	GLWLabel *colorLabel_;
+	GLWLabel *teamLabel_;
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
 	GLWImageList *imageList_;
 	GLWTip avatarTip1_, avatarTip2_;
+	GLTexture colorTexture_;
 	unsigned int allocatedTeam_;
 	unsigned int okId_, cancelId_;
 	unsigned int currentPlayerId_;

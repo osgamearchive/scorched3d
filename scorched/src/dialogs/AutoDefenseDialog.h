@@ -23,7 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
-#include <GLW/GLWDropDown.h>
+#include <GLW/GLWDropDownText.h>
 
 class AutoDefenseDialog :
 	public GLWWindow, 
@@ -47,8 +47,8 @@ protected:
 	unsigned int okId_;
 	unsigned int cancelId_;
 	GLWPanel *topPanel_;
-	GLWDropDown *ddshields_;
-	GLWDropDown *ddpara_;
+	GLWDropDownText *ddshields_;
+	GLWDropDownText *ddpara_;
 
 	void finished();
 	void displayCurrent();
