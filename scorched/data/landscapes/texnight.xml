@@ -4,6 +4,7 @@
 	<scorch>data/textures/landscape/default/scorch.bmp</scorch>
 	<lowestlandheight>0.0</lowestlandheight>
 	<skytexture>data/textures/landscape/default/cloud1d.bmp</skytexture>
+	<skytexturestatic>data/textures/stars.bmp</skytexturestatic>
 	<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 	<skycolormap>data/textures/clearsky.bmp</skycolormap>
 	<skytimeofday>8</skytimeofday>
@@ -14,6 +15,7 @@
 	<fog><A>0.2</A><B>0.2</B><C>0.2</C></fog>
 	<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
 	<suntexture>data/textures/moon.bmp</suntexture>
+	<nosunfog>true</nosunfog>
 	<fogdensity>0.0011</fogdensity>
 	<border type="water">
 		<reflection>data/textures/landscape/default/cubemap.bmp</reflection>

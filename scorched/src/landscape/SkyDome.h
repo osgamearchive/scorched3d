@@ -22,6 +22,8 @@
 #define __INCLUDE_SkyDomeh_INCLUDE__
 
 #include <landscape/Hemisphere.h>
+#include <GLEXT/GLTexture.h>
+#include <GLEXT/GLBitmap.h>
 
 class SkyDome
 {
@@ -42,11 +44,17 @@ protected:
 	std::list<Hemisphere::HemispherePoint> layer1_;
 	std::list<Hemisphere::HemispherePoint> layer2_;
 	std::list<Hemisphere::HemispherePoint> layer3_;
+	std::list<Hemisphere::HemispherePoint> layer4_;
+	GLTexture cloudTexture_;
+	GLTexture starTexture_;
+	GLBitmap skyColorsMap_;
+	bool useStarTexture_;
+	bool noSunFog_;
 
 	void drawLayer(
 		std::list<Hemisphere::HemispherePoint> &layer,
 		float radius, float radius2, float x, float y,
-		bool useColor);
+		bool useColor, float tx = 1.0f, float ty = 1.0f);
 };
 
 #endif // __INCLUDE_SkyDomeh_INCLUDE__

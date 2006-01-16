@@ -225,10 +225,12 @@ public:
 	std::string scorch;
 	Vector fog;
 	Vector suncolor;
+	bool nosunfog;
 	std::string suntexture;
 	float fogdensity;
 	float lowestlandheight;
 	std::string skytexture;
+	std::string skytexturestatic;
 	std::string skytexturemask;
 	std::string skycolormap;
 	int skytimeofday;

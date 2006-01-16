@@ -53,10 +53,32 @@ void SkyDome::flash()
 
 void SkyDome::generate()
 {
+	LandscapeTex *tex = ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions().getTex();	
+
+	// Sky
+	std::string ctex(getDataFile(tex->skytexture.c_str()));
+	std::string ctexm(getDataFile(tex->skytexturemask.c_str()));
+	GLBitmap bitmapCloud(ctex.c_str(), ctexm.c_str(), false);
+	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud, GL_RGBA));
+	skyColorsMap_.loadFromFile(getDataFile(tex->skycolormap.c_str()));
+
+	// Stars
+	useStarTexture_ = false;
+	if (!tex->skytexturestatic.empty())
+	{
+		useStarTexture_ = true;
+		std::string stex(getDataFile(tex->skytexturestatic.c_str()));
+		GLBitmap bitmapStars(stex.c_str(), stex.c_str(), false);
+		DIALOG_ASSERT(starTexture_.replace(bitmapStars, GL_RGBA));
+	}
+	noSunFog_ = tex->nosunfog;
+
 	// Clear so new sky color is picked up
 	layer1_.clear();
 	layer2_.clear();
 	layer3_.clear();
+	layer4_.clear();
 }
 
 void SkyDome::simulate(float frameTime)
@@ -94,19 +116,44 @@ void SkyDome::draw()
 				*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 			Hemisphere::createColored(layer1_, 
 				1800, 250, 30, 30,
-				Landscape::instance()->getSkyColorsMap(),
+				skyColorsMap_,
 				sunDir,
 				tex.skytimeofday);
+		}
+		// Layer 4
+		if (layer4_.empty())
+		{
+			Hemisphere::createXY(layer4_,
+				2000, 225, 10, 10, 0, 0, 20.0f, 20.0f);
 		}
 
 		// Translate scene so it is in the middle of the camera
 		glTranslatef(pos[0], pos[1], -15.0f);
+
+		// Draw Layer 1
 		GLState mainState2(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
-		drawLayer(layer1_, 1800, 250, 0.0f, 0.0f, true);
+		drawLayer(layer1_, 1800, 225, 0.0f, 0.0f, true);
+
+		// Draw Layer 4
+		if (useStarTexture_)
+		{
+			glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
+			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
+			starTexture_.draw();
+
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+			drawLayer(layer4_, 2000, 225, 0.0f, 0.0f, false, 9.0f, 9.0f);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 	glPopMatrix();
 
 	// Draw Sun Glow
+	if (noSunFog_) glDisable(GL_FOG); 
 	Landscape::instance()->getSky().getSun().draw();
+	if (!OptionsDisplay::instance()->getNoFog())
+	{
+		glEnable(GL_FOG);
+	}
 
 	// Layer 2
 	if (!OptionsDisplay::instance()->getNoSkyLayers())
@@ -122,7 +169,7 @@ void SkyDome::draw()
 			glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
 
 			// Cloud texture
-			Landscape::instance()->getCloudTexture().draw();
+			cloudTexture_.draw();
 
 			// Draw the other layers
 			if (layer3_.empty())
@@ -145,7 +192,7 @@ void SkyDome::draw()
 void SkyDome::drawLayer(
 	std::list<Hemisphere::HemispherePoint> &layer,
 	float radius, float radius2, float xvalue, float yvalue,
-	bool useColor)
+	bool useColor, float tx, float ty)
 {
 	std::list<Hemisphere::HemispherePoint>::iterator itor;
 	for (itor = layer.begin();
@@ -154,8 +201,8 @@ void SkyDome::drawLayer(
 		Hemisphere::HemispherePoint &pointA = *(itor++);
 		Hemisphere::HemispherePoint &pointB = *(itor++);
 
-		pointA.tx = (pointA.x + radius) / (2 * radius) + xvalue;
-		pointA.ty = (pointA.y + radius) / (2 * radius) + yvalue;
+		pointA.tx = tx * (pointA.x + radius) / (2 * radius) + xvalue;
+		pointA.ty = ty * (pointA.y + radius) / (2 * radius) + yvalue;
 		GLDynamicVertexArray::instance()->addFloat(pointA.x);
 		GLDynamicVertexArray::instance()->addFloat(pointA.y);
 		GLDynamicVertexArray::instance()->addFloat(pointA.z);
@@ -178,8 +225,8 @@ void SkyDome::drawLayer(
 			GLDynamicVertexArray::instance()->addFloat(ba);
 		}
 
-		pointB.tx = (pointB.x + radius) / (2 * radius) + xvalue;
-		pointB.ty = (pointB.y + radius) / (2 * radius) + yvalue;
+		pointB.tx = tx * (pointB.x + radius) / (2 * radius) + xvalue;
+		pointB.ty = ty * (pointB.y + radius) / (2 * radius) + yvalue;
 		GLDynamicVertexArray::instance()->addFloat(pointB.x);
 		GLDynamicVertexArray::instance()->addFloat(pointB.y);
 		GLDynamicVertexArray::instance()->addFloat(pointB.z);

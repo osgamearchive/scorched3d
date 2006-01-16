@@ -81,7 +81,8 @@ void Hemisphere::createXY(
 	std::list<HemispherePoint> &points,
 	float radius, float radius2, 
 	int heightSlices, int rotationSlices,
-	int startHeightSlice, int startRotationSlice)
+	int startHeightSlice, int startRotationSlice,
+	float tx, float ty)
 {
 	const float maxTexCoord = 1.0f;
 	HemispherePoint point;
@@ -113,8 +114,8 @@ void Hemisphere::createXY(
 			p2[1] = radius * e2[1];
 			
 			point.x = p1[0]; point.y = p1[1]; point.z = p1[2];
-			point.tx = (p1[0] + radius) / (2 * radius);
-			point.ty = (p1[1] + radius) / (2 * radius);
+			point.tx = (p1[0] + radius) / (2 * radius) * tx;
+			point.ty = (p1[1] + radius) / (2 * radius) * ty;
 			points.push_back(point);
 			if (i == startRotationSlice)
 			{
@@ -123,8 +124,8 @@ void Hemisphere::createXY(
 			}
 
 			point.x = p2[0]; point.y = p2[1]; point.z = p2[2];
-			point.tx = (p2[0] + radius) / (2 * radius);
-			point.ty = (p2[1] + radius) / (2 * radius);
+			point.tx = (p2[0] + radius) / (2 * radius) * tx;
+			point.ty = (p2[1] + radius) / (2 * radius) * ty;
 			points.push_back(point);
 		}
 	}

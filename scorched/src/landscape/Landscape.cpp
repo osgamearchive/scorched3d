@@ -333,13 +333,6 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap bitmapMagma(getDataFile(tex->magmasmall.c_str()));
 	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
-	// Sky
-	std::string ctex(getDataFile(tex->skytexture.c_str()));
-	std::string ctexm(getDataFile(tex->skytexturemask.c_str()));
-	GLBitmap bitmapCloud(ctex.c_str(), ctexm.c_str(), false);
-	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud, GL_RGBA));
-	skyColorsMap_.loadFromFile(getDataFile(tex->skycolormap.c_str()));
-
 	// Detail
 	GLBitmap bitmapDetail(getDataFile(tex->detail.c_str()));
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));

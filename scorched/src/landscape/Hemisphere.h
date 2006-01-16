@@ -42,7 +42,8 @@ public:
 	static void createXY(std::list<HemispherePoint> &points,
 		float radius, float radius2,
 		int heightSlices = 10, int rotationSlices = 20,
-		int startHeightSlice = 0, int startRotationSlice = 0);
+		int startHeightSlice = 0, int startRotationSlice = 0,
+		float tx = 1.0f, float ty = 1.0f);
 	static void createColored(std::list<HemispherePoint> &points,
 		float radius, float radius2, 
 		int heightSlices, int rotationSlices,

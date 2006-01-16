@@ -65,12 +65,10 @@ public:
 	// Textures created during landscape texturing
 	GLBitmap &getMainMap() { return mainMap_; }
 	GLBitmap &getScorchMap() { return scorchMap_; }
-	GLBitmap &getSkyColorsMap() { return skyColorsMap_; }
 	GLTexture &getMainTexture() { return texture_; }
 	GLTexture &getMagTexture() { return magTexture_; }
 	GLTexture &getPlanATexture() { return planAlphaTexture_; }
 	GLTexture &getPlanTexture() { return planTexture_; }
-	GLTexture &getCloudTexture() { return cloudTexture_; }
 	GLTexture &getLandscapeTexture1() { return landTex1_; }
 	GLTexture &getSurroundTexture() { return surroundTexture_; }
 	GLTexture &getGroundTexture() { return groundTexture_; }
@@ -114,14 +112,12 @@ protected:
 	GLTexture planTexture_;
 	GLTexture planAlphaTexture_;
 	GLTexture surroundTexture_;
-	GLTexture cloudTexture_;
 	GLTexture detailTexture_;
 	GLTexture roofTexture_;
 	GLTexture landTex1_;
 	GLTexture groundTexture_;
 	GLBitmap mainMap_;
 	GLBitmap scorchMap_;
-	GLBitmap skyColorsMap_;
 	GLBitmap bitmapPlanAlphaAlpha_;
 	GLBitmap bitmapPlanAlpha_;
 	GLBitmap bitmapPlan_;

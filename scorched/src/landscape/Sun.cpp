@@ -74,7 +74,7 @@ void Sun::draw()
 		getLandscapeMaps().getDefinitions().getTex();
 	GLCameraFrustum::instance()->drawBilboard(
 		position_, tex.suncolor, 
-		0.7f, // alpha
+		1.0f, // alpha
 		60.0f, 60.0f * aspect, // width, height
 		true, // additive texture
 		0); // tex coord
