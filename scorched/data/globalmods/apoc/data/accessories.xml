@@ -2526,6 +2526,22 @@ This weapon has a limited range and line of site.</description>
 			</subweapon6>
 		</accessoryaction>
 	</accessory>
+	<!--<accessory>
+		<name>Sniper Rifle</name>
+		<armslevel>10</armslevel>
+		<description>A powerful single shot weapon.</description>
+		<icon>bmissile.bmp</icon>
+		<activationsound>shoot/small.wav</activationsound>
+		<accessoryaction type='WeaponProjectile'>
+			<collisionaction type='WeaponExplosion'>
+				<hurtamount>2.0</hurtamount>
+				<deform>down</deform>
+				<size>3</size>
+				<explosiontexture>exp00</explosiontexture>
+				<explosionsound>explosions/small.wav</explosionsound>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>-->
 	<accessory>
 		<name>M2 Round</name>
 		<maximumnumber>0</maximumnumber>

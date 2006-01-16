@@ -88,6 +88,7 @@ Changes Since 3.1
         - Removed City Blocks map
         
     Other:
+        - Added Sniper AI type that uses mostly lasers and guns.
         - Added a "Hard Target" AI type that does not shoot but will use defenses, good for testing
         
 Notes About Installation:
