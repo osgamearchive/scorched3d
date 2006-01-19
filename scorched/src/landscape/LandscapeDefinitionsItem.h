@@ -22,6 +22,7 @@
 #define __INCLUDE_LandscapeDefinitionsItemh_INCLUDE__
 
 #include <common/Defines.h>
+#include <XML/XMLFile.h>
 #include <map>
 #include <string>
 
@@ -33,7 +34,7 @@ class LandscapeDefinitionsItem
 public:
 	void clearItems()
 	{
-		std::map<std::string, T *>::iterator itor;
+		typename std::map<std::string, T *>::iterator itor;
 		for (itor = items_.begin();
 			itor != items_.end();
 			itor++)
@@ -48,7 +49,8 @@ public:
 		const char *fileName, bool load = false)
 	{
 		T *item = 0;
-		std::map<std::string, T *>::iterator itor = items_.find(fileName);
+		typename std::map<std::string, T *>::iterator itor;
+		itor = items_.find(fileName);
 		if (itor != items_.end())
 		{
 			item = (*itor).second;

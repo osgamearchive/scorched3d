@@ -119,7 +119,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStatePlaying,
 		serverPlaying);
 	gameState.addStateStimulus(ServerStatePlaying,
-		ServerTooFewPlayersStimulus::instance(), ServerStateCheckForWinners);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateShot);	
 	gameState.addStateStimulus(ServerStatePlaying,
 		serverPlaying, ServerStateNextTurn);
 
@@ -128,15 +128,13 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateBuying,
 		serverBuying);
 	gameState.addStateStimulus(ServerStateBuying,
-		ServerTooFewPlayersStimulus::instance(), ServerStateCheckForWinners);	
+		ServerTooFewPlayersStimulus::instance(), ServerStateShot);	
 	gameState.addStateStimulus(ServerStateBuying,
 		serverBuying, ServerStateNextTurn);
 
 	// ServerStateShot
 	gameState.addStateEntry(ServerStateShot,
 		serverShot);
-	gameState.addStateStimulus(ServerStateShot,
-		ServerTooFewPlayersStimulus::instance(), ServerStateCheckForWinners);	
 	gameState.addStateStimulus(ServerStateShot,
 		serverShot, ServerStateShotReady);
 

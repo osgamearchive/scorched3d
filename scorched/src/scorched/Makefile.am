@@ -83,6 +83,10 @@ scorched3d_SOURCES = \
 	../GLW/GLWCheckBoxText.h \
 	../GLW/GLWDropDown.cpp \
 	../GLW/GLWDropDown.h \
+	../GLW/GLWDropDownColor.cpp \
+	../GLW/GLWDropDownColor.h \
+	../GLW/GLWDropDownText.cpp \
+	../GLW/GLWDropDownText.h \
 	../GLW/GLWFileView.cpp \
 	../GLW/GLWFileView.h \
 	../GLW/GLWFlag.cpp \
@@ -228,8 +232,6 @@ scorched3d_SOURCES = \
 	../common/OptionsDisplay.h \
 	../common/OptionsGame.cpp \
 	../common/OptionsGame.h \
-	../common/OptionsHomeDir.cpp \
-	../common/OptionsHomeDir.h \
 	../common/OptionsParam.cpp \
 	../common/OptionsParam.h \
 	../common/OptionsTransient.cpp \
@@ -354,10 +356,14 @@ scorched3d_SOURCES = \
 	../engine/MainLoopI.h \
 	../engine/MetaClass.cpp \
 	../engine/MetaClass.h \
+	../engine/ModDirs.cpp \
+	../engine/ModDirs.h \
 	../engine/ModFileEntry.cpp \
 	../engine/ModFileEntry.h \
 	../engine/ModFiles.cpp \
 	../engine/ModFiles.h \
+	../engine/ModInfo.cpp \
+	../engine/ModInfo.h \
 	../engine/Particle.cpp \
 	../engine/Particle.h \
 	../engine/ParticleEmitter.cpp \
@@ -414,6 +420,7 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeDefinitionCache.h \
 	../landscape/LandscapeDefinitions.cpp \
 	../landscape/LandscapeDefinitions.h \
+	../landscape/LandscapeDefinitionsItem.h \
 	../landscape/LandscapeDefn.cpp \
 	../landscape/LandscapeDefn.h \
 	../landscape/LandscapeMaps.cpp \
@@ -516,8 +523,6 @@ scorched3d_SOURCES = \
 	../weapons/Fuel.h \
 	../weapons/Parachute.cpp \
 	../weapons/Parachute.h \
-	../weapons/PowerUp.cpp \
-	../weapons/PowerUp.h \
 	../weapons/Shield.cpp \
 	../weapons/Shield.h \
 	../weapons/ShieldMag.cpp \
@@ -534,10 +539,14 @@ scorched3d_SOURCES = \
 	../weapons/WeaponAimedUnder.h \
 	../weapons/WeaponAnimation.cpp \
 	../weapons/WeaponAnimation.h \
+	../weapons/WeaponCenterPosition.cpp \
+	../weapons/WeaponCenterPosition.h \
 	../weapons/WeaponDelay.cpp \
 	../weapons/WeaponDelay.h \
 	../weapons/WeaponExplosion.cpp \
 	../weapons/WeaponExplosion.h \
+	../weapons/WeaponGiveAccessory.cpp \
+	../weapons/WeaponGiveAccessory.h \
 	../weapons/WeaponInvokeWeapon.cpp \
 	../weapons/WeaponInvokeWeapon.h \
 	../weapons/WeaponLaser.cpp \
@@ -564,10 +573,14 @@ scorched3d_SOURCES = \
 	../weapons/WeaponRedirect.h \
 	../weapons/WeaponReference.cpp \
 	../weapons/WeaponReference.h \
+	../weapons/WeaponRepeat.cpp \
+	../weapons/WeaponRepeat.h \
 	../weapons/WeaponRoller.cpp \
 	../weapons/WeaponRoller.h \
-	../weapons/WeaponScatter.cpp \
-	../weapons/WeaponScatter.h \
+	../weapons/WeaponScatterDirection.cpp \
+	../weapons/WeaponScatterDirection.h \
+	../weapons/WeaponScatterPosition.cpp \
+	../weapons/WeaponScatterPosition.h \
 	../weapons/WeaponSkyFlash.cpp \
 	../weapons/WeaponSkyFlash.h \
 	../weapons/WeaponSound.cpp \
@@ -765,6 +778,8 @@ scorched3d_SOURCES = \
 	../actions/Napalm.h \
 	../actions/NapalmMap.cpp \
 	../actions/NapalmMap.h \
+	../actions/PowerUp.cpp \
+	../actions/PowerUp.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
 	../actions/ShotBounce.cpp \
@@ -854,8 +869,6 @@ scorched3d_SOURCES = \
 	SingleChoiceDialog.h \
 	SingleDialog.cpp \
 	SingleDialog.h \
-	SingleGames.cpp \
-	SingleGames.h \
 	SingleSDialog.cpp \
 	SingleSDialog.h \
 	main.cpp \
@@ -893,6 +906,8 @@ scorched3d_SOURCES = \
 	../client/ClientNewGameState.h \
 	../client/ClientPlayerAimHandler.cpp \
 	../client/ClientPlayerAimHandler.h \
+	../client/ClientPlayerStateHandler.cpp \
+	../client/ClientPlayerStateHandler.h \
 	../client/ClientPlayerStatusHandler.cpp \
 	../client/ClientPlayerStatusHandler.h \
 	../client/ClientRmPlayerHandler.cpp \
@@ -1120,8 +1135,6 @@ scorched3d_SOURCES = \
 	../tankai/TankAIHuman.h \
 	../tankai/TankAIHumanCtrl.cpp \
 	../tankai/TankAIHumanCtrl.h \
-	../tankai/TankAILogic.cpp \
-	../tankai/TankAILogic.h \
 	../tankai/TankAIStore.cpp \
 	../tankai/TankAIStore.h \
 	../tankai/TankAIStrings.cpp \

@@ -70,10 +70,7 @@ scorcheddata_DATA = data/accessories.xml \
 	data/autoexec.xml \
 	data/keys.xml \
 	data/landscapes.xml \
-	data/landscapesdefn.xml \
-	data/landscapesplace.xml \
-	data/landscapessound.xml \
-	data/landscapestex.xml \
+	data/modinfo.xml \
 	data/mysql.xml \
 	data/pgprunetables.sql \
 	data/pgsql.xml \
@@ -85,7 +82,6 @@ scorcheddata_DATA = data/accessories.xml \
 	data/server.xml \
 	data/singlecustom.xml \
 	data/singleeasy.xml \
-	data/singlegames.xml \
 	data/singlehard.xml \
 	data/singlenormal.xml \
 	data/singletarget.xml \
@@ -265,13 +261,9 @@ scorcheddataglobalmodsapocdatadir = ${datadir}/data/globalmods/apoc/data
 scorcheddataglobalmodsapocdata_DATA = data/globalmods/apoc/data/accessories.xml \
 	data/globalmods/apoc/data/ainames.txt \
 	data/globalmods/apoc/data/landscapes.xml \
-	data/globalmods/apoc/data/landscapesdefn.xml \
-	data/globalmods/apoc/data/landscapesplace.xml \
-	data/globalmods/apoc/data/landscapessound.xml \
-	data/globalmods/apoc/data/landscapestex.xml \
+	data/globalmods/apoc/data/modinfo.xml \
 	data/globalmods/apoc/data/server.xml \
 	data/globalmods/apoc/data/singleeasy.xml \
-	data/globalmods/apoc/data/singlegames.xml \
 	data/globalmods/apoc/data/singlehard.xml \
 	data/globalmods/apoc/data/singlenormal.xml \
 	data/globalmods/apoc/data/singletarget.xml \
@@ -431,8 +423,7 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/halved.bmp \
 	data/globalmods/apoc/data/landscapes/hexisle-pic.bmp \
 	data/globalmods/apoc/data/landscapes/hexisle.bmp \
-	data/globalmods/apoc/data/landscapes/hillcity-pic.bmp \
-	data/globalmods/apoc/data/landscapes/hillcity.bmp \
+	data/globalmods/apoc/data/landscapes/defnmaze.xml \
 	data/globalmods/apoc/data/landscapes/maze-pic.bmp \
 	data/globalmods/apoc/data/landscapes/maze.bmp \
 	data/globalmods/apoc/data/landscapes/moon-pic.bmp \
@@ -465,7 +456,55 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/weathered-pic.bmp \
 	data/globalmods/apoc/data/landscapes/weathered.bmp \
 	data/globalmods/apoc/data/landscapes/world-map.bmp \
-	data/globalmods/apoc/data/landscapes/world.bmp
+	data/globalmods/apoc/data/landscapes/world.bmp \
+	data/globalmods/apoc/data/landscapes/ambientsoundbuildings.xml \
+	data/globalmods/apoc/data/landscapes/ambientsoundcars.xml \
+	data/globalmods/apoc/data/landscapes/ambientsoundhelicopter.xml \
+	data/globalmods/apoc/data/landscapes/defnapoccity.xml \
+	data/globalmods/apoc/data/landscapes/defnarizonaislands.xml \
+	data/globalmods/apoc/data/landscapes/defnbighill.xml \
+	data/globalmods/apoc/data/landscapes/defnbullseye.xml \
+	data/globalmods/apoc/data/landscapes/defncastle.xml \
+	data/globalmods/apoc/data/landscapes/defncolosseum.xml \
+	data/globalmods/apoc/data/landscapes/defncraters.xml \
+	data/globalmods/apoc/data/landscapes/defndesertmesa.xml \
+	data/globalmods/apoc/data/landscapes/defndonuthills.xml \
+	data/globalmods/apoc/data/landscapes/defnhexisle.xml \
+	data/globalmods/apoc/data/landscapes/defnmoon.xml \
+	data/globalmods/apoc/data/landscapes/defnmountains.xml \
+	data/globalmods/apoc/data/landscapes/defnnexuscanyon.xml \
+	data/globalmods/apoc/data/landscapes/defnpillars.xml \
+	data/globalmods/apoc/data/landscapes/defnplateau.xml \
+	data/globalmods/apoc/data/landscapes/defnpyramids.xml \
+	data/globalmods/apoc/data/landscapes/defnpyramids2.xml \
+	data/globalmods/apoc/data/landscapes/defnruffles.xml \
+	data/globalmods/apoc/data/landscapes/defnsteppes.xml \
+	data/globalmods/apoc/data/landscapes/defnterraces.xml \
+	data/globalmods/apoc/data/landscapes/defntwotowers.xml \
+	data/globalmods/apoc/data/landscapes/defnusa.xml \
+	data/globalmods/apoc/data/landscapes/defnvolcano.xml \
+	data/globalmods/apoc/data/landscapes/defnweathered.xml \
+	data/globalmods/apoc/data/landscapes/defnworld.xml \
+	data/globalmods/apoc/data/landscapes/placecity1.xml \
+	data/globalmods/apoc/data/landscapes/placecity2.xml \
+	data/globalmods/apoc/data/landscapes/placecity3.xml \
+	data/globalmods/apoc/data/landscapes/placedesert.xml \
+	data/globalmods/apoc/data/landscapes/placemoon.xml \
+	data/globalmods/apoc/data/landscapes/placesummercitypine.xml \
+	data/globalmods/apoc/data/landscapes/placeusa_summer.xml \
+	data/globalmods/apoc/data/landscapes/placewintercitypine.xml \
+	data/globalmods/apoc/data/landscapes/texcity1_storm.xml \
+	data/globalmods/apoc/data/landscapes/texcity1_summer.xml \
+	data/globalmods/apoc/data/landscapes/texcity1_winter.xml \
+	data/globalmods/apoc/data/landscapes/texcity2_storm.xml \
+	data/globalmods/apoc/data/landscapes/texcity2_summer.xml \
+	data/globalmods/apoc/data/landscapes/texcity2_winter.xml \
+	data/globalmods/apoc/data/landscapes/texcity3_storm.xml \
+	data/globalmods/apoc/data/landscapes/texcity3_summer.xml \
+	data/globalmods/apoc/data/landscapes/texcity3_winter.xml \
+	data/globalmods/apoc/data/landscapes/texdesert.xml \
+	data/globalmods/apoc/data/landscapes/texmoon.xml \
+	data/globalmods/apoc/data/landscapes/texusa_summer.xml
 scorcheddataglobalmodsapocdatalandscapesmasksdir = ${datadir}/data/globalmods/apoc/data/landscapes/masks
 scorcheddataglobalmodsapocdatalandscapesmasks_DATA = data/globalmods/apoc/data/landscapes/masks/anywhere.bmp \
 	data/globalmods/apoc/data/landscapes/masks/center-square.bmp \
@@ -531,7 +570,8 @@ scorcheddataglobalmodsapocdatatexturesexplode_DATA = data/globalmods/apoc/data/t
 	data/globalmods/apoc/data/textures/explode/light00_2.bmp \
 	data/globalmods/apoc/data/textures/explode/light00_3.bmp \
 	data/globalmods/apoc/data/textures/explode/light00_4.bmp \
-	data/globalmods/apoc/data/textures/explode/smoke-orange.bmp
+	data/globalmods/apoc/data/textures/explode/smoke-orange.bmp \
+	data/globalmods/apoc/data/textures/explode/light01_1.bmp
 scorcheddataglobalmodsapocdatatextureslandscapedir = ${datadir}/data/globalmods/apoc/data/textures/landscape
 scorcheddataglobalmodsapocdatatextureslandscape_DATA = data/globalmods/apoc/data/textures/landscape/defaultscorched.bmp
 scorcheddataglobalmodsapocdatatextureslandscapedesertdir = ${datadir}/data/globalmods/apoc/data/textures/landscape/desert
@@ -626,7 +666,9 @@ scorcheddataglobalmodsapocdatawavmisc_DATA = data/globalmods/apoc/data/wav/misc/
 	data/globalmods/apoc/data/wav/misc/lockon.wav \
 	data/globalmods/apoc/data/wav/misc/policecar.wav \
 	data/globalmods/apoc/data/wav/misc/rooster.wav \
-	data/globalmods/apoc/data/wav/misc/sheep.wav
+	data/globalmods/apoc/data/wav/misc/sheep.wav \
+	data/globalmods/apoc/data/wav/misc/beamup.wav \
+	data/globalmods/apoc/data/wav/misc/riftcollapse.wav
 scorcheddataglobalmodsapocdatawavshootdir = ${datadir}/data/globalmods/apoc/data/wav/shoot
 scorcheddataglobalmodsapocdatawavshoot_DATA = data/globalmods/apoc/data/wav/shoot/launch.wav \
 	data/globalmods/apoc/data/wav/shoot/machinegun.wav \
@@ -687,7 +729,35 @@ scorcheddatalandscapes_DATA = data/landscapes/half-mask-start.bmp \
 	data/landscapes/test-mask2.bmp \
 	data/landscapes/test.bmp \
 	data/landscapes/valley-mask.bmp \
-	data/landscapes/valley.bmp
+	data/landscapes/valley.bmp \
+	data/landscapes/ambientsoundjet.xml \
+	data/landscapes/ambientsoundjungle.xml \
+	data/landscapes/ambientsoundlava.xml \
+	data/landscapes/ambientsoundnight.xml \
+	data/landscapes/ambientsoundrain.xml \
+	data/landscapes/ambientsoundtrees.xml \
+	data/landscapes/ambientsoundwaves.xml \
+	data/landscapes/defncavern.xml \
+	data/landscapes/defnhalfed.xml \
+	data/landscapes/defnhilly.xml \
+	data/landscapes/defnislands.xml \
+	data/landscapes/defnlowlands.xml \
+	data/landscapes/defnoldstyle.xml \
+	data/landscapes/defnridge.xml \
+	data/landscapes/defnvalley.xml \
+	data/landscapes/placenone.xml \
+	data/landscapes/placepalm.xml \
+	data/landscapes/placepine.xml \
+	data/landscapes/placesnowpine.xml \
+	data/landscapes/texcavern.xml \
+	data/landscapes/texdefault.xml \
+	data/landscapes/texhell.xml \
+	data/landscapes/texnight.xml \
+	data/landscapes/texsand.xml \
+	data/landscapes/texsnow.xml \
+	data/landscapes/texstorm.xml \
+	data/landscapes/textropical.xml \
+	data/landscapes/texvulcano.xml
 scorcheddatameshesdir = ${datadir}/data/meshes
 scorcheddatameshes_DATA = data/meshes/autoaim.ase \
 	data/meshes/bird.txt \
@@ -1025,7 +1095,9 @@ scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/talk.bmp \
 	data/textures/waves.bmp \
 	data/textures/waves2.bmp \
-	data/textures/shield2.bmp
+	data/textures/shield2.bmp \
+	data/textures/moon.bmp \
+	data/textures/stars.bmp
 scorcheddatatexturesbordershielddir = ${datadir}/data/textures/bordershield
 scorcheddatatexturesbordershield_DATA = data/textures/bordershield/grid.bmp \
 	data/textures/bordershield/grid2.bmp \
