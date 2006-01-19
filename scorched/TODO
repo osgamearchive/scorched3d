@@ -22,6 +22,7 @@ Fixed: Made swear filter less obtrusive
 Fixed: Tank explosion now more configurable
 Fixed: Skip all text speeding up due to mouse movement
 Fixed: Moved sections in landscapesound, landscapeplace, landscapetex and landscapedefn files to seperate files (splitlandscapefile.pl)
+Fixed: Round win and interest awarded when too few players result in game ending
 
 Added: Gui dialogs are now smoothed (AA) can be turned off for greater performance
 Added: Players can choose their own colors when not in team mode
