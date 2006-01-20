@@ -25,6 +25,7 @@
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsInitializeMessage.h>
 #include <engine/ModFiles.h>
 #include <time.h>
 
@@ -51,6 +52,9 @@ void ServerFileServer::simulate(float timeDifference)
 {
 	int downloadCount = 0;
 
+	// TODO this should really be done on a per destination id basis
+	// not on a per tank basis!!
+
 	// Check how many people are currently downloading
 	// also check for any that have finished downloading
 	std::map<unsigned int, Tank *> &tanks = 
@@ -63,15 +67,27 @@ void ServerFileServer::simulate(float timeDifference)
 		Tank *tank = (*itor).second;
 		if (tank->getState().getLoading())
 		{
+			// Does this tank have any more files to send
 			if (!tank->getMod().getFiles().empty())
 			{
+				// Yes, 1 more tank to send to
 				downloadCount++;
 			}
 			else
 			{
+				// Check if this tank had had a chance to get its mod files
 				if (tank->getMod().getInit())
 				{
+					// This tank has finished being sent mod files
 					tank->getState().setLoading(false);
+
+					if (tank->getState().getInitializing())
+					{
+						// Tell this destination to start initializing
+						ComsInitializeMessage initMessage;
+						ComsMessageSender::sendToSingleClient(initMessage,
+							tank->getDestinationId());
+					}
 				}
 			}
 		}

@@ -174,7 +174,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 			Tank *tank = (*itor).second;
 			// Check to see if any tanks are pending being added
 			if (tank->getState().getState() == TankState::sPending &&
-				!tank->getState().getLoading())
+				!tank->getState().getLoading() &&
+				!tank->getState().getInitializing())
 			{
 				pending = true;
 			}
@@ -201,6 +202,13 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	{
 		Logger::log( "ERROR: Failed to generate diff");
 	}
+	LandscapeDefinitionCache &definitions =
+		ScorchedServer::instance()->getLandscapeMaps().getDefinitions();
+	ServerCommon::serverLog(0,
+		"Finished generating landscape (%u, %s, %s)", 
+		definitions.getSeed(), 
+		definitions.getDefinition().getDefn(), 
+		definitions.getDefinition().getTex());
 
 	// Check if the generated landscape is too large to send to the clients
 	if (newGameMessage.getLevelMessage().getHeightMap().getLevelLen() >
@@ -226,6 +234,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		Tank *tank = (*itor).second;
 		// Check to see if any tanks are pending being added
 		if (!tank->getState().getLoading() &&
+			!tank->getState().getInitializing() &&
 			(tank->getState().getState() == TankState::sPending ||
 			state == ServerState::ServerStateNewGame))
 		{

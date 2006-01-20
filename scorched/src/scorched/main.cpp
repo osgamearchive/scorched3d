@@ -69,6 +69,7 @@ bool parseCommandLine(int argc, char *argv[])
 	if (!OptionsDisplay::instance()->getHostDescription()[0])
 	{
 		wxString osDesc = ::wxGetOsDescription();
+		osDesc.Remove(osDesc.Find(wxT(" ")));
 		OptionsDisplay::instance()->setHostDescription(osDesc.mb_str(wxConvUTF8));
 
 		wxString userName = ::wxGetUserName();

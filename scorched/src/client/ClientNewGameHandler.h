@@ -35,9 +35,6 @@ public:
 
 protected:
 	static ClientNewGameHandler* instance_;
-	bool initialized_;
-
-	bool initialize();
 
 private:
 	ClientNewGameHandler();

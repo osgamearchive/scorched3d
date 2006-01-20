@@ -18,13 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerMainh_INCLUDE__)
-#define __INCLUDE_ServerMainh_INCLUDE__
+#if !defined(__INCLUDE_ProgressBarDialogh_INCLUDE__)
+#define __INCLUDE_ProgressBarDialogh_INCLUDE__
 
-class ProgressCounter;
-bool startServer(bool local, ProgressCounter *counter = 0);
-void serverMain(ProgressCounter *counter = 0);
-void serverLoop();
-void consoleServer();
+#include <common/ProgressCounter.h>
+#include <common/Defines.h>
+#include <wx/wx.h>
+#include <wx/gauge.h>
+#include <wx/stattext.h>
+
+class ProgressBarDialog : public wxDialog,
+	public ProgressCounterI,
+	public ProgressCounter
+{
+	public:
+		ProgressBarDialog(wxWindow *parent, const char *title);
+
+		virtual void progressChange(const char *op, const float percentage);
+
+	protected:
+		wxGauge *gauge_;
+		wxStaticText *text_;
+
+};
+
+ProgressBarDialog *createProgressBarDialog();
 
 #endif

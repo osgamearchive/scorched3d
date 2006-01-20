@@ -183,14 +183,18 @@ void GLWidget::drawShadedRoundBox(float x, float y, float w, float h, float size
 
 	drawCircle(-6, -8, x + size, y + size, size);
 	drawCircle(8, 4, x + w - size, y + size, size);
-	drawCircle(4, 2, x + w - size, y + h - size, size);
+	drawCircle(4, 3, x + w - size, y + h - size, size);
 
 	if (depressed) glColor3f(1.0f, 1.0f, 1.0f); 
 	else glColor3f(0.4f, 0.4f, 0.6f);
 
 	drawCircle(2, 0, x + w - size, y + h - size, size);
 	drawCircle(0, -4, x + size, y + h - size, size);
-	drawCircle(-4, -6, x + size, y + size, size);
+	drawCircle(-4, -5, x + size, y + size, size);
+
+	if (depressed) glColor3f(0.4f, 0.4f, 0.6f);
+	else glColor3f(1.0f, 1.0f, 1.0f);
+	drawCircle(-6, -6, x + size, y + size, size);
 }
 
 void GLWidget::drawBox(float x, float y, float w, float h, bool depressed)

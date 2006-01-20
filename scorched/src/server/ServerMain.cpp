@@ -53,6 +53,7 @@
 #include <server/ServerBuyAccessoryHandler.h>
 #include <server/ServerKeepAliveHandler.h>
 #include <server/ServerFileAkHandler.h>
+#include <server/ServerInitializeHandler.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
@@ -112,6 +113,7 @@ bool startServer(bool local, ProgressCounter *counter)
 	ServerPlayerAimHandler::instance();
 	ServerAdminHandler::instance();
 	ServerHaveModFilesHandler::instance();
+	ServerInitializeHandler::instance();
 	ServerKeepAliveHandler::instance();
 	ServerPlayedMoveHandler::instance();
 	ServerFileAkHandler::instance();
@@ -128,13 +130,14 @@ bool startServer(bool local, ProgressCounter *counter)
 		OptionsParam::instance()->getLoadModFiles())
 	{
 		if (!ScorchedServer::instance()->getModFiles().loadModFiles(
-			ScorchedServer::instance()->getOptionsGame().getMod(), false)) return false;
+			ScorchedServer::instance()->getOptionsGame().getMod(), false,
+			counter)) return false;
 	}
 
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
 		ScorchedServer::instance()->getOptionsGame(),
 		counter)) return false;
-	if (!ScorchedServer::instance()->getTankModels().loadTankMeshes())
+	if (!ScorchedServer::instance()->getTankModels().loadTankMeshes(counter))
 		return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	if (!ScorchedServer::instance()->getLandscapes().readLandscapeDefinitions()) return false;
@@ -152,10 +155,10 @@ bool startServer(bool local, ProgressCounter *counter)
 	return true;
 }
 
-void serverMain()
+void serverMain(ProgressCounter *counter)
 {
 	// Create the server states
-	if (!startServer(false)) exit(64);
+	if (!startServer(false, counter)) exit(64);
 
 	// Try to start the server
 	if (!ScorchedServer::instance()->getContext().netInterface->start(
@@ -210,11 +213,42 @@ void serverLoop()
 	}
 }
 
+class ConsoleServerProgressCounter : public ProgressCounterI
+{
+public:
+	ConsoleServerProgressCounter() : lastOp_(0), hashes_(0) {}
+
+	virtual void progressChange(const char *op, const float percentage)
+	{
+		if (op != lastOp_)
+		{
+			Logger::log(op);
+			printf("%s:", op);
+			lastOp_ = (char *) op;
+			hashes_ = 0;
+		}
+
+		int neededHashes = int(percentage / 10.0f);
+		for (;hashes_<=neededHashes; hashes_++)
+		{
+			printf("#");
+		}
+		fflush(stdout);
+	}
+protected:
+	char *lastOp_;
+	int hashes_;
+};
+
 void consoleServer()
 {
+	ProgressCounter progressCounter;
+	ConsoleServerProgressCounter progressCounterI;
+	progressCounter.setUser(&progressCounterI);
+
 	printf("Starting Server...\n");
 	ServerCommon::startFileLogger();
-	serverMain();
+	serverMain(&progressCounter);
 	printf("Server Started.\n");
 
 	for (;;)

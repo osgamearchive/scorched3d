@@ -368,6 +368,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	tank->setHostDesc(sentHostDesc);
 	tank->getState().setSpectator(true);
 	tank->getState().setLoading(true);
+	tank->getState().setInitializing(true);
 
 	// Use the stats name if stats are enabled and the player has one
 	std::list<std::string> aliases  = 

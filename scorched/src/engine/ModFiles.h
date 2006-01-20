@@ -22,6 +22,7 @@
 #define __INCLUDE_ModFilesh_INCLUDE__
 
 #include <engine/ModFileEntry.h>
+#include <common/ProgressCounter.h>
 #include <map>
 
 class ModFiles
@@ -33,7 +34,8 @@ public:
 	bool exportModFiles(const char *mod, const char *fileName);
 	bool importModFiles(const char **mod, const char *fileName);
 
-	bool loadModFiles(const char *mod, bool createDir);
+	bool loadModFiles(const char *mod, bool createDir, 
+		ProgressCounter *counter = 0);
 	bool writeModFiles(const char *mod);
 	void clearData();
 
@@ -44,7 +46,8 @@ public:
 protected:
 	std::map<std::string, ModFileEntry *> files_;
 
-	bool loadModDir(const char *moddir, const char *mod);
+	bool loadModDir(const char *moddir, const char *mod,
+		ProgressCounter *counter = 0);
 	bool loadModFile(const char *fullFileName,
 		const char *modDir, const char *mod);
 

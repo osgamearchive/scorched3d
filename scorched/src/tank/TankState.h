@@ -62,6 +62,8 @@ public:
 	bool getSpectator() { return spectator_; }	
 	void setLoading(bool l) { loading_ = l; }
 	bool getLoading() { return loading_; }
+	void setInitializing(bool i) { initializing_ = i; }
+	bool getInitializing() { return initializing_; }
 	void setAdmin(TankAdmin *admin);
 	TankAdmin *getAdmin() { return admin_; }
 	void setAdminTries(int adminTries) { adminTries_ = adminTries; }
@@ -85,6 +87,7 @@ protected:
 	ReadyState readyState_;
 	TankAdmin *admin_; int adminTries_;
 	bool spectator_;
+	bool initializing_;
 	bool loading_;
 	bool muted_;
 	bool skipshots_;

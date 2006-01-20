@@ -26,6 +26,7 @@
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefn.h>
+#include <landscape/LandscapeTex.h>
 #include <landscape/MovementMap.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>
@@ -244,20 +245,40 @@ void TankMovement::moveTank(Tank *tank)
 	if (secondz - firstz > context_->optionsGame->getMaxClimbingDistance())
 	{
 		expandedPositions_.clear();
+		return;
 	}
-	else
+
+	// Check to see we are not moving into water with a movement restriction
+	// in place
+	if (context_->optionsGame->getMovementRestriction() ==
+		OptionsGame::MovementRestrictionLand ||
+		context_->optionsGame->getMovementRestriction() ==
+		OptionsGame::MovementRestrictionLandOrAbove)
 	{
-		// Use up one unit of fuel
-		if (useF) tank->getAccessories().getFuel().rmFuel(1);
-
-		// Actually move the tank
-		tank->getPosition().rotateTank(a);
-		tank->setTargetPosition(newPos);
-
-		// Set viewpoints
-		if (vPoint_) vPoint_->setPosition(newPos);
-		if (moveSoundSource_) moveSoundSource_->setPosition(newPos);
+		LandscapeTex &tex = *context_->landscapeMaps->getDefinitions().getTex();
+		if (tex.border->getType() == LandscapeTexType::eWater)
+		{
+			LandscapeTexBorderWater *water = 
+				(LandscapeTexBorderWater *) tex.border;
+			if (secondz < water->height)
+			{
+				expandedPositions_.clear();
+				return;
+			}
+		}
 	}
+
+	// Move the tank to this new position
+	// Use up one unit of fuel
+	if (useF) tank->getAccessories().getFuel().rmFuel(1);
+
+	// Actually move the tank
+	tank->getPosition().rotateTank(a);
+	tank->setTargetPosition(newPos);
+
+	// Set viewpoints
+	if (vPoint_) vPoint_->setPosition(newPos);
+	if (moveSoundSource_) moveSoundSource_->setPosition(newPos);
 }
 
 bool TankMovement::writeAction(NetBuffer &buffer)

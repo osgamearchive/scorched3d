@@ -100,11 +100,6 @@ void GroundMaps::generateHMap(
 	// Save this height map for later
 	map_.resetMinHeight();
 	map_.backup();
-	
-	Logger::log("Finished generating landscape (%u, %s, %s)", 
-		defnCache_.getSeed(), 
-		defnCache_.getDefinition().getDefn(), 
-		defnCache_.getDefinition().getTex());
 }
 
 void GroundMaps::generateObjects(

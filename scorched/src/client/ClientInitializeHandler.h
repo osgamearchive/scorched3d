@@ -18,13 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerMainh_INCLUDE__)
-#define __INCLUDE_ServerMainh_INCLUDE__
+#if !defined(__INCLUDE_ClientInitializeHandlerh_INCLUDE__)
+#define __INCLUDE_ClientInitializeHandlerh_INCLUDE__
 
-class ProgressCounter;
-bool startServer(bool local, ProgressCounter *counter = 0);
-void serverMain(ProgressCounter *counter = 0);
-void serverLoop();
-void consoleServer();
+#include <coms/ComsMessageHandler.h>
+
+class ClientInitializeHandler  : 
+	public ComsMessageHandlerI
+{
+public:
+	static ClientInitializeHandler *instance();
+
+	virtual bool processMessage(unsigned int id,
+		const char *message,
+		NetBufferReader &reader);
+
+protected:
+	static ClientInitializeHandler *instance_;
+	bool initialized_;
+
+	bool initialize();
+
+private:
+	ClientInitializeHandler();
+	virtual ~ClientInitializeHandler();
+};
 
 #endif

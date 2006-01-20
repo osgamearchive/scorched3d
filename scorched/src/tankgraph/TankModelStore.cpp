@@ -38,7 +38,7 @@ TankModelStore::~TankModelStore()
 bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 {
 	// Load tank definition file
-	if (counter) counter->setNewOp("Loading Tank Models");
+	if (counter) counter->setNewOp("Loading tanks");
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/tanks.xml")))
 	{

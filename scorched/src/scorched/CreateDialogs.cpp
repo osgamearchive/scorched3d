@@ -21,6 +21,7 @@
 #include <scorched/MainDialog.h>
 #include <scorched/ServerDialog.h>
 #include <scorched/HtmlHelpDialog.h>
+#include <scorched/ProgressBarDialog.h>
 #include <server/ServerMain.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
@@ -48,7 +49,9 @@ bool ScorchedApp::OnInit()
 	if (OptionsParam::instance()->getAction() == OptionsParam::ActionRunServer)
 	{
   		// Run the server
-		serverMain();
+		ProgressBarDialog *counter = createProgressBarDialog();
+		serverMain(counter);
+		counter->Destroy();
 		showServerDialog();
 	}
 	else if (OptionsParam::instance()->getAction() == OptionsParam::ActionHelp)

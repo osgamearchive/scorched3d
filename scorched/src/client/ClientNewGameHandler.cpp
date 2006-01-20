@@ -27,7 +27,6 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <coms/ComsNewGameMessage.h>
-#include <engine/ModFiles.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/LandscapeMaps.h>
@@ -35,7 +34,6 @@
 #include <landscape/Landscape.h>
 #include <landscape/HeightMapSender.h>
 #include <tank/TankContainer.h>
-#include <tankgraph/TankModelStore.h>
 
 ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
 
@@ -49,7 +47,7 @@ ClientNewGameHandler *ClientNewGameHandler::instance()
 	return instance_;
 }
 
-ClientNewGameHandler::ClientNewGameHandler() : initialized_(false)
+ClientNewGameHandler::ClientNewGameHandler()
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsNewGameMessage",
@@ -68,15 +66,7 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// Perform one off initialization, this will happen
-	// before the game starts but after connection and the mods
-	// have been downloaded
-	if (!initialized_)
-	{
-		initialized_ = true;
-		if (!initialize()) dialogExit("Scorched3D", 
-			"Failed to initialize");
-	}
+	// Read the accessory prices
 	if (!ScorchedClient::instance()->getAccessoryStore().
 		readEconomyFromBuffer(reader)) return false;
 
@@ -134,30 +124,6 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 		ScorchedClient::instance()->getGameState().checkStimulate();
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);
 		ScorchedClient::instance()->getGameState().checkStimulate();
-	}
-	return true;
-}
-
-bool ClientNewGameHandler::initialize()
-{
-	// Clear any memory used by stored mod files as they will not be required now
-	ScorchedClient::instance()->getModFiles().clearData();
-	ScorchedServer::instance()->getModFiles().clearData();
-
-	// Load the accessory files
-	if (!ScorchedClient::instance()->getAccessoryStore().parseFile(
-		ScorchedClient::instance()->getOptionsGame(),
-		ProgressDialog::instance())) return false;
-
-	// Load the landscape definitions
-	if (!ScorchedClient::instance()->getLandscapes().readLandscapeDefinitions()) return false;
-
-	// Load tank models here
-	// This is after mods are complete but before any tanks models are used
-	if (!ScorchedClient::instance()->getTankModels().loadTankMeshes(ProgressDialog::instance()))
-	{
-		dialogMessage("Scorched 3D", "Failed to load all tank models");
-		return false;
 	}
 	return true;
 }

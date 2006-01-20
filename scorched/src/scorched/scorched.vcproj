@@ -2000,6 +2000,12 @@
 				RelativePath="..\coms\ComsHeightMapMessage.h">
 			</File>
 			<File
+				RelativePath="..\coms\ComsInitializeMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsInitializeMessage.h">
+			</File>
+			<File
 				RelativePath="..\coms\ComsKeepAliveMessage.cpp">
 			</File>
 			<File
@@ -2768,6 +2774,12 @@
 				RelativePath="NetDialog.h">
 			</File>
 			<File
+				RelativePath="ProgressBarDialog.cpp">
+			</File>
+			<File
+				RelativePath="ProgressBarDialog.h">
+			</File>
+			<File
 				RelativePath="ServerDialog.cpp">
 			</File>
 			<File
@@ -2863,6 +2875,12 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientGameStoppedHandler.h">
+			</File>
+			<File
+				RelativePath="..\client\ClientInitializeHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientInitializeHandler.h">
 			</File>
 			<File
 				RelativePath="..\client\ClientKeepAliveSender.cpp">
@@ -3173,6 +3191,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerHaveModFilesHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerInitializeHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerInitializeHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerKeepAliveHandler.cpp">

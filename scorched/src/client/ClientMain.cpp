@@ -34,6 +34,7 @@
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientGameStateHandler.h>
+#include <client/ClientInitializeHandler.h>
 #include <client/ClientPlayerStateHandler.h>
 #include <client/ClientStartTimerHandler.h>
 #include <client/ClientFileHandler.h>
@@ -145,6 +146,7 @@ bool startClient(ProgressCounter *progressCounter)
 	ClientConnectionAcceptHandler::instance();
 	ClientAddPlayerHandler::instance();
 	ClientNewGameHandler::instance();
+	ClientInitializeHandler::instance();
 	ClientRmPlayerHandler::instance();
 	ClientPlayerAimHandler::instance();
 	ClientStartTimerHandler::instance();

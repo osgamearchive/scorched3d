@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <dialogs/RulesDialog.h>
 #include <dialogs/ConnectDialog.h>
+#include <dialogs/ProgressDialog.h>
 #include <engine/ModFiles.h>
 #include <GLEXT/GLGif.h>
 #include <tank/TankContainer.h>
@@ -129,7 +130,8 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 		OptionsParam::instance()->getLoadModFiles())
 	{
 		if (!ScorchedClient::instance()->getModFiles().loadModFiles(
-			ScorchedClient::instance()->getOptionsGame().getMod(), true))
+			ScorchedClient::instance()->getOptionsGame().getMod(), true,
+			ProgressDialog::instance()))
 		{
 			dialogMessage("ModFiles", 
 				"Failed to load mod \"%s\"",

@@ -82,6 +82,15 @@ enum
 	IDC_MENU_PLAYERADD_7,
 	IDC_MENU_PLAYERADD_8,
 	IDC_MENU_PLAYERADD_9,
+	IDC_MENU_PLAYERADD_10,
+	IDC_MENU_PLAYERADD_11,
+	IDC_MENU_PLAYERADD_12,
+	IDC_MENU_PLAYERADD_13,
+	IDC_MENU_PLAYERADD_14,
+	IDC_MENU_PLAYERADD_15,
+	IDC_MENU_PLAYERADD_16,
+	IDC_MENU_PLAYERADD_17,
+	IDC_MENU_PLAYERADD_18,
 	IDC_MENU_STARTNEWGAME,
 	IDC_MENU_COMSMESSAGELOGGING,
 	IDC_MENU_STATELOGGING
@@ -238,6 +247,15 @@ public:
 	void onPlayerAdd7(wxCommandEvent &event);
 	void onPlayerAdd8(wxCommandEvent &event);
 	void onPlayerAdd9(wxCommandEvent &event);
+	void onPlayerAdd10(wxCommandEvent &event);
+	void onPlayerAdd11(wxCommandEvent &event);
+	void onPlayerAdd12(wxCommandEvent &event);
+	void onPlayerAdd13(wxCommandEvent &event);
+	void onPlayerAdd14(wxCommandEvent &event);
+	void onPlayerAdd15(wxCommandEvent &event);
+	void onPlayerAdd16(wxCommandEvent &event);
+	void onPlayerAdd17(wxCommandEvent &event);
+	void onPlayerAdd18(wxCommandEvent &event);
 	void onComsMessageLogging(wxCommandEvent &event);
 	void onStateLogging(wxCommandEvent &event);
 
@@ -285,6 +303,15 @@ BEGIN_EVENT_TABLE(ServerFrame, wxFrame)
 	EVT_MENU(IDC_MENU_PLAYERADD_7, ServerFrame::onPlayerAdd7)
 	EVT_MENU(IDC_MENU_PLAYERADD_8, ServerFrame::onPlayerAdd8)
 	EVT_MENU(IDC_MENU_PLAYERADD_9, ServerFrame::onPlayerAdd9)
+	EVT_MENU(IDC_MENU_PLAYERADD_10, ServerFrame::onPlayerAdd10)
+	EVT_MENU(IDC_MENU_PLAYERADD_11, ServerFrame::onPlayerAdd11)
+	EVT_MENU(IDC_MENU_PLAYERADD_12, ServerFrame::onPlayerAdd12)
+	EVT_MENU(IDC_MENU_PLAYERADD_13, ServerFrame::onPlayerAdd13)
+	EVT_MENU(IDC_MENU_PLAYERADD_14, ServerFrame::onPlayerAdd14)
+	EVT_MENU(IDC_MENU_PLAYERADD_15, ServerFrame::onPlayerAdd15)
+	EVT_MENU(IDC_MENU_PLAYERADD_16, ServerFrame::onPlayerAdd16)
+	EVT_MENU(IDC_MENU_PLAYERADD_17, ServerFrame::onPlayerAdd17)
+	EVT_MENU(IDC_MENU_PLAYERADD_18, ServerFrame::onPlayerAdd18)
 	EVT_MENU(IDC_MENU_PLAYERKILLALL, ServerFrame::onKillAll)
 	EVT_MENU(IDC_MENU_STARTNEWGAME, ServerFrame::onStartNewGame)
 	EVT_MENU(IDC_MENU_COMSMESSAGELOGGING, ServerFrame::onComsMessageLogging)
@@ -455,6 +482,15 @@ void ServerFrame::onPlayerAdd6(wxCommandEvent &event) { onPlayerAdd(6); }
 void ServerFrame::onPlayerAdd7(wxCommandEvent &event) { onPlayerAdd(7); }
 void ServerFrame::onPlayerAdd8(wxCommandEvent &event) { onPlayerAdd(8); }
 void ServerFrame::onPlayerAdd9(wxCommandEvent &event) { onPlayerAdd(9); }
+void ServerFrame::onPlayerAdd10(wxCommandEvent &event) { onPlayerAdd(10); }
+void ServerFrame::onPlayerAdd11(wxCommandEvent &event) { onPlayerAdd(11); }
+void ServerFrame::onPlayerAdd12(wxCommandEvent &event) { onPlayerAdd(12); }
+void ServerFrame::onPlayerAdd13(wxCommandEvent &event) { onPlayerAdd(13); }
+void ServerFrame::onPlayerAdd14(wxCommandEvent &event) { onPlayerAdd(14); }
+void ServerFrame::onPlayerAdd15(wxCommandEvent &event) { onPlayerAdd(15); }
+void ServerFrame::onPlayerAdd16(wxCommandEvent &event) { onPlayerAdd(16); }
+void ServerFrame::onPlayerAdd17(wxCommandEvent &event) { onPlayerAdd(17); }
+void ServerFrame::onPlayerAdd18(wxCommandEvent &event) { onPlayerAdd(18); }
 
 void ServerFrame::onComsMessageLogging(wxCommandEvent &event)
 {

@@ -79,14 +79,15 @@ bool ModFiles::excludeFile(const char *file)
 	return false;
 }
 
-bool ModFiles::loadModFiles(const char *mod, bool createDir)
+bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *counter)
 {
 	{
 		// Get and check the user mod directory exists
 		const char *modDir = getModFile(mod);
 		if (s3d_dirExists(modDir))
 		{
-			if (!loadModDir(modDir, mod)) return false;
+			if (counter) counter->setNewOp("Loading user mods");
+			if (!loadModDir(modDir, mod, counter)) return false;
 		}
 		else
 		{
@@ -99,7 +100,8 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 		const char *modDir = getGlobalModFile(mod);
 		if (s3d_dirExists(modDir))
 		{
-			if (!loadModDir(modDir, mod)) return false;
+			if (counter) counter->setNewOp("Loading global mods");
+			if (!loadModDir(modDir, mod, counter)) return false;
 		}
 	}
 
@@ -152,7 +154,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir)
 	return true;
 }
 
-bool ModFiles::loadModDir(const char *modDir, const char *mod)
+bool ModFiles::loadModDir(const char *modDir, const char *mod, ProgressCounter *counter)
 {
 	// Load all files contained in this directory
 	wxArrayString files;
@@ -160,6 +162,8 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod)
 	wxString *strings = files.GetStringArray();
 	for (int i=0; i<(int) files.Count(); i++)
 	{
+		if (counter) counter->setNewPercentage(float(i) / float(files.Count()) * 100.0f);
+
 		// Get the name of the current file
 		wxString &current = strings[i];
 

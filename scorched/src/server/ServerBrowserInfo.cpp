@@ -151,6 +151,7 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 		ScorchedServer::instance()->getOptionsTransient().getGameType(),
 		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
 	wxString osDesc = ::wxGetOsDescription();
+	osDesc.Remove(osDesc.Find(wxT(" ")));
 
 	reply.push_back(addTag("gametype", type));
 	reply.push_back(addTag("state", (started?"Started":"Waiting")));

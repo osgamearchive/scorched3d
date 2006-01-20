@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,13 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerMainh_INCLUDE__)
-#define __INCLUDE_ServerMainh_INCLUDE__
+#if !defined(__INCLUDE_ServerInitializeHandlerh_INCLUDE__)
+#define __INCLUDE_ServerInitializeHandlerh_INCLUDE__
 
-class ProgressCounter;
-bool startServer(bool local, ProgressCounter *counter = 0);
-void serverMain(ProgressCounter *counter = 0);
-void serverLoop();
-void consoleServer();
+#include <coms/ComsMessageHandler.h>
 
-#endif
+class ServerInitializeHandler : 
+	public ComsMessageHandlerI
+{
+public:
+	static ServerInitializeHandler *instance();
+
+	virtual bool processMessage(unsigned int id,
+		const char *messageType,
+		NetBufferReader &reader);
+
+private:
+	ServerInitializeHandler();
+	virtual ~ServerInitializeHandler();
+
+};
+
+#endif // __INCLUDE_ServerInitializeHandlerh_INCLUDE__
