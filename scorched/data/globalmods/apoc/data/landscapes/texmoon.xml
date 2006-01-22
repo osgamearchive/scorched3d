@@ -4,17 +4,19 @@
 	<scorch>data/textures/landscape/snow/scorch.bmp</scorch>
 	<lowestlandheight>0.0</lowestlandheight>
 	<skytexture>data/textures/landscape/moon/sky.bmp</skytexture>
+	<skytexturestatic>data/textures/landscape/moon/stars.bmp</skytexturestatic>
 	<skytexturemask>data/textures/landscape/moon/sky.bmp</skytexturemask>
 	<skycolormap>data/textures/landscape/moon/sky.bmp</skycolormap>
-	<skytimeofday>12</skytimeofday>
-	<skysunxy>90</skysunxy>
-	<skysunyz>45</skysunyz>
-	<skyambience><A>0</A><B>0</B><C>0</C></skyambience>
-	<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
+	<skytimeofday>8</skytimeofday>
+	<skysunxy>45</skysunxy>
+	<skysunyz>30</skysunyz>
+	<skyambience><A>0.05</A><B>0.05</B><C>0.05</C></skyambience>
+	<skydiffuse><A>0.3</A><B>0.3</B><C>0.3</C></skydiffuse>
 	<fog><A>0</A><B>0</B><C>0</C></fog>
-	<fogdensity>0.0033</fogdensity>
-	<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
-	<suntexture>data/textures/glow1.bmp</suntexture>
+	<fogdensity>0.004</fogdensity>
+	<suncolor><A>0.3</A><B>0.3</B><C>0.3</C></suncolor>
+	<suntexture>data/textures/landscape/moon/earth.bmp</suntexture>
+	<nosunfog>true</nosunfog>
 	<border type="none"></border>
 	<texture type="generate">
 		<rockside>data/textures/landscape/moon/texture0.bmp</rockside>

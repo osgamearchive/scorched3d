@@ -81,9 +81,10 @@ Changes Since 3.1
     	- New Nuclear Power Plant Building
     		- Explodes and releases massive amounts of fallout that travels down wind
     	- Moon maps:
-	        - Removed clouds (there is no atmosphere on the moon of course.. :P)
-	        - Decreased darkness (fog) slightly on moon maps
-	        - Increased diffuse and reduced ambient light to reflect actual moon lighting (shadows are pitch black)
+    		- Added stars
+	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)
+	        - Adjusted light levels a bit
+	        - Added view of the Earth
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
         - Removed City Blocks map
         
