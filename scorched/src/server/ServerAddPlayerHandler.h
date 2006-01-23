@@ -38,6 +38,7 @@ protected:
 	static ServerAddPlayerHandler *instance_;
 
 	void getUniqueName(Tank *tank, std::string &sentname);
+	void filterName(Tank *tank, std::string &sentname);
 
 private:
 	ServerAddPlayerHandler();

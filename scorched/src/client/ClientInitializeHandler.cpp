@@ -20,16 +20,24 @@
 
 #include <client/ClientInitializeHandler.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
+#include <client/WindowSetup.h>
+#include <sprites/ExplosionTextures.h>
 #include <server/ScorchedServer.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeDefinitions.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
 #include <dialogs/ProgressDialog.h>
+#include <dialogs/PlayerDialog.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/ModFiles.h>
 #include <coms/ComsInitializeMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <GLW/GLWWindowManager.h>
+#include <GLW/GLWWindowSkinManager.h>
+#include <GLEXT/GLLenseFlare.h>
 
 ClientInitializeHandler *ClientInitializeHandler::instance_ = 0;
 
@@ -94,5 +102,34 @@ bool ClientInitializeHandler::initialize()
 		dialogMessage("Scorched 3D", "Failed to load all tank models");
 		return false;
 	}
+
+	// Load textures
+	if (!ExplosionTextures::instance()->createTextures(
+		ProgressDialog::instance())) 
+			dialogExit("Scorched3D", "Failed to load explosion textures");
+	GLLenseFlare::instance()->init(
+		ProgressDialog::instance());
+		
+	// Load game windows
+	ProgressDialog::instance()->setNewPercentage(0.0f);
+	ProgressDialog::instance()->setNewOp("Initializing Game Windows");
+	if (!GLWWindowSkinManager::instance()->loadWindows())
+		dialogExit("Scorched3D", "Failed to load windows skins");
+	WindowSetup::setupGameWindows();
+	GLWWindowManager::instance()->loadPositions();		
+
+	// Move into the player setup state
+	if (OptionsParam::instance()->getSaveFile()[0])
+	{
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimLoadPlayers);
+	}
+	else
+	{
+		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimGetPlayers);
+		// Show player dialog
+		GLWWindowManager::instance()->showWindow(
+			PlayerDialog::instance()->getId());	
+	}
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	return true;
 }

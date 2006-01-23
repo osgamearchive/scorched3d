@@ -263,11 +263,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 				// Send new game message to clients
 				ComsMessageSender::sendToSingleClient(newGameMessage,
 					destination);
-
-				// Make sure all clients have the correct state
-				ComsGameStateMessage stateMessage;
-				ComsMessageSender::sendToSingleClient(stateMessage,
-					destination);
 			}
 		}
 	}

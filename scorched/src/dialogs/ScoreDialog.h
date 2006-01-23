@@ -41,6 +41,7 @@ protected:
 	std::list<unsigned int> sortedTanks_;
 	int lastScoreValue_;
 	int lastWinsValue_;
+	int lastNoPlayers_;
 
 	void calculateScores();
 	void addLine(Tank *current, float y, char *rank, bool finished);

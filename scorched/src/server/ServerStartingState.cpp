@@ -60,17 +60,5 @@ bool ServerStartingState::acceptStateChange(const unsigned state,
 	// Check if we need to add any new bots
 	ServerNewGameState::checkBots();
 
-	// Add any new clients
-	if (ServerNewGameState::addTanksToGame(state))
-	{
-		// If we add any tell the others
-		ComsGameStateMessage stateMessage;
-		ComsMessageSender::sendToAllPlayingClients(stateMessage);
-
-		// Give more time
-		timeLeft_ = (float) ScorchedServer::instance()->getOptionsGame().getStartTime();
-	}
-
 	return (timeLeft_ < 0.0f);
 }
-

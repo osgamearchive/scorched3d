@@ -54,8 +54,6 @@ bool ClientGameStoppedHandler::processMessage(unsigned int id,
 	ComsGameStoppedMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	GLWWindowManager::instance()->showWindow(
-		RulesDialog::instance()->getId());
 	ScorchedClient::instance()->getGameState().
 		stimulate(ClientState::StimGameStopped);
 	return true;

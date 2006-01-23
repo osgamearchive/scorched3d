@@ -67,7 +67,7 @@ ScoreDialog *ScoreDialog::instance2()
 ScoreDialog::ScoreDialog() :
 	GLWWindow("Score", 10.0f, 10.0f, 447.0f, 310.0f, eTransparent |eSmallTitle,
 		"Shows the current score for all players."),
-	lastScoreValue_(0), lastWinsValue_(0)
+	lastScoreValue_(0), lastWinsValue_(0), lastNoPlayers_(0)
 {
 
 }
@@ -98,6 +98,7 @@ void ScoreDialog::calculateScores()
 		lastWinsValue_ += tank->getScore().getWins();
 	}
 
+	lastNoPlayers_ = tanks.size();
 	sortedTanks_.clear();
 	TankSort::getSortedTanksIds(
 		ScorchedClient::instance()->getContext(), sortedTanks_);
@@ -133,22 +134,37 @@ void ScoreDialog::draw()
 
 	Vector white(0.9f, 0.9f, 1.0f);
 	bool server = (OptionsParam::instance()->getConnectedToServer());
-	if (server && !finished)
 	{
-		GLWFont::instance()->getLargePtFont()->drawWidth(
-			405,
-			white,
-			20,
-			x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
-			ScorchedClient::instance()->getOptionsGame().getServerName());
-	}
-	else
-	{
+		const char *text = "Current Rankings";
+		if (ScorchedClient::instance()->getGameState().getState() == 
+			ClientState::StateScore)
+		{
+			text = "Final Rankings";
+		}
+		else if (ScorchedClient::instance()->getGameState().getState() == 
+			ClientState::StateGetPlayers)
+		{
+			finished = true;
+			if (ScorchedClient::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
+				ScorchedClient::instance()->getOptionsGame().getNoMinPlayers())
+			{
+				text = "Waiting for more players";
+			}
+			else
+			{
+				text = "Waiting to join game";
+			}
+		}
+		else if (server)
+		{
+			text = ScorchedClient::instance()->getOptionsGame().getServerName();
+		}
+
 		GLWFont::instance()->getLargePtFont()->draw(
 				white,
 				20,
 				x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
-				finished?" Final Rankings":"Current Rankings");
+				text);
 	}
 
 	if (!finished) 
@@ -291,8 +307,11 @@ void ScoreDialog::draw()
 		}
 	}	
 
+	std::map<unsigned int, Tank *> &realTanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	if (tmpLastScoreValue != lastScoreValue_ ||
-		tmpLastWinsValue != lastWinsValue_)
+		tmpLastWinsValue != lastWinsValue_ ||
+		realTanks.size() != lastNoPlayers_)
 	{
 		calculateScores();
 	}

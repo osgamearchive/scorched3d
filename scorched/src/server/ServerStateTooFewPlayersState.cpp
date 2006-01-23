@@ -77,14 +77,6 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 	
 		// Check if we need to add any new bots
 		ServerNewGameState::checkBots();
-
-		// Add any new clients
-		if (ServerNewGameState::addTanksToGame(state))
-		{
-			// If we add any tell the others
-			ComsGameStateMessage stateMessage;
-			ComsMessageSender::sendToAllPlayingClients(stateMessage);
-		}
 	}
 	else
 	{

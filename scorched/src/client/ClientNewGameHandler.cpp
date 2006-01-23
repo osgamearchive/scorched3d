@@ -21,7 +21,12 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientState.h>
+#include <client/SpeedChange.h>
+#include <client/ClientWaitState.h>
+#include <tankgraph/TracerRenderer.h>
 #include <weapons/AccessoryStore.h>
+#include <engine/ActionController.h>
+#include <engine/MainLoop.h>
 #include <GLW/GLWWindowManager.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
@@ -70,60 +75,46 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	if (!ScorchedClient::instance()->getAccessoryStore().
 		readEconomyFromBuffer(reader)) return false;
 
-	// A small hack
-	// When playing a single player game and the player(s) have
-	// not been choosen simply show the player choosing screen
-	// rather than generating the landscape
-	bool localPlayers = false;
-	if (OptionsParam::instance()->getConnectedToServer() == false)
+	ProgressDialog::instance()->changeTip();
+
+	// Generate new landscape
+	ScorchedClient::instance()->getLandscapeMaps().generateMaps(
+		ScorchedClient::instance()->getContext(),
+		message.getLevelMessage().getGroundMapsDefn(),
+		ProgressDialog::instance());
+
+	if (!HeightMapSender::generateHMapFromDiff(
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
+		message.getLevelMessage().getHeightMap()))
 	{
-		if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() -
-			ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() > 1)
-		{
-			localPlayers = true;
-		}
+		dialogExit("Scorched3D", "Failed to generate heightmap diff");
 	}
 
-	if (localPlayers)
-	{
-		// Stimulate into the next round state
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
-		ScorchedClient::instance()->getGameState().checkStimulate();
-		if (OptionsParam::instance()->getSaveFile()[0])
-		{
-			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimLoadPlayers);
-		}
-		else
-		{
-			ScorchedClient::instance()->getGameState().stimulate(ClientState::StimGetPlayers);
-		}
-		ScorchedClient::instance()->getGameState().checkStimulate();
+	// Calculate all the new landscape settings (graphics)
+	Landscape::instance()->generate(ProgressDialog::instance());
 
-		// Show player dialog
-		GLWWindowManager::instance()->showWindow(
-			PlayerDialog::instance()->getId());	
-	}
-	else
-	{
-		ProgressDialog::instance()->changeTip();
+	TracerRenderer::instance()->newGame();
+	SpeedChange::instance()->resetSpeed();
 
-		// Generate new landscape
-		ScorchedClient::instance()->getLandscapeMaps().generateMaps(
-			ScorchedClient::instance()->getContext(),
-			message.getLevelMessage().getGroundMapsDefn(),
-			ProgressDialog::instance());
+	// Remove all actions (graphical objects) from the last round
+	ScorchedClient::instance()->getActionController().clear();
 
-		if (!HeightMapSender::generateHMapFromDiff(
-			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
-			message.getLevelMessage().getHeightMap()))
-		{
-			dialogExit("Scorched3D", "Failed to generate heightmap diff");
-		}
+	// Tell all tanks to update transient settings
+	ScorchedClient::instance()->getTankContainer().clientNewGame();
 
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
-		ScorchedClient::instance()->getGameState().checkStimulate();
-		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimNewGame);
-		ScorchedClient::instance()->getGameState().checkStimulate();
-	}
+	// As we have not returned to the main loop for ages the
+	// timer will have a lot of time in it
+	// Get rid of this time so we don't screw things up
+	ScorchedClient::instance()->getMainLoop().getTimer().getTimeDifference();
+
+	// Make sure the landscape has been optimized
+	Landscape::instance()->reset(ProgressDialog::instance());
+
+	// Tell the server we have finished processing the landscape
+	ClientWaitState::instance()->sendClientReady();
+
+	// Move into the wait state
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	return true;
 }

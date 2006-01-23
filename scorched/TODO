@@ -26,6 +26,7 @@ Fixed: Round win and interest awarded when too few players result in game ending
 Fixed: Tanks will not move through newly created water when movement restriction in place
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
+Added: Players don't create a dummy landscape when connecting to servers
 Added: Progress bars to the server startup
 Added: Gui dialogs are now smoothed (AA) can be turned off for greater performance
 Added: Players can choose their own colors when not in team mode

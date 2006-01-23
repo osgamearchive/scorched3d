@@ -31,8 +31,7 @@ public:
 
 	bool loadWindows();
 
-	std::list<GLWWindowSkin *> getAllStateWindows();
-	std::list<GLWWindowSkin *> getPlayerStateWindows();
+	std::list<GLWWindowSkin *> getStateWindows(const char *state);
 
 protected:
 	static GLWWindowSkinManager *instance_;

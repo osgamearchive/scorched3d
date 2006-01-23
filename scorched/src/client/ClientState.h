@@ -31,7 +31,6 @@ namespace ClientState
 		StimNextPlayerDialog = 1,
 		StimGetPlayers,
 		StimLoadPlayers,
-		StimNewGame,
 		StimWait,
 		StimBuyWeapons,
 		StimAutoDefense,
@@ -45,7 +44,6 @@ namespace ClientState
 	enum State
 	{
 		StateConnect = 1,
-		StateNewGame,
 		StateGetPlayers,
 		StateLoadPlayers,
 		StateWait,

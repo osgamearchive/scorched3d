@@ -70,7 +70,9 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	// Validate player
 	unsigned int playerId = message.getPlayerId();
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (!tank || (tank->getState().getState() != TankState::sDead))
+	if (!tank || 
+		(tank->getState().getState() != TankState::sDead) &&
+		(tank->getState().getState() != TankState::sPending))
 	{
 		ServerCommon::sendString(destinationId, "Can only change tank when dead.");
 		return true;
@@ -107,6 +109,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 
 	// Setup the new player
 	std::string name(message.getPlayerName());
+	filterName(tank, name);
 	if (name != tank->getName())
 	{
 		getUniqueName(tank, name);
@@ -178,6 +181,14 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		{
 			ServerCommon::sendString(0, "Player playing \"%s\"",
 				tank->getName());
+
+			if (ScorchedServer::instance()->getGameState().getState() == 
+				ServerState::ServerStateStarting)
+			{
+				// Reset the starting timer
+				ScorchedServer::instance()->getGameState().stimulate(
+					ServerState::ServerStimulusStarting);
+			}
 		}
 	}
 
@@ -207,16 +218,16 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 
 	// If we are in a waiting for players state then we can
 	// send the state of these new players
-	if (ScorchedServer::instance()->getGameState().getState() == 
-		ServerState::ServerStateTooFewPlayers)
+	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
+		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateStarting)
 	{
 		ComsGameStateMessage message;
-		ComsMessageSender::sendToAllPlayingClients(message);
+		ComsMessageSender::sendToAllConnectedClients(message);
 	}
 	return true;
 }
 
-void ServerAddPlayerHandler::getUniqueName(Tank *tank,
+void ServerAddPlayerHandler::filterName(Tank *tank,
 	std::string &sentname)
 {
 	// Ensure this name does not have any "bad" words in it
@@ -260,6 +271,12 @@ void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 	else if (nameLen < 22) playerName = nameBeginning;
 	else playerName.append(nameBeginning, 22);
 
+	sentname = playerName;
+}
+
+void ServerAddPlayerHandler::getUniqueName(Tank *tank,
+	std::string &playerName)
+{
 	// Make sure no-one has the same name
 	while (ScorchedServer::instance()->getTankContainer().
 		getTankByName(playerName.c_str()))
@@ -282,6 +299,4 @@ void ServerAddPlayerHandler::getUniqueName(Tank *tank,
 			}
 		}
 	}
-	
-	sentname = playerName;
 }

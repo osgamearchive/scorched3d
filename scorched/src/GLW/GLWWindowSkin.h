@@ -23,6 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 #include <XML/XMLFile.h>
+#include <set>
 
 class GLWWindowSkin : public GLWWindow
 {
@@ -32,11 +33,11 @@ public:
 
 	virtual bool initFromXML(XMLNode *node);
 
-	const char *getStates() { return states_.c_str(); }
+	bool inState(const char *state);
 	const char *getKey() { return key_.c_str(); }
 
 protected:
-	std::string states_;
+	std::set<std::string> states_;
 	std::string key_;
 
 };

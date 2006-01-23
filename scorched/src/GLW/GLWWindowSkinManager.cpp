@@ -71,13 +71,15 @@ bool GLWWindowSkinManager::loadWindows()
 		{
 			return false;
 		}
+
+		if (!currentNode->failChildren()) return false;
 		windows_.push_back(window);
 	}
 
 	return true;
 }
 
-std::list<GLWWindowSkin *> GLWWindowSkinManager::getAllStateWindows()
+std::list<GLWWindowSkin *> GLWWindowSkinManager::getStateWindows(const char *state)
 {
 	std::list<GLWWindowSkin *> windows;
 	std::list<GLWWindowSkin *>::iterator itor;
@@ -86,24 +88,7 @@ std::list<GLWWindowSkin *> GLWWindowSkinManager::getAllStateWindows()
 		itor++)
 	{
 		GLWWindowSkin *window = (GLWWindowSkin *) *itor;
-		if (0 == strcmp(window->getStates(), "all"))
-		{
-			windows.push_back(window);
-		}
-	}
-	return windows;
-}
-
-std::list<GLWWindowSkin *> GLWWindowSkinManager::getPlayerStateWindows()
-{
-	std::list<GLWWindowSkin *> windows;
-	std::list<GLWWindowSkin *>::iterator itor;
-	for (itor = windows_.begin();
-		itor != windows_.end();
-		itor++)
-	{
-		GLWWindowSkin *window = (GLWWindowSkin *) *itor;
-		if (0 == strcmp(window->getStates(), "player"))
+		if (window->inState(state))
 		{
 			windows.push_back(window);
 		}

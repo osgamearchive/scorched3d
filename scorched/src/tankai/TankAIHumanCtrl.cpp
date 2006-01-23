@@ -85,10 +85,6 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 				ai->playMove(state, frameTime, buffer, keyState);
 			}
 		}
-		else
-		{
-			DIALOG_ASSERT(0);
-		}
 	}
 }
 

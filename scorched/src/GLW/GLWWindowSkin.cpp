@@ -38,12 +38,34 @@ GLWWindowSkin::~GLWWindowSkin()
 {
 }
 
+bool GLWWindowSkin::inState(const char *state)
+{
+	return (states_.find(state) != states_.end());
+}
+
 bool GLWWindowSkin::initFromXML(XMLNode *node)
 {
 	if (!GLWWindow::initFromXML(node)) return false;
 
 	// States
-	if (!node->getNamedChild("states", states_)) return false;
+	std::string state;
+	while (node->getNamedChild("state", state, false))
+	{
+		if (strcmp(state.c_str(), "playing") != 0 &&
+			strcmp(state.c_str(), "all") != 0 &&
+			strcmp(state.c_str(), "start") != 0)
+		{
+			dialogExit("Unrecognized window state %s",
+				state.c_str());
+		}
+
+		states_.insert(state);
+	}
+	if (states_.empty())
+	{	
+		dialogExit("No window states defined for window %s",
+			name_.c_str());
+	}
 
 	// Key
 	if (!node->getNamedChild("key", key_)) return false;

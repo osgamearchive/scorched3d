@@ -52,6 +52,8 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateStarting,
 		serverStarting);
 	gameState.addStateStimulus(ServerStateStarting, 
+		ServerStimulusStarting, ServerStateStarting);	
+	gameState.addStateStimulus(ServerStateStarting, 
 		ServerTooFewPlayersStimulus::instance(), ServerStateTooFewPlayers);	
 	gameState.addStateStimulus(ServerStateStarting, 
 		serverStarting, ServerStateReset);

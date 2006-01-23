@@ -25,8 +25,10 @@
 #include <tank/TankColorGenerator.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelStore.h>
+#include <server/ServerState.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsGameStateMessage.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
@@ -156,6 +158,13 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 				tank->getAvatar().getFile().getBuffer(),
 				tank->getAvatar().getFile().getBufferUsed());
 			ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
+		}
+
+		if (context.getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
+			context.getGameState().getState() == ServerState::ServerStateStarting)
+		{
+			ComsGameStateMessage message;
+			ComsMessageSender::sendToAllConnectedClients(message);
 		}
 	}
 }

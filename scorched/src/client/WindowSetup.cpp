@@ -49,7 +49,7 @@
 void WindowSetup::addCommonComponents(unsigned state)
 {
 	std::list<GLWWindowSkin *> allStateWindows = 
-		GLWWindowSkinManager::instance()->getAllStateWindows();
+		GLWWindowSkinManager::instance()->getStateWindows("all");
 	std::list<GLWWindowSkin *>::iterator itor;
 	for (itor = allStateWindows.begin();
 		itor != allStateWindows.end();
@@ -144,19 +144,7 @@ void WindowSetup::setupStartWindows()
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
-			GLWSelector::instance(), 0, true);
-
-	// StateGetPlayers
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		BackdropDialog::instance(), 0, true);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		PlayerDialog::instance(), 0, true);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		QuitDialog::instance(), quitKey, false);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		HelpButtonDialog::instance(), 0, true);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-			GLWSelector::instance(), 0, true);
+		GLWSelector::instance(), 0, true);
 
 	// StateLoadPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,
@@ -172,11 +160,41 @@ void WindowSetup::setupGameWindows()
 	KEYBOARDKEY("SHOW_RESIGN_DIALOG", resignKey);
 	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
 	
+	// StateGetPlayers
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		BackdropDialog::instance(), 0, true);
+	std::list<GLWWindowSkin *> startWindows = 
+		GLWWindowSkinManager::instance()->getStateWindows("start");
+	std::list<GLWWindowSkin *>::iterator itor;
+	for (itor = startWindows.begin();
+		itor != startWindows.end();
+		itor++)
+	{
+		GLWWindowSkin *window = *itor;
+		KeyboardKey *key = 0;
+		if (window->getKey()[0]) key = 
+			Keyboard::instance()->getKey(window->getKey());
+		GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+			window, key, window->getVisible());
+	}
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers,
+		ScoreDialog::instance2(), 0, true);
+	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		PlayerDialog::instance(), playerKey, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers,
+		RulesDialog::instance(), rulesKey, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		QuitDialog::instance(), quitKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		HelpButtonDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		MainMenuDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		GLWSelector::instance(), 0, true);
+
 	// StateWait
 	addCommonComponents(ClientState::StateWait);
-
-	// StateReady
-	//addCommonComponents(ClientState::StateReady);
 
 	// StateBuyWeapons
 	addCommonComponents(ClientState::StateBuyWeapons);
@@ -190,8 +208,7 @@ void WindowSetup::setupGameWindows()
 
 	// StatePlaying
 	std::list<GLWWindowSkin *> playerStateWindows = 
-		GLWWindowSkinManager::instance()->getPlayerStateWindows();
-	std::list<GLWWindowSkin *>::iterator itor;
+		GLWWindowSkinManager::instance()->getStateWindows("playing");
 	for (itor = playerStateWindows.begin();
 		itor != playerStateWindows.end();
 		itor++)

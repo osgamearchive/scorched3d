@@ -1,7 +1,8 @@
 <windows>
 	<window>
 		<name>Talk </name>
-		<states>all</states>
+		<state>all</state>
+		<state>start</state>
 		<visible>false</visible>
 		<key>SHOW_TALK_DIALOG</key>
 		<windowlevel>200000</windowlevel>
@@ -23,7 +24,8 @@
 	</window>	
 	<window>
 		<name>TeamTalk </name>
-		<states>all</states>
+		<state>all</state>
+		<state>start</state>
 		<visible>false</visible>
 		<key>SHOW_TEAM_TALK_DIALOG</key>
 		<windowlevel>200000</windowlevel>
@@ -45,7 +47,8 @@
 	</window>		
 	<window>
 		<name>Log</name>
-		<states>all</states>
+		<state>all</state>
+		<state>start</state>
 		<visible>true</visible>
 		<key></key>
 		<windowlevel>200000</windowlevel>
@@ -75,7 +78,8 @@
 	</window>
 	<window>
 		<name>DeathLog</name>
-		<states>all</states>
+		<state>all</state>
+		<state>start</state>
 		<visible>true</visible>
 		<key></key>
 		<windowlevel>200000</windowlevel>
@@ -105,7 +109,7 @@
 	</window>
 	<window>
 		<name>Plan</name>
-		<states>all</states>
+		<state>all</state>
 		<visible>true</visible>
 		<key>SHOW_PLAN_DIALOG</key>
 		<w>128</w>
@@ -134,7 +138,7 @@ on a overhead map of the island.</description>
 	</window>
 	<window>
 		<name>Wind</name>
-		<states>all</states>
+		<state>all</state>
 		<visible>true</visible>
 		<key>SHOW_WIND_DIALOG</key>
 		<w>128</w>
@@ -183,7 +187,7 @@ strength and direction.</description>
 	</window>
 	<window>
 		<name>Player</name>
-		<states>player</states>
+		<state>playing</state>
 		<visible>true</visible>
 		<key>SHOW_PLAYER_DIALOG</key>
 		<w>190</w>
@@ -341,7 +345,7 @@ including its health, and defense status</description>
 	</window>
 	<window>
 		<name>Weapon</name>
-		<states>player</states>
+		<state>playing</state>
 		<visible>true</visible>
 		<key>SHOW_WEAPON_DIALOG</key>
 		<w>190</w>
@@ -514,7 +518,7 @@ including its power and direction.</description>
 	</window>
 	<window>
 		<name>Aim</name>
-		<states>player</states>
+		<state>playing</state>
 		<visible>false</visible>
 		<key>SHOW_AIM_DIALOG</key>
 		<w>145</w>

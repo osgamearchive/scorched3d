@@ -41,6 +41,7 @@ BackdropDialog::BackdropDialog() :
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0,
 		"The backdrop dialog"), offset_(0)
 {
+	windowLevel_ = 5000000;
 	if (!displayList_)
 	{
 		GLBitmap backMap(getDataFile("data/windows/logotiled.bmp"));
