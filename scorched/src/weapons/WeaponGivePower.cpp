@@ -18,66 +18,48 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponGiveAccessory.h>
+#include <weapons/WeaponGivePower.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponGiveAccessory);
+REGISTER_ACCESSORY_SOURCE(WeaponGivePower);
 
-WeaponGiveAccessory::WeaponGiveAccessory()
+WeaponGivePower::WeaponGivePower()
 {
 
 }
 
-WeaponGiveAccessory::~WeaponGiveAccessory()
+WeaponGivePower::~WeaponGivePower()
 {
 
 }
 
-bool WeaponGiveAccessory::parseXML(OptionsGame &context, 
+bool WeaponGivePower::parseXML(OptionsGame &context, 
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
-	std::string giveaccessory;
-	while (accessoryNode->getNamedChild("giveaccessory", giveaccessory, false))
-	{
-		Accessory *accessory = store->findByPrimaryAccessoryName(giveaccessory.c_str());
-		if (!accessory)
-		{
-			return accessoryNode->returnError(
-				formatString("Failed to find accessory named %s",
-					giveaccessory.c_str()));
-		}
-		giveAccessories_.push_back(accessory);
-	}
-
-	if (!accessoryNode->getNamedChild("number", number_)) return false;
+	if (!accessoryNode->getNamedChild("power", power_)) return false;
 
 	return true;
 }
 
-void WeaponGiveAccessory::fireWeapon(ScorchedContext &context,
+void WeaponGivePower::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
 	context.actionController->addAction(new PowerUp(playerId, position, velocity, data, this));
 }
 
-void WeaponGiveAccessory::invokePowerUp(ScorchedContext &context,
+void WeaponGivePower::invokePowerUp(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (!tank) return;
 
-	std::vector<Accessory *>::iterator itor;
-	for (itor = giveAccessories_.begin();
-		itor != giveAccessories_.end();
-		itor++)
-	{
-		tank->getAccessories().add((*itor), number_);
-	}
+	//tank->getLife().setLife(life_);
 }
+

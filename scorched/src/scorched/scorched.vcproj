@@ -1786,6 +1786,18 @@
 				RelativePath="..\weapons\WeaponGiveAccessory.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponGiveLife.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveLife.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGivePower.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGivePower.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponInvokeWeapon.cpp">
 			</File>
 			<File

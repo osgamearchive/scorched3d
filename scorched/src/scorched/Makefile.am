@@ -547,6 +547,10 @@ scorched3d_SOURCES = \
 	../weapons/WeaponExplosion.h \
 	../weapons/WeaponGiveAccessory.cpp \
 	../weapons/WeaponGiveAccessory.h \
+	../weapons/WeaponGiveLife.cpp \
+	../weapons/WeaponGiveLife.h \
+	../weapons/WeaponGivePower.cpp \
+	../weapons/WeaponGivePower.h \
 	../weapons/WeaponInvokeWeapon.cpp \
 	../weapons/WeaponInvokeWeapon.h \
 	../weapons/WeaponLaser.cpp \
@@ -617,6 +621,8 @@ scorched3d_SOURCES = \
 	../coms/ComsHaveModFilesMessage.h \
 	../coms/ComsHeightMapMessage.cpp \
 	../coms/ComsHeightMapMessage.h \
+	../coms/ComsInitializeMessage.cpp \
+	../coms/ComsInitializeMessage.h \
 	../coms/ComsKeepAliveMessage.cpp \
 	../coms/ComsKeepAliveMessage.h \
 	../coms/ComsLastChanceMessage.cpp \
@@ -859,6 +865,8 @@ scorched3d_SOURCES = \
 	MainDialog.h \
 	NetDialog.cpp \
 	NetDialog.h \
+	ProgressBarDialog.cpp \
+	ProgressBarDialog.h \
 	ServerDialog.cpp \
 	ServerDialog.h \
 	ServerSDialog.cpp \
@@ -890,6 +898,8 @@ scorched3d_SOURCES = \
 	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
 	../client/ClientGameStoppedHandler.h \
+	../client/ClientInitializeHandler.cpp \
+	../client/ClientInitializeHandler.h \
 	../client/ClientKeepAliveSender.cpp \
 	../client/ClientKeepAliveSender.h \
 	../client/ClientLastChanceHandler.cpp \
@@ -902,8 +912,6 @@ scorched3d_SOURCES = \
 	../client/ClientMessageHandler.h \
 	../client/ClientNewGameHandler.cpp \
 	../client/ClientNewGameHandler.h \
-	../client/ClientNewGameState.cpp \
-	../client/ClientNewGameState.h \
 	../client/ClientPlayerAimHandler.cpp \
 	../client/ClientPlayerAimHandler.h \
 	../client/ClientPlayerStateHandler.cpp \
@@ -992,6 +1000,8 @@ scorched3d_SOURCES = \
 	../server/ServerFileServer.h \
 	../server/ServerHaveModFilesHandler.cpp \
 	../server/ServerHaveModFilesHandler.h \
+	../server/ServerInitializeHandler.cpp \
+	../server/ServerInitializeHandler.h \
 	../server/ServerKeepAliveHandler.cpp \
 	../server/ServerKeepAliveHandler.h \
 	../server/ServerLog.cpp \

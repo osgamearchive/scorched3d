@@ -27,11 +27,12 @@ PowerUp::PowerUp()
 {
 }
 
-PowerUp::PowerUp(unsigned int playerId, 
-	Vector &position, 
-	WeaponPowerUp *powerUp) :
+PowerUp::PowerUp(unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data, WeaponPowerUp *powerUp) :
 	position_(position),
+	velocity_(velocity),
 	playerId_(playerId),
+	data_(data),
 	powerUp_(powerUp)
 {
 
@@ -47,7 +48,7 @@ void PowerUp::init()
 
 void PowerUp::simulate(float frameTime, bool &remove)
 {
-	powerUp_->invokePowerUp(*context_, playerId_, position_);
+	powerUp_->invokePowerUp(*context_, playerId_, position_, velocity_, data_);
 
 	remove = true;
 	Action::simulate(frameTime, remove);
@@ -56,7 +57,9 @@ void PowerUp::simulate(float frameTime, bool &remove)
 bool PowerUp::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(position_);
+	buffer.addToBuffer(velocity_);
 	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(data_);
 	context_->accessoryStore->writeWeapon(buffer, powerUp_);
 	return true;
 }
@@ -64,7 +67,9 @@ bool PowerUp::writeAction(NetBuffer &buffer)
 bool PowerUp::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(position_)) return false;
+	if (!reader.getFromBuffer(velocity_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(data_)) return false;
 	powerUp_ = (WeaponPowerUp *) context_->accessoryStore->readWeapon(reader); 
 	if (!powerUp_) return false;
 	return true;

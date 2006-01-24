@@ -18,17 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_WeaponGiveAccessoryh_INCLUDE__)
-#define __INCLUDE_WeaponGiveAccessoryh_INCLUDE__
+#if !defined(__INCLUDE_WeaponGivePowerh_INCLUDE__)
+#define __INCLUDE_WeaponGivePowerh_INCLUDE__
 
 #include <actions/PowerUp.h>
-#include <vector>
 
-class WeaponGiveAccessory  : public WeaponPowerUp
+class WeaponGivePower  : public WeaponPowerUp
 {
 public:
-	WeaponGiveAccessory();
-	virtual ~WeaponGiveAccessory();
+	WeaponGivePower();
+	virtual ~WeaponGivePower();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
@@ -43,12 +42,11 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data);
 
-	REGISTER_ACCESSORY_HEADER(WeaponGiveAccessory, AccessoryPart::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponGivePower, AccessoryPart::AccessoryWeapon);
 
 protected:
-	std::vector<Accessory *> giveAccessories_;
-	int number_;
+	float power_;
 
 };
 
-#endif // __INCLUDE_WeaponGiveAccessoryh_INCLUDE__
+#endif // __INCLUDE_WeaponGivePowerh_INCLUDE__

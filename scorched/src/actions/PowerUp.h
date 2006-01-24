@@ -29,16 +29,16 @@ class WeaponPowerUp : public Weapon
 public:
 	virtual void invokePowerUp(
 		ScorchedContext &context,
-		unsigned int playerId, Vector &position) = 0;
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data) = 0;
 };
 
 class PowerUp : public ActionMeta
 {
 public:
 	PowerUp();
-	PowerUp(unsigned int playerId, 
-		Vector &position, 
-		WeaponPowerUp *powerUp);
+	PowerUp(unsigned int playerId, Vector &position, Vector &velocity,
+    	unsigned int data, WeaponPowerUp *powerUp);
 	virtual ~PowerUp();
 
 	virtual void init();
@@ -50,7 +50,9 @@ public:
 
 protected:
 	Vector position_;
+	Vector velocity_;
 	unsigned int playerId_;
+	unsigned int data_;
 	WeaponPowerUp *powerUp_;
 
 };
