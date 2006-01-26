@@ -21,7 +21,6 @@
 #include <tank/TankBatteries.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
 #include <stdio.h>
 
 TankBatteries::TankBatteries(ScorchedContext &context) :
@@ -37,31 +36,6 @@ void TankBatteries::newMatch()
 {
 	infinite_ = false;
 	batteryCount_ = 0;
-	std::list<Accessory *> accessories = 
-		context_.accessoryStore->getAllOthers();
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories.begin();
-		itor != accessories.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getType() == AccessoryPart::AccessoryBattery)
-		{
-			if (accessory->getMaximumNumber() > 0)
-			{
-				if (context_.optionsGame->getGiveAllWeapons() ||
-					accessory->getStartingNumber() == -1)
-				{
-					addBatteries(20);
-					infinite_ = true;
-				}
-				else if (accessory->getStartingNumber() > 0)
-				{
-					addBatteries(accessory->getStartingNumber());
-				}
-			}
-		}
-	}
 }
 
 void TankBatteries::rmBatteries(int no)
@@ -77,6 +51,11 @@ void TankBatteries::rmBatteries(int no)
 
 void TankBatteries::addBatteries(int no)
 {
+	if (no == -1)
+	{
+		no = 20;
+		infinite_ = true;
+	}
 	batteryCount_+=no;
 }
 

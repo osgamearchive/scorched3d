@@ -35,8 +35,10 @@ public:
 	TankAccessories(ScorchedContext &context);
 	virtual ~TankAccessories();
 
+	void setTank(Tank *tank);
+
 	void newMatch();
-	void add(Accessory *accessory, int count = -1);
+	void add(Accessory *accessory, int count);
 	void rm(Accessory *accessory);
 
 	int getAccessoryCount(Accessory *accessory);
@@ -61,6 +63,7 @@ protected:
 	TankShields tankShield_;
 	TankAutoDefense tankAuto_;
 	TankBatteries tankBatteries_;
+	Tank *tank_;
 };
 
 #endif // !defined(AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_)

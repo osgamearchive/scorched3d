@@ -25,6 +25,7 @@
 #include <map>
 #include <set>
 #include <tankgraph/TankModel.h>
+#include <tank/TankTypes.h>
 #include <common/ProgressCounter.h>
 
 class TankModelStore
@@ -33,7 +34,7 @@ public:
 	TankModelStore();
 	virtual ~TankModelStore();
 
-	bool loadTankMeshes(ProgressCounter *counter = 0);
+	bool loadTankMeshes(ScorchedContext &context, ProgressCounter *counter = 0);
 
 	TankModel *getModelByName(const char *name, int team);
 	TankModel *getRandomModel(int team);
@@ -42,6 +43,7 @@ public:
 	std::set<std::string> &getModelCatagories() { return modelCatagories_; }
 
 protected:
+	TankTypes types_;
 	std::vector<TankModel *> models_;
 	std::set<std::string, std::less<std::string> > modelCatagories_;
 

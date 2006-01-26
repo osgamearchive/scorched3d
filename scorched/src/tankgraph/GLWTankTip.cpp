@@ -22,6 +22,7 @@
 #include <tankai/TankAIHuman.h>
 #include <weapons/Weapon.h>
 #include <weapons/Accessory.h>
+#include <weapons/Shield.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/MovementMap.h>
@@ -174,7 +175,8 @@ void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
 	for (int i=1; i<=(int) entry->getUserData(); i++)
 	{
-		if (tank_->getLife().getLife() < 100.0f)
+		if (tank_->getLife().getLife() < 
+			tank_->getLife().getMaxLife())
 		{
 			tankAI->useBattery();
 		}
@@ -284,8 +286,9 @@ void TankHealthTip::populate()
 		"The amount of life this player has.\n"
 		"The tank explodes when life reaches 0.\n"
 		"Less weapon power is available with less life.\n"
-		"Life : %i/100",
-		(int) tank_->getLife().getLife());
+		"Life : %i/%i",
+		(int) tank_->getLife().getLife(),
+		(int) tank_->getLife().getMaxLife());
 }
 
 TankParachutesTip::TankParachutesTip(Tank *tank) : 
@@ -524,23 +527,28 @@ void TankTip::populate()
 {
 	if (tank_->getShield().getCurrentShield())
 	{
+		Shield *shield = (Shield*) 
+			tank_->getShield().getCurrentShield()->getAction();
 		setText(tank_->getName(), 
-				"Life   : %.0f/100\n"
-				"Shield : %.0f/100\n"
+				"Life   : %.0f/%.0f\n"
+				"Shield : %.0f/%.0f\n"
 				"Wins   : %i\n"
 				"Kills  : %i\n",
 				tank_->getLife().getLife(),
+				tank_->getLife().getMaxLife(),
 				tank_->getShield().getShieldPower(),
+				shield->getPower(),
 				tank_->getScore().getWins(),
 				tank_->getScore().getKills());
 	}
 	else
 	{
 		setText(tank_->getName(), 
-				"Life   : %.0f/100\n"
+				"Life   : %.0f/%.0f\n"
 				"Wins   : %i\n"
 				"Kills  : %i\n",
 				tank_->getLife().getLife(),
+				tank_->getLife().getMaxLife(),
 				tank_->getScore().getWins(),
 				tank_->getScore().getKills());
 	}
@@ -559,17 +567,22 @@ void TargetTip::populate()
 {
 	if (target_->getShield().getCurrentShield())
 	{
+		Shield *shield = (Shield *) 
+			target_->getShield().getCurrentShield()->getAction();
 		setText(target_->getName(), 
-				"Life   : %.0f/100\n"
-				"Shield : %.0f/100",
+				"Life   : %.0f/%.0f\n"
+				"Shield : %.0f/%.0f",
 				target_->getLife().getLife(),
-				target_->getShield().getShieldPower());
+				target_->getLife().getMaxLife(),
+				target_->getShield().getShieldPower(),
+				shield->getPower());
 	}
 	else
 	{
 		setText(target_->getName(), 
-				"Life   : %.0f/100",
-				target_->getLife().getLife());
+				"Life   : %.0f/%.0f",
+				target_->getLife().getLife(),
+				target_->getLife().getMaxLife());
 	}
 }
 

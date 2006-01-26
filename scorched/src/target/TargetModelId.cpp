@@ -20,6 +20,8 @@
 
 #include <target/TargetModelId.h>
 #include <tankgraph/TargetModelIdRenderer.h>
+#include <tankgraph/TankModelStore.h>
+#include <engine/ScorchedContext.h>
 
 TargetModelId::TargetModelId(const char *tankModelName) :
 	tankModelName_(tankModelName),
@@ -47,6 +49,19 @@ TargetModelId::~TargetModelId()
 {
 	delete modelIdRenderer_;
 	modelIdRenderer_ = 0;
+}
+
+TankType *TargetModelId::getTankType(ScorchedContext &context)
+{
+	TankModel *tankModel = 
+		context.tankModelStore->getModelByName(tankModelName_.c_str(), 0);
+	if (!tankModel) 
+	{
+		dialogExit("Scorched3D", 
+			"Failed to find tank model %s",
+			tankModelName_.c_str());
+	}
+	return tankModel->getTankType();
 }
 
 const TargetModelId & TargetModelId::operator=(const TargetModelId &other)

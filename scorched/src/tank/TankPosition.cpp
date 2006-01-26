@@ -20,16 +20,18 @@
 
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
+#include <tank/TankType.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 
-TankPosition::TankPosition(ScorchedContext &context, unsigned int playerId) :
+TankPosition::TankPosition(ScorchedContext &context) :
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
 	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
 	power_(1000.0f), oldPower_(1000.0f),
+	maxPower_(1000.0f),
 	angle_(0.0f), tank_(0), context_(context)
 {
 	// Only make the very first shot random angle
@@ -58,9 +60,19 @@ std::vector<TankPosition::ShotEntry> &TankPosition::getOldShots()
 	return oldShots_; 
 }
 
+void TankPosition::newGame()
+{
+	TankType *type = tank_->getModel().getTankType(context_);
+
+	maxPower_ = type->getPower();
+}
+
 void TankPosition::clientNewGame()
 {
-	oldPower_ = power_ = 1000.0f;
+	TankType *type = tank_->getModel().getTankType(context_);
+
+	maxPower_ = type->getPower();
+	oldPower_ = power_ = maxPower_;
 	angle_ = 0.0f;
 	oldShots_.clear();
 	madeShot();
@@ -168,13 +180,11 @@ float TankPosition::changePower(float power, bool diff)
 	if (power_ < 0.0f) power_ = 0.0f;
 	if (context_.optionsGame->getLimitPowerByHealth())
 	{
-		if (power_ > tank_->getLife().getLife() * 10.0f) 
-			power_ = tank_->getLife().getLife() * 10.0f;
+		float maxPosPower = 
+			tank_->getLife().getLife() / tank_->getLife().getMaxLife() * maxPower_;
+		if (power_ > maxPosPower) power_ = maxPosPower;
 	}
-	else
-	{
-		if (power_ > 1000.0f) power_ = 1000.0f;
-	}
+	if (power_ > maxPower_) power_ = maxPower_;
 
 	return power_;
 }
@@ -257,4 +267,16 @@ const char *TankPosition::getPowerString()
 	}
 
 	return messageBuffer;
+}
+
+bool TankPosition::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(maxPower_);
+	return true;
+}
+
+bool TankPosition::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(maxPower_)) return false;
+	return true;
 }

@@ -97,6 +97,7 @@ bool ClientInitializeHandler::initialize()
 	// Load tank models here
 	// This is after mods are complete but before any tanks models are used
 	if (!ScorchedClient::instance()->getTankModels().loadTankMeshes(
+		ScorchedClient::instance()->getContext(), 
 		ProgressDialog::instance()))
 	{
 		dialogMessage("Scorched 3D", "Failed to load all tank models");

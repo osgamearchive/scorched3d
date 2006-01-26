@@ -136,8 +136,7 @@ void TankDamage::calculateDamage()
 			damagedTarget->getTargetType() == Target::eTank)
 		{
 			Tank *damagedTank = (Tank *) damagedTarget;
-			if (damagedTank->getPosition().getPower() > damagedTank->getLife().getLife() * 10.0f) 
-				damagedTank->getPosition().changePower(damagedTank->getLife().getLife() * 10.0f, false);
+			damagedTank->getPosition().changePower(0.0f, true);
 		}
 
 		// Check if the tank is dead

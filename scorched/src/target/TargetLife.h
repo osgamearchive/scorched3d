@@ -26,6 +26,7 @@
 #include <coms/NetBuffer.h>
 
 class ScorchedContext;
+class Target;
 class TargetLife
 {
 public:
@@ -36,10 +37,14 @@ public:
 
 	// Position
 	void setPosition(Vector &pos);
+	void setTarget(Target *target) { target_ = target; }
 
 	// Tank Life / Health
 	float getLife() { return life_; }
 	void setLife(float life);
+
+	float getMaxLife() { return maxLife_; }
+	void setMaxLife(float life) { maxLife_ = life; }
 
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
@@ -49,10 +54,12 @@ protected:
 	ScorchedContext &context_;
 
 	float life_;
+	float maxLife_;
 
 	// Physics engine stuff
 	dGeomID targetGeom_;
 	ScorchedCollisionInfo targetInfo_;
+	Target *target_;
 
 };
 

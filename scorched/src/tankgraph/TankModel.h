@@ -23,15 +23,16 @@
 
 #include <target/TargetModelId.h>
 #include <3dsparse/ModelID.h>
-#include <tankgraph/TankMesh.h>
 #include <common/Vector.h>
 #include <set>
 #include <string>
 
+class TankMesh;
+class TankType;
 class TankModel
 {
 public:
-	TankModel(TargetModelId &id, ModelID &modelId);
+	TankModel(TargetModelId &id, ModelID &modelId, TankType *type);
 	virtual ~TankModel();
 
 	virtual void draw(bool drawS, float angle, Vector &position, 
@@ -46,6 +47,7 @@ public:
 	ModelID &getTankModelID();
 	ModelID &getProjectileModelID();
 	TankMesh *getTankMesh() { return tankMesh_; }
+	TankType *getTankType() { return tankType_; }
 
 	bool isOfCatagory(const char *catagory);
 	void addCatagory(const char *catagory);
@@ -59,6 +61,7 @@ protected:
 	ModelID modelId_;
 	ModelID projectileModelId_;
 	TankMesh *tankMesh_;
+	TankType *tankType_;
 	std::set<std::string> catagories_;
 	std::set<int> teams_;
 

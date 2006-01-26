@@ -331,7 +331,8 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				firstTank->getAccessories().getWeapons().setWeapon(accessory);
 				break;
 			case AccessoryPart::AccessoryBattery:
-				if (firstTank->getLife().getLife() < 100.0f)
+				if (firstTank->getLife().getLife() < 
+					firstTank->getLife().getMaxLife())
 				{
 					tankAI->useBattery();
 				}

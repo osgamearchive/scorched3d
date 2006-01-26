@@ -61,6 +61,11 @@ void WeaponGiveLife::invokePowerUp(ScorchedContext &context,
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (!tank) return;
 
+	if (life_ > tank->getLife().getMaxLife() &&
+		exceedMax_)
+	{
+		tank->getLife().setMaxLife(life_);
+	}
 	tank->getLife().setLife(life_);
 }
 

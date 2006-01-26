@@ -43,6 +43,9 @@ bool Shield::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("penetration", penetration_)) return false;
 
 	// Get the penetration
+	if (!accessoryNode->getNamedChild("power", power_)) return false;
+
+	// Get the penetration
 	if (!accessoryNode->getNamedChild("radius", radius_)) return false;
 	if (radius_ <= 0.0f) return accessoryNode->returnError("Shield radius must be > 0");
 

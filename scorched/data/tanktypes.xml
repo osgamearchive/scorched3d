@@ -1,0 +1,17 @@
+<tanktypes>
+	<tanktype>
+		<name>none</name>
+		<life>100</life>
+		<power>1000</power>
+		<!--
+		<accessory>
+			<name>Missile</name>
+			<count>10</count>
+		</accessory>
+		<accessory>
+			<name>MIRV</name>
+			<count>-1</count>
+		</accessory>
+		-->
+	</tanktype>
+</tanktypes>

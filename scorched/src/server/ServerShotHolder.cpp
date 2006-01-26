@@ -179,7 +179,7 @@ void ServerShotHolder::processPlayedMoveMessage(ScorchedContext &context,
 				}
 				else if (context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
 				{
-					if (RAND * 100.0f <= tank->getLife().getLife())
+					if (RAND * tank->getLife().getMaxLife() <= tank->getLife().getLife())
 					{
 						processResignMessage(context, message, tank);
 					}

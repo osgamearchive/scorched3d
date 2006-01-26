@@ -205,7 +205,7 @@ void TankAIComputerBuyer::buyAccessory()
 			// Buy the accessory
 			if (currentTank_->getScore().getMoney() >= current->getPrice())
 			{
-				currentTank_->getAccessories().add(current);
+				currentTank_->getAccessories().add(current, current->getBundle());
 				currentTank_->getScore().setMoney(currentTank_->getScore().getMoney() - 
 					current->getPrice());
 			}

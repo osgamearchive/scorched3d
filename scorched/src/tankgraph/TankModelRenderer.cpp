@@ -20,6 +20,7 @@
 
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/TankModelStore.h>
+#include <tankgraph/TankMesh.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
@@ -247,7 +248,7 @@ void TankModelRenderer::simulate(float frameTime)
 		shieldHit_ -= frameTime / 25.0f;
 		if (shieldHit_ < 0.0f) shieldHit_ = 0.0f;
 	}
-	if (tank_->getLife().getLife() < 100)
+	if (tank_->getLife().getLife() < tank_->getLife().getMaxLife())
 	{
 		smokeTime_ += frameTime;
 		if (smokeTime_ >= smokeWaitForTime_)
@@ -347,10 +348,17 @@ void TankModelRenderer::drawLife()
 		float shieldLife = 0.0f;
 		Accessory *currentShield =
 			tank_->getShield().getCurrentShield();
-		if (currentShield) shieldLife = 
-			tank_->getShield().getShieldPower();
+		if (currentShield)
+		{	
+			Shield *shield =  (Shield *) 
+				tank_->getShield().getCurrentShield()->getAction();
+			shieldLife = tank_->getShield().getShieldPower() / 
+				shield->getPower() * 100.0f;
+		}
 
-		drawLifeBar(bilX, tank_->getLife().getLife(), height, 3.3f);
+		drawLifeBar(bilX, 
+			tank_->getLife().getLife() / tank_->getLife().getMaxLife() * 100.0f, 
+			height, 3.3f);
 		drawLifeBar(bilX, shieldLife, height, 3.7f);
 	}
 }

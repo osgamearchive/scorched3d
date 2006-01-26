@@ -25,7 +25,6 @@
 #include <tank/TankWeapon.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
 
 TankWeapon::TankWeapon(ScorchedContext &context) : 
 	currentWeapon_(0), context_(context)
@@ -40,31 +39,6 @@ void TankWeapon::newMatch()
 {
 	weapons_.clear();
 	currentWeapon_ = 0;
-
-	std::list<Accessory *> accessories = 
-		context_.accessoryStore->getAllWeapons();
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories.begin();
-		itor != accessories.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getType() == AccessoryPart::AccessoryWeapon)
-		{
-			if (accessory->getMaximumNumber() > 0)
-			{
-				if (context_.optionsGame->getGiveAllWeapons() ||
-					accessory->getStartingNumber() == -1)
-				{
-					addWeapon(accessory, -1);
-				}
-				else if (accessory->getStartingNumber() > 0)
-				{
-					addWeapon(accessory, accessory->getStartingNumber());
-				}
-			}
-		}
-	}
 }
 
 void TankWeapon::addWeapon(Accessory *wp, int count)

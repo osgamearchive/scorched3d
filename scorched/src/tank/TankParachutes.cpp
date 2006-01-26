@@ -20,7 +20,6 @@
 
 #include <tank/Tank.h>
 #include <weapons/AccessoryStore.h>
-#include <common/OptionsGame.h>
 #include <stdio.h>
 
 TankParachutes::TankParachutes(ScorchedContext &context) :
@@ -37,30 +36,6 @@ TankParachutes::~TankParachutes()
 void TankParachutes::newMatch()
 {
 	parachuteCount_ = 0;
-	std::list<Accessory *> accessories = 
-		context_.accessoryStore->getAllOthers();
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories.begin();
-		itor != accessories.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getType() == AccessoryPart::AccessoryParachute)
-		{
-			if (accessory->getMaximumNumber() > 0)
-			{
-				if (context_.optionsGame->getGiveAllWeapons() ||
-					accessory->getStartingNumber() == -1)
-				{
-					addParachutes(-1);
-				}
-				else if (accessory->getStartingNumber() > 0)
-				{
-					addParachutes(accessory->getStartingNumber());
-				}
-			}
-		}
-	}
 }
 
 void TankParachutes::useParachutes(int no)

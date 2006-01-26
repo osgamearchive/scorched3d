@@ -20,7 +20,6 @@
 
 #include <tank/TankShields.h>
 #include <weapons/AccessoryStore.h>
-#include <common/OptionsGame.h>
 #include <stdio.h>
 #include <math.h>
 #include <set>
@@ -37,31 +36,6 @@ TankShields::~TankShields()
 void TankShields::newMatch()
 {
 	shields_.clear();
-
-	std::list<Accessory *> accessories = 
-		context_.accessoryStore->getAllOthers();
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories.begin();
-		itor != accessories.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getType() == AccessoryPart::AccessoryShield)
-		{
-			if (accessory->getMaximumNumber() > 0)
-			{
-				if (context_.optionsGame->getGiveAllWeapons() ||
-					accessory->getStartingNumber() == -1)
-				{ 
-					addShield(accessory, -1);
-				}
-				else if (accessory->getStartingNumber() > 0)
-				{
-					addShield(accessory, accessory->getStartingNumber());
-				}
-			}
-		}
-	}
 }
 
 void TankShields::addShield(Accessory *sh, int count)

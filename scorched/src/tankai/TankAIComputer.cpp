@@ -253,7 +253,8 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 
 	// Use batteries if we need to and have them
 	while (useBatteries_ &&
-		currentTank_->getLife().getLife() < 100.0f &&
+		currentTank_->getLife().getLife() < 
+		currentTank_->getLife().getMaxLife() &&
 		currentTank_->getAccessories().getBatteries().getNoBatteries() > 0)
 	{
 		useBattery();

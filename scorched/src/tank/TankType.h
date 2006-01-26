@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,47 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/AccessoryStore.h>
-#include <tank/TankAutoDefense.h>
+#if !defined(__INCLUDE_TankTypeh_INCLUDE__)
+#define __INCLUDE_TankTypeh_INCLUDE__
 
-TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
-	context_(context), haveDefense_(false)
-{
-}
+#include <string>
+#include <map>
 
-TankAutoDefense::~TankAutoDefense()
+class XMLNode;
+class Accessory;
+class ScorchedContext;
+class TankType
 {
-}
+public:
+	TankType();
+	virtual ~TankType();
 
-void TankAutoDefense::newMatch()
-{
-	haveDefense_ = false;
-}
+	const char *getName() { return name_.c_str(); }
+	const char *getDescription();
+	float getLife() { return life_; }
+	float getPower() { return power_; }
 
-void TankAutoDefense::addDefense()
-{
-	haveDefense_ = true;
-}
+	std::map<Accessory *, int> &getAccessories() { return accessories_; }
 
-void TankAutoDefense::rmDefense()
-{
-	haveDefense_ = false;
-}
+	bool initFromXML(ScorchedContext &context, XMLNode *node);
 
-bool TankAutoDefense::haveDefense()
-{
-	return haveDefense_;
-}
+protected:
+	std::string name_;
+	std::map<Accessory *, int> accessories_;
+	float life_;
+	float power_;
+};
 
-bool TankAutoDefense::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	if (writeAccessories) buffer.addToBuffer(haveDefense_);
-	else buffer.addToBuffer(false);
-	return true;
-}
-
-bool TankAutoDefense::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(haveDefense_)) return false;
-	return true;
-}
+#endif // __INCLUDE_TankTypeh_INCLUDE__

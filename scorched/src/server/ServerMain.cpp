@@ -137,7 +137,8 @@ bool startServer(bool local, ProgressCounter *counter)
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
 		ScorchedServer::instance()->getOptionsGame(),
 		counter)) return false;
-	if (!ScorchedServer::instance()->getTankModels().loadTankMeshes(counter))
+	if (!ScorchedServer::instance()->getTankModels().loadTankMeshes(
+		ScorchedServer::instance()->getContext(), counter))
 		return false;
 	ScorchedServer::instance()->getOptionsTransient().reset();
 	if (!ScorchedServer::instance()->getLandscapes().readLandscapeDefinitions()) return false;

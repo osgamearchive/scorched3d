@@ -51,7 +51,7 @@ void Ship::draw(Vector &position, Vector &direction, Vector &directionPerp)
 	if (GLCameraFrustum::instance()->sphereInFrustum(shipPosition, size_))
 	{
 		glPushMatrix();
-			glTranslatef(shipPosition[0], shipPosition[1], shipPosition[2]);
+			glTranslatef(shipPosition[0], shipPosition[1], shipPosition[2] - 1.0f);
 			glRotatef(angleDegs, 0.0f, 0.0f, 1.0f);
 			glScalef(scale_, scale_, scale_);
 			ship_->drawBottomAligned();

@@ -3452,6 +3452,9 @@
 				RelativePath="..\..\data\tanks.xml">
 			</File>
 			<File
+				RelativePath="..\..\data\tanktypes.xml">
+			</File>
+			<File
 				RelativePath="..\..\data\textureset.xml">
 			</File>
 			<File
@@ -3614,6 +3617,18 @@
 			</File>
 			<File
 				RelativePath="..\tank\TankState.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankType.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankType.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankTypes.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankTypes.h">
 			</File>
 			<File
 				RelativePath="..\tank\TankWeapon.cpp">

@@ -45,6 +45,7 @@ public:
 	float getHitRemovePower() { return removePower_; }
 	float getHitPenetration() { return penetration_; }
 	float getActualRadius() { return radius_; }
+	float getPower() { return power_; }
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
 	virtual ShieldType getShieldType();
@@ -57,6 +58,7 @@ protected:
 	float removePower_;
 	float penetration_;
 	float radius_;
+	float power_;
 	bool halfShield_;
 };
 

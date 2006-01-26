@@ -41,7 +41,7 @@ public:
 		bool current;
 	};
 
-	TankPosition(ScorchedContext &context, unsigned int playerId);
+	TankPosition(ScorchedContext &context);
 	virtual ~TankPosition();
 
 	void setTank(Tank *tank) { tank_ = tank; }
@@ -49,6 +49,7 @@ public:
 	// State change
 	void clientNewGame();
 	void madeShot();
+	void newGame();
 	
 	// Saved settings
 	float getRotationXYDiff();
@@ -72,6 +73,9 @@ public:
 	float getPower() { return power_; }
 	float changePower(float power, bool diff=true);
 
+	float getMaxPower() { return maxPower_; }
+	void setMaxPower(float power) { maxPower_ = power; }
+
 	// Position
 	Vector &getVelocityVector();
 	Vector &getTankPosition(); // Position of center bottom of tank
@@ -82,6 +86,10 @@ public:
 	const char *getElevationString();
 	const char *getPowerString();
 
+	// Serialize the tank
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
+
 protected:
 	ScorchedContext &context_;
 	Tank *tank_;
@@ -91,6 +99,7 @@ protected:
 	float turretRotXY_, turretRotYZ_, power_;
 	float oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
 	float angle_;
+	float maxPower_;
 };
 
 #endif

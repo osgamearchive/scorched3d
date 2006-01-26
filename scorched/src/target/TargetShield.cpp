@@ -66,10 +66,10 @@ void TargetShield::setCurrentShield(Accessory *sh)
 
 	if (sh)
 	{
-		power_ = 100.0f;
+		Shield *shield = (Shield *) sh->getAction();
+		power_ = shield->getPower();
 		currentShield_ = sh;
 
-		Shield *shield = (Shield *) sh->getAction();
 		dGeomSphereSetRadius(shieldGeom_, shield->getActualRadius());
 		dGeomEnable(shieldGeom_);
 

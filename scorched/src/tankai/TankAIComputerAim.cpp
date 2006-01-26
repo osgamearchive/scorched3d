@@ -280,7 +280,7 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 		float closestLessDistToTank = 0.0f;
 		float closestMoreDistToTank = 500.0f;
 		float closestLessPower = 0.0f;
-		float closestMorePower = 1000.0f;
+		float closestMorePower = 10000.0f;
 
 		float closestLessXY, closestMoreXY;
 		float closestLessYZ, closestMoreYZ;
@@ -469,7 +469,10 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 				angleXYDegs, angleYZDegs, power, allowedIntersectDist))
 			{
 				angleYZDegs += 5.0f;
-				power *= 1.1f; if (power > 1000.0f) power = 1000.0f;
+				power *= 1.1f; if (power > currentTank_->getPosition().getMaxPower())
+				{
+					power = currentTank_->getPosition().getMaxPower();
+				}
 				if (angleYZDegs > 90.0f) return AimBurried;
 			}
 		}

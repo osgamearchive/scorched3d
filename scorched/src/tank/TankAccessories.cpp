@@ -20,7 +20,10 @@
 
 #include <weapons/AccessoryStore.h>
 #include <tank/TankAccessories.h>
+#include <tank/TankType.h>
+#include <tank/Tank.h>
 #include <common/OptionsDisplay.h>
+#include <common/OptionsGame.h>
 
 TankAccessories::TankAccessories(ScorchedContext &context) :
 	context_(context),
@@ -31,12 +34,16 @@ TankAccessories::TankAccessories(ScorchedContext &context) :
 	tankAuto_(context),
 	tankBatteries_(context)
 {
-
 }
 
 TankAccessories::~TankAccessories()
 {
+}
 
+void TankAccessories::setTank(Tank *tank)
+{
+	tank_ = tank;
+	tankPara_.setTank(tank);
 }
 
 void TankAccessories::newMatch()
@@ -47,6 +54,50 @@ void TankAccessories::newMatch()
 	tankAuto_.newMatch();
 	tankBatteries_.newMatch();
 	tankFuel_.newMatch();
+
+	// Add all the accessories the tank should start with
+	// this is the accessories from the global accessories file
+	// and also if give all accessories is set
+	{
+		std::list<Accessory *> accessories = 
+			context_.accessoryStore->getAllAccessories();
+		std::list<Accessory *>::iterator itor;
+		for (itor = accessories.begin();
+			itor != accessories.end();
+			itor++)
+		{
+			Accessory *accessory = (*itor);
+			if (accessory->getMaximumNumber() > 0)
+			{
+				int startingNumber = accessory->getStartingNumber();
+				if (context_.optionsGame->getGiveAllWeapons())
+				{
+					startingNumber = -1;
+				}
+
+				if (startingNumber != 0)
+				{
+					add(accessory, startingNumber);
+				}
+			}
+		}
+	}
+
+	// Add all of the accessories that come from the tank's type
+	{
+		TankType *type = tank_->getModel().getTankType(context_);
+		std::map<Accessory *, int> accessories = type->getAccessories();
+		std::map<Accessory *, int>::iterator itor;
+		for (itor = accessories.begin();
+			itor != accessories.end();
+			itor++)
+		{
+			Accessory *accessory = (*itor).first;
+			int count = (*itor).second;
+
+			add(accessory, count);
+		}
+	}
 }
 
 std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
@@ -142,11 +193,6 @@ int TankAccessories::getAccessoryCount(Accessory *accessory)
 
 void TankAccessories::add(Accessory *accessory, int count)
 {
-	if (count == -1)
-	{
-		count = accessory->getBundle();
-	}
-
 	switch (accessory->getType())
 	{
 	case AccessoryPart::AccessoryAutoDefense:

@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <target/TargetLife.h>
+#include <target/Target.h>
+#include <tank/TankType.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
@@ -26,7 +28,7 @@
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	context_(context),
 	targetInfo_(CollisionIdTarget),
-	life_(100.0f)
+	life_(100.0f), maxLife_(100.0f)
 {
 	// The tank collision object
 	targetGeom_ = 
@@ -43,14 +45,22 @@ TargetLife::~TargetLife()
 
 void TargetLife::newGame()
 {
-	setLife(100.0f);
+	maxLife_ = 10.0f;
+	if (target_->getTargetType() == Target::eTank)
+	{
+		TankType *tankType = 
+			target_->getModel().getTankType(context_);
+		maxLife_ = tankType->getLife();
+	}
+
+	setLife(maxLife_);
 }
 
 void TargetLife::setLife(float life)
 {
 	life_ = life;
 
-	if (life_ >= 100) life_ = 100;
+	if (life_ >= maxLife_) life_ = maxLife_;
 	if (life_ <= 0)
 	{
 		life_ = 0;
@@ -69,6 +79,7 @@ void TargetLife::setPosition(Vector &pos)
 
 bool TargetLife::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer(maxLife_);
 	buffer.addToBuffer(life_);
 	return true;
 }
@@ -76,6 +87,7 @@ bool TargetLife::writeMessage(NetBuffer &buffer)
 bool TargetLife::readMessage(NetBufferReader &reader)
 {
 	float l;
+	if (!reader.getFromBuffer(maxLife_)) return false;
 	if (!reader.getFromBuffer(l)) return false;
 	setLife(l);
 	return true;

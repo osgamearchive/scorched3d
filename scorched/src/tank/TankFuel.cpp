@@ -38,31 +38,6 @@ void TankFuel::newMatch()
 {
 	fuelCount_ = 0;
 	infinite_ = false;
-	std::list<Accessory *> accessories = 
-		context_.accessoryStore->getAllOthers();
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories.begin();
-		itor != accessories.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getType() == AccessoryPart::AccessoryFuel)
-		{
-			if (accessory->getMaximumNumber() > 0)
-			{
-				if (context_.optionsGame->getGiveAllWeapons() ||
-					accessory->getStartingNumber() == -1)
-				{
-					addFuel(40);
-					infinite_ = true;
-				}
-				else if (accessory->getStartingNumber() > 0)
-				{
-					addFuel(accessory->getStartingNumber());
-				}
-			}
-		}
-	}
 }
 
 void TankFuel::rmFuel(int no)
@@ -78,6 +53,11 @@ void TankFuel::rmFuel(int no)
 
 void TankFuel::addFuel(int no)
 {
+	if (no == -1)
+	{
+		no = 40;
+		infinite_ = true;
+	}
 	fuelCount_+=no;
 }
 

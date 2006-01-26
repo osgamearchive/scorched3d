@@ -20,6 +20,7 @@
 
 #include <tankgraph/GLWTankViewer.h>
 #include <tankgraph/TankModelStore.h>
+#include <tankgraph/TankMesh.h>
 #include <3dsparse/ModelStore.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
@@ -250,8 +251,8 @@ void GLWTankViewer::draw()
 					TankSquareSize))
 				{
 					toolTip_.setText(
-						"Model",
-						models_[vectorPos]->getId().getTankModelName());			
+						models_[vectorPos]->getId().getTankModelName(),
+						models_[vectorPos]->getTankType()->getDescription());	
 				}
 
 				float scale = 22.0f / 60.0f * TankSquareSize;

@@ -57,6 +57,7 @@ work.</description>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>20</removepower>
 			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -81,6 +82,7 @@ work.</description>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>15</removepower>
 			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -107,6 +109,7 @@ they work.</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>20</removepower>
 			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -133,6 +136,7 @@ be activated before they work.</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>4</removepower>
 			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -159,6 +163,7 @@ activated before they work.</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>3</removepower>
 			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>

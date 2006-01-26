@@ -137,7 +137,8 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("USE_BATTERY", batteryKey);
 	if (batteryKey->keyDown(buffer, keyState, false))
 	{
-		if (currentTank_->getLife().getLife() < 100.0f)
+		if (currentTank_->getLife().getLife() < 
+			currentTank_->getLife().getMaxLife())
 		{
 			useBattery();
 		}
@@ -436,7 +437,8 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 
 void TankAIHuman::powerHUD()
 {
-	float power = currentTank_->getPosition().getPower() / 1000.0f;
+	float power = currentTank_->getPosition().getPower() / 
+		currentTank_->getPosition().getMaxPower();
 	TankModelRendererHUD::setText("Pwr:", 
 		currentTank_->getPosition().getPowerString(), power * 100.0f);
 }

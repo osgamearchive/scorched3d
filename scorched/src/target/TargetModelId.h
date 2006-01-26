@@ -25,6 +25,8 @@
 
 // The model used for this tank
 class TargetModelIdRenderer;
+class ScorchedContext;
+class TankType;
 class TargetModelId
 {
 public:
@@ -40,6 +42,9 @@ public:
 
 	// The model that should be used for this target
 	ModelID &getTargetModel() { return targetModel_; }
+
+	// The type of this tank (not for targets)
+	TankType *getTankType(ScorchedContext &context);
 
 	// Class that can be used to add rendering functionality
 	// to the tank

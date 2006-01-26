@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,47 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/AccessoryStore.h>
-#include <tank/TankAutoDefense.h>
+#if !defined(__INCLUDE_TankTypesh_INCLUDE__)
+#define __INCLUDE_TankTypesh_INCLUDE__
 
-TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
-	context_(context), haveDefense_(false)
-{
-}
+#include <tank/TankType.h>
+#include <vector>
 
-TankAutoDefense::~TankAutoDefense()
+class TankTypes
 {
-}
+public:
+	TankTypes();
+	virtual ~TankTypes();
 
-void TankAutoDefense::newMatch()
-{
-	haveDefense_ = false;
-}
+	bool loadTankTypes(ScorchedContext &context);
+	TankType *getType(const char *name);
 
-void TankAutoDefense::addDefense()
-{
-	haveDefense_ = true;
-}
+protected:
+	std::vector<TankType *> types_;
+};
 
-void TankAutoDefense::rmDefense()
-{
-	haveDefense_ = false;
-}
-
-bool TankAutoDefense::haveDefense()
-{
-	return haveDefense_;
-}
-
-bool TankAutoDefense::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	if (writeAccessories) buffer.addToBuffer(haveDefense_);
-	else buffer.addToBuffer(false);
-	return true;
-}
-
-bool TankAutoDefense::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(haveDefense_)) return false;
-	return true;
-}
+#endif // __INCLUDE_TankTypesh_INCLUDE__

@@ -35,8 +35,11 @@ TankModelStore::~TankModelStore()
 
 }
 
-bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
+bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *counter)
 {
+	// Load the tank types
+	if (!types_.loadTankTypes(context)) return false;
+
 	// Load tank definition file
 	if (counter) counter->setNewOp("Loading tanks");
 	XMLFile file;
@@ -70,9 +73,7 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
         XMLNode *currentNode = (*childrenItor);
 		if (stricmp(currentNode->getName(), "tank"))
 		{
-			dialogMessage("Scorched Models",
-						  "Failed to find tank node");
-			return false;
+			return currentNode->returnError("Failed to tank node");
 		}
 
 		// Get the name of tank
@@ -80,6 +81,19 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		if (!currentNode->getNamedChild("name", nameNode)) return false;
 		const char *modelName = nameNode->getContent();
 		TargetModelId id(modelName);
+
+		// Get the tank type (if any)
+		std::string tankType = "none";
+		currentNode->getNamedChild("type", tankType, false);
+		TankType *type = types_.getType(tankType.c_str());
+		if (!type)
+		{
+			return currentNode->returnError(
+				formatString(
+				"Failed to find tank type \"%s\" for tank \"%s\"",
+				tankType.c_str(),
+				modelName));
+		}
 
 		// Get the model node
 		XMLNode *modelNode;
@@ -91,14 +105,13 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 		ModelID modelId;
 		if (!modelId.initFromNode("data/tanks", modelNode))
 		{
-			dialogMessage("Scorched Models",
-						"Failed to load mesh for tank \"%s\"",
-						modelName);
-			return false;
+			return modelNode->returnError(
+				formatString("Failed to load mesh for tank \"%s\"",
+				modelName));
 		}
 
 		// Create the tank model
-		TankModel *model = new TankModel(id, modelId);
+		TankModel *model = new TankModel(id, modelId, type);
 
 		// Get the projectile model node (if any)
 		XMLNode *projectileModelNode;
@@ -107,10 +120,9 @@ bool TankModelStore::loadTankMeshes(ProgressCounter *counter)
 			ModelID projModelId;
 			if (!projModelId.initFromNode("data/accessories", projectileModelNode))
 			{
-				dialogMessage("Scorched Models",
-							"Failed to load projectile mesh for tank \"%s\"",
-							modelName);
-				return false;
+				return projectileModelNode->returnError(
+					formatString("Failed to load projectile mesh for tank \"%s\"",
+					modelName));
 			}
 			model->getProjectileModelID() = projModelId;
 		}

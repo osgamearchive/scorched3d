@@ -35,7 +35,7 @@ Tank::Tank(ScorchedContext &context,
 	Target(playerId, modelId, name, context), 
 	destinationId_(destinationId),
 	color_(color), 
-	position_(context, playerId),
+	position_(context),
 	tankAI_(0),
 	score_(context), 
 	state_(context, playerId), 
@@ -46,7 +46,7 @@ Tank::Tank(ScorchedContext &context,
 {
 	position_.setTank(this);
 	state_.setTank(this);
-	accessories_.getParachutes().setTank(this);
+	accessories_.setTank(this);
 	state_.setState(TankState::sPending);
 
 	if (context.serverMode) accessories_.newMatch();
@@ -76,6 +76,7 @@ void Tank::newGame()
 	Target::newGame();
 
 	state_.newGame();
+	position_.newGame();
 	if (tankAI_) tankAI_->newGame();
 }
 
@@ -112,6 +113,7 @@ bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 	if (!state_.writeMessage(buffer)) return false;
 	if (!accessories_.writeMessage(buffer, writeAccessories)) return false;
 	if (!score_.writeMessage(buffer)) return false;
+	if (!position_.writeMessage(buffer)) return false;
 	return true;
 }
 
@@ -124,6 +126,7 @@ bool Tank::readMessage(NetBufferReader &reader)
 	if (!state_.readMessage(reader)) return false;
 	if (!accessories_.readMessage(reader)) return false;
 	if (!score_.readMessage(reader)) return false;
+	if (!position_.readMessage(reader)) return false;
 
 	if (!context_.serverMode)
 	{

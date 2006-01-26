@@ -19,12 +19,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TankModel.h>
+#include <tankgraph/TankMesh.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
+#include <tank/TankType.h>
 
-TankModel::TankModel(TargetModelId &id, ModelID &modelId) :
+TankModel::TankModel(TargetModelId &id, ModelID &modelId, TankType *tankType) :
 	init_(false),
-	id_(id), modelId_(modelId), tankMesh_(0)
+	id_(id), modelId_(modelId), tankMesh_(0), tankType_(tankType)
 {
 	catagories_.insert("All");
 }

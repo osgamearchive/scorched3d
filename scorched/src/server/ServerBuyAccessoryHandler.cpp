@@ -149,7 +149,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 			tank, accessory->getName());
 
 		// Add the accessory
-		tank->getAccessories().add(accessory);
+		tank->getAccessories().add(accessory, accessory->getBundle());
 		tank->getScore().setMoney(
 			tank->getScore().getMoney() - accessory->getPrice());
 	}
