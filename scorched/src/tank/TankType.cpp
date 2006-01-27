@@ -84,16 +84,31 @@ const char *TankType::getDescription()
 {
 	std::string accessoryBuffer;
 	{
+		if (!accessories_.empty()) accessoryBuffer.append("\n");
+
 		unsigned int count = 0;
 		std::map<Accessory *, int>::iterator itor;
 		for (itor = accessories_.begin();
 			itor != accessories_.end();
 			itor++, count++)
 		{
-			if (count == 0) accessoryBuffer.append("\n");
 			Accessory *accessory = (*itor).first;
-			accessoryBuffer.append(accessory->getName());
+			accessoryBuffer.append("+ ").append(accessory->getName());
 			if (count + 1 < accessories_.size()) accessoryBuffer.append("\n");
+		}
+	}
+	{
+		if (!disabledAccessories_.empty()) accessoryBuffer.append("\n");
+
+		unsigned int count = 0;
+		std::set<Accessory *>::iterator itor;
+		for (itor = disabledAccessories_.begin();
+			itor != disabledAccessories_.end();
+			itor++, count++)
+		{
+			Accessory *accessory = (*itor);
+			accessoryBuffer.append("- ").append(accessory->getName());
+			if (count + 1 < disabledAccessories_.size()) accessoryBuffer.append("\n");
 		}
 	}
 

@@ -3,6 +3,7 @@
 		<name>none</name>
 		<life>100</life>
 		<power>1000</power>
+
 		<!--
 		<accessory>
 			<name>Missile</name>
@@ -12,10 +13,12 @@
 			<name>MIRV</name>
 			<count>-1</count>
 		</accessory>
-		-->
-		<!--
+
 		<disableaccessory>
 			<name>Funky Bomb</name>
+		</disableaccessory>
+			<disableaccessory>
+			<name>Nuke</name>
 		</disableaccessory>
 		-->
 	</tanktype>

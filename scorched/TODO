@@ -72,7 +72,6 @@ Changing menus to be icons
 New game modes
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
-Need more power up types
 Swell from boats
 Bases with physics and shields
 
@@ -82,7 +81,6 @@ Allow same ip addresses to connect but don't collect stats
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 
 -- Client Stuff
-Change shields and parachutes so they don't active until the round starts
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 Animated GIFs for avitars
 Option to reconnect when disconected from server.
@@ -93,7 +91,6 @@ Add option for human players to say stuff when firing/killed
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
-Towers can't move
 More weapons, always more weapons
 Smoke bombs
 Bouncing debris
@@ -102,14 +99,11 @@ Low level cloud or fog
 Patriot missile type defense
 plasma blast
 different hp / weapons capabilities for different tanks?
-guidance systems
 fire control
-lazy boy
 
 -- Game Play
-Guidance
-resignation penalty (there already is, you can't win round!)
-communism
+Guidance systems (lazy boy)
+Communism (economy type)
 
 -- Graphics Stuff
 Add action replay type functionality
