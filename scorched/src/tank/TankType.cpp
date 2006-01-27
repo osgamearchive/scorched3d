@@ -56,23 +56,45 @@ bool TankType::initFromXML(ScorchedContext &context, XMLNode *node)
 
 		accessories_[accessory] = count;
 	}
+	while (node->getNamedChild("disableaccessory", accessoryNode, false))
+	{
+		std::string name;
+		if (!accessoryNode->getNamedChild("name", name)) return false;
+		if (!accessoryNode->failChildren()) return false;
+
+		Accessory *accessory = context.accessoryStore->
+			findByPrimaryAccessoryName(name.c_str());
+		if (!accessory)
+		{
+			return accessoryNode->returnError("Failed to find named accessory");
+		}
+
+		disabledAccessories_.insert(accessory);
+	}
 
 	return node->failChildren();
 }
 
+bool TankType::getAccessoryDisabled(Accessory *accessory)
+{
+	return (disabledAccessories_.find(accessory) != disabledAccessories_.end());
+}
+
 const char *TankType::getDescription()
 {
-	unsigned int count = 0;
-	std::string buffer;
-	std::map<Accessory *, int>::iterator itor;
-	for (itor = accessories_.begin();
-		itor != accessories_.end();
-		itor++, count++)
+	std::string accessoryBuffer;
 	{
-		if (count == 0) buffer.append("\n");
-		Accessory *accessory = (*itor).first;
-		buffer.append(accessory->getName());
-		if (count + 1 < accessories_.size()) buffer.append("\n");
+		unsigned int count = 0;
+		std::map<Accessory *, int>::iterator itor;
+		for (itor = accessories_.begin();
+			itor != accessories_.end();
+			itor++, count++)
+		{
+			if (count == 0) accessoryBuffer.append("\n");
+			Accessory *accessory = (*itor).first;
+			accessoryBuffer.append(accessory->getName());
+			if (count + 1 < accessories_.size()) accessoryBuffer.append("\n");
+		}
 	}
 
 	return formatString(
@@ -80,5 +102,5 @@ const char *TankType::getDescription()
 		"Power : %.0f%s",
 		getLife(),
 		getPower(),
-		buffer.c_str());		
+		accessoryBuffer.c_str());		
 }

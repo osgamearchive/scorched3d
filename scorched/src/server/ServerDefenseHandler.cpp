@@ -109,7 +109,7 @@ void ServerDefenseHandler::processDefenseMessage(
 	switch (message.getChange())
 	{
 	case ComsDefenseMessage::eBatteryUse:
-		if (tank->getAccessories().getBatteries().getNoBatteries() > 0)
+		if (tank->getAccessories().getBatteries().getNoBatteries() != 0)
 		{
 			tank->getAccessories().getBatteries().rmBatteries(1);
 			tank->getLife().setLife(tank->getLife().getLife() + 10.0f);

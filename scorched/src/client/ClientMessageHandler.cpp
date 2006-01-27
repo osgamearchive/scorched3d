@@ -61,6 +61,7 @@ void ClientMessageHandler::clientDisconnected(NetMessage &message)
 {
 	Logger::log( "Disconnected");
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
+	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getTankContainer().setCurrentDestinationId(0);
 }
 

@@ -24,6 +24,7 @@
 #include <tank/Tank.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 
 TankAccessories::TankAccessories(ScorchedContext &context) :
 	context_(context),
@@ -145,7 +146,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	}
 
 	// Add batteries
-	if (tankBatteries_.getNoBatteries())
+	if (tankBatteries_.getNoBatteries() != 0)
 	{
 		Accessory *accessory = context_.accessoryStore->
 			findByAccessoryType(AccessoryPart::AccessoryBattery);
@@ -153,7 +154,7 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 	}
 
 	// Add fuel
-	if (tankFuel_.getNoFuel())
+	if (tankFuel_.getNoFuel() != 0)
 	{
 		Accessory *accessory = context_.accessoryStore->
 			findByAccessoryType(AccessoryPart::AccessoryFuel);
@@ -191,8 +192,42 @@ int TankAccessories::getAccessoryCount(Accessory *accessory)
 	return 0;
 }
 
+bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
+{
+	// Check if this tank type allows this accessory
+	TankType *type = tank_->getModel().getTankType(context_);
+	if (type->getAccessoryDisabled(accessory)) return false;
+
+	// Check if this accessory is allowed at all
+	if (accessory->getMaximumNumber() == 0) return false;
+	if (getAccessoryCount(accessory) + count >
+		accessory->getMaximumNumber())
+	{
+		return false;
+	}
+
+	// Check if this accessory exceeds the current arms level
+	if (10 - accessory->getArmsLevel() > 
+		context_.optionsTransient->getArmsLevel())
+	{
+		return false;
+	}
+
+	// Check if an infinite weapon is being bought twice
+	if (getAccessoryCount(accessory) == -1)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 void TankAccessories::add(Accessory *accessory, int count)
 {
+	// Check if this tank is allowed this accessory
+	if (!accessoryAllowed(accessory, count)) return;
+
+	// Add this accessory to the appropriate container
 	switch (accessory->getType())
 	{
 	case AccessoryPart::AccessoryAutoDefense:

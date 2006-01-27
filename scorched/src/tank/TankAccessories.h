@@ -41,6 +41,7 @@ public:
 	void add(Accessory *accessory, int count);
 	void rm(Accessory *accessory);
 
+	bool accessoryAllowed(Accessory *accessory, int count);
 	int getAccessoryCount(Accessory *accessory);
 	std::list<Accessory *> getAllAccessories(bool sort=false);
 

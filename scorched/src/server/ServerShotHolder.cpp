@@ -230,7 +230,8 @@ void ServerShotHolder::processMoveMessage(ScorchedContext &context,
 		MovementMap::MovementMapEntry entry =
 			mmap.getEntry(posX, posY);
 		if (entry.type == MovementMap::eMovement &&
-			entry.dist < tank->getAccessories().getFuel().getNoFuel())
+			(entry.dist < tank->getAccessories().getFuel().getNoFuel() ||
+			tank->getAccessories().getFuel().getNoFuel() == -1))
 		{
 			TankMovement *move = 
 				new TankMovement(tank->getPlayerId(), posX, posY);

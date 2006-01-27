@@ -122,28 +122,12 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	if (accessory->getMaximumNumber() == 0)
-	{
-		Logger::log( "ERROR: Player buying non-purchasable weapon \"%s\"",
-			accessory->getName());
-		return true;
-	}
-
-	if (10 - accessory->getArmsLevel() > 
-		ScorchedServer::instance()->getOptionsTransient().getArmsLevel())
-	{
-		Logger::log( "ERROR: Player atempting to buy weapon \"%s\" in wrong arms level", 
-			accessory->getName());
-		return true;
-	}
-
 	// The game state and everything is correct
 	// Perform the actual add or remove of accessory
 	if (message.getBuy())
 	{
+		if (!tank->getAccessories().accessoryAllowed(accessory, accessory->getBundle())) return true;
 		if (tank->getScore().getMoney() < accessory->getPrice()) return true;
-		if (tank->getAccessories().getAccessoryCount(accessory) + accessory->getBundle() >
-			accessory->getMaximumNumber()) return true;
 
 		EconomyStore::instance()->getEconomy()->accessoryBought(
 			tank, accessory->getName());

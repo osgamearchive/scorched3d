@@ -76,7 +76,7 @@ protected:
 	void addPlayerWeaponsSell();
 	void addPlayerFavorites();
 	void addPlayerWeaponsBuy(GLWTab *tab, bool weapons);
-	void addAccessory(Tank *tank, GLWTab *tab, float height, Accessory *current);
+	bool addAccessory(Tank *tank, GLWTab *tab, float height, Accessory *current);
 
 };
 

@@ -82,11 +82,22 @@ TankFuelTip::~TankFuelTip()
 
 void TankFuelTip::populate()
 {
-	setText("Fuel",
-		"Allows the tank to move.\n"
-		"Click to toggle movement mode.\n"
-		"Fuel : %i",
-		tank_->getAccessories().getFuel().getNoFuel());
+	int count = tank_->getAccessories().getFuel().getNoFuel();
+	if (count < 0)
+	{
+		setText("Fuel",
+			"Allows the tank to move.\n"
+			"Click to toggle movement mode.\n"
+			"Fuel : In");
+	}
+	else
+	{
+		setText("Fuel",
+			"Allows the tank to move.\n"
+			"Click to toggle movement mode.\n"
+			"Fuel : %i",
+			count);
+	}
 }
 
 void TankFuelTip::showItems(float x, float y)
@@ -99,7 +110,7 @@ void TankFuelTip::showItems(float x, float y)
 		"Switch back to the normal camera mode.");
 	
 	std::list<GLWSelectorEntry> entries;
-	if (tank_->getAccessories().getFuel().getNoFuel() > 0)
+	if (tank_->getAccessories().getFuel().getNoFuel() != 0)
 	{
 		entries.push_back(GLWSelectorEntry("Move", &useTip, 0, 0, (void *) 1));
 	}
@@ -143,12 +154,24 @@ TankBatteryTip::~TankBatteryTip()
 
 void TankBatteryTip::populate()
 {
-	setText("Batteries",
-		"Can be used to recharge life.\n"
-		"Each battery gives back 10 life.\n"
-		"Click to use some battery(s).\n"
-		"Batteries : %i",
-		tank_->getAccessories().getBatteries().getNoBatteries());
+	int count = tank_->getAccessories().getBatteries().getNoBatteries();
+	if (count < 0)
+	{
+		setText("Batteries",
+			"Can be used to recharge life.\n"
+			"Each battery gives back 10 life.\n"
+			"Click to use some battery(s).\n"
+			"Batteries : In");
+	}
+	else
+	{
+		setText("Batteries",
+			"Can be used to recharge life.\n"
+			"Each battery gives back 10 life.\n"
+			"Click to use some battery(s).\n"
+			"Batteries : %i",
+			count);
+	}
 }
 
 void TankBatteryTip::showItems(float x, float y)
@@ -158,8 +181,11 @@ void TankBatteryTip::showItems(float x, float y)
 	static GLWTip offTip("Battery Cancel", 
 		"Don't use any batteries");
 	
+	int count = tank_->getAccessories().getBatteries().getNoBatteries();
+	if (count == -1) count = 10;
+
 	std::list<GLWSelectorEntry> entries;
-	for (int i=1; i<=MIN(tank_->getAccessories().getBatteries().getNoBatteries(),10); i++)
+	for (int i=1; i<=MIN(count,10); i++)
 	{
 		char buffer[128];
 		snprintf(buffer, 128, "Use %i", i);

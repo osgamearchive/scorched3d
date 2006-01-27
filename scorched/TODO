@@ -27,7 +27,7 @@ Fixed: Tanks will not move through newly created water when movement restriction
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
 Added: More powerups (WeaponGiveAcccessory, WeaponGiveLife, WeaponGivePower)
-Added: Max power, max life and starting accessories tank attributs
+Added: Max power, max life, starting accessories and disallowed accessories tank attributes
 Added: Tanks can have different attributes from each other (life, power, etc...) 
 Added: Shield power can be set for each shield (previously 100 for every shield)
 Added: Players don't create a dummy landscape when connecting to servers

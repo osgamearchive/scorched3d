@@ -218,20 +218,26 @@ void GLWScorchedInfo::draw()
 			}
 		break;
 		case eBatteryCount:
+			{
+			int count = current->getAccessories().getBatteries().getNoBatteries();
 			setToolTip(&model->getTips()->batteryTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%i",
-				current->getAccessories().getBatteries().getNoBatteries());
+				(count==-1?"In":"%i"),
+				count);
+			}
 		break;
 		case eFuelCount:
+			{
+			int count = current->getAccessories().getFuel().getNoFuel();
 			setToolTip(&model->getTips()->fuelTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%i",
-				current->getAccessories().getFuel().getNoFuel());
+				(count==-1?"In":"%i"),
+				count);
+			}
 		break;
 		case eWeaponName:
 		{

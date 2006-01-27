@@ -23,6 +23,7 @@
 
 #include <string>
 #include <map>
+#include <set>
 
 class XMLNode;
 class Accessory;
@@ -39,12 +40,14 @@ public:
 	float getPower() { return power_; }
 
 	std::map<Accessory *, int> &getAccessories() { return accessories_; }
+	bool getAccessoryDisabled(Accessory *accessory);
 
 	bool initFromXML(ScorchedContext &context, XMLNode *node);
 
 protected:
 	std::string name_;
 	std::map<Accessory *, int> accessories_;
+	std::set<Accessory *> disabledAccessories_;
 	float life_;
 	float power_;
 };

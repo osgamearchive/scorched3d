@@ -13,5 +13,10 @@
 			<count>-1</count>
 		</accessory>
 		-->
+		<!--
+		<disableaccessory>
+			<name>Funky Bomb</name>
+		</disableaccessory>
+		-->
 	</tanktype>
 </tanktypes>

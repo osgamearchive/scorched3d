@@ -23,6 +23,8 @@
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
+#include <common/LoggerI.h>
+#include <common/Logger.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveLife);
 
@@ -67,5 +69,10 @@ void WeaponGiveLife::invokePowerUp(ScorchedContext &context,
 		tank->getLife().setMaxLife(life_);
 	}
 	tank->getLife().setLife(life_);
+
+	LoggerInfo info(LoggerInfo::TypeDeath,
+		formatString("\"%s\" received %.0f life", life_));
+	info.setPlayerId(playerId);
+	Logger::log(info);
 }
 

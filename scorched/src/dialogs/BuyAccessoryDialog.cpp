@@ -180,15 +180,9 @@ void BuyAccessoryDialog::addPlayerFavorites()
 		itor++)
 	{
 		Accessory *current = *itor;
-		if (current->getMaximumNumber() > 0 &&
-			10-current->getArmsLevel() <= 
-			ScorchedClient::instance()->getOptionsTransient().getArmsLevel())
+		if (favorites_.find(current->getName()) != favorites_.end())
 		{
-			if (favorites_.find(current->getName()) != favorites_.end())
-			{
-				addAccessory(tank, favouritesTab_, height, current);
-				height += 24.0f;
-			}
+			if (addAccessory(tank, favouritesTab_, height, current)) height += 24.0f;
 		}
 	}
 }
@@ -213,12 +207,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		itor++)
 	{	
 		Accessory *current = (*itor);
-		if (current->getMaximumNumber() > 0 &&
-			10-current->getArmsLevel() <= 
-			ScorchedClient::instance()->getOptionsTransient().getArmsLevel())
-		{
-			accessories.push_back(current);
-		}
+		accessories.push_back(current);
 	}
 
 	float height = 10.0f;
@@ -228,8 +217,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
 		itor2++)
 	{
 		Accessory *current = (*itor2);
-		addAccessory(tank, tab, height, current);
-		height += 24.0f;
+		if (addAccessory(tank, tab, height, current)) height += 24.0f;
 	}
 }
 
@@ -248,15 +236,16 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		itor++)
 	{
 		Accessory *current = *itor;
-		addAccessory(tank, sellTab_, height, current);
-		height += 24.0f;
+		if (addAccessory(tank, sellTab_, height, current)) height += 24.0f;
 	}
 }
 
-void BuyAccessoryDialog::addAccessory(
+bool BuyAccessoryDialog::addAccessory(
 	Tank *tank, GLWTab *tab, 
 	float height, Accessory *current)
 {
+	if (current->getMaximumNumber() == 0) return false;
+
 	int currentNumber = 
 		tank->getAccessories().getAccessoryCount(current);
 
@@ -279,15 +268,13 @@ void BuyAccessoryDialog::addAccessory(
 	
 	// Others
 	newPanel->addWidget(new GLWLabel(20, 0, (char *)
-		formatString("%i", (currentNumber>=0?currentNumber:99)), 12.0f));
+		formatString((currentNumber == -1?"In":"%i"), currentNumber), 12.0f));
 	newPanel->addWidget(new GLWIcon(45, 4, 16, 16, current->getTexture()));
 	newPanel->addWidget(new GLWLabel(65, 0, (char *) current->getName(), 12.0f));
 
 	// Buy Button
-	if (currentNumber + current->getBundle() <= current->getMaximumNumber() && // Not exceeded maximum
-		current->getStartingNumber() != -1) // Not infinite
-	{
-	if (current->getPrice() <= tank->getScore().getMoney())
+	if (tank->getAccessories().accessoryAllowed(current, current->getBundle()) && 
+		current->getPrice() <= tank->getScore().getMoney())
 	{
 		GLWTextButton *button = (GLWTextButton *)
 			newPanel->addWidget(new GLWTextButton(
@@ -312,11 +299,9 @@ void BuyAccessoryDialog::addAccessory(
 		label->setX(label->getX() - label->getW() / 2);
 		label->setColor(Vector(0.4f, 0.4f, 0.4f));
 	}
-	}
 
 	// Sell Button
-	if (currentNumber > 0 && 
-		current->getStartingNumber() != -1)
+	if (currentNumber > 0)
 	{
 		GLWTextButton *button = (GLWTextButton *)
 			newPanel->addWidget(new GLWTextButton(
@@ -331,6 +316,8 @@ void BuyAccessoryDialog::addAccessory(
 		button->setH(button->getH() - 2.0f);
 		sellMap_[button->getId()] = current;
 	}
+
+	return true;
 }
 
 void BuyAccessoryDialog::windowInit(const unsigned state)

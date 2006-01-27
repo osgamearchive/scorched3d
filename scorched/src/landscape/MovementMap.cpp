@@ -167,6 +167,7 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 	unsigned int posY = (unsigned int) 
 		tank->getPosition().getTankPosition()[1];
 	float fuel = (float) tank->getAccessories().getFuel().getNoFuel();
+	if (fuel == -1.0f) fuel = 40.0f;
 	if (maxFuel) fuel = 90.0f;
 
 	// Add this point to the movement map

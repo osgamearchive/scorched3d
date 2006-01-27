@@ -23,6 +23,8 @@
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
+#include <common/LoggerI.h>
+#include <common/Logger.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveAccessory);
 
@@ -78,6 +80,13 @@ void WeaponGiveAccessory::invokePowerUp(ScorchedContext &context,
 		itor != giveAccessories_.end();
 		itor++)
 	{
-		tank->getAccessories().add((*itor), number_);
+		Accessory *accessory = (*itor);
+		tank->getAccessories().add(accessory, number_);
+
+		LoggerInfo info(LoggerInfo::TypeDeath,
+			formatString("\"%s\" received %i %s", 
+			number_, accessory->getName()));
+		info.setPlayerId(playerId);
+		Logger::log(info);
 	}
 }

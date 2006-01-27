@@ -23,6 +23,8 @@
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
+#include <common/LoggerI.h>
+#include <common/Logger.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGivePower);
 
@@ -61,4 +63,9 @@ void WeaponGivePower::invokePowerUp(ScorchedContext &context,
 	if (!tank) return;
 
 	tank->getPosition().setMaxPower(power_);
+
+	LoggerInfo info(LoggerInfo::TypeDeath,
+		formatString("\"%s\" received %.0f power", power_));
+	info.setPlayerId(playerId);
+	Logger::log(info);
 }

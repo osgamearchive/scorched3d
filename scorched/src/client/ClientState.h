@@ -51,7 +51,8 @@ namespace ClientState
 		StateAutoDefense,
 		StatePlaying,
 		StateShot,
-		StateScore
+		StateScore,
+		StateDisconnected
 	};
 
 	void setupGameState(bool network);

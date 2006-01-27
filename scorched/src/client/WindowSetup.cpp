@@ -146,6 +146,18 @@ void WindowSetup::setupStartWindows()
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		GLWSelector::instance(), 0, true);
 
+	// StateDisconnected
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		BackdropDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		QuitDialog::instance(), quitKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		LogDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		ConnectDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		GLWSelector::instance(), 0, true);
+
 	// StateLoadPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,
 		BackdropDialog::instance(), 0, true);

@@ -456,7 +456,8 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 
 						MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
 						if (entry.type == MovementMap::eMovement &&
-							entry.dist < currentTank->getAccessories().getFuel().getNoFuel())
+							(entry.dist < currentTank->getAccessories().getFuel().getNoFuel() ||
+							currentTank->getAccessories().getFuel().getNoFuel() == -1))
 						{
 							TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
 							if (ai) ai->move(posX, posY);

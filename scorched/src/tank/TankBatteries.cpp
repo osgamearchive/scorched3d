@@ -24,7 +24,7 @@
 #include <stdio.h>
 
 TankBatteries::TankBatteries(ScorchedContext &context) :
-	context_(context), infinite_(false), batteryCount_(0)
+	context_(context), batteryCount_(0)
 {
 }
 
@@ -34,13 +34,12 @@ TankBatteries::~TankBatteries()
 
 void TankBatteries::newMatch()
 {
-	infinite_ = false;
 	batteryCount_ = 0;
 }
 
 void TankBatteries::rmBatteries(int no)
 {
-	if (infinite_) return;
+	if (batteryCount_ == -1) return;
 
 	batteryCount_ -= no;
 	if (batteryCount_ < 0)
@@ -51,11 +50,6 @@ void TankBatteries::rmBatteries(int no)
 
 void TankBatteries::addBatteries(int no)
 {
-	if (no == -1)
-	{
-		no = 20;
-		infinite_ = true;
-	}
 	batteryCount_+=no;
 }
 
@@ -63,13 +57,11 @@ bool TankBatteries::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	if (writeAccessories) buffer.addToBuffer(batteryCount_);
 	else buffer.addToBuffer((int) 0);
-	buffer.addToBuffer(infinite_);
 	return true;
 }
 
 bool TankBatteries::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(batteryCount_)) return false;
-	if (!reader.getFromBuffer(infinite_)) return false;
 	return true;
 }

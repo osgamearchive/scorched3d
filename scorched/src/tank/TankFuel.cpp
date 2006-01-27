@@ -26,7 +26,7 @@
 #include <stdio.h>
 
 TankFuel::TankFuel(ScorchedContext &context) :
-	context_(context), infinite_(false), fuelCount_(0)
+	context_(context), fuelCount_(0)
 {
 }
 
@@ -37,12 +37,11 @@ TankFuel::~TankFuel()
 void TankFuel::newMatch()
 {
 	fuelCount_ = 0;
-	infinite_ = false;
 }
 
 void TankFuel::rmFuel(int no)
 {
-	if (infinite_) return;
+	if (fuelCount_ == -1) return;
 
 	fuelCount_ -= no;
 	if (fuelCount_ < 0)
@@ -53,11 +52,6 @@ void TankFuel::rmFuel(int no)
 
 void TankFuel::addFuel(int no)
 {
-	if (no == -1)
-	{
-		no = 40;
-		infinite_ = true;
-	}
 	fuelCount_+=no;
 }
 
@@ -65,13 +59,11 @@ bool TankFuel::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	if (writeAccessories) buffer.addToBuffer(fuelCount_);
 	else buffer.addToBuffer((int) 0);
-	buffer.addToBuffer(infinite_);
 	return true;
 }
 
 bool TankFuel::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(fuelCount_)) return false;
-	if (!reader.getFromBuffer(infinite_)) return false;
 	return true;
 }
