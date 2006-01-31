@@ -257,7 +257,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 				Target *target = context_->targetContainer->getTargetById(id);
 				if (target)
 				{
-					if (target->getTargetType() == Target::eTank)
+					if (!target->isTarget())
 					{
 						Tank *tank = (Tank *) target;
 						if (tank &&

@@ -27,6 +27,8 @@
 #include <vector>
 
 class LandscapeDefinitions;
+class LandscapePlace;
+class LandscapeSound;
 class LandscapeDefnType
 {
 public:
@@ -116,6 +118,9 @@ public:
 	LandscapeDefnType *surround;
 	LandscapeDefnType *tankstart;
 	LandscapeDefnType *heightmap;
+
+	std::vector<LandscapeSound *> sounds;
+	std::vector<LandscapePlace *> placements;
 
 	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 

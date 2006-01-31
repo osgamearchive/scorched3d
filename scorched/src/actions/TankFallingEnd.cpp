@@ -84,7 +84,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 			{
 				// No damage we were using parachutes
 				damage = 0.0f;
-				if (current->getTargetType() == Target::eTank)
+				if (!current->isTarget())
 				{
 					Tank *currentTank = (Tank *) current;
 					currentTank->getAccessories().getParachutes().useParachutes();

@@ -243,20 +243,23 @@ void LandscapeObjects::burnObjects(
 	for (iter = lower; iter != upper; iter++)
 	{
 		LandscapeObjectsEntry *entry = (*iter).second;
-		entry->burnt = true;
-		
-		if (playerId != 0 &&
-			entry->burnaction.c_str()[0] &&
-			0 != strcmp(entry->burnaction.c_str(), "none"))
+		if (!entry->burnt)
 		{
-			Accessory *accessory = context.accessoryStore->findByPrimaryAccessoryName(
-				entry->burnaction.c_str());
-			if (accessory && accessory->getAction()->getType() == 
-				AccessoryPart::AccessoryWeapon)
+			entry->burnt = true;
+			
+			if (playerId != 0 &&
+				entry->burnaction.c_str()[0] &&
+				0 != strcmp(entry->burnaction.c_str(), "none"))
 			{
-				Weapon *weapon = (Weapon *) accessory->getAction();
-				Vector position(entry->posX, entry->posY, entry->posZ);
-				weapon->fireWeapon(context, playerId, position, Vector::nullVector);
+				Accessory *accessory = context.accessoryStore->findByPrimaryAccessoryName(
+					entry->burnaction.c_str());
+				if (accessory && accessory->getAction()->getType() == 
+					AccessoryPart::AccessoryWeapon)
+				{
+					Weapon *weapon = (Weapon *) accessory->getAction();
+					Vector position(entry->posX, entry->posY, entry->posZ);
+					weapon->fireWeapon(context, playerId, position, Vector::nullVector);
+				}
 			}
 		}
 	}

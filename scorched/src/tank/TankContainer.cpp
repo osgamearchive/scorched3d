@@ -41,7 +41,7 @@ void TankContainer::addTank(Tank *tank)
 Tank *TankContainer::removeTank(unsigned int playerId)
 {
 	Target *target = targets_.removeTarget(playerId);
-	DIALOG_ASSERT(!target || target->getTargetType() == Target::eTank);
+	if (target) DIALOG_ASSERT(!target->isTarget());
 	return (Tank *) target;
 }
 
@@ -53,7 +53,7 @@ Tank *TankContainer::getTankByPos(unsigned int pos)
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *tank = (Tank *) target;
 			if (pos-- <= 0) return tank;
@@ -65,7 +65,7 @@ Tank *TankContainer::getTankByPos(unsigned int pos)
 Tank *TankContainer::getTankById(unsigned int id)
 {
 	Target *target = targets_.getTargetById(id);
-	DIALOG_ASSERT(!target || target->getTargetType() == Target::eTank);
+	if (target) DIALOG_ASSERT(!target->isTarget());
 	return (Tank *) target;
 }
 
@@ -77,7 +77,7 @@ Tank *TankContainer::getTankByName(const char *name)
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *tank = (Tank *) target;
 			if (0 == strcmp(tank->getName(),name)) return tank;
@@ -109,7 +109,7 @@ void TankContainer::clientNewGame()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *tank = (Tank *) target;
 			tank->clientNewGame();
@@ -125,7 +125,7 @@ void TankContainer::newMatch()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *tank = (Tank *) target;
 			tank->newMatch();
@@ -146,7 +146,7 @@ int TankContainer::teamCount()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 			if (current->getState().getState() == TankState::sNormal)
@@ -170,7 +170,7 @@ int TankContainer::aliveCount()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 			if (current->getState().getState() == TankState::sNormal)
@@ -190,7 +190,7 @@ void TankContainer::setAllDead()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 			if (current->getState().getState() != TankState::sPending)
@@ -209,7 +209,7 @@ bool TankContainer::allReady()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 
@@ -232,7 +232,7 @@ void TankContainer::setAllNotReady()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 
@@ -254,7 +254,7 @@ int TankContainer::getNoOfNonSpectatorTanks()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 			if (!current->getState().getSpectator()) count++;
@@ -274,7 +274,7 @@ std::map<unsigned int, Tank *> &TankContainer::getPlayingTanks()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *current = (Tank *) target;
 			tanks[current->getPlayerId()] = current;
@@ -293,7 +293,7 @@ int TankContainer::getNoOfTanks()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			count++;
 		}

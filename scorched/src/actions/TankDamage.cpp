@@ -133,7 +133,7 @@ void TankDamage::calculateDamage()
 			damagedTarget->getLife().getLife();
 		damagedTarget->getLife().setLife(damagedTarget->getLife().getLife() - damage_);
 		if (context_->optionsGame->getLimitPowerByHealth() &&
-			damagedTarget->getTargetType() == Target::eTank)
+			!damagedTarget->isTarget())
 		{
 			Tank *damagedTank = (Tank *) damagedTarget;
 			damagedTank->getPosition().changePower(0.0f, true);
@@ -146,7 +146,7 @@ void TankDamage::calculateDamage()
 			// The tank has died, make it blow up etc...
 			calculateDeath();
 
-			if (damagedTarget->getTargetType() == Target::eTank)
+			if (!damagedTarget->isTarget())
 			{
 				// The tank is now dead
 				Tank *damagedTank = (Tank *) damagedTarget;
@@ -160,7 +160,7 @@ void TankDamage::calculateDamage()
 		// Should always be a tank that has fired
 		Tank *firedTank = 
 			context_->tankContainer->getTankById(firedPlayerId_);
-		if (firedTank && damagedTarget->getTargetType() == Target::eTank)
+		if (firedTank && !damagedTarget->isTarget())
 		{	
 			Tank *damagedTank = (Tank *) damagedTarget;
 
@@ -203,7 +203,7 @@ void TankDamage::calculateDamage()
 	}
 
 	// Tell this tanks ai that is has been hurt by another tank
-	if (damagedTarget->getTargetType() == Target::eTank)
+	if (!damagedTarget->isTarget())
 	{
 		Tank *damagedTank = (Tank *) damagedTarget;
 		TankAI *ai = damagedTank->getTankAI();
@@ -235,7 +235,7 @@ void TankDamage::calculateDamage()
 	// DO LAST
 	// If the tank is a target, remove the target
 	if (!damagedTarget->getAlive() &&
-		damagedTarget->getTargetType() == Target::eOther)
+		damagedTarget->isTarget())
 	{
 		Target *removedTarget = 
 			context_->targetContainer->
@@ -283,7 +283,7 @@ void TankDamage::logDeath()
 	// Print the banner on who killed who
 	Target *killedTarget = 
 		context_->targetContainer->getTargetById(damagedPlayerId_);
-	if (killedTarget->getTargetType() != Target::eTank) return;
+	if (killedTarget->isTarget()) return;
 	Tank *killedTank = (Tank *) killedTarget;
 
 	Tank *firedTank = 

@@ -337,29 +337,33 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 
 	{
 		XMLNode *placementsNode;
-		if (!node->getNamedChild("placements", placementsNode)) return false;
-		std::string placement;
-		while (placementsNode->getNamedChild("placement", placement, false))
+		if (node->getNamedChild("placements", placementsNode, false))
 		{
-			LandscapePlace *landscapePlace = 
-				definitions->getPlace(placement.c_str(), true);
-			if (!landscapePlace) return false;
-			placements.push_back(landscapePlace);
+			std::string placement;
+			while (placementsNode->getNamedChild("placement", placement, false))
+			{
+				LandscapePlace *landscapePlace = 
+					definitions->getPlace(placement.c_str(), true);
+				if (!landscapePlace) return false;
+				placements.push_back(landscapePlace);
+			}
+			if (!placementsNode->failChildren()) return false;
 		}
-		if (!placementsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *soundsNode;
-		if (!node->getNamedChild("ambientsounds", soundsNode)) return false;
-		std::string sound;
-		while (soundsNode->getNamedChild("ambientsound", sound, false))
+		if (node->getNamedChild("ambientsounds", soundsNode, false))
 		{
-			LandscapeSound *landscapeSound = 
-				definitions->getSound(sound.c_str(), true);
-			if (!landscapeSound) return false;
-			sounds.push_back(landscapeSound);
+			std::string sound;
+			while (soundsNode->getNamedChild("ambientsound", sound, false))
+			{
+				LandscapeSound *landscapeSound = 
+					definitions->getSound(sound.c_str(), true);
+				if (!landscapeSound) return false;
+				sounds.push_back(landscapeSound);
+			}
+			if (!soundsNode->failChildren()) return false;
 		}
-		if (!soundsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *borderNode;
@@ -380,43 +384,55 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	{
 		XMLNode *precipitationNode;
 		std::string precipitationtype;
-		if (!node->getNamedChild("precipitation", precipitationNode)) return false;
-		if (!precipitationNode->getNamedParameter("type", precipitationtype)) return false;
-		if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;
-		if (!precipitation->readXML(precipitationNode)) return false;
+		if (node->getNamedChild("precipitation", precipitationNode, false))
+		{
+			if (!precipitationNode->getNamedParameter("type", precipitationtype)) return false;
+			if (!(precipitation = fetchPrecipitationTexType(precipitationtype.c_str()))) return false;
+			if (!precipitation->readXML(precipitationNode)) return false;
+		}
+		else
+		{
+			precipitation = new LandscapeTexTypeNone();
+		}
 	}
 	{
 		XMLNode *eventsNode, *eventNode;
-		if (!node->getNamedChild("events", eventsNode)) return false;
-		while (eventsNode->getNamedChild("event", eventNode, false))
+		if (node->getNamedChild("events", eventsNode, false))
 		{
-			LandscapeTexEvent *event = new LandscapeTexEvent;
-			if (!event->readXML(eventNode)) return false;
-			events.push_back(event);
+			while (eventsNode->getNamedChild("event", eventNode, false))
+			{
+				LandscapeTexEvent *event = new LandscapeTexEvent;
+				if (!event->readXML(eventNode)) return false;
+				events.push_back(event);
+			}
+			if (!eventsNode->failChildren()) return false;
 		}
-		if (!eventsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *boidsNode, *boidNode;
-		if (!node->getNamedChild("boids", boidsNode)) return false;
-		while (boidsNode->getNamedChild("boid", boidNode, false))
+		if (node->getNamedChild("boids", boidsNode, false))
 		{
-			LandscapeTexBoids *boid = new LandscapeTexBoids;
-			if (!boid->readXML(boidNode)) return false;
-			boids.push_back(boid);
+			while (boidsNode->getNamedChild("boid", boidNode, false))
+			{
+				LandscapeTexBoids *boid = new LandscapeTexBoids;
+				if (!boid->readXML(boidNode)) return false;
+				boids.push_back(boid);
+			}
+			if (!boidsNode->failChildren()) return false;
 		}
-		if (!boidsNode->failChildren()) return false;
 	}
 	{
 		XMLNode *shipGroupsNode, *shipGroupNode;
-		if (!node->getNamedChild("shipgroups", shipGroupsNode)) return false;
-		while (shipGroupsNode->getNamedChild("shipgroup", shipGroupNode, false))
+		if (node->getNamedChild("shipgroups", shipGroupsNode, false))
 		{
-			LandscapeTexShipGroup *shipGroup = new LandscapeTexShipGroup;
-			if (!shipGroup->readXML(shipGroupNode)) return false;
-			shipgroups.push_back(shipGroup);
+			while (shipGroupsNode->getNamedChild("shipgroup", shipGroupNode, false))
+			{
+				LandscapeTexShipGroup *shipGroup = new LandscapeTexShipGroup;
+				if (!shipGroup->readXML(shipGroupNode)) return false;
+				shipgroups.push_back(shipGroup);
+			}
+			if (!shipGroupsNode->failChildren()) return false;
 		}
-		if (!shipGroupsNode->failChildren()) return false;
 	}
 	return node->failChildren();
 }

@@ -54,7 +54,7 @@ public:
 
 	// The base attributes of the tank
 	virtual bool getAlive();
-	virtual TargetType getTargetType() { return eTank; }
+	virtual bool isTarget() { return false; }
 	unsigned int getDestinationId() { return destinationId_; }
 	void setDestinationId(unsigned int id) { destinationId_ = id; }
 	unsigned int getTeam() { return team_; }

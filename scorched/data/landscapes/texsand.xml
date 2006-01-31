@@ -39,8 +39,6 @@
 		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundjungle.xml</ambientsound>
 	</ambientsounds>
-	<precipitation type="none"></precipitation>
-	<events></events>
 	<boids>
 		<boid>
 			<count>20</count>

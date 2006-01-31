@@ -30,12 +30,6 @@ class Weapon;
 class Target  
 {
 public:
-	enum TargetType
-	{
-		eOther = 0,
-		eTank = 1
-	};
-
 	Target(unsigned int playerId, 
 		TargetModelId &modelId, 
 		const char *name, 
@@ -51,7 +45,7 @@ public:
 	Vector &getTargetPosition() { return targetPosition_; }
 
 	virtual bool getAlive();
-	virtual TargetType getTargetType() { return eOther; }
+	virtual bool isTarget() { return true; }
 	unsigned int getPlayerId() { return playerId_; }
 
 	// Weapons

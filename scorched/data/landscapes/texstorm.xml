@@ -55,7 +55,6 @@
 			</action>
 		</event>
 	</events>
-	<boids></boids>
 	<shipgroups>
 		<shipgroup>
 			<speed>1.0</speed>

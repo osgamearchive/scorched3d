@@ -22,6 +22,7 @@
 #include <landscape/LandscapePoints.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
+#include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeSoundManager.h>
 #include <landscape/LandscapeDefinition.h>
 #include <landscape/LandscapeDefinitions.h>
@@ -227,6 +228,8 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Load the texture bitmaps from resources 
+	LandscapeDefn *defn = 
+			ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getDefn();
 	LandscapeTex *tex = 
 			ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 	if (tex->texture->getType() == LandscapeTexType::eTextureGenerate)
@@ -360,6 +363,13 @@ void Landscape::generate(ProgressCounter *counter)
 	std::vector<LandscapeSound *>::iterator soundItor;
 	for (soundItor = tex->sounds.begin();
 		soundItor != tex->sounds.end();
+		soundItor++)
+	{
+		LandscapeSound *sound = (*soundItor);
+		sounds.push_back(sound);
+	}
+	for (soundItor = defn->sounds.begin();
+		soundItor != defn->sounds.end();
 		soundItor++)
 	{
 		LandscapeSound *sound = (*soundItor);

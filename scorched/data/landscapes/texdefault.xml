@@ -40,7 +40,6 @@
 		<ambientsound>data/landscapes/ambientsoundjet.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundtrees.xml</ambientsound>
 	</ambientsounds>
-	<precipitation type="none"></precipitation>
 	<events>
 		<!--<event>
 			<condition type="random">

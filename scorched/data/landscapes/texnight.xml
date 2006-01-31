@@ -41,8 +41,6 @@
 		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundnight.xml</ambientsound>
 	</ambientsounds>
-	<precipitation type="none"></precipitation>
-	<events></events>
 	<boids>
 		<boid>
 			<count>20</count>
@@ -80,5 +78,4 @@
 			</sounds>
 		</boid>
 	</boids>
-	<shipgroups></shipgroups>
 </tex>

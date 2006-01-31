@@ -136,7 +136,7 @@ void TargetRenderer::draw(DrawType dt, const unsigned state)
 			target->getModel().getModelIdRenderer();
 		if (!model)
 		{
-			if (target->getTargetType() == Target::eTank)
+			if (!target->isTarget())
 			{
 				model = new TankModelRenderer((Tank*) target);
 				target->getModel().setModelIdRenderer(model);

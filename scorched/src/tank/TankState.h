@@ -64,6 +64,8 @@ public:
 	bool getLoading() { return loading_; }
 	void setInitializing(bool i) { initializing_ = i; }
 	bool getInitializing() { return initializing_; }
+	void setStaticTank(bool s) { staticTank_ = s; }
+	bool getStaticTank() { return staticTank_; }
 	void setAdmin(TankAdmin *admin);
 	TankAdmin *getAdmin() { return admin_; }
 	void setAdminTries(int adminTries) { adminTries_ = adminTries; }
@@ -86,6 +88,7 @@ protected:
 	State state_;
 	ReadyState readyState_;
 	TankAdmin *admin_; int adminTries_;
+	bool staticTank_;
 	bool spectator_;
 	bool initializing_;
 	bool loading_;

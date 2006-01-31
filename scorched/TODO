@@ -26,6 +26,8 @@ Fixed: Round win and interest awarded when too few players result in game ending
 Fixed: Tanks will not move through newly created water when movement restriction in place
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
+Added: XML tags in tex and defns landscape files that are empty don't need to be in file
+Added: Placements and sounds are available both in the tex and defn landscape files
 Added: More powerups (WeaponGiveAcccessory, WeaponGiveLife, WeaponGivePower)
 Added: Max power, max life, starting accessories and disallowed accessories tank attributes
 Added: Tanks can have different attributes from each other (life, power, etc...) 

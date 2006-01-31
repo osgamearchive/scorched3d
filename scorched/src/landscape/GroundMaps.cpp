@@ -107,11 +107,26 @@ void GroundMaps::generateObjects(
 	ProgressCounter *counter)
 {
 	LandscapeTex *tex = defnCache_.getTex();
+	LandscapeDefn *defn = defnCache_.getDefn();
 
 	// Add objects to the landscape (if any)
 	// Do this now as it adds shadows to the mainmap
 	objects_.removeAllObjects();
 	{
+		// Do this for the definition file
+		std::vector<LandscapePlace *>::iterator itor;
+		for (itor = defn->placements.begin();
+			itor != defn->placements.end();
+			itor++)
+		{
+			LandscapePlace *place = (*itor);
+			RandomGenerator objectsGenerator;
+			objectsGenerator.seed(defnCache_.getSeed());
+			objects_.generate(objectsGenerator, *place, context, counter);
+		}
+	}
+	{
+		// Do this for the texture file
 		std::vector<LandscapePlace *>::iterator itor;
 		for (itor = tex->placements.begin();
 			itor != tex->placements.end();

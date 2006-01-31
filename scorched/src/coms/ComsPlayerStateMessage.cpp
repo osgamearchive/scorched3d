@@ -53,7 +53,7 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 		Target *target = (*itor).second;
 		buffer.addToBuffer(target->getPlayerId());
 
-		if (target->getTargetType() == Target::eTank)
+		if (!target->isTarget())
 		{
 			Tank *tank = (Tank *) target;
 			if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
