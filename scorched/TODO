@@ -73,6 +73,8 @@ Tutorial mode
 Changing menus to be icons
 New game modes
 Scripting language
+Fast, medium graphics settings buttons to display dialog
+Welcome banner on first time startup (pointing out graphics settings)
 Dirt cannot be raised when underground (or other dirting stopping)
 Swell from boats
 Bases with physics and shields

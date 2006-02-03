@@ -81,7 +81,7 @@ TankModelRenderer::~TankModelRenderer()
 {
 }
 
-void TankModelRenderer::draw()
+void TankModelRenderer::draw(float distance)
 {
 	if (tank_->getState().getState() != TankState::sNormal) return;
 
@@ -142,7 +142,7 @@ void TankModelRenderer::draw()
 	drawLife();
 }
 
-void TankModelRenderer::drawSecond()
+void TankModelRenderer::drawSecond(float distance)
 {
 	if (!canSeeTank_ ||
 		tank_->getState().getState() != TankState::sNormal) return;

@@ -69,8 +69,8 @@ public:
 	TankModelRenderer(Tank *tank);
 	virtual ~TankModelRenderer();
 
-	virtual void draw();
-	virtual void drawSecond();
+	virtual void draw(float distance);
+	virtual void drawSecond(float distance);
 	virtual void draw2d();
 	virtual void fired();
 	virtual void shieldHit();

@@ -55,7 +55,7 @@ void TargetModelRenderer::simulate(float frameTime)
 	modelRenderer_->simulate(frameTime);
 }
 
-void TargetModelRenderer::draw()
+void TargetModelRenderer::draw(float distance)
 {
 	// Check we can see the tank
 	canSeeTank_ = true;
@@ -90,11 +90,14 @@ void TargetModelRenderer::draw2d()
 	if (!canSeeTank_) return;
 
 	// Add the tooltip that displays the tank info
-	GLWToolTip::instance()->addToolTip(&targetTips_.targetTip,
-		float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
+	if (target_->getName()[0])
+	{
+		GLWToolTip::instance()->addToolTip(&targetTips_.targetTip,
+			float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
+	}
 }
 
-void TargetModelRenderer::drawSecond()
+void TargetModelRenderer::drawSecond(float distance)
 {
 	if (!canSeeTank_) return;
 

@@ -25,14 +25,24 @@
 
 TargetModelId::TargetModelId(const char *tankModelName) :
 	tankModelName_(tankModelName),
-	modelIdRenderer_(0)
+	modelIdRenderer_(0),
+	targetType_(eTankModel)
 {
 
 }
 
 TargetModelId::TargetModelId(ModelID &targetModel) :
 	targetModel_(targetModel),
-	modelIdRenderer_(0)
+	modelIdRenderer_(0),
+	targetType_(eTargetModel)
+{
+
+}
+
+TargetModelId::TargetModelId(const char *treeModel, bool) :
+	treeModel_(treeModel),
+	modelIdRenderer_(0),
+	targetType_(eTreeModel)
 {
 
 }
@@ -40,7 +50,9 @@ TargetModelId::TargetModelId(ModelID &targetModel) :
 TargetModelId::TargetModelId(const TargetModelId &other) :
 	tankModelName_(other.tankModelName_),
 	targetModel_(other.targetModel_),
-	modelIdRenderer_(0)
+	modelIdRenderer_(0),
+	treeModel_(other.treeModel_),
+	targetType_(other.targetType_)
 {
 
 }
@@ -74,28 +86,48 @@ const TargetModelId & TargetModelId::operator=(const TargetModelId &other)
 
 bool TargetModelId::writeMessage(NetBuffer &buffer)
 {
-	buffer.addToBuffer(tankModelName_);
-	targetModel_.writeModelID(buffer);
+	buffer.addToBuffer((int) targetType_);
+	switch (targetType_)
+	{
+	case eTankModel:
+		buffer.addToBuffer(tankModelName_);
+		break;
+	case eTargetModel:
+		targetModel_.writeModelID(buffer);
+		break;
+	case eTreeModel:
+		buffer.addToBuffer(treeModel_);
+		break;
+	}	
 	return true;
 }
 
 bool TargetModelId::readMessage(NetBufferReader &reader)
 {
-	std::string newName;
-	if (!reader.getFromBuffer(newName)) return false;
-	if (0 != strcmp(newName.c_str(), tankModelName_.c_str()))
+	int targetType;
+	if (!reader.getFromBuffer(targetType)) return false;
+	targetType_ = (TargetModelType) targetType;
+
+	switch (targetType_)
 	{
-		tankModelName_ = newName;
-		delete modelIdRenderer_;
-		modelIdRenderer_ = 0;
-	}
-	ModelID newId;
-	if (!newId.readModelID(reader)) return false;
-	if (0 != strcmp(newId.getStringHash(), targetModel_.getStringHash()))
-	{
-		targetModel_ = newId;
-		delete modelIdRenderer_;
-		modelIdRenderer_ = 0;
+	case eTankModel:
+		{
+			std::string newName;
+			if (!reader.getFromBuffer(newName)) return false;
+			if (0 != strcmp(newName.c_str(), tankModelName_.c_str()))
+			{
+				tankModelName_ = newName;
+				delete modelIdRenderer_;
+				modelIdRenderer_ = 0;
+			}
+		}
+		break;
+	case eTargetModel:
+		if (!targetModel_.readModelID(reader)) return false;
+		break;
+	case eTreeModel:
+		if (!reader.getFromBuffer(treeModel_)) return false;
+		break;
 	}	
 
 	return true;

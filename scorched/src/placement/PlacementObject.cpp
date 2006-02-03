@@ -18,31 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#include <placement/PlacementObject.h>
+#include <placement/PlacementObjectTree.h>
+#include <placement/PlacementObjectModel.h>
+#include <XML/XMLParser.h>
 
-#include <target/Target.h>
-
-class TargetModelIdRenderer
+PlacementObject *PlacementObject::create(const char *type)
 {
-public:
-	TargetModelIdRenderer();
-	virtual ~TargetModelIdRenderer();
+	if (0 == strcmp(type, "tree")) return new PlacementObjectTree;
+	if (0 == strcmp(type, "model")) return new PlacementObjectModel;
+	dialogMessage("PlacementObject", "Unknown object type %s", type);
+	return 0;
+}
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-	virtual void shieldHit() = 0;
+PlacementObject::PlacementObject()
+{
+}
 
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
+PlacementObject::~PlacementObject()
+{
+}
 
-protected:
-	bool particleMade_;
-
-	void drawShield(Target *target, float shieldHit, float totalTime);
-	void drawParachute(Target *target);
-};
-
-#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__
+bool PlacementObject::readXML(XMLNode *node)
+{
+	return node->failChildren();
+}

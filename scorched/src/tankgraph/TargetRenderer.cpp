@@ -21,6 +21,7 @@
 #include <tankgraph/TargetRenderer.h>
 #include <tankgraph/TargetParticleRenderer.h>
 #include <tankgraph/TargetModelRenderer.h>
+#include <tankgraph/TreeModelRenderer.h>
 #include <tankgraph/TankModelRenderer.h>
 #include <tankgraph/TracerRenderer.h>
 #include <tank/TankContainer.h>
@@ -128,6 +129,7 @@ void TargetRenderer::draw(DrawType dt, const unsigned state)
 		sortedItor != sortedTargets.end();
 		sortedItor++)
 	{
+		float distance = (*sortedItor).first;
 		Target *target = (*sortedItor).second;
 
 		// Check we have the tank model for each tank
@@ -136,15 +138,20 @@ void TargetRenderer::draw(DrawType dt, const unsigned state)
 			target->getModel().getModelIdRenderer();
 		if (!model)
 		{
-			if (!target->isTarget())
+			switch (target->getModel().getTargetType())
 			{
+			case TargetModelId::eTankModel:
 				model = new TankModelRenderer((Tank*) target);
 				target->getModel().setModelIdRenderer(model);
-			}
-			else
-			{
+				break;
+			case TargetModelId::eTargetModel:
 				model = new TargetModelRenderer(target);
 				target->getModel().setModelIdRenderer(model);
+				break;
+			case TargetModelId::eTreeModel:
+				model = new TreeModelRenderer(target);
+				target->getModel().setModelIdRenderer(model);
+				break;
 			}
 		}
 		
@@ -180,7 +187,7 @@ void TargetRenderer::draw(DrawType dt, const unsigned state)
 		switch (dt)
 		{
 		case Type3D:
-			model->draw();
+			model->draw(distance);
 			break;
 		case Type2D:
 			model->draw2d();

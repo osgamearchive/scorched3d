@@ -344,12 +344,8 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		playerName = TankAIStrings::instance()->getPlayerName();
 		color = TankColorGenerator::instance()->getNextColor(
 			ScorchedServer::instance()->getTankContainer().getPlayingTanks());
-		// Get the next available tankId
-		tankId = TankAIAdder::getNextTankId();
-		while (ScorchedServer::instance()->getTankContainer().getTankById(tankId))
-		{
-			tankId = TankAIAdder::getNextTankId();
-		}
+		tankId = TankAIAdder::getNextTankId(
+			ScorchedServer::instance()->getContext());
 	}
 
 	// Make sure host desc does not contain \"

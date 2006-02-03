@@ -18,31 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#if !defined(__INCLUDE_PlacementTypeTreeh_INCLUDE__)
+#define __INCLUDE_PlacementTypeTreeh_INCLUDE__
 
-#include <target/Target.h>
+#include <placement/PlacementType.h>
 
-class TargetModelIdRenderer
+class PlacementTypeTree : public PlacementType
 {
 public:
-	TargetModelIdRenderer();
-	virtual ~TargetModelIdRenderer();
+	PlacementTypeTree();
+	virtual ~PlacementTypeTree();
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-	virtual void shieldHit() = 0;
-
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
+	virtual PlacementType::Type getType() { return PlacementType::eTree; }
+	virtual bool readXML(XMLNode *node);
+	virtual void getPositions(ScorchedContext &context,
+		RandomGenerator &generator,
+		std::list<Position> &returnPositions,
+		ProgressCounter *counter = 0);
 
 protected:
-	bool particleMade_;
-
-	void drawShield(Target *target, float shieldHit, float totalTime);
-	void drawParachute(Target *target);
+	int numobjects;
+	int numclusters;
+	float minheight, maxheight;
 };
 
-#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#endif // __INCLUDE_PlacementTypeTreeh_INCLUDE__

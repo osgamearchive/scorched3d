@@ -59,7 +59,7 @@ void TargetParticleRenderer::renderParticle(Particle &particle)
 			target->getModel().getModelIdRenderer();
 		if (model)
 		{
-			model->drawSecond();
+			model->drawSecond(particle.distance_);
 			glDepthMask(GL_FALSE);
 		}
 	}

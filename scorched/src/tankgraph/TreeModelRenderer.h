@@ -18,31 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#if !defined(__INCLUDE_TreeModelRendererh_INCLUDE__)
+#define __INCLUDE_TreeModelRendererh_INCLUDE__
 
+#include <tankgraph/TargetModelIdRenderer.h>
+#include <GLEXT/GLState.h>
+#include <GLEXT/GLTexture.h>
 #include <target/Target.h>
 
-class TargetModelIdRenderer
+class TreeModelRenderer : public TargetModelIdRenderer
 {
 public:
-	TargetModelIdRenderer();
-	virtual ~TargetModelIdRenderer();
+	TreeModelRenderer(Target *target);
+	virtual ~TreeModelRenderer();
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-	virtual void shieldHit() = 0;
-
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
+	virtual void simulate(float frameTime);
+	virtual void draw(float distance);
+	virtual void drawSecond(float distance);
+	virtual void draw2d();
+	virtual void shieldHit();
 
 protected:
-	bool particleMade_;
+	Target *target_;
+	static GLuint treePine, treePineBurnt, treePineSnow;
+	static GLuint treePineSmall, treePineBurntSmall, treePineSnowSmall;
+	static GLuint treePalm, treePalmBurnt;
+	static GLuint treePalmSmall, treePalmBurntSmall;
+	static GLTexture texture_;
 
-	void drawShield(Target *target, float shieldHit, float totalTime);
-	void drawParachute(Target *target);
+	bool pine;
+	bool snow;
+	bool burnt;
+	float rotation;
+	float size;
+	Vector color;
 };
 
-#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#endif // __INCLUDE_TreeModelRendererh_INCLUDE__

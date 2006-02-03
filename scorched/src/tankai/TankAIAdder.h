@@ -25,10 +25,15 @@
 
 namespace TankAIAdder
 {
+	const int SPECTATOR_ID = 1;
+	const int MIN_TANK_ID = 2;
+	const int MAX_TANK_ID = 100000;
+	const int MIN_TARGET_ID = 200000;
+
 	void addTankAIs(ScorchedServer &context);
 	void addTankAI(ScorchedServer &context, const char *aiName);
 
-	unsigned int getNextTankId();
+	unsigned int getNextTankId(ScorchedContext &context);
 };
 
 #endif

@@ -18,31 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#if !defined(__INCLUDE_PlacementObjecth_INCLUDE__)
+#define __INCLUDE_PlacementObjecth_INCLUDE__
 
-#include <target/Target.h>
+#include <placement/PlacementType.h>
 
-class TargetModelIdRenderer
+class XMLNode;
+class PlacementObject
 {
 public:
-	TargetModelIdRenderer();
-	virtual ~TargetModelIdRenderer();
+	enum Type
+	{
+		eTree,
+		eModel
+	};
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-	virtual void shieldHit() = 0;
+	static PlacementObject *create(const char *type);
 
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
+	PlacementObject();
+	virtual ~PlacementObject();
 
-protected:
-	bool particleMade_;
-
-	void drawShield(Target *target, float shieldHit, float totalTime);
-	void drawParachute(Target *target);
+	virtual bool readXML(XMLNode *node);
+	virtual Type getType() = 0;
+	virtual void createObject(ScorchedContext &context,
+		RandomGenerator &generator,
+		unsigned int playerId,
+		PlacementType::Position &position) = 0;
 };
 
-#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#endif // __INCLUDE_PlacementObjecth_INCLUDE__

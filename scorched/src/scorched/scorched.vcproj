@@ -672,6 +672,12 @@
 			<File
 				RelativePath="..\tankgraph\TracerRenderer.h">
 			</File>
+			<File
+				RelativePath="..\tankgraph\TreeModelRenderer.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TreeModelRenderer.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="common"
@@ -3881,6 +3887,52 @@
 			</File>
 			<File
 				RelativePath="..\target\TargetShield.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="placement"
+			Filter="">
+			<File
+				RelativePath="..\placement\PlacementObject.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObject.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectModel.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectModel.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectTree.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectTree.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementType.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementType.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeDirect.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeDirect.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeMask.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeMask.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeTree.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeTree.h">
 			</File>
 		</Filter>
 	</Files>

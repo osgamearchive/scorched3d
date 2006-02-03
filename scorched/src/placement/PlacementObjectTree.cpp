@@ -18,31 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
-
+#include <placement/PlacementObjectTree.h>
+#include <engine/ScorchedContext.h>
+#include <target/TargetContainer.h>
 #include <target/Target.h>
+#include <XML/XMLParser.h>
 
-class TargetModelIdRenderer
+PlacementObjectTree::PlacementObjectTree()
 {
-public:
-	TargetModelIdRenderer();
-	virtual ~TargetModelIdRenderer();
+}
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-	virtual void shieldHit() = 0;
+PlacementObjectTree::~PlacementObjectTree()
+{
+}
 
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
+bool PlacementObjectTree::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("tree", tree)) return false;
+	if (!node->getNamedChild("snow", snow)) return false;
+	return PlacementObject::readXML(node);
+}
 
-protected:
-	bool particleMade_;
+void PlacementObjectTree::createObject(ScorchedContext &context,
+	RandomGenerator &generator,
+	unsigned int playerId,
+	PlacementType::Position &position)
+{
+	std::string name = tree;
+	if (position.position[2] < snow)
+	{
+		name += "snow";
+	}
 
-	void drawShield(Target *target, float shieldHit, float totalTime);
-	void drawParachute(Target *target);
-};
+	TargetModelId targetModelId(name.c_str(), true);
+	Target *target = new Target(
+		playerId, 
+		targetModelId, 
+		"", 
+		context);
+	target->newGame();
+	target->setTargetPosition(position.position);
 
-#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__
+	context.targetContainer->addTarget(target);
+}

@@ -30,18 +30,32 @@ class TankType;
 class TargetModelId
 {
 public:
+	enum TargetModelType 
+	{
+		eNone,
+		eTankModel,
+		eTargetModel,
+		eTreeModel
+	};
+
 	TargetModelId(const char *tankModelName); // Used for tanks
 	TargetModelId(ModelID &targetModel); // Used for targets
+	TargetModelId(const char *treeModel, bool tree); // Used for trees
 	TargetModelId(const TargetModelId &);
 	virtual ~TargetModelId();
 
 	const TargetModelId & operator=(const TargetModelId &);
+
+	TargetModelType getTargetType() { return targetType_; }
 
 	// The name of the model that should be used for this tank
 	const char *getTankModelName() { return tankModelName_.c_str(); }
 
 	// The model that should be used for this target
 	ModelID &getTargetModel() { return targetModel_; }
+
+	// The tree model that should be used for this target
+	const char *getTreeModel() { return treeModel_.c_str(); }
 
 	// The type of this tank (not for targets)
 	TankType *getTankType(ScorchedContext &context);
@@ -56,8 +70,10 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::string tankModelName_;
-	ModelID targetModel_;
+	std::string treeModel_; // Model for trees
+	std::string tankModelName_; // Model for tank
+	ModelID targetModel_; // Model for targets
+	TargetModelType targetType_; // Says which model to use
 	TargetModelIdRenderer *modelIdRenderer_;
 
 };

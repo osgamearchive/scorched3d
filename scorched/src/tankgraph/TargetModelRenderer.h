@@ -33,8 +33,8 @@ public:
 	virtual ~TargetModelRenderer();
 
 	virtual void simulate(float frameTime);
-	virtual void draw();
-	virtual void drawSecond();
+	virtual void draw(float distance);
+	virtual void drawSecond(float distance);
 	virtual void draw2d();
 	virtual void shieldHit();
 

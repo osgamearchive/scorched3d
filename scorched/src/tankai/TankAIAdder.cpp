@@ -36,11 +36,18 @@
 #include <common/StatsLogger.h>
 #include <common/Defines.h>
 
-static unsigned int tankId_ = 2;
+static unsigned int tankId_ = TankAIAdder::MIN_TANK_ID;
 
-unsigned int TankAIAdder::getNextTankId()
+unsigned int TankAIAdder::getNextTankId(ScorchedContext &context)
 {
-	return ++tankId_;
+	if (++tankId_ >= MAX_TANK_ID) tankId_ = MIN_TANK_ID;
+
+	while (context.targetContainer->getTargetById(tankId_))
+	{
+		++tankId_;
+	}
+
+	return tankId_;
 }
 
 void TankAIAdder::addTankAIs(ScorchedServer &context)
@@ -115,7 +122,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		// Create the new tank
 		Tank *tank = new Tank(
 			context.getContext(),
-			getNextTankId(),
+			getNextTankId(context.getContext()),
 			0,
 			newname.c_str(),
 			color,

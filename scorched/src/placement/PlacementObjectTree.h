@@ -18,31 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelIdRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#if !defined(__INCLUDE_PlacementObjectTreeh_INCLUDE__)
+#define __INCLUDE_PlacementObjectTreeh_INCLUDE__
 
-#include <target/Target.h>
+#include <placement/PlacementObject.h>
+#include <string>
 
-class TargetModelIdRenderer
+class PlacementObjectTree : public PlacementObject
 {
 public:
-	TargetModelIdRenderer();
-	virtual ~TargetModelIdRenderer();
+	PlacementObjectTree();
+	virtual ~PlacementObjectTree();
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-	virtual void shieldHit() = 0;
-
-	bool getMadeParticle() { return particleMade_; }
-	void setMadeParticle(bool p) { particleMade_ = p; }
+	virtual bool readXML(XMLNode *node);
+	virtual PlacementObject::Type getType() { return PlacementObject::eTree; }
+	virtual void createObject(ScorchedContext &context,
+		RandomGenerator &generator,
+		unsigned int playerId,
+		PlacementType::Position &position);
 
 protected:
-	bool particleMade_;
-
-	void drawShield(Target *target, float shieldHit, float totalTime);
-	void drawParachute(Target *target);
+	std::string tree;
+	float snow;
 };
 
-#endif // __INCLUDE_TargetModelIdRendererh_INCLUDE__
+#endif // __INCLUDE_PlacementObjectTreeh_INCLUDE__

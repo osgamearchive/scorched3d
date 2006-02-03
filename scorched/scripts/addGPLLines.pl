@@ -19,6 +19,7 @@ my @dirs =
 	"target",
 	"sprites",
 	"tank",
+	"placement",
 	"tankai",
 	"tankgraph",
 	"boids",
