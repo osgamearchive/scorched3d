@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 	{
 		// Perhaps we can get the directory from the executables path name
 		char path[1024];
-		strcpy(path, argv[0]);
+		snprintf(path, sizeof(path), "%s", argv[0]);
 		char *sep = strrchr(path, '/');
 		if (sep)
 		{

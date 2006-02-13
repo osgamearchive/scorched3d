@@ -18,17 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLState.cpp: implementation of the GLState class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <GLEXT/GLState.h>
+#include <common/DefinesString.h>
 #include <string.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 unsigned GLState::currentState_ = 
 	GLState::TEXTURE_OFF | GLState::BLEND_OFF | GLState::DEPTH_OFF | GLState::CUBEMAP_OFF;
@@ -105,15 +97,16 @@ char *GLState::getStateString()
 {
 	static char buffer[1024];
 	buffer[0] = '\0';
-
-	if (currentState_ & TEXTURE_ON) strcat(buffer, "TEXTURE_ON\n");
-	if (currentState_ & TEXTURE_OFF) strcat(buffer, "TEXTURE_ON\n");
-	if (currentState_ & DEPTH_ON) strcat(buffer, "DEPTH_ON\n");
-	if (currentState_ & DEPTH_OFF) strcat(buffer, "DEPTH_OFF\n");
-	if (currentState_ & BLEND_ON) strcat(buffer, "BLEND_ON\n");
-	if (currentState_ & BLEND_OFF) strcat(buffer, "BLEND_OFF\n");
-	if (currentState_ & CUBEMAP_ON) strcat(buffer, "CUBEMAP_ON\n");
-	if (currentState_ & CUBEMAP_OFF) strcat(buffer, "CUBEMAP_OFF\n");
+	
+	snprintf(buffer, sizeof(buffer), "%s%s%s%s%s%s%s%s",
+		(currentState_ & TEXTURE_ON)? "TEXTURE_ON\n":"",
+		(currentState_ & TEXTURE_OFF)? "TEXTURE_ON\n":"",
+		(currentState_ & DEPTH_ON)? "DEPTH_ON\n":"",
+		(currentState_ & DEPTH_OFF)? "DEPTH_OFF\n":"",
+		(currentState_ & BLEND_ON)? "BLEND_ON\n":"",
+		(currentState_ & BLEND_OFF)? "BLEND_OFF\n":"",
+		(currentState_ & CUBEMAP_ON)? "CUBEMAP_ON\n":"",
+		(currentState_ & CUBEMAP_OFF)? "CUBEMAP_OFF\n":"");
 
 	return buffer;
 }

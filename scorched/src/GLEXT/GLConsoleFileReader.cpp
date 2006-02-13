@@ -23,6 +23,7 @@
 #include <GLEXT/GLConsole.h>
 #include <common/FileLines.h>
 #include <XML/XMLFile.h>
+#include <XML/XMLParser.h>
 #include <stdio.h>
 
 bool GLConsoleFileReader::loadFileIntoConsole(const char *fileName,
@@ -62,15 +63,18 @@ void GLConsoleFileReader::saveConsoleIntoFile(const char *filename)
 		itor != lines.end();
 		itor++)
 	{
-		std::string string;
-		const char *line = (*itor)->getLine();
+		std::string cleanLine;
+		std::string dirtyLine((*itor)->getLine());
+		XMLParser::removeSpecialChars(dirtyLine, cleanLine);
 		if ((*itor)->getLineType() != GLConsoleLine::eNone)
 		{
-			filelines.addLine("  <command>%s</command>", line);
+			filelines.addLine("  <command>%s</command>",
+				cleanLine.c_str());
 		}
 		else
 		{
-			filelines.addLine("  <!-- %s -->", line);
+			filelines.addLine("  <!-- %s -->",
+				cleanLine.c_str());
 		}
 	}
 

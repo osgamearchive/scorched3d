@@ -227,7 +227,7 @@ const char *ServerBrowserInfo::addTag(const char *name, const char *value)
 {
 	static char buffer[10000];
 	static char newvalue[10000];
-	strcpy(newvalue, value);
+	snprintf(newvalue, sizeof(newvalue), "%s", value);
 	for (char *a=newvalue; *a; a++)
 	{
 		if (*a == '\'') *a='\"';
@@ -235,7 +235,6 @@ const char *ServerBrowserInfo::addTag(const char *name, const char *value)
 		else if (*a == '<') *a=' ';
 	}
 
-	strcpy(buffer, name); strcat(buffer, "='");
-	strcat(buffer, newvalue); strcat(buffer, "' ");
+	snprintf(buffer, sizeof(buffer), "%s='%s' ", name, newvalue);
 	return buffer;
 }

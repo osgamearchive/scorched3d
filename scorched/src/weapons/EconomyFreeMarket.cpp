@@ -26,6 +26,7 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
+#include <XML/XMLParser.h>
 #include <tank/Tank.h>
 #include <stdlib.h>
 
@@ -123,8 +124,11 @@ bool EconomyFreeMarket::savePrices()
 			accessory->getStartingNumber() != -1 && 
 			accessory->getType() == AccessoryPart::AccessoryWeapon)
 		{
+			std::string cleanName;
+			std::string dirtyName(accessory->getName());
+			XMLParser::removeSpecialChars(dirtyName, cleanName);
 			file.addLine("  <accessory>");
-			file.addLine("    <name>%s</name>", accessory->getName());
+			file.addLine("    <name>%s</name>", cleanName.c_str());
 			file.addLine("    <buyprice>%i</buyprice>", accessory->getPrice());
 			file.addLine("  </accessory>");
 		}

@@ -368,7 +368,8 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 
 	// Form the name
 	static char name[256];
-	strcpy(name, current->getName());
+	// Max strcat usage 12
+	snprintf(name, sizeof(name) - 12, "%s", current->getName());
 	if (finished && ! OptionsParam::instance()->getConnectedToServer())
 	{
 		strcat(name, " (");

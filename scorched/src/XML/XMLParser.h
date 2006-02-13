@@ -121,6 +121,9 @@ public:
 	void setSource(const char *source) { source_ = source; }
 	XMLNode *getRoot() { return root_; }
 
+	static void removeSpecialChars(std::string &content,
+		std::string &result);
+
 protected:
 	XMLNode *root_;
 	XMLNode *current_;

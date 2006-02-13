@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void removeSpecialChars(std::string &content, std::string &result)
+void XMLParser::removeSpecialChars(std::string &content, std::string &result)
 {
 	result = "";
 	for (char *c=(char *) content.c_str(); *c; c++)
@@ -174,7 +174,7 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 			DIALOG_ASSERT(node->type_ == XMLParameterType);
 			
 			std::string newContent;
-			removeSpecialChars(node->content_, newContent);
+			XMLParser::removeSpecialChars(node->content_, newContent);
 			
 			params += " " + node->name_ + "='" + newContent + "'";
 		}
@@ -182,7 +182,7 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 		if (children_.empty())
 		{
 			std::string newContent;
-			removeSpecialChars(content_, newContent);
+			XMLParser::removeSpecialChars(content_, newContent);
 			
 			lines.addLine("%s<%s%s>%s</%s>", 
 				getSpacer(spacing),

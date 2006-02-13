@@ -34,6 +34,7 @@
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
+#include <XML/XMLParser.h>
 
 static const char *getField(std::map<std::string, std::string> &fields, const char *field)
 {
@@ -117,6 +118,9 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	for (itor = tanks.begin(); itor != tanks.end(); itor++)
 	{
 		Tank *tank = (*itor).second;
+		std::string cleanName;
+		std::string dirtyName(tank->getName());
+		XMLParser::removeSpecialChars(dirtyName, cleanName);
 		players += formatString(
 			"<tr>"
 			"<td>dest=%i ip=%s id=%i</td>" // Id
@@ -129,7 +133,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 			"<td><input type=\"checkbox\" name=\"player-%u\"></td>" // Select
 			"</tr>\n",
 			tank->getDestinationId(), NetInterface::getIpName(tank->getIpAddress()), tank->getPlayerId(),
-			tank->getName(),
+			cleanName.c_str(),
 			tank->getTankAI()?tank->getTankAI()->getName():"Human",
 			tank->getScore().getTimePlayedString(),
 			tank->getScore().getScoreString(),
@@ -178,13 +182,15 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	int max = MIN((int) entries.size(), start + pagesize);
 	for (int i=min; i<max; i++)
 	{
+		std::string cleanText;
+		XMLParser::removeSpecialChars(entries[i].text, cleanText);
 		log += formatString(
 			"<tr>"
 			"<td><font size=-2>%u</font></td>"
 			"<td><font size=-2>%s</font></td>"
 			"</tr>\n",
 			i,
-			entries[i].text.c_str());
+			cleanText.c_str());
 	}
 	fields["LOG"] = log;
 
@@ -335,7 +341,9 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 		textsListItor != textsList.end();
 		textsListItor++)
 	{
-		texts += (*textsListItor);
+		std::string cleanText;
+		XMLParser::removeSpecialChars((*textsListItor), cleanText);
+		texts += cleanText;
 		texts += "<br>\n";
 	}
 	fields["TEXTS"] = texts;
@@ -375,11 +383,13 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 			if (selected && 0 == strcmp(selected, ipName.c_str()))
 				entry.type = ServerBanned::NotBanned;
 
+			std::string cleanName;
+			XMLParser::removeSpecialChars(entry.name, cleanName);
 			banned += formatString("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
 				"<td><input type=\"checkbox\" name=\"selected\" value=\"%s\"></td>" // Select
 				"</tr>",
 				(entry.bantime?ctime(&entry.bantime):""),
-				entry.name.c_str(),
+				cleanName.c_str(),
 				entry.uniqueid.c_str(),
 				ServerBanned::getBannedTypeStr(entry.type),
 				ipName.c_str(), mask.c_str(),
@@ -407,8 +417,11 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 		itor++)
 	{
 		ModFileEntry *entry = (*itor).second;
+		std::string cleanFileName;
+		std::string dirtyFileName(entry->getFileName());
+		XMLParser::removeSpecialChars(dirtyFileName, cleanFileName);
 		modfiles += formatString("<tr><td>%s</td><td>%u</td><td>%u</td><td>%u</td></tr>",
-			entry->getFileName(), 
+			cleanFileName.c_str(),
 			entry->getCompressedSize(),
 			entry->getCompressedCrc(),
 			entry->getUncompressedSize());

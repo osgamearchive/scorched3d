@@ -72,7 +72,7 @@ void ServerBrowserRefresh::sendNextEntry(ServerBrowserEntry *entry, time_t theTi
 	if (!name[0]) return;
 
 	static char buffer[256];
-	strcpy(buffer, name);
+	snprintf(buffer, sizeof(buffer), "%s", name);
 	char *port = strchr(buffer, ':');
 	if (!port) return;
 	*port = '\0';

@@ -241,7 +241,7 @@ const char *ServerBrowserServerList::getEntryValue(int pos, const char *name)
 	SDL_LockMutex(vectorMutex_);
 	ServerBrowserEntry &entry = getEntry(pos);
 	static char buffer[256];
-	strcpy(buffer, entry.getAttribute(name));
+	snprintf(buffer, sizeof(buffer), "%s", entry.getAttribute(name));
 	SDL_UnlockMutex(vectorMutex_);
 
 	return buffer;

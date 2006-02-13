@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	GLBitmap bitmap;
 	bitmap.grabScreen();
 	char buffer[1024];
-	strcpy(buffer, argv[1]);
+	snprintf(buffer, sizeof(buffer), "%s", argv[1]);
 	char *pos = strrchr(buffer, '.');
 	if (pos)
 	{

@@ -17,6 +17,7 @@ Fixed: Waves are now drawn more explicitly
 Fixed: More acurate and faster landscape clicking code
 Fixed: Faster landscape generation code
 Fixed: A few DoS attack/exploits
+Fixed: A few more DoS attack/exploits (thanks Hans de Goede)
 Fixed: Faster movement calculation speed
 Fixed: Made swear filter less obtrusive
 Fixed: Tank explosion now more configurable

@@ -81,7 +81,7 @@ void MSModelFactory::returnError(const char *fileName, const char *error)
 void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 {
 	char filePath[256];
-	strcpy(filePath, fileName);
+	snprintf(filePath, sizeof(filePath), "%s", fileName);
 
 	char *sep;
 	while (sep=strchr(filePath, '\\')) *sep = '/';

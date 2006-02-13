@@ -77,11 +77,8 @@ void addTitleToWindow(
 
 void setExeName(const char *name, bool allowExceptions)
 {
-	strcpy(exeName, name);
-	if (allowExceptions)
-	{
-		strcat(exeName, " -allowexceptions");
-	}
+	snprintf(exeName, sizeof(exeName), "%s%s", name,
+		allowExceptions? " -allowexceptions":"");
 }
 
 static SDL_mutex *messageMutex_ = 0;

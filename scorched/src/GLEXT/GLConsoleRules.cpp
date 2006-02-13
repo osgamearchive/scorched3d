@@ -73,7 +73,7 @@ const char *GLConsoleRules::matchRule(const char *line, std::list<GLConsoleRule 
 	if (matches.size() == 1) return matches.front()->getName();
 
 	static char buffer[1024];
-	strcpy(buffer, line);
+	snprintf(buffer, sizeof(buffer), "%s", line);
 
 	int pos = (int) strlen(line);
 	while (true)
