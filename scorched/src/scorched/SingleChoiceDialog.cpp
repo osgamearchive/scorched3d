@@ -137,7 +137,7 @@ void SingleChoiceFrame::onChoiceButton(wxCommandEvent &event)
 	const char *targetFilePath = data->file.c_str();
 
 	EndModal(wxID_OK);
-	runScorched3D("-startclient \"%s\"", targetFilePath);
+	runScorched3D(formatString("-startclient \"%s\"", targetFilePath));
 }
 
 void SingleChoiceFrame::onScorchedButton(wxCommandEvent &event)

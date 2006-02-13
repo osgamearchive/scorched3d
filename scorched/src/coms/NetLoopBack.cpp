@@ -54,12 +54,12 @@ int NetLoopBack::processMessages()
 
 void NetLoopBack::disconnectAllClients()
 {
-	Logger::log( "Cannot disconnect all clients, they are local!");
+	Logger::log("Cannot disconnect all clients, they are local!");
 }
 
 void NetLoopBack::disconnectClient(unsigned int client, bool delay)
 {
-	Logger::log( "Cannot disconnect client %i, they are local!", client);
+	Logger::log(formatString("Cannot disconnect client %i, they are local!", client));
 }
 
 void NetLoopBack::sendMessage(NetBuffer &buffer)

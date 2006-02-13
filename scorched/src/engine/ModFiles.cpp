@@ -72,7 +72,7 @@ bool ModFiles::excludeFile(const char *file)
 		!fileEnding(file, ".ase") &&
 		!fileEnding(file, ".wav"))
 	{
-		Logger::log("Excluding mod file \"%s\"", file);
+		Logger::log(formatString("Excluding mod file \"%s\"", file));
 		return true;
 	}
 
@@ -137,16 +137,16 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 			totalSize += entry->getUncompressedSize();
 		}
 
-		Logger::log( "Loaded mod \"%s\", space required %u (%u) bytes", 
-			mod, totalCompSize, totalSize);
+		Logger::log(formatString("Loaded mod \"%s\", space required %u (%u) bytes", 
+			mod, totalCompSize, totalSize));
 
 		if (!createDir && files_.empty())
 		{
-			dialogMessage("Mod",
+			dialogMessage("Mod", formatString(
 				"Failed to find \"%s\" mod files in directories \"%s\" \"%s\"",
 				mod,
 				getModFile(mod),
-				getGlobalModFile(mod));
+				getGlobalModFile(mod)));
 			return false;
 		}
 	}
@@ -198,11 +198,11 @@ bool ModFiles::loadModFile(const char *fullFileName,
 	_strlwr((char *) shortFileName);
 	if (strcmp(oldFileName.c_str(), shortFileName) != 0)
 	{
-		dialogMessage("Mod",
+		dialogMessage("Mod", formatString(
 			"ERROR: All mod files must have lower case filenames.\n"
 			"File \"%s,%s\" has upper case charaters in it",
 			oldFileName.c_str(),
-			shortFileName);
+			shortFileName));
 		return false;
 	}
 
@@ -213,11 +213,11 @@ bool ModFiles::loadModFile(const char *fullFileName,
 	ModFileEntry *file = new ModFileEntry();
 	if (!file->loadModFile(fullFileName))
 	{
-		dialogMessage("Mod",
+		dialogMessage("Mod", formatString(
 			"Error: Failed to load file \"%s\" mod directory \"%s\" in the \"%s\" mod",
 			fullFileName,
 			modDir,
-			mod);
+			mod));
 		return false;
 	}
 
@@ -330,13 +330,13 @@ bool ModFiles::importModFiles(const char **mod, const char *fileName)
 
 	if (0 != strcmp(version.c_str(), ScorchedProtocolVersion))
 	{
-		dialogMessage("Scorched3D",
+		dialogMessage("Scorched3D", formatString(
 			"Failed to import mod, scorched version differs.\n"
 			"Please obtain a newer version of this mod.\n"
 			"Import version = %s\n"
 			"Current version = %s\n",
 			version.c_str(),
-			ScorchedProtocolVersion);
+			ScorchedProtocolVersion));
 		return false;
 	}
 

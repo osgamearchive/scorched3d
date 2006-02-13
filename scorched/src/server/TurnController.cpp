@@ -165,7 +165,7 @@ void TurnController::nextShot()
 	else
 	{
 		dialogMessage("TurnController::ready - ",
-			"Unknown type %i", turnType);
+			formatString("Unknown type %i", turnType));
 	}
 }
 

@@ -235,9 +235,10 @@ void GLConsole::drawText(float width, float top)
 {
 	static Vector color(1.0f, 1.0f, 1.0f);
 	font_->draw(color, 14,
-		10.0f, top - (height_ - 14.0f), 0.0f, "> %s%c", 
+		10.0f, top - (height_ - 14.0f), 0.0f, 
+		formatString("> %s%c", 
 		currentLine_.c_str(),
-		(showCursor_?'_':' '));
+		(showCursor_?'_':' ')));
 
 	lines_.drawLines(font_, top - (height_ - 14.0f), top, width);
 }
@@ -258,17 +259,8 @@ void GLConsole::parseLine(const char *line)
 	}
 }
 
-void GLConsole::addLine(bool parse, const char *fmt, ...)
+void GLConsole::addLine(bool parse, const char *text)
 {
-	const int TEXT_SIZE = 10000;
-	static char text[TEXT_SIZE];
-	va_list ap;
-
-	va_start(ap, fmt);
-	int used = vsnprintf(text, TEXT_SIZE, fmt, ap);
-	va_end(ap);
-
-	DIALOG_ASSERT(used<TEXT_SIZE);
 	if (parse)
 	{
 		parseLine(text);

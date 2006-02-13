@@ -50,7 +50,7 @@ bool WeaponSound::parseXML(OptionsGame &context,
 	std::string sound;
 	while (accessoryNode->getNamedChild("sound", sound, false))
 	{
-		if (!checkDataFile("%s", sound.c_str())) return false;
+		if (!checkDataFile(sound.c_str())) return false;
 		sounds_.push_back(sound);
 	}
 	return true;

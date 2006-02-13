@@ -36,12 +36,12 @@ static const char *getEconomyFileName()
 {
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
-		return getSettingsFile("freemarket-%s-%i.xml",
+		return getSettingsFile(formatString("freemarket-%s-%i.xml",
 			ScorchedServer::instance()->getOptionsGame().getMod(),
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 	}
-	return getSettingsFile("freemarket-%s-single.xml",
-		ScorchedServer::instance()->getOptionsGame().getMod());
+	return getSettingsFile(formatString("freemarket-%s-single.xml",
+		ScorchedServer::instance()->getOptionsGame().getMod()));
 }
 
 EconomyFreeMarket::EconomyFreeMarket()
@@ -58,9 +58,9 @@ bool EconomyFreeMarket::loadPrices()
 	XMLFile file;
 	if (!file.readFile(getEconomyFileName()))
 	{
-		dialogMessage("EconomyFreeMarket",
+		dialogMessage("EconomyFreeMarket", formatString(
 			"Failed to parse freemarket.xml file : %s",
-			file.getParserError());
+			file.getParserError()));
 		return false;
 	}
 
@@ -83,9 +83,9 @@ bool EconomyFreeMarket::loadPrices()
 				findByPrimaryAccessoryName(nameNode->getContent());
 			if (!accessory)
 			{
-				Logger::log(
+				Logger::log(formatString(
 					"Warning: Economy free market failed to find accessory named \"%s\"",
-					nameNode->getContent());
+					nameNode->getContent()));
 			}
 			else
 			{	
@@ -128,8 +128,8 @@ bool EconomyFreeMarket::savePrices()
 			std::string dirtyName(accessory->getName());
 			XMLParser::removeSpecialChars(dirtyName, cleanName);
 			file.addLine("  <accessory>");
-			file.addLine("    <name>%s</name>", cleanName.c_str());
-			file.addLine("    <buyprice>%i</buyprice>", accessory->getPrice());
+			file.addLine(formatString("    <name>%s</name>", cleanName.c_str()));
+			file.addLine(formatString("    <buyprice>%i</buyprice>", accessory->getPrice()));
 			file.addLine("  </accessory>");
 		}
 	}

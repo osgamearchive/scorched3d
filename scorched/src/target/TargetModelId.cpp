@@ -22,6 +22,7 @@
 #include <tankgraph/TargetModelIdRenderer.h>
 #include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedContext.h>
+#include <common/DefinesString.h>
 
 TargetModelId::TargetModelId(const char *tankModelName) :
 	tankModelName_(tankModelName),
@@ -70,8 +71,8 @@ TankType *TargetModelId::getTankType(ScorchedContext &context)
 	if (!tankModel) 
 	{
 		dialogExit("Scorched3D", 
-			"Failed to find tank model %s",
-			tankModelName_.c_str());
+			formatString("Failed to find tank model %s",
+			tankModelName_.c_str()));
 	}
 	return tankModel->getTankType();
 }

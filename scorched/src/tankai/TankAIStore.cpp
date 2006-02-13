@@ -52,9 +52,9 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 	if (!file.readFile(getDataFile("data/tankais.xml")))
 	{
 		dialogMessage("TankAIStore", 
-					  "Failed to parse \"%s\"\n%s", 
+					  formatString("Failed to parse \"%s\"\n%s", 
 					  "data/tankais.xml",
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 
@@ -62,8 +62,8 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 	if (!file.getRootNode())
 	{
 		dialogMessage("TankAIStore",
-					  "Failed to find tank ai definition file \"%s\"",
-					  "data/tankais.xml");
+					  formatString("Failed to find tank ai definition file \"%s\"",
+					  "data/tankais.xml"));
 		return false;		
 	}
 

@@ -103,7 +103,7 @@ void GLLenseFlare::init(ProgressCounter *counter)
 	{
 		if (counter) counter->setNewPercentage(float (i) / 16.0f * 100.0f);
 
-		GLLuminance bitmap(getDataFile("data/textures/lensflare/shine%d.bw", i));
+		GLLuminance bitmap(getDataFile(formatString("data/textures/lensflare/shine%d.bw", i)));
 		shines_[i].create(bitmap, GL_LUMINANCE);
 	}
 
@@ -111,7 +111,7 @@ void GLLenseFlare::init(ProgressCounter *counter)
 	{
 		if (counter) counter->setNewPercentage(float (i+10) / 16.0f * 100.0f);
 
-		GLLuminance bitmap(getDataFile("data/textures/lensflare/flare%d.bw", i));
+		GLLuminance bitmap(getDataFile(formatString("data/textures/lensflare/flare%d.bw", i)));
 		flares_[i].create(bitmap, GL_LUMINANCE);
 	}
 }

@@ -81,8 +81,8 @@ void TankFired::simulate(float frameTime, bool &remove)
 				{
 					SoundBuffer *firedSound = 
 						Sound::instance()->fetchOrCreateBuffer( (char*)
-							getDataFile("data/wav/%s", 
-							weapon_->getParent()->getActivationSound()));
+							getDataFile(formatString("data/wav/%s", 
+							weapon_->getParent()->getActivationSound())));
 					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 						firedSound, tank->getPosition().getTankPosition());
 				}

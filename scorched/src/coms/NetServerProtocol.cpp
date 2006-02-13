@@ -50,8 +50,8 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	int result = SDLNet_TCP_Send(socket, &netlen, sizeof(netlen));
 	if(result<(int) sizeof(netlen))
 	{
-		Logger::log( "Failed to send buffer length. Sent %i of %i.",
-			result, sizeof(netlen));
+		Logger::log(formatString("Failed to send buffer length. Sent %i of %i.",
+			result, sizeof(netlen)));
 		return false;
 	}
 	
@@ -59,8 +59,8 @@ bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log( "Failed to send buffer. Sent %i of %i.",
-			result, int(len));
+		Logger::log(formatString("Failed to send buffer. Sent %i of %i.",
+			result, int(len)));
 		return false;
 	}
 	NetInterface::getBytesOut() += len;
@@ -117,8 +117,8 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 	// Cannot recieve a message large than .5 MB
 	if (len > 512000)
 	{
-		Logger::log( "Buffer was too large to recieve.  Size %i.",
-			len);
+		Logger::log(formatString("Buffer was too large to recieve.  Size %i.",
+			len));
 		return 0;
 	}
 
@@ -217,8 +217,8 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		// Check for silly sized buffer
 		if (dLen > 512000)
 		{
-			Logger::log( "Compressed coms buffer was too large to recieve. Size = %i.",
-				dLen);
+			Logger::log(formatString("Compressed coms buffer was too large to recieve. Size = %i.",
+				dLen));
 			NetMessagePool::instance()->addToPool(message);	
 			return 0;
 		}
@@ -276,8 +276,8 @@ bool NetServerHTTPProtocolSend::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log( "Failed to send HTTP buffer. Sent %i of %i.",
-			result, int(len));
+		Logger::log(formatString("Failed to send HTTP buffer. Sent %i of %i.",
+			result, int(len)));
 		return false;
 	}
 	NetInterface::getBytesOut() += len;
@@ -339,8 +339,8 @@ bool NetServerHTTPProtocolRecv::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log( "Failed to send HTTP buffer. Sent %i of %i.",
-			result, int(len));
+		Logger::log(formatString("Failed to send HTTP buffer. Sent %i of %i.",
+			result, int(len)));
 		return false;
 	}
 	NetInterface::getBytesOut() += len;

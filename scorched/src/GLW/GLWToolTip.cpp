@@ -52,16 +52,8 @@ void GLWTip::populate()
 	if (handler_) handler_->populateCalled(id_);
 }
 
-void GLWTip::setText(const char *title, const char *fmt, ...)
+void GLWTip::setText(const char *title, const char *text)
 {
-	const int TEXT_SIZE = 10000;
-	static char text[TEXT_SIZE];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, TEXT_SIZE, fmt, ap);
-	va_end(ap);
-
 	texts_.clear();
 	title_ = title; text_ = text;
 	textWidth_ = 0.0f; textHeight_ = 24.0f;

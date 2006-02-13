@@ -486,17 +486,17 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 void BuyAccessoryDialog::loadFavorites()
 {
 	const char *filename = 
-		getSettingsFile("weaponfavorites-%s.xml", 
-			ScorchedClient::instance()->getOptionsGame().getMod());
+		getSettingsFile(formatString("weaponfavorites-%s.xml", 
+			ScorchedClient::instance()->getOptionsGame().getMod()));
 
 	favorites_.clear();
 	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		dialogMessage("BuyAccessoryDialog", 
+		dialogMessage("BuyAccessoryDialog", formatString(
 					  "Failed to parse \"%s\"\n%s", 
 					  filename,
-					  file.getParserError());
+					  file.getParserError()));
 		return;
 	}
 	if (!file.getRootNode()) return; // Empty File
@@ -511,8 +511,8 @@ void BuyAccessoryDialog::loadFavorites()
 void BuyAccessoryDialog::saveFavorites()
 {
 	const char *filename = 
-		getSettingsFile("weaponfavorites-%s.xml", 
-			ScorchedClient::instance()->getOptionsGame().getMod());
+		getSettingsFile(formatString("weaponfavorites-%s.xml", 
+			ScorchedClient::instance()->getOptionsGame().getMod()));
 
 	XMLNode node("accessories");
 	std::set<std::string>::iterator itor;

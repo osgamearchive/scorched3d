@@ -153,8 +153,8 @@ void TankMenus::showInventory()
 	{
 		Tank *tank = (*itor).second;
 		GLConsole::instance()->addLine(false,
-			"--%s------------------------------------",
-			tank->getName());
+			formatString("--%s------------------------------------",
+			tank->getName()));
 
 		
 		std::list<Accessory *> accessories =
@@ -167,8 +167,8 @@ void TankMenus::showInventory()
 			Accessory *accessory = (*aitor);
 
 			GLConsole::instance()->addLine(false,
-				"%s - %i", accessory->getName(), 
-				tank->getAccessories().getAccessoryCount(accessory));
+				formatString("%s - %i", accessory->getName(), 
+				tank->getAccessories().getAccessoryCount(accessory)));
 		}
 
 		GLConsole::instance()->addLine(false,

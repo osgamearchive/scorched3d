@@ -103,11 +103,11 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		// and disconnect them
 		Logger::log("No mod and mod download disabled");
 		ServerCommon::sendString(destinationId,
-			"This server requires the \"%s\" Scorched3D mod.\n"
+			formatString("This server requires the \"%s\" Scorched3D mod.\n"
 			"The server does not allow in game file downloads.\n"
 			"You must download and install this mod before you\n"
 			"can connect to this server.",
-			ScorchedServer::instance()->getOptionsGame().getMod());
+			ScorchedServer::instance()->getOptionsGame().getMod()));
 		ServerCommon::kickDestination(destinationId, true);
 	}
 	else 
@@ -115,7 +115,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		// This server allows file downloads
 		// The the client how much needs to be downloaded
 		ServerCommon::sendString(destinationId, 
-			"This server requires the \"%s\" Scorched3D mod.\n"
+			formatString("This server requires the \"%s\" Scorched3D mod.\n"
 			"This will require downloading %u bytes\n"
 			"Maximun %i bytes per second = Minimum of %i seconds.\n"
 			"Note: This will also depend on how many server\n"
@@ -123,7 +123,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			ScorchedServer::instance()->getOptionsGame().getMod(),
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),
-			neededLength / ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed());
+			neededLength / ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed()));
 	}
 
 	// Set the files to download in this tanks profile

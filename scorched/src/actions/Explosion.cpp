@@ -222,7 +222,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 			{
 				SoundBuffer *expSound = 
 					Sound::instance()->fetchOrCreateBuffer(
-						(char *) getDataFile("data/wav/%s", weapon_->getExplosionSound()));
+						(char *) getDataFile(formatString("data/wav/%s", weapon_->getExplosionSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 					expSound, position_);
 			}

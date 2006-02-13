@@ -100,7 +100,7 @@ bool WeaponExplosion::parseXML(OptionsGame &context,
 	// Get tje deform texture
 	if (accessoryNode->getNamedChild("deformtexture", deformTexture_, false))
 	{
-		if (!checkDataFile("%s", getDeformTexture())) return false;
+		if (!checkDataFile(getDeformTexture())) return false;
 	}
 
 	// Get the explosion texture
@@ -109,7 +109,7 @@ bool WeaponExplosion::parseXML(OptionsGame &context,
 	// Get the explosion sound
 	if (!accessoryNode->getNamedChild("explosionsound", explosionSound_, false))
 	{
-		if (!checkDataFile("data/wav/%s", getExplosionSound())) return false;
+		if (!checkDataFile(formatString("data/wav/%s", getExplosionSound()))) return false;
 	}
 
 	// Get the deform
@@ -120,9 +120,9 @@ bool WeaponExplosion::parseXML(OptionsGame &context,
 	else if (0 == strcmp(deformNode->getContent(), "none")) deformType_ = Explosion::DeformNone;
 	else
 	{
-        dialogMessage("Accessory",
+        dialogMessage("Accessory", formatString(
             "Unknown deform type \"%s\" in accessory \"%s\" should be up, down or none",
-            deformNode->getContent(), parent_->getName());
+            deformNode->getContent(), parent_->getName()));
         return false;		
 	}
 

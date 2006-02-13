@@ -38,16 +38,24 @@ char *s3d_stristr(const char *x, const char *y)
 
 const char *formatStringList(const char *format, va_list ap)
 {
-	static char buffer[20048];
+	// A little fix to allow formatString to be used more than once in
+	// the same calling line.  Does waste 100K though :(
+	static char buffers[5][20048];
+	static int pos = 0;
+	char *buffer = buffers[pos++ % 5];
+
 	if (vsnprintf(buffer, 20048, format, ap) > 20000)
 	{
-		dialogAssert("buffer > 20000", __LINE__, __FILE__);
+		// Don't want to kill the server!!
+		//dialogAssert("buffer > 20000", __LINE__, __FILE__);
 	}
 	return buffer;
 }
 
 const char *formatString(const char *file, ...)
 {
+	if (!file) return "";
+
 	va_list ap; 
 	va_start(ap, file); 
 	const char *result = formatStringList(file, ap);

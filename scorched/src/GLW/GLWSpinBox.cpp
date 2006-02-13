@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/Keyboard.h>
+#include <common/DefinesString.h>
 #include <GLW/GLWSpinBox.h>
 #include <GLW/GLWFont.h>
 
@@ -68,7 +69,8 @@ void GLWSpinBox::draw()
 
 	GLWFont::instance()->getLargePtFont()->draw(
 		GLWFont::widgetFontColor, 14,
-		x_ + 5.0f, y_ + 5.0f, 0.0f, "%i", value_);
+		x_ + 5.0f, y_ + 5.0f, 0.0f, 
+		formatString("%i", value_));
 }
 
 void GLWSpinBox::mouseDown(float x, float y, bool &skipRest)

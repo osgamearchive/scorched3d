@@ -79,8 +79,9 @@ void GLWTalkBox::draw()
 	GLWFont::instance()->getLargePtFont()->drawWidthRhs(
 		int(w_) - 10,
 		white, 12,
-		x_ + 5.0f, y_ + 5.0f, 0.0f, "%s: %s%s", 
-		((mode_ == eSay)?"Say":"Team Say"), text_.c_str(), cursor_?" ":"_");
+		x_ + 5.0f, y_ + 5.0f, 0.0f, 
+		formatString("%s: %s%s", 
+		((mode_ == eSay)?"Say":"Team Say"), text_.c_str(), cursor_?" ":"_"));
 }
 
 void GLWTalkBox::keyDown(char *buffer, unsigned int keyState, 
@@ -112,9 +113,10 @@ void GLWTalkBox::keyDown(char *buffer, unsigned int keyState,
 					*c = '\'';
 				}
 
-				GLConsole::instance()->addLine(true, "%s \"%s\"",
+				GLConsole::instance()->addLine(true, 
+					formatString("%s \"%s\"",
 					((mode_ == eTeamSay)?"Teamsay":"Say"),
-					text);
+					text));
 			}
 			GLWWindowManager::instance()->hideWindow(parent_->getId());
 		}

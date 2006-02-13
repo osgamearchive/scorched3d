@@ -67,9 +67,10 @@ ServerAuthHandler *ScorchedServerUtil::getAuthHandler()
 	}
 	else 
 	{
-		dialogExit("ServerAuthHandler", "Unknown auth handler \"%s\"", handler);
+		dialogExit("ServerAuthHandler", 
+			formatString("Unknown auth handler \"%s\"", handler));
 	}
 	
-	Logger::log("Using \"%s\" authentication handler.", handler);
+	Logger::log(formatString("Using \"%s\" authentication handler.", handler));
 	return authHandler_;
 }

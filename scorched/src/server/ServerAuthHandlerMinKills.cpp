@@ -75,22 +75,22 @@ void ServerAuthHandlerMinKills::setup()
 	if (minKills_ != -1) return;
 
 	XMLFile file;
-	const char *fileName = getSettingsFile("minkills-%i.xml",
-		ScorchedServer::instance()->getOptionsGame().getPortNo());
+	const char *fileName = getSettingsFile(formatString("minkills-%i.xml",
+		ScorchedServer::instance()->getOptionsGame().getPortNo()));
 
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
-		Logger::log( "Failed to parse %s settings file. Error: %s", 
+		Logger::log(formatString("Failed to parse %s settings file. Error: %s", 
 			fileName,
-			file.getParserError());
+			file.getParserError()));
 		return;
 	}
 
 	if (!file.getRootNode()->getNamedChild("minkills", minKills_) ||
 		!file.getRootNode()->getNamedChild("maxkills", maxKills_)) 
 	{
-		Logger::log( "Failed to parse %s settings file.", fileName);
+		Logger::log(formatString("Failed to parse %s settings file.", fileName));
 		return;
 	}
 }

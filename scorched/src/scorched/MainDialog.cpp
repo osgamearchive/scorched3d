@@ -134,15 +134,8 @@ void showURL(const char *url)
 #endif // _WIN32
 }
 
-void runScorched3D(const char *fmt, ...)
+void runScorched3D(const char *text)
 {
-	char text[1024];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 1024, fmt, ap);
-	va_end(ap);
-
 	char path[1024];
 	snprintf(path, 1024, "%s -settingsdir %s %s", 
 		exeName, 
@@ -154,10 +147,10 @@ void runScorched3D(const char *fmt, ...)
 	if (result == 0)
 	{
 		delete process;
-		dialogMessage(scorched3dAppName,
+		dialogMessage(scorched3dAppName, formatString(
 			"Error: Failed to execute scorched3d using commandline :-\n"
 			"%s",
-			path);
+			path));
 	}
 }
 

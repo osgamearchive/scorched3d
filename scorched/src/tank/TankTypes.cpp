@@ -36,8 +36,8 @@ bool TankTypes::loadTankTypes(ScorchedContext &context)
 	if (!file.readFile(getDataFile("data/tanktypes.xml")))
 	{
 		dialogMessage("Scorched3D", 
-			"Failed to parse data/tanktypes.xml\n%s", 
-			file.getParserError());
+			formatString("Failed to parse data/tanktypes.xml\n%s", 
+			file.getParserError()));
 		return false;
 	}
 

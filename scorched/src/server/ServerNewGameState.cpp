@@ -113,7 +113,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	}
 
 	// Setup landscape and tank start pos
-	ServerCommon::serverLog(0, "Generating landscape");
+	ServerCommon::serverLog( "Generating landscape");
 
 	// Remove any old targets
 	removeTargets();
@@ -188,7 +188,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	if (addState)
 	{
 		// Tell client(s) of game settings changes
-		ServerCommon::serverLog(0, "Sending a new game state");
+		ServerCommon::serverLog( "Sending a new game state");
 		ServerCommon::sendString(0, "Game options have been changed!");
 		newGameMessage.addGameState(); 
 	}
@@ -204,19 +204,19 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	}
 	LandscapeDefinitionCache &definitions =
 		ScorchedServer::instance()->getLandscapeMaps().getDefinitions();
-	ServerCommon::serverLog(0,
-		"Finished generating landscape (%u, %s, %s)", 
+	ServerCommon::serverLog(
+		formatString("Finished generating landscape (%u, %s, %s)", 
 		definitions.getSeed(), 
 		definitions.getDefinition().getDefn(), 
-		definitions.getDefinition().getTex());
+		definitions.getDefinition().getTex()));
 
 	// Check if the generated landscape is too large to send to the clients
 	if (newGameMessage.getLevelMessage().getHeightMap().getLevelLen() >
 		(unsigned int) ScorchedServer::instance()->getOptionsGame().getMaxLandscapeSize())
 	{
-		ServerCommon::serverLog(0, "Landscape too large to send to waiting clients.");
-		ServerCommon::sendString(0, "Landscape too large to send to waiting clients (%i bytes).", 
-			newGameMessage.getLevelMessage().getHeightMap().getLevelLen());
+		ServerCommon::serverLog( "Landscape too large to send to waiting clients.");
+		ServerCommon::sendString(0, formatString("Landscape too large to send to waiting clients (%i bytes).", 
+			newGameMessage.getLevelMessage().getHeightMap().getLevelLen()));
 		return 0;
 	}
 
@@ -296,8 +296,8 @@ void ServerNewGameState::calculateStartPosition(
 	else
 	{
 		dialogExit("ServerNewGameState",
-			"Failed to find tank start type \"%i\"",
-			defn->getType());
+			formatString("Failed to find tank start type \"%i\"",
+			defn->getType()));
 	}
 
 	std::map<unsigned int, Tank *> &tanks = 
@@ -559,12 +559,12 @@ void ServerNewGameState::checkTeamsAuto()
 			OptionsGame::TeamBallanceAutoByScore)
 		{
 			ServerCommon::sendString(0, "Auto ballancing teams, by score");
-			ServerCommon::serverLog(0, "Auto ballancing teams, by score");
+			ServerCommon::serverLog( "Auto ballancing teams, by score");
 		}
 		else
 		{
 			ServerCommon::sendString(0, "Auto ballancing teams");
-			ServerCommon::serverLog(0, "Auto ballancing teams");
+			ServerCommon::serverLog( "Auto ballancing teams");
 		}
 	}
 }

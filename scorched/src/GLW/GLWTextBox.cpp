@@ -22,6 +22,7 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTextBox.h>
 #include <common/Keyboard.h>
+#include <common/DefinesString.h>
 
 REGISTER_CLASS_SOURCE(GLWTextBox);
 
@@ -57,7 +58,8 @@ void GLWTextBox::draw()
 	GLWFont::instance()->getLargePtFont()->drawWidth(
 		(int) w_,
 		GLWFont::widgetFontColor, 14,
-		x_ + 5.0f, y_ + 5.0f, 0.0f, "%s%s", text_.c_str(), cursor_?"":"_");
+		x_ + 5.0f, y_ + 5.0f, 0.0f, 
+		formatString("%s%s", text_.c_str(), cursor_?"":"_"));
 }
 
 void GLWTextBox::keyDown(char *buffer, unsigned int keyState, 

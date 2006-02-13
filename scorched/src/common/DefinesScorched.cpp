@@ -60,20 +60,15 @@ const char *getDataFileMod()
 #define S3D_BINDIR "."
 #endif
 
-const char *getDataFile(const char *file, ...)
+const char *getDataFile(const char *filename)
 {
-	static char filename[1024];
 	static char buffer[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
 
-	snprintf(buffer, 1024, getModFile("%s/%s", getDataFileMod(), filename));
+	snprintf(buffer, 1024, getModFile(formatString("%s/%s", getDataFileMod(), filename)));
 	s3d_fileDos2Unix(buffer);
 	if (s3d_fileExists(buffer)) return buffer;
 
-	snprintf(buffer, 1024, getGlobalModFile("%s/%s", getDataFileMod(), filename));
+	snprintf(buffer, 1024, getGlobalModFile(formatString("%s/%s", getDataFileMod(), filename)));
 	s3d_fileDos2Unix(buffer);
 	if (s3d_fileExists(buffer)) return buffer;
 
@@ -83,49 +78,32 @@ const char *getDataFile(const char *file, ...)
 	return buffer;
 }
 
-extern bool checkDataFile(const char *file, ...)
+extern bool checkDataFile(const char *filename)
 {
-	static char filename[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
-
 	const char *dataFileName = getDataFile(filename);
 	if (!s3d_fileExists(dataFileName))
 	{
 		if (0 == strstr(filename, "none"))
 		{
-			dialogMessage("Scorched3D",
+			dialogMessage("Scorched3D", formatString(
 				"The file \"%s\" does not exist",
-				dataFileName);
+				dataFileName));
 			return false;
 		}
 	}
 	return true;
 }
 
-const char *getDocFile(const char *file, ...)
+const char *getDocFile(const char *filename)
 {
-	static char filename[1024];
 	static char buffer[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
 	snprintf(buffer, 1024, S3D_DOCDIR "/%s", filename);
 	s3d_fileDos2Unix(buffer);
 	return buffer;
 }
 
-const char *getHomeFile(const char *file, ...)
+const char *getHomeFile(const char *filename)
 {
-	static char filename[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
-
 	static std::string homeDir;
 	if (!homeDir.c_str()[0])
 	{
@@ -142,20 +120,13 @@ const char *getHomeFile(const char *file, ...)
 	return buffer;
 }
 
-const char *getSettingsFile(const char *file ...)
+const char *getSettingsFile(const char *filename)
 {
-	static char filename[1024];
-	
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
-
 	static std::string homeDir;
 	if (!homeDir.c_str()[0])
 	{
-		const char *homeDirStr = getHomeFile("/%s", 
-			settingsDir.c_str());
+		const char *homeDirStr = getHomeFile(formatString("/%s", 
+			settingsDir.c_str()));
 		if (!s3d_dirExists(homeDirStr))
 		{
 			if (!s3d_dirMake(homeDirStr))
@@ -172,14 +143,9 @@ const char *getSettingsFile(const char *file ...)
 	return buffer;
 }
 
-const char *getLogFile(const char *file ...)
+const char *getLogFile(const char *filename)
 {
-	static char filename[1024];
 	static char buffer[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
 
 	const char *homeDirStr = getSettingsFile("");
 	std::string newDir(std::string(homeDirStr) + std::string("/logs"));
@@ -191,14 +157,8 @@ const char *getLogFile(const char *file ...)
 	return buffer;
 }
 
-const char *getSaveFile(const char *file ...)
+const char *getSaveFile(const char *filename)
 {
-	static char filename[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
-
 	static char buffer[1024];
 	const char *homeDirStr = getSettingsFile("");
 	std::string newDir(std::string(homeDirStr) + std::string("/saves"));
@@ -210,14 +170,8 @@ const char *getSaveFile(const char *file ...)
 	return buffer;
 }
 
-const char *getModFile(const char *file ...)
+const char *getModFile(const char *filename)
 {
-	static char filename[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
-
 	static std::string modDir;
 	if (!modDir.c_str()[0])
 	{
@@ -235,14 +189,8 @@ const char *getModFile(const char *file ...)
 	return buffer;
 }
 
-const char *getGlobalModFile(const char *file, ...)
+const char *getGlobalModFile(const char *filename)
 {
-	static char filename[1024];
-	va_list ap;
-	va_start(ap, file);
-	vsnprintf(filename, 1024, file, ap);
-	va_end(ap);
-
 	static char buffer[1024];
 	snprintf(buffer, 1024, S3D_DATADIR "/data/globalmods/%s", filename);
 	s3d_fileDos2Unix(buffer);

@@ -26,7 +26,7 @@
 
 void showMainDialog();
 void setExeName(const char *name, bool allowExceptions);
-void runScorched3D(const char *flags, ...);
+void runScorched3D(const char *flags);
 
 wxFrame *getMainDialog();
 void addTitleToWindow(

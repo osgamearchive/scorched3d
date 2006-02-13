@@ -22,14 +22,15 @@
 #define __INCLUDE_ServerCommonh_INCLUDE__
 
 #include <server/ServerBanned.h>
+#include <common/DefinesString.h>
 
 namespace ServerCommon
 {
 	void startFileLogger();
-	void sendString(unsigned int destinationId, const char *fmt, ...);
-	void sendStringMessage(unsigned int destinationId, const char *fmt, ...);
-	void sendStringAdmin(const char *fmt, ...);
-	void serverLog(unsigned int playerId, const char *fmt, ...);
+	void sendString(unsigned int destinationId, const char *text);
+	void sendStringMessage(unsigned int destinationId, const char *text);
+	void sendStringAdmin(const char *text);
+	void serverLog(const char *text);
 	void kickDestination(unsigned int destinationId, bool delayed = false);
 	void kickPlayer(unsigned int playerId, bool delayed = false);
 	void poorPlayer(unsigned int playerId);

@@ -90,7 +90,7 @@ void ServerNextShotState::enterState(const unsigned state)
 			ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() &&
 			ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns() > 0)
 		{
-			ServerCommon::serverLog(0, "Skipping round due to turn limit");
+			ServerCommon::serverLog( "Skipping round due to turn limit");
 			ServerCommon::sendString(0, "Skipping round due to turn limit");
 
 			// We have shots to make, lets make them

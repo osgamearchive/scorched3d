@@ -79,8 +79,8 @@ void ClientKeepAliveSender::sendKeepAlive()
 		{
 			if (theTime - lastWarnTime_  >= sendTime)
 			{
-				Logger::log("Warning: Keepalive has not been sent in %u seconds",
-					theTime - lastSendTime_);
+				Logger::log(formatString("Warning: Keepalive has not been sent in %u seconds",
+					theTime - lastSendTime_));
 				lastWarnTime_ = theTime;
 			}
 		}

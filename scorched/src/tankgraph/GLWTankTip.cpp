@@ -92,11 +92,11 @@ void TankFuelTip::populate()
 	}
 	else
 	{
-		setText("Fuel",
+		setText("Fuel", formatString(
 			"Allows the tank to move.\n"
 			"Click to toggle movement mode.\n"
 			"Fuel : %i",
-			count);
+			count));
 	}
 }
 
@@ -165,12 +165,12 @@ void TankBatteryTip::populate()
 	}
 	else
 	{
-		setText("Batteries",
+		setText("Batteries", formatString(
 			"Can be used to recharge life.\n"
 			"Each battery gives back 10 life.\n"
 			"Click to use some battery(s).\n"
 			"Batteries : %i",
-			count);
+			count));
 	}
 }
 
@@ -268,7 +268,7 @@ void TankShieldTip::populate()
 		if (count >= 0) snprintf(buffer, 128, "%i", count);
 		else snprintf(buffer, 128, "Infinite");
 
-		setText("Shields",
+		setText("Shields", formatString(
 			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
@@ -277,16 +277,16 @@ void TankShieldTip::populate()
 			"Shield Power : %.0f",
 			tank_->getShield().getCurrentShield()->getName(),
 			buffer,
-			tank_->getShield().getShieldPower());
+			tank_->getShield().getShieldPower()));
 	}
 	else
 	{
-		setText("Shields",
+		setText("Shields", formatString(
 			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
 			"Click to enable/disable shields.\n"
-			"Shields Off");
+			"Shields Off"));
 	}
 }
 
@@ -308,13 +308,13 @@ TankHealthTip::~TankHealthTip()
 
 void TankHealthTip::populate()
 {
-	setText("Life",
+	setText("Life", formatString(
 		"The amount of life this player has.\n"
 		"The tank explodes when life reaches 0.\n"
 		"Less weapon power is available with less life.\n"
 		"Life : %i/%i",
 		(int) tank_->getLife().getLife(),
-		(int) tank_->getLife().getMaxLife());
+		(int) tank_->getLife().getMaxLife()));
 }
 
 TankParachutesTip::TankParachutesTip(Tank *tank) : 
@@ -332,7 +332,7 @@ void TankParachutesTip::populate()
 	char buffer[128];
 	if (count >= 0) snprintf(buffer, 128, "%i", count);
 	else snprintf(buffer, 128, "Infinite");
-	setText("Parachutes",
+	setText("Parachutes", formatString(
 		"Prevents the tank from taking damage\n"
 		"when falling.  Must be enabled before\n"
 		"they take effect.\n"
@@ -341,7 +341,7 @@ void TankParachutesTip::populate()
 		"Status : %s",
 		buffer,
 		(tank_->getParachute().parachutesEnabled()?
-		"On":"Off"));
+		"On":"Off")));
 }
 
 void TankParachutesTip::showItems(float x, float y)
@@ -382,14 +382,14 @@ TankAutoDefenseTip::~TankAutoDefenseTip()
 
 void TankAutoDefenseTip::populate()
 {
-	setText("Auto Defense",
+	setText("Auto Defense", formatString(
 		"Allows the tank to raise shields and\n"
 		"activate parachutes before the round\n"
 		"starts.\n"
 		"Click to see auto defense status.\n"
 		"Status : %s",
 		(tank_->getAccessories().getAutoDefense().haveDefense()?
-		"On":"Off (Not Bought)"));
+		"On":"Off (Not Bought)")));
 }
 
 void TankAutoDefenseTip::showItems(float x, float y)
@@ -421,7 +421,7 @@ void TankWeaponTip::populate()
 	if (tank_->getAccessories().getWeapons().getWeaponCount(
 		tank_->getAccessories().getWeapons().getCurrent()) > 0)
 	{
-		setText("Weapon",
+		setText("Weapon", formatString(
 			"The currently selected weapon.\n"
 			"Click to change weapon.\n"
 			"Weapon : %s (%i)\n"
@@ -429,17 +429,17 @@ void TankWeaponTip::populate()
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
 			tank_->getAccessories().getWeapons().getWeaponCount(
 			tank_->getAccessories().getWeapons().getCurrent()),
-			tank_->getAccessories().getWeapons().getCurrent()->getDescription());
+			tank_->getAccessories().getWeapons().getCurrent()->getDescription()));
 	}
 	else
 	{
-		setText("Weapon",
+		setText("Weapon", formatString(
 			"The currently selected weapon.\n"
 			"Click to change weapon.\n"
 			"Weapon : %s (Infinite)\n"
 			"Description :\n%s",
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
-			tank_->getAccessories().getWeapons().getCurrent()->getDescription());
+			tank_->getAccessories().getWeapons().getCurrent()->getDescription()));
 	}
 }
 
@@ -496,12 +496,12 @@ TankPowerTip::~TankPowerTip()
 
 void TankPowerTip::populate()
 {
-	setText("Power",
+	setText("Power", formatString(
 		"The power used to fire the %s.\n"
 		"Click to revert back to previous settings.\n"
 		"Power : %s",
 		tank_->getAccessories().getWeapons().getCurrent()->getName(),
-		tank_->getPosition().getPowerString());
+		tank_->getPosition().getPowerString()));
 }
 
 TankRotationTip::TankRotationTip(Tank *tank) : 
@@ -515,11 +515,11 @@ TankRotationTip::~TankRotationTip()
 
 void TankRotationTip::populate()
 {
-	setText("Rotation",
+	setText("Rotation", formatString(
 		"The rotation of the current player's tank turret.\n"
 		"Click to revert back to previous settings.\n"
 		"Rotation : %s",
-		tank_->getPosition().getRotationString());
+		tank_->getPosition().getRotationString()));
 }
 
 TankElevationTip::TankElevationTip(Tank *tank) : 
@@ -533,11 +533,11 @@ TankElevationTip::~TankElevationTip()
 
 void TankElevationTip::populate()
 {
-	setText("Elevation",
+	setText("Elevation", formatString(
 		"The elevation of the current player's gun.\n"
 		"Click to revert back to previous settings.\n"
 		"Elevation : %s",
-		tank_->getPosition().getElevationString());
+		tank_->getPosition().getElevationString()));
 }
 
 TankTip::TankTip(Tank *tank) : 
@@ -555,7 +555,7 @@ void TankTip::populate()
 	{
 		Shield *shield = (Shield*) 
 			tank_->getShield().getCurrentShield()->getAction();
-		setText(tank_->getName(), 
+		setText(tank_->getName(), formatString(
 				"Life   : %.0f/%.0f\n"
 				"Shield : %.0f/%.0f\n"
 				"Wins   : %i\n"
@@ -565,18 +565,18 @@ void TankTip::populate()
 				tank_->getShield().getShieldPower(),
 				shield->getPower(),
 				tank_->getScore().getWins(),
-				tank_->getScore().getKills());
+				tank_->getScore().getKills()));
 	}
 	else
 	{
-		setText(tank_->getName(), 
+		setText(tank_->getName(), formatString(
 				"Life   : %.0f/%.0f\n"
 				"Wins   : %i\n"
 				"Kills  : %i\n",
 				tank_->getLife().getLife(),
 				tank_->getLife().getMaxLife(),
 				tank_->getScore().getWins(),
-				tank_->getScore().getKills());
+				tank_->getScore().getKills()));
 	}
 }
 
@@ -595,20 +595,20 @@ void TargetTip::populate()
 	{
 		Shield *shield = (Shield *) 
 			target_->getShield().getCurrentShield()->getAction();
-		setText(target_->getName(), 
+		setText(target_->getName(), formatString(
 				"Life   : %.0f/%.0f\n"
 				"Shield : %.0f/%.0f",
 				target_->getLife().getLife(),
 				target_->getLife().getMaxLife(),
 				target_->getShield().getShieldPower(),
-				shield->getPower());
+				shield->getPower()));
 	}
 	else
 	{
-		setText(target_->getName(), 
+		setText(target_->getName(), formatString(
 				"Life   : %.0f/%.0f",
 				target_->getLife().getLife(),
-				target_->getLife().getMaxLife());
+				target_->getLife().getMaxLife()));
 	}
 }
 

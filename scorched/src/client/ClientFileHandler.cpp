@@ -115,8 +115,8 @@ bool ClientFileHandler::processMessage(unsigned int id,
 			files.find(fileName);
 		if (findItor == files.end())
 		{
-			Logger::log( "Failed to find partial mod file \"%s\"", 
-				fileName.c_str());
+			Logger::log(formatString("Failed to find partial mod file \"%s\"", 
+				fileName.c_str()));
 			return false;
 		}
 		ModFileEntry *entry = (*findItor).second;
@@ -130,16 +130,16 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		if (lastChunk)
 		{
 			// Finished
-			Logger::log( " %u %s - %i bytes",
+			Logger::log(formatString(" %u %s - %i bytes",
 				filesLeft,
 				fileName.c_str(),
-				entry->getCompressedSize());
+				entry->getCompressedSize()));
 
 			// Wrong size
 			if (entry->getCompressedSize() != maxsize)
 			{
-				Logger::log( "Downloaded mod file incorrect size \"%s\"",
-					fileName.c_str());
+				Logger::log(formatString("Downloaded mod file incorrect size \"%s\"",
+					fileName.c_str()));
 				return false;
 			}
 
@@ -147,8 +147,8 @@ bool ClientFileHandler::processMessage(unsigned int id,
 			if (!entry->writeModFile(fileName.c_str(),
 				ScorchedClient::instance()->getOptionsGame().getMod()))
 			{
-				Logger::log( "Failed to write mod file \"%s\"",
-					fileName.c_str());
+				Logger::log(formatString("Failed to write mod file \"%s\"",
+					fileName.c_str()));
 				return false;
 			}
 		}

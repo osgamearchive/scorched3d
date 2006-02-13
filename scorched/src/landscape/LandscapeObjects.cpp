@@ -153,8 +153,8 @@ void LandscapeObjects::generate(RandomGenerator &generator,
 		else
 		{
 			dialogExit("LandscapeObjects",
-				"Error: Unknown placement type \"%s\"",
-				placementtype.c_str());
+				formatString("Error: Unknown placement type \"%s\"",
+				placementtype.c_str()));
 		}
 	}
 }

@@ -43,29 +43,29 @@ public:
 
 	void draw(Vector &color, float size, 
 			  float x, float y, float z, 
-			  const char *fmt, ...);
+			  const char *text);
 	void drawA(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
-			  const char *fmt, ...);
+			  const char *text);
 	void drawWidth(int width, 
 				 Vector &color, float size, 
 				 float x, float y, float z, 
-				 const char *fmt, ...);
+				 const char *text);
 	void drawWidthRhs(int width, 
 				 Vector &color, float size, 
 				 float x, float y, float z, 
-				 const char *fmt, ...);
+				 const char *text);
 	void drawSubStr(int start, int len,
 				 Vector &color, float size, 
 				 float x, float y, float z, 
-				 const char *fmt, ...);
+				 const char *text);
 	void drawOutline(Vector &color, float size, float size2,
 			float x, float y, float z,
-			const char *fmt, ...);
+			const char *text);
 	void drawBilboard(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
-			  const char *fmt, ...);
-	int getWidth(float size, const char *fmt, ...);
+			  const char *text);
+	int getWidth(float size, const char *text);
 
 protected:
 	GLuint *textures_;

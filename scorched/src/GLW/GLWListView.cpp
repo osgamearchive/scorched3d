@@ -58,7 +58,8 @@ void GLWListView::draw()
 				GLWFont::instance()->getSmallPtFont()->drawWidth(
 					(int) w_ - 20,
 					GLWFont::widgetFontColor, 10,
-					x_ + 5.0f, posY, 0.0f, "%s", lines_[i].c_str());
+					x_ + 5.0f, posY, 0.0f, 
+					formatString("%s", lines_[i].c_str()));
 				posY -= 12.0f;
 			}
 
@@ -95,7 +96,7 @@ void GLWListView::clear()
 	scroll_.setCurrent(0);
 }
 
-void GLWListView::addLine(const char *fmt, ...)
+void GLWListView::addLine(const char *text)
 {
 	// Remove extra lines
 	if (maxLen_ > 0)
@@ -104,13 +105,6 @@ void GLWListView::addLine(const char *fmt, ...)
 	}
 
 	// Generate the line to add
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	lines_.push_back(text);
 
 	// Setup the current scroll position

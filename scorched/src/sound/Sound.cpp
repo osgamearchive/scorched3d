@@ -139,7 +139,8 @@ bool Sound::init(int channels)
 		SoundSource *source = new SoundSource;
 		if (!source->create())
 		{
-			dialogExit("Scorched3D", "Failed to create sound channel number %i", i);
+			dialogExit("Scorched3D", 
+				formatString("Failed to create sound channel number %i", i));
 			return false;
 		}
 		totalSources_.push_back(source);
@@ -153,9 +154,9 @@ bool Sound::init(int channels)
 void Sound::showSoundBuffers()
 {
 	int i = 1;
-	Logger::log("%i sounds playing, %i sources free",
+	Logger::log(formatString("%i sounds playing, %i sources free",
 		getPlayingChannels(),
-		getAvailableChannels());
+		getAvailableChannels()));
 	VirtualSourceMap::iterator itor;
 	for (itor = playingSources_.begin();
 		itor != playingSources_.end();
@@ -163,10 +164,10 @@ void Sound::showSoundBuffers()
 	{
 		unsigned int p = (*itor).first;
 		VirtualSoundSource *source = (*itor).second;
-		Logger::log("%i,%u - %s:%s",
+		Logger::log(formatString("%i,%u - %s:%s",
 			i, p, 
 			(source->getPlaying()?"Playing":"Stopped"),
-			source->getBuffer()->getFileName());
+			source->getBuffer()->getFileName()));
 	}
 }
 
@@ -339,7 +340,7 @@ SoundBuffer *Sound::createBuffer(char *fileName)
 	if (!buffer->createBuffer(fileName))
 	{
 		dialogExit("Failed to load sound",
-			"%u:\"%s\"", buffer->getError(), fileName);
+			formatString("%u:\"%s\"", buffer->getError(), fileName));
 
 		delete buffer;
 		return 0;

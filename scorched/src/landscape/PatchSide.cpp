@@ -143,7 +143,7 @@ void PatchSide::recursTessellate( TriNode *tri,
 							  int node, unsigned currentVariance )
 {
 	int centerX = (leftX + rightX) >> 1; // Compute X coordinate of center of Hypotenuse
-	int centerY = (leftY + rightY) >> 1; // Compute Y coord...
+	int centerY = (leftY + rightY) >> 1; // Compute Y coord.
 
 	unsigned int triVariance = 100000;
 	if ((unsigned int) node < variance_.getMaxPos() ) // If we are not below the variance tree

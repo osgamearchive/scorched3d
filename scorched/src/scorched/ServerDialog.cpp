@@ -496,16 +496,16 @@ void ServerFrame::onComsMessageLogging(wxCommandEvent &event)
 {
 	ScorchedServer::instance()->getComsMessageHandler().getMessageLogging() =
 		!ScorchedServer::instance()->getComsMessageHandler().getMessageLogging();
-	Logger::log( "Server Coms Message Logging %s",
-		(ScorchedServer::instance()->getComsMessageHandler().getMessageLogging()?"On":"Off"));
+	Logger::log(formatString("Server Coms Message Logging %s",
+		(ScorchedServer::instance()->getComsMessageHandler().getMessageLogging()?"On":"Off")));
 }
 
 void ServerFrame::onStateLogging(wxCommandEvent &event)
 {
 	ScorchedServer::instance()->getGameState().getStateLogging() = 
 		!ScorchedServer::instance()->getGameState().getStateLogging();
-	Logger::log( "Server State Logging %s",
-		(ScorchedServer::instance()->getGameState().getStateLogging()?"On":"Off"));
+	Logger::log(formatString("Server State Logging %s",
+		(ScorchedServer::instance()->getGameState().getStateLogging()?"On":"Off")));
 }
 
 void ServerFrame::onMenuExit(wxCommandEvent &event)
@@ -604,8 +604,8 @@ void ServerFrame::onPlayerTalkAll(wxCommandEvent &event)
 		frame, wxT("Message to players"));
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
-		Logger::log( "Says \"%s\"", 
-			entryDialog.GetValue().GetData());
+		Logger::log(formatString("Says \"%s\"", 
+			entryDialog.GetValue().GetData()));
 		ServerCommon::sendString(0, entryDialog.GetValue().mb_str(wxConvUTF8));
 	}
 }
@@ -616,8 +616,8 @@ void ServerFrame::onPlayerTalk(wxCommandEvent &event)
 		frame, wxT("Message to players"));
 	if (entryDialog.ShowModal() == wxID_OK)
 	{
-		Logger::log( "Says \"%s\"", 
-			entryDialog.GetValue().GetData());
+		Logger::log(formatString("Says \"%s\"", 
+			entryDialog.GetValue().GetData()));
 
 		long item = -1;
 		while ((item = frame->playerList_->GetNextItem(

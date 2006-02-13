@@ -252,11 +252,11 @@ bool OptionsDisplay::writeOptionsToFile()
 	if (!checkfile)
 	{
 		dialogMessage(
-			"Scorched3D",
+			"Scorched3D", formatString(
 			"Warning: Your display settings file (%s) cannot be\n"
 			"written to.  Your settings will not be saved from one game to the next.\n\n"
 			"To fix this problem correct the permissions for this file.",
-			path);
+			path));
 	}
 	else fclose(checkfile);
 
@@ -275,11 +275,11 @@ bool OptionsDisplay::readOptionsFromFile()
 	if (!OptionEntryHelper::readFromFile(options_, (char *) path))
 	{
 		dialogMessage(
-			"Scorched3D",
+			"Scorched3D", formatString(
 			"Warning: Your display settings file (%s) cannot be\n"
 			"read.  This may be because it was create by an out of date version of Scorched3D.\n"
 			"If this is the case it can be safely deleted.",
-			path);
+			path));
 		return false;
 	}
 

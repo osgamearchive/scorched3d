@@ -295,8 +295,8 @@ void GameState::simulate(float simTime)
 				{
 					if (stateLogging_)
 					{
-						Logger::log( "%s::acceptStateChange(%i, %i)", 
-							name_.c_str(), thisState, p.second);
+						Logger::log(formatString("%s::acceptStateChange(%i, %i)", 
+							name_.c_str(), thisState, p.second));
 					}
 					setState(itor->second);
 					return;
@@ -337,7 +337,7 @@ void GameState::setState(const unsigned state)
 {
 	if (stateLogging_)
 	{
-		Logger::log( "%s::setState(%i)", name_.c_str(), state);
+		Logger::log(formatString("%s::setState(%i)", name_.c_str(), state));
 	}
 
 	currentState_ = state;
@@ -367,15 +367,15 @@ void GameState::setState(const unsigned state)
 	}
 	else
 	{
-		dialogExit("Scorched3D", 
+		dialogExit("Scorched3D", formatString(
 			"%s: Failed to find state %i", 
 			name_.c_str(),
-			state);
+			state));
 	}
 
 	if (stateLogging_)
 	{
-		Logger::log( "%s::setStateFinished(%i)", name_.c_str(), state);
+		Logger::log(formatString("%s::setStateFinished(%i)", name_.c_str(), state));
 	}
 }
 
@@ -393,10 +393,10 @@ bool GameState::checkStimulate()
 		}
 		else
 		{
-			dialogExit("Scorched3D", 
+			dialogExit("Scorched3D", formatString(
 				"%s: Failed to find stimulus %i in state %i", 
 				name_.c_str(),
-				pendingStimulus_, currentState_);
+				pendingStimulus_, currentState_));
 		}
 	}
 
@@ -407,7 +407,7 @@ void GameState::stimulate(const unsigned stimulus)
 {
 	if (stateLogging_)
 	{
-		Logger::log( "%s::stimulate(%i)", name_.c_str(), stimulus);
+		Logger::log(formatString("%s::stimulate(%i)", name_.c_str(), stimulus));
 	}
 
 	pendingStimulus_ = stimulus;

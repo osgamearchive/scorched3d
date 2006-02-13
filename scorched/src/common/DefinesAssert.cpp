@@ -27,15 +27,8 @@
 
 extern bool wxWindowInit;
 
-void dialogMessage(const char *header, const char *fmt, ...)
+void dialogMessage(const char *header, const char *text)
 {
-	char text[20048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 20048, fmt, ap);
-	va_end(ap);
-
 #ifdef _WIN32
 	MessageBox(NULL, text, header, MB_OK);
 #else
@@ -61,13 +54,8 @@ void dialogAssert(const char *lineText, const int line, const char *file)
 	exit(64);
 }
 
-void dialogExit(const char *header, const char *file, ...)
+void dialogExit(const char *header, const char *text)
 {
-	va_list ap; 
-	va_start(ap, file); 
-	const char *result = formatStringList(file, ap);
-	va_end(ap); 
-
-	dialogMessage(header, result);
+	dialogMessage(header, text);
 	exit(64);
 }

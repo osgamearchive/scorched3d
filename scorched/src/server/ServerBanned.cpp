@@ -39,8 +39,8 @@ ServerBanned::~ServerBanned()
 bool ServerBanned::load(bool force)
 {
 	const char *filename = 
-		getSettingsFile("banned-%i.xml", 
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		getSettingsFile(formatString("banned-%i.xml", 
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 	if (!s3d_fileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
@@ -49,12 +49,12 @@ bool ServerBanned::load(bool force)
 	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		Logger::log("Failed to parse banned file \"%s\"\n%s", 
-			filename, file.getParserError());
+		Logger::log(formatString("Failed to parse banned file \"%s\"\n%s", 
+			filename, file.getParserError()));
 		return false;
 	}
 
-	Logger::log("Refreshing banned list %s", filename);
+	Logger::log(formatString("Refreshing banned list %s", filename));
 	lastReadTime_ = fileTime;
 	bannedIps_.clear();
 	bannedIds_.clear();
@@ -78,8 +78,8 @@ bool ServerBanned::load(bool force)
 				&mask[3], &mask[2], &mask[1], &mask[0]) != 4)
 			{
 				dialogMessage("ServerBanned",
-					"Failed to parse mask %s",
-					maskNode->getContent());
+					formatString("Failed to parse mask %s",
+					maskNode->getContent()));
 				return false;
 			}
 			m = mask[3] << 24 | mask[2] << 16 | mask[1] << 8 | mask[0];
@@ -116,8 +116,8 @@ bool ServerBanned::load(bool force)
 			else
 			{
 				dialogMessage("ServerBanned", 
-					"Failed to parse banned type %s",
-					typeNode->getContent());
+					formatString("Failed to parse banned type %s",
+					typeNode->getContent()));
 				return false;
 			}
 		}
@@ -128,8 +128,8 @@ bool ServerBanned::load(bool force)
 			&address[3], &address[2], &address[1], &address[0]) != 4)
 		{
 			dialogMessage("ServerBanned", 
-				"Failed to parse ip address %s", 
-				currentNode->getContent());
+				formatString("Failed to parse ip address %s", 
+				currentNode->getContent()));
 			return false;
 		}
 
@@ -259,8 +259,8 @@ const char *ServerBanned::getBannedTypeStr(BannedType type)
 bool ServerBanned::save()
 {
 	const char *filename = 
-		getSettingsFile("banned-%i.xml", 
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		getSettingsFile(formatString("banned-%i.xml", 
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 
 	XMLNode node("bannednodes");
 	std::list<BannedRange>::iterator itor;

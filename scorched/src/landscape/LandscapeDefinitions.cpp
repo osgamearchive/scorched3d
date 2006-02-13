@@ -105,9 +105,9 @@ bool LandscapeDefinitions::readLandscapeDefinitions()
 	if (!file.readFile(getDataFile("data/landscapes.xml")) ||
 		!file.getRootNode())
 	{
-		dialogMessage("Scorched Landscape", 
+		dialogMessage("Scorched Landscape", formatString(
 					  "Failed to parse \"data/landscapes.xml\"\n%s", 
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 
@@ -162,9 +162,9 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	// Check we have a least one map
 	if (passedLandscapes.empty())
 	{
-		dialogExit("Scorched3D",
+		dialogExit("Scorched3D", formatString(
 			"No existing landscapes are enabled (Landscapes : %s)",
-			context.getLandscapes());
+			context.getLandscapes()));
 	}
 
 	// Map cycle mode

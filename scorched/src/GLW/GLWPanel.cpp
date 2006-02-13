@@ -309,16 +309,16 @@ bool GLWPanel::initFromXML(XMLNode *node)
 			MetaClassRegistration::getNewClass(widgetTypeNode->getContent());
 		if (!widget) 
 		{
-			dialogMessage("GLWPanel",
+			dialogMessage("GLWPanel", formatString(
 				"Unknown widget type \"%s\"",
-				widgetTypeNode->getContent());
+				widgetTypeNode->getContent()));
 			return false;
 		}
 		if (!widget->initFromXML(widgetNode))
 		{
-			dialogMessage("GLWPanel",
+			dialogMessage("GLWPanel", formatString(
 				"Failed to parse \"%s\" widget type",
-				widgetTypeNode->getContent());
+				widgetTypeNode->getContent()));
 			return false;			
 		}
 
@@ -336,16 +336,16 @@ bool GLWPanel::initFromXML(XMLNode *node)
 				MetaClassRegistration::getNewClass(conditionTypeNode->getContent());
 			if (!condition)
 			{
-				dialogMessage("GLWPanel",
+				dialogMessage("GLWPanel", formatString(
 					"Unknown condition type \"%s\"",
-					conditionTypeNode->getContent());
+					conditionTypeNode->getContent()));
 				return false;
 			}
 			if (!condition->initFromXML(conditionNode))
 			{
-				dialogMessage("GLWPanel",
+				dialogMessage("GLWPanel", formatString(
 					"Failed to parse \"%s\" condition type",
-					conditionTypeNode->getContent());
+					conditionTypeNode->getContent()));
 				return false;
 			}
 		}

@@ -42,7 +42,7 @@ public:
 	virtual ~GLWTip();
 
 	// Used to set the title and text of the tooltip
-	void setText(const char *title, const char *text, ...);
+	void setText(const char *title, const char *text);
 
 	// Called just before the tooltip is shown
 	// can be used to dynamically populate the title and text fields

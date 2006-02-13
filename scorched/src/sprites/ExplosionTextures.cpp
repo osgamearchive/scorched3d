@@ -101,17 +101,17 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/textureset.xml")))
 	{
-		dialogMessage("ExplosionTextures", 
+		dialogMessage("ExplosionTextures", formatString(
 					  "Failed to parse \"%s\"\n%s", 
 					  "data/textureset.xml",
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 	if (!file.getRootNode())
 	{
-		dialogMessage("ExplosionTextures",
+		dialogMessage("ExplosionTextures", formatString(
 					  "Failed to find explosion textures definition file \"%s\"",
-					  "data/textureset.xml");
+					  "data/textureset.xml"));
 		return false;		
 	}
 
@@ -155,12 +155,12 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 
 			// Load texture
 			const char *texFile = 
-				getDataFile("data/%s", currentTexture->getContent());
+				getDataFile(formatString("data/%s", currentTexture->getContent()));
 			if (!addTextureToSet(*set, texFile))
 			{
-				dialogMessage("ExplosionTextures",
+				dialogMessage("ExplosionTextures", formatString(
 							"Failed to load texture %s",
-							texFile);
+							texFile));
 				return false;
 			}
 		}

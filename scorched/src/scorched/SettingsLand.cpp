@@ -44,7 +44,7 @@ static void createControls(wxWindow *parent, wxSizer *topsizer)
 		LandscapeDefinitionsEntry &dfn = *itor;
 		wxBoxSizer *boxSizer = new wxBoxSizer(wxVERTICAL);
 
-		const char *fileName = getDataFile("data/landscapes/%s", dfn.picture.c_str());
+		const char *fileName = getDataFile(formatString("data/landscapes/%s", dfn.picture.c_str()));
 		if (!::wxFileExists(wxString(fileName, wxConvUTF8)))
 		{
 			fileName = getDataFile("data/landscapes/picture-none.bmp");

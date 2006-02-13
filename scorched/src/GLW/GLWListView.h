@@ -36,7 +36,7 @@ public:
 		int maxLen = -1);
 	virtual ~GLWListView();
 
-	void addLine(const char *fmt, ...);
+	void addLine(const char *text);
 	void clear();
 
 	virtual void draw();

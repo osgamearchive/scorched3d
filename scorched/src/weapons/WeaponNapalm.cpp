@@ -54,7 +54,7 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("napalmsound", napalmSound_)) return false;
 	if (!accessoryNode->getNamedChild("napalmtexture", napalmTexture_)) return false;
 	if (!accessoryNode->getNamedChild("allowunderwater", allowUnderWater_)) return false;
-	if (!checkDataFile("data/wav/%s", getNapalmSound())) return false;
+	if (!checkDataFile(formatString("data/wav/%s", getNapalmSound()))) return false;
 
 	// Optional Attributes
 	XMLNode *noSmokeNode = 0, *noObjectDamageNode = 0;
@@ -96,7 +96,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 		{
 			SoundBuffer *expSound = 
 				Sound::instance()->fetchOrCreateBuffer((char *)
-					getDataFile("data/wav/%s", getNapalmSound()));
+					getDataFile(formatString("data/wav/%s", getNapalmSound())));
 			SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 				expSound, position);
 		}

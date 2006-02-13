@@ -26,6 +26,7 @@
 #include <landscape/LandscapeObjectsGroupEntry.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
+#include <common/DefinesString.h>
 #include <XML/XMLParser.h>
 
 PlacementType *PlacementType::create(const char *type)
@@ -33,7 +34,7 @@ PlacementType *PlacementType::create(const char *type)
 	if (0 == strcmp(type, "trees")) return new PlacementTypeTree;
 	if (0 == strcmp(type, "mask")) return new PlacementTypeMask;
 	if (0 == strcmp(type, "direct")) return new PlacementTypeDirect;
-	dialogMessage("PlacementType", "Unknown placement type %s", type);
+	dialogMessage("PlacementType", formatString("Unknown placement type %s", type));
 	return 0;
 }
 

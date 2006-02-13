@@ -75,7 +75,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 			{
 				SoundBuffer *batSound = 
 					Sound::instance()->fetchOrCreateBuffer((char *)
-						getDataFile("data/wav/%s", battery->getActivationSound()));
+						getDataFile(formatString("data/wav/%s", battery->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 					batSound, tank->getPosition().getTankPosition());
 			}
@@ -99,7 +99,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 			{
 				SoundBuffer *activateSound = 
 					Sound::instance()->fetchOrCreateBuffer((char *)
-						getDataFile("data/wav/%s", accessory->getActivationSound()));
+						getDataFile(formatString("data/wav/%s", accessory->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 					activateSound, tank->getPosition().getTankPosition());
 
@@ -128,7 +128,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 			{
 				SoundBuffer *paraSound = 
 					Sound::instance()->fetchOrCreateBuffer((char *)
-						getDataFile("data/wav/%s", parachute->getActivationSound()));
+						getDataFile(formatString("data/wav/%s", parachute->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 					paraSound, tank->getPosition().getTankPosition());
 			}

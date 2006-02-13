@@ -64,9 +64,9 @@ bool ClientScoreHandler::processMessage(unsigned int id,
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		GLConsole::instance()->addLine(false, "%s - %s",
+		GLConsole::instance()->addLine(false, formatString("%s - %s",
 			tank->getName(),
-			tank->getScore().getScoreString());
+			tank->getScore().getScoreString()));
 	}
 	GLConsole::instance()->addLine(false, "--------------------");
 

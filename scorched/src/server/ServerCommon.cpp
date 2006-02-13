@@ -58,15 +58,8 @@ void ServerCommon::startFileLogger()
 	}	
 }
 
-void ServerCommon::sendStringMessage(unsigned int dest, const char *fmt, ...)
+void ServerCommon::sendStringMessage(unsigned int dest, const char *text)
 {
-	static char text[1024];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 1024, fmt, ap);
-	va_end(ap);	
-
 	ComsTextMessage message(text, 0, true);
 	if (dest == 0)
 	{
@@ -78,15 +71,8 @@ void ServerCommon::sendStringMessage(unsigned int dest, const char *fmt, ...)
 	}
 }
 
-void ServerCommon::sendString(unsigned int dest, const char *fmt, ...)
+void ServerCommon::sendString(unsigned int dest, const char *text)
 {
-	static char text[1024];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 1024, fmt, ap);
-	va_end(ap);	
-
 	ComsTextMessage message(text);
 	ServerTextHandler::instance()->addMessage(text);
 	if (dest == 0)
@@ -99,15 +85,8 @@ void ServerCommon::sendString(unsigned int dest, const char *fmt, ...)
 	}
 }
 
-void ServerCommon::sendStringAdmin(const char *fmt, ...)
+void ServerCommon::sendStringAdmin(const char *text)
 {
-	static char text[1024];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 1024, fmt, ap);
-	va_end(ap);	
-
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->	
 			getTankContainer().getPlayingTanks();
@@ -121,8 +100,7 @@ void ServerCommon::sendStringAdmin(const char *fmt, ...)
 		{
 			ServerCommon::sendString(
 				tank->getDestinationId(), 
-				"(Admin) %s", 
-				text);
+				formatString("(Admin) %s", text));
 		}
 	}
 }
@@ -134,8 +112,8 @@ void ServerCommon::poorPlayer(unsigned int playerId)
 	if (tank)
 	{
 		ServerCommon::sendString(0,
-			"admin poor \"%s\"",
-			tank->getName());
+			formatString("admin poor \"%s\"",
+			tank->getName()));
 
 		tank->getScore().setMoney(0);
 	}
@@ -143,8 +121,8 @@ void ServerCommon::poorPlayer(unsigned int playerId)
 
 void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 {
-	Logger::log( "Slapping player \"%i\" %.0f", 
-		playerId, slap);
+	Logger::log(formatString("Slapping player \"%i\" %.0f", 
+		playerId, slap));
 
 	Tank *tank = ScorchedServer::instance()->
 		getTankContainer().getTankById(playerId);
@@ -153,16 +131,16 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 		tank->getLife().setLife(
 			tank->getLife().getLife() - slap);
 		sendString(0,
-			"Slapping player \"%s\" %.0f",
-			tank->getName(), slap);
-		Logger::log( "Slapping client \"%s\" \"%i\" %.0f", 
-			tank->getName(), tank->getPlayerId(), slap);
+			formatString("Slapping player \"%s\" %.0f",
+			tank->getName(), slap));
+		Logger::log(formatString("Slapping client \"%s\" \"%i\" %.0f", 
+			tank->getName(), tank->getPlayerId(), slap));
 	}
 }
 
 void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 {
-	Logger::log( "Kicking destination \"%i\"", destinationId);
+	Logger::log(formatString("Kicking destination \"%i\"", destinationId));
 
 	bool kickedPlayers = false;
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -190,17 +168,17 @@ void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 
 void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
 {
-	Logger::log( "Kicking player \"%i\"", playerId);
+	Logger::log(formatString("Kicking player \"%i\"", playerId));
 
 	Tank *tank = ScorchedServer::instance()->
 		getTankContainer().getTankById(playerId);
 	if (tank)
 	{
-		sendString(0,
+		sendString(0, formatString(
 			"Player \"%s\" has been kicked from the server",
-			tank->getName(), tank->getPlayerId());
-		Logger::log( "Kicking client \"%s\" \"%i\"", 
-			tank->getName(), tank->getPlayerId());
+			tank->getName(), tank->getPlayerId()));
+		Logger::log(formatString("Kicking client \"%s\" \"%i\"", 
+			tank->getName(), tank->getPlayerId()));
 
 		if (tank->getDestinationId() == 0)
 		{
@@ -233,16 +211,16 @@ void ServerCommon::banPlayer(unsigned int playerId,
 			switch (type)
 			{
 			case ServerBanned::Banned:
-				Logger::log( "Banning player %i", playerId);
+				Logger::log(formatString("Banning player %i", playerId));
 				break;
 			case ServerBanned::Muted:
-				Logger::log( "Perminantly muting player %i", playerId);
+				Logger::log(formatString("Perminantly muting player %i", playerId));
 				break;
 			case ServerBanned::NotBanned:
-				Logger::log( "Unbanning player %i", playerId);
+				Logger::log(formatString("Unbanning player %i", playerId));
 				break;
 			case ServerBanned::Flagged:
-				Logger::log( "Flagging player %i", playerId);
+				Logger::log(formatString("Flagging player %i", playerId));
 				break;				
 			}
 		
@@ -287,18 +265,10 @@ void ServerCommon::startNewGame()
 	ScorchedServer::instance()->getOptionsTransient().startNewGame();
 }
 
-void ServerCommon::serverLog(unsigned int playerId, const char *fmt, ...)
+void ServerCommon::serverLog(const char *text)
 {
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
-		static char text[2048];
-
-		// Add the actual log message
-		va_list ap;
-		va_start(ap, fmt);
-		vsnprintf(text, 2048, fmt, ap);
-		va_end(ap);
-
 		Logger::log(text);
 	}
 }

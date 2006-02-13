@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/OptionsGame.h>
+#include <common/DefinesString.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWidget.h>
@@ -95,16 +96,16 @@ void ShotCountDown::draw(const unsigned currentstate)
 	if (currentstate == ClientState::StateWait)
 	{
 		width = (float) GLWFont::instance()->getSmallPtFont()->getWidth(10,
-			format, 
+			formatString(format, 
 			split.quot,
-			split.rem);	
+			split.rem));	
 	}
 	else 
 	{
 		width = (float) GLWFont::instance()->getSmallPtFont()->getWidth(20,
-			format, 
+			formatString(format, 
 			split.quot,
-			split.rem);	
+			split.rem));	
 	}
 
 	float wHeight = (float) GLViewPort::getHeight();
@@ -114,16 +115,18 @@ void ShotCountDown::draw(const unsigned currentstate)
 		static Vector green(0.2f, 0.7f, 0.2f);
 		GLWFont::instance()->getSmallPtFont()->draw(
 			green, 10, (wWidth/2.0f) - (width / 2), 
-			wHeight - 50.0f, 0.0f, format, 
+			wHeight - 50.0f, 0.0f, 
+			formatString(format, 
 			split.quot,
-			split.rem);	
+			split.rem));	
 	}
 	else if (showTime_)
 	{
 		GLWFont::instance()->getLargePtFont()->draw(
 			fontColor, 20, (wWidth/2.0f) - (width / 2),
-			wHeight - 50.0f, 0.0f, format, 
+			wHeight - 50.0f, 0.0f, 
+			formatString(format, 
 			split.quot,
-			split.rem);
+			split.rem));
 	}
 }

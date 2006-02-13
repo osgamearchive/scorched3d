@@ -134,7 +134,7 @@ void ServerRegistration::processMessage(NetMessage &message)
 	}
 	else if (message.getMessageType() == NetMessage::DisconnectMessage)
 	{
-		Logger::log( "Registration complete (%s).", (success_?"Success":"Failure"));
+		Logger::log(formatString("Registration complete (%s).", (success_?"Success":"Failure")));
 		finished_ = true;
 	}
 }

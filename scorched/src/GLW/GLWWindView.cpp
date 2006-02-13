@@ -52,12 +52,12 @@ void WindDialogToolTip::populate()
 	}
 	else
 	{
-		setText("Wind",
+		setText("Wind", formatString(
 			"Displays the current wind direction\n"
 			"and speed.\n"
 			"Current Wind Force : %i (out of 5)\n",
 			(int) ScorchedClient::instance()->
-			getOptionsTransient().getWindSpeed());
+			getOptionsTransient().getWindSpeed()));
 	}
 }
 

@@ -48,19 +48,19 @@ bool AccessoryStore::parseFile(
 	XMLFile file;
 	if (!file.readFile(fileName))
 	{
-		dialogMessage("AccessoryStore", 
+		dialogMessage("AccessoryStore", formatString(
 					  "Failed to parse \"%s\"\n%s", 
 					  fileName,
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 
 	// Check file exists
 	if (!file.getRootNode())
 	{
-		dialogMessage("AccessoryStore",
+		dialogMessage("AccessoryStore", formatString(
 					"Failed to find accessory file \"%s\"",
-					  fileName);
+					  fileName));
 		return false;		
 	}
 
@@ -138,9 +138,9 @@ AccessoryPart *AccessoryStore::createAccessoryPart(
 		AccessoryMetaRegistration::getNewAccessory(typeNode->getContent(), this);
 	if (!accessoryPart)
 	{
-		dialogMessage("AccessoryStore",
+		dialogMessage("AccessoryStore", formatString(
 						"Failed to find accessory part type \"%s\"",
-						typeNode->getContent());
+						typeNode->getContent()));
 		return 0;
 	}
 	// Set the parent accessory

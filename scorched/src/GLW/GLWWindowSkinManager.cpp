@@ -49,10 +49,10 @@ bool GLWWindowSkinManager::loadWindows()
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
-		dialogMessage("GLWWindowSkinManager", 
+		dialogMessage("GLWWindowSkinManager", formatString(
 					  "Failed to parse \"%s\"\n%s", 
 					  fileName,
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 

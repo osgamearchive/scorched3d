@@ -22,6 +22,7 @@
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
 #include <common/FileLines.h>
+#include <common/DefinesString.h>
 #include <XML/XMLFile.h>
 #include <XML/XMLParser.h>
 #include <stdio.h>
@@ -68,13 +69,13 @@ void GLConsoleFileReader::saveConsoleIntoFile(const char *filename)
 		XMLParser::removeSpecialChars(dirtyLine, cleanLine);
 		if ((*itor)->getLineType() != GLConsoleLine::eNone)
 		{
-			filelines.addLine("  <command>%s</command>",
-				cleanLine.c_str());
+			filelines.addLine(formatString("  <command>%s</command>",
+				cleanLine.c_str()));
 		}
 		else
 		{
-			filelines.addLine("  <!-- %s -->",
-				cleanLine.c_str());
+			filelines.addLine(formatString("  <!-- %s -->",
+				cleanLine.c_str()));
 		}
 	}
 

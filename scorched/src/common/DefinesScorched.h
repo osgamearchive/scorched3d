@@ -25,15 +25,15 @@ extern void setSettingsDir(const char *dir);
 extern void setDataFileMod(const char *mod);
 extern const char *getDataFileMod();
 
-extern bool checkDataFile(const char *file, ...);
-extern const char *getDataFile(const char *file, ...);
-extern const char *getDocFile(const char *file, ...);
-extern const char *getLogFile(const char *file, ...);
-extern const char *getSettingsFile(const char *file, ...);
-extern const char *getHomeFile(const char *file, ...);
-extern const char *getSaveFile(const char *file, ...);
-extern const char *getModFile(const char *file, ...);
-extern const char *getGlobalModFile(const char *file, ...);
+extern bool checkDataFile(const char *filename);
+extern const char *getDataFile(const char *filename);
+extern const char *getDocFile(const char *filename);
+extern const char *getLogFile(const char *filename);
+extern const char *getSettingsFile(const char *filename);
+extern const char *getHomeFile(const char *filename);
+extern const char *getSaveFile(const char *filename);
+extern const char *getModFile(const char *filename);
+extern const char *getGlobalModFile(const char *filename);
 
 extern unsigned int ScorchedPort;
 extern char *ScorchedVersion;

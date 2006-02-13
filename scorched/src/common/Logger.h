@@ -21,6 +21,7 @@
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
+#include <common/DefinesString.h>
 #include <list>
 
 // ************************************************
@@ -40,7 +41,7 @@ public:
 	static void processLogEntries();
 
 	static void log(const LoggerInfo &info);
-	static void log(const char *fmt, ...);
+	static void log(const char *text);
 
 protected:
 	static Logger *instance_;

@@ -40,8 +40,8 @@ void LandscapeDefinitionCache::setDefinition(
 	cachedDefn_ = context.landscapes->getDefn(defn_.getDefn());
 	if (!cachedTex_ || !cachedDefn_)
 	{
-		dialogExit("LandscapeMaps", 
+		dialogExit("LandscapeMaps", formatString(
 			"ERROR: Failed to find a tex \"%s\" or defn \"%s\"",
-			defn_.getTex(), defn_.getDefn());
+			defn_.getTex(), defn_.getDefn()));
 	}
 }

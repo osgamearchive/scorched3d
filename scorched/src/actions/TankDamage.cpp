@@ -143,7 +143,7 @@ void TankDamage::calculateDamage()
 		bool killedTank = false;
 		if (damagedTarget->getLife().getLife() == 0.0f)
 		{
-			// The tank has died, make it blow up etc...
+			// The tank has died, make it blow up etc.
 			calculateDeath();
 
 			if (!damagedTarget->isTarget())

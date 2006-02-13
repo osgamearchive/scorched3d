@@ -100,8 +100,8 @@ ServerAuthHandlerPrefered::UserEntry *ServerAuthHandlerPrefered::getUserById(con
 bool ServerAuthHandlerPrefered::load()
 {
 	const char *filename = 
-		getSettingsFile("preferedplayers-%i.xml", 
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		getSettingsFile(formatString("preferedplayers-%i.xml", 
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 	if (!::s3d_fileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
@@ -110,12 +110,12 @@ bool ServerAuthHandlerPrefered::load()
 	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		Logger::log("Failed to parse user file \"%s\"\n%s", 
-			filename, file.getParserError());
+		Logger::log(formatString("Failed to parse user file \"%s\"\n%s", 
+			filename, file.getParserError()));
 		return false;
 	}
 
-	Logger::log("Refreshing user list %s", filename);
+	Logger::log(formatString("Refreshing user list %s", filename));
 	lastReadTime_ = fileTime;
 	entries_.clear();
 	if (!file.getRootNode()) return true; // Empty File

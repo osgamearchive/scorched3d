@@ -68,6 +68,6 @@ void ClientMessageHandler::clientDisconnected(NetMessage &message)
 void ClientMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log( "***Client Error*** \"%s\"", errorString);
+	Logger::log(formatString("***Client Error*** \"%s\"", errorString));
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
 }

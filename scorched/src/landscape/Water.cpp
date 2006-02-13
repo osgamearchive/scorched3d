@@ -124,18 +124,18 @@ void Water::generate(ProgressCounter *counter)
 		if (mapWidth % mapDivider != 0 ||
 			mapHeight % mapDivider != 0)
 		{
-			dialogExit("Scorched3D",
+			dialogExit("Scorched3D", formatString(
 				"Water dimensions must be a factor of %i",
-				mapDivider);
+				mapDivider));
 		}
 
 		const int visibilityDivider = 8;
 		if (waterMapWidth % visibilityDivider != 0 ||
 			waterMapHeight % visibilityDivider != 0)
 		{
-			dialogExit("Scorched3D",
+			dialogExit("Scorched3D", formatString(
 				"Water dimensions must be a factor of %i",
-				visibilityDivider * mapDivider);
+				visibilityDivider * mapDivider));
 		}
 
 		wMap_.generate(waterMapWidth, waterMapHeight, // Number of square in map
@@ -194,9 +194,9 @@ void Water::generate(ProgressCounter *counter)
 	}
 	else
 	{
-		dialogExit("Landscape",
+		dialogExit("Landscape", formatString(
 			"Failed to find border type %i",
-			tex.border->getType());
+			tex.border->getType()));
 	}
 }
 

@@ -84,7 +84,8 @@ bool Display::changeSettings(int width, int height, bool full)
 	{
 		char buffer[256];
 		SDL_VideoDriverName(buffer, 256);
-		dialogMessage("Display", "ERROR: Failed to set video mode.\n"
+		dialogMessage("Display", formatString(
+			"ERROR: Failed to set video mode.\n"
 			"Error Message: %s\n"
 			"----------------------------\n"
 			"Requested Display Mode:-\n"
@@ -100,7 +101,7 @@ bool Display::changeSettings(int width, int height, bool full)
 			(full?"(fullscreen)":"(windowed)"), 
 			OptionsDisplay::instance()->getDepthBufferBits(),
 			OptionsDisplay::instance()->getDoubleBuffer()?"On":"Off",
-			OptionsDisplay::instance()->getColorComponentSize());
+			OptionsDisplay::instance()->getColorComponentSize()));
 		return false;
 	}
 	return true;

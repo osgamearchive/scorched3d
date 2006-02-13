@@ -83,16 +83,16 @@ void StatsLoggerMySQL::createLogger()
 	}
 
 	XMLFile file;
-	const char *fileName = getSettingsFile("mysql-%i.xml",
-		ScorchedServer::instance()->getOptionsGame().getPortNo());
+	const char *fileName = getSettingsFile(formatString("mysql-%i.xml",
+		ScorchedServer::instance()->getOptionsGame().getPortNo()));
 
 	std::string host, user, passwd, db, prefix;
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
-		Logger::log( "Failed to parse %s settings file. Error: %s", 
+		Logger::log(formatString("Failed to parse %s settings file. Error: %s", 
 			fileName,
-			file.getParserError());
+			file.getParserError()));
 		return;
 	}
 
@@ -102,7 +102,7 @@ void StatsLoggerMySQL::createLogger()
 		!file.getRootNode()->getNamedChild("db", db) ||
 		!file.getRootNode()->getNamedChild("prefix", prefix)) 
 	{
-		Logger::log( "Failed to parse %s settings file.", fileName);
+		Logger::log(formatString("Failed to parse %s settings file.", fileName));
 		return;
 	}
 
@@ -114,12 +114,12 @@ void StatsLoggerMySQL::createLogger()
 		db.c_str(),
 		0, "/tmp/mysql.sock", 0))
 	{
-		Logger::log( "mysql stats logger failed to start. "
+		Logger::log(formatString("mysql stats logger failed to start. "
 			"Error: %s",
-			mysql_error(mysql_));
-		Logger::log( "mysql params : host %s, user %s, passwd %s, db %s",
+			mysql_error(mysql_)));
+		Logger::log(formatString("mysql params : host %s, user %s, passwd %s, db %s",
 			host.c_str(), user.c_str(),
-			passwd.c_str(), db.c_str());
+			passwd.c_str(), db.c_str()));
 		return;
 	}
 	success_ = true;
@@ -290,8 +290,8 @@ void StatsLoggerMySQL::createLogger()
 		weaponId_[accessory->getName()] = weaponId;
 	}
 
-	Logger::log( "mysql stats logger started, prefix=%i, server=%i, series=%i",
-		prefixid_, serverid_, seriesid_);
+	Logger::log(formatString("mysql stats logger started, prefix=%i, server=%i, series=%i",
+		prefixid_, serverid_, seriesid_));
 }
 
 void StatsLoggerMySQL::addIpAliases(int playerId, 
@@ -694,11 +694,11 @@ void StatsLoggerMySQL::tankConnected(Tank *tank)
 			"VALUES(\"%s\");",
 			tank->getUniqueId());
 		playerId = (int) mysql_insert_id(mysql_);
-		Logger::log( "Add new stats user \"%i\"", playerId);
+		Logger::log(formatString("Add new stats user \"%i\"", playerId));
 	}
 	else
 	{
-		Logger::log( "Found stats user \"%i\"", playerId);
+		Logger::log(formatString("Found stats user \"%i\"", playerId));
 	}
 
 	// Create the players stats entry if it does not exist

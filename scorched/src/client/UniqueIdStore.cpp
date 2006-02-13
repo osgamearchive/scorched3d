@@ -46,10 +46,10 @@ bool UniqueIdStore::loadStore()
 	if (!file.readFile(idsPath))
 	{
 		dialogMessage("Scorched3D Ids", 
-			"ERROR: Failed to parse file \"%s\"\n"
+			formatString("ERROR: Failed to parse file \"%s\"\n"
 			"%s",
 			idsPath,
-			file.getParserError());		
+			file.getParserError()));		
 		return false;
 	}
 
@@ -128,7 +128,7 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	IPaddress address;
 	if (SDLNet_ResolveHost(&address, (char *) published, 0) != 0)
 	{
-		Logger::log( "Failed to resolve published server host \"%s\"", published);
+		Logger::log(formatString("Failed to resolve published server host \"%s\"", published));
 		return false;
 	}
 
@@ -137,8 +137,8 @@ bool UniqueIdStore::saveUniqueId(unsigned int ip, const char *id,
 	{
 		std::string actualIp = NetInterface::getIpName(ip);
 		std::string pubIp = NetInterface::getIpName(ipAddress);
-		Logger::log( "Server ip does not match published ip\n%s != %s (%s)",
-			actualIp.c_str(), published, pubIp.c_str());
+		Logger::log(formatString("Server ip does not match published ip\n%s != %s (%s)",
+			actualIp.c_str(), published, pubIp.c_str()));
 
 		if (OptionsDisplay::instance()->getValidateServerIp())
 		{

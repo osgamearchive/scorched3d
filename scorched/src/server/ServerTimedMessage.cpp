@@ -62,8 +62,8 @@ void ServerTimedMessage::checkEntries(time_t currentTime)
 			entry.lastTime = currentTime;
 			
 			std::string message = entry.messages.front();
-			ServerCommon::sendString(0, message.c_str(), ctime(&currentTime));
-			Logger::log(message.c_str(), ctime(&currentTime));
+			ServerCommon::sendString(0, formatString(message.c_str(), ctime(&currentTime)));
+			Logger::log(formatString(message.c_str(), ctime(&currentTime)));
 			entry.messages.pop_front();
 			entry.messages.push_back(message);
 		}
@@ -75,8 +75,8 @@ void ServerTimedMessage::checkEntries(time_t currentTime)
 bool ServerTimedMessage::load()
 {
 	const char *filename = 
-		getSettingsFile("messages-%i.xml", 
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		getSettingsFile(formatString("messages-%i.xml", 
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 	if (!s3d_fileExists(filename)) return true;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
@@ -85,12 +85,12 @@ bool ServerTimedMessage::load()
 	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		Logger::log("Failed to parse user file \"%s\"\n%s", 
-			filename, file.getParserError());
+		Logger::log(formatString("Failed to parse user file \"%s\"\n%s", 
+			filename, file.getParserError()));
 		return false;
 	}
 
-	Logger::log("Refreshing message list %s", filename);
+	Logger::log(formatString("Refreshing message list %s", filename));
 	lastReadTime_ = fileTime;
 	entries_.clear();
 	if (!file.getRootNode()) return true; // Empty File

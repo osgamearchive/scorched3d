@@ -78,9 +78,9 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		snprintf(meshName, 1024, "%s/%s", directory, meshNameContent);
 		if (!s3d_fileExists(getDataFile(meshName)))
 		{
-			dialogMessage("Scorched Models",
+			dialogMessage("Scorched Models", formatString(
 						"Mesh file \"%s\"does not exist",
-						meshName);
+						meshName));
 			return false;
 		}
 
@@ -92,9 +92,9 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 			snprintf(skinName, 1024, "%s/%s", directory, skinNameContent);
 			if (!s3d_fileExists(getDataFile(skinName)))
 			{
-				dialogMessage("Scorched Models",
+				dialogMessage("Scorched Models", formatString(
 							"Skin file \"%s\" does not exist",
-							skinName);
+							skinName));
 				return false;
 			}
 		}
@@ -114,9 +114,9 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 
 		if (!s3d_fileExists(getDataFile(meshName)))
 		{
-			dialogMessage("Scorched Models",
+			dialogMessage("Scorched Models", formatString(
 						"Mesh file \"%s\"does not exist",
-						meshName);
+						meshName));
 			return false;
 		}
 
@@ -124,9 +124,9 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 	}
 	else
 	{
-		dialogMessage("Scorched Models",
+		dialogMessage("Scorched Models", formatString(
 					"Unknown mesh type \"%s\"",
-					typeNode->getContent());
+					typeNode->getContent()));
 		return false;
 	}
 

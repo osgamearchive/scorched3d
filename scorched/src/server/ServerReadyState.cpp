@@ -138,8 +138,8 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					Tank *tank = (*itor).second;
 					if (tank->getState().getReadyState() == TankState::SNotReady)
 					{
-						Logger::log( "Sending last chance message to \"%s\" after %.0f seconds",
-							tank->getName(), time_);
+						Logger::log(formatString("Sending last chance message to \"%s\" after %.0f seconds",
+							tank->getName(), time_));
 
 						// Tell client to hurry up
 						ComsLastChanceMessage chanceMessage;
@@ -187,13 +187,13 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 				if (OptionsParam::instance()->getDedicatedServer())
 				{
 					Logger::log( 
-						"Player \"%s\" not returned ready for %0.f seconds", 
+						formatString("Player \"%s\" not returned ready for %0.f seconds", 
 						tank->getName(),
-						idleTime_);
+						idleTime_));
 				}
 
 				ServerCommon::sendString(tank->getDestinationId(), 
-					"Kicked for not responding for %.0f seconds", idleTime_);
+					formatString("Kicked for not responding for %.0f seconds", idleTime_));
 				ServerCommon::kickDestination(tank->getDestinationId(), true);
 			}
 		}

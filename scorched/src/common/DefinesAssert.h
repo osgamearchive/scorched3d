@@ -28,7 +28,7 @@
 extern void dialogAssert(const char *lineText, const int line, const char *file);
 #define DIALOG_ASSERT(x) if(!(x)) dialogAssert(#x, __LINE__, __FILE__);
 
-extern void dialogMessage(const char *header, const char *fmt, ...);
-extern void dialogExit(const char *header, const char *fmt, ...);
+extern void dialogMessage(const char *header, const char *text);
+extern void dialogExit(const char *header, const char *text);
 
 #endif // __DEFINESASSERT__

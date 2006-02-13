@@ -328,20 +328,17 @@ void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
 		white,
 		10,
 		textX + killsLeft, textY, 0.0f,
-		"%i",
-		kills);	
+		formatString("%i", kills));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		white,
 		10,
 		textX + moneyLeft, textY, 0.0f,
-		"$%i",
-		money);	
+		formatString("$%i",	money));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		white,
 		10,
 		textX + winsLeft, textY, 0.0f,
-		"%i",
-		wins);	
+		formatString("%i", wins));
 }
 
 void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
@@ -401,8 +398,8 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			current->getColor(),
 			10,
 			textX + readyLeft, textY, 0.0f,
-			"%2s",
-			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
+			formatString("%2s",
+			((current->getState().getReadyState() == TankState::SNotReady)?"*":" ")));
 	}
 	else
 	{
@@ -429,43 +426,37 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			current->getColor(),
 			10,
 			textX + rankLeft, textY, 0.0f,
-			"%s",
-			rank);
+			formatString("%s", rank));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
 			textX + nameLeft, textY, 0.0f,
-			"%s",
-			name);
+			formatString("%s", name));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
 			textX + killsLeft, textY, 0.0f,
-			"%i",
-			current->getScore().getKills());
+			formatString("%i", current->getScore().getKills()));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
 			textX + moneyLeft, textY, 0.0f,
-			"$%i",
-			current->getScore().getMoney());
+			formatString("$%i", current->getScore().getMoney()));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
 			textX + winsLeft, textY, 0.0f,
-			"%i",
-			current->getScore().getWins());
+			formatString("%i", current->getScore().getWins()));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
 			textX + readyLeft, textY, 0.0f,
-			"%s",
-			((current->getState().getReadyState() == TankState::SNotReady)?"*":" "));
+			formatString("%s",
+			((current->getState().getReadyState() == TankState::SNotReady)?"*":" ")));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
 			textX + statsLeft, textY, 0.0f,
-			"%s",
-			current->getScore().getStatsRank());
+			formatString("%s", current->getScore().getStatsRank()));
 	}
 }

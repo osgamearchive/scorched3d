@@ -105,7 +105,7 @@ void ServerNextTurnState::enterState(const unsigned state)
 			else
 			{
 				ServerCommon::sendStringMessage(tank->getDestinationId(), 
-					"%s's Move", tank->getName());
+					formatString("%s's Move", tank->getName()));
 
 				// Tell the clients to start the game
 				ComsStartGameMessage startMessage(tank->getPlayerId(), weaponBuy);

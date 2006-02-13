@@ -87,8 +87,8 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::DisconnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log( "ComsMessage::Disconnected(%i)",
-					message.getDestinationId());
+				Logger::log(formatString("ComsMessage::Disconnected(%i)",
+					message.getDestinationId()));
 			}
 
 			if (connectionHandler_) 
@@ -97,8 +97,8 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::ConnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log( "ComsMessage::Connected(%i)",
-					message.getDestinationId());
+				Logger::log(formatString("ComsMessage::Connected(%i)",
+					message.getDestinationId()));
 			}
 
 			if (connectionHandler_)
@@ -127,9 +127,9 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log( "%s::process(%s, %i)",
+		Logger::log(formatString("%s::process(%s, %i)",
 			instanceName_.c_str(),
-			messageType.c_str(), message.getDestinationId());
+			messageType.c_str(), message.getDestinationId()));
 	}
 
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =
@@ -163,9 +163,9 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log( "%s::processFinished(%s, %i)",
+		Logger::log(formatString("%s::processFinished(%s, %i)",
 			instanceName_.c_str(),
-			messageType.c_str(), message.getDestinationId());
+			messageType.c_str(), message.getDestinationId()));
 	}
 }
 
@@ -184,9 +184,9 @@ void ComsMessageHandler::processSentMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log( "%s::processSentMessage(%s, %i)",
+		Logger::log(formatString("%s::processSentMessage(%s, %i)",
 			instanceName_.c_str(),
-			messageType.c_str(), message.getDestinationId());
+			messageType.c_str(), message.getDestinationId()));
 	}
 
 	std::map<std::string, ComsMessageHandlerSentI *>::iterator itor =

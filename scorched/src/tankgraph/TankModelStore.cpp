@@ -45,9 +45,9 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 	XMLFile file;
 	if (!file.readFile(getDataFile("data/tanks.xml")))
 	{
-		dialogMessage("Scorched Models", 
+		dialogMessage("Scorched Models", formatString(
 					  "Failed to parse tanks.xml\n%s", 
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 

@@ -81,7 +81,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 				"--------------------------------------------------\n"
 				"This server is full, you cannot join!\n"
 				"--------------------------------------------------");
-			ServerCommon::serverLog(destinationId, "Server full, kicking");
+			ServerCommon::serverLog("Server full, kicking");
 			ServerCommon::kickDestination(destinationId, true);
 			return true;		
 		}
@@ -98,6 +98,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		(0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion)))
 	{
 		ServerCommon::sendString(destinationId, 	
+			formatString(
 			"--------------------------------------------------\n"
 			"The version of Scorched you are running\n"
 			"does not match the server's version.\n"
@@ -108,11 +109,12 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			"Connection failed.\n"
 			"--------------------------------------------------", 
 			ScorchedVersion, ScorchedProtocolVersion,
-			message.getVersion(), message.getProtocolVersion());
+			message.getVersion(), message.getProtocolVersion()));
 		Logger::log( 
+			formatString(
 			"Player connected with out of date version \"%s(%s)\"",
 			message.getVersion(),
-			message.getProtocolVersion());
+			message.getProtocolVersion()));
 
 		ServerCommon::kickDestination(destinationId, true);
 		return true;
@@ -122,9 +124,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (message.getNoPlayers() > 1 &&
 		OptionsParam::instance()->getDedicatedServer())
 	{
-		ServerCommon::serverLog(destinationId, 
+		ServerCommon::serverLog(
+			formatString(
 			"Client connecting with %u players",
-			message.getNoPlayers());
+			message.getNoPlayers()));
 		ServerCommon::kickDestination(destinationId, true);
 		return true;
 
@@ -137,10 +140,11 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 	{
 		ServerCommon::sendString(destinationId, 
+			formatString(
 			"--------------------------------------------------\n"
 			"This server is full, you cannot join!\n"
-			"--------------------------------------------------");
-		ServerCommon::serverLog(destinationId, "Server full, kicking");
+			"--------------------------------------------------"));
+		ServerCommon::serverLog("Server full, kicking");
 		ServerCommon::kickDestination(destinationId, true);
 		return true;
 	}
@@ -186,13 +190,14 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			message.getUserName(), message.getPassword(), resultMessage))
 		{
 			ServerCommon::sendString(destinationId,
+				formatString(
 				"--------------------------------------------------\n"
 				"%s"
 				"Connection failed.\n"
 				"--------------------------------------------------",
-				resultMessage.c_str());
-			Logger::log( "User failed authentication \"%s\" [%s]",
-				message.getUserName(), uniqueId.c_str());
+				resultMessage.c_str()));
+			Logger::log(formatString("User failed authentication \"%s\" [%s]",
+				message.getUserName(), uniqueId.c_str()));
 
 			ServerCommon::kickDestination(destinationId, true);			
 			return true;
@@ -206,8 +211,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId.c_str());
 		if (type == ServerBanned::Banned)
 		{
-			Logger::log( "Banned uniqueid connection from destination \"%i\"", 
-				destinationId);
+			Logger::log(formatString("Banned uniqueid connection from destination \"%i\"", 
+				destinationId));
 			ServerCommon::kickDestination(destinationId);
 			return true;
 		}
@@ -227,8 +232,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			Tank *current = (*playingItor).second;
 			if (0 == strcmp(current->getUniqueId(), uniqueId.c_str()))
 			{
-				Logger::log( "Duplicate uniqueid connection from destination \"%i\"", 
-					destinationId);
+				Logger::log(formatString("Duplicate uniqueid connection from destination \"%i\"", 
+					destinationId));
 				ServerCommon::kickDestination(destinationId);
 				return true;
 			}
@@ -245,8 +250,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
 		const char *fileName = 
-			getSettingsFile("icon-%i.gif",
-				ScorchedServer::instance()->getOptionsGame().getPortNo());
+			getSettingsFile(formatString("icon-%i.gif",
+				ScorchedServer::instance()->getOptionsGame().getPortNo()));
 		FILE *in = fopen(fileName, "rb");
 		if (in)
 		{
@@ -261,9 +266,9 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	}
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
-		Logger::log(
+		Logger::log(formatString(
 			"Failed to send accept to client \"%i\"",
-			destinationId);
+			destinationId));
 		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
@@ -424,14 +429,14 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	if (OptionsParam::instance()->getDedicatedServer())
 	{
 		// Add to dialog
-		Logger::log( "Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
+		Logger::log(formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
 			tank->getDestinationId(),
 			tank->getPlayerId(),
 			tank->getName(),
-			tank->getUniqueId());
+			tank->getUniqueId()));
 
-		ServerCommon::sendString(0, "Player connected \"%s\"",
-			tank->getName());
+		ServerCommon::sendString(0, formatString("Player connected \"%s\"",
+			tank->getName()));
 	}
 
 	// Add this tank to stats
@@ -445,15 +450,15 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		if (type == ServerBanned::Muted)	
 		{
 			tank->getState().setMuted(true);
-			Logger::log( "Player admin muted");
-			ServerCommon::sendStringAdmin("Player admin muted \"%s\"",
-				tank->getName());
+			Logger::log("Player admin muted");
+			ServerCommon::sendStringAdmin(formatString("Player admin muted \"%s\"",
+				tank->getName()));
 		}
 		else if (type == ServerBanned::Flagged)
 		{
 			Logger::log( "Player admin flagged");
-			ServerCommon::sendStringAdmin("Player admin flagged \"%s\"",
-				tank->getName());
+			ServerCommon::sendStringAdmin(formatString("Player admin flagged \"%s\"",
+				tank->getName()));
 		}
 	}
 }

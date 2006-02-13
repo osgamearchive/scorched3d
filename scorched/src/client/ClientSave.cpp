@@ -112,11 +112,12 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	if (0 != strcmp(version.c_str(), ScorchedProtocolVersion))
 	{
 		dialogMessage("LoadGame", 
+			formatString(
 			"ERROR: Saved file version does not match game version.\n"
 			"Saved version : %s\n"
 			"Current version : %s\n",
 			version.c_str(),
-			ScorchedProtocolVersion);
+			ScorchedProtocolVersion));
 		return false;
 	}
 	
@@ -216,8 +217,8 @@ bool ClientSave::loadClient(const char *fileName)
 	FILE *file = fopen(fileName, "rb");
 	if (!file) 
 	{
-		Logger::log( "ERROR: File \"%s\" cannot be found.",
-			fileName);
+		Logger::log(formatString("ERROR: File \"%s\" cannot be found.",
+			fileName));
 		return false;
 	}
 

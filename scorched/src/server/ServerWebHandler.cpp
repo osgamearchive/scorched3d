@@ -100,7 +100,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				}
 				else
 				{
-					Logger::log("Unknown web handler player action \"%s\"", action);
+					Logger::log(formatString("Unknown web handler player action \"%s\"", action));
 				}
 			}
 		}
@@ -319,17 +319,17 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 		if (!type || 0 == strcmp(type, "all"))
 		{
 			ServerCommon::sendString(0, say);
-			ServerCommon::serverLog(0, "Says : %s", say);
+			ServerCommon::serverLog(formatString("Says : %s", say));
 		}
 		else if (0 == strcmp(type, "message"))
 		{
 			ServerCommon::sendStringMessage(0, say);
-			ServerCommon::serverLog(0, "Messages : %s", say);
+			ServerCommon::serverLog(formatString("Messages : %s", say));
 		}
 		else if (0 == strcmp(type, "admin"))
 		{
 			ServerCommon::sendStringAdmin(say);
-			ServerCommon::serverLog(0, "Admins Says : %s", say);
+			ServerCommon::serverLog(formatString("Admins Says : %s", say));
 		}
 	}
 

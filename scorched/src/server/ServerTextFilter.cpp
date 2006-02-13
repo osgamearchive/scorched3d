@@ -152,8 +152,8 @@ void ServerTextFilter::filterString(std::string &inputText)
 void ServerTextFilter::loadFile()
 {
 	const char *filename = 
-		getSettingsFile("filter-%i.txt", 
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		getSettingsFile(formatString("filter-%i.txt", 
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 	if (!::s3d_fileExists(filename)) return;
 
 	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));

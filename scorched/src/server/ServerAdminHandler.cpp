@@ -80,12 +80,12 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		if (login(message.getParam1(), message.getParam2()))
 		{
 			ServerCommon::sendString(0,
-				"server admin \"%s\" logged in",
-				message.getParam1());
-			ServerCommon::serverLog(0,
-				"\"%s\" logged in as server admin \"%s\"",
+				formatString("server admin \"%s\" logged in",
+				message.getParam1()));
+			ServerCommon::serverLog(
+				formatString("\"%s\" logged in as server admin \"%s\"",
 				adminTank->getName(),
-				message.getParam1());
+				message.getParam1()));
 			adminTank->getState().setAdmin(
 				new TankAdmin(message.getParam1()));
 		}
@@ -95,11 +95,11 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				adminTank->getState().getAdminTries() + 1);
 			
 			ServerCommon::sendString(destinationId,
-				"Incorrect admin password (try %i/3)", 
-				adminTank->getState().getAdminTries());
-			ServerCommon::serverLog(0,
-				"Incorrect admin password (try %i/3)", 
-				adminTank->getState().getAdminTries());
+				formatString("Incorrect admin password (try %i/3)", 
+				adminTank->getState().getAdminTries()));
+			ServerCommon::serverLog(
+				formatString("Incorrect admin password (try %i/3)", 
+				adminTank->getState().getAdminTries()));
 			if (adminTank->getState().getAdminTries() > 3)
 			{
 				ServerCommon::kickPlayer(adminTank->getPlayerId());
@@ -149,12 +149,12 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	case ComsAdminMessage::AdminLogout:
 		{
 			ServerCommon::sendString(0,
-				"server admin \"%s\" logged out",
-				adminTank->getState().getAdmin()->getName());
-			ServerCommon::serverLog(0,
-				"\"%s\" logged out as server admin \"%s\"",
+				formatString("server admin \"%s\" logged out",
+				adminTank->getState().getAdmin()->getName()));
+			ServerCommon::serverLog(
+				formatString("\"%s\" logged out as server admin \"%s\"",
 				adminTank->getName(),
-				adminTank->getState().getAdmin()->getName());
+				adminTank->getState().getAdmin()->getName()));
 			adminTank->getState().setAdmin(0);
 		}
 		break;
@@ -263,10 +263,10 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(0,
-					"\"%s\" admin ban \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin ban \"%s\"",
 					adminTank->getName(),
-					targetTank->getName());
+					targetTank->getName()));
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId());
 			}
@@ -279,10 +279,10 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(0,
-					"\"%s\" admin flag \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin flag \"%s\"",
 					adminTank->getName(),
-					targetTank->getName());
+					targetTank->getName()));
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId(), ServerBanned::Flagged);
 			}
@@ -295,11 +295,10 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(0,
-					"\"%s\" admin poor \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin poor \"%s\"",
 					adminTank->getName(),
-					targetTank->getName());
-
+					targetTank->getName()));
 				ServerCommon::poorPlayer(
 					targetTank->getPlayerId());
 			}
@@ -312,10 +311,10 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(0,
-					"\"%s\" admin kick \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin kick \"%s\"",
 					adminTank->getName(),
-					targetTank->getName());
+					targetTank->getName()));
 				ServerCommon::kickPlayer(
 					targetTank->getPlayerId());
 			}
@@ -330,15 +329,15 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			if (targetTank)
 			{
 				bool mute = (message.getType() == ComsAdminMessage::AdminMute);
-				ServerCommon::serverLog(0,
-					"\"%s\" admin %s \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin %s \"%s\"",
 					adminTank->getName(),
 					(mute?"mute":"unmute"),
-					targetTank->getName());
+					targetTank->getName()));
 				ServerCommon::sendString(0,
-					"admin %s \"%s\"",
+					formatString("admin %s \"%s\"",
 					(mute?"mute":"unmute"),
-					targetTank->getName());
+					targetTank->getName()));
 				targetTank->getState().setMuted(mute); 
 			}
 			else ServerCommon::sendString(destinationId, "Unknown player for mute");
@@ -350,13 +349,13 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(0,
-					"\"%s\" admin permmute \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin permmute \"%s\"",
 					adminTank->getName(),
-					targetTank->getName());
+					targetTank->getName()));
 				ServerCommon::sendString(0,
-					"admin permmute \"%s\"",
-					targetTank->getName());
+					formatString("admin permmute \"%s\"",
+					targetTank->getName()));
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId(),
 					ServerBanned::Muted);
@@ -371,13 +370,13 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(0,
-					"\"%s\" admin unpermmute \"%s\"",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin unpermmute \"%s\"",
 					adminTank->getName(),
-					targetTank->getName());
+					targetTank->getName()));
 				ServerCommon::sendString(0,
-					"admin unpermmute \"%s\"",
-					targetTank->getName());
+					formatString("admin unpermmute \"%s\"",
+					targetTank->getName()));
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId(),
 					ServerBanned::NotBanned);
@@ -387,43 +386,40 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 		}
 		break;
 	case ComsAdminMessage::AdminTalk:
-		ServerCommon::serverLog(0,
-			"\"%s\" admin talk \"%s\"",
+		ServerCommon::serverLog(
+			formatString("\"%s\" admin talk \"%s\"",
 			adminTank->getName(),
-			message.getParam1());
-
+			message.getParam1()));
 		ServerCommon::sendString(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminAdminTalk:
-		ServerCommon::serverLog(0,
-			"\"%s\" admin admintalk \"%s\"",
+		ServerCommon::serverLog(
+			formatString("\"%s\" admin admintalk \"%s\"",
 			adminTank->getName(),
-			message.getParam1());
+			message.getParam1()));
 		ServerCommon::sendStringAdmin(message.getParam1());
 		break;
 	case ComsAdminMessage::AdminMessage:
-		ServerCommon::serverLog(0,
-			"\"%s\" admin message \"%s\"",
+		ServerCommon::serverLog(
+			formatString("\"%s\" admin message \"%s\"",
 			adminTank->getName(),
-			message.getParam1());
+			message.getParam1()));
 		ServerCommon::sendStringMessage(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminKillAll:
-		ServerCommon::serverLog(0,
-			"\"%s\" admin killall",
-			adminTank->getName());
+		ServerCommon::serverLog(
+			formatString("\"%s\" admin killall",
+			adminTank->getName()));
 		ServerCommon::sendString(0,
 			"admin killall");
-
 		ServerCommon::killAll();
 		break;
 	case ComsAdminMessage::AdminNewGame:
-		ServerCommon::serverLog(0,
-			"\"%s\" admin new game",
-			adminTank->getName());
+		ServerCommon::serverLog(
+			formatString("\"%s\" admin new game",
+			adminTank->getName()));
 		ServerCommon::sendString(0,
 			"admin new game");
-
 		ServerCommon::killAll();
 		ScorchedServer::instance()->getOptionsTransient().startNewGame();	
 		break;	
@@ -433,15 +429,15 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{	
-				ServerCommon::serverLog(0,
-					"\"%s\" admin slap \"%s\" %.0f",
+				ServerCommon::serverLog(
+					formatString("\"%s\" admin slap \"%s\" %.0f",
 					adminTank->getName(),
 					targetTank->getName(),
-					(float) atof(message.getParam2()));
+					(float) atof(message.getParam2())));
 				ServerCommon::sendString(0,
-					"admin slap \"%s\" %.0f",
+					formatString("admin slap \"%s\" %.0f",
 					targetTank->getName(),
-					(float) atof(message.getParam2()));
+					(float) atof(message.getParam2())));
 				ServerCommon::slapPlayer(
 					targetTank->getPlayerId(),
 					(float) atof(message.getParam2()));
@@ -457,23 +453,23 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 bool ServerAdminHandler::login(const char *name, const char *password)
 {
 	const char *fileName = 
-		getSettingsFile("adminpassword-%i.xml",
-			ScorchedServer::instance()->getOptionsGame().getPortNo());
+		getSettingsFile(formatString("adminpassword-%i.xml",
+			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 
 	XMLFile file;
 	if (!file.readFile(fileName))
 	{
-		ServerCommon::serverLog(0, 
-			"Failed to parse \"%s\"\n%s", 
+		ServerCommon::serverLog( 
+			formatString("Failed to parse \"%s\"\n%s", 
 			fileName,
-			file.getParserError());
+			file.getParserError()));
 		return false;
 	}
 	if (!file.getRootNode())
 	{
-		ServerCommon::serverLog(0, 
-			"Please create file %s to have admin users", 
-			fileName);
+		ServerCommon::serverLog( 
+			formatString("Please create file %s to have admin users", 
+			fileName));
 		return false;
 	}
 

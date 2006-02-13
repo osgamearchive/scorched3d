@@ -38,17 +38,17 @@ bool ModInfo::parse(const char *fileName)
 	XMLFile file;
 	if (!file.readFile(fileName))
 	{
-		dialogMessage("ModInfo", 
+		dialogMessage("ModInfo", formatString(
 			"Failed to parse \"%s\":%s\n", 
 					  fileName,
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 	if (!file.getRootNode())
 	{
-		dialogMessage("ModInfo",
+		dialogMessage("ModInfo", formatString(
 					  "Failed to find mod info definition file \"%s\"",
-					  fileName);
+					  fileName));
 		return false;		
 	}
 

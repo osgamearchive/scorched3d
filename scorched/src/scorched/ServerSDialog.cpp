@@ -169,7 +169,7 @@ bool showServerSDialog()
 	if (frame.ShowModal() == wxID_OK)
 	{
 		tmpOptions.writeOptionsToFile((char *) serverFileDest.c_str());
-		runScorched3D("-startserver \"%s\"", serverFileDest.c_str());
+		runScorched3D(formatString("-startserver \"%s\"", serverFileDest.c_str()));
 		return true;
 	}
 	return false;

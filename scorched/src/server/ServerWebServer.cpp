@@ -61,7 +61,7 @@ ServerWebServer::~ServerWebServer()
 
 void ServerWebServer::start(int port)
 {
-	Logger::log("Starting management web server on port %i", port);
+	Logger::log(formatString("Starting management web server on port %i", port));
 	netServer_.setMessageHandler(this);
 	netServer_.start(port);
 
@@ -296,11 +296,11 @@ bool ServerWebServer::validateUser(
 			fields["sid"] = formatString("%u", sid);
 
 			ServerCommon::sendString(0,
-				"server admin \"%s\" logged in",
-				fields["name"].c_str());
-			ServerCommon::serverLog(0,
-				"server admin \"%s\" logged in",
-				fields["name"].c_str());
+				formatString("server admin \"%s\" logged in",
+				fields["name"].c_str()));
+			ServerCommon::serverLog(
+				formatString("server admin \"%s\" logged in",
+				fields["name"].c_str()));
 
 			return true;
 		}
@@ -328,11 +328,11 @@ bool ServerWebServer::getTemplate(
 	std::string &result)
 {
 	// Perhaps cache this
-	const char *fileName = getDataFile("data/html/server/%s", name);
+	const char *fileName = getDataFile(formatString("data/html/server/%s", name));
 	FILE *in = fopen(fileName, "ra");
 	if (!in) 
 	{
-		Logger::log("ERROR: Failed to open web template \"%s\"", fileName);
+		Logger::log(formatString("ERROR: Failed to open web template \"%s\"", fileName));
 		return false;
 	}
 

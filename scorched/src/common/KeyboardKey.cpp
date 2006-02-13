@@ -54,10 +54,10 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 		std::string &name = *itor;
 		if (!translateKeyName(name.c_str(), keyValue)) 
 		{
-			dialogMessage("KeyboardKey",
+			dialogMessage("KeyboardKey", formatString(
 						  "Failed to find key names \"%s\" for \"%s\"",
 						  name.c_str(),
-						  name_.c_str());
+						  name_.c_str()));
 			return false;
 		}
 
@@ -65,10 +65,10 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 		std::string &state = *itorState;
 		if (!translateKeyState(state.c_str(), keyState)) 
 		{
-			dialogMessage("KeyboardKey",
+			dialogMessage("KeyboardKey", formatString(
 						  "Failed to find key state \"%s\" for \"%s\"",
 						  state.c_str(),
-						  name_.c_str());
+						  name_.c_str()));
 			return false;
 		}
 

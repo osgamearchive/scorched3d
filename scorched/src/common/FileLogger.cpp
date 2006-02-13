@@ -47,5 +47,5 @@ void FileLogger::openFile(const char *fileName)
 {
 	lines_ = 0;
 	if (logFile_) fclose(logFile_);
-	logFile_ = fopen(getLogFile("%s-%i.log", fileName, time(0)), "w");
+	logFile_ = fopen(getLogFile(formatString("%s-%i.log", fileName, time(0))), "w");
 }

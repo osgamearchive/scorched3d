@@ -167,11 +167,11 @@ void serverMain(ProgressCounter *counter)
 		!ServerBrowserInfo::instance()->start())
 	{
 		dialogExit("Scorched3D Server", 
-			"Failed to start the server.\n\n"
+			formatString("Failed to start the server.\n\n"
 			"Could not bind to the server ports.\n"
 			"Ensure the specified ports (%i, %i) do not conflict with any other program.",
 			ScorchedServer::instance()->getOptionsGame().getPortNo(),
-			ScorchedServer::instance()->getOptionsGame().getPortNo() + 1);
+			ScorchedServer::instance()->getOptionsGame().getPortNo() + 1));
 	}
 
  	if (ScorchedServer::instance()->getOptionsGame().getPublishServer()) 
@@ -208,8 +208,8 @@ void serverLoop()
 		if (timeDifference > 5.0f &&
 			OptionsParam::instance()->getDedicatedServer())
 		{
-			Logger::log( "Warning: Server loop took %.2f seconds", 
-				timeDifference);
+			Logger::log(formatString("Warning: Server loop took %.2f seconds", 
+				timeDifference));
 		}
 	}
 }

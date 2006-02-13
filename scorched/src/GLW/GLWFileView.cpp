@@ -20,6 +20,7 @@
 
 #include <GLW/GLWFileView.h>
 #include <GLW/GLWFont.h>
+#include <common/DefinesString.h>
 
 REGISTER_CLASS_SOURCE(GLWFileView);
 
@@ -57,7 +58,8 @@ void GLWFileView::draw()
 		GLWFont::instance()->getSmallPtFont()->drawWidth(
 			(int) w_,
 			GLWFont::widgetFontColor, 8,
-			x_ + 5.0f, posY, 0.0f, "%s", lines_.getLines()[i].c_str());
+			x_ + 5.0f, posY, 0.0f, 
+			formatString("%s", lines_.getLines()[i].c_str()));
 		posY -= 9.0f;
 
 		if (posY < y_) break;

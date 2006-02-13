@@ -60,9 +60,9 @@ void Animation::init()
 		}
 		else
 		{
-			dialogMessage("Animation",
+			dialogMessage("Animation", formatString(
 						  "No renderer named \"%s\"",
-						  rendererName_.c_str());
+						  rendererName_.c_str()));
 		}
 	}
 }

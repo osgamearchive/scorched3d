@@ -185,19 +185,19 @@ bool Keyboard::loadKeyFile(const char *fileName,
 	XMLFile file;
     if (!file.readFile(fileName))
 	{
-		dialogMessage("Keyboard", 
+		dialogMessage("Keyboard", formatString(
 					  "Failed to parse \"%s\"\n%s", 
 					  fileName,
-					  file.getParserError());
+					  file.getParserError()));
 		return false;
 	}
 
 	// Check file exists
 	if (!file.getRootNode())
 	{
-		dialogMessage("Keyboard",
+		dialogMessage("Keyboard", formatString(
 					  "Failed to find key definition file \"%s\"",
-					  fileName);
+					  fileName));
 		return false;		
 	}
 
@@ -283,9 +283,9 @@ bool Keyboard::loadKeyFile(const char *fileName,
 				if (useditor != usedKeyMap.end())
 				{
 					KeyboardKey *usedKey = (*useditor).second;
-					dialogMessage("Keyboard",
+					dialogMessage("Keyboard", formatString(
 								  "Key \"%s\" and state \"%s\" defined for \"%s\" was already defined for \"%s\"",
-								  currentKey->getContent(), state, keyName, usedKey->getName());
+								  currentKey->getContent(), state, keyName, usedKey->getName()));
 					return false;					
 				}
 				usedKeyMap[wholeKey] = newKey;
@@ -313,9 +313,9 @@ KeyboardKey *Keyboard::getKey(const char *name)
 		keyMap_.find(name);
 	if (itor != keyMap_.end()) return (*itor).second;
 
-	dialogMessage("Keyboard",
+	dialogMessage("Keyboard", formatString(
 				  "Failed to find key for key name \"%s\"",
-				  name);	
+				  name));	
 	return &defaultKey;
 }
 

@@ -74,9 +74,9 @@ bool TankAIComputerBuyer::parseConfig(AccessoryStore &store, XMLNode *node)
 			0 != strcmp(wtype.c_str(), "defense"))
 		{
 			dialogExit("TankAIComputerBuyer",
-				"Unknown ai weapon type \"%s\"\n"
+				formatString("Unknown ai weapon type \"%s\"\n"
 				"Should be one of dig, sniper, defense, explosionsmall, explosionlarge", 
-				wtype.c_str());
+				wtype.c_str()));
 		}
 		buyTypes_.insert(
 			std::pair<std::string, std::string>(wtype, wname));
@@ -99,7 +99,7 @@ bool TankAIComputerBuyer::addAccessory(AccessoryStore &store,
 	if (!accessory)
 	{
 		dialogMessage("TankAIComputerBuyer", 
-			"Failed to find accessory \"%s\"", accessoryName);
+			formatString("Failed to find accessory \"%s\"", accessoryName));
 		return false;
 	}
 
@@ -171,8 +171,8 @@ void TankAIComputerBuyer::buyAccessory()
 			if (!current)
 			{
 				dialogExit("TankAIComputerBuyer",
-					"Failed to find accessory \"%s\"",
-					name.c_str());
+					formatString("Failed to find accessory \"%s\"",
+					name.c_str()));
 			}
 
 			// Check if the tank has each accessory
@@ -227,7 +227,7 @@ void TankAIComputerBuyer::dumpAccessories()
 			itor2 != (*itor).buyAccessories.end();
 			itor2++)
 		{
-			Logger::log( "%s", (*itor2).c_str());
+			Logger::log(formatString("%s", (*itor2).c_str()));
 		}
 	}
 	Logger::log( "-------------");

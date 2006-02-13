@@ -67,10 +67,10 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 
 	if (strcmp(oldFileName.c_str(), fileName) != 0)
 	{
-		dialogMessage("ModDirs",
+		dialogMessage("ModDirs", formatString(
 			"ERROR: All mod directories must have lower case filenames.\n"
 			"Directory \"%s\" has upper case charaters in it",
-			fileName);
+			fileName));
 		return false;
 	}
 	
@@ -103,9 +103,9 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 	setDataFileMod(fileName);
 	if (!newInfo.parse(modGamesFile.c_str()))
 	{
-		dialogExit("Scorched3D",
+		dialogExit("Scorched3D", formatString(
 			"Failed to parse mod info file \"%s\"",
-		modGamesFile.c_str());
+			modGamesFile.c_str()));
 	}
 	setDataFileMod("none");
 
@@ -127,19 +127,19 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 
 		// The gloabl mod is out of date, move it out the way
 		std::string src = getModFile(fileName);
-		std::string dest = getSettingsFile("/oldmods/%s-%u", fileName, time(0));
+		std::string dest = getSettingsFile(formatString("/oldmods/%s-%u", fileName, time(0)));
 		if (s3d_dirExists(src.c_str()))
 		{
 			if (::wxRenameFile(wxString(src.c_str(), wxConvUTF8), 
 				wxString(dest.c_str(), wxConvUTF8)))
 			{
-				dialogMessage("Scorched3D",
+				dialogMessage("Scorched3D", formatString(
 					"Mod directory\n"
 					"\"%s\"\n"
 					"was moved to\n"
 					"\"%s\"\n"
 					"as it may be incompatable with this version of Scorched3D",
-					src.c_str(), dest.c_str());
+					src.c_str(), dest.c_str()));
 			}
 		}
 	}

@@ -324,14 +324,14 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 				ServerBrowser::instance()->getServerList().getEntryValue(item, "version");
 			if (!serverCompatable(protocolVersion, version))
 			{
-				dialogMessage("Scorched 3D", 
+				dialogMessage("Scorched 3D", formatString(
 					"Warning: This server is running a incompatable version of Scorched3D.\n"
 					"You cannot connect to this server.\n\n"
 					"This server is running Scorched build %s (%s).\n"
 					"You are running Scorched build %s (%s).\n\n"					
 					"The latest version of Scorched3D can be downloaded from http://www.scorched3d.co.uk\n",
 					version.c_str(), protocolVersion.c_str(),
-					ScorchedVersion, ScorchedProtocolVersion);
+					ScorchedVersion, ScorchedProtocolVersion));
 			}
 			IDC_EDIT_SERVER_CTRL->SetValue(wxString(text.c_str(), wxConvUTF8));
 

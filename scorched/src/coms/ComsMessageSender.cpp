@@ -43,8 +43,8 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 	
 	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
 	{
-		Logger::log( "Client::send(%s, %u)", message.getMessageType(),
-			NetBufferDefault::defaultBuffer.getBufferUsed());
+		Logger::log(formatString("Client::send(%s, %u)", message.getMessageType(),
+			NetBufferDefault::defaultBuffer.getBufferUsed()));
 	}	
 
 	if (!message.writeMessage(NetBufferDefault::defaultBuffer, 0))
@@ -85,11 +85,11 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 			NetBufferDefault::defaultBuffer.getBufferUsed(),
 			6);
 	
-		Logger::log( "Server::send(%s, %i, %u (%u))", 
+		Logger::log(formatString("Server::send(%s, %i, %u (%u))", 
 					message.getMessageType(),
 					(int) destination,
 					NetBufferDefault::defaultBuffer.getBufferUsed(),
-					destLen);
+					destLen));
 	}
 	ScorchedServer::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer,
 		destination);

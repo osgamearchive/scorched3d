@@ -36,9 +36,9 @@ Model *MSModelFactory::createModel(const char *fileName)
 	FILE *in = fopen(fileName, "r");
 	if (!in)
 	{
-		dialogExit("MSModelFactory",
+		dialogExit("MSModelFactory", formatString(
 			"Failed to open MS model \"%s\"",
-			fileName);
+			fileName));
 	}
 	loadFile(in, fileName, model);
 	model->setup();
@@ -74,8 +74,8 @@ bool MSModelFactory::getNextLine(char *line, FILE *in)
 
 void MSModelFactory::returnError(const char *fileName, const char *error)
 {
-	dialogExit("MSModelFactory", "%s in file %i:%s", 
-		error, lineNo_, fileName);
+	dialogExit("MSModelFactory", formatString("%s in file %i:%s", 
+		error, lineNo_, fileName));
 }
 
 void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)

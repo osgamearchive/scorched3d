@@ -69,11 +69,11 @@ GLTexture *ModelStore::loadTexture(const char *name,
 		map = new GLBitmap((char *) name, (char *) aname, invert);
 		if (!map->getBits())
 		{
-			dialogMessage("Scorched3D load model texture", 
+			dialogMessage("Scorched3D load model texture", formatString(
 						  "Failed to load texture file \"%s\",\n"
 						  "alpha file \"%s\"",
 						  name,
-						  aname);
+						  aname));
 			return 0;
 		}
 	}
@@ -82,9 +82,9 @@ GLTexture *ModelStore::loadTexture(const char *name,
 		map = new GLBitmap((char *) name);
 		if (!map->getBits())
 		{
-			dialogMessage("Scorched3D load model texture", 
+			dialogMessage("Scorched3D load model texture", formatString(
 						  "Failed to load texture file \"%s\"",
-						  name);
+						  name));
 			return 0;
 		}
 	}

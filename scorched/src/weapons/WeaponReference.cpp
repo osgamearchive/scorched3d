@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponReference.h>
 #include <weapons/AccessoryStore.h>
+#include <common/DefinesString.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponReference);
 
@@ -48,9 +49,9 @@ bool WeaponReference::parseXML(OptionsGame &context,
 		nodes.find(subNode.c_str());
 	if (finditor == nodes.end()) 
 	{
-		dialogMessage("WeaponReference",
+		dialogMessage("WeaponReference", formatString(
 			"Failed to find weapon \"%s\"",
-			subNode.c_str());
+			subNode.c_str()));
 		return false;	
 	}
 	XMLNode *weaponNode = (*finditor).second;
@@ -64,9 +65,9 @@ bool WeaponReference::parseXML(OptionsGame &context,
 	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, actionNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
-		dialogMessage("Accessory",
+		dialogMessage("Accessory", formatString(
 			"Failed to find create weapon/wrong type \"%s\"",
-			subNode.c_str());
+			subNode.c_str()));
 		return false;
 	}
 	refWeapon_ = (Weapon*) accessory;

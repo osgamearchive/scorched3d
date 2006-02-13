@@ -19,13 +19,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapePlace.h>
+#include <common/DefinesString.h>
 
 static LandscapePlaceType *fetchPlacementPlaceType(const char *type)
 {
 	if (0 == strcmp(type, "trees")) return new LandscapePlaceObjectsPlacementTree;
 	if (0 == strcmp(type, "mask")) return new LandscapePlaceObjectsPlacementMask;
 	if (0 == strcmp(type, "direct")) return new LandscapePlaceObjectsPlacementDirect;
-	dialogMessage("LandscapePlaceType", "Unknown placement type %s", type);
+	dialogMessage("LandscapePlaceType", formatString("Unknown placement type %s", type));
 	return 0;
 }
 
@@ -33,7 +34,7 @@ static LandscapePlaceType *fetchObjectPlaceType(const char *type)
 {
 	if (0 == strcmp(type, "tree")) return new LandscapePlaceObjectsTree;
 	if (0 == strcmp(type, "model")) return new LandscapePlaceObjectsModel;
-	dialogMessage("LandscapePlaceType", "Unknown object type %s", type);
+	dialogMessage("LandscapePlaceType", formatString("Unknown object type %s", type));
 	return 0;
 }
 

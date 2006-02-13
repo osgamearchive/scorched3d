@@ -61,8 +61,8 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 	if (!map.getBits())
 	{
 		dialogExit("PlacementTypeMask",
-			"Error: failed to find mask \"%s\"",
-			mask.c_str());
+			formatString("Error: failed to find mask \"%s\"",
+			mask.c_str()));
 	}
 
 	const int NoIterations = numobjects;

@@ -117,14 +117,15 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		// Tell this computer that a new tank has connected
 		if (OptionsParam::instance()->getDedicatedServer())
 		{
-			Logger::log( "Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
+			Logger::log(formatString("Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
 				tank->getDestinationId(), tank->getPlayerId(),
-				tank->getName(), name.c_str());
+				tank->getName(), name.c_str()));
 
 			if (name != tank->getName())
 			{
-				ServerCommon::sendString(0, "Player changed name \"%s\"->\"%s\"",
-					tank->getName(), name.c_str());
+				ServerCommon::sendString(0, 
+					formatString("Player changed name \"%s\"->\"%s\"",
+					tank->getName(), name.c_str()));
 			}
 		}
 	}
@@ -173,14 +174,16 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		char *rank = StatsLogger::instance()->tankRank(tank);
 		if (strcmp(rank, "-") != 0)
 		{
-			ServerCommon::sendString(0, "Welcome back %s, you are ranked %s",
-				tank->getName(), rank);
+			ServerCommon::sendString(0, 
+				formatString("Welcome back %s, you are ranked %s",
+				tank->getName(), rank));
 		}
 
 		if (tank->getState().getSpectator())
 		{
-			ServerCommon::sendString(0, "Player playing \"%s\"",
-				tank->getName());
+			ServerCommon::sendString(0, 
+				formatString("Player playing \"%s\"",
+				tank->getName()));
 
 			if (ScorchedServer::instance()->getGameState().getState() == 
 				ServerState::ServerStateStarting)

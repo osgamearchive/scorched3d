@@ -112,8 +112,8 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 			entryMap.find(name);
 		if (finditor == entryMap.end())
 		{
-			Logger::log( "Warning:Does not support server option \"%s\"",
-				name.c_str());
+			Logger::log(formatString("Warning:Does not support server option \"%s\"",
+				name.c_str()));
 		}
 		else
 		{
@@ -208,18 +208,18 @@ bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
 			entryMap.find(name);
 		if (finditor == entryMap.end())
 		{
-			dialogMessage("Scorched3D Options",
+			dialogMessage("Scorched3D Options", formatString(
 				"ERROR: Failed to parse file \"%s\". Cannot find option \"%s\"",
-				currentNode->getSource(), name.c_str());
+				currentNode->getSource(), name.c_str()));
 		}
 		else
 		{
 			if (!(*finditor).second->setValueFromString(value.c_str()))
 			{
-				dialogMessage("Scorched3D Options",
+				dialogMessage("Scorched3D Options", formatString(
 					"ERROR: Failed to parse file \"%s\"\n"
 					"Failed to set option \"%s\" with \"%s\"",
-					currentNode->getSource(), name.c_str(), value.c_str());
+					currentNode->getSource(), name.c_str(), value.c_str()));
 				return false;		
 			}	
 		}
@@ -234,11 +234,11 @@ bool OptionEntryHelper::readFromFile(std::list<OptionEntry *> &options,
 	XMLFile file;
 	if (!file.readFile(filePath))
 	{
-		dialogMessage("Scorched3D Options", 
+		dialogMessage("Scorched3D Options", formatString(
 			"ERROR: Failed to parse file \"%s\"\n"
 			"%s",
 			filePath,
-			file.getParserError());		
+			file.getParserError()));
 		return false;
 	}
 

@@ -142,38 +142,38 @@ void RulesDialog::drawRules()
 		yellow,
 		12,
 		left, top - 75.0f, 0.0f,
-		"Mod : %s", 
-		ScorchedClient::instance()->getOptionsGame().getMod());
+		formatString("Mod : %s", 
+		ScorchedClient::instance()->getOptionsGame().getMod()));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
 		left, top - 90.0f, 0.0f,
-		"Game type : %s", 
-		ScorchedClient::instance()->getOptionsTransient().getGameType());
+		formatString("Game type : %s", 
+		ScorchedClient::instance()->getOptionsTransient().getGameType()));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
 		left, top - 105.0f, 0.0f,
-		((options.getTeams() > 1)?"Teams : %i":"Teams : None"),
-		options.getTeams());
+		formatString(((options.getTeams() > 1)?"Teams : %i":"Teams : None"),
+		options.getTeams()));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
 		left, top - 120.0f, 0.0f,
-		"Score Mode : %s", (options.getScoreType() == OptionsGame::ScoreWins)?"Most Wins":
-		((options.getScoreType() == OptionsGame::ScoreKills)?"Most Kills":"Most Money"));
+		formatString("Score Mode : %s", (options.getScoreType() == OptionsGame::ScoreWins)?"Most Wins":
+		((options.getScoreType() == OptionsGame::ScoreKills)?"Most Kills":"Most Money")));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
 		left, top - 135.0f, 0.0f,
-		((options.getShotTime() > 0)?"Shot time : %i (s)":"Shot time : Unlimited"),
-		options.getShotTime());
+		formatString(((options.getShotTime() > 0)?"Shot time : %i (s)":"Shot time : Unlimited"),
+		options.getShotTime()));
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
 		left, top - 150.0f, 0.0f,
-		((options.getBuyingTime() > 0)?"Buying time : %i (s)":"Buying time : Unlimited"),
-		options.getShotTime());
+		formatString(((options.getBuyingTime() > 0)?"Buying time : %i (s)":"Buying time : Unlimited"),
+		options.getShotTime()));
 }
 
 void RulesDialog::buttonDown(unsigned int id)

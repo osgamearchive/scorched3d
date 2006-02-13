@@ -21,6 +21,7 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsole.h>
 #include <common/OptionsDisplay.h> // Hmm library code pollution
+#include <common/DefinesString.h>
 #include <SDL/SDL.h>
 #include <string.h>
 #include <string>
@@ -58,9 +59,10 @@ bool GLStateExtension::hasExtension(char *name)
 
 // HACK for skin creator
 #ifdef dDOUBLE
-	GLConsole::instance()->addLine(false, "GL extension \"%s\" = %s",
-								   name,
-								   (result?"on":"off"));
+	GLConsole::instance()->addLine(false, 
+		formatString("GL extension \"%s\" = %s",
+		name,
+		(result?"on":"off")));
 #endif
 
 	return result;
@@ -130,14 +132,14 @@ void GLStateExtension::setup()
 	GLConsole::instance()->addLine(false, "GL_EXTENSIONS:");
 	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_EXTENSIONS));
 	GLConsole::instance()->addLine(false, "TEXTURE_UNITS:");
-	GLConsole::instance()->addLine(false, "%s (%i units)", ((glActiveTextureARB_==0)?"Off":"On"),textureUnits_);
+	GLConsole::instance()->addLine(false, formatString("%s (%i units)", ((glActiveTextureARB_==0)?"Off":"On"),textureUnits_));
 	GLConsole::instance()->addLine(false, "VBO:");
-	GLConsole::instance()->addLine(false, "%s", ((glGenBuffersARB_==0)?"Off":"On"));
+	GLConsole::instance()->addLine(false, formatString("%s", ((glGenBuffersARB_==0)?"Off":"On")));
 	GLConsole::instance()->addLine(false, "ENV COMBINE:");
-	GLConsole::instance()->addLine(false, "%s", (envCombine_?"On":"Off"));
+	GLConsole::instance()->addLine(false, formatString("%s", (envCombine_?"On":"Off")));
 	GLConsole::instance()->addLine(false, "CUBE MAP:");
-	GLConsole::instance()->addLine(false, "%s", (hasCubeMap_?"On":"Off"));
+	GLConsole::instance()->addLine(false, formatString("%s", (hasCubeMap_?"On":"Off")));
 	GLConsole::instance()->addLine(false, "HW MIP MAPS:");
-	GLConsole::instance()->addLine(false, "%s", (hasHardwareMipmaps_?"On":"Off"));
+	GLConsole::instance()->addLine(false, formatString("%s", (hasHardwareMipmaps_?"On":"Off")));
 #endif
 }

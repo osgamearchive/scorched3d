@@ -41,7 +41,7 @@ public:
 	bool addMethod(const char *name,
 		GLConsoleRuleMethodI *user);
 
-	void addLine(bool parse, const char *fmt, ...);
+	void addLine(bool parse, const char *line);
 
 	std::deque<GLConsoleLine *> &getLines() { return lines_.getLines(); }
 

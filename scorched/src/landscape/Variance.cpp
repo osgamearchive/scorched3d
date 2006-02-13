@@ -57,7 +57,7 @@ unsigned int Variance::recursComputeVariance( int leftX,  int leftY,  float left
 	//  ~~~~~~~*~~~~~~~  <-- Compute the X and Y coordinates of '*'
 	//
 	int centerX = (leftX + rightX) >>1;		// Compute X coordinate of center of Hypotenuse
-	int centerY = (leftY + rightY) >>1;		// Compute Y coord...
+	int centerY = (leftY + rightY) >>1;		// Compute Y coord.
 
 	// Get the height value at the middle of the Hypotenuse
 	float centerZ  = hMap_->getHeight(centerX, centerY);

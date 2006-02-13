@@ -48,10 +48,10 @@ bool WeaponAnimation::parseXML(OptionsGame &context,
 		rendererName_.c_str());
 	if (!newclass)
 	{
-		dialogMessage("Accessory",
+		dialogMessage("Accessory", formatString(
 			"Failed to find animation named \"%s\" in accessory \"%s\"",
 			rendererName_.c_str(),
-			parent_->getName());
+			parent_->getName()));
 		return false;
 	}
 	delete newclass;

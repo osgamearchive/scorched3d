@@ -78,20 +78,14 @@ void Logger::remLogger(LoggerI *logger)
 	SDL_UnlockMutex(logMutex_);
 }
 
-void Logger::log(const char *fmt, ...)
+void Logger::log(const char *text)
 {
-	if (!fmt) return;
+	if (!text) return;
 
 	Logger::instance();
 
 	SDL_LockMutex(logMutex_);
 	
-	static char text[2048];
-	va_list ap;
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);
-
 	LoggerInfo info;
 	info.setMessage(text);
 	addLog(info);

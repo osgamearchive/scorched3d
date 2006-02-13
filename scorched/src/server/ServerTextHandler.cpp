@@ -108,7 +108,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		}
 
 		// Update the server console with the say text
-		ServerCommon::serverLog(tankId, "Says \"%s\"", newText.c_str());
+		ServerCommon::serverLog(formatString("Says \"%s\"", newText.c_str()));
 
 		ComsTextMessage newMessage(newText.c_str(), 
 			tank->getPlayerId(), false, message.getTeamOnlyMessage(), infoLen);

@@ -489,10 +489,10 @@ void GLWWindowManager::loadPositions()
 	const char *fileName = getSettingsFile("windowpositions.xml");
 	if (!file.readFile(fileName))
 	{
-		dialogMessage("GLWWindowSkinManager", 
+		dialogMessage("GLWWindowSkinManager", formatString(
 					  "Failed to parse \"%s\"\n%s", 
 					  fileName,
-					  file.getParserError());
+					  file.getParserError()));
 		return;
 	}
 	if (!file.getRootNode()) return;

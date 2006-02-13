@@ -188,7 +188,7 @@ void GLWScorchedInfo::draw()
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
-					"%s", buffer);
+					formatString("%s", buffer));
 			}
 		break;
 		case eHealthCount:
@@ -196,8 +196,7 @@ void GLWScorchedInfo::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%.0f",
-				current->getLife().getLife());
+				formatString("%.0f", current->getLife().getLife()));
 		break;
 		case eShieldCount:
 			setToolTip(&model->getTips()->shieldTip);
@@ -213,8 +212,7 @@ void GLWScorchedInfo::draw()
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
-					"%.0f",
-					current->getShield().getShieldPower());
+					formatString("%.0f", current->getShield().getShieldPower()));
 			}
 		break;
 		case eBatteryCount:
@@ -224,8 +222,7 @@ void GLWScorchedInfo::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				(count==-1?"In":"%i"),
-				count);
+				formatString((count==-1?"In":"%i"),	count));
 			}
 		break;
 		case eFuelCount:
@@ -235,8 +232,7 @@ void GLWScorchedInfo::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				(count==-1?"In":"%i"),
-				count);
+				formatString((count==-1?"In":"%i"),	count));
 			}
 		break;
 		case eWeaponName:
@@ -267,8 +263,7 @@ void GLWScorchedInfo::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				format,
-				count);
+				formatString(format, count));
 		}
 		break;
 		case eWeaponIcon:
@@ -295,45 +290,45 @@ void GLWScorchedInfo::draw()
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%.1f",
-				360.0f - current->getPosition().getRotationGunXY());
+				formatString("%.1f",
+				360.0f - current->getPosition().getRotationGunXY()));
 		break;
 		case eRotationDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%+.1f",
-				current->getPosition().getRotationXYDiff());
+				formatString("%+.1f",
+				current->getPosition().getRotationXYDiff()));
 		break;
 		case eElevation:
 			setToolTip(&model->getTips()->elevationTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%.1f",
-				current->getPosition().getRotationGunYZ());
+				formatString("%.1f",
+				current->getPosition().getRotationGunYZ()));
 		break;
 		case eElevationDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%+.1f",
-				current->getPosition().getRotationYZDiff());
+				formatString("%+.1f",
+				current->getPosition().getRotationYZDiff()));
 		break;
 		case ePower:
 			setToolTip(&model->getTips()->powerTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%.1f",
-				current->getPosition().getPower());
+				formatString("%.1f",
+				current->getPosition().getPower()));
 		break;
 		case ePowerDiff:
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				"%+.1f",
-				current->getPosition().getPowerDiff());
+				formatString("%+.1f",
+				current->getPosition().getPowerDiff()));
 		break;
 	}
 }
@@ -446,9 +441,9 @@ bool GLWScorchedInfo::initFromXML(XMLNode *node)
 	else if (0 == strcmp(typeNode->getContent(), "powerdiff")) infoType_ = ePowerDiff;
 	else
 	{
-		dialogMessage("GLWScorchedInfo",
+		dialogMessage("GLWScorchedInfo", formatString(
 			"Unknown info type \"%s\"",
-			typeNode->getContent());
+			typeNode->getContent()));
 		return false;
 	}
 	

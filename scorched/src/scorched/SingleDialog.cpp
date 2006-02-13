@@ -174,7 +174,7 @@ void SingleFrame::onLoadButton(wxCommandEvent &event)
 	if (!file.empty())
 	{
 		EndModal(wxID_OK);
-		runScorched3D("-loadsave \"%s\"", (const char *) file.mb_str(wxConvUTF8));
+		runScorched3D(formatString("-loadsave \"%s\"", (const char *) file.mb_str(wxConvUTF8)));
 	}
 }
 

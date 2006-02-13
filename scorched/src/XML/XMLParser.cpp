@@ -184,16 +184,16 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 			std::string newContent;
 			XMLParser::removeSpecialChars(content_, newContent);
 			
-			lines.addLine("%s<%s%s>%s</%s>", 
+			lines.addLine(formatString("%s<%s%s>%s</%s>", 
 				getSpacer(spacing),
 				name_.c_str(), params.c_str(), 
-				newContent.c_str(), name_.c_str());
+				newContent.c_str(), name_.c_str()));
 		}
 		else
 		{
-			lines.addLine("%s<%s%s>", 
+			lines.addLine(formatString("%s<%s%s>", 
 				getSpacer(spacing),
-				name_.c_str(), params.c_str());
+				name_.c_str(), params.c_str()));
 
 			std::list<XMLNode *>::iterator itor;
 			for (itor = children_.begin();
@@ -204,14 +204,14 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 				node->addNodeToFile(lines, spacing + 1);
 			}
 
-			lines.addLine("%s</%s>", 
-				getSpacer(spacing), name_.c_str());
+			lines.addLine(formatString("%s</%s>", 
+				getSpacer(spacing), name_.c_str()));
 		}
 	}
 	else if (type_ == XMLCommentType)
 	{
-		lines.addLine("%s<!-- %s -->", 
-			getSpacer(spacing), content_.c_str());
+		lines.addLine(formatString("%s<!-- %s -->", 
+			getSpacer(spacing), content_.c_str()));
 	}
 }
 
@@ -424,8 +424,8 @@ void XMLNode::convertContent()
 bool XMLNode::returnError(const char *error)
 {
 	dialogMessage("XMLNode",
-		"Parse Error, File:%s Line:%i Col:%i Node:%s Error:%s",
-		source_.c_str(), line_, col_, getName(), error);
+		formatString("Parse Error, File:%s Line:%i Col:%i Node:%s Error:%s",
+		source_.c_str(), line_, col_, getName(), error));
 	return false;
 }
 

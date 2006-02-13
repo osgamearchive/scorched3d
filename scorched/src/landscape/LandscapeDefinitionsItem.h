@@ -63,10 +63,10 @@ public:
 				!file.getRootNode())
 			{
 				dialogMessage("Scorched Landscape", 
-							"Failed to parse \"%s\"\n"
+							formatString("Failed to parse \"%s\"\n"
 							"%s", 
 							dataFile.c_str(),
-							file.getParserError());
+							file.getParserError()));
 				return 0;
 			}
 
@@ -74,8 +74,8 @@ public:
 			if (!item->readXML(defns, file.getRootNode()))
 			{
 				dialogMessage("Scorched Landscape", 
-					"Failed to parse \"%s\"",
-					dataFile.c_str());
+					formatString("Failed to parse \"%s\"",
+					dataFile.c_str()));
 				return 0;
 			}
 			items_[fileName] = item;

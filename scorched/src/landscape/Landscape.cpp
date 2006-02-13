@@ -266,9 +266,9 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 	else
 	{
-		dialogExit("Landscape",
+		dialogExit("Landscape", formatString(
 			"Failed to find heightmap type %i",
-			tex->texture->getType());
+			tex->texture->getType()));
 	}
 
 	// Create the water (if any)
@@ -491,6 +491,8 @@ void Landscape::savePlan()
 {
 	static unsigned counter = 0;
 	time_t currentTime = time(0);
-	bitmapPlan_.writeToFile(getHomeFile("PlanShot-%i-%i.bmp", currentTime, counter++));
+	bitmapPlan_.writeToFile(
+		getHomeFile(
+			formatString("PlanShot-%i-%i.bmp", currentTime, counter++)));
 }
 

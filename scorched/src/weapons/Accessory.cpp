@@ -70,13 +70,13 @@ bool Accessory::parseXML(OptionsGame &context,
 	// Get the accessory icon
 	if (accessoryNode->getNamedChild("icon", iconName_, false))
 	{
-		if (!checkDataFile("data/textures/wicons/%s", getIconName())) return false;
+		if (!checkDataFile(formatString("data/textures/wicons/%s", getIconName()))) return false;
 	}
 
 	// Get the accessory sound 
 	if (accessoryNode->getNamedChild("activationsound", activationSound_, false))
 	{
-		if (!checkDataFile("data/wav/%s", getActivationSound())) return false;
+		if (!checkDataFile(formatString("data/wav/%s", getActivationSound()))) return false;
 	}
 
 	// Get the accessory bundle
@@ -108,8 +108,8 @@ bool Accessory::parseXML(OptionsGame &context,
 	action_ = store->createAccessoryPart(context, this, subNode);
 	if (!action_)
 	{
-		dialogMessage("Accessory",
-			"Failed to create action \"%s\"", name_.c_str());
+		dialogMessage("Accessory", formatString(
+			"Failed to create action \"%s\"", name_.c_str()));
 		return false;
 	}
 
@@ -135,13 +135,13 @@ GLTexture *Accessory::getTexture()
 	GLTexture *texture = 0;
 	if (getIconName()[0])
 	{
-		GLBitmap bmap(getDataFile("data/textures/wicons/%s", getIconName()), true);
+		GLBitmap bmap(getDataFile(formatString("data/textures/wicons/%s", getIconName())), true);
 		texture = new GLTexture();
 		texture->create(bmap, GL_RGBA, false);
 	}
 	else
 	{
-		GLBitmap bmap(getDataFile("data/textures/wicons/%s", "tracer.bmp"), true);
+		GLBitmap bmap(getDataFile(formatString("data/textures/wicons/%s", "tracer.bmp")), true);
 		texture = new GLTexture();
 		texture->create(bmap, GL_RGBA, false);
 	}

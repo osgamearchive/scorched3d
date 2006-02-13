@@ -21,13 +21,14 @@
 #include <placement/PlacementObject.h>
 #include <placement/PlacementObjectTree.h>
 #include <placement/PlacementObjectModel.h>
+#include <common/DefinesString.h>
 #include <XML/XMLParser.h>
 
 PlacementObject *PlacementObject::create(const char *type)
 {
 	if (0 == strcmp(type, "tree")) return new PlacementObjectTree;
 	if (0 == strcmp(type, "model")) return new PlacementObjectModel;
-	dialogMessage("PlacementObject", "Unknown object type %s", type);
+	dialogMessage("PlacementObject", formatString("Unknown object type %s", type));
 	return 0;
 }
 

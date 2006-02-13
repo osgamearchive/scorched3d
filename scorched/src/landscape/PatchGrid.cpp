@@ -47,9 +47,9 @@ void PatchGrid::generate()
 	if (hMap_->getMapWidth() % patchSize_ != 0 ||
 		hMap_->getMapHeight() % patchSize_ != 0)
 	{
-		dialogMessage("Scorched3D",
+		dialogMessage("Scorched3D", formatString(
 			"Landscape dimensions must be a factor of %i",
-			patchSize_);
+			patchSize_));
 	}
 
 	delete [] patches_;

@@ -32,14 +32,14 @@ static LandscapeTexType *fetchBorderTexType(const char *type)
 {
 	if (0 == strcmp(type, "water")) return new LandscapeTexBorderWater;
 	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
-	dialogMessage("LandscapeTexType", "Unknown border type %s", type);
+	dialogMessage("LandscapeTexType", formatString("Unknown border type %s", type));
 	return 0;
 }
 
 static LandscapeTexType *fetchTextureTexType(const char *type)
 {
 	if (0 == strcmp(type, "generate")) return new LandscapeTexTextureGenerate;
-	dialogMessage("LandscapeTexType", "Unknown texture type %s", type);
+	dialogMessage("LandscapeTexType", formatString("Unknown texture type %s", type));
 	return 0;
 }
 
@@ -48,7 +48,7 @@ static LandscapeTexType *fetchPrecipitationTexType(const char *type)
 	if (0 == strcmp(type, "none")) return new LandscapeTexTypeNone;
 	if (0 == strcmp(type, "rain")) return new LandscapeTexPrecipitationRain;
 	if (0 == strcmp(type, "snow")) return new LandscapeTexPrecipitationSnow;
-	dialogMessage("LandscapeTexType", "Unknown precipitation type %s", type);
+	dialogMessage("LandscapeTexType", formatString("Unknown precipitation type %s", type));
 	return 0;
 }
 
@@ -56,14 +56,14 @@ static LandscapeTexCondition *fetchConditionTexType(const char *type)
 {
 	if (0 == strcmp(type, "time")) return new LandscapeTexConditionTime;
 	if (0 == strcmp(type, "random")) return new LandscapeTexConditionRandom;
-	dialogMessage("LandscapeTexType", "Unknown condition type %s", type);
+	dialogMessage("LandscapeTexType", formatString("Unknown condition type %s", type));
 	return 0;
 }
 
 static LandscapeTexAction *fetchActionTexType(const char *type)
 {
 	if (0 == strcmp(type, "fireweapon")) return new LandscapeTexActionFireWeapon;
-	dialogMessage("LandscapeTexType", "Unknown action type %s", type);
+	dialogMessage("LandscapeTexType", formatString("Unknown action type %s", type));
 	return 0;
 }
 
@@ -150,10 +150,10 @@ void LandscapeTexActionFireWeapon::fireAction(ScorchedContext &context)
 		context.accessoryStore->findByPrimaryAccessoryName(
 			weapon.c_str());
 	if (!accessory) dialogExit("LandscapeTexActionFireWeapon",
-		"Failed to find weapon named \"%s\"", weapon.c_str());
+		formatString("Failed to find weapon named \"%s\"", weapon.c_str()));
 	if (accessory->getType() != AccessoryPart::AccessoryWeapon) 
 		dialogExit("LandscapeTexActionFireWeapon",
-			"Accessory named \"%s\" is not a weapon", weapon.c_str());
+			formatString("Accessory named \"%s\" is not a weapon", weapon.c_str()));
 	Weapon *weapon = (Weapon *) accessory->getAction();
 
 	Vector pos, vel;

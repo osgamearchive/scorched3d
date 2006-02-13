@@ -79,8 +79,8 @@ CGProgram *CGLoader::loadVertexProgram(const char *fileName,
 	// Validate Our Profile Determination Was Successful
 	if (cgVertexProfile == CG_PROFILE_UNKNOWN)
 	{
-		dialogMessage("CGLoader", "%s : Invalid profile type",
-			fileName);
+		dialogMessage("CGLoader", 
+			formatString("%s : Invalid profile type", fileName));
 		return false;
 	}
 
@@ -100,8 +100,8 @@ CGProgram *CGLoader::loadVertexProgram(const char *fileName,
 		CGerror Error = cgGetError();
 
 		// Show A Message Box Explaining What Went Wrong
-		dialogMessage("CGLoader", "%s : %s",
-			fileName, cgGetErrorString(Error));
+		dialogMessage("CGLoader", 
+			formatString("%s : %s", fileName, cgGetErrorString(Error)));
 		init_ = false;
 		return 0;
 	}
@@ -124,8 +124,8 @@ CGProgram *CGLoader::loadFragmentProgram(const char *fileName,
 	// Validate Our Profile Determination Was Successful
 	if (cgFragmentProfile == CG_PROFILE_UNKNOWN)
 	{
-		dialogMessage("CGLoader", "%s : Invalid profile type", 
-			fileName);
+		dialogMessage("CGLoader", 
+			formatString("%s : Invalid profile type", fileName));
 		return false;
 	}
 
@@ -145,8 +145,8 @@ CGProgram *CGLoader::loadFragmentProgram(const char *fileName,
 		CGerror Error = cgGetError();
 
 		// Show A Message Box Explaining What Went Wrong
-		dialogMessage("CGLoader", "%s : %s", 
-			fileName, cgGetErrorString(Error));
+		dialogMessage("CGLoader", 
+			formatString("%s : %s", fileName, cgGetErrorString(Error)));
 		init_ = false;
 		return 0;
 	}

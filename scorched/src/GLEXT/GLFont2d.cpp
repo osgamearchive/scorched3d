@@ -50,17 +50,10 @@ bool GLFont2d::getInit()
 	return (textures_ != 0);
 }
 
-int GLFont2d::getWidth(float size, const char *fmt, ...)
+int GLFont2d::getWidth(float size, const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	float width = 0.0f;
-	for (char *a=text; *a; a++)
+	for (char *a=(char *) text; *a; a++)
 	{
 		width += float(characters_[*a].advances) * size / height_;
 	}
@@ -69,61 +62,33 @@ int GLFont2d::getWidth(float size, const char *fmt, ...)
 
 void GLFont2d::draw(Vector &color, float size, 
 					float x, float y, float z, 
-					const char *fmt, ...)
+					const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false);
 }
 
 void GLFont2d::drawA(Vector &color, float alpha, float size, 
 					float x, float y, float z, 
-					const char *fmt, ...)
+					const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, false);
 }
 
 void GLFont2d::drawOutline(Vector &color, float size, float size2,
 					float x, float y, float z, 
-					const char *fmt, ...)
+					const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	drawString((GLsizei) strlen(text), color, 1.0f, size, x, y, z, text, false, size2);
 }
 
 void GLFont2d::drawSubStr(int start, int len,
 				 Vector &color, float size, 
 				 float x, float y, float z, 
-				 const char *fmt, ...)
+				 const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	int s = start;
 	float width = 0.0f;
-	for (char *a=text; *a; a++)
+	for (char *a=(char *) text; *a; a++)
 	{
 		if (--s < 0) break;
 		width += float(characters_[*a].advances) * size / height_;
@@ -137,18 +102,11 @@ void GLFont2d::drawSubStr(int start, int len,
 
 void GLFont2d::drawWidth(int len, Vector &color, float size, 
 					   float x, float y, float z, 
-					   const char *fmt, ...)
+					   const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	int l = 0;
 	float width = 0.0f;
-	for (char *a=text; *a; a++)
+	for (char *a=(char *) text; *a; a++)
 	{
 		width += float(characters_[*a].advances) * size / height_;
 		if (width < len) l++;
@@ -159,20 +117,14 @@ void GLFont2d::drawWidth(int len, Vector &color, float size,
 
 void GLFont2d::drawWidthRhs(int len, Vector &color, float size, 
 					   float x, float y, float z, 
-					   const char *fmt, ...)
+					   const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	int slen = vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
-	if (strlen > 0)
+	int slen = strlen(text);
+	if (slen > 0)
 	{
 		int l = 0;
 		float width = 0.0f;
-		char *a=&text[slen-1];
+		char *a=& ((char *)text)[slen-1];
 		for (; a >= text; a--, l++)
 		{
 			width += float(characters_[*a].advances) * size / height_;
@@ -186,15 +138,8 @@ void GLFont2d::drawWidthRhs(int len, Vector &color, float size,
 
 void GLFont2d::drawBilboard(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
-			  const char *fmt, ...)
+			  const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);	
-
 	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, true);
 }
 
@@ -446,9 +391,9 @@ bool GLFont2d::createFont(const char *typeFace, unsigned int h)
 	// As FT_New_Face Will Fail If The Font File Does Not Exist Or Is Somehow Broken.
 	if (FT_New_Face( library, typeFace, 0, &face )) 
 	{
-		dialogMessage("GLFont2d", 
+		dialogMessage("GLFont2d", formatString(
 			"FT_New_Face failed (there is probably a problem with your font file \"%s\")",
-			typeFace); 
+			typeFace)); 
 		return false;
 	}
 

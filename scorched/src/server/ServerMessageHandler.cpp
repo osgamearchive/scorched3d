@@ -68,9 +68,9 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		ScorchedServerUtil::instance()->bannedPlayers.getBanned(message.getIpAddress(), "") == 
 		ServerBanned::Banned)
 	{
-		Logger::log( "Banned client connected dest=\"%i\" ip=\"%s\"", 
+		Logger::log(formatString("Banned client connected dest=\"%i\" ip=\"%s\"", 
 			message.getDestinationId(),
-			NetInterface::getIpName(message.getIpAddress()));
+			NetInterface::getIpName(message.getIpAddress())));
 		ScorchedServer::instance()->getNetInterface().
 			disconnectClient(message.getDestinationId());
 		return;
@@ -87,8 +87,8 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		Tank *current = (*playingItor).second;
 		if (current->getDestinationId() == message.getDestinationId())
 		{
-			Logger::log("Duplicate connection from destination \"%i\"", 
-				message.getDestinationId());
+			Logger::log(formatString("Duplicate connection from destination \"%i\"", 
+				message.getDestinationId()));
 			ScorchedServer::instance()->getNetInterface().
 				disconnectClient(message.getDestinationId());
 			return;
@@ -99,8 +99,8 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		{
 			if (message.getIpAddress() == current->getIpAddress())
 			{
-				Logger::log("Duplicate ip connection from ip address \"%s\"", 
-					NetInterface::getIpName(message.getIpAddress()));
+				Logger::log(formatString("Duplicate ip connection from ip address \"%s\"", 
+					NetInterface::getIpName(message.getIpAddress())));
 				ScorchedServer::instance()->getNetInterface().
 					disconnectClient(message.getDestinationId());
 				return;
@@ -108,16 +108,16 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		}
 	}
 
-	Logger::log( "Client connected dest=\"%i\" ip=\"%s\"", 
+	Logger::log(formatString("Client connected dest=\"%i\" ip=\"%s\"", 
 		message.getDestinationId(),
-		NetInterface::getIpName(message.getIpAddress()));
+		NetInterface::getIpName(message.getIpAddress())));
 }
 
 void ServerMessageHandler::clientDisconnected(NetMessage &message)
 {
-	Logger::log( "Client disconnected dest=\"%i\" ip=\"%s\"", 
+	Logger::log(formatString("Client disconnected dest=\"%i\" ip=\"%s\"", 
 		message.getDestinationId(),
-		NetInterface::getIpName(message.getIpAddress()));
+		NetInterface::getIpName(message.getIpAddress())));
 
 	// Build up a list of players at this destination
 	std::list<unsigned int> removePlayers;
@@ -154,11 +154,11 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	if (tank)
 	{
 		Logger::log( 
-			"Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\"", 
+			formatString("Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\"", 
 			tank->getDestinationId(),
-			tankId, tank->getName());
-		ServerCommon::sendString(0, "Player disconnected \"%s\"",
-			tank->getName());
+			tankId, tank->getName()));
+		ServerCommon::sendString(0, formatString("Player disconnected \"%s\"",
+			tank->getName()));
 
 		StatsLogger::instance()->tankDisconnected(tank);
 
@@ -179,15 +179,15 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	}
 	else
 	{
-		Logger::log( "Unknown player disconnected id=\"%i\"", tankId);
+		Logger::log(formatString("Unknown player disconnected id=\"%i\"", tankId));
 	}
 }
 
 void ServerMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log( "Client \"%i\", ***Server Error*** \"%s\"", 
+	Logger::log(formatString("Client \"%i\", ***Server Error*** \"%s\"", 
 		message.getDestinationId(),
-		errorString);
+		errorString));
 	ServerCommon::kickDestination(message.getDestinationId());
 }

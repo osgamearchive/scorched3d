@@ -43,7 +43,7 @@ bool WeaponTeleport::parseXML(OptionsGame &context,
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 	if (!accessoryNode->getNamedChild("delay", delay_)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
-	if (!checkDataFile("%s", getSound())) return false;
+	if (!checkDataFile(getSound())) return false;
 
 	return true;
 }

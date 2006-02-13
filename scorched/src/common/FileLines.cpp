@@ -91,15 +91,8 @@ bool FileLines::writeFile(char *filename)
 	return true;
 }
 
-void FileLines::addLine(const char *fmt, ...)
+void FileLines::addLine(const char *text)
 {
-	static char text[2048];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(text, 2048, fmt, ap);
-	va_end(ap);
-
 	fileLines_.push_back(text);
 }
 

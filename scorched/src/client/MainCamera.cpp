@@ -265,7 +265,7 @@ void MainCamera::setQuick(int key)
 		targetCam_.getCamera().getRotationYZ(),
 		targetCam_.getCamera().getZoom()));
 	quickKeys_[key] = value;
-	Logger::log( "Saved camera preset %i", key);
+	Logger::log(formatString("Saved camera preset %i", key));
 }
 
 void MainCamera::useQuick(int key)
@@ -279,7 +279,7 @@ void MainCamera::useQuick(int key)
 		targetCam_.getCamera().setLookAt(value.first);
 		targetCam_.getCamera().movePosition(value.second[0],
 			value.second[1], value.second[2]);
-		Logger::log( "Using camera preset %i", key);
+		Logger::log(formatString("Using camera preset %i", key));
 	}
 }
 
@@ -291,7 +291,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 	static unsigned counter = 0;
 	time_t currentTime = time(0);
 	char *fileName = (char *) 
-		getHomeFile("ScreenShot-%i-%i.bmp", currentTime, counter++);
+		getHomeFile(formatString("ScreenShot-%i-%i.bmp", currentTime, counter++));
 
 	GLBitmap screenMap;
 	screenMap.grabScreen();
@@ -300,7 +300,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 	// Don't print to banner otherwise this message will be in
 	// the screenshot!
 	GLConsole::instance()->addLine(false, 
-		"Screen shot saved as file \"%s\"", fileName);
+		formatString("Screen shot saved as file \"%s\"", fileName));
 
 	// snapshot sound
 	CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));

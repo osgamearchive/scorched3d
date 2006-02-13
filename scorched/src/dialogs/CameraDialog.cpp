@@ -21,6 +21,7 @@
 #include <dialogs/CameraDialog.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <common/DefinesString.h>
 #include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
@@ -140,9 +141,8 @@ void CameraDialog::draw()
 	Vector col(0.7f, 0.7f, 0.7f);
 	GLWFont::instance()->getLargePtFont()->
 		draw(col, 10.0f, x_ + 15.0f, y_ + 15.0f, 0.0f, 
-		"%s Camera",
-		targetCam_.getCameraNames()[targetCam_.getCameraType()]);
-
+		formatString("%s Camera",
+		targetCam_.getCameraNames()[targetCam_.getCameraType()]));
 }
 
 void CameraDialog::simulate(float frameTime)

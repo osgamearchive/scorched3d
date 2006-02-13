@@ -169,8 +169,8 @@ void LandscapeObjectPlacementTrees::generateObjects(
 	else
 	{
 		dialogExit("LandscapeObjectPlacementTrees",
-			"Error: Unknown model type \"%s\"",
-			placement.objecttype.c_str());
+			formatString("Error: Unknown model type \"%s\"",
+			placement.objecttype.c_str()));
 	}
 
 	LandscapeObjectsGroupEntry *group = 0;
@@ -301,16 +301,16 @@ void LandscapeObjectPlacementMask::generateObjects(
 	else
 	{
 		dialogExit("LandscapeObjectPlacementMask",
-			"Error: Unknown model type \"%s\"",
-			placement.objecttype.c_str());
+			formatString("Error: Unknown model type \"%s\"",
+			placement.objecttype.c_str()));
 	}
 
 	GLBitmap map(getDataFile(placement.mask.c_str()));
 	if (!map.getBits())
 	{
 		dialogExit("LandscapeObjectPlacementMask",
-			"Error: failed to find mask \"%s\"",
-			placement.mask.c_str());
+			formatString("Error: failed to find mask \"%s\"",
+			placement.mask.c_str()));
 	}
 
 	LandscapeObjectsGroupEntry *group = 0;
@@ -480,8 +480,8 @@ void LandscapeObjectPlacementDirect::generateObjects(
 	else
 	{
 		dialogExit("LandscapeObjectPlacementMask",
-			"Error: Unknown model type \"%s\"",
-			placement.objecttype.c_str());
+			formatString("Error: Unknown model type \"%s\"",
+			placement.objecttype.c_str()));
 	}
 
 	LandscapeObjectsGroupEntry *group = 0;

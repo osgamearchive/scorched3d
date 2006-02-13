@@ -82,16 +82,16 @@ bool ModFileEntry::writeModFile(const char *fileName, const char *modName)
 	while (dir = strchr(dir, '/'))
 	{
 		*dir = '\0';
-		const char *needdir = getModFile("%s/%s", 
-			modName, fileName);
+		const char *needdir = getModFile(formatString("%s/%s", 
+			modName, fileName));
 		if (!s3d_dirExists(needdir)) s3d_dirMake(needdir);
 		*dir = '/';
 		dir++;
 	}
 
 	// Write the file 
-	const char *needfile = getModFile("%s/%s", 
-		modName, fileName);
+	const char *needfile = getModFile(formatString("%s/%s", 
+		modName, fileName));
 	FILE *file = fopen(needfile, "wb");
 	if (!file)
 	{

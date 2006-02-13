@@ -53,7 +53,7 @@ bool WeaponLightning::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("seghurt", segHurt_)) return false;
 	if (!accessoryNode->getNamedChild("seghurtradius", segHurtRadius_)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
-	if (!checkDataFile("%s", getSound())) return false;
+	if (!checkDataFile(getSound())) return false;
 	return true;
 }
 

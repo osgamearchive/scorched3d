@@ -24,6 +24,7 @@
 #include <3dsparse/ModelStore.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
+#include <common/DefinesString.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTranslate.h>
 
@@ -335,7 +336,7 @@ void GLWTankViewer::drawCaption(int pos)
 	GLWFont::instance()->getSmallPtFont()->
 		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 63.0f, 0.0f, 
-			"(%i Triangles)", models_[pos]->getNoTris());
+			formatString("(%i Triangles)", models_[pos]->getNoTris()));
 }
 void GLWTankViewer::drawItem(int pos, bool selected)
 {

@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLConsoleLines.h>
+#include <common/DefinesString.h>
 #include <string>
 
 unsigned GLConsoleLine::nextLineNumber_ = 0;
@@ -58,17 +59,18 @@ void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
 			// We show a line number of those lines with commands
 			// on them
 			font->draw(color, 12, x, y, 0.0f, 
-				"%4i : %s", lineNumber_, line_.c_str());
+				formatString("%4i : %s", lineNumber_, line_.c_str()));
 		}
 		else
 		{
 			font->draw(color, 12, x, y, 0.0f, 
-				"  %s %s", "... ", line_.c_str());
+				formatString("  %s %s", "... ", line_.c_str()));
 		}
 	}
 	else
 	{
-		font->draw(color, 12, x, y, 0.0f,"      %s", line_.c_str());
+		font->draw(color, 12, x, y, 0.0f,
+			formatString("      %s", line_.c_str()));
 	}
 }
 

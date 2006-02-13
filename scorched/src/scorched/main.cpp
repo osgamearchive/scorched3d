@@ -146,14 +146,14 @@ int main(int argc, char *argv[])
 			getcwd(path, sizeof(path));
 #endif // _WIN32
 			dialogExit(
-				scorched3dAppName,
+				scorched3dAppName, formatString(
 				"Error: This game requires the Scorched3D data directory to run.\n"
 				"Your machine does not appear to have the Scorched3D data directory in\n"
 				"the required location.\n"
 				"The data directory is set to \"%s\" which does not exist.\n"
 				"(Current working directory %s)\n\n"
 				"If Scorched3D does not run please re-install Scorched3D.",
-				getDataFile("data"), path);
+				getDataFile("data"), path));
 		}
 	}
 	else fclose(checkfile);
@@ -193,9 +193,9 @@ int main(int argc, char *argv[])
 		// Load the server settings file
 		if (!s3d_fileExists(OptionsParam::instance()->getServerFile()))
 		{
-			dialogExit(scorched3dAppName,
+			dialogExit(scorched3dAppName, formatString(
 				"Server file \"%s\" does not exist.",
-				OptionsParam::instance()->getServerFile());
+				OptionsParam::instance()->getServerFile()));
 		}
 		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 			(char *) OptionsParam::instance()->getServerFile());
@@ -257,9 +257,9 @@ int main(int argc, char *argv[])
 					// If not load the client settings file
 					if (!s3d_fileExists(OptionsParam::instance()->getClientFile()))
 					{
-						dialogExit(scorched3dAppName,
+						dialogExit(scorched3dAppName, formatString(
 							"Client file \"%s\" does not exist.",
-							OptionsParam::instance()->getClientFile());
+							OptionsParam::instance()->getClientFile()));
 					}
 					ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
 						(char *) OptionsParam::instance()->getClientFile());
@@ -269,16 +269,16 @@ int main(int argc, char *argv[])
 					// Or the client saved game
 					if (!s3d_fileExists(OptionsParam::instance()->getSaveFile()))
 					{
-						dialogExit(scorched3dAppName,
+						dialogExit(scorched3dAppName, formatString(
 							"Client save file \"%s\" does not exist.",
-							OptionsParam::instance()->getSaveFile());
+							OptionsParam::instance()->getSaveFile()));
 					}
 					if (!ClientSave::loadClient(OptionsParam::instance()->getSaveFile()) ||
 						!ClientSave::restoreClient(true, false))
 					{
-						dialogExit(scorched3dAppName,
+						dialogExit(scorched3dAppName, formatString(
 							"Cannot load client save file \"%s\".",
-							OptionsParam::instance()->getSaveFile());
+							OptionsParam::instance()->getSaveFile()));
 					}
 				}
 			}

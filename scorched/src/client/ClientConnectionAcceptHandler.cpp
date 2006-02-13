@@ -83,9 +83,9 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 		setCurrentDestinationId(message.getDestinationId());
 
 	// Tell the user to wait
-	Logger::log(
+	Logger::log(formatString(
 		"Connection accepted by \"%s\".\nPlease wait...",
-		message.getServerName());
+		message.getServerName()));
 
 	// Show the MOTD (Message of the Day) on the screen and
 	// rules dialog
@@ -134,8 +134,8 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 			ProgressDialog::instance()))
 		{
 			dialogMessage("ModFiles", 
-				"Failed to load mod \"%s\"",
-				ScorchedClient::instance()->getOptionsGame().getMod());
+				formatString("Failed to load mod \"%s\"",
+				ScorchedClient::instance()->getOptionsGame().getMod()));
 			return false;
 		}
 	}

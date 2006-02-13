@@ -117,8 +117,8 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		findByAccessoryId(message.getAccessoryId());
 	if (!accessory)
 	{
-		Logger::log( "ERROR: Player buying not-existant weapon \"%i\"", 
-			message.getAccessoryId());
+		Logger::log(formatString("ERROR: Player buying not-existant weapon \"%i\"", 
+			message.getAccessoryId()));
 		return true;
 	}
 

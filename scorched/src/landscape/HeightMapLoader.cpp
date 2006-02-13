@@ -113,9 +113,9 @@ bool HeightMapLoader::generateTerrain(
 		const char *fileName = getDataFile(file->file.c_str());
 		if (!bitmap.loadFromFile(fileName, false))
 		{
-			dialogMessage("HeightMapLoader",
+			dialogMessage("HeightMapLoader", formatString(
 				"Error: Unable to find landscape map \"%s\"",
-				fileName);
+				fileName));
 			return false;
 		}
 		else
@@ -148,9 +148,9 @@ bool HeightMapLoader::generateTerrain(
 	}
 	else 
 	{
-		dialogMessage("HeightMapLoader", 
+		dialogMessage("HeightMapLoader", formatString(
 			"Error: Unkown generate type %i",
-			defn->getType());
+			defn->getType()));
 		return false;
 	}
 	

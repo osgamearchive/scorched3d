@@ -28,7 +28,7 @@
 static LandscapeDefnType *fetchTankStartDefnType(const char *type)
 {
 	if (0 == strcmp(type, "height")) return new LandscapeDefnStartHeight;
-	dialogMessage("LandscapeDefnType", "Unknown tankstart type %s", type);
+	dialogMessage("LandscapeDefnType", formatString("Unknown tankstart type %s", type));
 	return 0;
 }
 
@@ -36,7 +36,7 @@ static LandscapeDefnType *fetchHeightMapDefnType(const char *type)
 {
 	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
 	if (0 == strcmp(type, "file")) return new LandscapeDefnHeightMapFile;
-	dialogMessage("LandscapeDefnType", "Unknown heightmap type %s", type);
+	dialogMessage("LandscapeDefnType", formatString("Unknown heightmap type %s", type));
 	return 0;
 }
 
@@ -44,7 +44,7 @@ static LandscapeDefnType *fetchRoofMapDefnType(const char *type)
 {
 	if (0 == strcmp(type, "sky")) return new LandscapeDefnTypeNone;
 	if (0 == strcmp(type, "cavern")) return new LandscapeDefnRoofCavern;
-	dialogMessage("LandscapeDefnType", "Unknown roof type %s", type);
+	dialogMessage("LandscapeDefnType", formatString("Unknown roof type %s", type));
 	return 0;
 }
 
@@ -53,7 +53,7 @@ static LandscapeDefnType *fetchSurroundDefnType(const char *type)
 	if (0 == strcmp(type, "none")) return new LandscapeDefnTypeNone;
 	if (0 == strcmp(type, "generate")) return new LandscapeDefnHeightMapGenerate;
 	if (0 == strcmp(type, "file")) return new LandscapeDefnHeightMapFile;
-	dialogMessage("LandscapeDefnType", "Unknown surround type %s", type);
+	dialogMessage("LandscapeDefnType", formatString("Unknown surround type %s", type));
 	return 0;
 }
 

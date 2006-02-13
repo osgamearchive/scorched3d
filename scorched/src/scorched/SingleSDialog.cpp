@@ -147,7 +147,7 @@ bool showSingleSDialog()
 	if (frame.ShowModal() == wxID_OK)
 	{
 		tmpOptions.writeOptionsToFile((char *) customFilePathDest.c_str());
-		runScorched3D("-startclient \"%s\"", customFilePathDest.c_str());
+		runScorched3D(formatString("-startclient \"%s\"", customFilePathDest.c_str()));
 		return true;
 	}
 	return false;

@@ -68,9 +68,9 @@ void WeaponInvokeWeapon::fireWeapon(ScorchedContext &context,
 {
 	if (weaponStack_.find(invokeWeapon_) != weaponStack_.end())
 	{
-		dialogExit("Scorched3D",
+		dialogExit("Scorched3D", formatString(
 			"WeaponInvokeWeapon recursive called for weapon %s",
-			invokeWeapon_->getParent()->getName());
+			invokeWeapon_->getParent()->getName()));
 	}
     
 	weaponStack_.insert(invokeWeapon_);
