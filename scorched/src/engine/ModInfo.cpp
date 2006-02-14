@@ -61,7 +61,7 @@ bool ModInfo::parse(const char *fileName)
 	if (!mainNode->getNamedChild("protocolversion", protocolversion_)) return false;
 
 	icon_ = getDataFile(tmpicon.c_str());
-	if (!checkDataFile(icon_.c_str())) return false;
+	if (!checkDataFile(tmpicon.c_str())) return false;
 
 	XMLNode *gameNode = 0;
 	while (file.getRootNode()->getNamedChild("game", gameNode, false))
@@ -72,10 +72,10 @@ bool ModInfo::parse(const char *fileName)
 		if (!gameNode->getNamedChild("gamefile", tmpgamefile)) return false;
 
 		entry.icon = getDataFile(tmpicon.c_str());
-		if (!checkDataFile(entry.icon.c_str())) return false;
+		if (!checkDataFile(tmpicon.c_str())) return false;
 	
 		entry.gamefile = getDataFile(tmpgamefile.c_str());
-		if (!checkDataFile(entry.gamefile.c_str())) return false;
+		if (!checkDataFile(tmpgamefile.c_str())) return false;
 
 		if (!gameNode->failChildren()) return false;
 		entries_.push_back(entry);

@@ -129,7 +129,7 @@ void showURL(const char *url)
 	system(formatString("open %s", url));
 #else
 	system(formatString("mozilla %s", url));
-	dialogMessage("Web site location", "%s", url);
+	dialogMessage("Web site location", formatString("%s", url));
 #endif // __DARWIN__
 #endif // _WIN32
 }

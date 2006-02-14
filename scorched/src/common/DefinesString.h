@@ -21,9 +21,11 @@
 #ifndef __SNPRINTF_SAMBA__
 #define __SNPRINTF_SAMBA__
 
+#include <stdio.h> // For snprintf on linux
+
 #if !defined(HAVE_SNPRINTF)
-#include <stdio.h>
-#include <stdarg.h>
+
+#include <stdarg.h> // For va_list
 
 #define snprintf smb_snprintf
 #define vsnprintf smb_vsnprintf
@@ -55,7 +57,6 @@ extern int vsnprintf(char *str, size_t size, const char *format, va_list ap);
 */
 
 extern const char *formatString(const char *format, ...);
-extern const char *formatStringList(const char *format, va_list ap); 
 extern char *s3d_stristr(const char *x, const char *y);
 
 #endif // __SNPRINTF_SAMBA__

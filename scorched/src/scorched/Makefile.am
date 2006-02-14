@@ -185,6 +185,8 @@ scorched3d_SOURCES = \
 	../tankgraph/TargetRenderer.h \
 	../tankgraph/TracerRenderer.cpp \
 	../tankgraph/TracerRenderer.h \
+	../tankgraph/TreeModelRenderer.cpp \
+	../tankgraph/TreeModelRenderer.h \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
 	../common/Clock.cpp \
@@ -1107,6 +1109,10 @@ scorched3d_SOURCES = \
 	../tank/TankSort.h \
 	../tank/TankState.cpp \
 	../tank/TankState.h \
+	../tank/TankType.cpp \
+	../tank/TankType.h \
+	../tank/TankTypes.cpp \
+	../tank/TankTypes.h \
 	../tank/TankWeapon.cpp \
 	../tank/TankWeapon.h \
 	../sound/Sound.cpp \
@@ -1182,6 +1188,20 @@ scorched3d_SOURCES = \
 	../target/TargetParachute.cpp \
 	../target/TargetParachute.h \
 	../target/TargetShield.cpp \
-	../target/TargetShield.h
+	../target/TargetShield.h \
+	../placement/PlacementObject.cpp \
+	../placement/PlacementObject.h \
+	../placement/PlacementObjectModel.cpp \
+	../placement/PlacementObjectModel.h \
+	../placement/PlacementObjectTree.cpp \
+	../placement/PlacementObjectTree.h \
+	../placement/PlacementType.cpp \
+	../placement/PlacementType.h \
+	../placement/PlacementTypeDirect.cpp \
+	../placement/PlacementTypeDirect.h \
+	../placement/PlacementTypeMask.cpp \
+	../placement/PlacementTypeMask.h \
+	../placement/PlacementTypeTree.cpp \
+	../placement/PlacementTypeTree.h
 
 INCLUDES = -I../porting -I.. 

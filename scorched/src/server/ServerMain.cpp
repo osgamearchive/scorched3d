@@ -217,15 +217,15 @@ void serverLoop()
 class ConsoleServerProgressCounter : public ProgressCounterI
 {
 public:
-	ConsoleServerProgressCounter() : lastOp_(0), hashes_(0) {}
+	ConsoleServerProgressCounter() : lastOp_(""), hashes_(0) {}
 
 	virtual void progressChange(const char *op, const float percentage)
 	{
-		if (op != lastOp_)
+		if (0 != strcmp(op, lastOp_.c_str()))
 		{
 			Logger::log(op);
-			printf("%s:", op);
-			lastOp_ = (char *) op;
+			printf("\n%s:", op);
+			lastOp_ = op;
 			hashes_ = 0;
 		}
 
@@ -237,7 +237,7 @@ public:
 		fflush(stdout);
 	}
 protected:
-	char *lastOp_;
+	std::string lastOp_;
 	int hashes_;
 };
 
@@ -247,10 +247,10 @@ void consoleServer()
 	ConsoleServerProgressCounter progressCounterI;
 	progressCounter.setUser(&progressCounterI);
 
-	printf("Starting Server...\n");
+	printf("\nStarting Server...");
 	ServerCommon::startFileLogger();
 	serverMain(&progressCounter);
-	printf("Server Started.\n");
+	printf("\nServer Started.\n");
 
 	for (;;)
 	{

@@ -36,7 +36,7 @@ ModDirs::~ModDirs()
 
 bool ModDirs::loadModDirs()
 {
-	loadModFile("none", true);
+	loadModFile(formatString("%s", "none"), true); // formatString used to put none into buffer
 	if (!loadModDir(getModFile(""), false)) return false;
 	if (!loadModDir(getGlobalModFile(""), true)) return false;
 	return true;
