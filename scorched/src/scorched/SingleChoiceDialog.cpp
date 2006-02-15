@@ -104,8 +104,7 @@ SingleChoiceFrame::SingleChoiceFrame(ModInfo &info) :
 		char *icon = (char *) entry.icon.c_str();
 		char *desc = (char *) entry.description.c_str();
 
-		wxObjectRefData *refData = new SingleChoiceFrameData(
-			getDataFile(entry.gamefile.c_str()));
+		wxObjectRefData *refData = new SingleChoiceFrameData(entry.gamefile.c_str());
 		addButtonToWindow(useId++, 
 			desc, icon, 
 			this, gridsizer, refData);

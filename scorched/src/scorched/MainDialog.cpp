@@ -156,16 +156,15 @@ void runScorched3D(const char *text)
 
 wxButton *addButtonToWindow(
 	int id,
-	char *text,
-	char *bitmapName,
+	const char *text,
+	const char *bitmapName,
 	wxWindow *parent,
 	wxSizer *sizer,
 	wxObjectRefData *data)
 {
 	wxButton *button = 0;
 	wxBitmap bitmap;
-	const char *bitmapFile = getDataFile(bitmapName);
-	if (bitmap.LoadFile(wxString(bitmapFile, wxConvUTF8), wxBITMAP_TYPE_BMP) &&
+	if (bitmap.LoadFile(wxString(bitmapName, wxConvUTF8), wxBITMAP_TYPE_BMP) &&
 		bitmap.Ok())
 	{
 		button = new wxBitmapButton(parent, id, bitmap);
@@ -252,7 +251,7 @@ MainFrame::MainFrame() :
 			addButtonToWindow(ID_BUTTON_SINGLE,
 				"Start a single or multi-player game.\n"
 				"One or more people play against themselves or the computer.", 
-				"data/windows/tank2.bmp", this, gridsizer);
+				getDataFile("data/windows/tank2.bmp"), this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -265,7 +264,7 @@ MainFrame::MainFrame() :
 			addButtonToWindow(ID_BUTTON_NETLAN,
 				"Join a game over the internet or LAN.\n"
 				"Connect to a server and play with others over the internet.", 
-				"data/windows/client.bmp", this, gridsizer);
+				getDataFile("data/windows/client.bmp"), this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -277,7 +276,7 @@ MainFrame::MainFrame() :
 		addButtonToWindow(ID_BUTTON_SERVER,
 			"Start a multi-player LAN or internet server.\n"
 			"Allow other people to connect to your computer to play.", 
-			"data/windows/server.bmp", this, gridsizer);
+			getDataFile("data/windows/server.bmp"), this, gridsizer);
 	}
 
 	// Display Settings
@@ -286,7 +285,7 @@ MainFrame::MainFrame() :
 			addButtonToWindow(ID_BUTTON_DISPLAY,
 				"Change game settings.\n"
 				"Graphics, compatability and other options", 
-				"data/windows/display.bmp", this, gridsizer);
+				getDataFile("data/windows/display.bmp"), this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -297,7 +296,7 @@ MainFrame::MainFrame() :
 	{
 		addButtonToWindow(ID_BUTTON_HELP,
 			"Show help for Scorched3D",
-			"data/windows/help.bmp", this, gridsizer);
+			getDataFile("data/windows/help.bmp"), this, gridsizer);
 	}
 
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, 20);

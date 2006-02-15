@@ -36,8 +36,8 @@ void addTitleToWindow(
 	int buttonId = -1);
 wxButton *addButtonToWindow(
 	int id,
-	char *text,
-	char *bitmapName,
+	const char *text,
+	const char *bitmapName,
 	wxWindow *parent,
 	wxSizer *sizer,
 	wxObjectRefData *data = 0);

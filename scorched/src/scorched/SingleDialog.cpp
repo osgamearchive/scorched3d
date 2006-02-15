@@ -128,13 +128,13 @@ SingleFrame::SingleFrame() :
 			"Start an custom single or multi-player game.\n"
 			"Choose the opponents to play against,\n"
 			"the settings and the mod.",
-			"data/windows/tank-cus.bmp", this, gridsizer);
+			getDataFile("data/windows/tank-cus.bmp"), this, gridsizer);
 	}
 
 	{
 		addButtonToWindow(ID_BUTTON_LOAD,
 			"Load a previously saved single or multi-player game.", 
-			"data/windows/save.bmp", this, gridsizer);
+			getDataFile("data/windows/save.bmp"), this, gridsizer);
 	}
 	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
 
