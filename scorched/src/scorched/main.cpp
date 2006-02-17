@@ -45,7 +45,6 @@
 extern bool wxWindowInit;
 extern bool wxWindowExit;
 char scorched3dAppName[128];
-static bool allowExceptions = false;
 
 bool parseCommandLine(int argc, char *argv[])
 {
@@ -53,8 +52,6 @@ bool parseCommandLine(int argc, char *argv[])
 	ARGParser aParser;
 	if (!OptionEntryHelper::addToArgParser(
 		OptionsParam::instance()->getOptions(), aParser)) return false;
-	aParser.addEntry("-allowexceptions", &allowExceptions, 
-					 "Allows any program exceptions to be thrown (core dumps)");
 	if (!aParser.parse(argc, argv)) return false;
 	setSettingsDir(OptionsParam::instance()->getSettingsDir());
 
@@ -93,9 +90,6 @@ bool parseCommandLine(int argc, char *argv[])
 	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(
 		(char *) optionsGamePath);
 
-	// Set the path the executable was run with
-	setExeName((const char *) argv[0], allowExceptions);
-
 	return true;
 }
 
@@ -109,6 +103,9 @@ int _matherr(struct _exception  *e)
 
 int main(int argc, char *argv[])
 {
+	// Set the path the executable was run with
+	setExeName((const char *) argv[0]);
+
 	// Generate the version
 	snprintf(scorched3dAppName, 128, "Scorched3D - Version %s (%s)", 
 		ScorchedVersion, ScorchedProtocolVersion);
@@ -172,7 +169,7 @@ int main(int argc, char *argv[])
 
 	// Init SDL
 	unsigned int initFlags = SDL_INIT_VIDEO;
-	if (allowExceptions) initFlags |= SDL_INIT_NOPARACHUTE;
+	if (OptionsParam::instance()->getAllowExceptions()) initFlags |= SDL_INIT_NOPARACHUTE;
 	if (SDL_Init(initFlags) < 0)
 	{
 		dialogMessage(

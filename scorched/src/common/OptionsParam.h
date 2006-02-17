@@ -39,6 +39,7 @@ public:
 	bool getConsole() { return console_.getValue(); }
 	bool getScreenSaverMode() { return screensaver_.getValue(); }
 	bool getLoadModFiles() { return loadmodfiles_.getValue(); }
+	bool getAllowExceptions() { return allowexceptions_.getValue(); }
 
 	enum Action
 	{
@@ -73,6 +74,7 @@ protected:
 	OptionEntryBool screensaver_;
 	OptionEntryBool nooptions_;
 	OptionEntryBool console_;
+	OptionEntryBool allowexceptions_;
 	OptionEntryBool help_;
 	OptionEntryInt seed_;
 	bool SDLInitVideo_;

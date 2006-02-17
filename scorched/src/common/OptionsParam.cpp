@@ -60,7 +60,9 @@ OptionsParam::OptionsParam() :
 	console_(options_, "console",
 		"Run the server in a console (non-gui) mode", 0, false),
 	loadmodfiles_(options_, "loadmodfiles",
-		"Loads the mod files even in a non-network game", 0, false)
+		"Loads the mod files even in a non-network game", 0, false),
+	allowexceptions_(options_, "allowexceptions",
+		"Allows any program exceptions to be thrown (core dumps)", 0, false)
 {
 
 }

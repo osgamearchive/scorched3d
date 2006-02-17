@@ -41,7 +41,6 @@
 
 extern char scorched3dAppName[128];
 static wxFrame *mainDialog = 0;
-static char exeName[1024];
 bool wxWindowExit = false;
 
 enum
@@ -73,12 +72,6 @@ void addTitleToWindow(
 		boxSizer->Add(button, 0, wxALL, 5);
 		sizer->Add(boxSizer, 0, wxALIGN_CENTER | wxALL, 5);
 	}
-}
-
-void setExeName(const char *name, bool allowExceptions)
-{
-	snprintf(exeName, sizeof(exeName), "%s%s", name,
-		allowExceptions? " -allowexceptions":"");
 }
 
 static SDL_mutex *messageMutex_ = 0;
@@ -137,8 +130,9 @@ void showURL(const char *url)
 void runScorched3D(const char *text)
 {
 	char path[1024];
-	snprintf(path, 1024, "%s -settingsdir %s %s", 
-		exeName, 
+	snprintf(path, 1024, "%s %s -settingsdir %s %s", 
+		getExeName(), 
+		(OptionsParam::instance()->getAllowExceptions()?" -allowexceptions":""),
 		OptionsParam::instance()->getSettingsDir(), 
 		text);
 

@@ -26,12 +26,25 @@
 #include <common/DefinesFile.h>
 #include <common/DefinesString.h>
 #include <common/DefinesAssert.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "40";
 char *ScorchedProtocolVersion = "ca";
+static char exeName[1024];
 static char *dataModFile = 0;
 static std::string settingsDir = ".scorched3d";
+
+void setExeName(const char *name)
+{
+	snprintf(exeName, sizeof(exeName), "%s", name);
+}
+
+const char *getExeName()
+{
+	return exeName;
+}
 
 void setSettingsDir(const char *dir)
 {
@@ -60,6 +73,27 @@ const char *getDataFileMod()
 #define S3D_BINDIR "."
 #endif
 
+static const char *GET_DIR(char *dir)
+{
+	if (dir[0] == '.')
+	{
+		static char path[1024];
+#ifdef _WIN32
+			GetCurrentDirectory(sizeof(path), path);
+#else
+			getcwd(path, sizeof(path));
+#endif // _WIN32
+		dir = path;
+
+		/*dir = (char *) formatString("%s", getExeName());
+		s3d_fileDos2Unix(dir);
+		char *ch = strrchr(dir, '/');
+		if (ch) *ch = '\0';
+		else dir = ".";*/
+	}
+	return dir;
+}
+
 const char *getDataFile(const char *filename)
 {
 	static char buffer[1024];
@@ -72,7 +106,7 @@ const char *getDataFile(const char *filename)
 	s3d_fileDos2Unix(buffer);
 	if (s3d_fileExists(buffer)) return buffer;
 
-	snprintf(buffer, 1024, S3D_DATADIR "/%s", filename);
+	snprintf(buffer, 1024, "%s/%s", GET_DIR(S3D_DATADIR), filename);
 	s3d_fileDos2Unix(buffer);
 
 	return buffer;
@@ -97,7 +131,7 @@ extern bool checkDataFile(const char *filename)
 const char *getDocFile(const char *filename)
 {
 	static char buffer[1024];
-	snprintf(buffer, 1024, S3D_DOCDIR "/%s", filename);
+	snprintf(buffer, 1024, "%s/%s", GET_DIR(S3D_DOCDIR), filename);
 	s3d_fileDos2Unix(buffer);
 	return buffer;
 }
@@ -107,7 +141,7 @@ const char *getHomeFile(const char *filename)
 	static std::string homeDir;
 	if (!homeDir.c_str()[0])
 	{
-		homeDir = S3D_DATADIR;
+		homeDir = GET_DIR(S3D_DATADIR);
 		if (s3d_dirExists(s3d_getHomeDir()))
 		{
 			homeDir = s3d_getHomeDir();
@@ -192,7 +226,7 @@ const char *getModFile(const char *filename)
 const char *getGlobalModFile(const char *filename)
 {
 	static char buffer[1024];
-	snprintf(buffer, 1024, S3D_DATADIR "/data/globalmods/%s", filename);
+	snprintf(buffer, 1024, "%s/data/globalmods/%s", GET_DIR(S3D_DATADIR), filename);
 	s3d_fileDos2Unix(buffer);
 	return buffer;
 }

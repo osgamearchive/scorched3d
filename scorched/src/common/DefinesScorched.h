@@ -21,9 +21,11 @@
 #ifndef __DEFINESSCORCHED__
 #define __DEFINESSCORCHED__
 
+extern void setExeName(const char *name);
 extern void setSettingsDir(const char *dir);
 extern void setDataFileMod(const char *mod);
 extern const char *getDataFileMod();
+extern const char *getExeName();
 
 extern bool checkDataFile(const char *filename);
 extern const char *getDataFile(const char *filename);
