@@ -64,10 +64,10 @@ public:
 		int mx, int my, int x, int y, bool &skipRest);
 
 	// Inherited from GLMenuI
-	virtual void getMenuItems(const char* menuName, 
+	virtual bool getMenuItems(const char* menuName, 
 		std::list<GLMenuItem> &result);
 	virtual void menuSelection(const char* menuName, 
-		const int position, const char *menuItem);
+		const int position, GLMenuItem &item);
 
 protected:
 	static GLWWindowManager *instance_;

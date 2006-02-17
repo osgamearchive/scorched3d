@@ -23,9 +23,11 @@
 GLMenuItem::GLMenuItem(const char *text, 
 	GLWTip *tooltip, 
 	bool selected,
-	GLTexture *texture) : 
+	GLTexture *texture,
+	void *userData) : 
 	menuText_(text), tip_(tooltip), 
-	selected_(selected), texture_(texture)
+	selected_(selected), texture_(texture),
+	userData_(userData)
 {
 }
 
@@ -36,11 +38,12 @@ GLMenuI::~GLMenuI()
 
 const char *GLMenuI::getMenuText(const char* menuName)
 {
-	return "NO TEXT";
+	return 0;
 }
 
-void GLMenuI::getMenuItems(const char* menuName, std::list<GLMenuItem> &result)
+bool GLMenuI::getMenuItems(const char* menuName, std::list<GLMenuItem> &result)
 {
+	return false;
 }
 
 bool GLMenuI::getEnabled(const char* menuName)
@@ -48,7 +51,12 @@ bool GLMenuI::getEnabled(const char* menuName)
 	return true;
 }
 
-void GLMenuI::menuSelection(const char* menuName, const int position, const char *menuItem)
+void GLMenuI::menuSelection(const char* menuName, const int position, GLMenuItem &item)
 {
 
+}
+
+bool GLMenuI::menuOpened(const char* menuName)
+{
+	return true;
 }

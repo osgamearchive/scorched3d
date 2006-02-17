@@ -21,11 +21,13 @@
 #include <GLEXT/GLMenu.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
+#include <GLEXT/GLMenuEntry.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
+#include <common/OptionsDisplay.h>
 
-GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 25.0f, 0, "")
+GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 32.0f, 0, "")
 {
 	windowLevel_ = 20000;
 }
@@ -46,13 +48,17 @@ GLMenuEntry *GLMenu::getMenu(char *menuItem)
 	return 0;
 }
 
-bool GLMenu::addMenu(char *menuName, float width, unsigned int state,
-	GLMenuI *selectFn, GLMenuI *textFn, GLMenuI *subMenuFn, GLMenuI *enabledFn)
+bool GLMenu::addMenu(char *menuName, 
+	float width, 
+	unsigned int state,
+	GLMenuI *callback,
+	GLBitmap *icon,
+	unsigned int flags)
 {
 	if (getMenu(menuName)) return false;
 
 	GLMenuEntry *entry = new GLMenuEntry(menuName, width, state, 
-		selectFn, textFn, subMenuFn, enabledFn);
+		callback, icon, flags);
 	menuList_[std::string(menuName)] = entry;
 	return true;
 }
@@ -89,9 +95,14 @@ void GLMenu::draw()
 		}
 	}	
 
-	int x = ScorchedClient::instance()->getGameState().getMouseX();
-	int y = ScorchedClient::instance()->getGameState().getMouseY();
-	if (selected || GLWWindowManager::instance()->getFocus(x, y) == getId())
+	bool show = true;
+	if (OptionsDisplay::instance()->getHideMenus())
+	{
+		int x = ScorchedClient::instance()->getGameState().getMouseX();
+		int y = ScorchedClient::instance()->getGameState().getMouseY();
+		show = (selected || GLWWindowManager::instance()->getFocus(x, y) == getId());
+	}
+	if (show)
 	{
 		GLfloat currentWidth = 0.0f;
 		std::map<std::string, GLMenuEntry *>::iterator itor;
@@ -100,18 +111,41 @@ void GLMenu::draw()
 			itor++)
 		{
 			GLMenuEntry *entry = itor->second;
-			if (entry->getState() == 0 ||
-				entry->getState() == currentState)
+			if (!(entry->getFlags() & eMenuAlignRight))
 			{
-				if (!entry->getEnabledFn() || 
-					entry->getEnabledFn()->getEnabled(entry->getName()))
+				if (entry->getState() == 0 ||
+					entry->getState() == currentState)
 				{
-					entry->draw(*GLWFont::instance()->getLargePtFont(), 
-						currentTop - 1.0f, currentWidth);
-					currentWidth += entry->getWidth() + 1.0f;
+					if (entry->getCallback()->getEnabled(entry->getName()))
+					{
+						entry->draw(
+							currentTop - 1.0f, currentWidth);
+						currentWidth += entry->getWidth() + 1.0f;
+					}
 				}
 			}
-		}		
+		}	
+
+		currentWidth = (float) GLViewPort::getWidth();
+		for (itor = menuList_.begin();
+			itor != menuList_.end();
+			itor++)
+		{
+			GLMenuEntry *entry = itor->second;
+			if (entry->getFlags() & eMenuAlignRight)
+			{
+				if (entry->getState() == 0 ||
+					entry->getState() == currentState)
+				{
+					if (entry->getCallback()->getEnabled(entry->getName()))
+					{
+						currentWidth -= entry->getWidth() + 1.0f;
+						entry->draw(
+							currentTop - 1.0f, currentWidth);
+					}
+				}
+			}
+		}	
 	}
 }
 

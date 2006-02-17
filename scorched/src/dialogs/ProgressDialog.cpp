@@ -131,7 +131,7 @@ void ProgressDialog::draw()
 				14.0f, 20.0f, 33.0f, 0.0f, 
 				progressLabel_->getText());
 
-			HelpButtonDialog::instance()->getHelpTexture().draw();
+			HelpButtonDialog::instance()->helpMenu_.getHelpTexture().draw();
 			glPushMatrix();
 				glColor3f(1.0f, 1.0f, 1.0f);
 				glTranslatef(18.0f, -11.0f, 0.0f);

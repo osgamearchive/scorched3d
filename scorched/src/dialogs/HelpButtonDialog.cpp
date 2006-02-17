@@ -20,12 +20,14 @@
 
 #include <scorched/MainDialog.h>
 #include <scorched/HtmlHelpDialog.h>
+#include <dialogs/MainMenuDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <sound/Sound.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLMenu.h>
 
 HelpButtonDialog *HelpButtonDialog::instance_ = 0;
 
@@ -38,130 +40,88 @@ HelpButtonDialog *HelpButtonDialog::instance()
 	return instance_;
 }
 
-HelpButtonDialog::HelpButtonDialog() : 
-	GLWWindow("", 0.0f, 10.0f, 64.0f, 32.0f, 0, "")
+HelpButtonDialog::HelpButtonDialog()
 {
-	windowLevel_ = 200000;
 }
 
 HelpButtonDialog::~HelpButtonDialog()
 {
 }
 
-GLTexture &HelpButtonDialog::getHelpTexture()
+HelpButtonDialog::HelpMenu::HelpMenu()
+{
+	GLBitmap *map = new GLBitmap(
+		formatString(getDataFile("data/windows/help.bmp")),
+		formatString(getDataFile("data/windows/helpa.bmp")),
+		false);
+	DIALOG_ASSERT(map->getBits());
+	MainMenuDialog::instance()->
+		addMenu("Help", 32.0f, 0, this, map,
+		GLMenu::eMenuAlignRight);
+}
+
+GLTexture &HelpButtonDialog::HelpMenu::getHelpTexture()
 {
 	if (!helpTexture_.textureValid())
 	{
-		std::string file = getDataFile("data/windows/help.bmp");
-		std::string filea = getDataFile("data/windows/helpa.bmp");
-		GLBitmap map(file.c_str(), filea.c_str(), false);
+		GLBitmap map(
+			formatString(getDataFile("data/windows/help.bmp")),
+			formatString(getDataFile("data/windows/helpa.bmp")),
+			false);
 		helpTexture_.create(map, GL_RGBA, false);
 	}
 	return helpTexture_;
 }
 
-void HelpButtonDialog::draw()
+bool HelpButtonDialog::HelpMenu::menuOpened(const char* menuName)
 {
-	getHelpTexture();
-	if (!soundTexture_.textureValid())
-	{
-		std::string file = getDataFile("data/windows/sound.bmp");
-		std::string filea = getDataFile("data/windows/sounda.bmp");
-		GLBitmap map(file.c_str(), filea.c_str(), false);
-		soundTexture_.create(map, GL_RGBA, false);
-	}
-
-	setY(float(GLViewPort::getHeight()) - h_);
-	setX(float(GLViewPort::getWidth()) - w_);
-
-	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);
-
-	glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
-	soundTexture_.draw();
-	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex2f(x_, y_);
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex2f(x_ + 32.0f, y_);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex2f(x_ + 32.0f, y_ + 32.0f);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex2f(x_, y_ + 32.0f);
-	glEnd();
-
-	helpTexture_.draw();
-	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex2f(x_ + 32.0f, y_);
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex2f(x_ + 64.0f, y_);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex2f(x_ + 64.0f, y_ + 32.0f);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex2f(x_ + 32.0f, y_ + 32.0f);
-	glEnd();
+	showHtmlHelpDialog();
+	return false;
 }
 
-void HelpButtonDialog::mouseDown(float x, float y, bool &skipRest)
+HelpButtonDialog::VolumeMenu::VolumeMenu()
 {
-	if (inBox(x, y, x_, y_, w_, h_))
+	GLBitmap *map = new GLBitmap(
+		formatString(getDataFile("data/windows/sound.bmp")),
+		formatString(getDataFile("data/windows/sounda.bmp")),
+		false);
+	DIALOG_ASSERT(map->getBits());
+	MainMenuDialog::instance()->
+		addMenu("Volume", 32.0f, 0, this, map,
+		GLMenu::eMenuAlignRight);
+}
+
+bool HelpButtonDialog::VolumeMenu::getMenuItems(const char* menuName, std::list<GLMenuItem> &result)
+{
+	if (OptionsDisplay::instance()->getNoSound())
 	{
-		skipRest = true;
-		if (x > x_ + 32)
+		int i = -1;
+		result.push_back(
+				GLMenuItem(
+					"Sound Off", 
+					0, true, 0, (void *) i));
+	}
+	else
+	{
+		for (int i=0; i<=10; i++)
 		{
-			showHtmlHelpDialog();
-			//runScorched3D("-starthelp");
-		}
-		else
-		{
-			std::list<GLWSelectorEntry> entries;
-
-			if (OptionsDisplay::instance()->getNoSound())
-			{
-				int i = -1;
-				entries.push_back(
-						GLWSelectorEntry(
-							"Sound Off", 
-							0, true, 0, (void *) i));
-			}
-			else
-			{
-				for (int i=0; i<=10; i++)
-				{
-					int volume = int(float(i) * 12.8f);
-					bool selected = 
-						(OptionsDisplay::instance()->getSoundVolume() >= volume &&
-						OptionsDisplay::instance()->getSoundVolume() < volume + 12);
-					entries.push_back(
-						GLWSelectorEntry(
-							formatString("Volume : %i", i * 10), 
-							0, selected, 0, (void *) i));
-				}
-			}
-
-			GLWSelector::instance()->showSelector(
-				this, x, y, entries);
+			int volume = int(float(i) * 12.8f);
+			bool selected = 
+				(OptionsDisplay::instance()->getSoundVolume() >= volume &&
+				OptionsDisplay::instance()->getSoundVolume() < volume + 12);
+			result.push_back(
+				GLMenuItem(
+					formatString("Volume : %i", i * 10), 
+					0, selected, 0, (void *) i));
 		}
 	}
+	return true;
 }
 
-void HelpButtonDialog::mouseUp(float x, float y, bool &skipRest)
+void HelpButtonDialog::VolumeMenu::menuSelection(const char* menuName, 
+	const int position, GLMenuItem &item)
 {
-}
-
-void HelpButtonDialog::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
-{
-}
-
-void HelpButtonDialog::keyDown(char *buffer, unsigned int keyState,
-	KeyboardHistory::HistoryElement *history, int hisCount, 
-	bool &skipRest)
-{
-}
-
-void HelpButtonDialog::itemSelected(GLWSelectorEntry *entry, int position)
-{
-	int data = (int) entry->getUserData();
+	int data = (int) item.getUserData();
 	if (data != -1)
 	{
 		int volume = int(float(data) * 12.8f);

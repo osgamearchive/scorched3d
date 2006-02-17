@@ -36,18 +36,21 @@ class GLMenuItem
 public:
 	GLMenuItem(const char *text, 
 		GLWTip *tooltip = 0, bool selected = false, 
-		GLTexture *texture = 0);
+		GLTexture *texture = 0,
+		void *userData = 0);
 
 	const char *getText() { return menuText_.c_str(); }
 	GLWTip *getToolTip() { return tip_; }
 	GLTexture *getTexture() { return texture_; }
 	bool getSelected() { return selected_; }
+	void *getUserData() { return userData_; }
 
 protected:
 	std::string menuText_;
 	GLWTip *tip_;
 	GLTexture *texture_;
 	bool selected_;
+	void *userData_;
 };
 
 class GLMenuI  
@@ -55,10 +58,11 @@ class GLMenuI
 public:
 	virtual ~GLMenuI();
 
-	virtual void menuSelection(const char* menuName, const int position, const char *menuItem);
+	virtual void menuSelection(const char* menuName, const int position, GLMenuItem &item);
 	virtual const char *getMenuText(const char* menuName);
 	virtual bool getEnabled(const char* menuName);
-	virtual void getMenuItems(const char* menuName, std::list<GLMenuItem> &result);
+	virtual bool getMenuItems(const char* menuName, std::list<GLMenuItem> &result);
+	virtual bool menuOpened(const char* menuName);
 };
 
 #endif // !defined(AFX_GLMENUI_H__7171A46C_8265_4A9F_A984_889EF2547CB1__INCLUDED_)

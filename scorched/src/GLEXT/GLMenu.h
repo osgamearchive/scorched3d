@@ -22,20 +22,28 @@
 #define AFX_GLMENU_H__ED2E8B2C_46B3_400F_A3E2_FC1B53732D15__INCLUDED_
 
 #include <map>
-#include <GLEXT/GLMenuEntry.h>
 #include <GLW/GLWWindow.h>
+#include <GLEXT/GLMenuI.h>
 
+class GLBitmap;
+class GLMenuEntry;
 class GLMenu : public GLWWindow
 {
 public:
+	enum MenuFlags
+	{
+		eMenuAlignRight = 1
+	};
+
 	GLMenu();
 	virtual ~GLMenu();
 
-	bool addMenu(char *menuName, float width, unsigned int state,
-		GLMenuI *selectFn,
-		GLMenuI *textFn = 0, 
-		GLMenuI *subMenuFn = 0,
-		GLMenuI *enabledFn = 0);
+	bool addMenu(char *menuName, 
+		float width, 
+		unsigned int state,
+		GLMenuI *callback,
+		GLBitmap *icon = 0,
+		unsigned int flags = 0);
 	bool addMenuItem(char *menuName, const GLMenuItem item);
 
 	virtual void draw();

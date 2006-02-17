@@ -21,45 +21,50 @@
 #if !defined(AFX_GLMENUENTRY_H__5AE3319D_D83E_4392_BABB_7E34B2D69BD8__INCLUDED_)
 #define AFX_GLMENUENTRY_H__5AE3319D_D83E_4392_BABB_7E34B2D69BD8__INCLUDED_
 
-#include <GLEXT/GLMenuI.h>
-#include <GLEXT/GLFont2d.h>
+#include <GLEXT/GLMenu.h>
 #include <GLW/GLWSelector.h>
 
+class GLTexture;
+class GLBitmap;
 class GLMenuEntry : public GLWSelectorI
 {
 public:
-	GLMenuEntry(char *name, float width, 
+	GLMenuEntry(char *menuName, 
+		float width, 
 		unsigned int state,
-		GLMenuI *selectFn, 
-		GLMenuI *textFn, 
-		GLMenuI *subMenuFn,
-		GLMenuI *enabledFn);
+		GLMenuI *callback,
+		GLBitmap *icon,
+		unsigned int flags);
 	virtual ~GLMenuEntry();
 
 	bool click(float currentTop, int x, int y);
 	unsigned int getState() { return state_; }
-	void draw(GLFont2d &font, float currentTop, float currentLeft);
+	void draw(float currentTop, float currentLeft);
 
 	void addMenuItem(GLMenuItem &item);
 	float getWidth() { return width_; }
 	bool getSelected() { return selected_; }
 	const char *getName() { return menuName_.c_str(); }
-	GLMenuI *getEnabledFn() { return enabledFn_; }
+	GLMenuI *getCallback() { return callback_; }
+	unsigned int getFlags() { return flags_; }
 
 	virtual void itemSelected(GLWSelectorEntry *entry, int position);
 	virtual void noItemSelected();
 
 protected:
-	float left_;
+	bool selected_;
+	float left_, top_;
 	float width_, height_;
 	unsigned int state_;
-	bool selected_;
-	GLMenuI *selectFn_;
-	GLMenuI *textFn_;
-	GLMenuI *subMenuFn_;
-	GLMenuI *enabledFn_;
+	unsigned int flags_;
+	GLMenuI *callback_;
+	GLTexture *texture_;
+	GLBitmap *icon_;
 	std::list<GLMenuItem> menuItems_;
 	std::string menuName_;
+
+	void drawText();
+	void drawIcon();
 
 };
 

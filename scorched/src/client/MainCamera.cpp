@@ -51,7 +51,13 @@ MainCamera *MainCamera::instance()
 
 MainCamera::MainCamera() : scrollTime_(0.0f)
 {
-	MainMenuDialog::instance()->addMenu("Camera", 90, 0, this, 0, this);
+	GLBitmap *map = new GLBitmap(
+		formatString(getDataFile("data/windows/camera.bmp")),
+		formatString(getDataFile("data/windows/cameraa.bmp")),
+		false);
+	DIALOG_ASSERT(map->getBits());
+	MainMenuDialog::instance()->addMenu(
+		"Camera", 32, 0, this, map);
 }
 
 MainCamera::~MainCamera()
@@ -59,7 +65,7 @@ MainCamera::~MainCamera()
 
 }
 
-void MainCamera::getMenuItems(const char* menuName, 
+bool MainCamera::getMenuItems(const char* menuName, 
 	std::list<GLMenuItem> &result)
 {
 	for (int i=0; i<TargetCamera::getNoCameraNames(); i++)
@@ -69,10 +75,11 @@ void MainCamera::getMenuItems(const char* menuName,
 			(targetCam_.getCameraType() == 
 			(TargetCamera::CamType) i)));
 	}
+	return true;
 }
 
 void MainCamera::menuSelection(const char* menuName, 
-	const int position, const char *menuItem)
+	const int position, GLMenuItem &item)
 {
 	targetCam_.setCameraType((TargetCamera::CamType) position);
 }

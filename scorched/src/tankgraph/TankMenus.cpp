@@ -224,8 +224,14 @@ void TankMenus::showTankDetails()
 
 TankMenus::PlayerMenu::PlayerMenu()
 {
-	MainMenuDialog::instance()->addMenu("Player", 90, 
-		ClientState::StimPlaying, this, 0, 0, this);
+	GLBitmap *map = new GLBitmap(
+		formatString(getDataFile("data/windows/screen.bmp")),
+		formatString(getDataFile("data/windows/screena.bmp")),
+		false);
+	DIALOG_ASSERT(map->getBits());
+	MainMenuDialog::instance()->addMenu("Player", 32, 
+		ClientState::StimPlaying, this, map);
+
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Skip Move",
 		new GLWTip("Skip Move", 
@@ -251,7 +257,7 @@ TankMenus::PlayerMenu::PlayerMenu()
 }
 
 void TankMenus::PlayerMenu::menuSelection(const char* menuName, 
-	const int position, const char *menuItem)
+	const int position, GLMenuItem &item)
 {
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
@@ -300,15 +306,19 @@ bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 }
 
 // Accessory Menus
-
 TankMenus::AccessoryMenu::AccessoryMenu()
 {
-	MainMenuDialog::instance()->addMenu("Weapons", 90, 
-		ClientState::StimPlaying, this, 0, this, this);
+	GLBitmap *map = new GLBitmap(
+		formatString(getDataFile("data/windows/screen.bmp")),
+		formatString(getDataFile("data/windows/screena.bmp")),
+		false);
+	DIALOG_ASSERT(map->getBits());
+	MainMenuDialog::instance()->addMenu("Weapons", 32, 
+		ClientState::StimPlaying, this, map);
 }
 
 void TankMenus::AccessoryMenu::menuSelection(const char* menuName, 
-											 const int position, const char *menuItem)
+	const int position, GLMenuItem &item)
 {
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
@@ -360,12 +370,12 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 	}
 }
 
-void TankMenus::AccessoryMenu::getMenuItems(const char* menuName, 
+bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName, 
 											std::list<GLMenuItem> &result)
 {
 	menuItems_.clear();
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (!firstTank) return;
+	if (!firstTank) return true;
 
 	AccessoryPart::AccessoryType lastType = AccessoryPart::AccessoryWeapon;
 	std::list<Accessory *> tankAccessories = 
@@ -429,6 +439,7 @@ void TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 				sel,
 				accessory->getTexture()));
 	}
+	return true;
 }
 
 bool TankMenus::AccessoryMenu::getEnabled(const char* menuName)

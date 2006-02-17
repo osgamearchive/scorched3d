@@ -21,111 +21,157 @@
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLMenuEntry.h>
+#include <GLEXT/GLTexture.h>
+#include <GLEXT/GLBitmap.h>
 #include <GLW/GLWidget.h>
+#include <GLW/GLWFont.h>
 
 static Vector color(0.9f, 0.9f, 1.0f);
 static Vector itemcolor(0.1f, 0.1f, 0.4f);
 static const float menuItemHeight = 20.0f;
 
 GLMenuEntry::GLMenuEntry(
-	char *name, float width, 
+	char *menuName, 
+	float width, 
 	unsigned int state,
-	GLMenuI *selectFn, 
-	GLMenuI *textFn, 
-	GLMenuI *subMenuFn,
-	GLMenuI *enabledFn) :
+	GLMenuI *callback,
+	GLBitmap *icon,
+	unsigned int flags) :
 	left_(0.0f), width_(width), height_(0.0f),
-	selectFn_(selectFn), textFn_(textFn), 
-	subMenuFn_(subMenuFn), enabledFn_(enabledFn),
-	menuName_(name), state_(state), selected_(false)
+	callback_(callback),
+	menuName_(menuName), state_(state), selected_(false),
+	texture_(0), icon_(icon), flags_(flags)
 {
 }
 
 GLMenuEntry::~GLMenuEntry()
 {
+	delete icon_;
+	delete texture_;
 }
 
-void GLMenuEntry::draw(GLFont2d &font, float currentTop, float currentLeft)
+void GLMenuEntry::draw(float currentTop, float currentLeft)
 {
 	left_ = currentLeft;
+	top_ = currentTop;
 	height_ = 0.0f;
+
+	if (icon_)
+	{
+		drawIcon();
+	}
+	else
+	{
+		drawText();
+	}
+}
+
+void GLMenuEntry::drawIcon()
+{
+	if (icon_)
+	{
+		texture_ = new GLTexture();
+		texture_->create(*icon_, GL_RGBA, false);
+	}
+
+	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);
+
+	glColor4f(1.0f, 1.0f, 1.0f, selected_?1.0f:0.5f);
+	texture_->draw();
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(left_, top_ - 32.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(left_ + 32.0f, top_ - 32.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(left_ + 32.0f, top_);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2f(left_, top_);
+	glEnd();
+}
+
+void GLMenuEntry::drawText()
+{
 
 	// Draw the menu backdrops
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
 		glBegin(GL_TRIANGLE_FAN);
-			glVertex2f(currentLeft + 10.0f, currentTop - 10.0f);
-			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
-			GLWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
+			glVertex2f(left_ + 10.0f, top_ - 10.0f);
+			glVertex2f(left_ + 10.0f, top_ - menuItemHeight);
+			GLWidget::drawRoundBox(left_, top_ - menuItemHeight, 
 				width_, menuItemHeight, 10.0f);
-			glVertex2f(currentLeft + 10.0f, currentTop - menuItemHeight);
+			glVertex2f(left_ + 10.0f, top_ - menuItemHeight);
 		glEnd();
 
 		glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
 		glLineWidth(2.0f);
 		glBegin(GL_LINE_LOOP);
-			GLWidget::drawRoundBox(currentLeft, currentTop - menuItemHeight, 
+			GLWidget::drawRoundBox(left_, top_ - menuItemHeight, 
 				width_, menuItemHeight, 10.0f);
 		glEnd();
 		glLineWidth(1.0f);
 	}
 
 	// Get and print the menu title text
-	char *menuTitle = 0;
-	if (textFn_)
-	{
-		// If there is a fn defined to draw the menu title use it
-		menuTitle = (char *) textFn_->getMenuText(menuName_.c_str());
-	}
+	char *menuTitle = (char *) callback_->getMenuText(menuName_.c_str());
 	if (!menuTitle)
 	{
 		// Else default to the name of the menu
 		menuTitle = (char *) menuName_.c_str();
 	}
 
-	font.draw((selected_?color:itemcolor), 12, currentLeft + 5.0f, 
-		currentTop - 15.0f, 0.0f, menuTitle);
+	GLWFont::instance()->getLargePtFont()->
+		draw((selected_?color:itemcolor), 12, left_ + 5.0f, 
+			top_ - 15.0f, 0.0f, menuTitle);
 }
 
 bool GLMenuEntry::click(float currentTop, int x, int y)
 {
-	if (y > currentTop - menuItemHeight &&
+	float height = menuItemHeight;
+	if (icon_) height = 32.0f;
+
+	if (y > currentTop - height &&
 		x>left_ && x<left_ + width_) 
 	{
-		selected_ = true;
+		if (callback_->menuOpened(menuName_.c_str()))
+		{
+			selected_ = true;
+			
+			// Get the contents of the menu
+			std::list<GLMenuItem> tmpMenuItems;
+			if (callback_->getMenuItems(menuName_.c_str(), tmpMenuItems))
+			{
+				menuItems_ = tmpMenuItems;
+			}
 		
-		// Get the contents of the menu
-		if (subMenuFn_)
-		{
-			menuItems_.clear();
-			subMenuFn_->getMenuItems(menuName_.c_str(), menuItems_);
-		}
-	
-		// Show the menu
-		std::list<GLWSelectorEntry> entries;
-		std::list<GLMenuItem>::iterator itor;
-		for (itor = menuItems_.begin();
-			itor != menuItems_.end();
-			itor++)
-		{
-			GLMenuItem &item = (*itor);
-			entries.push_back(
-				GLWSelectorEntry(
-					item.getText(),
-					item.getToolTip(),
-					item.getSelected(),
-					item.getTexture()
-					)
-				);
-		}
-		GLWSelector::instance()->showSelector(
-			this, 
-			left_, currentTop - (menuItemHeight + 10.0f), 
-			entries,
-			state_);
+			// Show the menu
+			std::list<GLWSelectorEntry> entries;
+			std::list<GLMenuItem>::iterator itor;
+			for (itor = menuItems_.begin();
+				itor != menuItems_.end();
+				itor++)
+			{
+				GLMenuItem &item = (*itor);
+				entries.push_back(
+					GLWSelectorEntry(
+						item.getText(),
+						item.getToolTip(),
+						item.getSelected(),
+						item.getTexture(),
+						item.getUserData()
+						)
+					);
+			}
+			GLWSelector::instance()->showSelector(
+				this, 
+				left_, currentTop - (height + 10.0f), 
+				entries,
+				state_);
 
-		return true;
+			return true;
+		}
 	}
 
 	return false;
@@ -144,6 +190,19 @@ void GLMenuEntry::noItemSelected()
 void GLMenuEntry::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	selected_ = false;
-	selectFn_->menuSelection(menuName_.c_str(), position, entry->getText());
-}
+	GLMenuItem item("None");
 
+	int pos = 0;
+	std::list<GLMenuItem>::iterator itor;
+	for (itor = menuItems_.begin();
+		itor != menuItems_.end();
+		itor++, pos++)
+	{
+		if (pos == position)
+		{
+			item = (*itor);
+		}
+	}
+
+	callback_->menuSelection(menuName_.c_str(), position, item);
+}

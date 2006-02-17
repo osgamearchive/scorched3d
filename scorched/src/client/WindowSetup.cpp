@@ -102,11 +102,8 @@ void WindowSetup::addCommonComponents(unsigned state)
 	GLWWindowManager::instance()->addWindow(state, 
 		TalkSettingsDialog::instance(), 0, false);
 
-	if (state != ClientState::StateScore)
-	{
-		GLWWindowManager::instance()->addWindow(state, 
-			MainMenuDialog::instance(), 0, true);
-	}
+	GLWWindowManager::instance()->addWindow(state, 
+		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(state,
 		GLWSelector::instance(), 0, true);
 
@@ -120,9 +117,6 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	GLWWindowManager::instance()->addWindow(state, 
 		RulesDialog::instance(), rulesKey, true);
-
-	GLWWindowManager::instance()->addWindow(state, 
-		HelpButtonDialog::instance(), 0, true);
 }
 
 void WindowSetup::setupStartWindows()
@@ -144,6 +138,8 @@ void WindowSetup::setupStartWindows()
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+		MainMenuDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		GLWSelector::instance(), 0, true);
 
 	// StateDisconnected
@@ -155,6 +151,8 @@ void WindowSetup::setupStartWindows()
 		LogDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		ConnectDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		GLWSelector::instance(), 0, true);
 
@@ -198,8 +196,6 @@ void WindowSetup::setupGameWindows()
 		RulesDialog::instance(), rulesKey, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		QuitDialog::instance(), quitKey, false);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
-		HelpButtonDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 

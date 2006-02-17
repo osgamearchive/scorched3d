@@ -54,8 +54,8 @@ public:
 
 	// Inherited from GLMenuI
 	virtual void menuSelection(const char* menuName, 
-		const int position, const char *menuItem);
-	virtual void getMenuItems(const char* menuName, 
+		const int position, GLMenuItem &item);
+	virtual bool getMenuItems(const char* menuName, 
 		std::list<GLMenuItem> &result);
 
 	// Class to save the screen shots

@@ -46,6 +46,7 @@
 #include <client/ClientKeepAliveSender.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
+#include <dialogs/HelpButtonDialog.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
@@ -164,6 +165,7 @@ bool startClient(ProgressCounter *progressCounter)
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");
 	WindowSetup::setupStartWindows();
+	HelpButtonDialog::instance();
 	
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))

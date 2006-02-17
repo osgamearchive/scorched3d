@@ -21,34 +21,42 @@
 #if !defined(__INCLUDE_HelpButtonDialogh_INCLUDE__)
 #define __INCLUDE_HelpButtonDialogh_INCLUDE__
 
-#include <GLW/GLWWindow.h>
-#include <GLW/GLWSelector.h>
 #include <GLEXT/GLTexture.h>
+#include <GLEXT/GLMenuI.h>
 
-class HelpButtonDialog : public GLWWindow,
-	public GLWSelectorI
+class HelpButtonDialog
 {
 public:
 	static HelpButtonDialog *instance();
 
-	GLTexture &getHelpTexture();
+	struct HelpMenu : public GLMenuI
+	{
+		HelpMenu();
+
+		// Inherited from GLMenuI
+		virtual bool menuOpened(const char* menuName);
+		GLTexture &getHelpTexture();
+
+	protected:
+		GLTexture helpTexture_;
+	} helpMenu_;
+
+	struct VolumeMenu : public GLMenuI
+	{
+		VolumeMenu();
+
+		// Inherited from GLMenuI
+		virtual void menuSelection(const char* menuName, 
+			const int position, GLMenuItem &item);
+		virtual bool getMenuItems(const char* menuName, 
+			std::list<GLMenuItem> &result);
+
+		GLTexture soundTexture_;
+
+	} volumeMenu_;
 
 protected:
 	static HelpButtonDialog *instance_;
-	GLTexture helpTexture_;
-	GLTexture soundTexture_;
-
-	// GLWSelectorI
-	virtual void itemSelected(GLWSelectorEntry *entry, int position);
-
-	// GLWWindow
-	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseUp(float x, float y, bool &skipRest);
-	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
-	virtual void keyDown(char *buffer, unsigned int keyState, 
-		KeyboardHistory::HistoryElement *history, int hisCount, 
-		bool &skipRest);
 
 private:
 	HelpButtonDialog();

@@ -43,7 +43,7 @@ protected:
 
 		// Inherited from GLMenuI
 		virtual void menuSelection(const char* menuName, 
-			const int position, const char *menuItem);
+			const int position, GLMenuItem &item);
 		virtual bool getEnabled(const char* menuName);
 	} playerMenu_;	
 
@@ -53,8 +53,8 @@ protected:
 
 		// Inherited from GLMenuI
 		virtual void menuSelection(const char* menuName, 
-			const int position, const char *menuItem);
-		virtual void getMenuItems(const char* menuName, 
+			const int position, GLMenuItem &item);
+		virtual bool getMenuItems(const char* menuName, 
 			std::list<GLMenuItem> &result);
 		virtual bool getEnabled(const char* menuName);
 

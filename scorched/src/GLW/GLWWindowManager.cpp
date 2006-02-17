@@ -20,6 +20,7 @@
 
 #include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLViewPort.h>
+#include <GLEXT/GLBitmap.h>
 #include <dialogs/MainMenuDialog.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
@@ -42,8 +43,14 @@ GLWWindowManager *GLWWindowManager::instance()
 GLWWindowManager::GLWWindowManager() : currentStateEntry_(0)
 {
 	setCurrentEntry(UINT_MAX);
+
+	GLBitmap *map = new GLBitmap(
+		formatString(getDataFile("data/windows/screen.bmp")),
+		formatString(getDataFile("data/windows/screena.bmp")),
+		false);
+	DIALOG_ASSERT(map->getBits());
 	MainMenuDialog::instance()->
-		addMenu("Windows", 90.0f, 0, this, 0, this);
+		addMenu("Windows", 32.0f, 0, this, map);
 }
 
 GLWWindowManager::~GLWWindowManager()
@@ -424,7 +431,7 @@ void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton bu
 	}
 }
 
-void GLWWindowManager::getMenuItems(const char* menuName, 
+bool GLWWindowManager::getMenuItems(const char* menuName, 
 								 std::list<GLMenuItem> &items)
 {
 	if (currentStateEntry_) 
@@ -448,9 +455,11 @@ void GLWWindowManager::getMenuItems(const char* menuName,
 			}
 		}
 	}
+	return true;
 }
 
-void GLWWindowManager::menuSelection(const char* menuName, const int position, const char *menuItem)
+void GLWWindowManager::menuSelection(const char* menuName, 
+	const int position, GLMenuItem &item)
 {
 	if (currentStateEntry_) 
 	{

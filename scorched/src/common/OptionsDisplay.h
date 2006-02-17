@@ -130,6 +130,14 @@ public:
 	void setNoCg(bool value) { noCg_.setValue(value); }	
 	const char *getNoCgToolTip() { return noCg_.getDescription(); }
 
+	bool getHideMenus() { return hideMenus_.getValue(); }
+	void setHideMenus(bool value) { hideMenus_.setValue(value); }	
+	const char *getHideMenusToolTip() { return hideMenus_.getDescription(); }
+
+	bool getFirstTimePlayed() { return firstTimePlayed_.getValue(); }
+	void setFirstTimePlayed(bool value) { firstTimePlayed_.setValue(value); }	
+	const char *getFirstTimePlayedToolTip() { return firstTimePlayed_.getDescription(); }
+
 	bool getDetailTexture() { return detailTexture_.getValue(); }
 	void setDetailTexture(bool value) { detailTexture_.setValue(value); }	
 	const char *getDetailTextureToolTip() { return detailTexture_.getDescription(); }
@@ -467,6 +475,8 @@ protected:
 	OptionEntryInt roamVarianceStart_;
 	OptionEntryInt roamVarianceRamp_;
 	OptionEntryInt roamVarianceTank_;
+	OptionEntryBool firstTimePlayed_;
+	OptionEntryBool hideMenus_;
 	OptionEntryBool noROAM_;
 	OptionEntryBool noBOIDS_;
 	OptionEntryBool noTessalation_;
