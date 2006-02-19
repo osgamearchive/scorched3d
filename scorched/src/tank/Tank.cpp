@@ -20,6 +20,7 @@
 
 #include <math.h>
 #include <tank/Tank.h>
+#include <tank/TankType.h>
 #include <tank/TankColorGenerator.h>
 #include <tankai/TankAIStore.h>
 #include <engine/ScorchedContext.h>
@@ -73,6 +74,10 @@ void Tank::newMatch()
 
 void Tank::newGame()
 {
+	TankType *tankType = 
+		getModel().getTankType(context_);
+	getLife().setMaxLife(tankType->getLife());
+
 	Target::newGame();
 
 	state_.newGame();

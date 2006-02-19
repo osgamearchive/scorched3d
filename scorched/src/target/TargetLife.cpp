@@ -28,7 +28,7 @@
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	context_(context),
 	targetInfo_(CollisionIdTarget),
-	life_(100.0f), maxLife_(100.0f)
+	life_(100.0f), maxLife_(1.0f)
 {
 	// The tank collision object
 	targetGeom_ = 
@@ -45,7 +45,6 @@ TargetLife::~TargetLife()
 
 void TargetLife::newGame()
 {
-	maxLife_ = 1.0f;
 	setLife(maxLife_);
 }
 
