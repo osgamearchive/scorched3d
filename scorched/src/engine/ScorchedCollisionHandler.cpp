@@ -255,24 +255,11 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 			{
 				// Make sure tank we are colliding with is alive
 				Target *target = context_->targetContainer->getTargetById(id);
-				if (target)
+				if (target &&
+					target->getAlive())
 				{
-					if (!target->isTarget())
-					{
-						Tank *tank = (Tank *) target;
-						if (tank &&
-							tank->getState().getState() == TankState::sNormal &&
-							tank->getState().getSpectator() == false)
-						{
-							action = ParticleActionFinished;
-							collisionType = CollisionFinished;
-						}
-					}
-					else
-					{
-						action = ParticleActionFinished;
-						collisionType = CollisionFinished;
-					}
+					action = ParticleActionFinished;
+					collisionType = CollisionFinished;
 				}
 			}
 			else
@@ -492,7 +479,6 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts, double bounceVel, double bounceFactor)
 {
-	// TODO allow the physics to be changed by the server settings
 	dContact contact;
 	contact.surface.mode = dContactBounce;// | dContactSoftCFM;
 	contact.surface.mu = dInfinity;

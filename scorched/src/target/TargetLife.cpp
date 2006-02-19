@@ -45,14 +45,7 @@ TargetLife::~TargetLife()
 
 void TargetLife::newGame()
 {
-	maxLife_ = 10.0f;
-	if (!target_->isTarget())
-	{
-		TankType *tankType = 
-			target_->getModel().getTankType(context_);
-		maxLife_ = tankType->getLife();
-	}
-
+	maxLife_ = 1.0f;
 	setLife(maxLife_);
 }
 

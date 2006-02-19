@@ -158,8 +158,10 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		int rx = int(generator.getRandFloat() * float(groundMapWidth));
-		int ry = int(generator.getRandFloat() * float(groundMapHeight));
+		float lx = generator.getRandFloat() * float(groundMapWidth);
+		float ly = generator.getRandFloat() * float(groundMapHeight);
+		int rx = int(lx);
+		int ry = int(ly);
 		int nx = rx / treeMapMultWidth;
 		int ny = ry / treeMapMultHeight;
 		int r = objectMap[nx + 64 * ny];
@@ -167,8 +169,6 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 
 		if (nr < r)
 		{
-			float lx = float(rx);
-			float ly = float(ry);
 			float height = 
 				context.landscapeMaps->
 					getGroundMaps().getInterpHeight(lx, ly);
@@ -181,6 +181,7 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 				position.position[2] = height;
 				position.size = 0.05f;
 				position.rotation = 0.0f;
+				returnPositions.push_back(position);
 			}
 		}
 	}
