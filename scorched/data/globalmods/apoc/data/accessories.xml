@@ -70,6 +70,7 @@ Capacity: 150 dmg pts | Collision Damage: 10%</description>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>10</removepower>
 			<penetration>0.6666</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -93,6 +94,7 @@ Capacity: 200 dmg pts | Collision Damage: 10%</description>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>10</removepower>
 			<penetration>0.5</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -116,6 +118,7 @@ Capacity: 250 dmg pts | Collision Damage: 10%</description>
 			<collisionsound>shield/hit.wav</collisionsound>
 			<removepower>10</removepower>
 			<penetration>0.4</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -141,6 +144,7 @@ Capacity: 100 dmg pts | Collision Damage: 15%</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>15</removepower>
 			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -166,6 +170,7 @@ Capacity: 150 dmg pts | Collision Damage: 15%</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>15</removepower>
 			<penetration>0.6666</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -192,6 +197,7 @@ Capacity: 125 dmg pts | Collision Damage: Timed</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>4</removepower>
 			<penetration>0.8</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -218,6 +224,7 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 			<collisionsound>shield/hit2.wav</collisionsound>
 			<removepower>4</removepower>
 			<penetration>0.5</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>
