@@ -367,6 +367,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 	<accessory>
 		<name>Gas Station</name>
 		<armslevel>5</armslevel>
+		<description>Gas stations have large tanks of fuel
+which explode and spread fire when ignited.
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
 			<delay>0.25</delay>
@@ -562,6 +564,8 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 	<accessory>
 		<name>Factory</name>
 		<armslevel>4</armslevel>
+		<description>Factories work with deadly chemicals and
+release lethal clouds of gas when destroyed.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
 			<delay>0.25</delay>
@@ -1079,6 +1083,9 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 	<accessory>
 		<name>Nuclear Plant</name>
 		<armslevel>2</armslevel>
+		<description>Nuclear power plants go into meltdown when
+destroyed, releasing a devestating explosion and
+radioactive fallout which travels downwind.
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
 			<delay>0.25</delay>
@@ -5363,8 +5370,8 @@ aimed at enemy tanks.</description>
 				<skin>molten.bmp</skin>
 			</projectilemodel>
 			<projectilescale>0.1</projectilescale>				
-			<smokelife>2.5</smokelife>				
-			<flamelife>1.5</flamelife>
+			<smokelife>3</smokelife>				
+			<flamelife>2</flamelife>
 			<enginesound>none</enginesound>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>

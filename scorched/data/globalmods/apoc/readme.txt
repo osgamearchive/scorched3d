@@ -64,6 +64,7 @@ Changes Since 3.1
         - Added some extra aimed projectiles to Strangelove after ground collision like it used to be pre v3.0
         - Added a small sound for hornets when they sting to replace the flare sound.
         - Added puff of smoke to Instamountain
+        - Added descriptions to the damaging building accessories
         - Increased damage from lasers some
         - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
         - New projectile model for MOAB by Bobirov
@@ -86,6 +87,7 @@ Changes Since 3.1
 	        - Adjusted light levels a bit
 	        - Added view of the Earth
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
+        - Reduced height of Church model by 25%
         - Removed City Blocks map
         
     Other:
