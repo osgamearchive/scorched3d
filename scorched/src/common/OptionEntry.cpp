@@ -208,7 +208,7 @@ bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
 			entryMap.find(name);
 		if (finditor == entryMap.end())
 		{
-			dialogMessage("Scorched3D Options", formatString(
+			Logger::log(formatString(
 				"ERROR: Failed to parse file \"%s\". Cannot find option \"%s\"",
 				currentNode->getSource(), name.c_str()));
 		}
