@@ -49,9 +49,9 @@ OptionsDisplay::OptionsDisplay() :
 	hostDescription_(options_, "HostDescription",
 		"The description of this host given to any servers for stats.", RAccess | NoRestore, ""),
 	onlineUserIcon_(options_, "OnlineUserIcon",
-		"The players icon, must be GIF 32x32.", RAccess, ""),
+		"The players icon, must be GIF 32x32.", RAccess | NoRestore, ""),
 	buyTab_(options_, "BuyTab",
-		"The default buy tab", RWAccess, ""),
+		"The default buy tab", RWAccess | NoRestore, ""),
 	roamVarianceStart_(options_, "RoamVarianceStart",
 		"The minimum variance to allow", RWAccess, 2),
 	roamVarianceRamp_(options_, "RoamVarianceRamp",
@@ -117,7 +117,7 @@ OptionsDisplay::OptionsDisplay() :
 	drawPlayerHealth_(options_, "DrawPlayerHealth",
 		"Draw the health bars above the tank", RWAccess, true),
 	firstTimePlayed_(options_, "FirstTimePlayed",
-		"Has the user played Scorched3D before", RWAccess, false),
+		"Is this the first time the user has played Scorched3D", RWAccess, true),
 	hideMenus_(options_, "HideMenus",
 		"Should the menu title bars always be visible", RWAccess, false),
 	noGLTexSubImage_(options_, "NoGLTexSubImage",
@@ -173,7 +173,7 @@ OptionsDisplay::OptionsDisplay() :
 	drawShipPaths_(options_, "DrawShipPaths", 
 		"Show paths for the ships", RWAccess, false),
 	frameTimer_(options_, "FrameTimer",
-		"Show the current number of frames per second (FPS)", RWAccess, false),
+		"Show the current number of frames per second (FPS)", RWAccess | NoRestore, false),
 	noSkins_(options_,"NoTankSkins", 
 		"Do not texture the tank models.", RAccess, false),
 	drawWater_(options_,"DrawWater", 
@@ -308,6 +308,12 @@ void OptionsDisplay::loadDefaultValues()
 void OptionsDisplay::loadSafeValues()
 {
 	const char *path = getDataFile("data/safedisplay.xml");
+	OptionEntryHelper::readFromFile(options_, (char *) path);
+}
+
+void OptionsDisplay::loadFastestValues()
+{
+	const char *path = getDataFile("data/fastestdisplay.xml");
 	OptionEntryHelper::readFromFile(options_, (char *) path);
 }
 

@@ -404,6 +404,7 @@ public:
 
 	void loadSafeValues();
 	void loadDefaultValues();
+	void loadFastestValues();
 	bool writeOptionsToFile();
 	bool readOptionsFromFile();
 	void addToConsole();

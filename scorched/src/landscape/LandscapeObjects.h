@@ -41,6 +41,7 @@ public:
 	void generate(RandomGenerator &generator, 
 		LandscapePlace &place,
 		ScorchedContext &context,
+		unsigned int &playerId,
 		ProgressCounter *counter = 0);
 
 	void removeAllObjects();

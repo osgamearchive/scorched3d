@@ -19,6 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementObjectModel.h>
+#include <landscape/LandscapeObjectsEntryModel.h>
+#include <landscape/LandscapeMaps.h>
+#include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <target/TargetContainer.h>
 #include <target/Target.h>
@@ -36,19 +40,51 @@ bool PlacementObjectModel::readXML(XMLNode *node)
 {
 	XMLNode *modelnode, *burntmodelnode;
 	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!model.initFromNode(".", modelnode)) return false;
+	if (!modelId.initFromNode(".", modelnode)) return false;
 	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
-	if (!modelburnt.initFromNode(".", burntmodelnode)) return false;
+	if (!modelburntId.initFromNode(".", burntmodelnode)) return false;
 	node->getNamedChild("name", name, false);
+
+	model = ModelStore::instance()->loadModel(modelId);
+	modelburnt = ModelStore::instance()->loadModel(modelburntId);
+	if (!model || !modelburnt)
+	{
+		dialogExit("PlacementObjectModel",
+			"Failed to find models");
+	}
+
+	Vector sizev = model->getMax() - model->getMin();
+	sizev[2] = 0.0f;
+	modelsize = sizev.Magnitude();
+
 	return PlacementObject::readXML(node);
 }
 
 void PlacementObjectModel::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int playerId,
+	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
-	TargetModelId targetModelId(model);
+	LandscapeObjectsEntryModel *modelEntry = new LandscapeObjectsEntryModel();
+	modelEntry->model = new ModelRenderer(model);
+	modelEntry->modelburnt = new ModelRenderer(modelburnt);
+	modelEntry->color = 1.0f;
+	modelEntry->size = position.size;
+	modelEntry->posX = position.position[0];
+	modelEntry->posY = position.position[1];
+	modelEntry->posZ = position.position[2];
+	modelEntry->rotation = position.rotation;
+	modelEntry->removeaction = information.removeaction;
+	modelEntry->burnaction = information.burnaction;
+	modelEntry->modelsize = modelsize;
+
+	context.landscapeMaps->getGroundMaps().getObjects().addObject(
+		(unsigned int) position.position[0],
+		(unsigned int) position.position[1],
+		modelEntry);
+
+	/*TargetModelId targetModelId(model);
 	Target *target = new Target(
 		playerId, 
 		targetModelId, 
@@ -56,7 +92,7 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 	target->newGame();
 	target->setTargetPosition(position.position);
 
-	/*if (addTarget_->getShield())
+	if (addTarget_->getShield())
 	{
 		target->getShield().setCurrentShield(
 			addTarget_->getShield()->getParent());
@@ -68,7 +104,7 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 	if (addTarget_->getDeathAction())
 	{
 		target->setDeathAction(addTarget_->getDeathAction());
-	}*/
+	}
 
-	context.targetContainer->addTarget(target);
+	context.targetContainer->addTarget(target);*/
 }

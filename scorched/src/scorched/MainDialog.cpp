@@ -418,6 +418,20 @@ void showMainDialog()
 {
 	mainDialog = new MainFrame;
 	mainDialog->Show(TRUE);
+
+	if (OptionsDisplay::instance()->getFirstTimePlayed())
+	{
+		OptionsDisplay::instance()->setFirstTimePlayed(false);
+		OptionsDisplay::instance()->writeOptionsToFile();
+
+		dialogMessage(
+			scorched3dAppName,
+			"Welcome to Scorched3D.\n"
+			"News, updates and stats are available at http://www.scorched3d.co.uk\n"
+			"\n"
+			"If the game runs slowly please ensure you are using the latest graphics drivers.\n"
+			"Game speed can also be optimized by changing the Scorched3D game settings.");
+	}
 }
 
 wxFrame *getMainDialog()

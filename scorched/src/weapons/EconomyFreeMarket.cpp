@@ -126,7 +126,7 @@ bool EconomyFreeMarket::savePrices()
 		{
 			std::string cleanName;
 			std::string dirtyName(accessory->getName());
-			XMLParser::removeSpecialChars(dirtyName, cleanName);
+			XMLNode::removeSpecialChars(dirtyName, cleanName);
 			file.addLine("  <accessory>");
 			file.addLine(formatString("    <name>%s</name>", cleanName.c_str()));
 			file.addLine(formatString("    <buyprice>%i</buyprice>", accessory->getPrice()));

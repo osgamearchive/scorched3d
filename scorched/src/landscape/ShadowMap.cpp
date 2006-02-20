@@ -132,7 +132,7 @@ void ShadowMap::addShadow(float mapx, float mapy, float mapw, float opacity, boo
 		GLubyte *start = &shadowBytes_[(yStart * iSize) + xStart];
 		for (int y=0; y<yWidth; y++, start += yInc)
 		{
-			int deg = (y * 100) / yWidth;
+			int deg = (y * 90) / yWidth;
 			int realXSize = int(sintable[deg] * xWidth);
 			int halfSize = (xWidth - realXSize) / 2;
 

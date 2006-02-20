@@ -142,12 +142,22 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 
 	{
 	// Load settings
-	wxBoxSizer *loadSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, wxT("Restore Defaults"));
-	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, wxT("Safe Options"));
-	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 10);
-	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 10);
-	sizer->Add(loadSizer, 0, wxALIGN_CENTER);
+	wxGridSizer *loadSizer = new wxFlexGridSizer(2, 2);
+	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, wxT("Normal Options"), wxDefaultPosition, wxSize(120,-1));
+	IDC_LOADFASTEST_CTRL = new wxButton(parent, ID_LOADFASTEST, wxT("Fastest Options"), wxDefaultPosition, wxSize(120,-1));
+	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, wxT("Safe Options"), wxDefaultPosition, wxSize(120,-1));
+	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 2);
+	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the normal starting settings for Scorched3D.")),
+		0, wxALL, 2);
+	loadSizer->Add(IDC_LOADFASTEST_CTRL, 0, wxALL, 2);
+	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the fastest settings for Scorched3D.\n"
+		"Note: This will result in a reduced graphical experience.")),
+		0, wxALL, 2);
+	loadSizer->Add(IDC_LOADSAFE_CTRL, 0, wxALL, 2);
+	loadSizer->Add(new wxStaticText(parent, -1, wxT("Load the safest settings for Scorched3D.\n"
+		"Note: This will result in a reduced overall experience but may prevent crashes.")),
+		0, wxALL, 2);
+	sizer->Add(loadSizer, 0, wxTOP | wxALIGN_CENTER, 5);
 	}
 }
 

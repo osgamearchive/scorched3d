@@ -368,7 +368,7 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		<name>Gas Station</name>
 		<armslevel>5</armslevel>
 		<description>Gas stations have large tanks of fuel
-which explode and spread fire when ignited.
+which explode and spread fire when ignited.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
 			<delay>0.25</delay>
@@ -1085,7 +1085,7 @@ release lethal clouds of gas when destroyed.</description>
 		<armslevel>2</armslevel>
 		<description>Nuclear power plants go into meltdown when
 destroyed, releasing a devestating explosion and
-radioactive fallout which travels downwind.
+radioactive fallout which travels downwind.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
 			<delay>0.25</delay>

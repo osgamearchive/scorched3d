@@ -66,7 +66,7 @@ void GLConsoleFileReader::saveConsoleIntoFile(const char *filename)
 	{
 		std::string cleanLine;
 		std::string dirtyLine((*itor)->getLine());
-		XMLParser::removeSpecialChars(dirtyLine, cleanLine);
+		XMLNode::removeSpecialChars(dirtyLine, cleanLine);
 		if ((*itor)->getLineType() != GLConsoleLine::eNone)
 		{
 			filelines.addLine(formatString("  <command>%s</command>",

@@ -21,85 +21,8 @@
 #if !defined(__INCLUDE_LandscapePlaceh_INCLUDE__)
 #define __INCLUDE_LandscapePlaceh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
-#include <XML/XMLFile.h>
-#include <string>
 #include <vector>
-
-class LandscapePlaceType
-{
-public:
-	virtual bool readXML(XMLNode *node) = 0;
-};
-
-class LandscapePlaceObjectsModel : public LandscapePlaceType
-{
-public:
-	ModelID model;
-	ModelID modelburnt;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapePlaceObjectsTree : public LandscapePlaceType
-{
-public:
-	std::string tree;
-	float snow;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapePlaceObjectsPlacement : public LandscapePlaceType
-{
-public:
-	virtual ~LandscapePlaceObjectsPlacement();
-
-	std::string removeaction;
-	std::string burnaction;
-	std::string objecttype;
-	std::string groupname;
-	LandscapePlaceType *object;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapePlaceObjectsPlacementDirect : public LandscapePlaceObjectsPlacement
-{
-public:
-	struct Position
-	{
-		Vector position;
-		float rotation;
-		float size;
-	};
-
-	std::list<Position> positions;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapePlaceObjectsPlacementTree : public LandscapePlaceObjectsPlacement
-{
-public:
-	int numobjects;
-	int numclusters;
-	float minheight, maxheight;
-
-	virtual bool readXML(XMLNode *node);
-};
-
-class LandscapePlaceObjectsPlacementMask : public LandscapePlaceObjectsPlacement
-{
-public:
-	int numobjects;
-	std::string mask;
-	float minheight, maxheight;
-	float mincloseness, minslope;
-	float xsnap, ysnap, angsnap;
-
-	virtual bool readXML(XMLNode *node);
-};
+#include <placement/PlacementType.h>
 
 class LandscapeDefinitions;
 class LandscapePlace
@@ -108,8 +31,7 @@ public:
 	LandscapePlace();
 	virtual ~LandscapePlace();
 
-	std::vector<std::string> objectstype;
-	std::vector<LandscapePlaceType *> objects;
+	std::vector<PlacementType *> objects;
 
 	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 

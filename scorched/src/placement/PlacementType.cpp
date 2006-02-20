@@ -54,9 +54,9 @@ bool PlacementType::readXML(XMLNode *node)
 	if (!objectNode->getNamedParameter("type", objecttype)) return false;
 	if (!(placementobject = PlacementObject::create(objecttype.c_str()))) return false;
 	if (!placementobject->readXML(objectNode)) return false;
-	if (!node->getNamedChild("removeaction", removeaction)) return false;
-	if (!node->getNamedChild("burnaction", burnaction)) return false;
-	if (!node->getNamedChild("groupname", groupname)) return false;
+	if (!node->getNamedChild("removeaction", information_.removeaction)) return false;
+	if (!node->getNamedChild("burnaction", information_.burnaction)) return false;
+	if (!node->getNamedChild("groupname", information_.groupname)) return false;
 	return node->failChildren();
 }
 
@@ -66,10 +66,10 @@ void PlacementType::createObjects(ScorchedContext &context,
 	ProgressCounter *counter)
 {
 	LandscapeObjectsGroupEntry *group = 0;
-	if (groupname.c_str()[0])
+	if (information_.groupname.c_str()[0])
 	{
 		group = context.landscapeMaps->getGroundMaps().getObjects().getGroup(
-			groupname.c_str(), 
+			information_.groupname.c_str(), 
 			&context.landscapeMaps->getGroundMaps().getHeightMap());
 	}
 
@@ -91,8 +91,8 @@ void PlacementType::createObjects(ScorchedContext &context,
 				(int) position.position[0], (int) position.position[1]);
 		}
 
-		// TODO remove from group some how
+		// TODO remove targets from group some how
 		placementobject->createObject(
-			context, generator, playerId, position);
+			context, generator, playerId, information_, position);
 	}
 }

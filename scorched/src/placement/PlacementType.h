@@ -45,6 +45,12 @@ public:
 		float rotation;
 		float size;
 	};
+	struct Information
+	{
+		std::string removeaction;
+		std::string burnaction;
+		std::string groupname;
+	};
 
 	static PlacementType *create(const char *type);
 
@@ -65,9 +71,7 @@ public:
 
 protected:
 	PlacementObject *placementobject;
-	std::string removeaction;
-	std::string burnaction;
-	std::string groupname;
+	Information information_;
 };
 
 #endif // __INCLUDE_PlacementTypeh_INCLUDE__

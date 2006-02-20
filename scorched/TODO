@@ -27,6 +27,9 @@ Fixed: Round win and interest awarded when too few players result in game ending
 Fixed: Tanks will not move through newly created water when movement restriction in place
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
+Added: Fast, medium graphics settings buttons to display dialog
+Added: Changed menus to be icons, and visible at all times (configurable)
+Added: Welcome banner on first time startup (pointing out graphics settings)
 Added: XML tags in tex and defns landscape files that are empty don't need to be in file
 Added: Placements and sounds are available both in the tex and defn landscape files
 Added: More powerups (WeaponGiveAcccessory, WeaponGiveLife, WeaponGivePower)
@@ -71,11 +74,8 @@ Dvorak keyboard support is broken
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
 Tutorial mode
-Changing menus to be icons
 New game modes
 Scripting language
-Fast, medium graphics settings buttons to display dialog
-Welcome banner on first time startup (pointing out graphics settings)
 Dirt cannot be raised when underground (or other dirting stopping)
 Swell from boats
 Bases with physics and shields

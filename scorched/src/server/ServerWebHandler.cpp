@@ -120,7 +120,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 		Tank *tank = (*itor).second;
 		std::string cleanName;
 		std::string dirtyName(tank->getName());
-		XMLParser::removeSpecialChars(dirtyName, cleanName);
+		XMLNode::removeSpecialChars(dirtyName, cleanName);
 		players += formatString(
 			"<tr>"
 			"<td>dest=%i ip=%s id=%i</td>" // Id
@@ -183,7 +183,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	for (int i=min; i<max; i++)
 	{
 		std::string cleanText;
-		XMLParser::removeSpecialChars(entries[i].text, cleanText);
+		XMLNode::removeSpecialChars(entries[i].text, cleanText);
 		log += formatString(
 			"<tr>"
 			"<td><font size=-2>%u</font></td>"
@@ -342,7 +342,7 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 		textsListItor++)
 	{
 		std::string cleanText;
-		XMLParser::removeSpecialChars((*textsListItor), cleanText);
+		XMLNode::removeSpecialChars((*textsListItor), cleanText);
 		texts += cleanText;
 		texts += "<br>\n";
 	}
@@ -384,7 +384,7 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 				entry.type = ServerBanned::NotBanned;
 
 			std::string cleanName;
-			XMLParser::removeSpecialChars(entry.name, cleanName);
+			XMLNode::removeSpecialChars(entry.name, cleanName);
 			banned += formatString("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
 				"<td><input type=\"checkbox\" name=\"selected\" value=\"%s\"></td>" // Select
 				"</tr>",
@@ -419,7 +419,7 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 		ModFileEntry *entry = (*itor).second;
 		std::string cleanFileName;
 		std::string dirtyFileName(entry->getFileName());
-		XMLParser::removeSpecialChars(dirtyFileName, cleanFileName);
+		XMLNode::removeSpecialChars(dirtyFileName, cleanFileName);
 		modfiles += formatString("<tr><td>%s</td><td>%u</td><td>%u</td><td>%u</td></tr>",
 			cleanFileName.c_str(),
 			entry->getCompressedSize(),

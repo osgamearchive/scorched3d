@@ -18,96 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLNodeh_INCLUDE__)
-#define __INCLUDE_XMLNodeh_INCLUDE__
+#if !defined(__INCLUDE_XMLParserh_INCLUDE__)
+#define __INCLUDE_XMLParserh_INCLUDE__
 
-#include <string>
-#include <list>
 #include <XML/expat.h>
-#include <common/FileLines.h>
-#include <common/Vector.h>
-
-class XMLNode
-{
-public:
-	enum NodeType
-	{
-		XMLNodeType,
-		XMLParameterType,
-		XMLCommentType
-	};
-
-	XMLNode(const char *name, const char *content = "", 
-		NodeType = XMLNode::XMLNodeType);
-	XMLNode(const char *name, float content, 
-		NodeType = XMLNode::XMLNodeType);
-	XMLNode(const char *name, bool content, 
-		NodeType = XMLNode::XMLNodeType);
-	XMLNode(const char *name, int content, 
-		NodeType = XMLNode::XMLNodeType);
-	XMLNode(const char *name, Vector &content, 
-		NodeType = XMLNode::XMLNodeType);
-	XMLNode(const char *name, unsigned int content, 
-		NodeType = XMLNode::XMLNodeType);
-	virtual ~XMLNode();
-
-	bool writeToFile(const char *fileName);
-
-	NodeType getType() { return type_; }
-	const char *getName() { return name_.c_str(); }
-	const char *getContent() { return content_.c_str(); }
-	const char *getSource() { return source_.c_str(); }
-	const XMLNode *getParent() { return parent_; }
-	std::list<XMLNode *> &getChildren() { return children_; }
-	std::list<XMLNode *> &getParameters() { return parameters_; }
-
-	bool getNamedParameter(const char *name, XMLNode *&node, 
-		bool failOnError = true, bool remove = true);
-	bool getNamedParameter(const char *name, std::string &value,
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, XMLNode *&node, 
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, std::string &value,
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, bool &value,
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, float &value,
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, int &value,
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, unsigned int &value,
-		bool failOnError = true, bool remove = true);
-	bool getNamedChild(const char *name, Vector &value,
-		bool failOnError = true, bool remove = true);
-
-	bool failChildren();
-	void resurrectRemovedChildren();
-
-	void setSource(const char *source);
-	void setLine(int line, int col);
-	void setContent(const char *content) { content_ = content; }
-
-	bool returnError(const char *error);
-	void addChild(XMLNode *node); 
-	void addParameter(XMLNode *node);
-	void addContent(const char *data, int len);
-	void convertContent();
-
-protected:
-	NodeType type_;
-	XMLNode *parent_;
-	std::list<XMLNode *> children_;
-	std::list<XMLNode *> removedChildren_; // So they are tidied up as well
-	std::list<XMLNode *> parameters_;
-	std::list<XMLNode *> removedParameters_; // Tidied
-	std::string name_;
-	std::string content_;
-	std::string source_;
-	int line_, col_;
-
-	void addNodeToFile(FileLines &lines, int spacing);
-
-};
+#include <XML/XMLNode.h>
 
 class XMLParser
 {
@@ -120,9 +35,6 @@ public:
 
 	void setSource(const char *source) { source_ = source; }
 	XMLNode *getRoot() { return root_; }
-
-	static void removeSpecialChars(std::string &content,
-		std::string &result);
 
 protected:
 	XMLNode *root_;
@@ -146,4 +58,4 @@ protected:
                             int len);
 };
 
-#endif
+#endif // __INCLUDE_XMLParserh_INCLUDE__

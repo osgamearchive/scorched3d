@@ -226,6 +226,8 @@ void LandscapeObjectsEntryTree::render(float distance)
 		glEndList();
 	}
 
+	if (OptionsDisplay::instance()->getNoTrees()) return;
+
 	static Vector point;
 	point[0] = posX;
 	point[1] = posY;

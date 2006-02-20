@@ -1452,12 +1452,6 @@
 				RelativePath="..\landscape\LandscapeObjectsGroupEntry.h">
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapeObjectsPlacement.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeObjectsPlacement.h">
-			</File>
-			<File
 				RelativePath="..\landscape\LandscapePlace.cpp">
 			</File>
 			<File
@@ -3805,6 +3799,12 @@
 			</File>
 			<File
 				RelativePath="..\XML\XMLFile.h">
+			</File>
+			<File
+				RelativePath="..\XML\XMLNode.cpp">
+			</File>
+			<File
+				RelativePath="..\XML\XMLNode.h">
 			</File>
 			<File
 				RelativePath="..\XML\XMLParser.cpp">

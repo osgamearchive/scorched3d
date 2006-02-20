@@ -49,6 +49,7 @@ public:
 	virtual bool TransferDataFromWindow();
 
 	void onLoadDefaultsButton(wxCommandEvent &event);
+	void onLoadFastestButton(wxCommandEvent &event);
 	void onLoadSafeButton(wxCommandEvent &event);
 	void onLoadDefaultKeysButton(wxCommandEvent &event);
 	void onKeyButton(wxCommandEvent &event);
@@ -74,6 +75,7 @@ protected:
 
 BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
     EVT_BUTTON(ID_LOADDEFAULTS,  DisplayFrame::onLoadDefaultsButton)
+	EVT_BUTTON(ID_LOADFASTEST,  DisplayFrame::onLoadFastestButton)
 	EVT_BUTTON(ID_KEYDEFAULTS,  DisplayFrame::onLoadDefaultKeysButton)
     EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
     EVT_BUTTON(ID_KEY,  DisplayFrame::onKeyButton)
@@ -168,8 +170,16 @@ void DisplayFrame::onLoadDefaultsButton(wxCommandEvent &event)
 	refreshScreen();
 }
 
+void DisplayFrame::onLoadFastestButton(wxCommandEvent &event)
+{
+	OptionsDisplay::instance()->loadDefaultValues();
+	OptionsDisplay::instance()->loadFastestValues();
+	refreshScreen();
+}
+
 void DisplayFrame::onLoadSafeButton(wxCommandEvent &event)
 {
+	OptionsDisplay::instance()->loadDefaultValues();
 	OptionsDisplay::instance()->loadSafeValues();
 	refreshScreen();
 }

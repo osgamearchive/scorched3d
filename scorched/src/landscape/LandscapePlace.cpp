@@ -20,102 +20,7 @@
 
 #include <landscape/LandscapePlace.h>
 #include <common/DefinesString.h>
-
-static LandscapePlaceType *fetchPlacementPlaceType(const char *type)
-{
-	if (0 == strcmp(type, "trees")) return new LandscapePlaceObjectsPlacementTree;
-	if (0 == strcmp(type, "mask")) return new LandscapePlaceObjectsPlacementMask;
-	if (0 == strcmp(type, "direct")) return new LandscapePlaceObjectsPlacementDirect;
-	dialogMessage("LandscapePlaceType", formatString("Unknown placement type %s", type));
-	return 0;
-}
-
-static LandscapePlaceType *fetchObjectPlaceType(const char *type)
-{
-	if (0 == strcmp(type, "tree")) return new LandscapePlaceObjectsTree;
-	if (0 == strcmp(type, "model")) return new LandscapePlaceObjectsModel;
-	dialogMessage("LandscapePlaceType", formatString("Unknown object type %s", type));
-	return 0;
-}
-
-// LandscapePlaceObjectsModel
-bool LandscapePlaceObjectsModel::readXML(XMLNode *node)
-{
-	XMLNode *modelnode, *burntmodelnode;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!model.initFromNode(".", modelnode)) return false;
-	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
-	if (!modelburnt.initFromNode(".", burntmodelnode)) return false;
-	return node->failChildren();
-}
-
-// LandscapePlaceObjectsTree
-bool LandscapePlaceObjectsTree::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("tree", tree)) return false;
-	if (!node->getNamedChild("snow", snow)) return false;
-	return node->failChildren();
-}
-
-// LandscapePlaceObjectsPlacementTree
-LandscapePlaceObjectsPlacement::~LandscapePlaceObjectsPlacement()
-{
-	delete object;
-}
-
-bool LandscapePlaceObjectsPlacement::readXML(XMLNode *node)
-{
-	XMLNode *objectNode;
-	if (!node->getNamedChild("object", objectNode)) return false;
-	if (!objectNode->getNamedParameter("type", objecttype)) return false;
-	if (!(object = fetchObjectPlaceType(objecttype.c_str()))) return false;
-	if (!object->readXML(objectNode)) return false;
-	if (!node->getNamedChild("removeaction", removeaction)) return false;
-	if (!node->getNamedChild("burnaction", burnaction)) return false;
-	if (!node->getNamedChild("groupname", groupname)) return false;
-	return node->failChildren();
-}
-
-// LandscapePlaceObjectsPlacementMask
-bool LandscapePlaceObjectsPlacementMask::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("numobjects", numobjects)) return false;
-	if (!node->getNamedChild("mask", mask)) return false;
-	if (!node->getNamedChild("minheight", minheight)) return false;
-	if (!node->getNamedChild("maxheight", maxheight)) return false;
-	if (!node->getNamedChild("mincloseness", mincloseness)) return false;
-	if (!node->getNamedChild("minslope", minslope)) return false;
-	if (!node->getNamedChild("xsnap", xsnap)) return false;
-	if (!node->getNamedChild("ysnap", ysnap)) return false;
-	if (!node->getNamedChild("angsnap", angsnap)) return false;
-	return LandscapePlaceObjectsPlacement::readXML(node);
-}
-
-// LandscapePlaceObjectsPlacementTree
-bool LandscapePlaceObjectsPlacementTree::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("numobjects", numobjects)) return false;
-	if (!node->getNamedChild("numclusters", numclusters)) return false;
-	if (!node->getNamedChild("minheight", minheight)) return false;
-	if (!node->getNamedChild("maxheight", maxheight)) return false;
-	return LandscapePlaceObjectsPlacement::readXML(node);
-}
-
-// LandscapePlaceObjectsPlacementDirect
-bool LandscapePlaceObjectsPlacementDirect::readXML(XMLNode *node)
-{
-
-	XMLNode *positionNode;
-	while (node->getNamedChild("position", positionNode, false))
-	{
-		Position position;
-		if (!positionNode->getNamedChild("position", position.position)) return false;
-		if (!positionNode->getNamedChild("rotation", position.rotation)) return false;
-		if (!positionNode->getNamedChild("size", position.size)) return false;
-		positions.push_back(position);
-	}
-	return LandscapePlaceObjectsPlacement::readXML(node);
-}
+#include <XML/XMLNode.h>
 
 LandscapePlace::LandscapePlace()
 {
@@ -128,7 +33,6 @@ LandscapePlace::~LandscapePlace()
 		delete objects[i];
 	}
 	objects.clear();
-	objectstype.clear();
 }
 
 bool LandscapePlace::readXML(LandscapeDefinitions *definitions, XMLNode *node)
@@ -139,12 +43,11 @@ bool LandscapePlace::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 		while (placementsNode->getNamedChild("placement", placementNode, false))
 		{
 			std::string placementtype;
-			LandscapePlaceType *placement = 0;
+			PlacementType *placement = 0;
 			if (!placementNode->getNamedParameter("type", placementtype)) return false;
-			if (!(placement = fetchPlacementPlaceType(placementtype.c_str()))) return false;
+			if (!(placement = PlacementType::create(placementtype.c_str()))) return false;
 			if (!placement->readXML(placementNode)) return false;
 			objects.push_back(placement);
-			objectstype.push_back(placementtype);
 		}
 		if (!placementsNode->failChildren()) return false;
 	}

@@ -22,7 +22,6 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapePlace.h>
-#include <landscape/LandscapeObjectsPlacement.h>
 #include <tank/TankContainer.h>
 #include <GLEXT/GLCamera.h>
 #include <common/Defines.h>
@@ -111,51 +110,16 @@ static inline unsigned int pointToUInt(unsigned int x, unsigned int y)
 void LandscapeObjects::generate(RandomGenerator &generator, 
 	LandscapePlace &place,
 	ScorchedContext &context,
+	unsigned int &playerId,
 	ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Populating Landscape");
 
-	// allow turning of this off during game
-	if (OptionsDisplay::instance()->getNoTrees()) return;
-
 	// Generate all the objects using the objects definitions
 	for (unsigned int i=0; i<place.objects.size(); i++)
 	{
-		// Check which type of objects placement will be used
-		std::string placementtype = place.objectstype[i];
-		if (0 == strcmp(placementtype.c_str(), "trees"))
-		{
-			// Trees type placement
-			LandscapeObjectPlacementTrees gen;
-			LandscapePlaceObjectsPlacementTree *placement =
-				(LandscapePlaceObjectsPlacementTree *)
-					place.objects[i];
-			gen.generateObjects(generator, *placement, context, counter);
-		}
-		else if (0 == strcmp(placementtype.c_str(), "mask"))
-		{
-			// Mask type placement
-			LandscapeObjectPlacementMask gen;
-			LandscapePlaceObjectsPlacementMask *placement =
-				(LandscapePlaceObjectsPlacementMask *)
-					place.objects[i];
-			gen.generateObjects(generator, *placement, context, counter);
-		}
-		else if (0 == strcmp(placementtype.c_str(), "direct"))
-		{
-			// Direct type placement
-			LandscapeObjectPlacementDirect gen;
-			LandscapePlaceObjectsPlacementDirect *placement =
-				(LandscapePlaceObjectsPlacementDirect *)
-					place.objects[i];
-			gen.generateObjects(generator, *placement, context, counter);
-		}
-		else
-		{
-			dialogExit("LandscapeObjects",
-				formatString("Error: Unknown placement type \"%s\"",
-				placementtype.c_str()));
-		}
+		PlacementType *type = place.objects[i];
+		type->createObjects(context, generator, playerId, counter);
 	}
 }
 

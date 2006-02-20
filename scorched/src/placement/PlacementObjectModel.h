@@ -22,6 +22,7 @@
 #define __INCLUDE_PlacementObjectModelh_INCLUDE__
 
 #include <placement/PlacementObject.h>
+#include <3dsparse/Model.h>
 #include <3dsparse/ModelID.h>
 
 class PlacementObjectModel : public PlacementObject
@@ -35,12 +36,16 @@ public:
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int playerId,
+		PlacementType::Information &information,
 		PlacementType::Position &position);
 
 protected:
 	std::string name;
-	ModelID model;
-	ModelID modelburnt;
+	ModelID modelId;
+	ModelID modelburntId;
+	Model *model;
+	Model *modelburnt;
+	float modelsize;
 };
 
 #endif // __INCLUDE_PlacementObjectModelh_INCLUDE__

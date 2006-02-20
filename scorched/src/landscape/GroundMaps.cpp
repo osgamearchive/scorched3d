@@ -25,6 +25,7 @@
 #include <landscape/LandscapeDefinitions.h>
 #include <landscape/LandscapeDefinitionCache.h>
 #include <common/Logger.h>
+#include <tankai/TankAIAdder.h>
 
 GroundMaps::GroundMaps(LandscapeDefinitionCache &defnCache) :
 	defnCache_(defnCache)
@@ -111,6 +112,7 @@ void GroundMaps::generateObjects(
 
 	// Add objects to the landscape (if any)
 	// Do this now as it adds shadows to the mainmap
+	unsigned int playerId = TankAIAdder::MIN_TARGET_ID;
 	objects_.removeAllObjects();
 	{
 		// Do this for the definition file
@@ -122,7 +124,8 @@ void GroundMaps::generateObjects(
 			LandscapePlace *place = (*itor);
 			RandomGenerator objectsGenerator;
 			objectsGenerator.seed(defnCache_.getSeed());
-			objects_.generate(objectsGenerator, *place, context, counter);
+			objects_.generate(objectsGenerator, *place, 
+				context, playerId, counter);
 		}
 	}
 	{
@@ -135,7 +138,8 @@ void GroundMaps::generateObjects(
 			LandscapePlace *place = (*itor);
 			RandomGenerator objectsGenerator;
 			objectsGenerator.seed(defnCache_.getSeed());
-			objects_.generate(objectsGenerator, *place, context, counter);
+			objects_.generate(objectsGenerator, *place, 
+				context, playerId, counter);
 		}
 	}
 }
