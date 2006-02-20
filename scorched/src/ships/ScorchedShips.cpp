@@ -23,6 +23,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeTex.h>
 #include <client/ScorchedClient.h>
+#include <GLEXT/GLState.h>
 
 ScorchedShips::ScorchedShips()
 {
@@ -76,6 +77,7 @@ void ScorchedShips::draw()
 {
 	if (!OptionsDisplay::instance()->getNoShips())
 	{
+		GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON | GLState::DEPTH_ON);
 		std::vector<ShipGroup *>::iterator itor;
 		for (itor = groups_.begin();
 			itor != groups_.end();

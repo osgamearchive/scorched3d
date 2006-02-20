@@ -41,6 +41,7 @@ protected:
 	ModelRenderer *ship_;
 	float size_;
 	float scale_;
+	float length_;
 };
 
 #endif // __INCLUDE_Shiph_INCLUDE__

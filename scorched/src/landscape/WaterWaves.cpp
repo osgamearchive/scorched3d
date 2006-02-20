@@ -315,7 +315,7 @@ void WaterWaves::draw()
 		ScorchedClient::instance()->getOptionsTransient().getWindDirection();
 	Vector windDirPerp = windDir.Normalize();
 
-	GLState state(GLState::BLEND_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON); 
+	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glDepthMask(GL_FALSE);
 
