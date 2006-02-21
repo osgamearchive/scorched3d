@@ -25,6 +25,7 @@ create table if not exists scorched3d_servers (
 	
 	name varchar(64),
 	published varchar(64),
+	displaystats INTEGER NOT NULL DEFAULT 1,
 	
 	PRIMARY KEY (serverid),
 	UNIQUE(name)
