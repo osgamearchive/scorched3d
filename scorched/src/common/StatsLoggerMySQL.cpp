@@ -167,7 +167,7 @@ void StatsLoggerMySQL::createLogger()
 	}
 
 	// Get/allocate the server id
-	if (runQuery("SELECT serverid FROM scorched3d_servers "
+	if (runQuery("SELECT serverid, displaystats FROM scorched3d_servers "
 		"WHERE name = \"%s\";",
 		ScorchedServer::instance()->getOptionsGame().getServerName()))
 	{
@@ -179,6 +179,7 @@ void StatsLoggerMySQL::createLogger()
 			{
 				MYSQL_ROW row = mysql_fetch_row(result);
 				serverid_ = atoi(row[0]);
+				displayStats_ = (atoi(row[1]) != 0);
 			}
 			mysql_free_result(result);
 		}
@@ -190,6 +191,7 @@ void StatsLoggerMySQL::createLogger()
 			ScorchedServer::instance()->getOptionsGame().getServerName(),
 			ScorchedServer::instance()->getOptionsGame().getPublishAddress());
 		serverid_ = (int) mysql_insert_id(mysql_);
+		displayStats_ = true;
 	}
 
 	// Get/allocate the series id
@@ -542,7 +544,7 @@ char *StatsLoggerMySQL::tankRank(Tank *tank)
 {
 	char *retval = "-";
 	createLogger();
-	if (!success_) return retval;
+	if (!success_ || !displayStats_) return retval;
 
 	// Try to determine this players sql playerid
 	int kills = 0;

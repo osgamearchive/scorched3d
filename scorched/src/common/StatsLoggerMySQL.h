@@ -73,6 +73,7 @@ protected:
 	int seriesid_;
 	int prefixid_;
     bool success_;
+	bool displayStats_;
 
 	std::map<std::string, int> playerId_;
 	std::map<std::string, int> weaponId_;
