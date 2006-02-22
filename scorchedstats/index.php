@@ -57,9 +57,11 @@ $countresult = mysqlQuery("select count(playerid) as playercount from scorched3d
 $countrow = mysql_fetch_object($countresult);
 $count = $countrow->playercount;
 
-$serverresult = mysqlQuery("select name from scorched3d_servers where serverid = ".$serverid) or die("Query failed : " . mysql_error());
+$serverresult = mysqlQuery("select name, displaystats from scorched3d_servers where serverid = ".$serverid) or die("Query failed : " . mysql_error());
 $serverrow = mysql_fetch_object($serverresult);
 $server = $serverrow->name;
+
+if ($serverrow->displaystats == 0) continue;
 ?>
 
 <br><br>

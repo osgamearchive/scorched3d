@@ -9,9 +9,15 @@
 	{
 		$serverid = $sourcerow->serverid;
 
-		$serverresult = mysqlQuery("select name from scorched3d_servers where serverid = ".$serverid) or die("Query failed : " . mysql_error());
+		$serverresult = mysqlQuery("select name, displaystats from scorched3d_servers where serverid = ".$serverid) or die("Query failed : " . mysql_error());
 		$serverrow = mysql_fetch_object($serverresult);
 		$server = $serverrow->name;
+		$displaystats = $serverrow->displaystats;
+	}
+	
+	if ($displaystats == 0)
+	{
+		die("Cannot show stats for this server");
 	}
 ?>
 
