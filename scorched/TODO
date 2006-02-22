@@ -27,6 +27,7 @@ Fixed: Round win and interest awarded when too few players result in game ending
 Fixed: Tanks will not move through newly created water when movement restriction in place
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
+Added: Bases with physics and shields
 Added: Ability to specify fuel parameters
 Added: Changed accessory framework so different fuel, batteries and parachutes can be speced
 Added: Fast, medium graphics settings buttons to display dialog
@@ -78,8 +79,8 @@ Fix crashing when people win (Graphics card drivers??)
 Tutorial mode
 New game modes
 Scripting language
+Tank AIs can be specified as part of the landscape e.g. at base bunkers
 Dirt cannot be raised when underground (or other dirting stopping)
-Bases with physics and shields
 Rain/snow should move in the wind direction
 
 -- Server Stuff

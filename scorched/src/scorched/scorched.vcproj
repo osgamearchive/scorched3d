@@ -3905,6 +3905,12 @@
 				RelativePath="..\placement\PlacementObjectModel.h">
 			</File>
 			<File
+				RelativePath="..\placement\PlacementObjectTarget.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectTarget.h">
+			</File>
+			<File
 				RelativePath="..\placement\PlacementObjectTree.cpp">
 			</File>
 			<File

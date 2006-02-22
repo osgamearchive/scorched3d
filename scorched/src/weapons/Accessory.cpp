@@ -37,7 +37,7 @@ std::map<std::string, MissileMesh *> Accessory::loadedMeshes_;
 Accessory::Accessory() :
 	accessoryId_(++nextAccessoryId_),
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
-	price_(0), bundle_(1), armsLevel_(0),
+	price_(0), bundle_(1), armsLevel_(9),
 	texture_(0), modelScale_(1.0f),
 	maximumNumber_(0),
 	startingNumber_(0),
@@ -56,7 +56,7 @@ bool Accessory::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("name", name_)) return false;
 
 	// Get the accessory armslevel
-	if (!accessoryNode->getNamedChild("armslevel", armsLevel_)) return false;
+	accessoryNode->getNamedChild("armslevel", armsLevel_, false);
 
 	// Get the optional muzzleflash
 	XMLNode *muzzleFlashNode = 0;

@@ -1,0 +1,21 @@
+<place>
+	<placements>
+		<placement type="direct">
+			<removeaction>TestPowerUpWeapon</removeaction> 
+			<burnaction>none</burnaction> 
+			<groupname>none</groupname>
+			<position> 
+				<position><A>128</A><B>128</B><C>0</C></position> 
+				<rotation>0</rotation> 
+				<size>1</size> 
+			</position> 
+			<object type="target">
+				<name>TestTargetHmm</name>
+				<model type="MilkShape">banana/banana.txt</model>
+				<shield>Shield</shield>
+				<parachute>Parachute</parachute>
+				<!--<deathaction>TestPowerUpWeapon</deathaction>-->
+			</object>
+		</placement>
+	</placements>
+</place>

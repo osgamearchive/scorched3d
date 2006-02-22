@@ -24,8 +24,6 @@
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/ModelRenderer.h>
 #include <engine/ScorchedContext.h>
-#include <target/TargetContainer.h>
-#include <target/Target.h>
 #include <XML/XMLParser.h>
 
 PlacementObjectModel::PlacementObjectModel()
@@ -83,28 +81,4 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 		(unsigned int) position.position[0],
 		(unsigned int) position.position[1],
 		modelEntry);
-
-	/*TargetModelId targetModelId(model);
-	Target *target = new Target(
-		playerId, 
-		targetModelId, 
-		name.c_str(), context);
-	target->newGame();
-	target->setTargetPosition(position.position);
-
-	if (addTarget_->getShield())
-	{
-		target->getShield().setCurrentShield(
-			addTarget_->getShield()->getParent());
-	}
-	if (addTarget_->getParachute())
-	{
-		target->getParachute().setParachutesEnabled(true);
-	}
-	if (addTarget_->getDeathAction())
-	{
-		target->setDeathAction(addTarget_->getDeathAction());
-	}
-
-	context.targetContainer->addTarget(target);*/
 }

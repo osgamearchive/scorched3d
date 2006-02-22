@@ -44,7 +44,7 @@ bool WeaponAddTarget::parseXML(OptionsGame &context,
 {
 	// Get target model
 	XMLNode *modelNode = 0;
-	if (accessoryNode->getNamedChild("targetmodel", modelNode))
+	if (accessoryNode->getNamedChild("model", modelNode))
 	{
 		if (!targetModelId_.initFromNode("data/accessories", modelNode)) return false;
 	}
@@ -68,16 +68,13 @@ bool WeaponAddTarget::parseXML(OptionsGame &context,
 	}
 
 	// Get the next weapon
-	XMLNode *subNode = 0;
-	if (!accessoryNode->getNamedChild("deathaction", subNode)) return false;
-
-	// Check next weapon is correct type
-	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
-	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
+	std::string deathaction;
+	if (!accessoryNode->getNamedChild("deathaction", deathaction)) return false;
+	if (0 != strcmp(deathaction.c_str(), "none"))
 	{
-		return subNode->returnError("Failed to find sub weapon, not a weapon");
+		deathAction_ = (Weapon *) store->
+			findByPrimaryAccessoryName(deathaction.c_str())->getAction();
 	}
-	deathAction_ = (Weapon*) accessory;
 
 	return accessoryNode->failChildren();
 }

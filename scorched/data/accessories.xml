@@ -1400,6 +1400,14 @@ and shields damaging the tank directly.</description>
 		</accessoryaction>
 	</accessory>	
 	<accessory>
+		<name>TestPowerUpWeapon</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Nuke</giveaccessory>
+			<number>10</number>
+		</accessoryaction>
+	</accessory>	
+	<accessory>
 		<name>TestPowerUp</name>
 		<armslevel>9</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -1413,13 +1421,10 @@ and shields damaging the tank directly.</description>
 					<landonly>true</landonly>
 					<scatterpercentage>75</scatterpercentage>
 					<aimedweapon type='WeaponAddTarget'>
-						<targetmodel type="MilkShape">banana/banana.txt</targetmodel>
+						<model type="MilkShape">banana/banana.txt</model>
 						<shield>Shield</shield>
 						<parachute>Parachute</parachute>
-						<deathaction type='WeaponGiveAccessory'>
-							<giveaccessory>Nuke</giveaccessory>
-							<number>10</number>
-						</deathaction>
+						<deathaction>TestPowerUpWeapon</deathaction>
 					</aimedweapon>
 				</nextaction>
 			</repeatweapon>

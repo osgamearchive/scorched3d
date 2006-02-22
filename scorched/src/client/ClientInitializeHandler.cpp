@@ -91,9 +91,6 @@ bool ClientInitializeHandler::initialize()
 		ScorchedClient::instance()->getOptionsGame(),
 		ProgressDialog::instance())) return false;
 
-	// Load the landscape definitions
-	if (!ScorchedClient::instance()->getLandscapes().readLandscapeDefinitions()) return false;
-
 	// Load tank models here
 	// This is after mods are complete but before any tanks models are used
 	if (!ScorchedClient::instance()->getTankModels().loadTankMeshes(
@@ -103,6 +100,9 @@ bool ClientInitializeHandler::initialize()
 		dialogMessage("Scorched 3D", "Failed to load all tank models");
 		return false;
 	}
+
+	// Load the landscape definitions
+	if (!ScorchedClient::instance()->getLandscapes().readLandscapeDefinitions()) return false;
 
 	// Load textures
 	if (!ExplosionTextures::instance()->createTextures(

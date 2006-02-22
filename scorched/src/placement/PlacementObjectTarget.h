@@ -18,31 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_PlacementObjectTargeth_INCLUDE__)
+#define __INCLUDE_PlacementObjectTargeth_INCLUDE__
+
 #include <placement/PlacementObject.h>
-#include <placement/PlacementObjectTree.h>
-#include <placement/PlacementObjectModel.h>
-#include <placement/PlacementObjectTarget.h>
-#include <common/DefinesString.h>
-#include <XML/XMLParser.h>
+#include <3dsparse/ModelID.h>
 
-PlacementObject *PlacementObject::create(const char *type)
+class PlacementObjectTarget : public PlacementObject
 {
-	if (0 == strcmp(type, "tree")) return new PlacementObjectTree;
-	if (0 == strcmp(type, "model")) return new PlacementObjectModel;
-	if (0 == strcmp(type, "target")) return new PlacementObjectTarget;
-	dialogMessage("PlacementObject", formatString("Unknown object type %s", type));
-	return 0;
-}
+public:
+	PlacementObjectTarget();
+	virtual ~PlacementObjectTarget();
 
-PlacementObject::PlacementObject()
-{
-}
+	virtual bool readXML(XMLNode *node);
+	virtual PlacementObject::Type getType() { return PlacementObject::eModel; }
+	virtual void createObject(ScorchedContext &context,
+		RandomGenerator &generator,
+		unsigned int playerId,
+		PlacementType::Information &information,
+		PlacementType::Position &position);
 
-PlacementObject::~PlacementObject()
-{
-}
+protected:
+	std::string name_;
+	std::string parachute_;
+	std::string shield_;
+	ModelID modelId_;
+	ModelID modelburntId_;
+};
 
-bool PlacementObject::readXML(XMLNode *node)
-{
-	return node->failChildren();
-}
+#endif // __INCLUDE_PlacementObjectTargeth_INCLUDE__
