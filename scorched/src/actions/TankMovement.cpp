@@ -24,6 +24,8 @@
 #include <actions/ShotProjectile.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
+#include <weapons/Fuel.h>
+#include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/LandscapeDefn.h>
 #include <landscape/LandscapeTex.h>
@@ -39,16 +41,17 @@ std::map<unsigned int, TankMovement*> TankMovement::movingTanks;
 REGISTER_ACTION_SOURCE(TankMovement);
 
 TankMovement::TankMovement() : 
-	timePassed_(0.0f), vPoint_(0), 
+	timePassed_(0.0f), vPoint_(0), fuel_(0),
 	remove_(false), moving_(true), moveSoundSource_(0)
 {
 }
 
 TankMovement::TankMovement(unsigned int playerId,
+	Fuel *fuel,
 	int positionX, int positionY) : 
 	playerId_(playerId), 
 	positionX_(positionX), positionY_(positionY),
-	timePassed_(0.0f), vPoint_(0), 
+	timePassed_(0.0f), vPoint_(0), fuel_(fuel),
 	remove_(false), moving_(true), moveSoundSource_(0)
 {
 }
@@ -192,13 +195,13 @@ void TankMovement::simulationMove(float frameTime)
 				TankFalling::fallingTanks.find(playerId_);
 			if (findItor == TankFalling::fallingTanks.end())
 			{
-				// Move the tank one position every stepsPerFrame seconds
-				// i.e. 1/stepsPerFrame positions a second
+				// Move the tank one position every stepTime seconds
+				// i.e. 1/stepTime positions a second
 				timePassed_ += frameTime;
-				const float stepsPerFrame = 0.05f;
-				while (timePassed_ >= stepsPerFrame)
+				float stepTime = fuel_->getStepTime();
+				while (timePassed_ >= stepTime)
 				{
-					timePassed_ -= stepsPerFrame;
+					timePassed_ -= stepTime;
 					if (!expandedPositions_.empty())
 					{
 						moveTank(tank);
@@ -270,7 +273,15 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Move the tank to this new position
 	// Use up one unit of fuel
-	if (useF) tank->getAccessories().getFuel().rmFuel(1);
+	if (useF)
+	{
+		std::list<Accessory *> result = 
+			tank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryFuel);
+		if (!result.empty())
+		{
+			tank->getAccessories().rm(result.front());
+		}
+	}
 
 	// Actually move the tank
 	tank->getPosition().rotateTank(a);
@@ -284,6 +295,7 @@ void TankMovement::moveTank(Tank *tank)
 bool TankMovement::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
+	context_->accessoryStore->writeAccessoryPart(buffer, fuel_);
 	buffer.addToBuffer(positionX_);
 	buffer.addToBuffer(positionY_);
 	return true;
@@ -292,6 +304,7 @@ bool TankMovement::writeAction(NetBuffer &buffer)
 bool TankMovement::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
+	fuel_ = (Fuel *) context_->accessoryStore->readAccessoryPart(reader); if (!fuel_) return false;
 	if (!reader.getFromBuffer(positionX_)) return false;
 	if (!reader.getFromBuffer(positionY_)) return false;
 	return true;

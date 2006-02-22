@@ -19,12 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/Tank.h>
+#include <tank/TankAccessories.h>
 #include <weapons/AccessoryStore.h>
-#include <stdio.h>
 
 TankParachutes::TankParachutes(ScorchedContext &context) :
 	context_(context),
-	parachuteCount_(0), 
 	tank_(0)
 {
 }
@@ -35,42 +34,31 @@ TankParachutes::~TankParachutes()
 
 void TankParachutes::newMatch()
 {
-	parachuteCount_ = 0;
 }
 
-void TankParachutes::useParachutes(int no)
+void TankParachutes::changed()
 {
-	if (parachuteCount_ > 0)
+	if (getNoParachutes() == 0)
 	{
-		parachuteCount_ -= no;
-		if (parachuteCount_ <= 0)
-		{
-			parachuteCount_ = 0;
-			tank_->getParachute().setParachutesEnabled(false);
-		}
+		tank_->getParachute().setParachutesEnabled(false);
 	}
 }
 
-void TankParachutes::addParachutes(int no)
+int TankParachutes::getNoParachutes()
 {
-	parachuteCount_+=no;
+	std::list<Accessory *> result = 
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryParachute);
+	if (result.empty()) return 0;
+	return tank_->getAccessories().getAccessoryCount(result.front());
 }
 
 bool TankParachutes::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (writeAccessories)
-	{
-		buffer.addToBuffer(parachuteCount_);
-	}
-	else
-	{
-		buffer.addToBuffer((int) 0);
-	}
 	return true;
 }
 
 bool TankParachutes::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(parachuteCount_)) return false;
 	return true;
 }

@@ -110,7 +110,21 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 		if (tank && tank->getTankAI())
 		{
 			// Set Parachutes on/off
-			((TankAIHuman *) tank->getTankAI())->parachutesUpDown(ddpara_->getCurrentPosition() != 0);
+			if (ddpara_->getCurrentPosition() == 0)
+			{
+				((TankAIHuman *) tank->getTankAI())->parachutesUpDown(0);
+			}
+			else
+			{
+				std::list<Accessory *> parachutes = 
+					tank->getAccessories().getAllAccessoriesByType(
+						AccessoryPart::AccessoryParachute);
+				if (parachutes.size() == 1)
+				{
+					((TankAIHuman *) tank->getTankAI())->parachutesUpDown(
+						parachutes.front()->getAccessoryId());
+				}
+			}
 
 			// Set shields on/off
 			if (ddshields_->getCurrentPosition() == 0)
@@ -120,7 +134,7 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			else
 			{
 				std::list<Accessory *> shields = 
-					tank->getAccessories().getShields().getAllShields();
+					tank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryShield);
 				std::list<Accessory *>::iterator shieldsItor = shields.begin();
 				for (int i=1; i<ddshields_->getCurrentPosition() && shieldsItor != shields.end(); i++) shieldsItor++;
 				
@@ -163,7 +177,7 @@ void AutoDefenseDialog::displayCurrent()
 	ddshields_->clear();
 	std::list<Accessory *>::iterator shieldsItor;
 	std::list<Accessory *> shields = 
-		tank->getAccessories().getShields().getAllShields();
+		tank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryShield);
 	ddshields_->addEntry(GLWSelectorEntry("Shields Off", &shieldsOffTip));
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
@@ -214,11 +228,11 @@ void AutoDefenseDialog::displayCurrent()
 	if (currentShield)
 	{
 		char buffer[256];
-		if (tank->getAccessories().getShields().getShieldCount(currentShield) > 0)
+		if (tank->getAccessories().getAccessoryCount(currentShield) > 0)
 		{
 			snprintf(buffer, 256, "%s (%i)",
 				currentShield->getName(),
-				tank->getAccessories().getShields().getShieldCount(currentShield));
+				tank->getAccessories().getAccessoryCount(currentShield));
 		}
 		else
 		{

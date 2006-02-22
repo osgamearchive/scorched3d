@@ -21,6 +21,7 @@
 #if !defined(AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_)
 #define AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_
 
+#include <weapons/AccessoryPart.h>
 #include <tank/TankWeapon.h>
 #include <tank/TankParachutes.h>
 #include <tank/TankShields.h>
@@ -39,11 +40,14 @@ public:
 
 	void newMatch();
 	void add(Accessory *accessory, int count);
-	void rm(Accessory *accessory);
+	void rm(Accessory *accessory, int count = 1);
 
 	bool accessoryAllowed(Accessory *accessory, int count);
 	int getAccessoryCount(Accessory *accessory);
-	std::list<Accessory *> getAllAccessories(bool sort=false);
+	std::list<Accessory *> getAllAccessories(
+		bool sort=false);
+	std::list<Accessory *> getAllAccessoriesByType(
+		AccessoryPart::AccessoryType type, bool sort=false);
 
 	TankFuel &getFuel() { return tankFuel_; }
 	TankWeapon &getWeapons() { return tankWeapon_; }
@@ -65,6 +69,10 @@ protected:
 	TankAutoDefense tankAuto_;
 	TankBatteries tankBatteries_;
 	Tank *tank_;
+
+	std::map<Accessory *, int> accessories_;
+
+	void changed();
 };
 
 #endif // !defined(AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_)

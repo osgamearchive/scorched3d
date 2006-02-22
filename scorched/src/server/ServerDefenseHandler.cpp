@@ -111,9 +111,15 @@ void ServerDefenseHandler::processDefenseMessage(
 	case ComsDefenseMessage::eBatteryUse:
 		if (tank->getAccessories().getBatteries().getNoBatteries() != 0)
 		{
-			tank->getAccessories().getBatteries().rmBatteries(1);
-			tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
-			sendMessage = true;
+			Accessory *battery = 
+				ScorchedServer::instance()->getAccessoryStore().
+					findByAccessoryId(message.getInfoId());
+			if (battery)
+			{
+				tank->getAccessories().rm(battery);
+				tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
+				sendMessage = true;
+			}
 		}
 		break;
 	case ComsDefenseMessage::eShieldUp:
@@ -123,9 +129,9 @@ void ServerDefenseHandler::processDefenseMessage(
 					findByAccessoryId(message.getInfoId());
 			if (accessory->getType() == AccessoryPart::AccessoryShield)
 			{
-				if (tank->getAccessories().getShields().getShieldCount(accessory) != 0)
+				if (tank->getAccessories().getAccessoryCount(accessory) != 0)
 				{
-					tank->getAccessories().getShields().rmShield(accessory, 1);
+					tank->getAccessories().rm(accessory, 1);
 					tank->getShield().setCurrentShield(accessory);
 					sendMessage = true;
 				}
@@ -145,8 +151,14 @@ void ServerDefenseHandler::processDefenseMessage(
 	case ComsDefenseMessage::eParachutesUp:
 		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 		{
-			tank->getParachute().setParachutesEnabled(true);
-			sendMessage = true;
+			Accessory *parachute = 
+				ScorchedServer::instance()->getAccessoryStore().
+					findByAccessoryId(message.getInfoId());
+			if (parachute)
+			{
+				tank->getParachute().setParachutesEnabled(true);
+				sendMessage = true;
+			}
 		}
 		break;
 	case ComsDefenseMessage::eParachutesDown:

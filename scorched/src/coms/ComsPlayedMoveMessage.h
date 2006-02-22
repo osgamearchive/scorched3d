@@ -41,8 +41,8 @@ public:
 		MoveType type = eNone);
 	virtual ~ComsPlayedMoveMessage();
 
-	void setPosition(int x, int y);
-	void setShot(unsigned int weaponId_,
+	void setPosition(unsigned int fuelId, int x, int y);
+	void setShot(unsigned int weaponId,
 		float rotationXY,
 		float rotationYZ,
 		float power);

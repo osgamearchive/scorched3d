@@ -87,7 +87,12 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 				if (!current->isTarget())
 				{
 					Tank *currentTank = (Tank *) current;
-					currentTank->getAccessories().getParachutes().useParachutes();
+					std::list<Accessory *> result = 
+						currentTank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryParachute);
+					if (!result.empty())
+					{
+						currentTank->getAccessories().rm(result.front());
+					}
 				}
 			}
 		}

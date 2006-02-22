@@ -27,6 +27,8 @@ Fixed: Round win and interest awarded when too few players result in game ending
 Fixed: Tanks will not move through newly created water when movement restriction in place
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
+Added: Ability to specify fuel parameters
+Added: Changed accessory framework so different fuel, batteries and parachutes can be speced
 Added: Fast, medium graphics settings buttons to display dialog
 Added: Changed menus to be icons, and visible at all times (configurable)
 Added: Welcome banner on first time startup (pointing out graphics settings)
@@ -78,6 +80,7 @@ New game modes
 Scripting language
 Dirt cannot be raised when underground (or other dirting stopping)
 Bases with physics and shields
+Rain/snow should move in the wind direction
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

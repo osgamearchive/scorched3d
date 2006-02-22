@@ -33,7 +33,22 @@ to move rather than fire.</description>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>40</bundlesize>
 		<cost>6000</cost>
-		<accessoryaction type='Fuel'></accessoryaction>
+		<accessoryaction type='Fuel'>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Rocket Fuel</name>
+		<armslevel>7</armslevel>
+		<description>Allows the tank to move very fast.
+When it is the players turn the tank may choose 
+to move rather than fire.</description>
+		<icon>fuel.bmp</icon>
+		<activationsound>battery/battery.wav</activationsound>
+		<bundlesize>20</bundlesize>
+		<cost>10000</cost>
+		<accessoryaction type='Fuel'>
+			<steptime>0.025</steptime>
+		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Shield</name>

@@ -19,12 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankBatteries.h>
-#include <weapons/AccessoryStore.h>
-#include <common/Defines.h>
-#include <stdio.h>
+#include <tank/Tank.h>
 
 TankBatteries::TankBatteries(ScorchedContext &context) :
-	context_(context), batteryCount_(0)
+	context_(context),
+	tank_(0)
 {
 }
 
@@ -34,34 +33,27 @@ TankBatteries::~TankBatteries()
 
 void TankBatteries::newMatch()
 {
-	batteryCount_ = 0;
 }
 
-void TankBatteries::rmBatteries(int no)
+void TankBatteries::changed()
 {
-	if (batteryCount_ == -1) return;
-
-	batteryCount_ -= no;
-	if (batteryCount_ < 0)
-	{
-		batteryCount_ = 0;
-	}
 }
 
-void TankBatteries::addBatteries(int no)
+int TankBatteries::getNoBatteries()
 {
-	batteryCount_+=no;
+	std::list<Accessory *> result = 
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryBattery);
+	if (result.empty()) return 0;
+	return tank_->getAccessories().getAccessoryCount(result.front());
 }
 
 bool TankBatteries::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (writeAccessories) buffer.addToBuffer(batteryCount_);
-	else buffer.addToBuffer((int) 0);
 	return true;
 }
 
 bool TankBatteries::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(batteryCount_)) return false;
 	return true;
 }

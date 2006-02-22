@@ -20,9 +20,11 @@
 
 #include <weapons/AccessoryStore.h>
 #include <tank/TankAutoDefense.h>
+#include <tank/Tank.h>
 
 TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
-	context_(context), haveDefense_(false)
+	context_(context),
+	tank_(0)
 {
 }
 
@@ -32,33 +34,26 @@ TankAutoDefense::~TankAutoDefense()
 
 void TankAutoDefense::newMatch()
 {
-	haveDefense_ = false;
 }
 
-void TankAutoDefense::addDefense()
+void TankAutoDefense::changed()
 {
-	haveDefense_ = true;
-}
-
-void TankAutoDefense::rmDefense()
-{
-	haveDefense_ = false;
 }
 
 bool TankAutoDefense::haveDefense()
 {
-	return haveDefense_;
+	std::list<Accessory *> result = 
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryAutoDefense);
+	return !result.empty();
 }
 
 bool TankAutoDefense::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (writeAccessories) buffer.addToBuffer(haveDefense_);
-	else buffer.addToBuffer(false);
 	return true;
 }
 
 bool TankAutoDefense::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(haveDefense_)) return false;
 	return true;
 }

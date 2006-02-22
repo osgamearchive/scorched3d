@@ -53,10 +53,12 @@ public:
 	virtual ~MovementMap();
 
 	void calculateForTank(Tank *tank, ScorchedContext &context, bool maxFuel = false);
-	void movementTexture();
+	void movementTexture(unsigned int fuelId);
 	MovementMapEntry &getEntry(int w, int h);
+	static unsigned int getFuelId() { return fuelId_; }
 
 protected:
+	static unsigned int fuelId_;
 	MovementMapEntry *entries_;
 	int width_, height_;
 

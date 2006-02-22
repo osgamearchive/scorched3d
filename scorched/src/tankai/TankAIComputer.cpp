@@ -194,17 +194,15 @@ void TankAIComputer::buyAccessories()
 
 void TankAIComputer::selectFirstShield()
 {
-	if (currentTank_->getAccessories().getShields().getAllShields().size())
+	std::list<Accessory *> shields = 
+		currentTank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryShield);
+	if (!shields.empty())
 	{
-		std::list<Accessory *> shieldList = 
-			currentTank_->getAccessories().getShields().getAllShields();
-		if (!shieldList.empty())
+		Accessory *shield = shields.front();
+		if (!currentTank_->getShield().getCurrentShield())
 		{
-			Accessory *shield = shieldList.front();
-			if (!currentTank_->getShield().getCurrentShield())
-			{
-				shieldsUpDown(shield->getAccessoryId());
-			}
+			shieldsUpDown(shield->getAccessoryId());
 		}
 	}
 }
@@ -217,7 +215,13 @@ void TankAIComputer::raiseDefenses()
 	{
 		if (!currentTank_->getParachute().parachutesEnabled())
 		{
-			parachutesUpDown(true);
+			std::list<Accessory *> parachutes = 
+				currentTank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryParachute);
+			if (parachutes.size() == 1)
+			{
+				parachutesUpDown(parachutes.front()->getAccessoryId());
+			}
 		}
 	}
 
@@ -225,10 +229,7 @@ void TankAIComputer::raiseDefenses()
 	if (!currentTank_->getShield().getCurrentShield() &&
 		useShields_)
 	{
-		if (currentTank_->getAccessories().getShields().getAllShields().size())
-		{
-			selectFirstShield();
-		}
+		selectFirstShield();
 	}
 }
 
@@ -257,7 +258,13 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 		currentTank_->getLife().getMaxLife() &&
 		currentTank_->getAccessories().getBatteries().getNoBatteries() != 0)
 	{
-		useBattery();
+		std::list<Accessory *> entries = 
+			currentTank_->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryBattery);			
+		if (!entries.empty())
+		{
+			useBattery(entries.front()->getAccessoryId());
+		}
 	}
 
 	// Is there any point in making a move
@@ -360,19 +367,21 @@ void TankAIComputer::resign()
 	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
 }
 
-void TankAIComputer::move(int x, int y)
+void TankAIComputer::move(int x, int y, unsigned int fuelId)
 {
 	ComsPlayedMoveMessage *message = 
-		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
-	message->setPosition(x, y);
+		new ComsPlayedMoveMessage(
+			currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
+	message->setPosition(fuelId, x, y);
 	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
 }
 
-void TankAIComputer::parachutesUpDown(bool on)
+void TankAIComputer::parachutesUpDown(unsigned int paraId)
 {
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
-		on?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown);
+		(paraId!=0)?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown,
+		paraId);
 
 	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, currentTank_);
 }
@@ -387,11 +396,12 @@ void TankAIComputer::shieldsUpDown(unsigned int shieldId)
 	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, currentTank_);
 }
 
-void TankAIComputer::useBattery()
+void TankAIComputer::useBattery(unsigned int batteryId)
 {
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
-		ComsDefenseMessage::eBatteryUse);
+		ComsDefenseMessage::eBatteryUse,
+		batteryId);
 
 	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, currentTank_);
 }

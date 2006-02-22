@@ -33,8 +33,9 @@ ComsPlayedMoveMessage::~ComsPlayedMoveMessage()
 {
 }
 
-void ComsPlayedMoveMessage::setPosition(int x, int y)
+void ComsPlayedMoveMessage::setPosition(unsigned int fuelId, int x, int y)
 {
+	weaponId_ = fuelId;
 	rotationXY_ = (float)x;
 	rotationYZ_ = (float)y;
 }
@@ -56,6 +57,7 @@ bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer, unsigned int destina
 	buffer.addToBuffer((int) moveType_);
 	if (moveType_ == eMove)
 	{
+		buffer.addToBuffer(weaponId_);
 		buffer.addToBuffer(rotationXY_);
 		buffer.addToBuffer(rotationYZ_);
 	}
@@ -77,6 +79,7 @@ bool ComsPlayedMoveMessage::readMessage(NetBufferReader &reader)
 	moveType_ = (MoveType) mt;
 	if (moveType_ == eMove)
 	{
+		if (!reader.getFromBuffer(weaponId_)) return false;
 		if (!reader.getFromBuffer(rotationXY_)) return false;
 		if (!reader.getFromBuffer(rotationYZ_)) return false;
 	}

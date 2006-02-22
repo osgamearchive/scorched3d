@@ -22,12 +22,21 @@
 #include <coms/ComsDefenseMessage.h>
 #include <weapons/AccessoryStore.h>
 
+ComsDefenseMessage::ComsDefenseMessage() :
+	ComsMessage("ComsDefenseMessage"),
+	playerId_(0),
+	change_(eNoChange),
+	infoId_(0)
+{
+}
+
 ComsDefenseMessage::ComsDefenseMessage(unsigned int playerId,
 									   DefenseChange change,
 									   unsigned int infoId) :
 	ComsMessage("ComsDefenseMessage"),
 	playerId_(playerId),
-	change_(change), infoId_(infoId)
+	change_(change), 
+	infoId_(infoId)
 {
 }
 

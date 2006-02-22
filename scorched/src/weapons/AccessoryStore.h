@@ -54,6 +54,8 @@ public:
 
 	bool writeWeapon(NetBuffer &buffer, Weapon *weapon);
 	Weapon *readWeapon(NetBufferReader &reader);
+	bool writeAccessoryPart(NetBuffer &buffer, AccessoryPart *weapon);
+	AccessoryPart *readAccessoryPart(NetBufferReader &reader);
 
 	bool writeEconomyToBuffer(NetBuffer &buffer);
 	bool readEconomyFromBuffer(NetBufferReader &reader);

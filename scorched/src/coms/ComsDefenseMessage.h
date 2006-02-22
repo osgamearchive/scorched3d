@@ -37,9 +37,10 @@ public:
 		eBatteryUse
 	};
 
-	ComsDefenseMessage(unsigned int playerId = 0,
-		DefenseChange change = eNoChange,
-		unsigned int infoId = 0);
+	ComsDefenseMessage();
+	ComsDefenseMessage(unsigned int playerId,
+		DefenseChange change,
+		unsigned int infoId);
 	virtual ~ComsDefenseMessage();
 
 	void setPlayerId(unsigned int id) { playerId_ = id; }

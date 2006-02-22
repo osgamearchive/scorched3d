@@ -361,6 +361,24 @@ Weapon *AccessoryStore::readWeapon(NetBufferReader &reader)
 	return 0;
 }
 
+bool AccessoryStore::writeAccessoryPart(NetBuffer &buffer, AccessoryPart *part)
+{
+	buffer.addToBuffer(part->getAccessoryPartId());
+	return true;
+}
+
+AccessoryPart *AccessoryStore::readAccessoryPart(NetBufferReader &reader)
+{
+	unsigned int partId;
+	if (!reader.getFromBuffer(partId)) return 0;
+	AccessoryPart *accessoryPart = findByAccessoryPartId(partId);
+	if (accessoryPart->getAccessoryPartId() == partId)
+	{
+		return accessoryPart;
+	}
+	return 0;
+}
+
 bool AccessoryStore::writeEconomyToBuffer(NetBuffer &buffer)
 {
 	std::list<Accessory *> accessories = getAllAccessories();

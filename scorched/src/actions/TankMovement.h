@@ -28,6 +28,7 @@
 #include <map>
 
 class VirtualSoundSource;
+class Fuel;
 class Tank;
 class TankMovement : public ActionMeta
 {
@@ -36,6 +37,7 @@ public:
 
 	TankMovement();
 	TankMovement(unsigned int playerId,
+		Fuel *fuel,
 		int positionX, int positionY);
 	virtual ~TankMovement();
 
@@ -69,6 +71,7 @@ protected:
 		float ang;
 		bool useFuel;
 	};
+	Fuel *fuel_;
 	std::list<PositionEntry> expandedPositions_;
 	float timePassed_;
 	ViewPoints::ViewPoint *vPoint_;

@@ -29,11 +29,14 @@ public:
 	Fuel();
 	virtual ~Fuel();
 
+	float getStepTime() { return stepTime_; }
+
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
 
 	REGISTER_ACCESSORY_HEADER(Fuel, AccessoryPart::AccessoryFuel);
-
+protected:
+	float stepTime_;
 };
 
 #endif

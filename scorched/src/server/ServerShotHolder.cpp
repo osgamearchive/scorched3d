@@ -218,6 +218,14 @@ void ServerShotHolder::processMoveMessage(ScorchedContext &context,
 	// Check the is alive
 	if (tank->getState().getState() != TankState::sNormal) return;
 
+	Accessory *accessory = 
+		context.accessoryStore->findByAccessoryId(
+		message.getWeaponId());
+	if (!accessory || accessory->getType() != AccessoryPart::AccessoryFuel)
+	{
+		return;
+	}
+
 	int posX = message.getPositionX();
 	int posY = message.getPositionY();
 	if (posX > 0 && posX < context.landscapeMaps->getDefinitions().getDefn()->landscapewidth &&
@@ -234,7 +242,9 @@ void ServerShotHolder::processMoveMessage(ScorchedContext &context,
 			tank->getAccessories().getFuel().getNoFuel() == -1))
 		{
 			TankMovement *move = 
-				new TankMovement(tank->getPlayerId(), posX, posY);
+				new TankMovement(tank->getPlayerId(), 
+					(Fuel *) accessory->getAction(),
+					posX, posY);
 			context.actionController->addAction(move);
 		}
 	}
@@ -268,7 +278,7 @@ void ServerShotHolder::processFiredMessage(ScorchedContext &context,
 		{
 			// Check this tank has these weapons
 			int count = 
-				tank->getAccessories().getWeapons().getWeaponCount(accessory);
+				tank->getAccessories().getAccessoryCount(accessory);
 			if (count > 0 || count == -1)
 			{
 				if ((10 - accessory->getArmsLevel()) <=
@@ -276,7 +286,7 @@ void ServerShotHolder::processFiredMessage(ScorchedContext &context,
 					context.optionsGame->getGiveAllWeapons())
 				{
 					// Actually use up one of the weapons
-					tank->getAccessories().getWeapons().rmWeapon(accessory, 1);
+					tank->getAccessories().rm(accessory, 1);
 
 					// shot fired action
 					Weapon *weapon = (Weapon *) accessory->getAction();

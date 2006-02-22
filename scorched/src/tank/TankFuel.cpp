@@ -19,14 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankFuel.h>
+#include <tank/Tank.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
-#include <common/Defines.h>
-#include <common/OptionsGame.h>
-#include <stdio.h>
 
 TankFuel::TankFuel(ScorchedContext &context) :
-	context_(context), fuelCount_(0)
+	context_(context),
+	tank_(0)
 {
 }
 
@@ -36,34 +35,27 @@ TankFuel::~TankFuel()
 
 void TankFuel::newMatch()
 {
-	fuelCount_ = 0;
 }
 
-void TankFuel::rmFuel(int no)
+void TankFuel::changed()
 {
-	if (fuelCount_ == -1) return;
-
-	fuelCount_ -= no;
-	if (fuelCount_ < 0)
-	{
-		fuelCount_ = 0;
-	}
 }
 
-void TankFuel::addFuel(int no)
+int TankFuel::getNoFuel()
 {
-	fuelCount_+=no;
+	std::list<Accessory *> result = 
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryFuel);
+	if (result.empty()) return 0;
+	return tank_->getAccessories().getAccessoryCount(result.front());
 }
 
 bool TankFuel::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (writeAccessories) buffer.addToBuffer(fuelCount_);
-	else buffer.addToBuffer((int) 0);
 	return true;
 }
 
 bool TankFuel::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(fuelCount_)) return false;
 	return true;
 }

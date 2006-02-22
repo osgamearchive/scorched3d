@@ -102,21 +102,42 @@ void TankFuelTip::populate()
 
 void TankFuelTip::showItems(float x, float y)
 {
-	static GLWTip useTip("Fuel", 
-		"Switch movement mode on.\n"
-		"In this mode left clicking on the light areas\n"
-		"of the landscape will move the tank there.");
-	static GLWTip offTip("Fuel Cancel", 
-		"Switch back to the normal camera mode.");
-	
+	static GLWTip offTip("Fuel Off", 
+		"Don't select fuel or\n"
+		"turn off any fuel.");
+
+	unsigned int currentFuelId = MovementMap::getFuelId();
+
 	std::list<GLWSelectorEntry> entries;
-	if (tank_->getAccessories().getFuel().getNoFuel() != 0)
+	std::list<Accessory *> fuels = 
+		tank_->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryFuel,
+		OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator itor;
+	for (itor = fuels.begin();
+		itor != fuels.end();
+		itor++)
 	{
-		entries.push_back(GLWSelectorEntry("Move", &useTip, 0, 0, (void *) 1));
+		Accessory *current = (*itor);
+		int count = tank_->getAccessories().getAccessoryCount(current);
+
+		char buffer[128];
+		if (count >= 0)
+		{
+			snprintf(buffer, 128, "%s (%i)", 
+				current->getName(),
+				count);
+		}
+		else
+		{
+			snprintf(buffer, 128, "%s (In)",
+				current->getName());
+		}
+		entries.push_back(GLWSelectorEntry(buffer, &current->getToolTip(), 
+			(currentFuelId == current->getAccessoryId()), current->getTexture(), current));
 	}
-	entries.push_back(GLWSelectorEntry("Cancel", &offTip, 0, 0, (void *) 0));
+	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
 	GLWSelector::instance()->showSelector(this, x, y, entries,
-		ClientState::StatePlaying);		
+		ClientState::StatePlaying);
 }
 
 void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
@@ -138,7 +159,7 @@ void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
 			mmap.calculateForTank(tank_,
 					ScorchedClient::instance()->getContext());
-			mmap.movementTexture();
+			mmap.movementTexture(((Accessory *)entry->getUserData())->getAccessoryId());
 		}
 	}
 }
@@ -204,7 +225,13 @@ void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 		if (tank_->getLife().getLife() < 
 			tank_->getLife().getMaxLife())
 		{
-			tankAI->useBattery();
+			std::list<Accessory *> entries = 
+				tank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryBattery);			
+			if (!entries.empty())
+			{
+				tankAI->useBattery(entries.front()->getAccessoryId());
+			}
 		}
 	}
 }
@@ -228,7 +255,7 @@ void TankShieldTip::showItems(float x, float y)
 		tank_->getShield().getCurrentShield();
 	std::list<GLWSelectorEntry> entries;
 	std::list<Accessory *> shields = 
-		tank_->getAccessories().getShields().getAllShields(
+		tank_->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryShield,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = shields.begin();
@@ -263,7 +290,7 @@ void TankShieldTip::populate()
 	if (tank_->getShield().getCurrentShield())
 	{
 		char buffer[128];
-		int count = tank_->getAccessories().getShields().getShieldCount(
+		int count = tank_->getAccessories().getAccessoryCount(
 			tank_->getShield().getCurrentShield());
 		if (count >= 0) snprintf(buffer, 128, "%i", count);
 		else snprintf(buffer, 128, "Infinite");
@@ -368,7 +395,21 @@ void TankParachutesTip::showItems(float x, float y)
 void TankParachutesTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	tankAI->parachutesUpDown(entry->getUserData()==0?false:true);
+
+	if (entry->getUserData()==0)
+	{
+		tankAI->parachutesUpDown(0);
+	}
+	else
+	{
+		std::list<Accessory *> parachutes = 
+			tank_->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryParachute);
+		if (parachutes.size() == 1)
+		{
+			tankAI->parachutesUpDown(parachutes.front()->getAccessoryId());
+		}
+	}
 }
 
 TankAutoDefenseTip::TankAutoDefenseTip(Tank *tank) : 
@@ -418,7 +459,7 @@ TankWeaponTip::~TankWeaponTip()
 
 void TankWeaponTip::populate()
 {
-	if (tank_->getAccessories().getWeapons().getWeaponCount(
+	if (tank_->getAccessories().getAccessoryCount(
 		tank_->getAccessories().getWeapons().getCurrent()) > 0)
 	{
 		setText("Weapon", formatString(
@@ -427,7 +468,7 @@ void TankWeaponTip::populate()
 			"Weapon : %s (%i)\n"
 			"Description :\n%s",
 			tank_->getAccessories().getWeapons().getCurrent()->getName(),
-			tank_->getAccessories().getWeapons().getWeaponCount(
+			tank_->getAccessories().getAccessoryCount(
 			tank_->getAccessories().getWeapons().getCurrent()),
 			tank_->getAccessories().getWeapons().getCurrent()->getDescription()));
 	}
@@ -450,7 +491,7 @@ void TankWeaponTip::showItems(float x, float y)
 	Accessory *currentWeapon = 
 		tank_->getAccessories().getWeapons().getCurrent();
 	std::list<Accessory *> weapons = 
-		tank_->getAccessories().getWeapons().getAllWeapons(
+		tank_->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryWeapon,
 			OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();

@@ -70,7 +70,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 		{
 			Accessory *battery = 
 				ScorchedClient::instance()->getAccessoryStore().
-					findByAccessoryType(AccessoryPart::AccessoryBattery);
+					findByAccessoryId(message.getInfoId());
 			if (battery)
 			{
 				SoundBuffer *batSound = 
@@ -78,16 +78,16 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 						getDataFile(formatString("data/wav/%s", battery->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 					batSound, tank->getPosition().getTankPosition());
-			}
 
-			if (tank->getDestinationId() != 
-				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
-			{
-				tank->getAccessories().getBatteries().addBatteries(1);
-			}
+				if (tank->getDestinationId() != 
+					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
+				{
+					tank->getAccessories().add(battery, 1);
+				}
 
-			tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
-			tank->getAccessories().getBatteries().rmBatteries(1);
+				tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
+				tank->getAccessories().rm(battery, 1);
+			}
 		}
 		break;
 	case ComsDefenseMessage::eShieldUp:
@@ -107,9 +107,9 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 				{
 					// Make sure tank has this shield
-					tank->getAccessories().getShields().addShield(accessory, 1);
+					tank->getAccessories().add(accessory, 1);
 				}
-				tank->getAccessories().getShields().rmShield(accessory, 1);
+				tank->getAccessories().rm(accessory, 1);
 				tank->getShield().setCurrentShield(accessory);
 			}
 		}
@@ -123,7 +123,7 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 		{
 			Accessory *parachute = 
 				ScorchedClient::instance()->getAccessoryStore().
-					findByAccessoryType(AccessoryPart::AccessoryParachute);
+					findByAccessoryId(message.getInfoId());
 			if (parachute)
 			{
 				SoundBuffer *paraSound = 

@@ -27,6 +27,7 @@
 #include <coms/NetBuffer.h>
 
 class ScorchedContext;
+class Tank;
 class Accessory;
 class TankWeapon  
 {
@@ -34,21 +35,17 @@ public:
 	TankWeapon(ScorchedContext &context);
 	virtual ~TankWeapon();
 
-	void newMatch();
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	void addWeapon(Accessory *wp, int count); // (count < 0) == infinite
-	void rmWeapon(Accessory *wp, int count);
+	void newMatch();
+	void changed();
+
 	bool setWeapon(Accessory *wp);
 
 	// Change the currently selected weapon
 	void prevWeapon();
 	void nextWeapon();
 	Accessory *getCurrent();
-
-	// Get inventry
-	std::list<Accessory *> getAllWeapons(bool sort=false);
-	int getWeaponCount(Accessory *weapon);
-
 	const char *getWeaponString();
 
 	// Serialize the tank
@@ -56,9 +53,9 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::map<Accessory *, int> weapons_;
 	Accessory *currentWeapon_;
 	ScorchedContext &context_;
+	Tank *tank_;
 
 	void setCurrentWeapon(Accessory *wp);
 

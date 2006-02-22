@@ -23,6 +23,7 @@
 
 #include <coms/NetBuffer.h>
 
+class Tank;
 class ScorchedContext;
 class TankAutoDefense
 {
@@ -30,10 +31,10 @@ public:
 	TankAutoDefense(ScorchedContext &context);
 	virtual ~TankAutoDefense();
 
-	void newMatch();
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	void addDefense();
-	void rmDefense();
+	void newMatch();
+	void changed();
 	bool haveDefense();
 
 	// Serialize the tank
@@ -41,9 +42,8 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	bool haveDefense_;
 	ScorchedContext &context_;
+	Tank *tank_;
 };
-
 
 #endif

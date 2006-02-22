@@ -256,7 +256,7 @@ void GLWScorchedInfo::draw()
 		case eWeaponCount:
 		{
 			setToolTip(&model->getTips()->weaponTip);
-			int count = current->getAccessories().getWeapons().getWeaponCount(
+			int count = current->getAccessories().getAccessoryCount(
 				current->getAccessories().getWeapons().getCurrent());
 			const char *format = "%i";
 			if (count < 0) format = "In";

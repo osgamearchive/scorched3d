@@ -27,19 +27,17 @@
 
 class Accessory;
 class ScorchedContext;
+class Tank;
 class TankShields  
 {
 public:
 	TankShields(ScorchedContext &context);
 	virtual ~TankShields();
 
+	void setTank(Tank *tank) { tank_ = tank; }
+
 	void newMatch();
-
-	void addShield(Accessory *sh, int count);
-	void rmShield(Accessory *sh, int count);
-
-	int getShieldCount(Accessory *shield);
-	std::list<Accessory *> getAllShields(bool sort=false);
+	void changed();
 
 	// Serialize
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);
@@ -47,7 +45,7 @@ public:
 
 protected:
 	ScorchedContext &context_;
-	std::map<Accessory *, int> shields_;
+	Tank *tank_;
 
 };
 

@@ -27,6 +27,8 @@
 #include <tank/Tank.h>
 #include <memory.h>
 
+unsigned int MovementMap::fuelId_ = 0;
+
 MovementMap::MovementMap(int width, int height) :
 	width_(width), height_(height)
 {
@@ -225,7 +227,7 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
 
-void MovementMap::movementTexture()
+void MovementMap::movementTexture(unsigned int fuelId)
 {
 	GLBitmap newMap(
 		Landscape::instance()->getMainMap().getWidth(),
@@ -265,4 +267,5 @@ void MovementMap::movementTexture()
 
 	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
 	Landscape::instance()->setTextureType(Landscape::eMovement);
+	fuelId_ = fuelId;
 }

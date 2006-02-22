@@ -24,26 +24,26 @@
 #include <coms/NetBuffer.h>
 
 class ScorchedContext;
+class Tank;
 class TankFuel
 {
 public:
 	TankFuel(ScorchedContext &context);
 	virtual ~TankFuel();
 
-	void newMatch();
-	void newGame();
-	void rmFuel(int no);
-	void addFuel(int no);
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	int getNoFuel() { return fuelCount_; }
+	void newMatch();
+	void changed();
+	int getNoFuel();
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	int fuelCount_;
 	ScorchedContext &context_;
+	Tank *tank_;
 };
 
 #endif

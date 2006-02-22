@@ -23,7 +23,7 @@
 
 REGISTER_ACCESSORY_SOURCE(Fuel);
 
-Fuel::Fuel()
+Fuel::Fuel() : stepTime_(0.05f)
 {
 }
 
@@ -34,5 +34,6 @@ Fuel::~Fuel()
 bool Fuel::parseXML(OptionsGame &context,
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
+	accessoryNode->getNamedChild("steptime", stepTime_, false);
 	return true;
 }

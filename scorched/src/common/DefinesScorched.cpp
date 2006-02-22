@@ -31,7 +31,7 @@
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "40";
-char *ScorchedProtocolVersion = "ca";
+char *ScorchedProtocolVersion = "cb";
 static char exeName[1024];
 static char *dataModFile = 0;
 static std::string settingsDir = ".scorched3d";

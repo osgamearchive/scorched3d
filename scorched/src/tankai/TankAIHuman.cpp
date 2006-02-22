@@ -117,7 +117,13 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("ENABLE_PARACHUTES", parachuteKey);
 	if (parachuteKey->keyDown(buffer, keyState, false))
 	{
-		parachutesUpDown(true);
+		std::list<Accessory *> parachutes = 
+			currentTank_->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryParachute);
+		if (parachutes.size() == 1)
+		{
+			parachutesUpDown(parachutes.front()->getAccessoryId());
+		}
 	}
 
 	KEYBOARDKEY("ENABLE_SHIELDS", shieldKey);
@@ -126,7 +132,8 @@ void TankAIHuman::playMove(const unsigned state,
 		if (!currentTank_->getShield().getCurrentShield())
 		{
 			std::list<Accessory *> shields = 
-				currentTank_->getAccessories().getShields().getAllShields();
+				currentTank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryShield);
 			if (shields.size() == 1)
 			{
 				shieldsUpDown(shields.front()->getAccessoryId());
@@ -140,7 +147,13 @@ void TankAIHuman::playMove(const unsigned state,
 		if (currentTank_->getLife().getLife() < 
 			currentTank_->getLife().getMaxLife())
 		{
-			useBattery();
+			std::list<Accessory *> entries = 
+				currentTank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryBattery);			
+			if (!entries.empty())
+			{
+				useBattery(entries.front()->getAccessoryId());
+			}
 		}
 	}
 
@@ -492,11 +505,12 @@ void TankAIHuman::resign()
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
-void TankAIHuman::move(int x, int y)
+void TankAIHuman::move(int x, int y, unsigned int fuelId)
 {
 	// send message saying we are finished with shot
-	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
-	comsMessage.setPosition(x, y);
+	ComsPlayedMoveMessage comsMessage(
+		currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
+	comsMessage.setPosition(fuelId, x, y);
 
 	// If so we send this move to the server
 	ComsMessageSender::sendToServer(comsMessage);
@@ -505,11 +519,12 @@ void TankAIHuman::move(int x, int y)
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
-void TankAIHuman::parachutesUpDown(bool on)
+void TankAIHuman::parachutesUpDown(unsigned int paraId)
 {
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
-		on?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown);
+		(paraId!=0)?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown,
+		paraId);
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
@@ -522,10 +537,10 @@ void TankAIHuman::shieldsUpDown(unsigned int shieldId)
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
-void TankAIHuman::useBattery()
+void TankAIHuman::useBattery(unsigned int batteryId)
 {
 	ComsDefenseMessage defenseMessage(
 		currentTank_->getPlayerId(),
-		ComsDefenseMessage::eBatteryUse);
-	ComsMessageSender::sendToServer(defenseMessage);
+		ComsDefenseMessage::eBatteryUse,
+		batteryId);
 }

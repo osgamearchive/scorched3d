@@ -21,12 +21,11 @@
 #if !defined(AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)
 #define AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_
 
-#include <list>
-#include <string>
 #include <coms/NetBuffer.h>
 
 class Tank;
 class ScorchedContext;
+class Tank;
 class TankParachutes  
 {
 public:
@@ -36,21 +35,16 @@ public:
 	void setTank(Tank *tank) { tank_ = tank; }
 
 	void newMatch();
-	void useParachutes(int no=1);
-	void addParachutes(int no);
-
-	int getNoParachutes() { return parachuteCount_; }
+	void changed();
+	int getNoParachutes();
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	int parachuteCount_;
-	float parachuteThreshold_;
 	ScorchedContext &context_;
 	Tank *tank_;
-
 };
 
 #endif // !defined(AFX_TANKPARACHUTES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)

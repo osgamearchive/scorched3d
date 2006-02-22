@@ -24,26 +24,26 @@
 #include <coms/NetBuffer.h>
 
 class ScorchedContext;
+class Tank;
 class TankBatteries  
 {
 public:
 	TankBatteries(ScorchedContext &context);
 	virtual ~TankBatteries();
 
-	void newMatch();
-	void newGame();
-	void rmBatteries(int no);
-	void addBatteries(int no);
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	int getNoBatteries() { return batteryCount_; }
+	void newMatch();
+	void changed();
+	int getNoBatteries();
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	int batteryCount_;
 	ScorchedContext &context_;
+	Tank *tank_;
 
 };
 

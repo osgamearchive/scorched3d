@@ -331,8 +331,8 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 			switch (accessory->getType())
 			{
 			case AccessoryPart::AccessoryParachute:
-				tankAI->parachutesUpDown(
-					!firstTank->getParachute().parachutesEnabled());
+				tankAI->parachutesUpDown(firstTank->getParachute().parachutesEnabled()?
+					0:accessory->getAccessoryId());
 				break;
 			case AccessoryPart::AccessoryShield:
 				tankAI->shieldsUpDown(accessory->getAccessoryId());
@@ -344,7 +344,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 				if (firstTank->getLife().getLife() < 
 					firstTank->getLife().getMaxLife())
 				{
-					tankAI->useBattery();
+					tankAI->useBattery(accessory->getAccessoryId());
 				}
 				break;
 			case AccessoryPart::AccessoryFuel:
@@ -359,7 +359,7 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
 					mmap.calculateForTank(
 						firstTank, ScorchedClient::instance()->getContext());
-					mmap.movementTexture();
+					mmap.movementTexture(accessory->getAccessoryId());
 				}
 				break;
 			default:

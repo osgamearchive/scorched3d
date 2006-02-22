@@ -460,7 +460,7 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 							currentTank->getAccessories().getFuel().getNoFuel() == -1))
 						{
 							TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
-							if (ai) ai->move(posX, posY);
+							if (ai) ai->move(posX, posY, MovementMap::getFuelId());
 						}
 					}
 				}
