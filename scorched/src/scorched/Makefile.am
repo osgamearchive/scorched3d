@@ -437,8 +437,6 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsGroupEntry.cpp \
 	../landscape/LandscapeObjectsGroupEntry.h \
-	../landscape/LandscapeObjectsPlacement.cpp \
-	../landscape/LandscapeObjectsPlacement.h \
 	../landscape/LandscapePlace.cpp \
 	../landscape/LandscapePlace.h \
 	../landscape/LandscapePoints.cpp \
@@ -1163,6 +1161,8 @@ scorched3d_SOURCES = \
 	../ships/ShipGroup.h \
 	../XML/XMLFile.cpp \
 	../XML/XMLFile.h \
+	../XML/XMLNode.cpp \
+	../XML/XMLNode.h \
 	../XML/XMLParser.cpp \
 	../XML/XMLParser.h \
 	../XML/XMLStringBuffer.cpp \
@@ -1193,6 +1193,8 @@ scorched3d_SOURCES = \
 	../placement/PlacementObject.h \
 	../placement/PlacementObjectModel.cpp \
 	../placement/PlacementObjectModel.h \
+	../placement/PlacementObjectTarget.cpp \
+	../placement/PlacementObjectTarget.h \
 	../placement/PlacementObjectTree.cpp \
 	../placement/PlacementObjectTree.h \
 	../placement/PlacementType.cpp \

@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string>
+#include <unistd.h>
 #include <common/DefinesScorched.h>
 #include <common/DefinesFile.h>
 #include <common/DefinesString.h>

@@ -93,7 +93,8 @@ scorcheddata_DATA = data/accessories.xml \
 	data/textureset.xml \
 	data/tips.txt \
 	data/windows.xml \
-	data/tanktypes.xml
+	data/tanktypes.xml \
+	data/fastestdisplay.xml
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb.ase \
 	data/accessories/clusterbomb2.ase \
@@ -572,7 +573,7 @@ scorcheddataglobalmodsapocdatatexturesexplode_DATA = data/globalmods/apoc/data/t
 	data/globalmods/apoc/data/textures/explode/light00_3.bmp \
 	data/globalmods/apoc/data/textures/explode/light00_4.bmp \
 	data/globalmods/apoc/data/textures/explode/light01_1.bmp \
-	data/globalmods/apoc/data/textures/explode/smoke-orange.bmp
+	data/globalmods/apoc/data/textures/explode/smoke_orange.bmp
 scorcheddataglobalmodsapocdatatextureslandscapedir = ${datadir}/data/globalmods/apoc/data/textures/landscape
 scorcheddataglobalmodsapocdatatextureslandscape_DATA = data/globalmods/apoc/data/textures/landscape/defaultscorched.bmp
 scorcheddataglobalmodsapocdatatextureslandscapedesertdir = ${datadir}/data/globalmods/apoc/data/textures/landscape/desert
@@ -760,7 +761,8 @@ scorcheddatalandscapes_DATA = data/landscapes/ambientsoundjet.xml \
 	data/landscapes/textropical.xml \
 	data/landscapes/texvulcano.xml \
 	data/landscapes/valley-mask.bmp \
-	data/landscapes/valley.bmp
+	data/landscapes/valley.bmp \
+	data/landscapes/placetest.xml
 scorcheddatameshesdir = ${datadir}/data/meshes
 scorcheddatameshes_DATA = data/meshes/autoaim.ase \
 	data/meshes/bird.txt \
@@ -1440,4 +1442,8 @@ scorcheddatawindows_DATA = data/windows/aima.bmp \
 	data/windows/wind.bmp \
 	data/windows/winda.bmp \
 	data/windows/winda2.bmp \
-	data/windows/white.bmp
+	data/windows/white.bmp \
+	data/windows/camera.bmp \
+	data/windows/cameraa.bmp \
+	data/windows/screen.bmp \
+	data/windows/screena.bmp
