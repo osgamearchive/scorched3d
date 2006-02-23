@@ -10,8 +10,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname>trees</groupname>
 			<object type="tree">
 				<tree>pine</tree>
@@ -28,8 +26,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname>trees</groupname>
 			<object type="tree">
 				<tree>palm</tree>
@@ -46,8 +42,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/cactussmall.txt</model>
@@ -64,8 +58,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/deer1.txt</model>
@@ -82,8 +74,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/deer2.txt</model>

@@ -77,6 +77,7 @@ bool TankType::initFromXML(ScorchedContext &context, XMLNode *node)
 
 bool TankType::getAccessoryDisabled(Accessory *accessory)
 {
+	if (disabledAccessories_.empty()) return false;
 	return (disabledAccessories_.find(accessory) != disabledAccessories_.end());
 }
 

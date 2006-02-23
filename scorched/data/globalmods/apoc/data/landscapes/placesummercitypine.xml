@@ -5,8 +5,6 @@
 			<numclusters>6</numclusters>
 			<minheight>15</minheight>
 			<maxheight>60</maxheight>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname>trees</groupname>
 			<object type="tree">
 				<tree>pine</tree>

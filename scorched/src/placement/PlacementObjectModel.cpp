@@ -41,7 +41,9 @@ bool PlacementObjectModel::readXML(XMLNode *node)
 	if (!modelId.initFromNode(".", modelnode)) return false;
 	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
 	if (!modelburntId.initFromNode(".", burntmodelnode)) return false;
-	node->getNamedChild("name", name, false);
+
+	node->getNamedChild("removeaction", removeaction, false);
+	node->getNamedChild("burnaction", burnaction, false);
 
 	model = ModelStore::instance()->loadModel(modelId);
 	modelburnt = ModelStore::instance()->loadModel(modelburntId);
@@ -73,8 +75,8 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 	modelEntry->posY = position.position[1];
 	modelEntry->posZ = position.position[2];
 	modelEntry->rotation = position.rotation;
-	modelEntry->removeaction = information.removeaction;
-	modelEntry->burnaction = information.burnaction;
+	modelEntry->removeaction = removeaction;
+	modelEntry->burnaction = burnaction;
 	modelEntry->modelsize = modelsize;
 
 	context.landscapeMaps->getGroundMaps().getObjects().addObject(

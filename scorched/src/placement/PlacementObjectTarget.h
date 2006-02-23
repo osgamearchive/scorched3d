@@ -22,7 +22,7 @@
 #define __INCLUDE_PlacementObjectTargeth_INCLUDE__
 
 #include <placement/PlacementObject.h>
-#include <3dsparse/ModelID.h>
+#include <target/TargetDefinition.h>
 
 class PlacementObjectTarget : public PlacementObject
 {
@@ -39,11 +39,7 @@ public:
 		PlacementType::Position &position);
 
 protected:
-	std::string name_;
-	std::string parachute_;
-	std::string shield_;
-	ModelID modelId_;
-	ModelID modelburntId_;
+	TargetDefinition targetDef_;
 };
 
 #endif // __INCLUDE_PlacementObjectTargeth_INCLUDE__

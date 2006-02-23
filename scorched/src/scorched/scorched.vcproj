@@ -3865,6 +3865,12 @@
 				RelativePath="..\target\TargetDamageCalc.h">
 			</File>
 			<File
+				RelativePath="..\target\TargetDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetDefinition.h">
+			</File>
+			<File
 				RelativePath="..\target\TargetLife.cpp">
 			</File>
 			<File

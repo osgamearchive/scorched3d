@@ -54,8 +54,6 @@ bool PlacementType::readXML(XMLNode *node)
 	if (!objectNode->getNamedParameter("type", objecttype)) return false;
 	if (!(placementobject = PlacementObject::create(objecttype.c_str()))) return false;
 	if (!placementobject->readXML(objectNode)) return false;
-	if (!node->getNamedChild("removeaction", information_.removeaction)) return false;
-	if (!node->getNamedChild("burnaction", information_.burnaction)) return false;
 	if (!node->getNamedChild("groupname", information_.groupname)) return false;
 	return node->failChildren();
 }

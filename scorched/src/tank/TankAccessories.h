@@ -73,6 +73,7 @@ protected:
 	std::map<Accessory *, int> accessories_;
 
 	void changed();
+	void add_(Accessory *accessory, int count);
 };
 
 #endif // !defined(AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_)

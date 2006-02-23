@@ -1,8 +1,6 @@
 <place>
 	<placements>
 		<placement type="direct">
-			<removeaction>TestPowerUpWeapon</removeaction> 
-			<burnaction>none</burnaction> 
 			<groupname>none</groupname>
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 

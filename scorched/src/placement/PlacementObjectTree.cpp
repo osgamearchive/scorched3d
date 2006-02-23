@@ -39,6 +39,9 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("tree", tree)) return false;
 	if (!node->getNamedChild("snow", snow)) return false;
+
+	node->getNamedChild("removeaction", removeaction, false);
+	node->getNamedChild("burnaction", burnaction, false);
 	return PlacementObject::readXML(node);
 }
 
@@ -60,8 +63,8 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	treeEntry->posY = position.position[1];
 	treeEntry->posZ = position.position[2];
 	treeEntry->rotation = position.rotation;
-	treeEntry->removeaction = information.removeaction;
-	treeEntry->burnaction = information.burnaction;
+	treeEntry->removeaction = removeaction;
+	treeEntry->burnaction = burnaction;
 	treeEntry->modelsize = 1.0f;
 
 	context.landscapeMaps->getGroundMaps().getObjects().addObject(

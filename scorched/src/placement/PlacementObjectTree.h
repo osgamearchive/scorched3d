@@ -40,6 +40,8 @@ public:
 
 protected:
 	std::string tree;
+	std::string burnaction;
+	std::string removeaction;
 	float snow;
 };
 

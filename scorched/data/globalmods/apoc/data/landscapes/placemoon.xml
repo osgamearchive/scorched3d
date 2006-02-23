@@ -1,8 +1,6 @@
 <place>
 	<placements>
 		<!--<placement type="direct"> 
-			<removeaction>none</removeaction> 
-			<burnaction>none</burnaction> 
 			<groupname>planets</groupname>
 			<object type="model"> 
 				<model type="MilkShape">data/accessories/objects/earth_half.txt</model> 
@@ -24,8 +22,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock1.txt</model>
@@ -42,8 +38,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock2.txt</model>
@@ -60,8 +54,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock3.txt</model>
@@ -78,8 +70,6 @@
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
 			<angsnap>0</angsnap>
-			<removeaction></removeaction>
-			<burnaction></burnaction>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock4.txt</model>

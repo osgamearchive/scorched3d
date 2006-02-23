@@ -85,7 +85,7 @@ void TankAccessories::newMatch()
 
 				if (startingNumber != 0)
 				{
-					add(accessory, startingNumber);
+					add_(accessory, startingNumber);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ void TankAccessories::newMatch()
 			Accessory *accessory = (*itor).first;
 			int count = (*itor).second;
 
-			add(accessory, count);
+			add_(accessory, count);
 		}
 	}
 
@@ -179,7 +179,8 @@ bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 
 	// Check if this accessory is allowed at all
 	if (accessory->getMaximumNumber() == 0) return false;
-	if (getAccessoryCount(accessory) + count >
+	int currentCount = getAccessoryCount(accessory);
+	if (currentCount + count >
 		accessory->getMaximumNumber())
 	{
 		return false;
@@ -193,7 +194,7 @@ bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 	}
 
 	// Check if an infinite weapon is being bought twice
-	if (getAccessoryCount(accessory) == -1)
+	if (currentCount == -1)
 	{
 		return false;
 	}
@@ -202,6 +203,12 @@ bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 }
 
 void TankAccessories::add(Accessory *accessory, int count)
+{
+	add_(accessory, count);
+	changed();
+}
+
+void TankAccessories::add_(Accessory *accessory, int count)
 {
 	// Check if this tank is allowed this accessory
 	if (!accessoryAllowed(accessory, count)) return;
@@ -216,8 +223,6 @@ void TankAccessories::add(Accessory *accessory, int count)
 	{
 		accessories_[accessory] += count;
 	}
-
-	changed();
 }
 
 void TankAccessories::rm(Accessory *accessory, int count)

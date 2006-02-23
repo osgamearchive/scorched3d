@@ -40,7 +40,8 @@ public:
 		PlacementType::Position &position);
 
 protected:
-	std::string name;
+	std::string burnaction;
+	std::string removeaction;
 	ModelID modelId;
 	ModelID modelburntId;
 	Model *model;

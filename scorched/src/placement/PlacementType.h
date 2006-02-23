@@ -47,8 +47,6 @@ public:
 	};
 	struct Information
 	{
-		std::string removeaction;
-		std::string burnaction;
 		std::string groupname;
 	};
 

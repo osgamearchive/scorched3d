@@ -40,15 +40,7 @@ PlacementObjectTarget::~PlacementObjectTarget()
 
 bool PlacementObjectTarget::readXML(XMLNode *node)
 {
-	XMLNode *modelnode, *burntmodelnode;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!modelId_.initFromNode("data/accessories", modelnode)) return false;
-	//if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
-	//if (!modelburntId_.initFromNode(".", burntmodelnode)) return false;
-	if (!node->getNamedChild("name", name_)) return false;
-	if (!node->getNamedChild("shield", shield_)) return false;
-	if (!node->getNamedChild("parachute", parachute_)) return false;
-
+	if (!targetDef_.readXML(node)) return false;
 	return PlacementObject::readXML(node);
 }
 
@@ -58,55 +50,8 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
-	TargetModelId targetModelId(modelId_);
-	Target *target = new Target(++playerId, 
-		targetModelId, 
-		name_.c_str(), context);
-	target->newGame();
+	++playerId;
+	Target *target = targetDef_.createTarget(playerId, context);
 	target->setTargetPosition(position.position);
-
-	if (0 != strcmp(shield_.c_str(), "none"))
-	{
-		Accessory *shield = context.accessoryStore->
-			findByPrimaryAccessoryName(shield_.c_str());
-		if (!shield)
-		{
-			dialogExit("Scorched3D",
-				formatString("Failed to find shield named \"%s\"",
-				shield_.c_str()));
-		}
-
-		target->getShield().setCurrentShield(shield);
-	}
-
-	if (0 != strcmp(parachute_.c_str(), "none"))
-	{
-		Accessory *parachute = context.accessoryStore->
-			findByPrimaryAccessoryName(parachute_.c_str());
-		if (!parachute)
-		{
-			dialogExit("Scorched3D",
-				formatString("Failed to find parachute named \"%s\"",
-				parachute_.c_str()));
-		}
-
-		target->getParachute().setParachutesEnabled(true);
-	}
-
-	// TODO burnaction, burnmodel, rotation, size etc...
-	if (0 != strcmp(information.removeaction.c_str(), "none"))
-	{
-		Accessory *action = context.accessoryStore->
-			findByPrimaryAccessoryName(information.removeaction.c_str());		
-		if (!action || action->getType() != AccessoryPart::AccessoryWeapon)
-		{
-			dialogExit("Scorched3D",
-				formatString("Failed to find death action \"%s\"",
-				information.removeaction.c_str()));
-		}
-
-		target->setDeathAction((Weapon *) action->getAction());
-	}
-
 	context.targetContainer->addTarget(target);
 }
