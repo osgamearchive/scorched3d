@@ -22,20 +22,15 @@
 #define __INCLUDE_WeaponAddTargeth_INCLUDE__
 
 #include <weapons/Weapon.h>
-#include <3dsparse/ModelID.h>
+#include <target/TargetDefinition.h>
 
-class Shield;
-class Parachute;
 class WeaponAddTarget : public Weapon
 {
 public:
 	WeaponAddTarget();
 	virtual ~WeaponAddTarget();
 
-	ModelID &getTargetModel() { return targetModelId_; }
-	Shield *getShield() { return shield_; }
-	Parachute *getParachute() { return parachute_; }
-	Weapon *getDeathAction() { return deathAction_; }
+	TargetDefinition &getTargetDefinition() { return targetDefinition_; }
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
@@ -46,10 +41,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponAddTarget, AccessoryPart::AccessoryWeapon);
 
 protected:
-	ModelID targetModelId_;
-	Shield *shield_;
-	Parachute *parachute_;
-	Weapon *deathAction_;
+	TargetDefinition targetDefinition_;
 };
 
 #endif // __INCLUDE_WeaponAddTargeth_INCLUDE__

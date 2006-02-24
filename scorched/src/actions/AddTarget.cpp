@@ -53,27 +53,9 @@ void AddTarget::init()
 
 void AddTarget::simulate(float frameTime, bool &remove)
 {
-	TargetModelId targetModelId(addTarget_->getTargetModel());
-	Target *target = new Target(playerId_, 
-		targetModelId, 
-		"PowerUp", *context_);
-	target->newGame();
+	Target *target = addTarget_->getTargetDefinition().createTarget(
+		playerId_, *context_);
 	target->setTargetPosition(position_);
-
-	if (addTarget_->getShield())
-	{
-		target->getShield().setCurrentShield(
-			addTarget_->getShield()->getParent());
-	}
-	if (addTarget_->getParachute())
-	{
-		target->getParachute().setParachutesEnabled(true);
-	}
-	if (addTarget_->getDeathAction())
-	{
-		target->setDeathAction(addTarget_->getDeathAction());
-	}
-
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall

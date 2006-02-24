@@ -30,8 +30,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponAddTarget);
 
-WeaponAddTarget::WeaponAddTarget() : 
-	shield_(0), parachute_(0), deathAction_(0)
+WeaponAddTarget::WeaponAddTarget()
 {
 }
 
@@ -42,40 +41,7 @@ WeaponAddTarget::~WeaponAddTarget()
 bool WeaponAddTarget::parseXML(OptionsGame &context,
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	// Get target model
-	XMLNode *modelNode = 0;
-	if (accessoryNode->getNamedChild("model", modelNode))
-	{
-		if (!targetModelId_.initFromNode("data/accessories", modelNode)) return false;
-	}
-
-	// Does target have a shield
-	std::string shield;
-	if (!accessoryNode->getNamedChild("shield", shield)) return false;
-	if (0 != strcmp(shield.c_str(), "none"))
-	{
-		shield_ = (Shield *) store->
-			findByPrimaryAccessoryName(shield.c_str())->getAction();
-	}
-
-	// Does target have parachutes
-	std::string parachute;
-	if (!accessoryNode->getNamedChild("parachute", parachute)) return false;
-	if (0 != strcmp(parachute.c_str(), "none"))
-	{
-		parachute_ = (Parachute *) store->
-			findByPrimaryAccessoryName(parachute.c_str())->getAction();
-	}
-
-	// Get the next weapon
-	std::string deathaction;
-	if (!accessoryNode->getNamedChild("deathaction", deathaction)) return false;
-	if (0 != strcmp(deathaction.c_str(), "none"))
-	{
-		deathAction_ = (Weapon *) store->
-			findByPrimaryAccessoryName(deathaction.c_str())->getAction();
-	}
-
+	targetDefinition_.readXML(accessoryNode);
 	return accessoryNode->failChildren();
 }
 

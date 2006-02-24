@@ -1421,10 +1421,11 @@ and shields damaging the tank directly.</description>
 					<landonly>true</landonly>
 					<scatterpercentage>75</scatterpercentage>
 					<aimedweapon type='WeaponAddTarget'>
+						<name>Bannana</name>
 						<model type="MilkShape">banana/banana.txt</model>
 						<shield>Shield</shield>
 						<parachute>Parachute</parachute>
-						<deathaction>TestPowerUpWeapon</deathaction>
+						<removeaction>TestPowerUpWeapon</removeaction>
 					</aimedweapon>
 				</nextaction>
 			</repeatweapon>
