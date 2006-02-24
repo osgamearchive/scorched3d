@@ -44,10 +44,9 @@ public:
 
 	bool accessoryAllowed(Accessory *accessory, int count);
 	int getAccessoryCount(Accessory *accessory);
-	std::list<Accessory *> getAllAccessories(
-		bool sort=false);
-	std::list<Accessory *> getAllAccessoriesByType(
-		AccessoryPart::AccessoryType type, bool sort=false);
+	void getAllAccessories(std::list<Accessory *> &result, bool sort=false);
+	void getAllAccessoriesByType(AccessoryPart::AccessoryType type, 
+		std::list<Accessory *> &result, bool sort=false);
 
 	TankFuel &getFuel() { return tankFuel_; }
 	TankWeapon &getWeapons() { return tankWeapon_; }

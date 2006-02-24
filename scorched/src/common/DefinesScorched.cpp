@@ -22,13 +22,16 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string>
-#include <unistd.h>
 #include <common/DefinesScorched.h>
 #include <common/DefinesFile.h>
 #include <common/DefinesString.h>
 #include <common/DefinesAssert.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#ifndef WIN32
+#include <unistd.h>
+#endif
 
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "40";

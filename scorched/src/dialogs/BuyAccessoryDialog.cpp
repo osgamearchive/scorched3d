@@ -227,9 +227,10 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 	if (!tank) return;
 
 	float height = 10.0f;
-	std::list<Accessory *> tankAccessories = 
-		tank->getAccessories().getAllAccessories(
-			OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *> tankAccessories;
+	tank->getAccessories().getAllAccessories(
+		tankAccessories,
+		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();
 		itor != tankAccessories.end();

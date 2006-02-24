@@ -43,9 +43,9 @@ void TankFuel::changed()
 
 int TankFuel::getNoFuel()
 {
-	std::list<Accessory *> result = 
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryFuel);
+	std::list<Accessory *> result;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryFuel, result);
 	if (result.empty()) return 0;
 	return tank_->getAccessories().getAccessoryCount(result.front());
 }

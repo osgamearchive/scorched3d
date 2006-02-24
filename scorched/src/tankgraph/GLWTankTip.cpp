@@ -109,8 +109,9 @@ void TankFuelTip::showItems(float x, float y)
 	unsigned int currentFuelId = MovementMap::getFuelId();
 
 	std::list<GLWSelectorEntry> entries;
-	std::list<Accessory *> fuels = 
-		tank_->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryFuel,
+	std::list<Accessory *> fuels;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryFuel, fuels,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = fuels.begin();
@@ -225,9 +226,9 @@ void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 		if (tank_->getLife().getLife() < 
 			tank_->getLife().getMaxLife())
 		{
-			std::list<Accessory *> entries = 
-				tank_->getAccessories().getAllAccessoriesByType(
-					AccessoryPart::AccessoryBattery);			
+			std::list<Accessory *> entries;
+			tank_->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryBattery, entries);			
 			if (!entries.empty())
 			{
 				tankAI->useBattery(entries.front()->getAccessoryId());
@@ -254,8 +255,9 @@ void TankShieldTip::showItems(float x, float y)
 	Accessory *currentShield = 
 		tank_->getShield().getCurrentShield();
 	std::list<GLWSelectorEntry> entries;
-	std::list<Accessory *> shields = 
-		tank_->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryShield,
+	std::list<Accessory *> shields;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryShield, shields,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = shields.begin();
@@ -402,9 +404,9 @@ void TankParachutesTip::itemSelected(GLWSelectorEntry *entry, int position)
 	}
 	else
 	{
-		std::list<Accessory *> parachutes = 
-			tank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryParachute);
+		std::list<Accessory *> parachutes;
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryParachute, parachutes);
 		if (parachutes.size() == 1)
 		{
 			tankAI->parachutesUpDown(parachutes.front()->getAccessoryId());
@@ -490,9 +492,10 @@ void TankWeaponTip::showItems(float x, float y)
 
 	Accessory *currentWeapon = 
 		tank_->getAccessories().getWeapons().getCurrent();
-	std::list<Accessory *> weapons = 
-		tank_->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryWeapon,
-			OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *> weapons;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryWeapon, weapons,
+		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();
 		itor != weapons.end();

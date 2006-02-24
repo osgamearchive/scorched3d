@@ -77,7 +77,8 @@ void LandscapeObjectsGroupEntry::addObject(int x, int y)
 			for (int b=0; b<mapHeight_; b++)
 			{
 				Vector posB(a, b, 0);
-				float d = (posB - posA).Magnitude();
+				posB -= posA;
+				float d = posB.Magnitude();
 				distance_[a + b * mapWidth_] = MIN(distance_[a + b * mapWidth_], d);
 			}
 		}

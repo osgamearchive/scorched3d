@@ -110,10 +110,9 @@ void TankAccessories::newMatch()
 	changed();
 }
 
-std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
+void TankAccessories::getAllAccessories(std::list<Accessory *> &result, bool sort)
 {
 	std::set<AccessoryPart::AccessoryType> types;
-	std::list<Accessory *> result;
 	std::map<Accessory *, int>::iterator itor;
 	for (itor = accessories_.begin();
 		itor != accessories_.end();
@@ -124,24 +123,21 @@ std::list<Accessory *> TankAccessories::getAllAccessories(bool sort)
 		if (types.find(type) == types.end())
 		{
 			types.insert(type);
-			std::list<Accessory *> result2 = 
-				getAllAccessoriesByType(type, sort);
-			result.insert(result.end(), result2.begin(), result2.end());
+			getAllAccessoriesByType(type, result, false);
 		}
 	}
 
 	if (sort) AccessoryStore::sortList(result);
-	return result;
 }
 
-std::list<Accessory *> TankAccessories::getAllAccessoriesByType(
-	AccessoryPart::AccessoryType type, bool sort)
+void TankAccessories::getAllAccessoriesByType(
+	AccessoryPart::AccessoryType type, 
+	std::list<Accessory *> &result, bool sort)
 {
 	// Add all weapons ensuring they are in the
 	// same order as in the store
-	std::list<Accessory *> result;
-	std::list<Accessory *> allAccessories = 
-		context_.accessoryStore->getAllAccessories();
+	std::list<Accessory *> &allAccessories = 
+		context_.accessoryStore->getAccessories();
 	std::list<Accessory *>::iterator itor;
 	for (itor = allAccessories.begin();
 		itor != allAccessories.end();
@@ -156,7 +152,6 @@ std::list<Accessory *> TankAccessories::getAllAccessoriesByType(
 	}
 
 	if (sort) AccessoryStore::sortList(result);
-	return result;	
 }
 
 int TankAccessories::getAccessoryCount(Accessory *accessory)

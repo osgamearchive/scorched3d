@@ -275,8 +275,9 @@ void TankMovement::moveTank(Tank *tank)
 	// Use up one unit of fuel
 	if (useF)
 	{
-		std::list<Accessory *> result = 
-			tank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryFuel);
+		std::list<Accessory *> result;
+		tank->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryFuel, result);
 		if (!result.empty())
 		{
 			tank->getAccessories().rm(result.front());

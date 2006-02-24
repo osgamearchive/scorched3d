@@ -47,6 +47,7 @@ public:
 	Weapon *getDeathAnimation();
 	Weapon *getMuzzelFlash();
 
+	std::list<Accessory *> &getAccessories() { return accessories_; }
 	std::list<Accessory *> getAllWeapons(bool sort=false);
 	std::list<Accessory *> getAllOthers(bool sort=false);	
 	std::list<Accessory *> getAllAccessories(bool sort=false);	

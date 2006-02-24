@@ -75,6 +75,7 @@ protected:
 	ModelID targetModel_; // Model for targets
 	TargetModelType targetType_; // Says which model to use
 	TargetModelIdRenderer *modelIdRenderer_;
+	TankType *tankType_;
 
 };
 

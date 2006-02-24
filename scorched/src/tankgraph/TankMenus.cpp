@@ -157,8 +157,8 @@ void TankMenus::showInventory()
 			tank->getName()));
 
 		
-		std::list<Accessory *> accessories =
-			tank->getAccessories().getAllAccessories(true);
+		std::list<Accessory *> accessories;
+		tank->getAccessories().getAllAccessories(accessories, true);
 		std::list<Accessory *>::iterator aitor;
 		for (aitor = accessories.begin();
 			aitor != accessories.end();
@@ -378,8 +378,8 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 	if (!firstTank) return true;
 
 	AccessoryPart::AccessoryType lastType = AccessoryPart::AccessoryWeapon;
-	std::list<Accessory *> tankAccessories = 
-		firstTank->getAccessories().getAllAccessories();
+	std::list<Accessory *> tankAccessories;
+	firstTank->getAccessories().getAllAccessories(tankAccessories);
 	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();
 		itor != tankAccessories.end();

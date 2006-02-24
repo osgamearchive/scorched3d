@@ -46,9 +46,9 @@ void TankWeapon::changed()
 	if (weaponCount == 0 ||
 		currentWeapon_ == 0)
 	{
-		std::list<Accessory *> result =
-			tank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryWeapon);
+		std::list<Accessory *> result;
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryWeapon, result);
 		if (!result.empty())
 		{
 			setWeapon(result.front());
@@ -82,9 +82,9 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 
 void TankWeapon::nextWeapon()
 {
-	std::list<Accessory *> result =
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryWeapon);
+	std::list<Accessory *> result;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryWeapon, result);
 
 	std::list<Accessory *>::iterator itor;
 	for (itor == result.begin();
@@ -105,9 +105,9 @@ void TankWeapon::nextWeapon()
 
 void TankWeapon::prevWeapon()
 {
-	std::list<Accessory *> result =
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryWeapon);
+	std::list<Accessory *> result;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryWeapon, result);
 
 	std::list<Accessory *>::iterator itor;
 	for (itor == result.begin();

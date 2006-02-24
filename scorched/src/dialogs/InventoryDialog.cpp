@@ -112,9 +112,10 @@ void InventoryDialog::addPlayerWeapons()
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
-	std::list<Accessory *> tankAccessories = 
-		tank->getAccessories().getAllAccessories(
-			OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *> tankAccessories;
+	tank->getAccessories().getAllAccessories(
+		tankAccessories,
+		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();
 		itor != tankAccessories.end();

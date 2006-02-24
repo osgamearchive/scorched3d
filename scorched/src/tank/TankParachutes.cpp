@@ -46,9 +46,9 @@ void TankParachutes::changed()
 
 int TankParachutes::getNoParachutes()
 {
-	std::list<Accessory *> result = 
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryParachute);
+	std::list<Accessory *> result;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryParachute, result);
 	if (result.empty()) return 0;
 	return tank_->getAccessories().getAccessoryCount(result.front());
 }

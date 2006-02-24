@@ -116,9 +116,9 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			}
 			else
 			{
-				std::list<Accessory *> parachutes = 
-					tank->getAccessories().getAllAccessoriesByType(
-						AccessoryPart::AccessoryParachute);
+				std::list<Accessory *> parachutes;
+				tank->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryParachute, parachutes);
 				if (parachutes.size() == 1)
 				{
 					((TankAIHuman *) tank->getTankAI())->parachutesUpDown(
@@ -133,8 +133,9 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			}
 			else
 			{
-				std::list<Accessory *> shields = 
-					tank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryShield);
+				std::list<Accessory *> shields;
+				tank->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryShield, shields);
 				std::list<Accessory *>::iterator shieldsItor = shields.begin();
 				for (int i=1; i<ddshields_->getCurrentPosition() && shieldsItor != shields.end(); i++) shieldsItor++;
 				
@@ -176,8 +177,9 @@ void AutoDefenseDialog::displayCurrent()
 		"Turns off shields.");
 	ddshields_->clear();
 	std::list<Accessory *>::iterator shieldsItor;
-	std::list<Accessory *> shields = 
-		tank->getAccessories().getAllAccessoriesByType(AccessoryPart::AccessoryShield);
+	std::list<Accessory *> shields;
+	tank->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryShield, shields);
 	ddshields_->addEntry(GLWSelectorEntry("Shields Off", &shieldsOffTip));
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();

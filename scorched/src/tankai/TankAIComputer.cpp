@@ -194,9 +194,9 @@ void TankAIComputer::buyAccessories()
 
 void TankAIComputer::selectFirstShield()
 {
-	std::list<Accessory *> shields = 
-		currentTank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryShield);
+	std::list<Accessory *> shields;
+	currentTank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryShield, shields);
 	if (!shields.empty())
 	{
 		Accessory *shield = shields.front();
@@ -215,9 +215,9 @@ void TankAIComputer::raiseDefenses()
 	{
 		if (!currentTank_->getParachute().parachutesEnabled())
 		{
-			std::list<Accessory *> parachutes = 
-				currentTank_->getAccessories().getAllAccessoriesByType(
-					AccessoryPart::AccessoryParachute);
+			std::list<Accessory *> parachutes;
+			currentTank_->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryParachute, parachutes);
 			if (parachutes.size() == 1)
 			{
 				parachutesUpDown(parachutes.front()->getAccessoryId());
@@ -258,9 +258,9 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 		currentTank_->getLife().getMaxLife() &&
 		currentTank_->getAccessories().getBatteries().getNoBatteries() != 0)
 	{
-		std::list<Accessory *> entries = 
-			currentTank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryBattery);			
+		std::list<Accessory *> entries;
+		currentTank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryBattery, entries);			
 		if (!entries.empty())
 		{
 			useBattery(entries.front()->getAccessoryId());

@@ -27,7 +27,8 @@
 TargetModelId::TargetModelId(const char *tankModelName) :
 	tankModelName_(tankModelName),
 	modelIdRenderer_(0),
-	targetType_(eTankModel)
+	targetType_(eTankModel),
+	tankType_(0)
 {
 
 }
@@ -35,7 +36,8 @@ TargetModelId::TargetModelId(const char *tankModelName) :
 TargetModelId::TargetModelId(ModelID &targetModel) :
 	targetModel_(targetModel),
 	modelIdRenderer_(0),
-	targetType_(eTargetModel)
+	targetType_(eTargetModel),
+	tankType_(0)
 {
 
 }
@@ -43,7 +45,8 @@ TargetModelId::TargetModelId(ModelID &targetModel) :
 TargetModelId::TargetModelId(const char *treeModel, bool) :
 	treeModel_(treeModel),
 	modelIdRenderer_(0),
-	targetType_(eTreeModel)
+	targetType_(eTreeModel),
+	tankType_(0)
 {
 
 }
@@ -52,6 +55,7 @@ TargetModelId::TargetModelId(const TargetModelId &other) :
 	tankModelName_(other.tankModelName_),
 	targetModel_(other.targetModel_),
 	modelIdRenderer_(0),
+	tankType_(0),
 	treeModel_(other.treeModel_),
 	targetType_(other.targetType_)
 {
@@ -62,19 +66,25 @@ TargetModelId::~TargetModelId()
 {
 	delete modelIdRenderer_;
 	modelIdRenderer_ = 0;
+	tankType_ = 0;
 }
 
 TankType *TargetModelId::getTankType(ScorchedContext &context)
 {
-	TankModel *tankModel = 
-		context.tankModelStore->getModelByName(tankModelName_.c_str(), 0);
-	if (!tankModel) 
+	if (!tankType_) 
 	{
-		dialogExit("Scorched3D", 
-			formatString("Failed to find tank model %s",
-			tankModelName_.c_str()));
+		TankModel *tankModel = 
+			context.tankModelStore->getModelByName(tankModelName_.c_str(), 0);
+		if (!tankModel) 
+		{
+			dialogExit("Scorched3D", 
+				formatString("Failed to find tank model %s",
+				tankModelName_.c_str()));
+		}
+		tankType_ = tankModel->getTankType();
 	}
-	return tankModel->getTankType();
+
+	return tankType_;
 }
 
 const TargetModelId & TargetModelId::operator=(const TargetModelId &other)
@@ -82,6 +92,7 @@ const TargetModelId & TargetModelId::operator=(const TargetModelId &other)
 	tankModelName_ = other.tankModelName_;
 	targetModel_ = other.targetModel_;
 	modelIdRenderer_ = 0;
+	tankType_ = 0;
 	return *this;
 }
 
@@ -120,6 +131,7 @@ bool TargetModelId::readMessage(NetBufferReader &reader)
 				tankModelName_ = newName;
 				delete modelIdRenderer_;
 				modelIdRenderer_ = 0;
+				tankType_ = 0;
 			}
 		}
 		break;
