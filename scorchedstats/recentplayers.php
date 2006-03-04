@@ -10,7 +10,7 @@ $seriesid = getIntParameter('Series');
 
 <?
 // Top Players Query
-$query = " select name, osdesc, scorched3d_stats.playerid, lastconnected, connects FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid ORDER BY lastconnected desc limit 25";
+$query = " select name, avatarid, osdesc, scorched3d_stats.playerid, lastconnected, connects FROM scorched3d_stats LEFT JOIN scorched3d_players playernames ON scorched3d_stats.playerid=playernames.playerid where prefixid=$prefixid and seriesid=$seriesid GROUP BY playerid ORDER BY lastconnected desc limit 25";
 $result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="640" border="0" align="center">
@@ -29,7 +29,12 @@ while ($row = mysql_fetch_object($result))
 	++$rownum;
 	echo "<tr>";
 	echo "<td><center>$row->lastconnected</td></center>";
-	echo "<td><a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->playerid\">$row->name</a></td>";
+	echo "<td>";
+	echo "<table><tr>";
+	echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
+	echo "<td><a href=playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->playerid>$row->name</a></td>";
+	echo "</td>";
+	echo "</tr></table>";
 	echo "<td><center>$row->connects</td></center>";
 	echo "<td><center>$row->osdesc</td></center>";
 	echo "</tr>";
