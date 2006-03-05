@@ -10,9 +10,10 @@
 			<object type="target">
 				<name>TestTargetHmm</name>
 				<model type="MilkShape">banana/banana.txt</model>
-				<shield>Shield</shield>
+				<shield>TestShield</shield>
 				<parachute>Parachute</parachute>
-				<!--<deathaction>TestPowerUpWeapon</deathaction>-->
+				<life>1000</life>
+				<removeaction>TestPowerUpWeapon</removeaction>
 			</object>
 		</placement>
 	</placements>

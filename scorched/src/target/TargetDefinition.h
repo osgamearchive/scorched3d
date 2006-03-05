@@ -15,6 +15,7 @@ public:
 		ScorchedContext &context);
 
 protected:
+	float life_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;

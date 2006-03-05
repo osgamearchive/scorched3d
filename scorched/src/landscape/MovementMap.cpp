@@ -24,6 +24,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
+#include <common/Defines.h>
 #include <tank/Tank.h>
 #include <memory.h>
 
@@ -169,8 +170,11 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 	unsigned int posY = (unsigned int) 
 		tank->getPosition().getTankPosition()[1];
 	float fuel = (float) tank->getAccessories().getFuel().getNoFuel();
-	if (fuel == -1.0f) fuel = 40.0f;
-	if (maxFuel) fuel = 90.0f;
+	float maxFuelWeapons = (float) context.optionsGame->getMaxNumberWeapons();
+
+	if (fuel == -1.0f) fuel = maxFuelWeapons;
+	if (maxFuel) fuel = maxFuelWeapons;
+	fuel = MIN(fuel, maxFuelWeapons);
 
 	// Add this point to the movement map
 	unsigned int epoc = 0;

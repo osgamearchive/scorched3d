@@ -1,50 +1,44 @@
-#include header.html 
-
-#include menu.html
-
+#include header.html #include menu.html
 <form method="post">
-<table align="center" border="0">
-	<tr>
-		<td align="center">Players</td>
-	</tr>
-	<tr>
-		<td>
-			<input type="hidden" name="sid" value="[[sid]]"> 
-			<table border="1" width="600">
-				<tr bgcolor="#dddddd">
-					<td>Id</td>
-					<td>Name</td>
-					<td>Type</td>
-					<td>Time</td>
-					<td>Score</td>
-					<td>State</td>
-					<td>Team</td>
-					<td>Select</td>
-				</tr>
-				[[PLAYERS]]
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<br>Selected Player Actions<br>
-			<input type="submit" name="action" value="Kick"> 
-			<input type="submit" name="action" value="Ban">
-			<input type="submit" name="action" value="Slap"> 
-			<input type="submit" name="action" value="Poor"> 
-			<input type="submit" name="action" value="Mute">
-			<input type="submit" name="action" value="UnMute"> 
-			<input type="submit" name="action" value="PermMute">
-			<input type="submit" name="action" value="UnPermMute">
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<br>Add New Player<br>
-			[[ADD]]
-		</td>
-	</tr>
-</table>
+	<table align="center" border="0">
+		<tr>
+			<td align="center">Players</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="hidden" name="sid" value="[[sid]]">
+				<table border="1" width="600">
+					<tr bgcolor="#dddddd">
+						<td>Id</td>
+						<td>Name</td>
+						<td>Type</td>
+						<td>Time</td>
+						<td>Score</td>
+						<td>State</td>
+						<td>Team</td>
+						<td>Select</td>
+					</tr>
+					[[PLAYERS]]
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<br>
+				Selected Player Actions<br>
+				<input type="submit" name="action" value="Kick"> <input type="submit" name="action" value="Banned">
+				<input type="submit" name="action" value="Slap"> <input type="submit" name="action" value="Poor">
+				<input type="submit" name="action" value="Mute"> <input type="submit" name="action" value="UnMute">
+				<input type="submit" name="action" value="PermMute"> <input type="submit" name="action" value="UnPermMute">
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<br>
+				Add New Player<br>
+				[[ADD]]
+			</td>
+		</tr>
+	</table>
 </form>
-
 #include footer.html

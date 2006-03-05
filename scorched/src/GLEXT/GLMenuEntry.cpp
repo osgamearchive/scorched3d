@@ -68,7 +68,7 @@ void GLMenuEntry::draw(float currentTop, float currentLeft)
 
 void GLMenuEntry::drawIcon()
 {
-	if (icon_)
+	if (!texture_)
 	{
 		texture_ = new GLTexture();
 		texture_->create(*icon_, GL_RGBA, false);

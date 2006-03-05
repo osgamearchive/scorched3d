@@ -112,6 +112,10 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 	}
 	else 
 	{
+		int timeLeft = int(
+				float(neededLength) / 
+				float(ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed())
+			);
 		// This server allows file downloads
 		// The the client how much needs to be downloaded
 		ServerCommon::sendString(destinationId, 
@@ -123,7 +127,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			ScorchedServer::instance()->getOptionsGame().getMod(),
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),
-			neededLength / ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed()));
+			timeLeft));
 	}
 
 	// Set the files to download in this tanks profile

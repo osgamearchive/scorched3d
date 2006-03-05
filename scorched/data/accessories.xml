@@ -1406,6 +1406,23 @@ and shields damaging the tank directly.</description>
 			<giveaccessory>Nuke</giveaccessory>
 			<number>10</number>
 		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>TestShield</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='Shield'>
+			<radius>8.0</radius>
+			<halfshield>false</halfshield>
+			<color>
+				<r>1.0</r>
+				<g>1.0</g>
+				<b>1.0</b>
+			</color>
+			<collisionsound>shield/hit.wav</collisionsound>
+			<removepower>20</removepower>
+			<penetration>1.0</penetration>
+			<power>1000</power>
+		</accessoryaction>
 	</accessory>	
 	<accessory>
 		<name>TestPowerUp</name>

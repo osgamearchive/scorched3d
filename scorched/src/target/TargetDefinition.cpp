@@ -4,7 +4,7 @@
 #include <common/Defines.h>
 #include <XML/XMLNode.h>
 
-TargetDefinition::TargetDefinition()
+TargetDefinition::TargetDefinition() : life_(1.0f)
 {
 }
 
@@ -23,6 +23,7 @@ bool TargetDefinition::readXML(XMLNode *node)
 		if (!modelburntId_.initFromNode(".", burntmodelnode)) return false;
 	}
 	
+	node->getNamedChild("life", life_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
@@ -37,6 +38,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	Target *target = new Target(playerId, 
 		targetModelId, 
 		name_.c_str(), context);
+	target->getLife().setMaxLife(life_);
 	target->newGame();
 
 	if (shield_.c_str()[0] && 0 != strcmp(shield_.c_str(), "none"))
