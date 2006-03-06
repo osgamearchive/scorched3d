@@ -24,7 +24,7 @@
 #include <common/OptionsDisplay.h>
 #include <common/Logger.h>
 #include <sound/Sound.h>
-#include <sound/SoundBuffer.h>
+#include <sound/SoundBufferFactory.h>
 #include <AL/al.h>
 #include <AL/alc.h>
 
@@ -52,16 +52,6 @@ Sound::~Sound()
 	if (init_)
 	{
 		{
-			BufferMap::iterator itor;
-			for (itor = bufferMap_.begin();
-				itor != bufferMap_.end();
-				itor++)
-			{
-				SoundBuffer *buffer = (*itor).second;
-				delete buffer;
-			}
-		}
-		{
 			SourceList::iterator itor;
 			for (itor = totalSources_.begin();
 				itor != totalSources_.end();
@@ -69,6 +59,16 @@ Sound::~Sound()
 			{
 				SoundSource *source = (*itor);
 				delete source;
+			}
+		}
+		{
+			BufferMap::iterator itor;
+			for (itor = bufferMap_.begin();
+				itor != bufferMap_.end();
+				itor++)
+			{
+				SoundBuffer *buffer = (*itor).second;
+				delete buffer;
 			}
 		}
 
@@ -153,6 +153,7 @@ bool Sound::init(int channels)
 
 void Sound::showSoundBuffers()
 {
+	// Show some debug of the current playing sounds
 	int i = 1;
 	Logger::log(formatString("%i sounds playing, %i sources free",
 		getPlayingChannels(),
@@ -173,6 +174,21 @@ void Sound::showSoundBuffers()
 
 void Sound::simulate(float frameTime)
 {
+	// Simulate all the current sources
+	// This is only applicable for streams
+	VirtualSourceMap::iterator playingitor;
+	for (playingitor = playingSources_.begin();
+		playingitor != playingSources_.end();
+		playingitor++)
+	{
+		VirtualSoundSource *source = (*playingitor).second;
+		if (source->getPlaying())
+		{
+			source->simulate();
+		}
+	}
+
+	// Check the buffers every so often
 	totalTime_ += frameTime;
 	if (totalTime_ < 0.2f) return;
 	totalTime_ = 0.0f;
@@ -183,6 +199,7 @@ void Sound::simulate(float frameTime)
 void Sound::tidyBuffers()
 {
 	// Check any sources that are looping and should be restarted
+	// Playing a stopped source will remove an available source
 	while (!loopingSources_.empty() &&
 		!availableSources_.empty())
 	{
@@ -193,6 +210,7 @@ void Sound::tidyBuffers()
 	}
 
 	// Tidy any playing sources that have stopped playing
+	// This is the list of sources that are currently actualy playing
 	static VirtualSourceList finishedList;
 	VirtualSourceMap::iterator playingitor;
 	for (playingitor = playingSources_.begin();
@@ -213,6 +231,8 @@ void Sound::tidyBuffers()
 	}
 
 	// Tidy any managed sources that have stopped playing
+	// Managed sources are virtualsources that are not kept by the user
+	// and should be deleted if they stop playing
 	bool repeat = true;
 	while (repeat)
 	{
@@ -331,13 +351,10 @@ SoundListener *Sound::getDefaultListener()
 
 SoundBuffer *Sound::createBuffer(char *fileName)
 {
-	// If sound is not init return an empty buffer
-	// This will happen if the user turns sound off
-	if (!init_) return new SoundBuffer;
-
 	// Return a buffer full of sound :)
-	SoundBuffer *buffer = new SoundBuffer;
-	if (!buffer->createBuffer(fileName))
+	SoundBuffer *buffer = SoundBufferFactory::createBuffer(
+		(const char *) fileName);
+	if (!buffer)
 	{
 		dialogExit("Failed to load sound",
 			formatString("%u:\"%s\"", buffer->getError(), fileName));

@@ -87,7 +87,7 @@ void TankWeapon::nextWeapon()
 		AccessoryPart::AccessoryWeapon, result);
 
 	std::list<Accessory *>::iterator itor;
-	for (itor == result.begin();
+	for (itor = result.begin();
 		itor != result.end();
 		itor++)
 	{
@@ -110,7 +110,7 @@ void TankWeapon::prevWeapon()
 		AccessoryPart::AccessoryWeapon, result);
 
 	std::list<Accessory *>::iterator itor;
-	for (itor == result.begin();
+	for (itor = result.begin();
 		itor != result.end();
 		itor++)
 	{

@@ -3653,6 +3653,24 @@
 				RelativePath="..\sound\SoundBuffer.h">
 			</File>
 			<File
+				RelativePath="..\sound\SoundBufferEmpty.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferEmpty.h">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferFactory.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferFactory.h">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferStaticWav.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferStaticWav.h">
+			</File>
+			<File
 				RelativePath="..\sound\SoundListener.cpp">
 			</File>
 			<File

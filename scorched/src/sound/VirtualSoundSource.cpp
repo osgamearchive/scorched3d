@@ -57,6 +57,14 @@ void VirtualSoundSource::play(SoundBuffer *buffer)
 	}
 }
 
+void VirtualSoundSource::simulate()
+{
+	if (actualSource_)
+	{
+		actualSource_->simulate();
+	}
+}
+
 void VirtualSoundSource::stop()
 {
 	Sound::instance()->removePlaying(this, priority_);

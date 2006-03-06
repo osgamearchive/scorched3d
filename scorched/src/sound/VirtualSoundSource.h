@@ -32,6 +32,7 @@ public:
 	virtual ~VirtualSoundSource();
 
 	void play(SoundBuffer *buffer);
+	void simulate();
 	void stop();
 
 	bool getPlaying();

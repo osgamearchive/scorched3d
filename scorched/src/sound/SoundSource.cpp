@@ -22,13 +22,13 @@
 #include <sound/SoundBuffer.h>
 #include <AL/al.h>
 
-SoundSource::SoundSource() : source_(0)
+SoundSource::SoundSource() : 
+	source_(0), buffer_(0)
 {
 }
 
 SoundSource::~SoundSource()
 {
-	stop();
 	destroy();
 }
 
@@ -66,23 +66,38 @@ void SoundSource::setGain(float gain)
 
 void SoundSource::play(SoundBuffer *buffer, bool repeat)
 {
-	if (!buffer || !source_ || !buffer->getBuffer()) return;
+	if (!buffer || !source_) return;
 
 	stop();
-    alSourcei(source_, AL_BUFFER, buffer->getBuffer());
-	alSourcei(source_, AL_LOOPING, (repeat?AL_TRUE:AL_FALSE));
-	alSourcePlay(source_);
+	buffer_ = buffer;
+	buffer_->play(source_, repeat);
+}
+
+void SoundSource::simulate()
+{
+	if (!source_ || !buffer_) return;
+
+	buffer_->simulate();
 }
 
 void SoundSource::stop()
 {
-	if (!source_) return;
-	alSourceStop(source_);
+	if (!source_ || !buffer_) return;
+	if (!getPlaying()) 
+	{
+		buffer_ = 0;
+		return;
+	}
+
+	buffer_->stop(source_);
+	buffer_ = 0;
 }
 
 void SoundSource::destroy()
 {
 	if (!source_) return;
+
+	stop();
 	alDeleteSources(1, &source_);
 }
 

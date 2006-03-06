@@ -23,26 +23,20 @@
 
 #include <string>
 
-class Sound;
 class SoundBuffer  
 {
 public:
 	virtual ~SoundBuffer();
 
-	unsigned int getBuffer() { return buffer_; }
-	const char *getFileName() { return fileName_.c_str(); }
+	virtual void play(unsigned int source, bool loop) = 0;
+	virtual void stop(unsigned int source) = 0;
+	virtual void simulate() = 0;
+
+	virtual const char *getFileName() { return fileName_.c_str(); }
+	virtual unsigned int getError() { return error_; } 
 
 protected:
-	friend class Sound;
-
-	SoundBuffer();
-
-	bool createBuffer(char *wavFileName);
-	void destroyBuffer();
-	unsigned int getError() { return error_; }
-	
 	unsigned int error_;
-	unsigned int buffer_;
 	std::string fileName_;
 };
 

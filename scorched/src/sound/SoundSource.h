@@ -31,6 +31,7 @@ public:
 	virtual ~SoundSource();
 
 	void play(SoundBuffer *buffer, bool repeat = false);
+	void simulate();
 	void stop();
 
 	bool getPlaying();
@@ -43,6 +44,7 @@ public:
 protected:
 	friend class Sound;
 	unsigned int source_;
+	SoundBuffer *buffer_;
 
 	SoundSource();
 

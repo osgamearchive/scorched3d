@@ -18,13 +18,19 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef _SoundBufferEmpty_H_
+#define _SoundBufferEmpty_H_
+
 #include <sound/SoundBuffer.h>
 
-SoundBuffer::SoundBuffer() : 
-	error_(0)
+class SoundBufferEmpty : public SoundBuffer
 {
-}
+public:
+	virtual ~SoundBufferEmpty();
 
-SoundBuffer::~SoundBuffer()
-{
-}
+	virtual void play(unsigned int source, bool loop) {}
+	virtual void stop(unsigned int source) {}
+	virtual void simulate() {}
+};
+
+#endif /* _SoundBufferEmpty_H_ */

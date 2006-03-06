@@ -18,13 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef _SoundBufferStaticWav_H_
+#define _SoundBufferStaticWav_H_
+
 #include <sound/SoundBuffer.h>
 
-SoundBuffer::SoundBuffer() : 
-	error_(0)
+class SoundBufferStaticWav : public SoundBuffer
 {
-}
+public:
+	SoundBufferStaticWav();
+	virtual ~SoundBufferStaticWav();
 
-SoundBuffer::~SoundBuffer()
-{
-}
+	bool createBuffer(const char *wavFileName);
+	void destroyBuffer();
+
+	virtual void play(unsigned int source, bool loop);
+	virtual void stop(unsigned int source);
+	virtual void simulate() {}
+
+protected:
+	unsigned int buffer_;
+};
+
+#endif /* _SoundBufferStaticWav_H_ */
