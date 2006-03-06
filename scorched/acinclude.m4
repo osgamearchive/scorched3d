@@ -8,7 +8,7 @@
 dnl AM_PATH_SDL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for SDL, and define SDL_CFLAGS and SDL_LIBS
 dnl
-AC_DEFUN(AM_PATH_SDL,
+AC_DEFUN([AM_PATH_SDL],
 [dnl 
 dnl Get the cflags and libraries from the sdl-config script
 dnl
@@ -220,7 +220,7 @@ dnl adds support for --wx-prefix, --wx-exec-prefix and --wx-config
 dnl command line options
 dnl ---------------------------------------------------------------------------
 
-AC_DEFUN(AM_OPTIONS_WXCONFIG,
+AC_DEFUN([AM_OPTIONS_WXCONFIG],
 [
    AC_ARG_WITH(wx-prefix, [  --with-wx-prefix=PREFIX   Prefix where wxWindows is installed (optional)],
                wx_config_prefix="$withval", wx_config_prefix="")
@@ -243,7 +243,7 @@ dnl ---------------------------------------------------------------------------
 dnl
 dnl Get the cflags and libraries from the wx-config script
 dnl
-AC_DEFUN(AM_PATH_WXCONFIG,
+AC_DEFUN([AM_PATH_WXCONFIG],
 [
   dnl do we have wx-config name: it can be wx-config or wxd-config or ...
   if test x${WX_CONFIG_NAME+set} != xset ; then
