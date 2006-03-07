@@ -225,8 +225,8 @@ void TankMenus::showTankDetails()
 TankMenus::PlayerMenu::PlayerMenu()
 {
 	GLBitmap *map = new GLBitmap(
-		formatString(getDataFile("data/windows/screen.bmp")),
-		formatString(getDataFile("data/windows/screena.bmp")),
+		formatString(getDataFile("data/windows/setting.bmp")),
+		formatString(getDataFile("data/windows/settinga.bmp")),
 		false);
 	DIALOG_ASSERT(map->getBits());
 	MainMenuDialog::instance()->addMenu("Player", 32, 
@@ -309,8 +309,8 @@ bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 TankMenus::AccessoryMenu::AccessoryMenu()
 {
 	GLBitmap *map = new GLBitmap(
-		formatString(getDataFile("data/windows/screen.bmp")),
-		formatString(getDataFile("data/windows/screena.bmp")),
+		formatString(getDataFile("data/windows/bomb.bmp")),
+		formatString(getDataFile("data/windows/bomba.bmp")),
 		false);
 	DIALOG_ASSERT(map->getBits());
 	MainMenuDialog::instance()->addMenu("Weapons", 32, 
