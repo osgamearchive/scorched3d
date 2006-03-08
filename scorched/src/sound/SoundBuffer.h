@@ -30,7 +30,7 @@ public:
 
 	virtual void play(unsigned int source, bool loop) = 0;
 	virtual void stop(unsigned int source) = 0;
-	virtual void simulate() = 0;
+	virtual void simulate(bool loop) = 0;
 
 	virtual const char *getFileName() { return fileName_.c_str(); }
 	virtual unsigned int getError() { return error_; } 

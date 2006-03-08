@@ -73,11 +73,11 @@ void SoundSource::play(SoundBuffer *buffer, bool repeat)
 	buffer_->play(source_, repeat);
 }
 
-void SoundSource::simulate()
+void SoundSource::simulate(bool repeat)
 {
 	if (!source_ || !buffer_) return;
 
-	buffer_->simulate();
+	buffer_->simulate(repeat);
 }
 
 void SoundSource::stop()

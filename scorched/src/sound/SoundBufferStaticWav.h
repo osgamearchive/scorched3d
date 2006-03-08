@@ -34,7 +34,7 @@ public:
 
 	virtual void play(unsigned int source, bool loop);
 	virtual void stop(unsigned int source);
-	virtual void simulate() {}
+	virtual void simulate(bool loop) {}
 
 protected:
 	unsigned int buffer_;

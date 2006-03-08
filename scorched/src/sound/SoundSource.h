@@ -31,7 +31,7 @@ public:
 	virtual ~SoundSource();
 
 	void play(SoundBuffer *buffer, bool repeat = false);
-	void simulate();
+	void simulate(bool repeat = false);
 	void stop();
 
 	bool getPlaying();

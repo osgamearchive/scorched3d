@@ -61,7 +61,7 @@ void VirtualSoundSource::simulate()
 {
 	if (actualSource_)
 	{
-		actualSource_->simulate();
+		actualSource_->simulate(looping_);
 	}
 }
 
