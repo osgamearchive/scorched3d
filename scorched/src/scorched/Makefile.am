@@ -1117,6 +1117,12 @@ scorched3d_SOURCES = \
 	../sound/Sound.h \
 	../sound/SoundBuffer.cpp \
 	../sound/SoundBuffer.h \
+	../sound/SoundBufferEmpty.cpp \
+	../sound/SoundBufferEmpty.h \
+	../sound/SoundBufferFactory.cpp \
+	../sound/SoundBufferFactory.h \
+	../sound/SoundBufferStaticWav.cpp \
+	../sound/SoundBufferStaticWav.h \
 	../sound/SoundListener.cpp \
 	../sound/SoundListener.h \
 	../sound/SoundSource.cpp \
@@ -1181,6 +1187,8 @@ scorched3d_SOURCES = \
 	../target/TargetContainer.h \
 	../target/TargetDamageCalc.cpp \
 	../target/TargetDamageCalc.h \
+	../target/TargetDefinition.cpp \
+	../target/TargetDefinition.h \
 	../target/TargetLife.cpp \
 	../target/TargetLife.h \
 	../target/TargetModelId.cpp \

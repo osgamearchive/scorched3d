@@ -26,6 +26,7 @@
 class SoundBuffer  
 {
 public:
+	SoundBuffer();
 	virtual ~SoundBuffer();
 
 	virtual void play(unsigned int source, bool loop) = 0;

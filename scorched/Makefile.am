@@ -1446,4 +1446,8 @@ scorcheddatawindows_DATA = data/windows/aima.bmp \
 	data/windows/camera.bmp \
 	data/windows/cameraa.bmp \
 	data/windows/screen.bmp \
-	data/windows/screena.bmp
+	data/windows/screena.bmp \
+	data/windows/bomb.bmp \
+	data/windows/bomba.bmp \
+	data/windows/setting.bmp \
+	data/windows/settinga.bmp
