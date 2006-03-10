@@ -22,6 +22,7 @@
 #include <client/ClientAddPlayerHandler.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <tank/TankContainer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 
 ClientAddPlayerHandler *ClientAddPlayerHandler::instance_ = 0;
 
@@ -60,19 +61,19 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 	{
 		// Create the new tank and add it to the tank container
 		// Collections
-		TargetModelId modelId(message.getModelName());
 		tank = new Tank(
 			ScorchedClient::instance()->getContext(),
 			message.getPlayerId(),
 			message.getDestinationId(),
 			message.getPlayerName(),
 			message.getPlayerColor(),
-			modelId);
+			message.getModelName());
 		tank->setTeam(message.getPlayerTeam());
 		tank->getAvatar().setFromBuffer(
 			message.getPlayerIconName(),
 			message.getPlayerIcon(),
 			true);
+		tank->setRenderer(new TargetRendererImplTank(tank));
 		ScorchedClient::instance()->getTankContainer().addTank(tank);
 	}
 	else

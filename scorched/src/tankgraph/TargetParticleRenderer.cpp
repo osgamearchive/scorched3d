@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TargetParticleRenderer.h>
-#include <tankgraph/TargetModelIdRenderer.h>
+#include <tankgraph/TargetRendererImpl.h>
 #include <engine/Particle.h>
 #include <target/TargetContainer.h>
 #include <client/ScorchedClient.h>
@@ -55,11 +55,10 @@ void TargetParticleRenderer::renderParticle(Particle &particle)
 			*((unsigned*) particle.userData_));
 	if (target)
 	{
-		TargetModelIdRenderer *model =
-			target->getModel().getModelIdRenderer();
-		if (model)
+		TargetRenderer *renderer = target->getRenderer();
+		if (renderer)
 		{
-			model->drawSecond(particle.distance_);
+			renderer->drawSecond(particle.distance_);
 			glDepthMask(GL_FALSE);
 		}
 	}
@@ -72,12 +71,12 @@ void TargetParticleRenderer::recycleParticle(Particle &particle)
 			*((unsigned*) particle.userData_));
 	if (target)
 	{
-		TargetModelIdRenderer *model = 
-			target->getModel().getModelIdRenderer();
-		if (model)
+		TargetRendererImpl *renderer = (TargetRendererImpl *)
+			target->getRenderer();
+		if (renderer)
 		{
 			// Particle expired but Target has not
-			model->setMadeParticle(false);
+			renderer->setMakeParticle();
 		}
 	}
 }

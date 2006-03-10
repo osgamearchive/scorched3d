@@ -22,16 +22,15 @@
 #define AFX_TARGET_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_
 
 #include <target/TargetLife.h>
-#include <target/TargetModelId.h>
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
 
+class TargetRenderer;
 class Weapon;
 class Target  
 {
 public:
 	Target(unsigned int playerId, 
-		TargetModelId &modelId, 
 		const char *name, 
 		ScorchedContext &context);
 	virtual ~Target();
@@ -39,8 +38,6 @@ public:
 	virtual void newGame();
 
 	// Position
-	TargetModelId &getModel() { return model_; }
-	void setModel(TargetModelId &model) { model_ = model; }
 	void setTargetPosition(Vector &position);
 	Vector &getTargetPosition() { return targetPosition_; }
 
@@ -55,6 +52,10 @@ public:
 	void setDeathAction(Weapon *deathAction) { deathAction_ = deathAction; }
 	virtual Weapon *getDeathAction() { return deathAction_; }
 
+	// Renderer
+	TargetRenderer *getRenderer() { return renderer_; }
+	void setRenderer(TargetRenderer *renderer) { renderer_ = renderer; }
+
 	// Name
 	const char *getName() { return name_.c_str(); }
 	void setName(const char *name) { name_ = name; }
@@ -68,10 +69,10 @@ protected:
 	unsigned int playerId_;
 	ScorchedContext &context_;
 	Vector targetPosition_;
-	TargetModelId model_;
 	TargetLife life_;
 	TargetShield shield_;
 	TargetParachute parachute_;
+	TargetRenderer *renderer_;
 	std::string name_;
 	Weapon *deathAction_;
 

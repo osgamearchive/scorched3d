@@ -22,13 +22,13 @@
 #define __INCLUDE_DefaultTankRendererh_INCLUDE__
 
 #include <tank/Tank.h>
-#include <tankgraph/TargetModelIdRenderer.h>
+#include <tankgraph/TargetRendererImpl.h>
 #include <tankgraph/TankModel.h>
 #include <tankgraph/GLWTankTip.h>
 #include <GLEXT/GLState.h>
 
 class ModelRenderer;
-class TankModelRendererAIM
+class TargetRendererImplTankAIM
 {
 public:
 	static void simulate(float frameTime) { timeLeft_ -= frameTime; }
@@ -43,7 +43,7 @@ protected:
 	static float timeLeft_;
 };
 
-class TankModelRendererHUD
+class TargetRendererImplTankHUD
 {
 public:
 	static void simulate(float frameTime) { timeLeft_ -= frameTime; }
@@ -63,11 +63,11 @@ protected:
 
 };
 
-class TankModelRenderer : public TargetModelIdRenderer
+class TargetRendererImplTank : public TargetRendererImpl
 {
 public:
-	TankModelRenderer(Tank *tank);
-	virtual ~TankModelRenderer();
+	TargetRendererImplTank(Tank *tank);
+	virtual ~TargetRendererImplTank();
 
 	virtual void draw(float distance);
 	virtual void drawSecond(float distance);
@@ -76,7 +76,8 @@ public:
 	virtual void shieldHit();
 	virtual void simulate(float frameTime);
 
-	TankModel *getModel() { return model_; }
+	void resetModel() { model_ = 0; }
+	TankModel *getModel();
 	GLWTankTips *getTips() { return &tankTips_; }
 
 protected:

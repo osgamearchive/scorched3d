@@ -113,7 +113,7 @@ void GLWTankViewer::select(unsigned int id,
 			{
 				Model *model = ModelStore::instance()->loadModel(
 					tankModel->getTankModelID());
-				if (strcmp(tankModel->getId().getTankModelName(), "Random") != 0)
+				if (strcmp(tankModel->getName(), "Random") != 0)
 				{
 					// Check if the model uses too many triangles
 					int triangles = model->getNumberTriangles();
@@ -168,7 +168,7 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 		itor++)
 	{
 		TankModel *model = (*itor);
-		if (0==strcmp(model->getId().getTankModelName(),"Random"))
+		if (0==strcmp(model->getName(),"Random"))
 		{
 			models_.erase(itor);
 			std::vector<TankModel *> tmpVector;
@@ -185,7 +185,7 @@ const char *GLWTankViewer::getModelName()
 	const char *name = "None";
 	if (!models_.empty())
 	{
-		name = models_[selected_]->getId().getTankModelName();
+		name = models_[selected_]->getName();
 	}
 	return name;
 }
@@ -252,7 +252,7 @@ void GLWTankViewer::draw()
 					TankSquareSize))
 				{
 					toolTip_.setText(
-						models_[vectorPos]->getId().getTankModelName(),
+						models_[vectorPos]->getName(),
 						models_[vectorPos]->getTankType()->getDescription());	
 				}
 
@@ -332,7 +332,7 @@ void GLWTankViewer::drawCaption(int pos)
 	GLWFont::instance()->getSmallPtFont()->
 		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 75.0f, 0.0f, 
-			models_[pos]->getId().getTankModelName());
+			models_[pos]->getName());
 	GLWFont::instance()->getSmallPtFont()->
 		drawWidth(int(TankSquareSize * 2 + TankPadding), 
 			color, 10.0f, -70.0f, 63.0f, 0.0f, 
@@ -387,7 +387,7 @@ void GLWTankViewer::selectModelByName(const char *name)
 		 itor++, currentSel ++)
 	{
 		TankModel *current = (*itor);
-		if (0 == strcmp(current->getId().getTankModelName(), name))
+		if (0 == strcmp(current->getName(), name))
 		{
 			selected_ = currentSel;
 			return;

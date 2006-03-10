@@ -29,10 +29,14 @@ class GLCameraFrustum : public GameStateI
 public:
 	static GLCameraFrustum *instance();
 
+	static Vector FrustrumRed;
+	static Vector FrustrumBlue;
+	static Vector FrustrumGreen;
+	static Vector FrustrumWhite;
+
 	virtual void draw(const unsigned state);
 
-	bool pointInFrustum(Vector &point);
-	bool sphereInFrustum(Vector &point, float fRadius);
+	bool sphereInFrustum(Vector &point, float fRadius = 1, Vector &color = FrustrumWhite);
 	void backupFrustum();
 	void restoreFrustum();
 	void drawBilboard(

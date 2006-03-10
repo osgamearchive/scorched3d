@@ -222,7 +222,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	TankModel *tankModel = 
 		ScorchedServer::instance()->getTankModels().
 			getModelByName(message.getModelName(), tank->getTeam());
-	tank->setModel(tankModel->getId());
+	tank->getModelContainer().setTankModelName(tankModel->getName());
 
 	// If we are in a waiting for players state then we can
 	// send the state of these new players

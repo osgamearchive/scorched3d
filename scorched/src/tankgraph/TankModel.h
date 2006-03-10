@@ -21,7 +21,6 @@
 #if !defined(__INCLUDE_TankModelh_INCLUDE__)
 #define __INCLUDE_TankModelh_INCLUDE__
 
-#include <target/TargetModelId.h>
 #include <3dsparse/ModelID.h>
 #include <common/Vector.h>
 #include <set>
@@ -32,7 +31,7 @@ class TankType;
 class TankModel
 {
 public:
-	TankModel(TargetModelId &id, ModelID &modelId, TankType *type);
+	TankModel(const char *name, ModelID &modelId, TankType *type);
 	virtual ~TankModel();
 
 	virtual void draw(bool drawS, float angle, Vector &position, 
@@ -43,9 +42,9 @@ public:
 	virtual bool lessThan(TankModel *other);
 	void clear();
 
-	TargetModelId &getId();
-	ModelID &getTankModelID();
-	ModelID &getProjectileModelID();
+	const char *getName() { return name_.c_str(); }
+	ModelID &getTankModelID() { return modelId_; }
+	ModelID &getProjectileModelID() { return projectileModelId_; }
 	TankMesh *getTankMesh() { return tankMesh_; }
 	TankType *getTankType() { return tankType_; }
 
@@ -57,7 +56,7 @@ public:
 
 protected:
 	bool init_;
-	TargetModelId id_;
+	std::string name_;
 	ModelID modelId_;
 	ModelID projectileModelId_;
 	TankMesh *tankMesh_;

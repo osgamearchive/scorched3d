@@ -28,7 +28,7 @@
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	context_(context),
 	targetInfo_(CollisionIdTarget),
-	life_(100.0f), maxLife_(1.0f)
+	life_(100.0f), maxLife_(1.0f), size_(2.0f)
 {
 	// The tank collision object
 	targetGeom_ = 
@@ -60,8 +60,15 @@ void TargetLife::setLife(float life)
 	}
 	else
 	{
+		dGeomSphereSetRadius(targetGeom_, size_);
 		dGeomEnable(targetGeom_);
 	}
+}
+
+void TargetLife::setSize(float size)
+{
+	size_ = size;
+	dGeomSphereSetRadius(targetGeom_, size_);
 }
 
 void TargetLife::setPosition(Vector &pos)
@@ -73,6 +80,7 @@ bool TargetLife::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(maxLife_);
 	buffer.addToBuffer(life_);
+	buffer.addToBuffer(size_);
 	return true;
 }
 
@@ -82,5 +90,6 @@ bool TargetLife::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(maxLife_)) return false;
 	if (!reader.getFromBuffer(l)) return false;
 	setLife(l);
+	if (!reader.getFromBuffer(size_)) return false;
 	return true;
 }

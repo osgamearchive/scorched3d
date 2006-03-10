@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,45 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sprites/TextActionRenderer.h>
-#include <GLW/GLWFont.h>
-#include <GLEXT/GLCameraFrustum.h>
-#include <GLEXT/GLState.h>
+#if !defined(__INCLUDE_TargetRendererImplTargeth_INCLUDE__)
+#define __INCLUDE_TargetRendererImplTargeth_INCLUDE__
 
-TextActionRenderer::TextActionRenderer(
-		Vector &position,
-		Vector &color,
-		const char *text) :
-	position_(position),
-	color_(color),
-	text_(text),
-	frameTime_(0.0f)
+#include <tankgraph/TargetRendererImpl.h>
+#include <tankgraph/GLWTankTip.h>
+#include <3dsparse/ModelRenderer.h>
+#include <3dsparse/ModelID.h>
+
+class TargetRendererImplTarget : public TargetRendererImpl
 {
-}
+public:
+	TargetRendererImplTarget(Target *target, ModelID model);
+	virtual ~TargetRendererImplTarget();
 
-TextActionRenderer::~TextActionRenderer()
-{
-}
+	virtual void simulate(float frameTime);
+	virtual void draw(float distance);
+	virtual void drawSecond(float distance);
+	virtual void draw2d();
+	virtual void shieldHit();
+	virtual void fired();
 
-void TextActionRenderer::simulate(Action *action, float timepassed, bool &remove)
-{
-	position_[2] += timepassed;
-	frameTime_ += timepassed;
-	remove = (frameTime_ > 6.0f);
-}
+protected:
+	Target *target_;
+	ModelRenderer *modelRenderer_;
+	bool canSeeTank_;
+	float shieldHit_, totalTime_;
+	double posX_, posY_, posZ_;
+	GLWTargetTips targetTips_;
 
-void TextActionRenderer::draw(Action *action)
-{
-	if (!GLCameraFrustum::instance()->sphereInFrustum(position_))
-	{
-		return;
-	}
+	void storeTank2DPos();
+};
 
-	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON);
-	glDepthMask(GL_FALSE);
-	GLWFont::instance()->getSmallPtFont()->drawBilboard(color_, 1.0f - (frameTime_ / 6.0f), 1.0f, 
-		position_[0], position_[1], position_[2],
-		text_.c_str());
-
-	glDepthMask(GL_TRUE);
-}
+#endif // __INCLUDE_TargetRendererImplTargeth_INCLUDE__

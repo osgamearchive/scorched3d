@@ -18,31 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TracerRenderer.h>
+#include <tankgraph/RenderTracer.h>
 #include <tank/TankContainer.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLBitmap.h>
 #include <client/ScorchedClient.h>
 
-TracerRenderer *TracerRenderer::instance_ = 0;
+RenderTracer *RenderTracer::instance_ = 0;
 
-TracerRenderer *TracerRenderer::instance()
+RenderTracer *RenderTracer::instance()
 {
-	if (!instance_) instance_ = new TracerRenderer;
+	if (!instance_) instance_ = new RenderTracer;
 	return instance_;
 }
 
-TracerRenderer::TracerRenderer() : current_(0), listNo_(0)
+RenderTracer::RenderTracer() : current_(0), listNo_(0)
 {
 	obj_ = gluNewQuadric();
 }
 
-TracerRenderer::~TracerRenderer()
+RenderTracer::~RenderTracer()
 {
 	gluDeleteQuadric(obj_);
 }
 
-void TracerRenderer::clearTracers()
+void RenderTracer::clearTracers()
 {
 	if (current_) 
 	{
@@ -51,7 +51,7 @@ void TracerRenderer::clearTracers()
 	}
 }
 
-void TracerRenderer::draw(const unsigned state)
+void RenderTracer::draw(const unsigned state)
 {
 	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!current) return;
@@ -91,7 +91,7 @@ void TracerRenderer::draw(const unsigned state)
 	}
 }
 
-void TracerRenderer::drawTracerEnd(Vector &position)
+void RenderTracer::drawTracerEnd(Vector &position)
 {
 	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 
@@ -110,7 +110,7 @@ void TracerRenderer::drawTracerEnd(Vector &position)
 	glPopMatrix();
 }
 
-void TracerRenderer::drawSmokeTracer(std::list<TracerLinePoint> &positions)
+void RenderTracer::drawSmokeTracer(std::list<TracerLinePoint> &positions)
 {
 	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 	/*glEnable(GL_ALPHA_TEST);
@@ -172,13 +172,13 @@ void TracerRenderer::drawSmokeTracer(std::list<TracerLinePoint> &positions)
 	//glDisable(GL_ALPHA_TEST);
 }
 
-void TracerRenderer::newGame()
+void RenderTracer::newGame()
 {
 	traceEntries_.clear();
 	current_ = 0;
 }
 
-void TracerRenderer::addTracer(unsigned int tank, Vector &position)
+void RenderTracer::addTracer(unsigned int tank, Vector &position)
 {
 	std::map<unsigned int, TraceEntry>::iterator itor = 
 		traceEntries_.find(tank);
@@ -194,7 +194,7 @@ void TracerRenderer::addTracer(unsigned int tank, Vector &position)
 	}
 }
 
-void TracerRenderer::addSmokeTracer(unsigned int tank, 
+void RenderTracer::addSmokeTracer(unsigned int tank, 
 	Vector &position, std::list<TracerLinePoint> &positions)
 {
 	std::map<unsigned int, TraceEntry>::iterator itor = 

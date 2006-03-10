@@ -18,35 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetModelRendererh_INCLUDE__)
-#define __INCLUDE_TargetModelRendererh_INCLUDE__
+#if !defined(__INCLUDE_TargetRendererh_INCLUDE__)
+#define __INCLUDE_TargetRendererh_INCLUDE__
 
-#include <tankgraph/TargetModelIdRenderer.h>
-#include <tankgraph/GLWTankTip.h>
-#include <3dsparse/ModelRenderer.h>
-#include <target/Target.h>
-
-class TargetModelRenderer : public TargetModelIdRenderer
+class TargetRenderer
 {
 public:
-	TargetModelRenderer(Target *target);
-	virtual ~TargetModelRenderer();
+	TargetRenderer();
+	virtual ~TargetRenderer();
 
-	virtual void simulate(float frameTime);
-	virtual void draw(float distance);
-	virtual void drawSecond(float distance);
-	virtual void draw2d();
-	virtual void shieldHit();
+	virtual void simulate(float frameTime) = 0;
+	virtual void draw(float distance) = 0; // Called during the main drawing loop
+	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
+	virtual void draw2d() = 0; // Called during the 2d drawing loop
 
-protected:
-	Target *target_;
-	ModelRenderer *modelRenderer_;
-	bool canSeeTank_;
-	float shieldHit_, totalTime_;
-	double posX_, posY_, posZ_;
-	GLWTargetTips targetTips_;
-
-	void storeTank2DPos();
+	virtual void shieldHit() = 0;
+	virtual void fired() = 0;
 };
 
-#endif // __INCLUDE_TargetModelRendererh_INCLUDE__
+#endif // __INCLUDE_TargetRendererh_INCLUDE__

@@ -32,7 +32,7 @@
 #include <client/ClientWaitState.h>
 #include <client/ClientLoadPlayersState.h>
 #include <client/ScorchedClient.h>
-#include <tankgraph/TargetRenderer.h>
+#include <tankgraph/RenderTargets.h>
 #include <tankai/TankAIHumanCtrl.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWToolTip.h>
@@ -65,7 +65,7 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
 	gameState.addStateLoop(state, 
-		MainCamera::instance(), &TargetRenderer::instance()->render3D);
+		MainCamera::instance(), &RenderTargets::instance()->render3D);
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), Landscape::instance());
 	gameState.addStateLoop(state, MainCamera::instance(), 
@@ -75,7 +75,7 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), &MainCamera::instance()->precipitation_);
 	gameState.addStateLoop(state, 
-		Main2DCamera::instance(), &TargetRenderer::instance()->render2D);
+		Main2DCamera::instance(), &RenderTargets::instance()->render2D);
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), FrameTimer::instance());
 	if (!network)

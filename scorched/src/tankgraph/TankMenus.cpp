@@ -28,7 +28,6 @@
 #include <tankai/TankAIComputer.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankMenus.h>
-#include <tankgraph/TankModelRenderer.h>
 #include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsDisplay.h>
@@ -193,8 +192,6 @@ void TankMenus::showTankDetails()
 	{
 		Tank *tank = (*itor).second;
 
-		TargetModelId &modelId = tank->getModel();
-
 		const char *description = "Unknown";
 		Tank *otherTank = ScorchedServer::instance()->
 			getTankContainer().getTankById(tank->getPlayerId());
@@ -212,7 +209,8 @@ void TankMenus::showTankDetails()
 		snprintf(buffer, 1024, "%c %8s - \"%10s\" (%s)", 
 			currentTank == tank?'>':' ',
 			description,
-			tank->getName(), modelId.getTankModelName());
+			tank->getName(), 
+			tank->getModelContainer().getTankModelName());
 		GLConsole::instance()->addLine(false, buffer);
 	}
 

@@ -23,7 +23,7 @@
 #include <GLW/GLWTranslate.h>
 #include <GLW/GLWWindView.h>
 #include <client/ScorchedClient.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
@@ -41,7 +41,7 @@ GLWHudCondition::~GLWHudCondition()
 
 bool GLWHudCondition::getResult(GLWidget *widget)
 {
-	return TankModelRendererHUD::drawText();
+	return TargetRendererImplTankHUD::drawText();
 }
 
 REGISTER_CLASS_SOURCE(GLWScorchedInfo);
@@ -112,9 +112,9 @@ void GLWScorchedInfo::draw()
   	{
   		return;
 	}
-	TankModelRenderer *model = (TankModelRenderer *) 
-		current->getModel().getModelIdRenderer();
-	if (!model) return;
+	TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+		current->getRenderer();
+	if (!renderer) return;
 
 	Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
 	if (!weapon) return;
@@ -124,7 +124,7 @@ void GLWScorchedInfo::draw()
 	{
 		case ePlayerName:
 		{
-			setToolTip(&model->getTips()->nameTip);
+			setToolTip(&renderer->getTips()->nameTip);
 			float namewidth = (float) GLWFont::instance()->getSmallPtFont()->getWidth(
 				fontSize_, current->getName());
 			float offSet = 0.0f;
@@ -137,7 +137,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case ePlayerIcon:
 		{
-			setToolTip(&model->getTips()->nameTip);
+			setToolTip(&renderer->getTips()->nameTip);
 			GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
 			glColor3f((*fontColor)[0], (*fontColor)[1], (*fontColor)[2]);
 			current->getAvatar().getTexture()->draw();
@@ -155,7 +155,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case ePlayerColor:
 		{
-			setToolTip(&model->getTips()->nameTip);
+			setToolTip(&renderer->getTips()->nameTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				current->getColor(), fontSize_,
 				x_, y_, 0.0f,
@@ -163,14 +163,14 @@ void GLWScorchedInfo::draw()
 		}
 		break;
 		case eAutoDefenseCount:
-			setToolTip(&model->getTips()->autodTip);
+			setToolTip(&renderer->getTips()->autodTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				(current->getAccessories().getAutoDefense().haveDefense()?"On":"Off"));
 		break;
 		case eParachuteCount:
-			setToolTip(&model->getTips()->paraTip);
+			setToolTip(&renderer->getTips()->paraTip);
 			if (!current->getParachute().parachutesEnabled())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
@@ -192,14 +192,14 @@ void GLWScorchedInfo::draw()
 			}
 		break;
 		case eHealthCount:
-			setToolTip(&model->getTips()->healthTip);
+			setToolTip(&renderer->getTips()->healthTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.0f", current->getLife().getLife()));
 		break;
 		case eShieldCount:
-			setToolTip(&model->getTips()->shieldTip);
+			setToolTip(&renderer->getTips()->shieldTip);
 			if (!current->getShield().getCurrentShield())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
@@ -218,7 +218,7 @@ void GLWScorchedInfo::draw()
 		case eBatteryCount:
 			{
 			int count = current->getAccessories().getBatteries().getNoBatteries();
-			setToolTip(&model->getTips()->batteryTip);
+			setToolTip(&renderer->getTips()->batteryTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
@@ -228,7 +228,7 @@ void GLWScorchedInfo::draw()
 		case eFuelCount:
 			{
 			int count = current->getAccessories().getFuel().getNoFuel();
-			setToolTip(&model->getTips()->fuelTip);
+			setToolTip(&renderer->getTips()->fuelTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
@@ -237,7 +237,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponName:
 		{
-			setToolTip(&model->getTips()->weaponTip);
+			setToolTip(&renderer->getTips()->weaponTip);
 
 			static char buffer[256];
 			snprintf(buffer, 256, "%s", 
@@ -255,7 +255,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponCount:
 		{
-			setToolTip(&model->getTips()->weaponTip);
+			setToolTip(&renderer->getTips()->weaponTip);
 			int count = current->getAccessories().getAccessoryCount(
 				current->getAccessories().getWeapons().getCurrent());
 			const char *format = "%i";
@@ -268,7 +268,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponIcon:
 		{
-			setToolTip(&model->getTips()->weaponTip);
+			setToolTip(&renderer->getTips()->weaponTip);
 
 			GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
 			glColor3f((*fontColor)[0], (*fontColor)[1], (*fontColor)[2]);
@@ -286,7 +286,7 @@ void GLWScorchedInfo::draw()
 		}
 		break;
 		case eRotation:
-			setToolTip(&model->getTips()->rotationTip);
+			setToolTip(&renderer->getTips()->rotationTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
@@ -301,7 +301,7 @@ void GLWScorchedInfo::draw()
 				current->getPosition().getRotationXYDiff()));
 		break;
 		case eElevation:
-			setToolTip(&model->getTips()->elevationTip);
+			setToolTip(&renderer->getTips()->elevationTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
@@ -316,7 +316,7 @@ void GLWScorchedInfo::draw()
 				current->getPosition().getRotationYZDiff()));
 		break;
 		case ePower:
-			setToolTip(&model->getTips()->powerTip);
+			setToolTip(&renderer->getTips()->powerTip);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
@@ -342,10 +342,10 @@ void GLWScorchedInfo::mouseDown(float x, float y, bool &skipRest)
   	{
   		return;
 	}
-	TankModelRenderer *model = (TankModelRenderer *) 
-		current->getModel().getModelIdRenderer();
-	if (!model) return;
-	GLWTankTips *tankTips = model->getTips();
+	TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+		current->getRenderer();
+	if (!renderer) return;
+	GLWTankTips *tankTips = renderer->getTips();
 
 	if (inBox(x, y, x_, y_, w_, h_))
 	{

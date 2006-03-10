@@ -31,15 +31,16 @@ Tank::Tank(ScorchedContext &context,
 		unsigned int destinationId,
 		const char *name, 
 		Vector &color, 
-		TargetModelId &modelId) :
+		const char *modelName) :
 	context_(context),
-	Target(playerId, modelId, name, context), 
+	Target(playerId, name, context), 
 	destinationId_(destinationId),
 	color_(color), 
 	position_(context),
 	tankAI_(0),
 	score_(context), 
 	state_(context, playerId), 
+	modelContainer_(modelName),
 	accessories_(context),
 	team_(0), 
 	ipAddress_(0), 
@@ -48,6 +49,7 @@ Tank::Tank(ScorchedContext &context,
 	position_.setTank(this);
 	state_.setTank(this);
 	accessories_.setTank(this);
+	modelContainer_.setTank(this);
 	state_.setState(TankState::sPending);
 
 	if (context.serverMode) accessories_.newMatch();
@@ -75,7 +77,7 @@ void Tank::newMatch()
 void Tank::newGame()
 {
 	TankType *tankType = 
-		getModel().getTankType(context_);
+		getModelContainer().getTankType(context_);
 	getLife().setMaxLife(tankType->getLife());
 
 	Target::newGame();
@@ -119,6 +121,7 @@ bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 	if (!accessories_.writeMessage(buffer, writeAccessories)) return false;
 	if (!score_.writeMessage(buffer)) return false;
 	if (!position_.writeMessage(buffer)) return false;
+	if (!modelContainer_.writeMessage(buffer)) return false;
 	return true;
 }
 
@@ -132,6 +135,7 @@ bool Tank::readMessage(NetBufferReader &reader)
 	if (!accessories_.readMessage(reader)) return false;
 	if (!score_.readMessage(reader)) return false;
 	if (!position_.readMessage(reader)) return false;
+	if (!modelContainer_.readMessage(reader)) return false;
 
 	if (!context_.serverMode)
 	{

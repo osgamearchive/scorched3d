@@ -20,7 +20,7 @@
 
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
-#include <tankgraph/TracerRenderer.h>
+#include <tankgraph/RenderTracer.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
@@ -127,7 +127,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		if (snapTime_ > 0.1f || remove)
 		{
 			Vector up (0.0f, 0.0f, 1.0f);
-			TracerRenderer::TracerLinePoint point;
+			RenderTracer::TracerLinePoint point;
 			point.position = getCurrentPosition();
 			point.cross = (getCurrentVelocity() * up).Normalize();
 			positions_.push_back(point);
@@ -166,12 +166,12 @@ void ShotProjectile::doCollision(Vector &position)
 	{
 		if (getWeapon()->getShowShotPath())
 		{
-			TracerRenderer::instance()->
+			RenderTracer::instance()->
 				addSmokeTracer(playerId_, position, positions_);
 		}
 		else if (getWeapon()->getShowEndPoint())
 		{
-			TracerRenderer::instance()->
+			RenderTracer::instance()->
 				addTracer(playerId_, position);
 		}
 	}

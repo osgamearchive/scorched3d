@@ -22,7 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
 #include <client/ClientState.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/MissileMesh.h>
 #include <tank/TankContainer.h>
 #include <GLW/GLWTranslate.h>
@@ -60,11 +60,11 @@ void GLWWeaponModel::draw()
 		return;
 	}
 
-	TankModelRenderer *model = (TankModelRenderer *) 
-		current->getModel().getModelIdRenderer();
-	if (!model) return;
+	TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+		current->getRenderer();
+	if (!renderer) return;
 
-	GLWTankTips *tankTips = model->getTips();
+	GLWTankTips *tankTips = renderer->getTips();
 	Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
 	if (!weapon) return;
 
@@ -104,10 +104,10 @@ void GLWWeaponModel::mouseDown(float x, float y, bool &skipRest)
   	{
   		return;
 	}
-	TankModelRenderer *model = (TankModelRenderer *) 
-		current->getModel().getModelIdRenderer();
-	if (!model) return;
-	GLWTankTips *tankTips = model->getTips();
+	TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+		current->getRenderer();
+	if (!renderer) return;
+	GLWTankTips *tankTips = renderer->getTips();
 
 	if (inBox(x, y, x_, y_, w_, h_))
 	{

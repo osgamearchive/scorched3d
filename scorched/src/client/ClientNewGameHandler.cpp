@@ -23,7 +23,7 @@
 #include <client/ClientState.h>
 #include <client/SpeedChange.h>
 #include <client/ClientWaitState.h>
-#include <tankgraph/TracerRenderer.h>
+#include <tankgraph/RenderTracer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
 #include <engine/MainLoop.h>
@@ -93,7 +93,7 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	// Calculate all the new landscape settings (graphics)
 	Landscape::instance()->generate(ProgressDialog::instance());
 
-	TracerRenderer::instance()->newGame();
+	RenderTracer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
 
 	// Remove all actions (graphical objects) from the last round

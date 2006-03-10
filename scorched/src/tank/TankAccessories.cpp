@@ -93,7 +93,7 @@ void TankAccessories::newMatch()
 
 	// Add all of the accessories that come from the tank's type
 	{
-		TankType *type = tank_->getModel().getTankType(context_);
+		TankType *type = tank_->getModelContainer().getTankType(context_);
 		std::map<Accessory *, int> accessories = type->getAccessories();
 		std::map<Accessory *, int>::iterator itor;
 		for (itor = accessories.begin();
@@ -169,7 +169,7 @@ int TankAccessories::getAccessoryCount(Accessory *accessory)
 bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 {
 	// Check if this tank type allows this accessory
-	TankType *type = tank_->getModel().getTankType(context_);
+	TankType *type = tank_->getModelContainer().getTankType(context_);
 	if (type->getAccessoryDisabled(accessory)) return false;
 
 	// Check if this accessory is allowed at all

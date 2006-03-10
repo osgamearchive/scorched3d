@@ -242,7 +242,8 @@ void WaterMap::refreshVisiblity()
 		if (drawVisiblePoints_) glVertex3fv(currentEntry->pos);
 		currentEntry->notVisible = !frustum->sphereInFrustum(
 			currentEntry->pos,
-			width);	
+			width,
+			GLCameraFrustum::FrustrumBlue);	
 
 		currentEntry ++;
 	}

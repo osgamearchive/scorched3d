@@ -473,12 +473,12 @@ void ServerNewGameState::checkTeams()
 		{
 			TankModel *model = 
 				ScorchedServer::instance()->getTankModels().getModelByName(
-					current->getModel().getTankModelName(),
+					current->getModelContainer().getTankModelName(),
 					current->getTeam());
-			if (0 != strcmp(model->getId().getTankModelName(),
-				current->getModel().getTankModelName()))
+			if (0 != strcmp(model->getName(),
+				current->getModelContainer().getTankModelName()))
 			{
-				current->setModel(model->getId());
+				current->getModelContainer().setTankModelName(model->getName());
 			}
 		}
 	}

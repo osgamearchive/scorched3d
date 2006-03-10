@@ -26,8 +26,8 @@
 #include <sound/SoundUtils.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
-#include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
+#include <target/TargetRenderer.h>
 
 REGISTER_ACTION_SOURCE(TankFired);
 
@@ -68,11 +68,10 @@ void TankFired::simulate(float frameTime, bool &remove)
 
 			if (!context_->serverMode) 
 			{
-				TankModelRenderer *model = (TankModelRenderer *) 
-					tank->getModel().getModelIdRenderer();
-				if (model)
+				TargetRenderer *renderer = tank->getRenderer();
+				if (renderer)
 				{
-					model->fired();
+					renderer->fired();
 				}
 
 				// play fired sound

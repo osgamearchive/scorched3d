@@ -263,7 +263,7 @@ void BoidWorld::draw()
 		Boid *boid = getBoids()[i];
 		const BoidVector &position = boid->getPosition();
 		Vector pos((float) position.x, (float) position.z, (float) position.y);
-		if (!GLCameraFrustum::instance()->pointInFrustum(pos))
+		if (!GLCameraFrustum::instance()->sphereInFrustum(pos))
 		{
 			continue;
 		}

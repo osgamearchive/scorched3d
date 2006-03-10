@@ -28,7 +28,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <tankai/TankAIHuman.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <landscape/LandscapeMaps.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsDefenseMessage.h>
@@ -178,7 +178,7 @@ void TankAIHuman::playMove(const unsigned state,
 			currentTank_->getAccessories().getWeapons().nextWeapon();
 		}
 
-		TankModelRendererHUD::setText("Weapon : ", 
+		TargetRendererImplTankHUD::setText("Weapon : ", 
 			currentTank_->getAccessories().getWeapons().getWeaponString());
 	}
 }
@@ -214,7 +214,7 @@ void TankAIHuman::autoAim()
 			currentTank_->getPosition().rotateGunXY(angleXYDegs, false);
 			leftRightHUD();
 
-			TankModelRendererAIM::setAimPosition(intersect);
+			TargetRendererImplTankAIM::setAimPosition(intersect);
 		}
 	}
 }
@@ -288,7 +288,7 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 void TankAIHuman::leftRightHUD()
 {		
 	float rot = currentTank_->getPosition().getRotationGunXY() / 360.0f;
-	TankModelRendererHUD::setText("Rot:", 
+	TargetRendererImplTankHUD::setText("Rot:", 
 		currentTank_->getPosition().getRotationString(), rot * 100.0f);
 }
 
@@ -381,7 +381,7 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 void TankAIHuman::upDownHUD()
 {
 	float rot = currentTank_->getPosition().getRotationGunYZ() / 90.0f;
-	TankModelRendererHUD::setText("Ele:", 
+	TargetRendererImplTankHUD::setText("Ele:", 
 		currentTank_->getPosition().getElevationString(), rot * 100.0f);
 }
 
@@ -452,7 +452,7 @@ void TankAIHuman::powerHUD()
 {
 	float power = currentTank_->getPosition().getPower() / 
 		currentTank_->getPosition().getMaxPower();
-	TankModelRendererHUD::setText("Pwr:", 
+	TargetRendererImplTankHUD::setText("Pwr:", 
 		currentTank_->getPosition().getPowerString(), power * 100.0f);
 }
 

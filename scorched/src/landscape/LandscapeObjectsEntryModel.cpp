@@ -40,7 +40,8 @@ void LandscapeObjectsEntryModel::render(float distance)
 	point[0] = posX;
 	point[1] = posY;
 	point[2] = posZ;
-	if (!GLCameraFrustum::instance()->sphereInFrustum(point, 2.0f)) return;
+	if (!GLCameraFrustum::instance()->sphereInFrustum(
+		point, 2.0f)) return;
 
 	/*{
 	GLState state(GLState::TEXTURE_OFF);

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,45 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sprites/TextActionRenderer.h>
-#include <GLW/GLWFont.h>
-#include <GLEXT/GLCameraFrustum.h>
-#include <GLEXT/GLState.h>
+#if !defined(__INCLUDE_TargetRendererImplh_INCLUDE__)
+#define __INCLUDE_TargetRendererImplh_INCLUDE__
 
-TextActionRenderer::TextActionRenderer(
-		Vector &position,
-		Vector &color,
-		const char *text) :
-	position_(position),
-	color_(color),
-	text_(text),
-	frameTime_(0.0f)
+#include <target/Target.h>
+#include <target/TargetRenderer.h>
+
+class TargetRendererImpl : public TargetRenderer
 {
-}
+public:
+	TargetRendererImpl();
+	virtual ~TargetRendererImpl();
 
-TextActionRenderer::~TextActionRenderer()
-{
-}
+	void setMakeParticle() { particleMade_ = false; }
 
-void TextActionRenderer::simulate(Action *action, float timepassed, bool &remove)
-{
-	position_[2] += timepassed;
-	frameTime_ += timepassed;
-	remove = (frameTime_ > 6.0f);
-}
+protected:
+	bool particleMade_;
 
-void TextActionRenderer::draw(Action *action)
-{
-	if (!GLCameraFrustum::instance()->sphereInFrustum(position_))
-	{
-		return;
-	}
+	void drawShield(Target *target, float shieldHit, float totalTime);
+	void drawParachute(Target *target);
+	void createParticle(Target *target);
+};
 
-	GLState currentState(GLState::DEPTH_ON | GLState::TEXTURE_ON);
-	glDepthMask(GL_FALSE);
-	GLWFont::instance()->getSmallPtFont()->drawBilboard(color_, 1.0f - (frameTime_ / 6.0f), 1.0f, 
-		position_[0], position_[1], position_[2],
-		text_.c_str());
-
-	glDepthMask(GL_TRUE);
-}
+#endif // __INCLUDE_TargetRendererImplh_INCLUDE__

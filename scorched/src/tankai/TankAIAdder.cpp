@@ -116,8 +116,8 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		// Form the tank ai model
 		Vector color = TankColorGenerator::instance()->getNextColor(
 			context.getTankContainer().getPlayingTanks());
-		TargetModelId modelId =
-			context.getTankModels().getRandomModel(team)->getId();
+		std::string modelName =
+			context.getTankModels().getRandomModel(team)->getName();
 
 		// Create the new tank
 		Tank *tank = new Tank(
@@ -126,7 +126,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 			0,
 			newname.c_str(),
 			color,
-			modelId);
+			modelName.c_str());
 
 		tank->getAvatar().loadFromFile("computer.gif");
 		tank->setUniqueId(uniqueId);
@@ -158,7 +158,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 				tank->getPlayerId(),
 				tank->getName(),
 				tank->getColor(),
-				tank->getModel().getTankModelName(),
+				tank->getModelContainer().getTankModelName(),
 				tank->getDestinationId(),
 				tank->getTeam()); 
 			addPlayerMessage.setPlayerIconName(tank->getAvatar().getName());

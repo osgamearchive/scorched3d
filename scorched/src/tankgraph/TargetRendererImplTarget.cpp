@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TargetModelRenderer.h>
+#include <tankgraph/TargetRendererImplTarget.h>
 #include <landscape/Landscape.h>
 #include <landscape/ShadowMap.h>
 #include <3dsparse/ModelStore.h>
@@ -28,7 +28,8 @@
 #include <GLW/GLWToolTip.h>
 #include <client/MainCamera.h>
 
-TargetModelRenderer::TargetModelRenderer(Target *target) :
+TargetRendererImplTarget::TargetRendererImplTarget(Target *target,
+	ModelID model) :
 	target_(target),
 	canSeeTank_(false),
 	shieldHit_(0.0f), totalTime_(0.0f),
@@ -36,14 +37,14 @@ TargetModelRenderer::TargetModelRenderer(Target *target) :
 	targetTips_(target)
 {
 	modelRenderer_ = new ModelRenderer(
-		ModelStore::instance()->loadModel(target_->getModel().getTargetModel()));
+		ModelStore::instance()->loadModel(model));
 }
 
-TargetModelRenderer::~TargetModelRenderer()
+TargetRendererImplTarget::~TargetRendererImplTarget()
 {
 }
 
-void TargetModelRenderer::simulate(float frameTime)
+void TargetRendererImplTarget::simulate(float frameTime)
 {
 	totalTime_ += frameTime;
 	if (shieldHit_ > 0.0f)
@@ -55,17 +56,21 @@ void TargetModelRenderer::simulate(float frameTime)
 	modelRenderer_->simulate(frameTime);
 }
 
-void TargetModelRenderer::draw(float distance)
+void TargetRendererImplTarget::draw(float distance)
 {
 	// Check we can see the tank
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
-		sphereInFrustum(target_->getTargetPosition(), 1))
+		sphereInFrustum(target_->getTargetPosition(), 
+		target_->getLife().getSize(),
+		GLCameraFrustum::FrustrumRed) ||
+		!target_->getAlive())
 	{
 		canSeeTank_ = false;
 		return;
 	}
 
+	createParticle(target_);
 	storeTank2DPos();
 
 	// Add the tank shadow
@@ -85,7 +90,7 @@ void TargetModelRenderer::draw(float distance)
 	glPopMatrix();
 }
 
-void TargetModelRenderer::draw2d()
+void TargetRendererImplTarget::draw2d()
 {
 	if (!canSeeTank_) return;
 
@@ -97,7 +102,7 @@ void TargetModelRenderer::draw2d()
 	}
 }
 
-void TargetModelRenderer::drawSecond(float distance)
+void TargetRendererImplTarget::drawSecond(float distance)
 {
 	if (!canSeeTank_) return;
 
@@ -105,12 +110,12 @@ void TargetModelRenderer::drawSecond(float distance)
 	drawShield(target_, shieldHit_, totalTime_);
 }
 
-void TargetModelRenderer::shieldHit()
+void TargetRendererImplTarget::shieldHit()
 {
 	shieldHit_ = 0.25f;
 }
 
-void TargetModelRenderer::storeTank2DPos()
+void TargetRendererImplTarget::storeTank2DPos()
 {
 	Vector &tankTurretPos = 
 		target_->getTargetPosition();
@@ -146,3 +151,8 @@ void TargetModelRenderer::storeTank2DPos()
 			&posZ_);
 	}
 }
+
+void TargetRendererImplTarget::fired()
+{
+}
+

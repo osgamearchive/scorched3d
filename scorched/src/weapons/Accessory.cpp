@@ -22,7 +22,7 @@
 #include <GLEXT/GLTexture.h>
 #include <3dsparse/ModelID.h>
 #include <3dsparse/ModelStore.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/MissileMesh.h>
 #include <weapons/Accessory.h>
 #include <weapons/AccessoryStore.h>
@@ -176,12 +176,12 @@ MissileMesh *Accessory::getWeaponMesh(ModelID &id, Tank *currentPlayer)
 		// check the player to see if they have a default model
 		if (currentPlayer)
 		{
-			TankModelRenderer *model = (TankModelRenderer *) 
-					currentPlayer->getModel().getModelIdRenderer();
-			if (model && 
-				model->getModel()->getProjectileModelID().modelValid())
+			TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+				currentPlayer->getRenderer();
+			if (renderer && 
+				renderer->getModel()->getProjectileModelID().modelValid())
 			{
-				usedModelId = &model->getModel()->getProjectileModelID();
+				usedModelId = &renderer->getModel()->getProjectileModelID();
 			}
 		}
 	}

@@ -18,53 +18,50 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TargetRenderer.h>
-#include <tankgraph/TargetParticleRenderer.h>
-#include <tankgraph/TargetModelRenderer.h>
-#include <tankgraph/TreeModelRenderer.h>
-#include <tankgraph/TankModelRenderer.h>
-#include <tankgraph/TracerRenderer.h>
+#include <tankgraph/RenderTargets.h>
+#include <tankgraph/TargetRendererImplTank.h>
+#include <tankgraph/RenderTracer.h>
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
 #include <algorithm>
 
-TargetRenderer *TargetRenderer::instance_ = 0;
+RenderTargets *RenderTargets::instance_ = 0;
 
-TargetRenderer *TargetRenderer::instance()
+RenderTargets *RenderTargets::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new TargetRenderer;
+		instance_ = new RenderTargets;
 	}
 	return instance_;
 }
 
-TargetRenderer::TargetRenderer()
+RenderTargets::RenderTargets()
 {
 }
 
-TargetRenderer::~TargetRenderer()
+RenderTargets::~RenderTargets()
 {
 }
 
-void TargetRenderer::Renderer2D::draw(const unsigned state)
+void RenderTargets::Renderer2D::draw(const unsigned state)
 {
-	TargetRenderer::instance()->draw(TargetRenderer::Type2D, state);
+	RenderTargets::instance()->draw(RenderTargets::Type2D, state);
 }
 
-void TargetRenderer::Renderer3D::draw(const unsigned state)
+void RenderTargets::Renderer3D::draw(const unsigned state)
 {
-	TracerRenderer::instance()->draw(state);
-	TargetRenderer::instance()->draw(TargetRenderer::Type3D, state);
+	RenderTracer::instance()->draw(state);
+	RenderTargets::instance()->draw(RenderTargets::Type3D, state);
 }
 
-void TargetRenderer::Renderer3D::simulate(const unsigned state, float simTime)
+void RenderTargets::Renderer3D::simulate(const unsigned state, float simTime)
 {
 	// Simulate the HUD
-	TankModelRendererHUD::simulate(simTime);
-	TankModelRendererAIM::simulate(simTime);
+	TargetRendererImplTankHUD::simulate(simTime);
+	TargetRendererImplTankAIM::simulate(simTime);
 
 	// Simulate all of the tanks
 	std::map<unsigned int, Target *> &targets = 
@@ -75,9 +72,7 @@ void TargetRenderer::Renderer3D::simulate(const unsigned state, float simTime)
 		itor++)
 	{
 		Target *target = (*itor).second;
-
-		TargetModelIdRenderer *model =
-			target->getModel().getModelIdRenderer();
+		TargetRenderer *model = target->getRenderer();
 		if (model)
 		{
 			model->simulate(simTime);
@@ -97,7 +92,7 @@ static inline bool lt_distance(const std::pair<float, Target *> &o1,
 	return o1.first > o2.first;
 }
 
-void TargetRenderer::draw(DrawType dt, const unsigned state)
+void RenderTargets::draw(DrawType dt, const unsigned state)
 {
 	Vector &campos = MainCamera::instance()->getCamera().getCurrentPos();
 
@@ -133,56 +128,8 @@ void TargetRenderer::draw(DrawType dt, const unsigned state)
 		Target *target = (*sortedItor).second;
 
 		// Check we have the tank model for each tank
-		// If not load the model from the store
-		TargetModelIdRenderer *model =
-			target->getModel().getModelIdRenderer();
-		if (!model)
-		{
-			switch (target->getModel().getTargetType())
-			{
-			case TargetModelId::eTankModel:
-				model = new TankModelRenderer((Tank*) target);
-				target->getModel().setModelIdRenderer(model);
-				break;
-			case TargetModelId::eTargetModel:
-				model = new TargetModelRenderer(target);
-				target->getModel().setModelIdRenderer(model);
-				break;
-			case TargetModelId::eTreeModel:
-				model = new TreeModelRenderer(target);
-				target->getModel().setModelIdRenderer(model);
-				break;
-			}
-		}
-		
-		// Check if we have made the particle
-		// We may not have if there were not enough to create the 
-		// tank in the first place
-		if (!model->getMadeParticle())
-		{
-			// Pretent the tank is actually a particle, this is so
-			// it gets rendered during the particle renderering phase
-			// and using the correct z ordering
-			Particle *particle = 
-				ScorchedClient::instance()->getParticleEngine().
-					getNextAliveParticle();
-			if (particle)
-			{
-				particle->setParticle(
-					1000.0f,  1.0f, 1.0f, //float life, float mass, float friction,
-					Vector::nullVector, Vector::nullVector, //Vector &velocity, Vector &gravity,
-					Vector::nullVector, Vector::nullVector, //Vector &color, Vector &colorCounter,
-					Vector::nullVector, Vector::nullVector, //Vector &size, Vector &sizeCounter,
-					1.0f, 0.0f, // float alpha, float alphaCounter,
-					false, //bool additiveTexture,
-					false); //bool windAffect);
-
-				model->setMadeParticle(true);
-				particle->life_ = 1000.0f;
-				particle->renderer_ = TargetParticleRenderer::getInstance();
-				particle->userData_ = new unsigned(target->getPlayerId());
-			}
-		}
+		TargetRenderer *model = target->getRenderer();
+		if (!model) continue;
 
 		switch (dt)
 		{

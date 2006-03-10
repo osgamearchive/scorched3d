@@ -18,7 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TargetModelIdRenderer.h>
+#include <tankgraph/TargetRendererImpl.h>
+#include <tankgraph/TargetParticleRenderer.h>
+#include <client/ScorchedClient.h>
+#include <engine/ParticleEngine.h>
 #include <common/Defines.h>
 #include <landscape/Hemisphere.h>
 #include <weapons/Shield.h>
@@ -30,16 +33,15 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLCameraFrustum.h>
 
-TargetModelIdRenderer::TargetModelIdRenderer() :
-	particleMade_(false)
+TargetRendererImpl::TargetRendererImpl() : particleMade_(false)
 {
 }
 
-TargetModelIdRenderer::~TargetModelIdRenderer()
+TargetRendererImpl::~TargetRendererImpl()
 {
 }
 
-void TargetModelIdRenderer::drawShield(Target *target, float shieldHit, float totalTime)
+void TargetRendererImpl::drawShield(Target *target, float shieldHit, float totalTime)
 {
 	// Create the shield textures
 	static GLTexture *shieldtexture = 0;
@@ -191,7 +193,7 @@ void TargetModelIdRenderer::drawShield(Target *target, float shieldHit, float to
 	}
 }
 
-void TargetModelIdRenderer::drawParachute(Target *target)
+void TargetRendererImpl::drawParachute(Target *target)
 {
 	static GLuint listNo = 0;
 	if (!listNo)
@@ -238,4 +240,36 @@ void TargetModelIdRenderer::drawParachute(Target *target)
 		glTranslatef(position[0], position[1], position[2]);
 		glCallList(listNo);
 	glPopMatrix();
+}
+
+void TargetRendererImpl::createParticle(Target *target)
+{
+	// Check if we have made the particle
+	// We may not have if there were not enough to create the 
+	// tank in the first place
+	if (!particleMade_)
+	{
+		// Pretent the tank is actually a particle, this is so
+		// it gets rendered during the particle renderering phase
+		// and using the correct z ordering
+		Particle *particle = 
+			ScorchedClient::instance()->getParticleEngine().
+				getNextAliveParticle();
+		if (particle)
+		{
+			particle->setParticle(
+				1000.0f,  1.0f, 1.0f, //float life, float mass, float friction,
+				Vector::nullVector, Vector::nullVector, //Vector &velocity, Vector &gravity,
+				Vector::nullVector, Vector::nullVector, //Vector &color, Vector &colorCounter,
+				Vector::nullVector, Vector::nullVector, //Vector &size, Vector &sizeCounter,
+				1.0f, 0.0f, // float alpha, float alphaCounter,
+				false, //bool additiveTexture,
+				false); //bool windAffect);
+
+			particleMade_ = true;
+			particle->life_ = 1000.0f;
+			particle->renderer_ = TargetParticleRenderer::getInstance();
+			particle->userData_ = new unsigned(target->getPlayerId());
+		}
+	}
 }

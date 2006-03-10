@@ -287,7 +287,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			tank->getPlayerId(),
 			tank->getName(),
 			tank->getColor(),
-			tank->getModel().getTankModelName(),
+			tank->getModelContainer().getTankModelName(),
 			tank->getDestinationId(),
 			tank->getTeam()); 
 		oldPlayerMessage.setPlayerIconName(tank->getAvatar().getName());
@@ -334,10 +334,6 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	unsigned int tankId = 0;
 	const char *playerName = "";
 
-	// The model, this will be turned into a "proper" model
-	// in the player choice dialog
-	TargetModelId modelId("Random"); 
-	
 	if (extraSpectator)
 	{
 		tankId = 1;
@@ -363,7 +359,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		destinationId,
 		playerName,
 		color,
-		modelId);
+		"Random"); // The model, this will be turned into a "proper" model in the player choice dialog
 	tank->setUniqueId(sentUniqueId);
 	tank->setIpAddress(ipAddress);
 	tank->setHostDesc(sentHostDesc);
@@ -420,7 +416,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tank->getPlayerId(),
 		tank->getName(),
 		tank->getColor(),
-		tank->getModel().getTankModelName(),
+		tank->getModelContainer().getTankModelName(),
 		tank->getDestinationId(),
 		tank->getTeam());
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);

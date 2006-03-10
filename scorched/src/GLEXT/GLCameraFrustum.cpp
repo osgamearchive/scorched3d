@@ -23,6 +23,11 @@
 #include <GLEXT/GLCameraFrustum.h>
 #include <common/OptionsDisplay.h>
 
+Vector GLCameraFrustum::FrustrumRed(1.0f, 0.0f, 0.0f);
+Vector GLCameraFrustum::FrustrumBlue(0.0f, 0.0f, 1.0f);
+Vector GLCameraFrustum::FrustrumGreen(0.0f, 1.0f, 0.0f);
+Vector GLCameraFrustum::FrustrumWhite(1.0f, 1.0f, 1.0f);
+
 GLCameraFrustum *GLCameraFrustum::instance_ = 0;
 
 GLCameraFrustum *GLCameraFrustum::instance()
@@ -151,25 +156,8 @@ void GLCameraFrustum::draw(const unsigned state)
 	normalize(s.frustum_[5]);
 }
 
-bool GLCameraFrustum::pointInFrustum(Vector &point)
-{
-	for (int iCurPlane = 0; iCurPlane<6; iCurPlane++)
-	{
-		float value = 
-			s.frustum_[iCurPlane][0] * point[0] + 
-			s.frustum_[iCurPlane][1] * point[1] + 
-			s.frustum_[iCurPlane][2] * point[2] + 
-			s.frustum_[iCurPlane][3];
-		if (value <= 0)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool GLCameraFrustum::sphereInFrustum(Vector &point, float fRadius)
+bool GLCameraFrustum::sphereInFrustum(Vector &point, 
+	float fRadius, Vector &color)
 {
 	if (OptionsDisplay::instance()->getDrawBoundingSpheres())
 	{
@@ -181,7 +169,7 @@ bool GLCameraFrustum::sphereInFrustum(Vector &point, float fRadius)
 		}
 
 		GLState glState(GLState::TEXTURE_OFF);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3fv(color);
 		glPushMatrix();
 			glTranslatef(point[0], point[1], point[2]);
 			gluSphere(obj, fRadius, 6, 6);

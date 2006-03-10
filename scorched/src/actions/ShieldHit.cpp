@@ -26,7 +26,7 @@
 #include <weapons/Accessory.h>
 #include <weapons/Shield.h>
 #include <target/TargetContainer.h>
-#include <tankgraph/TargetModelIdRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 
 REGISTER_ACTION_SOURCE(ShieldHit);
 
@@ -76,11 +76,10 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
 						shieldSound, position_);
 
-					TargetModelIdRenderer *model = 
-						target->getModel().getModelIdRenderer();
-					if (model)
+					TargetRenderer *renderer = target->getRenderer();
+					if (renderer)
 					{
-						model->shieldHit();
+						renderer->shieldHit();
 					}
 				}
 

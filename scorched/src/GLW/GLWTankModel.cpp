@@ -22,7 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <client/MainCamera.h>
 #include <client/ClientState.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <tank/TankContainer.h>
 #include <GLW/GLWTranslate.h>
 
@@ -43,12 +43,12 @@ void GLWTankModel::draw()
 		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!current) return;
 
-	TankModelRenderer *model = (TankModelRenderer *) 
-		current->getModel().getModelIdRenderer();
-	if (!model) return;
+	TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+		current->getRenderer();
+	if (!renderer) return;
 
 	// Add the tooltip for the model name+attributes
-	GLWToolTip::instance()->addToolTip(&model->getTips()->tankTip, 
+	GLWToolTip::instance()->addToolTip(&renderer->getTips()->tankTip, 
 		GLWTranslate::getPosX() + x_ + 20.0f, 
 		GLWTranslate::getPosY() + y_ + 20.0f, 80.0f, 80.0f);
 
@@ -72,7 +72,7 @@ void GLWTankModel::draw()
 		glScalef(w_ / 4.0f, w_ / 4.0f, w_ / 4.0f);
 		GLState tankState(GLState::TEXTURE_OFF | GLState::DEPTH_ON); // For no tank skins
 		Vector position;
-		model->getModel()->draw(
+		renderer->getModel()->draw(
 			false, 0.0f, position, 0.0f,
 			current->getPosition().getRotationGunXY(),
 			current->getPosition().getRotationGunYZ(),

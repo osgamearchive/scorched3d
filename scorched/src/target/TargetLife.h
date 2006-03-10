@@ -38,6 +38,8 @@ public:
 	// Position
 	void setPosition(Vector &pos);
 	void setTarget(Target *target) { target_ = target; }
+	void setSize(float size);
+	float getSize() { return size_; }
 
 	// Tank Life / Health
 	float getLife() { return life_; }
@@ -53,6 +55,7 @@ public:
 protected:
 	ScorchedContext &context_;
 
+	float size_;
 	float life_;
 	float maxLife_;
 

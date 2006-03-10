@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TracerRendererh_INCLUDE__)
-#define __INCLUDE_TracerRendererh_INCLUDE__
+#if !defined(__INCLUDE_RenderTracerh_INCLUDE__)
+#define __INCLUDE_RenderTracerh_INCLUDE__
 
 #include <list>
 #include <map>
@@ -28,10 +28,10 @@
 #include <engine/GameStateI.h>
 
 class Tank;
-class TracerRenderer : public GameStateI
+class RenderTracer : public GameStateI
 {
 public:
-	static TracerRenderer *instance();
+	static RenderTracer *instance();
 
 	struct TracerLinePoint
 	{
@@ -52,7 +52,7 @@ public:
 		Vector &position, std::list<TracerLinePoint> &positions);
 
 protected:
-	static TracerRenderer *instance_;
+	static RenderTracer *instance_;
 	class TraceEntry
 	{
 	public:
@@ -69,8 +69,8 @@ protected:
 	GLuint listNo_;
 
 private:
-	TracerRenderer();
-	virtual ~TracerRenderer();
+	RenderTracer();
+	virtual ~RenderTracer();
 
 };
 

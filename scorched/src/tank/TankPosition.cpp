@@ -62,14 +62,14 @@ std::vector<TankPosition::ShotEntry> &TankPosition::getOldShots()
 
 void TankPosition::newGame()
 {
-	TankType *type = tank_->getModel().getTankType(context_);
+	TankType *type = tank_->getModelContainer().getTankType(context_);
 
 	maxPower_ = type->getPower();
 }
 
 void TankPosition::clientNewGame()
 {
-	TankType *type = tank_->getModel().getTankType(context_);
+	TankType *type = tank_->getModelContainer().getTankType(context_);
 
 	maxPower_ = type->getPower();
 	oldPower_ = power_ = maxPower_;

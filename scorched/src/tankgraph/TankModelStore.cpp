@@ -80,7 +80,6 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 		XMLNode *nameNode;
 		if (!currentNode->getNamedChild("name", nameNode)) return false;
 		const char *modelName = nameNode->getContent();
-		TargetModelId id(modelName);
 
 		// Get the tank type (if any)
 		std::string tankType = "none";
@@ -111,7 +110,7 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 		}
 
 		// Create the tank model
-		TankModel *model = new TankModel(id, modelId, type);
+		TankModel *model = new TankModel(modelName, modelId, type);
 
 		// Get the projectile model node (if any)
 		XMLNode *projectileModelNode;
@@ -161,7 +160,7 @@ TankModel *TankModelStore::getRandomModel(int team)
 	{
 		TankModel *model = (*itor);
 
-		if (strcmp(model->getId().getTankModelName(), "Random") != 0)
+		if (strcmp(model->getName(), "Random") != 0)
 		{
 			if (model->isOfTeam(team)) models.push_back(model);
 		}
@@ -185,7 +184,7 @@ TankModel *TankModelStore::getModelByName(const char *name, int team)
 		 itor++)
 	{
 		TankModel *current = (*itor);
-		if (0 == strcmp(current->getId().getTankModelName(), name) &&
+		if (0 == strcmp(current->getName(), name) &&
 			current->isOfTeam(team))
 		{
 			return current;

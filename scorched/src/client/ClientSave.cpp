@@ -165,14 +165,13 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 		else
 		{
 			Vector color;
-			TargetModelId model("");
 			Tank tank(
 				ScorchedServer::instance()->getContext(),
 				playerId, // PlayerId
 				0, // DestinationId
 				"", // Name
 				color,
-				model);
+				"");
 			if (!tank.readMessage(reader)) return false;
 			if (!tank.getAvatar().readMessage(reader)) return false;
 		
@@ -185,7 +184,7 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 					tank.getPlayerId(),
 					tank.getName(),
 					tank.getColor(),
-					tank.getModel().getTankModelName(),
+					tank.getModelContainer().getTankModelName(),
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
 					tank.getTeam(),
 					tankAIStr.c_str());

@@ -304,8 +304,10 @@ void PatchGrid::visibility()
 
 			float width = MAX(point[2], (*patch)->getWidth() + 5.0f);
 
-			bool pt1 = frustum->sphereInFrustum(point, width);
-			bool pt2 = frustum->sphereInFrustum(point2, width);
+			bool pt1 = frustum->sphereInFrustum(point, width,
+				GLCameraFrustum::FrustrumGreen);
+			bool pt2 = frustum->sphereInFrustum(point2, width,
+				GLCameraFrustum::FrustrumGreen);
 			(*patch)->getVisible() = (pt1 || pt2);
 
 			patch++;

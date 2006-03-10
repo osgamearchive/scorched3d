@@ -20,26 +20,28 @@
 
 #include <math.h>
 #include <target/Target.h>
+#include <target/TargetRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 
 Target::Target(unsigned int playerId, 
-	TargetModelId &modelId, 
 	const char *name,
 	ScorchedContext &context) :
 	playerId_(playerId),
 	name_(name),
 	context_(context),
 	life_(context, playerId), 
-	model_(modelId),
 	shield_(context, playerId),
-	deathAction_(0)
+	deathAction_(0),
+	renderer_(0)
 {
 	life_.setTarget(this);
 }
 
 Target::~Target()
 {
+	delete renderer_;
+	renderer_ = 0;
 }
 
 void Target::newGame()
@@ -64,7 +66,6 @@ void Target::setTargetPosition(Vector &pos)
 bool Target::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	buffer.addToBuffer(name_);
-	if (!model_.writeMessage(buffer)) return false;
 	if (!shield_.writeMessage(buffer)) return false;
 	if (!life_.writeMessage(buffer)) return false;
 	if (!parachute_.writeMessage(buffer, writeAccessories)) return false;
@@ -77,7 +78,6 @@ bool Target::writeMessage(NetBuffer &buffer, bool writeAccessories)
 bool Target::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(name_)) return false;
-	if (!model_.readMessage(reader)) return false;
 	if (!shield_.readMessage(reader)) return false;
 	if (!life_.readMessage(reader)) return false;
 	if (!parachute_.readMessage(reader)) return false;

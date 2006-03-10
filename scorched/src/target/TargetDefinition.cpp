@@ -1,10 +1,31 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2004
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
 #include <weapons/AccessoryStore.h>
+#include <tankgraph/TargetRendererImplTarget.h>
 #include <target/TargetDefinition.h>
 #include <target/Target.h>
 #include <common/Defines.h>
 #include <XML/XMLNode.h>
 
-TargetDefinition::TargetDefinition() : life_(1.0f)
+TargetDefinition::TargetDefinition() : life_(1.0f), size_(2.0f)
 {
 }
 
@@ -24,6 +45,7 @@ bool TargetDefinition::readXML(XMLNode *node)
 	}
 	
 	node->getNamedChild("life", life_, false);
+	node->getNamedChild("size", size_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
@@ -34,11 +56,16 @@ bool TargetDefinition::readXML(XMLNode *node)
 Target *TargetDefinition::createTarget(unsigned int playerId,
 	ScorchedContext &context)
 {
-	TargetModelId targetModelId(modelId_);
 	Target *target = new Target(playerId, 
-		targetModelId, 
 		name_.c_str(), context);
+	if (!context.serverMode)
+	{
+		target->setRenderer(
+			new TargetRendererImplTarget(target, modelId_));
+	}
+
 	target->getLife().setMaxLife(life_);
+	target->getLife().setSize(size_);
 	target->newGame();
 
 	if (shield_.c_str()[0] && 0 != strcmp(shield_.c_str(), "none"))

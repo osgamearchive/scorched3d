@@ -25,6 +25,7 @@
 #include <tank/TankScore.h>
 #include <tank/TankState.h>
 #include <tank/TankPosition.h>
+#include <tank/TankModelContainer.h>
 #include <tank/TankMod.h>
 #include <tank/TankAvatar.h>
 #include <tankai/TankAI.h>
@@ -40,7 +41,7 @@ public:
 		unsigned int destinationId,
 		const char *name, 
 		Vector &color, 
-		TargetModelId &modelId);
+		const char *modelName);
 	virtual ~Tank();
 
 	// Called when the state changes
@@ -80,9 +81,11 @@ public:
 	TankState &getState() { return state_; }
 	TankMod &getMod() { return mod_; }
 	TankAvatar &getAvatar() { return avatar_; }
+	TankModelContainer &getModelContainer() { return modelContainer_; }
 
 protected:
 	ScorchedContext &context_;
+	TankModelContainer modelContainer_;
 	TankAccessories accessories_;
 	TankScore score_;
 	TankPosition position_;

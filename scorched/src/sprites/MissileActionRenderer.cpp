@@ -28,7 +28,6 @@
 #include <landscape/ShadowMap.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
-#include <tankgraph/TankModelRenderer.h>
 #include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
@@ -164,13 +163,13 @@ void MissileActionRenderer::draw(Action *action)
 		if (current)
 		{
 			glColor3fv(current->getColor());
-			TracerRenderer::instance()->drawSmokeTracer(
+			RenderTracer::instance()->drawSmokeTracer(
 				shot->getPositions());
 		}
 	}
 
 	// Check we can see the missile
-	if (!GLCameraFrustum::instance()->pointInFrustum(actualPos))
+	if (!GLCameraFrustum::instance()->sphereInFrustum(actualPos, 1.0f))
 	{
 		return;
 	}

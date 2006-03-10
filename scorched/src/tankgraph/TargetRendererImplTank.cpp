@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/TankModelStore.h>
 #include <tankgraph/TankMesh.h>
 #include <landscape/Landscape.h>
@@ -44,15 +44,15 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 
-float TankModelRendererHUD::timeLeft_ = -1.0f;
-float TankModelRendererHUD::percentage_ = -1.0f;
-std::string TankModelRendererHUD::textA_ = "";
-std::string TankModelRendererHUD::textB_ = "";
+float TargetRendererImplTankHUD::timeLeft_ = -1.0f;
+float TargetRendererImplTankHUD::percentage_ = -1.0f;
+std::string TargetRendererImplTankHUD::textA_ = "";
+std::string TargetRendererImplTankHUD::textB_ = "";
 
-Vector TankModelRendererAIM::aimPosition_;
-float TankModelRendererAIM::timeLeft_ = -1.0f;
+Vector TargetRendererImplTankAIM::aimPosition_;
+float TargetRendererImplTankAIM::timeLeft_ = -1.0f;
 
-ModelRenderer *TankModelRendererAIM::getAutoAimModel()
+ModelRenderer *TargetRendererImplTankAIM::getAutoAimModel()
 {
 	static ModelRenderer *array = 0;
 	if (!array)
@@ -65,7 +65,7 @@ ModelRenderer *TankModelRendererAIM::getAutoAimModel()
 	return array;
 }
 
-TankModelRenderer::TankModelRenderer(Tank *tank) :
+TargetRendererImplTank::TargetRendererImplTank(Tank *tank) :
 	tank_(tank), tankTips_(tank),
 	model_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
@@ -73,38 +73,50 @@ TankModelRenderer::TankModelRenderer(Tank *tank) :
 	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
 	totalTime_(0.0f)
 {
-	model_ = ScorchedClient::instance()->getTankModels().getModelByName(
-		tank->getModel().getTankModelName(), tank_->getTeam());
 }
 
-TankModelRenderer::~TankModelRenderer()
+TargetRendererImplTank::~TargetRendererImplTank()
 {
 }
 
-void TankModelRenderer::draw(float distance)
+TankModel *TargetRendererImplTank::getModel()
+{
+	if (!model_)
+	{
+		model_ = ScorchedClient::instance()->getTankModels().getModelByName(
+			tank_->getModelContainer().getTankModelName(), tank_->getTeam());
+	}
+	return model_;
+}
+
+void TargetRendererImplTank::draw(float distance)
 {
 	if (tank_->getState().getState() != TankState::sNormal) return;
 
-	if (TankModelRendererAIM::drawAim())
+	if (TargetRendererImplTankAIM::drawAim())
 	{
 		GLState texState(GLState::TEXTURE_OFF);
-		Vector &pos = TankModelRendererAIM::getAimPosition();
+		Vector &pos = TargetRendererImplTankAIM::getAimPosition();
 
 		glPushMatrix();
 			glTranslatef(pos[0], pos[1], pos[2]);
-			TankModelRendererAIM::getAutoAimModel()->draw();
+			TargetRendererImplTankAIM::getAutoAimModel()->draw();
 		glPopMatrix();
 	}
 
 	// Check we can see the tank
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
-		sphereInFrustum(tank_->getPosition().getTankPosition(), 1) ||
+		sphereInFrustum(tank_->getPosition().getTankPosition(),
+		tank_->getLife().getSize(),
+		GLCameraFrustum::FrustrumRed) ||
 		(tank_->getState().getState() != TankState::sNormal))
 	{
 		canSeeTank_ = false;
 		return;
 	}
+
+	createParticle(tank_);
 
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
@@ -122,7 +134,8 @@ void TankModelRenderer::draw(float distance)
 	bool currentTank = 
 		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank() &&
 		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
-	model_->draw(currentTank, 
+
+	getModel()->draw(currentTank, 
 		tank_->getPosition().getAngle(),
 		tank_->getPosition().getTankPosition(), 
 		fireOffSet_, 
@@ -142,7 +155,7 @@ void TankModelRenderer::draw(float distance)
 	drawLife();
 }
 
-void TankModelRenderer::drawSecond(float distance)
+void TargetRendererImplTank::drawSecond(float distance)
 {
 	if (!canSeeTank_ ||
 		tank_->getState().getState() != TankState::sNormal) return;
@@ -204,7 +217,7 @@ void TankModelRenderer::drawSecond(float distance)
 	}
 }
 
-void TankModelRenderer::drawSight()
+void TargetRendererImplTank::drawSight()
 {
 	GLState currentState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
 	glPushMatrix();
@@ -222,17 +235,17 @@ void TankModelRenderer::drawSight()
 	glPopMatrix();
 }
 
-void TankModelRenderer::fired()
+void TargetRendererImplTank::fired()
 {
 	fireOffSet_ = -0.25f;
 }
 
-void TankModelRenderer::shieldHit()
+void TargetRendererImplTank::shieldHit()
 {
 	shieldHit_ = 0.25f;
 }
 
-void TankModelRenderer::simulate(float frameTime)
+void TargetRendererImplTank::simulate(float frameTime)
 {
 	if (tank_->getState().getState() != TankState::sNormal) return;
 
@@ -270,7 +283,7 @@ void TankModelRenderer::simulate(float frameTime)
 	}
 }
 
-void TankModelRenderer::drawArrow()
+void TargetRendererImplTank::drawArrow()
 {
 	if (!OptionsDisplay::instance()->getDrawPlayerColor())
 	{
@@ -325,7 +338,7 @@ void TankModelRenderer::drawArrow()
 
 }
 
-void TankModelRenderer::drawLife()
+void TargetRendererImplTank::drawLife()
 {
 	if (!OptionsDisplay::instance()->getDrawPlayerHealth())
 	{
@@ -363,7 +376,7 @@ void TankModelRenderer::drawLife()
 	}
 }
 
-void TankModelRenderer::drawLifeBar(Vector &bilX, float value, 
+void TargetRendererImplTank::drawLifeBar(Vector &bilX, float value, 
 									float height, float barheight)
 {
 	Vector &position = tank_->getPosition().getTankPosition();
@@ -413,7 +426,7 @@ void TankModelRenderer::drawLifeBar(Vector &bilX, float value,
 	glEnd();
 }
 
-void TankModelRenderer::storeTank2DPos()
+void TargetRendererImplTank::storeTank2DPos()
 {
 	Vector &tankTurretPos = 
 		tank_->getPosition().getTankTurretPosition();
@@ -450,7 +463,7 @@ void TankModelRenderer::storeTank2DPos()
 	}
 }
 
-void TankModelRenderer::draw2d()
+void TargetRendererImplTank::draw2d()
 {
 	if (!canSeeTank_) return;
 
@@ -465,23 +478,23 @@ void TankModelRenderer::draw2d()
 	if (currentTank)
 	{
 		GLState firstState(GLState::DEPTH_OFF);
-		if (TankModelRendererHUD::drawText())
+		if (TargetRendererImplTankHUD::drawText())
 		{
 			Vector yellow(0.7f, 0.7f, 0.0f);
 			GLWFont::instance()->getSmallPtFont()->draw(
 				yellow, 10,
 				(float) posX_ + 47.0f, (float) posY_ - 4.0f, (float) posZ_,
-				TankModelRendererHUD::getTextA());
+				TargetRendererImplTankHUD::getTextA());
 			GLWFont::instance()->getSmallPtFont()->draw(
 				yellow, 10,
 				(float) posX_ + 47.0f, (float) posY_ - 15.0f, (float) posZ_,
-				TankModelRendererHUD::getTextB());
+				TargetRendererImplTankHUD::getTextB());
 
-			if (TankModelRendererHUD::getPercentage() >= 0.0f)
+			if (TargetRendererImplTankHUD::getPercentage() >= 0.0f)
 			{
 				float totalHeight = 40.0f;
 				float halfHeight = totalHeight / 2.0f;
-				float height = totalHeight * TankModelRendererHUD::getPercentage() / 100.0f;
+				float height = totalHeight * TargetRendererImplTankHUD::getPercentage() / 100.0f;
 				
 				GLState state2(GLState::TEXTURE_OFF);
 				glBegin(GL_QUADS);

@@ -18,46 +18,39 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetRendererh_INCLUDE__)
-#define __INCLUDE_TargetRendererh_INCLUDE__
+#ifndef _TankModelContainer_h
+#define _TankModelContainer_h
 
-#include <engine/GameStateI.h>
-#include <tankgraph/TankMenus.h>
+#include <coms/NetBuffer.h>
 
-class TargetRenderer
+// The model used for this tank
+class ScorchedContext;
+class TankType;
+class Tank;
+class TankModelContainer
 {
 public:
-	static TargetRenderer *instance();
+	TankModelContainer(const char *name);
+	virtual ~TankModelContainer();
 
-	struct Renderer3D : public GameStateI
-	{
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
-	} render3D;
-	struct Renderer2D : public GameStateI
-	{
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-	} render2D;
+	void setTank(Tank *tank) { tank_ = tank; }
 
-	friend struct Renderer3D;
-	friend struct Renderer2D;
+	// The name of the model that should be used for this tank
+	const char *getTankModelName() { return tankModelName_.c_str(); }
+	void setTankModelName(const char *name);
+
+	// The type of this tank
+	TankType *getTankType(ScorchedContext &context);
+
+	// Serialize the modelid
+    bool writeMessage(NetBuffer &buffer);
+    bool readMessage(NetBufferReader &reader);
+
 protected:
-	static TargetRenderer *instance_;
-	enum DrawType
-	{
-		Type3D,
-		Type2D
-	};
-	TankMenus menus_;
+	Tank *tank_;
+	std::string tankModelName_; // Model for tank
+	TankType *tankType_;
 
-	void draw(DrawType dt, const unsigned state);
-
-private:
-	TargetRenderer();
-	virtual ~TargetRenderer();
 };
 
-
-#endif
+#endif // _TankModelContainer_h

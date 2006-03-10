@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,40 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TreeModelRendererh_INCLUDE__)
-#define __INCLUDE_TreeModelRendererh_INCLUDE__
+#if !defined(__INCLUDE_RenderTargetsh_INCLUDE__)
+#define __INCLUDE_RenderTargetsh_INCLUDE__
 
-#include <tankgraph/TargetModelIdRenderer.h>
-#include <GLEXT/GLState.h>
-#include <GLEXT/GLTexture.h>
-#include <target/Target.h>
+#include <engine/GameStateI.h>
+#include <tankgraph/TankMenus.h>
 
-class TreeModelRenderer : public TargetModelIdRenderer
+class RenderTargets
 {
 public:
-	TreeModelRenderer(Target *target);
-	virtual ~TreeModelRenderer();
+	static RenderTargets *instance();
 
-	virtual void simulate(float frameTime);
-	virtual void draw(float distance);
-	virtual void drawSecond(float distance);
-	virtual void draw2d();
-	virtual void shieldHit();
+	struct Renderer3D : public GameStateI
+	{
+		// Inherited from GameStateI
+		virtual void draw(const unsigned state);
+		virtual void simulate(const unsigned state, float simTime);
+	} render3D;
+	struct Renderer2D : public GameStateI
+	{
+		// Inherited from GameStateI
+		virtual void draw(const unsigned state);
+	} render2D;
 
+	friend struct Renderer3D;
+	friend struct Renderer2D;
 protected:
-	Target *target_;
-	static GLuint treePine, treePineBurnt, treePineSnow;
-	static GLuint treePineSmall, treePineBurntSmall, treePineSnowSmall;
-	static GLuint treePalm, treePalmBurnt;
-	static GLuint treePalmSmall, treePalmBurntSmall;
-	static GLTexture texture_;
+	static RenderTargets *instance_;
+	enum DrawType
+	{
+		Type3D,
+		Type2D
+	};
+	TankMenus menus_;
 
-	bool pine;
-	bool snow;
-	bool burnt;
-	float rotation;
-	float size;
-	Vector color;
+	void draw(DrawType dt, const unsigned state);
+
+private:
+	RenderTargets();
+	virtual ~RenderTargets();
 };
 
-#endif // __INCLUDE_TreeModelRendererh_INCLUDE__
+
+#endif

@@ -22,7 +22,7 @@
 #include <GLW/GLWTranslate.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
-#include <tankgraph/TankModelRenderer.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <client/MainCamera.h>
@@ -236,11 +236,11 @@ void GLWPlanView::drawTanks()
 				glVertex3fv(position);
 			}
 
-			TankModelRenderer *model = (TankModelRenderer *) 
-			tank->getModel().getModelIdRenderer();
-			if (model)
+			TargetRendererImplTank *renderer = (TargetRendererImplTank *) 
+				tank->getRenderer();
+			if (renderer)
 			{
-				GLWToolTip::instance()->addToolTip(&model->getTips()->tankTip,
+				GLWToolTip::instance()->addToolTip(&renderer->getTips()->tankTip,
 					GLWTranslate::getPosX() + x_ + position[0] * w_ - 4.0f, 
 					GLWTranslate::getPosY() + y_ + position[1] * h_ - 4.0f, 
 					8.0f, 8.0f);

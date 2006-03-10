@@ -24,30 +24,17 @@
 #include <3dsparse/Model.h>
 #include <tank/TankType.h>
 
-TankModel::TankModel(TargetModelId &id, ModelID &modelId, TankType *tankType) :
-	init_(false),
-	id_(id), modelId_(modelId), tankMesh_(0), tankType_(tankType)
+TankModel::TankModel(const char *name, ModelID &modelId, TankType *tankType) :
+	init_(false), name_(name),
+	modelId_(modelId), 
+	tankMesh_(0), 
+	tankType_(tankType)
 {
 	catagories_.insert("All");
 }
 
 TankModel::~TankModel()
 {
-}
-
-TargetModelId &TankModel::getId() 
-{ 
-	return id_; 
-}
-
-ModelID &TankModel::getTankModelID()
-{
-	return modelId_;
-}
-
-ModelID &TankModel::getProjectileModelID()
-{
-	return projectileModelId_;
 }
 
 void TankModel::clear()
@@ -87,7 +74,7 @@ int TankModel::getNoTris()
 
 bool TankModel::lessThan(TankModel *other)
 {
-	return (strcmp(id_.getTankModelName(), other->id_.getTankModelName()) < 0);
+	return (strcmp(getName(), other->getName()) < 0);
 }
 
 void TankModel::addCatagory(const char *catagory)

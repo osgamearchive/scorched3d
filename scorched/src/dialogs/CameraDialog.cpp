@@ -27,7 +27,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <landscape/Landscape.h>
-#include <tankgraph/TargetRenderer.h>
+#include <tankgraph/RenderTargets.h>
 #include <engine/ActionController.h>
 
 CameraDialog *CameraDialog::instance_ = 0;
@@ -157,7 +157,7 @@ void CameraDialog::simulate(float frameTime)
 void CameraDialog::drawLandscape()
 {
 	GLCameraFrustum::instance()->draw(0);
-	TargetRenderer::instance()->render3D.draw(0);
+	RenderTargets::instance()->render3D.draw(0);
 	Landscape::instance()->draw(0);
 	ScorchedClient::instance()->getActionController().draw(0);
 	ScorchedClient::instance()->getParticleEngine().draw(0);
