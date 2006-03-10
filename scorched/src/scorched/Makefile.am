@@ -165,28 +165,26 @@ scorched3d_SOURCES = \
 	../tankgraph/GLWTankViewer.h \
 	../tankgraph/MissileMesh.cpp \
 	../tankgraph/MissileMesh.h \
+	../tankgraph/RenderTargets.cpp \
+	../tankgraph/RenderTargets.h \
+	../tankgraph/RenderTracer.cpp \
+	../tankgraph/RenderTracer.h \
 	../tankgraph/TankMenus.cpp \
 	../tankgraph/TankMenus.h \
 	../tankgraph/TankMesh.cpp \
 	../tankgraph/TankMesh.h \
 	../tankgraph/TankModel.cpp \
 	../tankgraph/TankModel.h \
-	../tankgraph/TankModelRenderer.cpp \
-	../tankgraph/TankModelRenderer.h \
 	../tankgraph/TankModelStore.cpp \
 	../tankgraph/TankModelStore.h \
-	../tankgraph/TargetModeIdlRenderer.cpp \
-	../tankgraph/TargetModelIdRenderer.h \
-	../tankgraph/TargetModelRenderer.cpp \
-	../tankgraph/TargetModelRenderer.h \
 	../tankgraph/TargetParticleRenderer.cpp \
 	../tankgraph/TargetParticleRenderer.h \
-	../tankgraph/TargetRenderer.cpp \
-	../tankgraph/TargetRenderer.h \
-	../tankgraph/TracerRenderer.cpp \
-	../tankgraph/TracerRenderer.h \
-	../tankgraph/TreeModelRenderer.cpp \
-	../tankgraph/TreeModelRenderer.h \
+	../tankgraph/TargetRendererImpl.cpp \
+	../tankgraph/TargetRendererImpl.h \
+	../tankgraph/TargetRendererImplTank.cpp \
+	../tankgraph/TargetRendererImplTank.h \
+	../tankgraph/TargetRendererImplTarget.cpp \
+	../tankgraph/TargetRendererImplTarget.h \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
 	../common/Clock.cpp \
@@ -1095,6 +1093,8 @@ scorched3d_SOURCES = \
 	../tank/TankLib.h \
 	../tank/TankMod.cpp \
 	../tank/TankMod.h \
+	../tank/TankModelContainer.cpp \
+	../tank/TankModelContainer.h \
 	../tank/TankParachutes.cpp \
 	../tank/TankParachutes.h \
 	../tank/TankPosition.cpp \
@@ -1191,10 +1191,10 @@ scorched3d_SOURCES = \
 	../target/TargetDefinition.h \
 	../target/TargetLife.cpp \
 	../target/TargetLife.h \
-	../target/TargetModelId.cpp \
-	../target/TargetModelId.h \
 	../target/TargetParachute.cpp \
 	../target/TargetParachute.h \
+	../target/TargetRenderer.cpp \
+	../target/TargetRenderer.h \
 	../target/TargetShield.cpp \
 	../target/TargetShield.h \
 	../placement/PlacementObject.cpp \
