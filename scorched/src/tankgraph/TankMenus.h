@@ -68,7 +68,6 @@ protected:
 	void logToFile();
 	void say(std::list<GLConsoleRuleSplit>);
 	void teamsay(std::list<GLConsoleRuleSplit>);
-	void playsound(std::list<GLConsoleRuleSplit>);
 
 };
 

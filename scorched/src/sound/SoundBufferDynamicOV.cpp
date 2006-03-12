@@ -78,6 +78,7 @@ void SoundBufferDynamicOVSourceInstance::play(bool repeat)
 	if (!addDataToBuffer(buffers_[1], repeat)) return;
 
 	alSourcei(source_, AL_BUFFER, 0); // Reset the source
+	alSourcei(source_, AL_LOOPING, AL_FALSE);
 
 	int error = 0;
     alSourceQueueBuffers(source_, 2, buffers_);
@@ -98,8 +99,12 @@ void SoundBufferDynamicOVSourceInstance::stop()
 
 void SoundBufferDynamicOVSourceInstance::simulate(bool repeat)
 {
-    int processed;    
+    int processed = 0;
 	alGetSourcei(source_, AL_BUFFERS_PROCESSED, &processed);
+	if (processed == 2)
+	{
+		Logger::log("Warning: OGG falling behind");
+	}
 	while(processed--)
 	{
 		//Logger::log(formatString("Processed %u %i", source_, processed));

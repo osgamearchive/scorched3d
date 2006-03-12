@@ -45,6 +45,8 @@ Sound::Sound() :
 {
 	new GLConsoleRuleMethodIAdapter<Sound>(
 		this, &Sound::showSoundBuffers, "SoundBuffers");
+	new GLConsoleRuleMethodIAdapterEx<Sound>(
+		this, &Sound::soundPlay, "SoundPlay");
 }
 
 Sound::~Sound()
@@ -149,6 +151,21 @@ bool Sound::init(int channels)
 
 	init_ = true;
 	return init_;
+}
+
+void Sound::soundPlay(std::list<GLConsoleRuleSplit> list)
+{
+	list.pop_front();
+	if (!list.empty())
+	{
+		SoundBuffer *buffer = 
+			fetchOrCreateBuffer(
+			(char *) list.begin()->rule.c_str());
+		VirtualSoundSource *source = 
+			new VirtualSoundSource(10000, false, true);
+		source->setRelative();
+		source->play(buffer);
+	}
 }
 
 void Sound::showSoundBuffers()

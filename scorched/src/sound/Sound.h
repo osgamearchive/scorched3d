@@ -28,6 +28,7 @@
 #include <sound/VirtualSoundSource.h>
 #include <sound/SoundBuffer.h>
 #include <sound/SoundListener.h>
+#include <GLEXT/GLConsoleRule.h>
 
 #define CACHE_SOUND(var, filename) 										\
 		static SoundBuffer* var = Sound::instance()->fetchOrCreateBuffer(filename);
@@ -42,6 +43,7 @@ public:
 	void destroy();
 
 	void showSoundBuffers();
+	void soundPlay(std::list<GLConsoleRuleSplit> list);
 
 	SoundBuffer *fetchOrCreateBuffer(char *filename);
 	SoundListener *getDefaultListener();

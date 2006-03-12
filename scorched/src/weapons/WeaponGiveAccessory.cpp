@@ -83,10 +83,14 @@ void WeaponGiveAccessory::invokePowerUp(ScorchedContext &context,
 		Accessory *accessory = (*itor);
 		tank->getAccessories().add(accessory, number_);
 
-		LoggerInfo info(LoggerInfo::TypeDeath,
-			formatString("\"%s\" received %i %s", 
-			number_, accessory->getName()));
-		info.setPlayerId(playerId);
-		Logger::log(info);
+		if (!context.serverMode)
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" received %i * %s", 
+				tank->getName(),
+				number_, accessory->getName()));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
 	}
 }
