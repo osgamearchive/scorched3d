@@ -74,7 +74,7 @@
 				<mintime>15</mintime>
 				<maxtime>15</maxtime>
 				<maxsimul>3</maxsimul>
-				<volume>25</volume>
+				<volume>15</volume>
 				<sound>data/wav/misc/f18_1.wav</sound>
 				<sound>data/wav/misc/f18_2.wav</sound>
 			</sounds>
@@ -91,7 +91,7 @@
 				<mintime>0</mintime>
 				<maxtime>2</maxtime>
 				<maxsimul>4</maxsimul>
-				<volume>10</volume>
+				<volume>25</volume>
 				<sound>data/wav/misc/apache_1.wav</sound>
 			</sounds>
 		</boid>
