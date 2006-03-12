@@ -65,7 +65,7 @@ public:
 	void drawBilboard(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
 			  const char *text);
-	int getWidth(float size, const char *text);
+	float getWidth(float size, const char *text);
 
 protected:
 	GLuint *textures_;

@@ -50,14 +50,14 @@ bool GLFont2d::getInit()
 	return (textures_ != 0);
 }
 
-int GLFont2d::getWidth(float size, const char *text)
+float GLFont2d::getWidth(float size, const char *text)
 {
 	float width = 0.0f;
 	for (char *a=(char *) text; *a; a++)
 	{
 		width += float(characters_[*a].advances) * size / height_;
 	}
-	return (int) width;
+	return width;
 }
 
 void GLFont2d::draw(Vector &color, float size, 

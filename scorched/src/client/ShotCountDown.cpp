@@ -95,14 +95,14 @@ void ShotCountDown::draw(const unsigned currentstate)
 	float width = 0.0f;
 	if (currentstate == ClientState::StateWait)
 	{
-		width = (float) GLWFont::instance()->getSmallPtFont()->getWidth(10,
+		width = GLWFont::instance()->getSmallPtFont()->getWidth(10,
 			formatString(format, 
 			split.quot,
 			split.rem));	
 	}
 	else 
 	{
-		width = (float) GLWFont::instance()->getSmallPtFont()->getWidth(20,
+		width = GLWFont::instance()->getSmallPtFont()->getWidth(20,
 			formatString(format, 
 			split.quot,
 			split.rem));	

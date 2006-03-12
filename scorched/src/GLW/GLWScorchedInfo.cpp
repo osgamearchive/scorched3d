@@ -91,7 +91,7 @@ void GLWScorchedInfo::draw()
 					ScorchedClient::instance()->
 					getOptionsTransient().getWindSpeed());
 			}
-			float windwidth = (float) GLWFont::instance()->
+			float windwidth = GLWFont::instance()->
 				getSmallPtFont()->getWidth(
 				fontSize_, buffer);
 			float offSet = 0.0f;
@@ -125,7 +125,7 @@ void GLWScorchedInfo::draw()
 		case ePlayerName:
 		{
 			setToolTip(&renderer->getTips()->nameTip);
-			float namewidth = (float) GLWFont::instance()->getSmallPtFont()->getWidth(
+			float namewidth = GLWFont::instance()->getSmallPtFont()->getWidth(
 				fontSize_, current->getName());
 			float offSet = 0.0f;
 			if (!noCenter_) offSet = w_ / 2.0f - (namewidth / 2.0f);

@@ -55,7 +55,7 @@ void GLWLabel::setText(const char *text)
 
 void GLWLabel::calcWidth()
 {
-	if (w_ == 0.0f) w_ = (float) GLWFont::instance()->getLargePtFont()->getWidth(
+	if (w_ == 0.0f) w_ = GLWFont::instance()->getLargePtFont()->getWidth(
 		size_, (char *) buttonText_.c_str());
 }
 

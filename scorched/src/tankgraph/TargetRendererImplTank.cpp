@@ -179,7 +179,7 @@ void TargetRendererImplTank::drawSecond(float distance)
 	if (OptionsDisplay::instance()->getDrawPlayerNames())
 	{
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
-		bilX *= 0.5f * (float) GLWFont::instance()->getSmallPtFont()->getWidth(
+		bilX *= 0.5f * GLWFont::instance()->getSmallPtFont()->getWidth(
 			1, tank_->getName());
 
 		glDepthMask(GL_FALSE);
@@ -197,7 +197,7 @@ void TargetRendererImplTank::drawSecond(float distance)
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
 		if (OptionsDisplay::instance()->getDrawPlayerNames())
 		{
-			bilX *= 0.5f * (float) GLWFont::instance()->getSmallPtFont()->getWidth(
+			bilX *= 0.5f * GLWFont::instance()->getSmallPtFont()->getWidth(
 				1, tank_->getName());
 			bilX += bilX.Normalize() * 1.0f;
 		}

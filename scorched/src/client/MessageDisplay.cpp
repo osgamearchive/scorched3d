@@ -85,8 +85,8 @@ void MessageDisplay::draw(const unsigned currentstate)
 
 	float wHeight = (float) GLViewPort::getHeight();
 	float wWidth = (float) GLViewPort::getWidth();
-	float textWidth = float(GLWFont::instance()->getLargePtFont()->getWidth(
-		30, currentText_.c_str()));
+	float textWidth = GLWFont::instance()->getLargePtFont()->getWidth(
+		30, currentText_.c_str());
 
 	float x = (wWidth/2.0f) - (textWidth / 2) - 10.0f;
 	float y = wHeight - 60.0f;

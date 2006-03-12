@@ -182,7 +182,7 @@ void ScoreDialog::draw()
 				ScorchedClient::instance()->getOptionsGame().getNoRounds(),
 				moves);
 
-		int roundsWidth = GLWFont::instance()->getSmallPtFont()->getWidth(
+		float roundsWidth = GLWFont::instance()->getSmallPtFont()->getWidth(
 			10, rounds);
 		GLWFont::instance()->getSmallPtFont()->draw(
 			white,
