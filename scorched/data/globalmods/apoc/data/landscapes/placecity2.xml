@@ -7,7 +7,7 @@
 				<modelburnt type="MilkShape">data/accessories/buildings/skyscraper1burnt.txt</modelburnt> 
 				<removeaction>Large Bldg</removeaction> 
 				<burnaction>LargeBldgBurn</burnaction> 
-				<scale>0.066</scale> 
+				<modelscale>0.066</modelscale> 
 			</object> 
 			<position> 
 				<position><A>32</A><B>72</B><C>0</C></position> 
@@ -20,7 +20,7 @@
 				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt> 
 				<removeaction>Nuclear Plant</removeaction> 
 				<burnaction>Nuclear Plant</burnaction> 
-				<scale>0.075</scale> 
+				<modelscale>0.075</modelscale> 
 			</object> 
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 

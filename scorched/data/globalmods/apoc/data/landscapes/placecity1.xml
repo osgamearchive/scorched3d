@@ -5,7 +5,7 @@
 			<object type="model"> 
 				<model type="MilkShape">data/accessories/buildings/skyscraper1.txt</model> 
 				<modelburnt type="MilkShape">data/accessories/buildings/skyscraper1burnt.txt</modelburnt> 
-				<scale>0.066</scale> 
+				<modelscale>0.066</modelscale> 
 				<removeaction>Large Bldg</removeaction> 
 				<burnaction>LargeBldgBurn</burnaction> 
 			</object> 

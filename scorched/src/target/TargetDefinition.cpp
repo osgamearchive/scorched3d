@@ -26,7 +26,7 @@
 #include <XML/XMLNode.h>
 
 TargetDefinition::TargetDefinition() : 
-	life_(1.0f), size_(2.0f), scale_(1.0f), rotation_(0.0f)
+	life_(1.0f), size_(2.0f), modelscale_(1.0f), modelrotation_(0.0f)
 {
 }
 
@@ -47,8 +47,8 @@ bool TargetDefinition::readXML(XMLNode *node)
 	
 	node->getNamedChild("life", life_, false);
 	node->getNamedChild("size", size_, false);
-	node->getNamedChild("scale", scale_, false);
-	node->getNamedChild("rotation", rotation_, false);
+	node->getNamedChild("modelscale", modelscale_, false);
+	node->getNamedChild("modelrotation", modelrotation_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
@@ -66,7 +66,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->setRenderer(
 			new TargetRendererImplTarget(
 				target, modelId_, 
-				scale_, rotation_));
+				modelscale_, modelrotation_));
 	}
 
 	target->getLife().setMaxLife(life_);

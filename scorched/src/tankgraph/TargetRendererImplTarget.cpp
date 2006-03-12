@@ -78,7 +78,7 @@ void TargetRendererImplTarget::draw(float distance)
 	Landscape::instance()->getShadowMap().addCircle(
 		target_->getTargetPosition()[0], 
 		target_->getTargetPosition()[1], 
-		4.0f * scale_);
+		target_->getLife().getSize() + 2.0f);
 
 	// Draw the tank model
 	glPushMatrix();

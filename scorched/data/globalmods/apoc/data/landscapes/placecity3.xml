@@ -7,7 +7,7 @@
 				<modelburnt type="MilkShape">data/accessories/buildings/skyscraper1burnt.txt</modelburnt> 
 				<removeaction>Large Bldg</removeaction> 
 				<burnaction>LargeBldgBurn</burnaction> 
-				<scale>0.066</scale> 
+				<modelscale>0.066</modelscale> 
 			</object> 
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 

@@ -46,8 +46,8 @@ protected:
 	ModelID modelburntId;
 	Model *model;
 	Model *modelburnt;
-	float rotation;
-	float scale;
+	float modelrotation;
+	float modelscale;
 	float modelsize;
 };
 
