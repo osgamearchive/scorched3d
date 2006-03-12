@@ -42,8 +42,6 @@ public:
 	struct Position
 	{
 		Vector position;
-		float rotation;
-		float size;
 	};
 	struct Information
 	{

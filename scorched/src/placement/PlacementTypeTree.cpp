@@ -179,8 +179,6 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 				position.position[0] = lx;
 				position.position[1] = ly;
 				position.position[2] = height;
-				position.size = 0.05f;
-				position.rotation = 0.0f;
 				returnPositions.push_back(position);
 			}
 		}

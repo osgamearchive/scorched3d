@@ -38,6 +38,8 @@ public:
 protected:
 	float life_;
 	float size_;
+	float scale_;
+	float rotation_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;

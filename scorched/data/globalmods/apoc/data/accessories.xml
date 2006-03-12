@@ -6376,6 +6376,7 @@ It does no physical damage to tanks.</description>
 							<shield>Mag Deflect</shield>
 							<parachute>Parachute</parachute>
 							<removeaction>GiveAcidSplash</removeaction>
+							<scale>10.0</scale>
 						</collisionaction>
 					</aimedweapon>
 				</weapon>
@@ -6398,6 +6399,7 @@ It does no physical damage to tanks.</description>
 							<shield>Mag Deflect</shield>
 							<parachute>Parachute</parachute>
 							<removeaction>GiveGasGrenade</removeaction>
+							<scale>10.0</scale>
 						</collisionaction>
 					</aimedweapon>
 				</weapon>
@@ -6419,6 +6421,7 @@ It does no physical damage to tanks.</description>
 							<shield>Mag Deflect</shield>
 							<parachute>Parachute</parachute>
 							<removeaction>GiveAcidSplash</removeaction>
+							<scale>10.0</scale>
 						</collisionaction>
 					</aimedweapon>
 				</weapon>

@@ -4,8 +4,6 @@
 			<groupname>none</groupname>
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 
-				<rotation>0</rotation> 
-				<size>1</size> 
 			</position> 
 			<object type="group">
 				<groupobject>

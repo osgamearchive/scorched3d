@@ -9,7 +9,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/cactus.txt</model>
@@ -25,7 +24,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/brownrock1.txt</model>
@@ -41,7 +39,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/brownrock2.txt</model>
@@ -57,7 +54,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/brownrock3.txt</model>
@@ -73,7 +69,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/brownrock4.txt</model>

@@ -29,12 +29,13 @@
 #include <client/MainCamera.h>
 
 TargetRendererImplTarget::TargetRendererImplTarget(Target *target,
-	ModelID model) :
+	ModelID model, float scale, float rotation) :
 	target_(target),
 	canSeeTank_(false),
 	shieldHit_(0.0f), totalTime_(0.0f),
 	posX_(0.0), posY_(0.0), posZ_(0.0),
-	targetTips_(target)
+	targetTips_(target),
+	scale_(scale), rotation_(rotation)
 {
 	modelRenderer_ = new ModelRenderer(
 		ModelStore::instance()->loadModel(model));
@@ -77,7 +78,7 @@ void TargetRendererImplTarget::draw(float distance)
 	Landscape::instance()->getShadowMap().addCircle(
 		target_->getTargetPosition()[0], 
 		target_->getTargetPosition()[1], 
-		4.0f);
+		4.0f * scale_);
 
 	// Draw the tank model
 	glPushMatrix();
@@ -85,7 +86,9 @@ void TargetRendererImplTarget::draw(float distance)
 			target_->getTargetPosition()[0], 
 			target_->getTargetPosition()[1], 
 			target_->getTargetPosition()[2]);
-		glScalef(0.01f, 0.01f, 0.01f);
+		float scale = 0.01f * scale_;
+		glRotatef(rotation_, 0.0f, 0.0f, 1.0f);
+		glScalef(scale, scale, scale);
 		modelRenderer_->drawBottomAligned();
 	glPopMatrix();
 }

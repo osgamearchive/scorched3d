@@ -62,7 +62,7 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	treeEntry->posX = position.position[0];
 	treeEntry->posY = position.position[1];
 	treeEntry->posZ = position.position[2];
-	treeEntry->rotation = position.rotation;
+	treeEntry->rotation = generator.getRandFloat() * 360.0f;
 	treeEntry->removeaction = removeaction;
 	treeEntry->burnaction = burnaction;
 	treeEntry->modelsize = 1.0f;

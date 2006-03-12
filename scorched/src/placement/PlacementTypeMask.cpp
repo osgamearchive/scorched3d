@@ -45,7 +45,6 @@ bool PlacementTypeMask::readXML(XMLNode *node)
 	if (!node->getNamedChild("minslope", minslope)) return false;
 	if (!node->getNamedChild("xsnap", xsnap)) return false;
 	if (!node->getNamedChild("ysnap", ysnap)) return false;
-	if (!node->getNamedChild("angsnap", angsnap)) return false;
 	return PlacementType::readXML(node);
 }
 
@@ -74,7 +73,6 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 
 		float lx = generator.getRandFloat() * float(groundMapWidth);
 		float ly = generator.getRandFloat() * float(groundMapHeight);
-		float lr = generator.getRandFloat() * 360.0f;
 		
 		if (xsnap > 0.0f) 
 		{
@@ -83,10 +81,6 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 		if (ysnap > 0.0f)
 		{
 			ly = float(int(ly / ysnap)) * ysnap;
-		}
-		if (angsnap > 0.0f)
-		{
-			lr = float(int(lr / angsnap)) * angsnap;
 		}
 		lx = MIN(MAX(0.0f, lx), float(groundMapWidth));
 		ly = MIN(MAX(0.0f, ly), float(groundMapHeight));
@@ -136,8 +130,6 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 					position.position[0] = lx;
 					position.position[1] = ly;
 					position.position[2] = height;
-					position.size = 0.05f;
-					position.rotation = lr;
 					returnPositions.push_back(position);
 				}
 			}

@@ -25,7 +25,8 @@
 #include <common/Defines.h>
 #include <XML/XMLNode.h>
 
-TargetDefinition::TargetDefinition() : life_(1.0f), size_(2.0f)
+TargetDefinition::TargetDefinition() : 
+	life_(1.0f), size_(2.0f), scale_(1.0f), rotation_(0.0f)
 {
 }
 
@@ -46,6 +47,8 @@ bool TargetDefinition::readXML(XMLNode *node)
 	
 	node->getNamedChild("life", life_, false);
 	node->getNamedChild("size", size_, false);
+	node->getNamedChild("scale", scale_, false);
+	node->getNamedChild("rotation", rotation_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
@@ -61,7 +64,9 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	if (!context.serverMode)
 	{
 		target->setRenderer(
-			new TargetRendererImplTarget(target, modelId_));
+			new TargetRendererImplTarget(
+				target, modelId_, 
+				scale_, rotation_));
 	}
 
 	target->getLife().setMaxLife(life_);
@@ -96,7 +101,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->getParachute().setParachutesEnabled(true);
 	}
 
-	// TODO burnaction, burnmodel, rotation, size etc...
+	// TODO burnaction, burnmodel etc...
 	if (removeaction_.c_str()[0] && 0 != strcmp(removeaction_.c_str(), "none"))
 	{
 		Accessory *action = context.accessoryStore->

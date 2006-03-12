@@ -41,7 +41,7 @@ protected:
 	std::string mask;
 	float minheight, maxheight;
 	float mincloseness, minslope;
-	float xsnap, ysnap, angsnap;
+	float xsnap, ysnap;
 };
 
 #endif // __INCLUDE_PlacementTypeMaskh_INCLUDE__

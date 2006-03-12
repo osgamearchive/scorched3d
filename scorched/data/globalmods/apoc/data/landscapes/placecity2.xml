@@ -7,11 +7,10 @@
 				<modelburnt type="MilkShape">data/accessories/buildings/skyscraper1burnt.txt</modelburnt> 
 				<removeaction>Large Bldg</removeaction> 
 				<burnaction>LargeBldgBurn</burnaction> 
+				<scale>0.066</scale> 
 			</object> 
 			<position> 
 				<position><A>32</A><B>72</B><C>0</C></position> 
-				<rotation>0</rotation> 
-				<size>0.066</size> 
 			</position> 
 		</placement>
 		<placement type="direct">
@@ -21,11 +20,10 @@
 				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt> 
 				<removeaction>Nuclear Plant</removeaction> 
 				<burnaction>Nuclear Plant</burnaction> 
+				<scale>0.075</scale> 
 			</object> 
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 
-				<rotation>0</rotation> 
-				<size>0.075</size> 
 			</position> 
 		</placement>
 		<placement type="mask">
@@ -37,7 +35,6 @@
 			<minslope>0.66</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>offices</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/office1.txt</model>
@@ -55,7 +52,6 @@
 			<minslope>0.66</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>offices</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/office2.txt</model>
@@ -73,7 +69,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>offices</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/office3.txt</model>
@@ -91,7 +86,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>gasstations</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/gasstation1.txt</model>
@@ -109,7 +103,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>gasstations</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/gasstation1.txt</model>
@@ -127,7 +120,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
@@ -145,7 +137,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
@@ -163,7 +154,6 @@
 			<minslope>0.66</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>stores</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/store1.txt</model>
@@ -181,7 +171,6 @@
 			<minslope>0.66</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>churches</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/church1.txt</model>
@@ -199,7 +188,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>farms</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/farm1.txt</model>
@@ -230,7 +218,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1.txt</model>
@@ -248,7 +235,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-2.txt</model>
@@ -266,7 +252,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-3.txt</model>
@@ -284,7 +269,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>90</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/logcabin1.txt</model>
@@ -302,7 +286,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1.txt</model>
@@ -320,7 +303,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-2.txt</model>
@@ -338,7 +320,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-3.txt</model>
@@ -356,7 +337,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>houses</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/logcabin1.txt</model>
@@ -374,7 +354,6 @@
 			<minslope>0.85</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>factories</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
@@ -392,7 +371,6 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>factories</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/factory1.txt</model>

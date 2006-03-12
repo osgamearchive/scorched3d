@@ -39,9 +39,9 @@ bool PlacementTypeDirect::readXML(XMLNode *node)
 	{
 		Position position;
 		if (!positionNode->getNamedChild("position", position.position)) return false;
-		if (!positionNode->getNamedChild("rotation", position.rotation)) return false;
-		if (!positionNode->getNamedChild("size", position.size)) return false;
 		positions.push_back(position);
+
+		if (!positionNode->failChildren()) return false;
 	}
 	return PlacementType::readXML(node);
 }

@@ -9,7 +9,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>trees</groupname>
 			<object type="tree">
 				<tree>pine</tree>
@@ -25,7 +24,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname>trees</groupname>
 			<object type="tree">
 				<tree>palm</tree>
@@ -41,7 +39,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/cactussmall.txt</model>
@@ -57,7 +54,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/deer1.txt</model>
@@ -73,7 +69,6 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<angsnap>0</angsnap>
 			<groupname></groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/deer2.txt</model>

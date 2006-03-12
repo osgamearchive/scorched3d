@@ -26,7 +26,8 @@
 #include <engine/ScorchedContext.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectModel::PlacementObjectModel()
+PlacementObjectModel::PlacementObjectModel() :
+	scale(0.05f), rotation(0.0f)
 {
 }
 
@@ -42,6 +43,8 @@ bool PlacementObjectModel::readXML(XMLNode *node)
 	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
 	if (!modelburntId.initFromNode(".", burntmodelnode)) return false;
 
+	node->getNamedChild("scale", scale, false);
+	node->getNamedChild("rotation", rotation, false);
 	node->getNamedChild("removeaction", removeaction, false);
 	node->getNamedChild("burnaction", burnaction, false);
 
@@ -70,11 +73,11 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 	modelEntry->model = new ModelRenderer(model);
 	modelEntry->modelburnt = new ModelRenderer(modelburnt);
 	modelEntry->color = 1.0f;
-	modelEntry->size = position.size;
+	modelEntry->size = scale;
 	modelEntry->posX = position.position[0];
 	modelEntry->posY = position.position[1];
 	modelEntry->posZ = position.position[2];
-	modelEntry->rotation = position.rotation;
+	modelEntry->rotation = rotation;
 	modelEntry->removeaction = removeaction;
 	modelEntry->burnaction = burnaction;
 	modelEntry->modelsize = modelsize;
