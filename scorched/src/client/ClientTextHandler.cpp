@@ -82,11 +82,11 @@ bool ClientTextHandler::processMessage(unsigned int id,
 			}
 			else
 			{
-				CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
-				SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);				
-
 				if (tank)
 				{
+					CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/text.wav"));
+					SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);				
+
 					if(tank->getState().getState() == TankState::sNormal)
 					{
 						// put a speach bubble over the talking tank
