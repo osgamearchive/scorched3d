@@ -30,7 +30,9 @@ public:
 	enum Type
 	{
 		eTree,
-		eModel
+		eModel,
+		eTarget,
+		eGroup
 	};
 
 	static PlacementObject *create(const char *type);
@@ -42,7 +44,7 @@ public:
 	virtual Type getType() = 0;
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
-		unsigned int playerId,
+		unsigned int &playerId,
 		PlacementType::Information &information,
 		PlacementType::Position &position) = 0;
 };

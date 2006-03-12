@@ -20,10 +20,25 @@
 
 #include <sound/SoundBufferEmpty.h>
 
-SoundBufferEmpty::SoundBufferEmpty()
+SoundBufferEmptySourceInstance::SoundBufferEmptySourceInstance(unsigned int source) :
+	SoundBufferSourceInstance(source)
+{
+}
+
+SoundBufferEmptySourceInstance::~SoundBufferEmptySourceInstance()
+{
+}
+
+SoundBufferEmpty::SoundBufferEmpty(const char *fileName) :
+	SoundBuffer(fileName)
 {
 }
 
 SoundBufferEmpty::~SoundBufferEmpty()
 {
+}
+
+SoundBufferSourceInstance *SoundBufferEmpty::createSourceInstance(unsigned int source)
+{
+	return new SoundBufferEmptySourceInstance(source);
 }

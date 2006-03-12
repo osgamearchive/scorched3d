@@ -27,6 +27,8 @@ Fixed: Round win and interest awarded when too few players result in game ending
 Fixed: Tanks will not move through newly created water when movement restriction in place
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 
+Added: group placement object to allow placed objects to be placed in groups
+Added: Streaming OGG/Vorbis for large sound files (windows only for the moment)
 Added: Bases with physics and shields
 Added: Ability to specify fuel parameters
 Added: Changed accessory framework so different fuel, batteries and parachutes can be speced
@@ -81,7 +83,6 @@ New game modes
 Scripting language
 Tank AIs can be specified as part of the landscape e.g. at base bunkers
 Dirt cannot be raised when underground (or other dirting stopping)
-Rain/snow should move in the wind direction
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

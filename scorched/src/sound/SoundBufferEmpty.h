@@ -23,15 +23,24 @@
 
 #include <sound/SoundBuffer.h>
 
+class SoundBufferEmptySourceInstance : public SoundBufferSourceInstance
+{
+public:
+	SoundBufferEmptySourceInstance(unsigned int source);
+	virtual ~SoundBufferEmptySourceInstance();
+
+	virtual void play(bool loop) {};
+	virtual void stop() {};
+	virtual void simulate(bool loop) {};
+};
+
 class SoundBufferEmpty : public SoundBuffer
 {
 public:
-	SoundBufferEmpty();
+	SoundBufferEmpty(const char *fileName);
 	virtual ~SoundBufferEmpty();
 
-	virtual void play(unsigned int source, bool loop) {}
-	virtual void stop(unsigned int source) {}
-	virtual void simulate(bool loop) {}
+	SoundBufferSourceInstance *createSourceInstance(unsigned int source);
 };
 
 #endif /* _SoundBufferEmpty_H_ */

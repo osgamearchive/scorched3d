@@ -24,6 +24,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <engine/GameStateI.h>
 #include <sound/VirtualSoundSource.h>
 #include <sound/SoundBuffer.h>
 #include <sound/SoundListener.h>
@@ -31,7 +32,7 @@
 #define CACHE_SOUND(var, filename) 										\
 		static SoundBuffer* var = Sound::instance()->fetchOrCreateBuffer(filename);
 
-class Sound
+class Sound : public GameStateI
 {
 public:
 	static Sound *instance();
@@ -49,7 +50,7 @@ public:
 	void removePlaying(VirtualSoundSource *source, unsigned int priority);
 	SoundSource *addPlaying(VirtualSoundSource *source, unsigned int priority);
 
-	void simulate(float frameTime);
+	void simulate(const unsigned state, float simTime);
 	int getAvailableChannels();
 	int getPlayingChannels();
 

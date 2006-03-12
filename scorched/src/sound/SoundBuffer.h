@@ -23,21 +23,30 @@
 
 #include <string>
 
+class SoundBufferSourceInstance
+{
+public:
+	SoundBufferSourceInstance(unsigned int source);
+	virtual ~SoundBufferSourceInstance();
+
+	virtual void play(bool loop) = 0;
+	virtual void stop() = 0;
+	virtual void simulate(bool loop) = 0;
+
+protected:
+	unsigned int source_;
+};
+
 class SoundBuffer  
 {
 public:
-	SoundBuffer();
+	SoundBuffer(const char *fileName);
 	virtual ~SoundBuffer();
 
-	virtual void play(unsigned int source, bool loop) = 0;
-	virtual void stop(unsigned int source) = 0;
-	virtual void simulate(bool loop) = 0;
-
-	virtual const char *getFileName() { return fileName_.c_str(); }
-	virtual unsigned int getError() { return error_; } 
+	virtual SoundBufferSourceInstance *createSourceInstance(unsigned int source) = 0;
+	const char *getFileName() { return fileName_.c_str(); }
 
 protected:
-	unsigned int error_;
 	std::string fileName_;
 };
 

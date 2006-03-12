@@ -172,7 +172,7 @@ void Sound::showSoundBuffers()
 	}
 }
 
-void Sound::simulate(float frameTime)
+void Sound::simulate(const unsigned state, float frameTime)
 {
 	// Simulate all the current sources
 	// This is only applicable for streams
@@ -357,7 +357,7 @@ SoundBuffer *Sound::createBuffer(char *fileName)
 	if (!buffer)
 	{
 		dialogExit("Failed to load sound",
-			formatString("%u:\"%s\"", buffer->getError(), fileName));
+			formatString("\"%s\"", fileName));
 
 		delete buffer;
 		return 0;

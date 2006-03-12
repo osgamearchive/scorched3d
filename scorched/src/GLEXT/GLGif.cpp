@@ -123,7 +123,8 @@ bool GLGif::loadFromBuffer(NetBuffer &buffer)
 bool GLGif::loadFromStream(wxInputStream *ifStream)
 {
 	wxGIFDecoder decoder(ifStream);
-	if (decoder.ReadGIF() != wxGIF_OK) return false;
+	unsigned int result = decoder.ReadGIF();
+	if (result != wxGIF_OK) return false;
 
 	bits_ = new unsigned char[decoder.GetWidth() * decoder.GetHeight() * 3];
 	width_ = (int) decoder.GetWidth();

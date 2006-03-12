@@ -25,6 +25,7 @@
 
 class Sound;
 class SoundBuffer;
+class SoundBufferSourceInstance;
 class SoundSource
 {
 public:
@@ -44,7 +45,7 @@ public:
 protected:
 	friend class Sound;
 	unsigned int source_;
-	SoundBuffer *buffer_;
+	SoundBufferSourceInstance *buffer_;
 
 	SoundSource();
 

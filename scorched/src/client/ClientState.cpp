@@ -32,6 +32,7 @@
 #include <client/ClientWaitState.h>
 #include <client/ClientLoadPlayersState.h>
 #include <client/ScorchedClient.h>
+#include <sound/Sound.h>
 #include <tankgraph/RenderTargets.h>
 #include <tankai/TankAIHumanCtrl.h>
 #include <GLW/GLWWindowManager.h>
@@ -54,6 +55,8 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateKeyEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(),
 		GLConsole::instance());
+	gameState.addStateLoop(state, Main2DCamera::instance(), 
+		Sound::instance());
 }
 
 void ClientState::addStandardComponents(GameState &gameState, unsigned state, bool network)

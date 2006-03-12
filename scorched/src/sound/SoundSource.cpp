@@ -29,6 +29,8 @@ SoundSource::SoundSource() :
 
 SoundSource::~SoundSource()
 {
+	delete buffer_;
+	buffer_ = 0;
 	destroy();
 }
 
@@ -69,8 +71,10 @@ void SoundSource::play(SoundBuffer *buffer, bool repeat)
 	if (!buffer || !source_) return;
 
 	stop();
-	buffer_ = buffer;
-	buffer_->play(source_, repeat);
+	if (buffer_) delete buffer_;
+	buffer_ = buffer->createSourceInstance(source_);
+
+	buffer_->play(repeat);
 }
 
 void SoundSource::simulate(bool repeat)
@@ -83,13 +87,12 @@ void SoundSource::simulate(bool repeat)
 void SoundSource::stop()
 {
 	if (!source_ || !buffer_) return;
-	if (!getPlaying()) 
+	if (getPlaying()) 
 	{
-		buffer_ = 0;
-		return;
+		buffer_->stop();
 	}
 
-	buffer_->stop(source_);
+	delete buffer_;
 	buffer_ = 0;
 }
 

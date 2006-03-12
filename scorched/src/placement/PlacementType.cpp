@@ -81,8 +81,6 @@ void PlacementType::createObjects(ScorchedContext &context,
 		itor++, objectCount++)
 	{
 		Position &position = *itor;
-
-		playerId++;
 		if (group && (objectCount++ % 3 == 0))
 		{
 			group->addObject(

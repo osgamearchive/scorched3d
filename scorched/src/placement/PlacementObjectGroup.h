@@ -18,33 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_PlacementObjectGrouph_INCLUDE__)
+#define __INCLUDE_PlacementObjectGrouph_INCLUDE__
+
 #include <placement/PlacementObject.h>
-#include <placement/PlacementObjectTree.h>
-#include <placement/PlacementObjectModel.h>
-#include <placement/PlacementObjectTarget.h>
-#include <placement/PlacementObjectGroup.h>
-#include <common/DefinesString.h>
-#include <XML/XMLParser.h>
 
-PlacementObject *PlacementObject::create(const char *type)
+class PlacementObjectGroup : public PlacementObject
 {
-	if (0 == strcmp(type, "tree")) return new PlacementObjectTree;
-	if (0 == strcmp(type, "model")) return new PlacementObjectModel;
-	if (0 == strcmp(type, "target")) return new PlacementObjectTarget;
-	if (0 == strcmp(type, "group")) return new PlacementObjectGroup;
-	dialogMessage("PlacementObject", formatString("Unknown object type %s", type));
-	return 0;
-}
+public:
+	PlacementObjectGroup();
+	virtual ~PlacementObjectGroup();
 
-PlacementObject::PlacementObject()
-{
-}
+	virtual bool readXML(XMLNode *node);
+	virtual PlacementObject::Type getType() { return PlacementObject::eGroup; }
+	virtual void createObject(ScorchedContext &context,
+		RandomGenerator &generator,
+		unsigned int &playerId,
+		PlacementType::Information &information,
+		PlacementType::Position &position);
 
-PlacementObject::~PlacementObject()
-{
-}
+protected:
+	struct GroupObject
+	{
+		Vector offset;
+		PlacementObject *object;
+	};
+	std::list<GroupObject> groups_;
+};
 
-bool PlacementObject::readXML(XMLNode *node)
-{
-	return node->failChildren();
-}
+#endif // __INCLUDE_PlacementObjectGrouph_INCLUDE__

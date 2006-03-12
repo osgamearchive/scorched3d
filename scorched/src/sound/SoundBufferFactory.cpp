@@ -22,21 +22,36 @@
 #include <sound/SoundBufferFactory.h>
 #include <sound/SoundBufferEmpty.h>
 #include <sound/SoundBufferStaticWav.h>
+#include <sound/SoundBufferDynamicOV.h>
+#include <common/Defines.h>
 
 SoundBuffer *SoundBufferFactory::createBuffer(const char *fileName)
 {
-	if (!Sound::instance()->getInit())
+	if (Sound::instance()->getInit())
 	{
-		// If sound is not init return an empty buffer
-		// This will happen if the user turns sound off
-		return new SoundBufferEmpty();
+		int len = strlen(fileName);
+		if (len >= 3)
+		{
+			if (0 == strcmp(&fileName[len-3], "wav"))
+			{
+				return new SoundBufferStaticWav(fileName);
+			}
+			else if (0 == strcmp(&fileName[len-3], "ogg"))
+			{
+#ifdef HAVE_OGG
+				return new SoundBufferDynamicOV(fileName);
+#else
+				return new SoundBufferEmpty(fileName);
+#endif // HAVE_OGG			
+			}
+			else
+			{
+				dialogExit("Scorched3D",
+					formatString("Error: Unknown sound file type \"%s\"",
+					fileName));
+			}
+		}
 	}
 
-	SoundBufferStaticWav *buffer = new SoundBufferStaticWav();
-	if (!buffer->createBuffer(fileName))
-	{
-		delete buffer;
-		buffer = 0;
-	}
-	return buffer;
+	return new SoundBufferEmpty(fileName);
 }

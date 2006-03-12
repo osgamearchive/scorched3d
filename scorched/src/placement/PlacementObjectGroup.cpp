@@ -18,40 +18,58 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <placement/PlacementObjectTarget.h>
-#include <landscape/LandscapeObjectsEntryModel.h>
-#include <landscape/LandscapeMaps.h>
-#include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
-#include <engine/ScorchedContext.h>
-#include <weapons/AccessoryStore.h>
-#include <common/Defines.h>
-#include <target/TargetContainer.h>
-#include <target/Target.h>
+#include <placement/PlacementObjectGroup.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectTarget::PlacementObjectTarget()
+PlacementObjectGroup::PlacementObjectGroup()
 {
 }
 
-PlacementObjectTarget::~PlacementObjectTarget()
+PlacementObjectGroup::~PlacementObjectGroup()
 {
 }
 
-bool PlacementObjectTarget::readXML(XMLNode *node)
+bool PlacementObjectGroup::readXML(XMLNode *initialNode)
 {
-	if (!targetDef_.readXML(node)) return false;
+	XMLNode *node;
+	while (initialNode->getNamedChild("groupobject", node, false))
+	{
+		GroupObject groupObject;
+
+		if (!node->getNamedChild("offset", groupObject.offset)) return false;
+
+		std::string objecttype;
+		XMLNode *objectNode;
+		if (!node->getNamedChild("object", objectNode)) return false;
+		if (!objectNode->getNamedParameter("type", objecttype)) return false;
+		if (!(groupObject.object = PlacementObject::create(objecttype.c_str()))) return false;
+		if (!groupObject.object->readXML(objectNode)) return false;
+
+		groups_.push_back(groupObject);
+	}
+
 	return PlacementObject::readXML(node);
 }
 
-void PlacementObjectTarget::createObject(ScorchedContext &context,
+void PlacementObjectGroup::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
 	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
-	++playerId;
-	Target *target = targetDef_.createTarget(playerId, context);
-	target->setTargetPosition(position.position);
-	context.targetContainer->addTarget(target);
+	std::list<GroupObject>::iterator itor;
+	for (itor = groups_.begin();
+		itor != groups_.end();
+		itor++)
+	{
+		GroupObject &groupObject = (*itor);
+
+		PlacementType::Position newPosition = position;
+		newPosition.position += groupObject.offset;
+		groupObject.object->createObject(context, 
+			generator, 
+			playerId, 
+			information, 
+			newPosition);
+	}
 }

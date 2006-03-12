@@ -47,7 +47,7 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 
 void PlacementObjectTree::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
-	unsigned int playerId,
+	unsigned int &playerId,
 	PlacementType::Information &information,
 	PlacementType::Position &position)
 {

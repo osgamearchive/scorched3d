@@ -31,10 +31,10 @@ public:
 	virtual ~PlacementObjectTarget();
 
 	virtual bool readXML(XMLNode *node);
-	virtual PlacementObject::Type getType() { return PlacementObject::eModel; }
+	virtual PlacementObject::Type getType() { return PlacementObject::eTarget; }
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
-		unsigned int playerId,
+		unsigned int &playerId,
 		PlacementType::Information &information,
 		PlacementType::Position &position);
 

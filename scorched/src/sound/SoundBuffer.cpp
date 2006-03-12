@@ -20,8 +20,17 @@
 
 #include <sound/SoundBuffer.h>
 
-SoundBuffer::SoundBuffer() : 
-	error_(0)
+SoundBufferSourceInstance::SoundBufferSourceInstance(unsigned int source) :
+	source_(source)
+{
+}
+
+SoundBufferSourceInstance::~SoundBufferSourceInstance()
+{
+}
+
+SoundBuffer::SoundBuffer(const char *fileName) :
+	fileName_(fileName)
 {
 }
 

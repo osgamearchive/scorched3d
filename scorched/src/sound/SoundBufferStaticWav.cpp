@@ -23,46 +23,48 @@
 #include <AL/al.h>
 #include <AL/alut.h>
 
-SoundBufferStaticWav::SoundBufferStaticWav() : 
+SoundBufferStaticWavSourceInstance::SoundBufferStaticWavSourceInstance(
+	unsigned int source, unsigned int buffer) :
+	SoundBufferSourceInstance(source), buffer_(buffer)
+{
+}
+
+SoundBufferStaticWavSourceInstance::~SoundBufferStaticWavSourceInstance()
+{
+}
+
+void SoundBufferStaticWavSourceInstance::play(bool repeat)
+{
+	if (!buffer_) return;
+
+	alSourcei(source_, AL_BUFFER, 0);
+    alSourcei(source_, AL_BUFFER, buffer_);
+	alSourcei(source_, AL_LOOPING, (repeat?AL_TRUE:AL_FALSE));
+	alSourcePlay(source_);
+}
+
+void SoundBufferStaticWavSourceInstance::stop()
+{
+	if (!buffer_) return;
+	alSourceStop(source_);
+}
+
+void SoundBufferStaticWavSourceInstance::simulate(bool repeat)
+{
+}
+
+SoundBufferStaticWav::SoundBufferStaticWav(const char *fileName) : 
+	SoundBuffer(fileName),
 	buffer_(0)
 {
-}
+	unsigned int error;
 
-SoundBufferStaticWav::~SoundBufferStaticWav()
-{
-	destroyBuffer();
-}
-
-void SoundBufferStaticWav::play(unsigned int source, bool repeat)
-{
-	if (!buffer_) return;
-
-    alSourcei(source, AL_BUFFER, buffer_);
-	alSourcei(source, AL_LOOPING, (repeat?AL_TRUE:AL_FALSE));
-	alSourcePlay(source);
-}
-
-void SoundBufferStaticWav::stop(unsigned int source)
-{
-	if (!buffer_) return;
-
-	alSourceStop(source);
-}
-
-void SoundBufferStaticWav::destroyBuffer()
-{
-	if (buffer_) alDeleteBuffers (1, &buffer_);
-	buffer_ = 0;
-}
-
-bool SoundBufferStaticWav::createBuffer(const char *wavFileName)
-{
 	// Create a buffer
 	alGetError();
 	alGenBuffers(1, &buffer_);
-	if ((error_ = alGetError()) != AL_NO_ERROR)
+	if ((error = alGetError()) != AL_NO_ERROR)
 	{
-		return false;
+		return;
 	}
 
 	// Load WAV
@@ -73,30 +75,38 @@ bool SoundBufferStaticWav::createBuffer(const char *wavFileName)
 	ALboolean loop;
 
 #ifdef __DARWIN__
-	alutLoadWAVFile((ALbyte*) wavFileName,&format,&data,&size,&freq);
+	alutLoadWAVFile((ALbyte*) fileName,&format,&data,&size,&freq);
 #else
-	alutLoadWAVFile((ALbyte*) wavFileName,&format,&data,&size,&freq,&loop);
+	alutLoadWAVFile((ALbyte*) fileName,&format,&data,&size,&freq,&loop);
 #endif
 
-	if ((error_ = alGetError()) != AL_NO_ERROR)
+	if ((error = alGetError()) != AL_NO_ERROR)
 	{
-		return false;
+		return;
 	}
 
 	// Load WAV into buffer
 	alBufferData(buffer_,format,data,size,freq);
-	if ((error_ = alGetError()) != AL_NO_ERROR)
+	if ((error = alGetError()) != AL_NO_ERROR)
 	{
-		return false;
+		return;
 	}
 
 	// Delete WAV memory
 	alutUnloadWAV(format,data,size,freq);
-	if ((error_ = alGetError()) != AL_NO_ERROR)
+	if ((error = alGetError()) != AL_NO_ERROR)
 	{
-		return false;
+		return;
 	}
+}
 
-	fileName_ = wavFileName;
-	return true;
+SoundBufferStaticWav::~SoundBufferStaticWav()
+{
+	if (buffer_) alDeleteBuffers (1, &buffer_);
+	buffer_ = 0;
+}
+
+SoundBufferSourceInstance *SoundBufferStaticWav::createSourceInstance(unsigned int source)
+{
+	return new SoundBufferStaticWavSourceInstance(source, buffer_);
 }

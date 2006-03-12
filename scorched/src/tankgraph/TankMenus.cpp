@@ -45,6 +45,7 @@
 #include <dialogs/SaveDialog.h>
 #include <dialogs/ResignDialog.h>
 #include <dialogs/SkipDialog.h>
+#include <sound/SoundUtils.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <GLEXT/GLTexture.h>
 
@@ -67,6 +68,8 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		this, &TankMenus::say, "Say");
 	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
 		this, &TankMenus::teamsay, "Teamsay");
+	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
+		this, &TankMenus::playsound, "PlaySound");
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", 
 		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging());
@@ -97,6 +100,19 @@ TankMenus::TankMenus() : logger_("ClientLog")
 TankMenus::~TankMenus()
 {
 
+}
+
+void TankMenus::playsound(std::list<GLConsoleRuleSplit> list)
+{
+	list.pop_front();
+	if (!list.empty())
+	{
+		SoundBuffer *sound = 
+			Sound::instance()->fetchOrCreateBuffer(
+			(char *) list.begin()->rule.c_str());
+		SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
+			sound, Vector::nullVector);
+	}
 }
 
 void TankMenus::say(std::list<GLConsoleRuleSplit> list)

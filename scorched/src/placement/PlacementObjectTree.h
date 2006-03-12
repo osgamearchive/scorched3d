@@ -34,7 +34,7 @@ public:
 	virtual PlacementObject::Type getType() { return PlacementObject::eTree; }
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
-		unsigned int playerId,
+		unsigned int &playerId,
 		PlacementType::Information &information,
 		PlacementType::Position &position);
 
