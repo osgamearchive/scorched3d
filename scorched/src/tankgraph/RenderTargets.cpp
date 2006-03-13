@@ -118,6 +118,10 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 	// Sort tanks
 	std::sort(sortedTargets.begin(), sortedTargets.end(), lt_distance); 
 
+	// Don't put fully transparent areas into the depth buffer
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.00f);
+	
 	// Draw all of the tanks
 	std::vector<std::pair<float, Target *> >::iterator sortedItor;
 	for (sortedItor = sortedTargets.begin();
@@ -141,4 +145,6 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 			break;
 		}
 	}
+	
+	glDisable(GL_ALPHA_TEST);
 }

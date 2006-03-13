@@ -1117,6 +1117,8 @@ scorched3d_SOURCES = \
 	../sound/Sound.h \
 	../sound/SoundBuffer.cpp \
 	../sound/SoundBuffer.h \
+	../sound/SoundBufferDynamicOV.cpp \
+	../sound/SoundBufferDynamicOV.h \
 	../sound/SoundBufferEmpty.cpp \
 	../sound/SoundBufferEmpty.h \
 	../sound/SoundBufferFactory.cpp \
@@ -1199,6 +1201,8 @@ scorched3d_SOURCES = \
 	../target/TargetShield.h \
 	../placement/PlacementObject.cpp \
 	../placement/PlacementObject.h \
+	../placement/PlacementObjectGroup.cpp \
+	../placement/PlacementObjectGroup.h \
 	../placement/PlacementObjectModel.cpp \
 	../placement/PlacementObjectModel.h \
 	../placement/PlacementObjectTarget.cpp \

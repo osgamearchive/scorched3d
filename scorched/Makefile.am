@@ -367,7 +367,8 @@ scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/dat
 	data/globalmods/apoc/data/accessories/objects/rock3.txt \
 	data/globalmods/apoc/data/accessories/objects/rock4.txt \
 	data/globalmods/apoc/data/accessories/objects/smalloakburnt.txt \
-	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt
+	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt \
+	data/globalmods/apoc/data/accessories/objects/9volt.txt
 scorcheddataglobalmodsapocdataaccessoriesoffice3dir = ${datadir}/data/globalmods/apoc/data/accessories/office3
 scorcheddataglobalmodsapocdataaccessoriesoffice3_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesofficeplaza1dir = ${datadir}/data/globalmods/apoc/data/accessories/officeplaza1
