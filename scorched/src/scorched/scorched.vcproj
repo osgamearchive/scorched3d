@@ -3923,6 +3923,12 @@
 			Name="placement"
 			Filter="">
 			<File
+				RelativePath="..\placement\PlacementModelDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementModelDefinition.h">
+			</File>
+			<File
 				RelativePath="..\placement\PlacementObject.cpp">
 			</File>
 			<File

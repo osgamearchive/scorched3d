@@ -21,32 +21,24 @@
 #if !defined(__INCLUDE_TargetDefinitionh_INCLUDE__)
 #define __INCLUDE_TargetDefinitionh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
-#include <engine/ScorchedContext.h>
+#include <placement/PlacementModelDefinition.h>
 
 class Target;
-class TargetDefinition
+class TargetDefinition : public PlacementModelDefinition
 {
 public:
 	TargetDefinition();
 	virtual ~TargetDefinition();
 
-	virtual bool readXML(XMLNode *node);
+	virtual bool readXML(XMLNode *node, const char *base);
 	Target *createTarget(unsigned int playerId,
 		ScorchedContext &context);
 
 protected:
 	float life_;
-	float size_;
-	float modelscale_;
-	float modelrotation_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;
-	std::string removeaction_;
-	std::string burnaction_;
-	ModelID modelId_;
-	ModelID modelburntId_;
 };
 
 #endif // __INCLUDE_TargetDefinitionh_INCLUDE__

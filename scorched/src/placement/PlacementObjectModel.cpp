@@ -26,8 +26,7 @@
 #include <engine/ScorchedContext.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectModel::PlacementObjectModel() :
-	modelscale(0.05f), modelrotation(0.0f)
+PlacementObjectModel::PlacementObjectModel()
 {
 }
 
@@ -37,29 +36,7 @@ PlacementObjectModel::~PlacementObjectModel()
 
 bool PlacementObjectModel::readXML(XMLNode *node)
 {
-	XMLNode *modelnode, *burntmodelnode;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!modelId.initFromNode(".", modelnode)) return false;
-	if (!node->getNamedChild("modelburnt", burntmodelnode)) return false;
-	if (!modelburntId.initFromNode(".", burntmodelnode)) return false;
-
-	node->getNamedChild("modelscale", modelscale, false);
-	node->getNamedChild("modelrotation", modelrotation, false);
-	node->getNamedChild("removeaction", removeaction, false);
-	node->getNamedChild("burnaction", burnaction, false);
-
-	model = ModelStore::instance()->loadModel(modelId);
-	modelburnt = ModelStore::instance()->loadModel(modelburntId);
-	if (!model || !modelburnt)
-	{
-		dialogExit("PlacementObjectModel",
-			"Failed to find models");
-	}
-
-	Vector sizev = model->getMax() - model->getMin();
-	sizev[2] = 0.0f;
-	modelsize = sizev.Magnitude();
-
+	if (!definition_.readXML(node, ".")) return false;
 	return PlacementObject::readXML(node);
 }
 
@@ -69,18 +46,12 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
-	LandscapeObjectsEntryModel *modelEntry = new LandscapeObjectsEntryModel();
-	modelEntry->model = new ModelRenderer(model);
-	modelEntry->modelburnt = new ModelRenderer(modelburnt);
-	modelEntry->color = 1.0f;
-	modelEntry->size = modelscale;
+	LandscapeObjectsEntryModel *modelEntry =
+		definition_.createModel(context);
+
 	modelEntry->posX = position.position[0];
 	modelEntry->posY = position.position[1];
 	modelEntry->posZ = position.position[2];
-	modelEntry->rotation = modelrotation;
-	modelEntry->removeaction = removeaction;
-	modelEntry->burnaction = burnaction;
-	modelEntry->modelsize = modelsize;
 
 	context.landscapeMaps->getGroundMaps().getObjects().addObject(
 		(unsigned int) position.position[0],

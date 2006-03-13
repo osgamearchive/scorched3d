@@ -72,6 +72,10 @@ namespace GLBitmapModifier
 
 	void addCircle(GLBitmap &destBitmap,
 		float sx, float sy, float sw, float opacity);
+
+	void addBitmap(GLBitmap &destBitmap,
+		GLBitmap &srcBitmap,
+		float sx, float sy);
 };
 
 #endif // !defined(AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_)

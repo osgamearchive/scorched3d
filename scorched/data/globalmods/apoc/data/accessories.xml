@@ -10398,7 +10398,7 @@ which you are teleported to after it lands.</description>
 			<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
 			<collisionaction type='WeaponAddTarget'>
 				<name>Fuel Can</name>
-				<modelscale>50.0</modelscale>
+				<modelscale>0.5</modelscale>
 				<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
 				<life>50</life>
 				<shield>none</shield>
@@ -10528,7 +10528,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>v2missile/v2missile.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Missiles</name>
-						<modelscale>2.5</modelscale>
+						<modelscale>0.025</modelscale>
 						<model type='MilkShape'>v2missile/v2missile.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10546,7 +10546,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Shotgun Shells</name>
-						<modelscale>8.0</modelscale>
+						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>weapons/shotgunshell.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10564,7 +10564,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/grenade.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Frag Grenades</name>
-						<modelscale>8.0</modelscale>
+						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>weapons/grenade.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10582,7 +10582,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>EMP Grenades</name>
-						<modelscale>7.0</modelscale>
+						<modelscale>0.07</modelscale>
 						<model type='MilkShape'>weapons/shockbomblet.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10600,7 +10600,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/50cal.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>M2 Machinegun</name>
-						<modelscale>10.0</modelscale>
+						<modelscale>0.1</modelscale>
 						<model type='MilkShape'>weapons/50cal.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10618,7 +10618,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>beer_bottle/bottle.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Beer</name>
-						<modelscale>60.0</modelscale>
+						<modelscale>0.6</modelscale>
 						<model type='MilkShape'>beer_bottle/bottle.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10636,7 +10636,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Small Battery</name>
-						<modelscale>10.0</modelscale>
+						<modelscale>0.1</modelscale>
 						<model type='MilkShape'>objects/9volt.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10735,7 +10735,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>AcidSplash</name>
-						<modelscale>15.0</modelscale>
+						<modelscale>0.15</modelscale>
 						<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10753,7 +10753,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>GasGrenade</name>
-						<modelscale>15.0</modelscale>
+						<modelscale>0.15</modelscale>
 						<model type='MilkShape'>weapons/m7a3.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10770,7 +10770,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>AcidBlast</name>
-						<modelscale>8.0</modelscale>
+						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 						<life>50</life>
 						<shield>none</shield>

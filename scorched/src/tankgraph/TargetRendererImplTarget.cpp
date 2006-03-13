@@ -86,9 +86,8 @@ void TargetRendererImplTarget::draw(float distance)
 			target_->getTargetPosition()[0], 
 			target_->getTargetPosition()[1], 
 			target_->getTargetPosition()[2]);
-		float scale = 0.01f * scale_;
 		glRotatef(rotation_, 0.0f, 0.0f, 1.0f);
-		glScalef(scale, scale, scale);
+		glScalef(scale_, scale_, scale_);
 		modelRenderer_->drawBottomAligned();
 	glPopMatrix();
 }

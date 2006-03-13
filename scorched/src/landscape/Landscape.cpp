@@ -289,6 +289,8 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add shadows to the mainmap
 	{
+		//GLBitmap destMap(formatString("%s", getDataFile("data/landscapes/parking.bmp")),
+		//	formatString("%s",getDataFile("data/landscapes/parkinga.bmp")));
 		float shadowMultWidth = (float) getMainMap().getWidth() / 
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
 		float shadowMultHeight = (float) getMainMap().getHeight() / 
@@ -302,10 +304,15 @@ void Landscape::generate(ProgressCounter *counter)
 			itor++)
 		{
 			LandscapeObjectsEntry *entry = (*itor).second;
+			//GLBitmapModifier::addBitmap(getMainMap(),
+			//	destMap,
+			//	entry->posX * shadowMultWidth, 
+			//	entry->posY * shadowMultHeight);
+
 			GLBitmapModifier::addCircle(getMainMap(),
 				entry->posX * shadowMultWidth, 
 				entry->posY * shadowMultHeight, 
-				entry->modelsize * entry->size * shadowMultWidth, 1.0f);
+				entry->modelsize * shadowMultWidth, 1.0f);
 		}
 	}
 

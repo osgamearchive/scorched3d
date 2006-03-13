@@ -10,7 +10,8 @@
 					<offset><A>0</A><B>0</B><C>0</C></offset>
 					<object type="target">
 						<name>TestTargetHmm</name>
-						<model type="MilkShape">banana/banana.txt</model>
+						<model type="MilkShape">data/accessories/banana/banana.txt</model>
+						<modelscale>0.01</modelscale>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
 						<life>1000</life>
@@ -21,7 +22,8 @@
 					<offset><A>0</A><B>10</B><C>0</C></offset>
 					<object type="target">
 						<name>TestTargetHmm</name>
-						<model type="MilkShape">banana/banana.txt</model>
+						<model type="MilkShape">data/accessories/banana/banana.txt</model>
+						<modelscale>0.01</modelscale>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
 						<life>1000</life>

@@ -26,7 +26,7 @@
 #include <XML/XMLNode.h>
 
 TargetDefinition::TargetDefinition() : 
-	life_(1.0f), size_(2.0f), modelscale_(1.0f), modelrotation_(0.0f)
+	life_(1.0f)
 {
 }
 
@@ -34,26 +34,15 @@ TargetDefinition::~TargetDefinition()
 {
 }
 
-bool TargetDefinition::readXML(XMLNode *node)
+bool TargetDefinition::readXML(XMLNode *node, const char *base)
 {
-	XMLNode *modelnode, *burntmodelnode;
 	if (!node->getNamedChild("name", name_)) return false;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!modelId_.initFromNode("data/accessories", modelnode)) return false;
-	if (node->getNamedChild("modelburnt", burntmodelnode, false))
-	{
-		if (!modelburntId_.initFromNode(".", burntmodelnode)) return false;
-	}
-	
+
 	node->getNamedChild("life", life_, false);
-	node->getNamedChild("size", size_, false);
-	node->getNamedChild("modelscale", modelscale_, false);
-	node->getNamedChild("modelrotation", modelrotation_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
-	node->getNamedChild("removeaction", removeaction_, false);
-	node->getNamedChild("burnaction", burnaction_, false);
-	return true;
+
+	return PlacementModelDefinition::readXML(node, base);
 }
 
 Target *TargetDefinition::createTarget(unsigned int playerId,

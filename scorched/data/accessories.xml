@@ -1440,6 +1440,7 @@ and shields damaging the tank directly.</description>
 					<aimedweapon type='WeaponAddTarget'>
 						<name>Bannana</name>
 						<model type="MilkShape">banana/banana.txt</model>
+						<modelscale>0.01</modelscale>
 						<shield>Shield</shield>
 						<parachute>Parachute</parachute>
 						<removeaction>TestPowerUpWeapon</removeaction>

@@ -40,7 +40,7 @@ PlacementObjectTarget::~PlacementObjectTarget()
 
 bool PlacementObjectTarget::readXML(XMLNode *node)
 {
-	if (!targetDef_.readXML(node)) return false;
+	if (!targetDef_.readXML(node, ".")) return false;
 	return PlacementObject::readXML(node);
 }
 

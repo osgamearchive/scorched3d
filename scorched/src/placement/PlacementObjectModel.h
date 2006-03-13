@@ -22,8 +22,7 @@
 #define __INCLUDE_PlacementObjectModelh_INCLUDE__
 
 #include <placement/PlacementObject.h>
-#include <3dsparse/Model.h>
-#include <3dsparse/ModelID.h>
+#include <placement/PlacementModelDefinition.h>
 
 class PlacementObjectModel : public PlacementObject
 {
@@ -40,15 +39,7 @@ public:
 		PlacementType::Position &position);
 
 protected:
-	std::string burnaction;
-	std::string removeaction;
-	ModelID modelId;
-	ModelID modelburntId;
-	Model *model;
-	Model *modelburnt;
-	float modelrotation;
-	float modelscale;
-	float modelsize;
+	PlacementModelDefinition definition_;
 };
 
 #endif // __INCLUDE_PlacementObjectModelh_INCLUDE__
