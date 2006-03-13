@@ -243,6 +243,24 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>PowerUpShield</name>
+		<maximumnumber>0</maximumnumber>
+		<armslevel>10</armslevel>
+		<accessoryaction type='Shield'>
+			<radius>2.0</radius>
+			<halfshield>false</halfshield>
+			<color>
+				<r>1.0</r>
+				<g>1.0</g>
+				<b>1.0</b>
+			</color>
+			<collisionsound>shield/hit.wav</collisionsound>
+			<removepower>10</removepower>
+			<penetration>0.8</penetration>
+			<power>50</power>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Small Bldg</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -361,76 +379,6 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<explosionsound>explosions/small.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
-			</delayedweapon>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Gas Station</name>
-		<armslevel>5</armslevel>
-		<description>Gas stations have large tanks of fuel
-which explode and spread fire when ignited.</description>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
-			<delayedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponExplosion'>
-					<hurtamount>0.5</hurtamount>
-					<deform>down</deform>
-					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
-					<size>8</size>
-					<explosionsound>explosions/large.wav</explosionsound>
-					<explosiontexture>exp04</explosiontexture>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<hurtamount>0.5</hurtamount>
-					<deform>none</deform>
-					<size>16</size>
-					<explosionsound>none</explosionsound>
-					<explosiontexture>none</explosiontexture>
-				</subweapon2>
-				<subweapon3 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<noluminance/>
-					<minlife>3</minlife>
-					<maxlife>4</maxlife>
-					<hurtamount>0</hurtamount>
-					<deform>none</deform>
-					<size>8</size>
-					<explosionshake>4.0</explosionshake>
-					<explosionsound>none</explosionsound>
-					<explosiontexture>cloud00-5</explosiontexture>
-				</subweapon3>
-				<subweapon4 type='WeaponAimedOver'>
-					<nowarheads>10</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponVelocity'>
-						<velocitychange>0.9</velocitychange>
-						<aimedweapon type='WeaponRedirect'>
-							<habs>false</habs>
-							<vabs>false</vabs>
-							<hredirect>0</hredirect>
-							<vredirect>15</vredirect>
-							<nextaction type='WeaponProjectile'>
-								<nocreatesmoke/>
-								<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
-								<collisionaction type='WeaponNapalm'>
-									<allowunderwater>false</allowunderwater>
-									<napalmtime>4.0</napalmtime>
-									<napalmheight>2.0</napalmheight>
-									<steptime>0.33</steptime>
-									<hurtsteptime>1.0</hurtsteptime>
-									<hurtpersecond>0.75</hurtpersecond>
-									<numberstreams>1</numberstreams>
-									<effectradius>5</effectradius>
-									<napalmtexture>flames</napalmtexture>
-									<napalmsound>explosions/napalm.wav</napalmsound>
-								</collisionaction>
-							</nextaction>
-						</aimedweapon>
-					</aimedweapon>
-				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -2511,6 +2459,7 @@ EMPs do more damage to shields than to tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame/>
+			<shieldhurtfactor>0.5</shieldhurtfactor>
 			<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponLeapFrog'>
@@ -2521,11 +2470,11 @@ EMPs do more damage to shields than to tanks.</description>
 							<enginesound>none</enginesound>
 							<nocreateflame/>
 							<nocreatesmoke/>
+							<shieldhurtfactor>0.5</shieldhurtfactor>
 							<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris/>
-									<nocreatesplash/>
 									<onlyhurtshield>true</onlyhurtshield>
 									<hurtamount>1.0</hurtamount>
 									<deform>none</deform>
@@ -2537,7 +2486,8 @@ EMPs do more damage to shields than to tanks.</description>
 									<delay>0.1</delay>
 									<delayedweapon type='WeaponExplosion'>
 										<nocreatedebris/>
-										<hurtamount>0.25</hurtamount>
+										<nocreatesplash/>
+										<hurtamount>0.2</hurtamount>
 										<deform>none</deform>
 										<size>13</size>
 										<explosiontexture>none</explosiontexture>
@@ -3254,7 +3204,7 @@ For best spread, shoot @ 1000 power below 60 degrees
 </description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>50000</cost>
+		<cost>40000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
 		<model type='MilkShape'>icbm/icbm.txt</model>
 		<modelscale>8</modelscale>
@@ -4335,12 +4285,12 @@ target nearby tanks.</description>
 	</accessory>
 	<accessory>
 		<name>Hornet Nest</name>
-		<armslevel>2</armslevel>
+		<armslevel>1</armslevel>
 		<description>Creates an angry cloud of hornets which fly
 around attack nearby opponents twice</description>
 		<icon>hornet.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>30000</cost>
+		<cost>40000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>weapons/redhornet.txt</model>
 		<modelscale>3</modelscale>
@@ -5732,9 +5682,9 @@ many riot bomblets on impact.</description>
 		<bundlesize>2</bundlesize>
 		<cost>2000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
-		<model type='MilkShape'>icbm/icbm.txt</model>
+		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<accessoryaction type='WeaponProjectile'>
-			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponAimedOver'>
 					<nowarheads>8</nowarheads>
@@ -6186,7 +6136,7 @@ It does no physical damage to tanks.</description>
 		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<nocreateflame/>
-			<projectilescale>2</projectilescale>
+			<projectilescale>1.5</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponAimedOver'>
@@ -6331,104 +6281,6 @@ It does no physical damage to tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>GiveAcidSplash</name>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponGiveAccessory'>
-			<giveaccessory>Acid Splash</giveaccessory>
-			<number>1</number>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>GiveGasGrenade</name>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponGiveAccessory'>
-			<giveaccessory>Gas Grenade</giveaccessory>
-			<number>2</number>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>GiveAcidBlast</name>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponGiveAccessory'>
-			<giveaccessory>Acid Blast</giveaccessory>
-			<number>5</number>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>AcidWeapons</name>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponRandomChoice'>
-			<weaponchoice1>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>2</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame/>
-						<projectilescale>2</projectilescale>
-						<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
-						<collisionaction type='WeaponAddTarget'>
-							<name>AcidSplash</name>
-							<model type='MilkShape'>weapons/fusionbarrel.txt</model>
-							<shield>Mag Deflect</shield>
-							<parachute>Parachute</parachute>
-							<removeaction>GiveAcidSplash</removeaction>
-							<modelscale>10.0</modelscale>
-						</collisionaction>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice1>
-			<weaponchoice2>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>2</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame/>
-						<projectilescale>2.0</projectilescale>
-						<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
-						<collisionaction type='WeaponAddTarget'>
-							<name>GasGrenade</name>
-							<model type='MilkShape'>weapons/m7a3.txt</model>
-							<shield>Mag Deflect</shield>
-							<parachute>Parachute</parachute>
-							<removeaction>GiveGasGrenade</removeaction>
-							<modelscale>10.0</modelscale>
-						</collisionaction>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice2>
-			<weaponchoice3>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>2</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame/>
-						<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
-						<collisionaction type='WeaponAddTarget'>
-							<name>AcidBlast</name>
-							<model type='MilkShape'>weapons/fusionbarrel.txt</model>
-							<shield>Mag Deflect</shield>
-							<parachute>Parachute</parachute>
-							<removeaction>GiveAcidSplash</removeaction>
-							<modelscale>10.0</modelscale>
-						</collisionaction>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice3>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>Gas Leak</name>
 		<armslevel>4</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -6553,141 +6405,6 @@ It does no physical damage to tanks.</description>
 					</delayedweapon>
 				</subweapon10>
 			</nextaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Factory</name>
-		<armslevel>4</armslevel>
-		<description>Factories work with deadly chemicals and
-release lethal clouds of gas when destroyed.</description>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
-			<delayedweapon type='WeaponMulti'>
-				<subweapon1 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<noluminance/>
-					<minlife>2</minlife>
-					<maxlife>4</maxlife>
-					<hurtamount>0.8</hurtamount>
-					<deform>down</deform>
-					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
-					<size>8</size>
-					<explosionshake>4.0</explosionshake>
-					<explosionsound>explosions/large.wav</explosionsound>
-					<explosiontexture>cloud00-5</explosiontexture>
-				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>1.25</delay>
-					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponDelay'>
-							<delay>1.25</delay>
-							<delayedweapon type='WeaponMulti'>
-								<subweapon1 type='WeaponDelay'>
-									<delay>1.0</delay>
-									<delayedweapon type='WeaponMulti'>
-										<subweapon1 type='WeaponDelay'>
-											<delay>1.0</delay>
-											<delayedweapon type='WeaponExplosion'>
-												<nocreatedebris/>
-												<nocreatesplash/>
-												<hurtamount>0.1</hurtamount>
-												<deform>none</deform>
-												<size>50</size>
-												<explosiontexture>none</explosiontexture>
-												<explosionsound>none</explosionsound>
-											</delayedweapon>
-										</subweapon1>
-										<subweapon2 type='WeaponExplosion'>
-											<nocreatedebris/>
-											<nocreatesplash/>
-											<hurtamount>0.15</hurtamount>
-											<deform>none</deform>
-											<size>45</size>
-											<explosiontexture>none</explosiontexture>
-											<explosionsound>none</explosionsound>
-										</subweapon2>
-									</delayedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<hurtamount>0.2</hurtamount>
-									<deform>none</deform>
-									<size>38</size>
-									<explosiontexture>none</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</subweapon2>
-								<subweapon3 type='WeaponExplosion'>
-									<nocreatedebris/>
-									<nocreatesplash/>
-									<noluminance/>
-									<nowindaffected/>
-									<minlife>4</minlife>
-									<maxlife>6</maxlife>
-									<animate/>
-									<hurtamount>0</hurtamount>
-									<deform>none</deform>
-									<size>6</size>
-									<explosiontexture>gas00</explosiontexture>
-									<explosionsound>none</explosionsound>
-								</subweapon3>
-							</delayedweapon>
-						</subweapon1>
-						<subweapon2 type='WeaponExplosion'>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<hurtamount>0.25</hurtamount>
-							<deform>none</deform>
-							<size>30</size>
-							<explosiontexture>none</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon2>
-						<subweapon3 type='WeaponExplosion'>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<noluminance/>
-							<nowindaffected/>
-							<minlife>4</minlife>
-							<maxlife>6</maxlife>
-							<animate/>
-							<hurtamount>0</hurtamount>
-							<deform>none</deform>
-							<size>8</size>
-							<explosiontexture>gas00</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon3>
-					</delayedweapon>
-				</subweapon2>
-				<subweapon3 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<nocreatesplash/>
-					<minlife>4</minlife>
-					<maxlife>6</maxlife>
-					<hurtamount>0.3</hurtamount>
-					<deform>none</deform>
-					<size>20</size>
-					<explosiontexture>none</explosiontexture>
-					<explosionsound>none</explosionsound>
-				</subweapon3>
-				<subweapon4 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<nocreatesplash/>
-					<noluminance/>
-					<nowindaffected/>
-					<minlife>6</minlife>
-					<maxlife>8</maxlife>
-					<animate/>
-					<hurtamount>0</hurtamount>
-					<deform>none</deform>
-					<size>10</size>
-					<explosiontexture>gas00</explosiontexture>
-					<explosionsound>none</explosionsound>
-				</subweapon4>
-				<subweapon5 type='WeaponInvokeWeapon'>
-					<invoke>AcidWeapons</invoke>
-				</subweapon5>
-			</delayedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -8740,7 +8457,7 @@ through the ground aimed at nearby tanks</description>
 																																					<armslevel>1</armslevel>
 																																					<nocreatedebris/>
 																																					<nocreatesplash/>
-																																					<hurtamount>0.7</hurtamount>
+																																					<hurtamount>0.6</hurtamount>
 																																					<deform>none</deform>
 																																					<size>10</size>
 																																					<explosionsound>none</explosionsound>
@@ -8753,7 +8470,7 @@ through the ground aimed at nearby tanks</description>
 																																		<armslevel>1</armslevel>
 																																		<nocreatedebris/>
 																																		<nocreatesplash/>
-																																		<hurtamount>0.7</hurtamount>
+																																		<hurtamount>0.6</hurtamount>
 																																		<deform>none</deform>
 																																		<size>10</size>
 																																		<explosionsound>none</explosionsound>
@@ -8766,7 +8483,7 @@ through the ground aimed at nearby tanks</description>
 																															<armslevel>1</armslevel>
 																															<nocreatedebris/>
 																															<nocreatesplash/>
-																															<hurtamount>0.7</hurtamount>
+																															<hurtamount>0.6</hurtamount>
 																															<deform>none</deform>
 																															<size>10</size>
 																															<explosionsound>explosions/lightning.wav</explosionsound>
@@ -8781,7 +8498,7 @@ through the ground aimed at nearby tanks</description>
 																										<armslevel>1</armslevel>
 																										<nocreatedebris/>
 																										<nocreatesplash/>
-																										<hurtamount>0.85</hurtamount>
+																										<hurtamount>0.8</hurtamount>
 																										<deform>none</deform>
 																										<size>10</size>
 																										<explosionsound>none</explosionsound>
@@ -8794,7 +8511,7 @@ through the ground aimed at nearby tanks</description>
 																							<armslevel>1</armslevel>
 																							<nocreatedebris/>
 																							<nocreatesplash/>
-																							<hurtamount>0.85</hurtamount>
+																							<hurtamount>0.8</hurtamount>
 																							<deform>none</deform>
 																							<size>10</size>
 																							<explosionsound>none</explosionsound>
@@ -8807,7 +8524,7 @@ through the ground aimed at nearby tanks</description>
 																				<armslevel>1</armslevel>
 																				<nocreatedebris/>
 																				<nocreatesplash/>
-																				<hurtamount>0.85</hurtamount>
+																				<hurtamount>0.8</hurtamount>
 																				<deform>none</deform>
 																				<size>10</size>
 																				<explosionsound>explosions/lightning.wav</explosionsound>
@@ -8921,7 +8638,7 @@ through the ground aimed at nearby tanks</description>
 									</subweapon1>
 									<subweapon2 type='WeaponExplosion'>
 										<nocreatedebris/>
-										<hurtamount>1.0</hurtamount>
+										<hurtamount>0.9</hurtamount>
 										<deform>none</deform>
 										<size>12</size>
 										<explosiontexture>none</explosiontexture>
@@ -8996,7 +8713,7 @@ through the ground aimed at nearby tanks</description>
 									</subweapon1>
 									<subweapon2 type='WeaponExplosion'>
 										<nocreatedebris/>
-										<hurtamount>1.0</hurtamount>
+										<hurtamount>0.9</hurtamount>
 										<deform>none</deform>
 										<size>12</size>
 										<explosiontexture>none</explosiontexture>
@@ -10126,14 +9843,14 @@ Less power = less range but more damage</description>
 	</accessory>
 	<accessory>
 		<name>Sat. Strike</name>
-		<armslevel>2</armslevel>
+		<armslevel>1</armslevel>
 		<description>Fires a projectile which hits the ground, marking
 the target area.  Space based laser cannons then assault
 all targets in the area.</description>
 		<icon>satellite.bmp</icon>
 		<activationsound>shoot/flare.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>40000</cost>
+		<cost>50000</cost>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
 			<showendpoint></showendpoint>
@@ -10565,6 +10282,673 @@ which you are teleported to after it lands.</description>
 					</delayedweapon>
 				</subweapon2>
 			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveFuelCan</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Fuel</giveaccessory>
+			<number>10</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveFuelBarrel</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Fuel</giveaccessory>
+			<number>20</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveSmallBattery</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Battery</giveaccessory>
+			<number>5</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveLargeBattery</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Battery</giveaccessory>
+			<number>5</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveBeer</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveLife'>
+			<life>10</life>
+			<exceedmax>false</exceedmax>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveMissile</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Missile</giveaccessory>
+			<number>5</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveShotgun</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Shotgun</giveaccessory>
+			<number>5</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveFragGrenade</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Frag Grenade</giveaccessory>
+			<number>2</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveEMPGrenade</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>EMP Grenade</giveaccessory>
+			<number>2</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveMachineGun</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>M2 Machinegun</giveaccessory>
+			<number>2</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveAcidSplash</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Acid Splash</giveaccessory>
+			<number>1</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveGasGrenade</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Gas Grenade</giveaccessory>
+			<number>1</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveAcidBlast</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Acid Blast</giveaccessory>
+			<number>5</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>FuelCans</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<enginesound>none</enginesound>
+			<nocreateflame/>
+			<projectilescale>1.0</projectilescale>
+			<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
+			<collisionaction type='WeaponAddTarget'>
+				<name>Fuel Can</name>
+				<modelscale>50.0</modelscale>
+				<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
+				<life>50</life>
+				<shield>none</shield>
+				<parachute>Parachute</parachute>
+				<removeaction>GiveFuelCan</removeaction>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Gas Station</name>
+		<armslevel>5</armslevel>
+		<description>Gas stations have large tanks of fuel
+which explode and spread fire when ignited.</description>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.25</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0.5</hurtamount>
+					<deform>down</deform>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<size>8</size>
+					<explosionsound>explosions/large.wav</explosionsound>
+					<explosiontexture>exp04</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<hurtamount>0.5</hurtamount>
+					<deform>none</deform>
+					<size>16</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>3</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>8</size>
+					<explosionshake>4.0</explosionshake>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon3>
+				<subweapon4 type='WeaponAimedOver'>
+					<nowarheads>10</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponVelocity'>
+						<velocitychange>0.9</velocitychange>
+						<aimedweapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>false</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>15</vredirect>
+							<nextaction type='WeaponProjectile'>
+								<nocreatesmoke/>
+								<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+								<collisionaction type='WeaponNapalm'>
+									<allowunderwater>false</allowunderwater>
+									<napalmtime>4.0</napalmtime>
+									<napalmheight>2.0</napalmheight>
+									<steptime>0.33</steptime>
+									<hurtsteptime>1.0</hurtsteptime>
+									<hurtpersecond>0.75</hurtpersecond>
+									<numberstreams>1</numberstreams>
+									<effectradius>5</effectradius>
+									<napalmtexture>flames</napalmtexture>
+									<napalmsound>explosions/napalm.wav</napalmsound>
+								</collisionaction>
+							</nextaction>
+						</aimedweapon>
+					</aimedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponInvokeWeapon'>
+								<invoke>FuelCans</invoke>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>3</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponInvokeWeapon'>
+								<invoke>FuelCans</invoke>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>4</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponInvokeWeapon'>
+								<invoke>FuelCans</invoke>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice3>
+				</subweapon5>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Store1Weapons</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>v2missile/v2missile.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Missiles</name>
+						<modelscale>2.5</modelscale>
+						<model type='MilkShape'>v2missile/v2missile.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveMissile</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Shotgun Shells</name>
+						<modelscale>8.0</modelscale>
+						<model type='MilkShape'>weapons/shotgunshell.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveShotgun</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/grenade.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Frag Grenades</name>
+						<modelscale>8.0</modelscale>
+						<model type='MilkShape'>weapons/grenade.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveFragGrenade</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>EMP Grenades</name>
+						<modelscale>7.0</modelscale>
+						<model type='MilkShape'>weapons/shockbomblet.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveEMPGrenade</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.2</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/50cal.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>M2 Machinegun</name>
+						<modelscale>10.0</modelscale>
+						<model type='MilkShape'>weapons/50cal.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveMachineGun</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice5>
+			<weaponchoice6>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>beer_bottle/bottle.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Beer</name>
+						<modelscale>60.0</modelscale>
+						<model type='MilkShape'>beer_bottle/bottle.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveBeer</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice6>
+			<weaponchoice7>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Small Battery</name>
+						<modelscale>10.0</modelscale>
+						<model type='MilkShape'>objects/9volt.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveSmallBattery</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice7>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Store1Explode</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.25</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>3</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>4</size>
+					<explosionsound>explosions/small.wav</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Store1Weapons</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>3</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Store1Weapons</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>4</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Store1Weapons</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice3>
+				</subweapon3>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>ChemicalWeapons</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.5</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>AcidSplash</name>
+						<modelscale>15.0</modelscale>
+						<model type='MilkShape'>weapons/fusionbarrel.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveAcidSplash</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>GasGrenade</name>
+						<modelscale>15.0</modelscale>
+						<model type='MilkShape'>weapons/m7a3.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveGasGrenade</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>AcidBlast</name>
+						<modelscale>8.0</modelscale>
+						<model type='MilkShape'>weapons/fusionbarrel.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveAcidSplash</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice3>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Factory</name>
+		<armslevel>4</armslevel>
+		<description>Factories work with deadly chemicals and
+release lethal clouds of gas when destroyed.</description>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.25</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0.8</hurtamount>
+					<deform>down</deform>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<size>8</size>
+					<explosionshake>4.0</explosionshake>
+					<explosionsound>explosions/large.wav</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>1.25</delay>
+					<delayedweapon type='WeaponMulti'>
+						<subweapon1 type='WeaponDelay'>
+							<delay>1.25</delay>
+							<delayedweapon type='WeaponMulti'>
+								<subweapon1 type='WeaponDelay'>
+									<delay>1.0</delay>
+									<delayedweapon type='WeaponMulti'>
+										<subweapon1 type='WeaponDelay'>
+											<delay>1.0</delay>
+											<delayedweapon type='WeaponExplosion'>
+												<nocreatedebris/>
+												<nocreatesplash/>
+												<hurtamount>0.1</hurtamount>
+												<deform>none</deform>
+												<size>50</size>
+												<explosiontexture>none</explosiontexture>
+												<explosionsound>none</explosionsound>
+											</delayedweapon>
+										</subweapon1>
+										<subweapon2 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<hurtamount>0.15</hurtamount>
+											<deform>none</deform>
+											<size>45</size>
+											<explosiontexture>none</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon2>
+									</delayedweapon>
+								</subweapon1>
+								<subweapon2 type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<hurtamount>0.2</hurtamount>
+									<deform>none</deform>
+									<size>38</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</subweapon2>
+								<subweapon3 type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>4</minlife>
+									<maxlife>6</maxlife>
+									<animate/>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>6</size>
+									<explosiontexture>gas00</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</subweapon3>
+							</delayedweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponExplosion'>
+							<nocreatedebris/>
+							<nocreatesplash/>
+							<hurtamount>0.25</hurtamount>
+							<deform>none</deform>
+							<size>30</size>
+							<explosiontexture>none</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon2>
+						<subweapon3 type='WeaponExplosion'>
+							<nocreatedebris/>
+							<nocreatesplash/>
+							<noluminance/>
+							<nowindaffected/>
+							<minlife>4</minlife>
+							<maxlife>6</maxlife>
+							<animate/>
+							<hurtamount>0</hurtamount>
+							<deform>none</deform>
+							<size>8</size>
+							<explosiontexture>gas00</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</subweapon3>
+					</delayedweapon>
+				</subweapon2>
+				<subweapon3 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<minlife>4</minlife>
+					<maxlife>6</maxlife>
+					<hurtamount>0.3</hurtamount>
+					<deform>none</deform>
+					<size>20</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon3>
+				<subweapon4 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<noluminance/>
+					<nowindaffected/>
+					<minlife>6</minlife>
+					<maxlife>8</maxlife>
+					<animate/>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>10</size>
+					<explosiontexture>gas00</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon4>
+				<subweapon5 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponInvokeWeapon'>
+								<invoke>ChemicalWeapons</invoke>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>3</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponInvokeWeapon'>
+								<invoke>ChemicalWeapons</invoke>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>4</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponInvokeWeapon'>
+								<invoke>ChemicalWeapons</invoke>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice3>
+				</subweapon5>
+			</delayedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>

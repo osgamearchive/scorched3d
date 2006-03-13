@@ -133,7 +133,7 @@
 			</object>
 		</placement>
 		<placement type="mask">
-			<numobjects>60</numobjects>
+			<numobjects>50</numobjects>
 			<mask>data/landscapes/masks/city1suburban2.bmp</mask>
 			<minheight>10</minheight>
 			<maxheight>75</maxheight>
@@ -145,7 +145,24 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/store1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/store1burnt.txt</modelburnt>
-				<removeaction>Small Bldg</removeaction>
+				<removeaction>Store1Explode</removeaction>
+				<burnaction>SmallBldgBurn</burnaction>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>10</numobjects>
+			<mask>data/landscapes/masks/city1all.bmp</mask>
+			<minheight>10</minheight>
+			<maxheight>75</maxheight>
+			<mincloseness>4</mincloseness>
+			<minslope>0.66</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<groupname>stores</groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/buildings/store1.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/store1burnt.txt</modelburnt>
+				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
 		</placement>

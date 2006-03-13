@@ -23,7 +23,8 @@ Changes Since 3.1
         - Sat. Strike:
             - Tweaked aiming methods some more, works better against shields
             - Slowed the overall pace of it down a bit and reduced amount of invisible aimed projectiles
-            - Increased price from $20,000 to $40,000
+            - Increased price from $20,000 to $50,000
+            - Reduced armslevel from 2 to 1
         - M2 Machinegun:
             - Increased size of the bullets by 50%, they're still small but more visible
             - Reduced damage the bullets do during shield collisions to 33%
@@ -41,13 +42,16 @@ Changes Since 3.1
         - Shockwave:
             - Removed reliance on WeaponAimedOver, now spreads at 22.5 degree angles
             - Added a few more sparks after the main shockwave begins for visual effect
+            - Decreased damage just barely
         - Lightning Storm:
             - Added lightningbolt.wav sounds back in
             - Increased cost from $25,000 to $30,000
             - Slowed down the pace by a few seconds to make it easier to watch
+        - Hornet Nest:
+            - Increased cost to $40,000
+            - Decreased armslevel from 2 to 1
         - Shields:
             - Decreased radius of Heavy Shield slightly (between regular and ultra size)
-            - Increased base projectile damage done to Heavy Force Shield from 10 to 15
             - Increased Mag Deflect's <deflectpower> from 50% to 75%
             - Reworked shield <penetration> values.
                 - Regular shields offer most raw damage resistance, then mags, then force shields.
@@ -57,6 +61,7 @@ Changes Since 3.1
                 and how much damage they take when being hit by projectiles by default
         - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
         - Reduced shield collision damage on diggers to decrease their usefulness as shield busters
+        - Reduced cost of Apocalypse from $50,000 to $40,000
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
         - Added another projectile to Apoc/Dday/Strangelove waves
@@ -67,6 +72,7 @@ Changes Since 3.1
         - Added descriptions to the damaging building accessories
         - Increased damage from lasers some
         - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
+        - Decreased damage on Chain Lightning a little bit
         - New projectile model for MOAB by Bobirov
         - Made Gas Stations a little bit more damaging all around
         - Slightly increased power of Small Meteor explosion (5 percent)
@@ -77,10 +83,14 @@ Changes Since 3.1
         - Hornets come out 1 and 2 at a time instead of in big groups in Hornets Nest/Swarm
         - Set Wall Of Dirt maximum to 3 per round
         - Set Ring Of Dirt maximum to 1 per round
+        - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
         
     Landscapes:
     	- New Nuclear Power Plant Building
     		- Explodes and releases massive amounts of fallout that travels down wind
+    	- Factories now drop 2-4 gas/acid weapons which can be shot and picked up
+    	- Stores now drop 2-4 various small weapons, batteries or beer (10 health)
+    	- Gas stations drop 2-4 fuel cans (10 fuel)
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)
@@ -93,6 +103,7 @@ Changes Since 3.1
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.
         - Added a "Hard Target" AI type that does not shoot but will use defenses, good for testing
+        - Various other small changes and fixes
         
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
