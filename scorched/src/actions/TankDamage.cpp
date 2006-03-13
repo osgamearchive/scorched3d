@@ -268,6 +268,11 @@ void TankDamage::calculateDeath()
 
 void TankDamage::logDeath()
 {
+	Target *killedTarget = 
+		context_->targetContainer->getTargetById(damagedPlayerId_);
+	if (killedTarget->isTarget()) return;
+
+	// Print the banner on who killed who
 	GLTexture *weaponTexture = 0;
 	if (!context_->serverMode)
 	{
@@ -280,12 +285,7 @@ void TankDamage::logDeath()
 		}
 	}
 
-	// Print the banner on who killed who
-	Target *killedTarget = 
-		context_->targetContainer->getTargetById(damagedPlayerId_);
-	if (killedTarget->isTarget()) return;
 	Tank *killedTank = (Tank *) killedTarget;
-
 	Tank *firedTank = 
 		context_->tankContainer->getTankById(firedPlayerId_);
 	if (firedTank)

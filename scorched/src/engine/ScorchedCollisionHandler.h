@@ -52,6 +52,9 @@ protected:
 	void groundCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts,
 		bool metaAction);
+	void targetCollision(
+		ScorchedCollisionInfo *info1, ScorchedCollisionInfo *info2, 
+		dContactGeom *contacts, int noContacts);
 	void bounceCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts);
 	void shotCollision(dGeomID o1, dGeomID o2, 

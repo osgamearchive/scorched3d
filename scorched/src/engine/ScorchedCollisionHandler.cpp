@@ -24,10 +24,12 @@
 #include <actions/ShotBounce.h>
 #include <actions/WallHit.h>
 #include <actions/ShieldHit.h>
+#include <actions/TankDamage.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
+#include <weapons/AccessoryStore.h>
 #include <weapons/ShieldMag.h>
 #include <weapons/ShieldReflective.h>
 #include <weapons/Accessory.h>
@@ -75,6 +77,40 @@ void ScorchedCollisionHandler::collision(dGeomID o1, dGeomID o2,
 	{
 		// We have a particle collision
 		shotCollision(o1, o2, contacts, noContacts);
+	}
+	else 
+	if (info1->id == CollisionIdTarget && info2->id == CollisionIdTarget)
+	{
+		// Target and target collision
+		targetCollision(info1, info2, contacts, noContacts);
+	}
+}
+
+void ScorchedCollisionHandler::targetCollision(
+	ScorchedCollisionInfo *info1, ScorchedCollisionInfo *info2, 
+	dContactGeom *contacts, int noContacts)
+{
+	unsigned int playerId1 = (unsigned int) info1->data;
+	unsigned int playerId2 = (unsigned int) info2->data;
+	Target *target1 = context_->targetContainer->getTargetById(playerId1);
+	Target *target2 = context_->targetContainer->getTargetById(playerId2);
+	if (!target1 || !target2) return;
+
+	//Dummy weapon, should'nt be used anywhere
+	Weapon *weapon = (Weapon *) 
+		context_->accessoryStore->findByAccessoryType(
+			AccessoryPart::AccessoryWeapon)->getAction();
+	if (target1->isTarget() && !target2->isTarget())
+	{
+		context_->actionController->addAction(
+			new TankDamage(weapon, playerId1, playerId2, target1->getLife().getLife(),
+				false, false, false, 0));
+	}
+	else if (!target1->isTarget() && target2->isTarget())
+	{
+		context_->actionController->addAction(
+			new TankDamage(weapon, playerId2, playerId1, target2->getLife().getLife(),
+				false, false, false, 0));
 	}
 }
 
