@@ -31,7 +31,11 @@ sub parseFile
 	{
 		$dirfns[0] =~ /\!(\w+)::parseXML/ or die "ERROR2";
 		my $dir = $1;
-		print "  ".$dir."\n";		
+		print "  Extends : ".$dir."\n";		
+	}
+	elsif ($file !~ /Accessory/)
+	{
+		print "  Extends : Accessory\n";
 	}
 	
 	my @nodes = grep { /getNamedChild/ } @fileconts;
@@ -49,7 +53,7 @@ sub parseFile
 			
 			$rest = "(optional)" if ($rest ne "");
 			
-			print "  ".$nodename."  ".$type."  ".$rest."\n";
+			print "  Attribute : ".$nodename.", Type : ".$type." ".$rest."\n";
 		}
 	}
 }
