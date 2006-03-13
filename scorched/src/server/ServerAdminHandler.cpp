@@ -24,6 +24,7 @@
 #include <server/ServerCommon.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
+#include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
 #include <common/Defines.h>
 #include <coms/ComsAdminMessage.h>
@@ -452,6 +453,11 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 
 bool ServerAdminHandler::login(const char *name, const char *password)
 {
+	if (!OptionsParam::instance()->getDedicatedServer())
+	{
+		return true;
+	}
+
 	const char *fileName = 
 		getSettingsFile(formatString("adminpassword-%i.xml",
 			ScorchedServer::instance()->getOptionsGame().getPortNo()));

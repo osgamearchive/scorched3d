@@ -52,7 +52,8 @@ void WeaponGivePower::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	context.actionController->addAction(new PowerUp(playerId, position, velocity, data, this));
+	context.actionController->addAction(
+		new PowerUp(playerId, position, velocity, data, this));
 }
 
 void WeaponGivePower::invokePowerUp(ScorchedContext &context,
@@ -62,10 +63,12 @@ void WeaponGivePower::invokePowerUp(ScorchedContext &context,
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (!tank) return;
 
-	tank->getPosition().setMaxPower(power_);
+	tank->getPosition().setMaxPower(
+		MAX(tank->getPosition().getMaxPower(), power_));
 
 	LoggerInfo info(LoggerInfo::TypeDeath,
-		formatString("\"%s\" received %.0f power", power_));
+		formatString("\"%s\" received %.0f power", 
+		tank->getName(), power_));
 	info.setPlayerId(playerId);
 	Logger::log(info);
 }

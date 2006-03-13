@@ -53,7 +53,8 @@ void WeaponGiveLife::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	context.actionController->addAction(new PowerUp(playerId, position, velocity, data, this));
+	context.actionController->addAction(
+		new PowerUp(playerId, position, velocity, data, this));
 }
 
 void WeaponGiveLife::invokePowerUp(ScorchedContext &context,
@@ -68,10 +69,12 @@ void WeaponGiveLife::invokePowerUp(ScorchedContext &context,
 	{
 		tank->getLife().setMaxLife(life_);
 	}
-	tank->getLife().setLife(life_);
+	tank->getLife().setLife(
+		tank->getLife().getLife() + life_);
 
 	LoggerInfo info(LoggerInfo::TypeDeath,
-		formatString("\"%s\" received %.0f life", life_));
+		formatString("\"%s\" received %.0f life", 
+		tank->getName(), life_));
 	info.setPlayerId(playerId);
 	Logger::log(info);
 }

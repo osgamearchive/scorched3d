@@ -543,4 +543,5 @@ void TankAIHuman::useBattery(unsigned int batteryId)
 		currentTank_->getPlayerId(),
 		ComsDefenseMessage::eBatteryUse,
 		batteryId);
+	ComsMessageSender::sendToServer(defenseMessage);
 }
