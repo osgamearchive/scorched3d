@@ -62,7 +62,7 @@ protected:
 	MovementMapEntry *entries_;
 	int width_, height_;
 
-	unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y);
+	unsigned int POINT_TO_UINT(unsigned int x, unsigned int y);
 	void addPoint(unsigned int x, unsigned int y, 
 					 float height, float dist,
 					 std::list<unsigned int> &edgeList,
