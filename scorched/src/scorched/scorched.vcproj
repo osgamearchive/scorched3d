@@ -918,6 +918,18 @@
 				RelativePath="..\3dsparse\Face.h">
 			</File>
 			<File
+				RelativePath="..\3dsparse\ImageID.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ImageID.h">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ImageStore.cpp">
+			</File>
+			<File
+				RelativePath="..\3dsparse\ImageStore.h">
+			</File>
+			<File
 				RelativePath="..\3dsparse\MSModelFactory.cpp">
 			</File>
 			<File
@@ -3957,6 +3969,12 @@
 			</File>
 			<File
 				RelativePath="..\placement\PlacementObjectTree.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementShadowDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementShadowDefinition.h">
 			</File>
 			<File
 				RelativePath="..\placement\PlacementType.cpp">

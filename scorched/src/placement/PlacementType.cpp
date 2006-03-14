@@ -86,8 +86,6 @@ void PlacementType::createObjects(ScorchedContext &context,
 			group->addObject(
 				(int) position.position[0], (int) position.position[1]);
 		}
-
-		// TODO remove targets from group some how
 		placementobject->createObject(
 			context, generator, playerId, information_, position);
 	}

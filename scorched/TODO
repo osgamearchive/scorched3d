@@ -82,6 +82,8 @@ Fix crashing when people win (Graphics card drivers??)
 Tutorial mode
 New game modes
 Scripting language
+Burn action and burn model for targets
+Remove targets from sound group when dead
 Tank AIs can be specified as part of the landscape e.g. at base bunkers
 Dirt cannot be raised when underground (or other dirting stopping)
 

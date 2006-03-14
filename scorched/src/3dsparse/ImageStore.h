@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementModelDefinitionh_INCLUDE__)
-#define __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#if !defined(__INCLUDE_ImageStoreh_INCLUDE__)
+#define __INCLUDE_ImageStoreh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
-#include <engine/ScorchedContext.h>
+#include <3dsparse/ImageID.h>
+#include <map>
+#include <string>
 
-class LandscapeObjectsEntryModel;
-class PlacementModelDefinition
+class GLImage;
+class ImageStore
 {
 public:
-	PlacementModelDefinition();
-	virtual ~PlacementModelDefinition();
+	static ImageStore *instance();
 
-	virtual bool readXML(XMLNode *node, const char *base);
-	LandscapeObjectsEntryModel *createModel(ScorchedContext &context);
+	GLImage *loadImage(ImageID &imageId);
 
 protected:
-	float size_;
-	float modelscale_;
-	float modelrotation_;
-	std::string removeaction_;
-	std::string burnaction_;
-	ModelID modelId_;
-	ModelID modelburntId_;
+	static ImageStore *instance_;
+	std::map<std::string, GLImage *> imageMap_;
+
+	GLImage *getImage(ImageID &id);
+
+private:
+	ImageStore();
+	virtual ~ImageStore();
 };
 
-
-#endif // __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#endif

@@ -18,31 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementModelDefinitionh_INCLUDE__)
-#define __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#if !defined(__INCLUDE_PlacementShadowDefinitionh_INCLUDE__)
+#define __INCLUDE_PlacementShadowDefinitionh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
-#include <engine/ScorchedContext.h>
+#include <XML/XMLNode.h>
+#include <3dsparse/ImageID.h>
 
-class LandscapeObjectsEntryModel;
-class PlacementModelDefinition
+class PlacementShadowDefinition
 {
 public:
-	PlacementModelDefinition();
-	virtual ~PlacementModelDefinition();
+	PlacementShadowDefinition();
+	virtual ~PlacementShadowDefinition();
 
 	virtual bool readXML(XMLNode *node, const char *base);
-	LandscapeObjectsEntryModel *createModel(ScorchedContext &context);
+	void updateLandscape();
 
 protected:
-	float size_;
-	float modelscale_;
-	float modelrotation_;
-	std::string removeaction_;
-	std::string burnaction_;
-	ModelID modelId_;
-	ModelID modelburntId_;
+	bool drawShadow_;
+	ImageID groundMap_;
 };
 
-
-#endif // __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#endif // __INCLUDE_PlacementShadowDefinitionh_INCLUDE__

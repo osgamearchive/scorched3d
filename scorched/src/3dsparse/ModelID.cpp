@@ -22,7 +22,6 @@
 #include <common/Defines.h>
 #include <coms/NetBuffer.h>
 #include <XML/XMLParser.h>
-#include <wx/utils.h>
 
 ModelID::ModelID()
 {
@@ -78,9 +77,10 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		snprintf(meshName, 1024, "%s/%s", directory, meshNameContent);
 		if (!s3d_fileExists(getDataFile(meshName)))
 		{
-			dialogMessage("Scorched Models", formatString(
-						"Mesh file \"%s\"does not exist",
-						meshName));
+			return modelNode->returnError(
+				formatString(
+					"Mesg file \"%s\" does not exist",
+					meshName));
 			return false;
 		}
 
@@ -92,10 +92,10 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 			snprintf(skinName, 1024, "%s/%s", directory, skinNameContent);
 			if (!s3d_fileExists(getDataFile(skinName)))
 			{
-				dialogMessage("Scorched Models", formatString(
-							"Skin file \"%s\" does not exist",
-							skinName));
-				return false;
+				return modelNode->returnError(
+					formatString(
+						"Skin file \"%s\" does not exist",
+						skinName));
 			}
 		}
 		else
@@ -114,20 +114,20 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 
 		if (!s3d_fileExists(getDataFile(meshName)))
 		{
-			dialogMessage("Scorched Models", formatString(
-						"Mesh file \"%s\"does not exist",
-						meshName));
-			return false;
+			return modelNode->returnError(
+				formatString(
+					"Mesh file \"%s\" does not exist",
+					meshName));
 		}
 
 		meshName_ = meshName;
 	}
 	else
 	{
-		dialogMessage("Scorched Models", formatString(
-					"Unknown mesh type \"%s\"",
-					typeNode->getContent()));
-		return false;
+		return modelNode->returnError(
+			formatString(
+				"Unknown mesh type \"%s\"",
+				typeNode->getContent()));
 	}
 
 	return true;

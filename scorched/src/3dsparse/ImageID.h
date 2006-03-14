@@ -18,31 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementModelDefinitionh_INCLUDE__)
-#define __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#if !defined(__INCLUDE_ImageIDh_INCLUDE__)
+#define __INCLUDE_ImageIDh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
-#include <engine/ScorchedContext.h>
+#include <string>
 
-class LandscapeObjectsEntryModel;
-class PlacementModelDefinition
+class XMLNode;
+class ImageID
 {
 public:
-	PlacementModelDefinition();
-	virtual ~PlacementModelDefinition();
+	ImageID();
+	virtual ~ImageID();
 
-	virtual bool readXML(XMLNode *node, const char *base);
-	LandscapeObjectsEntryModel *createModel(ScorchedContext &context);
+	bool initFromNode(const char *directory,
+		XMLNode *imageNode);
+
+	bool initFromString(
+		const char *type,
+		const char *imageName,
+		const char *alphaName = "",
+		bool invert = false);
+
+	// Not very generic but it will do for now!!
+	const char *getStringHash();
+	const char *getImageName() { return imageName_.c_str(); }
+	const char *getAlphaName() { return alphaName_.c_str(); }
+	const char *getType() { return type_.c_str(); }
+	bool getInvert() { return invert_; }
+	bool modelValid() { return !type_.empty(); }
 
 protected:
-	float size_;
-	float modelscale_;
-	float modelrotation_;
-	std::string removeaction_;
-	std::string burnaction_;
-	ModelID modelId_;
-	ModelID modelburntId_;
+	std::string type_;
+	std::string imageName_;
+	std::string alphaName_;
+	std::string hash_;
+	bool invert_;
 };
 
-
-#endif // __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#endif // __INCLUDE_ImageIDh_INCLUDE__

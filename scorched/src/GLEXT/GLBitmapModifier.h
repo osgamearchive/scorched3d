@@ -74,7 +74,7 @@ namespace GLBitmapModifier
 		float sx, float sy, float sw, float opacity);
 
 	void addBitmap(GLBitmap &destBitmap,
-		GLBitmap &srcBitmap,
+		GLImage &srcBitmap,
 		float sx, float sy);
 };
 

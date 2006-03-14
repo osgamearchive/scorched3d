@@ -18,31 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementModelDefinitionh_INCLUDE__)
-#define __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+#include <placement/PlacementShadowDefinition.h>
 
-#include <3dsparse/ModelID.h>
-#include <engine/ScorchedContext.h>
-
-class LandscapeObjectsEntryModel;
-class PlacementModelDefinition
+PlacementShadowDefinition::PlacementShadowDefinition() :
+	drawShadow_(true)
 {
-public:
-	PlacementModelDefinition();
-	virtual ~PlacementModelDefinition();
+}
 
-	virtual bool readXML(XMLNode *node, const char *base);
-	LandscapeObjectsEntryModel *createModel(ScorchedContext &context);
+PlacementShadowDefinition::~PlacementShadowDefinition()
+{
+}
 
-protected:
-	float size_;
-	float modelscale_;
-	float modelrotation_;
-	std::string removeaction_;
-	std::string burnaction_;
-	ModelID modelId_;
-	ModelID modelburntId_;
-};
+bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
+{
+	node->getNamedChild("drawshadow", drawShadow_, false);
 
+	XMLNode *groundMap = 0;
+	if (node->getNamedChild("groundmap", groundMap, false))
+	{
+		if (!groundMap_.initFromNode(base, groundMap)) return false;
+	}
 
-#endif // __INCLUDE_PlacementModelDefinitionh_INCLUDE__
+	return true;
+}
+
+void PlacementShadowDefinition::updateLandscape()
+{
+
+}

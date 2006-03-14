@@ -90,7 +90,6 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->getParachute().setParachutesEnabled(true);
 	}
 
-	// TODO burnaction, burnmodel etc...
 	if (removeaction_.c_str()[0] && 0 != strcmp(removeaction_.c_str(), "none"))
 	{
 		Accessory *action = context.accessoryStore->

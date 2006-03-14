@@ -121,11 +121,7 @@ Model *ModelStore::loadModel(ModelID &modelId)
 		fileMap_[modelId.getStringHash()] = model;
 		return model;
 	}
-	else
-	{
-		return (*findItor).second;
-	}
-	return 0;
+	return (*findItor).second;
 }
 
 Model *ModelStore::getModel(ModelID &id)

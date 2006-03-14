@@ -607,7 +607,7 @@ void GLBitmapModifier::addCircle(GLBitmap &destBitmap,
 }
 
 void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
-	GLBitmap &srcBitmap,
+	GLImage &srcBitmap,
 	float sx, float sy)
 {
 	float minX = sx - srcBitmap.getWidth() / 2;
