@@ -88,9 +88,10 @@ Changes Since 3.1
     Landscapes:
     	- New Nuclear Power Plant Building
     		- Explodes and releases massive amounts of fallout that travels down wind
-    	- Factories now drop 2-4 gas/acid weapons which can be shot and picked up
-    	- Stores now drop 2-4 various small weapons, batteries or beer (10 health)
-    	- Gas stations drop 2-4 fuel cans (10 fuel)
+    	- Factories now drop 1-3 gas/acid weapons which can be shot and picked up
+    	- Stores now drop 1-3 various small weapons, batteries or beer (10 health)
+    	- Gas stations drop 1-3 fuel cans (10 fuel)
+	- Bars drop 1-3 beers (10 health) or shotguns
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)

@@ -10389,17 +10389,134 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Bar1Items</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>beer_bottle/bottle.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Beer</name>
+						<modelscale>0.6</modelscale>
+						<model type='MilkShape'>beer_bottle/bottle.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveBeer</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Shotgun Shells</name>
+						<modelscale>0.08</modelscale>
+						<model type='MilkShape'>weapons/shotgunshell.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveShotgun</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Bar1Explode</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.25</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>explosions/small.wav</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>1</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Bar1Items</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Bar1Items</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>3</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Bar1Items</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice3>
+				</subweapon3>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>FuelCans</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame/>
 			<projectilescale>1.0</projectilescale>
-			<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
+			<projectilemodel type='MilkShape'>objects/fuelbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponAddTarget'>
 				<name>Fuel Can</name>
-				<modelscale>0.5</modelscale>
-				<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
+				<modelscale>0.09</modelscale>
+				<model type='MilkShape'>objects/fuelbarrel.txt</model>
 				<life>50</life>
 				<shield>none</shield>
 				<parachute>Parachute</parachute>
@@ -10478,7 +10595,7 @@ which explode and spread fire when ignited.</description>
 					<weaponchoice1>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>2</nowarheads>
+							<nowarheads>1</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10490,7 +10607,7 @@ which explode and spread fire when ignited.</description>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>3</nowarheads>
+							<nowarheads>2</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10502,7 +10619,7 @@ which explode and spread fire when ignited.</description>
 					<weaponchoice3>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>4</nowarheads>
+							<nowarheads>3</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10528,7 +10645,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>v2missile/v2missile.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Missiles</name>
-						<modelscale>0.025</modelscale>
+						<modelscale>0.02</modelscale>
 						<model type='MilkShape'>v2missile/v2missile.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10632,11 +10749,11 @@ which explode and spread fire when ignited.</description>
 				<weapon type='WeaponProjectile'>
 					<enginesound>none</enginesound>
 					<nocreateflame/>
-					<projectilescale>1.0</projectilescale>
+					<projectilescale>0.8</projectilescale>
 					<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Small Battery</name>
-						<modelscale>0.1</modelscale>
+						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>objects/9volt.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10676,7 +10793,7 @@ which explode and spread fire when ignited.</description>
 					<weaponchoice1>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>2</nowarheads>
+							<nowarheads>1</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10691,7 +10808,7 @@ which explode and spread fire when ignited.</description>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>3</nowarheads>
+							<nowarheads>2</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10706,7 +10823,7 @@ which explode and spread fire when ignited.</description>
 					<weaponchoice3>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>4</nowarheads>
+							<nowarheads>3</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10734,7 +10851,7 @@ which explode and spread fire when ignited.</description>
 					<projectilescale>1.5</projectilescale>
 					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
-						<name>AcidSplash</name>
+						<name>Acid Splash</name>
 						<modelscale>0.15</modelscale>
 						<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 						<life>50</life>
@@ -10752,7 +10869,7 @@ which explode and spread fire when ignited.</description>
 					<projectilescale>1.0</projectilescale>
 					<projectilemodel type='MilkShape'>weapons/m7a3.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
-						<name>GasGrenade</name>
+						<name>Gas Grenade</name>
 						<modelscale>0.15</modelscale>
 						<model type='MilkShape'>weapons/m7a3.txt</model>
 						<life>50</life>
@@ -10769,7 +10886,7 @@ which explode and spread fire when ignited.</description>
 					<nocreateflame/>
 					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
-						<name>AcidBlast</name>
+						<name>Acid Blasts</name>
 						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 						<life>50</life>
@@ -10914,7 +11031,7 @@ release lethal clouds of gas when destroyed.</description>
 					<weaponchoice1>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>2</nowarheads>
+							<nowarheads>1</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10926,7 +11043,7 @@ release lethal clouds of gas when destroyed.</description>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>3</nowarheads>
+							<nowarheads>2</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
@@ -10938,7 +11055,7 @@ release lethal clouds of gas when destroyed.</description>
 					<weaponchoice3>
 						<weight>10</weight>
 						<weapon type='WeaponAimedOver'>
-							<nowarheads>4</nowarheads>
+							<nowarheads>3</nowarheads>
 							<percentagemiss>99</percentagemiss>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>

@@ -124,7 +124,7 @@
 			<object type="model">
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
-				<removeaction>Large Bldg</removeaction>
+				<removeaction>Bar1Explode</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
 		</placement>
@@ -141,7 +141,7 @@
 			<object type="model">
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
-				<removeaction>Large Bldg</removeaction>
+				<removeaction>Bar1Explode</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
 		</placement>
