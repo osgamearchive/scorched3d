@@ -133,9 +133,6 @@ data/               - Directory containing all data files and other media used b
 accessories.xml     - File containing all the item/weapons for the game
 ainames.txt         - Contains the custom names for the bots (all names of countries for Apocalypse)
 landscapes.xml      - File containing basic landscape data
-landscapesdefn.xml  - Info regarding the shape of the landscapes
-landscapesplace.xml - Info regarding placement of the landscape objects
-landscapestex.xml   - Defines all the texture layouts that are used by the landscapes
 server.xml          - Example Server settings for running an Apocalypse Server
 singletarget.xml    - Default target practice game settings
 singleeasy.xml      - Default easy difficulty single player game settings
@@ -145,11 +142,16 @@ singlegames.xml     - Defines menu icons/text for the mod
 tankais.xml         - File containing parameters for the ai players
 textureset.xml      - Definitions for the textures used in explosion animations
 
-data/accessories/*  - All custom models and their textures used by the mod
-data/landscapes/*   - All the custom heightmap and picture files for Apocalypse landscapes
-data/textures/*     - All custom weapon icons, explosion textures or landscape textures used by the mod
-data/wav/*          - All custom sounds used by the mod
-data/windows/*      - GUI windows
+data/accessories/*  - Custom models and their textures used by the mod
+data/landscapes/*   - All the custom heightmaps, pictures and xml files for Apocalypse landscapes
+    ambientsound*.xml - Stores ambient sound groupings
+    defn*.xml       - Info regarding the shape of a landscape
+    place*.xml      - Info regarding placement of the landscape objects
+    tex*.xml        - Defines all the texture layouts that are used by the landscapes
+data/meshes/*   - Boid models used by the mod
+data/textures/* - All custom weapon icons, explosion textures or landscape textures used by the mod
+data/wav/*      - All custom sounds used by the mod
+data/windows/*  - GUI windows
 
 Note: Server settings are not required but are provided as an example
 
@@ -198,6 +200,7 @@ Quicksand       - Explodes on impact releasing a series of slow-moving, poorly a
 Ring of Dirt    - Raises multiple dirt walls that form a ring around you
 Riot Drill      - 3 heavy riot bombs are shot in rapid succession at the same point
 Sat. Strike     - Shoots a projectile which paints the target area.  Space based lasers then assault the target.
+Shotgun         - Shoots 6 pellets in a random spread with limited range/line of sight
 Shockwave       - Creates a massive energy wave which ripples outwards without destroying the landscape
 Strangelove     - The end game weapon, scaled up dmsday device
 Suicide Bomb    - Detonates yourself causing a huge, powerful explosion
@@ -238,13 +241,12 @@ Maps By Nexus6:
     Weathered   - Static:  Another nice hilly map
     Hex World   - Static:  Cool map made up of hexagonal shapes of varying heights
     Two Towers  - Static:  Nice map with two large round towers
-    Craters     - Static:  Craterous map with a nice moonlike feel
+    Craters     - Static:  Craterous moon map with a nice view of the earth
     Pyramids 2  - Static:  Hand remake of the original Pyramids map
     Desert Mesa - Static:  Southwestern US style map
     Terraces    - Static:  Landscape made up of various height levels
     Steppes     - Static:  Similar to terraces but with a different shape
     Canyon      - Static:  Deep canyon to annihilate eachother in
-    City Blocks - Static:  Map with some building like structures
     
 Maps By ShoCkwaVe:
     ArizonaIslands  - Static:  Series of islands that resemble rock formations in the western U.S.
