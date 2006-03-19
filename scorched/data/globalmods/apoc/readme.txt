@@ -91,7 +91,12 @@ Changes Since 3.1
     	- Factories now drop 1-3 gas/acid weapons which can be shot and picked up
     	- Stores now drop 1-3 various small weapons, batteries or beer (10 health)
     	- Gas stations drop 1-3 fuel cans (10 fuel)
-	- Bars drop 1-3 beers (10 health) or shotguns
+    	- Bars drop 1-3 beers (10 health) or shotguns
+    	- New hospital by Shockwave that drops 1-3 medkits (25 health)
+    	- Houses can no longer keep setting themselves on fire
+    	- New 737 jumbo jet boid by Shockwave on cities
+    	- New cessna boid by Shockwave on cities
+    	- New medical chopper boid by Shockwave on cities
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)

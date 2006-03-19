@@ -296,10 +296,11 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
+					<noobjectdamage/>
 					<allowunderwater>false</allowunderwater>
-					<napalmtime>4.0</napalmtime>
+					<napalmtime>6.0</napalmtime>
 					<napalmheight>6.0</napalmheight>
-					<steptime>1</steptime>
+					<steptime>1.2</steptime>
 					<hurtsteptime>4.0</hurtsteptime>
 					<hurtpersecond>0.1</hurtpersecond>
 					<numberstreams>1</numberstreams>
@@ -357,10 +358,11 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 			<delay>0.25</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
+					<noobjectdamage/>
 					<allowunderwater>false</allowunderwater>
-					<napalmtime>4.0</napalmtime>
+					<napalmtime>6.0</napalmtime>
 					<napalmheight>8.0</napalmheight>
-					<steptime>1</steptime>
+					<steptime>1.2</steptime>
 					<hurtsteptime>4.0</hurtsteptime>
 					<hurtpersecond>0.1</hurtpersecond>
 					<numberstreams>2</numberstreams>
@@ -10305,7 +10307,7 @@ which you are teleported to after it lands.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGiveAccessory'>
 			<giveaccessory>Battery</giveaccessory>
-			<number>5</number>
+			<number>2</number>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -10325,6 +10327,14 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>GiveMedKit</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveLife'>
+			<life>25</life>
+			<exceedmax>false</exceedmax>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>GiveMissile</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGiveAccessory'>
@@ -10337,7 +10347,7 @@ which you are teleported to after it lands.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGiveAccessory'>
 			<giveaccessory>Shotgun</giveaccessory>
-			<number>5</number>
+			<number>2</number>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -10389,6 +10399,105 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>HospitalItems</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.65</projectilescale>
+					<projectilemodel type='MilkShape'>objects/medkit.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>First Aid Kit</name>
+						<modelscale>0.05</modelscale>
+						<model type='MilkShape'>objects/medkit.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveMedKit</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>HospitalExplode</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.25</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>explosions/small.wav</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>1</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>HospitalItems</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>HospitalItems</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>3</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>HospitalItems</invoke>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice3>
+				</subweapon3>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Bar1Items</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>
@@ -10415,7 +10524,7 @@ which you are teleported to after it lands.</description>
 				<weapon type='WeaponProjectile'>
 					<enginesound>none</enginesound>
 					<nocreateflame/>
-					<projectilescale>0.8</projectilescale>
+					<projectilescale>0.6</projectilescale>
 					<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Shotgun Shells</name>
@@ -10511,11 +10620,11 @@ which you are teleported to after it lands.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<enginesound>none</enginesound>
 			<nocreateflame/>
-			<projectilescale>1.0</projectilescale>
+			<projectilescale>0.75</projectilescale>
 			<projectilemodel type='MilkShape'>objects/fuelbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponAddTarget'>
-				<name>Fuel Can</name>
-				<modelscale>0.09</modelscale>
+				<name>Fuel</name>
+				<modelscale>0.075</modelscale>
 				<model type='MilkShape'>objects/fuelbarrel.txt</model>
 				<life>50</life>
 				<shield>none</shield>
@@ -10699,7 +10808,7 @@ which explode and spread fire when ignited.</description>
 					<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>EMP Grenades</name>
-						<modelscale>0.07</modelscale>
+						<modelscale>0.06</modelscale>
 						<model type='MilkShape'>weapons/shockbomblet.txt</model>
 						<life>50</life>
 						<shield>none</shield>
@@ -10713,11 +10822,11 @@ which explode and spread fire when ignited.</description>
 				<weapon type='WeaponProjectile'>
 					<enginesound>none</enginesound>
 					<nocreateflame/>
-					<projectilescale>1.2</projectilescale>
+					<projectilescale>1.0</projectilescale>
 					<projectilemodel type='MilkShape'>weapons/50cal.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
 						<name>M2 Machinegun</name>
-						<modelscale>0.1</modelscale>
+						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>weapons/50cal.txt</model>
 						<life>50</life>
 						<shield>none</shield>

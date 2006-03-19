@@ -21,7 +21,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Projectile Models:
 			- bullet, shotgunshell, moab, tsarbomba
 		Object Models:
-			- gasstation1, office3, nuclearplant, 9volt
+			- gasstation1, office3, nuclearplant, 9volt, medkit
 		- All custom accessory xml unless stated otherwise
 		- Wrote most of the additional xml (updating landscapes, object placement, ai types, etc)
 		- Scaling, repositioning, poly reduction and retexturing of the building models
@@ -30,7 +30,9 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Projectile Models:
 			- megamirv, wobblebomb, fusionbarrel, m7a3, grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
 		Building Models (including burnt versions and original texturing):
-			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, store1, trailorhouse1
+			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, store1, trailorhouse1, hospital
+		Boid Models
+		    - 737ua, cessna, fight4life
 		Object Models
 			- boulders, fuelbarrel
 		Weapon Models

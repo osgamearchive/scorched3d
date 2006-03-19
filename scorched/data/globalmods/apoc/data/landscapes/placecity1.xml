@@ -65,7 +65,41 @@
 			</object>
 		</placement>
 		<placement type="mask">
-			<numobjects>60</numobjects>
+			<numobjects>15</numobjects>
+			<mask>data/landscapes/masks/city1suburban2.bmp</mask>
+			<minheight>10</minheight>
+			<maxheight>75</maxheight>
+			<mincloseness>5</mincloseness>
+			<minslope>0.66</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<groupname>hospitals</groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/buildings/hospital.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/hospital.txt</modelburnt>
+				<removeaction>HospitalExplode</removeaction>
+				<burnaction>Large Bldg</burnaction>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>2</numobjects>
+			<mask>data/landscapes/masks/city1all.bmp</mask>
+			<minheight>10</minheight>
+			<maxheight>75</maxheight>
+			<mincloseness>5</mincloseness>
+			<minslope>0.66</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<groupname>hospitals</groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/buildings/hospital.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/hospital.txt</modelburnt>
+				<removeaction>HospitalExplode</removeaction>
+				<burnaction>Large Bldg</burnaction>
+			</object>
+		</placement>
+		<placement type="mask">
+			<numobjects>50</numobjects>
 			<mask>data/landscapes/masks/city1suburban2.bmp</mask>
 			<minheight>10</minheight>
 			<maxheight>75</maxheight>
@@ -82,7 +116,7 @@
 			</object>
 		</placement>
 		<placement type="mask">
-			<numobjects>12</numobjects>
+			<numobjects>10</numobjects>
 			<mask>data/landscapes/masks/city1all.bmp</mask>
 			<minheight>10</minheight>
 			<maxheight>75</maxheight>
