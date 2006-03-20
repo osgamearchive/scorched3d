@@ -66,9 +66,12 @@ void WeaponGivePower::invokePowerUp(ScorchedContext &context,
 	tank->getPosition().setMaxPower(
 		MAX(tank->getPosition().getMaxPower(), power_));
 
-	LoggerInfo info(LoggerInfo::TypeDeath,
-		formatString("\"%s\" received %.0f power", 
-		tank->getName(), power_));
-	info.setPlayerId(playerId);
-	Logger::log(info);
+	if (!context.serverMode)
+	{
+		LoggerInfo info(LoggerInfo::TypeDeath,
+			formatString("\"%s\" received %.0f power", 
+			tank->getName(), power_));
+		info.setPlayerId(playerId);
+		Logger::log(info);
+	}
 }

@@ -72,10 +72,13 @@ void WeaponGiveLife::invokePowerUp(ScorchedContext &context,
 	tank->getLife().setLife(
 		tank->getLife().getLife() + life_);
 
-	LoggerInfo info(LoggerInfo::TypeDeath,
-		formatString("\"%s\" received %.0f life", 
-		tank->getName(), life_));
-	info.setPlayerId(playerId);
-	Logger::log(info);
+	if (!context.serverMode)
+	{
+		LoggerInfo info(LoggerInfo::TypeDeath,
+			formatString("\"%s\" received %.0f life", 
+			tank->getName(), life_));
+		info.setPlayerId(playerId);
+		Logger::log(info);
+	}
 }
 
