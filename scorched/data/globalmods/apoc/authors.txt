@@ -21,10 +21,10 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Projectile Models:
 			- bullet, shotgunshell, moab, tsarbomba
 		Object Models:
-			- gasstation1, office3, nuclearplant, 9volt, medkit
+			- gasstation1, office3, nuclearplant, 9volt, medkit, cash
 		- All custom accessory xml unless stated otherwise
 		- Wrote most of the additional xml (updating landscapes, object placement, ai types, etc)
-		- Scaling, repositioning, poly reduction and retexturing of the building models
+		- Scaling, repositioning, poly reduction and retexturing of the object models
 	
 	- ShoCkwaVe
 		Projectile Models:

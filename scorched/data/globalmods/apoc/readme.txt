@@ -11,13 +11,16 @@ Official Scorched 3D Site:  http://scorched3d.co.uk
 
 Changes Since 3.1
     New Accessories:
-        - Tsar Bomba, the largest nuclear bomb ever made courtesy of the Soviets.
+        - Tsar Bomba - the largest nuclear bomb ever made courtesy of the Soviets.
             - Basically takes place of the old style MOAB behaviour, a big explosion & crater
             - Slightly smaller explosion crater than old MOAB
             - Invisible radioactive fallout does additional damage to surrounding tanks
-        - Blink Device, a prototype near-instant teleporter
+        - Blink Device - a prototype near-instant teleporter
         	- However, the new technology is unstable and frequently collapses in a violent explosion
-        - Transporter, shoots a marker projectile and then transports the user to that location
+        - Transporter - shoots a marker projectile and then transports the user to that location
+        - X Tracer - Shoots a spread of tracers at 2.5 degree increments
+            - Inspired by Brain Damage's 'Super Tracer +' :)
+        - Nitro - faster moving fuel that costs more
             
     Other Accessory Changes:
         - Sat. Strike:
@@ -27,8 +30,14 @@ Changes Since 3.1
             - Reduced armslevel from 2 to 1
         - M2 Machinegun:
             - Increased size of the bullets by 50%, they're still small but more visible
-            - Reduced damage the bullets do during shield collisions to 33%
+            - Reduced damage the bullets do during shield collisions to 33% of shield value
             - Reduced damage of the shells from 0.4 to 0.2 (total damage from 200 to 100)
+            - Now has a somewhat random spread pattern instead of hard-coded
+        - Shotgun:
+            - Increased amount of projectiles from 5 to 6
+            - Decreased damage during shield collisions from 50% to 20% of shield value
+            - Decreased damage done per pellet from 0.25 to 0.2 (total damage from 125 to 120)
+            - Pellets now have a somewhat random spread pattern
         - Suicide Bomb:
             - Reduced the size of the crater (but not damage range) considerably
             - Added flaming debris
@@ -50,13 +59,22 @@ Changes Since 3.1
         - Hornet Nest:
             - Increased cost to $40,000
             - Decreased armslevel from 2 to 1
+        - Rollers:
+            - Increased cost of Baby Roller to $4,000 for 2
+            - Decreased armslevel of Baby Roller from 7 to 6
+            - Rollers now hurt shields slightly when they collide
+            - Rollers are dropped from slightly above the collision to help prevent shield popping
+        - Flame Thrower:
+            - Added random spread pattern
+            - Decreased cost to $8,000 for 1
         - Shields:
             - Decreased radius of Heavy Shield slightly (between regular and ultra size)
             - Increased Mag Deflect's <deflectpower> from 50% to 75%
             - Reworked shield <penetration> values.
                 - Regular shields offer most raw damage resistance, then mags, then force shields.
-            - Flattened out base projectile collision damage for all regular shields at 10%
-            - Flattened out base projectile collision damage for all force shields at 15%
+            - Flattened out base projectile collision damage for all regular shields at 10 pts
+            - Flattened out base projectile collision damage for all force shields at 15 pts
+            - All shields still have 100 base pts of health
             - Updated descriptions to include some info about the total amount of damage they can absorb
                 and how much damage they take when being hit by projectiles by default
         - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
@@ -84,6 +102,7 @@ Changes Since 3.1
         - Set Wall Of Dirt maximum to 3 per round
         - Set Ring Of Dirt maximum to 1 per round
         - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
+        - Tracers now do no damage to shields when they hit
         
     Landscapes:
     	- New Nuclear Power Plant Building
@@ -208,6 +227,7 @@ The Travolta    - Super-sized Funky Bomb
 Transporter     - Transports the user to the location of a marker projectile
 Tsar Bomba      - Largest single nuclear explosive bomb ever made
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
+X Tracer        - Shoots a spread of tracers at 2.5 degree increments
 
 ----------------------------------------------------
                      New Items

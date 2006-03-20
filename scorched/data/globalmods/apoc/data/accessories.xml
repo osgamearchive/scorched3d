@@ -50,6 +50,19 @@ to move rather than fire.</description>
 		<accessoryaction type='Fuel'></accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Nitro</name>
+		<armslevel>4</armslevel>
+		<description>Allows the tank to move at an
+accelerated rate.</description>
+		<icon>fuel.bmp</icon>
+		<activationsound>battery/battery.wav</activationsound>
+		<bundlesize>20</bundlesize>
+		<cost>4000</cost>
+		<accessoryaction type='Fuel'>
+			<steptime>0.02</steptime>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Shield</name>
 		<armslevel>8</armslevel>
 		<description>A small defensive shield that protects 
@@ -133,7 +146,7 @@ Capacity: 100 dmg pts | Collision Damage: 15%</description>
 		<bundlesize>2</bundlesize>
 		<cost>8000</cost>
 		<accessoryaction type='ShieldReflective'>
-			<deflectfactor>0.75</deflectfactor>
+			<deflectfactor>1.0</deflectfactor>
 			<radius>3.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -159,7 +172,7 @@ Capacity: 150 dmg pts | Collision Damage: 15%</description>
 		<bundlesize>1</bundlesize>
 		<cost>12000</cost>
 		<accessoryaction type='ShieldReflective'>
-			<deflectfactor>1.0</deflectfactor>
+			<deflectfactor>1.25</deflectfactor>
 			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -1708,6 +1721,7 @@ final position.</description>
 		<cost>100</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>0</shieldhurtfactor>
 			<enginesound>none</enginesound>
 			<nocreateflame/>
 			<showendpoint></showendpoint>
@@ -1727,11 +1741,102 @@ trace of the shot path.</description>
 		<cost>500</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>0</shieldhurtfactor>
 			<enginesound>none</enginesound>
 			<nocreateflame/>
 			<showendpoint></showendpoint>
 			<showshotpath></showshotpath>
 			<collisionaction type='WeaponNull'></collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>X Tracer</name>
+		<cost>3000</cost>
+		<bundlesize>2</bundlesize>
+		<armslevel>7</armslevel>
+		<icon>x.bmp</icon>
+		<activationsound>shoot/flare.wav</activationsound>
+		<model type='MilkShape'>flare.txt</model>		
+		<description>Shoots a spread of tracers at
+2.5 degree increments horizontally
+and vertically to help you correct
+your shot.</description>
+		<accessoryaction type = 'WeaponMulti'>
+			<subweapon1 type = 'WeaponReference'>
+				<weapon>Smoke Tracer</weapon>
+			</subweapon1>
+			<subweapon2 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>-5</vredirect>
+				<nextaction type=  'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>
+			</subweapon2>
+			<subweapon3 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>-2.5</vredirect>
+				<nextaction type=  'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>
+			</subweapon3>
+			<subweapon4 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>2.5</vredirect>
+				<nextaction type=  'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>
+			</subweapon4>
+			<subweapon5 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>5</vredirect>
+				<nextaction type=  'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>
+			</subweapon5>
+			<subweapon6 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-5</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type= 'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>		
+			</subweapon6>
+			<subweapon7 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>-2.5</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type= 'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>		
+			</subweapon7>
+			<subweapon8 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>2.5</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type= 'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>		
+			</subweapon8>
+			<subweapon9 type ='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>5</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type= 'WeaponReference'>
+					<weapon>Tracer</weapon>
+				</nextaction>		
+			</subweapon9>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -2139,7 +2244,7 @@ EMPs do more damage to shields than to tanks.</description>
 		<armslevel>9</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponProjectile'>
-			<shieldhurtfactor>0.5</shieldhurtfactor>
+			<shieldhurtfactor>0.2</shieldhurtfactor>
 			<nocreatesmoke/>
 			<nocreateflame/>
 			<enginesound>none</enginesound>
@@ -2151,7 +2256,7 @@ EMPs do more damage to shields than to tanks.</description>
 			</projectilemodel>
 			<collisionaction type='WeaponExplosion'> 
 				<nocreatedebris/> 
-				<hurtamount>0.25</hurtamount> 
+				<hurtamount>0.2</hurtamount> 
 				<deform>none</deform> 
 				<size>3</size> 
 				<explosiontexture>cloud00</explosiontexture> 
@@ -2160,9 +2265,160 @@ EMPs do more damage to shields than to tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Shotgun Spread</name>
+		<armslevel>9</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice5>
+			<weaponchoice6>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice6>
+			<weaponchoice7>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice7>
+			<weaponchoice8>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice8>
+			<weaponchoice9>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice9>
+			<weaponchoice10>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice10>
+			<weaponchoice11>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice11>
+			<weaponchoice12>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Shotgun Pellet</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice12>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Shotgun</name>
 		<armslevel>9</armslevel>
-		<description>Shoots 5 pellets in a small spread.
+		<description>Shoots 6 pellets in a small spread.
 This weapon has a limited range and line of site.</description>
 		<icon>shotgun.bmp</icon>
 		<bundlesize>5</bundlesize>
@@ -2174,43 +2430,22 @@ This weapon has a limited range and line of site.</description>
 			<subweapon1 type='WeaponReference'>
 				<weapon>Shotgun Pellet</weapon>
 			</subweapon1>
-			<subweapon2 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1.0</hredirect>
-				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
+			<subweapon2 type='WeaponReference'>
+				<weapon>Shotgun Spread</weapon>
 			</subweapon2>
-			<subweapon3 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1.0</hredirect>
-				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
+			<subweapon3 type='WeaponReference'>
+				<weapon>Shotgun Spread</weapon>
 			</subweapon3>
-			<subweapon4 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1.0</hredirect>
-				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
+			<subweapon4 type='WeaponReference'>
+				<weapon>Shotgun Spread</weapon>
 			</subweapon4>
-			<subweapon5 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1.0</hredirect>
-				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Shotgun Pellet</weapon>
-				</nextaction>
+			<subweapon5 type='WeaponReference'>
+				<weapon>Shotgun Spread</weapon>
 			</subweapon5>
-			<subweapon6 type='WeaponDelay'>
+			<subweapon6 type='WeaponReference'>
+				<weapon>Shotgun Spread</weapon>
+			</subweapon6>
+			<subweapon7 type='WeaponDelay'>
 				<delay>0.7</delay>
 				<delayedweapon type='WeaponRedirect'>
 					<habs>false</habs>
@@ -2228,7 +2463,7 @@ This weapon has a limited range and line of site.</description>
 						</aimedweapon>
 					</nextaction>
 				</delayedweapon>
-			</subweapon6>
+			</subweapon7>
 		</accessoryaction>
 	</accessory>
 	<!--<accessory>
@@ -2280,6 +2515,163 @@ This weapon has a limited range and line of site.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>M2 Spread</name>
+		<armslevel>6</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice5>
+			<weaponchoice6>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice6>
+			<weaponchoice7>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice7>
+			<weaponchoice8>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice8>
+			<weaponchoice9>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice9>
+			<weaponchoice10>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice10>
+			<weaponchoice11>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice11>
+			<weaponchoice12>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>M2 Round</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice12>
+			<weaponchoice13>
+				<weight>10</weight>
+				<weapon type='WeaponReference'>
+					<weapon>M2 Round</weapon>
+				</weapon>
+			</weaponchoice13>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>M2 Machinegun</name>
 		<description>Shoots five 50 caliber bullets
 in rapid succession</description>
@@ -2290,67 +2682,37 @@ in rapid succession</description>
 		<model type='MilkShape'>weapons/50cal.txt</model>
 		<activationsound>shoot/machinegun.wav</activationsound>
 		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>0.0</hredirect>
-				<vredirect>0.0</vredirect>
-				<nextaction type='WeaponReference'>
+			<subweapon1 type='WeaponReference'>
 					<weapon>M2 Round</weapon>
 					<armslevel>6</armslevel>
-				</nextaction>
 			</subweapon1>
-			<subweapon2 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1.0</hredirect>
-				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>0.34</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-						<armslevel>6</armslevel>
-					</delayedweapon>
-				</nextaction>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.34</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>M2 Spread</weapon>
+					<armslevel>6</armslevel>
+				</delayedweapon>
 			</subweapon2>
-			<subweapon3 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1.0</hredirect>
-				<vredirect>1.0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>0.68</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-						<armslevel>6</armslevel>
-					</delayedweapon>
-				</nextaction>
+			<subweapon3 type='WeaponDelay'>
+				<delay>0.68</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>M2 Spread</weapon>
+					<armslevel>6</armslevel>
+				</delayedweapon>
 			</subweapon3>
-			<subweapon4 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1.0</hredirect>
-				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>1.02</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-						<armslevel>6</armslevel>
-					</delayedweapon>
-				</nextaction>
+			<subweapon4 type='WeaponDelay'>
+				<delay>1.02</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>M2 Spread</weapon>
+					<armslevel>6</armslevel>
+				</delayedweapon>
 			</subweapon4>
-			<subweapon5 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1.0</hredirect>
-				<vredirect>-1.0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>1.36</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-						<armslevel>6</armslevel>
-					</delayedweapon>
-				</nextaction>
+			<subweapon5 type='WeaponDelay'>
+				<delay>1.36</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>M2 Spread</weapon>
+					<armslevel>6</armslevel>
+				</delayedweapon>
 			</subweapon5>
 		</accessoryaction>
 	</accessory>
@@ -4972,32 +5334,42 @@ releases rolling napalm warheads.</description>
 						<mesh>clusterbomb.ase</mesh>
 						<skin>default.bmp</skin>
 					</projectilemodel>
-					<collisionaction type='WeaponRoller'>
-						<numberrollers>2</numberrollers>
-						<time>8</time>
-						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<nocreatedebris/>
-								<hurtamount>1.0</hurtamount>
-								<deform>down</deform>
-								<size>3</size>
-								<explosiontexture>exp00</explosiontexture>
-								<explosionsound>explosions/small.wav</explosionsound>
-							</subweapon1>
-							<subweapon2 type='WeaponNapalm'>
-								<allowunderwater>false</allowunderwater>
-								<napalmtime>4.0</napalmtime>
-								<napalmheight>1.5</napalmheight>
-								<steptime>0.2</steptime>
-								<hurtsteptime>1.0</hurtsteptime>
-								<hurtpersecond>1.5</hurtpersecond>
-								<numberstreams>1</numberstreams>
-								<effectradius>5</effectradius>
-								<napalmtexture>flames</napalmtexture>
-								<napalmsound>explosions/napalm.wav</napalmsound>
-							</subweapon2>
-						</collisionaction>
+					<collisionaction type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>0</vredirect>
+						<nextaction type='WeaponTranslate'>
+							<translatedist>2</translatedist>
+							<nextaction type='WeaponRoller'>
+								<shieldhurtfactor>0.05</shieldhurtfactor>
+								<numberrollers>2</numberrollers>
+								<time>8</time>
+								<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
+								<collisionaction type='WeaponMulti'>
+									<subweapon1 type='WeaponExplosion'>
+										<nocreatedebris/>
+										<hurtamount>1.0</hurtamount>
+										<deform>down</deform>
+										<size>3</size>
+										<explosiontexture>exp00</explosiontexture>
+										<explosionsound>explosions/small.wav</explosionsound>
+									</subweapon1>
+									<subweapon2 type='WeaponNapalm'>
+										<allowunderwater>false</allowunderwater>
+										<napalmtime>4.0</napalmtime>
+										<napalmheight>1.5</napalmheight>
+										<steptime>0.2</steptime>
+										<hurtsteptime>1.0</hurtsteptime>
+										<hurtpersecond>1.5</hurtpersecond>
+										<numberstreams>1</numberstreams>
+										<effectradius>5</effectradius>
+										<napalmtexture>flames</napalmtexture>
+										<napalmsound>explosions/napalm.wav</napalmsound>
+									</subweapon2>
+								</collisionaction>
+							</nextaction>
+						</nextaction>
 					</collisionaction>
 				</aimedweapon>
 			</collisionaction>
@@ -5094,13 +5466,164 @@ aimed at enemy tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>FlameThrower Spread</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-1.0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>1.0</hredirect>
+					<vredirect>-1.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>2.0</hredirect>
+					<vredirect>2.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice5>
+			<weaponchoice6>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-2.0</hredirect>
+					<vredirect>2.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice6>
+			<weaponchoice7>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-2.0</hredirect>
+					<vredirect>-2.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice7>
+			<weaponchoice8>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>2.0</hredirect>
+					<vredirect>-2.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice8>
+			<weaponchoice9>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>2.0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice9>
+			<weaponchoice10>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>2.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice10>
+			<weaponchoice11>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-2.0</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice11>
+			<weaponchoice12>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>-2.0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>Flame Stream</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice12>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Flame Thrower</name>
 		<armslevel>4</armslevel>
 		<description>Steady flowing napalm streams of flame. 
 any tanks near the flames will lose life.</description>
 		<icon>fthrower.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
+		<cost>8000</cost>
 		<activationsound>explosions/napalm.wav</activationsound>
 		<model type='MilkShape'>weapons/fthrower.txt</model>
 		<modelscale>4.0</modelscale>
@@ -5108,101 +5631,53 @@ any tanks near the flames will lose life.</description>
 			<subweapon1 type='WeaponReference'>
 				<weapon>Flame Stream</weapon>
 			</subweapon1>
-			<subweapon2 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>1</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>0.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.50</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon2>
-			<subweapon3 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>1</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>1.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon3>
-			<subweapon4 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>2</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>1.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon4 type='WeaponDelay'>
+				<delay>1.50</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon4>
-			<subweapon5 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>0</hredirect>
-				<vredirect>2</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon5 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon5>
-			<subweapon6 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>2.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon6 type='WeaponDelay'>
+				<delay>2.50</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon6>
-			<subweapon7 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-2</hredirect>
-				<vredirect>-1</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>3.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon7 type='WeaponDelay'>
+				<delay>3.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon7>
-			<subweapon8 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>-1</hredirect>
-				<vredirect>0</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>3.50</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon8 type='WeaponDelay'>
+				<delay>3.50</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon8>
-			<subweapon9 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>false</vabs>
-				<hredirect>2</hredirect>
-				<vredirect>-1</vredirect>
-				<nextaction type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponReference'>
-						<weapon>Flame Stream</weapon>
-					</delayedweapon>
-				</nextaction>
+			<subweapon9 type='WeaponDelay'>
+				<delay>4.0</delay>
+				<delayedweapon type='WeaponReference'>
+					<weapon>FlameThrower Spread</weapon>
+				</delayedweapon>
 			</subweapon9>
 		</accessoryaction>
 	</accessory>
@@ -7822,27 +8297,37 @@ even smaller explosive bomblets</description>
 	</accessory>
 	<accessory>
 		<name>Baby Roller</name>
-		<armslevel>7</armslevel>
+		<armslevel>6</armslevel>
 		<description>A projectile weapon that explodes 
 into a number of rolling bombs. These 
 bombs roll downhill exploding on 
 contact with any tank.</description>
 		<icon>broller.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>3000</cost>
+		<cost>4000</cost>
 		<activationsound>shoot/small.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
-			<collisionaction type='WeaponRoller'>
-				<numberrollers>8</numberrollers>
-				<time>8</time>
-				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
-				<collisionaction type='WeaponExplosion'>
-					<hurtamount>1.0</hurtamount>
-					<deform>down</deform>
-					<size>6</size>
-					<explosiontexture>exp00</explosiontexture>
-					<explosionsound>explosions/small.wav</explosionsound>
-				</collisionaction>
+			<collisionaction type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponTranslate'>
+					<translatedist>2</translatedist>
+					<nextaction type='WeaponRoller'>
+						<shieldhurtfactor>0.02</shieldhurtfactor>
+						<numberrollers>8</numberrollers>
+						<time>8</time>
+						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
+						<collisionaction type='WeaponExplosion'>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>6</size>
+							<explosiontexture>exp00</explosiontexture>
+							<explosionsound>explosions/small.wav</explosionsound>
+						</collisionaction>
+					</nextaction>
+				</nextaction>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -7858,17 +8343,27 @@ with any tank.</description>
 		<cost>8000</cost>
 		<activationsound>shoot/medium.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
-			<collisionaction type='WeaponRoller'>
-				<numberrollers>8</numberrollers>
-				<time>8</time>
-				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
-				<collisionaction type='WeaponExplosion'>
-					<hurtamount>1.0</hurtamount>
-					<deform>down</deform>
-					<size>9</size>
-					<explosiontexture>exp00</explosiontexture>
-					<explosionsound>explosions/medium.wav</explosionsound>
-				</collisionaction>
+			<collisionaction type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponTranslate'>
+					<translatedist>2</translatedist>
+					<nextaction type='WeaponRoller'>
+					    <shieldhurtfactor>0.035</shieldhurtfactor>
+						<numberrollers>8</numberrollers>
+						<time>8</time>
+						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
+						<collisionaction type='WeaponExplosion'>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>9</size>
+							<explosiontexture>exp00</explosiontexture>
+							<explosionsound>explosions/medium.wav</explosionsound>
+						</collisionaction>
+					</nextaction>
+				</nextaction>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -7884,17 +8379,27 @@ with any tank.</description>
 		<cost>12000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
-			<collisionaction type='WeaponRoller'>
-				<numberrollers>8</numberrollers>
-				<time>8</time>
-				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
-				<collisionaction type='WeaponExplosion'>
-					<hurtamount>1.0</hurtamount>
-					<deform>down</deform>
-					<size>12</size>
-					<explosiontexture>exp00</explosiontexture>
-					<explosionsound>explosions/large.wav</explosionsound>
-				</collisionaction>
+			<collisionaction type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>0</vredirect>
+				<nextaction type='WeaponTranslate'>
+					<translatedist>2</translatedist>
+					<nextaction type='WeaponRoller'>
+						<shieldhurtfactor>0.05</shieldhurtfactor>
+						<numberrollers>8</numberrollers>
+						<time>8</time>
+						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
+						<collisionaction type='WeaponExplosion'>
+							<hurtamount>1.0</hurtamount>
+							<deform>down</deform>
+							<size>12</size>
+							<explosiontexture>exp00</explosiontexture>
+							<explosionsound>explosions/large.wav</explosionsound>
+						</collisionaction>
+					</nextaction>
+				</nextaction>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -10395,7 +10900,15 @@ which you are teleported to after it lands.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGiveAccessory'>
 			<giveaccessory>Acid Blast</giveaccessory>
-			<number>5</number>
+			<number>3</number>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveFlameThrower</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveAccessory'>
+			<giveaccessory>Flame Thrower</giveaccessory>
+			<number>1</number>
 		</accessoryaction>
 	</accessory>
 	<accessory>
