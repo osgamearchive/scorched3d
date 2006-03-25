@@ -25,6 +25,7 @@
 #include <weapons/AccessoryStore.h>
 #include <weapons/WeaponAddTarget.h>
 #include <weapons/Shield.h>
+#include <common/RandomGenerator.h>
 
 REGISTER_ACTION_SOURCE(AddTarget);
 
@@ -53,9 +54,10 @@ void AddTarget::init()
 
 void AddTarget::simulate(float frameTime, bool &remove)
 {
+	RandomGenerator generator;
+	generator.seed(playerId_);
 	Target *target = addTarget_->getTargetDefinition().createTarget(
-		playerId_, *context_);
-	target->setTargetPosition(position_);
+		playerId_, position_, *context_, generator);
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall

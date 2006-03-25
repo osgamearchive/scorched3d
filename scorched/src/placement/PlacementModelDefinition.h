@@ -23,7 +23,9 @@
 
 #include <3dsparse/ModelID.h>
 #include <engine/ScorchedContext.h>
+#include <placement/PlacementShadowDefinition.h>
 
+class RandomGenerator;
 class LandscapeObjectsEntryModel;
 class PlacementModelDefinition
 {
@@ -32,16 +34,21 @@ public:
 	virtual ~PlacementModelDefinition();
 
 	virtual bool readXML(XMLNode *node, const char *base);
-	LandscapeObjectsEntryModel *createModel(ScorchedContext &context);
+	LandscapeObjectsEntryModel *createModel(
+		Vector &position,
+		ScorchedContext &context,
+		RandomGenerator &generator);
 
 protected:
 	float size_;
 	float modelscale_;
 	float modelrotation_;
+	float modelrotationsnap_;
 	std::string removeaction_;
 	std::string burnaction_;
 	ModelID modelId_;
 	ModelID modelburntId_;
+	PlacementShadowDefinition shadow_;
 };
 
 

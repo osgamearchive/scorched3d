@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/AccessoryStore.h>
+#include <common/RandomGenerator.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 #include <target/TargetDefinition.h>
 #include <target/Target.h>
@@ -46,16 +47,25 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 }
 
 Target *TargetDefinition::createTarget(unsigned int playerId,
-	ScorchedContext &context)
+	Vector &position,
+	ScorchedContext &context,
+	RandomGenerator &generator)
 {
 	Target *target = new Target(playerId, 
 		name_.c_str(), context);
+
+	float rotation = modelrotation_;
+	if (modelrotationsnap_ > 0.0f)
+	{
+		rotation = float(int(generator.getRandFloat() * 360.0f) % 
+			int(modelrotationsnap_));
+	}
 	if (!context.serverMode)
 	{
 		target->setRenderer(
 			new TargetRendererImplTarget(
 				target, modelId_, 
-				modelscale_, modelrotation_));
+				modelscale_, rotation));
 	}
 
 	target->getLife().setMaxLife(life_);
@@ -104,5 +114,6 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->setDeathAction((Weapon *) action->getAction());
 	}
 
+	target->setTargetPosition(position);
 	return target;
 }

@@ -19,6 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementShadowDefinition.h>
+#include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
+#include <3dsparse/ImageStore.h>
+#include <GLEXT/GLBitmapModifier.h>
 
 PlacementShadowDefinition::PlacementShadowDefinition() :
 	drawShadow_(true)
@@ -42,7 +47,30 @@ bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
 	return true;
 }
 
-void PlacementShadowDefinition::updateLandscape()
+void PlacementShadowDefinition::updateLandscape(
+	float x, float y, float size)
 {
+	float shadowMultWidth = (float) Landscape::instance()->getMainMap().getWidth() / 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	float shadowMultHeight = (float) Landscape::instance()->getMainMap().getHeight() / 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
 
+	if (!groundMap_.imageValid())
+	{
+		GLImage *image = ImageStore::instance()->loadImage(groundMap_);
+		GLBitmapModifier::addBitmap(
+			Landscape::instance()->getMainMap(),
+			*image,
+			x * shadowMultWidth, 
+			y * shadowMultHeight);
+	}
+
+	if (drawShadow_)
+	{
+		GLBitmapModifier::addCircle(
+			Landscape::instance()->getMainMap(),
+			x * shadowMultWidth, 
+			y * shadowMultHeight, 
+			size * shadowMultWidth, 1.0f);
+	}
 }

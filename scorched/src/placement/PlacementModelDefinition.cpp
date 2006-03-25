@@ -20,13 +20,15 @@
 
 #include <placement/PlacementModelDefinition.h>
 #include <landscape/LandscapeObjectsEntryModel.h>
+#include <common/RandomGenerator.h>
 #include <3dsparse/ModelRenderer.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
 #include <XML/XMLNode.h>
 
 PlacementModelDefinition::PlacementModelDefinition() :
-	size_(2.0f), modelscale_(0.05f), modelrotation_(0.0f)
+	size_(2.0f), modelscale_(0.05f), modelrotation_(0.0f),
+	modelrotationsnap_(-1.0f)
 {
 }
 
@@ -34,8 +36,9 @@ PlacementModelDefinition::~PlacementModelDefinition()
 {
 }
 
-LandscapeObjectsEntryModel *PlacementModelDefinition::
-	createModel(ScorchedContext &context)
+LandscapeObjectsEntryModel *PlacementModelDefinition::createModel(
+	Vector &position,
+	ScorchedContext &context, RandomGenerator &generator)
 {
 	Model *model = ModelStore::instance()->loadModel(modelId_);
 	Model *modelburnt = model;
@@ -53,6 +56,15 @@ LandscapeObjectsEntryModel *PlacementModelDefinition::
 	modelEntry->removeaction = removeaction_;
 	modelEntry->burnaction = burnaction_;
 	modelEntry->modelsize = size_;
+	if (modelrotationsnap_ > 0.0f)
+	{
+		modelEntry->rotation = float(int(generator.getRandFloat() * 360.0f) % 
+			int(modelrotationsnap_));
+	}
+
+	modelEntry->posX = position[0];
+	modelEntry->posY = position[1];
+	modelEntry->posZ = position[2];
 
 	return modelEntry;
 }
@@ -77,8 +89,10 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 		size_ *= modelscale_;
 	}
 	node->getNamedChild("modelrotation", modelrotation_, false);
+	node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
 	node->getNamedChild("burnaction", burnaction_, false);
+	shadow_.readXML(node, base);
 
 	return node->failChildren();
 }

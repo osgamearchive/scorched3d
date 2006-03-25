@@ -909,9 +909,6 @@
 				RelativePath="..\3dsparse\Bone.h">
 			</File>
 			<File
-				RelativePath="C:\Documents and Settings\Gavin\Desktop\Counter-Strike Source.lnk">
-			</File>
-			<File
 				RelativePath="..\3dsparse\Face.cpp">
 			</File>
 			<File
@@ -1796,6 +1793,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponGiveLife.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveMoney.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveMoney.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponGivePower.cpp">

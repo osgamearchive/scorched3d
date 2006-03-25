@@ -31,7 +31,9 @@ public:
 	virtual ~PlacementShadowDefinition();
 
 	virtual bool readXML(XMLNode *node, const char *base);
-	void updateLandscape();
+	void updateLandscape(float x, float y, float size);
+
+	void setDrawShadow(bool draw) { drawShadow_ = draw; }
 
 protected:
 	bool drawShadow_;

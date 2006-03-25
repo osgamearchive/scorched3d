@@ -51,7 +51,7 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 	PlacementType::Position &position)
 {
 	++playerId;
-	Target *target = targetDef_.createTarget(playerId, context);
-	target->setTargetPosition(position.position);
+	Target *target = targetDef_.createTarget(
+		playerId, position.position, context, generator);
 	context.targetContainer->addTarget(target);
 }

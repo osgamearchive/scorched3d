@@ -45,7 +45,7 @@ public:
 	const char *getAlphaName() { return alphaName_.c_str(); }
 	const char *getType() { return type_.c_str(); }
 	bool getInvert() { return invert_; }
-	bool modelValid() { return !type_.empty(); }
+	bool imageValid() { return !type_.empty(); }
 
 protected:
 	std::string type_;

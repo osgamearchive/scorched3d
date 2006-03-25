@@ -42,6 +42,7 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 
 	node->getNamedChild("removeaction", removeaction, false);
 	node->getNamedChild("burnaction", burnaction, false);
+	shadow_.readXML(node, ".");
 	return PlacementObject::readXML(node);
 }
 

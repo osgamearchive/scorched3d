@@ -18,38 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <placement/PlacementObjectModel.h>
-#include <landscape/LandscapeObjectsEntryModel.h>
-#include <landscape/LandscapeMaps.h>
-#include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
-#include <engine/ScorchedContext.h>
-#include <XML/XMLParser.h>
+#if !defined(__INCLUDE_WeaponGiveMoneyh_INCLUDE__)
+#define __INCLUDE_WeaponGiveMoneyh_INCLUDE__
 
-PlacementObjectModel::PlacementObjectModel()
-{
-}
+#include <actions/PowerUp.h>
 
-PlacementObjectModel::~PlacementObjectModel()
+class WeaponGiveMoney  : public WeaponPowerUp
 {
-}
+public:
+	WeaponGiveMoney();
+	virtual ~WeaponGiveMoney();
 
-bool PlacementObjectModel::readXML(XMLNode *node)
-{
-	if (!definition_.readXML(node, ".")) return false;
-	return PlacementObject::readXML(node);
-}
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
-void PlacementObjectModel::createObject(ScorchedContext &context,
-	RandomGenerator &generator,
-	unsigned int &playerId,
-	PlacementType::Information &information,
-	PlacementType::Position &position)
-{
-	LandscapeObjectsEntryModel *modelEntry =
-		definition_.createModel(position.position, context, generator);
-	context.landscapeMaps->getGroundMaps().getObjects().addObject(
-		(unsigned int) position.position[0],
-		(unsigned int) position.position[1],
-		modelEntry);
-}
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	// Inherited from WeaponPowerUp
+	virtual void invokePowerUp(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data);
+
+	REGISTER_ACCESSORY_HEADER(WeaponGiveMoney, AccessoryPart::AccessoryWeapon);
+
+protected:
+	int money_;
+
+};
+
+#endif // __INCLUDE_WeaponGiveMoneyh_INCLUDE__

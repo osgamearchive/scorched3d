@@ -32,7 +32,9 @@ public:
 
 	virtual bool readXML(XMLNode *node, const char *base);
 	Target *createTarget(unsigned int playerId,
-		ScorchedContext &context);
+		Vector &position,
+		ScorchedContext &context,
+		RandomGenerator &generator);
 
 protected:
 	float life_;

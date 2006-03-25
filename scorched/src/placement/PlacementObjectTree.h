@@ -22,6 +22,7 @@
 #define __INCLUDE_PlacementObjectTreeh_INCLUDE__
 
 #include <placement/PlacementObject.h>
+#include <placement/PlacementShadowDefinition.h>
 #include <string>
 
 class PlacementObjectTree : public PlacementObject
@@ -39,6 +40,7 @@ public:
 		PlacementType::Position &position);
 
 protected:
+	PlacementShadowDefinition shadow_;
 	std::string tree;
 	std::string burnaction;
 	std::string removeaction;
