@@ -64,7 +64,8 @@ void TurnController::newGame()
 	// Standard player ordering is the reverse of the tank score
 	TankSort::getSortedTanksIds(
 		ScorchedServer::instance()->getContext(), 
-		playerOrder_);
+		playerOrder_,
+		true); // All tanks
 	playerOrder_.reverse();
 
 	// Check for a different ordering

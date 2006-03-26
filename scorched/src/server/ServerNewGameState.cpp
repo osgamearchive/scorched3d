@@ -302,6 +302,8 @@ void ServerNewGameState::calculateStartPosition(
 
 	std::map<unsigned int, Tank *> &tanks = 
 		context.tankContainer->getPlayingTanks();
+	std::map<unsigned int, Tank *> &alltanks = 
+		context.tankContainer->getAllTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
 	const int tankBorder = 10;
 	for (mainitor = tanks.begin();
@@ -397,11 +399,14 @@ void ServerNewGameState::calculateStartPosition(
 			if (!tooClose)
 			{
 				std::map<unsigned int, Tank *>::iterator itor;
-				for (itor = tanks.begin();
-					itor != mainitor;
+				for (itor = alltanks.begin();
+					itor != alltanks.end();
 					itor++)
 				{
-					if ((tankPos - (*itor).second->getPosition().getTankPosition()).Magnitude() < 
+					Tank *thisTank = (*itor).second;
+					if (thisTank == tank) break;
+
+					if ((tankPos - thisTank->getPosition().getTankPosition()).Magnitude() < 
 						closeness) 
 					{
 						tooClose = true;

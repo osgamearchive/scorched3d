@@ -55,7 +55,8 @@ public:
 
 	int getNoOfTanks();
 	int getNoOfNonSpectatorTanks();
-	std::map<unsigned int, Tank *> &getPlayingTanks();
+	std::map<unsigned int, Tank *> &getPlayingTanks(); // Players (Human or AI)
+	std::map<unsigned int, Tank *> &getAllTanks(); // All tanks (inc temp)
 
 protected:
 	unsigned int playerId_;

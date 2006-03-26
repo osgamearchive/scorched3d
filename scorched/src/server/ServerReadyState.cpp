@@ -78,7 +78,7 @@ void ServerReadyState::enterState(const unsigned state)
 	// And send out the first status messages
 	ComsPlayerStatusMessage statusMessage;
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 			itor != tanks.end();
@@ -113,7 +113,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			// Say who we are waiting on
 			ComsPlayerStatusMessage statusMessage;
 			std::map<unsigned int, Tank *> &tanks = 
-				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+				ScorchedServer::instance()->getTankContainer().getAllTanks();
 			std::map<unsigned int, Tank *>::iterator itor;
 			for (itor = tanks.begin();
 				 itor != tanks.end();
@@ -175,7 +175,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 	{
 		// Kick all not returned players
 		std::map<unsigned int, Tank *> &tanks = 
-			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			ScorchedServer::instance()->getTankContainer().getAllTanks();
 		std::map<unsigned int, Tank *>::iterator itor;
 		for (itor = tanks.begin();
 			itor != tanks.end();

@@ -160,11 +160,16 @@ void TargetRendererImplTank::drawSecond(float distance)
 	if (!canSeeTank_ ||
 		tank_->getState().getState() != TankState::sNormal) return;
 
-	// Draw the arrow
-	drawArrow();
-
 	drawParachute(tank_);
 	drawShield(tank_, shieldHit_, totalTime_);
+	
+	if (!tank_->isTemp()) drawInfo();
+}
+
+void TargetRendererImplTank::drawInfo()
+{
+	// Draw the arrow
+	drawArrow();
 
 	Vector &position = tank_->getPosition().getTankPosition();
 	float height = position[2];

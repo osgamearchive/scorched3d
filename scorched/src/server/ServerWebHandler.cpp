@@ -52,7 +52,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::string &text)
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 
 	// Check for any action

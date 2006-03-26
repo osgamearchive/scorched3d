@@ -92,6 +92,7 @@ protected:
 	GLdouble posX_, posY_, posZ_; // 2d Position
 
 	void storeTank2DPos();
+	void drawInfo();
 	void drawLife();
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);
 	void drawSight();

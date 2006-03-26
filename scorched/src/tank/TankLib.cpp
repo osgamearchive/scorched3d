@@ -43,7 +43,7 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 {
 	std::list<std::pair<float, Tank *> > tankDistList;
 	std::map<unsigned int, Tank *> &allCurrentTanks = 
-		context.tankContainer->getPlayingTanks();
+		context.tankContainer->getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = allCurrentTanks.begin();
 		itor != allCurrentTanks.end();

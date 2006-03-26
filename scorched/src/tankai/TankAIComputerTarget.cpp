@@ -171,7 +171,7 @@ void TankAIComputerTarget::shotLanded(
 	Tank *currentTank = 0;
 	unsigned int currentDist = UINT_MAX;
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		ScorchedServer::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();

@@ -56,6 +56,8 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	RandomGenerator &generator)
 {
 	Vector color = TankColorGenerator::getTeamColor(team_);
+	if (team_ == 0) color = Vector(0.7f, 0.7f, 0.7f);
+
 	TankModel *model =
 		context.tankModelStore->getModelByName(tankmodel_.c_str(), team_);
 	if (!model || strcmp("Random", model->getName()) == 0)

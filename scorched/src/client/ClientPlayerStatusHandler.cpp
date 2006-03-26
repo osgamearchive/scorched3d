@@ -53,7 +53,7 @@ bool ClientPlayerStatusHandler::processMessage(unsigned int id,
 	if (!message.readMessage(reader)) return false;
 
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		 itor != tanks.end();

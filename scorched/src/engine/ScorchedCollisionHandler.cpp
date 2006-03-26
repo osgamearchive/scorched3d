@@ -383,7 +383,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 	if (collisionType != CollisionNone)
 	{
 		std::map<unsigned int, Tank *> tanks = 
-			context_->tankContainer->getPlayingTanks();
+			context_->tankContainer->getAllTanks();
 		std::map<unsigned int, Tank *>::iterator itor;
 		for (itor = tanks.begin();
 			itor != tanks.end();

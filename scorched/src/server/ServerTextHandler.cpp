@@ -61,7 +61,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 	if (tankId == 0)
 	{
 		std::map<unsigned int, Tank *> &tanks =
-			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			ScorchedServer::instance()->getTankContainer().getAllTanks();
 		std::map<unsigned int, Tank *>::iterator itor;
 		for (itor = tanks.begin();
 			itor != tanks.end();

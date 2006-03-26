@@ -122,7 +122,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	case ComsAdminMessage::AdminShow:
 		{
 			std::map<unsigned int, Tank *> &tanks = 
-				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+				ScorchedServer::instance()->getTankContainer().getAllTanks();
 			std::string result;
 			result += 
 				"--Admin Show-----------------------------------------\n";

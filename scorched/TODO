@@ -28,6 +28,7 @@ Fixed: Tanks will not move through newly created water when movement restriction
 Fixed: Problem with adding AIs in the server interface when there are more than 9 AI types
 Fixed: Avatar placing for very short names
 
+Added: Tanks (with AIs) can be part of a level (bunkers/defences for bases etc..)
 Added: A groundmap option to objects and targets, this map is textured below the object
 Added: group placement object to allow placed objects to be placed in groups
 Added: Streaming OGG/Vorbis for large sound files (windows only for the moment)

@@ -145,7 +145,7 @@ void TankMenus::resetLandscape()
 void TankMenus::showInventory()
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -156,7 +156,6 @@ void TankMenus::showInventory()
 			formatString("--%s------------------------------------",
 			tank->getName()));
 
-		
 		std::list<Accessory *> accessories;
 		tank->getAccessories().getAllAccessories(accessories, true);
 		std::list<Accessory *>::iterator aitor;
@@ -179,7 +178,7 @@ void TankMenus::showInventory()
 void TankMenus::showTankDetails()
 {
 	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+		ScorchedClient::instance()->getTankContainer().getAllTanks();
 	Tank *currentTank = 
 		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 

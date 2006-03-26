@@ -53,7 +53,7 @@ Tank *TankContainer::getTankByPos(unsigned int pos)
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *tank = (Tank *) target;
 			if (pos-- <= 0) return tank;
@@ -77,7 +77,7 @@ Tank *TankContainer::getTankByName(const char *name)
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *tank = (Tank *) target;
 			if (0 == strcmp(tank->getName(),name)) return tank;
@@ -109,7 +109,7 @@ void TankContainer::clientNewGame()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *tank = (Tank *) target;
 			tank->clientNewGame();
@@ -125,7 +125,7 @@ void TankContainer::newMatch()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *tank = (Tank *) target;
 			tank->newMatch();
@@ -146,7 +146,7 @@ int TankContainer::teamCount()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *current = (Tank *) target;
 			if (current->getState().getState() == TankState::sNormal)
@@ -170,7 +170,7 @@ int TankContainer::aliveCount()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *current = (Tank *) target;
 			if (current->getState().getState() == TankState::sNormal)
@@ -190,7 +190,7 @@ void TankContainer::setAllDead()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *current = (Tank *) target;
 			if (current->getState().getState() != TankState::sPending)
@@ -209,7 +209,7 @@ bool TankContainer::allReady()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *current = (Tank *) target;
 
@@ -232,7 +232,7 @@ void TankContainer::setAllNotReady()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *current = (Tank *) target;
 
@@ -254,7 +254,7 @@ int TankContainer::getNoOfNonSpectatorTanks()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			Tank *current = (Tank *) target;
 			if (!current->getState().getSpectator()) count++;
@@ -264,6 +264,27 @@ int TankContainer::getNoOfNonSpectatorTanks()
 }
 
 std::map<unsigned int, Tank *> &TankContainer::getPlayingTanks()
+{
+	static std::map<unsigned int, Tank *> tanks;
+	tanks.clear();
+
+	std::map<unsigned int, Target *>::iterator mainitor;
+	for (mainitor = targets_.getTargets().begin();
+		mainitor != targets_.getTargets().end();
+		mainitor++)
+	{
+		Target *target = (*mainitor).second;
+		if (!target->isTemp())
+		{
+			Tank *current = (Tank *) target;
+			tanks[current->getPlayerId()] = current;
+		}
+	}	
+
+	return tanks;
+}
+
+std::map<unsigned int, Tank *> &TankContainer::getAllTanks()
 {
 	static std::map<unsigned int, Tank *> tanks;
 	tanks.clear();
@@ -293,7 +314,7 @@ int TankContainer::getNoOfTanks()
 		mainitor++)
 	{
 		Target *target = (*mainitor).second;
-		if (!target->isTarget())
+		if (!target->isTemp())
 		{
 			count++;
 		}
