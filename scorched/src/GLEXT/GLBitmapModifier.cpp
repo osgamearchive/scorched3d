@@ -182,8 +182,6 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 										 int destBitmapScaleSize,
 										 ProgressCounter *counter)
 {
-	if (counter) counter->setNewOp("Height Map");
-
 	const float maxHeight = 30.0f; // Last texture ends at height 30
 	const float blendHeightFactor = 0.4f; // Ends blend when 40% into height band
 	const float blendNormalSlopeStart = 0.8f; // Starts blending slope at .80
@@ -661,6 +659,39 @@ void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 			tmpDest[2] = GLubyte(float(tmpSrc[2]) * alpha + float(tmpDest[2]) * invAlpha);
 
 			tmpDest += 3;
+		}
+	}
+}
+
+void GLBitmapModifier::scalePlanBitmap(GLBitmap &destBitmap,
+	GLBitmap &srcBitmap,
+	int landscapeX, int landscapeY)
+{
+	int maxSize = MAX(landscapeX, landscapeY);
+	float xScale = landscapeX / float(maxSize);
+	float yScale = landscapeY / float(maxSize);
+
+	int newX = int(float(destBitmap.getWidth()) / xScale);
+	int newY = int(float(destBitmap.getHeight()) / yScale);
+	int offsetX = (newX - destBitmap.getWidth()) / 2;
+	int offsetY = (newY - destBitmap.getHeight()) / 2;
+
+	srcBitmap.resize(newX, newY);
+
+	GLubyte *dest = destBitmap.getBits();
+	for (int y=0; y<destBitmap.getWidth(); y++)
+	{
+		for (int x=0; x<destBitmap.getHeight(); x++, dest+=destBitmap.getComponents())
+		{
+			int srcX = MIN(x + offsetX, destBitmap.getWidth());
+			int srcY = MIN(y + offsetY, destBitmap.getHeight());
+			GLubyte *src = srcBitmap.getBits() +
+				srcX * srcBitmap.getComponents() +
+				srcY * srcBitmap.getComponents() * srcBitmap.getWidth();			
+
+			dest[0] = src[0];
+			dest[1] = src[1];
+			dest[2] = src[2];
 		}
 	}
 }

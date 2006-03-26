@@ -76,6 +76,10 @@ namespace GLBitmapModifier
 	void addBitmap(GLBitmap &destBitmap,
 		GLImage &srcBitmap,
 		float sx, float sy, float scalex, float scaley);
+
+	void scalePlanBitmap(GLBitmap &destBitmap,
+		GLBitmap &srcBitmap,
+		int landscapeX, int landscapeY);
 };
 
 #endif // !defined(AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_)

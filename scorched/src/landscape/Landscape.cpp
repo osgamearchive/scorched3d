@@ -220,10 +220,13 @@ void Landscape::generate(ProgressCounter *counter)
 		mainMap_.createBlank(mapTexSize, mapTexSize);
 		bitmapPlanAlpha_.createBlank(planTexSize, planTexSize, true);
 		bitmapPlan_.createBlank(planTexSize, planTexSize);
-		bitmapPlanAlphaAlpha_.loadFromFile(
-			getDataFile("data/windows/planaa.bmp"), false);
-		bitmapPlanAlphaAlpha_.resize(planTexSize, planTexSize);
+		bitmapPlanAlphaAlpha_.createBlank(planTexSize, planTexSize);
 	}
+
+	GLBitmap plana(getDataFile("data/windows/planaa.bmp"), false);
+	GLBitmapModifier::scalePlanBitmap(bitmapPlanAlphaAlpha_, plana,
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
 
 	// Load the texture bitmaps from resources 
 	LandscapeDefn *defn = 
@@ -252,6 +255,7 @@ void Landscape::generate(ProgressCounter *counter)
 		bitmaps[4] = &texture4;
 
 		// Generate the new landscape
+		if (counter) counter->setNewOp("Landscape Map");
 		GLBitmapModifier::addHeightToBitmap(
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
 			mainMap_,
