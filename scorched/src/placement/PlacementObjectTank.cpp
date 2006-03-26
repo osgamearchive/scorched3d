@@ -18,35 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <placement/PlacementObject.h>
-#include <placement/PlacementObjectTree.h>
-#include <placement/PlacementObjectModel.h>
-#include <placement/PlacementObjectTarget.h>
 #include <placement/PlacementObjectTank.h>
-#include <placement/PlacementObjectGroup.h>
-#include <common/DefinesString.h>
+#include <landscape/LandscapeObjectsEntryModel.h>
+#include <landscape/LandscapeMaps.h>
+#include <3dsparse/ModelStore.h>
+#include <3dsparse/ModelRenderer.h>
+#include <engine/ScorchedContext.h>
+#include <weapons/AccessoryStore.h>
+#include <common/Defines.h>
+#include <tank/TankContainer.h>
 #include <XML/XMLParser.h>
 
-PlacementObject *PlacementObject::create(const char *type)
-{
-	if (0 == strcmp(type, "tree")) return new PlacementObjectTree;
-	if (0 == strcmp(type, "model")) return new PlacementObjectModel;
-	if (0 == strcmp(type, "target")) return new PlacementObjectTarget;
-	if (0 == strcmp(type, "tank")) return new PlacementObjectTank;
-	if (0 == strcmp(type, "group")) return new PlacementObjectGroup;
-	dialogMessage("PlacementObject", formatString("Unknown object type %s", type));
-	return 0;
-}
-
-PlacementObject::PlacementObject()
+PlacementObjectTank::PlacementObjectTank()
 {
 }
 
-PlacementObject::~PlacementObject()
+PlacementObjectTank::~PlacementObjectTank()
 {
 }
 
-bool PlacementObject::readXML(XMLNode *node)
+bool PlacementObjectTank::readXML(XMLNode *node)
 {
-	return node->failChildren();
+	if (!tankDef_.readXML(node, ".")) return false;
+	return PlacementObject::readXML(node);
+}
+
+void PlacementObjectTank::createObject(ScorchedContext &context,
+	RandomGenerator &generator,
+	unsigned int &playerId,
+	PlacementType::Information &information,
+	PlacementType::Position &position)
+{
+	++playerId;
+	Tank *tank = tankDef_.createTank(
+		playerId, position.position, context, generator);
+	context.tankContainer->addTank(tank);
+
+	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+		PlacementShadowDefinition::Entry(
+		&tankDef_.getShadow(),
+		position.position[0],
+		position.position[1],
+		tankDef_.getSize()));
 }

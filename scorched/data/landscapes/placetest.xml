@@ -8,11 +8,26 @@
 			<object type="group">
 				<groupobject>
 					<offset><A>0</A><B>0</B><C>0</C></offset>
-					<object type="target">
-						<name>TestTargetHmm</name>
-						<model type="MilkShape">data/accessories/banana/banana.txt</model>
+					<object type="tank">
+						<name>TestTankHmm1</name>
+						<model>Bradley</model>
+						<ai>Shark</ai>
 						<modelscale>0.01</modelscale>
 						<!--<modelrotation>0</modelrotation>-->
+						<modelrotationsnap>90</modelrotationsnap>
+						<shield>TestShield</shield>
+						<parachute>Parachute</parachute>
+						<life>1000</life>
+						<removeaction>TestPowerUpWeapon</removeaction>
+					</object>
+				</groupobject>
+				<groupobject>
+					<offset><A>0</A><B>10</B><C>0</C></offset>
+					<object type="target">
+						<name>TestTargetHmm2</name>
+						<model type="MilkShape">data/accessories/banana/banana.txt</model>
+						<modelscale>0.01</modelscale>
+						<!--<modelrotation>90</modelrotation>-->
 						<modelrotationsnap>90</modelrotationsnap>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
@@ -23,20 +38,6 @@
 							<alpha>data/landscapes/parkinga.bmp</alpha>
 							<invert>true</invert>
 						</groundmap>
-					</object>
-				</groupobject>
-				<groupobject>
-					<offset><A>0</A><B>10</B><C>0</C></offset>
-					<object type="target">
-						<name>TestTargetHmm</name>
-						<model type="MilkShape">data/accessories/banana/banana.txt</model>
-						<modelscale>0.01</modelscale>
-						<!--<modelrotation>90</modelrotation>-->
-						<modelrotationsnap>90</modelrotationsnap>
-						<shield>TestShield</shield>
-						<parachute>Parachute</parachute>
-						<life>1000</life>
-						<removeaction>TestPowerUpWeapon</removeaction>
 					</object>
 				</groupobject>
 			</object>		

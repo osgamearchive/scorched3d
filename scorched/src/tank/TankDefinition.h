@@ -18,36 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementObjecth_INCLUDE__)
-#define __INCLUDE_PlacementObjecth_INCLUDE__
+#if !defined(__INCLUDE_TankDefinitionh_INCLUDE__)
+#define __INCLUDE_TankDefinitionh_INCLUDE__
 
-#include <placement/PlacementType.h>
+#include <target/TargetDefinition.h>
 
-class XMLNode;
-class PlacementObject
+class Tank;
+class TankDefinition : public TargetDefinition
 {
 public:
-	enum Type
-	{
-		eTree,
-		eModel,
-		eTarget,
-		eGroup,
-		eTank
-	};
+	TankDefinition();
+	virtual ~TankDefinition();
 
-	static PlacementObject *create(const char *type);
+	virtual bool readXML(XMLNode *node, const char *base);
+	Tank *createTank(unsigned int playerId,
+		Vector &position,
+		ScorchedContext &context,
+		RandomGenerator &generator);
 
-	PlacementObject();
-	virtual ~PlacementObject();
-
-	virtual bool readXML(XMLNode *node);
-	virtual Type getType() = 0;
-	virtual void createObject(ScorchedContext &context,
-		RandomGenerator &generator,
-		unsigned int &playerId,
-		PlacementType::Information &information,
-		PlacementType::Position &position) = 0;
+protected:
+	int team_;
+	std::string ai_;
+	std::string tankmodel_;
 };
 
-#endif // __INCLUDE_PlacementObjecth_INCLUDE__
+#endif // __INCLUDE_TankDefinitionh_INCLUDE__

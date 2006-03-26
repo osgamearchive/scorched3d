@@ -43,6 +43,7 @@ public:
 
 	virtual bool getAlive();
 	virtual bool isTarget() { return true; }
+	virtual bool isTemp();
 	unsigned int getPlayerId() { return playerId_; }
 
 	// Weapons

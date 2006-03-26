@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
+#include <tankai/TankAIAdder.h>
 #include <target/Target.h>
 #include <target/TargetRenderer.h>
 #include <engine/ScorchedContext.h>
@@ -49,6 +50,11 @@ void Target::newGame()
 	life_.newGame();
 	shield_.newGame();
 	parachute_.newGame();
+}
+
+bool Target::isTemp()
+{
+	return (getPlayerId() >= TankAIAdder::MIN_TARGET_ID);
 }
 
 bool Target::getAlive()

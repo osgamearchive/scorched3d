@@ -132,7 +132,7 @@ void ClientNewGameHandler::removeTargets()
 	{
 		unsigned int playerId = (*itor).first;
 		Target *target = (*itor).second;
-		if (target->isTarget())
+		if (target->isTemp())
 		{
 			Target *removedTarget = 
 				ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);

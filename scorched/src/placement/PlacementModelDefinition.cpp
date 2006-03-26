@@ -28,7 +28,7 @@
 
 PlacementModelDefinition::PlacementModelDefinition() :
 	size_(2.0f), modelscale_(0.05f), modelrotation_(0.0f),
-	modelrotationsnap_(-1.0f)
+	modelrotationsnap_(-1.0f), usemodel_(true)
 {
 }
 
@@ -71,23 +71,27 @@ LandscapeObjectsEntryModel *PlacementModelDefinition::createModel(
 
 bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 {
-	XMLNode *modelnode, *burntmodelnode;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!modelId_.initFromNode(base, modelnode)) return false;
-	if (node->getNamedChild("modelburnt", burntmodelnode, false))
+	node->getNamedChild("modelscale", modelscale_, false);
+
+	if (usemodel_)
 	{
-		if (!modelburntId_.initFromNode(base, burntmodelnode)) return false;
+		XMLNode *modelnode, *burntmodelnode;
+		if (!node->getNamedChild("model", modelnode)) return false;
+		if (!modelId_.initFromNode(base, modelnode)) return false;
+		if (node->getNamedChild("modelburnt", burntmodelnode, false))
+		{
+			if (!modelburntId_.initFromNode(base, burntmodelnode)) return false;
+		}
+		if (!node->getNamedChild("size", size_, false))
+		{
+			Model *model = ModelStore::instance()->loadModel(modelId_);
+			Vector sizev = model->getMax() - model->getMin();
+			sizev[2] = 0.0f;
+			size_ = sizev.Magnitude();
+			size_ *= modelscale_;
+		}
 	}
 
-	node->getNamedChild("modelscale", modelscale_, false);
-	if (!node->getNamedChild("size", size_, false))
-	{
-		Model *model = ModelStore::instance()->loadModel(modelId_);
-		Vector sizev = model->getMax() - model->getMin();
-		sizev[2] = 0.0f;
-		size_ = sizev.Magnitude();
-		size_ *= modelscale_;
-	}
 	node->getNamedChild("modelrotation", modelrotation_, false);
 	node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
 	node->getNamedChild("removeaction", removeaction_, false);

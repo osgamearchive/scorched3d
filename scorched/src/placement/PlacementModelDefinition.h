@@ -43,6 +43,8 @@ public:
 	PlacementShadowDefinition &getShadow() { return shadow_; }
 
 protected:
+	bool usemodel_;
+
 	float size_;
 	float modelscale_;
 	float modelrotation_;

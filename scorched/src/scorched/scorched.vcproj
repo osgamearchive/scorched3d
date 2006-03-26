@@ -3574,6 +3574,12 @@
 				RelativePath="..\tank\TankDeadContainer.h">
 			</File>
 			<File
+				RelativePath="..\tank\TankDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankDefinition.h">
+			</File>
+			<File
 				RelativePath="..\tank\TankFuel.cpp">
 			</File>
 			<File
@@ -3960,6 +3966,12 @@
 			</File>
 			<File
 				RelativePath="..\placement\PlacementObjectModel.h">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectTank.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectTank.h">
 			</File>
 			<File
 				RelativePath="..\placement\PlacementObjectTarget.cpp">

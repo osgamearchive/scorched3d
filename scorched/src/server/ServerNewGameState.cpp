@@ -712,7 +712,7 @@ void ServerNewGameState::removeTargets()
 	{
 		unsigned int playerId = (*itor).first;
 		Target *target = (*itor).second;
-		if (target->isTarget())
+		if (target->isTemp())
 		{
 			Target *removedTarget = 
 				ScorchedServer::instance()->getTargetContainer().removeTarget(playerId);
