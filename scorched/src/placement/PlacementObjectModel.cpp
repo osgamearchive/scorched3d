@@ -52,4 +52,11 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 		(unsigned int) position.position[0],
 		(unsigned int) position.position[1],
 		modelEntry);
+
+	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+		PlacementShadowDefinition::Entry(
+		&definition_.getShadow(),
+		position.position[0],
+		position.position[1],
+		definition_.getSize()));
 }

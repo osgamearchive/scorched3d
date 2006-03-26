@@ -60,7 +60,7 @@ bool ImageID::initFromNode(const char *directory, XMLNode *imageNode)
 
 	std::string image, alpha;
 	if (!imageNode->getNamedChild("image", image)) return false;
-	imageName_ = std::string(directory) + image;
+	imageName_ = std::string(directory) + std::string("/") + image;
 	if (!s3d_fileExists(getDataFile(imageName_.c_str())))
 	{
 		return imageNode->returnError(
@@ -71,7 +71,7 @@ bool ImageID::initFromNode(const char *directory, XMLNode *imageNode)
 
 	if (imageNode->getNamedChild("alpha", alpha, false))
 	{
-		alphaName_ = std::string(directory) + alpha;
+		alphaName_ = std::string(directory) + std::string("/") + alpha;
 		if (!s3d_fileExists(getDataFile(alphaName_.c_str())))
 		{
 			return imageNode->returnError(

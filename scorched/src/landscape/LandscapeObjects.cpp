@@ -148,6 +148,7 @@ void LandscapeObjects::removeAllObjects()
 
 	// Make sure all groups are cleared
 	clearGroups();
+	getShadows().clear();
 }
 
 void LandscapeObjects::removeObjects(

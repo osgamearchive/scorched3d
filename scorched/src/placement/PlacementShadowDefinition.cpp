@@ -55,14 +55,16 @@ void PlacementShadowDefinition::updateLandscape(
 	float shadowMultHeight = (float) Landscape::instance()->getMainMap().getHeight() / 
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
 
-	if (!groundMap_.imageValid())
+	if (groundMap_.imageValid())
 	{
 		GLImage *image = ImageStore::instance()->loadImage(groundMap_);
 		GLBitmapModifier::addBitmap(
 			Landscape::instance()->getMainMap(),
 			*image,
 			x * shadowMultWidth, 
-			y * shadowMultHeight);
+			y * shadowMultHeight,
+			shadowMultWidth / 4.0f,
+			shadowMultHeight / 4.0f);
 	}
 
 	if (drawShadow_)

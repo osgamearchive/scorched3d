@@ -289,30 +289,18 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add shadows to the mainmap
 	{
-		//GLBitmap destMap(formatString("%s", getDataFile("data/landscapes/parking.bmp")),
-		//	formatString("%s",getDataFile("data/landscapes/parkinga.bmp")));
-		float shadowMultWidth = (float) getMainMap().getWidth() / 
-			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
-		float shadowMultHeight = (float) getMainMap().getHeight() / 
-			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
-		std::multimap<unsigned int, LandscapeObjectsEntry*> &objects =
+		std::list<PlacementShadowDefinition::Entry> &shadows = 
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
-				getObjects().getEntries();
-		std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
-		for (itor = objects.begin();
-			itor != objects.end();
+				getObjects().getShadows();
+		std::list<PlacementShadowDefinition::Entry>::iterator itor;
+		for (itor = shadows.begin();
+			itor != shadows.end();
 			itor++)
 		{
-			LandscapeObjectsEntry *entry = (*itor).second;
-			//GLBitmapModifier::addBitmap(getMainMap(),
-			//	destMap,
-			//	entry->posX * shadowMultWidth, 
-			//	entry->posY * shadowMultHeight);
+			PlacementShadowDefinition::Entry &entry = (*itor);
 
-			GLBitmapModifier::addCircle(getMainMap(),
-				entry->posX * shadowMultWidth, 
-				entry->posY * shadowMultHeight, 
-				entry->modelsize * shadowMultWidth, 1.0f);
+			entry.definition_->updateLandscape(
+				entry.x_, entry.y_, entry.size_);
 		}
 	}
 

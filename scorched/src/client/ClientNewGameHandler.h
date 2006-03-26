@@ -35,6 +35,7 @@ public:
 
 protected:
 	static ClientNewGameHandler* instance_;
+	void removeTargets();
 
 private:
 	ClientNewGameHandler();

@@ -28,7 +28,6 @@
 #include <engine/ActionController.h>
 #include <engine/MainLoop.h>
 #include <GLW/GLWWindowManager.h>
-#include <server/ScorchedServer.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <coms/ComsNewGameMessage.h>
@@ -77,6 +76,9 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 
 	ProgressDialog::instance()->changeTip();
 
+	// Remove any old targets
+	removeTargets();
+
 	// Generate new landscape
 	ScorchedClient::instance()->getLandscapeMaps().generateMaps(
 		ScorchedClient::instance()->getContext(),
@@ -117,4 +119,24 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	return true;
+}
+
+void ClientNewGameHandler::removeTargets()
+{
+	std::map<unsigned int, Target *> targets = // Note copy
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		unsigned int playerId = (*itor).first;
+		Target *target = (*itor).second;
+		if (target->isTarget())
+		{
+			Target *removedTarget = 
+				ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
+			delete removedTarget;
+		}
+	}
 }

@@ -39,6 +39,9 @@ public:
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
+	float getSize() { return size_; }
+	PlacementShadowDefinition &getShadow() { return shadow_; }
+
 protected:
 	float size_;
 	float modelscale_;

@@ -29,6 +29,7 @@
 TargetDefinition::TargetDefinition() : 
 	life_(1.0f)
 {
+	shadow_.setDrawShadow(false);
 }
 
 TargetDefinition::~TargetDefinition()
@@ -57,8 +58,8 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	float rotation = modelrotation_;
 	if (modelrotationsnap_ > 0.0f)
 	{
-		rotation = float(int(generator.getRandFloat() * 360.0f) % 
-			int(modelrotationsnap_));
+		rotation = float(int(generator.getRandFloat() * 360.0f) / 
+			int(modelrotationsnap_)) * modelrotationsnap_;
 	}
 	if (!context.serverMode)
 	{

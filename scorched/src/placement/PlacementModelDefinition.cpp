@@ -58,8 +58,8 @@ LandscapeObjectsEntryModel *PlacementModelDefinition::createModel(
 	modelEntry->modelsize = size_;
 	if (modelrotationsnap_ > 0.0f)
 	{
-		modelEntry->rotation = float(int(generator.getRandFloat() * 360.0f) % 
-			int(modelrotationsnap_));
+		modelEntry->rotation = float(int(generator.getRandFloat() * 360.0f) / 
+			int(modelrotationsnap_)) * modelrotationsnap_;
 	}
 
 	modelEntry->posX = position[0];
@@ -92,7 +92,7 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
 	node->getNamedChild("burnaction", burnaction_, false);
-	shadow_.readXML(node, base);
+	if (!shadow_.readXML(node, base)) return false;
 
 	return node->failChildren();
 }

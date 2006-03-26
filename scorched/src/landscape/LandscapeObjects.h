@@ -25,8 +25,10 @@
 #include <common/RandomGenerator.h>
 #include <landscape/LandscapeObjectsEntry.h>
 #include <landscape/LandscapeObjectsGroupEntry.h>
+#include <placement/PlacementShadowDefinition.h>
 #include <engine/ScorchedContext.h>
 #include <map>
+#include <list>
 #include <string>
 
 class LandscapePlace;
@@ -59,10 +61,12 @@ public:
 
 	std::multimap<unsigned int, LandscapeObjectsEntry*> &getEntries() { return entries_; }
 	std::map<std::string, LandscapeObjectsGroupEntry*> &getGroups() { return groups_; }
+	std::list<PlacementShadowDefinition::Entry> &getShadows() { return shadows_; }
 
 protected:
 	std::multimap<unsigned int, LandscapeObjectsEntry*> entries_;
 	std::map<std::string, LandscapeObjectsGroupEntry*> groups_;
+	std::list<PlacementShadowDefinition::Entry> shadows_;
 
 };
 

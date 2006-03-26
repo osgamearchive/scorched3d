@@ -42,7 +42,8 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 
 	node->getNamedChild("removeaction", removeaction, false);
 	node->getNamedChild("burnaction", burnaction, false);
-	shadow_.readXML(node, ".");
+	if (!shadow_.readXML(node, ".")) return false;
+
 	return PlacementObject::readXML(node);
 }
 
@@ -67,6 +68,12 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	treeEntry->removeaction = removeaction;
 	treeEntry->burnaction = burnaction;
 	treeEntry->modelsize = treeEntry->size;
+
+	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+		PlacementShadowDefinition::Entry(&shadow_, 
+		position.position[0],
+		position.position[1],
+		treeEntry->modelsize));
 
 	context.landscapeMaps->getGroundMaps().getObjects().addObject(
 		(unsigned int) position.position[0],

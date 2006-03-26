@@ -27,6 +27,21 @@
 class PlacementShadowDefinition
 {
 public:
+	struct Entry
+	{
+		Entry(PlacementShadowDefinition *definition,
+			float x,
+			float y,
+			float size) : 
+			definition_(definition),
+			x_(x), y_(y), size_(size) { }
+
+		PlacementShadowDefinition *definition_;
+		float x_;
+		float y_;
+		float size_;
+	};
+
 	PlacementShadowDefinition();
 	virtual ~PlacementShadowDefinition();
 

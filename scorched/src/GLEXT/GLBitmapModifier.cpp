@@ -608,12 +608,15 @@ void GLBitmapModifier::addCircle(GLBitmap &destBitmap,
 
 void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 	GLImage &srcBitmap,
-	float sx, float sy)
+	float sx, float sy, float scalex, float scaley)
 {
-	float minX = sx - srcBitmap.getWidth() / 2;
-	float minY = sy - srcBitmap.getHeight() / 2;
-	float maxX = sx + srcBitmap.getWidth() / 2;
-	float maxY = sy + srcBitmap.getHeight() / 2;
+	int srcScaleWidth = int(float(srcBitmap.getWidth()) * scalex);
+	int srcScaleHeight = int(float(srcBitmap.getHeight()) * scaley);
+
+	float minX = sx - srcScaleWidth / 2;
+	float minY = sy - srcScaleHeight / 2;
+	float maxX = sx + srcScaleWidth / 2;
+	float maxY = sy + srcScaleHeight / 2;
 
 	minX = MAX(minX, 0.0f);
 	minY = MAX(minY, 0.0f);
@@ -628,17 +631,23 @@ void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 	if (xWidth <= 0 || yWidth <= 0) return;
 
 	int yDestInc = (destBitmap.getWidth() * 3);
-	int ySrcInc = (srcBitmap.getWidth() * srcBitmap.getComponents());
 
 	GLubyte *dest = &destBitmap.getBits()[
 		(yStart * destBitmap.getWidth() * 3) + xStart * 3];
-	GLubyte *src = srcBitmap.getBits();
-	for (int y=0; y<yWidth; y++, dest += yDestInc, src += ySrcInc)
+	for (int y=0; y<yWidth; y++, dest += yDestInc)
 	{
 		GLubyte *tmpDest = dest;
-		GLubyte *tmpSrc = src;
 		for (int x=0; x<xWidth; x++)
 		{
+			int srcX = int(float(x) / scalex);
+			srcX = MIN(srcX, srcBitmap.getWidth());
+			int srcY = int(float(y) / scaley);
+			srcY = MIN(srcY, srcBitmap.getHeight());
+
+			GLubyte *tmpSrc = srcBitmap.getBits() +
+				srcX * srcBitmap.getComponents() +
+				srcY * srcBitmap.getComponents() * srcBitmap.getWidth();
+
 			float alpha = 1.0f;
 			float invAlpha = 0.0f;
 			if (srcBitmap.getComponents() == 4)
@@ -652,7 +661,6 @@ void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 			tmpDest[2] = GLubyte(float(tmpSrc[2]) * alpha + float(tmpDest[2]) * invAlpha);
 
 			tmpDest += 3;
-			tmpSrc += srcBitmap.getComponents();
 		}
 	}
 }

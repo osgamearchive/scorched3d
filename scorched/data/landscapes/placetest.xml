@@ -12,10 +12,17 @@
 						<name>TestTargetHmm</name>
 						<model type="MilkShape">data/accessories/banana/banana.txt</model>
 						<modelscale>0.01</modelscale>
+						<!--<modelrotation>0</modelrotation>-->
+						<modelrotationsnap>90</modelrotationsnap>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
 						<life>1000</life>
 						<removeaction>TestPowerUpWeapon</removeaction>
+						<groundmap type="bmp">
+							<image>data/landscapes/parking.bmp</image>
+							<alpha>data/landscapes/parkinga.bmp</alpha>
+							<invert>true</invert>
+						</groundmap>
 					</object>
 				</groupobject>
 				<groupobject>
@@ -24,6 +31,8 @@
 						<name>TestTargetHmm</name>
 						<model type="MilkShape">data/accessories/banana/banana.txt</model>
 						<modelscale>0.01</modelscale>
+						<!--<modelrotation>90</modelrotation>-->
+						<modelrotationsnap>90</modelrotationsnap>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
 						<life>1000</life>
