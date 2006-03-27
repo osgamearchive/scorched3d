@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/LandscapeDefn.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <common/Defines.h>
 #include <string.h>
 #include <stdlib.h>
@@ -190,36 +190,9 @@ bool LandscapeDefn::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 		if (!(roof = fetchRoofMapDefnType(rooftype.c_str()))) return false;
 		if (!roof->readXML(roofNode)) return false;
 	}
-	{
-		XMLNode *placementsNode;
-		if (node->getNamedChild("placements", placementsNode, false))
-		{
-			std::string placement;
-			while (placementsNode->getNamedChild("placement", placement, false))
-			{
-				LandscapePlace *landscapePlace = 
-					definitions->getPlace(placement.c_str(), true);
-				if (!landscapePlace) return false;
-				placements.push_back(landscapePlace);
-			}
-			if (!placementsNode->failChildren()) return false;
-		}
-	}
-	{
-		XMLNode *soundsNode;
-		if (node->getNamedChild("ambientsounds", soundsNode, false))
-		{
-			std::string sound;
-			while (soundsNode->getNamedChild("ambientsound", sound, false))
-			{
-				LandscapeSound *landscapeSound = 
-					definitions->getSound(sound.c_str(), true);
-				if (!landscapeSound) return false;
-				sounds.push_back(landscapeSound);
-			}
-			if (!soundsNode->failChildren()) return false;
-		}
-	}
+
+	if (!texDefn.readXML(definitions, node)) return false;
+
 	return node->failChildren();
 }
 

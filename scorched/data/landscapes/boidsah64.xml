@@ -1,0 +1,18 @@
+<boids>
+	<boid>
+		<count>4</count>
+		<minbounds><A>-50</A><B>-50</B><C>10</C></minbounds>
+		<maxbounds><A>300</A><B>300</B><C>50</C></maxbounds>
+		<maxvelocity>2.0</maxvelocity>
+		<maxacceleration>2.0</maxacceleration>
+		<cruisedistance>4.0</cruisedistance>
+		<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+		<sounds>
+			<mintime>0</mintime>
+			<maxtime>2</maxtime>
+			<maxsimul>4</maxsimul>
+			<volume>25</volume>
+			<sound>data/wav/misc/apache_1.wav</sound>
+		</sounds>
+	</boid>
+</boids>

@@ -116,7 +116,9 @@ void GLLenseFlare::init(ProgressCounter *counter)
 	}
 }
 
-void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo, float size)
+void GLLenseFlare::draw(Vector &flarePos, 
+	bool fullFlare, int colorNo, 
+	float size, float alpha)
 {
 	if (GLCameraFrustum::instance()->sphereInFrustum(flarePos, 5))
 	{
@@ -149,10 +151,10 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo, float si
 
 			switch(colorNo)
 			{
-				case 0: glColor3fv(flare_[i].color1); break;
-				case 1: glColor3fv(flare_[i].color2); break;
-				case 2: glColor3fv(flare_[i].color3); break;
-				case 3: glColor3fv(flare_[i].color4); break;
+				case 0: glColor4f(flare_[i].color1[0], flare_[i].color1[1], flare_[i].color1[2], alpha); break;
+				case 1: glColor4f(flare_[i].color2[0], flare_[i].color2[1], flare_[i].color2[2], alpha); break;
+				case 2: glColor4f(flare_[i].color3[0], flare_[i].color3[1], flare_[i].color3[2], alpha); break;
+				case 3: glColor4f(flare_[i].color4[0], flare_[i].color4[1], flare_[i].color4[2], alpha); break;
 			}
 			if (flare_[i].type < 0) 
 			{
@@ -199,7 +201,7 @@ void GLLenseFlare::draw(Vector &flarePos,  bool fullFlare, int colorNo, float si
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void GLLenseFlare::draw(Vector &flarePos,  Vector &flareDir, int colorNo)
+void GLLenseFlare::draw(Vector &flarePos, Vector &flareDir, int colorNo)
 {
 	if (!GLCameraFrustum::instance()->sphereInFrustum(flarePos, 5))
 	{

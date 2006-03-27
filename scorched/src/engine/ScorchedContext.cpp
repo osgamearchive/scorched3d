@@ -29,7 +29,7 @@
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelStore.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <weapons/AccessoryStore.h>
 
 ScorchedContext::ScorchedContext(const char *name) : 

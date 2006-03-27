@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeSoundManager.h>
-#include <landscape/LandscapeSound.h>
+#include <landscapedef/LandscapeSound.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>

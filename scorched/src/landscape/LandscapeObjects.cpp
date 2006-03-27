@@ -21,7 +21,7 @@
 #include <landscape/LandscapeObjects.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapePlace.h>
+#include <landscapedef/LandscapePlace.h>
 #include <tank/TankContainer.h>
 #include <GLEXT/GLCamera.h>
 #include <common/Defines.h>

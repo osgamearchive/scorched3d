@@ -31,12 +31,11 @@
 #include <tank/TankSort.h>
 #include <tankgraph/TankModelStore.h>
 #include <weapons/EconomyStore.h>
-#include <coms/ComsGameStateMessage.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefn.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <landscape/DeformLandscape.h>
 #include <landscape/HeightMapSender.h>
 #include <GLEXT/GLBitmap.h>

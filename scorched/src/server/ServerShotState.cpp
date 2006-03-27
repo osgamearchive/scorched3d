@@ -32,7 +32,7 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinition.h>
 #include <common/StatsLogger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
@@ -68,8 +68,7 @@ void ServerShotState::enterState(const unsigned state)
 	totalTime_ = 0.0f;
 	firstTime_ = true;
 
-	events_.initialize(
-		ScorchedServer::instance()->getLandscapeMaps().getDefinitions().getTex());
+	events_.initialize();
 }
 
 bool ServerShotState::acceptStateChange(const unsigned state, 

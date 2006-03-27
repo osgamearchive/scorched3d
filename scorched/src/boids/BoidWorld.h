@@ -31,11 +31,11 @@ class ModelID;
 class ModelRenderer;
 class Boid;
 class Obstacle;
-class LandscapeTexBoids;
+class LandscapeBoidsType;
 class BoidWorld
 {
 public:
-	BoidWorld(LandscapeTexBoids *boids);
+	BoidWorld(LandscapeBoidsType *boids);
 	virtual ~BoidWorld();
 
 	void simulate(float frameTime);

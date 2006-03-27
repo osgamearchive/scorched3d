@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,34 +18,53 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
-#include <common/Defines.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
+#if !defined(__INCLUDE_LandscapeShipsh_INCLUDE__)
+#define __INCLUDE_LandscapeShipsh_INCLUDE__
 
-LandscapeDefinition::LandscapeDefinition(
-	const char *tex,
-	const char *defn,
-	unsigned int seed) :
-	tex_(tex), defn_(defn), seed_(seed)
-{
-}
+#include <list>
+#include <vector>
+#include <common/Vector.h>
+#include <3dsparse/ModelID.h>
 
-bool LandscapeDefinition::writeMessage(NetBuffer &buffer)
+class LandscapeDefinitions;
+class LandscapeShip
 {
-	buffer.addToBuffer(seed_);
-	buffer.addToBuffer(tex_);
-	buffer.addToBuffer(defn_);
-	return true;
-}
+public:
+	ModelID model;
+	float scale;
 
-bool LandscapeDefinition::readMessage(NetBufferReader &reader)
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeShipGroup
 {
-	if (!reader.getFromBuffer(seed_)) return false;
-	if (!reader.getFromBuffer(tex_)) return false;
-	if (!reader.getFromBuffer(defn_)) return false;
-	return true;
-}
+public:
+	float speed;
+	int controlpoints;
+	float controlpointswidth;
+	float controlpointsheight;
+	float controlpointsrand;
+	float starttime;
+
+	std::vector<LandscapeShip *> ships;
+
+	virtual bool readXML(XMLNode *node);
+};
+
+class LandscapeShips
+{
+public:
+	LandscapeShips();
+	virtual ~LandscapeShips();
+
+	std::vector<LandscapeShipGroup *> objects;
+
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
+
+private:
+	LandscapeShips(const LandscapeShips &other);
+	LandscapeShips &operator=(LandscapeShips &other);
+};
+
+
+#endif // __INCLUDE_LandscapeShipsh_INCLUDE__

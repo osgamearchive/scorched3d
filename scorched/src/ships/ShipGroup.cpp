@@ -23,7 +23,8 @@
 #include <common/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeShips.h>
+#include <landscapedef/LandscapeTex.h>
 
 ShipGroup::ShipGroup()
 {
@@ -39,7 +40,7 @@ ShipGroup::~ShipGroup()
 	}
 }
 
-void ShipGroup::generate(LandscapeTexShipGroup *shipGroup)
+void ShipGroup::generate(LandscapeShipGroup *shipGroup)
 {
 	int mapWidth = 
 		ScorchedClient::instance()->getLandscapeMaps().
@@ -80,12 +81,12 @@ void ShipGroup::generate(LandscapeTexShipGroup *shipGroup)
 	path_.generate(controlPoints, 200, 3, shipGroup->speed);
 	path_.simulate(shipGroup->starttime);
 
-	std::vector<LandscapeTexShip *>::iterator itor;
+	std::vector<LandscapeShip *>::iterator itor;
 	for (itor = shipGroup->ships.begin();
 		itor != shipGroup->ships.end();
 		itor++)
 	{
-		LandscapeTexShip *texShip = (*itor);
+		LandscapeShip *texShip = (*itor);
 
 		Ship *ship = new Ship(texShip);
 		Vector offset(RAND * 200.0f, RAND * 200.0f - 100.0f);

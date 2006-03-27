@@ -21,8 +21,8 @@
 #include <landscape/Water.h>
 #include <landscape/WaterMapModifier.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefinition.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>

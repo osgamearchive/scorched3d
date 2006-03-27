@@ -18,11 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/LandscapeDefinitions.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
-#include <landscape/LandscapePlace.h>
-#include <landscape/LandscapeSound.h>
+#include <landscapedef/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapePlace.h>
+#include <landscapedef/LandscapeSound.h>
+#include <landscapedef/LandscapeBoids.h>
+#include <landscapedef/LandscapeShips.h>
+#include <landscapedef/LandscapeEvents.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
@@ -76,6 +79,9 @@ void LandscapeDefinitions::clearLandscapeDefinitions()
 	texs_.clearItems();
 	sounds_.clearItems();
 	places_.clearItems();
+	boids_.clearItems();
+	ships_.clearItems();
+	events_.clearItems();
 }
 
 LandscapeTex *LandscapeDefinitions::getTex(const char *file, bool load)
@@ -91,6 +97,21 @@ LandscapePlace *LandscapeDefinitions::getPlace(const char *file, bool load)
 LandscapeSound *LandscapeDefinitions::getSound(const char *file, bool load)
 {
 	return sounds_.getItem(this, file, load);
+}
+
+LandscapeBoids *LandscapeDefinitions::getBoids(const char *file, bool load)
+{
+	return boids_.getItem(this, file, load);
+}
+
+LandscapeShips *LandscapeDefinitions::getShips(const char *file, bool load)
+{
+	return ships_.getItem(this, file, load);
+}
+
+LandscapeEvents *LandscapeDefinitions::getEvents(const char *file, bool load)
+{
+	return events_.getItem(this, file, load);
 }
 
 LandscapeDefn *LandscapeDefinitions::getDefn(const char *file, bool load)

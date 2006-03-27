@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/MovementMap.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>

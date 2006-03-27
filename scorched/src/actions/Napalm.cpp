@@ -30,8 +30,8 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>

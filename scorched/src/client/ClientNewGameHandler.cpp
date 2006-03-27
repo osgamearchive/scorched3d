@@ -34,7 +34,7 @@
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <landscape/Landscape.h>
 #include <landscape/HeightMapSender.h>
 #include <tank/TankContainer.h>

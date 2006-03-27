@@ -23,7 +23,7 @@
 #define __INCLUDE_HeightMapLoaderh_INCLUDE__
 
 #include <landscape/HeightMapModifier.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <GLEXT/GLBitmap.h>
 
 namespace HeightMapLoader

@@ -106,7 +106,12 @@ void TankFuelTip::showItems(float x, float y)
 		"Don't select fuel or\n"
 		"turn off any fuel.");
 
-	unsigned int currentFuelId = MovementMap::getFuelId();
+	unsigned int currentFuelId = 0;
+	if (Landscape::instance()->getTextureType() ==
+		Landscape::eMovement)
+	{
+		currentFuelId = MovementMap::getFuelId();
+	}
 
 	std::list<GLWSelectorEntry> entries;
 	std::list<Accessory *> fuels;
@@ -144,14 +149,11 @@ void TankFuelTip::showItems(float x, float y)
 void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	if (entry->getUserData() == 0)
+	if (Landscape::instance()->getTextureType() == Landscape::eMovement)
 	{
-		if (Landscape::instance()->getTextureType() == Landscape::eMovement)
-		{
-			Landscape::instance()->restoreLandscapeTexture();
-		}
+		Landscape::instance()->restoreLandscapeTexture();
 	}
-	else
+	if (entry->getUserData() != 0)
 	{
 		if (Landscape::instance()->getTextureType() != Landscape::eMovement)
 		{

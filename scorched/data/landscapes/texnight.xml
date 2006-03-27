@@ -42,40 +42,7 @@
 		<ambientsound>data/landscapes/ambientsoundnight.xml</ambientsound>
 	</ambientsounds>
 	<boids>
-		<boid>
-			<count>20</count>
-			<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
-			<maxbounds><A>255</A><B>255</B><C>25</C></maxbounds>
-			<maxvelocity>1.0</maxvelocity>
-			<maxacceleration>1.0</maxacceleration>
-			<cruisedistance>1.0</cruisedistance>
-			<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
-			<sounds>
-				<mintime>0</mintime>
-				<maxtime>4</maxtime>
-				<maxsimul>5</maxsimul>
-				<volume>100</volume>
-				<sound>data/wav/misc/gull1.wav</sound>
-				<sound>data/wav/misc/gull2.wav</sound>
-				<sound>data/wav/misc/gull4.wav</sound>
-				<sound>data/wav/misc/gull5.wav</sound>
-			</sounds>
-		</boid>
-		<boid>
-			<count>4</count>
-			<minbounds><A>-50</A><B>-50</B><C>10</C></minbounds>
-			<maxbounds><A>300</A><B>300</B><C>50</C></maxbounds>
-			<maxvelocity>2.0</maxvelocity>
-			<maxacceleration>2.0</maxacceleration>
-			<cruisedistance>4.0</cruisedistance>
-			<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
-			<sounds>
-				<mintime>0</mintime>
-				<maxtime>2</maxtime>
-				<maxsimul>4</maxsimul>
-				<volume>25</volume>
-				<sound>data/wav/misc/apache_1.wav</sound>
-			</sounds>
-		</boid>
+		<boid>data/landscapes/boidsgulls.xml</boid>
+		<boid>data/landscapes/boidsah64.xml</boid>
 	</boids>
 </tex>

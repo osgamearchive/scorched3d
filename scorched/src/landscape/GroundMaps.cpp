@@ -20,10 +20,10 @@
 
 #include <landscape/GroundMaps.h>
 #include <landscape/HeightMapLoader.h>
-#include <landscape/LandscapePlace.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefinitions.h>
-#include <landscape/LandscapeDefinitionCache.h>
+#include <landscapedef/LandscapePlace.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitionCache.h>
 #include <common/Logger.h>
 #include <tankai/TankAIAdder.h>
 
@@ -117,8 +117,8 @@ void GroundMaps::generateObjects(
 	{
 		// Do this for the definition file
 		std::vector<LandscapePlace *>::iterator itor;
-		for (itor = defn->placements.begin();
-			itor != defn->placements.end();
+		for (itor = defn->texDefn.placements.begin();
+			itor != defn->texDefn.placements.end();
 			itor++)
 		{
 			LandscapePlace *place = (*itor);
@@ -131,8 +131,8 @@ void GroundMaps::generateObjects(
 	{
 		// Do this for the texture file
 		std::vector<LandscapePlace *>::iterator itor;
-		for (itor = tex->placements.begin();
-			itor != tex->placements.end();
+		for (itor = tex->texDefn.placements.begin();
+			itor != tex->texDefn.placements.end();
 			itor++)
 		{
 			LandscapePlace *place = (*itor);

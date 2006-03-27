@@ -1,0 +1,18 @@
+<shipgroups>
+	<shipgroup>
+		<speed>1.0</speed>
+		<controlpoints>8</controlpoints>
+		<controlpointswidth>250</controlpointswidth>
+		<controlpointsheight>250</controlpointsheight>
+		<controlpointsrand>400</controlpointsrand>
+		<starttime>600</starttime>
+		<ship>
+			<scale>0.07</scale>
+			<model type="MilkShape">data/meshes/sailboat/sailboat.txt</model>
+		</ship>
+		<ship>
+			<scale>0.07</scale>
+			<model type="MilkShape">data/meshes/sailboat/sailboat.txt</model>
+		</ship>
+	</shipgroup>
+</shipgroups>

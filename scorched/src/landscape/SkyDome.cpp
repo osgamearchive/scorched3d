@@ -22,8 +22,8 @@
 #include <landscape/Sky.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefinition.h>
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLDynamicVertexArray.h>

@@ -20,8 +20,8 @@
 
 #include <landscape/DeformLandscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefinition.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 #include <math.h>

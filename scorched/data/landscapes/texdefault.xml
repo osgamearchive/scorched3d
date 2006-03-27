@@ -40,75 +40,11 @@
 		<ambientsound>data/landscapes/ambientsoundjet.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundtrees.xml</ambientsound>
 	</ambientsounds>
-	<events>
-		<!--<event>
-			<condition type="random">
-				<randomchance>0.5</randomchance>
-				<randomdelay>0.0</randomdelay>
-			</condition>
-			<action type="fireweapon">
-				<weapon>TestPowerUp</weapon>
-			</action>
-		</event>-->
-	</events>
 	<boids>
-		<boid>
-			<count>20</count>
-			<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
-			<maxbounds><A>255</A><B>255</B><C>25</C></maxbounds>
-			<maxvelocity>1.0</maxvelocity>
-			<maxacceleration>1.0</maxacceleration>
-			<cruisedistance>1.0</cruisedistance>
-			<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
-			<sounds>
-				<mintime>0</mintime>
-				<maxtime>4</maxtime>
-				<maxsimul>5</maxsimul>
-				<volume>100</volume>
-				<sound>data/wav/misc/gull1.wav</sound>
-				<sound>data/wav/misc/gull2.wav</sound>
-				<sound>data/wav/misc/gull4.wav</sound>
-				<sound>data/wav/misc/gull5.wav</sound>
-			</sounds>
-		</boid>
-		<boid>
-			<count>3</count>
-			<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
-			<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
-			<maxvelocity>15.0</maxvelocity>
-			<maxacceleration>5.0</maxacceleration>
-			<cruisedistance>10.0</cruisedistance>
-			<model type="MilkShape">data/meshes/f18/f18.txt</model>
-			<sounds>
-				<mintime>15</mintime>
-				<maxtime>15</maxtime>
-				<maxsimul>3</maxsimul>
-				<volume>25</volume>
-				<sound>data/wav/misc/f18_1.wav</sound>
-				<sound>data/wav/misc/f18_2.wav</sound>
-			</sounds>
-		</boid>
+		<boid>data/landscapes/boidsgulls.xml</boid>
+		<boid>data/landscapes/boidsf18.xml</boid>
 	</boids>
 	<shipgroups>
-		<shipgroup>
-			<speed>1.0</speed>
-			<controlpoints>8</controlpoints>
-			<controlpointswidth>250</controlpointswidth>
-			<controlpointsheight>250</controlpointsheight>
-			<controlpointsrand>400</controlpointsrand>
-			<starttime>600</starttime>
-			<ship>
-				<scale>0.25</scale>
-				<model type="MilkShape">data/meshes/destroyer/destroyer.txt</model>
-			</ship>
-			<ship>
-				<scale>0.1</scale>
-				<model type="MilkShape">data/meshes/ddg24/ddg24.txt</model>
-			</ship>
-			<ship>
-				<scale>0.1</scale>
-				<model type="MilkShape">data/meshes/ddg24/ddg24.txt</model>
-			</ship>
-		</shipgroup>
+		<shipgroup>data/landscapes/shipsdestroyer1.xml</shipgroup>
 	</shipgroups>
 </tex>

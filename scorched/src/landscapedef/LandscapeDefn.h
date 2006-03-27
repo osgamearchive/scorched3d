@@ -21,14 +21,12 @@
 #if !defined(__INCLUDE_LandscapeDefnh_INCLUDE__)
 #define __INCLUDE_LandscapeDefnh_INCLUDE__
 
+#include <landscapedef/LandscapeTexDefn.h>
 #include <coms/ComsMessage.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>
 
-class LandscapeDefinitions;
-class LandscapePlace;
-class LandscapeSound;
 class LandscapeDefnType
 {
 public:
@@ -118,9 +116,7 @@ public:
 	LandscapeDefnType *surround;
 	LandscapeDefnType *tankstart;
 	LandscapeDefnType *heightmap;
-
-	std::vector<LandscapeSound *> sounds;
-	std::vector<LandscapePlace *> placements;
+	LandscapeTexDefn texDefn;
 
 	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 

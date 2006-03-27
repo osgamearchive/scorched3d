@@ -22,7 +22,7 @@
 #define _comsLevelMessage_h
 
 #include <coms/ComsHeightMapMessage.h>
-#include <landscape/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinition.h>
 
 class ComsLevelMessage : public ComsMessage
 {

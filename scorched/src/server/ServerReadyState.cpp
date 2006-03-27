@@ -232,6 +232,6 @@ void ServerReadyState::finished()
 	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
 
 	// Make sure all clients have the correct game settings
-	ComsGameStateMessage message;
-	ComsMessageSender::sendToAllPlayingClients(message);	
+	ComsPlayerStateMessage playerState;
+	ComsMessageSender::sendToAllPlayingClients(playerState);
 }

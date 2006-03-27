@@ -21,7 +21,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <landscape/HeightMapModifier.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <common/Defines.h>
 #include <GLEXT/GLBitmap.h>
 

@@ -21,11 +21,11 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapePoints.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/LandscapeSoundManager.h>
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
@@ -358,15 +358,15 @@ void Landscape::generate(ProgressCounter *counter)
 	// Add any ambientsounds
 	std::list<LandscapeSound *> sounds;
 	std::vector<LandscapeSound *>::iterator soundItor;
-	for (soundItor = tex->sounds.begin();
-		soundItor != tex->sounds.end();
+	for (soundItor = tex->texDefn.sounds.begin();
+		soundItor != tex->texDefn.sounds.end();
 		soundItor++)
 	{
 		LandscapeSound *sound = (*soundItor);
 		sounds.push_back(sound);
 	}
-	for (soundItor = defn->sounds.begin();
-		soundItor != defn->sounds.end();
+	for (soundItor = defn->texDefn.sounds.begin();
+		soundItor != defn->texDefn.sounds.end();
 		soundItor++)
 	{
 		LandscapeSound *sound = (*soundItor);

@@ -25,7 +25,7 @@
 
 REGISTER_ACCESSORY_SOURCE(Shield);
 
-Shield::Shield()
+Shield::Shield() : laserProof_(false)
 {
 }
 
@@ -62,6 +62,8 @@ bool Shield::parseXML(OptionsGame &context,
 
 	// Get the half size
 	if (!accessoryNode->getNamedChild("halfshield", halfShield_)) return false;
+
+	accessoryNode->getNamedChild("laserproof", laserProof_, false);
 
 	return true;
 }

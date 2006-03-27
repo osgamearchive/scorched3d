@@ -27,8 +27,8 @@
 #include <weapons/Fuel.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefn.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeTex.h>
 #include <landscape/MovementMap.h>
 #include <tank/TankContainer.h>
 #include <common/OptionsGame.h>

@@ -39,25 +39,5 @@
 		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundtrees.xml</ambientsound>
 	</ambientsounds>
-	<boids>
-		<boid>
-			<count>20</count>
-			<minbounds><A>0</A><B>0</B><C>5</C></minbounds>
-			<maxbounds><A>255</A><B>255</B><C>40</C></maxbounds>
-			<maxvelocity>1.0</maxvelocity>
-			<maxacceleration>1.0</maxacceleration>
-			<cruisedistance>1.0</cruisedistance>
-			<model type="MilkShape">data/meshes/bat/bat.txt</model>
-			<modelsize>3.0</modelsize>
-			<sounds>
-				<mintime>4</mintime>
-				<maxtime>20</maxtime>
-				<maxsimul>5</maxsimul>
-				<volume>25</volume>
-				<sound>data/wav/misc/bats1.wav</sound>
-				<sound>data/wav/misc/bats2.wav</sound>
-				<sound>data/wav/misc/bats3.wav</sound>
-			</sounds>
-		</boid>
-	</boids>
+	<boids><boid>data/landscapes/boidsbats.xml</boid></boids>
 </tex>

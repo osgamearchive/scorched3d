@@ -18,30 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/LandscapeDefinitionCache.h>
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeDefinitions.h>
-#include <engine/ScorchedContext.h>
+#if !defined(__INCLUDE_LandscapeTexDefnh_INCLUDE__)
+#define __INCLUDE_LandscapeTexDefnh_INCLUDE__
 
-LandscapeDefinitionCache::LandscapeDefinitionCache() : 
-	cachedTex_(0), cachedDefn_(0)
-{
-}
+#include <vector>
+#include <XML/XMLNode.h>
 
-LandscapeDefinitionCache::~LandscapeDefinitionCache()
+class LandscapeDefinitions;
+class LandscapeSound;
+class LandscapePlace;
+class LandscapeBoids;
+class LandscapeShips;
+class LandscapeEvents;
+class LandscapeTexDefn
 {
-}
+public:
+	LandscapeTexDefn();
+	virtual ~LandscapeTexDefn();
 
-void LandscapeDefinitionCache::setDefinition(
-	ScorchedContext &context, LandscapeDefinition &defn)
-{
-	defn_ = defn;
-	cachedTex_ = context.landscapes->getTex(defn_.getTex());
-	cachedDefn_ = context.landscapes->getDefn(defn_.getDefn());
-	if (!cachedTex_ || !cachedDefn_)
-	{
-		dialogExit("LandscapeMaps", formatString(
-			"ERROR: Failed to find a tex \"%s\" or defn \"%s\"",
-			defn_.getTex(), defn_.getDefn()));
-	}
-}
+	std::vector<LandscapeSound *> sounds;
+	std::vector<LandscapePlace *> placements;
+	std::vector<LandscapeBoids *> boids;
+	std::vector<LandscapeEvents *> events;
+	std::vector<LandscapeShips *> ships;
+
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
+};
+
+#endif // __INCLUDE_LandscapeTexDefnh_INCLUDE__

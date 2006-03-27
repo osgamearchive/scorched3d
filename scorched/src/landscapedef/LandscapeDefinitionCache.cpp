@@ -18,30 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeDefinitionCacheh_INCLUDE__)
-#define __INCLUDE_LandscapeDefinitionCacheh_INCLUDE__
+#include <landscapedef/LandscapeDefinitionCache.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinitions.h>
+#include <engine/ScorchedContext.h>
 
-#include <landscape/LandscapeDefinition.h>
-
-class ScorchedContext;
-class LandscapeTex;
-class LandscapeDefn;
-class LandscapeDefinitionCache
+LandscapeDefinitionCache::LandscapeDefinitionCache() : 
+	cachedTex_(0), cachedDefn_(0)
 {
-public:
-	LandscapeDefinitionCache();
-	virtual ~LandscapeDefinitionCache();
+}
 
-	void setDefinition(ScorchedContext &context, LandscapeDefinition &defn);
-	LandscapeDefinition &getDefinition() { return defn_; }
-	LandscapeTex *getTex() { return cachedTex_; }
-	LandscapeDefn *getDefn() { return cachedDefn_; }
-	unsigned int getSeed() { return defn_.getSeed(); }
+LandscapeDefinitionCache::~LandscapeDefinitionCache()
+{
+}
 
-protected:
-	LandscapeTex *cachedTex_;
-	LandscapeDefn *cachedDefn_;
-	LandscapeDefinition defn_;
-};
-
-#endif // __INCLUDE_LandscapeDefinitionCacheh_INCLUDE__
+void LandscapeDefinitionCache::setDefinition(
+	ScorchedContext &context, LandscapeDefinition &defn)
+{
+	defn_ = defn;
+	cachedTex_ = context.landscapes->getTex(defn_.getTex());
+	cachedDefn_ = context.landscapes->getDefn(defn_.getDefn());
+	if (!cachedTex_ || !cachedDefn_)
+	{
+		dialogExit("LandscapeMaps", formatString(
+			"ERROR: Failed to find a tex \"%s\" or defn \"%s\"",
+			defn_.getTex(), defn_.getDefn()));
+	}
+}

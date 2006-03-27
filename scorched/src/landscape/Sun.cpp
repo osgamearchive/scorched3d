@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Sun.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>

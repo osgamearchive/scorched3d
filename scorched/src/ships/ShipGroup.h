@@ -24,14 +24,14 @@
 #include <common/SplinePath.h>
 #include <ships/Ship.h>
 
-class LandscapeTexShipGroup;
+class LandscapeShipGroup;
 class ShipGroup
 {
 public:
 	ShipGroup();
 	virtual ~ShipGroup();
 
-	void generate(LandscapeTexShipGroup *shipGroup);
+	void generate(LandscapeShipGroup *shipGroup);
 	void draw();
 	void simulate(float frameTime);
 

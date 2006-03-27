@@ -21,7 +21,9 @@
 #include <ships/ScorchedShips.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeShips.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLState.h>
 
@@ -45,13 +47,34 @@ void ScorchedShips::generate()
 	LandscapeTex &tex = 
 		*ScorchedClient::instance()->getLandscapeMaps().
 			getDefinitions().getTex();
-	
-	std::vector<LandscapeTexShipGroup *>::iterator itor;
-	for (itor = tex.shipgroups.begin();
-		itor != tex.shipgroups.end();
+	LandscapeDefn &defn = 
+		*ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getDefn();
+
+	addShips(tex.texDefn.ships);
+	addShips(defn.texDefn.ships);
+}
+
+void ScorchedShips::addShips(std::vector<LandscapeShips *> &ships)
+{
+	std::vector<LandscapeShips *>::iterator itor;
+	for (itor = ships.begin();
+		itor != ships.end();
 		itor++)
 	{
-		LandscapeTexShipGroup *texShipGroup = (*itor);
+		LandscapeShips *ships = (*itor);
+		addShipGroups(ships->objects);
+	}
+}
+
+void ScorchedShips::addShipGroups(std::vector<LandscapeShipGroup *> &shipgroups)
+{
+	std::vector<LandscapeShipGroup *>::iterator itor;
+	for (itor = shipgroups.begin();
+		itor != shipgroups.end();
+		itor++)
+	{
+		LandscapeShipGroup *texShipGroup = (*itor);
 		ShipGroup *group = new ShipGroup;
 		group->generate(texShipGroup);
 		groups_.push_back(group);

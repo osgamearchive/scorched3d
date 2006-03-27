@@ -23,6 +23,8 @@
 
 #include <ships/ShipGroup.h>
 
+class LandscapeShips;
+class LandscapeShipGroup;
 class ScorchedShips
 {
 public:
@@ -35,6 +37,9 @@ public:
 
 protected:
 	std::vector<ShipGroup *> groups_;
+
+	void addShips(std::vector<LandscapeShips *> &ships);
+	void addShipGroups(std::vector<LandscapeShipGroup *> &shipgroups);
 };
 
 #endif // __INCLUDE_ScorchedShipsh_INCLUDE__

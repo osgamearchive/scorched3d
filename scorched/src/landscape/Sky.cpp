@@ -20,7 +20,7 @@
 
 #include <landscape/Sky.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <client/ScorchedClient.h>
 
 Sky::Sky()

@@ -23,6 +23,8 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Shield.h>
+#include <actions/ShieldHit.h>
 #include <target/TargetContainer.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -34,6 +36,7 @@ REGISTER_ACTION_SOURCE(Laser);
 
 Laser::Laser() :
 	totalTime_(0.0f),
+	drawLength_(0.0f),
 	firstTime_(true)
 {
 }
@@ -43,6 +46,7 @@ Laser::Laser(unsigned int playerId,
 		Vector &position, Vector &direction,
 		unsigned int data) :
 	totalTime_(0.0f),
+	drawLength_(0.0f),
 	firstTime_(true),
 	playerId_(playerId), 
 	weapon_(weapon),
@@ -81,7 +85,8 @@ void Laser::simulate(float frameTime, bool &remove)
 			// Build a set of all tanks in the path of the laser
 			Vector pos = position_;
 			Vector dir = direction_.Normalize() / 10.0f;
-			while ((pos - position_).Magnitude() < length_)
+			bool end = false;
+			while (!end)
 			{
 				std::map<unsigned int, Target *> &targets = 
 					context_->targetContainer->getTargets();
@@ -94,8 +99,24 @@ void Laser::simulate(float frameTime, bool &remove)
 					if (current->getAlive() &&
 						current->getPlayerId() != playerId_)
 					{
-						if ((current->getTargetPosition() -
-							pos).Magnitude() < weapon_->getHurtRadius() + 
+						float targetDistance = 
+							(current->getTargetPosition() -	pos).Magnitude();
+						if (current->getShield().getCurrentShield())
+						{
+							Shield *shield = (Shield *)
+								current->getShield().getCurrentShield()->getAction();
+							if (shield->getLaserProof() &&
+								targetDistance < shield->getActualRadius())
+							{
+								context_->actionController->addAction(
+									new ShieldHit(current->getPlayerId(), pos, 0.0f));
+
+								end = true;
+								break;
+							}
+						}
+
+						if (targetDistance < weapon_->getHurtRadius() + 
 							current->getLife().getSize())
 						{
 							damagedTargets_.insert(current->getPlayerId());
@@ -103,7 +124,12 @@ void Laser::simulate(float frameTime, bool &remove)
 					}
 				}
 
-				pos += dir;
+				if (!end)
+				{
+					pos += dir;
+					drawLength_ = (pos - position_).Magnitude();
+					if (drawLength_ > length_) end = true;
+				}
 			}
 
 			// Subtract set amount from all tanks
@@ -129,7 +155,7 @@ void Laser::simulate(float frameTime, bool &remove)
 
 void Laser::draw()
 {
-	if (!context_->serverMode)
+	if (!context_->serverMode && (drawLength_ > 0.0f))
 	{
 		static GLUquadric *obj = 0;
 		if (!obj)
@@ -149,14 +175,14 @@ void Laser::draw()
 			glRotatef(angYZ_, 1.0f, 0.0f, 0.0f);
 
 			glColor4f(1.0f, 1.0f, 1.0f,	timePer);
-			gluCylinder(obj, radius1, radius1, length_, 3, 1);
+			gluCylinder(obj, radius1, radius1, drawLength_, 3, 1);
 
 			glColor4f(
 				weapon_->getColor()[0],
 				weapon_->getColor()[1],
 				weapon_->getColor()[2],
 				timePer);
-			gluCylinder(obj, radius2, radius2, length_, 5, 1);
+			gluCylinder(obj, radius2, radius2, drawLength_, 5, 1);
 		glPopMatrix();
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}

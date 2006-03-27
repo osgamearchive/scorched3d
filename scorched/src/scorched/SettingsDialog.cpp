@@ -21,7 +21,7 @@
 #include <scorched/DisplayDialog.h>
 #include <scorched/MainDialog.h>
 #include <server/ScorchedServer.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <tankai/TankAIStore.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>

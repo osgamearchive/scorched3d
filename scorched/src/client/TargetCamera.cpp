@@ -25,9 +25,9 @@
 #include <landscape/MovementMap.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/Water.h>
 #include <engine/ViewPoints.h>
 #include <tankai/TankAIHuman.h>

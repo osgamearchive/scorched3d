@@ -23,7 +23,7 @@
 #include <client/ScorchedClient.h>
 #include <client/Main2DCamera.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <engine/ViewPoints.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLConsole.h>

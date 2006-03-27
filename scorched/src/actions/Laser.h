@@ -44,6 +44,7 @@ public:
 
 protected:
 	float totalTime_;
+	float drawLength_;
 	unsigned int playerId_;
 	unsigned int data_;
 	WeaponLaser *weapon_;

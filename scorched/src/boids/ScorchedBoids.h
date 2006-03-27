@@ -24,6 +24,7 @@
 #include <vector>
 
 class BoidWorld;
+class LandscapeBoids;
 class ScorchedBoids
 {
 public:
@@ -36,6 +37,8 @@ public:
 
 protected:
 	std::vector<BoidWorld*> worlds_;
+	void addBoids(std::vector<LandscapeBoids *> boids);
+	void addBoid(LandscapeBoids *boid);
 
 };
 

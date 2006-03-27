@@ -21,7 +21,7 @@
 #include <weapons/WeaponCenterPosition.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeTex.h>
 #include <engine/ActionController.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponCenterPosition);

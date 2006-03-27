@@ -216,7 +216,7 @@ near the flames will loose life.</description>
 				<effectradius>5</effectradius>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
-				<allowunderwater>off</allowunderwater>
+				<allowunderwater>false</allowunderwater>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -244,7 +244,7 @@ will loose life.</description>
 				<effectradius>5</effectradius>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
-				<allowunderwater>off</allowunderwater>
+				<allowunderwater>false</allowunderwater>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -1422,6 +1422,7 @@ and shields damaging the tank directly.</description>
 			<removepower>20</removepower>
 			<penetration>1.0</penetration>
 			<power>1000</power>
+			<laserproof>true</laserproof>
 		</accessoryaction>
 	</accessory>	
 	<accessory>

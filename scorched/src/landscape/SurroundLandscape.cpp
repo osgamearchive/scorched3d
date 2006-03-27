@@ -22,9 +22,9 @@
 #include <landscape/Sky.h>
 #include <landscape/Sun.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeTex.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
 #include <GLEXT/GLInfo.h>
 #include <GLEXT/GLState.h>

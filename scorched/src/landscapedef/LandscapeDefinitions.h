@@ -21,8 +21,8 @@
 #if !defined(__INCLUDE_LandscapeDefinitionsh_INCLUDE__)
 #define __INCLUDE_LandscapeDefinitionsh_INCLUDE__
 
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeDefinitionsItem.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinitionsItem.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>
@@ -32,8 +32,11 @@
 class LandscapeDefinitions;
 class LandscapePlace;
 class LandscapeSound;
+class LandscapeBoids;
+class LandscapeShips;
 class LandscapeDefn;
 class LandscapeTex;
+class LandscapeEvents;
 class OptionsGame;
 
 class LandscapeDefinitionsEntry
@@ -63,6 +66,9 @@ public:
 	LandscapeDefn *getDefn(const char *file, bool load = false);
 	LandscapePlace *getPlace(const char *file, bool load = false);
 	LandscapeSound *getSound(const char *file, bool load = false);
+	LandscapeBoids *getBoids(const char *file, bool load = false);
+	LandscapeShips *getShips(const char *file, bool load = false);
+	LandscapeEvents *getEvents(const char *file, bool load = false);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
 	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
@@ -74,6 +80,9 @@ protected:
 	LandscapeDefinitionsItem<LandscapeDefn> defns_;
 	LandscapeDefinitionsItem<LandscapePlace> places_;
 	LandscapeDefinitionsItem<LandscapeSound> sounds_;
+	LandscapeDefinitionsItem<LandscapeBoids> boids_;
+	LandscapeDefinitionsItem<LandscapeShips> ships_;
+	LandscapeDefinitionsItem<LandscapeEvents> events_;
 
 };
 

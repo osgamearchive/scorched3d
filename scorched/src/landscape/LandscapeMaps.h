@@ -23,7 +23,7 @@
 
 #include <landscape/RoofMaps.h>
 #include <landscape/GroundMaps.h>
-#include <landscape/LandscapeDefinitionCache.h>
+#include <landscapedef/LandscapeDefinitionCache.h>
 
 class ScorchedClient;
 class LandscapeMaps

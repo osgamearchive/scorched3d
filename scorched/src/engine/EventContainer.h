@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_EventContainerh_INCLUDE__)
 #define __INCLUDE_EventContainerh_INCLUDE__
 
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeEvents.h>
 #include <map>
 
 class EventContainer
@@ -30,7 +30,7 @@ public:
 	EventContainer();
 	virtual ~EventContainer();
 
-	void initialize(LandscapeTex *tex);
+	void initialize();
 	void simulate(float frameTime, ScorchedContext &context);
 
 protected:
@@ -40,7 +40,10 @@ protected:
 		int eventNumber;
 	};
 
-	std::map<LandscapeTexEvent *, EventEntry> events_;
+	std::map<LandscapeEvent *, EventEntry> events_;
+
+	void addEvent(std::vector<LandscapeEvent *> &events);
+	void addEvents(std::vector<LandscapeEvents *> &events);
 };
 
 #endif // __INCLUDE_EventContainerh_INCLUDE__

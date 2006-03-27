@@ -13,6 +13,7 @@ my @dirs =
 	"cgext",
 	"GLW",
 	"landscape",
+	"landscapedef",
 	"scorched",
 	"ships",
 	"server",

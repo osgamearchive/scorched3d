@@ -22,7 +22,9 @@
 #include <boids/BoidWorld.h>
 #include <common/OptionsDisplay.h>
 #include <3dsparse/ModelID.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeBoids.h>
 #include <landscape/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 
@@ -49,14 +51,35 @@ void ScorchedBoids::generate()
 	LandscapeTex &tex = 
 		*ScorchedClient::instance()->getLandscapeMaps().
 			getDefinitions().getTex();
+	LandscapeDefn &defn = 
+		*ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getDefn();
 
-	std::vector<LandscapeTexBoids *> &boids = tex.boids;
-	std::vector<LandscapeTexBoids *>::iterator itor;
+	addBoids(tex.texDefn.boids);
+	addBoids(defn.texDefn.boids);
+}
+
+void ScorchedBoids::addBoids(std::vector<LandscapeBoids *> boids)
+{
+	std::vector<LandscapeBoids *>::iterator itor;
 	for (itor = boids.begin();
 		itor != boids.end();
 		itor++)
 	{
-		LandscapeTexBoids *boids = (*itor);
+		LandscapeBoids *boid = (*itor);
+		addBoid(boid);
+	}
+}
+
+void ScorchedBoids::addBoid(LandscapeBoids *boid)
+{
+	std::vector<LandscapeBoidsType *> &boids = boid->objects;
+	std::vector<LandscapeBoidsType *>::iterator itor;
+	for (itor = boids.begin();
+		itor != boids.end();
+		itor++)
+	{
+		LandscapeBoidsType *boids = (*itor);
 
 		BoidWorld *world = new BoidWorld(boids);
 		worlds_.push_back(world);

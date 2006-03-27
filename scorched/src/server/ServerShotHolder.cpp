@@ -29,7 +29,7 @@
 #include <actions/TankResign.h>
 #include <actions/TankFired.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/MovementMap.h>
 #include <weapons/AccessoryStore.h>
 #include <coms/ComsMessageSender.h>

@@ -32,6 +32,7 @@ public:
 		float hitPercentage);
 	virtual ~ShieldHit();
 
+	virtual void draw();
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
@@ -41,6 +42,7 @@ public:
 
 protected:
 	bool firstTime_;
+	float totalTime_;
 	unsigned int playerId_;
 	float hitPercentage_;
 	Vector position_;

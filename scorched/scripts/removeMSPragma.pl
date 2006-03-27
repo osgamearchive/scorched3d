@@ -10,6 +10,7 @@ my @dirs =
 	"GLEXT",
 	"GLW",
 	"landscape",
+	"landscapedef",
 	"client",
 	"server",
 	"actions",

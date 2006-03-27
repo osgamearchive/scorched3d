@@ -21,8 +21,8 @@
 #include <landscape/RoofMaps.h>
 #include <common/ProgressCounter.h>
 #include <engine/ScorchedContext.h>
-#include <landscape/LandscapeDefinitionCache.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefinitionCache.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscape/HeightMapLoader.h>
 #include <float.h>
 

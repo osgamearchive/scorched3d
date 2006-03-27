@@ -23,7 +23,6 @@
 #include <server/ServerNewGameState.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
-#include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>

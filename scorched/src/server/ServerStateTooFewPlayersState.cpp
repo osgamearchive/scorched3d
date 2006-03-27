@@ -26,7 +26,6 @@
 #include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsGameStoppedMessage.h>
-#include <coms/ComsGameStateMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>

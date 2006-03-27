@@ -35,7 +35,7 @@
 #include <common/OptionsTransient.h>
 #include <engine/ActionController.h>
 #include <engine/ModFiles.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
 #include <tankgraph/TankModelStore.h>

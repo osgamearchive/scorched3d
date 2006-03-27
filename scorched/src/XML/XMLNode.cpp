@@ -334,10 +334,16 @@ bool XMLNode::getNamedChild(const char *name, std::string &value,
 bool XMLNode::getNamedChild(const char *name, bool &value,
 	bool failOnError, bool remove)
 {
-	std::string str;
-	if (!getNamedChild(name, str, failOnError, remove)) return false;
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
 
-	value = (0 == strcmp(str.c_str(), "true"));	
+	if (0 == strcmp(node->getContent(), "true")) value = true;
+	else if (0 == strcmp(node->getContent(), "false")) value = false;
+	else 
+	{
+		return node->returnError(
+			"Failed to parse boolean value (should be true or false)");
+	}
 	return true;
 }
 

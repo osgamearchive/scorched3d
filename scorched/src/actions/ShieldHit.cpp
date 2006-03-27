@@ -26,22 +26,25 @@
 #include <weapons/Accessory.h>
 #include <weapons/Shield.h>
 #include <target/TargetContainer.h>
+#include <GLEXT/GLLenseFlare.h>
 #include <tankgraph/TargetRendererImplTank.h>
 
 REGISTER_ACTION_SOURCE(ShieldHit);
 
-ShieldHit::ShieldHit() : firstTime_(true)
+ShieldHit::ShieldHit() : 
+	totalTime_(0.0f),
+	firstTime_(true)
 {
 }
 
 ShieldHit::ShieldHit(unsigned int playerId,
 	Vector &position,
 	float hitPercentage) :
+	totalTime_(0.0f),
 	firstTime_(true), playerId_(playerId),
 	hitPercentage_(hitPercentage),
 	position_(position)
 {
-
 }
 
 ShieldHit::~ShieldHit()
@@ -50,7 +53,6 @@ ShieldHit::~ShieldHit()
 
 void ShieldHit::init()
 {
-
 }
 
 void ShieldHit::simulate(float frameTime, bool &remove)
@@ -90,8 +92,17 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 		}
 	}
 
-	if (!renderer_) remove = true;
+	totalTime_ += frameTime;
+	if (totalTime_ > 0.2f) remove = true;
 	Action::simulate(frameTime, remove);
+}
+
+void ShieldHit::draw()
+{
+	if (context_->serverMode) return;
+
+	GLLenseFlare::instance()->draw(position_, false, 0, 
+		1.0f, 1.0f);
 }
 
 bool ShieldHit::writeAction(NetBuffer &buffer)

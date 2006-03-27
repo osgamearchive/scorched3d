@@ -64,7 +64,7 @@
 					<x>0</x><y>0</y>
 					<w>0</w><h>0</h>
 					<mask>12</mask>
-					<oldstyle>off</oldstyle>
+					<oldstyle>false</oldstyle>
 					<displaytime>10.0</displaytime>
 					<totallines>5</totallines>
 					<linedepth>18</linedepth>

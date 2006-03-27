@@ -48,6 +48,7 @@ public:
 	float getPower() { return power_; }
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
+	bool getLaserProof() { return laserProof_; }
 	virtual ShieldType getShieldType();
 
 	REGISTER_ACCESSORY_HEADER(Shield, AccessoryPart::AccessoryShield);
@@ -60,6 +61,7 @@ protected:
 	float radius_;
 	float power_;
 	bool halfShield_;
+	bool laserProof_;
 };
 
 #endif // !defined(AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)

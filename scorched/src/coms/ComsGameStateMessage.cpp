@@ -34,7 +34,6 @@ ComsGameStateMessage::~ComsGameStateMessage()
 
 bool ComsGameStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
-	if (!stateMessage_.writeMessage(buffer, destinationId)) return false;
 	if (!ScorchedServer::instance()->getOptionsTransient().
 		writeToBuffer(buffer)) return false;
 	return true;
@@ -42,7 +41,6 @@ bool ComsGameStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinat
 
 bool ComsGameStateMessage::readMessage(NetBufferReader &reader)
 {
-	if (!stateMessage_.readMessage(reader)) return false;
 	if (!ScorchedClient::instance()->getOptionsTransient().
 		readFromBuffer(reader)) return false;
 	return true;

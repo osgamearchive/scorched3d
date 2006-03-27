@@ -21,7 +21,7 @@
 #include <server/ScorchedServer.h>
 #include <tank/TankDeadContainer.h>
 #include <tankai/TankAIStore.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitions.h>
 
 ScorchedServer *ScorchedServer::instance_ = 0;
 

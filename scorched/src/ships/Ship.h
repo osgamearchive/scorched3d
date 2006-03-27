@@ -24,11 +24,11 @@
 #include <3dsparse/ModelRenderer.h>
 
 class ModelID;
-class LandscapeTexShip;
+class LandscapeShip;
 class Ship
 {
 public:
-	Ship(LandscapeTexShip *texShip);
+	Ship(LandscapeShip *texShip);
 	virtual ~Ship();
 
 	float getSize() { return size_; }

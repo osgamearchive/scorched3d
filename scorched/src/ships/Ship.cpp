@@ -22,14 +22,14 @@
 #include <3dsparse/ModelStore.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeShips.h>
 #include <landscape/Landscape.h>
 #include <landscape/Water.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <math.h>
 
-Ship::Ship(LandscapeTexShip *texShip)
+Ship::Ship(LandscapeShip *texShip)
 {
 	Model *model = ModelStore::instance()->loadModel(texShip->model);
 	scale_ = texShip->scale;

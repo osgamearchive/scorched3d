@@ -35,7 +35,6 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	ComsPlayerStateMessage stateMessage_;
 };
 
 

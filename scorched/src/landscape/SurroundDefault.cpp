@@ -27,8 +27,8 @@
 #include <landscape/Sky.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefinition.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeTex.h>
 #include <landscape/SurroundDefault.h>
 
 SurroundDefault::SurroundDefault(HeightMap &map) :

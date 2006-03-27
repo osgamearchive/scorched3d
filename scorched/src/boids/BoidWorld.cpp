@@ -24,7 +24,8 @@
 #include <3dsparse/ModelRenderer.h>
 #include <client/ScorchedClient.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeBoids.h>
 #include <landscape/HeightMap.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
@@ -35,7 +36,7 @@
 #include <boids/ScorchedBoidsObstacle.h>
 #include <stdlib.h>
 
-BoidWorld::BoidWorld(LandscapeTexBoids *boids) : 
+BoidWorld::BoidWorld(LandscapeBoidsType *boids) : 
 	visibilityMatrix_(0), boidSoundIndex_(0),
 	elapsedTime_(0.0f), stepTime_(0.0f), stepTime2_(0.0f),
 	halfTime_(false), modelSize_(boids->modelsize * 0.005f),

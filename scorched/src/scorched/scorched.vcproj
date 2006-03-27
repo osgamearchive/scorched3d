@@ -1392,33 +1392,6 @@
 				RelativePath="..\landscape\Landscape.h">
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapeDefinition.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefinition.h">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefinitionCache.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefinitionCache.h">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefinitions.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefinitions.h">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefinitionsItem.h">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefn.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeDefn.h">
-			</File>
-			<File
 				RelativePath="..\landscape\LandscapeMaps.cpp">
 			</File>
 			<File
@@ -1455,34 +1428,16 @@
 				RelativePath="..\landscape\LandscapeObjectsGroupEntry.h">
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapePlace.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapePlace.h">
-			</File>
-			<File
 				RelativePath="..\landscape\LandscapePoints.cpp">
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapePoints.h">
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapeSound.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeSound.h">
-			</File>
-			<File
 				RelativePath="..\landscape\LandscapeSoundManager.cpp">
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeSoundManager.h">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeTex.cpp">
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeTex.h">
 			</File>
 			<File
 				RelativePath="..\landscape\MapPoints.cpp">
@@ -4014,6 +3969,79 @@
 			</File>
 			<File
 				RelativePath="..\placement\PlacementTypeTree.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="landscapedef"
+			Filter="">
+			<File
+				RelativePath="..\landscapedef\LandscapeBoids.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeBoids.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinition.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinitionCache.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinitionCache.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinitions.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinitions.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefinitionsItem.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefn.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeDefn.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeEvents.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeEvents.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapePlace.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapePlace.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeShips.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeShips.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeSound.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeSound.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeTex.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeTex.h">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeTexDefn.cpp">
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeTexDefn.h">
 			</File>
 		</Filter>
 	</Files>

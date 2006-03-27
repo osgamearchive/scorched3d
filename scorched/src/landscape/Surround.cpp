@@ -20,7 +20,7 @@
 
 #include <landscape/Surround.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 

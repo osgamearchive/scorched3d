@@ -19,6 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/EventContainer.h>
+#include <server/ScorchedServer.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscape/LandscapeMaps.h>
 
 EventContainer::EventContainer()
 {
@@ -28,16 +32,41 @@ EventContainer::~EventContainer()
 {
 }
 
-void EventContainer::initialize(LandscapeTex *tex)
+void EventContainer::initialize()
 {
 	events_.clear();
-	std::vector<LandscapeTexEvent *> &events = tex->events;
-	std::vector<LandscapeTexEvent *>::iterator itor;
+
+	LandscapeTex &tex = 
+		*ScorchedServer::instance()->getLandscapeMaps().
+			getDefinitions().getTex();
+	LandscapeDefn &defn = 
+		*ScorchedServer::instance()->getLandscapeMaps().
+			getDefinitions().getDefn();
+
+	addEvents(tex.texDefn.events);
+	addEvents(defn.texDefn.events);
+}
+
+void EventContainer::addEvents(std::vector<LandscapeEvents *> &events)
+{
+	std::vector<LandscapeEvents *>::iterator itor;
 	for (itor = events.begin();
 		itor != events.end();
 		itor++)
 	{
-		LandscapeTexEvent *event = (*itor);
+		LandscapeEvents *event = (*itor);
+		addEvent(event->objects);
+	}
+}
+
+void EventContainer::addEvent(std::vector<LandscapeEvent *> &events)
+{
+	std::vector<LandscapeEvent *>::iterator itor;
+	for (itor = events.begin();
+		itor != events.end();
+		itor++)
+	{
+		LandscapeEvent *event = (*itor);
 
 		EventEntry entry;
 		entry.eventNumber = 0;
@@ -49,12 +78,12 @@ void EventContainer::initialize(LandscapeTex *tex)
 
 void EventContainer::simulate(float frameTime, ScorchedContext &context)
 {
-	std::map<LandscapeTexEvent *, EventEntry>::iterator itor;
+	std::map<LandscapeEvent *, EventEntry>::iterator itor;
 	for (itor = events_.begin();
 		itor != events_.end();
 		itor++)
 	{
-		LandscapeTexEvent *event = (*itor).first;
+		LandscapeEvent *event = (*itor).first;
 		EventEntry &entry = (*itor).second;
 		
 		entry.eventTime -= frameTime;

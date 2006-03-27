@@ -21,7 +21,7 @@
 #include <weapons/WeaponTeleport.h>
 #include <engine/ActionController.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeTex.h>
+#include <landscapedef/LandscapeTex.h>
 #include <actions/Teleport.h>
 #include <common/Defines.h>
 

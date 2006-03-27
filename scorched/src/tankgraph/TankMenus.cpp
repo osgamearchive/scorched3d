@@ -400,7 +400,10 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 			sel = (firstTank->getAccessories().getWeapons().getCurrent() == accessory);
 			break;
 		case AccessoryPart::AccessoryFuel:
-			sel = (Landscape::instance()->getTextureType() == Landscape::eMovement);
+			if (Landscape::instance()->getTextureType() == Landscape::eMovement)
+			{
+				sel = (accessory->getAccessoryId() == MovementMap::getFuelId());
+			}
 			break;
 		case AccessoryPart::AccessoryAutoDefense:
 			sel = true;

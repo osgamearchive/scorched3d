@@ -25,7 +25,7 @@
 #include <sprites/ExplosionTextures.h>
 #include <server/ScorchedServer.h>
 #include <weapons/AccessoryStore.h>
-#include <landscape/LandscapeDefinitions.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
