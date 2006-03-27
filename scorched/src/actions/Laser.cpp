@@ -95,7 +95,8 @@ void Laser::simulate(float frameTime, bool &remove)
 						current->getPlayerId() != playerId_)
 					{
 						if ((current->getTargetPosition() -
-							pos).Magnitude() < weapon_->getHurtRadius())
+							pos).Magnitude() < weapon_->getHurtRadius() + 
+							current->getLife().getSize())
 						{
 							damagedTargets_.insert(current->getPlayerId());
 						}
