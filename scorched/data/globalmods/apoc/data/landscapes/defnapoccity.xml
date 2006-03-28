@@ -22,4 +22,7 @@
 		<ambientsound>data/landscapes/ambientsoundbuildings.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundcars.xml</ambientsound>
 	</ambientsounds>
+	<placements>
+		<placement>data/landscapes/placecityport.xml</placement>
+	</placements>
 </defn>

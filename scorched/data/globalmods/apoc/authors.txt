@@ -30,7 +30,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Projectile Models:
 			- megamirv, wobblebomb, fusionbarrel, m7a3, grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
 		Building Models (including burnt versions and original texturing):
-			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, store1, trailorhouse1, hospital
+			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, store1, trailorhouse1, hospital, mainport
 		Boid Models
 		    - 737ua, cessna, fight4life
 		Object Models

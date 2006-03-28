@@ -112,6 +112,7 @@ Changes Since 3.1
     	- Gas stations drop 1-3 fuel cans (10 fuel)
     	- Bars drop 1-3 beers (10 health) or shotguns
     	- New hospital by Shockwave that drops 1-3 medkits (25 health)
+    	- New port by Shockwave
     	- Houses can no longer keep setting themselves on fire
     	- New 737 jumbo jet boid by Shockwave on cities
     	- New cessna boid by Shockwave on cities

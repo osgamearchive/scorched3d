@@ -1,0 +1,28 @@
+<place>
+	<placements>
+		<placement type="direct"> 
+			<groupname>ports</groupname>
+			<position> 
+				<position><A>92</A><B>88</B><C>4.1</C></position> 
+			</position>
+			<object type="model"> 
+				<model type="MilkShape">data/accessories/buildings/mainport.txt</model> 
+				<modelburnt type="MilkShape">data/accessories/buildings/mainport.txt</modelburnt> 
+				<modelrotation>90</modelrotation>
+				<modelscale>0.075</modelscale> 
+				<removeaction>Large Bldg</removeaction> 
+				<burnaction>Large Bldg</burnaction> 
+			</object>
+			<!--<object type="target">
+				<name>City Port</name>
+				<model type="MilkShape">data/accessories/buildings/mainport.txt</model>
+				<modelrotation>90</modelrotation>
+				<modelscale>0.075</modelscale>
+				<shield>none</shield>
+				<parachute>Parachute</parachute>
+				<life>50</life>
+				<removeaction>Large Bldg</removeaction>
+			</object>-->
+		</placement>
+	</placements>
+</place>
