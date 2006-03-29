@@ -1702,7 +1702,7 @@ radioactive fallout which travels downwind.</description>
 						<effectradius>3.0</effectradius>
 						<napalmtexture>flames</napalmtexture>
 						<napalmsound>explosions/napalm.wav</napalmsound>
-						<allowunderwater>off</allowunderwater>
+						<allowunderwater>false</allowunderwater>
 					</collisionaction>
 				</aimedweapon>
 			</subweapon2>
