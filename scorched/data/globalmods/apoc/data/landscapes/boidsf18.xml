@@ -1,0 +1,19 @@
+<boids>
+	<boid>
+		<count>2</count>
+		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
+		<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
+		<maxvelocity>7.5</maxvelocity>
+		<maxacceleration>5.0</maxacceleration>
+		<cruisedistance>10.0</cruisedistance>
+		<model type="MilkShape">data/meshes/f18/f18.txt</model>
+		<sounds>
+			<mintime>15</mintime>
+			<maxtime>15</maxtime>
+			<maxsimul>3</maxsimul>
+			<volume>25</volume>
+			<sound>data/wav/misc/f18_1.wav</sound>
+			<sound>data/wav/misc/f18_2.wav</sound>
+		</sounds>
+	</boid>
+</boids>
