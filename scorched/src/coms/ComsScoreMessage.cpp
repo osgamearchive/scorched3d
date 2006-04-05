@@ -20,8 +20,9 @@
 
 #include <coms/ComsScoreMessage.h>
 
-ComsScoreMessage::ComsScoreMessage() :
-	ComsMessage("ComsScoreMessage")
+ComsScoreMessage::ComsScoreMessage(bool finalScore) :
+	ComsMessage("ComsScoreMessage"),
+	finalScore_(finalScore)
 {
 
 }
@@ -33,10 +34,12 @@ ComsScoreMessage::~ComsScoreMessage()
 
 bool ComsScoreMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
+	buffer.addToBuffer(finalScore_);
 	return true;
 }
 
 bool ComsScoreMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(finalScore_)) return false;
 	return true;
 }

@@ -40,12 +40,12 @@ protected:
 	static ScoreDialog *instance2_;
 	std::list<unsigned int> sortedTanks_;
 	int lastScoreValue_;
-	int lastWinsValue_;
+	int lastMoneyValue_;
 	int lastNoPlayers_;
 
 	void calculateScores();
 	void addLine(Tank *current, float y, char *rank, bool finished);
-	void addScoreLine(float y, int kills, int money, int wins);
+	void addScoreLine(float y, Vector &color, int score);
 
 private:
 	ScoreDialog();

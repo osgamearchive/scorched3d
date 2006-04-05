@@ -95,28 +95,28 @@ bool ServerSFrame::TransferDataToWindow()
 	IDC_SERVER_PORT_CTRL->SetValue(
 		wxString(formatString("%i", options_.getPortNo()), wxConvUTF8));
 	IDC_SERVER_PORT_CTRL->SetToolTip(
-		wxString(options_.getPortNoToolTip(), wxConvUTF8));
+		wxString(options_.getPortNoEntry().getDescription(), wxConvUTF8));
 	IDC_SERVERMANAGEMENT_PORT_CTRL->SetValue(
 		wxString(formatString("%i", options_.getManagementPortNo()), wxConvUTF8));
 	IDC_SERVERMANAGEMENT_PORT_CTRL->SetToolTip(
-		wxString(options_.getManagementPortNoToolTip(), wxConvUTF8));
+		wxString(options_.getManagementPortNoEntry().getDescription(), wxConvUTF8));
 	IDC_SERVER_NAME_CTRL->SetValue(
 		wxString(options_.getServerName(), wxConvUTF8));
 	IDC_SERVER_NAME_CTRL->SetToolTip(
-		wxString(options_.getServerNameToolTip(), wxConvUTF8));
+		wxString(options_.getServerNameEntry().getDescription(), wxConvUTF8));
 	IDC_PUBLISH_CTRL->SetValue(options_.getPublishServer());
 	IDC_PUBLISH_CTRL->SetToolTip(
-		wxString(options_.getPublishServerToolTip(), wxConvUTF8));
+		wxString(options_.getPublishServerEntry().getDescription(), wxConvUTF8));
 	IDC_PUBLISHIP_CTRL->SetValue(
 		wxString(options_.getPublishAddress(), wxConvUTF8));
 	IDC_PUBLISHIP_CTRL->SetToolTip(
-		wxString(options_.getPublishAddressToolTip(), wxConvUTF8));
+		wxString(options_.getPublishAddressEntry().getDescription(), wxConvUTF8));
 	IDC_ALLOWSAME_CTRL->SetValue(options_.getAllowSameIP());
 	IDC_ALLOWSAME_CTRL->SetToolTip(
-		wxString(options_.getAllowSameIPToolTip(), wxConvUTF8));
+		wxString(options_.getAllowSameIPEntry().getDescription(), wxConvUTF8));
 	IDC_ALLOWSAMEID_CTRL->SetValue(options_.getAllowSameUniqueId());
 	IDC_ALLOWSAMEID_CTRL->SetToolTip(
-		wxString(options_.getAllowSameUniqueIdToolTip(), wxConvUTF8));
+		wxString(options_.getAllowSameUniqueIdEntry().getDescription(), wxConvUTF8));
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
@@ -140,14 +140,14 @@ bool ServerSFrame::TransferDataToWindow()
 
 bool ServerSFrame::TransferDataFromWindow()
 {
-	options_.setPortNo(atoi(IDC_SERVER_PORT_CTRL->GetValue().mb_str(wxConvUTF8)));
-	options_.setManagementPortNo(atoi(IDC_SERVERMANAGEMENT_PORT_CTRL->GetValue().mb_str(wxConvUTF8)));
-	options_.setServerName(IDC_SERVER_NAME_CTRL->GetValue().mb_str(wxConvUTF8));
-	options_.setPublishServer(IDC_PUBLISH_CTRL->GetValue());
-	options_.setPublishAddress(IDC_PUBLISHIP_CTRL->GetValue().mb_str(wxConvUTF8));
-	options_.setAllowSameIP(IDC_ALLOWSAME_CTRL->GetValue());
-	options_.setAllowSameUniqueId(IDC_ALLOWSAMEID_CTRL->GetValue());
-	options_.setMod(IDC_SERVER_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
+	options_.getPortNoEntry().setValue(atoi(IDC_SERVER_PORT_CTRL->GetValue().mb_str(wxConvUTF8)));
+	options_.getManagementPortNoEntry().setValue(atoi(IDC_SERVERMANAGEMENT_PORT_CTRL->GetValue().mb_str(wxConvUTF8)));
+	options_.getServerNameEntry().setValue(IDC_SERVER_NAME_CTRL->GetValue().mb_str(wxConvUTF8));
+	options_.getPublishServerEntry().setValue(IDC_PUBLISH_CTRL->GetValue());
+	options_.getPublishAddressEntry().setValue(IDC_PUBLISHIP_CTRL->GetValue().mb_str(wxConvUTF8));
+	options_.getAllowSameIPEntry().setValue(IDC_ALLOWSAME_CTRL->GetValue());
+	options_.getAllowSameUniqueIdEntry().setValue(IDC_ALLOWSAMEID_CTRL->GetValue());
+	options_.getModEntry().setValue(IDC_SERVER_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
 	return true;
 }
 

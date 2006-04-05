@@ -21,6 +21,7 @@
 #if !defined(AFX_TANKSCORE_H__ED963414_2B77_4027_B35A_D69960165470__INCLUDED_)
 #define AFX_TANKSCORE_H__ED963414_2B77_4027_B35A_D69960165470__INCLUDED_
 
+#include <set>
 #include <string>
 #include <time.h>
 #include <coms/NetBuffer.h>
@@ -33,9 +34,14 @@ public:
 	virtual ~TankScore();
 
 	void newMatch();
+	void newGame();
+	void clientNewGame();
 
 	int getKills() { return kills_; }
 	void setKills(int kills) { kills_ = kills; }
+
+	int getAssists() { return assists_; }
+	void setAssists(int assists) { assists_ = assists; }
 
 	int getMoney() { return money_; }
 	void setMoney(int money);
@@ -43,8 +49,16 @@ public:
 	int getWins() { return wins_; }
 	void setWins(int wins) { wins_ = wins; }
 
+	int getScore() { return score_; }
+	void setScore(int score) { score_ = score; }
+
 	int getMissedMoves() { return missedMoves_; }
 	void setMissedMoves(int miss) { missedMoves_ = miss; }
+
+	bool getWonGame() { return wonGame_; }
+	void setWonGame() { wonGame_ = true; }
+
+	std::set<unsigned int> &getHurtBy() { return hurtBy_; }
 
 	time_t getTimePlayed() { return time(0) - startTime_; }
 	time_t getStartTime() { return startTime_; }
@@ -66,12 +80,16 @@ public:
 
 protected:
 	std::string statsRank_;
+	std::set<unsigned int> hurtBy_;
 	ScorchedContext &context_;
 	int kills_;
+	int assists_;
 	int money_;
 	int totalMoneyEarned_;
 	int wins_;
+	int score_;
 	int missedMoves_;
+	bool wonGame_;
 	time_t startTime_;
 	time_t lastStatTime_;
 

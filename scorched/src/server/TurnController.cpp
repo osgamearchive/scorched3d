@@ -50,8 +50,8 @@ void TurnController::newGame()
 {
 	playerOrder_.clear();
 
-	OptionsGame::TurnType turnType =
-		ScorchedServer::instance()->getOptionsGame().getTurnType();
+	OptionsGame::TurnType turnType = (OptionsGame::TurnType)
+		ScorchedServer::instance()->getOptionsGame().getTurnType().getValue();
 
 	// On the very first round make the order random (if looser first chosen)
 	// as there is no looser yet!
@@ -110,8 +110,8 @@ void TurnController::nextShot()
 {
 	playersThisShot_.clear();
 
-	OptionsGame::TurnType turnType =
-		ScorchedServer::instance()->getOptionsGame().getTurnType();
+	OptionsGame::TurnType turnType = (OptionsGame::TurnType)
+		ScorchedServer::instance()->getOptionsGame().getTurnType().getValue();
 		
 	// Game number 0 is the weapons choosing round, so every one can do this
 	// concurrently

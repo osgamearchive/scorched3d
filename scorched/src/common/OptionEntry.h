@@ -42,7 +42,10 @@ public:
 		OptionEntryTextType,
 		OptionEntryBoolType,
 		OptionEntryFloatType,
-		OptionEntryVectorType
+		OptionEntryVectorType,
+		OptionEntryEnumType,
+		OptionEntryStringEnumType,
+		OptionEntryBoundedIntType
 	};
 
 	OptionEntry(std::list<OptionEntry *> &group,
@@ -117,6 +120,8 @@ public:
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setIntArgument(int value);
 
+	operator int () { return value_; }
+
 protected:
 	int defaultValue_;
 	int value_;
@@ -131,13 +136,20 @@ public:
 						  const char *description,
 						  unsigned int data,
 						  int defaultValue,
-						  int minValue, int maxValue);
+						  int minValue, int maxValue, int stepValue);
 	virtual ~OptionEntryBoundedInt();
 
+	virtual const char *getDescription();
+	virtual EntryType getEntryType() { return OptionEntryBoundedIntType; }
 	virtual bool setValue(int value);
+
+	int getMinValue() { return minValue_; }
+	int getMaxValue() { return maxValue_; }
+	int getStepValue() { return stepValue_; }
 
 protected:
 	int minValue_, maxValue_;
+	int stepValue_;
 
 };
 
@@ -158,6 +170,7 @@ public:
 						  OptionEntryEnum::EnumEntry enums[]);
 	virtual ~OptionEntryEnum();
 
+	virtual EntryType getEntryType() { return OptionEntryEnumType; }
 	virtual bool setValue(int value);
 	virtual const char *getDescription();
 
@@ -169,6 +182,8 @@ public:
 		{ return OptionEntryInt::getValueAsString(); }
 	virtual bool setComsBufferValue(const char *string) 
 		{ return OptionEntryInt::setValueFromString(string); }
+
+	OptionEntryEnum::EnumEntry *getEnums() { return enums_; }
 
 protected:
 	EnumEntry *enums_;
@@ -195,6 +210,8 @@ public:
 
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setBoolArgument(bool value);
+
+	operator bool () { return value_; }
 
 protected:
 	bool defaultValue_;
@@ -223,10 +240,41 @@ public:
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setStringArgument(const char* value);
 
+	operator const char *() { return value_.c_str(); }
+
 protected:
 	std::string value_;
 	std::string defaultValue_;
 	bool multiline_;
+
+};
+
+class OptionEntryStringEnum : public OptionEntryString
+{
+public:
+	struct EnumEntry
+	{
+		char *value;
+	};
+
+	OptionEntryStringEnum(std::list<OptionEntry *> &group,
+						  const char *name, 
+						  const char *description,
+						  unsigned int data,
+						  const char *value,
+						  OptionEntryStringEnum::EnumEntry enums[]);
+	virtual ~OptionEntryStringEnum();
+
+	virtual EntryType getEntryType() { return OptionEntryStringEnumType; }
+	virtual bool setValue(const char *value);
+	virtual const char *getDescription();
+
+	virtual bool setValueFromString(const char *string);
+
+	OptionEntryStringEnum::EnumEntry *getEnums() { return enums_; }
+
+protected:
+	EnumEntry *enums_;
 
 };
 
@@ -249,6 +297,8 @@ public:
 	virtual bool setValue(float value);
 
 	virtual bool addToArgParser(ARGParser &parser);
+
+	operator float () { return value_; }
 
 protected:
 	float defaultValue_;
@@ -275,6 +325,8 @@ public:
 	virtual bool setValue(Vector value);
 
 	virtual bool addToArgParser(ARGParser &parser);
+
+	operator Vector() { return value_; }
 
 protected:
 	Vector defaultValue_;

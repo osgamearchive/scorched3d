@@ -35,6 +35,7 @@ class ViewPoints;
 class ModFiles;
 class LandscapeDefinitions;
 class TankModelStore;
+class TankTeamScore;
 
 class ScorchedContext
 {
@@ -44,8 +45,6 @@ public:
 
 	ActionController *actionController;
 	GameState *gameState;
-	TargetContainer *targetContainer;
-	TankContainer *tankContainer;
 	LandscapeMaps *landscapeMaps;
 	ComsMessageHandler *comsMessageHandler;
 	NetInterface *netInterface;
@@ -55,7 +54,10 @@ public:
 	ModFiles *modFiles;
 	AccessoryStore *accessoryStore;
 	LandscapeDefinitions *landscapes;
+	TargetContainer *targetContainer;
+	TankContainer *tankContainer;
 	TankModelStore *tankModelStore;
+	TankTeamScore *tankTeamScore;
 	bool serverMode;
 };
 

@@ -65,7 +65,9 @@ GLConsoleRuleFnIOptionsAdapter::GLConsoleRuleFnIOptionsAdapter(
 	GLConsoleRuleType type = GLConsoleRuleTypeBoolean;
 	switch (entry.getEntryType())
 	{
+		case OptionEntry::OptionEntryEnumType:
 		case OptionEntry::OptionEntryIntType:
+		case OptionEntry::OptionEntryBoundedIntType:
 			type = GLConsoleRuleTypeNumber;
 		break;
 		case OptionEntry::OptionEntryStringType:

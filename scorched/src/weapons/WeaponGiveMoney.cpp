@@ -68,7 +68,7 @@ void WeaponGiveMoney::invokePowerUp(ScorchedContext &context,
 	if (!context.serverMode)
 	{
 		LoggerInfo info(LoggerInfo::TypeDeath,
-			formatString("\"%s\" received $%.0f", 
+			formatString("\"%s\" received $%i", 
 			tank->getName(), money_));
 		info.setPlayerId(playerId);
 		Logger::log(info);

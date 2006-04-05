@@ -29,6 +29,7 @@
 #include <tankai/TankAIAdder.h>
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
+#include <tank/TankTeamScore.h>
 #include <tankgraph/TankModelStore.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsNewGameMessage.h>
@@ -85,6 +86,7 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient->newGame();
+	ScorchedServer::instance()->getContext().tankTeamScore->newGame();
 
 	// Check if we can load/save a game
 	if (OptionsParam::instance()->getConnectedToServer() == false)

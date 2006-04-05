@@ -65,7 +65,7 @@ InventoryDialog::~InventoryDialog()
 
 void InventoryDialog::stateChange(bool state, unsigned int id)
 {
-	OptionsDisplay::instance()->setSortAccessories(state);
+	OptionsDisplay::instance()->getSortAccessoriesEntry().setValue(state);
 	playerRefresh();
 }
 

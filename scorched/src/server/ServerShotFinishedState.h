@@ -18,29 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_ServerScoreStateh_INCLUDE__)
-#define __INCLUDE_ServerScoreStateh_INCLUDE__
+#if !defined(__INCLUDE_ServerShotFinishedStateh_INCLUDE__)
+#define __INCLUDE_ServerShotFinishedStateh_INCLUDE__
 
 #include <engine/GameStateI.h>
 #include <engine/GameStateStimulusI.h>
 
-class ServerScoreState : 
+class ServerShotFinishedState : 
 	public GameStateI,
 	public GameStateStimulusI
 {
 public:
-	ServerScoreState();
-	virtual ~ServerScoreState();
+	ServerShotFinishedState();
+	virtual ~ServerShotFinishedState();
 
 	virtual void enterState(const unsigned state);
 	virtual bool acceptStateChange(const unsigned state, 
 		const unsigned nextState,
 		float frameTime);
 
-protected:
-	float totalTime_;
-};
+	static void setSpeed(float speed) { speed_ = speed; }
 
+protected:
+	static float speed_;
+	float waitTime_;
+	float totalTime_;
+
+	bool scoreWinners();
+	void scoreOverallWinner();
+};
 
 #endif

@@ -604,25 +604,21 @@ void TankTip::populate()
 		setText(tank_->getName(), formatString(
 				"Life   : %.0f/%.0f\n"
 				"Shield : %.0f/%.0f\n"
-				"Wins   : %i\n"
-				"Kills  : %i\n",
+				"Score  : %i\n",
 				tank_->getLife().getLife(),
 				tank_->getLife().getMaxLife(),
 				tank_->getShield().getShieldPower(),
 				shield->getPower(),
-				tank_->getScore().getWins(),
-				tank_->getScore().getKills()));
+				tank_->getScore().getScore()));
 	}
 	else
 	{
 		setText(tank_->getName(), formatString(
 				"Life   : %.0f/%.0f\n"
-				"Wins   : %i\n"
-				"Kills  : %i\n",
+				"Score  : %i\n",
 				tank_->getLife().getLife(),
 				tank_->getLife().getMaxLife(),
-				tank_->getScore().getWins(),
-				tank_->getScore().getKills()));
+				tank_->getScore().getScore()));
 	}
 }
 

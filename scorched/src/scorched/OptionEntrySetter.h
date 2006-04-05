@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,39 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_OptionEntrySetterh_INCLUDE__)
+#define __INCLUDE_OptionEntrySetterh_INCLUDE__
 
-enum
+#include <common/OptionEntry.h>
+#include <list>
+#include <wx/wx.h>
+
+class OptionEntrySetter
 {
-	IDC_COMBO_FORCE = 300,
-	IDC_COMBO_WINDCHANGES,
-	IDC_COMBO_WALLTYPE,
-	IDC_COMBO_WEAPONSCALE,
-	IDC_COMBO_STARTARMSLEVEL,
-	IDC_COMBO_ENDARMSLEVEL
+public:
+	OptionEntrySetter(wxControl *control, OptionEntry &entry);
+	virtual ~OptionEntrySetter();
+
+	OptionEntry &getEntry() { return entry_; }
+	wxControl *getControl() { return control_; }
+
+protected:
+	OptionEntry &entry_;
+	wxControl *control_;
 };
 
-static wxComboBox *IDC_COMBO_FORCE_CTRL = 0;
-static wxComboBox *IDC_COMBO_WINDCHANGES_CTRL = 0;
-static wxComboBox *IDC_COMBO_WALLTYPE_CTRL = 0;
-static wxComboBox *IDC_COMBO_WEAPONSCALE_CTRL = 0;
-static wxComboBox *IDC_COMBO_STARTARMSLEVEL_CTRL = 0;
-static wxComboBox *IDC_COMBO_ENDARMSLEVEL_CTRL = 0;
-static wxCheckBox *IDC_GIVEALLWEAPONS_CTRL = 0;
-static wxComboBox *IDC_RESIGNENDROUND_CTRL = 0;
-static wxComboBox *IDC_DEFENSEMODE_CTRL = 0;
-static wxComboBox *IDC_MOVEMENTRESTRICTION_CTRL = 0;
-static wxComboBox *IDC_COMBO_CLIMBINGDISTANCE_CTRL = 0;
-static wxComboBox *IDC_COMBO_FALLINGDISTANCE_CTRL = 0;
+class OptionEntrySetterUtil
+{
+public:
+	static OptionEntrySetter createOtherSetter(
+		wxWindow *parent, wxSizer *topsizer, OptionEntry &entry);
+	static OptionEntrySetter createIntSetter(
+		wxWindow *parent, wxSizer *topsizer, OptionEntry &entry,
+		int min, int max, int step);
+
+	static void updateControls(std::list<OptionEntrySetter> &controls);
+	static void updateEntries(std::list<OptionEntrySetter> &controls);
+};
+
+
+#endif // __INCLUDE_OptionEntrySetterh_INCLUDE__

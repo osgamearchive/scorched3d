@@ -95,17 +95,17 @@ void HUDDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		OptionsDisplay::instance()->setDrawPlayerNames(
+		OptionsDisplay::instance()->getDrawPlayerNamesEntry().setValue(
 			nameBox_->getCheckBox().getState());
-		OptionsDisplay::instance()->setDrawPlayerSight(
+		OptionsDisplay::instance()->getDrawPlayerSightEntry().setValue(
 			sightBox_->getCheckBox().getState());
-		OptionsDisplay::instance()->setOldSightPosition(
+		OptionsDisplay::instance()->getOldSightPositionEntry().setValue(
 			oldSightBox_->getCheckBox().getState());
-		OptionsDisplay::instance()->setDrawPlayerColor(
+		OptionsDisplay::instance()->getDrawPlayerColorEntry().setValue(
 			colorBox_->getCheckBox().getState());
-		OptionsDisplay::instance()->setDrawPlayerHealth(
+		OptionsDisplay::instance()->getDrawPlayerHealthEntry().setValue(
 			healthBox_->getCheckBox().getState());
-		OptionsDisplay::instance()->setDrawPlayerIcons(
+		OptionsDisplay::instance()->getDrawPlayerIconsEntry().setValue(
 			iconBox_->getCheckBox().getState());
 	}
 	GLWWindowManager::instance()->hideWindow(getId());

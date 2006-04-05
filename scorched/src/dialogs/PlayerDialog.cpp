@@ -356,11 +356,11 @@ void PlayerDialog::buttonDown(unsigned int id)
 			// If we are connected online save this players name
 			if (OptionsParam::instance()->getConnectedToServer())
 			{
-				OptionsDisplay::instance()->setOnlineUserName(
+				OptionsDisplay::instance()->getOnlineUserNameEntry().setValue(
 					playerName_->getText().c_str());
-				OptionsDisplay::instance()->setOnlineTankModel(
+				OptionsDisplay::instance()->getOnlineTankModelEntry().setValue(
 					viewer_->getModelName());
-				OptionsDisplay::instance()->setOnlineUserIcon(
+				OptionsDisplay::instance()->getOnlineUserIconEntry().setValue(
 					imageList_->getCurrent());
 			}
 

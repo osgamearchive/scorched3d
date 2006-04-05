@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,32 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <server/ServerCheckForWinnersState.h>
-#include <server/ScorchedServer.h>
-#include <server/ServerState.h>
-#include <common/OptionsGame.h>
-#include <common/OptionsTransient.h>
+#if !defined(__INCLUDE_WeaponGiveScoreh_INCLUDE__)
+#define __INCLUDE_WeaponGiveScoreh_INCLUDE__
 
-ServerCheckForWinnersState::ServerCheckForWinnersState()
-{
-}
+#include <actions/PowerUp.h>
 
-ServerCheckForWinnersState::~ServerCheckForWinnersState()
+class WeaponGiveScore  : public WeaponPowerUp
 {
-}
+public:
+	WeaponGiveScore();
+	virtual ~WeaponGiveScore();
 
-void ServerCheckForWinnersState::enterState(const unsigned state)
-{
-	if (ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() >
-		ScorchedServer::instance()->getOptionsGame().getNoRounds() / 2 && 
-		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() > 2)
-	{
-        ScorchedServer::instance()->getGameState().stimulate(
-			ServerState::ServerStimulusScore);
-	}
-	else
-	{
-        ScorchedServer::instance()->getGameState().stimulate(
-			ServerState::ServerStimulusTooFewPlayers);
-	}
-}
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	// Inherited from WeaponPowerUp
+	virtual void invokePowerUp(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data);
+
+	REGISTER_ACCESSORY_HEADER(WeaponGiveScore, AccessoryPart::AccessoryWeapon);
+
+protected:
+	int score_;
+
+};
+
+#endif // __INCLUDE_WeaponGiveScoreh_INCLUDE__

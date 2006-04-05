@@ -91,285 +91,221 @@ public:
 		TeamBallanceBotsVs,
 		TeamBallanceAutoByScore
 	};
+	
+	int getScorePerAssist() { return scorePerAssist_; }
+	OptionEntryInt &getScorePerAssistEntry() { return scorePerAssist_; }
 
-	int getTeams() { return teams_.getValue(); }
-	void setTeams(int value) { teams_.setValue(value); }
-	const char *getTeamsToolTip() { return teams_.getDescription(); }
+	int getScorePerKill() { return scorePerKill_; }
+	OptionEntryInt &getScorePerKillEntry() { return scorePerKill_; }
 
-	int getStartArmsLevel() { return startArmsLevel_.getValue(); }
-	void setStartArmsLevel(int value) { startArmsLevel_.setValue(value); }
-	const char *getStartArmsLevelToolTip() { return startArmsLevel_.getDescription(); }
+	int getScoreWonForRound() { return scoreWonForRound_; }
+	OptionEntryInt &getScoreWonForRoundEntry() { return scoreWonForRound_; }
 
-	int getEndArmsLevel() { return endArmsLevel_.getValue(); }
-	void setEndArmsLevel(int value) { endArmsLevel_.setValue(value); }
-	const char *getEndArmsLevelToolTip() { return endArmsLevel_.getDescription(); }
+	int getTeams() { return teams_; }
+	OptionEntryInt &getTeamsEntry() { return teams_; }
 
-	int getMaxNumberWeapons() { return maxNumberWeapons_.getValue(); }
-	void setMaxNumberWeapons(int value) { maxNumberWeapons_.setValue(value); }
-	const char *getMaxNumberWeaponsToolTip() { return maxNumberWeapons_.getDescription(); }
+	int getStartArmsLevel() { return startArmsLevel_; }
+	OptionEntryInt &getStartArmsLevelEntry() { return startArmsLevel_; }
 
-	int getNoMaxPlayers() { return numberOfPlayers_.getValue(); }
-	void setNoMaxPlayers(int value) { numberOfPlayers_.setValue(value); }
-	const char *getNoMaxPlayersToolTip() { return numberOfPlayers_.getDescription(); }
+	int getEndArmsLevel() { return endArmsLevel_; }
+	OptionEntryInt &getEndArmsLevelEntry() { return endArmsLevel_; }
 
-	int getNoMinPlayers() { return numberOfMinPlayers_.getValue(); }
-	void setNoMinPlayers(int value) { numberOfMinPlayers_.setValue(value); }
-	const char *getNoMinPlayersToolTip() { return numberOfMinPlayers_.getDescription(); }
+	int getMaxNumberWeapons() { return maxNumberWeapons_; }
+	OptionEntryInt &getMaxNumberWeaponsEntry() { return maxNumberWeapons_; }
 
-	int getNoRounds() { return numberOfRounds_.getValue(); }
-	void setNoRounds(int value) { numberOfRounds_.setValue(value); }
-	const char *getNoRoundsToolTip() { return numberOfRounds_.getDescription(); }
+	int getNoMaxPlayers() { return numberOfPlayers_; }
+	OptionEntryInt &getNoMaxPlayersEntry() { return numberOfPlayers_; }
 
-	int getRemoveBotsAtPlayers() { return removeBotsAtPlayers_.getValue(); }
-	void setRemoveBotsAtPlayers(int value) { removeBotsAtPlayers_.setValue(value); }
-	const char *getRemoveBotsAtPlayersToolTip() { return removeBotsAtPlayers_.getDescription(); }
+	int getNoMinPlayers() { return numberOfMinPlayers_; }
+	OptionEntryInt &getNoMinPlayersEntry() { return numberOfMinPlayers_; }
 
-	int getNoMaxRoundTurns() { return maxRoundTurns_.getValue(); }
-	void setNoMaxRoundTurns(int value) { maxRoundTurns_.setValue(value); }
-	const char *getNoMaxRoundTurnsToolTip() { return maxRoundTurns_.getDescription(); }
+	int getNoRounds() { return numberOfRounds_; }
+	OptionEntryInt &getNoRoundsEntry() { return numberOfRounds_; }
 
-	int getStartMoney() { return moneyStarting_.getValue(); }
-	void setStartMoney(int value) { moneyStarting_.setValue(value); }
-	const char *getStartMoneyToolTip() { return moneyStarting_.getDescription(); }
+	int getRemoveBotsAtPlayers() { return removeBotsAtPlayers_; }
+	OptionEntryInt &getRemoveBotsAtPlayersEntry() { return removeBotsAtPlayers_; }
 
-	int getInterest() { return moneyInterest_.getValue(); }
-	void setInterest(int value) { moneyInterest_.setValue(value); }
-	const char *getInterestToolTip() { return moneyInterest_.getDescription(); }
+	int getNoMaxRoundTurns() { return maxRoundTurns_; }
+	OptionEntryInt &getNoMaxRoundTurnsEntry() { return maxRoundTurns_; }
 
-	int getFreeMarketAdjustment() { return freeMarketAdjustment_.getValue(); }
-	void setFreeMarketAdjustment(int value) { freeMarketAdjustment_.setValue(value); }
-	const char *getFreeMarketAdjustmentToolTip() { return freeMarketAdjustment_.getDescription(); }
+	int getStartMoney() { return moneyStarting_; }
+	OptionEntryInt &getStartMoneyEntry() { return moneyStarting_; }
 
-	int getMaxLandscapeSize() { return maxLandscapeSize_.getValue(); }
-	void setMaxLandscapeSize(int value) { maxLandscapeSize_.setValue(value); }
-	const char *getMaxLandscapeSizeToolTip() { return maxLandscapeSize_.getDescription(); }
+	int getInterest() { return moneyInterest_; }
+	OptionEntryInt &getInterestEntry() { return moneyInterest_; }
 
-	int getStartTime() { return startTime_.getValue(); }
-	void setStartTime(int value) { startTime_.setValue(value); }
-	const char *getStartTimeToolTip() { return startTime_.getDescription(); }
+	int getFreeMarketAdjustment() { return freeMarketAdjustment_; }
+	OptionEntryInt &getFreeMarketAdjustmentEntry() { return freeMarketAdjustment_; }
 
-	int getShotTime() { return shotTime_.getValue(); }
-	void setShotTime(int value) { shotTime_.setValue(value); }
-	const char *getShotTimeToolTip() { return shotTime_.getDescription(); }
+	int getMaxLandscapeSize() { return maxLandscapeSize_; }
+	OptionEntryInt &getMaxLandscapeSizeEntry() { return maxLandscapeSize_; }
 
-	int getKeepAliveTime() { return keepAliveTime_.getValue(); }
-	void setKeepAliveTime(int value) { keepAliveTime_.setValue(value); }
-	const char *getKeepAliveTimeToolTip() { return keepAliveTime_.getDescription(); }
+	int getStartTime() { return startTime_; }
+	OptionEntryInt &getStartTimeEntry() { return startTime_; }
 
-	int getKeepAliveTimeoutTime() { return keepAliveTimeoutTime_.getValue(); }
-	void setKeepAliveTimeoutTime(int value) { keepAliveTimeoutTime_.setValue(value); }
-	const char *getKeepAliveTimeoutTimeToolTip() { return keepAliveTimeoutTime_.getDescription(); }
+	int getShotTime() { return shotTime_; }
+	OptionEntryInt &getShotTimeEntry() { return shotTime_; }
 
-	int getBuyingTime() { return buyingTime_.getValue(); }
-	void setBuyingTime(int value) { buyingTime_.setValue(value); }
-	const char *getBuyingTimeToolTip() { return buyingTime_.getDescription(); }
+	int getKeepAliveTime() { return keepAliveTime_; }
+	OptionEntryInt &getKeepAliveTimeEntry() { return keepAliveTime_; }
 
-	int getScoreTime() { return scoreTime_.getValue(); }
-	void setScoreTime(int value) { scoreTime_.setValue(value); }
-	const char *getScoreTimeToolTip() { return scoreTime_.getDescription(); }
+	int getKeepAliveTimeoutTime() { return keepAliveTimeoutTime_; }
+	OptionEntryInt &getKeepAliveTimeoutTimeEntry() { return keepAliveTimeoutTime_; }
 
-	int getAllowedMissedMoves() { return allowedMissedMoves_.getValue(); }
-	void setAllowedMissedMoves(int value) { allowedMissedMoves_.setValue(value); }
-	const char *getAllowedMissedMovesToolTip() { return allowedMissedMoves_.getDescription(); }
+	int getBuyingTime() { return buyingTime_; }
+	OptionEntryInt &getBuyingTimeEntry() { return buyingTime_; }
 
-	int getIdleKickTime() { return idleKickTime_.getValue(); }
-	void setIdleKickTime(int value) { idleKickTime_.setValue(value); }
-	const char *getIdleKickTimeToolTip() { return idleKickTime_.getDescription(); }
+	int getRoundScoreTime() { return roundScoreTime_; }
+	OptionEntryInt &getRoundScoreTimeEntry() { return roundScoreTime_; }
 
-	int getIdleShotKickTime() { return idleShotKickTime_.getValue(); }
-	void setIdleShotKickTime(int value) { idleShotKickTime_.setValue(value); }
-	const char *getIdleShotKickTimeToolTip() { return idleShotKickTime_.getDescription(); }
+	int getScoreTime() { return scoreTime_; }
+	OptionEntryInt &getScoreTimeEntry() { return scoreTime_; }
 
-	int getMinFallingDistance() { return minFallingDistance_.getValue(); }
-	void setMinFallingDistance(int value) { minFallingDistance_.setValue(value); }
-	const char *getMinFallingDistanceToolTip() { return minFallingDistance_.getDescription(); }
+	int getAllowedMissedMoves() { return allowedMissedMoves_; }
+	OptionEntryInt &getAllowedMissedMovesEntry() { return allowedMissedMoves_; }
 
-	int getMaxClimbingDistance() { return maxClimbingDistance_.getValue(); }
-	void setMaxClimbingDistance(int value) { maxClimbingDistance_.setValue(value); }
-	const char *getMaxClimbingDistanceToolTip() { return maxClimbingDistance_.getDescription(); }
+	int getIdleKickTime() { return idleKickTime_; }
+	OptionEntryInt &getIdleKickTimeEntry() { return idleKickTime_; }
 
-	int getGravity() { return gravity_.getValue(); }
-	void setGravity(int value) { gravity_.setValue(value); }
-	const char *getGravityToolTip() { return gravity_.getDescription(); }
+	int getIdleShotKickTime() { return idleShotKickTime_; }
+	OptionEntryInt &getIdleShotKickTimeEntry() { return idleShotKickTime_; }
 
-	ScoreType getScoreType() { return (ScoreType) scoreType_.getValue(); }
-	void setScoreType(ScoreType value) { scoreType_.setValue((int) value); }
-	const char *getScoreTypeToolTip() { return scoreType_.getDescription(); }
+	int getMinFallingDistance() { return minFallingDistance_; }
+	OptionEntryInt &getMinFallingDistanceEntry() { return minFallingDistance_; }
 
-	WindForce getWindForce() { return (WindForce) windForce_.getValue(); }
-	void setWindForce(WindForce value) { windForce_.setValue((int) value); }
-	const char *getWindForceToolTip() { return windForce_.getDescription(); }
+	int getMaxClimbingDistance() { return maxClimbingDistance_; }
+	OptionEntryInt &getMaxClimbingDistanceEntry() { return maxClimbingDistance_; }
 
-	WindType getWindType() { return (WindType) windType_.getValue(); }
-	void setWindType(WindType value) { windType_.setValue((int) value); }
-	const char *getWindTypeToolTip() { return windType_.getDescription(); }
+	int getGravity() { return gravity_; }
+	OptionEntryInt &getGravityEntry() { return gravity_; }
 
-	WallType getWallType() { return (WallType) wallType_.getValue(); }
-	void setWallType(WallType value) { wallType_.setValue((int) value); }
-	const char *getWallTypeToolTip() { return wallType_.getDescription(); }
+	OptionEntryEnum getWindForce() { return windForce_; } // WindForce
+	OptionEntryEnum &getWindForceEntry() { return windForce_; } // WindForce
 
-	WeapScale getWeapScale() { return (WeapScale) weapScale_.getValue(); }
-	void setWeapScale(WeapScale value) { weapScale_.setValue((int) value); }	
-	const char *getWeapScaleToolTip() { return weapScale_.getDescription(); }
+	OptionEntryEnum getWindType() { return windType_; } // WindType
+	OptionEntryEnum &getWindTypeEntry() { return windType_; } // WindType
 
-	TurnType getTurnType() { return (TurnType) turnType_.getValue(); }
-	void setTurnType(TurnType value) { turnType_.setValue((int) value); }	
-	const char *getTurnTypeToolTip() { return turnType_.getDescription(); }
+	OptionEntryEnum getWallType() { return wallType_; } // WallType
+	OptionEntryEnum &getWallTypeEntry() { return wallType_; } // WallType
+
+	OptionEntryEnum getWeapScale() { return weapScale_; } // WeapScale
+	OptionEntryEnum &getWeapScaleEntry() { return weapScale_; } // WeapScale
+	
+	OptionEntryEnum getTurnType() { return turnType_; } // TurnType
+	OptionEntryEnum &getTurnTypeEntry() { return turnType_; } // TurnType
 	 
-	int getBuyOnRound() { return moneyBuyOnRound_.getValue(); }
-	void setBuyOnRound(int value) { moneyBuyOnRound_.setValue(value); }
-	const char *getBuyOnRoundToolTip() { return moneyBuyOnRound_.getDescription(); }
+	int getBuyOnRound() { return moneyBuyOnRound_; }
+	OptionEntryInt &getBuyOnRoundEntry() { return moneyBuyOnRound_; }
 
-	int getMoneyWonForRound() { return moneyWonForRound_.getValue(); }
-	void setMoneyWonForRound(int value) { moneyWonForRound_.setValue(value); }
-	const char *getMoneyWonForRoundToolTip() { return moneyWonForRound_.getDescription(); }
+	int getMoneyPerRound() { return moneyPerRound_; }
+	OptionEntryInt &getMoneyPerRoundEntry() { return moneyPerRound_; }
 
-	int getMoneyWonPerHitPoint() { return moneyPerHitPoint_.getValue(); }
-	void setMoneyWonPerHitPoint(int value) { moneyPerHitPoint_.setValue(value); }
-	const char *getMoneyWonPerHitPointToolTip() { return moneyPerHitPoint_.getDescription(); }
+	int getMoneyWonForRound() { return moneyWonForRound_; }
+	OptionEntryInt &getMoneyWonForRoundEntry() { return moneyWonForRound_; }
 
-	int getMoneyWonPerKillPoint() { return moneyPerKillPoint_.getValue(); }
-	void setMoneyWonPerKillPoint(int value) { moneyPerKillPoint_.setValue(value); }
-	const char *getMoneyWonPerKillPointToolTip() { return moneyPerKillPoint_.getDescription(); }
+	int getMoneyWonPerKillPoint() { return moneyPerKillPoint_; }
+	OptionEntryInt &getMoneyWonPerKillPointEntry() { return moneyPerKillPoint_; }
 
-	int getMoneyPerRound() { return moneyPerRound_.getValue(); }
-	void setMoneyPerRound(int value) { moneyPerRound_.setValue(value); }
-	const char *getMoneyPerRoundToolTip() { return moneyPerRound_.getDescription(); }
+	int getMoneyWonPerAssistPoint() { return moneyPerAssistPoint_; }
+	OptionEntryInt &getMoneyWonPerAssistPointEntry() { return moneyPerAssistPoint_; }
 
-	bool getMoneyPerHealthPoint() { return moneyPerHealthPoint_.getValue(); }
-	void setMoneyPerHealthPoint(bool value) { moneyPerHealthPoint_.setValue(value); }
-	const char *getMoneyPerHealthPointToolTip() { return moneyPerHealthPoint_.getDescription(); }
+	bool getLimitPowerByHealth() { return limitPowerByHealth_; }
+	OptionEntryBool &getLimitPowerByHealthEntry() { return limitPowerByHealth_; }
+	
+	OptionEntryEnum getTeamBallance() { return teamBallance_; } // TeamBallanceType
+	OptionEntryEnum &getTeamBallanceEntry() { return teamBallance_; } // TeamBallanceType
 
-	bool getLimitPowerByHealth() { return limitPowerByHealth_.getValue(); }
-	void setLimitPowerByHealth(bool value) { limitPowerByHealth_.setValue(value); }
-	const char *getLimitPowerByHealthToolTip() { return limitPowerByHealth_.getDescription(); }
+	int getComputersDeathTalk() { return computersDeathTalk_; }
+	OptionEntryInt &getComputersDeathTalkEntry() { return computersDeathTalk_; }
 
-	TeamBallanceType getTeamBallance() { return (TeamBallanceType) teamBallance_.getValue(); }
-	void setTeamBallance(TeamBallanceType value) { teamBallance_.setValue((int) value); }
-	const char *getTeamBallanceTeamsTip() { return teamBallance_.getDescription(); }
+	int getComputersAttackTalk() { return computersAttackTalk_; }
+	OptionEntryInt &getComputersAttackTalkEntry() { return computersAttackTalk_; }
 
-	int getComputersDeathTalk() { return computersDeathTalk_.getValue(); }
-	void setComputersDeathTalk(int value) { computersDeathTalk_.setValue(value); }
-	const char *getComputersDeathTalkToolTip() { return computersDeathTalk_.getDescription(); }
+	const char * getEconomy() { return economy_; }
+	OptionEntryStringEnum &getEconomyEntry() { return economy_; }
 
-	int getComputersAttackTalk() { return computersAttackTalk_.getValue(); }
-	void setComputersAttackTalk(int value) { computersAttackTalk_.setValue(value); }
-	const char *getComputersAttackTalkToolTip() { return computersAttackTalk_.getDescription(); }
+	const char * getLandscapes() { return landscapes_; }
+	OptionEntryString &getLandscapesEntry() { return landscapes_; }
 
-	const char *getEconomy() { return economy_.getValue(); }
-	void setEconomy(const char *value) { economy_.setValue(value); }
-	const char *getEconomyToolTip() { return economy_.getDescription(); }
+	const char * getMasterListServer() { return masterListServer_; }
+	OptionEntryString &getMasterListServerEntry() { return masterListServer_; }
 
-	const char *getLandscapes() { return landscapes_.getValue(); }
-	void setLandscapes(const char *value) { landscapes_.setValue(value); }
-	const char *getLandscapesToolTip() { return landscapes_.getDescription(); }
+	const char * getMasterListServerURI() { return masterListServerURI_; }
+	OptionEntryString &getMasterListServerURIEntry() { return masterListServerURI_; }
 
-	const char *getMasterListServer() { return masterListServer_.getValue(); }
-	void setMasterListServer(const char *value) { masterListServer_.setValue(value); }
-	const char *getMasterListServerToolTip() { return masterListServer_.getDescription(); }
+	const char * getStatsLogger() { return statsLogger_; }
+	OptionEntryString &getStatsLoggerEntry() { return statsLogger_; }
 
-	const char *getMasterListServerURI() { return masterListServerURI_.getValue(); }
-	void setMasterListServerURI(const char *value) { masterListServerURI_.setValue(value); }
-	const char *getMasterListServerURIToolTip() { return masterListServerURI_.getDescription(); }
+	const char * getServerFileLogger() { return serverFileLogger_; }
+	OptionEntryString &getServerFileLoggerEntry() { return serverFileLogger_; }
 
-	const char *getStatsLogger() { return statsLogger_.getValue(); }
-	void setStatsLogger(const char *value) { statsLogger_.setValue(value); }
-	const char *getStatsLoggerToolTip() { return statsLogger_.getDescription(); }
+	const char * getBotNamePrefix() { return botNamePrefix_; }
+	OptionEntryString &getBotNamePrefixEntry() { return botNamePrefix_; }
 
-	const char *getServerFileLogger() { return serverFileLogger_.getValue(); }
-	void setServerFileLogger(const char *value) { serverFileLogger_.setValue(value); }
-	const char *getServerFileLoggerToolTip() { return serverFileLogger_.getDescription(); }
+	bool getGiveAllWeapons() { return giveAllWeapons_; }
+	OptionEntryBool &getGiveAllWeaponsEntry() { return giveAllWeapons_; }
 
-	const char *getBotNamePrefix() { return botNamePrefix_.getValue(); }
-	void setBotNamePrefix(const char *value) { botNamePrefix_.setValue(value); }
-	const char *getBotNamePrefixToolTip() { return botNamePrefix_.getDescription(); }
+	bool getDelayedDefenseActivation() { return delayedDefenseActivation_; }
+	OptionEntryBool &getDelayedDefenseActivationEntry() { return delayedDefenseActivation_; }
 
-	bool getGiveAllWeapons() { return giveAllWeapons_.getValue(); }
-	void setGiveAllWeapons(bool value) { giveAllWeapons_.setValue(value); }
-	const char *getGiveAllWeaponsToolTip() { return giveAllWeapons_.getDescription(); }
+	bool getCycleMaps() { return cycleMaps_; }
+	OptionEntryBool &getCycleMapsEntry() { return cycleMaps_; }
 
-	bool getDelayedDefenseActivation() { return delayedDefenseActivation_.getValue(); }
-	void setDelayedDefenseActivation(bool value) { delayedDefenseActivation_.setValue(value); }
-	const char *getDelayedDefenseActivationToolTip() { return delayedDefenseActivation_.getDescription(); }
+	int getResignMode() { return resignMode_; }
+	OptionEntryInt &getResignModeEntry() { return resignMode_; }
 
-	bool getCycleMaps() { return cycleMaps_.getValue(); }
-	void setCycleMaps(bool value) { cycleMaps_.setValue(value); }
-	const char *getCycleMapsToolTip() { return cycleMaps_.getDescription(); }
+	OptionEntryEnum getMovementRestriction() { return movementRestriction_; } // MovementRestrictionType
+	OptionEntryEnum &getMovementRestrictionEntry() { return movementRestriction_; } // MovementRestrictionType
 
-	int getResignMode() { return resignMode_.getValue(); }
-	void setResignMode(int value) { resignMode_.setValue(value); }
-	const char *getResignModeToolTip() { return resignMode_.getDescription(); }
+	bool getRandomizeBotNames() { return randomizeBotNames_; }
+	OptionEntryBool &getRandomizeBotNamesEntry() { return randomizeBotNames_; }
 
-	MovementRestrictionType getMovementRestriction() { return (MovementRestrictionType) movementRestriction_.getValue(); }
-	void setMovementRestriction(MovementRestrictionType value) { movementRestriction_.setValue((int) value); }
-	const char *getMovementRestrictionToolTip() { return movementRestriction_.getDescription(); }
+	int getPortNo() { return portNo_; }
+	OptionEntryInt &getPortNoEntry() { return portNo_; }
 
-	bool getRandomizeBotNames() { return randomizeBotNames_.getValue(); }
-	void setRandomizeBotNames(bool value) { randomizeBotNames_.setValue(value); }
-	const char *getRandomizeBotNamesToolTip() { return randomizeBotNames_.getDescription(); }
+	int getManagementPortNo() { return managementPortNo_; }
+	OptionEntryInt &getManagementPortNoEntry() { return managementPortNo_; }
 
-	int getPortNo() { return portNo_.getValue(); }
-	void setPortNo(int value) { portNo_.setValue(value); } 
-	const char *getPortNoToolTip() { return portNo_.getDescription(); }
+	const char * getMod() { return mod_; }
+	OptionEntryString &getModEntry() { return mod_; }
 
-	int getManagementPortNo() { return managementPortNo_.getValue(); }
-	void setManagementPortNo(int value) { managementPortNo_.setValue(value); } 
-	const char *getManagementPortNoToolTip() { return managementPortNo_.getDescription(); }
+	const char * getMOTD() { return motd_; }
+	OptionEntryString &getMOTDEntry() { return motd_; }
 
-	const char *getMod() { return mod_.getValue(); }
-	void setMod(const char *value) { mod_.setValue(value); }
-	const char *getModToolTip() { return mod_.getDescription(); }
+	int getModDownloadSpeed() { return modDownloadSpeed_; }
+	OptionEntryInt &getModDownloadSpeedEntry() { return modDownloadSpeed_; }
 
-	const char *getMOTD() { return motd_.getValue(); }
-	void setMOTD(const char *value) { motd_.setValue(value); }
-	const char *getMOTDToolTip() { return motd_.getDescription(); }
+	int getMaxAvatarSize() { return maxAvatarSize_; }
+	OptionEntryInt &getMaxAvatarSizeEntry() { return maxAvatarSize_; }
 
-	int getModDownloadSpeed() { return modDownloadSpeed_.getValue(); }
-	void setModDownloadSpeed(int value) { modDownloadSpeed_.setValue(value); }
-	const char *getModDownloadSpeedToolTip() { return modDownloadSpeed_.getDescription(); }
+	const char * getServerName() { return serverName_; }
+	OptionEntryString &getServerNameEntry() { return serverName_; }
 
-	int getMaxAvatarSize() { return maxAvatarSize_.getValue(); }
-	void setMaxAvatarSize(int value) { maxAvatarSize_.setValue(value); }
-	const char *getMaxAvatarToolTip() { return maxAvatarSize_.getDescription(); }
+	const char * getServerPassword() { return serverPassword_; }
+	OptionEntryString &getServerPasswordEntry() { return serverPassword_; }
 
-	const char *getServerName() { return serverName_.getValue(); }
-	void setServerName(const char *value) { serverName_.setValue(value); }
-	const char *getServerNameToolTip() { return serverName_.getDescription(); }
+	OptionEntryString &getPlayerType(int no) { DIALOG_ASSERT(no<24); return *playerType_[no]; }
 
-	const char *getServerPassword() { return serverPassword_.getValue(); }
-	void setServerPassword(const char *value) { serverPassword_.setValue(value); }
-	const char *getServerPasswordToolTip() { return serverPassword_.getDescription(); }
+	const char * getPublishAddress() { return publishAddress_; }
+	OptionEntryString &getPublishAddressEntry() { return publishAddress_; }
 
-	const char *getPlayerType(int no) { DIALOG_ASSERT(no<24); return playerType_[no]->getValue(); }
-	void setPlayerType(int no, const char *value) { DIALOG_ASSERT(no<24); playerType_[no]->setValue(value); }
+	bool getAllowSameIP() { return allowSameIP_; }
+	OptionEntryBool &getAllowSameIPEntry() { return allowSameIP_; }
 
-	const char *getPublishAddress() { return publishAddress_.getValue(); }
-	void setPublishAddress(const char *value) { publishAddress_.setValue(value); }
-	const char *getPublishAddressToolTip() { return publishAddress_.getDescription(); }
+	bool getAllowSameUniqueId() { return allowSameUniqueId_; }
+	OptionEntryBool &getAllowSameUniqueIdEntry() { return allowSameUniqueId_; }
 
-	bool getAllowSameIP() { return allowSameIP_.getValue(); }
-	void setAllowSameIP(bool value) { allowSameIP_.setValue(value); }	
-	const char *getAllowSameIPToolTip() { return allowSameIP_.getDescription(); }
+	bool getPublishServer() { return publishServer_; }
+	OptionEntryBool &getPublishServerEntry() { return publishServer_; }
 
-	bool getAllowSameUniqueId() { return allowSameUniqueId_.getValue(); }
-	void setAllowSameUniqueId(bool value) { allowSameUniqueId_.setValue(value); }	
-	const char *getAllowSameUniqueIdToolTip() { return allowSameUniqueId_.getDescription(); }
+	bool getResidualPlayers() { return residualPlayers_; }
+	OptionEntryBool &getResidualPlayersEntry() { return residualPlayers_; }
 
-	bool getPublishServer() { return publishServer_.getValue(); }
-	void setPublishServer(bool value) { publishServer_.setValue(value); }	
-	const char *getPublishServerToolTip() { return publishServer_.getDescription(); }
+	const char * getAuthHandler() { return authHandler_; }
+	OptionEntryString &getAuthHandlerEntry() { return authHandler_; }
 
-	bool getResidualPlayers() { return residualPlayers_.getValue(); }
-	void setResidualPlayers(bool value) { residualPlayers_.setValue(value); }	
-	const char *getResidualPlayersToolTip() { return residualPlayers_.getDescription(); }
-
-	const char *getAuthHandler() { return authHandler_.getValue(); }
-	void setAuthHandler(const char *value) { authHandler_.setValue(value); }	
-	const char *getAuthHandlerToolTip() { return authHandler_.getDescription(); }
-
-	bool getRegisteredUserNames() { return registeredUserNames_.getValue(); }
-	void setRegisteredUserNames(bool value) { registeredUserNames_.setValue(value); }	
-	const char *getRegisteredUserNamesToolTip() { return registeredUserNames_.getDescription(); }
+	bool getRegisteredUserNames() { return registeredUserNames_; }
+	OptionEntryBool &getRegisteredUserNamesEntry() { return registeredUserNames_; }
 
 	// Fns used to save or restore the state of the options
 	std::list<OptionEntry *> &getOptions();
@@ -385,22 +321,22 @@ protected:
 	std::list<OptionEntry *> options_;
 	std::list<OptionEntry *> playerTypeOptions_;
 
-	OptionEntryBoundedInt depricatedMaxArmsLevel_;
 	OptionEntryBoundedInt startArmsLevel_;
 	OptionEntryBoundedInt endArmsLevel_;
-	OptionEntryInt maxRoundTurns_;
-	OptionEntryInt keepAliveTime_;
-	OptionEntryInt keepAliveTimeoutTime_;
-	OptionEntryInt shotTime_;
-	OptionEntryInt startTime_;
-	OptionEntryInt buyingTime_;
-	OptionEntryInt scoreTime_;
-	OptionEntryInt allowedMissedMoves_;
-	OptionEntryInt numberOfRounds_;
-	OptionEntryInt maxNumberWeapons_;
-	OptionEntryInt gravity_;
-	OptionEntryInt minFallingDistance_;
-	OptionEntryInt maxClimbingDistance_;
+	OptionEntryBoundedInt maxRoundTurns_;
+	OptionEntryBoundedInt keepAliveTime_;
+	OptionEntryBoundedInt keepAliveTimeoutTime_;
+	OptionEntryBoundedInt shotTime_;
+	OptionEntryBoundedInt startTime_;
+	OptionEntryBoundedInt buyingTime_;
+	OptionEntryBoundedInt roundScoreTime_;
+	OptionEntryBoundedInt scoreTime_;
+	OptionEntryBoundedInt allowedMissedMoves_;
+	OptionEntryBoundedInt numberOfRounds_;
+	OptionEntryBoundedInt maxNumberWeapons_;
+	OptionEntryBoundedInt gravity_;
+	OptionEntryBoundedInt minFallingDistance_;
+	OptionEntryBoundedInt maxClimbingDistance_;
 	OptionEntryEnum scoreType_;
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;
@@ -408,21 +344,22 @@ protected:
 	OptionEntryBoundedInt removeBotsAtPlayers_;
 	OptionEntryBoundedInt computersDeathTalk_;
 	OptionEntryBoundedInt computersAttackTalk_;
-	OptionEntryInt moneyBuyOnRound_;
-	OptionEntryInt moneyWonForRound_;
+	OptionEntryBoundedInt moneyBuyOnRound_;
+	OptionEntryBoundedInt moneyWonForRound_;
+	OptionEntryBoundedInt moneyPerKillPoint_;
+	OptionEntryBoundedInt moneyPerAssistPoint_;
+	OptionEntryBoundedInt moneyPerRound_;
+	OptionEntryBoundedInt scorePerAssist_;
+	OptionEntryBoundedInt scorePerKill_;
+	OptionEntryBoundedInt scoreWonForRound_;
 	OptionEntryInt maxLandscapeSize_;
-	OptionEntryInt moneyPerHitPoint_;
-	OptionEntryInt moneyPerKillPoint_;
-	OptionEntryInt moneyPerRound_;
 	OptionEntryInt freeMarketAdjustment_;
-	OptionEntryBool moneyPerHealthPoint_;
 	OptionEntryBoundedInt moneyStarting_;
-	OptionEntryInt idleKickTime_;
-	OptionEntryInt idleShotKickTime_;
+	OptionEntryBoundedInt idleKickTime_;
+	OptionEntryBoundedInt idleShotKickTime_;
 	OptionEntryEnum teamBallance_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
-	OptionEntryBool depricatedAutoBallanceTeams_;
 	OptionEntryBool cycleMaps_;
 	OptionEntryBool delayedDefenseActivation_;
 	OptionEntryEnum resignMode_;
@@ -432,11 +369,11 @@ protected:
 	OptionEntryEnum windType_;
 	OptionEntryEnum wallType_;
 	OptionEntryEnum weapScale_;
-	OptionEntryInt modDownloadSpeed_;
+	OptionEntryBoundedInt modDownloadSpeed_;
 	OptionEntryInt maxAvatarSize_;
 	OptionEntryString mod_;
 	OptionEntryString motd_;
-	OptionEntryString economy_;
+	OptionEntryStringEnum economy_;
 	OptionEntryString landscapes_;
 	OptionEntryString masterListServer_;
 	OptionEntryString masterListServerURI_;
@@ -453,13 +390,19 @@ protected:
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;
-	OptionEntryString depricatedServerAdminPassword_;
 	OptionEntryInt portNo_;
 	OptionEntryInt managementPortNo_;
 	OptionEntryString publishAddress_;
 	OptionEntryBool publishServer_;
 	OptionEntryBool allowSameIP_;
 	OptionEntryBool allowSameUniqueId_;
+
+	// Depricated (old) options
+	OptionEntryBool depricatedMoneyPerHealthPoint_;
+	OptionEntryBool depricatedAutoBallanceTeams_;
+	OptionEntryInt depricatedMoneyPerHitPoint_;
+	OptionEntryBoundedInt depricatedMaxArmsLevel_;
+	OptionEntryString depricatedServerAdminPassword_;
 };
 
 class OptionsGameWrapper : public OptionsGame
@@ -469,8 +412,8 @@ public:
 	virtual ~OptionsGameWrapper();
 
 	// Options that can be changed on the fly
-	// These options then replace the main options at set times
 	OptionsGame &getChangedOptions() { return changedOptions_; }
+	OptionsGame &getChangedOptionsEntry() { return changedOptions_; }
 	void updateChangeSet();
 	bool commitChanges();
 

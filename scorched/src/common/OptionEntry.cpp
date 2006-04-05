@@ -321,14 +321,24 @@ OptionEntryBoundedInt::OptionEntryBoundedInt(std::list<OptionEntry *> &group,
 											 const char *description,
 											 unsigned int data,
 											 int value,
-											 int minValue, int maxValue) :
+											 int minValue, int maxValue, int stepValue) :
 	OptionEntryInt(group, name, description, data, value), 
-	minValue_(minValue), maxValue_(maxValue)
+	minValue_(minValue), maxValue_(maxValue), stepValue_(stepValue)
 {
 }
 
 OptionEntryBoundedInt::~OptionEntryBoundedInt()
 {
+}
+
+const char *OptionEntryBoundedInt::getDescription()
+{
+	static std::string result;
+
+	result = description_;
+	result += formatString(" (Max = %i, Min = %i)", getMaxValue(), getMinValue());
+
+	return result.c_str();
 }
 
 bool OptionEntryBoundedInt::setValue(int value)
@@ -545,6 +555,52 @@ bool OptionEntryString::addToArgParser(ARGParser &parser)
 
 	parser.addEntry(name , this, description);
 	return true;
+}
+
+OptionEntryStringEnum::OptionEntryStringEnum(std::list<OptionEntry *> &group,
+											 const char *name,
+											 const char *description,
+											 unsigned int data,
+											 const char *value,
+											 OptionEntryStringEnum::EnumEntry enums[]) :
+	OptionEntryString(group, name, description, data, value), 
+	enums_(enums)
+{	
+}
+
+OptionEntryStringEnum::~OptionEntryStringEnum()
+{
+}
+
+const char *OptionEntryStringEnum::getDescription()
+{
+	static std::string result;
+
+	result = description_;
+	for (EnumEntry *current = enums_; current->value[0]; current++)
+	{
+		result += formatString(" (\"%s\")",
+			current->value);
+	}
+
+	return result.c_str();
+}
+
+bool OptionEntryStringEnum::setValue(const char *value)
+{
+	for (EnumEntry *current = enums_; current->value[0]; current++)
+	{
+		if (0 == strcmp(current->value, value))
+		{
+			return OptionEntryString::setValue(value);
+		}
+	}
+	return false;
+}
+
+bool OptionEntryStringEnum::setValueFromString(const char *string)
+{
+	return setValue(string);
 }
 
 OptionEntryFloat::OptionEntryFloat(std::list<OptionEntry *> &group,

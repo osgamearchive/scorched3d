@@ -30,7 +30,16 @@ Fixed: Avatar placing for very short names
 Fixed: Lasers take into account how large an object is when calculating the hit box
 Fixed: Parsing of XML boolean values now checks that only "true" and "false" are used
 Fixed: Moved boids, ships and events to seperate definition files (also made available in defn files)
+Fixed: XML parser will warn if there is content and child nodes in the same element
+Fixed: Web server settings dialog is now much easier to use (most settings changed via menus)
+Fixed: Score dialogs now disappear faster when speed is faster
 
+Added: WeaponGiveScore weapon to give bonus score for gaining objectives
+Added: WeaponGiveWin weapon to give a round win for performing an objective
+Added: The notion of a score, players gain score by winning, killing etc.  The score ranks players.
+Added: Kill Assists for players that hurt but dont kill tanks (this replaces money per damage)
+Added: Automated method for adding new scorched3d settings to the gui
+Added: New lower poly fighter models and powerup crate (thanks Shockwave)
 Added: laserproof attribute to shields to make them impervious to lasers
 Added: Tanks (with AIs) can be part of a level (bunkers/defences for bases etc..)
 Added: A groundmap option to objects and targets, this map is textured below the object

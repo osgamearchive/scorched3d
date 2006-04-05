@@ -67,12 +67,12 @@ bool parseCommandLine(int argc, char *argv[])
 	{
 		wxString osDesc = ::wxGetOsDescription();
 		osDesc.Remove(osDesc.Find(wxT(" ")));
-		OptionsDisplay::instance()->setHostDescription(osDesc.mb_str(wxConvUTF8));
+		OptionsDisplay::instance()->getHostDescriptionEntry().setValue(osDesc.mb_str(wxConvUTF8));
 
 		wxString userName = ::wxGetUserName();
 		if (!userName.empty())
 		{
-			OptionsDisplay::instance()->setOnlineUserName(userName.mb_str(wxConvUTF8));
+			OptionsDisplay::instance()->getOnlineUserNameEntry().setValue(userName.mb_str(wxConvUTF8));
 		}
 	}
 

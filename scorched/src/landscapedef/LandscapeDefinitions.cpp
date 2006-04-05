@@ -64,7 +64,14 @@ bool LandscapeDefinitionsEntry::readXML(LandscapeDefinitions *definitions, XMLNo
 	return node->failChildren();
 }
 
-LandscapeDefinitions::LandscapeDefinitions()
+LandscapeDefinitions::LandscapeDefinitions() :
+	texs_("Tex"),
+	defns_("Defns"),
+	places_("Placement"),
+	sounds_("Sound"),
+	boids_("Boids"),
+	ships_("Ships"),
+	events_("Events")
 {
 }
 
@@ -86,37 +93,37 @@ void LandscapeDefinitions::clearLandscapeDefinitions()
 
 LandscapeTex *LandscapeDefinitions::getTex(const char *file, bool load)
 {
-	return texs_.getItem(this, file, load);
+	return texs_.getItem(this, file, load, true);
 }
 
 LandscapePlace *LandscapeDefinitions::getPlace(const char *file, bool load)
 {
-	return places_.getItem(this, file, load);
+	return places_.getItem(this, file, load, true);
 }
 
 LandscapeSound *LandscapeDefinitions::getSound(const char *file, bool load)
 {
-	return sounds_.getItem(this, file, load);
+	return sounds_.getItem(this, file, load, true);
 }
 
 LandscapeBoids *LandscapeDefinitions::getBoids(const char *file, bool load)
 {
-	return boids_.getItem(this, file, load);
+	return boids_.getItem(this, file, load, true);
 }
 
 LandscapeShips *LandscapeDefinitions::getShips(const char *file, bool load)
 {
-	return ships_.getItem(this, file, load);
+	return ships_.getItem(this, file, load, true);
 }
 
 LandscapeEvents *LandscapeDefinitions::getEvents(const char *file, bool load)
 {
-	return events_.getItem(this, file, load);
+	return events_.getItem(this, file, load, true);
 }
 
 LandscapeDefn *LandscapeDefinitions::getDefn(const char *file, bool load)
 {
-	return defns_.getItem(this, file, load);
+	return defns_.getItem(this, file, load, true);
 }
 
 bool LandscapeDefinitions::readLandscapeDefinitions()

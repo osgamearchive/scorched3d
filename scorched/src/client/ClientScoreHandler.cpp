@@ -37,7 +37,8 @@ ClientScoreHandler *ClientScoreHandler::instance()
 	return instance_;
 }
 
-ClientScoreHandler::ClientScoreHandler()
+ClientScoreHandler::ClientScoreHandler() :
+	finalScore_(false)
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsScoreMessage",
@@ -55,20 +56,24 @@ bool ClientScoreHandler::processMessage(unsigned int id,
 	ComsScoreMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	GLConsole::instance()->addLine(false, "Final scores -------");
-	std::map<unsigned int, Tank *> &tanks =
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
+	finalScore_ = message.getFinalScore();
+	if (finalScore_)
 	{
-		Tank *tank = (*itor).second;
-		GLConsole::instance()->addLine(false, formatString("%s - %s",
-			tank->getName(),
-			tank->getScore().getScoreString()));
+		GLConsole::instance()->addLine(false, "Final scores -------");
+		std::map<unsigned int, Tank *> &tanks =
+			ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			GLConsole::instance()->addLine(false, formatString("%s - %s",
+				tank->getName(),
+				tank->getScore().getScoreString()));
+		}
+		GLConsole::instance()->addLine(false, "--------------------");
 	}
-	GLConsole::instance()->addLine(false, "--------------------");
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();

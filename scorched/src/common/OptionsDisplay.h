@@ -36,371 +36,281 @@ public:
 		NoRestore = 4
 	};
 
-	int getToolTipTime() { return toolTipTime_.getValue(); }
-	void setToolTipTime(int value) { toolTipTime_.setValue(value); }
+	int getTankModelSize() { return tankModelSize_; }
+	OptionEntryInt &getTankModelSizeEntry() { return tankModelSize_; }
 
-	int getToolTipSpeed() { return toolTipSpeed_.getValue(); }
-	void setToolTipSpeed(int value) { toolTipSpeed_.setValue(value); }
+	int getRoamVarianceRamp() { return roamVarianceRamp_; }
+	OptionEntryInt &getRoamVarianceRampEntry() { return roamVarianceRamp_; }
 
-	int getTankModelSize() { return tankModelSize_.getValue(); }
-	void setTankModelSize(int value) { tankModelSize_.setValue(value); }
-	const char *getTankModelSizeToolTip() { return tankModelSize_.getDescription(); }
+	int getRoamVarianceStart() { return roamVarianceStart_; }
+	OptionEntryInt &getRoamVarianceStartEntry() { return roamVarianceStart_; }
 
-	int getRoamVarianceRamp() { return roamVarianceRamp_.getValue(); }
-	void setRoamVarianceRamp(int value) { roamVarianceRamp_.setValue(value); }
-	const char *getRoamVarianceRampToolTip() { return roamVarianceRamp_.getDescription(); }
+	int getRoamVarianceTank() { return roamVarianceTank_; }
+	OptionEntryInt &getRoamVarianceTankEntry() { return roamVarianceTank_; }
 
-	int getRoamVarianceStart() { return roamVarianceStart_.getValue(); }
-	void setRoamVarianceStart(int value) { roamVarianceStart_.setValue(value); }
-	const char *getRoamVarianceStartToolTip() { return roamVarianceStart_.getDescription(); }
+	int getNumberExplosionParts() { return explosionParts_; }
+	OptionEntryInt &getNumberExplosionPartsEntry() { return explosionParts_; }
 
-	int getRoamVarianceTank() { return roamVarianceTank_.getValue(); }
-	void setRoamVarianceTank(int value) { roamVarianceTank_.setValue(value); }
-	const char *getRoamVarianceTankToolTip() { return roamVarianceTank_.getDescription(); }
+	int getExplosionParticlesMult() { return explosionParticleMult_; }
+	OptionEntryInt &getExplosionParticlesMultEntry() { return explosionParticleMult_; }
 
-	int getNumberExplosionParts() { return explosionParts_.getValue(); }
-	void setNumberExplosionParts(int value) { explosionParts_.setValue(value); }
-	const char *getNumberExplosionPartsToolTip() { return explosionParts_.getDescription(); }
+	int getNumberExplosionSubParts() { return explosionSubParts_; }
+	OptionEntryInt &getNumberExplosionSubPartsEntry() { return explosionSubParts_; }
 
-	int getExplosionParticlesMult() { return explosionParticleMult_.getValue(); }
-	void setExplosionParticlesMult(int value) { explosionParticleMult_.setValue(value); }
-	const char *getExplosionParticlesMultToolTip() { return explosionParticleMult_.getDescription(); }
+	int getBrightness() { return brightness_; }
+	OptionEntryInt &getBrightnessEntry() { return brightness_; }
 
-	int getNumberExplosionSubParts() { return explosionSubParts_.getValue(); }
-	void setNumberExplosionSubParts(int value) { explosionSubParts_.setValue(value); }
-	const char *getNumberExplosionSubPartsToolTip() { return explosionSubParts_.getDescription(); }
+	bool getSmoothLines() { return smoothLines_; }
+	OptionEntryBool &getSmoothLinesEntry() { return smoothLines_; }
 
-	int getBrightness() { return brightness_.getValue(); }
-	void setBrightness(int value) { brightness_.setValue(value); }
-	const char *getBrightnessToolTip() { return brightness_.getDescription(); }
+	bool getFrameTimer() { return frameTimer_; }
+	OptionEntryBool &getFrameTimerEntry() { return frameTimer_; }
 
-	bool getSmoothLines() { return smoothLines_.getValue(); }
-	void setSmoothLines(bool value) { smoothLines_.setValue(value); }
-	const char *getSmoothLinesToolTip() { return smoothLines_.getDescription(); }
+	bool getNoLenseFlare() { return noLenseFlare_; }
+	OptionEntryBool &getNoLenseFlareEntry() { return noLenseFlare_; }
 
-	bool getFrameTimer() { return frameTimer_.getValue(); }
-	void setFrameTimer(bool value) { frameTimer_.setValue(value); }	
-	const char *getFrameTimerToolTip() { return frameTimer_.getDescription(); }
+	bool getNoROAM() { return noROAM_; }
+	OptionEntryBool &getNoROAMEntry() { return noROAM_; }
 
-	bool getNoLenseFlare() { return noLenseFlare_.getValue(); }
-	void setNoLenseFlare(bool value) { noLenseFlare_.setValue(value); }	
-	const char *getNoLenseFlareToolTip() { return noLenseFlare_.getDescription(); }
+	bool getNoBOIDS() { return noBOIDS_; }
+	OptionEntryBool &getNoBOIDSEntry() { return noBOIDS_; }
 
-	bool getNoROAM() { return noROAM_.getValue(); }
-	void setNoROAM(bool value) { noROAM_.setValue(value); }	
-	const char *getNoROAMToolTip() { return noROAM_.getDescription(); }
+	bool getNoShips() { return noShips_; }
+	OptionEntryBool &getNoShipsEntry() { return noShips_; }
 
-	bool getNoBOIDS() { return noBOIDS_.getValue(); }
-	void setNoBOIDS(bool value) { noBOIDS_.setValue(value); }	
-	const char *getNoBOIDSToolTip() { return noBOIDS_.getDescription(); }
+	bool getNoShadows() { return noShadows_; }
+	OptionEntryBool &getNoShadowsEntry() { return noShadows_; }
 
-	bool getNoShips() { return noShips_.getValue(); }
-	void setNoShips(bool value) { noShips_.setValue(value); }	
-	const char *getNoShipsToolTip() { return noShips_.getDescription(); }
+	bool getNoDrawParticles() { return noDrawParticles_; }
+	OptionEntryBool &getNoDrawParticlesEntry() { return noDrawParticles_; }
 
-	bool getNoShadows() { return noShadows_.getValue(); }
-	void setNoShadows(bool value) { noShadows_.setValue(value); }	
-	const char *getNoShadowsToolTip() { return noShadows_.getDescription(); }
+	bool getNoSimulateParticles() { return noSimulateParticles_; }
+	OptionEntryBool &getNoSimulateParticlesEntry() { return noSimulateParticles_; }
 
-	bool getNoDrawParticles() { return noDrawParticles_.getValue(); }
-	void setNoDrawParticles(bool value) { noDrawParticles_.setValue(value); }	
-	const char *getNoDrawParticlesToolTip() { return noDrawParticles_.getDescription(); }
+	bool getNoTessalation() { return noTessalation_; }
+	OptionEntryBool &getNoTessalationEntry() { return noTessalation_; }
 
-	bool getNoSimulateParticles() { return noSimulateParticles_.getValue(); }
-	void setNoSimulateParticles(bool value) { noSimulateParticles_.setValue(value); }	
-	const char *getNoSimulateParticlesToolTip() { return noSimulateParticles_.getDescription(); }
+	bool getNoModelLOD() { return noModelLOD_; }
+	OptionEntryBool &getNoModelLODEntry() { return noModelLOD_; }
 
-	bool getNoTessalation() { return noTessalation_.getValue(); }
-	void setNoTessalation(bool value) { noTessalation_.setValue(value); }	
-	const char *getNoTessalationToolTip() { return noTessalation_.getDescription(); }
+	bool getNoVBO() { return noVBO_; }
+	OptionEntryBool &getNoVBOEntry() { return noVBO_; }
 
-	bool getNoModelLOD() { return noModelLOD_.getValue(); }
-	void setNoModelLOD(bool value) { noModelLOD_.setValue(value); }	
-	const char *getNoModelLODToolTip() { return noModelLOD_.getDescription(); }
+	bool getNoFog() { return noFog_; }
+	OptionEntryBool &getNoFogEntry() { return noFog_; }
 
-	bool getNoVBO() { return noVBO_.getValue(); }
-	void setNoVBO(bool value) { noVBO_.setValue(value); }	
-	const char *getNoVBOToolTip() { return noVBO_.getDescription(); }
+	bool getNoCg() { return noCg_; }
+	OptionEntryBool &getNoCgEntry() { return noCg_; }
 
-	bool getNoFog() { return noFog_.getValue(); }
-	void setNoFog(bool value) { noFog_.setValue(value); }	
-	const char *getNoFogToolTip() { return noFog_.getDescription(); }
+	bool getHideMenus() { return hideMenus_; }
+	OptionEntryBool &getHideMenusEntry() { return hideMenus_; }
 
-	bool getNoCg() { return noCg_.getValue(); }
-	void setNoCg(bool value) { noCg_.setValue(value); }	
-	const char *getNoCgToolTip() { return noCg_.getDescription(); }
+	bool getFirstTimePlayed() { return firstTimePlayed_; }
+	OptionEntryBool &getFirstTimePlayedEntry() { return firstTimePlayed_; }
 
-	bool getHideMenus() { return hideMenus_.getValue(); }
-	void setHideMenus(bool value) { hideMenus_.setValue(value); }	
-	const char *getHideMenusToolTip() { return hideMenus_.getDescription(); }
+	bool getDetailTexture() { return detailTexture_; }
+	OptionEntryBool &getDetailTextureEntry() { return detailTexture_; }
 
-	bool getFirstTimePlayed() { return firstTimePlayed_.getValue(); }
-	void setFirstTimePlayed(bool value) { firstTimePlayed_.setValue(value); }	
-	const char *getFirstTimePlayedToolTip() { return firstTimePlayed_.getDescription(); }
+	bool getUseLandscapeTexture() { return useLandscapeTexture_; }
+	OptionEntryBool &getUseLandscapeTextureEntry() { return useLandscapeTexture_; }
 
-	bool getDetailTexture() { return detailTexture_.getValue(); }
-	void setDetailTexture(bool value) { detailTexture_.setValue(value); }	
-	const char *getDetailTextureToolTip() { return detailTexture_.getDescription(); }
+	bool getFullScreen() { return fullScreen_; }
+	OptionEntryBool &getFullScreenEntry() { return fullScreen_; }
 
-	bool getUseLandscapeTexture() { return useLandscapeTexture_.getValue(); }
-	void setUseLandscapeTexture(bool value) { useLandscapeTexture_.setValue(value); }	
-	const char *getUseLandscapeTextureToolTip() { return useLandscapeTexture_.getDescription(); }
+	bool getMoreRes() { return moreRes_; }
+	OptionEntryBool &getMoreResEntry() { return moreRes_; }
 
-	bool getFullScreen() { return fullScreen_.getValue(); }
-	void setFullScreen(bool value) { fullScreen_.setValue(value); }	
-	const char *getFullScreenToolTip() { return fullScreen_.getDescription(); }
+	bool getFullClear() { return fullClear_; }
+	OptionEntryBool &getFullClearEntry() { return fullClear_; }
 
-	bool getMoreRes() { return moreRes_.getValue(); }
-	void setMoreRes(bool value) { moreRes_.setValue(value); }	
-	const char *getMoreResToolTip() { return moreRes_.getDescription(); }
+	bool getInvertElevation() { return invertElevation_; }
+	OptionEntryBool &getInvertElevationEntry() { return invertElevation_; }
 
-	bool getFullClear() { return fullClear_.getValue(); }
-	void setFullClear(bool value) { fullClear_.setValue(value); }
-	const char *getFullClearToolTip() { return fullClear_.getDescription(); }
+	bool getInvertMouse() { return invertMouse_; }
+	OptionEntryBool &getInvertMouseEntry() { return invertMouse_; }
 
-	bool getInvertElevation() { return invertElevation_.getValue(); }
-	void setInvertElevation(bool value) { invertElevation_.setValue(value); }
-	const char *getInvertElevationToolTip() { return invertElevation_.getDescription(); }
+	bool getSwapYAxis() { return swapYAxis_; }
+	OptionEntryBool &getSwapYAxisEntry() { return swapYAxis_; }
 
-	bool getInvertMouse() { return invertMouse_.getValue(); }
-	void setInvertMouse(bool value) { invertMouse_.setValue(value); }
-	const char *getInvertMouseToolTip() { return invertMouse_.getDescription(); }
+	bool getSideScroll() { return sideScroll_; }
+	OptionEntryBool &getSideScrollEntry() { return sideScroll_; }
 
-	bool getSwapYAxis() { return swapYAxis_.getValue(); }
-	void setSwapYAxis(bool value) { swapYAxis_.setValue(value); }
-	const char *getSwapYAxisToolTip() { return swapYAxis_.getDescription(); }
+	bool getNoGLExt() { return noGLExt_; }
+	OptionEntryBool &getNoGLExtEntry() { return noGLExt_; }
 
-	bool getSideScroll() { return sideScroll_.getValue(); }
-	void setSideScroll(bool value) { sideScroll_.setValue(value); }
-	const char *getSideScrollToolTip() { return sideScroll_.getDescription(); }
+	bool getNoGLTexSubImage() { return noGLTexSubImage_; }
+	OptionEntryBool &getNoGLTexSubImageEntry() { return noGLTexSubImage_; }
 
-	bool getNoGLExt() { return noGLExt_.getValue(); }
-	void setNoGLExt(bool value) { noGLExt_.setValue(value); }
-	const char *getNoGLExtToolTip() { return noGLExt_.getDescription(); }
+	bool getNoGLMultiTex() { return noGLMultiTex_; }
+	OptionEntryBool &getNoGLMultiTexEntry() { return noGLMultiTex_; }
 
-	bool getNoGLTexSubImage() { return noGLTexSubImage_.getValue(); }
-	void setNoGLTexSubImage(bool value) { noGLTexSubImage_.setValue(value); }
-	const char *getNoGLTexSubImageToolTip() { return noGLTexSubImage_.getDescription(); }
-
-	bool getNoGLMultiTex() { return noGLMultiTex_.getValue(); }
-	void setNoGLMultiTex(bool value) { noGLMultiTex_.setValue(value); }
-	const char *getNoGLMultiTexToolTip() { return noGLMultiTex_.getDescription(); }
-
-	bool getNoGLCompiledArrays() { return noGLCompiledArrays_.getValue(); }
-	void setNoGLCompiledArrays(bool value) { noGLCompiledArrays_.setValue(value); }
-	const char *getNoGLCompiledArraysToolTip() { return noGLCompiledArrays_.getDescription(); }
+	bool getNoGLCompiledArrays() { return noGLCompiledArrays_; }
+	OptionEntryBool &getNoGLCompiledArraysEntry() { return noGLCompiledArrays_; }
 	
-	bool getNoGLEnvCombine() { return noGLEnvCombine_.getValue(); }
-	void setNoGLEnvCombine(bool value) { noGLEnvCombine_.setValue(value); }
-	const char *getNoGLEnvCombineToolTip() { return noGLEnvCombine_.getDescription(); }
+	bool getNoGLEnvCombine() { return noGLEnvCombine_; }
+	OptionEntryBool &getNoGLEnvCombineEntry() { return noGLEnvCombine_; }
 
-	bool getNoGLCubeMap() { return noGLCubeMap_.getValue(); }
-	void setNoGLCubeMap(bool value) { noGLCubeMap_.setValue(value); }
-	const char *getNoGLCubeMapToolTip() { return noGLCubeMap_.getDescription(); }
+	bool getNoGLCubeMap() { return noGLCubeMap_; }
+	OptionEntryBool &getNoGLCubeMapEntry() { return noGLCubeMap_; }
 
-	bool getNoGLSphereMap() { return noGLSphereMap_.getValue(); }
-	void setNoGLSphereMap(bool value) { noGLSphereMap_.setValue(value); }
-	const char *getNoGLSphereMapToolTip() { return noGLSphereMap_.getDescription(); }
+	bool getNoGLSphereMap() { return noGLSphereMap_; }
+	OptionEntryBool &getNoGLSphereMapEntry() { return noGLSphereMap_; }
 
-	bool getNoGLHardwareMipmaps() { return noGLHardwareMipmaps_.getValue(); }
-	void setNoGLHardwareMipmaps(bool value) { noGLHardwareMipmaps_.setValue(value); }
-	const char *getNoGLHardwareMipmapsToolTip() { return noGLHardwareMipmaps_.getDescription(); }
+	bool getNoGLHardwareMipmaps() { return noGLHardwareMipmaps_; }
+	OptionEntryBool &getNoGLHardwareMipmapsEntry() { return noGLHardwareMipmaps_; }
 
-	int getSoundChannels() { return soundChannels_.getValue(); }
-	void setSoundChannels(int value) { soundChannels_.setValue(value); }
-	const char *getSoundChannelsToolTip() { return soundChannels_.getDescription(); }
+	int getSoundChannels() { return soundChannels_; }
+	OptionEntryInt &getSoundChannelsEntry() { return soundChannels_; }
 
-	bool getNoSound() { return noSound_.getValue(); }
-	void setNoSound(bool value) { noSound_.setValue(value); }
-	const char *getNoSoundToolTip() { return noSound_.getDescription(); }
+	bool getNoSound() { return noSound_; }
+	OptionEntryBool &getNoSoundEntry() { return noSound_; }
 
-	bool getNoAmbientSound() { return noAmbientSound_.getValue(); }
-	void setNoAmbientSound(bool value) { noAmbientSound_.setValue(value); }
-	const char *getNoAmbientSoundToolTip() { return noAmbientSound_.getDescription(); }
+	bool getNoAmbientSound() { return noAmbientSound_; }
+	OptionEntryBool &getNoAmbientSoundEntry() { return noAmbientSound_; }
 
-	bool getNoBoidSound() { return noBoidSound_.getValue(); }
-	void setNoBoidSound(bool value) { noBoidSound_.setValue(value); }
-	const char *getNoBoidSoundToolTip() { return noBoidSound_.getDescription(); }
+	bool getNoBoidSound() { return noBoidSound_; }
+	OptionEntryBool &getNoBoidSoundEntry() { return noBoidSound_; }
 
-	bool getNoSkins() { return noSkins_.getValue(); }
-	void setNoSkins(bool value) { noSkins_.setValue(value); }
-	const char *getNoSkinsToolTip() { return noSkins_.getDescription(); }
+	bool getNoSkins() { return noSkins_; }
+	OptionEntryBool &getNoSkinsEntry() { return noSkins_; }
 
-	int getTankDetail() { return tankDetail_.getValue(); }
-	void setTankDetail(int value) { tankDetail_.setValue(value); }
-	const char *getTankDetailToolTip() { return tankDetail_.getDescription(); }
+	int getTankDetail() { return tankDetail_; }
+	OptionEntryInt &getTankDetailEntry() { return tankDetail_; }
 
-	int getEffectsDetail() { return effectsDetail_.getValue(); }
-	void setEffectsDetail(int value) { effectsDetail_.setValue(value); }
-	const char *getEffectsDetailToolTip() { return effectsDetail_.getDescription(); }
+	int getEffectsDetail() { return effectsDetail_; }
+	OptionEntryInt &getEffectsDetailEntry() { return effectsDetail_; }
 
-	bool getUseHexidecimal() { return useHex_.getValue(); }
-	void setUseHexidecimal(bool value) { useHex_.setValue(value); }
-	const char *getUseHexidecimalToolTip() { return useHex_.getDescription(); }
+	bool getUseHexidecimal() { return useHex_; }
+	OptionEntryBool &getUseHexidecimalEntry() { return useHex_; }
 
-	bool getDrawLines() { return drawLines_.getValue(); }
-	void setDrawLines(bool value) { drawLines_.setValue(value); }
-	const char *getDrawLinesToolTip() { return drawLines_.getDescription(); }
+	bool getDrawLines() { return drawLines_; }
+	OptionEntryBool &getDrawLinesEntry() { return drawLines_; }
 
-	bool getDrawNormals() { return drawNormals_.getValue(); }
-	void setDrawNormals(bool value) { drawNormals_.setValue(value); }
-	const char *getDrawNormalsToolTip() { return drawNormals_.getDescription(); }
+	bool getDrawNormals() { return drawNormals_; }
+	OptionEntryBool &getDrawNormalsEntry() { return drawNormals_; }
 
-	bool getDrawBoundingSpheres() { return drawBoundingSpheres_.getValue(); }
-	void setDrawBoundingSpheres(bool value) { drawBoundingSpheres_.setValue(value); }
-	const char *getDrawBoundingSpheresToolTip() { return drawBoundingSpheres_.getDescription(); }
+	bool getDrawBoundingSpheres() { return drawBoundingSpheres_; }
+	OptionEntryBool &getDrawBoundingSpheresEntry() { return drawBoundingSpheres_; }
 
-	bool getDrawShipPaths() { return drawShipPaths_.getValue(); }
-	void setDrawShipPaths(bool value) { drawShipPaths_.setValue(value); }
-	const char *getDrawShipPathsToolTip() { return drawShipPaths_.getDescription(); }
+	bool getDrawShipPaths() { return drawShipPaths_; }
+	OptionEntryBool &getDrawShipPathsEntry() { return drawShipPaths_; }
 
-	bool getDrawPlayerNames() { return drawPlayerNames_.getValue(); }
-	void setDrawPlayerNames(bool value) { drawPlayerNames_.setValue(value); }
-	const char *getDrawPlayerNamesToolTip() { return drawPlayerNames_.getDescription(); }
+	bool getDrawPlayerNames() { return drawPlayerNames_; }
+	OptionEntryBool &getDrawPlayerNamesEntry() { return drawPlayerNames_; }
 
-	bool getDrawPlayerIcons() { return drawPlayerIcons_.getValue(); }
-	void setDrawPlayerIcons(bool value) { drawPlayerIcons_.setValue(value); }
-	const char *getDrawPlayerIconsToolTip() { return drawPlayerIcons_.getDescription(); }
+	bool getDrawPlayerIcons() { return drawPlayerIcons_; }
+	OptionEntryBool &getDrawPlayerIconsEntry() { return drawPlayerIcons_; }
 
-	bool getDrawPlayerSight() { return drawPlayerSight_.getValue(); }
-	void setDrawPlayerSight(bool value) { drawPlayerSight_.setValue(value); }
-	const char *getDrawPlayerSightToolTip() { return drawPlayerSight_.getDescription(); }
+	bool getDrawPlayerSight() { return drawPlayerSight_; }
+	OptionEntryBool &getDrawPlayerSightEntry() { return drawPlayerSight_; }
 
-	bool getOldSightPosition() { return oldSightPosition_.getValue(); }
-	void setOldSightPosition(bool value) { oldSightPosition_.setValue(value); }
-	const char *getOldSightPositionToolTip() { return oldSightPosition_.getDescription(); }
+	bool getOldSightPosition() { return oldSightPosition_; }
+	OptionEntryBool &getOldSightPositionEntry() { return oldSightPosition_; }
 
-	bool getDrawPlayerHealth() { return drawPlayerHealth_.getValue(); }
-	void setDrawPlayerHealth(bool value) { drawPlayerHealth_.setValue(value); }
-	const char *getDrawPlayerHealthToolTip() { return drawPlayerHealth_.getDescription(); }
+	bool getDrawPlayerHealth() { return drawPlayerHealth_; }
+	OptionEntryBool &getDrawPlayerHealthEntry() { return drawPlayerHealth_; }
 
-	bool getDrawPlayerColor() { return drawPlayerColor_.getValue(); }
-	void setDrawPlayerColor(bool value) { drawPlayerColor_.setValue(value); }
-	const char *getDrawPlayerColorToolTip() { return drawPlayerColor_.getDescription(); }
+	bool getDrawPlayerColor() { return drawPlayerColor_; }
+	OptionEntryBool &getDrawPlayerColorEntry() { return drawPlayerColor_; }
 
-	bool getDrawWater() { return drawWater_.getValue(); }
-	void setDrawWater(bool value) { drawWater_.setValue(value); }
-	const char *getDrawWaterToolTip() { return drawWater_.getDescription(); }
+	bool getDrawWater() { return drawWater_; }
+	OptionEntryBool &getDrawWaterEntry() { return drawWater_; }
 
-	bool getDrawLandscape() { return drawLandscape_.getValue(); }
-	void setDrawLandscape(bool value) { drawLandscape_.setValue(value); }
-	const char *getDrawLandscapeToolTip() { return drawLandscape_.getDescription(); }
+	bool getDrawLandscape() { return drawLandscape_; }
+	OptionEntryBool &getDrawLandscapeEntry() { return drawLandscape_; }
 
-	bool getDrawSurround() { return drawSurround_.getValue(); }
-	void setDrawSurround(bool value) { drawSurround_.setValue(value); }
-	const char *getDrawSurroundToolTip() { return drawSurround_.getDescription(); }
+	bool getDrawSurround() { return drawSurround_; }
+	OptionEntryBool &getDrawSurroundEntry() { return drawSurround_; }
 
-	bool getNoWaterMovement() { return noWaterMovement_.getValue(); }
-	void setNoWaterMovement(bool value) { noWaterMovement_.setValue(value); }
-	const char *getNoWaterMovementToolTip() { return noWaterMovement_.getDescription(); }
+	bool getNoWaterMovement() { return noWaterMovement_; }
+	OptionEntryBool &getNoWaterMovementEntry() { return noWaterMovement_; }
 
-	bool getNoSkyMovement() { return noSkyMovement_.getValue(); }
-	void setNoSkyMovement(bool value) { noSkyMovement_.setValue(value); }
-	const char *getNoSkyMovementToolTip() { return noSkyMovement_.getDescription(); }
+	bool getNoSkyMovement() { return noSkyMovement_; }
+	OptionEntryBool &getNoSkyMovementEntry() { return noSkyMovement_; }
 
-	bool getNoSkyLayers() { return noSkyLayers_.getValue(); }
-	void setNoSkyLayers(bool value) { noSkyLayers_.setValue(value); }
-	const char *getNoSkyLayersToolTip() { return noSkyLayers_.getDescription(); }
+	bool getNoSkyLayers() { return noSkyLayers_; }
+	OptionEntryBool &getNoSkyLayersEntry() { return noSkyLayers_; }
 
-	bool getNoTrees() { return noTrees_.getValue(); }
-	void setNoTrees(bool value) { noTrees_.setValue(value); }
-	const char *getNoTreesToolTip() { return noTrees_.getDescription(); }
+	bool getNoTrees() { return noTrees_; }
+	OptionEntryBool &getNoTreesEntry() { return noTrees_; }
 
-	bool getNoPrecipitation() { return noPrecipitation_.getValue(); }
-	void setNoPrecipitation(bool value) { noPrecipitation_.setValue(value); }
-	const char *getNoPrecipitationToolTip() { return noPrecipitation_.getDescription(); }
+	bool getNoPrecipitation() { return noPrecipitation_; }
+	OptionEntryBool &getNoPrecipitationEntry() { return noPrecipitation_; }
 
-	bool getLowTreeDetail() { return lowTreeDetail_.getValue(); }
-	void setLowTreeDetail(bool value) { lowTreeDetail_.setValue(value); }
-	const char *getLowTreeDetailToolTip() { return lowTreeDetail_.getDescription(); }
+	bool getLowTreeDetail() { return lowTreeDetail_; }
+	OptionEntryBool &getLowTreeDetailEntry() { return lowTreeDetail_; }
 
-	bool getSortAccessories() { return sortAccessories_.getValue(); }
-	void setSortAccessories(bool value) { sortAccessories_.setValue(value); }
-	const char *getSortAccessoriesToolTip() { return sortAccessories_.getDescription(); }
+	bool getSortAccessories() { return sortAccessories_; }
+	OptionEntryBool &getSortAccessoriesEntry() { return sortAccessories_; }
 
-	bool getNoDepthSorting() { return noDepthSorting_.getValue(); }
-	void setNoDepthSorting(bool value) { noDepthSorting_.setValue(value); }
-	const char *getNoDepthSortingToolTip() { return noDepthSorting_.getDescription(); }
+	bool getNoDepthSorting() { return noDepthSorting_; }
+	OptionEntryBool &getNoDepthSortingEntry() { return noDepthSorting_; }
 
-	bool getNoWaves() { return noWaves_.getValue(); }
-	void setNoWaves(bool value) { noWaves_.setValue(value); }
-	const char *getNoWavesToolTip() { return noWaves_.getDescription(); }
+	bool getNoWaves() { return noWaves_; }
+	OptionEntryBool &getNoWavesEntry() { return noWaves_; }
 
-	bool getSoftwareMouse() { return softwareMouse_.getValue(); }
-	void setSoftwareMouse(bool value) { softwareMouse_.setValue(value); }
-	const char *getSoftwareMouseToolTip() { return softwareMouse_.getDescription(); }
+	bool getSoftwareMouse() { return softwareMouse_; }
+	OptionEntryBool &getSoftwareMouseEntry() { return softwareMouse_; }
 
-	bool getShowContextHelp() { return showContextHelp_.getValue(); }
-	void setShowContextHelp(bool value) { showContextHelp_.setValue(value); }
-	const char *getShowContextHelpToolTip() { return showContextHelp_.getDescription(); }
+	bool getShowContextHelp() { return showContextHelp_; }
+	OptionEntryBool &getShowContextHelpEntry() { return showContextHelp_; }
 
-	bool getClientLogToFile() { return clientLogToFile_.getValue(); }
-	void setClientLogToFile(bool value) { clientLogToFile_.setValue(value); }
-	const char *getClientLogToFileToolTip() { return clientLogToFile_.getDescription(); }
+	bool getClientLogToFile() { return clientLogToFile_; }
+	OptionEntryBool &getClientLogToFileEntry() { return clientLogToFile_; }
 
-	bool getValidateServerIp() { return validateServerIp_.getValue(); }
-	void setValidateServerIp(bool value) { validateServerIp_.setValue(value); }
-	const char *getValidateServerIpToolTip() { return validateServerIp_.getDescription(); }
+	bool getValidateServerIp() { return validateServerIp_; }
+	OptionEntryBool &getValidateServerIpEntry() { return validateServerIp_; }
 
-	int getSoundVolume() { return soundVolume_.getValue(); }
-	void setSoundVolume(int value) { soundVolume_.setValue(value); }
-	const char *getSoundVolumeToolTip() { return soundVolume_.getDescription(); }
+	int getSoundVolume() { return soundVolume_; }
+	OptionEntryInt &getSoundVolumeEntry() { return soundVolume_; }
 
-	int getDialogSize() { return dialogSize_.getValue(); }
-	void setDialogSize(int value) { dialogSize_.setValue(value); }
-	const char *getDialogSizeToolTip() { return dialogSize_.getDescription(); }
+	int getDialogSize() { return dialogSize_; }
+	OptionEntryInt &getDialogSizeEntry() { return dialogSize_; }
 
-	int getTexSize() { return texSize_.getValue(); }
-	void setTexSize(int value) { texSize_.setValue(value); }
-	const char *getTexSizeToolTip() { return texSize_.getDescription(); }
+	int getTexSize() { return texSize_; }
+	OptionEntryInt &getTexSizeEntry() { return texSize_; }
 
-	int  getScreenWidth() { return screenWidth_.getValue(); }
-	void setScreenWidth(int value) { screenWidth_.setValue(value); }
-	const char *getScreenWidthToolTip() { return screenWidth_.getDescription(); }
+	int  getScreenWidth() { return screenWidth_; }
+	OptionEntryInt  &getScreenWidthEntry() { return screenWidth_; }
 
-	int  getScreenHeight() { return screenHeight_.getValue(); }
-	void setScreenHeight(int value) { screenHeight_.setValue(value); }
-	const char *getScreenHeightToolTip() { return screenHeight_.getDescription(); }
+	int  getScreenHeight() { return screenHeight_; }
+	OptionEntryInt  &getScreenHeightEntry() { return screenHeight_; }
 
-	int getDepthBufferBits() { return depthBufferBits_.getValue(); }
-	void setDepthBufferBits(int value) { depthBufferBits_.setValue(value); }
-	const char *getDepthBufferBitsToolTip() { return depthBufferBits_.getDescription(); }
+	int getDepthBufferBits() { return depthBufferBits_; }
+	OptionEntryInt &getDepthBufferBitsEntry() { return depthBufferBits_; }
 
-	int getColorComponentSize() { return colorComponentSize_.getValue(); }
-	void setColorComponentSize(int value) { colorComponentSize_.setValue(value); }
-	const char *getColorComponentSizeToolTip() { return colorComponentSize_.getDescription(); }
+	int getColorComponentSize() { return colorComponentSize_; }
+	OptionEntryInt &getColorComponentSizeEntry() { return colorComponentSize_; }
 
-	int getBitsPerPixel() { return bitsPerPixel_.getValue(); }
-	void setBitsPerPixel(int value) { bitsPerPixel_.setValue(value); }
-	const char *getBitsPerPixelToolTip() { return bitsPerPixel_.getDescription(); }
+	int getBitsPerPixel() { return bitsPerPixel_; }
+	OptionEntryInt &getBitsPerPixelEntry() { return bitsPerPixel_; }
 
-	bool getDoubleBuffer() { return doubleBuffer_.getValue(); }
-	void setDoubleBuffer(bool value) { doubleBuffer_.setValue(value); }
-	const char *getDoubleBufferToolTip() { return doubleBuffer_.getDescription(); }
+	bool getDoubleBuffer() { return doubleBuffer_; }
+	OptionEntryBool &getDoubleBufferEntry() { return doubleBuffer_; }
 
-	bool getSaveWindowPositions() { return saveWindowPositions_.getValue(); }
-	void setSaveWindowPositions(bool value) { saveWindowPositions_.setValue(value); }
-	const char *getSaveWindowPositionsToolTip() { return saveWindowPositions_.getDescription(); }
+	bool getSaveWindowPositions() { return saveWindowPositions_; }
+	OptionEntryBool &getSaveWindowPositionsEntry() { return saveWindowPositions_; }
 
-	const char *getOnlineUserName() { return onlineUserName_.getValue(); }
-	void setOnlineUserName(const char *value) { onlineUserName_.setValue(value); }
-	const char *getOnlineUserNameToolTip() { return onlineUserName_.getDescription(); }
+	const char * getOnlineUserName() { return onlineUserName_; }
+	OptionEntryString &getOnlineUserNameEntry() { return onlineUserName_; }
 
-	const char *getOnlineTankModel() { return onlineTankModel_.getValue(); }
-	void setOnlineTankModel(const char *value) { onlineTankModel_.setValue(value); }
-	const char *getOnlineTankModelToolTip() { return onlineTankModel_.getDescription(); }
+	const char * getOnlineTankModel() { return onlineTankModel_; }
+	OptionEntryString &getOnlineTankModelEntry() { return onlineTankModel_; }
 
-	const char *getOnlineUserIcon() { return onlineUserIcon_.getValue(); }
-	void setOnlineUserIcon(const char *value) { onlineUserIcon_.setValue(value); }
-	const char *getOnlineUserIconToolTip() { return onlineUserIcon_.getDescription(); }
+	const char * getOnlineUserIcon() { return onlineUserIcon_; }
+	OptionEntryString &getOnlineUserIconEntry() { return onlineUserIcon_; }
 
-	const char *getHostDescription() { return hostDescription_.getValue(); }
-	void setHostDescription(const char *value) { hostDescription_.setValue(value); }
-	const char *getHostDescriptionToolTip() { return hostDescription_.getDescription(); }
+	const char * getHostDescription() { return hostDescription_; }
+	OptionEntryString &getHostDescriptionEntry() { return hostDescription_; }
 
-	const char *getBuyTab() { return buyTab_.getValue(); }
-	void setBuyTab(const char *value) { buyTab_.setValue(value); }
-	const char *getBuyTabToolTip() { return buyTab_.getDescription(); }
+	const char * getBuyTab() { return buyTab_; }
+	OptionEntryString &getBuyTabEntry() { return buyTab_; }
+
+	int getToolTipTime() { return toolTipTime_; }
+	OptionEntryInt &getToolTipTimeEntry() { return toolTipTime_; }
+
+	int getToolTipSpeed() { return toolTipSpeed_; }
+	OptionEntryInt &getToolTipSpeedEntry() { return toolTipSpeed_; }
 
 	void loadSafeValues();
 	void loadDefaultValues();
@@ -517,6 +427,5 @@ private:
 	virtual ~OptionsDisplay();
 
 };
-
 
 #endif

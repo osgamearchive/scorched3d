@@ -20,7 +20,6 @@
 
 #include <actions/TankDamage.h>
 #include <actions/TankFalling.h>
-#include <actions/TankScored.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
 #include <common/OptionsGame.h>
@@ -35,6 +34,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
+#include <tank/TankTeamScore.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
 
@@ -164,40 +164,74 @@ void TankDamage::calculateDamage()
 		{	
 			Tank *damagedTank = (Tank *) damagedTarget;
 
-			// Calculate the score (more for more damage and the most if you kill them)
-			int score = 0;
-			if (killedTank) score = context_->optionsGame->getMoneyWonPerKillPoint() *
-					weapon_->getArmsLevel();
-			else score = context_->optionsGame->getMoneyWonPerHitPoint() *
-					weapon_->getArmsLevel();
-
-			// Make this a percentage if you want
-			if (context_->optionsGame->getMoneyPerHealthPoint()) 
-				score = (score * int(damage_)) / 100;
-
-			// Remove score for self kills
-			if (damagedPlayerId_ ==  firedPlayerId_) score *= -1;
-			else
-			{
-				if ((context_->optionsGame->getTeams() > 1) &&
-					(firedTank->getTeam() == damagedTank->getTeam()))
-				{
-					score *= -1;
-				}
-			}
+			// Add this tank as a tank that assisted in the kill
+			damagedTank->getScore().getHurtBy().insert(firedTank->getPlayerId());
 
 			// Calculate the wins
 			int wins = 0;
-			if (killedTank) wins = (damagedPlayerId_ ==  firedPlayerId_)?-1:1;
-
-			// Add the new score (if any)
-			if (wins != 0 || score > 0)
+			if (killedTank)
 			{
-				TankScored *scored = new TankScored(firedPlayerId_, 
-					score,
-					wins,
-					0);
-				context_->actionController->addAction(scored);
+				int moneyPerKill = 
+					context_->optionsGame->getMoneyWonPerKillPoint() *
+						weapon_->getArmsLevel();
+				int scorePerKill = context_->optionsGame->getScorePerKill();
+
+				int moneyPerAssist = 
+					context_->optionsGame->getMoneyWonPerAssistPoint() *
+						weapon_->getArmsLevel();
+				int scorePerAssist = context_->optionsGame->getScorePerAssist();
+
+				// Update kills and score
+				if (damagedPlayerId_ ==  firedPlayerId_)
+				{
+					firedTank->getScore().setKills(
+						firedTank->getScore().getKills() - 1);
+					firedTank->getScore().setMoney(
+						firedTank->getScore().getMoney() - moneyPerKill);
+				}
+				else
+				{
+					firedTank->getScore().setKills(
+						firedTank->getScore().getKills() + 1);
+					firedTank->getScore().setMoney(
+						firedTank->getScore().getMoney() + moneyPerKill);
+					firedTank->getScore().setScore(
+						firedTank->getScore().getScore() + scorePerKill);
+
+					if (firedTank->getTeam() > 0)
+					{
+						context_->tankTeamScore->addScore(
+							scorePerKill, firedTank->getTeam());
+					}
+				}
+
+				// Update assists
+				std::set<unsigned int> &hurtBy = 
+					damagedTank->getScore().getHurtBy();
+				std::set<unsigned int>::iterator itor;
+				for (itor = hurtBy.begin();
+					itor != hurtBy.end();
+					itor++)
+				{
+					unsigned int hurtByPlayer = (*itor);
+					Tank *hurtByTank = 
+						context_->tankContainer->getTankById(hurtByPlayer);
+					if (hurtByTank != firedTank)
+					{
+						hurtByTank->getScore().setAssists(
+							hurtByTank->getScore().getAssists() + 1);
+						firedTank->getScore().setMoney(
+							firedTank->getScore().getMoney() + moneyPerAssist);
+						firedTank->getScore().setScore(
+							firedTank->getScore().getScore() + scorePerAssist);
+
+						if (firedTank->getTeam() > 0)
+						{
+							context_->tankTeamScore->addScore(
+								scorePerAssist, firedTank->getTeam());
+						}
+					}
+				}
 			}
 		}
 	}

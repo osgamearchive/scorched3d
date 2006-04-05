@@ -21,6 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <coms/ComsPlayerStateMessage.h>
+#include <tank/TankTeamScore.h>
 #include <tank/TankContainer.h>
 #include <set>
 
@@ -37,6 +38,9 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 
 bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
+	if (!ScorchedServer::instance()->getContext().tankTeamScore->
+		writeMessage(buffer)) return false;
+
 	std::map<unsigned int, Target *> &targets = 
 		ScorchedServer::instance()->getTargetContainer().getTargets();
 	std::map<unsigned int, Target *>::iterator itor;
@@ -68,6 +72,9 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 
 bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 {
+	if (!ScorchedClient::instance()->getContext().tankTeamScore->
+		readMessage(reader)) return false;
+
 	// Update all targets with the state from the targets on the
 	// server
 	std::set<unsigned int> updatedTargets;

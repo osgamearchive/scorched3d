@@ -386,7 +386,7 @@ void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 	if (id == sortBox_->getId())
 	{
 		// The sort accessories check box has been clicked
-		OptionsDisplay::instance()->setSortAccessories(state);
+		OptionsDisplay::instance()->getSortAccessoriesEntry().setValue(state);
 		playerRefreshKeepPos();
 	}
 	else if (id == defaultTab_->getCheckBox().getId())
@@ -404,7 +404,7 @@ void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 					GLWTab *tab = (GLWTab *) entry.widget;
 					if (tab->getDepressed())
 					{
-						OptionsDisplay::instance()->setBuyTab(tab->getName());
+						OptionsDisplay::instance()->getBuyTabEntry().setValue(tab->getName());
 						break;
 					}
 				}
@@ -412,7 +412,7 @@ void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 		}
 		else
 		{
-			OptionsDisplay::instance()->setBuyTab("");
+			OptionsDisplay::instance()->getBuyTabEntry().setValue("");
 		}
 	}
 	else

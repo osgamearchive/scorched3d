@@ -28,7 +28,7 @@
 #include <server/ServerState.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/ComsGameStateMessage.h>
+#include <coms/ComsPlayerStateMessage.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
@@ -171,7 +171,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		if (context.getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
 			context.getGameState().getState() == ServerState::ServerStateStarting)
 		{
-			ComsGameStateMessage message;
+			ComsPlayerStateMessage message;
 			ComsMessageSender::sendToAllConnectedClients(message);
 		}
 	}

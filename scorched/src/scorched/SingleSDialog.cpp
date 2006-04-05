@@ -91,7 +91,7 @@ bool SingleSFrame::TransferDataToWindow()
 		snprintf(string, 20, "%i", i);
 		IDC_CLIENT_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
 	}
-	snprintf(string, 20, "%i", options_.getNoMaxPlayers());
+	snprintf(string, 20, "%i", options_.getNoMaxPlayersEntry().getValue());
 	IDC_CLIENT_PLAYERS_CTRL->SetValue(wxString(string, wxConvUTF8));
 	IDC_CLIENT_PLAYERS_CTRL->SetToolTip(
 		wxString(wxT("The number of players that will play in this game.\n")
@@ -122,9 +122,9 @@ bool SingleSFrame::TransferDataFromWindow()
 {
 	int noPlayers = 2;
 	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &noPlayers);
-	options_.setNoMaxPlayers(noPlayers);
-	options_.setNoMinPlayers(noPlayers);
-	options_.setMod(IDC_CLIENT_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
+	options_.getNoMaxPlayersEntry().setValue(noPlayers);
+	options_.getNoMinPlayersEntry().setValue(noPlayers);
+	options_.getModEntry().setValue(IDC_CLIENT_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
 
 	return true;
 }

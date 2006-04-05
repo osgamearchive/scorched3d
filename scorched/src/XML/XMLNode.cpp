@@ -223,6 +223,11 @@ bool XMLNode::failChildren()
 		node->returnError(formatString("Unrecognised node."));
 		return false;
 	}
+	return true;
+}
+
+bool XMLNode::failContent()
+{
 	for (const char *c=content_.c_str(); *c; c++)
 	{
 		if (*c != '\n' &&
@@ -235,7 +240,6 @@ bool XMLNode::failChildren()
 			return false;
 		}
 	}
-
 	return true;
 }
 
@@ -327,6 +331,7 @@ bool XMLNode::getNamedChild(const char *name, std::string &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	if (!node->failChildren()) return false;
 	value = node->getContent();
 	return true;
 }
@@ -336,6 +341,7 @@ bool XMLNode::getNamedChild(const char *name, bool &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	if (!node->failChildren()) return false;
 
 	if (0 == strcmp(node->getContent(), "true")) value = true;
 	else if (0 == strcmp(node->getContent(), "false")) value = false;
@@ -352,6 +358,8 @@ bool XMLNode::getNamedChild(const char *name, float &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	if (!node->failChildren()) return false;
+
 	if (sscanf(node->getContent(), "%f", &value) != 1) 
 		return node->returnError("Failed to parse float value");
 	return true;
@@ -362,6 +370,8 @@ bool XMLNode::getNamedChild(const char *name, int &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	if (!node->failChildren()) return false;
+
 	if (sscanf(node->getContent(), "%i", &value) != 1)
 		return node->returnError("Failed to parse int value");
 	return true;
@@ -372,6 +382,8 @@ bool XMLNode::getNamedChild(const char *name, unsigned int &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
+	if (!node->failChildren()) return false;
+
 	if (sscanf(node->getContent(), "%u", &value) != 1)
 		return node->returnError("Failed to parse unsigned int value");
 	return true;
@@ -385,6 +397,10 @@ bool XMLNode::getNamedChild(const char *name, Vector &value,
 	if (!node->getNamedChild("A", nodeA, failOnError, true)) return false;
 	if (!node->getNamedChild("B", nodeB, failOnError, true)) return false;
 	if (!node->getNamedChild("C", nodeC, failOnError, true)) return false;
+	if (!nodeA->failChildren()) return false;
+	if (!nodeB->failChildren()) return false;
+	if (!nodeC->failChildren()) return false;
+
 	value[0] = (float) atof(nodeA->getContent());
 	value[1] = (float) atof(nodeB->getContent());
 	value[2] = (float) atof(nodeC->getContent());

@@ -39,6 +39,7 @@ public:
 
 protected:
 	static SpeedChange *instance_;
+	void setSpeed(float speed);
 
 private:
 	SpeedChange();

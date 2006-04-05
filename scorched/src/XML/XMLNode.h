@@ -80,6 +80,7 @@ public:
 		bool failOnError = true, bool remove = true);
 
 	bool failChildren();
+	bool failContent();
 	void resurrectRemovedChildren();
 
 	void setSource(const char *source);

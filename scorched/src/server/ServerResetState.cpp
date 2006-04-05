@@ -23,6 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <tank/TankDeadContainer.h>
 #include <tank/TankContainer.h>
+#include <tank/TankTeamScore.h>
 #include <scorched/ServerDialog.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -39,6 +40,7 @@ void ServerResetState::enterState(const unsigned state)
 {
 	// Reset all the tanks back to their original scores etc...
 	ScorchedServer::instance()->getTankContainer().newMatch();
+	ScorchedServer::instance()->getContext().tankTeamScore->newMatch();
 	ScorchedServer::instance()->getTankDeadContainer().clearTanks();
 	ScorchedServer::instance()->getOptionsTransient().reset();
 

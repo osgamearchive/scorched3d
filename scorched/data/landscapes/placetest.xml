@@ -25,8 +25,8 @@
 					<offset><A>0</A><B>10</B><C>0</C></offset>
 					<object type="target">
 						<name>TestTargetHmm2</name>
-						<model type="MilkShape">data/accessories/banana/banana.txt</model>
-						<modelscale>0.01</modelscale>
+						<model type="MilkShape">data/accessories/pwrcrate/pwrcrate.txt</model>
+						<modelscale>0.1</modelscale>
 						<!--<modelrotation>90</modelrotation>-->
 						<modelrotationsnap>90</modelrotationsnap>
 						<shield>TestShield</shield>

@@ -27,6 +27,7 @@
 #include <coms/ComsMessageHandler.h>
 #include <common/OptionsTransient.h>
 #include <tank/TankContainer.h>
+#include <tank/TankTeamScore.h>
 #include <tankgraph/TankModelStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefinitions.h>
@@ -49,6 +50,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	modFiles = new ModFiles();
 	landscapes = new LandscapeDefinitions();
 	tankModelStore = new TankModelStore();
+	tankTeamScore = new TankTeamScore();
 
 	viewPoints->setContext(this);
 	actionController->setScorchedContext(this);

@@ -27,12 +27,17 @@
 class ComsScoreMessage : public ComsMessage
 {
 public:
-	ComsScoreMessage();
+	ComsScoreMessage(bool finalScore = false);
 	virtual ~ComsScoreMessage();
+
+	bool getFinalScore() { return finalScore_; }
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
     virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	bool finalScore_;
 
 private:
 	ComsScoreMessage(const ComsScoreMessage &);

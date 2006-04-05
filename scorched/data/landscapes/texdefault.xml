@@ -42,7 +42,7 @@
 	</ambientsounds>
 	<boids>
 		<boid>data/landscapes/boidsgulls.xml</boid>
-		<boid>data/landscapes/boidsf18.xml</boid>
+		<boid>data/landscapes/boidsf16.xml</boid>
 	</boids>
 	<shipgroups>
 		<shipgroup>data/landscapes/shipsdestroyer1.xml</shipgroup>

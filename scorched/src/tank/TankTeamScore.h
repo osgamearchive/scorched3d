@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,19 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerCheckForWinnersStateh_INCLUDE__)
-#define __INCLUDE_ServerCheckForWinnersStateh_INCLUDE__
+#if !defined(__INCLUDE_TankTeamScoreh_INCLUDE__)
+#define __INCLUDE_TankTeamScoreh_INCLUDE__
 
-#include <engine/GameStateI.h>
-#include <engine/GameStateStimulusI.h>
+#include <coms/NetBuffer.h>
 
-class ServerCheckForWinnersState : public GameStateI
+class TankTeamScore
 {
 public:
-	ServerCheckForWinnersState();
-	virtual ~ServerCheckForWinnersState();
+	TankTeamScore();
+	virtual ~TankTeamScore();
 
-	virtual void enterState(const unsigned state);
+	void newMatch();
+	void newGame();
+
+	void addScore(int score, int team);
+	int getScore(int team);
+
+	void setWonGame(int team);
+	int getWonGame();
+
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
+
+protected:
+	int scores_[5];
+	int wonGame_;
 };
 
-#endif
+#endif // __INCLUDE_TankTeamScoreh_INCLUDE__

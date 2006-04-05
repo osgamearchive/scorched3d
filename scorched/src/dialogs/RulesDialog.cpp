@@ -159,12 +159,6 @@ void RulesDialog::drawRules()
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,
-		left, top - 120.0f, 0.0f,
-		formatString("Score Mode : %s", (options.getScoreType() == OptionsGame::ScoreWins)?"Most Wins":
-		((options.getScoreType() == OptionsGame::ScoreKills)?"Most Kills":"Most Money")));
-	GLWFont::instance()->getSmallPtFont()->draw(
-		yellow,
-		12,
 		left, top - 135.0f, 0.0f,
 		formatString(((options.getShotTime() > 0)?"Shot time : %i (s)":"Shot time : Unlimited"),
 		options.getShotTime()));

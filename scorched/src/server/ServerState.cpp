@@ -28,17 +28,16 @@
 #include <server/ServerResetState.h>
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerStateTooFewPlayersState.h>
-#include <server/ServerCheckForWinnersState.h>
 #include <server/ServerPlayingState.h>
 #include <server/ServerStartingState.h>
-#include <server/ServerScoreState.h>
 #include <server/ServerShotState.h>
+#include <server/ServerShotFinishedState.h>
 
 void ServerState::setupStates(GameState &gameState)
 {
 	gameState.clear();
 
-	// ServerStateTooFewPlayers
+	// ServerStateTooFewPlayers (Start State)
 	ServerStateTooFewPlayersState *serverTooFewPlayers = 
 		new ServerStateTooFewPlayersState();
 	gameState.addStateEntry(ServerStateTooFewPlayers,
@@ -58,7 +57,7 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateStimulus(ServerStateStarting, 
 		serverStarting, ServerStateReset);
 
-	// ServerStateReset (Start State)
+	// ServerStateReset 
 	ServerResetState *serverReset = new ServerResetState();
 	gameState.addStateEntry(ServerStateReset,
 		serverReset);
@@ -93,13 +92,11 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateNextShot,
 		serverNextShot);
 	gameState.addStateStimulus(ServerStateNextShot, 
-		ServerStimulusTooFewPlayers, ServerStateCheckForWinners);
-	gameState.addStateStimulus(ServerStateNextShot, 
 		ServerStimulusNextTurn, ServerStateNextTurn);
 	gameState.addStateStimulus(ServerStateNextShot,
 		ServerStimulusNewGame, ServerStateNewGame);	
 	gameState.addStateStimulus(ServerStateNextShot,
-		ServerStimulusScore, ServerStateScore);	
+		ServerStimulusStarting, ServerStateStarting);	
 	gameState.addStateStimulus(ServerStateNextShot, 
 		ServerStimulusNextRound, ServerStateNextRound);
 
@@ -107,8 +104,6 @@ void ServerState::setupStates(GameState &gameState)
 	ServerNextTurnState *serverNextTurn = new ServerNextTurnState;
 	gameState.addStateEntry(ServerStateNextTurn,
 		serverNextTurn);
-	gameState.addStateStimulus(ServerStateNextTurn,
-		ServerTooFewPlayersStimulus::instance(), ServerStateCheckForWinners);	
 	gameState.addStateStimulus(ServerStateNextTurn,
 		ServerStimulusBuying, ServerStateBuying);	
 	gameState.addStateStimulus(ServerStateNextTurn,
@@ -145,24 +140,17 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateEntry(ServerStateShotReady,
 		serverShotReady);
 	gameState.addStateStimulus(ServerStateShotReady, 
-		serverShotReady, ServerStateNextShot);
+		serverShotReady, ServerStateShotFinished);
 
-	// ServerStateCheckForWinners
-	ServerCheckForWinnersState *serverCheckForWinners = new ServerCheckForWinnersState;
-	gameState.addStateEntry(ServerStateCheckForWinners,
-		serverCheckForWinners);
-	gameState.addStateStimulus(ServerStateCheckForWinners,
-		ServerStimulusTooFewPlayers, ServerStateTooFewPlayers);	
-	gameState.addStateStimulus(ServerStateCheckForWinners,
-		ServerStimulusScore, ServerStateScore);	
-
-	// ServerStateScore
-	ServerScoreState *serverScore = new ServerScoreState;
-	gameState.addStateEntry(ServerStateScore,
-		serverScore);
-	gameState.addStateStimulus(ServerStateScore,
-		serverScore, ServerStateStarting);	
+	// ServerStateShotFinished
+	ServerShotFinishedState *serverShotFinished = new ServerShotFinishedState();
+	gameState.addStateEntry(ServerStateShotFinished,
+		serverShotFinished);
+	gameState.addStateStimulus(ServerStateShotFinished, 
+		ServerStimulusTooFewPlayers, ServerStateTooFewPlayers);
+	gameState.addStateStimulus(ServerStateShotFinished, 
+		serverShotFinished, ServerStateNextShot);
 
 	// Set the start state
-	gameState.setState(ServerStateReset);
+	gameState.setState(ServerStateTooFewPlayers);
 }

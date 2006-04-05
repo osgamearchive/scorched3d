@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,14 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-enum
+#if !defined(__INCLUDE_WeaponGiveWinh_INCLUDE__)
+#define __INCLUDE_WeaponGiveWinh_INCLUDE__
+
+#include <actions/PowerUp.h>
+
+class WeaponGiveWin  : public WeaponPowerUp
 {
-	IDC_SERVER_MAX_PLAYERS = 1
+public:
+	WeaponGiveWin();
+	virtual ~WeaponGiveWin();
+
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	// Inherited from WeaponPowerUp
+	virtual void invokePowerUp(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data);
+
+	REGISTER_ACCESSORY_HEADER(WeaponGiveWin, AccessoryPart::AccessoryWeapon);
+
+protected:
+	std::string objective_;
+
 };
 
-static wxComboBox *IDC_SERVER_MIN_PLAYERS_CTRL = 0;
-static wxComboBox *IDC_SERVER_MAX_PLAYERS_CTRL = 0;
-static wxComboBox *IDC_SERVER_REMOVEBOT_PLAYERS_CTRL = 0;
-static wxComboBox **IDC_COMBO_PTYPE_CTRL = 0;
-static wxTextCtrl *IDC_EDIT3_CTRL = 0;
-static wxCheckBox *IDC_SERVER_RESIDUAL_CTRL = 0;
+#endif // __INCLUDE_WeaponGiveWinh_INCLUDE__

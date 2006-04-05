@@ -21,6 +21,8 @@
 #include <dialogs/ScoreDialog.h>
 #include <tank/TankSort.h>
 #include <tank/TankContainer.h>
+#include <tank/TankTeamScore.h>
+#include <tank/TankColorGenerator.h>
 #include <GLW/GLWFont.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
@@ -28,17 +30,20 @@
 #include <common/Defines.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientScoreHandler.h>
 #include <server/ScorchedServer.h>
 #include <stdio.h>
 
 static const float rankLeft = 15.0f;
 static const float iconLeft = 5.0f;
 static const float nameLeft = 35.0f;
-static const float killsLeft = 215.0f;
-static const float moneyLeft = 270.0f;
-static const float winsLeft = 350.0f;
-static const float readyLeft = 380.0f;
-static const float statsLeft = 405.0f;
+static const float killsLeft = 235.0f;
+static const float assistsLeft = 265.0f;
+static const float winsLeft = 295.0f;
+static const float moneyLeft = 325.0f;
+static const float scoreLeft = 405.0f;
+static const float statsLeft = 475.0f;
+static const float readyLeft = 515.0f;
 static const float lineSpacer = 10.0f;
 
 ScoreDialog *ScoreDialog::instance_ = 0;
@@ -65,9 +70,9 @@ ScoreDialog *ScoreDialog::instance2()
 }
 
 ScoreDialog::ScoreDialog() :
-	GLWWindow("Score", 10.0f, 10.0f, 447.0f, 310.0f, eTransparent |eSmallTitle,
+	GLWWindow("Score", 10.0f, 10.0f, 525.0f, 310.0f, eTransparent |eSmallTitle,
 		"Shows the current score for all players."),
-	lastScoreValue_(0), lastWinsValue_(0), lastNoPlayers_(0)
+	lastScoreValue_(0), lastMoneyValue_(0), lastNoPlayers_(0)
 {
 
 }
@@ -85,7 +90,7 @@ void ScoreDialog::display()
 
 void ScoreDialog::calculateScores()
 {
-	lastScoreValue_ = lastWinsValue_ = 0;
+	lastScoreValue_ = lastMoneyValue_ = 0;
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -94,8 +99,8 @@ void ScoreDialog::calculateScores()
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		lastScoreValue_ += tank->getScore().getMoney();
-		lastWinsValue_ += tank->getScore().getWins();
+		lastMoneyValue_ += tank->getScore().getMoney();
+		lastScoreValue_ += tank->getScore().getScore();
 	}
 
 	lastNoPlayers_ = tanks.size();
@@ -129,15 +134,18 @@ void ScoreDialog::draw()
 	GLWWindow::draw();
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	bool finished = (ScorchedClient::instance()->getGameState().getState() == 
-		ClientState::StateScore);
+	bool finished = false;
+	if (ScorchedClient::instance()->getGameState().getState() == 
+		ClientState::StateScore)
+	{
+		finished = ClientScoreHandler::instance()->getFinalScore();
+	}
 
 	Vector white(0.9f, 0.9f, 1.0f);
 	bool server = (OptionsParam::instance()->getConnectedToServer());
 	{
 		const char *text = "Current Rankings";
-		if (ScorchedClient::instance()->getGameState().getState() == 
-			ClientState::StateScore)
+		if (finished)
 		{
 			text = "Final Rankings";
 		}
@@ -187,7 +195,7 @@ void ScoreDialog::draw()
 		GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			10,
-			x_ + 430 - roundsWidth, y_ + h_ - 40.0f, 0.0f,
+			x_ + 470 - roundsWidth, y_ + h_ - 40.0f, 0.0f,
 			rounds);
 	}
 
@@ -201,44 +209,44 @@ void ScoreDialog::draw()
 			white,
 			12,
 			x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
-			"Kills");
-	GLWFont::instance()->getSmallPtFont()->draw(
-			white,
-			12,
-			x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
-			"Money");
+			"K");
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
-			"Wins");
+			"W");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"A");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"$");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"Score");
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
-			"Stat");
+			"Rank");
 	y+= lineSpacer + lineSpacer;
 
 	int tmpLastScoreValue = 0;
-	int tmpLastWinsValue = 0;
+	int tmpLastMoneyValue = 0;
 	if (ScorchedClient::instance()->getOptionsGame().getTeams() > 1)
 	{
 		int winningTeam = TankSort::getWinningTeam(
 			ScorchedClient::instance()->getContext());
 
-		struct Score
-		{
-			Score() : wins(0), kills(0), money(0), team(false) {}
-	
-			int wins;
-			int kills;
-			int money;
-			bool team;
-		};
-		Score scores[4];
-
 		for (int i=0; i<ScorchedClient::instance()->getOptionsGame().getTeams(); i++)
 		{
+			bool someTeam = false;
 			std::list<unsigned int>::iterator itor;
 			for (itor = sortedTanks_.begin();
 				itor != sortedTanks_.end();
@@ -248,20 +256,19 @@ void ScoreDialog::draw()
 				Tank *current = ScorchedClient::instance()->getTankContainer().getTankById(playerId);
 				if (current && current->getTeam() == (i + 1) && !current->getState().getSpectator()) 
 				{
-					scores[i].team = true;
+					someTeam = true;
 					addLine(current, y, (char *)((winningTeam==(i+1))?"1":"2"), finished);
 					
-					scores[i].wins += current->getScore().getWins();
-					scores[i].kills += current->getScore().getKills();
-					scores[i].money += current->getScore().getMoney();
-					tmpLastScoreValue += current->getScore().getMoney();
-					tmpLastWinsValue += current->getScore().getWins();
+					tmpLastScoreValue += current->getScore().getScore();
+					tmpLastMoneyValue += current->getScore().getMoney();
 					y+= lineSpacer;
 				}
 			}
-			if (scores[i].team)
+			if (someTeam)
 			{
-				addScoreLine(y, scores[i].kills, scores[i].money, scores[i].wins);
+				addScoreLine(y, 
+					TankColorGenerator::getTeamColor(i + 1),
+					ScorchedClient::instance()->getContext().tankTeamScore->getScore(i+1));
 				y+= lineSpacer;
 				y+= lineSpacer;
 			}
@@ -284,8 +291,8 @@ void ScoreDialog::draw()
 				snprintf(strrank, 10, "%i", rank);
 
 				addLine(current, y, strrank, finished);
-				tmpLastScoreValue += current->getScore().getMoney();
-				tmpLastWinsValue += current->getScore().getWins();
+				tmpLastScoreValue += current->getScore().getScore();
+				tmpLastMoneyValue += current->getScore().getMoney();
 				y+= lineSpacer;
 			}
 		}	
@@ -310,35 +317,24 @@ void ScoreDialog::draw()
 	std::map<unsigned int, Tank *> &realTanks = 
 		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 	if (tmpLastScoreValue != lastScoreValue_ ||
-		tmpLastWinsValue != lastWinsValue_ ||
+		tmpLastMoneyValue != lastMoneyValue_ ||
 		realTanks.size() != lastNoPlayers_)
 	{
 		calculateScores();
 	}
 }
 
-void ScoreDialog::addScoreLine(float y, int kills, int money, int wins)
+void ScoreDialog::addScoreLine(float y, Vector &color, int score)
 {
 	float textX = x_;
 	float textY  = y_ + h_ - y - lineSpacer - 30.0f;
-	Vector white(0.9f, 0.9f, 1.0f);
 
 	// Print the name on the screen
 	GLWFont::instance()->getSmallPtFont()->draw(
-		white,
+		color,
 		10,
-		textX + killsLeft, textY, 0.0f,
-		formatString("%i", kills));
-	GLWFont::instance()->getSmallPtFont()->draw(
-		white,
-		10,
-		textX + moneyLeft, textY, 0.0f,
-		formatString("$%i",	money));
-	GLWFont::instance()->getSmallPtFont()->draw(
-		white,
-		10,
-		textX + winsLeft, textY, 0.0f,
-		formatString("%i", wins));
+		textX + scoreLeft, textY, 0.0f,
+		formatString("%i", score));
 }
 
 void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
@@ -427,7 +423,8 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			10,
 			textX + rankLeft, textY, 0.0f,
 			formatString("%s", rank));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getSmallPtFont()->drawWidth(
+			int(killsLeft - nameLeft),
 			current->getColor(),
 			10,
 			textX + nameLeft, textY, 0.0f,
@@ -447,6 +444,16 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			10,
 			textX + winsLeft, textY, 0.0f,
 			formatString("%i", current->getScore().getWins()));
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + scoreLeft, textY, 0.0f,
+			formatString("%i", current->getScore().getScore()));
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + assistsLeft, textY, 0.0f,
+			formatString("%i", current->getScore().getAssists()));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,

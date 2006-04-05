@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,53 +18,70 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <engine/ScorchedContext.h>
-#include <actions/ShowScore.h>
-#include <GLW/GLWWindowManager.h>
-#include <common/OptionsParam.h>
-#include <dialogs/ScoreDialog.h>
+#include <tank/TankTeamScore.h>
+#include <common/Defines.h>
 
-REGISTER_ACTION_SOURCE(ShowScore);
+TankTeamScore::TankTeamScore() :
+	wonGame_(0)
+{
+	newMatch();
+}
 
-ShowScore::ShowScore() : totalTime_(0.0f)
+TankTeamScore::~TankTeamScore()
 {
 }
 
-ShowScore::~ShowScore()
+void TankTeamScore::newMatch()
 {
-}
-
-void ShowScore::init()
-{
-	if (!context_->serverMode)
+	for (int i=1; i<5; i++)
 	{
-		GLWWindowManager::instance()->showWindow(
-			ScoreDialog::instance()->getId());
+		scores_[i] = 0;
 	}
+	newGame();
 }
 
-void ShowScore::simulate(float frameTime, bool &remove)
+void TankTeamScore::newGame()
 {
+	wonGame_ = 0;
+}
 
-	totalTime_ += frameTime;
-	if (totalTime_ > 5.0f)
+void TankTeamScore::addScore(int score, int team)
+{
+	DIALOG_ASSERT(team > 0 && team < 5);
+	scores_[team] += score;
+}
+
+int TankTeamScore::getScore(int team)
+{
+	DIALOG_ASSERT(team > 0 && team < 5);
+	return scores_[team];
+}
+
+void TankTeamScore::setWonGame(int team)
+{
+	DIALOG_ASSERT(team > 0 && team < 5);
+	wonGame_ = team;
+}
+
+int TankTeamScore::getWonGame()
+{
+	return wonGame_;
+}
+
+bool TankTeamScore::writeMessage(NetBuffer &buffer)
+{
+	for (int i=1; i<5; i++)
 	{
-		remove = true;
-		if (!context_->serverMode)
-		{
-			GLWWindowManager::instance()->hideWindow(
-				ScoreDialog::instance()->getId());
-		}
+		buffer.addToBuffer(scores_[i]);
 	}
-	Action::simulate(frameTime, remove);
-}
-
-bool ShowScore::writeAction(NetBuffer &buffer)
-{
 	return true;
 }
 
-bool ShowScore::readAction(NetBufferReader &reader)
+bool TankTeamScore::readMessage(NetBufferReader &reader)
 {
+	for (int i=1; i<5; i++)
+	{
+		if (!reader.getFromBuffer(scores_[i])) return false;
+	}
 	return true;
 }

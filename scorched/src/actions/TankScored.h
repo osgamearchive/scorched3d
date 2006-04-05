@@ -31,7 +31,8 @@ public:
 	TankScored(unsigned int playerId,
 		int moneyDiff,
 		int killDiff,
-		int roundDiff);
+		int roundDiff,
+		int scoreBonusDiff);
 	virtual ~TankScored();
 
 	virtual void init();
@@ -47,8 +48,8 @@ protected:
 	int moneyDiff_;
 	int killDiff_;
 	int roundDiff_;
+	int scoreBonusDiff_;
 
 };
-
 
 #endif

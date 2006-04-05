@@ -11,7 +11,7 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Release - MySql|Win32"
+			Name="Release|Win32"
 			OutputDirectory="Release - MySql"
 			IntermediateDirectory="Release - MySql"
 			ConfigurationType="1"
@@ -61,7 +61,7 @@
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
 		<Configuration
-			Name="Debug - MySql|Win32"
+			Name="Debug|Win32"
 			OutputDirectory="Debug - MySql"
 			IntermediateDirectory="Debug - MySql"
 			ConfigurationType="1"

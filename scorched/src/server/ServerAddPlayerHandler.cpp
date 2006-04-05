@@ -31,7 +31,7 @@
 #include <common/Logger.h>
 #include <common/Defines.h>
 #include <coms/ComsAddPlayerMessage.h>
-#include <coms/ComsGameStateMessage.h>
+#include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/NetLoopBack.h>
 #include <tankai/TankAIStore.h>
@@ -229,7 +229,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
 		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateStarting)
 	{
-		ComsGameStateMessage message;
+		ComsPlayerStateMessage message;
 		ComsMessageSender::sendToAllConnectedClients(message);
 	}
 	return true;

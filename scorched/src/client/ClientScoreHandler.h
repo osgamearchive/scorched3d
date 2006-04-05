@@ -34,8 +34,11 @@ public:
 		const char *message,
 		NetBufferReader &reader);
 
+	bool getFinalScore() { return finalScore_; }
+
 protected:
 	static ClientScoreHandler *instance_;
+	bool finalScore_;
 
 private:
 	ClientScoreHandler();

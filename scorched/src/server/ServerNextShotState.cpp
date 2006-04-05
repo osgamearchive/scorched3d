@@ -26,6 +26,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerShotHolder.h>
 #include <tank/TankContainer.h>
+#include <tank/TankTeamScore.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -41,31 +42,44 @@ ServerNextShotState::~ServerNextShotState()
 bool ServerNextShotState::getRoundFinished()
 {
 	// Check why this round has finished
-	bool roundFinished = false;
+	int teamWonGame = 
+		ScorchedServer::instance()->getContext().tankTeamScore->getWonGame();
+	if (teamWonGame > 0)
+	{
+		// A team has won
+		return true;
+	}
+
+	std::map<unsigned int, Tank *> &tanks =
+		ScorchedServer::instance()->getTankContainer().getAllTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getScore().getWonGame())
+		{
+			return true;
+		}
+	}
+	
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1 &&
 		ScorchedServer::instance()->getTankContainer().teamCount() == 1)
 	{
 		// Only one team left
-		roundFinished = true;
+		return true;
 	}
 	else if (ScorchedServer::instance()->getTankContainer().aliveCount() < 2)
 	{
 		// Only one person left
-		roundFinished = true;
+		return true;
 	}
-	return roundFinished;
+	return false;
 }
 
 void ServerNextShotState::enterState(const unsigned state)
 {
-	// Check there are enough players for this shot
-	if (ServerTooFewPlayersStimulus::instance()->acceptStateChange(state, 
-		ServerState::ServerStateTooFewPlayers, 0.0f))
-	{
-		ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusTooFewPlayers);
-		return;
-	}
-
 	// Check if this round has finished
 	if (getRoundFinished())
 	{
@@ -74,8 +88,8 @@ void ServerNextShotState::enterState(const unsigned state)
 		if (ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() >=
 			ScorchedServer::instance()->getOptionsGame().getNoRounds())
 		{
-			// We have finished with all rounds show the score
-			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusScore);
+			// We have finished with all rounds restart
+			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusStarting);
 		}
 		else
 		{

@@ -421,7 +421,7 @@ void showMainDialog()
 
 	if (OptionsDisplay::instance()->getFirstTimePlayed())
 	{
-		OptionsDisplay::instance()->setFirstTimePlayed(false);
+		OptionsDisplay::instance()->getFirstTimePlayedEntry().setValue(false);
 		OptionsDisplay::instance()->writeOptionsToFile();
 
 		dialogMessage(

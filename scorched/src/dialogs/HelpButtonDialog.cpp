@@ -126,6 +126,6 @@ void HelpButtonDialog::VolumeMenu::menuSelection(const char* menuName,
 	{
 		int volume = int(float(data) * 12.8f);
 		Sound::instance()->getDefaultListener()->setGain(float(volume) / 128.0f);
-		OptionsDisplay::instance()->setSoundVolume(volume);
+		OptionsDisplay::instance()->getSoundVolumeEntry().setValue(volume);
 	}
 }

@@ -23,6 +23,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
+#include <tank/TankTeamScore.h>
 #include <common/Defines.h>
 #include <common/OptionsParam.h>
 #include <common/Logger.h>
@@ -36,10 +37,12 @@ TankScored::TankScored() : firstTime_(true)
 TankScored::TankScored(unsigned int playerId,
 		int moneyDiff,
 		int killDiff,
-		int roundDiff) :
+		int roundDiff,
+		int scoreBonusDiff) :
 	firstTime_(true),
 	playerId_(playerId), moneyDiff_(moneyDiff),
-	killDiff_(killDiff), roundDiff_(roundDiff)
+	killDiff_(killDiff), roundDiff_(roundDiff),
+	scoreBonusDiff_(scoreBonusDiff)
 {
 
 }
@@ -54,7 +57,7 @@ void TankScored::init()
 		context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
-		if (!context_->serverMode) 
+		if (!context_->serverMode && moneyDiff_ != 0) 
 		{
 			Vector position = tank->getPosition().getTankPosition();
 			position[0] += RAND * 5.0f - 2.5f;
@@ -81,10 +84,18 @@ void TankScored::simulate(float frameTime, bool &remove)
 			context_->tankContainer->getTankById(playerId_);
 		if (tank)
 		{
+			int score = scoreBonusDiff_;
+
 			tank->getScore().addTotalMoneyEarnedStat(moneyDiff_);
 			tank->getScore().setMoney(tank->getScore().getMoney() + moneyDiff_);
 			tank->getScore().setKills(tank->getScore().getKills() + killDiff_);
 			tank->getScore().setWins(tank->getScore().getWins() + roundDiff_);
+			tank->getScore().setScore(tank->getScore().getScore() + score);
+
+			if (tank->getTeam() > 0)
+			{
+				context_->tankTeamScore->addScore(score, tank->getTeam());
+			}
 		}
 	}
 
@@ -98,6 +109,7 @@ bool TankScored::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(moneyDiff_);
 	buffer.addToBuffer(killDiff_);
 	buffer.addToBuffer(roundDiff_);
+	buffer.addToBuffer(scoreBonusDiff_);
 	return true;
 }
 
@@ -107,5 +119,6 @@ bool TankScored::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(moneyDiff_)) return false;
 	if (!reader.getFromBuffer(killDiff_)) return false;
 	if (!reader.getFromBuffer(roundDiff_)) return false;
+	if (!reader.getFromBuffer(scoreBonusDiff_)) return false;
 	return true;
 }

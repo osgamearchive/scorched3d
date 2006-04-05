@@ -32,6 +32,11 @@ template <class T>
 class LandscapeDefinitionsItem
 {
 public:
+	LandscapeDefinitionsItem(const char *typeName) :
+		typeName_(typeName)
+	{
+	}
+
 	void clearItems()
 	{
 		typename std::map<std::string, T *>::iterator itor;
@@ -46,7 +51,7 @@ public:
 	}
 
 	T *getItem(LandscapeDefinitions *defns,
-		const char *fileName, bool load = false)
+		const char *fileName, bool load, bool cache)
 	{
 		T *item = 0;
 		typename std::map<std::string, T *>::iterator itor;
@@ -58,6 +63,16 @@ public:
 		else if (load)
 		{
 			std::string dataFile = getDataFile(fileName);
+			if (!s3d_fileExists(dataFile.c_str()))
+			{
+				dialogMessage("Scorched Landscape", 
+							formatString("Failed to find file \"%s\"\n"
+							"When loading %s file", 
+							dataFile.c_str(),
+							typeName_.c_str()));
+				return 0;
+			}
+
 			XMLFile file;
 			if (!file.readFile(dataFile.c_str()) ||
 				!file.getRootNode())
@@ -78,7 +93,11 @@ public:
 					dataFile.c_str()));
 				return 0;
 			}
-			items_[fileName] = item;
+
+			if (cache)
+			{
+				items_[fileName] = item;
+			}
 		}
 
 		return item;
@@ -86,6 +105,7 @@ public:
 
 protected:
 	std::map<std::string, T *> items_;
+	std::string typeName_;
 };
 
 #endif

@@ -40,8 +40,7 @@ namespace ServerState
 		ServerStateBuying,
 		ServerStateShot,
 		ServerStateShotReady,
-		ServerStateScore,
-		ServerStateCheckForWinners
+		ServerStateShotFinished
 	};
 
 	enum ServerStimulusEnum
@@ -54,7 +53,6 @@ namespace ServerState
 		ServerStimulusPlaying,
 		ServerStimulusBuying,
 		ServerStimulusShot,
-		ServerStimulusScore,
 		ServerStimulusTooFewPlayers,
 		ServerStimulusStarting
 	};

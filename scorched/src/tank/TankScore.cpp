@@ -46,7 +46,22 @@ void TankScore::newMatch()
 	setMoney(context_.optionsGame->getStartMoney());
 	wins_ = 0;
 	kills_ = 0;
+	assists_ = 0;
+	score_ = 0;
 	missedMoves_ = 0;
+
+	newGame();
+}
+
+void TankScore::newGame()
+{
+	wonGame_ = false;
+	hurtBy_.clear();
+}
+
+void TankScore::clientNewGame()
+{
+	newGame();
 }
 
 void TankScore::setMoney(int money)
@@ -74,18 +89,17 @@ const char *TankScore::getTimePlayedString()
 const char *TankScore::getScoreString()
 {
 	static char score[256];
-	snprintf(score, 256, "%i/%i/%i K/W/$", 
-		getKills(),
-		getWins(),
-		getMoney());
+	snprintf(score, 256, "%i", getScore());
 	return score;
 }
 
 bool TankScore::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(kills_);
+	buffer.addToBuffer(assists_);
 	buffer.addToBuffer(money_);
 	buffer.addToBuffer(wins_);
+	buffer.addToBuffer(score_);
 	buffer.addToBuffer(statsRank_);
 	return true;
 }
@@ -93,8 +107,10 @@ bool TankScore::writeMessage(NetBuffer &buffer)
 bool TankScore::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(kills_)) return false;
+	if (!reader.getFromBuffer(assists_)) return false;
 	if (!reader.getFromBuffer(money_)) return false;
 	if (!reader.getFromBuffer(wins_)) return false;
+	if (!reader.getFromBuffer(score_)) return false;
 	if (!reader.getFromBuffer(statsRank_)) return false;
 	return true;
 }

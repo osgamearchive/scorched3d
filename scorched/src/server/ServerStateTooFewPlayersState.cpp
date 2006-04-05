@@ -70,7 +70,8 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 				// We are playing a single player game.
 				// We have enough players but have not started
 				dialogExit("Scorched3D",
-					"Incorrect players added for current game settings");
+					"Incorrect players added for current game settings."
+					"Is this a team game with un-even teams?");
 			}
 		}
 	

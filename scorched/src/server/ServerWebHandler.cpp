@@ -281,6 +281,59 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 					entry->getName(),
 					entry->getValueAsString());
 			}
+			else if (entry->getEntryType() == OptionEntry::OptionEntryBoolType)
+			{
+				OptionEntryBool *boolEntry = (OptionEntryBool *) entry;
+
+				value = formatString(
+					"<input type='radio' name='%s' %s value='on'>On</input>"
+					"<input type='radio' name='%s' %s value='off'>Off</input>",
+					entry->getName(), (boolEntry->getValue()?"checked":""),
+					entry->getName(), (!boolEntry->getValue()?"checked":""));
+			}
+			else if (entry->getEntryType() == OptionEntry::OptionEntryBoundedIntType)
+			{
+				OptionEntryBoundedInt *intEntry = (OptionEntryBoundedInt *) entry;
+
+				value = formatString("<select name='%s'>", entry->getName());
+				for (int i=intEntry->getMinValue(); 
+					i<=intEntry->getMaxValue();
+					i+=intEntry->getStepValue())
+				{
+					value.append(formatString("<option %s>%i</option>",
+						(intEntry->getValue() == i?"selected":""), 
+						i));
+				}
+				value.append("</select>");
+			}
+			else if (entry->getEntryType() == OptionEntry::OptionEntryEnumType)
+			{
+				OptionEntryEnum *enumEntry = (OptionEntryEnum *) entry;
+
+				value = formatString("<select name='%s'>", entry->getName());
+				OptionEntryEnum::EnumEntry *enums = enumEntry->getEnums();
+				for (OptionEntryEnum::EnumEntry *current = enums; current->description[0]; current++)
+				{
+					value.append(formatString("<option %s>%s</option>",
+						(enumEntry->getValue() == current->value?"selected":""), 
+						current->description));		
+				}
+				value.append("</select>");
+			}
+			else if (entry->getEntryType() == OptionEntry::OptionEntryStringEnumType)
+			{
+				OptionEntryStringEnum *enumEntry = (OptionEntryStringEnum *) entry;
+
+				value = formatString("<select name='%s'>", entry->getName());
+				OptionEntryStringEnum::EnumEntry *enums = enumEntry->getEnums();
+				for (OptionEntryStringEnum::EnumEntry *current = enums; current->value[0]; current++)
+				{
+					value.append(formatString("<option %s>%s</option>",
+						(0 == strcmp(enumEntry->getValue(), current->value)?"selected":""), 
+						current->value));		
+				}
+				value.append("</select>");
+			}
 			else
 			{
 				value = formatString("<input type='text' name='%s' value='%s'>",

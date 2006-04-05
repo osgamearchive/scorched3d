@@ -83,6 +83,7 @@ void Tank::newGame()
 	Target::newGame();
 
 	state_.newGame();
+	score_.newGame();
 	position_.newGame();
 	if (tankAI_) tankAI_->newGame();
 }
@@ -91,6 +92,7 @@ void Tank::clientNewGame()
 {
 	position_.clientNewGame();
 	state_.clientNewGame();
+	score_.clientNewGame();
 }
 
 bool Tank::getAlive()

@@ -295,91 +295,91 @@ bool DisplayFrame::TransferDataToWindow()
 void DisplayFrame::refreshScreen()
 {
 	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
-	IDC_FULLCLEAR_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFullClearToolTip(), wxConvUTF8));
+	IDC_FULLCLEAR_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFullClearEntry().getDescription(), wxConvUTF8));
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
-	IDC_NOEXT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLExtToolTip(), wxConvUTF8));
+	IDC_NOEXT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLExtEntry().getDescription(), wxConvUTF8));
 	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoGLTexSubImage());
-	IDC_NOLANDSCAPESCORCH_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLTexSubImageToolTip(), wxConvUTF8));
+	IDC_NOLANDSCAPESCORCH_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLTexSubImageEntry().getDescription(), wxConvUTF8));
 	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoGLMultiTex());
-	IDC_NOMULTITEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLMultiTexToolTip(), wxConvUTF8));
+	IDC_NOMULTITEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLMultiTexEntry().getDescription(), wxConvUTF8));
 	IDC_NOCOMPILEDARRAYS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCompiledArrays());
-	IDC_NOCOMPILEDARRAYS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLCompiledArraysToolTip(), wxConvUTF8));
+	IDC_NOCOMPILEDARRAYS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLCompiledArraysEntry().getDescription(), wxConvUTF8));
 	IDC_NOENVCOMBINE_CTRL->SetValue(OptionsDisplay::instance()->getNoGLEnvCombine());
-	IDC_NOENVCOMBINE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLEnvCombineToolTip(), wxConvUTF8));
+	IDC_NOENVCOMBINE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLEnvCombineEntry().getDescription(), wxConvUTF8));
 	IDC_NOCUBEMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCubeMap());
-	IDC_NOCUBEMAP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLCubeMapToolTip(), wxConvUTF8));
+	IDC_NOCUBEMAP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLCubeMapEntry().getDescription(), wxConvUTF8));
 	IDC_NOSPHEREMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLSphereMap());
-	IDC_NOSPHEREMAP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLSphereMapToolTip(), wxConvUTF8));
+	IDC_NOSPHEREMAP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLSphereMapEntry().getDescription(), wxConvUTF8));
 	IDC_NOVBO_CTRL->SetValue(OptionsDisplay::instance()->getNoVBO());
-	IDC_NOVBO_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoVBOToolTip(), wxConvUTF8));
+	IDC_NOVBO_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoVBOEntry().getDescription(), wxConvUTF8));
 	IDC_NOMIPMAPS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLHardwareMipmaps());
-	IDC_NOMIPMAPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLHardwareMipmapsToolTip(), wxConvUTF8));
+	IDC_NOMIPMAPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().getDescription(), wxConvUTF8));
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
-	IDC_NOSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSoundToolTip(), wxConvUTF8));
+	IDC_NOSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOAMBIENTSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoAmbientSound());
-	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoAmbientSoundToolTip(), wxConvUTF8));
+	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoAmbientSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOBOIDSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoBoidSound());
-	IDC_NOBOIDSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBoidSoundToolTip(), wxConvUTF8));
+	IDC_NOBOIDSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBoidSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
-	IDC_NOSKINS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkinsToolTip(), wxConvUTF8));
+	IDC_NOSKINS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkinsEntry().getDescription(), wxConvUTF8));
 	IDC_FULLSCREEN_CTRL->SetValue(OptionsDisplay::instance()->getFullScreen());
-	IDC_FULLSCREEN_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFullScreenToolTip(), wxConvUTF8));
+	IDC_FULLSCREEN_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFullScreenEntry().getDescription(), wxConvUTF8));
 	IDC_SINGLESKYLAYER_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyLayers());
-	IDC_SINGLESKYLAYER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkyLayersToolTip(), wxConvUTF8));
+	IDC_SINGLESKYLAYER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkyLayersEntry().getDescription(), wxConvUTF8));
 	IDC_NOSKYANI_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyMovement());
-	IDC_NOSKYANI_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkyMovementToolTip(), wxConvUTF8));
+	IDC_NOSKYANI_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkyMovementEntry().getDescription(), wxConvUTF8));
 	IDC_NOWATERANI_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterMovement());
-	IDC_NOWATERANI_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterMovementToolTip(), wxConvUTF8));
+	IDC_NOWATERANI_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterMovementEntry().getDescription(), wxConvUTF8));
 	IDC_NOWATER_CTRL->SetValue(!OptionsDisplay::instance()->getDrawWater());
-	IDC_NOWATER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDrawWaterToolTip(), wxConvUTF8));
+	IDC_NOWATER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDrawWaterEntry().getDescription(), wxConvUTF8));
 	IDC_NOSURROUND_CTRL->SetValue(!OptionsDisplay::instance()->getDrawSurround());
-	IDC_NOSURROUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDrawSurroundToolTip(), wxConvUTF8));
+	IDC_NOSURROUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDrawSurroundEntry().getDescription(), wxConvUTF8));
 	IDC_NOTREES_CTRL->SetValue(OptionsDisplay::instance()->getNoTrees());
-	IDC_NOTREES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoTreesToolTip(), wxConvUTF8));
+	IDC_NOTREES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoTreesEntry().getDescription(), wxConvUTF8));
 	IDC_NOPRECIPITATION_CTRL->SetValue(OptionsDisplay::instance()->getNoPrecipitation());
-	IDC_NOPRECIPITATION_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoPrecipitationToolTip(), wxConvUTF8));
+	IDC_NOPRECIPITATION_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoPrecipitationEntry().getDescription(), wxConvUTF8));
 	IDC_NOWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaves());
-	IDC_NOWAVES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWavesToolTip(), wxConvUTF8));
+	IDC_NOWAVES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWavesEntry().getDescription(), wxConvUTF8));
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
-	IDC_NODEPTHSORT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoDepthSortingToolTip(), wxConvUTF8));
+	IDC_NODEPTHSORT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoDepthSortingEntry().getDescription(), wxConvUTF8));
 	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertElevation());
-	IDC_INVERT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getInvertElevationToolTip(), wxConvUTF8));
+	IDC_INVERT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getInvertElevationEntry().getDescription(), wxConvUTF8));
 	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
-	IDC_INVERTMOUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getInvertMouseToolTip(), wxConvUTF8));
+	IDC_INVERTMOUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getInvertMouseEntry().getDescription(), wxConvUTF8));
 	IDC_SMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getSoftwareMouse());
-	IDC_SMOUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSoftwareMouseToolTip(), wxConvUTF8));
+	IDC_SMOUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSoftwareMouseEntry().getDescription(), wxConvUTF8));
 	IDC_TOOLTIP_CTRL->SetValue(OptionsDisplay::instance()->getShowContextHelp());
-	IDC_TOOLTIP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getShowContextHelpToolTip(), wxConvUTF8));
+	IDC_TOOLTIP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getShowContextHelpEntry().getDescription(), wxConvUTF8));
 	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
-	IDC_TIMER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFrameTimerToolTip(), wxConvUTF8));
+	IDC_TIMER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFrameTimerEntry().getDescription(), wxConvUTF8));
 	IDC_SIDESCROLL_CTRL->SetValue(OptionsDisplay::instance()->getSideScroll());
-	IDC_SIDESCROLL_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSideScrollToolTip(), wxConvUTF8));
+	IDC_SIDESCROLL_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSideScrollEntry().getDescription(), wxConvUTF8));
 	IDC_VALIDATESERVER_CTRL->SetValue(OptionsDisplay::instance()->getValidateServerIp());
-	IDC_VALIDATESERVER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getValidateServerIpToolTip(), wxConvUTF8));	
+	IDC_VALIDATESERVER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getValidateServerIpEntry().getDescription(), wxConvUTF8));	
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
-	IDC_SLIDER1_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getBrightnessToolTip(), wxConvUTF8));
+	IDC_SLIDER1_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getBrightnessEntry().getDescription(), wxConvUTF8));
 	IDC_VOLUME_CTRL->SetRange(0, 128);
 	IDC_VOLUME_CTRL->SetValue(OptionsDisplay::instance()->getSoundVolume());
-	IDC_VOLUME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSoundVolumeToolTip(), wxConvUTF8));
+	IDC_VOLUME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSoundVolumeEntry().getDescription(), wxConvUTF8));
 	IDC_USERNAME_CTRL->SetValue(wxString(OptionsDisplay::instance()->getOnlineUserName(), wxConvUTF8));
-	IDC_USERNAME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getOnlineUserNameToolTip(), wxConvUTF8));
+	IDC_USERNAME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getOnlineUserNameEntry().getDescription(), wxConvUTF8));
 	IDC_TANKMODEL_CTRL->SetValue(wxString(OptionsDisplay::instance()->getOnlineTankModel(), wxConvUTF8));
-	IDC_TANKMODEL_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getOnlineTankModelToolTip(), wxConvUTF8));
+	IDC_TANKMODEL_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getOnlineTankModelEntry().getDescription(), wxConvUTF8));
 	IDC_HOSTDESC_CTRL->SetValue(wxString(OptionsDisplay::instance()->getHostDescription(), wxConvUTF8));
-	IDC_HOSTDESC_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getHostDescriptionToolTip(), wxConvUTF8));
+	IDC_HOSTDESC_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getHostDescriptionEntry().getDescription(), wxConvUTF8));
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
-	IDC_NODETAILTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDetailTextureToolTip(), wxConvUTF8));
+	IDC_NODETAILTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDetailTextureEntry().getDescription(), wxConvUTF8));
 	IDC_NOBOIDS_CTRL->SetValue(OptionsDisplay::instance()->getNoBOIDS());
-	IDC_NOBOIDS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBOIDSToolTip(), wxConvUTF8));
+	IDC_NOBOIDS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBOIDSEntry().getDescription(), wxConvUTF8));
 	IDC_NOSHIPS_CTRL->SetValue(OptionsDisplay::instance()->getNoShips());
-	IDC_NOSHIPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoShipsToolTip(), wxConvUTF8));
+	IDC_NOSHIPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoShipsEntry().getDescription(), wxConvUTF8));
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
-	IDC_MORERES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMoreResToolTip(), wxConvUTF8));
+	IDC_MORERES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMoreResEntry().getDescription(), wxConvUTF8));
 	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
-	IDC_SWAPYAXIS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSwapYAxisToolTip(), wxConvUTF8));
+	IDC_SWAPYAXIS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSwapYAxisEntry().getDescription(), wxConvUTF8));
 	IDC_LOGGING_CTRL->SetValue(OptionsDisplay::instance()->getClientLogToFile());
-	IDC_LOGGING_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getClientLogToFileToolTip(), wxConvUTF8));
+	IDC_LOGGING_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getClientLogToFileEntry().getDescription(), wxConvUTF8));
 
 	for (int i=2; i<=64; i+=2)
 	{
@@ -392,11 +392,11 @@ void DisplayFrame::refreshScreen()
 
 	refreshResolutions();
 
-	IDC_TINYDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeToolTip(), wxConvUTF8));
-	IDC_SMALLDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeToolTip(), wxConvUTF8));
-	IDC_MEDIUMDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeToolTip(), wxConvUTF8));
-	IDC_LARGEDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeToolTip(), wxConvUTF8));
-	IDC_HUGEDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeToolTip(), wxConvUTF8));
+	IDC_TINYDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
+	IDC_SMALLDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
+	IDC_MEDIUMDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
+	IDC_LARGEDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
+	IDC_HUGEDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
 	switch (OptionsDisplay::instance()->getDialogSize())
 	{
 	case 0:
@@ -416,9 +416,9 @@ void DisplayFrame::refreshScreen()
 		break;
 	}
 
-	IDC_SMALLTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTexSizeToolTip(), wxConvUTF8));
-	IDC_MEDIUMTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTexSizeToolTip(), wxConvUTF8));
-	IDC_LARGETEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTexSizeToolTip(), wxConvUTF8));
+	IDC_SMALLTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTexSizeEntry().getDescription(), wxConvUTF8));
+	IDC_MEDIUMTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTexSizeEntry().getDescription(), wxConvUTF8));
+	IDC_LARGETEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTexSizeEntry().getDescription(), wxConvUTF8));
 	switch (OptionsDisplay::instance()->getTexSize())
 	{
 	case 0:
@@ -432,9 +432,9 @@ void DisplayFrame::refreshScreen()
 		break;
 	};
 
-	IDC_LOWEFFECTS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getEffectsDetailToolTip(), wxConvUTF8));
-	IDC_MEDIUMEFFECTS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getEffectsDetailToolTip(), wxConvUTF8));
-	IDC_HIGHEFFECTS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getEffectsDetailToolTip(), wxConvUTF8));
+	IDC_LOWEFFECTS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getEffectsDetailEntry().getDescription(), wxConvUTF8));
+	IDC_MEDIUMEFFECTS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getEffectsDetailEntry().getDescription(), wxConvUTF8));
+	IDC_HIGHEFFECTS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getEffectsDetailEntry().getDescription(), wxConvUTF8));
 	switch (OptionsDisplay::instance()->getEffectsDetail())
 	{
 	case 0:
@@ -448,9 +448,9 @@ void DisplayFrame::refreshScreen()
 		break;
 	};
 
-	IDC_LOWTANK_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTankDetailToolTip(), wxConvUTF8));
-	IDC_MEDIUMTANK_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTankDetailToolTip(), wxConvUTF8));
-	IDC_HIGHTANK_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTankDetailToolTip(), wxConvUTF8));
+	IDC_LOWTANK_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTankDetailEntry().getDescription(), wxConvUTF8));
+	IDC_MEDIUMTANK_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTankDetailEntry().getDescription(), wxConvUTF8));
+	IDC_HIGHTANK_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getTankDetailEntry().getDescription(), wxConvUTF8));
 	switch (OptionsDisplay::instance()->getTankDetail())
 	{
 	case 0:
@@ -516,49 +516,49 @@ void DisplayFrame::refreshResolutions()
 
 bool DisplayFrame::TransferDataFromWindow()
 {
-	OptionsDisplay::instance()->setFullClear(IDC_FULLCLEAR_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLTexSubImage(IDC_NOLANDSCAPESCORCH_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLExt(IDC_NOEXT_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLMultiTex(IDC_NOMULTITEX_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLCompiledArrays(IDC_NOCOMPILEDARRAYS_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLEnvCombine(IDC_NOENVCOMBINE_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLCubeMap(IDC_NOCUBEMAP_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLSphereMap(IDC_NOSPHEREMAP_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoVBO(IDC_NOVBO_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoGLHardwareMipmaps(IDC_NOMIPMAPS_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoSound(IDC_NOSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoAmbientSound(IDC_NOAMBIENTSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoBoidSound(IDC_NOBOIDSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->setSoundChannels(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue().mb_str(wxConvUTF8)));
-	OptionsDisplay::instance()->setNoSkins(IDC_NOSKINS_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoTrees(IDC_NOTREES_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoPrecipitation(IDC_NOPRECIPITATION_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoWaves(IDC_NOWAVES_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoDepthSorting(IDC_NODEPTHSORT_CTRL->GetValue());
-	OptionsDisplay::instance()->setFullScreen(IDC_FULLSCREEN_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoSkyLayers(IDC_SINGLESKYLAYER_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoSkyMovement(IDC_NOSKYANI_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoWaterMovement(IDC_NOWATERANI_CTRL->GetValue());
-	OptionsDisplay::instance()->setBrightness(IDC_SLIDER1_CTRL->GetValue());
-	OptionsDisplay::instance()->setSoundVolume(IDC_VOLUME_CTRL->GetValue());
-	OptionsDisplay::instance()->setDrawWater(!IDC_NOWATER_CTRL->GetValue());
-	OptionsDisplay::instance()->setDrawSurround(!IDC_NOSURROUND_CTRL->GetValue());
-	OptionsDisplay::instance()->setInvertElevation(IDC_INVERT_CTRL->GetValue());
-	OptionsDisplay::instance()->setInvertMouse(IDC_INVERTMOUSE_CTRL->GetValue());
-	OptionsDisplay::instance()->setSoftwareMouse(IDC_SMOUSE_CTRL->GetValue());
-	OptionsDisplay::instance()->setShowContextHelp(IDC_TOOLTIP_CTRL->GetValue());
-	OptionsDisplay::instance()->setFrameTimer(IDC_TIMER_CTRL->GetValue());
-	OptionsDisplay::instance()->setSideScroll(IDC_SIDESCROLL_CTRL->GetValue());
-	OptionsDisplay::instance()->setValidateServerIp(IDC_VALIDATESERVER_CTRL->GetValue());
-	OptionsDisplay::instance()->setOnlineUserName(IDC_USERNAME_CTRL->GetValue().mb_str(wxConvUTF8));
-	OptionsDisplay::instance()->setOnlineTankModel(IDC_TANKMODEL_CTRL->GetValue().mb_str(wxConvUTF8));
-	OptionsDisplay::instance()->setHostDescription(IDC_HOSTDESC_CTRL->GetValue().mb_str(wxConvUTF8));
-	OptionsDisplay::instance()->setDetailTexture(!IDC_NODETAILTEX_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoBOIDS(IDC_NOBOIDS_CTRL->GetValue());
-	OptionsDisplay::instance()->setNoShips(IDC_NOSHIPS_CTRL->GetValue());
-	OptionsDisplay::instance()->setMoreRes(IDC_MORERES_CTRL->GetValue());
-	OptionsDisplay::instance()->setSwapYAxis(IDC_SWAPYAXIS_CTRL->GetValue());
-	OptionsDisplay::instance()->setClientLogToFile(IDC_LOGGING_CTRL->GetValue());
+	OptionsDisplay::instance()->getFullClearEntry().setValue(IDC_FULLCLEAR_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLTexSubImageEntry().setValue(IDC_NOLANDSCAPESCORCH_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLExtEntry().setValue(IDC_NOEXT_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLMultiTexEntry().setValue(IDC_NOMULTITEX_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLCompiledArraysEntry().setValue(IDC_NOCOMPILEDARRAYS_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLEnvCombineEntry().setValue(IDC_NOENVCOMBINE_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLCubeMapEntry().setValue(IDC_NOCUBEMAP_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLSphereMapEntry().setValue(IDC_NOSPHEREMAP_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoVBOEntry().setValue(IDC_NOVBO_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().setValue(IDC_NOMIPMAPS_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoSoundEntry().setValue(IDC_NOSOUND_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoAmbientSoundEntry().setValue(IDC_NOAMBIENTSOUND_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoBoidSoundEntry().setValue(IDC_NOBOIDSOUND_CTRL->GetValue());
+	OptionsDisplay::instance()->getSoundChannelsEntry().setValue(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue().mb_str(wxConvUTF8)));
+	OptionsDisplay::instance()->getNoSkinsEntry().setValue(IDC_NOSKINS_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoTreesEntry().setValue(IDC_NOTREES_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoPrecipitationEntry().setValue(IDC_NOPRECIPITATION_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoWavesEntry().setValue(IDC_NOWAVES_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoDepthSortingEntry().setValue(IDC_NODEPTHSORT_CTRL->GetValue());
+	OptionsDisplay::instance()->getFullScreenEntry().setValue(IDC_FULLSCREEN_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoSkyLayersEntry().setValue(IDC_SINGLESKYLAYER_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoSkyMovementEntry().setValue(IDC_NOSKYANI_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoWaterMovementEntry().setValue(IDC_NOWATERANI_CTRL->GetValue());
+	OptionsDisplay::instance()->getBrightnessEntry().setValue(IDC_SLIDER1_CTRL->GetValue());
+	OptionsDisplay::instance()->getSoundVolumeEntry().setValue(IDC_VOLUME_CTRL->GetValue());
+	OptionsDisplay::instance()->getDrawWaterEntry().setValue(!IDC_NOWATER_CTRL->GetValue());
+	OptionsDisplay::instance()->getDrawSurroundEntry().setValue(!IDC_NOSURROUND_CTRL->GetValue());
+	OptionsDisplay::instance()->getInvertElevationEntry().setValue(IDC_INVERT_CTRL->GetValue());
+	OptionsDisplay::instance()->getInvertMouseEntry().setValue(IDC_INVERTMOUSE_CTRL->GetValue());
+	OptionsDisplay::instance()->getSoftwareMouseEntry().setValue(IDC_SMOUSE_CTRL->GetValue());
+	OptionsDisplay::instance()->getShowContextHelpEntry().setValue(IDC_TOOLTIP_CTRL->GetValue());
+	OptionsDisplay::instance()->getFrameTimerEntry().setValue(IDC_TIMER_CTRL->GetValue());
+	OptionsDisplay::instance()->getSideScrollEntry().setValue(IDC_SIDESCROLL_CTRL->GetValue());
+	OptionsDisplay::instance()->getValidateServerIpEntry().setValue(IDC_VALIDATESERVER_CTRL->GetValue());
+	OptionsDisplay::instance()->getOnlineUserNameEntry().setValue(IDC_USERNAME_CTRL->GetValue().mb_str(wxConvUTF8));
+	OptionsDisplay::instance()->getOnlineTankModelEntry().setValue(IDC_TANKMODEL_CTRL->GetValue().mb_str(wxConvUTF8));
+	OptionsDisplay::instance()->getHostDescriptionEntry().setValue(IDC_HOSTDESC_CTRL->GetValue().mb_str(wxConvUTF8));
+	OptionsDisplay::instance()->getDetailTextureEntry().setValue(!IDC_NODETAILTEX_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoBOIDSEntry().setValue(IDC_NOBOIDS_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoShipsEntry().setValue(IDC_NOSHIPS_CTRL->GetValue());
+	OptionsDisplay::instance()->getMoreResEntry().setValue(IDC_MORERES_CTRL->GetValue());
+	OptionsDisplay::instance()->getSwapYAxisEntry().setValue(IDC_SWAPYAXIS_CTRL->GetValue());
+	OptionsDisplay::instance()->getClientLogToFileEntry().setValue(IDC_LOGGING_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;
@@ -567,8 +567,8 @@ bool DisplayFrame::TransferDataFromWindow()
 		&windowWidth,
 		&windowHeight) == 2)
 	{
-		OptionsDisplay::instance()->setScreenWidth(windowWidth);
-		OptionsDisplay::instance()->setScreenHeight(windowHeight);
+		OptionsDisplay::instance()->getScreenWidthEntry().setValue(windowWidth);
+		OptionsDisplay::instance()->getScreenHeightEntry().setValue(windowHeight);
 	}
 
 	int dialogSize = 0;
@@ -576,22 +576,22 @@ bool DisplayFrame::TransferDataFromWindow()
 	if (IDC_MEDIUMDIALOGS_CTRL->GetValue()) dialogSize = 2;
 	if (IDC_LARGEDIALOGS_CTRL->GetValue()) dialogSize = 3;
 	if (IDC_HUGEDIALOGS_CTRL->GetValue()) dialogSize = 4;
-	OptionsDisplay::instance()->setDialogSize(dialogSize);
+	OptionsDisplay::instance()->getDialogSizeEntry().setValue(dialogSize);
 
 	int texSize = 1;
 	if (IDC_SMALLTEX_CTRL->GetValue()) texSize = 0;
 	if (IDC_LARGETEX_CTRL->GetValue()) texSize = 2;
-	OptionsDisplay::instance()->setTexSize(texSize);
+	OptionsDisplay::instance()->getTexSizeEntry().setValue(texSize);
 
 	int effectsDetail = 1;
 	if (IDC_LOWEFFECTS_CTRL->GetValue()) effectsDetail = 0;
 	if (IDC_HIGHEFFECTS_CTRL->GetValue()) effectsDetail = 2;
-	OptionsDisplay::instance()->setEffectsDetail(effectsDetail);
+	OptionsDisplay::instance()->getEffectsDetailEntry().setValue(effectsDetail);
 
 	int tankDetail = 1;
 	if (IDC_LOWTANK_CTRL->GetValue()) tankDetail = 0;
 	if (IDC_HIGHTANK_CTRL->GetValue()) tankDetail = 2;
-	OptionsDisplay::instance()->setTankDetail(tankDetail);
+	OptionsDisplay::instance()->getTankDetailEntry().setValue(tankDetail);
 
 	// Save display options to file
 	OptionsDisplay::instance()->writeOptionsToFile();

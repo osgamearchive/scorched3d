@@ -1762,6 +1762,18 @@
 				RelativePath="..\weapons\WeaponGivePower.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponGiveScore.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveScore.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveWin.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveWin.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponInvokeWeapon.cpp">
 			</File>
 			<File
@@ -1892,256 +1904,6 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponVelocity.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="coms"
-			Filter="">
-			<File
-				RelativePath="..\coms\ComsActionsMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsActionsMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsAddPlayerMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsAddPlayerMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsAdminMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsAdminMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsBuyAccessoryMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsBuyAccessoryMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsConnectAcceptMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsConnectAcceptMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsConnectMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsConnectMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsDefenseMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsDefenseMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsFileAkMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsFileAkMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsFileMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsFileMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsGameStateMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsGameStateMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsGameStoppedMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsGameStoppedMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsHaveModFilesMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsHaveModFilesMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsHeightMapMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsHeightMapMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsInitializeMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsInitializeMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsKeepAliveMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsKeepAliveMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsLastChanceMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsLastChanceMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsLevelMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsLevelMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsMessageHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsMessageHandler.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsMessageSender.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsMessageSender.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsNewGameMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsNewGameMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayedMoveMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayedMoveMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerReadyMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerReadyMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerStateMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerStateMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerStatusMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerStatusMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsRmPlayerMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsRmPlayerMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsScoreMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsScoreMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsStartGameMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsStartGameMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsTextMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsTextMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\ComsTimerStartMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\ComsTimerStartMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetBuffer.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetBuffer.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetBufferUtil.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetBufferUtil.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetInterface.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetInterface.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetLoopBack.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetLoopBack.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetMessage.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetMessageHandler.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetMessageHandler.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetMessagePool.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetMessagePool.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetServer.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetServer.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetServerProtocol.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetServerProtocol.h">
-			</File>
-			<File
-				RelativePath="..\coms\NetServerRead.cpp">
-			</File>
-			<File
-				RelativePath="..\coms\NetServerRead.h">
 			</File>
 		</Filter>
 		<Filter
@@ -2529,12 +2291,6 @@
 				RelativePath="..\actions\ShotProjectile.h">
 			</File>
 			<File
-				RelativePath="..\actions\ShowScore.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShowScore.h">
-			</File>
-			<File
 				RelativePath="..\actions\SkyFlash.cpp">
 			</File>
 			<File
@@ -2599,12 +2355,6 @@
 			</File>
 			<File
 				RelativePath="..\actions\TankSay.h">
-			</File>
-			<File
-				RelativePath="..\actions\TankScored.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\TankScored.h">
 			</File>
 			<File
 				RelativePath="..\actions\Teleport.cpp">
@@ -2748,6 +2498,12 @@
 			</File>
 			<File
 				RelativePath="NetDialog.h">
+			</File>
+			<File
+				RelativePath="OptionEntrySetter.cpp">
+			</File>
+			<File
+				RelativePath="OptionEntrySetter.h">
 			</File>
 			<File
 				RelativePath="ProgressBarDialog.cpp">
@@ -3121,12 +2877,6 @@
 				RelativePath="..\server\ServerBuyAccessoryHandler.h">
 			</File>
 			<File
-				RelativePath="..\server\ServerCheckForWinnersState.cpp">
-			</File>
-			<File
-				RelativePath="..\server\ServerCheckForWinnersState.h">
-			</File>
-			<File
 				RelativePath="..\server\ServerCommon.cpp">
 			</File>
 			<File
@@ -3259,10 +3009,10 @@
 				RelativePath="..\server\ServerResetState.h">
 			</File>
 			<File
-				RelativePath="..\server\ServerScoreState.cpp">
+				RelativePath="..\server\ServerShotFinishedState.cpp">
 			</File>
 			<File
-				RelativePath="..\server\ServerScoreState.h">
+				RelativePath="..\server\ServerShotFinishedState.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerShotHolder.cpp">
@@ -3593,6 +3343,12 @@
 			</File>
 			<File
 				RelativePath="..\tank\TankState.h">
+			</File>
+			<File
+				RelativePath="..\tank\TankTeamScore.cpp">
+			</File>
+			<File
+				RelativePath="..\tank\TankTeamScore.h">
 			</File>
 			<File
 				RelativePath="..\tank\TankType.cpp">
@@ -4042,6 +3798,256 @@
 			</File>
 			<File
 				RelativePath="..\landscapedef\LandscapeTexDefn.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="coms"
+			Filter="">
+			<File
+				RelativePath="..\coms\ComsActionsMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsActionsMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAddPlayerMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAddPlayerMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAdminMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsAdminMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsBuyAccessoryMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsBuyAccessoryMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectAcceptMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectAcceptMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsDefenseMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsDefenseMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileAkMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileAkMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsFileMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsGameStateMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsGameStateMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsGameStoppedMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsGameStoppedMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHaveModFilesMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHaveModFilesMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHeightMapMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsHeightMapMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsInitializeMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsInitializeMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsKeepAliveMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsKeepAliveMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLastChanceMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLastChanceMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLevelMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLevelMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsMessageHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsMessageHandler.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsMessageSender.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsMessageSender.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsNewGameMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsNewGameMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayedMoveMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayedMoveMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerAimMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerAimMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerReadyMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerReadyMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerStateMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerStateMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerStatusMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayerStatusMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsRmPlayerMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsRmPlayerMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsScoreMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsScoreMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsStartGameMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsStartGameMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTextMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTextMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTimerStartMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsTimerStartMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetBuffer.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetBuffer.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetBufferUtil.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetBufferUtil.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetInterface.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetInterface.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetLoopBack.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetLoopBack.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetMessageHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetMessageHandler.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetMessagePool.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetMessagePool.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetServer.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetServer.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerProtocol.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerProtocol.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerRead.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerRead.h">
 			</File>
 		</Filter>
 	</Files>

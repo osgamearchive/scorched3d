@@ -29,7 +29,7 @@
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
 #include <common/OptionsTransient.h>
-#include <coms/ComsGameStateMessage.h>
+#include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsPlayerStatusMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsLastChanceMessage.h>
