@@ -15,7 +15,7 @@
 			</object>
 			<!--<object type="target">
 				<name>City Port</name>
-				<model type="MilkShape">data/accessories/buildings/mainport.txt</model>
+				<model type="MilkShape">data/accessories/buildings/mainport_anim.txt</model>
 				<modelrotation>90</modelrotation>
 				<modelscale>0.075</modelscale>
 				<shield>none</shield>

@@ -59,7 +59,7 @@ accelerated rate.</description>
 		<bundlesize>20</bundlesize>
 		<cost>4000</cost>
 		<accessoryaction type='Fuel'>
-			<steptime>0.02</steptime>
+			<steptime>0.015</steptime>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -2717,6 +2717,46 @@ in rapid succession</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>FragShrapnel</name>
+		<armslevel>6</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponAimedUnder'>
+			<nowarheads>3</nowarheads>
+			<percentagemiss>15</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>10</inaccuracy>
+			<aimedweapon type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>60</vredirect>
+				<nextaction type='WeaponVelocity'>
+					<velocitychange>1.2</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<shieldhurtfactor>0.1</shieldhurtfactor>
+						<enginesound>none</enginesound>
+						<flamelife>0.2</flamelife>
+						<smokelife>0.4</smokelife>
+						<projectilescale>0.33</projectilescale>
+						<projectilemodel type='ase'>
+							<mesh>roller.ase</mesh>
+							<skin>black.bmp</skin>
+						</projectilemodel>
+						<timedcollision>0.6</timedcollision>
+						<collisionaction type='WeaponExplosion'>
+							<nocreatedebris/>
+							<hurtamount>0.2</hurtamount>
+							<deform>none</deform>
+							<size>8</size>
+							<explosiontexture>none</explosiontexture>
+							<explosionsound>explosions/thud.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</nextaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Frag Grenade</name>
 		<armslevel>6</armslevel>
 		<description>Tosses a grenade which bounces once
@@ -2728,6 +2768,7 @@ and explodes creating some shrapnel</description>
 		<model type='MilkShape'>weapons/grenade.txt</model>
 		<modelscale>0.8</modelscale>
 		<accessoryaction type='WeaponProjectile'>
+			<shieldhurtfactor>0.5</shieldhurtfactor>
 			<enginesound>none</enginesound>
 			<nocreateflame/>
 			<nocreatesmoke/>
@@ -2739,60 +2780,45 @@ and explodes creating some shrapnel</description>
 					<collisionaction type='WeaponVelocity'>
 						<velocitychange>0.8</velocitychange>
 						<aimedweapon type='WeaponProjectile'>
+							<shieldhurtfactor>0.5</shieldhurtfactor>
 							<enginesound>none</enginesound>
 							<nocreateflame/>
 							<nocreatesmoke/>
 							<projectilemodel type='MilkShape'>weapons/grenade.txt</projectilemodel>
 							<collisionaction type='WeaponMulti'>
-								<subweapon1 type='WeaponDelay'>
-									<delay>0.25</delay>
-									<delayedweapon type='WeaponAimedOver'>
-										<nowarheads>8</nowarheads>
-										<percentagemiss>15</percentagemiss>
-										<maxaimdistance>0</maxaimdistance>
-										<inaccuracy>10</inaccuracy>
-										<aimedweapon type='WeaponRedirect'>
-											<habs>false</habs>
-											<vabs>false</vabs>
-											<hredirect>0</hredirect>
-											<vredirect>45</vredirect>
-											<nextaction type='WeaponVelocity'>
-												<velocitychange>1.0</velocitychange>
-												<aimedweapon type='WeaponProjectile'>
-													<enginesound>none</enginesound>
-													<nocreateflame/>
-													<projectilescale>0.33</projectilescale>
-													<projectilemodel type='ase'>
-														<mesh>roller.ase</mesh>
-														<skin>black.bmp</skin>
-													</projectilemodel>
-													<collisionaction type='WeaponExplosion'>
-														<hurtamount>0.6</hurtamount>
-														<deform>none</deform>
-														<size>6</size>
-														<explosiontexture>none</explosiontexture>
-														<explosionsound>explosions/thud.wav</explosionsound>
-													</collisionaction>
-												</aimedweapon>
-											</nextaction>
-										</aimedweapon>
-									</delayedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
+								<subweapon1 type='WeaponExplosion'>
 									<hurtamount>0</hurtamount>
 									<deform>down</deform>
 									<size>4</size>
 									<explosiontexture>none</explosiontexture>
 									<explosionsound>none</explosionsound>
-								</subweapon2>
-								<subweapon3 type='WeaponExplosion'>
+								</subweapon1>
+								<subweapon2 type='WeaponExplosion'>
 									<nocreatedebris/>
-									<hurtamount>1.0</hurtamount>
+									<hurtamount>0.8</hurtamount>
 									<deform>none</deform>
 									<size>12</size>
 									<explosiontexture>exp00</explosiontexture>
 									<explosionsound>explosions/medium.wav</explosionsound>
+								</subweapon2>
+								<subweapon3 type='WeaponDelay'>
+									<delay>0.1</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>FragShrapnel</weapon>
+									</delayedweapon>
 								</subweapon3>
+								<subweapon4 type='WeaponDelay'>
+									<delay>0.2</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>FragShrapnel</weapon>
+									</delayedweapon>
+								</subweapon4>
+								<subweapon5 type='WeaponDelay'>
+									<delay>0.3</delay>
+									<delayedweapon type='WeaponReference'>
+										<weapon>FragShrapnel</weapon>
+									</delayedweapon>
+								</subweapon5>
 							</collisionaction>
 						</aimedweapon>
 					</collisionaction>
@@ -5345,7 +5371,10 @@ releases rolling napalm warheads.</description>
 								<shieldhurtfactor>0.05</shieldhurtfactor>
 								<numberrollers>2</numberrollers>
 								<time>8</time>
-								<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
+								<rollermodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>none</skin>
+								</rollermodel>
 								<collisionaction type='WeaponMulti'>
 									<subweapon1 type='WeaponExplosion'>
 										<nocreatedebris/>
@@ -10217,7 +10246,7 @@ Less power = less range but more damage</description>
 				</nextaction>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
-				<delay>0.5</delay>
+				<delay>0.75</delay>
 				<delayedweapon type='WeaponTranslate'>
 					<translatedist>0</translatedist>
 					<nextaction type='WeaponReference'>
@@ -10226,7 +10255,7 @@ Less power = less range but more damage</description>
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
-				<delay>1.0</delay>
+				<delay>1.5</delay>
 				<delayedweapon type='WeaponTranslate'>
 					<translatedist>5</translatedist>
 					<nextaction type='WeaponReference'>
@@ -10329,19 +10358,19 @@ Less power = less range but more damage</description>
 				</delayedweapon>
 			</subweapon3>
 			<subweapon4 type='WeaponDelay'>
-				<delay>0.5</delay>
+				<delay>1.0</delay>
 				<delayedweapon type='WeaponReference'>
 					<weapon>SatFunkLaser</weapon>
 				</delayedweapon>
 			</subweapon4>
 			<subweapon5 type='WeaponDelay'>
-				<delay>1.0</delay>
+				<delay>1.5</delay>
 				<delayedweapon type='WeaponReference'>
 					<weapon>SatTransLaser</weapon>
 				</delayedweapon>
 			</subweapon5>
 			<subweapon6 type='WeaponDelay'>
-				<delay>1.0</delay>
+				<delay>2.0</delay>
 				<delayedweapon type='WeaponReference'>
 					<weapon>SatFunkLaser</weapon>
 				</delayedweapon>
@@ -10379,13 +10408,13 @@ all targets in the area.</description>
 					</delayedweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
-					<delay>5.5</delay>
+					<delay>7.0</delay>
 					<delayedweapon type='WeaponReference'>
 						<weapon>SatSegment</weapon>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
-					<delay>7.5</delay>
+					<delay>10.5</delay>
 					<delayedweapon type='WeaponReference'>
 						<weapon>SatSegment</weapon>
 					</delayedweapon>
@@ -11774,12 +11803,6 @@ release lethal clouds of gas when destroyed.</description>
 						<invoke>Gas Grenade</invoke>
 					</weapon>
 				</weaponchoice12>
-				<weaponchoice13>
-					<weight>4</weight>
-					<weapon type='WeaponInvokeWeapon'>
-						<invoke>Instamountain</invoke>
-					</weapon>
-				</weaponchoice13>
 			</subweapon2>
 		</accessoryaction>
 	</accessory>

@@ -1,0 +1,19 @@
+<boids>
+	<boid>
+		<count>4</count>
+		<minbounds><A>128</A><B>128</B><C>10</C></minbounds>
+		<maxbounds><A>256</A><B>256</B><C>30</C></maxbounds>
+		<maxvelocity>2</maxvelocity>
+		<maxacceleration>1</maxacceleration>
+		<cruisedistance>4.0</cruisedistance>
+		<model type="MilkShape">data/accessories/weapons/redhornet_anim.txt</model>
+		<modelsize>5.0</modelsize>
+		<sounds>
+			<mintime>30</mintime>
+			<maxtime>60</maxtime>
+			<maxsimul>1</maxsimul>
+			<volume>25</volume>
+			<sound>data/wav/explosions/bees.wav</sound>
+		</sounds>
+	</boid>
+</boids>

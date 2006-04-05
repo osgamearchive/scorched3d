@@ -34,7 +34,7 @@
 	</ambientsounds>
 	<precipitation type="none"></precipitation>
 	<boids>
-		<boids><boid>data/landscapes/boidsf18.xml</boid></boids>
-		<boids><boid>data/landscapes/boidsah64d.xml</boid></boids>
+		<boid>data/landscapes/boidsah64d.xml</boid>
+		<boid>data/landscapes/boidshornets.xml</boid>
 	</boids>
 </tex>

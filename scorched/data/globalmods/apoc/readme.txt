@@ -25,7 +25,7 @@ Changes Since 3.1
     Other Accessory Changes:
         - Sat. Strike:
             - Tweaked aiming methods some more, works better against shields
-            - Slowed the overall pace of it down a bit and reduced amount of invisible aimed projectiles
+            - Slowed the overall pace of it down substantially and reduced amount of aimed projectiles
             - Increased price from $20,000 to $50,000
             - Reduced armslevel from 2 to 1
         - M2 Machinegun:
@@ -67,6 +67,13 @@ Changes Since 3.1
         - Flame Thrower:
             - Added random spread pattern
             - Decreased cost to $8,000 for 1
+        - Frag Grenade:
+            - Increased velocity of the shrapnel
+            - Added collision timer to the shrapnel
+            - Decreased shieldhurtfactor of shrapnel pellets from 100% to 10%
+            - Increased number of shrapnel pellets from 8 to 9
+            - Reduced damage per shrapnel pellet from 0.6 to 0.4
+            - Added short flame trail to shrapnel and reduced smoke trail length
         - Shields:
             - Decreased radius of Heavy Shield slightly (between regular and ultra size)
             - Increased Mag Deflect's <deflectpower> from 50% to 75%
@@ -103,6 +110,7 @@ Changes Since 3.1
         - Set Ring Of Dirt maximum to 1 per round
         - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
         - Tracers now do no damage to shields when they hit
+        - Removed Instamountain from death events
         
     Landscapes:
     	- New Nuclear Power Plant Building
@@ -117,6 +125,7 @@ Changes Since 3.1
     	- New 737 jumbo jet boid by Shockwave on cities
     	- New cessna boid by Shockwave on cities
     	- New medical chopper boid by Shockwave on cities
+    	- Added some flying hornets to the desert maps
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)

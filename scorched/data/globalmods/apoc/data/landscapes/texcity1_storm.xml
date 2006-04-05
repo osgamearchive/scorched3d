@@ -45,16 +45,9 @@
 		<particles>60</particles>
 	</precipitation>
 	<events>
-		<event>
-			<condition type="time">
-				<mintime>3.0</mintime>
-				<maxtime>8.0</maxtime>
-				<singletimeonly>false</singletimeonly>
-			</condition>
-			<action type="fireweapon">
-				<weapon>Lightning</weapon>
-			</action>
-		</event>
+		<event>data/landscapes/eventslightning.xml</event>
 	</events>
-	<boids><boid>data/landscapes/boidscity.xml</boid></boids>
+	<boids>
+		<boid>data/landscapes/boidscity.xml</boid>
+	</boids>
 </tex>
