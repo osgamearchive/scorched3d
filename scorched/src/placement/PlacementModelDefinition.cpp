@@ -21,6 +21,7 @@
 #include <placement/PlacementModelDefinition.h>
 #include <landscape/LandscapeObjectsEntryModel.h>
 #include <common/RandomGenerator.h>
+#include <common/Defines.h>
 #include <3dsparse/ModelRenderer.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
@@ -85,9 +86,9 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 		if (!node->getNamedChild("size", size_, false))
 		{
 			Model *model = ModelStore::instance()->loadModel(modelId_);
-			Vector sizev = model->getMax() - model->getMin();
-			sizev[2] = 0.0f;
-			size_ = sizev.Magnitude();
+			size_ = MAX(model->getMax()[0] - model->getMin()[0],
+				model->getMax()[1] - model->getMin()[1]);
+			size_ /= 2.0f;
 			size_ *= modelscale_;
 		}
 	}

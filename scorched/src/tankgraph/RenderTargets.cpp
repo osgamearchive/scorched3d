@@ -21,6 +21,7 @@
 #include <tankgraph/RenderTargets.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/RenderTracer.h>
+#include <tankgraph/RenderGeoms.h>
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
@@ -54,6 +55,7 @@ void RenderTargets::Renderer2D::draw(const unsigned state)
 void RenderTargets::Renderer3D::draw(const unsigned state)
 {
 	RenderTracer::instance()->draw(state);
+	RenderGeoms::instance()->draw(state);
 	RenderTargets::instance()->draw(RenderTargets::Type3D, state);
 }
 

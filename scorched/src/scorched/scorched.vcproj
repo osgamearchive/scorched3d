@@ -613,6 +613,12 @@
 				RelativePath="..\tankgraph\MissileMesh.h">
 			</File>
 			<File
+				RelativePath="..\tankgraph\RenderGeoms.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\RenderGeoms.h">
+			</File>
+			<File
 				RelativePath="..\tankgraph\RenderTargets.cpp">
 			</File>
 			<File

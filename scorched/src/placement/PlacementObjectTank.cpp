@@ -59,5 +59,5 @@ void PlacementObjectTank::createObject(ScorchedContext &context,
 		&tankDef_.getShadow(),
 		position.position[0],
 		position.position[1],
-		tankDef_.getSize()));
+		tankDef_.getSize() * 2.0f));
 }

@@ -58,6 +58,7 @@ protected:
 	float size_;
 	float life_;
 	float maxLife_;
+	bool sphereGeom_;
 
 	// Physics engine stuff
 	dGeomID targetGeom_;

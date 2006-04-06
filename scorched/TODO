@@ -34,6 +34,7 @@ Fixed: XML parser will warn if there is content and child nodes in the same elem
 Fixed: Web server settings dialog is now much easier to use (most settings changed via menus)
 Fixed: Score dialogs now disappear faster when game speed is set faster
 Fixed: Team score now stays with the team when players leave or change team
+Fixed: A small error in how roof collisions were calculated
 
 Added: WeaponGiveScore weapon to give bonus score for gaining objectives
 Added: WeaponGiveWin weapon to give a round win for performing an objective

@@ -60,5 +60,5 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 		&targetDef_.getShadow(),
 		position.position[0],
 		position.position[1],
-		targetDef_.getSize()));
+		targetDef_.getSize() * 2.0f));
 }

@@ -189,6 +189,9 @@ public:
 	bool getDrawNormals() { return drawNormals_; }
 	OptionEntryBool &getDrawNormalsEntry() { return drawNormals_; }
 
+	bool getDrawCollisionGeoms() { return drawCollisionGeoms_; }
+	OptionEntryBool &getDrawCollisionGeomsEntry() { return drawCollisionGeoms_; }
+
 	bool getDrawBoundingSpheres() { return drawBoundingSpheres_; }
 	OptionEntryBool &getDrawBoundingSpheresEntry() { return drawBoundingSpheres_; }
 
@@ -367,6 +370,7 @@ protected:
 	OptionEntryBool noSimulateParticles_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
+	OptionEntryBool drawCollisionGeoms_;
 	OptionEntryBool drawBoundingSpheres_;
 	OptionEntryBool drawShipPaths_;
 	OptionEntryBool noLenseFlare_;

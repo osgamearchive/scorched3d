@@ -168,6 +168,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 
 		"Show landscape normals on the landscape", RWAccess, false),
+	drawCollisionGeoms_(options_, "DrawCollisionGeoms",
+		"Show object collision geoms", RWAccess, false),
 	drawBoundingSpheres_(options_, "DrawBoundingSpheres", 
 		"Show landscape bounding spheres on the landscape", RWAccess, false),
 	drawShipPaths_(options_, "DrawShipPaths", 

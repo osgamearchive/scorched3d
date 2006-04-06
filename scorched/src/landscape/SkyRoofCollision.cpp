@@ -99,17 +99,13 @@ int SkyRoofCollision::dCollideLAABB(dGeomID o1, dGeomID o2, dReal aabb2[6])
 
 	// Now we have something we should actualy be checking the collision
 	// for get the extents of the bounding box
-	int minX = (int)floor(aabb2[0]);
-	int maxX = (int)ceil(aabb2[1]);
-	int minY = (int)floor(aabb2[2]);
-	int maxY = (int)ceil(aabb2[3]);
-
-	int X = (minX + maxX) / 2;
-	int Y = (minY + maxY) / 2;
+	float X = float(aabb2[0] + aabb2[1]) / 2.0f;
+	float Y = float(aabb2[2] + aabb2[3]) / 2.0f;
 
 	// See if any heights in this area are in the bounding box
 	if (staticContext_->landscapeMaps->getRoofMaps().
-		getRoofHeight(X, Y) < aabb2[4]) return 1;
+		getInterpRoofHeight(X, Y) < aabb2[5]) return 1;
+	// aabb2[5] == maxz (the highest part of the sphere)
 
 	return 0;
 }

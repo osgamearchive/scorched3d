@@ -8,5 +8,5 @@ The 't' key allows you to talk to online players.:The 'y' key allows you to talk
 The 'a' key will auto-aim at the mouse pointer.:Only the rotation is aimed, not power or elevation.
 Use the 0 to 9 keys to switch camera views.
 The 'c' key will show a second camera view.:Clicking on the window will change the view.
-Use diggers, sandhogs and napalm to destroy shields.
+Use different weapons to defeat shields.:e.g. diggers, sandhogs and napalm.
 You can skip your move in the player menu.:The player menu is at the top of the screen.

@@ -26,13 +26,26 @@
 #include <common/Defines.h>
 
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
-	context_(context),
+	context_(context), sphereGeom_(true),
 	targetInfo_(CollisionIdTarget),
 	life_(100.0f), maxLife_(1.0f), size_(2.0f)
 {
 	// The tank collision object
-	targetGeom_ = 
-		dCreateSphere(context.actionController->getPhysics().getSpace(), 2.0f);
+	if (sphereGeom_)
+	{
+		targetGeom_ = 
+			dCreateSphere(
+				context.actionController->getPhysics().getSpace(), 
+				size_);
+	}
+	else
+	{
+		targetGeom_ =
+			dCreateBox(
+				context.actionController->getPhysics().getSpace(), 
+				size_, size_, size_);
+	}
+
 	targetInfo_.data = (void *) playerId;
 	dGeomSetData(targetGeom_, &targetInfo_);
 	dGeomDisable(targetGeom_);
@@ -60,7 +73,7 @@ void TargetLife::setLife(float life)
 	}
 	else
 	{
-		dGeomSphereSetRadius(targetGeom_, size_);
+		setSize(size_);
 		dGeomEnable(targetGeom_);
 	}
 }
@@ -68,12 +81,21 @@ void TargetLife::setLife(float life)
 void TargetLife::setSize(float size)
 {
 	size_ = size;
-	dGeomSphereSetRadius(targetGeom_, size_);
+	if (sphereGeom_)
+	{
+		dGeomSphereSetRadius(targetGeom_, size_);
+	}
+	else
+	{
+		dGeomBoxSetLengths(targetGeom_, size_, size_, size_);
+	}
+	setPosition(target_->getTargetPosition());
 }
 
 void TargetLife::setPosition(Vector &pos)
 {
-	dGeomSetPosition(targetGeom_, pos[0], pos[1], pos[2]);
+	// Set the position so the geom sits on the top of the ground
+	dGeomSetPosition(targetGeom_, pos[0], pos[1], pos[2] + size_ / 2.0f);
 }
 
 bool TargetLife::writeMessage(NetBuffer &buffer)

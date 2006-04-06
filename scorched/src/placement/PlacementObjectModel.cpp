@@ -58,5 +58,5 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 		&definition_.getShadow(),
 		position.position[0],
 		position.position[1],
-		definition_.getSize()));
+		definition_.getSize() * 2.0f));
 }
