@@ -29,13 +29,13 @@
 #include <client/MainCamera.h>
 
 TargetRendererImplTarget::TargetRendererImplTarget(Target *target,
-	ModelID model, float scale, float rotation) :
+	ModelID model, float scale) :
 	target_(target),
 	canSeeTank_(false),
 	shieldHit_(0.0f), totalTime_(0.0f),
 	posX_(0.0), posY_(0.0), posZ_(0.0),
 	targetTips_(target),
-	scale_(scale), rotation_(rotation)
+	scale_(scale)
 {
 	modelRenderer_ = new ModelRenderer(
 		ModelStore::instance()->loadModel(model));
@@ -63,7 +63,7 @@ void TargetRendererImplTarget::draw(float distance)
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
 		sphereInFrustum(target_->getTargetPosition(), 
-		target_->getLife().getSize(),
+		target_->getLife().getSize().Max() / 2.0f,
 		GLCameraFrustum::FrustrumRed) ||
 		!target_->getAlive())
 	{
@@ -78,7 +78,7 @@ void TargetRendererImplTarget::draw(float distance)
 	Landscape::instance()->getShadowMap().addCircle(
 		target_->getTargetPosition()[0], 
 		target_->getTargetPosition()[1], 
-		target_->getLife().getSize() + 2.0f);
+		target_->getLife().getSize().Max() + 2.0f);
 
 	// Draw the tank model
 	glPushMatrix();
@@ -86,7 +86,8 @@ void TargetRendererImplTarget::draw(float distance)
 			target_->getTargetPosition()[0], 
 			target_->getTargetPosition()[1], 
 			target_->getTargetPosition()[2]);
-		glRotatef(rotation_, 0.0f, 0.0f, 1.0f);
+		glRotatef(target_->getLife().getRotation(), 
+			0.0f, 0.0f, 1.0f);
 		glScalef(scale_, scale_, scale_);
 		modelRenderer_->drawBottomAligned();
 	glPopMatrix();

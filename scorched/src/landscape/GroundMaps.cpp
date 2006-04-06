@@ -142,6 +142,21 @@ void GroundMaps::generateObjects(
 				context, playerId, counter);
 		}
 	}
+
+	// Deform the main map with respect to the objects
+	{
+		std::list<PlacementShadowDefinition::Entry> &shadows = 
+			objects_.getShadows();
+		std::list<PlacementShadowDefinition::Entry>::iterator itor;
+		for (itor = shadows.begin();
+			itor != shadows.end();
+			itor++)
+		{
+			PlacementShadowDefinition::Entry &entry = (*itor);
+			entry.definition_->updateLandscapeHeight(
+				entry.position_, entry.size_);
+		}
+	}
 }
 
 float GroundMaps::getHeight(int w, int h)

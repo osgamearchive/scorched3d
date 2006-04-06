@@ -38,6 +38,7 @@ public:
 
 protected:
 	float life_;
+	bool boundingsphere_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;

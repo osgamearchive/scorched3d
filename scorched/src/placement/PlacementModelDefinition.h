@@ -39,13 +39,14 @@ public:
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
-	float getSize() { return size_; }
+	Vector &getSize() { return size_; }
 	PlacementShadowDefinition &getShadow() { return shadow_; }
 
 protected:
 	bool usemodel_;
 
-	float size_;
+	bool driveovertodestroy_;
+	Vector size_;
 	float modelscale_;
 	float modelrotation_;
 	float modelrotationsnap_;

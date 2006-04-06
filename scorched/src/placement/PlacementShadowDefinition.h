@@ -30,28 +30,29 @@ public:
 	struct Entry
 	{
 		Entry(PlacementShadowDefinition *definition,
-			float x,
-			float y,
-			float size) : 
+			Vector &position,
+			Vector &size) : 
 			definition_(definition),
-			x_(x), y_(y), size_(size) { }
+			position_(position), size_(size) { }
 
 		PlacementShadowDefinition *definition_;
-		float x_;
-		float y_;
-		float size_;
+		Vector position_;
+		Vector size_;
 	};
 
 	PlacementShadowDefinition();
 	virtual ~PlacementShadowDefinition();
 
 	virtual bool readXML(XMLNode *node, const char *base);
-	void updateLandscape(float x, float y, float size);
+
+	void updateLandscapeHeight(Vector &position, Vector &size);
+	void updateLandscapeTexture(Vector &position, Vector &size);
 
 	void setDrawShadow(bool draw) { drawShadow_ = draw; }
 
 protected:
 	bool drawShadow_;
+	bool flattenArea_;
 	ImageID groundMap_;
 };
 

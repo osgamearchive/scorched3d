@@ -41,6 +41,7 @@ public:
 	Vector Normalize2D();
 	float Magnitude();
 	float dotP(const Vector &Vin);
+	float Max();
 	Vector get2DPerp();
 	void StoreInvert();
 	void StoreNormalize();

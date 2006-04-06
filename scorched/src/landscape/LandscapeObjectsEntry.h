@@ -22,6 +22,7 @@
 #define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
 
 #include <string>
+#include <common/Vector.h>
 
 class LandscapeObjectsGroupEntry;
 class LandscapeObjectsEntry
@@ -30,10 +31,10 @@ public:
 	LandscapeObjectsEntry();
 	virtual ~LandscapeObjectsEntry();
 
-	float posX, posY, posZ;
+	float modelscale;
+	Vector boundingsize;
+	Vector position;
 	float rotation;
-	float size;
-	float modelsize;
 	float color;
 	bool burnt;
 	std::string removeaction;

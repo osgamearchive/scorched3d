@@ -64,10 +64,6 @@ public:
 	float rotateGunYZ(float angle, bool diff=true);
 	float getRotationGunXY() { return turretRotXY_; }
 	float getRotationGunYZ() { return turretRotYZ_; }
-	
-	// Tank Rotation
-	void rotateTank(float a) { angle_ = a; }
-	float getAngle() { return angle_; }
 
 	// Power of gun
 	float getPower() { return power_; }
@@ -98,7 +94,6 @@ protected:
 	std::vector<ShotEntry> oldShots_;
 	float turretRotXY_, turretRotYZ_, power_;
 	float oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
-	float angle_;
 	float maxPower_;
 };
 

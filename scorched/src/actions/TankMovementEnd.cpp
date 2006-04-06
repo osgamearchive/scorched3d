@@ -54,7 +54,7 @@ void TankMovementEnd::simulate(float frameTime, bool &remove)
 		context_->tankContainer->getTankById(playerId_);
 	if (current)
 	{
-		current->getPosition().rotateTank(0.0f);
+		current->getLife().setRotation(0.0f);
 		if (current->getState().getState() == TankState::sNormal)
 		{
 			// Move the tank to the final position

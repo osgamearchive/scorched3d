@@ -28,8 +28,9 @@
 #include <XML/XMLNode.h>
 
 PlacementModelDefinition::PlacementModelDefinition() :
-	size_(2.0f), modelscale_(0.05f), modelrotation_(0.0f),
-	modelrotationsnap_(-1.0f), usemodel_(true)
+	size_(2.0f, 2.0f, 2.0f), modelscale_(0.05f), modelrotation_(0.0f),
+	modelrotationsnap_(-1.0f), usemodel_(true),
+	driveovertodestroy_(true)
 {
 }
 
@@ -52,30 +53,29 @@ LandscapeObjectsEntryModel *PlacementModelDefinition::createModel(
 	modelEntry->model = new ModelRenderer(model);
 	modelEntry->modelburnt = new ModelRenderer(modelburnt);
 	modelEntry->color = 1.0f;
-	modelEntry->size = modelscale_;
+	modelEntry->boundingsize = size_;
 	modelEntry->rotation = modelrotation_;
 	modelEntry->removeaction = removeaction_;
 	modelEntry->burnaction = burnaction_;
-	modelEntry->modelsize = size_;
+	modelEntry->modelscale = modelscale_;
 	if (modelrotationsnap_ > 0.0f)
 	{
 		modelEntry->rotation = float(int(generator.getRandFloat() * 360.0f) / 
 			int(modelrotationsnap_)) * modelrotationsnap_;
 	}
 
-	modelEntry->posX = position[0];
-	modelEntry->posY = position[1];
-	modelEntry->posZ = position[2];
-
+	modelEntry->position = position;
 	return modelEntry;
 }
 
 bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 {
-	node->getNamedChild("modelscale", modelscale_, false);
-
 	if (usemodel_)
 	{
+		node->getNamedChild("modelscale", modelscale_, false);
+		node->getNamedChild("modelrotation", modelrotation_, false);
+		node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
+
 		XMLNode *modelnode, *burntmodelnode;
 		if (!node->getNamedChild("model", modelnode)) return false;
 		if (!modelId_.initFromNode(base, modelnode)) return false;
@@ -86,15 +86,16 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 		if (!node->getNamedChild("size", size_, false))
 		{
 			Model *model = ModelStore::instance()->loadModel(modelId_);
-			size_ = MAX(model->getMax()[0] - model->getMin()[0],
-				model->getMax()[1] - model->getMin()[1]);
-			size_ /= 2.0f;
+			size_ = model->getMax() - model->getMin();
 			size_ *= modelscale_;
 		}
 	}
+	else
+	{
+		size_[0] = size_[1] = size_[2] = 2.0f;
+	}
 
-	node->getNamedChild("modelrotation", modelrotation_, false);
-	node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
+	node->getNamedChild("driveovertodestroy", driveovertodestroy_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
 	node->getNamedChild("burnaction", burnaction_, false);
 	if (!shadow_.readXML(node, base)) return false;

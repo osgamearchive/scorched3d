@@ -66,18 +66,25 @@ bool TankSort::SortOnScore::operator()(const Tank *x, const Tank *y, ScorchedCon
 
 int TankSort::getWinningTeam(ScorchedContext &context)
 {
-	int currentTeam = 0;
-	int currentScore = -100;
-	for (int j=1; j<=context.optionsGame->getTeams(); j++)
+	for (int i=1; i<=context.optionsGame->getTeams(); i++)
 	{
-		int score = context.tankTeamScore->getScore(j);
-        if (score > currentScore)
+		int scorei = context.tankTeamScore->getScore(i);
+
+		bool top = true;
+		for (int j=1; j<=context.optionsGame->getTeams(); j++)
 		{
-			currentScore = score;
-			currentTeam = j;
+			if (i == j) continue;
+
+			int scorej = context.tankTeamScore->getScore(j);
+			if (scorej >= scorei)
+			{
+				top = false;
+				break;
+			}
 		}
+		if (top) return i;
 	}
-	return currentTeam;
+	return 0;
 }
 
 void TankSort::getSortedTanks(std::list<Tank *> &list, ScorchedContext &context)

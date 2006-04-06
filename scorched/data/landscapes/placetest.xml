@@ -12,9 +12,6 @@
 						<name>TestTankHmm1</name>
 						<model>Bradley</model>
 						<ai>Shark</ai>
-						<modelscale>0.01</modelscale>
-						<!--<modelrotation>0</modelrotation>-->
-						<modelrotationsnap>90</modelrotationsnap>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
 						<life>1000</life>
@@ -28,10 +25,12 @@
 						<model type="MilkShape">data/accessories/pwrcrate/pwrcrate.txt</model>
 						<modelscale>0.1</modelscale>
 						<!--<modelrotation>90</modelrotation>-->
-						<modelrotationsnap>90</modelrotationsnap>
+						<modelrotationsnap>45</modelrotationsnap>
 						<shield>TestShield</shield>
 						<parachute>Parachute</parachute>
 						<life>1000</life>
+						<boundingsphere>false</boundingsphere>
+						<flattenarea>true</flattenarea>
 						<removeaction>TestPowerUpWeapon</removeaction>
 						<groundmap type="bmp">
 							<image>data/landscapes/parking.bmp</image>

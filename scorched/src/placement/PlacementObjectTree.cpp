@@ -60,20 +60,17 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 		(position.position[2] > snow + (generator.getRandFloat() * 10.0f) - 5.0f));
 	treeEntry->pine = pine;
 	treeEntry->color = generator.getRandFloat() * 0.5f + 0.5f;
-	treeEntry->size = generator.getRandFloat() * 2.0f + 1.0f;
-	treeEntry->posX = position.position[0];
-	treeEntry->posY = position.position[1];
-	treeEntry->posZ = position.position[2];
+	treeEntry->modelscale = generator.getRandFloat() * 2.0f + 1.0f;
+	treeEntry->position = position.position;
 	treeEntry->rotation = generator.getRandFloat() * 360.0f;
 	treeEntry->removeaction = removeaction;
 	treeEntry->burnaction = burnaction;
-	treeEntry->modelsize = treeEntry->size;
+	treeEntry->boundingsize = Vector(1.0f, 1.0f, 2.0f) * treeEntry->modelscale;
 
 	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
 		PlacementShadowDefinition::Entry(&shadow_, 
-		position.position[0],
-		position.position[1],
-		treeEntry->modelsize));
+		position.position,
+		treeEntry->boundingsize));
 
 	context.landscapeMaps->getGroundMaps().getObjects().addObject(
 		(unsigned int) position.position[0],

@@ -27,9 +27,10 @@
 #include <XML/XMLNode.h>
 
 TargetDefinition::TargetDefinition() : 
-	life_(1.0f)
+	life_(1.0f), boundingsphere_(true)
 {
 	shadow_.setDrawShadow(false);
+	driveovertodestroy_ = false;
 }
 
 TargetDefinition::~TargetDefinition()
@@ -43,6 +44,7 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("life", life_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
+	node->getNamedChild("boundingsphere", boundingsphere_, false);
 
 	return PlacementModelDefinition::readXML(node, base);
 }
@@ -54,6 +56,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 {
 	Target *target = new Target(playerId, 
 		name_.c_str(), context);
+	target->getLife().setBoundingSphere(boundingsphere_);
 
 	float rotation = modelrotation_;
 	if (modelrotationsnap_ > 0.0f)
@@ -66,11 +69,13 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->setRenderer(
 			new TargetRendererImplTarget(
 				target, modelId_, 
-				modelscale_, rotation));
+				modelscale_));
 	}
 
 	target->getLife().setMaxLife(life_);
 	target->getLife().setSize(size_);
+	target->getLife().setDriveOverToDestroy(driveovertodestroy_);
+	target->getLife().setRotation(rotation);
 	target->newGame();
 
 	if (shield_.c_str()[0] && 0 != strcmp(shield_.c_str(), "none"))

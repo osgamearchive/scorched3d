@@ -108,7 +108,7 @@ void TargetRendererImplTank::draw(float distance)
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
 		sphereInFrustum(tank_->getPosition().getTankPosition(),
-		tank_->getLife().getSize(),
+		tank_->getLife().getSize().Max() / 2.0f,
 		GLCameraFrustum::FrustrumRed) ||
 		(tank_->getState().getState() != TankState::sNormal))
 	{
@@ -128,7 +128,7 @@ void TargetRendererImplTank::draw(float distance)
 	Landscape::instance()->getShadowMap().addCircle(
 		tank_->getPosition().getTankPosition()[0], 
 		tank_->getPosition().getTankPosition()[1], 
-		4.0f * modelSize);
+		(tank_->getLife().getSize().Max() + 2.0f) * modelSize);
 
 	// Draw the tank model
 	bool currentTank = 
@@ -136,7 +136,7 @@ void TargetRendererImplTank::draw(float distance)
 		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
 
 	getModel()->draw(currentTank, 
-		tank_->getPosition().getAngle(),
+		tank_->getLife().getRotation(),
 		tank_->getPosition().getTankPosition(), 
 		fireOffSet_, 
 		tank_->getPosition().getRotationGunXY(), 

@@ -157,6 +157,11 @@ Vector Vector::Normalize2D()
 	return v;
 }
 
+float Vector::Max()
+{
+	return MAX(V[0], MAX(V[1], V[2]));
+}
+
 float Vector::Magnitude()
 {
 	return float(sqrt(V[0]*V[0] + V[1]*V[1] + V[2]*V[2]));

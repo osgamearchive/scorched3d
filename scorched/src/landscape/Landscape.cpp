@@ -303,8 +303,8 @@ void Landscape::generate(ProgressCounter *counter)
 		{
 			PlacementShadowDefinition::Entry &entry = (*itor);
 
-			entry.definition_->updateLandscape(
-				entry.x_, entry.y_, entry.size_);
+			entry.definition_->updateLandscapeTexture(
+				entry.position_, entry.size_);
 		}
 	}
 

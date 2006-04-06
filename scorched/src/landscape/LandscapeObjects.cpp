@@ -93,8 +93,8 @@ void LandscapeObjects::draw()
 		LandscapeObjectsEntry *entry = (*itor).second;
 
 		float distance = approx_distance(
-				cameraPos[0] - entry->posX,
-				cameraPos[1] - entry->posY);
+				cameraPos[0] - entry->position[0],
+				cameraPos[1] - entry->position[1]);
 
 		entry->render(distance);
 	}		
@@ -180,8 +180,7 @@ void LandscapeObjects::removeObjects(
 						AccessoryPart::AccessoryWeapon)
 					{
 						Weapon *weapon = (Weapon *) accessory->getAction();
-						Vector position(entry->posX, entry->posY, entry->posZ);
-						weapon->fireWeapon(context, playerId, position, Vector::nullVector);
+						weapon->fireWeapon(context, playerId, entry->position, Vector::nullVector);
 					}
 				}
 
@@ -222,8 +221,7 @@ void LandscapeObjects::burnObjects(
 					AccessoryPart::AccessoryWeapon)
 				{
 					Weapon *weapon = (Weapon *) accessory->getAction();
-					Vector position(entry->posX, entry->posY, entry->posZ);
-					weapon->fireWeapon(context, playerId, position, Vector::nullVector);
+					weapon->fireWeapon(context, playerId, entry->position, Vector::nullVector);
 				}
 			}
 		}

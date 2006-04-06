@@ -285,7 +285,7 @@ void TankMovement::moveTank(Tank *tank)
 	}
 
 	// Actually move the tank
-	tank->getPosition().rotateTank(a);
+	tank->getLife().setRotation(a);
 	tank->setTargetPosition(newPos);
 
 	// Set viewpoints

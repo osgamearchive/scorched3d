@@ -36,12 +36,8 @@ LandscapeObjectsEntryModel::~LandscapeObjectsEntryModel()
 
 void LandscapeObjectsEntryModel::render(float distance)
 {
-	static Vector point;
-	point[0] = posX;
-	point[1] = posY;
-	point[2] = posZ;
 	if (!GLCameraFrustum::instance()->sphereInFrustum(
-		point, modelsize)) return;
+		position, boundingsize.Max() / 2.0f)) return;
 
 	/*{
 	GLState state(GLState::TEXTURE_OFF);
@@ -54,9 +50,9 @@ void LandscapeObjectsEntryModel::render(float distance)
 	}*/
 
 	glPushMatrix();
-		glTranslatef(posX, posY, posZ);
+		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-		glScalef(size, size, size);
+		glScalef(modelscale, modelscale, modelscale);
 
 		glColor4f(color, color, color, 1.0f);
 		if (burnt) modelburnt->drawBottomAligned();

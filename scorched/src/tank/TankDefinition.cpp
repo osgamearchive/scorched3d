@@ -69,6 +69,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 
 	Tank *tank = new Tank(context, playerId, 0, 
 		name_.c_str(), color, tankmodel_.c_str());
+	tank->getLife().setBoundingSphere(boundingsphere_);
 
 	if (context.serverMode)
 	{
@@ -95,6 +96,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	tank->getAvatar().loadFromFile("computer.gif");
 	tank->getLife().setMaxLife(life_);
 	tank->getLife().setSize(size_);
+	tank->getLife().setDriveOverToDestroy(driveovertodestroy_);
 	tank->newGame();
 
 	if (shield_.c_str()[0] && 0 != strcmp(shield_.c_str(), "none"))

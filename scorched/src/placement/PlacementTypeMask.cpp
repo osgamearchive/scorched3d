@@ -114,8 +114,8 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 						itor++)
 					{
 						LandscapeObjectsEntry *object = (*itor).second;
-						float distx = object->posX - lx;
-						float disty = object->posY - ly;
+						float distx = object->position[0] - lx;
+						float disty = object->position[1] - ly;
 						if (distx * distx + disty *disty < distsq)
 						{
 							closeness = false;

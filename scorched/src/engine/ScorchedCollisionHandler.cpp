@@ -102,15 +102,21 @@ void ScorchedCollisionHandler::targetCollision(
 			AccessoryPart::AccessoryWeapon)->getAction();
 	if (target1->isTarget() && !target2->isTarget())
 	{
-		context_->actionController->addAction(
-			new TankDamage(weapon, playerId1, playerId2, target1->getLife().getLife(),
-				false, false, false, 0));
+		if (target1->getLife().getDriveOverToDestroy())
+		{
+			context_->actionController->addAction(
+				new TankDamage(weapon, playerId1, playerId2, target1->getLife().getLife(),
+					false, false, false, 0));
+		}
 	}
 	else if (!target1->isTarget() && target2->isTarget())
 	{
-		context_->actionController->addAction(
-			new TankDamage(weapon, playerId2, playerId1, target2->getLife().getLife(),
-				false, false, false, 0));
+		if (target2->getLife().getDriveOverToDestroy())
+		{
+			context_->actionController->addAction(
+				new TankDamage(weapon, playerId2, playerId1, target2->getLife().getLife(),
+					false, false, false, 0));
+		}
 	}
 }
 

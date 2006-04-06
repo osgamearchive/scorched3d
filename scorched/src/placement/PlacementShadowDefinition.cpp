@@ -21,12 +21,14 @@
 #include <placement/PlacementShadowDefinition.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/DeformLandscape.h>
+#include <common/Defines.h>
 #include <client/ScorchedClient.h>
 #include <3dsparse/ImageStore.h>
 #include <GLEXT/GLBitmapModifier.h>
 
 PlacementShadowDefinition::PlacementShadowDefinition() :
-	drawShadow_(true)
+	drawShadow_(true), flattenArea_(false)
 {
 }
 
@@ -37,7 +39,8 @@ PlacementShadowDefinition::~PlacementShadowDefinition()
 bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
 {
 	node->getNamedChild("drawshadow", drawShadow_, false);
-
+	node->getNamedChild("flattenarea", flattenArea_, false);
+	
 	XMLNode *groundMap = 0;
 	if (node->getNamedChild("groundmap", groundMap, false))
 	{
@@ -47,8 +50,18 @@ bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
 	return true;
 }
 
-void PlacementShadowDefinition::updateLandscape(
-	float x, float y, float size)
+void PlacementShadowDefinition::updateLandscapeHeight(
+	Vector &position, Vector &size)
+{
+	if (flattenArea_)
+	{
+		DeformLandscape::flattenArea(
+			ScorchedClient::instance()->getContext(), position, 0);
+	}
+}
+
+void PlacementShadowDefinition::updateLandscapeTexture(
+	Vector &position, Vector &size)
 {
 	float shadowMultWidth = (float) Landscape::instance()->getMainMap().getWidth() / 
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
@@ -61,8 +74,8 @@ void PlacementShadowDefinition::updateLandscape(
 		GLBitmapModifier::addBitmap(
 			Landscape::instance()->getMainMap(),
 			*image,
-			x * shadowMultWidth, 
-			y * shadowMultHeight,
+			position[0] * shadowMultWidth, 
+			position[1] * shadowMultHeight,
 			shadowMultWidth / 4.0f,
 			shadowMultHeight / 4.0f);
 	}
@@ -71,8 +84,8 @@ void PlacementShadowDefinition::updateLandscape(
 	{
 		GLBitmapModifier::addCircle(
 			Landscape::instance()->getMainMap(),
-			x * shadowMultWidth, 
-			y * shadowMultHeight, 
-			size * shadowMultWidth, 1.0f);
+			position[0] * shadowMultWidth, 
+			position[1] * shadowMultHeight, 
+			MAX(size[0], size[1]) * shadowMultWidth, 1.0f);
 	}
 }

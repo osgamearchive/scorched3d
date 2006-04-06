@@ -36,6 +36,8 @@ Fixed: Score dialogs now disappear faster when game speed is set faster
 Fixed: Team score now stays with the team when players leave or change team
 Fixed: A small error in how roof collisions were calculated
 
+Added: flattenarea attribute to Targets, tanks and models so landscape is flattened under them
+Added: Targets and tanks can use bounding boxes when it fits the model better
 Added: WeaponGiveScore weapon to give bonus score for gaining objectives
 Added: WeaponGiveWin weapon to give a round win for performing an objective
 Added: The notion of a score, players gain score by winning, killing etc.  The score ranks players.

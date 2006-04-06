@@ -30,7 +30,7 @@ class TargetRendererImplTarget : public TargetRendererImpl
 {
 public:
 	TargetRendererImplTarget(Target *target, ModelID model,
-		float scale, float rotation);
+		float scale);
 	virtual ~TargetRendererImplTarget();
 
 	virtual void simulate(float frameTime);
@@ -45,7 +45,7 @@ protected:
 	ModelRenderer *modelRenderer_;
 	bool canSeeTank_;
 	float shieldHit_, totalTime_;
-	float scale_, rotation_;
+	float scale_;
 	double posX_, posY_, posZ_;
 	GLWTargetTips targetTips_;
 

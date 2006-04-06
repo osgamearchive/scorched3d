@@ -38,13 +38,17 @@ public:
 	// Position
 	void setPosition(Vector &pos);
 	void setTarget(Target *target) { target_ = target; }
-	void setSize(float size);
-	float getSize() { return size_; }
+	void setSize(Vector &size);
+	Vector &getSize() { return size_; }
+	float getRotation() { return rotation_; }
+	void setRotation(float rotation);
+	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
+	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
+	void setBoundingSphere(bool sphereGeom);
 
 	// Tank Life / Health
 	float getLife() { return life_; }
 	void setLife(float life);
-
 	float getMaxLife() { return maxLife_; }
 	void setMaxLife(float life) { maxLife_ = life; }
 
@@ -55,10 +59,12 @@ public:
 protected:
 	ScorchedContext &context_;
 
-	float size_;
+	Vector size_;
+	float rotation_;
 	float life_;
 	float maxLife_;
 	bool sphereGeom_;
+	bool driveOverToDestroy_;
 
 	// Physics engine stuff
 	dGeomID targetGeom_;

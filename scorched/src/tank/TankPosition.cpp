@@ -32,7 +32,7 @@ TankPosition::TankPosition(ScorchedContext &context) :
 	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
 	power_(1000.0f), oldPower_(1000.0f),
 	maxPower_(1000.0f),
-	angle_(0.0f), tank_(0), context_(context)
+	tank_(0), context_(context)
 {
 	// Only make the very first shot random angle
 	oldTurretRotXY_ = turretRotXY_ = RAND * 360;
@@ -73,7 +73,6 @@ void TankPosition::clientNewGame()
 
 	maxPower_ = type->getPower();
 	oldPower_ = power_ = maxPower_;
-	angle_ = 0.0f;
 	oldShots_.clear();
 	madeShot();
 }

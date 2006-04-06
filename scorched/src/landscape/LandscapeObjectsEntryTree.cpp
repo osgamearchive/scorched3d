@@ -228,12 +228,8 @@ void LandscapeObjectsEntryTree::render(float distance)
 
 	if (OptionsDisplay::instance()->getNoTrees()) return;
 
-	static Vector point;
-	point[0] = posX;
-	point[1] = posY;
-	point[2] = posZ;
 	if (!GLCameraFrustum::instance()->sphereInFrustum(
-		point, modelsize)) return;
+		position, boundingsize.Max() / 2.0f)) return;
 
 	GLuint treeType = treePalm;
 	GLuint smallTreeType = treePalmSmall;
@@ -263,9 +259,9 @@ void LandscapeObjectsEntryTree::render(float distance)
 
 	texture_.draw();
 	glPushMatrix();
-		glTranslatef(posX, posY, posZ);
+		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-		glScalef(size, size, size);
+		glScalef(modelscale, modelscale, modelscale);
 
 		glColor4f(color, color, color, 1.0f);
 		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000)

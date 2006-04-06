@@ -117,7 +117,7 @@ void Laser::simulate(float frameTime, bool &remove)
 						}
 
 						if (targetDistance < weapon_->getHurtRadius() + 
-							current->getLife().getSize())
+							MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))
 						{
 							damagedTargets_.insert(current->getPlayerId());
 						}

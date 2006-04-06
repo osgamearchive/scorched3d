@@ -24,6 +24,7 @@
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/ModelRenderer.h>
 #include <engine/ScorchedContext.h>
+#include <common/Defines.h>
 #include <XML/XMLParser.h>
 
 PlacementObjectModel::PlacementObjectModel()
@@ -56,7 +57,6 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
 		PlacementShadowDefinition::Entry(
 		&definition_.getShadow(),
-		position.position[0],
-		position.position[1],
-		definition_.getSize() * 2.0f));
+		position.position,
+		definition_.getSize()));
 }
