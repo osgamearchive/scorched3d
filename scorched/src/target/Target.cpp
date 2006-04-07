@@ -41,6 +41,7 @@ Target::Target(unsigned int playerId,
 
 Target::~Target()
 {
+	playerId_ = 0;
 	delete renderer_;
 	renderer_ = 0;
 }
@@ -54,7 +55,8 @@ void Target::newGame()
 
 bool Target::isTemp()
 {
-	return (getPlayerId() >= TankAIAdder::MIN_TARGET_ID);
+	return (isTarget() || 
+		getPlayerId() >= TankAIAdder::MIN_TARGET_ID);
 }
 
 bool Target::getAlive()
