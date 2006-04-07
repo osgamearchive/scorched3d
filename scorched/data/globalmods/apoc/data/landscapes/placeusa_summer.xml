@@ -43,6 +43,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/cactussmall.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/cactussmallburnt.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 		<placement type="mask">
@@ -58,6 +59,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/deer1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/deerburnt.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 		<placement type="mask">
@@ -73,6 +75,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/deer2.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/deerburnt.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 	</placements>

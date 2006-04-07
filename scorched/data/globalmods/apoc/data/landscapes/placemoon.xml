@@ -1,17 +1,5 @@
 <place>
 	<placements>
-		<!--<placement type="direct"> 
-			<groupname>planets</groupname>
-			<object type="model"> 
-				<model type="MilkShape">data/accessories/objects/earth_half.txt</model> 
-				<modelburnt type="MilkShape">data/accessories/objects/earth_half.txt</modelburnt> 
-			</object> 
-			<position> 
-				<position><A>1536</A><B>0</B><C>5</C></position> 
-				<rotation>0</rotation> 
-				<size>2</size> 
-			</position> 
-		</placement>-->
 		<placement type="mask">
 			<numobjects>75</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
@@ -25,6 +13,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/rock1.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 		<placement type="mask">
@@ -40,6 +29,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock2.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/rock2.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 		<placement type="mask">
@@ -55,6 +45,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock3.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/rock3.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 		<placement type="mask">
@@ -70,6 +61,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/objects/rock4.txt</model>
 				<modelburnt type="MilkShape">data/accessories/objects/rock4.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
 			</object>
 		</placement>
 	</placements>

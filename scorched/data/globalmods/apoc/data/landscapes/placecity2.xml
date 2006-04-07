@@ -2,29 +2,30 @@
 	<placements>
 		<placement type="direct"> 
 			<groupname>skyscrapers</groupname>
+			<position> 
+				<position><A>32</A><B>72</B><C>0</C></position> 
+			</position>
 			<object type="model"> 
 				<model type="MilkShape">data/accessories/buildings/skyscraper1.txt</model> 
 				<modelburnt type="MilkShape">data/accessories/buildings/skyscraper1burnt.txt</modelburnt> 
 				<removeaction>Large Bldg</removeaction> 
 				<burnaction>LargeBldgBurn</burnaction> 
 				<modelscale>0.066</modelscale> 
-			</object> 
-			<position> 
-				<position><A>32</A><B>72</B><C>0</C></position> 
-			</position> 
+			</object>  
 		</placement>
 		<placement type="direct">
 			<groupname>factories</groupname>
+			<position> 
+				<position><A>128</A><B>128</B><C>0</C></position> 
+			</position> 
 			<object type="model"> 
 				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model> 
 				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt> 
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Nuclear Plant</removeaction> 
 				<burnaction>Nuclear Plant</burnaction> 
 				<modelscale>0.075</modelscale> 
 			</object> 
-			<position> 
-				<position><A>128</A><B>128</B><C>0</C></position> 
-			</position> 
 		</placement>
 		<placement type="mask">
 			<numobjects>120</numobjects>
@@ -39,6 +40,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/office1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/office1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
@@ -56,6 +58,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/office2.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/office2burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
@@ -73,6 +76,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/office3.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/office1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
@@ -90,6 +94,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/hospital.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/hospital.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>HospitalExplode</removeaction>
 				<burnaction>Large Bldg</burnaction>
 			</object>
@@ -107,6 +112,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/hospital.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/hospital.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>HospitalExplode</removeaction>
 				<burnaction>Large Bldg</burnaction>
 			</object>
@@ -124,6 +130,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/gasstation1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/gasstation1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
 			</object>
@@ -141,6 +148,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/gasstation1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/gasstation1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
 			</object>
@@ -158,6 +166,7 @@
 			<object type="model">
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Bar1Explode</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
@@ -175,6 +184,7 @@
 			<object type="model">
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Bar1Explode</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
@@ -192,6 +202,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/store1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/store1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -209,6 +220,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/store1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/store1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -226,6 +238,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/church1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/church1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -243,6 +256,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/farm1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/farm1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 			</object>
@@ -256,6 +270,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/trailorhouse1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/trailorhouse1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -273,6 +288,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/house1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -290,6 +306,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-2.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/house1-2burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -307,6 +324,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-3.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/house1-3burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -324,6 +342,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/logcabin1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/logcabin1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -341,6 +360,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/house1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -358,6 +378,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-2.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/house1-2burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -375,6 +396,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/house1-3.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/house1-3burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -392,6 +414,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/logcabin1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/logcabin1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 			</object>
@@ -409,6 +432,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Nuclear Plant</removeaction>
 				<burnaction>Nuclear Plant</burnaction>
 			</object>
@@ -426,6 +450,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/factory1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/factory1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
 			</object>
