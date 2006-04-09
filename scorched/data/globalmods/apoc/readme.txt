@@ -126,6 +126,7 @@ Changes Since 3.1
     	- New cessna boid by Shockwave on cities
     	- New medical chopper boid by Shockwave on cities
     	- Added some flying hornets to the desert maps
+    	- Added several groundmaps to city buildings (roads, farmland, cars, etc)
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)

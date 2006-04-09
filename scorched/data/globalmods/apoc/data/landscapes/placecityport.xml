@@ -12,6 +12,11 @@
 				<modelscale>0.075</modelscale> 
 				<removeaction>Large Bldg</removeaction> 
 				<burnaction>Large Bldg</burnaction> 
+				<groundmap type="bmp">
+					<image>data/landscapes/parking.bmp</image>
+					<alpha>data/landscapes/parkinga.bmp</alpha>
+					<invert>true</invert>
+				</groundmap>
 			</object>
 			<!--<object type="target">
 				<name>City Port</name>
@@ -22,6 +27,11 @@
 				<parachute>Parachute</parachute>
 				<life>50</life>
 				<removeaction>Large Bldg</removeaction>
+				<groundmap type="bmp">
+					<image>data/landscapes/parking.bmp</image>
+					<alpha>data/landscapes/parkinga.bmp</alpha>
+					<invert>true</invert>
+				</groundmap>
 			</object>-->
 		</placement>
 	</placements>
