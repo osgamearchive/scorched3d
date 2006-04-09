@@ -69,7 +69,10 @@ ShotBounce::~ShotBounce()
 
 void ShotBounce::collision(Vector &position)
 {
-	doCollision();
+	if (!collision_)
+	{
+		doCollision();
+	}
 	PhysicsParticleMeta::collision(position);
 }
 

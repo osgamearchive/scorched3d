@@ -45,6 +45,9 @@ public:
 
 	// Turn on action tracing
 	bool &getActionLogging() { return actionTracing_; }
+	bool &getActionProfiling() { return actionProfiling_; }
+	void logProfiledActions();
+	void logActions();
 
 	// Get the current physics engine
 	ScorchedPhysicsEngine &getPhysics() { return physicsEngine_; }
@@ -66,6 +69,7 @@ protected:
 	ScorchedContext *context_;
 	std::list<Action *> newActions_;
 	std::set<Action *> actions_;
+	std::map<std::string, int> actionProfile_;
 	ScorchedPhysicsEngine physicsEngine_;
 	ActionBuffer buffer_;
 	int referenceCount_;
@@ -73,10 +77,10 @@ protected:
 	float time_;
 	float lastTraceTime_;
 	float totalTime_;
+	bool actionProfiling_;
 	bool actionTracing_;
 	bool actionEvents_;
 
-	void logActions();
 	void stepActions(float frameTime);
 	void addNewActions();
 

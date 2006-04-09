@@ -89,7 +89,9 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 	else
 	{
 		// We have finished all shots
-		ServerCommon::serverLog(formatString("Finished playing Shots (%.2f seconds)", totalTime_));
+		ServerCommon::serverLog(formatString(
+			"Finished playing Shots (%.2f seconds)", totalTime_));
+		ScorchedServer::instance()->getActionController().logProfiledActions();
 
 		// tell the clients of the shot outcomes
 		ComsActionsMessage actionsMessage(totalTime_);

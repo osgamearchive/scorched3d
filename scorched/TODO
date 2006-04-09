@@ -36,6 +36,7 @@ Fixed: Score dialogs now disappear faster when game speed is set faster
 Fixed: Team score now stays with the team when players leave or change team
 Fixed: A small error in how roof collisions were calculated
 Fixed: Gamma settings are applied/removed when window focus occurs
+Fixed: Bug where double explosions could occur when hitting the ocean floor
 
 Added: flattenarea attribute to Targets, tanks and models so landscape is flattened under them
 Added: Targets and tanks can use bounding boxes when it fits the model better
@@ -101,10 +102,13 @@ Dvorak keyboard support is broken
 Fix crashing when people win (Graphics card drivers??)
 Tutorial mode
 New game modes
-Scripting language
+Setting so tank can't drive through shields
+Better collision for models (not targets)
+Models can be (cannot be) removed when driving over.
+Tanks that only AIs can use
+Weapons that only AIs can use
 Burn action and burn model for targets
 Remove targets from sound group when dead
-Tank AIs can be specified as part of the landscape e.g. at base bunkers
 Dirt cannot be raised when underground (or other dirting stopping)
 
 -- Server Stuff
@@ -113,6 +117,7 @@ Allow same ip addresses to connect but don't collect stats
 Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 
 -- Client Stuff
+Scripting language
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 Animated GIFs for avitars
 Option to reconnect when disconected from server.

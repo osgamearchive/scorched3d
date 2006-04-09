@@ -65,9 +65,6 @@ void Napalm::init()
 		set_ = ExplosionTextures::instance()->getTextureSetByName(
 			weapon_->getNapalmTexture());
 	}
-	nmap_.create(
-		context_->landscapeMaps->getGroundMaps().getMapWidth(),
-		context_->landscapeMaps->getGroundMaps().getMapHeight());
 }
 
 void Napalm::simulate(float frameTime, bool &remove)
@@ -167,7 +164,7 @@ float Napalm::getHeight(int x, int y)
 	// the napalm builds up and get higher so
 	// we can go over small bumps
 	return hmap->getGroundMaps().getHeight(x, y) +
-		nmap_.getNapalmHeight(x, y);
+		hmap->getGroundMaps().getNapalmHeight(x, y);
 }
 
 void Napalm::simulateRmStep()
@@ -182,7 +179,7 @@ void Napalm::simulateRmStep()
 	int y = entry->posY;
 	delete entry;
 
-	nmap_.getNapalmHeight(x, y) -= NapalmHeight;
+	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x, y) -= NapalmHeight;
 }
 
 void Napalm::simulateAddStep()
@@ -274,7 +271,7 @@ void Napalm::simulateAddStep()
 			playerId_);
 	}
 
-	nmap_.getNapalmHeight(x_, y_) += NapalmHeight;
+	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 
 	// Calculate every time as the landscape may change

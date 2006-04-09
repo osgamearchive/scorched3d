@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/NapalmMap.h>
+#include <landscape/NapalmMap.h>
 #include <common/DefinesAssert.h>
 #include <memory.h>
 

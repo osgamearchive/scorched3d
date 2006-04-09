@@ -42,6 +42,7 @@ void GroundMaps::generateMaps(
 {
 	generateHMap(context, counter);
 	generateObjects(context, counter);
+	nmap_.create(getMapWidth(), getMapHeight());
 }
 
 void GroundMaps::generateHMap(

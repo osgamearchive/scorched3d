@@ -77,6 +77,9 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ActionLogging",
 		ScorchedClient::instance()->getActionController().getActionLogging());
+	new GLConsoleRuleFnIBooleanAdapter(
+		"ActionProfiling",
+		ScorchedServer::instance()->getActionController().getActionProfiling());
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showInventory, "TankInventory");
 	

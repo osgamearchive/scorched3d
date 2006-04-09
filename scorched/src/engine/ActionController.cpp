@@ -26,7 +26,7 @@ ActionController::ActionController() :
 	speed_(1.0f), referenceCount_(0), time_(0.0f), 
 	context_(0), lastTraceTime_(0.0f),
 	actionTracing_(false), totalTime_(0.0f),
-	actionEvents_(false)
+	actionEvents_(false), actionProfiling_(false)
 {
 
 }
@@ -115,6 +115,28 @@ void ActionController::logActions()
 	}
 }
 
+void ActionController::logProfiledActions()
+{
+	if (!actionProfiling_) return;
+
+	Logger::log("Logging Profiled Actions --------------------");
+	int totalCount = 0;
+	std::map<std::string, int>::iterator itor;
+	for (itor =  actionProfile_.begin();
+		itor != actionProfile_.end();
+		itor++)
+	{
+		const std::string &name = (*itor).first;
+		int count = (*itor).second;
+		totalCount += count;
+		Logger::log(formatString("%s - %i", name.c_str(), count));
+	}
+	Logger::log(formatString("Total - %i", totalCount));
+	Logger::log("---------------------------------------------");
+
+	actionProfile_.clear();
+}
+
 bool ActionController::noReferencedActions()
 {
 	bool finished = (newActions_.empty() && 
@@ -158,6 +180,20 @@ void ActionController::addAction(Action *action)
 	action->setActionStartTime(time_);
 	action->setActionEvent(actionEvents_);
 	newActions_.push_back(action);
+
+	if (actionProfiling_)
+	{
+		std::map<std::string, int>::iterator findItor =
+			actionProfile_.find(action->getActionType());
+		if (findItor == actionProfile_.end())
+		{
+			actionProfile_[action->getActionType()] = 1;
+		}
+		else
+		{
+			(*findItor).second++;
+		}	
+	}
 }
 
 void ActionController::addNewActions()

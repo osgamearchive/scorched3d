@@ -1458,6 +1458,24 @@
 				RelativePath="..\landscape\MovementMap.h">
 			</File>
 			<File
+				RelativePath="..\landscape\NapalmMap.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\landscape\NapalmMap.h">
+			</File>
+			<File
 				RelativePath="..\landscape\Patch.cpp">
 			</File>
 			<File
@@ -2259,12 +2277,6 @@
 			</File>
 			<File
 				RelativePath="..\actions\Napalm.h">
-			</File>
-			<File
-				RelativePath="..\actions\NapalmMap.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\NapalmMap.h">
 			</File>
 			<File
 				RelativePath="..\actions\PowerUp.cpp">

@@ -22,6 +22,7 @@
 #define __INCLUDE_GroundMapsh_INCLUDE__
 
 #include <landscape/HeightMap.h>
+#include <landscape/NapalmMap.h>
 #include <landscape/LandscapeObjects.h>
 
 class ScorchedContext;
@@ -44,6 +45,10 @@ public:
 	void getInterpNormal(float w, float h, Vector &normal);
 	bool getIntersect(Line &direction, Vector &intersect);
 
+	// Napalm map functions
+	float &getNapalmHeight(int w, int h)
+		{ return nmap_.getNapalmHeight(w, h); }
+
 	// Playable landscape area fns
 	int getMapWidth() { return map_.getMapWidth(); }
 	int getMapHeight() { return map_.getMapHeight(); }
@@ -58,6 +63,7 @@ public:
 protected:
 	HeightMap map_; // The current level's heightmap
 	HeightMap smap_; // The surround of the landscape
+	NapalmMap nmap_; // How high napalm is at certain points
 	LandscapeObjects objects_; // The objects in the scene
 	LandscapeDefinitionCache &defnCache_;
 

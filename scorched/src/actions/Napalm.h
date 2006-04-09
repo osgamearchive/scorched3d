@@ -24,7 +24,6 @@
 #include <engine/ActionMeta.h>
 #include <weapons/WeaponNapalm.h>
 #include <landscape/Smoke.h>
-#include <actions/NapalmMap.h>
 #include <list>
 
 class GLTextureSet;
@@ -61,7 +60,6 @@ protected:
 	WeaponNapalm *weapon_;
 	SmokeCounter counter_;
 	GLTextureSet *set_;
-	NapalmMap nmap_;
 
 	// Not sent bu wire
 	bool hitWater_;
