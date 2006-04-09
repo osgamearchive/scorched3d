@@ -219,6 +219,15 @@ bool clientEventLoop()
 			Mouse::instance()->processMouseEvent(event);
 			break;
 		case SDL_ACTIVEEVENT:
+			if (event.active.gain == 0)
+			{
+				Gamma::instance()->reset();
+			}
+			else
+			{
+				Gamma::instance()->set();
+			}
+
 			paused = (event.active.gain == 0);
 			break;
 		case SDL_VIDEORESIZE:

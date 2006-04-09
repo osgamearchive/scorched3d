@@ -621,7 +621,7 @@
 	</tank>
 	<tank>
 		<name>Cannon Tower</name>
-		<model type="MilkShape">cannontower/cannontower.txt</model>
+		<model type="MilkShape">cannont/cannontower.txt</model>
 	</tank>
 	<!--<tank>
 		<name>R2D2</name>

@@ -18,13 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef _GAMMA_H_
 #define _GAMMA_H_
-
-// Gamma.h: interface for the Display class.
-//
-//////////////////////////////////////////////////////////////////////
 
 #include <SDL/SDL.h>
 
@@ -41,7 +36,9 @@ public:
 	static Gamma *instance();
 
 	// should be between 0.3f, 4.0f
-	bool set(float gamma);
+	bool save();
+	bool set();
+
 	void reset();
 
 protected:
@@ -52,11 +49,6 @@ private:
 	virtual ~Gamma();
 
 	GammaSettings savedSettings_;
-	GammaSettings tmpSettings_;
-
-	bool save();
-	bool changedGamma_;
-
 };
 
 #endif /* _GAMMA_H_ */

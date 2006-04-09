@@ -76,8 +76,8 @@ bool createScorchedWindow()
 	Main2DCamera::instance()->getViewPort().setWindowSize(windowWidth, windowHeight, 
 		width, height);
 
-	Gamma::instance()->set(
-		float(OptionsDisplay::instance()->getBrightness()) / 10.0f);
+	Gamma::instance()->save();
+	Gamma::instance()->set();
 
 	GLSetup::setup();
 	if (OptionsParam::instance()->getScreenSaverMode())

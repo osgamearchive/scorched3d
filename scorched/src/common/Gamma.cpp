@@ -18,20 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Gamma.cpp: implementation of the Gamma class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <common/Gamma.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <math.h>
 #include <SDL/SDL.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Gamma *Gamma::instance_ = 0;
 
@@ -45,7 +37,7 @@ Gamma *Gamma::instance()
 	return instance_;
 }
 
-Gamma::Gamma() : changedGamma_(false)
+Gamma::Gamma()
 {
 
 }
@@ -55,14 +47,12 @@ Gamma::~Gamma()
 	reset();
 }
 
-bool Gamma::set(float gamma)
+bool Gamma::set()
 {
-	if (!changedGamma_)
-	{
-		if (!save()) return false;
-		changedGamma_ = true;
-	}
+	float gamma = 
+		float(OptionsDisplay::instance()->getBrightness()) / 10.0f;
 
+	GammaSettings tmpSettings_;
 	for (int n=0; n<256; n++) 
 	{
 		float i = (float)n / 256.0f;
@@ -91,9 +81,7 @@ bool Gamma::save()
 	return true;
 }
 
-
 void Gamma::reset()
 {
-	if (!changedGamma_) return;
 	SDL_SetGammaRamp(savedSettings_.Red,  savedSettings_.Green, savedSettings_.Blue);
 }

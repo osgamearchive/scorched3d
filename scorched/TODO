@@ -35,6 +35,7 @@ Fixed: Web server settings dialog is now much easier to use (most settings chang
 Fixed: Score dialogs now disappear faster when game speed is set faster
 Fixed: Team score now stays with the team when players leave or change team
 Fixed: A small error in how roof collisions were calculated
+Fixed: Gamma settings are applied/removed when window focus occurs
 
 Added: flattenarea attribute to Targets, tanks and models so landscape is flattened under them
 Added: Targets and tanks can use bounding boxes when it fits the model better
