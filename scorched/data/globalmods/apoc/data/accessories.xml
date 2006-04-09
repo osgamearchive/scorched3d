@@ -10821,6 +10821,27 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>GiveCash1000</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveMoney'>
+			<money>1000</money>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveCash2500</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveMoney'>
+			<money>2500</money>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GiveCash5000</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveMoney'>
+			<money>5000</money>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>GiveFuelCan</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGiveAccessory'>
@@ -11079,6 +11100,24 @@ which you are teleported to after it lands.</description>
 					</collisionaction>
 				</weapon>
 			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>1000 Dollars</name>
+						<modelscale>0.08</modelscale>
+						<model type='MilkShape'>objects/cash.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveCash1000</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice3>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -11157,22 +11196,45 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>FuelCans</name>
+		<name>GasStationItems</name>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponProjectile'>
-			<enginesound>none</enginesound>
-			<nocreateflame/>
-			<projectilescale>0.75</projectilescale>
-			<projectilemodel type='MilkShape'>objects/fuelbarrel.txt</projectilemodel>
-			<collisionaction type='WeaponAddTarget'>
-				<name>Fuel</name>
-				<modelscale>0.075</modelscale>
-				<model type='MilkShape'>objects/fuelbarrel.txt</model>
-				<life>50</life>
-				<shield>none</shield>
-				<parachute>Parachute</parachute>
-				<removeaction>GiveFuelCan</removeaction>
-			</collisionaction>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.75</projectilescale>
+					<projectilemodel type='MilkShape'>objects/fuelbarrel.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Fuel</name>
+						<modelscale>0.075</modelscale>
+						<model type='MilkShape'>objects/fuelbarrel.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveFuelCan</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>1000 Dollars</name>
+						<modelscale>0.08</modelscale>
+						<model type='MilkShape'>objects/cash.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveCash1000</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice2>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -11251,7 +11313,7 @@ which explode and spread fire when ignited.</description>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
 							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>FuelCans</invoke>
+								<invoke>GasStationItems</invoke>
 							</aimedweapon>
 						</weapon>
 					</weaponchoice1>
@@ -11263,7 +11325,7 @@ which explode and spread fire when ignited.</description>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
 							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>FuelCans</invoke>
+								<invoke>GasStationItems</invoke>
 							</aimedweapon>
 						</weapon>
 					</weaponchoice2>
@@ -11275,7 +11337,7 @@ which explode and spread fire when ignited.</description>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
 							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>FuelCans</invoke>
+								<invoke>GasStationItems</invoke>
 							</aimedweapon>
 						</weapon>
 					</weaponchoice3>
@@ -11284,7 +11346,7 @@ which explode and spread fire when ignited.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Store1Weapons</name>
+		<name>Store1Items</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>
 			<weaponchoice1>
@@ -11413,6 +11475,24 @@ which explode and spread fire when ignited.</description>
 					</collisionaction>
 				</weapon>
 			</weaponchoice7>
+			<weaponchoice8>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>1000 Dollars</name>
+						<modelscale>0.08</modelscale>
+						<model type='MilkShape'>objects/cash.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveCash1000</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice8>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -11451,7 +11531,7 @@ which explode and spread fire when ignited.</description>
 							<aimedweapon type='WeaponVelocity'>
 								<velocitychange>0.8</velocitychange>
 								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Store1Weapons</invoke>
+									<invoke>Store1Items</invoke>
 								</aimedweapon>
 							</aimedweapon>
 						</weapon>
@@ -11466,7 +11546,7 @@ which explode and spread fire when ignited.</description>
 							<aimedweapon type='WeaponVelocity'>
 								<velocitychange>0.8</velocitychange>
 								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Store1Weapons</invoke>
+									<invoke>Store1Items</invoke>
 								</aimedweapon>
 							</aimedweapon>
 						</weapon>
@@ -11481,7 +11561,7 @@ which explode and spread fire when ignited.</description>
 							<aimedweapon type='WeaponVelocity'>
 								<velocitychange>0.8</velocitychange>
 								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Store1Weapons</invoke>
+									<invoke>Store1Items</invoke>
 								</aimedweapon>
 							</aimedweapon>
 						</weapon>
