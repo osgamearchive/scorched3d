@@ -5335,76 +5335,6 @@ the ground and explodes/burns on contact.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Fire Ants</name>
-		<armslevel>3</armslevel>
-		<description>A projectile weapon hybrid 
-that upon reaching the apex of its arch 
-releases rolling napalm warheads.</description>
-		<icon>fant.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
-		<activationsound>shoot/launch.wav</activationsound>
-		<model type='MilkShape'>icbm/icbm.txt</model>
-		<modelscale>2</modelscale>
-		<accessoryaction type='WeaponProjectile'>
-			<apexcollision></apexcollision>
-			<projectilescale>2</projectilescale>
-			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
-			<collisionaction type='WeaponMirv'>
-				<nowarheads>12</nowarheads>
-				<hspreaddist>1.2</hspreaddist>
-				<vspreaddist>5.0</vspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<projectilemodel type='ase'>
-						<mesh>clusterbomb.ase</mesh>
-						<skin>default.bmp</skin>
-					</projectilemodel>
-					<collisionaction type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>0</hredirect>
-						<vredirect>0</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>2</translatedist>
-							<nextaction type='WeaponRoller'>
-								<shieldhurtfactor>0.05</shieldhurtfactor>
-								<numberrollers>2</numberrollers>
-								<time>8</time>
-								<rollermodel type='ase'>
-									<mesh>roller.ase</mesh>
-									<skin>none</skin>
-								</rollermodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponExplosion'>
-										<nocreatedebris/>
-										<hurtamount>1.0</hurtamount>
-										<deform>down</deform>
-										<size>3</size>
-										<explosiontexture>exp00</explosiontexture>
-										<explosionsound>explosions/small.wav</explosionsound>
-									</subweapon1>
-									<subweapon2 type='WeaponNapalm'>
-										<allowunderwater>false</allowunderwater>
-										<napalmtime>4.0</napalmtime>
-										<napalmheight>1.5</napalmheight>
-										<steptime>0.2</steptime>
-										<hurtsteptime>1.0</hurtsteptime>
-										<hurtpersecond>1.5</hurtpersecond>
-										<numberstreams>1</numberstreams>
-										<effectradius>5</effectradius>
-										<napalmtexture>flames</napalmtexture>
-										<napalmsound>explosions/napalm.wav</napalmsound>
-									</subweapon2>
-								</collisionaction>
-							</nextaction>
-						</nextaction>
-					</collisionaction>
-				</aimedweapon>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>Napalm Blast</name>
 		<description>A projectile weapon that exploding 
 releasing multiple blobs of napalm 
@@ -6353,6 +6283,7 @@ This weapon does no physical damage</description>
 		<icon>down.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>5000</cost>
+		<maximumnumber>0</maximumnumber>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>digger/digger.txt</model>
 		<accessoryaction type='WeaponProjectile'>
@@ -7032,6 +6963,7 @@ the ground eats away the surrounding earth.</description>
 		<icon>hdigger.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>6000</cost>
+		<maximumnumber>0</maximumnumber>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>digger/digger.txt</model>
 		<accessoryaction type='WeaponProjectile'>
@@ -7122,50 +7054,6 @@ to cover them.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Dirt Charge</name>
-		<armslevel>9</armslevel>
-		<description>A Dirt Charge expels a cloud of dirt into 
-the air in a wedge shape.
-		</description>
-		<icon>dcharge.bmp</icon>
-		<bundlesize>2</bundlesize>
-		<cost>1000</cost>
-		<accessoryaction type='WeaponTranslate'>
-			<translatedist>3.0</translatedist>
-			<nextaction type='WeaponMulti'>
-				<subweapon1 type='WeaponExplosion'>
-					<hurtamount>0.0</hurtamount>
-					<deform>up</deform>
-					<size>2</size>
-					<explosiontexture>exp03</explosiontexture>
-					<explosionsound>explosions/gloop.wav</explosionsound>
-				</subweapon1>
-				<subweapon2 type='WeaponTranslate'>
-					<translatedist>4.0</translatedist>
-					<nextaction type='WeaponMulti'>
-						<subweapon1 type='WeaponExplosion'>
-							<hurtamount>0.0</hurtamount>
-							<deform>up</deform>
-							<size>3</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type='WeaponTranslate'>
-							<translatedist>5.0</translatedist>
-							<nextaction type='WeaponExplosion'>
-								<hurtamount>0.0</hurtamount>
-								<deform>up</deform>
-								<size>4</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</nextaction>
-						</subweapon2>
-					</nextaction>
-				</subweapon2>
-			</nextaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>Dirt Ball</name>
 		<armslevel>9</armslevel>
 		<description>A projectile weapon that explodes making
@@ -7206,43 +7094,6 @@ cover them.</description>
 				<size>18</size>
 				<explosiontexture>exp03</explosiontexture>
 				<explosionsound>explosions/gloop.wav</explosionsound>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Instamountain</name>
-		<armslevel>4</armslevel>
-		<description>A projectile weapon that explodes making
-a mountain of earth.  The explosion
-does not harm tanks but can be used to 
-cover them.</description>
-		<icon>mountain.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>8000</cost>
-		<activationsound>shoot/small.wav</activationsound>
-		<accessoryaction type='WeaponProjectile'>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<deform>up</deform>
-					<hurtamount>0</hurtamount>
-					<size>32</size>
-					<explosionshake>4.0</explosionshake>
-					<explosiontexture>none</explosiontexture>
-					<explosionsound>explosions/crunch.wav</explosionsound>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<nocreatesplash/>
-					<nowindaffected/>
-					<deform>none</deform>
-					<hurtamount>0</hurtamount>
-					<size>16</size>
-					<minlife>4</minlife>
-					<maxlife>6</maxlife>
-					<explosiontexture>cloud00</explosiontexture>
-					<explosionsound>none</explosionsound>
-				</subweapon2>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -7570,57 +7421,6 @@ distance from your tank in the direction you aim</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Ring Of Dirt</name>
-		<armslevel>4</armslevel>
-		<maximumnumber>1</maximumnumber>
-		<description>Raises a ring of dirt around your tank</description>
-		<icon>dring.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
-		<activationsound>shoot/large.wav</activationsound>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponReference'>
-				<weapon>Wall Of Dirt</weapon>
-			</subweapon1>
-			<subweapon2 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>72</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Wall Of Dirt</weapon>
-				</nextaction>
-			</subweapon2>
-			<subweapon3 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>144</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Wall Of Dirt</weapon>
-				</nextaction>
-			</subweapon3>
-			<subweapon4 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>212</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Wall Of Dirt</weapon>
-				</nextaction>
-			</subweapon4>
-			<subweapon5 type='WeaponRedirect'>
-				<habs>false</habs>
-				<vabs>true</vabs>
-				<hredirect>284</hredirect>
-				<vredirect>90</vredirect>
-				<nextaction type='WeaponReference'>
-					<weapon>Wall Of Dirt</weapon>
-				</nextaction>
-			</subweapon5>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>Meteor1</name>
 		<armslevel>1</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -7823,6 +7623,80 @@ distance from your tank in the direction you aim</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>MeteShwrSegment</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRedirect'>
+			<habs>false</habs>
+			<vabs>true</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>90</vredirect>
+			<nextaction type='WeaponTranslate'>
+				<translatedist>50</translatedist>
+				<nextaction type='WeaponMulti'>
+					<subweapon1 type='WeaponDelay'>
+						<delay>1.0</delay>
+						<delayedweapon type='WeaponAimedOver'>
+							<nowarheads>1</nowarheads>
+							<percentagemiss>20</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<inaccuracy>15</inaccuracy>
+							<aimedweapon type='WeaponProjectile'>
+								<apexcollision></apexcollision>
+								<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+								<collisionaction type='WeaponMulti'>
+									<subweapon1 type='WeaponDelay'>
+										<delay>1.0</delay>
+										<delayedweapon type='WeaponAimedOver'>
+											<nowarheads>2</nowarheads>
+											<percentagemiss>20</percentagemiss>
+											<maxaimdistance>35</maxaimdistance>
+											<inaccuracy>20</inaccuracy>
+											<aimedweapon type='WeaponReference'>
+												<weapon>Meteor1</weapon>
+											</aimedweapon>
+										</delayedweapon>
+									</subweapon1>
+									<subweapon2 type='WeaponReference'>
+										<weapon>Meteor2</weapon>
+									</subweapon2>
+									<subweapon3 type='WeaponExplosion'>
+										<nocreatedebris/>
+										<minlife>4</minlife>
+										<maxlife>6</maxlife>
+										<animate/>
+										<hurtamount>0</hurtamount>
+										<deform>none</deform>
+										<size>24</size>
+										<explosionsound>shoot/flare.wav</explosionsound>
+										<explosiontexture>exp04</explosiontexture>
+									</subweapon3>
+								</collisionaction>
+							</aimedweapon>
+						</delayedweapon>
+					</subweapon1>
+					<subweapon2 type='WeaponReference'>
+						<weapon>MeteorCluster</weapon>
+					</subweapon2>
+					<subweapon3 type='WeaponExplosion'>
+						<hurtamount>0</hurtamount>
+						<nocreatedebris/>
+						<minlife>4</minlife>
+						<maxlife>6</maxlife>
+						<deform>none</deform>
+						<size>24</size>
+						<explosionshake>4.0</explosionshake>
+						<explosionsound>explosions/quake.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+					</subweapon3>
+					<subweapon4 type='WeaponReference'>
+						<weapon>Clouds-Red</weapon>
+					</subweapon4>
+				</nextaction>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Meteor Shower</name>
 		<armslevel>1</armslevel>
 		<description>Weapon creates a mass of flaming meteors
@@ -7850,82 +7724,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 						<subweapon1 type='WeaponDelay'>
 							<delay>2.0</delay>
 							<delayedweapon type='WeaponMulti'>
-								<subweapon1 type='WeaponAimedOver'>
-									<nowarheads>8</nowarheads>
-									<percentagemiss>100</percentagemiss>
-									<maxaimdistance>0</maxaimdistance>
-									<inaccuracy>100</inaccuracy>
-									<aimedweapon type='WeaponRedirect'>
-										<habs>false</habs>
-										<vabs>true</vabs>
-										<hredirect>0</hredirect>
-										<vredirect>90</vredirect>
-										<nextaction type='WeaponTranslate'>
-											<translatedist>50</translatedist>
-											<nextaction type='WeaponMulti'>
-												<subweapon1 type='WeaponDelay'>
-													<delay>1.0</delay>
-													<delayedweapon type='WeaponAimedOver'>
-														<nowarheads>1</nowarheads>
-														<percentagemiss>20</percentagemiss>
-														<maxaimdistance>50</maxaimdistance>
-														<inaccuracy>15</inaccuracy>
-														<aimedweapon type='WeaponProjectile'>
-															<apexcollision></apexcollision>
-															<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
-															<collisionaction type='WeaponMulti'>
-																<subweapon1 type='WeaponDelay'>
-																	<delay>1.0</delay>
-																	<delayedweapon type='WeaponAimedOver'>
-																		<nowarheads>2</nowarheads>
-																		<percentagemiss>20</percentagemiss>
-																		<maxaimdistance>35</maxaimdistance>
-																		<inaccuracy>20</inaccuracy>
-																		<aimedweapon type='WeaponReference'>
-																			<weapon>Meteor1</weapon>
-																		</aimedweapon>
-																	</delayedweapon>
-																</subweapon1>
-																<subweapon2 type='WeaponReference'>
-																	<weapon>Meteor2</weapon>
-																</subweapon2>
-																<subweapon3 type='WeaponExplosion'>
-																	<nocreatedebris/>
-																	<minlife>4</minlife>
-																	<maxlife>6</maxlife>
-																	<animate/>
-																	<hurtamount>0</hurtamount>
-																	<deform>none</deform>
-																	<size>24</size>
-																	<explosionsound>shoot/flare.wav</explosionsound>
-																	<explosiontexture>exp04</explosiontexture>
-																</subweapon3>
-															</collisionaction>
-														</aimedweapon>
-													</delayedweapon>
-												</subweapon1>
-												<subweapon2 type='WeaponReference'>
-													<weapon>MeteorCluster</weapon>
-												</subweapon2>
-												<subweapon3 type='WeaponExplosion'>
-													<hurtamount>0</hurtamount>
-													<nocreatedebris/>
-													<minlife>4</minlife>
-													<maxlife>6</maxlife>
-													<deform>none</deform>
-													<size>24</size>
-													<explosionshake>4.0</explosionshake>
-													<explosionsound>explosions/quake.wav</explosionsound>
-													<explosiontexture>exp04</explosiontexture>
-												</subweapon3>
-												<subweapon4 type='WeaponReference'>
-													<weapon>Clouds-Red</weapon>
-												</subweapon4>
-											</nextaction>
-										</nextaction>
-									</aimedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponExplosion'>
+								<subweapon1 type='WeaponExplosion'>
 									<nocreatedebris/>
 									<minlife>3</minlife>
 									<maxlife>4</maxlife>
@@ -7935,7 +7734,52 @@ YOU CANNOT AIM THIS WEAPON!</description>
 									<size>16</size>
 									<explosionsound>explosions/lightning.wav</explosionsound>
 									<explosiontexture>exp04</explosiontexture>
+								</subweapon1>
+								<subweapon2 type='WeaponAimedOver'>
+									<nowarheads>2</nowarheads>
+									<percentagemiss>100</percentagemiss>
+									<maxaimdistance>0</maxaimdistance>
+									<inaccuracy>100</inaccuracy>
+									<aimedweapon type='WeaponReference'>
+										<weapon>MeteShwrSegment</weapon>
+									</aimedweapon>
 								</subweapon2>
+								<subweapon3 type='WeaponDelay'>
+									<delay>1.0</delay>
+									<delayedweapon type='WeaponAimedOver'>
+										<nowarheads>2</nowarheads>
+										<percentagemiss>100</percentagemiss>
+										<maxaimdistance>0</maxaimdistance>
+										<inaccuracy>100</inaccuracy>
+										<aimedweapon type='WeaponReference'>
+											<weapon>MeteShwrSegment</weapon>
+										</aimedweapon>
+									</delayedweapon>
+								</subweapon3>
+								<subweapon4 type='WeaponDelay'>
+									<delay>2.0</delay>
+									<delayedweapon type='WeaponAimedOver'>
+										<nowarheads>2</nowarheads>
+										<percentagemiss>100</percentagemiss>
+										<maxaimdistance>0</maxaimdistance>
+										<inaccuracy>100</inaccuracy>
+										<aimedweapon type='WeaponReference'>
+											<weapon>MeteShwrSegment</weapon>
+										</aimedweapon>
+									</delayedweapon>
+								</subweapon4>
+								<subweapon5 type='WeaponDelay'>
+									<delay>3.0</delay>
+									<delayedweapon type='WeaponAimedOver'>
+										<nowarheads>2</nowarheads>
+										<percentagemiss>100</percentagemiss>
+										<maxaimdistance>0</maxaimdistance>
+										<inaccuracy>100</inaccuracy>
+										<aimedweapon type='WeaponReference'>
+											<weapon>MeteShwrSegment</weapon>
+										</aimedweapon>
+									</delayedweapon>
+								</subweapon5>
 							</delayedweapon>
 						</subweapon1>
 						<subweapon2 type='WeaponExplosion'>
@@ -8004,190 +7848,6 @@ same direction as the original.</description>
 						</collisionaction>
 					</collisionaction>
 				</subweapon2>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Bouncing Betty</name>
-		<armslevel>3</armslevel>
-		<description>An explosive projectile weapon that bounces
-a few times and releases small explosive warheads</description>
-		<icon>lfrog.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
-		<activationsound>shoot/medium.wav</activationsound>
-		<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<nocreateflame/>
-			<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponExplosion'>
-					<deform>down</deform>
-					<hurtamount>1.0</hurtamount>
-					<size>12</size>
-					<explosionsound>explosions/large.wav</explosionsound>
-					<explosiontexture>exp04</explosiontexture>
-				</subweapon1>
-				<subweapon2 type='WeaponAimedOver'>
-					<nowarheads>6</nowarheads>
-					<percentagemiss>20</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponVelocity'>
-						<velocitychange>1.0</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<nocreateflame/>
-							<projectilescale>0.4</projectilescale>
-							<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-							<collisionaction type='WeaponExplosion'>
-								<deform>down</deform>
-								<hurtamount>1.0</hurtamount>
-								<size>8</size>
-								<explosionsound>explosions/medium.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-							</collisionaction>
-						</aimedweapon>
-					</aimedweapon>
-				</subweapon2>
-				<subweapon3 type='WeaponLeapFrog'>
-					<bounce>0.6</bounce>
-					<collisionaction type='WeaponProjectile'>
-						<nocreateflame/>
-						<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<deform>down</deform>
-								<hurtamount>1.0</hurtamount>
-								<size>10</size>
-								<explosionsound>explosions/large.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-							</subweapon1>
-							<subweapon2 type='WeaponAimedOver'>
-								<nowarheads>4</nowarheads>
-								<percentagemiss>20</percentagemiss>
-								<maxaimdistance>0</maxaimdistance>
-								<inaccuracy>15</inaccuracy>
-								<aimedweapon type='WeaponVelocity'>
-									<velocitychange>0.8</velocitychange>
-									<aimedweapon type='WeaponProjectile'>
-										<nocreateflame/>
-										<projectilescale>0.4</projectilescale>
-										<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-										<collisionaction type='WeaponExplosion'>
-											<deform>down</deform>
-											<hurtamount>1.0</hurtamount>
-											<size>8</size>
-											<explosionsound>explosions/medium.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-										</collisionaction>
-									</aimedweapon>
-								</aimedweapon>
-							</subweapon2>
-							<subweapon3 type='WeaponLeapFrog'>
-								<bounce>0.6</bounce>
-								<collisionaction type='WeaponProjectile'>
-									<nocreateflame/>
-									<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-									<collisionaction type='WeaponMulti'>
-										<subweapon1 type='WeaponExplosion'>
-											<deform>down</deform>
-											<hurtamount>1.0</hurtamount>
-											<size>8</size>
-											<explosionsound>explosions/large.wav</explosionsound>
-											<explosiontexture>exp04</explosiontexture>
-										</subweapon1>
-										<subweapon2 type='WeaponAimedOver'>
-											<nowarheads>4</nowarheads>
-											<percentagemiss>20</percentagemiss>
-											<maxaimdistance>0</maxaimdistance>
-											<inaccuracy>20</inaccuracy>
-											<aimedweapon type='WeaponVelocity'>
-												<velocitychange>0.6</velocitychange>
-												<aimedweapon type='WeaponProjectile'>
-													<nocreateflame/>
-													<projectilescale>0.4</projectilescale>
-													<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-													<collisionaction type='WeaponExplosion'>
-														<deform>down</deform>
-														<hurtamount>1.0</hurtamount>
-														<size>6</size>
-														<explosionsound>explosions/medium.wav</explosionsound>
-														<explosiontexture>exp04</explosiontexture>
-													</collisionaction>
-												</aimedweapon>
-											</aimedweapon>
-										</subweapon2>
-									</collisionaction>
-								</collisionaction>
-							</subweapon3>
-						</collisionaction>
-					</collisionaction>
-				</subweapon3>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Bunny Bomb</name>
-		<armslevel>3</armslevel>
-		<description>MIRV that releases several leaping warheads.</description>
-		<icon>lfrog.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>12000</cost>
-		<activationsound>shoot/large.wav</activationsound>
-		<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
-		<modelscale>3</modelscale>
-		<accessoryaction type='WeaponProjectile'>
-			<apexcollision></apexcollision>
-			<projectilescale>3</projectilescale>
-			<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-			<collisionaction type='WeaponMirv'>
-				<nowarheads>5</nowarheads>
-				<vspreaddist>2.5</vspreaddist>
-				<hspreaddist>1.0</hspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<nocreateflame/>
-					<projectilescale>2</projectilescale>
-					<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-					<collisionaction type='WeaponMulti'>
-						<subweapon1 type='WeaponExplosion'>
-							<hurtamount>1.0</hurtamount>
-							<deform>down</deform>
-							<size>10</size>
-							<explosiontexture>exp01</explosiontexture>
-							<explosionsound>explosions/medium.wav</explosionsound>
-						</subweapon1>
-						<subweapon2 type='WeaponLeapFrog'>
-							<bounce>0.5</bounce>
-							<collisionaction type='WeaponProjectile'>
-								<nocreateflame/>
-								<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-								<collisionaction type='WeaponMulti'>
-									<subweapon1 type='WeaponExplosion'>
-										<hurtamount>1.0</hurtamount>
-										<deform>down</deform>
-										<size>8</size>
-										<explosiontexture>exp01</explosiontexture>
-										<explosionsound>explosions/medium.wav</explosionsound>
-									</subweapon1>
-									<subweapon2 type='WeaponLeapFrog'>
-										<bounce>0.5</bounce>
-										<collisionaction type='WeaponProjectile'>
-											<nocreateflame/>
-											<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
-											<collisionaction type='WeaponExplosion'>
-												<hurtamount>1.0</hurtamount>
-												<deform>down</deform>
-												<size>6</size>
-												<explosiontexture>exp01</explosiontexture>
-												<explosionsound>explosions/medium.wav</explosionsound>
-											</collisionaction>
-										</collisionaction>
-									</subweapon2>
-								</collisionaction>
-							</collisionaction>
-						</subweapon2>
-					</collisionaction>
-				</aimedweapon>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>

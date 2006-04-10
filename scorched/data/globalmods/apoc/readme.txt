@@ -22,6 +22,16 @@ Changes Since 3.1
             - Inspired by Brain Damage's 'Super Tracer +' :)
         - Nitro - faster moving fuel that costs more
             
+    Weapons Removed or Made Unpurchaseable due to lack of use, redundancy or ineffectiveness
+        - Bouncing Betty
+        - Bunny Bomb
+        - Quicksand
+        - Instamountain
+        - Ring Of Dirt
+        - Landscaper
+        - Fire Ants
+        - Dirt Charge
+        
     Other Accessory Changes:
         - Sat. Strike:
             - Tweaked aiming methods some more, works better against shields
