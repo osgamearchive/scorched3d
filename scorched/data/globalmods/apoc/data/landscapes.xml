@@ -3,7 +3,7 @@
 	<landscape>
 		<name>oldstyle</name>
 		<description></description>
-		<picture>oldstyle.bmp</picture>
+		<picture>oldstyle-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defnoldstyle.xml</item>
@@ -22,25 +22,9 @@
 		</tex>
 	</landscape>
 	<landscape>
-		<name>lowlands</name>
-		<description></description>
-		<picture>lowlands.bmp</picture>
-		<weight>100</weight>
-		<defn>
-			<item>data/landscapes/defnlowlands.xml</item>
-		</defn>
-		<tex>
-			<item>data/landscapes/texcity1_summer.xml</item>
-			<item>data/landscapes/textropical.xml</item>
-			<item>data/landscapes/texstorm.xml</item>
-			<item>data/landscapes/texmoon.xml</item>
-			<item>data/landscapes/texdesert.xml</item>
-		</tex>
-	</landscape>
-	<landscape>
 		<name>hilly</name>
 		<description></description>
-		<picture>hilly.bmp</picture>
+		<picture>hilly-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defnhilly.xml</item>
@@ -57,7 +41,7 @@
 	<landscape>
 		<name>ridge</name>
 		<description></description>
-		<picture>ridge.bmp</picture>
+		<picture>ridge-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defnridge.xml</item>
@@ -73,7 +57,7 @@
 	<landscape>
 		<name>islands</name>
 		<description></description>
-		<picture>islands.bmp</picture>
+		<picture>islands-pic.bmp</picture>
 		<weight>33</weight>
 		<defn>
 			<item>data/landscapes/defnislands.xml</item>
@@ -91,7 +75,7 @@
 	<landscape>
 		<name>halfed</name>
 		<description></description>
-		<picture>halved.bmp</picture>
+		<picture>halfed-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defnhalfed.xml</item>
@@ -109,7 +93,7 @@
 	<landscape>
 		<name>valley</name>
 		<description></description>
-		<picture>valley.bmp</picture>
+		<picture>valley-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defnvalley.xml</item>
@@ -128,7 +112,7 @@
 	<landscape>
 		<name>cavern</name>
 		<description></description>
-		<picture>valley.bmp</picture>
+		<picture>cavern-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defncavern.xml</item>

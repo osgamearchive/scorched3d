@@ -144,15 +144,23 @@ bool ModFileEntry::loadModFile(const char *filename)
 		while (newSize > 0);
 		fclose(file);
 
-		for (unsigned i=0; i<tmpBuffer.getBufferUsed(); i++)
+		if (!translate)
 		{
-			if (!translate ||
-				i >= tmpBuffer.getBufferUsed() - 1 ||
-				tmpBuffer.getBuffer()[i] != 13 ||
-				tmpBuffer.getBuffer()[i+1] != 10)
-			{	
-				fileContents.addDataToBuffer(
-					&tmpBuffer.getBuffer()[i] , 1);
+			fileContents.addDataToBuffer(
+				tmpBuffer.getBuffer(),
+				tmpBuffer.getBufferUsed());
+		}
+		else
+		{
+			for (unsigned i=0; i<tmpBuffer.getBufferUsed(); i++)
+			{
+				if (i >= tmpBuffer.getBufferUsed() - 1 ||
+					tmpBuffer.getBuffer()[i] != 13 ||
+					tmpBuffer.getBuffer()[i+1] != 10)
+				{	
+					fileContents.addDataToBuffer(
+						&tmpBuffer.getBuffer()[i] , 1);
+				}
 			}
 		}
 	}
