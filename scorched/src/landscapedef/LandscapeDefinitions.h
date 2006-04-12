@@ -71,10 +71,14 @@ public:
 	LandscapeEvents *getEvents(const char *file, bool load = false);
 
 	bool landscapeEnabled(OptionsGame &context, const char *name);
+	LandscapeDefinitionsEntry *getLandscapeByName(const char *name);
 	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
 		{ return entries_; }
 
 protected:
+	LandscapeDefinitionsEntry* lastDefinition_;
+	std::map<std::string, int> usedFiles_;
+
 	std::list<LandscapeDefinitionsEntry> entries_;
 	LandscapeDefinitionsItem<LandscapeTex> texs_;
 	LandscapeDefinitionsItem<LandscapeDefn> defns_;
@@ -84,6 +88,7 @@ protected:
 	LandscapeDefinitionsItem<LandscapeShips> ships_;
 	LandscapeDefinitionsItem<LandscapeEvents> events_;
 
+	const char *getLeastUsedFile(std::vector<std::string> &files);
 };
 
 #endif

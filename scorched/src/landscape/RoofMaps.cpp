@@ -55,10 +55,16 @@ float RoofMaps::getRoofHeight(int x, int y)
 
 	x /= xFactor;
 	y /= yFactor;
-	if (x < 0 || y < 0 || x > rmap_.getMapWidth() || y > rmap_.getMapHeight())
+	if (x < 0 || y < 0)
 	{
-		return FLT_MAX;
+		return rmap_.getHeight(0, 0);
 	}
+	else if (x > rmap_.getMapWidth() || y > rmap_.getMapHeight())
+	{
+		return rmap_.getHeight(
+			rmap_.getMapWidth(), rmap_.getMapHeight());
+	}
+
 	return rmap_.getHeight(x, y);
 }
 

@@ -29,6 +29,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
@@ -65,6 +66,7 @@ bool LandscapeDefinitionsEntry::readXML(LandscapeDefinitions *definitions, XMLNo
 }
 
 LandscapeDefinitions::LandscapeDefinitions() :
+	lastDefinition_(0),
 	texs_("Tex"),
 	defns_("Defns"),
 	places_("Placement"),
@@ -168,6 +170,56 @@ bool LandscapeDefinitions::landscapeEnabled(OptionsGame &context,
 	return false;
 }
 
+LandscapeDefinitionsEntry *LandscapeDefinitions::getLandscapeByName(
+	const char *name)
+{
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
+	for (itor = entries_.begin();
+		itor != entries_.end();
+		itor++)
+	{
+		LandscapeDefinitionsEntry &result = *itor;
+		if (0 == strcmp(name, result.name.c_str()))
+		{
+			return &result;
+		}
+	}
+	return 0;
+}
+
+const char *LandscapeDefinitions::getLeastUsedFile(std::vector<std::string> &files)
+{
+	DIALOG_ASSERT(!files.empty());
+
+	const char *result = "";
+	int usedTimes = INT_MAX;
+
+	std::vector<std::string>::iterator itor;
+	for (itor = files.begin();
+		itor != files.end();
+		itor++)
+	{
+		std::string &file = (*itor);
+
+		int used = 0;
+		std::map<std::string, int>::iterator findItor = 
+			usedFiles_.find(file);
+		if (findItor != usedFiles_.end())
+		{
+			used = (*findItor).second;
+		}
+
+		if (used < usedTimes)
+		{
+			usedTimes = used;
+			result = file.c_str();
+		}
+	}
+	
+	usedFiles_[result] = usedTimes + 1;
+	return result;
+}
+
 LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	OptionsGame &context)
 {
@@ -200,10 +252,8 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	if (context.getCycleMaps())
 	{
 		// Just cycle through the maps
-		static LandscapeDefinitionsEntry* last = 0;
 		bool next = false;
 		result = passedLandscapes.front();
-
 		std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
 		for (passedItor = passedLandscapes.begin();
 			passedItor != passedLandscapes.end();
@@ -215,9 +265,9 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 				result = current;
 				break;
 			}
-			if (current == last) next = true;
+			if (current == lastDefinition_) next = true;
 		}
-		last = result;
+		lastDefinition_ = result;
 	}
 	else
 	{
@@ -249,12 +299,8 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	}
 
 	// Return the chosen definition
-	unsigned int texPos = rand() % result->texs.size();
-	unsigned int defnPos = rand() % result->defns.size();
-	DIALOG_ASSERT(texPos >=0 && texPos < result->texs.size());
-	DIALOG_ASSERT(defnPos >= 0 && defnPos < result->defns.size());
-	std::string tex = result->texs[texPos].c_str();
-	std::string defn = result->defns[defnPos].c_str();
+	std::string tex = getLeastUsedFile(result->texs);
+	std::string defn = getLeastUsedFile(result->defns);
 	unsigned int seed = (unsigned int) rand();
 	if (OptionsParam::instance()->getSeed() != 0)
 	{
@@ -262,7 +308,7 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	}
 
 	LandscapeDefinition entry(
-			tex.c_str(), defn.c_str(), seed);
+		tex.c_str(), defn.c_str(), seed, result->name.c_str());
 	return entry;
 }
 

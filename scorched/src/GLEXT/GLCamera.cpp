@@ -110,15 +110,24 @@ void GLCamera::calculateWantedOffset()
 void GLCamera::moveViewport(Vector &lookFrom, Vector &lookAt)
 {
 	GLfloat lz(lookFrom[2]);
+
+	Vector direction = lookAt - lookFrom;
+	direction[2] = 0.0f;
+	direction.StoreNormalize();
+	direction *= 3.0f;
 	if (minHeightFunc_ && useHeightFunc_)
 	{
-		lz = MAX(lz, (*minHeightFunc_)((int) lookFrom[0], 
-			(int) lookFrom[1], minHeightData_));
+		lz = MAX(lz, (*minHeightFunc_)(int(lookFrom[0]), 
+			int(lookFrom[1]), minHeightData_));
+		lz = MAX(lz, (*minHeightFunc_)(int(lookFrom[0] + direction[0]), 
+			int(lookFrom[1] + direction[1]), minHeightData_));
 	}
 	if (maxHeightFunc_ && useHeightFunc_)
 	{
-		lz = MIN(lz, (*maxHeightFunc_)((int) lookFrom[0], 
-			(int) lookFrom[1], maxHeightData_));
+		lz = MIN(lz, (*maxHeightFunc_)(int(lookFrom[0]),
+			int(lookFrom[1]), maxHeightData_));
+		lz = MIN(lz, (*maxHeightFunc_)(int(lookFrom[0] + direction[0]),
+			int(lookFrom[1] + direction[1]), maxHeightData_));
 	}
 
 	glMatrixMode(GL_PROJECTION);

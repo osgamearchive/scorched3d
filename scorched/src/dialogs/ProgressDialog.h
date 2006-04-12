@@ -40,10 +40,12 @@ public:
 	virtual void draw();
 
 	void changeTip();
+	void setIcon(const char *iconName);
 
 protected:
 	static ProgressDialog *instance_;
 	GLTexture wait_;
+	GLTexture icon_;
 	GLWLabel *progressLabel_;
 	GLWProgress *progress_;
 	FileLines tips_;

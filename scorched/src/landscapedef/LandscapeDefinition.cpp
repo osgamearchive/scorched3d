@@ -29,8 +29,9 @@
 LandscapeDefinition::LandscapeDefinition(
 	const char *tex,
 	const char *defn,
-	unsigned int seed) :
-	tex_(tex), defn_(defn), seed_(seed)
+	unsigned int seed,
+	const char *name) :
+	tex_(tex), defn_(defn), seed_(seed), name_(name)
 {
 }
 
@@ -39,6 +40,7 @@ bool LandscapeDefinition::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(seed_);
 	buffer.addToBuffer(tex_);
 	buffer.addToBuffer(defn_);
+	buffer.addToBuffer(name_);
 	return true;
 }
 
@@ -47,5 +49,6 @@ bool LandscapeDefinition::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(seed_)) return false;
 	if (!reader.getFromBuffer(tex_)) return false;
 	if (!reader.getFromBuffer(defn_)) return false;
+	if (!reader.getFromBuffer(name_)) return false;
 	return true;
 }

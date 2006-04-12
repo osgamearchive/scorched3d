@@ -83,6 +83,13 @@ void ProgressDialog::changeTip()
 	}
 }
 
+void ProgressDialog::setIcon(const char *iconName)
+{
+	GLBitmap map(iconName);
+	map.resize(64, 64);
+	icon_.create(map);
+}
+
 void ProgressDialog::draw()
 {
 	GLWWindow::draw();
@@ -146,6 +153,42 @@ void ProgressDialog::draw()
 					glVertex2f(0.0f, 22.0f);
 				glEnd();
 			glPopMatrix();
+
+			if (icon_.textureValid())
+			{
+				icon_.draw();
+				glPushMatrix();
+					glColor3f(1.0f, 1.0f, 1.0f);
+					glTranslatef(38.0f, 76.0f, 0.0f);
+					glBegin(GL_QUADS);
+						glTexCoord2f(0.0f, 0.0f);
+						glVertex2f(0.0f, 0.0f);
+						glTexCoord2f(1.0f, 0.0f);
+						glVertex2f(66.0f, 0.0f);
+						glTexCoord2f(1.0f, 1.0f);
+						glVertex2f(66.0f, 66.0f);
+						glTexCoord2f(0.0f, 1.0f);
+						glVertex2f(0.0f, 66.0f);
+					glEnd();
+
+				{
+					GLState state2(GLState::TEXTURE_OFF);
+					glColor3f(0.0f, 0.0f, 0.0f);
+					glLineWidth(2.0f);
+					glBegin(GL_LINE_LOOP);
+						glTexCoord2f(0.0f, 0.0f);
+						glVertex2f(0.0f, 0.0f);
+						glTexCoord2f(1.0f, 0.0f);
+						glVertex2f(66.0f, 0.0f);
+						glTexCoord2f(1.0f, 1.0f);
+						glVertex2f(66.0f, 66.0f);
+						glTexCoord2f(0.0f, 1.0f);
+						glVertex2f(0.0f, 66.0f);
+					glEnd();
+					glLineWidth(1.0f);
+				}
+				glPopMatrix();
+			}
 
 			Vector color2(0.4f, 0.4f, 0.4f);
 			GLWFont::instance()->getLargePtFont()->drawWidth(380, 

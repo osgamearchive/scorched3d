@@ -30,10 +30,12 @@ public:
 	LandscapeDefinition(
 		const char *tex = "", 
 		const char *defn = "",
-		unsigned int seed = 0);
+		unsigned int seed = 0,
+		const char *name = "");
 
 	const char *getTex() { return tex_.c_str(); }
 	const char *getDefn() { return defn_.c_str(); }
+	const char *getName() { return name_.c_str(); }
 	unsigned int getSeed() { return seed_; }
 
 	bool writeMessage(NetBuffer &buffer);
@@ -42,6 +44,7 @@ public:
 protected:
 	std::string tex_;
 	std::string defn_;
+	std::string name_;
 	unsigned int seed_;
 };
 

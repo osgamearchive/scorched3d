@@ -70,11 +70,22 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// Set the progress dialog nicities
+	ProgressDialog::instance()->changeTip();
+	LandscapeDefinitionsEntry *landscapeDefinition =
+		ScorchedClient::instance()->getLandscapes().getLandscapeByName(
+			message.getLevelMessage().getGroundMapsDefn().getName());
+	if (landscapeDefinition)
+	{
+		const char *fileName = getDataFile(
+			formatString("data/landscapes/%s", 
+			landscapeDefinition->picture.c_str()));
+		ProgressDialog::instance()->setIcon(fileName);
+	}
+
 	// Read the accessory prices
 	if (!ScorchedClient::instance()->getAccessoryStore().
 		readEconomyFromBuffer(reader)) return false;
-
-	ProgressDialog::instance()->changeTip();
 
 	// Remove any old targets
 	removeTargets();
