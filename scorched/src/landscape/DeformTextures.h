@@ -28,7 +28,7 @@ class GLBitmap;
 namespace DeformTextures
 {
 	void deformLandscape(Vector &pos, float radius, 
-		bool down, GLBitmap &deformMap, 
+		GLBitmap &deformMap, 
 		DeformLandscape::DeformPoints &map);
 };
 

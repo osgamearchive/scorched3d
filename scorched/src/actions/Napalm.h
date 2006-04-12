@@ -24,6 +24,7 @@
 #include <engine/ActionMeta.h>
 #include <weapons/WeaponNapalm.h>
 #include <landscape/Smoke.h>
+#include <landscape/DeformLandscape.h>
 #include <list>
 
 class GLTextureSet;
@@ -54,6 +55,9 @@ public:
 REGISTER_ACTION_HEADER(Napalm);
 
 protected:
+	static DeformLandscape::DeformPoints deformMap_;
+	static bool deformCreated_;
+
 	int x_, y_;
 	unsigned int playerId_;
 	unsigned int data_;
@@ -61,7 +65,7 @@ protected:
 	SmokeCounter counter_;
 	GLTextureSet *set_;
 
-	// Not sent bu wire
+	// Not sent by wire
 	bool hitWater_;
 	float totalTime_, hurtTime_;
 	float napalmTime_;

@@ -38,6 +38,7 @@ Fixed: A small error in how roof collisions were calculated
 Fixed: Gamma settings are applied/removed when window focus occurs
 Fixed: Bug where double explosions could occur when hitting the ocean floor
 
+Added: Napalm scorches ground
 Added: Landscape files are now chosen on how many times they have been seen before
 Added: Icon to progress dialog to show which landscape has been chosen
 Added: Some extra landscape types (unfinished)
@@ -147,5 +148,4 @@ Communism (economy type)
 
 -- Graphics Stuff
 Add action replay type functionality
-Napalm scorches ground (half done)
 Fog shader effects

@@ -30,6 +30,7 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/DeformTextures.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeTex.h>
 #include <weapons/AccessoryStore.h>
@@ -38,6 +39,10 @@
 #include <client/ScorchedClient.h>
 
 REGISTER_ACTION_SOURCE(Napalm);
+
+DeformLandscape::DeformPoints Napalm::deformMap_;
+bool Napalm::deformCreated_ = false;
+static const int deformSize = 2;
 
 Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
 	napalmTime_(0.0f), counter_(0.1f, 0.1f), set_(0)
@@ -60,6 +65,24 @@ Napalm::~Napalm()
 
 void Napalm::init()
 {
+	if (!deformCreated_)
+	{
+		deformCreated_ = true;
+
+		Vector center(deformSize, deformSize);
+		for (int x=0; x<deformSize * 2; x++)
+		{
+			for (int y=0; y<deformSize * 2; y++)
+			{
+				Vector pos(x, y);
+				float dist = (center - pos).Magnitude();
+				dist /= deformSize * 1.5f;
+				dist = 1.0f - MIN(1.0f, dist);
+				deformMap_.map[x][y] = dist;
+			}
+		}
+	}
+
 	if (!context_->serverMode) 
 	{
 		set_ = ExplosionTextures::instance()->getTextureSetByName(
@@ -273,6 +296,19 @@ void Napalm::simulateAddStep()
 
 	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
+
+	if (!context_->serverMode)
+	{
+		// Add the ground scorch
+		if (!GLStateExtension::getNoTexSubImage())
+		{
+			Vector pos(x_, y_);
+			DeformTextures::deformLandscape(pos, 
+				(int) deformSize,
+				Landscape::instance()->getScorchMap(),
+				deformMap_);
+		}
+	}
 
 	// Calculate every time as the landscape may change
 	// due to other actions
