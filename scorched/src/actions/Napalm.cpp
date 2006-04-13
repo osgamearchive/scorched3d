@@ -76,7 +76,7 @@ void Napalm::init()
 			{
 				Vector pos(x, y);
 				float dist = (center - pos).Magnitude();
-				dist /= deformSize * 1.5f;
+				dist /= deformSize;
 				dist = 1.0f - MIN(1.0f, dist);
 				deformMap_.map[x][y] = dist;
 			}
