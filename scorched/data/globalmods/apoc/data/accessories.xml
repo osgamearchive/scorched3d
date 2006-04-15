@@ -3482,7 +3482,7 @@ out in a random direction.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Apoc Flower</name>
+		<name>ApocFlower</name>
 		<maximumnumber>0</maximumnumber>
 		<armslevel>1</armslevel>
 		<accessoryaction type='WeaponMulti'>
@@ -3582,6 +3582,22 @@ out in a random direction.</description>
 					</nextaction>
 				</delayedweapon>
 			</subweapon8>
+			<subweapon9 type='WeaponVelocity'>
+				<velocitychange>0.0</velocitychange>
+				<aimedweapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+					<collisionaction type='WeaponExplosion'>
+						<deform>down</deform>
+						<hurtamount>1.2</hurtamount>
+						<size>24</size>
+						<explosionsound>explosions/xlarge.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+						<explosionshake>2.0</explosionshake>
+					</collisionaction>
+				</aimedweapon>
+			</subweapon9>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -3590,8 +3606,7 @@ out in a random direction.</description>
 		<description>A projectile weapon that on reaching
 its highest point releases many medium
 sized nuclear warheads in different directions.
-For best spread, shoot @ 1000 power below 60 degrees
-</description>
+Higher shot = more spread, lower = less spread</description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>40000</cost>
@@ -3611,44 +3626,34 @@ For best spread, shoot @ 1000 power below 60 degrees
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
 				</subweapon1>
-				<subweapon2 type='WeaponVelocity'>
-					<velocitychange>0.5</velocitychange>
-					<aimedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponReference'>
-							<weapon>Apoc Flower</weapon>
-						</subweapon1>
-						<subweapon2 type='WeaponDelay'>
-							<delay>2.66</delay>
-							<delayedweapon type='WeaponRedirect'>
-								<habs>false</habs>
-								<vabs>false</vabs>
-								<hredirect>22.5</hredirect>
-								<vredirect>0</vredirect>
-								<nextaction type='WeaponReference'>
-									<weapon>Apoc Flower</weapon>
-								</nextaction>
-							</delayedweapon>
-						</subweapon2>
+				<subweapon2 type='WeaponAimedUnder'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponVelocity'>
+						<velocitychange>0.3</velocitychange>
+						<aimedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponReference'>
+								<weapon>ApocFlower</weapon>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>2.66</delay>
+								<delayedweapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>false</vabs>
+									<hredirect>22.5</hredirect>
+									<vredirect>0</vredirect>
+									<nextaction type='WeaponReference'>
+										<weapon>ApocFlower</weapon>
+									</nextaction>
+								</delayedweapon>
+							</subweapon2>
+						</aimedweapon>
 					</aimedweapon>
 				</subweapon2>
-				<subweapon3 type='WeaponVelocity'>
-					<velocitychange>0.0</velocitychange>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame/>
-						<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-						<collisionaction type='WeaponExplosion'>
-							<deform>down</deform>
-							<hurtamount>1.2</hurtamount>
-							<size>24</size>
-							<explosionsound>explosions/xlarge.wav</explosionsound>
-							<explosiontexture>exp04</explosiontexture>
-							<explosionshake>2.0</explosionshake>
-						</collisionaction>
-					</aimedweapon>
-				</subweapon3>
 				<!-- Clouds -->
-				<subweapon4 type='WeaponMulti'>
+				<subweapon3 type='WeaponMulti'>
 					<subweapon1 type='WeaponReference'>
 						<weapon>Clouds-Red</weapon>
 					</subweapon1>
@@ -3658,7 +3663,7 @@ For best spread, shoot @ 1000 power below 60 degrees
 							<weapon>Clouds-Red</weapon>
 						</delayedweapon>
 					</subweapon2>
-				</subweapon4>
+				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -3767,7 +3772,7 @@ For best spread, shoot @ 1000 power below 60 degrees
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Dmsday Flower</name>
+		<name>DmsdayFlower</name>
 		<maximumnumber>0</maximumnumber>
 		<armslevel>0</armslevel>
 		<accessoryaction type='WeaponMulti'>
@@ -3867,14 +3872,31 @@ For best spread, shoot @ 1000 power below 60 degrees
 					</nextaction>
 				</delayedweapon>
 			</subweapon8>
+			<subweapon9 type='WeaponVelocity'>
+				<velocitychange>0.0</velocitychange>
+				<aimedweapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>2</projectilescale>
+					<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+					<collisionaction type='WeaponExplosion'>
+						<deform>down</deform>
+						<hurtamount>1.2</hurtamount>
+						<size>32</size>
+						<explosionsound>explosions/xlarge.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+						<explosionshake>2.0</explosionshake>
+					</collisionaction>
+				</aimedweapon>
+			</subweapon9>
 		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Dmsday Device</name>
 		<armslevel>0</armslevel>
 		<description>Detonates at the peak of the projectile's
-arc raining massive destruction upon the field.
-For best spread, shoot @ 1000 power below 60 degrees</description>
+arc and rains massive destruction upon the field.
+Higher shot = more spread, lower = less spread</description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
 		<cost>100000</cost>
@@ -3895,48 +3917,34 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
 				</subweapon1>
-				<subweapon2 type='WeaponVelocity'>
-					<velocitychange>0.6</velocitychange>
-					<aimedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponReference'>
-							<weapon>Dmsday Flower</weapon>
-						</subweapon1>
-						<subweapon2 type='WeaponDelay'>
-							<delay>4.0</delay>
-							<delayedweapon type='WeaponRedirect'>
-								<habs>false</habs>
-								<vabs>false</vabs>
-								<hredirect>22.5</hredirect>
-								<vredirect>0</vredirect>
-								<nextaction type='WeaponReference'>
-									<weapon>Dmsday Flower</weapon>
-								</nextaction>
-							</delayedweapon>
-						</subweapon2>
+				<subweapon2 type='WeaponAimedUnder'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponVelocity'>
+						<velocitychange>0.5</velocitychange>
+						<aimedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponReference'>
+								<weapon>DmsdayFlower</weapon>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>4.0</delay>
+								<delayedweapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>false</vabs>
+									<hredirect>22.5</hredirect>
+									<vredirect>0</vredirect>
+									<nextaction type='WeaponReference'>
+										<weapon>DmsdayFlower</weapon>
+									</nextaction>
+								</delayedweapon>
+							</subweapon2>
+						</aimedweapon>
 					</aimedweapon>
 				</subweapon2>
-				<subweapon3 type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponVelocity'>
-						<velocitychange>0.0</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame/>
-							<projectilescale>2</projectilescale>
-							<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-							<collisionaction type='WeaponExplosion'>
-								<deform>down</deform>
-								<hurtamount>1.2</hurtamount>
-								<size>32</size>
-								<explosionsound>explosions/xlarge.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-								<explosionshake>2.0</explosionshake>
-							</collisionaction>
-						</aimedweapon>
-					</delayedweapon>
-				</subweapon3>
 				<!-- Clouds -->
-				<subweapon4 type='WeaponMulti'>
+				<subweapon3 type='WeaponMulti'>
 					<subweapon1 type='WeaponReference'>
 						<weapon>Clouds-Red</weapon>
 					</subweapon1>
@@ -4021,7 +4029,7 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 							</aimedweapon>
 						</delayedweapon>
 					</subweapon7>
-				</subweapon4>
+				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -4171,7 +4179,7 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Strange Flower</name>
+		<name>StrangeFlower</name>
 		<maximumnumber>0</maximumnumber>
 		<armslevel>0</armslevel>
 		<accessoryaction type='WeaponMulti'>
@@ -4271,6 +4279,23 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					</nextaction>
 				</delayedweapon>
 			</subweapon8>
+			<subweapon9 type='WeaponVelocity'>
+				<velocitychange>0.0</velocitychange>
+				<aimedweapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>2.5</projectilescale>
+					<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
+					<collisionaction type='WeaponExplosion'>
+						<deform>down</deform>
+						<hurtamount>1.2</hurtamount>
+						<size>36</size>
+						<explosionsound>explosions/xlarge.wav</explosionsound>
+						<explosiontexture>exp04</explosiontexture>
+						<explosionshake>2.0</explosionshake>
+					</collisionaction>
+				</aimedweapon>
+			</subweapon9>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -4399,48 +4424,34 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<explosionsound>explosions/xlarge.wav</explosionsound>
 					<explosiontexture>exp04</explosiontexture>
 				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponVelocity'>
-						<velocitychange>0.0</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame/>
-							<projectilescale>2.5</projectilescale>
-							<projectilemodel type='MilkShape'>mirvwarhead/mirvwarhead.txt</projectilemodel>
-							<collisionaction type='WeaponExplosion'>
-								<deform>down</deform>
-								<hurtamount>1.2</hurtamount>
-								<size>36</size>
-								<explosionsound>explosions/xlarge.wav</explosionsound>
-								<explosiontexture>exp04</explosiontexture>
-								<explosionshake>2.0</explosionshake>
-							</collisionaction>
+				<subweapon2 type='WeaponAimedUnder'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponVelocity'>
+						<velocitychange>0.6</velocitychange>
+						<aimedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponReference'>
+								<weapon>DmsdayFlower</weapon>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>4.0</delay>
+								<delayedweapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>false</vabs>
+									<hredirect>22.5</hredirect>
+									<vredirect>0</vredirect>
+									<nextaction type='WeaponReference'>
+										<weapon>StrangeFlower</weapon>
+									</nextaction>
+								</delayedweapon>
+							</subweapon2>
 						</aimedweapon>
-					</delayedweapon>
-				</subweapon2>
-				<subweapon3 type='WeaponVelocity'>
-					<velocitychange>0.7</velocitychange>
-					<aimedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponReference'>
-							<weapon>Dmsday Flower</weapon>
-						</subweapon1>
-						<subweapon2 type='WeaponDelay'>
-							<delay>4.0</delay>
-							<delayedweapon type='WeaponRedirect'>
-								<habs>false</habs>
-								<vabs>false</vabs>
-								<hredirect>22.5</hredirect>
-								<vredirect>0</vredirect>
-								<nextaction type='WeaponReference'>
-									<weapon>Strange Flower</weapon>
-								</nextaction>
-							</delayedweapon>
-						</subweapon2>
 					</aimedweapon>
-				</subweapon3>
+				</subweapon2>
 				<!-- Clouds -->
-				<subweapon4 type='WeaponMulti'>
+				<subweapon3 type='WeaponMulti'>
 					<subweapon1 type='WeaponReference'>
 						<weapon>Clouds-Red</weapon>
 					</subweapon1>
@@ -4480,7 +4491,7 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 							<weapon>Lightning Clouds</weapon>
 						</delayedweapon>
 					</subweapon7>
-				</subweapon4>
+				</subweapon3>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>

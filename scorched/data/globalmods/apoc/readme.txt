@@ -97,6 +97,7 @@ Changes Since 3.1
         - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
         - Reduced shield collision damage on diggers to decrease their usefulness as shield busters
         - Reduced cost of Apocalypse from $50,000 to $40,000
+        - Apoc/Dday/Strangelove now use a fixed spread (not affected by projectile's speed at shot peak)
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
         - Added another projectile to Apoc/Dday/Strangelove waves
@@ -145,6 +146,7 @@ Changes Since 3.1
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
         - Reduced height of Church model by 25%
         - Removed City Blocks map
+        - Replaced f18 model on city maps with f16
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.

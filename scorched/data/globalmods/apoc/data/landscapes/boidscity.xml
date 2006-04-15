@@ -6,14 +6,14 @@
 		<maxvelocity>7.5</maxvelocity>
 		<maxacceleration>5.0</maxacceleration>
 		<cruisedistance>10.0</cruisedistance>
-		<model type="MilkShape">data/meshes/f18/f18.txt</model>
+		<model type="MilkShape">data/meshes/f16/f16.txt</model>
 		<sounds>
 			<mintime>15</mintime>
 			<maxtime>15</maxtime>
 			<maxsimul>3</maxsimul>
 			<volume>25</volume>
-			<sound>data/wav/misc/f18_1.wav</sound>
-			<sound>data/wav/misc/f18_2.wav</sound>
+			<sound>data/wav/misc/f16_1.wav</sound>
+			<sound>data/wav/misc/f16_2.wav</sound>
 		</sounds>
 	</boid>
 	<boid>
