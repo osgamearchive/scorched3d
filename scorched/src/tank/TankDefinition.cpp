@@ -59,7 +59,10 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	if (team_ == 0) color = Vector(0.7f, 0.7f, 0.7f);
 
 	TankModel *model =
-		context.tankModelStore->getModelByName(tankmodel_.c_str(), team_);
+		context.tankModelStore->getModelByName(
+			tankmodel_.c_str(), 
+			team_,
+			true);
 	if (!model || strcmp("Random", model->getName()) == 0)
 	{
 		dialogExit("TankDefinition",
@@ -79,6 +82,11 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 			dialogExit("TankDefinition",
 				formatString("Cannot find a tank ai named \"%s\"",
 				ai_.c_str()));
+		}
+		if (ai->isHuman())
+		{
+			dialogExit("TankDefinition",
+				formatString("Cannot create a human tank"));
 		}
 
 		tank->setTankAI(ai->getCopy(tank));

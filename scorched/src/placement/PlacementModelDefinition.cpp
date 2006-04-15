@@ -43,11 +43,7 @@ LandscapeObjectsEntryModel *PlacementModelDefinition::createModel(
 	ScorchedContext &context, RandomGenerator &generator)
 {
 	Model *model = ModelStore::instance()->loadModel(modelId_);
-	Model *modelburnt = model;
-	if (modelburntId_.modelValid())
-	{
-		modelburnt = ModelStore::instance()->loadModel(modelburntId_);
-	}
+	Model *modelburnt = ModelStore::instance()->loadModel(modelburntId_);
 
 	LandscapeObjectsEntryModel *modelEntry = new LandscapeObjectsEntryModel();
 	modelEntry->model = new ModelRenderer(model);
@@ -82,6 +78,11 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 		if (node->getNamedChild("modelburnt", burntmodelnode, false))
 		{
 			if (!modelburntId_.initFromNode(base, burntmodelnode)) return false;
+		}
+		else
+		{
+			modelnode->resurrectRemovedChildren();
+			if (!modelburntId_.initFromNode(base, modelnode)) return false;
 		}
 		if (!node->getNamedChild("size", size_, false))
 		{

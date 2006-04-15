@@ -75,6 +75,7 @@ public:
 	virtual void fired();
 	virtual void shieldHit();
 	virtual void simulate(float frameTime);
+	virtual void targetBurnt() {}
 
 	void resetModel() { model_ = 0; }
 	TankModel *getModel();

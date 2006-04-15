@@ -29,9 +29,10 @@
 #include <client/MainCamera.h>
 
 TargetRendererImplTarget::TargetRendererImplTarget(Target *target,
-	ModelID model, float scale) :
+	ModelID model, ModelID burntModel, 
+	float scale) :
 	target_(target),
-	canSeeTank_(false),
+	canSeeTank_(false), burnt_(false),
 	shieldHit_(0.0f), totalTime_(0.0f),
 	posX_(0.0), posY_(0.0), posZ_(0.0),
 	targetTips_(target),
@@ -39,6 +40,8 @@ TargetRendererImplTarget::TargetRendererImplTarget(Target *target,
 {
 	modelRenderer_ = new ModelRenderer(
 		ModelStore::instance()->loadModel(model));
+	burntModelRenderer_ = new ModelRenderer(
+		ModelStore::instance()->loadModel(burntModel));
 }
 
 TargetRendererImplTarget::~TargetRendererImplTarget()
@@ -54,7 +57,8 @@ void TargetRendererImplTarget::simulate(float frameTime)
 		if (shieldHit_ < 0.0f) shieldHit_ = 0.0f;
 	}
 
-	modelRenderer_->simulate(frameTime);
+	if (burnt_) burntModelRenderer_->simulate(frameTime);
+	else modelRenderer_->simulate(frameTime);
 }
 
 void TargetRendererImplTarget::draw(float distance)
@@ -89,7 +93,8 @@ void TargetRendererImplTarget::draw(float distance)
 		glRotatef(target_->getLife().getRotation(), 
 			0.0f, 0.0f, 1.0f);
 		glScalef(scale_, scale_, scale_);
-		modelRenderer_->drawBottomAligned();
+		if (burnt_) burntModelRenderer_->drawBottomAligned();
+		else modelRenderer_->drawBottomAligned();
 	glPopMatrix();
 }
 
@@ -159,3 +164,7 @@ void TargetRendererImplTarget::fired()
 {
 }
 
+void TargetRendererImplTarget::targetBurnt()
+{
+	burnt_ = true;
+}

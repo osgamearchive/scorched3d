@@ -22,6 +22,9 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
+#include <weapons/Shield.h>
+#include <weapons/Accessory.h>
+#include <target/TargetContainer.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
@@ -52,7 +55,8 @@ MovementMap::MovementMapEntry &MovementMap::getEntry(int w, int h)
 { 
 	if (w >= 0 && h >= 0 && w<=width_ && h<=width_)
 	{
-		return entries_[(width_+1) * h + w];
+		MovementMapEntry &entry = entries_[(width_+1) * h + w];
+		return entry;
 	}
 	static MovementMapEntry entry(MovementMap::eNoMovement, 1000.0f, 0, 0);
 	return entry;
@@ -75,6 +79,11 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	// Through a shorted already visited path
 	// That is not a current edge point
 	MovementMapEntry &priorEntry = getEntry(x, y);
+
+	if (priorEntry.type == eNoMovement)
+	{
+		return;
+	}
 	if (priorEntry.type == eMovement &&
 		priorEntry.epoc < epoc)
 	{
@@ -123,7 +132,8 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	}
 }
 
-void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool maxFuel)
+void MovementMap::calculateForTank(Tank *tank, 
+	ScorchedContext &context, bool maxFuel)
 {
 	// Check if the tank is buried and cannot move
 	float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
@@ -136,6 +146,47 @@ void MovementMap::calculateForTank(Tank *tank, ScorchedContext &context, bool ma
 	if (landscapeHeight > tankHeight + MaxTankClimbHeight)
 	{
 		return;
+	}
+
+	// If other tanks have shields then check if we can move into the shields
+	std::map<unsigned int, Target *>::iterator targetItor;
+	std::map<unsigned int, Target *> &targets = 
+		context.targetContainer->getTargets();
+	for (int y=0; y<height_; y++)
+	{
+		for (int x=0; x<width_; x++)
+		{
+			MovementMapEntryType type = eNotSeen;
+
+			float height = 
+				context.landscapeMaps->getGroundMaps().getHeight(x, y);
+			Vector pos(float(x), float(y), height);
+			
+			for (targetItor = targets.begin(); 
+				targetItor != targets.end();
+				targetItor++)
+			{
+				Target *target = (*targetItor).second;
+
+				if (target->getShield().getCurrentShield())
+				{
+					Shield *shield = (Shield *)
+						(target->getShield().getCurrentShield()->getAction());
+					if (shield->getMovementProof())
+					{
+						float dist = (pos - target->getTargetPosition()).Magnitude();
+						if (dist < shield->getActualRadius() + 4.0f)
+						{
+							type = eNoMovement;
+							break;
+						}
+					}
+				}
+			}
+
+			MovementMapEntry &priorEntry = getEntry(x, y);
+			priorEntry.type = type;
+		}
 	}
 
 	// Calculate the water height

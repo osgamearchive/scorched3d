@@ -36,8 +36,8 @@ public:
 
 	bool loadTankMeshes(ScorchedContext &context, ProgressCounter *counter = 0);
 
-	TankModel *getModelByName(const char *name, int team);
-	TankModel *getRandomModel(int team);
+	TankModel *getModelByName(const char *name, int team, bool ai);
+	TankModel *getRandomModel(int team, bool ai);
 
 	std::vector<TankModel *> &getModels() { return models_; }
 	std::set<std::string> &getModelCatagories() { return modelCatagories_; }

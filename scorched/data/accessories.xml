@@ -1401,7 +1401,7 @@ and shields damaging the tank directly.</description>
 	</accessory>	
 	<accessory>
 		<name>TestPowerUpWeapon</name>
-		<maximumnumber>0</maximumnumber>
+		<aionly>true</aionly>
 		<accessoryaction type='WeaponGiveAccessory'>
 			<giveaccessory>Nuke</giveaccessory>
 			<number>10</number>
@@ -1409,7 +1409,7 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	<accessory>
 		<name>TestShield</name>
-		<maximumnumber>0</maximumnumber>
+		<aionly>true</aionly>
 		<accessoryaction type='Shield'>
 			<radius>8.0</radius>
 			<halfshield>false</halfshield>
@@ -1423,6 +1423,7 @@ and shields damaging the tank directly.</description>
 			<penetration>1.0</penetration>
 			<power>1000</power>
 			<laserproof>true</laserproof>
+			<movementproof>true</movementproof>
 		</accessoryaction>
 	</accessory>	
 	<accessory>

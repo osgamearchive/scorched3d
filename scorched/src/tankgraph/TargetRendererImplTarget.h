@@ -29,7 +29,8 @@
 class TargetRendererImplTarget : public TargetRendererImpl
 {
 public:
-	TargetRendererImplTarget(Target *target, ModelID model,
+	TargetRendererImplTarget(Target *target, 
+		ModelID model, ModelID burntModel,
 		float scale);
 	virtual ~TargetRendererImplTarget();
 
@@ -39,11 +40,14 @@ public:
 	virtual void draw2d();
 	virtual void shieldHit();
 	virtual void fired();
+	virtual void targetBurnt();
 
 protected:
 	Target *target_;
 	ModelRenderer *modelRenderer_;
+	ModelRenderer *burntModelRenderer_;
 	bool canSeeTank_;
+	bool burnt_;
 	float shieldHit_, totalTime_;
 	float scale_;
 	double posX_, posY_, posZ_;

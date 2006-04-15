@@ -22,6 +22,7 @@
 #include <engine/ActionController.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
+#include <target/TargetRenderer.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/ExplosionTextures.h>
@@ -428,6 +429,12 @@ void Napalm::simulateDamage()
 			// Add damage to the tank
 			TargetDamageCalc::damageTarget(*context_, target, weapon_, 
 				playerId_, damage, true, false, false, data_);
+
+			// Set this target to burnt
+			if (target->getRenderer())
+			{
+				target->getRenderer()->targetBurnt();
+			}
 		}
 		TargetDamageCalc.clear();
 	}

@@ -27,6 +27,7 @@
 TankModel::TankModel(const char *name, ModelID &modelId, TankType *tankType) :
 	init_(false), name_(name),
 	modelId_(modelId), 
+	aiOnly_(false),
 	tankMesh_(0), 
 	tankType_(tankType)
 {
@@ -92,6 +93,13 @@ bool TankModel::isOfCatagory(const char *catagory)
 void TankModel::addTeam(int team)
 {
 	teams_.insert(team);
+}
+
+bool TankModel::isOfAi(bool ai)
+{
+	if (!aiOnly_) return true;
+	if (ai) return true;
+	return false;
 }
 
 bool TankModel::isOfTeam(int team)

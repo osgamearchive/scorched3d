@@ -103,7 +103,8 @@ void GLWTankViewer::select(unsigned int id,
 		if (tankModel->isOfCatagory(value.getText()))
 		{
 			// Check if this tank is allowed for this team
-			if (!tankModel->isOfTeam(team_))
+			if (!tankModel->isOfTeam(team_) ||
+				!tankModel->isOfAi(false))
 			{
 				continue;
 			}

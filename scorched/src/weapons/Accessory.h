@@ -53,6 +53,8 @@ public:
 	const int getArmsLevel() { return armsLevel_; }
 	const int getMaximumNumber() { return maximumNumber_; }
 	const int getStartingNumber() { return startingNumber_; }
+	const bool getAIOnly() { return aiOnly_; }
+
 	GLWTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
 	AccessoryPart *getAction() { return action_; }
@@ -75,6 +77,7 @@ protected:
 	static std::map<std::string, MissileMesh *> loadedMeshes_;
 	static unsigned int nextAccessoryId_;
 	unsigned int accessoryId_;
+	bool aiOnly_;
 	AccessoryPart *action_;
 	GLWTip toolTip_;
 	GLTexture *texture_;

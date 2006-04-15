@@ -138,6 +138,18 @@ void RulesDialog::drawRules()
 	float top = y_ + h_ - 40.0f;
 	float left = x_ + 22.0f;
 	Vector yellow(0.3f, 0.3f, 0.3f); // Hmm, thats not yellow
+
+	const char *type = "Annihilate free for all";
+	if (options.getTeams() > 1) type = "Annihilate opposing team(s)";
+
+	GLWFont::instance()->getSmallPtFont()->draw(
+		yellow,
+		12,
+		left, top - 45.0f, 0.0f,
+		formatString("Type : %s", 
+		type));
+
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 		yellow,
 		12,

@@ -48,6 +48,10 @@ public:
 	TankMesh *getTankMesh() { return tankMesh_; }
 	TankType *getTankType() { return tankType_; }
 
+	void setAiOnly(bool aiOnly) { aiOnly_ = aiOnly; }
+	bool getAiOnly() { return aiOnly_; }
+	bool isOfAi(bool ai);
+
 	bool isOfCatagory(const char *catagory);
 	void addCatagory(const char *catagory);
 
@@ -56,6 +60,7 @@ public:
 
 protected:
 	bool init_;
+	bool aiOnly_;
 	std::string name_;
 	ModelID modelId_;
 	ModelID projectileModelId_;

@@ -41,7 +41,8 @@ Accessory::Accessory() :
 	texture_(0), modelScale_(1.0f),
 	maximumNumber_(0),
 	startingNumber_(0),
-	muzzleFlash_(true)
+	muzzleFlash_(true),
+	aiOnly_(false)
 {
 }
 
@@ -81,6 +82,9 @@ bool Accessory::parseXML(OptionsGame &context,
 
 	// Get the accessory bundle
 	accessoryNode->getNamedChild("bundlesize", bundle_, false);
+
+	// Get ai only
+	accessoryNode->getNamedChild("aionly", aiOnly_, false);
 
 	// Get the maximum number
 	maximumNumber_ = context.getMaxNumberWeapons();

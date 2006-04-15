@@ -68,7 +68,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	{
 		target->setRenderer(
 			new TargetRendererImplTarget(
-				target, modelId_, 
+				target, modelId_, modelburntId_,
 				modelscale_));
 	}
 

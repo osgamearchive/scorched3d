@@ -84,7 +84,9 @@ TankModel *TargetRendererImplTank::getModel()
 	if (!model_)
 	{
 		model_ = ScorchedClient::instance()->getTankModels().getModelByName(
-			tank_->getModelContainer().getTankModelName(), tank_->getTeam());
+			tank_->getModelContainer().getTankModelName(), 
+			tank_->getTeam(),
+			(tank_->getDestinationId() == 0));
 	}
 	return model_;
 }

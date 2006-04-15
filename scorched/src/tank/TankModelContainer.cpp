@@ -41,7 +41,9 @@ TankType *TankModelContainer::getTankType(ScorchedContext &context)
 	if (!tankType_) 
 	{
 		TankModel *tankModel = 
-			context.tankModelStore->getModelByName(tankModelName_.c_str(), 0);
+			context.tankModelStore->getModelByName(tankModelName_.c_str(), 
+			tank_->getTeam(),
+			(tank_->getDestinationId() == 0));
 		if (!tankModel) 
 		{
 			dialogExit("Scorched3D", 

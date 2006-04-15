@@ -31,8 +31,9 @@ class MovementMap
 public:
 	enum MovementMapEntryType
 	{
-		eNoMovement = 0,
-		eMovement = 1
+		eNotSeen = 0,
+		eNoMovement = 1,
+		eMovement = 2
 	};
 	struct MovementMapEntry
 	{
@@ -52,7 +53,9 @@ public:
 	MovementMap(int width, int height);
 	virtual ~MovementMap();
 
-	void calculateForTank(Tank *tank, ScorchedContext &context, bool maxFuel = false);
+	void calculateForTank(Tank *tank, 
+		ScorchedContext &context, 
+		bool maxFuel = false);
 	void movementTexture(unsigned int fuelId);
 	MovementMapEntry &getEntry(int w, int h);
 	static unsigned int getFuelId() { return fuelId_; }
@@ -72,6 +75,5 @@ protected:
 					 unsigned int epoc);
 
 };
-
 
 #endif

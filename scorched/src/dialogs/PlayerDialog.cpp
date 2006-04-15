@@ -368,7 +368,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 			TankModel *model = 
 				ScorchedClient::instance()->getTankModels().
 					getModelByName(viewer_->getModelName(), 
-					getCurrentTeam());
+					getCurrentTeam(), false);
 
 			// Get the player type
 			const char *playerType = typeDropDown_->getCurrentText();

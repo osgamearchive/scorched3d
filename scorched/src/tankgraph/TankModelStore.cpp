@@ -141,6 +141,11 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 			model->addTeam(team);
 		}
 
+		// Read aionly attribute
+		bool aiOnly = false;
+		currentNode->getNamedChild("aionly", aiOnly, false);
+		model->setAiOnly(aiOnly);
+
 		// Check there are no more nodes in this node
 		if (!currentNode->failChildren()) return false;
 
@@ -150,7 +155,7 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 	return true;
 }
 
-TankModel *TankModelStore::getRandomModel(int team)
+TankModel *TankModelStore::getRandomModel(int team, bool ai)
 {
 	std::vector<TankModel *> models;
 	std::vector<TankModel *>::iterator itor;
@@ -162,7 +167,8 @@ TankModel *TankModelStore::getRandomModel(int team)
 
 		if (strcmp(model->getName(), "Random") != 0)
 		{
-			if (model->isOfTeam(team)) models.push_back(model);
+			if (model->isOfTeam(team) && 
+				model->isOfAi(ai)) models.push_back(model);
 		}
 	}
 
@@ -171,12 +177,12 @@ TankModel *TankModelStore::getRandomModel(int team)
 	return model;
 }
 
-TankModel *TankModelStore::getModelByName(const char *name, int team)
+TankModel *TankModelStore::getModelByName(const char *name, int team, bool ai)
 {
 	DIALOG_ASSERT(models_.size());
 
 	// A hack to allow the random model
-	if (strcmp(name, "Random") == 0) return getRandomModel(team);
+	if (strcmp(name, "Random") == 0) return getRandomModel(team, ai);
 
 	std::vector<TankModel *>::iterator itor;
 	for (itor = models_.begin();
@@ -185,11 +191,12 @@ TankModel *TankModelStore::getModelByName(const char *name, int team)
 	{
 		TankModel *current = (*itor);
 		if (0 == strcmp(current->getName(), name) &&
-			current->isOfTeam(team))
+			current->isOfTeam(team) &&
+			current->isOfAi(ai))
 		{
 			return current;
 		}
 	}
 
-	return getRandomModel(team);
+	return getRandomModel(team, ai);
 }

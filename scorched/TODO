@@ -38,6 +38,9 @@ Fixed: A small error in how roof collisions were calculated
 Fixed: Gamma settings are applied/removed when window focus occurs
 Fixed: Bug where double explosions could occur when hitting the ocean floor
 
+Added: movementproof accessories.xml tag for shields so tank can't drive through 
+Added: aionly tanks.xml tag for tanks that only computer ais can use
+Added: aionly accessories.xml tag for accessories that only computer ais can buy
 Added: Napalm scorches ground
 Added: Landscape files are now chosen on how many times they have been seen before
 Added: Icon to progress dialog to show which landscape has been chosen
@@ -106,12 +109,8 @@ Dvorak keyboard support is broken
 Fix crashing when people win (Graphics card drivers??)
 Tutorial mode
 New game modes
-Setting so tank can't drive through shields
 Better collision for models (not targets)
 Models can be (cannot be) removed when driving over.
-Tanks that only AIs can use
-Weapons that only AIs can use
-Burn action and burn model for targets
 Remove targets from sound group when dead
 Dirt cannot be raised when underground (or other dirting stopping)
 

@@ -70,7 +70,8 @@ bool ModFiles::excludeFile(const char *file)
 		!fileEnding(file, ".gif") &&
 		!fileEnding(file, ".ico") &&
 		!fileEnding(file, ".ase") &&
-		!fileEnding(file, ".wav"))
+		!fileEnding(file, ".wav") &&
+		!fileEnding(file, ".ogg"))
 	{
 		Logger::log(formatString("Excluding mod file \"%s\"", file));
 		return true;

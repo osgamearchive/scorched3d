@@ -49,6 +49,7 @@ public:
 	Vector &getColor() { return color_; }
 	bool getHalfShield() { return halfShield_; }
 	bool getLaserProof() { return laserProof_; }
+	bool getMovementProof() { return movementProof_; }
 	virtual ShieldType getShieldType();
 
 	REGISTER_ACCESSORY_HEADER(Shield, AccessoryPart::AccessoryShield);
@@ -62,6 +63,7 @@ protected:
 	float power_;
 	bool halfShield_;
 	bool laserProof_;
+	bool movementProof_;
 };
 
 #endif // !defined(AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)
