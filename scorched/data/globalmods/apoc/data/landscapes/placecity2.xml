@@ -17,6 +17,23 @@
 					<invert>false</invert>
 				</groundmap>
 			</object>
+			<!--<object type="target"> 
+				<name>Skyscraper</name>
+				<model type="MilkShape">data/accessories/buildings/skyscraper1.txt</model> 
+				<modelburnt type="MilkShape">data/accessories/buildings/skyscraper1burnt.txt</modelburnt> 
+				<modelscale>0.066</modelscale> 
+				<shield>none</shield>
+				<parachute>Parachute</parachute>
+				<life>25</life>
+				<removeaction>Large Bldg</removeaction> 
+				<burnaction>LargeBldgBurn</burnaction>
+				<boundingsphere>false</boundingsphere>
+				<groundmap type="bmp">
+					<image>data/landscapes/roads1.bmp</image>
+					<alpha>data/landscapes/roads1a.bmp</alpha>
+					<invert>false</invert>
+				</groundmap>
+			</object>-->
 		</placement>
 		<placement type="direct"> 
 			<groupname>offices</groupname>
@@ -91,19 +108,37 @@
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 
 			</position> 
-			<object type="model"> 
-				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model> 
-				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt> 
+			<object type="model">
+				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Nuclear Plant</removeaction> 
-				<burnaction>Nuclear Plant</burnaction> 
-				<modelscale>0.075</modelscale> 
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
 				<groundmap type="bmp">
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
 					<invert>true</invert>
 				</groundmap>
-			</object> 
+			</object>
+			<!--<object type="target"> 
+				<name>Nuclear Power Plant</name>
+				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<modelscale>0.075</modelscale> 
+				<shield>none</shield>
+				<parachute>Parachute</parachute>
+				<life>25</life>
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
+				<flattenarea>true</flattenarea>
+				<boundingsphere>false</boundingsphere>
+				<groundmap type="bmp">
+					<image>data/landscapes/parking.bmp</image>
+					<alpha>data/landscapes/parkinga.bmp</alpha>
+					<invert>true</invert>
+				</groundmap>
+			</object>-->
 		</placement>
 		<placement type="mask">
 			<numobjects>125</numobjects>
@@ -389,7 +424,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/farm1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/farm1burnt.txt</modelburnt>
-				<modelrotationsnap>90</modelrotationsnap>
+				<modelrotationsnap>30</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<groundmap type="bmp">
@@ -579,10 +614,52 @@
 					<invert>true</invert>
 				</groundmap>
 			</object>
+			<!--<object type="target"> 
+				<name>Nuclear Power Plant</name>
+				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<modelscale>0.075</modelscale> 
+				<shield>none</shield>
+				<parachute>Parachute</parachute>
+				<life>25</life>
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
+				<flattenarea>true</flattenarea>
+				<boundingsphere>false</boundingsphere>
+				<groundmap type="bmp">
+					<image>data/landscapes/parking.bmp</image>
+					<alpha>data/landscapes/parkinga.bmp</alpha>
+					<invert>true</invert>
+				</groundmap>
+			</object>-->
+		</placement>
+		<placement type="mask">
+			<numobjects>24</numobjects>
+			<mask>data/landscapes/masks/city2suburban2.bmp</mask>
+			<minheight>10</minheight>
+			<maxheight>75</maxheight>
+			<mincloseness>10</mincloseness>
+			<minslope>0.75</minslope>
+			<xsnap>8</xsnap>
+			<ysnap>8</ysnap>
+			<groupname>factories</groupname>
+			<object type="model">
+				<model type="MilkShape">data/accessories/buildings/factory1.txt</model>
+				<modelburnt type="MilkShape">data/accessories/buildings/factory1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<removeaction>Factory</removeaction>
+				<burnaction>Factory Burn</burnaction>
+				<groundmap type="bmp">
+					<image>data/landscapes/cars.bmp</image>
+					<alpha>data/landscapes/carsa.bmp</alpha>
+					<invert>false</invert>
+				</groundmap>
+			</object>
 		</placement>
 		<placement type="mask">
 			<numobjects>12</numobjects>
-			<mask>data/landscapes/masks/city2all.bmp</mask>
+			<mask>data/landscapes/masks/city2rural.bmp</mask>
 			<minheight>10</minheight>
 			<maxheight>75</maxheight>
 			<mincloseness>10</mincloseness>
@@ -593,7 +670,7 @@
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/factory1.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/factory1burnt.txt</modelburnt>
-				<modelrotationsnap>90</modelrotationsnap>
+				<modelrotationsnap>30</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
 				<groundmap type="bmp">

@@ -10492,6 +10492,20 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>GivePower25</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGivePower'>
+			<power>25</power>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>GivePower50</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGivePower'>
+			<power>50</power>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>GiveCash1000</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGiveMoney'>
@@ -11242,7 +11256,7 @@ which explode and spread fire when ignited.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>ChemicalWeapons</name>
+		<name>FactoryItems</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>
 			<weaponchoice1>
@@ -11287,6 +11301,7 @@ which explode and spread fire when ignited.</description>
 					<enginesound>none</enginesound>
 					<nocreateflame/>
 					<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
+					<projectilescale>0.8</projectilescale>
 					<collisionaction type='WeaponAddTarget'>
 						<name>Acid Blasts</name>
 						<modelscale>0.08</modelscale>
@@ -11298,8 +11313,37 @@ which explode and spread fire when ignited.</description>
 					</collisionaction>
 				</weapon>
 			</weaponchoice3>
+			<!--<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilemodel type='MilkShape'>objects/atom.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Power</name>
+						<modelscale>0.1</modelscale>
+						<model type='MilkShape'>objects/atom.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GivePower50</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice4>-->
 		</accessoryaction>
 	</accessory>
+	<!--<accessory>
+		<name>PowerTest</name>
+		<armslevel>10</armslevel>
+		<description>Test</description>
+		<cost>25</cost>
+		<bundlesize>10</bundlesize>
+		<icon>emp.bmp</icon>
+		<model type="MilkShape">objects/atom.txt</model>
+		<accessoryaction type='WeaponReference'>
+			<weapon>GivePower50</weapon>
+		</accessoryaction>
+	</accessory>-->
 	<accessory>
 		<name>Factory</name>
 		<armslevel>4</armslevel>
@@ -11438,7 +11482,7 @@ release lethal clouds of gas when destroyed.</description>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
 							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>ChemicalWeapons</invoke>
+								<invoke>FactoryItems</invoke>
 							</aimedweapon>
 						</weapon>
 					</weaponchoice1>
@@ -11450,7 +11494,7 @@ release lethal clouds of gas when destroyed.</description>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
 							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>ChemicalWeapons</invoke>
+								<invoke>FactoryItems</invoke>
 							</aimedweapon>
 						</weapon>
 					</weaponchoice2>
@@ -11462,7 +11506,7 @@ release lethal clouds of gas when destroyed.</description>
 							<maxaimdistance>0</maxaimdistance>
 							<inaccuracy>99</inaccuracy>
 							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>ChemicalWeapons</invoke>
+								<invoke>FactoryItems</invoke>
 							</aimedweapon>
 						</weapon>
 					</weaponchoice3>
