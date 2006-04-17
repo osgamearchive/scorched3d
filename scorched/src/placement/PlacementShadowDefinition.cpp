@@ -23,7 +23,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <landscape/DeformLandscape.h>
 #include <common/Defines.h>
-#include <client/ScorchedClient.h>
+#include <engine/ScorchedContext.h>
 #include <3dsparse/ImageStore.h>
 #include <GLEXT/GLBitmapModifier.h>
 
@@ -51,22 +51,23 @@ bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
 }
 
 void PlacementShadowDefinition::updateLandscapeHeight(
+	ScorchedContext &context,
 	Vector &position, Vector &size)
 {
 	if (flattenArea_)
 	{
-		DeformLandscape::flattenArea(
-			ScorchedClient::instance()->getContext(), position, 0);
+		DeformLandscape::flattenArea(context, position, 0, false);
 	}
 }
 
 void PlacementShadowDefinition::updateLandscapeTexture(
+	ScorchedContext &context,
 	Vector &position, Vector &size)
 {
 	float shadowMultWidth = (float) Landscape::instance()->getMainMap().getWidth() / 
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+		context.landscapeMaps->getGroundMaps().getMapWidth();
 	float shadowMultHeight = (float) Landscape::instance()->getMainMap().getHeight() / 
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+		context.landscapeMaps->getGroundMaps().getMapHeight();
 
 	if (groundMap_.imageValid())
 	{

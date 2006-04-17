@@ -148,7 +148,8 @@ bool DeformLandscape::deformLandscape(
 }
 
 void DeformLandscape::flattenArea(
-	ScorchedContext &context, Vector &tankPos, unsigned int playerId)
+	ScorchedContext &context, Vector &tankPos, unsigned int playerId,
+	bool removeObjects)
 {
 	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 	int posX = (int) tankPos[0];
@@ -176,6 +177,7 @@ void DeformLandscape::flattenArea(
 		MAX(0, posY - 3), MIN(hmap.getMapHeight(), posY + 3));
 
 	// Remove objects
+	if (removeObjects)
 	{
 		unsigned int x = (unsigned int) (posX);
 		unsigned int y = (unsigned int) (posY);

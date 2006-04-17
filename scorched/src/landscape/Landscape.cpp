@@ -304,6 +304,7 @@ void Landscape::generate(ProgressCounter *counter)
 			PlacementShadowDefinition::Entry &entry = (*itor);
 
 			entry.definition_->updateLandscapeTexture(
+				ScorchedClient::instance()->getContext(),
 				entry.position_, entry.size_);
 		}
 	}

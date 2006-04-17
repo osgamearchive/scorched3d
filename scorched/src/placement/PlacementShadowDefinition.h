@@ -24,6 +24,7 @@
 #include <XML/XMLNode.h>
 #include <3dsparse/ImageID.h>
 
+class ScorchedContext;
 class PlacementShadowDefinition
 {
 public:
@@ -45,8 +46,10 @@ public:
 
 	virtual bool readXML(XMLNode *node, const char *base);
 
-	void updateLandscapeHeight(Vector &position, Vector &size);
-	void updateLandscapeTexture(Vector &position, Vector &size);
+	void updateLandscapeHeight(ScorchedContext &context,
+		Vector &position, Vector &size);
+	void updateLandscapeTexture(ScorchedContext &context,
+		Vector &position, Vector &size);
 
 	void setDrawShadow(bool draw) { drawShadow_ = draw; }
 

@@ -155,6 +155,7 @@ void GroundMaps::generateObjects(
 		{
 			PlacementShadowDefinition::Entry &entry = (*itor);
 			entry.definition_->updateLandscapeHeight(
+				context,
 				entry.position_, entry.size_);
 		}
 	}

@@ -39,7 +39,8 @@ namespace DeformLandscape
 	void flattenArea(
 		ScorchedContext &context, 
 		Vector &tankPos,
-		unsigned int playerId);
+		unsigned int playerId,
+		bool removeObjects = true);
 
 };
 
