@@ -84,6 +84,11 @@ Changes Since 3.1
             - Increased number of shrapnel pellets from 8 to 9
             - Reduced damage per shrapnel pellet from 0.6 to 0.4
             - Added short flame trail to shrapnel and reduced smoke trail length
+        - Acid Weapons:
+        	- New acid behaviour (gradual earth erosion with green napalm burn effect)
+        	- Reduced shieldhurtfactor on all acid weapons to around 25% per drop
+        	- Increased cost of Acid Splash to $10,000
+        	- Increased cost of Acid Blast to $3,000 for 2
         - Shields:
             - Decreased radius of Heavy Shield slightly (between regular and ultra size)
             - Increased Mag Deflect's <deflectpower> from 50% to 75%

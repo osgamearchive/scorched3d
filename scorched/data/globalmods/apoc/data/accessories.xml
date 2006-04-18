@@ -1301,7 +1301,7 @@ radioactive fallout which travels downwind.</description>
 				<maxlife>5</maxlife>
 				<hurtamount>0</hurtamount>
 				<deform>none</deform>
-				<size>8</size>
+				<size>6</size>
 				<explosionsound>none</explosionsound>
 				<explosiontexture>cloud00-5</explosiontexture>
 			</subweapon1>
@@ -1325,7 +1325,7 @@ radioactive fallout which travels downwind.</description>
 							<maxlife>4</maxlife>
 							<hurtamount>0</hurtamount>
 							<deform>none</deform>
-							<size>6</size>
+							<size>4</size>
 							<explosionsound>none</explosionsound>
 							<explosiontexture>cloud00</explosiontexture>
 						</nextaction>
@@ -1354,7 +1354,7 @@ radioactive fallout which travels downwind.</description>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
-								<size>6</size>
+								<size>4</size>
 								<explosionsound>none</explosionsound>
 								<explosiontexture>cloud00</explosiontexture>
 							</nextaction>
@@ -1384,7 +1384,7 @@ radioactive fallout which travels downwind.</description>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
-								<size>6</size>
+								<size>4</size>
 								<explosionsound>none</explosionsound>
 								<explosiontexture>cloud00</explosiontexture>
 							</nextaction>
@@ -1414,7 +1414,7 @@ radioactive fallout which travels downwind.</description>
 								<maxlife>4</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
-								<size>6</size>
+								<size>4</size>
 								<explosionsound>none</explosionsound>
 								<explosiontexture>cloud00</explosiontexture>
 							</nextaction>
@@ -1438,7 +1438,7 @@ radioactive fallout which travels downwind.</description>
 				<maxlife>5</maxlife>
 				<hurtamount>0</hurtamount>
 				<deform>none</deform>
-				<size>8</size>
+				<size>6</size>
 				<explosionsound>none</explosionsound>
 				<explosiontexture>exp04</explosiontexture>
 			</subweapon1>
@@ -1462,7 +1462,7 @@ radioactive fallout which travels downwind.</description>
 							<maxlife>5</maxlife>
 							<hurtamount>0</hurtamount>
 							<deform>none</deform>
-							<size>6</size>
+							<size>4</size>
 							<explosionsound>none</explosionsound>
 							<explosiontexture>exp04</explosiontexture>
 						</nextaction>
@@ -1491,7 +1491,7 @@ radioactive fallout which travels downwind.</description>
 								<maxlife>5</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
-								<size>6</size>
+								<size>4</size>
 								<explosionsound>none</explosionsound>
 								<explosiontexture>exp04</explosiontexture>
 							</nextaction>
@@ -1521,7 +1521,7 @@ radioactive fallout which travels downwind.</description>
 								<maxlife>5</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
-								<size>6</size>
+								<size>4</size>
 								<explosionsound>none</explosionsound>
 								<explosiontexture>exp04</explosiontexture>
 							</nextaction>
@@ -1551,7 +1551,7 @@ radioactive fallout which travels downwind.</description>
 								<maxlife>5</maxlife>
 								<hurtamount>0</hurtamount>
 								<deform>none</deform>
-								<size>6</size>
+								<size>4</size>
 								<explosionsound>none</explosionsound>
 								<explosiontexture>exp04</explosiontexture>
 							</nextaction>
@@ -3630,7 +3630,7 @@ Higher shot = more spread, lower = less spread</description>
 					<nowarheads>1</nowarheads>
 					<inaccuracy>0</inaccuracy>
 					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
+					<maxaimdistance>50</maxaimdistance>
 					<aimedweapon type='WeaponVelocity'>
 						<velocitychange>0.3</velocitychange>
 						<aimedweapon type='WeaponMulti'>
@@ -3921,7 +3921,7 @@ Higher shot = more spread, lower = less spread</description>
 					<nowarheads>1</nowarheads>
 					<inaccuracy>0</inaccuracy>
 					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
+					<maxaimdistance>60</maxaimdistance>
 					<aimedweapon type='WeaponVelocity'>
 						<velocitychange>0.5</velocitychange>
 						<aimedweapon type='WeaponMulti'>
@@ -4428,7 +4428,7 @@ For best spread, shoot @ 1000 power below 60 degrees</description>
 					<nowarheads>1</nowarheads>
 					<inaccuracy>0</inaccuracy>
 					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
+					<maxaimdistance>75</maxaimdistance>
 					<aimedweapon type='WeaponVelocity'>
 						<velocitychange>0.6</velocitychange>
 						<aimedweapon type='WeaponMulti'>
@@ -5276,6 +5276,7 @@ the ground and explodes/burns on contact.</description>
 							<mesh>roller.ase</mesh>
 							<skin>white.bmp</skin>
 						</projectilemodel>
+						<shieldhurtfactor>0.2</shieldhurtfactor>
 						<collisionaction type='WeaponMulti'>
 							<subweapon1 type='WeaponExplosion'>
 								<deform>down</deform>
@@ -5309,6 +5310,7 @@ the ground and explodes/burns on contact.</description>
 									<aimedweapon type='WeaponVelocity'>
 										<velocitychange>0.25</velocitychange>
 										<aimedweapon type='WeaponProjectile'>
+											<shieldhurtfactor>0.2</shieldhurtfactor>
 											<under/>
 											<projectilemodel type='ase'>
 												<mesh>roller.ase</mesh>
@@ -6121,13 +6123,230 @@ the thickness of the wedge destroyed is also greater.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Acid_Small</name>
+		<armslevel>8</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<noluminance/>
+				<animate/>
+				<hurtamount>0.2</hurtamount>
+				<deform>down</deform>
+				<size>3</size>
+				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+				<explosionsound>explosions/acid.wav</explosionsound>
+				<explosiontexture>gas00</explosiontexture>
+			</subweapon1>
+			<subweapon2 type='WeaponNapalm'>
+				<allowunderwater>true</allowunderwater>
+				<napalmtime>4.0</napalmtime>
+				<napalmheight>1.5</napalmheight>
+				<steptime>0.5</steptime>
+				<hurtsteptime>1.0</hurtsteptime>
+				<hurtpersecond>1.0</hurtpersecond>
+				<numberstreams>1</numberstreams>
+				<effectradius>5</effectradius>
+				<napalmtexture>acid00</napalmtexture>
+				<napalmsound>none</napalmsound>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.15</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.1</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Acid_Medium</name>
+		<armslevel>6</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<noluminance/>
+				<animate/>
+				<hurtamount>0.2</hurtamount>
+				<deform>down</deform>
+				<size>3</size>
+				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+				<explosionsound>explosions/acid.wav</explosionsound>
+				<explosiontexture>gas00</explosiontexture>
+			</subweapon1>
+			<subweapon2 type='WeaponNapalm'>
+				<allowunderwater>true</allowunderwater>
+				<napalmtime>4.0</napalmtime>
+				<napalmheight>1.5</napalmheight>
+				<steptime>0.5</steptime>
+				<hurtsteptime>1.0</hurtsteptime>
+				<hurtpersecond>1.0</hurtpersecond>
+				<numberstreams>1</numberstreams>
+				<effectradius>5</effectradius>
+				<napalmtexture>acid00</napalmtexture>
+				<napalmsound>none</napalmsound>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.15</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.1</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon4>
+			<subweapon5 type='WeaponDelay'>
+				<delay>3.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.1</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon5>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Acid_Large</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<noluminance/>
+				<animate/>
+				<hurtamount>0.25</hurtamount>
+				<deform>down</deform>
+				<size>3</size>
+				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+				<explosionsound>explosions/acid.wav</explosionsound>
+				<explosiontexture>gas00</explosiontexture>
+			</subweapon1>
+			<subweapon2 type='WeaponNapalm'>
+				<allowunderwater>true</allowunderwater>
+				<napalmtime>6.0</napalmtime>
+				<napalmheight>1.5</napalmheight>
+				<steptime>0.5</steptime>
+				<hurtsteptime>1.0</hurtsteptime>
+				<hurtpersecond>1.0</hurtpersecond>
+				<numberstreams>1</numberstreams>
+				<effectradius>5</effectradius>
+				<napalmtexture>acid00</napalmtexture>
+				<napalmsound>none</napalmsound>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.2</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.15</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon4>
+			<subweapon5 type='WeaponDelay'>
+				<delay>3.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.1</hurtamount>
+					<deform>down</deform>
+					<size>7</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon5>
+			<subweapon6 type='WeaponDelay'>
+				<delay>4.0</delay>
+				<delayedweapon type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<animate/>
+					<hurtamount>0.1</hurtamount>
+					<deform>down</deform>
+					<size>8</size>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+					<explosionsound>explosions/acid.wav</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</delayedweapon>
+			</subweapon6>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Acid Blast</name>
 		<armslevel>8</armslevel>
 		<description>A projectile weapon that scatters 
-many riot bomblets on impact.</description>
+several acid bomblets which eat the
+earth and burn targets.</description>
 		<icon>ablast.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>2000</cost>
+		<cost>3000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<accessoryaction type='WeaponProjectile'>
@@ -6138,36 +6357,28 @@ many riot bomblets on impact.</description>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponVelocity'>
-						<velocitychange>0.8</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame/>
-							<projectilescale>0.5</projectilescale>
-							<projectilemodel type='ase'>
-								<mesh>roller.ase</mesh>
-								<skin>green.bmp</skin>
-							</projectilemodel>
-							<collisionaction type='WeaponExplosion'>
-								<nocreatedebris/>
-								<noluminance/>
-								<animate/>
-								<hurtamount>0.0</hurtamount>
-								<deform>down</deform>
-								<size>6</size>
-								<explosionsound>explosions/acid.wav</explosionsound>
-								<explosiontexture>gas00</explosiontexture>
-							</collisionaction>
-						</aimedweapon>
+					<aimedweapon type='WeaponTranslate'>
+						<translatedist>3.0</translatedist>
+						<nextaction type='WeaponVelocity'>
+							<velocitychange>0.8</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<nocreateflame/>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>green.bmp</skin>
+								</projectilemodel>
+								<collisionaction type='WeaponReference'>
+									<weapon>Acid_Small</weapon>
+								</collisionaction>
+							</aimedweapon>
+						</nextaction>
 					</aimedweapon>
 				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<animate/>
-					<hurtamount>0</hurtamount>
-					<deform>down</deform>
-					<size>8</size>
-					<explosionsound>explosions/crunch.wav</explosionsound>
-					<explosiontexture>gas00</explosiontexture>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Acid_Medium</weapon>
 				</subweapon2>
 			</collisionaction>
 		</accessoryaction>
@@ -6365,68 +6576,194 @@ This weapon does no physical damage</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Rain Drop</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponAimedOver'>
+			<nowarheads>1</nowarheads>
+			<inaccuracy>0</inaccuracy>
+			<percentagemiss>0</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<aimedweapon type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>true</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>180</vredirect>
+				<nextaction type='WeaponVelocity'>
+					<velocitychange>0.8</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<shieldhurtfactor>0.25</shieldhurtfactor>
+						<enginesound>none</enginesound>
+						<nocreateflame/>
+						<nocreatesmoke/>
+						<projectilescale>0.35</projectilescale>
+						<projectilemodel type='ase'>
+							<mesh>roller.ase</mesh>
+							<skin>green.bmp</skin>
+						</projectilemodel>
+						<collisionaction type='WeaponReference'>
+							<weapon>Acid_Small</weapon>
+							<armslevel>4</armslevel>
+						</collisionaction>
+					</aimedweapon>
+				</nextaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Drop Spread</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponTranslate'>
+					<translatedist>6</translatedist>
+					<nextaction type='WeaponReference'>
+						<weapon>Rain Drop</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponTranslate'>
+					<translatedist>12</translatedist>
+					<nextaction type='WeaponReference'>
+						<weapon>Rain Drop</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Rain Segment</name>
 		<armslevel>4</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponProjectile'>
-			<enginesound>none</enginesound>
-			<nocreateflame/>
-			<nocreatesmoke/>
-			<apexcollision></apexcollision>
-			<projectilescale>0.5</projectilescale>
-			<projectilemodel type='ase'>
-				<mesh>roller.ase</mesh>
-				<skin>green.bmp</skin>
-			</projectilemodel>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<nocreateflame/>
-					<nocreatesmoke/>
-					<projectilescale>0.3</projectilescale>
-					<projectilemodel type='ase'>
-						<mesh>roller.ase</mesh>
-						<skin>green.bmp</skin>
-					</projectilemodel>
-					<collisionaction type='WeaponExplosion'>
-						<nocreatedebris/>
-						<noluminance/>
-						<deform>down</deform>
-						<hurtamount>0</hurtamount>
-						<size>10</size>
-						<explosiontexture>gas00</explosiontexture>
-						<explosionsound>explosions/acid.wav</explosionsound>
-					</collisionaction>
-				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>1.0</delay>
-					<delayedweapon type='WeaponAimedOver'>
-						<nowarheads>2</nowarheads>
-						<percentagemiss>20</percentagemiss>
-						<maxaimdistance>50</maxaimdistance>
-						<inaccuracy>10</inaccuracy>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame/>
-							<nocreatesmoke/>
-							<projectilescale>0.3</projectilescale>
-							<projectilemodel type='ase'>
-								<mesh>roller.ase</mesh>
-								<skin>green.bmp</skin>
-							</projectilemodel>
-							<collisionaction type='WeaponExplosion'>
-								<nocreatedebris/>
-								<noluminance/>
-								<deform>down</deform>
-								<hurtamount>0</hurtamount>
-								<size>10</size>
-								<explosiontexture>gas00</explosiontexture>
-								<explosionsound>explosions/acid.wav</explosionsound>
-							</collisionaction>
-						</aimedweapon>
-					</delayedweapon>
-				</subweapon2>
-			</collisionaction>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Rain Drop</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.33</delay>
+				<delayedweapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>Drop Spread</weapon>
+						</nextaction>
+					</aimedweapon>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>0.66</delay>
+				<delayedweapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>Drop Spread</weapon>
+						</nextaction>
+					</aimedweapon>
+				</delayedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponDelay'>
+				<delay>1.0</delay>
+				<delayedweapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>Drop Spread</weapon>
+						</nextaction>
+					</aimedweapon>
+				</delayedweapon>
+			</subweapon4>
+			<subweapon5 type='WeaponDelay'>
+				<delay>1.33</delay>
+				<delayedweapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<inaccuracy>0</inaccuracy>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>90</vredirect>
+						<nextaction type='WeaponReference'>
+							<weapon>Drop Spread</weapon>
+						</nextaction>
+					</aimedweapon>
+				</delayedweapon>
+			</subweapon5>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Rain Spread</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponTranslate'>
+					<translatedist>8</translatedist>
+					<nextaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Rain Segment</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Clouds-Grey</weapon>
+						</subweapon2>
+					</nextaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponTranslate'>
+					<translatedist>16</translatedist>
+					<nextaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Rain Segment</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Clouds-Grey</weapon>
+						</subweapon2>
+					</nextaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponTranslate'>
+					<translatedist>24</translatedist>
+					<nextaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Rain Segment</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponReference'>
+							<weapon>Clouds-Grey</weapon>
+						</subweapon2>
+					</nextaction>
+				</weapon>
+			</weaponchoice3>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -6466,14 +6803,8 @@ physical damage.</description>
 				<subweapon3 type='WeaponDelay'>
 					<delay>1.0</delay>
 					<delayedweapon type='WeaponMulti'>
-						<subweapon1 type='WeaponAimedOver'>
-							<nowarheads>4</nowarheads>
-							<percentagemiss>20</percentagemiss>
-							<maxaimdistance>50</maxaimdistance>
-							<inaccuracy>20</inaccuracy>
-							<aimedweapon type='WeaponReference'>
-								<weapon>Rain Segment</weapon>
-							</aimedweapon>
+						<subweapon1 type='WeaponReference'>
+							<weapon>Rain Segment</weapon>
 						</subweapon1>
 						<subweapon2 type='WeaponReference'>
 							<weapon>Clouds-Grey</weapon>
@@ -6490,83 +6821,83 @@ physical damage.</description>
 					</delayedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>0</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponAimedOver'>
-									<nowarheads>4</nowarheads>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>50</maxaimdistance>
-									<inaccuracy>20</inaccuracy>
-									<aimedweapon type='WeaponReference'>
-										<weapon>Rain Segment</weapon>
-									</aimedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon2>
+					<delay>1.75</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<inaccuracy>0</inaccuracy>
+						<percentagemiss>0</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<aimedweapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponReference'>
+								<weapon>Rain Spread</weapon>
 							</nextaction>
-						</nextaction>
+						</aimedweapon>
 					</delayedweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponDelay'>
-					<delay>3.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>120</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponAimedOver'>
-									<nowarheads>4</nowarheads>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>50</maxaimdistance>
-									<inaccuracy>20</inaccuracy>
-									<aimedweapon type='WeaponReference'>
-										<weapon>Rain Segment</weapon>
-									</aimedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon2>
+					<delay>2.5</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<inaccuracy>0</inaccuracy>
+						<percentagemiss>0</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<aimedweapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponReference'>
+								<weapon>Rain Spread</weapon>
 							</nextaction>
-						</nextaction>
+						</aimedweapon>
 					</delayedweapon>
 				</subweapon6>
 				<subweapon7 type='WeaponDelay'>
-					<delay>4.0</delay>
-					<delayedweapon type='WeaponRedirect'>
-						<habs>false</habs>
-						<vabs>true</vabs>
-						<hredirect>240</hredirect>
-						<vredirect>90</vredirect>
-						<nextaction type='WeaponTranslate'>
-							<translatedist>25</translatedist>
-							<nextaction type='WeaponMulti'>
-								<subweapon1 type='WeaponAimedOver'>
-									<nowarheads>4</nowarheads>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>50</maxaimdistance>
-									<inaccuracy>20</inaccuracy>
-									<aimedweapon type='WeaponReference'>
-										<weapon>Rain Segment</weapon>
-									</aimedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponReference'>
-									<weapon>Clouds-Grey</weapon>
-								</subweapon2>
+					<delay>3.25</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<inaccuracy>0</inaccuracy>
+						<percentagemiss>0</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<aimedweapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponReference'>
+								<weapon>Rain Spread</weapon>
 							</nextaction>
-						</nextaction>
+						</aimedweapon>
 					</delayedweapon>
 				</subweapon7>
+				<subweapon8 type='WeaponDelay'>
+					<delay>4.0</delay>
+					<delayedweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<inaccuracy>0</inaccuracy>
+						<percentagemiss>0</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<aimedweapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponReference'>
+								<weapon>Rain Spread</weapon>
+							</nextaction>
+						</aimedweapon>
+					</delayedweapon>
+				</subweapon8>
+				<subweapon9 type='WeaponDelay'>
+					<delay>5.0</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>Clouds-Grey</weapon>
+					</delayedweapon>
+				</subweapon9>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -6578,7 +6909,7 @@ that eat dirt and continue bouncing outward.
 It does no physical damage to tanks.</description>
 		<icon>asplash.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>8000</cost>
+		<cost>10000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<modelscale>2</modelscale>
@@ -6592,25 +6923,46 @@ It does no physical damage to tanks.</description>
 					<percentagemiss>25</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>50</inaccuracy>
-					<aimedweapon type='WeaponVelocity'>
-						<velocitychange>0.8</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame/>
-							<projectilescale>0.5</projectilescale>
-							<projectilemodel type='ase'>
-								<mesh>roller.ase</mesh>
-								<skin>green.bmp</skin>
-							</projectilemodel>
-							<collisionaction type='WeaponMulti'>
-								<subweapon1 type='WeaponAimedOver'>
-									<nowarheads>2</nowarheads>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>0</maxaimdistance>
-									<inaccuracy>10</inaccuracy>
-									<aimedweapon type='WeaponVelocity'>
-										<velocitychange>0.6</velocitychange>
-										<aimedweapon type='WeaponProjectile'>
+					<aimedweapon type='WeaponTranslate'>
+						<translatedist>3</translatedist>
+						<nextaction type='WeaponVelocity'>
+							<velocitychange>0.8</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<nocreateflame/>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>green.bmp</skin>
+								</projectilemodel>
+								<collisionaction type='WeaponMulti'>
+									<subweapon1 type='WeaponAimedOver'>
+										<nowarheads>2</nowarheads>
+										<percentagemiss>20</percentagemiss>
+										<maxaimdistance>0</maxaimdistance>
+										<inaccuracy>10</inaccuracy>
+										<aimedweapon type='WeaponVelocity'>
+											<velocitychange>0.6</velocitychange>
+											<aimedweapon type='WeaponProjectile'>
+												<shieldhurtfactor>0.25</shieldhurtfactor>
+												<enginesound>none</enginesound>
+												<nocreateflame/>
+												<projectilescale>0.5</projectilescale>
+												<projectilemodel type='ase'>
+													<mesh>roller.ase</mesh>
+													<skin>green.bmp</skin>
+												</projectilemodel>
+												<collisionaction type='WeaponReference'>
+													<weapon>Acid_Small</weapon>
+												</collisionaction>
+											</aimedweapon>
+										</aimedweapon>
+									</subweapon1>
+									<subweapon2 type='WeaponLeapFrog'>
+										<bounce>0.8</bounce>
+										<collisionaction type='WeaponProjectile'>
+											<shieldhurtfactor>0.25</shieldhurtfactor>
 											<enginesound>none</enginesound>
 											<nocreateflame/>
 											<projectilescale>0.5</projectilescale>
@@ -6618,112 +6970,45 @@ It does no physical damage to tanks.</description>
 												<mesh>roller.ase</mesh>
 												<skin>green.bmp</skin>
 											</projectilemodel>
-											<collisionaction type='WeaponExplosion'>
-												<nocreatedebris/>
-												<noluminance/>
-												<nowindaffected/>
-												<nocreatesplash/>
-												<animate/>
-												<minlife>2</minlife>
-												<maxlife>3</maxlife>
-												<hurtamount>0.0</hurtamount>
-												<deform>down</deform>
-												<size>8</size>
-												<explosionsound>explosions/acid.wav</explosionsound>
-												<explosiontexture>gas00</explosiontexture>
-											</collisionaction>
-										</aimedweapon>
-									</aimedweapon>
-								</subweapon1>
-								<subweapon2 type='WeaponLeapFrog'>
-									<bounce>0.8</bounce>
-									<collisionaction type='WeaponProjectile'>
-										<enginesound>none</enginesound>
-										<nocreateflame/>
-										<projectilescale>0.5</projectilescale>
-										<projectilemodel type='ase'>
-											<mesh>roller.ase</mesh>
-											<skin>green.bmp</skin>
-										</projectilemodel>
-										<collisionaction type='WeaponMulti'>
-											<subweapon1 type='WeaponAimedOver'>
-												<nowarheads>2</nowarheads>
-												<percentagemiss>20</percentagemiss>
-												<maxaimdistance>0</maxaimdistance>
-												<inaccuracy>10</inaccuracy>
-												<aimedweapon type='WeaponVelocity'>
-													<velocitychange>0.6</velocitychange>
-													<aimedweapon type='WeaponProjectile'>
-														<enginesound>none</enginesound>
-														<nocreateflame/>
-														<projectilescale>0.5</projectilescale>
-														<projectilemodel type='ase'>
-															<mesh>roller.ase</mesh>
-															<skin>green.bmp</skin>
-														</projectilemodel>
-														<collisionaction type='WeaponExplosion'>
-															<nocreatedebris/>
-															<noluminance/>
-															<nowindaffected/>
-															<nocreatesplash/>
-															<animate/>
-															<hurtamount>0.0</hurtamount>
-															<deform>down</deform>
-															<size>6</size>
-															<explosionsound>explosions/acid.wav</explosionsound>
-															<explosiontexture>gas00</explosiontexture>
-														</collisionaction>
+											<collisionaction type='WeaponMulti'>
+												<subweapon1 type='WeaponAimedOver'>
+													<nowarheads>2</nowarheads>
+													<percentagemiss>20</percentagemiss>
+													<maxaimdistance>0</maxaimdistance>
+													<inaccuracy>10</inaccuracy>
+													<aimedweapon type='WeaponVelocity'>
+														<velocitychange>0.6</velocitychange>
+														<aimedweapon type='WeaponProjectile'>
+															<shieldhurtfactor>0.25</shieldhurtfactor>
+															<enginesound>none</enginesound>
+															<nocreateflame/>
+															<projectilescale>0.5</projectilescale>
+															<projectilemodel type='ase'>
+																<mesh>roller.ase</mesh>
+																<skin>green.bmp</skin>
+															</projectilemodel>
+															<collisionaction type='WeaponReference'>
+																<weapon>Acid_Small</weapon>
+															</collisionaction>
+														</aimedweapon>
 													</aimedweapon>
-												</aimedweapon>
-											</subweapon1>
-											<subweapon2 type='WeaponExplosion'>
-												<nocreatedebris/>
-												<noluminance/>
-												<nowindaffected/>
-												<nocreatesplash/>
-												<animate/>
-												<minlife>2</minlife>
-												<maxlife>3</maxlife>
-												<hurtamount>0.0</hurtamount>
-												<deform>down</deform>
-												<size>8</size>
-												<explosiontexture>gas00</explosiontexture>
-												<explosionsound>explosions/acid.wav</explosionsound>
-											</subweapon2>
+												</subweapon1>
+												<subweapon2 type='WeaponReference'>
+													<weapon>Acid_Small</weapon>
+												</subweapon2>
+											</collisionaction>
 										</collisionaction>
-									</collisionaction>
-								</subweapon2>
-								<subweapon3 type='WeaponExplosion'>
-									<nocreatedebris/>
-									<noluminance/>
-									<nowindaffected/>
-									<nocreatesplash/>
-									<animate/>
-									<minlife>3</minlife>
-									<maxlife>4</maxlife>
-									<hurtamount>0</hurtamount>
-									<deform>down</deform>
-									<size>10</size>
-									<explosionsound>explosions/acid.wav</explosionsound>
-									<explosiontexture>gas00</explosiontexture>
-								</subweapon3>
-							</collisionaction>
-						</aimedweapon>
+									</subweapon2>
+									<subweapon3 type='WeaponReference'>
+										<weapon>Acid_Small</weapon>
+									</subweapon3>
+								</collisionaction>
+							</aimedweapon>
+						</nextaction>
 					</aimedweapon>
 				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<noluminance/>
-					<nowindaffected/>
-					<nocreatesplash/>
-					<animate/>
-					<minlife>3</minlife>
-					<maxlife>4</maxlife>
-					<hurtamount>0</hurtamount>
-					<deform>down</deform>
-					<size>12</size>
-					<explosionsound>explosions/acid.wav</explosionsound>
-					<explosiontexture>gas00</explosiontexture>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Acid_Large</weapon>
 				</subweapon2>
 			</collisionaction>
 		</accessoryaction>
@@ -9737,7 +10022,8 @@ used to help aim lasers without wasting money.</description>
 		<description>Fires a laser that cuts through hills 
 and shields damaging the tank directly.
 Note: More power = greater range but less damage
-Less power = less range but more damage</description>
+Less power = less range but more damage
+Min Dmg = 25, Max Dmg = 50</description>
 		<cost>5000</cost>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
@@ -9760,6 +10046,38 @@ Less power = less range but more damage</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Heavy Laser</name>
+		<armslevel>6</armslevel>
+		<bundlesize>2</bundlesize>
+		<icon>hlaser.bmp</icon>
+		<model type="MilkShape">laser/hlaser.txt</model>
+		<description>Fires a powerful laser that cuts through hills 
+and shields damaging the tank directly.
+Note: More power = greater range but less damage
+Less power = less range but more damage
+Min Dmg = 50, Max Dmg = 100</description>
+		<cost>8000</cost>
+		<nomuzzleflash/>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponLaser'>
+				<totaltime>2</totaltime>
+				<minimumdistance>10</minimumdistance>
+				<maximumdistance>200</maximumdistance>
+				<minimumhurt>50</minimumhurt>
+				<maximumhurt>100</maximumhurt>
+				<hurtradius>2</hurtradius>
+				<color>
+					<A>0.0</A>
+					<B>0.0</B>
+					<C>1.0</C>
+				</color>
+			</subweapon1>
+			<subweapon2 type='WeaponSound'>
+				<sound>data/wav/shoot/laser1.wav</sound>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Laser Cannon</name>
 		<armslevel>4</armslevel>
 		<bundlesize>2</bundlesize>
@@ -9768,7 +10086,8 @@ Less power = less range but more damage</description>
 		<description>Fires three laser blasts that cut through
 hills and shields damaging tanks directly.
 Note: More power = greater range but less damage
-Less power = less range but more damage</description>
+Less power = less range but more damage
+Min Dmg = 75, Max Dmg = 150</description>
 		<cost>12000</cost>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
@@ -9802,37 +10121,6 @@ Less power = less range but more damage</description>
 					</nextaction>
 				</delayedweapon>
 			</subweapon3>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Heavy Laser</name>
-		<armslevel>6</armslevel>
-		<bundlesize>2</bundlesize>
-		<icon>hlaser.bmp</icon>
-		<model type="MilkShape">laser/hlaser.txt</model>
-		<description>Fires a powerful laser that cuts through hills 
-and shields damaging the tank directly.
-Note: More power = greater range but less damage
-Less power = less range but more damage</description>
-		<cost>8000</cost>
-		<nomuzzleflash/>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponLaser'>
-				<totaltime>2</totaltime>
-				<minimumdistance>10</minimumdistance>
-				<maximumdistance>200</maximumdistance>
-				<minimumhurt>50</minimumhurt>
-				<maximumhurt>75</maximumhurt>
-				<hurtradius>2</hurtradius>
-				<color>
-					<A>0.0</A>
-					<B>0.0</B>
-					<C>1.0</C>
-				</color>
-			</subweapon1>
-			<subweapon2 type='WeaponSound'>
-				<sound>data/wav/shoot/laser1.wav</sound>
-			</subweapon2>
 		</accessoryaction>
 	</accessory>
 	<accessory>
