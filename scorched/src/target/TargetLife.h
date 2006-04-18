@@ -45,6 +45,7 @@ public:
 	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
 	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
 	void setBoundingSphere(bool sphereGeom);
+	bool getBoundingSphere() { return sphereGeom_; }
 
 	// Tank Life / Health
 	float getLife() { return life_; }

@@ -64,6 +64,14 @@ bool Target::getAlive()
 	return (life_.getLife() > 0.0f);
 }
 
+Vector &Target::getCenterPosition()
+{
+	static Vector result;
+	result = getTargetPosition();
+	result[2] += life_.getSize()[2] / 2.0f;
+	return result;
+}
+
 void Target::setTargetPosition(Vector &pos)
 {
 	targetPosition_ = pos;

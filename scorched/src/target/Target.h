@@ -40,6 +40,7 @@ public:
 	// Position
 	void setTargetPosition(Vector &position);
 	Vector &getTargetPosition() { return targetPosition_; }
+	Vector &getCenterPosition();
 
 	virtual bool getAlive();
 	virtual bool isTarget() { return true; }
