@@ -43,6 +43,11 @@ void GroundMaps::generateMaps(
 	generateHMap(context, counter);
 	generateObjects(context, counter);
 	nmap_.create(getMapWidth(), getMapHeight());
+
+	// Store the hmap to create the landscape diff.
+	// This must be done after all modifications are 
+	// made to the landscape height
+	saveHMap();
 }
 
 void GroundMaps::generateHMap(
@@ -98,10 +103,6 @@ void GroundMaps::generateHMap(
 			smap_.generateNormals(0, smap_.getMapWidth(), 0, smap_.getMapHeight());
 		}
 	}
-
-	// Save this height map for later
-	map_.resetMinHeight();
-	map_.backup();
 }
 
 void GroundMaps::generateObjects(
@@ -159,6 +160,13 @@ void GroundMaps::generateObjects(
 				entry.position_, entry.size_);
 		}
 	}
+}
+
+void GroundMaps::saveHMap()
+{
+	// Save this height map for later
+	map_.resetMinHeight();
+	map_.backup();
 }
 
 float GroundMaps::getHeight(int w, int h)

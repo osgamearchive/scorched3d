@@ -6,8 +6,8 @@
 				<position><A>128</A><B>128</B><C>0</C></position> 
 			</position> 
 			<object type="group">
-				<groupobject>
-					<offset><A>0</A><B>0</B><C>0</C></offset>
+				<!--<groupobject>
+					<offset><A>0</A><B>10</B><C>0</C></offset>
 					<object type="tank">
 						<name>TestTankHmm1</name>
 						<model>Bradley</model>
@@ -17,9 +17,9 @@
 						<life>1000</life>
 						<removeaction>TestPowerUpWeapon</removeaction>
 					</object>
-				</groupobject>
+				</groupobject>-->
 				<groupobject>
-					<offset><A>0</A><B>10</B><C>0</C></offset>
+					<offset><A>0</A><B>20</B><C>0</C></offset>
 					<object type="target">
 						<name>TestTargetHmm2</name>
 						<model type="MilkShape">data/accessories/pwrcrate/pwrcrate.txt</model>
@@ -27,9 +27,9 @@
 						<modelscale>0.1</modelscale>
 						<!--<modelrotation>90</modelrotation>-->
 						<modelrotationsnap>45</modelrotationsnap>
-						<shield>TestShield</shield>
+						<!--<shield>TestShield</shield>-->
 						<parachute>Parachute</parachute>
-						<life>1000</life>
+						<life>100000</life>
 						<boundingsphere>false</boundingsphere>
 						<flattenarea>true</flattenarea>
 						<removeaction>TestPowerUpWeapon</removeaction>

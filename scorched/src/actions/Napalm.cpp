@@ -43,7 +43,7 @@ REGISTER_ACTION_SOURCE(Napalm);
 
 DeformLandscape::DeformPoints Napalm::deformMap_;
 bool Napalm::deformCreated_ = false;
-static const int deformSize = 2;
+static const int deformSize = 3;
 
 Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
 	napalmTime_(0.0f), counter_(0.1f, 0.1f), set_(0)

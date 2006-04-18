@@ -37,6 +37,7 @@ Fixed: Team score now stays with the team when players leave or change team
 Fixed: A small error in how roof collisions were calculated
 Fixed: Gamma settings are applied/removed when window focus occurs
 Fixed: Bug where double explosions could occur when hitting the ocean floor
+Fixed: Damage to an object is now calculated by closeness to the nearest edge (not the center)
 
 Added: movementproof accessories.xml tag for shields so tank can't drive through 
 Added: aionly tanks.xml tag for tanks that only computer ais can use

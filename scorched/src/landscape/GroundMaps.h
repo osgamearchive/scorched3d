@@ -74,6 +74,7 @@ protected:
 	void generateObjects(
 		ScorchedContext &context,
 		ProgressCounter *counter = 0);
+	void saveHMap();
 
 };
 

@@ -70,20 +70,39 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 	const int maxContacts = 100;
 
 	PhysicsEngine *engine = (PhysicsEngine *) data;
-
-	// exit without doing anything if the two bodies are connected by a joint
-	dBodyID b1 = dGeomGetBody(o1);
-	dBodyID b2 = dGeomGetBody(o2);
-	if (b1 && b2 && dAreConnectedExcluding (b1,b2,dJointTypeContact)) return;
-
-	// Get the contacts for these two objects
-	static dContactGeom contacts[maxContacts];
-	int numc = dCollide(o1, o2, maxContacts, contacts, sizeof(dContactGeom));
-	if (numc && engine->handler_)
+	if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) 
 	{
-		// We have collisions, ask the user to process them
-		engine->handler_->collision(o1, o2, contacts, numc);
+		// colliding a space with something
+		dSpaceCollide2(o1,o2,data,&nearCallback);
+
+		// collide all geoms internal to the space(s)
+		if (dGeomIsSpace(o1))
+		{
+			dSpaceID s1 = (dSpaceID) o1;
+			dSpaceCollide(s1,data,&nearCallback);
+		}
+		if (dGeomIsSpace(o2))
+		{
+			dSpaceID s2 = (dSpaceID) o2;
+			dSpaceCollide(s2,data,&nearCallback);
+		}
 	}
+    else 
+	{
+		// exit without doing anything if the two bodies are connected by a joint
+		dBodyID b1 = dGeomGetBody(o1);
+		dBodyID b2 = dGeomGetBody(o2);
+		if (b1 && b2 && dAreConnectedExcluding(b1,b2,dJointTypeContact)) return;
+
+		// Get the contacts for these two objects
+		static dContactGeom contacts[maxContacts];
+		int numc = dCollide(o1, o2, maxContacts, contacts, sizeof(dContactGeom));
+		if ((numc > 0) && engine->handler_)
+		{
+			// We have collisions, ask the user to process them
+			engine->handler_->collision(o1, o2, contacts, numc);
+		}
+    }
 }
 
 void PhysicsEngine::stepSimulation(float stepSize)

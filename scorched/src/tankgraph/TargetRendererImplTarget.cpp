@@ -126,7 +126,7 @@ void TargetRendererImplTarget::shieldHit()
 void TargetRendererImplTarget::storeTank2DPos()
 {
 	Vector &tankTurretPos = 
-		target_->getTargetPosition();
+		target_->getCenterPosition();
 	Vector camDir = 
 		MainCamera::instance()->getCamera().getLookAt() - 
 		MainCamera::instance()->getCamera().getCurrentPos();

@@ -41,12 +41,64 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 		Target *current = (*itor).second;
 		if (!current->getAlive()) continue;
 
-		// Get how close the exposion was
-		Vector direction = position - current->getTargetPosition();
-		float dist = direction.Magnitude();
-		float dist2d = sqrtf(direction[0] * direction[0] + 
-			direction[1] * direction[1]);
+		Vector &currentPosition = current->getCenterPosition();
+		Vector direction = position - currentPosition;
+		float dist = 0.0f;
 
+		// Get how close the exposion was
+		if (current->getLife().getBoundingSphere())
+		{
+			// Find how close the explosion was to the 
+			// outside of the sphere
+			float sphereRadius = MAX(
+				current->getLife().getSize()[0], 
+				current->getLife().getSize()[1]) / 2.0f;
+
+			dist = direction.Magnitude() - sphereRadius;
+			if (dist < 0.0f) dist = 0.0f;
+		}
+		else
+		{
+			// Find how close the explosion was to the 
+			// outside edge of the cube
+			Vector touchPosition = direction;
+
+			// Check each size of the cube to see if the point is outside.
+			// If it is, then scale it back until the point sits on the
+			// outside edge of the cube.
+			int inner = 0;
+			for (int i=0; i<3; i++)
+			{
+				float halfSize = current->getLife().getSize()[i] / 2.0f;
+				if (touchPosition[i] < -halfSize)
+				{
+					// Scale the point so it sits on this edge
+					float diff = -halfSize / touchPosition[i];
+					touchPosition *= diff;
+				}
+				else if (touchPosition[i] > halfSize)
+				{
+					// Scale the point so it sits on this edge
+					float diff = halfSize / touchPosition[i];
+					touchPosition *= diff;
+				}
+				else inner++; // The point is inside this edge
+			}
+
+			if (inner == 3)
+			{
+				// We are inside the cube
+				dist = 0.0f;
+			}
+			else
+			{
+				// We are outside the cube
+				touchPosition += currentPosition;
+				Vector newDirection = position - touchPosition;
+				dist = newDirection.Magnitude();
+			}
+		}
+		
 		// Check if the explosion causes damage
 		if (dist < radius)
 		{
@@ -61,11 +113,16 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 			damageTarget(context, current, weapon, firer, 
 				damage * damageAmount, true, checkFall, shieldOnlyDamage, data);
 		}
-		else if (dist2d < radius + 5.0f)
+		else 
 		{
-			// explosion under tank
-			damageTarget(context, current, weapon, firer, 
-				0, true, checkFall, shieldOnlyDamage, data);
+			float dist2d = sqrtf(direction[0] * direction[0] + 
+				direction[1] * direction[1]);
+			if (dist2d < radius + 5.0f)
+			{
+				// explosion under tank
+				damageTarget(context, current, weapon, firer, 
+					0, true, checkFall, shieldOnlyDamage, data);
+			}
 		}
 	}
 }
