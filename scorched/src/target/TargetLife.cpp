@@ -82,6 +82,22 @@ void TargetLife::setSize(Vector &size)
 	setPosition(target_->getTargetPosition());
 }
 
+Vector TargetLife::getGeomRelativePosition(Vector &position)
+{
+  dVector3 p;
+  p[0] = position[0];
+  p[1] = position[1];
+  p[2] = position[2];
+  p[3] = 0;
+  dVector3 result;
+  const dReal *R = dGeomGetRotation(targetGeom_);
+
+  dMULTIPLY1_331(result,R, p);
+
+  Vector vResult((float)result[0], (float)result[1], (float)result[2]);
+  return vResult;
+}
+
 void TargetLife::setRotation(float rotation)
 {
 	rotation_ = rotation;

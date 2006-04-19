@@ -21,6 +21,7 @@
 #include <target/TargetDamageCalc.h>
 #include <tank/TankContainer.h>
 #include <common/Vector.h>
+#include <common/Logger.h>
 #include <engine/ActionController.h>
 #include <actions/TankDamage.h>
 
@@ -59,9 +60,14 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 		}
 		else
 		{
+			// Make the direction relative to the geom
+			// incase the geom has been rotated
+			Vector relativeDirection = 
+				current->getLife().getGeomRelativePosition(direction);
+
 			// Find how close the explosion was to the 
 			// outside edge of the cube
-			Vector touchPosition = direction;
+			Vector touchPosition = relativeDirection;
 
 			// Check each size of the cube to see if the point is outside.
 			// If it is, then scale it back until the point sits on the
@@ -93,10 +99,11 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 			else
 			{
 				// We are outside the cube
-				touchPosition += currentPosition;
-				Vector newDirection = position - touchPosition;
-				dist = newDirection.Magnitude();
+				relativeDirection -= touchPosition;
+				dist = relativeDirection.Magnitude();
 			}
+
+			//Logger::log(formatString("%.1f", dist));
 		}
 		
 		// Check if the explosion causes damage

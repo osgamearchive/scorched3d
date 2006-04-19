@@ -46,6 +46,7 @@ public:
 	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
 	void setBoundingSphere(bool sphereGeom);
 	bool getBoundingSphere() { return sphereGeom_; }
+	Vector getGeomRelativePosition(Vector &position);
 
 	// Tank Life / Health
 	float getLife() { return life_; }
