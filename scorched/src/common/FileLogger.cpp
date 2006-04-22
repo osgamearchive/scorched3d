@@ -47,5 +47,11 @@ void FileLogger::openFile(const char *fileName)
 {
 	lines_ = 0;
 	if (logFile_) fclose(logFile_);
-	logFile_ = fopen(getLogFile(formatString("%s-%i.log", fileName, time(0))), "w");
+
+	time_t theTime = time(0);
+	struct tm *newtime = localtime(&theTime); 
+
+	logFile_ = fopen(getLogFile(formatString("%s-%02i%02i%i-%02i%02i%02i.log", fileName, 
+		newtime->tm_mday, (newtime->tm_mon + 1), (newtime->tm_year + 1900),
+		newtime->tm_hour, newtime->tm_min, newtime->tm_sec)), "w");
 }

@@ -111,9 +111,12 @@ Boid::navigator(void) {
   BoidVector vacc(0, 0, 0);  // BoidVector accumulator
 
   if (accumulate(vacc, collisionAvoidance()) >= 1.0)           goto MAXACCEL_ATTAINED;
-  if (accumulate(vacc, flockCentering()) >= 1.0)               goto MAXACCEL_ATTAINED;
-  if (accumulate(vacc, maintainingCruisingDistance()) >= 1.0)  goto MAXACCEL_ATTAINED;
-  if (accumulate(vacc, velocityMatching()) >= 1.0)             goto MAXACCEL_ATTAINED;
+  if (world->getBoidCount() > 1)
+  {
+	if (accumulate(vacc, flockCentering()) >= 1.0)               goto MAXACCEL_ATTAINED;
+	if (accumulate(vacc, maintainingCruisingDistance()) >= 1.0)  goto MAXACCEL_ATTAINED;
+	if (accumulate(vacc, velocityMatching()) >= 1.0)             goto MAXACCEL_ATTAINED;
+  }
   if (accumulate(vacc, wander()) >= 1.0)                       goto MAXACCEL_ATTAINED;
   if (accumulate(vacc, levelFlight(vacc)) >= 1.0)              goto MAXACCEL_ATTAINED;
   

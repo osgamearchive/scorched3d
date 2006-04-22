@@ -187,10 +187,6 @@ protected:
   // Unique integer identifying the number of this boid. The first boid
   // created is given boidNumber 1, and the values increase sequentially.
 
-  char bName[50];
-  // Name of self. This is used by the ObjectList data structure. The
-  // constructor sets this equal to "boidX" where X is the boidNumber. 
-
   bool flockSelectively;
   // Should this boid flock only with boids of the same boidType, or with
   // all boids? The default value is FALSE, meaning that this boid will

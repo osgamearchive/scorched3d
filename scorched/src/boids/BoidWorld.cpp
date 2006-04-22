@@ -141,16 +141,16 @@ void BoidWorld::makeBoids(int boidCount, Vector &maxBounds, Vector &minBounds)
 		do
 		{
 			p = BoidVector(
-			rand() % 200 + 25, 
-			rand() % ((int)maxBounds[2] - (int)minBounds[2] - 2) + (int) minBounds[2] + 1,
-			rand() % 200 + 25);
+			rand() % ((int)maxBounds[0] - (int)minBounds[0] - 10) + (int) minBounds[0] + 5, 
+			rand() % ((int)maxBounds[2] - (int)minBounds[2] - 10) + (int) minBounds[2] + 5,
+			rand() % ((int)maxBounds[1] - (int)minBounds[1] - 10) + (int) minBounds[1] + 5);
 		} while (ScorchedClient::instance()->getLandscapeMaps().
 			getGroundMaps().getInterpHeight((float) p.x, (float) p.z) > p.y);
 
 		attitude = BoidVector(
-			rand() % 200 + 25, 
+			(maxBounds[0] + minBounds[0]) / 2,
 			(maxBounds[2] + minBounds[2]) / 2,
-			rand() % 200 + 25);
+			(maxBounds[1] + minBounds[1]) / 2);
 		v  = Direction(attitude) * (maxVelocity_) / 4.0;
 
 		// Add to world

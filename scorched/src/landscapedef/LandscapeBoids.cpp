@@ -35,6 +35,14 @@ bool LandscapeBoidsType::readXML(XMLNode *node)
 	if (!node->getNamedChild("maxacceleration", maxacceleration)) return false;
 	modelsize = 1.0f; node->getNamedChild("modelsize", modelsize, false);
 
+	if (maxbounds[0] - minbounds[0] < 25.0f ||
+		maxbounds[1] - minbounds[1] < 25.0f ||
+		maxbounds[2] - minbounds[2] < 10.0f)
+	{
+		return node->returnError(
+			"Boid bounding box is too small, it must be at least 25 units");
+	}
+
 	XMLNode *soundsNode;
 	std::string sound;
 	if (!node->getNamedChild("sounds", soundsNode)) return false;
