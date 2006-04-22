@@ -29,7 +29,7 @@
 						<modelrotationsnap>45</modelrotationsnap>
 						<!--<shield>TestShield</shield>-->
 						<parachute>Parachute</parachute>
-						<life>100000</life>
+						<life>10</life>
 						<boundingsphere>false</boundingsphere>
 						<flattenarea>true</flattenarea>
 						<removeaction>TestPowerUpWeapon</removeaction>

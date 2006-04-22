@@ -2249,6 +2249,12 @@
 				RelativePath="..\actions\Animation.h">
 			</File>
 			<File
+				RelativePath="..\actions\CallbackWeapon.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\CallbackWeapon.h">
+			</File>
+			<File
 				RelativePath="..\actions\CameraPositionAction.cpp">
 			</File>
 			<File
@@ -2279,12 +2285,6 @@
 				RelativePath="..\actions\Napalm.h">
 			</File>
 			<File
-				RelativePath="..\actions\PowerUp.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\PowerUp.h">
-			</File>
-			<File
 				RelativePath="..\actions\ShieldHit.cpp">
 			</File>
 			<File
@@ -2295,12 +2295,6 @@
 			</File>
 			<File
 				RelativePath="..\actions\ShotBounce.h">
-			</File>
-			<File
-				RelativePath="..\actions\ShotDelay.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ShotDelay.h">
 			</File>
 			<File
 				RelativePath="..\actions\ShotProjectile.cpp">

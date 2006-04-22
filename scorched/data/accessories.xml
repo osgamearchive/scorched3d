@@ -1402,9 +1402,8 @@ and shields damaging the tank directly.</description>
 	<accessory>
 		<name>TestPowerUpWeapon</name>
 		<aionly>true</aionly>
-		<accessoryaction type='WeaponGiveAccessory'>
-			<giveaccessory>Nuke</giveaccessory>
-			<number>10</number>
+		<accessoryaction type='WeaponGivePower'>
+			<power>2000</power>
 		</accessoryaction>
 	</accessory>
 	<accessory>

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,38 +18,50 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_CallbackWeaponh_INCLUDE__)
+#define __INCLUDE_CallbackWeaponh_INCLUDE__
 
-#if !defined(__INCLUDE_TankScoredh_INCLUDE__)
-#define __INCLUDE_TankScoredh_INCLUDE__
-
+#include <weapons/Weapon.h>
 #include <engine/ActionMeta.h>
 
-class TankScored : public ActionMeta
+class WeaponCallback : public Weapon
 {
 public:
-	TankScored();
-	TankScored(unsigned int playerId,
-		int moneyDiff,
-		int killDiff,
-		int roundDiff,
-		int scoreBonusDiff);
-	virtual ~TankScored();
+	virtual void weaponCallback(
+		ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data,
+		unsigned int userData) = 0;
+};
+
+class CallbackWeapon : public ActionMeta
+{
+public:
+	CallbackWeapon();
+	CallbackWeapon(WeaponCallback *callback,
+		float delay, unsigned int callbackData,
+		unsigned int playerId, Vector &position, Vector &velocity,
+    	unsigned int data);
+	virtual ~CallbackWeapon();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
 
-	REGISTER_ACTION_HEADER(TankScored);
+	REGISTER_ACTION_HEADER(CallbackWeapon);
 
 protected:
-	bool firstTime_;
+	float totalTime_;
+
+	Vector position_;
+	Vector velocity_;
 	unsigned int playerId_;
-	int moneyDiff_;
-	int killDiff_;
-	int roundDiff_;
-	int scoreBonusDiff_;
+	unsigned int data_;
+	float delay_;
+	unsigned int callbackData_;
+	WeaponCallback *callback_;
 
 };
 
-#endif
+#endif // __INCLUDE_CallbackWeaponh_INCLUDE__

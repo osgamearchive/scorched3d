@@ -20,7 +20,6 @@
 
 #include <weapons/WeaponDelay.h>
 #include <weapons/AccessoryStore.h>
-#include <actions/ShotDelay.h>
 #include <engine/ActionController.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponDelay);
@@ -62,13 +61,20 @@ void WeaponDelay::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	Action *action = new ShotDelay(
+	Action *action = new CallbackWeapon(
+		this, delay_, 0,
 		playerId,
-		delayedWeapon_,
-		velocity,
 		position,
-		delay_,
+		velocity,
 		data);
 	context.actionController->addAction(action);
 }
 
+void WeaponDelay::weaponCallback(
+			ScorchedContext &context,
+			unsigned int playerId, Vector &position, Vector &velocity,
+			unsigned int data,
+			unsigned int userData)
+{
+	delayedWeapon_->fireWeapon(context, playerId, position, velocity, data);
+}

@@ -21,9 +21,9 @@
 #if !defined(__INCLUDE_WeaponGiveWinh_INCLUDE__)
 #define __INCLUDE_WeaponGiveWinh_INCLUDE__
 
-#include <actions/PowerUp.h>
+#include <actions/CallbackWeapon.h>
 
-class WeaponGiveWin  : public WeaponPowerUp
+class WeaponGiveWin  : public WeaponCallback
 {
 public:
 	WeaponGiveWin();
@@ -38,9 +38,11 @@ public:
 		unsigned int data = 0);
 
 	// Inherited from WeaponPowerUp
-	virtual void invokePowerUp(ScorchedContext &context,
+	virtual void weaponCallback(
+		ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
-		unsigned int data);
+		unsigned int data,
+		unsigned int userData);
 
 	REGISTER_ACCESSORY_HEADER(WeaponGiveWin, AccessoryPart::AccessoryWeapon);
 

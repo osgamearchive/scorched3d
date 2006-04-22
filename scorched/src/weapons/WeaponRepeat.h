@@ -21,9 +21,9 @@
 #if !defined(__INCLUDE_WeaponRepeath_INCLUDE__)
 #define __INCLUDE_WeaponRepeath_INCLUDE__
 
-#include <weapons/Weapon.h>
+#include <actions/CallbackWeapon.h>
 
-class WeaponRepeat  : public Weapon
+class WeaponRepeat : public WeaponCallback
 {
 public:
 	WeaponRepeat();
@@ -39,8 +39,15 @@ public:
 
 	REGISTER_ACCESSORY_HEADER(WeaponRepeat, AccessoryPart::AccessoryWeapon);
 
+	virtual void weaponCallback(
+		ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data,
+		unsigned int userData);
+
 protected:
 	Weapon *repeatWeapon_;
+	float delay_;
 	int repeat_;
 
 };

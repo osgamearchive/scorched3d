@@ -20,10 +20,11 @@
 
 #include <weapons/WeaponRepeat.h>
 #include <weapons/AccessoryStore.h>
+#include <engine/ActionController.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRepeat);
 
-WeaponRepeat::WeaponRepeat()
+WeaponRepeat::WeaponRepeat() : delay_(0.0f)
 {
 
 }
@@ -52,6 +53,8 @@ bool WeaponRepeat::parseXML(OptionsGame &context,
 
 	if (!accessoryNode->getNamedChild("repeat", repeat_)) return false;
 
+	accessoryNode->getNamedChild("delay", delay_, false);
+
 	return true;
 }
 
@@ -59,8 +62,32 @@ void WeaponRepeat::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	for (int i=0; i<repeat_; i++)
+	if (delay_ == 0.0f)
 	{
-		repeatWeapon_->fireWeapon(context, playerId, position, velocity, data);
+		for (int i=0; i<repeat_; i++)
+		{
+			repeatWeapon_->fireWeapon(context, playerId, position, velocity, data);
+		}
+	}
+	else
+	{
+		weaponCallback(context, playerId, position, velocity,
+			data, repeat_);
+	}
+}
+
+void WeaponRepeat::weaponCallback(
+	ScorchedContext &context,
+	unsigned int playerId, Vector &position, Vector &velocity,
+	unsigned int data,
+	unsigned int userData)
+{
+	repeatWeapon_->fireWeapon(context, playerId, position, velocity, data);
+
+	if (userData > 1)
+	{
+		context.actionController->addAction(
+			new CallbackWeapon(this, delay_, userData - 1, 
+				playerId, position, velocity, data));
 	}
 }

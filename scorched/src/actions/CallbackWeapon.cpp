@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,73 +18,75 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <actions/ShotDelay.h>
-#include <engine/ScorchedContext.h>
+#include <actions/CallbackWeapon.h>
 #include <weapons/AccessoryStore.h>
-#include <weapons/Weapon.h>
 
-REGISTER_ACTION_SOURCE(ShotDelay);
+REGISTER_ACTION_SOURCE(CallbackWeapon);
 
-ShotDelay::ShotDelay() : totalTime_(0.0f)
+CallbackWeapon::CallbackWeapon() :
+	totalTime_(0.0f)
 {
 }
 
-ShotDelay::ShotDelay(unsigned int playerId,
-	Weapon *weapon,
-	Vector &velocity,
-	Vector &position,
-	float delay,
-	unsigned int data) :
-	totalTime_(0.0f), 
-	playerId_(playerId),
-	weapon_(weapon),
-	velocity_(velocity),
-	position_(position),
+CallbackWeapon::CallbackWeapon(
+	WeaponCallback *callback,
+	float delay, unsigned int callbackData,
+	unsigned int playerId, Vector &position, Vector &velocity,
+    unsigned int data) :
+	callback_(callback),
 	delay_(delay),
-	data_(data)
+	callbackData_(callbackData),
+	position_(position),
+	velocity_(velocity),
+	playerId_(playerId),
+	data_(data),
+	totalTime_(0.0f)
 {
 
 }
 
-ShotDelay::~ShotDelay()
+CallbackWeapon::~CallbackWeapon()
 {
 }
 
-void ShotDelay::init()
+void CallbackWeapon::init()
 {
-
 }
 
-void ShotDelay::simulate(float frameTime, bool &remove)
+void CallbackWeapon::simulate(float frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
 	if (totalTime_ > delay_)
 	{
-		weapon_->fireWeapon(*context_, playerId_, position_, velocity_, data_);
+		callback_->weaponCallback(
+			*context_, playerId_, position_, velocity_, data_, callbackData_);
 		remove = true;
 	}
+
 	Action::simulate(frameTime, remove);
 }
 
-bool ShotDelay::writeAction(NetBuffer &buffer)
+bool CallbackWeapon::writeAction(NetBuffer &buffer)
 {
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(delay_);
-	buffer.addToBuffer(velocity_);
 	buffer.addToBuffer(position_);
+	buffer.addToBuffer(velocity_);
+	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(data_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
+	buffer.addToBuffer(callbackData_);
+	buffer.addToBuffer(delay_);
+	context_->accessoryStore->writeWeapon(buffer, callback_);
 	return true;
 }
 
-bool ShotDelay::readAction(NetBufferReader &reader)
+bool CallbackWeapon::readAction(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(delay_)) return false;
-	if (!reader.getFromBuffer(velocity_)) return false;
 	if (!reader.getFromBuffer(position_)) return false;
+	if (!reader.getFromBuffer(velocity_)) return false;
+	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = (Weapon *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
+	if (!reader.getFromBuffer(callbackData_)) return false;
+	if (!reader.getFromBuffer(delay_)) return false;
+	callback_ = (WeaponCallback *) context_->accessoryStore->readWeapon(reader); 
+	if (!callback_) return false;
 	return true;
 }
-

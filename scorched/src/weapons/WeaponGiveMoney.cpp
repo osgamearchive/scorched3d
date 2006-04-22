@@ -53,12 +53,15 @@ void WeaponGiveMoney::fireWeapon(ScorchedContext &context,
 	unsigned int data)
 {
 	context.actionController->addAction(
-		new PowerUp(playerId, position, velocity, data, this));
+		new CallbackWeapon(this, 0.0f, 0, 
+			playerId, position, velocity, data));
 }
 
-void WeaponGiveMoney::invokePowerUp(ScorchedContext &context,
+void WeaponGiveMoney::weaponCallback(
+	ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	unsigned int data,
+	unsigned int userData)
 {
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (!tank) return;

@@ -21,22 +21,29 @@
 #if !defined(AFX_WeaponDelay_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
 #define AFX_WeaponDelay_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-#include <weapons/Weapon.h>
+#include <actions/CallbackWeapon.h>
 
-class WeaponDelay  : public Weapon
+class WeaponDelay  : public WeaponCallback
 {
 public:
 	WeaponDelay();
 	virtual ~WeaponDelay();
 
+	// Inherited from Weapon
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
-	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
 	REGISTER_ACCESSORY_HEADER(WeaponDelay, AccessoryPart::AccessoryWeapon);
+
+	// Inhirited from CallbackWeapon
+	virtual void weaponCallback(
+			ScorchedContext &context,
+			unsigned int playerId, Vector &position, Vector &velocity,
+			unsigned int data,
+			unsigned int userData);
 
 protected:
 	float delay_;
