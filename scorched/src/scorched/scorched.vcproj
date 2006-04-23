@@ -2231,12 +2231,6 @@
 			Name="actions"
 			Filter="">
 			<File
-				RelativePath="..\actions\ActionVector.cpp">
-			</File>
-			<File
-				RelativePath="..\actions\ActionVector.h">
-			</File>
-			<File
 				RelativePath="..\actions\AddTarget.cpp">
 			</File>
 			<File
