@@ -336,11 +336,51 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>LgBldgDebris</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponAimedUnder'>
+			<nowarheads>6</nowarheads>
+			<percentagemiss>99</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>99</inaccuracy>
+			<aimedweapon type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>60</vredirect>
+				<nextaction type='WeaponVelocity'>
+					<velocitychange>1.2</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<shieldhurtfactor>0</shieldhurtfactor>
+						<enginesound>none</enginesound>
+						<flamelife>0.2</flamelife>
+						<smokelife>0.4</smokelife>
+						<projectilescale>0.5</projectilescale>
+						<projectilemodel type='ase'>
+							<mesh>roller.ase</mesh>
+							<skin>magma.bmp</skin>
+						</projectilemodel>
+						<timedcollision>0.4</timedcollision>
+						<collisionaction type='WeaponExplosion'>
+							<nocreatedebris/>
+							<hurtamount>0</hurtamount>
+							<deform>none</deform>
+							<size>8</size>
+							<explosiontexture>none</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</nextaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Large Bldg</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.2</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -360,6 +400,9 @@ Capacity: 200 dmg pts | Collision Damage: Timed</description>
 					<explosionsound>explosions/small.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
+				<subweapon3 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon3>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -2013,6 +2056,46 @@ Does 166% collision damage to shields.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>SuicideShrapnel</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponAimedUnder'>
+			<nowarheads>3</nowarheads>
+			<percentagemiss>15</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>10</inaccuracy>
+			<aimedweapon type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>60</vredirect>
+				<nextaction type='WeaponVelocity'>
+					<velocitychange>1.2</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<shieldhurtfactor>0.1</shieldhurtfactor>
+						<enginesound>none</enginesound>
+						<flamelife>0.2</flamelife>
+						<smokelife>0.4</smokelife>
+						<projectilescale>0.33</projectilescale>
+						<projectilemodel type='ase'>
+							<mesh>roller.ase</mesh>
+							<skin>black.bmp</skin>
+						</projectilemodel>
+						<timedcollision>0.6</timedcollision>
+						<collisionaction type='WeaponExplosion'>
+							<nocreatedebris/>
+							<hurtamount>0.2</hurtamount>
+							<deform>none</deform>
+							<size>8</size>
+							<explosiontexture>none</explosiontexture>
+							<explosionsound>explosions/thud.wav</explosionsound>
+						</collisionaction>
+					</aimedweapon>
+				</nextaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Suicide Bomb</name>
 		<armslevel>2</armslevel>
 		<description>Detonate yourself causing a massive explosion</description>
@@ -2053,9 +2136,24 @@ Does 166% collision damage to shields.</description>
 					<explosiontexture>none</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon4>
-				<subweapon5 type='WeaponInvokeWeapon'>
-					<invoke>Tank Explosion</invoke>
+				<subweapon5 type='WeaponReference'>
+					<weapon>Tank Explosion</weapon>
 				</subweapon5>
+				<subweapon6 type='WeaponReference'>
+					<weapon>SuicideShrapnel</weapon>
+				</subweapon6>
+				<subweapon7 type='WeaponDelay'>
+					<delay>0.1</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>SuicideShrapnel</weapon>
+					</delayedweapon>
+				</subweapon7>
+				<subweapon8 type='WeaponDelay'>
+					<delay>0.2</delay>
+					<delayedweapon type='WeaponReference'>
+						<weapon>SuicideShrapnel</weapon>
+					</delayedweapon>
+				</subweapon8>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -3609,7 +3707,7 @@ sized nuclear warheads in different directions.
 Higher shot = more spread, lower = less spread</description>
 		<icon>apoc.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>40000</cost>
+		<cost>50000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
 		<model type='MilkShape'>icbm/icbm.txt</model>
 		<modelscale>8</modelscale>

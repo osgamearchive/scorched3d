@@ -66,9 +66,10 @@ Changes Since 3.1
             - Added lightningbolt.wav sounds back in
             - Increased cost from $25,000 to $30,000
             - Slowed down the pace by a few seconds to make it easier to watch
-        - Hornet Nest:
-            - Increased cost to $40,000
-            - Decreased armslevel from 2 to 1
+        - Hornet Nest/Swarm:
+            - Increased cost of Hornet Nest to $40,000
+            - Decreased armslevel of Hornet Nest from 2 to 1
+            - Hornets come out 1 and 2 at a time instead of in big groups
         - Rollers:
             - Increased cost of Baby Roller to $4,000 for 2
             - Decreased armslevel of Baby Roller from 7 to 6
@@ -101,7 +102,6 @@ Changes Since 3.1
                 and how much damage they take when being hit by projectiles by default
         - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
         - Reduced shield collision damage on diggers to decrease their usefulness as shield busters
-        - Reduced cost of Apocalypse from $50,000 to $40,000
         - Apoc/Dday/Strangelove now use a fixed spread (not affected by projectile's speed at shot peak)
         - Added clouds to Apoc/Dday/Strangelove for visual effect
         - Added some lightning bolts in the clouds in Strangelove
@@ -121,7 +121,6 @@ Changes Since 3.1
         - Reduced max physical damage of EMP's from 50 to 25 (shield damage went up from 75 to 100)
         - Decreased size of Dirt Clod a bit to reduce its use as a bunker builder
         - MIRV and Mega MIRV now use more reliable redirect code
-        - Hornets come out 1 and 2 at a time instead of in big groups in Hornets Nest/Swarm
         - Set Wall Of Dirt maximum to 3 per round
         - Set Ring Of Dirt maximum to 1 per round
         - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
