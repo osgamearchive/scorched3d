@@ -48,14 +48,16 @@ public:
 	void setMax(int max) { max_ = max; }
 	void setSee(int see) { see_ = see; }
 	void setCurrent(int c);
+
 	virtual void setX(float x);
+	virtual void setY(float y);
+	virtual void setW(float w);
+	virtual void setH(float h);
 
 	int getCurrent() { return current_; }
 	int getMin() { return min_; }
 	int getMax() { return max_; }
 	int getSee() { return see_; }
-
-	virtual void setH(float h);
 
 	virtual void draw();
 	virtual void simulate(float frameTime);

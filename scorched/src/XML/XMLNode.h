@@ -33,7 +33,8 @@ public:
 	{
 		XMLNodeType,
 		XMLParameterType,
-		XMLCommentType
+		XMLCommentType,
+		XMLContentType
 	};
 
 	XMLNode(const char *name, const char *content = "", 

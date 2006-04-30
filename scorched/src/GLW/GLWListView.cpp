@@ -23,11 +23,15 @@
 #include <common/Defines.h>
 #include <stdio.h>
 
+static const float BorderWidth = 20.0f;
+
 REGISTER_CLASS_SOURCE(GLWListView);
 
-GLWListView::GLWListView(float x, float y, float w, float h, int maxLen) :
+GLWListView::GLWListView(float x, float y, float w, float h, 
+	int maxLen, float textSize) :
 	GLWidget(x, y, w, h), 
-	scroll_(x + w - 17, y, h, 0, 1), maxLen_(maxLen)
+	scroll_(x + w - 17, y, h, 0, 1), 
+	maxLen_(maxLen), textSize_(textSize)
 {
 	scroll_.setMax((int) lines_.size());
 	scroll_.setSee((int) (h_ / 12.0f));
@@ -48,7 +52,7 @@ void GLWListView::draw()
 		// Stops each font draw from changing state every time
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 
-		float posY = y_ + h_ - 10.0f;
+		float posY = y_ + h_ - (textSize_ + 4.0f);
 
 		int pos = (scroll_.getMax() - scroll_.getSee()) - scroll_.getCurrent();
 		for (int i=pos; i<(int) scroll_.getMax(); i++)
@@ -56,11 +60,11 @@ void GLWListView::draw()
 			if (i >= 0 && i < (int) lines_.size())
 			{
 				GLWFont::instance()->getSmallPtFont()->drawWidth(
-					(int) w_ - 20,
-					GLWFont::widgetFontColor, 10,
+					int(w_ - BorderWidth),
+					GLWFont::widgetFontColor, textSize_,
 					x_ + 5.0f, posY, 0.0f, 
 					formatString("%s", lines_[i].c_str()));
-				posY -= 12.0f;
+				posY -= (textSize_ + 2.0f);
 			}
 
 			if (posY < y_) break;
@@ -96,6 +100,34 @@ void GLWListView::clear()
 	scroll_.setCurrent(0);
 }
 
+void GLWListView::addText(const char *text)
+{
+	std::string line;
+	std::string word;
+	float lineLen = 0.0f;
+
+	for (const char *t=text; *t; t++)
+	{
+		word += *t;
+		float wordLen = 
+			GLWFont::instance()->getSmallPtFont()->
+			getWidth(textSize_, word.c_str());
+		if (wordLen + lineLen > w_ - BorderWidth)
+		{
+			addLine(line.c_str());
+			line = "";
+			lineLen = 0.0f;
+		}
+
+		if (*t == ' ')
+		{
+			line += word;
+			lineLen += wordLen;
+			word = "";
+		}
+	}
+}
+
 void GLWListView::addLine(const char *text)
 {
 	// Remove extra lines
@@ -108,7 +140,7 @@ void GLWListView::addLine(const char *text)
 	lines_.push_back(text);
 
 	// Setup the current scroll position
-	int view = (int) (h_ / 12.0f);
+	int view = (int) (h_ / (textSize_ + 2.0f));
 
 	scroll_.setMax((int) lines_.size());
 	scroll_.setSee(view);

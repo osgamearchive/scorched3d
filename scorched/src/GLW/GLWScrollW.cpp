@@ -54,7 +54,8 @@ GLWScrollW::~GLWScrollW()
 
 void GLWScrollW::setX(float x)
 {
-	x_ = x; 
+	GLWidget::setX(x);
+
 	topButton_.setX(x_+2.0f);
 	bottomButton_.setX(x_+2.0f);
 	middleButton_.setX(x_+2.0f);
@@ -62,9 +63,26 @@ void GLWScrollW::setX(float x)
 	backButtonBot_.setX(x_+2.0f);
 }
 
+void GLWScrollW::setY(float y)
+{
+	GLWidget::setY(y);
+
+	bottomButton_.setY(y_ + 2.0f);
+	topButton_.setY(y_ + h_ - w_ + 2.0f);
+	middleButton_.setY(0.0f);
+	backButtonTop_.setY(y_ + 2.0f);
+	backButtonBot_.setY(y_ + 2.0f);
+}
+
+void GLWScrollW::setW(float w)
+{
+	GLWidget::setW(w);
+}
+
 void GLWScrollW::setH(float h)
 {
 	GLWidget::setH(h);
+
 	topButton_.setY(y_ + h_ - w_ + 2.0f);
 }
 

@@ -27,7 +27,7 @@
 class XMLParser
 {
 public:
-	XMLParser();
+	XMLParser(bool useContentNodes = false);
 	virtual ~XMLParser();
 
 	bool parse(const char *data, int len, int final);
@@ -41,6 +41,7 @@ protected:
 	XMLNode *current_;
 	XML_Parser p_;
 	std::string source_;
+	bool useContentNodes_;
 
 	void startElementHandler(const XML_Char *name,
                            const XML_Char **atts);

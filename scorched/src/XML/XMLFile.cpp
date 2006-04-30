@@ -21,7 +21,8 @@
 #include <XML/XMLFile.h>
 #include <common/FileLines.h>
 
-XMLFile::XMLFile()
+XMLFile::XMLFile(bool useContentNodes) :
+	parser_(useContentNodes)
 {
 }
 

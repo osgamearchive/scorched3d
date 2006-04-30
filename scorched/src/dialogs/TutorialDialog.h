@@ -18,24 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_XMLFileh_INCLUDE__)
-#define __INCLUDE_XMLFileh_INCLUDE__
+#if !defined(__INCLUDE_TutorialDialogh_INCLUDE__)
+#define __INCLUDE_TutorialDialogh_INCLUDE__
 
-#include <XML/XMLParser.h>
+#include <GLW/GLWWindow.h>
+#include <GLW/GLWButton.h>
+#include <GLW/GLWTextBox.h>
 
-class XMLFile
+class TutorialDialog : 
+	public GLWWindow,
+	public GLWButtonI
 {
 public:
-	XMLFile(bool useContentNodes = false);
-	virtual ~XMLFile();
+	static TutorialDialog *instance();
 
-	bool readFile(const char *fileName);
-
-	const char *getParserError() { return parser_.getParseError(); }
-	XMLNode *getRootNode() { return parser_.getRoot(); }
-
+	virtual void buttonDown(unsigned int id);
+	virtual void display();
 protected:
-	XMLParser parser_;
+	unsigned int okId_;
+	static TutorialDialog *instance_;
+
+private:
+	TutorialDialog();
+	virtual ~TutorialDialog();
 
 };
 

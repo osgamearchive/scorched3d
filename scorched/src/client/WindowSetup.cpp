@@ -45,9 +45,13 @@
 #include <dialogs/SkipAllDialog.h>
 #include <dialogs/HUDDialog.h>
 #include <dialogs/HelpButtonDialog.h>
+#include <dialogs/TutorialDialog.h>
 
 void WindowSetup::addCommonComponents(unsigned state)
 {
+	//GLWWindowManager::instance()->addWindow(state, 
+ 	//	TutorialDialog::instance(), 0, true);
+
 	std::list<GLWWindowSkin *> allStateWindows = 
 		GLWWindowSkinManager::instance()->getStateWindows("all");
 	std::list<GLWWindowSkin *>::iterator itor;

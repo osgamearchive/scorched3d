@@ -21,9 +21,9 @@
 
 #if !defined(__INCLUDE_GLWListViewh_INCLUDE__)
 #define __INCLUDE_GLWListViewh_INCLUDE__
+
 #include <GLW/GLWidget.h>
 #include <GLW/GLWScrollW.h>
-#include <common/FileLines.h>
 #include <vector>
 #include <string>
 
@@ -33,9 +33,10 @@ class GLWListView :
 public:
 	GLWListView(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f, 
-		int maxLen = -1);
+		int maxLen = -1, float textSize = 10.0f);
 	virtual ~GLWListView();
 
+	void addText(const char *text);
 	void addLine(const char *text);
 	void clear();
 
@@ -45,16 +46,18 @@ public:
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
 
+	virtual void setX(float x) { x_ = x; scroll_.setX(x_ + w_ - 17); }
+	virtual void setY(float y) { y_ = y; scroll_.setY(y_); }
 	virtual void setW(float w) { w_ = w; scroll_.setX(x_ + w_ - 17); }
 	virtual void setH(float h) { h_ = h; scroll_.setH(h_); }
 
 	REGISTER_CLASS_HEADER(GLWListView);
 
 protected:
+	float textSize_;
 	int maxLen_;
 	GLWScrollW scroll_;
 	std::vector<std::string> lines_;
 };
-
 
 #endif

@@ -25,7 +25,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-XMLParser::XMLParser() : root_(0), current_(0), 
+XMLParser::XMLParser(bool useContentNodes) : 
+	root_(0), current_(0), 
+	useContentNodes_(useContentNodes),
 	source_("Not Specified")
 {
 	// Init the XML parser
@@ -119,7 +121,19 @@ void XMLParser::endElementHandler(const XML_Char *name)
 void XMLParser::characterDataHandler(const XML_Char *s,
                             int len)
 {
-	current_->addContent(s, len);
+	if (useContentNodes_)
+	{
+		XMLNode *newNode = 
+			new XMLNode("__TEXT__", "", XMLNode::XMLContentType);
+		newNode->setLine(XML_GetCurrentLineNumber(p_),
+			XML_GetCurrentColumnNumber(p_));
+		newNode->addContent(s, len);
+		current_->addChild(newNode);
+	}
+	else
+	{
+		current_->addContent(s, len);
+	}
 }
 
 void XMLParser::startElementStaticHandler(void *userData,
