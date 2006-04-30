@@ -39,6 +39,9 @@ Fixed: Gamma settings are applied/removed when window focus occurs
 Fixed: Bug where double explosions could occur when hitting the ocean floor
 Fixed: Damage to an object is now calculated by closeness to the nearest edge (not the center)
 
+Added: WeaponGiveLives weapon primitive to award a tank an extra life
+Added: Tanks can now have lives, if a tank has a remaining life they will be ressurrected after death
+Added: flaretype attribute to WeaponProjective to allow the flare color to be set
 Added: delay attribute to WeaponRepeat to give a time delay between each repeated weapon
 Added: movementproof accessories.xml tag for shields so tank can't drive through 
 Added: aionly tanks.xml tag for tanks that only computer ais can use

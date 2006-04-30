@@ -46,14 +46,18 @@ MissileMesh::MissileMesh(Model &missile) :
 		itor != model_->getModel()->getMeshes().end();
 		itor++)
 	{
-		const char *name = (*itor)->getName();
-
+		Mesh *mesh = (*itor);
+		const char *name = mesh->getName();
 		if (strstr(name, "\"Flare") == name ||
 			strstr(name, "\"flare") == name)
 		{
+			FlareInfo info;
+
 			// Find the center that the flare should be eminated from
-			Vector center = ((*itor)->getMax() + (*itor)->getMin()) / 2.0f;
-			flarePos_.push_back(center);
+			info.position = (mesh->getMax() + mesh->getMin()) / 2.0f;
+			info.size = MAX(1.0f, (mesh->getMax() - mesh->getMin()).Magnitude());
+
+			flares_.push_back(info);
 		}
 	}	
 }
@@ -88,20 +92,20 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 	glPopMatrix();
 
 	// Draw any lense flares associated with the missile
-	std::list<Vector>::iterator flareItor;
-	for (flareItor =  flarePos_.begin();
-		 flareItor != flarePos_.end();
+	std::list<FlareInfo>::iterator flareItor;
+	for (flareItor =  flares_.begin();
+		 flareItor != flares_.end();
 		 flareItor++)
 	{
-		Vector &fpos = (*flareItor);
+		FlareInfo info = (*flareItor);
 
-        float newX = fpos[0];
+        float newX = info.position[0];
 		float newY = 
-			(fpos[1] * getFastCos(angYZRad)) - 
-			(fpos[2] * getFastSin(angYZRad));
+			(info.position[1] * getFastCos(angYZRad)) - 
+			(info.position[2] * getFastSin(angYZRad));
 		float newZ = 
-			(fpos[1] * getFastSin(angYZRad)) + 
-			(fpos[2] * getFastCos(angYZRad)); 
+			(info.position[1] * getFastSin(angYZRad)) + 
+			(info.position[2] * getFastCos(angYZRad)); 
 
 		float newX2 = 
 			(newX * getFastCos(angXYRad)) - 
@@ -116,7 +120,7 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 		newPos[1] = position[1] + newY2 * scale;
 		newPos[2] = position[2] + newZ2 * scale;
 
-		GLLenseFlare::instance()->draw(newPos, false, flareType);
+		GLLenseFlare::instance()->draw(newPos, false, flareType, info.size);
 	}
 }
 

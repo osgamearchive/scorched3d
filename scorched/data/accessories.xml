@@ -909,7 +909,7 @@ creating many burrowing missiles. These
 missiles target nearby tanks.</description>
 		<icon>hshog.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>30000</cost>
+		<cost>25000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>digger/digger.txt</model>
 		<modelscale>2</modelscale>
@@ -984,7 +984,7 @@ its highest point releases several
 small warheads. These warheads fan out 
 in a random direction.</description>
 		<icon>mirv.bmp</icon>
-		<bundlesize>2</bundlesize>
+		<bundlesize>4</bundlesize>
 		<cost>10000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<model type='ase'>
@@ -1238,7 +1238,7 @@ trace of the shot path.</description>
 	<accessory>
 		<name>Laser</name>
 		<armslevel>10</armslevel>
-		<bundlesize>3</bundlesize>
+		<bundlesize>4</bundlesize>
 		<icon>laser.bmp</icon>
 		<model type="MilkShape">laser/laser.txt</model>
 		<description>Fires a laser that cuts through hills 
@@ -1268,7 +1268,7 @@ and shields damaging the tank directly.</description>
 		<model type="MilkShape">laser/hlaser.txt</model>
 		<description>Fires a powerful laser that cuts through hills 
 and shields damaging the tank directly.</description>
-		<cost>15000</cost>
+		<cost>10000</cost>
 		<activationsound>shoot/laser1.wav</activationsound>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponLaser'>

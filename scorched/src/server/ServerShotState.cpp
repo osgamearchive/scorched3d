@@ -23,7 +23,9 @@
 #include <server/ServerState.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerCommon.h>
+#include <server/ServerNewGameState.h>
 #include <engine/ActionController.h>
+#include <actions/Resurrection.h>
 #include <coms/ComsActionsMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerStateMessage.h>
@@ -75,19 +77,20 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		// We continue simulation until there are no actions left
 		// in the action controller
 		const float maxSingleSimTime = 5.0f;
-		stepActions(state, maxSingleSimTime);
-
-		// All the actions have finished
-		if (ScorchedServer::instance()->getActionController().noReferencedActions())
-		{ 
-			// Add all the shots that should be run at the end of the round
-			// to the action controller
-			ServerShotHolder::instance()->playShots(false);
-			stepActions(state, 0.5f);
-		}
+		stepActions(state, maxSingleSimTime, true);
 	}
 	else
 	{
+		// Add all the shots that should be run at the end of the round
+		// to the action controller
+		ServerShotHolder::instance()->playShots(false);
+		
+		// Resurect any tanks that have more lives
+		resurectTanks();
+
+		// Make sure that the new actions are run
+		stepActions(state, 0.5f, false);
+
 		// We have finished all shots
 		ServerCommon::serverLog(formatString(
 			"Finished playing Shots (%.2f seconds)", totalTime_));
@@ -104,17 +107,48 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 	return false;
 }
 
-void ServerShotState::stepActions(unsigned int state, float maxSingleSimTime)
+void ServerShotState::resurectTanks()
+{
+	std::map<unsigned int, Tank *> &tanks =
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+
+		// Check for any dead tanks that can be rezed
+		if (!tank->getState().getSpectator() &&
+			!tank->getState().getInitializing() &&
+			!tank->getState().getLoading() &&
+			tank->getState().getState() == TankState::sDead &&
+			(tank->getState().getLives() > 0 ||
+			tank->getState().getMaxLives() == 0))
+		{
+			Vector tankPos = ServerNewGameState::placeTank(tank, 
+				ScorchedServer::instance()->getContext());
+
+			Resurrection *rez = new Resurrection(
+				tank->getPlayerId(), tankPos);
+			ScorchedServer::instance()->getActionController().addAction(rez);
+		}
+	}	
+}
+
+void ServerShotState::stepActions(unsigned int state, 
+	float maxSingleSimTime,
+	bool allowEvents)
 {
 	const float stepTime = 0.02f;
 	float currentTime = 0.0f;
 
-	bool allowEvents = !ScorchedServer::instance()->getActionController().allEvents();
+	bool allowEvents2 = !ScorchedServer::instance()->getActionController().allEvents();
 	while (!ScorchedServer::instance()->getActionController().noReferencedActions() &&
 		currentTime <= maxSingleSimTime)
 	{
 		ScorchedServer::instance()->getActionController().simulate(state, stepTime);
-		if (allowEvents && totalTime_ < 10.0f)
+		if (allowEvents && allowEvents2 && totalTime_ < 10.0f)
 		{
 			ScorchedServer::instance()->getActionController().setActionEvent(true);
 			events_.simulate(stepTime, ScorchedServer::instance()->getContext());

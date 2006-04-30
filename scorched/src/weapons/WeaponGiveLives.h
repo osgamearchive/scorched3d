@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,34 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_MISSILEMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
-#define AFX_MISSILEMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
+#if !defined(__INCLUDE_WeaponGiveLivesh_INCLUDE__)
+#define __INCLUDE_WeaponGiveLivesh_INCLUDE__
 
-#include <common/Vector.h>
-#include <list>
+#include <actions/CallbackWeapon.h>
 
-class Model;
-class ModelRenderer;
-class MissileMesh  
+class WeaponGiveLives  : public WeaponCallback
 {
 public:
-	MissileMesh(Model &missile);
-	virtual ~MissileMesh();
+	WeaponGiveLives();
+	virtual ~WeaponGiveLives();
 
-	void draw(Vector &position, Vector &direction, int flareType, float rotation);
-	void setScale(float scale);
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	// Inherited from WeaponPowerUp
+	virtual void weaponCallback(
+		ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data,
+		unsigned int userData);
+
+	REGISTER_ACCESSORY_HEADER(WeaponGiveLives, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float innerScale_;
-	float scale_;
-	ModelRenderer *model_;
+	int lives_;
 
-	struct FlareInfo
-	{
-		Vector position;
-		float size;
-	};
-	std::list<FlareInfo> flares_;
 };
 
-#endif // !defined(AFX_MISSILEMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
+#endif // __INCLUDE_WeaponGiveLivesh_INCLUDE__

@@ -88,6 +88,12 @@ void Tank::newGame()
 	if (tankAI_) tankAI_->newGame();
 }
 
+void Tank::rezTank()
+{
+	getState().setState(TankState::sNormal);
+	getLife().setLife(getLife().getMaxLife());
+}
+
 void Tank::clientNewGame()
 {
 	position_.clientNewGame();

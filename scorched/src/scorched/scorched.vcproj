@@ -1774,6 +1774,12 @@
 				RelativePath="..\weapons\WeaponGiveLife.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponGiveLives.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGiveLives.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponGiveMoney.cpp">
 			</File>
 			<File
@@ -2279,6 +2285,12 @@
 				RelativePath="..\actions\Napalm.h">
 			</File>
 			<File
+				RelativePath="..\actions\Resurrection.cpp">
+			</File>
+			<File
+				RelativePath="..\actions\Resurrection.h">
+			</File>
+			<File
 				RelativePath="..\actions\ShieldHit.cpp">
 			</File>
 			<File
@@ -2407,12 +2419,6 @@
 			</File>
 			<File
 				RelativePath="..\sprites\ExplosionTextures.h">
-			</File>
-			<File
-				RelativePath="..\sprites\FlareActionRenderer.cpp">
-			</File>
-			<File
-				RelativePath="..\sprites\FlareActionRenderer.h">
 			</File>
 			<File
 				RelativePath="..\sprites\MetaActionRenderer.cpp">

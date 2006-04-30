@@ -73,10 +73,16 @@ GLTexture &HelpButtonDialog::HelpMenu::getHelpTexture()
 	return helpTexture_;
 }
 
-bool HelpButtonDialog::HelpMenu::menuOpened(const char* menuName)
+bool HelpButtonDialog::HelpMenu::getMenuItems(const char* menuName, std::list<GLMenuItem> &result)
+{
+	result.push_back(GLMenuItem("Show Online Help"));
+	return true;
+}
+
+void HelpButtonDialog::HelpMenu::menuSelection(const char* menuName, 
+	const int position, GLMenuItem &item)
 {
 	showHtmlHelpDialog();
-	return false;
 }
 
 HelpButtonDialog::VolumeMenu::VolumeMenu()

@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ServerShotStateh_INCLUDE__)
 #define __INCLUDE_ServerShotStateh_INCLUDE__
 
@@ -47,7 +46,8 @@ protected:
 	bool firstTime_;
 	EventContainer events_;
 
-	void stepActions(unsigned int state, float maxSingleSimTime);
+	void stepActions(unsigned int state, float maxSingleSimTime, bool allowEvents);
+	void resurectTanks();
 
 };
 

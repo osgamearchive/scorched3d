@@ -64,8 +64,6 @@ public:
 	bool getLoading() { return loading_; }
 	void setInitializing(bool i) { initializing_ = i; }
 	bool getInitializing() { return initializing_; }
-	void setStaticTank(bool s) { staticTank_ = s; }
-	bool getStaticTank() { return staticTank_; }
 	void setAdmin(TankAdmin *admin);
 	TankAdmin *getAdmin() { return admin_; }
 	void setAdminTries(int adminTries) { adminTries_ = adminTries; }
@@ -74,6 +72,9 @@ public:
 	bool getMuted() { return muted_; }
 	void setSkipShots(bool skip) { skipshots_ = skip; }
 	bool getSkipShots() { return skipshots_; }
+	int getLives() { return lives_; }
+	void setLives(int lives) { lives_ = lives; }
+	int getMaxLives() { return maxLives_; }
 	
 	const char *getStateString();
 	const char *getSmallStateString();
@@ -88,7 +89,7 @@ protected:
 	State state_;
 	ReadyState readyState_;
 	TankAdmin *admin_; int adminTries_;
-	bool staticTank_;
+	int lives_, maxLives_;
 	bool spectator_;
 	bool initializing_;
 	bool loading_;

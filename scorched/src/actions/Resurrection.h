@@ -18,53 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_HelpButtonDialogh_INCLUDE__)
-#define __INCLUDE_HelpButtonDialogh_INCLUDE__
+#if !defined(__INCLUDE_Resurrectionh_INCLUDE__)
+#define __INCLUDE_Resurrectionh_INCLUDE__
 
-#include <GLEXT/GLTexture.h>
-#include <GLEXT/GLMenuI.h>
+#include <engine/ActionMeta.h>
+#include <common/Vector.h>
 
-class HelpButtonDialog
+class Resurrection : public ActionMeta
 {
 public:
-	static HelpButtonDialog *instance();
+	Resurrection();
+	Resurrection(
+		unsigned int playerId,
+		Vector &position);
+	virtual ~Resurrection();
 
-	struct HelpMenu : public GLMenuI
-	{
-		HelpMenu();
+	virtual void init();
+	virtual void simulate(float frameTime, bool &remove);
+	virtual bool writeAction(NetBuffer &buffer);
+	virtual bool readAction(NetBufferReader &reader);
 
-		// Inherited from GLMenuI
-		virtual void menuSelection(const char* menuName, 
-			const int position, GLMenuItem &item);
-		virtual bool getMenuItems(const char* menuName, 
-			std::list<GLMenuItem> &result);
-
-		GLTexture &getHelpTexture();
-
-	protected:
-		GLTexture helpTexture_;
-	} helpMenu_;
-
-	struct VolumeMenu : public GLMenuI
-	{
-		VolumeMenu();
-
-		// Inherited from GLMenuI
-		virtual void menuSelection(const char* menuName, 
-			const int position, GLMenuItem &item);
-		virtual bool getMenuItems(const char* menuName, 
-			std::list<GLMenuItem> &result);
-
-		GLTexture soundTexture_;
-
-	} volumeMenu_;
+	REGISTER_ACTION_HEADER(Resurrection);
 
 protected:
-	static HelpButtonDialog *instance_;
+	unsigned int playerId_;
+	Vector position_;
 
-private:
-	HelpButtonDialog();
-	virtual ~HelpButtonDialog();
 };
 
 #endif

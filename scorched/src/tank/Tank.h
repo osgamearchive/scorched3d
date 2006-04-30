@@ -48,6 +48,7 @@ public:
 	virtual void newMatch();
 	virtual void newGame();
 	virtual void clientNewGame();
+	void rezTank();
 
 	// Serialize the tank
 	virtual bool writeMessage(NetBuffer &buffer, bool writeAccessories);

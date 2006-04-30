@@ -367,11 +367,13 @@ const char *OptionEntryEnum::getDescription()
 	static std::string result;
 
 	result = description_;
+	result += " ( possible values = [";
 	for (EnumEntry *current = enums_; current->description[0]; current++)
 	{
-		result += formatString(" (\"%s\" - %i)",
+		result += formatString(" \"%s\" ",
 			current->description, current->value);
 	}
+	result += "] )";
 
 	return result.c_str();
 }

@@ -240,6 +240,9 @@ void SettingsFrame::createEnvPanel()
 			envPanel_, sizer, context_.getMovementRestrictionEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
+			envPanel_, sizer, context_.getPlayerLivesEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
 			envPanel_, sizer, context_.getDelayedDefenseActivationEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(

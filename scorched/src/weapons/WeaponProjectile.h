@@ -83,6 +83,7 @@ protected:
 	std::string engineSound_;
 	Weapon *collisionAction_;
 	ModelID modelId_;
+	int flareType_;
 
 };
 

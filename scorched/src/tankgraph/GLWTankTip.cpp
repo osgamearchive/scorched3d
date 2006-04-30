@@ -586,6 +586,36 @@ void TankElevationTip::populate()
 		tank_->getPosition().getElevationString()));
 }
 
+static void generateTargetTip(std::string &tip, Target *target)
+{
+	tip += formatString(
+		"Life   : %.0f/%.0f", 
+		target->getLife().getLife(), 
+		target->getLife().getMaxLife());
+	if (target->getShield().getCurrentShield())
+	{
+		Shield *shield = (Shield*) 
+			target->getShield().getCurrentShield()->getAction();
+		tip += formatString("\nShield : %.0f/%.0f",
+			target->getShield().getShieldPower(),
+			shield->getPower());
+	}
+	if (!target->isTarget())
+	{
+		Tank *tank = (Tank *) target;
+
+		if (tank->getState().getMaxLives() > 1)
+		{
+			tip += formatString("\nLives : %i/%i",
+				tank->getState().getLives(),
+				tank->getState().getMaxLives());
+		}
+
+		tip += formatString("\nScore  : %i",
+			tank->getScore().getScore());
+	}
+}
+
 TankTip::TankTip(Tank *tank) : 
 	tank_(tank)
 {
@@ -597,29 +627,9 @@ TankTip::~TankTip()
 
 void TankTip::populate()
 {
-	if (tank_->getShield().getCurrentShield())
-	{
-		Shield *shield = (Shield*) 
-			tank_->getShield().getCurrentShield()->getAction();
-		setText(tank_->getName(), formatString(
-				"Life   : %.0f/%.0f\n"
-				"Shield : %.0f/%.0f\n"
-				"Score  : %i\n",
-				tank_->getLife().getLife(),
-				tank_->getLife().getMaxLife(),
-				tank_->getShield().getShieldPower(),
-				shield->getPower(),
-				tank_->getScore().getScore()));
-	}
-	else
-	{
-		setText(tank_->getName(), formatString(
-				"Life   : %.0f/%.0f\n"
-				"Score  : %i\n",
-				tank_->getLife().getLife(),
-				tank_->getLife().getMaxLife(),
-				tank_->getScore().getScore()));
-	}
+	std::string tip;
+	generateTargetTip(tip, tank_);
+	setText(tank_->getName(), tip.c_str());
 }
 
 TargetTip::TargetTip(Target *target) : 
@@ -633,25 +643,9 @@ TargetTip::~TargetTip()
 
 void TargetTip::populate()
 {
-	if (target_->getShield().getCurrentShield())
-	{
-		Shield *shield = (Shield *) 
-			target_->getShield().getCurrentShield()->getAction();
-		setText(target_->getName(), formatString(
-				"Life   : %.0f/%.0f\n"
-				"Shield : %.0f/%.0f",
-				target_->getLife().getLife(),
-				target_->getLife().getMaxLife(),
-				target_->getShield().getShieldPower(),
-				shield->getPower()));
-	}
-	else
-	{
-		setText(target_->getName(), formatString(
-				"Life   : %.0f/%.0f",
-				target_->getLife().getLife(),
-				target_->getLife().getMaxLife()));
-	}
+	std::string tip;
+	generateTargetTip(tip, target_);
+	setText(target_->getName(), tip.c_str());
 }
 
 GLWTargetTips::GLWTargetTips(Target *target) : 

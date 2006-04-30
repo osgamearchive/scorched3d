@@ -35,7 +35,7 @@ WeaponProjectile::WeaponProjectile() :
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
 	engineSound_("data/wav/misc/rocket.wav"),
-	scale_(1.0f)
+	scale_(1.0f), flareType_(0)
 {
 
 }
@@ -105,6 +105,9 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 	// Get the engine sound (if any)
 	accessoryNode->getNamedChild("enginesound", engineSound_, false);
 
+	// Get the flare type (if any)
+	accessoryNode->getNamedChild("flaretype", flareType_, false);
+
 	// Get the hurt factor (if any)
 	accessoryNode->getNamedChild("shieldhurtfactor", shieldHurtFactor_, false);
 
@@ -132,7 +135,7 @@ void WeaponProjectile::fireWeapon(ScorchedContext &context,
 		velocity,
 		this, 
 		playerId, 
-		0, // FlareType
+		flareType_, // FlareType
 		data); 
 	context.actionController->addAction(action);	
 }

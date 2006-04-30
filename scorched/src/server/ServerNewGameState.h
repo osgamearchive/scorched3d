@@ -24,6 +24,7 @@
 #include <engine/GameStateI.h>
 
 // Sends out the new game message
+class Tank;
 class ScorchedContext;
 class LandscapeDefnType;
 class ServerNewGameState : 
@@ -40,14 +41,16 @@ public:
 	static void checkTeams();
 	static void checkBots();
 	static void removeTargets();
+	static void calculateStartPosition(
+		ScorchedContext &contex);
+	static Vector placeTank(Tank *tank,
+		ScorchedContext &context);
 
 protected:
 
 	static void checkTeamsAuto();
 	static void checkTeamsBotsVs();
-	void calculateStartPosition(
-		LandscapeDefnType *defn,
-		ScorchedContext &contex);
+
 };
 
 #endif

@@ -176,6 +176,9 @@ public:
 	int getMaxClimbingDistance() { return maxClimbingDistance_; }
 	OptionEntryInt &getMaxClimbingDistanceEntry() { return maxClimbingDistance_; }
 
+	int getPlayerLives() { return playerLives_; }
+	OptionEntryInt &getPlayerLivesEntry() { return playerLives_; }
+
 	int getGravity() { return gravity_; }
 	OptionEntryInt &getGravityEntry() { return gravity_; }
 
@@ -337,6 +340,7 @@ protected:
 	OptionEntryBoundedInt gravity_;
 	OptionEntryBoundedInt minFallingDistance_;
 	OptionEntryBoundedInt maxClimbingDistance_;
+	OptionEntryBoundedInt playerLives_;
 	OptionEntryEnum scoreType_;
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;

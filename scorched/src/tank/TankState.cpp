@@ -32,7 +32,8 @@ TankState::TankState(ScorchedContext &context, unsigned int playerId) :
 	context_(context), spectator_(false), 
 	loading_(false), initializing_(false),
 	muted_(false), adminTries_(0),
-	skipshots_(false), staticTank_(false)
+	skipshots_(false), 
+	lives_(1), maxLives_(1)
 {
 }
 
@@ -49,6 +50,12 @@ void TankState::newMatch()
 void TankState::newGame()
 {
 	setState(sNormal);
+	if (!tank_->isTemp())
+	{
+		maxLives_ = context_.optionsGame->getPlayerLives();
+	}
+
+	lives_ = maxLives_;
 }
 
 void TankState::clientNewGame()
@@ -100,6 +107,8 @@ bool TankState::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((int) state_);
 	buffer.addToBuffer(spectator_);
+	buffer.addToBuffer(lives_);
+	buffer.addToBuffer(maxLives_);
 	return true;
 }
 
@@ -109,5 +118,7 @@ bool TankState::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(s)) return false;
 	setState((TankState::State) s);
 	if (!reader.getFromBuffer(spectator_)) return false;
+	if (!reader.getFromBuffer(lives_)) return false;
+	if (!reader.getFromBuffer(maxLives_)) return false;
 	return true;
 }

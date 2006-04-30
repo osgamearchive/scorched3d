@@ -151,6 +151,13 @@ void TankDamage::calculateDamage()
 				// The tank is now dead
 				Tank *damagedTank = (Tank *) damagedTarget;
 				damagedTank->getState().setState(TankState::sDead);
+
+				// This tank has lost a life
+				if (damagedTank->getState().getMaxLives() > 0)
+				{
+					damagedTank->getState().setLives(
+						damagedTank->getState().getLives() - 1);
+				}
 			}
 
 			killedTank = true;
