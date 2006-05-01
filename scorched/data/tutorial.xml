@@ -2,5 +2,9 @@
 <tutorial1>Welcome to Scorched3D.
 
 This is a short tutorial to help you get to grips with the game.
-To start please click on the <b>Ok button</b> to dimiss the rules dialog.</tutorial1>
+
+<a href="tutorial2">Continue...</a></tutorial1>
+<tutorial2>This is the rules dialog.
+
+It shows the rules for the current game.  For the moment please dismis this dialog by clicking the <b>Ok</b> button.</tutorial2>
 </tutorial>

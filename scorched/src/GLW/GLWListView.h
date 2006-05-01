@@ -29,6 +29,12 @@
 #include <vector>
 #include <string>
 
+class GLWListViewI
+{
+public:
+	virtual void url(const char *url) = 0;
+};
+
 class GLWListView :
 	public GLWidget
 {
@@ -36,12 +42,13 @@ public:
 	GLWListView(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f, 
 		int maxLen = -1, float textSize = 10.0f,
-		bool scrollText = false);
+		float scrollSpeed = 0.0f);
 	virtual ~GLWListView();
 
+	void setHandler(GLWListViewI *handler) { handler_ = handler; }
 	void setColor(Vector &color) { color_ = color; }
 
-	void addXML(XMLNode *node);
+	bool addXML(XMLNode *node);
 	void addLine(const char *text);
 	void clear();
 
@@ -63,27 +70,40 @@ public:
 protected:
 	struct WordEntry
 	{
-		WordEntry(const char *word) : word_(word), bold_(false) { }
+		WordEntry(const char *word, Vector &color) : 
+			word_(word), color_(color) { }
 
-		bool bold_;
+		Vector color_;
+		std::string href_;
 		std::string word_;
 	};
 	struct LineEntry
 	{
 		std::vector<WordEntry> words_;
 	};
+	struct UrlEntry
+	{
+		float x_, y_;
+		float w_, h_;
+		WordEntry *entry_;
+	};
 
-	bool scrollText_;
+	GLWListViewI *handler_;
 	float currentPosition_;
+	float scrollSpeed_;
 	float textSize_;
 	int maxLen_;
 	Vector color_;
 	GLWScrollW scroll_;
 	std::vector<LineEntry> lines_;
+	std::vector<UrlEntry> urls_;
 
-	void addXML(XMLNode *node, float &lineLen);
 	void setScroll();
-	void addWordEntry(std::string &word, XMLNode *parentNode);
+	bool addWordEntry(std::list<WordEntry> &words, 
+		std::string &word, XMLNode *parentNode);
+	bool getLines(std::list<WordEntry> &words, float &lineLen);
+	bool getWords(XMLNode *node, std::list<WordEntry> &words);
+	void drawUrl(WordEntry &entry, int drawChars, float x, float y);
 };
 
 #endif

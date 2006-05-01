@@ -20,7 +20,10 @@
 
 #include <GLW/GLWListView.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWTranslate.h>
 #include <common/Defines.h>
+#include <client/ScorchedClient.h>
+#include <engine/GameState.h>
 #include <stdio.h>
 
 static const float BorderWidth = 20.0f;
@@ -28,11 +31,12 @@ static const float BorderWidth = 20.0f;
 REGISTER_CLASS_SOURCE(GLWListView);
 
 GLWListView::GLWListView(float x, float y, float w, float h, 
-	int maxLen, float textSize, bool scrollText) :
+	int maxLen, float textSize, float scrollSpeed) :
 	GLWidget(x, y, w, h), 
 	scroll_(x + w - 17, y, h - 1, 0, 1), 
 	maxLen_(maxLen), textSize_(textSize),
-	scrollText_(scrollText)
+	scrollSpeed_(scrollSpeed),
+	handler_(0)
 {
 	color_ = GLWFont::widgetFontColor;
 	scroll_.setMax((int) lines_.size());
@@ -54,6 +58,9 @@ void GLWListView::draw()
 		// Stops each font draw from changing state every time
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 		GLFont2d *font = GLWFont::instance()->getSmallPtFont();
+
+		// Clear the currently stored urls
+		urls_.clear();
 
 		// Calculate current position
 		float posY = y_ + h_ - (textSize_ + 4.0f);
@@ -91,7 +98,7 @@ void GLWListView::draw()
 					// Check if there is space left to draw this word
 					int possibleChars = font->getChars(textSize_, wordEntry.word_.c_str(), width - widthUsed);
 					int drawChars = possibleChars;
-					if (scrollText_)
+					if (scrollSpeed_ > 0.0f)
 					{
 						if (possibleChars + charCount > (int) currentPosition_)
 						{
@@ -99,16 +106,26 @@ void GLWListView::draw()
 						}
 					}
 
-					// Draw this word
-					Vector red(1.0f, 0.0f, 0.0f);
-					font->drawSubStr(0, drawChars,
-						(wordEntry.bold_?red:color_), 
-						textSize_,
-						x_ + 5.0f + widthUsed, posY, 0.0f, 
-						formatString("%s", wordEntry.word_.c_str()));
+					if (drawChars > 0)
+					{
+						// Draw this word
+						font->drawSubStr(0, drawChars,
+							wordEntry.color_,
+							textSize_,
+							x_ + 5.0f + widthUsed, posY, 0.0f, 
+							formatString("%s", wordEntry.word_.c_str()));
+
+						// Draw the url (if any)
+						if (wordEntry.href_.size() > 0)
+						{
+							drawUrl(wordEntry, drawChars, widthUsed, posY);
+						}
+					}
 
 					// Add this word to the space used
-					widthUsed += font->getWidth(textSize_, wordEntry.word_.c_str());
+					float wordWidth = font->getWidth(
+						textSize_, wordEntry.word_.c_str());
+					widthUsed += wordWidth;
 					charCount += (int) wordEntry.word_.size();
 				}
 
@@ -117,10 +134,10 @@ void GLWListView::draw()
 			}
 
 			// Check if we have drawn more than we should see
-			if (scrollText_ && (charCount > int(currentPosition_))) break;
+			if ((scrollSpeed_ > 0.0f) && (charCount > int(currentPosition_))) break;
 			if (posY < y_) 
 			{
-				if (scrollText_)
+				if (scrollSpeed_ > 0.0f)
 				{
 					scroll_.setCurrent(scroll_.getCurrent() - 1);
 				}
@@ -134,12 +151,30 @@ void GLWListView::draw()
 
 void GLWListView::simulate(float frameTime)
 {
-	currentPosition_ += (frameTime * 8.0f);
+	currentPosition_ += (frameTime * scrollSpeed_);
 	scroll_.simulate(frameTime);
 }
 
 void GLWListView::mouseDown(float x, float y, bool &skipRest)
 {
+	std::vector<UrlEntry>::iterator itor;
+	for (itor = urls_.begin();
+		itor != urls_.end();
+		itor++)
+	{
+		UrlEntry &entry = *itor;
+		if (inBox(x, y, entry.x_, entry.y_, entry.w_, entry.h_))
+		{
+			if (handler_)
+			{
+				const char *url = entry.entry_->href_.c_str();
+				handler_->url(url);
+			}
+			skipRest = true;
+			return;
+		}
+	}
+
 	scroll_.mouseDown(x, y, skipRest);
 }
 
@@ -157,21 +192,71 @@ void GLWListView::clear()
 {
 	lines_.clear();
 	scroll_.setCurrent(0);
+	resetPosition();
 }
 
-void GLWListView::addWordEntry(std::string &word, XMLNode *parentNode)
+bool GLWListView::addWordEntry(std::list<WordEntry> &words,
+	std::string &word, XMLNode *parentNode)
 {
-	WordEntry wordEntry(word.c_str());
-	if (0 == strcmp("b", parentNode->getName()))
-	{
-		wordEntry.bold_ = true;
-	}
+	WordEntry wordEntry(word.c_str(), color_);
 	word = "";
 
-	lines_.back().words_.push_back(wordEntry);
+	if (0 == strcmp("b", parentNode->getName()))
+	{
+		wordEntry.color_ = Vector(0.4f, 0.0f, 0.0f);
+	} 
+	else if (0 == strcmp("a", parentNode->getName()))
+	{
+		wordEntry.color_ = Vector(0.4f, 0.0f, 0.0f);
+		if (!parentNode->getNamedParameter("href", wordEntry.href_))
+		{
+			return false;
+		}
+	}
+
+	words.push_back(wordEntry);
+	return true;
 }
 
-void GLWListView::addXML(XMLNode *node, float &lineLen)
+bool GLWListView::getLines(std::list<WordEntry> &words, float &lineLen)
+{
+	std::list<WordEntry>::iterator itor;
+	for (itor = words.begin();
+		itor != words.end();
+		itor++)
+	{
+		WordEntry &wordEntry = *itor;
+
+		if (wordEntry.word_.c_str()[0] == '\n')
+		{
+			// Add a new line
+			LineEntry lineEntry;
+			lines_.push_back(lineEntry);
+			lineLen = 0.0f;
+		}
+		else
+		{
+			// Check if weve run out of space on the current line
+			float wordLen = 
+				GLWFont::instance()->getSmallPtFont()->
+				getWidth(textSize_, wordEntry.word_.c_str());
+			if (wordLen + lineLen >= w_ - BorderWidth)
+			{
+				// Add a new line
+				LineEntry lineEntry;
+				lines_.push_back(lineEntry);
+				lineLen = 0.0f;
+			}
+		
+			lines_.back().words_.push_back(wordEntry);
+			lineLen += wordLen;
+		}
+	}
+
+	return true;
+}
+
+bool GLWListView::getWords(XMLNode *node, std::list<WordEntry> &words)
 {
 	// For each child XML node
 	std::list<XMLNode *>::iterator childrenItor;
@@ -186,7 +271,7 @@ void GLWListView::addXML(XMLNode *node, float &lineLen)
 		if (child->getType() == XMLNode::XMLNodeType)
 		{
 			// Its another node, recurse over its children too
-			addXML(child, lineLen);
+			if (!getWords(child, words)) return false;
 		}
 		else
 		{
@@ -197,62 +282,48 @@ void GLWListView::addXML(XMLNode *node, float &lineLen)
 				if (*t == '\n')
 				{
 					// Add the current word
-					addWordEntry(word, node);
+					if (!addWordEntry(words, word, node)) return false;
 
-					// Add a new line
-					LineEntry lineEntry;
-					lines_.push_back(lineEntry);
-					lineLen = 0.0f;
+					word = "\n";
+					if (!addWordEntry(words, word, node)) return false;
 				}
 				else
 				{
 					word += *t;
 
-					// Check if weve run out of space on the current line
-					float wordLen = 
-						GLWFont::instance()->getSmallPtFont()->
-						getWidth(textSize_, word.c_str());
-					if (wordLen + lineLen > w_ - BorderWidth)
-					{
-						// Add a new line
-						LineEntry lineEntry;
-						lines_.push_back(lineEntry);
-						lineLen = 0.0f;
-					}
-
 					// A word break
 					if (*t == ' ')
 					{
 						// Add a new word
-						addWordEntry(word, node);
-						lineLen += wordLen;
+						if (!addWordEntry(words, word, node)) return false;
 					}
 				}
 			}
 
 			// Add any words we've got left over
-			float wordLen = 
-				GLWFont::instance()->getSmallPtFont()->
-				getWidth(textSize_, word.c_str());
-			addWordEntry(word, node);
-			lineLen += wordLen;
+			if (!addWordEntry(words, word, node)) return false;
 		}
 	}
+
+	return true;
 }
 
-void GLWListView::addXML(XMLNode *node)
+bool GLWListView::addXML(XMLNode *node)
 {
-	float lineLen = 0.0f;
+	// Recurse over the document adding the words
+	std::list<WordEntry> words;
+	if (!getWords(node, words)) return false;
 
 	// Add a blank line to start with
 	LineEntry lineEntry;
 	lines_.push_back(lineEntry);
-
-	// Recurse over the document adding the words
-	addXML(node, lineLen);
+	float lineLen = 0.0f;
+	getLines(words, lineLen);
 
 	// Setup the current scroll position
 	setScroll();
+
+	return true;
 }
 
 void GLWListView::addLine(const char *text)
@@ -264,7 +335,7 @@ void GLWListView::addLine(const char *text)
 	}
 
 	// Generate the line to add (add a single word)
-	WordEntry wordEntry(text);
+	WordEntry wordEntry(text, color_);
 	LineEntry lineEntry;
 	lineEntry.words_.push_back(wordEntry);
 	lines_.push_back(lineEntry);
@@ -279,4 +350,30 @@ void GLWListView::setScroll()
 	scroll_.setMax((int) lines_.size());
 	scroll_.setSee(view);
 	scroll_.setCurrent(scroll_.getMax() - scroll_.getSee());
+}
+
+void GLWListView::drawUrl(WordEntry &wordEntry, int drawChars, float x, float y)
+{
+	GLFont2d *font = GLWFont::instance()->getSmallPtFont();
+	float partWordWidth = font->getWidth(
+		textSize_, wordEntry.word_.c_str(), drawChars);
+
+	// Add the new url entry
+	UrlEntry urlEntry;
+	urlEntry.x_ = x_ + 5.0f + x;
+	urlEntry.y_ = y - 2.0f;
+	urlEntry.w_ = partWordWidth;
+	urlEntry.h_ = textSize_ + 2.0f;
+	urlEntry.entry_ = &wordEntry;
+	urls_.push_back(urlEntry);
+
+	// Draw the underline
+	GLState noTexState(GLState::TEXTURE_OFF);
+	glLineWidth(2.0f);
+	glColor3fv(wordEntry.color_);
+	glBegin(GL_LINES);
+		glVertex2f(x_ + 5.0f + x, y - 2.0f);
+		glVertex2f(x_ + 5.0f + x + partWordWidth, y - 2.0f);
+	glEnd();
+	glLineWidth(1.0f);
 }

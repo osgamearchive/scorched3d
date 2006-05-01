@@ -24,19 +24,25 @@
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 #include <GLW/GLWListView.h>
+#include <XML/XMLFile.h>
 
 class TutorialDialog : 
 	public GLWWindow,
-	public GLWButtonI
+	public GLWListViewI
 {
 public:
 	static TutorialDialog *instance();
 
 	virtual void buttonDown(unsigned int id);
 	virtual void display();
+
+	virtual void url(const char *url);
 protected:
 	static TutorialDialog *instance_;
 	GLWListView *listView_;
+	XMLFile file_;
+
+	void showPage(XMLNode *node);
 
 private:
 	TutorialDialog();

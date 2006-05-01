@@ -23,7 +23,6 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWListView.h>
-#include <XML/XMLFile.h>
 #include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
 #include <common/Logger.h>
@@ -43,32 +42,30 @@ TutorialDialog *TutorialDialog::instance()
 }
 
 TutorialDialog::TutorialDialog() : 
-	GLWWindow("Tutorial", 160.0f, -140.0f, 470.0f, 120.0f, eTransparent |eSmallTitle,
-		"The ingame tutorial.")
+	GLWWindow("Tutorial", 160.0f, -120.0f, 
+		470.0f, 120.0f, eTransparent | eNoTitle,
+		"The ingame tutorial."),
+	file_(true)
 {
 	Vector listColor(0.0f, 0.0f, 0.0f);
-	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 95.0f, -1, 12.0f, true);
+	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 95.0f, -1, 12.0f, 16.0f);
 	listView_->setColor(listColor);
+	listView_->setHandler(this);
 	addWidget(listView_, 0, SpaceAll, 10.0f);
 
-	XMLFile file(true);
-	if (!file.readFile(getDataFile("data/tutorial.xml")) ||
-		!file.getRootNode())
+	if (!file_.readFile(getDataFile("data/tutorial.xml")) ||
+		!file_.getRootNode())
 	{
 		dialogMessage("Scorched Tutorial", formatString(
 					  "Failed to parse \"data/tutorial.xml\"\n%s", 
-					  file.getParserError()));
+					  file_.getParserError()));
 	}
 	else
 	{
 		std::string start;
-		if (file.getRootNode()->getNamedParameter("start", start, false))
+		if (file_.getRootNode()->getNamedParameter("start", start, false))
 		{
-			XMLNode *startNode;
-			if (file.getRootNode()->getNamedChild(start.c_str(), startNode, false))
-			{
-				listView_->addXML(startNode);
-			}
+			url(start.c_str());
 		}
 	}
 
@@ -81,6 +78,12 @@ TutorialDialog::~TutorialDialog()
 
 }
 
+void TutorialDialog::showPage(XMLNode *node)
+{
+	listView_->clear();
+	listView_->addXML(node);
+}
+
 void TutorialDialog::display()
 {
 	GLWWindow::display();
@@ -91,3 +94,11 @@ void TutorialDialog::buttonDown(unsigned int id)
 {
 }
 
+void TutorialDialog::url(const char *url)
+{
+	XMLNode *startNode;
+	if (file_.getRootNode()->getNamedChild(url, startNode, false))
+	{
+		showPage(startNode);
+	}
+}

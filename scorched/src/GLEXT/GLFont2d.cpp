@@ -50,10 +50,13 @@ bool GLFont2d::getInit()
 	return (textures_ != 0);
 }
 
-float GLFont2d::getWidth(float size, const char *text)
+float GLFont2d::getWidth(float size, const char *text, int len)
 {
 	float width = 0.0f;
-	for (char *a=(char *) text; *a; a++)
+	if (len == 0) len = (int) strlen(text);
+
+	char *a=(char *) text;
+	for (int i=0; i<len; i++, a++)
 	{
 		width += float(characters_[*a].advances) * size / height_;
 	}

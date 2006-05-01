@@ -66,7 +66,7 @@ public:
 			  float x, float y, float z, 
 			  const char *text);
 
-	float getWidth(float size, const char *text);
+	float getWidth(float size, const char *text, int len = 0);
 	int getChars(float size, const char *text, float width);
 
 protected:
