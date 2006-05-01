@@ -23,6 +23,7 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWListView.h>
+#include <XML/XMLFile.h>
 #include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
 #include <common/Logger.h>
@@ -42,23 +43,34 @@ TutorialDialog *TutorialDialog::instance()
 }
 
 TutorialDialog::TutorialDialog() : 
-	GLWWindow("Tutorial", 440.0f, 120.0f, eTransparent |eSmallTitle,
+	GLWWindow("Tutorial", 160.0f, -140.0f, 470.0f, 120.0f, eTransparent |eSmallTitle,
 		"The ingame tutorial.")
 {
-	GLWListView *listView = new GLWListView(0.0f, 0.0f, 440.0f, 95.0f, -1, 12.0f);
-	addWidget(listView, 0, SpaceAll, 10.0f);
+	Vector listColor(0.0f, 0.0f, 0.0f);
+	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 95.0f, -1, 12.0f, true);
+	listView_->setColor(listColor);
+	addWidget(listView_, 0, SpaceAll, 10.0f);
 
-	/*GLWPanel *buttonPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
-	GLWButton *okButton = new GLWTextButton("Next", 10, 45, 105, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX);
-	okId_ = okButton->getId();
-	buttonPanel->addWidget(okButton);
-	buttonPanel->setLayout(GLWPanel::LayoutHorizontal);
-	addWidget(buttonPanel, 0, SpaceAll | AlignRight, 10.0f);*/
-
-	listView->addText("Test viewer capibility to handle basic use of 'textLength' and 'lengthAdjust' attributes. "
-		"There are four pairs of sub-tests. Each pair of sub-tests consists of the same two strings: \"Line to Stretch\" on the left, and \"this is a line to squeeze\" on the right."
-		"The first (topmost) pair contains no occurrences of the textLength and lengthAdjust attributes in the 'text' elements. The red reference line under each of the top two strings indicates the approximate length of the strings. Since the lengths are not constrained by the 'textLength' attribute, small variations of the lengths are permissible. ");
+	XMLFile file(true);
+	if (!file.readFile(getDataFile("data/tutorial.xml")) ||
+		!file.getRootNode())
+	{
+		dialogMessage("Scorched Tutorial", formatString(
+					  "Failed to parse \"data/tutorial.xml\"\n%s", 
+					  file.getParserError()));
+	}
+	else
+	{
+		std::string start;
+		if (file.getRootNode()->getNamedParameter("start", start, false))
+		{
+			XMLNode *startNode;
+			if (file.getRootNode()->getNamedChild(start.c_str(), startNode, false))
+			{
+				listView_->addXML(startNode);
+			}
+		}
+	}
 
 	setLayout(GLWPanel::LayoutVerticle);
 	layout();
@@ -72,13 +84,10 @@ TutorialDialog::~TutorialDialog()
 void TutorialDialog::display()
 {
 	GLWWindow::display();
+	listView_->resetPosition();
 }
 
 void TutorialDialog::buttonDown(unsigned int id)
 {
-	if (id == okId_)
-	{
-
-	}
 }
 

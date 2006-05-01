@@ -76,7 +76,7 @@ void GLWDropDownText::draw()
 	if (getCurrentEntry())
 	{
 		GLWFont::instance()->getLargePtFont()->drawWidth(
-			(int) w_ - 25,
+			w_ - 25.0f,
 			GLWFont::widgetFontColor, 14,
 			x_ + 5.0f, y_ + 5.0f, 0.0f,
 			getCurrentEntry()->getText());

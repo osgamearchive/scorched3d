@@ -77,7 +77,7 @@ void GLWTalkBox::draw()
 
 	Vector white(0.9f, 0.9f, 1.0f);
 	GLWFont::instance()->getLargePtFont()->drawWidthRhs(
-		int(w_) - 10,
+		w_ - 10.0f,
 		white, 12,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, 
 		formatString("%s: %s%s", 

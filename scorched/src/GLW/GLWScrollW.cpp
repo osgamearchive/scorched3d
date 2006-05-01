@@ -214,6 +214,9 @@ void GLWScrollW::startDrag(unsigned int id)
 
 void GLWScrollW::setCurrent(int newCurrent)
 {
+	if (newCurrent < min_) newCurrent = min_;
+	else if (newCurrent > max_ - see_) newCurrent = max_ - see_;
+
 	int diffCurrent = current_ - newCurrent;
 	current_ = newCurrent;
 	if (handler_) handler_->positionChange(getId(), current_, -diffCurrent);

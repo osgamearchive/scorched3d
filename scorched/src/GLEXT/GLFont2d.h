@@ -47,11 +47,11 @@ public:
 	void drawA(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
 			  const char *text);
-	void drawWidth(int width, 
+	void drawWidth(float width, 
 				 Vector &color, float size, 
 				 float x, float y, float z, 
 				 const char *text);
-	void drawWidthRhs(int width, 
+	void drawWidthRhs(float width, 
 				 Vector &color, float size, 
 				 float x, float y, float z, 
 				 const char *text);
@@ -65,7 +65,9 @@ public:
 	void drawBilboard(Vector &color, float alpha, float size, 
 			  float x, float y, float z, 
 			  const char *text);
+
 	float getWidth(float size, const char *text);
+	int getChars(float size, const char *text, float width);
 
 protected:
 	GLuint *textures_;

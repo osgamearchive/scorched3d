@@ -23,7 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
-#include <GLW/GLWTextBox.h>
+#include <GLW/GLWListView.h>
 
 class TutorialDialog : 
 	public GLWWindow,
@@ -35,8 +35,8 @@ public:
 	virtual void buttonDown(unsigned int id);
 	virtual void display();
 protected:
-	unsigned int okId_;
 	static TutorialDialog *instance_;
+	GLWListView *listView_;
 
 private:
 	TutorialDialog();

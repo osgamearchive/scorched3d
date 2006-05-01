@@ -56,7 +56,7 @@ void GLWFileView::draw()
 	for (int i=scroll_.getMax() - scroll_.getCurrent(); i<(int) lines_.getLines().size(); i++)
 	{
 		GLWFont::instance()->getSmallPtFont()->drawWidth(
-			(int) w_,
+			w_,
 			GLWFont::widgetFontColor, 8,
 			x_ + 5.0f, posY, 0.0f, 
 			formatString("%s", lines_.getLines()[i].c_str()));

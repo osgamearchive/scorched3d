@@ -49,9 +49,6 @@
 
 void WindowSetup::addCommonComponents(unsigned state)
 {
-	//GLWWindowManager::instance()->addWindow(state, 
- 	//	TutorialDialog::instance(), 0, true);
-
 	std::list<GLWWindowSkin *> allStateWindows = 
 		GLWWindowSkinManager::instance()->getStateWindows("all");
 	std::list<GLWWindowSkin *>::iterator itor;
@@ -204,6 +201,8 @@ void WindowSetup::setupGameWindows()
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		GLWSelector::instance(), 0, true);
+	//GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+ 	//	TutorialDialog::instance(), 0, true);
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);

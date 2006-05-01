@@ -56,7 +56,7 @@ void GLWTextBox::draw()
 	glEnd();
 
 	GLWFont::instance()->getLargePtFont()->drawWidth(
-		(int) w_,
+		w_,
 		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, 
 		formatString("%s%s", text_.c_str(), cursor_?"":"_"));

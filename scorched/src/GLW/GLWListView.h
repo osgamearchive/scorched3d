@@ -24,6 +24,8 @@
 
 #include <GLW/GLWidget.h>
 #include <GLW/GLWScrollW.h>
+#include <XML/XMLNode.h>
+#include <common/Vector.h>
 #include <vector>
 #include <string>
 
@@ -33,12 +35,17 @@ class GLWListView :
 public:
 	GLWListView(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f, 
-		int maxLen = -1, float textSize = 10.0f);
+		int maxLen = -1, float textSize = 10.0f,
+		bool scrollText = false);
 	virtual ~GLWListView();
 
-	void addText(const char *text);
+	void setColor(Vector &color) { color_ = color; }
+
+	void addXML(XMLNode *node);
 	void addLine(const char *text);
 	void clear();
+
+	void resetPosition() { currentPosition_ = 0.0f; }
 
 	virtual void draw();
 	virtual void simulate(float frameTime);
@@ -49,15 +56,34 @@ public:
 	virtual void setX(float x) { x_ = x; scroll_.setX(x_ + w_ - 17); }
 	virtual void setY(float y) { y_ = y; scroll_.setY(y_); }
 	virtual void setW(float w) { w_ = w; scroll_.setX(x_ + w_ - 17); }
-	virtual void setH(float h) { h_ = h; scroll_.setH(h_); }
+	virtual void setH(float h) { h_ = h; scroll_.setH(h_ - 1); }
 
 	REGISTER_CLASS_HEADER(GLWListView);
 
 protected:
+	struct WordEntry
+	{
+		WordEntry(const char *word) : word_(word), bold_(false) { }
+
+		bool bold_;
+		std::string word_;
+	};
+	struct LineEntry
+	{
+		std::vector<WordEntry> words_;
+	};
+
+	bool scrollText_;
+	float currentPosition_;
 	float textSize_;
 	int maxLen_;
+	Vector color_;
 	GLWScrollW scroll_;
-	std::vector<std::string> lines_;
+	std::vector<LineEntry> lines_;
+
+	void addXML(XMLNode *node, float &lineLen);
+	void setScroll();
+	void addWordEntry(std::string &word, XMLNode *parentNode);
 };
 
 #endif

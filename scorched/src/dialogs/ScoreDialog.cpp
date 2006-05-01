@@ -424,7 +424,7 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			textX + rankLeft, textY, 0.0f,
 			formatString("%s", rank));
 		GLWFont::instance()->getSmallPtFont()->drawWidth(
-			int(killsLeft - nameLeft),
+			killsLeft - nameLeft,
 			current->getColor(),
 			10,
 			textX + nameLeft, textY, 0.0f,

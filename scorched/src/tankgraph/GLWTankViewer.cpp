@@ -331,11 +331,11 @@ void GLWTankViewer::drawCaption(int pos)
 
 	Vector color(0.3f, 0.3f, 0.3f);
 	GLWFont::instance()->getSmallPtFont()->
-		drawWidth(int(TankSquareSize * 2 + TankPadding), 
+		drawWidth(TankSquareSize * 2 + TankPadding, 
 			color, 10.0f, -70.0f, 75.0f, 0.0f, 
 			models_[pos]->getName());
 	GLWFont::instance()->getSmallPtFont()->
-		drawWidth(int(TankSquareSize * 2 + TankPadding), 
+		drawWidth(TankSquareSize * 2 + TankPadding, 
 			color, 10.0f, -70.0f, 63.0f, 0.0f, 
 			formatString("(%i Triangles)", models_[pos]->getNoTris()));
 }

@@ -60,6 +60,18 @@ float GLFont2d::getWidth(float size, const char *text)
 	return width;
 }
 
+int GLFont2d::getChars(float size, const char *text, float len)
+{
+	int l = 0;
+	float width = 0.0f;
+	for (char *a=(char *) text; *a; a++)
+	{
+		width += float(characters_[*a].advances) * size / height_;
+		if (width < len) l++;
+	}
+	return l;
+}
+
 void GLFont2d::draw(Vector &color, float size, 
 					float x, float y, float z, 
 					const char *text)
@@ -100,22 +112,15 @@ void GLFont2d::drawSubStr(int start, int len,
 	}
 }
 
-void GLFont2d::drawWidth(int len, Vector &color, float size, 
-					   float x, float y, float z, 
-					   const char *text)
+void GLFont2d::drawWidth(float len, Vector &color, float size, 
+	float x, float y, float z, 
+	const char *text)
 {
-	int l = 0;
-	float width = 0.0f;
-	for (char *a=(char *) text; *a; a++)
-	{
-		width += float(characters_[*a].advances) * size / height_;
-		if (width < len) l++;
-	}
-
+	int l = getChars(size, text, len);
 	drawString(l, color, 1.0f, size, x, y, z, text, false);
 }
 
-void GLFont2d::drawWidthRhs(int len, Vector &color, float size, 
+void GLFont2d::drawWidthRhs(float len, Vector &color, float size, 
 					   float x, float y, float z, 
 					   const char *text)
 {
