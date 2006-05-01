@@ -201,8 +201,8 @@ void WindowSetup::setupGameWindows()
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		GLWSelector::instance(), 0, true);
-	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
- 		TutorialDialog::instance(), 0, true);
+	//GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+ 	//	TutorialDialog::instance(), 0, true);
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);
