@@ -98,6 +98,7 @@ public:
 		unsigned int flags = 0, 
 		float width = 0.0f);
 	std::list<GLWPanelEntry> &getWidgets() { return widgets_; }
+	GLWidget *getWidgetByName(const char *name);
 
 	REGISTER_CLASS_HEADER(GLWPanel);
 

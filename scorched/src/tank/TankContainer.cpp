@@ -196,6 +196,7 @@ void TankContainer::setAllDead()
 			if (current->getState().getState() != TankState::sPending)
 			{
 				current->getState().setState(TankState::sDead);
+				current->getState().setLives(0);
 			}
 		}
 	}

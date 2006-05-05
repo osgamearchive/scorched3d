@@ -30,6 +30,8 @@ static const float BorderWidth = 20.0f;
 
 REGISTER_CLASS_SOURCE(GLWListView);
 
+unsigned GLWListView::WordEntry::wordRefCount_ = 1;
+
 GLWListView::GLWListView(float x, float y, float w, float h, 
 	int maxLen, float textSize, float scrollSpeed) :
 	GLWidget(x, y, w, h), 
@@ -115,6 +117,16 @@ void GLWListView::draw()
 							x_ + 5.0f + widthUsed, posY, 0.0f, 
 							formatString("%s", wordEntry.word_.c_str()));
 
+						// Send the event (if any)
+						if (wordEntry.wordRef_ != wordEntry.wordRefCount_)
+						{
+							wordEntry.wordRef_ = wordEntry.wordRefCount_;
+							if (!wordEntry.event_.empty() && handler_)
+							{
+								handler_->event(wordEntry.event_);
+							}
+						}
+
 						// Draw the url (if any)
 						if (wordEntry.href_.size() > 0)
 						{
@@ -195,15 +207,31 @@ void GLWListView::clear()
 	resetPosition();
 }
 
+void GLWListView::resetPosition()
+{
+	GLWListView::WordEntry::wordRefCount_++;
+	currentPosition_ = 0.0f;
+}
+
 bool GLWListView::addWordEntry(std::list<WordEntry> &words,
 	std::string &word, XMLNode *parentNode)
 {
 	WordEntry wordEntry(word.c_str(), color_);
 	word = "";
 
-	if (0 == strcmp("b", parentNode->getName()))
+	if (0 == strcmp("event", parentNode->getName()))
 	{
 		wordEntry.color_ = Vector(0.4f, 0.0f, 0.0f);
+
+		std::list<XMLNode *> &parameters = parentNode->getParameters();
+		std::list<XMLNode *>::iterator itor;
+		for (itor = parameters.begin();
+			itor != parameters.end();
+			itor++)
+		{
+			XMLNode *node = *itor;
+			wordEntry.event_[node->getName()] = node->getContent();
+		}
 	} 
 	else if (0 == strcmp("a", parentNode->getName()))
 	{

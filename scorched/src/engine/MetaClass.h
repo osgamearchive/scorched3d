@@ -56,6 +56,7 @@ public:
 	static void addMap(const char *name, MetaClass *mclass);
 	static std::map<std::string, MetaClass *> *classMap;
 	static MetaClass *getNewClass(const char *name);
+	static MetaClass *getClassReference(const char *name);
 };
 
 #endif // __INCLUDE_MetaClassh_INCLUDE__

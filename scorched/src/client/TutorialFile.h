@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,34 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GLWTEXTBUTTON_H__36D49253_FFE6_4E93_89FC_F2CAC2DC3336__INCLUDED_)
-#define AFX_GLWTEXTBUTTON_H__36D49253_FFE6_4E93_89FC_F2CAC2DC3336__INCLUDED_
+#if !defined(__INCLUDE_TutorialFileh_INCLUDE__)
+#define __INCLUDE_TutorialFileh_INCLUDE__
 
-#include <GLW/GLWButton.h>
-#include <GLW/GLWLabel.h>
+#include <XML/XMLFile.h>
+#include <map>
 
-class GLWTextButton : public GLWButton
+class TutorialFile
 {
 public:
-	GLWTextButton(char *buttonText = "", 
-		float x = 0.0f, float y = 0.0f, float w = 0.0f, 
-		GLWButtonI *handler = 0,
-		unsigned flags = 0,
-		float size = 14.0f);
-	virtual ~GLWTextButton();
+	TutorialFile();
+	virtual ~TutorialFile();
 
-	virtual void draw();
+	bool parseFile(const char *file);
 
-	void setText(const char *text) { label_.setText(text); setName(text); }
-	const char *getText() { return label_.getText(); }
-	void setColor(const Vector &color) { color_ = color; }
-
-	REGISTER_CLASS_HEADER(GLWTextButton);
+	XMLNode *getStartText() { return start_->text_; }
+	XMLNode *getText(const char *name); 
 
 protected:
-	GLWLabel label_;
-	Vector color_;
+	class Entry
+	{
+	public:
+		std::string name_;
+		XMLNode *text_;
+	};
 
+	XMLFile file_;
+	std::map<std::string, Entry *> entries_;
+	Entry *start_;
 };
 
-#endif // !defined(AFX_GLWTEXTBUTTON_H__36D49253_FFE6_4E93_89FC_F2CAC2DC3336__INCLUDED_)
+#endif // __INCLUDE_TutorialFileh_INCLUDE__

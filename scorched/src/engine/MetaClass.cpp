@@ -46,8 +46,15 @@ void MetaClassRegistration::addMap(const char *name, MetaClass *mclass)
 
 MetaClass *MetaClassRegistration::getNewClass(const char *name)
 {
+	MetaClass *mclass = getClassReference(name);
+	if (!mclass) return 0;
+	return mclass->getClassCopy();
+}
+
+MetaClass *MetaClassRegistration::getClassReference(const char *name)
+{
 	std::map<std::string, MetaClass *>::iterator itor = 
 		classMap->find(name);
 	if (itor == classMap->end()) return 0;
-	return (*itor).second->getClassCopy();
+	return (*itor).second;
 }

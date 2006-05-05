@@ -28,11 +28,13 @@
 #include <common/Vector.h>
 #include <vector>
 #include <string>
+#include <map>
 
 class GLWListViewI
 {
 public:
 	virtual void url(const char *url) = 0;
+	virtual void event(std::map<std::string, std::string> &event) = 0;
 };
 
 class GLWListView :
@@ -51,8 +53,7 @@ public:
 	bool addXML(XMLNode *node);
 	void addLine(const char *text);
 	void clear();
-
-	void resetPosition() { currentPosition_ = 0.0f; }
+	void resetPosition();
 
 	virtual void draw();
 	virtual void simulate(float frameTime);
@@ -71,11 +72,15 @@ protected:
 	struct WordEntry
 	{
 		WordEntry(const char *word, Vector &color) : 
-			word_(word), color_(color) { }
+			word_(word), color_(color), wordRef_(0) { }
+
+		unsigned wordRef_;
+		static unsigned wordRefCount_;
 
 		Vector color_;
 		std::string href_;
 		std::string word_;
+		std::map<std::string, std::string> event_;
 	};
 	struct LineEntry
 	{

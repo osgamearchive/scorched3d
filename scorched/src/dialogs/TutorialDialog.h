@@ -22,9 +22,9 @@
 #define __INCLUDE_TutorialDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <GLW/GLWButton.h>
 #include <GLW/GLWListView.h>
-#include <XML/XMLFile.h>
+#include <GLEXT/GLTexture.h>
+#include <client/TutorialFile.h>
 
 class TutorialDialog : 
 	public GLWWindow,
@@ -33,16 +33,26 @@ class TutorialDialog :
 public:
 	static TutorialDialog *instance();
 
-	virtual void buttonDown(unsigned int id);
 	virtual void display();
+	virtual void simulate(float frameTime);
+	virtual void draw();
 
 	virtual void url(const char *url);
+	virtual void event(std::map<std::string, std::string> &event);
 protected:
 	static TutorialDialog *instance_;
+	float triangleDist_, triangleDir_;
 	GLWListView *listView_;
-	XMLFile file_;
+	GLTexture triangleTex_;
+	TutorialFile file_;
+
+	bool currentHighlight_;
+	float highlightX_, highlightY_, highlightW_, highlightH_;
 
 	void showPage(XMLNode *node);
+	void drawHighlight(float x, float y, float w, float h);
+	void drawTriangle(float x, float y, float size, int tex);
+	void setHighlight(float x, float y, float w, float h);
 
 private:
 	TutorialDialog();

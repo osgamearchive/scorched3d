@@ -49,7 +49,10 @@ public:
 	void savePositions();
 	void clear();
 
+	GLWWindow *getWindowByName(const char *name);
+
 	// All inherited from GameStateI
+	virtual void enterState(const unsigned state);
 	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned state, float simTime);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 

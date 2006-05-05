@@ -62,6 +62,9 @@ public:
 	void setUserData(void *data) { userData_ = data; }
 	void *getUserData() { return userData_; }
 
+	virtual const char *getName() { return name_.c_str(); }
+	virtual void setName(const char *name) { name_ = name; }
+
 	// Width, height and position functions
 	virtual float getX() { return x_; }
 	virtual float getY() { return y_; }
@@ -82,6 +85,7 @@ public:
 
 protected:
 	static unsigned int nextId_;
+	std::string name_;
 	unsigned int id_;
 	float x_, y_, w_, h_;
 	GLWTip *tooltip_;

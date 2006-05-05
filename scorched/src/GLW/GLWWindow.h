@@ -63,7 +63,6 @@ public:
 	virtual void savePosition(XMLNode *node);
 	virtual void loadPosition(XMLNode *node);
 
-	const char *getName() { return name_.c_str(); }
 	const char *getDescription() { return description_.c_str(); }
 	GLWTip &getToolTip() { return toolTip_; }
 	unsigned int getWindowLevel() { return windowLevel_; }
@@ -90,7 +89,6 @@ protected:
 	unsigned int windowState_;
 	unsigned int windowLevel_;
 	float maxWindowSize_;
-	std::string name_;
 	std::string description_;
 
 	virtual void drawWindowCircle(float x, float y, float w, float h);

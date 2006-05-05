@@ -267,6 +267,13 @@ bool GLWWindowManager::windowInCurrentState(unsigned id)
 	return false;
 }
 
+void GLWWindowManager::enterState(const unsigned state)
+{
+	if (currentStateEntry_ &&
+		currentStateEntry_->state_ != UINT_MAX &&
+		currentStateEntry_->state_ != state) setCurrentEntry(state);
+}
+
 void GLWWindowManager::draw(const unsigned state)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
@@ -282,6 +289,21 @@ void GLWWindowManager::draw(const unsigned state)
 			window->draw();
 		}
 	}
+}
+
+GLWWindow *GLWWindowManager::getWindowByName(const char *name)
+{
+	if (!currentStateEntry_) return 0;
+
+	std::deque<GLWWindow *>::iterator itor;
+	for (itor = currentStateEntry_->windows_.begin();
+		itor != currentStateEntry_->windows_.end();
+		itor++)
+	{
+		GLWWindow *window = (*itor);
+		if (0 == strcmp(window->getName(), name)) return window;
+	}
+	return 0;
 }
 
 unsigned int GLWWindowManager::getFocus(int x, int y)

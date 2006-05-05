@@ -79,6 +79,33 @@ GLWidget *GLWPanel::addWidget(GLWidget *widget, GLWCondition *condition,
 	return widget;
 }
 
+GLWidget *GLWPanel::getWidgetByName(const char *name)
+{
+	std::list<GLWPanelEntry>::iterator itor;
+	for (itor = widgets_.begin();
+		itor != widgets_.end();
+		itor++)
+	{
+		GLWPanelEntry &entry = *itor;
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
+		{
+			if (0 == strcmp(name, entry.widget->getName())) 
+			{
+				return entry.widget;
+			}
+			if (entry.widget->getMetaClassId() == getMetaClassId())
+			{
+				GLWPanel *panel = (GLWPanel *) entry.widget;
+				GLWidget *widget = panel->getWidgetByName(name);
+				if (widget) return widget;
+			}
+		}
+	}
+	return 0;
+}
+
 void GLWPanel::clear()
 {
 	std::list<GLWPanelEntry>::iterator itor;

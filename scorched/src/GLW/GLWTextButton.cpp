@@ -29,6 +29,7 @@ GLWTextButton::GLWTextButton(char *buttonText,float x, float y, float w, GLWButt
 	label_(x, y -2, buttonText, size),
 	color_(GLWFont::widgetFontColor)
 {
+	setName(buttonText); 
 }
 
 GLWTextButton::~GLWTextButton()

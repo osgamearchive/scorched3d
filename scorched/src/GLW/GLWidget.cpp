@@ -119,6 +119,7 @@ void GLWidget::hide()
 
 bool GLWidget::initFromXML(XMLNode *node)
 {
+	node->getNamedChild("name", name_, false);
 	node->getNamedChild("visible", visible_, false);
 	if (!node->getNamedChild("x", x_)) return false;
 	if (!node->getNamedChild("y", y_)) return false;

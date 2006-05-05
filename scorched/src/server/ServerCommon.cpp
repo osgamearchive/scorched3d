@@ -254,6 +254,7 @@ void ServerCommon::killAll()
 	{
 		Tank *current = (*itor).second;
 		current->getState().setState(TankState::sDead);
+		current->getState().setLives(0);
 	}
 }
 

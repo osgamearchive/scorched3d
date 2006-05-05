@@ -1,10 +1,19 @@
-<tutorial start="tutorial1">
-<tutorial1>Welcome to Scorched3D.
+<tutorial>
+	<start>tutorial1</start>
+	<steps>
+		<step>
+			<name>tutorial1</name>
+			<text>Welcome to Scorched3D.
 
 This is a short tutorial to help you get to grips with the game.
 
-<a href="tutorial2">Continue...</a></tutorial1>
-<tutorial2>This is the rules dialog.
+<a href="tutorial2">Continue...</a></text>
+		</step>
+		<step>
+			<name>tutorial2</name>
+			<text>This is the rules dialog.
 
-It shows the rules for the current game.  For the moment please dismis this dialog by clicking the <b>Ok</b> button.</tutorial2>
+It shows the rules for the current game.  For the moment please dismis this dialog by clicking the <event action="highlight" window="Rules" control="Ok">Ok</event> button.</text>
+		</step>
+	</steps>
 </tutorial>

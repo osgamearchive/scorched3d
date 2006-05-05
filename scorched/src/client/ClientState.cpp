@@ -44,6 +44,7 @@
 void ClientState::addWindowManager(GameState &gameState, unsigned state)
 {
 	gameState.addStateKeyEntry(state, GLConsole::instance());
+	gameState.addStateEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWWindowManager::instance());
 	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft, 

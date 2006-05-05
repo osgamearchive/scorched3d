@@ -42,11 +42,12 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 					 unsigned int states,
 					 const char *description) : 
 	GLWPanel(x, y, w, h), dragging_(NoDrag), 
-	needCentered_(false), showTitle_(false), name_(name),
+	needCentered_(false), showTitle_(false), 
 	disabled_(false), windowState_(states), maxWindowSize_(0.0f),
 	description_(description), toolTip_(name, description),
 	initPosition_(false), windowLevel_(100000)
 {
+	setName(name);
 	getDrawPanel() = false;
 }
 
@@ -54,11 +55,12 @@ GLWWindow::GLWWindow(const char *name, float w, float h,
 					 unsigned int states,
 					 const char *description) :
 	GLWPanel(0.0f, 0.0f, w, h), dragging_(NoDrag), 
-	needCentered_(true), showTitle_(false), name_(name),
+	needCentered_(true), showTitle_(false), 
 	disabled_(false), windowState_(states),
 	description_(description), toolTip_(name, description),
 	windowLevel_(100000)
 {
+	setName(name);
 	getDrawPanel() = false;
 }
 
@@ -459,9 +461,12 @@ void GLWWindow::drawIconBox(float x, float y)
 bool GLWWindow::initFromXML(XMLNode *node)
 {
 	if (!GLWPanel::initFromXML(node)) return false;
-	
-	// Name
-	if (!node->getNamedChild("name", name_)) return false;
+
+	if (name_.c_str()[0] == 0)
+	{
+		// Get name again, just to display the error message
+		if (!node->getNamedChild("name", name_)) return false;
+	}
 
 	// Desc
 	if (!node->getNamedChild("description", description_)) return false;

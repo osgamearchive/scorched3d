@@ -133,6 +133,7 @@ In local mode when it's the next person's turn, re-center the view to where they
 Ability to re center view around other tanks
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
+Multi-kill bonuses
 
 -- Other Stuff
 Add the ability to customize the languages (for dialogs etc..) (localisation)
@@ -145,6 +146,7 @@ Patriot missile type defense
 plasma blast
 different hp / weapons capabilities for different tanks?
 fire control
+explosion shockwaves
 
 -- Game Play
 Guidance systems (lazy boy)
