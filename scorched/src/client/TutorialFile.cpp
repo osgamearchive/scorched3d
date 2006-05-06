@@ -52,12 +52,14 @@ bool TutorialFile::parseFile(const char *file)
 		stepitor++)
 	{
 		XMLNode *node = (*stepitor);
-		Entry *entry = new Entry();
 
-		if (!node->getNamedChild("name", entry->name_)) return false;
-		if (!node->getNamedChild("text", entry->text_)) return false;
-
-		entries_[entry->name_] = entry;
+		if (node->getType() == XMLNode::XMLNodeType)
+		{
+			Entry *entry = new Entry();
+			if (!node->getNamedChild("name", entry->name_)) return false;
+			if (!node->getNamedChild("text", entry->text_)) return false;
+			entries_[entry->name_] = entry;
+		}
 	}
 
 	std::map<std::string, Entry *>::iterator findItor = entries_.find(start);

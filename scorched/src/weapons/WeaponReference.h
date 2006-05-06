@@ -42,8 +42,6 @@ public:
 protected:
 	Weapon *refWeapon_;
 	
-	void replaceValues(XMLNode *node, const char *name, const char *value);
-
 };
 
 #endif // !defined(AFX_WeaponReference_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

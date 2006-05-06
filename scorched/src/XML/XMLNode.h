@@ -55,9 +55,10 @@ public:
 
 	NodeType getType() { return type_; }
 	const char *getName() { return name_.c_str(); }
-	const char *getContent() { return content_.c_str(); }
+	const char *getContent();
 	const char *getSource() { return source_.c_str(); }
 	const XMLNode *getParent() { return parent_; }
+
 	std::list<XMLNode *> &getChildren() { return children_; }
 	std::list<XMLNode *> &getParameters() { return parameters_; }
 
@@ -86,13 +87,13 @@ public:
 
 	void setSource(const char *source);
 	void setLine(int line, int col);
-	void setContent(const char *content) { content_ = content; }
+	void setUseContentNodes(bool useContentNodes) 
+		{ useContentNodes_ = useContentNodes; }
 
 	bool returnError(const char *error);
 	void addChild(XMLNode *node); 
 	void addParameter(XMLNode *node);
 	void addContent(const char *data, int len);
-	void convertContent();
 
 	static void removeSpecialChars(std::string &content,
 		std::string &result);
@@ -101,6 +102,7 @@ public:
 	static const char *getSpacer(int space);
 
 protected:
+	bool useContentNodes_;
 	NodeType type_;
 	XMLNode *parent_;
 	std::list<XMLNode *> children_;

@@ -74,6 +74,7 @@ void XMLParser::startElementHandler(const XML_Char *name,
 	{
 		// Create the root node
 		root_ = current_ = new XMLNode(name);
+		root_->setUseContentNodes(useContentNodes_);
 		root_->setSource(source_.c_str());
 		root_->setLine(XML_GetCurrentLineNumber(p_),
 			XML_GetCurrentColumnNumber(p_));
@@ -84,6 +85,7 @@ void XMLParser::startElementHandler(const XML_Char *name,
 
 		// Add a new child to this node
 		XMLNode *newNode = new XMLNode(name);
+		current_->setUseContentNodes(useContentNodes_);
 		current_->addChild(newNode);
 		current_ = newNode;
 		current_->setLine(XML_GetCurrentLineNumber(p_),
@@ -101,7 +103,6 @@ void XMLParser::startElementHandler(const XML_Char *name,
 
 			XMLNode *param = new XMLNode(name, "", XMLNode::XMLParameterType);
 			param->addContent(value, strlen(value));
-			param->convertContent();
 			param->setLine(XML_GetCurrentLineNumber(p_),
 				XML_GetCurrentColumnNumber(p_));
 			current_->addParameter(param);
@@ -114,26 +115,13 @@ void XMLParser::endElementHandler(const XML_Char *name)
 	DIALOG_ASSERT(current_);
 	DIALOG_ASSERT(strcmp(name, current_->getName()) == 0);
 
-	current_->convertContent();
 	current_ = (XMLNode *) current_->getParent();
 }
 
 void XMLParser::characterDataHandler(const XML_Char *s,
                             int len)
 {
-	if (useContentNodes_)
-	{
-		XMLNode *newNode = 
-			new XMLNode("__TEXT__", "", XMLNode::XMLContentType);
-		newNode->setLine(XML_GetCurrentLineNumber(p_),
-			XML_GetCurrentColumnNumber(p_));
-		newNode->addContent(s, len);
-		current_->addChild(newNode);
-	}
-	else
-	{
-		current_->addContent(s, len);
-	}
+	current_->addContent(s, len);
 }
 
 void XMLParser::startElementStaticHandler(void *userData,

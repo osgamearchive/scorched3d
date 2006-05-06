@@ -75,25 +75,6 @@ bool WeaponReference::parseXML(OptionsGame &context,
 	return true;
 }
 
-void WeaponReference::replaceValues(XMLNode *node, 
-	const char *name, 
-	const char *value)
-{
-	std::list<XMLNode *> &children = node->getChildren();
-	std::list<XMLNode *>::iterator itor;
-	for (itor = children.begin();
-		itor != children.end();
-		itor++)
-	{
-		XMLNode *current = (*itor);
-		if (0 == strcmp(current->getName(), name))
-		{
-			current->setContent(value);
-		}
-		replaceValues(current, name, value);
-	}
-}
-
 void WeaponReference::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)

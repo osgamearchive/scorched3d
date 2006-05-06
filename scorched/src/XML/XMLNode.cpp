@@ -83,46 +83,61 @@ const char *XMLNode::getSpacer(int space)
 
 XMLNode::XMLNode(const char *name, const char *content, NodeType type) : 
 	name_(name), parent_(0), type_(type),
-	content_(content)
+	useContentNodes_(false)
 {
+	addContent(content, strlen(content));
 }
 
 XMLNode::XMLNode(const char *name, float content, NodeType type) :
-	name_(name), parent_(0), type_(type)
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
 	char buffer[20];
 	snprintf(buffer, 20, "%.2f", content);
-	content_ = buffer;
+	addContent(buffer, strlen(buffer));
 }
 
 XMLNode::XMLNode(const char *name, int content, NodeType type) :
-	name_(name), parent_(0), type_(type)
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
 	char buffer[20];
 	snprintf(buffer, 20, "%i", content);
-	content_ = buffer;
+	addContent(buffer, strlen(buffer));
 }
 
 XMLNode::XMLNode(const char *name, unsigned int content, NodeType type) :
-	name_(name), parent_(0), type_(type)
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
 	char buffer[20];
-	snprintf(buffer, 20, "%i", content);
-	content_ = buffer;
+	snprintf(buffer, 20, "%u", content);
+	addContent(buffer, strlen(buffer));
 }
 
 XMLNode::XMLNode(const char *name, bool content, NodeType type) :
-	name_(name), parent_(0), type_(type)
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
-	content_ = (content?"true":"false");
+	const char *buffer = content?"true":"false";
+	addContent(buffer, strlen(buffer));
 }
 
 XMLNode::XMLNode(const char *name, Vector &content, NodeType type) :
-	name_(name), parent_(0), type_(type)
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
-	addChild(new XMLNode("A", content[0]));
-	addChild(new XMLNode("B", content[1]));
-	addChild(new XMLNode("C", content[2]));
+	XMLNode *nodeA = new XMLNode("A");
+	addChild(nodeA);
+	XMLNode *nodeB = new XMLNode("B");
+	addChild(nodeB);
+	XMLNode *nodeC = new XMLNode("C");
+	addChild(nodeC);
+
+	char buffer[20];
+	snprintf(buffer, 20, "%.2f", content[0]);
+	nodeA->addContent(buffer, strlen(buffer));
+
+	snprintf(buffer, 20, "%.2f", content[1]);
+	nodeB->addContent(buffer, strlen(buffer));
+
+	snprintf(buffer, 20, "%.2f", content[2]);
+	nodeC->addContent(buffer, strlen(buffer));
 }
 
 XMLNode::~XMLNode()
@@ -173,16 +188,18 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 			XMLNode *node = (*pitor);
 			DIALOG_ASSERT(node->type_ == XMLParameterType);
 			
+			std::string oldContent(node->getContent());
 			std::string newContent;
-			removeSpecialChars(node->content_, newContent);
+			removeSpecialChars(oldContent, newContent);
 			
 			params += " " + node->name_ + "='" + newContent + "'";
 		}
 
 		if (children_.empty())
 		{
+			std::string oldContent(getContent());
 			std::string newContent;
-			removeSpecialChars(content_, newContent);
+			removeSpecialChars(oldContent, newContent);
 			
 			lines.addLine(formatString("%s<%s%s>%s</%s>", 
 				getSpacer(spacing),
@@ -211,7 +228,7 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 	else if (type_ == XMLCommentType)
 	{
 		lines.addLine(formatString("%s<!-- %s -->", 
-			getSpacer(spacing), content_.c_str()));
+			getSpacer(spacing), getContent()));
 	}
 }
 
@@ -228,7 +245,7 @@ bool XMLNode::failChildren()
 
 bool XMLNode::failContent()
 {
-	for (const char *c=content_.c_str(); *c; c++)
+	for (const char *c=getContent(); *c; c++)
 	{
 		if (*c != '\n' &&
 			*c != '\r' &&
@@ -236,7 +253,7 @@ bool XMLNode::failContent()
 			*c != ' ')
 		{
 			returnError(formatString("Unexpected context : %s", 
-					content_.c_str()));
+					getContent()));
 			return false;
 		}
 	}
@@ -331,7 +348,6 @@ bool XMLNode::getNamedChild(const char *name, std::string &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->failChildren()) return false;
 	value = node->getContent();
 	return true;
 }
@@ -341,7 +357,6 @@ bool XMLNode::getNamedChild(const char *name, bool &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->failChildren()) return false;
 
 	if (0 == strcmp(node->getContent(), "true")) value = true;
 	else if (0 == strcmp(node->getContent(), "false")) value = false;
@@ -358,7 +373,6 @@ bool XMLNode::getNamedChild(const char *name, float &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->failChildren()) return false;
 
 	if (sscanf(node->getContent(), "%f", &value) != 1) 
 		return node->returnError("Failed to parse float value");
@@ -370,7 +384,6 @@ bool XMLNode::getNamedChild(const char *name, int &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->failChildren()) return false;
 
 	if (sscanf(node->getContent(), "%i", &value) != 1)
 		return node->returnError("Failed to parse int value");
@@ -382,7 +395,6 @@ bool XMLNode::getNamedChild(const char *name, unsigned int &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->failChildren()) return false;
 
 	if (sscanf(node->getContent(), "%u", &value) != 1)
 		return node->returnError("Failed to parse unsigned int value");
@@ -392,19 +404,39 @@ bool XMLNode::getNamedChild(const char *name, unsigned int &value,
 bool XMLNode::getNamedChild(const char *name, Vector &value, 
 	bool failOnError, bool remove)
 {
-	XMLNode *node, *nodeA, *nodeB, *nodeC;
+	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->getNamedChild("A", nodeA, failOnError, true)) return false;
-	if (!node->getNamedChild("B", nodeB, failOnError, true)) return false;
-	if (!node->getNamedChild("C", nodeC, failOnError, true)) return false;
-	if (!nodeA->failChildren()) return false;
-	if (!nodeB->failChildren()) return false;
-	if (!nodeC->failChildren()) return false;
-
-	value[0] = (float) atof(nodeA->getContent());
-	value[1] = (float) atof(nodeB->getContent());
-	value[2] = (float) atof(nodeC->getContent());
+	if (!node->getNamedChild("A", value[0], failOnError, true)) return false;
+	if (!node->getNamedChild("B", value[1], failOnError, true)) return false;
+	if (!node->getNamedChild("C", value[2], failOnError, true)) return false;
 	return true;
+}
+
+const char *XMLNode::getContent()
+{
+	if (useContentNodes_ &&
+		getType() == XMLNodeType)
+	{
+		static std::string result;
+
+		result = "";
+		std::list<XMLNode *>::iterator itor;
+		for (itor = getChildren().begin();
+			itor != getChildren().end();
+			itor++)
+		{
+			XMLNode *node = (*itor);
+			if (node->getType() == XMLContentType)
+			{
+				result += node->content_.c_str();
+			}
+		}
+		return result.c_str();
+	}
+	else
+	{
+		return content_.c_str();
+	}
 }
 
 void XMLNode::setSource(const char *source)
@@ -421,6 +453,7 @@ void XMLNode::setLine(int line, int col)
 void XMLNode::addChild(XMLNode *node) 
 { 
 	children_.push_back(node); 
+	node->setUseContentNodes(useContentNodes_);
 	node->parent_ = this; 
 	node->source_ = source_; 
 }
@@ -433,14 +466,23 @@ void XMLNode::addParameter(XMLNode *node)
 }
 
 void XMLNode::addContent(const char *data, int len)
-{ 
-	content_.append(data, len); 
-}
-
-void XMLNode::convertContent()
 {
-	std::string oldContent = content_;
-	addSpecialChars(oldContent, content_);
+	std::string oldContent, newContent;
+	oldContent.append(data, len);
+	addSpecialChars(oldContent, newContent);
+
+	if (useContentNodes_)
+	{
+		XMLNode *newNode = 
+			new XMLNode("__TEXT__", "", XMLNode::XMLContentType);
+		newNode->setLine(line_, col_);
+		newNode->content_.append(newContent);
+		addChild(newNode);
+	}
+	else
+	{
+		content_.append(newContent); 
+	}
 }
 
 bool XMLNode::returnError(const char *error)
