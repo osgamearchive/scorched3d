@@ -21,6 +21,7 @@
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
 #include <tank/TankType.h>
+#include <tankgraph/TankModelStore.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
@@ -62,14 +63,16 @@ std::vector<TankPosition::ShotEntry> &TankPosition::getOldShots()
 
 void TankPosition::newGame()
 {
-	TankType *type = tank_->getModelContainer().getTankType(context_);
+	TankType *type = context_.tankModelStore->getTypeByName(
+		tank_->getModelContainer().getTankTypeName());
 
 	maxPower_ = type->getPower();
 }
 
 void TankPosition::clientNewGame()
 {
-	TankType *type = tank_->getModelContainer().getTankType(context_);
+	TankType *type = context_.tankModelStore->getTypeByName(
+		tank_->getModelContainer().getTankTypeName());
 
 	maxPower_ = type->getPower();
 	oldPower_ = power_ = maxPower_;

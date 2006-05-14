@@ -30,17 +30,16 @@ class Tank;
 class TankModelContainer
 {
 public:
-	TankModelContainer(const char *name);
+	TankModelContainer(const char *modelName, 
+		const char *typeName);
 	virtual ~TankModelContainer();
 
 	void setTank(Tank *tank) { tank_ = tank; }
 
 	// The name of the model that should be used for this tank
 	const char *getTankModelName() { return tankModelName_.c_str(); }
-	void setTankModelName(const char *name);
-
-	// The type of this tank
-	TankType *getTankType(ScorchedContext &context);
+	const char *getTankTypeName() { return tankTypeName_.c_str(); }
+	void setTankModelName(const char *modelName, const char *typeName);
 
 	// Serialize the modelid
     bool writeMessage(NetBuffer &buffer);
@@ -49,7 +48,7 @@ public:
 protected:
 	Tank *tank_;
 	std::string tankModelName_; // Model for tank
-	TankType *tankType_;
+	std::string tankTypeName_;
 
 };
 

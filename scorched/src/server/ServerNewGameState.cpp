@@ -498,7 +498,8 @@ void ServerNewGameState::checkTeams()
 			if (0 != strcmp(model->getName(),
 				current->getModelContainer().getTankModelName()))
 			{
-				current->getModelContainer().setTankModelName(model->getName());
+				current->getModelContainer().setTankModelName(
+					model->getName(), model->getTypeName());
 			}
 		}
 	}

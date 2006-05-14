@@ -393,7 +393,7 @@ void TankDamage::logDeath()
 			OptionsParam::instance()->getDedicatedServer())
 		{
 			static Tank firedTank(*context_, 0, 0, "Environment", 
-				Vector::nullVector, "");
+				Vector::nullVector, "", "");
 			firedTank.setUniqueId("Environment");
 			StatsLogger::instance()->
 				tankKilled(&firedTank, killedTank, weapon_); 

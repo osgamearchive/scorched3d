@@ -20,11 +20,17 @@
 
 #include <coms/ComsAddPlayerMessage.h>
 
+ComsAddPlayerMessage::ComsAddPlayerMessage() :
+	ComsMessage("ComsAddPlayerMessage")
+{
+}
+
 ComsAddPlayerMessage::ComsAddPlayerMessage(
 		unsigned int playerId,
 		const char *playerName,
 		Vector playerColor,
 		const char *modelName,
+		const char *typeName,
 		unsigned int destinationId,
 		unsigned int playerTeam,
 		const char *playerType) :
@@ -34,6 +40,7 @@ ComsAddPlayerMessage::ComsAddPlayerMessage(
 	playerType_(playerType),
 	playerColor_(playerColor),
 	modelName_(modelName),
+	typeName_(typeName),
 	destinationId_(destinationId),
 	playerTeam_(playerTeam)
 {
@@ -45,15 +52,14 @@ ComsAddPlayerMessage::~ComsAddPlayerMessage()
 
 bool ComsAddPlayerMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
-	buffer.addToBuffer(playerName_.c_str());
-	buffer.addToBuffer(playerType_.c_str());
-	buffer.addToBuffer(modelName_.c_str());
+	buffer.addToBuffer(playerName_);
+	buffer.addToBuffer(playerType_);
+	buffer.addToBuffer(modelName_);
+	buffer.addToBuffer(typeName_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(playerTeam_);
-	buffer.addToBuffer(playerColor_[0]);
-	buffer.addToBuffer(playerColor_[1]);
-	buffer.addToBuffer(playerColor_[2]);
+	buffer.addToBuffer(playerColor_);
 	buffer.addToBuffer(playerIcon_.getBufferUsed());
 	if (playerIcon_.getBufferUsed() > 0)
 	{
@@ -69,12 +75,11 @@ bool ComsAddPlayerMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerName_)) return false;
 	if (!reader.getFromBuffer(playerType_)) return false;
 	if (!reader.getFromBuffer(modelName_)) return false;
+	if (!reader.getFromBuffer(typeName_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(playerTeam_)) return false;
-	if (!reader.getFromBuffer(playerColor_[0])) return false;
-	if (!reader.getFromBuffer(playerColor_[1])) return false;
-	if (!reader.getFromBuffer(playerColor_[2])) return false;
+	if (!reader.getFromBuffer(playerColor_)) return false;
 	unsigned int used = 0;
 	if (!reader.getFromBuffer(used)) return false;
 	if (used > 0)

@@ -288,8 +288,10 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			tank->getName(),
 			tank->getColor(),
 			tank->getModelContainer().getTankModelName(),
+			tank->getModelContainer().getTankTypeName(),
 			tank->getDestinationId(),
-			tank->getTeam()); 
+			tank->getTeam(),
+			""); 
 		oldPlayerMessage.setPlayerIconName(tank->getAvatar().getName());
 		oldPlayerMessage.getPlayerIcon().addDataToBuffer(
 			tank->getAvatar().getFile().getBuffer(),
@@ -359,7 +361,8 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		destinationId,
 		playerName,
 		color,
-		"Random"); // The model, this will be turned into a "proper" model in the player choice dialog
+		"Random",
+		"none"); // The model, this will be turned into a "proper" model in the player choice dialog
 	tank->setUniqueId(sentUniqueId);
 	tank->setIpAddress(ipAddress);
 	tank->setHostDesc(sentHostDesc);
@@ -417,8 +420,10 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		tank->getName(),
 		tank->getColor(),
 		tank->getModelContainer().getTankModelName(),
+		tank->getModelContainer().getTankTypeName(),
 		tank->getDestinationId(),
-		tank->getTeam());
+		tank->getTeam(),
+		"");
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 
 	// Tell this computer that a new tank has connected

@@ -31,7 +31,9 @@ class TankType;
 class TankModel
 {
 public:
-	TankModel(const char *name, ModelID &modelId, TankType *type);
+	TankModel(const char *tankName, 
+		ModelID &modelId, 
+		const char *typeName);
 	virtual ~TankModel();
 
 	virtual void draw(bool drawS, float angle, Vector &position, 
@@ -42,11 +44,11 @@ public:
 	virtual bool lessThan(TankModel *other);
 	void clear();
 
-	const char *getName() { return name_.c_str(); }
+	const char *getName() { return tankName_.c_str(); }
+	const char *getTypeName() { return typeName_.c_str(); }
 	ModelID &getTankModelID() { return modelId_; }
 	ModelID &getProjectileModelID() { return projectileModelId_; }
 	TankMesh *getTankMesh() { return tankMesh_; }
-	TankType *getTankType() { return tankType_; }
 
 	void setAiOnly(bool aiOnly) { aiOnly_ = aiOnly; }
 	bool getAiOnly() { return aiOnly_; }
@@ -61,11 +63,11 @@ public:
 protected:
 	bool init_;
 	bool aiOnly_;
-	std::string name_;
+	std::string tankName_;
+	std::string typeName_;
 	ModelID modelId_;
 	ModelID projectileModelId_;
 	TankMesh *tankMesh_;
-	TankType *tankType_;
 	std::set<std::string> catagories_;
 	std::set<int> teams_;
 

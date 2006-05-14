@@ -58,6 +58,13 @@ bool TankTypes::loadTankTypes(ScorchedContext &context)
 		if (!type->initFromXML(context, currentNode)) return false;
 		types_.push_back(type);
 	}
+
+	if (!getType("none"))
+	{
+		return file.getRootNode()->returnError(
+			"TankTypes file must define the \"none\" type");
+	}
+
 	return file.getRootNode()->failChildren();
 }
 

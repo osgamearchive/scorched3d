@@ -163,7 +163,7 @@ OptionsGame::OptionsGame() :
 	numberOfRounds_(options_, "NumberOfRounds", 
 		"The number of rounds to play in each game", 0, 5, 1, 50, 1),
 	numberOfPlayers_(options_, "NumberOfPlayers", 
-		"The maximum number of players to allow", 0, 2, 0, 24, 1),
+		"The maximum number of players to allow", 0, 2, 2, 24, 1),
 	numberOfMinPlayers_(options_, "NumberOfMinPlayers", 
 		"The minimum number of players to allow", 0, 2, 2, 24, 1),
 	removeBotsAtPlayers_(options_, "RemoveBotsAtPlayers",

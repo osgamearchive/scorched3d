@@ -384,6 +384,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 				playerName_->getText().c_str(),
 				colorDropDown_->getCurrentColor(),
 				model->getName(),
+				model->getTypeName(),
 				ScorchedClient::instance()->getTankContainer().getCurrentDestinationId(),
 				getCurrentTeam(),
 				playerType);

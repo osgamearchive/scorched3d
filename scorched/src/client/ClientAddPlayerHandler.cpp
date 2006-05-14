@@ -67,7 +67,8 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 			message.getDestinationId(),
 			message.getPlayerName(),
 			message.getPlayerColor(),
-			message.getModelName());
+			message.getModelName(),
+			message.getTankType());
 		tank->setTeam(message.getPlayerTeam());
 		tank->getAvatar().setFromBuffer(
 			message.getPlayerIconName(),

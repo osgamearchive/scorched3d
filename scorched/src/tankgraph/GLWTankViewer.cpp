@@ -252,9 +252,11 @@ void GLWTankViewer::draw()
 					TankSquareSize,
 					TankSquareSize))
 				{
+					TankType *type = ScorchedClient::instance()->getTankModels().
+						getTypeByName(models_[vectorPos]->getTypeName());
 					toolTip_.setText(
 						models_[vectorPos]->getName(),
-						models_[vectorPos]->getTankType()->getDescription());	
+						type->getDescription());	
 				}
 
 				float scale = 22.0f / 60.0f * TankSquareSize;

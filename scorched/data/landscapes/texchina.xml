@@ -23,6 +23,9 @@
 		<wavetexture2>data/textures/waves.bmp</wavetexture2>
 		<height>5.0</height>
 	</border>
+	<ambientsounds>
+		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
+	</ambientsounds>
 	<texture type="generate">
 		<rockside>data/textures/landscape/china/rockside.bmp</rockside>
 		<shore>data/textures/landscape/china/shore.bmp</shore>

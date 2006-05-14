@@ -34,4 +34,7 @@
 		<texture3>data/textures/landscape/tuscan/texture3.bmp</texture3>
 		<texture4>data/textures/landscape/tuscan/texture4.bmp</texture4>
 	</texture>
+	<ambientsounds>
+		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
+	</ambientsounds>
 </tex>

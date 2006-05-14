@@ -232,8 +232,8 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 		snprintf(tmp, 128, "pm%i", i);
 		reply.push_back(addTag(tmp, TankColorGenerator::getTeamName(tank->getTeam()))); 
 
-		snprintf(tmp, 128, "pt%i", i);
-		reply.push_back(addTag(tmp, (tank->getTankAI()?"C":"H")));
+		snprintf(tmp, 128, "pa%i", i);
+		reply.push_back(addTag(tmp, (tank->getTankAI()?"N":"Y")));
 
 		snprintf(tmp, 128, "pr%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getStatsRank()));
@@ -243,16 +243,10 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 
 const char *ServerBrowserInfo::addTag(const char *name, const char *value)
 {
-	static char buffer[10000];
-	static char newvalue[10000];
-	snprintf(newvalue, sizeof(newvalue), "%s", value);
-	for (char *a=newvalue; *a; a++)
-	{
-		if (*a == '\'') *a='\"';
-		else if (*a == '>') *a=' ';
-		else if (*a == '<') *a=' ';
-	}
+	std::string content(value), result;
+	XMLNode::removeSpecialChars(content, result);
 
-	snprintf(buffer, sizeof(buffer), "%s='%s' ", name, newvalue);
+	static char buffer[10000];
+	snprintf(buffer, sizeof(buffer), "%s='%s' ", name, result.c_str());
 	return buffer;
 }

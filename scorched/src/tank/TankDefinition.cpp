@@ -71,7 +71,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	}
 
 	Tank *tank = new Tank(context, playerId, 0, 
-		name_.c_str(), color, tankmodel_.c_str());
+		name_.c_str(), color, model->getName(), model->getTypeName());
 	tank->getLife().setBoundingSphere(boundingsphere_);
 
 	if (context.serverMode)

@@ -110,7 +110,7 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 		}
 
 		// Create the tank model
-		TankModel *model = new TankModel(modelName, modelId, type);
+		TankModel *model = new TankModel(modelName, modelId, type->getName());
 
 		// Get the projectile model node (if any)
 		XMLNode *projectileModelNode;
@@ -199,4 +199,9 @@ TankModel *TankModelStore::getModelByName(const char *name, int team, bool ai)
 	}
 
 	return getRandomModel(team, ai);
+}
+
+TankType *TankModelStore::getTypeByName(const char *name)
+{
+	return types_.getType(name);
 }

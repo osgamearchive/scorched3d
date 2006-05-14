@@ -15,6 +15,9 @@
 	<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
 	<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
 	<suntexture>data/textures/glow1.bmp</suntexture>
+	<ambientsounds>
+		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
+	</ambientsounds>
 	<border type="water">
 		<reflection>data/textures/landscape/arizona/cubemap.bmp</reflection>
 		<texture>data/textures/landscape/arizona/water.bmp</texture>

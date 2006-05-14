@@ -20,15 +20,20 @@
 
 #include <scorched/MainDialog.h>
 #include <scorched/SettingsDialog.h>
+#include <scorched/OptionEntrySetter.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
 #include <engine/ModDirs.h>
 #include <wx/wx.h>
 #include <wx/utils.h>
-#include "SingleS.cpp"
 
 extern char scorched3dAppName[128];
+
+enum
+{
+	IDC_BUTTON_SETTINGS
+};
 
 class SingleSFrame: public wxDialog
 {
@@ -43,6 +48,12 @@ public:
 private:
 	DECLARE_EVENT_TABLE()
 
+	wxComboBox *IDC_CLIENT_MOD_CTRL;
+	wxButton *IDOK_CTRL;
+	wxButton *IDC_BUTTON_SETTINGS_CTRL;
+	wxButton *IDCANCEL_CTRL;
+
+	std::list<OptionEntrySetter> setters_;
 	OptionsGame &options_;
 };
 
@@ -65,7 +76,60 @@ SingleSFrame::SingleSFrame(OptionsGame &options) :
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
 	// Create all the display controlls
-	createControls(this, topsizer);
+	{
+		wxStaticBox *settingsbox = 
+			new wxStaticBox(this, -1, wxT("Client Settings"));
+		wxStaticBoxSizer *settingsboxsizer = 
+			new wxStaticBoxSizer(settingsbox, wxVERTICAL);
+
+		wxSizer *settingssizer = new wxGridSizer(2, 2);
+		setters_.push_back(
+			OptionEntrySetterUtil::createOtherSetter(
+				this, settingssizer, options.getNoMaxPlayersEntry()));
+		setters_.push_back(
+			OptionEntrySetterUtil::createOtherSetter(
+			this, settingssizer, options.getTeamsEntry()));
+		setters_.push_back(
+			OptionEntrySetterUtil::createOtherSetter(
+			this, settingssizer, options.getTurnTypeEntry()));
+
+		settingssizer->Add(new wxStaticText(this, -1,
+			wxT("Use Mod")), 0, wxALIGN_RIGHT | wxRIGHT, 10);
+		IDC_CLIENT_MOD_CTRL = 
+			new wxComboBox(this, -1,
+			wxT(""),
+			wxDefaultPosition, wxDefaultSize,
+			0, 0, wxCB_READONLY);
+		settingssizer->Add(IDC_CLIENT_MOD_CTRL, 0, wxALIGN_LEFT);
+
+		settingsboxsizer->Add(settingssizer);
+		topsizer->Add(settingsboxsizer, 0, wxALL, 5);
+
+		IDC_BUTTON_SETTINGS_CTRL = 
+			new wxButton(this, IDC_BUTTON_SETTINGS,
+			wxT("Edit Advanced Settings"));
+		settingsboxsizer->Add(IDC_BUTTON_SETTINGS_CTRL, 0, wxALL, 5);
+	}
+
+	ModDirs modDirs;
+	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
+	std::list<ModInfo>::iterator itor;
+	for (itor = modDirs.getDirs().begin();
+		itor != modDirs.getDirs().end();
+		itor++)
+	{
+		ModInfo &info = (*itor);
+		IDC_CLIENT_MOD_CTRL->Append(wxString(info.getName(), wxConvUTF8));
+	}
+
+	// Ok and cancel boxes
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	IDOK_CTRL = new wxButton(this, wxID_OK, wxT("Start Client"));
+	IDCANCEL_CTRL = new wxButton(this, wxID_CANCEL, wxT("Cancel"));
+	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 10);
+	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 10);
+	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
+
 	IDOK_CTRL->SetDefault();
 
 	// use the sizer for layout
@@ -80,33 +144,12 @@ void SingleSFrame::onSettingsButton(wxCommandEvent &event)
 	TransferDataFromWindow();
 	// Don't save until the whole options have been choosen
 	showSettingsDialog(false, options_);
+	TransferDataToWindow();
 }
 
 bool SingleSFrame::TransferDataToWindow()
 {
-	int i;
-	char string[20];
-	for (i=24; i>1; i--)
-	{
-		snprintf(string, 20, "%i", i);
-		IDC_CLIENT_PLAYERS_CTRL->Append(wxString(string, wxConvUTF8));
-	}
-	snprintf(string, 20, "%i", options_.getNoMaxPlayersEntry().getValue());
-	IDC_CLIENT_PLAYERS_CTRL->SetValue(wxString(string, wxConvUTF8));
-	IDC_CLIENT_PLAYERS_CTRL->SetToolTip(
-		wxString(wxT("The number of players that will play in this game.\n")
-			wxT("This number should include computer players")));
-
-	ModDirs modDirs;
-	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
-	std::list<ModInfo>::iterator itor;
-	for (itor = modDirs.getDirs().begin();
-		itor != modDirs.getDirs().end();
-		itor++)
-	{
-		ModInfo &info = (*itor);
-		IDC_CLIENT_MOD_CTRL->Append(wxString(info.getName(), wxConvUTF8));
-	}
+	OptionEntrySetterUtil::updateControls(setters_);
 
 	if (IDC_CLIENT_MOD_CTRL->FindString(wxString(options_.getMod(), wxConvUTF8)) != -1)
 		IDC_CLIENT_MOD_CTRL->SetValue(wxString(options_.getMod(), wxConvUTF8));
@@ -120,10 +163,8 @@ bool SingleSFrame::TransferDataToWindow()
 
 bool SingleSFrame::TransferDataFromWindow()
 {
-	int noPlayers = 2;
-	sscanf(IDC_CLIENT_PLAYERS_CTRL->GetValue().mb_str(wxConvUTF8), "%i", &noPlayers);
-	options_.getNoMaxPlayersEntry().setValue(noPlayers);
-	options_.getNoMinPlayersEntry().setValue(noPlayers);
+	OptionEntrySetterUtil::updateEntries(setters_);
+	options_.getNoMinPlayersEntry().setValue(options_.getNoMaxPlayers());
 	options_.getModEntry().setValue(IDC_CLIENT_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
 
 	return true;

@@ -15,6 +15,12 @@
 	<skydiffuse><A>0.7</A><B>0.72</B><C>0.72</C></skydiffuse>
 	<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
 	<suntexture>data/textures/glow1.bmp</suntexture>
+	<placements><placement>data/landscapes/placepine.xml</placement></placements>
+	<ambientsounds>
+		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundjet.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundtrees.xml</ambientsound>
+	</ambientsounds>
 	<border type="water">
 		<reflection>data/textures/landscape/asianspring/cubemap.bmp</reflection>
 		<texture>data/textures/landscape/asianspring/water.bmp</texture>

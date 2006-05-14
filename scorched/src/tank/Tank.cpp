@@ -22,6 +22,7 @@
 #include <tank/Tank.h>
 #include <tank/TankType.h>
 #include <tank/TankColorGenerator.h>
+#include <tankgraph/TankModelStore.h>
 #include <tankai/TankAIStore.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
@@ -31,7 +32,8 @@ Tank::Tank(ScorchedContext &context,
 		unsigned int destinationId,
 		const char *name, 
 		Vector &color, 
-		const char *modelName) :
+		const char *modelName,
+		const char *typeName) :
 	context_(context),
 	Target(playerId, name, context), 
 	destinationId_(destinationId),
@@ -40,7 +42,7 @@ Tank::Tank(ScorchedContext &context,
 	tankAI_(0),
 	score_(context), 
 	state_(context, playerId), 
-	modelContainer_(modelName),
+	modelContainer_(modelName, typeName),
 	accessories_(context),
 	team_(0), 
 	ipAddress_(0), 
@@ -77,7 +79,8 @@ void Tank::newMatch()
 void Tank::newGame()
 {
 	TankType *tankType = 
-		getModelContainer().getTankType(context_);
+		context_.tankModelStore->getTypeByName(
+			getModelContainer().getTankTypeName());
 	getLife().setMaxLife(tankType->getLife());
 
 	Target::newGame();

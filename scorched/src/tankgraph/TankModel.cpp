@@ -24,12 +24,13 @@
 #include <3dsparse/Model.h>
 #include <tank/TankType.h>
 
-TankModel::TankModel(const char *name, ModelID &modelId, TankType *tankType) :
-	init_(false), name_(name),
+TankModel::TankModel(const char *tankName, ModelID &modelId, const char *typeName) :
+	init_(false), 
+	tankName_(tankName), 
+	typeName_(typeName),
 	modelId_(modelId), 
 	aiOnly_(false),
-	tankMesh_(0), 
-	tankType_(tankType)
+	tankMesh_(0)
 {
 	catagories_.insert("All");
 }

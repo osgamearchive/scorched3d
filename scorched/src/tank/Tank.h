@@ -41,7 +41,8 @@ public:
 		unsigned int destinationId,
 		const char *name, 
 		Vector &color, 
-		const char *modelName);
+		const char *modelName,
+		const char *typeName);
 	virtual ~Tank();
 
 	// Called when the state changes

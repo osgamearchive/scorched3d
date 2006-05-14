@@ -24,41 +24,20 @@
 #include <engine/ScorchedContext.h>
 #include <common/DefinesString.h>
 
-TankModelContainer::TankModelContainer(const char *name) :
-	tankModelName_(name),
-	tankType_(0)
+TankModelContainer::TankModelContainer(const char *modelName, 
+	const char *typeName) :
+	tankModelName_(modelName), tankTypeName_(typeName)
 {
 
 }
 
 TankModelContainer::~TankModelContainer()
 {
-	tankType_ = 0;
 }
 
-TankType *TankModelContainer::getTankType(ScorchedContext &context)
+void TankModelContainer::setTankModelName(const char *modelName, const char *typeName)
 {
-	if (!tankType_) 
-	{
-		TankModel *tankModel = 
-			context.tankModelStore->getModelByName(tankModelName_.c_str(), 
-			tank_->getTeam(),
-			(tank_->getDestinationId() == 0));
-		if (!tankModel) 
-		{
-			dialogExit("Scorched3D", 
-				formatString("Failed to find tank model %s",
-				tankModelName_.c_str()));
-		}
-		tankType_ = tankModel->getTankType();
-	}
-
-	return tankType_;
-}
-
-void TankModelContainer::setTankModelName(const char *name)
-{
-	if (0 != strcmp(name, tankModelName_.c_str()))
+	if (0 != strcmp(modelName, tankModelName_.c_str()))
 	{
 		if (tank_->getRenderer())
 		{
@@ -66,21 +45,24 @@ void TankModelContainer::setTankModelName(const char *name)
 				tank_->getRenderer();
 			renderer->resetModel();
 		}
-		tankModelName_ = name;
-		tankType_ = 0;
 	}
+
+	tankModelName_ = modelName;
+	tankTypeName_ = typeName;
 }
 
 bool TankModelContainer::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(tankModelName_);
+	buffer.addToBuffer(tankTypeName_);
 	return true;
 }
 
 bool TankModelContainer::readMessage(NetBufferReader &reader)
 {
-	std::string newName;
-	if (!reader.getFromBuffer(newName)) return false;
-	setTankModelName(newName.c_str());
+	std::string newModelName, newTypeName;
+	if (!reader.getFromBuffer(newModelName)) return false;
+	if (!reader.getFromBuffer(newTypeName)) return false;
+	setTankModelName(newModelName.c_str(), newTypeName.c_str());
 	return true;
 }
