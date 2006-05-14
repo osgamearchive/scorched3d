@@ -92,6 +92,9 @@ public:
 		TeamBallanceAutoByScore
 	};
 	
+	const char *getTutorial() { return tutorial_; }
+	OptionEntryString &getTutorialEntry() { return tutorial_; }
+
 	int getScorePerAssist() { return scorePerAssist_; }
 	OptionEntryInt &getScorePerAssistEntry() { return scorePerAssist_; }
 
@@ -364,6 +367,7 @@ protected:
 	OptionEntryEnum teamBallance_;
 	OptionEntryBoundedInt moneyInterest_;
 	OptionEntryBool limitPowerByHealth_;
+	OptionEntryString tutorial_;
 	OptionEntryBool cycleMaps_;
 	OptionEntryBool delayedDefenseActivation_;
 	OptionEntryEnum resignMode_;

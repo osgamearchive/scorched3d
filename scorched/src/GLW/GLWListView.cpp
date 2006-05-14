@@ -83,6 +83,7 @@ void GLWListView::draw()
 		}
 
 		// For each line
+		bool newWords = false;
 		for (int i=pos; i<(int) scroll_.getMax(); i++)
 		{
 			// Check the line is valid
@@ -120,6 +121,7 @@ void GLWListView::draw()
 						// Send the event (if any)
 						if (wordEntry.wordRef_ != wordEntry.wordRefCount_)
 						{
+							newWords = true;
 							wordEntry.wordRef_ = wordEntry.wordRefCount_;
 							if (!wordEntry.event_.empty() && handler_)
 							{
@@ -145,16 +147,18 @@ void GLWListView::draw()
 				posY -= (textSize_ + 2.0f);
 			}
 
-			// Check if we have drawn more than we should see
-			if ((scrollSpeed_ > 0.0f) && (charCount > int(currentPosition_))) break;
+			// Check if we should scroll down
 			if (posY < y_) 
 			{
-				if (scrollSpeed_ > 0.0f)
+				if (scrollSpeed_ > 0.0f && newWords)
 				{
 					scroll_.setCurrent(scroll_.getCurrent() - 1);
 				}
 				break;
 			}
+
+			// Check if we have drawn more than we should see
+			if ((scrollSpeed_ > 0.0f) && (charCount > int(currentPosition_))) break;
 		}
 	}
 

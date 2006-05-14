@@ -86,6 +86,7 @@ PlayerDialog::PlayerDialog() :
 	imageList_ = new GLWImageList(10.0f, 20.0f, getDataFile("data/avatars"));
 	imageList_->setCurrent("player.gif");
 	imageList_->setToolTip(&avatarTip1_);
+	imageList_->setName("Avatar");
 	infoPanel->addWidget(imageList_);
 
 	// Create player name choice
@@ -100,6 +101,7 @@ PlayerDialog::PlayerDialog() :
 		infoPanel->addWidget(new GLWTextBox(120, 40, 320, "Player"));
 	playerName_->setMaxTextLen(22);
 	playerName_->setToolTip(nameTip);
+	playerName_->setName("Name");
 	
 	// Create team choice
 	GLWTip *teamTip = new GLWTip("Team Selection",
@@ -112,6 +114,7 @@ PlayerDialog::PlayerDialog() :
 		infoPanel->addWidget(new GLWDropDownText(320, 5, 120));
 	teamDropDown_->setHandler(this);
 	teamDropDown_->setToolTip(teamTip);
+	teamDropDown_->setName("Team");
 
 	// Create color choice
 	GLWTip *colorTip = new GLWTip("Color Selection",
@@ -124,6 +127,7 @@ PlayerDialog::PlayerDialog() :
 		infoPanel->addWidget(new GLWDropDownColor(320, 5, 120));
 	colorDropDown_->setHandler(this);
 	colorDropDown_->setToolTip(colorTip);
+	colorDropDown_->setName("Color");
 
 	// Create computer type choice
 	GLWTip *typeTip = new GLWTip("Player Type",
@@ -137,6 +141,7 @@ PlayerDialog::PlayerDialog() :
 		infoPanel->addWidget(new GLWDropDownText(120, 5, 120));
 	typeDropDown_->setHandler(this);
 	typeDropDown_->setToolTip(typeTip);
+	typeDropDown_->setName("Type");
 }
 
 PlayerDialog::~PlayerDialog()
@@ -409,6 +414,10 @@ void PlayerDialog::buttonDown(unsigned int id)
 	}
 	else if (id == cancelId_)
 	{
-		GLWWindowManager::instance()->hideWindow(getId());
+		if (ScorchedClient::instance()->getGameState().getState() !=
+			ClientState::StateGetPlayers)
+		{
+			GLWWindowManager::instance()->hideWindow(getId());
+		}
 	}
 }

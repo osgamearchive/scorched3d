@@ -45,14 +45,14 @@ protected:
 	GLWListView *listView_;
 	GLTexture triangleTex_;
 	TutorialFile file_;
+	TutorialFileEntry *current_;
 
-	bool currentHighlight_;
-	float highlightX_, highlightY_, highlightW_, highlightH_;
+	std::map<std::string, std::string> currentEvents_;
 
-	void showPage(XMLNode *node);
+	void processEvents(bool log = false);
+	void showPage(TutorialFileEntry *entry);
 	void drawHighlight(float x, float y, float w, float h);
 	void drawTriangle(float x, float y, float size, int tex);
-	void setHighlight(float x, float y, float w, float h);
 
 private:
 	TutorialDialog();

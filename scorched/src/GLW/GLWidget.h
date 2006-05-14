@@ -56,6 +56,7 @@ public:
 	virtual bool initFromXML(XMLNode *node);
 	virtual void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
 	virtual void setParent(GLWPanel *parent);
+	virtual GLWPanel *getParent() { return parent_; }
 	virtual void layout();
 	void setVisible(bool visible) { visible_ = visible; }
 	bool getVisible() { return visible_; }

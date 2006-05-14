@@ -95,7 +95,7 @@ GLWidget *GLWPanel::getWidgetByName(const char *name)
 			{
 				return entry.widget;
 			}
-			if (entry.widget->getMetaClassId() == getMetaClassId())
+			if (0 == strcmp(entry.widget->getClassName(), "GLWPanel"))
 			{
 				GLWPanel *panel = (GLWPanel *) entry.widget;
 				GLWidget *widget = panel->getWidgetByName(name);

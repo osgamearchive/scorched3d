@@ -29,6 +29,7 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/Defines.h>
+#include <common/OptionsGame.h>
 #include <time.h>
 
 TutorialDialog *TutorialDialog::instance_ = 0;
@@ -43,23 +44,24 @@ TutorialDialog *TutorialDialog::instance()
 }
 
 TutorialDialog::TutorialDialog() : 
-	GLWWindow("Tutorial", 160.0f, -120.0f, 
+	GLWWindow("", 155.0f, -120.0f, 
 		470.0f, 120.0f, eTransparent | eNoTitle,
 		"The ingame tutorial."),
 	triangleDir_(30.0f), triangleDist_(0.0f),
-	currentHighlight_(false)
+	current_(0)
 {
 	Vector listColor(0.0f, 0.0f, 0.0f);
-	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 95.0f, -1, 12.0f, 16.0f);
+	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 95.0f, -1, 12.0f, 24.0f);
 	listView_->setColor(listColor);
 	listView_->setHandler(this);
 	addWidget(listView_, 0, SpaceAll, 10.0f);
 	setLayout(GLWPanel::LayoutVerticle);
 	layout();
 
-	if (file_.parseFile(getDataFile("data/tutorial.xml")))
+	if (file_.parseFile(getDataFile(
+		ScorchedClient::instance()->getOptionsGame().getTutorial())))
 	{
-		showPage(file_.getStartText());
+		showPage(file_.getStartEntry());
 	}
 }
 
@@ -68,11 +70,13 @@ TutorialDialog::~TutorialDialog()
 
 }
 
-void TutorialDialog::showPage(XMLNode *node)
+void TutorialDialog::showPage(TutorialFileEntry *entry)
 {
-	currentHighlight_ = false;
+	currentEvents_.clear();
+	current_ = entry;
+
 	listView_->clear();
-	listView_->addXML(node);
+	listView_->addXML(entry->text_);
 }
 
 void TutorialDialog::display()
@@ -85,11 +89,78 @@ void TutorialDialog::draw()
 {
 	GLWWindow::draw();
 
-	if (currentHighlight_)
+	processEvents();
+}
+
+static const char *getValue(const char *name,
+	std::map<std::string, std::string> &event)
+{
+	std::map<std::string, std::string>::iterator itor =
+		event.find(name);
+	if (itor == event.end()) return 0;
+	return (*itor).second.c_str();
+}
+
+void TutorialDialog::processEvents(bool log)
+{
+	if (currentEvents_.empty()) return;
+
+	const char *action = getValue("action", currentEvents_);
+	if (!action)
 	{
+		dialogExit("TutorialDialog", "No action in event");
+	}
+
+	if (0 == strcmp(action, "highlight")) 
+	{
+		const char *windowName = getValue("window", currentEvents_);
+		const char *controlName = getValue("control", currentEvents_);
+		if (!windowName || !controlName)
+		{
+			dialogExit("TutorialDialog", "No window or control in event");
+		}
+
+		GLWWindow *window = GLWWindowManager::instance()->getWindowByName(windowName);
+		if (!window)
+		{
+			if (log)
+			{
+				Logger::log(
+					formatString("Tutorial cannot find window \"%s\"", windowName));
+			}
+			return;
+		}
+
+		GLWidget *control = window->getWidgetByName(controlName);
+		if (!control)
+		{
+			if (log)
+			{
+				Logger::log(
+					formatString("Tutorial cannot find control \"%s\" in window \"%s\"", 
+					controlName, windowName));
+			}
+			return;
+		}
+
+		float x = control->getX();
+		float y = control->getY();
+		GLWPanel *parent = control->getParent();
+		while (parent)
+		{
+			x += parent->getX();
+			y += parent->getY();
+			parent = parent->getParent();
+		}
+
 		drawHighlight(
-			highlightX_, highlightY_, 
-			highlightW_, highlightH_);
+			x, y, control->getW(), control->getH());
+	}
+	else
+	{
+		dialogExit("TutorialDialog",
+			formatString("Unknown tutorial event type \"%s\"",
+			action));
 	}
 }
 
@@ -108,12 +179,26 @@ void TutorialDialog::simulate(float frameTime)
 		triangleDist_ = 10.0f;
 		triangleDir_ = -triangleDir_;
 	}
+
+	if (current_)
+	{
+		TutorialFileEntry *entry = current_->checkConditions();
+		if (entry) showPage(entry);
+	}
 }
 
 void TutorialDialog::url(const char *url)
 {
-	XMLNode *node = file_.getText(url);
-	if (node) showPage(node);
+	TutorialFileEntry *entry = file_.getEntry(url);
+	if (entry)
+	{
+		showPage(entry);
+	}
+	else
+	{
+		dialogExit("TutorialDialog", 
+			formatString("Unknown url \"%s\"", url));
+	}
 }
 
 void TutorialDialog::drawHighlight(float x, float y, float w, float h)
@@ -126,7 +211,7 @@ void TutorialDialog::drawHighlight(float x, float y, float w, float h)
 	}
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
-	glColor3f(1.0f, 0.0f, 0.0f);
+	glColor4f(1.0f, 0.0f, 0.0f, 0.7f);
 
 	triangleTex_.draw();
 
@@ -175,58 +260,8 @@ void TutorialDialog::drawTriangle(float x, float y, float size, int tex)
 	glEnd();
 }
 
-void TutorialDialog::setHighlight(float x, float y, float w, float h)
-{
-	currentHighlight_ = true;
-	highlightX_ = x;
-	highlightY_ = y;
-	highlightW_ = w;
-	highlightH_ = h;
-}
-
-static const char *getValue(const char *name,
-	std::map<std::string, std::string> &event)
-{
-	std::map<std::string, std::string>::iterator itor =
-		event.find(name);
-	if (itor == event.end()) return 0;
-	return (*itor).second.c_str();
-}
-
 void TutorialDialog::event(std::map<std::string, std::string> &event)
 {
-	const char *action = getValue("action", event);
-	if (!action)
-	{
-		dialogExit("TutorialDialog", "No action in event");
-	}
-
-	if (0 == strcmp(action, "highlight")) 
-	{
-		const char *windowName = getValue("window", event);
-		const char *controlName = getValue("control", event);
-		if (!windowName || !controlName)
-		{
-			dialogExit("TutorialDialog", "No window or control in event");
-		}
-
-		GLWWindow *window = GLWWindowManager::instance()->getWindowByName(windowName);
-		if (!window)
-		{
-			dialogExit("TutorialDialog", 
-				formatString("Cannot find window \"%s\"", windowName));
-		}
-
-		GLWidget *control = window->getWidgetByName(controlName);
-		if (!control)
-		{
-			dialogExit("TutorialDialog", 
-				formatString("Cannot find control \"%s\" in window \"%s\"", 
-				controlName, windowName));
-		}
-
-		setHighlight(
-			control->getX() + window->getX(), control->getY() + window->getY(),
-			control->getW(), control->getH());
-	}
+	currentEvents_ = event;
 }
+

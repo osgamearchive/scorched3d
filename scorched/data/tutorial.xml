@@ -1,19 +1,85 @@
 <tutorial>
-	<start>tutorial1</start>
+	<start>start</start>
 	<steps>
 		<step>
-			<name>tutorial1</name>
+			<name>start</name>
 			<text>Welcome to Scorched3D.
 
 This is a short tutorial to help you get to grips with the game.
 
-<a href="tutorial2">Continue...</a></text>
+<a href="rulesDialog">Continue...</a></text>
 		</step>
 		<step>
-			<name>tutorial2</name>
-			<text>This is the rules dialog.
+			<name>rulesDialog</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Rules</window>
+					<next>playerDialog1</next>
+				</condition>
+			</conditions>
+			<text>Below is the rules window.
+When playing online this window displays any messages from the server.  It can also be used to check what game rules are being used.  
 
-It shows the rules for the current game.  For the moment please dismis this dialog by clicking the <event action="highlight" window="Rules" control="Ok">Ok</event> button.</text>
+Remove this window by clicking the <event action="highlight" window="Rules" control="Ok">Ok</event> button.</text>
 		</step>
+		<step>
+			<name>playerDialog1</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Team</window>
+					<next>game</next>
+				</condition>
+			</conditions>
+			<text>Below is the player setup window.
+This window allows you to choose the name, team and tank that your player will use in the game.
+<a href="playerDialog2">Continue...</a></text>
+		</step>
+		<step>
+			<name>playerDialog2</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Team</window>
+					<next>game</next>
+				</condition>
+			</conditions>
+			<text>The <event action="highlight" window="Team" control="Name">name</event> box allows you to enter the name which identifies your tank.  Other players will see this name in game.
+Remove the current name by pressing the delete key, and then type in your name using the keyboard.
+<a href="playerDialog3">Continue...</a></text>
+		</step>
+		<step>
+			<name>playerDialog3</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Team</window>
+					<next>game</next>
+				</condition>
+			</conditions>
+			<text>If you have created a game with more than one player you can make some of the players computer controlled by selecting a computer type from the <event action="highlight" window="Team" control="Type">type</event> list.
+For the moment so you can play, please leave this set to Human.
+<a href="playerDialog4">Continue...</a></text>
+		</step>
+		<step>
+			<name>playerDialog4</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Team</window>
+					<next>game</next>
+				</condition>
+			</conditions>
+			<text>The <event action="highlight" window="Team" control="Color">color</event> selection allows you choose the color of your tank.
+When playing team games it also allows you to choose your team.
+<a href="game">Continue...</a></text>
+		</step>
+		
+		
+		<step>
+			<name>game</name>
+			<text></text>
+		</step>
+		
+		<step>
+			<name>end</name>
+			<text></text>
+		</step>		
 	</steps>
 </tutorial>

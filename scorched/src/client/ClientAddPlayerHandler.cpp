@@ -74,6 +74,7 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 			message.getPlayerIcon(),
 			true);
 		tank->setRenderer(new TargetRendererImplTank(tank));
+		tank->getState().setSpectator(true);
 		ScorchedClient::instance()->getTankContainer().addTank(tank);
 	}
 	else

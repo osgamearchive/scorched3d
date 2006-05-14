@@ -112,6 +112,8 @@ static OptionEntryStringEnum::EnumEntry economyEnum[] =
 };
 
 OptionsGame::OptionsGame() :
+	tutorial_(options_, "Tutorial",
+		"The tutorial to load for this game", 0, ""),
 	scorePerAssist_(options_, "ScorePerAssist",
 		"The amount of score awarded for each kill assist", 0, 2, 0, 50, 1),
 	scorePerKill_(options_, "ScorePerKill",

@@ -24,6 +24,38 @@
 #include <XML/XMLFile.h>
 #include <map>
 
+class TutorialFile;
+class TutorialFileEntry;
+class TutorialCondition
+{
+public:
+	virtual TutorialFileEntry *checkCondition() = 0;
+	virtual bool parseXML(TutorialFile *file, XMLNode *node) = 0;
+
+	static TutorialCondition *create(const char *type);
+};
+
+class TutorialConditionWindowVisible : public TutorialCondition
+{
+public:
+	virtual TutorialFileEntry *checkCondition();
+	virtual bool parseXML(TutorialFile *file, XMLNode *node);
+
+protected:
+	std::string window_;
+	TutorialFileEntry *next_;
+};
+
+class TutorialFileEntry
+{
+public:
+	std::list<TutorialCondition *> conditions_;
+	std::string name_;
+	XMLNode *text_;
+
+	TutorialFileEntry *checkConditions();
+};
+
 class TutorialFile
 {
 public:
@@ -32,20 +64,13 @@ public:
 
 	bool parseFile(const char *file);
 
-	XMLNode *getStartText() { return start_->text_; }
-	XMLNode *getText(const char *name); 
+	TutorialFileEntry *getStartEntry() { return start_; }
+	TutorialFileEntry *getEntry(const char *name); 
 
 protected:
-	class Entry
-	{
-	public:
-		std::string name_;
-		XMLNode *text_;
-	};
-
 	XMLFile file_;
-	std::map<std::string, Entry *> entries_;
-	Entry *start_;
+	std::map<std::string, TutorialFileEntry *> entries_;
+	TutorialFileEntry *start_;
 };
 
 #endif // __INCLUDE_TutorialFileh_INCLUDE__

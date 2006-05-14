@@ -51,6 +51,7 @@ enum
 	ID_BUTTON_SERVER,
 	ID_BUTTON_SCORCHED,
 	ID_BUTTON_DONATE,
+	ID_BUTTON_TUTORIAL,
 	ID_BUTTON_HELP,
 	ID_MAIN_TIMER
 };
@@ -193,6 +194,7 @@ public:
 	void onScorchedClick(wxCommandEvent &event);
 	void onDonateClick(wxCommandEvent &event);
 	void onHelpButton(wxCommandEvent &event);
+	void onTutorialButton(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -204,6 +206,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_BUTTON(ID_BUTTON_DISPLAY,  MainFrame::onDisplayButton)
 	EVT_BUTTON(ID_BUTTON_NETLAN,  MainFrame::onNetLanButton)
 	EVT_BUTTON(ID_BUTTON_SINGLE,  MainFrame::onSingleButton)
+	EVT_BUTTON(ID_BUTTON_TUTORIAL,  MainFrame::onTutorialButton)
 	EVT_BUTTON(ID_BUTTON_SERVER,  MainFrame::onServerButton)
 	EVT_BUTTON(wxID_CANCEL,  MainFrame::onQuitButton)
 	EVT_BUTTON(ID_BUTTON_SCORCHED,  MainFrame::onScorchedClick)
@@ -239,13 +242,27 @@ MainFrame::MainFrame() :
 	}	
 
 	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
+
+	// Tutorial Bitmap
+	{
+		wxButton *button =
+			addButtonToWindow(ID_BUTTON_TUTORIAL,
+				"Start the single player tutorial.\n"
+				"Learn how to play Scorched 3D.", 
+				getDataFile("data/windows/book.bmp"), this, gridsizer);
+		if (button && !OptionsParam::instance()->getSDLInitVideo())
+		{
+			button->Disable();
+		}
+	}
+
 	// Single Player Bitmap
 	{
 		wxButton *button =
 			addButtonToWindow(ID_BUTTON_SINGLE,
 				"Start a single or multi-player game.\n"
 				"One or more people play against themselves or the computer.", 
-				getDataFile("data/windows/tank2.bmp"), this, gridsizer);
+				getDataFile("data/windows/tank.bmp"), this, gridsizer);
 		if (button && !OptionsParam::instance()->getSDLInitVideo())
 		{
 			button->Disable();
@@ -381,6 +398,12 @@ void MainFrame::onDonateClick(wxCommandEvent &event)
 		"\"https://www.paypal.com/xclick/business=donations%40"
 		"scorched3d.co.uk&item_name=Scorched3D&no_note=1&tax=0&currency_code=GBP\"";
 	showURL(exec);
+}
+
+void MainFrame::onTutorialButton(wxCommandEvent &event)
+{
+	const char *targetFilePath = getDataFile("data/singletutorial.xml");
+	runScorched3D(formatString("-startclient \"%s\"", targetFilePath));
 }
 
 void MainFrame::onDisplayButton(wxCommandEvent &event)

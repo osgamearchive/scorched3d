@@ -19,6 +19,59 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/TutorialFile.h>
+#include <GLW/GLWWindowManager.h>
+
+TutorialFileEntry *TutorialConditionWindowVisible::checkCondition()
+{
+	GLWWindow *window = 
+		GLWWindowManager::instance()->getWindowByName(window_.c_str());
+
+	if (!window || 
+		!GLWWindowManager::instance()->windowVisible(window->getId()))
+	{
+		return next_;
+	}
+	return 0;
+}
+
+bool TutorialConditionWindowVisible::parseXML(TutorialFile *file, XMLNode *node)
+{
+	std::string next;
+	if (!node->getNamedChild("window", window_)) return false;
+	if (!node->getNamedChild("next", next)) return false;
+
+	if (!(next_ = file->getEntry(next.c_str())))
+	{
+		return node->returnError(
+			"Failed to find the tutorial pointed to by next");
+	}	
+
+	return true;
+}
+
+TutorialCondition *TutorialCondition::create(const char *type)
+{
+	if (0 == strcmp(type, "WindowVisible"))
+	{
+		return new TutorialConditionWindowVisible;
+	}
+	return 0;
+}
+
+TutorialFileEntry *TutorialFileEntry::checkConditions()
+{
+	std::list<TutorialCondition *>::iterator itor;
+	for (itor = conditions_.begin();
+		itor != conditions_.end();
+		itor++)
+	{
+		TutorialCondition *condition = (*itor);
+
+		TutorialFileEntry *entry = condition->checkCondition();
+		if (entry) return entry;
+	}
+	return 0;
+}
 
 TutorialFile::TutorialFile() : file_(true)
 {
@@ -40,12 +93,11 @@ bool TutorialFile::parseFile(const char *file)
 		return false;
 	}
 
-	std::string start;
-	if (!file_.getRootNode()->getNamedChild("start", start)) return false;
-
 	XMLNode *steps = 0;
 	if (!file_.getRootNode()->getNamedChild("steps", steps)) return false;
 
+	// Parse all the steps
+	std::list<std::pair<TutorialCondition *, XMLNode *> > conditions;
 	std::list<XMLNode *>::iterator stepitor;
 	for (stepitor = steps->getChildren().begin();
 		stepitor != steps->getChildren().end();
@@ -55,30 +107,74 @@ bool TutorialFile::parseFile(const char *file)
 
 		if (node->getType() == XMLNode::XMLNodeType)
 		{
-			Entry *entry = new Entry();
+			TutorialFileEntry *entry = new TutorialFileEntry();
 			if (!node->getNamedChild("name", entry->name_)) return false;
 			if (!node->getNamedChild("text", entry->text_)) return false;
+
+			XMLNode *conditionsNode;
+			if (node->getNamedChild("conditions", conditionsNode, false))
+			{
+				XMLNode *conditionNode;
+				while (conditionsNode->getNamedChild("condition", conditionNode, false))
+				{
+					std::string type;
+					if (!conditionNode->getNamedParameter("type", type)) return false;
+
+					// Create condition
+					TutorialCondition *condition =
+						TutorialCondition::create(type.c_str());
+					entry->conditions_.push_back(condition);
+
+					// Store this condition to be parsed later
+					std::pair<TutorialCondition *, XMLNode *> 
+						cond(condition, conditionNode);
+					conditions.push_back(cond);
+				}
+			}
+
 			entries_[entry->name_] = entry;
+
+			if (!node->failChildren()) return false;
 		}
 	}
 
-	std::map<std::string, Entry *>::iterator findItor = entries_.find(start);
-	if (findItor == entries_.end())
+	// Parse the conditions afterwards, as they may point to any of the
+	// file entries.  So all the file entries need to be constructed 1st
+	std::list<std::pair<TutorialCondition *, XMLNode *> >::iterator conditor;
+	for (conditor = conditions.begin();
+		conditor != conditions.end();
+		conditor++)
+	{
+		TutorialCondition *condition = (*conditor).first;
+		XMLNode *conditionNode = (*conditor).second;
+
+		if (!condition->parseXML(
+			this, conditionNode)) return false;
+		if (!conditionNode->failChildren()) return false;
+	}
+
+	// Get the startnode
+	std::string start;
+	if (!file_.getRootNode()->getNamedChild("start", start)) return false;
+	start_ = getEntry(start.c_str());
+	if (!start_)
 	{
 		dialogMessage("TutorialFile", "Failed to find start node");
 		return false;
 	}
-	start_ = (*findItor).second;
 
+	// Check the file has been parsed
+	if (!file_.getRootNode()->failChildren()) return false;
 	return true;
 }
 
-XMLNode *TutorialFile::getText(const char *name)
+TutorialFileEntry *TutorialFile::getEntry(const char *name)
 {
-	std::map<std::string, Entry *>::iterator findItor = entries_.find(name);
+	std::map<std::string, TutorialFileEntry *>::iterator findItor 
+		= entries_.find(name);
 	if (findItor == entries_.end())
 	{
 		return 0;
 	}
-	return (*findItor).second->text_;
+	return (*findItor).second;
 }

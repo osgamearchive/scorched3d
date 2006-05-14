@@ -234,12 +234,31 @@ void XMLNode::addNodeToFile(FileLines &lines, int spacing)
 
 bool XMLNode::failChildren()
 {
-	if (!children_.empty())
+	if (useContentNodes_)
 	{
-		XMLNode *node = children_.front();
-		node->returnError(formatString("Unrecognised node."));
-		return false;
+		std::list<XMLNode *>::iterator itor;
+		for (itor = getChildren().begin();
+			itor != getChildren().end();
+			itor++)
+		{
+			XMLNode	*node = (*itor);
+			if (node->getType() == XMLNodeType)
+			{
+				node->returnError(formatString("Unrecognised node."));
+				return false;
+			}
+		}
 	}
+	else
+	{
+		if (!children_.empty())
+		{
+			XMLNode *node = children_.front();
+			node->returnError(formatString("Unrecognised node."));
+			return false;
+		}
+	}
+
 	return true;
 }
 

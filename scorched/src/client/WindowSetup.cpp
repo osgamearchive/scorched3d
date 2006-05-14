@@ -23,8 +23,10 @@
 #include <GLW/GLWSelector.h>
 #include <common/Keyboard.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsGame.h>
 #include <client/ClientState.h>
 #include <client/WindowSetup.h>
+#include <client/ScorchedClient.h>
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/CameraDialog.h>
@@ -118,8 +120,15 @@ void WindowSetup::addCommonComponents(unsigned state)
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	GLWWindowManager::instance()->addWindow(state, 
 		RulesDialog::instance(), rulesKey, true);
+
+	if (ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
+	{
+		GLWWindowManager::instance()->addWindow(state, 
+ 			TutorialDialog::instance(), 0, true);
+	}
 }
 
+// This is called before any mod has been loaded
 void WindowSetup::setupStartWindows()
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
@@ -162,6 +171,7 @@ void WindowSetup::setupStartWindows()
 		BackdropDialog::instance(), 0, true);
 }
 
+// This is called after the correct mod has been loaded
 void WindowSetup::setupGameWindows()
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
@@ -201,8 +211,11 @@ void WindowSetup::setupGameWindows()
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		GLWSelector::instance(), 0, true);
-	//GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
- 	//	TutorialDialog::instance(), 0, true);
+	if (ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
+	{
+		GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+ 			TutorialDialog::instance(), 0, true);
+	}
 
 	// StateWait
 	addCommonComponents(ClientState::StateWait);

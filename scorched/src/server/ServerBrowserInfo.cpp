@@ -152,6 +152,19 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
 	wxString osDesc = ::wxGetOsDescription();
 	osDesc.Remove(osDesc.Find(wxT(" ")));
+	bool stats = (0 != strcmp(ScorchedServer::instance()->getOptionsGame().getStatsLogger(), "none"));
+
+	int compplayers = 0;
+	std::map<unsigned int, Tank *> &tanks =
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator tanksitor;
+	for (tanksitor = tanks.begin();
+		tanksitor != tanks.end();
+		tanksitor++)
+	{
+		Tank *tank = (*tanksitor).second;
+		if (tank->getTankAI()) compplayers++;
+	}
 
 	reply.push_back(addTag("gametype", type));
 	reply.push_back(addTag("state", (started?"Started":"Waiting")));
@@ -165,6 +178,8 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 		ScorchedServer::instance()->getOptionsGame().getServerPassword()[0]?"On":"Off"));
 	reply.push_back(addTag("noplayers", players));
 	reply.push_back(addTag("maxplayers", maxplayers));
+	reply.push_back(addTag("compplayers", formatString("%i", compplayers)));
+	reply.push_back(addTag("stats", (stats?"yes":"no")));
 	reply.push_back(addTag("round", formatString("%i/%i",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds())));
@@ -216,6 +231,9 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 
 		snprintf(tmp, 128, "pm%i", i);
 		reply.push_back(addTag(tmp, TankColorGenerator::getTeamName(tank->getTeam()))); 
+
+		snprintf(tmp, 128, "pt%i", i);
+		reply.push_back(addTag(tmp, (tank->getTankAI()?"C":"H")));
 
 		snprintf(tmp, 128, "pr%i", i);
 		reply.push_back(addTag(tmp, tank->getScore().getStatsRank()));
