@@ -203,6 +203,7 @@ void PlayerDialog::display()
 		GLWPanel *infoPanel = new GLWPanel(10.0f, 40.0f, 445.0f, 210.0f,
 			false, true, true);
 		viewer_ = new GLWTankViewer(5.0f, 5.0f, 4, 3);
+		viewer_->setName("Tank");
 		infoPanel->addWidget(viewer_);
 		addWidget(infoPanel);
 	}

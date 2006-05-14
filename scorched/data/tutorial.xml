@@ -1,6 +1,7 @@
 <tutorial>
 	<start>start</start>
 	<steps>
+		<!-- Start -->
 		<step>
 			<name>start</name>
 			<text>Welcome to Scorched3D.
@@ -9,6 +10,8 @@ This is a short tutorial to help you get to grips with the game.
 
 <a href="rulesDialog">Continue...</a></text>
 		</step>
+		
+		<!-- Rules Dialog -->
 		<step>
 			<name>rulesDialog</name>
 			<conditions>
@@ -20,8 +23,10 @@ This is a short tutorial to help you get to grips with the game.
 			<text>Below is the rules window.
 When playing online this window displays any messages from the server.  It can also be used to check what game rules are being used.  
 
-Remove this window by clicking the <event action="highlight" window="Rules" control="Ok">Ok</event> button.</text>
+Once you have read the message click the <event action="highlight" window="Rules" control="Ok">Ok</event> button to continue.</text>
 		</step>
+		
+		<!-- Player Dialog -->
 		<step>
 			<name>playerDialog1</name>
 			<conditions>
@@ -68,10 +73,33 @@ For the moment so you can play, please leave this set to Human.
 			</conditions>
 			<text>The <event action="highlight" window="Team" control="Color">color</event> selection allows you choose the color of your tank.
 When playing team games it also allows you to choose your team.
-<a href="game">Continue...</a></text>
+<a href="playerDialog5">Continue...</a></text>
 		</step>
+		<step>
+			<name>playerDialog5</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Team</window>
+					<next>game</next>
+				</condition>
+			</conditions>
+			<text>The <event action="highlight" window="Team" control="Tank">tank</event> selection allows you choose your tank.
+This is what your player will look like in the game.
+Although each tank looks very different they all share the same weapons and attributes.
+<a href="playerDialog6">Continue...</a></text>
+		</step>
+		<step>
+			<name>playerDialog6</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Team</window>
+					<next>game</next>
+				</condition>
+			</conditions>
+			<text>Once you have given your player a name, color and tank click the <event action="highlight" window="Team" control="Ok">Ok</event> button to continue.</text>
+		</step>		
 		
-		
+		<!-- Game -->
 		<step>
 			<name>game</name>
 			<text></text>
