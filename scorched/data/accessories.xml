@@ -1367,7 +1367,7 @@ and shields damaging the tank directly.</description>
 		<activationsound>shoot/small.wav</activationsound>
 		<bundlesize>1</bundlesize>
 		<modelscale>0.5</modelscale>
-		<cost>15000</cost>
+		<cost>20000</cost>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilescale>0.5</projectilescale>
 			<spinspeed>1.0</spinspeed>

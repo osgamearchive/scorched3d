@@ -216,6 +216,7 @@ void GLWScrollW::setCurrent(int newCurrent)
 {
 	if (newCurrent < min_) newCurrent = min_;
 	else if (newCurrent > max_ - see_) newCurrent = max_ - see_;
+	if (newCurrent < min_) newCurrent = min_; // Incase the max line changed this
 
 	int diffCurrent = current_ - newCurrent;
 	current_ = newCurrent;

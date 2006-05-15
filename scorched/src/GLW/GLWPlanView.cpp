@@ -140,6 +140,8 @@ void GLWPlanView::drawCameraPointer()
 		getCamera().getCurrentPos();
 	Vector lookAt = MainCamera::instance()->
 		getCamera().getLookAt();
+	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
+	Vector directionPerp = direction.get2DPerp();
 
 	// Force camera positions between 0 and 1
 	currentPos[0] += (maxWidth - mapWidth) / 2.0f;
@@ -172,8 +174,6 @@ void GLWPlanView::drawCameraPointer()
 	lookAt += mid;
 
 	// Draw direction arrows
-	Vector direction = (currentPos - lookAt).Normalize2D() * 0.2f;
-	Vector directionPerp = direction.get2DPerp();
 	glColor3f(0.9f, 0.9f, 1.0f);
 	glBegin(GL_LINES);
 		glVertex3fv(currentPos);

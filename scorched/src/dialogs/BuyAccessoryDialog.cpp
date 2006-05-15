@@ -245,7 +245,7 @@ bool BuyAccessoryDialog::addAccessory(
 	Tank *tank, GLWTab *tab, 
 	float height, Accessory *current)
 {
-	if (current->getMaximumNumber() == 0) return false;
+	if (!tank->getAccessories().accessoryAllowed(current, 0)) return false;
 
 	int currentNumber = 
 		tank->getAccessories().getAccessoryCount(current);
