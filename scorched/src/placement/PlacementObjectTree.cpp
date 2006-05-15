@@ -53,7 +53,18 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
-	bool pine = (0 == strcmp(tree.c_str(), "pine"));
+	bool burnt = false;
+	bool pine = false;
+	
+	if (0 == strcmp(tree.c_str(), "pine"))
+	{
+		pine = true;
+	}
+	else if (0 == strcmp(tree.c_str(), "burntpine"))
+	{
+		pine = true;
+		burnt = true;
+	}
 
 	LandscapeObjectsEntryTree *treeEntry = new LandscapeObjectsEntryTree();
 	treeEntry->snow = (pine && 
@@ -66,6 +77,7 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	treeEntry->removeaction = removeaction;
 	treeEntry->burnaction = burnaction;
 	treeEntry->boundingsize = Vector(1.0f, 1.0f, 2.0f) * treeEntry->modelscale;
+	treeEntry->burnt = burnt;
 
 	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
 		PlacementShadowDefinition::Entry(&shadow_, 
