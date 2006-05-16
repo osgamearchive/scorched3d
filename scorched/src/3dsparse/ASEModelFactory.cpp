@@ -150,9 +150,9 @@ void ASEModelFactory::calculateTexCoords(const char *texName)
 				maxMag = MagY;
 			}
 
-			face.tcoord[0] = getTexCoord(triA, maxMag, mesh->getMax(), mesh->getMin());
-			face.tcoord[1] = getTexCoord(triB, maxMag, mesh->getMax(), mesh->getMin());
-			face.tcoord[2] = getTexCoord(triC, maxMag, mesh->getMax(), mesh->getMin());
+			face.tcoord[0] = getTexCoord(triA, maxMag, model_->getMax(), model_->getMin());
+			face.tcoord[1] = getTexCoord(triB, maxMag, model_->getMax(), model_->getMin());
+			face.tcoord[2] = getTexCoord(triC, maxMag, model_->getMax(), model_->getMin());
 		}
 	}
 }
