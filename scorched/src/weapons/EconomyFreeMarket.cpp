@@ -44,6 +44,14 @@ static const char *getEconomyFileName()
 		ScorchedServer::instance()->getOptionsGame().getMod()));
 }
 
+bool validAccessory(Accessory *accessory)
+{
+	return 
+		accessory->getStartingNumber() != -1 &&
+		accessory->getMaximumNumber() != 0 &&
+		!accessory->getAIOnly();
+}
+
 EconomyFreeMarket::EconomyFreeMarket()
 {
 }
@@ -91,9 +99,7 @@ bool EconomyFreeMarket::loadPrices()
 			{	
 				// Check that this accessory is still valid
 				// (just in case the file has been changed)
-				if (accessory->getMaximumNumber() != 0 &&
-					accessory->getStartingNumber() != -1 && 
-					accessory->getType() == AccessoryPart::AccessoryWeapon)
+				if (validAccessory(accessory))
 				{
 					// Set the actual accessory price (based on the last used market prices)
 					int price = atoi(buyNode->getContent());
@@ -119,15 +125,14 @@ bool EconomyFreeMarket::savePrices()
 		itor++)
 	{
 		Accessory *accessory = *itor;
-
-		if (accessory->getMaximumNumber() != 0 &&
-			accessory->getStartingNumber() != -1 && 
-			accessory->getType() == AccessoryPart::AccessoryWeapon)
+		if (validAccessory(accessory))
 		{
 			std::string cleanName;
 			std::string dirtyName(accessory->getName());
 			XMLNode::removeSpecialChars(dirtyName, cleanName);
 			file.addLine("  <accessory>");
+			file.addLine(formatString("    <!-- %s, original Price %i -->", 
+				cleanName.c_str(), accessory->getOriginalPrice()));
 			file.addLine(formatString("    <name>%s</name>", cleanName.c_str()));
 			file.addLine(formatString("    <buyprice>%i</buyprice>", accessory->getPrice()));
 			file.addLine("  </accessory>");
@@ -186,11 +191,11 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			Accessory *accessory = *itor;
 	
 			if (accessory->getPrice() <= tank->getScore().getMoney() &&
-				accessory->getPrice() >= int(float(boughtAccessory->getPrice()) * 0.5f) &&
-				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.5f) &&
-				accessory->getStartingNumber() != -1 &&
-				accessory->getMaximumNumber() != 0 &&
-				accessory->getType() == AccessoryPart::AccessoryWeapon)
+				accessory->getPrice() >= int(float(boughtAccessory->getPrice()) * 0.3f) &&
+				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.75f) &&
+				((accessory->getType() == AccessoryPart::AccessoryWeapon) == (boughtAccessory->getType() == AccessoryPart::AccessoryWeapon)) &&
+				tank->getAccessories().accessoryAllowed(accessory, accessory->getBundle()) &&
+				validAccessory(accessory))
 			{
 				possibleAccessories.push_back(accessory);
 			}
