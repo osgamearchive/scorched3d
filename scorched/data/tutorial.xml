@@ -4,6 +4,12 @@
 		<!-- Start -->
 		<step>
 			<name>start</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window>Rules</window>
+					<next>playerDialog1</next>
+				</condition>
+			</conditions>
 			<text>Welcome to Scorched3D.
 
 This is a short tutorial to help you get to grips with the game.

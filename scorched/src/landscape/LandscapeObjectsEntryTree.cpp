@@ -26,17 +26,23 @@
 #include <GLEXT/GLInfo.h>
 #include <math.h>
 
-GLTexture LandscapeObjectsEntryTree::texture_;
-GLuint LandscapeObjectsEntryTree::treePine = 0;
-GLuint LandscapeObjectsEntryTree::treePineBurnt = 0;
-GLuint LandscapeObjectsEntryTree::treePineSnow = 0;
-GLuint LandscapeObjectsEntryTree::treePineSmall = 0;
-GLuint LandscapeObjectsEntryTree::treePineBurntSmall = 0;
-GLuint LandscapeObjectsEntryTree::treePineSnowSmall = 0;
-GLuint LandscapeObjectsEntryTree::treePalm = 0;
-GLuint LandscapeObjectsEntryTree::treePalmBurnt = 0;
-GLuint LandscapeObjectsEntryTree::treePalmSmall = 0;
-GLuint LandscapeObjectsEntryTree::treePalmBurntSmall = 0;
+GLTexture LandscapeObjectsEntryTree::pineTextureA_;
+GLTexture LandscapeObjectsEntryTree::palmTextureA_;
+GLuint LandscapeObjectsEntryTree::treePineList = 0;
+GLuint LandscapeObjectsEntryTree::treePineSmallList = 0;
+GLuint LandscapeObjectsEntryTree::treePineBurntList = 0;
+GLuint LandscapeObjectsEntryTree::treePineBurntSmallList = 0;
+GLuint LandscapeObjectsEntryTree::treePineSnowList = 0;
+GLuint LandscapeObjectsEntryTree::treePineSnowSmallList = 0;
+GLuint LandscapeObjectsEntryTree::treePineYellowList = 0;
+GLuint LandscapeObjectsEntryTree::treePineYellowSmallList = 0;
+GLuint LandscapeObjectsEntryTree::treePineLightList = 0;
+GLuint LandscapeObjectsEntryTree::treePineLightSmallList = 0;
+
+GLuint LandscapeObjectsEntryTree::treePalmList = 0;
+GLuint LandscapeObjectsEntryTree::treePalmSmallList = 0;
+GLuint LandscapeObjectsEntryTree::treePalmBurntList = 0;
+GLuint LandscapeObjectsEntryTree::treePalmBurntSmallList = 0;
 
 static void drawPineLevel(float centerX, float centerY,
 		float width, float height, float lowheight)
@@ -110,53 +116,52 @@ static void drawPalmTrunc(float width, float height, float count)
 	glEnd();
 }
 
-static void drawPalmLevel(float centerX, float centerY,
+static void drawPalmLevel(
 		float width1, float w2, float height, float height2,
-		float count)
+		float count, float texX, float texY)
 {
 	glBegin(GL_QUADS);
-		glTexCoord2f(centerX, centerY);
 		for (float i=360.0f; i>=0.0f;)
 		{
 			float diff = 0.5f * RAND - 0.25f;
 			float width2 = (w2 * RAND * 0.3f) + (0.7f * w2);
-			glTexCoord2f(0.0f, 0.365f);
+			glTexCoord2f(texX, texY);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height);
-			glTexCoord2f(0.0f, 0.488f);
+			glTexCoord2f(texX, texY + 0.123f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height2);
-			glTexCoord2f(0.37f, 0.488f);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height2 + diff);
-			glTexCoord2f(0.37f,  0.365f);
+			glTexCoord2f(texX + 0.37f, texY);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height + diff);
 
-			glTexCoord2f(0.37f, 0.365f);
+			glTexCoord2f(texX + 0.37f, texY);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height + diff);
-			glTexCoord2f(0.37f, 0.488f);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height2 + diff);
-			glTexCoord2f(0.0f, 0.488f);
+			glTexCoord2f(texX, texY + 0.123f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height2);
-			glTexCoord2f(0.0f, 0.365f);
+			glTexCoord2f(texX, texY);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
@@ -167,60 +172,116 @@ static void drawPalmLevel(float centerX, float centerY,
 	glEnd();
 }
 
+void LandscapeObjectsEntryTree::setup(const char *type, bool snow)
+{
+	normalType_ = (snow?ePineSnow:ePineNormal);
+	burntType_ = ePineBurnt;
+	
+	if (0 == strcmp(type, "burntpine"))
+	{
+		normalType_ = ePineBurnt;
+	}
+	else if (0 == strcmp(type, "yellowpine"))
+	{
+		normalType_ = (snow?ePineSnow:ePineYellow);
+	}
+	else if (0 == strcmp(type, "lightpine"))
+	{
+		normalType_ = (snow?ePineSnow:ePineLight);
+	}
+	else if (0 == strcmp(type, "palm"))
+	{
+		normalType_ = ePalmNormal;
+		burntType_ = ePalmBurnt;
+	}
+	else if (0 == strcmp(type, "burntpalm"))
+	{
+		normalType_ = ePalmBurnt;
+		burntType_ = ePalmBurnt;
+	}
+}
+
 void LandscapeObjectsEntryTree::render(float distance)
 {
 	// Create the tree textures and models
-	if (!texture_.textureValid())
+	if (!pineTextureA_.textureValid())
 	{
-		std::string file1 = getDataFile("data/textures/pine.bmp");
-		std::string file2 = getDataFile("data/textures/pinea.bmp");
-		GLBitmap map(file1.c_str(), file2.c_str(), false);
-		DIALOG_ASSERT(map.getBits());
-		texture_.create(map, GL_RGBA, true);
+		{
+			std::string file1 = getDataFile("data/textures/pine2.bmp");
+			std::string file2 = getDataFile("data/textures/pine2a.bmp");
+			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			DIALOG_ASSERT(map.getBits());
+			pineTextureA_.create(map, GL_RGBA, true);
+		}
+		{
+			std::string file1 = getDataFile("data/textures/pine.bmp");
+			std::string file2 = getDataFile("data/textures/pinea.bmp");
+			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			DIALOG_ASSERT(map.getBits());
+			palmTextureA_.create(map, GL_RGBA, true);
+		}
 
-		glNewList(treePine = glGenLists(1), GL_COMPILE);
+		glNewList(treePineList = glGenLists(1), GL_COMPILE);
 			drawPineTrunc(0.1f, 1.1f, 0.0f);
 			drawPineLevel(0.625f, 0.875f, 0.7f, 0.3f, 0.1f);
 			drawPineLevel(0.375f, 0.875f, 0.5f, 0.7f, 0.2f);
 			drawPineLevel(0.125f, 0.875f, 0.3f, 1.1f, 0.5f);
 		glEndList();
-		glNewList(treePineSmall = glGenLists(1), GL_COMPILE);
+		glNewList(treePineSmallList = glGenLists(1), GL_COMPILE);
 			drawPineLevel(0.625f, 0.875f, 0.7f, 1.1f, 0.1f);
 		glEndList();
-		glNewList(treePineSnow = glGenLists(1), GL_COMPILE);
+		glNewList(treePineSnowList = glGenLists(1), GL_COMPILE);
 			drawPineTrunc(0.1f, 1.1f, 0.0f);
 			drawPineLevel(0.625f, 0.625f, 0.7f, 0.3f, 0.1f);
 			drawPineLevel(0.375f, 0.625f, 0.5f, 0.7f, 0.2f);
 			drawPineLevel(0.125f, 0.625f, 0.3f, 1.1f, 0.5f);
 		glEndList();
-		glNewList(treePineSnowSmall = glGenLists(1), GL_COMPILE);
+		glNewList(treePineSnowSmallList = glGenLists(1), GL_COMPILE);
 			drawPineLevel(0.625f, 0.625f, 0.7f, 1.1f, 0.1f);
 		glEndList();
-		glNewList(treePineBurnt = glGenLists(1), GL_COMPILE);
+		glNewList(treePineYellowList = glGenLists(1), GL_COMPILE);
+			drawPineTrunc(0.1f, 1.1f, 0.0f);
+			drawPineLevel(0.625f, 0.375f, 0.7f, 0.3f, 0.1f);
+			drawPineLevel(0.375f, 0.375f, 0.5f, 0.7f, 0.2f);
+			drawPineLevel(0.125f, 0.375f, 0.3f, 1.1f, 0.5f);
+		glEndList();
+		glNewList(treePineYellowSmallList = glGenLists(1), GL_COMPILE);
+			drawPineLevel(0.625f, 0.375f, 0.7f, 1.1f, 0.1f);
+		glEndList();
+		glNewList(treePineLightList = glGenLists(1), GL_COMPILE);
+			drawPineTrunc(0.1f, 1.1f, 0.0f);
+			drawPineLevel(0.625f, 0.125f, 0.7f, 0.3f, 0.1f);
+			drawPineLevel(0.375f, 0.125f, 0.5f, 0.7f, 0.2f);
+			drawPineLevel(0.125f, 0.125f, 0.3f, 1.1f, 0.5f);
+		glEndList();
+		glNewList(treePineLightSmallList = glGenLists(1), GL_COMPILE);
+			drawPineLevel(0.625f, 0.125f, 0.7f, 1.1f, 0.1f);
+		glEndList();
+		glNewList(treePineBurntList = glGenLists(1), GL_COMPILE);
 			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPineTrunc(0.1f, 1.1f, 0.0f);
 			drawPineLevel(0.875f, 0.875f, 0.7f, 0.3f, 0.1f);
 			drawPineLevel(0.875f, 0.875f, 0.5f, 0.7f, 0.2f);
 			drawPineLevel(0.875f, 0.875f, 0.3f, 1.1f, 0.5f);
 		glEndList();
-		glNewList(treePineBurntSmall = glGenLists(1), GL_COMPILE);
+		glNewList(treePineBurntSmallList = glGenLists(1), GL_COMPILE);
 			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPineTrunc(0.1f, 1.1f, 0.0f);
 			drawPineLevel(0.875f, 0.875f, 0.7f, 1.1f, 0.1f);
 		glEndList();
-		glNewList(treePalm = glGenLists(1), GL_COMPILE);
+		glNewList(treePalmList = glGenLists(1), GL_COMPILE);
 			drawPalmTrunc(0.07f, 0.7f, 5.0f);
-			drawPalmLevel(0.0f, 0.0f, 0.0f, 0.6f, 0.6f, 0.8f, 7.0f);
+			drawPalmLevel(0.0f, 0.6f, 0.6f, 0.8f, 7.0f, 0.0f, 0.365f);
 		glEndList();
-		glNewList(treePalmSmall = glGenLists(1), GL_COMPILE);
+		glNewList(treePalmSmallList = glGenLists(1), GL_COMPILE);
 			drawPalmTrunc(0.07f, 0.7f, 3.0f);
-			drawPalmLevel(0.0f, 0.0f, 0.0f, 0.6f, 0.6f, 0.8f, 3.0f);
+			drawPalmLevel(0.0f, 0.6f, 0.6f, 0.8f, 3.0f, 0.0f, 0.365f);
 		glEndList();
-		glNewList(treePalmBurnt = glGenLists(1), GL_COMPILE);
+		glNewList(treePalmBurntList = glGenLists(1), GL_COMPILE);
 			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPalmTrunc(0.07f, 0.7f, 5.0f);
 		glEndList();
-		glNewList(treePalmBurntSmall = glGenLists(1), GL_COMPILE);
+		glNewList(treePalmBurntSmallList = glGenLists(1), GL_COMPILE);
 			glColor3f(0.3f, 0.3f, 0.3f);
 			drawPalmTrunc(0.07f, 0.7f, 3.0f);
 		glEndList();
@@ -231,33 +292,49 @@ void LandscapeObjectsEntryTree::render(float distance)
 	if (!GLCameraFrustum::instance()->sphereInFrustum(
 		position, boundingsize.Max() / 2.0f)) return;
 
-	GLuint treeType = treePalm;
-	GLuint smallTreeType = treePalmSmall;
-	if (pine)
+	GLuint treeList = 0;
+	GLuint smallTreeList = 0;
+	switch(burnt?burntType_:normalType_)
 	{
-		if (burnt)
-		{
-			treeType = treePineBurnt;
-			smallTreeType = treePineBurntSmall;
-		}
-		else if (snow)
-		{
-			treeType = treePineSnow;
-			smallTreeType = treePineSnowSmall;
-		}
-		else
-		{
-			treeType = treePine;
-			smallTreeType = treePineSmall;
-		}
-	}
-	else if (burnt)
-	{
-		treeType = treePalmBurnt;
-		smallTreeType = treePalmBurntSmall;
-	}
+	case ePineNormal:
+		pineTextureA_.draw();
+		treeList = treePineList;
+		smallTreeList = treePineSmallList;
+		break;
+	case ePineBurnt:
+		pineTextureA_.draw();
+		treeList = treePineBurntList;
+		smallTreeList = treePineBurntSmallList;
+		break;
+	case ePineSnow:
+		pineTextureA_.draw();
+		treeList = treePineSnowList;
+		smallTreeList = treePineSnowSmallList;
+		break;
+	case ePineYellow:
+		pineTextureA_.draw();
+		treeList = treePineYellowList;
+		smallTreeList = treePineYellowSmallList;
+		break;
+	case ePineLight:
+		pineTextureA_.draw();
+		treeList = treePineLightList;
+		smallTreeList = treePineLightSmallList;
+		break;
+	case ePalmNormal:
+		palmTextureA_.draw();
+		treeList = treePalmList;
+		smallTreeList = treePalmSmallList;
+		break;
+	case ePalmBurnt:
+		palmTextureA_.draw();
+		treeList = treePalmBurntList;
+		smallTreeList = treePalmBurntSmallList;
+		break;
+	};
 
-	texture_.draw();
+	DIALOG_ASSERT(treeList && smallTreeList);
+
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
@@ -266,12 +343,12 @@ void LandscapeObjectsEntryTree::render(float distance)
 		glColor4f(color, color, color, 1.0f);
 		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000)
 		{
-			glCallList(smallTreeType);
+			glCallList(smallTreeList);
 			GLInfo::addNoTriangles(20);
 		}
 		else 
 		{
-			glCallList(treeType);
+			glCallList(treeList);
 			GLInfo::addNoTriangles(10);
 		}
 	glPopMatrix();

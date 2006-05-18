@@ -63,8 +63,8 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			shot->getWeapon()->getFlameStartColor2(), 1.0f, // StartColor2
 			shot->getWeapon()->getFlameEndColor1(), 0.0f, // EndColor1
 			shot->getWeapon()->getFlameEndColor2(), 0.1f, // EndColor2
-			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
-			1.5f, 1.5f, 3.0f, 3.0f, // EndSize
+			shot->getWeapon()->getFlameStartSize() / 2.0f, shot->getWeapon()->getFlameStartSize() / 2.0f, shot->getWeapon()->getFlameStartSize(), shot->getWeapon()->getFlameStartSize(), // Start Size
+			shot->getWeapon()->getFlameEndSize() / 2.0f, shot->getWeapon()->getFlameEndSize() / 2.0f, shot->getWeapon()->getFlameEndSize(), shot->getWeapon()->getFlameEndSize(), // EndSize
 			Vector(0.0f, 0.0f, 10.0f), // Gravity
 			true,
 			true);
@@ -81,8 +81,8 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			Vector(0.7f, 0.7f, 0.7f), 0.3f, // StartColor2
 			Vector(0.7f, 0.7f, 0.7f), 0.0f, // EndColor1
 			Vector(0.8f, 0.8f, 0.8f), 0.1f, // EndColor2
-			0.2f, 0.2f, 0.5f, 0.5f, // Start Size
-			2.2f, 2.2f, 4.0f, 4.0f, // EndSize
+			shot->getWeapon()->getSmokeStartSize() / 2.0f, shot->getWeapon()->getSmokeStartSize() / 2.0f, shot->getWeapon()->getSmokeStartSize(), shot->getWeapon()->getSmokeStartSize(), // Start Size
+			shot->getWeapon()->getSmokeEndSize() / 2.0f, shot->getWeapon()->getSmokeEndSize() / 2.0f, shot->getWeapon()->getSmokeEndSize(), shot->getWeapon()->getSmokeEndSize(), // EndSize
 			Vector(0.0f, 0.0f, 100.0f), // Gravity
 			false,
 			true);

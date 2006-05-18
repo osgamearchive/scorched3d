@@ -34,6 +34,8 @@ WeaponProjectile::WeaponProjectile() :
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
+	flameStartSize_(0.5f), flameEndSize_(3.0f),
+	smokeStartSize_(0.5f), smokeEndSize_(4.0f),
 	engineSound_("data/wav/misc/rocket.wav"),
 	scale_(1.0f), flareType_(0)
 {
@@ -71,6 +73,10 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 	// Get smoke life
 	accessoryNode->getNamedChild("smokelife", smokeLife_, false);
 	accessoryNode->getNamedChild("flamelife", flameLife_, false);
+	accessoryNode->getNamedChild("flamestartsize", flameStartSize_, false);
+	accessoryNode->getNamedChild("flameendsize", flameEndSize_, false);
+	accessoryNode->getNamedChild("smokestartsize", smokeStartSize_, false);
+	accessoryNode->getNamedChild("smokeendsize", smokeEndSize_, false);
 
 	// Get the smoke trails
 	XMLNode *smokeNode = 0;

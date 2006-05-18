@@ -28,16 +28,35 @@
 class LandscapeObjectsEntryTree : public LandscapeObjectsEntry
 {
 public:
-	static GLuint treePine, treePineBurnt, treePineSnow;
-	static GLuint treePineSmall, treePineBurntSmall, treePineSnowSmall;
-	static GLuint treePalm, treePalmBurnt;
-	static GLuint treePalmSmall, treePalmBurntSmall;
-	static GLTexture texture_;
-
-	bool pine;
-	bool snow;
+	void setup(const char *type, bool snow);
 
 	virtual void render(float distance);
+
+protected:
+	enum TreeType
+	{
+		eNone,
+		ePineNormal,
+		ePineBurnt,
+		ePineYellow,
+		ePineLight,
+		ePineSnow,
+		ePalmNormal,
+		ePalmBurnt,
+	};
+
+	static GLuint treePineList, treePineSmallList;
+	static GLuint treePineSnowList, treePineSnowSmallList;
+	static GLuint treePineBurntList, treePineBurntSmallList;
+	static GLuint treePineYellowList, treePineYellowSmallList;
+	static GLuint treePineLightList, treePineLightSmallList;
+	static GLuint treePalmList, treePalmSmallList;
+	static GLuint treePalmBurntList, treePalmBurntSmallList;
+	static GLTexture pineTextureA_;
+	static GLTexture palmTextureA_;
+
+	TreeType normalType_;
+	TreeType burntType_;
 };
 
 #endif // __INCLUDE_LandscapeObjectsEntryTreeh_INCLUDE__

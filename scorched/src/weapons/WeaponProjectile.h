@@ -53,7 +53,11 @@ public:
 	float getTimedCollision() { return timedCollision_; }
 	float getSpinSpeed() { return spinSpeed_; }
 	float getFlameLife() { return flameLife_; }
+	float getFlameStartSize() { return flameStartSize_; }
+	float getFlameEndSize() { return flameEndSize_; }
 	float getSmokeLife() { return smokeLife_; }
+	float getSmokeStartSize() { return smokeStartSize_; }
+	float getSmokeEndSize() { return smokeEndSize_; }
 	Vector &getFlameStartColor1() { return flameStartColor1_; }
 	Vector &getFlameStartColor2() { return flameStartColor2_; }
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
@@ -68,18 +72,16 @@ protected:
 	bool showEndPoint_;
 	bool apexCollision_;
 	bool apexNoDud_;
-	bool createSmoke_;
-	bool createFlame_;
 	float spinSpeed_;
-	float flameLife_;
-	float smokeLife_;
+	bool createSmoke_, createFlame_;
+	float flameLife_, smokeLife_;
+	float flameStartSize_, flameEndSize_;
+	float smokeStartSize_, smokeEndSize_;
 	float timedCollision_;
 	float shieldHurtFactor_;
 	float scale_;
-	Vector flameStartColor1_;
-	Vector flameStartColor2_;
-	Vector flameEndColor1_;
-	Vector flameEndColor2_;
+	Vector flameStartColor1_, flameStartColor2_;
+	Vector flameEndColor1_, flameEndColor2_;
 	std::string engineSound_;
 	Weapon *collisionAction_;
 	ModelID modelId_;

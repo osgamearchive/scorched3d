@@ -44,7 +44,7 @@ When it is the players turn the tank may choose
 to move rather than fire.</description>
 		<icon>fuel.bmp</icon>
 		<activationsound>battery/battery.wav</activationsound>
-		<bundlesize>20</bundlesize>
+		<bundlesize>30</bundlesize>
 		<cost>10000</cost>
 		<accessoryaction type='Fuel'>
 			<steptime>0.025</steptime>
@@ -79,8 +79,7 @@ work.</description>
 		<name>Heavy Shield</name>
 		<armslevel>7</armslevel>
 		<description>A large defensive shield that protects
-the tank from small amounts of damage.
-Shields must be activated before they 
+the tank.  Shields must be activated before they 
 work.</description>
 		<icon>hshield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
@@ -103,17 +102,15 @@ work.</description>
 	<accessory>
 		<name>Force Shield</name>
 		<armslevel>6</armslevel>
-		<description>A small reflective shield that protects 
-the tank from large amounts of damage. 
-Force shields reflect any shots that hit 
-them. Shields must be activated before 
-they work.</description>
+		<description>A shield that deflects direct hits and
+protects the tank from damage. Shields must 
+be activated before they work.</description>
 		<icon>fshield.bmp</icon>
 		<activationsound>shield/activateforce.wav</activationsound>
-		<bundlesize>3</bundlesize>
+		<bundlesize>2</bundlesize>
 		<cost>30000</cost>
 		<accessoryaction type='ShieldReflective'>
-			<radius>6.0</radius>
+			<radius>5.0</radius>
 			<halfshield>false</halfshield>
 			<deflectfactor>1.0</deflectfactor>
 			<color>
@@ -133,8 +130,8 @@ they work.</description>
 		<description>A small reflective shield that protects
 the tank from small amounts of damage. 
 Mag shields reflect any shots that hit
-them but only from above. Shields must 
-be activated before they work.</description>
+them in a small area above the tank.
+Shields must be activated before they work.</description>
 		<icon>mag.bmp</icon>
 		<activationsound>shield/activmag.wav</activationsound>
 		<bundlesize>2</bundlesize>
@@ -159,13 +156,13 @@ be activated before they work.</description>
 		<armslevel>6</armslevel>
 		<description>A large reflective shield that protects
 the tank from small amounts of damage.
-Mag shields reflect any shots that hit
-them but only from above. Shields must be 
+Reflects shots away in a wide area 
+above the tank.  Shields must be 
 activated before they work.</description>
 		<icon>smag.bmp</icon>
 		<activationsound>shield/activmag.wav</activationsound>
 		<bundlesize>2</bundlesize>
-		<cost>25000</cost>
+		<cost>20000</cost>
 		<accessoryaction type='ShieldMag'>
 			<radius>6.0</radius>
 			<halfshield>true</halfshield>
@@ -197,7 +194,7 @@ main move.</description>
 		<name>Napalm</name>
 		<armslevel>5</armslevel>
 		<description>A projectile weapon that explodes 
-into a river of flame. Any tanks
+into two streams of flame. Any tanks
 near the flames will loose life.</description>
 		<icon>napalm.bmp</icon>
 		<bundlesize>10</bundlesize>
@@ -224,11 +221,10 @@ near the flames will loose life.</description>
 		<name>Hot Napalm</name>
 		<armslevel>3</armslevel>
 		<description>A projectile weapon that explodes 
-into a large river of flame. Any 
-tanks near the flames near tanks 
-will loose life.</description>
+into three very hot streams of flame. 
+Any tanks near the flames will loose life.</description>
 		<icon>hnapalm.bmp</icon>
-		<bundlesize>2</bundlesize>
+		<bundlesize>3</bundlesize>
 		<cost>20000</cost>
 		<activationsound>shoot/small.wav</activationsound>
 		<model type='MilkShape'>napalm/napalm.txt</model>
@@ -293,7 +289,7 @@ with any tank.</description>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
-					<size>9</size>
+					<size>7.5</size>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionsound>explosions/medium.wav</explosionsound>
 				</collisionaction>
@@ -313,7 +309,7 @@ with any tank.</description>
 		<activationsound>shoot/large.wav</activationsound>
 		<accessoryaction type='WeaponProjectile'>
 			<collisionaction type='WeaponRoller'>
-				<numberrollers>8</numberrollers>
+				<numberrollers>6</numberrollers>
 				<time>8</time>
 				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 				<collisionaction type='WeaponExplosion'>
@@ -736,7 +732,8 @@ same direction as the original.</description>
 		<name>Baby Digger</name>
 		<armslevel>8</armslevel>
 		<description>A projectile weapon that explodes 
-creating some small riot bombs.</description>
+creating a few underground 
+tank-seeking riot bombs.</description>
 		<icon>bdigger.bmp</icon>
 		<bundlesize>10</bundlesize>
 		<cost>3000</cost>
@@ -770,8 +767,9 @@ creating some small riot bombs.</description>
 	<accessory>
 		<name>Digger</name>
 		<armslevel>7</armslevel>
-		<description>A projectile weapon that explodes
-creating some riot bombs.</description>
+		<description>A projectile weapon that explodes 
+creating several underground 
+tank-seeking riot bombs.</description>
 		<icon>digger.bmp</icon>
 		<bundlesize>5</bundlesize>
 		<cost>2500</cost>
@@ -803,7 +801,8 @@ creating some riot bombs.</description>
 		<name>Heavy Digger</name>
 		<armslevel>6</armslevel>
 		<description>A projectile weapon that explodes 
-creating many large riot bombs.</description>
+creating many underground 
+tank-seeking riot bombs.</description>
 		<icon>hdigger.bmp</icon>
 		<bundlesize>2</bundlesize>
 		<cost>6750</cost>
@@ -1057,7 +1056,7 @@ out in a random direction.</description>
 		<armslevel>3</armslevel>
 		<description>A projectile weapon that on 
 exploding releases many small 
-missiles.  These missiles automatically 
+missiles that automatically 
 target nearby tanks.</description>
 		<icon>fbomb.bmp</icon>
 		<bundlesize>2</bundlesize>
@@ -1250,7 +1249,7 @@ and shields damaging the tank directly.</description>
 			<totaltime>1</totaltime>
 			<minimumdistance>10</minimumdistance>
 			<maximumdistance>200</maximumdistance>
-			<minimumhurt>30</minimumhurt>
+			<minimumhurt>34</minimumhurt>
 			<maximumhurt>40</maximumhurt>
 			<hurtradius>2</hurtradius>
 			<color>
@@ -1362,7 +1361,7 @@ and shields damaging the tank directly.</description>
 	<accessory>
 		<name>Teleport Position</name>
 		<armslevel>6</armslevel>
-		<description>A teleport moves you to whre the projectile ends on the map.</description>
+		<description>A projectile that teleports you to the location of impact.</description>
 		<icon>teleport.bmp</icon>
 		<activationsound>shoot/small.wav</activationsound>
 		<bundlesize>1</bundlesize>
