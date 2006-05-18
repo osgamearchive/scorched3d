@@ -1,0 +1,16 @@
+<place>
+	<placements>
+		<placement type="trees">
+			<numobjects>100000</numobjects>
+			<numclusters>40</numclusters>
+			<minheight>8</minheight>
+			<maxheight>30</maxheight>
+			<groupname>trees</groupname>
+			<object type="model">
+				<model type="MilkShape">data/globalmods/apoc/data/accessories/objects/smalloakfall.txt</model>
+				<modelburnt type="MilkShape">data/globalmods/apoc/data/accessories/objects/smalloakburnt.txt</modelburnt>
+				<modelrotationsnap>5</modelrotationsnap>
+			</object>
+		</placement>
+	</placements>
+</place>

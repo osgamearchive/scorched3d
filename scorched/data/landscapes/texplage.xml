@@ -37,5 +37,10 @@
 	<ambientsounds>
 		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
 	</ambientsounds>
-	<placements><placement>data/landscapes/placeburntpine.xml</placement></placements>
+	<placements>
+		<placement>data/landscapes/placeburntpine.xml</placement>
+	</placements>
+	<shipgroups>
+		<shipgroup>data/landscapes/shipsdestroyer1.xml</shipgroup>
+	</shipgroups>
 </tex>
