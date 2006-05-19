@@ -37,8 +37,15 @@ PlacementObjectTree::~PlacementObjectTree()
 
 bool PlacementObjectTree::readXML(XMLNode *node)
 {
+	static LandscapeObjectsEntryTree treeType;
+
 	if (!node->getNamedChild("tree", tree)) return false;
 	if (!node->getNamedChild("snow", snow)) return false;
+
+	if (!treeType.setup(tree.c_str(), false))
+	{
+		return node->returnError("Unknown tree type");
+	}
 
 	node->getNamedChild("removeaction", removeaction, false);
 	node->getNamedChild("burnaction", burnaction, false);

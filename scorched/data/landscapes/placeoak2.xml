@@ -3,28 +3,16 @@
 		<placement type="trees">
 			<numobjects>1000000</numobjects>
 			<numclusters>25</numclusters>
-			<minheight>8</minheight>
+			<minheight>4</minheight>
 			<maxheight>30</maxheight>
 			<groupname>trees</groupname>
 			<object type="random">
 				<randomobject>
 					<object type="tree">
-						<tree>oak</tree>
+						<tree>oak3</tree>
 						<snow>25</snow>
 					</object>	
-				</randomobject>			
-				<randomobject>
-					<object type="tree">
-						<tree>oak2</tree>
-						<snow>25</snow>
-					</object>	
-				</randomobject>		
-				<randomobject>				
-					<object type="tree">
-						<tree>oak4</tree>
-						<snow>25</snow>
-					</object>	
-				</randomobject>					
+				</randomobject>							
 			</object>
 		</placement>
 	</placements>

@@ -6,9 +6,25 @@
 			<minheight>8</minheight>
 			<maxheight>30</maxheight>
 			<groupname>trees</groupname>
-			<object type="tree">
-				<tree>pine</tree>
-				<snow>25</snow>
+			<object type="random">
+				<randomobject>
+					<object type="tree">
+						<tree>pine</tree>
+						<snow>25</snow>
+					</object>	
+				</randomobject>			
+				<randomobject>
+					<object type="tree">
+						<tree>yellowpine</tree>
+						<snow>25</snow>
+					</object>	
+				</randomobject>		
+				<randomobject>				
+					<object type="tree">
+						<tree>lightpine</tree>
+						<snow>25</snow>
+					</object>	
+				</randomobject>					
 			</object>
 		</placement>
 	</placements>

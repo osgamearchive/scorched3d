@@ -3703,6 +3703,12 @@
 				RelativePath="..\placement\PlacementObjectModel.h">
 			</File>
 			<File
+				RelativePath="..\placement\PlacementObjectRandom.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectRandom.h">
+			</File>
+			<File
 				RelativePath="..\placement\PlacementObjectTank.cpp">
 			</File>
 			<File

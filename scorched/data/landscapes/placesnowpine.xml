@@ -5,10 +5,26 @@
 			<numclusters>25</numclusters>
 			<minheight>8</minheight>
 			<maxheight>30</maxheight>
-			<groupname>trees</groupname>
-			<object type="tree">
-				<tree>pine</tree>
-				<snow>10</snow>
+			<groupname>trees</groupname>		
+			<object type="random">
+				<randomobject>
+					<object type="tree">
+						<tree>pine2</tree>
+						<snow>10</snow>
+					</object>	
+				</randomobject>			
+				<randomobject>
+					<object type="tree">
+						<tree>pine3</tree>
+						<snow>10</snow>
+					</object>	
+				</randomobject>		
+				<randomobject>				
+					<object type="tree">
+						<tree>pine4</tree>
+						<snow>10</snow>
+					</object>	
+				</randomobject>					
 			</object>
 		</placement>
 	</placements>		

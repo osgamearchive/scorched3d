@@ -18,37 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementObjecth_INCLUDE__)
-#define __INCLUDE_PlacementObjecth_INCLUDE__
+#if !defined(__INCLUDE_PlacementObjectRandomh_INCLUDE__)
+#define __INCLUDE_PlacementObjectRandomh_INCLUDE__
 
-#include <placement/PlacementType.h>
+#include <placement/PlacementObject.h>
+#include <vector>
 
-class XMLNode;
-class PlacementObject
+class PlacementObjectRandom : public PlacementObject
 {
 public:
-	enum Type
-	{
-		eTree,
-		eModel,
-		eTarget,
-		eGroup,
-		eRandom,
-		eTank
-	};
-
-	static PlacementObject *create(const char *type);
-
-	PlacementObject();
-	virtual ~PlacementObject();
+	PlacementObjectRandom();
+	virtual ~PlacementObjectRandom();
 
 	virtual bool readXML(XMLNode *node);
-	virtual Type getType() = 0;
+	virtual PlacementObject::Type getType() { return PlacementObject::eRandom; }
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int &playerId,
 		PlacementType::Information &information,
-		PlacementType::Position &position) = 0;
-};
+		PlacementType::Position &position);
 
-#endif // __INCLUDE_PlacementObjecth_INCLUDE__
+protected:
+	struct RandomObject
+	{
+		PlacementObject *object;
+	};
+	std::vector<RandomObject> objects_;
+};
+#endif // __INCLUDE_PlacementObjectRandomh_INCLUDE__

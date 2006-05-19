@@ -18,59 +18,47 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <placement/PlacementObjectGroup.h>
+#include <placement/PlacementObjectRandom.h>
+#include <common/RandomGenerator.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectGroup::PlacementObjectGroup()
+PlacementObjectRandom::PlacementObjectRandom()
 {
 }
 
-PlacementObjectGroup::~PlacementObjectGroup()
+PlacementObjectRandom::~PlacementObjectRandom()
 {
 }
 
-bool PlacementObjectGroup::readXML(XMLNode *initialNode)
+bool PlacementObjectRandom::readXML(XMLNode *initialNode)
 {
 	XMLNode *node;
-	while (initialNode->getNamedChild("groupobject", node, false))
+	while (initialNode->getNamedChild("randomobject", node, false))
 	{
-		GroupObject groupObject;
-
-		if (!node->getNamedChild("offset", groupObject.offset)) return false;
+		RandomObject randomObject;
 
 		std::string objecttype;
 		XMLNode *objectNode;
 		if (!node->getNamedChild("object", objectNode)) return false;
 		if (!objectNode->getNamedParameter("type", objecttype)) return false;
-		if (!(groupObject.object = PlacementObject::create(objecttype.c_str()))) return false;
-		if (!groupObject.object->readXML(objectNode)) return false;
+		if (!(randomObject.object = PlacementObject::create(objecttype.c_str()))) return false;
+		if (!randomObject.object->readXML(objectNode)) return false;
 
-		groups_.push_back(groupObject);
+		objects_.push_back(randomObject);
 	}
 	if (!node->failChildren()) return false;
 
 	return PlacementObject::readXML(node);
 }
 
-void PlacementObjectGroup::createObject(ScorchedContext &context,
+void PlacementObjectRandom::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
 	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
-	std::list<GroupObject>::iterator itor;
-	for (itor = groups_.begin();
-		itor != groups_.end();
-		itor++)
-	{
-		GroupObject &groupObject = (*itor);
+	int entryPos = generator.getRandUInt() % objects_.size();
 
-		PlacementType::Position newPosition = position;
-		newPosition.position += groupObject.offset;
-		groupObject.object->createObject(context, 
-			generator, 
-			playerId, 
-			information, 
-			newPosition);
-	}
+	PlacementObject *entry = objects_[entryPos].object;
+	entry->createObject(context, generator, playerId, information, position);
 }
