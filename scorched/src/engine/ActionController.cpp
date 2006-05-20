@@ -20,6 +20,7 @@
 
 #include <engine/ActionController.h>
 #include <common/Logger.h>
+#include <common/OptionsGame.h>
 #include <list>
 
 ActionController::ActionController() : 
@@ -269,9 +270,9 @@ void ActionController::simulate(const unsigned state, float frameTime)
 	static float timePassed = 0.0f;
 	timePassed += frameTime;
 
-	// step size = 33 fps
+	// step size = 1.0 / physics fps = steps per second
 	physicsEngine_.resetContext();
-	const float stepSize = 0.033f;
+	const float stepSize = 1.0f / float(context_->optionsGame->getPhysicsFPS());
 	while (timePassed >= stepSize)
 	{
 		time_ += stepSize;

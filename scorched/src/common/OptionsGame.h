@@ -95,6 +95,9 @@ public:
 	const char *getTutorial() { return tutorial_; }
 	OptionEntryString &getTutorialEntry() { return tutorial_; }
 
+	int getPhysicsFPS() { return physicsFPS_; }
+	OptionEntryInt &getPhysicsFPSEntry() { return physicsFPS_; }
+
 	int getScorePerAssist() { return scorePerAssist_; }
 	OptionEntryInt &getScorePerAssistEntry() { return scorePerAssist_; }
 
@@ -327,6 +330,7 @@ protected:
 	std::list<OptionEntry *> options_;
 	std::list<OptionEntry *> playerTypeOptions_;
 
+	OptionEntryBoundedInt physicsFPS_;
 	OptionEntryBoundedInt startArmsLevel_;
 	OptionEntryBoundedInt endArmsLevel_;
 	OptionEntryBoundedInt maxRoundTurns_;

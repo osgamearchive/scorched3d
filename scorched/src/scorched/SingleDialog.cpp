@@ -125,7 +125,7 @@ SingleFrame::SingleFrame() :
 
 	{
 		addButtonToWindow(ID_BUTTON_CUSTOM,
-			"Change the single player game settings.\n"
+			"Select your own game settings.\n"
 			"Choose the opponents to play against,\n"
 			"the game settings and the mod.",
 			getDataFile("data/windows/tank-cus.bmp"), this, gridsizer);
