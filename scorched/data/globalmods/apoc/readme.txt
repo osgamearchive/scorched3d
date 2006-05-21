@@ -24,13 +24,15 @@ Changes Since 3.1
             
     Weapons Removed or Made Unpurchaseable due to lack of use, redundancy or ineffectiveness
         - Bouncing Betty
-        - Bunny Bomb
-        - Quicksand
         - Instamountain
         - Ring Of Dirt
         - Landscaper
         - Fire Ants
         - Dirt Charge
+        - Heavy Roller
+        - Heavy Sandhog
+        - Heavy Digger
+        - Tracer
         
     Other Accessory Changes:
         - Sat. Strike:
@@ -90,6 +92,8 @@ Changes Since 3.1
         	- Reduced shieldhurtfactor on all acid weapons to around 25% per drop
         	- Increased cost of Acid Splash to $10,000
         	- Increased cost of Acid Blast to $3,000 for 2
+        - Chain/Fork Lightning
+        	- Reduced power/accuracy and price
         - Shields:
             - Decreased radius of Heavy Shield slightly (between regular and ultra size)
             - Increased Mag Deflect's <deflectpower> from 50% to 75%
@@ -113,7 +117,6 @@ Changes Since 3.1
         - Added descriptions to the damaging building accessories
         - Increased damage from lasers some
         - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
-        - Decreased damage on Chain Lightning a little bit
         - New projectile model for MOAB by Bobirov
         - Made Gas Stations a little bit more damaging all around
         - Slightly increased power of Small Meteor explosion (5 percent)
@@ -126,6 +129,8 @@ Changes Since 3.1
         - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
         - Tracers now do no damage to shields when they hit
         - Removed Instamountain from death events
+        - Renamed Suicide Bomb to Self Destruct
+        - Reduced cost of Haymaker to $30,000
         
     Landscapes:
     	- New Nuclear Power Plant Building
@@ -216,7 +221,8 @@ Bunny Bomb      - MIRV with leaping warheads
 Chain Lightning - Explodes and releases an aimed arc of electricity with courses through the ground aimed at nearby tanks
 Dmsday Device   - Larger, more destructive version of Apocalypse
 Earthquake      - Shakes the earth and does damage over a large area from a random location on the map.
-EMP Grenade     - Explodes on impact causing damage to opponents without deforming the earth.
+EMP Grenade     - Grenade that does heavy damage to shields and light damage to tanks
+EMP Missile     - Missile with a larger EMP effect than the grenade
 Fatman          - In between a nuke and a MOAB
 Fire Ants       - MIRV that releases multiple rolling, explosive napalm warheads
 Fire Worms      - Creates a series of slow-moving, explosive napalm diggers
@@ -227,7 +233,6 @@ Haymaker        - MIRV with Bouncing Betty warheads
 Hellstorm       - Firey/explosive rain
 Hornet's Nest   - Creates an angry cloud of hornets which fly out and attack nearby tanks
 Hornet Swarm    - Releases multiple Hornet's Nests
-Instamountain   - Creates a mountain of dirt upon impacting the ground
 Laser Cannon    - Fires 3 regular laser shots at slightly different angles
 Lightning Bolt  - Fires from a random location creating a small cloud and lightning bolt
 Lightning Storm - Fires from a random location creating several lightning bolts over a few seconds
@@ -243,7 +248,6 @@ Napalm Blast    - Explodes on impact and releases many small napalm bomblets
 Napalm MIRV     - MIRV with napalm warheads
 Napalm S-MIRV   - Spread MIRV with napalm warheads
 Quicksand       - Explodes on impact releasing a series of slow-moving, poorly aimed diggers
-Ring of Dirt    - Raises multiple dirt walls that form a ring around you
 Riot Drill      - 3 heavy riot bombs are shot in rapid succession at the same point
 Sat. Strike     - Shoots a projectile which paints the target area.  Space based lasers then assault the target.
 Shotgun         - Shoots 6 pellets in a random spread with limited range/line of sight
