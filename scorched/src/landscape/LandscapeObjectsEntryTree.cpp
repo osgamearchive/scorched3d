@@ -190,8 +190,8 @@ static void drawPalmLevel(
 			float width2 = (w2 * RAND * 0.3f) + (0.7f * w2);
 			glTexCoord2f(texX, texY);
 			glVertex3f(
-				sinf(i/180.0f * PI) * width1, 
-				cosf(i/180.0f * PI) * width1, 
+				sinf((i-15.0f)/180.0f * PI) * width1, 
+				cosf((i-15.0f)/180.0f * PI) * width1, 
 				height);
 			glTexCoord2f(texX, texY + 0.123f);
 			glVertex3f(
@@ -205,14 +205,14 @@ static void drawPalmLevel(
 				height2 + diff);
 			glTexCoord2f(texX + 0.37f, texY);
 			glVertex3f(
-				sinf(i/180.0f * PI) * width2, 
-				cosf(i/180.0f * PI) * width2, 
+				sinf((i-15.0f)/180.0f * PI) * width2, 
+				cosf((i-15.0f)/180.0f * PI) * width2, 
 				height + diff);
 
 			glTexCoord2f(texX + 0.37f, texY);
 			glVertex3f(
-				sinf(i/180.0f * PI) * width2, 
-				cosf(i/180.0f * PI) * width2, 
+				sinf((i-15.0f)/180.0f * PI) * width2, 
+				cosf((i-15.0f)/180.0f * PI) * width2, 
 				height + diff);
 			glTexCoord2f(texX + 0.37f, texY + 0.123f);
 			glVertex3f(
@@ -226,9 +226,51 @@ static void drawPalmLevel(
 				height2);
 			glTexCoord2f(texX, texY);
 			glVertex3f(
+				sinf((i-15.0f)/180.0f * PI) * width1, 
+				cosf((i-15.0f)/180.0f * PI) * width1, 
+				height);
+
+			glTexCoord2f(texX + 0.37f, texY);
+			glVertex3f(
+				sinf((i+15.0f)/180.0f * PI) * width2, 
+				cosf((i+15.0f)/180.0f * PI) * width2, 
+				height + diff);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width2, 
+				cosf(i/180.0f * PI) * width2, 
+				height2 + diff);
+			glTexCoord2f(texX, texY + 0.123f);
+			glVertex3f(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
+				height2);
+			glTexCoord2f(texX, texY);
+			glVertex3f(
+				sinf((i+15.0f)/180.0f * PI) * width1, 
+				cosf((i+15.0f)/180.0f * PI) * width1, 
 				height);
+
+			glTexCoord2f(texX, texY);
+			glVertex3f(
+				sinf((i+15.0f)/180.0f * PI) * width1, 
+				cosf((i+15.0f)/180.0f * PI) * width1, 
+				height);
+			glTexCoord2f(texX, texY + 0.123f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width1, 
+				cosf(i/180.0f * PI) * width1, 
+				height2);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
+			glVertex3f(
+				sinf(i/180.0f * PI) * width2, 
+				cosf(i/180.0f * PI) * width2, 
+				height2 + diff);
+			glTexCoord2f(texX + 0.37f, texY);
+			glVertex3f(
+				sinf((i+15.0f)/180.0f * PI) * width2, 
+				cosf((i+15.0f)/180.0f * PI) * width2, 
+				height + diff);
 
 			i-= (360.0f / (count + (count-1) * RAND));
 		}
