@@ -26,6 +26,8 @@
 #include <GLW/GLWListView.h>
 #include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
+#include <tank/TankContainer.h>
+#include <target/TargetRenderer.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/Defines.h>
@@ -44,14 +46,14 @@ TutorialDialog *TutorialDialog::instance()
 }
 
 TutorialDialog::TutorialDialog() : 
-	GLWWindow("", 155.0f, -120.0f, 
+	GLWWindow("", 155.0f, -125.0f, 
 		470.0f, 120.0f, eTransparent | eNoTitle,
 		"The ingame tutorial."),
 	triangleDir_(30.0f), triangleDist_(0.0f),
 	current_(0)
 {
 	Vector listColor(0.0f, 0.0f, 0.0f);
-	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 95.0f, -1, 12.0f, 24.0f);
+	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 105.0f, -1, 12.0f, 24.0f);
 	listView_->setColor(listColor);
 	listView_->setHandler(this);
 	addWidget(listView_, 0, SpaceAll, 10.0f);
@@ -113,48 +115,15 @@ void TutorialDialog::processEvents(bool log)
 
 	if (0 == strcmp(action, "highlight")) 
 	{
-		const char *windowName = getValue("window", currentEvents_);
-		const char *controlName = getValue("control", currentEvents_);
-		if (!windowName || !controlName)
-		{
-			dialogExit("TutorialDialog", "No window or control in event");
-		}
-
-		GLWWindow *window = GLWWindowManager::instance()->getWindowByName(windowName);
-		if (!window)
-		{
-			if (log)
-			{
-				Logger::log(
-					formatString("Tutorial cannot find window \"%s\"", windowName));
-			}
-			return;
-		}
-
-		GLWidget *control = window->getWidgetByName(controlName);
-		if (!control)
-		{
-			if (log)
-			{
-				Logger::log(
-					formatString("Tutorial cannot find control \"%s\" in window \"%s\"", 
-					controlName, windowName));
-			}
-			return;
-		}
-
-		float x = control->getX();
-		float y = control->getY();
-		GLWPanel *parent = control->getParent();
-		while (parent)
-		{
-			x += parent->getX();
-			y += parent->getY();
-			parent = parent->getParent();
-		}
-
-		drawHighlight(
-			x, y, control->getW(), control->getH());
+		processHighlight(log);
+	}
+	else if (0 == strcmp(action, "targets"))
+	{
+		processTargets(log);
+	}
+	else if (0 == strcmp(action, "player"))
+	{
+		processPlayer(log);
 	}
 	else
 	{
@@ -162,6 +131,91 @@ void TutorialDialog::processEvents(bool log)
 			formatString("Unknown tutorial event type \"%s\"",
 			action));
 	}
+}
+
+void TutorialDialog::processTargets(bool log)
+{
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getAlive() &&
+			tank->getPlayerId() !=
+			ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
+		{
+			TargetRenderer *renderer = tank->getRenderer();
+			if (renderer->canSeeTarget())
+			{
+				Vector &pos = renderer->get2DPosition();
+				drawHighlight(
+					pos[0] - 10.0f, pos[1] - 10.0f, 20.0f, 20.0f);
+			}
+		}
+	}
+}
+
+void TutorialDialog::processPlayer(bool log)
+{
+	Tank *tank =
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
+
+	TargetRenderer *renderer = tank->getRenderer();
+	if (renderer->canSeeTarget())
+	{
+		Vector &pos = renderer->get2DPosition();
+		drawHighlight(
+			pos[0] - 10.0f, pos[1] - 10.0f, 20.0f, 20.0f);
+	}
+}
+
+void TutorialDialog::processHighlight(bool log)
+{
+	const char *windowName = getValue("window", currentEvents_);
+	const char *controlName = getValue("control", currentEvents_);
+	if (!windowName || !controlName)
+	{
+		dialogExit("TutorialDialog", "No window or control in event");
+	}
+
+	GLWWindow *window = GLWWindowManager::instance()->getWindowByName(windowName);
+	if (!window)
+	{
+		if (log)
+		{
+			Logger::log(
+				formatString("Tutorial cannot find window \"%s\"", windowName));
+		}
+		return;
+	}
+
+	GLWidget *control = window->getWidgetByName(controlName);
+	if (!control)
+	{
+		if (log)
+		{
+			Logger::log(
+				formatString("Tutorial cannot find control \"%s\" in window \"%s\"", 
+				controlName, windowName));
+		}
+		return;
+	}
+
+	float x = control->getX();
+	float y = control->getY();
+	GLWPanel *parent = control->getParent();
+	while (parent)
+	{
+		x += parent->getX();
+		y += parent->getY();
+		parent = parent->getParent();
+	}
+
+	drawHighlight(
+		x, y, control->getW(), control->getH());
 }
 
 void TutorialDialog::simulate(float frameTime)

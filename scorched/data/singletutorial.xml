@@ -253,4 +253,8 @@
     <name>ShowTutorial</name>
     <value>on</value>
   </option>
+  <option>
+    <name>Landscapes</name>
+    <value>oldstyle:hilly:ridge</value>
+  </option>
 </options>

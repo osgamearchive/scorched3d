@@ -45,6 +45,8 @@ OptionsParam::OptionsParam() :
 		"Starts a scorched 3d server, requires the name of the server settings file e.g. data/server.xml", 0, ""),
 	client_(options_, "startclient",
 		"Starts a scorched 3d client, requires the name of the client settings file e.g. data/singlecustom.xml", 0, ""),
+	startcustom_(options_, "startcustom",
+		"Starts a scorched 3d client, Uses the last custom game made", 0, false),
 	save_(options_, "loadsave",
 		"Continues a scorched 3d client game, requires the name of the saved game.", 0, ""),
 	settingsdir_(options_, "settingsdir",
@@ -79,6 +81,11 @@ std::list<OptionEntry *> &OptionsParam::getOptions()
 
 OptionsParam::Action OptionsParam::getAction()
 {
+	if (startcustom_.getValue())
+	{
+		client_.setValue(getSettingsFile("singlecustom.xml"));
+	}
+
 	if (screensaver_.getValue())
 	{
 		client_.setValue(getDataFile("data/ssgame.xml"));

@@ -70,6 +70,7 @@ protected:
 	OptionEntryString username_;
 	OptionEntryString save_;
 	OptionEntryString settingsdir_;
+	OptionEntryBool startcustom_;
 	OptionEntryBool loadmodfiles_;
 	OptionEntryBool screensaver_;
 	OptionEntryBool nooptions_;

@@ -42,6 +42,9 @@ public:
 	virtual void fired();
 	virtual void targetBurnt();
 
+	virtual Vector &get2DPosition();
+	virtual bool canSeeTarget() { return canSeeTank_; }
+
 protected:
 	Target *target_;
 	ModelRenderer *modelRenderer_;

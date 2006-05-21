@@ -105,6 +105,9 @@ DisplayFrame::DisplayFrame() :
 	book_->AddPage(mainPanel_, wxT("Main"));
 	wxSizer *mainPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createMainControls(mainPanel_, mainPanelSizer);
+	mainPanelSizer->Add(new wxStaticText(
+		mainPanel_, -1,wxString(formatString("Settings Dir : %s", 
+		getSettingsFile("")), wxConvUTF8)), 0, wxTOP, 10);
 	mainPanel_->SetAutoLayout(TRUE);
 	mainPanel_->SetSizer(mainPanelSizer);
 	

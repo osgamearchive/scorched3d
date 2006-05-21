@@ -14,7 +14,7 @@
 
 This is a short tutorial to help you get to grips with the game.
 
-<a href="rulesDialog">Continue...</a></text>
+<a href="rulesDialog">Click Here to Continue...</a></text>
 		</step>
 		
 		<!-- Rules Dialog -->
@@ -43,7 +43,7 @@ Once you have read the message click the <event action="highlight" window="Rules
 			</conditions>
 			<text>Below is the player setup window.
 This window allows you to choose the name, team and tank that your player will use in the game.
-<a href="playerDialog2">Continue...</a></text>
+<a href="playerDialog2">Click Here to Continue...</a></text>
 		</step>
 		<step>
 			<name>playerDialog2</name>
@@ -55,7 +55,7 @@ This window allows you to choose the name, team and tank that your player will u
 			</conditions>
 			<text>The <event action="highlight" window="Team" control="Name">name</event> box allows you to enter the name which identifies your tank.  Other players will see this name in game.
 Remove the current name by pressing the delete key, and then type in your name using the keyboard.
-<a href="playerDialog3">Continue...</a></text>
+<a href="playerDialog3">Click Here to Continue...</a></text>
 		</step>
 		<step>
 			<name>playerDialog3</name>
@@ -67,7 +67,7 @@ Remove the current name by pressing the delete key, and then type in your name u
 			</conditions>
 			<text>If you have created a game with more than one player you can make some of the players computer controlled by selecting a computer type from the <event action="highlight" window="Team" control="Type">type</event> list.
 For the moment so you can play, please leave this set to Human.
-<a href="playerDialog4">Continue...</a></text>
+<a href="playerDialog4">Click Here to Continue...</a></text>
 		</step>
 		<step>
 			<name>playerDialog4</name>
@@ -79,7 +79,7 @@ For the moment so you can play, please leave this set to Human.
 			</conditions>
 			<text>The <event action="highlight" window="Team" control="Color">color</event> selection allows you choose the color of your tank.
 When playing team games it also allows you to choose your team.
-<a href="playerDialog5">Continue...</a></text>
+<a href="playerDialog5">Click Here to Continue...</a></text>
 		</step>
 		<step>
 			<name>playerDialog5</name>
@@ -92,7 +92,7 @@ When playing team games it also allows you to choose your team.
 			<text>The <event action="highlight" window="Team" control="Tank">tank</event> selection allows you choose your tank.
 This is what your player will look like in the game.
 Although each tank looks very different they all share the same weapons and attributes.
-<a href="playerDialog6">Continue...</a></text>
+<a href="playerDialog6">Click Here to Continue...</a></text>
 		</step>
 		<step>
 			<name>playerDialog6</name>
@@ -108,8 +108,53 @@ Although each tank looks very different they all share the same weapons and attr
 		<!-- Game -->
 		<step>
 			<name>game</name>
-			<text></text>
+			<text>This is the Scorched3D battle arena.  The objective of the game is to destroy all <event action="targets">other tanks</event> in the arena.  The last tank alive wins the round, the tank with the most rounds wins the game.
+You can see the current scores at any time by pressing the S key.
+<a href="game2">Click Here to Continue...</a></text>
 		</step>
+		
+		<step>
+			<name>game2</name>
+			<text>Players take it in turns to setup defenses and fire their weapons.  
+Usually all tanks will get a turn, however in this tutorial the other tanks will not fire back.
+<a href="game3">Click Here to Continue...</a></text>
+		</step>
+		
+		<step>
+			<name>game3</name>
+			<text>This is <event action="player">your tank</event>.
+Press the 3 key on the keyboard to get a closer look.  The number keys on the keyboard can be used to choose from a set of camera positions.
+<a href="game4">Click Here to Continue...</a></text>
+		</step>
+				
+		<step>
+			<name>game4</name>
+			<text>The other way to move the camera is to the mouse.
+Clicking with the left mouse button on the landscape will move the camera to look at that position.
+Clicking and dragging with the right mouse button will rotate the camera.
+The mouse wheel controls the zoom of the camera.
+<a href="game5">Click Here to Continue...</a></text>
+		</step>
+		
+		<step>
+			<name>game5</name>
+			<text>Its now time to make a shot.  You aim the tank's gun using the arrow keys.
+Left and right controls the turret rotation.  Up and down controls the turret elevation.  The + and - keys control the gun's shot power.
+<a href="game6">Click Here to Continue...</a></text>
+		</step>		
+		
+		<step>
+			<name>game6</name>
+			<text>An easier way to rotate the tank is to press the A key when the mouse pointer is over where you want to shoot at.
+This will only rotate the tank, the power and elevation adjustments still need to be made manually.
+<a href="game7">Click Here to Continue...</a></text>
+		</step>		
+	
+		<step>
+			<name>game7</name>
+			<text>
+<a href="game7">Click Here to Continue...</a></text>
+		</step>		
 		
 		<step>
 			<name>end</name>

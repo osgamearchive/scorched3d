@@ -41,6 +41,7 @@ Fixed: Damage to an object is now calculated by closeness to the nearest edge (n
 Fixed: The display of the players list when some players had illegal XML characters in their names
 Fixed: Moved some of the more common options to the front of the single player settings dialog
 
+Added: Random placement object to allow one object out of a random set to be placed
 Added: 24 new tree models, grouped into palms, oaks and pines
 Added: flamestartsize, flameendsize, smokestartsize, smokeendsize attributes to WeaponProjectile
 Added: The server browser dialog now shows which players are human, and how many bots are on a server

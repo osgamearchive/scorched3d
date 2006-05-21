@@ -240,7 +240,7 @@ bool GLWListView::addWordEntry(std::list<WordEntry> &words,
 	else if (0 == strcmp("a", parentNode->getName()))
 	{
 		wordEntry.color_ = Vector(0.4f, 0.0f, 0.0f);
-		if (!parentNode->getNamedParameter("href", wordEntry.href_))
+		if (!parentNode->getNamedParameter("href", wordEntry.href_, true, false))
 		{
 			return false;
 		}

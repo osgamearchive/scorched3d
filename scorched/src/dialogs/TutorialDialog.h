@@ -50,6 +50,9 @@ protected:
 	std::map<std::string, std::string> currentEvents_;
 
 	void processEvents(bool log = false);
+	void processHighlight(bool log);
+	void processTargets(bool log);
+	void processPlayer(bool log);
 	void showPage(TutorialFileEntry *entry);
 	void drawHighlight(float x, float y, float w, float h);
 	void drawTriangle(float x, float y, float size, int tex);

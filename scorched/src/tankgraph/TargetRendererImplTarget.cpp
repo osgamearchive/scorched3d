@@ -160,6 +160,15 @@ void TargetRendererImplTarget::storeTank2DPos()
 	}
 }
 
+Vector &TargetRendererImplTarget::get2DPosition()
+{
+	static Vector result;
+	result[0] = (float) posX_;
+	result[1] = (float) posY_;
+	result[2] = (float) posZ_;
+	return result;
+}
+
 void TargetRendererImplTarget::fired()
 {
 }
