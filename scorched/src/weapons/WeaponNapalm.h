@@ -45,6 +45,7 @@ public:
 	const bool getNoSmoke() { return noSmoke_; }
 	const bool getNoObjectDamage() { return noObjectDamage_; }
 	const bool getAllowUnderWater() { return allowUnderWater_; }
+	const char *getDeformTexture() { return deformTexture_.c_str(); }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -66,6 +67,7 @@ protected:
 	bool allowUnderWater_;// Turns on/off napalm working under water
 	std::string napalmSound_;
 	std::string napalmTexture_;
+	std::string deformTexture_;
 
 	void addNapalm(ScorchedContext &context, unsigned int playerId,
 		int x, int y, unsigned int data);

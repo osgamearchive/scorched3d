@@ -306,7 +306,8 @@ void Napalm::simulateAddStep()
 			Vector pos(x_, y_);
 			DeformTextures::deformLandscape(pos, 
 				(int) deformSize,
-				Landscape::instance()->getScorchMap(),
+				ExplosionTextures::instance()->getScorchBitmap(
+					weapon_->getDeformTexture()),
 				deformMap_);
 		}
 	}

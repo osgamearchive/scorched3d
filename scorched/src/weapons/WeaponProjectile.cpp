@@ -78,6 +78,12 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 	accessoryNode->getNamedChild("smokestartsize", smokeStartSize_, false);
 	accessoryNode->getNamedChild("smokeendsize", smokeEndSize_, false);
 
+	// flame color
+	accessoryNode->getNamedChild("flamestartcolor1", flameStartColor1_, false);
+	accessoryNode->getNamedChild("flamestartcolor2", flameStartColor2_, false);
+	accessoryNode->getNamedChild("flameendcolor1", flameEndColor1_, false);
+	accessoryNode->getNamedChild("flameendcolor2", flameEndColor2_, false);
+
 	// Get the smoke trails
 	XMLNode *smokeNode = 0;
 	accessoryNode->getNamedChild("showshotpath", smokeNode, false);

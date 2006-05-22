@@ -56,6 +56,12 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("allowunderwater", allowUnderWater_)) return false;
 	if (!checkDataFile(formatString("data/wav/%s", getNapalmSound()))) return false;
 
+	// Optional deform texture
+	if (accessoryNode->getNamedChild("deformtexture", deformTexture_, false))
+	{
+		if (!checkDataFile(getDeformTexture())) return false;
+	}
+
 	// Optional Attributes
 	XMLNode *noSmokeNode = 0, *noObjectDamageNode = 0;
 	accessoryNode->getNamedChild("nosmoke", noSmokeNode, false);

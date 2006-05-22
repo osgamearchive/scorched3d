@@ -174,6 +174,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	int start = (int(entries.size()) / pagesize) * pagesize;
 	const char *page = getField(fields, "page");
 	if (page) start = atoi(page);
+	else start = entries.size() - pagesize;
 
 	// Log entries
 	std::string log;
@@ -186,8 +187,8 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 		XMLNode::removeSpecialChars(entries[i].text, cleanText);
 		log += formatString(
 			"<tr>"
-			"<td><font size=-2>%u</font></td>"
-			"<td><font size=-2>%s</font></td>"
+			"<td><font size=-1>%u</font></td>"
+			"<td><font size=-1>%s</font></td>"
 			"</tr>\n",
 			i,
 			cleanText.c_str());
@@ -196,7 +197,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 
 	// Pages
 	std::string pages;
-	for (int i =0; i<=int(entries.size())/pagesize; i++)
+	for (int i =0; i<=int(entries.size())/pagesize-1; i++)	
 	{
 		pages +=
 			formatString("<a href='?sid=%s&page=%i'>%i - %i</a>&nbsp;",
@@ -400,7 +401,12 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 		texts += "<br>\n";
 	}
 	fields["TEXTS"] = texts;
-
+	const char *refreshRate = getField(fields, "RefreshRate");
+	int refreshSeconds;
+	if (refreshRate) refreshSeconds = atoi(refreshRate);
+	else fields["RefreshRate"]="0";
+	if (refreshSeconds > 0)
+		fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
 	return ServerWebServer::getTemplate("talk.html", fields, text);
 }
 
