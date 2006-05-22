@@ -33,6 +33,7 @@ Changes Since 3.1
         - Heavy Sandhog
         - Heavy Digger
         - Tracer
+        - Hot Napalm
         
     Other Accessory Changes:
         - Sat. Strike:
@@ -79,7 +80,14 @@ Changes Since 3.1
             - Rollers are dropped from slightly above the collision to help prevent shield popping
         - Flame Thrower:
             - Added random spread pattern
-            - Decreased cost to $8,000 for 1
+            - Decreased power by about half
+            - Decreased cost to $4,000 for 2
+        - Napalm Weapons
+        	- Increased cost to $6,000 for 2
+        	- Decreased power of Napalm slightly
+        	- Decreased power of Napalm Mirv/S-Mirv slightly
+        	- Streams come out one at a time in Napalm Blast
+        	- Napalm Blast leaves some napalm at the collision point as well
         - Frag Grenade:
             - Increased velocity of the shrapnel
             - Added collision timer to the shrapnel
@@ -128,7 +136,6 @@ Changes Since 3.1
         - Set Ring Of Dirt maximum to 1 per round
         - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
         - Tracers now do no damage to shields when they hit
-        - Removed Instamountain from death events
         - Renamed Suicide Bomb to Self Destruct
         - Reduced cost of Haymaker to $30,000
         

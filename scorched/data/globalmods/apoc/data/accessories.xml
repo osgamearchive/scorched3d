@@ -5183,333 +5183,14 @@ near the flames will lose life.</description>
 				<napalmheight>1.5</napalmheight>
 				<steptime>0.2</steptime>
 				<hurtsteptime>2.0</hurtsteptime>
-				<hurtpersecond>1.0</hurtpersecond>
-				<numberstreams>1</numberstreams>
-				<effectradius>5</effectradius>
-				<napalmtexture>flames</napalmtexture>
-				<napalmsound>explosions/napalm.wav</napalmsound>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Napalm</name>
-		<armslevel>7</armslevel>
-		<description>A projectile weapon that explodes 
-into a river of flame. Any tanks
-near the flames will lose life.</description>
-		<icon>napalm.bmp</icon>
-		<bundlesize>2</bundlesize>
-		<cost>3000</cost>
-		<activationsound>shoot/small.wav</activationsound>
-		<model type='MilkShape'>napalm/napalm.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
-			<collisionaction type='WeaponNapalm'>
-				<allowunderwater>false</allowunderwater>
-				<napalmtime>8.0</napalmtime>
-				<napalmheight>2.0</napalmheight>
-				<steptime>0.1</steptime>
-				<hurtsteptime>2.0</hurtsteptime>
 				<hurtpersecond>0.9</hurtpersecond>
-				<numberstreams>2</numberstreams>
-				<effectradius>5</effectradius>
-				<napalmtexture>flames</napalmtexture>
-				<napalmsound>explosions/napalm.wav</napalmsound>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Hot Napalm</name>
-		<armslevel>3</armslevel>
-		<description>A projectile weapon that explodes 
-into a large river of flame. Any tanks
-near the flames will lose life.</description>
-		<icon>hnapalm.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>8000</cost>
-		<activationsound>shoot/small.wav</activationsound>
-		<model type='MilkShape'>napalm/napalm.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
-			<collisionaction type='WeaponNapalm'>
-				<allowunderwater>false</allowunderwater>
-				<napalmtime>8.0</napalmtime>
-				<napalmheight>2.0</napalmheight>
-				<steptime>0.1</steptime>
-				<hurtsteptime>2.0</hurtsteptime>
-				<hurtpersecond>1.8</hurtpersecond>
-				<numberstreams>4</numberstreams>
-				<effectradius>6</effectradius>
-				<napalmtexture>flames</napalmtexture>
-				<napalmsound>explosions/napalm.wav</napalmsound>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>NapMirvBomblet</name>
-		<armslevel>3</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponProjectile'>
-			<enginesound>none</enginesound>
-			<projectilescale>0.2</projectilescale>
-			<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-			<collisionaction type='WeaponNapalm'>
-				<allowunderwater>false</allowunderwater>
-				<napalmtime>8.0</napalmtime>
-				<napalmheight>1.75</napalmheight>
-				<steptime>0.2</steptime>
-				<hurtsteptime>2.0</hurtsteptime>
-				<hurtpersecond>1.0</hurtpersecond>
 				<numberstreams>1</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>flames</napalmtexture>
 				<napalmsound>explosions/napalm.wav</napalmsound>
 			</collisionaction>
 		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Napalm MIRV</name>
-		<armslevel>3</armslevel>
-		<description> A projectile weapon that on reaching
-its highest point breaks into several 
-napalm warheads. </description>
-		<icon>mirv.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>8000</cost>
-		<activationsound>shoot/large.wav</activationsound>
-		<model type='MilkShape'>napalm/napalm.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<apexcollision></apexcollision>
-			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
-			<collisionaction type='WeaponMirv'>
-				<nowarheads>6</nowarheads>
-				<hspreaddist>0.0</hspreaddist>
-				<vspreaddist>4.0</vspreaddist>
-				<aimedweapon type='WeaponProjectile'>
-					<enginesound>none</enginesound>
-					<projectilescale>0.2</projectilescale>
-					<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
-					<collisionaction type='WeaponNapalm'>
-						<allowunderwater>false</allowunderwater>
-						<napalmtime>8.0</napalmtime>
-						<napalmheight>1.75</napalmheight>
-						<steptime>0.2</steptime>
-						<hurtsteptime>2.0</hurtsteptime>
-						<hurtpersecond>1.0</hurtpersecond>
-						<numberstreams>1</numberstreams>
-						<effectradius>5</effectradius>
-						<napalmtexture>flames</napalmtexture>
-						<napalmsound>explosions/napalm.wav</napalmsound>
-					</collisionaction>
-				</aimedweapon>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Napalm S-MIRV</name>
-		<armslevel>3</armslevel>
-		<description> A projectile weapon that on reaching
-its highest point breaks into several 
-napalm warheads which fan out in a 
-random direction. </description>
-		<icon>mirv.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>8000</cost>
-		<activationsound>shoot/large.wav</activationsound>
-		<model type='MilkShape'>napalm/napalm.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<apexcollision></apexcollision>
-			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponReference'>
-					<weapon>NapMirvBomblet</weapon>
-				</subweapon1>
-				<subweapon2 type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>5</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>NapMirvBomblet</weapon>
-					</nextaction>
-				</subweapon2>
-				<subweapon3 type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>10</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>NapMirvBomblet</weapon>
-					</nextaction>
-				</subweapon3>
-				<subweapon4 type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-5</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>NapMirvBomblet</weapon>
-					</nextaction>
-				</subweapon4>
-				<subweapon5 type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-10</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>NapMirvBomblet</weapon>
-					</nextaction>
-				</subweapon5>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Fire Worms</name>
-		<armslevel>3</armslevel>
-		<description>A projectile weapon digs under 
-the ground and explodes/burns on contact.</description>
-		<icon>fworm.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
-		<activationsound>shoot/flare.wav</activationsound>
-		<model type='MilkShape'>digger/digger.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
-			<collisionaction type='WeaponAimedUnder'>
-				<nowarheads>8</nowarheads>
-				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>75</maxaimdistance>
-				<inaccuracy>40</inaccuracy>
-				<aimedweapon type='WeaponVelocity'>
-					<velocitychange>0.25</velocitychange>
-					<aimedweapon type='WeaponProjectile'>
-						<under/>
-						<projectilemodel type='ase'>
-							<mesh>roller.ase</mesh>
-							<skin>white.bmp</skin>
-						</projectilemodel>
-						<shieldhurtfactor>0.2</shieldhurtfactor>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<deform>down</deform>
-								<hurtamount>0.5</hurtamount>
-								<size>4</size>
-								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>explosions/crunch.wav</explosionsound>
-							</subweapon1>
-							<subweapon2 type='WeaponNapalm'>
-								<allowunderwater>false</allowunderwater>
-								<napalmtime>4.0</napalmtime>
-								<napalmheight>2.0</napalmheight>
-								<steptime>0.4</steptime>
-								<hurtsteptime>1.0</hurtsteptime>
-								<hurtpersecond>1</hurtpersecond>
-								<numberstreams>1</numberstreams>
-								<effectradius>5</effectradius>
-								<napalmtexture>flames</napalmtexture>
-								<napalmsound>explosions/napalm.wav</napalmsound>
-							</subweapon2>
-							<subweapon3 type='WeaponProjectile'>
-								<projectilemodel type='ase'>
-									<mesh>roller.ase</mesh>
-									<skin>white.bmp</skin>
-								</projectilemodel>
-								<collisionaction type='WeaponAimedUnder'>
-									<nowarheads>2</nowarheads>
-									<percentagemiss>20</percentagemiss>
-									<maxaimdistance>50</maxaimdistance>
-									<inaccuracy>40</inaccuracy>
-									<aimedweapon type='WeaponVelocity'>
-										<velocitychange>0.25</velocitychange>
-										<aimedweapon type='WeaponProjectile'>
-											<shieldhurtfactor>0.2</shieldhurtfactor>
-											<under/>
-											<projectilemodel type='ase'>
-												<mesh>roller.ase</mesh>
-												<skin>white.bmp</skin>
-											</projectilemodel>
-											<collisionaction type='WeaponMulti'>
-												<subweapon1 type='WeaponExplosion'>
-													<deform>down</deform>
-													<hurtamount>0.5</hurtamount>
-													<size>4</size>
-													<explosiontexture>exp03</explosiontexture>
-													<explosionsound>explosions/crunch.wav</explosionsound>
-												</subweapon1>
-												<subweapon2 type='WeaponNapalm'>
-													<allowunderwater>false</allowunderwater>
-													<napalmtime>4.0</napalmtime>
-													<napalmheight>1.8</napalmheight>
-													<steptime>0.4</steptime>
-													<hurtsteptime>1.0</hurtsteptime>
-													<hurtpersecond>1</hurtpersecond>
-													<numberstreams>1</numberstreams>
-													<effectradius>5</effectradius>
-													<napalmtexture>flames</napalmtexture>
-													<napalmsound>explosions/napalm.wav</napalmsound>
-												</subweapon2>
-											</collisionaction>
-										</aimedweapon>
-									</aimedweapon>
-								</collisionaction>
-							</subweapon3>
-						</collisionaction>
-					</aimedweapon>
-				</aimedweapon>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Napalm Blast</name>
-		<description>A projectile weapon that exploding 
-releasing multiple blobs of napalm 
-aimed at enemy tanks.</description>
-		<icon>nblast.bmp</icon>
-		<cost>10000</cost>
-		<bundlesize>1</bundlesize>
-		<armslevel>3</armslevel>
-		<firedsound>shoot/large.wav</firedsound>
-		<accessoryaction type='WeaponProjectile'>
-			<projectilescale>2</projectilescale>
-			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel> 
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponAimedOver'>
-					<nowarheads>8</nowarheads>
-					<percentagemiss>20</percentagemiss>
-					<maxaimdistance>50</maxaimdistance>
-					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<projectilescale>0.65</projectilescale>	
-						<projectilemodel type='ase'>
-							<mesh>roller.ase</mesh>
-							<skin>white.bmp</skin>
-						</projectilemodel>
-						<collisionaction type='WeaponNapalm'>
-							<allowunderwater>false</allowunderwater>
-							<napalmtime>8.0</napalmtime>
-							<napalmheight>2.0</napalmheight>
-							<steptime>0.15</steptime>
-							<hurtsteptime>2.0</hurtsteptime>
-							<hurtpersecond>1.0</hurtpersecond>
-							<numberstreams>2</numberstreams>
-							<effectradius>5</effectradius>
-							<napalmtexture>flames</napalmtexture>
-							<napalmsound>explosions/napalm.wav</napalmsound>
-						</collisionaction>
-					</aimedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<hurtamount>1.0</hurtamount>
-					<deform>down</deform>
-					<size>8</size>
-					<explosionsound>explosions/large.wav</explosionsound>
-					<explosiontexture>exp02</explosiontexture>
-				</subweapon2>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
+	</accessory><accessory>
 		<name>Flame Stream</name>
 		<armslevel>4</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -5522,6 +5203,7 @@ aimed at enemy tanks.</description>
 			<smokelife>3</smokelife>				
 			<flamelife>2</flamelife>
 			<enginesound>none</enginesound>
+			<shieldhurtfactor>0.25</shieldhurtfactor>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
 					<allowunderwater>false</allowunderwater>
@@ -5529,7 +5211,7 @@ aimed at enemy tanks.</description>
 					<napalmheight>1.5</napalmheight>
 					<steptime>0.5</steptime>
 					<hurtsteptime>2.0</hurtsteptime>
-					<hurtpersecond>0.7</hurtpersecond>
+					<hurtpersecond>0.35</hurtpersecond>
 					<numberstreams>4</numberstreams>
 					<effectradius>5</effectradius>
 					<napalmtexture>flames</napalmtexture>
@@ -5702,12 +5384,12 @@ aimed at enemy tanks.</description>
 	</accessory>
 	<accessory>
 		<name>Flame Thrower</name>
-		<armslevel>4</armslevel>
+		<armslevel>7</armslevel>
 		<description>Steady flowing napalm streams of flame. 
 any tanks near the flames will lose life.</description>
 		<icon>fthrower.bmp</icon>
-		<bundlesize>1</bundlesize>
-		<cost>8000</cost>
+		<bundlesize>2</bundlesize>
+		<cost>4000</cost>
 		<activationsound>explosions/napalm.wav</activationsound>
 		<model type='MilkShape'>weapons/fthrower.txt</model>
 		<modelscale>4.0</modelscale>
@@ -5717,52 +5399,323 @@ any tanks near the flames will lose life.</description>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
 				<delay>0.50</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
+				<delayedweapon type='WeaponRepeat'>
+					<repeat>8</repeat>
+					<delay>0.5</delay>
+					<repeatweapon type='WeaponReference'>
+						<weapon>FlameThrower Spread</weapon>
+					</repeatweapon>
 				</delayedweapon>
 			</subweapon2>
-			<subweapon3 type='WeaponDelay'>
-				<delay>1.0</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon3>
-			<subweapon4 type='WeaponDelay'>
-				<delay>1.50</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon4>
-			<subweapon5 type='WeaponDelay'>
-				<delay>2.0</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon5>
-			<subweapon6 type='WeaponDelay'>
-				<delay>2.50</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon6>
-			<subweapon7 type='WeaponDelay'>
-				<delay>3.0</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon7>
-			<subweapon8 type='WeaponDelay'>
-				<delay>3.50</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon8>
-			<subweapon9 type='WeaponDelay'>
-				<delay>4.0</delay>
-				<delayedweapon type='WeaponReference'>
-					<weapon>FlameThrower Spread</weapon>
-				</delayedweapon>
-			</subweapon9>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Napalm</name>
+		<armslevel>4</armslevel>
+		<description>A projectile weapon that explodes 
+into a river of flame. Any tanks
+near the flames will lose life.</description>
+		<icon>napalm.bmp</icon>
+		<bundlesize>2</bundlesize>
+		<cost>6000</cost>
+		<activationsound>shoot/small.wav</activationsound>
+		<model type='MilkShape'>napalm/napalm.txt</model>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
+			<collisionaction type='WeaponNapalm'>
+				<allowunderwater>false</allowunderwater>
+				<napalmtime>8.0</napalmtime>
+				<napalmheight>1.75</napalmheight>
+				<steptime>0.1</steptime>
+				<hurtsteptime>2.0</hurtsteptime>
+				<hurtpersecond>0.75</hurtpersecond>
+				<numberstreams>2</numberstreams>
+				<effectradius>5</effectradius>
+				<napalmtexture>flames</napalmtexture>
+				<napalmsound>explosions/napalm.wav</napalmsound>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>NapMirvBomblet</name>
+		<armslevel>3</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<enginesound>none</enginesound>
+			<projectilescale>0.2</projectilescale>
+			<projectilemodel type='MilkShape'>bomblet/bomblet.txt</projectilemodel>
+			<collisionaction type='WeaponNapalm'>
+				<allowunderwater>false</allowunderwater>
+				<napalmtime>8.0</napalmtime>
+				<napalmheight>1.75</napalmheight>
+				<steptime>0.2</steptime>
+				<hurtsteptime>2.0</hurtsteptime>
+				<hurtpersecond>0.75</hurtpersecond>
+				<numberstreams>1</numberstreams>
+				<effectradius>5</effectradius>
+				<napalmtexture>flames</napalmtexture>
+				<napalmsound>explosions/napalm.wav</napalmsound>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Napalm MIRV</name>
+		<armslevel>3</armslevel>
+		<description> A projectile weapon that on reaching
+its highest point breaks into several 
+napalm warheads. </description>
+		<icon>mirv.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>8000</cost>
+		<activationsound>shoot/large.wav</activationsound>
+		<model type='MilkShape'>napalm/napalm.txt</model>
+		<accessoryaction type='WeaponProjectile'>
+			<apexcollision></apexcollision>
+			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
+			<collisionaction type='WeaponMirv'>
+				<nowarheads>6</nowarheads>
+				<hspreaddist>0.0</hspreaddist>
+				<vspreaddist>4.0</vspreaddist>
+				<aimedweapon type='WeaponReference'>
+					<weapon>NapMirvBomblet</weapon>
+				</aimedweapon>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Napalm S-MIRV</name>
+		<armslevel>3</armslevel>
+		<description> A projectile weapon that on reaching
+its highest point breaks into several 
+napalm warheads which fan out in a 
+random direction. </description>
+		<icon>mirv.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>8000</cost>
+		<activationsound>shoot/large.wav</activationsound>
+		<model type='MilkShape'>napalm/napalm.txt</model>
+		<accessoryaction type='WeaponProjectile'>
+			<apexcollision></apexcollision>
+			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponReference'>
+					<weapon>NapMirvBomblet</weapon>
+				</subweapon1>
+				<subweapon2 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>5</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon2>
+				<subweapon3 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>10</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon3>
+				<subweapon4 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-5</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon4>
+				<subweapon5 type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-10</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>NapMirvBomblet</weapon>
+					</nextaction>
+				</subweapon5>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fire Worms</name>
+		<armslevel>3</armslevel>
+		<description>A projectile weapon digs under 
+the ground and explodes/burns on contact.</description>
+		<icon>fworm.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>10000</cost>
+		<activationsound>shoot/flare.wav</activationsound>
+		<model type='MilkShape'>digger/digger.txt</model>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
+			<collisionaction type='WeaponAimedUnder'>
+				<nowarheads>8</nowarheads>
+				<percentagemiss>20</percentagemiss>
+				<maxaimdistance>75</maxaimdistance>
+				<inaccuracy>40</inaccuracy>
+				<aimedweapon type='WeaponVelocity'>
+					<velocitychange>0.25</velocitychange>
+					<aimedweapon type='WeaponProjectile'>
+						<under/>
+						<projectilemodel type='ase'>
+							<mesh>roller.ase</mesh>
+							<skin>white.bmp</skin>
+						</projectilemodel>
+						<shieldhurtfactor>0.2</shieldhurtfactor>
+						<collisionaction type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<deform>down</deform>
+								<hurtamount>0.5</hurtamount>
+								<size>4</size>
+								<explosiontexture>exp03</explosiontexture>
+								<explosionsound>explosions/crunch.wav</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponNapalm'>
+								<allowunderwater>false</allowunderwater>
+								<napalmtime>4.0</napalmtime>
+								<napalmheight>2.0</napalmheight>
+								<steptime>0.4</steptime>
+								<hurtsteptime>1.0</hurtsteptime>
+								<hurtpersecond>1</hurtpersecond>
+								<numberstreams>1</numberstreams>
+								<effectradius>5</effectradius>
+								<napalmtexture>flames</napalmtexture>
+								<napalmsound>explosions/napalm.wav</napalmsound>
+							</subweapon2>
+							<subweapon3 type='WeaponProjectile'>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>white.bmp</skin>
+								</projectilemodel>
+								<collisionaction type='WeaponAimedUnder'>
+									<nowarheads>2</nowarheads>
+									<percentagemiss>20</percentagemiss>
+									<maxaimdistance>50</maxaimdistance>
+									<inaccuracy>40</inaccuracy>
+									<aimedweapon type='WeaponVelocity'>
+										<velocitychange>0.25</velocitychange>
+										<aimedweapon type='WeaponProjectile'>
+											<shieldhurtfactor>0.2</shieldhurtfactor>
+											<under/>
+											<projectilemodel type='ase'>
+												<mesh>roller.ase</mesh>
+												<skin>white.bmp</skin>
+											</projectilemodel>
+											<collisionaction type='WeaponMulti'>
+												<subweapon1 type='WeaponExplosion'>
+													<deform>down</deform>
+													<hurtamount>0.5</hurtamount>
+													<size>4</size>
+													<explosiontexture>exp03</explosiontexture>
+													<explosionsound>explosions/crunch.wav</explosionsound>
+												</subweapon1>
+												<subweapon2 type='WeaponNapalm'>
+													<allowunderwater>false</allowunderwater>
+													<napalmtime>4.0</napalmtime>
+													<napalmheight>1.8</napalmheight>
+													<steptime>0.4</steptime>
+													<hurtsteptime>1.0</hurtsteptime>
+													<hurtpersecond>1</hurtpersecond>
+													<numberstreams>1</numberstreams>
+													<effectradius>5</effectradius>
+													<napalmtexture>flames</napalmtexture>
+													<napalmsound>explosions/napalm.wav</napalmsound>
+												</subweapon2>
+											</collisionaction>
+										</aimedweapon>
+									</aimedweapon>
+								</collisionaction>
+							</subweapon3>
+						</collisionaction>
+					</aimedweapon>
+				</aimedweapon>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Napalm Blast</name>
+		<description>A projectile weapon that exploding 
+releasing multiple blobs of napalm 
+aimed at enemy tanks.</description>
+		<icon>nblast.bmp</icon>
+		<cost>10000</cost>
+		<bundlesize>1</bundlesize>
+		<armslevel>3</armslevel>
+		<firedsound>shoot/large.wav</firedsound>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilescale>2</projectilescale>
+			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel> 
+			<collisionaction type='WeaponMulti'>
+				<subweapon1 type='WeaponRepeat'>
+					<repeat>8</repeat>
+					<delay>0.5</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>50</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponProjectile'>
+							<enginesound>none</enginesound>
+							<projectilescale>0.65</projectilescale>	
+							<projectilemodel type='ase'>
+								<mesh>roller.ase</mesh>
+								<skin>white.bmp</skin>
+							</projectilemodel>
+							<collisionaction type='WeaponNapalm'>
+								<allowunderwater>false</allowunderwater>
+								<napalmtime>8.0</napalmtime>
+								<napalmheight>2.0</napalmheight>
+								<steptime>0.15</steptime>
+								<hurtsteptime>2.0</hurtsteptime>
+								<hurtpersecond>1.0</hurtpersecond>
+								<numberstreams>2</numberstreams>
+								<effectradius>5</effectradius>
+								<napalmtexture>flames</napalmtexture>
+								<napalmsound>explosions/napalm.wav</napalmsound>
+							</collisionaction>
+						</aimedweapon>
+					</repeatweapon>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<hurtamount>1.0</hurtamount>
+					<deform>down</deform>
+					<size>8</size>
+					<explosionsound>explosions/large.wav</explosionsound>
+					<explosiontexture>exp02</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponNapalm'>
+					<allowunderwater>false</allowunderwater>
+					<napalmtime>8.0</napalmtime>
+					<napalmheight>1.75</napalmheight>
+					<steptime>0.2</steptime>
+					<hurtsteptime>2.0</hurtsteptime>
+					<hurtpersecond>0.75</hurtpersecond>
+					<numberstreams>1</numberstreams>
+					<effectradius>5</effectradius>
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>explosions/napalm.wav</napalmsound>
+				</subweapon3>
+				<subweapon4 type='WeaponDelay'>
+					<delay>0.5</delay>
+					<delayedweapon type='WeaponRepeat'>
+						<repeat>7</repeat>
+						<delay>0.5</delay>
+						<repeatweapon type='WeaponExplosion'>
+							<nocreatedebris/>
+							<nocreatesplash/>
+							<hurtamount>0</hurtamount>
+							<deform>none</deform>
+							<size>6</size>
+							<explosionsound>shoot/flare.wav</explosionsound>
+							<explosiontexture>exp02</explosiontexture>
+						</repeatweapon>						
+					</delayedweapon>
+				</subweapon4>
+			</collisionaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -7816,6 +7769,8 @@ burning chunks of earth about the area.</description>
 					<aimedweapon type='WeaponTranslate'>
 						<translatedist>8</translatedist>
 						<nextaction type='WeaponProjectile'>
+							<flamelife>2.0</flamelife>
+							<smokelife>4.0</smokelife>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
 								<skin>molten.bmp</skin>
@@ -7874,6 +7829,8 @@ burning chunks of earth about the area.</description>
 					<aimedweapon type='WeaponTranslate'>
 						<translatedist>10</translatedist>
 						<nextaction type='WeaponProjectile'>
+							<flamelife>2.0</flamelife>
+							<smokelife>4.0</smokelife>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
 								<skin>molten.bmp</skin>
@@ -7932,6 +7889,8 @@ burning chunks of earth about the area.</description>
 					<aimedweapon type='WeaponTranslate'>
 						<translatedist>12</translatedist>
 						<nextaction type='WeaponProjectile'>
+							<flamelife>2.0</flamelife>
+							<smokelife>4.0</smokelife>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
 								<skin>molten.bmp</skin>

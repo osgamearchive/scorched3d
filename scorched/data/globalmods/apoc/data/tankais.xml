@@ -68,11 +68,12 @@ that prefers to use fire-based weaponry.</description>
 		<weaponset>
 			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
 			<weapon><name>Baby Napalm</name><level>10</level><type>explosionsmall</type></weapon>
-			<weapon><name>Napalm</name><level>20</level><type>explosionlarge</type></weapon>	
+			<weapon><name>Flame Thrower</name><level>20</level><type>explosionlarge</type></weapon>	
 			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
 			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-			<weapon><name>Hot Napalm</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Napalm</name><level>30</level><type>explosionlarge</type></weapon>
+			<weapon><name>Napalm Blast</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Meteor</name><level>30</level><type>explosionlarge</type></weapon>
 			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
 		</weaponset>
