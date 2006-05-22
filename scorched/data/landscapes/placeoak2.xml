@@ -3,8 +3,8 @@
 		<placement type="trees">
 			<numobjects>1000000</numobjects>
 			<numclusters>25</numclusters>
-			<minheight>4</minheight>
-			<maxheight>30</maxheight>
+			<minheight>6</minheight>
+			<maxheight>15</maxheight>
 			<groupname>trees</groupname>
 			<object type="random">
 				<randomobject>

@@ -18,38 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementObjecth_INCLUDE__)
-#define __INCLUDE_PlacementObjecth_INCLUDE__
+#include <placement/PlacementObjectShadow.h>
+#include <engine/ScorchedContext.h>
+#include <landscape/LandscapeMaps.h>
 
-#include <placement/PlacementType.h>
-
-class XMLNode;
-class PlacementObject
+PlacementObjectShadow::PlacementObjectShadow()
 {
-public:
-	enum Type
-	{
-		eTree,
-		eModel,
-		eTarget,
-		eGroup,
-		eRandom,
-		eTank,
-		eShadow
-	};
+}
 
-	static PlacementObject *create(const char *type);
+PlacementObjectShadow::~PlacementObjectShadow()
+{
+}
 
-	PlacementObject();
-	virtual ~PlacementObject();
+bool PlacementObjectShadow::readXML(XMLNode *node)
+{
+	shadowDef_.setDrawShadow(false);
+	shadowDef_.readXML(node, ".");
+	size_ = Vector(1.0f, 1.0f, 1.0f);
+	node->getNamedChild("size", size_, false);
 
-	virtual bool readXML(XMLNode *node);
-	virtual Type getType() = 0;
-	virtual void createObject(ScorchedContext &context,
-		RandomGenerator &generator,
-		unsigned int &playerId,
-		PlacementType::Information &information,
-		PlacementType::Position &position) = 0;
-};
+	return PlacementObject::readXML(node);
+}
 
-#endif // __INCLUDE_PlacementObjecth_INCLUDE__
+void PlacementObjectShadow::createObject(ScorchedContext &context,
+	RandomGenerator &generator,
+	unsigned int &playerId,
+	PlacementType::Information &information,
+	PlacementType::Position &position)
+{
+	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+		PlacementShadowDefinition::Entry(
+		&shadowDef_,
+		position.position,
+		size_));
+}

@@ -25,6 +25,7 @@
 #include <placement/PlacementObjectTank.h>
 #include <placement/PlacementObjectGroup.h>
 #include <placement/PlacementObjectRandom.h>
+#include <placement/PlacementObjectShadow.h>
 #include <common/DefinesString.h>
 #include <XML/XMLParser.h>
 
@@ -36,6 +37,7 @@ PlacementObject *PlacementObject::create(const char *type)
 	if (0 == strcmp(type, "tank")) return new PlacementObjectTank;
 	if (0 == strcmp(type, "group")) return new PlacementObjectGroup;
 	if (0 == strcmp(type, "random")) return new PlacementObjectRandom;
+	if (0 == strcmp(type, "shadow")) return new PlacementObjectShadow;
 	dialogMessage("PlacementObject", formatString("Unknown object type %s", type));
 	return 0;
 }
