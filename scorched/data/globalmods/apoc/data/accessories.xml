@@ -5675,6 +5675,7 @@ aimed at enemy tanks.</description>
 								<numberstreams>2</numberstreams>
 								<effectradius>5</effectradius>
 								<napalmtexture>flames</napalmtexture>
+								<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 								<napalmsound>explosions/napalm.wav</napalmsound>
 							</collisionaction>
 						</aimedweapon>
@@ -5697,6 +5698,7 @@ aimed at enemy tanks.</description>
 					<numberstreams>1</numberstreams>
 					<effectradius>5</effectradius>
 					<napalmtexture>flames</napalmtexture>
+					<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 					<napalmsound>explosions/napalm.wav</napalmsound>
 				</subweapon3>
 				<subweapon4 type='WeaponDelay'>
@@ -6429,7 +6431,27 @@ earth and burn targets.</description>
 							<aimedweapon type='WeaponProjectile'>
 								<shieldhurtfactor>0.25</shieldhurtfactor>
 								<enginesound>none</enginesound>
-								<nocreateflame/>
+								<nocreatesmoke/>
+								<flamestartcolor1>
+									<a>0</a>
+									<b>1</b>
+									<c>0</c>
+								</flamestartcolor1>
+								<flameendcolor1>
+									<a>0</a>
+									<b>0.5</b>
+									<c>0</c>
+								</flameendcolor1>
+								<flamestartcolor2>
+									<a>0</a>
+									<b>1</b>
+									<c>0</c>
+								</flamestartcolor2>
+								<flameendcolor2>
+									<a>0</a>
+									<b>0.5</b>
+									<c>0</c>
+								</flameendcolor2>
 								<projectilescale>0.5</projectilescale>
 								<projectilemodel type='ase'>
 									<mesh>roller.ase</mesh>
