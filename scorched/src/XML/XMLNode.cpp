@@ -122,11 +122,11 @@ XMLNode::XMLNode(const char *name, bool content, NodeType type) :
 XMLNode::XMLNode(const char *name, Vector &content, NodeType type) :
 	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
-	XMLNode *nodeA = new XMLNode("A");
+	XMLNode *nodeA = new XMLNode("a");
 	addChild(nodeA);
-	XMLNode *nodeB = new XMLNode("B");
+	XMLNode *nodeB = new XMLNode("b");
 	addChild(nodeB);
-	XMLNode *nodeC = new XMLNode("C");
+	XMLNode *nodeC = new XMLNode("c");
 	addChild(nodeC);
 
 	char buffer[20];
@@ -425,9 +425,29 @@ bool XMLNode::getNamedChild(const char *name, Vector &value,
 {
 	XMLNode *node;
 	if (!getNamedChild(name, node, failOnError, remove)) return false;
-	if (!node->getNamedChild("A", value[0], failOnError, true)) return false;
-	if (!node->getNamedChild("B", value[1], failOnError, true)) return false;
-	if (!node->getNamedChild("C", value[2], failOnError, true)) return false;
+
+	Vector tmpValue;
+	if (!node->getNamedChild("A", tmpValue[0], false, true) &&
+		!node->getNamedChild("a", tmpValue[0], false, true))
+	{
+		if (failOnError) node->returnError("Failed to find a node");
+		return false;
+	}
+	if (!node->getNamedChild("B", tmpValue[1], false, true) &&
+		!node->getNamedChild("b", tmpValue[1], false, true))
+	{
+		if (failOnError) node->returnError("Failed to find b node");
+		return false;
+	}
+	if (!node->getNamedChild("C", tmpValue[2], false, true) &&
+		!node->getNamedChild("c", tmpValue[2], false, true))
+	{
+		if (failOnError) node->returnError("Failed to find c node");
+		return false;
+	}
+	if (failOnError && !node->failChildren()) return false;
+
+	value = tmpValue;
 	return true;
 }
 
