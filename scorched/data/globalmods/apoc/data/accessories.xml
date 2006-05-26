@@ -5719,11 +5719,13 @@ the thickness of the wedge destroyed is also greater.</description>
 				<numberstreams>1</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>acid00</napalmtexture>
+				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 				<napalmsound>none</napalmsound>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>1.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5738,6 +5740,7 @@ the thickness of the wedge destroyed is also greater.</description>
 			<subweapon4 type='WeaponDelay'>
 				<delay>2.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5777,11 +5780,13 @@ the thickness of the wedge destroyed is also greater.</description>
 				<numberstreams>1</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>acid00</napalmtexture>
+				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 				<napalmsound>none</napalmsound>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>1.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5796,6 +5801,7 @@ the thickness of the wedge destroyed is also greater.</description>
 			<subweapon4 type='WeaponDelay'>
 				<delay>2.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5810,6 +5816,7 @@ the thickness of the wedge destroyed is also greater.</description>
 			<subweapon5 type='WeaponDelay'>
 				<delay>3.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5849,11 +5856,13 @@ the thickness of the wedge destroyed is also greater.</description>
 				<numberstreams>1</numberstreams>
 				<effectradius>5</effectradius>
 				<napalmtexture>acid00</napalmtexture>
+				<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 				<napalmsound>none</napalmsound>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>1.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5868,6 +5877,7 @@ the thickness of the wedge destroyed is also greater.</description>
 			<subweapon4 type='WeaponDelay'>
 				<delay>2.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5882,6 +5892,7 @@ the thickness of the wedge destroyed is also greater.</description>
 			<subweapon5 type='WeaponDelay'>
 				<delay>3.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5896,6 +5907,7 @@ the thickness of the wedge destroyed is also greater.</description>
 			<subweapon6 type='WeaponDelay'>
 				<delay>4.0</delay>
 				<delayedweapon type='WeaponExplosion'>
+					<nocreatesplash/>
 					<nocreatedebris/>
 					<noluminance/>
 					<animate/>
@@ -5922,6 +5934,19 @@ earth and burn targets.</description>
 		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
+			<flamestartcolor1>
+				<A>0</A><B>0.75</B><C>0</C>
+			</flamestartcolor1>
+			<flameendcolor1>
+				<A>0</A><B>0.5</B><C>0</C>
+			</flameendcolor1>
+			<flamestartcolor2>
+				<A>0</A><B>0.5</B><C>0</C>
+			</flamestartcolor2>
+			<flameendcolor2>
+				<A>0</A><B>0.25</B><C>0</C>
+			</flameendcolor2>
+			<flamelife>1.0</flamelife>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponAimedOver'>
 					<nowarheads>8</nowarheads>
@@ -5935,27 +5960,20 @@ earth and burn targets.</description>
 							<aimedweapon type='WeaponProjectile'>
 								<shieldhurtfactor>0.25</shieldhurtfactor>
 								<enginesound>none</enginesound>
-								<nocreatesmoke/>
 								<flamestartcolor1>
-									<a>0</a>
-									<b>1</b>
-									<c>0</c>
+									<A>0</A><B>0.75</B><C>0</C>
 								</flamestartcolor1>
 								<flameendcolor1>
-									<a>0</a>
-									<b>0.5</b>
-									<c>0</c>
+									<A>0</A><B>0.5</B><C>0</C>
 								</flameendcolor1>
 								<flamestartcolor2>
-									<a>0</a>
-									<b>1</b>
-									<c>0</c>
+									<A>0</A><B>0.5</B><C>0</C>
 								</flamestartcolor2>
 								<flameendcolor2>
-									<a>0</a>
-									<b>0.5</b>
-									<c>0</c>
+									<A>0</A><B>0.25</B><C>0</C>
 								</flameendcolor2>
+								<flamelife>0.5</flamelife>
+								<smokelife>1.0</smokelife>
 								<projectilescale>0.5</projectilescale>
 								<projectilemodel type='ase'>
 									<mesh>roller.ase</mesh>
@@ -6157,8 +6175,20 @@ This weapon does no physical damage</description>
 					<aimedweapon type='WeaponProjectile'>
 						<shieldhurtfactor>0.25</shieldhurtfactor>
 						<enginesound>none</enginesound>
-						<nocreateflame/>
 						<nocreatesmoke/>
+						<flamestartcolor1>
+							<A>0</A><B>0.75</B><C>0</C>
+						</flamestartcolor1>
+						<flameendcolor1>
+							<A>0</A><B>0.5</B><C>0</C>
+						</flameendcolor1>
+						<flamestartcolor2>
+							<A>0</A><B>0.5</B><C>0</C>
+						</flamestartcolor2>
+						<flameendcolor2>
+							<A>0</A><B>0.25</B><C>0</C>
+						</flameendcolor2>
+						<flamelife>0.5</flamelife>
 						<projectilescale>0.35</projectilescale>
 						<projectilemodel type='ase'>
 							<mesh>roller.ase</mesh>
@@ -6294,6 +6324,18 @@ physical damage.</description>
 		<modelscale>2.0</modelscale>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
+			<flamestartcolor1>
+				<A>0</A><B>0.75</B><C>0</C>
+			</flamestartcolor1>
+			<flameendcolor1>
+				<A>0</A><B>0.5</B><C>0</C>
+			</flameendcolor1>
+			<flamestartcolor2>
+				<A>0</A><B>0.5</B><C>0</C>
+			</flamestartcolor2>
+			<flameendcolor2>
+				<A>0</A><B>0.25</B><C>0</C>
+			</flameendcolor2>
 			<projectilescale>2.0</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
@@ -6377,7 +6419,18 @@ It does no physical damage to tanks.</description>
 		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<modelscale>2</modelscale>
 		<accessoryaction type='WeaponProjectile'>
-			<nocreateflame/>
+			<flamestartcolor1>
+				<A>0</A><B>0.75</B><C>0</C>
+			</flamestartcolor1>
+			<flameendcolor1>
+				<A>0</A><B>0.5</B><C>0</C>
+			</flameendcolor1>
+			<flamestartcolor2>
+				<A>0</A><B>0.5</B><C>0</C>
+			</flamestartcolor2>
+			<flameendcolor2>
+				<A>0</A><B>0.25</B><C>0</C>
+			</flameendcolor2>
 			<projectilescale>1.5</projectilescale>
 			<projectilemodel type='MilkShape'>weapons/fusionbarrel.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
@@ -6408,9 +6461,22 @@ It does no physical damage to tanks.</description>
 										<aimedweapon type='WeaponVelocity'>
 											<velocitychange>0.6</velocitychange>
 											<aimedweapon type='WeaponProjectile'>
+												<flamestartcolor1>
+													<A>0</A><B>0.75</B><C>0</C>
+												</flamestartcolor1>
+												<flameendcolor1>
+													<A>0</A><B>0.5</B><C>0</C>
+												</flameendcolor1>
+												<flamestartcolor2>
+													<A>0</A><B>0.5</B><C>0</C>
+												</flamestartcolor2>
+												<flameendcolor2>
+													<A>0</A><B>0.25</B><C>0</C>
+												</flameendcolor2>
+												<flamelife>0.5</flamelife>
+												<smokelife>1.0</smokelife>
 												<shieldhurtfactor>0.25</shieldhurtfactor>
 												<enginesound>none</enginesound>
-												<nocreateflame/>
 												<projectilescale>0.5</projectilescale>
 												<projectilemodel type='ase'>
 													<mesh>roller.ase</mesh>
@@ -6427,7 +6493,20 @@ It does no physical damage to tanks.</description>
 										<collisionaction type='WeaponProjectile'>
 											<shieldhurtfactor>0.25</shieldhurtfactor>
 											<enginesound>none</enginesound>
-											<nocreateflame/>
+											<flamestartcolor1>
+												<A>0</A><B>0.75</B><C>0</C>
+											</flamestartcolor1>
+											<flameendcolor1>
+												<A>0</A><B>0.5</B><C>0</C>
+											</flameendcolor1>
+											<flamestartcolor2>
+												<A>0</A><B>0.5</B><C>0</C>
+											</flamestartcolor2>
+											<flameendcolor2>
+												<A>0</A><B>0.25</B><C>0</C>
+											</flameendcolor2>
+											<flamelife>0.5</flamelife>
+											<smokelife>1.0</smokelife>
 											<projectilescale>0.5</projectilescale>
 											<projectilemodel type='ase'>
 												<mesh>roller.ase</mesh>
@@ -6444,7 +6523,20 @@ It does no physical damage to tanks.</description>
 														<aimedweapon type='WeaponProjectile'>
 															<shieldhurtfactor>0.25</shieldhurtfactor>
 															<enginesound>none</enginesound>
-															<nocreateflame/>
+															<flamestartcolor1>
+																<A>0</A><B>0.75</B><C>0</C>
+															</flamestartcolor1>
+															<flameendcolor1>
+																<A>0</A><B>0.5</B><C>0</C>
+															</flameendcolor1>
+															<flamestartcolor2>
+																<A>0</A><B>0.5</B><C>0</C>
+															</flamestartcolor2>
+															<flameendcolor2>
+																<A>0</A><B>0.25</B><C>0</C>
+															</flameendcolor2>
+															<flamelife>0.5</flamelife>
+															<smokelife>1.0</smokelife>
 															<projectilescale>0.5</projectilescale>
 															<projectilemodel type='ase'>
 																<mesh>roller.ase</mesh>
