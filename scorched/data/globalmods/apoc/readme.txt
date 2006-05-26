@@ -100,6 +100,7 @@ Changes Since 3.1
         	- Reduced shieldhurtfactor on all acid weapons to around 25% per drop
         	- Increased cost of Acid Splash to $10,000
         	- Increased cost of Acid Blast to $3,000 for 2
+        	- Added green vapor trails
         - Chain/Fork Lightning
         	- Reduced power/accuracy and price
         - Shields:
@@ -163,6 +164,7 @@ Changes Since 3.1
         - Reduced height of Church model by 25%
         - Removed City Blocks map
         - Replaced f18 model on city maps with f16
+        - New landscape pics in options menus
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.
