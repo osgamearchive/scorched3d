@@ -161,7 +161,7 @@
 	<landscape>
 		<name>Donut Hills</name>
 		<description></description>
-		<picture>ring.bmp</picture>
+		<picture>donuthills-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
 			<item>data/landscapes/defndonuthills.xml</item>
