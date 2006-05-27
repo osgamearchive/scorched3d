@@ -104,7 +104,7 @@
 			</object>
 		</placement>
 		<placement type="direct">
-			<groupname>factories</groupname>
+			<groupname>powerplants</groupname>
 			<position> 
 				<position><A>128</A><B>128</B><C>0</C></position> 
 			</position> 
@@ -114,6 +114,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Nuclear Plant</removeaction>
 				<burnaction>Nuclear Plant</burnaction>
+				<flattenarea>true</flattenarea>
 				<groundmap type="bmp">
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
@@ -601,13 +602,14 @@
 			<minslope>0.85</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<groupname>factories</groupname>
+			<groupname>powerplants</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/nuclearplant.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/nuclearplant.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Nuclear Plant</removeaction>
 				<burnaction>Nuclear Plant</burnaction>
+				<flattenarea>true</flattenarea>
 				<groundmap type="bmp">
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>

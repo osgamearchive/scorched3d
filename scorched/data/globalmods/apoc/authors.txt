@@ -12,9 +12,9 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Sounds:
 			- Made thud.wav, gas.wav myself
 			- Made tripleshot.wav using the flare sound
-			- Made lightningbolt using two sounds from findsounds.com
-			- Obtained and adjusted ambient sounds for the city layouts
+			- Assembled lightningbolt, factoryloop1, nuclearloop from various sounds
 			- Obtained the rest from various sources on the net
+			- Obtained and adjusted ambient sounds for the city layouts
 		Textures:
 			- cloud00, gas00, light00, smoke-orange explosion textures 
 			- all the custom weapon icons (with the exception of flamethrower)

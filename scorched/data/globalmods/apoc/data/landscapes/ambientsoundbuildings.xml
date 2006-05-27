@@ -10,6 +10,22 @@
 		</sound>
 		<sound>
 			<position type="group">
+				<name>factories</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="looped"></timing>
+			<sound>data/wav/misc/factoryloop1.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
+				<name>powerplants</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="looped"></timing>
+			<sound>data/wav/misc/nuclearloop.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
 				<name>houses</name>
 				<falloff>4.0</falloff>
 			</position>
