@@ -45,7 +45,6 @@
 	<shipgroups>
 		<shipgroup>data/landscapes/shipsdestroyer1.xml</shipgroup>
 		<shipgroup>data/landscapes/shipsfish.xml</shipgroup>
-		<shipgroup>data/landscapes/shipssail.xml</shipgroup>
 		<shipgroup>data/landscapes/shipssub.xml</shipgroup>
 	</shipgroups>
 </tex>

@@ -165,6 +165,8 @@ Changes Since 3.1
         - Removed City Blocks map
         - Replaced f18 model on city maps with f16
         - New landscape pics in options menus
+        - New sounds for factories and power plants
+        - New trees on USA and Apoc City
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.

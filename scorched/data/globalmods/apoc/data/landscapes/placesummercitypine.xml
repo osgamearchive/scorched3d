@@ -6,9 +6,88 @@
 			<minheight>15</minheight>
 			<maxheight>60</maxheight>
 			<groupname>trees</groupname>
-			<object type="tree">
-				<tree>pine</tree>
-				<snow>75</snow>
+			<object type="random">
+				<randomobject>
+					<object type="tree">
+						<tree>pine</tree>
+						<snow>75</snow>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type="tree">
+						<tree>pine2</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>
+				<randomobject>
+					<object type="tree">
+						<tree>pine3</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>	
+				<randomobject>
+					<object type="tree">
+						<tree>pine4</tree>
+						<snow>75</snow>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type="tree">
+						<tree>oak</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>			
+				<randomobject>
+					<object type="tree">
+						<tree>oak2</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>		
+				<randomobject>				
+					<object type="tree">
+						<tree>oak4</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>					
+			</object>
+		</placement>
+		<placement type="trees">
+			<numobjects>200000</numobjects>
+			<numclusters>12</numclusters>
+			<minheight>5</minheight>
+			<maxheight>12</maxheight>
+			<groupname>trees</groupname>
+			<object type="random">
+				<randomobject>
+					<object type="tree">
+						<tree>palm</tree>
+						<snow>75</snow>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type="tree">
+						<tree>palmb2</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>		
+				<randomobject>				
+					<object type="tree">
+						<tree>palmb3</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>		
+				<randomobject>				
+					<object type="tree">
+						<tree>palmb4</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>	
+				<randomobject>				
+					<object type="tree">
+						<tree>palmb5</tree>
+						<snow>75</snow>
+					</object>	
+				</randomobject>	
 			</object>
 		</placement>
 	</placements>
