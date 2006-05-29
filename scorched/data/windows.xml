@@ -155,6 +155,7 @@ strength and direction.</description>
 					<bitmap>data/windows/wind.bmp</bitmap>
 					<bitmapa>data/windows/winda.bmp</bitmapa>
 					<invert>true</invert>
+					<name>Wind</name>
 				</widget>
 			</item>
 			<item>
@@ -368,6 +369,7 @@ including its power and direction.</description>
 				<widget type="GLWWeaponModel">
 					<x>31</x><y>0</y>
 					<w>128</w><h>128</h>
+					<name>Weapon</name>
 				</widget>
 			</item>
 			<item>

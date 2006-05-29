@@ -66,7 +66,7 @@ Remove the current name by pressing the delete key, and then type in your name u
 				</condition>
 			</conditions>
 			<text>If you have created a game with more than one player you can make some of the players computer controlled by selecting a computer type from the <event action="highlight" window="Team" control="Type">type</event> list.
-For the moment so you can play, please leave this set to Human.
+For the moment, so you can play, please leave this set to Human.
 <a href="playerDialog4">Click Here to Continue...</a></text>
 		</step>
 		<step>
@@ -77,8 +77,9 @@ For the moment so you can play, please leave this set to Human.
 					<next>game</next>
 				</condition>
 			</conditions>
-			<text>The <event action="highlight" window="Team" control="Color">color</event> selection allows you choose the color of your tank.
+			<text>The <event action="highlight" window="Team" control="Color">color</event> selection allows you choose the color of your player.
 When playing team games it also allows you to choose your team.
+Team games and games with more than one player can be created via the custom game setting in the main menu.
 <a href="playerDialog5">Click Here to Continue...</a></text>
 		</step>
 		<step>
@@ -102,49 +103,136 @@ Although each tank looks very different they all share the same weapons and attr
 					<next>game</next>
 				</condition>
 			</conditions>
-			<text>Once you have given your player a name, color and tank click the <event action="highlight" window="Team" control="Ok">Ok</event> button to continue.</text>
+			<text>Once you have given your player a name, color and a tank click the <event action="highlight" window="Team" control="Ok">Ok</event> button to continue.</text>
 		</step>		
 		
 		<!-- Game -->
 		<step>
 			<name>game</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
 			<text>This is the Scorched3D battle arena.  The objective of the game is to destroy all <event action="targets">other tanks</event> in the arena.  The last tank alive wins the round, the tank with the most rounds wins the game.
-You can see the current scores at any time by pressing the S key.
 <a href="game2">Click Here to Continue...</a></text>
 		</step>
 		
 		<step>
 			<name>game2</name>
-			<text>Players take it in turns to setup defenses and fire their weapons.  
-Usually all tanks will get a turn, however in this tutorial the other tanks will not fire back.
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>Players take it in turns to setup defenses and fire their weapons.  When playing online all players make their moves simultaneously.
+<a href="game2b">Click Here to Continue...</a></text>
+		</step>
+		
+		<step>
+			<name>game2b</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>You can see the current scores at any time by pressing the S key.  This will also tell you how many rounds are left in the game.
 <a href="game3">Click Here to Continue...</a></text>
 		</step>
 		
 		<step>
 			<name>game3</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
 			<text>This is <event action="player">your tank</event>.
-Press the 3 key on the keyboard to get a closer look.  The number keys on the keyboard can be used to choose from a set of camera positions.
+Press the 3 key on the keyboard to get a closer look.
+The number keys, 0 to 9 on the keyboard, can be used to choose from a set of camera positions.
 <a href="game4">Click Here to Continue...</a></text>
 		</step>
 				
 		<step>
 			<name>game4</name>
-			<text>The other way to move the camera is to the mouse.
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>The other way to move the camera is with the mouse.
 Clicking with the left mouse button on the landscape will move the camera to look at that position.
 Clicking and dragging with the right mouse button will rotate the camera.
 The mouse wheel controls the zoom of the camera.
-<a href="game5">Click Here to Continue...</a></text>
+<a href="game4a">Click Here to Continue...</a></text>
 		</step>
 		
 		<step>
+			<name>game4a</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>It is now time to make move.
+The first step is to choose a target, the next step is to choose a weapon and the final step is to aim and fire your tank's gun.
+<a href="game4b">Click Here to Continue...</a></text>
+		</step>			
+		
+		<step>
+			<name>game4b</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>You can use many different criteria to choose a target.  For example, targets can be chosen by how easy you think they will be to hit, by their current ranking, or even by a how much you dislike them!
+<a href="game4c">Click Here to Continue...</a></text>
+		</step>	
+		
+		<step>
+			<name>game4c</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>Once your target is chosen you need to select a <event action="highlight" window="Weapon" control="Weapon">weapon</event>.  You can select a weapon by clicking the weapon icon.
+When the game starts you only have one type of weapon, you get the chance to buy more in later rounds.  Weapons are bought with money that is earned by killing other players or winning rounds.
+<a href="game5">Click Here to Continue...</a></text>
+		</step>			
+		
+		<step>
 			<name>game5</name>
-			<text>Its now time to make a shot.  You aim the tank's gun using the arrow keys.
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>You aim the tank's gun using the arrow (cursor) keys.
 Left and right controls the turret rotation.  Up and down controls the turret elevation.  The + and - keys control the gun's shot power.
-<a href="game6">Click Here to Continue...</a></text>
+<a href="game5a">Click Here to Continue...</a></text>
 		</step>		
 		
 		<step>
+			<name>game5a</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>You can speed up all of these adjustments by holding down the Control key.
+	You can make fine adjustments by holding down the Shift key.
+<a href="game6">Click Here to Continue...</a></text>
+		</step>			
+		
+		<step>
 			<name>game6</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
 			<text>An easier way to rotate the tank is to press the A key when the mouse pointer is over where you want to shoot at.
 This will only rotate the tank, the power and elevation adjustments still need to be made manually.
 <a href="game7">Click Here to Continue...</a></text>
@@ -152,9 +240,81 @@ This will only rotate the tank, the power and elevation adjustments still need t
 	
 		<step>
 			<name>game7</name>
-			<text>
-<a href="game7">Click Here to Continue...</a></text>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>When aiming it is always a good idea to take the <event action="highlight" window="Wind" control="Wind">wind</event> (if any) into account.
+The wind will blow all shots off target.
+<a href="game8">Click Here to Continue...</a></text>
+		</step>			
+	
+		<step>
+			<name>game8</name>
+			<conditions>
+				<condition type="FirstMove">
+					<next>firing</next>
+				</condition>
+			</conditions>
+			<text>Once you have finished aiming it is time to fire the weapon.  
+Usually all players get a turn, however in this tutorial the other tanks will not fire back.
+
+To fire press the space bar.</text>
 		</step>		
+		
+		<step>
+			<name>firing</name>
+			<conditions>
+				<condition type="TankDead">
+					<next>buying</next>
+				</condition>
+			</conditions>
+			<text>Keep adjusting your aim and firing until you have killed one of the targets.</text>
+		</step>		
+		
+		<step>
+			<name>buying</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window></window>
+					<next>defenses</next>
+				</condition>
+			</conditions>
+			<text>Well done!  To celebrate you have been give a large amount of money to spend.
+<a href="buying2">Click Here to Continue...</a></text>		
+		</step>	
+		
+		<step>
+			<name>buying2</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window></window>
+					<next>defenses</next>
+				</condition>
+			</conditions>
+			<text>Below is the buying window.  This window is only shown at the beginning of each new round, so items can only be bought at the beginning of the round.
+<a href="buying3">Click Here to Continue...</a></text>		
+		</step>		
+		
+		<step>
+			<name>buying3</name>
+			<conditions>
+				<condition type="WindowVisible">
+					<window></window>
+					<next>defenses</next>
+				</condition>
+			</conditions>
+			<text>Click on the green buttons to buy items, and the red buttons to sell items.
+You can also buy defenses for your tank by changing tab to the defense tab.
+
+Once you have bought all you want, or have run out of money click the <event action="highlight" window="" control="Ok">Ok</event> button to continue.</text>
+		</step>		
+		
+		<step>
+			<name>defenses</name>
+			<text></text>		
+		</step>			
 		
 		<step>
 			<name>end</name>

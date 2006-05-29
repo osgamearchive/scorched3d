@@ -14,6 +14,31 @@
   <!-- The type of the player e.g. human, computer etc.. -->
   <option>
     <name>PlayerType3</name>
+    <value>Target</value>
+    <defaultvalue>Human</defaultvalue>
+  </option>
+  <option>
+    <name>PlayerType4</name>
+    <value>Target</value>
+    <defaultvalue>Human</defaultvalue>
+  </option>
+  <option>
+    <name>PlayerType5</name>
+    <value>Target</value>
+    <defaultvalue>Human</defaultvalue>
+  </option>
+  <option>
+    <name>PlayerType6</name>
+    <value>Target</value>
+    <defaultvalue>Human</defaultvalue>
+  </option>
+  <option>
+    <name>PlayerType7</name>
+    <value>Target</value>
+    <defaultvalue>Human</defaultvalue>
+  </option>
+  <option>
+    <name>PlayerType8</name>
     <value>Human</value>
     <defaultvalue>Human</defaultvalue>
   </option>
@@ -30,7 +55,7 @@
   <!-- The maximum number of turns all players are allowed in each round (0 = infinite) -->
   <option>
     <name>MaxNumberOfRoundTurns</name>
-    <value>15</value>
+    <value>50</value>
     <defaultvalue>15</defaultvalue>
   </option>
   <!-- The amount of time each player has for each shot -->
@@ -84,13 +109,13 @@
   <!-- The maximum number of players to allow -->
   <option>
     <name>NumberOfPlayers</name>
-    <value>3</value>
+    <value>8</value>
     <defaultvalue>2</defaultvalue>
   </option>
   <!-- The minimum number of players to allow -->
   <option>
     <name>NumberOfMinPlayers</name>
-    <value>3</value>
+    <value>8</value>
     <defaultvalue>2</defaultvalue>
   </option>
   <!-- The percentage chance the computers will say something when killed -->
@@ -144,7 +169,7 @@
   <!-- The money each player starts with -->
   <option>
     <name>MoneyStarting</name>
-    <value>10000</value>
+    <value>100000</value>
     <defaultvalue>10000</defaultvalue>
   </option>
   <!-- The amount of time to give clients to respond before kicking them -->
@@ -198,7 +223,7 @@
   <!-- The scale of the weapons used -->
   <option>
     <name>WeaponScale</name>
-    <value>1</value>
+    <value>2</value>
     <defaultvalue>1</defaultvalue>
   </option>
   <!-- The type of player stats to be logged (none, pgsql, mysql, file) -->

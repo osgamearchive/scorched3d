@@ -20,6 +20,10 @@
 
 #include <client/TutorialFile.h>
 #include <GLW/GLWWindowManager.h>
+#include <client/ScorchedClient.h>
+#include <common/OptionsTransient.h>
+#include <tank/TankContainer.h>
+#include <server/ServerCommon.h>
 
 TutorialFileEntry *TutorialConditionWindowVisible::checkCondition()
 {
@@ -49,12 +53,59 @@ bool TutorialConditionWindowVisible::parseXML(TutorialFile *file, XMLNode *node)
 	return true;
 }
 
+TutorialFileEntry *TutorialConditionFirstMove::checkCondition()
+{
+	if (ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo() > 1)
+	{
+		return next_;
+	}
+	return 0;
+}
+
+bool TutorialConditionFirstMove::parseXML(TutorialFile *file, XMLNode *node)
+{
+	std::string next;
+	if (!node->getNamedChild("next", next)) return false;
+
+	if (!(next_ = file->getEntry(next.c_str())))
+	{
+		return node->returnError(
+			"Failed to find the tutorial pointed to by next");
+	}	
+
+	return true;
+}
+
+TutorialFileEntry *TutorialConditionTankDead::checkCondition()
+{
+	if (ScorchedClient::instance()->getTankContainer().getNoOfTanks() -
+		ScorchedClient::instance()->getTankContainer().aliveCount() > 1)
+	{
+		ServerCommon::killAll();
+		return next_;
+	}
+	return 0;
+}
+
+bool TutorialConditionTankDead::parseXML(TutorialFile *file, XMLNode *node)
+{
+	std::string next;
+	if (!node->getNamedChild("next", next)) return false;
+
+	if (!(next_ = file->getEntry(next.c_str())))
+	{
+		return node->returnError(
+			"Failed to find the tutorial pointed to by next");
+	}	
+
+	return true;
+}
+
 TutorialCondition *TutorialCondition::create(const char *type)
 {
-	if (0 == strcmp(type, "WindowVisible"))
-	{
-		return new TutorialConditionWindowVisible;
-	}
+	if (0 == strcmp(type, "WindowVisible")) return new TutorialConditionWindowVisible;
+	else if (0 == strcmp(type, "FirstMove")) return new TutorialConditionFirstMove;
+	else if (0 == strcmp(type, "TankDead")) return new TutorialConditionTankDead;
 	return 0;
 }
 
@@ -123,6 +174,8 @@ bool TutorialFile::parseFile(const char *file)
 					// Create condition
 					TutorialCondition *condition =
 						TutorialCondition::create(type.c_str());
+					if (!condition) return 
+						conditionNode->returnError("Failed to find condition type");
 					entry->conditions_.push_back(condition);
 
 					// Store this condition to be parsed later
@@ -132,6 +185,10 @@ bool TutorialFile::parseFile(const char *file)
 				}
 			}
 
+			if (entries_.find(entry->name_) != entries_.end())
+			{
+				return node->returnError("Duplicate name exists in file");
+			}
 			entries_[entry->name_] = entry;
 
 			if (!node->failChildren()) return false;

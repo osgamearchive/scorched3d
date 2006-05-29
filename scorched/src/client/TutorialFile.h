@@ -35,6 +35,26 @@ public:
 	static TutorialCondition *create(const char *type);
 };
 
+class TutorialConditionFirstMove : public TutorialCondition
+{
+public:
+	virtual TutorialFileEntry *checkCondition();
+	virtual bool parseXML(TutorialFile *file, XMLNode *node);
+
+protected:
+	TutorialFileEntry *next_;
+};
+
+class TutorialConditionTankDead : public TutorialCondition
+{
+public:
+	virtual TutorialFileEntry *checkCondition();
+	virtual bool parseXML(TutorialFile *file, XMLNode *node);
+
+protected:
+	TutorialFileEntry *next_;
+};
+
 class TutorialConditionWindowVisible : public TutorialCondition
 {
 public:

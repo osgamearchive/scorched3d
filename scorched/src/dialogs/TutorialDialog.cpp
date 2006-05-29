@@ -47,11 +47,13 @@ TutorialDialog *TutorialDialog::instance()
 
 TutorialDialog::TutorialDialog() : 
 	GLWWindow("", 155.0f, -125.0f, 
-		470.0f, 120.0f, eTransparent | eNoTitle,
+		470.0f, 120.0f, eSemiTransparent | eNoTitle,
 		"The ingame tutorial."),
 	triangleDir_(30.0f), triangleDist_(0.0f),
 	current_(0)
 {
+	windowLevel_ = 75000;
+
 	Vector listColor(0.0f, 0.0f, 0.0f);
 	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 105.0f, -1, 12.0f, 24.0f);
 	listView_->setColor(listColor);

@@ -3178,6 +3178,9 @@
 				RelativePath="..\..\data\singletarget.xml">
 			</File>
 			<File
+				RelativePath="..\..\data\singletutorial.xml">
+			</File>
+			<File
 				RelativePath="..\..\data\ssdisplay.xml">
 			</File>
 			<File

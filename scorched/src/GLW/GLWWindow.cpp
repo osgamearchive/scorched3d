@@ -217,7 +217,7 @@ void GLWWindow::drawMaximizedWindow()
 			}
 		}
 	}
-	else if (windowState_ & eTransparent)
+	else if (windowState_ & eTransparent || windowState_ & eSemiTransparent)
 	{
 		{
 			// NOTE WE DONT NEED CUNNING STUFF NOW
@@ -234,11 +234,13 @@ void GLWWindow::drawMaximizedWindow()
 				glTranslatef(0.0f, 0.0f, 0.0f);
 				{
 					GLState currentStateBlend(GLState::BLEND_ON);
-					glColor4f(0.4f, 0.6f, 0.8f, 0.6f);
+					glColor4f(0.4f, 0.6f, 0.8f, 
+						((windowState_ & eTransparent)?0.8f:0.8f));
 					drawBackSurface(x_, y_, w_, h_);
 				}
 				glLineWidth(2.0f);
-				glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
+				glColor4f(0.0f, 0.0f, 0.0f, 
+					((windowState_ & eTransparent)?1.0f:1.0f));
 				drawSurround(x_, y_, w_, h_);
 				glLineWidth(1.0f);
 			glPopMatrix();

@@ -37,7 +37,8 @@ public:
 		eResizeable = 8,
 		eCircle = 16,
 		eNoDraw = 32,
-		eSavePosition = 64
+		eSavePosition = 64,
+		eSemiTransparent = 128
 	};
 
 	GLWWindow(const char *name = "None", 
