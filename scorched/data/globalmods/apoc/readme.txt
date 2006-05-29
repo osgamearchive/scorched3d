@@ -139,7 +139,8 @@ Changes Since 3.1
         - Tracers now do no damage to shields when they hit
         - Renamed Suicide Bomb to Self Destruct
         - Reduced cost of Haymaker to $30,000
-        - Combine Fire Worms/Ants into a single weapon (Fire Ants)
+        - Combined Fire Worms/Ants into a single weapon (Fire Ants)
+        - Earthquake now opens up a long fissure/fault line in addition to shaking the earth and damaging tanks
         
     Landscapes:
     	- New Nuclear Power Plant Building
@@ -232,7 +233,7 @@ BouncingBetty   - Bomb that bounces and releases multiple explosive warheads
 Bunny Bomb      - MIRV with leaping warheads
 Chain Lightning - Explodes and releases an aimed arc of electricity with courses through the ground aimed at nearby tanks
 Dmsday Device   - Larger, more destructive version of Apocalypse
-Earthquake      - Shakes the earth and does damage over a large area from a random location on the map.
+Earthquake      - Shakes the earth, opens up a fissure and does damage over a large area from a random location on the map.
 EMP Grenade     - Grenade that does heavy damage to shields and light damage to tanks
 EMP Missile     - Missile with a larger EMP effect than the grenade
 Fatman          - In between a nuke and a MOAB

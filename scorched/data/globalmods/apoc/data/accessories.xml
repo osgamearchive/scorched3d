@@ -9331,6 +9331,524 @@ at nearby targets</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Fault_Stage1</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponTranslate'>
+			<translatedist>5</translatedist>
+			<nextaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0.25</hurtamount>
+					<deform>down</deform>
+					<size>4</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>0.5</delay>
+					<delayedweapon type='WeaponTranslate'>
+						<translatedist>5</translatedist>
+						<nextaction type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<hurtamount>0.25</hurtamount>
+								<deform>down</deform>
+								<size>4</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>0.5</delay>
+								<delayedweapon type='WeaponTranslate'>
+									<translatedist>5</translatedist>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<hurtamount>0.25</hurtamount>
+											<deform>down</deform>
+											<size>4</size>
+											<explosiontexture>none</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon1>
+										<subweapon2 type='WeaponDelay'>
+											<delay>0.5</delay>
+											<delayedweapon type='WeaponTranslate'>
+												<translatedist>5</translatedist>
+												<nextaction type='WeaponExplosion'>
+													<hurtamount>0.25</hurtamount>
+													<deform>down</deform>
+													<size>4</size>
+													<explosiontexture>none</explosiontexture>
+													<explosionsound>none</explosionsound>
+												</nextaction>
+											</delayedweapon>
+										</subweapon2>
+									</nextaction>
+								</delayedweapon>
+							</subweapon2>
+						</nextaction>
+					</delayedweapon>
+				</subweapon2>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fault_Stage2</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponTranslate'>
+			<translatedist>5</translatedist>
+			<nextaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<hurtamount>0.25</hurtamount>
+					<deform>down</deform>
+					<size>6</size>
+					<explosiontexture>none</explosiontexture>
+					<explosionsound>none</explosionsound>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
+					<delay>0.5</delay>
+					<delayedweapon type='WeaponTranslate'>
+						<translatedist>5</translatedist>
+						<nextaction type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<hurtamount>0.25</hurtamount>
+								<deform>down</deform>
+								<size>6</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>0.5</delay>
+								<delayedweapon type='WeaponTranslate'>
+									<translatedist>5</translatedist>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<hurtamount>0.25</hurtamount>
+											<deform>down</deform>
+											<size>6</size>
+											<explosiontexture>none</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon1>
+										<subweapon2 type='WeaponDelay'>
+											<delay>0.5</delay>
+											<delayedweapon type='WeaponTranslate'>
+												<translatedist>5</translatedist>
+												<nextaction type='WeaponExplosion'>
+													<nocreatedebris/>
+													<nocreatesplash/>
+													<hurtamount>0.25</hurtamount>
+													<deform>down</deform>
+													<size>5</size>
+													<explosiontexture>none</explosiontexture>
+													<explosionsound>none</explosionsound>
+												</nextaction>
+											</delayedweapon>
+										</subweapon2>
+									</nextaction>
+								</delayedweapon>
+							</subweapon2>
+						</nextaction>
+					</delayedweapon>
+				</subweapon2>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fault_Stage3</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Fault_Stage2</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponTranslate'>
+				<translatedist>20</translatedist>
+				<nextaction type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponReference'>
+							<weapon>Fault_Stage1</weapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>30</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponReference'>
+								<weapon>Fault_Stage1</weapon>
+							</nextaction>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>true</vabs>
+							<hredirect>-30</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponReference'>
+								<weapon>Fault_Stage1</weapon>
+							</nextaction>
+						</weapon>
+					</weaponchoice3>
+				</nextaction>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>FissureSegment</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponReference'>
+				<weapon>Fault_Stage1</weapon>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>2.0</delay>
+				<delayedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponReference'>
+						<weapon>Fault_Stage2</weapon>
+					</subweapon1>
+					<subweapon2 type='WeaponTranslate'>
+						<translatedist>20</translatedist>
+						<nextaction type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>10</weight>
+								<weapon type='WeaponMulti'>
+									<subweapon1 type='WeaponReference'>
+										<weapon>Fault_Stage1</weapon>
+									</subweapon1>
+									<subweapon2 type='WeaponDelay'>
+										<delay>2.0</delay>
+										<delayedweapon type='WeaponReference'>
+											<weapon>Fault_Stage3</weapon>
+										</delayedweapon>
+									</subweapon2>
+									<subweapon3 type='WeaponRandomChoice'>
+										<weaponchoice1>
+											<weight>20</weight>
+											<weapon type='WeaponNull'></weapon>
+										</weaponchoice1>
+										<weaponchoice2>
+											<weight>20</weight>
+											<weapon type='WeaponDelay'>
+												<delay>2.0</delay>
+												<delayedweapon type='WeaponRandomChoice'>
+													<weaponchoice1>
+														<weight>10</weight>
+														<weapon type='WeaponRedirect'>
+															<habs>false</habs>
+															<vabs>true</vabs>
+															<hredirect>45</hredirect>
+															<vredirect>90</vredirect>
+															<nextaction type='WeaponReference'>
+																<weapon>Fault_Stage1</weapon>
+															</nextaction>
+														</weapon>
+													</weaponchoice1>
+													<weaponchoice2>
+														<weight>10</weight>
+														<weapon type='WeaponRedirect'>
+															<habs>false</habs>
+															<vabs>true</vabs>
+															<hredirect>-45</hredirect>
+															<vredirect>90</vredirect>
+															<nextaction type='WeaponReference'>
+																<weapon>Fault_Stage1</weapon>
+															</nextaction>
+														</weapon>
+													</weaponchoice2>
+												</delayedweapon>
+											</weapon>
+										</weaponchoice2>
+									</subweapon3>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>10</weight>
+								<weapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>true</vabs>
+									<hredirect>30</hredirect>
+									<vredirect>90</vredirect>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponReference'>
+											<weapon>Fault_Stage1</weapon>
+										</subweapon1>
+										<subweapon2 type='WeaponDelay'>
+											<delay>2.0</delay>
+											<delayedweapon type='WeaponReference'>
+												<weapon>Fault_Stage3</weapon>
+											</delayedweapon>
+										</subweapon2>
+										<subweapon3 type='WeaponRandomChoice'>
+											<weaponchoice1>
+												<weight>20</weight>
+												<weapon type='WeaponNull'></weapon>
+											</weaponchoice1>
+											<weaponchoice2>
+												<weight>20</weight>
+												<weapon type='WeaponDelay'>
+													<delay>2.0</delay>
+													<delayedweapon type='WeaponRandomChoice'>
+														<weaponchoice1>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>-45</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice1>
+														<weaponchoice2>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>-75</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice2>
+													</delayedweapon>
+												</weapon>
+											</weaponchoice2>
+										</subweapon3>
+									</nextaction>
+								</weapon>
+							</weaponchoice2>
+							<weaponchoice3>
+								<weight>10</weight>
+								<weapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>true</vabs>
+									<hredirect>45</hredirect>
+									<vredirect>90</vredirect>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponReference'>
+											<weapon>Fault_Stage1</weapon>
+										</subweapon1>
+										<subweapon2 type='WeaponDelay'>
+											<delay>2.0</delay>
+											<delayedweapon type='WeaponReference'>
+												<weapon>Fault_Stage3</weapon>
+											</delayedweapon>
+										</subweapon2>
+										<subweapon3 type='WeaponRandomChoice'>
+											<weaponchoice1>
+												<weight>20</weight>
+												<weapon type='WeaponNull'></weapon>
+											</weaponchoice1>
+											<weaponchoice2>
+												<weight>20</weight>
+												<weapon type='WeaponDelay'>
+													<delay>2.0</delay>
+													<delayedweapon type='WeaponRandomChoice'>
+														<weaponchoice1>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>-45</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice1>
+														<weaponchoice2>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>-75</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice2>
+													</delayedweapon>
+												</weapon>
+											</weaponchoice2>
+										</subweapon3>
+									</nextaction>
+								</weapon>
+							</weaponchoice3>
+							<weaponchoice4>
+								<weight>10</weight>
+								<weapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>true</vabs>
+									<hredirect>-30</hredirect>
+									<vredirect>90</vredirect>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponReference'>
+											<weapon>Fault_Stage1</weapon>
+										</subweapon1>
+										<subweapon2 type='WeaponDelay'>
+											<delay>2.0</delay>
+											<delayedweapon type='WeaponReference'>
+												<weapon>Fault_Stage3</weapon>
+											</delayedweapon>
+										</subweapon2>
+										<subweapon3 type='WeaponRandomChoice'>
+											<weaponchoice1>
+												<weight>20</weight>
+												<weapon type='WeaponNull'></weapon>
+											</weaponchoice1>
+											<weaponchoice2>
+												<weight>20</weight>
+												<weapon type='WeaponDelay'>
+													<delay>2.0</delay>
+													<delayedweapon type='WeaponRandomChoice'>
+														<weaponchoice1>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>45</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice1>
+														<weaponchoice2>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>75</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice2>
+													</delayedweapon>
+												</weapon>
+											</weaponchoice2>
+										</subweapon3>
+									</nextaction>
+								</weapon>
+							</weaponchoice4>
+							<weaponchoice5>
+								<weight>10</weight>
+								<weapon type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>true</vabs>
+									<hredirect>-45</hredirect>
+									<vredirect>90</vredirect>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponReference'>
+											<weapon>Fault_Stage1</weapon>
+										</subweapon1>
+										<subweapon2 type='WeaponDelay'>
+											<delay>2.0</delay>
+											<delayedweapon type='WeaponReference'>
+												<weapon>Fault_Stage3</weapon>
+											</delayedweapon>
+										</subweapon2>
+										<subweapon3 type='WeaponRandomChoice'>
+											<weaponchoice1>
+												<weight>20</weight>
+												<weapon type='WeaponNull'></weapon>
+											</weaponchoice1>
+											<weaponchoice2>
+												<weight>20</weight>
+												<weapon type='WeaponDelay'>
+													<delay>2.0</delay>
+													<delayedweapon type='WeaponRandomChoice'>
+														<weaponchoice1>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>45</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice1>
+														<weaponchoice2>
+															<weight>10</weight>
+															<weapon type='WeaponRedirect'>
+																<habs>false</habs>
+																<vabs>true</vabs>
+																<hredirect>75</hredirect>
+																<vredirect>90</vredirect>
+																<nextaction type='WeaponReference'>
+																	<weapon>Fault_Stage1</weapon>
+																</nextaction>
+															</weapon>
+														</weaponchoice2>
+													</delayedweapon>
+												</weapon>
+											</weaponchoice2>
+										</subweapon3>
+									</nextaction>
+								</weapon>
+							</weaponchoice5>
+						</nextaction>
+					</subweapon2>
+					<subweapon3 type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<hurtamount>0.25</hurtamount>
+						<deform>down</deform>
+						<size>6</size>
+						<explosiontexture>none</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</subweapon3>
+					<subweapon4 type='WeaponDelay'>
+						<delay>2.0</delay>
+						<delayedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<hurtamount>0.25</hurtamount>
+								<deform>down</deform>
+								<size>8</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponDelay'>
+								<delay>0.5</delay>
+								<delayedweapon type='WeaponTranslate'>
+									<translatedist>7</translatedist>
+									<nextaction type='WeaponExplosion'>
+										<nocreatedebris/>
+										<nocreatesplash/>
+										<hurtamount>0.25</hurtamount>
+										<deform>down</deform>
+										<size>7</size>
+										<explosiontexture>none</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</nextaction>
+								</delayedweapon>
+							</subweapon2>
+						</delayedweapon>
+					</subweapon4>
+				</delayedweapon>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Earthquake</name>
 		<armslevel>2</armslevel>
 		<description>Shakes the earth and does damage over a large area.
@@ -9349,20 +9867,67 @@ YOU CANNOT AIM THIS WEAPON</description>
 				<scatterpercentage>35</scatterpercentage>
 				<aimedweapon type='WeaponDelay'>
 					<delay>2.0</delay>
-					<delayedweapon type='WeaponRepeat'>
-						<repeat>5</repeat>
-						<delay>1.0</delay>
-						<repeatweapon type='WeaponExplosion'>
-							<armslevel>1</armslevel>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<hurtamount>0.3</hurtamount>
-							<deform>none</deform>
-							<size>128</size>
-							<explosionshake>4.0</explosionshake>
-							<explosiontexture>none</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</repeatweapon>
+					<delayedweapon type='WeaponMulti'>
+						<!-- Shake earth and damage opponents over large area -->
+						<subweapon1 type='WeaponRepeat'>
+							<repeat>6</repeat>
+							<delay>1.0</delay>
+							<repeatweapon type='WeaponExplosion'>
+								<armslevel>1</armslevel>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<hurtamount>0.2</hurtamount>
+								<deform>none</deform>
+								<size>128</size>
+								<explosionshake>4.0</explosionshake>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</repeatweapon>
+						</subweapon1>
+						<subweapon2 type='WeaponSound'>
+							<sound>data/wav/explosions/quake.wav</sound>
+						</subweapon2>
+						<!-- Form a giant fissure in the earth -->
+						<subweapon3 type='WeaponAimedUnder'>
+							<nowarheads>1</nowarheads>
+							<inaccuracy>0</inaccuracy>
+							<percentagemiss>0</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<aimedweapon type='WeaponProjectile'>
+								<collisionaction type='WeaponRedirect'>
+									<habs>false</habs>
+									<vabs>true</vabs>
+									<hredirect>0</hredirect>
+									<vredirect>90</vredirect>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<hurtamount>0.25</hurtamount>
+											<deform>down</deform>
+											<size>4</size>
+											<explosiontexture>none</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon1>
+										<!-- Crack #1 -->
+										<subweapon2 type='WeaponReference'>
+											<weapon>FissureSegment</weapon>
+										</subweapon2>
+										<!-- Crack #2 -->
+										<subweapon3 type='WeaponDelay'>
+											<delay>0.5</delay>
+											<delayedweapon type='WeaponRedirect'>
+												<habs>false</habs>
+												<vabs>true</vabs>
+												<hredirect>180</hredirect>
+												<vredirect>90</vredirect>
+												<nextaction type='WeaponReference'>
+													<weapon>FissureSegment</weapon>
+												</nextaction>
+											</delayedweapon>
+										</subweapon3>
+									</nextaction>
+								</collisionaction>
+							</aimedweapon>
+						</subweapon3>
 					</delayedweapon>
 				</aimedweapon>
 			</nextaction>
