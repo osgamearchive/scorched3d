@@ -6,6 +6,7 @@
 		<picture>oldstyle-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
+			<!--<item>data/landscapes/defntest.xml</item>-->
 			<item>data/landscapes/defnoldstyle.xml</item>
 			<item>data/landscapes/defnlowlands.xml</item>
 		</defn>

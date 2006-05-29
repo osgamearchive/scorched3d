@@ -203,12 +203,12 @@ void BoidWorld::simulate(float frameTime)
 				{
 					Vector position(
 						(float) entry.boid->getPosition().x,
-						(float) entry.boid->getPosition().y,
-						(float) entry.boid->getPosition().z);
+						(float) entry.boid->getPosition().z,
+						(float) entry.boid->getPosition().y);
 					Vector velocity(
 						(float) entry.boid->getVelocity().x,
-						(float) entry.boid->getVelocity().y,
-						(float) entry.boid->getVelocity().z);
+						(float) entry.boid->getVelocity().z,
+						(float) entry.boid->getVelocity().y);
 					entry.source->setPosition(position);
 					entry.source->setVelocity(velocity);
 				}
@@ -239,12 +239,12 @@ void BoidWorld::simulate(float frameTime)
 
 				Vector position(
 					(float) entry.boid->getPosition().x,
-					(float) entry.boid->getPosition().y,
-					(float) entry.boid->getPosition().z);
+					(float) entry.boid->getPosition().z,
+					(float) entry.boid->getPosition().y);
 				Vector velocity(
 					(float) entry.boid->getVelocity().x,
-					(float) entry.boid->getVelocity().y,
-					(float) entry.boid->getVelocity().z);
+					(float) entry.boid->getVelocity().z,
+					(float) entry.boid->getVelocity().y);
 				entry.source->setPosition(position);
 				entry.source->setVelocity(velocity);
 				entry.source->play(sounds_[rand() % sounds_.size()]);
