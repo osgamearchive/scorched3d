@@ -27,7 +27,7 @@ Changes Since 3.1
         - Instamountain
         - Ring Of Dirt
         - Landscaper
-        - Fire Ants
+        - Fire Worms
         - Dirt Charge
         - Heavy Roller
         - Heavy Sandhog
@@ -139,6 +139,7 @@ Changes Since 3.1
         - Tracers now do no damage to shields when they hit
         - Renamed Suicide Bomb to Self Destruct
         - Reduced cost of Haymaker to $30,000
+        - Combine Fire Worms/Ants into a single weapon (Fire Ants)
         
     Landscapes:
     	- New Nuclear Power Plant Building
