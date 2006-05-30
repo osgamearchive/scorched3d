@@ -3065,7 +3065,7 @@ its highest point releases five medium
 sized warheads in a vertical line.</description>
 		<icon>mirv.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>6000</cost>
+		<cost>8000</cost>
 		<activationsound>shoot/launch.wav</activationsound>
 		<model type='MilkShape'>weapons/megamirv.txt</model>
 		<modelscale>3.0</modelscale>
@@ -6250,7 +6250,7 @@ This weapon does no physical damage</description>
 							<skin>green.bmp</skin>
 						</projectilemodel>
 						<collisionaction type='WeaponReference'>
-							<weapon>Acid_Small</weapon>
+							<weapon>Acid_Medium</weapon>
 							<armslevel>4</armslevel>
 						</collisionaction>
 					</aimedweapon>
@@ -6321,7 +6321,7 @@ This weapon does no physical damage</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>
 			<weaponchoice1>
-				<weight>10</weight>
+				<weight>5</weight>
 				<weapon type='WeaponTranslate'>
 					<translatedist>8</translatedist>
 					<nextaction type='WeaponMulti'>
@@ -6433,13 +6433,13 @@ physical damage.</description>
 				<subweapon5 type='WeaponDelay'>
 					<delay>1.75</delay>
 					<delayedweapon type='WeaponRepeat'>
-						<repeat>4</repeat>
+						<repeat>5</repeat>
 						<delay>0.75</delay>
 						<repeatweapon type='WeaponAimedOver'>
 							<nowarheads>1</nowarheads>
 							<inaccuracy>0</inaccuracy>
-							<percentagemiss>0</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
+							<percentagemiss>50</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
 							<aimedweapon type='WeaponRedirect'>
 								<habs>false</habs>
 								<vabs>true</vabs>

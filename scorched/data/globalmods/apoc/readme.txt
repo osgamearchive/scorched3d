@@ -141,6 +141,7 @@ Changes Since 3.1
         - Reduced cost of Haymaker to $30,000
         - Combined Fire Worms/Ants into a single weapon (Fire Ants)
         - Earthquake now opens up a long fissure/fault line in addition to shaking the earth and damaging tanks
+        - Increased cost of Mega MIRV to $8,000 for 1
         
     Landscapes:
     	- New Nuclear Power Plant Building
