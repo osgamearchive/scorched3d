@@ -22,7 +22,7 @@ Changes Since 3.1
             - Inspired by Brain Damage's 'Super Tracer +' :)
         - Nitro - faster moving fuel that costs more
             
-    Weapons Removed or Made Unpurchaseable due to lack of use, redundancy or ineffectiveness
+    Weapons Removed, Reworked or Made Unpurchaseable due to lack of use, redundancy or ineffectiveness
         - Bouncing Betty
         - Instamountain
         - Ring Of Dirt
@@ -122,12 +122,10 @@ Changes Since 3.1
         - Added second wave of projectiles to Apocalypse & Dmsday Device
         - Added some extra aimed projectiles to Strangelove after ground collision like it used to be pre v3.0
         - Added a small sound for hornets when they sting to replace the flare sound.
-        - Added puff of smoke to Instamountain
         - Added descriptions to the damaging building accessories
         - Increased damage from lasers some
         - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
         - New projectile model for MOAB by Bobirov
-        - Made Gas Stations a little bit more damaging all around
         - Slightly increased power of Small Meteor explosion (5 percent)
         - Reduced interval between drops and reduced strength a tad in Hell Storm
         - Reduced max physical damage of EMP's from 50 to 25 (shield damage went up from 75 to 100)
@@ -158,6 +156,7 @@ Changes Since 3.1
     	- New medical chopper boid by Shockwave on cities
     	- Added some flying hornets to the desert maps
     	- Added several groundmaps to city buildings (roads, farmland, cars, etc)
+    	- Made Gas Stations a little bit more damaging all around
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)
@@ -170,6 +169,7 @@ Changes Since 3.1
         - New landscape pics in options menus
         - New sounds for factories and power plants
         - New trees on USA and Apoc City
+        - Larger buildings now create shrapnel when destroyed which can do a small amount of damage
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.

@@ -353,7 +353,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 				<nextaction type='WeaponVelocity'>
 					<velocitychange>1.2</velocitychange>
 					<aimedweapon type='WeaponProjectile'>
-						<shieldhurtfactor>0</shieldhurtfactor>
+						<shieldhurtfactor>0.25</shieldhurtfactor>
 						<enginesound>none</enginesound>
 						<flamelife>0.2</flamelife>
 						<smokelife>0.4</smokelife>
@@ -365,9 +365,9 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 						<timedcollision>0.4</timedcollision>
 						<collisionaction type='WeaponExplosion'>
 							<nocreatedebris/>
-							<hurtamount>0</hurtamount>
+							<hurtamount>0.25</hurtamount>
 							<deform>none</deform>
-							<size>8</size>
+							<size>4</size>
 							<explosiontexture>none</explosiontexture>
 							<explosionsound>none</explosionsound>
 						</collisionaction>
@@ -820,6 +820,9 @@ radioactive fallout which travels downwind.</description>
 						<sound>data/wav/explosions/radiation.wav</sound>
 					</delayedweapon>
 				</subweapon5>
+				<subweapon6 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon6>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -11086,6 +11089,9 @@ which you are teleported to after it lands.</description>
 						</weapon>
 					</weaponchoice3>
 				</subweapon3>
+				<subweapon4 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -11237,6 +11243,9 @@ which explode and spread fire when ignited.</description>
 						</weapon>
 					</weaponchoice3>
 				</subweapon5>
+				<subweapon6 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon6>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -11462,6 +11471,9 @@ which explode and spread fire when ignited.</description>
 						</weapon>
 					</weaponchoice3>
 				</subweapon3>
+				<subweapon4 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -11721,6 +11733,9 @@ release lethal clouds of gas when destroyed.</description>
 						</weapon>
 					</weaponchoice3>
 				</subweapon5>
+				<subweapon6 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon6>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
