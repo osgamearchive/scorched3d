@@ -50,7 +50,7 @@
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<groundmap type="bmp">
-							<image>data/landscapes/cars.bmp</image>
+							<image>data/landscapes/cars2.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
 							<invert>false</invert>
 						</groundmap>
@@ -80,7 +80,7 @@
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<groundmap type="bmp">
-							<image>data/landscapes/cars.bmp</image>
+							<image>data/landscapes/cars2.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
 							<invert>false</invert>
 						</groundmap>
@@ -365,7 +365,7 @@
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<groundmap type="bmp">
-					<image>data/landscapes/cars.bmp</image>
+					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
 					<invert>false</invert>
 				</groundmap>
@@ -388,7 +388,7 @@
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<groundmap type="bmp">
-					<image>data/landscapes/cars.bmp</image>
+					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
 					<invert>false</invert>
 				</groundmap>
@@ -410,6 +410,11 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
+				<groundmap type="bmp">
+					<image>data/landscapes/dirt.bmp</image>
+					<alpha>data/landscapes/carsa.bmp</alpha>
+					<invert>false</invert>
+				</groundmap>
 			</object>
 		</placement>
 		<placement type="mask">

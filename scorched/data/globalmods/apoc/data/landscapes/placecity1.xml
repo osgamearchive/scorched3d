@@ -50,7 +50,7 @@
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<groundmap type="bmp">
-							<image>data/landscapes/cars.bmp</image>
+							<image>data/landscapes/cars2.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
 							<invert>false</invert>
 						</groundmap>
@@ -80,7 +80,7 @@
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<groundmap type="bmp">
-							<image>data/landscapes/cars.bmp</image>
+							<image>data/landscapes/cars2.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
 							<invert>false</invert>
 						</groundmap>
@@ -327,7 +327,7 @@
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<groundmap type="bmp">
-					<image>data/landscapes/cars.bmp</image>
+					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
 					<invert>false</invert>
 				</groundmap>
@@ -350,7 +350,7 @@
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<groundmap type="bmp">
-					<image>data/landscapes/cars.bmp</image>
+					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
 					<invert>false</invert>
 				</groundmap>
@@ -363,8 +363,8 @@
 			<maxheight>75</maxheight>
 			<mincloseness>4</mincloseness>
 			<minslope>0.66</minslope>
-			<xsnap>0</xsnap>
-			<ysnap>0</ysnap>
+			<xsnap>8</xsnap>
+			<ysnap>8</ysnap>
 			<groupname>churches</groupname>
 			<object type="model">
 				<model type="MilkShape">data/accessories/buildings/church1.txt</model>
@@ -372,6 +372,11 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
+				<groundmap type="bmp">
+					<image>data/landscapes/dirt.bmp</image>
+					<alpha>data/landscapes/carsa.bmp</alpha>
+					<invert>false</invert>
+				</groundmap>
 			</object>
 		</placement>
 		<placement type="mask">
