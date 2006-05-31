@@ -43,7 +43,7 @@ public:
 	static void removeTargets();
 	static void calculateStartPosition(
 		ScorchedContext &contex);
-	static Vector placeTank(Tank *tank,
+	static Vector placeTank(unsigned int playerId, int team,
 		ScorchedContext &context);
 
 protected:

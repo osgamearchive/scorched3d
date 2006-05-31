@@ -126,7 +126,8 @@ void ServerShotState::resurectTanks()
 			(tank->getState().getLives() > 0 ||
 			tank->getState().getMaxLives() == 0))
 		{
-			Vector tankPos = ServerNewGameState::placeTank(tank, 
+			Vector tankPos = ServerNewGameState::placeTank(
+				tank->getPlayerId(), tank->getTeam(),
 				ScorchedServer::instance()->getContext());
 
 			Resurrection *rez = new Resurrection(

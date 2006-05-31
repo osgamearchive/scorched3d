@@ -267,7 +267,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	return count;
 }
 
-Vector ServerNewGameState::placeTank(Tank *tank,
+Vector ServerNewGameState::placeTank(unsigned int playerId, int team,
 	ScorchedContext &context)
 {
 	Vector tankPos;
@@ -351,10 +351,10 @@ Vector ServerNewGameState::placeTank(Tank *tank,
 					// All tanks are allowed on the white parts of the mask
 					// regardless of the team
 				}
-				else if (tank->getTeam() > 0)
+				else if (team > 0)
 				{
 					// Check for team specific colors
-					switch(tank->getTeam())
+					switch(team)
 					{
 					case 1:
 						if (maskPos[0] != 255 || maskPos[1] != 0 || maskPos[2] != 0)
@@ -400,7 +400,7 @@ Vector ServerNewGameState::placeTank(Tank *tank,
 				itor++)
 			{
 				Tank *thisTank = (*itor).second;
-				if (thisTank == tank) break;
+				if (thisTank->getPlayerId() == playerId) break;
 
 				if ((tankPos - thisTank->getPosition().getTankPosition()).Magnitude() < 
 					closeness) 
@@ -436,7 +436,8 @@ void ServerNewGameState::calculateStartPosition(
 		mainitor++)
 	{
 		Tank *tank = (*mainitor).second;
-		Vector tankPos = placeTank(tank, context);
+		Vector tankPos = placeTank(
+			tank->getPlayerId(), tank->getTeam(), context);
 
 		// Set the starting position of the tank
 		DeformLandscape::flattenArea(context, tankPos, 0);
