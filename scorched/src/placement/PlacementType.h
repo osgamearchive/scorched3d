@@ -37,7 +37,8 @@ public:
 	{
 		eMask,
 		eTree,
-		eDirect
+		eDirect,
+		eTankStart
 	};
 	struct Position
 	{

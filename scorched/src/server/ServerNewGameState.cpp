@@ -268,7 +268,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 }
 
 Vector ServerNewGameState::placeTank(unsigned int playerId, int team,
-	ScorchedContext &context)
+	ScorchedContext &context, RandomGenerator &generator)
 {
 	Vector tankPos;
 	const int tankBorder = 10;
@@ -310,10 +310,10 @@ Vector ServerNewGameState::placeTank(unsigned int playerId, int team,
 		// Find a new position for the tank
 		float posX = float (context.landscapeMaps->getDefinitions().
 			getDefn()->landscapewidth - tankBorder * 2) * 
-			RAND + float(tankBorder);
+			generator.getRandFloat() + float(tankBorder);
 		float posY = float (context.landscapeMaps->getDefinitions().
 			getDefn()->landscapeheight - tankBorder * 2) * 
-			RAND + float(tankBorder);
+			generator.getRandFloat() + float(tankBorder);
 		float height = context.landscapeMaps->getGroundMaps().
 			getHeight((int) posX, (int) posY);
 		tankPos = Vector(posX, posY, height);
@@ -428,6 +428,9 @@ Vector ServerNewGameState::placeTank(unsigned int playerId, int team,
 void ServerNewGameState::calculateStartPosition(
 	ScorchedContext &context)
 {
+	RandomGenerator generator;
+	generator.seed(rand());
+
 	std::map<unsigned int, Tank *> &tanks = 
 		context.tankContainer->getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
@@ -437,7 +440,8 @@ void ServerNewGameState::calculateStartPosition(
 	{
 		Tank *tank = (*mainitor).second;
 		Vector tankPos = placeTank(
-			tank->getPlayerId(), tank->getTeam(), context);
+			tank->getPlayerId(), tank->getTeam(), 
+			context, generator);
 
 		// Set the starting position of the tank
 		DeformLandscape::flattenArea(context, tankPos, 0);

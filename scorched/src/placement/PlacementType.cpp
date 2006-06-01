@@ -23,6 +23,7 @@
 #include <placement/PlacementTypeMask.h>
 #include <placement/PlacementTypeDirect.h>
 #include <placement/PlacementTypeTree.h>
+#include <placement/PlacementTypeTankStart.h>
 #include <landscape/LandscapeObjectsGroupEntry.h>
 #include <landscape/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
@@ -34,6 +35,7 @@ PlacementType *PlacementType::create(const char *type)
 	if (0 == strcmp(type, "trees")) return new PlacementTypeTree;
 	if (0 == strcmp(type, "mask")) return new PlacementTypeMask;
 	if (0 == strcmp(type, "direct")) return new PlacementTypeDirect;
+	if (0 == strcmp(type, "tankstart")) return new PlacementTypeTankStart;
 	dialogMessage("PlacementType", formatString("Unknown placement type %s", type));
 	return 0;
 }

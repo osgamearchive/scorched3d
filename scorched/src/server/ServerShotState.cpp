@@ -30,6 +30,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <common/Logger.h>
+#include <common/RandomGenerator.h>
 
 ServerShotState::ServerShotState() 
 	: totalTime_(0.0f), firstTime_(true)
@@ -109,6 +110,9 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 
 void ServerShotState::resurectTanks()
 {
+	RandomGenerator generator;
+	generator.seed(rand());
+
 	std::map<unsigned int, Tank *> &tanks =
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -128,7 +132,8 @@ void ServerShotState::resurectTanks()
 		{
 			Vector tankPos = ServerNewGameState::placeTank(
 				tank->getPlayerId(), tank->getTeam(),
-				ScorchedServer::instance()->getContext());
+				ScorchedServer::instance()->getContext(),
+				generator);
 
 			Resurrection *rez = new Resurrection(
 				tank->getPlayerId(), tankPos);

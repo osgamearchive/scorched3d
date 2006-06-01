@@ -3763,6 +3763,12 @@
 				RelativePath="..\placement\PlacementTypeMask.h">
 			</File>
 			<File
+				RelativePath="..\placement\PlacementTypeTankStart.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeTankStart.h">
+			</File>
+			<File
 				RelativePath="..\placement\PlacementTypeTree.cpp">
 			</File>
 			<File

@@ -24,6 +24,7 @@
 #include <engine/GameStateI.h>
 
 // Sends out the new game message
+class RandomGenerator;
 class Tank;
 class ScorchedContext;
 class LandscapeDefnType;
@@ -44,7 +45,7 @@ public:
 	static void calculateStartPosition(
 		ScorchedContext &contex);
 	static Vector placeTank(unsigned int playerId, int team,
-		ScorchedContext &context);
+		ScorchedContext &context, RandomGenerator &generator);
 
 protected:
 
