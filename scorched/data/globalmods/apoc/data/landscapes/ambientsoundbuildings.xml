@@ -26,6 +26,14 @@
 		</sound>
 		<sound>
 			<position type="group">
+				<name>stadium</name>
+				<falloff>4.0</falloff>
+			</position>
+			<timing type="looped"></timing>
+			<sound>data/wav/misc/cheeringloop.wav</sound>
+		</sound>
+		<sound>
+			<position type="group">
 				<name>houses</name>
 				<falloff>4.0</falloff>
 			</position>

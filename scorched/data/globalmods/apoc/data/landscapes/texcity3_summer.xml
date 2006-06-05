@@ -38,6 +38,14 @@
 		<placement>data/landscapes/placecity3.xml</placement>
 		<placement>data/landscapes/placesummercitypine.xml</placement>
 	</placements>
+	<ambientsounds>
+		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundjet.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundhelicopter.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundtrees.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundbuildings.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundcars.xml</ambientsound>
+	</ambientsounds>
 	<precipitation type="none"></precipitation>
 	<boids><boid>data/landscapes/boidscity.xml</boid></boids>
 </tex>

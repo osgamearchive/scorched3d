@@ -12,7 +12,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Sounds:
 			- Made thud.wav, gas.wav myself
 			- Made tripleshot.wav using the flare sound
-			- Assembled lightningbolt, factoryloop1, nuclearloop from various sounds
+			- Assembled lightningbolt, factoryloop1, nuclearloop, cheeringloop, screaming from various sounds
 			- Obtained the rest from various sources on the net
 			- Obtained and adjusted ambient sounds for the city layouts
 		Textures:
@@ -23,14 +23,14 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Object Models:
 			- gasstation1, office3, nuclearplant, 9volt, medkit, cash
 		- All custom accessory xml unless stated otherwise
-		- Wrote most of the additional xml (updating landscapes, object placement, ai types, etc)
+		- All the additional xml (updating landscapes, object placement, ai types, etc)
 		- Scaling, repositioning, poly reduction and retexturing of the object models
 	
 	- ShoCkwaVe
 		Projectile Models:
 			- megamirv, wobblebomb, fusionbarrel, m7a3, grenade, redhornet, remorcebomblet texture, shockbomblet, shockrocket
 		Building Models (including burnt versions and original texturing):
-			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, store1, trailorhouse1, hospital, mainport
+			- bar1, church1, factory1, farm1, house1, logcabin1, office1, office2, office4, office5, skyscraper1, skyscraper2, skyscraper3, stadium, store1, trailorhouse1, hospital, mainport
 		Boid Models
 		    - 737ua, cessna, fight4life
 		Object Models

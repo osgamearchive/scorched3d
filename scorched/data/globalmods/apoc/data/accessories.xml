@@ -398,12 +398,44 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 					<hurtamount>0</hurtamount>
 					<deform>none</deform>
 					<size>6</size>
-					<explosionsound>explosions/small.wav</explosionsound>
+					<explosionsound>none</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
 				<subweapon3 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon3>
+				<subweapon4 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream1.wav</sound>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream2.wav</sound>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream3.wav</sound>
+						</weapon>
+					</weaponchoice3>
+					<weaponchoice4>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream4.wav</sound>
+						</weapon>
+					</weaponchoice4>
+					<weaponchoice5>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/explosions/small.wav</sound>
+						</weapon>
+					</weaponchoice5>
+				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -435,9 +467,326 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 					<hurtamount>0</hurtamount>
 					<deform>none</deform>
 					<size>6</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream1.wav</sound>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream2.wav</sound>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream3.wav</sound>
+						</weapon>
+					</weaponchoice3>
+					<weaponchoice4>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/scream4.wav</sound>
+						</weapon>
+					</weaponchoice4>
+					<weaponchoice5>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/explosions/small.wav</sound>
+						</weapon>
+					</weaponchoice5>
+				</subweapon3>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>SkyScraperDebris</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponAimedUnder'>
+			<nowarheads>6</nowarheads>
+			<percentagemiss>99</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>99</inaccuracy>
+			<aimedweapon type='WeaponRedirect'>
+				<habs>false</habs>
+				<vabs>false</vabs>
+				<hredirect>0</hredirect>
+				<vredirect>60</vredirect>
+				<nextaction type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponVelocity'>
+							<velocitychange>1.2</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<flamelife>0.2</flamelife>
+								<smokelife>0.4</smokelife>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>magma.bmp</skin>
+								</projectilemodel>
+								<timedcollision>0.4</timedcollision>
+								<collisionaction type='WeaponExplosion'>
+									<nocreatedebris/>
+									<hurtamount>0.25</hurtamount>
+									<deform>none</deform>
+									<size>4</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</collisionaction>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponVelocity'>
+							<velocitychange>0.25</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<flamelife>0.5</flamelife>
+								<smokelife>1.0</smokelife>
+								<projectilescale>0.75</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>magma.bmp</skin>
+								</projectilemodel>
+								<collisionaction type='WeaponMulti'>
+									<subweapon1 type='WeaponExplosion'>
+										<nocreatedebris/>
+										<hurtamount>0.25</hurtamount>
+										<deform>up</deform>
+										<size>3</size>
+										<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+										<explosiontexture>cloud00-5</explosiontexture>
+										<explosionsound>none</explosionsound>
+									</subweapon1>
+									<!--<subweapon2 type='WeaponNapalm'>
+										<allowunderwater>false</allowunderwater>
+										<napalmtime>4.0</napalmtime>
+										<napalmheight>2.0</napalmheight>
+										<steptime>0.33</steptime>
+										<hurtsteptime>1.0</hurtsteptime>
+										<hurtpersecond>0.75</hurtpersecond>
+										<numberstreams>1</numberstreams>
+										<effectradius>5</effectradius>
+										<napalmtexture>flames</napalmtexture>
+										<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
+										<napalmsound>explosions/napalm.wav</napalmsound>
+									</subweapon2>-->
+								</collisionaction>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+				</nextaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Skyscraper</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.0</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponMulti'>
+					<subweapon1 type='WeaponExplosion'>
+						<hurtamount>0</hurtamount>
+						<deform>down</deform>
+						<size>5</size>
+						<explosionsound>none</explosionsound>
+						<explosiontexture>exp00</explosiontexture>
+					</subweapon1>
+					<subweapon2 type='WeaponExplosion'>
+						<nocreatedebris/>
+						<noluminance/>
+						<minlife>2</minlife>
+						<maxlife>4</maxlife>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>6</size>
+						<explosionsound>explosions/small.wav</explosionsound>
+						<explosiontexture>cloud00-5</explosiontexture>
+					</subweapon2>
+					<subweapon3 type='WeaponReference'>
+						<weapon>LgBldgDebris</weapon>
+					</subweapon3>
+				</subweapon1>
+				<subweapon2 type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>0</vredirect>
+						<nextaction type='WeaponTranslate'>
+							<translatedist>7.5</translatedist>
+							<nextaction type='WeaponMulti'>
+								<subweapon1 type='WeaponReference'>
+									<weapon>SkyScraperDebris</weapon>
+								</subweapon1>
+								<subweapon2 type='WeaponTranslate'>
+									<translatedist>7.5</translatedist>
+									<nextaction type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<hurtamount>0</hurtamount>
+											<deform>down</deform>
+											<size>5</size>
+											<explosionsound>none</explosionsound>
+											<explosiontexture>exp00</explosiontexture>
+										</subweapon1>
+										<subweapon2 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<noluminance/>
+											<minlife>2</minlife>
+											<maxlife>4</maxlife>
+											<hurtamount>0</hurtamount>
+											<deform>none</deform>
+											<size>6</size>
+											<explosionsound>none</explosionsound>
+											<explosiontexture>cloud00-5</explosiontexture>
+										</subweapon2>
+										<subweapon3 type='WeaponReference'>
+											<weapon>SkyScraperDebris</weapon>
+										</subweapon3>
+									</nextaction>
+								</subweapon2>
+							</nextaction>
+						</nextaction>
+					</aimedweapon>
+				</subweapon2>
+				<subweapon3 type='WeaponSound'>
+					<sound>data/wav/misc/screaming.wav</sound>
+				</subweapon3>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Stadium</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.2</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
 					<explosionsound>explosions/small.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
+				<subweapon3 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon3>
+				<subweapon4 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>1</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<enginesound>none</enginesound>
+									<nocreateflame/>
+									<projectilescale>0.8</projectilescale>
+									<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
+									<collisionaction type='WeaponAddTarget'>
+										<name>5000 Dollars</name>
+										<modelscale>0.08</modelscale>
+										<model type='MilkShape'>objects/cash.txt</model>
+										<life>50</life>
+										<shield>none</shield>
+										<parachute>Parachute</parachute>
+										<removeaction>GiveCash5000</removeaction>
+									</collisionaction>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>2</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<enginesound>none</enginesound>
+									<nocreateflame/>
+									<projectilescale>0.8</projectilescale>
+									<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
+									<collisionaction type='WeaponAddTarget'>
+										<name>5000 Dollars</name>
+										<modelscale>0.08</modelscale>
+										<model type='MilkShape'>objects/cash.txt</model>
+										<life>50</life>
+										<shield>none</shield>
+										<parachute>Parachute</parachute>
+										<removeaction>GiveCash5000</removeaction>
+									</collisionaction>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice2>
+					<weaponchoice3>
+						<weight>10</weight>
+						<weapon type='WeaponAimedOver'>
+							<nowarheads>3</nowarheads>
+							<percentagemiss>99</percentagemiss>
+							<maxaimdistance>0</maxaimdistance>
+							<inaccuracy>99</inaccuracy>
+							<aimedweapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<enginesound>none</enginesound>
+									<nocreateflame/>
+									<projectilescale>0.8</projectilescale>
+									<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
+									<collisionaction type='WeaponAddTarget'>
+										<name>5000 Dollars</name>
+										<modelscale>0.08</modelscale>
+										<model type='MilkShape'>objects/cash.txt</model>
+										<life>50</life>
+										<shield>none</shield>
+										<parachute>Parachute</parachute>
+										<removeaction>GiveCash5000</removeaction>
+									</collisionaction>
+								</aimedweapon>
+							</aimedweapon>
+						</weapon>
+					</weaponchoice3>
+				</subweapon4>
+				<subweapon5 type='WeaponSound'>
+					<sound>data/wav/misc/screaming.wav</sound>
+				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -10954,6 +11303,9 @@ which you are teleported to after it lands.</description>
 						</weapon>
 					</weaponchoice3>
 				</subweapon3>
+				<subweapon4 type='WeaponSound'>
+					<sound>data/wav/misc/screaming.wav</sound>
+				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>

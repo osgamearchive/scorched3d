@@ -142,34 +142,39 @@ Changes Since 3.1
         - Increased cost of Mega MIRV to $8,000 for 1
         
     Landscapes:
-    	- New Nuclear Power Plant Building
-    		- Explodes and releases massive amounts of fallout that travels down wind
-    	- Factories now drop 1-3 gas/acid weapons which can be shot and picked up
-    	- Stores now drop 1-3 various small weapons, batteries, beer (10 health) or $1,000 bundles
-    	- Gas stations drop 1-3 fuel cans (10 fuel) or $1,000 bundles
-    	- Bars drop 1-3 beers (10 health), shotguns or $1,000 bundles
-    	- New hospital by Shockwave that drops 1-3 medkits (25 health)
-    	- New port by Shockwave
-    	- Houses can no longer keep setting themselves on fire
-    	- New 737 jumbo jet boid by Shockwave on cities
-    	- New cessna boid by Shockwave on cities
-    	- New medical chopper boid by Shockwave on cities
-    	- Added some flying hornets to the desert maps
-    	- Added several groundmaps to city buildings (roads, farmland, cars, etc)
-    	- Made Gas Stations a little bit more damaging all around
+    	- Cities
+	    	- Two new skyscraper models by Shockwave
+	    	- Two new office models by Shockwave
+	    	- New stadium model by Shockwave
+	    		- Drops 1-3 $5,000 bundles when destroyed
+	    	- New Nuclear Power Plant Building by Bobirov
+	    		- Explodes and releases massive amounts of fallout that travels down wind
+	    	- Factories now drop 1-3 gas/acid weapons which can be shot and picked up
+	    	- Stores now drop 1-3 various small weapons, batteries, beer (10 health) or $1,000 bundles
+	    	- Gas stations drop 1-3 fuel cans (10 fuel) or $1,000 bundles
+	    	- Bars drop 1-3 beers (10 health), shotguns or $1,000 bundles
+	    	- New hospital by Shockwave that drops 1-3 medkits (25 health)
+	    	- New port by Shockwave
+	    	- Houses can no longer keep setting themselves on fire
+	    	- New 737 jumbo jet boid by Shockwave on cities
+	    	- New cessna boid by Shockwave on cities
+	    	- New medical chopper boid by Shockwave on cities
+	    	- Added several groundmaps to city buildings (roads, farmland, cars, etc)
+    		- Made Gas Stations a little bit more damaging all around
+    		- Reduced height of Church model by 25%
+    		- Replaced f18 model on city maps with f16
+    		- New sounds for factories and power plants
+    		- Larger buildings now create shrapnel when destroyed which can do a small amount of damage
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)
 	        - Adjusted light levels a bit
 	        - Added view of the Earth
+	    - Added some flying hornets to the desert maps
         - Tweaked surround texture for desert maps some so its a little less repetitive looking
-        - Reduced height of Church model by 25%
         - Removed City Blocks map
-        - Replaced f18 model on city maps with f16
         - New landscape pics in options menus
-        - New sounds for factories and power plants
         - New trees on USA and Apoc City
-        - Larger buildings now create shrapnel when destroyed which can do a small amount of damage
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.

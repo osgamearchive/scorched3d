@@ -38,6 +38,13 @@
 		<placement>data/landscapes/placecity2.xml</placement>
 		<placement>data/landscapes/placewintercitypine.xml</placement>
 	</placements>
+	<ambientsounds>
+		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundjet.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundhelicopter.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundbuildings.xml</ambientsound>
+		<ambientsound>data/landscapes/ambientsoundcars.xml</ambientsound>
+	</ambientsounds>
 	<precipitation type="snow">
 		<particles>60</particles>
 	</precipitation>
