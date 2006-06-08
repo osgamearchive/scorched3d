@@ -1,54 +1,60 @@
 <place>
 	<placements>
-		<placement type="trees">
+		<placement type='trees'>
 			<numobjects>1000000</numobjects>
 			<numclusters>25</numclusters>
 			<minheight>8</minheight>
 			<maxheight>30</maxheight>
-			<groupname>trees</groupname>
-			<object type="random">		
+			<object type='random'>
 				<randomobject>
-					<object type="tree">
+					<object type='tree'>
 						<tree>palmb</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>			
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
 				<randomobject>
-					<object type="tree">
+					<object type='tree'>
 						<tree>palmb2</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>		
-				<randomobject>				
-					<object type="tree">
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type='tree'>
 						<tree>palmb3</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>		
-				<randomobject>				
-					<object type="tree">
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type='tree'>
 						<tree>palmb4</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>	
-				<randomobject>				
-					<object type="tree">
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type='tree'>
 						<tree>palmb5</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>	
-				<randomobject>				
-					<object type="tree">
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type='tree'>
 						<tree>palmb6</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>		
-				<randomobject>				
-					<object type="tree">
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
+				<randomobject>
+					<object type='tree'>
 						<tree>palmb7</tree>
 						<snow>100</snow>
-					</object>	
-				</randomobject>		
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
 			</object>
 		</placement>
 	</placements>

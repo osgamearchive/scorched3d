@@ -24,7 +24,7 @@
 #include <common/Vector.h>
 
 LandscapeObjectsGroupEntry::LandscapeObjectsGroupEntry(HeightMap &map) :
-	count_(0), distance_(0)
+	distance_(0)
 {
 	mapWidthMult_ = 4;
 	mapHeightMult_ = 4;
@@ -46,11 +46,6 @@ LandscapeObjectsGroupEntry::~LandscapeObjectsGroupEntry()
 	delete [] distance_;
 }
 
-int LandscapeObjectsGroupEntry::getObjectCount()
-{
-	return count_;
-}
-
 float LandscapeObjectsGroupEntry::getDistance(int x, int y)
 {
 	x /= mapWidthMult_;
@@ -63,9 +58,16 @@ float LandscapeObjectsGroupEntry::getDistance(int x, int y)
 	return 255.0f;
 }
 
-void LandscapeObjectsGroupEntry::addObject(int x, int y)
+void LandscapeObjectsGroupEntry::addObject(LandscapeObjectEntryBase *object)
 {
-	count_ ++;
+	LandscapeObjectsSetEntry::addObject(object);
+
+	static unsigned int objectCount = 0;
+	if (objectCount++ % 3 != 0) return;
+
+	int x = (int) object->getPosition()[0];
+	int y = (int) object->getPosition()[1];
+
 	x /= mapWidthMult_;
 	y /= mapHeightMult_;
 
@@ -85,8 +87,11 @@ void LandscapeObjectsGroupEntry::addObject(int x, int y)
 	}
 }
 
-void LandscapeObjectsGroupEntry::removeObject(int x, int y)
+bool LandscapeObjectsGroupEntry::removeObject(LandscapeObjectEntryBase *object)
 {
+	int x = (int) object->getPosition()[0];
+	int y = (int) object->getPosition()[1];
+
 	x /= mapWidthMult_;
 	y /= mapHeightMult_;
 	if (x >=0 && x < mapWidth_ && y >=0 && y < mapHeight_)
@@ -94,5 +99,5 @@ void LandscapeObjectsGroupEntry::removeObject(int x, int y)
 		distance_[x + y * mapWidth_] += 2.0f;
 	}
 
-	count_ --;
+	return LandscapeObjectsSetEntry::removeObject(object);
 }

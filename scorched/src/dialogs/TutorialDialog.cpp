@@ -245,6 +245,12 @@ void TutorialDialog::simulate(float frameTime)
 
 void TutorialDialog::url(const char *url)
 {
+	if (0 == strcmp(url, "exit"))
+	{
+		GLWWindowManager::instance()->hideWindow(getId());
+		return;
+	}
+
 	TutorialFileEntry *entry = file_.getEntry(url);
 	if (entry)
 	{

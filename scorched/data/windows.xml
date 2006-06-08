@@ -274,6 +274,7 @@ including its health, and defense status</description>
 			</item>
 			<item>
 				<widget type="GLWScorchedInfo">
+					<name>Shield</name>
 					<type>shieldcount</type>
 					<x>23</x><y>65</y>
 					<w>40</w><h>20</h>
@@ -288,6 +289,7 @@ including its health, and defense status</description>
 			</item>
 			<item>
 				<widget type="GLWScorchedInfo">
+					<name>Parachute</name>
 					<type>parachutecount</type>
 					<x>27</x><y>40</y>
 					<w>40</w><h>20</h>
@@ -302,6 +304,7 @@ including its health, and defense status</description>
 			</item>
 			<item>
 				<widget type="GLWScorchedInfo">
+					<name>Battery</name>
 					<type>batterycount</type>
 					<x>147</x><y>89</y>
 					<w>40</w><h>20</h>
@@ -316,6 +319,7 @@ including its health, and defense status</description>
 			</item>
 			<item>
 				<widget type="GLWScorchedInfo">
+					<name>AutoDefense</name>
 					<type>autodefensecount</type>
 					<x>151</x><y>65</y>
 					<w>40</w><h>20</h>
@@ -330,6 +334,7 @@ including its health, and defense status</description>
 			</item>
 			<item>
 				<widget type="GLWScorchedInfo">
+					<name>Fuel</name>
 					<type>fuelcount</type>
 					<x>147</x><y>40</y>
 					<w>40</w><h>20</h>

@@ -18,27 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__
-
 #include <landscape/LandscapeObjectsSetEntry.h>
+#include <common/Defines.h>
 
-class HeightMap;
-class LandscapeObjectsGroupEntry : public LandscapeObjectsSetEntry
+LandscapeObjectsSetEntry::LandscapeObjectsSetEntry()
 {
-public:
-	LandscapeObjectsGroupEntry(HeightMap &map);
-	virtual ~LandscapeObjectsGroupEntry();
+}
 
-	virtual float getDistance(int x, int y);
+LandscapeObjectsSetEntry::~LandscapeObjectsSetEntry()
+{
+}
 
-	virtual void addObject(LandscapeObjectEntryBase *object);
-	virtual bool removeObject(LandscapeObjectEntryBase *object);
+void LandscapeObjectsSetEntry::addObject(LandscapeObjectEntryBase *object)
+{
+	objects_.insert(object);
+}
 
-protected:
-	float *distance_;
-	int mapWidth_, mapHeight_;
-	int mapWidthMult_, mapHeightMult_;
-};
+bool LandscapeObjectsSetEntry::removeObject(LandscapeObjectEntryBase *object)
+{
+	return (objects_.erase(object) > 0);
+}
 
-#endif // __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__
+LandscapeObjectEntryBase *LandscapeObjectsSetEntry::getRandomObject()
+{
+	int pos = rand() % objects_.size();
+
+	std::set<LandscapeObjectEntryBase *>::iterator itor;
+	for (itor = objects_.begin();
+		itor != objects_.end();
+		itor ++, pos--)
+	{
+		if (pos <=0) return (*itor);
+	}
+	return 0;
+}
+
+int LandscapeObjectsSetEntry::getObjectCount()
+{ 
+	return (int) objects_.size(); 
+}

@@ -1,46 +1,43 @@
 <place>
 	<placements>
-		<placement type="direct">
-			<groupname>none</groupname>
-			<position> 
-				<position><A>128</A><B>128</B><C>0</C></position> 
-			</position> 
-			<object type="group">
-				<!--<groupobject>
-					<offset><A>0</A><B>10</B><C>0</C></offset>
-					<object type="tank">
-						<name>TestTankHmm1</name>
-						<model>Bradley</model>
-						<ai>Shark</ai>
-						<shield>TestShield</shield>
-						<parachute>Parachute</parachute>
-						<life>1000</life>
-						<removeaction>TestPowerUpWeapon</removeaction>
-					</object>
-				</groupobject>-->
+		<placement type='direct'>
+			<position>
+				<position>
+					<A>128</A>
+					<B>128</B>
+					<C>0</C>
+				</position>
+			</position>
+			<object type='group'>
+				<#comment></#comment>
 				<groupobject>
-					<offset><A>0</A><B>20</B><C>0</C></offset>
-					<object type="target">
+					<offset>
+						<A>0</A>
+						<B>20</B>
+						<C>0</C>
+					</offset>
+					<object type='target'>
 						<name>TestTargetHmm2</name>
-						<model type="MilkShape">data/accessories/pwrcrate/pwrcrate.txt</model>
-						<modelburnt type="MilkShape">data/accessories/banana/banana.txt</modelburnt>
+						<model type='MilkShape'>data/accessories/pwrcrate/pwrcrate.txt</model>
+						<modelburnt type='MilkShape'>data/accessories/banana/banana.txt</modelburnt>
 						<modelscale>0.1</modelscale>
-						<!--<modelrotation>90</modelrotation>-->
+						<#comment></#comment>
 						<modelrotationsnap>45</modelrotationsnap>
-						<!--<shield>TestShield</shield>-->
+						<#comment></#comment>
 						<parachute>Parachute</parachute>
 						<life>10</life>
 						<boundingsphere>false</boundingsphere>
 						<flattenarea>true</flattenarea>
 						<removeaction>TestPowerUpWeapon</removeaction>
-						<groundmap type="bmp">
+						<groundmap type='bmp'>
 							<image>data/landscapes/parking.bmp</image>
 							<alpha>data/landscapes/parkinga.bmp</alpha>
 							<invert>true</invert>
 						</groundmap>
+						<groupname>none</groupname>
 					</object>
 				</groupobject>
-			</object>		
+			</object>
 		</placement>
 	</placements>
 </place>

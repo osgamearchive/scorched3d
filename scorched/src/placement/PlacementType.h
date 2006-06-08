@@ -44,10 +44,6 @@ public:
 	{
 		Vector position;
 	};
-	struct Information
-	{
-		std::string groupname;
-	};
 
 	static PlacementType *create(const char *type);
 
@@ -68,7 +64,6 @@ public:
 
 protected:
 	PlacementObject *placementobject;
-	Information information_;
 };
 
 #endif // __INCLUDE_PlacementTypeh_INCLUDE__

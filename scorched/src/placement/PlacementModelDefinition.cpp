@@ -101,5 +101,5 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("burnaction", burnaction_, false);
 	if (!shadow_.readXML(node, base)) return false;
 
-	return node->failChildren();
+	return true;
 }

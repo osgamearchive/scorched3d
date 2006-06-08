@@ -25,8 +25,11 @@
 #include <tankgraph/GLWTankTip.h>
 #include <3dsparse/ModelRenderer.h>
 #include <3dsparse/ModelID.h>
+#include <landscape/LandscapeObjectsEntry.h>
 
-class TargetRendererImplTarget : public TargetRendererImpl
+class TargetRendererImplTarget : 
+	public TargetRendererImpl,
+	public LandscapeObjectEntryBase
 {
 public:
 	TargetRendererImplTarget(Target *target, 
@@ -44,6 +47,8 @@ public:
 
 	virtual Vector &get2DPosition();
 	virtual bool canSeeTarget() { return canSeeTank_; }
+
+	virtual Vector &getPosition() { return target_->getTargetPosition(); }
 
 protected:
 	Target *target_;

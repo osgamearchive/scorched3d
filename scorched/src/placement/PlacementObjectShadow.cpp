@@ -43,7 +43,6 @@ bool PlacementObjectShadow::readXML(XMLNode *node)
 void PlacementObjectShadow::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(

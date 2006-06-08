@@ -48,6 +48,7 @@ ServerWebServer::ServerWebServer() :
 {
 	addRequestHandler("/", new ServerWebHandler::PlayerHandler());
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
+	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
 	addRequestHandler("/settings", new ServerWebHandler::SettingsHandler());
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
@@ -299,7 +300,7 @@ bool ServerWebServer::validateUser(
 				formatString("server admin \"%s\" logged in",
 				fields["name"].c_str()));
 			ServerCommon::serverLog(
-				formatString("server admin \"%s\" logged in",
+				formatString("server admin \"%s\" logged in as web admin",
 				fields["name"].c_str()));
 
 			return true;

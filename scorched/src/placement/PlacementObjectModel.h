@@ -23,6 +23,7 @@
 
 #include <placement/PlacementObject.h>
 #include <placement/PlacementModelDefinition.h>
+#include <placement/PlacementGroupDefinition.h>
 
 class PlacementObjectModel : public PlacementObject
 {
@@ -35,11 +36,11 @@ public:
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int &playerId,
-		PlacementType::Information &information,
 		PlacementType::Position &position);
 
 protected:
 	PlacementModelDefinition definition_;
+	PlacementGroupDefinition groups_;
 };
 
 #endif // __INCLUDE_PlacementObjectModelh_INCLUDE__

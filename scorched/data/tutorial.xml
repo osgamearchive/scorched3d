@@ -125,7 +125,7 @@ Although each tank looks very different they all share the same weapons and attr
 					<next>firing</next>
 				</condition>
 			</conditions>
-			<text>Players take it in turns to setup defenses and fire their weapons.  When playing online all players make their moves simultaneously.
+			<text>Players take it in turns, one by one, to setup defenses and fire their weapons.  It is possible to take turns simultaneously by changing the game settings via the main menu.
 <a href="game2b">Click Here to Continue...</a></text>
 		</step>
 		
@@ -198,7 +198,7 @@ The first step is to choose a target, the next step is to choose a weapon and th
 				</condition>
 			</conditions>
 			<text>Once your target is chosen you need to select a <event action="highlight" window="Weapon" control="Weapon">weapon</event>.  You can select a weapon by clicking the weapon icon.
-When the game starts you only have one type of weapon, you get the chance to buy more in later rounds.  Weapons are bought with money that is earned by killing other players or winning rounds.
+When the game starts you only have one type of weapon, you get the chance to buy more weapons in later rounds.  Weapons are bought with money that is earned by killing other players or winning rounds.
 <a href="game5">Click Here to Continue...</a></text>
 		</step>			
 		
@@ -222,7 +222,7 @@ Left and right controls the turret rotation.  Up and down controls the turret el
 				</condition>
 			</conditions>
 			<text>You can speed up all of these adjustments by holding down the Control key.
-	You can make fine adjustments by holding down the Shift key.
+You can make slower adjustments by holding down the Shift key.
 <a href="game6">Click Here to Continue...</a></text>
 		</step>			
 		
@@ -233,7 +233,7 @@ Left and right controls the turret rotation.  Up and down controls the turret el
 					<next>firing</next>
 				</condition>
 			</conditions>
-			<text>An easier way to rotate the tank is to press the A key when the mouse pointer is over where you want to shoot at.
+			<text>An easier way to rotate the tank is to press the A key when the mouse pointer is pointing where you want to aim at.
 This will only rotate the tank, the power and elevation adjustments still need to be made manually.
 <a href="game7">Click Here to Continue...</a></text>
 		</step>		
@@ -293,7 +293,7 @@ To fire press the space bar.</text>
 					<next>defenses</next>
 				</condition>
 			</conditions>
-			<text>Below is the buying window.  This window is only shown at the beginning of each new round, so items can only be bought at the beginning of the round.
+			<text>Below is the buying window.  This window is only shown at the beginning of each new round, so items can only be bought at the beginning of each round.
 <a href="buying3">Click Here to Continue...</a></text>		
 		</step>		
 		
@@ -306,19 +306,52 @@ To fire press the space bar.</text>
 				</condition>
 			</conditions>
 			<text>Click on the green buttons to buy items, and the red buttons to sell items.
-You can also buy defenses for your tank by changing tab to the defense tab.
+You can also buy defenses for your tank by changing to the defense tab.
 
 Once you have bought all you want, or have run out of money click the <event action="highlight" window="" control="Ok">Ok</event> button to continue.</text>
 		</step>		
 		
 		<step>
 			<name>defenses</name>
-			<text></text>		
+			<text>If you have bought more weapons you can change the current weapon by clicking on the <event action="highlight" window="Weapon" control="Weapon">weapon icon</event> and chosing the weapon from the list.
+<a href="defenses2">Click Here to Continue...</a></text>
+		</step>			
+
+		<step>
+			<name>defenses2</name>
+			<text>Shields protect your tank making it hard to kill.  Shields need to be activated to work.
+Once activated the shield absorbs some of the damage your tank would have taken.
+If you have bought shields you can activate them by clicking on the <event action="highlight" window="Player" control="Shield">shield icon</event> and choosing the shield from the list.
+<a href="defenses3">Click Here to Continue...</a></text>
 		</step>			
 		
 		<step>
+			<name>defenses3</name>
+			<text>Batteries allow you to recharge your tank's health.  The less health you have the shorter a distance you can fire.
+If you have bought batteries, and have lost some health, you can reacharge your health by clicking on the <event action="highlight" window="Player" control="Battery">battery icon</event> and choosing to use some batteries from the list.
+<a href="defenses4">Click Here to Continue...</a></text>
+		</step>			
+
+		<step>
+			<name>defenses4</name>
+			<text>Normally your tank will take damage if it falls.  Parachutes stop your tank from taking falling damage.
+Once activated, parachutes will be used automatically each time your tank falls.
+If you have bought parachutes you can activate them by clicking on the <event action="highlight" window="Player" control="Parachute">parachute icon</event> and turning them on.
+<a href="defenses5">Click Here to Continue...</a></text>
+		</step>	
+
+		<step>
+			<name>defenses5</name>
+			<text>Instead of firing tanks can choose to move.  To move a tank needs to have fuel.  The more fuel a tank has the further it can move.
+If you have bought fuel you can move by clicking on the <event action="highlight" window="Player" control="Fuel">fuel icon</event>.  Now use the mouse to click on the landscape where you want to move to.
+You can only move to the lighter areas of the landscape.
+<a href="end">Click Here to Continue...</a></text>
+		</step>	
+		
+		<step>
 			<name>end</name>
-			<text></text>
+			<text>This is the end of the tutorial, you can keep playing or quit by choosing exit from the top left menu.
+<a href="exit">Click Here to Continue...</a></text>
 		</step>		
 	</steps>
 </tutorial>

@@ -38,13 +38,13 @@ PlacementObjectModel::~PlacementObjectModel()
 bool PlacementObjectModel::readXML(XMLNode *node)
 {
 	if (!definition_.readXML(node, ".")) return false;
+	if (!groups_.readXML(node)) return false;
 	return PlacementObject::readXML(node);
 }
 
 void PlacementObjectModel::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	LandscapeObjectsEntryModel *modelEntry =
@@ -59,4 +59,5 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 		&definition_.getShadow(),
 		position.position,
 		definition_.getSize()));
+	groups_.addToGroups(context, modelEntry);
 }

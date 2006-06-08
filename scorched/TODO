@@ -42,6 +42,10 @@ Fixed: The display of the players list when some players had illegal XML charact
 Fixed: Moved some of the more common options to the front of the single player settings dialog
 Fixed: Sound from boids issued from wrong place
 
+Added: "set" abmientsound placement type that better matches model sounds (does not work well for looped)
+Added: Optional gain attribute to the ambientsound definition to allow volume to  be set
+Added: Tutorial game for ingame tutorial
+Added: Log file download to the admin web interface
 Added: flamestartcolor1, flamestartcolor2, flameendcolor1, flameendcolor2 attributes to WeaponProjectile
 Added: None placement object to allow only shadows or texture maps to be placed
 Added: Random placement object to allow one object out of a random set to be placed
@@ -121,11 +125,9 @@ Dvorak keyboard support is broken
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Tutorial mode
 New game modes
 Better collision for models (not targets)
 Models can be (cannot be) removed when driving over.
-Remove targets from sound group when dead
 Dirt cannot be raised when underground (or other dirting stopping)
 
 -- Server Stuff

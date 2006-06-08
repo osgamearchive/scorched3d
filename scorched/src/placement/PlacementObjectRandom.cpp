@@ -54,11 +54,10 @@ bool PlacementObjectRandom::readXML(XMLNode *initialNode)
 void PlacementObjectRandom::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	int entryPos = generator.getRandUInt() % objects_.size();
 
 	PlacementObject *entry = objects_[entryPos].object;
-	entry->createObject(context, generator, playerId, information, position);
+	entry->createObject(context, generator, playerId, position);
 }

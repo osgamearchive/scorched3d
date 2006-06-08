@@ -35,6 +35,7 @@
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
+#include <tankgraph/TargetRendererImplTarget.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
 
@@ -281,6 +282,14 @@ void TankDamage::calculateDamage()
 		Target *removedTarget = 
 			context_->targetContainer->
 				removeTarget(damagedTarget->getPlayerId());
+		TargetRendererImplTarget *targetRenderer = 
+			(TargetRendererImplTarget *) removedTarget->getRenderer();
+		if (targetRenderer)
+		{
+			context_->landscapeMaps->getGroundMaps().getObjects().
+				removeFromGroups(targetRenderer);
+		}
+
 		delete removedTarget;
 	}
 }

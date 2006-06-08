@@ -41,13 +41,13 @@ PlacementObjectTarget::~PlacementObjectTarget()
 bool PlacementObjectTarget::readXML(XMLNode *node)
 {
 	if (!targetDef_.readXML(node, ".")) return false;
+	if (!groups_.readXML(node)) return false;
 	return PlacementObject::readXML(node);
 }
 
 void PlacementObjectTarget::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	++playerId;
@@ -60,4 +60,9 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 		&targetDef_.getShadow(),
 		position.position,
 		targetDef_.getSize()));
+
+	if (target->getRenderer())
+	{
+		groups_.addToGroups(context, (LandscapeObjectsEntry *) target->getRenderer());
+	}
 }

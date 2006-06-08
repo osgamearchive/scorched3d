@@ -22,14 +22,25 @@
 #define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
 
 #include <string>
+#include <vector>
 #include <common/Vector.h>
 
 class LandscapeObjectsGroupEntry;
-class LandscapeObjectsEntry
+class LandscapeObjectEntryBase
+{
+public:
+	virtual Vector &getPosition() = 0;
+
+	std::vector<LandscapeObjectsGroupEntry *> groups;
+};
+
+class LandscapeObjectsEntry : public LandscapeObjectEntryBase
 {
 public:
 	LandscapeObjectsEntry();
 	virtual ~LandscapeObjectsEntry();
+
+	virtual Vector &getPosition() { return position; }
 
 	float modelscale;
 	Vector boundingsize;
@@ -39,7 +50,6 @@ public:
 	bool burnt;
 	std::string removeaction;
 	std::string burnaction;
-	LandscapeObjectsGroupEntry *group;
 
 	virtual void render(float distance) = 0;
 };

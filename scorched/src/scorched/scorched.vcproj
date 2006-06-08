@@ -1440,6 +1440,12 @@
 				RelativePath="..\landscape\LandscapeObjectsGroupEntry.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeObjectsSetEntry.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeObjectsSetEntry.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapePoints.cpp">
 			</File>
 			<File
@@ -3684,6 +3690,12 @@
 		<Filter
 			Name="placement"
 			Filter="">
+			<File
+				RelativePath="..\placement\PlacementGroupDefinition.cpp">
+			</File>
+			<File
+				RelativePath="..\placement\PlacementGroupDefinition.h">
+			</File>
 			<File
 				RelativePath="..\placement\PlacementModelDefinition.cpp">
 			</File>

@@ -29,6 +29,27 @@
 #include <sound/Sound.h>
 #include <math.h>
 
+bool LandscapeSoundPositionSet::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("name", name)) return false;
+	return node->failChildren();
+}
+
+bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source)
+{
+	LandscapeObjectsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+			name.c_str());
+	if (!groupEntry) return false;
+	if (groupEntry->getObjectCount() <= 0) return false;
+
+	LandscapeObjectEntryBase *obj = groupEntry->getRandomObject();
+	Vector position = obj->getPosition();
+	source->setPosition(position);
+
+	return true;
+}
+
 bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("falloff", falloff)) return false;
@@ -155,6 +176,7 @@ LandscapeSoundType::~LandscapeSoundType()
 bool LandscapeSoundType::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("sound", sound)) return false;
+	gain = 1.0f; node->getNamedChild("gain", gain, false);
 	{
 		XMLNode *positionNode;
 		if (!node->getNamedChild("position", positionNode)) return false;
@@ -167,6 +189,8 @@ bool LandscapeSoundType::readXML(XMLNode *node)
 			position = new LandscapeSoundPositionWater;
 		else if (0 == strcmp(positiontype.c_str(), "group"))
 			position = new LandscapeSoundPositionGroup;
+		else if (0 == strcmp(positiontype.c_str(), "set"))
+			position = new LandscapeSoundPositionSet;
 		else return false;
 		if (!position->readXML(positionNode)) return false;
 	}

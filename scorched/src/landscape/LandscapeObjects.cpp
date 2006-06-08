@@ -45,6 +45,7 @@ LandscapeObjects::~LandscapeObjects()
 
 void LandscapeObjects::clearGroups()
 {
+	// Groups
 	std::map<std::string, LandscapeObjectsGroupEntry*>::iterator itor;
 	for (itor = groups_.begin();
 		itor != groups_.end();
@@ -184,7 +185,7 @@ void LandscapeObjects::removeObjects(
 					}
 				}
 
-				if (entry->group) entry->group->removeObject(a, b);
+				removeFromGroups(entry);
 				delete entry;
 			}
 			entries_.erase(lower, upper);
@@ -225,5 +226,19 @@ void LandscapeObjects::burnObjects(
 				}
 			}
 		}
+	}
+}
+
+void LandscapeObjects::removeFromGroups(LandscapeObjectEntryBase *obj)
+{
+	if (obj->groups.empty()) return;
+
+	std::vector<LandscapeObjectsGroupEntry *>::iterator itor;
+	for (itor = obj->groups.begin();
+		itor != obj->groups.end();
+		itor++)
+	{
+		LandscapeObjectsGroupEntry *entry = (*itor);
+		entry->removeObject(obj);
 	}
 }

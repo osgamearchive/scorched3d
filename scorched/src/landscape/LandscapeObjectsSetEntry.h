@@ -18,27 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeObjectsSetEntryh_INCLUDE__)
+#define __INCLUDE_LandscapeObjectsSetEntryh_INCLUDE__
 
-#include <landscape/LandscapeObjectsSetEntry.h>
+#include <landscape/LandscapeObjectsEntry.h>
+#include <set>
 
-class HeightMap;
-class LandscapeObjectsGroupEntry : public LandscapeObjectsSetEntry
+class LandscapeObjectsSetEntry
 {
 public:
-	LandscapeObjectsGroupEntry(HeightMap &map);
-	virtual ~LandscapeObjectsGroupEntry();
+	LandscapeObjectsSetEntry();
+	virtual ~LandscapeObjectsSetEntry();
 
-	virtual float getDistance(int x, int y);
+	LandscapeObjectEntryBase *getRandomObject();
 
 	virtual void addObject(LandscapeObjectEntryBase *object);
 	virtual bool removeObject(LandscapeObjectEntryBase *object);
 
+	virtual int getObjectCount();
+
 protected:
-	float *distance_;
-	int mapWidth_, mapHeight_;
-	int mapWidthMult_, mapHeightMult_;
+	std::set<LandscapeObjectEntryBase *> objects_;
 };
 
-#endif // __INCLUDE_LandscapeObjectsGroupEntryh_INCLUDE__
+#endif // __INCLUDE_LandscapeObjectsSetEntryh_INCLUDE__

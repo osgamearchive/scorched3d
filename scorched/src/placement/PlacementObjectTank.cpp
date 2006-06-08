@@ -46,7 +46,6 @@ bool PlacementObjectTank::readXML(XMLNode *node)
 void PlacementObjectTank::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	++playerId;

@@ -50,6 +50,7 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 	node->getNamedChild("removeaction", removeaction, false);
 	node->getNamedChild("burnaction", burnaction, false);
 	if (!shadow_.readXML(node, ".")) return false;
+	if (!group_.readXML(node)) return false;
 
 	return PlacementObject::readXML(node);
 }
@@ -57,7 +58,6 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 void PlacementObjectTree::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	bool useSnow = (position.position[2] > snow + (generator.getRandFloat() * 10.0f) - 5.0f);
@@ -81,4 +81,6 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 		(unsigned int) position.position[0],
 		(unsigned int) position.position[1],
 		treeEntry);
+
+	group_.addToGroups(context, treeEntry);
 }

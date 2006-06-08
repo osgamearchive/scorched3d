@@ -35,6 +35,8 @@
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 #include <XML/XMLParser.h>
+#include <wx/dir.h>
+#include <wx/utils.h>
 
 static const char *getField(std::map<std::string, std::string> &fields, const char *field)
 {
@@ -210,6 +212,66 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	fields["PAGES"] = pages;
 
 	return ServerWebServer::getTemplate("log.html", fields, text);
+}
+
+bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	std::deque<ServerLog::ServerLogEntry> &entries = 
+		ServerLog::instance()->getEntries();
+
+	const char *logFilename = getField(fields, "filename");
+	if (logFilename)
+	{
+		char buffer[100];
+		std::string file;
+		const char *filename = getLogFile(logFilename);
+		FILE *in = fopen(filename, "r");
+		if (in)
+		{
+			while (fgets(buffer, 100, in))
+			{
+				file += buffer;
+			}
+			fclose(in);
+		}
+
+		fields["FILE"] = file;
+
+		return ServerWebServer::getTemplate("logfile.html", fields, text);
+	}
+	else
+	{
+		std::string log;
+		const char *dirName = getLogFile("");
+		wxDir dir(wxString(dirName, wxConvUTF8));
+		if (dir.IsOpened())
+		{
+			wxString filename;
+			bool cont = dir.GetFirst(&filename, wxT("*.log"), wxDIR_FILES);
+			while (cont)
+			{
+				wxString fullFilename(getLogFile(filename.mb_str(wxConvUTF8)), wxConvUTF8);
+				time_t modTime = wxFileModificationTime(fullFilename);
+
+				log += formatString(
+					"<tr>"
+					"<td><font size=-1><a href=?filename=%s&sid=%s>%s</a></font></td>"
+					"<td><font size=-1>%s</font></td>"
+					"</tr>\n",
+					filename.mb_str(wxConvUTF8),
+					fields["sid"].c_str(),
+					filename.mb_str(wxConvUTF8),
+					ctime(&modTime));
+				cont = dir.GetNext(&filename);
+			}
+		}
+		fields["LOG"] = log;
+
+		return ServerWebServer::getTemplate("logfiles.html", fields, text);
+	}
+	return false;
 }
 
 bool ServerWebHandler::GameHandler::processRequest(const char *url,

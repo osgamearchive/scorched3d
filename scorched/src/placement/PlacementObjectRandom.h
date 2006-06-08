@@ -35,7 +35,6 @@ public:
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int &playerId,
-		PlacementType::Information &information,
 		PlacementType::Position &position);
 
 protected:

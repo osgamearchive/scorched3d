@@ -432,7 +432,8 @@ void Napalm::simulateDamage()
 				playerId_, damage, true, false, false, data_);
 
 			// Set this target to burnt
-			if (target->getRenderer())
+			if (target->getRenderer() &&
+				!weapon_->getNoObjectDamage())
 			{
 				target->getRenderer()->targetBurnt();
 			}

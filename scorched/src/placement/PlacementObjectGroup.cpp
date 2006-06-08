@@ -55,7 +55,6 @@ bool PlacementObjectGroup::readXML(XMLNode *initialNode)
 void PlacementObjectGroup::createObject(ScorchedContext &context,
 	RandomGenerator &generator,
 	unsigned int &playerId,
-	PlacementType::Information &information,
 	PlacementType::Position &position)
 {
 	std::list<GroupObject>::iterator itor;
@@ -70,7 +69,6 @@ void PlacementObjectGroup::createObject(ScorchedContext &context,
 		groupObject.object->createObject(context, 
 			generator, 
 			playerId, 
-			information, 
 			newPosition);
 	}
 }

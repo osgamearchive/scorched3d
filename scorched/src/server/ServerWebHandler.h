@@ -34,6 +34,14 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
+	class LogFileHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
 	class LogHandler : public ServerWebServerI
 	{
 	public:

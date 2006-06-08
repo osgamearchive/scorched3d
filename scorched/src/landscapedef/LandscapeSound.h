@@ -88,6 +88,15 @@ public:
 	float falloff;
 };
 
+class LandscapeSoundPositionSet : public LandscapeSoundPosition
+{
+public:
+	virtual bool readXML(XMLNode *node);
+	virtual bool setPosition(VirtualSoundSource *source);
+
+	std::string name;
+};
+
 class LandscapeSoundType
 {
 public:
@@ -96,6 +105,7 @@ public:
 
 	virtual bool readXML(XMLNode *node);
 
+	float gain;
 	std::string sound;
 	std::string positiontype;
 	std::string timingtype;

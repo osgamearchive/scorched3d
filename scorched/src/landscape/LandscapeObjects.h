@@ -25,6 +25,7 @@
 #include <common/RandomGenerator.h>
 #include <landscape/LandscapeObjectsEntry.h>
 #include <landscape/LandscapeObjectsGroupEntry.h>
+#include <landscape/LandscapeObjectsSetEntry.h>
 #include <placement/PlacementShadowDefinition.h>
 #include <engine/ScorchedContext.h>
 #include <map>
@@ -46,6 +47,7 @@ public:
 		unsigned int &playerId,
 		ProgressCounter *counter = 0);
 
+	// Objects
 	void removeAllObjects();
 	void removeObjects(ScorchedContext &context,
 		unsigned int x, unsigned int y, unsigned int r,
@@ -56,11 +58,13 @@ public:
 	void addObject(unsigned int x, unsigned int y, 
 		LandscapeObjectsEntry *entry);
 
+	// Groups
+	void removeFromGroups(LandscapeObjectEntryBase *obj);
 	LandscapeObjectsGroupEntry *getGroup(const char *name, HeightMap *create = 0);
 	void clearGroups();
 
+	// Accessors
 	std::multimap<unsigned int, LandscapeObjectsEntry*> &getEntries() { return entries_; }
-	std::map<std::string, LandscapeObjectsGroupEntry*> &getGroups() { return groups_; }
 	std::list<PlacementShadowDefinition::Entry> &getShadows() { return shadows_; }
 
 protected:

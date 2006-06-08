@@ -22,6 +22,7 @@
 #define __INCLUDE_PlacementObjectTargeth_INCLUDE__
 
 #include <placement/PlacementObject.h>
+#include <placement/PlacementGroupDefinition.h>
 #include <target/TargetDefinition.h>
 
 class PlacementObjectTarget : public PlacementObject
@@ -35,11 +36,11 @@ public:
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int &playerId,
-		PlacementType::Information &information,
 		PlacementType::Position &position);
 
 protected:
 	TargetDefinition targetDef_;
+	PlacementGroupDefinition groups_;
 };
 
 #endif // __INCLUDE_PlacementObjectTargeth_INCLUDE__

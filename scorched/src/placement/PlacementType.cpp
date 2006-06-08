@@ -56,7 +56,6 @@ bool PlacementType::readXML(XMLNode *node)
 	if (!objectNode->getNamedParameter("type", objecttype)) return false;
 	if (!(placementobject = PlacementObject::create(objecttype.c_str()))) return false;
 	if (!placementobject->readXML(objectNode)) return false;
-	if (!node->getNamedChild("groupname", information_.groupname)) return false;
 	return node->failChildren();
 }
 
@@ -65,30 +64,16 @@ void PlacementType::createObjects(ScorchedContext &context,
 	unsigned int &playerId,
 	ProgressCounter *counter)
 {
-	LandscapeObjectsGroupEntry *group = 0;
-	if (information_.groupname.c_str()[0])
-	{
-		group = context.landscapeMaps->getGroundMaps().getObjects().getGroup(
-			information_.groupname.c_str(), 
-			&context.landscapeMaps->getGroundMaps().getHeightMap());
-	}
-
 	std::list<Position> returnPositions;
 	getPositions(context, generator, returnPositions, counter);
 
-	int objectCount = 0;
 	std::list<Position>::iterator itor;
 	for (itor = returnPositions.begin();
 		itor != returnPositions.end();
-		itor++, objectCount++)
+		itor++)
 	{
 		Position &position = *itor;
-		if (group && (objectCount++ % 3 == 0))
-		{
-			group->addObject(
-				(int) position.position[0], (int) position.position[1]);
-		}
 		placementobject->createObject(
-			context, generator, playerId, information_, position);
+			context, generator, playerId, position);
 	}
 }

@@ -72,6 +72,7 @@ void LandscapeSoundManager::initialize(std::list<LandscapeSound *> sounds)
 			entry.timeLeft = entry.soundType->timing->getNextEventTime();
 			entry.soundSource = new VirtualSoundSource(
 				VirtualSoundPriority::eEnvironment, (entry.timeLeft < 0.0f), false);
+			entry.soundSource->setGain(entry.soundType->gain);
 			entries_.push_back(entry);
 
 			// Start any looped sounds

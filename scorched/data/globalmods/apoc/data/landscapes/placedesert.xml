@@ -1,6 +1,6 @@
 <place>
 	<placements>
-		<placement type="mask">
+		<placement type='mask'>
 			<numobjects>150</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
 			<minheight>5</minheight>
@@ -9,14 +9,14 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<groupname></groupname>
-			<object type="model">
-				<model type="MilkShape">data/accessories/objects/cactus.txt</model>
-				<modelburnt type="MilkShape">data/accessories/objects/cactusburnt.txt</modelburnt>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/objects/cactus.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/objects/cactusburnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
+				<groupname></groupname>
 			</object>
 		</placement>
-		<placement type="mask">
+		<placement type='mask'>
 			<numobjects>30</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
 			<minheight>0</minheight>
@@ -25,14 +25,14 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<groupname></groupname>
-			<object type="model">
-				<model type="MilkShape">data/accessories/objects/brownrock1.txt</model>
-				<modelburnt type="MilkShape">data/accessories/objects/brownrock1.txt</modelburnt>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/objects/brownrock1.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/objects/brownrock1.txt</modelburnt>
 				<modelrotationsnap>5</modelrotationsnap>
+				<groupname></groupname>
 			</object>
 		</placement>
-		<placement type="mask">
+		<placement type='mask'>
 			<numobjects>30</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
 			<minheight>0</minheight>
@@ -41,14 +41,14 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<groupname></groupname>
-			<object type="model">
-				<model type="MilkShape">data/accessories/objects/brownrock2.txt</model>
-				<modelburnt type="MilkShape">data/accessories/objects/brownrock2.txt</modelburnt>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/objects/brownrock2.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/objects/brownrock2.txt</modelburnt>
 				<modelrotationsnap>5</modelrotationsnap>
+				<groupname></groupname>
 			</object>
 		</placement>
-		<placement type="mask">
+		<placement type='mask'>
 			<numobjects>30</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
 			<minheight>0</minheight>
@@ -57,14 +57,14 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<groupname></groupname>
-			<object type="model">
-				<model type="MilkShape">data/accessories/objects/brownrock3.txt</model>
-				<modelburnt type="MilkShape">data/accessories/objects/brownrock3.txt</modelburnt>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/objects/brownrock3.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/objects/brownrock3.txt</modelburnt>
 				<modelrotationsnap>5</modelrotationsnap>
+				<groupname></groupname>
 			</object>
 		</placement>
-		<placement type="mask">
+		<placement type='mask'>
 			<numobjects>30</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
 			<minheight>10</minheight>
@@ -73,11 +73,11 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<groupname></groupname>
-			<object type="model">
-				<model type="MilkShape">data/accessories/objects/brownrock4.txt</model>
-				<modelburnt type="MilkShape">data/accessories/objects/brownrock4.txt</modelburnt>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/objects/brownrock4.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/objects/brownrock4.txt</modelburnt>
 				<modelrotationsnap>5</modelrotationsnap>
+				<groupname></groupname>
 			</object>
 		</placement>
 	</placements>

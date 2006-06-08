@@ -23,6 +23,7 @@
 
 #include <placement/PlacementObject.h>
 #include <placement/PlacementShadowDefinition.h>
+#include <placement/PlacementGroupDefinition.h>
 #include <string>
 
 class PlacementObjectTree : public PlacementObject
@@ -36,11 +37,11 @@ public:
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int &playerId,
-		PlacementType::Information &information,
 		PlacementType::Position &position);
 
 protected:
 	PlacementShadowDefinition shadow_;
+	PlacementGroupDefinition group_;
 	std::string tree;
 	std::string burnaction;
 	std::string removeaction;
