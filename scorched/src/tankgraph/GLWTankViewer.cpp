@@ -327,6 +327,17 @@ void GLWTankViewer::mouseUp(float x, float y, bool &skipRest)
 	scrollBar_.mouseUp(x, y, skipRest);
 }
 
+void GLWTankViewer::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+
+		if (z < 0.0f) scrollBar_.setCurrent(scrollBar_.getCurrent() + 1);
+		else scrollBar_.setCurrent(scrollBar_.getCurrent() - 1);
+	}
+}
+
 void GLWTankViewer::drawCaption(int pos)
 {
 	GLState state(GLState::DEPTH_OFF);

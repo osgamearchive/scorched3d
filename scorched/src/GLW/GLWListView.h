@@ -60,6 +60,7 @@ public:
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
 	virtual void setX(float x) { x_ = x; scroll_.setX(x_ + w_ - 17); }
 	virtual void setY(float y) { y_ = y; scroll_.setY(y_); }

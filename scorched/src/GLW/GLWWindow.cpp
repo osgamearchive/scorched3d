@@ -407,6 +407,13 @@ void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	}
 }
 
+void GLWWindow::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (disabled_) return;
+
+	GLWPanel::mouseWheel(x, y, z, skipRest);
+}
+
 void GLWWindow::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)

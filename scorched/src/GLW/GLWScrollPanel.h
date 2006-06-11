@@ -37,6 +37,7 @@ public:
 	virtual void mouseDown(float x, float y, bool &skipRest);
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
 	virtual void positionChange(unsigned int id, int current, int movement);
 	virtual void clear();

@@ -188,6 +188,31 @@ void GLWPanel::draw()
 	glPopMatrix();
 }
 
+void GLWPanel::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (!inBox(x, y, x_, y_, w_, h_)) return;
+
+	x -= x_;
+	y -= y_;
+
+	GLWTranslate trans(x_, y_);
+
+	std::list<GLWPanelEntry>::reverse_iterator itor;
+	for (itor = widgets_.rbegin();
+		itor != widgets_.rend();
+		itor++)
+	{
+		GLWPanelEntry &entry = *itor;
+		if ((*itor).widget->getVisible() &&
+			(!entry.condition || 
+			entry.condition->getResult(entry.widget)))
+		{
+			(*itor).widget->mouseWheel(x, y, z, skipRest);
+			if (skipRest) break;
+		}
+	}
+}
+
 void GLWPanel::mouseDown(float x, float y, bool &skipRest)
 {
 	x -= x_;

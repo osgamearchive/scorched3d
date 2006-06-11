@@ -207,6 +207,17 @@ void GLWScrollW::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	backButtonBot_.mouseDrag(mx, my, x, y, skipRest);
 }
 
+void GLWScrollW::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+
+		if (z < 0.0f) setCurrent(getCurrent() + 1);
+		else setCurrent(getCurrent() - 1);
+	}
+}
+
 void GLWScrollW::startDrag(unsigned int id)
 {
 	dragCurrent_ = current_;

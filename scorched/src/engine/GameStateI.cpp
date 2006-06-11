@@ -18,16 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GameStateI.cpp: implementation of the GameStateI class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <engine/GameStateI.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 GameStateI::~GameStateI()
 {
@@ -70,7 +61,7 @@ void GameStateI::mouseDrag(const unsigned state, GameState::MouseButton button,
 
 }
 
-void GameStateI::mouseWheel(const unsigned state, short z, bool &skipRest)
+void GameStateI::mouseWheel(const unsigned state, int x, int y, int z, bool &skipRest)
 {
 
 }

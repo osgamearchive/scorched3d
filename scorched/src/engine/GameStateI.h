@@ -38,7 +38,7 @@ public:
 		int x, int y, bool &skipRest);
 	virtual void mouseDrag(const unsigned state, GameState::MouseButton button,
 		int mx, int my, int x, int y, bool &skipRest);
-	virtual void mouseWheel(const unsigned state, short z, bool &skipRest);
+	virtual void mouseWheel(const unsigned state, int x, int y, int z, bool &skipRest);
 	virtual void enterState(const unsigned state);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 
 							   char *buffer, unsigned int keyState,

@@ -71,7 +71,9 @@ void GameState::mouseWheel(short z)
 				subItor != currentList->end();
 				subItor++)
 			{
-				(*subItor)->mouseWheel(thisState, z, skipRest);
+				(*subItor)->mouseWheel(thisState, 
+					currentMouseX_, currentMouseY_, 
+					(int) z, skipRest);
 				if (checkStimulate()) return;
 				if (skipRest) break;
 			}

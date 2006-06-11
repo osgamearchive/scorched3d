@@ -192,6 +192,20 @@ void GLWScrollPanel::mouseDrag(float mx, float my, float x, float y, bool &skipR
 	}
 }
 
+void GLWScrollPanel::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+
+		if (drawScrollBar_)
+		{
+			if (z < 0.0f) scrollW_.setCurrent(scrollW_.getCurrent() + 1);
+			else scrollW_.setCurrent(scrollW_.getCurrent() - 1);
+		}
+	}
+}
+
 void GLWScrollPanel::positionChange(unsigned int id, int current, int movement)
 {
 	GLWidget *widget = (GLWidget *) 

@@ -453,6 +453,25 @@ void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton bu
 	}
 }
 
+void GLWWindowManager::mouseWheel(const unsigned state, 
+	int x, int y, int z, bool &skipRest)
+{
+	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+
+	std::deque<GLWWindow *>::reverse_iterator itor;
+	for (itor = currentStateEntry_->windows_.rbegin();
+		itor != currentStateEntry_->windows_.rend();
+		itor++)
+	{
+		GLWWindow *window = (*itor);
+		if (windowVisible(window->getId()))
+		{
+			window->mouseWheel((float) x, (float) y, (float) z, skipRest);
+			if (skipRest) break;
+		}
+	}
+}
+
 bool GLWWindowManager::getMenuItems(const char* menuName, 
 								 std::list<GLMenuItem> &items)
 {

@@ -107,6 +107,11 @@ void GLWidget::keyDown(char *buffer, unsigned int keyState,
 
 }
 
+void GLWidget::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+
+}
+
 void GLWidget::display()
 {
 

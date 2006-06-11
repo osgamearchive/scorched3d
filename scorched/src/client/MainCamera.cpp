@@ -189,9 +189,9 @@ void MainCamera::mouseDrag(const unsigned state,
 	targetCam_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
-void MainCamera::mouseWheel(const unsigned state, short z, bool &skipRest)
+void MainCamera::mouseWheel(const unsigned state, int x, int y, int z, bool &skipRest)
 {
-	targetCam_.mouseWheel(z, skipRest);
+	targetCam_.mouseWheel(x, y, z, skipRest);
 }
 
 void MainCamera::mouseDown(const unsigned state, GameState::MouseButton button, 

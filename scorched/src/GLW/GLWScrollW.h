@@ -65,6 +65,7 @@ public:
 	virtual void mouseUp(float x, float y, bool &skipRest);
 	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
 	virtual void buttonDown(unsigned int id);
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
 	virtual void startDrag(unsigned int id);
 	virtual void buttonDrag(unsigned int id, float x, float y);

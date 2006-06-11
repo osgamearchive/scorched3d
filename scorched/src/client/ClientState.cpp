@@ -54,6 +54,7 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateMouseUpEntry(state, GameState::MouseButtonLeft, 
 		GLWWindowManager::instance());
 	gameState.addStateKeyEntry(state, GLWWindowManager::instance());
+	gameState.addStateMouseWheelEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(),
 		GLConsole::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 

@@ -74,6 +74,14 @@ void GLWTab::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
+void GLWTab::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (!skipRest && depressed_)
+	{
+		GLWScrollPanel::mouseWheel(x, y, z, skipRest);
+	}
+}
+
 void GLWTab::setDepressed()
 {
 	std::list<GLWPanel::GLWPanelEntry>::iterator itor;

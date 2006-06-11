@@ -409,7 +409,7 @@ void TargetCamera::mouseDrag(GameState::MouseButton button,
 	}
 }
 
-void TargetCamera::mouseWheel(short z, bool &skipRest)
+void TargetCamera::mouseWheel(int x, int y, int z, bool &skipRest)
 {
 	cameraPos_ = CamFree;
 	mainCam_.movePositionDelta(

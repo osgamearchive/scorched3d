@@ -43,6 +43,7 @@ public:
 
 	virtual void setParent(GLWPanel *parent);
 	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 	virtual void draw();
 	virtual void setH(float h);
 

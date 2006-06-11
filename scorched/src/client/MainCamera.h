@@ -40,7 +40,7 @@ public:
 		float frameTime);
 	virtual void draw(const unsigned state);
 	virtual void mouseWheel(const unsigned state, 
-		short z, bool &skipRest);
+		int x, int y, int z, bool &skipRest);
 	virtual void mouseDown(const unsigned state, 
 		GameState::MouseButton button, int x, int y, bool &skipRest);
 	virtual void mouseDrag(const unsigned state, 

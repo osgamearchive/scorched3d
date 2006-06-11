@@ -57,7 +57,7 @@ public:
 	void simulate(float frameTime, bool playing);
 	void draw();
 	void drawPrecipitation();
-	void mouseWheel(short z, bool &skipRest);
+	void mouseWheel(int x, int y, int z, bool &skipRest);
 	void mouseDown(GameState::MouseButton button, 
 		int x, int y, bool &skipRest);
 	void mouseDrag(GameState::MouseButton button,

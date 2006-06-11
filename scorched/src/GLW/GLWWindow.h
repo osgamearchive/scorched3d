@@ -60,6 +60,7 @@ public:
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
 	virtual void savePosition(XMLNode *node);
 	virtual void loadPosition(XMLNode *node);

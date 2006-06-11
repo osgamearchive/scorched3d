@@ -82,3 +82,14 @@ void GLWFileView::mouseDrag(float mx, float my, float x, float y, bool &skipRest
 {
 	scroll_.mouseDrag(mx, my, x, y, skipRest);
 }
+
+void GLWFileView::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+
+		if (z < 0.0f) scroll_.setCurrent(scroll_.getCurrent() + 1);
+		else scroll_.setCurrent(scroll_.getCurrent() - 1);
+	}
+}
