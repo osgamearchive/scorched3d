@@ -34,6 +34,8 @@ public:
 		AccessoryStore *store, XMLNode *accessoryNode);
 
 	const char *getSound();
+	float getGain() { return gain_; }
+	bool getRelative() { return relative_; }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -43,6 +45,8 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponSound, AccessoryPart::AccessoryWeapon);
 protected:
 	std::vector<std::string> sounds_;
+	float gain_;
+	bool relative_;
 };
 
 #endif // __INCLUDE_WeaponSoundh_INCLUDE__

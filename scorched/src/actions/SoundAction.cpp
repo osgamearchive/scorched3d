@@ -26,8 +26,8 @@
 
 REGISTER_ACTION_SOURCE(SoundAction);
 
-SoundAction::SoundAction(WeaponSound *weapon) :
-	weapon_(weapon)
+SoundAction::SoundAction(Vector &position, WeaponSound *weapon) :
+	weapon_(weapon), position_(position)
 {
 
 }
@@ -47,8 +47,13 @@ void SoundAction::simulate(float frameTime, bool &remove)
 		SoundBuffer *activateSound = 
 			Sound::instance()->fetchOrCreateBuffer((char *)
 				getDataFile(weapon_->getSound()));
-		SoundUtils::playRelativeSound(VirtualSoundPriority::eAction,
-			activateSound);
+
+		VirtualSoundSource *source = new VirtualSoundSource(
+			VirtualSoundPriority::eAction, false, true);
+		if (weapon_->getRelative())	source->setRelative();
+		else source->setPosition(position_);
+		source->setGain(weapon_->getGain());
+		source->play(activateSound);
 	}
 
 	remove = true;
@@ -58,11 +63,14 @@ void SoundAction::simulate(float frameTime, bool &remove)
 bool SoundAction::writeAction(NetBuffer &buffer)
 {
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
+	buffer.addToBuffer(position_);
 	return true;
 }
 
 bool SoundAction::readAction(NetBufferReader &reader)
 {
-	weapon_ = (WeaponSound *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
+	weapon_ = (WeaponSound *) context_->
+		accessoryStore->readWeapon(reader); if (!weapon_) return false;
+	if (!reader.getFromBuffer(position_)) return false;
 	return true;
 }

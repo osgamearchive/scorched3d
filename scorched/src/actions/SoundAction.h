@@ -27,7 +27,8 @@ class WeaponSound;
 class SoundAction : public ActionMeta
 {
 public:
-	SoundAction(WeaponSound *weapon = 0);
+	SoundAction(Vector &position = Vector::nullVector, 
+		WeaponSound *weapon = 0);
 	virtual ~SoundAction();
 
 	virtual void init();
@@ -39,6 +40,7 @@ public:
 
 protected:
 	WeaponSound *weapon_;
+	Vector position_;
 
 };
 

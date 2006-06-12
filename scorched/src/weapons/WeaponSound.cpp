@@ -26,7 +26,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponSound);
 
-WeaponSound::WeaponSound()
+WeaponSound::WeaponSound() : gain_(1.0f), relative_(false)
 {
 
 }
@@ -53,6 +53,8 @@ bool WeaponSound::parseXML(OptionsGame &context,
 		if (!checkDataFile(sound.c_str())) return false;
 		sounds_.push_back(sound);
 	}
+	accessoryNode->getNamedChild("gain", gain_, false);
+	accessoryNode->getNamedChild("relative", relative_, false);
 	return true;
 }
 
@@ -60,5 +62,6 @@ void WeaponSound::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	context.actionController->addAction(new SoundAction(this));
+	context.actionController->addAction(
+		new SoundAction(position, this));
 }

@@ -1169,6 +1169,7 @@ trace of the shot path.</description>
 							<sound>data/wav/misc/thunder.wav</sound>
 							<sound>data/wav/misc/thunder2.wav</sound>
 							<sound>data/wav/misc/thunder3.wav</sound>
+							<relative>true</relative>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
 							<delay>0.5</delay>

@@ -42,6 +42,7 @@ Fixed: The display of the players list when some players had illegal XML charact
 Fixed: Moved some of the more common options to the front of the single player settings dialog
 Fixed: Sound from boids issued from wrong place
 
+Added: gain and relative optional attributes to WeaponSound to fine tune sounds
 Added: Mouse wheel support to windows
 Added: soundgroup moved from placement to the objects (moveGroup.pl script made to make changes)
 Added: "set" abmientsound placement type that better matches model sounds (does not work well for looped)
