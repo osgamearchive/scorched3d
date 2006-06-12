@@ -36,6 +36,9 @@ public:
 		NoRestore = 4
 	};
 
+	bool getHideFinalScore() { return hideFinalScore_; }
+	OptionEntryBool &getHideFinalScoreEntry() { return hideFinalScore_; }
+
 	int getTankModelSize() { return tankModelSize_; }
 	OptionEntryInt &getTankModelSizeEntry() { return tankModelSize_; }
 
@@ -387,6 +390,7 @@ protected:
 	OptionEntryBool drawPlayerHealth_;
 	OptionEntryBool noTrees_;
 	OptionEntryBool noDepthSorting_;
+	OptionEntryBool hideFinalScore_;
 	OptionEntryInt roamVarianceStart_;
 	OptionEntryInt roamVarianceRamp_;
 	OptionEntryInt roamVarianceTank_;

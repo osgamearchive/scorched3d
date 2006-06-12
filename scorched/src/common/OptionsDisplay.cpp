@@ -43,6 +43,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Use detail textures on the landscape."
 		"Adds the texture seen when very close to the landscape."
 		"Requires multi-texturing", RWAccess, true),
+	hideFinalScore_(options_, "HideFinalScore",
+		"Hide the score dialog that is automatically shown after shots", RWAccess, false),
 	depricatedUniqueUserId_(options_, "UniqueUserId",
 		"The unique string given by this client to any servers to uniquely identify itself."
 		"Used for server stats and logging (confidentially)", RAccess | OptionEntry::DataDepricated | NoRestore, ""),

@@ -24,10 +24,13 @@
 #include <tank/TankTeamScore.h>
 #include <tank/TankColorGenerator.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
+#include <engine/GameState.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientScoreHandler.h>
@@ -86,6 +89,13 @@ void ScoreDialog::display()
 {
 	GLWWindow::display();
 	calculateScores();
+
+	if (OptionsDisplay::instance()->getHideFinalScore() &&
+		ScorchedClient::instance()->getGameState().getState() ==
+		ClientState::StateScore)
+	{
+		GLWWindowManager::instance()->hideWindow(getId());
+	}
 }
 
 void ScoreDialog::calculateScores()
