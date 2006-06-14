@@ -46,11 +46,14 @@ Changes Since 3.1
             - Reduced damage the bullets do during shield collisions to 33% of shield value
             - Reduced damage of the shells from 0.4 to 0.2 (total damage from 200 to 100)
             - Now has a somewhat random spread pattern instead of hard-coded
+            - Now always shoots with 1000 power, regardless of user setting
         - Shotgun:
             - Increased amount of projectiles from 5 to 6
             - Decreased damage during shield collisions from 50% to 20% of shield value
             - Decreased damage done per pellet from 0.25 to 0.2 (total damage from 125 to 120)
             - Pellets now have a somewhat random spread pattern
+            - Now always shoots with 1000 power, regardless of user setting
+            - Increased timer on pellets from 1.5 to 3 seconds
         - Suicide Bomb:
             - Reduced the size of the crater (but not damage range) considerably
             - Added flaming debris

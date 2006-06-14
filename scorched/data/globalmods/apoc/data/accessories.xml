@@ -2407,7 +2407,7 @@ The EMP does heavy shield damage and minor tank damage.</description>
 			<nocreatesmoke/>
 			<nocreateflame/>
 			<enginesound>none</enginesound>
-			<timedcollision>1.5</timedcollision>
+			<timedcollision>3.0</timedcollision>
 			<projectilescale>0.15</projectilescale>
 			<projectilemodel type='ase'>
 				<mesh>roller.ase</mesh>
@@ -2585,44 +2585,48 @@ This weapon has a limited range and line of site.</description>
 		<modelscale>0.75</modelscale>
 		<model type="MilkShape">weapons/shotgunshell.txt</model>
 		<activationsound>shoot/shotgun.wav</activationsound>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponReference'>
-				<weapon>Shotgun Pellet</weapon>
-			</subweapon1>
-			<subweapon2 type='WeaponReference'>
-				<weapon>Shotgun Spread</weapon>
-			</subweapon2>
-			<subweapon3 type='WeaponReference'>
-				<weapon>Shotgun Spread</weapon>
-			</subweapon3>
-			<subweapon4 type='WeaponReference'>
-				<weapon>Shotgun Spread</weapon>
-			</subweapon4>
-			<subweapon5 type='WeaponReference'>
-				<weapon>Shotgun Spread</weapon>
-			</subweapon5>
-			<subweapon6 type='WeaponReference'>
-				<weapon>Shotgun Spread</weapon>
-			</subweapon6>
-			<subweapon7 type='WeaponDelay'>
-				<delay>0.7</delay>
-				<delayedweapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>true</vabs>
-					<hredirect>-90.0</hredirect>
-					<vredirect>45</vredirect>
-					<nextaction type='WeaponVelocity'>
-						<velocitychange>0.15</velocitychange>
-						<aimedweapon type='WeaponProjectile'>
-							<nocreateflame/>
-							<enginesound>none</enginesound>
-							<projectilescale>0.25</projectilescale>
-							<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
-							<collisionaction type='WeaponNull'></collisionaction>
-						</aimedweapon>
-					</nextaction>
-				</delayedweapon>
-			</subweapon7>
+		<accessoryaction type='WeaponVelocity'>
+			<abs>true</abs>
+			<velocitychange>1.0</velocitychange>
+			<aimedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponReference'>
+					<weapon>Shotgun Pellet</weapon>
+				</subweapon1>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Shotgun Spread</weapon>
+				</subweapon2>
+				<subweapon3 type='WeaponReference'>
+					<weapon>Shotgun Spread</weapon>
+				</subweapon3>
+				<subweapon4 type='WeaponReference'>
+					<weapon>Shotgun Spread</weapon>
+				</subweapon4>
+				<subweapon5 type='WeaponReference'>
+					<weapon>Shotgun Spread</weapon>
+				</subweapon5>
+				<subweapon6 type='WeaponReference'>
+					<weapon>Shotgun Spread</weapon>
+				</subweapon6>
+				<subweapon7 type='WeaponDelay'>
+					<delay>0.7</delay>
+					<delayedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>true</vabs>
+						<hredirect>-90.0</hredirect>
+						<vredirect>45</vredirect>
+						<nextaction type='WeaponVelocity'>
+							<velocitychange>0.15</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<nocreateflame/>
+								<enginesound>none</enginesound>
+								<projectilescale>0.25</projectilescale>
+								<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
+								<collisionaction type='WeaponNull'></collisionaction>
+							</aimedweapon>
+						</nextaction>
+					</delayedweapon>
+				</subweapon7>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
 	<!--<accessory>
@@ -2840,22 +2844,26 @@ in rapid succession</description>
 		<armslevel>7</armslevel>
 		<model type='MilkShape'>weapons/50cal.txt</model>
 		<activationsound>shoot/machinegun.wav</activationsound>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponReference'>
+		<accessoryaction type='WeaponVelocity'>
+			<abs>true</abs>
+			<velocitychange>1.0</velocitychange>
+			<aimedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponReference'>
 					<weapon>M2 Round</weapon>
 					<armslevel>6</armslevel>
-			</subweapon1>
-			<subweapon2 type='WeaponDelay'>
-				<delay>0.34</delay>
-				<delayedweapon type='WeaponRepeat'>
-					<repeat>4</repeat>
+				</subweapon1>
+				<subweapon2 type='WeaponDelay'>
 					<delay>0.34</delay>
-					<repeatweapon type='WeaponReference'>
-						<weapon>M2 Spread</weapon>
-						<armslevel>6</armslevel>
-					</repeatweapon>
-				</delayedweapon>
-			</subweapon2>
+					<delayedweapon type='WeaponRepeat'>
+						<repeat>4</repeat>
+						<delay>0.34</delay>
+						<repeatweapon type='WeaponReference'>
+							<weapon>M2 Spread</weapon>
+							<armslevel>6</armslevel>
+						</repeatweapon>
+					</delayedweapon>
+				</subweapon2>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>
