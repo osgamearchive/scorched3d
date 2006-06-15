@@ -49,6 +49,10 @@ public:
 		const char *name,
 		std::map<std::string, std::string> &fields,
 		std::string &result);
+	static bool getHtmlTemplate(
+		const char *name,
+		std::map<std::string, std::string> &fields,
+		std::string &result);
 
 protected:
 	struct SessionParams

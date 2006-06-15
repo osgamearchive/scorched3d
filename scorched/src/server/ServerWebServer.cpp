@@ -54,6 +54,7 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
+	addRequestHandler("/server.css", new ServerWebHandler::CssHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -225,15 +226,7 @@ bool ServerWebServer::processRequest(
 		if (!getTemplate("login.html", fields, text)) return false;
 	}
 	
-	const char *header = 
-		"HTTP/1.1 200 OK\r\n"
-		"Server: Scorched3D\r\n"
-		"Content-Type: text/html\r\n"
-		"Connection: Close\r\n"
-		"\r\n";
-
 	NetBuffer buffer;
-	buffer.addDataToBuffer(header, strlen(header)); // No null
 	buffer.addDataToBuffer(text.c_str(), text.size()); // No null
 	netServer_.sendMessage(buffer, destinationId);
 	
@@ -321,6 +314,22 @@ bool ServerWebServer::generatePage(
 
 	ServerWebServerI *handler = (*itor).second;
 	return handler->processRequest(url, fields, text);
+}
+
+bool ServerWebServer::getHtmlTemplate(
+	const char *name,
+	std::map<std::string, std::string> &fields,
+	std::string &result)
+{
+	const char *header = 
+		"HTTP/1.1 200 OK\r\n"
+		"Server: Scorched3D\r\n"
+		"Content-Type: text/html\r\n"
+		"Connection: Close\r\n"
+		"\r\n";
+	result.append(header);
+
+	return getTemplate(name, fields, result);
 }
 
 bool ServerWebServer::getTemplate(

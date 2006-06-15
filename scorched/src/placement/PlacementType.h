@@ -64,6 +64,11 @@ public:
 
 protected:
 	PlacementObject *placementobject;
+
+	bool checkCloseness(Vector &position,
+		ScorchedContext &context,
+		std::list<Position> &returnPositions,
+		float mincloseness);
 };
 
 #endif // __INCLUDE_PlacementTypeh_INCLUDE__

@@ -49,6 +49,22 @@ static const char *getField(std::map<std::string, std::string> &fields, const ch
 	return 0;
 }
 
+static std::string getFile(const char *filename)
+{
+	char buffer[100];
+	std::string file;
+	FILE *in = fopen(filename, "r");
+	if (in)
+	{
+		while (fgets(buffer, 100, in))
+		{
+			file += buffer;
+		}
+		fclose(in);
+	}
+	return file;
+}
+
 bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
@@ -162,7 +178,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	}
 	fields["ADD"] = add;
 
-	return ServerWebServer::getTemplate("player.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("player.html", fields, text);
 }
 
 bool ServerWebHandler::LogHandler::processRequest(const char *url,
@@ -211,7 +227,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 			fields["sid"].c_str());
 	fields["PAGES"] = pages;
 
-	return ServerWebServer::getTemplate("log.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("log.html", fields, text);
 }
 
 bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
@@ -224,22 +240,11 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	const char *logFilename = getField(fields, "filename");
 	if (logFilename)
 	{
-		char buffer[100];
-		std::string file;
 		const char *filename = getLogFile(logFilename);
-		FILE *in = fopen(filename, "r");
-		if (in)
-		{
-			while (fgets(buffer, 100, in))
-			{
-				file += buffer;
-			}
-			fclose(in);
-		}
-
+		std::string file = getFile(filename);
 		fields["FILE"] = file;
 
-		return ServerWebServer::getTemplate("logfile.html", fields, text);
+		return ServerWebServer::getHtmlTemplate("logfile.html", fields, text);
 	}
 	else
 	{
@@ -269,7 +274,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 		}
 		fields["LOG"] = log;
 
-		return ServerWebServer::getTemplate("logfiles.html", fields, text);
+		return ServerWebServer::getHtmlTemplate("logfiles.html", fields, text);
 	}
 	return false;
 }
@@ -292,7 +297,7 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 		}
 	}
 
-	return ServerWebServer::getTemplate("game.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("game.html", fields, text);
 }
 
 bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
@@ -421,7 +426,7 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 			writeOptionsToFile((char *) OptionsParam::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getTemplate("settings.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("settings.html", fields, text);
 }
 
 bool ServerWebHandler::TalkHandler::processRequest(const char *url,
@@ -464,12 +469,12 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 	}
 	fields["TEXTS"] = texts;
 	const char *refreshRate = getField(fields, "RefreshRate");
-	int refreshSeconds;
+	int refreshSeconds = 0;
 	if (refreshRate) refreshSeconds = atoi(refreshRate);
 	else fields["RefreshRate"]="0";
 	if (refreshSeconds > 0)
 		fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
-	return ServerWebServer::getTemplate("talk.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("talk.html", fields, text);
 }
 
 bool ServerWebHandler::BannedHandler::processRequest(const char *url,
@@ -522,7 +527,7 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 	if (action && 0 == strcmp(action, "Save")) 
 		ScorchedServerUtil::instance()->bannedPlayers.save();
 
-	return ServerWebServer::getTemplate("banned.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("banned.html", fields, text);
 }
 
 bool ServerWebHandler::ModsHandler::processRequest(const char *url,
@@ -549,6 +554,23 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 	}
 	fields["MODFILES"] = modfiles;
 
-	return ServerWebServer::getTemplate("mods.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("mods.html", fields, text);
 }
 
+bool ServerWebHandler::CssHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	const char *header = 
+		"HTTP/1.1 200 OK\r\n"
+		"Server: Scorched3D\r\n"
+		"Content-Type: text/css\r\n"
+		"Connection: Close\r\n"
+		"\r\n\r\n";
+
+	const char *filename = getDataFile(formatString("data/html/server/%s", "server.css"));
+	text.append(header);
+	text.append(getFile(filename));
+	text.append("\r\n\r\n");
+	return true;
+}

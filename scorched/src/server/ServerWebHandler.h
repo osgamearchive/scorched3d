@@ -89,6 +89,14 @@ namespace ServerWebHandler
 			std::map<std::string, std::string> &fields,
 			std::string &text);
 	};
+
+	class CssHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
 };
 
 #endif // __INCLUDE_ServerWebHandlerh_INCLUDE__

@@ -26,7 +26,7 @@
 #include <common/Defines.h>
 #include <XML/XMLParser.h>
 
-PlacementTypeTankStart::PlacementTypeTankStart()
+PlacementTypeTankStart::PlacementTypeTankStart() : mincloseness(0.0f)
 {
 }
 
@@ -38,6 +38,7 @@ bool PlacementTypeTankStart::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
 	if (!node->getNamedChild("team", team)) return false;
+	node->getNamedChild("mincloseness", mincloseness, false);
 	return PlacementType::readXML(node);
 }
 
@@ -51,6 +52,15 @@ void PlacementTypeTankStart::getPositions(ScorchedContext &context,
 		Position position;
 		position.position = 
 			ServerNewGameState::placeTank(0, team, context, generator);
-		returnPositions.push_back(position);
+
+		if (checkCloseness(position.position, context, 
+			returnPositions, mincloseness))
+		{
+			returnPositions.push_back(position);
+		}
+		else 
+		{
+			numobjects++;
+		}
 	}
 }

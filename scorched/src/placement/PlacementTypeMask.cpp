@@ -101,35 +101,15 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 			GLubyte *bits = map.getBits() +
 				mx * 3 + my * map.getWidth() * 3;
 			if (bits[0] > 127)
-			{
-				bool closeness = true;
-				if (mincloseness > 0.0f)
+			{	
+				Position position;
+				position.position[0] = lx;
+				position.position[1] = ly;
+				position.position[2] = height;
+
+				if (checkCloseness(position.position, context, 
+					returnPositions, mincloseness))
 				{
-					float distsq = mincloseness * mincloseness;
-					std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
-						context.landscapeMaps->getGroundMaps().getObjects().getEntries();
-					std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator itor;
-					for (itor = entries.begin();
-						itor != entries.end();
-						itor++)
-					{
-						LandscapeObjectsEntry *object = (*itor).second;
-						float distx = object->position[0] - lx;
-						float disty = object->position[1] - ly;
-						if (distx * distx + disty *disty < distsq)
-						{
-							closeness = false;
-							break;
-						}
-					}
-				}
-			
-				if (closeness)
-				{
-					Position position;
-					position.position[0] = lx;
-					position.position[1] = ly;
-					position.position[2] = height;
 					returnPositions.push_back(position);
 				}
 			}

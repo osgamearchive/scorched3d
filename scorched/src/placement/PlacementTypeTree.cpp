@@ -26,7 +26,7 @@
 #include <common/Defines.h>
 #include <XML/XMLParser.h>
 
-PlacementTypeTree::PlacementTypeTree()
+PlacementTypeTree::PlacementTypeTree() : mincloseness(0.0f)
 {
 }
 
@@ -40,6 +40,7 @@ bool PlacementTypeTree::readXML(XMLNode *node)
 	if (!node->getNamedChild("numclusters", numclusters)) return false;
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
+	node->getNamedChild("mincloseness", mincloseness, false);
 	return PlacementType::readXML(node);
 }
 
@@ -179,7 +180,11 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 				position.position[0] = lx;
 				position.position[1] = ly;
 				position.position[2] = height;
-				returnPositions.push_back(position);
+				if (checkCloseness(position.position, context, 
+					returnPositions, mincloseness))
+				{
+					returnPositions.push_back(position);
+				}
 			}
 		}
 	}

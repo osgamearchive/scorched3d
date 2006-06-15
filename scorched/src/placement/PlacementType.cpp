@@ -77,3 +77,45 @@ void PlacementType::createObjects(ScorchedContext &context,
 			context, generator, playerId, position);
 	}
 }
+
+bool PlacementType::checkCloseness(Vector &position,
+	ScorchedContext &context,
+	std::list<Position> &returnPositions,
+	float mincloseness)
+{
+	if (mincloseness <= 0.0f) return true;
+
+	float distsq = mincloseness * mincloseness;
+	std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
+		context.landscapeMaps->getGroundMaps().getObjects().getEntries();
+	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator objectsitor;
+	for (objectsitor = entries.begin();
+		objectsitor != entries.end();
+		objectsitor++)
+	{
+		LandscapeObjectsEntry *object = (*objectsitor).second;
+		float distx = object->position[0] - position[0];
+		float disty = object->position[1] - position[1];
+		if (distx * distx + disty *disty < distsq)
+		{
+			return false;
+		}
+	}
+
+	std::list<Position>::iterator currentItor;
+	for (currentItor = returnPositions.begin();
+		currentItor != returnPositions.begin();
+		currentItor++)
+	{
+		Position *object = &(*currentItor);
+
+		float distx = object->position[0] - position[0];
+		float disty = object->position[1] - position[1];
+		if (distx * distx + disty *disty < distsq)
+		{
+			return false;
+		}		
+	}
+
+	return true;
+}

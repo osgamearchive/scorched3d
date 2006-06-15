@@ -40,6 +40,7 @@ protected:
 	int numobjects;
 	int numclusters;
 	float minheight, maxheight;
+	float mincloseness;
 };
 
 #endif // __INCLUDE_PlacementTypeTreeh_INCLUDE__
