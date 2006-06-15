@@ -556,21 +556,3 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 
 	return ServerWebServer::getHtmlTemplate("mods.html", fields, text);
 }
-
-bool ServerWebHandler::CssHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::string &text)
-{
-	const char *header = 
-		"HTTP/1.1 200 OK\r\n"
-		"Server: Scorched3D\r\n"
-		"Content-Type: text/css\r\n"
-		"Connection: Close\r\n"
-		"\r\n\r\n";
-
-	const char *filename = getDataFile(formatString("data/html/server/%s", "server.css"));
-	text.append(header);
-	text.append(getFile(filename));
-	text.append("\r\n\r\n");
-	return true;
-}

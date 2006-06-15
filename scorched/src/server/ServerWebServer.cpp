@@ -54,7 +54,6 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
-	addRequestHandler("/server.css", new ServerWebHandler::CssHandler());
 }
 
 ServerWebServer::~ServerWebServer()
