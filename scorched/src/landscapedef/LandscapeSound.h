@@ -44,6 +44,8 @@ class LandscapeSoundTimingRepeat : public LandscapeSoundTiming
 public:
 	virtual bool readXML(XMLNode *node);
 	virtual float getNextEventTime();
+
+protected:
 	float min, max;
 };
 
@@ -52,21 +54,26 @@ class LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node) = 0;
-	virtual bool setPosition(VirtualSoundSource *source) = 0;
+	virtual bool setPosition(VirtualSoundSource *source, void *data) = 0;
+
+	virtual int getInitCount() { return 1; }
+	virtual void *getInitData(int count) { return 0; }
 };
 
 class LandscapeSoundPositionAmbient : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual bool setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source, void *data);
 };
 
 class LandscapeSoundPositionAbsoulte : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual bool setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source, void *data);
+
+protected:
 	Vector position;
 };
 
@@ -74,7 +81,9 @@ class LandscapeSoundPositionWater : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual bool setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source, void *data);
+
+protected:
 	float falloff;
 };
 
@@ -82,8 +91,9 @@ class LandscapeSoundPositionGroup : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual bool setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source, void *data);
 
+protected:
 	std::string name;
 	float falloff;
 };
@@ -92,9 +102,32 @@ class LandscapeSoundPositionSet : public LandscapeSoundPosition
 {
 public:
 	virtual bool readXML(XMLNode *node);
-	virtual bool setPosition(VirtualSoundSource *source);
+	virtual bool setPosition(VirtualSoundSource *source, void *data);
 
+	virtual int getInitCount();
+	virtual void *getInitData(int count);
+
+protected:
 	std::string name;
+	int maxsounds;
+};
+
+class LandscapeSoundSound 
+{
+public:
+	virtual bool readXML(XMLNode *node) = 0;
+	virtual bool play(VirtualSoundSource *source) = 0;
+};
+
+class LandscapeSoundSoundFile : public LandscapeSoundSound
+{
+public:
+	virtual bool readXML(XMLNode *node);
+	virtual bool play(VirtualSoundSource *source);
+
+protected:
+	std::string file;
+	float gain;
 };
 
 class LandscapeSoundType
@@ -105,12 +138,9 @@ public:
 
 	virtual bool readXML(XMLNode *node);
 
-	float gain;
-	std::string sound;
-	std::string positiontype;
-	std::string timingtype;
 	LandscapeSoundPosition *position;
 	LandscapeSoundTiming *timing;
+	LandscapeSoundSound *sound;
 };
 
 class LandscapeDefinitions;

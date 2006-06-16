@@ -32,10 +32,12 @@
 bool LandscapeSoundPositionSet::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("name", name)) return false;
+	if (!node->getNamedChild("maxsounds", maxsounds)) return false;
+	
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source)
+bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, void *data)
 {
 	LandscapeObjectsGroupEntry *groupEntry =
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
@@ -43,11 +45,33 @@ bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source)
 	if (!groupEntry) return false;
 	if (groupEntry->getObjectCount() <= 0) return false;
 
-	LandscapeObjectEntryBase *obj = groupEntry->getRandomObject();
+	LandscapeObjectEntryBase *obj = (LandscapeObjectEntryBase*) data;
+	if (!groupEntry->hasObject(obj)) return false;
+
 	Vector position = obj->getPosition();
 	source->setPosition(position);
 
 	return true;
+}
+
+int LandscapeSoundPositionSet::getInitCount()
+{
+	LandscapeObjectsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+			name.c_str());
+	if (!groupEntry) return 0;	
+
+	return (MIN(maxsounds, groupEntry->getObjectCount()));
+}
+
+void *LandscapeSoundPositionSet::getInitData(int count)
+{
+	LandscapeObjectsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+			name.c_str());
+	if (!groupEntry) return 0;	
+
+	return groupEntry->getObject(count);
 }
 
 bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
@@ -57,7 +81,7 @@ bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source)
+bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source, void *data)
 {
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
@@ -98,7 +122,7 @@ bool LandscapeSoundPositionWater::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source)
+bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, void *data)
 {
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
@@ -120,7 +144,7 @@ bool LandscapeSoundPositionAmbient::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source)
+bool LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source, void *data)
 {
 	source->setRelative();
 	source->setPosition(Vector::nullVector);
@@ -134,7 +158,7 @@ bool LandscapeSoundPositionAbsoulte::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionAbsoulte::setPosition(VirtualSoundSource *source)
+bool LandscapeSoundPositionAbsoulte::setPosition(VirtualSoundSource *source, void *data)
 {
 	source->setPosition(position);
 	return true;
@@ -162,8 +186,29 @@ float LandscapeSoundTimingRepeat::getNextEventTime()
 	return min + max * RAND;
 }
 
+bool LandscapeSoundSoundFile::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("file", file)) return false;
+	if (!checkDataFile(file.c_str())) return false;
+	if (!node->getNamedChild("gain", gain)) return false;
+	return node->failChildren();
+}
+
+bool LandscapeSoundSoundFile::play(VirtualSoundSource *source)
+{
+	SoundBuffer *buffer = 
+		Sound::instance()->fetchOrCreateBuffer((char *)
+			getDataFile(file.c_str()));
+	if (!buffer) return false;
+
+	source->setGain(gain);
+	source->play(buffer);
+
+	return true;
+}
+
 LandscapeSoundType::LandscapeSoundType() : 
-	position(0), timing(0)
+	position(0), timing(0), sound(0)
 {
 }
 
@@ -171,13 +216,25 @@ LandscapeSoundType::~LandscapeSoundType()
 {
 	delete position;
 	delete timing;
+	delete sound;
 }
 
 bool LandscapeSoundType::readXML(XMLNode *node)
 {
-	if (!node->getNamedChild("sound", sound)) return false;
-	gain = 1.0f; node->getNamedChild("gain", gain, false);
 	{
+		std::string soundtype;
+		XMLNode *soundNode;
+		if (!node->getNamedChild("sound", soundNode)) return false;
+		if (!soundNode->getNamedParameter("type", soundtype)) return false;
+		if (0 == strcmp(soundtype.c_str(), "file"))
+			sound = new LandscapeSoundSoundFile;
+		else return false;
+
+		if (!sound->readXML(soundNode)) return false;
+	}
+
+	{
+		std::string positiontype;
 		XMLNode *positionNode;
 		if (!node->getNamedChild("position", positionNode)) return false;
 		if (!positionNode->getNamedParameter("type", positiontype)) return false;
@@ -195,6 +252,7 @@ bool LandscapeSoundType::readXML(XMLNode *node)
 		if (!position->readXML(positionNode)) return false;
 	}
 	{
+		std::string timingtype;
 		XMLNode *timingNode;
 		if (!node->getNamedChild("timing", timingNode)) return false;
 		if (!timingNode->getNamedParameter("type", timingtype)) return false;

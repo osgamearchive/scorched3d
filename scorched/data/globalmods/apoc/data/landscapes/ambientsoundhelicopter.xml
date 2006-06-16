@@ -1,14 +1,21 @@
 <ambientsound>
 	<sounds>
 		<sound>
-			<position type="absolute">
-				<position><A>128</A><B>128</B><C>50</C></position>
+			<position type='absolute'>
+				<position>
+					<A>128</A>
+					<B>128</B>
+					<C>50</C>
+				</position>
 			</position>
-			<timing type="repeat">
+			<timing type='repeat'>
 				<min>45</min>
 				<max>90</max>
 			</timing>
-			<sound>data/wav/misc/helicopter.wav</sound>
+			<sound type='file'>
+				<file>data/wav/misc/helicopter.wav</file>
+				<gain>1.0</gain>
+			</sound>
 		</sound>
 	</sounds>
 </ambientsound>

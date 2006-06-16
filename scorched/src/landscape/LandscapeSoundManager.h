@@ -40,11 +40,15 @@ public:
 protected:
 	struct LandscapeSoundManagerEntry
 	{
-		LandscapeSoundManagerEntry() : soundSource(0) {}
+		LandscapeSoundManagerEntry() : 
+			soundSource(0), removed(false) {}
+
 		VirtualSoundSource *soundSource;
-		SoundBuffer *soundBuffer;
 		LandscapeSoundType *soundType;
+		void *initData;
+
 		float timeLeft;
+		bool removed;
 	};
 
 	std::list<LandscapeSoundManagerEntry> entries_;

@@ -39,10 +39,9 @@ bool LandscapeObjectsSetEntry::removeObject(LandscapeObjectEntryBase *object)
 	return (objects_.erase(object) > 0);
 }
 
-LandscapeObjectEntryBase *LandscapeObjectsSetEntry::getRandomObject()
+LandscapeObjectEntryBase *LandscapeObjectsSetEntry::getObject(int position)
 {
-	int pos = rand() % objects_.size();
-
+	int pos = position % int(objects_.size());
 	std::set<LandscapeObjectEntryBase *>::iterator itor;
 	for (itor = objects_.begin();
 		itor != objects_.end();
@@ -51,6 +50,11 @@ LandscapeObjectEntryBase *LandscapeObjectsSetEntry::getRandomObject()
 		if (pos <=0) return (*itor);
 	}
 	return 0;
+}
+
+bool LandscapeObjectsSetEntry::hasObject(LandscapeObjectEntryBase *object)
+{
+	return (objects_.find(object) != objects_.end());
 }
 
 int LandscapeObjectsSetEntry::getObjectCount()

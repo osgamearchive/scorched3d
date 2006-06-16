@@ -30,7 +30,8 @@ public:
 	LandscapeObjectsSetEntry();
 	virtual ~LandscapeObjectsSetEntry();
 
-	LandscapeObjectEntryBase *getRandomObject();
+	LandscapeObjectEntryBase *getObject(int position);
+	bool hasObject(LandscapeObjectEntryBase *object);
 
 	virtual void addObject(LandscapeObjectEntryBase *object);
 	virtual bool removeObject(LandscapeObjectEntryBase *object);

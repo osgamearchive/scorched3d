@@ -64,23 +64,32 @@ void LandscapeSoundManager::initialize(std::list<LandscapeSound *> sounds)
 			typeItor != sound->objects.end();
 			typeItor ++)
 		{
-			LandscapeSoundManagerEntry entry;
-			entry.soundType = (*typeItor);
-			entry.soundBuffer = 
-				Sound::instance()->fetchOrCreateBuffer((char *)
-					getDataFile(entry.soundType->sound.c_str()));
-			entry.timeLeft = entry.soundType->timing->getNextEventTime();
-			entry.soundSource = new VirtualSoundSource(
-				VirtualSoundPriority::eEnvironment, (entry.timeLeft < 0.0f), false);
-			entry.soundSource->setGain(entry.soundType->gain);
-			entries_.push_back(entry);
-
-			// Start any looped sounds
-			if (entry.timeLeft < 0.0f)
+			LandscapeSoundType *soundType = (*typeItor);
+			for (int i=0; i<soundType->position->getInitCount(); i++)
 			{
-				if (entry.soundType->position->setPosition(entry.soundSource))
+				// Create the new sound entry
+				LandscapeSoundManagerEntry entry;
+				entry.soundType = soundType;
+				entry.initData = soundType->position->getInitData(i);
+				entry.timeLeft = soundType->timing->getNextEventTime();
+				entry.soundSource = new VirtualSoundSource(
+					VirtualSoundPriority::eEnvironment, 
+					(entry.timeLeft < 0.0f), // Looping
+					false);
+				entries_.push_back(entry);
+
+				// Start any looped sounds
+				if (entry.timeLeft < 0.0f)
 				{
-					entry.soundSource->play(entry.soundBuffer);
+					if (entry.soundType->position->setPosition(
+						entry.soundSource, entry.initData))
+					{
+						entry.soundType->sound->play(entry.soundSource);
+					}
+					else
+					{
+						entry.removed = true;
+					}
 				}
 			}
 		}
@@ -98,26 +107,31 @@ void LandscapeSoundManager::simulate(float frameTime)
 		itor++)
 	{
 		LandscapeSoundManagerEntry &entry = (*itor);
-		if (entry.timeLeft >= 0.0f) // Not looped
-		{
-			entry.timeLeft -= lastTime_;
 
-			if (entry.soundType->position->setPosition(entry.soundSource))
-			{
-				if (entry.timeLeft < 0.0f)
-				{
-					entry.timeLeft = entry.soundType->timing->getNextEventTime();
-					entry.soundSource->play(entry.soundBuffer);
-				}
-			}
+		// Check if this entry is still relevant
+		if (entry.removed) continue;
+
+		// Set this sounds position
+		if (!entry.soundType->position->setPosition(
+			entry.soundSource, entry.initData))
+		{
+			// The position set failed, stop this sound and remove it
+			entry.soundSource->stop();
+			entry.removed = true;
 		}
 		else
 		{
-			if (!entry.soundType->position->setPosition(entry.soundSource))
+			// Check if looped
+			if (entry.timeLeft >= 0.0f) 
 			{
-				if (entry.soundSource->getPlaying())
+				// Not looped
+				// Check if we play again
+				entry.timeLeft -= lastTime_;
+				if (entry.timeLeft < 0.0f)
 				{
-					entry.soundSource->stop();
+					// Play again
+					entry.timeLeft = entry.soundType->timing->getNextEventTime();
+					entry.soundType->sound->play(entry.soundSource);
 				}
 			}
 		}
