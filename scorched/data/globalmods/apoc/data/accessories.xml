@@ -409,24 +409,28 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream1.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice1>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream2.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice2>
 					<weaponchoice3>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream3.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice3>
 					<weaponchoice4>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream4.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice4>
 					<weaponchoice5>
@@ -475,24 +479,28 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream1.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice1>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream2.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice2>
 					<weaponchoice3>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream3.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice3>
 					<weaponchoice4>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
 							<sound>data/wav/misc/scream4.wav</sound>
+							<gain>1.2</gain>
 						</weapon>
 					</weaponchoice4>
 					<weaponchoice5>
@@ -669,6 +677,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 				</subweapon2>
 				<subweapon3 type='WeaponSound'>
 					<sound>data/wav/misc/screaming.wav</sound>
+					<gain>1.2</gain>
 				</subweapon3>
 			</delayedweapon>
 		</accessoryaction>
@@ -786,6 +795,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 				</subweapon4>
 				<subweapon5 type='WeaponSound'>
 					<sound>data/wav/misc/screaming.wav</sound>
+					<gain>1.2</gain>
 				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
@@ -11393,6 +11403,7 @@ which you are teleported to after it lands.</description>
 				</subweapon3>
 				<subweapon4 type='WeaponSound'>
 					<sound>data/wav/misc/screaming.wav</sound>
+					<gain>1.2</gain>
 				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
