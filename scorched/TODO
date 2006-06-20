@@ -41,12 +41,15 @@ Fixed: Damage to an object is now calculated by closeness to the nearest edge (n
 Fixed: The display of the players list when some players had illegal XML characters in their names
 Fixed: Moved some of the more common options to the front of the single player settings dialog
 Fixed: Sound from boids issued from wrong place
+Fixed: Sounds from groups are only thined when using tree placement
 
+Added: referencedistance, gain and rolloff sound attributes to ambient sounds
+Added: Sound is now culled by distance as well as priority (adds support for many more sounds)
 Added: new sound types to the abmient sound files (updateAmbientSounds.pl script made to make changes)
 Added: penguin models to ice landscape (thanks Shockwave)
 Added: mincloseness attribute to the tankstart and tree placement types (default is 0)
 Added: HideFinalScore option to allow the score dialog to be hidden at the end of games
-Added: gain and relative optional attributes to WeaponSound to fine tune sounds
+Added: gain, relative, rolloff and referencedistance optional attributes to WeaponSound to fine tune sounds
 Added: Mouse wheel support to windows
 Added: soundgroup moved from placement to the objects (moveGroup.pl script made to make changes)
 Added: "set" abmientsound placement type that better matches model sounds (does not work well for looped)
@@ -136,6 +139,9 @@ New game modes
 Better collision for models (not targets)
 Models can be (cannot be) removed when driving over.
 Dirt cannot be raised when underground (or other dirting stopping)
+Too many mods over powering the single player choice dialog
+Need some kind of faster falloff for some (all) sounds.
+Sound precedence based on sound distance?
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

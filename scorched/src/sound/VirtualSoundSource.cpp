@@ -19,13 +19,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sound/VirtualSoundSource.h>
+#include <sound/PlayingSoundSource.h>
+#include <sound/SoundSource.h>
 #include <sound/Sound.h>
 
 VirtualSoundSource::VirtualSoundSource(
 	unsigned int priority, bool looping, bool managed) : 
-	actualSource_(0),
+	playingSource_(0),
 	priority_(priority),
-	gain_(1.0f),
+	gain_(1.0f), refDist_(75.0f), rolloff_(1.0f),
 	buffer_(0),
 	relative_(false), 
 	managed_(managed),
@@ -42,90 +44,106 @@ VirtualSoundSource::~VirtualSoundSource()
 
 void VirtualSoundSource::play(SoundBuffer *buffer)
 {
-	if (!actualSource_)
-	{
-		actualSource_ = Sound::instance()->addPlaying(this, priority_);
-	}
-	if (actualSource_)
-	{
-		actualSource_->setGain(gain_);
-		actualSource_->setRelative(relative_);
-		actualSource_->setPosition(position_);
-		actualSource_->setVelocity(velocity_);
-		actualSource_->play(buffer, looping_);
-		buffer_ = buffer;
-	}
+	stop();
+
+	buffer_ = buffer;
+	Sound::instance()->addPlaying(this);
 }
 
-void VirtualSoundSource::simulate()
+void VirtualSoundSource::actualPlay()
 {
-	if (actualSource_)
-	{
-		actualSource_->simulate(looping_);
-	}
+	playingSource_->actualSource->setGain(gain_);
+	playingSource_->actualSource->setRolloff(rolloff_);
+	playingSource_->actualSource->setReferenceDistance(refDist_);
+	playingSource_->actualSource->setRelative(relative_);
+	playingSource_->actualSource->setPosition(position_);
+	playingSource_->actualSource->setVelocity(velocity_);
+	playingSource_->actualSource->play(buffer_, looping_);
 }
 
 void VirtualSoundSource::stop()
 {
-	Sound::instance()->removePlaying(this, priority_);
-	if (actualSource_)
+	if (playingSource_)
 	{
-		actualSource_->stop();
-		actualSource_ = 0;
+		Sound::instance()->removePlaying(this);
 	}
+	playingSource_ = 0;
 }
 
-SoundSource *VirtualSoundSource::getSource()
-{
-	return actualSource_;
-}
-
-unsigned int VirtualSoundSource::getPriority()
-{
-	return priority_;
-}
-
-SoundBuffer *VirtualSoundSource::getBuffer()
-{
-	return buffer_;
-}
-
-bool VirtualSoundSource::getLooping()
-{
-	return looping_;
+void VirtualSoundSource::setPlayingSource(PlayingSoundSource *s)
+{ 
+	playingSource_ = s; 
 }
 
 bool VirtualSoundSource::getPlaying()
 {
-	if (actualSource_) return actualSource_->getPlaying();
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		return playingSource_->actualSource->getPlaying();
+	}
 	return false;
-}
-
-bool VirtualSoundSource::getManaged()
-{
-	return managed_;
 }
 
 void VirtualSoundSource::setRelative()
 {
 	relative_ = true;
-	if (actualSource_) actualSource_->setRelative(true);
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		playingSource_->actualSource->setRelative(true);
+	}
 }
 
 void VirtualSoundSource::setPosition(Vector &position)
 {
 	position_ = position;
-	if (actualSource_) actualSource_->setPosition(position);
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		playingSource_->actualSource->setPosition(position);
+	}
 }
 
 void VirtualSoundSource::setVelocity(Vector &velocity)
 {
 	velocity_ = velocity;
-	if (actualSource_) actualSource_->setVelocity(velocity);
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		playingSource_->actualSource->setVelocity(velocity);
+	}
 }
 
 void VirtualSoundSource::setGain(float gain)
 {
 	gain_ = gain;
-	if (actualSource_) actualSource_->setGain(gain);
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		playingSource_->actualSource->setGain(gain);
+	}
+}
+
+void VirtualSoundSource::setReferenceDistance(float refDist)
+{
+	refDist_ = refDist;
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		playingSource_->actualSource->setReferenceDistance(refDist);
+	}
+}
+
+void VirtualSoundSource::setRolloff(float rolloff)
+{
+	rolloff_ = rolloff;
+	if (playingSource_ && playingSource_->actualSource)
+	{
+		playingSource_->actualSource->setRolloff(rolloff);
+	}
+}
+
+void VirtualSoundSource::updateDistance(Vector &listener)
+{
+	Vector pos = getPosition();
+	if (!getRelative())
+	{
+		pos -= listener;
+	}
+	distance_ = pos[0] * pos[0] + pos[1] * pos[1] + pos[2] * pos[2];
 }

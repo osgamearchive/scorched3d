@@ -38,7 +38,7 @@ GLWListView::GLWListView(float x, float y, float w, float h,
 	scroll_(x + w - 17, y, h - 1, 0, 1), 
 	maxLen_(maxLen), textSize_(textSize),
 	scrollSpeed_(scrollSpeed),
-	handler_(0)
+	handler_(0), currentPosition_(0.0f)
 {
 	color_ = GLWFont::widgetFontColor;
 	scroll_.setMax((int) lines_.size());

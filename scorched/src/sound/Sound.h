@@ -28,11 +28,13 @@
 #include <sound/VirtualSoundSource.h>
 #include <sound/SoundBuffer.h>
 #include <sound/SoundListener.h>
+#include <sound/SoundSource.h>
 #include <GLEXT/GLConsoleRule.h>
 
 #define CACHE_SOUND(var, filename) 										\
 		static SoundBuffer* var = Sound::instance()->fetchOrCreateBuffer(filename);
 
+class PlayingSoundSource;
 class Sound : public GameStateI
 {
 public:
@@ -49,8 +51,8 @@ public:
 	SoundListener *getDefaultListener();
 	
 	void addManaged(VirtualSoundSource *source);
-	void removePlaying(VirtualSoundSource *source, unsigned int priority);
-	SoundSource *addPlaying(VirtualSoundSource *source, unsigned int priority);
+	void addPlaying(VirtualSoundSource *source);
+	void removePlaying(VirtualSoundSource *source);
 
 	void simulate(const unsigned state, float simTime);
 	int getAvailableChannels();
@@ -61,18 +63,18 @@ protected:
 	typedef std::map<std::string, SoundBuffer *> BufferMap;
 	typedef std::vector<SoundSource *> SourceList;
 	typedef std::vector<VirtualSoundSource *> VirtualSourceList;
-	typedef std::multimap<unsigned int, VirtualSoundSource *> VirtualSourceMap;
+	typedef std::vector<PlayingSoundSource *> PlayingSourceList;
+
 	float totalTime_;
 	BufferMap bufferMap_;
 	SourceList totalSources_;
 	SourceList availableSources_;
 	SoundListener listener_;
-	VirtualSourceMap playingSources_;
 	VirtualSourceList managedSources_;
-	VirtualSourceList loopingSources_;
+	PlayingSourceList playingSources_;
 	bool init_;
 
-	void tidyBuffers();
+	void updateSources();
 	SoundBuffer *createBuffer(char *fileName);
 
 private:

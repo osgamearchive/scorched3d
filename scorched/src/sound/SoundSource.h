@@ -40,6 +40,8 @@ public:
 	void setRelative(bool relative);
 	void setPosition(Vector &position);
 	void setVelocity(Vector &velocity);
+	void setReferenceDistance(float refDist);
+	void setRolloff(float rolloff);
 	void setGain(float gain);
 
 protected:

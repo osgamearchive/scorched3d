@@ -35,6 +35,8 @@ public:
 
 	const char *getSound();
 	float getGain() { return gain_; }
+	float getRolloff() { return rolloff_; }
+	float getReferenceDistance() { return referenceDistance_; }
 	bool getRelative() { return relative_; }
 
 	// Inherited from Weapon
@@ -46,6 +48,8 @@ public:
 protected:
 	std::vector<std::string> sounds_;
 	float gain_;
+	float rolloff_;
+	float referenceDistance_;
 	bool relative_;
 };
 

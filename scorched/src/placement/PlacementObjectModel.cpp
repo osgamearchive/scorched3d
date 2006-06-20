@@ -59,5 +59,5 @@ void PlacementObjectModel::createObject(ScorchedContext &context,
 		&definition_.getShadow(),
 		position.position,
 		definition_.getSize()));
-	groups_.addToGroups(context, modelEntry);
+	groups_.addToGroups(context, modelEntry, false);
 }

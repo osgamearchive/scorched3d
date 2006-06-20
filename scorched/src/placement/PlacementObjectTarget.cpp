@@ -63,6 +63,7 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 
 	if (target->getRenderer())
 	{
-		groups_.addToGroups(context, (LandscapeObjectsEntry *) target->getRenderer());
+		groups_.addToGroups(context, 
+			(LandscapeObjectsEntry *) target->getRenderer(), false);
 	}
 }

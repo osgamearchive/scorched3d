@@ -32,7 +32,7 @@ public:
 
 	virtual float getDistance(int x, int y);
 
-	virtual void addObject(LandscapeObjectEntryBase *object);
+	virtual void addObject(LandscapeObjectEntryBase *object, bool thin);
 	virtual bool removeObject(LandscapeObjectEntryBase *object);
 
 protected:

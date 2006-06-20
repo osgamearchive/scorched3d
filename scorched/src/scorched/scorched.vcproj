@@ -3409,6 +3409,12 @@
 			Name="sound"
 			Filter="">
 			<File
+				RelativePath="..\sound\PlayingSoundSource.cpp">
+			</File>
+			<File
+				RelativePath="..\sound\PlayingSoundSource.h">
+			</File>
+			<File
 				RelativePath="..\sound\Sound.cpp">
 			</File>
 			<File

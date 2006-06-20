@@ -66,6 +66,18 @@ void SoundSource::setGain(float gain)
 	alSourcef(source_, AL_GAIN, gain);
 }
 
+void SoundSource::setReferenceDistance(float refDist)
+{
+	if (!source_) return;
+	alSourcef(source_, AL_REFERENCE_DISTANCE, refDist);
+}
+
+void SoundSource::setRolloff(float rolloff)
+{
+	if (!source_) return;
+	alSourcef(source_, AL_ROLLOFF_FACTOR, rolloff);
+}
+
 void SoundSource::play(SoundBuffer *buffer, bool repeat)
 {
 	if (!buffer || !source_) return;

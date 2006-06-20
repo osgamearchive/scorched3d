@@ -25,8 +25,10 @@
 #include <common/Logger.h>
 #include <sound/Sound.h>
 #include <sound/SoundBufferFactory.h>
+#include <sound/PlayingSoundSource.h>
 #include <AL/al.h>
 #include <AL/alc.h>
+#include <algorithm>
 
 Sound *Sound::instance_ = 0;
 
@@ -175,17 +177,26 @@ void Sound::showSoundBuffers()
 	Logger::log(formatString("%i sounds playing, %i sources free",
 		getPlayingChannels(),
 		getAvailableChannels()));
-	VirtualSourceMap::iterator itor;
+	PlayingSourceList::iterator itor;
 	for (itor = playingSources_.begin();
 		itor != playingSources_.end();
 		itor++, i++)
 	{
-		unsigned int p = (*itor).first;
-		VirtualSoundSource *source = (*itor).second;
-		Logger::log(formatString("%i,%u - %s:%s",
-			i, p, 
-			(source->getPlaying()?"Playing":"Stopped"),
-			source->getBuffer()->getFileName()));
+		PlayingSoundSource *source = (*itor);
+		if (source->virtualSource)
+		{
+			Logger::log(formatString("%i - %u,%f - %s%s:%s",
+				i, 
+				source->virtualSource->getPriority(),
+				source->virtualSource->getDistance(),
+				(source->stopped?"Finished":(source->virtualSource->getPlaying()?"Playing":"Stopped")),
+				(source->virtualSource->getLooping()?"(Looped)":""),
+				source->virtualSource->getBuffer()->getFileName()));
+		}
+		else
+		{
+			Logger::log(formatString("%i - Pending Removal"));
+		}
 	}
 }
 
@@ -193,13 +204,13 @@ void Sound::simulate(const unsigned state, float frameTime)
 {
 	// Simulate all the current sources
 	// This is only applicable for streams
-	VirtualSourceMap::iterator playingitor;
+	PlayingSourceList::iterator playingitor;
 	for (playingitor = playingSources_.begin();
 		playingitor != playingSources_.end();
 		playingitor++)
 	{
-		VirtualSoundSource *source = (*playingitor).second;
-		if (source->getPlaying())
+		SoundSource *source = (*playingitor)->actualSource;
+		if (source && source->getPlaying())
 		{
 			source->simulate();
 		}
@@ -210,41 +221,144 @@ void Sound::simulate(const unsigned state, float frameTime)
 	if (totalTime_ < 0.2f) return;
 	totalTime_ = 0.0f;
 
-	tidyBuffers();
+	updateSources();
 }
 
-void Sound::tidyBuffers()
-{
-	// Check any sources that are looping and should be restarted
-	// Playing a stopped source will remove an available source
-	while (!loopingSources_.empty() &&
-		!availableSources_.empty())
-	{
-		VirtualSoundSource *stopedSource = loopingSources_.back();
-		loopingSources_.pop_back();
-		DIALOG_ASSERT(stopedSource->getBuffer());
-		stopedSource->play(stopedSource->getBuffer());
-	}
+static inline bool lt_virt(PlayingSoundSource *p2, PlayingSoundSource *p1)
+{ 
+	float dist1 = 0.0f;
+	float dist2 = 0.0f;
+	unsigned int priority1 = 0;
+	unsigned int priority2 = 0;
 
-	// Tidy any playing sources that have stopped playing
-	// This is the list of sources that are currently actualy playing
-	static VirtualSourceList finishedList;
-	VirtualSourceMap::iterator playingitor;
-	for (playingitor = playingSources_.begin();
-		playingitor != playingSources_.end();
-		playingitor++)
+    VirtualSoundSource *v1 = p1->virtualSource;
+	VirtualSoundSource *v2 = p2->virtualSource;
+
+	if (v1 && !p1->stopped) priority1 = v1->getPriority();
+	if (v2 && !p2->stopped) priority2 = v2->getPriority();
+	if (v1) dist1 = v1->getDistance();
+	if (v2) dist2 = v2->getDistance();
+
+	return (priority1 < priority2 ||
+		(priority1 == priority2 && dist1 > dist2));
+}
+
+void Sound::addPlaying(VirtualSoundSource *virt)
+{
+	// Add the new source
+	PlayingSoundSource *source = new PlayingSoundSource(virt);
+	playingSources_.push_back(source);
+	virt->setPlayingSource(source); // Need to do this before updateSources
+
+	updateSources();
+}
+
+void Sound::updateSources()
+{
+	// Update all of the distances
+	Vector listenerPosition = listener_.getPosition();
+	PlayingSourceList::iterator fitor;
+	for (fitor = playingSources_.begin();
+		fitor != playingSources_.end();
+		fitor++)
 	{
-		VirtualSoundSource *source = (*playingitor).second;
-		if (!source->getPlaying())
+		PlayingSoundSource *source = (*fitor);
+		if (source->virtualSource)
 		{
-			finishedList.push_back(source);
+			source->virtualSource->updateDistance(listenerPosition);
 		}
 	}
-	while (!finishedList.empty())
+
+	// Sort the queue by priority and distance
+	std::sort(playingSources_.begin(), playingSources_.end(), lt_virt); 
+
+	// Start and stop the relevant sources
+	int totalSources = (int) totalSources_.size();
+	int totalPlaying = (int) playingSources_.size();
+	int count = 0;
+	PlayingSourceList::reverse_iterator ritor;
+	for (ritor = playingSources_.rbegin();
+		ritor != playingSources_.rend();
+		ritor++, count++)
 	{
-		VirtualSoundSource *source = finishedList.back();
-		finishedList.pop_back();
-		source->stop();
+		PlayingSoundSource *source = (*ritor);
+
+		bool stopSource = false;
+
+		// Check if we have been stopped
+		if (source->stopped)
+		{
+			stopSource = true;
+		}
+		// Check if we should be playing
+		else if (totalPlaying - count <= totalSources)
+		{
+			if (source->actualSource)
+			{
+				if (source->actualSource->getPlaying())
+				{
+					// It should be playing and is playing
+				}
+				else
+				{
+					// It should be playing, but its finished playing
+					stopSource = true;
+				}
+			}
+			else if (!source->actualSource)
+			{
+				// Its not playing and should be playing
+				DIALOG_ASSERT(!availableSources_.empty());
+				source->actualSource = availableSources_.back();
+				availableSources_.pop_back();
+				source->virtualSource->actualPlay();
+			}
+		}
+		// We should not be playing this one
+		else
+		{
+			stopSource = true;
+		}
+
+		// We should not be playing this sound
+		if (stopSource)
+		{
+			// We are currently playing
+			if (source->actualSource)
+			{
+				// Stop it
+				source->actualSource->stop();
+				availableSources_.push_back(source->actualSource);
+				source->actualSource = 0;
+			}
+
+			// If we are not looped so stop for good
+			if (source->virtualSource)
+			{
+				if (!source->virtualSource->getLooping())
+				{
+					source->stopped = true;
+				}
+			}
+		}
+	}
+
+	// Remove any finished sources
+	while (!playingSources_.empty())
+	{
+		PlayingSoundSource *source = playingSources_.back();
+		if (source->stopped)
+		{
+			if (source->virtualSource)
+			{
+				source->virtualSource->setPlayingSource(0);
+			}
+
+			DIALOG_ASSERT(!(source->actualSource));
+			delete source;
+			playingSources_.pop_back();
+		}
+		else break;
 	}
 
 	// Tidy any managed sources that have stopped playing
@@ -271,79 +385,18 @@ void Sound::tidyBuffers()
 	}
 }
 
-SoundSource *Sound::addPlaying(VirtualSoundSource *virt, unsigned int priority)
+void Sound::removePlaying(VirtualSoundSource *virt)
 {
-	// If there are no available sources and there are some sounds playing
-	// check if we can re-use a playing sound with a lower priority than us
-	if (!playingSources_.empty() && 
-		availableSources_.empty())
+	if (virt->getPlayingSource())
 	{
-		VirtualSourceMap::iterator itor = 
-			playingSources_.begin();
-		VirtualSoundSource *playingSource = 
-			(*itor).second;
-		if (playingSource->getPriority() < priority)
+		if (virt->getPlayingSource())
 		{
-			playingSource->stop();
-			if (playingSource->getLooping())
-			{
-				loopingSources_.push_back(playingSource);
-			}
+			virt->getPlayingSource()->stopped = true;
+			virt->getPlayingSource()->virtualSource = 0;
 		}
 	}
 
-	// Now check to see if there is an available channel
-	// (or perhaps we just freed one up)
-	if (!availableSources_.empty())
-	{
-		SoundSource *source = availableSources_.back();
-		availableSources_.pop_back();
-
-		std::pair<unsigned int, VirtualSoundSource *> p(priority, virt);
-		playingSources_.insert(p);
-		return source;
-	}
-
-	return 0;
-}
-
-void Sound::removePlaying(VirtualSoundSource *virt, unsigned int priority)
-{
-	// Remove the virtual source from the list of playing
-	std::pair<VirtualSourceMap::iterator,  VirtualSourceMap::iterator> p =
-		playingSources_.equal_range(priority);
-	VirtualSourceMap::iterator itor;
-	for (itor = p.first; itor != p.second; itor++)
-	{
-		VirtualSoundSource *v = (*itor).second;
-		if (v == virt)
-		{
-			playingSources_.erase(itor);
-			break;
-		}
-	}
-
-	// Remove from looping list
-	if (virt->getLooping())
-	{
-		VirtualSourceList::iterator itor;
-		for (itor = loopingSources_.begin();
-			itor != loopingSources_.end();
-			itor++)
-		{
-			if (*itor == virt)
-			{
-				loopingSources_.erase(itor);
-				break;
-			}
-		}
-	}
-
-	// Return the source to the list of available
-	if (virt->getSource())
-	{
-		availableSources_.push_back(virt->getSource());
-	}
+	updateSources();
 }
 
 void Sound::addManaged(VirtualSoundSource *source)

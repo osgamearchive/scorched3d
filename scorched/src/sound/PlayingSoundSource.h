@@ -18,46 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/LandscapeObjectsSetEntry.h>
-#include <common/Defines.h>
+#if !defined(__INCLUDE_PlayingSoundSourceh_INCLUDE__)
+#define __INCLUDE_PlayingSoundSourceh_INCLUDE__
 
-LandscapeObjectsSetEntry::LandscapeObjectsSetEntry()
+class SoundSource;
+class VirtualSoundSource;
+class PlayingSoundSource
 {
-}
+public:
+	PlayingSoundSource(VirtualSoundSource *virt);
+	virtual ~PlayingSoundSource();
 
-LandscapeObjectsSetEntry::~LandscapeObjectsSetEntry()
-{
-}
+	VirtualSoundSource *virtualSource;
+	SoundSource *actualSource;
+	bool stopped;
+};
 
-void LandscapeObjectsSetEntry::addObject(LandscapeObjectEntryBase *object, bool thin)
-{
-	objects_.insert(object);
-}
-
-bool LandscapeObjectsSetEntry::removeObject(LandscapeObjectEntryBase *object)
-{
-	return (objects_.erase(object) > 0);
-}
-
-LandscapeObjectEntryBase *LandscapeObjectsSetEntry::getObject(int position)
-{
-	int pos = position % int(objects_.size());
-	std::set<LandscapeObjectEntryBase *>::iterator itor;
-	for (itor = objects_.begin();
-		itor != objects_.end();
-		itor ++, pos--)
-	{
-		if (pos <=0) return (*itor);
-	}
-	return 0;
-}
-
-bool LandscapeObjectsSetEntry::hasObject(LandscapeObjectEntryBase *object)
-{
-	return (objects_.find(object) != objects_.end());
-}
-
-int LandscapeObjectsSetEntry::getObjectCount()
-{ 
-	return (int) objects_.size(); 
-}
+#endif // __INCLUDE_PlayingSoundSourceh_INCLUDE__

@@ -190,7 +190,14 @@ bool LandscapeSoundSoundFile::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("file", file)) return false;
 	if (!checkDataFile(file.c_str())) return false;
-	if (!node->getNamedChild("gain", gain)) return false;
+
+	gain = 1.0f;
+	node->getNamedChild("gain", gain, false);
+	referencedistance = 75.0f;
+	node->getNamedChild("referencedistance", referencedistance, false);
+	rolloff = 1.0f;
+	node->getNamedChild("rolloff", rolloff, false);
+
 	return node->failChildren();
 }
 
@@ -202,6 +209,8 @@ bool LandscapeSoundSoundFile::play(VirtualSoundSource *source)
 	if (!buffer) return false;
 
 	source->setGain(gain);
+	source->setRolloff(rolloff);
+	source->setReferenceDistance(referencedistance);
 	source->play(buffer);
 
 	return true;

@@ -58,12 +58,12 @@ float LandscapeObjectsGroupEntry::getDistance(int x, int y)
 	return 255.0f;
 }
 
-void LandscapeObjectsGroupEntry::addObject(LandscapeObjectEntryBase *object)
+void LandscapeObjectsGroupEntry::addObject(LandscapeObjectEntryBase *object, bool thin)
 {
-	LandscapeObjectsSetEntry::addObject(object);
+	LandscapeObjectsSetEntry::addObject(object, thin);
 
 	static unsigned int objectCount = 0;
-	if (objectCount++ % 3 != 0) return;
+	if (thin && objectCount++ % 3 != 0) return;
 
 	int x = (int) object->getPosition()[0];
 	int y = (int) object->getPosition()[1];

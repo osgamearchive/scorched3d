@@ -29,6 +29,7 @@ class SoundListener
 public:
 	virtual ~SoundListener();
 
+	Vector &getPosition();
 	void setPosition(Vector &position);
 	void setVelocity(Vector &velocity);
 	void setOrientation(Vector &orientation);

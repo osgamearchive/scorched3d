@@ -33,7 +33,7 @@ public:
 	LandscapeObjectEntryBase *getObject(int position);
 	bool hasObject(LandscapeObjectEntryBase *object);
 
-	virtual void addObject(LandscapeObjectEntryBase *object);
+	virtual void addObject(LandscapeObjectEntryBase *object, bool thin);
 	virtual bool removeObject(LandscapeObjectEntryBase *object);
 
 	virtual int getObjectCount();

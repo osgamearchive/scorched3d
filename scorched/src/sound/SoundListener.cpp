@@ -30,6 +30,16 @@ SoundListener::~SoundListener()
 {
 }
 
+Vector &SoundListener::getPosition()
+{
+	static Vector position;
+	if (!Sound::instance()->getInit()) return position;
+
+	alGetListenerfv(AL_POSITION, position);
+
+	return position;
+}
+
 void SoundListener::setPosition(Vector &position)
 {
 	if (!Sound::instance()->getInit()) return;

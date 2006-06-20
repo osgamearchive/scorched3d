@@ -128,6 +128,8 @@ public:
 protected:
 	std::string file;
 	float gain;
+	float referencedistance;
+	float rolloff;
 };
 
 class LandscapeSoundType

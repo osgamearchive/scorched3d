@@ -82,5 +82,5 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 		(unsigned int) position.position[1],
 		treeEntry);
 
-	group_.addToGroups(context, treeEntry);
+	group_.addToGroups(context, treeEntry, true);
 }

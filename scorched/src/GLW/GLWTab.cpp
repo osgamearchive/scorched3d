@@ -33,10 +33,9 @@ GLWTabI::~GLWTabI()
 }
 
 GLWTab::GLWTab(char *tabName, float x, float y, float w, float h) :
-	GLWScrollPanel(x, y, w, h), 
+	GLWScrollPanel(x, y, w, h), index_(-1.0f),
 	label_(x + 5.0f + index_, y + h - 3.0f, tabName),
-	handler_(0), index_(-1.0f),
-	depressed_(true)
+	handler_(0), depressed_(true)
 {
 	label_.setSize(12.0f);
 }

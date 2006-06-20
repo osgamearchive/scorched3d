@@ -26,7 +26,9 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponSound);
 
-WeaponSound::WeaponSound() : gain_(1.0f), relative_(false)
+WeaponSound::WeaponSound() : 
+	gain_(1.0f), relative_(false),
+	rolloff_(1.0f), referenceDistance_(75.0f)
 {
 
 }
@@ -54,6 +56,8 @@ bool WeaponSound::parseXML(OptionsGame &context,
 		sounds_.push_back(sound);
 	}
 	accessoryNode->getNamedChild("gain", gain_, false);
+	accessoryNode->getNamedChild("rolloff", rolloff_, false);
+	accessoryNode->getNamedChild("referencedistance", referenceDistance_, false);
 	accessoryNode->getNamedChild("relative", relative_, false);
 	return true;
 }

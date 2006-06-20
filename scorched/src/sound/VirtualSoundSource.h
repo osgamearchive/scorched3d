@@ -21,9 +21,11 @@
 #if !defined(__INCLUDE_VirtualSoundSourceh_INCLUDE__)
 #define __INCLUDE_VirtualSoundSourceh_INCLUDE__
 
-#include <sound/SoundSource.h>
 #include <sound/VirtualSoundPriority.h>
+#include <sound/SoundBuffer.h>
+#include <common/Vector.h>
 
+class PlayingSoundSource;
 class VirtualSoundSource
 {
 public:
@@ -32,27 +34,37 @@ public:
 	virtual ~VirtualSoundSource();
 
 	void play(SoundBuffer *buffer);
-	void simulate();
 	void stop();
 
 	bool getPlaying();
-	bool getManaged();
-	bool getLooping();
-	unsigned int getPriority();
-	SoundBuffer *getBuffer();
-	SoundSource *getSource();
+	bool getManaged() { return managed_; }
+	bool getLooping() { return looping_; }
+	bool getRelative() { return relative_; }
+	Vector &getPosition() { return position_; }
+	unsigned int getPriority() { return priority_; }
+	SoundBuffer *getBuffer() { return buffer_; }
+	PlayingSoundSource *getPlayingSource() { return playingSource_; }
+	float getDistance() { return distance_; }
 
 	void setRelative();
 	void setPosition(Vector &position);
 	void setVelocity(Vector &velocity);
 	void setGain(float gain);
+	void setReferenceDistance(float refDist);
+	void setRolloff(float rolloff);
+
+	// Internal
+	void actualPlay();
+	void setPlayingSource(PlayingSoundSource *s);
+	void updateDistance(Vector &listener);
 
 protected:
 	unsigned int priority_;
-	SoundSource *actualSource_;
+	PlayingSoundSource *playingSource_;
 	SoundBuffer *buffer_;
 	Vector position_, velocity_;
-	float gain_;
+	float distance_;
+	float gain_, refDist_, rolloff_;
 	bool relative_;
 	bool looping_;
 	bool managed_;

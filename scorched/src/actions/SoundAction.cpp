@@ -53,6 +53,8 @@ void SoundAction::simulate(float frameTime, bool &remove)
 		if (weapon_->getRelative())	source->setRelative();
 		else source->setPosition(position_);
 		source->setGain(weapon_->getGain());
+		source->setReferenceDistance(weapon_->getReferenceDistance());
+		source->setRolloff(weapon_->getRolloff());
 		source->play(activateSound);
 	}
 
