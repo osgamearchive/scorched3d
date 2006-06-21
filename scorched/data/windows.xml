@@ -5,7 +5,7 @@
 		<state>start</state>
 		<visible>false</visible>
 		<key>SHOW_TALK_DIALOG</key>
-		<windowlevel>200000</windowlevel>
+		<windowlevel>40000</windowlevel>
 		<w>-400</w>
 		<h>20</h>
 		<x>200</x>
@@ -28,7 +28,7 @@
 		<state>start</state>
 		<visible>false</visible>
 		<key>SHOW_TEAM_TALK_DIALOG</key>
-		<windowlevel>200000</windowlevel>
+		<windowlevel>40000</windowlevel>
 		<w>-400</w>
 		<h>20</h>
 		<x>200</x>
