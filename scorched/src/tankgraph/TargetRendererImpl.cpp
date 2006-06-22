@@ -33,6 +33,9 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLCameraFrustum.h>
 
+TargetRendererImpl::HighlightType TargetRendererImpl::highlightType_ = 
+	TargetRendererImpl::eNoHighlight;
+
 TargetRendererImpl::TargetRendererImpl() : particleMade_(false)
 {
 }

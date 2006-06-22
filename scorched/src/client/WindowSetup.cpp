@@ -48,6 +48,7 @@
 #include <dialogs/HUDDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <dialogs/TutorialDialog.h>
+#include <dialogs/MessageDialog.h>
 
 void WindowSetup::addCommonComponents(unsigned state)
 {
@@ -104,6 +105,9 @@ void WindowSetup::addCommonComponents(unsigned state)
 	}
 	GLWWindowManager::instance()->addWindow(state, 
 		TalkSettingsDialog::instance(), 0, false);
+
+	GLWWindowManager::instance()->addWindow(state,
+		MessageDialog::instance(), 0, true);
 
 	GLWWindowManager::instance()->addWindow(state, 
 		MainMenuDialog::instance(), 0, true);

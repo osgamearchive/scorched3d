@@ -1084,6 +1084,12 @@
 				RelativePath="..\dialogs\MainMenuDialog.h">
 			</File>
 			<File
+				RelativePath="..\dialogs\MessageDialog.cpp">
+			</File>
+			<File
+				RelativePath="..\dialogs\MessageDialog.h">
+			</File>
+			<File
 				RelativePath="..\dialogs\PlayerDialog.cpp">
 			</File>
 			<File
@@ -2763,12 +2769,6 @@
 			</File>
 			<File
 				RelativePath="..\client\MainCamera.h">
-			</File>
-			<File
-				RelativePath="..\client\MessageDisplay.cpp">
-			</File>
-			<File
-				RelativePath="..\client\MessageDisplay.h">
 			</File>
 			<File
 				RelativePath="..\client\ScorchedClient.cpp">

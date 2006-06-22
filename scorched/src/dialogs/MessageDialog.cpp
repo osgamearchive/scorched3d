@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,41 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/MessageDisplay.h>
+#include <dialogs/MessageDialog.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
 #include <GLEXT/GLConsole.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
 
-MessageDisplay *MessageDisplay::instance_ = 0;
+MessageDialog *MessageDialog::instance_ = 0;
 
-MessageDisplay *MessageDisplay::instance()
+MessageDialog *MessageDialog::instance()
 {
-	if (!instance_)
-	{
-		instance_ = new MessageDisplay;
-	}
+	if (!instance_) instance_ = new MessageDialog();
 	return instance_;
 }
 
-MessageDisplay::MessageDisplay() : 
-	showTime_(0.0f), window_("", 10.0f, 10.0f, 447.0f, 310.0f, 
+MessageDialog::MessageDialog() :
+	showTime_(0.0f), GLWWindow("", 10.0f, 10.0f, 447.0f, 310.0f, 
 		GLWWindow::eTransparent | GLWWindow::eNoTitle,
 		"")
 {
+	disabled_ = true;
+	windowLevel_ = 90000;
 }
 
-MessageDisplay::~MessageDisplay()
+MessageDialog::~MessageDialog()
 {
 }
 
-void MessageDisplay::addMessage(const char *text)
+void MessageDialog::addMessage(const char *text)
 {
 	texts_.push_back(text);
 }
 
-void MessageDisplay::simulate(const unsigned state, float simTime)
+void MessageDialog::simulate(float simTime)
 {
 	showTime_ -= simTime;
 	if (showTime_ <= 0.0f)
@@ -71,13 +70,13 @@ void MessageDisplay::simulate(const unsigned state, float simTime)
 	}
 }
 
-void MessageDisplay::clear()
+void MessageDialog::clear()
 {
 	texts_.clear(); 
 	showTime_ = 0.0f;
 }
 
-void MessageDisplay::draw(const unsigned currentstate)
+void MessageDialog::draw()
 {
 	if (showTime_ <= 0.0f) return;
 
@@ -91,11 +90,11 @@ void MessageDisplay::draw(const unsigned currentstate)
 	float x = (wWidth/2.0f) - (textWidth / 2) - 10.0f;
 	float y = wHeight - 60.0f;
 
-	window_.setW(textWidth + 20.0f);
-	window_.setH(40);
-	window_.setX(x);
-	window_.setY(y);
-	window_.draw();
+	setW(textWidth + 20.0f);
+	setH(40);
+	setX(x);
+	setY(y);
+	GLWWindow::draw();
 
 	Vector white(0.9f, 0.9f, 1.0f);
 	GLWFont::instance()->getLargePtFont()->draw(

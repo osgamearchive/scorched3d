@@ -21,7 +21,7 @@
 #include <client/ClientTextHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <client/MessageDisplay.h>
+#include <dialogs/MessageDialog.h>
 #include <tank/TankContainer.h>
 #include <engine/ActionController.h>
 #include <sprites/TalkRenderer.h>
@@ -63,8 +63,8 @@ bool ClientTextHandler::processMessage(unsigned int id,
 
 	if (message.getShowAsMessage())
 	{
-		MessageDisplay::instance()->clear();
-		MessageDisplay::instance()->addMessage(message.getText());
+		MessageDialog::instance()->clear();
+		MessageDialog::instance()->addMessage(message.getText());
 
 		Logger::log(message.getText());
 	}

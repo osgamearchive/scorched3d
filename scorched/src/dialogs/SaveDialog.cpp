@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/SaveDialog.h>
+#include <dialogs/MessageDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
-#include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientSave.h>
 #include <common/Logger.h>
@@ -96,7 +96,7 @@ void SaveDialog::buttonDown(unsigned int id)
 			}
 			else
 			{
-				MessageDisplay::instance()->addMessage(
+				MessageDialog::instance()->addMessage(
 					"Save failed");
 			}
 			GLWWindowManager::instance()->hideWindow(id_);

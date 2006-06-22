@@ -24,10 +24,10 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWListView.h>
-#include <client/MessageDisplay.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 #include <target/TargetRenderer.h>
+#include <tankgraph/TargetRendererImpl.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/Defines.h>
@@ -107,6 +107,8 @@ static const char *getValue(const char *name,
 
 void TutorialDialog::processEvents(bool log)
 {
+	TargetRendererImpl::setHighlightType(TargetRendererImpl::eNoHighlight);
+
 	if (currentEvents_.empty()) return;
 
 	const char *action = getValue("action", currentEvents_);
@@ -121,56 +123,17 @@ void TutorialDialog::processEvents(bool log)
 	}
 	else if (0 == strcmp(action, "targets"))
 	{
-		processTargets(log);
+		TargetRendererImpl::setHighlightType(TargetRendererImpl::eOtherHighlight);
 	}
 	else if (0 == strcmp(action, "player"))
 	{
-		processPlayer(log);
+		TargetRendererImpl::setHighlightType(TargetRendererImpl::ePlayerHighlight);
 	}
 	else
 	{
 		dialogExit("TutorialDialog",
 			formatString("Unknown tutorial event type \"%s\"",
 			action));
-	}
-}
-
-void TutorialDialog::processTargets(bool log)
-{
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getAlive() &&
-			tank->getPlayerId() !=
-			ScorchedClient::instance()->getTankContainer().getCurrentPlayerId())
-		{
-			TargetRenderer *renderer = tank->getRenderer();
-			if (renderer->canSeeTarget())
-			{
-				Vector &pos = renderer->get2DPosition();
-				drawHighlight(
-					pos[0] - 10.0f, pos[1] - 10.0f, 20.0f, 20.0f);
-			}
-		}
-	}
-}
-
-void TutorialDialog::processPlayer(bool log)
-{
-	Tank *tank =
-		ScorchedClient::instance()->getTankContainer().getCurrentTank();
-
-	TargetRenderer *renderer = tank->getRenderer();
-	if (renderer->canSeeTarget())
-	{
-		Vector &pos = renderer->get2DPosition();
-		drawHighlight(
-			pos[0] - 10.0f, pos[1] - 10.0f, 20.0f, 20.0f);
 	}
 }
 
@@ -272,7 +235,7 @@ void TutorialDialog::drawHighlight(float x, float y, float w, float h)
 		triangleTex_.create(maps, GL_RGBA, true);
 	}
 
-	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);
+	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);
 	glColor4f(1.0f, 0.0f, 0.0f, 0.7f);
 
 	triangleTex_.draw();

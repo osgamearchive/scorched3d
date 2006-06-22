@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,40 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_MessageDisplayh_INCLUDE__)
-#define __INCLUDE_MessageDisplayh_INCLUDE__
+#if !defined(__INCLUDE_MessageDialogh_INCLUDE__)
+#define __INCLUDE_MessageDialogh_INCLUDE__
 
-#include <engine/GameStateI.h>
 #include <GLW/GLWWindow.h>
 #include <string>
 #include <list>
 
-class MessageDisplay : 
-	public GameStateI
+class MessageDialog : public GLWWindow
 {
 public:
-	static MessageDisplay *instance();
+	static MessageDialog *instance();
 
-	void addMessage(const char *text);
+	virtual void draw();
+	virtual void simulate(float frameTime);
+
 	void clear();
-
-	//Inherited from GameStateI
-	virtual void simulate(const unsigned state, float simTime);
-	virtual void draw(const unsigned state);
+	void addMessage(const char *text);
 
 protected:
-	static MessageDisplay *instance_;
+	static MessageDialog *instance_;
 	float showTime_;
-
-	GLWWindow window_;
 	std::string currentText_;
 	std::list<std::string> texts_;
 
 private:
-	MessageDisplay();
-	virtual ~MessageDisplay ();
-
-
+	MessageDialog();
+	virtual ~MessageDialog();
 };
 
-#endif
+#endif // __INCLUDE_MessageDialogh_INCLUDE__

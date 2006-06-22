@@ -32,7 +32,16 @@ public:
 
 	void setMakeParticle() { particleMade_ = false; }
 
+	enum HighlightType
+	{
+		eNoHighlight,
+		ePlayerHighlight,
+		eOtherHighlight
+	};
+	static void setHighlightType(HighlightType type) { highlightType_ = type; }
+
 protected:
+	static HighlightType highlightType_;
 	bool particleMade_;
 
 	void drawShield(Target *target, float shieldHit, float totalTime);

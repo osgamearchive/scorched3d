@@ -37,9 +37,6 @@ public:
 	virtual void targetBurnt() = 0;
 	virtual void shieldHit() = 0;
 	virtual void fired() = 0;
-
-	virtual Vector &get2DPosition() = 0;
-	virtual bool canSeeTarget() = 0;
 };
 
 #endif // __INCLUDE_TargetRendererh_INCLUDE__

@@ -39,6 +39,8 @@ public:
 
 	virtual void url(const char *url);
 	virtual void event(std::map<std::string, std::string> &event);
+
+	void drawHighlight(float x, float y, float w, float h);
 protected:
 	static TutorialDialog *instance_;
 	float triangleDist_, triangleDir_;
@@ -51,10 +53,7 @@ protected:
 
 	void processEvents(bool log = false);
 	void processHighlight(bool log);
-	void processTargets(bool log);
-	void processPlayer(bool log);
 	void showPage(TutorialFileEntry *entry);
-	void drawHighlight(float x, float y, float w, float h);
 	void drawTriangle(float x, float y, float size, int tex);
 
 private:

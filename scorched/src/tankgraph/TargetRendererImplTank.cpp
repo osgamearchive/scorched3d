@@ -38,6 +38,7 @@
 #include <3dsparse/ModelRenderer.h>
 #include <weapons/Shield.h>
 #include <weapons/Accessory.h>
+#include <dialogs/TutorialDialog.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
@@ -557,13 +558,12 @@ void TargetRendererImplTank::draw2d()
 			glCallList(listNo);
 		glPopMatrix();
 	}
-}
 
-Vector &TargetRendererImplTank::get2DPosition()
-{
-	static Vector result;
-	result[0] = (float) posX_;
-	result[1] = (float) posY_;
-	result[2] = (float) posZ_;
-	return result;
+	// Draw highlight around the tank
+	if ((highlightType_ == ePlayerHighlight && tank_->getTankAI()) ||
+		(highlightType_ == eOtherHighlight && !tank_->getTankAI()))
+	{
+		TutorialDialog::instance()->drawHighlight(
+			float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);
+	}
 }

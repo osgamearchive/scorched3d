@@ -45,9 +45,6 @@ public:
 	virtual void fired();
 	virtual void targetBurnt();
 
-	virtual Vector &get2DPosition();
-	virtual bool canSeeTarget() { return canSeeTank_; }
-
 	virtual Vector &getPosition() { return target_->getTargetPosition(); }
 
 protected:

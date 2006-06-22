@@ -77,9 +77,6 @@ public:
 	virtual void simulate(float frameTime);
 	virtual void targetBurnt() {}
 
-	virtual Vector &get2DPosition();
-	virtual bool canSeeTarget() { return canSeeTank_; }
-
 	void resetModel() { model_ = 0; }
 	TankModel *getModel();
 	GLWTankTips *getTips() { return &tankTips_; }

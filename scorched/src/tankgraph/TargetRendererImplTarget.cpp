@@ -26,6 +26,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
 #include <GLW/GLWToolTip.h>
+#include <dialogs/TutorialDialog.h>
 #include <client/MainCamera.h>
 
 TargetRendererImplTarget::TargetRendererImplTarget(Target *target,
@@ -158,15 +159,6 @@ void TargetRendererImplTarget::storeTank2DPos()
 			&posY_,
 			&posZ_);
 	}
-}
-
-Vector &TargetRendererImplTarget::get2DPosition()
-{
-	static Vector result;
-	result[0] = (float) posX_;
-	result[1] = (float) posY_;
-	result[2] = (float) posZ_;
-	return result;
 }
 
 void TargetRendererImplTarget::fired()
