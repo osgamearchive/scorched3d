@@ -2,37 +2,50 @@
 
 #include menu.html
 
-<table align="center" border="0">
+<CENTER><B>Talk</B></CENTER>
+<table align="center" border="1" CELLPADDING="0">
 	<tr>
-		<td align="center">Talk</td>
-	</tr>
-	<tr>
-		<td>
-			<br>
+		<td colspan="2">
 			<font size=-1>
 			[[TEXTS]]
 			</font>
-			<br>
-			<form method="post">
-				<input type="hidden" name="sid" value="[[sid]]"> 
-				<input type="submit" value="Refresh">
-			</form>
 		</td>
 	</tr>
 	<tr>
-		<td align="center">
+		<td colspan="1">
 		<form method="post">
-			<input type="hidden" name="sid" value="[[sid]]"> 
-			<textarea name="text" rows="3" cols="80"></textarea><br>
-			<SELECT name="type">
-				<OPTION selected value="all">Say To All</OPTION>
-				<OPTION value="message">Message To All</OPTION>
-				<OPTION value="admin">Say To All Admins</OPTION>
-			</SELECT>
+			<input name="text" maxlength="80" size="80">
 			<input type="submit" value="Go">
+			<input type="hidden" name="sid" value="[[sid]]"> 
+			<input type="hidden" name="RefreshRate" value="[[RefreshRate]]">
 		</form>
 		</td>
+		<td colspan="1" width="100">
+		        <SELECT name="type">
+			<OPTION selected value="all">Say To All</OPTION>
+			<OPTION value="message">Message To All</OPTION>
+			<OPTION value="admin">Say To All Admins</OPTION>
+		</SELECT>
+		</td>
 	</tr>
+	<tr>
+		<td align="right" colspan="1">
+		<form method="post">
+		        <input type="hidden" name="sid" value="[[sid]]">
+			<input type="hidden" name="RefreshRate" value="[[RefreshRate]]">
+			<input type="submit" value="Refresh">
+		</form></td>
+		<td align ="left" colspan="1">
+		<form method="post">
+		        <input type="hidden" name="sid" value="[[sid]]">
+				<SELECT name="RefreshRate">
+				<OPTION selected value="">No Refresh</OPTION>
+				<OPTION value="15">15 Seconds</OPTION>
+				<OPTION value="30">30 Seconds</OPTION>
+				<OPTION value="60">60 Seconds</OPTION>
+			</SELECT>
+			<input type="submit" value="Set">
+		</form>
 </table>
 
 #include footer.html

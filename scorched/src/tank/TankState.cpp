@@ -33,7 +33,7 @@ TankState::TankState(ScorchedContext &context, unsigned int playerId) :
 	loading_(false), initializing_(false),
 	muted_(false), adminTries_(0),
 	skipshots_(false), 
-	lives_(1), maxLives_(1)
+	lives_(0), maxLives_(1)
 {
 }
 
