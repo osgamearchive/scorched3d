@@ -359,8 +359,9 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
 						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
 					mmap.calculateForTank(
-						firstTank, ScorchedClient::instance()->getContext());
-					mmap.movementTexture(accessory->getAccessoryId());
+						firstTank, accessory->getAccessoryId(), 
+						ScorchedClient::instance()->getContext());
+					mmap.movementTexture();
 				}
 				break;
 			default:

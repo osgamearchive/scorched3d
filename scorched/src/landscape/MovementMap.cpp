@@ -22,8 +22,8 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscape/LandscapeMaps.h>
+#include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
-#include <weapons/Accessory.h>
 #include <target/TargetContainer.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsGame.h>
@@ -133,8 +133,12 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 }
 
 void MovementMap::calculateForTank(Tank *tank, 
-	ScorchedContext &context, bool maxFuel)
+	unsigned int fuelId,
+	ScorchedContext &context, 
+	bool maxFuel)
 {
+	fuelId_ = fuelId;
+
 	// Check if the tank is buried and cannot move
 	float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		tank->getPosition().getTankPosition()[0],
@@ -220,7 +224,8 @@ void MovementMap::calculateForTank(Tank *tank,
 		tank->getPosition().getTankPosition()[0];
 	unsigned int posY = (unsigned int) 
 		tank->getPosition().getTankPosition()[1];
-	float fuel = (float) tank->getAccessories().getFuel().getNoFuel();
+	Accessory *accessory = context.accessoryStore->findByAccessoryId(fuelId);
+	float fuel = (float) tank->getAccessories().getAccessoryCount(accessory);
 	float maxFuelWeapons = (float) context.optionsGame->getMaxNumberWeapons();
 
 	if (fuel == -1.0f) fuel = maxFuelWeapons;
@@ -282,7 +287,7 @@ void MovementMap::calculateForTank(Tank *tank,
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
 
-void MovementMap::movementTexture(unsigned int fuelId)
+void MovementMap::movementTexture()
 {
 	GLBitmap newMap(
 		Landscape::instance()->getMainMap().getWidth(),
@@ -322,5 +327,4 @@ void MovementMap::movementTexture(unsigned int fuelId)
 
 	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
 	Landscape::instance()->setTextureType(Landscape::eMovement);
-	fuelId_ = fuelId;
 }

@@ -35,7 +35,6 @@ public:
 
 	void newMatch();
 	void changed();
-	int getNoFuel();
 
 	// Serialize the tank
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);

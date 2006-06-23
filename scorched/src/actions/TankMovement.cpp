@@ -92,7 +92,9 @@ void TankMovement::init()
 	MovementMap mmap(
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight);
-	mmap.calculateForTank(tank, *context_, true);
+	mmap.calculateForTank(tank, 
+		fuel_->getParent()->getAccessoryId(), 
+		*context_, true);
 	
 	MovementMap::MovementMapEntry entry =
 		mmap.getEntry(positionX_, positionY_);
@@ -275,13 +277,7 @@ void TankMovement::moveTank(Tank *tank)
 	// Use up one unit of fuel
 	if (useF)
 	{
-		std::list<Accessory *> result;
-		tank->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryFuel, result);
-		if (!result.empty())
-		{
-			tank->getAccessories().rm(result.front());
-		}
+		tank->getAccessories().rm(fuel_->getParent());
 	}
 
 	// Actually move the tank

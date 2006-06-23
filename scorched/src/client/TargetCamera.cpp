@@ -21,6 +21,7 @@
 #include <client/TargetCamera.h>
 #include <client/ScorchedClient.h>
 #include <actions/CameraPositionAction.h>
+#include <weapons/AccessoryStore.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/MovementMap.h>
 #include <landscape/Landscape.h>
@@ -450,17 +451,23 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 					if (posX > 0 && posX < landWidth &&
 						posY > 0 && posY < landHeight)
 					{
-						MovementMap mmap(landWidth, landHeight);
-						mmap.calculateForTank(currentTank,
-							ScorchedClient::instance()->getContext());
-
-						MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
-						if (entry.type == MovementMap::eMovement &&
-							(entry.dist < currentTank->getAccessories().getFuel().getNoFuel() ||
-							currentTank->getAccessories().getFuel().getNoFuel() == -1))
+						Accessory *accessory = 
+							ScorchedClient::instance()->getAccessoryStore().findByAccessoryId(MovementMap::getFuelId());
+						if (accessory)
 						{
-							TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
-							if (ai) ai->move(posX, posY, MovementMap::getFuelId());
+							MovementMap mmap(landWidth, landHeight);
+							mmap.calculateForTank(currentTank,
+								MovementMap::getFuelId(),
+								ScorchedClient::instance()->getContext());
+
+							MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
+							if (entry.type == MovementMap::eMovement &&
+								(entry.dist < currentTank->getAccessories().getAccessoryCount(accessory) ||
+								currentTank->getAccessories().getAccessoryCount(accessory) == -1))
+							{
+								TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
+								if (ai) ai->move(posX, posY, MovementMap::getFuelId());
+							}
 						}
 					}
 				}

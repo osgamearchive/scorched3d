@@ -203,6 +203,10 @@ void GLWScrollPanel::mouseWheel(float x, float y, float z, bool &skipRest)
 			if (z < 0.0f) scrollW_.setCurrent(scrollW_.getCurrent() + 1);
 			else scrollW_.setCurrent(scrollW_.getCurrent() - 1);
 		}
+		else 
+		{
+			GLWPanel::mouseWheel(x, y, z, skipRest);
+		}
 	}
 }
 

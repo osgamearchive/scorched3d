@@ -234,12 +234,12 @@ void ServerShotHolder::processMoveMessage(ScorchedContext &context,
 		MovementMap mmap(
 			context.landscapeMaps->getDefinitions().getDefn()->landscapewidth,
 			context.landscapeMaps->getDefinitions().getDefn()->landscapeheight);
-		mmap.calculateForTank(tank, context);
+		mmap.calculateForTank(tank, accessory->getAccessoryId(), context);
 		MovementMap::MovementMapEntry entry =
 			mmap.getEntry(posX, posY);
 		if (entry.type == MovementMap::eMovement &&
-			(entry.dist < tank->getAccessories().getFuel().getNoFuel() ||
-			tank->getAccessories().getFuel().getNoFuel() == -1))
+			(entry.dist < tank->getAccessories().getAccessoryCount(accessory) ||
+			tank->getAccessories().getAccessoryCount(accessory) == -1))
 		{
 			TankMovement *move = 
 				new TankMovement(tank->getPlayerId(), 

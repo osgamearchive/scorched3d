@@ -82,22 +82,34 @@ TankFuelTip::~TankFuelTip()
 
 void TankFuelTip::populate()
 {
-	int count = tank_->getAccessories().getFuel().getNoFuel();
-	if (count < 0)
+	std::string extra;
+	std::list<Accessory *> entries;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryFuel, entries);			
+	std::list<Accessory *>::iterator itor;
+	for (itor = entries.begin();
+		itor != entries.end();
+		itor++)
 	{
-		setText("Fuel",
-			"Allows the tank to move.\n"
-			"Click to toggle movement mode.\n"
-			"Fuel : In");
+		Accessory *accessory = (*itor);
+		int count = tank_->getAccessories().getAccessoryCount(accessory);
+		if (count == -1)
+		{
+			extra.append(formatString("\n%s : In", 
+				accessory->getName()));
+		}
+		else
+		{
+			extra.append(formatString("\n%s : %i", 
+				accessory->getName(), count));
+		}
 	}
-	else
-	{
-		setText("Fuel", formatString(
-			"Allows the tank to move.\n"
-			"Click to toggle movement mode.\n"
-			"Fuel : %i",
-			count));
-	}
+
+	setText("Fuel", formatString(
+		"Allows the tank to move.\n"
+		"Click to toggle movement mode."
+		"%s",
+		extra.c_str()));
 }
 
 void TankFuelTip::showItems(float x, float y)
@@ -161,8 +173,9 @@ void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
 				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
 			mmap.calculateForTank(tank_,
-					ScorchedClient::instance()->getContext());
-			mmap.movementTexture(((Accessory *)entry->getUserData())->getAccessoryId());
+				((Accessory *)entry->getUserData())->getAccessoryId(),
+				ScorchedClient::instance()->getContext());
+			mmap.movementTexture();
 		}
 	}
 }
@@ -317,7 +330,7 @@ void TankShieldTip::populate()
 			"Shields must be enabled before they take\n"
 			"effect.\n"
 			"Click to enable/disable shields.\n"
-			"Shields Off"));
+			"Current Shield : Off"));
 	}
 }
 
