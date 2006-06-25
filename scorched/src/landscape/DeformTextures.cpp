@@ -37,8 +37,8 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 	int iradius = (int) radius + 1;
 	if (iradius > 49) iradius = 49;
 
-	float pixelsPerSW = (float)(Landscape::instance()->getMainMap().getWidth() / hmap.getMapWidth());
-	float pixelsPerSH = (float)(Landscape::instance()->getMainMap().getHeight() / hmap.getMapWidth());
+	float pixelsPerSW = (float)(Landscape::instance()->getMainMap().getWidth()) / float(hmap.getMapWidth());
+	float pixelsPerSH = (float)(Landscape::instance()->getMainMap().getHeight()) / float(hmap.getMapHeight());
 
 	GLint x = GLint((pos[0] - radius) * pixelsPerSW);
 	GLint y = GLint((pos[1] - radius) * pixelsPerSH);
@@ -77,7 +77,7 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 				float mapXa = 1.0f - mapXb;
 				int mapX = int(mapXf);
 
-				if (mapX < 49 && mapY < 49)
+				if (mapX < 99 && mapY < 99)
 				{
 					float mag = 0.0f;
 					if (a < w-1 && b < h-1)
