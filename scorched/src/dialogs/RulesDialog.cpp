@@ -94,7 +94,7 @@ void RulesDialog::addMOTD(const char *text)
 	}
 
 	// Add single or multiple lines
-	char *found = strchr(text, '\n');
+	char *found = (char *) strchr(text, '\n');
 	char *start = (char *) text;
 	if (found)
 	{

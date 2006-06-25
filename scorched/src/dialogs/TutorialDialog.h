@@ -53,6 +53,7 @@ protected:
 
 	void processEvents(bool log = false);
 	void processHighlight(bool log);
+	void processMenu(bool log);
 	void showPage(TutorialFileEntry *entry);
 	void drawTriangle(float x, float y, float size, int tex);
 

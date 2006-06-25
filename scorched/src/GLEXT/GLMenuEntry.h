@@ -42,7 +42,10 @@ public:
 	void draw(float currentTop, float currentLeft);
 
 	void addMenuItem(GLMenuItem &item);
-	float getWidth() { return width_; }
+	float getX() { return left_; }
+	float getY() { return top_; }
+	float getW() { return width_; }
+	float getH() { return height_; }
 	bool getSelected() { return selected_; }
 	const char *getName() { return menuName_.c_str(); }
 	GLMenuI *getCallback() { return callback_; }

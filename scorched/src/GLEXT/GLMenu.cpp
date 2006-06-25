@@ -120,7 +120,7 @@ void GLMenu::draw()
 					{
 						entry->draw(
 							currentTop - 1.0f, currentWidth);
-						currentWidth += entry->getWidth() + 1.0f;
+						currentWidth += entry->getW() + 1.0f;
 					}
 				}
 			}
@@ -139,7 +139,7 @@ void GLMenu::draw()
 				{
 					if (entry->getCallback()->getEnabled(entry->getName()))
 					{
-						currentWidth -= entry->getWidth() + 1.0f;
+						currentWidth -= entry->getW() + 1.0f;
 						entry->draw(
 							currentTop - 1.0f, currentWidth);
 					}

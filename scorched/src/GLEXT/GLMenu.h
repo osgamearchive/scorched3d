@@ -45,6 +45,7 @@ public:
 		GLBitmap *icon = 0,
 		unsigned int flags = 0);
 	bool addMenuItem(char *menuName, const GLMenuItem item);
+	GLMenuEntry *getMenu(char *menuItem);
 
 	virtual void draw();
 	virtual void mouseDown(float x, float y, bool &skipRest);
@@ -56,8 +57,6 @@ public:
 
 protected:
 	std::map<std::string, GLMenuEntry *> menuList_;
-
-	GLMenuEntry *getMenu(char *menuItem);
 
 };
 

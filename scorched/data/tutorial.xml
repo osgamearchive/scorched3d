@@ -350,7 +350,7 @@ You can only move to the lighter areas of the landscape.
 		
 		<step>
 			<name>end</name>
-			<text>This is the end of the tutorial, you can keep playing or quit by choosing exit from the top left menu.
+			<text>This is the end of the tutorial, you can keep playing or quit by choosing exit from the <event action="menu" menu="Player">main menu</event>.
 <a href="exit">Click Here to Continue...</a></text>
 		</step>		
 	</steps>

@@ -76,6 +76,7 @@ void GLMenuEntry::drawIcon()
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);
 
+	height_ = 32.0f;
 	glColor4f(1.0f, 1.0f, 1.0f, selected_?1.0f:0.5f);
 	texture_->draw();
 	glBegin(GL_QUADS);
@@ -94,6 +95,7 @@ void GLMenuEntry::drawText()
 {
 
 	// Draw the menu backdrops
+	height_ = menuItemHeight;
 	{
 		GLState currentStateBlend(GLState::BLEND_ON);
 		glColor4f(0.4f, 0.6f, 0.8f, 0.6f);

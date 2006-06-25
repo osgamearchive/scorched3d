@@ -19,7 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/TutorialDialog.h>
+#include <dialogs/MainMenuDialog.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLMenuEntry.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
@@ -129,12 +131,33 @@ void TutorialDialog::processEvents(bool log)
 	{
 		TargetRendererImpl::setHighlightType(TargetRendererImpl::ePlayerHighlight);
 	}
+	else if (0 == strcmp(action, "menu"))
+	{
+		processMenu(log);
+	}
 	else
 	{
 		dialogExit("TutorialDialog",
 			formatString("Unknown tutorial event type \"%s\"",
 			action));
 	}
+}
+
+void TutorialDialog::processMenu(bool log)
+{
+	const char *menuName = getValue("menu", currentEvents_);
+	if (!menuName)
+	{
+		dialogExit("TutorialDialog", "No menu in event");
+	}
+
+	GLMenuEntry *entry = MainMenuDialog::instance()->
+		getMenu((char*) menuName);
+	if (!entry) return;
+
+	drawHighlight(
+		entry->getX(), entry->getY() - entry->getH(), 
+		entry->getW(), entry->getH());
 }
 
 void TutorialDialog::processHighlight(bool log)

@@ -70,10 +70,10 @@ void Napalm::init()
 	{
 		deformCreated_ = true;
 
-		Vector center(deformSize, deformSize);
-		for (int x=0; x<deformSize * 2; x++)
+		Vector center(deformSize + 1, deformSize + 1);
+		for (int x=0; x<(deformSize + 1) * 2; x++)
 		{
-			for (int y=0; y<deformSize * 2; y++)
+			for (int y=0; y<(deformSize + 1) * 2; y++)
 			{
 				Vector pos(x, y);
 				float dist = (center - pos).Magnitude();
@@ -305,7 +305,7 @@ void Napalm::simulateAddStep()
 		{
 			Vector pos(x_, y_);
 			DeformTextures::deformLandscape(pos, 
-				(int) deformSize,
+				(int) (deformSize + 1),
 				ExplosionTextures::instance()->getScorchBitmap(
 					weapon_->getDeformTexture()),
 				deformMap_);
