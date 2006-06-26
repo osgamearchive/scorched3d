@@ -20,7 +20,10 @@ Changes Since 3.1
         - Transporter - shoots a marker projectile and then transports the user to that location
         - X Tracer - Shoots a spread of tracers at 2.5 degree increments
             - Inspired by Brain Damage's 'Super Tracer +' :)
+        - Volcano - Creates a volcano that erupts upon impact
         - Nitro - faster moving fuel that costs more
+        - Light Armor - provides an extra 25 points of protection
+        - Heavy Armor - provides an extra 50 points of protection
             
     Weapons Removed, Reworked or Made Unpurchaseable due to lack of use, redundancy or ineffectiveness
         - Bouncing Betty
@@ -279,6 +282,7 @@ Suicide Bomb    - Detonates yourself causing a huge, powerful explosion
 The Travolta    - Super-sized Funky Bomb
 Transporter     - Transports the user to the location of a marker projectile
 Tsar Bomba      - Largest single nuclear explosive bomb ever made
+Volcano         - Creates a volcano that erupts upon impact
 Wall of Dirt    - Raises a small wall of dirt a short distance from your tank in the direction you aim
 X Tracer        - Shoots a spread of tracers at 2.5 degree increments
 
@@ -288,6 +292,8 @@ X Tracer        - Shoots a spread of tracers at 2.5 degree increments
 Hv Frc Shield   - Larger, more powerful version of the force shield
 Ultra Shield    - Most powerful standard defensive shield
 Heavy Mag       - Larger version of the mag deflect
+Light Armor     - Provides an extra 25 points of protection
+Heavy Armor     - Provides an extra 50 points of protection
 
 ----------------------------------------------------
                   Apocalypse Maps

@@ -16,7 +16,8 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 			- Obtained the rest from various sources on the net
 			- Obtained and adjusted ambient sounds for the city layouts
 		Textures:
-			- cloud00, gas00, light00, smoke-orange explosion textures 
+			- cloud00, gas00, light00, smoke-orange explosion textures
+			- recolored acid00 to make lava explosion texture
 			- all the custom weapon icons (with the exception of flamethrower)
 		Projectile Models:
 			- bullet, shotgunshell, moab, tsarbomba
