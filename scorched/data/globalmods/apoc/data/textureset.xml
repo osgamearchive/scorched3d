@@ -124,6 +124,20 @@
 	<textureset name="gas00-5">
 		<texture>textures/explode/gas00_5.bmp</texture>
 	</textureset>
+	<textureset name="lava">
+		<texture>textures/explode/lava00_1.bmp</texture>
+		<texture>textures/explode/lava00_2.bmp</texture>
+		<texture>textures/explode/lava00_3.bmp</texture>
+		<texture>textures/explode/lava00_4.bmp</texture>
+		<texture>textures/explode/lava00_5.bmp</texture>
+		<texture>textures/explode/lava00_6.bmp</texture>
+		<texture>textures/explode/lava00_7.bmp</texture>
+		<texture>textures/explode/lava00_8.bmp</texture>
+		<texture>textures/explode/lava00_9.bmp</texture>
+		<texture>textures/explode/lava00_10.bmp</texture>
+		<texture>textures/explode/lava00_11.bmp</texture>
+		<texture>textures/explode/lava00_12.bmp</texture>
+	</textureset>
 	<textureset name="light00">
 		<texture>textures/explode/light00_1.bmp</texture>
 		<texture>textures/explode/light00_2.bmp</texture>
