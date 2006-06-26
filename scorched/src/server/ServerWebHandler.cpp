@@ -37,6 +37,19 @@
 #include <XML/XMLParser.h>
 #include <wx/dir.h>
 #include <wx/utils.h>
+#include <vector>
+#include <algorithm>
+
+struct LogFile
+{
+	wxString fileName;
+	time_t fileTime;
+};
+
+static inline bool lt_logfile(LogFile &o1, LogFile &o2) 
+{ 
+	return o1.fileTime < o2.fileTime;
+}
 
 static const char *getField(std::map<std::string, std::string> &fields, const char *field)
 {
@@ -248,7 +261,8 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	}
 	else
 	{
-		std::string log;
+		std::vector<LogFile> logFiles;
+		
 		const char *dirName = getLogFile("");
 		wxDir dir(wxString(dirName, wxConvUTF8));
 		if (dir.IsOpened())
@@ -258,19 +272,34 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 			while (cont)
 			{
 				wxString fullFilename(getLogFile(filename.mb_str(wxConvUTF8)), wxConvUTF8);
-				time_t modTime = wxFileModificationTime(fullFilename);
 
-				log += formatString(
-					"<tr>"
-					"<td><font size=-1><a href=?filename=%s&sid=%s>%s</a></font></td>"
-					"<td><font size=-1>%s</font></td>"
-					"</tr>\n",
-					filename.mb_str(wxConvUTF8),
-					fields["sid"].c_str(),
-					filename.mb_str(wxConvUTF8),
-					ctime(&modTime));
+				LogFile logFile;
+				logFile.fileName = filename;
+				logFile.fileTime = wxFileModificationTime(fullFilename);
+				logFiles.push_back(logFile);
+
 				cont = dir.GetNext(&filename);
 			}
+		}
+
+		std::sort(logFiles.begin(), logFiles.end(), lt_logfile);
+
+		std::string log;
+		std::vector<LogFile>::iterator itor;
+		for (itor = logFiles.begin();
+			itor != logFiles.end();
+			itor++)
+		{
+			LogFile &logFile = *itor;
+			log += formatString(
+				"<tr>"
+				"<td><font size=-1><a href=?filename=%s&sid=%s>%s</a></font></td>"
+				"<td><font size=-1>%s</font></td>"
+				"</tr>\n",
+				logFile.fileName.mb_str(wxConvUTF8),
+				fields["sid"].c_str(),
+				logFile.fileName.mb_str(wxConvUTF8),
+				ctime(&logFile.fileTime));
 		}
 		fields["LOG"] = log;
 
