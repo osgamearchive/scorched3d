@@ -121,16 +121,14 @@
 		</tex>
 	</landscape>
 	<landscape>
-		<name>icebergs2</name>
+		<name>arizona</name>
 		<description></description>
 		<picture>icebergs003-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>data/landscapes/defnicebergs1.xml</item>
 			<item>data/landscapes/defnicebergs3.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texice.xml</item> 
 			<item>data/landscapes/texarizona.xml</item> 
 		</tex>
 	</landscape>
@@ -195,7 +193,7 @@
 		</tex>
 	</landscape>
 	<landscape>
-		<name>icebergs1</name>
+		<name>icebergs</name>
 		<description></description>
 		<picture>icebergs002-pic.bmp</picture>
 		<weight>100</weight>
@@ -204,7 +202,6 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texice.xml</item> 
-			<item>data/landscapes/texarizona.xml</item> 
 		</tex>
 	</landscape>
 </landscapes>
