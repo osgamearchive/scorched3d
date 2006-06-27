@@ -46,7 +46,7 @@ struct LogFile
 	time_t fileTime;
 };
 
-static inline bool lt_logfile(LogFile &o1, LogFile &o2) 
+static inline bool lt_logfile(const LogFile &o1, const LogFile &o2) 
 { 
 	return o1.fileTime < o2.fileTime;
 }

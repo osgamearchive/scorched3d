@@ -132,6 +132,7 @@ Added: Damage amount text floats out of tanks
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
+Trees and models may appear where destroyed for client connecting during a round
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
