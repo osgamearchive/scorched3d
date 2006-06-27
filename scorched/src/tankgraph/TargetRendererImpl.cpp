@@ -185,14 +185,13 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 
 		if (shield->getGlow())
 		{
-			float aspect = float(GLViewPort::getHeight()) / float(GLViewPort::getWidth());
 			shieldtexture->draw();
 			GLCameraFrustum::instance()->drawBilboard(
 				position,
 				color,
 				1.0f - shieldHit,
 				shield->getActualRadius(), 
-				shield->getActualRadius() * aspect,
+				shield->getActualRadius(),
 				true, // Additive
 				0); // texcoord
 		}

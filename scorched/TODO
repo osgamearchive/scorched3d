@@ -42,7 +42,10 @@ Fixed: The display of the players list when some players had illegal XML charact
 Fixed: Moved some of the more common options to the front of the single player settings dialog
 Fixed: Sound from boids issued from wrong place
 Fixed: Sounds from groups are only thined when using tree placement
+Fixed: All bilboards are now correct for the current screen aspect (including in the camera window)
 
+Added: mask attribute to tree placement type, allows trees to be also bounded by a mask bitmap
+Added: border attribute to models and trees, this is minimum distance other objects must be from this object
 Added: referencedistance, gain and rolloff sound attributes to ambient sounds
 Added: Sound is now culled by distance as well as priority (adds support for many more sounds)
 Added: new sound types to the abmient sound files (updateAmbientSounds.pl script made to make changes)

@@ -79,6 +79,7 @@ Vector &GLCameraFrustum::getBilboardVectorY()
 	bil[0] = s.fClip[1];
 	bil[1] = s.fClip[5];
 	bil[2] = s.fClip[9];
+	bil /= s.aspect;
 
 	return bil;
 }

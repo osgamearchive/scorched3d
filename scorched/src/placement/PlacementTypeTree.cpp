@@ -25,6 +25,7 @@
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
 #include <XML/XMLParser.h>
+#include <GLEXT/GLBitmap.h>
 
 PlacementTypeTree::PlacementTypeTree() : mincloseness(0.0f)
 {
@@ -36,6 +37,7 @@ PlacementTypeTree::~PlacementTypeTree()
 
 bool PlacementTypeTree::readXML(XMLNode *node)
 {
+	node->getNamedChild("mask", mask, false);
 	if (!node->getNamedChild("numobjects", numobjects)) return false;
 	if (!node->getNamedChild("numclusters", numclusters)) return false;
 	if (!node->getNamedChild("minheight", minheight)) return false;
@@ -49,6 +51,21 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 	std::list<Position> &returnPositions,
 	ProgressCounter *counter)
 {
+	GLBitmap map;
+	if (mask.c_str()[0])
+	{	
+		if (!map.loadFromFile(getDataFile(mask.c_str())))
+		{
+			dialogExit("PlacementTypeTree",
+				formatString("Error: failed to find mask \"%s\"",
+				mask.c_str()));
+		}
+	}
+	else
+	{
+		map.createBlank(256, 256);
+	}
+
 	// Generate a map of where the trees should go
 	unsigned char objectMap[64 * 64];
 	memset(objectMap, 0, sizeof(unsigned char) * 64 * 64);
@@ -74,7 +91,13 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 			context.landscapeMaps->
 				getGroundMaps().getNormal(
 					x * treeMapMultWidth, y * treeMapMultHeight);
-		if (height > minheight && 
+
+		int mx = int(map.getWidth() * (float(x) / 64.0f));
+		int my = int(map.getHeight() * (float(y) / 64.0f));
+		GLubyte *bits = map.getBits() +
+			mx * 3 + my * map.getWidth() * 3;
+		if (bits[0] > 127 &&
+			height > minheight && 
 			height < maxheight && 
 			normal[2] > 0.7f)
 		{

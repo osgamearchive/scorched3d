@@ -50,6 +50,7 @@ protected:
 	float modelscale_;
 	float modelrotation_;
 	float modelrotationsnap_;
+	float border_;
 	std::string removeaction_;
 	std::string burnaction_;
 	ModelID modelId_;

@@ -27,7 +27,7 @@
 #include <target/Target.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectTree::PlacementObjectTree()
+PlacementObjectTree::PlacementObjectTree() : border_(0.0f)
 {
 }
 
@@ -47,6 +47,7 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 		return node->returnError("Unknown tree type");
 	}
 
+	node->getNamedChild("border", border_, false);
 	node->getNamedChild("removeaction", removeaction, false);
 	node->getNamedChild("burnaction", burnaction, false);
 	if (!shadow_.readXML(node, ".")) return false;
@@ -70,6 +71,7 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	treeEntry->rotation = generator.getRandFloat() * 360.0f;
 	treeEntry->removeaction = removeaction;
 	treeEntry->burnaction = burnaction;
+	treeEntry->border = border_;
 	treeEntry->boundingsize = Vector(1.0f, 1.0f, 2.0f) * treeEntry->modelscale;
 
 	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(

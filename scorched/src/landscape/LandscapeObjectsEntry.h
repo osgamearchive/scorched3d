@@ -46,6 +46,7 @@ public:
 	Vector boundingsize;
 	Vector position;
 	float rotation;
+	float border;
 	float color;
 	bool burnt;
 	std::string removeaction;

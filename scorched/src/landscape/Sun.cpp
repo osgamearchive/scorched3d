@@ -69,13 +69,12 @@ void Sun::draw()
 	GLState currentStateOne(GLState::TEXTURE_ON | GLState::DEPTH_OFF | GLState::BLEND_ON);
 	texture_.draw();
 
-	float aspect = float(GLViewPort::getHeight()) / float(GLViewPort::getWidth());
 	LandscapeTex &tex = *ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions().getTex();
 	GLCameraFrustum::instance()->drawBilboard(
 		position_, tex.suncolor, 
 		1.0f, // alpha
-		60.0f, 60.0f * aspect, // width, height
+		60.0f, 60.0f, // width, height
 		true, // additive texture
 		0); // tex coord
 }

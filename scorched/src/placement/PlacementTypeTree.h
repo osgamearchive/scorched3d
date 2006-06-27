@@ -41,6 +41,7 @@ protected:
 	int numclusters;
 	float minheight, maxheight;
 	float mincloseness;
+	std::string mask;
 };
 
 #endif // __INCLUDE_PlacementTypeTreeh_INCLUDE__

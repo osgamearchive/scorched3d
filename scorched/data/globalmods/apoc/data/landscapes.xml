@@ -122,16 +122,14 @@
 		</tex>
 	</landscape>
 	<landscape>
-		<name>icebergs2</name>
+		<name>arizona</name>
 		<description></description>
 		<picture>icebergs003-pic.bmp</picture>
 		<weight>100</weight>
 		<defn>
-			<item>data/landscapes/defnicebergs1.xml</item>
 			<item>data/landscapes/defnicebergs3.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texice.xml</item> 
 			<item>data/landscapes/texarizona.xml</item> 
 		</tex>
 	</landscape>
@@ -270,11 +268,11 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texcity1_winter.xml</item>
-			<item>data/landscapes/texcity1_summer.xml</item>
+			<!--<item>data/landscapes/texcity1_summer.xml</item>
 			<item>data/landscapes/texcity1_storm.xml</item>
 			<item>data/landscapes/texcity2_winter.xml</item>
 			<item>data/landscapes/texcity2_summer.xml</item>
-			<item>data/landscapes/texcity2_storm.xml</item>
+			<item>data/landscapes/texcity2_storm.xml</item>-->
 		</tex>
 	</landscape>
 	<landscape>

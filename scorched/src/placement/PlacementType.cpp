@@ -83,9 +83,6 @@ bool PlacementType::checkCloseness(Vector &position,
 	std::list<Position> &returnPositions,
 	float mincloseness)
 {
-	if (mincloseness <= 0.0f) return true;
-
-	float distsq = mincloseness * mincloseness;
 	std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
 		context.landscapeMaps->getGroundMaps().getObjects().getEntries();
 	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator objectsitor;
@@ -96,25 +93,36 @@ bool PlacementType::checkCloseness(Vector &position,
 		LandscapeObjectsEntry *object = (*objectsitor).second;
 		float distx = object->position[0] - position[0];
 		float disty = object->position[1] - position[1];
-		if (distx * distx + disty *disty < distsq)
+		float closeness = mincloseness + object->border;
+
+		if (closeness > 0.0f)
 		{
-			return false;
+			float distsq = closeness * closeness;
+			if (distx * distx + disty *disty < distsq)
+			{
+				return false;
+			}
 		}
 	}
 
-	std::list<Position>::iterator currentItor;
-	for (currentItor = returnPositions.begin();
-		currentItor != returnPositions.begin();
-		currentItor++)
+	if (mincloseness > 0.0f)
 	{
-		Position *object = &(*currentItor);
-
-		float distx = object->position[0] - position[0];
-		float disty = object->position[1] - position[1];
-		if (distx * distx + disty *disty < distsq)
+		std::list<Position>::iterator currentItor;
+		for (currentItor = returnPositions.begin();
+			currentItor != returnPositions.begin();
+			currentItor++)
 		{
-			return false;
-		}		
+			Position *object = &(*currentItor);
+
+			float distx = object->position[0] - position[0];
+			float disty = object->position[1] - position[1];
+
+			float distsq = mincloseness * mincloseness;
+			if (distx * distx + disty *disty < distsq)
+			{
+				return false;
+			}		
+		}
 	}
 
 	return true;

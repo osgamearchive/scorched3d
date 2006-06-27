@@ -23,7 +23,7 @@
 
 LandscapeObjectsEntry::LandscapeObjectsEntry() :
 	burnt(false), boundingsize(1.0f, 1.0f, 1.0f),
-	modelscale(1.0)
+	modelscale(1.0), border(0.0f)
 {
 }
 

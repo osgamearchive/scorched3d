@@ -30,7 +30,7 @@
 PlacementModelDefinition::PlacementModelDefinition() :
 	size_(2.0f, 2.0f, 2.0f), modelscale_(0.05f), modelrotation_(0.0f),
 	modelrotationsnap_(-1.0f), usemodel_(true),
-	driveovertodestroy_(true)
+	driveovertodestroy_(true), border_(0.0f)
 {
 }
 
@@ -52,6 +52,7 @@ LandscapeObjectsEntryModel *PlacementModelDefinition::createModel(
 	modelEntry->boundingsize = size_;
 	modelEntry->rotation = modelrotation_;
 	modelEntry->removeaction = removeaction_;
+	modelEntry->border = border_;
 	modelEntry->burnaction = burnaction_;
 	modelEntry->modelscale = modelscale_;
 	if (modelrotationsnap_ > 0.0f)
@@ -71,6 +72,7 @@ bool PlacementModelDefinition::readXML(XMLNode *node, const char *base)
 		node->getNamedChild("modelscale", modelscale_, false);
 		node->getNamedChild("modelrotation", modelrotation_, false);
 		node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
+		node->getNamedChild("border", border_, false);
 
 		XMLNode *modelnode, *burntmodelnode;
 		if (!node->getNamedChild("model", modelnode)) return false;

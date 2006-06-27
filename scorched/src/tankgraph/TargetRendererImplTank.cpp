@@ -216,12 +216,12 @@ void TargetRendererImplTank::drawInfo()
 
 		Vector position = 
 			tank_->getPosition().getTankPosition() - bilX;
-		position[2] = height + 8.7f;
+		position[2] = height + 8.5f;
 
 		tank_->getAvatar().getTexture()->draw();
 		static Vector white(1.0f, 1.0f, 1.0f);
 		GLCameraFrustum::instance()->drawBilboard(
-			position, white, 0.8f, 0.6f, 0.5f, false, 0);
+			position, white, 0.8f, 0.5f, 0.5f, false, 0);
 	}
 }
 

@@ -46,6 +46,7 @@ protected:
 	std::string burnaction;
 	std::string removeaction;
 	float snow;
+	float border_;
 };
 
 #endif // __INCLUDE_PlacementObjectTreeh_INCLUDE__
