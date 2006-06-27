@@ -28,83 +28,8 @@
 #include <common/Defines.h>
 #include <string.h>
 
-unsigned int GLWTip::nextId_ = 0;
 static Vector color(0.1f, 0.1f, 0.4f);
 static Vector selectedColor(0.9f, 0.9f, 1.0f);
-
-GLWTipI::~GLWTipI()
-{
-
-}
-
-GLWTip::GLWTip(const char *tit, const char *tex) 
-	: id_(++nextId_), x(0), y(0), w(0), h(0), handler_(0)
-{
-	setText(tit, tex);
-}
-
-GLWTip::~GLWTip()
-{
-}
-
-void GLWTip::populate()
-{
-	if (handler_) handler_->populateCalled(id_);
-}
-
-void GLWTip::setText(const char *title, const char *text)
-{
-	texts_.clear();
-	title_ = title; text_ = text;
-	textWidth_ = 0.0f; textHeight_ = 24.0f;
-
-	char *token = strtok((char *) text_.c_str(), "\n");
-	while(token != NULL)
-	{
-		texts_.push_back(token);
-		textHeight_ += 10.0f;
-		token = strtok(NULL, "\n");
-	}
-}
-
-void GLWTip::calcWidth()
-{
-	if (textWidth_ != 0.0f) return;
-
-	std::list<char *> &texts = getTexts();
-	std::list<char *>::iterator itor;
-	std::list<char *>::iterator enditor = texts.end();
-	for (itor = texts.begin(); itor != enditor; itor++)
-	{
-		float width = float(GLWFont::instance()->getSmallPtFont()->
-			getWidth(9,(*itor))) + 10.0f;
-		if (width > textWidth_) textWidth_ = width;
-	}
-
-	float width = float(GLWFont::instance()->getSmallPtFont()->
-		getWidth(11,title_.c_str())) + 10.0f; 
-	if (width > textWidth_) textWidth_ = width;
-}
-
-float GLWTip::getX()
-{
-	return x;
-}
-
-float GLWTip::getY()
-{
-	return y;
-}
-
-float GLWTip::getW()
-{
-	return w;
-}
-
-float GLWTip::getH()
-{
-	return h;
-}
 
 GLWToolTip *GLWToolTip::instance_ = 0;
 
@@ -139,14 +64,52 @@ bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 	if (x < mouseX && mouseX < x + w &&
 		y < mouseY && mouseY < y + h)
 	{
-		tip->x = x;
-		tip->y = y;
-		tip->w = w;
-		tip->h = h;
+		currentX_ = x;
+		currentY_ = y;
+		currentW_ = w;
+		currentH_ = h;
 		currentTip_ = tip;
+
 		result = true;
 	}
 	return result;
+}
+
+void GLWToolTip::setupTip(GLWTip *tip)
+{
+	currentTip_ = tip;
+	tipTextWidth_ = 0.0f;
+	tipTextHeight_ = 0.0f;
+	tipTitle_ = tip->getTitle();
+	tipText_ = tip->getText();
+	tipTexts_.clear();
+}
+
+void GLWToolTip::calculateTip(GLWTip *tip)
+{
+	if (tipTextWidth_ != 0.0f) return;
+
+	tipTextHeight_ = 24.0f;
+	char *token = strtok((char *) tipText_.c_str(), "\n");
+	while(token != NULL)
+	{
+		tipTexts_.push_back(token);
+		tipTextHeight_ += 10.0f;
+		token = strtok(NULL, "\n");
+	}
+
+	std::list<char *>::iterator itor;
+	std::list<char *>::iterator enditor = tipTexts_.end();
+	for (itor = tipTexts_.begin(); itor != enditor; itor++)
+	{
+		float width = float(GLWFont::instance()->getSmallPtFont()->
+			getWidth(9,(*itor))) + 10.0f;
+		if (width > tipTextWidth_) tipTextWidth_ = width;
+	}
+
+	float width = float(GLWFont::instance()->getSmallPtFont()->
+		getWidth(11, tipTitle_.c_str())) + 10.0f; 
+	if (width > tipTextWidth_) tipTextWidth_ = width;
 }
 
 void GLWToolTip::clearToolTip(float x, float y, float w, float h)
@@ -170,45 +133,53 @@ void GLWToolTip::simulate(const unsigned state, float frameTime)
 
 void GLWToolTip::draw(const unsigned state)
 {
-	bool sameTip = (lastTip_ == currentTip_);
+	if (currentTip_ != lastTip_) refreshTime_ = 100.0f;
 	lastTip_ = currentTip_;
 	currentTip_ = 0;
 
-	if (sameTip && lastTip_)
-	{
-		timeSeen_ += timeDrawn_;
-		refreshTime_ += timeDrawn_;
-	}
-	else
-	{
-		timeSeen_ = 0.0f;
-		refreshTime_ = 100.0f;
-	}
+	if (lastTip_) timeSeen_ += timeDrawn_;
+	else timeSeen_ -= timeDrawn_;
+	refreshTime_ += timeDrawn_;
 	timeDrawn_ = 0.0f;
 
 	float showTime = 
 		float(OptionsDisplay::instance()->getToolTipTime()) / 1000.0f;
-	if (!lastTip_ || (timeSeen_ < showTime))
+	if (timeSeen_ <= -showTime)
 	{
+		timeSeen_ = -showTime;
 		return;
 	}
 
-	float alpha = MIN(1.0f, (timeSeen_ - showTime) * 
-		float(OptionsDisplay::instance()->getToolTipSpeed()));
-
-	if (refreshTime_ > 1.0f)
+	if ((refreshTime_ > 1.0f || 
+		tipX_ != currentX_ || 
+		tipY_ != currentY_) && lastTip_)
 	{
+		tipX_ = currentX_;
+		tipY_ = currentY_;
+		tipW_ = currentW_;
+		tipH_ = currentH_;
+
 		lastTip_->populate();
+		setupTip(lastTip_);
 		refreshTime_ = 0.0f;
+	}
+	if (lastTip_) calculateTip(lastTip_);
+
+	float alpha = timeSeen_ * 
+		float(OptionsDisplay::instance()->getToolTipSpeed());
+	if (alpha > 1.0f)
+	{
+		alpha = 1.0f;
+		timeSeen_ = 1.0f / 
+			float(OptionsDisplay::instance()->getToolTipSpeed());
 	}
 
 	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	lastTip_->calcWidth();
-	float posX = lastTip_->getX();
-	float posY = lastTip_->getY();
-	float posH = lastTip_->getTextHeight();
-	float posW = lastTip_->getTextWidth();
+	float posX = tipX_;
+	float posY = tipY_;
+	float posW = tipTextWidth_;
+	float posH = tipTextHeight_;
 
 	int camWidth = GLViewPort::getWidth();
 	if (posX > camWidth / 2)
@@ -217,7 +188,7 @@ void GLWToolTip::draw(const unsigned state)
 	}
 	else
 	{
-		posX += lastTip_->w + 5.0f;
+		posX += tipW_ + 5.0f;
 	}
 	int camHeight = GLViewPort::getHeight();
 	if (posY > camHeight / 2)
@@ -265,17 +236,17 @@ void GLWToolTip::draw(const unsigned state)
 
 	float pos = posY + posH - 16.0f;
 	GLWFont::instance()->getSmallPtFont()->drawA(selectedColor, alpha, 11, posX + 3.0f, 
-		pos, 0.0f, lastTip_->getTitle());
+		pos, 0.0f, tipTitle_.c_str());
 	pos -= 2.0f;
 
-	std::list<char *> &texts = lastTip_->getTexts();
 	std::list<char *>::iterator itor;
-	std::list<char *>::iterator enditor = texts.end();
-	for (itor = texts.begin(); itor != enditor; itor++)
+	std::list<char *>::iterator enditor = tipTexts_.end();
+	for (itor = tipTexts_.begin(); itor != enditor; itor++)
 	{
 		pos -= 10.0f;
 
-		GLWFont::instance()->getSmallPtFont()->drawA(color, alpha, 9, posX + 6.0f, 
+		GLWFont::instance()->getSmallPtFont()->drawA(
+			color, alpha, 9, posX + 6.0f, 
 			pos, 0.0f, (*itor));
 	}
 }

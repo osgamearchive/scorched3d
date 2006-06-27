@@ -22,60 +22,8 @@
 #define __INCLUDE_GLWToolTiph_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <string>
+#include <GLW/GLWTip.h>
 #include <list>
-
-class GLWToolTip;
-class GLWTipI
-{
-public:
-	virtual ~GLWTipI();
-
-	virtual void populateCalled(unsigned int id) = 0;
-};
-
-class GLWTip
-{
-public:
-	friend class GLWToolTip;
-	GLWTip(const char *title = "", const char *text = "");
-	virtual ~GLWTip();
-
-	// Used to set the title and text of the tooltip
-	void setText(const char *title, const char *text);
-
-	// Called just before the tooltip is shown
-	// can be used to dynamically populate the title and text fields
-	virtual void populate();
-
-	void setHandler(GLWTipI *handler) { handler_ = handler; }
-
-	// Accessors
-	const char *getTitle() { return title_.c_str(); }
-	std::list<char *> &getTexts() { return texts_; }
-	float getTextWidth() { return textWidth_; }
-	float getTextHeight() { return textHeight_; }
-	virtual float getX();
-	virtual float getY();
-	virtual float getW();
-	virtual float getH();
-	unsigned int getId() { return id_; }
-	void calcWidth();
-
-protected:
-	GLWTipI *handler_;
-	float x, y;
-	float w, h;
-
-	unsigned int id_;
-	static unsigned int nextId_;
-	float textWidth_;
-	float textHeight_;
-	std::string text_;
-	std::string title_;
-	std::list<char *> texts_;
-
-};
 
 class GLWToolTip : public GameStateI
 {
@@ -96,6 +44,18 @@ protected:
 	float timeDrawn_, timeSeen_;
 	float refreshTime_;
 
+	// GLWTip properties
+	float currentX_, currentY_;
+	float currentW_, currentH_;
+	float tipX_, tipY_;
+	float tipW_, tipH_;
+	float tipTextWidth_;
+	float tipTextHeight_;
+	std::string tipTitle_, tipText_;
+	std::list<char *> tipTexts_;
+
+	void setupTip(GLWTip *tip);
+	void calculateTip(GLWTip *tip);
 private:
 	GLWToolTip();
 	virtual ~GLWToolTip();

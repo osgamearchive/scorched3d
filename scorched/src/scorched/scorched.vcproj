@@ -531,6 +531,12 @@
 				RelativePath="..\GLW\GLWTextButton.h">
 			</File>
 			<File
+				RelativePath="..\GLW\GLWTip.cpp">
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTip.h">
+			</File>
+			<File
 				RelativePath="..\GLW\GLWToolTip.cpp">
 			</File>
 			<File
