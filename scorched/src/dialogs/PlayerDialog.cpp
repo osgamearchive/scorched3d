@@ -241,7 +241,8 @@ void PlayerDialog::display()
 	typeDropDown_->clear();
 	typeDropDown_->addEntry(GLWSelectorEntry("Human", 
 		&tankAIStore.getAIByName("Human")->getDescription()));
-	if (!OptionsParam::instance()->getConnectedToServer())
+	if (!OptionsParam::instance()->getConnectedToServer() &&
+		!ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
 	{
 		std::list<TankAI *>::iterator aiitor;
 		for (aiitor = tankAIStore.getAis().begin();
