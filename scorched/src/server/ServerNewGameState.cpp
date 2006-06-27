@@ -503,8 +503,12 @@ void ServerNewGameState::checkTeams()
 			if (0 != strcmp(model->getName(),
 				current->getModelContainer().getTankModelName()))
 			{
+				// The model is not allowed for this team,
+				// use the correct model
 				current->getModelContainer().setTankModelName(
-					model->getName(), model->getTypeName());
+					model->getName(), 
+					model->getName(),
+					model->getTypeName());
 			}
 		}
 	}

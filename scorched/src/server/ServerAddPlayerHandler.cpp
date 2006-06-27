@@ -225,7 +225,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 				tank->getTeam(),
 				(tank->getDestinationId() == 0));
 	tank->getModelContainer().setTankModelName(
-		tankModel->getName(), tankModel->getTypeName());
+		tankModel->getName(), message.getModelName(), tankModel->getTypeName());
 
 	// If we are in a waiting for players state then we can
 	// send the state of these new players

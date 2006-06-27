@@ -24,20 +24,24 @@
 #include <engine/ScorchedContext.h>
 #include <common/DefinesString.h>
 
-TankModelContainer::TankModelContainer(const char *modelName, 
+TankModelContainer::TankModelContainer(
+	const char *modelName, 
 	const char *typeName) :
-	tankModelName_(modelName), tankTypeName_(typeName)
+	tankModelName_(modelName), 
+	tankTypeName_(typeName),
+	tankOriginalModelName_(modelName)
 {
-
 }
 
 TankModelContainer::~TankModelContainer()
 {
 }
 
-void TankModelContainer::setTankModelName(const char *modelName, const char *typeName)
+void TankModelContainer::setTankModelName(
+	const char *modelName, const char *originalModelName, const char *typeName)
 {
-	if (0 != strcmp(modelName, tankModelName_.c_str()))
+	if (0 != strcmp(modelName, tankModelName_.c_str()) ||
+		0 != strcmp(originalModelName, tankOriginalModelName_.c_str()))
 	{
 		if (tank_->getRenderer())
 		{
@@ -48,21 +52,27 @@ void TankModelContainer::setTankModelName(const char *modelName, const char *typ
 	}
 
 	tankModelName_ = modelName;
+	tankOriginalModelName_ = originalModelName;
 	tankTypeName_ = typeName;
 }
 
 bool TankModelContainer::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(tankModelName_);
+	buffer.addToBuffer(tankOriginalModelName_);
 	buffer.addToBuffer(tankTypeName_);
 	return true;
 }
 
 bool TankModelContainer::readMessage(NetBufferReader &reader)
 {
-	std::string newModelName, newTypeName;
+	std::string newModelName, newTypeName, newOrignalName;
 	if (!reader.getFromBuffer(newModelName)) return false;
+	if (!reader.getFromBuffer(newOrignalName)) return false;
 	if (!reader.getFromBuffer(newTypeName)) return false;
-	setTankModelName(newModelName.c_str(), newTypeName.c_str());
+	setTankModelName(
+		newModelName.c_str(), 
+		newOrignalName.c_str(), 
+		newTypeName.c_str());
 	return true;
 }

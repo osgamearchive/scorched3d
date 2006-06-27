@@ -84,10 +84,20 @@ TankModel *TargetRendererImplTank::getModel()
 {
 	if (!model_)
 	{
+		// Try the user's specified tank 1st
 		model_ = ScorchedClient::instance()->getTankModels().getModelByName(
-			tank_->getModelContainer().getTankModelName(), 
+			tank_->getModelContainer().getTankOriginalModelName(), 
 			tank_->getTeam(),
 			(tank_->getDestinationId() == 0));
+		if (0 != strcmp(model_->getName(), 
+			tank_->getModelContainer().getTankOriginalModelName()))
+		{
+			// If this fails use the one the server chose
+			model_ = ScorchedClient::instance()->getTankModels().getModelByName(
+				tank_->getModelContainer().getTankModelName(), 
+				tank_->getTeam(),
+				(tank_->getDestinationId() == 0));
+		}
 	}
 	return model_;
 }

@@ -38,8 +38,12 @@ public:
 
 	// The name of the model that should be used for this tank
 	const char *getTankModelName() { return tankModelName_.c_str(); }
+	const char *getTankOriginalModelName() { return tankOriginalModelName_.c_str(); }
 	const char *getTankTypeName() { return tankTypeName_.c_str(); }
-	void setTankModelName(const char *modelName, const char *typeName);
+	void setTankModelName(
+		const char *modelName, 
+		const char *originalModelName,
+		const char *typeName);
 
 	// Serialize the modelid
     bool writeMessage(NetBuffer &buffer);
@@ -47,7 +51,8 @@ public:
 
 protected:
 	Tank *tank_;
-	std::string tankModelName_; // Model for tank
+	std::string tankModelName_; // Model for tank (this is the one the server also has)
+	std::string tankOriginalModelName_; // The original tank model sent from the client
 	std::string tankTypeName_;
 
 };

@@ -58,6 +58,13 @@ void TankResign::simulate(float frameTime, bool &remove)
 		{
 			tank->getState().setState(TankState::sDead);
 
+			// This tank has lost a life
+			if (tank->getState().getMaxLives() > 0)
+			{
+				tank->getState().setLives(
+					tank->getState().getLives() - 1);
+			}
+
 			if (!context_->serverMode ||
 				OptionsParam::instance()->getDedicatedServer())
 			{

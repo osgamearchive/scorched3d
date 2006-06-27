@@ -229,7 +229,10 @@ bool ServerShotFinishedState::scoreWinners()
 			tank->getScore().setMoney(tank->getScore().getMoney() + addMoney);
 
 			// Make sure this tank is dead
-			tank->getState().setState(TankState::sDead);
+			if (tank->getState().getState() == TankState::sNormal)
+			{
+				tank->getState().setState(TankState::sDead);
+			}
 		}
 	}
 
