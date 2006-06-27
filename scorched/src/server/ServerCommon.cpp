@@ -154,7 +154,7 @@ void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 		if (tank->getDestinationId() == destinationId)
 		{
 			kickedPlayers = true;
-			kickPlayer(tank->getPlayerId(), delayed);
+			kickPlayer(tank->getPlayerId());
 		}
 	}
 	
@@ -166,7 +166,7 @@ void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 	}
 }
 
-void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
+void ServerCommon::kickPlayer(unsigned int playerId)
 {
 	Logger::log(formatString("Kicking player \"%i\"", playerId));
 
@@ -187,8 +187,12 @@ void ServerCommon::kickPlayer(unsigned int playerId, bool delayed)
 		}
 		else
 		{
+			// Cannot delay kick a player as the rest of the code
+			// may expect him to have gone (when he is still there delayed)
+			// and try to send messages to him
 			ScorchedServer::instance()->getNetInterface().
-				disconnectClient(tank->getDestinationId(), delayed);
+				disconnectClient(tank->getDestinationId());
+			ScorchedServer::instance()->getNetInterface().processMessages();
 		}
 	}
 }

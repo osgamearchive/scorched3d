@@ -537,6 +537,8 @@ void WaterMap::calculateRipples()
 			currentEntry->height += currentEntry->velocity;
 			currentEntry->height -= currentEntry->height / float(mapWidth_ * mapHeight_);
 			currentEntry->height *= currentEntry->scaling;
+			if (currentEntry->height > 5.0f) currentEntry->height = 5.0;
+			else if (currentEntry->height < -5.0f) currentEntry->height = -5.0f;
 			currentEntry->force = 0.0f;
 		}
 

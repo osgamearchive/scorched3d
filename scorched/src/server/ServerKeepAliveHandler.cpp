@@ -98,9 +98,6 @@ void ServerKeepAliveHandler::checkKeepAlives()
 					formatString("\"%s\" Kicked for exceeding keep alive timeout (%u seconds)",
 					current->getName(),
 					theTime - current->getKeepAlive()));
-			ServerCommon::sendString(0,
-					formatString("\"%s\" kicked for exceeding keep alive timeout",
-					current->getName()));
 
 			ServerCommon::kickDestination(current->getDestinationId());
 			break; // As now the tank container may be out of date

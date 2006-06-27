@@ -50,7 +50,7 @@ void ServerReadyState::enterState(const unsigned state)
 	ServerShotHolder::instance()->clearShots();
 
 	// Add any pending tanks into the game
-	ServerNewGameState::addTanksToGame(state);
+	int count = ServerNewGameState::addTanksToGame(state);
 
 	// Set all the tanks to not ready
 	ScorchedServer::instance()->getTankContainer().setAllNotReady();
@@ -65,8 +65,16 @@ void ServerReadyState::enterState(const unsigned state)
 	}
 	else
 	{
-		idleTime_ = (float) ScorchedServer::instance()->
-			getOptionsGame().getIdleShotKickTime();
+		if (count == 0)
+		{
+			idleTime_ = (float) ScorchedServer::instance()->
+				getOptionsGame().getIdleShotKickTime();
+		}
+		else
+		{
+			idleTime_ = (float) ScorchedServer::instance()->
+				getOptionsGame().getIdleKickTime();
+		}
 
 		// Add on the time the shots took to simulate
 		// So we don't time clients out too quickly
@@ -194,7 +202,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 
 				ServerCommon::sendString(tank->getDestinationId(), 
 					formatString("Kicked for not responding for %.0f seconds", idleTime_));
-				ServerCommon::kickDestination(tank->getDestinationId(), true);
+				ServerCommon::kickDestination(tank->getDestinationId());
 			}
 		}
 

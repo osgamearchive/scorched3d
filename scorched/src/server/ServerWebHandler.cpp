@@ -98,7 +98,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 			{
 				if (0 == strcmp(action, "Kick"))
 				{
-					ServerCommon::kickPlayer(tank->getPlayerId(), true);
+					ServerCommon::kickPlayer(tank->getPlayerId());
 					break;
 				}
 				else if (0 == strcmp(action, "Mute"))

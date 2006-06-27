@@ -97,10 +97,12 @@ const char *TankState::getStateString()
 
 const char *TankState::getSmallStateString()
 {
-	if (loading_) return "Loading";
-	if (initializing_) return "Initializing";
-	if (spectator_) return "Spectator";
-	return ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
+	const char *type = "";
+	if (spectator_) type = "(Spectator)";
+	if (initializing_) type = "(Initializing)";
+	if (loading_) type = "(Loading)";
+	const char *other = ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
+	return formatString("%s%s", other, type);
 }
 
 bool TankState::writeMessage(NetBuffer &buffer)

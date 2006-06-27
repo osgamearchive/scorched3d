@@ -101,7 +101,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 							if (movesMissed >= ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves())
 							{
 								// Then kick this player
-								ServerCommon::kickDestination(tank->getDestinationId(), true);
+								ServerCommon::kickDestination(tank->getDestinationId());
 							}
 						}
 					}

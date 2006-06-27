@@ -32,7 +32,7 @@ namespace ServerCommon
 	void sendStringAdmin(const char *text);
 	void serverLog(const char *text);
 	void kickDestination(unsigned int destinationId, bool delayed = false);
-	void kickPlayer(unsigned int playerId, bool delayed = false);
+	void kickPlayer(unsigned int playerId);
 	void poorPlayer(unsigned int playerId);
 	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
 	void slapPlayer(unsigned int playerId, float slap);
