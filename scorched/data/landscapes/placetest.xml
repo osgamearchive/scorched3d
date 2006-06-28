@@ -9,24 +9,17 @@
 				</position>
 			</position>
 			<object type='group'>
-				<#comment></#comment>
 				<groupobject>
 					<offset>
 						<A>0</A>
 						<B>20</B>
 						<C>0</C>
 					</offset>
-					<object type='target'>
-						<name>TestTargetHmm2</name>
+					<object type='model'>
 						<model type='MilkShape'>data/accessories/pwrcrate/pwrcrate.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/banana/banana.txt</modelburnt>
 						<modelscale>0.1</modelscale>
-						<#comment></#comment>
 						<modelrotationsnap>45</modelrotationsnap>
-						<#comment></#comment>
-						<parachute>Parachute</parachute>
-						<life>10</life>
-						<boundingsphere>false</boundingsphere>
 						<flattenarea>true</flattenarea>
 						<removeaction>TestPowerUpWeapon</removeaction>
 						<groundmap type='bmp'>

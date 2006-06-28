@@ -51,13 +51,13 @@ void ExplosionNukeRendererEntry::simulate(Particle *particle, float time)
 	totalTime_ += time;
 	cloudRotation_ += time * 5.0f;
 
-	int position = int((totalTime_ / (size_ / 3.0f)) * 
+	int position = int((totalTime_ / (16.0f / 3.0f)) * 
 		float(ExplosionNukeRenderer_STEPS));
 	if (position >= ExplosionNukeRenderer_STEPS)
 		position = ExplosionNukeRenderer_STEPS - 1;
 
-	float z = ExplosionNukeRenderer::positions_[position][2] * 14.0f / size_;
-	float w = ExplosionNukeRenderer::positions_[position][0] + size_ / 4 + 4.0f;
+	float z = ExplosionNukeRenderer::positions_[position][2] * (10.0f + size_) / 30.0f;
+	float w = ExplosionNukeRenderer::positions_[position][0] + (size_ / 2.0f);
 	particle->position_[0] = startPosition_[0] + rotation_[0] * w;
 	particle->position_[1] = startPosition_[1] + rotation_[1] * w;
 	particle->position_[2] = startPosition_[2] + z;
@@ -101,7 +101,7 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 	}
 
 	emitter_.setAttributes(
-		size_ / 3.0f, size_ / 3.0f, // Life
+		5.0f, 5.0f, // Life
 		0.2f, 0.5f, // Mass
 		0.01f, 0.02f, // Friction
 		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
