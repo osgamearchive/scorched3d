@@ -171,29 +171,6 @@
 			</object>
 		</placement>
 		<placement type='mask'>
-			<numobjects>15</numobjects>
-			<mask>data/landscapes/masks/city2suburban2.bmp</mask>
-			<minheight>10</minheight>
-			<maxheight>75</maxheight>
-			<mincloseness>5</mincloseness>
-			<minslope>0.66</minslope>
-			<xsnap>8</xsnap>
-			<ysnap>8</ysnap>
-			<object type='model'>
-				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
-				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
-				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>HospitalExplode</removeaction>
-				<burnaction>Large Bldg</burnaction>
-				<groundmap type='bmp'>
-					<image>data/landscapes/cars.bmp</image>
-					<alpha>data/landscapes/carsa.bmp</alpha>
-					<invert>false</invert>
-				</groundmap>
-				<groupname>hospitals</groupname>
-			</object>
-		</placement>
-		<placement type='mask'>
 			<numobjects>1</numobjects>
 			<mask>data/landscapes/masks/city2rural2.bmp</mask>
 			<minheight>10</minheight>
@@ -208,12 +185,37 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Stadium</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
 					<invert>true</invert>
 				</groundmap>
 				<groupname>stadium</groupname>
+			</object>
+		</placement>
+		<placement type='mask'>
+			<numobjects>15</numobjects>
+			<mask>data/landscapes/masks/city2suburban2.bmp</mask>
+			<minheight>10</minheight>
+			<maxheight>75</maxheight>
+			<mincloseness>5</mincloseness>
+			<minslope>0.66</minslope>
+			<xsnap>8</xsnap>
+			<ysnap>8</ysnap>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<removeaction>HospitalExplode</removeaction>
+				<burnaction>Large Bldg</burnaction>
+				<border>2</border>
+				<groundmap type='bmp'>
+					<image>data/landscapes/cars.bmp</image>
+					<alpha>data/landscapes/carsa.bmp</alpha>
+					<invert>false</invert>
+				</groundmap>
+				<groupname>hospitals</groupname>
 			</object>
 		</placement>
 		<placement type="mask">
@@ -231,6 +233,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>2</border>
 				<groundmap type="bmp">
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -254,6 +257,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>2</border>
 				<groundmap type="bmp">
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -277,6 +281,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>2</border>
 				<groundmap type="bmp">
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -300,6 +305,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>2</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -323,6 +329,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>HospitalExplode</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<border>2</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -338,14 +345,15 @@
 			<maxheight>75</maxheight>
 			<mincloseness>5</mincloseness>
 			<minslope>0.66</minslope>
-			<xsnap>8</xsnap>
-			<ysnap>8</ysnap>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
 			<object type='model'>
 				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>HospitalExplode</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -369,6 +377,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -392,6 +401,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -415,6 +425,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Bar1Explode</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -438,6 +449,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Bar1Explode</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -461,6 +473,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -484,6 +497,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Store1Explode</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -507,6 +521,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/dirt.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -530,6 +545,7 @@
 				<modelrotationsnap>30</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/farmland.bmp</image>
 					<alpha>data/landscapes/farmlanda.bmp</alpha>
@@ -549,6 +565,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Small Bldg</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
+				<border>2</border>
 				<groupname>houses</groupname>
 			</object>
 		</placement>
@@ -569,6 +586,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -579,6 +597,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -589,6 +608,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -599,6 +619,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -621,6 +642,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -631,6 +653,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -641,6 +664,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -651,6 +675,7 @@
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Small Bldg</removeaction>
 						<burnaction>SmallBldgBurn</burnaction>
+						<border>3</border>
 						<groupname>houses</groupname>
 					</object>
 				</randomobject>
@@ -672,6 +697,7 @@
 				<removeaction>Nuclear Plant</removeaction>
 				<burnaction>Nuclear Plant</burnaction>
 				<flattenarea>true</flattenarea>
+				<border>15</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
@@ -695,6 +721,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
+				<border>10</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -718,6 +745,7 @@
 				<modelrotationsnap>30</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
+				<border>10</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
