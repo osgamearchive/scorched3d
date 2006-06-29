@@ -47,6 +47,7 @@
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <common/Defines.h>
+#include <algorithm>
 
 extern Clock serverTimer;
 
@@ -477,6 +478,7 @@ void ServerNewGameState::checkTeams()
 		{
 			case OptionsGame::TeamBallanceAuto:
 			case OptionsGame::TeamBallanceAutoByScore:
+			case OptionsGame::TeamBallanceAutoByBots:
 				checkTeamsAuto();
 				break;
 			case OptionsGame::TeamBallanceBotsVs:
@@ -514,10 +516,20 @@ void ServerNewGameState::checkTeams()
 	}
 }
 
+static inline bool lt_score(const Tank *o1, const Tank *o2) 
+{ 
+	return ((Tank*)o1)->getScore().getScore() > ((Tank *)o2)->getScore().getScore();
+}
+
+static inline bool lt_bots(const Tank *o1, const Tank *o2) 
+{ 
+	return ((Tank*)o1)->getTankAI() > ((Tank *)o2)->getTankAI();
+}
+
 void ServerNewGameState::checkTeamsAuto()
 {
 	// Count players in each team
-	std::list<Tank *> teamPlayers[4];
+	std::vector<Tank *> teamPlayers[4];
 	std::map<unsigned int, Tank *> &playingTanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator mainitor;
@@ -542,8 +554,8 @@ void ServerNewGameState::checkTeamsAuto()
 		check = false;
 	
 		// Find the teams with the min and max players in them
-		std::list<Tank *> *minPlayers = &teamPlayers[0];
-		std::list<Tank *> *maxPlayers = &teamPlayers[0];
+		std::vector<Tank *> *minPlayers = &teamPlayers[0];
+		std::vector<Tank *> *maxPlayers = &teamPlayers[0];
 		for (int i=0; i<ScorchedServer::instance()->getOptionsGame().getTeams(); i++)
 		{
 			if (teamPlayers[i].size() < minPlayers->size()) minPlayers = &teamPlayers[i];
@@ -560,11 +572,14 @@ void ServerNewGameState::checkTeamsAuto()
 			if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
 				OptionsGame::TeamBallanceAutoByScore)
 			{
-				// Sort tanks so the loosing players are swapped
-				TankSort::getSortedTanks(*minPlayers,
-					ScorchedServer::instance()->getContext());
-				TankSort::getSortedTanks(*maxPlayers,
-					ScorchedServer::instance()->getContext());
+				std::sort(minPlayers->begin(), minPlayers->end(), lt_score); 
+				std::sort(maxPlayers->begin(), maxPlayers->end(), lt_score); 
+			}
+			else if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
+				OptionsGame::TeamBallanceAutoByBots)
+			{
+				std::sort(minPlayers->begin(), minPlayers->end(), lt_bots); 
+				std::sort(maxPlayers->begin(), maxPlayers->end(), lt_bots); 
 			}
 		
 			// Find out which team has the least players
@@ -590,6 +605,12 @@ void ServerNewGameState::checkTeamsAuto()
 		{
 			ServerCommon::sendString(0, "Auto ballancing teams, by score");
 			ServerCommon::serverLog( "Auto ballancing teams, by score");
+		}
+		else if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
+			OptionsGame::TeamBallanceAutoByBots)
+		{
+			ServerCommon::sendString(0, "Auto ballancing teams, by bots");
+			ServerCommon::serverLog( "Auto ballancing teams, by bots");
 		}
 		else
 		{

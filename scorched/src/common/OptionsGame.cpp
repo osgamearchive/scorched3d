@@ -101,6 +101,7 @@ static OptionEntryEnum::EnumEntry teamBallanceEnum[] =
 	{ "TeamBallanceAuto", 1 },
 	{ "TeamBallanceBotsVs", 2 },
 	{ "TeamBallanceAutoByScore", 3 },
+	{ "TeamBallanceAutoByBots", 4 },
 	{ "", -1 }
 };
 

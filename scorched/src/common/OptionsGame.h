@@ -89,7 +89,8 @@ public:
 		TeamBallanceNone,
 		TeamBallanceAuto,
 		TeamBallanceBotsVs,
-		TeamBallanceAutoByScore
+		TeamBallanceAutoByScore,
+		TeamBallanceAutoByBots
 	};
 	
 	const char *getTutorial() { return tutorial_; }

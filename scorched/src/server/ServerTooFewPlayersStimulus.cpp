@@ -61,7 +61,9 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 		ScorchedServer::instance()->getOptionsGame().getTeamBallance() !=
 			OptionsGame::TeamBallanceAuto &&
 		ScorchedServer::instance()->getOptionsGame().getTeamBallance() !=
-			OptionsGame::TeamBallanceAutoByScore)
+			OptionsGame::TeamBallanceAutoByScore &&
+		ScorchedServer::instance()->getOptionsGame().getTeamBallance() !=
+			OptionsGame::TeamBallanceAutoByBots)
 	{
 		// If it is auto ballanced, then if there are at least two players
 		// then we are ok.  And if there are not two players then

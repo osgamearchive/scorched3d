@@ -193,8 +193,7 @@ void Explosion::init()
 			}
 		}
 
-		if (weapon_->getCreateMushroomAmount() > 0.0f &&
-			aboveGround < 2.0f)
+		if (weapon_->getCreateMushroomAmount() > 0.0f)
 		{
 			if (RAND <= weapon_->getCreateMushroomAmount())
 			{
