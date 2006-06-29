@@ -20,7 +20,7 @@
 						<modelburnt type='MilkShape'>data/accessories/shack/shack.txt</modelburnt>
 						<modelrotation>60</modelrotation>
 						<modelscale>0.07</modelscale>
-						<flattenarea>true</flattenarea>
+						<flattenarea>-1.0</flattenarea>
 						<groupname>none</groupname>
 					</object>
 				</groupobject>
@@ -31,7 +31,6 @@
 						<C>0</C>
 					</offset>
 					<object type='shadow'>
-						<flattenarea>false</flattenarea>
 						<groundmap type='bmp'>
 							<image>data/landscapes/path.bmp</image>
 							<alpha>data/landscapes/patha.bmp</alpha>
@@ -50,7 +49,7 @@
 						<modelburnt type='MilkShape'>data/accessories/shack/shack.txt</modelburnt>
 						<modelrotation>180</modelrotation>
 						<modelscale>0.07</modelscale>
-						<flattenarea>true</flattenarea>
+						<flattenarea>-1.0</flattenarea>
 						<groupname>none</groupname>
 					</object>
 				</groupobject>
@@ -65,7 +64,7 @@
 						<modelburnt type='MilkShape'>data/accessories/shack/shack.txt</modelburnt>
 						<modelrotation>10</modelrotation>
 						<modelscale>0.07</modelscale>
-						<flattenarea>true</flattenarea>
+						<flattenarea>-1.0</flattenarea>
 						<groupname>none</groupname>
 					</object>
 				</groupobject>

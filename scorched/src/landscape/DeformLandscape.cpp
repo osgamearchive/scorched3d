@@ -149,16 +149,17 @@ bool DeformLandscape::deformLandscape(
 
 void DeformLandscape::flattenArea(
 	ScorchedContext &context, Vector &tankPos, unsigned int playerId,
-	bool removeObjects)
+	bool removeObjects, float size)
 {
+	int iSize = (int) size;
 	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 	int posX = (int) tankPos[0];
 	int posY = (int) tankPos[1];
 
 	// Flatten a small area around the tank
-	for (int x=-2; x<=2; x++)
+	for (int x=-iSize; x<=iSize; x++)
 	{
-		for (int y=-2; y<=2; y++)
+		for (int y=-iSize; y<=iSize; y++)
 		{
 			int ix = posX + x;
 			int iy = posY + y;
@@ -173,8 +174,8 @@ void DeformLandscape::flattenArea(
 
 	// Recalcualte the normals
 	hmap.generateNormals(
-		MAX(0, posX - 3), MIN(hmap.getMapWidth(), posX + 3),
-		MAX(0, posY - 3), MIN(hmap.getMapHeight(), posY + 3));
+		MAX(0, posX - iSize - 1), MIN(hmap.getMapWidth(), posX + iSize + 1),
+		MAX(0, posY - iSize - 1), MIN(hmap.getMapHeight(), posY + iSize + 1));
 
 	// Remove objects
 	if (removeObjects)
@@ -182,7 +183,7 @@ void DeformLandscape::flattenArea(
 		unsigned int x = (unsigned int) (posX);
 		unsigned int y = (unsigned int) (posY);
 		context.landscapeMaps->getGroundMaps().getObjects().removeObjects(
-			context, x, y, 3, playerId);
+			context, x, y, iSize + 1, playerId);
 	}
 }
 

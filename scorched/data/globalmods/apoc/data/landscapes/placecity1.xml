@@ -673,7 +673,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Nuclear Plant</removeaction>
 				<burnaction>Nuclear Plant</burnaction>
-				<flattenarea>true</flattenarea>
+				<flattenarea>-1.0</flattenarea>
 				<border>15</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>

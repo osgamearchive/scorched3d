@@ -77,7 +77,7 @@ private:
 	wxTextCtrl *IDC_EDIT3_CTRL;
 	wxCheckBox *IDC_SERVER_RESIDUAL_CTRL;
 
-	void createMainPanel();
+	void createMainPanel(bool server);
 	void createEcoPanel();
 	void createEnvPanel();
 	void createMotdPanel();
@@ -98,7 +98,7 @@ BEGIN_EVENT_TABLE(SettingsFrame, wxDialog)
 	EVT_BUTTON(IDC_DESELECTALL,  SettingsFrame::onDeselectAll)
 END_EVENT_TABLE()
 
-void SettingsFrame::createMainPanel()
+void SettingsFrame::createMainPanel(bool server)
 {
 	mainPanel_ = new wxPanel(book_, -1);
 	book_->AddPage(mainPanel_, wxT("Main"));
@@ -143,7 +143,7 @@ void SettingsFrame::createMainPanel()
 		OptionEntrySetterUtil::createOtherSetter(
 			mainPanel_, sizer, context_.getModDownloadSpeedEntry()));	
 
-	if (playersPanel_) // Server only
+	if (server) // Server only
 	{
 		setters_.push_back(
 			OptionEntrySetterUtil::createOtherSetter(
@@ -434,8 +434,7 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 	tankAIStore.clearAIs();
 	DIALOG_ASSERT(tankAIStore.loadAIs(0));
 
-
-	createMainPanel();
+	createMainPanel(server);
 	createEcoPanel();
 	createEnvPanel();
 	if (server) createPlayersPanel();

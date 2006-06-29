@@ -40,7 +40,8 @@ namespace DeformLandscape
 		ScorchedContext &context, 
 		Vector &tankPos,
 		unsigned int playerId,
-		bool removeObjects = true);
+		bool removeObjects = true,
+		float size = 2.0f);
 
 };
 

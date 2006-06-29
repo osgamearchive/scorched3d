@@ -28,7 +28,7 @@
 #include <GLEXT/GLBitmapModifier.h>
 
 PlacementShadowDefinition::PlacementShadowDefinition() :
-	drawShadow_(true), flattenArea_(false)
+	drawShadow_(true), flattenArea_(0.0f)
 {
 }
 
@@ -40,7 +40,7 @@ bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
 {
 	node->getNamedChild("drawshadow", drawShadow_, false);
 	node->getNamedChild("flattenarea", flattenArea_, false);
-	
+
 	XMLNode *groundMap = 0;
 	if (node->getNamedChild("groundmap", groundMap, false))
 	{
@@ -54,9 +54,15 @@ void PlacementShadowDefinition::updateLandscapeHeight(
 	ScorchedContext &context,
 	Vector &position, Vector &size)
 {
-	if (flattenArea_)
+	if (flattenArea_ != 0.0f)
 	{
-		DeformLandscape::flattenArea(context, position, 0, false);
+		float areaSize = flattenArea_;
+		if (areaSize < 0.0f)
+		{
+			areaSize = MAX(size[0], size[1])/2.0f + 1.0f;
+		}
+
+		DeformLandscape::flattenArea(context, position, 0, false, areaSize);
 	}
 }
 

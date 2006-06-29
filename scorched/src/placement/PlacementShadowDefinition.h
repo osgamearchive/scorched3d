@@ -55,7 +55,7 @@ public:
 
 protected:
 	bool drawShadow_;
-	bool flattenArea_;
+	float flattenArea_;
 	ImageID groundMap_;
 };
 

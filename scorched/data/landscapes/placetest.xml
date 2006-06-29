@@ -20,7 +20,7 @@
 						<modelburnt type='MilkShape'>data/accessories/banana/banana.txt</modelburnt>
 						<modelscale>0.1</modelscale>
 						<modelrotationsnap>45</modelrotationsnap>
-						<flattenarea>true</flattenarea>
+						<flattenarea>-1.0</flattenarea>
 						<removeaction>TestPowerUpWeapon</removeaction>
 						<groundmap type='bmp'>
 							<image>data/landscapes/parking.bmp</image>
