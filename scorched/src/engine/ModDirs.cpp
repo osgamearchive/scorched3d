@@ -37,8 +37,11 @@ ModDirs::~ModDirs()
 bool ModDirs::loadModDirs()
 {
 	loadModFile(formatString("%s", "none"), true); // formatString used to put none into buffer
-	if (!loadModDir(getModFile(""), false)) return false;
-	if (!loadModDir(getGlobalModFile(""), true)) return false;
+
+	std::string modFile = getModFile("");
+	std::string globalModFile = getGlobalModFile("");
+	if (!loadModDir(modFile.c_str(), false)) return false;
+	if (!loadModDir(globalModFile.c_str(), true)) return false;
 	return true;
 }
 	

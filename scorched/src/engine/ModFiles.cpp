@@ -84,25 +84,25 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 {
 	{
 		// Get and check the user mod directory exists
-		const char *modDir = getModFile(mod);
-		if (s3d_dirExists(modDir))
+		std::string modDir = getModFile(mod);
+		if (s3d_dirExists(modDir.c_str()))
 		{
 			if (counter) counter->setNewOp("Loading user mods");
-			if (!loadModDir(modDir, mod, counter)) return false;
+			if (!loadModDir(modDir.c_str(), mod, counter)) return false;
 		}
 		else
 		{
-			if (createDir) s3d_dirMake(modDir);
+			if (createDir) s3d_dirMake(modDir.c_str());
 		}
 	}
 
 	{
 		// Get and check global mod directory
-		const char *modDir = getGlobalModFile(mod);
-		if (s3d_dirExists(modDir))
+		std::string modDir = getGlobalModFile(mod);
+		if (s3d_dirExists(modDir.c_str()))
 		{
 			if (counter) counter->setNewOp("Loading global mods");
-			if (!loadModDir(modDir, mod, counter)) return false;
+			if (!loadModDir(modDir.c_str(), mod, counter)) return false;
 		}
 	}
 
@@ -138,8 +138,8 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 			totalSize += entry->getUncompressedSize();
 		}
 
-		Logger::log(formatString("Loaded mod \"%s\", space required %u (%u) bytes", 
-			mod, totalCompSize, totalSize));
+		Logger::log(formatString("Loaded mod \"%s\", %u files, space required %u (%u) bytes", 
+			mod, files_.size(), totalCompSize, totalSize));
 
 		if (!createDir && files_.empty())
 		{
@@ -230,10 +230,10 @@ bool ModFiles::loadModFile(const char *fullFileName,
 
 bool ModFiles::writeModFiles(const char *mod)
 {
-	const char *modDir = getModFile(mod);
-	if (!s3d_dirExists(modDir))
+	std::string modDir = getModFile(mod);
+	if (!s3d_dirExists(modDir.c_str()))
 	{
-		s3d_dirMake(modDir);
+		s3d_dirMake(modDir.c_str());
 	}
 
 	std::map<std::string, ModFileEntry *>::iterator itor;

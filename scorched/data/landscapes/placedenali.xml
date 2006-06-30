@@ -21,6 +21,7 @@
 						<modelrotation>60</modelrotation>
 						<modelscale>0.07</modelscale>
 						<flattenarea>-1.0</flattenarea>
+						<border>5.0</border>
 						<groupname>none</groupname>
 					</object>
 				</groupobject>
@@ -50,6 +51,7 @@
 						<modelrotation>180</modelrotation>
 						<modelscale>0.07</modelscale>
 						<flattenarea>-1.0</flattenarea>
+						<border>5.0</border>
 						<groupname>none</groupname>
 					</object>
 				</groupobject>
@@ -65,6 +67,7 @@
 						<modelrotation>10</modelrotation>
 						<modelscale>0.07</modelscale>
 						<flattenarea>-1.0</flattenarea>
+						<border>5.0</border>
 						<groupname>none</groupname>
 					</object>
 				</groupobject>
