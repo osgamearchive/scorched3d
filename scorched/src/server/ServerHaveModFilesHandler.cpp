@@ -77,6 +77,21 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 				hasEntry->crc != fileEntry->getCompressedCrc() ||
 				hasEntry->length != fileEntry->getCompressedSize())
 			{
+				std::string requiredReason;
+				if (!hasEntry) requiredReason = "New File";
+				else if (hasEntry->length != fileEntry->getCompressedSize())
+				{
+					requiredReason = 
+						formatString("Size Difference %i %i",
+						hasEntry->length, fileEntry->getCompressedSize());
+				}
+				else if (hasEntry->crc != fileEntry->getCompressedCrc())
+				{
+					requiredReason = 
+						formatString("Crc Difference %i %i",
+						hasEntry->crc, fileEntry->getCompressedCrc());
+				}
+
 				neededEntries_.push_back(fileEntry);
 				neededLength += fileEntry->getCompressedSize();
 			}

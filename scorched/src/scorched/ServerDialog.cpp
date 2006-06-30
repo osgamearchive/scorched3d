@@ -796,7 +796,7 @@ void ServerFrame::onSaveOptions(wxCommandEvent &event)
 	{
 		std::string fileName = (const char *) file.mb_str(wxConvUTF8);
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-		   readOptionsFromFile((char *) fileName.c_str());
+			writeOptionsToFile((char *) fileName.c_str());
 	}
 }
 
