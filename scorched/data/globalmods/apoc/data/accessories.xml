@@ -8454,16 +8454,38 @@ YOU CANNOT AIM THIS WEAPON!</description>
 											<explosionsound>explosions/large.wav</explosionsound>
 										</subweapon1>
 										<subweapon2 type='WeaponDelay'>
+											<delay>0.5</delay>
+											<delayedweapon type='WeaponScatterPosition'>
+												<landheight>true</landheight>
+												<landonly>false</landonly>
+												<scatterpercentage>0</scatterpercentage>
+												<aimedweapon type='WeaponRepeat'>
+													<repeat>8</repeat>
+													<delay>0.5</delay>
+													<repeatweapon type='WeaponExplosion'>
+														<deform>none</deform>
+														<deformtexture>none</deformtexture>
+														<nocreatedebris/>
+														<nocreatesplash/>
+														<createmushroomamount>1.0</createmushroomamount>
+														<hurtamount>0</hurtamount>
+														<size>16</size>
+														<explosiontexture>none</explosiontexture>
+														<explosionsound>none</explosionsound>
+													</repeatweapon>
+												</aimedweapon>
+											</delayedweapon>
+										</subweapon2>
+										<subweapon3 type='WeaponDelay'>
 											<delay>1.0</delay>
 											<delayedweapon type='WeaponRepeat'>
 												<repeat>4</repeat>
 												<delay>1.0</delay>
 												<repeatweapon type='WeaponExplosion'>
-													<deform>down</deform>
+													<deform>none</deform>
 													<deformtexture>none</deformtexture>
 													<nocreatedebris/>
 													<nocreatesplash/>
-													<createmushroomamount>1.0</createmushroomamount>
 													<hurtamount>0</hurtamount>
 													<size>16</size>
 													<explosionshake>4.0</explosionshake>
@@ -8471,8 +8493,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 													<explosionsound>none</explosionsound>
 												</repeatweapon>
 											</delayedweapon>
-										</subweapon2>
-										<subweapon3 type='WeaponDelay'>
+									</subweapon3>
+										<subweapon4 type='WeaponDelay'>
 											<delay>0.2</delay>
 											<delayedweapon type='WeaponAimedOver'>
 												<nowarheads>1</nowarheads>
@@ -8596,8 +8618,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 													</nextaction>
 												</aimedweapon>
 											</delayedweapon>
-										</subweapon3>
-										<subweapon4 type='WeaponNapalm'>
+										</subweapon4>
+										<subweapon5 type='WeaponNapalm'>
 											<allowunderwater>true</allowunderwater>
 											<napalmtime>12.0</napalmtime>
 											<napalmheight>1.8</napalmheight>
@@ -8609,17 +8631,17 @@ YOU CANNOT AIM THIS WEAPON!</description>
 											<napalmtexture>lava</napalmtexture>
 											<deformtexture>data/textures/landscape/defaultscorched.bmp</deformtexture>
 											<napalmsound>explosions/napalm.wav</napalmsound>
-										</subweapon4>
-										<subweapon5 type='WeaponDelay'>
+										</subweapon5>
+										<subweapon6 type='WeaponDelay'>
 											<delay>0.5</delay>
 											<delayedweapon type='WeaponSound'>
 												<sound>data/wav/explosions/quake.wav</sound>
 												<gain>1.5</gain>
 												<relative>true</relative>
 											</delayedweapon>
-										</subweapon5>
+										</subweapon6>
 										<!-- Flying Lava -->
-										<subweapon6 type='WeaponDelay'>
+										<subweapon7 type='WeaponDelay'>
 											<delay>0.1</delay>
 											<delayedweapon type='WeaponScatterPosition'>
 												<landheight>true</landheight>
@@ -8635,8 +8657,8 @@ YOU CANNOT AIM THIS WEAPON!</description>
 													</aimedweapon>
 												</aimedweapon>
 											</delayedweapon>
-										</subweapon6>
-										<subweapon7 type='WeaponDelay'>
+										</subweapon7>
+										<subweapon8 type='WeaponDelay'>
 											<delay>0.33</delay>
 											<delayedweapon type='WeaponScatterPosition'>
 												<landheight>true</landheight>
@@ -8694,7 +8716,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 													</repeatweapon>
 												</aimedweapon>
 											</delayedweapon>
-										</subweapon7>
+										</subweapon8>
 									</aimedweapon>
 								</delayedweapon>
 							</subweapon4>
