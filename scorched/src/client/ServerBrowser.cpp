@@ -32,7 +32,10 @@ ServerBrowser *ServerBrowser::instance()
 }
 
 ServerBrowser::ServerBrowser() : 
-	refreshing_(false), serverList_(), serverRefresh_(serverList_)
+	refreshing_(false), serverList_(), 
+	serverRefresh_(serverList_),
+	serverCollector_(serverList_),
+	refreshId_(0)
 {
 }
 
@@ -52,8 +55,8 @@ int ServerBrowser::threadFunc(void *var)
 {
 	bool lan = (bool) (int(var)==1);
 	bool result = false;
-	if (lan) result = instance_->serverList_.fetchLANList();
-	else result = instance_->serverList_.fetchServerList();
+	if (lan) result = instance_->serverCollector_.fetchLANList();
+	else result = instance_->serverCollector_.fetchServerList();
 	if (result)
 	{
 		instance_->serverRefresh_.refreshList();

@@ -25,6 +25,18 @@
 #include <map>
 #include <time.h>
 
+struct ServerBrowserRefreshEntry
+{
+	ServerBrowserRefreshEntry();
+	ServerBrowserRefreshEntry(const char *address, int position);
+
+	int retries_;
+	int sentTime_;
+	int recieved_;
+	std::string address_;
+	int position_;
+};
+
 class ServerBrowserRefresh
 {
 public:
@@ -35,15 +47,15 @@ public:
 
 protected:
 	ServerBrowserServerList &list_;
-	std::list<ServerBrowserEntry *> refreshEntries_;
-	std::map<UDPsocket, ServerBrowserEntry*> entryMap_;
+	std::list<ServerBrowserRefreshEntry> refreshEntries_;
+	std::map<UDPsocket, ServerBrowserRefreshEntry> entryMap_;
 	UDPpacket *sendPacketStatus_;
 	UDPpacket *sendPacketPlayers_;
 	UDPpacket *recvPacket_;
 
-	void sendNextEntry(ServerBrowserEntry *entry, time_t theTime);
+	void sendNextEntry(ServerBrowserRefreshEntry &entry, time_t theTime);
 	void processMessages(time_t theTime);
-	void processMessage(UDPpacket *packet, ServerBrowserEntry *entry);
+	void processMessage(UDPpacket *packet, ServerBrowserRefreshEntry &entry);
 };
 
 #endif

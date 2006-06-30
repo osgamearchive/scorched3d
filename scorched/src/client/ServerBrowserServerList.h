@@ -35,42 +35,27 @@ public:
 	void addAttribute(const char *name, const char *value);
 	const char *getAttribute(const char *attrName);
 
-	int retries_;
-	int sentTime_;
-	int recieved_;
-
 protected:
 	std::map<std::string, std::string> attributes_;
 };
 
-class ServerBrowserServerList : public NetMessageHandlerI
+class ServerBrowserServerList
 {
 public:
 	ServerBrowserServerList();
 	virtual ~ServerBrowserServerList();
 
-	// Fetch the new list from the server
-	bool fetchServerList();
-	bool fetchLANList();
-	unsigned int &getRefreshId() { return refreshId_; }
-
 	// Accessors onto the list
 	int getNoEntries();
 	const char *getEntryValue(int pos, const char *name);
-	ServerBrowserEntry &getEntry(int pos);
+	void addEntryValue(int pos, const char *name, const char *value);
+	void addEntry(ServerBrowserEntry &entry);
 
-	// Inherited from NetMessageHandlerI
-	virtual void processMessage(NetMessage &message);
+	void clear();
 
 protected:
-	bool complete_;
-	unsigned int refreshId_;
-	SDL_mutex *vectorMutex_;
-	UDPpacket *sendPacket_;
-	UDPpacket *recvPacket_;
-	NetServer netServer_;
-	NetBuffer sendNetBuffer_;
 	std::vector<ServerBrowserEntry> servers_;
+	SDL_mutex *vectorMutex_;
 };
 
 #endif

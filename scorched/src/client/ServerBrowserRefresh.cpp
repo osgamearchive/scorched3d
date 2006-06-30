@@ -20,8 +20,23 @@
 
 #include <XML/XMLStringBuffer.h>
 #include <client/ServerBrowserRefresh.h>
+#include <client/ServerBrowser.h>
 #include <common/Defines.h>
 #include <time.h>
+
+ServerBrowserRefreshEntry::ServerBrowserRefreshEntry() :
+	retries_(0), sentTime_(0), recieved_(0)
+{
+}
+
+ServerBrowserRefreshEntry::ServerBrowserRefreshEntry(
+	const char *address,
+	int position) : 
+	address_(address),
+	position_(position),
+	retries_(0), sentTime_(0), recieved_(0)
+{
+}
 
 ServerBrowserRefresh::ServerBrowserRefresh(ServerBrowserServerList &list) :
 	list_(list)
@@ -43,7 +58,12 @@ void ServerBrowserRefresh::refreshList()
 {
 	for (int i=0; i<list_.getNoEntries(); i++)
 	{
-		refreshEntries_.push_back(&list_.getEntry(i));
+		const char *address = list_.getEntryValue(i, "address");
+		if (address && address[0])
+		{
+			ServerBrowserRefreshEntry entry(address, i);
+			refreshEntries_.push_back(entry);
+		}
 	}
 
 	while (!refreshEntries_.empty() || !entryMap_.empty())
@@ -53,7 +73,7 @@ void ServerBrowserRefresh::refreshList()
 		// Add a number of new entries
 		for (int i=entryMap_.size(); i<20 && !refreshEntries_.empty(); i++)
 		{
-			ServerBrowserEntry *entry = refreshEntries_.front();
+			ServerBrowserRefreshEntry entry = refreshEntries_.front();
 			refreshEntries_.pop_front();
 
 			sendNextEntry(entry, theTime);
@@ -63,16 +83,14 @@ void ServerBrowserRefresh::refreshList()
 		// Process all new messages
 		processMessages(theTime);
 	}
-	list_.getRefreshId()++;
+	ServerBrowser::instance()->incrementRefreshId();
 }
 
-void ServerBrowserRefresh::sendNextEntry(ServerBrowserEntry *entry, time_t theTime)
+void ServerBrowserRefresh::sendNextEntry(
+	ServerBrowserRefreshEntry &entry, time_t theTime)
 {
-	const char *name = entry->getAttribute("address");
-	if (!name[0]) return;
-
 	static char buffer[256];
-	snprintf(buffer, sizeof(buffer), "%s", name);
+	snprintf(buffer, sizeof(buffer), "%s", entry.address_.c_str());
 	char *port = strchr(buffer, ':');
 	if (!port) return;
 	*port = '\0';
@@ -89,10 +107,10 @@ void ServerBrowserRefresh::sendNextEntry(ServerBrowserEntry *entry, time_t theTi
 	if (chan == -1) return;
 
 	// Add the client to the map of currently processed clients
+	entry.retries_ ++;
+	entry.sentTime_ = theTime;
+	entry.recieved_ = 0;
 	entryMap_[udpsock] = entry;
-	entry->retries_ ++;
-	entry->sentTime_ = theTime;
-	entry->recieved_ = 0;
 
 	// Send the request for info
 	SDLNet_UDP_Send(udpsock, chan, sendPacketStatus_);
@@ -102,17 +120,17 @@ void ServerBrowserRefresh::sendNextEntry(ServerBrowserEntry *entry, time_t theTi
 void ServerBrowserRefresh::processMessages(time_t theTime)
 {
 	std::list<UDPsocket> finished;
-	std::map<UDPsocket, ServerBrowserEntry*>::iterator itor;
+	std::map<UDPsocket, ServerBrowserRefreshEntry>::iterator itor;
 	for (itor = entryMap_.begin();
 		itor != entryMap_.end();
 		itor++)
 	{
 		UDPsocket socket = (*itor).first;
-		ServerBrowserEntry *entry = (*itor).second;
+		ServerBrowserRefreshEntry &entry = (*itor).second;
 
-		if (theTime - entry->sentTime_ > 5)
+		if (theTime - entry.sentTime_ > 5)
 		{
-			if (entry->retries_ < 3) refreshEntries_.push_back(entry);
+			if (entry.retries_ < 3) refreshEntries_.push_back(entry);
 			finished.push_back(socket);
 		}
 		else
@@ -120,10 +138,10 @@ void ServerBrowserRefresh::processMessages(time_t theTime)
 			while (SDLNet_UDP_Recv(socket, recvPacket_))
 			{
 				processMessage(recvPacket_, entry);
-				entry->recieved_ ++;
-				list_.getRefreshId()++;
+				entry.recieved_ ++;
+				ServerBrowser::instance()->incrementRefreshId();
 
-				if (entry->recieved_ == 2) finished.push_back(socket);
+				if (entry.recieved_ == 2) finished.push_back(socket);
 			}
 		}
 	}
@@ -138,7 +156,7 @@ void ServerBrowserRefresh::processMessages(time_t theTime)
 	}
 }
 
-void ServerBrowserRefresh::processMessage(UDPpacket *packet, ServerBrowserEntry *serverEntry)
+void ServerBrowserRefresh::processMessage(UDPpacket *packet, ServerBrowserRefreshEntry &entry)
 {
 	const char *buffer = (char *) packet->data;
 	unsigned int len = packet->len - 1;
@@ -155,7 +173,7 @@ void ServerBrowserRefresh::processMessage(UDPpacket *packet, ServerBrowserEntry 
 			childrenItor++)
 		{
 			XMLNode *currentNode = (*childrenItor);
-			serverEntry->addAttribute(
+			list_.addEntryValue(entry.position_,
 				currentNode->getName(),
 				currentNode->getContent());
 		}

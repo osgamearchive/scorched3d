@@ -414,9 +414,9 @@ void NetLanFrame::onTimer(wxTimerEvent &event)
 		IDC_BUTTON_NET_CTRL->Disable();
 	}
 
-	if (invalidateId != ServerBrowser::instance()->getServerList().getRefreshId())
+	if (invalidateId != ServerBrowser::instance()->getRefreshId())
 	{
-		invalidateId = ServerBrowser::instance()->getServerList().getRefreshId();
+		invalidateId = ServerBrowser::instance()->getRefreshId();
 		IDC_SERVER_LIST_CTRL->SetItemCount(
 			ServerBrowser::instance()->getServerList().getNoEntries());
 		//IDC_PLAYER_LIST_CTRL->DeleteAllItems();
@@ -442,7 +442,7 @@ bool NetLanFrame::TransferDataToWindow()
 	{
 		{ "Server Name", 200 },
 		{ "Pswd", 40 },
-		{ "Plyrs", 50 },
+		{ "Plyrs", 55 },
 		{ "Round", 50 },
 		{ "Mod", 70 },
 		{ "Ver", 50 },

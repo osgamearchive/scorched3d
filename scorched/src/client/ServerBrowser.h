@@ -22,14 +22,17 @@
 #define __INCLUDE_ServerBrowserh_INCLUDE__
 
 #include <client/ServerBrowserRefresh.h>
+#include <client/ServerBrowserCollect.h>
 
 class ServerBrowser 
 {
 public:
 	static ServerBrowser *instance();
 
-	void refresh(bool lan);
+	void incrementRefreshId() { refreshId_++; }
+	unsigned int &getRefreshId() { return refreshId_; }
 	bool getRefreshing() { return refreshing_; }
+	void refresh(bool lan);
 	
 	ServerBrowserServerList &getServerList() { return serverList_; }
 
@@ -38,6 +41,7 @@ protected:
 	bool refreshing_;
 	unsigned int refreshId_;
 	ServerBrowserServerList serverList_;
+	ServerBrowserCollect serverCollector_;
 	ServerBrowserRefresh serverRefresh_;
 
 	static int threadFunc(void *);
