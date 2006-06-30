@@ -27,7 +27,7 @@ REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 
 WeaponExplosion::WeaponExplosion() : size_(0.0f), 
 	multiColored_(false), hurtAmount_(0.0f),
-	deformType_(Explosion::DeformNone),
+	deform_(Explosion::DeformNone),
 	createDebris_(true), createMushroomAmount_(0.0f),
 	createSplash_(true), windAffected_(true),
 	luminance_(true), animate_(false),
@@ -115,9 +115,9 @@ bool WeaponExplosion::parseXML(OptionsGame &context,
 	// Get the deform
 	XMLNode *deformNode = 0;
 	if (!accessoryNode->getNamedChild("deform", deformNode)) return false;
-    if (0 == strcmp(deformNode->getContent(), "down")) deformType_ = Explosion::DeformDown;
-	else if (0 == strcmp(deformNode->getContent(), "up")) deformType_ = Explosion::DeformUp;
-	else if (0 == strcmp(deformNode->getContent(), "none")) deformType_ = Explosion::DeformNone;
+    if (0 == strcmp(deformNode->getContent(), "down")) deform_ = Explosion::DeformDown;
+	else if (0 == strcmp(deformNode->getContent(), "up")) deform_ = Explosion::DeformUp;
+	else if (0 == strcmp(deformNode->getContent(), "none")) deform_ = Explosion::DeformNone;
 	else
 	{
         dialogMessage("Accessory", formatString(

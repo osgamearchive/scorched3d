@@ -8,7 +8,28 @@ closedir(DIR);
 
 foreach my $file (@files)
 {
-	parseFile($file);
+	my %result = parseFile($file);
+	if (defined $result{"Class"})
+	{
+		print "----------\n";
+		print "Class - ".$result{"Class"}."\n";
+
+		if ($result{"Extends"} ne "")
+		{
+			print "Extends - ".$result{"Extends"}."\n";
+		}
+
+		if (defined $result{"Attribute"})
+		{
+			my @attrs = @{$result{"Attribute"}};
+			foreach my $attr (@attrs)
+			{	
+				my %attrh = %{$attr};	
+				print "=========" if ($attrh{"Type"} eq "");
+				print "Attribute : ".$attrh{"Type"}." ".$attrh{"Name"}." ".$attrh{"Rest"}."\n";
+			}
+		}
+	}
 }
 
 sub parseFile
@@ -19,23 +40,33 @@ sub parseFile
 	my @fileconts = <FILE>;
 	close (FILE);	
 	
-	my @fns = grep { /\s+(\w+)::parseXML/ } @fileconts;
-	next if ($#fns == -1);
-	$fns[0] =~ /\s+(\w+)::parseXML/ or die "ERROR1";
-	my $class = $1;
-	print "--".$class."--\n";
+	my @fns = grep { /\s+(\w+)::(parse|read)XML/ } @fileconts;
+	return if ($#fns == -1);
 	
-	my $dir = "";
-	my @dirfns = grep { /\!(\w+)::parseXML/ } @fileconts;
-	if ($#dirfns != -1)
+	my %result = ();
+	
+	$fns[0] =~ /\s+(\w+)::(parse|read)XML/ or die "ERROR1";
+	my $class = $1;
+	$result{"Class"} = $class;
+	
+	my $fileh = $file;
+	$fileh =~ s/cpp$/h/;
+	
+	my $extends = getExtends($fileh);
+	$result{"Extends"} = $extends;
+	if ($extends ne "")
 	{
-		$dirfns[0] =~ /\!(\w+)::parseXML/ or die "ERROR2";
-		my $dir = $1;
-		print "  Extends : ".$dir."\n";		
-	}
-	elsif ($file !~ /Accessory/)
-	{
-		print "  Extends : Accessory\n";
+		if ($extends eq "PlacementModelDefinition")
+		{	
+			$extends = "../placement/PlacementModelDefinition";
+		}
+		my %newResult = parseFile($extends.".cpp");
+		$result{"Attribute"} = $newResult{"Attribute"};
+		
+		if ($newResult{"Extends"} ne "")
+		{
+			$result{"Extends"} = $newResult{"Extends"};
+		}
 	}
 	
 	my @nodes = grep { /getNamedChild/ } @fileconts;
@@ -45,17 +76,59 @@ sub parseFile
 		{
 			my ($nodename, $var, $rest) = ($1, $2, $3);
 			
-			my $fileh = $file;
-			$fileh =~ s/cpp$/h/;
 			my $type = getType($fileh, $nodename);
 			$type = getType($fileh, $var) if ($type eq "");
 			$type = getType($file, $var) if ($type eq "");
-			
+
 			$rest = "(optional)" if ($rest ne "");
 			
-			print "  Attribute : ".$nodename.", Type : ".$type." ".$rest."\n";
+			my %attr = ();
+			$attr{"Name"} = $nodename;
+			$attr{"Type"} = $type;
+			$attr{"Rest"} = $rest;
+			
+			push @{$result{"Attribute"}}, { %attr };
 		}
 	}
+	@nodes = grep { /\.readXML\(/ } @fileconts;
+	foreach my $node (@nodes)
+	{
+		if ($node =~ /(\w+)\.readXML\(/)
+		{
+			my $var = ($1);
+			my $type = getType($fileh, $var);
+						
+			if ($type eq "TargetDefinition")
+			{
+				my %newResult = parseFile("../target/TargetDefinition.cpp");
+				push @{$result{"Attribute"}}, @{$newResult{"Attribute"}};
+			}
+		}
+	}
+	
+	return %result;
+}
+
+sub getExtends
+{
+	my ($file) = @_;
+
+	open (FILE, "$file") || die "ERROR: Cannot open file $file";
+	my @fileconts = <FILE>;
+	close (FILE);		
+	
+	my @extends = grep { /public \w+/i } @fileconts;
+	foreach (@extends)
+	{
+		if (/public (\w+)/)
+		{
+			my $extend = $1;
+			$extend =~ s/Callback//;
+		
+			return $extend;
+		}
+	}
+	return "";
 }
 
 sub getType
@@ -75,10 +148,17 @@ sub getType
 		{
 			return $1 if ($1 eq "float");
 			return $1 if ($1 eq "bool");
+			return $1 if ($1 eq "Explosion::DeformType");
 			return $1 if ($1 eq "std::string");
 			return $1 if ($1 eq "Vector");
 			return $1 if ($1 eq "int");
+			return $1 if ($1 eq "Weapon");
+			return $1 if ($1 eq "TargetDefinition");
+			return $1 if ($1 eq "AccessoryPart");
+			return $1 if ($1 eq "XMLNode");
 		}
 	}
+	return "ModelID" if ($var =~/model/);
+	
 	return "";
 }

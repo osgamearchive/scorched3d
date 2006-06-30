@@ -57,12 +57,12 @@ public:
 
 	GLWTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
-	AccessoryPart *getAction() { return action_; }
+	AccessoryPart *getAction() { return accessoryAction_; }
 	float getModelScale() { return modelScale_; }
 	ModelID &getModel() { return modelId_; }
 	bool getMuzzleFlash() { return muzzleFlash_; }
 
-	AccessoryPart::AccessoryType getType() { return action_->getType(); }
+	AccessoryPart::AccessoryType getType() { return accessoryAction_->getType(); }
 	GLTexture *getTexture();
 
 	void setPrice(int p) { if (p>0) price_ = p; }
@@ -78,7 +78,7 @@ protected:
 	static unsigned int nextAccessoryId_;
 	unsigned int accessoryId_;
 	bool aiOnly_;
-	AccessoryPart *action_;
+	AccessoryPart *accessoryAction_;
 	GLWTip toolTip_;
 	GLTexture *texture_;
 	ModelID modelId_;

@@ -109,8 +109,8 @@ bool Accessory::parseXML(OptionsGame &context,
 	// Get action
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("accessoryaction", subNode)) return false;
-	action_ = store->createAccessoryPart(context, this, subNode);
-	if (!action_)
+	accessoryAction_ = store->createAccessoryPart(context, this, subNode);
+	if (!accessoryAction_)
 	{
 		dialogMessage("Accessory", formatString(
 			"Failed to create action \"%s\"", name_.c_str()));

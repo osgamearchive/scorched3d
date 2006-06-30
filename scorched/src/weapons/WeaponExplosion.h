@@ -39,7 +39,7 @@ public:
 	float getSize() { return size_; }
 	float getMaxLife() { return maxLife_; }
 	float getMinLife() { return minLife_; }
-	Explosion::DeformType getDeformType() { return deformType_; }
+	Explosion::DeformType getDeformType() { return deform_; }
 	float getHurtAmount() { return hurtAmount_; }
 	bool getCreateDebris() { return createDebris_; }
 	float getCreateMushroomAmount() { return createMushroomAmount_; }
@@ -74,7 +74,7 @@ protected:
 	std::string deformTexture_;
 	std::string explosionTexture_;
 	std::string explosionSound_;
-	Explosion::DeformType deformType_;
+	Explosion::DeformType deform_;
 
 };
 
