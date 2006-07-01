@@ -12367,11 +12367,11 @@ which explode and spread fire when ignited.</description>
 							<weight>10</weight>
 							<weapon type='WeaponInvokeWeapon'>
 								<invoke>GasStationItems</invoke>
-							<weapon>
+							</weapon>
 						</weaponchoice1>
 						<weaponchoice2>
 							<weight>10</weight>
-							<weapon type='Null'></weapon>
+							<weapon type='WeaponNull'></weapon>
 						</weaponchoice2>
 					</aimedweapon>
 				</subweapon5>
@@ -12601,14 +12601,15 @@ which explode and spread fire when ignited.</description>
 						<weaponchoice1>
 							<weight>10</weight>
 							<weapon type='WeaponVelocity'>
-							<velocitychange>0.8</velocitychange>
-							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>Store1Items</invoke>
-							</aimedweapon>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Store1Items</invoke>
+								</aimedweapon>
+							</weapon>
 						</weaponchoice1>
 						<weaponchoice2>
 							<weight>10</weight>
-							<weapon type='Null'></weapon>
+							<weapon type='WeaponNull'></weapon>
 						</weaponchoice2>
 					</aimedweapon>
 				</subweapon3>
@@ -12849,14 +12850,15 @@ release lethal clouds of gas when destroyed.</description>
 						<weaponchoice1>
 							<weight>10</weight>
 							<weapon type='WeaponVelocity'>
-							<velocitychange>0.8</velocitychange>
-							<aimedweapon type='WeaponInvokeWeapon'>
-								<invoke>FactoryItems</invoke>
-							</aimedweapon>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>FactoryItems</invoke>
+								</aimedweapon>
+							</weapon>
 						</weaponchoice1>
 						<weaponchoice2>
 							<weight>10</weight>
-							<weapon type='Null'></weapon>
+							<weapon type='WeaponNull'></weapon>
 						</weaponchoice2>
 					</aimedweapon>
 				</subweapon5>
