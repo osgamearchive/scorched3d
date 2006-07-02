@@ -35,7 +35,7 @@ the content that is in question.  I don't want to leave anyone out, and I am sor
 		Boid Models
 		    - 737ua, cessna, fight4life
 		Object Models
-			- boulders, fuelbarrel
+			- boulders, fuelbarrel, cow1
 		Weapon Models
 			- 50cal, flamethrower
 		Landscapes:

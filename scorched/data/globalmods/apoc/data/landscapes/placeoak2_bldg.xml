@@ -1,0 +1,19 @@
+<place>
+	<placements>
+		<placement type='trees'>
+			<numobjects>400000</numobjects>
+			<numclusters>12</numclusters>
+			<minheight>6</minheight>
+			<maxheight>15</maxheight>
+			<object type='random'>
+				<randomobject>
+					<object type='tree'>
+						<tree>oak3</tree>
+						<snow>25</snow>
+						<groupname>trees</groupname>
+					</object>
+				</randomobject>
+			</object>
+		</placement>
+	</placements>
+</place>

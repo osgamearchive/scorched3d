@@ -576,8 +576,8 @@
 				<model type='MilkShape'>data/accessories/buildings/farm1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/farm1burnt.txt</modelburnt>
 				<modelrotationsnap>30</modelrotationsnap>
-				<removeaction>Large Bldg</removeaction>
-				<burnaction>LargeBldgBurn</burnaction>
+				<removeaction>Farm</removeaction>
+				<burnaction>FarmBurn</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
 				<groundmap type='bmp'>

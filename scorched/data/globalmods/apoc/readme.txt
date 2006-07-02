@@ -172,6 +172,8 @@ Changes Since 3.1
     		- Replaced f18 model on city maps with f16
     		- New sounds for factories and power plants
     		- Larger buildings now create shrapnel when destroyed which can do a small amount of damage
+    		- A random number of cows fly out of farms when destroyed
+    		- Generic building layout added to many non-city landscapes
     	- Moon maps:
     		- Added stars
 	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)

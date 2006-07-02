@@ -1241,6 +1241,114 @@ radioactive fallout which travels downwind.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Farm</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.2</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon3>
+				<subweapon4 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/moo.wav</sound>
+							<gain>1.25</gain>
+						</weapon>
+					</weaponchoice1>
+				</subweapon4>
+				<subweapon5 type='WeaponAimedOver'>
+					<nowarheads>4</nowarheads>
+					<percentagemiss>20</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>10</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<nocreateflame/>
+									<enginesound>none</enginesound>
+									<projectilescale>1.0</projectilescale>
+									<projectilemodel type='MilkShape'>objects/cow1.txt</projectilemodel>
+									<collisionaction type='WeaponNull'></collisionaction>
+								</aimedweapon>
+							</weapon>
+						</weaponchoice2>
+					</aimedweapon>
+				</subweapon5>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>FarmBurn</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.25</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponNapalm'>
+					<noobjectdamage/>
+					<allowunderwater>false</allowunderwater>
+					<napalmtime>6.0</napalmtime>
+					<napalmheight>8.0</napalmheight>
+					<steptime>1.2</steptime>
+					<hurtsteptime>4.0</hurtsteptime>
+					<hurtpersecond>0.1</hurtpersecond>
+					<numberstreams>2</numberstreams>
+					<effectradius>5</effectradius>
+					<napalmtexture>flames</napalmtexture>
+					<napalmsound>explosions/napalm.wav</napalmsound>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/misc/moo.wav</sound>
+							<gain>1.25</gain>
+						</weapon>
+					</weaponchoice1>
+				</subweapon3>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Lightning</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -12379,7 +12487,7 @@ which you are teleported to after it lands.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>
 			<weaponchoice1>
-				<weight>10</weight>
+				<weight>15</weight>
 				<weapon type='WeaponProjectile'>
 					<enginesound>none</enginesound>
 					<nocreateflame/>
@@ -12416,6 +12524,43 @@ which you are teleported to after it lands.</description>
 					</collisionaction>
 				</weapon>
 			</weaponchoice2>
+			<weaponchoice3>
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>0.8</projectilescale>
+					<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Small Battery</name>
+						<modelscale>0.08</modelscale>
+						<model type='MilkShape'>objects/9volt.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveSmallBattery</removeaction>
+						<driveovertodestroy>true</driveovertodestroy>
+					</collisionaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<enginesound>none</enginesound>
+					<nocreateflame/>
+					<projectilescale>1.0</projectilescale>
+					<projectilemodel type='MilkShape'>beer_bottle/bottle.txt</projectilemodel>
+					<collisionaction type='WeaponAddTarget'>
+						<name>Free Beer</name>
+						<modelscale>0.6</modelscale>
+						<model type='MilkShape'>beer_bottle/bottle.txt</model>
+						<life>50</life>
+						<shield>none</shield>
+						<parachute>Parachute</parachute>
+						<removeaction>GiveBeer</removeaction>
+					</collisionaction>
+				</weapon>
+			</weaponchoice4>
 		</accessoryaction>
 	</accessory>
 	<accessory>

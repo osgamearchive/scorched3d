@@ -3,7 +3,7 @@
 		<sound>
 			<position type='group'>
 				<name>offices</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>10</min>
@@ -17,7 +17,7 @@
 		<sound>
 			<position type='group'>
 				<name>offices</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>10</min>
@@ -31,7 +31,7 @@
 		<sound>
 			<position type='group'>
 				<name>offices</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>10</min>
@@ -45,7 +45,7 @@
 		<sound>
 			<position type='group'>
 				<name>offices</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>20</min>
@@ -59,7 +59,7 @@
 		<sound>
 			<position type='group'>
 				<name>offices</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>20</min>
@@ -73,7 +73,7 @@
 		<sound>
 			<position type='group'>
 				<name>offices</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>10</min>
@@ -87,7 +87,7 @@
 		<sound>
 			<position type='group'>
 				<name>houses</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>20</min>
@@ -101,7 +101,7 @@
 		<sound>
 			<position type='group'>
 				<name>houses</name>
-				<falloff>4.0</falloff>
+				<falloff>3.0</falloff>
 			</position>
 			<timing type='repeat'>
 				<min>20</min>
