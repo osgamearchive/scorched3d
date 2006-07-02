@@ -47,9 +47,10 @@ Changes Since 3.1
         - M2 Machinegun:
             - Increased size of the bullets by 50%, they're still small but more visible
             - Reduced damage the bullets do during shield collisions to 33% of shield value
-            - Reduced damage of the shells from 0.4 to 0.2 (total damage from 200 to 100)
+            - Reduced damage of the shells from 0.4 to 0.24 (total damage from 200 to 120)
             - Now has a somewhat random spread pattern instead of hard-coded
             - Now always shoots with 1000 power, regardless of user setting
+            - Reduced cost to $1,000 for 2 now that its much less powerful and constant power
         - Shotgun:
             - Increased amount of projectiles from 5 to 6
             - Decreased damage during shield collisions from 50% to 20% of shield value
