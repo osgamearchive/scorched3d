@@ -43,13 +43,13 @@ TankState::~TankState()
 
 void TankState::newMatch()
 {
-	if (getState() == sNormal) setState(sDead);
+	setState(sDead);
 	readyState_ = sReady;
 }
 
 void TankState::newGame()
 {
-	if (getState() == sDead) setState(sNormal);
+	setState(sNormal);
 	if (!tank_->isTemp())
 	{
 		maxLives_ = context_.optionsGame->getPlayerLives();
