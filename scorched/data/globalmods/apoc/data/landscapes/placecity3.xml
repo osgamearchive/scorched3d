@@ -16,6 +16,7 @@
 						<modelscale>0.066</modelscale>
 						<removeaction>Skyscraper</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
+						<flattenarea>-1.0</flattenarea>
 						<groundmap type='bmp'>
 							<image>data/landscapes/roads1.bmp</image>
 							<alpha>data/landscapes/roads1a.bmp</alpha>
@@ -31,6 +32,7 @@
 						<modelscale>0.1</modelscale>
 						<removeaction>Skyscraper</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
+						<flattenarea>-1.0</flattenarea>
 						<groundmap type='bmp'>
 							<image>data/landscapes/roads1.bmp</image>
 							<alpha>data/landscapes/roads1a.bmp</alpha>
@@ -46,6 +48,7 @@
 						<modelscale>0.1</modelscale>
 						<removeaction>Skyscraper</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
+						<flattenarea>-1.0</flattenarea>
 						<groundmap type='bmp'>
 							<image>data/landscapes/roads1.bmp</image>
 							<alpha>data/landscapes/roads1a.bmp</alpha>
@@ -162,6 +165,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Stadium</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>
@@ -169,6 +173,31 @@
 					<invert>true</invert>
 				</groundmap>
 				<groupname>stadium</groupname>
+			</object>
+		</placement>
+		<placement type='mask'>
+			<numobjects>2</numobjects>
+			<mask>data/landscapes/masks/city1rural.bmp</mask>
+			<minheight>10</minheight>
+			<maxheight>75</maxheight>
+			<mincloseness>15</mincloseness>
+			<minslope>0.85</minslope>
+			<xsnap>0</xsnap>
+			<ysnap>0</ysnap>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/buildings/nuclearplant.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/buildings/nuclearplant.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<removeaction>Nuclear Plant</removeaction>
+				<burnaction>Nuclear Plant</burnaction>
+				<flattenarea>-1.0</flattenarea>
+				<border>15</border>
+				<groundmap type='bmp'>
+					<image>data/landscapes/parking.bmp</image>
+					<alpha>data/landscapes/parkinga.bmp</alpha>
+					<invert>true</invert>
+				</groundmap>
+				<groupname>powerplants</groupname>
 			</object>
 		</placement>
 		<placement type='mask'>
@@ -186,6 +215,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>HospitalExplode</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>2</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
@@ -330,6 +360,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>HospitalExplode</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
@@ -354,6 +385,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
@@ -378,6 +410,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Gas Station</removeaction>
 				<burnaction>Large Bldg</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
@@ -659,31 +692,6 @@
 			</object>
 		</placement>
 		<placement type='mask'>
-			<numobjects>6</numobjects>
-			<mask>data/landscapes/masks/city1rural.bmp</mask>
-			<minheight>10</minheight>
-			<maxheight>75</maxheight>
-			<mincloseness>15</mincloseness>
-			<minslope>0.85</minslope>
-			<xsnap>0</xsnap>
-			<ysnap>0</ysnap>
-			<object type='model'>
-				<model type='MilkShape'>data/accessories/buildings/nuclearplant.txt</model>
-				<modelburnt type='MilkShape'>data/accessories/buildings/nuclearplant.txt</modelburnt>
-				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Nuclear Plant</removeaction>
-				<burnaction>Nuclear Plant</burnaction>
-				<flattenarea>-1.0</flattenarea>
-				<border>15</border>
-				<groundmap type='bmp'>
-					<image>data/landscapes/parking.bmp</image>
-					<alpha>data/landscapes/parkinga.bmp</alpha>
-					<invert>true</invert>
-				</groundmap>
-				<groupname>powerplants</groupname>
-			</object>
-		</placement>
-		<placement type='mask'>
 			<numobjects>24</numobjects>
 			<mask>data/landscapes/masks/city3suburban2.bmp</mask>
 			<minheight>10</minheight>
@@ -698,6 +706,7 @@
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>10</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
@@ -722,6 +731,7 @@
 				<modelrotationsnap>30</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
+				<flattenarea>-1.0</flattenarea>
 				<border>10</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>
