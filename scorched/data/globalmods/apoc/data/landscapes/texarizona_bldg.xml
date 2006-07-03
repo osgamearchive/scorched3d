@@ -41,4 +41,7 @@
 		<ambientsound>data/landscapes/ambientsoundwaves.xml</ambientsound>
 		<ambientsound>data/landscapes/ambientsoundbuildings.xml</ambientsound>
 	</ambientsounds>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </tex>

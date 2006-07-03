@@ -51,6 +51,7 @@
 	</precipitation>
 	<events>
 		<event>data/landscapes/eventslightning.xml</event>
+		<event>data/landscapes/eventscargodrop.xml</event>
 	</events>
 	<boids>
 		<boid>data/landscapes/boidscity.xml</boid>

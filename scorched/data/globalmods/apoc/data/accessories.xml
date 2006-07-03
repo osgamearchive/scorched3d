@@ -1237,6 +1237,190 @@ radioactive fallout which travels downwind.</description>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon6>
+				<subweapon7 type='WeaponAimedOver'>
+					<nowarheads>2</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponDelay'>
+								<delay>0.5</delay>
+								<delayedweapon type='WeaponScatterPosition'>
+									<landheight>true</landheight>
+									<landonly>true</landonly>
+									<scatterpercentage>15</scatterpercentage>
+									<aimedweapon type='WeaponRandomChoice'>
+										<weaponchoice1>
+											<weight>10</weight>
+											<weapon type='WeaponMulti'>
+												<subweapon1 type='WeaponRepeat'>
+													<repeat>5</repeat>
+													<delay>1.0</delay>
+													<repeatweapon type='WeaponExplosion'>
+														<animate/>
+														<nocreatedebris/>
+														<nocreatesplash/>
+														<nowindaffected/>
+														<hurtamount>0</hurtamount>
+														<minlife>3</minlife>
+														<maxlife>4</maxlife>
+														<deform>none</deform>
+														<size>2</size>
+														<explosionsound>none</explosionsound>
+														<explosiontexture>gas00</explosiontexture>
+													</repeatweapon>
+												</subweapon1>
+												<subweapon2 type='WeaponRepeat'>
+													<repeat>20</repeat>
+													<delay>0.25</delay>
+													<repeatweapon type='WeaponRandomChoice'>
+														<weaponchoice1>
+															<weight>10</weight>
+															<weapon type='WeaponNull'></weapon>
+														</weaponchoice1>
+														<weaponchoice2>
+															<weight>10</weight>
+															<weapon type='WeaponAimedOver'>
+																<nowarheads>1</nowarheads>
+																<percentagemiss>0</percentagemiss>
+																<maxaimdistance>0</maxaimdistance>
+																<inaccuracy>0</inaccuracy>
+																<aimedweapon type='WeaponTranslate'>
+																	<translatedist>7.5</translatedist>
+																	<nextaction type='WeaponVelocity'>
+																		<velocitychange>0</velocitychange>
+																		<aimedweapon type='WeaponProjectile'>
+																			<nocreatesmoke/>
+																			<nocreateflame/>
+																			<timedcollision>0.75</timedcollision>
+																			<enginesound>none</enginesound>
+																			<flaretype>2</flaretype>
+																			<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+																			<collisionaction type='WeaponExplosion'>
+																				<nocreatedebris/>
+																				<nocreatesplash/>
+																				<nowindaffected/>
+																				<hurtamount>0</hurtamount>
+																				<minlife>0.5</minlife>
+																				<maxlife>1</maxlife>
+																				<deform>none</deform>
+																				<size>1</size>
+																				<explosionsound>none</explosionsound>
+																				<explosiontexture>gas00</explosiontexture>
+																			</collisionaction>
+																		</aimedweapon>
+																	</nextaction>
+																</aimedweapon>
+															</weapon>
+														</weaponchoice2>
+													</repeatweapon>
+												</subweapon2>
+												<subweapon3 type='WeaponDelay'>
+													<delay>6.0</delay>
+													<delayedweapon type='WeaponAddTarget'>
+														<name>Extra Life</name>
+														<modelscale>0.1</modelscale>
+														<model type='MilkShape'>objects/mushroom.txt</model>
+														<life>175</life>
+														<shield>none</shield>
+														<parachute>Parachute</parachute>
+														<removeaction>GiveExtraLife</removeaction>
+														<driveovertodestroy>true</driveovertodestroy>
+													</delayedweapon>
+												</subweapon3>
+											</weapon>
+										</weaponchoice1>
+										<weaponchoice2>
+											<weight>10</weight>
+											<weapon type='WeaponMulti'>
+												<subweapon1 type='WeaponRepeat'>
+													<repeat>5</repeat>
+													<delay>1.0</delay>
+													<repeatweapon type='WeaponExplosion'>
+														<animate/>
+														<nocreatedebris/>
+														<nocreatesplash/>
+														<nowindaffected/>
+														<hurtamount>0</hurtamount>
+														<minlife>3</minlife>
+														<maxlife>4</maxlife>
+														<deform>none</deform>
+														<size>2</size>
+														<explosionsound>none</explosionsound>
+														<explosiontexture>smoke-orange</explosiontexture>
+													</repeatweapon>
+												</subweapon1>
+												<subweapon2 type='WeaponRepeat'>
+													<repeat>20</repeat>
+													<delay>0.25</delay>
+													<repeatweapon type='WeaponRandomChoice'>
+														<weaponchoice1>
+															<weight>10</weight>
+															<weapon type='WeaponNull'></weapon>
+														</weaponchoice1>
+														<weaponchoice2>
+															<weight>10</weight>
+															<weapon type='WeaponAimedOver'>
+																<nowarheads>1</nowarheads>
+																<percentagemiss>0</percentagemiss>
+																<maxaimdistance>0</maxaimdistance>
+																<inaccuracy>0</inaccuracy>
+																<aimedweapon type='WeaponTranslate'>
+																	<translatedist>7.5</translatedist>
+																	<nextaction type='WeaponVelocity'>
+																		<velocitychange>0</velocitychange>
+																		<aimedweapon type='WeaponProjectile'>
+																			<nocreatesmoke/>
+																			<nocreateflame/>
+																			<timedcollision>0.75</timedcollision>
+																			<enginesound>none</enginesound>
+																			<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+																			<collisionaction type='WeaponExplosion'>
+																				<nocreatedebris/>
+																				<nocreatesplash/>
+																				<nowindaffected/>
+																				<hurtamount>0</hurtamount>
+																				<minlife>0.5</minlife>
+																				<maxlife>1</maxlife>
+																				<deform>none</deform>
+																				<size>1</size>
+																				<explosionsound>none</explosionsound>
+																				<explosiontexture>smoke-orange</explosiontexture>
+																			</collisionaction>
+																		</aimedweapon>
+																	</nextaction>
+																</aimedweapon>
+															</weapon>
+														</weaponchoice2>
+													</repeatweapon>
+												</subweapon2>
+												<subweapon3 type='WeaponDelay'>
+													<delay>6.0</delay>
+													<delayedweapon type='WeaponAddTarget'>
+														<name>Power Boost</name>
+														<modelscale>0.1</modelscale>
+														<model type='MilkShape'>objects/atom.txt</model>
+														<life>175</life>
+														<shield>none</shield>
+														<parachute>Parachute</parachute>
+														<removeaction>GivePower2000</removeaction>
+														<driveovertodestroy>true</driveovertodestroy>
+													</delayedweapon>
+												</subweapon3>
+											</weapon>
+										</weaponchoice2>
+									</aimedweapon>
+								</delayedweapon>
+							</weapon>
+						</weaponchoice2>
+					</aimedweapon>
+				</subweapon7>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -1366,6 +1550,7 @@ radioactive fallout which travels downwind.</description>
 							<sound>data/wav/misc/thunder.wav</sound>
 							<sound>data/wav/misc/thunder2.wav</sound>
 							<sound>data/wav/misc/thunder3.wav</sound>
+							<referencedistance>100</referencedistance>
 						</subweapon1>
 						<subweapon2 type='WeaponDelay'>
 							<delay>0.5</delay>
@@ -12075,6 +12260,20 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>GiveExtraLife</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponGiveLives'>
+				<lives>1</lives>
+			</subweapon1>
+			<subweapon2 type='WeaponSound'>
+				<sound>data/wav/misc/extralife.wav</sound>
+				<gain>1.75</gain>
+				<referencedistance>100</referencedistance>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>GivePower1500</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponGivePower'>
@@ -12974,18 +13173,183 @@ which explode and spread fire when ignited.</description>
 			</weaponchoice4>-->
 		</accessoryaction>
 	</accessory>
-	<!--<accessory>
-		<name>PowerTest</name>
-		<armslevel>10</armslevel>
-		<description>Test</description>
-		<cost>25</cost>
-		<bundlesize>10</bundlesize>
-		<icon>emp.bmp</icon>
-		<model type='MilkShape'>objects/atom.txt</model>
-		<accessoryaction type='WeaponReference'>
-			<weapon>GivePower50</weapon>
+	<accessory>
+		<name>CargoItems</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Acid Splash</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Fire Ants</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Funky Bomb</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Napalm Blast</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Chain Lightning</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice5>
+			<weaponchoice6>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Gas Grenade</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice6>
+			<weaponchoice7>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Flame Thrower</giveaccessory>
+					<number>2</number>
+				</weapon>
+			</weaponchoice7>
+			<weaponchoice8>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Heavy Laser</giveaccessory>
+					<number>2</number>
+				</weapon>
+			</weaponchoice8>
+			<weaponchoice9>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Laser Cannon</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice9>
+			<weaponchoice10>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Battery</giveaccessory>
+					<number>10</number>
+				</weapon>
+			</weaponchoice10>
+			<weaponchoice11>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Parachute</giveaccessory>
+					<number>10</number>
+				</weapon>
+			</weaponchoice11>
+			<weaponchoice12>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Fuel</giveaccessory>
+					<number>100</number>
+				</weapon>
+			</weaponchoice12>
+			<weaponchoice13>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Nitro</giveaccessory>
+					<number>50</number>
+				</weapon>
+			</weaponchoice13>
+			<weaponchoice14>
+				<weight>10</weight>
+				<weapon type='WeaponReference'>
+					<weapon>GiveExtraLife</weapon>
+				</weapon>
+			</weaponchoice14>
+			<weaponchoice15>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Nuke</giveaccessory>
+					<number>2</number>
+				</weapon>
+			</weaponchoice15>
+			<weaponchoice16>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>EMP Missile</giveaccessory>
+					<number>2</number>
+				</weapon>
+			</weaponchoice16>
+			<weaponchoice17>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>M2 Machinegun</giveaccessory>
+					<number>5</number>
+				</weapon>
+			</weaponchoice17>
+			<weaponchoice18>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Bunny Bomb</giveaccessory>
+					<number>1</number>
+				</weapon>
+			</weaponchoice18>
+			<weaponchoice19>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Force Shield</giveaccessory>
+					<number>2</number>
+				</weapon>
+			</weaponchoice19>
+			<weaponchoice20>
+				<weight>10</weight>
+				<weapon type='WeaponGiveAccessory'>
+					<giveaccessory>Heavy Shield</giveaccessory>
+					<number>2</number>
+				</weapon>
+			</weaponchoice20>
 		</accessoryaction>
-	</accessory>-->
+	</accessory>
+	<accessory>
+		<name>CargoDrop</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponCenterPosition'>
+			<height>150</height>
+			<nextaction type='WeaponMulti'>
+				<subweapon1 type='WeaponScatterPosition'>
+					<landheight>false</landheight>
+					<landonly>true</landonly>
+					<scatterpercentage>90</scatterpercentage>
+					<aimedweapon type='WeaponDelay'>
+						<delay>5.0</delay>
+						<delayedweapon type='WeaponAddTarget'>
+							<name>Cargo</name>
+							<modelscale>0.06</modelscale>
+							<model type='MilkShape'>pwrcrate/pwrcrate.txt</model>
+							<life>50</life>
+							<shield>none</shield>
+							<parachute>Parachute</parachute>
+							<removeaction>CargoItems</removeaction>
+							<driveovertodestroy>true</driveovertodestroy>
+						</delayedweapon>
+					</aimedweapon>
+				</subweapon1>
+				<subweapon2 type='WeaponSound'>
+					<sound>data/wav/misc/jet.wav</sound>
+					<relative>true</relative>
+				</subweapon2>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
 	<accessory>
 		<name>Factory</name>
 		<armslevel>4</armslevel>

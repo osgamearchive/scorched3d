@@ -33,4 +33,7 @@
     	<file>data/landscapes/hexisle.bmp</file>
     	<levelsurround>true</levelsurround>
     </heightmap>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </defn>

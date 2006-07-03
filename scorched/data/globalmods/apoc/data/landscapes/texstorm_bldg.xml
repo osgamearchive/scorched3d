@@ -47,6 +47,9 @@
 	<precipitation type="rain">
 		<particles>60</particles>
 	</precipitation>
-	<events><event>data/landscapes/eventslightning.xml</event></events>
+	<events>
+		<event>data/landscapes/eventslightning.xml</event>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 	<shipgroups><shipgroup>data/landscapes/shipsdestroyer2.xml</shipgroup></shipgroups>
 </tex>

@@ -50,4 +50,7 @@
 		<shipgroup>data/landscapes/shipssail.xml</shipgroup>
 		<shipgroup>data/landscapes/shipsfish.xml</shipgroup>
 	</shipgroups>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </tex>

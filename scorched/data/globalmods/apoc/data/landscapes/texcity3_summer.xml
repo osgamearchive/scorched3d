@@ -48,4 +48,7 @@
 	</ambientsounds>
 	<precipitation type="none"></precipitation>
 	<boids><boid>data/landscapes/boidscity.xml</boid></boids>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </tex>

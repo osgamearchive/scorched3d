@@ -49,4 +49,7 @@
 		<boid>data/landscapes/boidsgulls.xml</boid>
 		<boid>data/landscapes/boidsah64.xml</boid>
 	</boids>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </tex>

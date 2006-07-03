@@ -42,4 +42,7 @@
 	<placements>
 		<placement>data/landscapes/placebuildings.xml</placement>
 	</placements>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </tex>

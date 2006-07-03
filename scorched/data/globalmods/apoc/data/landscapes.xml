@@ -36,6 +36,9 @@
 			<item>data/landscapes/texstorm_bldg.xml</item>
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texvulcano_bldg.xml</item>
+			<item>data/landscapes/texcastle_bldg.xml</item>
+			<item>data/landscapes/texasianspring_bldg.xml</item>
+			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 		</tex>
@@ -74,6 +77,7 @@
 			<item>data/landscapes/texstorm.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texice.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -124,6 +128,8 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texcavern.xml</item>
+			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/texplage.xml</item> 
 		</tex>
 	</landscape>
 	<landscape>
@@ -147,7 +153,7 @@
 			<item>data/landscapes/defnspike.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texchina.xml</item> 
+			<item>data/landscapes/texchina.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -242,6 +248,8 @@
 		<tex>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/texsnow_bldg.xml</item>
 			<item>data/landscapes/texdefault_bldg.xml</item>
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texvulcano_bldg.xml</item>
@@ -258,6 +266,7 @@
 		<tex>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texice.xml</item>
 			<item>data/landscapes/texdefault_bldg.xml</item>
 			<item>data/landscapes/texsand_bldg.xml</item>
 			<item>data/landscapes/texsnow_bldg.xml</item>
@@ -315,10 +324,16 @@
 			<item>data/landscapes/defnmaze.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texhell.xml</item>
 			<item>data/landscapes/texsand.xml</item>
-			<item>data/landscapes/texsnow.xml</item>
 			<item>data/landscapes/textropical.xml</item>
+			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/texplage.xml</item>
+			<item>data/landscapes/texcastle.xml</item>
+			<item>data/landscapes/texasianspring.xml</item>
+			<item>data/landscapes/texchina.xml</item>
+			<item>data/landscapes/texdenali.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -345,11 +360,14 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texdefault.xml</item>
-			<item>data/landscapes/texhell.xml</item>
 			<item>data/landscapes/texsand.xml</item>
 			<item>data/landscapes/textropical.xml</item>
 			<item>data/landscapes/texstorm.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
+			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/texcastle.xml</item>
+			<item>data/landscapes/texplage.xml</item>
+			<item>data/landscapes/texdenali.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -362,11 +380,13 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texdefault.xml</item>
-			<item>data/landscapes/texhell.xml</item>
 			<item>data/landscapes/texsand.xml</item>
 			<item>data/landscapes/texsnow.xml</item>
 			<item>data/landscapes/textropical.xml</item>
 			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/textuscan.xml</item>
+			<item>data/landscapes/texcastle.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -379,11 +399,15 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texdefault.xml</item>
-			<item>data/landscapes/texhell.xml</item>
 			<item>data/landscapes/texsand.xml</item>
 			<item>data/landscapes/texsnow.xml</item>
 			<item>data/landscapes/textropical.xml</item>
 			<item>data/landscapes/texstorm.xml</item>
+			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/textuscan.xml</item>
+			<item>data/landscapes/texdenali.xml</item>
+			<item>data/landscapes/texplage.xml</item>
+			<item>data/landscapes/texcastle.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -432,6 +456,10 @@
 		<tex>
 			<item>data/landscapes/texsand.xml</item>
 			<item>data/landscapes/texsnow.xml</item>
+			<item>data/landscapes/texcastle.xml</item>
+			<item>data/landscapes/texasianspring.xml</item>
+			<item>data/landscapes/texchina.xml</item>
+			<item>data/landscapes/texplage.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -473,8 +501,8 @@
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
 			<item>data/landscapes/texdenali_bldg.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
+			<item>data/landscapes/texdesert.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -487,12 +515,12 @@
 		</defn>
 		<tex>
 			<item>data/landscapes/texdefault.xml</item>
-			<item>data/landscapes/texhell.xml</item>
 			<item>data/landscapes/texsand.xml</item>
 			<item>data/landscapes/texsnow.xml</item>
 			<item>data/landscapes/textropical.xml</item>
 			<item>data/landscapes/texstorm.xml</item>
 			<item>data/landscapes/texice.xml</item>
+			<item>data/landscapes/texdenali.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -504,14 +532,13 @@
 			<item>data/landscapes/defntwotowers.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 			<item>data/landscapes/texdefault_bldg.xml</item>
 			<item>data/landscapes/texsnow_bldg.xml</item>
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texvulcano_bldg.xml</item>
 			<item>data/landscapes/texstorm_bldg.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
+			<item>data/landscapes/texarizona_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
 		</tex>
 	</landscape>
@@ -554,7 +581,7 @@
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
+			<item>data/landscapes/texarizona_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 		</tex>
@@ -574,7 +601,7 @@
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
+			<item>data/landscapes/texarizona_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 		</tex>
@@ -594,7 +621,7 @@
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
+			<item>data/landscapes/texarizona_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 		</tex>
@@ -614,7 +641,7 @@
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
+			<item>data/landscapes/texarizona_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 		</tex>
 	</landscape>
@@ -634,13 +661,13 @@
 			<item>data/landscapes/defnarizonaislands.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texdefault.xml</item>
+			<item>data/landscapes/texdefault_bldg.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
-			<item>data/landscapes/texsnow.xml</item>
-			<item>data/landscapes/textropical.xml</item>
-			<item>data/landscapes/texvulcano.xml</item>
-			<item>data/landscapes/texstorm.xml</item>
-			<item>data/landscapes/texarizona.xml</item>
+			<item>data/landscapes/texsnow_bldg.xml</item>
+			<item>data/landscapes/textropical_bldg.xml</item>
+			<item>data/landscapes/texvulcano_bldg.xml</item>
+			<item>data/landscapes/texstorm_bldg.xml</item>
+			<item>data/landscapes/texarizona_bldg.xml</item>
 		</tex>
 	</landscape>
 </landscapes>

@@ -156,6 +156,7 @@ Changes Since 3.1
 	    		- Drops 1-3 $5,000 bundles when destroyed
 	    	- New Nuclear Power Plant Building by Bobirov
 	    		- Explodes and releases massive amounts of fallout that travels down wind
+	    		- Can generate power boosters (2000 max power) and magic mushrooms (extra lives)
 	    	- Factories now drop 1-3 gas/acid weapons which can be shot and picked up
 	    	- Stores now drop 1-3 various small weapons, batteries, beer (10 health), parachutes or $1,000 bundles
 	    	- Gas stations drop 1-3 fuel cans (10 fuel) or $1,000 bundles
@@ -184,6 +185,8 @@ Changes Since 3.1
         - Removed City Blocks map
         - New landscape pics in options menus
         - New trees on USA and Apoc City
+        - New texture layouts added to many Apoc and non-Apoc landscapes
+        - Random air cargo drops on many landscapes
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.

@@ -43,4 +43,7 @@
 		<placement>data/landscapes/placeoak2_bldg.xml</placement>
 		<placement>data/landscapes/placebuildings.xml</placement>
 	</placements>
+	<events>
+		<event>data/landscapes/eventscargodrop.xml</event>
+	</events>
 </tex>
