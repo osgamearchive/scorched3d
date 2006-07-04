@@ -196,7 +196,7 @@ void GLWWindow::drawMaximizedWindow()
 			{
 				drawWindowCircle(x_ + w_ - 12.0f, y_, 12.0f, 12.0f);
 			}
-			if (!(windowState_ & eNoTitle) && !disabled_)
+			if (!(windowState_ & eNoMove) && !(windowState_ & eNoTitle) && !disabled_)
 			{
 				float sizeX = 20.0f;
 				float sizeY = 20.0f;
@@ -319,28 +319,30 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 			float sizeY = w_ / 5.6f;
 			if (x < x_ + sizeX &&
 				y < y_ + h_ &&
-				y > y_ + h_ - sizeY)
+				y > y_ + h_ - sizeY &&
+				!(eNoMove & windowState_))
 			{
 				// Start window drag
 				dragging_ = TitleDrag;
-				skipRest = true;
+				skipRest = !(eClickTransparent & windowState_) || skipRest;
 			}
 			else if (y > y_ && y < y_ + h_)
 			{
 				// There is a mouse down in the actual window
 				GLWPanel::mouseDown(x, y, skipRest);
-				skipRest = true;
+				skipRest = !(eClickTransparent & windowState_) || skipRest;
 			}
 		}
 		else
 		{
 			float th = titleHeight;
 			if (windowState_ & eSmallTitle) th = smallTitleHeight;
-			if (y > y_ + h_ && y < y_ + h_ + th && showTitle_ && x < x_ + titleWidth)
+			if (y > y_ + h_ && y < y_ + h_ + th && showTitle_ && x < x_ + titleWidth &&
+				!(eNoMove & windowState_))
 			{
 				// Start window drag
 				dragging_ = TitleDrag;
-				skipRest = true;
+				skipRest = !(eClickTransparent & windowState_) || skipRest;
 			}
 			else
 			{
@@ -349,13 +351,13 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 				{
 					// Start resize window drag
 					dragging_ = SizeDrag;
-					skipRest = true;
+					skipRest = !(eClickTransparent & windowState_) || skipRest;
 				}
 				else if (y > y_ && y < y_ + h_)
 				{
 					// There is a mouse down in the actual window
 					GLWPanel::mouseDown(x, y, skipRest);
-					skipRest = true;
+					skipRest = !(eClickTransparent & windowState_) || skipRest;
 				}
 			}	
 		}
@@ -477,9 +479,12 @@ bool GLWWindow::initFromXML(XMLNode *node)
 		if (!node->getNamedChild("name", name_)) return false;
 	}
 
+	bool noTooltip = false;
+	node->getNamedChild("notooltip", noTooltip, false);
+
 	// Desc
 	if (!node->getNamedChild("description", description_)) return false;
-	toolTip_.setText(name_.c_str(), description_.c_str());
+	if (!noTooltip) toolTip_.setText(name_.c_str(), description_.c_str());
 
 	// Disabled
 	XMLNode *disabled = 0;
@@ -489,6 +494,12 @@ bool GLWWindow::initFromXML(XMLNode *node)
 	}
 
 	node->getNamedChild("windowlevel", windowLevel_, false);
+
+	unsigned int windowstate = 0;
+	if (node->getNamedChild("windowstate", windowstate, false))
+	{
+		windowState_ = windowstate;
+	}
 
 	return true;
 }

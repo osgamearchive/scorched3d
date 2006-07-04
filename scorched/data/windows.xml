@@ -55,9 +55,11 @@
 		<w>-400</w>
 		<h>100</h>
 		<x>200</x>
-		<y>20</y>
+		<y>25</y>
+		<windowstate>805</windowstate>
+		<tooltiptransparent>true</tooltiptransparent>
+		<notooltip>true</notooltip>
 		<description>Shows log messages</description>
-		<disabled/>
 		<items>
 			<item>
 				<widget type="GLWLoggerView">
@@ -65,13 +67,17 @@
 					<w>0</w><h>0</h>
 					<mask>12</mask>
 					<oldstyle>false</oldstyle>
-					<displaytime>10.0</displaytime>
-					<totallines>5</totallines>
+					<displaytime>15.0</displaytime>
+					<totallines>50</totallines>
+					<visiblelines>5</visiblelines>
 					<linedepth>18</linedepth>
 					<fontsize>12</fontsize>
 					<outlinefontsize>14</outlinefontsize>
 					<textaligntop>false</textaligntop>
+					<splitlargelines>true</splitlargelines>
 					<parentsized>true</parentsized>
+					<tooltiptransparent>true</tooltiptransparent>
+					<allowscroll>true</allowscroll>
 				</widget>
 			</item>
 		</items>
@@ -97,12 +103,15 @@
 					<mask>2</mask>
 					<oldstyle>true</oldstyle>
 					<displaytime>10.0</displaytime>
-					<totallines>5</totallines>
+					<totallines>50</totallines>
+					<visiblelines>5</visiblelines>
 					<linedepth>18</linedepth>
 					<fontsize>12</fontsize>
 					<outlinefontsize>14</outlinefontsize>
 					<textaligntop>true</textaligntop>
 					<parentsized>true</parentsized>
+					<splitlargelines>false</splitlargelines>
+					<allowscroll>false</allowscroll>
 				</widget>
 			</item>
 		</items>

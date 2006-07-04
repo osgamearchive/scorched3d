@@ -54,14 +54,17 @@ void GLWidget::draw()
 		glEndList();
 	}
 
-	if (tooltip_)
+	if (tooltipTransparent_)
+	{
+	}
+	else if (tooltip_)
 	{
 		GLWToolTip::instance()->addToolTip(tooltip_, 
 			GLWTranslate::getPosX() + x_, 
 			GLWTranslate::getPosY() + y_, 
 			w_, h_);
 	}
-	else if (!tooltipTransparent_)
+	else
 	{
 		GLWToolTip::instance()->clearToolTip(
 			GLWTranslate::getPosX() + x_, 
@@ -126,6 +129,8 @@ bool GLWidget::initFromXML(XMLNode *node)
 {
 	node->getNamedChild("name", name_, false);
 	node->getNamedChild("visible", visible_, false);
+	node->getNamedChild("tooltiptransparent", tooltipTransparent_, false);
+
 	if (!node->getNamedChild("x", x_)) return false;
 	if (!node->getNamedChild("y", y_)) return false;
 	if (!node->getNamedChild("w", w_)) return false;

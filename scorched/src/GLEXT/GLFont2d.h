@@ -59,7 +59,14 @@ public:
 				 Vector &color, float size, 
 				 float x, float y, float z, 
 				 const char *text);
+	void drawSubStrA(int start, int len,
+				 Vector &color, float alpha, float size, 
+				 float x, float y, float z, 
+				 const char *text);
 	void drawOutline(Vector &color, float size, float size2,
+			float x, float y, float z,
+			const char *text);
+	void drawOutlineA(Vector &color, float alpha, float size, float size2,
 			float x, float y, float z,
 			const char *text);
 	void drawBilboard(Vector &color, float alpha, float size, 

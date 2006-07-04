@@ -22,7 +22,9 @@
 #define __INCLUDE_GLWLoggerViewh_INCLUDE__
 
 #include <GLW/GLWidget.h>
+#include <GLW/GLWButton.h>
 #include <common/LoggerI.h>
+#include <list>
 
 class GLWLoggerViewEntry
 {
@@ -33,7 +35,8 @@ public:
 
 class GLWLoggerView : 
 	public GLWidget,
-	public LoggerI
+	public LoggerI,
+	public GLWButtonI
 {
 public:
 	GLWLoggerView();
@@ -53,21 +56,31 @@ public:
 	// LoggerI
 	virtual void logMessage(LoggerInfo &info);
 
+	// ButtonI
+	virtual void buttonDown(unsigned int id);
+
 	REGISTER_CLASS_HEADER(GLWLoggerView);
 
 protected:
+	GLWButton upButton_;
+	GLWButton downButton_;
+	GLWButton resetButton_;
+
 	int mask_;
 	bool oldStyle_;
 	bool init_;
-	bool alignTop_;
-	bool parentSized_;
+	bool alignTop_, parentSized_;
+	bool splitLargeLines_, allowScroll_;
 	int lineDepth_;
+	int scrollPosition_;
 	float displayTime_;
 	float fontSize_, outlineFontSize_;
+	int visibleLines_, totalLines_;
+	int currentVisible_;
+	std::list<GLWLoggerViewEntry> textLines_;
 
-	int totalLines_;
-	int startLine_, usedLines_;
-	GLWLoggerViewEntry *textLines_;
+	void addInfo(LoggerInfo &info);
+	int splitLine(const char *message, std::string &result);
 };
 
 #endif // __INCLUDE_GLWLoggerViewh_INCLUDE__
