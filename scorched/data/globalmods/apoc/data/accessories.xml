@@ -2936,7 +2936,8 @@ The EMP does heavy shield damage and minor tank damage.</description>
 		<name>Shotgun</name>
 		<armslevel>9</armslevel>
 		<description>Shoots 6 pellets in a small spread.
-This weapon has a limited range and line of site.</description>
+This weapon has a limited range.
+Guns are always shot at 1000 power.</description>
 		<icon>shotgun.bmp</icon>
 		<bundlesize>5</bundlesize>
 		<cost>1000</cost>
@@ -2978,26 +2979,10 @@ This weapon has a limited range and line of site.</description>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
-	<!--<accessory>
-		<name>Sniper Rifle</name>
-		<armslevel>10</armslevel>
-		<description>A powerful single shot weapon.</description>
-		<icon>bmissile.bmp</icon>
-		<activationsound>shoot/small.wav</activationsound>
-		<accessoryaction type='WeaponProjectile'>
-			<collisionaction type='WeaponExplosion'>
-				<hurtamount>2.0</hurtamount>
-				<deform>down</deform>
-				<size>3</size>
-				<explosiontexture>exp00</explosiontexture>
-				<explosionsound>explosions/small.wav</explosionsound>
-			</collisionaction>
-		</accessoryaction>
-	</accessory>-->
 	<accessory>
 		<name>M2 Round</name>
 		<maximumnumber>0</maximumnumber>
-		<armslevel>6</armslevel>
+		<armslevel>8</armslevel>
 		<accessoryaction type='WeaponProjectile'>
 			<nocreateflame/>
 			<nocreatesmoke/>
@@ -3028,7 +3013,7 @@ This weapon has a limited range and line of site.</description>
 	</accessory>
 	<accessory>
 		<name>M2 Spread</name>
-		<armslevel>6</armslevel>
+		<armslevel>8</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>
 			<weaponchoice1>
@@ -3186,11 +3171,12 @@ This weapon has a limited range and line of site.</description>
 	<accessory>
 		<name>M2 Machinegun</name>
 		<description>Shoots five 50 caliber bullets
-in rapid succession</description>
+in rapid succession.
+Guns are always shot at 1000 power.</description>
 		<icon>mgun.bmp</icon>
 		<cost>1000</cost>
 		<bundlesize>2</bundlesize>
-		<armslevel>7</armslevel>
+		<armslevel>8</armslevel>
 		<model type='MilkShape'>weapons/50cal.txt</model>
 		<activationsound>shoot/machinegun.wav</activationsound>
 		<accessoryaction type='WeaponVelocity'>
@@ -3212,6 +3198,37 @@ in rapid succession</description>
 						</repeatweapon>
 					</delayedweapon>
 				</subweapon2>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Sniper Rifle</name>
+		<armslevel>7</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<description>A powerful rifle with armor piercing rounds.
+Does added damage in shield collisions.
+Guns are always shot at 1000 power.</description>
+		<icon>bmissile.bmp</icon>
+		<bundlesize>1</bundlesize>
+		<cost>1000</cost>
+		<activationsound>shoot/small.wav</activationsound>
+		<accessoryaction type='WeaponVelocity'>
+			<abs>true</abs>
+			<velocitychange>1.0</velocitychange>
+			<aimedweapon type='WeaponProjectile'>
+				<nocreateflame/>
+				<nocreatesmoke/>
+				<enginesound>none</enginesound>
+				<shieldhurtfactor>1.5</shieldhurtfactor>
+				<projectilemodel type='MilkShape'>weapons/bullet.txt</projectilemodel>
+				<collisionaction type='WeaponExplosion'>
+					<nocreatedebris/>
+					<hurtamount>1.5</hurtamount>
+					<deform>none</deform>
+					<size>3</size>
+					<explosiontexture>cloud00</explosiontexture>
+					<explosionsound>explosions/bhit.wav</explosionsound>
+				</collisionaction>
 			</aimedweapon>
 		</accessoryaction>
 	</accessory>
