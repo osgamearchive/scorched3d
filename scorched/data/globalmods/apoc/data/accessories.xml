@@ -12774,6 +12774,7 @@ which you are teleported to after it lands.</description>
 						<shield>none</shield>
 						<parachute>Parachute</parachute>
 						<removeaction>GiveBeer</removeaction>
+						<driveovertodestroy>true</driveovertodestroy>
 					</collisionaction>
 				</weapon>
 			</weaponchoice4>
@@ -13050,6 +13051,7 @@ which explode and spread fire when ignited.</description>
 								<shield>none</shield>
 								<parachute>Parachute</parachute>
 								<removeaction>GiveBeer</removeaction>
+								<driveovertodestroy>true</driveovertodestroy>
 							</collisionaction>
 						</weapon>
 					</weaponchoice4>

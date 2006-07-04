@@ -385,7 +385,6 @@
 			<item>data/landscapes/textropical.xml</item>
 			<item>data/landscapes/texstorm.xml</item>
 			<item>data/landscapes/texice.xml</item>
-			<item>data/landscapes/textuscan.xml</item>
 			<item>data/landscapes/texcastle.xml</item>
 		</tex>
 	</landscape>
@@ -404,7 +403,6 @@
 			<item>data/landscapes/textropical.xml</item>
 			<item>data/landscapes/texstorm.xml</item>
 			<item>data/landscapes/texice.xml</item>
-			<item>data/landscapes/textuscan.xml</item>
 			<item>data/landscapes/texdenali.xml</item>
 			<item>data/landscapes/texplage.xml</item>
 			<item>data/landscapes/texcastle.xml</item>
