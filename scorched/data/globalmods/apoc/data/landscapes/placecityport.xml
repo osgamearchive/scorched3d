@@ -8,19 +8,23 @@
 					<C>4.1</C>
 				</position>
 			</position>
-			<object type='model'>
-				<model type='MilkShape'>data/accessories/buildings/mainport.txt</model>
+			<object type="target">
+				<name>City Port</name>
+				<model type="MilkShape">data/accessories/buildings/mainport.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/mainport.txt</modelburnt>
 				<modelrotation>90</modelrotation>
 				<modelscale>0.075</modelscale>
-				<removeaction>Large Bldg</removeaction>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
+				<removeaction>City Port</removeaction>
 				<burnaction>Large Bldg</burnaction>
-				<groundmap type='bmp'>
+				<boundingsphere>false</boundingsphere>
+				<groundmap type="bmp">
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
 					<invert>true</invert>
 				</groundmap>
-				<groupname>ports</groupname>
 			</object>
 		</placement>
 	</placements>

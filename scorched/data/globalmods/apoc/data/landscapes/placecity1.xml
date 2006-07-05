@@ -138,7 +138,7 @@
 						<model type='MilkShape'>data/accessories/buildings/office5.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/office2burnt.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
-						<removeaction>HospitalExplode</removeaction>
+						<removeaction>Hospital</removeaction>
 						<burnaction>Large Bldg</burnaction>
 						<groundmap type='bmp'>
 							<image>data/landscapes/cars.bmp</image>
@@ -189,7 +189,7 @@
 				<modelburnt type='MilkShape'>data/accessories/buildings/nuclearplant.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Nuclear Plant</removeaction>
-				<burnaction>Nuclear Plant</burnaction>
+				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>15</border>
 				<groundmap type='bmp'>
@@ -213,7 +213,7 @@
 				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>HospitalExplode</removeaction>
+				<removeaction>Hospital</removeaction>
 				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>2</border>
@@ -334,7 +334,7 @@
 				<model type='MilkShape'>data/accessories/buildings/office5.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/office2burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>HospitalExplode</removeaction>
+				<removeaction>Hospital</removeaction>
 				<burnaction>Large Bldg</burnaction>
 				<border>2</border>
 				<groundmap type='bmp'>
@@ -358,7 +358,7 @@
 				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>HospitalExplode</removeaction>
+				<removeaction>Hospital</removeaction>
 				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
@@ -433,7 +433,7 @@
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Bar1Explode</removeaction>
+				<removeaction>Bar</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>5</border>
 				<groundmap type='bmp'>
@@ -457,7 +457,7 @@
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Bar1Explode</removeaction>
+				<removeaction>Bar</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>5</border>
 				<groundmap type='bmp'>
@@ -481,7 +481,7 @@
 				<model type='MilkShape'>data/accessories/buildings/store1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Store1Explode</removeaction>
+				<removeaction>Dollar Store</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<border>5</border>
 				<groundmap type='bmp'>
@@ -505,7 +505,7 @@
 				<model type='MilkShape'>data/accessories/buildings/store1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Store1Explode</removeaction>
+				<removeaction>Dollar Store</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<border>5</border>
 				<groundmap type='bmp'>

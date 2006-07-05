@@ -162,7 +162,7 @@ Changes Since 3.1
 	    	- Gas stations drop 1-3 fuel cans (10 fuel) or $1,000 bundles
 	    	- Bars drop 1-3 beers (10 health), shotguns or $1,000 bundles
 	    	- New hospital by Shockwave that drops 1-3 medkits (25 health)
-	    	- New port by Shockwave
+	    	- New port by Shockwave, drops 0-3 cargo containers (same loot as air drops)
 	    	- Houses can no longer keep setting themselves on fire
 	    	- New 737 jumbo jet boid by Shockwave on cities
 	    	- New cessna boid by Shockwave on cities
@@ -187,6 +187,7 @@ Changes Since 3.1
         - New trees on USA and Apoc City
         - New texture layouts added to many Apoc and non-Apoc landscapes
         - Random air cargo drops on many landscapes
+        - Score points are awarded for destroying certain buildings (houses and offices don't count)
         
     Other:
         - Added Sniper AI type that uses mostly lasers and guns.

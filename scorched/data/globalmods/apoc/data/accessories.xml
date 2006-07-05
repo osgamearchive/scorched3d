@@ -725,6 +725,9 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 					<sound>data/wav/misc/screaming.wav</sound>
 					<gain>1.25</gain>
 				</subweapon3>
+				<subweapon4 type='WeaponGiveScore'>
+					<score>5</score>
+				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -846,6 +849,9 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 					<sound>data/wav/misc/screaming.wav</sound>
 					<gain>1.25</gain>
 				</subweapon5>
+				<subweapon6 type='WeaponGiveScore'>
+					<score>5</score>
+				</subweapon6>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -1421,6 +1427,9 @@ radioactive fallout which travels downwind.</description>
 						</weaponchoice2>
 					</aimedweapon>
 				</subweapon7>
+				<subweapon8 type='WeaponGiveScore'>
+					<score>5</score>
+				</subweapon8>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -1486,6 +1495,9 @@ radioactive fallout which travels downwind.</description>
 						</weaponchoice2>
 					</aimedweapon>
 				</subweapon5>
+				<subweapon6 type='WeaponGiveScore'>
+					<score>1</score>
+				</subweapon6>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -7347,101 +7359,6 @@ It does no physical damage to tanks.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Gas Leak</name>
-		<armslevel>4</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponMulti'>
-			<subweapon1 type='WeaponExplosion'>
-				<nocreatedebris/>
-				<nocreatesplash/>
-				<noluminance/>
-				<nowindaffected/>
-				<hurtamount>0</hurtamount>
-				<deform>none</deform>
-				<size>2</size>
-				<explosiontexture>gas00-1</explosiontexture>
-				<explosionsound>none</explosionsound>
-			</subweapon1>
-			<subweapon2 type='WeaponDelay'>
-				<delay>0.25</delay>
-				<delayedweapon type='WeaponTranslate'>
-					<translatedist>15</translatedist>
-					<nextaction type='WeaponExplosion'>
-						<nocreatedebris/>
-						<nocreatesplash/>
-						<noluminance/>
-						<nowindaffected/>
-						<hurtamount>0</hurtamount>
-						<deform>none</deform>
-						<size>2</size>
-						<explosiontexture>gas00-3</explosiontexture>
-						<explosionsound>none</explosionsound>
-					</nextaction>
-				</delayedweapon>
-			</subweapon2>
-			<subweapon3 type='WeaponDelay'>
-				<delay>0.5</delay>
-				<delayedweapon type='WeaponTranslate'>
-					<translatedist>30</translatedist>
-					<nextaction type='WeaponExplosion'>
-						<nocreatedebris/>
-						<nocreatesplash/>
-						<noluminance/>
-						<nowindaffected/>
-						<hurtamount>0</hurtamount>
-						<deform>none</deform>
-						<size>2</size>
-						<explosiontexture>gas00-5</explosiontexture>
-						<explosionsound>none</explosionsound>
-					</nextaction>
-				</delayedweapon>
-			</subweapon3>
-		</accessoryaction>
-	</accessory>
-	<accessory>
-		<name>Factory Burn</name>
-		<armslevel>4</armslevel>
-		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponRedirect'>
-			<habs>true</habs>
-			<vabs>true</vabs>
-			<hredirect>0</hredirect>
-			<vredirect>0</vredirect>
-			<nextaction type='WeaponMulti'>
-				<subweapon1 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<noluminance/>
-					<minlife>2</minlife>
-					<maxlife>4</maxlife>
-					<hurtamount>0</hurtamount>
-					<deform>none</deform>
-					<size>6</size>
-					<explosionsound>explosions/gas.wav</explosionsound>
-					<explosiontexture>cloud00-5</explosiontexture>
-				</subweapon1>
-				<subweapon2 type='WeaponNull'>
-				</subweapon2>
-				<subweapon3 type='WeaponRepeat'>
-					<repeat>7</repeat>
-					<delay>0.5</delay>
-					<repeatweapon type='WeaponReference'>
-						<weapon>Gas Leak</weapon>
-					</repeatweapon>
-				</subweapon3>
-				<subweapon4 type='WeaponDelay'>
-					<delay>2.0</delay>
-					<delayedweapon type='WeaponExplosion'>
-						<hurtamount>0</hurtamount>
-						<deform>down</deform>
-						<size>4</size>
-						<explosionsound>none</explosionsound>
-						<explosiontexture>exp00</explosiontexture>
-					</delayedweapon>
-				</subweapon4>
-			</nextaction>
-		</accessoryaction>
-	</accessory>
-	<accessory>
 		<name>Baby Digger</name>
 		<armslevel>9</armslevel>
 		<description>A projectile weapon that explodes 
@@ -11508,7 +11425,6 @@ at nearby targets</description>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
-	
 	<accessory>
 		<name>Pen Laser</name>
 		<armslevel>10</armslevel>
@@ -11516,16 +11432,16 @@ at nearby targets</description>
 		<icon>laser.bmp</icon>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>laser/laser.txt</model>
-		<description>A tiny laser that does no damage, but can be
-used to help aim lasers without wasting money.</description>
+		<description>A tiny laser that does a small amount of damage,
+can be used to help aim lasers without wasting money.</description>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponLaser'>
 				<totaltime>2</totaltime>
 				<minimumdistance>10</minimumdistance>
 				<maximumdistance>200</maximumdistance>
-				<minimumhurt>0</minimumhurt>
-				<maximumhurt>0</maximumhurt>
+				<minimumhurt>5</minimumhurt>
+				<maximumhurt>25</maximumhurt>
 				<hurtradius>2</hurtradius>
 				<color>
 					<A>0.0</A>
@@ -12479,7 +12395,7 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>HospitalExplode</name>
+		<name>Hospital</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
@@ -12554,6 +12470,9 @@ which you are teleported to after it lands.</description>
 					<sound>data/wav/misc/screaming.wav</sound>
 					<gain>1.25</gain>
 				</subweapon4>
+				<subweapon5 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -12621,7 +12540,7 @@ which you are teleported to after it lands.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Bar1Explode</name>
+		<name>Bar</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
@@ -12695,6 +12614,9 @@ which you are teleported to after it lands.</description>
 				<subweapon4 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon4>
+				<subweapon5 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -12869,6 +12791,9 @@ which explode and spread fire when ignited.</description>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon6>
+				<subweapon7 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon7>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -13060,7 +12985,7 @@ which explode and spread fire when ignited.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Store1Explode</name>
+		<name>Dollar Store</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
@@ -13108,6 +13033,9 @@ which explode and spread fire when ignited.</description>
 				<subweapon4 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon4>
+				<subweapon5 type='WeaponGiveScore'>
+					<score>1</score>
+				</subweapon5>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -13370,6 +13298,173 @@ which explode and spread fire when ignited.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>City Port</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.2</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>exp00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>explosions/small.wav</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
+				</subweapon3>
+				<subweapon4 type='WeaponAimedOver'>
+					<nowarheads>3</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponVelocity'>
+								<velocitychange>1.2</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<enginesound>none</enginesound>
+									<nocreateflame/>
+									<projectilescale>1.0</projectilescale>
+									<projectilemodel type='MilkShape'>objects/container.txt</projectilemodel>
+									<collisionaction type='WeaponAddTarget'>
+										<name>Cargo</name>
+										<modelscale>0.05</modelscale>
+										<model type='MilkShape'>objects/container.txt</model>
+										<life>50</life>
+										<shield>none</shield>
+										<parachute>Parachute</parachute>
+										<removeaction>CargoItems</removeaction>
+										<driveovertodestroy>true</driveovertodestroy>
+									</collisionaction>
+								</aimedweapon>
+							</weapon>
+						</weaponchoice2>
+					</aimedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponSound'>
+					<sound>data/wav/misc/screaming.wav</sound>
+					<gain>1.25</gain>
+				</subweapon5>
+				<subweapon6 type='WeaponGiveScore'>
+					<score>5</score>
+				</subweapon6>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Gas Leak</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<nocreatesplash/>
+				<noluminance/>
+				<nowindaffected/>
+				<hurtamount>0</hurtamount>
+				<deform>none</deform>
+				<size>2</size>
+				<explosiontexture>gas00-1</explosiontexture>
+				<explosionsound>none</explosionsound>
+			</subweapon1>
+			<subweapon2 type='WeaponDelay'>
+				<delay>0.25</delay>
+				<delayedweapon type='WeaponTranslate'>
+					<translatedist>15</translatedist>
+					<nextaction type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<noluminance/>
+						<nowindaffected/>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>2</size>
+						<explosiontexture>gas00-3</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</nextaction>
+				</delayedweapon>
+			</subweapon2>
+			<subweapon3 type='WeaponDelay'>
+				<delay>0.5</delay>
+				<delayedweapon type='WeaponTranslate'>
+					<translatedist>30</translatedist>
+					<nextaction type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<noluminance/>
+						<nowindaffected/>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>2</size>
+						<explosiontexture>gas00-5</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</nextaction>
+				</delayedweapon>
+			</subweapon3>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Factory Burn</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRedirect'>
+			<habs>true</habs>
+			<vabs>true</vabs>
+			<hredirect>0</hredirect>
+			<vredirect>0</vredirect>
+			<nextaction type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>explosions/gas.wav</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponNull'>
+				</subweapon2>
+				<subweapon3 type='WeaponRepeat'>
+					<repeat>7</repeat>
+					<delay>0.5</delay>
+					<repeatweapon type='WeaponReference'>
+						<weapon>Gas Leak</weapon>
+					</repeatweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponDelay'>
+					<delay>2.0</delay>
+					<delayedweapon type='WeaponExplosion'>
+						<hurtamount>0</hurtamount>
+						<deform>down</deform>
+						<size>4</size>
+						<explosionsound>none</explosionsound>
+						<explosiontexture>exp00</explosiontexture>
+					</delayedweapon>
+				</subweapon4>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Factory</name>
 		<armslevel>4</armslevel>
 		<description>Factories work with deadly chemicals and
@@ -13522,6 +13617,9 @@ release lethal clouds of gas when destroyed.</description>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon6>
+				<subweapon7 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon7>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
