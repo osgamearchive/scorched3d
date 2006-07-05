@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ServerBrowserServerList.h>
+#include <algorithm>
 
 ServerBrowserEntry::ServerBrowserEntry()
 {
@@ -44,7 +45,8 @@ const char *ServerBrowserEntry::getAttribute(const char *attrName)
 	return (*itor).second.c_str();
 }
 
-ServerBrowserServerList::ServerBrowserServerList()
+ServerBrowserServerList::ServerBrowserServerList() :
+	refreshId_(0)
 {
 	vectorMutex_ = SDL_CreateMutex();
 }
@@ -54,13 +56,44 @@ ServerBrowserServerList::~ServerBrowserServerList()
 	SDL_DestroyMutex(vectorMutex_);
 }
 
-const char *ServerBrowserServerList::getEntryValue(int pos, const char *name)
+struct lt_servers
+{
+	lt_servers(const char *name) : name_(name)
+	{
+	}
+
+	bool operator()(const ServerBrowserEntry &o1, const ServerBrowserEntry &o2)
+	{
+		std::string o1Value = ((ServerBrowserEntry &)o1).getAttribute(name_);
+		std::string o2Value = ((ServerBrowserEntry &)o2).getAttribute(name_);
+
+		return strcmp(o1Value.c_str(), o2Value.c_str()) < 0;
+	}
+
+protected:
+	const char *name_;
+};
+
+void ServerBrowserServerList::sortEntries(const char *name)
 {
 	SDL_LockMutex(vectorMutex_);
-	DIALOG_ASSERT(pos >=0 && pos < (int) servers_.size());
-	ServerBrowserEntry &entry = servers_[pos];
+	lt_servers sorter(name);
+	std::sort(servers_.begin(), servers_.end(), sorter); 
+	refreshId_++;
+	SDL_UnlockMutex(vectorMutex_);
+}
+
+const char *ServerBrowserServerList::getEntryValue(int pos, const char *name)
+{
 	static char buffer[256];
-	snprintf(buffer, sizeof(buffer), "%s", entry.getAttribute(name));
+	buffer[0] = '\0';
+
+	SDL_LockMutex(vectorMutex_);
+	if (pos >=0 && pos < (int) servers_.size())
+	{
+		ServerBrowserEntry &entry = servers_[pos];
+		snprintf(buffer, sizeof(buffer), "%s", entry.getAttribute(name));
+	}
 	SDL_UnlockMutex(vectorMutex_);
 
 	return buffer;
@@ -72,6 +105,7 @@ void ServerBrowserServerList::addEntryValue(int pos, const char *name, const cha
 	DIALOG_ASSERT(pos >=0 && pos < (int) servers_.size());
 	ServerBrowserEntry &entry = servers_[pos];
 	entry.addAttribute(name, value);
+	refreshId_++;
 	SDL_UnlockMutex(vectorMutex_);
 }
 
@@ -88,6 +122,7 @@ void ServerBrowserServerList::addEntry(ServerBrowserEntry &newEntry)
 {
 	SDL_LockMutex(vectorMutex_);
 	servers_.push_back(newEntry);
+	refreshId_++;
 	SDL_UnlockMutex(vectorMutex_);
 }
 
@@ -95,6 +130,7 @@ void ServerBrowserServerList::clear()
 {
 	SDL_LockMutex(vectorMutex_);
 	servers_.clear();
+	refreshId_++;
 	SDL_UnlockMutex(vectorMutex_);
 }
 

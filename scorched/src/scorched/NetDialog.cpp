@@ -32,6 +32,24 @@
 #include <common/Defines.h>
 #include "NetLan.cpp"
 
+static const char *getColumnDataName(long column)
+{
+	const char *name = "";
+	switch (column)
+	{
+	case 0: name = "servername"; break;
+	case 1: name = "password"; break;
+	case 2: name = "noplayers"; break;
+	case 3: name = "round"; break;
+	case 4: name = "mod"; break;
+	case 5: name = "fullversion"; break;
+	case 6: name = "gametype"; break;
+	case 7: name = "os"; break;
+	case 8: name = "address"; break;
+	}
+	return name;
+}
+
 static bool serverCompatable(std::string pversion, std::string version)
 {
 	if (pversion.size() > 0 && 
@@ -54,6 +72,7 @@ public:
 	virtual int OnGetItemImage(long WXUNUSED(item)) const;
 	
 	void onDClickServer(wxMouseEvent&);
+	void onClickColumn(wxListEvent&);
 	
 private:
 	DECLARE_EVENT_TABLE()
@@ -69,6 +88,13 @@ NetListControl::NetListControl(wxWindow* parent, wxWindowID id, const wxPoint& p
 
 NetListControl::~NetListControl()
 {
+}
+
+void NetListControl::onClickColumn(wxListEvent &event)
+{
+	const char *name = getColumnDataName(event.GetColumn());
+	ServerBrowser::instance()->getServerList().sortEntries(name);
+	RefreshItems(0, GetItemCount());
 }
 
 int NetListControl::OnGetItemImage(long item) const
@@ -113,12 +139,7 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 	if ((item != -1) && 
 		(item < ServerBrowser::instance()->getServerList().getNoEntries()))
 	{
-		char *name = "";
-		switch (column)
-		{
-		case 0: name = "servername"; break;
-		case 1: name = "password"; break;
-		case 2:
+		if (column == 2)
 		{
 			std::string clients = 
 				ServerBrowser::instance()->getServerList().
@@ -136,20 +157,19 @@ wxString NetListControl::OnGetItemText(long item, long column) const
 
 			return wxString(text, wxConvUTF8);
 		}
-		case 3: name = "round"; break;
-		case 4: name = "mod"; break;
-		case 5: name = "fullversion"; break;
-		case 6: name = "gametype"; break;
-		case 7: name = "os"; break;
-		case 8: name = "address"; break;
+		else
+		{
+			const char *name = getColumnDataName(column);
+			return wxString(ServerBrowser::instance()->getServerList().
+				getEntryValue(item, name), wxConvUTF8);
 		}
-		return wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, name), wxConvUTF8);
 	}
 	return wxT("");
 }
 
 BEGIN_EVENT_TABLE(NetListControl, wxListCtrl)
 	EVT_LEFT_DCLICK(NetListControl::onDClickServer)
+	EVT_LIST_COL_CLICK(wxID_ANY, NetListControl::onClickColumn)
 END_EVENT_TABLE()
 
 static NetListControl *IDC_SERVER_LIST_CTRL = 0;
@@ -157,14 +177,6 @@ static wxListCtrl *IDC_PLAYER_LIST_CTRL = 0;
 
 static unsigned int invalidateId = 0;
 extern char scorched3dAppName[128];
-
-void refreshLANWindow(bool lanRefresh)
-{
-	ServerBrowser::instance()->refresh(lanRefresh);
-
-	IDC_BUTTON_LAN_CTRL->Disable();
-	IDC_BUTTON_NET_CTRL->Disable();
-}
 
 class NetLanFrame: public wxDialog
 {
@@ -175,13 +187,14 @@ public:
 	virtual bool TransferDataFromWindow();
 
 	void onJoinButton(wxCommandEvent &event);
-	void onRefreshLanButton(wxCommandEvent &event);
-	void onRefreshNETButton(wxCommandEvent &event);
+	void onRefreshButton(wxCommandEvent &event);
+	void onStopRefreshButton(wxCommandEvent &event);
 	void onClearButton(wxCommandEvent &event);
 	void onClearPasswordButton(wxCommandEvent &event);
 	void onSelectServer(wxListEvent &event);
 	void onTimer(wxTimerEvent &event);
 	void onServerChanged(wxCommandEvent &event);
+	void onSourceChanged(wxCommandEvent &event);
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -189,14 +202,16 @@ private:
 };
 
 BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
-	EVT_BUTTON(IDC_BUTTON_LAN,  NetLanFrame::onRefreshLanButton)
-	EVT_BUTTON(IDC_BUTTON_NET,  NetLanFrame::onRefreshNETButton)
+	EVT_BUTTON(IDC_BUTTON_REFRESH,  NetLanFrame::onRefreshButton)
+	EVT_BUTTON(IDC_BUTTON_STOPREFRESH,  NetLanFrame::onStopRefreshButton)
 	EVT_BUTTON(IDC_BUTTON_JOIN,  NetLanFrame::onJoinButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
 	EVT_BUTTON(IDC_CLEAR_PASSWORD,  NetLanFrame::onClearPasswordButton)
 	EVT_TIMER(1001, NetLanFrame::onTimer)
 	EVT_LIST_ITEM_SELECTED(IDC_SERVER_LIST, NetLanFrame::onSelectServer)
 	EVT_TEXT(IDC_EDIT_SERVER, NetLanFrame::onServerChanged)
+	EVT_RADIOBUTTON(IDC_RADIO_LAN, NetLanFrame::onSourceChanged)
+	EVT_RADIOBUTTON(IDC_RADIO_NET, NetLanFrame::onSourceChanged)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
@@ -238,7 +253,7 @@ NetLanFrame::NetLanFrame() :
 
 	// Create a timer
 	timer_.SetOwner(this, 1001);
-	timer_.Start(3000, false);
+	timer_.Start(1000, false);
 	wxTimerEvent timerEvent;
 	onTimer(timerEvent);
 }
@@ -381,16 +396,25 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
     }
 }
 
-void NetLanFrame::onRefreshLanButton(wxCommandEvent &event)
+void NetLanFrame::onSourceChanged(wxCommandEvent &event)
 {
-	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
-	refreshLANWindow(true);
+	ServerBrowser::instance()->cancel();
+	onRefreshButton(event);
 }
 
-void NetLanFrame::onRefreshNETButton(wxCommandEvent &event)
+void NetLanFrame::onRefreshButton(wxCommandEvent &event)
 {
 	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
-	refreshLANWindow(false);
+
+	ServerBrowser::instance()->refresh(IDC_RADIO_LAN_CTRL->GetValue());
+
+	IDC_BUTTON_STOPREFRESH_CTRL->Disable();
+	IDC_BUTTON_REFRESH_CTRL->Disable();
+}
+
+void NetLanFrame::onStopRefreshButton(wxCommandEvent &event)
+{
+	ServerBrowser::instance()->cancel();
 }
 
 void NetLanFrame::onServerChanged(wxCommandEvent &event)
@@ -405,18 +429,20 @@ void NetLanFrame::onTimer(wxTimerEvent &event)
 {
 	if (!ServerBrowser::instance()->getRefreshing())
 	{
-		IDC_BUTTON_LAN_CTRL->Enable();
-		IDC_BUTTON_NET_CTRL->Enable();
+		IDC_BUTTON_REFRESH_CTRL->Enable();
+		IDC_BUTTON_STOPREFRESH_CTRL->Disable();
 	}
 	else
 	{
-		IDC_BUTTON_LAN_CTRL->Disable();
-		IDC_BUTTON_NET_CTRL->Disable();
+		IDC_BUTTON_REFRESH_CTRL->Disable();
+		IDC_BUTTON_STOPREFRESH_CTRL->Enable();
 	}
 
-	if (invalidateId != ServerBrowser::instance()->getRefreshId())
+	if (invalidateId != ServerBrowser::instance()->
+		getServerList().getRefreshId())
 	{
-		invalidateId = ServerBrowser::instance()->getRefreshId();
+		invalidateId = ServerBrowser::instance()->
+			getServerList().getRefreshId();
 		IDC_SERVER_LIST_CTRL->SetItemCount(
 			ServerBrowser::instance()->getServerList().getNoEntries());
 		//IDC_PLAYER_LIST_CTRL->DeleteAllItems();

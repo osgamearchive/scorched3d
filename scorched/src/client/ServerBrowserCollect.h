@@ -13,11 +13,14 @@ public:
 	bool fetchServerList();
 	bool fetchLANList();
 
+	void setCancel(bool cancel) { cancel_ = cancel; }
+
 	// Inherited from NetMessageHandlerI
 	virtual void processMessage(NetMessage &message);
 
 protected:
 	ServerBrowserServerList &list_;
+	bool cancel_;
 	bool complete_;
 	UDPpacket *sendPacket_;
 	UDPpacket *recvPacket_;

@@ -45,7 +45,10 @@ public:
 
 	void refreshList();
 
+	void setCancel(bool cancel) { cancel_ = cancel; }
+
 protected:
+	bool cancel_;
 	ServerBrowserServerList &list_;
 	std::list<ServerBrowserRefreshEntry> refreshEntries_;
 	std::map<UDPsocket, ServerBrowserRefreshEntry> entryMap_;

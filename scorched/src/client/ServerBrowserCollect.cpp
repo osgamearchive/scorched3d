@@ -10,7 +10,8 @@
 ServerBrowserCollect::ServerBrowserCollect(ServerBrowserServerList &list) :
 	list_(list),
 	netServer_(new NetServerHTTPProtocolSend), 
-	complete_(false)
+	complete_(false), 
+	cancel_(false)
 {
 	// Create the message that will be sent to the master server
 	static char buffer[1024];
@@ -58,7 +59,7 @@ bool ServerBrowserCollect::fetchServerList()
 	// Wait WaitTime seconds for the result
 	time_t startTime, currentTime;
 	startTime = currentTime = time(0);
-	while (currentTime - startTime < WaitTime)
+	while ((currentTime - startTime < WaitTime) && !cancel_)
 	{
 		// Process any waiting messages
 		netServer_.processMessages();
@@ -66,7 +67,6 @@ bool ServerBrowserCollect::fetchServerList()
 		// Check if the messages have made us complete
 		if (complete_)
 		{
-			ServerBrowser::instance()->incrementRefreshId();
 			return true;
 		}
 
@@ -120,12 +120,10 @@ bool ServerBrowserCollect::fetchLANList()
 			
 			// Add the new and its attributes
 			list_.addEntry(newEntry);
-			
-			ServerBrowser::instance()->incrementRefreshId();
 		}
 		
 		time_t theTime = time(0);
-		if (theTime - startTime > 5) break;
+		if ((theTime - startTime > 5) || cancel_) break;
 	}
 	
 	SDLNet_UDP_Close(udpsock);

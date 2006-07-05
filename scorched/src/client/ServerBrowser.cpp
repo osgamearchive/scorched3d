@@ -34,20 +34,46 @@ ServerBrowser *ServerBrowser::instance()
 ServerBrowser::ServerBrowser() : 
 	refreshing_(false), serverList_(), 
 	serverRefresh_(serverList_),
-	serverCollector_(serverList_),
-	refreshId_(0)
+	serverCollector_(serverList_)
 {
+	refreshingMutex_ = SDL_CreateMutex();
 }
 
 ServerBrowser::~ServerBrowser()	
 {
+	SDL_DestroyMutex(refreshingMutex_);
+}
+
+void ServerBrowser::cancel()
+{
+	SDL_LockMutex(refreshingMutex_);
+	bool complete = true;
+	if (refreshing_)
+	{
+		complete = false;
+		serverCollector_.setCancel(true);
+		serverRefresh_.setCancel(true);
+	}
+	SDL_UnlockMutex(refreshingMutex_);
+
+	while (!complete)
+	{
+		SDL_Delay(100);
+		SDL_LockMutex(refreshingMutex_);
+		if (!refreshing_) complete = true;
+		SDL_UnlockMutex(refreshingMutex_);
+	}
 }
 
 void ServerBrowser::refresh(bool lan)
 {
-	if (refreshing_) return;
-
+	bool alreadyRefreshing = false;
+	SDL_LockMutex(refreshingMutex_);
+	alreadyRefreshing = refreshing_;
 	refreshing_ = true;
+	SDL_UnlockMutex(refreshingMutex_);
+	if (alreadyRefreshing) return;
+
 	SDL_CreateThread(ServerBrowser::threadFunc, (void *) int(lan?1:0));
 }
 
@@ -62,6 +88,10 @@ int ServerBrowser::threadFunc(void *var)
 		instance_->serverRefresh_.refreshList();
 	}
 	
+	SDL_LockMutex(instance_->refreshingMutex_);
+	instance_->serverCollector_.setCancel(false);
+	instance_->serverRefresh_.setCancel(false);
 	instance_->refreshing_ = false;
+	SDL_UnlockMutex(instance_->refreshingMutex_);
 	return 0;
 }

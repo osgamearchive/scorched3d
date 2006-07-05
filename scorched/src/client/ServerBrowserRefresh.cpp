@@ -39,7 +39,8 @@ ServerBrowserRefreshEntry::ServerBrowserRefreshEntry(
 }
 
 ServerBrowserRefresh::ServerBrowserRefresh(ServerBrowserServerList &list) :
-	list_(list)
+	list_(list), 
+	cancel_(false)
 {
 	recvPacket_ = SDLNet_AllocPacket(10000);
 	sendPacketStatus_ = SDLNet_AllocPacket(20);
@@ -66,7 +67,7 @@ void ServerBrowserRefresh::refreshList()
 		}
 	}
 
-	while (!refreshEntries_.empty() || !entryMap_.empty())
+	while ((!refreshEntries_.empty() || !entryMap_.empty()) && !cancel_)
 	{
 		time_t theTime = time(0);
 
@@ -83,7 +84,18 @@ void ServerBrowserRefresh::refreshList()
 		// Process all new messages
 		processMessages(theTime);
 	}
-	ServerBrowser::instance()->incrementRefreshId();
+
+	// Tidy incase of cancel
+	std::map<UDPsocket, ServerBrowserRefreshEntry>::iterator cleanitor;
+	for (cleanitor = entryMap_.begin();
+		cleanitor != entryMap_.end();
+		cleanitor++)
+	{
+		UDPsocket socket = (*cleanitor).first;
+		SDLNet_UDP_Close(socket);
+	}
+	refreshEntries_.clear();
+	entryMap_.clear();
 }
 
 void ServerBrowserRefresh::sendNextEntry(
@@ -139,7 +151,6 @@ void ServerBrowserRefresh::processMessages(time_t theTime)
 			{
 				processMessage(recvPacket_, entry);
 				entry.recieved_ ++;
-				ServerBrowser::instance()->incrementRefreshId();
 
 				if (entry.recieved_ == 2) finished.push_back(socket);
 			}

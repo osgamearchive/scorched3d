@@ -53,28 +53,6 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 {
 	createImageMap();
 
-	wxBitmap maskBitmap;
-	maskBitmap.LoadFile(
-		wxString(getDataFile("data/windows/mask.bmp"), wxConvUTF8),
-		wxBITMAP_TYPE_BMP);
-
-	wxBitmap questionBitmap;
-	questionBitmap.LoadFile(
-		wxString(getDataFile("data/windows/question.gif"), wxConvUTF8),
-		wxBITMAP_TYPE_GIF);
-	wxBitmap okBitmap;
-	okBitmap.LoadFile(
-		wxString(getDataFile("data/windows/ok.gif"), wxConvUTF8),
-		wxBITMAP_TYPE_GIF);
-	wxBitmap warnBitmap;
-	warnBitmap.LoadFile(
-		wxString(getDataFile("data/windows/warn.gif"), wxConvUTF8),
-		wxBITMAP_TYPE_GIF);
-	wxBitmap exlaimBitmap;
-	exlaimBitmap.LoadFile(
-		wxString(getDataFile("data/windows/exclaim.gif"), wxConvUTF8),
-		wxBITMAP_TYPE_GIF);
-
 	// Name/password
 	wxGridSizer *nameSizer = new wxFlexGridSizer(3, 3, 5, 5);
 	wxStaticText *nameText = 
@@ -114,9 +92,46 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	nameSizer->Add(IDC_EDIT_PASSWORD_CTRL, 0, 0);
 	nameSizer->Add(IDC_CLEAR_PASSWORD_CTRL, 0, 0);
 	sizer->Add(nameSizer, 0, wxALIGN_CENTER | wxALL, 5);
-	
+
+	// Radio Buttons
+	wxFlexGridSizer *radioSizer = new wxFlexGridSizer(1, 8, 5, 5);
+	IDC_RADIO_NET_CTRL = new wxRadioButton(parent, IDC_RADIO_NET, 
+		"Internet", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	IDC_RADIO_LAN_CTRL = new wxRadioButton(parent, IDC_RADIO_LAN, 
+		"LAN", wxDefaultPosition, wxDefaultSize, 0);
+	radioSizer->Add(IDC_RADIO_NET_CTRL, 0, wxRIGHT, 10);
+	radioSizer->Add(IDC_RADIO_LAN_CTRL, 0, wxRIGHT, 0);
+	sizer->Add(radioSizer, 0, wxALIGN_CENTER | wxALL, 5);
+}
+
+static void createControlsPost(wxWindow *parent, wxSizer *sizer)
+{
+	wxBitmap maskBitmap;
+	maskBitmap.LoadFile(
+		wxString(getDataFile("data/windows/mask.bmp"), wxConvUTF8),
+		wxBITMAP_TYPE_BMP);
+
+	wxBitmap questionBitmap;
+	questionBitmap.LoadFile(
+		wxString(getDataFile("data/windows/question.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap okBitmap;
+	okBitmap.LoadFile(
+		wxString(getDataFile("data/windows/ok.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap warnBitmap;
+	warnBitmap.LoadFile(
+		wxString(getDataFile("data/windows/warn.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap exlaimBitmap;
+	exlaimBitmap.LoadFile(
+		wxString(getDataFile("data/windows/exclaim.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+
+	wxBoxSizer *overallSizer = new wxBoxSizer(wxHORIZONTAL);
+
 	// Key
-	wxFlexGridSizer *keySizer = new wxFlexGridSizer(1, 8, 5, 5);
+	wxFlexGridSizer *keySizer = new wxFlexGridSizer(2, 4, 5, 5);
 	keySizer->Add(new wxStaticBitmap(parent, -1, questionBitmap));
 	keySizer->Add(new wxStaticText(parent, -1, wxT("State unknown")), 0, wxRIGHT, 10);
 	keySizer->Add(new wxStaticBitmap(parent, -1, okBitmap));
@@ -125,21 +140,19 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	keySizer->Add(new wxStaticText(parent, -1, wxT("No game in progress")), 0, wxRIGHT, 10);
 	keySizer->Add(new wxStaticBitmap(parent, -1, exlaimBitmap));
 	keySizer->Add(new wxStaticText(parent, -1, wxT("Cannot join")));	
-	sizer->Add(keySizer, 0, wxALIGN_CENTER | wxALL, 5);
-}
+	overallSizer->Add(keySizer, 0, wxALIGN_LEFT | wxALL, 5);
 
+	wxBoxSizer *overallButtonSizer = new wxBoxSizer(wxVERTICAL);
 
-static void createControlsPost(wxWindow *parent, wxSizer *sizer)
-{
 	// Lan/Internet refresh
 	wxBoxSizer *refreshButtonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDC_BUTTON_LAN_CTRL = 
-		new wxButton(parent, IDC_BUTTON_LAN, wxT("Refresh LAN Games"));
-	IDC_BUTTON_NET_CTRL = 
-		new wxButton(parent, IDC_BUTTON_NET, wxT("Refresh Internet Games"));
-	refreshButtonSizer->Add(IDC_BUTTON_LAN_CTRL, 0, wxALL, 5);
-	refreshButtonSizer->Add(IDC_BUTTON_NET_CTRL, 0, wxALL, 5);
-	sizer->Add(refreshButtonSizer, 0, wxALIGN_RIGHT);
+	IDC_BUTTON_STOPREFRESH_CTRL = 
+		new wxButton(parent, IDC_BUTTON_STOPREFRESH, wxT("Stop List Refresh"));
+	IDC_BUTTON_REFRESH_CTRL = 
+		new wxButton(parent, IDC_BUTTON_REFRESH, wxT("Refresh List"));
+	refreshButtonSizer->Add(IDC_BUTTON_STOPREFRESH_CTRL, 0, wxALL, 5);
+	refreshButtonSizer->Add(IDC_BUTTON_REFRESH_CTRL, 0, wxALL, 5);
+	overallButtonSizer->Add(refreshButtonSizer, 0, wxALIGN_RIGHT);
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -147,6 +160,11 @@ static void createControlsPost(wxWindow *parent, wxSizer *sizer)
 	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, wxT("Cancel"));
 	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 5);
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 5);
-	sizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
+	overallButtonSizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
+
+	overallSizer->Add(0, 0, 1);
+	overallSizer->Add(overallButtonSizer, 0, wxALIGN_RIGHT);
+
+	sizer->Add(overallSizer, 0, wxEXPAND);
 }
 

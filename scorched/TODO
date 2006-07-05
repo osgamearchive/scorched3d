@@ -44,6 +44,10 @@ Fixed: Sound from boids issued from wrong place
 Fixed: Sounds from groups are only thined when using tree placement
 Fixed: All bilboards are now correct for the current screen aspect (including in the camera window)
 
+Added: Server sorting and refresh cancel to the NET/LAN dialog
+Added: Chat window fades out text as it expires
+Added: Chat window has scroll buttons to view older text
+Added: Chat window wraps lines that are too long to display
 Added: mask attribute to tree placement type, allows trees to be also bounded by a mask bitmap
 Added: border attribute to models and trees, this is minimum distance other objects must be from this object
 Added: referencedistance, gain and rolloff sound attributes to ambient sounds

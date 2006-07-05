@@ -29,17 +29,17 @@ class ServerBrowser
 public:
 	static ServerBrowser *instance();
 
-	void incrementRefreshId() { refreshId_++; }
-	unsigned int &getRefreshId() { return refreshId_; }
 	bool getRefreshing() { return refreshing_; }
 	void refresh(bool lan);
+	void cancel();
 	
 	ServerBrowserServerList &getServerList() { return serverList_; }
 
 protected:
 	static ServerBrowser *instance_;
 	bool refreshing_;
-	unsigned int refreshId_;
+	SDL_mutex *refreshingMutex_;
+
 	ServerBrowserServerList serverList_;
 	ServerBrowserCollect serverCollector_;
 	ServerBrowserRefresh serverRefresh_;
