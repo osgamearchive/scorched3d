@@ -22,6 +22,7 @@
 #include <landscape/LandscapeObjectsEntryTree.h>
 #include <landscape/LandscapeMaps.h>
 #include <common/RandomGenerator.h>
+#include <common/OptionsDisplay.h>
 #include <engine/ScorchedContext.h>
 #include <target/TargetContainer.h>
 #include <target/Target.h>
@@ -74,15 +75,18 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 	treeEntry->border = border_;
 	treeEntry->boundingsize = Vector(1.0f, 1.0f, 2.0f) * treeEntry->modelscale;
 
-	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
-		PlacementShadowDefinition::Entry(&shadow_, 
-		position.position,
-		treeEntry->boundingsize));
-
 	context.landscapeMaps->getGroundMaps().getObjects().addObject(
 		(unsigned int) position.position[0],
 		(unsigned int) position.position[1],
 		treeEntry);
 
-	group_.addToGroups(context, treeEntry, true);
+	if (context.serverMode ||
+		!OptionsDisplay::instance()->getNoTrees())
+	{
+		context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+			PlacementShadowDefinition::Entry(&shadow_, 
+			position.position,
+			treeEntry->boundingsize));
+		group_.addToGroups(context, treeEntry, true);
+	}
 }

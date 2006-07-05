@@ -203,6 +203,8 @@ void TankDamage::calculateDamage()
 						firedTank->getScore().getKills() + 1);
 					firedTank->getScore().setMoney(
 						firedTank->getScore().getMoney() + moneyPerKill);
+					firedTank->getScore().addTotalMoneyEarnedStat(
+						moneyPerKill);
 					firedTank->getScore().setScore(
 						firedTank->getScore().getScore() + scorePerKill);
 
@@ -224,19 +226,23 @@ void TankDamage::calculateDamage()
 					unsigned int hurtByPlayer = (*itor);
 					Tank *hurtByTank = 
 						context_->tankContainer->getTankById(hurtByPlayer);
-					if (hurtByTank != firedTank)
+
+					// Only score when the tank does not hurt itself
+					if (hurtByTank != damagedTank)
 					{
 						hurtByTank->getScore().setAssists(
 							hurtByTank->getScore().getAssists() + 1);
-						firedTank->getScore().setMoney(
-							firedTank->getScore().getMoney() + moneyPerAssist);
-						firedTank->getScore().setScore(
-							firedTank->getScore().getScore() + scorePerAssist);
+						hurtByTank->getScore().setMoney(
+							hurtByTank->getScore().getMoney() + moneyPerAssist);
+						hurtByTank->getScore().addTotalMoneyEarnedStat(
+							moneyPerAssist);
+						hurtByTank->getScore().setScore(
+							hurtByTank->getScore().getScore() + scorePerAssist);
 
-						if (firedTank->getTeam() > 0)
+						if (hurtByTank->getTeam() > 0)
 						{
 							context_->tankTeamScore->addScore(
-								scorePerAssist, firedTank->getTeam());
+								scorePerAssist, hurtByTank->getTeam());
 						}
 					}
 				}

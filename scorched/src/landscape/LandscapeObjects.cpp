@@ -77,8 +77,6 @@ LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
 
 void LandscapeObjects::draw()
 {
-	if (OptionsDisplay::instance()->getNoTrees()) return;
-
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.00f);

@@ -523,7 +523,7 @@ static inline bool lt_score(const Tank *o1, const Tank *o2)
 
 static inline bool lt_bots(const Tank *o1, const Tank *o2) 
 { 
-	return ((Tank*)o1)->getTankAI() > ((Tank *)o2)->getTankAI();
+	return ((Tank*)o1)->getTankAI() < ((Tank *)o2)->getTankAI();
 }
 
 void ServerNewGameState::checkTeamsAuto()

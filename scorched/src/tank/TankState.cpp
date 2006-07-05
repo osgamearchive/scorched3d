@@ -43,7 +43,7 @@ TankState::~TankState()
 
 void TankState::newMatch()
 {
-	setState(sDead);
+	if (getState() == sNormal) setState(sDead);
 	readyState_ = sReady;
 }
 
