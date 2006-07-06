@@ -56,3 +56,9 @@ bool s3d_dirExists(const char *file)
     bool result = ::wxDirExists(wxString(file, wxConvUTF8));
     return result;
 }
+
+time_t s3d_fileModTime(const char *file)
+{
+	time_t result =	::wxFileModificationTime(wxString(file, wxConvUTF8));
+	return result;
+}

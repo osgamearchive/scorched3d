@@ -21,10 +21,13 @@
 #ifndef __DEFINESFILE__
 #define __DEFINESFILE__
 
+#include <time.h>
+
 extern void s3d_fileDos2Unix(char *file);
 extern bool s3d_fileExists(const char *file);
 extern bool s3d_dirExists(const char *file);
 extern bool s3d_dirMake(const char *file);
+extern time_t s3d_fileModTime(const char *file);
 extern char *s3d_getHomeDir();
 
 #endif // __DEFINESFILE__

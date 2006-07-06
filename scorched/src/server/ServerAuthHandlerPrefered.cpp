@@ -104,7 +104,7 @@ bool ServerAuthHandlerPrefered::load()
 			ScorchedServer::instance()->getOptionsGame().getPortNo()));
 	if (!::s3d_fileExists(filename)) return true;
 
-	time_t fileTime = ::wxFileModificationTime(wxString(filename, wxConvUTF8));
+	time_t fileTime = s3d_fileModTime(filename);
 	if (fileTime == lastReadTime_) return true;
 
 	XMLFile file;

@@ -271,11 +271,11 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 			bool cont = dir.GetFirst(&filename, wxT("*.log"), wxDIR_FILES);
 			while (cont)
 			{
-				wxString fullFilename(getLogFile(filename.mb_str(wxConvUTF8)), wxConvUTF8);
+				const char *fullFilename = getLogFile(filename.mb_str(wxConvUTF8));
 
 				LogFile logFile;
 				logFile.fileName = filename;
-				logFile.fileTime = wxFileModificationTime(fullFilename);
+				logFile.fileTime = s3d_fileModTime(fullFilename);
 				logFiles.push_back(logFile);
 
 				cont = dir.GetNext(&filename);
