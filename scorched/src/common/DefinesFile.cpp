@@ -65,9 +65,9 @@ bool s3d_dirExists(const char *file)
 
 time_t s3d_fileModTime(const char *file)
 {
-	struct _stat buf;
+	struct stat buf;
 	memset(&buf, 0, sizeof(buf));
-	int result = _stat(file, &buf );
+	int result = stat(file, &buf );
 
 	return buf.st_atime;
 }
