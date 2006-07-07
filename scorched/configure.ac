@@ -275,8 +275,11 @@ CFLAGS="$CFLAGS $FT2_CFLAGS"
 CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
 LIBS="$LIBS $FT2_LIBS"
 
-# Checl for extra functions
+# Check for extra functions
 AC_CHECK_FUNCS(vsnprintf snprintf)
+
+# Check for extra headers
+AC_CHECK_HEADERS(unistd.h)
 
 # Directory setup stuff
 dnl --with-docdir

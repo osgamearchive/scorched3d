@@ -62,7 +62,7 @@ foreach $dir (@dirs)
 			$filelines[$index] = "#if !defined($incline)\n#define $incline\n";
 			push @filelines, "\n#endif // $incline\n";
 
-			open(OUTFILE, ">../src/$dir/$file") || die "ERROR: Out";
+			open(OUTFILE, ">../src/$dir/$file") || die "ERROR: Out $file";
 			print OUTFILE @filelines;
 			close (OUTFILE);
 		}

@@ -26,6 +26,7 @@
 #include <weapons/Shield.h>
 #include <target/TargetContainer.h>
 #include <engine/ScorchedContext.h>
+#include <common/Vector.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <tank/Tank.h>
@@ -164,7 +165,7 @@ void MovementMap::calculateForTank(Tank *tank,
 
 			float height = 
 				context.landscapeMaps->getGroundMaps().getHeight(x, y);
-			Vector pos(float(x), float(y), height);
+			Vector pos((float)x, (float)y, height);
 			
 			for (targetItor = targets.begin(); 
 				targetItor != targets.end();

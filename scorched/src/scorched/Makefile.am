@@ -139,6 +139,8 @@ scorched3d_SOURCES = \
 	../GLW/GLWTextBox.h \
 	../GLW/GLWTextButton.cpp \
 	../GLW/GLWTextButton.h \
+	../GLW/GLWTip.cpp \
+	../GLW/GLWTip.h \
 	../GLW/GLWToolTip.cpp \
 	../GLW/GLWToolTip.h \
 	../GLW/GLWTracker.cpp \
@@ -165,6 +167,8 @@ scorched3d_SOURCES = \
 	../tankgraph/GLWTankViewer.h \
 	../tankgraph/MissileMesh.cpp \
 	../tankgraph/MissileMesh.h \
+	../tankgraph/RenderGeoms.cpp \
+	../tankgraph/RenderGeoms.h \
 	../tankgraph/RenderTargets.cpp \
 	../tankgraph/RenderTargets.h \
 	../tankgraph/RenderTracer.cpp \
@@ -263,6 +267,10 @@ scorched3d_SOURCES = \
 	../3dsparse/Bone.h \
 	../3dsparse/Face.cpp \
 	../3dsparse/Face.h \
+	../3dsparse/ImageID.cpp \
+	../3dsparse/ImageID.h \
+	../3dsparse/ImageStore.cpp \
+	../3dsparse/ImageStore.h \
 	../3dsparse/MSModelFactory.cpp \
 	../3dsparse/MSModelFactory.h \
 	../3dsparse/Mesh.cpp \
@@ -312,6 +320,8 @@ scorched3d_SOURCES = \
 	../dialogs/LogDialog.h \
 	../dialogs/MainMenuDialog.cpp \
 	../dialogs/MainMenuDialog.h \
+	../dialogs/MessageDialog.cpp \
+	../dialogs/MessageDialog.h \
 	../dialogs/PlayerDialog.cpp \
 	../dialogs/PlayerDialog.h \
 	../dialogs/ProgressDialog.cpp \
@@ -332,6 +342,8 @@ scorched3d_SOURCES = \
 	../dialogs/SkipDialog.h \
 	../dialogs/TalkSettingsDialog.cpp \
 	../dialogs/TalkSettingsDialog.h \
+	../dialogs/TutorialDialog.cpp \
+	../dialogs/TutorialDialog.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
 	../engine/ActionBuffer.cpp \
@@ -414,15 +426,6 @@ scorched3d_SOURCES = \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.cpp \
 	../landscape/Landscape.h \
-	../landscape/LandscapeDefinition.cpp \
-	../landscape/LandscapeDefinition.h \
-	../landscape/LandscapeDefinitionCache.cpp \
-	../landscape/LandscapeDefinitionCache.h \
-	../landscape/LandscapeDefinitions.cpp \
-	../landscape/LandscapeDefinitions.h \
-	../landscape/LandscapeDefinitionsItem.h \
-	../landscape/LandscapeDefn.cpp \
-	../landscape/LandscapeDefn.h \
 	../landscape/LandscapeMaps.cpp \
 	../landscape/LandscapeMaps.h \
 	../landscape/LandscapeObjects.cpp \
@@ -435,20 +438,18 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsEntryTree.h \
 	../landscape/LandscapeObjectsGroupEntry.cpp \
 	../landscape/LandscapeObjectsGroupEntry.h \
-	../landscape/LandscapePlace.cpp \
-	../landscape/LandscapePlace.h \
+	../landscape/LandscapeObjectsSetEntry.cpp \
+	../landscape/LandscapeObjectsSetEntry.h \
 	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapePoints.h \
-	../landscape/LandscapeSound.cpp \
-	../landscape/LandscapeSound.h \
 	../landscape/LandscapeSoundManager.cpp \
 	../landscape/LandscapeSoundManager.h \
-	../landscape/LandscapeTex.cpp \
-	../landscape/LandscapeTex.h \
 	../landscape/MapPoints.cpp \
 	../landscape/MapPoints.h \
 	../landscape/MovementMap.cpp \
 	../landscape/MovementMap.h \
+	../landscape/NapalmMap.cpp \
+	../landscape/NapalmMap.h \
 	../landscape/Patch.cpp \
 	../landscape/Patch.h \
 	../landscape/PatchGrid.cpp \
@@ -547,8 +548,16 @@ scorched3d_SOURCES = \
 	../weapons/WeaponGiveAccessory.h \
 	../weapons/WeaponGiveLife.cpp \
 	../weapons/WeaponGiveLife.h \
+	../weapons/WeaponGiveLives.cpp \
+	../weapons/WeaponGiveLives.h \
+	../weapons/WeaponGiveMoney.cpp \
+	../weapons/WeaponGiveMoney.h \
 	../weapons/WeaponGivePower.cpp \
 	../weapons/WeaponGivePower.h \
+	../weapons/WeaponGiveScore.cpp \
+	../weapons/WeaponGiveScore.h \
+	../weapons/WeaponGiveWin.cpp \
+	../weapons/WeaponGiveWin.h \
 	../weapons/WeaponInvokeWeapon.cpp \
 	../weapons/WeaponInvokeWeapon.h \
 	../weapons/WeaponLaser.cpp \
@@ -593,88 +602,6 @@ scorched3d_SOURCES = \
 	../weapons/WeaponTranslate.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
-	../coms/ComsActionsMessage.cpp \
-	../coms/ComsActionsMessage.h \
-	../coms/ComsAddPlayerMessage.cpp \
-	../coms/ComsAddPlayerMessage.h \
-	../coms/ComsAdminMessage.cpp \
-	../coms/ComsAdminMessage.h \
-	../coms/ComsBuyAccessoryMessage.cpp \
-	../coms/ComsBuyAccessoryMessage.h \
-	../coms/ComsConnectAcceptMessage.cpp \
-	../coms/ComsConnectAcceptMessage.h \
-	../coms/ComsConnectMessage.cpp \
-	../coms/ComsConnectMessage.h \
-	../coms/ComsDefenseMessage.cpp \
-	../coms/ComsDefenseMessage.h \
-	../coms/ComsFileAkMessage.cpp \
-	../coms/ComsFileAkMessage.h \
-	../coms/ComsFileMessage.cpp \
-	../coms/ComsFileMessage.h \
-	../coms/ComsGameStateMessage.cpp \
-	../coms/ComsGameStateMessage.h \
-	../coms/ComsGameStoppedMessage.cpp \
-	../coms/ComsGameStoppedMessage.h \
-	../coms/ComsHaveModFilesMessage.cpp \
-	../coms/ComsHaveModFilesMessage.h \
-	../coms/ComsHeightMapMessage.cpp \
-	../coms/ComsHeightMapMessage.h \
-	../coms/ComsInitializeMessage.cpp \
-	../coms/ComsInitializeMessage.h \
-	../coms/ComsKeepAliveMessage.cpp \
-	../coms/ComsKeepAliveMessage.h \
-	../coms/ComsLastChanceMessage.cpp \
-	../coms/ComsLastChanceMessage.h \
-	../coms/ComsLevelMessage.cpp \
-	../coms/ComsLevelMessage.h \
-	../coms/ComsMessage.cpp \
-	../coms/ComsMessage.h \
-	../coms/ComsMessageHandler.cpp \
-	../coms/ComsMessageHandler.h \
-	../coms/ComsMessageSender.cpp \
-	../coms/ComsMessageSender.h \
-	../coms/ComsNewGameMessage.cpp \
-	../coms/ComsNewGameMessage.h \
-	../coms/ComsPlayedMoveMessage.cpp \
-	../coms/ComsPlayedMoveMessage.h \
-	../coms/ComsPlayerAimMessage.cpp \
-	../coms/ComsPlayerAimMessage.h \
-	../coms/ComsPlayerReadyMessage.cpp \
-	../coms/ComsPlayerReadyMessage.h \
-	../coms/ComsPlayerStateMessage.cpp \
-	../coms/ComsPlayerStateMessage.h \
-	../coms/ComsPlayerStatusMessage.cpp \
-	../coms/ComsPlayerStatusMessage.h \
-	../coms/ComsRmPlayerMessage.cpp \
-	../coms/ComsRmPlayerMessage.h \
-	../coms/ComsScoreMessage.cpp \
-	../coms/ComsScoreMessage.h \
-	../coms/ComsStartGameMessage.cpp \
-	../coms/ComsStartGameMessage.h \
-	../coms/ComsTextMessage.cpp \
-	../coms/ComsTextMessage.h \
-	../coms/ComsTimerStartMessage.cpp \
-	../coms/ComsTimerStartMessage.h \
-	../coms/NetBuffer.cpp \
-	../coms/NetBuffer.h \
-	../coms/NetBufferUtil.cpp \
-	../coms/NetBufferUtil.h \
-	../coms/NetInterface.cpp \
-	../coms/NetInterface.h \
-	../coms/NetLoopBack.cpp \
-	../coms/NetLoopBack.h \
-	../coms/NetMessage.cpp \
-	../coms/NetMessage.h \
-	../coms/NetMessageHandler.cpp \
-	../coms/NetMessageHandler.h \
-	../coms/NetMessagePool.cpp \
-	../coms/NetMessagePool.h \
-	../coms/NetServer.cpp \
-	../coms/NetServer.h \
-	../coms/NetServerProtocol.cpp \
-	../coms/NetServerProtocol.h \
-	../coms/NetServerRead.cpp \
-	../coms/NetServerRead.h \
 	../ode/array.cpp \
 	../ode/array.h \
 	../ode/collision.h \
@@ -764,12 +691,12 @@ scorched3d_SOURCES = \
 	../zlib/zlib.h \
 	../zlib/zutil.c \
 	../zlib/zutil.h \
-	../actions/ActionVector.cpp \
-	../actions/ActionVector.h \
 	../actions/AddTarget.cpp \
 	../actions/AddTarget.h \
 	../actions/Animation.cpp \
 	../actions/Animation.h \
+	../actions/CallbackWeapon.cpp \
+	../actions/CallbackWeapon.h \
 	../actions/CameraPositionAction.cpp \
 	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
@@ -780,20 +707,14 @@ scorched3d_SOURCES = \
 	../actions/Lightning.h \
 	../actions/Napalm.cpp \
 	../actions/Napalm.h \
-	../actions/NapalmMap.cpp \
-	../actions/NapalmMap.h \
-	../actions/PowerUp.cpp \
-	../actions/PowerUp.h \
+	../actions/Resurrection.cpp \
+	../actions/Resurrection.h \
 	../actions/ShieldHit.cpp \
 	../actions/ShieldHit.h \
 	../actions/ShotBounce.cpp \
 	../actions/ShotBounce.h \
-	../actions/ShotDelay.cpp \
-	../actions/ShotDelay.h \
 	../actions/ShotProjectile.cpp \
 	../actions/ShotProjectile.h \
-	../actions/ShowScore.cpp \
-	../actions/ShowScore.h \
 	../actions/SkyFlash.cpp \
 	../actions/SkyFlash.h \
 	../actions/SoundAction.cpp \
@@ -816,8 +737,6 @@ scorched3d_SOURCES = \
 	../actions/TankResign.h \
 	../actions/TankSay.cpp \
 	../actions/TankSay.h \
-	../actions/TankScored.cpp \
-	../actions/TankScored.h \
 	../actions/Teleport.cpp \
 	../actions/Teleport.h \
 	../actions/WallHit.cpp \
@@ -832,8 +751,6 @@ scorched3d_SOURCES = \
 	../sprites/ExplosionRingRenderer.h \
 	../sprites/ExplosionTextures.cpp \
 	../sprites/ExplosionTextures.h \
-	../sprites/FlareActionRenderer.cpp \
-	../sprites/FlareActionRenderer.h \
 	../sprites/MetaActionRenderer.cpp \
 	../sprites/MetaActionRenderer.h \
 	../sprites/MissileActionRenderer.cpp \
@@ -863,6 +780,8 @@ scorched3d_SOURCES = \
 	MainDialog.h \
 	NetDialog.cpp \
 	NetDialog.h \
+	OptionEntrySetter.cpp \
+	OptionEntrySetter.h \
 	ProgressBarDialog.cpp \
 	ProgressBarDialog.h \
 	ServerDialog.cpp \
@@ -940,12 +859,12 @@ scorched3d_SOURCES = \
 	../client/Main2DCamera.h \
 	../client/MainCamera.cpp \
 	../client/MainCamera.h \
-	../client/MessageDisplay.cpp \
-	../client/MessageDisplay.h \
 	../client/ScorchedClient.cpp \
 	../client/ScorchedClient.h \
 	../client/ServerBrowser.cpp \
 	../client/ServerBrowser.h \
+	../client/ServerBrowserCollect.cpp \
+	../client/ServerBrowserCollect.h \
 	../client/ServerBrowserRefresh.cpp \
 	../client/ServerBrowserRefresh.h \
 	../client/ServerBrowserServerList.cpp \
@@ -958,6 +877,8 @@ scorched3d_SOURCES = \
 	../client/SpeedChange.h \
 	../client/TargetCamera.cpp \
 	../client/TargetCamera.h \
+	../client/TutorialFile.cpp \
+	../client/TutorialFile.h \
 	../client/UniqueIdStore.cpp \
 	../client/UniqueIdStore.h \
 	../client/WindowSetup.cpp \
@@ -984,8 +905,6 @@ scorched3d_SOURCES = \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
-	../server/ServerCheckForWinnersState.cpp \
-	../server/ServerCheckForWinnersState.h \
 	../server/ServerCommon.cpp \
 	../server/ServerCommon.h \
 	../server/ServerConnectHandler.cpp \
@@ -1030,8 +949,8 @@ scorched3d_SOURCES = \
 	../server/ServerRegistration.h \
 	../server/ServerResetState.cpp \
 	../server/ServerResetState.h \
-	../server/ServerScoreState.cpp \
-	../server/ServerScoreState.h \
+	../server/ServerShotFinishedState.cpp \
+	../server/ServerShotFinishedState.h \
 	../server/ServerShotHolder.cpp \
 	../server/ServerShotHolder.h \
 	../server/ServerShotState.cpp \
@@ -1087,6 +1006,8 @@ scorched3d_SOURCES = \
 	../tank/TankContainer.h \
 	../tank/TankDeadContainer.cpp \
 	../tank/TankDeadContainer.h \
+	../tank/TankDefinition.cpp \
+	../tank/TankDefinition.h \
 	../tank/TankFuel.cpp \
 	../tank/TankFuel.h \
 	../tank/TankLib.cpp \
@@ -1107,12 +1028,16 @@ scorched3d_SOURCES = \
 	../tank/TankSort.h \
 	../tank/TankState.cpp \
 	../tank/TankState.h \
+	../tank/TankTeamScore.cpp \
+	../tank/TankTeamScore.h \
 	../tank/TankType.cpp \
 	../tank/TankType.h \
 	../tank/TankTypes.cpp \
 	../tank/TankTypes.h \
 	../tank/TankWeapon.cpp \
 	../tank/TankWeapon.h \
+	../sound/PlayingSoundSource.cpp \
+	../sound/PlayingSoundSource.h \
 	../sound/Sound.cpp \
 	../sound/Sound.h \
 	../sound/SoundBuffer.cpp \
@@ -1199,23 +1124,142 @@ scorched3d_SOURCES = \
 	../target/TargetRenderer.h \
 	../target/TargetShield.cpp \
 	../target/TargetShield.h \
+	../placement/PlacementGroupDefinition.cpp \
+	../placement/PlacementGroupDefinition.h \
+	../placement/PlacementModelDefinition.cpp \
+	../placement/PlacementModelDefinition.h \
 	../placement/PlacementObject.cpp \
 	../placement/PlacementObject.h \
 	../placement/PlacementObjectGroup.cpp \
 	../placement/PlacementObjectGroup.h \
 	../placement/PlacementObjectModel.cpp \
 	../placement/PlacementObjectModel.h \
+	../placement/PlacementObjectRandom.cpp \
+	../placement/PlacementObjectRandom.h \
+	../placement/PlacementObjectShadow.cpp \
+	../placement/PlacementObjectShadow.h \
+	../placement/PlacementObjectTank.cpp \
+	../placement/PlacementObjectTank.h \
 	../placement/PlacementObjectTarget.cpp \
 	../placement/PlacementObjectTarget.h \
 	../placement/PlacementObjectTree.cpp \
 	../placement/PlacementObjectTree.h \
+	../placement/PlacementShadowDefinition.cpp \
+	../placement/PlacementShadowDefinition.h \
 	../placement/PlacementType.cpp \
 	../placement/PlacementType.h \
 	../placement/PlacementTypeDirect.cpp \
 	../placement/PlacementTypeDirect.h \
 	../placement/PlacementTypeMask.cpp \
 	../placement/PlacementTypeMask.h \
+	../placement/PlacementTypeTankStart.cpp \
+	../placement/PlacementTypeTankStart.h \
 	../placement/PlacementTypeTree.cpp \
-	../placement/PlacementTypeTree.h
+	../placement/PlacementTypeTree.h \
+	../landscapedef/LandscapeBoids.cpp \
+	../landscapedef/LandscapeBoids.h \
+	../landscapedef/LandscapeDefinition.cpp \
+	../landscapedef/LandscapeDefinition.h \
+	../landscapedef/LandscapeDefinitionCache.cpp \
+	../landscapedef/LandscapeDefinitionCache.h \
+	../landscapedef/LandscapeDefinitions.cpp \
+	../landscapedef/LandscapeDefinitions.h \
+	../landscapedef/LandscapeDefinitionsItem.h \
+	../landscapedef/LandscapeDefn.cpp \
+	../landscapedef/LandscapeDefn.h \
+	../landscapedef/LandscapeEvents.cpp \
+	../landscapedef/LandscapeEvents.h \
+	../landscapedef/LandscapePlace.cpp \
+	../landscapedef/LandscapePlace.h \
+	../landscapedef/LandscapeShips.cpp \
+	../landscapedef/LandscapeShips.h \
+	../landscapedef/LandscapeSound.cpp \
+	../landscapedef/LandscapeSound.h \
+	../landscapedef/LandscapeTex.cpp \
+	../landscapedef/LandscapeTex.h \
+	../landscapedef/LandscapeTexDefn.cpp \
+	../landscapedef/LandscapeTexDefn.h \
+	../coms/ComsActionsMessage.cpp \
+	../coms/ComsActionsMessage.h \
+	../coms/ComsAddPlayerMessage.cpp \
+	../coms/ComsAddPlayerMessage.h \
+	../coms/ComsAdminMessage.cpp \
+	../coms/ComsAdminMessage.h \
+	../coms/ComsBuyAccessoryMessage.cpp \
+	../coms/ComsBuyAccessoryMessage.h \
+	../coms/ComsConnectAcceptMessage.cpp \
+	../coms/ComsConnectAcceptMessage.h \
+	../coms/ComsConnectMessage.cpp \
+	../coms/ComsConnectMessage.h \
+	../coms/ComsDefenseMessage.cpp \
+	../coms/ComsDefenseMessage.h \
+	../coms/ComsFileAkMessage.cpp \
+	../coms/ComsFileAkMessage.h \
+	../coms/ComsFileMessage.cpp \
+	../coms/ComsFileMessage.h \
+	../coms/ComsGameStateMessage.cpp \
+	../coms/ComsGameStateMessage.h \
+	../coms/ComsGameStoppedMessage.cpp \
+	../coms/ComsGameStoppedMessage.h \
+	../coms/ComsHaveModFilesMessage.cpp \
+	../coms/ComsHaveModFilesMessage.h \
+	../coms/ComsHeightMapMessage.cpp \
+	../coms/ComsHeightMapMessage.h \
+	../coms/ComsInitializeMessage.cpp \
+	../coms/ComsInitializeMessage.h \
+	../coms/ComsKeepAliveMessage.cpp \
+	../coms/ComsKeepAliveMessage.h \
+	../coms/ComsLastChanceMessage.cpp \
+	../coms/ComsLastChanceMessage.h \
+	../coms/ComsLevelMessage.cpp \
+	../coms/ComsLevelMessage.h \
+	../coms/ComsMessage.cpp \
+	../coms/ComsMessage.h \
+	../coms/ComsMessageHandler.cpp \
+	../coms/ComsMessageHandler.h \
+	../coms/ComsMessageSender.cpp \
+	../coms/ComsMessageSender.h \
+	../coms/ComsNewGameMessage.cpp \
+	../coms/ComsNewGameMessage.h \
+	../coms/ComsPlayedMoveMessage.cpp \
+	../coms/ComsPlayedMoveMessage.h \
+	../coms/ComsPlayerAimMessage.cpp \
+	../coms/ComsPlayerAimMessage.h \
+	../coms/ComsPlayerReadyMessage.cpp \
+	../coms/ComsPlayerReadyMessage.h \
+	../coms/ComsPlayerStateMessage.cpp \
+	../coms/ComsPlayerStateMessage.h \
+	../coms/ComsPlayerStatusMessage.cpp \
+	../coms/ComsPlayerStatusMessage.h \
+	../coms/ComsRmPlayerMessage.cpp \
+	../coms/ComsRmPlayerMessage.h \
+	../coms/ComsScoreMessage.cpp \
+	../coms/ComsScoreMessage.h \
+	../coms/ComsStartGameMessage.cpp \
+	../coms/ComsStartGameMessage.h \
+	../coms/ComsTextMessage.cpp \
+	../coms/ComsTextMessage.h \
+	../coms/ComsTimerStartMessage.cpp \
+	../coms/ComsTimerStartMessage.h \
+	../coms/NetBuffer.cpp \
+	../coms/NetBuffer.h \
+	../coms/NetBufferUtil.cpp \
+	../coms/NetBufferUtil.h \
+	../coms/NetInterface.cpp \
+	../coms/NetInterface.h \
+	../coms/NetLoopBack.cpp \
+	../coms/NetLoopBack.h \
+	../coms/NetMessage.cpp \
+	../coms/NetMessage.h \
+	../coms/NetMessageHandler.cpp \
+	../coms/NetMessageHandler.h \
+	../coms/NetMessagePool.cpp \
+	../coms/NetMessagePool.h \
+	../coms/NetServer.cpp \
+	../coms/NetServer.h \
+	../coms/NetServerProtocol.cpp \
+	../coms/NetServerProtocol.h \
+	../coms/NetServerRead.cpp \
+	../coms/NetServerRead.h
 
 INCLUDES = -I../porting -I.. 

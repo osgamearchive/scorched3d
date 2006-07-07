@@ -42,6 +42,10 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 extern bool wxWindowInit;
 extern bool wxWindowExit;
 char scorched3dAppName[128];
