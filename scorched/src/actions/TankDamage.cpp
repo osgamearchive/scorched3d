@@ -101,7 +101,7 @@ void TankDamage::calculateDamage()
 			}
 			else
 			{
-				float p = (shieldPowerRequired - shieldPower) / shield->getHitPenetration();
+				float p = shieldPower / shield->getHitPenetration();
 				shieldPower = 0.0f;
 				damage_ -= p;
 			}
