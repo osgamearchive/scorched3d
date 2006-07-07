@@ -24,6 +24,12 @@
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <common/DefinesFile.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 char *s3d_getHomeDir()
 {
@@ -59,6 +65,9 @@ bool s3d_dirExists(const char *file)
 
 time_t s3d_fileModTime(const char *file)
 {
-	time_t result =	::wxFileModificationTime(wxString(file, wxConvUTF8));
-	return result;
+	struct _stat buf;
+	memset(&buf, 0, sizeof(buf));
+	int result = _stat(file, &buf );
+
+	return buf.st_atime;
 }
