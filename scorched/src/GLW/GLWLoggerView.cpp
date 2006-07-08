@@ -77,11 +77,16 @@ void GLWLoggerView::logMessage(LoggerInfo &info)
 	while (currentLen < totalLen)
 	{
 		std::string result;
-		currentLen += splitLine(&info.getMessage()[currentLen], result);
+		int partLen = splitLine(&info.getMessage()[currentLen], result);
+		currentLen += partLen;
 
 		LoggerInfo newInfo = info;
 		newInfo.setMessage(result.c_str());
-		if (firstTime) firstTime = false;
+		if (firstTime)
+		{
+			firstTime = false;
+			newInfo.setInfoLen(MIN((int)newInfo.getInfoLen(), partLen));
+		}
 		else
 		{
 			newInfo.setInfoLen(0);
