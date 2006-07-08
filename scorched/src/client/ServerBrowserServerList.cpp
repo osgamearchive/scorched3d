@@ -62,12 +62,31 @@ struct lt_servers
 	{
 	}
 
+	bool isNumber(const char *value)
+	{
+		for (const char *a=value; *a; a++)
+		{
+			if ((*a < '0' || *a > '9') && *a != '/') return false;
+		}
+		return true;
+	}
+
 	bool operator()(const ServerBrowserEntry &o1, const ServerBrowserEntry &o2)
 	{
 		std::string o1Value = ((ServerBrowserEntry &)o1).getAttribute(name_);
 		std::string o2Value = ((ServerBrowserEntry &)o2).getAttribute(name_);
 
-		return strcmp(o1Value.c_str(), o2Value.c_str()) < 0;
+		const char *v1 = o1Value.c_str();
+		const char *v2 = o2Value.c_str();
+
+		if (isNumber(v1) && isNumber(v2))
+		{
+			int n1 = atoi(v1);
+			int n2 = atoi(v2);
+			return n1 < n2;
+		}
+
+		return strcmp(v1, v2) < 0;
 	}
 
 protected:
