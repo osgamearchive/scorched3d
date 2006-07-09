@@ -91,12 +91,13 @@ void GLWWindowManager::setCurrentEntry(const unsigned state)
 
 	// Find the next state
 	static StateEntry defaultStateEntry;
+	defaultStateEntry.state_ = UINT_MAX;
+
 	std::map<unsigned, StateEntry>::iterator itor =
 		stateEntrys_.find(state);
 	if (itor == stateEntrys_.end())
 	{
 		currentStateEntry_ = &defaultStateEntry;
-		defaultStateEntry.state_ = state;
 	}
 	else
 	{
