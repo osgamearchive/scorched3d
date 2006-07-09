@@ -28,11 +28,11 @@
 
 #define ExplosionNukeRenderer_STEPS 100
 
-class ExplosionNukeRendererEntry
+class ExplosionNukeRendererEntry : public ParticleUserData
 {
 public:
 	ExplosionNukeRendererEntry(Vector &position, float size);
-	~ExplosionNukeRendererEntry();
+	virtual ~ExplosionNukeRendererEntry();
 
 	void simulate(Particle *particle, float time);
 

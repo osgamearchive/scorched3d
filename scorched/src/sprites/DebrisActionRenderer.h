@@ -23,12 +23,13 @@
 
 #include <common/Vector.h>
 #include <3dsparse/ModelRenderer.h>
+#include <engine/Particle.h>
 
-class DebrisActionRenderer
+class DebrisActionRenderer : public ParticleUserData
 {
 public:
 	DebrisActionRenderer();
-	~DebrisActionRenderer();
+	virtual ~DebrisActionRenderer();
 
 	void simulate(float time);
 	void draw(Vector &position);

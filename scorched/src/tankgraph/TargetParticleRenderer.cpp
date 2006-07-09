@@ -34,7 +34,7 @@ void TargetParticleRenderer::simulateParticle(Particle &particle, float time)
 {
 	Target *target =
 		ScorchedClient::instance()->getTargetContainer().getTargetById(
-			*((unsigned*) particle.userData_));
+			((TargetParticleUserData *) particle.userData_)->playerId_);
 	if (target)
 	{
 		// Target and particle alive
@@ -52,7 +52,7 @@ void TargetParticleRenderer::renderParticle(Particle &particle)
 {
 	Target *target =
 		ScorchedClient::instance()->getTargetContainer().getTargetById(
-			*((unsigned*) particle.userData_));
+			((TargetParticleUserData *) particle.userData_)->playerId_);
 	if (target)
 	{
 		TargetRenderer *renderer = target->getRenderer();
@@ -68,7 +68,7 @@ void TargetParticleRenderer::recycleParticle(Particle &particle)
 {
 	Target *target =
 		ScorchedClient::instance()->getTargetContainer().getTargetById(
-			*((unsigned*) particle.userData_));
+			((TargetParticleUserData *) particle.userData_)->playerId_);
 	if (target)
 	{
 		TargetRendererImpl *renderer = (TargetRendererImpl *)

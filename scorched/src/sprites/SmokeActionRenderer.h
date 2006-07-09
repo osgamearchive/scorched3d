@@ -24,11 +24,11 @@
 #include <common/Vector.h>
 #include <landscape/Smoke.h>
 
-class SmokeActionRenderer
+class SmokeActionRenderer : public ParticleUserData
 {
 public:
 	SmokeActionRenderer();
-	~SmokeActionRenderer();
+	virtual ~SmokeActionRenderer();
 
 	void simulate(Vector &position, float timepassed);
 

@@ -303,12 +303,15 @@ void Napalm::simulateAddStep()
 		// Add the ground scorch
 		if (!GLStateExtension::getNoTexSubImage())
 		{
-			Vector pos(x_, y_);
-			DeformTextures::deformLandscape(pos, 
-				(int) (deformSize + 1),
-				ExplosionTextures::instance()->getScorchBitmap(
-					weapon_->getDeformTexture()),
-				deformMap_);
+			if (RAND > 0.8f)
+			{
+				Vector pos(x_, y_);
+				DeformTextures::deformLandscape(pos, 
+					(int) (deformSize + 1),
+					ExplosionTextures::instance()->getScorchBitmap(
+						weapon_->getDeformTexture()),
+					deformMap_);
+			}
 		}
 	}
 

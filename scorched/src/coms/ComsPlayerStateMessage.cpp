@@ -91,7 +91,7 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 			if (!target->readMessage(reader)) return false;
 			updatedTargets.insert(target->getPlayerId());
 		}
-		else return false;
+		//else return false; // TODO FIXME
 	}
 
 	// Remove any targets the client has but the server does not

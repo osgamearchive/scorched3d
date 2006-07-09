@@ -274,7 +274,7 @@ void TargetRendererImpl::createParticle(Target *target)
 			particleMade_ = true;
 			particle->life_ = 1000.0f;
 			particle->renderer_ = TargetParticleRenderer::getInstance();
-			particle->userData_ = new unsigned(target->getPlayerId());
+			particle->userData_ = new TargetParticleUserData(target->getPlayerId());
 		}
 	}
 }

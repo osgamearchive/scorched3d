@@ -24,11 +24,11 @@
 #include <engine/Particle.h>
 
 class GLTextureSet;
-class NapalmRenderer
+class NapalmRenderer : public ParticleUserData
 {
 public:
 	NapalmRenderer(GLTextureSet *set);
-	~NapalmRenderer();
+	virtual ~NapalmRenderer();
 
 	void draw(Particle *particle);
 	void simulate(Particle *particle, float timepassed);

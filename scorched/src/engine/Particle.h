@@ -25,6 +25,12 @@
 #include <engine/ParticleRenderer.h>
 #include <GLEXT/GLTextureSet.h>
 
+class ParticleUserData
+{
+public:
+	virtual ~ParticleUserData() {}
+};
+
 class ParticleEngine;
 class Particle
 {
@@ -64,7 +70,7 @@ public:
 	bool simulated_;
 
 	float distance_; // Dist from camera
-	void *userData_;
+	ParticleUserData *userData_;
 	ParticleRenderer *renderer_; // How to render
 };
 

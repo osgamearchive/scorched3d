@@ -22,6 +22,19 @@
 #define __INCLUDE_TargetParticleRendererh_INCLUDE__
 
 #include <engine/ParticleRenderer.h>
+#include <engine/Particle.h>
+
+class TargetParticleUserData : public ParticleUserData
+{
+public:
+	TargetParticleUserData(unsigned int playerId) :
+		playerId_(playerId)
+	{
+	}
+	virtual ~TargetParticleUserData() {}
+
+	unsigned int playerId_;
+};
 
 class TargetParticleRenderer : public ParticleRenderer
 {
