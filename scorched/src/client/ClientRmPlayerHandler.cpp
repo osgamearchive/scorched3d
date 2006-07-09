@@ -65,3 +65,4 @@ bool ClientRmPlayerHandler::processMessage(unsigned int id,
     delete tank;
 	return true;
 }
+
