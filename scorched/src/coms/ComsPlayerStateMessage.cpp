@@ -23,6 +23,7 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankContainer.h>
+#include <common/Logger.h>
 #include <set>
 
 ComsPlayerStateMessage::ComsPlayerStateMessage() : 
@@ -91,7 +92,14 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 			if (!target->readMessage(reader)) return false;
 			updatedTargets.insert(target->getPlayerId());
 		}
-		//else return false; // TODO FIXME
+		else
+		{
+			std::string name;
+			reader.getFromBuffer(name);
+			Logger::log(formatString("Error: Failed to find target \"%s\"",
+				name.c_str()));
+			return false;
+		}
 	}
 
 	// Remove any targets the client has but the server does not
