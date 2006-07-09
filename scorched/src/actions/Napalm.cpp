@@ -303,7 +303,7 @@ void Napalm::simulateAddStep()
 		// Add the ground scorch
 		if (!GLStateExtension::getNoTexSubImage())
 		{
-			if (RAND > 0.8f)
+			if (RAND > weapon_->getGroundScorchPer())
 			{
 				Vector pos(x_, y_);
 				DeformTextures::deformLandscape(pos, 

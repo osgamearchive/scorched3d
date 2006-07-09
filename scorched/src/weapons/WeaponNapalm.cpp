@@ -28,7 +28,8 @@
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
 WeaponNapalm::WeaponNapalm() : 
-	noSmoke_(false), noObjectDamage_(false)
+	noSmoke_(false), noObjectDamage_(false),
+	groundScorchPer_(0.8f)
 {
 
 }
@@ -64,6 +65,7 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 
 	// Optional Attributes
 	XMLNode *noSmokeNode = 0, *noObjectDamageNode = 0;
+	accessoryNode->getNamedChild("groundscorchper", groundScorchPer_, false);
 	accessoryNode->getNamedChild("nosmoke", noSmokeNode, false);
 	accessoryNode->getNamedChild("noobjectdamage", noObjectDamageNode, false);
 	if (noSmokeNode) noSmoke_ = true;

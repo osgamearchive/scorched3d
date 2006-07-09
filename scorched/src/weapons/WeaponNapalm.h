@@ -38,6 +38,7 @@ public:
 	const float getStepTime() { return stepTime_; }
 	const float getHurtStepTime() { return hurtStepTime_; }
 	const float getHurtPerSecond() { return hurtPerSecond_; }
+	const float getGroundScorchPer() { return groundScorchPer_; }
 	const int getEffectRadius() { return effectRadius_; }
 	const int getNumberStreams() { return numberStreams_; }
 	const char *getNapalmSound() { return napalmSound_.c_str(); }
@@ -60,6 +61,7 @@ protected:
 	float stepTime_;     // Add/rm napalm every StepTime secs
 	float hurtStepTime_; // Calculate damage every HurtStepTime secs
 	float hurtPerSecond_;// Damage per second
+	float groundScorchPer_; // The percentage chance the ground will be scorched
 	int numberStreams_;  // The number of napalm paths
 	int effectRadius_;   // How close do tanks take damage
 	bool noSmoke_;       // Turns off smoke emitted by napalm
