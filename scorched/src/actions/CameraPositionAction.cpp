@@ -153,3 +153,4 @@ CameraPositionAction *CameraPositionActionRegistry::getCurrentBest()
 	}
 	return currentBest;
 }
+
