@@ -92,3 +92,4 @@ bool ComsPlayedMoveMessage::readMessage(NetBufferReader &reader)
 	}
 	return true;
 }
+
