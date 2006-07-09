@@ -971,6 +971,125 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Fallout Sparkle</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponVelocity'>
+			<velocitychange>0</velocitychange>
+			<aimedweapon type='WeaponProjectile'>
+				<nocreatesmoke/>
+				<nocreateflame/>
+				<timedcollision>0.75</timedcollision>
+				<enginesound>none</enginesound>
+				<flaretype>2</flaretype>
+				<projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+				<collisionaction type='WeaponExplosion'>
+					<nocreatedebris/>
+					<nocreatesplash/>
+					<nowindaffected/>
+					<hurtamount>0</hurtamount>
+					<minlife>0.5</minlife>
+					<maxlife>1</maxlife>
+					<deform>none</deform>
+					<size>1</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>gas00=5</explosiontexture>
+				</collisionaction>
+			</aimedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fallout Sparkles</name>
+		<armslevel>2</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponNull'></weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponTranslate'>
+								<translatedist>5</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>Fallout Sparkle</weapon>
+								</nextaction>
+							</weapon>
+						</weaponchoice1>
+					</aimedweapon>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponTranslate'>
+								<translatedist>10</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>Fallout Sparkle</weapon>
+								</nextaction>
+							</weapon>
+						</weaponchoice1>
+					</aimedweapon>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponTranslate'>
+								<translatedist>15</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>Fallout Sparkle</weapon>
+								</nextaction>
+							</weapon>
+						</weaponchoice1>
+					</aimedweapon>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponAimedOver'>
+					<nowarheads>1</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponTranslate'>
+								<translatedist>20</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>Fallout Sparkle</weapon>
+								</nextaction>
+							</weapon>
+						</weaponchoice1>
+					</aimedweapon>
+				</weapon>
+			</weaponchoice5>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Nuclear Fallout</name>
 		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -984,38 +1103,73 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 			<nocreateflame/>
 			<collisionaction type='WeaponMulti'>
 				<!-- Secondary Visible Explosions -->
-				<subweapon1 type='WeaponExplosion'>
-					<nocreatedebris/>
-					<nocreatesplash/>
-					<noluminance/>
-					<nowindaffected/>
-					<minlife>7</minlife>
-					<maxlife>8</maxlife>
-					<animate/>
-					<hurtamount>0</hurtamount>
-					<deform>none</deform>
-					<size>10</size>
-					<explosiontexture>gas00</explosiontexture>
-					<explosionsound>none</explosionsound>
+				<subweapon1 type='WeaponMulti'>
+					<subweapon1 type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<noluminance/>
+						<nowindaffected/>
+						<minlife>7</minlife>
+						<maxlife>8</maxlife>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>10</size>
+						<explosiontexture>gas00-5</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</subweapon1>
+					<subweapon2 type='WeaponExplosion'>
+						<nocreatedebris/>
+						<nocreatesplash/>
+						<noluminance/>
+						<nowindaffected/>
+						<minlife>7</minlife>
+						<maxlife>8</maxlife>
+						<hurtamount>0</hurtamount>
+						<deform>none</deform>
+						<size>5</size>
+						<explosiontexture>gas00-5</explosiontexture>
+						<explosionsound>none</explosionsound>
+					</subweapon2>
+					<subweapon3 type='WeaponRepeat'>
+						<repeat>48</repeat>
+						<delay>0.25</delay>
+						<repeatweapon type='WeaponReference'>
+							<weapon>Fallout Sparkles</weapon>
+						</repeatweapon>
+					</subweapon3>
 				</subweapon1>
 				<subweapon2 type='WeaponDelay'>
 					<delay>4.0</delay>
 					<delayedweapon type='WeaponRepeat'>
 						<repeat>2</repeat>
 						<delay>4.0</delay>
-						<repeatweapon type='WeaponExplosion'>
-							<nocreatedebris/>
-							<nocreatesplash/>
-							<noluminance/>
-							<nowindaffected/>
-							<minlife>6</minlife>
-							<maxlife>8</maxlife>
-							<animate/>
-							<hurtamount>0</hurtamount>
-							<deform>none</deform>
-							<size>12</size>
-							<explosiontexture>gas00</explosiontexture>
-							<explosionsound>none</explosionsound>
+						<repeatweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<noluminance/>
+								<nowindaffected/>
+								<minlife>6</minlife>
+								<maxlife>8</maxlife>
+								<hurtamount>0</hurtamount>
+								<deform>none</deform>
+								<size>12</size>
+								<explosiontexture>gas00-5</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon1>
+							<subweapon2 type='WeaponExplosion'>
+								<nocreatedebris/>
+								<nocreatesplash/>
+								<noluminance/>
+								<nowindaffected/>
+								<minlife>6</minlife>
+								<maxlife>8</maxlife>
+								<hurtamount>0</hurtamount>
+								<deform>none</deform>
+								<size>6</size>
+								<explosiontexture>gas00-5</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</subweapon2>
 						</repeatweapon>
 					</delayedweapon>
 				</subweapon2>
@@ -1051,19 +1205,40 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 								<subweapon1 type='WeaponRepeat'>
 									<repeat>2</repeat>
 									<delay>4.0</delay>
-									<repeatweapon type='WeaponExplosion'>
-										<nocreatedebris/>
-										<nocreatesplash/>
-										<noluminance/>
-										<nowindaffected/>
-										<minlife>6</minlife>
-										<maxlife>8</maxlife>
-										<animate/>
-										<hurtamount>0</hurtamount>
-										<deform>none</deform>
-										<size>10</size>
-										<explosiontexture>gas00</explosiontexture>
-										<explosionsound>none</explosionsound>
+									<repeatweapon type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<noluminance/>
+											<nowindaffected/>
+											<minlife>6</minlife>
+											<maxlife>8</maxlife>
+											<hurtamount>0</hurtamount>
+											<deform>none</deform>
+											<size>10</size>
+											<explosiontexture>gas00-5</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon1>
+										<subweapon2 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<noluminance/>
+											<nowindaffected/>
+											<minlife>6</minlife>
+											<maxlife>8</maxlife>
+											<hurtamount>0</hurtamount>
+											<deform>none</deform>
+											<size>5</size>
+											<explosiontexture>gas00-5</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon2>
+										<subweapon3 type='WeaponRepeat'>
+											<repeat>32</repeat>
+											<delay>0.25</delay>
+											<repeatweapon type='WeaponReference'>
+												<weapon>Fallout Sparkles</weapon>
+											</repeatweapon>
+										</subweapon3>
 									</repeatweapon>
 								</subweapon1>
 								<subweapon2 type='WeaponRedirect'>
@@ -1073,37 +1248,61 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 									<vredirect>0</vredirect>
 									<nextaction type='WeaponTranslate'>
 										<translatedist>1</translatedist>
-										<nextaction type='WeaponProjectile'>
-											<projectilescale>0.01</projectilescale>
-											<projectilemodel type='ase'>
-												<mesh>roller.ase</mesh>
-												<skin>green.bmp</skin>
-											</projectilemodel>
-											<nocreatesmoke/>
-											<nocreateflame/>
-											<collisionaction type='WeaponMulti'>
-												<subweapon1 type='WeaponExplosion'>
-													<nocreatedebris/>
-													<nocreatesplash/>
-													<noluminance/>
-													<nowindaffected/>
-													<minlife>6</minlife>
-													<maxlife>8</maxlife>
-													<animate/>
-													<hurtamount>0</hurtamount>
-													<deform>none</deform>
-													<size>10</size>
-													<explosiontexture>gas00</explosiontexture>
-													<explosionsound>none</explosionsound>
-												</subweapon1>
-												<!-- Tertiary Damage Explosions -->
-												<subweapon2 type='WeaponReference'>
-													<weapon>Fallout Damage1</weapon>
-												</subweapon2>
-												<subweapon3 type='WeaponReference'>
-													<weapon>Fallout Damage2</weapon>
-												</subweapon3>
-											</collisionaction>
+										<nextaction type='WeaponVelocity'>
+											<velocitychange>0.8</velocitychange>
+											<aimedweapon type='WeaponProjectile'>
+												<projectilescale>0.01</projectilescale>
+												<projectilemodel type='ase'>
+													<mesh>roller.ase</mesh>
+													<skin>green.bmp</skin>
+												</projectilemodel>
+												<nocreatesmoke/>
+												<nocreateflame/>
+												<collisionaction type='WeaponMulti'>
+													<subweapon1 type='WeaponMulti'>
+														<subweapon1 type='WeaponExplosion'>
+															<nocreatedebris/>
+															<nocreatesplash/>
+															<noluminance/>
+															<nowindaffected/>
+															<minlife>6</minlife>
+															<maxlife>8</maxlife>
+															<hurtamount>0</hurtamount>
+															<deform>none</deform>
+															<size>10</size>
+															<explosiontexture>gas00-5</explosiontexture>
+															<explosionsound>none</explosionsound>
+														</subweapon1>
+														<subweapon2 type='WeaponExplosion'>
+															<nocreatedebris/>
+															<nocreatesplash/>
+															<noluminance/>
+															<nowindaffected/>
+															<minlife>6</minlife>
+															<maxlife>8</maxlife>
+															<hurtamount>0</hurtamount>
+															<deform>none</deform>
+															<size>5</size>
+															<explosiontexture>gas00-5</explosiontexture>
+															<explosionsound>none</explosionsound>
+														</subweapon2>
+														<subweapon3 type='WeaponRepeat'>
+															<repeat>16</repeat>
+															<delay>0.25</delay>
+															<repeatweapon type='WeaponReference'>
+																<weapon>Fallout Sparkles</weapon>
+															</repeatweapon>
+														</subweapon3>
+													</subweapon1>
+													<!-- Tertiary Damage Explosions -->
+													<subweapon2 type='WeaponReference'>
+														<weapon>Fallout Damage1</weapon>
+													</subweapon2>
+													<subweapon3 type='WeaponReference'>
+														<weapon>Fallout Damage2</weapon>
+													</subweapon3>
+												</collisionaction>
+											</aimedweapon>
 										</nextaction>
 									</nextaction>
 								</subweapon2>
@@ -1148,38 +1347,73 @@ radioactive fallout which travels downwind.</description>
 					<delayedweapon type='WeaponMulti'>
 						<!-- Primary Visible Explosions -->
 						<subweapon1 type='WeaponMulti'>
-							<subweapon1 type='WeaponExplosion'>
-								<nocreatedebris/>
-								<nocreatesplash/>
-								<noluminance/>
-								<nowindaffected/>
-								<minlife>8</minlife>
-								<maxlife>10</maxlife>
-								<animate/>
-								<hurtamount>0</hurtamount>
-								<deform>none</deform>
-								<size>8</size>
-								<explosiontexture>gas00</explosiontexture>
-								<explosionsound>none</explosionsound>
+							<subweapon1 type='WeaponMulti'>
+								<subweapon1 type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>8</minlife>
+									<maxlife>10</maxlife>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>8</size>
+									<explosiontexture>gas00-5</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</subweapon1>
+								<subweapon2 type='WeaponExplosion'>
+									<nocreatedebris/>
+									<nocreatesplash/>
+									<noluminance/>
+									<nowindaffected/>
+									<minlife>8</minlife>
+									<maxlife>10</maxlife>
+									<hurtamount>0</hurtamount>
+									<deform>none</deform>
+									<size>4</size>
+									<explosiontexture>gas00-5</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</subweapon2>
+								<subweapon3 type='WeaponRepeat'>
+									<repeat>64</repeat>
+									<delay>0.25</delay>
+									<repeatweapon type='WeaponReference'>
+										<weapon>Fallout Sparkles</weapon>
+									</repeatweapon>
+								</subweapon3>
 							</subweapon1>
 							<subweapon2 type='WeaponDelay'>
 								<delay>4.0</delay>
 								<delayedweapon type='WeaponRepeat'>
 									<repeat>3</repeat>
 									<delay>4.0</delay>
-									<repeatweapon type='WeaponExplosion'>
-										<nocreatedebris/>
-										<nocreatesplash/>
-										<noluminance/>
-										<nowindaffected/>
-										<minlife>6</minlife>
-										<maxlife>8</maxlife>
-										<animate/>
-										<hurtamount>0</hurtamount>
-										<deform>none</deform>
-										<size>10</size>
-										<explosiontexture>gas00</explosiontexture>
-										<explosionsound>none</explosionsound>
+									<repeatweapon type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<noluminance/>
+											<nowindaffected/>
+											<minlife>6</minlife>
+											<maxlife>8</maxlife>
+											<hurtamount>0</hurtamount>
+											<deform>none</deform>
+											<size>10</size>
+											<explosiontexture>gas00-5</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon1>
+										<subweapon2 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<nocreatesplash/>
+											<noluminance/>
+											<nowindaffected/>
+											<minlife>6</minlife>
+											<maxlife>8</maxlife>
+											<hurtamount>0</hurtamount>
+											<deform>none</deform>
+											<size>5</size>
+											<explosiontexture>gas00-5</explosiontexture>
+											<explosionsound>none</explosionsound>
+										</subweapon2>
 									</repeatweapon>
 								</delayedweapon>
 							</subweapon2>
@@ -1243,6 +1477,7 @@ radioactive fallout which travels downwind.</description>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon6>
+				<!-- Powerups -->
 				<subweapon7 type='WeaponAimedOver'>
 					<nowarheads>2</nowarheads>
 					<percentagemiss>0</percentagemiss>
