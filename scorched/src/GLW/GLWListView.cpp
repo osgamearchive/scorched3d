@@ -222,6 +222,11 @@ void GLWListView::clear()
 	resetPosition();
 }
 
+void GLWListView::endPosition()
+{
+	scroll_.setCurrent(scroll_.getMin());
+}
+
 void GLWListView::resetPosition()
 {
 	GLWListView::WordEntry::wordRefCount_++;

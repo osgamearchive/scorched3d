@@ -417,10 +417,6 @@ void PlayerDialog::buttonDown(unsigned int id)
 	}
 	else if (id == cancelId_)
 	{
-		if (ScorchedClient::instance()->getGameState().getState() !=
-			ClientState::StateGetPlayers)
-		{
-			GLWWindowManager::instance()->hideWindow(getId());
-		}
+		GLWWindowManager::instance()->hideWindow(getId());
 	}
 }

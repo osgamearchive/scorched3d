@@ -59,6 +59,7 @@ LogDialog::~LogDialog()
 void LogDialog::logMessage(LoggerInfo &info)
 {
 	listView_->addLine(info.getMessage());
+	listView_->endPosition();
 }
 
 void LogDialog::draw()

@@ -54,6 +54,7 @@ public:
 	void addLine(const char *text);
 	void clear();
 	void resetPosition();
+	void endPosition();
 
 	virtual void draw();
 	virtual void simulate(float frameTime);

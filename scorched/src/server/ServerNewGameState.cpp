@@ -244,6 +244,10 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 			}
 			else if (state == ServerState::ServerStateNewGame)
 			{
+				if (tank->getState().getState() == TankState::sPending)
+				{
+					tank->newMatch();
+				}
 				// This tank is now playing
 				tank->newGame();
 			}

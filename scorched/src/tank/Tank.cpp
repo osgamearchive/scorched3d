@@ -53,8 +53,6 @@ Tank::Tank(ScorchedContext &context,
 	accessories_.setTank(this);
 	modelContainer_.setTank(this);
 	state_.setState(TankState::sPending);
-
-	if (context.serverMode) accessories_.newMatch();
 }
 
 Tank::~Tank()
