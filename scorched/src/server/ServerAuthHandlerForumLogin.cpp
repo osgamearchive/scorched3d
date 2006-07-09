@@ -267,3 +267,4 @@ bool ServerAuthHandlerForumLogin::connect()
 }
 
 #endif // #ifdef HAVE_MYSQL
+
