@@ -2407,7 +2407,7 @@ radioactive fallout which travels downwind.</description>
 				<hurtamount>0.0</hurtamount>
 				<deform>down</deform>
 				<size>5.0</size>
-				<explosiontexture>exp06</explosiontexture>
+				<explosiontexture>exp02</explosiontexture>
 				<explosionsound>explosions/exp.wav</explosionsound>
 			</subweapon1>
 			<subweapon2 type='WeaponAimedOver'>
@@ -3453,7 +3453,7 @@ Guns are always shot at 1000 power.</description>
 		<armslevel>7</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<description>A powerful rifle with armor piercing rounds.
-Does added damage in shield collisions.
+Bullet does double damage in shield collisions.
 Guns are always shot at 1000 power.</description>
 		<icon>bmissile.bmp</icon>
 		<bundlesize>1</bundlesize>
@@ -3466,7 +3466,7 @@ Guns are always shot at 1000 power.</description>
 				<nocreateflame/>
 				<nocreatesmoke/>
 				<enginesound>none</enginesound>
-				<shieldhurtfactor>1.5</shieldhurtfactor>
+				<shieldhurtfactor>2.0</shieldhurtfactor>
 				<projectilemodel type='MilkShape'>weapons/bullet.txt</projectilemodel>
 				<collisionaction type='WeaponExplosion'>
 					<nocreatedebris/>
