@@ -357,8 +357,8 @@
 				<model type='MilkShape'>data/accessories/buildings/office5.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/office2burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Hospital</removeaction>
-				<burnaction>Large Bldg</burnaction>
+				<removeaction>Large Bldg</removeaction>
+				<burnaction>LargeBldgBurn</burnaction>
 				<border>2</border>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
@@ -563,6 +563,22 @@
 				<groupname>churches</groupname>
 			</object>
 		</placement>
+		<placement type='trees'>
+			<numobjects>30000</numobjects>
+			<numclusters>2</numclusters>
+			<mask>data/landscapes/masks/city2rural.bmp</mask>
+			<minheight>8</minheight>
+			<maxheight>50</maxheight>
+			<object type='model'>
+				<model type='MilkShape'>data/accessories/buildings/trailorhouse1.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/buildings/trailorhouse1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<removeaction>Small Bldg</removeaction>
+				<burnaction>SmallBldgBurn</burnaction>
+				<border>2</border>
+				<groupname>houses</groupname>
+			</object>
+		</placement>
 		<placement type='mask'>
 			<numobjects>12</numobjects>
 			<mask>data/landscapes/masks/city2rural.bmp</mask>
@@ -586,21 +602,6 @@
 					<invert>false</invert>
 				</groundmap>
 				<groupname>farms</groupname>
-			</object>
-		</placement>
-		<placement type='trees'>
-			<numobjects>15000</numobjects>
-			<numclusters>1</numclusters>
-			<minheight>8</minheight>
-			<maxheight>30</maxheight>
-			<object type='model'>
-				<model type='MilkShape'>data/accessories/buildings/trailorhouse1.txt</model>
-				<modelburnt type='MilkShape'>data/accessories/buildings/trailorhouse1burnt.txt</modelburnt>
-				<modelrotationsnap>90</modelrotationsnap>
-				<removeaction>Small Bldg</removeaction>
-				<burnaction>SmallBldgBurn</burnaction>
-				<border>2</border>
-				<groupname>houses</groupname>
 			</object>
 		</placement>
 		<placement type='mask'>
