@@ -23,6 +23,7 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankContainer.h>
+#include <tankai/TankAIAdder.h>
 #include <common/Logger.h>
 #include <set>
 
@@ -94,11 +95,25 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 		}
 		else
 		{
-			std::string name;
-			reader.getFromBuffer(name);
-			Logger::log(formatString("Error: Failed to find target \"%s\"",
-				name.c_str()));
-			return false;
+			if (playerId > TankAIAdder::MAX_TANK_ID)
+			{
+				target = new Target(
+					playerId, "", 
+					ScorchedClient::instance()->getContext());
+				ScorchedClient::instance()->getTargetContainer().
+					addTarget(target);
+
+				if (!target->readMessage(reader)) return false;
+				updatedTargets.insert(target->getPlayerId());
+			}
+			else
+			{
+				std::string name;
+				reader.getFromBuffer(name);
+				Logger::log(formatString("Error: Failed to find target \"%s\"",
+					name.c_str()));
+				return false;
+			}
 		}
 	}
 
