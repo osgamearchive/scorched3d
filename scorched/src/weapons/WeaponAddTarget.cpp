@@ -49,6 +49,7 @@ void WeaponAddTarget::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	Action *action = new AddTarget(TankAIAdder::getNextTankId(context), position, this);
+	Action *action = new AddTarget(TankAIAdder::getNextTargetId(context), 
+		position, this);
 	context.actionController->addAction(action);
 }

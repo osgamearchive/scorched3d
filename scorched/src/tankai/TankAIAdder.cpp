@@ -50,6 +50,20 @@ unsigned int TankAIAdder::getNextTankId(ScorchedContext &context)
 	return tankId_;
 }
 
+static unsigned int targetId_ = TankAIAdder::MIN_TARGET_ID;
+
+unsigned int TankAIAdder::getNextTargetId(ScorchedContext &context)
+{
+	if (++targetId_ >= MAX_TARGET_ID) targetId_ = MIN_TARGET_ID;
+
+	while (context.targetContainer->getTargetById(targetId_))
+	{
+		++targetId_;
+	}
+
+	return targetId_;
+}
+
 void TankAIAdder::addTankAIs(ScorchedServer &context)
 {
 	// On the server

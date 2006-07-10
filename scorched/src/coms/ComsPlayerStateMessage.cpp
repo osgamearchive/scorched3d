@@ -110,8 +110,8 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 			{
 				std::string name;
 				reader.getFromBuffer(name);
-				Logger::log(formatString("Error: Failed to find target \"%s\"",
-					name.c_str()));
+				Logger::log(formatString("Error: Failed to find target %u\"%s\"",
+					playerId, name.c_str()));
 				return false;
 			}
 		}
