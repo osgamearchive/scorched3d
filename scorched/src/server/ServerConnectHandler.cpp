@@ -37,6 +37,7 @@
 #include <common/OptionsGame.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
+#include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsConnectMessage.h>
@@ -321,6 +322,11 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			message.getHostDesc(),
 			true);
 	}
+
+	// Send the state of all the currently connect clients
+	/*ComsPlayerStateMessage comsPlayerStateMessage(true);
+	if (!ComsMessageSender::sendToSingleClient(
+		comsPlayerStateMessage, destinationId)) return false;*/
 
 	return true;
 }

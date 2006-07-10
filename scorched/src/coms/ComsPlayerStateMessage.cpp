@@ -27,8 +27,9 @@
 #include <common/Logger.h>
 #include <set>
 
-ComsPlayerStateMessage::ComsPlayerStateMessage() : 
-	ComsMessage("ComsPlayerStateMessage")
+ComsPlayerStateMessage::ComsPlayerStateMessage(bool playersOnly) : 
+	ComsMessage("ComsPlayerStateMessage"),
+	playersOnly_(playersOnly)
 {
 
 }
@@ -40,17 +41,35 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 
 bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
+	buffer.addToBuffer(playersOnly_);
 	if (!ScorchedServer::instance()->getContext().tankTeamScore->
 		writeMessage(buffer)) return false;
 
-	std::map<unsigned int, Target *> &targets = 
-		ScorchedServer::instance()->getTargetContainer().getTargets();
-	std::map<unsigned int, Target *>::iterator itor;
+	std::map<unsigned int, Target *> targets;
+	if (playersOnly_)
+	{
+		std::map<unsigned int, Tank *> &tanks =
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			targets[(*itor).first] = (*itor).second;
+		}
+	}
+	else
+	{
+		targets = 
+			ScorchedServer::instance()->getTargetContainer().getTargets();
+	}
 
 	// Add count
 	buffer.addToBuffer((int) targets.size());
 
 	// For each tank
+	std::map<unsigned int, Target *>::iterator itor;
 	for (itor = targets.begin();
 		itor != targets.end();
 		itor++)
@@ -74,6 +93,7 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 
 bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 {
+	if (!reader.getFromBuffer(playersOnly_)) return false;
 	if (!ScorchedClient::instance()->getContext().tankTeamScore->
 		readMessage(reader)) return false;
 
@@ -118,19 +138,22 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 	}
 
 	// Remove any targets the client has but the server does not
-	std::map<unsigned int, Target *> targets = // Note copy
-		ScorchedClient::instance()->getTargetContainer().getTargets();
-	std::map<unsigned int, Target *>::iterator itor;
-	for (itor = targets.begin();
-		itor != targets.end();
-		itor++)
+	if (!playersOnly_)
 	{
-		unsigned int playerId = (*itor).first;
-		if (updatedTargets.find(playerId) == updatedTargets.end())
+		std::map<unsigned int, Target *> targets = // Note copy
+			ScorchedClient::instance()->getTargetContainer().getTargets();
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = targets.begin();
+			itor != targets.end();
+			itor++)
 		{
-			Target *removedTarget = 
-				ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
-			delete removedTarget;
+			unsigned int playerId = (*itor).first;
+			if (updatedTargets.find(playerId) == updatedTargets.end())
+			{
+				Target *removedTarget = 
+					ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
+				delete removedTarget;
+			}
 		}
 	}
 	

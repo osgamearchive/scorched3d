@@ -32,11 +32,13 @@ public:
 		unsigned int playerId = 0,
 		bool showAsMessage = false,
 		bool teamOnlyMessage = false,
-		unsigned int infoLen = 0);
+		unsigned int infoLen = 0,
+		unsigned int toPlayerId = 0);
 	virtual ~ComsTextMessage();
 
 	const char *getText() { return text_.c_str(); }
 	unsigned int getPlayerId() { return playerId_; }
+	unsigned int getToPlayerId() { return toPlayerId_; }
 	unsigned int getInfoLen() { return infoLen_; }
 	bool getShowAsMessage() { return showAsMessage_; }
 	bool getTeamOnlyMessage() { return teamOnlyMessage_; }
@@ -48,6 +50,7 @@ public:
 protected:
 	std::string text_;
 	unsigned int playerId_;
+	unsigned int toPlayerId_;
 	unsigned int infoLen_;
 	bool showAsMessage_;
 	bool teamOnlyMessage_;

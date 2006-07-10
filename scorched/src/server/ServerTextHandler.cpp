@@ -89,7 +89,11 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			newText += tank->getState().getSmallStateString();
 			newText += ")";
 		}
-		if (message.getTeamOnlyMessage())
+		if (message.getToPlayerId() != 0)
+		{
+			newText += " (Whisper)";
+		}
+		else if (message.getTeamOnlyMessage())
 		{
 			newText += " (Team)";
 		}
@@ -107,19 +111,51 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			if (*r == '%') *r = ' ';
 		}
 
+		const char *sayType = "Says";
+		if (message.getToPlayerId() != 0) sayType = "Whispers";
+		else if (message.getTeamOnlyMessage()) sayType = "TeamSays";
+
 		// Update the server console with the say text
-		ServerCommon::serverLog(formatString("Says \"%s\"", newText.c_str()));
+		ServerCommon::serverLog(formatString("%s \"%s\"", 
+			sayType, newText.c_str()));
 
 		ComsTextMessage newMessage(newText.c_str(), 
 			tank->getPlayerId(), false, message.getTeamOnlyMessage(), infoLen);
 
 		// Store message
-		addMessage(newMessage.getText());
+		addMessage(formatString("%s \"%s\"", 
+			sayType, newMessage.getText()));
 
 		// Send to players
 		if (!tank->getState().getMuted())
 		{
-			if (message.getTeamOnlyMessage())
+			if (message.getToPlayerId() != 0)
+			{
+				// Send all whisper messages to the recipient (or any admins)
+				// Only send to the same destination once
+				std::set<unsigned int> doneDests;
+				std::map<unsigned int, Tank *> &tanks =
+					ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+				std::map<unsigned int, Tank *>::iterator itor;
+				for (itor = tanks.begin();
+					itor != tanks.end();
+					itor++)
+				{
+					Tank *currentTank = (*itor).second;
+					if (currentTank->getPlayerId() == message.getToPlayerId() ||
+						currentTank->getState().getAdmin())
+					{
+						if (doneDests.find(currentTank->getDestinationId()) ==
+							doneDests.end())
+						{
+							doneDests.insert(currentTank->getDestinationId());
+							ComsMessageSender::sendToSingleClient(newMessage,
+								currentTank->getDestinationId());
+						}
+					}
+				}
+			}
+			else if (message.getTeamOnlyMessage())
 			{
 				// Send all team messages to everyone in the team (or any admins)
 				// Only send to the same destination once

@@ -72,12 +72,12 @@ Clock serverTimer;
 
 void checkSettings()
 {
-	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 
+	/*if (ScorchedServer::instance()->getOptionsGame().getTeams() > 
 		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
 	{
 		dialogExit("ScorchedServer",
 			"Cannot start a game with more teams than minimum players");
-	}
+	}*/
 	
 	if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() == 
 		OptionsGame::TeamBallanceBotsVs &&
