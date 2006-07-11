@@ -228,7 +228,7 @@ void TankDamage::calculateDamage()
 						context_->tankContainer->getTankById(hurtByPlayer);
 
 					// Only score when the tank does not hurt itself
-					if (hurtByTank != damagedTank)
+					if (hurtByTank && hurtByTank != damagedTank)
 					{
 						hurtByTank->getScore().setAssists(
 							hurtByTank->getScore().getAssists() + 1);
