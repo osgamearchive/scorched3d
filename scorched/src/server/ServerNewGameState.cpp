@@ -237,6 +237,15 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 			state == ServerState::ServerStateNewGame))
 		{
 			count++;
+
+			// This is the very first time this tank
+			// has played the game, load it with the starting
+			// weapons etc...
+			if (tank->getState().getState() == TankState::sPending)
+			{
+				tank->newMatch();
+			}
+
 			if (tank->getState().getSpectator())
 			{
 				// This tank is now playing (but dead)
@@ -244,10 +253,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 			}
 			else if (state == ServerState::ServerStateNewGame)
 			{
-				if (tank->getState().getState() == TankState::sPending)
-				{
-					tank->newMatch();
-				}
 				// This tank is now playing
 				tank->newGame();
 			}

@@ -489,7 +489,7 @@ void TankWeaponTip::populate()
 			tank_->getAccessories().getWeapons().getCurrent()),
 			tank_->getAccessories().getWeapons().getCurrent()->getDescription()));
 	}
-	else
+	else if (tank_->getAccessories().getWeapons().getCurrent())
 	{
 		setText("Weapon", formatString(
 			"The currently selected weapon.\n"
@@ -555,12 +555,15 @@ TankPowerTip::~TankPowerTip()
 
 void TankPowerTip::populate()
 {
-	setText("Power", formatString(
-		"The power used to fire the %s.\n"
-		"Click to revert back to previous settings.\n"
-		"Power : %s",
-		tank_->getAccessories().getWeapons().getCurrent()->getName(),
-		tank_->getPosition().getPowerString()));
+	if (tank_->getAccessories().getWeapons().getCurrent())
+	{
+		setText("Power", formatString(
+			"The power used to fire the %s.\n"
+			"Click to revert back to previous settings.\n"
+			"Power : %s",
+			tank_->getAccessories().getWeapons().getCurrent()->getName(),
+			tank_->getPosition().getPowerString()));
+	}
 }
 
 TankRotationTip::TankRotationTip(Tank *tank) : 
