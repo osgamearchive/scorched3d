@@ -103,7 +103,7 @@ void SettingsFrame::createMainPanel(bool server)
 	mainPanel_ = new wxPanel(book_, -1);
 	book_->AddPage(mainPanel_, wxT("Main"));
 	wxSizer *mainPanelSizer = new wxBoxSizer(wxVERTICAL);
-	wxSizer *sizer = new wxGridSizer(2, 2);
+	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	mainPanelSizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
 	setters_.push_back(
@@ -158,7 +158,7 @@ void SettingsFrame::createEcoPanel()
 {
 	ecoPanel_ = new wxPanel(book_, -1);
 	wxSizer *ecoPanelSizer = new wxBoxSizer(wxVERTICAL);
-	wxSizer *sizer = new wxGridSizer(2, 2);
+	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	ecoPanelSizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
 	setters_.push_back(
@@ -205,7 +205,7 @@ void SettingsFrame::createEnvPanel()
 {
 	envPanel_ = new wxPanel(book_, -1);
 	wxSizer *envPanelSizer = new wxBoxSizer(wxVERTICAL);
-	wxSizer *sizer = new wxGridSizer(2, 2);
+	wxSizer *sizer = new wxFlexGridSizer(2, 2);
 	envPanelSizer->Add(sizer, 0, wxALL | wxALIGN_CENTER, 10);
 
 	setters_.push_back(

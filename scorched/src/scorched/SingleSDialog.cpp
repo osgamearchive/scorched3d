@@ -82,7 +82,7 @@ SingleSFrame::SingleSFrame(OptionsGame &options) :
 		wxStaticBoxSizer *settingsboxsizer = 
 			new wxStaticBoxSizer(settingsbox, wxVERTICAL);
 
-		wxSizer *settingssizer = new wxGridSizer(2, 2);
+		wxSizer *settingssizer = new wxFlexGridSizer(2, 2);
 		setters_.push_back(
 			OptionEntrySetterUtil::createOtherSetter(
 				this, settingssizer, options.getNoMaxPlayersEntry()));
@@ -98,7 +98,7 @@ SingleSFrame::SingleSFrame(OptionsGame &options) :
 		IDC_CLIENT_MOD_CTRL = 
 			new wxComboBox(this, -1,
 			wxT(""),
-			wxDefaultPosition, wxDefaultSize,
+			wxDefaultPosition, wxSize(160, -1),
 			0, 0, wxCB_READONLY);
 		settingssizer->Add(IDC_CLIENT_MOD_CTRL, 0, wxALIGN_LEFT);
 

@@ -78,6 +78,7 @@ protected:
 	VirtualSoundSource *moveSoundSource_;
 
 	unsigned int playerId_;
+	Vector startPosition_;
 	int positionX_, positionY_;
 	bool remove_, moving_;
 

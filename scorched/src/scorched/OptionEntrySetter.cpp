@@ -60,7 +60,7 @@ OptionEntrySetter OptionEntrySetterUtil::createOtherSetter(
 			sizer->Add(control = 
 				new wxComboBox(parent, -1,
 				wxT(""),
-				wxDefaultPosition, wxDefaultSize,
+				wxDefaultPosition, wxSize(160, -1),
 				0, 0, 0), 
 				0, wxALIGN_LEFT);
 			control->SetToolTip(
@@ -82,7 +82,7 @@ OptionEntrySetter OptionEntrySetterUtil::createOtherSetter(
 			sizer->Add(control = 
 				new wxComboBox(parent, -1,
 				wxT(""),
-				wxDefaultPosition, wxDefaultSize,
+				wxDefaultPosition, wxSize(160, -1),
 				0, 0, wxCB_READONLY), 
 				0, wxALIGN_LEFT);
 			control->SetToolTip(
@@ -103,7 +103,7 @@ OptionEntrySetter OptionEntrySetterUtil::createOtherSetter(
 			sizer->Add(control = 
 				new wxComboBox(parent, -1,
 				wxT(""),
-				wxDefaultPosition, wxDefaultSize,
+				wxDefaultPosition, wxSize(160, -1),
 				0, 0, wxCB_READONLY), 
 				0, wxALIGN_LEFT);
 			control->SetToolTip(
@@ -157,7 +157,7 @@ OptionEntrySetter OptionEntrySetterUtil::createIntSetter(
 			sizer->Add(control = 
 				new wxComboBox(parent, -1,
 				wxT(""),
-				wxDefaultPosition, wxDefaultSize,
+				wxDefaultPosition, wxSize(160, -1),
 				0, 0, 0), 
 				0, wxALIGN_LEFT);
 			control->SetToolTip(

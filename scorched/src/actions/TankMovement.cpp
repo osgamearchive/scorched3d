@@ -70,6 +70,7 @@ void TankMovement::init()
 	Tank *tank = context_->tankContainer->getTankById(playerId_);
 	if (!tank) return;	
 
+	startPosition_ = tank->getTargetPosition();
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 	
 	// Start the tank movement sound
@@ -260,16 +261,28 @@ void TankMovement::moveTank(Tank *tank)
 		context_->optionsGame->getMovementRestriction() ==
 		OptionsGame::MovementRestrictionLandOrAbove)
 	{
+		float waterHeight = -10.0f;
 		LandscapeTex &tex = *context_->landscapeMaps->getDefinitions().getTex();
 		if (tex.border->getType() == LandscapeTexType::eWater)
 		{
 			LandscapeTexBorderWater *water = 
 				(LandscapeTexBorderWater *) tex.border;
-			if (secondz < water->height)
+			waterHeight = water->height;
+		}
+
+		if (context_->optionsGame->getMovementRestriction() ==
+			OptionsGame::MovementRestrictionLandOrAbove)
+		{
+			if (waterHeight > startPosition_[2] - 0.1f)
 			{
-				expandedPositions_.clear();
-				return;
+				waterHeight = startPosition_[2] - 0.1f;
 			}
+		}
+
+		if (secondz < waterHeight)
+		{
+			expandedPositions_.clear();
+			return;
 		}
 	}
 
