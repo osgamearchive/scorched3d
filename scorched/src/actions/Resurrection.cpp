@@ -56,12 +56,15 @@ void Resurrection::simulate(float frameTime, bool &remove)
 	Tank *tank = context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
-		LoggerInfo info(LoggerInfo::TypeDeath,
-			formatString("\"%s\" was resurrected, %i lives remaining",
-				tank->getName(),
-				tank->getState().getLives()));
-		info.setPlayerId(playerId_);
-		Logger::log(info);
+		if (!context_->serverMode)
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" was resurrected, %i lives remaining",
+					tank->getName(),
+					tank->getState().getLives()));
+			info.setPlayerId(playerId_);
+			Logger::log(info);
+		}
 
 		// Rez this tank
 		tank->rezTank();
