@@ -12074,8 +12074,7 @@ on the map after a short delay.</description>
 					<scatterpercentage>90</scatterpercentage>
 					<aimedweapon type='WeaponMulti'>
 						<subweapon1 type='WeaponSound'>
-								<sound>data/wav/misc/beamup.wav</sound>
-							</delayedweapon>
+							<sound>data/wav/misc/beamup.wav</sound>
 						</subweapon1>
 						<subweapon2 type='WeaponTeleport'>
 							<sound>data/wav/misc/teleport.wav</sound>
