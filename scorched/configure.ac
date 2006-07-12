@@ -257,6 +257,18 @@ else
 	LIBS="$LIBS $WX_LIBS"
 fi
 
+dnl Check for ogg and vorbis
+XIPH_PATH_OGG([
+
+XIPH_PATH_VORBIS([	
+CFLAGS="$CFLAGS $OGG_CFLAGS $VORBIS_CFLAGS"
+CXXFLAGS="$CXXFLAGS $OGG_CFLAGS $VORBIS_CFLAGS"
+LIBS="$LIBS $OGG_LIBS $VORBIS_LIBS $VORBISFILE_LIBS"
+AC_DEFINE(HAVE_OGG)
+])
+
+])
+
 dnl Check for FreeType2
 AC_CHECK_FT2(7.0.1, ftype=1)
 if test "$ftype" != 1; then
