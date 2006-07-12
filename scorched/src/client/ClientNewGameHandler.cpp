@@ -30,6 +30,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
@@ -106,6 +107,9 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	// Calculate all the new landscape settings (graphics)
 	Landscape::instance()->generate(ProgressDialog::instance());
 
+	// Make sure that objects have been removed from the landscape
+	removeObjects();
+
 	RenderTracer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
 
@@ -130,6 +134,55 @@ bool ClientNewGameHandler::processMessage(unsigned int id,
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	return true;
+}
+
+void ClientNewGameHandler::removeObjects()
+{
+	HeightMap &hMap = 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap();
+
+	// Debugging code that draws the area that has changed
+	/*GLBitmap &bmap = 
+		Landscape::instance()->getMainMap();
+	GLubyte *bits = bmap.getBits();
+	for (int y=0; y<bmap.getHeight(); y++)
+	{
+		for (int x=0; x<bmap.getWidth(); x++)
+		{
+			float fi = float(x) / float(bmap.getWidth()) * float(hMap.getMapWidth());
+			float fj = float(y) / float(bmap.getHeight()) * float(hMap.getMapHeight());
+
+			int i = (int) fi;
+			int j = (int) fj;
+
+			if (hMap.getHeight(i, j) != hMap.getBackupHeight(i, j))
+			{
+				bits[0] = 255;
+				bits[1] = 255;
+				bits[2] = 255;
+			}
+
+			bits+=3;
+		}
+	}*/
+
+	int count = 0;
+	for (int j=0; j<(hMap.getMapHeight() + 1); j++)
+	{
+		for (int i=0; i<(hMap.getMapWidth() + 1); i++)
+		{
+			if (hMap.getHeight(i, j) != hMap.getBackupHeight(i, j))
+			{
+				count++;
+
+				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+					getObjects().removeObjects(
+					ScorchedClient::instance()->getContext(), 
+					i, j, 1, 0);
+			}
+		}
+	}
+	//Logger::log(formatString("%i differing height entries", count));
 }
 
 void ClientNewGameHandler::removeTargets()

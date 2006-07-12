@@ -449,13 +449,19 @@ void ServerNewGameState::calculateStartPosition(
 		mainitor++)
 	{
 		Tank *tank = (*mainitor).second;
-		Vector tankPos = placeTank(
-			tank->getPlayerId(), tank->getTeam(), 
-			context, generator);
 
-		// Set the starting position of the tank
-		DeformLandscape::flattenArea(context, tankPos, 0);
-		tank->setTargetPosition(tankPos);
+		if (!tank->getState().getSpectator() &&
+			!tank->getState().getLoading() &&
+			!tank->getState().getInitializing())
+		{
+			Vector tankPos = placeTank(
+				tank->getPlayerId(), tank->getTeam(), 
+				context, generator);
+
+			// Set the starting position of the tank
+			DeformLandscape::flattenArea(context, tankPos, 0);
+			tank->setTargetPosition(tankPos);
+		}
 	}
 }
 

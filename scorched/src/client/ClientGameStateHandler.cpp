@@ -62,28 +62,6 @@ bool ClientGameStateHandler::processMessage(unsigned int id,
 
 	// Set the physics for the next shot
 	ScorchedClient::instance()->getActionController().getPhysics().generate();
-
-	// Make sure no objects are around the tanks
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getState().getState() == TankState::sNormal &&
-			!tank->getState().getSpectator())
-		{
-			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().
-				removeObjects(
-				ScorchedClient::instance()->getContext(),
-					(unsigned int ) tank->getPosition().getTankPosition()[0],
-					(unsigned int ) tank->getPosition().getTankPosition()[1],
-					3,
-					0);
-		}
-	}
 	Landscape::instance()->getPatchGrid().recalculateTankVariance();
 
 	return true;
