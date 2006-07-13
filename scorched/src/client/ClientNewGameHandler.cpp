@@ -178,7 +178,7 @@ void ClientNewGameHandler::removeObjects()
 				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
 					getObjects().removeObjects(
 					ScorchedClient::instance()->getContext(), 
-					i, j, 1, 0);
+					i, j, 0, 0);
 			}
 		}
 	}

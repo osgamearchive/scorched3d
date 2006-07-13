@@ -234,6 +234,7 @@
 		<group>2</group>
 		<key>t</key>
 		<key>RETURN</key>
+		<key>SLASH</key>
 	</keyentry>
 	<keyentry>
 		<name>SHOW_TEAM_TALK_DIALOG</name>
