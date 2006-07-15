@@ -69,5 +69,5 @@ time_t s3d_fileModTime(const char *file)
 	memset(&buf, 0, sizeof(buf));
 	int result = stat(file, &buf );
 
-	return buf.st_atime;
+	return buf.st_mtime;
 }
