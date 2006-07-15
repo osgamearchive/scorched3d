@@ -43,6 +43,7 @@ Fixed: Moved some of the more common options to the front of the single player s
 Fixed: Sound from boids issued from wrong place
 Fixed: Sounds from groups are only thined when using tree placement
 Fixed: All bilboards are now correct for the current screen aspect (including in the camera window)
+Fixed: Trees and models may appear where destroyed for client connecting during a round
 
 Added: Server sorting and refresh cancel to the NET/LAN dialog
 Added: Chat window fades out text as it expires
@@ -139,17 +140,12 @@ Added: Damage amount text floats out of tanks
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
-Trees and models may appear where destroyed for client connecting during a round
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-New game modes
 Better collision for models (not targets)
-Models can be (cannot be) removed when driving over.
 Dirt cannot be raised when underground (or other dirting stopping)
 Too many mods over powering the single player choice dialog
-Need some kind of faster falloff for some (all) sounds.
-Sound precedence based on sound distance?
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
