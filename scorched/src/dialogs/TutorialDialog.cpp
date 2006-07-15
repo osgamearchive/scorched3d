@@ -22,6 +22,7 @@
 #include <dialogs/MainMenuDialog.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLMenuEntry.h>
+#include <GLEXT/GLViewPort.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
@@ -57,7 +58,8 @@ TutorialDialog::TutorialDialog() :
 	windowLevel_ = 75000;
 
 	Vector listColor(0.0f, 0.0f, 0.0f);
-	listView_ = new GLWListView(0.0f, 0.0f, 470.0f, 105.0f, -1, 12.0f, 24.0f);
+	float wid = float(GLViewPort::getWidth() - 330);
+	listView_ = new GLWListView(0.0f, 0.0f, wid, 105.0f, -1, 12.0f, 24.0f);
 	listView_->setColor(listColor);
 	listView_->setHandler(this);
 	addWidget(listView_, 0, SpaceAll, 10.0f);

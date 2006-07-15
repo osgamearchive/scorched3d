@@ -379,8 +379,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOSHIPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoShipsEntry().getDescription(), wxConvUTF8));
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
 	IDC_MORERES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMoreResEntry().getDescription(), wxConvUTF8));
-	IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
-	IDC_SWAPYAXIS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSwapYAxisEntry().getDescription(), wxConvUTF8));
+	//IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
+	//IDC_SWAPYAXIS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSwapYAxisEntry().getDescription(), wxConvUTF8));
 	IDC_LOGGING_CTRL->SetValue(OptionsDisplay::instance()->getClientLogToFile());
 	IDC_LOGGING_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getClientLogToFileEntry().getDescription(), wxConvUTF8));
 
@@ -560,8 +560,8 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoBOIDSEntry().setValue(IDC_NOBOIDS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoShipsEntry().setValue(IDC_NOSHIPS_CTRL->GetValue());
 	OptionsDisplay::instance()->getMoreResEntry().setValue(IDC_MORERES_CTRL->GetValue());
-	OptionsDisplay::instance()->getSwapYAxisEntry().setValue(IDC_SWAPYAXIS_CTRL->GetValue());
-	OptionsDisplay::instance()->getClientLogToFileEntry().setValue(IDC_LOGGING_CTRL->GetValue());
+	//OptionsDisplay::instance()->getSwapYAxisEntry().setValue(IDC_SWAPYAXIS_CTRL->GetValue());
+	//OptionsDisplay::instance()->getClientLogToFileEntry().setValue(IDC_LOGGING_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

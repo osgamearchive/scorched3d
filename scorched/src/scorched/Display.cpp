@@ -115,9 +115,9 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_INVERTMOUSE_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Invert mouse elevation"));
 	miscSizer2->Add(IDC_INVERTMOUSE_CTRL, 0);
-	IDC_SWAPYAXIS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Invert mouse y axis (OS X)"));
-	miscSizer2->Add(IDC_SWAPYAXIS_CTRL, 0);
+	//IDC_SWAPYAXIS_CTRL = 
+	//	new wxCheckBox(parent, -1, wxT("Invert mouse y axis (OS X)"));
+	//miscSizer2->Add(IDC_SWAPYAXIS_CTRL, 0);
 	IDC_TIMER_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Show frames per second"));
 	miscSizer2->Add(IDC_TIMER_CTRL, 0);
