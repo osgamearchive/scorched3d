@@ -623,6 +623,16 @@
 		<name>Cannon Tower</name>
 		<model type="MilkShape">cannont/cannontower.txt</model>
 	</tank>
+	<tank>
+		<name>Sentry Gun</name>
+		<catagory>Artillery</catagory>
+		<model type="MilkShape">sentrygun/sentrygun.txt</model>
+	</tank>
+	<tank> 
+    	<name>Ignignokt</name> 
+		<catagory>Humour</catagory>
+		<model type="MilkShape">ignignokt/ignignokt.txt</model> 
+	</tank>
 	<!--<tank>
 		<name>R2D2</name>
 		<catagory>Starwars</catagory>
