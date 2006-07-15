@@ -77,6 +77,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 				hasEntry->crc != fileEntry->getCompressedCrc() ||
 				hasEntry->length != fileEntry->getCompressedSize())
 			{
+#ifdef _DEBUG
 				if (!hasEntry)
 				{
 					ServerCommon::serverLog(
@@ -99,6 +100,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 						hasEntry->crc, 
 						fileEntry->getCompressedCrc()));
 				}
+#endif //_DEBUG
 
 				neededEntries_.push_back(fileEntry);
 				neededLength += fileEntry->getCompressedSize();
