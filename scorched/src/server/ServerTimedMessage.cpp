@@ -25,6 +25,7 @@
 #include <server/ScorchedServer.h>
 #include <XML/XMLFile.h>
 #include <common/OptionsGame.h>
+#include <common/OptionsParam.h>
 #include <common/Logger.h>
 #include <common/Defines.h>
 
@@ -39,6 +40,8 @@ ServerTimedMessage::~ServerTimedMessage()
 
 void ServerTimedMessage::simulate()
 {
+	if (!OptionsParam::instance()->getDedicatedServer()) return;
+
 	time_t currentTime = time(0);
 	if (currentTime > lastCheckTime_ + 5)
 	{
