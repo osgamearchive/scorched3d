@@ -129,6 +129,10 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 		}
 
 		// The gloabl mod is out of date, move it out the way
+		// This is done because this mod is included with S3D (i.e. a global mod)
+		// but also exists in the users custom mod directory.
+		// The one in the user's directory may be out of date, so it needs to be 
+		// removed incase it masks the newer one that comes with the game.
 		std::string src = getModFile(fileName);
 		std::string dest = getSettingsFile(formatString("/oldmods/%s-%u", fileName, time(0)));
 		if (s3d_dirExists(src.c_str()))

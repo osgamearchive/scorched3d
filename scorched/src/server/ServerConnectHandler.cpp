@@ -26,7 +26,6 @@
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
 #include <tank/TankColorGenerator.h>
-#include <tank/TankDeadContainer.h>
 #include <tank/TankContainer.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStrings.h>
@@ -383,38 +382,6 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	{
 		std::string alias = aliases.front();
 		tank->setName(alias.c_str());
-	}
-
-	// Check if this is a bot
-	// if not update from any residual tank we have.
-	// Residual tanks are only available until the next
-	// whole game starts.
-	if (destinationId != 0)
-	{
-		Tank *savedTank = ScorchedServer::instance()->
-			getTankDeadContainer().getTank(sentUniqueId);
-		if (savedTank)
-		{
-			Logger::log( "Found residual player info");
-			NetBufferDefault::defaultBuffer.reset();
-			if (savedTank->getAccessories().writeMessage(
-					NetBufferDefault::defaultBuffer, true) &&
-				savedTank->getScore().writeMessage(
-					NetBufferDefault::defaultBuffer))
-			{
-				NetBufferReader reader(NetBufferDefault::defaultBuffer);
-				if (!tank->getAccessories().readMessage(reader) ||
-					!tank->getScore().readMessage(reader))
-				{
-					Logger::log( "Failed to update residual player info (read)");
-				}
-			}
-			else 
-			{
-				Logger::log( "Failed to update residual player info (write)");
-			}
-			delete savedTank;
-		}
 	}
 
 	// Add the tank to the list of tanks

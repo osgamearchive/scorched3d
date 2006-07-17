@@ -96,9 +96,9 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 	// Radio Buttons
 	wxFlexGridSizer *radioSizer = new wxFlexGridSizer(1, 8, 5, 5);
 	IDC_RADIO_NET_CTRL = new wxRadioButton(parent, IDC_RADIO_NET, 
-		"Internet", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+		wxT("Internet"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	IDC_RADIO_LAN_CTRL = new wxRadioButton(parent, IDC_RADIO_LAN, 
-		"LAN", wxDefaultPosition, wxDefaultSize, 0);
+		wxT("LAN"), wxDefaultPosition, wxDefaultSize, 0);
 	radioSizer->Add(IDC_RADIO_NET_CTRL, 0, wxRIGHT, 10);
 	radioSizer->Add(IDC_RADIO_LAN_CTRL, 0, wxRIGHT, 0);
 	sizer->Add(radioSizer, 0, wxALIGN_CENTER | wxALL, 5);

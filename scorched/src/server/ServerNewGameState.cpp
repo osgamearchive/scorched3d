@@ -30,6 +30,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
 #include <tank/TankTeamScore.h>
+#include <tank/TankDeadContainer.h>
 #include <tankgraph/TankModelStore.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsNewGameMessage.h>
@@ -244,6 +245,38 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 			if (tank->getState().getState() == TankState::sPending)
 			{
 				tank->newMatch();
+
+				// Check if this is a bot
+				// if not update from any residual tank we have.
+				// Residual tanks are only available until the next
+				// whole game starts.
+				if (tank->getDestinationId() != 0)
+				{
+					Tank *savedTank = ScorchedServer::instance()->
+						getTankDeadContainer().getTank(tank->getUniqueId());
+					if (savedTank)
+					{
+						Logger::log( "Found residual player info");
+						NetBufferDefault::defaultBuffer.reset();
+						if (savedTank->getAccessories().writeMessage(
+								NetBufferDefault::defaultBuffer, true) &&
+							savedTank->getScore().writeMessage(
+								NetBufferDefault::defaultBuffer))
+						{
+							NetBufferReader reader(NetBufferDefault::defaultBuffer);
+							if (!tank->getAccessories().readMessage(reader) ||
+								!tank->getScore().readMessage(reader))
+							{
+								Logger::log( "Failed to update residual player info (read)");
+							}
+						}
+						else 
+						{
+							Logger::log( "Failed to update residual player info (write)");
+						}
+						delete savedTank;
+					}
+				}
 			}
 
 			if (tank->getState().getSpectator())
