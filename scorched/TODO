@@ -1,5 +1,8 @@
 -- Bugs Fixed and Ready For Release 
 Fixed: Residual score and weapons now works correctly
+Fixed: File modification time for server settings files now works under unix
+Fixed: Log files downloaded from the admin gui have the text mime type
+Fixed: Installer removes old mods during installation
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

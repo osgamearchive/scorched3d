@@ -253,11 +253,19 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	const char *logFilename = getField(fields, "filename");
 	if (logFilename)
 	{
+		text.append(formatString(
+			"HTTP/1.1 200 OK\r\n"
+			"Server: Scorched3D\r\n"
+			"Content-Type: text/plain\r\n"
+			"Content-Disposition: filename=%s.txt\r\n"
+			"Connection: Close\r\n"
+			"\r\n", logFilename));
+
 		const char *filename = getLogFile(logFilename);
 		std::string file = getFile(filename);
 		fields["FILE"] = file;
 
-		return ServerWebServer::getHtmlTemplate("logfile.html", fields, text);
+		return ServerWebServer::getTemplate("logfile.html", fields, text);
 	}
 	else
 	{
