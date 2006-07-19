@@ -288,7 +288,7 @@ CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
 LIBS="$LIBS $FT2_LIBS"
 
 # Check for extra functions
-AC_CHECK_FUNCS(vsnprintf snprintf)
+AC_CHECK_FUNCS(vsnprintf snprintf vasprintf asprintf)
 
 # Check for extra headers
 AC_CHECK_HEADERS(unistd.h)

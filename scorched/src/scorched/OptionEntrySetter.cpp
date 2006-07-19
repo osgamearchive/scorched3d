@@ -122,7 +122,7 @@ OptionEntrySetter OptionEntrySetterUtil::createOtherSetter(
 		{
 			sizer->Add(control = 
 				new wxCheckBox(parent, -1,
-					"",
+					wxT(""),
 					wxDefaultPosition, wxDefaultSize),
 					0, wxALIGN_LEFT);
 			control->SetToolTip(
