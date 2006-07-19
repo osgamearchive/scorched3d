@@ -191,8 +191,12 @@ OptionsGame::OptionsGame() :
 		"The money awarded for each person killed * weapon used", 0, 750, 0, 2000, 50),
 	moneyPerAssistPoint_(options_, "MoneyWonPerAssistPoint", 
 		"The money awarded for each kill assist * weapon used", 0, 250, 0, 2000, 50),
+	moneyPerHitPoint_(options_, "MoneyWonPerHitPoint", 
+		"The money awarded for each person hit * weapon used", 0, 250, 0, 2000, 50),
 	moneyPerRound_(options_, "MoneyPerRound", 
 		"The money given at the end of each round", 0, 0, 0, 250000, 5000),
+	moneyPerHealthPoint_(options_, "MoneyPerHealthPoint",
+		"The money awarded is proportional to the amount of health removed", 0, true),
 	moneyStarting_(options_, "MoneyStarting", 
 		"The money each player starts with", 0, 10000, 0, 500000, 10000),
 	moneyInterest_(options_, "MoneyInterest", 
@@ -273,10 +277,6 @@ OptionsGame::OptionsGame() :
 		"The admin password for this server (empty password = no access)", OptionEntry::DataDepricated, ""),
 	depricatedMaxArmsLevel_(options_, "MaxArmsLevel",
 		"", OptionEntry::DataDepricated, 10, 0, 10, 1),
-	depricatedMoneyPerHealthPoint_(options_, "MoneyPerHealthPoint",
-		"The money awarded is proportional to the amount of health removed", OptionEntry::DataDepricated, true),
-	depricatedMoneyPerHitPoint_(options_, "MoneyWonPerHitPoint", 
-		"The money awarded for each person hit * weapon used", OptionEntry::DataDepricated, 200),
 	depricatedAutoBallanceTeams_(options_, "AutoBallanceTeams",
 		"", OptionEntry::DataDepricated, true)
 {

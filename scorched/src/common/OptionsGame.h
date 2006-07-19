@@ -219,6 +219,12 @@ public:
 	int getMoneyWonPerAssistPoint() { return moneyPerAssistPoint_; }
 	OptionEntryInt &getMoneyWonPerAssistPointEntry() { return moneyPerAssistPoint_; }
 
+	int getMoneyWonPerHitPoint() { return moneyPerHitPoint_; }
+	OptionEntryInt &getMoneyWonPerHitPointEntry() { return moneyPerHitPoint_; }
+
+	bool getMoneyPerHealthPoint() { return moneyPerHealthPoint_; }
+	OptionEntryBool &getMoneyPerHealthPointEntry() { return moneyPerHealthPoint_; }
+
 	bool getLimitPowerByHealth() { return limitPowerByHealth_; }
 	OptionEntryBool &getLimitPowerByHealthEntry() { return limitPowerByHealth_; }
 	
@@ -360,7 +366,9 @@ protected:
 	OptionEntryBoundedInt moneyWonForRound_;
 	OptionEntryBoundedInt moneyPerKillPoint_;
 	OptionEntryBoundedInt moneyPerAssistPoint_;
+	OptionEntryBoundedInt moneyPerHitPoint_;
 	OptionEntryBoundedInt moneyPerRound_;
+	OptionEntryBool moneyPerHealthPoint_;
 	OptionEntryBoundedInt scorePerAssist_;
 	OptionEntryBoundedInt scorePerKill_;
 	OptionEntryBoundedInt scoreWonForRound_;
@@ -411,9 +419,7 @@ protected:
 	OptionEntryBool allowSameUniqueId_;
 
 	// Depricated (old) options
-	OptionEntryBool depricatedMoneyPerHealthPoint_;
 	OptionEntryBool depricatedAutoBallanceTeams_;
-	OptionEntryInt depricatedMoneyPerHitPoint_;
 	OptionEntryBoundedInt depricatedMaxArmsLevel_;
 	OptionEntryString depricatedServerAdminPassword_;
 };

@@ -1,11 +1,14 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Residual score and weapons now works correctly
+Fixed: Residualy stored tank score and weapons now works correctly
 Fixed: File modification time for server settings files now works under unix
 Fixed: Log files downloaded from the admin gui have the text mime type
 Fixed: Installer removes old mods during installation
+Fixed: Reinstated money awarded due to hit points option
+Fixed: Team kills may be scored incorrectly
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
+Crashing when minimized during texture/level load
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)

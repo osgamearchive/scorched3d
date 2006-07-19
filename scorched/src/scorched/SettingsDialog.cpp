@@ -175,6 +175,9 @@ void SettingsFrame::createEcoPanel()
 			ecoPanel_, sizer, context_.getMoneyWonPerKillPointEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getMoneyWonPerHitPointEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
 			ecoPanel_, sizer, context_.getStartMoneyEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
@@ -194,7 +197,12 @@ void SettingsFrame::createEcoPanel()
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
 			ecoPanel_, sizer, context_.getScorePerAssistEntry()));
-
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getScorePerAssistEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getMoneyPerHealthPointEntry()));
 
 	book_->AddPage(ecoPanel_, wxT("Eco"));
 	ecoPanel_->SetAutoLayout(TRUE);

@@ -152,7 +152,7 @@
   <!-- The maximum number of turns all players are allowed in each round (0 = infinite) -->
   <option>
     <name>MaxNumberOfRoundTurns</name>
-    <value>15</value>
+    <value>50</value>
     <defaultvalue>15</defaultvalue>
   </option>
   <!-- The amount of time each player has for each shot -->
@@ -299,11 +299,11 @@
     <value>on</value>
     <defaultvalue>on</defaultvalue>
   </option>
-  <!-- The player turn mode -->
+  <!-- The player turn mode ( possible values = [ "TurnSimultaneous"  "TurnSequentialLooserFirst"  "TurnSequentialRandom" ] ) -->
+  <!-- (default value : "TurnSequentialLooserFirst") -->
   <option>
     <name>TurnType</name>
-    <value>0</value>
-    <defaultvalue>1</defaultvalue>
+    <value>TurnSimultaneous</value>
   </option>
   <!-- The force of the wind -->
   <option>
