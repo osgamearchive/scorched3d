@@ -21,6 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientAddPlayerHandler.h>
 #include <coms/ComsAddPlayerMessage.h>
+#include <common/Logger.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TargetRendererImplTank.h>
 
@@ -77,6 +78,9 @@ bool ClientAddPlayerHandler::processMessage(unsigned int id,
 		tank->setRenderer(new TargetRendererImplTank(tank));
 		tank->getState().setSpectator(true);
 		ScorchedClient::instance()->getTankContainer().addTank(tank);
+
+		Logger::log(
+			formatString("Existing tank connected \"%s\"", tank->getName()));
 	}
 	else
 	{

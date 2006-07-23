@@ -319,7 +319,21 @@ void PlayerDialog::nextPlayer()
 			entry.getTextureWidth() = 32;
 			colorDropDown_->addEntry(entry);
 		}
-		colorDropDown_->setCurrentColor(tank->getColor());
+
+		if (OptionsParam::instance()->getConnectedToServer())
+		{
+			Vector onlineColor = 
+				OptionsDisplay::instance()->getOnlineColor();
+			colorDropDown_->setCurrentColor(onlineColor);
+			if (colorDropDown_->getCurrentColor() != onlineColor)
+			{
+				colorDropDown_->setCurrentColor(tank->getColor());	
+			}
+		}
+		else
+		{
+			colorDropDown_->setCurrentColor(tank->getColor());			
+		}
 	}
 }
 
@@ -369,6 +383,11 @@ void PlayerDialog::buttonDown(unsigned int id)
 					viewer_->getModelName());
 				OptionsDisplay::instance()->getOnlineUserIconEntry().setValue(
 					imageList_->getCurrent());
+				if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
+				{
+					OptionsDisplay::instance()->getOnlineColorEntry().setValue(
+						colorDropDown_->getCurrentColor());
+				}
 			}
 
 			// Get the model type (turns a "Random" choice into a proper name)

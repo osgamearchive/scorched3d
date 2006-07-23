@@ -51,7 +51,7 @@ protected:
 		float angleXYDegs; 
 		float angleYZDegs;
 		float power;
-		Vector finalpos;
+		Vector finalDist;
 	};
 	struct ShotListEntry
 	{
@@ -60,7 +60,7 @@ protected:
 		{
 		}
 		int shotCount;
-		Vector lastShot;
+		Vector lastDist;
 		std::list<MadeShot> shotList;
 	};
 

@@ -39,7 +39,7 @@ public:
 	void setTank(Tank *tank);
 
 	void newMatch();
-	void add(Accessory *accessory, int count);
+	void add(Accessory *accessory, int count, bool check = true);
 	void rm(Accessory *accessory, int count = 1);
 
 	bool accessoryAllowed(Accessory *accessory, int count);
@@ -72,7 +72,7 @@ protected:
 	std::map<Accessory *, int> accessories_;
 
 	void changed();
-	void add_(Accessory *accessory, int count);
+	void add_(Accessory *accessory, int count, bool check);
 };
 
 #endif // !defined(AFX_TANKACCESSORIES_H__60850A18_DED2_4BB0_B104_CB0941EF6D1D__INCLUDED_)

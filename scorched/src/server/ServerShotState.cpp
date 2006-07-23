@@ -47,7 +47,7 @@ void ServerShotState::enterState(const unsigned state)
 	// is consistent before the shots start
 	// This should be done before the actual shots are fired or
 	// any play is made
-	ComsPlayerStateMessage playerState;
+	ComsPlayerStateMessage playerState(false);
 	ComsMessageSender::sendToAllPlayingClients(playerState);
 
 	// Reset the counts in the action controller

@@ -67,7 +67,10 @@ TankColorGenerator::~TankColorGenerator()
 
 void TankColorGenerator::addColor(unsigned r, unsigned g, unsigned b)
 {
-	Vector newColor(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f);
+	Vector newColor(
+		float(int(float(r) / 2.550f)) / 100.0f, 
+		float(int(float(g) / 2.550f)) / 100.0f, 
+		float(int(float(b) / 2.550f)) / 100.0f);
 	
 	std::vector<Vector*>::iterator coloritor;
 	for (coloritor = availableColors_.begin();

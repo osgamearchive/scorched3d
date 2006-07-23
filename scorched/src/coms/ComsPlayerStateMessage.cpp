@@ -56,7 +56,10 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 			itor != tanks.end();
 			itor++)
 		{
-			targets[(*itor).first] = (*itor).second;
+			if (!(*itor).second->isTemp())
+			{
+				targets[(*itor).first] = (*itor).second;
+			}
 		}
 	}
 	else

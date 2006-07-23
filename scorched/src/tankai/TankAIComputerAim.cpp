@@ -86,8 +86,10 @@ void TankAIComputerAim::ourShotLanded(Weapon *weapon, Vector &position)
 			DIALOG_ASSERT(finditor != madeShots_.end());
 
 			// Add this position
-			(*finditor).second.shotList.back().finalpos = position;
-			(*finditor).second.lastShot = position;
+			(*finditor).second.shotList.back().finalDist = 
+				position - currentTank_->getTargetPosition();
+			(*finditor).second.lastDist =
+				position - currentTank_->getTargetPosition();
 		}
 
 		lastShot_ = 0;
@@ -159,7 +161,8 @@ bool TankAIComputerAim::newRefineLastShot(Tank *tank,
 		{
 			MadeShot &shot = *inneritor;
 
-			float distanceX = fabsf(shot.finalpos[0] - tankPosition[0]);
+			Vector finalPos = shot.finalDist + currentTank_->getTargetPosition();
+			float distanceX = fabsf(finalPos[0] - tankPosition[0]);
 			if (distanceX < nearestDistanceX)
 			{
 				// Find a close enough shot or
@@ -171,7 +174,7 @@ bool TankAIComputerAim::newRefineLastShot(Tank *tank,
 					nearestDistanceX = distanceX;
 				}
 			}
-			float distanceY = fabsf(shot.finalpos[1] - tankPosition[1]);
+			float distanceY = fabsf(finalPos[1] - tankPosition[1]);
 			if (distanceY < nearestDistanceY)
 			{
 				if (distanceY < 15.0f ||
@@ -199,8 +202,9 @@ bool TankAIComputerAim::newRefineLastShot(Tank *tank,
 
 	// Figure out the new best angle
 	Vector newVelocity = oldVelocity;
-	newVelocity[0] -= (nearestX->finalpos[0] - tankPosition[0]) * 0.1f;
-	newVelocity[1] -= (nearestY->finalpos[1] - tankPosition[1]) * 0.1f;
+	Vector finalPos = nearestX->finalDist + currentTank_->getTargetPosition();
+	newVelocity[0] -= (finalPos[0] - tankPosition[0]) * 0.1f;
+	newVelocity[1] -= (finalPos[1] - tankPosition[1]) * 0.1f;
 
 	float angleXYRads = atan2f(newVelocity[1], newVelocity[0]);
 	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
@@ -294,8 +298,9 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 			itor != shotList.end();
 			itor++)
 		{
+			Vector finalPos = (*itor).finalDist + currentTank_->getTargetPosition();
 			float newDistToTank = (currentTank_->getPosition().getTankPosition() - 
-				(*itor).finalpos).Magnitude();
+				finalPos).Magnitude();
 			if (newDistToTank > closestLessDistToTank &&
 				newDistToTank <= distToTank)
 			{
@@ -303,7 +308,7 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 				// Store its power and distance
 				closestLessDistToTank = newDistToTank;
 				closestLessPower = (*itor).power;
-				closestLessPos = (*itor).finalpos;
+				closestLessPos = finalPos;
 				closestLessXY = (*itor).angleXYDegs;
 				closestLessYZ = (*itor).angleYZDegs;
 			}
@@ -315,7 +320,7 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 				// Store its power and distance
 				closestMoreDistToTank = newDistToTank;
 				closestMorePower = (*itor).power;
-				closestMorePos = (*itor).finalpos;
+				closestMorePos = finalPos;
 				closestMoreXY = (*itor).angleXYDegs;
 				closestMoreYZ = (*itor).angleYZDegs;
 			}
@@ -412,8 +417,11 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 	if (finditor != madeShots_.end())
 	{
 		noShots = (*finditor).second.shotCount;
+
+		Vector lastShot = (*finditor).second.lastDist +
+			currentTank_->getTargetPosition();
 		distance = (targetTank->getPosition().getTankPosition()-
-			(*finditor).second.lastShot).Magnitude();
+			lastShot).Magnitude();
 	}
 
 	// Check if we can make a sniper shot to the target

@@ -306,6 +306,9 @@ public:
 	const char * getOnlineUserIcon() { return onlineUserIcon_; }
 	OptionEntryString &getOnlineUserIconEntry() { return onlineUserIcon_; }
 
+	Vector getOnlineColor() { return onlineColor_; }
+	OptionEntryVector &getOnlineColorEntry() { return onlineColor_; }
+
 	const char * getHostDescription() { return hostDescription_; }
 	OptionEntryString &getHostDescriptionEntry() { return hostDescription_; }
 
@@ -428,6 +431,7 @@ protected:
 	OptionEntryString onlineUserName_;
 	OptionEntryString onlineTankModel_;
 	OptionEntryString onlineUserIcon_;
+	OptionEntryVector onlineColor_;
 	OptionEntryString buyTab_;
 
 private:

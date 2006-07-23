@@ -86,7 +86,7 @@ void TankAccessories::newMatch()
 
 				if (startingNumber != 0)
 				{
-					add_(accessory, startingNumber);
+					add_(accessory, startingNumber, true);
 				}
 			}
 		}
@@ -105,7 +105,7 @@ void TankAccessories::newMatch()
 			Accessory *accessory = (*itor).first;
 			int count = (*itor).second;
 
-			add_(accessory, count);
+			add_(accessory, count, true);
 		}
 	}
 
@@ -209,16 +209,27 @@ bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 	return true;
 }
 
-void TankAccessories::add(Accessory *accessory, int count)
+void TankAccessories::add(Accessory *accessory, int count, bool check)
 {
-	add_(accessory, count);
+	add_(accessory, count, check);
 	changed();
 }
 
-void TankAccessories::add_(Accessory *accessory, int count)
+void TankAccessories::add_(Accessory *accessory, int count, bool check)
 {
-	// Check if this tank is allowed this accessory
-	if (!accessoryAllowed(accessory, count)) return;
+	if (check)
+	{
+		// Check if this tank is allowed this accessory
+		if (!accessoryAllowed(accessory, count)) return;
+	}
+	else
+	{
+		// Check if an infinite weapon is being bought twice
+		if (getAccessoryCount(accessory) == -1)
+		{
+			return;
+		}
+	}
 
 	// Add this accessory
 	std::map<Accessory *, int>::iterator itor = accessories_.find(accessory);

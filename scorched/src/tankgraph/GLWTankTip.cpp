@@ -620,13 +620,9 @@ static void generateTargetTip(std::string &tip, Target *target)
 	{
 		Tank *tank = (Tank *) target;
 
-		if (tank->getState().getMaxLives() > 1)
-		{
-			tip += formatString("\nLives : %i/%i",
-				tank->getState().getLives(),
-				tank->getState().getMaxLives());
-		}
-
+		tip += formatString("\nLives : %i/%i",
+			tank->getState().getLives(),
+			tank->getState().getMaxLives());
 		tip += formatString("\nScore  : %i",
 			tank->getScore().getScore());
 	}

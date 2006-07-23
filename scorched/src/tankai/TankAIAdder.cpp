@@ -188,7 +188,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		if (context.getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
 			context.getGameState().getState() == ServerState::ServerStateStarting)
 		{
-			ComsPlayerStateMessage message;
+			ComsPlayerStateMessage message(true);
 			ComsMessageSender::sendToAllConnectedClients(message);
 		}
 	}

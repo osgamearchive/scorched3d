@@ -243,7 +243,11 @@ void NetServer::disconnectAllClients()
 void NetServer::disconnectClient(unsigned int dest, bool delayed)
 {
 	TCPsocket client = (TCPsocket) dest;
-	DIALOG_ASSERT(client);
+	if (!client)
+	{
+		Logger::log("Failed to disconnect client");
+		return;
+	}
 
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::DisconnectMessage, 

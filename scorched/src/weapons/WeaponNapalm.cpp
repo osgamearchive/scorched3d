@@ -29,7 +29,7 @@ REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
 WeaponNapalm::WeaponNapalm() : 
 	noSmoke_(false), noObjectDamage_(false),
-	groundScorchPer_(0.8f)
+	groundScorchPer_(0.2f)
 {
 
 }
@@ -56,6 +56,11 @@ bool WeaponNapalm::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("napalmtexture", napalmTexture_)) return false;
 	if (!accessoryNode->getNamedChild("allowunderwater", allowUnderWater_)) return false;
 	if (!checkDataFile(formatString("data/wav/%s", getNapalmSound()))) return false;
+
+	// Get the optional luminance node
+	XMLNode *noLuminanceNode = 0; luminance_ = true;
+	accessoryNode->getNamedChild("noluminance", noLuminanceNode, false);
+	if (noLuminanceNode) luminance_ = false;
 
 	// Optional deform texture
 	if (accessoryNode->getNamedChild("deformtexture", deformTexture_, false))

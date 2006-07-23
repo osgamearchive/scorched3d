@@ -23,6 +23,8 @@
 #include <client/ClientWaitState.h>
 #include <engine/ActionController.h>
 #include <engine/ViewPoints.h>
+#include <landscape/Landscape.h>
+#include <landscape/PatchGrid.h>
 #include <common/OptionsParam.h>
 #include <landscape/Landscape.h>
 
@@ -58,6 +60,9 @@ bool ClientShotState::acceptStateChange(const unsigned state,
 	// All the shots have finished, move to finished
 	if (ScorchedClient::instance()->getActionController().noReferencedActions())
 	{
+		// Check area around tank has correct variance
+		Landscape::instance()->getPatchGrid().recalculateTankVariance();
+
 		// Tell the server we have finished processing the landscape
 		ClientWaitState::instance()->sendClientReady();
 		return false;

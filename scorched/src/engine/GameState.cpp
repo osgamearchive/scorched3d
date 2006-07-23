@@ -265,10 +265,15 @@ void GameState::simulate(float simTime)
 			unsigned int historySize;
 			unsigned int bufferSize;
 
-			KeyboardHistory::HistoryElement *history = 
-				Keyboard::instance()->getkeyboardhistory(historySize);
 			char *buffer  = 
 				Keyboard::instance()->getkeyboardbuffer(bufferSize);
+			KeyboardHistory::HistoryElement *history = 
+				Keyboard::instance()->getkeyboardhistory(historySize);
+			if (buffer[91])
+			{
+				printf("Hmm");
+			}
+
 			unsigned int keyState = 
 				Keyboard::instance()->getKeyboardState();
 

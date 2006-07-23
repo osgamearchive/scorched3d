@@ -323,9 +323,9 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	}
 
 	// Send the state of all the currently connect clients
-	/*ComsPlayerStateMessage comsPlayerStateMessage(true);
+	ComsPlayerStateMessage comsPlayerStateMessage(true);
 	if (!ComsMessageSender::sendToSingleClient(
-		comsPlayerStateMessage, destinationId)) return false;*/
+		comsPlayerStateMessage, destinationId)) return false;
 
 	return true;
 }

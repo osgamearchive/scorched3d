@@ -85,7 +85,7 @@ void WeaponGiveAccessory::weaponCallback(
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		tank->getAccessories().add(accessory, number_);
+		tank->getAccessories().add(accessory, number_, false);
 
 		if (!context.serverMode)
 		{

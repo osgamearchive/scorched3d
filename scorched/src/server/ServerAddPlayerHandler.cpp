@@ -232,7 +232,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
 		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateStarting)
 	{
-		ComsPlayerStateMessage message;
+		ComsPlayerStateMessage message(true);
 		ComsMessageSender::sendToAllConnectedClients(message);
 	}
 	return true;

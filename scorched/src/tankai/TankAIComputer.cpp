@@ -313,8 +313,11 @@ void TankAIComputer::playMove(const unsigned state, float frameTime,
 				currentTank_->getAccessories().getWeapons().setWeapon(accessory);
 			}
 
-			fireShot();
-			return;
+			if (currentTank_->getAccessories().getWeapons().getCurrent())
+			{
+				fireShot();
+				return;
+			}
 		}
 		else if (aimResult == TankAIComputerAim::AimBurried)
 		{

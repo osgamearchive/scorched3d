@@ -5,6 +5,16 @@ Fixed: Log files downloaded from the admin gui have the text mime type
 Fixed: Installer removes old mods during installation
 Fixed: Reinstated money awarded due to hit points option
 Fixed: Team kills may be scored incorrectly
+Fixed: AIs can better cope when their tanks move around
+Fixed: Lives always shown even when the starting lives are 1
+Fixed: Tanks can recieve weapons that they cannot buy
+Fixed: An issue where coms messages could be processed out of order during initial loading
+Fixed: An issue where tanks embeded in levels would not make a move
+
+Added: Check for correct bitmap depth while loading resources
+Added: Key bindings for the scrolling of the chat log
+Added: noluminace tag to WeaponNaplam
+Added: Online color is remembered along with name and model
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

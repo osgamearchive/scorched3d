@@ -27,7 +27,7 @@
 class ComsPlayerStateMessage : public ComsMessage
 {
 public:
-	ComsPlayerStateMessage(bool playersOnly = false);
+	ComsPlayerStateMessage(bool playersOnly);
 	virtual ~ComsPlayerStateMessage();
 
 	// Inherited from ComsMessage

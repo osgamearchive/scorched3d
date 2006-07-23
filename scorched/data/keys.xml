@@ -656,6 +656,29 @@
 		<key>b</key>
 	</keyentry>
 	<keyentry>
+		<name>LOG_SCROLL_UP</name>
+		<title>Scroll chat log up</title>
+		<description>Scroll the chat log back one line</description>
+		<group>8</group>
+		<key>COMMA</key>
+	</keyentry>
+	<keyentry>
+		<name>LOG_SCROLL_DOWN</name>
+		<title>Scroll chat log down</title>
+		<description>Scroll the chat log forward one line</description>
+		<group>8</group>
+		<key>PERIOD</key>
+	</keyentry>
+	<keyentry>
+		<name>LOG_SCROLL_RESET</name>
+		<title>Reset chat log position</title>
+		<description>Reset the chat log scroll position</description>
+		<group>8</group>
+		<key>SEMICOLON</key>
+	</keyentry>
+	
+	<!-- Command Keys -->
+	<keyentry>
 		<command>LandscapeInfoGrid</command>
 		<title>Turn landscape grid on</title>
 		<description>Turns the landscape grid on</description>

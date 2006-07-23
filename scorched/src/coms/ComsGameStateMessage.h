@@ -22,7 +22,6 @@
 #define __INCLUDE_ComsGameStateMessageh_INCLUDE__
 
 #include <coms/ComsMessage.h>
-#include <coms/ComsPlayerStateMessage.h>
 
 class ComsGameStateMessage : public ComsMessage
 {

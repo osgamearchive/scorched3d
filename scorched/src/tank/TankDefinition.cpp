@@ -105,6 +105,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	tank->getLife().setMaxLife(life_);
 	tank->getLife().setSize(size_);
 	tank->getLife().setDriveOverToDestroy(driveovertodestroy_);
+	tank->newMatch();
 	tank->newGame();
 
 	if (shield_.c_str()[0] && 0 != strcmp(shield_.c_str(), "none"))

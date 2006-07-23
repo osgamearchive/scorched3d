@@ -26,8 +26,6 @@
 #include <landscape/Landscape.h>
 #include <landscape/PatchGrid.h>
 #include <coms/ComsGameStateMessage.h>
-#include <common/OptionsTransient.h>
-#include <common/Vector.h>
 
 ClientGameStateHandler *ClientGameStateHandler::instance_ = 0;
 

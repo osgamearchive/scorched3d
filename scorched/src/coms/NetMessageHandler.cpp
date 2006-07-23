@@ -50,21 +50,21 @@ int NetMessageHandler::processMessages()
 	if (!messagesWaiting_) return 0;
 
 	// Get the list of messages that should be processed
-	std::list<NetMessage *> newMessages;
+	// Process one at a time, incase this method is called re-entrantly
+	NetMessage *message = 0;
 	SDL_LockMutex(messagesMutex_);
-	newMessages = messages_;
-	messages_.clear();
-	messagesWaiting_ = false;
+	if (!messages_.empty())
+	{
+		message = messages_.front();
+		messages_.pop_front();
+	}
+	messagesWaiting_ = !messages_.empty();
 	SDL_UnlockMutex(messagesMutex_);
 
 	int result = 0;
-	while (!newMessages.empty())
+	if (message)
 	{
 		result ++;
-		// Retrieve first message to be processed
-		NetMessage *message = 
-			newMessages.front();
-		newMessages.pop_front();
 
 		// Call user to process message
 		if (handler_) handler_->processMessage(*message);

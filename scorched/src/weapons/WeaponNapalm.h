@@ -47,6 +47,7 @@ public:
 	const bool getNoObjectDamage() { return noObjectDamage_; }
 	const bool getAllowUnderWater() { return allowUnderWater_; }
 	const char *getDeformTexture() { return deformTexture_.c_str(); }
+	const bool getLuminance() { return luminance_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -67,6 +68,7 @@ protected:
 	bool noSmoke_;       // Turns off smoke emitted by napalm
 	bool noObjectDamage_;// Turns off burning damage to landscape objects
 	bool allowUnderWater_;// Turns on/off napalm working under water
+	bool luminance_;     // The texutre luminance
 	std::string napalmSound_;
 	std::string napalmTexture_;
 	std::string deformTexture_;

@@ -373,6 +373,7 @@ bool GLWPanel::initFromXML(XMLNode *node)
 				widgetTypeNode->getContent()));
 			return false;			
 		}
+		if (!widgetNode->failChildren()) return false;
 
 		// The condition (if any)
 		GLWCondition *condition = 0;

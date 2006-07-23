@@ -159,6 +159,13 @@ bool GLBitmap::loadFromFile(const char * filename, bool alpha)
 	SDL_Surface *image = SDL_LoadBMP(filename);
 	if (!image) return false;
 
+	if (image->format->BitsPerPixel != 24)
+	{
+		dialogExit("GLBitmap",
+			formatString("ERROR: Bitmap \"%s\" is not encoded as a 24bit bitmap",
+				filename));
+	}
+
 	// Create the internal byte array
 	createBlank(image->w, image->h, alpha);
 

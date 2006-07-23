@@ -64,6 +64,8 @@ OptionsDisplay::OptionsDisplay() :
 		"The player name that will be used for all online games.", RAccess | NoRestore, "Player"),
 	onlineTankModel_(options_, "OnlineTankModel",
 		"The tank model that will be used for all online games.", RAccess | NoRestore, ""),
+	onlineColor_(options_, "OnlineColor",
+		"The tank color that will be used for all online (non-team) games.", RAccess | NoRestore, Vector::nullVector),
 	explosionParts_(options_, "ExplosionParts",
 		"How many explosion clouds are drawn", RAccess, 8, 0, 10, 1),
 	explosionSubParts_(options_, "ExplosionSubParts",

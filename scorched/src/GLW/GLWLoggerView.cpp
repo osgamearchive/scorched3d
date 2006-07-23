@@ -25,6 +25,7 @@
 #include <GLEXT/GLTexture.h>
 #include <XML/XMLParser.h>
 #include <common/Logger.h>
+#include <common/Keyboard.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 
@@ -45,7 +46,8 @@ GLWLoggerView::GLWLoggerView() :
 	scrollPosition_(-1), allowScroll_(false),
 	upButton_(x_ + 2.0f, y_ + 2.0f, 10.0f, 10.0f),
 	downButton_(x_ + 2.0f, y_ + 2.0f, 10.0f, 10.0f),
-	resetButton_(x_ + 2.0f, y_ + 2.0f, 10.0f, 10.0f)
+	resetButton_(x_ + 2.0f, y_ + 2.0f, 10.0f, 10.0f),
+	scrollUpKey_(0), scrollDownKey_(0), scrollResetKey_(0)
 {
 	upButton_.setHandler(this);
 	downButton_.setHandler(this);
@@ -438,7 +440,21 @@ void GLWLoggerView::keyDown(char *buffer, unsigned int keyState,
 	KeyboardHistory::HistoryElement *history, int hisCount, 
 	bool &skipRest)
 {
-	skipRest = false;
+	if (scrollUpKey_ && scrollUpKey_->keyDown(buffer, keyState, false))
+	{
+		buttonDown(upButton_.getId());
+		skipRest = true;
+	}
+	if (scrollDownKey_ && scrollDownKey_->keyDown(buffer, keyState, false))
+	{
+		buttonDown(downButton_.getId());
+		skipRest = true;
+	}
+	if (scrollResetKey_ && scrollResetKey_->keyDown(buffer, keyState, false))
+	{
+		buttonDown(resetButton_.getId());
+		skipRest = true;
+	}
 }
 
 bool GLWLoggerView::initFromXML(XMLNode *node)
@@ -457,6 +473,20 @@ bool GLWLoggerView::initFromXML(XMLNode *node)
 	if (!node->getNamedChild("parentsized", parentSized_)) return false;
 	if (!node->getNamedChild("splitlargelines", splitLargeLines_)) return false;
 	if (!node->getNamedChild("allowscroll", allowScroll_)) return false;
+
+	std::string scrollUpKey, scrollDownKey, scrollResetKey;
+	if (node->getNamedChild("scrollupkey", scrollUpKey, false))
+	{
+		scrollUpKey_ = Keyboard::instance()->getKey(scrollUpKey.c_str());
+	}
+	if (node->getNamedChild("scrolldownkey", scrollDownKey, false))
+	{
+		scrollDownKey_ = Keyboard::instance()->getKey(scrollDownKey.c_str());
+	}
+	if (node->getNamedChild("scrollresetkey", scrollResetKey, false))
+	{
+		scrollResetKey_ = Keyboard::instance()->getKey(scrollResetKey.c_str());
+	}
 		
 	return true;
 }

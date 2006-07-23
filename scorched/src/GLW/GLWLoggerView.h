@@ -24,6 +24,7 @@
 #include <GLW/GLWidget.h>
 #include <GLW/GLWButton.h>
 #include <common/LoggerI.h>
+#include <common/KeyboardKey.h>
 #include <list>
 
 class GLWLoggerViewEntry
@@ -78,6 +79,9 @@ protected:
 	int visibleLines_, totalLines_;
 	int currentVisible_;
 	std::list<GLWLoggerViewEntry> textLines_;
+	KeyboardKey *scrollUpKey_;
+	KeyboardKey *scrollDownKey_;
+	KeyboardKey *scrollResetKey_;
 
 	void addInfo(LoggerInfo &info);
 	int splitLine(const char *message, std::string &result);

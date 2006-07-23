@@ -78,6 +78,9 @@
 					<parentsized>true</parentsized>
 					<tooltiptransparent>true</tooltiptransparent>
 					<allowscroll>true</allowscroll>
+					<scrollupkey>LOG_SCROLL_UP</scrollupkey>
+					<scrolldownkey>LOG_SCROLL_DOWN</scrolldownkey>
+					<scrollresetkey>LOG_SCROLL_RESET</scrollresetkey>
 				</widget>
 			</item>
 		</items>
