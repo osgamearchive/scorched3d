@@ -1,5 +1,5 @@
 ----------------------------------------------------
-             Apocalypse v4.0 Information
+             Apocalypse v4.1 Information
 ----------------------------------------------------
 Apocalypse is a modification for Scorched 3D which adds many new weapons, items, and landscapes
 for use with this awesome game.  The mod is the product of work by several people (named in authors.txt).
@@ -9,196 +9,34 @@ All original work contained in the mod is copyright.  Legal information can be f
 Official Apocalypse Site:  http://apochq.handwired.net
 Official Scorched 3D Site:  http://scorched3d.co.uk
 
-Changes Since 3.1
+Changes Since 4.0
     New Accessories:
-        - Tsar Bomba - the largest nuclear bomb ever made courtesy of the Soviets.
-            - Basically takes place of the old style MOAB behaviour, a big explosion & crater
-            - Slightly smaller explosion crater than old MOAB
-            - Invisible radioactive fallout does additional damage to surrounding tanks
-        - Blink Device - a prototype near-instant teleporter
-        	- However, the new technology is unstable and frequently collapses in a violent explosion
-        - Transporter - shoots a marker projectile and then transports the user to that location
-        - X Tracer - Shoots a spread of tracers at 2.5 degree increments
-            - Inspired by Brain Damage's 'Super Tracer +' :)
-        - Volcano - Creates a volcano that erupts upon impact
-        - Nitro - faster moving fuel that costs more
-        - Light Armor - provides an extra 25 points of protection
-        - Heavy Armor - provides an extra 50 points of protection
-            
-    Weapons Removed, Reworked or Made Unpurchaseable due to lack of use, redundancy or ineffectiveness
-        - Bouncing Betty
-        - Instamountain
-        - Ring Of Dirt
-        - Landscaper
-        - Fire Worms
-        - Dirt Charge
-        - Heavy Roller
-        - Heavy Sandhog
-        - Heavy Digger
-        - Tracer
-        - Hot Napalm
+        - Mirror Shield - prevents damage from lasers but only provides 5 pts of protection from explosions
         
     Other Accessory Changes:
-        - Sat. Strike:
-            - Tweaked aiming methods some more, works better against shields
-            - Slowed the overall pace of it down substantially and reduced amount of aimed projectiles
-            - Increased price from $20,000 to $50,000
-            - Reduced armslevel from 2 to 1
-        - M2 Machinegun:
-            - Increased size of the bullets by 50%, they're still small but more visible
-            - Reduced damage the bullets do during shield collisions to 33% of shield value
-            - Reduced damage of the shells from 0.4 to 0.24 (total damage from 200 to 120)
-            - Now has a somewhat random spread pattern instead of hard-coded
-            - Now always shoots with 1000 power, regardless of user setting
-            - Reduced cost to $1,000 for 2 now that its much less powerful and constant power
-        - Shotgun:
-            - Increased amount of projectiles from 5 to 6
-            - Decreased damage during shield collisions from 50% to 20% of shield value
-            - Decreased damage done per pellet from 0.25 to 0.2 (total damage from 125 to 120)
-            - Pellets now have a somewhat random spread pattern
-            - Now always shoots with 1000 power, regardless of user setting
-            - Increased timer on pellets from 1.5 to 3 seconds
-        - Suicide Bomb:
-            - Reduced the size of the crater (but not damage range) considerably
-            - Added flaming debris
-            - Reduced cost from $16,000 to $12,000
-            - Added some more small explosions to hopefully make sure it kills the user even when shielded
-        - MOAB:
-            - Reduced crater size to between missile and baby nuke
-            - Air blast does some additional damage outside the crater
-            - Reduced cost to $2,000 for 2
-            - This brings the weapon a little more in line with the real thing
-        - Shockwave:
-            - Removed reliance on WeaponAimedOver, now spreads at 22.5 degree angles
-            - Added a few more sparks after the main shockwave begins for visual effect
-            - Decreased damage just barely
-        - Lightning Storm:
-            - Added lightningbolt.wav sounds back in
-            - Increased cost from $25,000 to $30,000
-            - Slowed down the pace by a few seconds to make it easier to watch
-        - Hornet Nest/Swarm:
-            - Increased cost of Hornet Nest to $40,000
-            - Decreased armslevel of Hornet Nest from 2 to 1
-            - Hornets come out 1 and 2 at a time instead of in big groups
-        - Rollers:
-            - Increased cost of Baby Roller to $4,000 for 2
-            - Decreased armslevel of Baby Roller from 7 to 6
-            - Rollers now hurt shields slightly when they collide
-            - Rollers are dropped from slightly above the collision to help prevent shield popping
-        - Flame Thrower:
-            - Added random spread pattern
-            - Decreased power by about half
-            - Decreased cost to $4,000 for 2
-        - Napalm Weapons
-        	- Increased cost to $6,000 for 2
-        	- Decreased power of Napalm slightly
-        	- Decreased power of Napalm Mirv/S-Mirv slightly
-        	- Streams come out one at a time in Napalm Blast
-        	- Napalm Blast leaves some napalm at the collision point as well
-        - Frag Grenade:
-            - Increased velocity of the shrapnel
-            - Added collision timer to the shrapnel
-            - Decreased shieldhurtfactor of shrapnel pellets from 100% to 10%
-            - Increased number of shrapnel pellets from 8 to 9
-            - Reduced damage per shrapnel pellet from 0.6 to 0.4
-            - Added short flame trail to shrapnel and reduced smoke trail length
-        - Acid Weapons:
-        	- New acid behaviour (gradual earth erosion with green napalm burn effect)
-        	- Reduced shieldhurtfactor on all acid weapons to around 25% per drop
-        	- Increased cost of Acid Splash to $10,000
-        	- Increased cost of Acid Blast to $3,000 for 2
-        	- Added green vapor trails
-        - Chain/Fork Lightning
-        	- Reduced power/accuracy and price
-        - Shields:
-            - Decreased radius of Heavy Shield slightly (between regular and ultra size)
-            - Increased Mag Deflect's <deflectpower> from 50% to 75%
-            - Reworked shield <penetration> values.
-                - Regular shields offer most raw damage resistance, then mags, then force shields.
-            - Flattened out base projectile collision damage for all regular shields at 10 pts
-            - Flattened out base projectile collision damage for all force shields at 15 pts
-            - All shields still have 100 base pts of health
-            - Updated descriptions to include some info about the total amount of damage they can absorb
-                and how much damage they take when being hit by projectiles by default
-        - Nuke, Fatman and Tsar Bomba do additional collision damage to shields due to large mass (133-200%)
-        - Reduced shield collision damage on diggers to decrease their usefulness as shield busters
-        - Apoc/Dday/Strangelove now use a fixed spread (not affected by projectile's speed at shot peak)
-        - Added clouds to Apoc/Dday/Strangelove for visual effect
-        - Added some lightning bolts in the clouds in Strangelove
-        - Added another projectile to Apoc/Dday/Strangelove waves
-        - Added second wave of projectiles to Apocalypse & Dmsday Device
-        - Added some extra aimed projectiles to Strangelove after ground collision like it used to be pre v3.0
-        - Added a small sound for hornets when they sting to replace the flare sound.
-        - Added descriptions to the damaging building accessories
-        - Increased damage from lasers some
-        - Increased accuracy of Sandhogs slightly (they are still less powerful than official ones tho)
-        - New projectile model for MOAB by Bobirov
-        - Slightly increased power of Small Meteor explosion (5 percent)
-        - Reduced interval between drops and reduced strength a tad in Hell Storm
-        - Reduced max physical damage of EMP's from 50 to 25 (shield damage went up from 75 to 100)
-        - Decreased size of Dirt Clod a bit to reduce its use as a bunker builder
-        - MIRV and Mega MIRV now use more reliable redirect code
-        - Set Wall Of Dirt maximum to 3 per round
-        - Set Ring Of Dirt maximum to 1 per round
-        - Fixed oversight in EMP grenade causing it to do more damage to shields than EMP missile
-        - Tracers now do no damage to shields when they hit
-        - Renamed Suicide Bomb to Self Destruct
-        - Reduced cost of Haymaker to $30,000
-        - Combined Fire Worms/Ants into a single weapon (Fire Ants)
-        - Earthquake now opens up a long fissure/fault line in addition to shaking the earth and damaging tanks
-        - Increased cost of Mega MIRV to $8,000 for 1
+        - Laser Cannon
+            - Has random spread from -0.5 to 0.5 degrees on 2nd and 3rd shot
+            - Does 60 to 120 damage instead of 75 to 150 damage.
+        - Tweaked the nuclear fallout sparkle effect a bit
+        - Added the fallout sparkle effect to Tsar Bomba
+        - Spaced out the bomblets in Funky Bomb over time slightly to prevent dudding on direct hit
         
     Landscapes:
     	- Cities
-	    	- Two new skyscraper models by Shockwave
-	    	- Two new office models by Shockwave
-	    	- New stadium model by Shockwave
-	    		- Drops 1-3 $5,000 bundles when destroyed
-	    	- New Nuclear Power Plant Building by Bobirov
-	    		- Explodes and releases massive amounts of fallout that travels down wind
-	    		- Can generate power boosters (2000 max power) and magic mushrooms (extra lives)
-	    	- Factories now drop 1-3 gas/acid weapons which can be shot and picked up
-	    	- Stores now drop 1-3 various small weapons, batteries, beer (10 health), parachutes or $1,000 bundles
-	    	- Gas stations drop 1-3 fuel cans (10 fuel), $1,000 bundles, batteries or beer
-	    	- Bars drop 1-3 beers (10 health), shotguns or $1,000 bundles
-	    	- New hospital by Shockwave that drops 1-3 medkits (25 health)
-	    	- New port by Shockwave, drops 0-3 cargo containers (same loot as air drops)
-	    	- Houses can no longer keep setting themselves on fire
-	    	- New 737 jumbo jet boid by Shockwave on cities
-	    	- New cessna boid by Shockwave on cities
-	    	- New medical chopper boid by Shockwave on cities
-	    	- Added several groundmaps to city buildings (roads, farmland, cars, etc)
-    		- Made Gas Stations a little bit more damaging all around
-    		- Reduced height of Church model by 25%
-    		- Replaced f18 model on city maps with f16
-    		- New sounds for factories and power plants
-    		- Larger buildings now create shrapnel when destroyed which can do a small amount of damage
-    		- A random number of cows fly out of farms when destroyed
-    		- Generic building layout added to many non-city landscapes
-    	- Moon maps:
-    		- Added stars
-	        - Removed clouds as best I could (there is no atmosphere on the moon of course.. :P)
-	        - Adjusted light levels a bit
-	        - Added view of the Earth
-	    - Added some flying hornets to the desert maps
-        - Tweaked surround texture for desert maps some so its a little less repetitive looking
-        - Removed City Blocks map
-        - New landscape pics in options menus
-        - New trees on USA and Apoc City
-        - New texture layouts added to many Apoc and non-Apoc landscapes
-        - Random air cargo drops on many landscapes
-        - Score points are awarded for destroying certain buildings (houses and offices don't count)
+            - Factories now release some additional acid bomblets when you destroy them
+            - Hospital now drop 0-3 medkits instead of 1-3 but gives 25 health when you destroy it
+            - Stadium can now drop up to $20,000 instead of $15,000
         
     Other:
-        - Added Sniper AI type that uses mostly lasers and guns.
-        - Added a "Hard Target" AI type that does not shoot but will use defenses, good for testing
+        
         - Various other small changes and fixes
         
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
 in the event that you are re-installing the mod because it has become corrupt, it should be installed into the
-directory you installed Scorched3D to, under /data/globalmods/.  It wouldn't be a bad idea to delete what is in
-the Apoc directory there and in your ~/.scorched3d/mods/apoc/ folder before re-installing as well.
+directory you installed Scorched3D to, under /data/globalmods/.  You should delete what is in the Apoc directory
+in your globalmods folder and in your ~/.scorched3d/mods/apoc/ folder before re-installing for a completely clean
+installation.  This will prvent any issues caused by having obselete or altered files in your Apoc install.
 
 Updates for the mod can typically be obtained on the official Apocalypse servers at ApocHQ, or by going to 
 http://apochq.handwired.net.  

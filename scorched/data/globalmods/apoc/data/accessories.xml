@@ -109,6 +109,31 @@ Capacity: 50 dmg | Collision Damage: 10 dmg</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Mirror Shield</name>
+		<armslevel>10</armslevel>
+		<description>Completely protects against damage from
+lasers but provides little protection from other damage. 
+Capacity: 5 dmg | Collision Damage: 5 dmg</description>
+		<icon>larmor.bmp</icon>
+		<activationsound>shield/activate.wav</activationsound>
+		<bundlesize>2</bundlesize>
+		<cost>4000</cost>
+		<accessoryaction type='Shield'>
+			<radius>4.0</radius>
+			<halfshield>false</halfshield>
+			<color>
+				<r>0</r>
+				<g>0</g>
+				<b>0.5</b>
+			</color>
+			<collisionsound>shield/hit.wav</collisionsound>
+			<removepower>5</removepower>
+			<penetration>1.0</penetration>
+			<power>5</power>
+			<laserproof>true</laserproof>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Shield</name>
 		<armslevel>8</armslevel>
 		<description>A small defensive shield that protects 
@@ -759,15 +784,19 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 				<subweapon3 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon3>
-				<subweapon4 type='WeaponRandomChoice'>
-					<weaponchoice1>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>1</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
+				<subweapon4 type='WeaponAimedOver'>
+					<nowarheads>4</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponVelocity'>
 								<velocitychange>0.8</velocitychange>
 								<aimedweapon type='WeaponProjectile'>
 									<enginesound>none</enginesound>
@@ -785,65 +814,9 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 										<driveovertodestroy>true</driveovertodestroy>
 									</collisionaction>
 								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice1>
-					<weaponchoice2>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>2</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponProjectile'>
-									<enginesound>none</enginesound>
-									<nocreateflame/>
-									<projectilescale>0.8</projectilescale>
-									<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
-									<collisionaction type='WeaponAddTarget'>
-										<name>5000 Dollars</name>
-										<modelscale>0.08</modelscale>
-										<model type='MilkShape'>objects/cash.txt</model>
-										<life>50</life>
-										<shield>none</shield>
-										<parachute>Parachute</parachute>
-										<removeaction>GiveCash5000</removeaction>
-										<driveovertodestroy>true</driveovertodestroy>
-									</collisionaction>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice2>
-					<weaponchoice3>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>3</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponProjectile'>
-									<enginesound>none</enginesound>
-									<nocreateflame/>
-									<projectilescale>0.8</projectilescale>
-									<projectilemodel type='MilkShape'>objects/cash.txt</projectilemodel>
-									<collisionaction type='WeaponAddTarget'>
-										<name>5000 Dollars</name>
-										<modelscale>0.08</modelscale>
-										<model type='MilkShape'>objects/cash.txt</model>
-										<life>50</life>
-										<shield>none</shield>
-										<parachute>Parachute</parachute>
-										<removeaction>GiveCash5000</removeaction>
-										<driveovertodestroy>true</driveovertodestroy>
-									</collisionaction>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice3>
+							</weapon>
+						</weaponchoice2>
+					</aimedweapon>
 				</subweapon4>
 				<subweapon5 type='WeaponSound'>
 					<sound>data/wav/misc/screaming.wav</sound>
@@ -993,7 +966,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 					<deform>none</deform>
 					<size>1</size>
 					<explosionsound>none</explosionsound>
-					<explosiontexture>gas00=5</explosiontexture>
+					<explosiontexture>gas00-5</explosiontexture>
 				</collisionaction>
 			</aimedweapon>
 		</accessoryaction>
@@ -1002,39 +975,19 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<name>Fallout Sparkles</name>
 		<armslevel>2</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponRandomChoice'>
-			<weaponchoice1>
-				<weight>10</weight>
-				<weapon type='WeaponNull'></weapon>
-			</weaponchoice1>
-			<weaponchoice2>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>1</nowarheads>
-					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>0</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>10</weight>
-							<weapon type='WeaponTranslate'>
-								<translatedist>5</translatedist>
-								<nextaction type='WeaponReference'>
-									<weapon>Fallout Sparkle</weapon>
-								</nextaction>
-							</weapon>
-						</weaponchoice1>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice2>
-			<weaponchoice3>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>1</nowarheads>
-					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>0</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
+		<accessoryaction type='WeaponAimedOver'>
+			<nowarheads>3</nowarheads>
+			<percentagemiss>0</percentagemiss>
+			<maxaimdistance>0</maxaimdistance>
+			<inaccuracy>0</inaccuracy>
+			<aimedweapon type='WeaponRandomChoice'>
+				<weaponchoice1>
+					<weight>10</weight>
+					<weapon type='WeaponNull'></weapon>
+				</weaponchoice1>
+				<weaponchoice2>
+					<weight>10</weight>
+					<weapon type='WeaponRandomChoice'>
 						<weaponchoice1>
 							<weight>10</weight>
 							<weapon type='WeaponTranslate'>
@@ -1044,38 +997,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 								</nextaction>
 							</weapon>
 						</weaponchoice1>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice3>
-			<weaponchoice4>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>1</nowarheads>
-					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>0</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>10</weight>
-							<weapon type='WeaponTranslate'>
-								<translatedist>15</translatedist>
-								<nextaction type='WeaponReference'>
-									<weapon>Fallout Sparkle</weapon>
-								</nextaction>
-							</weapon>
-						</weaponchoice1>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice4>
-			<weaponchoice5>
-				<weight>10</weight>
-				<weapon type='WeaponAimedOver'>
-					<nowarheads>1</nowarheads>
-					<percentagemiss>0</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>0</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
+						<weaponchoice2>
 							<weight>10</weight>
 							<weapon type='WeaponTranslate'>
 								<translatedist>20</translatedist>
@@ -1083,10 +1005,28 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 									<weapon>Fallout Sparkle</weapon>
 								</nextaction>
 							</weapon>
-						</weaponchoice1>
-					</aimedweapon>
-				</weapon>
-			</weaponchoice5>
+						</weaponchoice2>
+						<weaponchoice3>
+							<weight>10</weight>
+							<weapon type='WeaponTranslate'>
+								<translatedist>30</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>Fallout Sparkle</weapon>
+								</nextaction>
+							</weapon>
+						</weaponchoice3>
+						<weaponchoice4>
+							<weight>10</weight>
+							<weapon type='WeaponTranslate'>
+								<translatedist>40</translatedist>
+								<nextaction type='WeaponReference'>
+									<weapon>Fallout Sparkle</weapon>
+								</nextaction>
+							</weapon>
+						</weaponchoice4>
+					</weapon>
+				</weaponchoice2>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -2955,10 +2895,20 @@ Does 200 percent collision damage to shields.</description>
 				</subweapon2>
 				<subweapon3 type='WeaponDelay'>
 					<delay>2.0</delay>
+					<delayedweapon type='WeaponRepeat'>
+						<repeat>16</repeat>
+						<delay>0.25</delay>
+						<repeatweapon type='WeaponReference'>
+							<weapon>Fallout Sparkles</weapon>
+						</repeatweapon>
+					</delayedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponDelay'>
+					<delay>2.0</delay>
 					<delayedweapon type='WeaponSound'>
 						<sound>data/wav/explosions/radiation.wav</sound>
 					</delayedweapon>
-				</subweapon3>
+				</subweapon4>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -5256,25 +5206,29 @@ target nearby tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponAimedOver'>
-					<nowarheads>12</nowarheads>
-					<percentagemiss>20</percentagemiss>
-					<maxaimdistance>50</maxaimdistance>
-					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<nocreateflame/>
-						<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
-						<collisionaction type='WeaponExplosion'>
-							<armslevel>2</armslevel>
-							<hurtamount>1.0</hurtamount>
-							<multicolor></multicolor>
-							<deform>down</deform>
-							<size>8</size>
-							<explosionsound>explosions/large.wav</explosionsound>
-							<explosiontexture>exp02</explosiontexture>
-						</collisionaction>
-					</aimedweapon>
+				<subweapon1 type='WeaponRepeat'>
+					<repeat>6</repeat>
+					<delay>0.05</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>2</nowarheads>
+						<percentagemiss>20</percentagemiss>
+						<maxaimdistance>50</maxaimdistance>
+						<inaccuracy>10</inaccuracy>
+						<aimedweapon type='WeaponProjectile'>
+							<enginesound>none</enginesound>
+							<nocreateflame/>
+							<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<armslevel>2</armslevel>
+								<hurtamount>1.0</hurtamount>
+								<multicolor></multicolor>
+								<deform>down</deform>
+								<size>8</size>
+								<explosionsound>explosions/large.wav</explosionsound>
+								<explosiontexture>exp02</explosiontexture>
+							</collisionaction>
+						</aimedweapon>
+					</repeatweapon>
 				</subweapon1>
 				<subweapon2 type='WeaponExplosion'>
 					<armslevel>2</armslevel>
@@ -11751,6 +11705,140 @@ Min Dmg = 50, Max Dmg = 100</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>CannonLaser</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<nomuzzleflash/>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponLaser'>
+				<totaltime>1</totaltime>
+				<minimumdistance>10</minimumdistance>
+				<maximumdistance>200</maximumdistance>
+				<minimumhurt>20</minimumhurt>
+				<maximumhurt>40</maximumhurt>
+				<hurtradius>2</hurtradius>
+				<color>
+					<A>1.0</A>
+					<B>0.0</B>
+					<C>0.0</C>
+				</color>
+			</subweapon1>
+			<subweapon2 type='WeaponSound'>
+				<sound>data/wav/shoot/laser1.wav</sound>
+			</subweapon2>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>LaserSpread</name>
+		<armslevel>4</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<nomuzzleflash/>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponReference'>
+					<weapon>CannonLaser</weapon>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice4>
+			<weaponchoice5>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>0</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice5>
+			<weaponchoice6>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice6>
+			<weaponchoice7>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice7>
+			<weaponchoice8>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0.5</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice8>
+			<weaponchoice9>
+				<weight>10</weight>
+				<weapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>-0.5</hredirect>
+					<vredirect>-0.5</vredirect>
+					<nextaction type='WeaponReference'>
+						<weapon>CannonLaser</weapon>
+					</nextaction>
+				</weapon>
+			</weaponchoice9>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Laser Cannon</name>
 		<armslevel>4</armslevel>
 		<bundlesize>2</bundlesize>
@@ -11765,33 +11853,19 @@ Min Dmg = 75, Max Dmg = 150</description>
 		<nomuzzleflash/>
 		<accessoryaction type='WeaponMulti'>
 			<subweapon1 type='WeaponReference'>
-				<weapon>Laser</weapon>
+				<weapon>CannonLaser</weapon>
 				<armslevel>4</armslevel>
 			</subweapon1>
 			<subweapon2 type='WeaponDelay'>
 				<delay>0.5</delay>
-				<delayedweapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0</hredirect>
-					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>Laser</weapon>
-						<armslevel>4</armslevel>
-					</nextaction>
+				<delayedweapon type='WeaponReference'>
+					<weapon>LaserSpread</weapon>
 				</delayedweapon>
 			</subweapon2>
 			<subweapon3 type='WeaponDelay'>
 				<delay>1.0</delay>
-				<delayedweapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0</hredirect>
-					<vredirect>-0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>Laser</weapon>
-						<armslevel>4</armslevel>
-					</nextaction>
+				<delayedweapon type='WeaponReference'>
+					<weapon>LaserSpread</weapon>
 				</delayedweapon>
 			</subweapon3>
 		</accessoryaction>
@@ -12651,63 +12725,41 @@ violently on one or both sides of the portal.</description>
 					<explosionsound>explosions/small.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
-				<subweapon3 type='WeaponRandomChoice'>
-					<weaponchoice1>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>1</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
+				<subweapon3 type='WeaponAimedOver'>
+					<nowarheads>3</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponVelocity'>
 								<velocitychange>0.8</velocitychange>
 								<aimedweapon type='WeaponInvokeWeapon'>
 									<invoke>HospitalItems</invoke>
 								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice1>
-					<weaponchoice2>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>2</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>HospitalItems</invoke>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice2>
-					<weaponchoice3>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>3</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>HospitalItems</invoke>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice3>
+							</weapon>
+						</weaponchoice2>
+					</aimedweapon>
 				</subweapon3>
-				<subweapon4 type='WeaponSound'>
+				<subweapon4 type='WeaponGiveLife'>
+					<life>25</life>
+					<exceedmax>false</exceedmax>
+				</subweapon4>
+				<subweapon5 type='WeaponSound'>
 					<sound>data/wav/misc/screaming.wav</sound>
 					<gain>1.25</gain>
-				</subweapon4>
-				<subweapon5 type='WeaponReference'>
-					<weapon>LgBldgDebris</weapon>
 				</subweapon5>
-				<subweapon6 type='WeaponGiveScore'>
-					<score>2</score>
+				<subweapon6 type='WeaponReference'>
+					<weapon>LgBldgDebris</weapon>
 				</subweapon6>
+				<subweapon7 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon7>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
@@ -13561,7 +13613,7 @@ which explode and spread fire when ignited.</description>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon3>
 				<subweapon4 type='WeaponAimedOver'>
-					<nowarheads>3</nowarheads>
+					<nowarheads>4</nowarheads>
 					<percentagemiss>0</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>0</inaccuracy>
@@ -13852,9 +13904,50 @@ release lethal clouds of gas when destroyed.</description>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon6>
-				<subweapon7 type='WeaponGiveScore'>
-					<score>2</score>
+				<subweapon7 type='WeaponAimedOver'>
+					<nowarheads>6</nowarheads>
+					<percentagemiss>20</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>10</inaccuracy>
+					<aimedweapon type='WeaponTranslate'>
+						<translatedist>2.0</translatedist>
+						<nextaction type='WeaponVelocity'>
+							<velocitychange>0.8</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<flamestartcolor1>
+									<A>0</A><B>0.75</B><C>0</C>
+								</flamestartcolor1>
+								<flameendcolor1>
+									<A>0</A><B>0.5</B><C>0</C>
+								</flameendcolor1>
+								<flamestartcolor2>
+									<A>0</A><B>0.5</B><C>0</C>
+								</flamestartcolor2>
+								<flameendcolor2>
+									<A>0</A><B>0.25</B><C>0</C>
+								</flameendcolor2>
+								<flamelife>0.5</flamelife>
+								<smokelife>1.0</smokelife>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>green.bmp</skin>
+								</projectilemodel>
+								<collisionaction type='WeaponReference'>
+									<weapon>Acid_Small</weapon>
+								</collisionaction>
+							</aimedweapon>
+						</nextaction>
+					</aimedweapon>
 				</subweapon7>
+				<subweapon8 type='WeaponReference'>
+					<weapon>Acid_Medium</weapon>
+				</subweapon8>
+				<subweapon9 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon9>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
