@@ -114,12 +114,12 @@ Capacity: 50 dmg | Collision Damage: 10 dmg</description>
 		<description>Completely protects against damage from
 lasers but provides little protection from other damage. 
 Capacity: 5 dmg | Collision Damage: 5 dmg</description>
-		<icon>larmor.bmp</icon>
+		<icon>mirror.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>4000</cost>
 		<accessoryaction type='Shield'>
-			<radius>4.0</radius>
+			<radius>4</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>0</r>
@@ -345,6 +345,41 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Screams</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>10</weight>
+				<weapon type='WeaponSound'>
+					<sound>data/wav/misc/scream1.wav</sound>
+					<gain>1.25</gain>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>10</weight>
+				<weapon type='WeaponSound'>
+					<sound>data/wav/misc/scream2.wav</sound>
+					<gain>1.25</gain>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>10</weight>
+				<weapon type='WeaponSound'>
+					<sound>data/wav/misc/scream3.wav</sound>
+					<gain>1.25</gain>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>10</weight>
+				<weapon type='WeaponSound'>
+					<sound>data/wav/misc/scream4.wav</sound>
+					<gain>1.25</gain>
+				</weapon>
+			</weaponchoice4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Small Bldg</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -477,39 +512,17 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 				</subweapon3>
 				<subweapon4 type='WeaponRandomChoice'>
 					<weaponchoice1>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream1.wav</sound>
-							<gain>1.25</gain>
+						<weight>30</weight>
+						<weapon type='WeaponReference'>
+							<weapon>Screams</weapon>
 						</weapon>
 					</weaponchoice1>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream2.wav</sound>
-							<gain>1.25</gain>
-						</weapon>
-					</weaponchoice2>
-					<weaponchoice3>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream3.wav</sound>
-							<gain>1.25</gain>
-						</weapon>
-					</weaponchoice3>
-					<weaponchoice4>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream4.wav</sound>
-							<gain>1.25</gain>
-						</weapon>
-					</weaponchoice4>
-					<weaponchoice5>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
 							<sound>data/wav/explosions/small.wav</sound>
 						</weapon>
-					</weaponchoice5>
+					</weaponchoice2>
 				</subweapon4>
 			</delayedweapon>
 		</accessoryaction>
@@ -547,39 +560,17 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 				</subweapon2>
 				<subweapon3 type='WeaponRandomChoice'>
 					<weaponchoice1>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream1.wav</sound>
-							<gain>1.25</gain>
+						<weight>30</weight>
+						<weapon type='WeaponReference'>
+							<weapon>Screams</weapon>
 						</weapon>
 					</weaponchoice1>
 					<weaponchoice2>
 						<weight>10</weight>
 						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream2.wav</sound>
-							<gain>1.25</gain>
-						</weapon>
-					</weaponchoice2>
-					<weaponchoice3>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream3.wav</sound>
-							<gain>1.25</gain>
-						</weapon>
-					</weaponchoice3>
-					<weaponchoice4>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
-							<sound>data/wav/misc/scream4.wav</sound>
-							<gain>1.25</gain>
-						</weapon>
-					</weaponchoice4>
-					<weaponchoice5>
-						<weight>10</weight>
-						<weapon type='WeaponSound'>
 							<sound>data/wav/explosions/small.wav</sound>
 						</weapon>
-					</weaponchoice5>
+					</weaponchoice2>
 				</subweapon3>
 			</delayedweapon>
 		</accessoryaction>
@@ -13444,6 +13435,121 @@ which explode and spread fire when ignited.</description>
 				<subweapon5 type='WeaponGiveScore'>
 					<score>1</score>
 				</subweapon5>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Igloo</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.1</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>light00</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<minlife>2</minlife>
+					<maxlife>4</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>none</deform>
+					<size>6</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>cloud00-5</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponAimedOver'>
+					<nowarheads>6</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>false</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>20</vredirect>
+						<nextaction type='WeaponVelocity'>
+							<abs>true</abs>
+							<velocitychange>0.25</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<nocreatesmoke/>
+								<flamestartsize>1.0</flamestartsize>
+								<flamelife>1.5</flamelife>
+								<flamestartcolor1>
+									<A>1.0</A><B>1.0</B><C>1.0</C>
+								</flamestartcolor1>
+								<flameendcolor1>
+									<A>0.75</A><B>0.75</B><C>0.75</C>
+								</flameendcolor1>
+								<flamestartcolor2>
+									<A>0.75</A><B>0.75</B><C>0.75</C>
+								</flamestartcolor2>
+								<flameendcolor2>
+									<A>0.5</A><B>0.5</B><C>0.5</C>
+								</flameendcolor2>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>white.bmp</skin>
+								</projectilemodel>
+								<timedcollision>2.0</timedcollision>
+								<collisionaction type='WeaponExplosion'>
+									<nocreatedebris/>
+									<hurtamount>0.25</hurtamount>
+									<deform>none</deform>
+									<size>4</size>
+									<explosiontexture>none</explosiontexture>
+									<explosionsound>none</explosionsound>
+								</collisionaction>
+							</aimedweapon>
+						</nextaction>
+					</aimedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponRandomChoice'>
+					<weaponchoice1>
+						<weight>20</weight>
+						<weapon type='WeaponReference'>
+							<weapon>Screams</weapon>
+						</weapon>
+					</weaponchoice1>
+					<weaponchoice2>
+						<weight>10</weight>
+						<weapon type='WeaponSound'>
+							<sound>data/wav/explosions/acid.wav</sound>
+						</weapon>
+					</weaponchoice2>
+				</subweapon4>
+				<subweapon5 type='WeaponAimedOver'>
+					<nowarheads>3</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>10</weight>
+							<weapon type='WeaponVelocity'>
+								<velocitychange>0.8</velocitychange>
+								<aimedweapon type='WeaponInvokeWeapon'>
+									<invoke>Store1Items</invoke>
+								</aimedweapon>
+							</weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice2>
+					</aimedweapon>
+				</subweapon5>
+				<subweapon6 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon6>
 			</delayedweapon>
 		</accessoryaction>
 	</accessory>
