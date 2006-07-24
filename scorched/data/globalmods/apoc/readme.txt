@@ -30,6 +30,8 @@ Changes Since 4.0
         - Random flame spurts (geysers) that pop up out of the ground on the hell texture layout
         - Weather events can now damage tanks
         - Increased likelyhood of cargo drops on landscapes that have them
+        - Igloos added to ice_bldg texture layout
+            - Drops same items as stores at the moment
         
     Other:
         - Various other small changes and fixes
