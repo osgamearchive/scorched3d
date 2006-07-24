@@ -29,6 +29,7 @@ Changes Since 4.0
         - Buildings and/or cargo drops added to a few more landscapes/texture layouts
         - Random flame spurts (geysers) that pop up out of the ground on the hell texture layout
         - Weather events can now damage tanks
+        - Increased likelyhood of cargo drops on landscapes that have them
         
     Other:
         - Various other small changes and fixes
