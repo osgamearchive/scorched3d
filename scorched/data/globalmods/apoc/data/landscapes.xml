@@ -32,7 +32,7 @@
 			<item>data/landscapes/defnhilly.xml</item>
 		</defn>
 		<tex>
-			<!--<item>data/landscapes/texsnow_bldg.xml</item>
+			<item>data/landscapes/texsnow_bldg.xml</item>
 			<item>data/landscapes/texstorm_bldg.xml</item>
 			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texvulcano_bldg.xml</item>
@@ -41,7 +41,7 @@
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texice_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
-			<item>data/landscapes/texdesert.xml</item>-->
+			<item>data/landscapes/texdesert.xml</item>
 			<item>data/landscapes/texhell.xml</item>
 		</tex>
 	</landscape>
