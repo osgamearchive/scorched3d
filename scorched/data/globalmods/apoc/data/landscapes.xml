@@ -220,7 +220,7 @@
 			<item>data/landscapes/defnicebergs2.xml</item>
 		</defn>
 		<tex>
-			<item>data/landscapes/texice_bldg.xml</item>
+			<item>data/landscapes/texice.xml</item>
 		</tex>
 	</landscape>
 	<!-- 
@@ -547,6 +547,7 @@
 			<item>data/landscapes/texstorm_bldg.xml</item>
 			<item>data/landscapes/texarizona_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
+			<item>data/landscapes/texice_bldg.xml</item>
 		</tex>
 	</landscape>
 	<landscape>
@@ -589,6 +590,7 @@
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
 			<item>data/landscapes/texarizona_bldg.xml</item>
+			<item>data/landscapes/texice_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 		</tex>
@@ -630,6 +632,7 @@
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
 			<item>data/landscapes/texarizona_bldg.xml</item>
+			<item>data/landscapes/texice_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 			<item>data/landscapes/texdesert.xml</item>
 		</tex>
@@ -646,10 +649,10 @@
 			<item>data/landscapes/texcity1_summer.xml</item>
 			<item>data/landscapes/texcity1_winter.xml</item>
 			<item>data/landscapes/texcity1_storm.xml</item>
-			<item>data/landscapes/textropical_bldg.xml</item>
 			<item>data/landscapes/texdenali_bldg.xml</item>
 			<item>data/landscapes/texcastle_bldg.xml</item>
 			<item>data/landscapes/texarizona_bldg.xml</item>
+			<item>data/landscapes/texice_bldg.xml</item>
 			<item>data/landscapes/texmoon.xml</item>
 		</tex>
 	</landscape>

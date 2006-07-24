@@ -41,6 +41,7 @@
 		<boid>data/landscapes/boidsf16.xml</boid>
 	</boids>
 	<placements>
+		<placement>data/landscapes/placeigloo.xml</placement>
 		<placement>data/landscapes/placepingu.xml</placement>
 	</placements>
 	<events>
