@@ -1756,8 +1756,8 @@ radioactive fallout which travels downwind.</description>
 									<derivangle>0.5</derivangle>
 									<anglevar>0.94</anglevar>
 									<totaltime>1</totaltime>
-									<seghurt>0</seghurt>
-									<seghurtradius>0</seghurtradius>
+									<seghurt>0.5</seghurt>
+									<seghurtradius>4</seghurtradius>
 									<sound>none</sound>
 								</subweapon2>
 							</delayedweapon>
@@ -1791,14 +1791,135 @@ radioactive fallout which travels downwind.</description>
 								<skin>magma.bmp</skin>
 							</projectilemodel>
 							<collisionaction type='WeaponExplosion'>
-								<hurtamount>0.0</hurtamount>
-								<deform>none</deform>
+								<hurtamount>0.5</hurtamount>
+								<deform>down</deform>
 								<size>4</size>
 								<explosionsound>explosions/small.wav</explosionsound>
 								<explosiontexture>exp04</explosiontexture>
 							</collisionaction>
 						</aimedweapon>
 					</aimedweapon>
+				</aimedweapon>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>SpurtBlob</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponProjectile'>
+			<flamestartsize>2.0</flamestartsize>
+			<flameendsize>4.0</flameendsize>
+			<timedcollision>0.5</timedcollision>
+			<shieldhurtfactor>0</shieldhurtfactor>
+			<enginesound>none</enginesound>
+			<projectilescale>0.1</projectilescale>
+			<projectilemodel type='ase'>
+				<mesh>roller.ase</mesh>
+				<skin>magma.bmp</skin>
+			</projectilemodel>
+			<collisionaction type='WeaponProjectile'>
+				<nocreateflame/>
+				<timedcollision>0.5</timedcollision>
+				<shieldhurtfactor>0</shieldhurtfactor>
+				<enginesound>none</enginesound>
+				<projectilescale>0.1</projectilescale>
+				<projectilemodel type='ase'>
+					<mesh>roller.ase</mesh>
+					<skin>magma.bmp</skin>
+				</projectilemodel>
+				<collisionaction type='WeaponNull'></collisionaction>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Flame Spurt</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponCenterPosition'>
+			<height>0</height>
+			<nextaction type='WeaponScatterPosition'>
+				<landheight>true</landheight>
+				<landonly>true</landonly>
+				<scatterpercentage>90</scatterpercentage>
+				<aimedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponExplosion'>
+						<hurtamount>0</hurtamount>
+						<deform>down</deform>
+						<size>3</size>
+						<explosiontexture>exp04</explosiontexture>
+						<explosionshake>2.0</explosionshake>
+						<explosionsound>explosions/gas.wav</explosionsound>
+					</subweapon1>
+					<subweapon2 type='WeaponRepeat'>
+						<repeat>4</repeat>
+						<delay>1.0</delay>
+						<repeatweapon type='WeaponExplosion'>
+							<minlife>2</minlife>
+							<maxlife>3</maxlife>
+							<hurtamount>0.15</hurtamount>
+							<deform>none</deform>
+							<size>4</size>
+							<explosiontexture>cloud00-5</explosiontexture>
+							<explosionsound>none</explosionsound>
+						</repeatweapon>
+					</subweapon2>
+					<subweapon3 type='WeaponRepeat'>
+						<repeat>15</repeat>
+						<delay>0.2</delay>
+						<repeatweapon type='WeaponScatterDirection'>
+							<direction><A>0</A><B>0</B><C>1</C></direction>
+							<directionoffset><A>1</A><B>1</B><C>0</C></directionoffset>		
+							<aimedweapon type='WeaponTranslate'>
+								<translatedist>1</translatedist>
+								<nextaction type='WeaponVelocity'>
+									<abs>true</abs>
+									<velocitychange>0.8</velocitychange>
+									<aimedweapon type='WeaponRandomChoice'>
+										<weaponchoice1>
+											<weight>10</weight>
+											<weapon type='WeaponRedirect'>
+												<habs>false</habs>
+												<vabs>true</vabs>
+												<hredirect>0</hredirect>
+												<vredirect>0</vredirect>
+												<nextaction type='WeaponReference'>
+													<weapon>SpurtBlob</weapon>
+												</nextaction>
+											</weapon>
+										</weaponchoice1>
+										<weaponchoice2>
+											<weight>10</weight>
+											<weapon type='WeaponRedirect'>
+												<habs>false</habs>
+												<vabs>true</vabs>
+												<hredirect>0</hredirect>
+												<vredirect>5</vredirect>
+												<nextaction type='WeaponReference'>
+													<weapon>SpurtBlob</weapon>
+												</nextaction>
+											</weapon>
+										</weaponchoice2>
+										<weaponchoice3>
+											<weight>10</weight>
+											<weapon type='WeaponRedirect'>
+												<habs>false</habs>
+												<vabs>true</vabs>
+												<hredirect>0</hredirect>
+												<vredirect>10</vredirect>
+												<nextaction type='WeaponReference'>
+													<weapon>SpurtBlob</weapon>
+												</nextaction>
+											</weapon>
+										</weaponchoice3>
+									</aimedweapon>
+								</nextaction>
+							</aimedweapon>
+						</repeatweapon>
+					</subweapon3>
+					<subweapon4 type='WeaponSound'>
+						<sound>data/wav/shoot/flare.wav</sound>
+					</subweapon4>
 				</aimedweapon>
 			</nextaction>
 		</accessoryaction>
@@ -2361,7 +2482,7 @@ radioactive fallout which travels downwind.</description>
 					<projectilescale>0.4</projectilescale>
 					<projectilemodel type='ase'>
 						<mesh>roller.ase</mesh>
-						<skin>molten.bmp</skin>
+						<skin>magma.bmp</skin>
 					</projectilemodel>
 					<collisionaction type='WeaponNapalm'>
 						<napalmtime>3.0</napalmtime>
@@ -5734,7 +5855,7 @@ near the flames will lose life.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='ase'>
 				<mesh>roller.ase</mesh>
-				<skin>molten.bmp</skin>
+				<skin>magma.bmp</skin>
 			</projectilemodel>
 			<projectilescale>0.1</projectilescale>				
 			<smokelife>3</smokelife>				
@@ -6457,7 +6578,7 @@ point releases many explosive napalm warheads.</description>
 		<activationsound>shoot/launch.wav</activationsound>
 		<model type='ase'>
 			<mesh>roller.ase</mesh>
-			<skin>molten.bmp</skin>
+			<skin>magma.bmp</skin>
 		</model>
 		<modelscale>2.5</modelscale>
 		<accessoryaction type='WeaponProjectile'>
@@ -7841,7 +7962,7 @@ burning chunks of earth about the area.</description>
 		<activationsound>shoot/xlarge.wav</activationsound>
 		<model type='ase'>
 			<mesh>roller.ase</mesh>
-			<skin>molten.bmp</skin>
+			<skin>magma.bmp</skin>
 		</model>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
@@ -7857,7 +7978,7 @@ burning chunks of earth about the area.</description>
 									<projectilescale>2</projectilescale>
 									<projectilemodel type='ase'>
 										<mesh>roller.ase</mesh>
-										<skin>molten.bmp</skin>
+										<skin>magma.bmp</skin>
 									</projectilemodel>
 									<collisionaction type='WeaponMulti'>
 										<subweapon1 type='WeaponDelay'>
@@ -7872,7 +7993,7 @@ burning chunks of earth about the area.</description>
 													<nextaction type='WeaponProjectile'>
 														<projectilemodel type='ase'>
 															<mesh>roller.ase</mesh>
-															<skin>molten.bmp</skin>
+															<skin>magma.bmp</skin>
 														</projectilemodel>
 														<collisionaction type='WeaponMulti'>
 															<subweapon1 type='WeaponExplosion'>
@@ -7958,7 +8079,7 @@ burning chunks of earth about the area.</description>
 		<activationsound>shoot/xlarge.wav</activationsound>
 		<model type='ase'>
 			<mesh>roller.ase</mesh>
-			<skin>molten.bmp</skin>
+			<skin>magma.bmp</skin>
 		</model>
 		<accessoryaction type='WeaponProjectile'>
 			<apexcollision></apexcollision>
@@ -7971,7 +8092,7 @@ burning chunks of earth about the area.</description>
 							<projectilescale>2</projectilescale>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
-								<skin>molten.bmp</skin>
+								<skin>magma.bmp</skin>
 							</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponDelay'>
@@ -7988,7 +8109,7 @@ burning chunks of earth about the area.</description>
 												<aimedweapon type='WeaponProjectile'>
 													<projectilemodel type='ase'>
 														<mesh>roller.ase</mesh>
-														<skin>molten.bmp</skin>
+														<skin>magma.bmp</skin>
 													</projectilemodel>
 													<collisionaction type='WeaponMulti'>
 														<subweapon1 type='WeaponExplosion'>
@@ -8063,7 +8184,7 @@ burning chunks of earth about the area.</description>
 			<projectilescale>2.0</projectilescale>
 			<projectilemodel type='ase'>
 				<mesh>roller.ase</mesh>
-				<skin>molten.bmp</skin>
+				<skin>magma.bmp</skin>
 			</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
@@ -8086,7 +8207,7 @@ burning chunks of earth about the area.</description>
 							<smokelife>4.0</smokelife>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
-								<skin>molten.bmp</skin>
+								<skin>magma.bmp</skin>
 							</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
@@ -8124,7 +8245,7 @@ burning chunks of earth about the area.</description>
 			<projectilescale>2.5</projectilescale>
 			<projectilemodel type='ase'>
 				<mesh>roller.ase</mesh>
-				<skin>molten.bmp</skin>
+				<skin>magma.bmp</skin>
 			</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
@@ -8147,7 +8268,7 @@ burning chunks of earth about the area.</description>
 							<smokelife>4.0</smokelife>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
-								<skin>molten.bmp</skin>
+								<skin>magma.bmp</skin>
 							</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
@@ -8185,7 +8306,7 @@ burning chunks of earth about the area.</description>
 			<projectilescale>3.0</projectilescale>
 			<projectilemodel type='ase'>
 				<mesh>roller.ase</mesh>
-				<skin>molten.bmp</skin>
+				<skin>magma.bmp</skin>
 			</projectilemodel>
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
@@ -8208,7 +8329,7 @@ burning chunks of earth about the area.</description>
 							<smokelife>4.0</smokelife>
 							<projectilemodel type='ase'>
 								<mesh>roller.ase</mesh>
-								<skin>molten.bmp</skin>
+								<skin>magma.bmp</skin>
 							</projectilemodel>
 							<collisionaction type='WeaponMulti'>
 								<subweapon1 type='WeaponExplosion'>
@@ -8353,7 +8474,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 		<activationsound>shoot/xlarge.wav</activationsound>
 		<model type='ase'>
 			<mesh>roller.ase</mesh>
-			<skin>molten.bmp</skin>
+			<skin>magma.bmp</skin>
 		</model>
 		<accessoryaction type='WeaponCenterPosition'>
 			<height>200</height>
@@ -8614,7 +8735,7 @@ YOU CANNOT AIM THIS WEAPON!</description>
 		<activationsound>shoot/xlarge.wav</activationsound>
 		<model type='ase'>
 			<mesh>roller.ase</mesh>
-			<skin>molten.bmp</skin>
+			<skin>magma.bmp</skin>
 		</model>
 		<accessoryaction type='WeaponProjectile'>
 			<flaretype>1</flaretype>
