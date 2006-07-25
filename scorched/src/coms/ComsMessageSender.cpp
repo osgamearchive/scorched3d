@@ -110,7 +110,7 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 	std::set<unsigned int>::iterator findItor;
 
 	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> &tanks = 
+	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
@@ -143,7 +143,7 @@ bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
 	std::set<unsigned int>::iterator findItor;
 
 	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> &tanks = 
+	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();

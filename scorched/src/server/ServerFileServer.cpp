@@ -57,7 +57,7 @@ void ServerFileServer::simulate(float timeDifference)
 
 	// Check how many people are currently downloading
 	// also check for any that have finished downloading
-	std::map<unsigned int, Tank *> &tanks = 
+	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
@@ -78,10 +78,27 @@ void ServerFileServer::simulate(float timeDifference)
 				// Check if this tank had had a chance to get its mod files
 				if (tank->getMod().getInit())
 				{
-					// This tank has finished being sent mod files
+					// Set this tank to finished
 					tank->getState().setLoading(false);
 
-					if (tank->getState().getInitializing())
+					// If all tanks at this destination have finished send init message
+					bool allComplete = true;
+					std::map<unsigned int, Tank *>::iterator seconditor;
+					for (seconditor = tanks.begin();
+						seconditor != tanks.end();
+						seconditor++)
+					{
+						Tank *secondtank = (*seconditor).second;
+						if (secondtank->getState().getLoading())
+						{
+							allComplete = false;
+							break;
+						}
+					}
+
+					// If this tank is not initialized make it initialized
+					if (tank->getState().getInitializing() &&
+						allComplete)
 					{
 						// Tell this destination to start initializing
 						ComsInitializeMessage initMessage;
