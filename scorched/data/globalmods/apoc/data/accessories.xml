@@ -13554,6 +13554,359 @@ which explode and spread fire when ignited.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Acid Pod</name>
+		<armslevel>8</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.1</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>5</size>
+					<explosionsound>explosions/gloop.wav</explosionsound>
+					<explosiontexture>gas00-5</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponReference'>
+					<weapon>Acid_Medium</weapon>
+				</subweapon2>
+				<subweapon3 type='WeaponAimedOver'>
+					<nowarheads>6</nowarheads>
+					<percentagemiss>20</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>10</inaccuracy>
+					<aimedweapon type='WeaponTranslate'>
+						<translatedist>3.0</translatedist>
+						<nextaction type='WeaponVelocity'>
+							<velocitychange>0.8</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<flamestartcolor1>
+									<A>0</A><B>0.75</B><C>0</C>
+								</flamestartcolor1>
+								<flameendcolor1>
+									<A>0</A><B>0.5</B><C>0</C>
+								</flameendcolor1>
+								<flamestartcolor2>
+									<A>0</A><B>0.5</B><C>0</C>
+								</flamestartcolor2>
+								<flameendcolor2>
+									<A>0</A><B>0.25</B><C>0</C>
+								</flameendcolor2>
+								<flamelife>0.5</flamelife>
+								<smokelife>1.0</smokelife>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>green.bmp</skin>
+								</projectilemodel>
+								<collisionaction type='WeaponReference'>
+									<weapon>Acid_Small</weapon>
+								</collisionaction>
+							</aimedweapon>
+						</nextaction>
+					</aimedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponAimedOver'>
+					<nowarheads>3</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponRandomChoice'>
+						<weaponchoice1>
+							<weight>20</weight>
+							<weapon type='WeaponRandomChoice'>
+								<weaponchoice1>
+									<weight>10</weight>
+									<weapon type='WeaponProjectile'>
+										<enginesound>none</enginesound>
+										<nocreateflame/>
+										<projectilescale>1.0</projectilescale>
+										<projectilemodel type='MilkShape'>v2missile/v2missile.txt</projectilemodel>
+										<collisionaction type='WeaponAddTarget'>
+											<name>Missiles</name>
+											<modelscale>0.02</modelscale>
+											<model type='MilkShape'>v2missile/v2missile.txt</model>
+											<life>50</life>
+											<shield>none</shield>
+											<parachute>Parachute</parachute>
+											<removeaction>GiveMissile</removeaction>
+											<driveovertodestroy>true</driveovertodestroy>
+										</collisionaction>
+									</weapon>
+								</weaponchoice1>
+								<weaponchoice2>
+									<weight>10</weight>
+									<weapon type='WeaponProjectile'>
+										<enginesound>none</enginesound>
+										<nocreateflame/>
+										<projectilescale>0.6</projectilescale>
+										<projectilemodel type='MilkShape'>weapons/shotgunshell.txt</projectilemodel>
+										<collisionaction type='WeaponAddTarget'>
+											<name>Shotgun Shells</name>
+											<modelscale>0.08</modelscale>
+											<model type='MilkShape'>weapons/shotgunshell.txt</model>
+											<life>50</life>
+											<shield>none</shield>
+											<parachute>Parachute</parachute>
+											<removeaction>GiveShotgun</removeaction>
+											<driveovertodestroy>true</driveovertodestroy>
+										</collisionaction>
+									</weapon>
+								</weaponchoice2>
+								<weaponchoice3>
+									<weight>10</weight>
+									<weapon type='WeaponProjectile'>
+										<enginesound>none</enginesound>
+										<nocreateflame/>
+										<projectilescale>0.8</projectilescale>
+										<projectilemodel type='MilkShape'>weapons/grenade.txt</projectilemodel>
+										<collisionaction type='WeaponAddTarget'>
+											<name>Frag Grenades</name>
+											<modelscale>0.08</modelscale>
+											<model type='MilkShape'>weapons/grenade.txt</model>
+											<life>50</life>
+											<shield>none</shield>
+											<parachute>Parachute</parachute>
+											<removeaction>GiveFragGrenade</removeaction>
+											<driveovertodestroy>true</driveovertodestroy>
+										</collisionaction>
+									</weapon>
+								</weaponchoice3>
+								<weaponchoice4>
+									<weight>10</weight>
+									<weapon type='WeaponProjectile'>
+										<enginesound>none</enginesound>
+										<nocreateflame/>
+										<projectilescale>1.0</projectilescale>
+										<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
+										<collisionaction type='WeaponAddTarget'>
+											<name>EMP Grenades</name>
+											<modelscale>0.06</modelscale>
+											<model type='MilkShape'>weapons/shockbomblet.txt</model>
+											<life>50</life>
+											<shield>none</shield>
+											<parachute>Parachute</parachute>
+											<removeaction>GiveEMPGrenade</removeaction>
+											<driveovertodestroy>true</driveovertodestroy>
+										</collisionaction>
+									</weapon>
+								</weaponchoice4>
+								<weaponchoice5>
+									<weight>10</weight>
+									<weapon type='WeaponProjectile'>
+										<enginesound>none</enginesound>
+										<nocreateflame/>
+										<projectilescale>1.0</projectilescale>
+										<projectilemodel type='MilkShape'>weapons/50cal.txt</projectilemodel>
+										<collisionaction type='WeaponAddTarget'>
+											<name>M2 Machinegun</name>
+											<modelscale>0.08</modelscale>
+											<model type='MilkShape'>weapons/50cal.txt</model>
+											<life>50</life>
+											<shield>none</shield>
+											<parachute>Parachute</parachute>
+											<removeaction>GiveMachineGun</removeaction>
+											<driveovertodestroy>true</driveovertodestroy>
+										</collisionaction>
+									</weapon>
+								</weaponchoice5>
+							</weapon>
+						</weaponchoice1>
+						<weaponchoice2>
+							<weight>10</weight>
+							<weapon type='WeaponVelocity'>
+								<velocitychange>1.0</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<enginesound>none</enginesound>
+									<nocreateflame/>
+									<projectilescale>1.25</projectilescale>
+									<projectilemodel type='MilkShape'>pwrcrate/pwrcrate.txt</projectilemodel>
+									<collisionaction type='WeaponAddTarget'>
+										<name>Cargo</name>
+										<modelscale>0.06</modelscale>
+										<model type='MilkShape'>pwrcrate/pwrcrate.txt</model>
+										<life>50</life>
+										<shield>none</shield>
+										<parachute>Parachute</parachute>
+										<removeaction>CargoItems</removeaction>
+										<driveovertodestroy>true</driveovertodestroy>
+									</collisionaction>
+								</aimedweapon>
+							</weapon>
+						</weaponchoice2>
+						<weaponchoice3>
+							<weight>20</weight>
+							<weapon type='WeaponNull'></weapon>
+						</weaponchoice3>
+					</aimedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon5>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Fleshy Pod</name>
+		<armslevel>8</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponDelay'>
+			<delay>0.1</delay>
+			<delayedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponExplosion'>
+					<minlife>2</minlife>
+					<maxlife>3</maxlife>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform>
+					<size>4</size>
+					<explosionsound>explosions/gloop.wav</explosionsound>
+					<explosiontexture>exp04</explosiontexture>
+				</subweapon1>
+				<subweapon2 type='WeaponExplosion'>
+					<nocreatedebris/>
+					<noluminance/>
+					<hurtamount>0.5</hurtamount>
+					<deform>none</deform>
+					<size>8</size>
+					<explosionsound>none</explosionsound>
+					<explosiontexture>none</explosiontexture>
+				</subweapon2>
+				<subweapon3 type='WeaponAimedOver'>
+					<nowarheads>6</nowarheads>
+					<percentagemiss>0</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>0</inaccuracy>
+					<aimedweapon type='WeaponRedirect'>
+						<habs>false</habs>
+						<vabs>false</vabs>
+						<hredirect>0</hredirect>
+						<vredirect>20</vredirect>
+						<nextaction type='WeaponVelocity'>
+							<abs>true</abs>
+							<velocitychange>0.25</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+								<nocreatesmoke/>
+								<shieldhurtfactor>0.25</shieldhurtfactor>
+								<enginesound>none</enginesound>
+								<flamestartcolor1>
+									<A>0.75</A><B>0</B><C>0</C>
+								</flamestartcolor1>
+								<flameendcolor1>
+									<A>0.5</A><B>0</B><C>0</C>
+								</flameendcolor1>
+								<flamestartcolor2>
+									<A>0.5</A><B>0</B><C>0</C>
+								</flamestartcolor2>
+								<flameendcolor2>
+									<A>0.25</A><B>0</B><C>0</C>
+								</flameendcolor2>
+								<flamelife>1.5</flamelife>
+								<projectilescale>0.5</projectilescale>
+								<projectilemodel type='ase'>
+									<mesh>roller.ase</mesh>
+									<skin>none</skin>
+								</projectilemodel>
+								<timedcollision>2.0</timedcollision>
+								<collisionaction type='WeaponNull'></collisionaction>
+							</aimedweapon>
+						</nextaction>
+					</aimedweapon>
+				</subweapon3>
+				<subweapon4 type='WeaponAimedOver'>
+					<nowarheads>3</nowarheads>
+					<percentagemiss>99</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>99</inaccuracy>
+					<aimedweapon type='WeaponVelocity'>
+						<velocitychange>0.8</velocitychange>
+						<aimedweapon type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>15</weight>
+								<weapon type='WeaponReference'>
+									<weapon>HospitalItems</weapon>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>15</weight>
+								<weapon type='WeaponRandomChoice'>
+									<weaponchoice1>
+										<weight>10</weight>
+										<weapon type='WeaponProjectile'>
+											<enginesound>none</enginesound>
+											<nocreateflame/>
+											<projectilescale>0.8</projectilescale>
+											<projectilemodel type='MilkShape'>objects/parachute.txt</projectilemodel>
+											<collisionaction type='WeaponAddTarget'>
+												<name>Parachutes</name>
+												<modelscale>0.08</modelscale>
+												<model type='MilkShape'>objects/parachute.txt</model>
+												<life>50</life>
+												<shield>none</shield>
+												<parachute>Parachute</parachute>
+												<removeaction>GiveParachute</removeaction>
+												<driveovertodestroy>true</driveovertodestroy>
+											</collisionaction>
+										</weapon>
+									</weaponchoice1>
+									<weaponchoice2>
+										<weight>10</weight>
+										<weapon type='WeaponProjectile'>
+											<enginesound>none</enginesound>
+											<nocreateflame/>
+											<projectilescale>0.8</projectilescale>
+											<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
+											<collisionaction type='WeaponAddTarget'>
+												<name>Small Battery</name>
+												<modelscale>0.08</modelscale>
+												<model type='MilkShape'>objects/9volt.txt</model>
+												<life>50</life>
+												<shield>none</shield>
+												<parachute>Parachute</parachute>
+												<removeaction>GiveSmallBattery</removeaction>
+												<driveovertodestroy>true</driveovertodestroy>
+											</collisionaction>
+										</weapon>
+									</weaponchoice2>
+								</weapon>
+							</weaponchoice2>
+							<weaponchoice3>
+								<weight>10</weight>
+								<weapon type='WeaponVelocity'>
+									<velocitychange>1.0</velocitychange>
+									<aimedweapon type='WeaponProjectile'>
+										<enginesound>none</enginesound>
+										<nocreateflame/>
+										<projectilescale>1.25</projectilescale>
+										<projectilemodel type='MilkShape'>pwrcrate/pwrcrate.txt</projectilemodel>
+										<collisionaction type='WeaponAddTarget'>
+											<name>Cargo</name>
+											<modelscale>0.06</modelscale>
+											<model type='MilkShape'>pwrcrate/pwrcrate.txt</model>
+											<life>50</life>
+											<shield>none</shield>
+											<parachute>Parachute</parachute>
+											<removeaction>CargoItems</removeaction>
+											<driveovertodestroy>true</driveovertodestroy>
+										</collisionaction>
+									</aimedweapon>
+								</weapon>
+							</weaponchoice3>
+							<weaponchoice4>
+								<weight>10</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice4>
+						</aimedweapon>
+					</aimedweapon>
+				</subweapon4>
+				<subweapon5 type='WeaponGiveScore'>
+					<score>2</score>
+				</subweapon5>
+			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>FactoryItems</name>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponRandomChoice'>

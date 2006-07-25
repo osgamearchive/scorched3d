@@ -38,4 +38,7 @@
 		<event>data/landscapes/eventsmeteor.xml</event>
 		<event>data/landscapes/eventsflamespurt.xml</event>
 	</events>
+	<placements>
+		<placement>data/landscapes/placefleshpods.xml</placement>
+	</placements>
 </tex>

@@ -32,6 +32,11 @@ Changes Since 4.0
         - Increased likelyhood of cargo drops on landscapes that have them
         - Igloos added to ice_bldg texture layout
             - Drops same items as stores at the moment
+        - Fleshy Pods added to hell texture layout
+            - Drops medkits/parachutes/batterys and occasionally cargo boxes
+        - Acid Pods added to hell texture layout
+            - Spreads small acid droplets when destroyed
+            - Drops small weapons and occasionally cargo boxes
         
     Other:
         - Various other small changes and fixes
