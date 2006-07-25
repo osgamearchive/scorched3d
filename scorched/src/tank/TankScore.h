@@ -50,7 +50,7 @@ public:
 	void setWins(int wins) { wins_ = wins; }
 
 	int getScore() { return score_; }
-	void setScore(int score) { score_ = score; }
+	void setScore(int score);
 
 	int getMissedMoves() { return missedMoves_; }
 	void setMissedMoves(int miss) { missedMoves_ = miss; }

@@ -49,6 +49,7 @@ void TankTeamScore::addScore(int score, int team)
 {
 	DIALOG_ASSERT(team > 0 && team < 5);
 	scores_[team] += score;
+	if (scores_[team] < 0) scores_[team] = 0;
 }
 
 int TankTeamScore::getScore(int team)

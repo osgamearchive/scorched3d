@@ -85,16 +85,32 @@ void WeaponGiveAccessory::weaponCallback(
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		tank->getAccessories().add(accessory, number_, false);
 
-		if (!context.serverMode)
+		if (number_ > 0)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
-				formatString("\"%s\" received %i * %s", 
-				tank->getName(),
-				number_, accessory->getName()));
-			info.setPlayerId(playerId);
-			Logger::log(info);
+			tank->getAccessories().add(accessory, number_, false);
+			if (!context.serverMode)
+			{
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" received %i * %s", 
+					tank->getName(),
+					number_, accessory->getName()));
+				info.setPlayerId(playerId);
+				Logger::log(info);
+			}
+		}
+		else
+		{
+			tank->getAccessories().rm(accessory, -number_);
+			if (!context.serverMode)
+			{
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" lost %i * %s", 
+					tank->getName(),
+					-number_, accessory->getName()));
+				info.setPlayerId(playerId);
+				Logger::log(info);
+			}
 		}
 	}
 }

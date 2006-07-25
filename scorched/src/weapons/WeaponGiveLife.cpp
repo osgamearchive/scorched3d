@@ -67,21 +67,46 @@ void WeaponGiveLife::weaponCallback(
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (!tank) return;
 
-	if (life_ > tank->getLife().getMaxLife() &&
-		exceedMax_)
+	if (life_ > 0.0f)
 	{
-		tank->getLife().setMaxLife(life_);
-	}
-	tank->getLife().setLife(
-		tank->getLife().getLife() + life_);
+		if (life_ > tank->getLife().getMaxLife() &&
+			exceedMax_)
+		{
+			tank->getLife().setMaxLife(life_);
+		}
+		tank->getLife().setLife(
+			tank->getLife().getLife() + life_);
 
-	if (!context.serverMode)
+		if (!context.serverMode)
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" received %.0f life", 
+				tank->getName(), life_));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
+	}
+	else
 	{
-		LoggerInfo info(LoggerInfo::TypeDeath,
-			formatString("\"%s\" received %.0f life", 
-			tank->getName(), life_));
-		info.setPlayerId(playerId);
-		Logger::log(info);
+		if (tank->getLife().getLife() + life_ <= 0.0f)
+		{
+			tank->getLife().setLife(
+				MIN(1.0f, tank->getLife().getLife()));
+		}
+		else
+		{
+			tank->getLife().setLife(
+				tank->getLife().getLife() + life_);
+		}
+
+		if (!context.serverMode)
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" lost %.0f life", 
+				tank->getName(), -life_));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
 	}
 }
 

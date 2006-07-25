@@ -75,11 +75,22 @@ void WeaponGiveScore::weaponCallback(
 
 	if (!context.serverMode)
 	{
-		LoggerInfo info(LoggerInfo::TypeDeath,
-			formatString("\"%s\" received %i bonus score", 
-			tank->getName(), score_));
-		info.setPlayerId(playerId);
-		Logger::log(info);
+		if (score_ > 0)
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" received %i bonus score", 
+				tank->getName(), score_));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
+		else
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" lost %i bonus score", 
+				tank->getName(), -score_));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
 	}
 }
 

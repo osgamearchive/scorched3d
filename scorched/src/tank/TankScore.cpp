@@ -71,6 +71,12 @@ void TankScore::setMoney(int money)
 	if (money_ < 0) money_ = 0;
 }
 
+void TankScore::setScore(int score)
+{
+	score_ = score;
+	if (score_ < 0) score_ = 0;
+}
+
 const char *TankScore::getTimePlayedString()
 {
 	static char timestr[256];

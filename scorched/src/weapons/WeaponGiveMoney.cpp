@@ -70,11 +70,22 @@ void WeaponGiveMoney::weaponCallback(
 
 	if (!context.serverMode)
 	{
-		LoggerInfo info(LoggerInfo::TypeDeath,
-			formatString("\"%s\" received $%i", 
-			tank->getName(), money_));
-		info.setPlayerId(playerId);
-		Logger::log(info);
+		if (money_ > 0)
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" received $%i", 
+				tank->getName(), money_));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
+		else
+		{
+			LoggerInfo info(LoggerInfo::TypeDeath,
+				formatString("\"%s\" lost $%i", 
+				tank->getName(), -money_));
+			info.setPlayerId(playerId);
+			Logger::log(info);
+		}
 	}
 }
 

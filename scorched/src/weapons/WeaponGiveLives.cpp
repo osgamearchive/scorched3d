@@ -69,15 +69,26 @@ void WeaponGiveLives::weaponCallback(
 	if (tank->getState().getMaxLives() > 0)
 	{
 		tank->getState().setLives(
-			tank->getState().getLives() + 1);
+			MAX(tank->getState().getLives() + lives_, 1));
 
 		if (!context.serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
-				formatString("\"%s\" has received %i extra live(s)", 
-				tank->getName(), lives_));
-			info.setPlayerId(playerId);
-			Logger::log(info);
+			if (lives_ > 0)
+			{
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" has received %i extra live(s)", 
+					tank->getName(), lives_));
+				info.setPlayerId(playerId);
+				Logger::log(info);
+			}
+			else
+			{
+				LoggerInfo info(LoggerInfo::TypeDeath,
+					formatString("\"%s\" has lost %i extra live(s)", 
+					tank->getName(), -lives_));
+				info.setPlayerId(playerId);
+				Logger::log(info);
+			}
 		}
 	}
 }
