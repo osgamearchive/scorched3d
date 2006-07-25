@@ -101,25 +101,33 @@ void Laser::simulate(float frameTime, bool &remove)
 					{
 						float targetDistance = 
 							(current->getTargetPosition() -	pos).Magnitude();
+						bool laserProof = false;
+
 						if (current->getShield().getCurrentShield())
 						{
 							Shield *shield = (Shield *)
 								current->getShield().getCurrentShield()->getAction();
-							if (shield->getLaserProof() &&
-								targetDistance < shield->getActualRadius())
+							if (shield->getLaserProof())
 							{
-								context_->actionController->addAction(
-									new ShieldHit(current->getPlayerId(), pos, 0.0f));
+								laserProof = true;
+								if (targetDistance < shield->getActualRadius())
+								{
+									context_->actionController->addAction(
+										new ShieldHit(current->getPlayerId(), pos, 0.0f));
 
-								end = true;
-								break;
+									end = true;
+									break;
+								}
 							}
 						}
 
-						if (targetDistance < weapon_->getHurtRadius() + 
-							MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))
+						if (!laserProof)
 						{
-							damagedTargets_.insert(current->getPlayerId());
+							if (targetDistance < weapon_->getHurtRadius() + 
+								MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))
+							{
+								damagedTargets_.insert(current->getPlayerId());
+							}
 						}
 					}
 				}

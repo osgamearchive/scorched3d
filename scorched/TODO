@@ -10,6 +10,7 @@ Fixed: Lives always shown even when the starting lives are 1
 Fixed: Tanks can recieve weapons that they cannot buy
 Fixed: An issue where coms messages could be processed out of order during initial loading
 Fixed: An issue where tanks embeded in levels would not make a move
+Fixed: Laser proof shields are totaly laser proof regardless of the laser hurt radius
 
 Added: Check for correct bitmap depth while loading resources
 Added: Key bindings for the scrolling of the chat log
