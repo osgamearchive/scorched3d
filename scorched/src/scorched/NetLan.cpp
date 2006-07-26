@@ -99,8 +99,11 @@ static void createControlsPre(wxWindow *parent, wxSizer *sizer)
 		wxT("Internet"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	IDC_RADIO_LAN_CTRL = new wxRadioButton(parent, IDC_RADIO_LAN, 
 		wxT("LAN"), wxDefaultPosition, wxDefaultSize, 0);
+	IDC_RADIO_FAV_CTRL = new wxRadioButton(parent, IDC_RADIO_FAV, 
+		wxT("Favorites"), wxDefaultPosition, wxDefaultSize, 0);
 	radioSizer->Add(IDC_RADIO_NET_CTRL, 0, wxRIGHT, 10);
-	radioSizer->Add(IDC_RADIO_LAN_CTRL, 0, wxRIGHT, 0);
+	radioSizer->Add(IDC_RADIO_LAN_CTRL, 0, wxRIGHT, 10);
+	radioSizer->Add(IDC_RADIO_FAV_CTRL, 0, wxRIGHT, 0);
 	sizer->Add(radioSizer, 0, wxALIGN_CENTER | wxALL, 5);
 }
 
@@ -146,11 +149,11 @@ static void createControlsPost(wxWindow *parent, wxSizer *sizer)
 
 	// Lan/Internet refresh
 	wxBoxSizer *refreshButtonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDC_BUTTON_STOPREFRESH_CTRL = 
-		new wxButton(parent, IDC_BUTTON_STOPREFRESH, wxT("Stop List Refresh"));
+	IDC_BUTTON_FAVOURITES_CTRL = 
+		new wxButton(parent, IDC_BUTTON_FAVOURITES, wxT("Add Favourite"));
 	IDC_BUTTON_REFRESH_CTRL = 
-		new wxButton(parent, IDC_BUTTON_REFRESH, wxT("Refresh List"));
-	refreshButtonSizer->Add(IDC_BUTTON_STOPREFRESH_CTRL, 0, wxALL, 5);
+		new wxButton(parent, IDC_BUTTON_REFRESH, wxT(""));
+	refreshButtonSizer->Add(IDC_BUTTON_FAVOURITES_CTRL, 0, wxALL, 5);
 	refreshButtonSizer->Add(IDC_BUTTON_REFRESH_CTRL, 0, wxALL, 5);
 	overallButtonSizer->Add(refreshButtonSizer, 0, wxALIGN_RIGHT);
 

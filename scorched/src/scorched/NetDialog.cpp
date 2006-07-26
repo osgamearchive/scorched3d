@@ -187,8 +187,8 @@ public:
 	virtual bool TransferDataFromWindow();
 
 	void onJoinButton(wxCommandEvent &event);
+	void onFavouritesButton(wxCommandEvent &event);
 	void onRefreshButton(wxCommandEvent &event);
-	void onStopRefreshButton(wxCommandEvent &event);
 	void onClearButton(wxCommandEvent &event);
 	void onClearPasswordButton(wxCommandEvent &event);
 	void onSelectServer(wxListEvent &event);
@@ -203,7 +203,7 @@ private:
 
 BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 	EVT_BUTTON(IDC_BUTTON_REFRESH,  NetLanFrame::onRefreshButton)
-	EVT_BUTTON(IDC_BUTTON_STOPREFRESH,  NetLanFrame::onStopRefreshButton)
+	EVT_BUTTON(IDC_BUTTON_FAVOURITES,  NetLanFrame::onFavouritesButton)
 	EVT_BUTTON(IDC_BUTTON_JOIN,  NetLanFrame::onJoinButton)
 	EVT_BUTTON(IDC_CLEAR,  NetLanFrame::onClearButton)
 	EVT_BUTTON(IDC_CLEAR_PASSWORD,  NetLanFrame::onClearPasswordButton)
@@ -212,6 +212,7 @@ BEGIN_EVENT_TABLE(NetLanFrame, wxDialog)
 	EVT_TEXT(IDC_EDIT_SERVER, NetLanFrame::onServerChanged)
 	EVT_RADIOBUTTON(IDC_RADIO_LAN, NetLanFrame::onSourceChanged)
 	EVT_RADIOBUTTON(IDC_RADIO_NET, NetLanFrame::onSourceChanged)
+	EVT_RADIOBUTTON(IDC_RADIO_FAV, NetLanFrame::onSourceChanged)
 END_EVENT_TABLE()
 
 NetLanFrame::NetLanFrame() :
@@ -399,28 +400,71 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 void NetLanFrame::onSourceChanged(wxCommandEvent &event)
 {
 	ServerBrowser::instance()->cancel();
+
+	if (IDC_RADIO_FAV_CTRL->GetValue())
+	{
+		IDC_BUTTON_FAVOURITES_CTRL->SetLabel(wxT("Del Favourite"));
+	}
+	else
+	{
+		IDC_BUTTON_FAVOURITES_CTRL->SetLabel(wxT("Add Favourite"));
+	}
+
+	onClearButton(event);
 	onRefreshButton(event);
+}
+
+void NetLanFrame::onFavouritesButton(wxCommandEvent &event)
+{
+	if (!IDC_EDIT_SERVER_CTRL->GetValue().empty())
+	{
+		wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
+		std::set<std::string> favs = 
+			ServerBrowser::instance()->getCollect().getFavourites();
+		if (IDC_RADIO_FAV_CTRL->GetValue())
+		{
+			favs.erase(value.mb_str(wxConvUTF8));
+		}
+		else
+		{
+			favs.insert(value.mb_str(wxConvUTF8));
+		}
+		ServerBrowser::instance()->getCollect().setFavourites(favs);
+
+		if (IDC_RADIO_FAV_CTRL->GetValue())
+		{
+			onSourceChanged(event);
+		}
+	}
 }
 
 void NetLanFrame::onRefreshButton(wxCommandEvent &event)
 {
-	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
+	if (ServerBrowser::instance()->getRefreshing())
+	{
+		ServerBrowser::instance()->cancel();
+	}
+	else
+	{
+		IDC_PLAYER_LIST_CTRL->DeleteAllItems();
 
-	ServerBrowser::instance()->refresh(IDC_RADIO_LAN_CTRL->GetValue());
+		ServerBrowser::RefreshType t = ServerBrowser::RefreshNone;
+		if (IDC_RADIO_LAN_CTRL->GetValue()) t = ServerBrowser::RefreshLan;
+		else if (IDC_RADIO_NET_CTRL->GetValue()) t = ServerBrowser::RefreshNet;
+		else if (IDC_RADIO_FAV_CTRL->GetValue()) t = ServerBrowser::RefreshFavourites;
 
-	IDC_BUTTON_STOPREFRESH_CTRL->Disable();
-	IDC_BUTTON_REFRESH_CTRL->Disable();
-}
+		ServerBrowser::instance()->refreshList(t);
+	}
 
-void NetLanFrame::onStopRefreshButton(wxCommandEvent &event)
-{
-	ServerBrowser::instance()->cancel();
+	wxTimerEvent tevent;
+	onTimer(tevent);
 }
 
 void NetLanFrame::onServerChanged(wxCommandEvent &event)
 {
 	wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
 	bool enabled = !value.empty();
+	IDC_BUTTON_FAVOURITES_CTRL->Enable(enabled);
 	IDOK_CTRL->Enable(enabled);
 	IDOK_CTRL->SetDefault();
 }
@@ -429,13 +473,11 @@ void NetLanFrame::onTimer(wxTimerEvent &event)
 {
 	if (!ServerBrowser::instance()->getRefreshing())
 	{
-		IDC_BUTTON_REFRESH_CTRL->Enable();
-		IDC_BUTTON_STOPREFRESH_CTRL->Disable();
+		IDC_BUTTON_REFRESH_CTRL->SetLabel(wxT("Refresh List"));
 	}
 	else
 	{
-		IDC_BUTTON_REFRESH_CTRL->Disable();
-		IDC_BUTTON_STOPREFRESH_CTRL->Enable();
+		IDC_BUTTON_REFRESH_CTRL->SetLabel(wxT("Stop Refresh"));
 	}
 
 	if (invalidateId != ServerBrowser::instance()->

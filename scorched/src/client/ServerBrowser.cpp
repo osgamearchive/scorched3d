@@ -65,7 +65,7 @@ void ServerBrowser::cancel()
 	}
 }
 
-void ServerBrowser::refresh(bool lan)
+void ServerBrowser::refreshList(RefreshType t)
 {
 	bool alreadyRefreshing = false;
 	SDL_LockMutex(refreshingMutex_);
@@ -74,15 +74,29 @@ void ServerBrowser::refresh(bool lan)
 	SDL_UnlockMutex(refreshingMutex_);
 	if (alreadyRefreshing) return;
 
-	SDL_CreateThread(ServerBrowser::threadFunc, (void *) int(lan?1:0));
+	SDL_CreateThread(ServerBrowser::threadFunc, (void *) int(t));
 }
 
 int ServerBrowser::threadFunc(void *var)
 {
-	bool lan = (bool) (int(var)==1);
+	RefreshType typ = (RefreshType) int(var);
+
 	bool result = false;
-	if (lan) result = instance_->serverCollector_.fetchLANList();
-	else result = instance_->serverCollector_.fetchServerList();
+	switch (typ)
+	{
+	case RefreshNone:
+		// No new list
+		break;
+	case RefreshLan:
+		result = instance_->serverCollector_.fetchLANList();
+		break;
+	case RefreshNet:
+		result = instance_->serverCollector_.fetchServerList();
+		break;
+	case RefreshFavourites:
+		result = instance_->serverCollector_.fetchFavoritesList();
+		break;
+	}
 	if (result)
 	{
 		instance_->serverRefresh_.refreshList();

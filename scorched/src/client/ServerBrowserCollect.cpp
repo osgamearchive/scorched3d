@@ -21,6 +21,7 @@
 #include <client/ServerBrowserCollect.h>
 #include <client/ServerBrowser.h>
 #include <XML/XMLStringBuffer.h>
+#include <XML/XMLFile.h>
 #include <client/ScorchedClient.h>
 #include <common/Logger.h>
 #include <common/Defines.h>
@@ -202,3 +203,74 @@ void ServerBrowserCollect::processMessage(NetMessage &message)
 		}
 	}
 }
+
+bool ServerBrowserCollect::fetchFavoritesList()
+{
+	list_.clear();
+	std::set<std::string> favs = getFavourites();
+	std::set<std::string>::iterator itor;
+	for (itor = favs.begin();
+		itor != favs.end();
+		itor++)
+	{
+		const char *fav = (*itor).c_str();
+
+		ServerBrowserEntry newEntry;
+		newEntry.addAttribute("address", fav);
+
+		// Add the new and its attributes
+		list_.addEntry(newEntry);
+	}
+
+	return true;
+}
+
+std::set<std::string> ServerBrowserCollect::getFavourites()
+{
+	std::set<std::string> result;
+	const char *filePath = getSettingsFile("netfavourites.xml");
+
+	XMLFile file;
+	if (!file.readFile(filePath))
+	{
+		dialogMessage("Scorched3D", formatString(
+			"ERROR: Failed to parse file \"%s\"\n"
+			"%s",
+			filePath,
+			file.getParserError()));
+		return result;
+	}
+
+	// return true for an empty file
+	if (!file.getRootNode()) return result;
+
+	// Itterate all of the addresses in the file
+	std::list<XMLNode *>::iterator childrenItor;
+	for (childrenItor = file.getRootNode()->getChildren().begin();
+		childrenItor != file.getRootNode()->getChildren().end();
+		childrenItor++)
+	{
+		XMLNode *currentNode = (*childrenItor);
+		result.insert(currentNode->getContent());
+	}
+
+	return result;
+}
+
+void ServerBrowserCollect::setFavourites(std::set<std::string> &favs)
+{
+	XMLNode favouritesNode("favourites");
+
+	std::set<std::string>::iterator itor;
+	for (itor = favs.begin();
+		itor != favs.end();
+		itor++)
+	{
+		const char *fav = (*itor).c_str();
+		favouritesNode.addChild(new XMLNode("favourite", fav));
+	}
+
+	const char *filePath = getSettingsFile("netfavourites.xml");
+	favouritesNode.writeToFile(filePath);
+}
+

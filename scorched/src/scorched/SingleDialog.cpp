@@ -84,6 +84,17 @@ BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 	EVT_BUTTON(ID_BUTTON_GAME + 7,  SingleFrame::onGameButton)
 	EVT_BUTTON(ID_BUTTON_GAME + 8,  SingleFrame::onGameButton)
 	EVT_BUTTON(ID_BUTTON_GAME + 9,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 10,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 11,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 12,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 13,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 14,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 15,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 16,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 17,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 18,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 19,  SingleFrame::onGameButton)
+	EVT_BUTTON(ID_BUTTON_GAME + 20,  SingleFrame::onGameButton)
 END_EVENT_TABLE()
 
 SingleFrame::SingleFrame() :
@@ -105,8 +116,14 @@ SingleFrame::SingleFrame() :
 		getDataFile("data/windows/scorched.bmp"),
 		ID_BUTTON_SCORCHED3D);
 
+	// Add all of the mods
+	wxStaticBox *modbox = 
+		new wxStaticBox(this, -1, wxT("Start a single player game"));
+	wxStaticBoxSizer *modboxsizer = 
+		new wxStaticBoxSizer(modbox, wxVERTICAL);
+	wxFlexGridSizer *modgridsizer = new wxFlexGridSizer(4, 8, 5, 5);
+	
 	int count = ID_BUTTON_GAME;
-
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("SingleFrame", "Failed to load mod dirs");	
 	std::list<ModInfo>::iterator itor;
@@ -119,9 +136,35 @@ SingleFrame::SingleFrame() :
 			
 		if (!info.getMenuEntries().empty())
 		{
-			addModButton(count, info, gridsizer);
+			wxObjectRefData *refData = new SingleFrameData(info);
+			wxButton *button = 0;
+			wxBitmap bitmap;
+			if (bitmap.LoadFile(wxString((char *) info.getIcon(), 
+				wxConvUTF8), wxBITMAP_TYPE_BMP) &&
+				bitmap.Ok())
+			{
+				button = new wxBitmapButton(this, count++, bitmap);
+			}
+			else
+			{
+				button = new wxButton(this, count++, wxT("Select"));
+			}
+			button->SetRefData(refData);
+
+			wxStaticText *staticText = new wxStaticText(
+				this, -1, 
+				wxString(modName, wxConvUTF8));
+
+			wxBoxSizer *tmpsizer = new wxBoxSizer(wxVERTICAL);
+			tmpsizer->Add(button, 0, wxCENTER);
+			tmpsizer->Add(staticText, 0, wxCENTER);
+
+			modgridsizer->Add(tmpsizer);
 		}
 	}
+
+	modboxsizer->Add(modgridsizer);
+	topsizer->Add(modboxsizer, 1, wxGROW | wxALL, 5);
 
 	{
 		addButtonToWindow(ID_BUTTON_CUSTOM,

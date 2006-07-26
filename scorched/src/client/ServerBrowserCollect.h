@@ -23,6 +23,7 @@
 
 #include <coms/NetServer.h>
 #include <client/ServerBrowserServerList.h>
+#include <set>
 
 class ServerBrowserCollect : public NetMessageHandlerI
 {
@@ -33,6 +34,10 @@ public:
 	// Fetch the new list from the server
 	bool fetchServerList();
 	bool fetchLANList();
+	bool fetchFavoritesList();
+
+	std::set<std::string> getFavourites();
+	void setFavourites(std::set<std::string> &favs);
 
 	void setCancel(bool cancel) { cancel_ = cancel; }
 

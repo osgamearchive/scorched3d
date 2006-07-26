@@ -29,11 +29,20 @@ class ServerBrowser
 public:
 	static ServerBrowser *instance();
 
+	enum RefreshType
+	{
+		RefreshNone = 0,
+		RefreshLan = 1,
+		RefreshNet = 2,
+		RefreshFavourites = 3
+	};
+
 	bool getRefreshing() { return refreshing_; }
-	void refresh(bool lan);
+	void refreshList(RefreshType t);
 	void cancel();
 	
 	ServerBrowserServerList &getServerList() { return serverList_; }
+	ServerBrowserCollect &getCollect() { return serverCollector_; }
 
 protected:
 	static ServerBrowser *instance_;
