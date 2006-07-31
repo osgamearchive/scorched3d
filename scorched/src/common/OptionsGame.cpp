@@ -203,8 +203,6 @@ OptionsGame::OptionsGame() :
 		"The interest awarded at the end of each round", 0, 15, 0, 100, 5),
 	freeMarketAdjustment_(options_, "FreeMarketAdjustment",
 		"The scale of the adjustment changes made by the free market", 0, 100),
-	scoreType_(options_, "ScoreType",
-		"How the winnder is choosen", 0, int(ScoreWins), scoreEnum),
 	windForce_(options_, "WindForce", 
 		"The force of the wind", 0, int(WindRandom), windForceEnum),
 	windType_(options_, "WindType", 
@@ -278,7 +276,9 @@ OptionsGame::OptionsGame() :
 	depricatedMaxArmsLevel_(options_, "MaxArmsLevel",
 		"", OptionEntry::DataDepricated, 10, 0, 10, 1),
 	depricatedAutoBallanceTeams_(options_, "AutoBallanceTeams",
-		"", OptionEntry::DataDepricated, true)
+		"", OptionEntry::DataDepricated, true),
+	depricatedScoreType_(options_, "ScoreType",
+		"How the winnder is choosen", OptionEntry::DataDepricated, int(ScoreWins), scoreEnum)
 {
 	char buffer[128];
 	for (int i=0; i<24; i++)

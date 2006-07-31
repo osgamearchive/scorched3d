@@ -355,7 +355,6 @@ protected:
 	OptionEntryBoundedInt minFallingDistance_;
 	OptionEntryBoundedInt maxClimbingDistance_;
 	OptionEntryBoundedInt playerLives_;
-	OptionEntryEnum scoreType_;
 	OptionEntryBoundedInt teams_;
 	OptionEntryBoundedInt numberOfPlayers_;
 	OptionEntryBoundedInt numberOfMinPlayers_;
@@ -419,6 +418,7 @@ protected:
 	OptionEntryBool allowSameUniqueId_;
 
 	// Depricated (old) options
+	OptionEntryEnum depricatedScoreType_;
 	OptionEntryBool depricatedAutoBallanceTeams_;
 	OptionEntryBoundedInt depricatedMaxArmsLevel_;
 	OptionEntryString depricatedServerAdminPassword_;

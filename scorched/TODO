@@ -12,6 +12,7 @@ Fixed: An issue where coms messages could be processed out of order during initi
 Fixed: An issue where tanks embeded in levels would not make a move
 Fixed: Laser proof shields are totaly laser proof regardless of the laser hurt radius
 Fixed: Single player choice dialog getting too large when many mods installed
+Fixed: Score type option now marked as depricated
 
 Added: Favorites tab in net/lan dialog
 Added: WeaponGiveAccessory, GiveLive, GiveLives, GiveMoney and GiveScore can now remove items
