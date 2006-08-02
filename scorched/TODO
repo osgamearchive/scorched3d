@@ -27,9 +27,11 @@ Crashing when minimized during texture/level load
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Better collision for models (not targets)
-Dirt cannot be raised when underground (or other dirting stopping)
-Too many mods over powering the single player choice dialog
+Better collision for models (switch all models to targets, ODE issue?)
+Better shadows?
+Ubunto patches
+Border for targets
+None placement type
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
@@ -48,6 +50,7 @@ Add option for human players to say stuff when firing/killed
 Multi-kill bonuses
 
 -- Other Stuff
+Dirt cannot be raised when underground (or other dirting stopping)
 Add the ability to customize the languages (for dialogs etc..) (localisation)
 More weapons, always more weapons
 Smoke bombs
