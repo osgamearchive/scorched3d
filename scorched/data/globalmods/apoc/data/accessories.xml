@@ -13308,11 +13308,11 @@ which explode and spread fire when ignited.</description>
 						<weapon type='WeaponProjectile'>
 							<enginesound>none</enginesound>
 							<nocreateflame/>
-							<projectilescale>0.8</projectilescale>
+							<projectilescale>1.0</projectilescale>
 							<projectilemodel type='MilkShape'>objects/parachute.txt</projectilemodel>
 							<collisionaction type='WeaponAddTarget'>
 								<name>Parachutes</name>
-								<modelscale>0.08</modelscale>
+								<modelscale>0.1</modelscale>
 								<model type='MilkShape'>objects/parachute.txt</model>
 								<life>50</life>
 								<shield>none</shield>

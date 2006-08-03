@@ -30,13 +30,14 @@ Changes Since 4.0
         - Random flame spurts (geysers) that pop up out of the ground on the hell texture layout
         - Weather events can now damage tanks
         - Increased likelyhood of cargo drops on landscapes that have them
-        - Igloos added to ice_bldg texture layout
+        - Igloos added to ice_bldg and ice texture layouts
             - Drops same items as stores at the moment
         - Fleshy Pods added to hell texture layout
             - Drops medkits/parachutes/batterys and occasionally cargo boxes
         - Acid Pods added to hell texture layout
             - Spreads small acid droplets when destroyed
             - Drops small weapons and occasionally cargo boxes
+        - Soldiers standing around the Nuclear Plants
         
     Other:
         - Various other small changes and fixes
