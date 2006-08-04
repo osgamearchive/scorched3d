@@ -81,7 +81,7 @@ typedef unsigned char   uint8;
 /* an integer type that we can safely cast a pointer to and from without
  * loss of bits.
  */
-typedef unsigned int intP;
+typedef unsigned long intP;
 
 
 /* if we're compiling on a pentium, we may need to know the clock rate so

@@ -68,7 +68,7 @@ void TankUndoMenu::showItems(float x, float y)
 
 void TankUndoMenu::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	tank_->getPosition().revertSettings((unsigned int) entry->getUserData());
+	tank_->getPosition().revertSettings((unsigned long) entry->getUserData());
 }
 
 TankFuelTip::TankFuelTip(Tank *tank) : 
@@ -236,7 +236,7 @@ void TankBatteryTip::showItems(float x, float y)
 void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	for (int i=1; i<=(int) entry->getUserData(); i++)
+	for (int i=1; i<=(long) entry->getUserData(); i++)
 	{
 		if (tank_->getLife().getLife() < 
 			tank_->getLife().getMaxLife())

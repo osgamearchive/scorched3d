@@ -79,7 +79,7 @@ void ServerBrowser::refreshList(RefreshType t)
 
 int ServerBrowser::threadFunc(void *var)
 {
-	RefreshType typ = (RefreshType) int(var);
+	RefreshType typ = (RefreshType) long(var);
 
 	bool result = false;
 	switch (typ)

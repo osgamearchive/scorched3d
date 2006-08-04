@@ -136,7 +136,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 	}
 
 	ShotBounce *particle = (ShotBounce *) bounceInfo->data;
-	unsigned int id = (unsigned int) otherInfo->data;
+	unsigned int id = (unsigned long) otherInfo->data;
 
 	// only collide with the ground, walls or landscape,
 	// or iteself
@@ -257,7 +257,7 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
 	}
 
-	unsigned int id = (unsigned int) otherInfo->data;
+	unsigned int id = (unsigned long) otherInfo->data;
 	ShotProjectile *shot = (ShotProjectile *) particleInfo->data;
 	shot->incLandedCounter();
 	Vector particlePositionV(

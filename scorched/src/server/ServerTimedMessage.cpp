@@ -65,6 +65,12 @@ void ServerTimedMessage::checkEntries(time_t currentTime)
 			entry.lastTime = currentTime;
 			
 			std::string message = entry.messages.front();
+ 			/* Note message.c_str() is a user supplied printf format string
+			   with possible a conversion specifier to display the ctime.
+			   Since these messages are loaded from a local file this is
+			   reasonable safe, although it would be better to just
+			   always prefix times-messages with the ctime and to not
+			   interpreted user supplied data this way. */
 			ServerCommon::sendString(0, formatString(message.c_str(), ctime(&currentTime)));
 			Logger::log(formatString(message.c_str(), ctime(&currentTime)));
 			entry.messages.pop_front();

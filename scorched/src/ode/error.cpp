@@ -22,6 +22,7 @@
 
 #include <ode/config.h>
 #include <ode/error.h>
+#include <common/DefinesString.h>
 
 
 static dMessageFunction *error_function = 0;
@@ -129,7 +130,7 @@ extern "C" void dError (int num, const char *msg, ...)
   else {
     char s[1000],title[100];
     sprintf (title,"ODE Error %d",num);
-    vsprintf (s,msg,ap);
+    vsnprintf (s,sizeof(s),msg,ap);
     s[sizeof(s)-1] = 0;
     MessageBox(0,s,title,MB_OK | MB_ICONWARNING);
   }
@@ -145,7 +146,7 @@ extern "C" void dDebug (int num, const char *msg, ...)
   else {
     char s[1000],title[100];
     sprintf (title,"ODE INTERNAL ERROR %d",num);
-    vsprintf (s,msg,ap);
+    vsnprintf (s,sizeof(s),msg,ap);
     s[sizeof(s)-1] = 0;
     MessageBox(0,s,title,MB_OK | MB_ICONSTOP);
   }

@@ -127,7 +127,7 @@ bool HelpButtonDialog::VolumeMenu::getMenuItems(const char* menuName, std::list<
 void HelpButtonDialog::VolumeMenu::menuSelection(const char* menuName, 
 	const int position, GLMenuItem &item)
 {
-	int data = (int) item.getUserData();
+	int data = (long) item.getUserData();
 	if (data != -1)
 	{
 		int volume = int(float(data) * 12.8f);
