@@ -20,7 +20,7 @@
 
 #include <coms/NetServerProtocol.h>
 #include <coms/NetMessagePool.h>
-#include <coms/NetServer.h>
+#include <coms/NetServerRead.h>
 #include <common/Logger.h>
 #include <zlib/zlib.h>
 
@@ -40,7 +40,7 @@ NetServerScorchedProtocol::~NetServerScorchedProtocol()
 {
 }
 
-bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
+bool NetServerScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id)
 {
 	Uint32 len = buffer.getBufferUsed();
 	Uint32 netlen=0;
@@ -94,7 +94,7 @@ static bool realSDLNet_TCP_Recv(TCPsocket socket, char *dest, int len)
 	return true;
 }
 
-NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
+NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket, unsigned int id)
 {
 	// receive the length of the string message
 	char lenbuf[4];
@@ -125,8 +125,8 @@ NetMessage *NetServerScorchedProtocol::readBuffer(TCPsocket socket)
 	// allocate the buffer memory
 	NetMessage *buffer = NetMessagePool::instance()->
 		getFromPool(NetMessage::BufferMessage, 
-				(unsigned int) socket,
-				NetServer::getIpAddress(socket));
+				id,
+				NetServerRead::getIpAddressFromSocket(socket));
 	buffer->getBuffer().allocate(len);
 	buffer->getBuffer().setBufferUsed(len);
 
@@ -153,7 +153,7 @@ NetServerCompressedProtocol::~NetServerCompressedProtocol()
 {
 }
 
-bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket)
+bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id)
 {
 	unsigned long destLen = buffer.getBufferUsed() * 2;
 	unsigned long srcLen = buffer.getBufferUsed();
@@ -161,8 +161,8 @@ bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket
 	// Allocate a new buffer
 	NetMessage *newMessage = NetMessagePool::instance()->
 		getFromPool(NetMessage::BufferMessage, 
-				(unsigned int) socket,
-				NetServer::getIpAddress(socket));
+				id,
+				NetServerRead::getIpAddressFromSocket(socket));
 	NetBuffer &newBuffer = newMessage->getBuffer();
 	newBuffer.allocate(destLen);
 
@@ -185,7 +185,7 @@ bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket
 		//Logger::log( "Compressed %i->%i",
 		//			buffer.getBufferUsed(), newBuffer.getBufferUsed());
 
-		retVal = NetServerScorchedProtocol::sendBuffer(newBuffer, socket);
+		retVal = NetServerScorchedProtocol::sendBuffer(newBuffer, socket, id);
 	}
 	else
 	{
@@ -197,10 +197,10 @@ bool NetServerCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket
 	return retVal;
 }
 
-NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
+NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket, unsigned int id)
 {
 	// Read the message from the socket
-	NetMessage *message = NetServerScorchedProtocol::readBuffer(socket);
+	NetMessage *message = NetServerScorchedProtocol::readBuffer(socket, id);
 	if (message)
 	{
 		// Get the uncompressed size from the buffer
@@ -229,7 +229,7 @@ NetMessage *NetServerCompressedProtocol::readBuffer(TCPsocket socket)
 		NetMessage *newMessage =
 			NetMessagePool::instance()->getFromPool(message->getMessageType(),
 													message->getDestinationId(),
-													NetServer::getIpAddress(socket));
+													NetServerRead::getIpAddressFromSocket(socket));
 		NetBuffer &newBuffer = newMessage->getBuffer();
 		newBuffer.allocate(destLen);
 		newBuffer.setBufferUsed(destLen);
@@ -268,7 +268,7 @@ NetServerHTTPProtocolSend::~NetServerHTTPProtocolSend()
 {
 }
 
-bool NetServerHTTPProtocolSend::sendBuffer(NetBuffer &buffer, TCPsocket socket)
+bool NetServerHTTPProtocolSend::sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id)
 {
 	Uint32 len = buffer.getBufferUsed();
 	
@@ -286,13 +286,13 @@ bool NetServerHTTPProtocolSend::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	return true;
 }
 
-NetMessage *NetServerHTTPProtocolSend::readBuffer(TCPsocket socket)
+NetMessage *NetServerHTTPProtocolSend::readBuffer(TCPsocket socket, unsigned int id)
 {
 	// allocate the buffer memory
 	NetMessage *netBuffer = NetMessagePool::instance()->
 		getFromPool(NetMessage::BufferMessage,
-				(unsigned int) socket,
-				NetServer::getIpAddress(socket));
+				id,
+				NetServerRead::getIpAddressFromSocket(socket));
 	netBuffer->getBuffer().reset();
 
 	// get the string buffer over the socket
@@ -331,7 +331,7 @@ NetServerHTTPProtocolRecv::~NetServerHTTPProtocolRecv()
 {
 }
 
-bool NetServerHTTPProtocolRecv::sendBuffer(NetBuffer &buffer, TCPsocket socket)
+bool NetServerHTTPProtocolRecv::sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id)
 {
 	Uint32 len = buffer.getBufferUsed();
 	
@@ -349,13 +349,13 @@ bool NetServerHTTPProtocolRecv::sendBuffer(NetBuffer &buffer, TCPsocket socket)
 	return true;
 }
 
-NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket)
+NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket, unsigned int id)
 {
 	// allocate the buffer memory
 	NetMessage *netBuffer = NetMessagePool::instance()->
 		getFromPool(NetMessage::BufferMessage,
-				(unsigned int) socket,
-				NetServer::getIpAddress(socket));
+				id,
+				NetServerRead::getIpAddressFromSocket(socket));
 	netBuffer->getBuffer().reset();
 
 	// get the string buffer over the socket

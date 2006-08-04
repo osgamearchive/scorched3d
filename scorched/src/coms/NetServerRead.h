@@ -27,7 +27,8 @@
 class NetServerRead
 {
 public:
-	NetServerRead(TCPsocket socket,
+	NetServerRead(unsigned int id,
+		TCPsocket socket,
 		NetServerProtocol *protocol,
 		NetMessageHandler *messageHandler,
 		bool *checkDeleted);
@@ -36,8 +37,12 @@ public:
 	void start();
 	bool getDisconnect();
 	void addMessage(NetMessage *message);
+	unsigned int getIpAddress();
+
+	static unsigned int getIpAddressFromSocket(TCPsocket socket);
 
 protected:
+	unsigned int id_;
 	bool *checkDeleted_;
 	bool disconnect_, sentDisconnect_;
 	TCPsocket socket_;
@@ -58,7 +63,6 @@ protected:
 	static int ctrlThreadFunc(void *);
 	static int sendThreadFunc(void *);
 	static int recvThreadFunc(void *);
-
 };
 
 #endif

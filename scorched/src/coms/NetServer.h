@@ -46,14 +46,15 @@ public:
 	virtual void sendMessage(NetBuffer &buffer);
 	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
 
-	static unsigned int getIpAddress(TCPsocket destination);
+	virtual unsigned int getIpAddress(unsigned int destination);
 
 protected:
 	NetServerProtocol *protocol_;
 	TCPsocket server_;
-	TCPsocket firstDestination_;
+	unsigned int lastId_;
+	unsigned int firstDestination_;
 	SDLNet_SocketSet sockSet_;
-	std::map<TCPsocket, NetServerRead *> connections_;
+	std::map<unsigned int, NetServerRead *> connections_;
 	std::list<std::pair<float, NetMessage *> > delayedMessages_;
 	Clock delayedClock_;
 	SDL_mutex *setMutex_;
@@ -65,7 +66,7 @@ protected:
 	bool pollIncoming();
 	bool pollDeleted();
 	void addClient(TCPsocket client);
-	void sendMessage(TCPsocket client, NetMessage *message);
+	void sendMessage(unsigned int client, NetMessage *message);
 
 private:
 

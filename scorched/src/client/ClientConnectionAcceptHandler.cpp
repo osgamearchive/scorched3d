@@ -26,10 +26,10 @@
 #include <engine/ModFiles.h>
 #include <GLEXT/GLGif.h>
 #include <tank/TankContainer.h>
+#include <coms/NetInterface.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsHaveModFilesMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetServer.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
@@ -68,7 +68,8 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		unsigned int ip = NetServer::getIpAddress((TCPsocket) id);
+		unsigned int ip = ScorchedClient::instance()->getNetInterface().
+			getIpAddress(id);
 		if (!ConnectDialog::instance()->getIdStore().saveUniqueId(
 			ip, message.getUniqueId(), message.getPublishAddress()))
 		{

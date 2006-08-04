@@ -47,6 +47,7 @@ public:
 	static unsigned int &getConnects() { return connects_; }
 
 	static const char *getIpName(unsigned int ipAddress);
+	virtual unsigned int getIpAddress(unsigned int destination);
 
 protected:
 	static unsigned int bytesIn_;

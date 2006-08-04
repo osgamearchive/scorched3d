@@ -29,8 +29,8 @@ public:
 	NetServerProtocol();
 	virtual ~NetServerProtocol();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket) = 0;
-	virtual NetMessage *readBuffer(TCPsocket socket) = 0;
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id) = 0;
+	virtual NetMessage *readBuffer(TCPsocket socket, unsigned int id) = 0;
 };
 
 class NetServerScorchedProtocol : public NetServerProtocol
@@ -39,8 +39,8 @@ public:
 	NetServerScorchedProtocol();
 	virtual ~NetServerScorchedProtocol();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
-	virtual NetMessage *readBuffer(TCPsocket socket);
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id);
+	virtual NetMessage *readBuffer(TCPsocket socket, unsigned int id);
 };
 
 class NetServerCompressedProtocol : public NetServerScorchedProtocol
@@ -49,8 +49,8 @@ public:
 	NetServerCompressedProtocol();
 	virtual ~NetServerCompressedProtocol();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
-	virtual NetMessage *readBuffer(TCPsocket socket);
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id);
+	virtual NetMessage *readBuffer(TCPsocket socket, unsigned int id);
 };
 
 class NetServerHTTPProtocolSend : public NetServerProtocol
@@ -59,8 +59,8 @@ public:
 	NetServerHTTPProtocolSend();
 	virtual ~NetServerHTTPProtocolSend();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
-	virtual NetMessage *readBuffer(TCPsocket socket);
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id);
+	virtual NetMessage *readBuffer(TCPsocket socket, unsigned int id);
 };
 
 class NetServerHTTPProtocolRecv : public NetServerProtocol
@@ -69,8 +69,8 @@ public:
 	NetServerHTTPProtocolRecv();
 	virtual ~NetServerHTTPProtocolRecv();
 
-	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket);
-	virtual NetMessage *readBuffer(TCPsocket socket);
+	virtual bool sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id);
+	virtual NetMessage *readBuffer(TCPsocket socket, unsigned int id);
 };
 
 #endif

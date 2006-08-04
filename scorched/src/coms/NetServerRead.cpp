@@ -25,10 +25,12 @@
 #include <common/Logger.h>
 #include <common/Defines.h>
 
-NetServerRead::NetServerRead(TCPsocket socket,
+NetServerRead::NetServerRead(unsigned int id,
+							 TCPsocket socket,
 							 NetServerProtocol *protocol,
 							 NetMessageHandler *messageHandler,
 							 bool *checkDeleted) : 
+	id_(id),
 	socket_(socket), sockSet_(0), protocol_(protocol), 
 	outgoingMessagesMutex_(0), checkDeleted_(checkDeleted),
 	disconnect_(false), messageHandler_(messageHandler),
@@ -57,13 +59,29 @@ NetServerRead::~NetServerRead()
 	sockSet_ = 0;
 }
 
+unsigned int NetServerRead::getIpAddressFromSocket(TCPsocket socket)
+{
+	unsigned int addr = 0;
+	IPaddress *address = SDLNet_TCP_GetPeerAddress(socket);
+	if (address)
+	{
+		addr = SDLNet_Read32(&address->host);
+	}
+	return addr;
+}
+
+unsigned int NetServerRead::getIpAddress()
+{
+	return getIpAddressFromSocket(socket_);
+}
+
 void NetServerRead::start()
 {
 	// Send the player connected notification
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::ConnectMessage, 
-		(unsigned int) socket_,
-		NetServer::getIpAddress(socket_));
+		id_,
+		getIpAddress());
 	messageHandler_->addMessage(message);
 
 	recvThread_ = SDL_CreateThread(
@@ -94,8 +112,8 @@ void NetServerRead::addMessage(NetMessage *message)
 		sentDisconnect_ = true;
 		NetMessage *message = NetMessagePool::instance()->
 			getFromPool(NetMessage::DisconnectMessage, 
-				(unsigned int) socket_,
-				NetServer::getIpAddress(socket_));
+				id_,
+				getIpAddress());
 		messageHandler_->addMessage(message);
 	}
 	SDL_UnlockMutex(outgoingMessagesMutex_);
@@ -187,9 +205,9 @@ void NetServerRead::actualSendRecvThreadFunc(bool send)
 		if (timeDiff > 15.0f)
 		{
 			Logger::log(formatString(
-				"Warning: %s net loop took %.2f seconds, client %i", 
+				"Warning: %s net loop took %.2f seconds, client %u", 
 				(send?"Send":"Recv"),
-				timeDiff, (unsigned int) socket_));
+				timeDiff, id_));
 		}
 	}
 
@@ -199,8 +217,8 @@ void NetServerRead::actualSendRecvThreadFunc(bool send)
 		sentDisconnect_ = true;
 		NetMessage *message = NetMessagePool::instance()->
 			getFromPool(NetMessage::DisconnectMessage, 
-				(unsigned int) socket_,
-				NetServer::getIpAddress(socket_));
+				id_,
+				getIpAddress());
 		messageHandler_->addMessage(message);
 	}
 	SDL_UnlockMutex(outgoingMessagesMutex_);
@@ -218,7 +236,7 @@ bool NetServerRead::pollIncoming()
 
 	if(SDLNet_SocketReady(socket_))
 	{
-		NetMessage *message = protocol_->readBuffer(socket_);
+		NetMessage *message = protocol_->readBuffer(socket_, id_);
 		if (!message)
 		{
 			Logger::log( "Client socket has been closed.");
@@ -261,7 +279,7 @@ bool NetServerRead::pollOutgoing()
 		}
 		else
 		{
-			if (!protocol_->sendBuffer(message->getBuffer(), socket_))
+			if (!protocol_->sendBuffer(message->getBuffer(), socket_, id_))
 			{
 				Logger::log( "Failed to send message to client");
 				result = false;

@@ -28,7 +28,8 @@
 
 NetServer::NetServer(NetServerProtocol *protocol) : 
 	sockSet_(0), firstDestination_(0),
-	server_(0), protocol_(protocol), checkDeleted_(false)
+	server_(0), protocol_(protocol), checkDeleted_(false),
+	lastId_(0)
 {
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	setMutex_ = SDL_CreateMutex();
@@ -65,7 +66,7 @@ int NetServer::processMessages()
 		{
 			NetMessage *message = (delayedMessages_.front()).second;
 			delayedMessages_.pop_front();
-			sendMessage((TCPsocket) message->getDestinationId(), message);
+			sendMessage(message->getDestinationId(), message);
 		}
 	}
 
@@ -184,27 +185,27 @@ bool NetServer::pollIncoming()
 bool NetServer::pollDeleted()
 {
 	SDL_LockMutex(setMutex_);
-	std::list<TCPsocket> remove;
-	std::map<TCPsocket, NetServerRead *>::iterator itor;
+	std::list<unsigned int> remove;
+	std::map<unsigned int, NetServerRead *>::iterator itor;
 	for (itor = connections_.begin();
 		itor != connections_.end();
 		itor++)
 	{
 		NetServerRead *serverRead = (*itor).second;
-		TCPsocket socket = (*itor).first;
+		unsigned int id = (*itor).first;
 		if (serverRead->getDisconnect())
 		{
 			delete serverRead;
-			remove.push_back(socket);
+			remove.push_back(id);
 		}
 	}
-	std::list<TCPsocket>::iterator itor2;
+	std::list<unsigned int>::iterator itor2;
 	for (itor2 = remove.begin();
 		itor2 != remove.end();
 		itor2++)
 	{
-		TCPsocket socket = (*itor2);
-		connections_.erase(socket);
+		unsigned int id = (*itor2);
+		connections_.erase(id);
 	}
 	SDL_UnlockMutex(setMutex_);
 	return true;
@@ -212,13 +213,17 @@ bool NetServer::pollDeleted()
 
 void NetServer::addClient(TCPsocket client)
 {
+	// Calculate the current client id
+	++lastId_;
+	if (lastId_ == 0) ++lastId_;
+
 	// Create the thread to read this socket
 	NetServerRead *serverRead = new NetServerRead(
-		client, protocol_, &messageHandler_, &checkDeleted_);
+		lastId_, client, protocol_, &messageHandler_, &checkDeleted_);
 
 	// Add this to the collection of sockets (connections)
 	SDL_LockMutex(setMutex_);
-	connections_[client] = serverRead;
+	connections_[lastId_] = serverRead;
 	firstDestination_ = (*connections_.begin()).first;
 	SDL_UnlockMutex(setMutex_);
 
@@ -229,31 +234,22 @@ void NetServer::addClient(TCPsocket client)
 void NetServer::disconnectAllClients()
 {
 	SDL_LockMutex(setMutex_);
-	std::map<TCPsocket, NetServerRead *>::iterator itor;
+	std::map<unsigned int, NetServerRead *>::iterator itor;
 	for (itor = connections_.begin();
 		itor != connections_.end();
 		itor++)
 	{
-		TCPsocket sock = (*itor).first;
-		disconnectClient((unsigned int) sock);
+		unsigned int id = (*itor).first;
+		disconnectClient(id);
 	}
 	SDL_UnlockMutex(setMutex_);
 }
 
 void NetServer::disconnectClient(unsigned int dest, bool delayed)
 {
-	TCPsocket client = (TCPsocket) dest;
-	if (!client)
-	{
-		Logger::log("Failed to disconnect client");
-		return;
-	}
-
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::DisconnectMessage, 
-				(unsigned int) client,
-				getIpAddress(client));
-
+				dest, getIpAddress(dest));
 	if (delayed)
 	{
 		std::pair<float, NetMessage *> item(1.0f, message);
@@ -262,26 +258,22 @@ void NetServer::disconnectClient(unsigned int dest, bool delayed)
 	else
 	{
 		// Add the message to the list of out going
-		sendMessage(client, message);
+		sendMessage(dest, message);
 	}
 }
 
 void NetServer::sendMessage(NetBuffer &buffer)
 {
-	sendMessage(buffer, (unsigned int) firstDestination_);
+	sendMessage(buffer, firstDestination_);
 }
 
 void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)
 							
 {
-	TCPsocket destination = (TCPsocket) dest;
-	DIALOG_ASSERT(destination);
-
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::NoMessage, 
-				(unsigned int) destination,
-				getIpAddress(destination));
+				dest, getIpAddress(dest));
 
 	// Add message to new buffer
 	message->getBuffer().allocate(buffer.getBufferUsed());
@@ -290,14 +282,14 @@ void NetServer::sendMessage(NetBuffer &buffer, unsigned int dest)
 	message->getBuffer().setBufferUsed(buffer.getBufferUsed());
 
 	// Send Mesage
-	sendMessage(destination, message);
+	sendMessage(dest, message);
 }
 
-void NetServer::sendMessage(TCPsocket client, NetMessage *message)
+void NetServer::sendMessage(unsigned int client, NetMessage *message)
 {
 	// Find the client
 	SDL_LockMutex(setMutex_);
-	std::map<TCPsocket, NetServerRead *>::iterator itor = 
+	std::map<unsigned int, NetServerRead *>::iterator itor = 
 		connections_.find(client);
 	if (itor != connections_.end()) 
 	{
@@ -308,22 +300,24 @@ void NetServer::sendMessage(TCPsocket client, NetMessage *message)
 	else
 	{
 		NetMessagePool::instance()->addToPool(message);
-		Logger::log(formatString("Unknown sendMessage destination %i",
-			(int) client));
+		Logger::log(formatString("Unknown sendMessage destination %u",
+			client));
 	}
 	SDL_UnlockMutex(setMutex_);
 }
 
-unsigned int NetServer::getIpAddress(TCPsocket destination)
+unsigned int NetServer::getIpAddress(unsigned int destination)
 {
-	if (destination == 0) return 0;
-
 	unsigned int addr = 0;
-	IPaddress *address = SDLNet_TCP_GetPeerAddress(destination);
-	if (address)
+	SDL_LockMutex(setMutex_);
+	std::map<unsigned int, NetServerRead *>::iterator itor = 
+		connections_.find(destination);
+	if (itor != connections_.end()) 
 	{
-		addr = SDLNet_Read32(&address->host);
+		NetServerRead *read = (*itor).second;
+		addr = read->getIpAddress();
 	}
+	SDL_UnlockMutex(setMutex_);
 
 	return addr;
 }

@@ -34,8 +34,8 @@
 #endif
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "40";
-char *ScorchedProtocolVersion = "cf";
+char *ScorchedVersion = "40.1";
+char *ScorchedProtocolVersion = "cg";
 static char exeName[1024];
 static char *dataModFile = 0;
 static std::string settingsDir = ".scorched3d";
@@ -71,7 +71,7 @@ const char *getDataFileMod()
 #define S3D_DATADIR "."
 #endif
 #ifndef S3D_DOCDIR
-#define S3D_DOCDIR "."
+#define S3D_DOCDIR "./documentation"
 #endif
 #ifndef S3D_BINDIR
 #define S3D_BINDIR "."
@@ -87,6 +87,11 @@ static const char *GET_DIR(char *dir)
 #else
 			getcwd(path, sizeof(path));
 #endif // _WIN32
+		if (strlen(path) + strlen(dir) + 1 < sizeof(path))
+		{
+			strcat(path, "/");
+			strcat(path, dir);
+		}
 		dir = path;
 
 		/*dir = (char *) formatString("%s", getExeName());

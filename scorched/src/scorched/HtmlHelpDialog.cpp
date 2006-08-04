@@ -137,13 +137,13 @@ void HelpFrame::onBack(wxCommandEvent &event)
 void HelpFrame::onHome(wxCommandEvent &event)
 {
 	html_->HistoryClear();
-	html_->LoadPage(wxString(getDocFile("documentation/html/index.html"), wxConvUTF8));
+	html_->LoadPage(wxString(getDocFile("html/index.html"), wxConvUTF8));
 }
 
 void showHtmlHelpDialog()
 {
 	// For the moment just show the documentation in the default web browser
-	showURL(formatString("file://%s", getDocFile("documentation/html/index.html")));
+	showURL(formatString("file://%s", getDocFile("html/index.html")));
 
 	//HelpFrame *frame = new HelpFrame();
 	//frame->Show();

@@ -45,3 +45,7 @@ const char *NetInterface::getIpName(unsigned int ipAddress)
 	return result;
 }
 
+unsigned int NetInterface::getIpAddress(unsigned int destination)
+{
+	return 0;
+}

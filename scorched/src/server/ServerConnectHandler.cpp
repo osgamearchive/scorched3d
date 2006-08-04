@@ -36,12 +36,12 @@
 #include <common/OptionsGame.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
+#include <coms/NetInterface.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsConnectMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetServer.h>
 
 ServerConnectHandler *ServerConnectHandler::instance_ = 0;
 
@@ -87,7 +87,8 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		}
 
 		// Get the ip address
-		ipAddress = NetServer::getIpAddress((TCPsocket) destinationId);
+		ipAddress = ScorchedServer::instance()->getNetInterface().
+			getIpAddress(destinationId);
 	}
 
 	// Decode the connect message

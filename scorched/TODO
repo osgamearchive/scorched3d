@@ -13,6 +13,7 @@ Fixed: An issue where tanks embeded in levels would not make a move
 Fixed: Laser proof shields are totaly laser proof regardless of the laser hurt radius
 Fixed: Single player choice dialog getting too large when many mods installed
 Fixed: Score type option now marked as depricated
+Fixed: Documentation dir should now be able to be moved without documentation prefix
 
 Added: Favorites tab in net/lan dialog
 Added: WeaponGiveAccessory, GiveLive, GiveLives, GiveMoney and GiveScore can now remove items
@@ -29,7 +30,6 @@ Crashing when minimized during texture/level load
 Fix crashing when people win (Graphics card drivers??)
 Better collision for models (switch all models to targets, ODE issue?)
 Better shadows?
-Ubunto patches
 Border for targets
 None placement type
 

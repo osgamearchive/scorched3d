@@ -300,7 +300,7 @@ AC_ARG_WITH(docdir,
 	[Use DIR to store documentation files (default DATADIR)]),
 	[with_docdir=$withval])
 if test "x$with_docdir" = "x" ; then
-	docdir='${datadir}'
+	docdir='${datadir}/documentation'
 else
 	docdir=$with_docdir
 fi
