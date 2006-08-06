@@ -845,3 +845,7 @@ void LandscapeObjectsEntryTree::render(float distance)
 		}
 	glPopMatrix();
 }
+
+void LandscapeObjectsEntryTree::simulate(float frameTime)
+{
+}

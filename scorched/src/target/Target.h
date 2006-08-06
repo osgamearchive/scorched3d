@@ -55,6 +55,8 @@ public:
 	virtual Weapon *getDeathAction() { return deathAction_; }
 
 	// Renderer
+	float getBorder() { return border_; }
+	void setBorder(float b) { border_ = b; }
 	TargetRenderer *getRenderer() { return renderer_; }
 	void setRenderer(TargetRenderer *renderer) { renderer_ = renderer; }
 
@@ -69,6 +71,7 @@ public:
 
 protected:
 	unsigned int playerId_;
+	float border_;
 	ScorchedContext &context_;
 	Vector targetPosition_;
 	TargetLife life_;

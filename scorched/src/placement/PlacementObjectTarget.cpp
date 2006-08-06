@@ -21,6 +21,7 @@
 #include <placement/PlacementObjectTarget.h>
 #include <landscape/LandscapeObjectsEntryModel.h>
 #include <landscape/LandscapeMaps.h>
+#include <tankgraph/TargetRendererImplTarget.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/ModelRenderer.h>
 #include <engine/ScorchedContext.h>
@@ -63,7 +64,8 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 
 	if (target->getRenderer())
 	{
-		groups_.addToGroups(context, 
-			(LandscapeObjectsEntry *) target->getRenderer(), false);
+		TargetRendererImplTarget *targetRenderImplTarget = 
+			(TargetRendererImplTarget*) target->getRenderer();
+		groups_.addToGroups(context, targetRenderImplTarget, false);
 	}
 }

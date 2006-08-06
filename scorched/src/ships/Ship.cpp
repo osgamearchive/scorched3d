@@ -92,5 +92,5 @@ void Ship::draw(Vector &position, Vector &direction, Vector &directionPerp)
 
 void Ship::simulate(float frameTime)
 {
-	ship_->simulate(frameTime);
+	ship_->simulate(frameTime * 20.0f);
 }

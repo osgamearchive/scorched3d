@@ -24,6 +24,7 @@
 #include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
+#include <target/TargetDamageCalc.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
@@ -91,9 +92,18 @@ void Teleport::simulate(float frameTime, bool &remove)
 		Tank *tank = context_->tankContainer->getTankById(playerId_);
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
-			float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
-				position_[0], position_[1]);
-			position_[2] = height;
+			if (weapon_->getGroundOnly())
+			{
+				float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
+					position_[0], position_[1]);
+				position_[2] = height;
+			}
+			else
+			{
+				// Check if this tank can fall
+				TargetDamageCalc::damageTarget(*context_, tank, weapon_, 
+					0, 0.0f, false, true, false, 0);
+			}
 
 			tank->setTargetPosition(position_);
 			DeformLandscape::flattenArea(*context_, position_, 0);

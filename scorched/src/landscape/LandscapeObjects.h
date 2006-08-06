@@ -41,6 +41,7 @@ public:
 	virtual ~LandscapeObjects();
 
 	void draw();
+	void simulate(float frameTime);
 	void generate(RandomGenerator &generator, 
 		LandscapePlace &place,
 		ScorchedContext &context,

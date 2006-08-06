@@ -27,7 +27,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponTeleport);
 
-WeaponTeleport::WeaponTeleport()
+WeaponTeleport::WeaponTeleport() : groundOnly_(true)
 {
 
 }
@@ -43,6 +43,8 @@ bool WeaponTeleport::parseXML(OptionsGame &context,
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 	if (!accessoryNode->getNamedChild("delay", delay_)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
+	accessoryNode->getNamedChild("groundonly", groundOnly_, false);
+	
 	if (!checkDataFile(getSound())) return false;
 
 	return true;

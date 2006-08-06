@@ -58,8 +58,8 @@ void TargetRendererImplTarget::simulate(float frameTime)
 		if (shieldHit_ < 0.0f) shieldHit_ = 0.0f;
 	}
 
-	if (burnt_) burntModelRenderer_->simulate(frameTime);
-	else modelRenderer_->simulate(frameTime);
+	if (burnt_) burntModelRenderer_->simulate(frameTime * 20.0f);
+	else modelRenderer_->simulate(frameTime * 20.0f);
 }
 
 void TargetRendererImplTarget::draw(float distance)

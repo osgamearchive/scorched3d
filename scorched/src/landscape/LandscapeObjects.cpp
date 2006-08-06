@@ -101,6 +101,19 @@ void LandscapeObjects::draw()
 	glDisable(GL_ALPHA_TEST);
 }
 
+void LandscapeObjects::simulate(float frameTime)
+{
+	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator 
+		itor = entries_.begin();
+	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator 
+		enditor = entries_.end();
+	for (; itor != enditor; itor++)
+	{
+		LandscapeObjectsEntry *entry = (*itor).second;
+		entry->simulate(frameTime);
+	}		
+}
+
 static inline unsigned int pointToUInt(unsigned int x, unsigned int y)
 {
 	return (x << 16) | (y & 0xffff);

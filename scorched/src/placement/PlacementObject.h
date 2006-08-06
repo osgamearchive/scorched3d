@@ -35,7 +35,8 @@ public:
 		eGroup,
 		eRandom,
 		eTank,
-		eShadow
+		eShadow,
+		eNone
 	};
 
 	static PlacementObject *create(const char *type);

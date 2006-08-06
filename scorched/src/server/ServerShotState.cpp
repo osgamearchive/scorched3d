@@ -86,6 +86,9 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		// to the action controller
 		ServerShotHolder::instance()->playShots(false);
 		
+		// Make sure that the new actions are run
+		stepActions(state, 0.5f, false);
+
 		// Resurect any tanks that have more lives
 		resurectTanks();
 

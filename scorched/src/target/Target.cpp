@@ -34,7 +34,8 @@ Target::Target(unsigned int playerId,
 	life_(context, playerId), 
 	shield_(context, playerId),
 	deathAction_(0),
-	renderer_(0)
+	renderer_(0),
+	border_(0.0f)
 {
 	life_.setTarget(this);
 }

@@ -18,42 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsEntryh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
+#if !defined(__INCLUDE_PlacementObjectNoneh_INCLUDE__)
+#define __INCLUDE_PlacementObjectNoneh_INCLUDE__
 
-#include <string>
-#include <vector>
-#include <common/Vector.h>
+#include <placement/PlacementObject.h>
 
-class LandscapeObjectsGroupEntry;
-class LandscapeObjectEntryBase
+class PlacementObjectNone : public PlacementObject
 {
 public:
-	virtual Vector &getPosition() = 0;
+	PlacementObjectNone();
+	virtual ~PlacementObjectNone();
 
-	std::vector<LandscapeObjectsGroupEntry *> groups;
+	virtual bool readXML(XMLNode *node);
+	virtual PlacementObject::Type getType() { return PlacementObject::eNone; }
+	virtual void createObject(ScorchedContext &context,
+		RandomGenerator &generator,
+		unsigned int &playerId,
+		PlacementType::Position &position);
 };
 
-class LandscapeObjectsEntry : public LandscapeObjectEntryBase
-{
-public:
-	LandscapeObjectsEntry();
-	virtual ~LandscapeObjectsEntry();
-
-	virtual Vector &getPosition() { return position; }
-
-	float modelscale;
-	Vector boundingsize;
-	Vector position;
-	float rotation;
-	float border;
-	float color;
-	bool burnt;
-	std::string removeaction;
-	std::string burnaction;
-
-	virtual void render(float distance) = 0;
-	virtual void simulate(float frameTime) = 0;
-};
-
-#endif // __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
+#endif // __INCLUDE_PlacementObjectNoneh_INCLUDE__

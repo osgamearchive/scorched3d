@@ -59,3 +59,9 @@ void LandscapeObjectsEntryModel::render(float distance)
 		else model->drawBottomAligned();
 	glPopMatrix();
 }
+
+void LandscapeObjectsEntryModel::simulate(float frameTime)
+{
+	if (burnt) modelburnt->simulate(frameTime * 20.0f);
+	else model->simulate(frameTime * 20.0f);
+}

@@ -26,6 +26,8 @@
 #include <placement/PlacementTypeTankStart.h>
 #include <landscape/LandscapeObjectsGroupEntry.h>
 #include <landscape/LandscapeMaps.h>
+#include <target/TargetContainer.h>
+#include <tankgraph/TargetRendererImplTarget.h>
 #include <engine/ScorchedContext.h>
 #include <common/DefinesString.h>
 #include <XML/XMLParser.h>
@@ -83,6 +85,7 @@ bool PlacementType::checkCloseness(Vector &position,
 	std::list<Position> &returnPositions,
 	float mincloseness)
 {
+	// Check for border closeness for existing objects
 	std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
 		context.landscapeMaps->getGroundMaps().getObjects().getEntries();
 	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator objectsitor;
@@ -105,6 +108,32 @@ bool PlacementType::checkCloseness(Vector &position,
 		}
 	}
 
+	// Check for border closeness for targets
+	std::map<unsigned int, Target *> &targets = 
+		context.targetContainer->getTargets();
+	std::map<unsigned int, Target *>::iterator targetsitor;
+	for (targetsitor = targets.begin();
+		targetsitor != targets.end();
+		targetsitor++)
+	{
+		Target *target = (*targetsitor).second;
+		if (!target->isTarget()) continue;
+
+		float distx = target->getTargetPosition()[0] - position[0];
+		float disty = target->getTargetPosition()[1] - position[1];
+		float closeness = mincloseness + target->getBorder();
+
+		if (closeness > 0.0f)
+		{
+			float distsq = closeness * closeness;
+			if (distx * distx + disty *disty < distsq)
+			{
+				return false;
+			}
+		}
+	}
+
+	// Check for mincloseness closeness for objects in the current group
 	if (mincloseness > 0.0f)
 	{
 		std::list<Position>::iterator currentItor;

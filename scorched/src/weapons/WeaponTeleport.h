@@ -33,6 +33,7 @@ public:
 		AccessoryStore *store, XMLNode *accessoryNode);
 
 	const char *getSound() { return sound_.c_str(); }
+	bool getGroundOnly() { return groundOnly_; }
 	float getDelay() { return delay_; }
 
 	// Inherited from Weapon
@@ -45,6 +46,7 @@ public:
 protected:
 	float delay_;
 	std::string sound_;
+	bool groundOnly_;
 
 };
 

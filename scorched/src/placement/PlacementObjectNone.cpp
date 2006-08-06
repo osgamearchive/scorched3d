@@ -18,42 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeObjectsEntryh_INCLUDE__)
-#define __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
+#include <placement/PlacementObjectNone.h>
+#include <engine/ScorchedContext.h>
+#include <landscape/LandscapeMaps.h>
 
-#include <string>
-#include <vector>
-#include <common/Vector.h>
-
-class LandscapeObjectsGroupEntry;
-class LandscapeObjectEntryBase
+PlacementObjectNone::PlacementObjectNone()
 {
-public:
-	virtual Vector &getPosition() = 0;
+}
 
-	std::vector<LandscapeObjectsGroupEntry *> groups;
-};
-
-class LandscapeObjectsEntry : public LandscapeObjectEntryBase
+PlacementObjectNone::~PlacementObjectNone()
 {
-public:
-	LandscapeObjectsEntry();
-	virtual ~LandscapeObjectsEntry();
+}
 
-	virtual Vector &getPosition() { return position; }
+bool PlacementObjectNone::readXML(XMLNode *node)
+{
+	return PlacementObject::readXML(node);
+}
 
-	float modelscale;
-	Vector boundingsize;
-	Vector position;
-	float rotation;
-	float border;
-	float color;
-	bool burnt;
-	std::string removeaction;
-	std::string burnaction;
-
-	virtual void render(float distance) = 0;
-	virtual void simulate(float frameTime) = 0;
-};
-
-#endif // __INCLUDE_LandscapeObjectsEntryh_INCLUDE__
+void PlacementObjectNone::createObject(ScorchedContext &context,
+	RandomGenerator &generator,
+	unsigned int &playerId,
+	PlacementType::Position &position)
+{
+}

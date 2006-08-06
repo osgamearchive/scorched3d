@@ -32,6 +32,7 @@ public:
 	virtual ~LandscapeObjectsEntryModel();
 
 	virtual void render(float distance);
+	virtual void simulate(float frameTime);
 
 	ModelRenderer *model;
 	ModelRenderer *modelburnt;

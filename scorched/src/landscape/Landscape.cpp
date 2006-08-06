@@ -115,6 +115,8 @@ void Landscape::simulate(const unsigned state, float frameTime)
 	boids_->simulate(frameTime * speedMult);
 	ships_->simulate(frameTime * speedMult);
 	soundManager_->simulate(frameTime * speedMult);
+
+	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)

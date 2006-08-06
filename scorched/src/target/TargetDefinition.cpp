@@ -76,6 +76,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	target->getLife().setSize(size_);
 	target->getLife().setDriveOverToDestroy(driveovertodestroy_);
 	target->getLife().setRotation(rotation);
+	target->setBorder(border_);
 	target->newGame();
 
 	if (shield_.c_str()[0] && 0 != strcmp(shield_.c_str(), "none"))

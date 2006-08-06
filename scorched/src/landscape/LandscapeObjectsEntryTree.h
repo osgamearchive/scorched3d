@@ -31,6 +31,7 @@ public:
 	bool setup(const char *type, bool snow);
 
 	virtual void render(float distance);
+	virtual void simulate(float frameTime);
 
 protected:
 	enum TreeType

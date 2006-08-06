@@ -16,7 +16,7 @@
 						<C>0</C>
 					</offset>
 					<object type='model'>
-						<model type='MilkShape'>data/accessories/pwrcrate/pwrcrate.txt</model>
+						<model type='MilkShape'>data/meshes/seagull/seagull.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/banana/banana.txt</modelburnt>
 						<modelscale>0.1</modelscale>
 						<modelrotationsnap>45</modelrotationsnap>
@@ -28,6 +28,38 @@
 							<invert>true</invert>
 						</groundmap>
 						<groupname>none</groupname>
+					</object>
+				</groupobject>
+				<groupobject>
+					<offset>
+						<A>0</A>
+						<B>0</B>
+						<C>0</C>
+					</offset>
+					<object type='target'>
+						<name>Test</name>
+						<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+						<modelburnt type='MilkShape'>data/accessories/banana/banana.txt</modelburnt>
+						<modelscale>0.1</modelscale>
+						<modelrotationsnap>45</modelrotationsnap>
+						<border>10</border>
+						<flattenarea>-1.0</flattenarea>
+						<removeaction>TestPowerUpWeapon</removeaction>
+						<groundmap type='bmp'>
+							<image>data/landscapes/parking.bmp</image>
+							<alpha>data/landscapes/parkinga.bmp</alpha>
+							<invert>true</invert>
+						</groundmap>
+						<groupname>none</groupname>
+					</object>
+				</groupobject>
+				<groupobject>
+					<offset>
+						<A>0</A>
+						<B>10</B>
+						<C>0</C>
+					</offset>
+					<object type='none'>
 					</object>
 				</groupobject>
 			</object>
