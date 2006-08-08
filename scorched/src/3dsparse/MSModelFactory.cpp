@@ -327,6 +327,12 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 		}
 	}
 
+	////////////////
+	// The bone's position and rotation are left in the milkshape native xyz coord
+	// system and are not read in translated into the S3D system.
+	// The translation is done during the bone calculation at runtime
+	///////////////
+
 	// Read number bones
 	int noBones = 0;
 	if (!getNextLine(buffer, in))

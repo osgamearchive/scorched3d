@@ -104,11 +104,10 @@ void ModelRenderer::simulate(float frameTime)
 			continue;
 		}
 
-		Vector &pos = bone->getPositionAtTime(currentFrame_);
-		Vector &rot = bone->getRotationAtTime(currentFrame_);
-
 		BoneMatrixType m;
-		ModelMaths::angleMatrix(rot, m);
+		bone->getRotationAtTime(currentFrame_, m);
+				
+		Vector &pos = bone->getPositionAtTime(currentFrame_);
 		m[0][3] = pos[0];
 		m[1][3] = pos[1];
 		m[2][3] = pos[2];
@@ -220,10 +219,20 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 				{
 					BoneType *type = boneTypes_[vertex->boneIndex];
 
-					ModelMaths::vectorRotate(vertex->position, type->final_, vec);
+					// Note: Translation of MS to S3D coords
+					Vector newPos, newVec;
+					newPos[0] = vertex->position[0];
+					newPos[1] = vertex->position[2];
+					newPos[2] = vertex->position[1];
+
+					ModelMaths::vectorRotate(newPos, type->final_, newVec);
+					vec[0] = newVec[0];
+					vec[1] = newVec[2];
+					vec[2] = newVec[1];
+
 					vec[0] += type->final_[0][3] + vertexTranslation_[0];
-					vec[1] += type->final_[1][3] + vertexTranslation_[1];
-					vec[2] += type->final_[2][3] + vertexTranslation_[2];
+					vec[1] += type->final_[2][3] + vertexTranslation_[1];
+					vec[2] += type->final_[1][3] + vertexTranslation_[2];
 					
 				}
 				else

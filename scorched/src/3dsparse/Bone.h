@@ -72,7 +72,7 @@ public:
 		{ return rotationKeys_; }
 
 	Vector &getPositionAtTime(float currentTime);
-	Vector &getRotationAtTime(float currentTime);
+	void getRotationAtTime(float currentTime, BoneMatrixType &m);
 
 	void addPositionKey(BonePositionKey *key) 
 		{ positionKeys_.push_back(key); }

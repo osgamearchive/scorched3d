@@ -165,7 +165,6 @@ void Model::setupBones()
 		rot[0] = bone->getRotation()[0] * 180.0f / PI;
 		rot[1] = bone->getRotation()[1] * 180.0f / PI;
 		rot[2] = bone->getRotation()[2] * 180.0f / PI;
-		if (type->parent_ == -1) rot[0] -= 90.0f;
 
 		ModelMaths::angleMatrix(rot, type->relative_);
 		type->relative_[0][3] = bone->getPosition()[0];
@@ -199,15 +198,24 @@ void Model::setupBones()
 				BoneType *type = baseBoneTypes_[vertex->boneIndex];
 				mesh->getReferencesBones() = true;
 
+				// Note: Translation of MS to S3D coords
+
 				// Translation
 				vertex->position[0] -= type->absolute_[0][3];
-				vertex->position[1] -= type->absolute_[1][3];
-				vertex->position[2] -= type->absolute_[2][3];
+				vertex->position[1] -= type->absolute_[2][3];
+				vertex->position[2] -= type->absolute_[1][3];
 
 				// Rotation
+				Vector tmpPos;
+				tmpPos[0] = vertex->position[0];
+				tmpPos[1] = vertex->position[2];
+				tmpPos[2] = vertex->position[1];
+
 				Vector tmp;
-				ModelMaths::vectorIRotate(vertex->position, type->absolute_, tmp);
-				vertex->position = tmp;
+				ModelMaths::vectorIRotate(tmpPos, type->absolute_, tmp);
+				vertex->position[0] = tmp[0];
+				vertex->position[1] = tmp[2];
+				vertex->position[2] = tmp[1];
 			}
 		}
 	}

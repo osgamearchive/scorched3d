@@ -26,8 +26,16 @@
 class ModelMaths
 {
 public:
+	static void angleQuaternion(const Vector &angles, 
+		float quaternion[4]);
+	static void quaternionSlerp(float p[4], 
+		float q[4], float t, float qt[4]);
+
 	static void angleMatrix(
 		const Vector &angles, float matrix[3][4]);
+	static void quaternionMatrix(
+		float quaternion[4], float matrix[3][4]);
+
 	static void concatTransforms(const float in1[3][4],
 		const float in2[3][4], float out[3][4]);
 	static void vectorIRotate(const Vector &in1, 

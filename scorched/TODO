@@ -18,6 +18,7 @@ Fixed: Resigning looses one life and not the whole round
 Fixed: Crash when targets are given groupnames
 Fixed: Border and mincloseness attribute now applies to targets
 Fixed: Ships, boids and targets all have same model animation speed
+Fixed: Animation of some models were not translated correctly (slower quats used for angle calc)
 
 Added: Simulation to models (performance issue?)
 Added: weight attribute to the ObjectRandom placement type

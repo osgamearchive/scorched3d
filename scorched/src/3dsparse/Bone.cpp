@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <3dsparse/Bone.h>
+#include <3dsparse/ModelMaths.h>
 #include <common/Defines.h>
 
 BoneType::BoneType() : parent_(-1)
@@ -92,9 +93,8 @@ Vector &Bone::getPositionAtTime(float currentTime)
 	return tmp;
 }
 
-Vector &Bone::getRotationAtTime(float currentTime)
+void Bone::getRotationAtTime(float currentTime, BoneMatrixType &m)
 {
-	static Vector tmp;
 	BoneRotationKey *lastRotationKey = 0, *thisRotationKey = 0;
 	std::vector<BoneRotationKey *>::iterator itor;
 	for (itor = rotationKeys_.begin();
@@ -114,24 +114,37 @@ Vector &Bone::getRotationAtTime(float currentTime)
 		float d = thisRotationKey->time - lastRotationKey->time;
 		float s = (currentTime - lastRotationKey->time) / d;
 
-		tmp[0] = lastRotationKey->rotation[0] + (thisRotationKey->rotation[0] - lastRotationKey->rotation[0]) * s;
-		tmp[1] = lastRotationKey->rotation[1] + (thisRotationKey->rotation[1] - lastRotationKey->rotation[1]) * s;
-		tmp[2] = lastRotationKey->rotation[2] + (thisRotationKey->rotation[2] - lastRotationKey->rotation[2]) * s;
-		tmp[0] *= 180.0f / PI;
-		tmp[1] *= 180.0f / PI;
-		tmp[2] *= 180.0f / PI;
+#ifndef MODEL_FAST_ANGLE_CALC
+		float q1[4], q2[4], q[4];
+		ModelMaths::angleQuaternion(lastRotationKey->rotation, q1);
+		ModelMaths::angleQuaternion(thisRotationKey->rotation, q2);
+		ModelMaths::quaternionSlerp(q1, q2, s, q);
+		ModelMaths::quaternionMatrix(q, m);
+#else
+		Vector rot;
+		rot[0] = lastRotationKey->rotation[0] + (thisRotationKey->rotation[0] - lastRotationKey->rotation[0]) * s;
+		rot[1] = lastRotationKey->rotation[1] + (thisRotationKey->rotation[1] - lastRotationKey->rotation[1]) * s;
+		rot[2] = lastRotationKey->rotation[2] + (thisRotationKey->rotation[2] - lastRotationKey->rotation[2]) * s;
+		rot[0] *= 180.0f / PI;
+		rot[1] *= 180.0f / PI;
+		rot[2] *= 180.0f / PI;
+		ModelMaths::angleMatrix(rot, m);
+#endif
 	}
 	else if (thisRotationKey)
 	{
-		tmp[0] = thisRotationKey->rotation[0] * 180.0f / PI;
-		tmp[1] = thisRotationKey->rotation[1] * 180.0f / PI;
-		tmp[2] = thisRotationKey->rotation[2] * 180.0f / PI;
+		Vector rot;
+		rot[0] = thisRotationKey->rotation[0] * 180.0f / PI;
+		rot[1] = thisRotationKey->rotation[1] * 180.0f / PI;
+		rot[2] = thisRotationKey->rotation[2] * 180.0f / PI;
+		ModelMaths::angleMatrix(rot, m);
 	}
 	else if (lastRotationKey )
 	{
-		tmp[0] = lastRotationKey->rotation[0] * 180.0f / PI;
-		tmp[1] = lastRotationKey->rotation[1] * 180.0f / PI;
-		tmp[2] = lastRotationKey->rotation[2] * 180.0f / PI;
+		Vector rot;
+		rot[0] = lastRotationKey->rotation[0] * 180.0f / PI;
+		rot[1] = lastRotationKey->rotation[1] * 180.0f / PI;
+		rot[2] = lastRotationKey->rotation[2] * 180.0f / PI;
+		ModelMaths::angleMatrix(rot, m);
 	}
-	return tmp;
 }

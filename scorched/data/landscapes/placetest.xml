@@ -38,7 +38,7 @@
 					</offset>
 					<object type='target'>
 						<name>Test</name>
-						<model type="MilkShape">data/meshes/seagull/seagull.txt</model>
+						<model type="MilkShape">data/globalmods/apoc/data/accessories/buildings/mainport_anim.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/banana/banana.txt</modelburnt>
 						<modelscale>0.1</modelscale>
 						<modelrotationsnap>45</modelrotationsnap>

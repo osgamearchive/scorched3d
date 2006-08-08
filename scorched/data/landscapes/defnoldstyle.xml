@@ -30,7 +30,7 @@
 		<landsmoothing>0.04</landsmoothing>
 		<levelsurround>true</levelsurround>
 	</heightmap>
-	<placements>
+	<!--<placements>
 		<placement>data/landscapes/placetest.xml</placement>
-	</placements>
+	</placements>-->
 </defn>
