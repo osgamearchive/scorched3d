@@ -16,7 +16,7 @@ Fixed: Score type option now marked as depricated
 Fixed: Documentation dir should now be able to be moved without documentation prefix
 Fixed: Resigning looses one life and not the whole round
 Fixed: Crash when targets are given groupnames
-Fixed: Border attribute now applies to targets
+Fixed: Border and mincloseness attribute now applies to targets
 Fixed: Ships, boids and targets all have same model animation speed
 
 Added: Simulation to models (performance issue?)
