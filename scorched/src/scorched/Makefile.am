@@ -1134,6 +1134,8 @@ scorched3d_SOURCES = \
 	../placement/PlacementObjectGroup.h \
 	../placement/PlacementObjectModel.cpp \
 	../placement/PlacementObjectModel.h \
+	../placement/PlacementObjectNone.cpp \
+	../placement/PlacementObjectNone.h \
 	../placement/PlacementObjectRandom.cpp \
 	../placement/PlacementObjectRandom.h \
 	../placement/PlacementObjectShadow.cpp \
