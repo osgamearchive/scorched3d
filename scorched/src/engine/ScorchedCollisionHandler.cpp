@@ -90,8 +90,8 @@ void ScorchedCollisionHandler::targetCollision(
 	ScorchedCollisionInfo *info1, ScorchedCollisionInfo *info2, 
 	dContactGeom *contacts, int noContacts)
 {
-	unsigned int playerId1 = (unsigned int) info1->data;
-	unsigned int playerId2 = (unsigned int) info2->data;
+	unsigned int playerId1 = (unsigned long) info1->data;
+	unsigned int playerId2 = (unsigned long) info2->data;
 	Target *target1 = context_->targetContainer->getTargetById(playerId1);
 	Target *target2 = context_->targetContainer->getTargetById(playerId2);
 	if (!target1 || !target2) return;

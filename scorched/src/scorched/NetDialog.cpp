@@ -421,14 +421,9 @@ void NetLanFrame::onFavouritesButton(wxCommandEvent &event)
 		wxString value = IDC_EDIT_SERVER_CTRL->GetValue();
 		std::set<std::string> favs = 
 			ServerBrowser::instance()->getCollect().getFavourites();
-		if (IDC_RADIO_FAV_CTRL->GetValue())
-		{
-			favs.erase(value.mb_str(wxConvUTF8));
-		}
-		else
-		{
-			favs.insert(value.mb_str(wxConvUTF8));
-		}
+		const char *cvar = value.mb_str(wxConvUTF8);
+		if (IDC_RADIO_FAV_CTRL->GetValue()) favs.erase(cvar);
+		else favs.insert(cvar);
 		ServerBrowser::instance()->getCollect().setFavourites(favs);
 
 		if (IDC_RADIO_FAV_CTRL->GetValue())
