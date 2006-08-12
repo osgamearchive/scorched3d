@@ -73,6 +73,13 @@ void ServerCommon::sendStringMessage(unsigned int dest, const char *text)
 
 void ServerCommon::sendString(unsigned int dest, const char *text)
 {
+	// Remove any bad characters
+	for (char *r = (char *) text; *r; r++)
+	{
+		if (*r == '%') *r = ' ';
+		if (*r < 0 || * r > 128) *r = ' ';
+	}
+
 	ComsTextMessage message(text);
 	ServerTextHandler::instance()->addMessage(text);
 	if (dest == 0)

@@ -109,6 +109,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 		for (char *r = (char *) newText.c_str(); *r; r++)
 		{
 			if (*r == '%') *r = ' ';
+			if (*r < 0 || * r > 128) *r = ' ';
 		}
 
 		const char *sayType = "Says";
