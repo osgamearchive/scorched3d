@@ -189,8 +189,8 @@
 					</offset>
 					<object type='target'>
 						<name>Soldier</name>
-						<model type="MilkShape">data/accessories/people/male1_soldier.txt</model>
-						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier.txt</modelburnt>
+						<model type="MilkShape">data/accessories/people/male1_soldier_standing.txt</model>
+						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier_standing.txt</modelburnt>
 						<modelrotation>15</modelrotation>
 						<shield>none</shield>
 						<parachute>none</parachute>
@@ -286,8 +286,8 @@
 					</offset>
 					<object type='target'>
 						<name>Soldier</name>
-						<model type="MilkShape">data/accessories/people/male1_soldier.txt</model>
-						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier.txt</modelburnt>
+						<model type="MilkShape">data/accessories/people/male1_soldier_standing.txt</model>
+						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier_standing.txt</modelburnt>
 						<modelrotation>15</modelrotation>
 						<shield>none</shield>
 						<parachute>none</parachute>

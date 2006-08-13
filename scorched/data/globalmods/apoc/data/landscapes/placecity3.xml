@@ -176,7 +176,7 @@
 			</object>
 		</placement>
 		<placement type='mask'>
-			<numobjects>2</numobjects>
+			<numobjects>10</numobjects>
 			<mask>data/landscapes/masks/city1rural.bmp</mask>
 			<minheight>10</minheight>
 			<maxheight>75</maxheight>
@@ -235,8 +235,8 @@
 					</offset>
 					<object type='target'>
 						<name>Soldier</name>
-						<model type="MilkShape">data/accessories/people/male1_soldier.txt</model>
-						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier.txt</modelburnt>
+						<model type="MilkShape">data/accessories/people/male1_soldier_standing.txt</model>
+						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier_standing.txt</modelburnt>
 						<modelrotation>15</modelrotation>
 						<shield>none</shield>
 						<parachute>none</parachute>
@@ -254,8 +254,8 @@
 					</offset>
 					<object type='target'>
 						<name>Soldier</name>
-						<model type="MilkShape">data/accessories/people/male1_soldier.txt</model>
-						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier.txt</modelburnt>
+						<model type="MilkShape">data/accessories/people/male1_soldier_standing.txt</model>
+						<modelburnt type='MilkShape'>data/accessories/people/male1_soldier_standing.txt</modelburnt>
 						<modelrotation>15</modelrotation>
 						<shield>none</shield>
 						<parachute>none</parachute>
@@ -461,6 +461,25 @@
 				</groundmap>
 				<groupname>gasstations</groupname>
 			</object>
+			<!--<object type='target'>
+				<name>Gas Station</name>
+				<model type='MilkShape'>data/accessories/buildings/gasstation1.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/buildings/gasstation1burnt.txt</modelburnt>
+				<modelrotationsnap>90</modelrotationsnap>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
+				<removeaction>Gas Station</removeaction>
+				<burnaction>Large Bldg</burnaction>
+				<flattenarea>-1.0</flattenarea>
+				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<groundmap type='bmp'>
+					<image>data/landscapes/cars.bmp</image>
+					<alpha>data/landscapes/carsa.bmp</alpha>
+					<invert>false</invert>
+				</groundmap>
+			</object>-->
 		</placement>
 		<placement type='mask'>
 			<numobjects>10</numobjects>
