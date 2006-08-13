@@ -17,9 +17,10 @@ Changes Since 4.0
         - Laser Cannon
             - Has random spread from -0.5 to 0.5 degrees on 2nd and 3rd shot
             - Does 60 to 120 damage instead of 75 to 150 damage.
-        - Tweaked the nuclear fallout sparkle effect a bit
+        - Tweaked the nuclear fallout sparkle effect a bit (spread out more)
         - Added the fallout sparkle effect to Tsar Bomba
         - Spaced out the bomblets in Funky Bomb over time slightly to prevent dudding on direct hit
+        - Renamed 'Small Battery' drop to 'Batteries'
         
     Landscapes:
     	- Cities
@@ -38,9 +39,11 @@ Changes Since 4.0
             - Spreads small acid droplets when destroyed
             - Drops small weapons and occasionally cargo boxes
         - Soldiers standing around the Nuclear Plants
+        - Converted Igloos to targets
         
     Other:
         - Various other small changes and fixes
+        - Fixed single player game settings
         
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 

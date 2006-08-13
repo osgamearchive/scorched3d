@@ -7666,7 +7666,7 @@ It does no physical damage to tanks.</description>
 creating some small riot bombs.</description>
 		<icon>bdigger.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>2000</cost>
+		<cost>1000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>digger/digger.txt</model>
 		<modelscale>0.5</modelscale>
@@ -7704,7 +7704,7 @@ creating some small riot bombs.</description>
 creating some riot bombs.</description>
 		<icon>digger.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>4000</cost>
+		<cost>3000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>digger/digger.txt</model>
 		<accessoryaction type='WeaponProjectile'>
@@ -13069,7 +13069,7 @@ violently on one or both sides of the portal.</description>
 					<projectilescale>0.8</projectilescale>
 					<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
 					<collisionaction type='WeaponAddTarget'>
-						<name>Small Battery</name>
+						<name>Batteries</name>
 						<modelscale>0.08</modelscale>
 						<model type='MilkShape'>objects/9volt.txt</model>
 						<life>50</life>
@@ -13330,7 +13330,7 @@ which explode and spread fire when ignited.</description>
 							<projectilescale>0.8</projectilescale>
 							<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
 							<collisionaction type='WeaponAddTarget'>
-								<name>Small Battery</name>
+								<name>Batteries</name>
 								<modelscale>0.08</modelscale>
 								<model type='MilkShape'>objects/9volt.txt</model>
 								<life>50</life>
@@ -13858,7 +13858,7 @@ which explode and spread fire when ignited.</description>
 											<projectilescale>0.8</projectilescale>
 											<projectilemodel type='MilkShape'>objects/9volt.txt</projectilemodel>
 											<collisionaction type='WeaponAddTarget'>
-												<name>Small Battery</name>
+												<name>Batteries</name>
 												<modelscale>0.08</modelscale>
 												<model type='MilkShape'>objects/9volt.txt</model>
 												<life>50</life>

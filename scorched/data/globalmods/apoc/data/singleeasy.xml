@@ -143,6 +143,12 @@
 		<name>PlayerType24</name>
 		<value>Human</value>
 	</option>
+	<!-- The number of lives that each player tank has (Max = 10, Min = 0) -->
+	<!-- (default value : "1") -->
+	<option>
+		<name>PlayerLives</name>
+		<value>1</value>
+	</option>
 	<!-- The largest weapon type allowed (on round 1) -->
 	<!-- (default value : "10") -->
 	<option>
@@ -183,7 +189,7 @@
 	<!-- (default value : "3") -->
 	<option>
 		<name>AllowedMissedMoves</name>
-		<value>3</value>
+		<value>5</value>
 	</option>
 	<!-- The number of rounds to play in each game -->
 	<!-- (default value : "5") -->
@@ -214,12 +220,6 @@
 	<option>
 		<name>MaxClimbingDistance</name>
 		<value>8</value>
-	</option>
-	<!-- How the winner is choosen -->
-	<!-- (default value : "0") -->
-	<option>
-		<name>ScoreType</name>
-		<value>0</value>
 	</option>
 	<!-- The number of teams (1 == no teams) -->
 	<!-- (default value : "1") -->
@@ -275,6 +275,12 @@
 		<name>MaxLandscapeSize</name>
 		<value>200000</value>
 	</option>
+	<!-- The money awarded for each kill assist * weapon used (Max = 2000, Min = 0) -->
+	<!-- (default value : "250") -->
+	<option>
+		<name>MoneyWonPerAssistPoint</name>
+		<value>500</value>
+	</option>
 	<!-- The money awarded for each person hit * weapon used -->
 	<!-- (default value : "200") -->
 	<option>
@@ -309,7 +315,7 @@
 	<!-- (default value : "10000") -->
 	<option>
 		<name>MoneyStarting</name>
-		<value>25000</value>
+		<value>50000</value>
 	</option>
 	<!-- The amount of time to give clients to respond after level loading before kicking them -->
 	<!-- (default value : "60") -->
@@ -327,7 +333,7 @@
 	<!-- (default value : "15") -->
 	<option>
 		<name>MoneyInterest</name>
-		<value>15</value>
+		<value>30</value>
 	</option>
 	<!-- Show power is limited by the amount of health a player has -->
 	<!-- (default value : "on") -->
@@ -347,47 +353,65 @@
 		<name>CycleMaps</name>
 		<value>off</value>
 	</option>
-	<!-- When does a players resign take place -->
-	<!-- (default value : "1") -->
+	<!-- Changes to shields and parachutes are only seen after the aiming phase -->
+	<!-- (default value : "off") -->
+	<option>
+		<name>DelayedDefenseActivation</name>
+		<value>off</value>
+	</option>
+	<!-- When does a players resign take place ( possible values = [ "ResignStart"  "ResignEnd"  "ResignDueToHealth" ] ) -->
+	<!-- (default value : "ResignEnd") -->
 	<option>
 		<name>ResignMode</name>
-		<value>1</value>
+		<value>ResignEnd</value>
 	</option>
-	<!-- The player turn mode -->
-	<!-- (default value : "1") -->
+	<!-- Where a tank is allowed to move to ( possible values = [ "MovementRestrictionNone"  "MovementRestrictionLand"  "MovementRestrictionLandOrAbove" ] ) -->
+	<!-- (default value : "MovementRestrictionNone") -->
+	<option>
+		<name>MovementRestriction</name>
+		<value>MovementRestrictionLandOrAbove</value>
+	</option>
+	<!-- The player turn mode ( possible values = [ "TurnSimultaneous"  "TurnSequentialLooserFirst"  "TurnSequentialRandom" ] ) -->
+	<!-- (default value : "TurnSequentialLooserFirst") -->
 	<option>
 		<name>TurnType</name>
-		<value>0</value>
+		<value>TurnSimultaneous</value>
 	</option>
-	<!-- The force of the wind -->
-	<!-- (default value : "0") -->
+	<!-- The force of the wind ( possible values = [ "WindRandom"  "WindNone"  "Wind1"  "Wind2"  "Wind3"  "Wind4"  "Wind5"  "WindBreezy"  "WindGale" ] ) -->
+	<!-- (default value : "WindRandom") -->
 	<option>
 		<name>WindForce</name>
-		<value>0</value>
+		<value>WindBreezy</value>
 	</option>
-	<!-- When the wind changes -->
-	<!-- (default value : "0") -->
+	<!-- When the wind changes ( possible values = [ "WindOnRound"  "WindOnMove" ] ) -->
+	<!-- (default value : "WindOnRound") -->
 	<option>
 		<name>WindType</name>
-		<value>0</value>
+		<value>WindOnRound</value>
 	</option>
-	<!-- The type of walls allowed -->
-	<!-- (default value : "0") -->
+	<!-- The type of walls allowed ( possible values = [ "WallRandom"  "WallConcrete"  "WallBouncy"  "WallWrapAround"  "WallNone" ] ) -->
+	<!-- (default value : "WallRandom") -->
 	<option>
 		<name>WallType</name>
-		<value>0</value>
+		<value>WallRandom</value>
 	</option>
-	<!-- The scale of the weapons used -->
-	<!-- (default value : "1") -->
+	<!-- The scale of the weapons used ( possible values = [ "ScaleSmall"  "ScaleMedium"  "ScaleLarge" ] ) -->
+	<!-- (default value : "ScaleMedium") -->
 	<option>
 		<name>WeaponScale</name>
-		<value>1</value>
+		<value>ScaleMedium</value>
 	</option>
 	<!-- Max download speed of mods in bytes per second (0 == no mod download) -->
 	<!-- (default value : "10000") -->
 	<option>
 		<name>ModDownloadSpeed</name>
 		<value>10000</value>
+	</option>
+	<!-- Max size allowed for avatars in bytes (0 == no avatars) -->
+	<!-- (default value : "5000") -->
+	<option>
+		<name>MaxAvatarSize</name>
+		<value>5000</value>
 	</option>
 	<!-- The name of currently running Scorched3D mod -->
 	<!-- (default value : "") -->
@@ -407,13 +431,13 @@ http://www.scorched3d.co.uk") -->
 	<!-- (default value : "EconomyFreeMarket") -->
 	<option>
 		<name>Economy</name>
-		<value>EconomyFreeMarket</value>
+		<value>EconomyNone</value>
 	</option>
 	<!-- Colon seperated list of landscape names -->
 	<!-- (default value : "") -->
 	<option>
 		<name>Landscapes</name>
-		<value>oldstyle:lowlands:hilly:ridge:islands:halfed:valley:Mountains:Big Hill:Donut Hills:Apoc City:World Map:USA:Maze:Volcano:Pillars:Colosseum:Ruffles:Bullseye:Plateau:Castle:Moon:Pyramids:Weathered:Hex Isle:Two Towers:Craters:Pyramids 2:Desert Mesa:Terraces:Steppes:Nexus Canyon:City Blocks:Arizona Islands</value>
+		<value>oldstyle:hilly:ridge:halfed:valley:cavern:islands:arizona:spike:canyon:denali:ascencion:icebergs:Mountains:Big Hill:Donut Hills:Apoc City:World Map:USA:Maze:Volcano:Pillars:Colosseum:Ruffles:Bullseye:Plateau:Castle:Moon:Pyramids:Weathered:Hex Isle:Two Towers:Craters:Pyramids 2:Desert Mesa:Terraces:Steppes:Nexus Canyon:Arizona Islands</value>
 	</option>
 	<!-- The master list server for scorched3d -->
 	<!-- (default value : "scorched3d.sourceforge.net") -->
@@ -455,13 +479,25 @@ http://www.scorched3d.co.uk") -->
 	<!-- (default value : "off") -->
 	<option>
 		<name>RandomizeBotNames</name>
-		<value>off</value>
+		<value>on</value>
 	</option>
 	<!-- Start the game will all the weapons -->
 	<!-- (default value : "off") -->
 	<option>
 		<name>GiveAllWeapons</name>
 		<value>off</value>
+	</option>
+	<!-- Only allow authenticated players to use their own player names -->
+	<!-- (default value : "off") -->
+	<option>
+		<name>RegisteredUserNames</name>
+		<value>off</value>
+	</option>
+	<!-- Only allow authenticated players to connect -->
+	<!-- (default value : "none") -->
+	<option>
+		<name>AuthHandler</name>
+		<value>none</value>
 	</option>
 	<!-- The name of the server to start -->
 	<!-- (default value : "No Name") -->
