@@ -176,7 +176,7 @@
 			</object>
 		</placement>
 		<placement type='mask'>
-			<numobjects>10</numobjects>
+			<numobjects>2</numobjects>
 			<mask>data/landscapes/masks/city1rural.bmp</mask>
 			<minheight>10</minheight>
 			<maxheight>75</maxheight>
