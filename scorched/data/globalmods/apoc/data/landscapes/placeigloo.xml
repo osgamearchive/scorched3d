@@ -9,7 +9,7 @@
 			<minslope>0.5</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<!--<object type='model'>
 				<model type='MilkShape'>data/accessories/buildings/igloo.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/igloo.txt</modelburnt>
 				<modelscale>0.125</modelscale>
@@ -19,6 +19,21 @@
 				<flattenarea>-1.0</flattenarea>
 				<border>10</border>
 				<groupname>igloos</groupname>
+			</object>-->
+			<object type='target'>
+				<name>Igloo</name>
+				<model type='MilkShape'>data/accessories/buildings/igloo.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/buildings/igloo.txt</modelburnt>
+				<modelscale>0.125</modelscale>
+				<modelrotationsnap>15</modelrotationsnap>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
+				<removeaction>Igloo</removeaction>
+				<burnaction>Large Bldg</burnaction>
+				<flattenarea>-1.0</flattenarea>
+				<border>10</border>
+				<boundingsphere>false</boundingsphere>
 			</object>
 		</placement>
 	</placements>
