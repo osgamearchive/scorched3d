@@ -2,7 +2,7 @@
 	<boid>
 		<count>2</count>
 		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
-		<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
+		<maxbounds><A>355</A><B>355</B><C>75</C></maxbounds>
 		<maxvelocity>7.5</maxvelocity>
 		<maxacceleration>5.0</maxacceleration>
 		<cruisedistance>10.0</cruisedistance>
@@ -18,8 +18,8 @@
 	</boid>
 	<boid>
 		<count>1</count>
-		<minbounds><A>150</A><B>150</B><C>20</C></minbounds>
-		<maxbounds><A>300</A><B>300</B><C>60</C></maxbounds>
+		<minbounds><A>150</A><B>150</B><C>30</C></minbounds>
+		<maxbounds><A>300</A><B>300</B><C>70</C></maxbounds>
 		<maxvelocity>3.0</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>7.0</cruisedistance>
@@ -36,7 +36,7 @@
 	<boid>
 		<count>1</count>
 		<minbounds><A>100</A><B>100</B><C>20</C></minbounds>
-		<maxbounds><A>255</A><B>255</B><C>50</C></maxbounds>
+		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
 		<maxvelocity>2.5</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>5.0</cruisedistance>
@@ -53,7 +53,7 @@
 	<boid>
 		<count>1</count>
 		<minbounds><A>100</A><B>100</B><C>10</C></minbounds>
-		<maxbounds><A>255</A><B>255</B><C>50</C></maxbounds>
+		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
 		<maxvelocity>2.5</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>4.0</cruisedistance>
@@ -69,7 +69,7 @@
 	<boid>
 		<count>1</count>
 		<minbounds><A>75</A><B>75</B><C>10</C></minbounds>
-		<maxbounds><A>175</A><B>175</B><C>50</C></maxbounds>
+		<maxbounds><A>175</A><B>175</B><C>60</C></maxbounds>
 		<maxvelocity>2.5</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>2.0</cruisedistance>

@@ -40,10 +40,12 @@ Changes Since 4.0
             - Drops small weapons and occasionally cargo boxes
         - Soldiers standing around the Nuclear Plants
         - Converted Igloos to targets
+        - Increased max altitude of boids on city maps slightly
         
     Other:
         - Various other small changes and fixes
         - Fixed single player game settings
+        - Darkened map in the plan view a bit
         
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
