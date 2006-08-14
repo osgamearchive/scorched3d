@@ -39,8 +39,8 @@ Crashing when minimized during texture/level load
 Fix crashing when people win (Graphics card drivers??)
 Better collision for models (switch all models to targets, ODE issue?)
 Better shadows?
-Border for targets
 None placement type
+Turn off models that have no death action instead of trees
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
@@ -57,6 +57,7 @@ Ability to re center view around other tanks
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed
 Multi-kill bonuses
+A way to add and remove players in single player game
 
 -- Other Stuff
 Dirt cannot be raised when underground (or other dirting stopping)
