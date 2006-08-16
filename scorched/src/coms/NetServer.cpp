@@ -214,16 +214,20 @@ bool NetServer::pollDeleted()
 void NetServer::addClient(TCPsocket client)
 {
 	// Calculate the current client id
-	++lastId_;
-	if (lastId_ == 0) ++lastId_;
+	// Mutex protect incase addClient is called from different threads
+	// (unlikely)
+	SDL_LockMutex(setMutex_);
+	if (++lastId_ == 0) ++lastId_;
+	unsigned int currentId = lastId_;
+	SDL_UnlockMutex(setMutex_);
 
 	// Create the thread to read this socket
 	NetServerRead *serverRead = new NetServerRead(
-		lastId_, client, protocol_, &messageHandler_, &checkDeleted_);
+		currentId, client, protocol_, &messageHandler_, &checkDeleted_);
 
 	// Add this to the collection of sockets (connections)
 	SDL_LockMutex(setMutex_);
-	connections_[lastId_] = serverRead;
+	connections_[currentId] = serverRead;
 	firstDestination_ = (*connections_.begin()).first;
 	SDL_UnlockMutex(setMutex_);
 

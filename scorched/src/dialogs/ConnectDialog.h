@@ -23,6 +23,7 @@
 
 #include <GLW/GLWWindow.h>
 #include <client/UniqueIdStore.h>
+#include <time.h>
 
 class ConnectDialog : public GLWWindow
 {
@@ -35,11 +36,31 @@ public:
 	UniqueIdStore &getIdStore() { return idStore_; }
 
 protected:
+	enum ConnectState
+	{
+		eWaiting,
+		eTryingConnection,
+		eFinishedTryingConnection,
+		eFinished
+	};
+	struct ThreadParams
+	{
+		ConnectDialog *dialog;
+		std::string host;
+		int port;
+	};
+
 	static ConnectDialog *instance_;
 	UniqueIdStore idStore_;
-	bool tryConnection_;
+	int tryCount_;
+	ConnectState connectionState_;
+	time_t lastTime_;
+	std::string uniqueId_;
 
-	bool tryConnection();
+	void tryConnection();
+	static int tryRemoteConnection(void *);
+	void tryLocalConnection();
+	void finishedTryingConnection();
 
 private:
 	ConnectDialog();

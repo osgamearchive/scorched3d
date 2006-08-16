@@ -19,6 +19,7 @@ Fixed: Crash when targets are given groupnames
 Fixed: Border and mincloseness attribute now applies to targets
 Fixed: Ships, boids and targets all have same model animation speed
 Fixed: Animation of some models were not translated correctly (slower quats used for angle calc)
+Fixed: Connection dialog does not block while connecting to servers
 
 Added: Simulation to models (performance issue?)
 Added: weight attribute to the ObjectRandom placement type

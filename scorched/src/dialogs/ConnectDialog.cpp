@@ -28,7 +28,6 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
-#include <engine/MainLoop.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
@@ -48,8 +47,16 @@ ConnectDialog *ConnectDialog::instance()
 ConnectDialog::ConnectDialog() : 
 	GLWWindow("Connect", -100.0f, 10.0f, 20.0f, 20.0f, eNoDraw | eNoTitle,
 		"Connection dialog"),
-	tryConnection_(true)
+	connectionState_(eWaiting),
+	tryCount_(0)
 {
+	// Get the unique id
+	if (!idStore_.loadStore())
+	{
+		LoggerInfo info (LoggerInfo::TypeNormal, 
+			"Failed to load id store", "");
+		LogDialog::instance()->logMessage(info);
+	}
 }
 
 ConnectDialog::~ConnectDialog()
@@ -58,31 +65,45 @@ ConnectDialog::~ConnectDialog()
 
 void ConnectDialog::simulate(float frameTime)
 {
-	if (tryConnection_)
+	time_t currentTime = time(0);
+	if (connectionState_ == eWaiting)
 	{
-		tryConnection_ = false;
-
-		int tryCount = 0;
-		while (!tryConnection())
+		if (currentTime - lastTime_ > 3)
 		{
-			if (++tryCount>2)
+			if (tryCount_<3)
 			{
-				LoggerInfo info (LoggerInfo::TypeNormal, 
-					"Could not connect to server.", "");
-				LogDialog::instance()->logMessage(info);
-				break;
+				lastTime_ = currentTime;
+				tryConnection();
 			}
 		}
 	}
+	else if (connectionState_ == eFinishedTryingConnection)
+	{
+		finishedTryingConnection();
+	}
 }
 
-bool ConnectDialog::tryConnection()
+void ConnectDialog::tryConnection()
 {
 	const char *serverName = 
 		(OptionsParam::instance()->getConnect()[0]?
 		OptionsParam::instance()->getConnect():
 		"Localhost");
-	unsigned int noPlayers = 1;
+
+	std::string hostPart = serverName;
+	char *colon = strchr((char *)serverName, ':');
+	int port = ScorchedPort;
+	if (colon) 
+	{
+		char *stop;
+		*colon = '\0';
+		colon++;
+		port = strtol(colon, &stop, 10);
+		hostPart = serverName;
+		colon--;
+		*colon = ':';
+	}	
+
 	LogDialog::instance()->setServerName(
 		formatString("Connecting to : %s", serverName));
 
@@ -98,65 +119,79 @@ bool ConnectDialog::tryConnection()
 		LogDialog::instance()->logMessage(info);
 	}
 
-	ScorchedClient::instance()->getMainLoop().draw();
-	ScorchedClient::instance()->getMainLoop().swapBuffers();
-
-	const char *uniqueId = "";
+	connectionState_ = eTryingConnection;
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		std::string hostPart;
-		hostPart = serverName;
-		char *colon = strchr((char *)serverName, ':');
-		DWORD port = ScorchedPort;
-		if (colon) 
-		{
-			char *stop;
-			*colon = '\0';
-			colon++;
-			port = strtol(colon, &stop, 10);
-			hostPart = serverName;
-			colon--;
-			*colon = ':';
-		}
+		// This point should only ever be called by one thread
+		// so cheat
+		static ThreadParams params;
+		params.host = hostPart;
+		params.port = port;
+		params.dialog = this;
 
-		// Try to connect to the server
-		if (!ScorchedClient::instance()->getNetInterface().
-			connect((char *) hostPart.c_str(), port))
-		{
-			{
-				LoggerInfo info (LoggerInfo::TypeNormal, 
-					"  Connection Failed.", "");
-				LogDialog::instance()->logMessage(info);
-			}
-
-			ScorchedClient::instance()->getMainLoop().draw();
-			ScorchedClient::instance()->getMainLoop().swapBuffers();
-
-			SDL_Delay(3 * 1000);
-			return false;
-		}
-
-		// Get the unique id
-		if (!idStore_.loadStore())
-		{
-			LoggerInfo info (LoggerInfo::TypeNormal, 
-				"Failed to load id store", "");
-			LogDialog::instance()->logMessage(info);
-			return false;
-		}
-		IPaddress address;
-		if (SDLNet_ResolveHost(&address, (char *) hostPart.c_str(), 0) != 0)
-		{
-			LoggerInfo info (LoggerInfo::TypeNormal, 
-				formatString("Failed to resolve server name %s", 
-				hostPart.c_str()), "");
-			LogDialog::instance()->logMessage(info);
-			return false;
-		}
-		unsigned int ipAddress = SDLNet_Read32(&address.host);
-		uniqueId = idStore_.getUniqueId(ipAddress);
+		SDL_CreateThread(ConnectDialog::tryRemoteConnection, &params);
 	}
 	else
+	{
+		tryLocalConnection();
+	}
+}
+
+int ConnectDialog::tryRemoteConnection(void *inParams)
+{
+	ThreadParams *params = (ThreadParams *) inParams;
+	char *host = (char *) params->host.c_str();
+	int port = params->port;
+	ConnectDialog *dialog = params->dialog;
+
+	if (ScorchedClient::instance()->getNetInterface().
+		connect(host, port))
+	{
+		IPaddress address;
+		if (SDLNet_ResolveHost(&address, host, 0) != 0)
+		{
+			unsigned int ipAddress = SDLNet_Read32(&address.host);
+			dialog->uniqueId_ = dialog->idStore_.getUniqueId(ipAddress);
+		}
+	}
+
+	dialog->connectionState_ = eFinishedTryingConnection;
+	return 0;
+}
+
+void ConnectDialog::tryLocalConnection()
+{
+	connectionState_ = eFinishedTryingConnection;
+}
+
+void ConnectDialog::finishedTryingConnection()
+{
+	// Check to see if the connection attempt was successful
+	if (!ScorchedClient::instance()->getNetInterface().started())
+	{
+		LoggerInfo info (LoggerInfo::TypeNormal, 
+			"  Connection Failed.", "");
+		LogDialog::instance()->logMessage(info);
+
+		if (++tryCount_>2)
+		{
+			LoggerInfo info (LoggerInfo::TypeNormal, 
+				"Could not connect to server.", "");
+			LogDialog::instance()->logMessage(info);
+
+			connectionState_ = eFinished;
+		}
+		else
+		{
+			connectionState_ = eWaiting;
+		}
+
+		return;
+	}
+
+	// Check the number of players that are connecting
+	unsigned int noPlayers = 1;
+	if (!OptionsParam::instance()->getConnectedToServer())
 	{
 		noPlayers = ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks();
@@ -168,7 +203,7 @@ bool ConnectDialog::tryConnection()
 	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
 	connectMessage.setUserName(OptionsParam::instance()->getUserName());
 	connectMessage.setPassword(OptionsParam::instance()->getPassword());
-	connectMessage.setUniqueId(uniqueId);
+	connectMessage.setUniqueId(uniqueId_.c_str());
 	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
@@ -178,6 +213,6 @@ bool ConnectDialog::tryConnection()
 		LogDialog::instance()->logMessage(info);
 	}
 
-	return true;
+	connectionState_ = eFinished;
 }
 
