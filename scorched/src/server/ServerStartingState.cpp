@@ -51,7 +51,6 @@ bool ServerStartingState::acceptStateChange(const unsigned state,
 	{
 		if (int(startTime) % 5 == 0)
 		{
-			ServerCommon::serverLog(formatString("Game starting in %.0f seconds...", timeLeft_));
 			ServerCommon::sendString(0, formatString("Game starting in %.0f seconds...", timeLeft_));
 		}
 	}

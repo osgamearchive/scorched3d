@@ -58,8 +58,22 @@ void ServerCommon::startFileLogger()
 	}	
 }
 
-void ServerCommon::sendStringMessage(unsigned int dest, const char *text)
+void ServerCommon::sendStringMessage(unsigned int dest, const char *text, bool blogMessage)
 {
+	// Remove any bad characters
+	for (char *r = (char *) text; *r; r++)
+	{
+		if (*r == '%') *r = ' ';
+		if (*r < 0 || * r > 128) *r = ' ';
+	}
+
+	if (blogMessage)
+	{
+		const char *logMessage = formatString("Messages : %s", text);
+		ServerTextHandler::instance()->addMessage(logMessage);
+		ServerCommon::serverLog(logMessage);
+	}
+
 	ComsTextMessage message(text, 0, true);
 	if (dest == 0)
 	{
@@ -71,7 +85,7 @@ void ServerCommon::sendStringMessage(unsigned int dest, const char *text)
 	}
 }
 
-void ServerCommon::sendString(unsigned int dest, const char *text)
+void ServerCommon::sendString(unsigned int dest, const char *text, bool blogMessage)
 {
 	// Remove any bad characters
 	for (char *r = (char *) text; *r; r++)
@@ -80,8 +94,14 @@ void ServerCommon::sendString(unsigned int dest, const char *text)
 		if (*r < 0 || * r > 128) *r = ' ';
 	}
 
+	if (blogMessage)
+	{
+		const char *logMessage = formatString("Says : %s", text);
+		ServerTextHandler::instance()->addMessage(logMessage);
+		ServerCommon::serverLog(logMessage);
+	}
+
 	ComsTextMessage message(text);
-	ServerTextHandler::instance()->addMessage(text);
 	if (dest == 0)
 	{
 		ComsMessageSender::sendToAllConnectedClients(message);
@@ -94,6 +114,17 @@ void ServerCommon::sendString(unsigned int dest, const char *text)
 
 void ServerCommon::sendStringAdmin(const char *text)
 {
+	// Remove any bad characters
+	for (char *r = (char *) text; *r; r++)
+	{
+		if (*r == '%') *r = ' ';
+		if (*r < 0 || * r > 128) *r = ' ';
+	}
+
+	const char *logMessage = formatString("Admin Says : %s", text);
+	ServerTextHandler::instance()->addMessage(logMessage);
+	ServerCommon::serverLog(logMessage);
+
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->	
 			getTankContainer().getPlayingTanks();
@@ -107,7 +138,7 @@ void ServerCommon::sendStringAdmin(const char *text)
 		{
 			ServerCommon::sendString(
 				tank->getDestinationId(), 
-				formatString("(Admin) %s", text));
+				formatString("(Admin) %s", text), false);
 		}
 	}
 }
@@ -140,8 +171,6 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 		sendString(0,
 			formatString("Slapping player \"%s\" %.0f",
 			tank->getName(), slap));
-		Logger::log(formatString("Slapping client \"%s\" \"%i\" %.0f", 
-			tank->getName(), tank->getPlayerId(), slap));
 	}
 }
 

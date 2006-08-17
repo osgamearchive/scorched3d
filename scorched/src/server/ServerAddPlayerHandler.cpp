@@ -74,7 +74,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		(tank->getState().getState() != TankState::sDead) &&
 		(tank->getState().getState() != TankState::sPending))
 	{
-		ServerCommon::sendString(destinationId, "Can only change tank when dead.");
+		ServerCommon::sendString(destinationId, "Can only change tank when dead.", false);
 		return true;
 	}
 
@@ -84,7 +84,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		if (ScorchedServer::instance()->getGameState().getState() !=
 			ServerState::ServerStateTooFewPlayers)
 		{
-			ServerCommon::sendString(destinationId, "Can only change type before game starts.");
+			ServerCommon::sendString(destinationId, "Can only change type before game starts.", false);
 			return true;
 		}
 
@@ -176,7 +176,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		{
 			ServerCommon::sendString(0, 
 				formatString("Welcome back %s, you are ranked %s",
-				tank->getName(), rank));
+				tank->getName(), rank), false);
 		}
 
 		if (tank->getState().getSpectator())

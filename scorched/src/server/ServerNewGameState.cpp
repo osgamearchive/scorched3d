@@ -187,7 +187,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	if (addState)
 	{
 		// Tell client(s) of game settings changes
-		ServerCommon::serverLog( "Sending a new game state");
 		ServerCommon::sendString(0, "Game options have been changed!");
 		newGameMessage.addGameState(); 
 	}
@@ -213,7 +212,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	if (newGameMessage.getLevelMessage().getHeightMap().getLevelLen() >
 		(unsigned int) ScorchedServer::instance()->getOptionsGame().getMaxLandscapeSize())
 	{
-		ServerCommon::serverLog( "Landscape too large to send to waiting clients.");
 		ServerCommon::sendString(0, formatString("Landscape too large to send to waiting clients (%i bytes).", 
 			newGameMessage.getLevelMessage().getHeightMap().getLevelLen()));
 		return 0;
@@ -652,18 +650,15 @@ void ServerNewGameState::checkTeamsAuto()
 			OptionsGame::TeamBallanceAutoByScore)
 		{
 			ServerCommon::sendString(0, "Auto ballancing teams, by score");
-			ServerCommon::serverLog( "Auto ballancing teams, by score");
 		}
 		else if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() ==
 			OptionsGame::TeamBallanceAutoByBots)
 		{
 			ServerCommon::sendString(0, "Auto ballancing teams, by bots");
-			ServerCommon::serverLog( "Auto ballancing teams, by bots");
 		}
 		else
 		{
 			ServerCommon::sendString(0, "Auto ballancing teams");
-			ServerCommon::serverLog( "Auto ballancing teams");
 		}
 	}
 }

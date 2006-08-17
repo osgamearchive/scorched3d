@@ -20,6 +20,9 @@ Fixed: Border and mincloseness attribute now applies to targets
 Fixed: Ships, boids and targets all have same model animation speed
 Fixed: Animation of some models were not translated correctly (slower quats used for angle calc)
 Fixed: Connection dialog does not block while connecting to servers
+Fixed: Chat types not working from web admin
+Fixed: All server chat is automatically logged
+Fixed: When games are drawn all players are awarded credit
 
 Added: Simulation to models (performance issue?)
 Added: weight attribute to the ObjectRandom placement type
@@ -41,7 +44,6 @@ Fix crashing when people win (Graphics card drivers??)
 Better collision for models (switch all models to targets, ODE issue?)
 Better shadows?
 None placement type
-Turn off models that have no death action instead of trees
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)

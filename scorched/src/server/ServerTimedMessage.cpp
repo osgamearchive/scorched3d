@@ -72,7 +72,6 @@ void ServerTimedMessage::checkEntries(time_t currentTime)
 			   always prefix times-messages with the ctime and to not
 			   interpreted user supplied data this way. */
 			ServerCommon::sendString(0, formatString(message.c_str(), ctime(&currentTime)));
-			Logger::log(formatString(message.c_str(), ctime(&currentTime)));
 			entry.messages.pop_front();
 			entry.messages.push_back(message);
 		}

@@ -291,9 +291,6 @@ bool ServerWebServer::validateUser(
 			ServerCommon::sendString(0,
 				formatString("server admin \"%s\" logged in",
 				fields["name"].c_str()));
-			ServerCommon::serverLog(
-				formatString("server admin \"%s\" logged in as web admin",
-				fields["name"].c_str()));
 
 			return true;
 		}

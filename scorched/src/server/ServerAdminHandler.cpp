@@ -98,9 +98,6 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			ServerCommon::sendString(destinationId,
 				formatString("Incorrect admin password (try %i/3)", 
 				adminTank->getState().getAdminTries()));
-			ServerCommon::serverLog(
-				formatString("Incorrect admin password (try %i/3)", 
-				adminTank->getState().getAdminTries()));
 			if (adminTank->getState().getAdminTries() > 3)
 			{
 				ServerCommon::kickPlayer(adminTank->getPlayerId());
@@ -112,7 +109,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 	else if (!adminTank->getState().getAdmin())
 	{
 		ServerCommon::sendString(destinationId,
-			"You are not logged in as admin");
+			"You are not logged in as admin", false);
 		return true;
 	}
 
@@ -144,7 +141,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			result +=
 				"-----------------------------------------------------\n";
 
-			ServerCommon::sendString(destinationId, result.c_str());
+			ServerCommon::sendString(destinationId, result.c_str(), false);
 		}
 		break;
 	case ComsAdminMessage::AdminLogout:
@@ -195,7 +192,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			result +=
 				"-----------------------------------------------------\n";
 
-			ServerCommon::sendString(destinationId, result.c_str());
+			ServerCommon::sendString(destinationId, result.c_str(), false);
 		}
 		break;
 	case ComsAdminMessage::AdminShowAliases:
@@ -223,9 +220,9 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				result +=
 					"-----------------------------------------------------\n";
 
-				ServerCommon::sendString(destinationId, result.c_str());
+				ServerCommon::sendString(destinationId, result.c_str(), false);
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for showaliases");
+			else ServerCommon::sendString(destinationId, "Unknown player for showaliases", false);
 		}
 		break;
 	case ComsAdminMessage::AdminShowIpAliases:
@@ -253,9 +250,9 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				result +=
 					"-----------------------------------------------------\n";
 
-				ServerCommon::sendString(destinationId, result.c_str());
+				ServerCommon::sendString(destinationId, result.c_str(), false);
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for showipaliases");
+			else ServerCommon::sendString(destinationId, "Unknown player for showipaliases", false);
 		}
 		break;
 	case ComsAdminMessage::AdminBan:
@@ -271,7 +268,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId());
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for ban");
+			else ServerCommon::sendString(destinationId, "Unknown player for ban", false);
 		}
 		break;
 	case ComsAdminMessage::AdminFlag:
@@ -287,7 +284,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::banPlayer(
 					targetTank->getPlayerId(), ServerBanned::Flagged);
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for flag");
+			else ServerCommon::sendString(destinationId, "Unknown player for flag", false);
 		}
 		break;
 	case ComsAdminMessage::AdminPoor:
@@ -303,7 +300,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::poorPlayer(
 					targetTank->getPlayerId());
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for poor");
+			else ServerCommon::sendString(destinationId, "Unknown player for poor", false);
 		}
 		break;	
 	case ComsAdminMessage::AdminKick:
@@ -319,7 +316,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				ServerCommon::kickPlayer(
 					targetTank->getPlayerId());
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for kick");
+			else ServerCommon::sendString(destinationId, "Unknown player for kick", false);
 		}
 		break;
 	case ComsAdminMessage::AdminMute:
@@ -330,18 +327,13 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 			if (targetTank)
 			{
 				bool mute = (message.getType() == ComsAdminMessage::AdminMute);
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin %s \"%s\"",
-					adminTank->getName(),
-					(mute?"mute":"unmute"),
-					targetTank->getName()));
 				ServerCommon::sendString(0,
 					formatString("admin %s \"%s\"",
 					(mute?"mute":"unmute"),
 					targetTank->getName()));
 				targetTank->getState().setMuted(mute); 
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for mute");
+			else ServerCommon::sendString(destinationId, "Unknown player for mute", false);
 		}
 		break;
 	case ComsAdminMessage::AdminPermMute:
@@ -350,10 +342,6 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin permmute \"%s\"",
-					adminTank->getName(),
-					targetTank->getName()));
 				ServerCommon::sendString(0,
 					formatString("admin permmute \"%s\"",
 					targetTank->getName()));
@@ -362,7 +350,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 					ServerBanned::Muted);
 				targetTank->getState().setMuted(true);
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for permmute");
+			else ServerCommon::sendString(destinationId, "Unknown player for permmute", false);
 		}
 		break;
 	case ComsAdminMessage::AdminUnPermMute:
@@ -371,10 +359,6 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin unpermmute \"%s\"",
-					adminTank->getName(),
-					targetTank->getName()));
 				ServerCommon::sendString(0,
 					formatString("admin unpermmute \"%s\"",
 					targetTank->getName()));
@@ -383,44 +367,24 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 					ServerBanned::NotBanned);
 				targetTank->getState().setMuted(false);
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for unpermmute");
+			else ServerCommon::sendString(destinationId, "Unknown player for unpermmute", false);
 		}
 		break;
 	case ComsAdminMessage::AdminTalk:
-		ServerCommon::serverLog(
-			formatString("\"%s\" admin talk \"%s\"",
-			adminTank->getName(),
-			message.getParam1()));
 		ServerCommon::sendString(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminAdminTalk:
-		ServerCommon::serverLog(
-			formatString("\"%s\" admin admintalk \"%s\"",
-			adminTank->getName(),
-			message.getParam1()));
 		ServerCommon::sendStringAdmin(message.getParam1());
 		break;
 	case ComsAdminMessage::AdminMessage:
-		ServerCommon::serverLog(
-			formatString("\"%s\" admin message \"%s\"",
-			adminTank->getName(),
-			message.getParam1()));
 		ServerCommon::sendStringMessage(0, message.getParam1());
 		break;
 	case ComsAdminMessage::AdminKillAll:
-		ServerCommon::serverLog(
-			formatString("\"%s\" admin killall",
-			adminTank->getName()));
-		ServerCommon::sendString(0,
-			"admin killall");
+		ServerCommon::sendString(0, "admin killall");
 		ServerCommon::killAll();
 		break;
 	case ComsAdminMessage::AdminNewGame:
-		ServerCommon::serverLog(
-			formatString("\"%s\" admin new game",
-			adminTank->getName()));
-		ServerCommon::sendString(0,
-			"admin new game");
+		ServerCommon::sendString(0, "admin new game");
 		ServerCommon::killAll();
 		ScorchedServer::instance()->getOptionsTransient().startNewGame();	
 		break;	
@@ -430,11 +394,6 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 				getTankContainer().getTankById(atoi(message.getParam1()));
 			if (targetTank)
 			{	
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin slap \"%s\" %.0f",
-					adminTank->getName(),
-					targetTank->getName(),
-					(float) atof(message.getParam2())));
 				ServerCommon::sendString(0,
 					formatString("admin slap \"%s\" %.0f",
 					targetTank->getName(),
@@ -443,7 +402,7 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 					targetTank->getPlayerId(),
 					(float) atof(message.getParam2()));
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for slap");
+			else ServerCommon::sendString(destinationId, "Unknown player for slap", false);
 		}
 		break;
 	}

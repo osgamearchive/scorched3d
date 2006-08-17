@@ -48,7 +48,6 @@ void ServerStateTooFewPlayersState::enterState(const unsigned state)
 	ComsGameStoppedMessage gameStopped;
 	ComsMessageSender::sendToAllPlayingClients(gameStopped);
 
-	ServerCommon::serverLog( "Too few players, stopping play");
 	ServerCommon::sendString(0, "Too few players, stopping play");
 }
 

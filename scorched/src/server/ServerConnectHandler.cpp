@@ -80,7 +80,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			ServerCommon::sendString(destinationId, 
 				"--------------------------------------------------\n"
 				"This server is full, you cannot join!\n"
-				"--------------------------------------------------");
+				"--------------------------------------------------", false);
 			ServerCommon::serverLog("Server full, kicking");
 			ServerCommon::kickDestination(destinationId, true);
 			return true;		
@@ -110,7 +110,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			"Connection failed.\n"
 			"--------------------------------------------------", 
 			ScorchedVersion, ScorchedProtocolVersion,
-			message.getVersion(), message.getProtocolVersion()));
+			message.getVersion(), message.getProtocolVersion()), false);
 		Logger::log( 
 			formatString(
 			"Player connected with out of date version \"%s(%s)\"",
@@ -161,7 +161,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 				"This server is running a password protected game.\n"
 				"Your supplied password does not match.\n"
 				"Connection failed.\n"
-				"--------------------------------------------------");
+				"--------------------------------------------------", false);
 			Logger::log( "Player connected with an invalid password");
 			
 			ServerCommon::kickDestination(destinationId, true);
@@ -196,7 +196,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 				"%s"
 				"Connection failed.\n"
 				"--------------------------------------------------",
-				resultMessage.c_str()));
+				resultMessage.c_str()), false);
 			Logger::log(formatString("User failed authentication \"%s\" [%s]",
 				message.getUserName(), uniqueId.c_str()));
 
@@ -425,13 +425,11 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		if (type == ServerBanned::Muted)	
 		{
 			tank->getState().setMuted(true);
-			Logger::log("Player admin muted");
 			ServerCommon::sendStringAdmin(formatString("Player admin muted \"%s\"",
 				tank->getName()));
 		}
 		else if (type == ServerBanned::Flagged)
 		{
-			Logger::log( "Player admin flagged");
 			ServerCommon::sendStringAdmin(formatString("Player admin flagged \"%s\"",
 				tank->getName()));
 		}

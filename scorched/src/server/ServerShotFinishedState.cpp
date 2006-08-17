@@ -277,16 +277,48 @@ void ServerShotFinishedState::scoreOverallWinner()
 			itor != tanks.end();
 			itor++)
 		{
-			sortedTanks.push_back((*itor).second);
+			Tank *current = (*itor).second;
+			sortedTanks.push_back(current);
 		}
 		
 		TankSort::getSortedTanks(sortedTanks, ScorchedServer::instance()->getContext());
-		std::list<Tank *>::iterator scoreitor = sortedTanks.begin();
-		ServerCommon::serverLog(formatString("\"%s\" is the overall winner!", (*scoreitor)->getName()));
-		ServerCommon::sendStringMessage(0, formatString("\"%s\" is the overall winner!", (*scoreitor)->getName()));
-		
-		// Score the winning tank as the overall winner
-		StatsLogger::instance()->tankOverallWinner((*scoreitor));
+		if (sortedTanks.size())
+		{
+			Tank *topScore = *(sortedTanks.begin());
+
+			std::string names;
+			std::list<Tank *> winners;
+            std::list<Tank *>::iterator scoreitor;
+			for (scoreitor = sortedTanks.begin();
+				scoreitor != sortedTanks.end();
+				scoreitor++)
+			{
+				Tank *current = *scoreitor;
+				if (topScore->getScore().getScore() == 
+					current->getScore().getScore())
+				{
+					winners.push_back(current);
+					if (!names.empty()) names.append(",");
+					names.append(current->getName());
+
+					// Score the winning tank as the overall winner
+					StatsLogger::instance()->tankOverallWinner(current);
+				}
+			}
+
+			if (winners.size() == 1)
+			{
+				ServerCommon::sendStringMessage(0, 
+					formatString("%s is the overall winner!", 
+					names.c_str()));
+			}
+			else
+			{
+				ServerCommon::sendStringMessage(0, 
+					formatString("%s are the overall winners!", 
+					names.c_str()));
+			}
+		}
 	}
 	else
 	{
@@ -294,14 +326,12 @@ void ServerShotFinishedState::scoreOverallWinner()
 			ScorchedServer::instance()->getContext());
 		if (winningTeam == 0)
 		{
-			ServerCommon::serverLog( "The game is a draw!");
 			ServerCommon::sendStringMessage(0, "The game is a draw!");
 		}
 		else
 		{
-			ServerCommon::serverLog(formatString("%s team is the overall winner!",
-				TankColorGenerator::getTeamName(winningTeam)));
-			ServerCommon::sendStringMessage(0, formatString("%s team is the overall winner!",
+			ServerCommon::sendStringMessage(0, 
+				formatString("%s team is the overall winner!",
 				TankColorGenerator::getTeamName(winningTeam)));
 		}
 		

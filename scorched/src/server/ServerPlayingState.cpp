@@ -86,11 +86,6 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 						// If the allowed missed moves has been specified
 						if (ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() > 0)
 						{
-							ServerCommon::serverLog(
-								formatString("Player \"%s\" failed to %s, allowed %i more missed move(s)",
-								tank->getName(),
-								((state == ServerState::ServerStateBuying)?"buy":"move"),
-								ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() - movesMissed));
 							ServerCommon::sendString(0, 
 								formatString("Player \"%s\" failed to %s, allowed %i more missed move(s)",
 								tank->getName(),

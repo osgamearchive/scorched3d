@@ -112,7 +112,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 	{
 		// No files need downloading
 		ServerCommon::sendString(destinationId, 
-			"No mod files need downloading");
+			"No mod files need downloading", false);
 	}
 	else if (OptionsParam::instance()->getSinglePlayer())
 	{
@@ -132,7 +132,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			"The server does not allow in game file downloads.\n"
 			"You must download and install this mod before you\n"
 			"can connect to this server.",
-			ScorchedServer::instance()->getOptionsGame().getMod()));
+			ScorchedServer::instance()->getOptionsGame().getMod()), false);
 		ServerCommon::kickDestination(destinationId, true);
 	}
 	else 
@@ -152,7 +152,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			ScorchedServer::instance()->getOptionsGame().getMod(),
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),
-			timeLeft));
+			timeLeft), false);
 	}
 
 	// Set the files to download in this tanks profile
