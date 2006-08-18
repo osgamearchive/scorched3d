@@ -24,6 +24,7 @@ Fixed: Chat types not working from web admin
 Fixed: All server chat is automatically logged
 Fixed: When games are drawn all players are awarded credit
 Fixed: Tank movement on larger scale maps
+Fixed: Rollers are now less bouncy
 
 Added: Simulation to models (performance issue?)
 Added: weight attribute to the ObjectRandom placement type

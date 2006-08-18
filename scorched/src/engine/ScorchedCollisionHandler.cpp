@@ -145,7 +145,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 	case CollisionIdGround:
 	case CollisionIdLandscape:
 	case CollisionIdRoof:
-		collisionBounce(o1, o2, contacts, noContacts, 10000.0, 1.0f);
+		collisionBounce(o1, o2, contacts, noContacts, 0.0f);
 		break;
 	case CollisionIdBounce:
 		//collisionBounce(o1, o2, contacts, noContacts);
@@ -519,14 +519,14 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 }
 
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 
-		dContactGeom *contacts, int noContacts, double bounceVel, double bounceFactor)
+		dContactGeom *contacts, int noContacts, double bounceFactor)
 {
 	dContact contact;
 	contact.surface.mode = dContactBounce;// | dContactSoftCFM;
 	contact.surface.mu = dInfinity;
 	contact.surface.mu2 = 0;
 	contact.surface.bounce = bounceFactor;
-	contact.surface.bounce_vel = bounceVel;
+	contact.surface.bounce_vel = 0.0f;
 	contact.surface.soft_cfm = 0.01;
 
 	for (int i=0; i<noContacts; i++)
