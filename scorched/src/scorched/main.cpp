@@ -105,8 +105,16 @@ int _matherr(struct _exception  *e)
     return 1;        // Error has been handled.
 }
 
+void _no_storage()
+{
+	printf("Failed to allocate memory!!");
+	std::exit(1);
+}
+
 int main(int argc, char *argv[])
 {
+	std::set_new_handler(&_no_storage);
+
 	// Set the path the executable was run with
 	setExeName((const char *) argv[0]);
 

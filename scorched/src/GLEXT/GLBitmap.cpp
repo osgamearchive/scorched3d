@@ -107,12 +107,17 @@ void GLBitmap::resize(int newWidth, int newHeight)
 	newbits_ = 0;
 
 	createBlank(newWidth, newHeight, alpha_);
-	gluScaleImage(
+	int result = gluScaleImage(
 		(alpha_?GL_RGBA:GL_RGB), 
 		oldWidth, oldHeight,
 		GL_UNSIGNED_BYTE, oldbits,
 		newWidth, newHeight, 
 		GL_UNSIGNED_BYTE, newbits_);
+	if (result != 0)
+	{
+		const char *error = (const char *) gluErrorString(result);
+		dialogExit("gluScaleImage", error);
+	}
 
 	delete [] oldbits;
 }

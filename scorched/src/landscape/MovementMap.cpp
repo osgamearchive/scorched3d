@@ -54,12 +54,14 @@ unsigned int MovementMap::POINT_TO_UINT(unsigned int x, unsigned int y)
 
 MovementMap::MovementMapEntry &MovementMap::getEntry(int w, int h)
 { 
-	if (w >= 0 && h >= 0 && w<=width_ && h<=width_)
+	if (w >= 0 && h >= 0 && w<=width_ && h<=height_)
 	{
 		MovementMapEntry &entry = entries_[(width_+1) * h + w];
 		return entry;
 	}
 	static MovementMapEntry entry(MovementMap::eNoMovement, 1000.0f, 0, 0);
+	entry.type = MovementMap::eNoMovement;
+
 	return entry;
 }
 
@@ -173,7 +175,8 @@ void MovementMap::calculateForTank(Tank *tank,
 			{
 				Target *target = (*targetItor).second;
 
-				if (target->getShield().getCurrentShield())
+				if (target->getPlayerId() != tank->getPlayerId() &&
+					target->getShield().getCurrentShield())
 				{
 					Shield *shield = (Shield *)
 						(target->getShield().getCurrentShield()->getAction());

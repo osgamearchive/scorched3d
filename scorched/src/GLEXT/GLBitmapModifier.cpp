@@ -683,8 +683,8 @@ void GLBitmapModifier::scalePlanBitmap(GLBitmap &destBitmap,
 	{
 		for (int x=0; x<destBitmap.getHeight(); x++, dest+=destBitmap.getComponents())
 		{
-			int srcX = MIN(x + offsetX, destBitmap.getWidth());
-			int srcY = MIN(y + offsetY, destBitmap.getHeight());
+			int srcX = MIN(x + offsetX, srcBitmap.getWidth() - 1);
+			int srcY = MIN(y + offsetY, srcBitmap.getHeight() - 1);
 			GLubyte *src = srcBitmap.getBits() +
 				srcX * srcBitmap.getComponents() +
 				srcY * srcBitmap.getComponents() * srcBitmap.getWidth();			
