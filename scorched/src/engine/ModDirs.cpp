@@ -104,13 +104,20 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 	ModInfo newInfo(fileName);
 
 	setDataFileMod(fileName);
-	if (!newInfo.parse(modGamesFile.c_str()))
+	bool parseResult = newInfo.parse(modGamesFile.c_str());
+	setDataFileMod("none");
+
+	if (!parseResult)
 	{
-		dialogExit("Scorched3D", formatString(
+		// Just log and return as this may be the result of
+		// only downloading 1/2 the mod and not having the icons required
+		// for the modinfo
+		Logger::log(formatString(
 			"Failed to parse mod info file \"%s\"",
 			modGamesFile.c_str()));
+		return true;
 	}
-	setDataFileMod("none");
+	
 
 	if (0 != strcmp(newInfo.getProtocolVersion(), ScorchedProtocolVersion))
 	{

@@ -100,6 +100,23 @@ void ServerShotHolder::addShot(unsigned int playerId,
 	}
 }
 
+bool ServerShotHolder::allSkipped()
+{
+	std::map<unsigned int, ComsPlayedMoveMessage *>::iterator itor;
+	for (itor = messages_.begin();
+		itor != messages_.end();
+		itor++)
+	{
+		unsigned int playerId = (*itor).first;
+		ComsPlayedMoveMessage *message = (*itor).second;
+		if (message->getType() != ComsPlayedMoveMessage::eSkip)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 bool ServerShotHolder::haveShot(unsigned int playerId)
 {
 	std::map<unsigned int, ComsPlayedMoveMessage *>::iterator itor =

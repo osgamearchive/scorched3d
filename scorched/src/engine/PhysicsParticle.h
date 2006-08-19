@@ -39,6 +39,8 @@ public:
 
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
+
+	void applyForce(Vector &force);
 	void setData(void *data);
 
 	// Inherited from action

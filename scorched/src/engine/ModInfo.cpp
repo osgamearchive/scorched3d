@@ -60,8 +60,14 @@ bool ModInfo::parse(const char *fileName)
 	if (!mainNode->getNamedChild("url", url_)) return false;
 	if (!mainNode->getNamedChild("protocolversion", protocolversion_)) return false;
 
-	icon_ = getDataFile(tmpicon.c_str());
-	if (!checkDataFile(tmpicon.c_str())) return false;
+	if (checkDataFile(tmpicon.c_str()))
+	{
+		icon_ = getDataFile(tmpicon.c_str());
+	}
+	else
+	{
+		icon_ = getDataFile("data/windows/tank2.bmp");
+	}
 
 	XMLNode *gameNode = 0;
 	while (file.getRootNode()->getNamedChild("game", gameNode, false))
@@ -71,8 +77,14 @@ bool ModInfo::parse(const char *fileName)
 		if (!gameNode->getNamedChild("icon", tmpicon)) return false;
 		if (!gameNode->getNamedChild("gamefile", tmpgamefile)) return false;
 
-		entry.icon = getDataFile(tmpicon.c_str());
-		if (!checkDataFile(tmpicon.c_str())) return false;
+		if (checkDataFile(tmpicon.c_str())) 
+		{
+			entry.icon = getDataFile(tmpicon.c_str());
+		}
+		else
+		{
+			entry.icon = getDataFile("data/windows/tank2.bmp");
+		}
 	
 		entry.gamefile = getDataFile(tmpgamefile.c_str());
 		if (!checkDataFile(tmpgamefile.c_str())) return false;

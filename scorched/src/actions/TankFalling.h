@@ -76,6 +76,7 @@ protected:
 	bool remove_;
 	bool parachutes_;
 
+	void applyForce();
 	void getAllPositions(Vector &spherePositions);
 
 };

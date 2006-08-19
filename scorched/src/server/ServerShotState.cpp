@@ -31,6 +31,8 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <common/Logger.h>
 #include <common/RandomGenerator.h>
+#include <common/OptionsGame.h>
+#include <common/OptionsTransient.h>
 
 ServerShotState::ServerShotState() 
 	: totalTime_(0.0f), firstTime_(true)
@@ -43,6 +45,38 @@ ServerShotState::~ServerShotState()
 
 void ServerShotState::enterState(const unsigned state)
 {
+	// Check if all the players have skipped, and only
+	// computer AIs are playing
+	if (ServerShotHolder::instance()->allSkipped() &&
+		ScorchedServer::instance()->getOptionsGame().getTurnType().getValue() == OptionsGame::TurnSimultaneous)
+	{
+		bool allAis = true;
+		bool someAlive = false;
+		std::map<unsigned int, Tank *> &tanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			if (tank->getState().getState() == TankState::sNormal)
+			{
+				someAlive = true;
+				if (tank->getDestinationId() != 0) 
+				{
+					allAis = false;
+				}
+			}
+		}
+
+		if (allAis && someAlive)
+		{
+			ServerCommon::sendString(0, "Skipping all turns due to stalemate...");
+			ScorchedServer::instance()->getOptionsTransient().startNewRound();
+		}
+	}
+
 	// Send the player state to all players to ensure that the playing field
 	// is consistent before the shots start
 	// This should be done before the actual shots are fired or

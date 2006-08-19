@@ -131,6 +131,11 @@ void OptionsTransient::startNewGame()
 	currentRoundNo_.setValue(optionsGame_.getNoRounds()+1);
 }
 
+void OptionsTransient::startNewRound()
+{
+	currentGameNo_.setValue(optionsGame_.getNoMaxRoundTurns() + 1);
+}
+
 void OptionsTransient::newGame()
 {
 	newGame_ = true;

@@ -49,6 +49,11 @@ void PhysicsParticle::setData(void *data)
 	physicsObject_.setData(data);
 }
 
+void PhysicsParticle::applyForce(Vector &force)
+{
+	physicsObject_.applyForce(force);
+}
+
 Vector &PhysicsParticle::getCurrentPosition()
 {
 	return physicsObject_.getPosition();

@@ -36,7 +36,10 @@ PhysicsParticleObject::~PhysicsParticleObject()
 
 void PhysicsParticleObject::applyForce(Vector &force)
 {
-	dBodyAddForce(body_, force[0], force[1], force[2]);
+	if (body_)
+	{
+		dBodyAddForce(body_, force[0], force[1], force[2]);
+	}
 }
 
 void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 

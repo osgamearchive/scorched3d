@@ -55,6 +55,7 @@ public:
 	void nextRound();
 
 	void startNewGame();
+	void startNewRound();
 
 	// Walls
 	WallType getWallType() { return (WallType) wallType_.getValue(); }

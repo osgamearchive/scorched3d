@@ -24,6 +24,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Parachute.h>
 
 REGISTER_ACTION_SOURCE(TankFalling);
 
@@ -131,6 +132,8 @@ void TankFalling::simulate(float frameTime, bool &remove)
 {
 	if (!remove_)
 	{
+		applyForce();
+
 		Vector spherePosition;
 		getAllPositions(spherePosition);
 		
@@ -175,6 +178,27 @@ bool TankFalling::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(parachutes_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
+}
+
+void TankFalling::applyForce()
+{
+	if (!parachutes_) return;
+
+	Accessory *accessory = 
+		context_->accessoryStore->findByAccessoryType(AccessoryPart::AccessoryParachute);
+	if (!accessory) return;
+
+	Parachute *parachute = (Parachute *) accessory->getAction();
+	Vector force = parachute->getSlowForce();
+
+	std::list<TankFallingParticle *>::iterator itor;
+	for (itor = particles_.begin();
+		itor != particles_.end();
+		itor++)
+	{
+		TankFallingParticle *part = (*itor);
+		part->applyForce(force);
+	}
 }
 
 void TankFalling::getAllPositions(Vector &spherePosition)

@@ -10,7 +10,9 @@ effective.</description>
 		<activationsound>misc/para.wav</activationsound>
 		<bundlesize>8</bundlesize>
 		<cost>10000</cost>
-		<accessoryaction type='Parachute'></accessoryaction>
+		<accessoryaction type='Parachute'>
+		<!--<slowforce><a>0.0</a><b>0.0</b><c>3.0</c></slowforce>-->
+		</accessoryaction>
 	</accessory>
 	<accessory>
 		<name>Battery</name>

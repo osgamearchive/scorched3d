@@ -35,5 +35,7 @@ Parachute::~Parachute()
 bool Parachute::parseXML(OptionsGame &context,
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
-	return true;
+	accessoryNode->getNamedChild("slowforce", slowForce_, false);
+
+	return accessoryNode->failChildren();
 }

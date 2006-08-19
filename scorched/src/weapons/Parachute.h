@@ -32,7 +32,12 @@ public:
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
 
+	Vector &getSlowForce() { return slowForce_; }
+
 	REGISTER_ACCESSORY_HEADER(Parachute, AccessoryPart::AccessoryParachute);
+
+protected:
+	Vector slowForce_;
 };
 
 #endif // !defined(AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_)

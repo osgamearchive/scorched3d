@@ -38,6 +38,7 @@ public:
 		ComsPlayedMoveMessage *message);
 	bool haveShot(unsigned int playerId);
 	bool haveAllTurnShots();
+	bool allSkipped();
 
 protected:
 	static ServerShotHolder *instance_;
