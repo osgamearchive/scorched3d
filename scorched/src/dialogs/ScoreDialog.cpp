@@ -40,9 +40,10 @@
 static const float rankLeft = 15.0f;
 static const float iconLeft = 5.0f;
 static const float nameLeft = 35.0f;
-static const float killsLeft = 235.0f;
-static const float assistsLeft = 265.0f;
-static const float winsLeft = 295.0f;
+static const float killsLeft = 230.0f;
+static const float assistsLeft = 255.0f;
+static const float winsLeft = 280.0f;
+static const float livesLeft = 305.0f;
 static const float moneyLeft = 325.0f;
 static const float scoreLeft = 405.0f;
 static const float statsLeft = 475.0f;
@@ -245,6 +246,11 @@ void ScoreDialog::draw()
 			12,
 			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Rank");
+	GLWFont::instance()->getSmallPtFont()->draw(
+			white,
+			12,
+			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			"L");
 	y+= lineSpacer + lineSpacer;
 
 	int tmpLastScoreValue = 0;
@@ -470,6 +476,11 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			textX + readyLeft, textY, 0.0f,
 			formatString("%s",
 			((current->getState().getReadyState() == TankState::SNotReady)?"*":" ")));
+		GLWFont::instance()->getSmallPtFont()->draw(
+			current->getColor(),
+			10,
+			textX + livesLeft, textY, 0.0f,
+			formatString("%i", current->getState().getLives()));
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
