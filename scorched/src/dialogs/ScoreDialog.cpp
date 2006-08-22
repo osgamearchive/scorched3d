@@ -40,10 +40,10 @@
 static const float rankLeft = 15.0f;
 static const float iconLeft = 5.0f;
 static const float nameLeft = 35.0f;
-static const float killsLeft = 230.0f;
-static const float assistsLeft = 255.0f;
-static const float winsLeft = 280.0f;
-static const float livesLeft = 305.0f;
+static const float livesLeft = 230.0f;
+static const float killsLeft = 255.0f;
+static const float assistsLeft = 280.0f;
+static const float winsLeft = 305.0f;
 static const float moneyLeft = 325.0f;
 static const float scoreLeft = 405.0f;
 static const float statsLeft = 475.0f;
@@ -234,7 +234,7 @@ void ScoreDialog::draw()
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
-			x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+			x_ + moneyLeft + 10, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"$");
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
@@ -246,7 +246,8 @@ void ScoreDialog::draw()
 			12,
 			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Rank");
-	GLWFont::instance()->getSmallPtFont()->draw(
+	if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
+		GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -479,12 +480,13 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
 			10,
-			textX + livesLeft, textY, 0.0f,
-			formatString("%i", current->getState().getLives()));
-		GLWFont::instance()->getSmallPtFont()->draw(
-			current->getColor(),
-			10,
 			textX + statsLeft, textY, 0.0f,
 			formatString("%s", current->getScore().getStatsRank()));
+		if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
+			GLWFont::instance()->getSmallPtFont()->draw(
+				current->getColor(),
+				10,
+				textX + livesLeft, textY, 0.0f,
+				formatString("%i", current->getState().getLives()));
 	}
 }
