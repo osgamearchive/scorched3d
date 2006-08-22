@@ -38,6 +38,7 @@ Added: Check for correct bitmap depth while loading resources
 Added: Key bindings for the scrolling of the chat log
 Added: noluminace tag to WeaponNaplam
 Added: Online color is remembered along with name and model
+Added: Score dialog now shows lives left when in a multi-lives game
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
@@ -47,7 +48,6 @@ Crashing when minimized during texture/level load
 Fix crashing when people win (Graphics card drivers??)
 Better collision for models (switch all models to targets, ODE issue?)
 Better shadows?
-None placement type
 
 -- Server Stuff
 A way to set the maximum and minimum players for a map (half done)
