@@ -78,11 +78,11 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 {
 	Vector position = sentPosition;
 	if (position[0] < 6.0f) position[0] = 6.0f;
-	else if (position[0] > context.landscapeMaps->getGroundMaps().getMapWidth() - 6) 
-		position[0] = context.landscapeMaps->getGroundMaps().getMapWidth() - 6;
+	else if (position[0] > (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6) 
+		position[0] = (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6;
 	if (position[1] < 6.0f) position[1] = 6.0f;
-	else if (position[1] > context.landscapeMaps->getGroundMaps().getMapHeight() - 6)
-	        position[1] = context.landscapeMaps->getGroundMaps().getMapHeight() - 6;
+	else if (position[1] > (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6)
+	        position[1] = (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6;
 	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
 	if (position[2] < minHeight + 0.5f)
