@@ -75,9 +75,9 @@ LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
 	return 0;
 }
 
-void LandscapeObjects::draw()
+void LandscapeObjects::draw(bool shadowView)
 {
-	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_ON);
+	GLState state((shadowView ? 0 : GLState::TEXTURE_ON) | GLState::BLEND_ON | GLState::DEPTH_ON);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.00f);
 

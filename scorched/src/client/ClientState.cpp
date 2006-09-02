@@ -36,7 +36,9 @@
 #include <tankai/TankAIHumanCtrl.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWToolTip.h>
-#include <landscape/Landscape.h>
+#include <landscape/LandscapeStateHandler.h>
+#include <landscape/LandscapeShadowHandler.h>
+#include <landscape/LandscapeShadowCamera.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLConsole.h>
 
@@ -66,12 +68,15 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	{
 		gameState.addStateKeyEntry(state, SpeedChange::instance());
 	}
+	
+	gameState.addStateLoop(state, 
+		LandscapeShadowCamera::instance(), LandscapeShadowHandler::instance());
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), &RenderTargets::instance()->render3D);
 	gameState.addStateLoop(state, 
-		MainCamera::instance(), Landscape::instance());
+		MainCamera::instance(), new LandscapeStateHandler());
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		&ScorchedClient::instance()->getActionController());
 	gameState.addStateLoop(state, MainCamera::instance(), 

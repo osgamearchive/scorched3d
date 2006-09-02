@@ -106,6 +106,31 @@ bool GLTexture::create(GLImage &bitmap,
 	return success;
 }
 
+bool GLTexture::createObject()
+{
+	if (!textureValid())
+	{
+		GLfloat priority = 1.0f;
+		glGenTextures(1, &texNum_);
+
+		if (usedNumbers_.find(texNum_) != usedNumbers_.end())
+		{
+			DIALOG_ASSERT("Texture Reuse" == 0);
+		}
+		usedNumbers_.insert(texNum_);
+
+		if (glGetError() == GL_INVALID_VALUE ||
+			glGetError() == GL_INVALID_OPERATION)
+		{
+			//DIALOG_ASSERT("Failed to create texture" == 0);
+			return false;
+		}
+		glPrioritizeTextures(1, &texNum_, &priority);
+	}
+
+	return true;
+}
+
 bool GLTexture::create(const void * data, 
 					   GLint width, 
 					   GLint height, 
@@ -120,24 +145,7 @@ bool GLTexture::create(const void * data,
 		if (height == 1 || width == 1) texType_ = GL_TEXTURE_1D;
 		else texType_ = GL_TEXTURE_2D;
 
-		if (!textureValid())
-		{
-			GLfloat priority = 1.0f;
-			glGenTextures(1, &texNum_);
-
-			if (usedNumbers_.find(texNum_) != usedNumbers_.end())
-			{
-				DIALOG_ASSERT("Texture Reuse" == 0);
-			}
-			usedNumbers_.insert(texNum_);
-
-			if (glGetError() == GL_INVALID_VALUE ||
-				glGetError() == GL_INVALID_OPERATION)
-			{
-				//DIALOG_ASSERT("Failed to create texture" == 0);
-			}
-			glPrioritizeTextures(1, &texNum_, &priority);
-		}
+		createObject();
 		glBindTexture(texType_, texNum_);
 		if (glGetError() == GL_INVALID_VALUE ||
 			glGetError() == GL_INVALID_OPERATION)
@@ -227,6 +235,56 @@ bool GLTexture::createTexture(const void * data,
 				height, 0, format, GL_UNSIGNED_BYTE, data);
 		}
 	};
+
+	return true;
+}
+
+bool GLTexture::createBufferTexture(GLint width, GLint height, bool depthTex)
+{
+	// Init internals
+	texType_ = GL_TEXTURE_2D;
+	width_ = width;
+	height_ = height;
+
+	// Create texture
+	if (!createObject()) return false;
+
+	glBindTexture(texType_, texNum_);
+	if (glGetError() == GL_INVALID_VALUE ||
+		glGetError() == GL_INVALID_OPERATION)
+	{
+		return false;
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	if (!depthTex)
+	{
+		texFormat_ = GL_RGBA;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE,NULL);
+	}
+	else
+	{
+		texFormat_ = GL_DEPTH_COMPONENT;
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_COMPARE_R_TO_TEXTURE_ARB);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB, GL_LEQUAL);
+
+		// Find current depth buffer and use the same depth
+		GLint depth_bits;
+		glGetIntegerv(GL_DEPTH_BITS, &depth_bits);
+		GLenum depth_format;
+		if(depth_bits == 16)  depth_format = GL_DEPTH_COMPONENT16_ARB;
+		else                  depth_format = GL_DEPTH_COMPONENT24_ARB;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, depth_format, width, height, 0, 
+			GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);		
+	}
 
 	return true;
 }

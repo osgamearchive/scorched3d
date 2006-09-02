@@ -42,6 +42,9 @@ public:
 				GLint alignment = 4,
 				GLenum format = GL_RGB, 
 				bool mipMap = true);
+	bool createBufferTexture(GLint width, 
+				GLint height,
+				bool depthTex);
 	bool replace(GLImage &bitmap,
 						GLenum format = GL_RGB, 
 						bool mipMap = true);
@@ -69,6 +72,7 @@ protected:
 						GLint alignment,
 						GLenum format, 
 						bool mipMap);
+	bool createObject();
 };
 
 #endif // !defined(AFX_GLTEXTURE_H__9DA92C48_B9A4_4517_AB9F_55141CCDA817__INCLUDED_)

@@ -21,11 +21,8 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapePoints.h>
 #include <landscape/LandscapeMaps.h>
-#include <landscapedef/LandscapeTex.h>
-#include <landscapedef/LandscapeDefn.h>
+#include <landscape/LandscapeShadowHandler.h>
 #include <landscape/LandscapeSoundManager.h>
-#include <landscapedef/LandscapeDefinition.h>
-#include <landscapedef/LandscapeDefinitions.h>
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
@@ -36,6 +33,10 @@
 #include <landscape/InfoMap.h>
 #include <landscape/HeightMapRenderer.h>
 #include <landscape/PatchGrid.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinitions.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
@@ -89,7 +90,7 @@ Landscape::~Landscape()
 {
 }
 
-void Landscape::simulate(const unsigned state, float frameTime)
+void Landscape::simulate(float frameTime)
 {
 	if (resetLandscape_)
 	{
@@ -147,30 +148,39 @@ void Landscape::reset(ProgressCounter *counter)
 		getPrecipitationEngine().killAll();
 }
 
-void Landscape::draw(const unsigned state)
+void Landscape::draw(bool shadowView)
 {
-	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
-
-	// NOTE: The following code is drawn with fog on
-	// Be carefull as this we "dull" bilboard textures
-	if (!OptionsDisplay::instance()->getNoFog())
+	if (shadowView)
 	{
-		glEnable(GL_FOG); // NOTE: Fog on
+		glColor3f(1.0f, 1.0f, 1.0f);
+		patchGrid_->draw(PatchSide::typeTop);
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(true);
 	}
+	else
+	{
+		if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
 
-	sky_->draw();
-	drawLand();
-	points_->draw();
-	surround_->draw();
-	water_->draw();
-	boids_->draw();
-	ships_->draw();
-	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw();
-	wall_->draw();
+		// NOTE: The following code is drawn with fog on
+		// Be carefull as this we "dull" bilboard textures
+		if (!OptionsDisplay::instance()->getNoFog())
+		{
+			glEnable(GL_FOG); // NOTE: Fog on
+		}
 
-	glDisable(GL_FOG); // NOTE: Fog off
+		sky_->draw();
+		drawLand();
+		points_->draw();
+		surround_->draw();
+		water_->draw();
+		boids_->draw();
+		ships_->draw();
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(false);
+		wall_->draw();
 
-	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
+		glDisable(GL_FOG); // NOTE: Fog off
+
+		if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
+	}
 }
 
 int Landscape::getPlanTexSize()
@@ -288,10 +298,13 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
-	GLBitmapModifier::addLightMapToBitmap(mainMap_,
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
-		sky_->getSun().getPosition(), 
-		tex->skyambience, tex->skydiffuse, counter);
+	if (!GLStateExtension::hasHardwareShadows())
+	{
+		GLBitmapModifier::addLightMapToBitmap(mainMap_,
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
+			sky_->getSun().getPosition(), 
+			tex->skyambience, tex->skydiffuse, counter);
+	}
 
 	// Add shadows to the mainmap
 	{
@@ -410,7 +423,52 @@ void Landscape::drawLand()
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
-			shadowMap_->setTexture();
+
+			if (GLStateExtension::hasHardwareShadows())
+			{
+				glMatrixMode(GL_TEXTURE);
+				glLoadIdentity();
+				glTranslatef(0.5f, 0.5f, 0.5f);
+				glScalef(0.5f, 0.5f, 0.5f);
+
+				glMultMatrixd(LandscapeShadowHandler::instance()->getLightProjMatrix());
+				glMultMatrixd(LandscapeShadowHandler::instance()->getLightModelMatrix());
+
+				GLdouble textureMatrix[16];
+				glGetDoublev(GL_TEXTURE_MATRIX, textureMatrix);
+
+				glLoadIdentity();
+
+				glMatrixMode(GL_MODELVIEW);
+
+				//Set up texture coordinate generation.
+				double row0[4] = { textureMatrix[0], textureMatrix[4], textureMatrix[8], textureMatrix[12] };
+				glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+				glTexGendv(GL_S, GL_EYE_PLANE, row0);
+				glEnable(GL_TEXTURE_GEN_S);
+
+				double row1[4] = { textureMatrix[1], textureMatrix[5], textureMatrix[9], textureMatrix[13] };
+				glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+				glTexGendv(GL_T, GL_EYE_PLANE, row1);
+				glEnable(GL_TEXTURE_GEN_T);
+
+				double row2[4] = { textureMatrix[2], textureMatrix[6], textureMatrix[10], textureMatrix[14] };
+				glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+				glTexGendv(GL_R, GL_EYE_PLANE, row2);
+				glEnable(GL_TEXTURE_GEN_R);
+
+				double row3[4] = { textureMatrix[3], textureMatrix[7], textureMatrix[11], textureMatrix[15] };
+				glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+				glTexGendv(GL_Q, GL_EYE_PLANE, row3);
+				glEnable(GL_TEXTURE_GEN_Q);
+
+				LandscapeShadowHandler::instance()->getShadowTexture().draw(true);
+				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			}
+			else
+			{
+				shadowMap_->setTexture();
+			}
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}
@@ -457,6 +515,10 @@ void Landscape::drawLand()
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
 			glDisable(GL_TEXTURE_2D);
+			glDisable(GL_TEXTURE_GEN_S);
+			glDisable(GL_TEXTURE_GEN_T);
+			glDisable(GL_TEXTURE_GEN_R);
+			glDisable(GL_TEXTURE_GEN_Q);
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
 		}

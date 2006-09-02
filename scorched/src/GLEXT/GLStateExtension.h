@@ -22,33 +22,7 @@
 #define __INCLUDE_GLStateExtensionh_INCLUDE__
 
 #include <GLEXT/GLState.h>
-
-#ifndef GL_COMBINE_ARB
-#define GL_COMBINE_ARB						0x8570
-#endif
-
-#ifndef GL_RGB_SCALE_ARB
-#define GL_RGB_SCALE_ARB					0x8573
-#endif
-
-#ifndef _WIN32
-typedef void (* PFNGLACTIVETEXTUREARBPROC) (GLenum texture);
-typedef void (* PFNGLMULTITEXCOORD2FARBPROC) (GLenum target, GLfloat s, GLfloat t);
-typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
-#endif
-
-#ifndef GL_ARRAY_BUFFER_ARB
-#define GL_ARRAY_BUFFER_ARB 0x8892
-#define GL_STATIC_DRAW_ARB 0x88E4
-#define GL_DYNAMIC_DRAW_ARB 0x88E8
-#define GL_WRITE_ONLY_ARB 0x88B9
-typedef void (APIENTRY * PFNGLBINDBUFFERARBPROC) (GLenum target, GLuint buffer);
-typedef void (APIENTRY * PFNGLDELETEBUFFERSARBPROC) (GLsizei n, const GLuint *buffers);
-typedef void (APIENTRY * PFNGLGENBUFFERSARBPROC) (GLsizei n, GLuint *buffers);
-typedef void (APIENTRY * PFNGLBUFFERDATAARBPROC) (GLenum target, int size, const GLvoid *data, GLenum usage);
-typedef void *(APIENTRY * PFNGLMAPBUFFERARBPROC) (GLenum target, GLenum access);
-typedef GLboolean (APIENTRY * PFNGLUNMAPBUFFERARBPROC) (GLenum target);
-#endif
+#include <GLEXT/GLMissingExt.h>
 
 class GLStateExtension
 {
@@ -67,6 +41,12 @@ public:
 	inline static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
 	inline static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
 	inline static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
+	// Use frame buffers
+	inline static PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT() { return glGenFramebuffersEXT_; }
+	inline static PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT() { return glBindFramebufferEXT_; }
+	inline static PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT() { return glDeleteFramebuffersEXT_; }
+	inline static PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT() { return glCheckFramebufferStatusEXT_; }
+	inline static PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT() { return glFramebufferTexture2DEXT_; }
 
 	// Use tex sub image extension?
 	static bool getNoTexSubImage() { return noTexSubImage_; }
@@ -76,8 +56,10 @@ public:
 	static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
 	// Use env combine
 	static bool hasEnvCombine() { return envCombine_; }
-	 // How many texture units
+	// How many texture units
 	static int getTextureUnits() { return textureUnits_; }
+	// Use FrameBuffer extension
+	static bool hasHardwareShadows() { return hasHardwareShadows_; }
 
 protected:
 	static bool hasExtension(char *name);
@@ -96,10 +78,17 @@ protected:
 	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB_;
 	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB_;
 
+	static PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT_;
+	static PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT_;
+	static PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT_;
+	static PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT_;
+	static PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT_;
+
 	static int textureUnits_;
 	static bool hasCubeMap_;
 	static bool hasHardwareMipmaps_;
 	static bool noTexSubImage_;
+	static bool hasHardwareShadows_;
 
 private:
 	GLStateExtension();

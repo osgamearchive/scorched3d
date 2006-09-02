@@ -21,7 +21,6 @@
 #if !defined(__INCLUDE_Landscapeh_INCLUDE__)
 #define __INCLUDE_Landscapeh_INCLUDE__
 
-#include <engine/GameStateI.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
 
@@ -37,7 +36,7 @@ class ScorchedBoids;
 class ScorchedShips;
 class Surround;
 class Sky;
-class Landscape : public GameStateI
+class Landscape
 {
 public:
 	static Landscape *instance();
@@ -85,9 +84,8 @@ public:
 
 	unsigned int getChangeCount() { return changeCount_; }
 
-	// Inherited from GameStateI
-	virtual void draw(const unsigned state);
-	virtual void simulate(const unsigned state, float frameTime);
+	void draw(bool shadowView);
+	void simulate(float frameTime);
 
 protected:
 	static Landscape *instance_;

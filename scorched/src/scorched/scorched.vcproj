@@ -269,6 +269,15 @@
 				RelativePath="..\GLEXT\GLMenuI.h">
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLMissingExt.h">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLShadowFrameBuffer.cpp">
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLShadowFrameBuffer.h">
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLState.cpp">
 			</File>
 			<File
@@ -1464,10 +1473,28 @@
 				RelativePath="..\landscape\LandscapePoints.h">
 			</File>
 			<File
+				RelativePath="..\landscape\LandscapeShadowCamera.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeShadowCamera.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeShadowHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeShadowHandler.h">
+			</File>
+			<File
 				RelativePath="..\landscape\LandscapeSoundManager.cpp">
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeSoundManager.h">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeStateHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeStateHandler.h">
 			</File>
 			<File
 				RelativePath="..\landscape\MapPoints.cpp">

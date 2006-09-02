@@ -26,6 +26,7 @@
 #include <string.h>
 #include <string>
 
+bool GLStateExtension::hasHardwareShadows_ = false;
 bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
@@ -34,12 +35,19 @@ int GLStateExtension::textureUnits_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
 PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
+
 PFNGLGENBUFFERSARBPROC GLStateExtension::glGenBuffersARB_ = 0;
 PFNGLBINDBUFFERARBPROC GLStateExtension::glBindBufferARB_ = 0;
 PFNGLBUFFERDATAARBPROC GLStateExtension::glBufferDataARB_ = 0;
 PFNGLDELETEBUFFERSARBPROC GLStateExtension::glDeleteBuffersARB_ = 0;
 PFNGLMAPBUFFERARBPROC GLStateExtension::glMapBufferARB_ = 0;
 PFNGLUNMAPBUFFERARBPROC GLStateExtension::glUnmapBufferARB_ = 0;
+
+PFNGLGENFRAMEBUFFERSEXTPROC GLStateExtension::glGenFramebuffersEXT_ = 0;
+PFNGLBINDFRAMEBUFFEREXTPROC GLStateExtension::glBindFramebufferEXT_ = 0;
+PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC GLStateExtension::glCheckFramebufferStatusEXT_ = 0;
+PFNGLFRAMEBUFFERTEXTURE2DEXTPROC GLStateExtension::glFramebufferTexture2DEXT_ = 0;
+PFNGLDELETEFRAMEBUFFERSEXTPROC GLStateExtension::glDeleteFramebuffersEXT_ = 0;
 
 bool GLStateExtension::hasExtension(char *name)
 {
@@ -57,13 +65,10 @@ bool GLStateExtension::hasExtension(char *name)
 		}
 	}
 
-// HACK for skin creator
-#ifdef dDOUBLE
 	GLConsole::instance()->addLine(false, 
 		formatString("GL extension \"%s\" = %s",
 		name,
 		(result?"on":"off")));
-#endif
 
 	return result;
 }
@@ -119,10 +124,29 @@ void GLStateExtension::setup()
 		hasHardwareMipmaps_ = hasExtension("GL_SGIS_generate_mipmap");
 	}
 
+	{
+		if (hasExtension("GL_EXT_framebuffer_object") &&
+			hasExtension("GL_ARB_shadow") &&
+			hasExtension("GL_ARB_depth_texture") &&
+			hasExtension("GL_ARB_multitexture"))
+		{
+			hasHardwareShadows_ = false; //true;
+
+			glGenFramebuffersEXT_ = (PFNGLGENFRAMEBUFFERSEXTPROC)
+				SDL_GL_GetProcAddress("glGenFramebuffersEXT");
+			glBindFramebufferEXT_ = (PFNGLBINDFRAMEBUFFEREXTPROC)
+				SDL_GL_GetProcAddress("glBindFramebufferEXT");
+			glCheckFramebufferStatusEXT_ = (PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)
+				SDL_GL_GetProcAddress("glCheckFramebufferStatusEXT");
+			glFramebufferTexture2DEXT_ = (PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)
+				SDL_GL_GetProcAddress("glFramebufferTexture2DEXT");
+			glDeleteFramebuffersEXT_ = (PFNGLDELETEFRAMEBUFFERSEXTPROC)
+				SDL_GL_GetProcAddress("glDeleteFramebuffersEXT");
+		}
+	}
+
 	noTexSubImage_ = OptionsDisplay::instance()->getNoGLTexSubImage();
 
-// HACK for skin creator
-#ifdef dDOUBLE
 	GLConsole::instance()->addLine(false, "GL_VENDOR:");
 	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VENDOR));
 	GLConsole::instance()->addLine(false, "GL_RENDERER:");
@@ -141,5 +165,6 @@ void GLStateExtension::setup()
 	GLConsole::instance()->addLine(false, formatString("%s", (hasCubeMap_?"On":"Off")));
 	GLConsole::instance()->addLine(false, "HW MIP MAPS:");
 	GLConsole::instance()->addLine(false, formatString("%s", (hasHardwareMipmaps_?"On":"Off")));
-#endif
+	GLConsole::instance()->addLine(false, "HW SHADOWS:");
+	GLConsole::instance()->addLine(false, formatString("%s", (hasHardwareShadows_?"On":"Off")));
 }

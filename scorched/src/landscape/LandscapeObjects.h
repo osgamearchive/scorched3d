@@ -40,7 +40,7 @@ public:
 	LandscapeObjects();
 	virtual ~LandscapeObjects();
 
-	void draw();
+	void draw(bool shadowView);
 	void simulate(float frameTime);
 	void generate(RandomGenerator &generator, 
 		LandscapePlace &place,
