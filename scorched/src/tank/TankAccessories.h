@@ -23,11 +23,8 @@
 
 #include <weapons/AccessoryPart.h>
 #include <tank/TankWeapon.h>
-#include <tank/TankParachutes.h>
-#include <tank/TankShields.h>
 #include <tank/TankAutoDefense.h>
 #include <tank/TankBatteries.h>
-#include <tank/TankFuel.h>
 
 class ScorchedContext;
 class TankAccessories  
@@ -48,10 +45,7 @@ public:
 	void getAllAccessoriesByType(AccessoryPart::AccessoryType type, 
 		std::list<Accessory *> &result, bool sort=false);
 
-	TankFuel &getFuel() { return tankFuel_; }
 	TankWeapon &getWeapons() { return tankWeapon_; }
-	TankParachutes &getParachutes() { return tankPara_; }
-	TankShields &getShields() { return tankShield_; }
 	TankAutoDefense &getAutoDefense() { return tankAuto_; }
 	TankBatteries &getBatteries() { return tankBatteries_; }
 
@@ -61,10 +55,7 @@ public:
 
 protected:
 	ScorchedContext &context_;
-	TankFuel tankFuel_;
 	TankWeapon tankWeapon_;
-	TankParachutes tankPara_;
-	TankShields tankShield_;
 	TankAutoDefense tankAuto_;
 	TankBatteries tankBatteries_;
 	Tank *tank_;

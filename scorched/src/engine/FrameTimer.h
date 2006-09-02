@@ -27,20 +27,22 @@
 #define AFX_FRAMETIMER_H__00CDF717_3628_42C1_B84E_6F9B15C4FC4E__INCLUDED_
 
 #include <engine/GameStateI.h>
+#include <common/Clock.h>
 
-class FrameTimer : 
-	public GameStateI
+class FrameTimer : public GameStateI
 {
 public:
 	static FrameTimer *instance();
 
 	// Inherited from GameStateI
+	virtual void draw(const unsigned state);
 	virtual void simulate(const unsigned state, float frameTime);
 
 protected:
 	static FrameTimer *instance_;
 	float totalTime_;
-	int totalCount_;
+	int frameCount_;
+	Clock frameClock_;
 
 private:
 	FrameTimer();

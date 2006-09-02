@@ -261,6 +261,6 @@ void TankFalling::collision()
 	// Say we have ended
 	TankFallingEnd *end = new TankFallingEnd(
 		weapon_, tankStartPosition_, position,
-		fallingPlayerId_, firedPlayerId_, data_);
+		fallingPlayerId_, firedPlayerId_, parachutes_, data_);
 	context_->actionController->addAction(end);
 }

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,34 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankShields.h>
-#include <tank/TankAccessories.h>
-#include <weapons/AccessoryStore.h>
+#if !defined(__INCLUDE_FrameLimiterh_INCLUDE__)
+#define __INCLUDE_FrameLimiterh_INCLUDE__
 
-TankShields::TankShields(ScorchedContext &context) :
-	context_(context),
-	tank_(0)
-{
-}
+#include <common/Clock.h>
 
-TankShields::~TankShields()
+class FrameLimiter
 {
-}
+public:
+	FrameLimiter();
+	virtual ~FrameLimiter();
 
-void TankShields::newMatch()
-{
-}
+	void limitFrameTime();
+	void dontLimitFrameTime();
 
-void TankShields::changed()
-{
-}
+protected:
+	Clock frameTime_;
+};
 
-bool TankShields::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	return true;
-}
-
-bool TankShields::readMessage(NetBufferReader &reader)
-{
-	return true;
-}
+#endif // __INCLUDE_FrameLimiterh_INCLUDE__

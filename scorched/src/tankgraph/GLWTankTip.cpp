@@ -372,39 +372,71 @@ TankParachutesTip::~TankParachutesTip()
 
 void TankParachutesTip::populate()
 {
-	int count = tank_->getAccessories().getParachutes().getNoParachutes();
-	char buffer[128];
-	if (count >= 0) snprintf(buffer, 128, "%i", count);
-	else snprintf(buffer, 128, "Infinite");
-	setText("Parachutes", formatString(
-		"Prevents the tank from taking damage\n"
-		"when falling.  Must be enabled before\n"
-		"they take effect.\n"
-		"Click to enable/disable parachutes.\n"
-		"Number Parachutes : %s\n"
-		"Status : %s",
-		buffer,
-		(tank_->getParachute().parachutesEnabled()?
-		"On":"Off")));
+	if (tank_->getParachute().getCurrentParachute())
+	{
+		char buffer[128];
+		int count = tank_->getAccessories().getAccessoryCount(
+			tank_->getParachute().getCurrentParachute());
+		if (count >= 0) snprintf(buffer, 128, "%i", count);
+		else snprintf(buffer, 128, "Infinite");
+
+		setText("Parachutes", formatString(
+			"Prevents the tank from taking damage\n"
+			"when falling.  Must be enabled before\n"
+			"they take effect.\n"
+			"Click to enable/disable parachutes.\n"
+			"Current Parachute : %s (%s)\n",
+			tank_->getParachute().getCurrentParachute()->getName(),
+			buffer));
+	}
+	else
+	{
+		setText("Parachutes", formatString(
+			"Prevents the tank from taking damage\n"
+			"when falling.  Must be enabled before\n"
+			"they take effect.\n"
+			"Click to enable/disable parachutes.\n"
+			"Current Parachute : Off"));
+	}
 }
 
 void TankParachutesTip::showItems(float x, float y)
 {
-	static GLWTip useTip("Parachutes On", 
-		"Enable parachutes.");
-	static GLWTip offTip("Parachutes Off", 
-		"Disable parachutes.");
-	
+	static GLWTip offTip("Parachute Off", 
+		"Don't select a parachute or\n"
+		"turn off any current parachute");
+
+	Accessory *currentParachute = 
+		tank_->getParachute().getCurrentParachute();
 	std::list<GLWSelectorEntry> entries;
-	int count = tank_->getAccessories().getParachutes().getNoParachutes();
-	if (count != 0)
+	std::list<Accessory *> parachutes;
+	tank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryParachute, parachutes,
+		OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *>::iterator itor;
+	for (itor = parachutes.begin();
+		itor != parachutes.end();
+		itor++)
 	{
+		Accessory *current = (*itor);
+		int count = tank_->getAccessories().getAccessoryCount(current);
+
 		char buffer[128];
-		if (count >= 0) snprintf(buffer, 128, "On (%i)", count);
-		else snprintf(buffer, 128, "On (In)");
-		entries.push_back(GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 1));
+		if (count >= 0)
+		{
+			snprintf(buffer, 128, "%s (%i)", 
+				current->getName(),
+				count);
+		}
+		else
+		{
+			snprintf(buffer, 128, "%s (In)",
+				current->getName());
+		}
+		entries.push_back(GLWSelectorEntry(buffer, &current->getToolTip(), 
+			(currentParachute == current), current->getTexture(), current));
 	}
-	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, (void *) 0));
+	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
 	GLWSelector::instance()->showSelector(this, x, y, entries,
 		ClientState::StatePlaying);
 }
@@ -412,21 +444,8 @@ void TankParachutesTip::showItems(float x, float y)
 void TankParachutesTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
 	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-
-	if (entry->getUserData()==0)
-	{
-		tankAI->parachutesUpDown(0);
-	}
-	else
-	{
-		std::list<Accessory *> parachutes;
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryParachute, parachutes);
-		if (parachutes.size() == 1)
-		{
-			tankAI->parachutesUpDown(parachutes.front()->getAccessoryId());
-		}
-	}
+	if (entry->getUserData() == 0) tankAI->parachutesUpDown(0);
+	else tankAI->parachutesUpDown(((Accessory *)entry->getUserData())->getAccessoryId());
 }
 
 TankAutoDefenseTip::TankAutoDefenseTip(Tank *tank) : 

@@ -33,6 +33,9 @@ Fixed: Added money, kills etc back to the server score display
 Fixed: Tanks now loose score for self and team kills
 Fixed: Textures are now checked for OpenGL size correctness
 
+Added: Support for more than one type of parachutes
+Added: slowforce attribute to parachutes to allow slower falling
+Added: Frame limiter to allow the game's FPS to be limited saving CPU
 Added: Tooltips for the column headings on the score dialog
 Added: WeaponTankPosition to allow sub-weapons to be centered on the firing tank
 Added: WeaponTankVelocity to allow sub-weapons to be fired with the original power

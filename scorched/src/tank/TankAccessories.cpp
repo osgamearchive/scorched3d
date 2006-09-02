@@ -29,10 +29,7 @@
 
 TankAccessories::TankAccessories(ScorchedContext &context) :
 	context_(context),
-	tankFuel_(context),
 	tankWeapon_(context),
-	tankPara_(context),
-	tankShield_(context),
 	tankAuto_(context),
 	tankBatteries_(context)
 {
@@ -45,10 +42,7 @@ TankAccessories::~TankAccessories()
 void TankAccessories::setTank(Tank *tank)
 {
 	tank_ = tank;
-	tankFuel_.setTank(tank);
 	tankWeapon_.setTank(tank);
-	tankPara_.setTank(tank);
-	tankShield_.setTank(tank);
 	tankAuto_.setTank(tank);
 	tankBatteries_.setTank(tank);
 }
@@ -58,11 +52,8 @@ void TankAccessories::newMatch()
 	accessories_.clear();
 
 	tankWeapon_.newMatch();
-	tankPara_.newMatch();
-	tankShield_.newMatch();
 	tankAuto_.newMatch();
 	tankBatteries_.newMatch();
-	tankFuel_.newMatch();
 
 	// Add all the accessories the tank should start with
 	// this is the accessories from the global accessories file
@@ -267,10 +258,7 @@ void TankAccessories::changed()
 	// Tell the appropriate container that the count has changed
 	tankAuto_.changed();
 	tankWeapon_.changed();
-	tankPara_.changed();
-	tankShield_.changed();
 	tankBatteries_.changed();
-	tankFuel_.changed();
 }
 
 bool TankAccessories::writeMessage(NetBuffer &buffer, bool writeAccessories)
@@ -295,11 +283,8 @@ bool TankAccessories::writeMessage(NetBuffer &buffer, bool writeAccessories)
 	}
 
 	if (!tankWeapon_.writeMessage(buffer, writeAccessories)) return false;
-	if (!tankPara_.writeMessage(buffer, writeAccessories)) return false;
-	if (!tankShield_.writeMessage(buffer, writeAccessories)) return false;
 	if (!tankAuto_.writeMessage(buffer, writeAccessories)) return false;
 	if (!tankBatteries_.writeMessage(buffer, writeAccessories)) return false;
-	if (!tankFuel_.writeMessage(buffer, writeAccessories)) return false;
 	return true;
 }
 
@@ -345,11 +330,8 @@ bool TankAccessories::readMessage(NetBufferReader &reader)
 	}
 
 	if (!tankWeapon_.readMessage(reader)) return false;
-	if (!tankPara_.readMessage(reader)) return false;
-	if (!tankShield_.readMessage(reader)) return false;
 	if (!tankAuto_.readMessage(reader)) return false;
 	if (!tankBatteries_.readMessage(reader)) return false;
-	if (!tankFuel_.readMessage(reader)) return false;
 
 	changed();
 	return true;

@@ -31,7 +31,7 @@ Clock::~Clock()
 {
 }
 
-float Clock::getTimeDifference()
+unsigned int Clock::getTicksDifference()
 {
 	unsigned int  dwCurrentTime = SDL_GetTicks();
 	unsigned int  dwTimeDiff = 1;
@@ -41,6 +41,12 @@ float Clock::getTimeDifference()
 	}
 
 	dwLastTime_ = dwCurrentTime;
+	return dwTimeDiff;
+}
+
+float Clock::getTimeDifference()
+{
+	unsigned int  dwTimeDiff = getTicksDifference();
 	return ((float) dwTimeDiff) / 1000.0f;
 }
 

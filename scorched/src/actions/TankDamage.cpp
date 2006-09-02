@@ -305,7 +305,7 @@ void TankDamage::calculateDamage()
 				// Tank falling
 				context_->actionController->addAction(
 					new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
-						damagedTarget->getParachute().parachutesEnabled(),
+						(damagedTarget->getParachute().getCurrentParachute() != 0),
 						data_));
 			}
 		}

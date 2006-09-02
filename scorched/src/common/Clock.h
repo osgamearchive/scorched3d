@@ -27,7 +27,8 @@ public:
 	Clock();
 	virtual ~Clock();
 
-	virtual float getTimeDifference();
+	float getTimeDifference();
+	unsigned int getTicksDifference();
 
 protected:
 	unsigned int  dwLastTime_;

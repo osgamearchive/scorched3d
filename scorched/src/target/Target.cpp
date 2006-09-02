@@ -33,6 +33,7 @@ Target::Target(unsigned int playerId,
 	context_(context),
 	life_(context, playerId), 
 	shield_(context, playerId),
+	parachute_(context),
 	deathAction_(0),
 	renderer_(0),
 	border_(0.0f)

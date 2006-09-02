@@ -365,11 +365,14 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 			switch (accessory->getType())
 			{
 			case AccessoryPart::AccessoryParachute:
-				tankAI->parachutesUpDown(firstTank->getParachute().parachutesEnabled()?
+				tankAI->parachutesUpDown(
+					(firstTank->getParachute().getCurrentParachute()==accessory)?
 					0:accessory->getAccessoryId());
 				break;
 			case AccessoryPart::AccessoryShield:
-				tankAI->shieldsUpDown(accessory->getAccessoryId());
+				tankAI->shieldsUpDown(
+					(firstTank->getShield().getCurrentShield()==accessory)?
+					0:accessory->getAccessoryId());
 				break;
 			case AccessoryPart::AccessoryWeapon:
 				firstTank->getAccessories().getWeapons().setWeapon(accessory);
@@ -428,7 +431,7 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		switch (accessory->getType())
 		{
 		case AccessoryPart::AccessoryParachute:
-			sel = firstTank->getParachute().parachutesEnabled();
+			sel = (firstTank->getParachute().getCurrentParachute() == accessory);
 			break;
 		case AccessoryPart::AccessoryShield:
 			sel = (firstTank->getShield().getCurrentShield() == accessory);

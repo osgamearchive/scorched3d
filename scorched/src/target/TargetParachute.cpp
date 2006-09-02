@@ -19,9 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <target/TargetParachute.h>
+#include <engine/ScorchedContext.h>
+#include <weapons/AccessoryStore.h>
 
-TargetParachute::TargetParachute() : 
-	parachutesEnabled_(false)
+TargetParachute::TargetParachute(ScorchedContext &context) : 
+	context_(context),
+	currentParachute_(0)
 {
 }
 
@@ -31,22 +34,25 @@ TargetParachute::~TargetParachute()
 
 void TargetParachute::newGame()
 {
-	setParachutesEnabled(false);
+	setCurrentParachute(0);
 }
 
-void TargetParachute::setParachutesEnabled(bool enabled)
+void TargetParachute::setCurrentParachute(Accessory *para)
 {
-	parachutesEnabled_ = enabled;
+	currentParachute_ = para;
 }
 
 bool TargetParachute::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	buffer.addToBuffer(writeAccessories?parachutesEnabled_:false);
+	buffer.addToBuffer((unsigned int)(currentParachute_?currentParachute_->getAccessoryId():0));
 	return true;
 }
 
 bool TargetParachute::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(parachutesEnabled_)) return false;
+	unsigned int paraId;
+	if (!reader.getFromBuffer(paraId)) return false;
+	if (paraId == 0) currentParachute_ = 0;
+	else currentParachute_ = context_.accessoryStore->findByAccessoryId(paraId);
 	return true;
 }

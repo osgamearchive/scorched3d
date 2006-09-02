@@ -149,22 +149,24 @@ void ServerDefenseHandler::processDefenseMessage(
 		}	
 		break;
 	case ComsDefenseMessage::eParachutesUp:
-		if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
 		{
-			Accessory *parachute = 
-				ScorchedServer::instance()->getAccessoryStore().
+			Accessory *accessory = 
+				ScorchedServer::instance()->getContext().accessoryStore->
 					findByAccessoryId(message.getInfoId());
-			if (parachute)
+			if (accessory->getType() == AccessoryPart::AccessoryParachute)
 			{
-				tank->getParachute().setParachutesEnabled(true);
-				sendMessage = true;
+				if (tank->getAccessories().getAccessoryCount(accessory) != 0)
+				{
+					tank->getParachute().setCurrentParachute(accessory);
+					sendMessage = true;
+				}
 			}
 		}
 		break;
 	case ComsDefenseMessage::eParachutesDown:
-		if (tank->getParachute().parachutesEnabled())
+		if (tank->getParachute().getCurrentParachute())
 		{
-			tank->getParachute().setParachutesEnabled(false);
+			tank->getParachute().setCurrentParachute(0);
 			sendMessage = true;
 		}
 		break;

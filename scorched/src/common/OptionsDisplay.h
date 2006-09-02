@@ -321,6 +321,9 @@ public:
 	int getToolTipSpeed() { return toolTipSpeed_; }
 	OptionEntryInt &getToolTipSpeedEntry() { return toolTipSpeed_; }
 
+	int getFramesPerSecondLimit() { return framesPerSecondLimit_; }
+	OptionEntryInt &getFramesPerSecondLimitEntry() { return framesPerSecondLimit_; }
+
 	void loadSafeValues();
 	void loadDefaultValues();
 	void loadFastestValues();
@@ -348,6 +351,7 @@ protected:
 	OptionEntryInt tankModelSize_;
 	OptionEntryInt toolTipTime_;
 	OptionEntryInt toolTipSpeed_;
+	OptionEntryInt framesPerSecondLimit_;
 	OptionEntryBool noFog_;
 	OptionEntryBool detailTexture_;
 	OptionEntryBool useHex_;

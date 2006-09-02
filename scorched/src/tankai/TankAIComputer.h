@@ -89,6 +89,7 @@ protected:
 
 	TankAIComputerBuyer *getTankBuyer();
 	void selectFirstShield();
+	void selectFirstParachute();
 	void raiseDefenses();
 
 };

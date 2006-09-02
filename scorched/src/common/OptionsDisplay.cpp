@@ -88,6 +88,8 @@ OptionsDisplay::OptionsDisplay() :
 		"The milliseconds before showing a tool tip.", RWAccess, 100),
 	toolTipSpeed_(options_, "ToolTipSpeed", 
 		"The speed at which a tool tip will fade in.", RWAccess, 6),
+	framesPerSecondLimit_(options_, "FramesPerSecondLimit",
+		"The maximum frame rate that the game will run at", RWAccess, 250),
 	brightness_(options_, "Brightness", 
 		"The game screen brightness (gamma).", RAccess, 10, 3, 40, 1),
 	fullScreen_(options_, "FullScreen", 

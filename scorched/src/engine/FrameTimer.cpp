@@ -46,7 +46,7 @@ FrameTimer *FrameTimer::instance()
 	return instance_;
 }
 
-FrameTimer::FrameTimer() : totalTime_(0.0f), totalCount_(0)
+FrameTimer::FrameTimer() : totalTime_(0.0f), frameCount_(0)
 {
 
 }
@@ -56,13 +56,21 @@ FrameTimer::~FrameTimer()
 
 }
 
+void FrameTimer::draw(const unsigned state)
+{
+	frameCount_++;
+}
+
 void FrameTimer::simulate(const unsigned state, float frameTime)
 {
 	totalTime_ += frameTime;
-	totalCount_++;
-
 	if (totalTime_ > 5.0f)
 	{
+		float timeTaken = frameClock_.getTimeDifference();
+		float fps = float(frameCount_) / timeTaken;
+		totalTime_ = 0.0f;
+		frameCount_ = 0;
+
 		unsigned int pOnScreen = 
 			ScorchedClient::instance()->
 				getParticleEngine().getParticlesOnScreen() +
@@ -87,8 +95,7 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 			}
 
 			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
-				formatString("%.2f FPS",
-					float(totalCount_) / totalTime_)));
+				formatString("%.2f FPS", fps)));
 			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
 				formatString("%iTRI %iPART %iGEOM %iSQR %iSND %uSHD", 
 					tris,
@@ -98,7 +105,6 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 					Sound::instance()->getPlayingChannels(),
 					Landscape::instance()->getShadowMap().getShadowCount())));
 		}
-		totalCount_ = 0;
-		totalTime_ = 0.0f;
+
 	}
 }

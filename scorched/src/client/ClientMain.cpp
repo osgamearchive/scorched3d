@@ -53,6 +53,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <engine/MainLoop.h>
 #include <engine/ActionController.h>
+#include <engine/FrameLimiter.h>
 #include <dialogs/ProgressDialog.h>
 #include <coms/NetServer.h>
 #include <coms/NetLoopBack.h>
@@ -285,13 +286,22 @@ bool clientMain()
 
 	// Enter the SDL main loop to process SDL events
 	Clock loopClock;
+	FrameLimiter limiter;
 	for (;;)
 	{
 		bool idle = clientEventLoop();
 
 		if (!ScorchedClient::instance()->getMainLoop().mainLoop()) break;
-		if ((!paused) && (idle) ) ScorchedClient::instance()->getMainLoop().draw();
-		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop
+		if ((!paused) && (idle) )
+		{
+			ScorchedClient::instance()->getMainLoop().draw();
+			limiter.limitFrameTime(); // Make sure frame rate is not exceeded
+		}
+		else
+		{
+			limiter.dontLimitFrameTime();
+		}
+		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop	
 	}
 
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();

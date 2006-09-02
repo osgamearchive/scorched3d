@@ -133,12 +133,12 @@ bool ClientDefenseHandler::processMessage(unsigned int id,
 					paraSound, tank->getPosition().getTankPosition());
 			}
 
-			tank->getParachute().setParachutesEnabled(true);
+			tank->getParachute().setCurrentParachute(parachute);
 		}
 		break;
 	case ComsDefenseMessage::eParachutesDown:
 		{
-			tank->getParachute().setParachutesEnabled(false);
+			tank->getParachute().setCurrentParachute(0);
 		}
 		break;
 	}

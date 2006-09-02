@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,35 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tank/TankFuel.h>
-#include <tank/Tank.h>
-#include <engine/ScorchedContext.h>
-#include <weapons/AccessoryStore.h>
+#include <engine/FrameLimiter.h>
+#include <common/OptionsDisplay.h>
+#include <SDL/SDL.h>
 
-TankFuel::TankFuel(ScorchedContext &context) :
-	context_(context),
-	tank_(0)
+FrameLimiter::FrameLimiter()
 {
 }
 
-TankFuel::~TankFuel()
+FrameLimiter::~FrameLimiter()
 {
 }
 
-void TankFuel::newMatch()
+void FrameLimiter::dontLimitFrameTime()
 {
+	unsigned int lastFrameTicks = frameTime_.getTicksDifference();
 }
 
-void TankFuel::changed()
+void FrameLimiter::limitFrameTime()
 {
-}
+	unsigned int lastFrameTicks = frameTime_.getTicksDifference();
 
-bool TankFuel::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	return true;
-}
+	unsigned int wantedFramesPerSecond = 
+		(unsigned int) OptionsDisplay::instance()->getFramesPerSecondLimit();
+	unsigned int wantedTicksPerFrame = 1000 / wantedFramesPerSecond;
 
-bool TankFuel::readMessage(NetBufferReader &reader)
-{
-	return true;
+	if (wantedTicksPerFrame > lastFrameTicks)
+	{
+		SDL_Delay(wantedTicksPerFrame - lastFrameTicks);
+	}
 }

@@ -194,43 +194,39 @@ void TankAIComputer::buyAccessories()
 
 void TankAIComputer::selectFirstShield()
 {
+	if (currentTank_->getShield().getCurrentShield()) return;
+
 	std::list<Accessory *> shields;
 	currentTank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryShield, shields);
+		AccessoryPart::AccessoryShield, shields);
 	if (!shields.empty())
 	{
 		Accessory *shield = shields.front();
-		if (!currentTank_->getShield().getCurrentShield())
-		{
-			shieldsUpDown(shield->getAccessoryId());
-		}
+		shieldsUpDown(shield->getAccessoryId());
+	}
+}
+
+void TankAIComputer::selectFirstParachute()
+{
+	if (currentTank_->getParachute().getCurrentParachute()) return;
+
+	std::list<Accessory *> parachutes;
+	currentTank_->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryParachute, parachutes);
+	if (!parachutes.empty())
+	{
+		Accessory *parachute = parachutes.front();
+		parachutesUpDown(parachute->getAccessoryId());
 	}
 }
 
 void TankAIComputer::raiseDefenses()
 {
 	// Try to enable parachutes (fails if we don't have any)
-	if (currentTank_->getAccessories().getParachutes().getNoParachutes() != 0 &&
-		useParachutes_)
-	{
-		if (!currentTank_->getParachute().parachutesEnabled())
-		{
-			std::list<Accessory *> parachutes;
-			currentTank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryParachute, parachutes);
-			if (parachutes.size() == 1)
-			{
-				parachutesUpDown(parachutes.front()->getAccessoryId());
-			}
-		}
-	}
+	if (useParachutes_) selectFirstParachute();
 
 	// Try to raise shields (fails if we don't have any)
-	if (!currentTank_->getShield().getCurrentShield() &&
-		useShields_)
-	{
-		selectFirstShield();
-	}
+	if (useShields_) selectFirstShield();
 }
 
 void TankAIComputer::say(const char *text)

@@ -168,7 +168,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eParachuteCount:
 			setToolTip(&renderer->getTips()->paraTip);
-			if (!current->getParachute().parachutesEnabled())
+			if (!current->getParachute().getCurrentParachute())
 			{
 				GLWFont::instance()->getSmallPtFont()->draw(
 					*fontColor, fontSize_,
@@ -177,8 +177,8 @@ void GLWScorchedInfo::draw()
 			}
 			else
 			{
-				int count = current->getAccessories().
-					getParachutes().getNoParachutes();
+				int count = current->getAccessories().getAccessoryCount(
+					current->getParachute().getCurrentParachute());
 				char buffer[128];
 				if (count >= 0) snprintf(buffer, 128, "%i", count);
 				else snprintf(buffer, 128, "In");

@@ -31,7 +31,8 @@ REGISTER_ACTION_SOURCE(TankFallingEnd);
 
 TankFallingEnd::TankFallingEnd() :
 	weapon_(0),
-	fallingPlayerId_(0), firedPlayerId_(0)
+	fallingPlayerId_(0), firedPlayerId_(0),
+	parachutes_(false)
 {
 }
 
@@ -40,12 +41,14 @@ TankFallingEnd::TankFallingEnd(Weapon *weapon,
 	Vector &endPosition,
 	unsigned int fallingPlayerId,
 	unsigned int firedPlayerId,
+	bool parachutes,
 	unsigned int data) :
 	weapon_(weapon),
 	startPosition_(startPosition),
 	endPosition_(endPosition),
 	fallingPlayerId_(fallingPlayerId),
 	firedPlayerId_(firedPlayerId),
+	parachutes_(parachutes),
 	data_(data)
 {
 }
@@ -77,22 +80,25 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 			damage = 0.0f;
 		}
 		else
-		if (current->getParachute().parachutesEnabled())
+		if (parachutes_)
 		{
 			const float ParachuteThreshold = 0.0f;
 			if (dist >= ParachuteThreshold)
 			{
 				// No damage we were using parachutes
 				damage = 0.0f;
-				if (!current->isTarget())
+
+				// Remove parachutes if we have one
+				if (!current->isTarget() && 
+					current->getParachute().getCurrentParachute())
 				{
 					Tank *currentTank = (Tank *) current;
-					std::list<Accessory *> result;
-					currentTank->getAccessories().getAllAccessoriesByType(
-						AccessoryPart::AccessoryParachute, result);
-					if (!result.empty())
+					currentTank->getAccessories().rm(
+						current->getParachute().getCurrentParachute());
+					if (currentTank->getAccessories().getAccessoryCount(
+						current->getParachute().getCurrentParachute()) == 0)
 					{
-						currentTank->getAccessories().rm(result.front());
+						current->getParachute().setCurrentParachute(0);
 					}
 				}
 			}
@@ -125,6 +131,7 @@ bool TankFallingEnd::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(endPosition_);
 	buffer.addToBuffer(fallingPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
+	buffer.addToBuffer(parachutes_);
 	buffer.addToBuffer(data_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
@@ -136,6 +143,7 @@ bool TankFallingEnd::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(endPosition_)) return false;
 	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
+	if (!reader.getFromBuffer(parachutes_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;

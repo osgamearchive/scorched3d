@@ -23,22 +23,25 @@
 
 #include <coms/NetBuffer.h>
 
+class Accessory;
+class ScorchedContext;
 class TargetParachute
 {
 public:
-	TargetParachute();
+	TargetParachute(ScorchedContext &context);
 	virtual ~TargetParachute();
 
 	void newGame();
 
-	void setParachutesEnabled(bool enabled);
-	bool parachutesEnabled() { return parachutesEnabled_; }
+	Accessory *getCurrentParachute() { return currentParachute_; }
+	void setCurrentParachute(Accessory *para);
 
     bool writeMessage(NetBuffer &buffer, bool writeAccessories);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	bool parachutesEnabled_;
+	Accessory *currentParachute_;
+	ScorchedContext &context_;
 
 };
 

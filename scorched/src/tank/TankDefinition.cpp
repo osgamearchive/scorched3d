@@ -133,7 +133,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 				parachute_.c_str()));
 		}
 
-		tank->getParachute().setParachutesEnabled(true);
+		tank->getParachute().setCurrentParachute(parachute);
 	}
 
 	if (removeaction_.c_str()[0] && 0 != strcmp(removeaction_.c_str(), "none"))

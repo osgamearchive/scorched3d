@@ -34,6 +34,7 @@ public:
 		Vector &endPosition,
 		unsigned int fallingPlayerId,
 		unsigned int firedPlayerId,
+		bool parachutes,
 		unsigned int data);
 	virtual ~TankFallingEnd();
 
@@ -49,6 +50,7 @@ protected:
 	unsigned int fallingPlayerId_;
 	unsigned int firedPlayerId_;
 	unsigned int data_;
+	bool parachutes_;
 	Vector startPosition_, endPosition_;
 };
 

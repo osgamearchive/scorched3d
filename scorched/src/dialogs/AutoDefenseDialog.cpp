@@ -116,13 +116,16 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			}
 			else
 			{
-				std::list<Accessory *> parachutes;
+				std::list<Accessory *> paras;
 				tank->getAccessories().getAllAccessoriesByType(
-					AccessoryPart::AccessoryParachute, parachutes);
-				if (parachutes.size() == 1)
+					AccessoryPart::AccessoryParachute, paras);
+				std::list<Accessory *>::iterator parasItor = paras.begin();
+				for (int i=1; i<ddpara_->getCurrentPosition() && parasItor != paras.end(); i++) parasItor++;
+				
+				if (parasItor != paras.end())
 				{
 					((TankAIHuman *) tank->getTankAI())->parachutesUpDown(
-						parachutes.front()->getAccessoryId());
+						(*parasItor)->getAccessoryId());
 				}
 			}
 
@@ -203,26 +206,35 @@ void AutoDefenseDialog::displayCurrent()
 			&shield->getToolTip(), 0, shield->getTexture()));
 	}
 
-	// Put parachutes info
-	static GLWTip paraOffTip("Parachutesields Off",
+	// Put paras info
+	static GLWTip parachutesOffTip("Parachutes Off",
 		"Turns off parachutes.");
-	static GLWTip paraOnTip("Parachutesields On",
-		"Turns on parachutes.");
 	ddpara_->clear();
-	ddpara_->addEntry(GLWSelectorEntry("Parachutes Off", &paraOffTip));
-	if (tank->getAccessories().getParachutes().getNoParachutes() != 0)
+	std::list<Accessory *>::iterator parachutesItor;
+	std::list<Accessory *> parachutes;
+	tank->getAccessories().getAllAccessoriesByType(
+		AccessoryPart::AccessoryParachute, parachutes);
+	ddpara_->addEntry(GLWSelectorEntry("Parachutes Off", &parachutesOffTip));
+	for (parachutesItor = parachutes.begin();
+		parachutesItor != parachutes.end();
+		parachutesItor++)
 	{
+		Accessory *parachute = (*parachutesItor);
+		int paracount = tank->getAccessories().getAccessoryCount(parachute);
 		char buffer[256];
-		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
+		if (paracount > 0)
 		{
-			snprintf(buffer, 256, "Parachutes On (%i)",
-				tank->getAccessories().getParachutes().getNoParachutes());
+			snprintf(buffer, 256, "%s (%i)",
+				parachute->getName(),
+				paracount);
 		}
 		else
 		{
-			snprintf(buffer, 256, "Parachutes On (In)");
+			snprintf(buffer, 256, "%s (In)",
+				parachute->getName());
 		}
-		ddpara_->addEntry(GLWSelectorEntry(buffer, &paraOnTip));
+		ddpara_->addEntry(GLWSelectorEntry(buffer,
+			&parachute->getToolTip(), 0, parachute->getTexture()));
 	}
 
 	// Set the currently shown items
@@ -247,18 +259,23 @@ void AutoDefenseDialog::displayCurrent()
 	{
 		ddshields_->setCurrentText("Shields Off");
 	}
-	if (tank->getParachute().parachutesEnabled())
+
+	// Set the currently shown items
+	Accessory *currentParachute = tank->getParachute().getCurrentParachute();
+	if (currentParachute)
 	{
 		char buffer[256];
-		if (tank->getAccessories().getParachutes().getNoParachutes() > 0)
+		if (tank->getAccessories().getAccessoryCount(currentParachute) > 0)
 		{
-			snprintf(buffer, 256, "Parachutes On (%i)",
-				tank->getAccessories().getParachutes().getNoParachutes());
+			snprintf(buffer, 256, "%s (%i)",
+				currentParachute->getName(),
+				tank->getAccessories().getAccessoryCount(currentParachute));
 		}
 		else
 		{
-			snprintf(buffer, 256, "Parachutes On (In)");
-		}	
+			snprintf(buffer, 256, "%s (In)",
+				currentParachute->getName());
+		}
 		ddpara_->setCurrentText(buffer);
 	}
 	else

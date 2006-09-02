@@ -55,7 +55,7 @@ public:
 	virtual void skipShot();
 	virtual void resign();
 	virtual void move(int x, int y, unsigned int fuelId);
-	virtual void parachutesUpDown(unsigned int paraId = 0);
+	virtual void parachutesUpDown(unsigned int paraId=0);
 	virtual void shieldsUpDown(unsigned int shieldId=0);
 	virtual void useBattery(unsigned int batteryId);
 
