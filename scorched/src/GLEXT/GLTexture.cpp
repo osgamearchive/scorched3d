@@ -145,6 +145,13 @@ bool GLTexture::create(const void * data,
 		if (height == 1 || width == 1) texType_ = GL_TEXTURE_1D;
 		else texType_ = GL_TEXTURE_2D;
 
+		if (!validateSize(width) ||	!validateSize(height))
+		{
+			dialogExit("Scorched3D",
+				formatString("Invalid OpenGL texture size %ix%i specified",
+				width, height));
+		}
+
 		createObject();
 		glBindTexture(texType_, texNum_);
 		if (glGetError() == GL_INVALID_VALUE ||
@@ -292,4 +299,20 @@ bool GLTexture::createBufferTexture(GLint width, GLint height, bool depthTex)
 bool GLTexture::textureValid()
 {
 	return (glIsTexture(texNum_) == GL_TRUE);
+}
+
+bool GLTexture::validateSize(int size)
+{
+	return (!(size != 1 &&
+		size != 2 &&
+		size != 4 &&
+		size != 8 && 
+		size != 16 &&
+		size != 32 &&
+		size != 64 &&
+		size != 128 &&
+		size != 256 &&
+		size != 512 &&
+		size != 1024 &&
+		size != 2048));
 }

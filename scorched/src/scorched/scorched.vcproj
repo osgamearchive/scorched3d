@@ -1969,6 +1969,18 @@
 				RelativePath="..\weapons\WeaponSound.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponTankPosition.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTankPosition.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTankVelocity.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTankVelocity.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponTeleport.cpp">
 			</File>
 			<File

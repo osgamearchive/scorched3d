@@ -65,6 +65,7 @@ protected:
 	GLenum texType_;
 	GLenum texFormat_;
 
+	bool validateSize(int size);
 	bool createTexture(const void * data, 
 						GLint width, 
 						GLint height, 

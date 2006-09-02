@@ -216,42 +216,67 @@ void ScoreDialog::draw()
 			12,
 			x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Name");
+	GLWToolTip::instance()->addToolTip("Name", "The name of the player",
+		x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 100.0f, 16.0f);
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"K");
+	GLWToolTip::instance()->addToolTip("Kills", "The number of players this player has killed.",
+		x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"W");
+	GLWToolTip::instance()->addToolTip("Wins", "The number of rounds this player has won.",
+		x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"A");
+	GLWToolTip::instance()->addToolTip("Assists", "The number of kills this player has assisted in.",
+		x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + moneyLeft + 10, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"$");
+	GLWToolTip::instance()->addToolTip("Money", "The amount of money this player has.",
+		x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Score");
+	GLWToolTip::instance()->addToolTip("Score", "The current score for this player.",
+		x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 80.0f, 16.0f);
+
 	GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Rank");
+	GLWToolTip::instance()->addToolTip("Rank", "The current online ranking for this player.",
+		x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 40.0f, 16.0f);
+
 	if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
+	{
 		GLWFont::instance()->getSmallPtFont()->draw(
 			white,
 			12,
 			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"L");
+		GLWToolTip::instance()->addToolTip("Lives", "The current number of lives this player has left.",
+			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
+	}
 	y+= lineSpacer + lineSpacer;
 
 	int tmpLastScoreValue = 0;

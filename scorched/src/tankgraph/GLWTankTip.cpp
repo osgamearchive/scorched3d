@@ -555,13 +555,13 @@ TankPowerTip::~TankPowerTip()
 
 void TankPowerTip::populate()
 {
-	if (tank_->getAccessories().getWeapons().getCurrent())
 	{
 		setText("Power", formatString(
 			"The power used to fire the %s.\n"
 			"Click to revert back to previous settings.\n"
 			"Power : %s",
-			tank_->getAccessories().getWeapons().getCurrent()->getName(),
+			(tank_->getAccessories().getWeapons().getCurrent()?
+			tank_->getAccessories().getWeapons().getCurrent()->getName():"Current Weapon"),
 			tank_->getPosition().getPowerString()));
 	}
 }

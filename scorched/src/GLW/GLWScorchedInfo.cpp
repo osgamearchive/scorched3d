@@ -116,9 +116,6 @@ void GLWScorchedInfo::draw()
 		current->getRenderer();
 	if (!renderer) return;
 
-	Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
-	if (!weapon) return;
-
 	// Items relating to the current player
 	switch (infoType_)
 	{
@@ -257,11 +254,13 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponName:
 		{
+			Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
+			if (!weapon) return;
+
 			setToolTip(&renderer->getTips()->weaponTip);
 
 			static char buffer[256];
-			snprintf(buffer, 256, "%s", 
-				current->getAccessories().getWeapons().getCurrent()->getName());
+			snprintf(buffer, 256, "%s", weapon->getName());
 			float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
 				getWidth(fontSize_, buffer);
 
@@ -275,9 +274,11 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponCount:
 		{
+			Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
+			if (!weapon) return;
+
 			setToolTip(&renderer->getTips()->weaponTip);
-			int count = current->getAccessories().getAccessoryCount(
-				current->getAccessories().getWeapons().getCurrent());
+			int count = current->getAccessories().getAccessoryCount(weapon);
 			const char *format = "%i";
 			if (count < 0) format = "In";
 			GLWFont::instance()->getSmallPtFont()->draw(
@@ -288,6 +289,9 @@ void GLWScorchedInfo::draw()
 		break;
 		case eWeaponIcon:
 		{
+			Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
+			if (!weapon) return;
+
 			setToolTip(&renderer->getTips()->weaponTip);
 
 			GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON);

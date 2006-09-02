@@ -30,7 +30,10 @@ class GLWToolTip : public GameStateI
 public:
 	static GLWToolTip *instance();
 
-	bool addToolTip(GLWTip *tip, float x, float y, float w, float h);
+	bool addToolTip(const char *title, const char *text,
+		float x, float y, float w, float h);
+	bool addToolTip(GLWTip *tip, 
+		float x, float y, float w, float h);
 	void clearToolTip(float x, float y, float w, float h);
 
 	// Inherited from GameStateI

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,40 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankTypeh_INCLUDE__)
-#define __INCLUDE_TankTypeh_INCLUDE__
+#if !defined(AFX_WeaponTankVelocity_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponTankVelocity_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-#include <string>
-#include <map>
-#include <set>
+#include <weapons/Weapon.h>
 
-class XMLNode;
-class Accessory;
-class ScorchedContext;
-class TankType
+class WeaponTankVelocity  : public Weapon
 {
 public:
-	TankType();
-	virtual ~TankType();
+	WeaponTankVelocity();
+	virtual ~WeaponTankVelocity();
 
-	const char *getName() { return name_.c_str(); }
-	const char *getDescription();
-	float getLife() { return life_; }
-	float getPower() { return power_; }
-	bool getMovementSmoke() { return movementSmoke_; }
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
-	std::map<Accessory *, int> &getAccessories() { return accessories_; }
-	bool getAccessoryDisabled(Accessory *accessory);
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
 
-	bool initFromXML(ScorchedContext &context, XMLNode *node);
+	REGISTER_ACCESSORY_HEADER(WeaponTankVelocity, AccessoryPart::AccessoryWeapon);
 
 protected:
-	std::string name_;
-	std::map<Accessory *, int> accessories_;
-	std::set<Accessory *> disabledAccessories_;
-	float life_;
-	float power_;
-	bool movementSmoke_;
+	Weapon *aimedWeapon_;
+
 };
 
-#endif // __INCLUDE_TankTypeh_INCLUDE__
+#endif // !defined(AFX_WeaponTankVelocity_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

@@ -74,9 +74,9 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 					 unsigned int epoc)
 {
 	// Check that we are not going outside the arena
-	if (x < 0 || y < 0 ||
-		x > (unsigned int) width_ ||
-		y > (unsigned int) height_) return;
+	if (x < 5 || y < 5 ||
+		x > (unsigned int) (width_ - 5) ||
+		y > (unsigned int) (height_ - 5)) return;
 
 	// Check if we can already reach this point
 	// Through a shorted already visited path

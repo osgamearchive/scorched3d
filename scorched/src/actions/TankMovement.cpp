@@ -30,7 +30,9 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscape/MovementMap.h>
+#include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
+#include <tankgraph/TankModelStore.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
@@ -42,7 +44,8 @@ REGISTER_ACTION_SOURCE(TankMovement);
 
 TankMovement::TankMovement() : 
 	timePassed_(0.0f), vPoint_(0), fuel_(0),
-	remove_(false), moving_(true), moveSoundSource_(0)
+	remove_(false), moving_(true), moveSoundSource_(0),
+	smokeCounter_(0.1f, 0.1f)
 {
 }
 
@@ -52,7 +55,8 @@ TankMovement::TankMovement(unsigned int playerId,
 	playerId_(playerId), 
 	positionX_(positionX), positionY_(positionY),
 	timePassed_(0.0f), vPoint_(0), fuel_(fuel),
-	remove_(false), moving_(true), moveSoundSource_(0)
+	remove_(false), moving_(true), moveSoundSource_(0),
+	smokeCounter_(0.1f, 0.1f)
 {
 }
 
@@ -198,6 +202,25 @@ void TankMovement::simulationMove(float frameTime)
 				TankFalling::fallingTanks.find(playerId_);
 			if (findItor == TankFalling::fallingTanks.end())
 			{
+				// Add a smoke trail
+				// Check if we are not on the server
+				if (!context_->serverMode)
+				{
+					// Check if this tank type allows smoke trails
+					TankType *type = context_->tankModelStore->getTypeByName(
+						tank->getModelContainer().getTankTypeName());
+					if (type->getMovementSmoke())
+					{
+						if (smokeCounter_.nextDraw(frameTime))
+						{
+							Landscape::instance()->getSmoke().addSmoke(
+								tank->getTargetPosition()[0],
+								tank->getTargetPosition()[1],
+								tank->getTargetPosition()[2]);
+						}
+					}
+				}
+
 				// Move the tank one position every stepTime seconds
 				// i.e. 1/stepTime positions a second
 				timePassed_ += frameTime;

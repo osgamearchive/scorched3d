@@ -27,7 +27,16 @@ Fixed: Tank movement on larger scale maps
 Fixed: Rollers are now less bouncy
 Fixed: Scorched will not fail to start when modinfo files reference not existant files
 Fixed: Rounds end emmidiately if only bots are left and they all skip turns
+Fixed: Tank information is still displayed when a player has no weapons
+Fixed: Tanks cannot use fuel to move too close to the landscape borders
+Fixed: Added money, kills etc back to the server score display
+Fixed: Tanks now loose score for self and team kills
+Fixed: Textures are now checked for OpenGL size correctness
 
+Added: Tooltips for the column headings on the score dialog
+Added: WeaponTankPosition to allow sub-weapons to be centered on the firing tank
+Added: WeaponTankVelocity to allow sub-weapons to be fired with the original power
+Added: Movement smoke to tanks when they move (can be turned off via the tanktype)
 Added: Simulation to models (performance issue?)
 Added: weight attribute to the ObjectRandom placement type
 Added: none placement object type

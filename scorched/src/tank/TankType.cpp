@@ -24,7 +24,7 @@
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 
-TankType::TankType()
+TankType::TankType() : movementSmoke_(true)
 {
 }
 
@@ -37,6 +37,8 @@ bool TankType::initFromXML(ScorchedContext &context, XMLNode *node)
 	if (!node->getNamedChild("name", name_)) return false;
 	if (!node->getNamedChild("life", life_)) return false;
 	if (!node->getNamedChild("power", power_)) return false;
+
+	node->getNamedChild("movementsmoke", movementSmoke_, false);
 
 	XMLNode *accessoryNode = 0;
 	while (node->getNamedChild("accessory", accessoryNode, false))

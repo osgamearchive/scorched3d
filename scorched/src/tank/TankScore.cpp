@@ -95,7 +95,8 @@ const char *TankScore::getTimePlayedString()
 const char *TankScore::getScoreString()
 {
 	static char score[256];
-	snprintf(score, 256, "%i", getScore());
+	snprintf(score, 256, "%i (%i$ %iK %iA %iW)", 
+		getScore(), getMoney(), getKills(), getAssists(), getWins(), getMoney());
 	return score;
 }
 

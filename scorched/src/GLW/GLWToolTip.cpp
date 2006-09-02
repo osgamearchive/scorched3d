@@ -53,6 +53,32 @@ GLWToolTip::~GLWToolTip()
 {
 }
 
+bool GLWToolTip::addToolTip(const char *title, const char *text,
+	float x, float y, float w, float h)
+{
+	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;
+
+	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
+	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
+	
+	bool result = false;
+	if (x < mouseX && mouseX < x + w &&
+		y < mouseY && mouseY < y + h)
+	{
+		static GLWTip singleTip;
+		singleTip.setText(title, text);
+
+		currentX_ = x;
+		currentY_ = y;
+		currentW_ = w;
+		currentH_ = h;
+		currentTip_ = &singleTip;
+
+		result = true;
+	}
+	return result;
+}
+
 bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 {
 	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;

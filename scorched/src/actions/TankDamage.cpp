@@ -214,6 +214,14 @@ void TankDamage::calculateDamage()
 						firedTank->getScore().getKills() - 1);
 					firedTank->getScore().setMoney(
 						firedTank->getScore().getMoney() - moneyPerKill);
+					firedTank->getScore().setScore(
+						firedTank->getScore().getScore() - scorePerKill);
+
+					if (firedTank->getTeam() > 0)
+					{
+						context_->tankTeamScore->addScore(
+							-scorePerKill, firedTank->getTeam());
+					}
 				}
 				else
 				{
