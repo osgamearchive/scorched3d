@@ -31,7 +31,8 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
-ServerStateTooFewPlayersState::ServerStateTooFewPlayersState()
+ServerStateTooFewPlayersState::ServerStateTooFewPlayersState() :
+	totalTime_(0.0f)
 {
 }
 
@@ -57,31 +58,36 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 {
 	bool readyToPlay = !ServerTooFewPlayersStimulus::instance()->
 		acceptStateChange(state, nextState, frameTime);
+	if (readyToPlay) return true;
 
-	if (!readyToPlay)
+	// Check if the game options have changed
+	totalTime_ += frameTime;
+	if (totalTime_ > 1.0f)
 	{
-		if (!OptionsParam::instance()->getDedicatedServer())
+		totalTime_ = 0.0f;
+		if (ScorchedServer::instance()->getOptionsGame().commitChanges())
 		{
-			if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() ==
-				ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
-			{
-				// Something has gone wrong
-				// We are playing a single player game.
-				// We have enough players but have not started
-				dialogExit("Scorched3D",
-					"Incorrect players added for current game settings."
-					"Is this a team game with un-even teams?");
-			}
-		}
-	
-		// Check if we need to add any new bots
-		ServerNewGameState::checkBots();
+			ServerCommon::sendString(0, "Game options have been changed!");
+		}	
 	}
-	else
+
+	// Check settings
+	if (!OptionsParam::instance()->getDedicatedServer())
 	{
-		// Just to make it more obvious we do one thing or the other
-		return true;
+		if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() ==
+			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
+		{
+			// Something has gone wrong
+			// We are playing a single player game.
+			// We have enough players but have not started
+			dialogExit("Scorched3D",
+				"Incorrect players added for current game settings."
+				"Is this a team game with un-even teams?");
+		}
 	}
+
+	// Check if we need to add any new bots
+	ServerNewGameState::checkBots();
 
 	return false;
 }

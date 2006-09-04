@@ -35,6 +35,9 @@ public:
 	virtual bool acceptStateChange(const unsigned state, 
 		const unsigned nextState,
 		float frameTime);
+
+protected:
+	float totalTime_;
 };
 
 #endif

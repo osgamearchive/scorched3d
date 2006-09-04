@@ -758,8 +758,9 @@ void ServerFrame::onEditOptions(wxCommandEvent &event)
 		getOptionsGame().getChangedOptions()))
 	{
 		dialogMessage("Server",
-			"These changes will only take place at the start of the next round (map).\n"
-			"Be careful, some changes may not work without restarting server.");
+			"These changes will only take place if the server is stopped\n"
+			"or at the start of the next round (map).\n"
+			"Be careful, some changes may not work without restarting server!!");
 	}
 }
 
@@ -777,10 +778,10 @@ void ServerFrame::onLoadOptions(wxCommandEvent &event)
 		if(ScorchedServer::instance()->getOptionsGame().getChangedOptions().
 		   readOptionsFromFile((char *) fileName.c_str()))
 		{
-			dialogMessage("Server",
-						  "These changes will only take place at the start of the next round (map).\n"
-						  "Be careful, some changes may not work without restarting server.");
-		}
+		dialogMessage("Server",
+			"These changes will only take place if the server is stopped\n"
+			"or at the start of the next round (map).\n"
+			"Be careful, some changes may not work without restarting server!!");		}
 	}
 }
 

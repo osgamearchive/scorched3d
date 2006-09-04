@@ -46,5 +46,6 @@ void FrameLimiter::limitFrameTime()
 	if (wantedTicksPerFrame > lastFrameTicks)
 	{
 		SDL_Delay(wantedTicksPerFrame - lastFrameTicks);
+		frameTime_.getTicksDifference(); // Remove time taken in delay
 	}
 }

@@ -435,6 +435,9 @@ bool OptionsGameWrapper::commitChanges()
 		{
 			OptionEntry *entry = *itor;
 			OptionEntry *otherentry = *otheritor;
+			if (!(entry->getData() & OptionEntry::DataProtected) &&
+				!(otherentry->getData() & OptionEntry::DataProtected))
+			{
 			std::string str = entry->getValueAsString();
 			std::string otherstr = otherentry->getValueAsString();
 			if (str != otherstr)
@@ -449,6 +452,7 @@ bool OptionsGameWrapper::commitChanges()
 					Logger::log(formatString("Option %s has been changed.",
 						entry->getName()));
 				}
+			}
 			}
 		}
 

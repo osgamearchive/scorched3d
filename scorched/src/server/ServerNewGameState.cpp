@@ -82,9 +82,14 @@ void ServerNewGameState::enterState(const unsigned state)
 	EconomyStore::instance()->getEconomy()->calculatePrices();
 	EconomyStore::instance()->getEconomy()->savePrices();
 
-	// Make sure the most uptodate options have been used
-	bool optionsChanged = 
-		ScorchedServer::instance()->getOptionsGame().commitChanges();
+	// Make sure the most up-to-date options are used and sent to the client
+	bool sendGameState = (ScorchedServer::instance()->getContext().
+		optionsTransient->getCurrentRoundNo() == 0);
+	if (ScorchedServer::instance()->getOptionsGame().commitChanges())
+	{
+		sendGameState = true;
+		ServerCommon::sendString(0, "Game options have been changed!");
+	}		
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient->newGame();
@@ -139,7 +144,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	calculateStartPosition(ScorchedServer::instance()->getContext());
 
 	// Add pending tanks (all tanks should be pending) into the game
-	addTanksToGame(state, optionsChanged);
+	addTanksToGame(state, sendGameState);
 
 	// Create the player order for this game
 	TurnController::instance()->newGame();
@@ -187,7 +192,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	if (addState)
 	{
 		// Tell client(s) of game settings changes
-		ServerCommon::sendString(0, "Game options have been changed!");
 		newGameMessage.addGameState(); 
 	}
 

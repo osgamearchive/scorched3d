@@ -432,7 +432,6 @@ public:
 
 	// Options that can be changed on the fly
 	OptionsGame &getChangedOptions() { return changedOptions_; }
-	OptionsGame &getChangedOptionsEntry() { return changedOptions_; }
 	void updateChangeSet();
 	bool commitChanges();
 

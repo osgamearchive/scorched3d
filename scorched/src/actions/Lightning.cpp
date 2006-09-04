@@ -301,7 +301,8 @@ void Lightning::damageTargets(Vector &position,
 		{
 			float distance = (target->getTargetPosition() -
 				position).Magnitude();
-			if (distance < weapon_->getSegHurtRadius())
+			if (distance < weapon_->getSegHurtRadius() + 
+				MAX(target->getLife().getSize()[0], target->getLife().getSize()[1]))
 			{
 				std::map<Target *, float>::iterator findItor = 
 					hurtMap.find(target);
