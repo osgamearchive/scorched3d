@@ -102,12 +102,18 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 	float &angleXYDegs, float &angleYZDegs, float &power,
 	bool checkIntersection)
 {
+	// Calculate power
+	power = 1000.0f;
+
 	// Calculate direction
 	Vector direction = shootAt - position;
 	float angleXYRads = atan2f(direction[1], direction[0]);
 	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+
 	float distance2D = sqrtf(direction[0] * direction[0] + 
 		direction[1] * direction[1]);
+	float angleYZRads = atan2f(distance2D, direction[2]);
+	angleYZDegs = 90.0f - ((angleYZRads / 3.14f) * 180.0f);	
 
 	// Special case
 	// If we are less than a certain distance and under the position we
@@ -115,10 +121,6 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2])) ||
 		(distForSniper == -1.0f);
 	if (!useSniper) return false;
-
-	power = 1000.0f;
-	float angleYZRads = atan2f(distance2D, direction[2]);
-	angleYZDegs = 90.0f - ((angleYZRads / 3.14f) * 180.0f);
 
 	// If we check intersection
 	if (checkIntersection)

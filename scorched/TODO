@@ -32,6 +32,8 @@ Fixed: Tanks cannot use fuel to move too close to the landscape borders
 Fixed: Added money, kills etc back to the server score display
 Fixed: Tanks now loose score for self and team kills
 Fixed: Textures are now checked for OpenGL size correctness
+Fixed: WeaponAimedUnder should now be able to aim downwards
+Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
 
 Added: Support for more than one type of parachutes
 Added: slowforce attribute to parachutes to allow slower falling

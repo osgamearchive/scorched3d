@@ -29,7 +29,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponAimedUnder);
 
-WeaponAimedUnder::WeaponAimedUnder() : warHeads_(0)
+WeaponAimedUnder::WeaponAimedUnder() : warHeads_(0), moveUnderground_(true)
 {
 
 }
@@ -68,6 +68,9 @@ bool WeaponAimedUnder::parseXML(OptionsGame &context,
 	// Get the accessory percentage miss chance
 	if (!accessoryNode->getNamedChild("inaccuracy", maxInacuracy_)) return false;
 
+	// Get optional moveunderground attribute
+	accessoryNode->getNamedChild("moveunderground", moveUnderground_, false);
+
 	return true;
 }
 
@@ -77,12 +80,15 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
-	float height = context.landscapeMaps->getGroundMaps().
-		getInterpHeight(position[0], position[1]);
-	if (position[2] < height + 1.0f)
+	if (moveUnderground_)
 	{
-		position[2] = context.landscapeMaps->getGroundMaps().
-			getInterpHeight(position[0], position[1]) / 2.0f;
+		float height = context.landscapeMaps->getGroundMaps().
+			getInterpHeight(position[0], position[1]);
+		if (position[2] < height + 1.0f)
+		{
+			position[2] = context.landscapeMaps->getGroundMaps().
+				getInterpHeight(position[0], position[1]) / 2.0f;
+		}
 	}
 
 	// Get all of the distances of the tanks less than 50 away

@@ -45,6 +45,7 @@ protected:
 	float maxAimedDistance_;
 	float percentageMissChance_;
 	float maxInacuracy_;
+	bool moveUnderground_;
 
 };
 
