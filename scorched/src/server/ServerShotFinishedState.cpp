@@ -282,7 +282,7 @@ void ServerShotFinishedState::scoreOverallWinner()
 		}
 		
 		TankSort::getSortedTanks(sortedTanks, ScorchedServer::instance()->getContext());
-		if (sortedTanks.size())
+		if (!sortedTanks.empty())
 		{
 			Tank *topScore = *(sortedTanks.begin());
 
