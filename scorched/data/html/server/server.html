@@ -1,0 +1,19 @@
+#include header.html 
+
+#include menu.html
+
+<table align="center" border="0">
+	<tr>
+		<td align="center">Current Server State : [[STATE]]</td>
+	</tr>
+	<tr>
+		<td align="center">
+		<form method="post">
+			<input type="hidden" name="sid" value="[[sid]]"> 
+			<input type="submit" name="action" value="Stop Server"> 
+		</form>
+		</td>
+	</tr>
+</table>
+
+#include footer.html

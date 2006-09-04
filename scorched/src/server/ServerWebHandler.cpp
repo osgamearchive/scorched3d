@@ -24,11 +24,13 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerTextHandler.h>
+#include <server/ServerState.h>
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <common/StatsLogger.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
@@ -78,6 +80,20 @@ static std::string getFile(const char *filename)
 	return file;
 }
 
+static std::string concatLines(std::list<std::string> &lines)
+{
+	std::string result;
+	std::list<std::string>::iterator itor;
+	for (itor = lines.begin();
+		itor != lines.end();
+		itor++)
+	{
+		result.append(*itor).append("<br>");
+
+	}
+	return result;
+}
+
 bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
@@ -109,6 +125,10 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				{
 					tank->getState().setMuted(false);
 				}
+				else if (0 == strcmp(action, "Flag"))
+				{
+					ServerCommon::banPlayer(tank->getPlayerId(), ServerBanned::Flagged);
+				}
 				else if (0 == strcmp(action, "Poor"))
 				{
 					ServerCommon::poorPlayer(tank->getPlayerId());
@@ -128,6 +148,20 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				else if (0 == strcmp(action, "Slap"))
 				{
 					ServerCommon::slapPlayer(tank->getPlayerId(), 25.0f);
+				}
+				else if (0 == strcmp(action, "ShowAliases"))
+				{
+					std::list<std::string> aliases =
+						StatsLogger::instance()->getAliases(tank);
+					fields["MESSAGE"] = concatLines(aliases);
+					return ServerWebServer::getHtmlTemplate("message.html", fields, text);
+				}
+				else if (0 == strcmp(action, "ShowIPAliases"))
+				{
+					std::list<std::string> aliases =
+						StatsLogger::instance()->getIpAliases(tank);
+					fields["MESSAGE"] = concatLines(aliases);
+					return ServerWebServer::getHtmlTemplate("message.html", fields, text);
 				}
 				else
 				{
@@ -337,6 +371,26 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 	return ServerWebServer::getHtmlTemplate("game.html", fields, text);
 }
 
+bool ServerWebHandler::ServerHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	// Check for any action
+	const char *action = getField(fields, "action");
+	if (action)
+	{
+		if (0 == strcmp(action, "Stop Server"))
+		{
+			exit(0);
+		}
+	}
+
+	unsigned int state = ScorchedServer::instance()->getGameState().getState();
+	fields["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
+
+	return ServerWebServer::getHtmlTemplate("server.html", fields, text);
+}
+
 bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
@@ -445,12 +499,20 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 					entry->getName(),
 					entry->getValueAsString());
 			}
+			
+			bool different = (0 != strcmp(entry->getValueAsString(), 
+				entry->getDefaultValueAsString()));
+			std::string desc = entry->getDescription();
+			desc.append("<br>Default value : ");
+			if (different) desc.append("<b>");
+			desc.append(entry->getDefaultValueAsString());
+			if (different) desc.append("</b>");
 
 			settings += formatString("<tr><td>%s</td>"
 				"<td><font size=-1>%s</font></td>"
 				"<td>%s</td></tr>\n",
 				entry->getName(),
-				entry->getDescription(),
+				desc.c_str(),
 				value.c_str());
 		}
 	}

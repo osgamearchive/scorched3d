@@ -58,6 +58,14 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
+	class ServerHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
 	class SettingsHandler : public ServerWebServerI
 	{
 	public:

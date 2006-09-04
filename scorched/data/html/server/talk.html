@@ -2,8 +2,12 @@
 
 #include menu.html
 
-<CENTER><B>Talk</B></CENTER>
-<table align="center" border="1" CELLPADDING="0">
+
+<table align=center border=0>
+<tr><td align=center>Talk</td></tr>
+<tr><td>
+
+<table width="760" align="center" border="1" CELLPADDING="0">
 	<tr>
 		<td colspan="2">
 			<font size=-1>
@@ -35,8 +39,9 @@
 		        <input type="hidden" name="sid" value="[[sid]]">
 			<input type="hidden" name="RefreshRate" value="[[RefreshRate]]">
 			<input type="submit" value="Refresh">
-		</form></td>
-		<td align ="left" colspan="1">
+		</form>
+		</td>
+		<td align="right" colspan="1">
 		<form method="post">
 		        <input type="hidden" name="sid" value="[[sid]]">
 				<SELECT name="RefreshRate">
@@ -47,6 +52,9 @@
 			</SELECT>
 			<input type="submit" value="Set">
 		</form>
+</table>
+
+</td></tr>
 </table>
 
 #include footer.html

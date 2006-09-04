@@ -50,6 +50,7 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
 	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
+	addRequestHandler("/server", new ServerWebHandler::ServerHandler());
 	addRequestHandler("/settings", new ServerWebHandler::SettingsHandler());
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());

@@ -93,4 +93,6 @@ void ServerAuthHandlerMinKills::setup()
 		Logger::log(formatString("Failed to parse %s settings file.", fileName));
 		return;
 	}
+	Logger::log(formatString("ServerAuthHandlerMinKills : minkills=%i, maxkills=%i",
+		minKills_, maxKills_));
 }

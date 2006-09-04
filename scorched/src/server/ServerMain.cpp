@@ -78,6 +78,9 @@ void checkSettings()
 		dialogExit("ScorchedServer",
 			"Cannot start a game with more teams than minimum players");
 	}*/
+
+	ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
+		ScorchedServer::instance()->getOptionsGame());
 	
 	if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() == 
 		OptionsGame::TeamBallanceBotsVs &&
@@ -90,8 +93,6 @@ void checkSettings()
 
 bool startServer(bool local, ProgressCounter *counter)
 {
-	checkSettings();
-
 	// Setup the message handling classes
 	if (!local)
 	{
@@ -152,6 +153,8 @@ bool startServer(bool local, ProgressCounter *counter)
 	// Start the state machine
 	ServerState::setupStates(ScorchedServer::instance()->getGameState());
 	EconomyStore::instance();
+
+	checkSettings();
 
 	return true;
 }

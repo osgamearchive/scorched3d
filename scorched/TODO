@@ -35,6 +35,9 @@ Fixed: Textures are now checked for OpenGL size correctness
 Fixed: WeaponAimedUnder should now be able to aim downwards
 Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
 
+Added: Flag, ShowAliases and ShowIPAliases to admin web interface
+Added: Server state can be viewed in the admin web interface
+Added: Default settings are now displayed in the admin web interface
 Added: Support for more than one type of parachutes
 Added: slowforce attribute to parachutes to allow slower falling
 Added: Frame limiter to allow the game's FPS to be limited saving CPU
