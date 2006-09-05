@@ -302,11 +302,18 @@ void TankDamage::calculateDamage()
 				TankFalling::fallingTanks.find(damagedPlayerId_);
 			if (findItor == TankFalling::fallingTanks.end())
 			{
+				Parachute *parachute = 0;
+				Accessory *paraAccessory = 
+					damagedTarget->getParachute().getCurrentParachute();
+				if (paraAccessory)
+				{
+					parachute = (Parachute *) paraAccessory->getAction();
+				}
+
 				// Tank falling
 				context_->actionController->addAction(
 					new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
-						(damagedTarget->getParachute().getCurrentParachute() != 0),
-						data_));
+						parachute, data_));
 			}
 		}
 	}

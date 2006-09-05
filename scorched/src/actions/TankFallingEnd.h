@@ -25,6 +25,7 @@
 #include <engine/ScorchedCollisionIds.h>
 #include <weapons/Weapon.h>
 
+class Parachute;
 class TankFallingEnd : public ActionMeta
 {
 public:
@@ -34,7 +35,7 @@ public:
 		Vector &endPosition,
 		unsigned int fallingPlayerId,
 		unsigned int firedPlayerId,
-		bool parachutes,
+		Parachute *parachute,
 		unsigned int data);
 	virtual ~TankFallingEnd();
 
@@ -50,7 +51,7 @@ protected:
 	unsigned int fallingPlayerId_;
 	unsigned int firedPlayerId_;
 	unsigned int data_;
-	bool parachutes_;
+	Parachute *parachute_;
 	Vector startPosition_, endPosition_;
 };
 

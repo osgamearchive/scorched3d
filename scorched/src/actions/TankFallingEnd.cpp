@@ -22,6 +22,7 @@
 #include <actions/TankFalling.h>
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/Parachute.h>
 #include <landscape/DeformLandscape.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
@@ -32,7 +33,7 @@ REGISTER_ACTION_SOURCE(TankFallingEnd);
 TankFallingEnd::TankFallingEnd() :
 	weapon_(0),
 	fallingPlayerId_(0), firedPlayerId_(0),
-	parachutes_(false)
+	parachute_(0)
 {
 }
 
@@ -41,14 +42,14 @@ TankFallingEnd::TankFallingEnd(Weapon *weapon,
 	Vector &endPosition,
 	unsigned int fallingPlayerId,
 	unsigned int firedPlayerId,
-	bool parachutes,
+	Parachute *parachute,
 	unsigned int data) :
 	weapon_(weapon),
 	startPosition_(startPosition),
 	endPosition_(endPosition),
 	fallingPlayerId_(fallingPlayerId),
 	firedPlayerId_(firedPlayerId),
-	parachutes_(parachutes),
+	parachute_(parachute),
 	data_(data)
 {
 }
@@ -80,7 +81,7 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 			damage = 0.0f;
 		}
 		else
-		if (parachutes_)
+		if (parachute_)
 		{
 			const float ParachuteThreshold = 0.0f;
 			if (dist >= ParachuteThreshold)
@@ -89,14 +90,11 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 				damage = 0.0f;
 
 				// Remove parachutes if we have one
-				if (!current->isTarget() && 
-					current->getParachute().getCurrentParachute())
+				if (!current->isTarget())
 				{
 					Tank *currentTank = (Tank *) current;
-					currentTank->getAccessories().rm(
-						current->getParachute().getCurrentParachute());
-					if (currentTank->getAccessories().getAccessoryCount(
-						current->getParachute().getCurrentParachute()) == 0)
+					currentTank->getAccessories().rm(parachute_->getParent());
+					if (currentTank->getAccessories().getAccessoryCount(parachute_->getParent()) == 0)
 					{
 						current->getParachute().setCurrentParachute(0);
 					}
@@ -131,8 +129,8 @@ bool TankFallingEnd::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(endPosition_);
 	buffer.addToBuffer(fallingPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
-	buffer.addToBuffer(parachutes_);
 	buffer.addToBuffer(data_);
+	context_->accessoryStore->writeAccessoryPart(buffer, parachute_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
@@ -143,8 +141,8 @@ bool TankFallingEnd::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(endPosition_)) return false;
 	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
-	if (!reader.getFromBuffer(parachutes_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
+	parachute_ = (Parachute *) context_->accessoryStore->readAccessoryPart(reader);
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }

@@ -59,11 +59,11 @@ TankFalling::TankFalling() : remove_(false)
 
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 				   unsigned int firedPlayerId,
-				   bool parachutes,
+				   Parachute *parachute,
 				   unsigned int data) :
 	weapon_(weapon), remove_(false),
 	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId),
-	data_(data), parachutes_(parachutes)
+	data_(data), parachute_(parachute)
 {
 }
 
@@ -165,7 +165,7 @@ bool TankFalling::writeAction(NetBuffer &buffer)
 	buffer.addToBuffer(fallingPlayerId_);
 	buffer.addToBuffer(firedPlayerId_);
 	buffer.addToBuffer(data_);
-	buffer.addToBuffer(parachutes_);
+	context_->accessoryStore->writeAccessoryPart(buffer, parachute_);
 	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	return true;
 }
@@ -175,21 +175,15 @@ bool TankFalling::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
 	if (!reader.getFromBuffer(firedPlayerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-	if (!reader.getFromBuffer(parachutes_)) return false;
+	parachute_ = (Parachute *) context_->accessoryStore->readAccessoryPart(reader);
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	return true;
 }
 
 void TankFalling::applyForce()
 {
-	if (!parachutes_) return;
-
-	Accessory *accessory = 
-		context_->accessoryStore->findByAccessoryType(AccessoryPart::AccessoryParachute);
-	if (!accessory) return;
-
-	Parachute *parachute = (Parachute *) accessory->getAction();
-	Vector force = parachute->getSlowForce();
+	if (!parachute_) return;
+	Vector force = parachute_->getSlowForce();
 
 	std::list<TankFallingParticle *>::iterator itor;
 	for (itor = particles_.begin();
@@ -261,6 +255,6 @@ void TankFalling::collision()
 	// Say we have ended
 	TankFallingEnd *end = new TankFallingEnd(
 		weapon_, tankStartPosition_, position,
-		fallingPlayerId_, firedPlayerId_, parachutes_, data_);
+		fallingPlayerId_, firedPlayerId_, parachute_, data_);
 	context_->actionController->addAction(end);
 }

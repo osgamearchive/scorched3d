@@ -344,16 +344,13 @@ void AccessoryStore::clearAccessories()
 
 bool AccessoryStore::writeWeapon(NetBuffer &buffer, Weapon *weapon)
 {
-	buffer.addToBuffer(weapon->getAccessoryPartId());
-	return true;
+	return writeAccessoryPart(buffer, weapon);
 }
 
 Weapon *AccessoryStore::readWeapon(NetBufferReader &reader)
 {
-	unsigned int weaponId;
-	if (!reader.getFromBuffer(weaponId)) return 0;
-	AccessoryPart *accessoryPart = findByAccessoryPartId(weaponId);
-	if (accessoryPart->getAccessoryPartId() == weaponId &&
+	AccessoryPart *accessoryPart = readAccessoryPart(reader);
+	if (accessoryPart &&
 		accessoryPart->getType() == AccessoryPart::AccessoryWeapon)
 	{
 		return ((Weapon *) accessoryPart);
@@ -363,7 +360,8 @@ Weapon *AccessoryStore::readWeapon(NetBufferReader &reader)
 
 bool AccessoryStore::writeAccessoryPart(NetBuffer &buffer, AccessoryPart *part)
 {
-	buffer.addToBuffer(part->getAccessoryPartId());
+	if (part) buffer.addToBuffer(part->getAccessoryPartId());
+	else buffer.addToBuffer((unsigned int) 0);
 	return true;
 }
 
@@ -372,7 +370,8 @@ AccessoryPart *AccessoryStore::readAccessoryPart(NetBufferReader &reader)
 	unsigned int partId;
 	if (!reader.getFromBuffer(partId)) return 0;
 	AccessoryPart *accessoryPart = findByAccessoryPartId(partId);
-	if (accessoryPart->getAccessoryPartId() == partId)
+	if (accessoryPart &&
+		accessoryPart->getAccessoryPartId() == partId)
 	{
 		return accessoryPart;
 	}

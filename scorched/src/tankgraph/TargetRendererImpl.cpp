@@ -234,7 +234,7 @@ void TargetRendererImpl::drawParachute(Target *target)
 	}
 
 	// Check this tank has parachutes
-	if (!(*findItor).second->getParachutes())
+	if (!(*findItor).second->getParachute())
 	{
 		return;
 	}
