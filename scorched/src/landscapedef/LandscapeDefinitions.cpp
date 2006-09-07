@@ -220,6 +220,25 @@ const char *LandscapeDefinitions::getLeastUsedFile(std::vector<std::string> &fil
 	return result;
 }
 
+void LandscapeDefinitions::checkEnabled(OptionsGame &context)
+{
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
+	for (itor = entries_.begin();
+		itor != entries_.end();
+		itor++)
+	{
+		LandscapeDefinitionsEntry &result = *itor;
+		if (landscapeEnabled(context, result.name.c_str()))
+		{
+			return;
+		}
+	}
+
+	dialogExit("Scorched3D", formatString(
+		"No existing landscapes are enabled (Landscapes : %s)",
+		context.getLandscapes()));
+}
+
 LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	OptionsGame &context)
 {
@@ -240,12 +259,7 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	}
 
 	// Check we have a least one map
-	if (passedLandscapes.empty())
-	{
-		dialogExit("Scorched3D", formatString(
-			"No existing landscapes are enabled (Landscapes : %s)",
-			context.getLandscapes()));
-	}
+	DIALOG_ASSERT(!passedLandscapes.empty());
 
 	// Map cycle mode
 	LandscapeDefinitionsEntry *result = 0;

@@ -38,7 +38,6 @@ public:
 	const char *getDescription();
 	float getLife() { return life_; }
 	float getPower() { return power_; }
-	bool getMovementSmoke() { return movementSmoke_; }
 
 	std::map<Accessory *, int> &getAccessories() { return accessories_; }
 	bool getAccessoryDisabled(Accessory *accessory);
@@ -51,7 +50,6 @@ protected:
 	std::set<Accessory *> disabledAccessories_;
 	float life_;
 	float power_;
-	bool movementSmoke_;
 };
 
 #endif // __INCLUDE_TankTypeh_INCLUDE__

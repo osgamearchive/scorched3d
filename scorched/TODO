@@ -35,6 +35,7 @@ Fixed: Textures are now checked for OpenGL size correctness
 Fixed: WeaponAimedUnder should now be able to aim downwards
 Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
 
+Added: Tank tracks during movement (tracks defined in tanks.xml)
 Added: Flag, ShowAliases and ShowIPAliases to admin web interface
 Added: Server state can be viewed in the admin web interface
 Added: Default settings are now displayed in the admin web interface
@@ -44,7 +45,7 @@ Added: Frame limiter to allow the game's FPS to be limited saving CPU
 Added: Tooltips for the column headings on the score dialog
 Added: WeaponTankPosition to allow sub-weapons to be centered on the firing tank
 Added: WeaponTankVelocity to allow sub-weapons to be fired with the original power
-Added: Movement smoke to tanks when they move (can be turned off via the tanktype)
+Added: Movement smoke to tanks when they move (can be turned off in tanks.xml)
 Added: Simulation to models (performance issue?)
 Added: weight attribute to the ObjectRandom placement type
 Added: none placement object type

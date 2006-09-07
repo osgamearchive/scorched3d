@@ -70,29 +70,23 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 	ScorchedContext &context,
 	Vector &position, Vector &size)
 {
-	float shadowMultWidth = (float) Landscape::instance()->getMainMap().getWidth() / 
-		context.landscapeMaps->getGroundMaps().getMapWidth();
-	float shadowMultHeight = (float) Landscape::instance()->getMainMap().getHeight() / 
-		context.landscapeMaps->getGroundMaps().getMapHeight();
-
 	if (groundMap_.imageValid())
 	{
 		GLImage *image = ImageStore::instance()->loadImage(groundMap_);
-		GLBitmapModifier::addBitmap(
-			Landscape::instance()->getMainMap(),
+		GLBitmapModifier::addBitmapToLandscape(
+			context,
 			*image,
-			position[0] * shadowMultWidth, 
-			position[1] * shadowMultHeight,
-			shadowMultWidth / 4.0f,
-			shadowMultHeight / 4.0f);
+			position[0], 
+			position[1],
+			0.25f, 0.25f);
 	}
 
 	if (drawShadow_)
 	{
-		GLBitmapModifier::addCircle(
-			Landscape::instance()->getMainMap(),
-			position[0] * shadowMultWidth, 
-			position[1] * shadowMultHeight, 
-			MAX(size[0], size[1]) * shadowMultWidth, 1.0f);
+		GLBitmapModifier::addCircleToLandscape(
+			context,
+			position[0], 
+			position[1], 
+			MAX(size[0], size[1]), 1.0f);
 	}
 }

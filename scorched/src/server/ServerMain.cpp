@@ -79,7 +79,7 @@ void checkSettings()
 			"Cannot start a game with more teams than minimum players");
 	}*/
 
-	ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
+	ScorchedServer::instance()->getLandscapes().checkEnabled(
 		ScorchedServer::instance()->getOptionsGame());
 	
 	if (ScorchedServer::instance()->getOptionsGame().getTeamBallance() == 

@@ -25,6 +25,7 @@
 #include <landscape/HeightMap.h>
 #include <common/Vector.h>
 
+class ScorchedContext;
 namespace GLBitmapModifier  
 {
 	bool findIntersection(HeightMap &hMap,
@@ -70,12 +71,21 @@ namespace GLBitmapModifier
 		GLBitmap &input,
 		GLBitmap &mask);
 
+	void addCircleToLandscape(
+		ScorchedContext &context,
+		float sx, float sy, float sw, float opacity);
 	void addCircle(GLBitmap &destBitmap,
 		float sx, float sy, float sw, float opacity);
 
+	void addBitmapToLandscape(
+		ScorchedContext &context,
+		GLImage &srcBitmap,
+		float sx, float sy, float scalex, float scaley, 
+		bool commit = false);
 	void addBitmap(GLBitmap &destBitmap,
 		GLImage &srcBitmap,
-		float sx, float sy, float scalex, float scaley);
+		float sx, float sy, float scalex, float scaley, 
+		bool commit);
 
 	void scalePlanBitmap(GLBitmap &destBitmap,
 		GLBitmap &srcBitmap,

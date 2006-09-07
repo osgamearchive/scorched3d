@@ -76,78 +76,21 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 			return currentNode->returnError("Failed to tank node");
 		}
 
-		// Get the name of tank
-		XMLNode *nameNode;
-		if (!currentNode->getNamedChild("name", nameNode)) return false;
-		const char *modelName = nameNode->getContent();
-
-		// Get the tank type (if any)
-		std::string tankType = "none";
-		currentNode->getNamedChild("type", tankType, false);
-		TankType *type = types_.getType(tankType.c_str());
-		if (!type)
+		TankModel *model = new TankModel();
+		if (!model->initFromXML(context, currentNode))
 		{
-			return currentNode->returnError(
-				formatString(
-				"Failed to find tank type \"%s\" for tank \"%s\"",
-				tankType.c_str(),
-				modelName));
+			return currentNode->returnError("Failed to parse tank node");;
 		}
 
-		// Get the model node
-		XMLNode *modelNode;
-		if (!currentNode->getNamedChild("model", modelNode)) return false;
-
-		// Parse the modelId which tells us which files and
-		// 3d type the model actuall is
-		// The model files are not parsed until later
-		ModelID modelId;
-		if (!modelId.initFromNode("data/tanks", modelNode))
+		// Add catagories to list of all catagories
+		std::set<std::string> &catagories = model->getCatagories();
+		std::set<std::string>::iterator catitor;
+		for (catitor = catagories.begin();
+			catitor != catagories.end();
+			catitor++)
 		{
-			return modelNode->returnError(
-				formatString("Failed to load mesh for tank \"%s\"",
-				modelName));
+			modelCatagories_.insert((*catitor).c_str());
 		}
-
-		// Create the tank model
-		TankModel *model = new TankModel(modelName, modelId, type->getName());
-
-		// Get the projectile model node (if any)
-		XMLNode *projectileModelNode;
-		if (currentNode->getNamedChild("projectilemodel", projectileModelNode, false))
-		{
-			ModelID projModelId;
-			if (!projModelId.initFromNode("data/accessories", projectileModelNode))
-			{
-				return projectileModelNode->returnError(
-					formatString("Failed to load projectile mesh for tank \"%s\"",
-					modelName));
-			}
-			model->getProjectileModelID() = projModelId;
-		}
-
-		// Read all of the tank display catagories
-		std::string catagory;
-		while (currentNode->getNamedChild("catagory", catagory, false))
-		{
-			model->addCatagory(catagory.c_str());
-			modelCatagories_.insert(catagory.c_str());
-		}
-
-		// Read all of the tank team catagories
-		int team;
-		while (currentNode->getNamedChild("team", team, false))
-		{
-			model->addTeam(team);
-		}
-
-		// Read aionly attribute
-		bool aiOnly = false;
-		currentNode->getNamedChild("aionly", aiOnly, false);
-		model->setAiOnly(aiOnly);
-
-		// Check there are no more nodes in this node
-		if (!currentNode->failChildren()) return false;
 
 		// Add this model to the store
 		models_.push_back(model);

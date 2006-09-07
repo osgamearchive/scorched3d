@@ -22,19 +22,21 @@
 #define __INCLUDE_TankModelh_INCLUDE__
 
 #include <3dsparse/ModelID.h>
+#include <3dsparse/ImageID.h>
 #include <common/Vector.h>
 #include <set>
 #include <string>
 
+class ScorchedContext;
 class TankMesh;
 class TankType;
 class TankModel
 {
 public:
-	TankModel(const char *tankName, 
-		ModelID &modelId, 
-		const char *typeName);
+	TankModel();
 	virtual ~TankModel();
+
+	bool initFromXML(ScorchedContext &context, XMLNode *node);
 
 	virtual void draw(bool drawS, float angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ, 
@@ -48,29 +50,37 @@ public:
 	const char *getTypeName() { return typeName_.c_str(); }
 	ModelID &getTankModelID() { return modelId_; }
 	ModelID &getProjectileModelID() { return projectileModelId_; }
+	ImageID &getTracksVId() { return tracksVId_; }
+	ImageID &getTracksHId() { return tracksHId_; }
+	ImageID &getTracksVHId() { return tracksVHId_; }
+	ImageID &getTracksHVId() { return tracksHVId_; }
 	TankMesh *getTankMesh() { return tankMesh_; }
-
-	void setAiOnly(bool aiOnly) { aiOnly_ = aiOnly; }
+	std::set<std::string> &getCatagories() { return catagories_; }
 	bool getAiOnly() { return aiOnly_; }
+	bool getMovementSmoke() { return movementSmoke_; }
+
 	bool isOfAi(bool ai);
-
 	bool isOfCatagory(const char *catagory);
-	void addCatagory(const char *catagory);
-
-	void addTeam(int team);
 	bool isOfTeam(int team);
 
 protected:
 	bool init_;
 	bool aiOnly_;
+	bool movementSmoke_;
 	std::string tankName_;
 	std::string typeName_;
 	ModelID modelId_;
 	ModelID projectileModelId_;
+	ImageID tracksVId_;
+	ImageID tracksHId_;
+	ImageID tracksVHId_;
+	ImageID tracksHVId_;
 	TankMesh *tankMesh_;
 	std::set<std::string> catagories_;
 	std::set<int> teams_;
 
+	bool loadImage(XMLNode *node, const char *nodeName, 
+		ImageID &image, const char *backupImage);
 };
 
 #endif

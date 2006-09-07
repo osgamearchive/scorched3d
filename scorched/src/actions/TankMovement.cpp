@@ -33,6 +33,8 @@
 #include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
 #include <tankgraph/TankModelStore.h>
+#include <3dsparse/ImageStore.h>
+#include <GLEXT/GLBitmapModifier.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
@@ -45,7 +47,7 @@ REGISTER_ACTION_SOURCE(TankMovement);
 TankMovement::TankMovement() : 
 	timePassed_(0.0f), vPoint_(0), fuel_(0),
 	remove_(false), moving_(true), moveSoundSource_(0),
-	smokeCounter_(0.1f, 0.1f)
+	smokeCounter_(0.1f, 0.1f), stepCount_(0)
 {
 }
 
@@ -56,7 +58,7 @@ TankMovement::TankMovement(unsigned int playerId,
 	positionX_(positionX), positionY_(positionY),
 	timePassed_(0.0f), vPoint_(0), fuel_(fuel),
 	remove_(false), moving_(true), moveSoundSource_(0),
-	smokeCounter_(0.1f, 0.1f)
+	smokeCounter_(0.1f, 0.1f), stepCount_(0)
 {
 }
 
@@ -207,9 +209,11 @@ void TankMovement::simulationMove(float frameTime)
 				if (!context_->serverMode)
 				{
 					// Check if this tank type allows smoke trails
-					TankType *type = context_->tankModelStore->getTypeByName(
-						tank->getModelContainer().getTankTypeName());
-					if (type->getMovementSmoke())
+					TankModel *model = context_->tankModelStore->getModelByName(
+						tank->getModelContainer().getTankModelName(),
+						tank->getTeam(),
+						(tank->getDestinationId() == 0));
+					if (model && model->getMovementSmoke())
 					{
 						if (smokeCounter_.nextDraw(frameTime))
 						{
@@ -259,10 +263,13 @@ void TankMovement::moveTank(Tank *tank)
 	float a = expandedPositions_.front().ang;
 	bool useF = expandedPositions_.front().useFuel;
 
-	float firstz = context_->landscapeMaps->getGroundMaps().getHeight(
-		expandedPositions_.front().firstX, expandedPositions_.front().firstY);
-	float secondz = context_->landscapeMaps->getGroundMaps().getHeight(
-		expandedPositions_.front().secondX, expandedPositions_.front().secondY);
+	int firstx = expandedPositions_.front().firstX;
+	int firsty = expandedPositions_.front().firstY;
+	float firstz = context_->landscapeMaps->getGroundMaps().getHeight(firstx, firsty);
+
+	int secondx = expandedPositions_.front().secondX;
+	int secondy = expandedPositions_.front().secondY;
+	float secondz = context_->landscapeMaps->getGroundMaps().getHeight(secondx, secondy);
 	float z = context_->landscapeMaps->getGroundMaps().getInterpHeight(x, y);
 	expandedPositions_.pop_front();
 
@@ -319,6 +326,51 @@ void TankMovement::moveTank(Tank *tank)
 	// Actually move the tank
 	tank->getLife().setRotation(a);
 	tank->setTargetPosition(newPos);
+
+	// Add tracks
+	if (!context_->serverMode)
+	{
+		stepCount_++;
+		if (stepCount_ % 5 == 0)
+		{
+			TankModel *model = context_->tankModelStore->getModelByName(
+				tank->getModelContainer().getTankModelName(),
+				tank->getTeam(),
+				(tank->getDestinationId() == 0));
+			if (model)
+			{
+				GLImage *image = 0;
+				if (firstx == secondx)
+				{
+					image = ImageStore::instance()->
+						loadImage(model->getTracksVId());
+				}
+				else if (firsty == secondy)
+				{
+					image = ImageStore::instance()->
+						loadImage(model->getTracksHId());
+				}
+				else if (firsty - secondy == firstx - secondx)
+				{
+					image = ImageStore::instance()->
+						loadImage(model->getTracksVHId());
+				}
+				else 
+				{
+					image = ImageStore::instance()->
+						loadImage(model->getTracksHVId());
+				}
+
+				GLBitmapModifier::addBitmapToLandscape(
+					*context_,
+					*image,
+					newPos[0], 
+					newPos[1],
+					0.04f, 0.04f,
+					true);
+			}
+		}
+	}
 
 	// Set viewpoints
 	if (vPoint_) vPoint_->setPosition(newPos);

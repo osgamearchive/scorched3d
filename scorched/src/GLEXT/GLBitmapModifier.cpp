@@ -22,6 +22,9 @@
 #include <math.h>
 #include <GLEXT/GLBitmapItterator.h>
 #include <GLEXT/GLBitmapModifier.h>
+#include <engine/ScorchedContext.h>
+#include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
 #include <common/Defines.h>
 
 bool GLBitmapModifier::findIntersection(HeightMap &hMap,
@@ -556,6 +559,20 @@ void GLBitmapModifier::makeBitmapTransparent(GLBitmap &output,
 	}
 }
 
+void GLBitmapModifier::addCircleToLandscape(
+	ScorchedContext &context,
+	float sx, float sy, float sw, float opacity)
+{
+	float shadowMultWidth = (float) Landscape::instance()->getMainMap().getWidth() / 
+		context.landscapeMaps->getGroundMaps().getMapWidth();
+	float shadowMultHeight = (float) Landscape::instance()->getMainMap().getHeight() / 
+		context.landscapeMaps->getGroundMaps().getMapHeight();
+
+	addCircle(Landscape::instance()->getMainMap(),
+		sx * shadowMultWidth, sy * shadowMultHeight, 
+		sw * shadowMultWidth, opacity);
+}
+
 void GLBitmapModifier::addCircle(GLBitmap &destBitmap, 
 								 float sx, float sy, float sw, float opacity)
 {
@@ -604,9 +621,32 @@ void GLBitmapModifier::addCircle(GLBitmap &destBitmap,
 	}
 }
 
+
+void GLBitmapModifier::addBitmapToLandscape(
+	ScorchedContext &context,
+	GLImage &srcBitmap,
+	float sx, float sy, float scalex, float scaley, 
+	bool commit)
+{
+	float shadowMultWidth = (float) Landscape::instance()->getMainMap().getWidth() / 
+		context.landscapeMaps->getGroundMaps().getMapWidth();
+	float shadowMultHeight = (float) Landscape::instance()->getMainMap().getHeight() / 
+		context.landscapeMaps->getGroundMaps().getMapHeight();
+
+	addBitmap(
+		Landscape::instance()->getMainMap(),
+		srcBitmap,
+		sx * shadowMultWidth, 
+		sy * shadowMultHeight,
+		shadowMultWidth * scalex,
+		shadowMultHeight * scaley,
+		commit);
+}
+
 void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 	GLImage &srcBitmap,
-	float sx, float sy, float scalex, float scaley)
+	float sx, float sy, float scalex, float scaley, 
+	bool commit)
 {
 	int srcScaleWidth = int(float(srcBitmap.getWidth()) * scalex);
 	int srcScaleHeight = int(float(srcBitmap.getHeight()) * scaley);
@@ -660,6 +700,27 @@ void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 
 			tmpDest += 3;
 		}
+	}
+
+	if (commit)
+	{
+		int landscapeWidth = Landscape::instance()->getMainMap().getWidth();
+		int width = 3 * landscapeWidth;
+		width   = (width + 3) & ~3;	
+
+		GLubyte *bytes = 
+			Landscape::instance()->getMainMap().getBits() + ((width * yStart) + xStart * 3);
+
+		GLState currentState(GLState::TEXTURE_ON);
+		Landscape::instance()->getMainTexture().draw(true);
+
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, landscapeWidth);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 
+						xStart, yStart, 
+						xWidth, yWidth, 
+						GL_RGB, GL_UNSIGNED_BYTE, 
+						bytes);
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 	}
 }
 
