@@ -59,12 +59,12 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 						unsigned int destination)
 {
+	if (destination == 0) return true;
 	if (!ScorchedServer::instance()->getNetInterface().started())
 	{
 		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Client not started");
 		return false;
 	}
-	if (destination == 0) return true;
 
 	NetBufferDefault::defaultBuffer.reset();
 	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
