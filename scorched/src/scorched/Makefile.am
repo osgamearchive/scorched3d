@@ -53,6 +53,9 @@ scorched3d_SOURCES = \
 	../GLEXT/GLMenuEntry.h \
 	../GLEXT/GLMenuI.cpp \
 	../GLEXT/GLMenuI.h \
+	../GLEXT/GLMissingExt.h \
+	../GLEXT/GLShadowFrameBuffer.cpp \
+	../GLEXT/GLShadowFrameBuffer.h \
 	../GLEXT/GLState.cpp \
 	../GLEXT/GLState.h \
 	../GLEXT/GLStateExtension.cpp \
@@ -354,6 +357,8 @@ scorched3d_SOURCES = \
 	../engine/ActionMeta.h \
 	../engine/EventContainer.cpp \
 	../engine/EventContainer.h \
+	../engine/FrameLimiter.cpp \
+	../engine/FrameLimiter.h \
 	../engine/FrameTimer.cpp \
 	../engine/FrameTimer.h \
 	../engine/GameState.cpp \
@@ -442,8 +447,14 @@ scorched3d_SOURCES = \
 	../landscape/LandscapeObjectsSetEntry.h \
 	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapePoints.h \
+	../landscape/LandscapeShadowCamera.cpp \
+	../landscape/LandscapeShadowCamera.h \
+	../landscape/LandscapeShadowHandler.cpp \
+	../landscape/LandscapeShadowHandler.h \
 	../landscape/LandscapeSoundManager.cpp \
 	../landscape/LandscapeSoundManager.h \
+	../landscape/LandscapeStateHandler.cpp \
+	../landscape/LandscapeStateHandler.h \
 	../landscape/MapPoints.cpp \
 	../landscape/MapPoints.h \
 	../landscape/MovementMap.cpp \
@@ -596,6 +607,10 @@ scorched3d_SOURCES = \
 	../weapons/WeaponSkyFlash.h \
 	../weapons/WeaponSound.cpp \
 	../weapons/WeaponSound.h \
+	../weapons/WeaponTankPosition.cpp \
+	../weapons/WeaponTankPosition.h \
+	../weapons/WeaponTankVelocity.cpp \
+	../weapons/WeaponTankVelocity.h \
 	../weapons/WeaponTeleport.cpp \
 	../weapons/WeaponTeleport.h \
 	../weapons/WeaponTranslate.cpp \
@@ -1008,22 +1023,16 @@ scorched3d_SOURCES = \
 	../tank/TankDeadContainer.h \
 	../tank/TankDefinition.cpp \
 	../tank/TankDefinition.h \
-	../tank/TankFuel.cpp \
-	../tank/TankFuel.h \
 	../tank/TankLib.cpp \
 	../tank/TankLib.h \
 	../tank/TankMod.cpp \
 	../tank/TankMod.h \
 	../tank/TankModelContainer.cpp \
 	../tank/TankModelContainer.h \
-	../tank/TankParachutes.cpp \
-	../tank/TankParachutes.h \
 	../tank/TankPosition.cpp \
 	../tank/TankPosition.h \
 	../tank/TankScore.cpp \
 	../tank/TankScore.h \
-	../tank/TankShields.cpp \
-	../tank/TankShields.h \
 	../tank/TankSort.cpp \
 	../tank/TankSort.h \
 	../tank/TankState.cpp \

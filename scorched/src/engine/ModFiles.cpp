@@ -160,13 +160,13 @@ bool ModFiles::loadModDir(const char *modDir, const char *mod, ProgressCounter *
 	// Load all files contained in this directory
 	wxArrayString files;
 	wxDir::GetAllFiles(wxString(modDir, wxConvUTF8), &files);
-	wxString *strings = files.GetStringArray();
 	for (int i=0; i<(int) files.Count(); i++)
 	{
-		if (counter) counter->setNewPercentage(float(i) / float(files.Count()) * 100.0f);
+		if (counter) counter->setNewPercentage(float(i) 
+			/ float(files.Count()) * 100.0f);
 
 		// Get the name of the current file
-		wxString &current = strings[i];
+		wxString &current = files.Item(i);
 
 		// Load the file
 		if (!loadModFile(current.mb_str(wxConvUTF8), modDir, mod))

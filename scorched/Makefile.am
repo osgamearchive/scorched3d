@@ -264,7 +264,8 @@ scorcheddataavatars_DATA = data/avatars/agreement.txt \
 scorcheddatafontsdir = ${datadir}/data/fonts
 scorcheddatafonts_DATA = data/fonts/test.ttf \
 	data/fonts/testout.ttf \
-	data/fonts/veramobd.ttf
+	data/fonts/veramobd.ttf \
+	data/fonts/VERA-COPYRIGHT.TXT
 scorcheddataglobalmodsdir = ${datadir}/data/globalmods
 scorcheddataglobalmods_DATA = data/globalmods/globalmods.txt
 scorcheddataglobalmodsapocdir = ${datadir}/data/globalmods/apoc
