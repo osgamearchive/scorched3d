@@ -354,40 +354,11 @@ TankMenus::AccessoryMenu::AccessoryMenu()
 void TankMenus::AccessoryMenu::menuSelection(const char* menuName, 
 	const int position, GLMenuItem &item)
 {
+	Accessory *accessory = (Accessory *) item.getUserData();
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
-	if (firstTank && tankAI)
+	if (firstTank && accessory)
 	{
-		Accessory *accessory = (Accessory *) item.getUserData();
-		if (accessory)
-		{
-			switch (accessory->getType())
-			{
-			case AccessoryPart::AccessoryParachute:
-				tankAI->parachutesUpDown(
-					(firstTank->getParachute().getCurrentParachute()==accessory)?
-					0:accessory->getAccessoryId());
-				break;
-			case AccessoryPart::AccessoryShield:
-				tankAI->shieldsUpDown(
-					(firstTank->getShield().getCurrentShield()==accessory)?
-					0:accessory->getAccessoryId());
-				break;
-			case AccessoryPart::AccessoryWeapon:
-				firstTank->getAccessories().getWeapons().setWeapon(accessory);
-				break;
-			case AccessoryPart::AccessoryBattery:
-				if (firstTank->getLife().getLife() < 
-					firstTank->getLife().getMaxLife())
-				{
-					tankAI->useBattery(accessory->getAccessoryId());
-				}
-				break;
-			case AccessoryPart::AccessoryAutoDefense:
-				default:
-				break;
-			}
-		}
+		firstTank->getAccessories().activate(accessory);
 	}
 }
 

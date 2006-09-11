@@ -39,6 +39,8 @@ public:
 	void add(Accessory *accessory, int count, bool check = true);
 	void rm(Accessory *accessory, int count = 1);
 
+	void activate(Accessory *accessory);
+
 	bool accessoryAllowed(Accessory *accessory, int count);
 	int getAccessoryCount(Accessory *accessory);
 	void getAllAccessories(std::list<Accessory *> &result, bool sort=false);

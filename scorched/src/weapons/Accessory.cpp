@@ -69,12 +69,6 @@ bool Accessory::parseXML(OptionsGame &context,
 	accessoryNode->getNamedChild("description", description_, false);
 	toolTip_.setText(getName(), getDescription());
 
-	// Get the accessory groupname
-	if (!accessoryNode->getNamedChild("group", groupName_, false))
-	{
-		groupName_ = "weapon";
-	}
-
 	// Get the accessory icon
 	if (accessoryNode->getNamedChild("icon", iconName_, false))
 	{
@@ -151,6 +145,19 @@ bool Accessory::parseXML(OptionsGame &context,
 			return accessoryNode->returnError(formatString(
 				"Unknown accessory position selection type \"%s\"", 
 				positionSelection.c_str()));
+		}
+	}
+
+	// Get the accessory groupname
+	if (!accessoryNode->getNamedChild("group", groupName_, false))
+	{
+		if (accessoryAction_->getType() == AccessoryPart::AccessoryWeapon)
+		{
+			groupName_ = "weapon";
+		}
+		else
+		{
+			groupName_ = "defense";
 		}
 	}
 

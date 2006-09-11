@@ -22,6 +22,7 @@
 #include <tank/TankAccessories.h>
 #include <tank/TankType.h>
 #include <tank/Tank.h>
+#include <tankai/TankAIHuman.h>
 #include <tankgraph/TankModelStore.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsGame.h>
@@ -360,3 +361,37 @@ bool TankAccessories::readMessage(NetBufferReader &reader)
 	return true;
 }
 
+void TankAccessories::activate(Accessory *accessory)
+{
+	DIALOG_ASSERT(!context_.serverMode);
+
+	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
+	if (!tankAI) return;
+
+	switch (accessory->getType())
+	{
+	case AccessoryPart::AccessoryParachute:
+		tankAI->parachutesUpDown(
+			(tank_->getParachute().getCurrentParachute()==accessory)?
+			0:accessory->getAccessoryId());
+		break;
+	case AccessoryPart::AccessoryShield:
+		tankAI->shieldsUpDown(
+			(tank_->getShield().getCurrentShield()==accessory)?
+			0:accessory->getAccessoryId());
+		break;
+	case AccessoryPart::AccessoryWeapon:
+		getWeapons().setWeapon(accessory);
+		break;
+	case AccessoryPart::AccessoryBattery:
+		if (tank_->getLife().getLife() < 
+			tank_->getLife().getMaxLife())
+		{
+			tankAI->useBattery(accessory->getAccessoryId());
+		}
+		break;
+	case AccessoryPart::AccessoryAutoDefense:
+		default:
+		break;
+	}
+}
