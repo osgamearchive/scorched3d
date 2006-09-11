@@ -229,8 +229,6 @@ void TankDamage::calculateDamage()
 						firedTank->getScore().getKills() + 1);
 					firedTank->getScore().setMoney(
 						firedTank->getScore().getMoney() + moneyPerKill);
-					firedTank->getScore().addTotalMoneyEarnedStat(
-						moneyPerKill);
 					firedTank->getScore().setScore(
 						firedTank->getScore().getScore() + scorePerKill);
 
@@ -266,8 +264,6 @@ void TankDamage::calculateDamage()
 						hurtByTank->getScore().getAssists() + 1);
 					hurtByTank->getScore().setMoney(
 						hurtByTank->getScore().getMoney() + moneyPerAssist);
-					hurtByTank->getScore().addTotalMoneyEarnedStat(
-						moneyPerAssist);
 					hurtByTank->getScore().setScore(
 						hurtByTank->getScore().getScore() + scorePerAssist);
 

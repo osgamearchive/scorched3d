@@ -65,8 +65,8 @@ public:
 
 	// Stuff for stats
 	time_t getTimePlayedStat();
-	void addTotalMoneyEarnedStat(int tm) { totalMoneyEarned_ += tm; }
 	int getTotalMoneyEarnedStat();
+	int getTotalScoreEarnedStat();
 	void setStatsRank(const char *rank) { statsRank_ = rank; }
 	const char *getStatsRank() { return statsRank_.c_str(); }
 
@@ -85,7 +85,7 @@ protected:
 	int kills_;
 	int assists_;
 	int money_;
-	int totalMoneyEarned_;
+	int totalMoneyEarned_, totalScoreEarned_;
 	int wins_;
 	int score_;
 	int missedMoves_;

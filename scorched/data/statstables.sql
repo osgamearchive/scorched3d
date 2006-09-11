@@ -95,6 +95,7 @@ create table if not exists scorched3d_stats (
 	timeplayed INTEGER NOT NULL DEFAULT 0,
 	roundsplayed INTEGER NOT NULL DEFAULT 0,
 	moneyearned INTEGER NOT NULL DEFAULT 0,
+	scoreearned INTEGER NOT NULL DEFAULT 0,
 	skill INTEGER NOT NULL DEFAULT 1000,
 	
 	PRIMARY KEY (playerid, prefixid, seriesid),

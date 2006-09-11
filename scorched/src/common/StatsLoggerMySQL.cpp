@@ -530,10 +530,12 @@ void StatsLoggerMySQL::updateStats(Tank *tank)
 {
 	if (!tank->getState().getSpectator())
 	{
-		runQuery("UPDATE scorched3d_stats SET timeplayed=timeplayed+%i, moneyearned=moneyearned+%i "
+		runQuery("UPDATE scorched3d_stats SET "
+			"timeplayed=timeplayed+%i, moneyearned=moneyearned+%i, scoreearned=scoreearned+%i "
 			"WHERE playerid = %i AND prefixid = %i AND seriesid = %i;", 
 			tank->getScore().getTimePlayedStat(), 
 			tank->getScore().getTotalMoneyEarnedStat(), 
+			tank->getScore().getTotalScoreEarnedStat(),
 			playerId_[tank->getUniqueId()],
 			prefixid_,
 			seriesid_);

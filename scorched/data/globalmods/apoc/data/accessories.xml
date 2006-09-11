@@ -47,7 +47,14 @@ to move rather than fire.</description>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>20</bundlesize>
 		<cost>2000</cost>
-		<accessoryaction type='Fuel'></accessoryaction>
+		<accessoryaction type='WeaponSelectPosition'>
+			<aimedweapon type='WeaponMoveTank'>
+				<steptime>0.05</steptime>
+			</aimedweapon>
+		</accessoryaction>
+		<nomuzzleflash/>
+		<positionselection>fuel</positionselection>
+		<group>fuel</group>
 	</accessory>
 	<accessory>
 		<name>Nitro</name>
@@ -58,9 +65,14 @@ accelerated rate.</description>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>20</bundlesize>
 		<cost>4000</cost>
-		<accessoryaction type='Fuel'>
-			<steptime>0.025</steptime>
+		<accessoryaction type='WeaponSelectPosition'>
+			<aimedweapon type='WeaponMoveTank'>
+				<steptime>0.025</steptime>
+			</aimedweapon>
 		</accessoryaction>
+		<nomuzzleflash/>
+		<positionselection>fuel</positionselection>
+		<group>fuel</group>
 	</accessory>
 	<accessory>
 		<name>Light Armor</name>

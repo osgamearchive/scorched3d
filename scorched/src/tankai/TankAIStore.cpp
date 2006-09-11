@@ -100,6 +100,26 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 
 	// Add the random player
 	{
+		bool foundRandom = false;
+		std::list<TankAI *>::iterator itor;
+		for (itor = ais_.begin();
+			itor != ais_.end();
+			itor++)
+		{
+			TankAI *ai = (*itor);
+			if (ai->availableForRandom())
+			{
+				foundRandom = true;
+				break;
+			}
+		}
+		if (!foundRandom)
+		{
+			dialogMessage("TankAIStore",
+						  "No tank ais are marked availableforrandom");
+			return false;
+		}
+
 		TankAI *tankAI = new TankAIComputer;
 		tankAI->getDescription().setText("Random",
 			"A computer controlled player.\n"

@@ -22,7 +22,6 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/Sky.h>
-#include <tankgraph/RenderTargets.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLCameraFrustum.h>
@@ -124,5 +123,4 @@ void LandscapeShadowHandler::drawLandscape()
 	GLCameraFrustum::instance()->draw(0);
 
 	Landscape::instance()->draw(true);
-	RenderTargets::instance()->render3D.draw(0);
 }

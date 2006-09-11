@@ -50,6 +50,7 @@
 #include <client/MainCamera.h>
 #include <dialogs/CameraDialog.h>
 #include <engine/ActionController.h>
+#include <tankgraph/RenderTargets.h>
 #include <time.h>
 
 Landscape *Landscape::instance_ = 0;
@@ -171,6 +172,9 @@ void Landscape::draw(bool shadowView)
 		drawLand();
 		points_->draw();
 		surround_->draw();
+
+		RenderTargets::instance()->render3D.draw(0);
+
 		water_->draw();
 		boids_->draw();
 		ships_->draw();

@@ -28,7 +28,8 @@
 static const int maxMoney = 999999;
 
 TankScore::TankScore(ScorchedContext &context) : 
-	context_(context), totalMoneyEarned_(0),
+	context_(context), 
+	totalMoneyEarned_(0), totalScoreEarned_(0),
 	statsRank_("-")
 {
 	startTime_ = lastStatTime_ = time(0);
@@ -66,15 +67,21 @@ void TankScore::clientNewGame()
 
 void TankScore::setMoney(int money)
 {
+	int oldMoney = money_;
 	money_ = money;
 	if (money_ > maxMoney) money_ = maxMoney;
 	if (money_ < 0) money_ = 0;
+
+	totalMoneyEarned_ += money_ - oldMoney;
 }
 
 void TankScore::setScore(int score)
 {
+	int oldScore = score_;
 	score_ = score;
 	if (score_ < 0) score_ = 0;
+
+	totalScoreEarned_ += score_ - oldScore;
 }
 
 const char *TankScore::getTimePlayedString()
@@ -136,3 +143,11 @@ int TankScore::getTotalMoneyEarnedStat()
 	totalMoneyEarned_ = 0;
 	return moneyEarned; 
 }
+
+int TankScore::getTotalScoreEarnedStat()
+{ 
+	int scoreEarned = totalScoreEarned_;
+	totalScoreEarned_ = 0;
+	return scoreEarned; 
+}
+

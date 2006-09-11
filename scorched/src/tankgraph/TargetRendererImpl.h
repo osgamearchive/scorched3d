@@ -39,6 +39,7 @@ public:
 		eOtherHighlight
 	};
 	static void setHighlightType(HighlightType type) { highlightType_ = type; }
+	void createParticle(Target *target);
 
 protected:
 	static HighlightType highlightType_;
@@ -46,7 +47,6 @@ protected:
 
 	void drawShield(Target *target, float shieldHit, float totalTime);
 	void drawParachute(Target *target);
-	void createParticle(Target *target);
 };
 
 #endif // __INCLUDE_TargetRendererImplh_INCLUDE__
