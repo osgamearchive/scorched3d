@@ -44,6 +44,8 @@ public:
 	void getAllAccessories(std::list<Accessory *> &result, bool sort=false);
 	void getAllAccessoriesByType(AccessoryPart::AccessoryType type, 
 		std::list<Accessory *> &result, bool sort=false);
+	void getAllAccessoriesByGroup(const char *groupName,
+		std::list<Accessory *> &result, bool sort=false);
 
 	TankWeapon &getWeapons() { return tankWeapon_; }
 	TankAutoDefense &getAutoDefense() { return tankAuto_; }

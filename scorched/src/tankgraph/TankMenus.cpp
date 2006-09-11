@@ -358,10 +358,9 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 	TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
 	if (firstTank && tankAI)
 	{
-		if (position < (int) menuItems_.size())
+		Accessory *accessory = (Accessory *) item.getUserData();
+		if (accessory)
 		{
-			Accessory *accessory = menuItems_[position];
-
 			switch (accessory->getType())
 			{
 			case AccessoryPart::AccessoryParachute:
@@ -384,24 +383,8 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 					tankAI->useBattery(accessory->getAccessoryId());
 				}
 				break;
-			case AccessoryPart::AccessoryFuel:
-				if (Landscape::instance()->getTextureType() == Landscape::eMovement)
-				{
-					Landscape::instance()->restoreLandscapeTexture();
-				}
-				else
-				{
-					MovementMap mmap(
-						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
-						ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
-					mmap.calculateForTank(
-						firstTank, accessory->getAccessoryId(), 
-						ScorchedClient::instance()->getContext());
-					mmap.movementTexture();
-				}
-				break;
-			default:
 			case AccessoryPart::AccessoryAutoDefense:
+				default:
 				break;
 			}
 		}
@@ -411,11 +394,13 @@ void TankMenus::AccessoryMenu::menuSelection(const char* menuName,
 bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName, 
 											std::list<GLMenuItem> &result)
 {
-	menuItems_.clear();
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!firstTank) return true;
 
+	bool firstIteration = true;
 	AccessoryPart::AccessoryType lastType = AccessoryPart::AccessoryWeapon;
+	std::string lastGroup = "";
+
 	std::list<Accessory *> tankAccessories;
 	firstTank->getAccessories().getAllAccessories(tankAccessories);
 	std::list<Accessory *>::iterator itor;
@@ -439,12 +424,6 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		case AccessoryPart::AccessoryWeapon:
 			sel = (firstTank->getAccessories().getWeapons().getCurrent() == accessory);
 			break;
-		case AccessoryPart::AccessoryFuel:
-			if (Landscape::instance()->getTextureType() == Landscape::eMovement)
-			{
-				sel = (accessory->getAccessoryId() == MovementMap::getFuelId());
-			}
-			break;
 		case AccessoryPart::AccessoryAutoDefense:
 			sel = true;
 			break;
@@ -454,12 +433,15 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 			break;
 		}
 
-		if (lastType != accessory->getType())
+		if (!firstIteration &&
+			(lastType != accessory->getType() ||
+			0 != strcmp(lastGroup.c_str(), accessory->getGroupName())))
 		{
-			lastType = accessory->getType();
 			result.push_back("----------");
-			menuItems_.push_back(0);
 		}
+		lastType = accessory->getType();
+		lastGroup = accessory->getGroupName();
+		firstIteration = false;
 
 		static char buffer[1024];
 		if (accessoryCount > 0)
@@ -472,13 +454,14 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 			snprintf(buffer, 1024, "%s (In)", 
 				accessory->getName());
 		}
-		menuItems_.push_back(accessory);
+
 		result.push_back(
 			GLMenuItem(
 				buffer, 
 				&accessory->getToolTip(), 
 				sel,
-				accessory->getTexture()));
+				accessory->getTexture(),
+				accessory));
 	}
 	return true;
 }

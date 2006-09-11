@@ -18,22 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/Fuel.h>
-#include <common/Defines.h>
+#if !defined(AFX_WeaponMoveTank_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponMoveTank_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-REGISTER_ACCESSORY_SOURCE(Fuel);
+#include <weapons/Weapon.h>
 
-Fuel::Fuel() : stepTime_(0.05f)
+class WeaponMoveTank  : public Weapon
 {
-}
+public:
+	WeaponMoveTank();
+	virtual ~WeaponMoveTank();
 
-Fuel::~Fuel()
-{
-}
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
 
-bool Fuel::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
-{
-	accessoryNode->getNamedChild("steptime", stepTime_, false);
-	return true;
-}
+	float getStepTime() { return stepTime_; }
+
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	REGISTER_ACCESSORY_HEADER(WeaponMoveTank, AccessoryPart::AccessoryWeapon);
+
+protected:
+	float stepTime_;
+
+};
+
+#endif // !defined(AFX_WeaponMoveTank_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

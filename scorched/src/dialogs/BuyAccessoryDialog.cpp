@@ -39,26 +39,13 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 	GLWWindow("", 10.0f, 10.0f, 465.0f, 300.0f, 0,
 		"Allows the current player to buy and sell\n"
 		"weapons and other accessories."),
-	firstDrawTime_(true)
+	firstDrawTime_(true), sellTab_(0)
 {
 	okId_ = addWidget(new GLWTextButton("Ok", 400, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 
-	buyWeaponTab_ = (GLWTab *)
-		addWidget(new GLWTab("Weapons", 10, 40, 450, 160));
-	buyOtherTab_ = (GLWTab *)
-		addWidget(new GLWTab("Defense", 10, 40, 450, 160));
-	sellTab_ = (GLWTab *)
-		addWidget(new GLWTab("Inv", 10, 40, 450, 160));
-	favouritesTab_ = (GLWTab *)
-		addWidget(new GLWTab("Favorites", 10, 40, 450, 160));
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 450, 50));
-
-	buyWeaponTab_->setHandler(this);
-	buyOtherTab_->setHandler(this);
-	sellTab_->setHandler(this);
-	favouritesTab_->setHandler(this);
 
 	defaultTab_ = (GLWCheckBoxText *) 
 		addWidget(new GLWCheckBoxText(18.0f, 230.0f, "Default Tab", false, 3.0f));
@@ -82,7 +69,7 @@ BuyAccessoryDialog::~BuyAccessoryDialog()
 
 void BuyAccessoryDialog::draw()
 {
-	if (firstDrawTime_)
+	if (sellTab_ && firstDrawTime_)
 	{
 		firstDrawTime_ = false;
 		float screenHeight = (float) GLViewPort::getHeight();
@@ -91,12 +78,21 @@ void BuyAccessoryDialog::draw()
 		if (addition > 200) addition = 200;
 
 		setH(300 + addition);
-		buyWeaponTab_->setH(165 + addition);
-		sellTab_->setH(165 + addition);
-		buyOtherTab_->setH(165 + addition);
-		favouritesTab_->setH(165 + addition);
 		topPanel_->setY(240 + addition);
 		defaultTab_->setY(190 + addition);
+
+		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
+			itor++)
+		{
+			GLWPanel::GLWPanelEntry &entry = (*itor);
+			if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
+			{
+				GLWTab *tab = (GLWTab *) entry.widget;
+				tab->setH(165 + addition);
+			}
+		}
 
 		needCentered_ = true;
 	}
@@ -127,6 +123,33 @@ void BuyAccessoryDialog::addPlayerName()
 		ScorchedClient::instance()->getOptionsGame().getNoRounds())));
 }
 
+void BuyAccessoryDialog::addTabs()
+{
+	if (sellTab_) return;
+
+	std::set<std::string> &groupNames =
+		ScorchedClient::instance()->
+			getAccessoryStore().getGroupNames();
+	std::set<std::string>::reverse_iterator itor;
+	for (itor = groupNames.rbegin();
+		itor != groupNames.rend();
+		itor++)
+	{
+		std::string name = (*itor);
+		GLWTab *tab = (GLWTab *)
+			addWidget(new GLWTab((char *) name.c_str(), 10, 40, 450, 160));
+		buyTabs_[name] = tab;
+		tab->setHandler(this);
+	}
+	sellTab_ = (GLWTab *)
+		addWidget(new GLWTab("inv", 10, 40, 450, 160));
+	sellTab_->setHandler(this);
+
+	favouritesTab_ = (GLWTab *)
+		addWidget(new GLWTab("fav", 10, 40, 450, 160));
+	favouritesTab_->setHandler(this);
+}
+
 void BuyAccessoryDialog::playerRefresh()
 {
 	addPlayerName();
@@ -135,16 +158,34 @@ void BuyAccessoryDialog::playerRefresh()
 
 void BuyAccessoryDialog::playerRefreshKeepPos()
 {
-	int buyCurrent = buyWeaponTab_->getScrollBar().getCurrent();
-	int otherCurrent = buyOtherTab_->getScrollBar().getCurrent();
-	int sellCurrent = sellTab_->getScrollBar().getCurrent();
-	int favCurrent = favouritesTab_->getScrollBar().getCurrent();
+	std::map<std::string, int> scrollPositions;
+	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+	for (itor = getWidgets().begin();
+		itor != getWidgets().end();
+		itor++)
+	{
+		GLWPanel::GLWPanelEntry &entry = (*itor);
+		if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
+		{
+			GLWTab *tab = (GLWTab *) entry.widget;
+			scrollPositions[tab->getName()] = tab->getScrollBar().getCurrent();
+		}
+	}
+
 	addPlayerName();
 	addPlayerWeapons();
-	buyWeaponTab_->getScrollBar().setCurrent(buyCurrent);
-	buyOtherTab_->getScrollBar().setCurrent(otherCurrent);
-	sellTab_->getScrollBar().setCurrent(sellCurrent);
-	favouritesTab_->getScrollBar().setCurrent(favCurrent);
+
+	for (itor = getWidgets().begin();
+		itor != getWidgets().end();
+		itor++)
+	{
+		GLWPanel::GLWPanelEntry &entry = (*itor);
+		if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
+		{
+			GLWTab *tab = (GLWTab *) entry.widget;
+			tab->getScrollBar().setCurrent(scrollPositions[tab->getName()]);
+		}
+	}
 }
 
 void BuyAccessoryDialog::addPlayerWeapons()
@@ -153,15 +194,32 @@ void BuyAccessoryDialog::addPlayerWeapons()
 	sellMap_.clear();
 	favMap_.clear();
 
-	favouritesTab_->clear();
-	sellTab_->clear();
-	buyWeaponTab_->clear();
-	buyOtherTab_->clear();
+	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+	for (itor = getWidgets().begin();
+		itor != getWidgets().end();
+		itor++)
+	{
+		GLWPanel::GLWPanelEntry &entry = (*itor);
+		if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
+		{
+			GLWTab *tab = (GLWTab *) entry.widget;
+			tab->clear();
+		}
+	}
 
 	addPlayerFavorites();
 	addPlayerWeaponsSell();
-	addPlayerWeaponsBuy(buyWeaponTab_, true);
-	addPlayerWeaponsBuy(buyOtherTab_, false);
+
+	std::set<std::string> &groupNames =
+		ScorchedClient::instance()->
+			getAccessoryStore().getGroupNames();
+	std::set<std::string>::iterator groupItor;
+	for (groupItor = groupNames.begin();
+		groupItor != groupNames.end();
+		groupItor++)
+	{
+		addPlayerWeaponsBuy(buyTabs_[*groupItor], (*groupItor).c_str());
+	}
 }
 
 void BuyAccessoryDialog::addPlayerFavorites()
@@ -187,18 +245,15 @@ void BuyAccessoryDialog::addPlayerFavorites()
 	}
 }
 
-void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, bool showWeapons)
+void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, const char *group)
 {
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
 
-	std::list<Accessory *> weapons;
-	if (showWeapons) weapons = ScorchedClient::instance()->
-		getAccessoryStore().getAllWeapons(
-		OptionsDisplay::instance()->getSortAccessories());
-	else weapons = ScorchedClient::instance()->
-		getAccessoryStore().getAllOthers(
-		OptionsDisplay::instance()->getSortAccessories());
+	std::list<Accessory *> weapons = ScorchedClient::instance()->
+		getAccessoryStore().getAllAccessoriesByGroup(
+			group,
+			OptionsDisplay::instance()->getSortAccessories());
 
 	std::list<Accessory *> accessories;
 	std::list<Accessory *>::iterator itor;
@@ -323,13 +378,17 @@ bool BuyAccessoryDialog::addAccessory(
 
 void BuyAccessoryDialog::windowInit(const unsigned state)
 {
+	addTabs();
 	loadFavorites();
 
 	sortBox_->setState(OptionsDisplay::instance()->getSortAccessories());
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (tank)
 	{
-		buyWeaponTab_->setDepressed();
+		if (buyTabs_.find("weapon") != buyTabs_.end())
+		{
+			buyTabs_["weapon"]->setDepressed();
+		}
 		const char *buyTab = OptionsDisplay::instance()->getBuyTab();
 		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
 		for (itor = getWidgets().begin();
@@ -337,7 +396,7 @@ void BuyAccessoryDialog::windowInit(const unsigned state)
 			itor++)
 		{
 			GLWPanel::GLWPanelEntry &entry = (*itor);
-			if (entry.widget->getMetaClassId() == buyWeaponTab_->getMetaClassId())
+			if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
 			{
 				GLWTab *tab = (GLWTab *) entry.widget;
 				if (0 == strcmp(buyTab, tab->getName()))
@@ -362,7 +421,7 @@ void BuyAccessoryDialog::tabDown(unsigned int id)
 		itor++)
 	{
 		GLWPanel::GLWPanelEntry &entry = (*itor);
-		if (entry.widget->getMetaClassId() == buyWeaponTab_->getMetaClassId())
+		if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
 		{
 			GLWTab *tab = (GLWTab *) entry.widget;
 			if (tab->getDepressed())
@@ -399,7 +458,7 @@ void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 				itor++)
 			{
 				GLWPanel::GLWPanelEntry &entry = (*itor);
-				if (entry.widget->getMetaClassId() == buyWeaponTab_->getMetaClassId())
+				if (entry.widget->getMetaClassId() == sellTab_->getMetaClassId())
 				{
 					GLWTab *tab = (GLWTab *) entry.widget;
 					if (tab->getDepressed())

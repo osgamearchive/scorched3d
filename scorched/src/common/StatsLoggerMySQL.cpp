@@ -226,7 +226,7 @@ void StatsLoggerMySQL::createLogger()
 
 	// Add all the weapons
 	std::list<Accessory *> weapons = 
-		ScorchedServer::instance()->getAccessoryStore().getAllWeapons();
+		ScorchedServer::instance()->getAccessoryStore().getAllAccessories();
 	std::list<Accessory *>::iterator itor;	
 	for (itor = weapons.begin();
 		itor != weapons.end();

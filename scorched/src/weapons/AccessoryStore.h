@@ -24,6 +24,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <set>
 #include <weapons/Weapon.h>
 #include <weapons/Accessory.h>
 #include <common/ProgressCounter.h>
@@ -38,7 +39,6 @@ public:
 	bool parseFile(OptionsGame &context, ProgressCounter *counter = 0);
 	void clearAccessories();
 
-	Accessory *findByAccessoryType(AccessoryPart::AccessoryType type);
 	Accessory *findByAccessoryId(unsigned int id);
 	Accessory *findByPrimaryAccessoryName(const char *name); // **careful there**
 	AccessoryPart *createAccessoryPart(OptionsGame &context, 
@@ -47,11 +47,10 @@ public:
 	Weapon *getDeathAnimation();
 	Weapon *getMuzzelFlash();
 
-	std::list<Accessory *> &getAccessories() { return accessories_; }
-	std::list<Accessory *> getAllWeapons(bool sort=false);
-	std::list<Accessory *> getAllOthers(bool sort=false);	
 	std::list<Accessory *> getAllAccessories(bool sort=false);	
+	std::list<Accessory *> getAllAccessoriesByGroup(const char *group, bool sort=false);
 	std::map<std::string, XMLNode *> &getParsingNodes() { return parsingNodes_; }
+	std::set<std::string> &getGroupNames() { return groups_; }
 
 	bool writeWeapon(NetBuffer &buffer, Weapon *weapon);
 	Weapon *readWeapon(NetBufferReader &reader);
@@ -66,6 +65,7 @@ public:
 protected:
 	AccessoryPart *findByAccessoryPartId(unsigned int id);
 
+	std::set<std::string> groups_;
 	std::list<Accessory *> accessories_;
 	std::list<AccessoryPart *> accessoryParts_;
 	std::map<std::string, XMLNode *> parsingNodes_;

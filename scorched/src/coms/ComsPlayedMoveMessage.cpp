@@ -18,14 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #include <coms/ComsPlayedMoveMessage.h>
 
 ComsPlayedMoveMessage::ComsPlayedMoveMessage(unsigned int playerId, MoveType type) :
 	ComsMessage("ComsPlayedMoveMessage"),
 	moveType_(type),
 	weaponId_(0),
-	rotationXY_(0.0f), rotationYZ_(0.0f), power_(0.0f), playerId_(playerId)
+	rotationXY_(0.0f), rotationYZ_(0.0f), power_(0.0f), playerId_(playerId),
+	selectPositionX_(0), selectPositionY_(0)
 {
 }
 
@@ -33,40 +33,33 @@ ComsPlayedMoveMessage::~ComsPlayedMoveMessage()
 {
 }
 
-void ComsPlayedMoveMessage::setPosition(unsigned int fuelId, int x, int y)
-{
-	weaponId_ = fuelId;
-	rotationXY_ = (float)x;
-	rotationYZ_ = (float)y;
-}
-
 void ComsPlayedMoveMessage::setShot(unsigned int weaponId,
-		float rotationXY,
-		float rotationYZ,
-		float power)
+	float rotationXY,
+	float rotationYZ,
+	float power,
+	int selectPositionX, 
+	int selectPositionY)
 {
 	weaponId_ = weaponId;
 	rotationXY_ = rotationXY;
 	rotationYZ_ = rotationYZ;
 	power_ = power;
+	selectPositionX_ = selectPositionX;
+	selectPositionY_ = selectPositionY;
 }
 
 bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) moveType_);
-	if (moveType_ == eMove)
-	{
-		buffer.addToBuffer(weaponId_);
-		buffer.addToBuffer(rotationXY_);
-		buffer.addToBuffer(rotationYZ_);
-	}
-	else if (moveType_ == eShot)
+	if (moveType_ == eShot)
 	{
 		buffer.addToBuffer(weaponId_);
 		buffer.addToBuffer(rotationXY_);
 		buffer.addToBuffer(rotationYZ_);
 		buffer.addToBuffer(power_);
+		buffer.addToBuffer(selectPositionX_);
+		buffer.addToBuffer(selectPositionY_);
 	}
 	return true;
 }
@@ -77,18 +70,14 @@ bool ComsPlayedMoveMessage::readMessage(NetBufferReader &reader)
 	int mt;
 	if (!reader.getFromBuffer(mt)) return false;
 	moveType_ = (MoveType) mt;
-	if (moveType_ == eMove)
-	{
-		if (!reader.getFromBuffer(weaponId_)) return false;
-		if (!reader.getFromBuffer(rotationXY_)) return false;
-		if (!reader.getFromBuffer(rotationYZ_)) return false;
-	}
-	else if (moveType_ == eShot)
+	if (moveType_ == eShot)
 	{
 		if (!reader.getFromBuffer(weaponId_)) return false;
 		if (!reader.getFromBuffer(rotationXY_)) return false;
 		if (!reader.getFromBuffer(rotationYZ_)) return false;
 		if (!reader.getFromBuffer(power_)) return false;
+		if (!reader.getFromBuffer(selectPositionX_)) return false;
+		if (!reader.getFromBuffer(selectPositionY_)) return false;
 	}
 	return true;
 }

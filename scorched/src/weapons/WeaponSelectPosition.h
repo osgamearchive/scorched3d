@@ -18,25 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Fuelh_INCLUDE__)
-#define __INCLUDE_Fuelh_INCLUDE__
+#if !defined(AFX_WeaponSelectPosition_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponSelectPosition_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-#include <weapons/AccessoryPart.h>
+#include <weapons/Weapon.h>
 
-class Fuel : public AccessoryPart
+class WeaponSelectPosition  : public Weapon
 {
 public:
-	Fuel();
-	virtual ~Fuel();
-
-	float getStepTime() { return stepTime_; }
+	WeaponSelectPosition();
+	virtual ~WeaponSelectPosition();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
 
-	REGISTER_ACCESSORY_HEADER(Fuel, AccessoryPart::AccessoryFuel);
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		unsigned int playerId, Vector &position, Vector &velocity,
+		unsigned int data = 0);
+
+	REGISTER_ACCESSORY_HEADER(WeaponSelectPosition, AccessoryPart::AccessoryWeapon);
+
 protected:
-	float stepTime_;
+	Weapon *aimedWeapon_;
+
 };
 
-#endif
+#endif // !defined(AFX_WeaponSelectPosition_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

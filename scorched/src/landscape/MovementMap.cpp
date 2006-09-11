@@ -32,8 +32,6 @@
 #include <tank/Tank.h>
 #include <memory.h>
 
-unsigned int MovementMap::fuelId_ = 0;
-
 MovementMap::MovementMap(int width, int height) :
 	width_(width), height_(height)
 {
@@ -140,8 +138,6 @@ void MovementMap::calculateForTank(Tank *tank,
 	ScorchedContext &context, 
 	bool maxFuel)
 {
-	fuelId_ = fuelId;
-
 	// Check if the tank is buried and cannot move
 	float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		tank->getPosition().getTankPosition()[0],

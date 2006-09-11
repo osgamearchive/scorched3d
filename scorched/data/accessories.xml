@@ -13,6 +13,7 @@ effective.</description>
 		<accessoryaction type='Parachute'>
 		<!--<slowforce><a>0.0</a><b>0.0</b><c>3.0</c></slowforce>-->
 		</accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Battery</name>
@@ -24,6 +25,7 @@ Giving more health and longer shots.</description>
 		<bundlesize>10</bundlesize>
 		<cost>5000</cost>
 		<accessoryaction type='Battery'></accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Fuel</name>
@@ -35,8 +37,14 @@ to move rather than fire.</description>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>40</bundlesize>
 		<cost>6000</cost>
-		<accessoryaction type='Fuel'>
+		<accessoryaction type='WeaponSelectPosition'>
+			<aimedweapon type='WeaponMoveTank'>
+				<steptime>0.05</steptime>
+			</aimedweapon>
 		</accessoryaction>
+		<nomuzzleflash/>
+		<positionselection>fuel</positionselection>
+		<group>fuel</group>
 	</accessory>
 	<accessory>
 		<name>Rocket Fuel</name>
@@ -48,9 +56,14 @@ to move rather than fire.</description>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>30</bundlesize>
 		<cost>10000</cost>
-		<accessoryaction type='Fuel'>
-			<steptime>0.025</steptime>
+		<accessoryaction type='WeaponSelectPosition'>
+			<aimedweapon type='WeaponMoveTank'>
+				<steptime>0.025</steptime>
+			</aimedweapon>
 		</accessoryaction>
+		<nomuzzleflash/>
+		<positionselection>fuel</positionselection>
+		<group>fuel</group>
 	</accessory>
 	<accessory>
 		<name>Shield</name>
@@ -76,6 +89,7 @@ work.</description>
 			<penetration>1.0</penetration>
 			<power>100</power>
 		</accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Heavy Shield</name>
@@ -100,6 +114,7 @@ work.</description>
 			<penetration>1.0</penetration>
 			<power>100</power>
 		</accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Force Shield</name>
@@ -125,6 +140,7 @@ be activated before they work.</description>
 			<penetration>1.0</penetration>
 			<power>100</power>
 		</accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Mag Deflect</name>
@@ -152,6 +168,7 @@ Shields must be activated before they work.</description>
 			<penetration>1.0</penetration>
 			<power>100</power>
 		</accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Heavy Mag</name>
@@ -179,6 +196,7 @@ activated before they work.</description>
 			<penetration>1.0</penetration>
 			<power>100</power>
 		</accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Auto Defense</name>
@@ -191,6 +209,7 @@ main move.</description>
 		<cost>3000</cost>
 		<maximumnumber>1</maximumnumber>
 		<accessoryaction type='AutoDefense'></accessoryaction>
+		<group>defense</group>
 	</accessory>
 	<accessory>
 		<name>Napalm</name>

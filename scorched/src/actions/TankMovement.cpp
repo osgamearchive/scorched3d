@@ -24,7 +24,7 @@
 #include <actions/ShotProjectile.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
-#include <weapons/Fuel.h>
+#include <weapons/WeaponMoveTank.h>
 #include <weapons/AccessoryStore.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
@@ -45,18 +45,18 @@ std::map<unsigned int, TankMovement*> TankMovement::movingTanks;
 REGISTER_ACTION_SOURCE(TankMovement);
 
 TankMovement::TankMovement() : 
-	timePassed_(0.0f), vPoint_(0), fuel_(0),
+	timePassed_(0.0f), vPoint_(0), weapon_(0),
 	remove_(false), moving_(true), moveSoundSource_(0),
 	smokeCounter_(0.1f, 0.1f), stepCount_(0)
 {
 }
 
 TankMovement::TankMovement(unsigned int playerId,
-	Fuel *fuel,
+	WeaponMoveTank *weapon,
 	int positionX, int positionY) : 
 	playerId_(playerId), 
 	positionX_(positionX), positionY_(positionY),
-	timePassed_(0.0f), vPoint_(0), fuel_(fuel),
+	timePassed_(0.0f), vPoint_(0), weapon_(weapon),
 	remove_(false), moving_(true), moveSoundSource_(0),
 	smokeCounter_(0.1f, 0.1f), stepCount_(0)
 {
@@ -95,13 +95,15 @@ void TankMovement::init()
 	// to save space, z is calculated from the landscape
 	// Lower 32 bits = y position
 	// Upper 32 bits = x positions
+	bool maxFuel = !context_->serverMode; // Check fuel only on server
 	std::list<unsigned int> positions;
 	MovementMap mmap(
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight);
 	mmap.calculateForTank(tank, 
-		fuel_->getParent()->getAccessoryId(), 
-		*context_, true);
+		weapon_->getParent()->getAccessoryId(), 
+		*context_,
+		maxFuel);
 	
 	MovementMap::MovementMapEntry entry =
 		mmap.getEntry(positionX_, positionY_);
@@ -228,7 +230,7 @@ void TankMovement::simulationMove(float frameTime)
 				// Move the tank one position every stepTime seconds
 				// i.e. 1/stepTime positions a second
 				timePassed_ += frameTime;
-				float stepTime = fuel_->getStepTime();
+				float stepTime = weapon_->getStepTime();
 				while (timePassed_ >= stepTime)
 				{
 					timePassed_ -= stepTime;
@@ -320,7 +322,7 @@ void TankMovement::moveTank(Tank *tank)
 	// Use up one unit of fuel
 	if (useF)
 	{
-		tank->getAccessories().rm(fuel_->getParent());
+		tank->getAccessories().rm(weapon_->getParent());
 	}
 
 	// Actually move the tank
@@ -380,7 +382,7 @@ void TankMovement::moveTank(Tank *tank)
 bool TankMovement::writeAction(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
-	context_->accessoryStore->writeAccessoryPart(buffer, fuel_);
+	context_->accessoryStore->writeWeapon(buffer, weapon_);
 	buffer.addToBuffer(positionX_);
 	buffer.addToBuffer(positionY_);
 	return true;
@@ -389,7 +391,7 @@ bool TankMovement::writeAction(NetBuffer &buffer)
 bool TankMovement::readAction(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(playerId_)) return false;
-	fuel_ = (Fuel *) context_->accessoryStore->readAccessoryPart(reader); if (!fuel_) return false;
+	weapon_ = (WeaponMoveTank *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(positionX_)) return false;
 	if (!reader.getFromBuffer(positionY_)) return false;
 	return true;

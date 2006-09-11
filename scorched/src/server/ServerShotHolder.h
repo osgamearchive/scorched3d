@@ -48,8 +48,6 @@ protected:
 	void processPlayedMoveMessage(
 		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank,
 		bool roundStart);
-	void processMoveMessage(
-		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
 	void processResignMessage(
 		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
 	void processFiredMessage(

@@ -46,8 +46,7 @@ public:
 		AccessoryParachute,
 		AccessoryShield,
 		AccessoryAutoDefense,
-		AccessoryBattery,
-		AccessoryFuel
+		AccessoryBattery
 	};
 
 	AccessoryPart();

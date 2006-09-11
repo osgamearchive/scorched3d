@@ -129,8 +129,8 @@ void TankAccessories::getAllAccessoriesByType(
 {
 	// Add all weapons ensuring they are in the
 	// same order as in the store
-	std::list<Accessory *> &allAccessories = 
-		context_.accessoryStore->getAccessories();
+	std::list<Accessory *> allAccessories = 
+		context_.accessoryStore->getAllAccessories();
 	std::list<Accessory *>::iterator itor;
 	for (itor = allAccessories.begin();
 		itor != allAccessories.end();
@@ -139,6 +139,29 @@ void TankAccessories::getAllAccessoriesByType(
 		Accessory *accessory = (*itor);
 		if (accessory->getType() == type &&
 			accessories_.find(accessory) != accessories_.end())
+		{
+			result.push_back(accessory);
+		}
+	}
+
+	if (sort) AccessoryStore::sortList(result);
+}
+
+void TankAccessories::getAllAccessoriesByGroup(const char *groupName,
+		std::list<Accessory *> &result, bool sort)
+{
+	// Add all weapons ensuring they are in the
+	// same order as in the store
+	std::list<Accessory *> allAccessories = 
+		context_.accessoryStore->getAllAccessories();
+	std::list<Accessory *>::iterator itor;
+	for (itor = allAccessories.begin();
+		itor != allAccessories.end();
+		itor++)
+	{
+		Accessory *accessory = (*itor);
+		if (accessories_.find(accessory) != accessories_.end() &&
+			0 == strcmp(accessory->getGroupName(), groupName))
 		{
 			result.push_back(accessory);
 		}

@@ -39,6 +39,13 @@ public:
 	Accessory();
 	virtual ~Accessory();
 
+	enum PositionSelectType
+	{
+		ePositionSelectNone = 0,
+		ePositionSelectFuel = 1,
+		ePositionSelectGeneric = 2
+	};
+
 	bool parseXML(OptionsGame &context,
 		AccessoryStore *store, XMLNode *accessoryNode);
 
@@ -54,9 +61,11 @@ public:
 	const int getMaximumNumber() { return maximumNumber_; }
 	const int getStartingNumber() { return startingNumber_; }
 	const bool getAIOnly() { return aiOnly_; }
+	PositionSelectType getPositionSelect() { return positionSelect_; }
 
 	GLWTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
+	const char *getGroupName() { return groupName_.c_str(); }
 	AccessoryPart *getAction() { return accessoryAction_; }
 	float getModelScale() { return modelScale_; }
 	ModelID &getModel() { return modelId_; }
@@ -79,10 +88,12 @@ protected:
 	unsigned int accessoryId_;
 	bool aiOnly_;
 	AccessoryPart *accessoryAction_;
+	PositionSelectType positionSelect_;
 	GLWTip toolTip_;
 	GLTexture *texture_;
 	ModelID modelId_;
 	std::string iconName_;
+	std::string groupName_;
 	std::string name_;
 	std::string description_;
 	std::string activationSound_;

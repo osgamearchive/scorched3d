@@ -84,8 +84,8 @@ void TankFuelTip::populate()
 {
 	std::string extra;
 	std::list<Accessory *> entries;
-	tank_->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryFuel, entries);			
+	tank_->getAccessories().getAllAccessoriesByGroup(
+		"fuel", entries);			
 	std::list<Accessory *>::iterator itor;
 	for (itor = entries.begin();
 		itor != entries.end();
@@ -118,17 +118,10 @@ void TankFuelTip::showItems(float x, float y)
 		"Don't select fuel or\n"
 		"turn off any fuel.");
 
-	unsigned int currentFuelId = 0;
-	if (Landscape::instance()->getTextureType() ==
-		Landscape::eMovement)
-	{
-		currentFuelId = MovementMap::getFuelId();
-	}
-
 	std::list<GLWSelectorEntry> entries;
 	std::list<Accessory *> fuels;
-	tank_->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryFuel, fuels,
+	tank_->getAccessories().getAllAccessoriesByGroup(
+		"fuel", fuels,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = fuels.begin();
@@ -151,7 +144,8 @@ void TankFuelTip::showItems(float x, float y)
 				current->getName());
 		}
 		entries.push_back(GLWSelectorEntry(buffer, &current->getToolTip(), 
-			(currentFuelId == current->getAccessoryId()), current->getTexture(), current));
+			(tank_->getAccessories().getWeapons().getCurrent() == current), 
+			current->getTexture(), current));
 	}
 	entries.push_back(GLWSelectorEntry("Off", &offTip, 0, 0, 0));
 	GLWSelector::instance()->showSelector(this, x, y, entries,
@@ -160,22 +154,23 @@ void TankFuelTip::showItems(float x, float y)
 
 void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	if (Landscape::instance()->getTextureType() == Landscape::eMovement)
+	Accessory *accessory = ((Accessory *)entry->getUserData());
+	if (accessory)
 	{
-		Landscape::instance()->restoreLandscapeTexture();
+		tank_->getAccessories().getWeapons().setWeapon(accessory);
 	}
-	if (entry->getUserData() != 0)
+	else
 	{
-		if (Landscape::instance()->getTextureType() != Landscape::eMovement)
+		std::list<Accessory *> entries;
+		tank_->getAccessories().getAllAccessoriesByGroup(
+			"weapon", entries);			
+		if (!entries.empty())
 		{
-			MovementMap mmap(
-				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
-				ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
-			mmap.calculateForTank(tank_,
-				((Accessory *)entry->getUserData())->getAccessoryId(),
-				ScorchedClient::instance()->getContext());
-			mmap.movementTexture();
+			tank_->getAccessories().getWeapons().setWeapon(entries.front());
+		}
+		else
+		{
+			tank_->getAccessories().getWeapons().setWeapon(0);
 		}
 	}
 }
@@ -527,8 +522,8 @@ void TankWeaponTip::showItems(float x, float y)
 	Accessory *currentWeapon = 
 		tank_->getAccessories().getWeapons().getCurrent();
 	std::list<Accessory *> weapons;
-	tank_->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryWeapon, weapons,
+	tank_->getAccessories().getAllAccessoriesByGroup(
+		"weapon", weapons,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();
@@ -559,7 +554,6 @@ void TankWeaponTip::showItems(float x, float y)
 
 void TankWeaponTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
 	tank_->getAccessories().getWeapons().setWeapon((Accessory *) entry->getUserData());
 }
 

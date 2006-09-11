@@ -39,6 +39,7 @@ Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(1), armsLevel_(9),
 	texture_(0), modelScale_(1.0f),
+	positionSelect_(ePositionSelectNone),
 	maximumNumber_(0),
 	startingNumber_(0),
 	muzzleFlash_(true),
@@ -67,6 +68,12 @@ bool Accessory::parseXML(OptionsGame &context,
 	// Get the accessory description
 	accessoryNode->getNamedChild("description", description_, false);
 	toolTip_.setText(getName(), getDescription());
+
+	// Get the accessory groupname
+	if (!accessoryNode->getNamedChild("group", groupName_, false))
+	{
+		groupName_ = "weapon";
+	}
 
 	// Get the accessory icon
 	if (accessoryNode->getNamedChild("icon", iconName_, false))
@@ -122,6 +129,30 @@ bool Accessory::parseXML(OptionsGame &context,
 	if (price_ > 0 && bundle_ > 0) sellPrice_ = int((price_ / bundle_) * 0.8f);
 	originalPrice_ = price_;
 	originalSellPrice_ = sellPrice_;
+
+	// Position Selection Type
+	std::string positionSelection;
+	if (accessoryNode->getNamedChild("positionselection", positionSelection, false))
+	{
+		if (0 == strcmp(positionSelection.c_str(), "none"))
+		{
+			positionSelect_ = ePositionSelectNone;
+		}
+		else if (0 == strcmp(positionSelection.c_str(), "generic"))
+		{
+			positionSelect_ = ePositionSelectGeneric;
+		}
+		else if (0 == strcmp(positionSelection.c_str(), "fuel"))
+		{
+			positionSelect_ = ePositionSelectFuel;
+		}
+		else
+		{
+			return accessoryNode->returnError(formatString(
+				"Unknown accessory position selection type \"%s\"", 
+				positionSelection.c_str()));
+		}
+	}
 
 	return true;
 }

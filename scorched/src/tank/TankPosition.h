@@ -65,6 +65,12 @@ public:
 	float getRotationGunXY() { return turretRotXY_; }
 	float getRotationGunYZ() { return turretRotYZ_; }
 
+	// Select position
+	int getSelectPositionX() { return selectPositionX_; }
+	int getSelectPositionY() { return selectPositionY_; }
+	void setSelectPosition(int x, int y) { 
+		selectPositionX_ = x; selectPositionY_ = y; }
+
 	// Power of gun
 	float getPower() { return power_; }
 	float changePower(float power, bool diff=true);
@@ -95,6 +101,7 @@ protected:
 	float turretRotXY_, turretRotYZ_, power_;
 	float oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
 	float maxPower_;
+	int selectPositionX_, selectPositionY_;
 };
 
 #endif

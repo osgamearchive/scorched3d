@@ -97,9 +97,7 @@ void ScorchedCollisionHandler::targetCollision(
 	if (!target1 || !target2) return;
 
 	//Dummy weapon, should'nt be used anywhere
-	Weapon *weapon = (Weapon *) 
-		context_->accessoryStore->findByAccessoryType(
-			AccessoryPart::AccessoryWeapon)->getAction();
+	Weapon *weapon = context_->accessoryStore->getDeathAnimation();
 	if (target1->isTarget() && !target2->isTarget())
 	{
 		if (target1->getLife().getDriveOverToDestroy())

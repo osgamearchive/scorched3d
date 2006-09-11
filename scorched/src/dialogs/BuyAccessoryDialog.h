@@ -55,8 +55,7 @@ public:
 protected:
 	unsigned int okId_;
 	bool firstDrawTime_;
-	GLWTab *buyWeaponTab_;
-	GLWTab *buyOtherTab_;
+	std::map<std::string, GLWTab *> buyTabs_;
 	GLWTab *sellTab_;
 	GLWTab *favouritesTab_;
 	GLWPanel *topPanel_;
@@ -67,6 +66,7 @@ protected:
 	std::map<unsigned int, Accessory *> favMap_;
 	std::set<std::string> favorites_;
 
+	void addTabs();
 	void loadFavorites();
 	void saveFavorites();
 	void playerRefresh();
@@ -75,7 +75,7 @@ protected:
 	void addPlayerWeapons();
 	void addPlayerWeaponsSell();
 	void addPlayerFavorites();
-	void addPlayerWeaponsBuy(GLWTab *tab, bool weapons);
+	void addPlayerWeaponsBuy(GLWTab *tab, const char *group);
 	bool addAccessory(Tank *tank, GLWTab *tab, float height, Accessory *current);
 
 };

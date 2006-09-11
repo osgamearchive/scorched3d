@@ -59,10 +59,8 @@ public:
 		bool maxFuel = false);
 	void movementTexture();
 	MovementMapEntry &getEntry(int w, int h);
-	static unsigned int getFuelId() { return fuelId_; }
 
 protected:
-	static unsigned int fuelId_;
 	MovementMapEntry *entries_;
 	int width_, height_;
 

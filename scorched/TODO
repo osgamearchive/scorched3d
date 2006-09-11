@@ -35,6 +35,11 @@ Fixed: Textures are now checked for OpenGL size correctness
 Fixed: WeaponAimedUnder should now be able to aim downwards
 Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
 
+Added: WeaponSelectPosition to allow sub-weapons to be centered on user selected landscape position
+Added: positionselection attribute to accessories to allow weapons to be aimed by user clicking landscape
+Added: tabs in the buying dialog are now dynamicaly created from available accessory grouping
+Added: group attribute to accessories to allow grouping (needs expansion)
+Added: Fuel is now a weapon so tank movement can be combined with other weapons (e.g. firing)
 Added: Tank tracks during movement (tracks defined in tanks.xml)
 Added: Flag, ShowAliases and ShowIPAliases to admin web interface
 Added: Server state can be viewed in the admin web interface

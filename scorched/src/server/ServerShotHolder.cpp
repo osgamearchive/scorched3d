@@ -202,9 +202,6 @@ void ServerShotHolder::processPlayedMoveMessage(ScorchedContext &context,
 					}
 				}
 				break;
-			case ComsPlayedMoveMessage::eMove:
-				processMoveMessage(context, message, tank);
-				break;
 			default:
 				// add other START round types
 				break;
@@ -225,44 +222,6 @@ void ServerShotHolder::processPlayedMoveMessage(ScorchedContext &context,
 			default:
 				// Add other END round types
 				break;
-		}
-	}
-}
-
-void ServerShotHolder::processMoveMessage(ScorchedContext &context, 
-	ComsPlayedMoveMessage &message, Tank *tank)
-{
-	// Check the is alive
-	if (tank->getState().getState() != TankState::sNormal) return;
-
-	Accessory *accessory = 
-		context.accessoryStore->findByAccessoryId(
-		message.getWeaponId());
-	if (!accessory || accessory->getType() != AccessoryPart::AccessoryFuel)
-	{
-		return;
-	}
-
-	int posX = message.getPositionX();
-	int posY = message.getPositionY();
-	if (posX > 0 && posX < context.landscapeMaps->getDefinitions().getDefn()->landscapewidth &&
-		posY > 0 && posY < context.landscapeMaps->getDefinitions().getDefn()->landscapeheight)
-	{
-		MovementMap mmap(
-			context.landscapeMaps->getDefinitions().getDefn()->landscapewidth,
-			context.landscapeMaps->getDefinitions().getDefn()->landscapeheight);
-		mmap.calculateForTank(tank, accessory->getAccessoryId(), context);
-		MovementMap::MovementMapEntry entry =
-			mmap.getEntry(posX, posY);
-		if (entry.type == MovementMap::eMovement &&
-			(entry.dist < tank->getAccessories().getAccessoryCount(accessory) ||
-			tank->getAccessories().getAccessoryCount(accessory) == -1))
-		{
-			TankMovement *move = 
-				new TankMovement(tank->getPlayerId(), 
-					(Fuel *) accessory->getAction(),
-					posX, posY);
-			context.actionController->addAction(move);
 		}
 	}
 }
@@ -319,6 +278,9 @@ void ServerShotHolder::processFiredMessage(ScorchedContext &context,
 						message.getRotationYZ(), false);
 					tank->getPosition().changePower(
 						message.getPower(), false);
+					tank->getPosition().setSelectPosition(
+						message.getSelectPositionX(), 
+						message.getSelectPositionY());
 
 					// Create the action for the weapon and
 					// add it to the action controller

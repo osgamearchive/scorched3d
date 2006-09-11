@@ -90,6 +90,15 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 	{
 		ScorchedClient::instance()->getGameState().stimulate(
 			ClientState::StimPlaying);
+
+		// Set the current weapon, so any graphics are updated
+		Tank *currentTank = 
+			ScorchedClient::instance()->getTankContainer().getCurrentTank();
+		if (currentTank)
+		{
+			currentTank->getAccessories().getWeapons().setWeapon(
+				currentTank->getAccessories().getWeapons().getCurrent());
+		}
 	}
 	return true;
 }

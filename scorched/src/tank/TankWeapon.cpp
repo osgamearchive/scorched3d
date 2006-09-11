@@ -23,6 +23,10 @@
 #include <tank/Tank.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
+#include <landscape/Landscape.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/MovementMap.h>
+#include <dialogs/MessageDialog.h>
 
 TankWeapon::TankWeapon(ScorchedContext &context) : 
 	currentWeapon_(0), context_(context),
@@ -36,7 +40,7 @@ TankWeapon::~TankWeapon()
 
 void TankWeapon::newMatch()
 {
-	currentWeapon_ = 0;
+	setCurrentWeapon(0);
 }
 
 void TankWeapon::changed()
@@ -47,8 +51,7 @@ void TankWeapon::changed()
 		currentWeapon_ == 0)
 	{
 		std::list<Accessory *> result;
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryWeapon, result);
+		tank_->getAccessories().getAllAccessoriesByGroup("weapon", result);
 		if (!result.empty())
 		{
 			setWeapon(result.front());
@@ -77,6 +80,35 @@ Accessory *TankWeapon::getCurrent()
 
 void TankWeapon::setCurrentWeapon(Accessory *wp)
 {
+	if (!context_.serverMode)
+	{
+		// Turn off fuel display (if any)
+		if (currentWeapon_ && 
+			currentWeapon_->getPositionSelect() != Accessory::ePositionSelectNone)
+		{
+			Landscape::instance()->restoreLandscapeTexture();
+		}
+		// Turn on selection display (if any)
+		if (wp &&
+			wp->getPositionSelect() != Accessory::ePositionSelectNone)
+		{
+			if (wp->getPositionSelect() == Accessory::ePositionSelectFuel)
+			{
+				MovementMap mmap(
+					context_.landscapeMaps->getGroundMaps().getMapWidth(),
+					context_.landscapeMaps->getGroundMaps().getMapHeight());
+				mmap.calculateForTank(
+					tank_, 
+					wp->getAccessoryId(), 
+					context_);
+				mmap.movementTexture();	
+			}
+
+			MessageDialog::instance()->addMessage(
+				formatString("Click ground to activate %s", wp->getName()));
+		}
+	}
+
 	currentWeapon_ = wp;
 }
 

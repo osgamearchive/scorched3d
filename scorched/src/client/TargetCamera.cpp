@@ -20,6 +20,7 @@
 
 #include <client/TargetCamera.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <actions/CameraPositionAction.h>
 #include <weapons/AccessoryStore.h>
 #include <common/OptionsDisplay.h>
@@ -31,6 +32,7 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscape/Water.h>
 #include <engine/ViewPoints.h>
+#include <engine/GameState.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
 #include <common/Keyboard.h>
@@ -421,65 +423,86 @@ void TargetCamera::mouseWheel(int x, int y, int z, bool &skipRest)
 void TargetCamera::mouseDown(GameState::MouseButton button, 
 	int x, int y, bool &skipRest)
 {
+	// Set the current viewport etc...
 	mainCam_.draw();
 
+	// Try to find the intersection point
 	Vector intersect;
 	Line direction;
-	if (mainCam_.getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
+	if (!mainCam_.getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
 	{
-		if (ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
-			getIntersect(direction, intersect))
+		return;
+	}
+	if (!ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+		getIntersect(direction, intersect))
+	{
+		return;
+	}
+
+    skipRest = true;
+
+	// Does the click on the landscape mean we move there
+	// or do we just want to look there
+	// This depends on the mode the current weapon is
+	Accessory *currentWeapon = 0;
+	Tank *currentTank = 0;
+	Accessory::PositionSelectType selectType = Accessory::ePositionSelectNone;
+	if (ScorchedClient::instance()->getGameState().getState() == 
+		ClientState::StatePlaying)
+	{
+		currentTank = ScorchedClient::instance()->
+			getTankContainer().getCurrentTank();
+		if (currentTank)
 		{
-			skipRest = true;
-
-			// Does the click on the landscape mean we move there
-			// or do we just want to look there
-			// This depends on the mode the landscape texture is in...
-			if (Landscape::instance()->getTextureType() == Landscape::eMovement)
+			currentWeapon = currentTank->getAccessories().getWeapons().getCurrent();
+			if (currentWeapon)
 			{
-				// Try to move the tank to the position on the landscape
-				Tank *currentTank = ScorchedClient::instance()->
-					getTankContainer().getCurrentTank();
-				if (currentTank && currentTank->getState().getState() == TankState::sNormal)
-				{
-					int landWidth = ScorchedClient::instance()->
-						getLandscapeMaps().getDefinitions().getDefn()->landscapewidth;
-					int landHeight = ScorchedClient::instance()->
-						getLandscapeMaps().getDefinitions().getDefn()->landscapeheight;
-					int posX = (int) intersect[0];
-					int posY = (int) intersect[1];
-					if (posX > 0 && posX < landWidth &&
-						posY > 0 && posY < landHeight)
-					{
-						Accessory *accessory = 
-							ScorchedClient::instance()->getAccessoryStore().findByAccessoryId(MovementMap::getFuelId());
-						if (accessory)
-						{
-							MovementMap mmap(landWidth, landHeight);
-							mmap.calculateForTank(currentTank,
-								MovementMap::getFuelId(),
-								ScorchedClient::instance()->getContext());
-
-							MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
-							if (entry.type == MovementMap::eMovement &&
-								(entry.dist < currentTank->getAccessories().getAccessoryCount(accessory) ||
-								currentTank->getAccessories().getAccessoryCount(accessory) == -1))
-							{
-								TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
-								if (ai) ai->move(posX, posY, MovementMap::getFuelId());
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				// Just look at the point on the landscape
-				cameraPos_ = CamFree;
-				mainCam_.setLookAt((Vector &) intersect);
+				selectType = currentWeapon->getPositionSelect();
 			}
 		}
-	}	
+	}
+
+	// Just look at the point on the landscape
+	if (selectType == Accessory::ePositionSelectNone)
+	{
+		cameraPos_ = CamFree;
+		mainCam_.setLookAt((Vector &) intersect);
+		return;
+	}
+
+	// Try to move the tank to the position on the landscape
+	int landWidth = ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions().getDefn()->landscapewidth;
+	int landHeight = ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions().getDefn()->landscapeheight;
+	int posX = (int) intersect[0];
+	int posY = (int) intersect[1];
+	if (posX > 0 && posX < landWidth &&
+		posY > 0 && posY < landHeight)
+	{
+		if (selectType == Accessory::ePositionSelectFuel)
+		{
+			MovementMap mmap(landWidth, landHeight);
+			mmap.calculateForTank(currentTank,
+				currentWeapon->getAccessoryId(),
+				ScorchedClient::instance()->getContext());
+
+			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
+			if (entry.type == MovementMap::eMovement &&
+				(entry.dist < currentTank->getAccessories().getAccessoryCount(currentWeapon) ||
+				currentTank->getAccessories().getAccessoryCount(currentWeapon) == -1))
+			{
+			}
+			else return; // Do nothing
+		}
+
+		TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
+		if (ai) 
+		{
+			currentTank->getPosition().setSelectPosition(posX, posY);
+			ai->fireShot();
+		}
+	}
 }
 
 void TargetCamera::keyboardCheck(float frameTime, 

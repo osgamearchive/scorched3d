@@ -105,7 +105,15 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("FIRE_WEAPON", fireKey);
 	if (fireKey->keyDown(buffer, keyState, false))
 	{
-		fireShot();
+		// Only allow the standard fire key when we are not selecting a point
+		// on the landscape.
+		Accessory *currentWeapon = 
+			currentTank_->getAccessories().getWeapons().getCurrent();
+		if (currentWeapon &&
+			currentWeapon->getPositionSelect() == Accessory::ePositionSelectNone)
+		{
+			fireShot();
+		}
 	}
 
 	KEYBOARDKEY("AUTO_AIM", aimKey);
@@ -469,7 +477,9 @@ void TankAIHuman::fireShot()
 			currentWeapon->getAccessoryId(),
 			currentTank_->getPosition().getRotationGunXY(),
 			currentTank_->getPosition().getRotationGunYZ(),
-			currentTank_->getPosition().getPower());
+			currentTank_->getPosition().getPower(),
+			currentTank_->getPosition().getSelectPositionX(),
+			currentTank_->getPosition().getSelectPositionY());
 
 		// If so we send this move to the server
 		ComsMessageSender::sendToServer(comsMessage);
@@ -498,20 +508,6 @@ void TankAIHuman::resign()
 	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eResign);
 
 	// Check if we are running in a NET/LAN environment
-	// If so we send this move to the server
-	ComsMessageSender::sendToServer(comsMessage);
-	
-	// Stimulate into the next state waiting for all the shots
-	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
-}
-
-void TankAIHuman::move(int x, int y, unsigned int fuelId)
-{
-	// send message saying we are finished with shot
-	ComsPlayedMoveMessage comsMessage(
-		currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
-	comsMessage.setPosition(fuelId, x, y);
-
 	// If so we send this move to the server
 	ComsMessageSender::sendToServer(comsMessage);
 	

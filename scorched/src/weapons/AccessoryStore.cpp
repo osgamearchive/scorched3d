@@ -91,6 +91,7 @@ bool AccessoryStore::parseFile(
 		}
 
 		// Add the accessory
+		groups_.insert(accessory->getGroupName());
 		accessories_.push_back(accessory);
 
 		// Add weapons to death animations, weighted by arms level
@@ -200,7 +201,8 @@ void AccessoryStore::sortList(std::list<Accessory *> &accList)
 	}
 }
 
-std::list<Accessory *> AccessoryStore::getAllWeapons(bool sort)
+std::list<Accessory *> AccessoryStore::getAllAccessoriesByGroup(
+	const char *group, bool sort)
 {
 	std::list<Accessory *> result;
 	std::list<Accessory *>::iterator itor;
@@ -208,25 +210,8 @@ std::list<Accessory *> AccessoryStore::getAllWeapons(bool sort)
 		itor != accessories_.end();
 		itor++)
 	{
-		if ((*itor)->getAction()->getType() == AccessoryPart::AccessoryWeapon)
-		{
-			result.push_back(*itor);
-		}
-	}
-
-	if (sort) sortList(result);
-	return result;
-}
-
-std::list<Accessory *> AccessoryStore::getAllOthers(bool sort)
-{
-	std::list<Accessory *> result;
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories_.begin();
-		itor != accessories_.end();
-		itor++)
-	{
-		if ((*itor)->getAction()->getType() != AccessoryPart::AccessoryWeapon)
+		Accessory *accessory = (*itor);
+		if (0 == strcmp(group, accessory->getGroupName()))
 		{
 			result.push_back(*itor);
 		}
@@ -259,19 +244,6 @@ Weapon *AccessoryStore::getMuzzelFlash()
 Weapon *AccessoryStore::getDeathAnimation()
 {
 	return deathAnimation_;
-}
-
-Accessory *AccessoryStore::findByAccessoryType(AccessoryPart::AccessoryType type)
-{
-	std::list<Accessory *>::iterator itor;
-	for (itor = accessories_.begin();
-		itor != accessories_.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		if (accessory->getAction()->getType() == type) return accessory;
-	}
-	return 0;
 }
 
 Accessory *AccessoryStore::findByPrimaryAccessoryName(const char *name)

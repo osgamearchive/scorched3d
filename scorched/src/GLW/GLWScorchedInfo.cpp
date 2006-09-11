@@ -226,8 +226,8 @@ void GLWScorchedInfo::draw()
 			{
 			int totalCount = 0;
 			std::list<Accessory *> entries;
-			current->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryFuel, entries);			
+			current->getAccessories().getAllAccessoriesByGroup(
+				"fuel", entries);			
 			std::list<Accessory *>::iterator itor;
 			for (itor = entries.begin();
 				itor != entries.end();

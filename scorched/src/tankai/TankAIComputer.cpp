@@ -346,7 +346,9 @@ void TankAIComputer::fireShot()
 			currentWeapon->getAccessoryId(),
 			currentTank_->getPosition().getRotationGunXY(),
 			currentTank_->getPosition().getRotationGunYZ(),
-			currentTank_->getPosition().getPower());
+			currentTank_->getPosition().getPower(),
+			currentTank_->getPosition().getSelectPositionX(),
+			currentTank_->getPosition().getSelectPositionY());
 	
 		ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
 	}
@@ -363,15 +365,6 @@ void TankAIComputer::resign()
 {
 	ComsPlayedMoveMessage *message = 
 		new ComsPlayedMoveMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eResign);
-	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
-}
-
-void TankAIComputer::move(int x, int y, unsigned int fuelId)
-{
-	ComsPlayedMoveMessage *message = 
-		new ComsPlayedMoveMessage(
-			currentTank_->getPlayerId(), ComsPlayedMoveMessage::eMove);
-	message->setPosition(fuelId, x, y);
 	ServerShotHolder::instance()->addShot(currentTank_->getPlayerId(), message);
 }
 

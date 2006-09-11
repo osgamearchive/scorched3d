@@ -57,8 +57,6 @@ protected:
 		virtual bool getMenuItems(const char* menuName, 
 			std::list<GLMenuItem> &result);
 		virtual bool getEnabled(const char* menuName);
-
-		std::vector<Accessory *> menuItems_;
 	} accessoryMenu_;	
 
 	void showTankDetails();

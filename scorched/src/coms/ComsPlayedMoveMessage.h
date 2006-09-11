@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_ComsPlayedMoveMessageh_INCLUDE__)
 #define __INCLUDE_ComsPlayedMoveMessageh_INCLUDE__
 
@@ -32,7 +31,6 @@ public:
 		eNone,
 		eShot,
 		eResign,
-		eMove,
 		eSkip,
 		eFinishedBuy
 	};
@@ -41,18 +39,19 @@ public:
 		MoveType type = eNone);
 	virtual ~ComsPlayedMoveMessage();
 
-	void setPosition(unsigned int fuelId, int x, int y);
 	void setShot(unsigned int weaponId,
 		float rotationXY,
 		float rotationYZ,
-		float power);
+		float power,
+		int positionX, 
+		int positionY);
 
 	unsigned int getPlayerId() { return playerId_; }
 	unsigned int getWeaponId() { return weaponId_; }
 	float getRotationXY() { return rotationXY_; }
 	float getRotationYZ() { return rotationYZ_; }
-	int getPositionX() { return (int) rotationXY_; }
-	int getPositionY() { return (int) rotationYZ_; }
+	int getSelectPositionX() { return selectPositionX_; }
+	int getSelectPositionY() { return selectPositionY_; }
 	float getPower() { return power_; }
 	MoveType getType() { return moveType_; }
 
@@ -67,11 +66,12 @@ protected:
 	float rotationXY_;
 	float rotationYZ_;
 	float power_;
+	int selectPositionX_;
+	int selectPositionY_;
 
 private:
 	ComsPlayedMoveMessage(const ComsPlayedMoveMessage &);
 	const ComsPlayedMoveMessage & operator=(const ComsPlayedMoveMessage &);
 };
-
 
 #endif

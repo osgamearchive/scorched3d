@@ -1741,12 +1741,6 @@
 				RelativePath="..\weapons\EconomyStore.h">
 			</File>
 			<File
-				RelativePath="..\weapons\Fuel.cpp">
-			</File>
-			<File
-				RelativePath="..\weapons\Fuel.h">
-			</File>
-			<File
 				RelativePath="..\weapons\Parachute.cpp">
 			</File>
 			<File
@@ -1891,6 +1885,12 @@
 				RelativePath="..\weapons\WeaponMirv.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponMoveTank.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponMoveTank.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponMulti.cpp">
 			</File>
 			<File
@@ -1961,6 +1961,12 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponScatterPosition.h">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponSelectPosition.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponSelectPosition.h">
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponSkyFlash.cpp">
