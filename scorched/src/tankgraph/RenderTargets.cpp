@@ -59,7 +59,7 @@ void RenderTargets::Renderer3D::draw(const unsigned state)
 	RenderTargets::instance()->draw(RenderTargets::Type3D, state);
 }
 
-void RenderTargets::Renderer3D::simulate(const unsigned state, float simTime)
+void RenderTargets::Renderer2D::simulate(const unsigned state, float simTime)
 {
 	// Simulate the HUD
 	TargetRendererImplTankHUD::simulate(simTime);

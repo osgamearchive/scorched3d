@@ -18,12 +18,53 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TargetRendererImplTarget.h>
+#include <tankgraph/TargetRendererImplTargetTree.h>
+#include <landscape/Landscape.h>
+#include <landscape/ShadowMap.h>
+#include <3dsparse/ModelStore.h>
+#include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLViewPort.h>
+#include <GLEXT/GLState.h>
+#include <GLW/GLWToolTip.h>
+#include <dialogs/TutorialDialog.h>
+#include <client/MainCamera.h>
 
-TargetRendererImplTarget::TargetRendererImplTarget()
+TargetRendererImplTargetTree::TargetRendererImplTargetTree(Target *target, 
+	const char *tree, float size, float color, bool useSnow) :
+	target_(target),
+	burnt_(false)
 {
 }
 
-TargetRendererImplTarget::~TargetRendererImplTarget()
+TargetRendererImplTargetTree::~TargetRendererImplTargetTree()
 {
+}
+
+void TargetRendererImplTargetTree::simulate(float frameTime)
+{
+}
+
+void TargetRendererImplTargetTree::draw(float distance)
+{
+}
+
+void TargetRendererImplTargetTree::draw2d()
+{
+}
+
+void TargetRendererImplTargetTree::drawSecond(float distance)
+{
+}
+
+void TargetRendererImplTargetTree::shieldHit()
+{
+}
+
+void TargetRendererImplTargetTree::fired()
+{
+}
+
+void TargetRendererImplTargetTree::targetBurnt()
+{
+	burnt_ = true;
 }

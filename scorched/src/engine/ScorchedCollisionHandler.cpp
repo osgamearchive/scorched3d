@@ -121,7 +121,7 @@ void ScorchedCollisionHandler::targetCollision(
 void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts)
 {
-	const dReal *bouncePosition = dGeomGetPosition(o1);
+	const dReal *bouncePosition = 0;
 	ScorchedCollisionInfo *bounceInfo = 
 		(ScorchedCollisionInfo *) dGeomGetData(o1);
 	ScorchedCollisionInfo *otherInfo = 
@@ -131,6 +131,10 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 		bouncePosition = dGeomGetPosition(o2);
 		bounceInfo = (ScorchedCollisionInfo *) dGeomGetData(o2);
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
+	}
+	else
+	{
+		bouncePosition = dGeomGetPosition(o1);
 	}
 
 	ShotBounce *particle = (ShotBounce *) bounceInfo->data;
@@ -192,7 +196,7 @@ void ScorchedCollisionHandler::bounceCollision(dGeomID o1, dGeomID o2,
 void ScorchedCollisionHandler::groundCollision(dGeomID o1, dGeomID o2, 
 		dContactGeom *contacts, int noContacts, bool metaAction)
 {
-	const dReal *tankPosition = dGeomGetPosition(o1);
+	const dReal *tankPosition = 0;
 	ScorchedCollisionInfo *tankInfo = 
 		(ScorchedCollisionInfo *) dGeomGetData(o1);
 	ScorchedCollisionInfo *otherInfo = 
@@ -202,6 +206,10 @@ void ScorchedCollisionHandler::groundCollision(dGeomID o1, dGeomID o2,
 		tankPosition = dGeomGetPosition(o2);
 		tankInfo = (ScorchedCollisionInfo *) dGeomGetData(o2);
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
+	}
+	else
+	{
+		tankPosition = dGeomGetPosition(o1);
 	}
 
 	// only collide with the ground, walls or landscape
@@ -240,19 +248,20 @@ void ScorchedCollisionHandler::shotCollision(dGeomID o1, dGeomID o2,
 {
 	float deflectPower = 1.0f;
 	ScorchedCollisionType collisionType = CollisionNone;
-	const dReal *particlePosition = dGeomGetPosition(o1);
+	const dReal *particlePosition = 0;
 	ScorchedCollisionInfo *particleInfo = 
 		(ScorchedCollisionInfo *) dGeomGetData(o1);
 	ScorchedCollisionInfo *otherInfo = 
 		(ScorchedCollisionInfo *) dGeomGetData(o2);
-
-	DIALOG_ASSERT(particleInfo && otherInfo);
-
 	if (otherInfo->id == CollisionIdShot)
 	{
 		particlePosition = dGeomGetPosition(o2);
 		particleInfo = (ScorchedCollisionInfo *) dGeomGetData(o2);
 		otherInfo = (ScorchedCollisionInfo *) dGeomGetData(o1);
+	}
+	else
+	{
+		particlePosition = dGeomGetPosition(o1);
 	}
 
 	unsigned int id = (unsigned long) otherInfo->data;

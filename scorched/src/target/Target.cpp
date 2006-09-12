@@ -39,6 +39,7 @@ Target::Target(unsigned int playerId,
 	border_(0.0f)
 {
 	life_.setTarget(this);
+	life_.setBoundingSphere(true);
 }
 
 Target::~Target()

@@ -22,9 +22,6 @@
 #define __INCLUDE_TargetRendererImplTargeth_INCLUDE__
 
 #include <tankgraph/TargetRendererImpl.h>
-#include <tankgraph/GLWTankTip.h>
-#include <3dsparse/ModelRenderer.h>
-#include <3dsparse/ModelID.h>
 #include <landscape/LandscapeObjectsEntry.h>
 
 class TargetRendererImplTarget : 
@@ -32,33 +29,8 @@ class TargetRendererImplTarget :
 	public LandscapeObjectEntryBase
 {
 public:
-	TargetRendererImplTarget(Target *target, 
-		ModelID model, ModelID burntModel,
-		float scale);
+	TargetRendererImplTarget();
 	virtual ~TargetRendererImplTarget();
-
-	virtual void simulate(float frameTime);
-	virtual void draw(float distance);
-	virtual void drawSecond(float distance);
-	virtual void draw2d();
-	virtual void shieldHit();
-	virtual void fired();
-	virtual void targetBurnt();
-
-	virtual Vector &getPosition() { return target_->getTargetPosition(); }
-
-protected:
-	Target *target_;
-	ModelRenderer *modelRenderer_;
-	ModelRenderer *burntModelRenderer_;
-	bool canSeeTank_;
-	bool burnt_;
-	float shieldHit_, totalTime_;
-	float scale_;
-	double posX_, posY_, posZ_;
-	GLWTargetTips targetTips_;
-
-	void storeTank2DPos();
 };
 
 #endif // __INCLUDE_TargetRendererImplTargeth_INCLUDE__

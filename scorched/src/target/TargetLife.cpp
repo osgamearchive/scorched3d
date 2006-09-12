@@ -34,7 +34,6 @@ TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	targetGeom_(0)
 {
 	targetInfo_.data = (void *) playerId;
-	setBoundingSphere(true);
 }
 
 TargetLife::~TargetLife()
@@ -118,21 +117,21 @@ void TargetLife::setBoundingSphere(bool sphereGeom)
 	if (targetGeom_) dGeomDestroy(targetGeom_);
 	sphereGeom_ = sphereGeom; 
 
+	dSpaceID spaceId = context_.actionController->getPhysics().getTargetSpace();
+	if (!target_->isTarget())
+	{
+		spaceId = context_.actionController->getPhysics().getTankSpace();
+	}
+
 	// The tank collision object
 	if (sphereGeom_)
 	{
 		double radius = MAX(size_[0], size_[1]) / 2.0f;
-		targetGeom_ = 
-			dCreateSphere(
-				context_.actionController->getPhysics().getSpace(), 
-				radius);
+		targetGeom_ = dCreateSphere(spaceId, radius);
 	}
 	else
 	{
-		targetGeom_ =
-			dCreateBox(
-				context_.actionController->getPhysics().getSpace(), 
-				size_[0], size_[1], size_[2]);
+		targetGeom_ = dCreateBox(spaceId, size_[0], size_[1], size_[2]);
 	}
 	dGeomSetData(targetGeom_, &targetInfo_);
 	dGeomDisable(targetGeom_);

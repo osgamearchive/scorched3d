@@ -56,7 +56,7 @@ void HeightMapCollision::create()
 	// Create the walls and ground
 	// Create the ground 
 	{
-		dGeomID ground = dCreatePlane(engine.getSpace(),0,0,1,0);
+		dGeomID ground = dCreatePlane(engine.getGroundSpace(),0,0,1,0);
 		dGeomSetData(ground, (void *) &groundInfo_);
 	}
 
@@ -72,7 +72,7 @@ void HeightMapCollision::create()
 
 	dGeomID geom = dCreateGeom(landscapeClass_);
 	dGeomSetData(geom, (void *) &info_);
-	dSpaceAdd(engine.getSpace(), geom);
+	dSpaceAdd(engine.getGroundSpace(), geom);
 }
 
 void HeightMapCollision::generate()
@@ -96,23 +96,23 @@ void HeightMapCollision::generate()
 
 		// Create the side walls
 		{
-			sidea_ = dCreatePlane(engine.getSpace(),0,1,0,5);
+			sidea_ = dCreatePlane(engine.getGroundSpace(),0,1,0,5);
 			dGeomSetData(sidea_, (void *) &wallInfoTop_);
 		}
 		{
 			int mapHeight = 
 				context_->landscapeMaps->getGroundMaps().getMapHeight();
-			sideb_ = dCreatePlane(engine.getSpace(),0,-1,0,-mapHeight + 5);
+			sideb_ = dCreatePlane(engine.getGroundSpace(),0,-1,0,-mapHeight + 5);
 			dGeomSetData(sideb_, (void *) &wallInfoBottom_);
 		}
 		{
-			sidec_ = dCreatePlane(engine.getSpace(),1,0,0,5);
+			sidec_ = dCreatePlane(engine.getGroundSpace(),1,0,0,5);
 			dGeomSetData(sidec_, (void *) &wallInfoLeft_);
 		}
 		{
 			int mapWidth = 
 				context_->landscapeMaps->getGroundMaps().getMapWidth();
-			sided_ = dCreatePlane(engine.getSpace(),-1,0,0,-mapWidth + 5);
+			sided_ = dCreatePlane(engine.getGroundSpace(),-1,0,0,-mapWidth + 5);
 			dGeomSetData(sided_, (void *) &wallInfoRight_);
 		}
 	}

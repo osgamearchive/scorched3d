@@ -20,7 +20,7 @@
 
 #include <weapons/AccessoryStore.h>
 #include <common/RandomGenerator.h>
-#include <tankgraph/TargetRendererImplTarget.h>
+#include <tankgraph/TargetRendererImplTargetModel.h>
 #include <target/TargetDefinition.h>
 #include <target/Target.h>
 #include <common/Defines.h>
@@ -67,7 +67,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	if (!context.serverMode)
 	{
 		target->setRenderer(
-			new TargetRendererImplTarget(
+			new TargetRendererImplTargetModel(
 				target, modelId_, modelburntId_,
 				modelscale_));
 	}

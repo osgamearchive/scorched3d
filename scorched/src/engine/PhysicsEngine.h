@@ -40,7 +40,10 @@ public:
 	void setGravity(Vector &gravity);
 
 	dWorldID &getWorld() { return world_; }
-	dSpaceID &getSpace() { return space_; }
+	dSpaceID &getTargetSpace() { return targetSpace_; }
+	dSpaceID &getParticleSpace() { return particleSpace_; }
+	dSpaceID &getTankSpace() { return tankSpace_; }
+	dSpaceID &getGroundSpace() { return groundSpace_; }
 	dJointGroupID &getContactGroup() { return contactgroup_; }
 
 	virtual void stepSimulation(float frameTime);
@@ -48,7 +51,10 @@ public:
 protected:
 	PhysicsEngineCollision *handler_;
 	dWorldID world_;
-	dSpaceID space_;
+	dSpaceID targetSpace_;
+	dSpaceID tankSpace_;
+	dSpaceID particleSpace_;
+	dSpaceID groundSpace_;
 	dJointGroupID contactgroup_;
 	bool create();
 	void destroy();

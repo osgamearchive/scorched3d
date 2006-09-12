@@ -18,15 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// FrameTimer.h: interface for the FrameTimer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_FRAMETIMER_H__00CDF717_3628_42C1_B84E_6F9B15C4FC4E__INCLUDED_)
 #define AFX_FRAMETIMER_H__00CDF717_3628_42C1_B84E_6F9B15C4FC4E__INCLUDED_
 
 #include <engine/GameStateI.h>
+#include <engine/PhysicsEngine.h>
 #include <common/Clock.h>
 
 class FrameTimer : public GameStateI
@@ -42,6 +38,7 @@ protected:
 	static FrameTimer *instance_;
 	float totalTime_;
 	int frameCount_;
+	int geomCount(dSpaceID space);
 	Clock frameClock_;
 
 private:

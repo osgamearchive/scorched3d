@@ -693,6 +693,18 @@
 			<File
 				RelativePath="..\tankgraph\TargetRendererImplTarget.h">
 			</File>
+			<File
+				RelativePath="..\tankgraph\TargetRendererImplTargetModel.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TargetRendererImplTargetModel.h">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TargetRendererImplTargetTree.cpp">
+			</File>
+			<File
+				RelativePath="..\tankgraph\TargetRendererImplTargetTree.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="common"
@@ -2031,6 +2043,9 @@
 			</File>
 			<File
 				RelativePath="..\ode\collision_kernel.h">
+			</File>
+			<File
+				RelativePath="..\ode\collision_quadtreespace.cpp">
 			</File>
 			<File
 				RelativePath="..\ode\collision_space.cpp">

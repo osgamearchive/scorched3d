@@ -35,7 +35,7 @@ public:
 
 	static ModelRenderer *getAutoAimModel();
 	static bool drawAim() { return (timeLeft_ > 0.0f); }
-	static void setAimPosition(Vector &pos) { aimPosition_ = pos; timeLeft_= 2.0f; }
+	static void setAimPosition(Vector &pos) { aimPosition_ = pos; timeLeft_= 5.0f; }
 	static Vector &getAimPosition() { return aimPosition_; }
 
 protected:

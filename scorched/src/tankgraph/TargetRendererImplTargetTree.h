@@ -18,12 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_TargetRendererImplTargetTreeh_INCLUDE__)
+#define __INCLUDE_TargetRendererImplTargetTreeh_INCLUDE__
+
 #include <tankgraph/TargetRendererImplTarget.h>
 
-TargetRendererImplTarget::TargetRendererImplTarget()
+class TargetRendererImplTargetTree : 
+	public TargetRendererImplTarget
 {
-}
+public:
+	TargetRendererImplTargetTree(Target *target, 
+		const char *tree, float size, float color, bool useSnow);
+	virtual ~TargetRendererImplTargetTree();
 
-TargetRendererImplTarget::~TargetRendererImplTarget()
-{
-}
+	virtual void simulate(float frameTime);
+	virtual void draw(float distance);
+	virtual void drawSecond(float distance);
+	virtual void draw2d();
+	virtual void shieldHit();
+	virtual void fired();
+	virtual void targetBurnt();
+
+	virtual Vector &getPosition() { return target_->getTargetPosition(); }
+
+protected:
+	Target *target_;
+	bool burnt_;
+};
+
+#endif // __INCLUDE_TargetRendererImplTargetTreeh_INCLUDE__

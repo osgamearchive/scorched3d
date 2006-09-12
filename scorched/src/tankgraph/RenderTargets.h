@@ -33,12 +33,12 @@ public:
 	{
 		// Inherited from GameStateI
 		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
 	} render3D;
 	struct Renderer2D : public GameStateI
 	{
 		// Inherited from GameStateI
 		virtual void draw(const unsigned state);
+		virtual void simulate(const unsigned state, float simTime);
 	} render2D;
 
 	friend struct Renderer3D;

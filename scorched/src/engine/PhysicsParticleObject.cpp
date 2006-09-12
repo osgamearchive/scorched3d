@@ -62,7 +62,7 @@ void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position,
 	dBodySetMass(body_,&m);
 
 	// Create the geom representing the object
-	geom_ = dCreateSphere(engine.getSpace(), sphereSize);
+	geom_ = dCreateSphere(engine.getParticleSpace(), sphereSize);
 	dGeomSetBody(geom_, body_);	
 }
 

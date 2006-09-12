@@ -33,7 +33,7 @@ TargetShield::TargetShield(ScorchedContext &context,
 {
 	shieldInfo_.data = (void *) playerId;
 	shieldGeom_ =
-		dCreateSphere(context_.actionController->getPhysics().getSpace(), 
+		dCreateSphere(context_.actionController->getPhysics().getTargetSpace(), 
 		2.0f);
 	dGeomSetData(shieldGeom_, &shieldInfo_);
     dGeomDisable(shieldGeom_);

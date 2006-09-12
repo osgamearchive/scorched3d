@@ -23,7 +23,9 @@
 #include <common/OptionsGame.h>
 
 PhysicsEngine::PhysicsEngine() : 
-	world_(0), space_(0), 
+	world_(0), 
+	targetSpace_(0), groundSpace_(0), 
+	particleSpace_(0), tankSpace_(0),
 	contactgroup_(0), handler_(0)
 {
 	create();
@@ -43,7 +45,33 @@ bool PhysicsEngine::create()
 {
 	// Create the simultion world
 	world_ = dWorldCreate();
-	space_ = dHashSpaceCreate(0);
+
+	dVector3 staticCenter;
+	staticCenter[0] = 128.0;
+	staticCenter[1] = 128.0;
+	staticCenter[2] = 0.0;
+	staticCenter[3] = 0.0;
+	dVector3 staticSize;
+	staticSize[0] = 256.0;
+	staticSize[1] = 256.0;
+	staticSize[2] = 128.0;
+	staticSize[3] = 0.0;
+
+
+	typedef dReal dVector3[4];
+	targetSpace_ = dQuadTreeSpaceCreate(
+		0, // Existing space id
+		staticCenter, // Center
+		staticSize, // size,
+		5); // Depth
+	tankSpace_ = dQuadTreeSpaceCreate(
+		0, // Existing space id
+		staticCenter, // Center
+		staticSize, // size,
+		5); // Depth
+
+	particleSpace_ = dHashSpaceCreate(0);
+	groundSpace_ = dHashSpaceCreate(0);
 	contactgroup_ = dJointGroupCreate(0);
 
 	// Setup the world's settings
@@ -61,7 +89,10 @@ void PhysicsEngine::setGravity(Vector &gravity)
 void PhysicsEngine::destroy()
 {
 	dJointGroupDestroy(contactgroup_);
-	dSpaceDestroy(space_);
+	dSpaceDestroy(targetSpace_);
+	dSpaceDestroy(tankSpace_);
+	dSpaceDestroy(particleSpace_);
+	dSpaceDestroy(groundSpace_);
 	dWorldDestroy(world_);
 }
 
@@ -108,7 +139,11 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 void PhysicsEngine::stepSimulation(float stepSize)
 {
 	// Simulate the world
-	dSpaceCollide(space_, this, &nearCallback);
+	dSpaceCollide2((dGeomID) targetSpace_, (dGeomID) particleSpace_, this, &nearCallback); 
+	dSpaceCollide2((dGeomID) groundSpace_, (dGeomID) particleSpace_, this, &nearCallback); 
+	dSpaceCollide2((dGeomID) tankSpace_, (dGeomID) particleSpace_, this, &nearCallback); 
+	dSpaceCollide2((dGeomID) targetSpace_, (dGeomID) tankSpace_, this, &nearCallback); 
+	//dSpaceCollide(space_, this, &nearCallback);
 	//dWorldStep(world_, stepSize);
 	//dWorldStepFast1(world_, stepSize, 5);
 	dWorldQuickStep(world_, stepSize);

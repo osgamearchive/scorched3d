@@ -45,17 +45,21 @@ void RenderGeoms::draw(const unsigned state)
 	GLState glState(GLState::TEXTURE_OFF);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
+	//drawSpace(ScorchedClient::instance()->getActionController().
+	//	getPhysics().getTargetSpace());
+	//drawSpace(ScorchedClient::instance()->getActionController().
+	//	getPhysics().getTankSpace());
+	drawSpace(ScorchedClient::instance()->getActionController().
+		getPhysics().getParticleSpace());
+}
+
+void RenderGeoms::drawSpace(dSpaceID space)
+{
 	int enabledGeoms = 0;
-	int geoms = 
-		dSpaceGetNumGeoms(
-			ScorchedClient::instance()->getActionController().
-				getPhysics().getSpace());
+	int geoms = dSpaceGetNumGeoms(space);
 	for (int i=0; i<geoms; i++)
 	{
-		dGeomID geom = 
-			dSpaceGetGeom(
-				ScorchedClient::instance()->getActionController().
-					getPhysics().getSpace(), i);
+		dGeomID geom = dSpaceGetGeom(space, i);
 		if (dGeomIsEnabled(geom) != 1) continue;
 
 		int geomClass = dGeomGetClass(geom);

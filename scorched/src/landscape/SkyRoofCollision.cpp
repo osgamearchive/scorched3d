@@ -57,7 +57,7 @@ void SkyRoofCollision::create()
 
 	dGeomID geom = dCreateGeom(roofClass_);
 	dGeomSetData(geom, (void *) &info_);
-	dSpaceAdd(engine.getSpace(), geom);
+	dSpaceAdd(engine.getGroundSpace(), geom);
 }
 
 dColliderFn * SkyRoofCollision::dLandscapeGetColliderFn(int num)
