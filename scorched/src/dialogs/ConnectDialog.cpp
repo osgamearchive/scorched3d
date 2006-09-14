@@ -48,7 +48,7 @@ ConnectDialog::ConnectDialog() :
 	GLWWindow("Connect", -100.0f, 10.0f, 20.0f, 20.0f, eNoDraw | eNoTitle,
 		"Connection dialog"),
 	connectionState_(eWaiting),
-	tryCount_(0)
+	tryCount_(0), lastTime_(0)
 {
 	// Get the unique id
 	if (!idStore_.loadStore())
