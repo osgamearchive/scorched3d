@@ -495,6 +495,16 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 			}
 			else return; // Do nothing
 		}
+		else if (selectType == Accessory::ePositionSelectLimit)
+		{
+			int limit = currentWeapon->getPositionSelectLimit();
+			Vector position(posX, posY);
+			if ((currentTank->getTargetPosition() - position).Magnitude() > limit)
+			{
+				// Out of limit
+				return;
+			}
+		}
 
 		TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
 		if (ai) 

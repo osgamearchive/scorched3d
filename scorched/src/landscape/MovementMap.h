@@ -58,6 +58,7 @@ public:
 		ScorchedContext &context, 
 		bool maxFuel = false);
 	void movementTexture();
+	static void limitTexture(Vector &center, int limit);
 	MovementMapEntry &getEntry(int w, int h);
 
 protected:

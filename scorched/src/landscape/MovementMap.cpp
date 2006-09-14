@@ -326,5 +326,49 @@ void MovementMap::movementTexture()
 	}
 
 	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
-	Landscape::instance()->setTextureType(Landscape::eMovement);
+	Landscape::instance()->setTextureType(Landscape::eOther);
 }
+
+void MovementMap::limitTexture(Vector &center, int limit)
+{
+	GLBitmap newMap(
+		Landscape::instance()->getMainMap().getWidth(),
+		Landscape::instance()->getMainMap().getHeight());
+
+	float width = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
+	float height = (float)
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight();
+
+	GLubyte *src = Landscape::instance()->getMainMap().getBits();
+	GLubyte *dest = newMap.getBits();
+	for (int y=0; y<newMap.getHeight(); y++)
+	{
+		int posY = int(float(y) / float(newMap.getHeight()) * height);
+		for (int x=0; x<newMap.getWidth(); x++)
+		{
+			int posX = int(float(x) / float(newMap.getWidth()) * width);
+
+			Vector position(posX, posY);
+			if ((position - center).Magnitude() < limit)
+			{
+				dest[0] = src[0];
+				dest[1] = src[1];
+				dest[2] = src[2];
+			}
+			else
+			{
+				dest[0] = src[0] / 4;
+				dest[1] = src[1] / 4;
+				dest[2] = src[2] / 4;
+			}
+
+			src+=3;
+			dest+=3;
+		}
+	}
+
+	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+	Landscape::instance()->setTextureType(Landscape::eOther);
+}
+

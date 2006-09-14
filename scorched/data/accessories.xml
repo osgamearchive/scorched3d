@@ -1463,4 +1463,23 @@ and shields damaging the tank directly.</description>
 			</repeatweapon>
 		</accessoryaction>
 	</accessory>
+	
+	
+	<accessory>
+		<name>Teleport Test</name>
+		<maximumnumber>0</maximumnumber>
+		<bundlesize>1</bundlesize>
+		<model type="MilkShape">teleport/teleport.txt</model>
+		<nomuzzleflash/>
+		<cost>15000</cost>
+		<accessoryaction type='WeaponSelectPosition'>
+			<aimedweapon type='WeaponTeleport'>
+				<sound>data/wav/misc/teleport.wav</sound>
+				<delay>2.0</delay>
+			</aimedweapon>
+		</accessoryaction>
+		<nomuzzleflash/>
+		<positionselection>limit</positionselection>
+		<positionselectionlimit>40</positionselectionlimit>
+	</accessory>
 </accessories>

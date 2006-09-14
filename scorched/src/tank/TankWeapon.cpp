@@ -103,6 +103,11 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 					context_);
 				mmap.movementTexture();	
 			}
+			else if (wp->getPositionSelect() == Accessory::ePositionSelectLimit)
+			{
+				MovementMap::limitTexture(tank_->getTargetPosition(), 
+					wp->getPositionSelectLimit());
+			}
 
 			MessageDialog::instance()->addMessage(
 				formatString("Click ground to activate %s", wp->getName()));

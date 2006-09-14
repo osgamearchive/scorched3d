@@ -43,7 +43,8 @@ public:
 	{
 		ePositionSelectNone = 0,
 		ePositionSelectFuel = 1,
-		ePositionSelectGeneric = 2
+		ePositionSelectGeneric = 2,
+		ePositionSelectLimit = 3
 	};
 
 	bool parseXML(OptionsGame &context,
@@ -62,6 +63,7 @@ public:
 	const int getStartingNumber() { return startingNumber_; }
 	const bool getAIOnly() { return aiOnly_; }
 	PositionSelectType getPositionSelect() { return positionSelect_; }
+	int getPositionSelectLimit() { return positionSelectLimit_; }
 
 	GLWTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
@@ -97,6 +99,7 @@ protected:
 	std::string name_;
 	std::string description_;
 	std::string activationSound_;
+	int positionSelectLimit_;
 	int price_;
 	int originalPrice_;
 	int bundle_;

@@ -39,7 +39,7 @@ Accessory::Accessory() :
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(1), armsLevel_(9),
 	texture_(0), modelScale_(1.0f),
-	positionSelect_(ePositionSelectNone),
+	positionSelect_(ePositionSelectNone), positionSelectLimit_(10),
 	maximumNumber_(0),
 	startingNumber_(0),
 	muzzleFlash_(true),
@@ -139,6 +139,11 @@ bool Accessory::parseXML(OptionsGame &context,
 		else if (0 == strcmp(positionSelection.c_str(), "fuel"))
 		{
 			positionSelect_ = ePositionSelectFuel;
+		}
+		else if (0 == strcmp(positionSelection.c_str(), "limit"))
+		{
+			positionSelect_ = ePositionSelectLimit;
+			if (!accessoryNode->getNamedChild("positionselectionlimit", positionSelectLimit_)) return false;
 		}
 		else
 		{

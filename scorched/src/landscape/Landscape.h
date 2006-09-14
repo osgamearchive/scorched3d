@@ -44,7 +44,6 @@ public:
 	enum LandscapeTextureType
 	{
 		eDefault,
-		eMovement,
 		eOther
 	};
 
