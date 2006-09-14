@@ -11,10 +11,11 @@ foreach my $file (@files)
 	my %result = parseFile($file);
 	if (defined $result{"Class"})
 	{
-		print "----------\n";
-		print "Class - ".$result{"Class"}."\n";
+		#print "----------\n";
+		print "<accessoryaction type=\"".$result{"Class"}."\">\n";
 
-		if ($result{"Extends"} ne "")
+		#if ($result{"Extends"} ne "AccessoryPart")
+		if (($result{"Extends"} ne "") & ($result{"Extends"} ne "AccessoryPart"))
 		{
 			print "Extends - ".$result{"Extends"}."\n";
 		}
@@ -26,9 +27,11 @@ foreach my $file (@files)
 			{	
 				my %attrh = %{$attr};	
 				print "=========" if ($attrh{"Type"} eq "");
-				print "Attribute : ".$attrh{"Type"}." ".$attrh{"Name"}." ".$attrh{"Rest"}."\n";
+				#print "Attribute : ".$attrh{"Type"}." ".$attrh{"Name"}." ".$attrh{"Rest"}."\n";
+				print "\t<".$attrh{"Name"}.">".$attrh{"Type"}."</".$attrh{"Name"}.">\n";
 			}
 		}
+		print "</accessoryaction>\n\n"
 	}
 }
 
