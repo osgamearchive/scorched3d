@@ -28,7 +28,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponMoveTank);
 
 WeaponMoveTank::WeaponMoveTank() :
-	stepTime_(0.05f)
+	stepTime_(0.05f), useFuel_(true)
 {
 
 }
@@ -43,6 +43,7 @@ bool WeaponMoveTank::parseXML(OptionsGame &context,
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 	accessoryNode->getNamedChild("steptime", stepTime_, false);
+	accessoryNode->getNamedChild("usefuel", useFuel_, false);
 	return true;
 }
 

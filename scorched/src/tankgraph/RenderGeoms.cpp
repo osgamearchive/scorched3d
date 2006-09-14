@@ -47,8 +47,8 @@ void RenderGeoms::draw(const unsigned state)
 
 	//drawSpace(ScorchedClient::instance()->getActionController().
 	//	getPhysics().getTargetSpace());
-	//drawSpace(ScorchedClient::instance()->getActionController().
-	//	getPhysics().getTankSpace());
+	drawSpace(ScorchedClient::instance()->getActionController().
+		getPhysics().getTankSpace());
 	drawSpace(ScorchedClient::instance()->getActionController().
 		getPhysics().getParticleSpace());
 }

@@ -31,6 +31,7 @@
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>
 #include <coms/ComsStartGameMessage.h>
+#include <weapons/Accessory.h>
 
 ClientStartGameHandler *ClientStartGameHandler::instance_ = 0;
 
@@ -96,8 +97,16 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 			ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (currentTank)
 		{
-			currentTank->getAccessories().getWeapons().setWeapon(
-				currentTank->getAccessories().getWeapons().getCurrent());
+			Accessory *currentWeapon = currentTank->getAccessories().getWeapons().getCurrent();
+			if (currentWeapon && 
+				currentWeapon->getPositionSelect() != Accessory::ePositionSelectNone)
+			{
+				std::list<Accessory *> entries;
+				currentTank->getAccessories().getAllAccessoriesByGroup(
+					"weapon", entries);			
+				if (!entries.empty()) currentWeapon = entries.front();
+			}
+			currentTank->getAccessories().getWeapons().setWeapon(currentWeapon);
 		}
 	}
 	return true;

@@ -64,7 +64,7 @@ void ServerCommon::sendStringMessage(unsigned int dest, const char *text, bool b
 	for (char *r = (char *) text; *r; r++)
 	{
 		if (*r == '%') *r = ' ';
-		if (*r < 0 || * r > 128) *r = ' ';
+		if (*r < 0) *r = ' ';
 	}
 
 	if (blogMessage)
@@ -91,7 +91,7 @@ void ServerCommon::sendString(unsigned int dest, const char *text, bool blogMess
 	for (char *r = (char *) text; *r; r++)
 	{
 		if (*r == '%') *r = ' ';
-		if (*r < 0 || * r > 128) *r = ' ';
+		if (*r < 0) *r = ' ';
 	}
 
 	if (blogMessage)
@@ -118,7 +118,7 @@ void ServerCommon::sendStringAdmin(const char *text)
 	for (char *r = (char *) text; *r; r++)
 	{
 		if (*r == '%') *r = ' ';
-		if (*r < 0 || * r > 128) *r = ' ';
+		if (*r < 0) *r = ' ';
 	}
 
 	const char *logMessage = formatString("Admin Says : %s", text);

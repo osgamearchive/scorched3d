@@ -23,6 +23,7 @@
 #include <tank/TankType.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
+#include <tankai/TankAIAdder.h>
 #include <common/Defines.h>
 
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
@@ -118,7 +119,8 @@ void TargetLife::setBoundingSphere(bool sphereGeom)
 	sphereGeom_ = sphereGeom; 
 
 	dSpaceID spaceId = context_.actionController->getPhysics().getTargetSpace();
-	if (!target_->isTarget())
+	if (target_->getPlayerId() >= TankAIAdder::MIN_TANK_ID &&
+		target_->getPlayerId() <= TankAIAdder::MAX_TANK_ID)
 	{
 		spaceId = context_.actionController->getPhysics().getTankSpace();
 	}

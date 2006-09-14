@@ -95,8 +95,8 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 			int enabledGeoms = 
 				//geomCount(ScorchedClient::instance()->getActionController().
 				//	getPhysics().getTargetSpace()) +
-				//geomCount(ScorchedClient::instance()->getActionController().
-				//	getPhysics().getTankSpace()) +
+				geomCount(ScorchedClient::instance()->getActionController().
+					getPhysics().getTankSpace()) +
 				geomCount(ScorchedClient::instance()->getActionController().
 					getPhysics().getParticleSpace()) +
 				geomCount(ScorchedClient::instance()->getActionController().

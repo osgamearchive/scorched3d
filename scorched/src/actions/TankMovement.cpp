@@ -95,7 +95,11 @@ void TankMovement::init()
 	// to save space, z is calculated from the landscape
 	// Lower 32 bits = y position
 	// Upper 32 bits = x positions
-	bool maxFuel = !context_->serverMode; // Check fuel only on server
+	bool maxFuel = true;
+	if (weapon_->getUseFuel())
+	{
+		maxFuel = !context_->serverMode; // Check fuel only on server
+	}
 	std::list<unsigned int> positions;
 	MovementMap mmap(
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
@@ -320,7 +324,7 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Move the tank to this new position
 	// Use up one unit of fuel
-	if (useF)
+	if (useF && weapon_->getUseFuel())
 	{
 		tank->getAccessories().rm(weapon_->getParent());
 	}

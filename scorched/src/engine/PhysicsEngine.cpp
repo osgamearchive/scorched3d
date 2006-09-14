@@ -64,12 +64,7 @@ bool PhysicsEngine::create()
 		staticCenter, // Center
 		staticSize, // size,
 		5); // Depth
-	tankSpace_ = dQuadTreeSpaceCreate(
-		0, // Existing space id
-		staticCenter, // Center
-		staticSize, // size,
-		5); // Depth
-
+	tankSpace_ = dHashSpaceCreate(0);
 	particleSpace_ = dHashSpaceCreate(0);
 	groundSpace_ = dHashSpaceCreate(0);
 	contactgroup_ = dJointGroupCreate(0);

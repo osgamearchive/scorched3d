@@ -333,14 +333,15 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 			itor++)
 		{
 			LogFile &logFile = *itor;
+			const char *fileName = logFile.fileName.mb_str(wxConvUTF8);
 			log += formatString(
 				"<tr>"
 				"<td><font size=-1><a href=?filename=%s&sid=%s>%s</a></font></td>"
 				"<td><font size=-1>%s</font></td>"
 				"</tr>\n",
-				logFile.fileName.mb_str(wxConvUTF8),
+				fileName,
 				fields["sid"].c_str(),
-				logFile.fileName.mb_str(wxConvUTF8),
+				fileName,
 				ctime(&logFile.fileTime));
 		}
 		fields["LOG"] = log;
