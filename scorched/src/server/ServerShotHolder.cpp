@@ -244,65 +244,82 @@ void ServerShotHolder::processFiredMessage(ScorchedContext &context,
 	ComsPlayedMoveMessage &message, Tank *tank)
 {
 	// Check the tank is alive
-	if (tank->getState().getState() == TankState::sNormal)
+	if (tank->getState().getState() != TankState::sNormal)
 	{
-		// Check the weapon name exists and is a weapon
-		Accessory *accessory = 
-			context.accessoryStore->findByAccessoryId(
-			message.getWeaponId());
-		if (accessory && accessory->getType() == AccessoryPart::AccessoryWeapon)
+		return;
+	}
+
+	// Check the weapon name exists and is a weapon
+	Accessory *accessory = 
+		context.accessoryStore->findByAccessoryId(
+		message.getWeaponId());
+	if (accessory && accessory->getType() != AccessoryPart::AccessoryWeapon)
+	{
+		return;
+	}
+
+	// Check this tank has these weapons
+	int count = 
+		tank->getAccessories().getAccessoryCount(accessory);
+	if (count > 0 || count == -1) {}
+	else return;
+
+	// Check armslevel
+	if ((10 - accessory->getArmsLevel()) <=
+		context.optionsTransient->getArmsLevel() ||
+		context.optionsGame->getGiveAllWeapons()) {}
+	else return;
+
+	// Check weapons selection parameters
+	if (accessory->getPositionSelect() == Accessory::ePositionSelectLimit)
+	{
+		Vector position(
+			message.getSelectPositionX(), message.getSelectPositionY());
+		if ((position - tank->getTargetPosition()).Magnitude() > 
+			accessory->getPositionSelectLimit())
 		{
-			// Check this tank has these weapons
-			int count = 
-				tank->getAccessories().getAccessoryCount(accessory);
-			if (count > 0 || count == -1)
-			{
-				if ((10 - accessory->getArmsLevel()) <=
-					context.optionsTransient->getArmsLevel() ||
-					context.optionsGame->getGiveAllWeapons())
-				{
-					// Actually use up one of the weapons
-					tank->getAccessories().rm(accessory, 1);
+			return;
+		}
+	}
 
-					// shot fired action
-					Weapon *weapon = (Weapon *) accessory->getAction();
-					TankFired *fired = new TankFired(tank->getPlayerId(), 
-						weapon,
-						message.getRotationXY(), message.getRotationYZ());
-					context.actionController->addAction(fired);
+	// Actually use up one of the weapons
+	tank->getAccessories().rm(accessory, 1);
 
-					// Set the tank to have the correct rotation etc..
-					tank->getPosition().rotateGunXY(
-						message.getRotationXY(), false);
-					tank->getPosition().rotateGunYZ(
-						message.getRotationYZ(), false);
-					tank->getPosition().changePower(
-						message.getPower(), false);
-					tank->getPosition().setSelectPosition(
-						message.getSelectPositionX(), 
-						message.getSelectPositionY());
+	// shot fired action
+	Weapon *weapon = (Weapon *) accessory->getAction();
+	TankFired *fired = new TankFired(tank->getPlayerId(), 
+		weapon,
+		message.getRotationXY(), message.getRotationYZ());
+	context.actionController->addAction(fired);
 
-					// Create the action for the weapon and
-					// add it to the action controller
-					Vector velocity = tank->getPosition().getVelocityVector() *
-						(tank->getPosition().getPower() + 1.0f);
-					Vector position = tank->getPosition().getTankGunPosition();
+	// Set the tank to have the correct rotation etc..
+	tank->getPosition().rotateGunXY(
+		message.getRotationXY(), false);
+	tank->getPosition().rotateGunYZ(
+		message.getRotationYZ(), false);
+	tank->getPosition().changePower(
+		message.getPower(), false);
+	tank->getPosition().setSelectPosition(
+		message.getSelectPositionX(), 
+		message.getSelectPositionY());
 
-					weapon->fireWeapon(context, tank->getPlayerId(), position, velocity, 0);
-					StatsLogger::instance()->tankFired(tank, weapon);
-					StatsLogger::instance()->weaponFired(weapon, false);
+	// Create the action for the weapon and
+	// add it to the action controller
+	Vector velocity = tank->getPosition().getVelocityVector() *
+		(tank->getPosition().getPower() + 1.0f);
+	Vector position = tank->getPosition().getTankGunPosition();
 
-					// Does a computer tank want to say something?
-					if (tank->getDestinationId() == 0 && tank->getTankAI())
-					{
-						const char *line = TankAIStrings::instance()->getAttackLine();
-						if (line)
-						{
-							((TankAIComputer*)tank->getTankAI())->say(line);
-						}
-					}
-				}
-			}
+	weapon->fireWeapon(context, tank->getPlayerId(), position, velocity, 0);
+	StatsLogger::instance()->tankFired(tank, weapon);
+	StatsLogger::instance()->weaponFired(weapon, false);
+
+	// Does a computer tank want to say something?
+	if (tank->getDestinationId() == 0 && tank->getTankAI())
+	{
+		const char *line = TankAIStrings::instance()->getAttackLine();
+		if (line)
+		{
+			((TankAIComputer*)tank->getTankAI())->say(line);
 		}
 	}
 }
