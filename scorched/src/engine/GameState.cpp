@@ -24,6 +24,7 @@
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/LoggerI.h>
 #include <limits.h>
 
 GameState::GameState(const char *name) :
@@ -37,7 +38,7 @@ GameState::GameState(const char *name) :
 	currentMouseY_(0),
 	stateLogging_(false)
 {
-	
+	clearTimers();
 }
 
 GameState::~GameState()
@@ -239,6 +240,12 @@ void GameState::simulate(float simTime)
 		GameStateEntry *thisEntry = currentEntry_;
 		unsigned thisState = currentState_;
 
+		timerSimulateTime_ += simTime;
+		if (timerSimulateTime_ > 10.0f) clearTimers(true);
+
+		timerClock_.getTicksDifference();
+		int timerCount = 0;
+
 		std::list<GameStateSubEntry>::iterator itor;
 		for (itor = thisEntry->loopList.begin();
 			itor != thisEntry->loopList.end();
@@ -247,10 +254,15 @@ void GameState::simulate(float simTime)
 			StateIList::iterator subItor;
 			for (subItor = itor->subLoopList.begin();
 				subItor != itor->subLoopList.end();
-				subItor++)
+				subItor++, timerCount++)
 			{
-				(*subItor)->simulate(thisState, simTime);
+				GameStateI *stateI = (*subItor);
+				stateI->simulate(thisState, simTime);
 				if (checkStimulate()) return;
+
+				timers_[timerCount % 50].simulateTime += 
+					timerClock_.getTicksDifference();
+				timers_[timerCount % 50].gameStateI = stateI;
 			}
 
 			// Draw after all other elements as the camera
@@ -269,11 +281,6 @@ void GameState::simulate(float simTime)
 				Keyboard::instance()->getkeyboardbuffer(bufferSize);
 			KeyboardHistory::HistoryElement *history = 
 				Keyboard::instance()->getkeyboardhistory(historySize);
-			if (buffer[91])
-			{
-				printf("Hmm");
-			}
-
 			unsigned int keyState = 
 				Keyboard::instance()->getKeyboardState();
 
@@ -321,6 +328,9 @@ void GameState::draw()
 		GameStateEntry *thisEntry = currentEntry_;
 		unsigned thisState = currentState_;
 
+		timerClock_.getTicksDifference();
+		int timerCount = 0;
+
 		std::list<GameStateSubEntry>::iterator itor;
 		for (itor = thisEntry->loopList.begin();
 			itor != thisEntry->loopList.end();
@@ -331,10 +341,15 @@ void GameState::draw()
 			StateIList::iterator subItor;
 			for (subItor = itor->subLoopList.begin();
 				subItor != itor->subLoopList.end();
-				subItor++)
+				subItor++, timerCount++)
 			{
-				(*subItor)->draw(thisState);
+				GameStateI *stateI = (*subItor);
+				stateI->draw(thisState);
 				if (checkStimulate()) return;
+
+				timers_[timerCount % 50].drawTime += 
+					timerClock_.getTicksDifference();
+				timers_[timerCount % 50].gameStateI = stateI;
 			}
 		}
 	}
@@ -346,6 +361,8 @@ void GameState::setState(const unsigned state)
 	{
 		Logger::log(formatString("%s::setState(%i)", name_.c_str(), state));
 	}
+
+	clearTimers();
 
 	currentState_ = state;
 	currentEntry_ = 0;
@@ -572,4 +589,48 @@ void GameState::addStateStimulus(const unsigned state,
 	GameState::GameStateEntry *entry = getEntry(state);
 	SimulusIPair pair(check, nexts);
 	entry->condStimList.push_back(pair);
+}
+
+void GameState::clearTimers(bool printTimers)
+{
+	unsigned int sinceLastTime = overallTimerClock_.getTicksDifference();
+	if (printTimers &&
+		false)
+	{
+		unsigned int simulateTotal = 0, drawTotal = 0;
+		for (int i=0; i<50; i++)
+		{
+			if (timers_[i].gameStateI)
+			{
+				simulateTotal += timers_[i].simulateTime;
+				drawTotal += timers_[i].drawTime;
+			}
+		}
+		int timeLeft = int(sinceLastTime) - int(drawTotal + simulateTotal);
+		if (simulateTotal == 0) simulateTotal = 1;
+		if (drawTotal == 0) drawTotal = 1;
+
+		Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
+			formatString("%s Draw : %u, Simulate : %u, Other : %i", 
+			name_.c_str(),
+			drawTotal, simulateTotal, timeLeft)));
+		for (int i=0; i<50; i++)
+		{
+			if (timers_[i].gameStateI)
+			{
+				unsigned int percentageSimulate =
+					(100 * timers_[i].simulateTime) / simulateTotal;
+				unsigned int percentageDraw =
+					(100 * timers_[i].drawTime) / drawTotal;
+				Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
+					formatString("%i - Draw : %u (%u), Simulate : %u (%u)", 
+					i, 
+					timers_[i].drawTime, percentageDraw,
+					timers_[i].simulateTime, percentageSimulate)));
+			}
+		}
+	}
+
+	memset(&timers_, 0, sizeof(timers_));
+	timerSimulateTime_ = 0.0f;
 }

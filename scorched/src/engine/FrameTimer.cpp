@@ -104,7 +104,7 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 
 			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
 				formatString("%.2f FPS", fps)));
-			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
+			Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
 				formatString("%iTRI %iPART %iGEOM %iSQR %iSND %uSHD", 
 					tris,
 					pOnScreen,

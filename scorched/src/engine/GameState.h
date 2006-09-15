@@ -25,6 +25,7 @@
 #include <map>
 #include <list>
 #include <engine/MainLoopI.h>
+#include <common/Clock.h>
 
 class GameStateI;
 class GameStateStimulusI;
@@ -95,6 +96,13 @@ protected:
 	typedef std::pair<GameStateStimulusI *, unsigned> SimulusIPair;
 	typedef std::list<SimulusIPair> StiulusIList;
 
+	struct TimerInfo
+	{
+		GameStateI *gameStateI;
+		unsigned int drawTime;
+		unsigned int simulateTime;
+	};
+
 	struct GameStateSubEntry
 	{
 		GameStateI *current;
@@ -144,6 +152,10 @@ protected:
 	unsigned pendingStimulus_;
 	bool fakeMiddleButton_;
 	bool stateLogging_;
+	float timerSimulateTime_;
+	Clock timerClock_;
+	Clock overallTimerClock_;
+	TimerInfo timers_[50];
 
 	// Dragging stuff
 	// Up or down for each button (bit field)
@@ -162,6 +174,7 @@ protected:
 		getEntry(const unsigned state);
 	GameState::GameStateSubEntry* 
 		getSubEntry(const unsigned state, GameStateI *entry);
+	void clearTimers(bool printTimers = false);
 
 };
 
