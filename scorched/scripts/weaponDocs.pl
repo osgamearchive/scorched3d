@@ -12,7 +12,7 @@ foreach my $file (@files)
 	if (defined $result{"Class"})
 	{
 		#print "----------\n";
-		print "<accessoryaction type=\"".$result{"Class"}."\">\n";
+		print "<accessory type=\"".$result{"Class"}."\">\n";
 
 		#if ($result{"Extends"} ne "AccessoryPart")
 		if (($result{"Extends"} ne "") & ($result{"Extends"} ne "AccessoryPart"))
@@ -31,7 +31,7 @@ foreach my $file (@files)
 				print "\t<".$attrh{"Name"}.">".$attrh{"Type"}."</".$attrh{"Name"}.">\n";
 			}
 		}
-		print "</accessoryaction>\n\n"
+		print "</accessory>\n\n"
 	}
 }
 
