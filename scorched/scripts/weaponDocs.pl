@@ -12,7 +12,7 @@ foreach my $file (@files)
 	if (defined $result{"Class"})
 	{
 		#print "----------\n";
-		print "<accessory type=\"".$result{"Class"}."\">\n";
+		print "<accessoryaction type=\"".$result{"Class"}."\">\n";
 
 		#if ($result{"Extends"} ne "AccessoryPart")
 		if (($result{"Extends"} ne "") & ($result{"Extends"} ne "AccessoryPart"))
