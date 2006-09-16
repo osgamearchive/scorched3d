@@ -377,11 +377,24 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 	if (!firstTank) return true;
 
 	bool firstIteration = true;
-	AccessoryPart::AccessoryType lastType = AccessoryPart::AccessoryWeapon;
 	std::string lastGroup = "";
 
 	std::list<Accessory *> tankAccessories;
-	firstTank->getAccessories().getAllAccessories(tankAccessories);
+	std::set<std::string> &groups =
+		ScorchedClient::instance()->getAccessoryStore().getGroupNames();
+	std::set<std::string>::iterator groupitor;
+	for (groupitor = groups.begin();
+		groupitor != groups.end();
+		groupitor++)
+	{
+		std::list<Accessory *> tmpAccessories =
+			firstTank->getAccessories().getAllAccessoriesByGroup(
+				(*groupitor).c_str());	
+		ScorchedClient::instance()->getAccessoryStore().sortList(tmpAccessories,
+			OptionsDisplay::instance()->getSortAccessories());
+		tankAccessories.insert(tankAccessories.end(), tmpAccessories.begin(), tmpAccessories.end());
+	}
+
 	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();
 		itor != tankAccessories.end();
@@ -413,12 +426,10 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 		}
 
 		if (!firstIteration &&
-			(lastType != accessory->getType() ||
-			0 != strcmp(lastGroup.c_str(), accessory->getGroupName())))
+			0 != strcmp(lastGroup.c_str(), accessory->getGroupName()))
 		{
 			result.push_back("----------");
 		}
-		lastType = accessory->getType();
 		lastGroup = accessory->getGroupName();
 		firstIteration = false;
 

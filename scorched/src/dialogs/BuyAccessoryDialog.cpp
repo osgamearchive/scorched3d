@@ -232,9 +232,9 @@ void BuyAccessoryDialog::addPlayerFavorites()
 		ScorchedClient::instance()->
 			getAccessoryStore().getAllAccessories(
 				OptionsDisplay::instance()->getSortAccessories());
-	std::list<Accessory *>::iterator itor;
-	for (itor = acessories.begin();
-		itor != acessories.end();
+	std::list<Accessory *>::reverse_iterator itor;
+	for (itor = acessories.rbegin();
+		itor != acessories.rend();
 		itor++)
 	{
 		Accessory *current = *itor;
@@ -255,20 +255,10 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, const char *group)
 			group,
 			OptionsDisplay::instance()->getSortAccessories());
 
-	std::list<Accessory *> accessories;
-	std::list<Accessory *>::iterator itor;
-	for (itor = weapons.begin();
-		itor != weapons.end();
-		itor++)
-	{	
-		Accessory *current = (*itor);
-		accessories.push_back(current);
-	}
-
 	float height = 10.0f;
-	std::list<Accessory *>::iterator itor2;
-	for (itor2 = accessories.begin();
-		itor2 != accessories.end();
+	std::list<Accessory *>::reverse_iterator itor2;
+	for (itor2 = weapons.rbegin();
+		itor2 != weapons.rend();
 		itor2++)
 	{
 		Accessory *current = (*itor2);
@@ -287,9 +277,9 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 		tankAccessories);
 	ScorchedClient::instance()->getAccessoryStore().sortList(tankAccessories, 
 		OptionsDisplay::instance()->getSortAccessories());
-	std::list<Accessory *>::iterator itor;
-	for (itor = tankAccessories.begin();
-		itor != tankAccessories.end();
+	std::list<Accessory *>::reverse_iterator itor;
+	for (itor = tankAccessories.rbegin();
+		itor != tankAccessories.rend();
 		itor++)
 	{
 		Accessory *current = *itor;
