@@ -81,11 +81,16 @@ void ShotProjectile::collision(Vector &position)
 	{
 		// Apex collisions dud if they collide with the ground
 		// unless no dud is set
-		if (!getWeapon()->getApexCollision() ||
-			getWeapon()->getApexNoDud()) 
+		if (getWeapon()->getApexCollision() && !getWeapon()->getApexNoDud())
 		{
-			doCollision(position);
+			return;
 		}
+		if ((getWeapon()->getTimedCollision() > 0.0f) && getWeapon()->getTimedDud())
+		{
+			return;
+		}
+
+		doCollision(position);
 	}
 	PhysicsParticleMeta::collision(position);
 }

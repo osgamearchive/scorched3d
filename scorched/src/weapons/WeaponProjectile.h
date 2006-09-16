@@ -49,6 +49,7 @@ public:
 	bool getApexNoDud() { return apexNoDud_; }
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
+	bool getTimedDud() { return timedDud_; }
 	float getShieldHurtFactor() { return shieldHurtFactor_; }
 	float getTimedCollision() { return timedCollision_; }
 	float getSpinSpeed() { return spinSpeed_; }
@@ -71,7 +72,7 @@ protected:
 	bool showShotPath_;
 	bool showEndPoint_;
 	bool apexCollision_;
-	bool apexNoDud_;
+	bool apexNoDud_, timedDud_;
 	float spinSpeed_;
 	bool createSmoke_, createFlame_;
 	float flameLife_, smokeLife_;
