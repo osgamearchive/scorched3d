@@ -47,6 +47,7 @@ void GLConsoleLine::set(const char *line, LineType type)
 	{
 		lineNumber_ = nextLineNumber_;
 	}
+	lineNumberStr_= formatString("%4i", lineNumber_);
 }
 
 void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
@@ -58,19 +59,18 @@ void GLConsoleLine::drawLine(float x, float y, GLFont2d *font)
 		{
 			// We show a line number of those lines with commands
 			// on them
-			font->draw(color, 12, x, y, 0.0f, 
-				formatString("%4i : %s", lineNumber_, line_.c_str()));
+			font->draw(color, 12, x, y, 0.0f, lineNumberStr_.c_str());
+			font->draw(color, 12, x + 50.0f, y, 0.0f, line_.c_str());
 		}
 		else
 		{
-			font->draw(color, 12, x, y, 0.0f, 
-				formatString("  %s %s", "... ", line_.c_str()));
+			font->draw(color, 12, x + 50.0f, y, 0.0f, "...");
+			font->draw(color, 12, x + 90.0f, y, 0.0f, line_.c_str());
 		}
 	}
 	else
 	{
-		font->draw(color, 12, x, y, 0.0f,
-			formatString("      %s", line_.c_str()));
+		font->draw(color, 12, x + 50.0f, y, 0.0f, line_.c_str());
 	}
 }
 

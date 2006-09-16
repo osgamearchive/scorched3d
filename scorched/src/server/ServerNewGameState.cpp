@@ -52,7 +52,8 @@
 
 extern Clock serverTimer;
 
-ServerNewGameState::ServerNewGameState()
+ServerNewGameState::ServerNewGameState() :
+	GameStateI("ServerNewGameState")
 {
 }
 

@@ -38,7 +38,8 @@
 
 float ServerShotFinishedState::speed_(1.0f);
 
-ServerShotFinishedState::ServerShotFinishedState()
+ServerShotFinishedState::ServerShotFinishedState() :
+	GameStateI("ServerShotFinishedState")
 {
 }
 

@@ -33,7 +33,8 @@
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 
-ServerNextRoundState::ServerNextRoundState()
+ServerNextRoundState::ServerNextRoundState() :
+	GameStateI("ServerNextRoundState")
 {
 }
 

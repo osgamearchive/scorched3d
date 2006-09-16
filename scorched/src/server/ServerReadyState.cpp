@@ -36,6 +36,7 @@
 #include <tank/TankContainer.h>
 
 ServerReadyState::ServerReadyState(ServerShotState *shotState) : 
+	GameStateI("ServerReadyState"),
 	time_(0.0f), shotState_(shotState)
 {
 }

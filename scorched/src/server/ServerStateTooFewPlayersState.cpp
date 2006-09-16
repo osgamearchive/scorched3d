@@ -32,7 +32,9 @@
 #include <common/Logger.h>
 
 ServerStateTooFewPlayersState::ServerStateTooFewPlayersState() :
+	GameStateI("ServerStateTooFewPlayersState"),
 	totalTime_(0.0f)
+	
 {
 }
 

@@ -46,7 +46,9 @@ FrameTimer *FrameTimer::instance()
 	return instance_;
 }
 
-FrameTimer::FrameTimer() : totalTime_(0.0f), frameCount_(0)
+FrameTimer::FrameTimer() : 
+	GameStateI("FrameTimer"),
+	totalTime_(0.0f), frameCount_(0)
 {
 
 }

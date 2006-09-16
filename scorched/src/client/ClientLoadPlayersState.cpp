@@ -32,7 +32,8 @@ ClientLoadPlayersState *ClientLoadPlayersState::instance()
 	return instance_;
 }
 
-ClientLoadPlayersState::ClientLoadPlayersState()
+ClientLoadPlayersState::ClientLoadPlayersState() :
+	GameStateI("ClientLoadPlayersState")
 {
 }
 

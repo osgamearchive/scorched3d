@@ -21,7 +21,8 @@
 #include <landscape/LandscapeStateHandler.h>
 #include <landscape/Landscape.h>
 
-LandscapeStateHandler::LandscapeStateHandler()
+LandscapeStateHandler::LandscapeStateHandler() :
+	GameStateI("LandscapeStateHandler")
 {
 }
 

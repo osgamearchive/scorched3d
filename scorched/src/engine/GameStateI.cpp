@@ -20,6 +20,12 @@
 
 #include <engine/GameStateI.h>
 
+GameStateI::GameStateI(const char *name) :
+	gameStateIName_(name)
+{
+
+}
+
 GameStateI::~GameStateI()
 {
 

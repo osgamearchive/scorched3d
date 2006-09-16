@@ -32,7 +32,9 @@ LandscapeShadowHandler *LandscapeShadowHandler::instance()
 	return instance_;
 }
 
-LandscapeShadowHandler::LandscapeShadowHandler() : initialized_(false)
+LandscapeShadowHandler::LandscapeShadowHandler() : 
+	GameStateI("LandscapeShadowHandler"),
+	initialized_(false)
 {
 }
 

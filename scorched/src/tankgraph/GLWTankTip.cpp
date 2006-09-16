@@ -21,8 +21,8 @@
 #include <tankgraph/GLWTankTip.h>
 #include <tankai/TankAIHuman.h>
 #include <weapons/Weapon.h>
-#include <weapons/Accessory.h>
 #include <weapons/Shield.h>
+#include <weapons/AccessoryStore.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/MovementMap.h>
@@ -83,9 +83,8 @@ TankFuelTip::~TankFuelTip()
 void TankFuelTip::populate()
 {
 	std::string extra;
-	std::list<Accessory *> entries;
-	tank_->getAccessories().getAllAccessoriesByGroup(
-		"fuel", entries);			
+	std::list<Accessory *> &entries =
+		tank_->getAccessories().getAllAccessoriesByGroup("fuel");
 	std::list<Accessory *>::iterator itor;
 	for (itor = entries.begin();
 		itor != entries.end();
@@ -119,9 +118,10 @@ void TankFuelTip::showItems(float x, float y)
 		"turn off any fuel.");
 
 	std::list<GLWSelectorEntry> entries;
-	std::list<Accessory *> fuels;
-	tank_->getAccessories().getAllAccessoriesByGroup(
-		"fuel", fuels,
+	std::list<Accessory *> &fuels =
+		tank_->getAccessories().getAllAccessoriesByGroup("fuel");
+	ScorchedClient::instance()->getAccessoryStore().sortList(
+		fuels,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = fuels.begin();
@@ -161,9 +161,8 @@ void TankFuelTip::itemSelected(GLWSelectorEntry *entry, int position)
 	}
 	else
 	{
-		std::list<Accessory *> entries;
-		tank_->getAccessories().getAllAccessoriesByGroup(
-			"weapon", entries);			
+		std::list<Accessory *> &entries =
+			tank_->getAccessories().getAllAccessoriesByGroup("weapon");
 		if (!entries.empty())
 		{
 			tank_->getAccessories().getWeapons().setWeapon(entries.front());
@@ -236,9 +235,9 @@ void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 		if (tank_->getLife().getLife() < 
 			tank_->getLife().getMaxLife())
 		{
-			std::list<Accessory *> entries;
-			tank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryBattery, entries);			
+			std::list<Accessory *> &entries =
+				tank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryBattery);
 			if (!entries.empty())
 			{
 				tankAI->useBattery(entries.front()->getAccessoryId());
@@ -265,9 +264,11 @@ void TankShieldTip::showItems(float x, float y)
 	Accessory *currentShield = 
 		tank_->getShield().getCurrentShield();
 	std::list<GLWSelectorEntry> entries;
-	std::list<Accessory *> shields;
-	tank_->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryShield, shields,
+	std::list<Accessory *> &shields = 
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryShield);
+	ScorchedClient::instance()->getAccessoryStore().sortList(
+		shields, 
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = shields.begin();
@@ -404,10 +405,13 @@ void TankParachutesTip::showItems(float x, float y)
 	Accessory *currentParachute = 
 		tank_->getParachute().getCurrentParachute();
 	std::list<GLWSelectorEntry> entries;
-	std::list<Accessory *> parachutes;
-	tank_->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryParachute, parachutes,
+	std::list<Accessory *> &parachutes =
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryParachute);
+	ScorchedClient::instance()->getAccessoryStore().sortList(
+		parachutes, 
 		OptionsDisplay::instance()->getSortAccessories());
+
 	std::list<Accessory *>::iterator itor;
 	for (itor = parachutes.begin();
 		itor != parachutes.end();
@@ -521,9 +525,10 @@ void TankWeaponTip::showItems(float x, float y)
 
 	Accessory *currentWeapon = 
 		tank_->getAccessories().getWeapons().getCurrent();
-	std::list<Accessory *> weapons;
-	tank_->getAccessories().getAllAccessoriesByGroup(
-		"weapon", weapons,
+	std::list<Accessory *> &weapons =
+		tank_->getAccessories().getAllAccessoriesByGroup("weapon");
+	ScorchedClient::instance()->getAccessoryStore().sortList(
+		weapons,
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = weapons.begin();

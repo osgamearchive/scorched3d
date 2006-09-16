@@ -27,7 +27,8 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
-ServerStartingState::ServerStartingState()
+ServerStartingState::ServerStartingState() :
+	GameStateI("ServerStartingState")
 {
 }
 

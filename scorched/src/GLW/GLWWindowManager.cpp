@@ -40,7 +40,9 @@ GLWWindowManager *GLWWindowManager::instance()
 	return instance_;
 }
 
-GLWWindowManager::GLWWindowManager() : currentStateEntry_(0)
+GLWWindowManager::GLWWindowManager() : 
+	GameStateI("GLWWindowManager"),
+	currentStateEntry_(0)
 {
 	setCurrentEntry(UINT_MAX);
 

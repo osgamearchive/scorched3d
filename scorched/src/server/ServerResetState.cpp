@@ -28,7 +28,8 @@
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
-ServerResetState::ServerResetState()
+ServerResetState::ServerResetState() :
+	GameStateI("ServerResetState")
 {
 }
 

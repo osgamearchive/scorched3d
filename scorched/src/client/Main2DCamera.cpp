@@ -36,7 +36,8 @@ Main2DCamera *Main2DCamera::instance()
 	return instance_;
 }
 
-Main2DCamera::Main2DCamera()
+Main2DCamera::Main2DCamera() :
+	GameStateI("Main2DCamera")
 {
 
 }

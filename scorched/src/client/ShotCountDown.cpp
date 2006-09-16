@@ -39,7 +39,9 @@ ShotCountDown *ShotCountDown::instance()
 }
 
 ShotCountDown::ShotCountDown() : 
-	counter_(0.0f), blinkTimer_(0.0f), showTime_(true), timerOff_(true)
+	GameStateI("ShotCountDown"),
+	counter_(0.0f), blinkTimer_(0.0f), 
+	showTime_(true), timerOff_(true)
 {
 }
 

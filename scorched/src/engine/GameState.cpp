@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+
 //    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
@@ -36,7 +36,7 @@ GameState::GameState(const char *name) :
 	currentEntry_(0),
 	currentMouseX_(0),
 	currentMouseY_(0),
-	stateLogging_(false)
+	stateLogging_(false), stateTimeLogging_(false)
 {
 	clearTimers();
 }
@@ -594,8 +594,7 @@ void GameState::addStateStimulus(const unsigned state,
 void GameState::clearTimers(bool printTimers)
 {
 	unsigned int sinceLastTime = overallTimerClock_.getTicksDifference();
-	if (printTimers &&
-		false)
+	if (printTimers && stateTimeLogging_)
 	{
 		unsigned int simulateTotal = 0, drawTotal = 0;
 		for (int i=0; i<50; i++)
@@ -606,25 +605,34 @@ void GameState::clearTimers(bool printTimers)
 				drawTotal += timers_[i].drawTime;
 			}
 		}
-		int timeLeft = int(sinceLastTime) - int(drawTotal + simulateTotal);
-		if (simulateTotal == 0) simulateTotal = 1;
-		if (drawTotal == 0) drawTotal = 1;
+		int bothTotal = drawTotal + simulateTotal;
+		int timeLeft = int(sinceLastTime) - int(bothTotal);
+		if (bothTotal == 0) bothTotal = 1;
 
-		Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
-			formatString("%s Draw : %u, Simulate : %u, Other : %i", 
+		unsigned int drawTotalPer = (100 * drawTotal) / bothTotal;
+		unsigned int simulateTotalPer = (100 * simulateTotal) / bothTotal;
+		unsigned int timeLeftPer =  (100 * timeLeft) / bothTotal;
+
+		Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
+			"----------------------------------------"));
+		Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
+			formatString("%s Draw : %u (%u), Simulate : %u (%u), Other : %i (%u)", 
 			name_.c_str(),
-			drawTotal, simulateTotal, timeLeft)));
+			drawTotal, drawTotalPer,
+			simulateTotal, simulateTotalPer,
+			timeLeft, timeLeftPer)));
 		for (int i=0; i<50; i++)
 		{
 			if (timers_[i].gameStateI)
 			{
 				unsigned int percentageSimulate =
-					(100 * timers_[i].simulateTime) / simulateTotal;
+					(100 * timers_[i].simulateTime) / bothTotal;
 				unsigned int percentageDraw =
-					(100 * timers_[i].drawTime) / drawTotal;
+					(100 * timers_[i].drawTime) / bothTotal;
 				Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
-					formatString("%i - Draw : %u (%u), Simulate : %u (%u)", 
+					formatString("%i:%s - Draw : %u (%u), Simulate : %u (%u)", 
 					i, 
+					timers_[i].gameStateI->getGameStateIName(),
 					timers_[i].drawTime, percentageDraw,
 					timers_[i].simulateTime, percentageSimulate)));
 			}

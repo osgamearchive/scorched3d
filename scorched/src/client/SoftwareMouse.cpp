@@ -38,7 +38,8 @@ SoftwareMouse *SoftwareMouse::instance()
 	return instance_;
 }
 
-SoftwareMouse::SoftwareMouse() 
+SoftwareMouse::SoftwareMouse() :
+	GameStateI("SoftwareMouse")
 {
 }
 

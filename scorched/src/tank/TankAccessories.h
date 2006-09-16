@@ -38,16 +38,17 @@ public:
 	void newMatch();
 	void add(Accessory *accessory, int count, bool check = true);
 	void rm(Accessory *accessory, int count = 1);
+	void clearAccessories();
 
 	void activate(Accessory *accessory);
 
 	bool accessoryAllowed(Accessory *accessory, int count);
 	int getAccessoryCount(Accessory *accessory);
-	void getAllAccessories(std::list<Accessory *> &result, bool sort=false);
-	void getAllAccessoriesByType(AccessoryPart::AccessoryType type, 
-		std::list<Accessory *> &result, bool sort=false);
-	void getAllAccessoriesByGroup(const char *groupName,
-		std::list<Accessory *> &result, bool sort=false);
+	void getAllAccessories(std::list<Accessory *> &result);
+	std::list<Accessory *> &getAllAccessoriesByType(
+		AccessoryPart::AccessoryType type);
+	std::list<Accessory *> &getAllAccessoriesByGroup(
+		const char *groupName);
 
 	TankWeapon &getWeapons() { return tankWeapon_; }
 	TankAutoDefense &getAutoDefense() { return tankAuto_; }
@@ -64,7 +65,10 @@ protected:
 	TankBatteries tankBatteries_;
 	Tank *tank_;
 
+	typedef std::list<Accessory *> AccessoryList;
 	std::map<Accessory *, int> accessories_;
+	std::map<std::string, AccessoryList*> accessoryGroups_;
+	std::map<AccessoryPart::AccessoryType, AccessoryList*> accessoryTypes_;
 
 	void changed();
 	void add_(Accessory *accessory, int count, bool check);

@@ -32,7 +32,9 @@ RenderTracer *RenderTracer::instance()
 	return instance_;
 }
 
-RenderTracer::RenderTracer() : current_(0), listNo_(0)
+RenderTracer::RenderTracer() : 
+	GameStateI("RenderTracer"),
+	current_(0), listNo_(0)
 {
 	obj_ = gluNewQuadric();
 }

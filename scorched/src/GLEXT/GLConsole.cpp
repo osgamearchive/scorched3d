@@ -39,6 +39,7 @@ GLConsole *GLConsole::instance()
 }
 
 GLConsole::GLConsole() : 
+	GameStateI("GLConsole"),
 	height_(0.0f), opening_(false), lines_(1000), 
 	methods_(rules_, lines_), showCursor_(true)
 {

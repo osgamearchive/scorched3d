@@ -162,42 +162,70 @@ AccessoryPart *AccessoryStore::createAccessoryPart(
 	return accessoryPart;
 }
 
-void AccessoryStore::sortList(std::list<Accessory *> &accList)
+void AccessoryStore::sortList(std::list<Accessory *> &accList, bool alpha)
 {
-	std::vector<Accessory *> accVector;
-	std::list<Accessory *>::iterator itor;
-	for (itor = accList.begin();
-		itor != accList.end();
-		itor++)
+	if (alpha) 
 	{
-		accVector.push_back(*itor);
-	}
-
-	// Crudely sort by name
-	// stl sort method list is broken in visual c 6
-	// bubble sort
-	bool changed = true;
-	while (changed)
-	{
-		changed = false;
-		for (int i=0; i<int(accVector.size())-1; i++)
+		std::vector<Accessory *> accVector;
+		std::list<Accessory *>::iterator itor;
+		for (itor = accList.begin();
+			itor != accList.end();
+			itor++)
 		{
-			if (strcmp(accVector[i]->getName(), accVector[i+1]->getName())<0)
+			accVector.push_back(*itor);
+		}
+
+		// Crudely sort by name
+		// stl sort method list is broken in visual c 6
+		// bubble sort
+		bool changed = true;
+		while (changed)
+		{
+			changed = false;
+			for (int i=0; i<int(accVector.size())-1; i++)
 			{
-				// swap
-				Accessory *tmp = accVector[i];
-				accVector[i] = accVector[i+1];
-				accVector[i+1] = tmp;
-				changed = true;
-				break;
+				if (strcmp(accVector[i]->getName(), accVector[i+1]->getName())<0)
+				{
+					// swap
+					Accessory *tmp = accVector[i];
+					accVector[i] = accVector[i+1];
+					accVector[i+1] = tmp;
+					changed = true;
+					break;
+				}
+			}
+		} 
+		
+		accList.clear();
+		for (int i=0; i<int(accVector.size()); i++)
+		{
+			accList.push_front(accVector[i]);
+		}
+	}
+	else
+	{
+		std::set<Accessory *> accessorySet;
+		std::list<Accessory *>::iterator setItor;
+		for (setItor = accList.begin();
+			setItor != accList.end();
+			setItor++)
+		{
+			Accessory *accessory = *setItor;
+			accessorySet.insert(accessory);
+		}
+
+		accList.clear();
+		std::list<Accessory *>::iterator itor;
+		for (itor = accessories_.begin();
+			itor != accessories_.end();
+			itor++)
+		{
+			Accessory *accessory = *itor;
+			if (accessorySet.find(accessory) != accessorySet.end())
+			{
+				accList.push_back(accessory);
 			}
 		}
-	} 
-	
-	accList.clear();
-	for (int i=0; i<int(accVector.size()); i++)
-	{
-		accList.push_back(accVector[i]);
 	}
 }
 
@@ -217,7 +245,7 @@ std::list<Accessory *> AccessoryStore::getAllAccessoriesByGroup(
 		}
 	}
 
-	if (sort) sortList(result);
+	if (sort) sortList(result, true);
 	return result;
 }
 
@@ -232,7 +260,7 @@ std::list<Accessory *> AccessoryStore::getAllAccessories(bool sort)
 		result.push_back(*itor);
 	}
 
-	if (sort) sortList(result);
+	if (sort) sortList(result, true);
 	return result;
 }
 

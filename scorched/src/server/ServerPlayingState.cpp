@@ -28,7 +28,9 @@
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
-ServerPlayingState::ServerPlayingState() : time_(0.0f)
+ServerPlayingState::ServerPlayingState() : 
+	GameStateI("ServerPlayingState"),
+	time_(0.0f)
 {
 }
 

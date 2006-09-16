@@ -47,6 +47,7 @@ public:
 protected:
 	unsigned int lineNumber_;
 	std::string line_;
+	std::string lineNumberStr_;
 	static unsigned nextLineNumber_;
 	LineType lineType_;
 

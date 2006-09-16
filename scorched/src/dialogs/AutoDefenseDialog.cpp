@@ -116,9 +116,9 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			}
 			else
 			{
-				std::list<Accessory *> paras;
-				tank->getAccessories().getAllAccessoriesByType(
-					AccessoryPart::AccessoryParachute, paras);
+				std::list<Accessory *> &paras =
+					tank->getAccessories().getAllAccessoriesByType(
+						AccessoryPart::AccessoryParachute);
 				std::list<Accessory *>::iterator parasItor = paras.begin();
 				for (int i=1; i<ddpara_->getCurrentPosition() && parasItor != paras.end(); i++) parasItor++;
 				
@@ -136,9 +136,9 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			}
 			else
 			{
-				std::list<Accessory *> shields;
-				tank->getAccessories().getAllAccessoriesByType(
-					AccessoryPart::AccessoryShield, shields);
+				std::list<Accessory *> &shields =
+					tank->getAccessories().getAllAccessoriesByType(
+						AccessoryPart::AccessoryShield);
 				std::list<Accessory *>::iterator shieldsItor = shields.begin();
 				for (int i=1; i<ddshields_->getCurrentPosition() && shieldsItor != shields.end(); i++) shieldsItor++;
 				
@@ -180,9 +180,9 @@ void AutoDefenseDialog::displayCurrent()
 		"Turns off shields.");
 	ddshields_->clear();
 	std::list<Accessory *>::iterator shieldsItor;
-	std::list<Accessory *> shields;
-	tank->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryShield, shields);
+	std::list<Accessory *> &shields =
+		tank->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryShield);
 	ddshields_->addEntry(GLWSelectorEntry("Shields Off", &shieldsOffTip));
 	for (shieldsItor = shields.begin();
 		shieldsItor != shields.end();
@@ -211,9 +211,9 @@ void AutoDefenseDialog::displayCurrent()
 		"Turns off parachutes.");
 	ddpara_->clear();
 	std::list<Accessory *>::iterator parachutesItor;
-	std::list<Accessory *> parachutes;
-	tank->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryParachute, parachutes);
+	std::list<Accessory *> &parachutes =
+		tank->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryParachute);
 	ddpara_->addEntry(GLWSelectorEntry("Parachutes Off", &parachutesOffTip));
 	for (parachutesItor = parachutes.begin();
 		parachutesItor != parachutes.end();

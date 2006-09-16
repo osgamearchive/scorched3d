@@ -42,9 +42,9 @@ void TankAutoDefense::changed()
 
 bool TankAutoDefense::haveDefense()
 {
-	std::list<Accessory *> result;
-	tank_->getAccessories().getAllAccessoriesByType(
-		AccessoryPart::AccessoryAutoDefense, result);
+	std::list<Accessory *> &result =
+		tank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryAutoDefense);
 	return !result.empty();
 }
 

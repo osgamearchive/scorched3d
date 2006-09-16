@@ -40,7 +40,8 @@ SpeedChange *SpeedChange::instance()
 	return instance_;
 }
 
-SpeedChange::SpeedChange()
+SpeedChange::SpeedChange() :
+	GameStateI("SpeedChange")
 {
 }
 

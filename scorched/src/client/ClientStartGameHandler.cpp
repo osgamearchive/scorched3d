@@ -101,9 +101,8 @@ bool ClientStartGameHandler::processMessage(unsigned int id,
 			if (currentWeapon && 
 				currentWeapon->getPositionSelect() != Accessory::ePositionSelectNone)
 			{
-				std::list<Accessory *> entries;
-				currentTank->getAccessories().getAllAccessoriesByGroup(
-					"weapon", entries);			
+				std::list<Accessory *> &entries =
+					currentTank->getAccessories().getAllAccessoriesByGroup("weapon");
 				if (!entries.empty()) currentWeapon = entries.front();
 			}
 			currentTank->getAccessories().getWeapons().setWeapon(currentWeapon);

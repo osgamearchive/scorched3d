@@ -62,7 +62,7 @@ public:
 	class SaveScreen : public GameStateI
 	{
 	public:
-		SaveScreen() : saveScreen_(false) {}
+		SaveScreen() : GameStateI("SaveScreen"), saveScreen_(false) {}
 		virtual void draw(const unsigned state);
 
 		bool saveScreen_;
@@ -71,7 +71,7 @@ public:
 	class Precipitation : public GameStateI
 	{
 	public:
-		Precipitation() {}
+		Precipitation() : GameStateI("Precipitation") {}
 		virtual void draw(const unsigned state);
 	} precipitation_;
 

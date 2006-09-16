@@ -34,7 +34,8 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 
-ServerNextTurnState::ServerNextTurnState()
+ServerNextTurnState::ServerNextTurnState() :
+	GameStateI("ServerNextTurnState")
 {
 }
 

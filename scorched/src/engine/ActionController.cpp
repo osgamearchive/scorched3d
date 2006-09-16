@@ -24,6 +24,7 @@
 #include <list>
 
 ActionController::ActionController() : 
+	GameStateI("ActionController"),
 	speed_(1.0f), referenceCount_(0), time_(0.0f), 
 	context_(0), lastTraceTime_(0.0f),
 	actionTracing_(false), totalTime_(0.0f),

@@ -27,6 +27,7 @@
 class GameStateI  
 {
 public:
+	GameStateI(const char *name);
 	virtual ~GameStateI();
 
 	virtual void simulate(const unsigned state, float simTime);
@@ -44,6 +45,11 @@ public:
 							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest);
+
+	const char *getGameStateIName() { return gameStateIName_; }
+
+protected:
+	const char *gameStateIName_;
 };
 
 #endif // !defined(AFX_GAMESTATEI_H__B6753299_ED54_45EB_A635_733A34F0C920__INCLUDED_)

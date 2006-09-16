@@ -284,7 +284,8 @@ void BuyAccessoryDialog::addPlayerWeaponsSell()
 	float height = 10.0f;
 	std::list<Accessory *> tankAccessories;
 	tank->getAccessories().getAllAccessories(
-		tankAccessories,
+		tankAccessories);
+	ScorchedClient::instance()->getAccessoryStore().sortList(tankAccessories, 
 		OptionsDisplay::instance()->getSortAccessories());
 	std::list<Accessory *>::iterator itor;
 	for (itor = tankAccessories.begin();

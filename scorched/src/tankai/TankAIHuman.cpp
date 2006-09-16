@@ -125,9 +125,9 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("ENABLE_PARACHUTES", parachuteKey);
 	if (parachuteKey->keyDown(buffer, keyState, false))
 	{
-		std::list<Accessory *> parachutes;
-		currentTank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryParachute, parachutes);
+		std::list<Accessory *> &parachutes =
+			currentTank_->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryParachute);
 		if (parachutes.size() == 1)
 		{
 			parachutesUpDown(parachutes.front()->getAccessoryId());
@@ -139,9 +139,9 @@ void TankAIHuman::playMove(const unsigned state,
 	{
 		if (!currentTank_->getShield().getCurrentShield())
 		{
-			std::list<Accessory *> shields;
-			currentTank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryShield, shields);
+			std::list<Accessory *> &shields =
+				currentTank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryShield);
 			if (shields.size() == 1)
 			{
 				shieldsUpDown(shields.front()->getAccessoryId());
@@ -155,9 +155,9 @@ void TankAIHuman::playMove(const unsigned state,
 		if (currentTank_->getLife().getLife() < 
 			currentTank_->getLife().getMaxLife())
 		{
-			std::list<Accessory *> entries;
-			currentTank_->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryBattery, entries);
+			std::list<Accessory *> &entries =
+				currentTank_->getAccessories().getAllAccessoriesByType(
+					AccessoryPart::AccessoryBattery);
 			if (!entries.empty())
 			{
 				useBattery(entries.front()->getAccessoryId());

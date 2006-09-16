@@ -40,7 +40,8 @@ GLCameraFrustum *GLCameraFrustum::instance()
 	return instance_;
 }
 
-GLCameraFrustum::GLCameraFrustum()
+GLCameraFrustum::GLCameraFrustum() :
+	GameStateI("GLCameraFrustum")
 {
 
 }

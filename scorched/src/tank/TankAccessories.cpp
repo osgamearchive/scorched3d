@@ -50,7 +50,7 @@ void TankAccessories::setTank(Tank *tank)
 
 void TankAccessories::newMatch()
 {
-	accessories_.clear();
+	clearAccessories();
 
 	tankWeapon_.newMatch();
 	tankAuto_.newMatch();
@@ -104,71 +104,68 @@ void TankAccessories::newMatch()
 	changed();
 }
 
-void TankAccessories::getAllAccessories(std::list<Accessory *> &result, bool sort)
+void TankAccessories::clearAccessories()
 {
-	std::set<AccessoryPart::AccessoryType> types;
+	accessories_.clear();
+
+	std::map<std::string, AccessoryList*>::iterator groupsItor;
+	for (groupsItor = accessoryGroups_.begin();
+		groupsItor != accessoryGroups_.end();
+		groupsItor++)
+	{
+		delete (*groupsItor).second;
+	}
+	accessoryGroups_.clear();
+
+	std::map<AccessoryPart::AccessoryType, AccessoryList*>::iterator typesItor;
+	for (typesItor = accessoryTypes_.begin();
+		typesItor != accessoryTypes_.end();
+		typesItor++)
+	{
+		delete (*typesItor).second;
+	}
+	accessoryTypes_.clear();
+
+}
+
+void TankAccessories::getAllAccessories(std::list<Accessory *> &result)
+{
 	std::map<Accessory *, int>::iterator itor;
 	for (itor = accessories_.begin();
 		itor != accessories_.end();
 		itor++)
 	{
 		Accessory *accessory = (*itor).first;
-		AccessoryPart::AccessoryType type = accessory->getType();
-		if (types.find(type) == types.end())
-		{
-			types.insert(type);
-			getAllAccessoriesByType(type, result, false);
-		}
+		result.push_back(accessory);
 	}
-
-	if (sort) AccessoryStore::sortList(result);
 }
 
-void TankAccessories::getAllAccessoriesByType(
-	AccessoryPart::AccessoryType type, 
-	std::list<Accessory *> &result, bool sort)
+std::list<Accessory *> &TankAccessories::getAllAccessoriesByType(
+	AccessoryPart::AccessoryType type)
 {
-	// Add all weapons ensuring they are in the
-	// same order as in the store
-	std::list<Accessory *> allAccessories = 
-		context_.accessoryStore->getAllAccessories();
-	std::list<Accessory *>::iterator itor;
-	for (itor = allAccessories.begin();
-		itor != allAccessories.end();
-		itor++)
+	std::map<AccessoryPart::AccessoryType, AccessoryList*>::iterator itor =
+		accessoryTypes_.find(type);
+	if (itor != accessoryTypes_.end())
 	{
-		Accessory *accessory = (*itor);
-		if (accessory->getType() == type &&
-			accessories_.find(accessory) != accessories_.end())
-		{
-			result.push_back(accessory);
-		}
+		return *((*itor).second);
 	}
 
-	if (sort) AccessoryStore::sortList(result);
+	static std::list<Accessory *> emptyList;
+	return emptyList;
 }
 
-void TankAccessories::getAllAccessoriesByGroup(const char *groupName,
-		std::list<Accessory *> &result, bool sort)
+std::list<Accessory *> &TankAccessories::getAllAccessoriesByGroup(
+	const char *groupName)
 {
-	// Add all weapons ensuring they are in the
-	// same order as in the store
-	std::list<Accessory *> allAccessories = 
-		context_.accessoryStore->getAllAccessories();
-	std::list<Accessory *>::iterator itor;
-	for (itor = allAccessories.begin();
-		itor != allAccessories.end();
-		itor++)
+	std::map<std::string, AccessoryList*>::iterator itor =
+		accessoryGroups_.find(groupName);
+	if (itor != accessoryGroups_.end())
 	{
-		Accessory *accessory = (*itor);
-		if (accessories_.find(accessory) != accessories_.end() &&
-			0 == strcmp(accessory->getGroupName(), groupName))
-		{
-			result.push_back(accessory);
-		}
+		return *((*itor).second);
 	}
 
-	if (sort) AccessoryStore::sortList(result);
+	static std::list<Accessory *> emptyList;
+	return emptyList;
 }
 
 int TankAccessories::getAccessoryCount(Accessory *accessory)
@@ -256,6 +253,38 @@ void TankAccessories::add_(Accessory *accessory, int count, bool check)
 	{
 		accessories_[accessory] += count;
 	}
+
+	// Add to groups
+	{
+		std::map<std::string, AccessoryList*>::iterator groupItor =
+			accessoryGroups_.find(accessory->getGroupName());
+		if (groupItor != accessoryGroups_.end())
+		{
+			(*groupItor).second->push_back(accessory);
+		}
+		else
+		{
+			AccessoryList *newList = new AccessoryList();
+			accessoryGroups_[accessory->getGroupName()] = newList;
+			newList->push_back(accessory);
+		}
+	}
+
+	// Add to types
+	{
+		std::map<AccessoryPart::AccessoryType, AccessoryList*>::iterator typeItor =
+			accessoryTypes_.find(accessory->getType());
+		if (typeItor != accessoryTypes_.end())
+		{
+			(*typeItor).second->push_back(accessory);
+		}
+		else
+		{
+			AccessoryList *newList = new AccessoryList();
+			accessoryTypes_[accessory->getType()] = newList;
+			newList->push_back(accessory);
+		}
+	}
 }
 
 void TankAccessories::rm(Accessory *accessory, int count)
@@ -270,6 +299,23 @@ void TankAccessories::rm(Accessory *accessory, int count)
 			if (accessories_[accessory] <= 0)
 			{
 				accessories_.erase(accessory);
+
+				{ // Remove from groups
+					std::map<std::string, AccessoryList*>::iterator groupItor =
+						accessoryGroups_.find(accessory->getGroupName());
+					if (groupItor != accessoryGroups_.end())
+					{
+						(*groupItor).second->remove(accessory);
+					}
+				}
+				{ // Remove from types
+					std::map<AccessoryPart::AccessoryType, AccessoryList*>::iterator typeItor =
+						accessoryTypes_.find(accessory->getType());
+					if (typeItor != accessoryTypes_.end())
+					{
+						(*typeItor).second->remove(accessory);
+					}
+				}
 			}
 		}
 	}
@@ -314,7 +360,7 @@ bool TankAccessories::writeMessage(NetBuffer &buffer, bool writeAccessories)
 
 bool TankAccessories::readMessage(NetBufferReader &reader)
 {
-	std::set<Accessory *> coveredAccessories;
+	clearAccessories();
 
 	// Check all the servers accessories exist
 	int totalAccessories = 0;
@@ -329,28 +375,8 @@ bool TankAccessories::readMessage(NetBufferReader &reader)
 		Accessory *accessory = 
 			context_.accessoryStore->findByAccessoryId(accessoryId);
 		if (!accessoryId) return false;
-		coveredAccessories.insert(accessory);
 
-		int actualCount = getAccessoryCount(accessory);
-		if (actualCount != accessoryCount)
-		{
-			accessories_[accessory] = accessoryCount;
-		}
-	}
-
-	// Remove any accessories we have but the server does not
-	std::map<Accessory *, int> accessoryCopy = accessories_;
-	std::map<Accessory *, int>::iterator itor;
-	for (itor = accessoryCopy.begin();
-		itor != accessoryCopy.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor).first;
-		if (coveredAccessories.find(accessory) == 
-			coveredAccessories.end())
-		{
-			accessories_.erase(accessory);
-		}
+		add_(accessory, accessoryCount, false);
 	}
 
 	if (!tankWeapon_.readMessage(reader)) return false;

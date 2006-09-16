@@ -35,7 +35,7 @@ unsigned int Clock::getTicksDifference()
 {
 	unsigned int  dwCurrentTime = SDL_GetTicks();
 	unsigned int  dwTimeDiff = 1;
-	if (dwCurrentTime > dwLastTime_)
+	if (dwCurrentTime >= dwLastTime_)
 	{
 		dwTimeDiff = dwCurrentTime - dwLastTime_;
 	}

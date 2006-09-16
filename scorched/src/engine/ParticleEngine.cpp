@@ -30,6 +30,7 @@ float ParticleEngine::speed_ = 1.0f;
 
 ParticleEngine::ParticleEngine(GLCamera *camera, 
 	unsigned int maxParticles) :
+	GameStateI("ParticleEngine"),
 	camera_(camera),
 	particlesOnScreen_(0), particles_(0), 
 	freeParticles_(0), usedParticles_(0),

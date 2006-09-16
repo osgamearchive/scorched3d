@@ -44,7 +44,8 @@ Sound *Sound::instance()
 }
 
 Sound::Sound() : 
-	init_(false), totalTime_(0.0f)
+	init_(false), totalTime_(0.0f),
+	GameStateI("Sound")
 {
 	new GLConsoleRuleMethodIAdapter<Sound>(
 		this, &Sound::showSoundBuffers, "SoundBuffers");

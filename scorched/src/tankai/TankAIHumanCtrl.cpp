@@ -37,7 +37,8 @@ TankAIHumanCtrl * TankAIHumanCtrl::instance()
 	return instance_;
 }
 
-TankAIHumanCtrl::TankAIHumanCtrl()
+TankAIHumanCtrl::TankAIHumanCtrl() :
+	GameStateI("TankAIHumanCtrl")
 {
 
 }

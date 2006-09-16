@@ -49,7 +49,9 @@ MainCamera *MainCamera::instance()
 	return instance_;
 }
 
-MainCamera::MainCamera() : scrollTime_(0.0f)
+MainCamera::MainCamera() : 
+	GameStateI("MainCamera"),
+	scrollTime_(0.0f)
 {
 	GLBitmap *map = new GLBitmap(
 		formatString(getDataFile("data/windows/camera.bmp")),

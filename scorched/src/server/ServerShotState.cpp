@@ -34,8 +34,9 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 
-ServerShotState::ServerShotState() 
-	: totalTime_(0.0f), firstTime_(true)
+ServerShotState::ServerShotState() :
+	GameStateI("ServerShotState"),
+	totalTime_(0.0f), firstTime_(true)
 {
 }
 

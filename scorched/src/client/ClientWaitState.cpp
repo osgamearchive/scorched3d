@@ -36,7 +36,8 @@ ClientWaitState *ClientWaitState::instance()
 	return instance_;
 }
 
-ClientWaitState::ClientWaitState()
+ClientWaitState::ClientWaitState() :
+	GameStateI("ClientWaitState")
 {
 }
 

@@ -82,6 +82,12 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ActionProfiling",
 		ScorchedServer::instance()->getActionController().getActionProfiling());
+	new GLConsoleRuleFnIBooleanAdapter(
+		"StateLogging",
+		ScorchedClient::instance()->getGameState().getStateLogging());
+	new GLConsoleRuleFnIBooleanAdapter(
+		"StateTimeLogging",
+		ScorchedClient::instance()->getGameState().getStateTimeLogging());
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showInventory, "TankInventory");
 	
@@ -193,7 +199,9 @@ void TankMenus::showInventory()
 			tank->getName()));
 
 		std::list<Accessory *> accessories;
-		tank->getAccessories().getAllAccessories(accessories, true);
+		tank->getAccessories().getAllAccessories(accessories);
+		ScorchedClient::instance()->getAccessoryStore().sortList(accessories, true);
+
 		std::list<Accessory *>::iterator aitor;
 		for (aitor = accessories.begin();
 			aitor != accessories.end();

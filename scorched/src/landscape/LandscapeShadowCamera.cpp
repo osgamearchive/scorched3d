@@ -27,7 +27,8 @@ LandscapeShadowCamera *LandscapeShadowCamera::instance()
 	return inst;
 }
 
-LandscapeShadowCamera::LandscapeShadowCamera()
+LandscapeShadowCamera::LandscapeShadowCamera() :
+	GameStateI("LandscapeShadowCamera")
 {
 }
 

@@ -39,7 +39,8 @@ ClientShotState *ClientShotState::instance()
 	return instance_;
 }
 
-ClientShotState::ClientShotState()
+ClientShotState::ClientShotState() :
+	GameStateI("ClientShotState")
 {
 }
 

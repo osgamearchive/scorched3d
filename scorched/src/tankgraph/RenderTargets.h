@@ -31,11 +31,15 @@ public:
 
 	struct Renderer3D : public GameStateI
 	{
+		Renderer3D() : GameStateI("RenderTargets3D") {}
+
 		// Inherited from GameStateI
 		virtual void draw(const unsigned state);
 	} render3D;
 	struct Renderer2D : public GameStateI
 	{
+		Renderer2D() : GameStateI("RenderTargets2D") {}
+
 		// Inherited from GameStateI
 		virtual void draw(const unsigned state);
 		virtual void simulate(const unsigned state, float simTime);

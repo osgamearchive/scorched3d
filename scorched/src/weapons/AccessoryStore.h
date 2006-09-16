@@ -60,7 +60,7 @@ public:
 	bool writeEconomyToBuffer(NetBuffer &buffer);
 	bool readEconomyFromBuffer(NetBufferReader &reader);
 
-	static void sortList(std::list<Accessory *> &accList);
+	void sortList(std::list<Accessory *> &accList, bool alpha);
 
 protected:
 	AccessoryPart *findByAccessoryPartId(unsigned int id);

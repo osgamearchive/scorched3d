@@ -31,7 +31,8 @@
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
-ServerNextShotState::ServerNextShotState()
+ServerNextShotState::ServerNextShotState() :
+	GameStateI("ServerNextShotState")
 {
 }
 
