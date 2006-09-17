@@ -21,21 +21,57 @@
 #include <landscape/LandscapeStateHandler.h>
 #include <landscape/Landscape.h>
 
-LandscapeStateHandler::LandscapeStateHandler() :
-	GameStateI("LandscapeStateHandler")
+LandscapeStateLandHandler::LandscapeStateLandHandler() :
+	GameStateI("LandscapeLandStateHandler")
 {
 }
 
-LandscapeStateHandler::~LandscapeStateHandler()
+LandscapeStateLandHandler::~LandscapeStateLandHandler()
 {
 }
 
-void LandscapeStateHandler::draw(const unsigned state)
+void LandscapeStateLandHandler::draw(const unsigned state)
 {
-	Landscape::instance()->draw(false);
+	Landscape::instance()->drawLand();
 }
 
-void LandscapeStateHandler::simulate(const unsigned state, float frameTime)
+void LandscapeStateLandHandler::simulate(const unsigned state, float frameTime)
 {
 	Landscape::instance()->simulate(frameTime);
+}
+
+LandscapeStateWaterHandler::LandscapeStateWaterHandler() :
+	GameStateI("LandscapeStateWaterHandler")
+{
+}
+
+LandscapeStateWaterHandler::~LandscapeStateWaterHandler()
+{
+}
+
+void LandscapeStateWaterHandler::draw(const unsigned state)
+{
+	Landscape::instance()->drawWater();
+}
+
+void LandscapeStateWaterHandler::simulate(const unsigned state, float frameTime)
+{
+}
+
+LandscapeStateObjectsHandler::LandscapeStateObjectsHandler() :
+	GameStateI("LandscapeStateObjectsHandler")
+{
+}
+
+LandscapeStateObjectsHandler::~LandscapeStateObjectsHandler()
+{
+}
+
+void LandscapeStateObjectsHandler::draw(const unsigned state)
+{
+	Landscape::instance()->drawObjects();
+}
+
+void LandscapeStateObjectsHandler::simulate(const unsigned state, float frameTime)
+{
 }

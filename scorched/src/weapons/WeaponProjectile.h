@@ -50,6 +50,7 @@ public:
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
 	bool getTimedDud() { return timedDud_; }
+	float getWindFactor() { return windFactor_; }
 	float getShieldHurtFactor() { return shieldHurtFactor_; }
 	float getTimedCollision() { return timedCollision_; }
 	float getSpinSpeed() { return spinSpeed_; }
@@ -81,6 +82,7 @@ protected:
 	float timedCollision_;
 	float shieldHurtFactor_;
 	float scale_;
+	float windFactor_;
 	Vector flameStartColor1_, flameStartColor2_;
 	Vector flameEndColor1_, flameEndColor2_;
 	std::string engineSound_;

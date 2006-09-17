@@ -33,10 +33,13 @@ PhysicsParticle::~PhysicsParticle()
 
 }
 
-void PhysicsParticle::setPhysics(Vector &position, Vector &velocity)
+void PhysicsParticle::setPhysics(
+	Vector &position, Vector &velocity,
+	float sphereSize, float sphereDensity, float windFactor)
 {
 	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
-		position, velocity);
+		position, velocity,
+		sphereSize, sphereDensity, windFactor);
 }
 
 void PhysicsParticle::collision(Vector &position)
@@ -66,6 +69,7 @@ Vector &PhysicsParticle::getCurrentVelocity()
 
 void PhysicsParticle::simulate(float frameTime, bool &remove)
 {
+	physicsObject_.simulate(frameTime);
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;
 	totalActionTime_ += frameTime;
@@ -83,12 +87,13 @@ PhysicsParticleMeta::~PhysicsParticleMeta()
 
 }
 
-void PhysicsParticleMeta::setPhysics(Vector &position, Vector &velocity,
-	float sphereSize, float sphereDensity)
+void PhysicsParticleMeta::setPhysics(
+	Vector &position, Vector &velocity,
+	float sphereSize, float sphereDensity, float windFactor)
 {
 	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
 		position, velocity,
-		sphereSize, sphereDensity);
+		sphereSize, sphereDensity, windFactor);
 }
 
 void PhysicsParticleMeta::applyForce(Vector &force)
@@ -135,6 +140,7 @@ void PhysicsParticleMeta::simulate(float frameTime, bool &remove)
 		physicsObject_.setPosition(warpPosition_);
 	}
 
+	physicsObject_.simulate(frameTime);
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;
 	totalActionTime_ += frameTime;

@@ -124,5 +124,5 @@ void LandscapeShadowHandler::drawLandscape()
 {
 	GLCameraFrustum::instance()->draw(0);
 
-	Landscape::instance()->draw(true);
+	Landscape::instance()->drawShadow();
 }

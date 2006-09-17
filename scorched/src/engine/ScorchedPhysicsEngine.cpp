@@ -53,16 +53,6 @@ void ScorchedPhysicsEngine::resetContext()
  	SkyRoofCollision::setContext(context_);
 }
 
-void ScorchedPhysicsEngine::setWind(Vector &wind)
-{
-	DIALOG_ASSERT(context_);
-	float gravity = (float) context_->optionsGame->getGravity();
-	Vector gravityVec = wind;
-	gravityVec[2] += gravity;
-
-	setGravity(gravityVec);
-}
-
 void ScorchedPhysicsEngine::generate()
 {
 	// Set the wind for the next shot
@@ -72,6 +62,10 @@ void ScorchedPhysicsEngine::generate()
 		wind = context_->optionsTransient->getWindDirection();
 		wind *= context_->optionsTransient->getWindSpeed() / 2.0f;
 	}
+
+	float gravity = (float) context_->optionsGame->getGravity();
+	Vector gravityVec(0.0f, 0.0f, gravity);
+	setGravity(gravityVec);
 	setWind(wind);
 
 	// Set the walls

@@ -37,6 +37,7 @@ public:
 	ModelID &getRollerModelID() { return rollerModelId_; }
 	float getShieldHurtFactor() { return shieldHurtFactor_; }
 	float getTime() { return time_; }
+	float getWindFactor() { return windFactor_; }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -50,6 +51,7 @@ protected:
 	Weapon *collisionAction_;
 	ModelID rollerModelId_;
 	float shieldHurtFactor_;
+	float windFactor_;
 	float time_;
 
 	void addRoller(ScorchedContext &context, unsigned int playerId,

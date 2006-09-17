@@ -83,7 +83,13 @@ public:
 
 	unsigned int getChangeCount() { return changeCount_; }
 
-	void draw(bool shadowView);
+	void drawShadow();
+	void drawTearDown();
+	void drawSetup();
+	void drawLand();
+	void drawWater();
+	void drawObjects();
+
 	void simulate(float frameTime);
 
 protected:
@@ -125,7 +131,7 @@ protected:
 	unsigned int changeCount_;
 
 	void savePlan();
-	void drawLand();
+	void actualDrawLand();
 
 private:
 	Landscape();

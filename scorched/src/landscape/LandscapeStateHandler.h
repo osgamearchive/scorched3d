@@ -23,11 +23,33 @@
 
 #include <engine/GameStateI.h>
 
-class LandscapeStateHandler : public GameStateI
+class LandscapeStateLandHandler : public GameStateI
 {
 public:
-	LandscapeStateHandler();
-	virtual ~LandscapeStateHandler();
+	LandscapeStateLandHandler();
+	virtual ~LandscapeStateLandHandler();
+
+	// Inherited from GameStateI
+	virtual void draw(const unsigned state);
+	virtual void simulate(const unsigned state, float frameTime);
+};
+
+class LandscapeStateWaterHandler : public GameStateI
+{
+public:
+	LandscapeStateWaterHandler();
+	virtual ~LandscapeStateWaterHandler();
+
+	// Inherited from GameStateI
+	virtual void draw(const unsigned state);
+	virtual void simulate(const unsigned state, float frameTime);
+};
+
+class LandscapeStateObjectsHandler : public GameStateI
+{
+public:
+	LandscapeStateObjectsHandler();
+	virtual ~LandscapeStateObjectsHandler();
 
 	// Inherited from GameStateI
 	virtual void draw(const unsigned state);

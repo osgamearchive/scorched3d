@@ -64,7 +64,7 @@ void ShotProjectile::init()
 	}
 
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
-	setPhysics(startPosition_, velocity_);
+	setPhysics(startPosition_, velocity_, 0.0f, 0.0f, weapon_->getWindFactor());
 	collisionInfo_.data = this;
 	collisionInfo_.collisionOnSurface = !getWeapon()->getUnder();
 	physicsObject_.setData(&collisionInfo_);

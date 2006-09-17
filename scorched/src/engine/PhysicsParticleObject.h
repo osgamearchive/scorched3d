@@ -34,9 +34,11 @@ public:
 	void setPhysics(PhysicsEngine &engine, 
 		Vector &position, Vector &velocity,
 		float sphereSize = 0.0f,
-		float sphereDensity = 0.0f);
+		float sphereDensity = 0.0f,
+		float windFactor = 1.0f);
 
 	void applyForce(Vector &force);
+	void simulate(float frameTime);
 
 	Vector &getPosition();
 	Vector &getVelocity();
@@ -47,6 +49,7 @@ public:
 protected:
 	dBodyID body_;
 	dGeomID geom_;
+	Vector windFactor_;
 };
 
 #endif

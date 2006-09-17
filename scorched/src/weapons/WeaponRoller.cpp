@@ -30,7 +30,8 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
-WeaponRoller::WeaponRoller() : shieldHurtFactor_(0.0f)
+WeaponRoller::WeaponRoller() : 
+	shieldHurtFactor_(0.0f), windFactor_(1.0f)
 {
 
 }
@@ -53,6 +54,9 @@ bool WeaponRoller::parseXML(OptionsGame &context,
 
     // Get the hurt factor (if any)
     accessoryNode->getNamedChild("shieldhurtfactor", shieldHurtFactor_, false);
+
+	// Get the wind factor (if any)
+	accessoryNode->getNamedChild("windfactor", windFactor_, false);
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;

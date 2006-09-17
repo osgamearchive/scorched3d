@@ -149,42 +149,62 @@ void Landscape::reset(ProgressCounter *counter)
 		getPrecipitationEngine().killAll();
 }
 
-void Landscape::draw(bool shadowView)
+void Landscape::drawShadow()
 {
-	if (shadowView)
+	glColor3f(1.0f, 1.0f, 1.0f);
+	patchGrid_->draw(PatchSide::typeTop);
+	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(true);
+}
+
+void Landscape::drawSetup()
+{
+	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
+
+	// NOTE: The following code is drawn with fog on
+	// Be carefull as this we "dull" bilboard textures
+	if (!OptionsDisplay::instance()->getNoFog())
 	{
-		glColor3f(1.0f, 1.0f, 1.0f);
-		patchGrid_->draw(PatchSide::typeTop);
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(true);
+		glEnable(GL_FOG); // NOTE: Fog on
 	}
-	else
-	{
-		if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_LINE);
+}
 
-		// NOTE: The following code is drawn with fog on
-		// Be carefull as this we "dull" bilboard textures
-		if (!OptionsDisplay::instance()->getNoFog())
-		{
-			glEnable(GL_FOG); // NOTE: Fog on
-		}
+void Landscape::drawTearDown()
+{
+	glDisable(GL_FOG); // NOTE: Fog off
+	if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
+}
 
-		sky_->draw();
-		drawLand();
-		points_->draw();
-		surround_->draw();
+void Landscape::drawLand()
+{
+	drawSetup();
 
-		RenderTargets::instance()->render3D.draw(0);
+	sky_->draw();
+	actualDrawLand();
+	points_->draw();
+	surround_->draw();
 
-		water_->draw();
-		boids_->draw();
-		ships_->draw();
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(false);
-		wall_->draw();
+	drawTearDown();
+}
 
-		glDisable(GL_FOG); // NOTE: Fog off
+void Landscape::drawWater()
+{
+	drawSetup();
 
-		if (OptionsDisplay::instance()->getDrawLines()) glPolygonMode(GL_FRONT, GL_FILL);
-	}
+	water_->draw();
+
+	drawTearDown();
+}
+
+void Landscape::drawObjects()
+{
+	drawSetup();
+
+	boids_->draw();
+	ships_->draw();
+	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(false);
+	wall_->draw();
+
+	drawTearDown();
 }
 
 int Landscape::getPlanTexSize()
@@ -413,7 +433,7 @@ void Landscape::updatePlanTexture()
 	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, GL_RGB, false));
 }
 
-void Landscape::drawLand()
+void Landscape::actualDrawLand()
 {
 	GLState *textureState = 0;
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())

@@ -42,8 +42,6 @@ protected:
 	HeightMapCollision *hmcol_;
 	SkyRoofCollision *srcol_;
 	ScorchedCollisionHandler *sccol_;
-
-	void setWind(Vector &wind);
 };
 
 #endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__

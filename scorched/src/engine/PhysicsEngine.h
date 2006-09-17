@@ -38,6 +38,8 @@ public:
 
 	void setCollisionHandler(PhysicsEngineCollision *handler);
 	void setGravity(Vector &gravity);
+	void setWind(Vector &wind);
+	Vector &getWind() { return wind_; }
 
 	dWorldID &getWorld() { return world_; }
 	dSpaceID &getTargetSpace() { return targetSpace_; }
@@ -56,6 +58,7 @@ protected:
 	dSpaceID particleSpace_;
 	dSpaceID groundSpace_;
 	dJointGroupID contactgroup_;
+	Vector wind_;
 	bool create();
 	void destroy();
 

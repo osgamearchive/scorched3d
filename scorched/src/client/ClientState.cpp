@@ -74,7 +74,13 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
 	gameState.addStateLoop(state, 
-		MainCamera::instance(), new LandscapeStateHandler());
+		MainCamera::instance(), new LandscapeStateLandHandler());
+	gameState.addStateLoop(state,
+		MainCamera::instance(), &RenderTargets::instance()->render3D);
+	gameState.addStateLoop(state, 
+		MainCamera::instance(), new LandscapeStateWaterHandler());
+	gameState.addStateLoop(state, 
+		MainCamera::instance(), new LandscapeStateObjectsHandler());
 	gameState.addStateLoop(state, MainCamera::instance(), 
 		&ScorchedClient::instance()->getActionController());
 	gameState.addStateLoop(state, MainCamera::instance(), 

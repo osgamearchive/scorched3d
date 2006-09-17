@@ -44,10 +44,12 @@ void PhysicsParticleObject::applyForce(Vector &force)
 
 void PhysicsParticleObject::setPhysics(PhysicsEngine &engine, Vector &position, 
 									   Vector &velocity,
-									   float sphereSize, float sphereDensity)
+									   float sphereSize, float sphereDensity, 
+									   float windFactor)
 {
 	if (sphereSize == 0.0f) sphereSize = 0.25f;
 	if (sphereDensity == 0.0f) sphereDensity = 5.0f;
+	windFactor_ = engine.getWind() * windFactor / 2.5f;
 
 	// Create the mass for the object
 	dMass m;
@@ -117,5 +119,10 @@ float *PhysicsParticleObject::getRotationQuat()
 		for (int i=0; i<4; i++) result[i] = (float) quat[i];
 	}
 	return result;
+}
+
+void PhysicsParticleObject::simulate(float frameTime)
+{
+	applyForce(windFactor_);
 }
 

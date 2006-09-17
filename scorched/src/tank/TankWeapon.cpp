@@ -23,6 +23,7 @@
 #include <tank/Tank.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
+#include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/MovementMap.h>
@@ -122,6 +123,8 @@ void TankWeapon::nextWeapon()
 	std::list<Accessory *> &result =
 		tank_->getAccessories().getAllAccessoriesByType(
 			AccessoryPart::AccessoryWeapon);
+	context_.accessoryStore->sortList(result,
+		OptionsDisplay::instance()->getSortAccessories());
 
 	std::list<Accessory *>::iterator itor;
 	for (itor = result.begin();
@@ -145,6 +148,8 @@ void TankWeapon::prevWeapon()
 	std::list<Accessory *> &result =
 		tank_->getAccessories().getAllAccessoriesByType(
 			AccessoryPart::AccessoryWeapon);
+	context_.accessoryStore->sortList(result,
+		OptionsDisplay::instance()->getSortAccessories());
 
 	std::list<Accessory *>::iterator itor;
 	for (itor = result.begin();

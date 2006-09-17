@@ -81,6 +81,11 @@ void PhysicsEngine::setGravity(Vector &gravity)
 	dWorldSetGravity(world_, gravity[0], gravity[1], gravity[2]);
 }
 
+void PhysicsEngine::setWind(Vector &wind)
+{
+	wind_ = wind;
+}
+
 void PhysicsEngine::destroy()
 {
 	dJointGroupDestroy(contactgroup_);

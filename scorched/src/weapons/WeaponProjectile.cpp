@@ -30,7 +30,7 @@ WeaponProjectile::WeaponProjectile() :
 	showShotPath_(false), showEndPoint_(false), 
 	createSmoke_(true),	createFlame_(true), 
 	spinSpeed_(1.0f), apexNoDud_(false), timedDud_(false),
-	timedCollision_(0.0f), shieldHurtFactor_(1.0f),
+	timedCollision_(0.0f), shieldHurtFactor_(1.0f), windFactor_(1.0f),
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
@@ -125,6 +125,9 @@ bool WeaponProjectile::parseXML(OptionsGame &context,
 
 	// Get the hurt factor (if any)
 	accessoryNode->getNamedChild("shieldhurtfactor", shieldHurtFactor_, false);
+
+	// Get the wind factor (if any)
+	accessoryNode->getNamedChild("windfactor", windFactor_, false);
 
 	// Get the next weapon
 	XMLNode *subNode = 0;

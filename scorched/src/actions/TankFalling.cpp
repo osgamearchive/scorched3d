@@ -151,6 +151,17 @@ void TankFalling::simulate(float frameTime, bool &remove)
 				target->setTargetPosition(position);
 			}
 		}
+
+		// Simulate the particles
+		bool fakeRemove = false;
+		std::list<TankFallingParticle *>::iterator itor;
+		for (itor = particles_.begin();
+			itor != particles_.end();
+			itor++)
+		{
+			TankFallingParticle *part = (*itor);
+			part->simulate(frameTime, fakeRemove);
+		}
 	}
 	else
 	{

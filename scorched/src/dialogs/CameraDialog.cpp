@@ -157,7 +157,10 @@ void CameraDialog::simulate(float frameTime)
 void CameraDialog::drawLandscape()
 {
 	GLCameraFrustum::instance()->draw(0);
-	Landscape::instance()->draw(false);
+	Landscape::instance()->drawLand();
+	RenderTargets::instance()->render3D.draw(0);
+	Landscape::instance()->drawWater();
+	Landscape::instance()->drawObjects();
 	ScorchedClient::instance()->getActionController().draw(0);
 	ScorchedClient::instance()->getParticleEngine().draw(0);
 	targetCam_.drawPrecipitation();

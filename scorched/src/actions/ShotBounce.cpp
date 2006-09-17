@@ -51,7 +51,7 @@ ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
 
 void ShotBounce::init()
 {
-	setPhysics(startPosition_, velocity_, 1.0f, 5.0f);
+	setPhysics(startPosition_, velocity_, 1.0f, 5.0f, weapon_->getWindFactor());
 	collisionInfo_.data = this;
 	collisionInfo_.collisionOnSurface = true;
 	physicsObject_.setData(&collisionInfo_);
