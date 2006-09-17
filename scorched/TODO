@@ -35,6 +35,7 @@ Fixed: Textures are now checked for OpenGL size correctness
 Fixed: WeaponAimedUnder should now be able to aim downwards
 Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
 
+Added: Wall display to wind dialog and updated wind tooltip to reflect changes
 Added: windfactor attribute to WeaponProjectile and WeaponRoller
 Added: timeddud attribute to WeaponProjectile to allow projectiles to dud before the timer expires
 Added: Some performance optimizations to the accessory code

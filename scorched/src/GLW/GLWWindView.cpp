@@ -42,22 +42,41 @@ WindDialogToolTip::~WindDialogToolTip()
 
 void WindDialogToolTip::populate()
 {
+	const char *wallTypeStr = "Currently no walls";
+	OptionsTransient::WallType wallType =
+		ScorchedClient::instance()->getOptionsTransient().getWallType();
+	switch (wallType)
+	{
+	case OptionsTransient::wallBouncy:
+		wallTypeStr = "Current Wall Type : Bouncy";
+		break;
+	case OptionsTransient::wallConcrete:
+		wallTypeStr = "Current Wall Type : Concrete";
+		break;
+	case OptionsTransient::wallWrapAround:
+		wallTypeStr = "Current Wall Type : Wrap Around";
+		break;
+	}
+
 	if ((int) ScorchedClient::instance()->
 		getOptionsTransient().getWindSpeed() == 0)
 	{
-		setText("Wind",
+		setText("Wind", formatString(
 			"Displays the current wind direction\n"
-			"and speed.\n"
-			"Currently No Wind.\n");
+			"and speed, and the wall type.\n"
+			"Currently No Wind.\n"
+			"%s", wallTypeStr));
 	}
 	else
 	{
 		setText("Wind", formatString(
 			"Displays the current wind direction\n"
-			"and speed.\n"
-			"Current Wind Force : %i (out of 5)\n",
+			"and speed, and the wall type.\n"
+			"Current Wind Force : %i (out of 5)\n"
+			"%s",
 			(int) ScorchedClient::instance()->
-			getOptionsTransient().getWindSpeed()));
+			getOptionsTransient().getWindSpeed(),
+			wallTypeStr));
 	}
 }
 
