@@ -312,6 +312,16 @@ void NetLanFrame::onJoinButton(wxCommandEvent &event)
 
 void NetLanFrame::onClearButton(wxCommandEvent &event)
 {
+    long item = -1;
+    for ( ;; )
+    {
+        item = IDC_SERVER_LIST_CTRL->GetNextItem(
+			item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (item == -1) break;
+		IDC_SERVER_LIST_CTRL->SetItemState(
+			item, 0, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+	}
+
 	IDC_EDIT_SERVER_CTRL->SetValue(wxT(""));
 	onServerChanged(event);
 }
@@ -324,8 +334,7 @@ void NetLanFrame::onClearPasswordButton(wxCommandEvent &event)
 void NetLanFrame::onSelectServer(wxListEvent &event)
 {
 	IDC_PLAYER_LIST_CTRL->DeleteAllItems();
-	wxCommandEvent ev;
-	onClearButton(ev);
+	IDC_EDIT_SERVER_CTRL->SetValue(wxT(""));
 
     long item = -1;
     for ( ;; )
@@ -390,11 +399,11 @@ void NetLanFrame::onSelectServer(wxListEvent &event)
 					SetItem(index, 5, 
 					wxString(ServerBrowser::instance()->getServerList().getEntryValue(item, tmp), wxConvUTF8));
 			}
-		
-			wxCommandEvent event;	
-			onServerChanged(event);
 		}
     }
+
+	wxCommandEvent cmdevent;	
+	onServerChanged(cmdevent);
 }
 
 void NetLanFrame::onSourceChanged(wxCommandEvent &event)

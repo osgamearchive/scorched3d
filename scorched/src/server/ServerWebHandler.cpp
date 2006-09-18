@@ -98,6 +98,13 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
 {
+	// Check for an add
+	const char *addType = getField(fields, "add");
+	if (addType)
+	{
+		TankAIAdder::addTankAI(*ScorchedServer::instance(), addType);
+	}
+
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -169,13 +176,6 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				}
 			}
 		}
-	}
-
-	// Check for an add
-	const char *addType = getField(fields, "add");
-	if (addType)
-	{
-		TankAIAdder::addTankAI(*ScorchedServer::instance(), addType);
 	}
 
 	// Player Entries
