@@ -105,7 +105,7 @@ void TankMovement::init()
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight);
 	mmap.calculateForTank(tank, 
-		weapon_->getParent()->getAccessoryId(), 
+		weapon_, 
 		*context_,
 		maxFuel);
 	

@@ -32,6 +32,7 @@ public:
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
 
+	int getMaximumRange() { return maximumRange_; }
 	float getStepTime() { return stepTime_; }
 	bool getUseFuel() { return useFuel_; }
 
@@ -43,6 +44,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponMoveTank, AccessoryPart::AccessoryWeapon);
 
 protected:
+	int maximumRange_;
 	float stepTime_;
 	bool useFuel_;
 

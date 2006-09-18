@@ -139,6 +139,14 @@ bool Accessory::parseXML(OptionsGame &context,
 		else if (0 == strcmp(positionSelection.c_str(), "fuel"))
 		{
 			positionSelect_ = ePositionSelectFuel;
+
+			// Make sure there is a "WeaponMoveTank" under here somewhere
+			if (!store->findAccessoryPartByAccessoryId(
+				getAccessoryId(), "WeaponMoveTank"))
+			{
+				return accessoryNode->returnError(
+					"Fuel selection can only be used with WeaponMoveTank weapons");
+			}
 		}
 		else if (0 == strcmp(positionSelection.c_str(), "limit"))
 		{

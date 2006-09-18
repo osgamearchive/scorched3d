@@ -24,6 +24,7 @@
 #include <landscape/LandscapeMaps.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
+#include <weapons/WeaponMoveTank.h>
 #include <target/TargetContainer.h>
 #include <engine/ScorchedContext.h>
 #include <common/Vector.h>
@@ -134,7 +135,7 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 }
 
 void MovementMap::calculateForTank(Tank *tank, 
-	unsigned int fuelId,
+	WeaponMoveTank *weapon,
 	ScorchedContext &context, 
 	bool maxFuel)
 {
@@ -224,13 +225,17 @@ void MovementMap::calculateForTank(Tank *tank,
 		tank->getPosition().getTankPosition()[0];
 	unsigned int posY = (unsigned int) 
 		tank->getPosition().getTankPosition()[1];
-	Accessory *accessory = context.accessoryStore->findByAccessoryId(fuelId);
-	float fuel = (float) tank->getAccessories().getAccessoryCount(accessory);
-	float maxFuelWeapons = (float) context.optionsGame->getMaxNumberWeapons();
 
-	if (fuel == -1.0f) fuel = maxFuelWeapons;
-	if (maxFuel) fuel = maxFuelWeapons;
-	fuel = MIN(fuel, maxFuelWeapons);
+	float fuel = 0.0f;
+	int numberFuel = tank->getAccessories().getAccessoryCount(weapon->getParent());
+	if (numberFuel == -1 || maxFuel)
+	{
+		fuel = (float) weapon->getMaximumRange();
+	}
+	else
+	{
+		fuel = (float) MIN(weapon->getMaximumRange(), numberFuel);
+	}
 
 	// Add this point to the movement map
 	unsigned int epoc = 0;

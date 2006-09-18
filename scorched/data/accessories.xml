@@ -30,7 +30,7 @@ Giving more health and longer shots.</description>
 		<armslevel>7</armslevel>
 		<description>Allows the tank to move.
 When it is the players turn the tank may choose 
-to move rather than fire.</description>
+to move rather than fire.  Maximum range is 50.</description>
 		<icon>fuel.bmp</icon>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>40</bundlesize>
@@ -38,6 +38,7 @@ to move rather than fire.</description>
 		<accessoryaction type='WeaponSelectPosition'>
 			<aimedweapon type='WeaponMoveTank'>
 				<steptime>0.05</steptime>
+				<maximumrange>50</maximumrange>
 			</aimedweapon>
 		</accessoryaction>
 		<nomuzzleflash/>
@@ -49,7 +50,7 @@ to move rather than fire.</description>
 		<armslevel>7</armslevel>
 		<description>Allows the tank to move very fast.
 When it is the players turn the tank may choose 
-to move rather than fire.</description>
+to move rather than fire.  Maximum range is 75.</description>
 		<icon>fuel.bmp</icon>
 		<activationsound>battery/battery.wav</activationsound>
 		<bundlesize>30</bundlesize>
@@ -57,6 +58,7 @@ to move rather than fire.</description>
 		<accessoryaction type='WeaponSelectPosition'>
 			<aimedweapon type='WeaponMoveTank'>
 				<steptime>0.025</steptime>
+				<maximumrange>75</maximumrange>
 			</aimedweapon>
 		</accessoryaction>
 		<nomuzzleflash/>

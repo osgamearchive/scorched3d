@@ -482,9 +482,15 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 	{
 		if (selectType == Accessory::ePositionSelectFuel)
 		{
+			WeaponMoveTank *moveWeapon = (WeaponMoveTank *)
+				ScorchedClient::instance()->getAccessoryStore().
+					findAccessoryPartByAccessoryId(
+					currentWeapon->getAccessoryId(), "WeaponMoveTank");
+			if (!moveWeapon) return;
+
 			MovementMap mmap(landWidth, landHeight);
 			mmap.calculateForTank(currentTank,
-				currentWeapon->getAccessoryId(),
+				moveWeapon,
 				ScorchedClient::instance()->getContext());
 
 			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);

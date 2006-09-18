@@ -24,6 +24,7 @@
 #include <landscape/HeightMap.h>
 #include <list>
 
+class WeaponMoveTank;
 class Tank;
 class ScorchedContext;
 class MovementMap
@@ -54,7 +55,7 @@ public:
 	virtual ~MovementMap();
 
 	void calculateForTank(Tank *tank, 
-		unsigned int fuelId,
+		WeaponMoveTank *weapon,
 		ScorchedContext &context, 
 		bool maxFuel = false);
 	void movementTexture();

@@ -41,6 +41,7 @@ public:
 
 	Accessory *findByAccessoryId(unsigned int id);
 	Accessory *findByPrimaryAccessoryName(const char *name); // **careful there**
+	AccessoryPart *findAccessoryPartByAccessoryId(unsigned int id, const char *type);
 	AccessoryPart *createAccessoryPart(OptionsGame &context, 
 		Accessory *parent, XMLNode *currentNode);
 

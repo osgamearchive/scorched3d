@@ -306,6 +306,23 @@ Accessory *AccessoryStore::findByAccessoryId(unsigned int id)
 	return 0;
 }
 
+AccessoryPart *AccessoryStore::findAccessoryPartByAccessoryId(unsigned int id, const char *type)
+{
+	std::list<AccessoryPart *>::iterator itor;
+	for (itor = accessoryParts_.begin();
+		itor != accessoryParts_.end();
+		itor++)
+	{
+		AccessoryPart *accessoryPart = (*itor);
+		if (accessoryPart->getParent()->getAccessoryId() == id &&
+			0 == strcmp(accessoryPart->getAccessoryTypeName(), type))
+		{
+			return accessoryPart;
+		}
+	}
+	return 0;
+}
+
 AccessoryPart *AccessoryStore::findByAccessoryPartId(unsigned int id)
 {
 	std::list<AccessoryPart *>::iterator itor;

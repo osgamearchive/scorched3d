@@ -95,14 +95,20 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 		{
 			if (wp->getPositionSelect() == Accessory::ePositionSelectFuel)
 			{
-				MovementMap mmap(
-					context_.landscapeMaps->getGroundMaps().getMapWidth(),
-					context_.landscapeMaps->getGroundMaps().getMapHeight());
-				mmap.calculateForTank(
-					tank_, 
-					wp->getAccessoryId(), 
-					context_);
-				mmap.movementTexture();	
+				WeaponMoveTank *moveWeapon = (WeaponMoveTank *)
+					context_.accessoryStore->findAccessoryPartByAccessoryId(
+						wp->getAccessoryId(), "WeaponMoveTank");
+				if (moveWeapon)
+				{
+					MovementMap mmap(
+						context_.landscapeMaps->getGroundMaps().getMapWidth(),
+						context_.landscapeMaps->getGroundMaps().getMapHeight());
+					mmap.calculateForTank(
+						tank_, 
+						moveWeapon, 
+						context_);
+					mmap.movementTexture();	
+				}
 			}
 			else if (wp->getPositionSelect() == Accessory::ePositionSelectLimit)
 			{
@@ -110,6 +116,7 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 					wp->getPositionSelectLimit());
 			}
 
+			MessageDialog::instance()->clear();
 			MessageDialog::instance()->addMessage(
 				formatString("Click ground to activate %s", wp->getName()));
 		}
