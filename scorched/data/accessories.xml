@@ -1478,8 +1478,21 @@ and shields damaging the tank directly.</description>
 				<delay>2.0</delay>
 			</aimedweapon>
 		</accessoryaction>
-		<nomuzzleflash/>
 		<positionselection>limit</positionselection>
 		<positionselectionlimit>40</positionselectionlimit>
+	</accessory>
+	
+	
+	<accessory>
+		<name>Team Action Test</name>
+		<maximumnumber>0</maximumnumber>
+		<bundlesize>1</bundlesize>
+		<cost>15000</cost>
+		<accessoryaction type='WeaponTeamAction'>
+			<team0 type='WeaponTeleport'>
+				<sound>data/wav/misc/teleport.wav</sound>
+				<delay>2.0</delay>
+			</team0>
+		</accessoryaction>
 	</accessory>
 </accessories>

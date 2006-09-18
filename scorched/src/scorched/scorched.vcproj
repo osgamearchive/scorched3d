@@ -2005,6 +2005,12 @@
 				RelativePath="..\weapons\WeaponTankVelocity.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponTeamAction.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTeamAction.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponTeleport.cpp">
 			</File>
 			<File

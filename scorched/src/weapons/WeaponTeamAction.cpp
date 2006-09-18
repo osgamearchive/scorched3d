@@ -18,43 +18,54 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponGiveWin.h>
+#include <weapons/WeaponTeamAction.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
-#include <tank/TankTeamScore.h>
-#include <tank/TankColorGenerator.h>
-#include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
-#include <common/OptionsGame.h>
 
-REGISTER_ACCESSORY_SOURCE(WeaponGiveWin);
+REGISTER_ACCESSORY_SOURCE(WeaponTeamAction);
 
-WeaponGiveWin::WeaponGiveWin() :
-	winningTeam_(0)
+WeaponTeamAction::WeaponTeamAction()
 {
-
 }
 
-WeaponGiveWin::~WeaponGiveWin()
+WeaponTeamAction::~WeaponTeamAction()
 {
-
 }
 
-bool WeaponGiveWin::parseXML(OptionsGame &context, 
+bool WeaponTeamAction::parseXML(OptionsGame &context, 
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
 
-	if (!accessoryNode->getNamedChild("objective", objective_)) return false;
+	bool actions = false;
+	for (int i=0; i<5; i++)
+	{
+		action_[i] = 0;
 
-	accessoryNode->getNamedChild("winningteam", winningTeam_);
+		XMLNode *subNode = 0;
+		if (accessoryNode->getNamedChild(formatString("team%i", i), subNode, false))
+		{
+			// Check next weapon is correct type
+			AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+			if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
+			{
+				return subNode->returnError("Failed to find sub weapon, not a weapon");
+			}
+			action_[i] = (Weapon*) accessory;
+			actions = true;
+		}
+	}
+
+	if (!actions)
+	{
+		return accessoryNode->returnError("No actions defined");
+	}
 
 	return true;
 }
 
-void WeaponGiveWin::fireWeapon(ScorchedContext &context,
+void WeaponTeamAction::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
@@ -63,7 +74,7 @@ void WeaponGiveWin::fireWeapon(ScorchedContext &context,
 			playerId, position, velocity, data));
 }
 
-void WeaponGiveWin::weaponCallback(
+void WeaponTeamAction::weaponCallback(
 	ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data,
@@ -72,33 +83,10 @@ void WeaponGiveWin::weaponCallback(
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (!tank) return;
 
-	if (context.optionsGame->getTeams() > 1)
+	Weapon *action = action_[tank->getTeam()];
+	if (action)
 	{
-		int team = winningTeam_;
-		if (team == 0) team = tank->getTeam();
-		context.tankTeamScore->setWonGame(team);
-
-		if (!context.serverMode)
-		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
-				formatString("%s team %s and won the game", 
-				TankColorGenerator::getTeamName(team), 
-				objective_.c_str()));
-			Logger::log(info);
-		}
-	}
-	else
-	{
-		tank->getScore().setWonGame();
-
-		if (!context.serverMode)
-		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
-				formatString("\"%s\" %s and won the game", 
-				tank->getName(), objective_.c_str()));
-			info.setPlayerId(playerId);
-			Logger::log(info);
-		}
+		action->fireWeapon(context, playerId, position, velocity, data);
 	}
 }
 

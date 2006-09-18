@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_WeaponGiveWinh_INCLUDE__)
-#define __INCLUDE_WeaponGiveWinh_INCLUDE__
+#if !defined(__INCLUDE_WeaponTeamActionh_INCLUDE__)
+#define __INCLUDE_WeaponTeamActionh_INCLUDE__
 
 #include <actions/CallbackWeapon.h>
 
-class WeaponGiveWin  : public WeaponCallback
+class WeaponTeamAction  : public WeaponCallback
 {
 public:
-	WeaponGiveWin();
-	virtual ~WeaponGiveWin();
+	WeaponTeamAction();
+	virtual ~WeaponTeamAction();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
@@ -37,19 +37,18 @@ public:
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);
 
-	// Inherited from WeaponPowerUp
+	// Inherited from WeaponCallback
 	virtual void weaponCallback(
 		ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data,
 		unsigned int userData);
 
-	REGISTER_ACCESSORY_HEADER(WeaponGiveWin, AccessoryPart::AccessoryWeapon);
+	REGISTER_ACCESSORY_HEADER(WeaponTeamAction, AccessoryPart::AccessoryWeapon);
 
 protected:
-	std::string objective_;
-	int winningTeam_;
+	Weapon *action_[5];
 
 };
 
-#endif // __INCLUDE_WeaponGiveWinh_INCLUDE__
+#endif // __INCLUDE_WeaponTeamActionh_INCLUDE__
