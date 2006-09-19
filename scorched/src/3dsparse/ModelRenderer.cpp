@@ -135,6 +135,16 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 	{
 		state = GLState::TEXTURE_ON;
 		mesh->getTexture()->draw();
+		if (mesh->getSphereMap())
+		{
+			glEnable(GL_NORMALIZE);
+			glEnable(GL_TEXTURE_GEN_S);						
+			glEnable(GL_TEXTURE_GEN_T);	
+			glEnable(GL_TEXTURE_GEN_R);
+			glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+			glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+		}
 	}
 	GLState glState(state);
 
@@ -156,6 +166,17 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 
 		glCallList(displayList);
 		GLInfo::addNoTriangles((int) mesh->getFaces().size());
+	}
+
+	if (useTextures)
+	{
+		if (mesh->getSphereMap())
+		{
+			glDisable(GL_NORMALIZE);
+			glDisable(GL_TEXTURE_GEN_S);						
+			glDisable(GL_TEXTURE_GEN_T);	
+			glDisable(GL_TEXTURE_GEN_R);
+		}
 	}
 }
 
@@ -214,6 +235,7 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 					glTexCoord2f(face->tcoord[i][0], 
 						face->tcoord[i][1]);
 				}
+				glNormal3fv(face->normal[i]);
 
 				if (vertex->boneIndex != -1)
 				{
@@ -247,4 +269,75 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 		}
 	}
 	glEnd();
+
+	/*
+	// draw normals
+	{
+		glBegin(GL_LINES);
+		for (itor = mesh->getFaces().begin();
+			itor != mesh->getFaces().end();
+			itor++)
+		{
+			Face *face = *itor;
+
+			for (int i=0; i<3; i++)
+			{
+				int index = face->v[i];
+				if (!OptionsDisplay::instance()->getNoModelLOD() &&
+					LOD < 1.0f)
+				{
+					while (index > maxIndex)
+					{
+						index = mesh->getCollapseMap()[index];
+					}
+				}
+
+				faceVerts[i] = index;
+			}
+			
+			if (faceVerts[0] != faceVerts[1] &&
+				faceVerts[1] != faceVerts[2] &&
+				faceVerts[0] != faceVerts[2])
+			{
+				GLInfo::addNoTriangles(1);
+				for (int i=0; i<3; i++)
+				{
+					Vertex *vertex = mesh->getVertex(faceVerts[i]);
+
+					glColor3f(1.0f, 0.0f, 0.0f);
+					if (vertex->boneIndex != -1)
+					{
+						BoneType *type = boneTypes_[vertex->boneIndex];
+
+						// Note: Translation of MS to S3D coords
+						Vector newPos, newVec;
+						newPos[0] = vertex->position[0];
+						newPos[1] = vertex->position[2];
+						newPos[2] = vertex->position[1];
+
+						ModelMaths::vectorRotate(newPos, type->final_, newVec);
+						vec[0] = newVec[0];
+						vec[1] = newVec[2];
+						vec[2] = newVec[1];
+
+						vec[0] += type->final_[0][3] + vertexTranslation_[0];
+						vec[1] += type->final_[2][3] + vertexTranslation_[1];
+						vec[2] += type->final_[1][3] + vertexTranslation_[2];
+						
+					}
+					else
+					{
+						vec[0] = vertex->position[0] + vertexTranslation_[0];
+						vec[1] = vertex->position[1] + vertexTranslation_[1];
+						vec[2] = vertex->position[2] + vertexTranslation_[2];
+					}
+
+					glVertex3fv(vec);
+					glVertex3fv(vec + face->normal[i] * 2.0f);
+				}
+			}
+		}
+		glEnd();
+	}
+	*/
 }

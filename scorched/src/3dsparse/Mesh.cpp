@@ -25,7 +25,7 @@
 #include <common/Defines.h>
 
 Mesh::Mesh(const char *name) : name_(name), texture_(0),
-	referencesBones_(false)
+	referencesBones_(false), sphereMap_(false)
 {
 }
 
@@ -96,6 +96,7 @@ void Mesh::setTextureName(const char *t)
 { 
 	if (0 != strcmp(t, "none"))
 	{
+		sphereMap_ = (strstr(t, "/sphere_") != 0);
 		textureName_ = t; 
 	}
 }

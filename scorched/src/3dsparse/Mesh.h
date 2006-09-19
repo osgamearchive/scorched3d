@@ -36,6 +36,7 @@ public:
 
 	// Accessors
 	const char *getName() { return name_.c_str(); }
+	bool getSphereMap() { return sphereMap_; }
 	Vector &getMin() { return min_; }
 	Vector &getMax() { return max_; }
 	Vector &getColor() { return baseColor_; }
@@ -84,6 +85,7 @@ protected:
 	std::vector<Vertex *> vertexes_;
 	std::vector<int> collapseMap_;
 	bool referencesBones_;
+	bool sphereMap_;
 	Vector baseColor_;
 	Vector min_, max_;
 	GLTexture *texture_;
