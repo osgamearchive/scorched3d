@@ -23,6 +23,7 @@
 #include <client/ClientState.h>
 #include <actions/CameraPositionAction.h>
 #include <weapons/AccessoryStore.h>
+#include <weapons/WeaponMoveTank.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/MovementMap.h>
 #include <landscape/Landscape.h>
@@ -491,7 +492,8 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 			MovementMap mmap(landWidth, landHeight);
 			mmap.calculateForTank(currentTank,
 				moveWeapon,
-				ScorchedClient::instance()->getContext());
+				ScorchedClient::instance()->getContext(),
+				!moveWeapon->getUseFuel());
 
 			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
 			if (entry.type == MovementMap::eMovement &&

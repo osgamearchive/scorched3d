@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/AccessoryStore.h>
+#include <weapons/WeaponMoveTank.h>
 #include <tank/TankWeapon.h>
 #include <tank/Tank.h>
 #include <engine/ScorchedContext.h>
@@ -106,7 +107,8 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 					mmap.calculateForTank(
 						tank_, 
 						moveWeapon, 
-						context_);
+						context_,
+						!moveWeapon->getUseFuel());
 					mmap.movementTexture();	
 				}
 			}
