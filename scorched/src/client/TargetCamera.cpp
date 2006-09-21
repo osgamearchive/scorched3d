@@ -496,12 +496,7 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 				!moveWeapon->getUseFuel());
 
 			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
-			if (entry.type == MovementMap::eMovement &&
-				(entry.dist < currentTank->getAccessories().getAccessoryCount(currentWeapon) ||
-				currentTank->getAccessories().getAccessoryCount(currentWeapon) == -1))
-			{
-			}
-			else return; // Do nothing
+			if (entry.type != MovementMap::eMovement) return;  // Do nothing
 		}
 		else if (selectType == Accessory::ePositionSelectLimit)
 		{
