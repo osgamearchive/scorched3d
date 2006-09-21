@@ -57,6 +57,7 @@ public:
 	// Indicates if this computer ai is available for choice by
 	// the random tank ai type
 	virtual bool availableForRandom() { return availableForRandom_; }
+	virtual bool availableForPlayers() { return availableForPlayers_; }
 
 	// Tank move methods and tank defense methods
 	//
@@ -81,6 +82,7 @@ protected:
 	std::vector<TankAIComputerBuyer> tankBuyers_;
 	bool primaryShot_;
 	bool availableForRandom_;
+	bool availableForPlayers_;
 	bool useParachutes_;
 	bool useShields_;
 	bool useBatteries_;

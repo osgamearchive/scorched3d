@@ -34,6 +34,7 @@
 TankAIComputer::TankAIComputer() : 
 	primaryShot_(true), 
 	availableForRandom_(true),
+	availableForPlayers_(true),
 	useShields_(true),
 	useParachutes_(true),
 	useBatteries_(true),
@@ -85,7 +86,8 @@ bool TankAIComputer::parseConfig(AccessoryStore *store, XMLNode *node)
 	description_.setText(
 		name.c_str(),
 		description.c_str());
-
+	
+	node->getNamedChild("availableforplayers", availableForPlayers_, false);
 
 	if (!store) return true; ////// Shallow parse
 
@@ -107,6 +109,7 @@ bool TankAIComputer::parseConfig(AccessoryStore *store, XMLNode *node)
 	// Available when random is chosen
 	if (!node->getNamedChild("availableforrandom", 
 		availableForRandom_)) return false;
+	if (!availableForPlayers_) availableForRandom_ = false;
 
 	// Aiming info
 	if (!tankAim_.parseConfig(node)) return false;

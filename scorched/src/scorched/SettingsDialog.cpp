@@ -565,8 +565,11 @@ bool SettingsFrame::TransferDataToWindow()
 				itor++)
 			{
 				TankAI *ai = *itor;
-				IDC_COMBO_PTYPE_CTRL[i]->Append(
-					wxString(ai->getName(), wxConvUTF8));
+				if (ai->availableForPlayers())
+				{
+					IDC_COMBO_PTYPE_CTRL[i]->Append(
+						wxString(ai->getName(), wxConvUTF8));
+				}
 			}
 			IDC_COMBO_PTYPE_CTRL[i]->Append(wxT("Human"));
 			IDC_COMBO_PTYPE_CTRL[i]->SetValue(

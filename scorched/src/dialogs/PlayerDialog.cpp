@@ -249,9 +249,13 @@ void PlayerDialog::display()
 			aiitor != tankAIStore.getAis().end();
 			aiitor++)
 		{
-			typeDropDown_->addEntry(
-				GLWSelectorEntry((*aiitor)->getName(),
-					&(*aiitor)->getDescription()));
+			TankAI *ai = (*aiitor);
+			if (ai->availableForPlayers())
+			{
+				typeDropDown_->addEntry(
+					GLWSelectorEntry(ai->getName(),
+						&(*aiitor)->getDescription()));
+			}
 		}
 	}
 	currentPlayerId_ = 0;

@@ -426,9 +426,12 @@ ServerFrame::ServerFrame(const char *name) :
 		aiitor++, aicount++)
 	{
 		TankAI *ai = (*aiitor);
-		char buffer[256];
-		snprintf(buffer, 256, "Add %s", ai->getName());
-		menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, wxString(buffer, wxConvUTF8));
+		if (ai->availableForPlayers())
+		{
+			char buffer[256];
+			snprintf(buffer, 256, "Add %s", ai->getName());
+			menuAddPlayer->Append(IDC_MENU_PLAYERADD_1 + aicount, wxString(buffer, wxConvUTF8));
+		}
 	}
 
 	wxMenu *menuPlayer = new wxMenu;
@@ -465,9 +468,12 @@ void ServerFrame::onPlayerAdd(int i)
 			aiitor++, aicount++)
 		{
 			TankAI *ai = (*aiitor);
-			if (aicount == i)
+			if (ai->availableForPlayers())
 			{
-				TankAIAdder::addTankAI(*ScorchedServer::instance(), ai->getName());
+				if (aicount == i)
+				{
+					TankAIAdder::addTankAI(*ScorchedServer::instance(), ai->getName());
+				}
 			}
 		}
 	}

@@ -45,6 +45,7 @@ public:
 	virtual bool isHuman() = 0;
 	virtual TankAI *getCopy(Tank *tank) = 0;
 	virtual bool availableForRandom() { return false; }
+	virtual bool availableForPlayers() { return true; }
 
 	// State information about when the ai should act
 	//

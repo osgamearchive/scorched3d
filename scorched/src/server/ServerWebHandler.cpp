@@ -218,10 +218,12 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 		aiitor++)
 	{
 		TankAI *ai = (*aiitor);
-		
-		add += formatString(
-			"<input type=\"submit\" name=\"add\" value=\"%s\"\n>",
-			ai->getName());
+		if (ai->availableForPlayers())
+		{
+			add += formatString(
+				"<input type=\"submit\" name=\"add\" value=\"%s\"\n>",
+				ai->getName());
+		}
 	}
 	fields["ADD"] = add;
 
