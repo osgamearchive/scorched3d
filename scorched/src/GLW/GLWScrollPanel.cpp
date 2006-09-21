@@ -99,11 +99,11 @@ void GLWScrollPanel::draw()
 	}
 }
 
-void GLWScrollPanel::mouseUp(float x, float y, bool &skipRest)
+void GLWScrollPanel::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	if (drawScrollBar_)
 	{
-		scrollW_.mouseUp(x, y, skipRest);
+		scrollW_.mouseUp(button, x, y, skipRest);
 	}
 	if (!skipRest)
 	{
@@ -123,18 +123,18 @@ void GLWScrollPanel::mouseUp(float x, float y, bool &skipRest)
 			}
 			else
 			{
-				vw->mouseUp(x, y, skipRest);
+				vw->mouseUp(button, x, y, skipRest);
 			}
 			if (skipRest) break;
 		}
 	}
 }
 
-void GLWScrollPanel::mouseDown(float x, float y, bool &skipRest)
+void GLWScrollPanel::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (drawScrollBar_)
 	{
-		scrollW_.mouseDown(x, y, skipRest);
+		scrollW_.mouseDown(button, x, y, skipRest);
 	}
 	if (!skipRest)
 	{
@@ -154,18 +154,18 @@ void GLWScrollPanel::mouseDown(float x, float y, bool &skipRest)
 			}
 			else
 			{
-				vw->mouseDown(x, y, skipRest);
+				vw->mouseDown(button, x, y, skipRest);
 			}
 			if (skipRest) break;
 		}
 	}
 }
 
-void GLWScrollPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWScrollPanel::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (drawScrollBar_)
 	{
-		scrollW_.mouseDrag(mx, my, x, y, skipRest);
+		scrollW_.mouseDrag(button, mx, my, x, y, skipRest);
 	}
 	if (!skipRest)
 	{
@@ -185,7 +185,7 @@ void GLWScrollPanel::mouseDrag(float mx, float my, float x, float y, bool &skipR
 			}
 			else
 			{
-				vw->mouseDrag(mx, my, x, y, skipRest);
+				vw->mouseDrag(button, mx, my, x, y, skipRest);
 			}
 			if (skipRest) break;
 		}

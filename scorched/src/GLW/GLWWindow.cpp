@@ -306,7 +306,7 @@ void GLWWindow::draw()
 	}
 }
 
-void GLWWindow::mouseDown(float x, float y, bool &skipRest)
+void GLWWindow::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (disabled_) return;
 
@@ -329,7 +329,7 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 			else if (y > y_ && y < y_ + h_)
 			{
 				// There is a mouse down in the actual window
-				GLWPanel::mouseDown(x, y, skipRest);
+				GLWPanel::mouseDown(button, x, y, skipRest);
 				skipRest = !(eClickTransparent & windowState_) || skipRest;
 			}
 		}
@@ -356,7 +356,7 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 				else if (y > y_ && y < y_ + h_)
 				{
 					// There is a mouse down in the actual window
-					GLWPanel::mouseDown(x, y, skipRest);
+					GLWPanel::mouseDown(button, x, y, skipRest);
 					skipRest = !(eClickTransparent & windowState_) || skipRest;
 				}
 			}	
@@ -364,15 +364,15 @@ void GLWWindow::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWWindow::mouseUp(float x, float y, bool &skipRest)
+void GLWWindow::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	if (disabled_) return;
 
 	dragging_ = NoDrag;
-	GLWPanel::mouseUp(x, y, skipRest);
+	GLWPanel::mouseUp(button, x, y, skipRest);
 }
 
-void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWWindow::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (disabled_) return;
 
@@ -404,7 +404,7 @@ void GLWWindow::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		skipRest = true;
 		break;
 	default:
-		GLWPanel::mouseDrag(mx, my, x, -y, skipRest);
+		GLWPanel::mouseDrag(button, mx, my, x, -y, skipRest);
 		break;
 	}
 }

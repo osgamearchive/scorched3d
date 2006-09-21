@@ -76,9 +76,9 @@ public:
 
 	virtual void simulate(float frameTime);
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseUp(float x, float y, bool &skipRest);
-	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseUp(int button, float x, float y, bool &skipRest);
+	virtual void mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest);
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);

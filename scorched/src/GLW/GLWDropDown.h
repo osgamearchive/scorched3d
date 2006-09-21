@@ -50,8 +50,8 @@ public:
 
 	// Inherited from GLWidget
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseUp(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseUp(int button, float x, float y, bool &skipRest);
 	virtual void setX(float x);
 	virtual void setY(float y);
 

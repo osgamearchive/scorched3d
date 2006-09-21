@@ -22,6 +22,8 @@
 #define __INCLUDE_GLWPlanViewh_INCLUDE__
 
 #include <GLW/GLWidget.h>
+#include <common/Vector.h>
+#include <list>
 
 class GLWPlanView : public GLWidget
 {
@@ -31,7 +33,9 @@ public:
 	virtual ~GLWPlanView();
 
 	virtual void simulate(float frameTime);
-	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest);
+	virtual void mouseUp(int button, float x, float y, bool &skipRest);
 	virtual void draw();
 
 	REGISTER_CLASS_HEADER(GLWPlanView);
@@ -39,7 +43,11 @@ public:
 protected:
 	float animationTime_;
 	float flashTime_;
+	float totalTime_;
 	bool flash_;
+	bool dragging_;
+	float dragLastX_, dragLastY_;
+	std::list<Vector> dragPoints_;
 
 	void drawMap();
 	void drawTexture();
@@ -47,6 +55,7 @@ protected:
 	void drawCameraPointer();
 	void drawTanks();
 	void drawCurrentTank();
+	void drawLines();
 
 };
 

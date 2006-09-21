@@ -29,8 +29,8 @@ public:
 	GLWTankFire();
 	virtual ~GLWTankFire();
 
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseUp(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseUp(int button, float x, float y, bool &skipRest);
 
 	REGISTER_CLASS_HEADER(GLWTankFire);
 

@@ -38,7 +38,7 @@ GLWTankFire::~GLWTankFire()
 
 }
 
-void GLWTankFire::mouseDown(float x, float y, bool &skipRest)
+void GLWTankFire::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
@@ -46,7 +46,7 @@ void GLWTankFire::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWTankFire::mouseUp(float x, float y, bool &skipRest)
+void GLWTankFire::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	if (dragging_)
 	{

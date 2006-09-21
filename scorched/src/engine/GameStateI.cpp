@@ -62,7 +62,7 @@ void GameStateI::mouseUp(const unsigned state, GameState::MouseButton button,
 }
 
 void GameStateI::mouseDrag(const unsigned state, GameState::MouseButton button, 
-						   int mx, int my, int x, int y, bool &skipRest)
+						   int x, int y, int dx, int dy, bool &skipRest)
 {
 
 }

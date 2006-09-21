@@ -412,28 +412,28 @@ void GLWLoggerView::draw()
 	}
 }
 
-void GLWLoggerView::mouseDown(float x, float y, bool &skipRest)
+void GLWLoggerView::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	skipRest = false;
-	upButton_.mouseDown(x, y, skipRest);
-	downButton_.mouseDown(x, y, skipRest);
-	resetButton_.mouseDown(x, y, skipRest);
+	upButton_.mouseDown(button, x, y, skipRest);
+	downButton_.mouseDown(button, x, y, skipRest);
+	resetButton_.mouseDown(button, x, y, skipRest);
 }
 
-void GLWLoggerView::mouseUp(float x, float y, bool &skipRest)
+void GLWLoggerView::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	skipRest = false;
-	upButton_.mouseUp(x, y, skipRest);
-	downButton_.mouseUp(x, y, skipRest);
-	resetButton_.mouseUp(x, y, skipRest);
+	upButton_.mouseUp(button, x, y, skipRest);
+	downButton_.mouseUp(button, x, y, skipRest);
+	resetButton_.mouseUp(button, x, y, skipRest);
 }
 
-void GLWLoggerView::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWLoggerView::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	skipRest = false;
-	upButton_.mouseDrag(mx, my, x, y, skipRest);
-	downButton_.mouseDrag(mx, my, x, y, skipRest);
-	resetButton_.mouseDrag(mx, my, x, y, skipRest);
+	upButton_.mouseDrag(button, mx, my, x, y, skipRest);
+	downButton_.mouseDrag(button, mx, my, x, y, skipRest);
+	resetButton_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 void GLWLoggerView::keyDown(char *buffer, unsigned int keyState, 

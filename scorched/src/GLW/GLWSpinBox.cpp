@@ -73,12 +73,12 @@ void GLWSpinBox::draw()
 		formatString("%i", value_));
 }
 
-void GLWSpinBox::mouseDown(float x, float y, bool &skipRest)
+void GLWSpinBox::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	top_.mouseDown(x, y, skipRest);
+	top_.mouseDown(button, x, y, skipRest);
 	if (skipRest) return;
 
-	bottom_.mouseDown(x, y, skipRest);
+	bottom_.mouseDown(button, x, y, skipRest);
 	if (!skipRest)
 	{
 		if (inBox(x, y, x_, y_, w_, h_))
@@ -89,17 +89,17 @@ void GLWSpinBox::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWSpinBox::mouseUp(float x, float y, bool &skipRest)
+void GLWSpinBox::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	dragging_ = false;
 
-	top_.mouseUp(x, y, skipRest);
+	top_.mouseUp(button, x, y, skipRest);
 	if (skipRest) return;
 
-	bottom_.mouseUp(x, y, skipRest);
+	bottom_.mouseUp(button, x, y, skipRest);
 }
 
-void GLWSpinBox::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWSpinBox::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (dragging_)
 	{
@@ -109,10 +109,10 @@ void GLWSpinBox::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 		return;
 	}
 
-	top_.mouseDrag(mx, my, x, y, skipRest);
+	top_.mouseDrag(button, mx, my, x, y, skipRest);
 	if (skipRest) return;
 
-	bottom_.mouseDrag(mx, my, x, y, skipRest);
+	bottom_.mouseDrag(button, mx, my, x, y, skipRest);
 	if (skipRest) return;
 }
 

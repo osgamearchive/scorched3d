@@ -62,7 +62,7 @@ void GLWCheckBox::draw()
 	GLWidget::draw();
 }
 
-void GLWCheckBox::mouseDown(float x, float y, bool &skipRest)
+void GLWCheckBox::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (x > x_ && x<x_+w_ &&
 		y > y_ && y<y_+h_)
@@ -71,5 +71,5 @@ void GLWCheckBox::mouseDown(float x, float y, bool &skipRest)
 		skipRest = true;
 		if (handler_) handler_->stateChange(state_, getId());
 	}
-	GLWidget::mouseDown(x, y, skipRest);
+	GLWidget::mouseDown(button, x, y, skipRest);
 }

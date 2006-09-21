@@ -84,7 +84,7 @@ void GLWButton::simulate(float frameTime)
 	}
 }
 
-void GLWButton::mouseDown(float x, float y, bool &skipRest)
+void GLWButton::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (enabled_ &&
 		inBox(x, y, x_, y_, w_, h_))
@@ -101,7 +101,7 @@ void GLWButton::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWButton::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWButton::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (startdrag_)
 	{
@@ -117,7 +117,7 @@ void GLWButton::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 	}
 }
 
-void GLWButton::mouseUp(float x, float y, bool &skipRest)
+void GLWButton::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	startdrag_ = false;
 	if (pressed_)

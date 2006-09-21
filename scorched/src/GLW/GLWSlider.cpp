@@ -40,7 +40,7 @@ GLWSlider::~GLWSlider()
 
 }
 
-void GLWSlider::mouseDown(float x, float y, bool &skipRest)
+void GLWSlider::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
@@ -49,12 +49,12 @@ void GLWSlider::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWSlider::mouseUp(float x, float y, bool &skipRest)
+void GLWSlider::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	dragging_ = false;
 }
 
-void GLWSlider::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWSlider::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (dragging_)
 	{

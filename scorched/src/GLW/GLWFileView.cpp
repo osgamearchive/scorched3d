@@ -68,19 +68,19 @@ void GLWFileView::draw()
 	scroll_.draw();
 }
 
-void GLWFileView::mouseDown(float x, float y, bool &skipRest)
+void GLWFileView::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	scroll_.mouseDown(x, y, skipRest);
+	scroll_.mouseDown(button, x, y, skipRest);
 }
 
-void GLWFileView::mouseUp(float x, float y, bool &skipRest)
+void GLWFileView::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	scroll_.mouseUp(x, y, skipRest);
+	scroll_.mouseUp(button, x, y, skipRest);
 }
 
-void GLWFileView::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWFileView::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	scroll_.mouseDrag(mx, my, x, y, skipRest);
+	scroll_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 void GLWFileView::mouseWheel(float x, float y, float z, bool &skipRest)

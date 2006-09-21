@@ -149,9 +149,9 @@ void GLWDropDown::buttonUp(unsigned int id)
 {
 }
 
-void GLWDropDown::mouseDown(float x, float y, bool &skipRest)
+void GLWDropDown::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	button_.mouseDown(x, y, skipRest);
+	button_.mouseDown(button, x, y, skipRest);
 }
 
 void GLWDropDown::setX(float x)
@@ -192,7 +192,7 @@ void GLWDropDown::noItemSelected()
 	button_.getPressed() = false;
 }
 
-void GLWDropDown::mouseUp(float x, float y, bool &skipRest)
+void GLWDropDown::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	button_.mouseUp(x, y, skipRest);
+	button_.mouseUp(button, x, y, skipRest);
 }

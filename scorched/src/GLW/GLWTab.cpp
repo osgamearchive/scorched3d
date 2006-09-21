@@ -55,7 +55,7 @@ float GLWTab::getTw()
 	return label_.getW() + tabSpacing;
 }
 
-void GLWTab::mouseDown(float x, float y, bool &skipRest)
+void GLWTab::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	float tw = getTw();
 	if (x > x_ + index_ &&
@@ -69,7 +69,7 @@ void GLWTab::mouseDown(float x, float y, bool &skipRest)
 
 	if (!skipRest && depressed_)
 	{
-		GLWScrollPanel::mouseDown(x, y, skipRest);
+		GLWScrollPanel::mouseDown(button, x, y, skipRest);
 	}
 }
 

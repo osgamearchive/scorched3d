@@ -162,7 +162,7 @@ void GLWSelector::draw()
 	}
 }
 
-void GLWSelector::mouseDown(float mouseX, float mouseY, bool &hitMenu)
+void GLWSelector::mouseDown(int button, float mouseX, float mouseY, bool &hitMenu)
 {
 	// Override default window behaviour
 	if (!visible_) return;
@@ -193,12 +193,12 @@ void GLWSelector::mouseDown(float mouseX, float mouseY, bool &hitMenu)
 	hideSelector();
 }
 
-void GLWSelector::mouseUp(float x, float y, bool &skipRest)
+void GLWSelector::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	// Override and disable default window behaviour
 }
 
-void GLWSelector::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWSelector::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	// Override and disable default window behaviour
 }

@@ -293,12 +293,12 @@ void GLWTankViewer::draw()
 	catagoryChoice_.draw();
 }
 
-void GLWTankViewer::mouseDown(float x, float y, bool &skipRest)
+void GLWTankViewer::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	scrollBar_.mouseDown(x, y, skipRest);
+	scrollBar_.mouseDown(button, x, y, skipRest);
 	if (!skipRest)
 	{
-		catagoryChoice_.mouseDown(x, y, skipRest);
+		catagoryChoice_.mouseDown(button, x, y, skipRest);
 		if (!skipRest)
 		{
 			if (inBox(x, y, x_, y_, w_, h_))
@@ -317,14 +317,14 @@ void GLWTankViewer::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWTankViewer::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWTankViewer::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	scrollBar_.mouseDrag(mx, my, x, y, skipRest);
+	scrollBar_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
-void GLWTankViewer::mouseUp(float x, float y, bool &skipRest)
+void GLWTankViewer::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	scrollBar_.mouseUp(x, y, skipRest);
+	scrollBar_.mouseUp(button, x, y, skipRest);
 }
 
 void GLWTankViewer::mouseWheel(float x, float y, float z, bool &skipRest)

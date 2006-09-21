@@ -68,7 +68,7 @@ public:
 	virtual ~GLWScorchedInfo();
 
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
 	virtual bool initFromXML(XMLNode *node);
 
 	REGISTER_CLASS_HEADER(GLWScorchedInfo);

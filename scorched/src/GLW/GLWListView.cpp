@@ -171,7 +171,7 @@ void GLWListView::simulate(float frameTime)
 	scroll_.simulate(frameTime);
 }
 
-void GLWListView::mouseDown(float x, float y, bool &skipRest)
+void GLWListView::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	std::vector<UrlEntry>::iterator itor;
 	for (itor = urls_.begin();
@@ -191,17 +191,17 @@ void GLWListView::mouseDown(float x, float y, bool &skipRest)
 		}
 	}
 
-	scroll_.mouseDown(x, y, skipRest);
+	scroll_.mouseDown(button, x, y, skipRest);
 }
 
-void GLWListView::mouseUp(float x, float y, bool &skipRest)
+void GLWListView::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	scroll_.mouseUp(x, y, skipRest);
+	scroll_.mouseUp(button, x, y, skipRest);
 }
 
-void GLWListView::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWListView::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	scroll_.mouseDrag(mx, my, x, y, skipRest);
+	scroll_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 void GLWListView::mouseWheel(float x, float y, float z, bool &skipRest)

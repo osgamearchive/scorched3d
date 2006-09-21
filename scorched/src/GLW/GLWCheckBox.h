@@ -39,7 +39,7 @@ public:
 	virtual ~GLWCheckBox();
 
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
 
 	bool &getState() { return state_; }
 	void setState(bool state) { state_ = state; }

@@ -38,8 +38,8 @@ public:
 	GLWScrollButton(float x, float y, float w, float h);
 	virtual ~GLWScrollButton();
 
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest);
 	void setScrollHandler(GLWScrollButtonI *handler);
 
 protected:

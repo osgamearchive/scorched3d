@@ -44,25 +44,25 @@ void GLWCheckBoxText::draw()
 	label_.draw();
 }
 
-void GLWCheckBoxText::mouseDown(float x, float y, bool &skipRest)
+void GLWCheckBoxText::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	GLWidget::mouseDown(x, y, skipRest);
-	box_.mouseDown(x, y, skipRest);
-	label_.mouseDown(x, y, skipRest);
+	GLWidget::mouseDown(button, x, y, skipRest);
+	box_.mouseDown(button, x, y, skipRest);
+	label_.mouseDown(button, x, y, skipRest);
 }
 
-void GLWCheckBoxText::mouseUp(float x, float y, bool &skipRest)
+void GLWCheckBoxText::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	GLWidget::mouseUp(x, y, skipRest);
-	box_.mouseUp(x, y, skipRest);
-	label_.mouseUp(x, y, skipRest);
+	GLWidget::mouseUp(button, x, y, skipRest);
+	box_.mouseUp(button, x, y, skipRest);
+	label_.mouseUp(button, x, y, skipRest);
 }
 
-void GLWCheckBoxText::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWCheckBoxText::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	GLWidget::mouseDrag(mx, my, x, y, skipRest);
-	box_.mouseDrag(mx, my, x, y, skipRest);
-	label_.mouseDrag(mx, my, x, y, skipRest);
+	GLWidget::mouseDrag(button, mx, my, x, y, skipRest);
+	box_.mouseDrag(button, mx, my, x, y, skipRest);
+	label_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 float GLWCheckBoxText::getW()

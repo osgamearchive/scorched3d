@@ -88,17 +88,17 @@ void GLWidget::setParent(GLWPanel *parent)
 	parent_ = parent;
 }
 
-void GLWidget::mouseDown(float x, float y, bool &skipRest)
+void GLWidget::mouseDown(int button, float x, float y, bool &skipRest)
 {
 
 }
 
-void GLWidget::mouseUp(float x, float y, bool &skipRest)
+void GLWidget::mouseUp(int button, float x, float y, bool &skipRest)
 {
 
 }
 
-void GLWidget::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWidget::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 
 }

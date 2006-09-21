@@ -149,7 +149,7 @@ void GLMenu::draw()
 	}
 }
 
-void GLMenu::mouseDown(float x, float y, bool &hitMenu)
+void GLMenu::mouseDown(int button, float x, float y, bool &hitMenu)
 {
 	hitMenu = false;
 	float currentTop = (float) GLViewPort::getHeight();
@@ -174,12 +174,12 @@ void GLMenu::mouseDown(float x, float y, bool &hitMenu)
 	}
 }
 
-void GLMenu::mouseUp(float x, float y, bool &skipRest)
+void GLMenu::mouseUp(int button, float x, float y, bool &skipRest)
 {
 
 }
 
-void GLMenu::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLMenu::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 
 }

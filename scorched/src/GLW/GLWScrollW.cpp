@@ -156,55 +156,55 @@ void GLWScrollW::simulate(float frameTime)
 	bottomButton_.simulate(frameTime);
 }
 
-void GLWScrollW::mouseDown(float x, float y, bool &skipRest)
+void GLWScrollW::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	topButton_.mouseDown(x, y, skipRest);
+	topButton_.mouseDown(button, x, y, skipRest);
 	if (skipRest) return;
 
-	bottomButton_.mouseDown(x, y, skipRest);
+	bottomButton_.mouseDown(button, x, y, skipRest);
 	if (skipRest) return;
 
-	middleButton_.mouseDown(x, y, skipRest);
+	middleButton_.mouseDown(button, x, y, skipRest);
 	if (skipRest) return;
 
-	backButtonTop_.mouseDown(x, y, skipRest);
+	backButtonTop_.mouseDown(button, x, y, skipRest);
 	if (skipRest) return;
 
-	backButtonBot_.mouseDown(x, y, skipRest);
+	backButtonBot_.mouseDown(button, x, y, skipRest);
 }
 
-void GLWScrollW::mouseUp(float x, float y, bool &skipRest)
+void GLWScrollW::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	topButton_.mouseUp(x, y, skipRest);
+	topButton_.mouseUp(button, x, y, skipRest);
 	if (skipRest) return;
 
-	bottomButton_.mouseUp(x, y, skipRest);
+	bottomButton_.mouseUp(button, x, y, skipRest);
 	if (skipRest) return;
 
-	middleButton_.mouseUp(x, y, skipRest);
+	middleButton_.mouseUp(button, x, y, skipRest);
 	if (skipRest) return;
 
-	backButtonTop_.mouseUp(x, y, skipRest);
+	backButtonTop_.mouseUp(button, x, y, skipRest);
 	if (skipRest) return;
 
-	backButtonBot_.mouseUp(x, y, skipRest);
+	backButtonBot_.mouseUp(button, x, y, skipRest);
 }
 
-void GLWScrollW::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWScrollW::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	topButton_.mouseDrag(mx, my, x, y, skipRest);
+	topButton_.mouseDrag(button, mx, my, x, y, skipRest);
 	if (skipRest) return;
 
-	bottomButton_.mouseDrag(mx, my, x, y, skipRest);
+	bottomButton_.mouseDrag(button, mx, my, x, y, skipRest);
 	if (skipRest) return;
 
-	middleButton_.mouseDrag(mx, my, x, y, skipRest);
+	middleButton_.mouseDrag(button, mx, my, x, y, skipRest);
 	if (skipRest) return;
 
-	backButtonTop_.mouseDrag(mx, my, x, y, skipRest);
+	backButtonTop_.mouseDrag(button, mx, my, x, y, skipRest);
 	if (skipRest) return;
 
-	backButtonBot_.mouseDrag(mx, my, x, y, skipRest);
+	backButtonBot_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 void GLWScrollW::mouseWheel(float x, float y, float z, bool &skipRest)

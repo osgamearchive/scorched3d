@@ -48,11 +48,11 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWWindowManager::instance());
-	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft, 
+	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
-	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft, 
+	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
-	gameState.addStateMouseUpEntry(state, GameState::MouseButtonLeft, 
+	gameState.addStateMouseUpEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
 	gameState.addStateKeyEntry(state, GLWWindowManager::instance());
 	gameState.addStateMouseWheelEntry(state, GLWWindowManager::instance());

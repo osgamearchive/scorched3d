@@ -356,7 +356,7 @@ void GLWScorchedInfo::draw()
 	}
 }
 
-void GLWScorchedInfo::mouseDown(float x, float y, bool &skipRest)
+void GLWScorchedInfo::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	Tank *current = 
  		ScorchedClient::instance()->getTankContainer().getCurrentTank();
@@ -432,7 +432,7 @@ void GLWScorchedInfo::mouseDown(float x, float y, bool &skipRest)
 	}
 	else
 	{
-		GLWidget::mouseDown(x, y, skipRest);
+		GLWidget::mouseDown(button, x, y, skipRest);
 	}
 }
 

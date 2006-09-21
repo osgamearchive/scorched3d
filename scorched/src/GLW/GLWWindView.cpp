@@ -224,7 +224,7 @@ void GLWWindView::drawArrow()
 	windModel_->draw();
 }
 
-void GLWWindView::mouseDown(float x, float y, bool &skipRest)
+void GLWWindView::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{

@@ -32,7 +32,7 @@ public:
 
 	virtual void draw();
 	virtual void simulate(float frameTime);
-	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
 
 	REGISTER_CLASS_HEADER(GLWWeaponModel);
 

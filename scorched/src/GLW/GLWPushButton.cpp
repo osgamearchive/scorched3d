@@ -38,7 +38,7 @@ GLWPushButton::~GLWPushButton()
 
 }
 
-void GLWPushButton::mouseDown(float x, float y, bool &skipRest)
+void GLWPushButton::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (x > x_ && x<x_+w_ &&
 		y > y_ && y<y_+h_)
@@ -57,7 +57,7 @@ void GLWPushButton::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWPushButton::mouseUp(float x, float y, bool &skipRest)
+void GLWPushButton::mouseUp(int button, float x, float y, bool &skipRest)
 {
 
 }

@@ -95,7 +95,7 @@ void GLWWeaponModel::draw()
 	glPopMatrix();
 }
 
-void GLWWeaponModel::mouseDown(float x, float y, bool &skipRest)
+void GLWWeaponModel::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	Tank *current = 
  		ScorchedClient::instance()->getTankContainer().getCurrentTank();

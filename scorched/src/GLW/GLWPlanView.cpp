@@ -40,8 +40,8 @@ static const float maxAnimationTime = 2.0f;
 
 GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
 	GLWidget(x, y, w, h),
-	animationTime_(0.0f), flashTime_(0.0f),
-	flash_(true)
+	animationTime_(0.0f), flashTime_(0.0f), totalTime_(0.0f),
+	flash_(true), dragging_(false)
 {
 	setToolTip(new GLWTip("Plan View",
 		"Shows the position of the the tanks\n"
@@ -57,6 +57,7 @@ GLWPlanView::~GLWPlanView()
 
 void GLWPlanView::simulate(float frameTime)
 {
+	totalTime_ += frameTime;
 	flashTime_ += frameTime;
 	if (flashTime_ > 0.3f)
 	{
@@ -90,8 +91,45 @@ void GLWPlanView::drawMap()
 			GLState currentState2(GLState::TEXTURE_OFF);
 			drawCameraPointer();
 			drawTanks();
+			drawLines();
 		}
 	glPopMatrix();
+}
+
+void GLWPlanView::drawLines()
+{
+	if (dragPoints_.empty()) return;
+
+	while (!dragPoints_.empty())
+	{
+		Vector &first = dragPoints_.front();
+		float time = totalTime_ - first[2];
+		if (time < 2.0f) break;
+		dragPoints_.pop_front();
+	}
+
+	glBegin(GL_LINE_STRIP);
+	std::list<Vector>::iterator itor;
+	for (itor = dragPoints_.begin();
+		itor != dragPoints_.end();
+		itor++)
+	{
+		Vector &v = (*itor);
+
+		if (v[0] == 0.0f && v[1] == 0.0f)
+		{
+			glEnd();
+			glBegin(GL_LINE_STRIP);
+		}
+		else
+		{
+			float time = totalTime_ - v[2];
+			time = 1.0f - (time / 2.0f);
+			glColor4f(1.0f, 1.0f, 1.0f, time);
+			glVertex2f(v[0], v[1]);
+		}
+	}
+	glEnd();
 }
 
 void GLWPlanView::drawTexture()
@@ -313,26 +351,71 @@ void GLWPlanView::drawCurrentTank()
 
 }
 
-void GLWPlanView::mouseDown(float x, float y, bool &skipRest)
+void GLWPlanView::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
 
-		float mapWidth = (float) ScorchedClient::instance()->
-			getLandscapeMaps().getGroundMaps().getMapWidth();
-		float mapHeight = (float) ScorchedClient::instance()->
-			getLandscapeMaps().getGroundMaps().getMapHeight();
-		float maxWidth = MAX(mapWidth, mapHeight);
+		if (button == 1)
+		{
+			float mapWidth = (float) ScorchedClient::instance()->
+				getLandscapeMaps().getGroundMaps().getMapWidth();
+			float mapHeight = (float) ScorchedClient::instance()->
+				getLandscapeMaps().getGroundMaps().getMapHeight();
+			float maxWidth = MAX(mapWidth, mapHeight);
 
-		float mapX = ((x - x_) / w_) * maxWidth;
-		float mapY = ((y - y_) / h_) * maxWidth;
-		mapX -= (maxWidth - mapWidth) / 2.0f;
-		mapY -= (maxWidth - mapHeight) / 2.0f;
+			float mapX = ((x - x_) / w_) * maxWidth;
+			float mapY = ((y - y_) / h_) * maxWidth;
+			mapX -= (maxWidth - mapWidth) / 2.0f;
+			mapY -= (maxWidth - mapHeight) / 2.0f;
 
-		Vector lookAt(mapX, mapY, ScorchedClient::instance()->
-			getLandscapeMaps().getGroundMaps().getInterpHeight(mapX, mapY) + 5.0f);
-		MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
-		MainCamera::instance()->getCamera().setLookAt(lookAt);
+			Vector lookAt(mapX, mapY, ScorchedClient::instance()->
+				getLandscapeMaps().getGroundMaps().getInterpHeight(mapX, mapY) + 5.0f);
+			MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
+			MainCamera::instance()->getCamera().setLookAt(lookAt);
+		}
+		else if (button == 122)
+		{
+			dragging_ = true;
+
+			dragLastX_ = x;
+			dragLastY_ = y;
+
+			float mapX = ((x - x_) / w_);
+			float mapY = ((y - y_) / h_);
+			dragPoints_.push_back(Vector(mapX, mapY, totalTime_));
+		}
+	}
+}
+
+void GLWPlanView::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
+{
+	if (dragging_)
+	{
+		skipRest = true;
+		if (inBox(mx, my, x_, y_, w_, h_))
+		{
+			if (fabsf(mx - dragLastX_) > 5.0f ||
+				fabsf(my - dragLastY_) > 5.0f)
+			{
+				dragLastX_ = mx;
+				dragLastY_ = my;
+
+				float mapX = ((mx - x_) / w_);
+				float mapY = ((my - y_) / h_);
+				dragPoints_.push_back(Vector(mapX, mapY, totalTime_));
+				if (dragPoints_.size() > 25) dragPoints_.pop_front();
+			}
+		}
+	}
+}
+
+void GLWPlanView::mouseUp(int button, float x, float y, bool &skipRest)
+{
+	if (dragging_)
+	{
+		dragging_ = false;
+		dragPoints_.push_back(Vector(0.0f, 0.0f, totalTime_));
 	}
 }

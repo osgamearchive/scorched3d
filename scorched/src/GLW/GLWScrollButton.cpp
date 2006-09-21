@@ -37,7 +37,7 @@ GLWScrollButton::~GLWScrollButton()
 
 }
 
-void GLWScrollButton::mouseDown(float x, float y, bool &skipRest)
+void GLWScrollButton::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	startX_ = 0.0f;
 	startY_ = 0.0f;
@@ -47,10 +47,10 @@ void GLWScrollButton::mouseDown(float x, float y, bool &skipRest)
 		scrollHandler_->startDrag(id_);
 	}
 
-	GLWButton::mouseDown(x, y, skipRest);
+	GLWButton::mouseDown(button, x, y, skipRest);
 }
 
-void GLWScrollButton::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWScrollButton::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (pressed_)
 	{

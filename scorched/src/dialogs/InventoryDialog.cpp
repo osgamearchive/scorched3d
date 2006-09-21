@@ -117,9 +117,9 @@ void InventoryDialog::addPlayerWeapons()
 	ScorchedClient::instance()->getAccessoryStore().sortList(tankAccessories, 
 		OptionsDisplay::instance()->getSortAccessories());
 
-	std::list<Accessory *>::iterator itor;
-	for (itor = tankAccessories.begin();
-		itor != tankAccessories.end();
+	std::list<Accessory *>::reverse_iterator itor;
+	for (itor = tankAccessories.rbegin();
+		itor != tankAccessories.rend();
 		itor++)
 	{
 		Accessory *current = *itor;

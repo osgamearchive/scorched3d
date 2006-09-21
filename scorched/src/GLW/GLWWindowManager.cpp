@@ -413,7 +413,7 @@ void GLWWindowManager::mouseDown(const unsigned state, GameState::MouseButton bu
 		GLWWindow *window = (*itor);
 		if (windowVisible(window->getId()))
 		{
-			window->mouseDown((float) x, (float) y, skipRest);
+			window->mouseDown((int) button, (float) x, (float) y, skipRest);
 			if (skipRest) break;
 		}
 	}
@@ -431,14 +431,14 @@ void GLWWindowManager::mouseUp(const unsigned state, GameState::MouseButton butt
 		GLWWindow *window = (*itor);
 		if (windowVisible(window->getId()))
 		{
-			window->mouseUp((float) x, (float) y, skipRest);
+			window->mouseUp((int) button, (float) x, (float) y, skipRest);
 			if (skipRest) break;
 		}
 	}
 }
 
 void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton button, 
-							  int mx, int my, int x, int y, bool &skipRest)
+							  int x, int y, int dx, int dy, bool &skipRest)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
 
@@ -450,7 +450,7 @@ void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton bu
 		GLWWindow *window = (*itor);
 		if (windowVisible(window->getId()))
 		{
-			window->mouseDrag((float) mx, (float) my, (float) x, (float) y, skipRest);
+			window->mouseDrag((int) button, (float) x, (float) y, (float) dx, (float) dy, skipRest);
 			if (skipRest) break;
 		}
 	}

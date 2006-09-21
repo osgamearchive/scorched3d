@@ -80,7 +80,7 @@ void GLWTankModel::draw()
 	glPopMatrix();
 }
 
-void GLWTankModel::mouseDown(float x, float y, bool &skipRest)
+void GLWTankModel::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{

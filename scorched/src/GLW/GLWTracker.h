@@ -43,9 +43,9 @@ public:
 	void setCurrentX(float currentx) { currentX_ = currentx; }
 	void setCurrentY(float currenty) { currentY_ = currenty; }
 
-	virtual void mouseDown(float x, float y, bool &skipRest);
-	virtual void mouseUp(float x, float y, bool &skipRest);
-	virtual void mouseDrag(float mx, float my, float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseUp(int button, float x, float y, bool &skipRest);
+	virtual void mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest);
 
 	REGISTER_CLASS_HEADER(GLWTracker);
 

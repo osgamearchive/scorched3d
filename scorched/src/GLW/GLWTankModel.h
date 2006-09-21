@@ -31,7 +31,7 @@ public:
 	virtual ~GLWTankModel();
 
 	virtual void draw();
-	virtual void mouseDown(float x, float y, bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
 
 	REGISTER_CLASS_HEADER(GLWTankModel);
 };

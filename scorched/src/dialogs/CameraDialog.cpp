@@ -166,9 +166,9 @@ void CameraDialog::drawLandscape()
 	targetCam_.drawPrecipitation();
 }
 
-void CameraDialog::mouseDown(float x, float y, bool &skipRest)
+void CameraDialog::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	GLWWindow::mouseDown(x, y, skipRest);
+	GLWWindow::mouseDown(button, x, y, skipRest);
 	if (x > x_ && x < x_ + 120 && y > y_ && y < y_ + 40)
 	{
 		int type = (int) targetCam_.getCameraType(); type++;

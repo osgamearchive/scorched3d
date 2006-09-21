@@ -42,7 +42,7 @@ GLWTracker::~GLWTracker()
 
 }
 
-void GLWTracker::mouseDown(float x, float y, bool &skipRest)
+void GLWTracker::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
@@ -51,12 +51,12 @@ void GLWTracker::mouseDown(float x, float y, bool &skipRest)
 	}
 }
 
-void GLWTracker::mouseUp(float x, float y, bool &skipRest)
+void GLWTracker::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	dragging_ = false;
 }
 
-void GLWTracker::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWTracker::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	if (dragging_)
 	{            

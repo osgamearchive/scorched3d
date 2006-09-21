@@ -213,7 +213,7 @@ void GLWPanel::mouseWheel(float x, float y, float z, bool &skipRest)
 	}
 }
 
-void GLWPanel::mouseDown(float x, float y, bool &skipRest)
+void GLWPanel::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	x -= x_;
 	y -= y_;
@@ -230,13 +230,13 @@ void GLWPanel::mouseDown(float x, float y, bool &skipRest)
 			(!entry.condition || 
 			entry.condition->getResult(entry.widget)))
 		{
-			(*itor).widget->mouseDown(x, y, skipRest);
+			(*itor).widget->mouseDown(button, x, y, skipRest);
 			if (skipRest) break;
 		}
 	}
 }
 
-void GLWPanel::mouseUp(float x, float y, bool &skipRest)
+void GLWPanel::mouseUp(int button, float x, float y, bool &skipRest)
 {
 	x -= x_;
 	y -= y_;
@@ -252,12 +252,12 @@ void GLWPanel::mouseUp(float x, float y, bool &skipRest)
 		if ((*itor).widget->getVisible() &&
 			(!entry.condition || 
 			entry.condition->getResult(entry.widget)))
-		(*itor).widget->mouseUp(x, y, skipRest);
+		(*itor).widget->mouseUp(button, x, y, skipRest);
 		if (skipRest) break;
 	}
 }
 
-void GLWPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
+void GLWPanel::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
 	mx -= x_;
 	my -= y_;
@@ -272,7 +272,7 @@ void GLWPanel::mouseDrag(float mx, float my, float x, float y, bool &skipRest)
 			(!entry.condition || 
 			entry.condition->getResult(entry.widget)))
 		{
-			(*itor).widget->mouseDrag(mx, my, x, y, skipRest);
+			(*itor).widget->mouseDrag(button, mx, my, x, y, skipRest);
 			if (skipRest) break;
 		}
 	}

@@ -138,10 +138,10 @@ void GLWImageList::simulate(float frameTime)
 	GLWidget::simulate(frameTime);
 }
 
-void GLWImageList::mouseDown(float x, float y, 
+void GLWImageList::mouseDown(int button, float x, float y, 
 							 bool &skipRest)
 {
-	GLWidget::mouseDown(x, y, skipRest);
+	GLWidget::mouseDown(button, x, y, skipRest);
 
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
@@ -170,16 +170,16 @@ void GLWImageList::mouseDown(float x, float y,
 	}
 }
 
-void GLWImageList::mouseUp(float x, float y, 
+void GLWImageList::mouseUp(int button, float x, float y, 
 						   bool &skipRest)
 {
-	GLWidget::mouseUp(x, y, skipRest);
+	GLWidget::mouseUp(button, x, y, skipRest);
 }
 
-void GLWImageList::mouseDrag(float mx, float my, 
+void GLWImageList::mouseDrag(int button, float mx, float my, 
 							 float x, float y, bool &skipRest)
 {
-	GLWidget::mouseDrag(mx, my, x, y, skipRest);
+	GLWidget::mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 void GLWImageList::itemSelected(GLWSelectorEntry *entry, int position)
