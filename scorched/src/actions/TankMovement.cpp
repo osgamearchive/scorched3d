@@ -218,7 +218,7 @@ void TankMovement::simulationMove(float frameTime)
 					TankModel *model = context_->tankModelStore->getModelByName(
 						tank->getModelContainer().getTankModelName(),
 						tank->getTeam(),
-						(tank->getDestinationId() == 0));
+						tank->isTemp());
 					if (model && model->getMovementSmoke())
 					{
 						if (smokeCounter_.nextDraw(frameTime))
@@ -342,7 +342,7 @@ void TankMovement::moveTank(Tank *tank)
 			TankModel *model = context_->tankModelStore->getModelByName(
 				tank->getModelContainer().getTankModelName(),
 				tank->getTeam(),
-				(tank->getDestinationId() == 0));
+				tank->isTemp());
 			if (model)
 			{
 				GLImage *image = 0;

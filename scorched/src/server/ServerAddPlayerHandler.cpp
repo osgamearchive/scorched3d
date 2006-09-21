@@ -223,7 +223,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getTankModels().
 			getModelByName(message.getModelName(), 
 				tank->getTeam(),
-				(tank->getDestinationId() == 0));
+				tank->isTemp());
 	tank->getModelContainer().setTankModelName(
 		tankModel->getName(), message.getModelName(), tankModel->getTypeName());
 

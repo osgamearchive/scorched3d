@@ -116,7 +116,7 @@ TankModel *TankModelStore::getRandomModel(int team, bool ai)
 	}
 
 	DIALOG_ASSERT(models.size());
-	TankModel *model = models_[rand() % models.size()];
+	TankModel *model = models[rand() % models.size()];
 	return model;
 }
 
