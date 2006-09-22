@@ -128,6 +128,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Should the menu title bars always be visible", RWAccess, false),
 	noGLTexSubImage_(options_, "NoGLTexSubImage",
 		"Do not use texture area replacing.  Required to be able to scorch the ground.", RAccess, false),
+	noPlanDraw_(options_, "NoPlanDraw", 
+		"Do not show any drawings from other players on the plan window.", RWAccess, false),
 	noFog_(options_, "NoFog", 
 		"Do not use any fog extensions.", RWAccess, false),
 	noGLExt_(options_, "NoGLExt", 

@@ -2735,6 +2735,12 @@
 				RelativePath="..\client\ClientLastChanceHandler.h">
 			</File>
 			<File
+				RelativePath="..\client\ClientLinesHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\client\ClientLinesHandler.h">
+			</File>
+			<File
 				RelativePath="..\client\ClientLoadPlayersState.cpp">
 			</File>
 			<File
@@ -3037,6 +3043,12 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerKeepAliveHandler.h">
+			</File>
+			<File
+				RelativePath="..\server\ServerLinesHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\server\ServerLinesHandler.h">
 			</File>
 			<File
 				RelativePath="..\server\ServerLog.cpp">
@@ -4042,6 +4054,12 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsLevelMessage.h">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLinesMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\ComsLinesMessage.h">
 			</File>
 			<File
 				RelativePath="..\coms\ComsMessage.cpp">

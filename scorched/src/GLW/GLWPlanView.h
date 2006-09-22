@@ -24,6 +24,7 @@
 #include <GLW/GLWidget.h>
 #include <common/Vector.h>
 #include <list>
+#include <map>
 
 class GLWPlanView : public GLWidget
 {
@@ -38,16 +39,28 @@ public:
 	virtual void mouseUp(int button, float x, float y, bool &skipRest);
 	virtual void draw();
 
+	void addRecievePoints(unsigned int playerId, std::list<Vector> &recievepoints);
+
 	REGISTER_CLASS_HEADER(GLWPlanView);
 
 protected:
+	struct PlayerDrawnInfo
+	{
+		unsigned int playerId;
+		std::list<Vector> points;
+		std::list<Vector> recievepoints;
+	};
+
 	float animationTime_;
 	float flashTime_;
 	float totalTime_;
-	bool flash_;
+	float pointTime_;
+	bool flash_, firstTime_;
 	bool dragging_;
 	float dragLastX_, dragLastY_;
-	std::list<Vector> dragPoints_;
+	PlayerDrawnInfo localPoints_;
+	std::list<PlayerDrawnInfo> dragPoints_;
+	std::list<Vector> sendPoints;
 
 	void drawMap();
 	void drawTexture();
@@ -56,6 +69,8 @@ protected:
 	void drawTanks();
 	void drawCurrentTank();
 	void drawLines();
+	void drawLine(PlayerDrawnInfo &info);
+	bool simulateLine(PlayerDrawnInfo &info);
 
 };
 

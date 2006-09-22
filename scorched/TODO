@@ -35,6 +35,7 @@ Fixed: Textures are now checked for OpenGL size correctness
 Fixed: WeaponAimedUnder should now be able to aim downwards
 Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
 
+Added: Users can draw in the plan window to send tactics to other team players
 Added: Environment texture map support for models
 Added: maximumrange attribute to WeaponMoveTank to allow configurable maximum tank movement range
 Added: WeaponTeamAction weapon to choose subsequent weapons based on player's team

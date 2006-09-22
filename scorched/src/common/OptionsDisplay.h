@@ -39,6 +39,9 @@ public:
 	bool getHideFinalScore() { return hideFinalScore_; }
 	OptionEntryBool &getHideFinalScoreEntry() { return hideFinalScore_; }
 
+	bool getNoPlanDraw() { return noPlanDraw_; }
+	OptionEntryBool &getNoPlanDrawEntry() { return noPlanDraw_; }
+
 	int getTankModelSize() { return tankModelSize_; }
 	OptionEntryInt &getTankModelSizeEntry() { return tankModelSize_; }
 
@@ -423,6 +426,7 @@ protected:
 	OptionEntryBool swapYAxis_;
 	OptionEntryBool clientLogToFile_;
 	OptionEntryBool validateServerIp_;
+	OptionEntryBool noPlanDraw_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

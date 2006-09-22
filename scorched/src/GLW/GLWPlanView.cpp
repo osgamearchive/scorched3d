@@ -26,11 +26,15 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <client/MainCamera.h>
+#include <client/ClientLinesHandler.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <tank/TankContainer.h>
 #include <common/Vector.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
+#include <coms/ComsMessageSender.h>
+#include <coms/ComsLinesMessage.h>
 #include <math.h>
 
 REGISTER_CLASS_SOURCE(GLWPlanView);
@@ -40,8 +44,8 @@ static const float maxAnimationTime = 2.0f;
 
 GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
 	GLWidget(x, y, w, h),
-	animationTime_(0.0f), flashTime_(0.0f), totalTime_(0.0f),
-	flash_(true), dragging_(false)
+	animationTime_(0.0f), flashTime_(0.0f), totalTime_(0.0f), pointTime_(0.0f),
+	flash_(true), dragging_(false), firstTime_(true)
 {
 	setToolTip(new GLWTip("Plan View",
 		"Shows the position of the the tanks\n"
@@ -70,10 +74,69 @@ void GLWPlanView::simulate(float frameTime)
 	{
 		animationTime_ = 0.0f;
 	}
+
+	// Send messages about lines that have been drawn once every
+	// 2 seconds
+	pointTime_ += frameTime;
+	if (pointTime_ > 2.0f)
+	{
+		pointTime_ = 0.0f;
+
+		if (!sendPoints.empty())
+		{
+			Vector last = sendPoints.back();
+			last[2] = 0.0f;
+
+			ComsLinesMessage message(
+				ScorchedClient::instance()->getTankContainer().getCurrentPlayerId());
+			message.getLines() = sendPoints;
+			if (dragging_) message.getLines().push_back(Vector::nullVector);
+			sendPoints.clear();
+			ComsMessageSender::sendToServer(message);
+
+			if (dragging_) sendPoints.push_back(last);
+		}
+	}
+
+	// Simulate all points
+	simulateLine(localPoints_); // Local
+	std::list<PlayerDrawnInfo>::iterator playeritor; // Remote
+	for (playeritor = dragPoints_.begin();
+		playeritor != dragPoints_.end();
+		)
+	{
+		PlayerDrawnInfo &info = (*playeritor);
+		std::list<Vector>::iterator recieveitor;
+		for (recieveitor = info.recievepoints.begin();
+			recieveitor != info.recievepoints.end();
+			recieveitor++)
+		{
+			Vector &v = (*recieveitor);
+			v[2] -= frameTime; 
+		}
+
+		if (!simulateLine(info))
+		{
+			playeritor = dragPoints_.erase(playeritor);
+		}
+		else
+		{
+			playeritor++;
+		}
+	}
 }
 
 void GLWPlanView::draw()
 {
+	if (firstTime_)
+	{
+		firstTime_ = false;
+		if (!OptionsDisplay::instance()->getNoPlanDraw())
+		{
+			ClientLinesHandler::instance()->registerCallback(this);
+		}
+	}
+
 	GLWidget::draw();
 	drawMap();
 }
@@ -98,20 +161,61 @@ void GLWPlanView::drawMap()
 
 void GLWPlanView::drawLines()
 {
-	if (dragPoints_.empty()) return;
-
-	while (!dragPoints_.empty())
+	if (!localPoints_.points.empty())
 	{
-		Vector &first = dragPoints_.front();
+		localPoints_.playerId = ScorchedClient::instance()->
+			getTankContainer().getCurrentPlayerId();
+		drawLine(localPoints_);
+	}
+
+	if (!dragPoints_.empty())
+	{
+		std::list<PlayerDrawnInfo>::iterator playeritor;
+		for (playeritor = dragPoints_.begin();
+			playeritor != dragPoints_.end();
+			playeritor++)
+		{
+			PlayerDrawnInfo &info = (*playeritor);
+			drawLine(info);
+		}
+	}
+}
+
+bool GLWPlanView::simulateLine(PlayerDrawnInfo &info)
+{
+	while (!info.recievepoints.empty())
+	{
+		Vector &first = info.recievepoints.front();
+		if (first[2] > 0.0f) break;
+		first[2] = totalTime_;
+		info.points.push_back(first);
+		info.recievepoints.pop_front();
+	}
+
+	while (!info.points.empty())
+	{
+		Vector &first = info.points.front();
 		float time = totalTime_ - first[2];
 		if (time < 2.0f) break;
-		dragPoints_.pop_front();
+		info.points.pop_front();
 	}
+
+	return !(info.points.empty() && info.recievepoints.empty());
+}
+
+void GLWPlanView::drawLine(PlayerDrawnInfo &info)
+{
+	if (info.points.empty()) return;
+
+	Tank *current = 
+		ScorchedClient::instance()->getTankContainer().getTankById(
+			info.playerId);
+	if (!current) return;
 
 	glBegin(GL_LINE_STRIP);
 	std::list<Vector>::iterator itor;
-	for (itor = dragPoints_.begin();
-		itor != dragPoints_.end();
+	for (itor = info.points.begin();
+		itor != info.points.end();
 		itor++)
 	{
 		Vector &v = (*itor);
@@ -125,7 +229,11 @@ void GLWPlanView::drawLines()
 		{
 			float time = totalTime_ - v[2];
 			time = 1.0f - (time / 2.0f);
-			glColor4f(1.0f, 1.0f, 1.0f, time);
+			glColor4f(
+				current->getColor()[0],
+				current->getColor()[1], 
+				current->getColor()[2], 
+				time);
 			glVertex2f(v[0], v[1]);
 		}
 	}
@@ -375,7 +483,7 @@ void GLWPlanView::mouseDown(int button, float x, float y, bool &skipRest)
 			MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
 			MainCamera::instance()->getCamera().setLookAt(lookAt);
 		}
-		else if (button == 122)
+		else if (button == 4)
 		{
 			dragging_ = true;
 
@@ -384,7 +492,8 @@ void GLWPlanView::mouseDown(int button, float x, float y, bool &skipRest)
 
 			float mapX = ((x - x_) / w_);
 			float mapY = ((y - y_) / h_);
-			dragPoints_.push_back(Vector(mapX, mapY, totalTime_));
+			localPoints_.points.push_back(Vector(mapX, mapY, totalTime_));
+			sendPoints.push_back(Vector(mapX, mapY, pointTime_));
 		}
 	}
 }
@@ -404,8 +513,8 @@ void GLWPlanView::mouseDrag(int button, float mx, float my, float x, float y, bo
 
 				float mapX = ((mx - x_) / w_);
 				float mapY = ((my - y_) / h_);
-				dragPoints_.push_back(Vector(mapX, mapY, totalTime_));
-				if (dragPoints_.size() > 25) dragPoints_.pop_front();
+				localPoints_.points.push_back(Vector(mapX, mapY, totalTime_));
+				sendPoints.push_back(Vector(mapX, mapY, pointTime_));
 			}
 		}
 	}
@@ -416,6 +525,33 @@ void GLWPlanView::mouseUp(int button, float x, float y, bool &skipRest)
 	if (dragging_)
 	{
 		dragging_ = false;
-		dragPoints_.push_back(Vector(0.0f, 0.0f, totalTime_));
+		localPoints_.points.push_back(Vector::nullVector);
+		sendPoints.push_back(Vector::nullVector);
 	}
+}
+
+void GLWPlanView::addRecievePoints(unsigned int playerId, 
+	std::list<Vector> &recievepoints)
+{
+	PlayerDrawnInfo *foundInfo = 0;
+	std::list<PlayerDrawnInfo>::iterator dragItor;
+	for (dragItor = dragPoints_.begin();
+		dragItor != dragPoints_.end();
+		dragItor++)
+	{
+		PlayerDrawnInfo &info = (*dragItor);
+		if (info.playerId == playerId)
+		{
+			foundInfo = &info;
+		}
+	}
+	if (!foundInfo)
+	{
+		dragPoints_.push_back(PlayerDrawnInfo());
+		foundInfo = &dragPoints_.back();
+		foundInfo->playerId = playerId;
+	}
+	
+	foundInfo->recievepoints.insert(foundInfo->recievepoints.end(),
+		recievepoints.begin(), recievepoints.end());
 }
