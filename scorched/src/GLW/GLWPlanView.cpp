@@ -35,6 +35,7 @@
 #include <common/Logger.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsLinesMessage.h>
+#include <common/OptionsDisplay.h>
 #include <math.h>
 
 REGISTER_CLASS_SOURCE(GLWPlanView);
