@@ -40,7 +40,7 @@ ShipGroup::~ShipGroup()
 	}
 }
 
-void ShipGroup::generate(LandscapeShipGroup *shipGroup)
+void ShipGroup::generate(RandomGenerator &random, LandscapeShipGroup *shipGroup)
 {
 	int mapWidth = 
 		ScorchedClient::instance()->getLandscapeMaps().
@@ -65,8 +65,8 @@ void ShipGroup::generate(LandscapeShipGroup *shipGroup)
 	float diff = 360.0f / float(shipGroup->controlpoints);
 	for (float i=0.0f; i<360.0f; i+=diff)
 	{
-		float distWidth = RAND * shipGroup->controlpointsrand + shipGroup->controlpointswidth;
-		float distHeight = RAND * shipGroup->controlpointsrand + shipGroup->controlpointsheight;
+		float distWidth = random.getRandFloat() * shipGroup->controlpointsrand + shipGroup->controlpointswidth;
+		float distHeight = random.getRandFloat() * shipGroup->controlpointsrand + shipGroup->controlpointsheight;
 		float x = getFastSin(i / 180.0f * PI) * distWidth + float(mapWidth) / 2.0f;
 		float y = getFastCos(i / 180.0f * PI) * distHeight + float(mapHeight) / 2.0f;
 
@@ -89,7 +89,9 @@ void ShipGroup::generate(LandscapeShipGroup *shipGroup)
 		LandscapeShip *texShip = (*itor);
 
 		Ship *ship = new Ship(texShip);
-		Vector offset(RAND * 200.0f, RAND * 200.0f - 100.0f);
+		float offX = random.getRandFloat() * 200.0f;
+		float offY = random.getRandFloat() * 200.0f;
+		Vector offset(offX, offY - 100.0f);
 		ship->getOffSet() = offset;
 		ships_.push_back(ship);
 	}

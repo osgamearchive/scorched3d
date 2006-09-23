@@ -113,6 +113,7 @@ void GLWPlanView::simulate(float frameTime)
 			recieveitor++)
 		{
 			Vector &v = (*recieveitor);
+			if (v[2] > 2.0f) v[2] = 2.0f;
 			v[2] -= frameTime; 
 		}
 
@@ -206,12 +207,17 @@ bool GLWPlanView::simulateLine(PlayerDrawnInfo &info)
 
 void GLWPlanView::drawLine(PlayerDrawnInfo &info)
 {
-	if (info.points.empty()) return;
-
 	Tank *current = 
 		ScorchedClient::instance()->getTankContainer().getTankById(
 			info.playerId);
-	if (!current) return;
+	if (!current)
+	{
+		info.points.clear();
+		info.recievepoints.clear();
+		return;
+	}
+
+	if (info.points.empty()) return;
 
 	glBegin(GL_LINE_STRIP);
 	std::list<Vector>::iterator itor;
@@ -228,14 +234,18 @@ void GLWPlanView::drawLine(PlayerDrawnInfo &info)
 		}
 		else
 		{
-			float time = totalTime_ - v[2];
-			time = 1.0f - (time / 2.0f);
-			glColor4f(
-				current->getColor()[0],
-				current->getColor()[1], 
-				current->getColor()[2], 
-				time);
-			glVertex2f(v[0], v[1]);
+			if (v[0] >= 0.0f && v[1] >= 0.0f &&
+				v[0] <= 1.0f && v[1] <= 1.0f)
+			{
+				float time = totalTime_ - v[2];
+				time = 1.0f - (time / 2.0f);
+				glColor4f(
+					current->getColor()[0],
+					current->getColor()[1], 
+					current->getColor()[2], 
+					time);
+				glVertex2f(v[0], v[1]);
+			}
 		}
 	}
 	glEnd();

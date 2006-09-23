@@ -24,6 +24,7 @@
 #include <common/SplinePath.h>
 #include <ships/Ship.h>
 
+class RandomGenerator;
 class LandscapeShipGroup;
 class ShipGroup
 {
@@ -31,7 +32,7 @@ public:
 	ShipGroup();
 	virtual ~ShipGroup();
 
-	void generate(LandscapeShipGroup *shipGroup);
+	void generate(RandomGenerator &random, LandscapeShipGroup *shipGroup);
 	void draw();
 	void simulate(float frameTime);
 

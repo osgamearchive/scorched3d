@@ -69,6 +69,10 @@ void ScorchedShips::addShips(std::vector<LandscapeShips *> &ships)
 
 void ScorchedShips::addShipGroups(std::vector<LandscapeShipGroup *> &shipgroups)
 {
+	RandomGenerator random;
+	random.seed(ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions().getSeed());
+
 	std::vector<LandscapeShipGroup *>::iterator itor;
 	for (itor = shipgroups.begin();
 		itor != shipgroups.end();
@@ -76,7 +80,7 @@ void ScorchedShips::addShipGroups(std::vector<LandscapeShipGroup *> &shipgroups)
 	{
 		LandscapeShipGroup *texShipGroup = (*itor);
 		ShipGroup *group = new ShipGroup;
-		group->generate(texShipGroup);
+		group->generate(random, texShipGroup);
 		groups_.push_back(group);
 	}
 }

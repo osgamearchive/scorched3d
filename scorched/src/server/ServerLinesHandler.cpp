@@ -25,7 +25,6 @@
 #include <coms/ComsLinesMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
-
 #include <common/Logger.h>
 
 ServerLinesHandler *ServerLinesHandler::instance()
@@ -52,6 +51,9 @@ bool ServerLinesHandler::processMessage(unsigned int destinationId,
 {
 	ComsLinesMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	// Reject large messages
+	if (message.getLines().size() > 150) return true;
 
 	// Check the player id has been supplied
 	unsigned int playerId = message.getPlayerId();
