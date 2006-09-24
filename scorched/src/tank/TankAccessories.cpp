@@ -212,7 +212,7 @@ bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 	// Check if this is an ai only weapon
 	if (accessory->getAIOnly())
 	{
-		if (tank_->getDestinationId() != 0)
+		if (!tank_->isTemp())
 		{
 			return false;
 		}

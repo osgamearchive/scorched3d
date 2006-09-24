@@ -88,28 +88,51 @@ void WeaponGiveAccessory::weaponCallback(
 
 		if (number_ > 0)
 		{
-			tank->getAccessories().add(accessory, number_, false);
-			if (!context.serverMode)
+			if (tank->getAccessories().accessoryAllowed(accessory, number_))
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
-					formatString("\"%s\" received %i * %s", 
-					tank->getName(),
-					number_, accessory->getName()));
-				info.setPlayerId(playerId);
-				Logger::log(info);
+				tank->getAccessories().add(accessory, number_);
+				if (!context.serverMode)
+				{
+					LoggerInfo info(LoggerInfo::TypeDeath,
+						formatString("\"%s\" received %i * %s", 
+						tank->getName(),
+						number_, accessory->getName()));
+					info.setPlayerId(playerId);
+					Logger::log(info);
+				}
+			}
+			else
+			{
+				int money = accessory->getSellPrice() * number_;
+				tank->getScore().setMoney(tank->getScore().getMoney() + money);
+
+				if (!context.serverMode)
+				{
+					LoggerInfo info(LoggerInfo::TypeDeath,
+						formatString("\"%s\" received $%i", 
+						tank->getName(), money));
+					info.setPlayerId(playerId);
+					Logger::log(info);
+				}
 			}
 		}
 		else
 		{
-			tank->getAccessories().rm(accessory, -number_);
-			if (!context.serverMode)
+			int count = tank->getAccessories().getAccessoryCount(accessory);
+			if (count > 0)
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
-					formatString("\"%s\" lost %i * %s", 
-					tank->getName(),
-					-number_, accessory->getName()));
-				info.setPlayerId(playerId);
-				Logger::log(info);
+				int loose = MIN(count, -number_);
+
+				tank->getAccessories().rm(accessory, loose);
+				if (!context.serverMode)
+				{
+					LoggerInfo info(LoggerInfo::TypeDeath,
+						formatString("\"%s\" lost %i * %s", 
+						tank->getName(),
+						loose, accessory->getName()));
+					info.setPlayerId(playerId);
+					Logger::log(info);
+				}
 			}
 		}
 	}
