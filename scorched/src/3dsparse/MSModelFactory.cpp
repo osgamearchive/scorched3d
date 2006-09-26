@@ -225,7 +225,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 			returnError(fileName, "Incorrect material name format");
 
 		// ambient
-		float ambient[4];
+		Vector4 ambient;
 		if (!getNextLine(buffer, in))
 			returnError(fileName, "No material ambient");
 		if (sscanf(buffer, "%f %f %f %f", 
@@ -233,7 +233,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 			returnError(fileName, "Incorrect material ambient format");
 
 		// diffuse
-		float diffuse[4];
+		Vector4 diffuse;
 		if (!getNextLine(buffer, in))
 			returnError(fileName, "No material diffuse");
 		if (sscanf(buffer, "%f %f %f %f", 
@@ -242,7 +242,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 		Vector dcolor(diffuse[0], diffuse[1], diffuse[2]);
 
 		// specular
-		float specular[4];
+		Vector4 specular;
 		if (!getNextLine(buffer, in))
 			returnError(fileName, "No material specular");
 		if (sscanf(buffer, "%f %f %f %f", 
@@ -250,7 +250,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 			returnError(fileName, "Incorrect material specular format");
 
 		// emissive
-		float emissive[4];
+		Vector4 emissive;
 		if (!getNextLine(buffer, in))
 			returnError(fileName, "No material emissive");
 		if (sscanf(buffer, "%f %f %f %f", 
@@ -322,7 +322,12 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 								fullTextureAlphaName));
 					}
 				}
-				mesh->setColor(dcolor);
+				mesh->getColor() = dcolor;
+				mesh->getDiffuseColor() = diffuse;
+				mesh->getAmbientColor() = ambient;
+				mesh->getSpecularColor() = specular;
+				mesh->getEmissiveColor() = emissive;
+				mesh->getShininessColor() = shininess;
 			}
 		}
 	}

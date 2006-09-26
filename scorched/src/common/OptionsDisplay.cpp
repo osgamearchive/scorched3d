@@ -214,6 +214,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not use vertex or pixel shaders (if avaialable)", RWAccess, true),
 	noModelLOD_(options_, "NoModelLOD",
 		"Do not use LOD optimizations for models", RWAccess, true),
+	noModelLighting_(options_, "NoModelLighting",
+		"Do not use dynamic lighting calculations for models", RWAccess | OptionEntry::DataDepricated, true),
 	useLandscapeTexture_(options_, "LandscapeTexture",
 		"Texture the landscape", RWAccess, true),
 	noLenseFlare_(options_,"NoLenseFlare", 

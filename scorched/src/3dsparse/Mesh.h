@@ -22,6 +22,7 @@
 #define __INCLUDE_Meshh_INCLUDE__
 
 #include <common/DefinesAssert.h>
+#include <common/Vector4.h>
 #include <3dsparse/Face.h>
 #include <3dsparse/Vertex.h>
 #include <vector>
@@ -40,6 +41,11 @@ public:
 	Vector &getMin() { return min_; }
 	Vector &getMax() { return max_; }
 	Vector &getColor() { return baseColor_; }
+	Vector4 &getAmbientColor() { return ambientColor_; }
+	Vector4 &getDiffuseColor() { return diffuseColor_; }
+	Vector4 &getSpecularColor() { return specularColor_; }
+	Vector4 &getEmissiveColor() { return emissiveColor_; }
+	float &getShininessColor() { return shininessColor_; }
 	const char *getTextureName() 
 		{ return textureName_.c_str(); }
 	const char *getATextureName() 
@@ -68,7 +74,6 @@ public:
 	void insertFace(Face &face) 
 		{ faces_.push_back(new Face(face)); }
 	void insertVertex(Vertex &vertex);
-	void setColor(Vector &color) { baseColor_ = color; }
 	void setTextureName(const char *t);
 	void setATextureName(const char *t) { aTextureName_ = t; }
 	void setFaceNormal(Vector &normal, int faceIndex, int normalIndex)
@@ -86,6 +91,9 @@ protected:
 	std::vector<int> collapseMap_;
 	bool referencesBones_;
 	bool sphereMap_;
+	float shininessColor_;
+	Vector4 diffuseColor_, specularColor_;
+	Vector4 ambientColor_, emissiveColor_;
 	Vector baseColor_;
 	Vector min_, max_;
 	GLTexture *texture_;

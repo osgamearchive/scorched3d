@@ -917,6 +917,12 @@
 				RelativePath="..\common\Vector.h">
 			</File>
 			<File
+				RelativePath="..\common\Vector4.cpp">
+			</File>
+			<File
+				RelativePath="..\common\Vector4.h">
+			</File>
+			<File
 				RelativePath="..\common\VectorLib.cpp">
 			</File>
 			<File

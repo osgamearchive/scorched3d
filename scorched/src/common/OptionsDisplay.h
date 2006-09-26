@@ -99,6 +99,9 @@ public:
 	bool getNoModelLOD() { return noModelLOD_; }
 	OptionEntryBool &getNoModelLODEntry() { return noModelLOD_; }
 
+	bool getNoModelLighting() { return noModelLighting_; }
+	OptionEntryBool &getNoModelLightingEntry() { return noModelLighting_; }
+
 	bool getNoVBO() { return noVBO_; }
 	OptionEntryBool &getNoVBOEntry() { return noVBO_; }
 
@@ -412,6 +415,7 @@ protected:
 	OptionEntryBool noVBO_;
 	OptionEntryBool noCg_;
 	OptionEntryBool noModelLOD_;
+	OptionEntryBool noModelLighting_;
 	OptionEntryBool useLandscapeTexture_;
 	OptionEntryBool noSkyLayers_;
 	OptionEntryBool noSkyMovement_;

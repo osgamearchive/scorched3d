@@ -148,9 +148,30 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 	}
 	GLState glState(state);
 
+	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
+	if (!vertexLighting)
+	{
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientColor());
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseColor());
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularColor());
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveColor());
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+
+
+		GLfloat lightPosition[]= { 256.0f, 256.0f, 30.0f, 1.0f };
+		GLfloat lightDiffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
+		GLfloat lightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
+		glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
+		glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
+
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT1);
+	}
+
 	if (dontCache)
 	{
-		drawVerts(m, mesh, LOD);
+		drawVerts(m, mesh, LOD, vertexLighting);
 	}
 	else
 	{
@@ -158,7 +179,7 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 		if (!displayList)
 		{
 			glNewList(displayList = glGenLists(1), GL_COMPILE);
-				drawVerts(m, mesh, LOD);
+				drawVerts(m, mesh, LOD, vertexLighting);
 			glEndList();
 
 			displayLists_[m] = displayList;
@@ -166,6 +187,12 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 
 		glCallList(displayList);
 		GLInfo::addNoTriangles((int) mesh->getFaces().size());
+	}
+
+	if (!vertexLighting)
+	{
+		glDisable(GL_LIGHT1);
+		glDisable(GL_LIGHTING);
 	}
 
 	if (useTextures)
@@ -180,7 +207,7 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 	}
 }
 
-void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
+void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertexLighting)
 {
 	Vector vec;
 	glBegin(GL_TRIANGLES);
@@ -225,16 +252,22 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD)
 			{
 				Vertex *vertex = mesh->getVertex(faceVerts[i]);
 
-				if (GLState::getState() & GLState::TEXTURE_OFF) glColor3f(
-					mesh->getColor()[0] * vertex->color[0],
-					mesh->getColor()[1] * vertex->color[1],
-					mesh->getColor()[2] * vertex->color[2]);
-				else
+				if (vertexLighting)
 				{
-					glColor3fv(vertex->color);
-					glTexCoord2f(face->tcoord[i][0], 
-						face->tcoord[i][1]);
+					if (GLState::getState() & GLState::TEXTURE_OFF) 
+					{
+						glColor3f(
+							mesh->getColor()[0] * vertex->lightintense[0],
+							mesh->getColor()[1] * vertex->lightintense[1],
+							mesh->getColor()[2] * vertex->lightintense[2]);
+					}
+					else
+					{
+						glColor3fv(vertex->lightintense);
+					}
 				}
+
+				glTexCoord2f(face->tcoord[i][0], face->tcoord[i][1]);
 				glNormal3fv(face->normal[i]);
 
 				if (vertex->boneIndex != -1)

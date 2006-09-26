@@ -129,9 +129,9 @@ void Model::setupColor()
 					(((lightpos.dotP(normal.Normalize())) / 2.0f) + 0.5f);
 				float intense = diffuseLightMult * diffuseLight + ambientLight;
 				if (intense > 1.0f) intense = 1.0f; 
-				vertex->color[0] = intense;
-				vertex->color[1] = intense;
-				vertex->color[2] = intense;
+				vertex->lightintense[0] = intense;
+				vertex->lightintense[1] = intense;
+				vertex->lightintense[2] = intense;
 			}
 		}
 	}

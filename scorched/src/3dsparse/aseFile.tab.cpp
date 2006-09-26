@@ -792,8 +792,16 @@ yyreduce:
   switch (yyn) {
 
 case 9:
-{ ASEModelFactory::getCurrent()->getCurrentMesh()->setColor(aseVector); ;
-    break;}
+{ 
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getColor() = aseVector;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getAmbientColor() = aseVector * 0.2f;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getDiffuseColor() = aseVector * 0.8f;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getEmissiveColor() = Vector::nullVector;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getSpecularColor() = Vector::nullVector;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getShininessColor() = 0.0f;
+
+	break;
+}
 case 10:
 { ASEModelFactory::getCurrent()->addMesh(aseString); ;
     break;}

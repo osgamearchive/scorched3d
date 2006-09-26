@@ -31,7 +31,7 @@ public:
 	virtual ~Vertex();
 
 	Vector position;
-	Vector color;
+	Vector lightintense;
 	int boneIndex;
 };
 

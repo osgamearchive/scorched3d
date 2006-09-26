@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,33 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModelRendererh_INCLUDE__)
-#define __INCLUDE_ModelRendererh_INCLUDE__
+#include <common/Vector4.h>
 
-#include <3dsparse/Model.h>
-
-class ModelRenderer
-{
-public:
-	ModelRenderer(Model *model);
-	virtual ~ModelRenderer();
-
-	void draw(float LOD = 1.0f);
-	void drawBottomAligned(float LOD = 1.0f);
-	void simulate(float frameTime);
-
-	Model *getModel() { return model_; }
-
-protected:
-	Model *model_;
-	float currentFrame_;
-	std::vector<BoneType *> boneTypes_;
-	std::vector<unsigned int> displayLists_;
-	Vector vertexTranslation_;
-
-	virtual void drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD);
-	virtual void drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertexLighting);
-	virtual void setup();
-};
-
-#endif // __INCLUDE_ModelRendererh_INCLUDE__
+Vector4 Vector4::nullVector;
