@@ -212,9 +212,6 @@ void GLWScrollPanel::mouseWheel(float x, float y, float z, bool &skipRest)
 
 void GLWScrollPanel::positionChange(unsigned int id, int current, int movement)
 {
-	GLWidget *widget = (GLWidget *) 
-		getWidgets().front().widget;
-
 	float move = ((widgetHeight_ + 2.0f) / float(getWidgets().size())) * float(movement);
 
 	std::list<GLWPanel::GLWPanelEntry>::iterator itor;

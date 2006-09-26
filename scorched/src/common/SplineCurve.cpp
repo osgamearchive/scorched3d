@@ -110,7 +110,7 @@ static void splineCurve(std::vector<Vector> &inp_list,int n,int *knots,int t,
 
    interval = 0;
    increment = (n - t + 2) / (float)(res - 1);
-   for (i=0;i<res-1;i++) {
+   for (i=0;i<=res-1;i++) {
 
 	   Vector outp;
       splinePoint(knots,n,t,interval,inp_list,outp);
