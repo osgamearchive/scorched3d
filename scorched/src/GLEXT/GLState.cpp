@@ -21,9 +21,13 @@
 #include <GLEXT/GLState.h>
 #include <common/DefinesString.h>
 #include <string.h>
+#include <string>
 
 unsigned GLState::currentState_ = 
-	GLState::TEXTURE_OFF | GLState::BLEND_OFF | GLState::DEPTH_OFF | GLState::CUBEMAP_OFF;
+	GLState::TEXTURE_OFF | GLState::BLEND_OFF | 
+	GLState::DEPTH_OFF | GLState::CUBEMAP_OFF | 
+	GLState::LIGHTING_OFF | GLState::NORMALIZE_OFF | 
+	GLState::LIGHT1_OFF;
 
 GLState::GLState(unsigned wantedState)
 {
@@ -40,6 +44,45 @@ GLState::~GLState()
 
 void GLState::setState(unsigned wanted)
 {
+	if ((wanted & LIGHT1_ON) && (currentState_ & LIGHT1_OFF))
+	{
+		currentState_ ^= LIGHT1_OFF;
+		currentState_ |= LIGHT1_ON;
+		glEnable(GL_LIGHT1);
+	}
+	else if ((wanted & LIGHT1_OFF) && (currentState_ & LIGHT1_ON))
+	{
+		currentState_ ^= LIGHT1_ON;
+		currentState_ |= LIGHT1_OFF;
+		glDisable(GL_LIGHT1);
+	}
+
+	if ((wanted & LIGHTING_ON) && (currentState_ & LIGHTING_OFF))
+	{
+		currentState_ ^= LIGHTING_OFF;
+		currentState_ |= LIGHTING_ON;
+		glEnable(GL_LIGHTING);
+	}
+	else if ((wanted & LIGHTING_OFF) && (currentState_ & LIGHTING_ON))
+	{
+		currentState_ ^= LIGHTING_ON;
+		currentState_ |= LIGHTING_OFF;
+		glDisable(GL_LIGHTING);
+	}
+
+	if ((wanted & NORMALIZE_ON) && (currentState_ & NORMALIZE_OFF))
+	{
+		currentState_ ^= NORMALIZE_OFF;
+		currentState_ |= NORMALIZE_ON;
+		glEnable(GL_NORMALIZE);
+	}
+	else if ((wanted & NORMALIZE_OFF) && (currentState_ & NORMALIZE_ON))
+	{
+		currentState_ ^= NORMALIZE_ON;
+		currentState_ |= NORMALIZE_OFF;
+		glDisable(GL_NORMALIZE);
+	}
+
 	if ((wanted & TEXTURE_ON) && (currentState_ & TEXTURE_OFF))
 	{
 		currentState_ ^= TEXTURE_OFF;
@@ -93,22 +136,31 @@ void GLState::setState(unsigned wanted)
 	}
 }
 
-char *GLState::getStateString()
+static void addToBuffer(std::string &buffer, unsigned int value, const char *name)
 {
-	static char buffer[1024];
-	buffer[0] = '\0';
-	
-	snprintf(buffer, sizeof(buffer), "%s%s%s%s%s%s%s%s",
-		(currentState_ & TEXTURE_ON)? "TEXTURE_ON\n":"",
-		(currentState_ & TEXTURE_OFF)? "TEXTURE_ON\n":"",
-		(currentState_ & DEPTH_ON)? "DEPTH_ON\n":"",
-		(currentState_ & DEPTH_OFF)? "DEPTH_OFF\n":"",
-		(currentState_ & BLEND_ON)? "BLEND_ON\n":"",
-		(currentState_ & BLEND_OFF)? "BLEND_OFF\n":"",
-		(currentState_ & CUBEMAP_ON)? "CUBEMAP_ON\n":"",
-		(currentState_ & CUBEMAP_OFF)? "CUBEMAP_OFF\n":"");
+	if (GLState::getState() & value) buffer.append(name).append("\n");
+}
 
-	return buffer;
+const char *GLState::getStateString()
+{
+	static std::string buffer;
+	buffer = "";
+	addToBuffer(buffer, NORMALIZE_ON, "NORMALIZE_ON");
+	addToBuffer(buffer, NORMALIZE_OFF, "NORMALIZE_OFF");
+	addToBuffer(buffer, LIGHTING_ON, "LIGHTING_ON");
+	addToBuffer(buffer, LIGHTING_OFF, "LIGHTING_OFF");
+	addToBuffer(buffer, LIGHT1_ON, "LIGHT1_ON");
+	addToBuffer(buffer, LIGHT1_OFF, "LIGHT1_OFF");
+	addToBuffer(buffer, TEXTURE_ON, "TEXTURE_ON");
+	addToBuffer(buffer, TEXTURE_OFF, "TEXTURE_OFF");
+	addToBuffer(buffer, DEPTH_ON, "DEPTH_ON");
+	addToBuffer(buffer, DEPTH_OFF, "DEPTH_OFF");
+	addToBuffer(buffer, BLEND_ON, "BLEND_ON");
+	addToBuffer(buffer, BLEND_OFF, "BLEND_OFF");
+	addToBuffer(buffer, CUBEMAP_ON, "CUBEMAP_ON");
+	addToBuffer(buffer, CUBEMAP_OFF, "CUBEMAP_OFF");
+
+	return buffer.c_str();
 }
 
 void GLState::setBaseState(unsigned bs)

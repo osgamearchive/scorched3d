@@ -22,8 +22,6 @@
 #include <landscape/LandscapeObjectsEntryModel.h>
 #include <landscape/LandscapeMaps.h>
 #include <tankgraph/TargetRendererImplTarget.h>
-#include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>

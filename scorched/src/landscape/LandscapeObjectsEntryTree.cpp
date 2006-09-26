@@ -21,6 +21,7 @@
 #include <landscape/LandscapeObjectsEntryTree.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
+#include <common/Vector4.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLInfo.h>
@@ -91,12 +92,16 @@ static void drawPineLevel(float texX, float texY,
 {
 	glBegin(GL_TRIANGLE_FAN);
 		glTexCoord2f(texX, texY);
+		glNormal3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(0.0f, 0.0f, height);
 		for (float i=360.0f; i>=0.0f; i-=360.0f / count)
 		{
 			glTexCoord2f(
 				texX + (sinf((i + angOffset)/180.0f * PI) * texWidth), 
 				texY + (cosf((i + angOffset)/180.0f * PI) * texWidth));
+			glNormal3f(sinf(i/180.0f * PI) * (height - lowheight),
+				cosf(i/180.0f * PI) * (height - lowheight),
+				-width);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width, 
 				cosf(i/180.0f * PI) * width, 
@@ -107,12 +112,16 @@ static void drawPineLevel(float texX, float texY,
 	{
 	glBegin(GL_TRIANGLE_FAN);
 		glTexCoord2f(texX, texY);
+		glNormal3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(0.0f, 0.0f, height);
 		for (float i=0.0f; i<=360.0f; i+=360.0f / count)
 		{
 			glTexCoord2f(
 				texX + (sinf((i + angOffset)/180.0f * PI) * texWidth), 
 				texY + (cosf((i + angOffset)/180.0f * PI) * texWidth));
+			glNormal3f(sinf(i/180.0f * PI) * (height - lowheight),
+				cosf(i/180.0f * PI) * (height - lowheight),
+				-width);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width, 
 				cosf(i/180.0f * PI) * width, 
@@ -128,10 +137,15 @@ static void drawPineTrunc(float width, float height, float lowheight,
 {
 	glBegin(GL_TRIANGLE_FAN);
 		glTexCoord2f(x , y);
+		glNormal3f(0.0, 0.0f, 1.0f);
 		glVertex3f(0.0f, 0.0f, height);
 		for (float i=360.0f; i>=0.0f; i-=360.0f / steps)
 		{
 			glTexCoord2f(x + w*(float(int(i*5.0f)%360)/360.0f), y + h);
+			glNormal3f(
+				sinf(i/180.0f * PI),
+				cosf(i/180.0f * PI),
+				0.0f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width, 
 				cosf(i/180.0f * PI) * width, 
@@ -148,6 +162,10 @@ static void drawPalmTrunc(float width, float height, float count,
 	glBegin(GL_QUAD_STRIP);
 		for (float i=360.0f; i>=0.0f; i-=360.0f / count)
 		{
+			glNormal3f(
+				sinf(i/180.0f * PI), 
+				cosf(i/180.0f * PI), 
+				0.0f);
 			if (tex) glTexCoord2f(x, y);
 			else glTexCoord2f(x, y + h);
 			glVertex3f(
@@ -165,11 +183,16 @@ static void drawPalmTrunc(float width, float height, float count,
 	glEnd();
 	glBegin(GL_TRIANGLE_FAN);
 		glTexCoord2f(x + w, y);
+		glNormal3f(0.0, 0.0f, 1.0f);
 		glVertex3f(0.0f, 0.0f, height + 0.05f);
 		for (float i=360.0f; i>=0.0f; i-=360.0f / count)
 		{
 			if (tex) glTexCoord2f(x + w, y);
 			else glTexCoord2f(x + w, y + h);
+			glNormal3f(
+				sinf(i/180.0f * PI), 
+				cosf(i/180.0f * PI), 
+				0.0f);
 			glVertex3f(
 				sinf(i/180.0f * PI) * 0.03f, 
 				cosf(i/180.0f * PI) * 0.03f, 
@@ -188,89 +211,117 @@ static void drawPalmLevel(
 		{
 			float diff = 0.5f * RAND - 0.25f;
 			float width2 = (w2 * RAND * 0.3f) + (0.7f * w2);
-			glTexCoord2f(texX, texY);
-			glVertex3f(
+			
+			Vector A1(
 				sinf((i-15.0f)/180.0f * PI) * width1, 
 				cosf((i-15.0f)/180.0f * PI) * width1, 
 				height);
-			glTexCoord2f(texX, texY + 0.123f);
-			glVertex3f(
+			Vector A2(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height2);
-			glTexCoord2f(texX + 0.37f, texY + 0.123f);
-			glVertex3f(
+			Vector A3(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height2 + diff);
-			glTexCoord2f(texX + 0.37f, texY);
-			glVertex3f(
+			Vector A4(
 				sinf((i-15.0f)/180.0f * PI) * width2, 
 				cosf((i-15.0f)/180.0f * PI) * width2, 
 				height + diff);
 
+			Vector AN = ((A2 - A1) * (A3 - A2)).Normalize();
+			glNormal3fv(AN);
+			glTexCoord2f(texX, texY);
+			glVertex3fv(A1);
+			glTexCoord2f(texX, texY + 0.123f);
+			glVertex3fv(A2);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
+			glVertex3fv(A3);
 			glTexCoord2f(texX + 0.37f, texY);
-			glVertex3f(
+			glVertex3fv(A4);
+
+			Vector B1(
 				sinf((i-15.0f)/180.0f * PI) * width2, 
 				cosf((i-15.0f)/180.0f * PI) * width2, 
 				height + diff);
-			glTexCoord2f(texX + 0.37f, texY + 0.123f);
-			glVertex3f(
+			Vector B2(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height2 + diff);
-			glTexCoord2f(texX, texY + 0.123f);
-			glVertex3f(
+			Vector B3(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height2);
-			glTexCoord2f(texX, texY);
-			glVertex3f(
+			Vector B4(
 				sinf((i-15.0f)/180.0f * PI) * width1, 
 				cosf((i-15.0f)/180.0f * PI) * width1, 
 				height);
-
+			Vector BN = ((B2 - B1) * (B3 - B2)).Normalize();
+			glNormal3fv(BN);
 			glTexCoord2f(texX + 0.37f, texY);
-			glVertex3f(
+			glVertex3fv(B1);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
+			glVertex3fv(B2);
+			glTexCoord2f(texX, texY + 0.123f);
+			glVertex3fv(B3);
+			glTexCoord2f(texX, texY);
+			glVertex3fv(B4);
+
+			Vector C1(
 				sinf((i+15.0f)/180.0f * PI) * width2, 
 				cosf((i+15.0f)/180.0f * PI) * width2, 
 				height + diff);
-			glTexCoord2f(texX + 0.37f, texY + 0.123f);
-			glVertex3f(
+			Vector C2(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height2 + diff);
-			glTexCoord2f(texX, texY + 0.123f);
-			glVertex3f(
+			Vector C3(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height2);
-			glTexCoord2f(texX, texY);
-			glVertex3f(
+			Vector C4(
 				sinf((i+15.0f)/180.0f * PI) * width1, 
 				cosf((i+15.0f)/180.0f * PI) * width1, 
 				height);
 
+			Vector CN = ((C1 - C2) * (C3 - C2)).Normalize();
+			glNormal3fv(CN);
+			glTexCoord2f(texX + 0.37f, texY);
+			glVertex3fv(C1);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
+			glVertex3fv(C2);
+			glTexCoord2f(texX, texY + 0.123f);
+			glVertex3fv(C3);
 			glTexCoord2f(texX, texY);
-			glVertex3f(
+			glVertex3fv(C4);
+
+			Vector D1(
 				sinf((i+15.0f)/180.0f * PI) * width1, 
 				cosf((i+15.0f)/180.0f * PI) * width1, 
 				height);
-			glTexCoord2f(texX, texY + 0.123f);
-			glVertex3f(
+			Vector D2(
 				sinf(i/180.0f * PI) * width1, 
 				cosf(i/180.0f * PI) * width1, 
 				height2);
-			glTexCoord2f(texX + 0.37f, texY + 0.123f);
-			glVertex3f(
+			Vector D3(
 				sinf(i/180.0f * PI) * width2, 
 				cosf(i/180.0f * PI) * width2, 
 				height2 + diff);
-			glTexCoord2f(texX + 0.37f, texY);
-			glVertex3f(
+			Vector D4(
 				sinf((i+15.0f)/180.0f * PI) * width2, 
 				cosf((i+15.0f)/180.0f * PI) * width2, 
 				height + diff);
+
+			Vector DN = ((D1 - D2) * (D3 - D2)).Normalize();
+			glNormal3fv(DN);
+			glTexCoord2f(texX, texY);
+			glVertex3fv(D1);
+			glTexCoord2f(texX, texY + 0.123f);
+			glVertex3fv(D2);
+			glTexCoord2f(texX + 0.37f, texY + 0.123f);
+			glVertex3fv(D3);
+			glTexCoord2f(texX + 0.37f, texY);
+			glVertex3fv(D4);
 
 			i-= (360.0f / (count + (count-1) * RAND));
 		}
@@ -826,6 +877,21 @@ void LandscapeObjectsEntryTree::render(float distance)
 	};
 
 	DIALOG_ASSERT(treeList && smallTreeList);
+
+	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
+	if (!vertexLighting)
+	{
+		Vector4 ambientColor(0.4f, 0.4f, 0.4f, 1.0f);
+		Vector4 diffuseColor(1.2f, 1.2f, 1.2f, 1.2f);
+		Vector4 specularColor(0.0f, 0.0f, 0.0f, 1.0f);
+		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
+		float shininess = 0.0f;
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientColor);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseColor);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+	}
 
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);

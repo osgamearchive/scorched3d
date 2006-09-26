@@ -77,7 +77,22 @@ LandscapeObjectsGroupEntry *LandscapeObjects::getGroup(
 
 void LandscapeObjects::draw(bool shadowView)
 {
-	GLState state((shadowView ? 0 : GLState::TEXTURE_ON) | GLState::BLEND_ON | GLState::DEPTH_ON);
+	unsigned int wantedState = GLState::BLEND_ON | GLState::DEPTH_ON;
+	if (!shadowView)
+	{
+		wantedState |= GLState::TEXTURE_ON;
+
+		bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
+		if (!vertexLighting)
+		{
+			wantedState |= 
+				GLState::NORMALIZE_ON | 
+				GLState::LIGHTING_ON | 
+				GLState::LIGHT1_ON;
+		}
+	}
+
+	GLState state(wantedState);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.00f);
 

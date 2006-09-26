@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLState.h: interface for the GLState class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLSTATE_H__32B0E2D0_566D_4438_94E4_B12FE82430B1__INCLUDED_)
 #define AFX_GLSTATE_H__32B0E2D0_566D_4438_94E4_B12FE82430B1__INCLUDED_
 
@@ -42,14 +37,20 @@ public:
 		DEPTH_ON = 0x10,
 		DEPTH_OFF = 0x20,
 		CUBEMAP_ON = 0x40,
-		CUBEMAP_OFF = 0x80
+		CUBEMAP_OFF = 0x80,
+		NORMALIZE_ON = 0x100,
+		NORMALIZE_OFF = 0x200,
+		LIGHTING_ON = 0x400,
+		LIGHTING_OFF = 0x800,
+		LIGHT1_ON = 0x1000,
+		LIGHT1_OFF = 0x2000
 	};
 
 	GLState(unsigned wantedState);
 	virtual ~GLState();
 
 	static void setBaseState(unsigned baseState);
-	static char *getStateString();
+	static const char *getStateString();
 	static unsigned int getState() { return currentState_; }
 
 protected:

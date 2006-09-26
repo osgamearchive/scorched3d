@@ -210,6 +210,12 @@ void GLWTankViewer::simulate(float frameTime)
 
 void GLWTankViewer::draw()
 {
+	Vector4 sunPosition(-100.0f, 100.0f, 400.0f, 1.0f);
+	Vector4 sunDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
+	Vector4 sunAmbient(0.3f, 0.3f, 0.3f, 1.0f);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
+
 	glBegin(GL_LINE_LOOP);
 		drawShadedRoundBox(x_, y_, w_, h_, 6.0f, false);
 	glEnd();
@@ -262,6 +268,7 @@ void GLWTankViewer::draw()
 				float scale = 22.0f / 60.0f * TankSquareSize;
 				glPushMatrix();
 					glTranslatef(posX, posY - 5.0f, 0.0f);
+					glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
 
 					glRotatef(-45.0f, 1.0f, 0.0f, 0.0f);
 					if (currselected) glRotatef(rot_, 0.0f, 0.0f, 1.0f);
@@ -280,6 +287,8 @@ void GLWTankViewer::draw()
 		const float infoY = infoWindow_.getY() + (infoWindow_.getH() / 2.0f) - 15.0f;
 		glPushMatrix();
 			glTranslatef(infoX, infoY, 0.0f);
+			glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
+
 			drawCaption(selected_);
 			glRotatef(-45.0f, 1.0f, 0.0f, 0.0f);
 			glRotatef(rot_, 0.0f, 0.0f, 1.0f);

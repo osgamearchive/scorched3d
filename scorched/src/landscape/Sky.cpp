@@ -35,6 +35,8 @@ void Sky::draw()
 {
 	LandscapeDefinitionCache &defnCache = ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions();
+
+	sun_.setLightPosition();
 	if (defnCache.getDefn()->roof->getType() == LandscapeDefnType::eRoofCavern)
 	{
 		roof_.draw();

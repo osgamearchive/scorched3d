@@ -26,6 +26,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsDisplay.h>
 #include <common/Defines.h>
+#include <common/Vector4.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLEXT/GLCameraFrustum.h>
@@ -64,6 +65,19 @@ void Sun::generate()
 	DIALOG_ASSERT(texture_.replace(map, GL_RGBA, true));
 }
 
+void Sun::setLightPosition()
+{
+	LandscapeTex &tex = *ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions().getTex();
+
+	Vector4 sunPosition = getPosition();
+	Vector4 sunDiffuse = tex.skydiffuse;
+	Vector4 sunAmbient = tex.skyambience;
+	glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
+	glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
+}
+
 void Sun::draw()
 {
 	GLState currentStateOne(GLState::TEXTURE_ON | GLState::DEPTH_OFF | GLState::BLEND_ON);
@@ -71,6 +85,7 @@ void Sun::draw()
 
 	LandscapeTex &tex = *ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions().getTex();
+
 	GLCameraFrustum::instance()->drawBilboard(
 		position_, tex.suncolor, 
 		1.0f, // alpha

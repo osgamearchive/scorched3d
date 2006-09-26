@@ -793,9 +793,11 @@ yyreduce:
 
 case 9:
 { 
+	Vector4 ambientColor(0.2f, 0.2f, 0.2f, 1.0f);
+	Vector4 diffuseColor(0.8f, 0.8f, 0.8f, 1.0f);
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getColor() = aseVector;
-	ASEModelFactory::getCurrent()->getCurrentMesh()->getAmbientColor() = aseVector * 0.2f;
-	ASEModelFactory::getCurrent()->getCurrentMesh()->getDiffuseColor() = aseVector * 0.8f;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getAmbientColor() = ambientColor;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getDiffuseColor() = diffuseColor;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getEmissiveColor() = Vector::nullVector;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getSpecularColor() = Vector::nullVector;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getShininessColor() = 0.0f;

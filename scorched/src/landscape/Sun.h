@@ -32,6 +32,7 @@ public:
 	virtual ~Sun();
 
 	void draw();
+	void setLightPosition();
 	void setPosition(float sunRotXY, float sunRotYZ);
 	void generate();
 

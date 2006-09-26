@@ -137,7 +137,8 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 		mesh->getTexture()->draw();
 		if (mesh->getSphereMap())
 		{
-			glEnable(GL_NORMALIZE);
+			state |= GLState::NORMALIZE_ON;
+
 			glEnable(GL_TEXTURE_GEN_S);						
 			glEnable(GL_TEXTURE_GEN_T);	
 			glEnable(GL_TEXTURE_GEN_R);
@@ -146,29 +147,22 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 		}
 	}
-	GLState glState(state);
-
 	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
 	if (!vertexLighting)
 	{
+		state |= 
+			GLState::NORMALIZE_ON | 
+			GLState::LIGHTING_ON | 
+			GLState::LIGHT1_ON;
+
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientColor());
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseColor());
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularColor());
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveColor());
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
-
-
-		GLfloat lightPosition[]= { 256.0f, 256.0f, 30.0f, 1.0f };
-		GLfloat lightDiffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
-		GLfloat lightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
-		glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
-		glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
-		glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
-
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT1);
 	}
 
+	GLState glState(state);
 	if (dontCache)
 	{
 		drawVerts(m, mesh, LOD, vertexLighting);
@@ -189,17 +183,10 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 		GLInfo::addNoTriangles((int) mesh->getFaces().size());
 	}
 
-	if (!vertexLighting)
-	{
-		glDisable(GL_LIGHT1);
-		glDisable(GL_LIGHTING);
-	}
-
 	if (useTextures)
 	{
 		if (mesh->getSphereMap())
 		{
-			glDisable(GL_NORMALIZE);
 			glDisable(GL_TEXTURE_GEN_S);						
 			glDisable(GL_TEXTURE_GEN_T);	
 			glDisable(GL_TEXTURE_GEN_R);
