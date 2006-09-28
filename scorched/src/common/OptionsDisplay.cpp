@@ -215,7 +215,7 @@ OptionsDisplay::OptionsDisplay() :
 	noModelLOD_(options_, "NoModelLOD",
 		"Do not use LOD optimizations for models", RWAccess, true),
 	noModelLighting_(options_, "NoModelLighting",
-		"Do not use dynamic lighting calculations for models", RWAccess | OptionEntry::DataDepricated, true),
+		"Do not use dynamic lighting calculations for models", RWAccess, false),
 	useLandscapeTexture_(options_, "LandscapeTexture",
 		"Texture the landscape", RWAccess, true),
 	noLenseFlare_(options_,"NoLenseFlare", 

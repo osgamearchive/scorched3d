@@ -52,7 +52,7 @@ bool TargetParachute::readMessage(NetBufferReader &reader)
 {
 	unsigned int paraId;
 	if (!reader.getFromBuffer(paraId)) return false;
-	if (paraId == 0) currentParachute_ = 0;
-	else currentParachute_ = context_.accessoryStore->findByAccessoryId(paraId);
+	if (paraId == 0) setCurrentParachute(0);
+	else setCurrentParachute(context_.accessoryStore->findByAccessoryId(paraId));
 	return true;
 }

@@ -96,18 +96,21 @@ static void drawPineLevel(float texX, float texY,
 		glVertex3f(0.0f, 0.0f, height);
 		for (float i=360.0f; i>=0.0f; i-=360.0f / count)
 		{
+			float diff = RAND * 40.0f - 20.0f;
 			glTexCoord2f(
 				texX + (sinf((i + angOffset)/180.0f * PI) * texWidth), 
 				texY + (cosf((i + angOffset)/180.0f * PI) * texWidth));
-			glNormal3f(sinf(i/180.0f * PI) * (height - lowheight),
-				cosf(i/180.0f * PI) * (height - lowheight),
-				-width);
+			glNormal3f(
+				sinf((i+diff)/180.0f * PI) * (height - lowheight),
+				cosf((i+diff)/180.0f * PI) * (height - lowheight),
+				width);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width, 
 				cosf(i/180.0f * PI) * width, 
 				lowheight);
 		}
 	glEnd();
+
 	if (doubleSide)
 	{
 	glBegin(GL_TRIANGLE_FAN);
@@ -116,11 +119,13 @@ static void drawPineLevel(float texX, float texY,
 		glVertex3f(0.0f, 0.0f, height);
 		for (float i=0.0f; i<=360.0f; i+=360.0f / count)
 		{
+			float diff = RAND * 40.0f - 20.0f;
 			glTexCoord2f(
 				texX + (sinf((i + angOffset)/180.0f * PI) * texWidth), 
 				texY + (cosf((i + angOffset)/180.0f * PI) * texWidth));
-			glNormal3f(sinf(i/180.0f * PI) * (height - lowheight),
-				cosf(i/180.0f * PI) * (height - lowheight),
+			glNormal3f(
+				-sinf((i+diff)/180.0f * PI) * (height - lowheight),
+				-cosf((i+diff)/180.0f * PI) * (height - lowheight),
 				-width);
 			glVertex3f(
 				sinf(i/180.0f * PI) * width, 
@@ -229,7 +234,7 @@ static void drawPalmLevel(
 				cosf((i-15.0f)/180.0f * PI) * width2, 
 				height + diff);
 
-			Vector AN = ((A2 - A1) * (A3 - A2)).Normalize();
+			Vector AN = ((A3 - A4) * (A3 - A2));
 			glNormal3fv(AN);
 			glTexCoord2f(texX, texY);
 			glVertex3fv(A1);
@@ -256,7 +261,7 @@ static void drawPalmLevel(
 				sinf((i-15.0f)/180.0f * PI) * width1, 
 				cosf((i-15.0f)/180.0f * PI) * width1, 
 				height);
-			Vector BN = ((B2 - B1) * (B3 - B2)).Normalize();
+			Vector BN = ((B1 - B3) * (B2 - B1));
 			glNormal3fv(BN);
 			glTexCoord2f(texX + 0.37f, texY);
 			glVertex3fv(B1);
@@ -284,7 +289,7 @@ static void drawPalmLevel(
 				cosf((i+15.0f)/180.0f * PI) * width1, 
 				height);
 
-			Vector CN = ((C1 - C2) * (C3 - C2)).Normalize();
+			Vector CN = ((C2 - C1) * (C3 - C2));
 			glNormal3fv(CN);
 			glTexCoord2f(texX + 0.37f, texY);
 			glVertex3fv(C1);
@@ -312,7 +317,7 @@ static void drawPalmLevel(
 				cosf((i+15.0f)/180.0f * PI) * width2, 
 				height + diff);
 
-			Vector DN = ((D1 - D2) * (D3 - D2)).Normalize();
+			Vector DN = ((D4 - D3) * (D2 - D4));
 			glNormal3fv(DN);
 			glTexCoord2f(texX, texY);
 			glVertex3fv(D1);
@@ -326,6 +331,7 @@ static void drawPalmLevel(
 			i-= (360.0f / (count + (count-1) * RAND));
 		}
 	glEnd();
+
 }
 
 bool LandscapeObjectsEntryTree::setup(const char *type, bool snow)
