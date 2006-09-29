@@ -189,6 +189,8 @@ OptionsGame::OptionsGame() :
 		"The money awarded for each won round", 0, 5000, 0, 100000, 1000),
 	moneyPerKillPoint_(options_, "MoneyWonPerKillPoint", 
 		"The money awarded for each person killed * weapon used", 0, 750, 0, 2000, 50),
+	moneyPerMultiKillPoint_(options_, "MoneyWonPerMultiKillPoint", 
+		"The extra money awarded for each person multi-killed * weapon used * multi-kill", 0, 0, 0, 2000, 50),
 	moneyPerAssistPoint_(options_, "MoneyWonPerAssistPoint", 
 		"The money awarded for each kill assist * weapon used", 0, 250, 0, 2000, 50),
 	moneyPerHitPoint_(options_, "MoneyWonPerHitPoint", 

@@ -175,6 +175,9 @@ void SettingsFrame::createEcoPanel()
 			ecoPanel_, sizer, context_.getMoneyWonPerKillPointEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getMoneyWonPerMultiKillPointEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
 			ecoPanel_, sizer, context_.getMoneyWonPerHitPointEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(

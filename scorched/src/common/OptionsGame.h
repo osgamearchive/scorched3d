@@ -216,6 +216,9 @@ public:
 	int getMoneyWonPerKillPoint() { return moneyPerKillPoint_; }
 	OptionEntryInt &getMoneyWonPerKillPointEntry() { return moneyPerKillPoint_; }
 
+	int getMoneyWonPerMultiKillPoint() { return moneyPerMultiKillPoint_; }
+	OptionEntryInt &getMoneyWonPerMultiKillPointEntry() { return moneyPerMultiKillPoint_; }
+
 	int getMoneyWonPerAssistPoint() { return moneyPerAssistPoint_; }
 	OptionEntryInt &getMoneyWonPerAssistPointEntry() { return moneyPerAssistPoint_; }
 
@@ -364,6 +367,7 @@ protected:
 	OptionEntryBoundedInt moneyBuyOnRound_;
 	OptionEntryBoundedInt moneyWonForRound_;
 	OptionEntryBoundedInt moneyPerKillPoint_;
+	OptionEntryBoundedInt moneyPerMultiKillPoint_;
 	OptionEntryBoundedInt moneyPerAssistPoint_;
 	OptionEntryBoundedInt moneyPerHitPoint_;
 	OptionEntryBoundedInt moneyPerRound_;

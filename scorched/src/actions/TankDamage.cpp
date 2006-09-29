@@ -141,28 +141,7 @@ void TankDamage::calculateDamage()
 		}
 
 		// Check if the tank is dead
-		bool killedTank = false;
-		if (damagedTarget->getLife().getLife() == 0.0f)
-		{
-			// The tank has died, make it blow up etc.
-			calculateDeath();
-
-			if (!damagedTarget->isTarget())
-			{
-				// The tank is now dead
-				Tank *damagedTank = (Tank *) damagedTarget;
-				damagedTank->getState().setState(TankState::sDead);
-
-				// This tank has lost a life
-				if (damagedTank->getState().getMaxLives() > 0)
-				{
-					damagedTank->getState().setLives(
-						damagedTank->getState().getLives() - 1);
-				}
-			}
-
-			killedTank = true;
-		}
+		bool killedTank = (damagedTarget->getLife().getLife() == 0.0f);
 
 		// Add any score got from this endevour
 		// Should always be a tank that has fired
@@ -198,6 +177,16 @@ void TankDamage::calculateDamage()
 				int moneyPerKill = 
 					context_->optionsGame->getMoneyWonPerKillPoint() *
 						weapon_->getArmsLevel();
+				if (!selfKill && !teamKill)
+				{
+					// Note this is done before turn kills is updated
+					// so for the first kill turn kills will be 0
+					// i.e. no multikill bonus for 1st kill
+					moneyPerKill +=
+						context_->optionsGame->getMoneyWonPerMultiKillPoint() *
+							weapon_->getArmsLevel() *
+							firedTank->getScore().getTurnKills();
+				}
 				if (context_->optionsGame->getMoneyPerHealthPoint()) 
 					moneyPerKill = (moneyPerKill * int(damage_)) / 100;
 				int scorePerKill = context_->optionsGame->getScorePerKill();
@@ -227,6 +216,8 @@ void TankDamage::calculateDamage()
 				{
 					firedTank->getScore().setKills(
 						firedTank->getScore().getKills() + 1);
+					firedTank->getScore().setTurnKills(
+						firedTank->getScore().getTurnKills() + 1);
 					firedTank->getScore().setMoney(
 						firedTank->getScore().getMoney() + moneyPerKill);
 					firedTank->getScore().setScore(
@@ -272,6 +263,26 @@ void TankDamage::calculateDamage()
 						context_->tankTeamScore->addScore(
 							scorePerAssist, hurtByTank->getTeam());
 					}
+				}
+			}
+		}
+
+		if (killedTank)
+		{
+			// The tank has died, make it blow up etc.
+			calculateDeath();
+
+			if (!damagedTarget->isTarget())
+			{
+				// The tank is now dead
+				Tank *damagedTank = (Tank *) damagedTarget;
+				damagedTank->getState().setState(TankState::sDead);
+
+				// This tank has lost a life
+				if (damagedTank->getState().getMaxLives() > 0)
+				{
+					damagedTank->getState().setLives(
+						damagedTank->getState().getLives() - 1);
 				}
 			}
 		}
@@ -425,8 +436,9 @@ void TankDamage::logDeath()
 					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 
 				LoggerInfo info(LoggerInfo::TypeDeath,
-					formatString("\"%s\" killed \"%s\" with a %s",
+					formatString("\"%s\" %skilled \"%s\" with a %s",
 					firedTank->getName(),
+					((firedTank->getScore().getTurnKills() > 1)?"multi-":""),
 					killedTank->getName(),
 					weapon_->getParent()->getName()));
 				info.setPlayerId(firedPlayerId_);
@@ -450,8 +462,9 @@ void TankDamage::logDeath()
 				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
 
 			LoggerInfo info(LoggerInfo::TypeDeath,
-					formatString("\"%s\" killed \"%s\" with a \"%s\"",
+					formatString("\"%s\" %skilled \"%s\" with a \"%s\"",
 				firedTank.getName(),
+				((firedTank.getScore().getTurnKills() > 1)?"multi-":""),
 				killedTank->getName(),
 				weapon_->getParent()->getName()));
 			info.setPlayerId(firedPlayerId_);

@@ -218,8 +218,11 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, wxT("Don't use detail textures"));
 	detailSizer2->Add(IDC_NODETAILTEX_CTRL, 0);
 	IDC_NOSKINS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No tank skins"));
+		new wxCheckBox(parent, -1, wxT("No model skins"));
 	detailSizer2->Add(IDC_NOSKINS_CTRL, 0);
+	IDC_NODYNAMICLIGHT_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No model dynamic lighting"));
+	detailSizer2->Add(IDC_NODYNAMICLIGHT_CTRL, 0);
 	IDC_NOBOIDS_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No birds"));
 	detailSizer2->Add(IDC_NOBOIDS_CTRL, 0);

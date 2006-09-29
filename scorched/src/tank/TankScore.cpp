@@ -46,7 +46,7 @@ void TankScore::newMatch()
 	money_ = 0;
 	setMoney(context_.optionsGame->getStartMoney());
 	wins_ = 0;
-	kills_ = 0;
+	kills_ = turnKills_ = 0;
 	assists_ = 0;
 	score_ = 0;
 	missedMoves_ = 0;
@@ -110,6 +110,7 @@ const char *TankScore::getScoreString()
 bool TankScore::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(kills_);
+	buffer.addToBuffer(turnKills_);
 	buffer.addToBuffer(assists_);
 	buffer.addToBuffer(money_);
 	buffer.addToBuffer(wins_);
@@ -121,6 +122,7 @@ bool TankScore::writeMessage(NetBuffer &buffer)
 bool TankScore::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(kills_)) return false;
+	if (!reader.getFromBuffer(turnKills_)) return false;
 	if (!reader.getFromBuffer(assists_)) return false;
 	if (!reader.getFromBuffer(money_)) return false;
 	if (!reader.getFromBuffer(wins_)) return false;

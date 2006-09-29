@@ -78,6 +78,20 @@ void ServerShotState::enterState(const unsigned state)
 		}
 	}
 
+	// Set all player kills this turn to 0 (used for multikill)
+	{
+		std::map<unsigned int, Tank *> &tanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			tank->getScore().setTurnKills(0);
+		}
+	}
+
 	// Send the player state to all players to ensure that the playing field
 	// is consistent before the shots start
 	// This should be done before the actual shots are fired or

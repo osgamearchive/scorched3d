@@ -72,6 +72,7 @@ static wxRadioButton *IDC_MEDIUMDIALOGS_CTRL = 0;
 static wxRadioButton *IDC_LARGEDIALOGS_CTRL = 0;
 static wxRadioButton *IDC_HUGEDIALOGS_CTRL = 0;
 static wxCheckBox *IDC_NOSKINS_CTRL = 0;
+static wxCheckBox *IDC_NODYNAMICLIGHT_CTRL = 0;
 static wxCheckBox *IDC_FULLSCREEN_CTRL = 0;
 static wxCheckBox *IDC_MORERES_CTRL = 0;
 static wxCheckBox *IDC_LOGGING_CTRL = 0;
