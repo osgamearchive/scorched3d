@@ -58,11 +58,6 @@ void MessageDialog::simulate(float simTime)
 	{
 		if (!texts_.empty())
 		{
-			if (currentText_.size())
-			{
-				GLConsole::instance()->addLine(
-					false, currentText_.c_str());
-			}
 			currentText_ = texts_.front();
 			texts_.pop_front();
 			showTime_ = 5.0f;
