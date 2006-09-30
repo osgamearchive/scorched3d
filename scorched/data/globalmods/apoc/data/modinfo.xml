@@ -4,7 +4,7 @@
 One or more people play against themselves or the computer.</description>
 		<icon>data/windows/nuke.bmp</icon>
 		<url>http://apochq.handwired.net/</url>
-		<protocolversion>cg</protocolversion>
+		<protocolversion>cj</protocolversion>
 	</main>
 	<game>
 		<description>Start a target practice Apocalypse mod game.
