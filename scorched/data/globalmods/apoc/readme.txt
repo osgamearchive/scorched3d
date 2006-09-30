@@ -21,6 +21,7 @@ Changes Since 4.0
         - Added the fallout sparkle effect to Tsar Bomba
         - Spaced out the bomblets in Funky Bomb over time slightly to prevent dudding on direct hit
         - Renamed 'Small Battery' drop to 'Batteries'
+	- Lighting values adjusted on most models so it looks okay with the new lighting changes
         
     Landscapes:
     	- Cities
