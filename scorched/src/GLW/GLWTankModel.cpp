@@ -24,6 +24,9 @@
 #include <client/ClientState.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tank/TankContainer.h>
+#include <common/Vector4.h>
+#include <landscape/Landscape.h>
+#include <landscape/Sky.h>
 #include <GLW/GLWTranslate.h>
 
 REGISTER_CLASS_SOURCE(GLWTankModel);
@@ -47,6 +50,12 @@ void GLWTankModel::draw()
 		current->getRenderer();
 	if (!renderer) return;
 
+	Vector4 sunPosition(-100.0f, 100.0f, 400.0f, 1.0f);
+	Vector4 sunDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
+	Vector4 sunAmbient(0.4f, 0.4f, 0.4f, 1.0f);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
+
 	// Add the tooltip for the model name+attributes
 	GLWToolTip::instance()->addToolTip(&renderer->getTips()->tankTip, 
 		GLWTranslate::getPosX() + x_ + 20.0f, 
@@ -65,6 +74,9 @@ void GLWTankModel::draw()
 	glPushMatrix();
 		// Set the tank angle
 		glTranslatef(x_ + w_ / 2.0f, y_ + w_ / 2.0f, 0.0f);
+
+		glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
+
 		glRotatef(angYZ, 1.0f, 0.0f, 0.0f);
 		glRotatef(angXY, 0.0f, 0.0f, 1.0f);
 
@@ -78,6 +90,8 @@ void GLWTankModel::draw()
 			current->getPosition().getRotationGunYZ(),
 			true);
 	glPopMatrix();
+
+	Landscape::instance()->getSky().getSun().setLightPosition(); // Reset light
 }
 
 void GLWTankModel::mouseDown(int button, float x, float y, bool &skipRest)

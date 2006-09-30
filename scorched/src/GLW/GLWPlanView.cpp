@@ -113,7 +113,7 @@ void GLWPlanView::simulate(float frameTime)
 			recieveitor++)
 		{
 			Vector &v = (*recieveitor);
-			if (v[2] > 2.0f) v[2] = 2.0f;
+			if (v[2] > 3.0f) v[2] = 3.0f;
 			v[2] -= frameTime; 
 		}
 
@@ -198,7 +198,7 @@ bool GLWPlanView::simulateLine(PlayerDrawnInfo &info)
 	{
 		Vector &first = info.points.front();
 		float time = totalTime_ - first[2];
-		if (time < 2.0f) break;
+		if (time < 3.0f) break;
 		info.points.pop_front();
 	}
 
@@ -238,7 +238,7 @@ void GLWPlanView::drawLine(PlayerDrawnInfo &info)
 				v[0] <= 1.0f && v[1] <= 1.0f)
 			{
 				float time = totalTime_ - v[2];
-				time = 1.0f - (time / 2.0f);
+				time = 1.0f - (time / 3.0f);
 				glColor4f(
 					current->getColor()[0],
 					current->getColor()[1], 

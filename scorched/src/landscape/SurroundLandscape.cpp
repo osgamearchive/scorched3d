@@ -59,6 +59,9 @@ void SurroundLandscape::makeNormal(Vector &position, Vector &normal)
 	
 	float diffuseLight = (((normal.dotP(sunDirection)) / 2.0f) + 0.5f);
 	Vector light = diffuse * diffuseLight + ambient;
+	light[0] = MIN(1.0f, light[0]);
+	light[1] = MIN(1.0f, light[1]);
+	light[2] = MIN(1.0f, light[2]);
 
 	float alpha = 1.0f;
 	if (position[2] < 1.0f)

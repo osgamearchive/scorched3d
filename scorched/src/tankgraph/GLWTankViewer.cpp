@@ -212,7 +212,7 @@ void GLWTankViewer::draw()
 {
 	Vector4 sunPosition(-100.0f, 100.0f, 400.0f, 1.0f);
 	Vector4 sunDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
-	Vector4 sunAmbient(0.3f, 0.3f, 0.3f, 1.0f);
+	Vector4 sunAmbient(0.4f, 0.4f, 0.4f, 1.0f);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
 

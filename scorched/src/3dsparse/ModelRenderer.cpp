@@ -63,6 +63,7 @@ void ModelRenderer::setup()
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		displayLists_.push_back(0);
+		lastCachedState_.push_back(0);
 	}
 }
 
@@ -155,11 +156,18 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 			GLState::LIGHTING_ON | 
 			GLState::LIGHT1_ON;
 
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientColor());
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseColor());
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularColor());
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveColor());
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+		if (useTextures)
+		{
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientColor());
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseColor());
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularColor());
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveColor());
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+		}
+		else
+		{
+			mesh->getColor();
+		}
 	}
 
 	GLState glState(state);
@@ -169,7 +177,18 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 	}
 	else
 	{
+		unsigned int lastState = lastCachedState_[m];
 		unsigned int displayList = displayLists_[m];
+		if (lastState != state)
+		{
+			if (displayList != 0)
+			{
+				glDeleteLists(displayList, 1);
+				displayList = 0;
+			}
+			lastCachedState_[m] = state;
+		}
+
 		if (!displayList)
 		{
 			glNewList(displayList = glGenLists(1), GL_COMPILE);

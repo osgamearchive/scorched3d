@@ -793,7 +793,7 @@ yyreduce:
 
 case 9:
 { 
-	Vector4 ambientColor(0.2f, 0.2f, 0.2f, 1.0f);
+	Vector4 ambientColor(0.3f, 0.3f, 0.3f, 1.0f);
 	Vector4 diffuseColor(0.8f, 0.8f, 0.8f, 1.0f);
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getColor() = aseVector;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getAmbientColor() = ambientColor;

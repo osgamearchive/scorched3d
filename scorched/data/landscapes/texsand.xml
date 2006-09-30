@@ -9,8 +9,8 @@
 	<skytimeofday>3</skytimeofday>
 	<skysunxy>110</skysunxy>
 	<skysunyz>45</skysunyz>
-	<skyambience><A>0.2</A><B>0.2</B><C>0.2</C></skyambience>
-	<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
+	<skyambience><A>0.4</A><B>0.4</B><C>0.4</C></skyambience>
+	<skydiffuse><A>1.0</A><B>1.0</B><C>1.0</C></skydiffuse>
 	<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
 	<suntexture>data/textures/glow1.bmp</suntexture>
 	<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>

@@ -246,6 +246,9 @@ void TankDamage::calculateDamage()
 					// Only score when the tank does not hurt itself
 					if (hurtByTank == damagedTank) continue;
 
+					// You don't get an assist for your kill
+					if (hurtByTank == firedTank) continue;
+
 					// or a team member
 					if ((context_->optionsGame->getTeams() > 1) &&
 						(hurtByTank->getTeam() == damagedTank->getTeam())) continue;

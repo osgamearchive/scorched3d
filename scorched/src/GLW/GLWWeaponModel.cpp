@@ -28,6 +28,9 @@
 #include <GLW/GLWTranslate.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Accessory.h>
+#include <landscape/Landscape.h>
+#include <landscape/Sky.h>
+#include <common/Vector4.h>
 #include <common/Defines.h>
 
 REGISTER_CLASS_SOURCE(GLWWeaponModel);
@@ -68,6 +71,12 @@ void GLWWeaponModel::draw()
 	Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
 	if (!weapon) return;
 
+	Vector4 sunPosition(-100.0f, 100.0f, 400.0f, 1.0f);
+	Vector4 sunDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
+	Vector4 sunAmbient(0.4f, 0.4f, 0.4f, 1.0f);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
+
 	// Cache some stuff we should only fetch when tank
 	// or tank's weapon changes
 	static Accessory *storedWeapon = 0;
@@ -86,6 +95,9 @@ void GLWWeaponModel::draw()
 	// Draw the current weapon
 	glPushMatrix();
 		glTranslatef(x_ + w_ / 2.0f, y_ + w_ / 2.0f, 0.0f);
+
+		glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
+
 		glRotatef(totalTime_ * 45.0f, 0.0f, 0.0f, 1.0f);
 		Vector position;
 		Vector direction(0.3f, 1.0f, 1.0f);
@@ -93,6 +105,8 @@ void GLWWeaponModel::draw()
 		storedMesh->setScale(w_ / 3.0f * scale);
 		storedMesh->draw(position, direction, 0, totalTime_ * 45.0f);
 	glPopMatrix();
+
+	Landscape::instance()->getSky().getSun().setLightPosition(); // Reset light
 }
 
 void GLWWeaponModel::mouseDown(int button, float x, float y, bool &skipRest)

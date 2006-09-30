@@ -141,6 +141,9 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 			Vector diffuseLight = diffuse * diffuseLightMult;
 			Vector ambientLight = ambience;
 			Vector lightColor = diffuseLight + ambientLight;
+			lightColor[0] = MIN(1.0f, lightColor[0]);
+			lightColor[1] = MIN(1.0f, lightColor[1]);
+			lightColor[2] = MIN(1.0f, lightColor[2]);
 
 			bitmapBits[0] = lightColor[0];
 			bitmapBits[1] = lightColor[1];

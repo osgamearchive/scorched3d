@@ -162,6 +162,9 @@ void SurroundDefault::generateList(bool detail)
 			float diffuseLightMult = 
 				(((normal.dotP(sunDirection)) / 2.0f) + 0.5f);			
 			Vector light = diffuse * diffuseLightMult + ambient;
+			light[0] = MIN(1.0f, light[0]);
+			light[1] = MIN(1.0f, light[1]);
+			light[2] = MIN(1.0f, light[2]);
 
 			glTexCoord2f(x, y);
 			if (detail) GLStateExtension::glMultiTextCoord2fARB()

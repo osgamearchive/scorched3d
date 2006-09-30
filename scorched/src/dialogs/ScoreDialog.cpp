@@ -224,7 +224,9 @@ void ScoreDialog::draw()
 			12,
 			x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"K");
-	GLWToolTip::instance()->addToolTip("Kills", "The number of players this player has killed.",
+	GLWToolTip::instance()->addToolTip("Kills", 
+		formatString("The number of players this player has killed.\n%i score awarded per kill.",
+		ScorchedClient::instance()->getOptionsGame().getScorePerKill()),
 		x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -232,7 +234,9 @@ void ScoreDialog::draw()
 			12,
 			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"W");
-	GLWToolTip::instance()->addToolTip("Wins", "The number of rounds this player has won.",
+	GLWToolTip::instance()->addToolTip("Wins", 
+		formatString("The number of rounds this player has won.\n%i score awarded per round won.",
+		ScorchedClient::instance()->getOptionsGame().getScoreWonForRound()),
 		x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -240,7 +244,9 @@ void ScoreDialog::draw()
 			12,
 			x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"A");
-	GLWToolTip::instance()->addToolTip("Assists", "The number of kills this player has assisted in.",
+	GLWToolTip::instance()->addToolTip("Assists", 
+		formatString("The number of kills this player has assisted in.\n%i score awarded per assist.",
+		ScorchedClient::instance()->getOptionsGame().getScorePerAssist()),
 		x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -256,7 +262,8 @@ void ScoreDialog::draw()
 			12,
 			x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Score");
-	GLWToolTip::instance()->addToolTip("Score", "The current score for this player.",
+	GLWToolTip::instance()->addToolTip("Score", 
+		"The current score for this player.\nCalculated from the number of kills, wins and bonus score awards.",
 		x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 80.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(

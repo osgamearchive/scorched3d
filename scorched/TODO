@@ -80,6 +80,7 @@ Added: Score dialog now shows lives left when in a multi-lives game
 -- Bugs in current development release
 Dvorak keyboard support is broken
 Crashing when minimized during texture/level load
+Shadow map gets out of sync when camera dialog open
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)

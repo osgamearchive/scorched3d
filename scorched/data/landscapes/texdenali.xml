@@ -11,8 +11,8 @@
 	<skytimeofday>3</skytimeofday>
 	<skysunxy>110</skysunxy>
 	<skysunyz>15</skysunyz>
-	<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
-	<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
+	<skyambience><A>0.5</A><B>0.5</B><C>0.5</C></skyambience>
+	<skydiffuse><A>0.9</A><B>0.9</B><C>0.9</C></skydiffuse>
 	<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
 	<suntexture>data/textures/glow1.bmp</suntexture>
 	<border type="water">

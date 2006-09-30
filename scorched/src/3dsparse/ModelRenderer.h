@@ -40,6 +40,7 @@ protected:
 	float currentFrame_;
 	std::vector<BoneType *> boneTypes_;
 	std::vector<unsigned int> displayLists_;
+	std::vector<unsigned int> lastCachedState_;
 	Vector vertexTranslation_;
 
 	virtual void drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD);
