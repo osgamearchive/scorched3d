@@ -34,6 +34,8 @@ Fixed: Tanks now loose score for self and team kills
 Fixed: Textures are now checked for OpenGL size correctness
 Fixed: WeaponAimedUnder should now be able to aim downwards
 Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop position moving
+Fixed: Movement/limit areas are now lighter to be more obvious
+Fixed: Movement/limit areas sometimes not switching off
 
 Added: Multi-kill logging and bonuses
 Added: Dynamic lighting calculations for trees and models (uses ambient, specular, shininess...)

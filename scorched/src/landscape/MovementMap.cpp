@@ -314,9 +314,9 @@ void MovementMap::movementTexture()
 
 			if (getEntry(posX, posY).type == eMovement)
 			{
-				dest[0] = src[0];
-				dest[1] = src[1];
-				dest[2] = src[2];
+				dest[0] = (GLubyte) MIN(255, int(src[0]) * 2);
+				dest[1] = (GLubyte) MIN(255, int(src[1]) * 2);
+				dest[2] = (GLubyte) MIN(255, int(src[2]) * 2);
 			}
 			else
 			{
@@ -357,9 +357,9 @@ void MovementMap::limitTexture(Vector &center, int limit)
 			Vector position(posX, posY);
 			if ((position - center).Magnitude() < limit)
 			{
-				dest[0] = src[0];
-				dest[1] = src[1];
-				dest[2] = src[2];
+				dest[0] = (GLubyte) MIN(255, int(src[0]) * 2);
+				dest[1] = (GLubyte) MIN(255, int(src[1]) * 2);
+				dest[2] = (GLubyte) MIN(255, int(src[2]) * 2);
 			}
 			else
 			{

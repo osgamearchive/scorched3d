@@ -71,9 +71,7 @@ bool GLTexture::replace(GLImage &bitmap,
 
 	if (textureValid())
 	{
-		glBindTexture(texType_, texNum_);
-		if (glGetError() != GL_INVALID_VALUE &&
-			glGetError() != GL_INVALID_OPERATION)
+		draw(); // Bind texture
 		{
 			glPixelStorei(GL_UNPACK_ROW_LENGTH, bitmap.getWidth());
 			glTexSubImage2D(texType_, 0, 
@@ -154,11 +152,6 @@ bool GLTexture::create(const void * data,
 
 		createObject();
 		glBindTexture(texType_, texNum_);
-		if (glGetError() == GL_INVALID_VALUE ||
-			glGetError() == GL_INVALID_OPERATION)
-		{
-			//DIALOG_ASSERT("Failed to bind create texture" == 0);
-		}
 
 		success = createTexture(data, width, height, components, alignment, format, mipMap);
 	}
