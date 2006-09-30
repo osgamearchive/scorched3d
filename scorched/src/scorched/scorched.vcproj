@@ -2029,6 +2029,12 @@
 				RelativePath="..\weapons\WeaponTranslate.h">
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponTypeAction.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponTypeAction.h">
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponVelocity.cpp">
 			</File>
 			<File

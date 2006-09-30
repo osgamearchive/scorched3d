@@ -1497,4 +1497,17 @@ and shields damaging the tank directly.</description>
 			</team0>
 		</accessoryaction>
 	</accessory>
+	
+	<accessory>
+		<name>Type Action Test</name>
+		<maximumnumber>0</maximumnumber>
+		<bundlesize>1</bundlesize>
+		<cost>15000</cost>
+		<accessoryaction type='WeaponTypeAction'>
+			<none type='WeaponTeleport'>
+				<sound>data/wav/misc/teleport.wav</sound>
+				<delay>2.0</delay>
+			</none>
+		</accessoryaction>
+	</accessory>
 </accessories>
