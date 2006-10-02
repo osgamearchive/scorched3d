@@ -166,7 +166,11 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 		}
 		else
 		{
-			mesh->getColor();
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientNoTexColor());
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseNoTexColor());
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularNoTexColor());
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveNoTexColor());
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
 		}
 	}
 
@@ -263,9 +267,9 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertex
 					if (GLState::getState() & GLState::TEXTURE_OFF) 
 					{
 						glColor3f(
-							mesh->getColor()[0] * vertex->lightintense[0],
-							mesh->getColor()[1] * vertex->lightintense[1],
-							mesh->getColor()[2] * vertex->lightintense[2]);
+							mesh->getDiffuseNoTexColor()[0] * vertex->lightintense[0],
+							mesh->getDiffuseNoTexColor()[1] * vertex->lightintense[1],
+							mesh->getDiffuseNoTexColor()[2] * vertex->lightintense[2]);
 					}
 					else
 					{

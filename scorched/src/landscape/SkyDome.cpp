@@ -26,8 +26,8 @@
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLCamera.h>
 #include <GLEXT/GLDynamicVertexArray.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
@@ -102,7 +102,7 @@ void SkyDome::simulate(float frameTime)
 
 void SkyDome::draw()
 {
-	Vector &pos = MainCamera::instance()->getCamera().getCurrentPos();
+	Vector &pos = GLCamera::getCurrentCamera()->getCurrentPos();
 	// Cannot use a display list for heimisphere as we change texture
 	// coordinates all the time
 	glPushMatrix();

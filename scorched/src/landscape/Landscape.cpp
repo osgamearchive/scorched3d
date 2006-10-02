@@ -81,7 +81,6 @@ Landscape::Landscape() :
 	ships_ = new ScorchedShips();
 	smoke_ = new Smoke();
 	wall_ = new Wall();
-	shadowMap_ = new ShadowMap();
 
 	new GLConsoleRuleMethodIAdapter<Landscape>(
 		this, &Landscape::savePlan, "SavePlan");
@@ -498,7 +497,7 @@ void Landscape::actualDrawLand()
 			}
 			else
 			{
-				shadowMap_->setTexture();
+				getShadowMap().setTexture();
 			}
 
 			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
@@ -587,5 +586,23 @@ void Landscape::savePlan()
 	bitmapPlan_.writeToFile(
 		getHomeFile(
 			formatString("PlanShot-%i-%i.bmp", currentTime, counter++)));
+}
+
+Landscape::CameraContext::CameraContext()
+{
+	shadowMap_ = new ShadowMap();
+}
+
+ShadowMap &Landscape::getShadowMap()
+{
+	if (GLCamera::getCurrentCamera() ==
+		&MainCamera::instance()->getCamera())
+	{
+		return *cameraContexts_[0].shadowMap_;
+	}
+	else
+	{
+		return *cameraContexts_[1].shadowMap_;
+	}
 }
 

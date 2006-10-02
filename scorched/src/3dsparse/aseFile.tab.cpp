@@ -795,11 +795,18 @@ case 9:
 { 
 	Vector4 ambientColor(0.3f, 0.3f, 0.3f, 1.0f);
 	Vector4 diffuseColor(0.8f, 0.8f, 0.8f, 1.0f);
-	ASEModelFactory::getCurrent()->getCurrentMesh()->getColor() = aseVector;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getAmbientColor() = ambientColor;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getDiffuseColor() = diffuseColor;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getEmissiveColor() = Vector::nullVector;
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getSpecularColor() = Vector::nullVector;
+
+	Vector ambientNoTexColor = aseVector * 0.3f;
+	Vector diffuseNoTexColor = aseVector * 0.8f;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getAmbientNoTexColor() = ambientNoTexColor;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getDiffuseNoTexColor() = diffuseNoTexColor;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getEmissiveNoTexColor() = Vector::nullVector;
+	ASEModelFactory::getCurrent()->getCurrentMesh()->getSpecularNoTexColor() = Vector::nullVector;
+
 	ASEModelFactory::getCurrent()->getCurrentMesh()->getShininessColor() = 0.0f;
 
 	break;

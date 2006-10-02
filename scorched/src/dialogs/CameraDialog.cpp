@@ -22,7 +22,6 @@
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <common/DefinesString.h>
-#include <client/MainCamera.h>
 #include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>

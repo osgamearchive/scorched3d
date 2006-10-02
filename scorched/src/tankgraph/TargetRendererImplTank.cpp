@@ -29,7 +29,6 @@
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
 #include <actions/TankFalling.h>
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/OptionsDisplay.h>
@@ -40,6 +39,7 @@
 #include <weapons/Accessory.h>
 #include <dialogs/TutorialDialog.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLCamera.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLViewPort.h>
@@ -449,10 +449,10 @@ void TargetRendererImplTank::storeTank2DPos()
 	Vector &tankTurretPos = 
 		tank_->getPosition().getTankTurretPosition();
 	Vector camDir = 
-		MainCamera::instance()->getCamera().getLookAt() - 
-		MainCamera::instance()->getCamera().getCurrentPos();
+		GLCamera::getCurrentCamera()->getLookAt() - 
+		GLCamera::getCurrentCamera()->getCurrentPos();
 	Vector tankDir = tankTurretPos - 
-		MainCamera::instance()->getCamera().getCurrentPos();
+		GLCamera::getCurrentCamera()->getCurrentPos();
 
 	if (camDir.dotP(tankDir) < 0.0f)
 	{

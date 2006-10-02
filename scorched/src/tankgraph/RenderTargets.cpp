@@ -25,7 +25,7 @@
 #include <tank/TankContainer.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
+#include <GLEXT/GLCamera.h>
 #include <algorithm>
 
 RenderTargets *RenderTargets::instance_ = 0;
@@ -96,7 +96,7 @@ static inline bool lt_distance(const std::pair<float, Target *> &o1,
 
 void RenderTargets::draw(DrawType dt, const unsigned state)
 {
-	Vector &campos = MainCamera::instance()->getCamera().getCurrentPos();
+	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
 
 	// Sort all of the tanks
 	std::vector<std::pair<float, Target *> > sortedTargets;	

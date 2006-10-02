@@ -27,7 +27,6 @@
 #include <GLEXT/GLState.h>
 #include <GLW/GLWToolTip.h>
 #include <dialogs/TutorialDialog.h>
-#include <client/MainCamera.h>
 
 TargetRendererImplTargetTree::TargetRendererImplTargetTree(Target *target, 
 	const char *tree, float size, float color, bool useSnow) :

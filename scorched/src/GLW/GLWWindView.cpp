@@ -28,6 +28,7 @@
 #include <3dsparse/ModelRenderer.h>
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
+#include <landscape/Sky.h>
 #include <math.h>
 
 REGISTER_CLASS_SOURCE(GLWWindView);
@@ -132,6 +133,8 @@ void GLWWindView::drawDisplay()
 		glRotatef(angYZ, 1.0f, 0.0f, 0.0f);
 		glRotatef(angXY, 0.0f, 0.0f, 1.0f);
 
+		Landscape::instance()->getSky().getSun().setLightPosition(); // Reset light
+
 		// Draw the minature landscape
 		glScalef(scale2, scale2, scale2);
 		if (listNo_) glCallList(listNo_);
@@ -153,6 +156,8 @@ void GLWWindView::drawDisplay()
 			drawArrow();
 		}
 	glPopMatrix();
+
+	Landscape::instance()->getSky().getSun().setLightPosition(); // Reset light
 }
 
 void GLWWindView::drawScene()

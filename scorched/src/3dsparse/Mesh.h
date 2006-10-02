@@ -40,11 +40,14 @@ public:
 	bool getSphereMap() { return sphereMap_; }
 	Vector &getMin() { return min_; }
 	Vector &getMax() { return max_; }
-	Vector &getColor() { return baseColor_; }
 	Vector4 &getAmbientColor() { return ambientColor_; }
 	Vector4 &getDiffuseColor() { return diffuseColor_; }
 	Vector4 &getSpecularColor() { return specularColor_; }
 	Vector4 &getEmissiveColor() { return emissiveColor_; }
+	Vector4 &getAmbientNoTexColor() { return ambientNoTexColor_; }
+	Vector4 &getDiffuseNoTexColor() { return diffuseNoTexColor_; }
+	Vector4 &getSpecularNoTexColor() { return specularNoTexColor_; }
+	Vector4 &getEmissiveNoTexColor() { return emissiveNoTexColor_; }
 	float &getShininessColor() { return shininessColor_; }
 	const char *getTextureName() 
 		{ return textureName_.c_str(); }
@@ -94,7 +97,8 @@ protected:
 	float shininessColor_;
 	Vector4 diffuseColor_, specularColor_;
 	Vector4 ambientColor_, emissiveColor_;
-	Vector baseColor_;
+	Vector4 diffuseNoTexColor_, specularNoTexColor_;
+	Vector4 ambientNoTexColor_, emissiveNoTexColor_;
 	Vector min_, max_;
 	GLTexture *texture_;
 };

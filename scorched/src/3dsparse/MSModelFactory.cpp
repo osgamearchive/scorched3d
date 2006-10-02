@@ -239,7 +239,6 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 		if (sscanf(buffer, "%f %f %f %f", 
 			&diffuse[0], &diffuse[1], &diffuse[2], &diffuse[3]) != 4)
 			returnError(fileName, "Incorrect material diffuse format");
-		Vector dcolor(diffuse[0], diffuse[1], diffuse[2]);
 
 		// specular
 		Vector4 specular;
@@ -322,12 +321,15 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 								fullTextureAlphaName));
 					}
 				}
-				mesh->getColor() = dcolor;
 				mesh->getDiffuseColor() = diffuse;
 				mesh->getAmbientColor() = ambient;
 				mesh->getSpecularColor() = specular;
 				mesh->getEmissiveColor() = emissive;
 				mesh->getShininessColor() = shininess;
+				mesh->getDiffuseNoTexColor() = diffuse;
+				mesh->getAmbientNoTexColor() = ambient;
+				mesh->getSpecularNoTexColor() = specular;
+				mesh->getEmissiveNoTexColor() = emissive;
 			}
 		}
 	}

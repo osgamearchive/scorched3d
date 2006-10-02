@@ -54,7 +54,7 @@ public:
 
 	// Access to internal objects
 	Smoke &getSmoke() { return *smoke_; }
-	ShadowMap &getShadowMap() { return *shadowMap_; }
+	ShadowMap &getShadowMap();
 	Wall &getWall() { return *wall_; }
 	Sky &getSky() { return *sky_; }
 	Water &getWater() { return *water_; }
@@ -102,7 +102,6 @@ protected:
 	ScorchedBoids *boids_;
 	ScorchedShips *ships_;
 	Surround *surround_;
-	ShadowMap *shadowMap_;
 	Smoke *smoke_;
 	Water *water_;
 	LandscapeTextureType textureType_;
@@ -132,6 +131,17 @@ protected:
 
 	void savePlan();
 	void actualDrawLand();
+
+	// Nasty, we really need some kind of viewport/rendering context
+	// that the current rendering state for the scene can be stored.
+	// Useful for things that relate to each drawn scene rather than
+	// global. e.g. camera window vs main window
+	struct CameraContext
+	{
+		CameraContext();
+
+		ShadowMap *shadowMap_;
+	} cameraContexts_[2];
 
 private:
 	Landscape();

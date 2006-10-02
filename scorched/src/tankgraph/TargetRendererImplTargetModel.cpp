@@ -25,9 +25,9 @@
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLCamera.h>
 #include <GLW/GLWToolTip.h>
 #include <dialogs/TutorialDialog.h>
-#include <client/MainCamera.h>
 
 TargetRendererImplTargetModel::TargetRendererImplTargetModel(Target *target,
 	ModelID model, ModelID burntModel, 
@@ -129,10 +129,10 @@ void TargetRendererImplTargetModel::storeTank2DPos()
 	Vector &tankTurretPos = 
 		target_->getCenterPosition();
 	Vector camDir = 
-		MainCamera::instance()->getCamera().getLookAt() - 
-		MainCamera::instance()->getCamera().getCurrentPos();
+		GLCamera::getCurrentCamera()->getLookAt() - 
+		GLCamera::getCurrentCamera()->getCurrentPos();
 	Vector tankDir = tankTurretPos - 
-		MainCamera::instance()->getCamera().getCurrentPos();
+		GLCamera::getCurrentCamera()->getCurrentPos();
 
 	if (camDir.dotP(tankDir) < 0.0f)
 	{

@@ -94,17 +94,18 @@ void TargetShield::setShieldPower(float power)
 
 bool TargetShield::writeMessage(NetBuffer &buffer)
 {
-	buffer.addToBuffer(power_);
-	buffer.addToBuffer((unsigned int)(currentShield_?currentShield_->getAccessoryId():0));
+	unsigned int shieldId = (currentShield_?currentShield_->getAccessoryId():0);
+	buffer.addToBuffer(shieldId);
+	if (shieldId != 0) buffer.addToBuffer(power_);
 	return true;
 }
 
 bool TargetShield::readMessage(NetBufferReader &reader)
 {
 	unsigned int shieldId;
-	if (!reader.getFromBuffer(power_)) return false;
 	if (!reader.getFromBuffer(shieldId)) return false;
 	if (shieldId == 0) setCurrentShield(0);
 	else setCurrentShield(context_.accessoryStore->findByAccessoryId(shieldId));
+	if (shieldId != 0) if (!reader.getFromBuffer(power_)) return false;
 	return true;
 }
