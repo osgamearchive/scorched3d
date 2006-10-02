@@ -320,7 +320,21 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	IDC_USERID_CTRL->SetColLabelValue(2, wxT("Unique Id"));
 	IDC_USERID_CTRL->SetColLabelSize(20);
 	IDC_USERID_CTRL->SetRowLabelSize(0);
+
+	userSizer->Add(IDC_USERID_CTRL, 1, wxALIGN_CENTER | wxGROW);
+	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1), wxTE_READONLY);
+	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
+	sizer->Add(userSizer, 1, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+}
+
+static void refreshIdentControls()
+{
+	UniqueIdStore idStore;
+	idStore.loadStore();
+
+	// User id edit box
 	int pos = 0;
+	IDC_USERID_CTRL->Clear();
 	std::list<UniqueIdStore::Entry>::iterator itor;
 	for (itor = idStore.getIds().begin();
 		itor != idStore.getIds().end();
@@ -336,11 +350,6 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	IDC_USERID_CTRL->EnableEditing(true);
 	IDC_USERID_CTRL->AutoSizeColumns(true);
 	IDC_USERID_CTRL->ForceRefresh();
-
-	userSizer->Add(IDC_USERID_CTRL, 1, wxALIGN_CENTER | wxGROW);
-	IDC_HOSTDESC_CTRL = new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(300, -1), wxTE_READONLY);
-	userSizer->Add(IDC_HOSTDESC_CTRL, 0, wxALIGN_CENTER);
-	sizer->Add(userSizer, 1, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 }
 
 class KeyButtonData : public wxObjectRefData

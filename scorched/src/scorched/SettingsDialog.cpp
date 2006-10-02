@@ -202,9 +202,6 @@ void SettingsFrame::createEcoPanel()
 			ecoPanel_, sizer, context_.getScorePerAssistEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
-			ecoPanel_, sizer, context_.getScorePerAssistEntry()));
-	setters_.push_back(
-		OptionEntrySetterUtil::createOtherSetter(
 			ecoPanel_, sizer, context_.getMoneyPerHealthPointEntry()));
 
 	book_->AddPage(ecoPanel_, wxT("Eco"));

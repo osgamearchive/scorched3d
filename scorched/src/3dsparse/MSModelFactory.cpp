@@ -292,6 +292,7 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 		snprintf(fullTextureAlphaName, 256, "%s/%s", filePath, &textureNameAlpha[1]);
 		while (sep=strchr(fullTextureAlphaName, '\\')) *sep = '/';
 
+		// Assign this material to the appropriate meshes
 		int modelIndex = 0;
 		std::vector<Mesh *>::iterator mitor;
 		for (mitor = model->getMeshes().begin();
@@ -333,6 +334,35 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 			}
 		}
 	}
+
+	// Setup meshes with no materials
+	int modelIndex = 0;
+	std::vector<Mesh *>::iterator mitor;
+	for (mitor = model->getMeshes().begin();
+		mitor != model->getMeshes().end();
+		mitor++, modelIndex++)
+	{
+		int materialIndex = meshMaterials[modelIndex];
+		if (materialIndex == -1)
+		{
+			Mesh *mesh = *mitor;
+
+			Vector4 ambientColor(0.3f, 0.3f, 0.3f, 1.0f);
+			Vector4 diffuseColor(0.8f, 0.8f, 0.8f, 1.0f);
+			mesh->getAmbientColor() = ambientColor;
+			mesh->getDiffuseColor() = diffuseColor;
+			mesh->getEmissiveColor() = Vector::nullVector;
+			mesh->getSpecularColor() = Vector::nullVector;
+
+			mesh->getAmbientNoTexColor() = ambientColor;
+			mesh->getDiffuseNoTexColor() = diffuseColor;
+			mesh->getEmissiveNoTexColor() = Vector::nullVector;
+			mesh->getSpecularNoTexColor() = Vector::nullVector;
+
+			mesh->getShininessColor() = 0.0f;
+		}
+	}
+
 
 	////////////////
 	// The bone's position and rotation are left in the milkshape native xyz coord

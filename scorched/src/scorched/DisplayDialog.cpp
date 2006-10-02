@@ -56,6 +56,7 @@ public:
 	void onImportMod(wxCommandEvent &event);
 	void onExportMod(wxCommandEvent &event);
 	void onMoreRes(wxCommandEvent &event);
+	void onPageChange(wxNotebookEvent &event);
 	void onKey();
 
 	wxNotebook *book_;
@@ -82,6 +83,7 @@ BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
 	EVT_BUTTON(ID_IMPORT,  DisplayFrame::onImportMod)
 	EVT_BUTTON(ID_EXPORT,  DisplayFrame::onExportMod)
 	EVT_CHECKBOX(ID_MORERES, DisplayFrame::onMoreRes) 
+	EVT_NOTEBOOK_PAGE_CHANGED(ID_NOTEBOOK, DisplayFrame::onPageChange)
 END_EVENT_TABLE()
 
 DisplayFrame::DisplayFrame() :
@@ -97,7 +99,7 @@ DisplayFrame::DisplayFrame() :
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
 	// Create all the display controls
-	book_ = new wxNotebook(this, -1);
+	book_ = new wxNotebook(this, ID_NOTEBOOK);
 	wxNotebookSizer *nbs = new wxNotebookSizer(book_);
 
 	// Main Panel
@@ -135,7 +137,7 @@ DisplayFrame::DisplayFrame() :
 #endif
 
 	// Ident Panel
-	identPanel_ = new wxPanel(book_, -1);
+	identPanel_ = new wxPanel(book_, ID_PANEL_IDENT);
 	wxSizer *identPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createIdentControls(identPanel_, identPanelSizer);
 	book_->AddPage(identPanel_, wxT("Identity"));
@@ -196,6 +198,14 @@ void DisplayFrame::onLoadDefaultKeysButton(wxCommandEvent &event)
 void DisplayFrame::onMoreRes(wxCommandEvent &event)
 {
 	refreshResolutions();
+}
+
+void DisplayFrame::onPageChange(wxNotebookEvent &event)
+{
+	if (event.GetSelection() == 3)
+	{
+		refreshIdentControls();
+	}
 }
 
 void DisplayFrame::onKeyButton(wxCommandEvent &event)

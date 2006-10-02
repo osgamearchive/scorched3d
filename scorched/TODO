@@ -37,6 +37,7 @@ Fixed: Added moveunderground optional attribute to WeaponAimedUnder to stop posi
 Fixed: Movement/limit areas are now lighter to be more obvious
 Fixed: Movement/limit areas sometimes not switching off
 Fixed: Tanks cannot get assist from their own kills or team/self kills
+Fixed: Milkshape meshes with no material assigned get a default assigned
 
 Added: WeaponTypeAction weapon to choose subsequent weapons based on player's tank type
 Added: Multi-kill logging and bonuses
