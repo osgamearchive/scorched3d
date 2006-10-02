@@ -239,7 +239,15 @@ void GLWScrollW::buttonDrag(unsigned int id, float x, float y)
 	const int possibilites = (max_ - min_) - see_;
 	if (possibilites > 0)
 	{
-		int diff = int(y / 5.0f);
+		const float buttonWidth = w_ - 4.0f;
+		float totalheight = (h_ - buttonWidth - buttonWidth - 8.0f);
+		float percentageSeen = float(see_) / float(max_ - min_);
+		float barSize = percentageSeen  * totalheight;
+
+		float heightLeft = totalheight - barSize;
+		float eachPosSize = heightLeft / float(possibilites);
+
+		int diff = int(y / eachPosSize);
 		int newCurrent = dragCurrent_ + diff;
 
 		if (newCurrent < min_) newCurrent = min_;

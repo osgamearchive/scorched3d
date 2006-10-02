@@ -190,10 +190,6 @@ void BuyAccessoryDialog::playerRefreshKeepPos()
 
 void BuyAccessoryDialog::addPlayerWeapons()
 {
-	buyMap_.clear();
-	sellMap_.clear();
-	favMap_.clear();
-
 	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
 	for (itor = getWidgets().begin();
 		itor != getWidgets().end();
@@ -480,8 +476,11 @@ void BuyAccessoryDialog::stateChange(bool state, unsigned int id)
 			{
 				favorites_.erase((*findItor).second->getName());
 			}
+
+			playerRefreshKeepPos();
+			favouritesTab_->calculateVisible();
+			playerRefreshKeepPos();
 		}
-		playerRefreshKeepPos();
 	}
 }
 

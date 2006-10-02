@@ -49,12 +49,48 @@ void GLWScrollPanel::simulate(float frameTime)
 	scrollW_.simulate(frameTime);
 }
 
-void GLWScrollPanel::draw()
+void GLWScrollPanel::calculateVisible()
 {
 	drawScrollBar_ = false;
 	int canSee = 0;
 	float widgetMinY = FLT_MAX;
 	float widgetMaxY = FLT_MIN;
+	{
+		std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+		for (itor = getWidgets().begin();
+			itor != getWidgets().end();
+			itor++)
+		{
+				GLWidget *vw = (GLWidget *) (*itor).widget;
+				if (vw->getY() < 0.0f || vw->getY() + vw->getH() > h_)
+				{
+					drawScrollBar_ = true;
+				}
+				else
+				{
+					canSee++;
+				}
+
+				if (vw->getY() < widgetMinY) widgetMinY = vw->getY();
+				if (vw->getY() + vw->getH() > widgetMaxY) widgetMaxY = vw->getY() + vw->getH();
+		}
+	}
+
+	widgetHeight_ = widgetMaxY - widgetMinY;
+
+	// Draw scroll bar if not
+	if (drawScrollBar_)
+	{
+		if (canSee > maxSee_) maxSee_ = canSee;
+		scrollW_.setSee(maxSee_);
+		scrollW_.setMax((int) getWidgets().size());
+	}
+}
+
+void GLWScrollPanel::draw()
+{
+	calculateVisible();
+
 	glPushMatrix();
 	{
 		GLWTranslate trans(x_, y_);
@@ -68,35 +104,17 @@ void GLWScrollPanel::draw()
 			itor++)
 		{
 			glPushMatrix();
-				GLWidget *vw =
-					(GLWidget *) (*itor).widget;
-				if (vw->getY() < 0.0f || vw->getY() + vw->getH() > h_)
+				GLWidget *vw = (GLWidget *) (*itor).widget;
+				if (vw->getY() >= 0.0f && vw->getY() + vw->getH() <= h_)
 				{
-					drawScrollBar_ = true;
-				}
-				else
-				{
-					canSee++;
 					vw->draw();
 				}
-
-				if (vw->getY() < widgetMinY) widgetMinY = vw->getY();
-				if (vw->getY() + vw->getH() > widgetMaxY) widgetMaxY = vw->getY() + vw->getH();
 			glPopMatrix();
 		}
 	}
 	glPopMatrix();
 
-	widgetHeight_ = widgetMaxY - widgetMinY;
-
-	// Draw scroll bar if not
-	if (drawScrollBar_)
-	{
-		if (canSee > maxSee_) maxSee_ = canSee;
-		scrollW_.setSee(maxSee_);
-		scrollW_.setMax((int) getWidgets().size());
-		scrollW_.draw();
-	}
+	if (drawScrollBar_) scrollW_.draw();
 }
 
 void GLWScrollPanel::mouseUp(int button, float x, float y, bool &skipRest)
@@ -200,8 +218,8 @@ void GLWScrollPanel::mouseWheel(float x, float y, float z, bool &skipRest)
 
 		if (drawScrollBar_)
 		{
-			if (z < 0.0f) scrollW_.setCurrent(scrollW_.getCurrent() + 1);
-			else scrollW_.setCurrent(scrollW_.getCurrent() - 1);
+			if (z < 0.0f) scrollW_.setCurrent(scrollW_.getCurrent() + 2);
+			else scrollW_.setCurrent(scrollW_.getCurrent() - 2);
 		}
 		else 
 		{
