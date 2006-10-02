@@ -336,7 +336,7 @@ bool ServerWebServer::getTemplate(
 {
 	// Perhaps cache this
 	const char *fileName = getDataFile(formatString("data/html/server/%s", name));
-	FILE *in = fopen(fileName, "ra");
+	FILE *in = fopen(fileName, "r");
 	if (!in) 
 	{
 		Logger::log(formatString("ERROR: Failed to open web template \"%s\"", fileName));
