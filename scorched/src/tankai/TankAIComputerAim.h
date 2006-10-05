@@ -61,6 +61,7 @@ protected:
 		}
 		int shotCount;
 		Vector lastDist;
+		Vector lastTankPosition;
 		std::list<MadeShot> shotList;
 	};
 

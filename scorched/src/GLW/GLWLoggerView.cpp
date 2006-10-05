@@ -158,7 +158,7 @@ void GLWLoggerView::addInfo(LoggerInfo &info)
 	entry.timeRemaining = displayTime_;
 	textLines_.push_front(entry);
 
-	if (scrollPosition_ > -1)
+	if (scrollPosition_ > 0)
 	{
 		scrollPosition_ ++;
 		if (scrollPosition_ > (int) textLines_.size() - 1)

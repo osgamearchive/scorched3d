@@ -276,6 +276,18 @@ bool TankAIComputerAim::oldRefineLastShot(Tank *tank,
 			return false;
 		}
 
+		// Check the tank is still in the same position as when we last fired
+		Vector to = tank->getTargetPosition(); to[2] = 0.0f;
+		Vector from = (*finditor).second.lastTankPosition; from[2] = 0.0f;
+		if ((to-from).Magnitude() > 5.0f)
+		{
+			// Remove all shots at this tank
+			madeShots_.erase(finditor);
+
+			// Make a random shot
+			return false;
+		}
+
 		// Get the current distance to tank
 		float distToTank = (currentTank_->getPosition().getTankPosition() - 
 			tank->getPosition().getTankPosition()).Magnitude();
@@ -495,6 +507,7 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 		newMadeShot.power = power;
 		madeShots_[targetTank->getPlayerId()].shotList.push_back(newMadeShot);
 		madeShots_[targetTank->getPlayerId()].shotCount++;
+		madeShots_[targetTank->getPlayerId()].lastTankPosition = targetTank->getTargetPosition();
 		lastShot_ = targetTank->getPlayerId();
 	}
 

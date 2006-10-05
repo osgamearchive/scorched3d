@@ -39,7 +39,9 @@ Fixed: Movement/limit areas sometimes not switching off
 Fixed: Tanks cannot get assist from their own kills or team/self kills
 Fixed: Milkshape meshes with no material assigned get a default assigned
 Fixed: Dragging the scrollbar with the mouse will finally allign with the scrollbar position
+Fixed: Some AIs shooting at old positions when tank moves
 
+Added: Log view will now keep up to date when looking at the last item in scroll mode
 Added: WeaponTypeAction weapon to choose subsequent weapons based on player's tank type
 Added: Multi-kill logging and bonuses
 Added: Dynamic lighting calculations for trees and models (uses ambient, specular, shininess...)
