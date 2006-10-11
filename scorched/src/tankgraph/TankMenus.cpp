@@ -96,11 +96,14 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		logToFile();
 	}
 
-	if (false) // Debuging
+	unsigned int logState = OptionsDisplay::instance()->getClientLogState();
+	if (logState & 0x1)
 	{
-		logToFile();
 		ScorchedServer::instance()->getGameState().getStateLogging() = true;
 		ScorchedClient::instance()->getGameState().getStateLogging() = true;
+	}
+	if (logState & 0x2)
+	{
 		ScorchedServer::instance()->getComsMessageHandler().getMessageLogging() = true;
 		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging() = true;
 	}

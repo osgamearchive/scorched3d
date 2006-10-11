@@ -270,6 +270,9 @@ public:
 	bool getClientLogToFile() { return clientLogToFile_; }
 	OptionEntryBool &getClientLogToFileEntry() { return clientLogToFile_; }
 
+	int getClientLogState() { return clientLogState_; }
+	OptionEntryInt &getClientLogStateEntry() { return clientLogState_; }
+
 	bool getValidateServerIp() { return validateServerIp_; }
 	OptionEntryBool &getValidateServerIpEntry() { return validateServerIp_; }
 
@@ -429,6 +432,7 @@ protected:
 	OptionEntryBool sideScroll_;
 	OptionEntryBool swapYAxis_;
 	OptionEntryBool clientLogToFile_;
+	OptionEntryInt clientLogState_;
 	OptionEntryBool validateServerIp_;
 	OptionEntryBool noPlanDraw_;
 	OptionEntryBoundedInt dialogSize_;
