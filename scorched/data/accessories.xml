@@ -76,7 +76,7 @@ work.</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>3</bundlesize>
 		<cost>20000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>3.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -100,7 +100,7 @@ work.</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>25000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -124,7 +124,7 @@ be activated before they work.</description>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>30000</cost>
-		<accessoryaction type='ShieldReflective'>
+		<accessoryaction type='ShieldRoundReflective'>
 			<radius>5.0</radius>
 			<halfshield>false</halfshield>
 			<deflectfactor>1.0</deflectfactor>
@@ -151,7 +151,7 @@ Shields must be activated before they work.</description>
 		<activationsound>shield/activmag.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>10000</cost>
-		<accessoryaction type='ShieldMag'>
+		<accessoryaction type='ShieldRoundMag'>
 			<radius>3.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>50</deflectpower>
@@ -178,7 +178,7 @@ activated before they work.</description>
 		<activationsound>shield/activmag.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>20000</cost>
-		<accessoryaction type='ShieldMag'>
+		<accessoryaction type='ShieldRoundMag'>
 			<radius>6.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>100</deflectpower>
@@ -1424,7 +1424,7 @@ and shields damaging the tank directly.</description>
 	<accessory>
 		<name>TestShield</name>
 		<aionly>true</aionly>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>8.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -1508,6 +1508,33 @@ and shields damaging the tank directly.</description>
 				<sound>data/wav/misc/teleport.wav</sound>
 				<delay>2.0</delay>
 			</none>
+		</accessoryaction>
+	</accessory>
+	
+	<accessory>
+		<name>TestSquareShield</name>
+		<armslevel>8</armslevel>
+		<icon>shield.bmp</icon>
+		<activationsound>shield/activate.wav</activationsound>
+		<bundlesize>3</bundlesize>
+		<cost>20000</cost>
+		<accessoryaction type='ShieldSquareReflective'>
+			<movementproof>team1</movementproof>
+			<deflectfactor>1.0</deflectfactor>
+			<size>
+				<a>3.0</a>
+				<b>3.0</b>
+				<c>3.0</c>
+			</size>
+			<color>
+				<r>1.0</r>
+				<g>1.0</g>
+				<b>1.0</b>
+			</color>
+			<collisionsound>shield/hit.wav</collisionsound>
+			<removepower>20</removepower>
+			<penetration>1.0</penetration>
+			<power>100</power>
 		</accessoryaction>
 	</accessory>
 </accessories>

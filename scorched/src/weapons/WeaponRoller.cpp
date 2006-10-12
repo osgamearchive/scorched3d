@@ -134,8 +134,8 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 				if (accessory)
 				{
 					Shield *shield = (Shield *) accessory->getAction();
-					float shieldSize = shield->getActualRadius();
-					if ((position - tankPos).Magnitude() < shieldSize)
+					Vector offset = position - tankPos;
+					if (shield->inShield(offset))
 					{
 						ok = false;
 						position[2] += 1.0f;

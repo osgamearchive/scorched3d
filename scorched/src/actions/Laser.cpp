@@ -99,8 +99,8 @@ void Laser::simulate(float frameTime, bool &remove)
 					if (current->getAlive() &&
 						current->getPlayerId() != playerId_)
 					{
-						float targetDistance = 
-							(current->getTargetPosition() -	pos).Magnitude();
+						Vector offset = current->getTargetPosition() -	pos;
+						float targetDistance = offset.Magnitude();
 						bool laserProof = false;
 
 						if (current->getShield().getCurrentShield())
@@ -110,7 +110,7 @@ void Laser::simulate(float frameTime, bool &remove)
 							if (shield->getLaserProof())
 							{
 								laserProof = true;
-								if (targetDistance < shield->getActualRadius())
+								if (shield->inShield(offset))
 								{
 									context_->actionController->addAction(
 										new ShieldHit(current->getPlayerId(), pos, 0.0f));

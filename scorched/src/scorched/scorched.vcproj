@@ -1771,16 +1771,34 @@
 				RelativePath="..\weapons\Shield.h">
 			</File>
 			<File
-				RelativePath="..\weapons\ShieldMag.cpp">
+				RelativePath="..\weapons\ShieldRound.cpp">
 			</File>
 			<File
-				RelativePath="..\weapons\ShieldMag.h">
+				RelativePath="..\weapons\ShieldRound.h">
 			</File>
 			<File
-				RelativePath="..\weapons\ShieldReflective.cpp">
+				RelativePath="..\weapons\ShieldRoundMag.cpp">
 			</File>
 			<File
-				RelativePath="..\weapons\ShieldReflective.h">
+				RelativePath="..\weapons\ShieldRoundMag.h">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldRoundReflective.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldRoundReflective.h">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldSquare.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldSquare.h">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldSquareReflective.cpp">
+			</File>
+			<File
+				RelativePath="..\weapons\ShieldSquareReflective.h">
 			</File>
 			<File
 				RelativePath="..\weapons\Weapon.cpp">

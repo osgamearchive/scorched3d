@@ -18,27 +18,43 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <weapons/ShieldSquare.h>
 
-#if !defined(__INCLUDE_ShieldReflectiveh_INCLUDE__)
-#define __INCLUDE_ShieldReflectiveh_INCLUDE__
-#include <weapons/Shield.h>
+REGISTER_ACCESSORY_SOURCE(ShieldSquare);
 
-class ShieldReflective : public Shield
+ShieldSquare::ShieldSquare()
 {
-public:
-	ShieldReflective();
-	virtual ~ShieldReflective();
+}
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
-	virtual ShieldType getShieldType();
+ShieldSquare::~ShieldSquare()
+{
+}
 
-	float getDeflectFactor() { return deflectFactor_; }
+Shield::ShieldType ShieldSquare::getShieldType()
+{
+	return ShieldTypeSquareNormal;
+}
 
-	REGISTER_ACCESSORY_HEADER(ShieldReflective, AccessoryPart::AccessoryShield);
+bool ShieldSquare::inShield(Vector &offset)
+{
+	return 
+		offset[0] > -size_[0] &&
+		offset[0] < +size_[0] &&
+		offset[1] > -size_[1] &&
+		offset[1] < +size_[1] &&
+		offset[2] > -size_[2] &&
+		offset[2] < +size_[2];
+}
 
-protected:
-	float deflectFactor_;
-};
+bool ShieldSquare::parseXML(OptionsGame &context,
+	AccessoryStore *store, XMLNode *accessoryNode)
+{
+	if (!Shield::parseXML(context, store, accessoryNode)) return false;
 
-#endif
+	// Get the size
+	if (!accessoryNode->getNamedChild("size", size_)) return false;
+
+	return true;
+}
+
+

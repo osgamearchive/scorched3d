@@ -30,8 +30,9 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
-#include <weapons/ShieldMag.h>
-#include <weapons/ShieldReflective.h>
+#include <weapons/ShieldRoundMag.h>
+#include <weapons/ShieldRoundReflective.h>
+#include <weapons/ShieldSquareReflective.h>
 #include <weapons/Accessory.h>
 #include <tank/TankContainer.h>
 
@@ -464,31 +465,35 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 	Tank *shotTank = context_->tankContainer->getTankById(shotId);
 	if (shotTank)
 	{
-		float distance = (shotTank->getPosition().getTankPosition() -
-			hitTarget->getTargetPosition()).Magnitude();
-		float shieldSize = shield->getActualRadius();
-		if (distance < shieldSize)
+		Vector offset = shotTank->getPosition().getTankPosition() -
+			hitTarget->getTargetPosition();
+		if (shield->inShield(offset))
 		{
 			return ParticleActionNone;
 		}
 	}
 
     // Check for half shields
-	if (shield->getHalfShield())
+	if (shield->getRound())
 	{
-		Vector normal = (collisionPos - 
-			hitTarget->getTargetPosition()).Normalize();
-		Vector up(0.0f, 0.0f, 1.0f);
-		if (!(normal.dotP(up) > 0.7f))
+		ShieldRound *round = (ShieldRound *) shield;
+		if (round->getHalfShield())
 		{
-			return ParticleActionNone;
+			Vector normal = (collisionPos - 
+				hitTarget->getTargetPosition()).Normalize();
+			Vector up(0.0f, 0.0f, 1.0f);
+			if (!(normal.dotP(up) > 0.7f))
+			{
+				return ParticleActionNone;
+			}
 		}
 	}
 
 	// Check for other shield types
 	switch (shield->getShieldType())
 	{
-	case Shield::ShieldTypeNormal:
+	case Shield::ShieldTypeSquareNormal:
+	case Shield::ShieldTypeRoundNormal:
 		if (hitPercentage > 0.0f) 
 		{
 			context_->actionController->addAction(
@@ -497,8 +502,8 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 				hitPercentage));
 		}
 		return ParticleActionFinished;
-	case Shield::ShieldTypeReflective:
-		deflectPower = ((ShieldReflective *)shield)->getDeflectFactor();
+	case Shield::ShieldTypeRoundReflective:
+		deflectPower = ((ShieldRoundReflective *)shield)->getDeflectFactor();
 		if (hitPercentage > 0.0f)
 		{
 			context_->actionController->addAction(
@@ -507,9 +512,19 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 				hitPercentage));
 		}
 		return ParticleActionBounce;
-	case Shield::ShieldTypeMag:
+	case Shield::ShieldTypeSquareReflective:
+		deflectPower = ((ShieldSquareReflective *)shield)->getDeflectFactor();
+		if (hitPercentage > 0.0f)
 		{
-			ShieldMag *magShield = (ShieldMag *) shield;
+			context_->actionController->addAction(
+				new ShieldHit(hitTarget->getPlayerId(),
+				collisionPos,
+				hitPercentage));
+		}
+		return ParticleActionBounce;
+	case Shield::ShieldTypeRoundMag:
+		{
+			ShieldRoundMag *magShield = (ShieldRoundMag *) shield;
 			Vector force(0.0f, 0.0f, magShield->getDeflectPower());
 			shot->applyForce(force);
 

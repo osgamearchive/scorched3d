@@ -29,9 +29,20 @@ class Shield : public AccessoryPart
 public:
 	enum ShieldType
 	{
-		ShieldTypeNormal,
-		ShieldTypeReflective,
-		ShieldTypeMag
+		ShieldTypeRoundNormal,
+		ShieldTypeRoundReflective,
+		ShieldTypeRoundMag,
+		ShieldTypeSquareNormal,
+		ShieldTypeSquareReflective
+	};
+	enum ShieldMovementType
+	{
+		ShieldMovementAll,
+		ShieldMovementNone,
+		ShieldMovementTeam1,
+		ShieldMovementTeam2,
+		ShieldMovementTeam3,
+		ShieldMovementTeam4
 	};
 
 	Shield();
@@ -44,28 +55,23 @@ public:
 	const char *getCollisionSound();
 	float getHitRemovePower() { return removePower_; }
 	float getHitPenetration() { return penetration_; }
-	float getActualRadius() { return radius_; }
 	float getPower() { return power_; }
 	Vector &getColor() { return color_; }
-	bool getHalfShield() { return halfShield_; }
 	bool getLaserProof() { return laserProof_; }
-	bool getMovementProof() { return movementProof_; }
-	bool getGlow() { return glow_; }
-	virtual ShieldType getShieldType();
+	ShieldMovementType getMovementProof() { return movementProof_; }
 
-	REGISTER_ACCESSORY_HEADER(Shield, AccessoryPart::AccessoryShield);
+	virtual bool inShield(Vector &offset) = 0;
+	virtual ShieldType getShieldType() = 0;
+	virtual bool getRound() = 0;
 
 protected:
 	std::string collisionSound_;
 	Vector color_;
 	float removePower_;
 	float penetration_;
-	float radius_;
 	float power_;
-	bool halfShield_;
 	bool laserProof_;
-	bool movementProof_;
-	bool glow_;
+	ShieldMovementType movementProof_;
 };
 
 #endif // !defined(AFX_SHIELD_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)

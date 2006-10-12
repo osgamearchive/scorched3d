@@ -82,33 +82,29 @@ TankFuelTip::~TankFuelTip()
 
 void TankFuelTip::populate()
 {
-	std::string extra;
-	std::list<Accessory *> &entries =
-		tank_->getAccessories().getAllAccessoriesByGroup("fuel");
-	std::list<Accessory *>::iterator itor;
-	for (itor = entries.begin();
-		itor != entries.end();
-		itor++)
+	Accessory *weapon = tank_->getAccessories().getWeapons().getCurrent();
+	if (weapon &&
+		weapon->getPositionSelect() == Accessory::ePositionSelectFuel)
 	{
-		Accessory *accessory = (*itor);
-		int count = tank_->getAccessories().getAccessoryCount(accessory);
-		if (count == -1)
-		{
-			extra.append(formatString("\n%s : In", 
-				accessory->getName()));
-		}
-		else
-		{
-			extra.append(formatString("\n%s : %i", 
-				accessory->getName(), count));
-		}
-	}
+		char buffer[128];
+		int count = tank_->getAccessories().getAccessoryCount(weapon);
+		if (count >= 0) snprintf(buffer, 128, "%i", count);
+		else snprintf(buffer, 128, "Infinite");
 
-	setText("Fuel", formatString(
-		"Allows the tank to move.\n"
-		"Click to toggle movement mode."
-		"%s",
-		extra.c_str()));
+		setText("Fuel", formatString(
+			"Allows the tank to move.\n"
+			"Click to toggle movement mode.\n"
+			"Current Fuel : %s (%s)",
+			weapon->getName(),
+			buffer));
+	}
+	else
+	{
+		setText("Fuel", formatString(
+			"Allows the tank to move.\n"
+			"Click to toggle movement mode.\n"
+			"Current Fuel : Off"));
+	}
 }
 
 void TankFuelTip::showItems(float x, float y)

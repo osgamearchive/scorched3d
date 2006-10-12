@@ -177,10 +177,49 @@ void MovementMap::calculateForTank(Tank *tank,
 				{
 					Shield *shield = (Shield *)
 						(target->getShield().getCurrentShield()->getAction());
-					if (shield->getMovementProof())
+
+					bool movementProof = true;
+					switch (shield->getMovementProof())
 					{
-						float dist = (pos - target->getTargetPosition()).Magnitude();
-						if (dist < shield->getActualRadius() + 4.0f)
+					case Shield::ShieldMovementAll:
+						movementProof = false;
+						break;
+					case Shield::ShieldMovementNone:
+						if (context.optionsGame->getTeams() > 1 &&
+							!target->isTarget())
+						{
+							Tank *targetTank = (Tank *) target;
+							if (targetTank->getTeam() == tank->getTeam())
+							{
+								movementProof = false;
+							}
+						}
+						break;
+					case Shield::ShieldMovementTeam1:
+						if (tank->getTeam() == 1) movementProof = false;
+						break;
+					case Shield::ShieldMovementTeam2:
+						if (tank->getTeam() == 2) movementProof = false;
+						break;
+					case Shield::ShieldMovementTeam3:
+						if (tank->getTeam() == 3) movementProof = false;
+						break;
+					case Shield::ShieldMovementTeam4:
+						if (tank->getTeam() == 4) movementProof = false;
+						break;
+					}
+
+					if (movementProof)
+					{
+						Vector offset = pos - target->getTargetPosition();
+						offset[0] = fabsf(offset[0]);
+						offset[1] = fabsf(offset[1]);
+						offset[2] = 0.0f;
+						Vector surround = offset.Normalize() * 2.0f;
+						offset[0] = MAX(0.0f, offset[0] - surround[0]);
+						offset[1] = MAX(0.0f, offset[1] - surround[1]);
+
+						if (shield->inShield(offset))
 						{
 							type = eNoMovement;
 							break;

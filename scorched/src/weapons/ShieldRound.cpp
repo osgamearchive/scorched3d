@@ -18,30 +18,45 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/ShieldMag.h>
+#include <weapons/ShieldRound.h>
+#include <common/VectorLib.h>
+#include <common/Defines.h>
+#include <math.h>
 
-REGISTER_ACCESSORY_SOURCE(ShieldMag);
+REGISTER_ACCESSORY_SOURCE(ShieldRound);
 
-ShieldMag::ShieldMag()
+ShieldRound::ShieldRound() : 
+	glow_(true)
 {
 }
 
-ShieldMag::~ShieldMag()
+ShieldRound::~ShieldRound()
 {
 }
 
-bool ShieldMag::parseXML(OptionsGame &context,
+Shield::ShieldType ShieldRound::getShieldType()
+{
+	return ShieldTypeRoundNormal;
+}
+
+bool ShieldRound::inShield(Vector &offset)
+{
+	return offset.Magnitude() <= radius_;
+}
+
+bool ShieldRound::parseXML(OptionsGame &context,
 	AccessoryStore *store, XMLNode *accessoryNode)
 {
 	if (!Shield::parseXML(context, store, accessoryNode)) return false;
 
+	// Get the penetration
+	if (!accessoryNode->getNamedChild("radius", radius_)) return false;
+	if (radius_ <= 0.0f) return accessoryNode->returnError("ShieldRound radius must be > 0");
+
 	// Get the half size
-	if (!accessoryNode->getNamedChild("deflectpower", deflectPower_)) return false;
+	if (!accessoryNode->getNamedChild("halfshield", halfShield_)) return false;
+
+	accessoryNode->getNamedChild("glow", glow_, false);
 
 	return true;
-}
-
-Shield::ShieldType ShieldMag::getShieldType()
-{
-	return ShieldTypeMag;
 }

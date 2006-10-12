@@ -40,7 +40,10 @@ Fixed: Tanks cannot get assist from their own kills or team/self kills
 Fixed: Milkshape meshes with no material assigned get a default assigned
 Fixed: Dragging the scrollbar with the mouse will finally allign with the scrollbar position
 Fixed: Some AIs shooting at old positions when tank moves
+Fixed: Members of the same team can enter movementproof shields used by other team members
 
+Added: New movement restriction to shields (team1, team2...) for shields that only certain teams can enter
+Added: Square shields
 Added: Log view will now keep up to date when looking at the last item in scroll mode
 Added: WeaponTypeAction weapon to choose subsequent weapons based on player's tank type
 Added: Multi-kill logging and bonuses

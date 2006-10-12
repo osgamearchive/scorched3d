@@ -18,30 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/ShieldReflective.h>
+#if !defined(__INCLUDE_ShieldRoundReflectiveh_INCLUDE__)
+#define __INCLUDE_ShieldRoundReflectiveh_INCLUDE__
 
-REGISTER_ACCESSORY_SOURCE(ShieldReflective);
+#include <weapons/ShieldRound.h>
 
-ShieldReflective::ShieldReflective()
+class ShieldRoundReflective : public ShieldRound
 {
-}
+public:
+	ShieldRoundReflective();
+	virtual ~ShieldRoundReflective();
 
-ShieldReflective::~ShieldReflective()
-{
-}
+	virtual bool parseXML(OptionsGame &context, 
+		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual ShieldType getShieldType();
 
-bool ShieldReflective::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
-{
-	if (!Shield::parseXML(context, store, accessoryNode)) return false;
+	float getDeflectFactor() { return deflectFactor_; }
 
-	// Get the half size
-	if (!accessoryNode->getNamedChild("deflectfactor", deflectFactor_)) return false;
+	REGISTER_ACCESSORY_HEADER(ShieldRoundReflective, AccessoryPart::AccessoryShield);
 
-	return true;
-}
+protected:
+	float deflectFactor_;
+};
 
-Shield::ShieldType ShieldReflective::getShieldType()
-{
-	return ShieldTypeReflective;
-}
+#endif

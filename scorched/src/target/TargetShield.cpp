@@ -20,7 +20,8 @@
 
 #include <target/TargetShield.h>
 #include <weapons/AccessoryStore.h>
-#include <weapons/Shield.h>
+#include <weapons/ShieldRound.h>
+#include <weapons/ShieldSquare.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 
@@ -28,22 +29,16 @@ TargetShield::TargetShield(ScorchedContext &context,
 	unsigned int playerId) :
 	context_(context),
 	shieldInfo_(CollisionIdShield),
-	currentShield_(0),
+	currentShield_(0), shieldGeom_(0),
 	power_(0)
 {
 	shieldInfo_.data = (void *) playerId;
-	shieldGeom_ =
-		dCreateSphere(context_.actionController->getPhysics().getTargetSpace(), 
-		2.0f);
-	dGeomSetData(shieldGeom_, &shieldInfo_);
-    dGeomDisable(shieldGeom_);
-
 	setCurrentShield(0);
 }
 
 TargetShield::~TargetShield()
 {
-	dGeomDestroy(shieldGeom_);
+	if (shieldGeom_) dGeomDestroy(shieldGeom_);
 }
 
 void TargetShield::newGame()
@@ -54,23 +49,37 @@ void TargetShield::newGame()
 void TargetShield::setPosition(Vector &pos)
 {
 	position_ = pos;
-	dGeomSetPosition(shieldGeom_, pos[0], pos[1], pos[2]);
+	if (shieldGeom_) dGeomSetPosition(shieldGeom_, pos[0], pos[1], pos[2]);
 }
 
 void TargetShield::setCurrentShield(Accessory *sh)
 {
-	if (currentShield_)
-	{
-		dGeomDisable(shieldGeom_);
-	}
+	if (shieldGeom_) dGeomDestroy(shieldGeom_);
+	shieldGeom_ = 0;
 
 	if (sh)
 	{
 		Shield *shield = (Shield *) sh->getAction();
 		power_ = shield->getPower();
-		currentShield_ = sh;
+		currentShield_ = sh;	
 
-		dGeomSphereSetRadius(shieldGeom_, shield->getActualRadius());
+		dSpaceID spaceId = context_.actionController->getPhysics().getTargetSpace();
+		if (shield->getRound())
+		{
+			ShieldRound *round = (ShieldRound *) shield;
+			shieldGeom_ = dCreateSphere(spaceId, 
+				round->getActualRadius());
+		}
+		else
+		{
+			ShieldSquare *square = (ShieldSquare *) shield;
+			shieldGeom_ = dCreateBox(spaceId, 
+				square->getSize()[0] * 2.0f, 
+				square->getSize()[1] * 2.0f, 
+				square->getSize()[2] * 2.0f);
+		}
+
+		dGeomSetData(shieldGeom_, &shieldInfo_);
 		dGeomEnable(shieldGeom_);
 
 		setPosition(position_);

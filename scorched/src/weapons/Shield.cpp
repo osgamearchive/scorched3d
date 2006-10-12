@@ -23,10 +23,9 @@
 #include <common/Defines.h>
 #include <math.h>
 
-REGISTER_ACCESSORY_SOURCE(Shield);
-
 Shield::Shield() : 
-	laserProof_(false), movementProof_(false), glow_(true)
+	laserProof_(false), 
+	movementProof_(ShieldMovementAll)
 {
 }
 
@@ -46,10 +45,6 @@ bool Shield::parseXML(OptionsGame &context,
 	// Get the penetration
 	if (!accessoryNode->getNamedChild("power", power_)) return false;
 
-	// Get the penetration
-	if (!accessoryNode->getNamedChild("radius", radius_)) return false;
-	if (radius_ <= 0.0f) return accessoryNode->returnError("Shield radius must be > 0");
-
 	// Get the collision sound
 	if (!accessoryNode->getNamedChild("collisionsound", collisionSound_)) return false;
 	if (!checkDataFile(formatString("data/wav/%s", getCollisionSound()))) return false;
@@ -61,12 +56,25 @@ bool Shield::parseXML(OptionsGame &context,
 	if (!colorNode->getNamedChild("g", color_[1])) return false;
 	if (!colorNode->getNamedChild("b", color_[2])) return false;
 
-	// Get the half size
-	if (!accessoryNode->getNamedChild("halfshield", halfShield_)) return false;
-
 	accessoryNode->getNamedChild("laserproof", laserProof_, false);
-	accessoryNode->getNamedChild("movementproof", movementProof_, false);
-	accessoryNode->getNamedChild("glow", glow_, false);
+
+	std::string movementproof;
+	if (accessoryNode->getNamedChild("movementproof", movementproof, false))
+	{
+		if (0 == strcmp(movementproof.c_str(), "false"))
+			movementProof_ = ShieldMovementAll;
+		else if (0 == strcmp(movementproof.c_str(), "true"))
+			movementProof_ = ShieldMovementNone;
+		else if (0 == strcmp(movementproof.c_str(), "team1")) 
+			movementProof_ = ShieldMovementTeam1;
+		else if (0 == strcmp(movementproof.c_str(), "team2")) 
+			movementProof_ = ShieldMovementTeam2;
+		else if (0 == strcmp(movementproof.c_str(), "team3")) 
+			movementProof_ = ShieldMovementTeam3;
+		else if (0 == strcmp(movementproof.c_str(), "team4")) 
+			movementProof_ = ShieldMovementTeam4;
+		else return accessoryNode->returnError("Unknown movementproof type");
+	}
 
 	return true;
 }
@@ -75,9 +83,4 @@ const char *Shield::getCollisionSound()
 {
 	if (!collisionSound_.c_str()[0]) return 0;
 	return collisionSound_.c_str();
-}
-
-Shield::ShieldType Shield::getShieldType()
-{
-	return ShieldTypeNormal;
 }

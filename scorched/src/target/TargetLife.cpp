@@ -39,7 +39,7 @@ TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 
 TargetLife::~TargetLife()
 {
-	dGeomDestroy(targetGeom_);
+	if (targetGeom_) dGeomDestroy(targetGeom_);
 }
 
 void TargetLife::newGame()

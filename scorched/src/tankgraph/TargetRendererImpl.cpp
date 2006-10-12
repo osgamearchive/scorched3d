@@ -24,7 +24,8 @@
 #include <engine/ParticleEngine.h>
 #include <common/Defines.h>
 #include <landscape/Hemisphere.h>
-#include <weapons/Shield.h>
+#include <weapons/ShieldRound.h>
+#include <weapons/ShieldSquare.h>
 #include <weapons/Accessory.h>
 #include <actions/TankFalling.h>
 #include <GLEXT/GLState.h>
@@ -81,6 +82,7 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	}
 
 	// Create the shield objects
+	static unsigned int squareListNo = 0;
 	static unsigned int smallListNo = 0;
 	static unsigned int smallHalfListNo = 0;
 	static unsigned int spiralListNo = 0;
@@ -89,6 +91,39 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	{
 		glNewList(smallListNo = glGenLists(1), GL_COMPILE);
 			gluSphere(obj, 1.0f, 8, 8);
+		glEndList();
+		glNewList(squareListNo = glGenLists(1), GL_COMPILE);
+			glBegin(GL_QUADS);		// Draw The Cube Using quads
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, 1.0f,-1.0f);	// Top Right Of The Quad (Top)
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f,-1.0f);	// Top Left Of The Quad (Top)
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 1.0f);	// Bottom Left Of The Quad (Top)
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, 1.0f, 1.0f);	// Bottom Right Of The Quad (Top)
+
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f,-1.0f, 1.0f);	// Top Right Of The Quad (Bottom)
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f, 1.0f);	// Top Left Of The Quad (Bottom)
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);	// Bottom Left Of The Quad (Bottom)
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,-1.0f,-1.0f);	// Bottom Right Of The Quad (Bottom)
+
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, 1.0f, 1.0f);	// Top Right Of The Quad (Front)
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);	// Top Left Of The Quad (Front)
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f, 1.0f);	// Bottom Left Of The Quad (Front)
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,-1.0f, 1.0f);	// Bottom Right Of The Quad (Front)
+
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f,-1.0f,-1.0f);	// Top Right Of The Quad (Back)
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);	// Top Left Of The Quad (Back)
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, 1.0f,-1.0f);	// Bottom Left Of The Quad (Back)
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, 1.0f,-1.0f);	// Bottom Right Of The Quad (Back)
+
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);	// Top Right Of The Quad (Left)
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f,-1.0f);	// Top Left Of The Quad (Left)
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);	// Bottom Left Of The Quad (Left)
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f, 1.0f);	// Bottom Right Of The Quad (Left)
+
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, 1.0f,-1.0f);	// Top Right Of The Quad (Right)
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, 1.0f, 1.0f);	// Top Left Of The Quad (Right)
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,-1.0f, 1.0f);	// Bottom Left Of The Quad (Right)
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,-1.0f,-1.0f);	// Bottom Right Of The Quad (Right)
+			glEnd();
 		glEndList();
 		glNewList(smallHalfListNo = glGenLists(1), GL_COMPILE);
 			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, true);
@@ -141,60 +176,77 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
 	Vector &position = target->getTargetPosition();
 	Vector &color = shield->getColor();
-	if (shield->getShieldType() == Shield::ShieldTypeMag)
-	{
-		magtexture->draw();
 
-		glDepthMask(GL_FALSE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glColor4f(color[0], color[1], color[2], 0.4f);
-		glPushMatrix();
-			glTranslatef(position[0], position[1], position[2] + 1.0f);
-			float scale = shield->getActualRadius() / 3.0f;
-			glScalef(scale, scale, scale);
-
-			glRotatef(totalTime * 800.0f, 0.0f, 0.0f, 1.0f);
-			glCallList(spiralListNo);
-			glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
-			glCallList(spiralListNo);
-			glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
-			glCallList(spiralListNo);
-		glPopMatrix();
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDepthMask(GL_TRUE);
-	}
-	else if (shield->getHalfShield())
+	if (shield->getRound())
 	{
-		texture->draw();
-		glPushMatrix();
-			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
-			glTranslatef(position[0], position[1], position[2]);
-			glScalef(shield->getActualRadius(), shield->getActualRadius(), shield->getActualRadius());
-			glCallList(smallHalfListNo);
-		glPopMatrix();
+		ShieldRound *round = (ShieldRound *) shield;
+		if (shield->getShieldType() == Shield::ShieldTypeRoundMag)
+		{
+			magtexture->draw();
+
+			glDepthMask(GL_FALSE);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+			glColor4f(color[0], color[1], color[2], 0.4f);
+			glPushMatrix();
+				glTranslatef(position[0], position[1], position[2] + 1.0f);
+				float scale = round->getActualRadius() / 3.0f;
+				glScalef(scale, scale, scale);
+
+				glRotatef(totalTime * 800.0f, 0.0f, 0.0f, 1.0f);
+				glCallList(spiralListNo);
+				glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
+				glCallList(spiralListNo);
+				glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
+				glCallList(spiralListNo);
+			glPopMatrix();
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glDepthMask(GL_TRUE);
+		}
+		else if (round->getHalfShield())
+		{
+			texture->draw();
+			glPushMatrix();
+				glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
+				glTranslatef(position[0], position[1], position[2]);
+				glScalef(round->getActualRadius(), round->getActualRadius(), round->getActualRadius());
+				glCallList(smallHalfListNo);
+			glPopMatrix();
+		}
+		else
+		{
+			texture->draw();
+			glPushMatrix();
+				glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
+				glTranslatef(position[0], position[1], position[2]);
+				glScalef(round->getActualRadius(), round->getActualRadius(), round->getActualRadius());
+				glCallList(smallListNo);
+			glPopMatrix();
+
+			if (round->getGlow())
+			{
+				shieldtexture->draw();
+				GLCameraFrustum::instance()->drawBilboard(
+					position,
+					color,
+					1.0f - shieldHit,
+					round->getActualRadius(), 
+					round->getActualRadius(),
+					true, // Additive
+					0); // texcoord
+			}
+		}
 	}
 	else
 	{
+		ShieldSquare *square = (ShieldSquare *) shield;
+
 		texture->draw();
 		glPushMatrix();
 			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
 			glTranslatef(position[0], position[1], position[2]);
-			glScalef(shield->getActualRadius(), shield->getActualRadius(), shield->getActualRadius());
-			glCallList(smallListNo);
+			glScalef(square->getSize()[0], square->getSize()[1], square->getSize()[2]);
+			glCallList(squareListNo);
 		glPopMatrix();
-
-		if (shield->getGlow())
-		{
-			shieldtexture->draw();
-			GLCameraFrustum::instance()->drawBilboard(
-				position,
-				color,
-				1.0f - shieldHit,
-				shield->getActualRadius(), 
-				shield->getActualRadius(),
-				true, // Additive
-				0); // texcoord
-		}
 	}
 }
 

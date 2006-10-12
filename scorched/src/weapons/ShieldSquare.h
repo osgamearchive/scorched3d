@@ -18,27 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ShieldMagh_INCLUDE__)
-#define __INCLUDE_ShieldMagh_INCLUDE__
+#if !defined(AFX_ShieldSquare_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)
+#define AFX_ShieldSquare_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_
 
 #include <weapons/Shield.h>
 
-class ShieldMag : public Shield
+class ShieldSquare : public Shield
 {
 public:
-	ShieldMag();
-	virtual ~ShieldMag();
+	ShieldSquare();
+	virtual ~ShieldSquare();
 
 	virtual bool parseXML(OptionsGame &context, 
 		AccessoryStore *store, XMLNode *accessoryNode);
+
+	// ShieldSquare attributes
+	Vector &getSize() { return size_; }
+
+	virtual bool inShield(Vector &offset);
 	virtual ShieldType getShieldType();
+	virtual bool getRound() { return false; }
 
-	float getDeflectPower() { return deflectPower_; }
-
-	REGISTER_ACCESSORY_HEADER(ShieldMag, AccessoryPart::AccessoryShield);
+	REGISTER_ACCESSORY_HEADER(ShieldSquare, AccessoryPart::AccessoryShield);
 
 protected:
-	float deflectPower_;
+	Vector size_;
 };
 
-#endif
+#endif // !defined(AFX_ShieldSquare_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)

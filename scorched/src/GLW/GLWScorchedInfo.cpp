@@ -224,31 +224,26 @@ void GLWScorchedInfo::draw()
 		break;
 		case eFuelCount:
 			{
-			int totalCount = 0;
-			std::list<Accessory *> &entries =
-				current->getAccessories().getAllAccessoriesByGroup("fuel");			
-			std::list<Accessory *>::iterator itor;
-			for (itor = entries.begin();
-				itor != entries.end();
-				itor++)
-			{
-				Accessory *accessory = (*itor);
-				int count = current->getAccessories().getAccessoryCount(accessory);
-				if (count == -1 || totalCount == -1)
-				{
-					totalCount = -1;
-				}
-				else
-				{
-					totalCount += count;
-				}
-			}
+			Accessory *weapon = current->getAccessories().getWeapons().getCurrent();
 
 			setToolTip(&renderer->getTips()->fuelTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
-				*fontColor, fontSize_,
-				x_, y_, 0.0f,
-				formatString((totalCount==-1?"In":"%i"),	totalCount));
+
+			if (!weapon ||
+				weapon->getPositionSelect() != Accessory::ePositionSelectFuel)
+			{
+				GLWFont::instance()->getSmallPtFont()->draw(
+					*fontColor, fontSize_,
+					x_, y_, 0.0f,
+					"Off");
+			}
+			else
+			{
+				int count = current->getAccessories().getAccessoryCount(weapon);
+				GLWFont::instance()->getSmallPtFont()->draw(
+					*fontColor, fontSize_,
+					x_, y_, 0.0f,
+					formatString((count==-1?"In":"%i"), count));
+			}
 			}
 		break;
 		case eWeaponName:
