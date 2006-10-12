@@ -27,7 +27,8 @@
 							<alpha>data/landscapes/parkinga.bmp</alpha>
 							<invert>true</invert>
 						</groundmap>
-						<groupname>none</groupname>
+						<groupname>bob</groupname>
+						<groupname>sam</groupname>
 					</object>
 				</groupobject>
 				<groupobject>
@@ -50,7 +51,8 @@
 							<alpha>data/landscapes/parkinga.bmp</alpha>
 							<invert>true</invert>
 						</groundmap>
-						<groupname>none</groupname>
+						<groupname>bob</groupname>
+						<groupname>sams</groupname>
 					</object>
 				</groupobject>
 				<groupobject>

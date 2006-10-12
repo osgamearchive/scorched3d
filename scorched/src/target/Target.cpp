@@ -40,6 +40,7 @@ Target::Target(unsigned int playerId,
 {
 	life_.setTarget(this);
 	life_.setBoundingSphere(true);
+	group_.setTarget(this);
 }
 
 Target::~Target()

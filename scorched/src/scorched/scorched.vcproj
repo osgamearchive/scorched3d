@@ -3777,6 +3777,12 @@
 				RelativePath="..\target\TargetDefinition.h">
 			</File>
 			<File
+				RelativePath="..\target\TargetGroupEntry.cpp">
+			</File>
+			<File
+				RelativePath="..\target\TargetGroupEntry.h">
+			</File>
+			<File
 				RelativePath="..\target\TargetLife.cpp">
 			</File>
 			<File

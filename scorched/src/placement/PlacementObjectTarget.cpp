@@ -59,11 +59,5 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 		&targetDef_.getShadow(),
 		position.position,
 		targetDef_.getSize()));
-
-	if (target->getRenderer())
-	{
-		TargetRendererImplTarget *targetRenderImplTarget = 
-			(TargetRendererImplTarget*) target->getRenderer();
-		groups_.addToGroups(context, targetRenderImplTarget, false);
-	}
+	groups_.addToGroups(context, &target->getGroup(), false);
 }

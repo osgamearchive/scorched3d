@@ -103,13 +103,7 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 
 		target->setTargetPosition(position.position);
 		context.targetContainer->addTarget(target);
-
-		if (target->getRenderer())
-		{
-			TargetRendererImplTarget *targetRenderImplTarget = 
-				(TargetRendererImplTarget*) target->getRenderer();
-			group_.addToGroups(context, targetRenderImplTarget, false);
-		}
+		group_.addToGroups(context, &target->getGroup(), true);
 	}
 	else
 	{

@@ -22,11 +22,8 @@
 #define __INCLUDE_TargetRendererImplTargeth_INCLUDE__
 
 #include <tankgraph/TargetRendererImpl.h>
-#include <landscape/LandscapeObjectsEntry.h>
 
-class TargetRendererImplTarget : 
-	public TargetRendererImpl,
-	public LandscapeObjectEntryBase
+class TargetRendererImplTarget : public TargetRendererImpl
 {
 public:
 	TargetRendererImplTarget();

@@ -328,6 +328,10 @@ void TankDamage::calculateDamage()
 		}
 	}
 
+	// Remove from groups
+	context_->landscapeMaps->getGroundMaps().getObjects().
+		removeFromGroups(&damagedTarget->getGroup());	
+
 	// DO LAST
 	// If the tank is a target, remove the target
 	if (!damagedTarget->getAlive() &&
@@ -336,14 +340,6 @@ void TankDamage::calculateDamage()
 		Target *removedTarget = 
 			context_->targetContainer->
 				removeTarget(damagedTarget->getPlayerId());
-		TargetRendererImplTarget *targetRenderer = 
-			(TargetRendererImplTarget *) removedTarget->getRenderer();
-		if (targetRenderer)
-		{
-			context_->landscapeMaps->getGroundMaps().getObjects().
-				removeFromGroups(targetRenderer);
-		}
-
 		delete removedTarget;
 	}
 }

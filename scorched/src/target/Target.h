@@ -24,6 +24,7 @@
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
+#include <target/TargetGroupEntry.h>
 
 class TargetRenderer;
 class Weapon;
@@ -51,6 +52,7 @@ public:
 	TargetLife &getLife() { return life_; }
 	TargetShield &getShield() { return shield_; }
 	TargetParachute &getParachute() { return parachute_; }
+	TargetGroupEntry &getGroup() { return group_; }
 	void setDeathAction(Weapon *deathAction) { deathAction_ = deathAction; }
 	virtual Weapon *getDeathAction() { return deathAction_; }
 
@@ -78,6 +80,7 @@ protected:
 	TargetShield shield_;
 	TargetParachute parachute_;
 	TargetRenderer *renderer_;
+	TargetGroupEntry group_;
 	std::string name_;
 	Weapon *deathAction_;
 
