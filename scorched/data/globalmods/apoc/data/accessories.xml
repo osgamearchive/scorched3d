@@ -83,7 +83,7 @@ Capacity: 25 dmg | Collision Damage: 10 dmg</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>2000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>0.1</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -106,7 +106,7 @@ Capacity: 50 dmg | Collision Damage: 10 dmg</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>4000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>0.1</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -130,7 +130,7 @@ Capacity: 5 dmg | Collision Damage: 5 dmg</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>4000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>4</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -155,7 +155,7 @@ Capacity: 150 dmg | Collision Damage: 10 dmg</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>8000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>3.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -179,7 +179,7 @@ Capacity: 200 dmg | Collision Damage: 10 dmg</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>12000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>4.5</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -203,7 +203,7 @@ Capacity: 250 dmg | Collision Damage: 10 dmg</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>1</bundlesize>
 		<cost>12000</cost>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>6.0</radius>
 			<halfshield>false</halfshield>
 			<color>
@@ -228,7 +228,7 @@ Capacity: 100 dmg | Collision Damage: 15 dmg</description>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>8000</cost>
-		<accessoryaction type='ShieldReflective'>
+		<accessoryaction type='ShieldRoundReflective'>
 			<deflectfactor>1.0</deflectfactor>
 			<radius>3.0</radius>
 			<halfshield>false</halfshield>
@@ -254,7 +254,7 @@ Capacity: 150 dmg | Collision Damage: 15 dmg</description>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>1</bundlesize>
 		<cost>12000</cost>
-		<accessoryaction type='ShieldReflective'>
+		<accessoryaction type='ShieldRoundReflective'>
 			<deflectfactor>1.25</deflectfactor>
 			<radius>6.0</radius>
 			<halfshield>false</halfshield>
@@ -281,7 +281,7 @@ Capacity: 125 dmg | Collision Damage: Timed</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
 		<cost>8000</cost>
-		<accessoryaction type='ShieldMag'>
+		<accessoryaction type='ShieldRoundMag'>
 			<radius>3.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>75</deflectpower>
@@ -308,7 +308,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>1</bundlesize>
 		<cost>12000</cost>
-		<accessoryaction type='ShieldMag'>
+		<accessoryaction type='ShieldRoundMag'>
 			<radius>6.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>100</deflectpower>
@@ -342,7 +342,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<name>PowerUpShield</name>
 		<maximumnumber>0</maximumnumber>
 		<armslevel>10</armslevel>
-		<accessoryaction type='Shield'>
+		<accessoryaction type='ShieldRound'>
 			<radius>2.0</radius>
 			<halfshield>false</halfshield>
 			<color>
