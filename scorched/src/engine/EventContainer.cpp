@@ -87,11 +87,13 @@ void EventContainer::simulate(float frameTime, ScorchedContext &context)
 		EventEntry &entry = (*itor).second;
 		
 		entry.eventTime -= frameTime;
-		if (entry.eventTime < 0.0f)
+		if (event->condition->fireEvent(context, 
+			entry.eventTime, entry.eventNumber))
 		{
 			event->action->fireAction(context);
 			entry.eventTime = 
-				event->condition->getNextEventTime(++entry.eventNumber);
+				event->condition->getNextEventTime(
+					++entry.eventNumber);
 		}
 	}	
 }

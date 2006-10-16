@@ -42,6 +42,8 @@ Fixed: Dragging the scrollbar with the mouse will finally allign with the scroll
 Fixed: Some AIs shooting at old positions when tank moves
 Fixed: Members of the same team can enter movementproof shields used by other team members
 
+Added: New landscape event condition groupsize, allows actions to be fired when an objectgroup reaches a size
+Added: Temporary anks can now be added to groups
 Added: New movement restriction to shields (team1, team2...) for shields that only certain teams can enter
 Added: Square shields
 Added: Log view will now keep up to date when looking at the last item in scroll mode

@@ -31,9 +31,23 @@ class LandscapeCondition
 {
 public:
 	virtual float getNextEventTime(int eventNumber) = 0;
+	virtual bool fireEvent(ScorchedContext &context, 
+		float timeLeft, int eventNumber) = 0;
 	virtual bool readXML(XMLNode *node) = 0;
 
 	static LandscapeCondition *create(const char *name);
+};
+
+class LandscapeConditionGroupSize : public LandscapeCondition
+{
+public:
+	int groupsize;
+	std::string groupname;
+
+	virtual float getNextEventTime(int eventNumber);
+	virtual bool fireEvent(ScorchedContext &context, 
+		float timeLeft, int eventNumber);
+	virtual bool readXML(XMLNode *node);	
 };
 
 class LandscapeConditionTime : public LandscapeCondition
@@ -44,6 +58,8 @@ public:
 	bool singletimeonly;
 
 	virtual float getNextEventTime(int eventNumber);
+	virtual bool fireEvent(ScorchedContext &context, 
+		float timeLeft, int eventNumber);
 	virtual bool readXML(XMLNode *node);
 };
 
@@ -54,6 +70,8 @@ public:
 	float randomdelay;
 
 	virtual float getNextEventTime(int eventNumber);
+	virtual bool fireEvent(ScorchedContext &context, 
+		float timeLeft, int eventNumber);
 	virtual bool readXML(XMLNode *node);
 };
 

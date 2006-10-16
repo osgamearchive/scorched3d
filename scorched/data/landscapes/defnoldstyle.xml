@@ -32,5 +32,8 @@
 	</heightmap>
 	<!--<placements>
 		<placement>data/landscapes/placetest.xml</placement>
-	</placements>-->
+	</placements>
+	<events>
+		<event>data/landscapes/eventstest.xml</event>
+	</events>-->
 </defn>

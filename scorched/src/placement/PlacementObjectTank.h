@@ -22,6 +22,7 @@
 #define __INCLUDE_PlacementObjectTankh_INCLUDE__
 
 #include <placement/PlacementObject.h>
+#include <placement/PlacementGroupDefinition.h>
 #include <tank/TankDefinition.h>
 
 class PlacementObjectTank : public PlacementObject
@@ -39,6 +40,7 @@ public:
 
 protected:
 	TankDefinition tankDef_;
+	PlacementGroupDefinition groups_;
 };
 
 #endif // __INCLUDE_PlacementObjectTankh_INCLUDE__

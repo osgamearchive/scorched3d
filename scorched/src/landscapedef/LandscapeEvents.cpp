@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscapedef/LandscapeEvents.h>
+#include <landscape/LandscapeMaps.h>
+#include <landscape/LandscapeObjects.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 #include <XML/XMLNode.h>
@@ -58,8 +60,39 @@ LandscapeCondition *LandscapeCondition::create(const char *type)
 {
 	if (0 == strcmp(type, "time")) return new LandscapeConditionTime;
 	if (0 == strcmp(type, "random")) return new LandscapeConditionRandom;
+	if (0 == strcmp(type, "groupsize")) return new LandscapeConditionGroupSize;
 	dialogMessage("LandscapeCondition", formatString("Unknown condition type %s", type));
 	return 0;
+}
+
+// LandscapeConditionGroupSize
+float LandscapeConditionGroupSize::getNextEventTime(int eventNumber)
+{
+	return FLT_MAX;
+}
+
+bool LandscapeConditionGroupSize::fireEvent(ScorchedContext &context, 
+	float timeLeft, int eventNumber)
+{
+	if (eventNumber == 1) // i.e. the first event
+	{
+		LandscapeObjectsGroupEntry *groupEntry =
+			context.landscapeMaps->getGroundMaps().getObjects().getGroup(
+				groupname.c_str());
+		if (groupEntry)
+		{
+			if (groupEntry->getObjectCount() <= groupsize) return true;
+		}
+	}
+
+	return false;
+}
+
+bool LandscapeConditionGroupSize::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("groupname", groupname)) return false;
+	if (!node->getNamedChild("groupsize", groupsize)) return false;
+	return node->failChildren();
 }
 
 // LandscapeConditionTime
@@ -72,6 +105,12 @@ float LandscapeConditionTime::getNextEventTime(int eventNumber)
 	}
 
 	return RAND * (maxtime - mintime) + mintime;
+}
+
+bool LandscapeConditionTime::fireEvent(ScorchedContext &context, 
+	float timeLeft, int eventNumber)
+{
+	return (timeLeft < 0.0f);
 }
 
 bool LandscapeConditionTime::readXML(XMLNode *node)
@@ -95,6 +134,12 @@ float LandscapeConditionRandom::getNextEventTime(int eventNumber)
 		return randomdelay;
 	}
 	return FLT_MAX;
+}
+
+bool LandscapeConditionRandom::fireEvent(ScorchedContext &context, 
+	float timeLeft, int eventNumber)
+{
+	return (timeLeft < 0.0f);
 }
 
 bool LandscapeConditionRandom::readXML(XMLNode *node)

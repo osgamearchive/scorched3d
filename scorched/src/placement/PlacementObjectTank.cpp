@@ -39,6 +39,7 @@ PlacementObjectTank::~PlacementObjectTank()
 bool PlacementObjectTank::readXML(XMLNode *node)
 {
 	if (!tankDef_.readXML(node, ".")) return false;
+	if (!groups_.readXML(node)) return false;
 	return PlacementObject::readXML(node);
 }
 
@@ -57,4 +58,5 @@ void PlacementObjectTank::createObject(ScorchedContext &context,
 		&tankDef_.getShadow(),
 		position.position,
 		tankDef_.getSize()));
+	groups_.addToGroups(context, &tank->getGroup(), false);
 }

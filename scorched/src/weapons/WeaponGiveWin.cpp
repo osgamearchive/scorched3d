@@ -69,13 +69,16 @@ void WeaponGiveWin::weaponCallback(
 	unsigned int data,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
-	if (!tank) return;
-
 	if (context.optionsGame->getTeams() > 1)
 	{
 		int team = winningTeam_;
-		if (team == 0) team = tank->getTeam();
+		if (team == 0) 
+		{
+			Tank *tank = context.tankContainer->getTankById(playerId);
+			if (!tank) return;
+
+			team = tank->getTeam();
+		}
 		context.tankTeamScore->setWonGame(team);
 
 		if (!context.serverMode)
@@ -89,6 +92,9 @@ void WeaponGiveWin::weaponCallback(
 	}
 	else
 	{
+		Tank *tank = context.tankContainer->getTankById(playerId);
+		if (!tank) return;
+
 		tank->getScore().setWonGame();
 
 		if (!context.serverMode)

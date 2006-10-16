@@ -1512,7 +1512,17 @@ and shields damaging the tank directly.</description>
 	</accessory>
 	
 	<accessory>
+		<name>GroupWin</name>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponGiveWin'>
+			<objective>Destroyed group bob</objective>
+			<winningteam>1</winningteam>
+		</accessoryaction>
+	</accessory>
+	
+	<accessory>
 		<name>TestSquareShield</name>
+		<maximumnumber>0</maximumnumber>
 		<armslevel>8</armslevel>
 		<icon>shield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
