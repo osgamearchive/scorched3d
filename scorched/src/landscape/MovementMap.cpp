@@ -172,8 +172,7 @@ void MovementMap::calculateForTank(Tank *tank,
 			{
 				Target *target = (*targetItor).second;
 
-				if (target->getPlayerId() != tank->getPlayerId() &&
-					target->getShield().getCurrentShield())
+				if (target->getShield().getCurrentShield())
 				{
 					Shield *shield = (Shield *)
 						(target->getShield().getCurrentShield()->getAction());
@@ -185,7 +184,14 @@ void MovementMap::calculateForTank(Tank *tank,
 						movementProof = false;
 						break;
 					case Shield::ShieldMovementNone:
-						if (context.optionsGame->getTeams() > 1 &&
+						movementProof = true;
+						break;
+					case Shield::ShieldMovementSame:
+						if (target->getPlayerId() == tank->getPlayerId())
+						{
+							movementProof = false;
+						}
+						else if (context.optionsGame->getTeams() > 1 &&
 							!target->isTarget())
 						{
 							Tank *targetTank = (Tank *) target;
@@ -196,16 +202,20 @@ void MovementMap::calculateForTank(Tank *tank,
 						}
 						break;
 					case Shield::ShieldMovementTeam1:
-						if (tank->getTeam() == 1) movementProof = false;
+						if (tank->getTeam() == 1 ||
+							tank->getTeam() == 0) movementProof = false;
 						break;
 					case Shield::ShieldMovementTeam2:
-						if (tank->getTeam() == 2) movementProof = false;
+						if (tank->getTeam() == 2 ||
+							tank->getTeam() == 0) movementProof = false;
 						break;
 					case Shield::ShieldMovementTeam3:
-						if (tank->getTeam() == 3) movementProof = false;
+						if (tank->getTeam() == 3 ||
+							tank->getTeam() == 0) movementProof = false;
 						break;
 					case Shield::ShieldMovementTeam4:
-						if (tank->getTeam() == 4) movementProof = false;
+						if (tank->getTeam() == 4 ||
+							tank->getTeam() == 0) movementProof = false;
 						break;
 					}
 
@@ -276,19 +286,24 @@ void MovementMap::calculateForTank(Tank *tank,
 		fuel = (float) MIN(weapon->getMaximumRange(), numberFuel);
 	}
 
-	// Add this point to the movement map
-	unsigned int epoc = 0;
-	getEntry(posX, posY) = 
-		MovementMap::MovementMapEntry(
-			MovementMap::eMovement,
-			0.0f,
-			0,
-			epoc);
-
-	// And add it to the list of next edge points
 	std::list<unsigned int> edgeList;
-	unsigned int pt = POINT_TO_UINT(posX, posY);
-	edgeList.push_back(pt);
+	unsigned int epoc = 0;
+
+	// Check we can move at all
+	if (getEntry(posX, posY).type == eNotSeen)
+	{
+		// Add this point to the movement map
+		getEntry(posX, posY) = 
+			MovementMap::MovementMapEntry(
+				MovementMap::eMovement,
+				0.0f,
+				0,
+				epoc);
+
+		// And add it to the list of next edge points
+		unsigned int pt = POINT_TO_UINT(posX, posY);
+		edgeList.push_back(pt);
+	}
 
 	// Find all the edges for the current edges and so on
 	while (!edgeList.empty())

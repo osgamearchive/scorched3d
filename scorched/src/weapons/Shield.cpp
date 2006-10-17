@@ -64,6 +64,8 @@ bool Shield::parseXML(OptionsGame &context,
 		if (0 == strcmp(movementproof.c_str(), "false"))
 			movementProof_ = ShieldMovementAll;
 		else if (0 == strcmp(movementproof.c_str(), "true"))
+			movementProof_ = ShieldMovementSame;
+		else if (0 == strcmp(movementproof.c_str(), "none"))
 			movementProof_ = ShieldMovementNone;
 		else if (0 == strcmp(movementproof.c_str(), "team1")) 
 			movementProof_ = ShieldMovementTeam1;

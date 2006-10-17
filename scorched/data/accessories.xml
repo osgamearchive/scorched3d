@@ -992,7 +992,7 @@ direction of the firer.</description>
 	</accessory>
 	<accessory>
 		<name>Spread MIRV</name>
-		<armslevel>5</armslevel>
+		<armslevel>6</armslevel>
 		<description>A projectile weapon that on reaching
 its highest point releases several 
 small warheads. These warheads fan out 

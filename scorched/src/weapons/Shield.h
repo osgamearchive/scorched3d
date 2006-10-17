@@ -39,6 +39,7 @@ public:
 	{
 		ShieldMovementAll,
 		ShieldMovementNone,
+		ShieldMovementSame,
 		ShieldMovementTeam1,
 		ShieldMovementTeam2,
 		ShieldMovementTeam3,

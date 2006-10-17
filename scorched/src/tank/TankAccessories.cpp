@@ -260,6 +260,7 @@ void TankAccessories::add_(Accessory *accessory, int count, bool check)
 			accessoryGroups_.find(accessory->getGroupName());
 		if (groupItor != accessoryGroups_.end())
 		{
+			(*groupItor).second->remove(accessory);
 			(*groupItor).second->push_back(accessory);
 		}
 		else
@@ -276,6 +277,7 @@ void TankAccessories::add_(Accessory *accessory, int count, bool check)
 			accessoryTypes_.find(accessory->getType());
 		if (typeItor != accessoryTypes_.end())
 		{
+			(*typeItor).second->remove(accessory);
 			(*typeItor).second->push_back(accessory);
 		}
 		else
