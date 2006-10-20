@@ -154,7 +154,7 @@ Capacity: 150 dmg | Collision Damage: 10 dmg</description>
 		<icon>shield.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
-		<cost>8000</cost>
+		<cost>7000</cost>
 		<accessoryaction type='ShieldRound'>
 			<radius>3.0</radius>
 			<halfshield>false</halfshield>
@@ -253,7 +253,7 @@ Capacity: 150 dmg | Collision Damage: 15 dmg</description>
 		<icon>fshield.bmp</icon>
 		<activationsound>shield/activateforce.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>12000</cost>
+		<cost>13000</cost>
 		<accessoryaction type='ShieldRoundReflective'>
 			<deflectfactor>1.25</deflectfactor>
 			<radius>6.0</radius>
@@ -280,7 +280,7 @@ Capacity: 125 dmg | Collision Damage: Timed</description>
 		<icon>mag.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>2</bundlesize>
-		<cost>8000</cost>
+		<cost>6000</cost>
 		<accessoryaction type='ShieldRoundMag'>
 			<radius>3.0</radius>
 			<halfshield>true</halfshield>
@@ -307,7 +307,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<icon>smag.bmp</icon>
 		<activationsound>shield/activate.wav</activationsound>
 		<bundlesize>1</bundlesize>
-		<cost>12000</cost>
+		<cost>10000</cost>
 		<accessoryaction type='ShieldRoundMag'>
 			<radius>6.0</radius>
 			<halfshield>true</halfshield>
