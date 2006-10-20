@@ -213,10 +213,6 @@ OptionsGame::OptionsGame() :
 		"The type of walls allowed", 0, int(WallRandom), wallEnum),
 	weapScale_(options_, "WeaponScale", 
 		"The scale of the weapons used", 0, int(ScaleMedium), weapScaleEnum),
-	masterListServer_(options_, "MasterListServer",
-		"The master list server for scorched3d", 0, "scorched3d.sourceforge.net"),
-	masterListServerURI_(options_, "MasterListServerURI",
-		"The URI on the master list server for scorched3d", 0, "/scorched"),
 	statsLogger_(options_, "StatsLogger",
 		"The type of player stats to be logged (none, pgsql, mysql, file)", 0, "none"),
 	serverFileLogger_(options_, "ServerLogger",
@@ -273,6 +269,10 @@ OptionsGame::OptionsGame() :
 		"The percentage chance the computers will say something when shooting", 0, 25, 0, 100, 10),
 
 	// Deprecated options
+	depricatedMasterListServer_(options_, "MasterListServer",
+		"The master list server for scorched3d", OptionEntry::DataDepricated, "scorched3d.sourceforge.net"),
+	depricatedMasterListServerURI_(options_, "MasterListServerURI",
+		"The URI on the master list server for scorched3d", OptionEntry::DataDepricated, "/scorched"),
 	depricatedServerAdminPassword_(options_, "ServerAdminPassword", 
 		"The admin password for this server (empty password = no access)", OptionEntry::DataDepricated, ""),
 	depricatedMaxArmsLevel_(options_, "MaxArmsLevel",

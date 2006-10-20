@@ -44,6 +44,7 @@ Fixed: Members of the same team can enter movementproof shields used by other te
 Fixed: Spread MIRV is now the same armslevel as the standard MIRV
 Fixed: Lowered the overall height of the glaciation map, and made tanks start higher on this map
 
+Added: Support for a backup list server to cope with server outages
 Added: New landscape event condition groupsize, allows actions to be fired when an objectgroup reaches a size
 Added: Temporary anks can now be added to groups
 Added: New movement restriction to shields (none) for shields that no-one can move in (not even the wearer)

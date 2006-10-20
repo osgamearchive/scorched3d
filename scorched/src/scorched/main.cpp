@@ -88,12 +88,6 @@ bool parseCommandLine(int argc, char *argv[])
 	ModDirs dirs;
 	dirs.loadModDirs();
 
-	// Read the game options (allows us to modify any settings only 
-	// used by the chooser screens)
-	const char *optionsGamePath = getSettingsFile("game.xml");
-	ScorchedClient::instance()->getOptionsGame().readOptionsFromFile(
-		(char *) optionsGamePath);
-
 	return true;
 }
 

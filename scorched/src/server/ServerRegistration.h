@@ -23,7 +23,29 @@
 
 #include <coms/NetServer.h>
 
-class ServerRegistration : public NetMessageHandlerI
+class ServerRegistrationEntry : public NetMessageHandlerI
+{
+public:
+	ServerRegistrationEntry(const char *masterListServer, 
+		const char *masterListServerURI);
+	virtual ~ServerRegistrationEntry();
+
+	void start();
+
+protected:
+	const char *masterListServer_;
+	bool finished_, success_;
+	NetServer netServer_;
+	NetBuffer sendNetBuffer_;
+	static int threadFunc(void *);
+	void actualThreadFunc();
+	void registerGame();
+
+	// Inherited from NetMessageHandlerI
+	virtual void processMessage(NetMessage &message);
+};
+
+class ServerRegistration
 {
 public:
 	static ServerRegistration *instance();
@@ -33,14 +55,8 @@ public:
 protected:
 	static ServerRegistration *instance_;
 
-	bool finished_, success_;
-	NetServer netServer_;
-	NetBuffer sendNetBuffer_;
-	static int threadFunc(void *);
-	static void registerGame();
-
-	// Inherited from NetMessageHandlerI
-	virtual void processMessage(NetMessage &message);
+	ServerRegistrationEntry mainServer_;
+	ServerRegistrationEntry backupServer_;
 
 private:
 	ServerRegistration();

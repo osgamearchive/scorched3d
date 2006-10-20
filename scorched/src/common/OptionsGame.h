@@ -246,12 +246,6 @@ public:
 	const char * getLandscapes() { return landscapes_; }
 	OptionEntryString &getLandscapesEntry() { return landscapes_; }
 
-	const char * getMasterListServer() { return masterListServer_; }
-	OptionEntryString &getMasterListServerEntry() { return masterListServer_; }
-
-	const char * getMasterListServerURI() { return masterListServerURI_; }
-	OptionEntryString &getMasterListServerURIEntry() { return masterListServerURI_; }
-
 	const char * getStatsLogger() { return statsLogger_; }
 	OptionEntryString &getStatsLoggerEntry() { return statsLogger_; }
 
@@ -399,8 +393,6 @@ protected:
 	OptionEntryString motd_;
 	OptionEntryStringEnum economy_;
 	OptionEntryString landscapes_;
-	OptionEntryString masterListServer_;
-	OptionEntryString masterListServerURI_;
 	OptionEntryString statsLogger_;
 	OptionEntryString serverFileLogger_;
 
@@ -426,6 +418,9 @@ protected:
 	OptionEntryBool depricatedAutoBallanceTeams_;
 	OptionEntryBoundedInt depricatedMaxArmsLevel_;
 	OptionEntryString depricatedServerAdminPassword_;
+	OptionEntryString depricatedMasterListServer_;
+	OptionEntryString depricatedMasterListServerURI_;
+
 };
 
 class OptionsGameWrapper : public OptionsGame

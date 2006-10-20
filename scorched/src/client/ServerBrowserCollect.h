@@ -32,7 +32,9 @@ public:
 	virtual ~ServerBrowserCollect();
 
 	// Fetch the new list from the server
-	bool fetchServerList();
+	bool fetchServerList(
+		const char *masterListServer,
+		const char *masterListServerURI);
 	bool fetchLANList();
 	bool fetchFavoritesList();
 

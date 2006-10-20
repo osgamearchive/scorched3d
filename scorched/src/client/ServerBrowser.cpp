@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ServerBrowser.h>
+#include <common/OptionsMasterListServer.h>
 
 ServerBrowser *ServerBrowser::instance_ = 0;
 
@@ -91,7 +92,15 @@ int ServerBrowser::threadFunc(void *var)
 		result = instance_->serverCollector_.fetchLANList();
 		break;
 	case RefreshNet:
-		result = instance_->serverCollector_.fetchServerList();
+		result = 
+			instance_->serverCollector_.fetchServerList(
+				OptionsMasterListServer::instance()->getMasterListServer(),
+				OptionsMasterListServer::instance()->getMasterListServerURI()) 
+			||
+			instance_->serverCollector_.fetchServerList(
+				OptionsMasterListServer::instance()->getMasterListBackupServer(),
+				OptionsMasterListServer::instance()->getMasterListBackupServerURI());
+
 		break;
 	case RefreshFavourites:
 		result = instance_->serverCollector_.fetchFavoritesList();

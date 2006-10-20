@@ -23,9 +23,7 @@
 #include <XML/XMLStringBuffer.h>
 #include <XML/XMLFile.h>
 #include <client/ScorchedClient.h>
-#include <common/Logger.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
 #include <time.h>
 
 ServerBrowserCollect::ServerBrowserCollect(ServerBrowserServerList &list) :
@@ -34,19 +32,6 @@ ServerBrowserCollect::ServerBrowserCollect(ServerBrowserServerList &list) :
 	complete_(false), 
 	cancel_(false)
 {
-	// Create the message that will be sent to the master server
-	static char buffer[1024];
-	snprintf(buffer, 1024,
-		"GET %s/servers.php HTTP/1.0\r\n"
-		"User-Agent: Scorched3D\r\n"
-		"Host: %s\r\n"
-		"Connection: Keep-Alive\r\n"
-		"\r\n"
-		"\r\n",
-		ScorchedClient::instance()->getOptionsGame().getMasterListServerURI(),
-		ScorchedClient::instance()->getOptionsGame().getMasterListServer());
-	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
-
 	// All messages will come to this class
 	netServer_.setMessageHandler(this);
 	recvPacket_ = SDLNet_AllocPacket(10000);
@@ -59,17 +44,31 @@ ServerBrowserCollect::~ServerBrowserCollect()
 {
 }
 
-
-bool ServerBrowserCollect::fetchServerList()
+bool ServerBrowserCollect::fetchServerList(
+	const char *masterListServer,
+	const char *masterListServerURI)
 {
+	// Create the message that will be sent to the master server
+	static char buffer[1024];
+	snprintf(buffer, 1024,
+		"GET %s/servers.php HTTP/1.0\r\n"
+		"User-Agent: Scorched3D\r\n"
+		"Host: %s\r\n"
+		"Connection: Keep-Alive\r\n"
+		"\r\n"
+		"\r\n",
+		masterListServerURI,
+		masterListServer);
+	sendNetBuffer_.reset();
+	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
+
 	complete_ = false;
 
 	list_.clear();
 
 	// Connect to the master server
-	if (!netServer_.connect(ScorchedClient::instance()->getOptionsGame().getMasterListServer(), 80))
+	if (!netServer_.connect(masterListServer, 80))
 	{
-		Logger::log( "Failed to contact registration server");
 		return false;
 	}
 

@@ -22,6 +22,7 @@
 #include <server/ServerRegistration.h>
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
+#include <common/OptionsMasterListServer.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 
@@ -36,8 +37,31 @@ ServerRegistration *ServerRegistration::instance()
 	return instance_;
 }
 
-ServerRegistration::ServerRegistration() : 
-	netServer_(new NetServerHTTPProtocolSend)
+ServerRegistration::ServerRegistration() :
+	mainServer_(
+		OptionsMasterListServer::instance()->getMasterListServer(),
+		OptionsMasterListServer::instance()->getMasterListServerURI()),
+	backupServer_(
+		OptionsMasterListServer::instance()->getMasterListBackupServer(),
+		OptionsMasterListServer::instance()->getMasterListBackupServerURI())
+{
+}
+
+ServerRegistration::~ServerRegistration()
+{
+}
+
+void ServerRegistration::start()
+{
+	mainServer_.start();
+	backupServer_.start();
+}
+
+ServerRegistrationEntry::ServerRegistrationEntry(
+	const char *masterListServer, 
+	const char *masterListServerURI) : 
+	netServer_(new NetServerHTTPProtocolSend),
+	masterListServer_(masterListServer)
 {
 	static char buffer[1024];
 	snprintf(buffer, 
@@ -48,32 +72,41 @@ ServerRegistration::ServerRegistration() :
 		"Connection: Keep-Alive\r\n"
 		"\r\n"
 		"\r\n",
-		ScorchedServer::instance()->getOptionsGame().getMasterListServerURI(),
+		masterListServerURI,
 		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
 		ScorchedServer::instance()->getOptionsGame().getPortNo(),
-		ScorchedServer::instance()->getOptionsGame().getMasterListServer());
+		masterListServer);
 	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
 
 	netServer_.setMessageHandler(this);
 }
 
-ServerRegistration::~ServerRegistration()
+ServerRegistrationEntry::~ServerRegistrationEntry()
 {
 }
 
-void ServerRegistration::start()
+void ServerRegistrationEntry::start()
 {
-	SDL_CreateThread(ServerRegistration::threadFunc, (void *) this);
+	SDL_CreateThread(ServerRegistrationEntry::threadFunc, (void *) this);
 }
 
-int ServerRegistration::threadFunc(void *param)
+int ServerRegistrationEntry::threadFunc(void *param)
+{
+	ServerRegistrationEntry *entry = 
+		(ServerRegistrationEntry *) param;
+
+	entry->actualThreadFunc();
+	return 0;
+}
+
+void ServerRegistrationEntry::actualThreadFunc()
 {
 	const int TimeBetweenRegistrations = 540;
 
 	for (;;)
 	{
 		// Ensure no connections are hanging around
-		instance_->netServer_.disconnectAllClients();
+		netServer_.disconnectAllClients();
 
 		// Register this game on the web
 		registerGame();
@@ -85,11 +118,11 @@ int ServerRegistration::threadFunc(void *param)
 		{
 			// Check for any replies or timeout every 1 seconds
 			SDL_Delay(1000);
-			instance_->netServer_.processMessages();
+			netServer_.processMessages();
 
 			// If we have finished and it was not a success only
 			// wait 30 seconds before registering again
-			if (instance_->finished_ && !instance_->success_)
+			if (finished_ && !success_)
 			{
 				waitTime = 30;
 			}
@@ -102,29 +135,29 @@ int ServerRegistration::threadFunc(void *param)
 			}
 		}
 	}
-	return 0;
 }
 
-void ServerRegistration::registerGame()
+void ServerRegistrationEntry::registerGame()
 {
 	// Connect to the web server
-	Logger::log( "Contacting registration server...");
-	if (!instance_->netServer_.connect(ScorchedServer::instance()->getOptionsGame().getMasterListServer(), 80))
+	Logger::log(formatString(
+		"Connecting to registration server %s...", masterListServer_));
+	if (!netServer_.connect(masterListServer_, 80))
 	{
-		Logger::log( "Failed to contact registration server");
-		instance_->finished_ = true;
-		instance_->success_ = false;
+		Logger::log(formatString(
+			"Failed to connect to registration server %s", masterListServer_));
+		finished_ = true;
+		success_ = false;
 		return;
 	}
-	instance_->finished_ = false;
-	instance_->success_ = false;
+	finished_ = false;
+	success_ = false;
 
 	// Send the web request
-	instance_->netServer_.sendMessage(instance_->sendNetBuffer_);
-	Logger::log( "Registration request sent.");
+	netServer_.sendMessage(sendNetBuffer_);
 }
 
-void ServerRegistration::processMessage(NetMessage &message)
+void ServerRegistrationEntry::processMessage(NetMessage &message)
 {
 	// We have received a reply from the web server
 	if (message.getMessageType() == NetMessage::BufferMessage)
@@ -134,7 +167,10 @@ void ServerRegistration::processMessage(NetMessage &message)
 	}
 	else if (message.getMessageType() == NetMessage::DisconnectMessage)
 	{
-		Logger::log(formatString("Registration complete (%s).", (success_?"Success":"Failure")));
+		Logger::log(
+			formatString("Registration to %s %s.", 
+			masterListServer_,
+			(success_?"was successfull":"failed")));
 		finished_ = true;
 	}
 }
