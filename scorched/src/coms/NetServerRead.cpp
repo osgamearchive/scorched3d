@@ -239,7 +239,7 @@ bool NetServerRead::pollIncoming()
 		NetMessage *message = protocol_->readBuffer(socket_, id_);
 		if (!message)
 		{
-			Logger::log( "Client socket has been closed.");
+			//Logger::log( "Client socket has been closed.");
 			return false;
 		}
 		else

@@ -29,16 +29,10 @@ public:
 	static OptionsMasterListServer *instance();
 
 	const char * getMasterListServer() { return masterListServer_; }
-	OptionEntryString &getMasterListServerEntry() { return masterListServer_; }
-
 	const char * getMasterListServerURI() { return masterListServerURI_; }
-	OptionEntryString &getMasterListServerURIEntry() { return masterListServerURI_; }
-
 	const char * getMasterListBackupServer() { return masterListBackupServer_; }
-	OptionEntryString &getMasterListBackupServerEntry() { return masterListBackupServer_; }
-
 	const char * getMasterListBackupServerURI() { return masterListBackupServerURI_; }
-	OptionEntryString &getMasterListBackupServerURIEntry() { return masterListBackupServerURI_; }
+	int getMasterListServerTimeout() { return masterListServerTimeout_; }
 
 protected:
 	static OptionsMasterListServer *instance_;
@@ -49,6 +43,7 @@ protected:
 	OptionEntryString masterListServerURI_;
 	OptionEntryString masterListBackupServer_;
 	OptionEntryString masterListBackupServerURI_;
+	OptionEntryInt masterListServerTimeout_;
 
 	bool readOptionsFromFile();
 	bool writeOptionsToFile();

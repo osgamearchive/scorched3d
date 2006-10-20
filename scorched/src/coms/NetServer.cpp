@@ -228,7 +228,7 @@ void NetServer::addClient(TCPsocket client)
 	// Add this to the collection of sockets (connections)
 	SDL_LockMutex(setMutex_);
 	connections_[currentId] = serverRead;
-	firstDestination_ = (*connections_.begin()).first;
+	firstDestination_ = currentId;
 	SDL_UnlockMutex(setMutex_);
 
 	// Start the sockets

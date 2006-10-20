@@ -107,54 +107,62 @@ void ServerRegistrationEntry::actualThreadFunc()
 	{
 		// Ensure no connections are hanging around
 		netServer_.disconnectAllClients();
+		netServer_.processMessages(); // Get rid of disconnect messages
 
 		// Register this game on the web
-		registerGame();
-		time_t lastTime = time(0);
+		success_ = false;
+		finished_ = false;
+
+		Logger::log(formatString(
+			"Connecting to registration server %s...", masterListServer_));
+		if (registerGame())
+		{
+			time_t lastTime = time(0);
+			for (;;)
+			{
+				// Check for any replies or timeout every 1 seconds
+				SDL_Delay(1000);
+				netServer_.processMessages();
+
+				// We have recieved a disconnect
+				if (finished_) break;
+
+				// Check for timeout
+				int timeOut = 
+					OptionsMasterListServer::instance()->getMasterListServerTimeout();
+				time_t currentTime = time(0);
+				if (currentTime - lastTime > timeOut)
+				{
+					break;
+				}
+			}
+
+			Logger::log(
+				formatString("Registration to %s %s.", 
+				masterListServer_,
+				(success_?"was successfull":"failed")));
+		}
+		else
+		{
+			Logger::log(formatString(
+				"Failed to connect to registration server %s", masterListServer_));
+		}
 
 		// Wait for TimeBetweenRegistrations seconds before registering again
-		int waitTime = TimeBetweenRegistrations;
-		for (;;)
-		{
-			// Check for any replies or timeout every 1 seconds
-			SDL_Delay(1000);
-			netServer_.processMessages();
-
-			// If we have finished and it was not a success only
-			// wait 30 seconds before registering again
-			if (finished_ && !success_)
-			{
-				waitTime = 30;
-			}
-
-			// Wait for TimeBetweenRegistrations seconds before sending again
-			time_t currentTime = time(0);
-			if (currentTime - lastTime > waitTime)
-			{
-				break;
-			}
-		}
+		// unless we have had an error, in which case try again in 30 seconds
+		int waitTime = (success_?TimeBetweenRegistrations:30);
+		SDL_Delay(1000 * waitTime);
 	}
 }
 
-void ServerRegistrationEntry::registerGame()
+bool ServerRegistrationEntry::registerGame()
 {
 	// Connect to the web server
-	Logger::log(formatString(
-		"Connecting to registration server %s...", masterListServer_));
-	if (!netServer_.connect(masterListServer_, 80))
-	{
-		Logger::log(formatString(
-			"Failed to connect to registration server %s", masterListServer_));
-		finished_ = true;
-		success_ = false;
-		return;
-	}
-	finished_ = false;
-	success_ = false;
+	if (!netServer_.connect(masterListServer_, 80)) return false;
 
 	// Send the web request
 	netServer_.sendMessage(sendNetBuffer_);
+	return true;
 }
 
 void ServerRegistrationEntry::processMessage(NetMessage &message)
@@ -167,10 +175,6 @@ void ServerRegistrationEntry::processMessage(NetMessage &message)
 	}
 	else if (message.getMessageType() == NetMessage::DisconnectMessage)
 	{
-		Logger::log(
-			formatString("Registration to %s %s.", 
-			masterListServer_,
-			(success_?"was successfull":"failed")));
 		finished_ = true;
 	}
 }

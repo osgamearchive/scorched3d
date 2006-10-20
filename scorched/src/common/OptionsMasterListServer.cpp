@@ -36,7 +36,9 @@ OptionsMasterListServer::OptionsMasterListServer() :
 	masterListBackupServer_(options_, "MasterListBackupServer",
 		"The backup master list server for scorched3d", 0, "www.scorched3d.co.uk"),
 	masterListBackupServerURI_(options_, "MasterListBackupServerURI",
-		"The URI on the backup master list server for scorched3d", 0, "/scorched")
+		"The URI on the backup master list server for scorched3d", 0, "/scorched"),
+	masterListServerTimeout_(options_, "MasterListServerTimeout",
+		"The amount of time to allow for list communications", 0, 10)
 {
 	readOptionsFromFile();
 }

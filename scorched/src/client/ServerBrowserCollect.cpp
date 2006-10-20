@@ -24,6 +24,7 @@
 #include <XML/XMLFile.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
+#include <common/OptionsMasterListServer.h>
 #include <time.h>
 
 ServerBrowserCollect::ServerBrowserCollect(ServerBrowserServerList &list) :
@@ -75,7 +76,8 @@ bool ServerBrowserCollect::fetchServerList(
 	// Send the master server request
 	netServer_.sendMessage(sendNetBuffer_);
 	
-	const unsigned int WaitTime = 30;
+	const int WaitTime =
+		OptionsMasterListServer::instance()->getMasterListServerTimeout();
 	// Wait WaitTime seconds for the result
 	time_t startTime, currentTime;
 	startTime = currentTime = time(0);
@@ -87,7 +89,7 @@ bool ServerBrowserCollect::fetchServerList(
 		// Check if the messages have made us complete
 		if (complete_)
 		{
-			return true;
+			return (list_.getNoEntries() > 0);
 		}
 
 		SDL_Delay(100);
@@ -96,6 +98,9 @@ bool ServerBrowserCollect::fetchServerList(
 
 	// Ensure that we only have one open connection to the server
 	netServer_.disconnectAllClients();
+
+	// Process any waiting messages caused by the disconnect all
+	netServer_.processMessages();
 
 	complete_ = true;
 	return false;
@@ -117,6 +122,9 @@ bool ServerBrowserCollect::fetchLANList()
 	
 	// Send the request for info
 	SDLNet_UDP_Send(udpsock, -1, sendPacket_);
+
+	const int WaitTime =
+		OptionsMasterListServer::instance()->getMasterListServerTimeout();
 
 	// Accept the results
 	time_t startTime = time(0);
@@ -143,7 +151,7 @@ bool ServerBrowserCollect::fetchLANList()
 		}
 		
 		time_t theTime = time(0);
-		if ((theTime - startTime > 5) || cancel_) break;
+		if ((theTime - startTime > WaitTime) || cancel_) break;
 	}
 	
 	SDLNet_UDP_Close(udpsock);
@@ -155,7 +163,10 @@ bool ServerBrowserCollect::fetchLANList()
 void ServerBrowserCollect::processMessage(NetMessage &message)
 {
 	// We have received a reply from the web server
-	if (message.getMessageType() == NetMessage::DisconnectMessage)
+	if (message.getMessageType() == NetMessage::ConnectMessage)
+	{
+	}
+	else if (message.getMessageType() == NetMessage::DisconnectMessage)
 	{
 		complete_ = true;
 	}

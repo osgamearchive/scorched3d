@@ -39,7 +39,7 @@ protected:
 	NetBuffer sendNetBuffer_;
 	static int threadFunc(void *);
 	void actualThreadFunc();
-	void registerGame();
+	bool registerGame();
 
 	// Inherited from NetMessageHandlerI
 	virtual void processMessage(NetMessage &message);
