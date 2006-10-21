@@ -21,7 +21,10 @@ Changes Since 4.0
         - Added the fallout sparkle effect to Tsar Bomba
         - Spaced out the bomblets in Funky Bomb over time slightly to prevent dudding on direct hit
         - Renamed 'Small Battery' drop to 'Batteries'
-	- Lighting values adjusted on most models so it looks okay with the new lighting changes
+		- Lighting values adjusted on most models so it looks okay with the new lighting changes
+        - Shield pricing tweaked slightly to reduce dominance of the force shields
+        - Cargo drops now fall a bit slower
+        - New position selection method applied to transporter
         
     Landscapes:
     	- Cities
@@ -47,6 +50,7 @@ Changes Since 4.0
         - Various other small changes and fixes
         - Fixed single player game settings
         - Darkened map in the plan view a bit
+        - GUI windows are now slightly transparent
         
 Notes About Installation:
 The Apocalypse Mod comes with Scorched 3D and, as a result, you should not need to install anything.  However, 
