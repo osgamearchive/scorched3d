@@ -31,6 +31,7 @@ Changes Since 4.0
             - Factories now release some additional acid bomblets when you destroy them
             - Hospital now drop 0-3 medkits instead of 1-3 but gives 25 health when you destroy it
             - Stadium can now drop up to $20,000 instead of $15,000
+            - Most buildings are now targets (projectiles will collide)
         - Buildings and/or cargo drops added to a few more landscapes/texture layouts
         - Random flame spurts (geysers) that pop up out of the ground on the hell texture layout
         - Weather events can now damage tanks

@@ -10,13 +10,18 @@
 			</position>
 			<object type='random'>
 				<randomobject>
-					<object type='model'>
+					<object type='target'>
+						<name>Skyscraper</name>
 						<model type='MilkShape'>data/accessories/buildings/skyscraper1.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/skyscraper1burnt.txt</modelburnt>
 						<modelscale>0.066</modelscale>
 						<removeaction>Skyscraper</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<flattenarea>-1.0</flattenarea>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>100</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/roads1.bmp</image>
 							<alpha>data/landscapes/roads1a.bmp</alpha>
@@ -26,13 +31,18 @@
 					</object>
 				</randomobject>
 				<randomobject>
-					<object type='model'>
+					<object type='target'>
+						<name>Skyscraper</name>
 						<model type='MilkShape'>data/accessories/buildings/skyscraper2.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/skyscraper1burnt.txt</modelburnt>
 						<modelscale>0.1</modelscale>
 						<removeaction>Skyscraper</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<flattenarea>-1.0</flattenarea>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>100</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/roads1.bmp</image>
 							<alpha>data/landscapes/roads1a.bmp</alpha>
@@ -42,13 +52,18 @@
 					</object>
 				</randomobject>
 				<randomobject>
-					<object type='model'>
+					<object type='target'>
+						<name>Skyscraper</name>
 						<model type='MilkShape'>data/accessories/buildings/skyscraper3.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/skyscraper1burnt.txt</modelburnt>
 						<modelscale>0.1</modelscale>
 						<removeaction>Skyscraper</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
 						<flattenarea>-1.0</flattenarea>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>100</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/roads1.bmp</image>
 							<alpha>data/landscapes/roads1a.bmp</alpha>
@@ -74,12 +89,17 @@
 						<B>0</B>
 						<C>0</C>
 					</offset>
-					<object type='model'>
+					<object type='target'>
+						<name>Office</name>
 						<model type='MilkShape'>data/accessories/buildings/office1.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/office1burnt.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>75</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/cars2.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
@@ -94,12 +114,17 @@
 						<B>0</B>
 						<C>0</C>
 					</offset>
-					<object type='model'>
+					<object type='target'>
+						<name>Office</name>
 						<model type='MilkShape'>data/accessories/buildings/office2.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/office2burnt.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>75</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/cars.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
@@ -114,12 +139,17 @@
 						<B>8</B>
 						<C>0</C>
 					</offset>
-					<object type='model'>
+					<object type='target'>
+						<name>Office</name>
 						<model type='MilkShape'>data/accessories/buildings/office4.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/office1burnt.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
 						<removeaction>Large Bldg</removeaction>
 						<burnaction>LargeBldgBurn</burnaction>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>75</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/cars2.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
@@ -134,12 +164,17 @@
 						<B>-8</B>
 						<C>0</C>
 					</offset>
-					<object type='model'>
+					<object type='target'>
+						<name>Office</name>
 						<model type='MilkShape'>data/accessories/buildings/office5.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/office2burnt.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
-						<removeaction>Hospital</removeaction>
-						<burnaction>Large Bldg</burnaction>
+						<removeaction>Large Bldg</removeaction>
+						<burnaction>LargeBldgBurn</burnaction>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>75</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/cars.bmp</image>
 							<alpha>data/landscapes/carsa.bmp</alpha>
@@ -165,7 +200,8 @@
 						<B>0</B>
 						<C>0</C>
 					</offset>
-					<object type='model'>
+					<object type='target'>
+						<name>Nuclear Plant</name>
 						<model type='MilkShape'>data/accessories/buildings/nuclearplant.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/nuclearplant.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
@@ -173,6 +209,10 @@
 						<burnaction>Large Bldg</burnaction>
 						<flattenarea>-1.0</flattenarea>
 						<border>15</border>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>100</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/parking.bmp</image>
 							<alpha>data/landscapes/parkinga.bmp</alpha>
@@ -230,7 +270,8 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Stadium</name>
 				<model type='MilkShape'>data/accessories/buildings/stadium.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/skyscraper1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
@@ -238,6 +279,10 @@
 				<burnaction>LargeBldgBurn</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>100</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/parking.bmp</image>
 					<alpha>data/landscapes/parkinga.bmp</alpha>
@@ -262,7 +307,8 @@
 						<B>0</B>
 						<C>0</C>
 					</offset>
-					<object type='model'>
+					<object type='target'>
+						<name>Nuclear Plant</name>
 						<model type='MilkShape'>data/accessories/buildings/nuclearplant.txt</model>
 						<modelburnt type='MilkShape'>data/accessories/buildings/nuclearplant.txt</modelburnt>
 						<modelrotationsnap>90</modelrotationsnap>
@@ -270,6 +316,10 @@
 						<burnaction>Large Bldg</burnaction>
 						<flattenarea>-1.0</flattenarea>
 						<border>15</border>
+						<boundingsphere>false</boundingsphere>
+						<shield>none</shield>
+						<parachute>none</parachute>
+						<life>100</life>
 						<groundmap type='bmp'>
 							<image>data/landscapes/parking.bmp</image>
 							<alpha>data/landscapes/parkinga.bmp</alpha>
@@ -327,7 +377,8 @@
 			<minslope>0.66</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Hospital</name>
 				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
@@ -335,6 +386,10 @@
 				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>2</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -352,15 +407,19 @@
 			<minslope>0.66</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type="model">
-				<model type="MilkShape">data/accessories/buildings/office1.txt</model>
-				<modelburnt type="MilkShape">data/accessories/buildings/office1burnt.txt</modelburnt>
+			<object type='target'>
+				<name>Office</name>
+				<model type='MilkShape'>data/accessories/buildings/office1.txt</model>
+				<modelburnt type='MilkShape'>data/accessories/buildings/office1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
-				<border>2</border>
-				<groundmap type="bmp">
-					<image>data/landscapes/cars.bmp</image>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
+				<groundmap type='bmp'>
+					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
 					<invert>false</invert>
 				</groundmap>
@@ -376,13 +435,18 @@
 			<minslope>0.66</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type="model">
+			<object type='target'>
+				<name>Office</name>
 				<model type="MilkShape">data/accessories/buildings/office2.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/office2burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>2</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
 				<groundmap type="bmp">
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -400,13 +464,18 @@
 			<minslope>0.75</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type="model">
+			<object type='target'>
+				<name>Office</name>
 				<model type="MilkShape">data/accessories/buildings/office3.txt</model>
 				<modelburnt type="MilkShape">data/accessories/buildings/office1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>2</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
 				<groundmap type="bmp">
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -424,13 +493,18 @@
 			<minslope>0.75</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Office</name>
 				<model type='MilkShape'>data/accessories/buildings/office4.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/office1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>2</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -448,13 +522,18 @@
 			<minslope>0.75</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type="model">
+			<object type='target'>
+				<name>Office</name>
 				<model type='MilkShape'>data/accessories/buildings/office5.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/office2burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Large Bldg</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>2</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -472,14 +551,19 @@
 			<minslope>0.66</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Hospital</name>
 				<model type='MilkShape'>data/accessories/buildings/hospital.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/hospital.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Hospital</removeaction>
 				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
-				<border>5</border>
+				<border>2</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>75</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -497,7 +581,8 @@
 			<minslope>0.75</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Gas Station</name>
 				<model type='MilkShape'>data/accessories/buildings/gasstation1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/gasstation1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
@@ -505,6 +590,10 @@
 				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -522,7 +611,8 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Gas Station</name>
 				<model type='MilkShape'>data/accessories/buildings/gasstation1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/gasstation1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
@@ -530,6 +620,10 @@
 				<burnaction>Large Bldg</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -547,13 +641,18 @@
 			<minslope>0.75</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Bar</name>
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Bar</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -571,13 +670,18 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Bar</name>
 				<model type='MilkShape'>data/accessories/buildings/bar1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Bar</removeaction>
 				<burnaction>LargeBldgBurn</burnaction>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -595,13 +699,18 @@
 			<minslope>0.66</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Store</name>
 				<model type='MilkShape'>data/accessories/buildings/store1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Dollar Store</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -619,13 +728,18 @@
 			<minslope>0.66</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Store</name>
 				<model type='MilkShape'>data/accessories/buildings/store1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/store1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Dollar Store</removeaction>
 				<burnaction>SmallBldgBurn</burnaction>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars2.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -683,7 +797,8 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Farm</name>
 				<model type='MilkShape'>data/accessories/buildings/farm1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/farm1burnt.txt</modelburnt>
 				<modelrotationsnap>30</modelrotationsnap>
@@ -691,6 +806,10 @@
 				<burnaction>FarmBurn</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>5</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/farmland.bmp</image>
 					<alpha>data/landscapes/farmlanda.bmp</alpha>
@@ -820,7 +939,8 @@
 			<minslope>0.75</minslope>
 			<xsnap>8</xsnap>
 			<ysnap>8</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Factory</name>
 				<model type='MilkShape'>data/accessories/buildings/factory1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/factory1burnt.txt</modelburnt>
 				<modelrotationsnap>90</modelrotationsnap>
@@ -828,6 +948,10 @@
 				<burnaction>Factory Burn</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>10</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
 					<image>data/landscapes/cars.bmp</image>
 					<alpha>data/landscapes/carsa.bmp</alpha>
@@ -845,18 +969,23 @@
 			<minslope>0.75</minslope>
 			<xsnap>0</xsnap>
 			<ysnap>0</ysnap>
-			<object type='model'>
+			<object type='target'>
+				<name>Factory</name>
 				<model type='MilkShape'>data/accessories/buildings/factory1.txt</model>
 				<modelburnt type='MilkShape'>data/accessories/buildings/factory1burnt.txt</modelburnt>
-				<modelrotationsnap>30</modelrotationsnap>
+				<modelrotationsnap>90</modelrotationsnap>
 				<removeaction>Factory</removeaction>
 				<burnaction>Factory Burn</burnaction>
 				<flattenarea>-1.0</flattenarea>
 				<border>10</border>
+				<boundingsphere>false</boundingsphere>
+				<shield>none</shield>
+				<parachute>none</parachute>
+				<life>50</life>
 				<groundmap type='bmp'>
-					<image>data/landscapes/parking.bmp</image>
-					<alpha>data/landscapes/parkinga.bmp</alpha>
-					<invert>true</invert>
+					<image>data/landscapes/cars.bmp</image>
+					<alpha>data/landscapes/carsa.bmp</alpha>
+					<invert>false</invert>
 				</groundmap>
 				<groupname>factories</groupname>
 			</object>

@@ -16,7 +16,7 @@
 				<modelscale>0.075</modelscale>
 				<shield>none</shield>
 				<parachute>none</parachute>
-				<life>50</life>
+				<life>100</life>
 				<removeaction>City Port</removeaction>
 				<burnaction>Large Bldg</burnaction>
 				<boundingsphere>false</boundingsphere>
