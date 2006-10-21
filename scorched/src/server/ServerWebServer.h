@@ -58,6 +58,7 @@ protected:
 	struct SessionParams
 	{
 		unsigned int sessionTime;
+		std::string userName;
 	};
 
 	static ServerWebServer *instance_;

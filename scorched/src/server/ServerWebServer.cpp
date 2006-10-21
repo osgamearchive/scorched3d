@@ -171,6 +171,10 @@ void ServerWebServer::processMessage(NetMessage &message)
 						extractQueryFields(fields, sep);
 					}
 
+					// Add ip address into fields
+					fields["ipaddress"] = 
+						NetInterface::getIpName(message.getIpAddress());
+
 					// Log info
 					if (logger_)
 					{
@@ -181,14 +185,30 @@ void ServerWebServer::processMessage(NetMessage &message)
 							itor != fields.end();
 							itor++)
 						{
-							f += formatString("%s=%s ",
-								(*itor).first.c_str(),
-								(*itor).second.c_str());
+							if (0 != strcmp((*itor).first.c_str(), "password"))
+							{
+								f += formatString("%s=%s ",
+									(*itor).first.c_str(),
+									(*itor).second.c_str());
+							}
 						}
+
+						std::string username;
+						if (fields.find("sid") != fields.end())
+						{
+							unsigned int sid = (unsigned int) atoi(fields["sid"].c_str());
+							std::map <unsigned int, SessionParams>::iterator findItor =
+								sessions_.find(sid);
+							if (findItor != sessions_.end())
+							{
+								username = (*findItor).second.userName;
+							}
+						}
+
 						LoggerInfo info(LoggerInfo::TypeNormal,
-							formatString("%u:%s:%s", 
+							formatString("%u %s http://%s [%s]", 
 							message.getDestinationId(), 
-							url, f.c_str()),
+							username.c_str(), url, f.c_str()),
 							ctime(&t));
 						logger_->logMessage(info);
 					}
@@ -284,6 +304,7 @@ bool ServerWebServer::validateUser(
 		{
 			SessionParams params;
 			params.sessionTime = currentTime;
+			params.userName = fields["name"];
 
 			unsigned int sid = rand();
 			sessions_[sid] = params;

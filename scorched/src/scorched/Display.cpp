@@ -334,7 +334,7 @@ static void refreshIdentControls()
 
 	// User id edit box
 	int pos = 0;
-	IDC_USERID_CTRL->Clear();
+	IDC_USERID_CTRL->ClearGrid();
 	std::list<UniqueIdStore::Entry>::iterator itor;
 	for (itor = idStore.getIds().begin();
 		itor != idStore.getIds().end();

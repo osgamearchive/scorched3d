@@ -83,7 +83,25 @@ GLWTankViewer::~GLWTankViewer()
 void GLWTankViewer::setTeam(int team)
 {
 	team_ = team;
+
+	// Save current model
+	int scrollCurrent = scrollBar_.getCurrent();
+	TankModel *model = 0;
+	if (selected_ >= 0 &&
+		selected_ < (int) models_.size())
+	{
+		model = models_[selected_];
+	}
+
+	// Show new team models
 	select(0, 0, GLWSelectorEntry(catagoryChoice_.getCurrentText()));
+
+	// Select old model
+	scrollBar_.setCurrent(scrollCurrent);
+	for (int i=0; i<(int)models_.size(); i++)
+	{
+		if (models_[i] == model) selected_ = i;
+	}
 }
 
 void GLWTankViewer::select(unsigned int id, 
@@ -184,7 +202,8 @@ void GLWTankViewer::setTankModels(std::vector<TankModel *> &models)
 const char *GLWTankViewer::getModelName()
 {
 	const char *name = "None";
-	if (!models_.empty())
+	if (selected_ >= 0 &&
+		selected_ < (int) models_.size())
 	{
 		name = models_[selected_]->getName();
 	}
