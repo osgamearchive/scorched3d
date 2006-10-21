@@ -12307,24 +12307,33 @@ which you are teleported to after it lands.</description>
 		<bundlesize>1</bundlesize>
 		<cost>16000</cost>
 		<model type='MilkShape'>weapons/shockbomblet.txt</model>
-		<accessoryaction type='WeaponProjectile'>
-			<spinspeed>1.0</spinspeed>
-			<projectilemodel type='MilkShape'>weapons/shockbomblet.txt</projectilemodel>
-			<nocreateflame/>
-			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponTeleport'>
-					<sound>data/wav/misc/teleport.wav</sound>
-					<delay>1.0</delay>
+		<accessoryaction type='WeaponSelectPosition'>
+			<aimedweapon type='WeaponMulti'>
+				<subweapon1 type='WeaponTankPosition'>
+					<aimedweapon type='WeaponDelay'>
+						<delay>2.0</delay>
+						<delayedweapon type='WeaponAnimation'>
+							<animation>ExplosionRingRenderer</animation>
+							<data>none</data>
+						</delayedweapon>
+					</aimedweapon>
 				</subweapon1>
-				<subweapon2 type='WeaponDelay'>
-					<delay>1.0</delay>
+				<subweapon2 type='WeaponTeleport'>
+					<sound>data/wav/misc/teleport.wav</sound>
+					<delay>2.5</delay>
+				</subweapon2>
+				<subweapon3 type='WeaponDelay'>
+					<delay>2.5</delay>
 					<delayedweapon type='WeaponAnimation'>
 						<animation>ExplosionRingRenderer</animation>
 						<data>none</data>
 					</delayedweapon>
-				</subweapon2>
-			</collisionaction>
+				</subweapon3>
+			</aimedweapon>
 		</accessoryaction>
+		<nomuzzleflash/>
+		<positionselection>generic</positionselection>
+		<group>weapon</group>
 	</accessory>
 	<accessory>
 		<name>Unstable Portal</name>
@@ -14145,6 +14154,19 @@ which explode and spread fire when ignited.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>DropParachute</name>
+		<armslevel>10</armslevel>
+		<activationsound>misc/para.wav</activationsound>
+		<aionly>true</aionly>
+		<accessoryaction type='Parachute'>
+			<slowforce>
+				<a>0</a>
+				<b>0</b>
+				<c>-0.5</c>
+			</slowforce>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>CargoDrop</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -14163,7 +14185,7 @@ which explode and spread fire when ignited.</description>
 							<model type='MilkShape'>pwrcrate/pwrcrate.txt</model>
 							<life>50</life>
 							<shield>none</shield>
-							<parachute>Parachute</parachute>
+							<parachute>DropParachute</parachute>
 							<removeaction>CargoItems</removeaction>
 							<driveovertodestroy>true</driveovertodestroy>
 						</delayedweapon>
