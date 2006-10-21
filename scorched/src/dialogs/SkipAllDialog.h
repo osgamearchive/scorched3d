@@ -34,6 +34,8 @@ public:
 	virtual void buttonDown(unsigned int id);
 	virtual void windowInit(const unsigned state);
 	virtual void simulate(float frameTime);
+	virtual void display();
+
 protected:
 	unsigned int cancelId_;
 	GLWLabel *label_;
