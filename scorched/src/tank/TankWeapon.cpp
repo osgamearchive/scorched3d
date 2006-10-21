@@ -181,6 +181,8 @@ void TankWeapon::prevWeapon()
 
 const char *TankWeapon::getWeaponString()
 {
+	if (!getCurrent()) return "";
+
 	static char buffer[256];
 	int count = tank_->getAccessories().getAccessoryCount(getCurrent());
 	snprintf(buffer, 256, ((count>0)?"%s (%i)":"%s (In)"),
