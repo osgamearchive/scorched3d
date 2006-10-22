@@ -27,7 +27,7 @@ REGISTER_CLASS_SOURCE(GLWScrollPanel);
 
 GLWScrollPanel::GLWScrollPanel(float x, float y, float w, float h) : 
 	GLWPanel(x, y, w, h), scrollW_(x + w - 19, y + 4, h - 10, 0, 0),
-	drawScrollBar_(true), maxSee_(0)
+	drawScrollBar_(true), maxSee_(0), widgetHeight_(0.0f)
 {
 	scrollW_.setHandler(this);
 }

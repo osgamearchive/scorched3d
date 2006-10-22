@@ -74,7 +74,7 @@ public:
 	float *getData() { return hMap_; }
 
 protected:
-	static Vector nvec;
+	Vector nvec;
 	int width_, height_, minWidth_, minHeight_;
 	float *hMap_, *backupMap_;
 	float *minMap_, *maxMap_;

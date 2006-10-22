@@ -23,11 +23,11 @@
 #include <landscape/HeightMap.h>
 #include <common/Defines.h>
 
-Vector HeightMap::nvec(0.0f, 0.0f, 1.0f);
 static const int minMapShift = 3;
 
 HeightMap::HeightMap() : 
-	hMap_(0), normals_(0), minMap_(0), maxMap_(0), backupMap_(0)
+	hMap_(0), normals_(0), minMap_(0), maxMap_(0), backupMap_(0),
+	nvec(0.0f, 0.0f, 1.0f)
 {
 }
 
