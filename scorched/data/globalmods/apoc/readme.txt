@@ -46,6 +46,7 @@ Changes Since 4.0
         - Soldiers standing around the Nuclear Plants
         - Converted Igloos to targets
         - Increased max altitude of boids on city maps slightly
+        - Random satellite crashes on moon maps that drop cargo
         
     Other:
         - Various other small changes and fixes

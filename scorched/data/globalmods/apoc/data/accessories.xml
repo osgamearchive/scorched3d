@@ -1928,6 +1928,119 @@ radioactive fallout which travels downwind.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Satellite Crash</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponCenterPosition'>
+			<height>150</height>
+			<nextaction type='WeaponScatterPosition'>
+				<landheight>false</landheight>
+				<landonly>false</landonly>
+				<scatterpercentage>33</scatterpercentage>
+				<aimedweapon type='WeaponMulti'>
+					<subweapon1 type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>0</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>0</inaccuracy>
+						<aimedweapon type='WeaponRedirect'>
+							<habs>false</habs>
+							<vabs>false</vabs>
+							<hredirect>0</hredirect>
+							<vredirect>90</vredirect>
+							<nextaction type='WeaponVelocity'>
+								<abs>true</abs>
+								<velocitychange>0.6</velocitychange>
+								<aimedweapon type='WeaponProjectile'>
+									<flamestartsize>2.5</flamestartsize>
+									<flameendsize>5.0</flameendsize>
+									<flamelife>0.75</flamelife>
+									<projectilescale>4.0</projectilescale>
+									<projectilemodel type='MilkShape'>objects/satellite.txt</projectilemodel>
+									<spinspeed>0.1</spinspeed>
+									<collisionaction type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<hurtamount>0</hurtamount>
+											<deform>down</deform>
+											<size>8</size>
+											<explosionsound>none</explosionsound>
+											<explosiontexture>exp00</explosiontexture>
+										</subweapon1>
+										<subweapon2 type='WeaponExplosion'>
+											<nocreatedebris/>
+											<noluminance/>
+											<minlife>2</minlife>
+											<maxlife>4</maxlife>
+											<hurtamount>0</hurtamount>
+											<deform>none</deform>
+											<size>6</size>
+											<explosionsound>none</explosionsound>
+											<explosiontexture>cloud00-5</explosiontexture>
+										</subweapon2>
+										<subweapon3 type='WeaponAimedOver'>
+											<nowarheads>4</nowarheads>
+											<percentagemiss>0</percentagemiss>
+											<maxaimdistance>0</maxaimdistance>
+											<inaccuracy>0</inaccuracy>
+											<aimedweapon type='WeaponRandomChoice'>
+												<weaponchoice1>
+													<weight>10</weight>
+													<weapon type='WeaponRedirect'>
+														<habs>false</habs>
+														<vabs>false</vabs>
+														<hredirect>0</hredirect>
+														<vredirect>20</vredirect>
+														<nextaction type='WeaponVelocity'>
+															<abs>true</abs>
+															<velocitychange>0.3</velocitychange>
+															<aimedweapon type='WeaponProjectile'>
+																<flamelife>0.75</flamelife>
+																<enginesound>none</enginesound>
+																<projectilescale>1.25</projectilescale>
+																<projectilemodel type='MilkShape'>pwrcrate/pwrcrate.txt</projectilemodel>
+																<collisionaction type='WeaponMulti'>
+																	<subweapon1 type='WeaponExplosion'>
+																		<nocreatedebris/>
+																		<hurtamount>0</hurtamount>
+																		<deform>none</deform>
+																		<size>4</size>
+																		<explosiontexture>cloud00-5</explosiontexture>
+																		<explosionsound>none</explosionsound>
+																	</subweapon1>
+																	<subweapon2 type='WeaponAddTarget'>
+																		<name>Cargo</name>
+																		<modelscale>0.06</modelscale>
+																		<model type='MilkShape'>pwrcrate/pwrcrate.txt</model>
+																		<life>50</life>
+																		<shield>none</shield>
+																		<parachute>Parachute</parachute>
+																		<removeaction>CargoItems</removeaction>
+																		<driveovertodestroy>true</driveovertodestroy>
+																	</subweapon2>
+																</collisionaction>
+															</aimedweapon>
+														</nextaction>
+													</weapon>
+												</weaponchoice1>
+												<weaponchoice2>
+													<weight>10</weight>
+													<weapon type='WeaponNull'></weapon>
+												</weaponchoice2>
+											</aimedweapon>
+										</subweapon3>
+										<subweapon4 type='WeaponReference'>
+											<weapon>LgBldgDebris</weapon>
+										</subweapon4>
+									</collisionaction>
+								</aimedweapon>
+							</nextaction>
+						</aimedweapon>
+					</subweapon1>
+				</aimedweapon>
+			</nextaction>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>BurstBolt</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
@@ -12300,8 +12413,8 @@ on the map after a short delay.</description>
 	<accessory>
 		<name>Transporter</name>
 		<armslevel>4</armslevel>
-		<description>A transporter fires a marker projectile
-which you are teleported to after it lands.</description>
+		<description>The transporter can be used to teleport
+yourself to any spot on the landscape.</description>
 		<icon>teleport.bmp</icon>
 		<activationsound>misc/beamup.wav</activationsound>
 		<bundlesize>1</bundlesize>

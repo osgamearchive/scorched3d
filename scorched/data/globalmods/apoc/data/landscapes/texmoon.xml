@@ -34,5 +34,6 @@
 	<precipitation type="none"></precipitation>
 	<events>
 		<event>data/landscapes/eventsmeteor.xml</event>
+		<event>data/landscapes/eventsatellitecrash.xml</event>
 	</events>
 </tex>
