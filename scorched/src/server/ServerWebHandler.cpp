@@ -30,6 +30,7 @@
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsParam.h>
+#include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <coms/NetInterface.h>
 #include <tank/TankContainer.h>
@@ -208,6 +209,8 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 		);
 	}
 	fields["PLAYERS"] = players;
+	fields["NOPLAYERS"] = formatString("%i/%i", tanks.size(), 
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 
 	// Add entries
 	std::string add;
@@ -370,6 +373,26 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 			ServerCommon::killAll();
 		}
 	}
+
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	fields["PLAYERS"] = formatString("%i/%i", tanks.size(), 
+		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
+
+	unsigned int state = ScorchedServer::instance()->getGameState().getState();
+	fields["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
+
+	fields["ROUND"] = formatString("%i/%i",
+		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
+		ScorchedServer::instance()->getOptionsGame().getNoRounds());
+	fields["MOVE"] = formatString("%i/%i",
+		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
+		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
+	
+	fields["BI"] = formatString("%u", NetInterface::getBytesIn());
+	fields["BO"] = formatString("%u", NetInterface::getBytesOut());
+	fields["P"] = formatString("%u", NetInterface::getPings());
+	fields["C"] = formatString("%u", NetInterface::getConnects());
 
 	return ServerWebServer::getHtmlTemplate("game.html", fields, text);
 }

@@ -586,7 +586,7 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 2);
-	snprintf(buffer, 256, "BI:%i BO:%i P:%i C:%i",
+	snprintf(buffer, 256, "BI:%u BO:%u P:%u C:%u",
 		NetInterface::getBytesIn(),
 		NetInterface::getBytesOut(),
 		NetInterface::getPings(),
