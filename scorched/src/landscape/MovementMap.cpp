@@ -361,22 +361,40 @@ void MovementMap::movementTexture()
 	GLubyte *dest = newMap.getBits();
 	for (int y=0; y<newMap.getHeight(); y++)
 	{
+		int y1 = y + 1;
+		if (y1 == newMap.getHeight()) y1--;
+
 		int posY = int(float(y) / float(newMap.getHeight()) * height);
+		int posY1 = int(float(y1) / float(newMap.getWidth()) * width);
 		for (int x=0; x<newMap.getWidth(); x++)
 		{
-			int posX = int(float(x) / float(newMap.getWidth()) * width);
+			int x1 = x + 1;
+			if (x1 == newMap.getWidth()) x1--;
 
-			if (getEntry(posX, posY).type == eMovement)
+			int posX = int(float(x) / float(newMap.getWidth()) * width);
+			int posX1 = int(float(x1) / float(newMap.getWidth()) * width);
+
+			MovementMapEntryType type1 = getEntry(posX1, posY).type;
+			MovementMapEntryType type2 = getEntry(posX, posY).type;
+			MovementMapEntryType type3 = getEntry(posX, posY1).type;
+
+			if (type1 != type2 || type2 != type3)
 			{
-				dest[0] = (GLubyte) MIN(255, int(src[0]) * 2);
-				dest[1] = (GLubyte) MIN(255, int(src[1]) * 2);
-				dest[2] = (GLubyte) MIN(255, int(src[2]) * 2);
+				dest[0] = 255;
+				dest[1] = 0;
+				dest[2] = 0;
 			}
-			else
+			else if (type2 != eMovement)
 			{
 				dest[0] = src[0] / 4;
 				dest[1] = src[1] / 4;
 				dest[2] = src[2] / 4;
+			}
+			else
+			{
+				dest[0] = src[0];
+				dest[1] = src[1];
+				dest[2] = src[2];
 			}
 
 			src+=3;
@@ -403,23 +421,43 @@ void MovementMap::limitTexture(Vector &center, int limit)
 	GLubyte *dest = newMap.getBits();
 	for (int y=0; y<newMap.getHeight(); y++)
 	{
+		int y1 = y + 1;
+		if (y1 == newMap.getHeight()) y1--;
+
 		int posY = int(float(y) / float(newMap.getHeight()) * height);
+		int posY1 = int(float(y1) / float(newMap.getWidth()) * width);
 		for (int x=0; x<newMap.getWidth(); x++)
 		{
-			int posX = int(float(x) / float(newMap.getWidth()) * width);
+			int x1 = x + 1;
+			if (x1 == newMap.getWidth()) x1--;
 
-			Vector position(posX, posY);
-			if ((position - center).Magnitude() < limit)
+			int posX = int(float(x) / float(newMap.getWidth()) * width);
+			int posX1 = int(float(x1) / float(newMap.getWidth()) * width);
+
+			Vector position1(posX1, posY);
+			Vector position2(posX, posY);
+			Vector position3(posX, posY1);
+			bool in1 = (position1 - center).Magnitude() < limit;
+			bool in2 = (position2 - center).Magnitude() < limit;
+			bool in3 = (position3 - center).Magnitude() < limit;
+
+			if (in1 != in2 || in2 != in3)
 			{
-				dest[0] = (GLubyte) MIN(255, int(src[0]) * 2);
-				dest[1] = (GLubyte) MIN(255, int(src[1]) * 2);
-				dest[2] = (GLubyte) MIN(255, int(src[2]) * 2);
+				dest[0] = 255;
+				dest[1] = 0;
+				dest[2] = 0;
 			}
-			else
+			else if (!in2)
 			{
 				dest[0] = src[0] / 4;
 				dest[1] = src[1] / 4;
 				dest[2] = src[2] / 4;
+			}
+			else
+			{
+				dest[0] = src[0];
+				dest[1] = src[1];
+				dest[2] = src[2];
 			}
 
 			src+=3;
