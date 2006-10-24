@@ -88,8 +88,5 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 		}
 	}
 
-	// Check if we need to add any new bots
-	ServerNewGameState::checkBots();
-
 	return false;
 }

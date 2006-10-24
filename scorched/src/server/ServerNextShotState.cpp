@@ -22,7 +22,6 @@
 #include <server/TurnController.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerState.h>
-#include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerCommon.h>
 #include <server/ServerShotHolder.h>
 #include <tank/TankContainer.h>

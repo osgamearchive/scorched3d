@@ -33,6 +33,7 @@
 #include <wx/notebook.h>
 #include <wx/grid.h>
 #include <wx/listbox.h>
+#include <wx/sizer.h>
 #include <set>
 #include <stdio.h>
 #include "Display.cpp"

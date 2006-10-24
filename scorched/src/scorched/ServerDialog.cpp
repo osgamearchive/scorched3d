@@ -42,7 +42,6 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerLog.h>
-#include <server/ServerTooFewPlayersStimulus.h>
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/filedlg.h>
@@ -574,11 +573,12 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 	char buffer[256];
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	unsigned int state = ScorchedServer::instance()->getGameState().getState();
 	snprintf(buffer, 256, "%i/%i Players", tanks.size(), 
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 0);
 	frame->statusBar_->SetStatusText(
-		(ServerTooFewPlayersStimulus::instance()->acceptStateChange(0, 0, 0.0f)?
+		((state == ServerState::ServerStateTooFewPlayers)?
 			wxT("Not Playing"):wxT("Playing")), 1);
 	snprintf(buffer, 256, "Round %i/%i, %i/%i Moves",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
