@@ -255,8 +255,8 @@ void ScoreDialog::draw()
 			x_ + moneyLeft + 10, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"$");
 	GLWToolTip::instance()->addToolTip("Money", 
-		formatString("The amount of money this player has.\n%i/100 score awarded per dollar.",
-		ScorchedClient::instance()->getOptionsGame().getScorePerMoney()),
+		formatString("The amount of money this player has.\n%.1f score awarded per dollar.",
+		float(ScorchedClient::instance()->getOptionsGame().getScorePerMoney()) / 100.0f),
 		x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(
