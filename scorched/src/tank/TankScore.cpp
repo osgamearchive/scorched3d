@@ -43,6 +43,7 @@ TankScore::~TankScore()
 
 void TankScore::newMatch()
 {
+	resetTotalEarnedStats();
 	money_ = 0;
 	setMoney(context_.optionsGame->getStartMoney());
 	wins_ = 0;
@@ -139,17 +140,8 @@ time_t TankScore::getTimePlayedStat()
 	return res;
 }
 
-int TankScore::getTotalMoneyEarnedStat()
-{ 
-	int moneyEarned = totalMoneyEarned_;
-	totalMoneyEarned_ = 0;
-	return moneyEarned; 
-}
-
-int TankScore::getTotalScoreEarnedStat()
-{ 
-	int scoreEarned = totalScoreEarned_;
+void TankScore::resetTotalEarnedStats()
+{
 	totalScoreEarned_ = 0;
-	return scoreEarned; 
+	totalMoneyEarned_ = 0;
 }
-

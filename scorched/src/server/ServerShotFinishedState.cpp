@@ -237,6 +237,35 @@ bool ServerShotFinishedState::scoreWinners()
 		}
 	}
 
+	// Update the stats for the players before sending out the
+	// stats message
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+
+		// Money earned
+		int newMoney = tank->getScore().getTotalMoneyEarnedStat();
+		int scoreAdded = (newMoney * 
+			ScorchedServer::instance()->getOptionsGame().getScorePerMoneyEntry())
+			/ 100;
+		tank->getScore().setScore(tank->getScore().getScore() + scoreAdded);
+
+		// Ensure stats are uptodate
+		StatsLogger::instance()->updateStats(tank);
+
+		// Reset the totaled stats
+		tank->getScore().resetTotalEarnedStats();
+
+		// Get the new tanks rank
+		char *rank = StatsLogger::instance()->tankRank(tank);
+		tank->getScore().setStatsRank(rank);
+	}
+
 	// Check if this is the last round that will be played
 	bool overAllWinner = false;
 	if (ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() >=

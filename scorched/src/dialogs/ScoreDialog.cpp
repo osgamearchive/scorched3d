@@ -254,7 +254,9 @@ void ScoreDialog::draw()
 			12,
 			x_ + moneyLeft + 10, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"$");
-	GLWToolTip::instance()->addToolTip("Money", "The amount of money this player has.",
+	GLWToolTip::instance()->addToolTip("Money", 
+		formatString("The amount of money this player has.\n%i/100 score awarded per dollar.",
+		ScorchedClient::instance()->getOptionsGame().getScorePerMoney()),
 		x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -263,7 +265,7 @@ void ScoreDialog::draw()
 			x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Score");
 	GLWToolTip::instance()->addToolTip("Score", 
-		"The current score for this player.\nCalculated from the number of kills, wins and bonus score awards.",
+		"The current score for this player.\nCalculated from the number of kills, wins, money and bonus score awards.",
 		x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 80.0f, 16.0f);
 
 	GLWFont::instance()->getSmallPtFont()->draw(
@@ -429,10 +431,11 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 		strcat(name, current->getState().getSmallStateString());
 		strcat(name, ")");
 	}
-	name[26] = '\0'; // Limit length
 
 	if (current->getState().getSpectator())
 	{
+		name[50] = '\0'; // Limit length
+
 		// Print the name on the screen
 		GLWFont::instance()->getSmallPtFont()->draw(
 			current->getColor(),
@@ -448,6 +451,8 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 	}
 	else
 	{
+		name[26] = '\0'; // Limit length
+
 		GLState state(GLState::TEXTURE_ON);
 		glColor3f(1.0f, 1.0f, 1.0f);
 		current->getAvatar().getTexture()->draw();

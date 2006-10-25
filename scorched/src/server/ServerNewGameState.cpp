@@ -272,6 +272,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 							{
 								Logger::log( "Failed to update residual player info (read)");
 							}
+							// Don't get credited for the new game stats
+							tank->getScore().resetTotalEarnedStats();
 						}
 						else 
 						{

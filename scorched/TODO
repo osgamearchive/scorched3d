@@ -46,6 +46,7 @@ Fixed: Lowered the overall height of the glaciation map, and made tanks start hi
 Fixed: Skip all dialog should now not show negative skip times
 Fixed: Pressing tab to change weapon will not crash the client if they have no weapons
 
+Added: Score can be given from a percentage of the tanks money
 Added: More information about game state to the web management interface
 Added: Support for a backup list server to cope with server outages
 Added: New landscape event condition groupsize, allows actions to be fired when an objectgroup reaches a size

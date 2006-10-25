@@ -27,7 +27,6 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
-#include <common/StatsLogger.h>
 #include <common/OptionsTransient.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsPlayerStatusMessage.h>
@@ -217,25 +216,6 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 
 void ServerReadyState::finished()
 {
-	// Update the stats for the players before sending out the
-	// stats message
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-
-		// Ensure stats are uptodate
-		StatsLogger::instance()->updateStats(tank);
-
-		// Get the new tanks rank
-		char *rank = StatsLogger::instance()->tankRank(tank);
-		tank->getScore().setStatsRank(rank);
-	}
-
 	// Say we are waiting on no one
 	ComsPlayerStatusMessage statusMessage;
 	ComsMessageSender::sendToAllPlayingClients(statusMessage);	

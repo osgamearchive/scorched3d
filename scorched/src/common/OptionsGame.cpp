@@ -117,6 +117,8 @@ OptionsGame::OptionsGame() :
 		"The speed at which the physics engine will calculate steps", 0, 66, 20, 100, 1),
 	tutorial_(options_, "Tutorial",
 		"The tutorial to load for this game", 0, ""),
+	scorePerMoney_(options_, "ScorePerMoney",
+		"The amount of score awarded for 100 money units earned", 0, 0, 0, 100, 2),
 	scorePerAssist_(options_, "ScorePerAssist",
 		"The amount of score awarded for each kill assist", 0, 2, 0, 50, 1),
 	scorePerKill_(options_, "ScorePerKill",
@@ -280,7 +282,7 @@ OptionsGame::OptionsGame() :
 	depricatedAutoBallanceTeams_(options_, "AutoBallanceTeams",
 		"", OptionEntry::DataDepricated, true),
 	depricatedScoreType_(options_, "ScoreType",
-		"How the winnder is choosen", OptionEntry::DataDepricated, int(ScoreWins), scoreEnum)
+		"How the winnder is choosen", OptionEntry::DataDepricated, 0, scoreEnum)
 {
 	char buffer[128];
 	for (int i=0; i<24; i++)

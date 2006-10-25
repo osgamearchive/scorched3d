@@ -29,12 +29,6 @@ public:
 	OptionsGame();
 	virtual ~OptionsGame();
 
-	enum ScoreType
-	{
-		ScoreWins = 0,
-		ScoreKills = 1,
-		ScoreMoney = 2
-	};
 	enum TurnType
 	{
 		TurnSimultaneous = 0,
@@ -98,6 +92,9 @@ public:
 
 	int getPhysicsFPS() { return physicsFPS_; }
 	OptionEntryInt &getPhysicsFPSEntry() { return physicsFPS_; }
+
+	int getScorePerMoney() { return scorePerMoney_; }
+	OptionEntryInt &getScorePerMoneyEntry() { return scorePerMoney_; }
 
 	int getScorePerAssist() { return scorePerAssist_; }
 	OptionEntryInt &getScorePerAssistEntry() { return scorePerAssist_; }
@@ -366,6 +363,7 @@ protected:
 	OptionEntryBoundedInt moneyPerHitPoint_;
 	OptionEntryBoundedInt moneyPerRound_;
 	OptionEntryBool moneyPerHealthPoint_;
+	OptionEntryBoundedInt scorePerMoney_;
 	OptionEntryBoundedInt scorePerAssist_;
 	OptionEntryBoundedInt scorePerKill_;
 	OptionEntryBoundedInt scoreWonForRound_;
