@@ -71,9 +71,9 @@ create table if not exists scorched3d_statssource (
 	seriesid INTEGER,
 	
 	PRIMARY KEY (serverid, prefixid, seriesid),
-	FOREIGN KEY (serverid) REFERENCES scorched3d_servers(serverid),
-	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid),
-	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid)
+	FOREIGN KEY (serverid) REFERENCES scorched3d_servers(serverid) on delete cascade,
+	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid) on delete cascade,
+	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid) on delete cascade
 );
 
 create table if not exists scorched3d_stats (
@@ -99,9 +99,9 @@ create table if not exists scorched3d_stats (
 	skill INTEGER NOT NULL DEFAULT 1000,
 	
 	PRIMARY KEY (playerid, prefixid, seriesid),
-	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid),
-	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid),
-	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid)
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid) on delete cascade,
+	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid) on delete cascade,
+	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid) on delete cascade
 );
 
 create table if not exists scorched3d_weapons (
@@ -121,8 +121,8 @@ create table if not exists scorched3d_weapons (
 	deathkills INTEGER NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (weaponid, prefixid, seriesid),
-	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid),
-	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid)
+	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid) on delete cascade,
+	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid) on delete cascade
 );
 
 create table if not exists scorched3d_events (
@@ -137,10 +137,10 @@ create table if not exists scorched3d_events (
 	eventtime DATETIME,
 	
 	PRIMARY KEY (eventid),
-	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid),
-	FOREIGN KEY (eventtype) REFERENCES scorched3d_eventtypes(eventtype),
-	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid),
-	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid)
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid) on delete cascade,
+	FOREIGN KEY (eventtype) REFERENCES scorched3d_eventtypes(eventtype) on delete cascade,
+	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid) on delete cascade,
+	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid) on delete cascade
 );
 
 create table if not exists scorched3d_names (
@@ -150,7 +150,7 @@ create table if not exists scorched3d_names (
 	count INTEGER NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (playerid, name),
-	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid) on delete cascade
 );
 
 create table if not exists scorched3d_ipaddress (
@@ -160,7 +160,7 @@ create table if not exists scorched3d_ipaddress (
 	count INTEGER NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (playerid, ipaddress),
-	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid)
+	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid) on delete cascade
 );
 
 create table if not exists scorched3d_binary (
