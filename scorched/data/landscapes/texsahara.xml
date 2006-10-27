@@ -12,7 +12,7 @@
 	<skysunxy>110</skysunxy>
 	<skysunyz>15</skysunyz>
 	<skyambience><A>0.4</A><B>0.4</B><C>0.4</C></skyambience>
-	<skydiffuse><A>1.0</A><B>1.0</B><C>1.0</C></skydiffuse>
+	<skydiffuse><A>0.7</A><B>0.7</B><C>0.7</C></skydiffuse>
 	<suncolor><A>0.4</A><B>0.4</B><C>0.4</C></suncolor>
 	<suntexture>data/textures/glow1.bmp</suntexture>
 	<border type="water">
