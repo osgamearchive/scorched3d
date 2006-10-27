@@ -192,6 +192,10 @@ scorched3d_SOURCES = \
 	../tankgraph/TargetRendererImplTank.h \
 	../tankgraph/TargetRendererImplTarget.cpp \
 	../tankgraph/TargetRendererImplTarget.h \
+	../tankgraph/TargetRendererImplTargetModel.cpp \
+	../tankgraph/TargetRendererImplTargetModel.h \
+	../tankgraph/TargetRendererImplTargetTree.cpp \
+	../tankgraph/TargetRendererImplTargetTree.h \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
 	../common/Clock.cpp \
@@ -239,6 +243,8 @@ scorched3d_SOURCES = \
 	../common/OptionsDisplay.h \
 	../common/OptionsGame.cpp \
 	../common/OptionsGame.h \
+	../common/OptionsMasterListServer.cpp \
+	../common/OptionsMasterListServer.h \
 	../common/OptionsParam.cpp \
 	../common/OptionsParam.h \
 	../common/OptionsTransient.cpp \
@@ -261,6 +267,8 @@ scorched3d_SOURCES = \
 	../common/Triangle.h \
 	../common/Vector.cpp \
 	../common/Vector.h \
+	../common/Vector4.cpp \
+	../common/Vector4.h \
 	../common/VectorLib.cpp \
 	../common/VectorLib.h \
 	../common/snprintf.c \
@@ -529,16 +537,20 @@ scorched3d_SOURCES = \
 	../weapons/EconomyNone.h \
 	../weapons/EconomyStore.cpp \
 	../weapons/EconomyStore.h \
-	../weapons/Fuel.cpp \
-	../weapons/Fuel.h \
 	../weapons/Parachute.cpp \
 	../weapons/Parachute.h \
 	../weapons/Shield.cpp \
 	../weapons/Shield.h \
-	../weapons/ShieldMag.cpp \
-	../weapons/ShieldMag.h \
-	../weapons/ShieldReflective.cpp \
-	../weapons/ShieldReflective.h \
+	../weapons/ShieldRound.cpp \
+	../weapons/ShieldRound.h \
+	../weapons/ShieldRoundMag.cpp \
+	../weapons/ShieldRoundMag.h \
+	../weapons/ShieldRoundReflective.cpp \
+	../weapons/ShieldRoundReflective.h \
+	../weapons/ShieldSquare.cpp \
+	../weapons/ShieldSquare.h \
+	../weapons/ShieldSquareReflective.cpp \
+	../weapons/ShieldSquareReflective.h \
 	../weapons/Weapon.cpp \
 	../weapons/Weapon.h \
 	../weapons/WeaponAddTarget.cpp \
@@ -579,6 +591,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponLightning.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
+	../weapons/WeaponMoveTank.cpp \
+	../weapons/WeaponMoveTank.h \
 	../weapons/WeaponMulti.cpp \
 	../weapons/WeaponMulti.h \
 	../weapons/WeaponMuzzle.cpp \
@@ -603,6 +617,8 @@ scorched3d_SOURCES = \
 	../weapons/WeaponScatterDirection.h \
 	../weapons/WeaponScatterPosition.cpp \
 	../weapons/WeaponScatterPosition.h \
+	../weapons/WeaponSelectPosition.cpp \
+	../weapons/WeaponSelectPosition.h \
 	../weapons/WeaponSkyFlash.cpp \
 	../weapons/WeaponSkyFlash.h \
 	../weapons/WeaponSound.cpp \
@@ -611,10 +627,14 @@ scorched3d_SOURCES = \
 	../weapons/WeaponTankPosition.h \
 	../weapons/WeaponTankVelocity.cpp \
 	../weapons/WeaponTankVelocity.h \
+	../weapons/WeaponTeamAction.cpp \
+	../weapons/WeaponTeamAction.h \
 	../weapons/WeaponTeleport.cpp \
 	../weapons/WeaponTeleport.h \
 	../weapons/WeaponTranslate.cpp \
 	../weapons/WeaponTranslate.h \
+	../weapons/WeaponTypeAction.cpp \
+	../weapons/WeaponTypeAction.h \
 	../weapons/WeaponVelocity.cpp \
 	../weapons/WeaponVelocity.h \
 	../ode/array.cpp \
@@ -622,6 +642,7 @@ scorched3d_SOURCES = \
 	../ode/collision.h \
 	../ode/collision_kernel.cpp \
 	../ode/collision_kernel.h \
+	../ode/collision_quadtreespace.cpp \
 	../ode/collision_space.cpp \
 	../ode/collision_space.h \
 	../ode/collision_space_internal.h \
@@ -836,6 +857,8 @@ scorched3d_SOURCES = \
 	../client/ClientKeepAliveSender.h \
 	../client/ClientLastChanceHandler.cpp \
 	../client/ClientLastChanceHandler.h \
+	../client/ClientLinesHandler.cpp \
+	../client/ClientLinesHandler.h \
 	../client/ClientLoadPlayersState.cpp \
 	../client/ClientLoadPlayersState.h \
 	../client/ClientMain.cpp \
@@ -936,6 +959,8 @@ scorched3d_SOURCES = \
 	../server/ServerInitializeHandler.h \
 	../server/ServerKeepAliveHandler.cpp \
 	../server/ServerKeepAliveHandler.h \
+	../server/ServerLinesHandler.cpp \
+	../server/ServerLinesHandler.h \
 	../server/ServerLog.cpp \
 	../server/ServerLog.h \
 	../server/ServerMain.cpp \
@@ -1125,6 +1150,8 @@ scorched3d_SOURCES = \
 	../target/TargetDamageCalc.h \
 	../target/TargetDefinition.cpp \
 	../target/TargetDefinition.h \
+	../target/TargetGroupEntry.cpp \
+	../target/TargetGroupEntry.h \
 	../target/TargetLife.cpp \
 	../target/TargetLife.h \
 	../target/TargetParachute.cpp \
@@ -1224,6 +1251,8 @@ scorched3d_SOURCES = \
 	../coms/ComsLastChanceMessage.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
+	../coms/ComsLinesMessage.cpp \
+	../coms/ComsLinesMessage.h \
 	../coms/ComsMessage.cpp \
 	../coms/ComsMessage.h \
 	../coms/ComsMessageHandler.cpp \

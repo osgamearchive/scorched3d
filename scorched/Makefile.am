@@ -409,7 +409,9 @@ scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/dat
 	data/globalmods/apoc/data/accessories/objects/acidpod.bmp \
 	data/globalmods/apoc/data/accessories/objects/acidpod.txt \
 	data/globalmods/apoc/data/accessories/objects/fleshpod.bmp \
-	data/globalmods/apoc/data/accessories/objects/fleshpod.txt
+	data/globalmods/apoc/data/accessories/objects/fleshpod.txt \
+	data/globalmods/apoc/data/accessories/objects/satellite.bmp \
+	data/globalmods/apoc/data/accessories/objects/satellite.txt
 scorcheddataglobalmodsapocdataaccessoriesoffice3dir = ${datadir}/data/globalmods/apoc/data/accessories/office3
 scorcheddataglobalmodsapocdataaccessoriesoffice3_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesofficeplaza1dir = ${datadir}/data/globalmods/apoc/data/accessories/officeplaza1
@@ -595,7 +597,8 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/texchina_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texhell.xml \
 	data/globalmods/apoc/data/landscapes/texice_bldg.xml \
-	data/globalmods/apoc/data/landscapes/texice.xml
+	data/globalmods/apoc/data/landscapes/texice.xml \
+	data/globalmods/apoc/data/landscapes/eventsatellitecrash.xml
 scorcheddataglobalmodsapocdatalandscapesmasksdir = ${datadir}/data/globalmods/apoc/data/landscapes/masks
 scorcheddataglobalmodsapocdatalandscapesmasks_DATA = data/globalmods/apoc/data/landscapes/masks/anywhere.bmp \
 	data/globalmods/apoc/data/landscapes/masks/center-square.bmp \
@@ -845,7 +848,9 @@ scorcheddatahtmlserver_DATA = data/html/server/banned.html \
 	data/html/server/player.html \
 	data/html/server/server.css \
 	data/html/server/settings.html \
-	data/html/server/talk.html
+	data/html/server/talk.html \
+	data/html/server/message.html \
+	data/html/server/server.html
 scorcheddatalandscapesdir = ${datadir}/data/landscapes
 scorcheddatalandscapes_DATA = data/landscapes/ambientsoundjet.xml \
 	data/landscapes/ambientsoundjungle.xml \
@@ -952,7 +957,8 @@ scorcheddatalandscapes_DATA = data/landscapes/ambientsoundjet.xml \
 	data/landscapes/textuscan.xml \
 	data/landscapes/texvulcano.xml \
 	data/landscapes/valley-mask.bmp \
-	data/landscapes/valley-pic.bmp
+	data/landscapes/valley-pic.bmp \
+	data/landscapes/eventstest.xml
 scorcheddatameshesdir = ${datadir}/data/meshes
 scorcheddatameshes_DATA = data/meshes/autoaim.ase \
 	data/meshes/bird.txt \
@@ -1125,7 +1131,11 @@ scorcheddatatanks_DATA = data/tanks/apache.ase \
 	data/tanks/wespe.ase \
 	data/tanks/wespe.bmp \
 	data/tanks/zsu-24-1.ase \
-	data/tanks/zsu-24-1.bmp
+	data/tanks/zsu-24-1.bmp \
+	data/tanks/tracksh.bmp \
+	data/tanks/trackshv.bmp \
+	data/tanks/tracksv.bmp \
+	data/tanks/tracksvh.bmp
 scorcheddatatanksCF104dir = ${datadir}/data/tanks/CF-104
 scorcheddatatanksCF104_DATA = data/tanks/CF-104/104.bmp \
 	data/tanks/CF-104/104.txt
