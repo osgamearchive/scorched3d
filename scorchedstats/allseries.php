@@ -3,19 +3,6 @@ include('statsheader.php');
 include('conversionfunctions.php')
 ?>
 
-<table width="790" border="0" align="center">
-<tr align=center>
-<td>
-<font size=+2><b><a href="overall37.php">View stats for Scorched3D - 37</a></b></font><br>
-<b>Scorched3D (Player Stats, No Bots)</b><br>
-<font size=-1>
-2004-03-28 13:48 to 2004-12-04 00:00:00
-</font>
-</td>
-</tr>
-</table>
-<br>
-
 <?
 $query=" select seriesid, rounds, games, started, ended, name  from scorched3d_series";
 $seriesresult = mysqlQuery($query) or die("Query 1 failed : " . mysql_error());

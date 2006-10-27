@@ -12,7 +12,7 @@
         }
 ?>
 
-<a href="/phpBB2/viewtopic.php?p=2935#2935">
+<a href="http://www.scorched3d.co.uk/wiki/index.php/FAQ#I_appear_in_the_stats_more_than_once">
 Why do I appear in the stats more than once?</a>
 </p>
 
