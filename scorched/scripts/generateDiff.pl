@@ -8,62 +8,80 @@ if (!defined $ARGV[0])
 
 my ($dir1, $dir2) = @ARGV;
 
-checkDir($dir1, $dir2);
+open(OUT, ">diff.txt") || die "ERROR: Cannot open diff.txt";
+
+checkDir($dir1, ".", $dir2, ".");
 
 sub checkDir()
 {
-	my ($dir1, $dir2) = @_;
+	my ($dir1, $offset1, $dir2, $offset2) = @_;
+
+	my $actualdir1 = $dir1."\\".$offset1;
+	my $actualdir2 = $dir2."\\".$offset2;
 
 	# Src dir
-	opendir(DIR, $dir1) || die "ERROR";
+	opendir(DIR, $actualdir1) || die "ERROR $actualdir1";
 	my @files = readdir(DIR);
 	closedir(DIR);
 
+	if (! -d $actualdir2)
+	{
+		# New Dir
+		print "New Dir : $actualdir2\n";
+		print OUT "CreateDirectory \"\$INSTDIR\\$offset2\"\n";
+	}
+
 	foreach my $file (@files)
 	{
-		my $file1 = $dir1."\\".$file;
-		my $file2 = $dir2."\\".$file;
+		my $file1 = $actualdir1."\\".$file;
+		my $file2 = $actualdir2."\\".$file;
+		my $offfile = $offset1."\\".$file;
 
 		if (-f $file1)
 		{
 			if (! -f $file2)
-			{
+			{			
 				# New file
-				print "New : $file1\n";
+				print "New : $offfile\n";
+				print OUT "File \"/oname=\$INSTDIR\\$offfile\" \"$offfile\" \n";
 			}
 			else
 			{
 				if (compare($file1, $file2) != 0)
 				{
 					# Different file
-					print "Diff : $file1\n";
+					print "Diff : $offfile\n";
+					print OUT "File \"/oname=\$INSTDIR\\$offfile\" \"$offfile\" \n";
 				}
 			}
 		}
 		elsif (-d $file1 && $file !~ /^\./)
 		{
-			checkDir($file1, $file2);
+			checkDir($dir1, $offset1."\\".$file, $dir2, $offset2."\\".$file);
 		}
 	}
 	
-	if (-d $dir2)
+	if (-d $actualdir2)
 	{
 		# Dest dir
-		opendir(DIR, $dir2) || die "ERROR";
+		opendir(DIR, $actualdir2) || die "ERROR $actualdir2";
 		my @files = readdir(DIR);
 		closedir(DIR);
 
 		foreach my $file (@files)
 		{
-			my $file1 = $dir1."\\".$file;
-			my $file2 = $dir2."\\".$file;
+			my $file1 = $actualdir1."\\".$file;
+			my $file2 = $actualdir2."\\".$file;
+			my $offfile = $offset2."\\".$file;
 
 			if (-f $file2)
 			{
 				if (! -f $file1)
 				{
 					# Old file
-					print "Old : $file2\n";
+
+					print "Old : $offfile\n";
+					print OUT "Delete \"\$INSTDIR\\$offfile\" \n";
 				}
 			}
 			elsif (-d $file2 && $file !~ /^\./)
@@ -71,7 +89,8 @@ sub checkDir()
 				if (! -d $file1)
 				{
 					# Old dir
-					print "Old Dir : $file2\n";				
+					print "Old Dir : $offfile\n";
+					print OUT "RMDir /r \"\$INSTDIR\\$offfile\" \n";
 				}
 			}
 		}
