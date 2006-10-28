@@ -149,6 +149,13 @@ void GLWWindView::drawDisplay()
 		GLState texState(GLState::TEXTURE_OFF);
 		if (ScorchedClient::instance()->getOptionsTransient().getWindOn())
 		{
+			Vector4 sunPosition(-100.0f, 100.0f, 400.0f, 1.0f);
+			Vector4 sunDiffuse(0.9f, 0.9f, 0.9f, 1.0f);
+			Vector4 sunAmbient(0.4f, 0.4f, 0.4f, 1.0f);
+			glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
+			glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
+			glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
+
 			glTranslatef(0.0f, 0.0f, 20.0f);
 			glScalef(scale, scale, scale);
 
