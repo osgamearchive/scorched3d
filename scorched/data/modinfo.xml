@@ -4,7 +4,7 @@
 One or more people play against themselves or the computer.</description>
 		<icon>data/windows/tank2.bmp</icon>
 		<url>http://www.scorched3d.co.uk</url>
-		<protocolversion>cf</protocolversion>
+		<protocolversion>ck</protocolversion>
 	</main>
 	<game>
 		<description>Start an target practice game.
