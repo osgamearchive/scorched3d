@@ -70,7 +70,6 @@ scorcheddata_DATA = data/accessories.xml \
 	data/autoexec.xml \
 	data/fastestdisplay.xml \
 	data/keys.xml \
-	data/landscapes.xml \
 	data/modinfo.xml \
 	data/mysql.xml \
 	data/pgprunetables.sql \
@@ -96,7 +95,8 @@ scorcheddata_DATA = data/accessories.xml \
 	data/textureset.xml \
 	data/tips.txt \
 	data/tutorial.xml \
-	data/windows.xml
+	data/windows.xml \
+	data/landscapes.xml
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb.ase \
 	data/accessories/clusterbomb2.ase \
