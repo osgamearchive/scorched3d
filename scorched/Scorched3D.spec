@@ -1,5 +1,5 @@
 Name: scorched3d
-Version: 40.1
+Version: 40.1b
 Release: 1
 License: GPL
 Group: Amusements/Games

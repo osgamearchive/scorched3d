@@ -148,7 +148,7 @@ int ConnectDialog::tryRemoteConnection(void *inParams)
 		connect(host, port))
 	{
 		IPaddress address;
-		if (SDLNet_ResolveHost(&address, host, 0) != 0)
+		if (SDLNet_ResolveHost(&address, host, 0) == 0)
 		{
 			unsigned int ipAddress = SDLNet_Read32(&address.host);
 			dialog->uniqueId_ = dialog->idStore_.getUniqueId(ipAddress);
