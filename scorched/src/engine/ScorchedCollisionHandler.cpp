@@ -544,7 +544,8 @@ void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2,
 		dContactGeom *contacts, int noContacts, double bounceFactor)
 {
 	dContact contact;
-	contact.surface.mode = dContactBounce;// | dContactSoftCFM;
+	if (bounceFactor != 0.0f) contact.surface.mode = dContactBounce;
+	else contact.surface.mode = dContactSoftCFM;
 	contact.surface.mu = dInfinity;
 	contact.surface.mu2 = 0;
 	contact.surface.bounce = bounceFactor;

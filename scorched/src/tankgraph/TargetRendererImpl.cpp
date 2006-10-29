@@ -229,8 +229,8 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 					position,
 					color,
 					1.0f - shieldHit,
-					round->getActualRadius(), 
-					round->getActualRadius(),
+					round->getActualRadius() * 0.95f, 
+					round->getActualRadius() * 0.95f,
 					true, // Additive
 					0); // texcoord
 			}

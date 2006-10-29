@@ -59,11 +59,11 @@ bool PhysicsEngine::create()
 
 
 	typedef dReal dVector3[4];
-	targetSpace_ = dQuadTreeSpaceCreate(
+	targetSpace_ = dHashSpaceCreate(0);/*dQuadTreeSpaceCreate(
 		0, // Existing space id
 		staticCenter, // Center
 		staticSize, // size,
-		5); // Depth
+		5); // Depth*/
 	tankSpace_ = dHashSpaceCreate(0);
 	particleSpace_ = dHashSpaceCreate(0);
 	groundSpace_ = dHashSpaceCreate(0);
