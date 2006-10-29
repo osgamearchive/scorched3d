@@ -2,7 +2,7 @@ SUBDIRS = src
 
 docdir = @docdir@
 
-scorcheddocumentationdir = ${docdir}/documentation
+scorcheddocumentationdir = ${docdir}
 scorcheddocumentation_DATA = documentation/README-EXPAT.txt \
 	documentation/README-ODE.txt \
 	documentation/README-SDL.txt \
@@ -11,7 +11,7 @@ scorcheddocumentation_DATA = documentation/README-EXPAT.txt \
 	documentation/README-apoc.txt \
 	documentation/README-wxwindows.txt \
 	documentation/README-zlib.txt
-scorcheddocumentationhtmldir = ${docdir}/documentation/html
+scorcheddocumentationhtmldir = ${docdir}/html
 scorcheddocumentationhtml_DATA = documentation/html/accessories.html \
 	documentation/html/aiming.html \
 	documentation/html/camera.html \
@@ -26,11 +26,11 @@ scorcheddocumentationhtml_DATA = documentation/html/accessories.html \
 	documentation/html/quickstart.html \
 	documentation/html/screen.html \
 	documentation/html/serverfiles.html
-scorcheddocumentationhtmlbuttonsdir = ${docdir}/documentation/html/buttons
+scorcheddocumentationhtmlbuttonsdir = ${docdir}/html/buttons
 scorcheddocumentationhtmlbuttons_DATA = documentation/html/buttons/donate.gif \
 	documentation/html/buttons/dummies.gif \
 	documentation/html/buttons/scorchedlarge2.gif
-scorcheddocumentationhtmlnumbersdir = ${docdir}/documentation/html/numbers
+scorcheddocumentationhtmlnumbersdir = ${docdir}/html/numbers
 scorcheddocumentationhtmlnumbers_DATA = documentation/html/numbers/number-1.gif \
 	documentation/html/numbers/number-2.gif \
 	documentation/html/numbers/number-3.gif \
@@ -40,7 +40,7 @@ scorcheddocumentationhtmlnumbers_DATA = documentation/html/numbers/number-1.gif 
 	documentation/html/numbers/number-7.gif \
 	documentation/html/numbers/number-8.gif \
 	documentation/html/numbers/number-9.gif
-scorcheddocumentationhtmlscreenshotsdir = ${docdir}/documentation/html/screenshots
+scorcheddocumentationhtmlscreenshotsdir = ${docdir}/html/screenshots
 scorcheddocumentationhtmlscreenshots_DATA = documentation/html/screenshots/aiming.gif \
 	documentation/html/screenshots/3ds.gif \
 	documentation/html/screenshots/indicators.gif \

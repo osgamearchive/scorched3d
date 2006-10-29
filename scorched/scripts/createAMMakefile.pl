@@ -25,7 +25,7 @@ for (my $i=0; $i<=$#files; $i++)
 
 sub locatefiles
 {
-	my ($dir, $basetypedir) = @_;
+	my ($dir, $basetypedir, $destdir) = @_;
 	opendir(DIR, "../$dir") || die "ERROR: DIR ../$dir";
 	my @files = grep { !/^\./ && !/CVS/ } readdir(DIR);
 	closedir(DIR);
@@ -37,7 +37,7 @@ sub locatefiles
 	{
 		if (-d "../$dir/$file") 
 		{
-			push @newdirs, "$dir/$file";
+			push @newdirs, "$file";
 		}
 		else
 		{
@@ -48,19 +48,19 @@ sub locatefiles
 	my $newdir = $dir;
 	$newdir =~ s!/!!g;
 	$newdir =~ s!-!!g;
-	print CLIENT "scorched${newdir}dir = $basetypedir/$dir\n";
+	print CLIENT "scorched${newdir}dir = $destdir\n";
 	print CLIENT "scorched${newdir}_DATA = " . join(" \\\n\t", @newfiles) . "\n";
 	foreach $file (@newdirs)
 	{
-		locatefiles($file, $basetypedir);
+		locatefiles("$dir/$file", $basetypedir, "$destdir/$file");
 	}
 }
 
 open (CLIENT, ">../Makefile.am") || die "ERROR: Failed to write to ../Makefile.am";
 print CLIENT "SUBDIRS = src\n\n";
 print CLIENT "docdir = \@docdir\@\n\n";
-locatefiles("documentation", "\$\{docdir\}");
-locatefiles("data", "\$\{datadir\}");
+locatefiles("documentation", "\$\{docdir\}", "\$\{docdir\}");
+locatefiles("data", "\$\{datadir\}", "\$\{datadir\}/data");
 close(CLIENT);
 
 my @clientfiles = getFiles("../src/scorched/scorched.vcproj");
