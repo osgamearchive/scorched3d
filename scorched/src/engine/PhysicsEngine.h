@@ -23,6 +23,7 @@
 
 #include <ode/ode.h>
 #include <common/Vector.h>
+#include <list>
 
 class PhysicsEngineCollision
 {
@@ -48,6 +49,8 @@ public:
 	dSpaceID &getGroundSpace() { return groundSpace_; }
 	dJointGroupID &getContactGroup() { return contactgroup_; }
 
+	void destroyGeom(dGeomID geom); // Dispose of a geom outside collision loop
+
 	virtual void stepSimulation(float frameTime);
 
 protected:
@@ -58,6 +61,7 @@ protected:
 	dSpaceID particleSpace_;
 	dSpaceID groundSpace_;
 	dJointGroupID contactgroup_;
+	std::list<dGeomID> deadGeoms_;
 	Vector wind_;
 	bool create();
 	void destroy();

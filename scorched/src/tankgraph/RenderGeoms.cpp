@@ -43,10 +43,9 @@ void RenderGeoms::draw(const unsigned state)
 	if (!OptionsDisplay::instance()->getDrawCollisionGeoms()) return;
 
 	GLState glState(GLState::TEXTURE_OFF);
-	glColor3f(1.0f, 1.0f, 1.0f);
 
-	//drawSpace(ScorchedClient::instance()->getActionController().
-	//	getPhysics().getTargetSpace());
+	drawSpace(ScorchedClient::instance()->getActionController().
+		getPhysics().getTargetSpace());
 	drawSpace(ScorchedClient::instance()->getActionController().
 		getPhysics().getTankSpace());
 	drawSpace(ScorchedClient::instance()->getActionController().
@@ -60,7 +59,8 @@ void RenderGeoms::drawSpace(dSpaceID space)
 	for (int i=0; i<geoms; i++)
 	{
 		dGeomID geom = dSpaceGetGeom(space, i);
-		if (dGeomIsEnabled(geom) != 1) continue;
+		if (dGeomIsEnabled(geom) != 1) glColor3f(1.0f, 0.0f, 0.0f);
+		else glColor3f(1.0f, 1.0f, 1.0f);
 
 		int geomClass = dGeomGetClass(geom);
 		if (geomClass == dSphereClass)

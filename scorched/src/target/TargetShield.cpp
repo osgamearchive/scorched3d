@@ -38,7 +38,8 @@ TargetShield::TargetShield(ScorchedContext &context,
 
 TargetShield::~TargetShield()
 {
-	if (shieldGeom_) dGeomDestroy(shieldGeom_);
+	if (shieldGeom_) context_.actionController->getPhysics().destroyGeom(shieldGeom_);
+	shieldGeom_ = 0;
 }
 
 void TargetShield::newGame()
@@ -54,7 +55,7 @@ void TargetShield::setPosition(Vector &pos)
 
 void TargetShield::setCurrentShield(Accessory *sh)
 {
-	if (shieldGeom_) dGeomDestroy(shieldGeom_);
+	if (shieldGeom_) context_.actionController->getPhysics().destroyGeom(shieldGeom_);
 	shieldGeom_ = 0;
 
 	if (sh)

@@ -39,7 +39,8 @@ TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 
 TargetLife::~TargetLife()
 {
-	if (targetGeom_) dGeomDestroy(targetGeom_);
+	if (targetGeom_) context_.actionController->getPhysics().destroyGeom(targetGeom_);
+	targetGeom_ = 0;
 }
 
 void TargetLife::newGame()
@@ -115,7 +116,8 @@ void TargetLife::setPosition(Vector &pos)
 
 void TargetLife::setBoundingSphere(bool sphereGeom)
 { 
-	if (targetGeom_) dGeomDestroy(targetGeom_);
+	if (targetGeom_) context_.actionController->getPhysics().destroyGeom(targetGeom_);
+	targetGeom_ = 0;
 	sphereGeom_ = sphereGeom; 
 
 	dSpaceID spaceId = context_.actionController->getPhysics().getTargetSpace();

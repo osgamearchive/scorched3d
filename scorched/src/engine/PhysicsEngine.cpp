@@ -150,5 +150,18 @@ void PhysicsEngine::stepSimulation(float stepSize)
 
 	// remove all contact joints
 	dJointGroupEmpty(contactgroup_);
+
+	// Destroy all dead geoms
+	while (!deadGeoms_.empty())
+	{
+		dGeomID geom = deadGeoms_.back();
+		deadGeoms_.pop_back();
+		dGeomDestroy(geom);
+	}
 }
 
+void PhysicsEngine::destroyGeom(dGeomID geom)
+{
+	dGeomDisable(geom);
+	deadGeoms_.push_back(geom);
+}
