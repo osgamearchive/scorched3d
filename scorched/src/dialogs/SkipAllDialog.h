@@ -37,7 +37,7 @@ public:
 	virtual void display();
 
 protected:
-	unsigned int cancelId_;
+	unsigned int cancelId_, nowId_;
 	GLWLabel *label_;
 	unsigned int startTime_;
 	bool skipAll_;

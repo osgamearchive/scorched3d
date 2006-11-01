@@ -48,19 +48,28 @@ ConnectDialog::ConnectDialog() :
 	GLWWindow("Connect", -100.0f, 10.0f, 20.0f, 20.0f, eNoDraw | eNoTitle,
 		"Connection dialog"),
 	connectionState_(eWaiting),
-	tryCount_(0), lastTime_(0)
+	tryCount_(0), lastTime_(0), idStore_(0)
 {
-	// Get the unique id
-	if (!idStore_.loadStore())
-	{
-		LoggerInfo info (LoggerInfo::TypeNormal, 
-			"Failed to load id store", "");
-		LogDialog::instance()->logMessage(info);
-	}
 }
 
 ConnectDialog::~ConnectDialog()
 {
+}
+
+UniqueIdStore &ConnectDialog::getIdStore()
+{
+	if (!idStore_)
+	{
+		idStore_ = new UniqueIdStore();
+		// Get the unique id
+		if (!idStore_->loadStore())
+		{
+			LoggerInfo info (LoggerInfo::TypeNormal, 
+				"Failed to load id store", "");
+			LogDialog::instance()->logMessage(info);
+		}
+	}
+	return *idStore_;
 }
 
 void ConnectDialog::simulate(float frameTime)
@@ -147,11 +156,14 @@ int ConnectDialog::tryRemoteConnection(void *inParams)
 	if (ScorchedClient::instance()->getNetInterface().
 		connect(host, port))
 	{
-		IPaddress address;
-		if (SDLNet_ResolveHost(&address, host, 0) == 0)
+		if (OptionsParam::instance()->getConnectedToServer())
 		{
-			unsigned int ipAddress = SDLNet_Read32(&address.host);
-			dialog->uniqueId_ = dialog->idStore_.getUniqueId(ipAddress);
+			IPaddress address;
+			if (SDLNet_ResolveHost(&address, host, 0) == 0)
+			{
+				unsigned int ipAddress = SDLNet_Read32(&address.host);
+				dialog->uniqueId_ = dialog->getIdStore().getUniqueId(ipAddress);
+			}
 		}
 	}
 

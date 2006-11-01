@@ -33,7 +33,7 @@ public:
 	// Inherited from GLWWindow
 	virtual void simulate(float frameTime);
 
-	UniqueIdStore &getIdStore() { return idStore_; }
+	UniqueIdStore &getIdStore();
 
 protected:
 	enum ConnectState
@@ -51,7 +51,7 @@ protected:
 	};
 
 	static ConnectDialog *instance_;
-	UniqueIdStore idStore_;
+	UniqueIdStore *idStore_;
 	int tryCount_;
 	ConnectState connectionState_;
 	time_t lastTime_;

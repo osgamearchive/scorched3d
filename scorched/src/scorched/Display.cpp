@@ -306,15 +306,12 @@ static void createIdentControls(wxWindow *parent, wxSizer *sizer)
 	sizer->Add(tankModelSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 	}
 
-	UniqueIdStore idStore;
-	idStore.loadStore();
-
 	// User id edit box
 	wxStaticBox *userBox = new wxStaticBox(parent, -1, 
 		wxT("User ID (Uniquely identifies this player for stats, not generated from any user information.)"));
 	wxStaticBoxSizer *userSizer = new wxStaticBoxSizer(userBox, wxVERTICAL);
 	IDC_USERID_CTRL = new wxGrid(parent, -1, wxDefaultPosition, wxDefaultSize);
-	IDC_USERID_CTRL->CreateGrid(idStore.getIds().size(), 3);
+	IDC_USERID_CTRL->CreateGrid(0, 3);
 	IDC_USERID_CTRL->SetColLabelValue(0, wxT("Published Ip"));
 	IDC_USERID_CTRL->SetColLabelValue(1, wxT("Current Ip"));
 	IDC_USERID_CTRL->SetColLabelValue(2, wxT("Unique Id"));
@@ -331,6 +328,11 @@ static void refreshIdentControls()
 {
 	UniqueIdStore idStore;
 	idStore.loadStore();
+
+	if (idStore.getIds().size() > IDC_USERID_CTRL->GetNumberRows())
+	{
+		IDC_USERID_CTRL->AppendRows(idStore.getIds().size() - IDC_USERID_CTRL->GetNumberRows());
+	}
 
 	// User id edit box
 	int pos = 0;

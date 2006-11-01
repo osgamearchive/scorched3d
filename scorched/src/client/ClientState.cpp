@@ -130,6 +130,8 @@ void ClientState::setupGameState(bool network)
 		StimGetPlayers, StateGetPlayers);
 	gameState.addStateStimulus(StateConnect, 
 		StimLoadPlayers, StateLoadPlayers);
+	gameState.addStateStimulus(StateConnect, 
+		StimLoadFiles, StateLoadFiles);
 
 	// StateGetPlayers
 	addWindowManager(gameState, StateGetPlayers);
@@ -142,6 +144,21 @@ void ClientState::setupGameState(bool network)
 	gameState.addStateStimulus(StateGetPlayers, 
 		StimDisconnected, StateDisconnected);
 	gameState.addStateStimulus(StateGetPlayers, 
+		StimWait, StateWait);
+
+	// StateLoadFiles
+	addWindowManager(gameState, StateLoadFiles);
+	gameState.addStateLoop(StateLoadFiles, 
+		Main2DCamera::instance(), GLWToolTip::instance());
+	gameState.addStateLoop(StateLoadFiles, 
+		Main2DCamera::instance(), SoftwareMouse::instance());
+	gameState.addStateStimulus(StateLoadFiles, 
+		StimGetPlayers, StateGetPlayers);
+	gameState.addStateStimulus(StateLoadFiles, 
+		StimGameStopped, StateConnect);
+	gameState.addStateStimulus(StateLoadFiles, 
+		StimDisconnected, StateDisconnected);
+	gameState.addStateStimulus(StateLoadFiles, 
 		StimWait, StateWait);
 
 	// StateLoadPlayers (Single Player Only)

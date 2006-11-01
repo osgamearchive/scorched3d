@@ -35,6 +35,7 @@ public:
 
 protected:
 	static ClientFileHandler* instance_;
+	unsigned int totalBytes_;
 
 private:
 	ClientFileHandler();

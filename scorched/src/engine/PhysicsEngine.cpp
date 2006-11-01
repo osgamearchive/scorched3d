@@ -98,6 +98,14 @@ void PhysicsEngine::destroy()
 
 void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 {
+	if (dGeomIsEnabled(o1) == 0 ||
+		dGeomIsEnabled(o1) == 0)
+	{
+		// Check that both bodies should actualy count in the collision
+		// Does it seem odd that I have to do this, I think so!
+		return;
+	}
+
 	const int maxContacts = 100;
 
 	PhysicsEngine *engine = (PhysicsEngine *) data;
@@ -123,6 +131,7 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 		// exit without doing anything if the two bodies are connected by a joint
 		dBodyID b1 = dGeomGetBody(o1);
 		dBodyID b2 = dGeomGetBody(o2);
+
 		if (b1 && b2 && dAreConnectedExcluding(b1,b2,dJointTypeContact)) return;
 
 		// Get the contacts for these two objects

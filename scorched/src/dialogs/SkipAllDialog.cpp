@@ -40,11 +40,13 @@ SkipAllDialog *SkipAllDialog::instance()
 }
 
 SkipAllDialog::SkipAllDialog() : 
-	GLWWindow("", 250.0f, 80.0f, 0, ""),
+	GLWWindow("", 270.0f, 80.0f, 0, ""),
 	skipAll_(false)
 {
 	label_ = (GLWLabel *) addWidget(new GLWLabel(10, 45));
-	cancelId_ = addWidget(new GLWTextButton("Cancel", 135, 10, 105, this, 
+	nowId_ = addWidget(new GLWTextButton("Skip Now", 10, 10, 130, this, 
+		GLWButton::ButtonFlagCenterX))->getId();
+	cancelId_ = addWidget(new GLWTextButton("Cancel", 155, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }
 
@@ -120,5 +122,9 @@ void SkipAllDialog::buttonDown(unsigned int id)
 			firstTank->getState().setSkipShots(false);
 		}
 		GLWWindowManager::instance()->hideWindow(id_);
+	}
+	else if (id == nowId_)
+	{
+		startTime_ = 0;
 	}
 }

@@ -141,18 +141,21 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 				float(neededLength) / 
 				float(ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed())
 			);
+		int timeMinutes = timeLeft / 60;
+		int timeSeconds = timeLeft % 60;
 		// This server allows file downloads
 		// The the client how much needs to be downloaded
 		ServerCommon::sendString(destinationId, 
 			formatString("This server requires the \"%s\" Scorched3D mod.\n"
 			"This will require downloading %u bytes\n"
-			"Maximun %i bytes per second = Minimum of %i seconds.\n"
+			"Maximun %i bytes per second = Minimum of %i minutes, %i seconds.\n"
 			"Note: This will also depend on how many server\n"
 			"downloads and your link speed.",
 			ScorchedServer::instance()->getOptionsGame().getMod(),
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),
-			timeLeft), false);
+			timeMinutes,
+			timeSeconds), false);
 	}
 
 	// Set the files to download in this tanks profile
@@ -181,6 +184,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 				tank->getMod().addFile(newEntry);
 			}
 			tank->getMod().setInit(true);
+			tank->getMod().setTotalLeft(neededLength);
 		}
 	}
 

@@ -208,10 +208,7 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	timeDelay += localTimer.getTimeDifference();
 
 	clientEventLoop();	
-
-	progressLabel_->setText(op);
-	progress_->setCurrent(percentage);
-
+	setProgress(op, percentage);
 	//for (int i=0; i<100000000; i++);
 
 	if ((timeDelay > 0.25f) || 
@@ -225,5 +222,11 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 
 		ScorchedClient::instance()->getMainLoop().swapBuffers();
 	}
+}
+
+void ProgressDialog::setProgress(const char *op, const float percentage)
+{
+	progressLabel_->setText(op);
+	progress_->setCurrent(percentage);
 }
 

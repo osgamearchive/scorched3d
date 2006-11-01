@@ -19,8 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ClientFileHandler.h>
+#include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <engine/ModFiles.h>
+#include <dialogs/ProgressDialog.h>
 #include <common/Logger.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
@@ -39,7 +41,7 @@ ClientFileHandler *ClientFileHandler::instance()
 	return instance_;
 }
 
-ClientFileHandler::ClientFileHandler()
+ClientFileHandler::ClientFileHandler() : totalBytes_(0)
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
 		"ComsFileMessage",
@@ -57,6 +59,13 @@ bool ClientFileHandler::processMessage(unsigned int id,
 	ComsFileMessage message;
 	if (!message.readMessage(mainreader)) return false;
 	NetBufferReader reader(message.fileBuffer);
+
+	if (ScorchedClient::instance()->getGameState().getState() !=
+		ClientState::StateLoadFiles)
+	{
+		ScorchedClient::instance()->getGameState().stimulate(
+			ClientState::StimLoadFiles);
+	}
 
 	std::map<std::string, ModFileEntry *> &files = 
 		ScorchedClient::instance()->getModFiles().getFiles();
@@ -77,8 +86,17 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		reader.getFromBuffer(lastChunk);
 
 		// Read file count
-		unsigned int filesLeft = 0;
-		reader.getFromBuffer(filesLeft);
+		unsigned int bytesLeft = 0;
+		reader.getFromBuffer(bytesLeft);
+		if (totalBytes_ == 0) totalBytes_ = bytesLeft;
+
+		// Update progress
+		const char *shortFileName = fileName.c_str();
+		if (strrchr(shortFileName, '/')) shortFileName = strrchr(shortFileName, '/') + 1;
+		unsigned int doneBytes = totalBytes_ - bytesLeft;
+		ProgressDialog::instance()->setProgress(
+			formatString("Downloading %s",
+				shortFileName), float(doneBytes * 100 / totalBytes_));
 
 		// Read the size
 		unsigned int maxsize = 0;
@@ -130,16 +148,18 @@ bool ClientFileHandler::processMessage(unsigned int id,
 		if (lastChunk)
 		{
 			// Finished
-			Logger::log(formatString(" %u %s - %i bytes",
-				filesLeft,
+			Logger::log(formatString(" %u/%u %s - %i bytes",
+				doneBytes,
+				totalBytes_,
 				fileName.c_str(),
 				entry->getCompressedSize()));
 
 			// Wrong size
 			if (entry->getCompressedSize() != maxsize)
 			{
-				Logger::log(formatString("Downloaded mod file incorrect size \"%s\"",
-					fileName.c_str()));
+				Logger::log(formatString("Downloaded mod file incorrect size \"%s\".\n"
+					"Expected %u, got %u.",
+					fileName.c_str(), entry->getCompressedSize(), maxsize));
 				return false;
 			}
 

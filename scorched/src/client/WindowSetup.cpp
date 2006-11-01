@@ -36,6 +36,7 @@
 #include <dialogs/LogDialog.h>
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/BackdropDialog.h>
+#include <dialogs/ProgressDialog.h>
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkSettingsDialog.h>
@@ -173,6 +174,12 @@ void WindowSetup::setupStartWindows()
 	// StateLoadPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,
 		BackdropDialog::instance(), 0, true);
+
+	// StateLoadFiles
+	GLWWindowManager::instance()->addWindow(ClientState::StateLoadFiles,
+		BackdropDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateLoadFiles,
+		ProgressDialog::instance(), 0, true);
 }
 
 // This is called after the correct mod has been loaded

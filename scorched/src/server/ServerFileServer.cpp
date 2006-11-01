@@ -220,7 +220,7 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 	unsigned int sizeSent = entry.length;
 	unsigned int sizeLeftToSend = modentry->getCompressedSize() - sizeSent;
 	unsigned int sizeToSend = MIN(sizeLeftToSend, size);
-	unsigned int filesLeft = (unsigned int) files.size();
+	unsigned int bytesLeft = tank->getMod().getTotalLeft();
 	bool firstChunk = (sizeSent == 0);
 	bool lastChunk = (sizeToSend == sizeLeftToSend);
 
@@ -228,7 +228,7 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 	message.fileBuffer.addToBuffer(modentry->getFileName());
 	message.fileBuffer.addToBuffer(firstChunk);
 	message.fileBuffer.addToBuffer(lastChunk);
-	message.fileBuffer.addToBuffer(filesLeft);
+	message.fileBuffer.addToBuffer(bytesLeft);
 	message.fileBuffer.addToBuffer(modentry->getCompressedSize());
 	message.fileBuffer.addToBuffer(modentry->getUncompressedSize());
 	message.fileBuffer.addToBuffer(modentry->getCompressedCrc());
@@ -238,6 +238,7 @@ bool ServerFileServer::sendNextFile(ComsFileMessage &message,
 
 	// Update how much we have sent
 	entry.length += sizeToSend;
+	tank->getMod().setTotalLeft(tank->getMod().getTotalLeft() - sizeToSend);
 
 	// Have we sent the whole file
 	if (sizeToSend == sizeLeftToSend)

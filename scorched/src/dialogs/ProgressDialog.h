@@ -41,6 +41,7 @@ public:
 
 	void changeTip();
 	void setIcon(const char *iconName);
+	void setProgress(const char *op, const float percentage);
 
 protected:
 	static ProgressDialog *instance_;

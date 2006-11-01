@@ -217,8 +217,11 @@ void serverLoop()
 	{
 		Logger::processLogEntries();
 		ScorchedServer::instance()->getNetInterface().processMessages();
-		ServerBrowserInfo::instance()->processMessages();
-		ServerWebServer::instance()->processMessages();
+		if (OptionsParam::instance()->getDedicatedServer())
+		{
+			ServerBrowserInfo::instance()->processMessages();
+			ServerWebServer::instance()->processMessages();
+		}
 
 		float timeDifference = serverTimer.getTimeDifference();
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
