@@ -8,6 +8,7 @@ Fixed: Unique ID name lookup is not performed until ids tab is selected
 Fixed: Unique ID name lookup is not performed when playing offline games
 Fixed: Residual players that disconnect before loading the map will get correct weapons
 Fixed: Fuel and select areas not being marked correctly on non-square maps
+Fixed: Server refusing to allow move when client is trying to use all available fuel 
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

@@ -254,6 +254,12 @@ void TankMovement::simulationMove(float frameTime)
 
 	if (moving_ == false)
 	{
+		// If this weapon is not to use fuel, just use one unit for the whole movement
+		if (!weapon_->getUseFuel())
+		{
+			tank->getAccessories().rm(weapon_->getParent());
+		}
+
 		// If this is the very last movement made
 		// Ensure all tanks always end in the same place
 		context_->actionController->addAction(

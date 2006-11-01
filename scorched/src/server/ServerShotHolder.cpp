@@ -284,8 +284,13 @@ void ServerShotHolder::processFiredMessage(ScorchedContext &context,
 		}
 	}
 
-	// Actually use up one of the weapons
-	tank->getAccessories().rm(accessory, 1);
+	if (accessory->getPositionSelect() != Accessory::ePositionSelectFuel)
+	{
+		// Actually use up one of the weapons
+		// Fuel, is used up differently at the rate of one weapon per movement square
+		// This is done sperately in the tank movement action
+		tank->getAccessories().rm(accessory, 1);
+	}
 
 	// shot fired action
 	Weapon *weapon = (Weapon *) accessory->getAction();
