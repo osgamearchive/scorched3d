@@ -154,7 +154,17 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 					"\"%s\"\n"
 					"as it may be incompatable with this version of Scorched3D",
 					src.c_str(), dest.c_str()));
+
+				return loadModFile(oldFileName.c_str(), global);
 			}
+		}
+		else
+		{
+			dialogExit("Scorched3D", formatString(
+				"Bundled mod \"%s\" has an out of date modinfo file.\n"
+				"Mod version = %s, scorched version = %s",
+				oldFileName.c_str(),
+				newInfo.getProtocolVersion(), ScorchedProtocolVersion));
 		}
 	}
 
