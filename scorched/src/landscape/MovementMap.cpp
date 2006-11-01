@@ -365,7 +365,7 @@ void MovementMap::movementTexture()
 		if (y1 == newMap.getHeight()) y1--;
 
 		int posY = int(float(y) / float(newMap.getHeight()) * height);
-		int posY1 = int(float(y1) / float(newMap.getWidth()) * width);
+		int posY1 = int(float(y1) / float(newMap.getHeight()) * height);
 		for (int x=0; x<newMap.getWidth(); x++)
 		{
 			int x1 = x + 1;
@@ -425,7 +425,7 @@ void MovementMap::limitTexture(Vector &center, int limit)
 		if (y1 == newMap.getHeight()) y1--;
 
 		int posY = int(float(y) / float(newMap.getHeight()) * height);
-		int posY1 = int(float(y1) / float(newMap.getWidth()) * width);
+		int posY1 = int(float(y1) / float(newMap.getHeight()) * height);
 		for (int x=0; x<newMap.getWidth(); x++)
 		{
 			int x1 = x + 1;

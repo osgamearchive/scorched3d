@@ -329,9 +329,10 @@ static void refreshIdentControls()
 	UniqueIdStore idStore;
 	idStore.loadStore();
 
-	if (idStore.getIds().size() > IDC_USERID_CTRL->GetNumberRows())
+	if (int(idStore.getIds().size()) > IDC_USERID_CTRL->GetNumberRows())
 	{
-		IDC_USERID_CTRL->AppendRows(idStore.getIds().size() - IDC_USERID_CTRL->GetNumberRows());
+		IDC_USERID_CTRL->AppendRows(
+			int(idStore.getIds().size()) - IDC_USERID_CTRL->GetNumberRows());
 	}
 
 	// User id edit box
