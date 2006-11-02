@@ -50,7 +50,7 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 													float frameTime)
 {
 	// Check if we need to add any new bots
-	ServerNewGameState::checkBots();
+	ServerNewGameState::checkBots(false);
 
 	// Make sure we have enough players to play a game
 	if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() <

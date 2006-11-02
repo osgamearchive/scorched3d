@@ -131,7 +131,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkTeams();
 
 	// Check that we dont have too many bots
-	checkBots();
+	checkBots(true);
 
 	// Generate the new level
 	LandscapeDefinition defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
@@ -688,7 +688,7 @@ void ServerNewGameState::checkTeamsBotsVs()
 	}
 }
 
-void ServerNewGameState::checkBots()
+void ServerNewGameState::checkBots(bool removeBots)
 {
 	int requiredPlayers =
 		ScorchedServer::instance()->getOptionsGame().
@@ -718,7 +718,8 @@ void ServerNewGameState::checkBots()
 		}
 	}
 
-	if (noPlayers > requiredPlayers)
+	if (noPlayers > requiredPlayers &&
+		removeBots)
 	{
 		std::multimap<unsigned int, unsigned int> ais_;
 
@@ -752,7 +753,7 @@ void ServerNewGameState::checkBots()
 			noPlayers--;
 		}
 	}
-	else if (noPlayers < requiredPlayers)
+	if (noPlayers < requiredPlayers)
 	{
 		std::multimap<std::string, unsigned int> ais_;
 

@@ -40,7 +40,7 @@ public:
 	static int addTanksToGame(const unsigned state,
 		bool addState = false);
 	static void checkTeams();
-	static void checkBots();
+	static void checkBots(bool removeBots);
 	static void removeTargets();
 	static void calculateStartPosition(
 		ScorchedContext &contex);
