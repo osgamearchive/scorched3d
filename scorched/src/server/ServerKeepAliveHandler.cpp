@@ -94,6 +94,10 @@ void ServerKeepAliveHandler::checkKeepAlives()
 		if (current->getKeepAlive() != 0 &&
 			theTime - current->getKeepAlive()  > allowedTime)
 		{
+			ServerCommon::sendString(0, 
+				formatString("\"%s\" Kicked for exceeding keep alive timeout (%u seconds)",
+					current->getName(),
+					theTime - current->getKeepAlive()));
 			ServerCommon::serverLog( 
 					formatString("\"%s\" Kicked for exceeding keep alive timeout (%u seconds)",
 					current->getName(),
