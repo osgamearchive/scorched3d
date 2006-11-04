@@ -47,6 +47,10 @@ $columnindex = array
 	'winratio',
 	'roundsperresign',
 	'timeperconnect',
+	'scoreearned',
+	'scoreperround',
+	'scoreperhour',
+	'scorepershot',
 	'none'
 );
 

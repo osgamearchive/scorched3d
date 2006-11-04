@@ -42,6 +42,10 @@ function expandfieldname($fieldname){
 		case 'kpr': return 'killsperround'; break;
 		case 'kph': return 'killsperhour'; break;
 		case 'kpd': return 'killsperdeath'; break;
+		case 'se': return 'scoreearned'; break;
+		case 'spr': return 'scoreperround'; break;
+		case 'sph': return 'scoreperhour'; break;
+		case 'sps': return 'scorepershot'; break;
 		case 'd': return 'deaths'; break;
 		case 's': return 'shots'; break;
 		case 'ow': return 'overallwinner'; break;
@@ -83,6 +87,7 @@ function queryformat($fieldname){
 		case 'gamesplayed':
 		case 'timeplayed':
 		case 'roundsplayed':
+		case 'scoreearned':
 		case 'moneyearned': return $fieldname; break;
 		case 'skill': return "round((skill + (overallwinner*5) + (COALESCE(round((wins/gamesplayed)*(skill-1000), 3), 0)) + ((skill-1000) * COALESCE(round(((kills-(teamkills+selfkills))/shots), 3), 0))),0) as skill"; break;
 		case 'killratio': return "COALESCE(round(((kills-(teamkills+selfkills))/shots)*100, 2), 0.0) as killratio"; break;
@@ -95,6 +100,9 @@ function queryformat($fieldname){
 		case 'winratio': return "COALESCE(round((wins/gamesplayed)*100, 2), 0.0) as winratio"; break;
 		case 'roundsperresign': return "COALESCE(round(gamesplayed/resigns, 2), 0.0) as roundsperresign"; break;
 		case 'timeperconnect': return "COALESCE(round(timeplayed/connects, 0), 0.0) as timeperconnect"; break;
+		case 'scoreperround': return "COALESCE(round(scoreearned/gamesplayed, 2), 0.0) as scoreperround"; break;
+		case 'scoreperhour': return "COALESCE(round(scoreearned/(timedplayed/3600), 2), 0.0) as scoreperhour"; break;
+		case 'scorepershot': return "COALESCE(round(scoreearned/shots, 2), 0.0) as scorepershot"; break;
 		default: return '';
 	}
 }
@@ -119,6 +127,10 @@ function columnformat($fieldname){
 		case 'resigns': return "Resigns"; break;
 		case 'gamesplayed': return "Total Rounds"; break;
 		case 'skill': return "Skill"; break;
+		case 'scoreearned': return "Score"; break;
+		case 'scoreperround': return "Score Per Round"; break;
+		case 'scoreperhour': return "Score Per Hour"; break;
+		case 'scorepershot': return "Score Per Shot"; break;
 		case 'roundsperresign': return "Rounds Per Resign"; break;
 		case 'roundsplayed': return "Total Turns"; break;
 		case 'moneyearned': return "Money Earned"; break;
@@ -151,6 +163,10 @@ function dataformat($fieldname, $value){
 		case 'killsperround':
 		case 'killsperhour':
 		case 'killsperdeath':
+		case 'scoreearned':
+		case 'scoreperround':
+		case 'scoreperhour':
+		case 'scorepershot':
 		case 'roundsperresign':
 		case 'roundsplayed': return "<td align=center>".$value."</td>"; break;
 		case 'moneyearned':
@@ -185,11 +201,11 @@ for ($i=0; $i<count($fieldarray); $i++) {	//Expand field names in the field name
 }
 
 // Gather filtering options from the url
-if ($filterby != Null and $filterby != 'none') {
+if (($filterby != Null) and ($filterby != 'none')) {
 	if ($filtercompare != Null and $filtervalue != Null) {
 		$filterurl=$filterby."&FComp=".urlencode($filtercompare)."&FVal=".$filtervalue;
 	}
-	else $filterurl='none';
+	else $filterurl=$filterby."&FComp=".urlencode(">=")."&FVal=25";
 }
 else {
 	$filterby='none';
@@ -227,6 +243,10 @@ include('util.php');
 		<td align=center valign=middle>
 			<select size="4" name="Fields[]" multiple onchange="limitSelection(cols, 8)">
 				<option id='cols' value='skl'<?=fieldcheck($fields, 'skl')?>Skill</option>
+				<option id='cols' value='se'<?=fieldcheck($fields, 'se')?>Score</option>
+				<option id='cols' value='spr'<?=fieldcheck($fields, 'spr')?>Score Per Round</option>
+				<option id='cols' value='sph'<?=fieldcheck($fields, 'sph')?>Score Per Hour</option>
+				<option id='cols' value='sps'<?=fieldcheck($fields, 'sps')?>Score Per Shot</option>
 				<option id='cols' value='k'<?=fieldcheck($fields, 'k')?>Kills</option>
 				<option id='cols' value='kr'<?=fieldcheck($fields, 'kr')?>Kill Ratio</option>
 				<option id='cols' value='kpr'<?=fieldcheck($fields, 'kpr')?>Kills/Round</option>
@@ -260,6 +280,7 @@ include('util.php');
 				<option value='playerid'<?=selectcheck($filterby,'playerid');?>Player ID</option>
 				<!--<option value='skill'<?=selectcheck($filterby,'skill');?>Skill</option>-->
 				<option value='kills'<?=selectcheck($filterby,'kills');?>Kills</option>
+				<option value='scoreearned'<?=selectcheck($filterby,'scoreearned');?>Score</option>
 				<option value='deaths'<?=selectcheck($filterby,'deaths');?>Deaths</option>
 				<option value='shots'<?=selectcheck($filterby,'shots');?>Shots</option>
 				<option value='wins'<?=selectcheck($filterby,'wins');?>Round Wins</option>

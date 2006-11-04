@@ -173,6 +173,7 @@ $rankrow = mysql_fetch_object($rankresult);
 <tr><td bgcolor=#111111><b>Rounds Resigned</b></td><td><?=$row->resigns?></td></tr>
 <tr><td bgcolor=#111111><b>Total Turns</b></td><td><?=$row->roundsplayed?></td></tr>
 <tr><td bgcolor=#111111><b>Total Shots</b></td><td><?=$row->shots?></td></tr>
+<tr><td bgcolor=#111111><b>Total Score</b></td><td><?=$row->scoreearned?></td></tr>
 <tr><td bgcolor=#111111><b>Skill Rating</b></td><td><?=$row->skill?></td></tr>
 <tr><td bgcolor=#111111><b>Opponent Kills</b></td><td><?=$row->kills?></td></tr>
 <tr><td bgcolor=#111111><b>Kill Ratio</b></td><td><?echo $killratio."  (".$shotsperkill;?> shots/kill)</td></tr>
