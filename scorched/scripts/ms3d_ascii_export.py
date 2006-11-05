@@ -1,16 +1,13 @@
 #!BPY
 
 """
-Name: 'MS3D ASCII (.txt) v 1.2'
-Blender: 241
+Name: 'MS3D ASCII (.txt) v 1.3'
+Blender: 242
 Group: 'Export'
-Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.2'
+Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.3'
 """
-###
-### Export script for Blender
-###
 
-#Copyright (C) 2004 Paul Vint cbx550f@sourceforge.net
+#Copyright (C) 2004-2006 Paul Vint cbx550f@sourceforge.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -34,7 +31,8 @@ Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.2'
 # Added error checking for number of verts per face 07/09/2004
 # Reversed vertex winding to fix flipped normals problem & misc speedups 12/03/06
 # Updated for Blender 2.4x - thanks for the help, Berem!
-# TODO: Stop using face nrmals, should be vertex normals!
+# TODO: Stop using face nrmals, should be vertex normals! - done. 05/09/06
+# Added proper support for emitted light 05/11/06
 
 import Blender
 import os, time
@@ -148,14 +146,15 @@ def write(filename):
 
 			#file.write(str(round(material.ref,5))+ " " + str(round(material.ref,5))+ " " + str(round(material.ref,5)) + " " + str(round(material.alpha,5)) + "\n")
 			#TODO Why are these values the same??? TODO
-			file.write(str("%5f %5f %5f %5f\n" % (material.ref,material.ref,material.ref,material.alpha)))
+			# file.write(str("%5f %5f %5f %5f\n" % (material.ref,material.ref,material.ref,material.alpha)))
+			file.write(str("%5f %5f %5f %5f\n" % (material.amb,material.amb,material.amb,material.alpha)))
 			#file.write(str(round(material.rgbCol[0],5)) + " " + str(round(material.rgbCol[1],5)) + " " + str(round(material.rgbCol[2],5)) + " " + str(round(material.alpha,5)) + "\n")
 			file.write(str("%5f %5f %5f %5f\n" % (material.rgbCol[0],material.rgbCol[1],material.rgbCol[2],material.alpha)))
 			file.write(str("%5f %5f %5f %5f\n" % (material.spec,material.spec,material.spec,material.alpha)))
 			
 			#file.write(str(round(material.spec,5)) + " " + str(round(material.spec,5)) + " " + str(round(material.spec,5)) + " " + str(round(material.alpha,5)))
-			file.write("0.000000 0.000000 0.000000 " + str(round(material.alpha,5)) + "\n")   # don't need emissive ??
-			file.write(str(material.emit) + "\n")     # MS3D "shininess" = blender "emit" (I think)
+			file.write(str("%5f %5f %5f %5f\n" % (material.emit,material.emit,material.emit,material.alpha)))
+			file.write(str(material.ref) + "\n")   
 			file.write(str(material.alpha) + "\n")
 			# get the current texture image
 			imageName=""
@@ -165,6 +164,9 @@ def write(filename):
 			if ( mytex[0] != None ):
 				image = material.getTextures()[0].tex.getImage()
 				imageName = Blender.sys.basename(image.getFilename())
+
+				file.write("\".\\" + imageName + "\"")
+
 			else:
 				print 'Warning: Mesh ' + meshname + ' does not have a texture image!'
 				message = 'MS3D Export Warning:|Mesh \"' + meshname + '\" does not have a texture image!'
@@ -172,7 +174,9 @@ def write(filename):
 				Blender.Window.WaitCursor(0)
 				Blender.Draw.PupMenu(message)
 
-			file.write("\".\\" + imageName + "\"")
+				file.write("\"\"")
+
+			#file.write("\".\\" + imageName + "\"")
 			file.write("\n\"\"\n")  
 
 
