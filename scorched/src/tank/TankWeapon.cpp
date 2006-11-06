@@ -21,8 +21,9 @@
 #include <weapons/AccessoryStore.h>
 #include <weapons/WeaponMoveTank.h>
 #include <tank/TankWeapon.h>
-#include <tank/Tank.h>
+#include <tank/TankContainer.h>
 #include <engine/ScorchedContext.h>
+#include <client/ScorchedClient.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
@@ -84,6 +85,11 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 {
 	if (!context_.serverMode)
 	{
+		// Only show this information on this tanks client
+		if (ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() ==
+			tank_->getDestinationId())
+		{
+
 		// Turn off fuel display (if any)
 		if (currentWeapon_ && 
 			currentWeapon_->getPositionSelect() != Accessory::ePositionSelectNone)
@@ -121,6 +127,8 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 			MessageDialog::instance()->clear();
 			MessageDialog::instance()->addMessage(
 				formatString("Click ground to activate %s", wp->getName()));
+		}
+
 		}
 	}
 
