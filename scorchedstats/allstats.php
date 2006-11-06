@@ -110,6 +110,7 @@ function queryformat($fieldname){
 // Takes a field name and returns a proper column name for displaying purposes
 function columnformat($fieldname){
 	switch ($fieldname) {
+		case 'scorched3d_stats.playerid':
 		case 'playerid': return "Player ID"; break;
 		case 'lastconnected': return "Last Connected"; break;
 		case 'kills': return "Kills"; break;
@@ -204,6 +205,7 @@ for ($i=0; $i<count($fieldarray); $i++) {	//Expand field names in the field name
 if (($filterby != Null) and ($filterby != 'none')) {
 	if ($filtercompare != Null and $filtervalue != Null) {
 		$filterurl=$filterby."&FComp=".urlencode($filtercompare)."&FVal=".$filtervalue;
+		if ($filterby = 'playerid') $filterby="scorched3d_stats.playerid";
 	}
 	else $filterurl=$filterby."&FComp=".urlencode(">=")."&FVal=25";
 }
@@ -277,7 +279,7 @@ include('util.php');
 		<td align=center valign=middle>
 			<select name="FBy">
 				<option value='none'<?=selectcheck($filterby,'none');?>No Filter</option>
-				<option value='playerid'<?=selectcheck($filterby,'playerid');?>Player ID</option>
+				<option value='playerid'<?=selectcheck($filterby,'scorched3d_stats.playerid');?>Player ID</option>
 				<!--<option value='skill'<?=selectcheck($filterby,'skill');?>Skill</option>-->
 				<option value='kills'<?=selectcheck($filterby,'kills');?>Kills</option>
 				<option value='scoreearned'<?=selectcheck($filterby,'scoreearned');?>Score</option>
