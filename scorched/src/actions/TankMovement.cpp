@@ -322,6 +322,13 @@ void TankMovement::moveTank(Tank *tank)
 		}
 	}
 
+	// Check this new position is allowed
+	if (!MovementMap::allowedPosition(*context_, tank, newPos))
+	{
+		expandedPositions_.clear();
+		return;
+	}
+
 	// Move the tank to this new position
 	// Use up one unit of fuel
 	if (useF && weapon_->getUseFuel())

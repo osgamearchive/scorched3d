@@ -60,6 +60,8 @@ public:
 		bool maxFuel = false);
 	void movementTexture();
 	static void limitTexture(Vector &center, int limit);
+	static bool allowedPosition(ScorchedContext &context, 
+		Tank *tank, Vector &position);
 	MovementMapEntry &getEntry(int w, int h);
 
 protected:

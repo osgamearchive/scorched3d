@@ -11,6 +11,7 @@ Fixed: Fuel and select areas not being marked correctly on non-square maps
 Fixed: Server refusing to allow move when client is trying to use all available fuel 
 Fixed: When balancing teams bots will not leave until the beginning of the next round
 Fixed: Landscape movement texture and message displayed for incorrect players
+Fixed: Players cannot move through moving movementproof shields
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

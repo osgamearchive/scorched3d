@@ -134,6 +134,84 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 	}
 }
 
+bool MovementMap::allowedPosition(ScorchedContext &context, Tank *tank, Vector &position)
+{
+	std::map<unsigned int, Target *>::iterator targetItor;
+	std::map<unsigned int, Target *> &targets = 
+		context.targetContainer->getTargets();
+	for (targetItor = targets.begin(); 
+		targetItor != targets.end();
+		targetItor++)
+	{
+		Target *target = (*targetItor).second;
+
+		if (target->getShield().getCurrentShield())
+		{
+			Shield *shield = (Shield *)
+				(target->getShield().getCurrentShield()->getAction());
+
+			bool movementProof = true;
+			switch (shield->getMovementProof())
+			{
+			case Shield::ShieldMovementAll:
+				movementProof = false;
+				break;
+			case Shield::ShieldMovementNone:
+				movementProof = true;
+				break;
+			case Shield::ShieldMovementSame:
+				if (target->getPlayerId() == tank->getPlayerId())
+				{
+					movementProof = false;
+				}
+				else if (context.optionsGame->getTeams() > 1 &&
+					!target->isTarget())
+				{
+					Tank *targetTank = (Tank *) target;
+					if (targetTank->getTeam() == tank->getTeam())
+					{
+						movementProof = false;
+					}
+				}
+				break;
+			case Shield::ShieldMovementTeam1:
+				if (tank->getTeam() == 1 ||
+					tank->getTeam() == 0) movementProof = false;
+				break;
+			case Shield::ShieldMovementTeam2:
+				if (tank->getTeam() == 2 ||
+					tank->getTeam() == 0) movementProof = false;
+				break;
+			case Shield::ShieldMovementTeam3:
+				if (tank->getTeam() == 3 ||
+					tank->getTeam() == 0) movementProof = false;
+				break;
+			case Shield::ShieldMovementTeam4:
+				if (tank->getTeam() == 4 ||
+					tank->getTeam() == 0) movementProof = false;
+				break;
+			}
+
+			if (movementProof)
+			{
+				Vector offset = position - target->getTargetPosition();
+				offset[0] = fabsf(offset[0]);
+				offset[1] = fabsf(offset[1]);
+				offset[2] = 0.0f;
+				Vector surround = offset.Normalize() * 2.0f;
+				offset[0] = MAX(0.0f, offset[0] - surround[0]);
+				offset[1] = MAX(0.0f, offset[1] - surround[1]);
+
+				if (shield->inShield(offset))
+				{
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
 void MovementMap::calculateForTank(Tank *tank, 
 	WeaponMoveTank *weapon,
 	ScorchedContext &context, 
@@ -153,89 +231,18 @@ void MovementMap::calculateForTank(Tank *tank,
 	}
 
 	// If other tanks have shields then check if we can move into the shields
-	std::map<unsigned int, Target *>::iterator targetItor;
-	std::map<unsigned int, Target *> &targets = 
-		context.targetContainer->getTargets();
 	for (int y=0; y<height_; y++)
 	{
 		for (int x=0; x<width_; x++)
 		{
-			MovementMapEntryType type = eNotSeen;
-
 			float height = 
 				context.landscapeMaps->getGroundMaps().getHeight(x, y);
 			Vector pos((float)x, (float)y, height);
 			
-			for (targetItor = targets.begin(); 
-				targetItor != targets.end();
-				targetItor++)
+			MovementMapEntryType type = eNotSeen;
+			if (!allowedPosition(context, tank, pos))
 			{
-				Target *target = (*targetItor).second;
-
-				if (target->getShield().getCurrentShield())
-				{
-					Shield *shield = (Shield *)
-						(target->getShield().getCurrentShield()->getAction());
-
-					bool movementProof = true;
-					switch (shield->getMovementProof())
-					{
-					case Shield::ShieldMovementAll:
-						movementProof = false;
-						break;
-					case Shield::ShieldMovementNone:
-						movementProof = true;
-						break;
-					case Shield::ShieldMovementSame:
-						if (target->getPlayerId() == tank->getPlayerId())
-						{
-							movementProof = false;
-						}
-						else if (context.optionsGame->getTeams() > 1 &&
-							!target->isTarget())
-						{
-							Tank *targetTank = (Tank *) target;
-							if (targetTank->getTeam() == tank->getTeam())
-							{
-								movementProof = false;
-							}
-						}
-						break;
-					case Shield::ShieldMovementTeam1:
-						if (tank->getTeam() == 1 ||
-							tank->getTeam() == 0) movementProof = false;
-						break;
-					case Shield::ShieldMovementTeam2:
-						if (tank->getTeam() == 2 ||
-							tank->getTeam() == 0) movementProof = false;
-						break;
-					case Shield::ShieldMovementTeam3:
-						if (tank->getTeam() == 3 ||
-							tank->getTeam() == 0) movementProof = false;
-						break;
-					case Shield::ShieldMovementTeam4:
-						if (tank->getTeam() == 4 ||
-							tank->getTeam() == 0) movementProof = false;
-						break;
-					}
-
-					if (movementProof)
-					{
-						Vector offset = pos - target->getTargetPosition();
-						offset[0] = fabsf(offset[0]);
-						offset[1] = fabsf(offset[1]);
-						offset[2] = 0.0f;
-						Vector surround = offset.Normalize() * 2.0f;
-						offset[0] = MAX(0.0f, offset[0] - surround[0]);
-						offset[1] = MAX(0.0f, offset[1] - surround[1]);
-
-						if (shield->inShield(offset))
-						{
-							type = eNoMovement;
-							break;
-						}
-					}
-				}
+				type = eNoMovement;
 			}
 
 			MovementMapEntry &priorEntry = getEntry(x, y);

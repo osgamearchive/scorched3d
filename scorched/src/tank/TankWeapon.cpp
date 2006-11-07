@@ -24,6 +24,7 @@
 #include <tank/TankContainer.h>
 #include <engine/ScorchedContext.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
@@ -87,7 +88,8 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 	{
 		// Only show this information on this tanks client
 		if (ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() ==
-			tank_->getDestinationId())
+			tank_->getDestinationId() &&
+			ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying)
 		{
 
 		// Turn off fuel display (if any)
