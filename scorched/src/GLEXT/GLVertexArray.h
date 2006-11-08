@@ -71,9 +71,9 @@ protected:
 	bool setup_;
 	bool secondTexture_;
 	bool useVBO_;
-	unsigned int verticesVBO_;
-	unsigned int colorsVBO_;
-	unsigned int textureVBO_;
+	GLuint verticesVBO_;
+	GLuint colorsVBO_;
+	GLuint textureVBO_;
 	unsigned int listNo_;
 	GLTexture *texture_;
 	GLenum prim_;

@@ -98,7 +98,10 @@ void GLStateExtension::setup()
 	{
 		if (hasExtension("GL_ARB_multitexture"))
 		{
-			glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits_);
+			GLint textureUnits;
+			glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits);
+			textureUnits_ = textureUnits;
+
 			glActiveTextureARB_ = (PFNGLACTIVETEXTUREARBPROC) 
 				SDL_GL_GetProcAddress("glActiveTextureARB");
 			glMultiTextCoord2fARB_ = (PFNGLMULTITEXCOORD2FARBPROC) 
