@@ -283,7 +283,9 @@ void ScoreDialog::draw()
 			12,
 			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"L");
-		GLWToolTip::instance()->addToolTip("Lives", "The current number of lives this player has left.",
+		GLWToolTip::instance()->addToolTip("Lives", 
+			formatString("The current number of lives this player has left.\n%i score awarded for each life remaining.",
+			ScorchedClient::instance()->getOptionsGame().getScoreWonForLives()),
 			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 	}
 	y+= lineSpacer + lineSpacer;

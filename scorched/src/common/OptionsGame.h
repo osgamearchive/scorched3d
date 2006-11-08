@@ -105,6 +105,9 @@ public:
 	int getScoreWonForRound() { return scoreWonForRound_; }
 	OptionEntryInt &getScoreWonForRoundEntry() { return scoreWonForRound_; }
 
+	int getScoreWonForLives() { return scoreWonForLives_; }
+	OptionEntryInt &getScoreWonForLivesEntry() { return scoreWonForLives_; }
+
 	int getTeams() { return teams_; }
 	OptionEntryInt &getTeamsEntry() { return teams_; }
 
@@ -209,6 +212,9 @@ public:
 
 	int getMoneyWonForRound() { return moneyWonForRound_; }
 	OptionEntryInt &getMoneyWonForRoundEntry() { return moneyWonForRound_; }
+
+	int getMoneyWonForLives() { return moneyWonForLives_; }
+	OptionEntryInt &getMoneyWonForLivesEntry() { return moneyWonForLives_; }
 
 	int getMoneyWonPerKillPoint() { return moneyPerKillPoint_; }
 	OptionEntryInt &getMoneyWonPerKillPointEntry() { return moneyPerKillPoint_; }
@@ -357,6 +363,7 @@ protected:
 	OptionEntryBoundedInt computersAttackTalk_;
 	OptionEntryBoundedInt moneyBuyOnRound_;
 	OptionEntryBoundedInt moneyWonForRound_;
+	OptionEntryBoundedInt moneyWonForLives_;
 	OptionEntryBoundedInt moneyPerKillPoint_;
 	OptionEntryBoundedInt moneyPerMultiKillPoint_;
 	OptionEntryBoundedInt moneyPerAssistPoint_;
@@ -367,6 +374,7 @@ protected:
 	OptionEntryBoundedInt scorePerAssist_;
 	OptionEntryBoundedInt scorePerKill_;
 	OptionEntryBoundedInt scoreWonForRound_;
+	OptionEntryBoundedInt scoreWonForLives_;
 	OptionEntryInt maxLandscapeSize_;
 	OptionEntryInt freeMarketAdjustment_;
 	OptionEntryBoundedInt moneyStarting_;

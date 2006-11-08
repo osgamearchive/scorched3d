@@ -108,13 +108,46 @@ bool ServerShotFinishedState::scoreWinners()
 
 	int moneyWonForRound = 
 		ScorchedServer::instance()->getOptionsGame().getMoneyWonForRound();
+	int moneyWonForLives =
+	        ScorchedServer::instance()->getOptionsGame().getMoneyWonForLives();
 	int scoreWonForRound = 
 		ScorchedServer::instance()->getOptionsGame().getScoreWonForRound();
+	int scoreWonForLives = 
+		ScorchedServer::instance()->getOptionsGame().getScoreWonForLives();
 
+	// Add score for each life left
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = playingTank.begin();
+	        itor != playingTank.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getSpectator()) continue;
+		if (tank->getAlive())
+			tank->getScore().setScore(
+	                        tank->getScore().getScore() + (scoreWonForLives * tank->getState().getLives()));
+	}
+				
 	// Is it a team game?
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1)
 	{
 		// Yes, check which team has won and give points accordingly
+		// Add score for round wins
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = playingTank.begin();
+		        itor != playingTank.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			if (tank->getState().getSpectator()) continue;
+
+			if (tank->getAlive())
+			{
+				ScorchedServer::instance()->getContext().tankTeamScore->addScore(
+				        scoreWonForLives * tank->getState().getLives(), tank->getTeam());
+			}
+		}
+
 		std::set<int> winningTeams;
 		int winningTeam = 
 			ScorchedServer::instance()->getContext().tankTeamScore->getWonGame();
@@ -126,7 +159,6 @@ bool ServerShotFinishedState::scoreWinners()
 		}
 		else
 		{
-			std::map<unsigned int, Tank *>::iterator itor;
 			for (itor = playingTank.begin();
 				itor != playingTank.end();
 				itor++)
@@ -141,12 +173,12 @@ bool ServerShotFinishedState::scoreWinners()
 						ScorchedServer::instance()->getContext().tankTeamScore->addScore(
 							scoreWonForRound, tank->getTeam());
 						winningTeams.insert(tank->getTeam());
+
 					}
 				}
 			}
 		}
 
-		std::map<unsigned int, Tank *>::iterator itor;
 		for (itor = playingTank.begin();
 			itor != playingTank.end();
 			itor++)
@@ -159,10 +191,10 @@ bool ServerShotFinishedState::scoreWinners()
 				StatsLogger::instance()->tankWon(tank);
 				tank->getScore().setMoney(
 					tank->getScore().getMoney() + moneyWonForRound);
+				tank->getScore().setMoney(
+					tank->getScore().getMoney() + (moneyWonForLives * tank->getState().getLives()));
 				tank->getScore().setWins(
 					tank->getScore().getWins() + 1);
-				tank->getScore().setScore(
-					tank->getScore().getScore() + scoreWonForRound);
 			}
 		}
 	}
@@ -183,6 +215,8 @@ bool ServerShotFinishedState::scoreWinners()
 				StatsLogger::instance()->tankWon(tank);
 				tank->getScore().setMoney(
 					tank->getScore().getMoney() + moneyWonForRound);
+				tank->getScore().setMoney(
+					tank->getScore().getMoney() + (moneyWonForLives * tank->getState().getLives()));
 				tank->getScore().setWins(
 					tank->getScore().getWins() + 1);
 				tank->getScore().setScore(
@@ -206,6 +240,8 @@ bool ServerShotFinishedState::scoreWinners()
 					StatsLogger::instance()->tankWon(tank);
 					tank->getScore().setMoney(
 						tank->getScore().getMoney() + moneyWonForRound);
+					tank->getScore().setMoney(
+						tank->getScore().getMoney() + (moneyWonForLives * tank->getState().getLives()));
 					tank->getScore().setWins(
 						tank->getScore().getWins() + 1);	
 					tank->getScore().setScore(
@@ -241,7 +277,6 @@ bool ServerShotFinishedState::scoreWinners()
 	// stats message
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)

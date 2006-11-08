@@ -196,6 +196,12 @@ void SettingsFrame::createEcoPanel()
 			ecoPanel_, sizer, context_.getScoreWonForRoundEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getScoreWonForLivesEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getMoneyWonForLivesEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
 			ecoPanel_, sizer, context_.getScorePerKillEntry()));
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
