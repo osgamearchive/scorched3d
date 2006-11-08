@@ -1,6 +1,7 @@
 -- Bugs Fixed and Ready For Release 
 Added: Progress bar for showing mod download progress
 Added: Skip now button to the skip all dialog
+Added: Score and money given for lives left
 
 Fixed: Clients are now informed when a client times out
 Fixed: Collisions between disabled geoms are not performed
