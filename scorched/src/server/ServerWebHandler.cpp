@@ -389,8 +389,8 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	
-	fields["BI"] = formatString("%u", NetInterface::getBytesIn());
-	fields["BO"] = formatString("%u", NetInterface::getBytesOut());
+	fields["BI"] = formatString("%uK", NetInterface::getBytesIn() / 1000);
+	fields["BO"] = formatString("%uK", NetInterface::getBytesOut() / 1000);
 	fields["P"] = formatString("%u", NetInterface::getPings());
 	fields["C"] = formatString("%u", NetInterface::getConnects());
 

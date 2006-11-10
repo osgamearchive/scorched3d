@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/Logger.h>
-#include <GLEXT/GLConsole.h>
 #include <client/ClientScoreHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
@@ -59,7 +58,7 @@ bool ClientScoreHandler::processMessage(unsigned int id,
 	finalScore_ = message.getFinalScore();
 	if (finalScore_)
 	{
-		GLConsole::instance()->addLine(false, "Final scores -------");
+		Logger::log("Final scores -------");
 		std::map<unsigned int, Tank *> &tanks =
 			ScorchedClient::instance()->getTankContainer().getPlayingTanks();
 		std::map<unsigned int, Tank *>::iterator itor;
@@ -68,11 +67,11 @@ bool ClientScoreHandler::processMessage(unsigned int id,
 			itor++)
 		{
 			Tank *tank = (*itor).second;
-			GLConsole::instance()->addLine(false, formatString("%s - %s",
+			Logger::log(formatString("%s - %s",
 				tank->getName(),
 				tank->getScore().getScoreString()));
 		}
-		GLConsole::instance()->addLine(false, "--------------------");
+		Logger::log("--------------------");
 	}
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);

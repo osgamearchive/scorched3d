@@ -40,5 +40,6 @@ extern const char *getGlobalModFile(const char *filename);
 extern unsigned int ScorchedPort;
 extern char *ScorchedVersion;
 extern char *ScorchedProtocolVersion;
+extern char *ScorchedBuildTime;
 
 #endif // __DEFINESSCORCHED__

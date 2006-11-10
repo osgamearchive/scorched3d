@@ -26,7 +26,6 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <engine/ViewPoints.h>
 #include <GLEXT/GLBitmap.h>
-#include <GLEXT/GLConsole.h>
 #include <dialogs/MainMenuDialog.h>
 #include <sound/Sound.h>
 #include <sound/SoundUtils.h>
@@ -308,7 +307,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 
 	// Don't print to banner otherwise this message will be in
 	// the screenshot!
-	GLConsole::instance()->addLine(false, 
+	Logger::log(
 		formatString("Screen shot saved as file \"%s\"", fileName));
 
 	// snapshot sound

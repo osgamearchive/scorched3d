@@ -110,6 +110,9 @@ void checkSettings()
 
 bool startServer(bool local, ProgressCounter *counter)
 {
+	Logger::log(formatString("Scorched3D - Version %s (%s) - %s",
+		ScorchedVersion, ScorchedProtocolVersion, ScorchedBuildTime));
+
 	// Setup the message handling classes
 	if (!local)
 	{

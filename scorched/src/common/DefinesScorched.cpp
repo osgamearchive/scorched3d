@@ -36,6 +36,11 @@
 unsigned int ScorchedPort = 27270;
 char *ScorchedVersion = "40.1d";
 char *ScorchedProtocolVersion = "ck";
+#ifdef __DATE__
+char *ScorchedBuildTime = __DATE__;
+#else
+char *ScorchedBuildTime = "Unknown";
+#endif
 static char exeName[1024];
 static char *dataModFile = 0;
 static std::string settingsDir = ".scorched3d";

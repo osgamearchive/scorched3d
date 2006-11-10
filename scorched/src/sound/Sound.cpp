@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <GLEXT/GLConsole.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/Defines.h>
 #include <common/OptionsDisplay.h>
@@ -123,19 +122,19 @@ bool Sound::init(int channels)
 	alcMakeContextCurrent(soundContext); 
 	alDistanceModel(AL_INVERSE_DISTANCE);
 
-	GLConsole::instance()->addLine(false, "AL_VENDOR:");
-	GLConsole::instance()->addLine(false, 
+	Logger::log("AL_VENDOR:");
+	Logger::log(
 		checkString((char *) alGetString(AL_VENDOR)));
-	GLConsole::instance()->addLine(false, "AL_VERSION:");
+	Logger::log("AL_VERSION:");
 	GLConsole::instance()->addLine(false,
 		checkString((char *) alGetString(AL_VERSION)));
-	GLConsole::instance()->addLine(false, "AL_RENDERER:");
-	GLConsole::instance()->addLine(false, 
+	Logger::log("AL_RENDERER:");
+	Logger::log(
 		checkString((char *) alGetString(AL_RENDERER)));
-	GLConsole::instance()->addLine(false, "AL_EXTENSIONS:");
+	Logger::log("AL_EXTENSIONS:");
 	GLConsole::instance()->addLine(false,
 		checkString((char *) alGetString(AL_EXTENSIONS)));
-	GLConsole::instance()->addLine(false, "ALC_DEVICE_SPECIFIER:");
+	Logger::log("ALC_DEVICE_SPECIFIER:");
 	GLConsole::instance()->addLine(false,
 		checkString((char *) alcGetString(soundDevice, ALC_DEVICE_SPECIFIER)));
 

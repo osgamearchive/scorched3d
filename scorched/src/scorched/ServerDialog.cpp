@@ -586,9 +586,9 @@ void ServerFrame::onTimer(wxTimerEvent &event)
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 2);
-	snprintf(buffer, 256, "BI:%u BO:%u P:%u C:%u",
-		NetInterface::getBytesIn(),
-		NetInterface::getBytesOut(),
+	snprintf(buffer, 256, "BI:%uK BO:%uK P:%u C:%u",
+		NetInterface::getBytesIn() / 1000,
+		NetInterface::getBytesOut() / 1000,
 		NetInterface::getPings(),
 		NetInterface::getConnects());
 	frame->statusBar_->SetStatusText(wxString(buffer, wxConvUTF8), 3);
@@ -882,10 +882,10 @@ void showServerDialog()
 {
 	char serverName[1024];
 	snprintf(serverName, 1024,
-		"Scorched 3D Dedicated Server [ %s : %i ] [%s]",
+		"Scorched3D Server - Version %s (%s) [%s:%i]",
+		ScorchedVersion, ScorchedProtocolVersion,
 		ScorchedServer::instance()->getOptionsGame().getServerName(), 
-		ScorchedServer::instance()->getOptionsGame().getPortNo(), 
-		(ScorchedServer::instance()->getOptionsGame().getPublishServer()?"Published":"Not Published"));
+		ScorchedServer::instance()->getOptionsGame().getPortNo());
 
 	frame = new ServerFrame(serverName);
 	frame->Show();

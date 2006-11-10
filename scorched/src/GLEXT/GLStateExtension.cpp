@@ -19,9 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLStateExtension.h>
-#include <GLEXT/GLConsole.h>
 #include <common/OptionsDisplay.h> // Hmm library code pollution
 #include <common/DefinesString.h>
+#include <common/Logger.h>
 #include <SDL/SDL.h>
 #include <string.h>
 #include <string>
@@ -65,7 +65,7 @@ bool GLStateExtension::hasExtension(char *name)
 		}
 	}
 
-	GLConsole::instance()->addLine(false, 
+	Logger::log(
 		formatString("GL extension \"%s\" = %s",
 		name,
 		(result?"on":"off")));
@@ -150,24 +150,24 @@ void GLStateExtension::setup()
 
 	noTexSubImage_ = OptionsDisplay::instance()->getNoGLTexSubImage();
 
-	GLConsole::instance()->addLine(false, "GL_VENDOR:");
-	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VENDOR));
-	GLConsole::instance()->addLine(false, "GL_RENDERER:");
-	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_RENDERER));
-	GLConsole::instance()->addLine(false, "GL_VERSION:");
-	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_VERSION));
-	GLConsole::instance()->addLine(false, "GL_EXTENSIONS:");
-	GLConsole::instance()->addLine(false, (const char *) glGetString(GL_EXTENSIONS));
-	GLConsole::instance()->addLine(false, "TEXTURE_UNITS:");
-	GLConsole::instance()->addLine(false, formatString("%s (%i units)", ((glActiveTextureARB_==0)?"Off":"On"),textureUnits_));
-	GLConsole::instance()->addLine(false, "VBO:");
-	GLConsole::instance()->addLine(false, formatString("%s", ((glGenBuffersARB_==0)?"Off":"On")));
-	GLConsole::instance()->addLine(false, "ENV COMBINE:");
-	GLConsole::instance()->addLine(false, formatString("%s", (envCombine_?"On":"Off")));
-	GLConsole::instance()->addLine(false, "CUBE MAP:");
-	GLConsole::instance()->addLine(false, formatString("%s", (hasCubeMap_?"On":"Off")));
-	GLConsole::instance()->addLine(false, "HW MIP MAPS:");
-	GLConsole::instance()->addLine(false, formatString("%s", (hasHardwareMipmaps_?"On":"Off")));
-	GLConsole::instance()->addLine(false, "HW SHADOWS:");
-	GLConsole::instance()->addLine(false, formatString("%s", (hasHardwareShadows_?"On":"Off")));
+	Logger::log("GL_VENDOR:");
+	Logger::log((const char *) glGetString(GL_VENDOR));
+	Logger::log("GL_RENDERER:");
+	Logger::log((const char *) glGetString(GL_RENDERER));
+	Logger::log("GL_VERSION:");
+	Logger::log((const char *) glGetString(GL_VERSION));
+	Logger::log("GL_EXTENSIONS:");
+	Logger::log((const char *) glGetString(GL_EXTENSIONS));
+	Logger::log("TEXTURE_UNITS:");
+	Logger::log(formatString("%s (%i units)", ((glActiveTextureARB_==0)?"Off":"On"),textureUnits_));
+	Logger::log("VBO:");
+	Logger::log(formatString("%s", ((glGenBuffersARB_==0)?"Off":"On")));
+	Logger::log("ENV COMBINE:");
+	Logger::log(formatString("%s", (envCombine_?"On":"Off")));
+	Logger::log("CUBE MAP:");
+	Logger::log(formatString("%s", (hasCubeMap_?"On":"Off")));
+	Logger::log("HW MIP MAPS:");
+	Logger::log(formatString("%s", (hasHardwareMipmaps_?"On":"Off")));
+	Logger::log("HW SHADOWS:");
+	Logger::log(formatString("%s", (hasHardwareShadows_?"On":"Off")));
 }
