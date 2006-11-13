@@ -22,7 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <coms/ComsKeepAliveMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <tank/TankContainer.h>
+#include <coms/NetInterface.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <time.h>
@@ -39,11 +39,11 @@ ClientKeepAliveSender *ClientKeepAliveSender::instance()
 }
 
 ClientKeepAliveSender::ClientKeepAliveSender() : 
-	lastSendTime_(0), recvMessage_(true)
+	lastSendTime_(0), recvMessage_(true), sendThread_(0)
 {
-	ScorchedClient::instance()->getComsMessageHandler().addSentHandler(
-		"ComsKeepAliveMessage",
-		this);
+	ComsKeepAliveMessage message;
+	message.writeTypeMessage(buffer_);
+	message.writeMessage(buffer_, 0);
 }
 
 ClientKeepAliveSender::~ClientKeepAliveSender()
@@ -52,46 +52,48 @@ ClientKeepAliveSender::~ClientKeepAliveSender()
 
 void ClientKeepAliveSender::sendKeepAlive()
 {
-	if (ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() == 0 ||
-		ScorchedClient::instance()->getOptionsGame().getKeepAliveTimeoutTime() == 0)
+	if (ScorchedClient::instance()->getOptionsGame().getKeepAliveTimeoutTime() == 0)
 	{
 		return;
 	}
+
+	if (sendThread_)
+	{
+		return;
+	}
+
+	// Create the processing thread
+	sendThread_ = SDL_CreateThread(ClientKeepAliveSender::sendThreadFunc, 0);
+	if (sendThread_ == 0)
+	{
+		Logger::log(formatString("ClientKeepAliveSender: Failed to create send thread"));
+		return;
+	}	
+}
+
+int ClientKeepAliveSender::sendThreadFunc(void *)
+{
+	while (true)
+	{
+		SDL_Delay(500);
+		instance_->send();
+	}
+	return 1;
+}
+
+void ClientKeepAliveSender::send()
+{
 	unsigned int sendTime = (unsigned int)
 		ScorchedClient::instance()->getOptionsGame().getKeepAliveTime();
 	unsigned int theTime = (unsigned int) time(0);
 
-	if (recvMessage_)
+	if (theTime - lastSendTime_ >= sendTime)
 	{
-		if (theTime - lastSendTime_ >= sendTime)
-		{
-			ComsKeepAliveMessage message;
-			ComsMessageSender::sendToServer(message);
+		// Use this directly as it is thread safe
+		ScorchedClient::instance()->getNetInterface().sendMessage(buffer_);
 
-			recvMessage_ = false;
-			lastSendTime_ = theTime;
-			lastWarnTime_ = theTime;
-		}
-	}
-	else
-	{
-		if (theTime - lastSendTime_ >= sendTime)
-		{
-			if (theTime - lastWarnTime_  >= sendTime)
-			{
-				Logger::log(formatString("Warning: Keepalive has not been sent in %u seconds",
-					theTime - lastSendTime_));
-				lastWarnTime_ = theTime;
-			}
-		}
+		lastSendTime_ = theTime;
+		lastWarnTime_ = theTime;
 	}
 }
 
-bool ClientKeepAliveSender::processSentMessage(
-	unsigned int id,
-	const char *message,
-	NetBufferReader &reader)
-{
-	recvMessage_ = true;
-	return true;
-}

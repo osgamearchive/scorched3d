@@ -13,6 +13,8 @@ Fixed: Server refusing to allow move when client is trying to use all available 
 Fixed: When balancing teams bots will not leave until the beginning of the next round
 Fixed: Landscape movement texture and message displayed for incorrect players
 Fixed: Players cannot move through moving movementproof shields
+Fixed: Timeout kicks can be logged multiple times
+Fixed: Keepalive packets are sent from client even when graphics thread is locked
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

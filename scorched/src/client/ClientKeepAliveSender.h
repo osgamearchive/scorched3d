@@ -23,24 +23,23 @@
 
 #include <coms/ComsMessageHandler.h>
 
-class ClientKeepAliveSender : public ComsMessageHandlerSentI
+class ClientKeepAliveSender
 {
 public:
 	static ClientKeepAliveSender *instance();
 
 	void sendKeepAlive();
 
-	// Inherited from ComsMessageHandlerSentI
-	virtual bool processSentMessage(
-		unsigned int id,
-		const char *message,
-		NetBufferReader &reader);
-
 protected:
 	static ClientKeepAliveSender *instance_;
+	static int sendThreadFunc(void *);
 	unsigned int lastSendTime_;
 	unsigned int lastWarnTime_;
+	SDL_Thread *sendThread_;
 	bool recvMessage_;
+	NetBuffer buffer_;
+
+	void send();
 
 private:
 	ClientKeepAliveSender();
