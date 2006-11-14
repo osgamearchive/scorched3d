@@ -35,6 +35,7 @@ public:
 		NoMessage,
 		ConnectMessage,
 		DisconnectMessage,
+		DisconnectAllMessage,
 		BufferMessage,
 		SentMessage
 	};
