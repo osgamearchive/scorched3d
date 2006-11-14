@@ -26,14 +26,20 @@ PhysicsEngine::PhysicsEngine() :
 	world_(0), 
 	targetSpace_(0), groundSpace_(0), 
 	particleSpace_(0), tankSpace_(0),
-	contactgroup_(0), handler_(0)
+	contactgroup_(0), handler_(0),
+	contactGeomsCount_(0), contactInfosCount_(0),
+	maxContacts_(1000)
 {
+	contactGeoms_ = new dContactGeom[maxContacts_];
+	contactInfos_ = new dContactInfo[maxContacts_];
 	create();
 }
 
 PhysicsEngine::~PhysicsEngine()
 {
 	destroy();
+	delete [] contactGeoms_;
+	delete [] contactInfos_;
 }
 
 void PhysicsEngine::setCollisionHandler(PhysicsEngineCollision *handler)
@@ -98,6 +104,12 @@ void PhysicsEngine::destroy()
 
 void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 {
+	PhysicsEngine *engine = (PhysicsEngine *) data;	
+	engine->realNearCallback(data, o1, o2);
+}
+
+void PhysicsEngine::realNearCallback(void *data, dGeomID o1, dGeomID o2)
+{
 	if (dGeomIsEnabled(o1) == 0 ||
 		dGeomIsEnabled(o1) == 0)
 	{
@@ -106,9 +118,6 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 		return;
 	}
 
-	const int maxContacts = 100;
-
-	PhysicsEngine *engine = (PhysicsEngine *) data;
 	if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) 
 	{
 		// colliding a space with something
@@ -134,27 +143,55 @@ void PhysicsEngine::nearCallback(void *data, dGeomID o1, dGeomID o2)
 
 		if (b1 && b2 && dAreConnectedExcluding(b1,b2,dJointTypeContact)) return;
 
-		// Get the contacts for these two objects
-		static dContactGeom contacts[maxContacts];
-		int numc = dCollide(o1, o2, maxContacts, contacts, sizeof(dContactGeom));
-		if ((numc > 0) && engine->handler_)
+		// Find how many contacts we are allowed from the pool
+		unsigned int contactsLeft = maxContacts_ - contactGeomsCount_;
+		if (contactsLeft > 0)
 		{
-			// We have collisions, ask the user to process them
-			engine->handler_->collision(o1, o2, contacts, numc);
+			// We have contacts left in the pool
+			// Get the contacts for these two objects
+			int numc = dCollide(o1, o2, 
+				contactsLeft, &contactGeoms_[contactGeomsCount_], 
+				sizeof(dContactGeom));
+			if (numc > 0)
+			{
+				// We have a collision
+				// Record this collision for processing
+				dContactInfo &info = contactInfos_[contactInfosCount_];
+				info.o1 = o1;
+				info.o2 = o2;
+				info.contacts = &contactGeoms_[contactGeomsCount_];
+				info.contactCount = numc;
+
+				contactInfosCount_ += 1; // We've used one collision
+				contactGeomsCount_ += numc; // We've used numc contacts
+			}
 		}
     }
 }
 
 void PhysicsEngine::stepSimulation(float stepSize)
 {
-	// Simulate the world
+	// Find collisions
+	contactGeomsCount_ = 0;
+	contactInfosCount_ = 0;
 	dSpaceCollide2((dGeomID) targetSpace_, (dGeomID) particleSpace_, this, &nearCallback); 
 	dSpaceCollide2((dGeomID) groundSpace_, (dGeomID) particleSpace_, this, &nearCallback); 
 	dSpaceCollide2((dGeomID) tankSpace_, (dGeomID) particleSpace_, this, &nearCallback); 
 	dSpaceCollide2((dGeomID) targetSpace_, (dGeomID) tankSpace_, this, &nearCallback); 
-	//dSpaceCollide(space_, this, &nearCallback);
-	//dWorldStep(world_, stepSize);
-	//dWorldStepFast1(world_, stepSize, 5);
+
+	// Perform collision actions
+	if (handler_ && contactInfosCount_ > 0)
+	{
+		for (unsigned int c=0; c<contactInfosCount_; c++)
+		{
+			dContactInfo &info = contactInfos_[c];
+
+			// We have collisions, ask the user to process them
+			handler_->collision(info.o1, info.o2, info.contacts, info.contactCount);
+		}
+	}
+
+	// Simulate the world
 	dWorldQuickStep(world_, stepSize);
 
 	// remove all contact joints

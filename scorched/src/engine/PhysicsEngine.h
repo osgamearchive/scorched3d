@@ -55,11 +55,23 @@ public:
 
 protected:
 	PhysicsEngineCollision *handler_;
+	struct dContactInfo
+	{
+		dGeomID o1;
+		dGeomID o2;
+		dContactGeom *contacts;
+		int contactCount;
+	};
 	dWorldID world_;
 	dSpaceID targetSpace_;
 	dSpaceID tankSpace_;
 	dSpaceID particleSpace_;
 	dSpaceID groundSpace_;
+	dContactGeom *contactGeoms_;
+	dContactInfo *contactInfos_;
+	const unsigned int maxContacts_;
+	unsigned int contactGeomsCount_;
+	unsigned int contactInfosCount_;
 	dJointGroupID contactgroup_;
 	std::list<dGeomID> deadGeoms_;
 	Vector wind_;
@@ -67,6 +79,7 @@ protected:
 	void destroy();
 
 	static void nearCallback(void *data, dGeomID o1, dGeomID o2);
+	void realNearCallback(void *data, dGeomID o1, dGeomID o2);
 
 };
 
