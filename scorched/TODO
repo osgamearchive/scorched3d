@@ -16,6 +16,7 @@ Fixed: Players cannot move through moving movementproof shields
 Fixed: Timeout kicks can be logged multiple times
 Fixed: Keepalive packets are sent from client even when graphics thread is locked
 Fixed: Scorched collision handling does not occur within ODE collision proccessing
+Fixed: WeaponAimedOver will now work as expected outside of the walled arena
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

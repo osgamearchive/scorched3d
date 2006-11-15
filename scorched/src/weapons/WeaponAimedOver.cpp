@@ -24,6 +24,7 @@
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
 #include <common/Defines.h>
+#include <common/OptionsTransient.h>
 #include <list>
 #include <math.h>
 
@@ -77,12 +78,19 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	unsigned int data)
 {
 	Vector position = sentPosition;
-	if (position[0] < 6.0f) position[0] = 6.0f;
-	else if (position[0] > (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6) 
-		position[0] = (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6;
-	if (position[1] < 6.0f) position[1] = 6.0f;
-	else if (position[1] > (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6)
-	        position[1] = (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6;
+
+	// Make sure that this position is inside the walls (if any)
+	if (context.optionsTransient->getWallType() != OptionsTransient::wallNone)
+	{
+		if (position[0] < 6.0f) position[0] = 6.0f;
+		else if (position[0] > (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6) 
+			position[0] = (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6;
+		if (position[1] < 6.0f) position[1] = 6.0f;
+		else if (position[1] > (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6)
+				position[1] = (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6;
+	}
+
+	// Make sure that this position is above ground
 	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
 	if (position[2] < minHeight + 0.5f)
