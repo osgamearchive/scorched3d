@@ -22,10 +22,13 @@
 #include <coms/NetMessagePool.h>
 #include <common/Logger.h>
 
+//#define UDP_TEST
+
 NetServerUDPDestination::NetServerUDPDestination(NetServerUDP *server, IPaddress &address) :
 	server_(server),
 	sendSeq_(1), recvSeq_(1), recvMessage_(0),
-	packetLogging_(false)
+	packetLogging_(false),
+	packetsSent_(0), packetsWaiting_(0),  droppedPackets_(0)
 {
 	memcpy(&address_, &address, sizeof(address));
 }
@@ -63,6 +66,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		return;
 	}
 
+	// We've got new data, remove the headers (packet type and sequence no)
 	data++; len--;// Remove type
 	Uint32 seqValue = 0;
 	memcpy(&seqValue, data, sizeof(seqValue));
@@ -74,18 +78,21 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		Logger::log(formatString("Recieving part %u%s - %i bytes", seq, (fin?"*":" "), len));
 	}
 
+	// Is this is next packet we want
 	if (seq == recvSeq_)
 	{
 		// We've recieved the next message in the sequence
-		// add it to the back of the list
+		// add the data to the current buffer
 		addData(destinationId, len, data, fin);
 		recvSeq_++;
 
-		// Check if we already have the next in the sequence
-		while (incomingMessages_.find(recvSeq_) != incomingMessages_.end())
+		// Check if we already have recieved the parts in the sequence after this one 
+		std::map<unsigned int, NetMessage *>::iterator finditor;
+		while ((finditor = incomingMessages_.find(recvSeq_)) != incomingMessages_.end())
 		{
-			NetMessage *message = incomingMessages_[recvSeq_];
-			incomingMessages_.erase(recvSeq_);
+			// For each one we have, add it to the current buffer
+			NetMessage *message = (*finditor).second;
+			incomingMessages_.erase(finditor);
 
 			addData(destinationId, 
 				(int) message->getBuffer().getBufferUsed(), 
@@ -103,29 +110,42 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		// Check we have not already got this message
 		if (incomingMessages_.find(seq) == incomingMessages_.end())
 		{
-			// Add the data
+			// We don't have this packet yet, add the data
 			NetMessage *message = NetMessagePool::instance()->
 				getFromPool((fin?NetMessage::DisconnectMessage:NetMessage::BufferMessage),
 					0, 0);
-			recvMessage_->getBuffer().addDataToBuffer(data, len);
+			message->getBuffer().addDataToBuffer(data, len);
 			incomingMessages_[seq] = message;
 		}
 	}
 
-	// Send an ack
-	if (packetLogging_)
+	bool sendAck = true;
+#ifdef UDP_TEST
+	// Test code to simulate packet loss
+	if (rand() < RAND_MAX / 4)
 	{
-		Logger::log(formatString("Sending ack %u", seq));
+		Logger::log("WARNING: UDP Test Enabled - Drop");
+		sendAck = false;
 	}
-	server_->packetVOut_[0]->len = 5;
-	server_->packetVOut_[0]->address.host = address_.host;
-	server_->packetVOut_[0]->address.port = address_.port;
-	server_->packetVOut_[0]->data[0] = server_->eDataAck;
-	server_->packetVOut_[0]->channel = -1;
-	SDLNet_Write32(seq, &server_->packetVOut_[0]->data[1]);
-	if (SDLNet_UDP_SendV(server_->udpsock_, server_->packetVOut_, 1) == 0)
+#endif // UDP_TEST
+
+	if (sendAck)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to send ack packet"));
+		// Send an ack
+		if (packetLogging_)
+		{
+			Logger::log(formatString("Sending ack %u", seq));
+		}
+		server_->packetVOut_[0]->len = 5;
+		server_->packetVOut_[0]->address.host = address_.host;
+		server_->packetVOut_[0]->address.port = address_.port;
+		server_->packetVOut_[0]->data[0] = server_->eDataAck;
+		server_->packetVOut_[0]->channel = -1;
+		SDLNet_Write32(seq, &server_->packetVOut_[0]->data[1]);
+		if (SDLNet_UDP_SendV(server_->udpsock_, server_->packetVOut_, 1) == 0)
+		{
+			Logger::log(formatString("NetServerUDP: Failed to send ack packet"));
+		}
 	}
 }
 
@@ -167,7 +187,17 @@ void NetServerUDPDestination::processDataAck(unsigned int destinationId, int len
 
 	// Remove this packet from the list of sent packets
 	OutgoingMessage *message = outgoingMessages_.front();
-	message->sentParts_.erase(seq);
+	std::map<unsigned int, MessagePart>::iterator findItor = 
+		message->sentParts_.find(seq);
+	if (findItor != message->sentParts_.end())
+	{
+		unsigned int theTime = SDL_GetTicks();
+		MessagePart &part = (*findItor).second;
+		packetTime_ = theTime - part.sendtime;
+		packetsWaiting_--; // One packet sent and acked
+
+		message->sentParts_.erase(findItor);
+	}
 
 	// Check if we have finished sending this message
 	if (message->pendingParts_.empty() &&
@@ -180,18 +210,22 @@ void NetServerUDPDestination::processDataAck(unsigned int destinationId, int len
 	}
 }
 
-bool NetServerUDPDestination::checkOutgoing()
+NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoing()
 {
-	// Check we have stuff to send
-	if (outgoingMessages_.empty()) return false;
+	OutgoingResult result = OutgoingEmpty;
 
-	// Send more parts (if any)
-	int sentParts = 0;
+	// Check we have stuff to send
+	if (outgoingMessages_.empty()) return result;
+
+	const unsigned int MaximumOutstandingParts = 10;
+	// Send more parts if
+	// 1) There are more parts to send
+	// 2) We dont have more than MaximumOutstandingParts parts
 	OutgoingMessage *message = outgoingMessages_.front();
 	while (!message->pendingParts_.empty() &&
-		message->sentParts_.size() < 10)
+		message->sentParts_.size() < MaximumOutstandingParts)
 	{
-		sentParts ++;
+		result = OutgoingSent;
 
 		// Get the next part to send
 		MessagePart part = message->pendingParts_.front();
@@ -205,29 +239,50 @@ bool NetServerUDPDestination::checkOutgoing()
 	}
 
 	// Check for any out of date parts
+	// Any parts we have sent and not recieved an ack for
 	if (!message->sentParts_.empty())
 	{
-		time_t theTime = time(0);
+		// Iterate through all of the parts we have sent
+		// and have no ack for
+		unsigned int theTime = SDL_GetTicks();
 		std::map<unsigned int, MessagePart>::iterator itor;
 		for (itor = message->sentParts_.begin();
 			itor != message->sentParts_.end();
 			itor++)
 		{
+			// Check if this part was sent longer than the timeout
+			// period ago
 			MessagePart &part = (*itor).second;
-			const int PartTimeout = 2;
-			if (theTime - part.sendtime > PartTimeout)
+			if (theTime - part.sendtime > (part.retries + 2) * 250)
 			{
-				sendPart(part, *message->message_);
+				// If it was then this is a dropped part (or ack)
+				droppedPackets_++;
+				part.retries ++;
+
+				// Check if we have exceeded maximum number of part retries
+				const int MaxNumberOfRetries = 10;
+				if (part.retries >= MaxNumberOfRetries)
+				{
+					// We have, its a timeout
+					return OutgoingTimeout;
+				}
+				else
+				{
+					// We have not, resent the part
+					sendPart(part, *message->message_);
+				}
 			}
 			else break;
 		}
 	}
 
-	return (sentParts > 0);
+	return result;
 }
 
 void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 {
+	// Add a whole new buffer to send to this destination
+
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::SentMessage, 
@@ -252,23 +307,44 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 	if (remainder > 0) parts ++;
 	else remainder = SendLength; 
 
-	// Record each part
+	// Add each part into the list of parts pending to send to this client
 	for (int p=0; p<parts; p++)
 	{
+		packetsWaiting_++; // One more packet to be sent
+
 		MessagePart part;
 		part.end = (p == parts - 1);
 		part.length = ((p == parts - 1)?remainder:SendLength);
 		part.offset = p * SendLength;
 		part.seq = sendSeq_++;
+		part.retries = 0;
+
+#ifdef UDP_TEST
+		// Test code for sending out of sequence packets
+		if (rand() > RAND_MAX / 2)
+		{
+			outgoingMessage->pendingParts_.push_back(part);
+		}
+		else
+		{
+			Logger::log("WARNING: UDP Test Enabled - Out of sequence");
+			outgoingMessage->pendingParts_.push_front(part);
+		}
+#else // UDP_TEST
+		// The "normal" code to send sequenced packets
 		outgoingMessage->pendingParts_.push_back(part);
+#endif // UDP_TEST
 	}
 	outgoingMessages_.push_back(outgoingMessage);
 }
 
 bool NetServerUDPDestination::sendPart(MessagePart &part, NetMessage &message)
 {
+	// Actually send a part in a UDP packet
+	packetsSent_++;
+
 	// Update the last time this part was sent
-	part.sendtime = time(0);
+	part.sendtime = SDL_GetTicks();
 
 	// Send this part
 	server_->packetVOut_[0]->len = 5 + part.length;
@@ -291,4 +367,10 @@ bool NetServerUDPDestination::sendPart(MessagePart &part, NetMessage &message)
 	}
 	
 	return true;
+}
+
+void NetServerUDPDestination::printStats(unsigned int destination)
+{
+	Logger::log(formatString("UDP Destination %u - %u sent, %u waiting, %u dropped, %u time",
+		destination, packetsSent_, packetsWaiting_, droppedPackets_, packetTime_));
 }

@@ -226,7 +226,21 @@ bool NetServerUDP::checkOutgoing()
 	{
 		unsigned int destinationId = (*itor).first;
 		NetServerUDPDestination *destination = (*itor).second;
-		if (destination->checkOutgoing()) sent = true;
+
+		NetServerUDPDestination::OutgoingResult outResult = destination->checkOutgoing();
+		switch (outResult)
+		{
+		case NetServerUDPDestination::OutgoingTimeout:
+
+			// Client timedout
+			Logger::log(formatString("Disconnected %u - timedout", destinationId));
+			destroyDestination(destinationId);
+			return true; // Because we are in iterator
+			break;
+		case NetServerUDPDestination::OutgoingSent:
+			sent = true;
+			break;
+		}
 	}
 
 	return sent;
@@ -367,6 +381,7 @@ void NetServerUDP::destroyDestination(unsigned int destinationId)
 	{
 		NetServerUDPDestination *destination = (*itor).second;
 		destinations_.erase(destinationId);
+		destination->printStats(destinationId);
 		delete destination;
 	}
 

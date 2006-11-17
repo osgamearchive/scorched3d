@@ -23,7 +23,6 @@
 
 #include <coms/NetInterface.h>
 #include <SDL/SDL_net.h>
-#include <time.h>
 #include <list>
 #include <map>
 
@@ -39,7 +38,16 @@ public:
 	void processData(unsigned int destinationId, int len, unsigned char *data, bool fin);
 	void processDataAck(unsigned int destinationId, int len, unsigned char *data);
 	void addMessage(NetMessage &message);
-	bool checkOutgoing();
+	void printStats(unsigned int destinationId);
+
+	enum OutgoingResult
+	{
+		OutgoingSent,
+		OutgoingEmpty,
+		OutgoingTimeout
+	};
+
+	OutgoingResult checkOutgoing();
 
 protected:
 	struct MessagePart
@@ -47,7 +55,8 @@ protected:
 		unsigned int seq;
 		unsigned int offset;
 		unsigned int length;
-		time_t sendtime;
+		unsigned int sendtime;
+		unsigned int retries;
 		bool end;
 	};
 	struct OutgoingMessage
@@ -57,6 +66,10 @@ protected:
 		std::map<unsigned int, MessagePart> sentParts_;
 	};
 
+	unsigned int droppedPackets_; // Packets droped
+	unsigned int packetsWaiting_; // Packets waiting to be sent
+	unsigned int packetsSent_; // Packets sent
+	unsigned int packetTime_; // Time for last packet
 	bool packetLogging_;
 	NetServerUDP *server_;
 	IPaddress address_;
