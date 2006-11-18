@@ -205,7 +205,7 @@ for ($i=0; $i<count($fieldarray); $i++) {	//Expand field names in the field name
 if (($filterby != Null) and ($filterby != 'none')) {
 	if ($filtercompare != Null and $filtervalue != Null) {
 		$filterurl=$filterby."&FComp=".urlencode($filtercompare)."&FVal=".$filtervalue;
-		if ($filterby = 'playerid') $filterby="scorched3d_stats.playerid";
+		if ($filterby == 'playerid') $filterby="scorched3d_stats.playerid";
 	}
 	else $filterurl=$filterby."&FComp=".urlencode(">=")."&FVal=25";
 }
