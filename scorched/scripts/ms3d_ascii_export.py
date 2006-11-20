@@ -50,6 +50,9 @@ EVENT_EXPORT = 4
 EVENT_CHOOSE_FILENAME = 5
 EVENT_PROGRESS = 6
 
+def stripPath(path):
+        return path.split('/')[-1].split('\\')[-1]
+
 def fs_callback(filename):
 	global FILENAME
         if filename.find('.txt', -4) <= 0: filename += '.txt'
@@ -275,7 +278,7 @@ def write(filename):
 				image = material.getTextures()[0].tex.getImage()
 				imageName = Blender.sys.basename(image.getFilename())
 
-				file.write("\".\\" + imageName + "\"")
+				file.write("\".\\" + stripPath(imageName) + "\"")
 
 			else:
 				print 'Warning: Mesh ' + meshname + ' does not have a texture image!'
