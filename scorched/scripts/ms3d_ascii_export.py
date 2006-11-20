@@ -1,10 +1,10 @@
 #!BPY
 
 """
-Name: 'MS3D ASCII (.txt) v 1.3'
+Name: 'MS3D ASCII (.txt) v 1.4'
 Blender: 242
 Group: 'Export'
-Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.3'
+Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.4'
 """
 
 #Copyright (C) 2004-2006 Paul Vint cbx550f@sourceforge.net
@@ -35,8 +35,97 @@ Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.3'
 # Added proper support for emitted light 05/11/06
 
 import Blender
-import os, time
+from Blender import Draw, BGL
+from Blender.BGL import *
+from Blender.Draw import *
+import os, time, sys
 import meshtools
+import mesh_tri2quad
+
+## Events
+EVENT_NOEVENT = 1
+EVENT_DRAW = 2
+EVENT_EXIT = 3
+EVENT_EXPORT = 4
+EVENT_CHOOSE_FILENAME = 5
+EVENT_PROGRESS = 6
+
+def fs_callback(filename):
+	global FILENAME
+        if filename.find('.txt', -4) <= 0: filename += '.txt'
+	FILENAME.val = filename
+        #write(filename)
+
+def createS3DPath():
+	global FILENAME
+        filename = Blender.Get('filename')
+
+        if filename.find('.') != -1:
+                filename = filename.split('.')[0]
+                filename += ".txt"
+
+        #return filename
+	FILENAME.val = filename
+	return filename
+
+def fileSelect():
+        Blender.Window.FileSelector(fs_callback, "Select", createS3DPath())
+
+FILENAME = Create('filename')
+createS3DPath()
+
+showProgress = Create(1)
+
+### Basic GUI functions
+def draw():     # Define the draw function (which draws your GUI).
+        #Blender.BGL.glClear(Blender.BGL.GL_COLOR_BUFFER_BIT) # This clears the window
+        # Add here drawing commands to draw your GUI, for example:
+        #Blender.Draw.Toggle("Clear origin",1,10,20,100,20,0,"Tooltip")
+        # The line abive will draw a toggle button.
+        # Note the first number, '1' means this is button number 1
+	global EVENT_NOEVENT,EVENT_DRAW,EVENT_EXIT,EVENT_EXPORT,EVENT_CHOOSE_FILENAME,FILENAME,EVENT_PROGRESS, showProgress
+
+	glClear(GL_COLOR_BUFFER_BIT)
+	glRasterPos2d(8, 103)
+	Text("MilkShape3d ASCII Export")
+
+	## Buttons etc
+	glRasterPos2d(8, 83)
+	Button("Export",EVENT_EXPORT, 10, 10, 80, 18)
+	Button("Exit",EVENT_EXIT, 140, 10, 80, 18)
+	showProgress = Toggle("Show Progress",EVENT_PROGRESS,10, 30, 80, 18, showProgress.val, "Deselect to disable the progress bar (faster exporting)")
+
+	glRasterPos2d(8, 83)
+        FILENAME = String("Filename: ", EVENT_NOEVENT, 10, 55, 210, 18,
+                            FILENAME.val, 255, ".txt file to export")
+        Button("Browse",EVENT_CHOOSE_FILENAME,220,55,80,18)
+
+
+        
+def event(evt,val):  # Define mouse and keyboard press events
+        if (evt == Blender.Draw.ESCKEY): # Example if esc key pressed
+                Blender.Draw.Exit()    # then exit script
+                return                 # return from the function
+
+def bevent(evt): #Manage button events
+	global FILENAME,showProgress
+	if (evt == EVENT_EXIT):
+		Blender.Draw.Exit() 
+		return
+	elif (evt == EVENT_CHOOSE_FILENAME):
+		fileSelect()
+		Blender.Redraw()
+		return
+	elif (evt == EVENT_EXPORT):
+		#print showProgress
+		#showProgress = showProgress
+		write(FILENAME.val)
+		Blender.Draw.Exit()
+		return
+
+
+#Blender.Draw.Register(draw,event,button)
+
 
 #======= Write ms3d .txt format =========
 
@@ -44,8 +133,16 @@ dbg = 0   #set to enable debugging
 
 	
 def write(filename):
+	global showProgress
+	print showProgress
 	start = time.clock()
 	
+	convertToTris = 0;
+	if Blender.sys.exists(filename) and (Blender.Draw.PupMenu("File exists, replace?%t|YES|NO") == 2):
+		fileSelect()
+		return
+
+		
 	file = open(filename, "wb")
 
 	# ms3d header
@@ -77,7 +174,7 @@ def write(filename):
 					else:
 						line += '0.0 0.0 -1\n'  
 
-					if not i%50 and meshtools.show_progress:
+					if not i%50 and showProgress.val:
 						Blender.Window.DrawProgressBar(float(i)/len(mesh.faces), thismesh + "Verts")
 					file.write(line)
 
@@ -85,7 +182,7 @@ def write(filename):
 			#print "Norms: ",len(mesh.faces),  #FIX! Temp only using # of faces
 			file.write(str(3 * len(mesh.faces)))
 			for i in range(len(mesh.faces)):
-				if not i%50 and meshtools.show_progress:
+				if not i%50 and showProgress.val:
 					Blender.Window.DrawProgressBar(float(i)/len(mesh.faces), thismesh + "Normals")
 				#file.write('\n' + str(round(mesh.faces[i].no[0],4)) + ' ' + str(round(mesh.faces[i].no[2],4)) + ' ' + str(round(mesh.faces[i].no[1],4)))
 				faceVerts = len(mesh.faces[i].v)
@@ -101,7 +198,7 @@ def write(filename):
 			idx = 0
 			line = ""
 			for i in range(len(mesh.faces)):  # one face at a time
-				if not i%50 and meshtools.show_progress:
+				if not i%50 and showProgress.val:
 					Blender.Window.DrawProgressBar(float(i)/len(mesh.faces), thismesh + "Triangles")
 				if (len(mesh.faces[i].v) != 3):       #Ensure each face is a triangle!
 					print "\n\n*********** Error!   **********\n"
@@ -110,6 +207,19 @@ def write(filename):
 					exitmsg = 'MS3D Export Error:|Mesh \"' + objects[obj].data.name + '\" has ' + str(len(mesh.faces[i].v)) + ' verts in a face, needs to be converted to triangles with CTRL-T!' 
 					Blender.Draw.PupMenu(exitmsg)
 					return
+					#if convertToTris==0:	#only ask once
+					#	print "Object",objects[obj].data.name, "has", len(mesh.faces[i].v), "vertices in face", i, "Must have THREE verts per face"
+					#	convertToTris=Blender.Draw.PupMenu("Model not made entirely out of Triangles-Convert?%t|YES|NO")
+					#if convertToTris==1:
+					#	for f in mesh.faces:
+					#		f.sel = 1
+					#	Blender.Mesh.Mode(3) 
+					#	mesh.quadToTriangle(0)
+					#elif convertToTris==2:
+					#	exitmsg = 'MS3D Export Error:|Mesh \"' + objects[obj].data.name + '\" has ' + str(len(mesh.faces[i].v)) + ' verts in a face, needs to be converted to triangles with CTRL-T!'
+					#	Blender.Draw.PupMenu(exitmsg)
+					#	return
+						
 
 				for v in range(len(mesh.faces[i].v)):  #Go through each vertex in face - only need triangles for MS3D, but this would allow for quads too for portability
 					line += str(idx) + " "
@@ -198,23 +308,7 @@ def write(filename):
 	return
 
 
-def fs_callback(filename):
-	if filename.find('.txt', -4) <= 0: filename += '.txt'
-	write(filename)
-
-def createS3DPath():
-	filename = Blender.Get('filename')
-	print filename
-
-	if filename.find('.') != -1:
-		filename = filename.split('.')[0]
-		filename += ".txt"
-
-	return filename
-
-
-Blender.Window.FileSelector(fs_callback, "txt Export", createS3DPath())
-
+Blender.Draw.Register(draw,event,bevent)
 
 
 
