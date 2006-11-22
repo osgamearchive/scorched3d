@@ -40,6 +40,7 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapeMaps.h>
 #include <landscape/MovementMap.h>
+#include <tankgraph/RenderTracer.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
@@ -58,6 +59,8 @@ TankMenus::TankMenus() : logger_("ClientLog")
 
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::resetLandscape, "ResetLandscape");
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::clearTracerLines, "ClearTracerLines");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
@@ -185,6 +188,11 @@ void TankMenus::showTextureDetails()
 void TankMenus::resetLandscape()
 {
 	Landscape::instance()->reset();
+}
+
+void TankMenus::clearTracerLines()
+{
+	RenderTracer::instance()->clearTracerLines();
 }
 
 void TankMenus::showInventory()

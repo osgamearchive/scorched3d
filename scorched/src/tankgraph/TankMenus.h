@@ -63,6 +63,7 @@ protected:
 	void showInventory();
 	void showTextureDetails();
 	void resetLandscape();
+	void clearTracerLines();
 	void logToFile();
 	void say(std::list<GLConsoleRuleSplit>);
 	void teamsay(std::list<GLConsoleRuleSplit>);

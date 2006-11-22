@@ -46,6 +46,7 @@ public:
 
 	void newGame();
 	void clearTracers();
+	void clearTracerLines();
 	void addTracer(unsigned int tank, 
 		Vector &position);
 	void addSmokeTracer(unsigned int tank, 

@@ -53,6 +53,14 @@ void RenderTracer::clearTracers()
 	}
 }
 
+void RenderTracer::clearTracerLines()
+{
+	if (current_)
+	{
+		current_->lines.clear();
+	}
+}
+
 void RenderTracer::draw(const unsigned state)
 {
 	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
