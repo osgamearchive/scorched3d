@@ -21,6 +21,7 @@
 #include <client/ClientMessageHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <dialogs/ConnectDialog.h>
 #include <tank/TankContainer.h>
 #include <common/Logger.h>
 #include <coms/NetInterface.h>
@@ -54,7 +55,7 @@ void ClientMessageHandler::messageSent(NetMessage &message)
 
 void ClientMessageHandler::clientConnected(NetMessage &message)
 {
-	Logger::log( "Connected");
+	ConnectDialog::instance()->connected();
 }
 
 void ClientMessageHandler::clientDisconnected(NetMessage &message)

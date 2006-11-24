@@ -4247,6 +4247,18 @@
 			<File
 				RelativePath="..\coms\NetServerRead.h">
 			</File>
+			<File
+				RelativePath="..\coms\NetServerUDP.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerUDP.h">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerUDPDestination.cpp">
+			</File>
+			<File
+				RelativePath="..\coms\NetServerUDPDestination.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

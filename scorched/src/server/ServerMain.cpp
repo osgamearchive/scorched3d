@@ -25,6 +25,7 @@
 #include <weapons/EconomyStore.h>
 #include <coms/NetLoopBack.h>
 #include <coms/NetServer.h>
+#include <coms/NetServerUDP.h>
 #include <common/Defines.h>
 #include <common/Clock.h>
 #include <common/ARGParser.h>
@@ -121,6 +122,7 @@ bool startServer(bool local, ProgressCounter *counter)
 		ScorchedServer::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
 			new NetServer(new NetServerCompressedProtocol());
+			//new NetServerUDP();
 	}
 
 	ScorchedServer::instance()->getOptionsGame().updateChangeSet();

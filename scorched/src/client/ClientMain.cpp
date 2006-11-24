@@ -57,6 +57,7 @@
 #include <engine/FrameLimiter.h>
 #include <dialogs/ProgressDialog.h>
 #include <coms/NetServer.h>
+#include <coms/NetServerUDP.h>
 #include <coms/NetLoopBack.h>
 #include <common/OptionsDisplay.h>
 #include <common/ARGParser.h>
@@ -128,6 +129,7 @@ bool startClient(ProgressCounter *progressCounter)
 		ScorchedClient::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
 			new NetServer(new NetServerCompressedProtocol());
+			//new NetServerUDP();
 	}
 	else
 	{

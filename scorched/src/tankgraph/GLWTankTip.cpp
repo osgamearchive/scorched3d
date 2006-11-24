@@ -253,7 +253,7 @@ TankShieldTip::~TankShieldTip()
 
 void TankShieldTip::showItems(float x, float y)
 {
-	static GLWTip offTip("Sheild Off", 
+	static GLWTip offTip("Shield Off", 
 		"Don't select a shield or\n"
 		"turn off any current shield");
 

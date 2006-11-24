@@ -131,7 +131,7 @@ void showURL(const char *url)
 void runScorched3D(const char *text)
 {
 	char path[1024];
-	snprintf(path, 1024, "%s %s -settingsdir %s %s", 
+	snprintf(path, 1024, "\"%s\" %s -settingsdir %s %s", 
 		getExeName(), 
 		(OptionsParam::instance()->getAllowExceptions()?" -allowexceptions":""),
 		OptionsParam::instance()->getSettingsDir(), 

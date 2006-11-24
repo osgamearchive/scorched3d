@@ -28,6 +28,7 @@
 #include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
@@ -81,14 +82,16 @@ void ConnectDialog::simulate(float frameTime)
 		{
 			if (tryCount_<3)
 			{
+				tryCount_++;
 				lastTime_ = currentTime;
 				tryConnection();
 			}
+			else
+			{
+				connectionState_ = eFinished;
+				Logger::log("Connection Failed");
+			}
 		}
-	}
-	else if (connectionState_ == eFinishedTryingConnection)
-	{
-		finishedTryingConnection();
 	}
 }
 
@@ -99,106 +102,75 @@ void ConnectDialog::tryConnection()
 		OptionsParam::instance()->getConnect():
 		"Localhost");
 
-	std::string hostPart = serverName;
+	host_ = serverName;
+	port_ = ScorchedPort;
+
 	char *colon = strchr((char *)serverName, ':');
-	int port = ScorchedPort;
 	if (colon) 
 	{
 		char *stop;
 		*colon = '\0';
 		colon++;
-		port = strtol(colon, &stop, 10);
-		hostPart = serverName;
+		port_ = strtol(colon, &stop, 10);
+		host_ = serverName;
 		colon--;
 		*colon = ':';
 	}	
 
 	LogDialog::instance()->setServerName(
 		formatString("Connecting to : %s", serverName));
-
-	{
-		LoggerInfo info (LoggerInfo::TypeNormal, 
-			"Attempting connection", "");
-		LogDialog::instance()->logMessage(info);
-	}
-	{
-		LoggerInfo info (LoggerInfo::TypeNormal, 
-			formatString("  Trying \"%s\"....", 
-			serverName[0]?serverName:"Loopback"), "");
-		LogDialog::instance()->logMessage(info);
-	}
+	Logger::log("Attempting connection");
+	Logger::log(formatString("  Trying \"%s\"....", 
+		serverName[0]?serverName:"Loopback"));
 
 	connectionState_ = eTryingConnection;
 	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		// This point should only ever be called by one thread
-		// so cheat
-		static ThreadParams params;
-		params.host = hostPart;
-		params.port = port;
-		params.dialog = this;
-
-		SDL_CreateThread(ConnectDialog::tryRemoteConnection, &params);
+		// Do in a thread so connect can block if it wants!
+		SDL_CreateThread(ConnectDialog::tryRemoteConnection, 0);
 	}
 	else
 	{
+		// Or connect localy
 		tryLocalConnection();
 	}
 }
 
-int ConnectDialog::tryRemoteConnection(void *inParams)
+int ConnectDialog::tryRemoteConnection(void *)
 {
-	ThreadParams *params = (ThreadParams *) inParams;
-	char *host = (char *) params->host.c_str();
-	int port = params->port;
-	ConnectDialog *dialog = params->dialog;
+	char *host = (char *) instance_->host_.c_str();
+	int port = instance_->port_;
 
-	if (ScorchedClient::instance()->getNetInterface().
-		connect(host, port))
-	{
-		if (OptionsParam::instance()->getConnectedToServer())
-		{
-			IPaddress address;
-			if (SDLNet_ResolveHost(&address, host, 0) == 0)
-			{
-				unsigned int ipAddress = SDLNet_Read32(&address.host);
-				dialog->uniqueId_ = dialog->getIdStore().getUniqueId(ipAddress);
-			}
-		}
-	}
+	// Try to connect to the server
+	ScorchedClient::instance()->getNetInterface().connect(host, port);
 
-	dialog->connectionState_ = eFinishedTryingConnection;
+	// Wait for result
+	instance_->connectionState_ = eWaiting;
 	return 0;
 }
 
 void ConnectDialog::tryLocalConnection()
 {
-	connectionState_ = eFinishedTryingConnection;
+	// Try to connect localy
+	ScorchedClient::instance()->getNetInterface().connect("Local", 0);
+
+	// Wait for result
+	connectionState_ = eWaiting;;
 }
 
-void ConnectDialog::finishedTryingConnection()
+void ConnectDialog::connected()
 {
-	// Check to see if the connection attempt was successful
-	if (!ScorchedClient::instance()->getNetInterface().started())
+	Logger::log(formatString("Connected."));
+
+	// Update unique id store
+	if (OptionsParam::instance()->getConnectedToServer())
 	{
-		LoggerInfo info (LoggerInfo::TypeNormal, 
-			"  Connection Failed.", "");
-		LogDialog::instance()->logMessage(info);
-
-		if (++tryCount_>2)
+		IPaddress address;
+		if (SDLNet_ResolveHost(&address, (char *) host_.c_str(), 0) == 0)
 		{
-			LoggerInfo info (LoggerInfo::TypeNormal, 
-				"Could not connect to server.", "");
-			LogDialog::instance()->logMessage(info);
-
-			connectionState_ = eFinished;
+			unsigned int ipAddress = SDLNet_Read32(&address.host);
+			uniqueId_ = getIdStore().getUniqueId(ipAddress);
 		}
-		else
-		{
-			connectionState_ = eWaiting;
-		}
-
-		return;
 	}
 
 	// Check the number of players that are connecting
@@ -220,9 +192,7 @@ void ConnectDialog::finishedTryingConnection()
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
-		LoggerInfo info (LoggerInfo::TypeNormal, 
-			"  Connection Send Failed!", "");
-		LogDialog::instance()->logMessage(info);
+		Logger::log("  Connection Send Failed!");
 	}
 
 	connectionState_ = eFinished;

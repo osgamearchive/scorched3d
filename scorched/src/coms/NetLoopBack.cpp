@@ -32,6 +32,15 @@ NetLoopBack::~NetLoopBack()
 {
 }
 
+bool NetLoopBack::connect(const char *hostName, int portNo)
+{
+	NetMessage *message = NetMessagePool::instance()->
+		getFromPool(NetMessage::ConnectMessage, currentId_, 0);
+	messageHandler_.addMessage(message);
+
+	return true;
+}
+
 void NetLoopBack::setLoopBack(NetLoopBack *loopback)
 {
 	loopback_ = loopback;

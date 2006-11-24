@@ -30,6 +30,8 @@ class ConnectDialog : public GLWWindow
 public:
 	static ConnectDialog *instance();
 
+	void connected();
+
 	// Inherited from GLWWindow
 	virtual void simulate(float frameTime);
 
@@ -40,16 +42,11 @@ protected:
 	{
 		eWaiting,
 		eTryingConnection,
-		eFinishedTryingConnection,
 		eFinished
 	};
-	struct ThreadParams
-	{
-		ConnectDialog *dialog;
-		std::string host;
-		int port;
-	};
 
+	std::string host_;
+	int port_;
 	static ConnectDialog *instance_;
 	UniqueIdStore *idStore_;
 	int tryCount_;
