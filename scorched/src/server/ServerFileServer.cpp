@@ -89,10 +89,13 @@ void ServerFileServer::simulate(float timeDifference)
 						seconditor++)
 					{
 						Tank *secondtank = (*seconditor).second;
-						if (secondtank->getState().getLoading())
+						if (secondtank->getDestinationId() == tank->getDestinationId())
 						{
-							allComplete = false;
-							break;
+							if (secondtank->getState().getLoading())
+							{
+								allComplete = false;
+								break;
+							}
 						}
 					}
 
