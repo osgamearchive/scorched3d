@@ -99,26 +99,41 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 	{
 		FlareInfo info = (*flareItor);
 
-        float newX = info.position[0];
-		float newY = 
-			(info.position[1] * getFastCos(angYZRad)) - 
-			(info.position[2] * getFastSin(angYZRad));
-		float newZ = 
-			(info.position[1] * getFastSin(angYZRad)) + 
-			(info.position[2] * getFastCos(angYZRad)); 
+		float newX = info.position[0];
+		float newY = info.position[1];
+		float newZ = info.position[2];
 
 		float newX2 = 
-			(newX * getFastCos(angXYRad)) - 
-			(newY * getFastSin(angXYRad));
+			(newX * getFastCos(rotation)) - 
+			(newY * getFastSin(rotation));
 		float newY2 = 
-			(newX * getFastSin(angXYRad)) + 
-			(newY * getFastCos(angXYRad)); 
-		float newZ2 = newZ;
+			(newX * getFastSin(rotation)) + 
+			(newY * getFastCos(rotation)); 
+		float newZ2 = 
+			newZ;
+
+        float newX3 = 
+			newX2;
+		float newY3 = 
+			(newY2 * getFastCos(angYZRad)) - 
+			(newZ2 * getFastSin(angYZRad));
+		float newZ3 = 
+			(newY2 * getFastSin(angYZRad)) + 
+			(newZ2 * getFastCos(angYZRad)); 
+
+		float newX4 = 
+			(newX3 * getFastCos(angXYRad)) - 
+			(newY3 * getFastSin(angXYRad));
+		float newY4 = 
+			(newX3 * getFastSin(angXYRad)) + 
+			(newY3 * getFastCos(angXYRad)); 
+		float newZ4 = 
+			newZ3;
 
 		Vector newPos;
-		newPos[0] = position[0] + newX2 * scale;
-		newPos[1] = position[1] + newY2 * scale;
-		newPos[2] = position[2] + newZ2 * scale;
+		newPos[0] = position[0] + newX4 * scale;
+		newPos[1] = position[1] + newY4 * scale;
+		newPos[2] = position[2] + newZ4 * scale;
 
 		GLLenseFlare::instance()->draw(newPos, false, flareType, info.size);
 	}
