@@ -43,7 +43,9 @@ public:
 		LIGHTING_ON = 0x400,
 		LIGHTING_OFF = 0x800,
 		LIGHT1_ON = 0x1000,
-		LIGHT1_OFF = 0x2000
+		LIGHT1_OFF = 0x2000,
+		ALPHATEST_ON = 0x4000,
+		ALPHATEST_OFF = 0x8000
 	};
 
 	GLState(unsigned wantedState);

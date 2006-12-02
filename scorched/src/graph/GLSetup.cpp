@@ -46,6 +46,8 @@ void GLSetup::setup()
 	//glFogf(GL_FOG_END, 2.0f);
 	//glFogf(GL_FOG_DISTANCE_MODE_NV, GL_EYE_RADIAL_NV);
 
+	glAlphaFunc(GL_GREATER, 0.00f);
+
 	GLConsole::instance(); // Make sure console is inited
 	GLState::setBaseState(GLState::TEXTURE_ON | GLState::BLEND_OFF | GLState::DEPTH_ON);
 	GLStateExtension::setup();

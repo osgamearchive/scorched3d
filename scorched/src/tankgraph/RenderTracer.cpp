@@ -124,7 +124,6 @@ void RenderTracer::drawSmokeTracer(std::list<TracerLinePoint> &positions)
 {
 	GLState currentState(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 	/*glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.00f);
 
 	static GLTexture arrowTexture;
 	if (!arrowTexture.textureValid())

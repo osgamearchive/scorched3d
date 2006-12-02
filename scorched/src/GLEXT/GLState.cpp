@@ -27,7 +27,7 @@ unsigned GLState::currentState_ =
 	GLState::TEXTURE_OFF | GLState::BLEND_OFF | 
 	GLState::DEPTH_OFF | GLState::CUBEMAP_OFF | 
 	GLState::LIGHTING_OFF | GLState::NORMALIZE_OFF | 
-	GLState::LIGHT1_OFF;
+	GLState::LIGHT1_OFF | GLState::ALPHATEST_OFF;
 
 GLState::GLState(unsigned wantedState)
 {
@@ -44,6 +44,19 @@ GLState::~GLState()
 
 void GLState::setState(unsigned wanted)
 {
+	if ((wanted & ALPHATEST_ON) && (currentState_ & ALPHATEST_OFF))
+	{
+		currentState_ ^= ALPHATEST_OFF;
+		currentState_ |= ALPHATEST_ON;
+		glEnable(GL_ALPHA_TEST);
+	}
+	else if ((wanted & ALPHATEST_OFF) && (currentState_ & ALPHATEST_ON))
+	{
+		currentState_ ^= ALPHATEST_ON;
+		currentState_ |= ALPHATEST_OFF;
+		glDisable(GL_ALPHA_TEST);
+	}
+
 	if ((wanted & LIGHT1_ON) && (currentState_ & LIGHT1_OFF))
 	{
 		currentState_ ^= LIGHT1_OFF;

@@ -99,9 +99,7 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
 
 	// Don't put fully transparent areas into the depth buffer
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.00f);
-	GLState glstate(GLState::BLEND_ON | GLState::TEXTURE_ON);
+	GLState glstate(GLState::BLEND_ON | GLState::TEXTURE_ON | GLState::ALPHATEST_ON);
 	
 	// Draw all of the tanks
 	std::map<unsigned int, Target *> &targets = 
@@ -130,6 +128,4 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 			break;
 		}
 	}
-	
-	glDisable(GL_ALPHA_TEST);
 }

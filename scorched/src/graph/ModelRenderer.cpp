@@ -78,6 +78,9 @@ void ModelRenderer::drawBottomAligned(float LOD)
 
 void ModelRenderer::draw(float LOD)
 {
+	// Set transparency on
+	GLState glstate(GLState::BLEND_ON | GLState::ALPHATEST_ON);
+
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		Mesh *mesh = model_->getMeshes()[m];
