@@ -117,6 +117,7 @@ void GLWTalkBox::keyDown(char *buffer, unsigned int keyState,
 					formatString("%s \"%s\"",
 					((mode_ == eTeamSay)?"Teamsay":"Say"),
 					text));
+				text_ = "";
 			}
 			GLWWindowManager::instance()->hideWindow(parent_->getId());
 		}
