@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementTypeMask.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
@@ -98,7 +98,7 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 				
 			int mx = int(map.getWidth() * (lx / float(groundMapWidth)));
 			int my = int(map.getWidth() * (ly / float(groundMapHeight)));
-			GLubyte *bits = map.getBits() +
+			unsigned char *bits = map.getBits() +
 				mx * 3 + my * map.getWidth() * 3;
 			if (bits[0] > 127)
 			{	

@@ -20,7 +20,7 @@
 
 #include <tankgraph/TargetParticleRenderer.h>
 #include <tankgraph/TargetRendererImpl.h>
-#include <engine/Particle.h>
+#include <graph/Particle.h>
 #include <target/TargetContainer.h>
 #include <client/ScorchedClient.h>
 

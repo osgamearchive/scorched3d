@@ -27,11 +27,13 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
+#include <tank/TankScore.h>
+#include <tank/TankAccessories.h>
 #include <stdio.h>
 
 InventoryDialog *InventoryDialog::instance_ = 0;

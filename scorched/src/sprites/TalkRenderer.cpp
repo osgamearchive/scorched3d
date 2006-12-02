@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <sprites/TalkRenderer.h>
-#include <engine/ParticleEmitter.h>
+#include <graph/ParticleEmitter.h>
 #include <client/ScorchedClient.h>
 
 TalkRenderer::TalkRenderer(Vector &position, Vector &color) : 

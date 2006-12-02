@@ -28,7 +28,7 @@
 
 
 #include <common/Vector.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 
 class Variance  
 {

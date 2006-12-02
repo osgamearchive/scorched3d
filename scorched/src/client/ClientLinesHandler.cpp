@@ -22,6 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <coms/ComsLinesMessage.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <GLW/GLWPlanView.h>
 
 ClientLinesHandler *ClientLinesHandler::instance_ = 0;

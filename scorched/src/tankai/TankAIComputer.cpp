@@ -29,6 +29,12 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <coms/ComsMessageSender.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAccessories.h>
+#include <target/TargetShield.h>
+#include <target/TargetParachute.h>
+#include <target/TargetLife.h>
 #include <stdlib.h>
 
 TankAIComputer::TankAIComputer() : 

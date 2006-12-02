@@ -22,8 +22,6 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/FileList.h>
-#include <wx/dir.h>
-#include <wx/utils.h>
 #include <stdio.h>
 
 ModDirs::ModDirs()
@@ -47,15 +45,17 @@ bool ModDirs::loadModDirs()
 	
 bool ModDirs::loadModDir(const char *dirName, bool global)
 {
-	wxDir dir(wxString(dirName, wxConvUTF8));
-	if (dir.IsOpened())
+	FileList dir(dirName, "*", false);
+	if (dir.getStatus())
 	{
-		wxString filename;
-		bool cont = dir.GetFirst(&filename, wxT(""), wxDIR_DIRS);
-		while (cont)
+		FileList::ListType &dirs = dir.getFiles();
+		FileList::ListType::iterator itor;
+		for (itor = dirs.begin();
+			itor != dirs.end();
+			itor++)
 		{
-			if (!loadModFile(filename.mb_str(wxConvUTF8), global)) return false;
-			cont = dir.GetNext(&filename);
+			std::string filename = (*itor);
+			if (!loadModFile(filename.c_str(), global)) return false;
 		}
 	}
 	return true;
@@ -144,8 +144,7 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 		std::string dest = getSettingsFile(formatString("/oldmods/%s-%u", fileName, time(0)));
 		if (s3d_dirExists(src.c_str()))
 		{
-			if (::wxRenameFile(wxString(src.c_str(), wxConvUTF8), 
-				wxString(dest.c_str(), wxConvUTF8)))
+			if (0 == rename(src.c_str(), dest.c_str()))
 			{
 				dialogMessage("Scorched3D", formatString(
 					"Mod directory\n"

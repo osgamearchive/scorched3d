@@ -24,7 +24,7 @@
 #include <GLW/GLWidget.h>
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <string.h>
 
@@ -66,7 +66,7 @@ bool GLWToolTip::addToolTip(const char *title, const char *text,
 	if (x < mouseX && mouseX < x + w &&
 		y < mouseY && mouseY < y + h)
 	{
-		static GLWTip singleTip;
+		static ToolTip singleTip;
 		singleTip.setText(title, text);
 
 		currentX_ = x;
@@ -80,7 +80,7 @@ bool GLWToolTip::addToolTip(const char *title, const char *text,
 	return result;
 }
 
-bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
+bool GLWToolTip::addToolTip(ToolTip *tip, float x, float y, float w, float h)
 {
 	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;
 
@@ -102,7 +102,7 @@ bool GLWToolTip::addToolTip(GLWTip *tip, float x, float y, float w, float h)
 	return result;
 }
 
-void GLWToolTip::setupTip(GLWTip *tip)
+void GLWToolTip::setupTip(ToolTip *tip)
 {
 	currentTip_ = tip;
 	tipTextWidth_ = 0.0f;
@@ -112,7 +112,7 @@ void GLWToolTip::setupTip(GLWTip *tip)
 	tipTexts_.clear();
 }
 
-void GLWToolTip::calculateTip(GLWTip *tip)
+void GLWToolTip::calculateTip(ToolTip *tip)
 {
 	if (tipTextWidth_ != 0.0f) return;
 

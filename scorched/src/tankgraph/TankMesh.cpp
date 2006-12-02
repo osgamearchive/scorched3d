@@ -21,8 +21,8 @@
 #include <math.h>
 #include <tankgraph/TankMesh.h>
 #include <GLEXT/GLState.h>
-#include <3dsparse/ModelRenderer.h>
-#include <common/OptionsDisplay.h>
+#include <graph/ModelRenderer.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 
 TankMesh::TankMesh(Model &tank) : 

@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_TankAutoDefenseh_INCLUDE__)
 #define __INCLUDE_TankAutoDefenseh_INCLUDE__
 
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 
 class Tank;
 class ScorchedContext;

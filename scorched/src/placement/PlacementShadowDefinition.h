@@ -22,7 +22,7 @@
 #define __INCLUDE_PlacementShadowDefinitionh_INCLUDE__
 
 #include <XML/XMLNode.h>
-#include <3dsparse/ImageID.h>
+#include <common/ImageID.h>
 
 class ScorchedContext;
 class PlacementShadowDefinition

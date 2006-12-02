@@ -19,8 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <ships/ScorchedShips.h>
-#include <common/OptionsDisplay.h>
-#include <landscape/LandscapeMaps.h>
+#include <graph/OptionsDisplay.h>
+#include <common/RandomGenerator.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeShips.h>

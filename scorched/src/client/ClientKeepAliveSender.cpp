@@ -22,7 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <coms/ComsKeepAliveMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <time.h>

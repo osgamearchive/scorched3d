@@ -22,7 +22,7 @@
 #define AFX_PATCH_H__0714E972_F796_4BAF_878D_0D0288F10888__INCLUDED_
 
 #include <landscape/PatchSide.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 
 class Patch  
 {

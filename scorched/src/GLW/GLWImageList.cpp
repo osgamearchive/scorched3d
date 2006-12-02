@@ -20,7 +20,7 @@
 
 #include <GLW/GLWImageList.h>
 #include <GLW/GLWTranslate.h>
-#include <GLEXT/GLGif.h>
+#include <GLEXT/GLPng.h>
 #include <GLEXT/GLState.h>
 #include <common/FileList.h>
 #include <string.h>
@@ -32,20 +32,20 @@ GLWImageList::GLWImageList(float x, float y, const char *directory) :
 {
 	if (!directory) return;
 
-	FileList filelist((char *) directory, "*.gif");
+	FileList filelist(directory, "*.png");
 	std::list<std::string>::iterator itor;
 	for (itor = filelist.getFiles().begin();
 		itor != filelist.getFiles().end();
 		itor++)
 	{
 		const char *filename = (*itor).c_str();
-		GLGif gif;
-		if (gif.loadFromFile(filename) &&
-			gif.getWidth() == 32 &&
-			gif.getHeight() == 32)
+		GLPng png;
+		if (png.loadFromFile(filename) &&
+			png.getWidth() == 32 &&
+			png.getHeight() == 32)
 		{
 			GLWImageListEntry *entry = new GLWImageListEntry;
-			if (entry->texture.create(gif))
+			if (entry->texture.create(png))
 			{
 				const char *sep = strrchr(filename, '/');
 				if (sep) sep++;

@@ -68,6 +68,8 @@ protected:
 	void upDownHUD();
 	void powerHUD();
 	void autoAim();
+	void prevWeapon();
+	void nextWeapon();
 	VirtualSoundSource *elevateSound_;
 	VirtualSoundSource *rotateSound_;
 	VirtualSoundSource *startSound_;

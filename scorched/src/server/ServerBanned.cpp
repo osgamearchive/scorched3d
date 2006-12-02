@@ -23,10 +23,9 @@
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <XML/XMLFile.h>
 #include <limits.h>
-#include <wx/filefn.h>
 
 ServerBanned::ServerBanned() : lastReadTime_(0)
 {
@@ -137,7 +136,7 @@ bool ServerBanned::load(bool force)
 		ip = address[3] << 24 | address[2] << 16 | address[1] << 8 | address[0];
 
 		// Add the new entry
-		addBannedEntry(ip, m, name.c_str(), uniqueid.c_str(), bantime, type);
+		addBannedEntry(ip, m, name.c_str(), uniqueid.c_str(), (unsigned int) bantime, type);
 	}
 	return true;
 }
@@ -184,7 +183,7 @@ ServerBanned::BannedType ServerBanned::getBanned(
 void ServerBanned::addBanned(unsigned int ip, const char *name, 
 	const char *uniqueId, BannedType type)
 {
-	unsigned int t = time(0);
+	unsigned int t = (unsigned int) time(0);
 	addBannedEntry(ip, UINT_MAX, name, uniqueId, t, type);
 	save();
 }

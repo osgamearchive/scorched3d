@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ComsMessageHandlerh_INCLUDE__)
 #define __INCLUDE_ComsMessageHandlerh_INCLUDE__
 
-#include <coms/NetMessageHandler.h>
+#include <net/NetMessageHandler.h>
 #include <map>
 
 class ComsMessageConnectionHandlerI

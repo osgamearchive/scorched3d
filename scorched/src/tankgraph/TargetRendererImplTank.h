@@ -22,9 +22,10 @@
 #define __INCLUDE_DefaultTankRendererh_INCLUDE__
 
 #include <tank/Tank.h>
+#include <tank/TankModel.h>
+#include <tankgraph/TankMesh.h>
 #include <tankgraph/TargetRendererImpl.h>
-#include <tankgraph/TankModel.h>
-#include <tankgraph/GLWTankTip.h>
+#include <GLW/GLWTankTip.h>
 #include <GLEXT/GLState.h>
 
 class ModelRenderer;
@@ -77,13 +78,15 @@ public:
 	virtual void simulate(float frameTime);
 	virtual void targetBurnt() {}
 
-	void resetModel() { model_ = 0; }
+	void resetModel() { model_ = 0; mesh_ = 0; }
 	TankModel *getModel();
+	TankMesh *getMesh();
 	GLWTankTips *getTips() { return &tankTips_; }
 
 protected:
 	Tank *tank_;
 	TankModel *model_;
+	TankMesh *mesh_;
 	GLWTankTips tankTips_;
 	float fireOffSet_;
 	float shieldHit_;

@@ -26,6 +26,7 @@
 #include <XML/XMLParser.h>
 #include <common/Logger.h>
 #include <common/Keyboard.h>
+#include <common/ToolTip.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 
@@ -53,9 +54,9 @@ GLWLoggerView::GLWLoggerView() :
 	downButton_.setHandler(this);
 	resetButton_.setHandler(this);
 
-	upButton_.setToolTip(new GLWTip("Log", "Show previous log entry"));
-	downButton_.setToolTip(new GLWTip("Log", "Show next log entry"));
-	resetButton_.setToolTip(new GLWTip("Log", "Go to the end of the log\n"
+	upButton_.setToolTip(new ToolTip("Log", "Show previous log entry"));
+	downButton_.setToolTip(new ToolTip("Log", "Show next log entry"));
+	resetButton_.setToolTip(new ToolTip("Log", "Go to the end of the log\n"
 		"and hide all elapsed log entries"));
 }
 

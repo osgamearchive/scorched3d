@@ -19,21 +19,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/Keyboard.h>
-#include <common/OptionsDisplay.h>
 #include <common/DefinesScorched.h>
 #include <sound/Sound.h>
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryStore.h>
 #include <GLEXT/GLConsole.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
+#include <graph/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <tankai/TankAIHuman.h>
 #include <tankgraph/TargetRendererImplTank.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsDefenseMessage.h>
 #include <coms/ComsPlayedMoveMessage.h>
 #include <tank/Tank.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAccessories.h>
+#include <target/TargetShield.h>
+#include <target/TargetLife.h>
 #include <stdio.h>
 
 TankAIHuman::TankAIHuman() :
@@ -179,15 +183,67 @@ void TankAIHuman::playMove(const unsigned state,
 	{
 		if (downWeapon)
 		{
-			currentTank_->getAccessories().getWeapons().prevWeapon();
+			prevWeapon();
 		}
 		else
 		{
-			currentTank_->getAccessories().getWeapons().nextWeapon();
+			nextWeapon();
 		}
 
 		TargetRendererImplTankHUD::setText("Weapon : ", 
 			currentTank_->getAccessories().getWeapons().getWeaponString());
+	}
+}
+
+void TankAIHuman::nextWeapon()
+{
+	std::list<Accessory *> &result =
+		currentTank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryWeapon);
+	ScorchedClient::instance()->getAccessoryStore().sortList(result,
+		OptionsDisplay::instance()->getSortAccessories());
+
+	std::list<Accessory *>::iterator itor;
+	for (itor = result.begin();
+		itor != result.end();
+		itor++)
+	{
+		if (currentTank_->getAccessories().getWeapons().getCurrent() == (*itor))
+		{
+			if (++itor == result.end())
+			{
+				itor = result.begin();
+			}
+			currentTank_->getAccessories().getWeapons().setWeapon(*itor);
+			break;
+		}
+	}
+}
+
+void TankAIHuman::prevWeapon()
+{
+	std::list<Accessory *> &result =
+		currentTank_->getAccessories().getAllAccessoriesByType(
+			AccessoryPart::AccessoryWeapon);
+	ScorchedClient::instance()->getAccessoryStore().sortList(result,
+		OptionsDisplay::instance()->getSortAccessories());
+
+	std::list<Accessory *>::iterator itor;
+	for (itor = result.begin();
+		itor != result.end();
+		itor++)
+	{
+		if (currentTank_->getAccessories().getWeapons().getCurrent() == (*itor))
+		{
+			if (itor == result.begin())
+			{
+				itor = result.end();
+			}
+
+			--itor;
+			currentTank_->getAccessories().getWeapons().setWeapon(*itor);
+			break;
+		}
 	}
 }
 

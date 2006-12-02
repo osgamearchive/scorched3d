@@ -21,11 +21,17 @@
 #if !defined(AFX_TARGET_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_)
 #define AFX_TARGET_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_
 
-#include <target/TargetLife.h>
-#include <target/TargetShield.h>
-#include <target/TargetParachute.h>
-#include <target/TargetGroupEntry.h>
+#include <engine/ScorchedContext.h>
+#include <common/Vector.h>
+#include <string>
 
+class NetBuffer;
+class NetBufferReader;
+class TargetState;
+class TargetLife;
+class TargetShield;
+class TargetGroupEntry;
+class TargetParachute;
 class TargetRenderer;
 class Weapon;
 class Target  
@@ -49,12 +55,17 @@ public:
 	unsigned int getPlayerId() { return playerId_; }
 
 	// Weapons
-	TargetLife &getLife() { return life_; }
-	TargetShield &getShield() { return shield_; }
-	TargetParachute &getParachute() { return parachute_; }
-	TargetGroupEntry &getGroup() { return group_; }
+	TargetLife &getLife() { return *life_; }
+	TargetShield &getShield() { return *shield_; }
+	TargetParachute &getParachute() { return *parachute_; }
+	TargetGroupEntry &getGroup() { return *group_; }
+	TargetState &getTargetState() { return *targetState_; }
+
+	// Actions
 	void setDeathAction(Weapon *deathAction) { deathAction_ = deathAction; }
+	void setBurnAction(Weapon *burnAction) { burnAction_ = burnAction; }
 	virtual Weapon *getDeathAction() { return deathAction_; }
+	virtual Weapon *getBurnAction() { return burnAction_; }
 
 	// Renderer
 	float getBorder() { return border_; }
@@ -76,13 +87,14 @@ protected:
 	float border_;
 	ScorchedContext &context_;
 	Vector targetPosition_;
-	TargetLife life_;
-	TargetShield shield_;
-	TargetParachute parachute_;
+	TargetLife *life_;
+	TargetShield *shield_;
+	TargetParachute *parachute_;
 	TargetRenderer *renderer_;
-	TargetGroupEntry group_;
+	TargetState *targetState_;
+	TargetGroupEntry *group_;
 	std::string name_;
-	Weapon *deathAction_;
+	Weapon *deathAction_, *burnAction_;
 
 };
 

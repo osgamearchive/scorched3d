@@ -18,33 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <GLEXT/GLBitmap.h>
-#include <GLEXT/GLTexture.h>
-#include <3dsparse/ModelID.h>
-#include <3dsparse/ModelStore.h>
-#include <tankgraph/TargetRendererImplTank.h>
-#include <tankgraph/MissileMesh.h>
+#include <common/ToolTip.h>
+#include <common/ModelID.h>
 #include <weapons/Accessory.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsDisplay.h>
 #include <stdlib.h>
 
 unsigned int Accessory::nextAccessoryId_ = 0;
-std::map<std::string, MissileMesh *> Accessory::loadedMeshes_;
+
+#ifndef S3D_SERVER
+#include <3dsparse/Model.h>
+#include <3dsparse/ModelStore.h>
+#include <tankgraph/TargetRendererImplTank.h>
+#include <tankgraph/MissileMesh.h>
+#include <GLEXT/GLBitmap.h>
+#endif
 
 Accessory::Accessory() :
 	accessoryId_(++nextAccessoryId_),
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(1), armsLevel_(9),
-	texture_(0), modelScale_(1.0f),
+	modelScale_(1.0f),
 	positionSelect_(ePositionSelectNone), positionSelectLimit_(10),
 	maximumNumber_(0),
 	startingNumber_(0),
 	muzzleFlash_(true),
 	aiOnly_(false)
 {
+#ifndef S3D_SERVER
+	texture_ = 0;
+#endif
 }
 
 Accessory::~Accessory()
@@ -183,6 +188,8 @@ const char *Accessory::getActivationSound()
 	return activationSound_.c_str();
 }
 
+#ifndef S3D_SERVER
+
 GLTexture *Accessory::getTexture()
 {
 	if (texture_) return texture_;
@@ -203,6 +210,9 @@ GLTexture *Accessory::getTexture()
 	texture_ = texture;
 	return texture;
 }
+
+
+std::map<std::string, MissileMesh *> Accessory::loadedMeshes_;
 
 MissileMesh *Accessory::getWeaponMesh(ModelID &id, Tank *currentPlayer)
 {
@@ -262,3 +272,4 @@ MissileMesh *Accessory::getWeaponMesh(ModelID &id, Tank *currentPlayer)
 	}
 	return mesh;
 }
+#endif // S3D_SERVER

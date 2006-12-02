@@ -22,7 +22,7 @@
 #define AFX_GLBITMAPMODIFIER_H__3C6E8BBF_1AB2_4847_BEB1_934C97C76F05__INCLUDED_
 
 #include <GLEXT/GLBitmap.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 #include <common/Vector.h>
 
 class ScorchedContext;

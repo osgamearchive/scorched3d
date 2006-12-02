@@ -21,6 +21,12 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientDefenseHandler.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAccessories.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
+#include <target/TargetParachute.h>
 #include <coms/ComsDefenseMessage.h>
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>

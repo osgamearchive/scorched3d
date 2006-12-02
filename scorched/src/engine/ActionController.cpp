@@ -181,6 +181,14 @@ void ActionController::addAction(Action *action)
 	action->setScorchedContext(context_);
 	action->setActionStartTime(time_);
 	action->setActionEvent(actionEvents_);
+
+	if (!context_->serverMode &&
+		action->getServerOnly())
+	{
+		delete action;
+		return;
+	}
+
 	newActions_.push_back(action);
 
 	if (actionProfiling_)
@@ -221,29 +229,22 @@ void ActionController::addNewActions()
 
 		action->setScorchedContext(context_);
 		action->setActionStartTime(time_);
+		if (action->getReferenced()) referenceCount_ ++;
+
 		if (context_->serverMode)
 		{
-			if (action->getReferenced()) referenceCount_ ++;
 			if (action->getServerOnly()) 
 			{
 				buffer_.serverAdd(time_, (ActionMeta*) action);
 			}
-			action->init();
-			actions_.insert(action);
 		}
 		else
 		{
-			if (action->getServerOnly())
-			{	
-				delete action;
-			}
-			else
-			{
-				if (action->getReferenced()) referenceCount_ ++;
-				action->init();
-				actions_.insert(action);
-			}
+			DIALOG_ASSERT(!action->getServerOnly());
 		}
+
+		action->init();
+		actions_.insert(action);
 
 		newActions_.pop_front();
 	}

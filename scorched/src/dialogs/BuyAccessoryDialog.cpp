@@ -26,13 +26,15 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
+#include <tank/TankScore.h>
+#include <tank/TankAccessories.h>
 #include <stdio.h>
 
 BuyAccessoryDialog::BuyAccessoryDialog() : 
@@ -302,7 +304,7 @@ bool BuyAccessoryDialog::addAccessory(
 	sortBox->setHandler(this);
 	sortBox->setW(14);
 	sortBox->setH(14);
-	sortBox->setToolTip(new GLWTip("Favorite Weapon",
+	sortBox->setToolTip(new ToolTip("Favorite Weapon",
 		"Set/unset this weapon as a favorite.\n"
 		"Favorite weapons will show in the\n"
 		"favorites tab."));
@@ -326,7 +328,7 @@ bool BuyAccessoryDialog::addAccessory(
 					210, 2, 100, this, 
 			GLWButton::ButtonFlagCenterX, 12.0f));
 		button->setColor(Vector(0.0f, 0.4f, 0.0f));
-		button->setToolTip(new GLWTip("Buy", 
+		button->setToolTip(new ToolTip("Buy", 
 			formatString("Buy %i %s(s) for $%i", 
 				current->getBundle(), current->getName(), current->getPrice())));
 		button->setH(button->getH() - 2.0f);
@@ -353,7 +355,7 @@ bool BuyAccessoryDialog::addAccessory(
 					312, 2, 100, this,
 			GLWButton::ButtonFlagCenterX, 12.0f));
 		button->setColor(Vector(0.7f, 0.0f, 0.0f));
-		button->setToolTip(new GLWTip("Sell", 
+		button->setToolTip(new ToolTip("Sell", 
 			formatString("Sell 1 %s for $%i", 
 				current->getName(), current->getSellPrice())));
 		button->setH(button->getH() - 2.0f);

@@ -21,6 +21,8 @@
 #include <tankai/TankAIComputerTarget.h>
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
+#include <tank/TankPosition.h>
+#include <tank/TankState.h>
 #include <server/ScorchedServer.h>
 #include <common/DefinesMath.h>
 

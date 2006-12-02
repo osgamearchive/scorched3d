@@ -20,8 +20,6 @@
 
 #include <server/ServerMain.h>
 #include <client/ClientDialog.h>
-#include <client/MainCamera.h>
-#include <client/Main2DCamera.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientAdmin.h>
 #include <client/ClientGameStoppedHandler.h>
@@ -46,30 +44,33 @@
 #include <client/ClientPlayerStatusHandler.h>
 #include <client/ClientKeepAliveSender.h>
 #include <client/ClientState.h>
-#include <client/WindowSetup.h>
+#include <graph/WindowSetup.h>
+#include <graph/FrameLimiter.h>
+#include <graph/Mouse.h>
+#include <graph/Gamma.h>
+#include <graph/OptionsDisplay.h>
+#include <graph/MainCamera.h>
+#include <graph/Main2DCamera.h>
+#include <graph/Display.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
+#include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowManager.h>
 #include <engine/MainLoop.h>
 #include <engine/ActionController.h>
-#include <engine/FrameLimiter.h>
 #include <dialogs/ProgressDialog.h>
-#include <coms/NetServer.h>
-#include <coms/NetServerUDP.h>
-#include <coms/NetLoopBack.h>
-#include <common/OptionsDisplay.h>
+#include <net/NetServerTCP.h>
+#include <net/NetServerUDP.h>
+#include <net/NetLoopBack.h>
 #include <common/ARGParser.h>
 #include <common/Keyboard.h>
 #include <common/Logger.h>
-#include <common/OptionsParam.h>
+#include <client/ClientParams.h>
 #include <common/OptionsGame.h>
 #include <common/Keyboard.h>
 #include <common/ProgressCounter.h>
-#include <common/Mouse.h>
-#include <common/Display.h>
-#include <common/Gamma.h>
 #include <common/Clock.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
@@ -124,11 +125,11 @@ bool startClient(ProgressCounter *progressCounter)
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Client");
 	ScorchedClient::instance();
-	if (OptionsParam::instance()->getConnectedToServer())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		ScorchedClient::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
-			new NetServer(new NetServerCompressedProtocol());
+			new NetServerTCP(new NetServerTCPCompressedProtocol());
 			//new NetServerUDP();
 	}
 	else
@@ -194,14 +195,6 @@ bool clientEventLoop()
 		case SDL_KEYUP:
 			break;
 		case SDL_KEYDOWN:
-			if (OptionsParam::instance()->getScreenSaverMode()) 
-			{
-				if (!(SDL_GetModState() & KMOD_LSHIFT))
-				{
-					ScorchedClient::instance()->getMainLoop().exitLoop();
-				}
-			}
-
 			/* keyevents are handled in mainloop */
 			Keyboard::instance()->processKeyboardEvent(event);
 			break;
@@ -210,17 +203,6 @@ bool clientEventLoop()
 		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
 		case SDL_MOUSEMOTION:
-			if (OptionsParam::instance()->getScreenSaverMode()) 
-			{
-				if (!(SDL_GetModState() & KMOD_LSHIFT))
-				{
-					if (++ mouseEventCount > 5)
-					{
-						ScorchedClient::instance()->getMainLoop().exitLoop();
-					}
-				}
-			}
-
 			Mouse::instance()->processMouseEvent(event);
 			break;
 		case SDL_ACTIVEEVENT:
@@ -252,7 +234,7 @@ bool clientEventLoop()
 	}
 
 	ClientKeepAliveSender::instance()->sendKeepAlive();
-	if (!OptionsParam::instance()->getConnectedToServer())
+	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		serverLoop();
 	}
@@ -271,7 +253,7 @@ bool clientMain()
 	if (!createScorchedWindow()) return false;
 
 	ClientState::setupGameState(
-		OptionsParam::instance()->getConnectedToServer());
+		ClientParams::instance()->getConnectedToServer());
 
 	ProgressCounter progressCounter;
 	ProgressDialog::instance()->changeTip();
@@ -280,13 +262,29 @@ bool clientMain()
 	if (!initHardware(&progressCounter)) return false;
 	if (!startClient(&progressCounter)) return false;
 	
-	if (!OptionsParam::instance()->getConnectedToServer())
+	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		if (!startServer(true, &progressCounter)) return false;
 	}
 
-	// Try to create the main scorched3d game window
-	OptionsDisplay::instance()->addToConsole();
+	// Add all of the options to the console
+	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = OptionsDisplay::instance()->getOptions().begin();
+		itor != OptionsDisplay::instance()->getOptions().end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		if (!(entry->getData() & OptionEntry::DataDepricated))
+		{
+			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
+			if (entry->getData() & OptionsDisplay::RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
+
+			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
+				*entry,
+				access));
+		}
+	}
 
 	// Enter the SDL main loop to process SDL events
 	Clock loopClock;

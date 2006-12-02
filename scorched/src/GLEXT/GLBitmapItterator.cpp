@@ -28,8 +28,8 @@ GLBitmapItterator::GLBitmapItterator(GLBitmap &bitmap,
 {
 	if (type == stretch)
 	{
-		dx_ = (GLfloat) bitmap.getWidth() / (GLfloat) destX;
-		dy_ = (GLfloat) bitmap.getHeight() / (GLfloat) destY;
+		dx_ = (float) bitmap.getWidth() / (float) destX;
+		dy_ = (float) bitmap.getHeight() / (float) destY;
 	}
 	else
 	{
@@ -64,10 +64,10 @@ void GLBitmapItterator::incY()
 	posX_ = 0.0f;
 	posY_ += dy_;
 	if (posY_ >= bitmap_.getHeight()) posY_ = 0.0f;
-	pos_ = (GLubyte*) (bitmap_.getBits() + ((int) posY_  * width_));
+	pos_ = (unsigned char *) (bitmap_.getBits() + ((int) posY_  * width_));
 }
 
-GLubyte *GLBitmapItterator::getPos()
+unsigned char *GLBitmapItterator::getPos()
 {
 	return pos_ + (int) posX_ * 3;
 }

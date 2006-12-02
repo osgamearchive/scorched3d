@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLState.h>
 #include <common/Vector.h>
 #include <landscape/Hemisphere.h>
 #include <common/Defines.h>

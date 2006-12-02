@@ -19,11 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/MainLoop.h>
-#include <common/OptionsDisplay.h>
 #include <common/Defines.h>
+#ifndef S3D_SERVER
+#include <graph/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLInfo.h>
 #include <SDL/SDL.h>
+#endif
 
 MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f), flip_(false)
 {
@@ -63,7 +65,9 @@ void MainLoop::addNew()
 
 void MainLoop::swapBuffers()
 {
+#ifndef S3D_SERVER
  	SDL_GL_SwapBuffers();
+#endif
 }
 
 bool MainLoop::mainLoop()
@@ -96,6 +100,7 @@ void MainLoop::simulate(float frameTime)
 
 void MainLoop::draw()
 {
+#ifndef S3D_SERVER
 	GLInfo::resetNoTriangles();
 	lastDrawTime_ = dTimer_.getTimeDifference();
 	static bool firstTime = true;
@@ -139,4 +144,5 @@ void MainLoop::draw()
 			flip_ = true;
 		}
 	}
+#endif
 }

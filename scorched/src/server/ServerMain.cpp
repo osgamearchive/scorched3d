@@ -23,25 +23,22 @@
 #include <stdlib.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/EconomyStore.h>
-#include <coms/NetLoopBack.h>
-#include <coms/NetServer.h>
-#include <coms/NetServerUDP.h>
+#include <net/NetLoopBack.h>
+#include <net/NetServerTCP.h>
+#include <net/NetServerUDP.h>
 #include <common/Defines.h>
 #include <common/Clock.h>
 #include <common/ARGParser.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <engine/ActionController.h>
 #include <engine/ModFiles.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStore.h>
-#include <tankgraph/TankModelStore.h>
-#include <scorched/ServerDialog.h>
-#include <server/ServerTimedMessage.h>
+#include <tank/TankModelStore.h>
 #include <server/ServerLinesHandler.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ServerPlayerReadyHandler.h>
@@ -121,7 +118,7 @@ bool startServer(bool local, ProgressCounter *counter)
 		// A loopback is created by the client for a single player game 
 		ScorchedServer::instance()->getContext().netInterface = 
 			//new NetServer(new NetServerScorchedProtocol());
-			new NetServer(new NetServerCompressedProtocol());
+			new NetServerTCP(new NetServerTCPCompressedProtocol());
 			//new NetServerUDP();
 	}
 
@@ -150,13 +147,13 @@ bool startServer(bool local, ProgressCounter *counter)
 		ScorchedServer::instance()->getOptionsGame().getMod());
 
 	// Load mod
-	if (OptionsParam::instance()->getDedicatedServer() ||
-		OptionsParam::instance()->getLoadModFiles())
+#ifdef S3D_SERVER
 	{
 		if (!ScorchedServer::instance()->getModFiles().loadModFiles(
 			ScorchedServer::instance()->getOptionsGame().getMod(), false,
 			counter)) return false;
 	}
+#endif
 
 	if (!ScorchedServer::instance()->getAccessoryStore().parseFile(
 		ScorchedServer::instance()->getOptionsGame(),
@@ -222,11 +219,12 @@ void serverLoop()
 	{
 		Logger::processLogEntries();
 		ScorchedServer::instance()->getNetInterface().processMessages();
-		if (OptionsParam::instance()->getDedicatedServer())
+#ifdef S3D_SERVER
 		{
 			ServerBrowserInfo::instance()->processMessages();
 			ServerWebServer::instance()->processMessages();
 		}
+#endif
 
 		float timeDifference = serverTimer.getTimeDifference();
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
@@ -234,8 +232,7 @@ void serverLoop()
 		ScorchedServerUtil::instance()->timedMessage.simulate();
 		ServerKeepAliveHandler::instance()->checkKeepAlives();
 
-		if (timeDifference > 5.0f &&
-			OptionsParam::instance()->getDedicatedServer())
+		if (timeDifference > 5.0f)
 		{
 			Logger::log(formatString("Warning: Server loop took %.2f seconds", 
 				timeDifference));

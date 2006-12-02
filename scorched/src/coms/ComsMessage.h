@@ -23,7 +23,7 @@
 #define _comsMessage_h
 
 #include <string>
-#include <coms/NetMessage.h>
+#include <net/NetMessage.h>
 
 class ComsMessage
 {

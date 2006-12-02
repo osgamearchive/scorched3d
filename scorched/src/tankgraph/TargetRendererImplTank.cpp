@@ -19,10 +19,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TargetRendererImplTank.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankModelContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAvatar.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
 #include <tankgraph/TankMesh.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/Smoke.h>
 #include <landscape/Hemisphere.h>
@@ -31,10 +37,10 @@
 #include <actions/TankFalling.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
+#include <graph/ModelRenderer.h>
 #include <common/Defines.h>
 #include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
 #include <weapons/Shield.h>
 #include <weapons/Accessory.h>
 #include <dialogs/TutorialDialog.h>
@@ -68,7 +74,7 @@ ModelRenderer *TargetRendererImplTankAIM::getAutoAimModel()
 
 TargetRendererImplTank::TargetRendererImplTank(Tank *tank) :
 	tank_(tank), tankTips_(tank),
-	model_(0), canSeeTank_(false),
+	model_(0), mesh_(0), canSeeTank_(false),
 	smokeTime_(0.0f), smokeWaitForTime_(0.0f),
 	fireOffSet_(0.0f), shieldHit_(0.0f),
 	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
@@ -78,6 +84,7 @@ TargetRendererImplTank::TargetRendererImplTank(Tank *tank) :
 
 TargetRendererImplTank::~TargetRendererImplTank()
 {
+	delete mesh_;
 }
 
 TankModel *TargetRendererImplTank::getModel()
@@ -100,6 +107,19 @@ TankModel *TargetRendererImplTank::getModel()
 		}
 	}
 	return model_;
+}
+
+TankMesh *TargetRendererImplTank::getMesh()
+{
+	if (!mesh_)
+	{
+		Model *newFile = ModelStore::instance()->loadModel(getModel()->getTankModelID());
+		if (!newFile) return 0;
+
+		// Create tank mesh
+		mesh_ = new TankMesh(*newFile);
+	}
+	return mesh_;
 }
 
 void TargetRendererImplTank::draw(float distance)
@@ -148,13 +168,17 @@ void TargetRendererImplTank::draw(float distance)
 		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank() &&
 		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
 
-	getModel()->draw(currentTank, 
-		tank_->getLife().getRotation(),
-		tank_->getPosition().getTankPosition(), 
-		fireOffSet_, 
-		tank_->getPosition().getRotationGunXY(), 
-		tank_->getPosition().getRotationGunYZ(),
-		false, modelSize);
+	TankMesh *mesh = getMesh();
+	if (mesh)
+	{
+		mesh->draw(currentTank, 
+			tank_->getLife().getRotation(),
+			tank_->getPosition().getTankPosition(), 
+			fireOffSet_, 
+			tank_->getPosition().getRotationGunXY(), 
+			tank_->getPosition().getRotationGunYZ(),
+			false, modelSize);
+	}
 
 	// Draw the tank sight
 	if (currentTank &&

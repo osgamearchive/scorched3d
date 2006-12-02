@@ -21,8 +21,8 @@
 #include <sprites/ExplosionRingRenderer.h>
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>
-#include <engine/ParticleEmitter.h>
-#include <engine/ParticleEngine.h>
+#include <graph/ParticleEmitter.h>
+#include <graph/ParticleEngine.h>
 #include <client/ScorchedClient.h>
 
 REGISTER_CLASS_SOURCE(ExplosionRingRenderer);

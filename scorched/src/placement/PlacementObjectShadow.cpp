@@ -20,7 +20,7 @@
 
 #include <placement/PlacementObjectShadow.h>
 #include <engine/ScorchedContext.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 
 PlacementObjectShadow::PlacementObjectShadow()
 {
@@ -45,7 +45,7 @@ void PlacementObjectShadow::createObject(ScorchedContext &context,
 	unsigned int &playerId,
 	PlacementType::Position &position)
 {
-	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+	context.landscapeMaps->getGroundMaps().getGroups().getShadows().push_back(
 		PlacementShadowDefinition::Entry(
 		&shadowDef_,
 		position.position,

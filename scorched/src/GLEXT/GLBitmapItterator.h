@@ -36,7 +36,7 @@ the components contained within bitmap files.
 			// Get the bytes at bx, by position in the bitmap.
 			// This will be an array of 3 or 4 bytes depending
 			// on the bitmap type.
-			GLubyte *sourceBits = bitmapItor.getPos();
+			unsigned char *sourceBits = bitmapItor.getPos();
 		}
 	}
 */
@@ -82,16 +82,16 @@ public:
 	/**
 	Get the bytes at the current iterator's position.
 	*/
-	GLubyte *getPos();
+	unsigned char *getPos();
 
 protected:
 	GLBitmap &bitmap_;
-	GLfloat dx_, dy_;
+	float dx_, dy_;
 	int width_;
 	Type type_;
 
-	GLubyte *pos_;
-	GLfloat posX_, posY_;
+	unsigned char *pos_;
+	float posX_, posY_;
 };
 
 #endif // !defined(AFX_GLBITMAPITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_)

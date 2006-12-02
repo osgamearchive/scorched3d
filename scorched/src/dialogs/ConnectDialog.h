@@ -22,7 +22,7 @@
 #define __INCLUDE_ConnectDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <client/UniqueIdStore.h>
+#include <net/UniqueIdStore.h>
 #include <time.h>
 
 class ConnectDialog : public GLWWindow

@@ -23,14 +23,20 @@
 #include <tankgraph/TargetRendererImplTargetModel.h>
 #include <target/TargetDefinition.h>
 #include <target/Target.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
+#include <target/TargetParachute.h>
+#include <3dsparse/ModelStore.h>
 #include <common/Defines.h>
 #include <XML/XMLNode.h>
 
 TargetDefinition::TargetDefinition() : 
-	life_(1.0f), boundingsphere_(true)
+	life_(1.0f), boundingsphere_(true),
+	size_(2.0f, 2.0f, 2.0f), 
+	modelscale_(0.05f), modelrotation_(0.0f), modelrotationsnap_(-1.0f),
+	driveovertodestroy_(false), border_(0.0f)
 {
 	shadow_.setDrawShadow(false);
-	driveovertodestroy_ = false;
 }
 
 TargetDefinition::~TargetDefinition()
@@ -39,14 +45,44 @@ TargetDefinition::~TargetDefinition()
 
 bool TargetDefinition::readXML(XMLNode *node, const char *base)
 {
-	if (!node->getNamedChild("name", name_)) return false;
-
+	node->getNamedChild("name", name_, false);
 	node->getNamedChild("life", life_, false);
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("boundingsphere", boundingsphere_, false);
 
-	return PlacementModelDefinition::readXML(node, base);
+	node->getNamedChild("modelscale", modelscale_, false);
+	node->getNamedChild("modelrotation", modelrotation_, false);
+	node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
+	node->getNamedChild("border", border_, false);
+
+	XMLNode *modelnode, *burntmodelnode;
+	if (!node->getNamedChild("model", modelnode)) return false;
+	if (!modelId_.initFromNode(base, modelnode)) return false;
+	if (node->getNamedChild("modelburnt", burntmodelnode, false))
+	{
+		if (!modelburntId_.initFromNode(base, burntmodelnode)) return false;
+	}
+	else
+	{
+		modelnode->resurrectRemovedChildren();
+		if (!modelburntId_.initFromNode(base, modelnode)) return false;
+	}
+	if (!node->getNamedChild("size", size_, false))
+	{
+		Model *model = ModelStore::instance()->loadModel(modelId_);
+		size_ = model->getMax() - model->getMin();
+		size_ *= modelscale_;
+	}
+
+	node->getNamedChild("driveovertodestroy", driveovertodestroy_, false);
+	node->getNamedChild("removeaction", removeaction_, false);
+	node->getNamedChild("burnaction", burnaction_, false);
+
+	if (!shadow_.readXML(node, base)) return false;
+	if (!groups_.readXML(node)) return false;
+
+	return node->failChildren();
 }
 
 Target *TargetDefinition::createTarget(unsigned int playerId,
@@ -64,6 +100,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		rotation = float(int(generator.getRandFloat() * 360.0f) / 
 			int(modelrotationsnap_)) * modelrotationsnap_;
 	}
+#ifndef S3D_SERVER
 	if (!context.serverMode)
 	{
 		target->setRenderer(
@@ -71,6 +108,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 				target, modelId_, modelburntId_,
 				modelscale_));
 	}
+#endif // #ifndef S3D_SERVER
 
 	target->getLife().setMaxLife(life_);
 	target->getLife().setSize(size_);
@@ -120,7 +158,23 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 
 		target->setDeathAction((Weapon *) action->getAction());
 	}
+	if (burnaction_.c_str()[0] && 0 != strcmp(burnaction_.c_str(), "none"))
+	{
+		Accessory *action = context.accessoryStore->
+			findByPrimaryAccessoryName(burnaction_.c_str());		
+		if (!action || action->getType() != AccessoryPart::AccessoryWeapon)
+		{
+			dialogExit("Scorched3D",
+				formatString("Failed to find burn action \"%s\"",
+				burnaction_.c_str()));
+		}
+
+		target->setBurnAction((Weapon *) action->getAction());
+	}
 
 	target->setTargetPosition(position);
+
+	groups_.addToGroups(context, &target->getGroup(), false);
+
 	return target;
 }

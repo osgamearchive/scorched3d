@@ -25,7 +25,8 @@
 #include <common/Defines.h>
 #include <engine/ActionController.h>
 #include <target/TargetContainer.h>
-#include <landscape/LandscapeMaps.h>
+#include <target/TargetShield.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <math.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);

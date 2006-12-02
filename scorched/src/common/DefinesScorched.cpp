@@ -29,13 +29,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#pragma warning(disable : 4996)
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "40.1d";
-char *ScorchedProtocolVersion = "ck";
+char *ScorchedVersion = "41";
+char *ScorchedProtocolVersion = "da";
 #ifdef __DATE__
 char *ScorchedBuildTime = __DATE__;
 #else
@@ -44,6 +46,20 @@ char *ScorchedBuildTime = "Unknown";
 static char exeName[1024];
 static char *dataModFile = 0;
 static std::string settingsDir = ".scorched3d";
+
+void showURL(const char *url)
+{
+#ifdef _WIN32
+	WinExec(formatString("explorer %s", url) ,SW_SHOWDEFAULT);
+#else
+#ifdef __DARWIN__
+	system(formatString("open %s", url));
+#else
+	system(formatString("mozilla %s", url));
+	dialogMessage("Web site location", formatString("%s", url));
+#endif // __DARWIN__
+#endif // _WIN32
+}
 
 void setExeName(const char *name)
 {

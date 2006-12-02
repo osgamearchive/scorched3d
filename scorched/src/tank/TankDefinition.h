@@ -21,10 +21,14 @@
 #if !defined(__INCLUDE_TankDefinitionh_INCLUDE__)
 #define __INCLUDE_TankDefinitionh_INCLUDE__
 
-#include <target/TargetDefinition.h>
+#include <common/ModelID.h>
+#include <common/RandomGenerator.h>
+#include <engine/ScorchedContext.h>
+#include <placement/PlacementShadowDefinition.h>
+#include <placement/PlacementGroupDefinition.h>
 
 class Tank;
-class TankDefinition : public TargetDefinition
+class TankDefinition
 {
 public:
 	TankDefinition();
@@ -36,10 +40,28 @@ public:
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
+	Vector &getSize() { return size_; }
+	PlacementShadowDefinition &getShadow() { return shadow_; }
+	PlacementGroupDefinition &getGroups() { return groups_; }
+
 protected:
+	float life_;
+	bool boundingsphere_;
+	bool driveovertodestroy_;
+	std::string name_;
+	std::string parachute_;
+	std::string shield_;
+	Vector size_;
+	std::string removeaction_;
+	std::string burnaction_;
+	PlacementShadowDefinition shadow_;
+	PlacementGroupDefinition groups_;
+
 	int team_;
 	std::string ai_;
 	std::string tankmodel_;
+
+
 };
 
 #endif // __INCLUDE_TankDefinitionh_INCLUDE__

@@ -24,7 +24,7 @@
 #include <GLW/GLWidget.h>
 #include <GLW/GLWToolTip.h>
 
-class WindDialogToolTip : public GLWTip
+class WindDialogToolTip : public ToolTip
 {
 public:
 	WindDialogToolTip();

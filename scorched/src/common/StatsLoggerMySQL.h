@@ -26,67 +26,26 @@
 #if defined(_WIN32)
 #include <Winsock2.h>
 #endif
-#include <common/StatsLogger.h>
+#include <common/StatsLoggerDatabase.h>
 #include <mysql/mysql.h>
-#include <string>
-#include <map>
-#include <set>
 
 class Weapon;
-class StatsLoggerMySQL : public StatsLogger
+class StatsLoggerMySQL : public StatsLoggerDatabase
 {
 public:
 	StatsLoggerMySQL();
 	virtual ~StatsLoggerMySQL();
 
-	virtual int getKillCount(const char *uniqueId);
-	virtual void gameStart(std::list<Tank *> &tanks);
-	virtual void roundStart(std::list<Tank *> &tanks);
-
-	virtual std::list<std::string> getAliases(Tank *tank);
-	virtual std::list<std::string> getIpAliases(Tank *tank);
-	virtual char *tankRank(Tank *tank);
-	virtual void updateStats(Tank *tank);
-	virtual char *allocateId();
-	virtual char *getStatsId(Tank *tank);
-
-	virtual void tankConnected(Tank *tank);
-	virtual void tankDisconnected(Tank *tank);
-	virtual void tankJoined(Tank *tank);
-
-	virtual void tankFired(Tank *firedTank, Weapon *weapon);
-	virtual void tankResigned(Tank *resignedTank);
-
-	virtual void tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon);
-	virtual void tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon);
-	virtual void tankSelfKilled(Tank *firedTank, Weapon *weapon);
-
-	virtual void tankWon(Tank *tank);
-	virtual void tankOverallWinner(Tank *tank);
-
-	virtual void weaponFired(Weapon *weapon, bool deathAni);
-	virtual void weaponKilled(Weapon *weapon, bool deathAni);
-
 protected:
 	MYSQL *mysql_;
-	int serverid_;
-	int seriesid_;
-	int prefixid_;
-    bool success_;
-	bool displayStats_;
 
-	std::map<std::string, int> playerId_;
-	std::map<std::string, int> weaponId_;
+	virtual bool runQuery(const char *, ...);
+	virtual std::list<StatsLoggerDatabase::RowResult> runSelectQuery(const char *, ...);
+	virtual bool connectDatabase(const char *host, const char *user, 
+		const char *passwd, const char *db);
 
-	bool runQuery(const char *, ...);
-	void createLogger();
-	int getPlayerId(const char *uniqueId);
-
-	void addInfo(Tank *tank);
-	void addAliases(int playerId, 
-		std::list<std::string> &results);
-	void addIpAliases(int playerId, 
-		std::set<int> &currentPlayers, std::list<std::string> &result);
+	virtual int getLastInsertId();
+	virtual void escapeString(char *to, const char *from, unsigned long length);
 
 };
 

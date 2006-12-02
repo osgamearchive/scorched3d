@@ -19,13 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementShadowDefinition.h>
-#include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
-#include <landscape/DeformLandscape.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/DeformLandscape.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
-#include <3dsparse/ImageStore.h>
-#include <GLEXT/GLBitmapModifier.h>
+#include <graph/ImageStore.h>
 
 PlacementShadowDefinition::PlacementShadowDefinition() :
 	drawShadow_(true), flattenArea_(0.0f)
@@ -66,6 +64,9 @@ void PlacementShadowDefinition::updateLandscapeHeight(
 	}
 }
 
+#ifndef S3D_SERVER
+
+#include <GLEXT/GLBitmapModifier.h>
 void PlacementShadowDefinition::updateLandscapeTexture(
 	ScorchedContext &context,
 	Vector &position, Vector &size)
@@ -90,3 +91,5 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 			MAX(size[0], size[1]), 1.0f);
 	}
 }
+
+#endif //S3D_SERVER

@@ -21,6 +21,7 @@
 #include <tankai/TankAIHumanCtrl.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>

@@ -23,10 +23,10 @@
 #include <GLEXT/GLInfo.h>
 #include <cgext/CGFog.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <landscape/Sky.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscape/SurroundDefault.h>

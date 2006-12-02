@@ -21,7 +21,6 @@
 #include <common/SplinePath.h>
 #include <common/SplineCurve.h>
 #include <common/Defines.h>
-#include <GLEXT/GLState.h>
 #include <math.h>
 
 SplinePath::SplinePath() : 
@@ -85,8 +84,13 @@ void SplinePath::getPathAttrs(Vector &position, Vector &direction)
 	position += diff;
 }
 
+#ifndef S3D_SERVER
+#include <GLEXT/GLState.h>
+#endif
+
 void SplinePath::draw()
 {
+#ifndef S3D_SERVER
 	std::vector<Vector>::iterator itor;
 	GLState state(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -117,4 +121,5 @@ void SplinePath::draw()
 	glEnd();
 
 	glPointSize(1.0f);
+#endif // #ifndef S3D_SERVER
 }

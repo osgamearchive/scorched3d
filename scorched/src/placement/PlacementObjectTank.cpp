@@ -19,8 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementObjectTank.h>
-#include <landscape/LandscapeObjectsEntryModel.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <3dsparse/ModelStore.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
@@ -39,7 +38,6 @@ PlacementObjectTank::~PlacementObjectTank()
 bool PlacementObjectTank::readXML(XMLNode *node)
 {
 	if (!tankDef_.readXML(node, ".")) return false;
-	if (!groups_.readXML(node)) return false;
 	return PlacementObject::readXML(node);
 }
 
@@ -53,10 +51,9 @@ void PlacementObjectTank::createObject(ScorchedContext &context,
 		playerId, position.position, context, generator);
 	context.tankContainer->addTank(tank);
 
-	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+	context.landscapeMaps->getGroundMaps().getGroups().getShadows().push_back(
 		PlacementShadowDefinition::Entry(
 		&tankDef_.getShadow(),
 		position.position,
 		tankDef_.getSize()));
-	groups_.addToGroups(context, &tank->getGroup(), false);
 }

@@ -19,8 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementObjectTarget.h>
-#include <landscape/LandscapeObjectsEntryModel.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
@@ -54,10 +53,9 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 		playerId, position.position, context, generator);
 	context.targetContainer->addTarget(target);
 
-	context.landscapeMaps->getGroundMaps().getObjects().getShadows().push_back(
+	context.landscapeMaps->getGroundMaps().getGroups().getShadows().push_back(
 		PlacementShadowDefinition::Entry(
 		&targetDef_.getShadow(),
 		position.position,
 		targetDef_.getSize()));
-	groups_.addToGroups(context, &target->getGroup(), false);
 }

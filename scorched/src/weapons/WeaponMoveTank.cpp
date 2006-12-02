@@ -22,7 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <actions/TankMovement.h>
 #include <engine/ActionController.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponMoveTank);

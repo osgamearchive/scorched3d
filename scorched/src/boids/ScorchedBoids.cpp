@@ -20,12 +20,12 @@
 
 #include <boids/ScorchedBoids.h>
 #include <boids/BoidWorld.h>
-#include <common/OptionsDisplay.h>
-#include <3dsparse/ModelID.h>
+#include <graph/OptionsDisplay.h>
+#include <common/ModelID.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeBoids.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 
 ScorchedBoids::ScorchedBoids()

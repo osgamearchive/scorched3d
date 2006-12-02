@@ -40,7 +40,6 @@ public:
 
 protected:
 	TankDefinition tankDef_;
-	PlacementGroupDefinition groups_;
 };
 
 #endif // __INCLUDE_PlacementObjectTankh_INCLUDE__

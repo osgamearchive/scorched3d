@@ -25,7 +25,7 @@
 #include <engine/ViewPoints.h>
 #include <landscape/Landscape.h>
 #include <landscape/PatchGrid.h>
-#include <common/OptionsParam.h>
+#include <client/ClientParams.h>
 #include <landscape/Landscape.h>
 
 ClientShotState *ClientShotState::instance_ = 0;

@@ -21,7 +21,7 @@
 #if !defined(AFX_PATCHGRID_H__78A69B7D_B848_4675_B017_13626E4856D1__INCLUDED_)
 #define AFX_PATCHGRID_H__78A69B7D_B848_4675_B017_13626E4856D1__INCLUDED_
 
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 #include <landscape/Patch.h>
 #include <vector>
 

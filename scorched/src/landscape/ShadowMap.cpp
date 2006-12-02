@@ -22,10 +22,10 @@
 #include <string.h>
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/ShadowMap.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 ShadowMap::ShadowMap() : size_(256), sizeSq_(256 *256), shadowCount_(0)
 {

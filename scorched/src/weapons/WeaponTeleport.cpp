@@ -20,7 +20,7 @@
 
 #include <weapons/WeaponTeleport.h>
 #include <engine/ActionController.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <actions/Teleport.h>
 #include <common/Defines.h>

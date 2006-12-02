@@ -23,6 +23,7 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
+#include <tank/TankScore.h>
 #include <coms/ComsScoreMessage.h>
 
 ClientScoreHandler *ClientScoreHandler::instance_ = 0;

@@ -21,7 +21,6 @@
 #include <XML/XMLFile.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <common/OptionsParam.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Weapon.h>
 #include <math.h>

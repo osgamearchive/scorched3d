@@ -22,8 +22,6 @@
 #include <engine/ModFileEntry.h>
 #include <engine/ModFiles.h>
 #include <zlib/zlib.h>
-#include <wx/dir.h>
-#include <wx/utils.h>
 
 ModFileEntry::ModFileEntry() : 
 	compressedcrc_(0)

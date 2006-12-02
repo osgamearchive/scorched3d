@@ -21,15 +21,16 @@
 #include <actions/Teleport.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/WallActionRenderer.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
 #include <target/TargetDamageCalc.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
-#include <landscape/DeformLandscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/DeformLandscape.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <sound/SoundUtils.h>
 
 REGISTER_ACTION_SOURCE(Teleport);
@@ -72,6 +73,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 	{
 		firstTime_ = false;
 
+#ifndef S3D_SERVER
 		if (!context_->serverMode)
 		{
 			Tank *tank = context_->tankContainer->getTankById(playerId_);
@@ -84,6 +86,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 					activateSound, tank->getPosition().getTankPosition());
 			}
 		}
+#endif // #ifndef S3D_SERVER
 	}
 
 	totalTime_ += frameTime;

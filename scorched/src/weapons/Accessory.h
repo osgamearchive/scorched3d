@@ -21,16 +21,16 @@
 #if !defined(AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)
 #define AFX_ACCESSORY_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
+#include <common/ToolTip.h>
+#include <common/ModelID.h>
 #include <XML/XMLFile.h>
-#include <GLW/GLWToolTip.h>
-#include <3dsparse/ModelID.h>
 #include <weapons/AccessoryPart.h>
 #include <string>
 #include <map>
 
+class GLTexture;
 class Tank;
 class MissileMesh;
-class GLTexture;
 class AccessoryStore;
 class OptionsGame;
 class Accessory  
@@ -65,7 +65,7 @@ public:
 	PositionSelectType getPositionSelect() { return positionSelect_; }
 	int getPositionSelectLimit() { return positionSelectLimit_; }
 
-	GLWTip &getToolTip() { return toolTip_; }
+	ToolTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
 	const char *getGroupName() { return groupName_.c_str(); }
 	AccessoryPart *getAction() { return accessoryAction_; }
@@ -74,7 +74,6 @@ public:
 	bool getMuzzleFlash() { return muzzleFlash_; }
 
 	AccessoryPart::AccessoryType getType() { return accessoryAction_->getType(); }
-	GLTexture *getTexture();
 
 	void setPrice(int p) { if (p>0) price_ = p; }
 	void setSellPrice(int p) { if (p>0) sellPrice_ = p; }
@@ -82,17 +81,20 @@ public:
 	static void resetAccessoryIds() { nextAccessoryId_ = 0; }
 	unsigned int getAccessoryId() { return accessoryId_; }
 
+#ifndef S3D_SERVER
+	GLTexture *getTexture();
 	static MissileMesh *getWeaponMesh(ModelID &id, Tank *currentPlayer);
+	static std::map<std::string, MissileMesh *> loadedMeshes_;
+	GLTexture *texture_;
+#endif
 
 protected:
-	static std::map<std::string, MissileMesh *> loadedMeshes_;
 	static unsigned int nextAccessoryId_;
 	unsigned int accessoryId_;
 	bool aiOnly_;
 	AccessoryPart *accessoryAction_;
 	PositionSelectType positionSelect_;
-	GLWTip toolTip_;
-	GLTexture *texture_;
+	ToolTip toolTip_;
 	ModelID modelId_;
 	std::string iconName_;
 	std::string groupName_;

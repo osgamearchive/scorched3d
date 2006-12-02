@@ -18,30 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/wx.h>
 #define WIN32_LEAN_AND_MEAN
 #include <stdlib.h>
 #include <stdarg.h>
 #include <common/Defines.h>
 #include <windows.h>
 
+#pragma warning(disable : 4996)
+
 extern bool wxWindowInit;
 
 void dialogMessage(const char *header, const char *text)
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(S3D_SERVER)
 	MessageBox(NULL, text, header, MB_OK);
 #else
-	if (wxWindowInit)
-	{
-		wxString wxText(text, wxConvUTF8);
-		wxString wxHeader(header, wxConvUTF8);
-		::wxMessageBox(wxText, wxHeader, wxOK | wxCENTRE);
-	}
-	else
-	{
-		printf("%s : %s\n", header, text);
-	}
+	printf("%s : %s\n", header, text);
 #endif
 }
 

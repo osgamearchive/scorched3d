@@ -22,7 +22,7 @@
 #define __INCLUDE_TankAvatarh_INCLUDE__
 
 #include <string>
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 #include <list>
 
 class GLTexture;
@@ -41,12 +41,16 @@ public:
 		NetBuffer &buffer,
 		bool createTexture = false);
 
+#ifndef S3D_SERVER
 	GLTexture *getTexture();
+#endif
+
 	const char *getName() { return name_.c_str(); }
 	NetBuffer &getFile() { return *file_; }
 	unsigned int getCrc();
 	
 protected:
+#ifndef S3D_SERVER
 	static GLTexture *defaultTexture_;
 	class AvatarStore
 	{
@@ -56,8 +60,9 @@ protected:
 		std::string name_;
 	};
 	static std::list<AvatarStore> storeEntries_;
-
 	GLTexture *texture_;
+#endif
+
 	NetBuffer *file_;
 	std::string name_;
 };

@@ -21,10 +21,10 @@
 #include <landscape/Sun.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Vector4.h>
 #include <GLEXT/GLBitmap.h>

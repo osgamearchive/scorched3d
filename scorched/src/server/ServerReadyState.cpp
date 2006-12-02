@@ -24,7 +24,6 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerCommon.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
@@ -33,6 +32,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsLastChanceMessage.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 
 ServerReadyState::ServerReadyState(ServerShotState *shotState) : 
 	GameStateI("ServerReadyState"),
@@ -135,9 +135,9 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			}
 			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
 
+#ifdef S3D_SERVER
 			// Send out a last chance message just before we kick
-			if (OptionsParam::instance()->getDedicatedServer() &&
-				(idleTime_ > 0) && (time_ > idleTime_ - 6))
+			if ((idleTime_ > 0) && (time_ > idleTime_ - 6))
 			{
 				for (itor = tanks.begin();
 					itor != tanks.end();
@@ -157,6 +157,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					}
 				}
 			}
+#endif // S3D_SERVER
 		}
 	}	
 
@@ -165,8 +166,10 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 	// Slow down the shots, when we are on a dedicated server
 	// so if there are only bots playing the games don't end
 	// too quickly
-	if (!OptionsParam::instance()->getDedicatedServer() ||
-		time_ > 0.0f) 
+#ifndef S3D_SERVER
+	time_ = 1.0f;
+#endif
+	if (time_ > 0.0f) 
 	{
 		// Check all players returned ready
 		if (ScorchedServer::instance()->getTankContainer().allReady())
@@ -177,9 +180,9 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		}
 	}
 
+#ifdef S3D_SERVER
 	// Check if any players have timed out
-	if (OptionsParam::instance()->getDedicatedServer() &&
-		(idleTime_ > 0) && (time_ > idleTime_))
+	if ((idleTime_ > 0) && (time_ > idleTime_))
 	{
 		// Kick all not returned players
 		std::map<unsigned int, Tank *> &tanks = 
@@ -204,6 +207,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		// Stimulate into the next state
 		return true;
 	}
+#endif
 	return false;
 }
 
@@ -212,8 +216,4 @@ void ServerReadyState::finished()
 	// Say we are waiting on no one
 	ComsPlayerStatusMessage statusMessage;
 	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
-
-	// Make sure all clients have the correct game settings
-	ComsPlayerStateMessage playerState(false);
-	ComsMessageSender::sendToAllPlayingClients(playerState);
 }

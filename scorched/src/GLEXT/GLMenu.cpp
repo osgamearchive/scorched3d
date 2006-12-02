@@ -25,7 +25,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWFont.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 GLMenu::GLMenu() : GLWWindow("", 0.0f, 10.0f, 10000.0f, 32.0f, 0, "")
 {

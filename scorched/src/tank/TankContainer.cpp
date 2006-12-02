@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 
 TankContainer::TankContainer(TargetContainer &targets) : 
 	targets_(targets),
@@ -36,50 +37,41 @@ TankContainer::~TankContainer()
 void TankContainer::addTank(Tank *tank)
 {
 	targets_.addTarget(tank);
+	tanks_[tank->getPlayerId()] = tank;
 }
 
 Tank *TankContainer::removeTank(unsigned int playerId)
 {
 	Target *target = targets_.removeTarget(playerId);
-	if (target) DIALOG_ASSERT(!target->isTarget());
-	return (Tank *) target;
-}
-
-Tank *TankContainer::getTankByPos(unsigned int pos)
-{
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
-		mainitor++)
+	if (target)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
-		{
-			Tank *tank = (Tank *) target;
-			if (pos-- <= 0) return tank;
-		}
+		tanks_.erase(playerId);
+		DIALOG_ASSERT(!target->isTarget());
 	}
-	return 0;
+	return (Tank *) target;
 }
 
 Tank *TankContainer::getTankById(unsigned int id)
 {
-	Target *target = targets_.getTargetById(id);
-	if (target) DIALOG_ASSERT(!target->isTarget());
-	return (Tank *) target;
+	std::map<unsigned int, Tank *>::iterator findItor =
+		tanks_.find(id);
+	if (findItor != tanks_.end())
+	{
+		return (*findItor).second;
+	}
+	return 0;
 }
 
 Tank *TankContainer::getTankByName(const char *name)
 {
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *tank = (*mainitor).second;
+		if (!tank->isTemp())
 		{
-			Tank *tank = (Tank *) target;
 			if (0 == strcmp(tank->getName(),name)) return tank;
 		}
 	}
@@ -103,15 +95,14 @@ Tank *TankContainer::getCurrentTank()
 
 void TankContainer::clientNewGame()
 {
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *tank = (*mainitor).second;
+		if (!tank->isTemp())
 		{
-			Tank *tank = (Tank *) target;
 			tank->clientNewGame();
 		}
 	}
@@ -119,15 +110,14 @@ void TankContainer::clientNewGame()
 
 void TankContainer::newMatch()
 {
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *tank = (*mainitor).second;
+		if (!tank->isTemp())
 		{
-			Tank *tank = (Tank *) target;
 			tank->newMatch();
 		}
 	}
@@ -140,15 +130,14 @@ int TankContainer::teamCount()
 	int team3 = 0;
 	int team4 = 0;
 
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
 			if (current->getState().getState() == TankState::sNormal)
 			{
 				if (current->getTeam() == 1) team1=1;
@@ -164,15 +153,14 @@ int TankContainer::teamCount()
 int TankContainer::aliveCount()
 {
 	int alive = 0;
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
 			if (current->getState().getState() == TankState::sNormal)
 			{
 				alive++;
@@ -184,15 +172,14 @@ int TankContainer::aliveCount()
 
 void TankContainer::setAllDead()
 {
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
 			if (current->getState().getState() != TankState::sPending)
 			{
 				current->getState().setState(TankState::sDead);
@@ -204,16 +191,14 @@ void TankContainer::setAllDead()
 
 bool TankContainer::allReady()
 {
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
-
 			// current check tanks that are not pending
 			if (current->getState().getState() != TankState::sPending)
 			{
@@ -227,15 +212,14 @@ bool TankContainer::allReady()
 
 void TankContainer::setAllNotReady()
 {
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
 
 			// current check tanks that are not pending
 			if (current->getState().getState() != TankState::sPending)
@@ -249,15 +233,14 @@ void TankContainer::setAllNotReady()
 int TankContainer::getNoOfNonSpectatorTanks()
 {
 	int count = 0;
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
 			if (!current->getState().getSpectator()) count++;
 		}
 	}
@@ -269,15 +252,14 @@ std::map<unsigned int, Tank *> &TankContainer::getPlayingTanks()
 	static std::map<unsigned int, Tank *> tanks;
 	tanks.clear();
 
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
-			Tank *current = (Tank *) target;
 			tanks[current->getPlayerId()] = current;
 		}
 	}	
@@ -287,35 +269,19 @@ std::map<unsigned int, Tank *> &TankContainer::getPlayingTanks()
 
 std::map<unsigned int, Tank *> &TankContainer::getAllTanks()
 {
-	static std::map<unsigned int, Tank *> tanks;
-	tanks.clear();
-
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
-		mainitor++)
-	{
-		Target *target = (*mainitor).second;
-		if (!target->isTarget())
-		{
-			Tank *current = (Tank *) target;
-			tanks[current->getPlayerId()] = current;
-		}
-	}	
-
-	return tanks;
+	return tanks_;
 }
 
 int TankContainer::getNoOfTanks()
 {
 	int count = 0;
-	std::map<unsigned int, Target *>::iterator mainitor;
-	for (mainitor = targets_.getTargets().begin();
-		mainitor != targets_.getTargets().end();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks_.begin();
+		mainitor != tanks_.end();
 		mainitor++)
 	{
-		Target *target = (*mainitor).second;
-		if (!target->isTemp())
+		Tank *current = (*mainitor).second;
+		if (!current->isTemp())
 		{
 			count++;
 		}

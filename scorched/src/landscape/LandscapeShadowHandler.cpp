@@ -20,7 +20,7 @@
 
 #include <landscape/LandscapeShadowHandler.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/Sky.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLStateExtension.h>

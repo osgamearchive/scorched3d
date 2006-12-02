@@ -22,9 +22,9 @@
 #define __INCLUDE_MissileActionRendererh_INCLUDE__
 
 #include <engine/Action.h>
-#include <engine/ParticleEmitter.h>
+#include <graph/ParticleEmitter.h>
 #include <tankgraph/MissileMesh.h>
-#include <landscape/Smoke.h>
+#include <common/Counter.h>
 #include <string>
 #include <map>
 
@@ -41,7 +41,7 @@ public:
 protected:
 	int flareType_;
 	VirtualSoundSource *sound_;
-	SmokeCounter counter_;
+	Counter counter_;
 	ParticleEmitter *flameemitter_;
 	ParticleEmitter *smokeemitter_;
 	MissileMesh *mesh_;

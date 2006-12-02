@@ -18,23 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// GLImage.h: interface for the GLImage class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_GLIMAGE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)
 #define AFX_GLIMAGE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_
-
-
-#include <GLEXT/GLState.h>
 
 class GLImage  
 {
 public:
 	virtual ~GLImage();
 
-	virtual GLubyte *getBits() = 0;
+	virtual unsigned char *getBits() = 0;
 	virtual int getWidth() = 0;
 	virtual int getHeight() = 0;
 

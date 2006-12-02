@@ -23,8 +23,8 @@
 
 #include <engine/ActionMeta.h>
 #include <weapons/WeaponNapalm.h>
-#include <landscape/Smoke.h>
-#include <landscape/DeformLandscape.h>
+#include <common/Counter.h>
+#include <landscapemap/DeformLandscape.h>
 #include <list>
 
 class GLTextureSet;
@@ -62,7 +62,7 @@ protected:
 	unsigned int playerId_;
 	unsigned int data_;
 	WeaponNapalm *weapon_;
-	SmokeCounter counter_;
+	Counter counter_;
 	GLTextureSet *set_;
 
 	// Not sent by wire

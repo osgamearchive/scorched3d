@@ -20,6 +20,7 @@
 
 #include <tank/TankBatteries.h>
 #include <tank/Tank.h>
+#include <tank/TankAccessories.h>
 
 TankBatteries::TankBatteries(ScorchedContext &context) :
 	context_(context),

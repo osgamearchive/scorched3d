@@ -22,7 +22,7 @@
 #if !defined(__INCLUDE_OptionEntryh_INCLUDE__)
 #define __INCLUDE_OptionEntryh_INCLUDE__
 
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 #include <common/Vector.h>
 #include <common/ARGParser.h>
 #include <XML/XMLParser.h>

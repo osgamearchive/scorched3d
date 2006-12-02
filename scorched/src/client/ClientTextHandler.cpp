@@ -23,6 +23,9 @@
 #include <client/ScorchedClient.h>
 #include <dialogs/MessageDialog.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAvatar.h>
 #include <engine/ActionController.h>
 #include <sprites/TalkRenderer.h>
 #include <sprites/ExplosionTextures.h>

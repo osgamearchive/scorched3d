@@ -19,17 +19,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankAvatar.h>
-#include <GLEXT/GLTexture.h>
-#include <GLEXT/GLGif.h>
 #include <common/Defines.h>
+#include <GLEXT/GLPng.h>
 #include <zlib/zlib.h>
 #include <stdio.h>
 
+#ifndef S3D_SERVER
+#include <GLEXT/GLTexture.h>
+
 GLTexture *TankAvatar::defaultTexture_ = 0;
 std::list<TankAvatar::AvatarStore> TankAvatar::storeEntries_;
+#endif
 
-TankAvatar::TankAvatar() : texture_(0)
+TankAvatar::TankAvatar()
 {
+#ifndef S3D_SERVER
+	texture_ = 0;
+#endif
 	file_ = new NetBuffer();
 }
 
@@ -52,9 +58,11 @@ bool TankAvatar::writeMessage(NetBuffer &buffer)
 
 void TankAvatar::clear()
 {
+#ifndef S3D_SERVER
+	texture_ = 0;
+#endif
 	name_ = "";
 	file_->reset();
-	texture_ = 0;
 }
 
 bool TankAvatar::readMessage(NetBufferReader &reader)
@@ -93,19 +101,28 @@ bool TankAvatar::loadFromFile(const char *fileName)
 	return false;
 }
 
+unsigned int TankAvatar::getCrc()
+{
+	unsigned int crc =  crc32(0L, Z_NULL, 0);
+	crc = crc32(crc, (unsigned char *) 
+		file_->getBuffer(), file_->getBufferUsed());	
+	return crc;
+}
+
 bool TankAvatar::setFromBuffer(const char *fileName,
 	NetBuffer &buffer, bool createTexture)
 {
-	GLGif gif;
-	if (!gif.loadFromBuffer(buffer)) return false;
-	if (gif.getWidth() != 32 || 
-		gif.getHeight() != 32) return false;
+	GLPng png;
+	if (!png.loadFromBuffer(buffer)) return false;
+	if (png.getWidth() != 32 || 
+		png.getHeight() != 32) return false;
 
 	name_ = fileName;
 	file_->reset();
 	file_->addDataToBuffer(buffer.getBuffer(), 
 		buffer.getBufferUsed());
 
+#ifndef S3D_SERVER
 	if (createTexture)
 	{
 		texture_ = 0;
@@ -126,7 +143,7 @@ bool TankAvatar::setFromBuffer(const char *fileName,
 		if (!texture_)
 		{
 			texture_ = new GLTexture;
-			texture_->create(gif);
+			texture_->create(png);
 			AvatarStore store;
 			store.crc_ = crc;
 			store.name_ = name_;
@@ -134,10 +151,12 @@ bool TankAvatar::setFromBuffer(const char *fileName,
 			storeEntries_.push_back(store);
 		}
 	}
+#endif
 
 	return true;
 }
 
+#ifndef S3D_SERVER
 GLTexture *TankAvatar::getTexture()
 {
 	if (!texture_)
@@ -145,21 +164,14 @@ GLTexture *TankAvatar::getTexture()
 		if (!defaultTexture_)
 		{
 			defaultTexture_ = new GLTexture();
-			GLGif gif;
-			gif.loadFromFile(
-				getDataFile("data/avatars/player.gif"));
-			defaultTexture_->create(gif);
+			GLPng png;
+			png.loadFromFile(
+				getDataFile("data/avatars/player.png"));
+			defaultTexture_->create(png);
 		}
 		return defaultTexture_;
 	}
 
 	return texture_; 
 }
-
-unsigned int TankAvatar::getCrc()
-{
-	unsigned int crc =  crc32(0L, Z_NULL, 0);
-	crc = crc32(crc, (unsigned char *) 
-		file_->getBuffer(), file_->getBufferUsed());	
-	return crc;
-}
+#endif

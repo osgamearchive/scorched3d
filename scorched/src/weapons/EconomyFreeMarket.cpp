@@ -21,27 +21,23 @@
 #include <weapons/EconomyFreeMarket.h>
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <XML/XMLParser.h>
 #include <tank/Tank.h>
+#include <tank/TankScore.h>
+#include <tank/TankAccessories.h>
 #include <stdlib.h>
 
 REGISTER_CLASS_SOURCE(EconomyFreeMarket);
 
 static const char *getEconomyFileName()
 {
-	if (OptionsParam::instance()->getDedicatedServer())
-	{
-		return getSettingsFile(formatString("freemarket-%s-%i.xml",
-			ScorchedServer::instance()->getOptionsGame().getMod(),
-			ScorchedServer::instance()->getOptionsGame().getPortNo()));
-	}
-	return getSettingsFile(formatString("freemarket-%s-single.xml",
-		ScorchedServer::instance()->getOptionsGame().getMod()));
+	return getSettingsFile(formatString("freemarket-%s-%i.xml",
+		ScorchedServer::instance()->getOptionsGame().getMod(),
+		ScorchedServer::instance()->getOptionsGame().getPortNo()));
 }
 
 bool validAccessory(Accessory *accessory)

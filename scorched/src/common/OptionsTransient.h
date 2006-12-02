@@ -23,7 +23,7 @@
 
 #include <common/Vector.h>
 #include <common/OptionsGame.h>
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 
 class TankContainer;
 class OptionsTransient

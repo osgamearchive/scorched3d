@@ -24,9 +24,9 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <sound/SoundUtils.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
+#include <tank/TankPosition.h>
 #include <target/TargetRenderer.h>
 
 REGISTER_ACTION_SOURCE(TankFired);
@@ -66,6 +66,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 			tank->getPosition().rotateGunYZ(rotXZ_, false);
 			tank->getPosition().madeShot();
 
+#ifndef S3D_SERVER
 			if (!context_->serverMode) 
 			{
 				TargetRenderer *renderer = tank->getRenderer();
@@ -86,6 +87,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 						firedSound, tank->getPosition().getTankPosition());
 				}
 			}
+#endif // #ifndef S3D_SERVER
 
 			if (weapon_->getParent()->getMuzzleFlash())
 			{

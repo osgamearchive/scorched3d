@@ -23,30 +23,6 @@
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
 
-SmokeCounter::SmokeCounter(float minTime, float timeDiff) :
-	currentTime_(0.0f), minTime_(minTime), timeDiff_(timeDiff)
-{
-	genNextTime();
-}
-
-bool SmokeCounter::nextDraw(float frameTime)
-{
-	currentTime_ += frameTime;
-	if (currentTime_ > nextTime_)
-	{
-		genNextTime();
-		currentTime_ = 0.0f;
-		return true;
-	}
-
-	return false;
-}
-
-void SmokeCounter::genNextTime()
-{
-	nextTime_ = RAND * timeDiff_ + minTime_;
-}
-
 Smoke::Smoke()
 {
 	emitter_.setAttributes(

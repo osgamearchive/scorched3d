@@ -24,7 +24,7 @@
 #include <engine/ScorchedContext.h>
 #include <landscape/Wall.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>

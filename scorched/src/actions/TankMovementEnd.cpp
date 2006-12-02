@@ -20,10 +20,12 @@
 
 #include <actions/TankMovementEnd.h>
 #include <actions/TankMovement.h>
-#include <landscape/DeformLandscape.h>
+#include <landscapemap/DeformLandscape.h>
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <target/TargetLife.h>
 
 REGISTER_ACTION_SOURCE(TankMovementEnd);
 

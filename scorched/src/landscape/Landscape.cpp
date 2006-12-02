@@ -20,7 +20,7 @@
 
 #include <landscape/Landscape.h>
 #include <landscape/LandscapePoints.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/LandscapeShadowHandler.h>
 #include <landscape/LandscapeSoundManager.h>
 #include <landscape/Smoke.h>
@@ -44,10 +44,10 @@
 #include <ships/ScorchedShips.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <sound/Sound.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
 #include <dialogs/CameraDialog.h>
 #include <engine/ActionController.h>
 #include <tankgraph/RenderTargets.h>
@@ -116,8 +116,6 @@ void Landscape::simulate(float frameTime)
 	boids_->simulate(frameTime * speedMult);
 	ships_->simulate(frameTime * speedMult);
 	soundManager_->simulate(frameTime * speedMult);
-
-	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)
@@ -152,7 +150,6 @@ void Landscape::drawShadow()
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 	patchGrid_->draw(PatchSide::typeTop);
-	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(true);
 }
 
 void Landscape::drawSetup()
@@ -200,7 +197,6 @@ void Landscape::drawObjects()
 
 	boids_->draw();
 	ships_->draw();
-	ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().draw(false);
 	wall_->draw();
 
 	drawTearDown();
@@ -333,7 +329,7 @@ void Landscape::generate(ProgressCounter *counter)
 	{
 		std::list<PlacementShadowDefinition::Entry> &shadows = 
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
-				getObjects().getShadows();
+				getGroups().getShadows();
 		std::list<PlacementShadowDefinition::Entry>::iterator itor;
 		for (itor = shadows.begin();
 			itor != shadows.end();

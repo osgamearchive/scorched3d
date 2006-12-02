@@ -19,15 +19,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ClientDialog.h>
-#include <client/GLSetup.h>
-#include <client/MainCamera.h>
-#include <client/Main2DCamera.h>
-#include <common/OptionsDisplay.h>
-#include <common/OptionsParam.h>
-#include <common/Display.h>
+#include <graph/GLSetup.h>
+#include <graph/MainCamera.h>
+#include <graph/Main2DCamera.h>
+#include <graph/OptionsDisplay.h>
+#include <graph/Display.h>
+#include <graph/Gamma.h>
+#include <client/ClientParams.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
-#include <common/Gamma.h>
 #include <common/Defines.h>
 #include <cgext/CGLoader.h>
 #include <stdio.h>
@@ -80,10 +80,6 @@ bool createScorchedWindow()
 	Gamma::instance()->set();
 
 	GLSetup::setup();
-	if (OptionsParam::instance()->getScreenSaverMode())
-	{
-		SDL_ShowCursor(SDL_DISABLE);
-	}
 	if (!OptionsDisplay::instance()->getNoCg())
 	{
 		if (!CGLoader::instance()->init())

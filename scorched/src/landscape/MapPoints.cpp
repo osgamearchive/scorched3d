@@ -20,7 +20,7 @@
 
 #include <landscape/MapPoints.h>
 #include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 
 MapPoints *MapPoints::instance_ = 0;
 

@@ -64,6 +64,8 @@ public:
 	void addEntry(char *cmd, ARGParserIntI *destInt, char *help = "");
 	void addEntry(char *cmd, ARGParserStringI *destString, char *help = "");
 
+	void showArgs(char *topString = NULL);
+
 protected:
 	struct Entry
 	{
@@ -88,7 +90,6 @@ protected:
 	void addNewEntry(char *cmd, ARGParser::Entry &entry);
 	bool parseLineIntoStrings(char *line, std::list<std::string> &cmdLine);
 	bool parseArg(ARGParser::Entry &newEntry, std::list<std::string> &cmdLine);
-	void showArgs(char *topString = NULL);
 };
 
 #endif // !defined(AFX_ARGPARSER_H__F5D7DE2F_967A_44B0_A2DF_423F96B02EC0__INCLUDED_)

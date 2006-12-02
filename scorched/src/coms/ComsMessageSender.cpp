@@ -20,16 +20,18 @@
 
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
-#include <coms/NetBuffer.h>
-#include <coms/NetInterface.h>
+#include <net/NetBuffer.h>
+#include <net/NetInterface.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <zlib/zlib.h>
 #include <set>
 
+#ifndef S3D_SERVER
 bool ComsMessageSender::sendToServer(ComsMessage &message)
 {
 	if (!ScorchedClient::instance()->getNetInterface().started()) return false;
@@ -55,7 +57,7 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 	ScorchedClient::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer);
 	return true;
 }
-
+#endif
 bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 						unsigned int destination)
 {

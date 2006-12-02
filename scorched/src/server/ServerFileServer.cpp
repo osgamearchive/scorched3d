@@ -22,6 +22,8 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankMod.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <coms/ComsMessageSender.h>
@@ -129,7 +131,7 @@ void ServerFileServer::simulate(float timeDifference)
 		downloadCount;
 
 	// Check if this is the next second
-	unsigned int theTime = time(0);
+	unsigned int theTime = (unsigned int) time(0);
 	if (theTime > lastTime_)
 	{
 		// If so reset the amount that can be sent by this server

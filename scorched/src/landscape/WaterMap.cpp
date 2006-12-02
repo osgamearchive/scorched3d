@@ -20,7 +20,7 @@
 
 #include <memory.h>
 #include <math.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <landscape/WaterMap.h>
 #include <landscape/Landscape.h>
 #include <GLEXT/GLInfo.h>

@@ -19,11 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
 #include <engine/MainLoop.h>
-#include <engine/ParticleEngine.h>
+#include <graph/ParticleEngine.h>
 #include <engine/GameState.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 ScorchedClient *ScorchedClient::instance_ = 0;
 

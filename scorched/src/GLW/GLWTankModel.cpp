@@ -20,10 +20,11 @@
 
 #include <GLW/GLWTankModel.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
 #include <client/ClientState.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tank/TankContainer.h>
+#include <tank/TankPosition.h>
 #include <common/Vector4.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
@@ -84,11 +85,15 @@ void GLWTankModel::draw()
 		glScalef(w_ / 4.0f, w_ / 4.0f, w_ / 4.0f);
 		GLState tankState(GLState::TEXTURE_OFF | GLState::DEPTH_ON); // For no tank skins
 		Vector position;
-		renderer->getModel()->draw(
-			false, 0.0f, position, 0.0f,
-			current->getPosition().getRotationGunXY(),
-			current->getPosition().getRotationGunYZ(),
-			true);
+		TankMesh *mesh = renderer->getMesh();
+		if (mesh)
+		{
+			mesh->draw(
+				false, 0.0f, position, 0.0f,
+				current->getPosition().getRotationGunXY(),
+				current->getPosition().getRotationGunYZ(),
+				true);
+		}
 	glPopMatrix();
 
 	Landscape::instance()->getSky().getSun().setLightPosition(); // Reset light

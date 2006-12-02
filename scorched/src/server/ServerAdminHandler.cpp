@@ -24,13 +24,13 @@
 #include <server/ServerCommon.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsParam.h>
 #include <common/StatsLogger.h>
 #include <common/Defines.h>
 #include <coms/ComsAdminMessage.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAdmin.h>
+#include <tank/TankState.h>
 #include <XML/XMLFile.h>
 #include <stdlib.h>
 
@@ -412,10 +412,11 @@ bool ServerAdminHandler::processMessage(unsigned int destinationId,
 
 bool ServerAdminHandler::login(const char *name, const char *password)
 {
-	if (!OptionsParam::instance()->getDedicatedServer())
+#ifndef S3D_SERVER
 	{
 		return true;
 	}
+#endif
 
 	const char *fileName = 
 		getSettingsFile(formatString("adminpassword-%i.xml",

@@ -23,7 +23,10 @@
 #include <server/ScorchedServer.h>
 #include <tankai/TankAIStore.h>
 #include <tank/TankContainer.h>
-#include <coms/NetBuffer.h>
+#include <tank/TankState.h>
+#include <tank/TankAvatar.h>
+#include <tank/TankModelContainer.h>
+#include <net/NetBuffer.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Defines.h>

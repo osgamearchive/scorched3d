@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ClientStartTimerHandler.h>
-#include <client/ShotCountDown.h>
 #include <client/ScorchedClient.h>
+#include <graph/ShotCountDown.h>
 #include <coms/ComsTimerStartMessage.h>
 
 ClientStartTimerHandler *ClientStartTimerHandler::instance_ = 0;

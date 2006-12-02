@@ -20,12 +20,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <direct.h>
 #include <string>
-#include <wx/wx.h>
-#include <wx/utils.h>
 #include <common/DefinesFile.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#pragma warning(disable : 4996)
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -33,9 +34,20 @@
 
 char *s3d_getHomeDir()
 {
-	static std::string result;
-	result = (const char *) wxString(::wxGetHomeDir()).mb_str(wxConvUTF8);
-	return (char *) result.c_str();
+#ifdef _WIN32
+	if (getenv("USERPROFILE")) return getenv("USERPROFILE");
+	if (getenv("HOMEPATH") && getenv("HOMEDRIVE"))
+	{
+		if (0 != strcmp(getenv("HOMEPATH"), getenv("HOMEDRIVE")))
+		{
+			// Path not set the root
+			return getenv("HOMEPATH");
+		}
+	}
+#endif
+	if (getenv("HOME")) return getenv("HOME");
+
+	return ".";
 }
 
 void s3d_fileDos2Unix(char *file)
@@ -48,19 +60,18 @@ void s3d_fileDos2Unix(char *file)
 
 bool s3d_dirMake(const char *file)
 {
-    ::wxMkdir(wxString(file, wxConvUTF8), 0755);
+	_mkdir(file);
 	return true;
 }
 
 bool s3d_fileExists(const char *file)
 {
-    return ::wxFileExists(wxString(file, wxConvUTF8));
+	return (s3d_fileModTime(file) != 0);
 }
 
 bool s3d_dirExists(const char *file)
 {
-    bool result = ::wxDirExists(wxString(file, wxConvUTF8));
-    return result;
+	return (s3d_fileModTime(file) != 0);
 }
 
 time_t s3d_fileModTime(const char *file)
@@ -70,4 +81,17 @@ time_t s3d_fileModTime(const char *file)
 	int result = stat(file, &buf );
 
 	return buf.st_mtime;
+}
+
+char *s3d_getOSDesc()
+{
+#ifdef _WIN32
+	return "Windows";
+#else
+#ifdef __DARWIN__
+	return "OSX";
+#else
+	return "Unix";
+#endif
+#endif
 }

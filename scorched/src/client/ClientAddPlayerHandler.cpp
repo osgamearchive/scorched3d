@@ -23,6 +23,8 @@
 #include <coms/ComsAddPlayerMessage.h>
 #include <common/Logger.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankAvatar.h>
 #include <tankgraph/TargetRendererImplTank.h>
 
 ClientAddPlayerHandler *ClientAddPlayerHandler::instance_ = 0;

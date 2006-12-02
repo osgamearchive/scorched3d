@@ -21,8 +21,8 @@
 #include <boids/ScorchedBoidsObstacle.h>
 #include <client/ScorchedClient.h>
 #include <common/Line.h>
-#include <landscape/LandscapeMaps.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/HeightMap.h>
 
 ScorchedBoidsObstacle::ScorchedBoidsObstacle(Vector &maxBounds, Vector &minBounds) :
 	minBounds_(minBounds), maxBounds_(maxBounds)

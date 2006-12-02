@@ -18,12 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <scorched/MainDialog.h>
-#include <scorched/HtmlHelpDialog.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <sound/Sound.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLBitmap.h>
@@ -82,7 +80,7 @@ bool HelpButtonDialog::HelpMenu::getMenuItems(const char* menuName, std::list<GL
 void HelpButtonDialog::HelpMenu::menuSelection(const char* menuName, 
 	const int position, GLMenuItem &item)
 {
-	showHtmlHelpDialog();
+	showURL(formatString("file://%s", getDocFile("html/index.html")));
 }
 
 HelpButtonDialog::VolumeMenu::VolumeMenu()

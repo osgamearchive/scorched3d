@@ -21,7 +21,6 @@
 #include <common/StatsLoggerMySQL.h>
 #include <common/StatsLoggerPGSQL.h>
 #include <common/StatsLoggerFile.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <server/ScorchedServer.h>
@@ -31,12 +30,9 @@ StatsLogger *StatsLogger::instance_ = 0;
 
 StatsLogger *StatsLogger::instance()
 {
-	if (!instance_ &&
-		!OptionsParam::instance()->getDedicatedServer())
-	{
-		instance_ = new StatsLoggerNone;
-	}
-
+#ifndef S3D_SERVER
+	if (!instance_) instance_ = new StatsLoggerNone;
+#endif
 
 	if (!instance_)
 	{
@@ -45,7 +41,7 @@ StatsLogger *StatsLogger::instance()
 		if (strcmp(statsLogger, "mysql") == 0)
 		{
 #ifdef HAVE_MYSQL
-			instance_ = new StatsLoggerMySQL;
+			instance_ = new StatsLoggerMySQL();
 			Logger::log( "Created mysql stats logger.");
 #else
 			dialogExit("StatsLogger",

@@ -35,6 +35,8 @@
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankSort.h>
+#include <tank/TankState.h>
+#include <tank/TankScore.h>
 
 float ServerShotFinishedState::speed_(1.0f);
 
@@ -343,7 +345,11 @@ void ServerShotFinishedState::scoreOverallWinner()
 			itor++)
 		{
 			Tank *current = (*itor).second;
-			sortedTanks.push_back(current);
+			if (!current->getState().getSpectator() &&
+				!current->getState().getState() == TankState::sPending)
+			{
+				sortedTanks.push_back(current);
+			}
 		}
 		
 		TankSort::getSortedTanks(sortedTanks, ScorchedServer::instance()->getContext());
@@ -413,7 +419,11 @@ void ServerShotFinishedState::scoreOverallWinner()
 				Tank *tank = (*itor).second;
 				if (tank->getTeam() == winningTeam)
 				{
-					StatsLogger::instance()->tankOverallWinner(tank);
+					if (!tank->getState().getSpectator() &&
+						!tank->getState().getState() == TankState::sPending)
+					{
+						StatsLogger::instance()->tankOverallWinner(tank);
+					}
 				}
 			}
 		}

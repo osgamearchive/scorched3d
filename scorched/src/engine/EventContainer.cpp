@@ -22,7 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeTex.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 
 EventContainer::EventContainer()
 {

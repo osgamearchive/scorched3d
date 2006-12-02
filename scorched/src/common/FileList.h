@@ -18,11 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// FileList.h: interface for the FileList class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_FILELIST_H__2CF7C1A5_3860_4215_90E4_7D6ACFAAAD52__INCLUDED_)
 #define AFX_FILELIST_H__2CF7C1A5_3860_4215_90E4_7D6ACFAAAD52__INCLUDED_
 
@@ -34,19 +29,19 @@ class FileList
 public:
 	typedef std::list<std::string> ListType;
 
-	FileList(char *directory, char *filter = "*.*");
+	FileList(const char *directory, char *filter = "*.*", 
+		bool fullPath = true, bool recurse = false);
 	virtual ~FileList();
 
 	bool getStatus();
-	std::list<std::string> &getFiles() { return files_; }
+	ListType &getFiles() { return files_; }
 
 protected:
-	std::string filter_;
-	std::string directory_;
 	ListType files_;
 	bool status_;
 
-	bool readFiles();
+	bool readFiles(const char *directory, char *filter, bool fullPath);
+	bool addAllFiles(const char *baseDir, const char *directory, char *filter, bool fullPath);
 };
 
 #endif // !defined(AFX_FILELIST_H__2CF7C1A5_3860_4215_90E4_7D6ACFAAAD52__INCLUDED_)

@@ -25,10 +25,11 @@
 #include <server/ServerBanned.h>
 #include <server/ServerKeepAliveHandler.h>
 #include <tank/TankDeadContainer.h>
+#include <tank/TankState.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <common/StatsLogger.h>

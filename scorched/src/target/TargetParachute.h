@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_TargetParachuteh_INCLUDE__)
 #define __INCLUDE_TargetParachuteh_INCLUDE__
 
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 
 class Accessory;
 class ScorchedContext;

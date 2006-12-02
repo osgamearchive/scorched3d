@@ -164,20 +164,6 @@ bool KeyboardKey::translateKeyStateValue(unsigned int state, const char *&name)
 	return false;
 }
 
-bool KeyboardKey::translateKeyNameWX(unsigned int wxkey, unsigned int &key)
-{
-	for (int i=0; i<sizeof(KeyTranslationTable)/sizeof(KeyTranslation); i++)
-	{
-		if (KeyTranslationTable[i].wxKeySym == wxkey)
-		{
-			key = KeyTranslationTable[i].keySym;
-			return true;
-		}
-	}
-	return false;
-}
-
-
 bool KeyboardKey::keyDown(char *buffer, unsigned int keyState, bool repeat)
 {
 	for (unsigned int i=0; i<keys_.size(); i++)

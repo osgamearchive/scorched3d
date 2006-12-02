@@ -35,7 +35,7 @@ public:
 	GLLuminance(const char *filename);
 	virtual ~GLLuminance();
 
-	virtual GLubyte *getBits();
+	virtual unsigned char *getBits();
 
 	virtual int getWidth();
 	virtual int getHeight();
@@ -52,12 +52,12 @@ protected:
 	  unsigned short xsize, ysize, zsize;
 	} image;
 
-	GLubyte *base_;
+	unsigned char *base_;
 
 	void convertShort(unsigned short *array, unsigned int length);
 	void convertUint(unsigned *array, unsigned int length);
 
-	void imageGetRow(FILE *file, GLubyte *buf, int y, int z, unsigned int *rowStart, int *rowSize);
+	void imageGetRow(FILE *file, unsigned char *buf, int y, int z, unsigned int *rowStart, int *rowSize);
 	bool loadFromFile(const char *filename);
 };
 

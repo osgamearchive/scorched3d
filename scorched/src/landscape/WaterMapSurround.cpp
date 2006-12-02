@@ -24,7 +24,7 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
 #include <landscape/WaterMapSurround.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 
 WaterMapSurround::WaterMapSurround() :

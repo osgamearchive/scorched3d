@@ -41,7 +41,9 @@ bool ComsGameStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinat
 
 bool ComsGameStateMessage::readMessage(NetBufferReader &reader)
 {
+#ifndef S3D_SERVER
 	if (!ScorchedClient::instance()->getOptionsTransient().
 		readFromBuffer(reader)) return false;
+#endif // #ifndef S3D_SERVER
 	return true;
 }

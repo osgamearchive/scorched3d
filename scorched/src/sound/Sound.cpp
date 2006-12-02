@@ -20,7 +20,7 @@
 
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Logger.h>
 #include <sound/Sound.h>
 #include <sound/SoundBufferFactory.h>

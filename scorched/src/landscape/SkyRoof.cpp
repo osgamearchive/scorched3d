@@ -25,7 +25,7 @@
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
 #include <GLEXT/GLInfo.h>

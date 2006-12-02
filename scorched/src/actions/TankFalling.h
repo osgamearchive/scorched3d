@@ -47,8 +47,6 @@ class Parachute;
 class TankFalling : public ActionMeta
 {
 public:
-	static std::map<unsigned int, TankFalling*> fallingTanks;
-
 	TankFalling();
 	TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 			unsigned int firedPlayerId, Parachute *parachute,

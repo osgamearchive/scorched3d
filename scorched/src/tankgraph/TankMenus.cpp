@@ -27,10 +27,15 @@
 #include <tankai/TankAIHuman.h>
 #include <tankai/TankAIComputer.h>
 #include <tank/TankContainer.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankModelContainer.h>
+#include <tank/TankState.h>
+#include <target/TargetParachute.h>
+#include <target/TargetShield.h>
 #include <tankgraph/TankMenus.h>
 #include <GLW/GLWWindowManager.h>
-#include <common/OptionsParam.h>
-#include <common/OptionsDisplay.h>
+#include <client/ClientParams.h>
+#include <graph/OptionsDisplay.h>
 #include <common/FileLogger.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -38,8 +43,7 @@
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsTextMessage.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
-#include <landscape/MovementMap.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <tankgraph/RenderTracer.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
@@ -287,25 +291,25 @@ TankMenus::PlayerMenu::PlayerMenu()
 
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Skip Move",
-		new GLWTip("Skip Move", 
+		new ToolTip("Skip Move", 
 			"Player forfits this move.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Resign Round",
-		new GLWTip("Resign Round", 
+		new ToolTip("Resign Round", 
 			"Player resigns from this round.\n"
 			"Player takes no part in the rest of the round.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Exit Game",
-		new GLWTip("Exit Game", "Stop Playing Scorched.")));
-	if (!OptionsParam::instance()->getConnectedToServer())
+		new ToolTip("Exit Game", "Stop Playing Scorched.")));
+	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		MainMenuDialog::instance()->addMenuItem("Player",
 			GLMenuItem("Mass Tank Kill",
-			new GLWTip("Mass Tank Kill",
+			new ToolTip("Mass Tank Kill",
 				"Kill all tanks.\nStarts the next round.")));
 		MainMenuDialog::instance()->addMenuItem("Player",
 			GLMenuItem("Save",
-			new GLWTip("Save", "Save this game.")));
+			new ToolTip("Save", "Save this game.")));
 	}
 }
 

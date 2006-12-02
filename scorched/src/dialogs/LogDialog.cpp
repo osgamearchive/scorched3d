@@ -23,7 +23,7 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLViewPort.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Logger.h>
 
 LogDialog *LogDialog::instance_ = 0;

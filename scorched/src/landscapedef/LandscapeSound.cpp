@@ -19,13 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscapedef/LandscapeSound.h>
-#include <landscape/LandscapeObjects.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/Landscape.h>
 #include <landscape/Water.h>
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
 #include <sound/Sound.h>
 #include <math.h>
 
@@ -39,39 +38,45 @@ bool LandscapeSoundPositionSet::readXML(XMLNode *node)
 
 bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, void *data)
 {
-	LandscapeObjectsGroupEntry *groupEntry =
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+#ifndef S3D_SERVER
+	TargetGroupsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getGroups().getGroup(
 			name.c_str());
 	if (!groupEntry) return false;
 	if (groupEntry->getObjectCount() <= 0) return false;
 
-	LandscapeObjectEntryBase *obj = (LandscapeObjectEntryBase*) data;
+	TargetGroupEntry *obj = (TargetGroupEntry*) data;
 	if (!groupEntry->hasObject(obj)) return false;
 
 	Vector position = obj->getPosition();
 	source->setPosition(position);
+#endif
 
 	return true;
 }
 
 int LandscapeSoundPositionSet::getInitCount()
 {
-	LandscapeObjectsGroupEntry *groupEntry =
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+#ifndef S3D_SERVER
+	TargetGroupsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getGroups().getGroup(
 			name.c_str());
-	if (!groupEntry) return 0;	
+	if (groupEntry) return (MIN(maxsounds, groupEntry->getObjectCount()));	
+#endif
 
-	return (MIN(maxsounds, groupEntry->getObjectCount()));
+	return 0;
 }
 
 void *LandscapeSoundPositionSet::getInitData(int count)
 {
-	LandscapeObjectsGroupEntry *groupEntry =
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+#ifndef S3D_SERVER
+	TargetGroupsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getGroups().getGroup(
 			name.c_str());
-	if (!groupEntry) return 0;	
+	if (groupEntry) return groupEntry->getObject(count);	
+#endif
 
-	return groupEntry->getObject(count);
+	return 0;
 }
 
 bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
@@ -83,6 +88,7 @@ bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
 
 bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source, void *data)
 {
+#ifndef S3D_SERVER
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
 	int groundMapWidth = ScorchedClient::instance()->
@@ -96,8 +102,8 @@ bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source, void *
 	int y = MAX(0, MIN(b, groundMapHeight));
 
 	float distance = 255.0f;
-	LandscapeObjectsGroupEntry *groupEntry =
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getObjects().getGroup(
+	TargetGroupsGroupEntry *groupEntry =
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getGroups().getGroup(
 			name.c_str());
 	if (groupEntry)
 	{
@@ -112,6 +118,7 @@ bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source, void *
 
 	source->setRelative();
 	source->setPosition(position);
+#endif
 
 	return true;
 }
@@ -124,6 +131,7 @@ bool LandscapeSoundPositionWater::readXML(XMLNode *node)
 
 bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, void *data)
 {
+#ifndef S3D_SERVER
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
 
@@ -135,6 +143,7 @@ bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, void *
 
 	source->setRelative();
 	source->setPosition(position);
+#endif
 
 	return true;
 }
@@ -146,8 +155,10 @@ bool LandscapeSoundPositionAmbient::readXML(XMLNode *node)
 
 bool LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source, void *data)
 {
+#ifndef S3D_SERVER
 	source->setRelative();
 	source->setPosition(Vector::nullVector);
+#endif
 
 	return true;
 }
@@ -160,7 +171,9 @@ bool LandscapeSoundPositionAbsoulte::readXML(XMLNode *node)
 
 bool LandscapeSoundPositionAbsoulte::setPosition(VirtualSoundSource *source, void *data)
 {
+#ifndef S3D_SERVER
 	source->setPosition(position);
+#endif
 	return true;
 }
 
@@ -203,6 +216,7 @@ bool LandscapeSoundSoundFile::readXML(XMLNode *node)
 
 bool LandscapeSoundSoundFile::play(VirtualSoundSource *source)
 {
+#ifndef S3D_SERVER
 	SoundBuffer *buffer = 
 		Sound::instance()->fetchOrCreateBuffer((char *)
 			getDataFile(file.c_str()));
@@ -212,6 +226,7 @@ bool LandscapeSoundSoundFile::play(VirtualSoundSource *source)
 	source->setRolloff(rolloff);
 	source->setReferenceDistance(referencedistance);
 	source->play(buffer);
+#endif
 
 	return true;
 }

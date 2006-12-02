@@ -24,9 +24,9 @@
 #include <GLEXT/GLDynamicVertexArray.h>
 #include <GLEXT/GLCamera.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
-#include <target/TargetContainer.h>
+#include <tank/TankContainer.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>
 
@@ -142,11 +142,11 @@ void PatchGrid::recalculateTankVariance()
 	// Mark any patches with tanks on as better variance levels
 	// Ensure that any patches with tanks on them are drawn with
 	// a very low varaince
-	std::map<unsigned int, Target *> &targets = 
-		ScorchedClient::instance()->getTargetContainer().getTargets();
-	std::map<unsigned int, Target *>::iterator itor;
-	for (itor = targets.begin();
-		itor != targets.end();
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedClient::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
 		itor++)
 	{
 		Target *current = (*itor).second;

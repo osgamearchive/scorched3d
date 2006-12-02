@@ -98,8 +98,12 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 {
 	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
 
-	// Sort all of the tanks
-	std::vector<std::pair<float, Target *> > sortedTargets;	
+	// Don't put fully transparent areas into the depth buffer
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.00f);
+	GLState glstate(GLState::BLEND_ON | GLState::TEXTURE_ON);
+	
+	// Draw all of the tanks
 	std::map<unsigned int, Target *> &targets = 
 		ScorchedClient::instance()->getTargetContainer().getTargets();
 	std::map<unsigned int, Target *>::iterator itor;
@@ -108,31 +112,9 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 		itor++)
 	{
 		Target *target = (*itor).second;
-		if (target->getAlive())
-		{
-			float dist = approx_distance(
+		float distance = approx_distance(
 				target->getTargetPosition()[0] - campos[0],
 				target->getTargetPosition()[1] - campos[1]);
-			sortedTargets.push_back(std::pair<float, Target *>(dist, target));
-		}
-	}
-
-	// Sort tanks
-	std::sort(sortedTargets.begin(), sortedTargets.end(), lt_distance); 
-
-	// Don't put fully transparent areas into the depth buffer
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.00f);
-	GLState glstate(GLState::BLEND_ON | GLState::TEXTURE_ON);
-	
-	// Draw all of the tanks
-	std::vector<std::pair<float, Target *> >::iterator sortedItor;
-	for (sortedItor = sortedTargets.begin();
-		sortedItor != sortedTargets.end();
-		sortedItor++)
-	{
-		float distance = (*sortedItor).first;
-		Target *target = (*sortedItor).second;
 
 		// Check we have the tank model for each tank
 		TargetRenderer *model = target->getRenderer();

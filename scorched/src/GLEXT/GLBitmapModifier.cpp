@@ -24,7 +24,7 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <engine/ScorchedContext.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <common/Defines.h>
 
 bool GLBitmapModifier::findIntersection(HeightMap &hMap,

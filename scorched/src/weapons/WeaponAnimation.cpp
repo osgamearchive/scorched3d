@@ -44,9 +44,8 @@ bool WeaponAnimation::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("data", data_)) return false;
 	if (!accessoryNode->getNamedChild("animation", rendererName_)) return false;
 
-	MetaClass *newclass = MetaClassRegistration::getNewClass(
-		rendererName_.c_str());
-	if (!newclass)
+	if (0 != strcmp(rendererName_.c_str(), "ExplosionLaserBeamRenderer") &&
+		0 != strcmp(rendererName_.c_str(), "ExplosionRingRenderer"))
 	{
 		dialogMessage("Accessory", formatString(
 			"Failed to find animation named \"%s\" in accessory \"%s\"",
@@ -54,7 +53,6 @@ bool WeaponAnimation::parseXML(OptionsGame &context,
 			parent_->getName()));
 		return false;
 	}
-	delete newclass;
 
 	return true;
 }

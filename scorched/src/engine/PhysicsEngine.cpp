@@ -77,7 +77,7 @@ bool PhysicsEngine::create()
 
 	// Setup the world's settings
 	dWorldSetGravity(world_,0,0,-10.0); // Set a default gravity (this will change)
-	dWorldSetCFM(world_,1e-5);
+	dWorldSetCFM(world_,1e-5f);
 
 	return true;
 }

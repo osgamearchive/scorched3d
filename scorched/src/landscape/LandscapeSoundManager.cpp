@@ -20,7 +20,7 @@
 
 #include <landscape/LandscapeSoundManager.h>
 #include <landscapedef/LandscapeSound.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
 

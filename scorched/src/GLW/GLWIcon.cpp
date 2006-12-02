@@ -21,7 +21,7 @@
 #include <GLW/GLWIcon.h>
 #include <GLEXT/GLState.h>
 #include <XML/XMLParser.h>
-#include <3dsparse/ModelStore.h>
+#include <graph/TextureStore.h>
 #include <common/Defines.h>
 
 REGISTER_CLASS_SOURCE(GLWIcon);
@@ -77,7 +77,7 @@ bool GLWIcon::initFromXML(XMLNode *node)
 		std::string bitmapAName = 
 			getDataFile(bitmapANode->getContent());
 
-		texture_ = ModelStore::instance()->loadTexture(
+		texture_ = TextureStore::instance()->loadTexture(
 			bitmapName.c_str(), bitmapAName.c_str(), invert);
 		if (!texture_) return false;
 

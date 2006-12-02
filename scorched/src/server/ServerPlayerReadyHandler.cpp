@@ -24,6 +24,7 @@
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <coms/ComsPlayerReadyMessage.h>
 
 ServerPlayerReadyHandler *ServerPlayerReadyHandler::instance_ = 0;

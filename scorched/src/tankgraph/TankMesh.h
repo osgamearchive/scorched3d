@@ -22,7 +22,7 @@
 #define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
 #include <common/Vector.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 #include <list>
 
 class TankMesh : public ModelRenderer

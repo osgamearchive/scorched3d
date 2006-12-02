@@ -23,6 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
+#include <tank/TankPosition.h>
 #include <tank/TankContainer.h>
 #include <tank/TankLib.h>
 #include <math.h>

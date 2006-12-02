@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_Shiph_INCLUDE__)
 #define __INCLUDE_Shiph_INCLUDE__
 
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 
 class ModelID;
 class LandscapeShip;

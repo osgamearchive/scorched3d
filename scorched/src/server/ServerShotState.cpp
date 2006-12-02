@@ -33,6 +33,11 @@
 #include <common/RandomGenerator.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
+#include <tank/TankState.h>
+#include <tank/TankScore.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankPosition.h>
+#include <target/TargetLife.h>
 
 ServerShotState::ServerShotState() :
 	GameStateI("ServerShotState"),

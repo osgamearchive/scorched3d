@@ -23,6 +23,7 @@
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
 #include <target/TargetRenderer.h>
+#include <target/TargetState.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/ExplosionTextures.h>
@@ -30,12 +31,12 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
 #include <landscape/DeformTextures.h>
+#include <landscape/Smoke.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeTex.h>
 #include <weapons/AccessoryStore.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
 
@@ -84,15 +85,18 @@ void Napalm::init()
 		}
 	}
 
+#ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
 		set_ = ExplosionTextures::instance()->getTextureSetByName(
 			weapon_->getNapalmTexture());
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 void Napalm::simulate(float frameTime, bool &remove)
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		if (!weapon_->getNoSmoke() &&
@@ -120,6 +124,7 @@ void Napalm::simulate(float frameTime, bool &remove)
 			}
 		}
 	}
+#endif // #ifndef S3D_SERVER
 
 	// Add napalm for the period of the time interval
 	// once the time interval has expired then start taking it away
@@ -232,10 +237,6 @@ void Napalm::simulateAddStep()
 			{
 				// This is the first time we have hit the water
 				hitWater_ = true;
-				if (!context_->serverMode) 
-				{
-					// TODO: Play hit water sound
-				}
 			}
 			return;
 		}
@@ -245,6 +246,7 @@ void Napalm::simulateAddStep()
 	int offset = int(RAND * 31);
 	NapalmEntry *newEntry = new NapalmEntry(x_, y_, offset);
 	napalmPoints_.push_back(newEntry);
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		ParticleEmitter emitter;
@@ -278,7 +280,9 @@ void Napalm::simulateAddStep()
 			ScorchedClient::instance()->getParticleEngine(),
 			set_);
 	}
+#endif // #ifndef S3D_SERVER
 
+	/*
 	if (!weapon_->getNoObjectDamage())
 	{
 		context_->landscapeMaps->getGroundMaps().getObjects().burnObjects(
@@ -294,10 +298,12 @@ void Napalm::simulateAddStep()
 			(unsigned int) x_ - 1, (unsigned int) y_ - 1,
 			playerId_);
 	}
+	*/
 
 	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x_, y_) += NapalmHeight;
 	height += NapalmHeight;
 
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		// Add the ground scorch
@@ -314,6 +320,7 @@ void Napalm::simulateAddStep()
 			}
 		}
 	}
+#endif // #ifndef S3D_SERVER
 
 	// Calculate every time as the landscape may change
 	// due to other actions
@@ -431,8 +438,12 @@ void Napalm::simulateDamage()
 			float damage = (*damageItor).second;
 
 			// Add damage to the tank
-			TargetDamageCalc::damageTarget(*context_, target, weapon_, 
-				playerId_, damage, true, false, false, data_);
+			// If allowed for this target type (mainly for trees)
+			if (!target->getTargetState().getNoDamageBurn())
+			{
+				TargetDamageCalc::damageTarget(*context_, target, weapon_, 
+					playerId_, damage, true, false, false, data_);
+			}
 
 			// Set this target to burnt
 			if (target->getRenderer() &&

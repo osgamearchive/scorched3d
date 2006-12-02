@@ -22,7 +22,7 @@
 #if !defined(__INCLUDE_HeightMapRendererh_INCLUDE__)
 #define __INCLUDE_HeightMapRendererh_INCLUDE__
 
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 
 namespace HeightMapRenderer
 {

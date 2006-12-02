@@ -25,6 +25,7 @@
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <common/Defines.h>
 #include <time.h>
 

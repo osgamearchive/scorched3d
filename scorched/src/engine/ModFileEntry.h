@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ModFileEntryh_INCLUDE__)
 #define __INCLUDE_ModFileEntryh_INCLUDE__
 
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 #include <string>
 
 struct ModIdentifierEntry

@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ServerRegistrationh_INCLUDE__)
 #define __INCLUDE_ServerRegistrationh_INCLUDE__
 
-#include <coms/NetServer.h>
+#include <net/NetServerTCP.h>
 
 class ServerRegistrationEntry : public NetMessageHandlerI
 {
@@ -35,7 +35,7 @@ public:
 protected:
 	const char *masterListServer_;
 	bool finished_, success_;
-	NetServer netServer_;
+	NetServerTCP netServer_;
 	NetBuffer sendNetBuffer_;
 	static int threadFunc(void *);
 	void actualThreadFunc();

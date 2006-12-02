@@ -28,7 +28,6 @@
 
 #include <list>
 #include <set>
-#include <GLEXT/GLState.h>
 #include <common/Clock.h>
 #include <engine/MainLoopI.h>
 

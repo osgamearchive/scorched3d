@@ -22,10 +22,11 @@
 #include <sprites/TalkRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <tank/TankContainer.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAvatar.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
-#include <common/OptionsParam.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 
@@ -53,6 +54,7 @@ void TankSay::init()
 		context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
+#ifndef S3D_SERVER
 		if (!context_->serverMode) 
 		{
 			// put a speach bubble over the talking tank
@@ -68,10 +70,7 @@ void TankSay::init()
 			info.setInfoLen(infoLen_);
 			Logger::log(info);
 		}
-		else if (OptionsParam::instance()->getDedicatedServer())
-		{
-			Logger::log(text_.c_str());
-		}
+#endif // #ifndef S3D_SERVER
 	}
 }
 

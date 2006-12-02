@@ -43,8 +43,10 @@ bool ComsActionsMessage::writeMessage(NetBuffer &buffer, unsigned int destinatio
 
 bool ComsActionsMessage::readMessage(NetBufferReader &reader)
 {
+#ifndef S3D_SERVER
 	if (!reader.getFromBuffer(totalTime_)) return false;
 	if (!ScorchedClient::instance()->getActionController().getBuffer().
 		readMessage(reader)) return false;
+#endif
 	return true;
 }

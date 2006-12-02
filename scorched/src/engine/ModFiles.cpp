@@ -22,8 +22,6 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/FileList.h>
-#include <wx/dir.h>
-#include <wx/utils.h>
 #include <stdio.h>
 
 ModFiles::ModFiles()
@@ -67,7 +65,7 @@ bool ModFiles::excludeFile(const char *file)
 	if (!fileEnding(file, ".xml") &&
 		!fileEnding(file, ".bmp") &&
 		!fileEnding(file, ".txt") &&
-		!fileEnding(file, ".gif") &&
+		!fileEnding(file, ".png") &&
 		!fileEnding(file, ".ico") &&
 		!fileEnding(file, ".ase") &&
 		!fileEnding(file, ".wav") &&
@@ -114,7 +112,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 		loadModFile(getDataFile("data/accessories.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/modinfo.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
-		FileList fList((char *) getDataFile("data/landscapes"), "*.xml");
+		FileList fList(getDataFile("data/landscapes"), "*.xml");
 		std::list<std::string> &files = fList.getFiles();
 		std::list<std::string>::iterator itor;
 		for (itor = files.begin();
@@ -158,18 +156,21 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 bool ModFiles::loadModDir(const char *modDir, const char *mod, ProgressCounter *counter)
 {
 	// Load all files contained in this directory
-	wxArrayString files;
-	wxDir::GetAllFiles(wxString(modDir, wxConvUTF8), &files);
-	for (int i=0; i<(int) files.Count(); i++)
+	FileList allfiles(modDir, "*", false, true);
+	FileList::ListType &files = allfiles.getFiles();
+	FileList::ListType::iterator itor;
+
+	int i = 0;
+	for (itor = files.begin();
+		itor != files.end();
+		itor++, i++)
 	{
 		if (counter) counter->setNewPercentage(float(i) 
-			/ float(files.Count()) * 100.0f);
-
-		// Get the name of the current file
-		wxString &current = files.Item(i);
+			/ float(files.size()) * 100.0f);
 
 		// Load the file
-		if (!loadModFile(current.mb_str(wxConvUTF8), modDir, mod))
+		std::string &fileName = (*itor);
+		if (!loadModFile(fileName.c_str(), modDir, mod))
 		{
 			return false;
 		}

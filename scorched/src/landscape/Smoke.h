@@ -21,22 +21,7 @@
 #if !defined(AFX_SMOKE_H__6265A8BD_0FB0_4CB0_BDDC_6C706B2A2A07__INCLUDED_)
 #define AFX_SMOKE_H__6265A8BD_0FB0_4CB0_BDDC_6C706B2A2A07__INCLUDED_
 
-#include <engine/ParticleEmitter.h>
-
-class SmokeCounter 
-{
-public:
-	SmokeCounter(float minTime, float timeDiff);
-
-	bool nextDraw(float frameTime);
-
-protected:
-	float minTime_, timeDiff_;
-	float currentTime_;
-	float nextTime_;
-
-	void genNextTime();
-};
+#include <graph/ParticleEmitter.h>
 
 class Smoke
 { 

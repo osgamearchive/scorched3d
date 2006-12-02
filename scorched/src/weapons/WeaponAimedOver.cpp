@@ -20,9 +20,10 @@
 
 #include <weapons/WeaponAimedOver.h>
 #include <weapons/AccessoryStore.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
+#include <tank/TankPosition.h>
 #include <common/Defines.h>
 #include <common/OptionsTransient.h>
 #include <list>

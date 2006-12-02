@@ -18,16 +18,14 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/filefn.h>
-#include <time.h>
+#include <common/OptionsGame.h>
+#include <common/Logger.h>
+#include <common/Defines.h>
 #include <server/ServerTimedMessage.h>
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
 #include <XML/XMLFile.h>
-#include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
-#include <common/Logger.h>
-#include <common/Defines.h>
+#include <time.h>
 
 ServerTimedMessage::ServerTimedMessage() : 
 	lastReadTime_(0), lastCheckTime_(0)
@@ -40,7 +38,9 @@ ServerTimedMessage::~ServerTimedMessage()
 
 void ServerTimedMessage::simulate()
 {
-	if (!OptionsParam::instance()->getDedicatedServer()) return;
+#ifndef S3D_SERVER
+	return;
+#endif
 
 	time_t currentTime = time(0);
 	if (currentTime > lastCheckTime_ + 5)

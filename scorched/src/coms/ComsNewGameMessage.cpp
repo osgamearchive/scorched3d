@@ -27,7 +27,8 @@
 
 ComsNewGameMessage::ComsNewGameMessage() :
 	ComsMessage("ComsNewGameMessage"),
-	gameStateEnclosed_(false)
+	gameStateEnclosed_(false),
+	playerState_(false)
 {
 
 }
@@ -53,14 +54,19 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinatio
 			getOptionsTransient().writeToBuffer(buffer)) return false;
 	}
 	if (!levelMessage_.writeMessage(buffer, destinationId)) return false;
+
+	// Both of these are read later as they must be processed after the level
+	// has been built
 	if (!ScorchedServer::instance()->getAccessoryStore().
 		writeEconomyToBuffer(buffer)) return false;
+	if (!playerState_.writeMessage(buffer, destinationId)) return false;
 
 	return true;
 }
 
 bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 {
+#ifndef S3D_SERVER
 	if (!reader.getFromBuffer(gameStateEnclosed_)) return false;
 	if (gameStateEnclosed_)
 	{
@@ -70,6 +76,7 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 			getOptionsTransient().readFromBuffer(reader)) return false;
 	}
 	if (!levelMessage_.readMessage(reader)) return false;
+#endif
 
 	return true;
 }

@@ -21,7 +21,6 @@
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
 #include <tankgraph/RenderTracer.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ViewPoints.h>
@@ -58,10 +57,12 @@ ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 
 void ShotProjectile::init()
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
 		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale()));
 	}
+#endif // #ifndef S3D_SERVER
 
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 	setPhysics(startPosition_, velocity_, 0.0f, 0.0f, weapon_->getWindFactor());
@@ -172,6 +173,7 @@ bool ShotProjectile::readAction(NetBufferReader &reader)
 
 void ShotProjectile::doCollision(Vector &position)
 {	
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		if (getWeapon()->getShowShotPath())
@@ -185,6 +187,7 @@ void ShotProjectile::doCollision(Vector &position)
 				addTracer(playerId_, position);
 		}
 	}
+#endif // #ifndef S3D_SERVER
 
 	Vector velocity;
 	getWeapon()->getCollisionAction()->fireWeapon(

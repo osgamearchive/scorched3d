@@ -20,7 +20,7 @@
 
 #include <placement/PlacementGroupDefinition.h>
 #include <engine/ScorchedContext.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 
 PlacementGroupDefinition::PlacementGroupDefinition()
 {
@@ -42,7 +42,7 @@ bool PlacementGroupDefinition::readXML(XMLNode *node)
 
 void PlacementGroupDefinition::addToGroups(
 	ScorchedContext &context,
-	LandscapeObjectEntryBase *objectEntry,
+	TargetGroupEntry *objectEntry,
 	bool thin)
 {
 	for (unsigned int i=0; i<groupnames_.size(); i++)
@@ -55,11 +55,11 @@ void PlacementGroupDefinition::addToGroups(
 void PlacementGroupDefinition::addToGroup(
 	const char *groupName,
 	ScorchedContext &context,
-	LandscapeObjectEntryBase *objectEntry,
+	TargetGroupEntry *objectEntry,
 	bool thin)
 {
-	LandscapeObjectsGroupEntry *group =
-		context.landscapeMaps->getGroundMaps().getObjects().getGroup(
+	TargetGroupsGroupEntry *group =
+		context.landscapeMaps->getGroundMaps().getGroups().getGroup(
 			groupName, 
 			&context.landscapeMaps->getGroundMaps().getHeightMap());
 	if (group)

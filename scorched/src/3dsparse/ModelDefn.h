@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ModelDefnh_INCLUDE__)
 #define __INCLUDE_ModelDefnh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
+#include <common/ModelID.h>
 
 class ModelDefn
 {

@@ -21,7 +21,7 @@
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
 #include <GLW/GLWWindowManager.h>
-#include <common/OptionsParam.h>
+#include <client/ClientParams.h>
 #include <server/ServerCommon.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
@@ -45,7 +45,7 @@ QuitDialog::QuitDialog() :
 	killButton_ = (GLWTextButton *) 
 		addWidget(new GLWTextButton("Mass Tank Kill", 10, 115, 190, this, 
 		GLWButton::ButtonFlagCenterX));
-	killButton_->setToolTip(new GLWTip("Mass tank kill",
+	killButton_->setToolTip(new ToolTip("Mass tank kill",
 		"Kills all the tanks and starts the next\n"
 		"round.  Only available in single player\n"
 		"games."));
@@ -53,20 +53,20 @@ QuitDialog::QuitDialog() :
 	saveButton_ = (GLWTextButton *) 
 		addWidget(new GLWTextButton("Save Game", 10, 80, 190, this,
 		GLWButton::ButtonFlagCenterX));
-	saveButton_->setToolTip(new GLWTip("Save Game",
+	saveButton_->setToolTip(new ToolTip("Save Game",
 		"Saves the games.\n"
 		"Only available in single player games."));
 
 	quitButton_ = (GLWTextButton *) 
 		addWidget(new GLWTextButton("Quit Game", 10, 45, 190, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX));
-	quitButton_->setToolTip(new GLWTip("Quit Game",
+	quitButton_->setToolTip(new ToolTip("Quit Game",
 		"Quits Scorched3D"));
 
 	okButton_ = (GLWTextButton *) 
 		addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX));
-	okButton_->setToolTip(new GLWTip("Cancel",
+	okButton_->setToolTip(new ToolTip("Cancel",
 		"Return to the game."));
 }
 
@@ -80,7 +80,7 @@ void QuitDialog::display()
 	GLWWindow::display();
 
 	unsigned int state = ScorchedClient::instance()->getGameState().getState();
-	bool disable = (OptionsParam::instance()->getConnectedToServer() ||
+	bool disable = (ClientParams::instance()->getConnectedToServer() ||
 		state == ClientState::StateConnect ||
 		state == ClientState::StateGetPlayers ||
 		state == ClientState::StateLoadPlayers);

@@ -39,10 +39,12 @@ void SkyFlash::init()
 
 void SkyFlash::simulate(float frameTime, bool &remove)
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		Landscape::instance()->getSky().flashSky();
 	}
+#endif // #ifndef S3D_SERVER
 
 	remove = true;
 	Action::simulate(frameTime, remove);

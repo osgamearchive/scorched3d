@@ -24,7 +24,6 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
@@ -33,11 +32,14 @@
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetLoopBack.h>
+#include <net/NetLoopBack.h>
 #include <tankai/TankAIStore.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankModelContainer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
+#include <tank/TankState.h>
+#include <tank/TankAvatar.h>
 
 ServerAddPlayerHandler *ServerAddPlayerHandler::instance_ = 0;
 
@@ -89,7 +91,9 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		}
 
 		// Only allow this on a single player game
-		if (OptionsParam::instance()->getDedicatedServer()) return true;
+#ifdef S3D_SERVER
+		return true;
+#endif // #ifdef S3D_SERVER
 
 		// Check tank ai is valid
 		TankAI *ai = 
@@ -115,7 +119,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		getUniqueName(tank, name);
 
 		// Tell this computer that a new tank has connected
-		if (OptionsParam::instance()->getDedicatedServer())
+#ifdef S3D_SERVER
 		{
 			Logger::log(formatString("Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
 				tank->getDestinationId(), tank->getPlayerId(),
@@ -128,6 +132,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 					tank->getName(), name.c_str()));
 			}
 		}
+#endif // #ifdef S3D_SERVER
 	}
 	tank->setName(name.c_str());
 
@@ -169,7 +174,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	// Tell the logger about a new tank
 	StatsLogger::instance()->tankJoined(tank);
 
-	if (OptionsParam::instance()->getDedicatedServer())
+#ifdef S3D_SERVER
 	{
 		char *rank = StatsLogger::instance()->tankRank(tank);
 		if (strcmp(rank, "-") != 0)
@@ -194,6 +199,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 			}
 		}
 	}
+#endif // #ifdef S3D_SERVER
 
 	// Make sure the tank state is as we expected
 	// This also fixes setting the state after loading 

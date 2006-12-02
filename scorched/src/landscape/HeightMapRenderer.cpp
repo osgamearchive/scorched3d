@@ -20,7 +20,7 @@
 
 
 #include <landscape/HeightMapRenderer.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
 
 void HeightMapRenderer::drawHeightMap(HeightMap &map)

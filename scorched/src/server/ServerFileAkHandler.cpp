@@ -21,6 +21,7 @@
 #include <server/ServerFileAkHandler.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
+#include <tank/TankMod.h>
 #include <coms/ComsFileAkMessage.h>
 
 ServerFileAkHandler *ServerFileAkHandler::instance()

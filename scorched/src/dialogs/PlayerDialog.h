@@ -28,7 +28,7 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWDropDownColor.h>
 #include <GLEXT/GLTexture.h>
-#include <tankgraph/GLWTankViewer.h>
+#include <GLW/GLWTankViewer.h>
 
 class PlayerDialog : public GLWWindow,
 	public GLWButtonI, public GLWDropDownI
@@ -64,7 +64,7 @@ protected:
 	GLWTankViewer *viewer_;
 	GLWTextBox *playerName_;
 	GLWImageList *imageList_;
-	GLWTip avatarTip1_, avatarTip2_;
+	ToolTip avatarTip1_, avatarTip2_;
 	GLTexture colorTexture_;
 	unsigned int allocatedTeam_;
 	unsigned int okId_, cancelId_;

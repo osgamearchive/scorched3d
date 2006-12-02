@@ -23,7 +23,7 @@
 
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/PhysicsEngine.h>
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 
 class Accessory;
 class ScorchedContext;

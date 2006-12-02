@@ -1,6 +1,6 @@
 ; Helper defines
 !define PRODUCT_NAME "Scorched3D"
-!define PRODUCT_VERSION "40.1d"
+!define PRODUCT_VERSION "41"
 !define PRODUCT_PUBLISHER "Scorched"
 !define PRODUCT_WEB_SITE "http://www.scorched3d.co.uk"
 !define PRODUCT_DONATE_WEB_SITE "https://www.paypal.com/xclick/business=donations%40scorched3d.co.uk&item_name=Scorched3D&no_note=1&tax=0&currency_code=GBP"
@@ -70,6 +70,8 @@ Section "MainSection" SEC01
   File "README"
   File "TODO"
   File "src\scorched\Release\scorched.exe"
+  File "src\scorched\Release\scorchedc.exe"
+  File "src\scorched\Release\scorcheds.exe"
 SectionEnd
 
 Section -AdditionalIcons

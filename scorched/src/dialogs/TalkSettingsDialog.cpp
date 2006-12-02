@@ -23,6 +23,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <stdio.h>
 
 TalkSettingsDialog *TalkSettingsDialog::instance_ = 0;

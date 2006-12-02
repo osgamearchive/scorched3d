@@ -20,6 +20,7 @@
 
 #include <target/TargetDamageCalc.h>
 #include <tank/TankContainer.h>
+#include <target/TargetLife.h>
 #include <common/Vector.h>
 #include <common/Logger.h>
 #include <engine/ActionController.h>

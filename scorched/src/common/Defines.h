@@ -23,6 +23,8 @@
 
 #ifndef _WIN32
 #include "porting.h"
+#else
+#pragma warning(disable : 4996)
 #endif
 
 #include <common/DefinesString.h>

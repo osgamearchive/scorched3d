@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ScorchedClient.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/Wall.h>
 #include <sound/SoundUtils.h>
 #include <GLEXT/GLBitmap.h>

@@ -22,7 +22,7 @@
 #define AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_
 
 
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 #include <landscape/WaterMap.h>
 
 namespace WaterMapModifier  

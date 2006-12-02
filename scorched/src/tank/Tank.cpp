@@ -22,8 +22,17 @@
 #include <tank/Tank.h>
 #include <tank/TankType.h>
 #include <tank/TankColorGenerator.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankScore.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tank/TankModelContainer.h>
+#include <tank/TankMod.h>
+#include <tank/TankAvatar.h>
+#include <tankai/TankAI.h>
 #include <tankai/TankAIStore.h>
+#include <target/TargetLife.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 
@@ -34,30 +43,40 @@ Tank::Tank(ScorchedContext &context,
 		Vector &color, 
 		const char *modelName,
 		const char *typeName) :
-	context_(context),
 	Target(playerId, name, context), 
+	context_(context),
 	destinationId_(destinationId),
 	color_(color), 
-	position_(context),
 	tankAI_(0),
-	score_(context), 
-	state_(context, playerId), 
-	modelContainer_(modelName, typeName),
-	accessories_(context),
 	team_(0), 
 	ipAddress_(0), 
 	keepAlive_(0)
 {
-	position_.setTank(this);
-	state_.setTank(this);
-	accessories_.setTank(this);
-	modelContainer_.setTank(this);
-	state_.setState(TankState::sPending);
+	accessories_ = new TankAccessories(context);
+	score_ = new TankScore(context);
+	state_ = new TankState(context, playerId);
+	position_ = new TankPosition(context);
+	modelContainer_ = new TankModelContainer(modelName, typeName);
+	mod_ = new TankMod();
+	avatar_ = new TankAvatar();
+
+	position_->setTank(this);
+	state_->setTank(this);
+	accessories_->setTank(this);
+	modelContainer_->setTank(this);
+	state_->setState(TankState::sPending);
 }
 
 Tank::~Tank()
 {
-	delete tankAI_;
+	delete tankAI_; tankAI_ = 0;
+	delete accessories_; accessories_ = 0;
+	delete score_; score_ = 0;
+	delete state_; state_ = 0;
+	delete position_; position_ = 0;
+	delete modelContainer_; modelContainer_ = 0;
+	delete mod_; mod_ = 0;
+	delete avatar_; avatar_ = 0;
 }
 
 void Tank::setTankAI(TankAI *ai)
@@ -68,9 +87,9 @@ void Tank::setTankAI(TankAI *ai)
 
 void Tank::newMatch()
 {
-	accessories_.newMatch();
-	score_.newMatch();
-	state_.newMatch();
+	accessories_->newMatch();
+	score_->newMatch();
+	state_->newMatch();
 	if (tankAI_) tankAI_->newMatch();
 }
 
@@ -83,9 +102,9 @@ void Tank::newGame()
 
 	Target::newGame();
 
-	state_.newGame();
-	score_.newGame();
-	position_.newGame();
+	state_->newGame();
+	score_->newGame();
+	position_->newGame();
 	if (tankAI_) tankAI_->newGame();
 }
 
@@ -99,9 +118,9 @@ void Tank::rezTank()
 
 void Tank::clientNewGame()
 {
-	position_.clientNewGame();
-	state_.clientNewGame();
-	score_.clientNewGame();
+	position_->clientNewGame();
+	state_->clientNewGame();
+	score_->clientNewGame();
 }
 
 bool Tank::getAlive()
@@ -128,11 +147,11 @@ bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(team_);
 	buffer.addToBuffer(color_);
-	if (!state_.writeMessage(buffer)) return false;
-	if (!accessories_.writeMessage(buffer, writeAccessories)) return false;
-	if (!score_.writeMessage(buffer)) return false;
-	if (!position_.writeMessage(buffer)) return false;
-	if (!modelContainer_.writeMessage(buffer)) return false;
+	if (!state_->writeMessage(buffer)) return false;
+	if (!accessories_->writeMessage(buffer, writeAccessories)) return false;
+	if (!score_->writeMessage(buffer)) return false;
+	if (!position_->writeMessage(buffer)) return false;
+	if (!modelContainer_->writeMessage(buffer)) return false;
 	return true;
 }
 
@@ -142,11 +161,11 @@ bool Tank::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(destinationId_)) return false;
 	if (!reader.getFromBuffer(team_)) return false;
 	if (!reader.getFromBuffer(color_)) return false;
-	if (!state_.readMessage(reader)) return false;
-	if (!accessories_.readMessage(reader)) return false;
-	if (!score_.readMessage(reader)) return false;
-	if (!position_.readMessage(reader)) return false;
-	if (!modelContainer_.readMessage(reader)) return false;
+	if (!state_->readMessage(reader)) return false;
+	if (!accessories_->readMessage(reader)) return false;
+	if (!score_->readMessage(reader)) return false;
+	if (!position_->readMessage(reader)) return false;
+	if (!modelContainer_->readMessage(reader)) return false;
 
 	if (!context_.serverMode)
 	{

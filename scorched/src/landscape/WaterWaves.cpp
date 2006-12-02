@@ -19,9 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/WaterWaves.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <GLEXT/GLStateExtension.h>

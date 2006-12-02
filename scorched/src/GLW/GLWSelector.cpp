@@ -23,10 +23,10 @@
 #include <GLEXT/GLViewPort.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 GLWSelectorEntry::GLWSelectorEntry(const char *text, 
-			GLWTip *tooltip, 
+			ToolTip *tooltip, 
 			bool selected,
 			GLTexture *icon,
 			void *userData) : 

@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/PatchTexCoord.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 
 PatchTexCoord::PatchTexCoord() : 
 	widthEntries_(0), heightEntries_(0), map_(0)

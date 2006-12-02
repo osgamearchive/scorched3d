@@ -22,7 +22,7 @@
 #define __INCLUDE_GLWToolTiph_INCLUDE__
 
 #include <engine/GameStateI.h>
-#include <GLW/GLWTip.h>
+#include <common/ToolTip.h>
 #include <list>
 
 class GLWToolTip : public GameStateI
@@ -32,7 +32,7 @@ public:
 
 	bool addToolTip(const char *title, const char *text,
 		float x, float y, float w, float h);
-	bool addToolTip(GLWTip *tip, 
+	bool addToolTip(ToolTip *tip, 
 		float x, float y, float w, float h);
 	void clearToolTip(float x, float y, float w, float h);
 
@@ -42,12 +42,12 @@ public:
 
 protected:
 	static GLWToolTip *instance_;
-	GLWTip *currentTip_;
-	GLWTip *lastTip_;
+	ToolTip *currentTip_;
+	ToolTip *lastTip_;
 	float timeDrawn_, timeSeen_;
 	float refreshTime_;
 
-	// GLWTip properties
+	// ToolTip properties
 	float currentX_, currentY_;
 	float currentW_, currentH_;
 	float tipX_, tipY_;
@@ -57,8 +57,8 @@ protected:
 	std::string tipTitle_, tipText_;
 	std::list<char *> tipTexts_;
 
-	void setupTip(GLWTip *tip);
-	void calculateTip(GLWTip *tip);
+	void setupTip(ToolTip *tip);
+	void calculateTip(ToolTip *tip);
 private:
 	GLWToolTip();
 	virtual ~GLWToolTip();

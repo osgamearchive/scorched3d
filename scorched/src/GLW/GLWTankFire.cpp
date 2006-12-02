@@ -22,13 +22,14 @@
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 
 REGISTER_CLASS_SOURCE(GLWTankFire);
 
 GLWTankFire::GLWTankFire() :
 	GLWidget(0.0f, 0.0f, 0.0f, 0.0f)
 {
-	setToolTip(new GLWTip("Fire Current Weapon",
+	setToolTip(new ToolTip("Fire Current Weapon",
 		"Fires the current tanks currently selected\n"
 		"weapon."));
 }

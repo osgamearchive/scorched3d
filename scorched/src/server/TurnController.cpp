@@ -24,6 +24,7 @@
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankSort.h>
+#include <tank/TankState.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 

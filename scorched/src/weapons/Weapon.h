@@ -22,7 +22,7 @@
 #define AFX_WEAPON_H__65439E20_84A6_406A_8FD0_045A3E7555D3__INCLUDED_
 
 #include <weapons/AccessoryPart.h>
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 #include <common/Vector.h>
 #include <engine/ScorchedContext.h>
 

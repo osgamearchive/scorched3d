@@ -23,6 +23,8 @@
 
 #include <tank/Tank.h>
 #include <XML/XMLParser.h>
+#include <engine/ScorchedCollisionIds.h>
+#include <map>
 
 class TankAIComputerTarget
 {

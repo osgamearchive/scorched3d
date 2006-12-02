@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLStateExtension.h>
-#include <common/OptionsDisplay.h> // Hmm library code pollution
+#include <graph/OptionsDisplay.h> // Hmm library code pollution
 #include <common/DefinesString.h>
 #include <common/Logger.h>
 #include <SDL/SDL.h>

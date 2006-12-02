@@ -20,7 +20,7 @@
 
 #include <placement/PlacementObjectNone.h>
 #include <engine/ScorchedContext.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 
 PlacementObjectNone::PlacementObjectNone()
 {

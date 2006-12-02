@@ -23,13 +23,13 @@
 #include <engine/ActionController.h>
 #include <engine/ViewPoints.h>
 #include <engine/ModFiles.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <coms/ComsMessageHandler.h>
 #include <common/OptionsTransient.h>
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
-#include <tankgraph/TankModelStore.h>
-#include <landscape/LandscapeMaps.h>
+#include <tank/TankModelStore.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <weapons/AccessoryStore.h>
 

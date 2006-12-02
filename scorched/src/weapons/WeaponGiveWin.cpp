@@ -24,6 +24,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankColorGenerator.h>
+#include <tank/TankScore.h>
 #include <common/Defines.h>
 #include <common/LoggerI.h>
 #include <common/Logger.h>

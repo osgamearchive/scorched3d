@@ -21,13 +21,9 @@
 #if !defined(__INCLUDE_LandscapeDefinitionsh_INCLUDE__)
 #define __INCLUDE_LandscapeDefinitionsh_INCLUDE__
 
-#include <landscapedef/LandscapeDefinition.h>
+#include <landscapedef/LandscapeDefinitionsBase.h>
 #include <landscapedef/LandscapeDefinitionsItem.h>
-#include <XML/XMLFile.h>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
+#include <landscapedef/LandscapeDefinition.h>
 
 class LandscapeDefinitions;
 class LandscapePlace;
@@ -39,27 +35,14 @@ class LandscapeTex;
 class LandscapeEvents;
 class OptionsGame;
 
-class LandscapeDefinitionsEntry
-{
-public:
-	std::string name; 
-	std::vector<std::string> texs; 
-	std::vector<std::string> defns; 
-	float weight; // The posibility this defn will be choosen
-	std::string description;  // Description of this landscape definition type
-	std::string picture; // Visible view of this landscape definition type
-
-	virtual bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
-};
-
-class LandscapeDefinitions
+class LandscapeDefinitions : public LandscapeDefinitionsBase
 {
 public:
 	LandscapeDefinitions();
 	virtual ~LandscapeDefinitions();
 
-	bool readLandscapeDefinitions();
-	void clearLandscapeDefinitions();
+	virtual bool readLandscapeDefinitions();
+	virtual void clearLandscapeDefinitions();
 
 	void checkEnabled(OptionsGame &context);
 	LandscapeDefinition getRandomLandscapeDefn(OptionsGame &context);
@@ -71,17 +54,10 @@ public:
 	LandscapeShips *getShips(const char *file, bool load = false);
 	LandscapeEvents *getEvents(const char *file, bool load = false);
 
-	
-	bool landscapeEnabled(OptionsGame &context, const char *name);
-	LandscapeDefinitionsEntry *getLandscapeByName(const char *name);
-	std::list<LandscapeDefinitionsEntry> &getAllLandscapes() 
-		{ return entries_; }
-
 protected:
 	LandscapeDefinitionsEntry* lastDefinition_;
 	std::map<std::string, int> usedFiles_;
 
-	std::list<LandscapeDefinitionsEntry> entries_;
 	LandscapeDefinitionsItem<LandscapeTex> texs_;
 	LandscapeDefinitionsItem<LandscapeDefn> defns_;
 	LandscapeDefinitionsItem<LandscapePlace> places_;

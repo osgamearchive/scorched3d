@@ -21,10 +21,9 @@
 #include <3dsparse/Mesh.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/MeshLOD.h>
-#include <GLEXT/GLTexture.h>
 #include <common/Defines.h>
 
-Mesh::Mesh(const char *name) : name_(name), texture_(0),
+Mesh::Mesh(const char *name) : name_(name),
 	referencesBones_(false), sphereMap_(false)
 {
 }
@@ -77,19 +76,6 @@ void Mesh::move(Vector &movement)
 	}
 	max_ += movement;
 	min_ += movement;
-}
-
-GLTexture *Mesh::getTexture()
-{
-	if (texture_) return texture_;
-
-	if (getTextureName()[0])
-	{
-		texture_ = 
-			ModelStore::instance()->loadTexture(
-				getTextureName(), getATextureName());
-	}
-	return texture_;
 }
 
 void Mesh::setTextureName(const char *t)

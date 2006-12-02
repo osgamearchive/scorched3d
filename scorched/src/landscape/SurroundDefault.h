@@ -21,7 +21,7 @@
 #if !defined(AFX_SurroundDefault_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_)
 #define AFX_SurroundDefault_H__2FD73942_AF29_49ED_8DD8_925E2E14E464__INCLUDED_
 
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 
 class SurroundDefault  
 {

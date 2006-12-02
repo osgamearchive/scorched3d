@@ -23,6 +23,7 @@
 
 #include <tank/Tank.h>
 #include <XML/XMLParser.h>
+#include <map>
 
 class TankAIComputerBuyer;
 class TankAIComputerAim

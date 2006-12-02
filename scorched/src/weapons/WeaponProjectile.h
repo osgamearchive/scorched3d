@@ -22,7 +22,7 @@
 #define AFX_WEAPONPROJECTILE_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_
 
 #include <weapons/Weapon.h>
-#include <3dsparse/ModelID.h>
+#include <common/ModelID.h>
 
 class WeaponProjectile : public Weapon
 {

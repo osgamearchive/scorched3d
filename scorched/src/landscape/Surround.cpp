@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/Surround.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 Surround::Surround(HeightMap &map) : 
 	default_(map)

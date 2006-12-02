@@ -21,8 +21,6 @@
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
-#include <wx/wx.h>
-#include <wx/utils.h>
 
 bool Keyboard::dvorak_ = false;
 

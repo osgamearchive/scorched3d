@@ -21,7 +21,7 @@
 #if !defined(AFX_TANKBATTERIES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_)
 #define AFX_TANKBATTERIES_H__83501862_9536_4108_A7E6_2377AD98EB72__INCLUDED_
 
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 
 class ScorchedContext;
 class Tank;

@@ -24,7 +24,6 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
-#include <wx/filefn.h>
 
 ServerAuthHandlerPrefered::ServerAuthHandlerPrefered() : lastReadTime_(0)
 {
@@ -116,7 +115,7 @@ bool ServerAuthHandlerPrefered::load()
 	}
 
 	Logger::log(formatString("Refreshing user list %s", filename));
-	lastReadTime_ = fileTime;
+	lastReadTime_ = (unsigned int) fileTime;
 	entries_.clear();
 	if (!file.getRootNode()) return true; // Empty File
 

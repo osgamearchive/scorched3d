@@ -21,7 +21,7 @@
 #include <landscape/SkyDome.h>
 #include <landscape/Sky.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscape/Hemisphere.h>
@@ -29,9 +29,8 @@
 #include <GLEXT/GLCamera.h>
 #include <GLEXT/GLDynamicVertexArray.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
-#include <common/FileList.h>
 #include <common/Defines.h>
 
 SkyDome::SkyDome() : 

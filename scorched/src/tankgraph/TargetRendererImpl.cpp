@@ -20,8 +20,10 @@
 
 #include <tankgraph/TargetRendererImpl.h>
 #include <tankgraph/TargetParticleRenderer.h>
+#include <target/TargetShield.h>
+#include <target/TargetState.h>
 #include <client/ScorchedClient.h>
-#include <engine/ParticleEngine.h>
+#include <graph/ParticleEngine.h>
 #include <common/Defines.h>
 #include <landscape/Hemisphere.h>
 #include <weapons/ShieldRound.h>
@@ -278,15 +280,10 @@ void TargetRendererImpl::drawParachute(Target *target)
 	}
 
 	// Check this tank is falling
-	std::map<unsigned int, TankFalling *>::iterator findItor = 
-		TankFalling::fallingTanks.find(target->getPlayerId());
-	if (findItor == TankFalling::fallingTanks.end())
-	{
-		return;
-	}
+	if (!target->getTargetState().getFalling()) return;
 
 	// Check this tank has parachutes
-	if (!(*findItor).second->getParachute())
+	if (!target->getTargetState().getFalling()->getParachute())
 	{
 		return;
 	}
@@ -304,8 +301,22 @@ void TargetRendererImpl::createParticle(Target *target)
 	// Check if we have made the particle
 	// We may not have if there were not enough to create the 
 	// tank in the first place
-	if (!particleMade_)
+	if (particleMade_) return;
+
+	// If this is a target we only need the particle
+	// if we have a shield or if we are falling
+	if (target->isTarget())
 	{
+		if (!target->getShield().getCurrentShield() &&
+			!target->getTargetState().getFalling())
+		{
+			return;
+		}
+	}
+
+	// Else we need the particle
+	{
+
 		// Pretent the tank is actually a particle, this is so
 		// it gets rendered during the particle renderering phase
 		// and using the correct z ordering

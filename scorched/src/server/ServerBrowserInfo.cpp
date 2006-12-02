@@ -24,11 +24,11 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
-#include <wx/wx.h>
-#include <wx/utils.h>
+#include <tank/TankState.h>
+#include <tank/TankScore.h>
 #include <string.h>
 
 ServerBrowserInfo *ServerBrowserInfo::instance_ = 0;
@@ -149,8 +149,6 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 	snprintf(type, 100, "%s (%s)", 
 		ScorchedServer::instance()->getOptionsTransient().getGameType(),
 		((ScorchedServer::instance()->getOptionsGame().getTeams() > 1)?"Teams":"No Teams"));
-	wxString osDesc = ::wxGetOsDescription();
-	osDesc.Remove(osDesc.Find(wxT(" ")));
 	bool stats = (0 != strcmp(ScorchedServer::instance()->getOptionsGame().getStatsLogger(), "none"));
 
 	int compplayers = 0;
@@ -182,7 +180,7 @@ void ServerBrowserInfo::processStatusMessage(std::list<std::string> &reply)
 	reply.push_back(addTag("round", formatString("%i/%i",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds())));
-	reply.push_back(addTag("os", osDesc.mb_str(wxConvUTF8)));
+	reply.push_back(addTag("os", s3d_getOSDesc()));
 }
 
 void ServerBrowserInfo::processInfoMessage(std::list<std::string> &reply)

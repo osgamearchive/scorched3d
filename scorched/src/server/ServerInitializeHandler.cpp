@@ -21,6 +21,7 @@
 #include <server/ServerInitializeHandler.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <coms/ComsInitializeMessage.h>
 
 ServerInitializeHandler *ServerInitializeHandler::instance()

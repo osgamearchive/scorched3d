@@ -21,7 +21,7 @@
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionTextures.h>
 #include <client/ScorchedClient.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <common/Defines.h>
 
 NapalmRenderer::NapalmRenderer(GLTextureSet *set) : 

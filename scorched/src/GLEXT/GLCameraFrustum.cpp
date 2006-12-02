@@ -21,7 +21,7 @@
 #include <math.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCameraFrustum.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 Vector GLCameraFrustum::FrustrumRed(1.0f, 0.0f, 0.0f);
 Vector GLCameraFrustum::FrustrumBlue(0.0f, 0.0f, 1.0f);

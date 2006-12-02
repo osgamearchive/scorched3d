@@ -21,7 +21,7 @@
 #include <landscape/WaterMapPoints.h>
 #include <landscape/MapPoints.h>
 #include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 

@@ -26,6 +26,7 @@
 #include <sprites/ExplosionTextures.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
+#include <target/TargetLife.h>
 #include <weapons/AccessoryStore.h>
 #include <math.h>
 
@@ -82,6 +83,7 @@ void Lightning::init()
 
 void Lightning::simulate(float frameTime, bool &remove)
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{   
 		if (firstTime_)
@@ -98,6 +100,7 @@ void Lightning::simulate(float frameTime, bool &remove)
 			}
 		} 
 	}
+#endif // #ifndef S3D_SERVER
 
 	totalTime_ += frameTime;
 	remove = (totalTime_ > weapon_->getTotalTime());
@@ -106,6 +109,7 @@ void Lightning::simulate(float frameTime, bool &remove)
 
 void Lightning::draw()
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		Vector &cameraPos = 
@@ -160,6 +164,7 @@ void Lightning::draw()
 		glDepthMask(GL_TRUE);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 bool Lightning::writeAction(NetBuffer &buffer)

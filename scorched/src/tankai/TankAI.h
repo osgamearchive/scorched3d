@@ -22,8 +22,8 @@
 #define __INCLUDE_TankAIh_INCLUDE__
 
 #include <common/Vector.h>
+#include <common/ToolTip.h>
 #include <engine/ScorchedCollisionIds.h>
-#include <GLW/GLWToolTip.h>
 
 class Weapon;
 class Tank;
@@ -40,7 +40,7 @@ public:
 	virtual ~TankAI();
 
 	const char *getName() { return description_.getTitle(); }
-	GLWTip &getDescription() { return description_; }
+	ToolTip &getDescription() { return description_; }
 
 	virtual bool isHuman() = 0;
 	virtual TankAI *getCopy(Tank *tank) = 0;
@@ -75,7 +75,7 @@ public:
 		unsigned int landedCounter) = 0;
 
 protected:
-	GLWTip description_;
+	ToolTip description_;
 	Tank *currentTank_;
 
 };

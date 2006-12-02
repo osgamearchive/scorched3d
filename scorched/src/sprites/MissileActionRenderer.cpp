@@ -24,14 +24,14 @@
 #include <weapons/Accessory.h>
 #include <actions/ShotProjectile.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <client/ScorchedClient.h>
 #include <engine/ScorchedContext.h>
-#include <engine/ParticleEngine.h>
+#include <graph/ParticleEngine.h>
 #include <sound/Sound.h>
 
 MissileActionRenderer::MissileActionRenderer(int flareType, float scale) : 

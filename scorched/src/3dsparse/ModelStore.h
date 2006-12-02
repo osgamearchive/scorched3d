@@ -21,11 +21,10 @@
 #if !defined(__INCLUDE_ModelStoreh_INCLUDE__)
 #define __INCLUDE_ModelStoreh_INCLUDE__
 
-#include <3dsparse/ModelID.h>
+#include <common/ModelID.h>
 #include <map>
 #include <string>
 
-class GLTexture;
 class Model;
 class ModelStore
 {
@@ -33,14 +32,10 @@ public:
 	static ModelStore *instance();
 
 	Model *loadModel(ModelID &modelId);
-	GLTexture *loadTexture(const char *name, 
-		const char *aname = "", 
-		bool invert = false);
 
 protected:
 	static ModelStore *instance_;
 	std::map<std::string, Model *> fileMap_;
-	std::map<std::string, GLTexture *> skins_;
 
 	Model *getModel(ModelID &id);
 

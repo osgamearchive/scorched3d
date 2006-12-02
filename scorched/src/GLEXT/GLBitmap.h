@@ -75,10 +75,18 @@ public:
 	Does not delete the internal storage.
 	*/
 	void clear();
+#ifndef S3D_SERVER
 	/**
 	Scales the current bitmap to the new dimensions.
 	*/
 	void resize(int newWidth, int newHeight);
+
+	/**
+	Create a bitmap using the current framebuffer as the contents.
+	The width and height of the bitmap will be the screen width/height.
+	*/
+	void grabScreen();
+#endif
 
 	/**
 	Get access to the internal storage of the bitmap.
@@ -86,7 +94,7 @@ public:
 	For RGB mode bitmaps 3 bytes are used per pixel.
 	For RGBA mode bitmaps 4 bytes are used per pixel.
 	*/
-	virtual GLubyte *getBits() { return newbits_; }
+	virtual unsigned char *getBits() { return newbits_; }
 	/** 
 	Get the width of this bitmap in pixels.
 	*/
@@ -131,14 +139,9 @@ public:
 	Note: Only RGB format bitmaps can be saved.
 	*/
 	bool writeToFile(const char *filename);
-	/**
-	Create a bitmap using the current framebuffer as the contents.
-	The width and height of the bitmap will be the screen width/height.
-	*/
-	void grabScreen();
 
 protected:
-	GLubyte *newbits_;
+	unsigned char *newbits_;
 	int width_;
 	int height_;
 	bool alpha_;

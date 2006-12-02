@@ -126,7 +126,7 @@ OptionsGame::OptionsGame() :
 	scoreWonForRound_(options_, "ScoreWonForRound",
 		"The amount of score awarded for round won", 0, 250, 0, 1000, 50),
 	scoreWonForLives_(options_, "ScoreWonForLives",
-		"The amount of score awarded for lives left", 0, 250, 0, 1000, 50),
+		"The amount of score awarded for lives left", 0, 0, 0, 1000, 50),
 	teams_(options_, "Teams",
 		"The number of teams (1 == no teams)", 0, 1, 1, 4, 1),
 	startArmsLevel_(options_, "StartArmsLevel",

@@ -20,9 +20,10 @@
 
 #include <ships/ShipGroup.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <common/RandomGenerator.h>
+#include <graph/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeShips.h>
 #include <landscapedef/LandscapeTex.h>
 

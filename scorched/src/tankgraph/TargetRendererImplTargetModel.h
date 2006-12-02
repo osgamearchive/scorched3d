@@ -22,10 +22,9 @@
 #define __INCLUDE_TargetRendererImplTargetModelh_INCLUDE__
 
 #include <tankgraph/TargetRendererImplTarget.h>
-#include <tankgraph/GLWTankTip.h>
-#include <3dsparse/ModelRenderer.h>
-#include <3dsparse/ModelID.h>
-#include <landscape/LandscapeObjectsEntry.h>
+#include <GLW/GLWTankTip.h>
+#include <common/ModelID.h>
+#include <graph/ModelRenderer.h>
 
 class TargetRendererImplTargetModel : 
 	public TargetRendererImplTarget
@@ -43,8 +42,6 @@ public:
 	virtual void shieldHit();
 	virtual void fired();
 	virtual void targetBurnt();
-
-	virtual Vector &getPosition() { return target_->getTargetPosition(); }
 
 protected:
 	Target *target_;

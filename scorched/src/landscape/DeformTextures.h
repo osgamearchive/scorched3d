@@ -22,7 +22,7 @@
 #if !defined(__INCLUDE_DeformTexturesh_INCLUDE__)
 #define __INCLUDE_DeformTexturesh_INCLUDE__
 
-#include <landscape/DeformLandscape.h>
+#include <landscapemap/DeformLandscape.h>
 
 class GLBitmap;
 namespace DeformTextures

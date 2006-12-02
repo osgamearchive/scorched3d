@@ -47,6 +47,7 @@ Animation::~Animation()
 
 void Animation::init()
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		MetaActionRenderer *renderer = (MetaActionRenderer *) 
@@ -65,6 +66,7 @@ void Animation::init()
 						  rendererName_.c_str()));
 		}
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 void Animation::simulate(float frameTime, bool &removeAction)

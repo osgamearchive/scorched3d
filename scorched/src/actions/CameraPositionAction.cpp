@@ -21,7 +21,6 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <actions/CameraPositionAction.h>
-#include <common/OptionsParam.h>
 #include <dialogs/ScoreDialog.h>
 
 REGISTER_ACTION_SOURCE(CameraPositionAction);

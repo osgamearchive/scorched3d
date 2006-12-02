@@ -24,15 +24,15 @@
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 #include <server/ScorchedServer.h>
-#include <common/OptionsDisplay.h>
-#include <common/OptionsParam.h>
+#include <graph/OptionsDisplay.h>
+#include <client/ClientParams.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <coms/ComsMessageHandler.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 
 ConnectDialog *ConnectDialog::instance_ = 0;
 
@@ -98,8 +98,8 @@ void ConnectDialog::simulate(float frameTime)
 void ConnectDialog::tryConnection()
 {
 	const char *serverName = 
-		(OptionsParam::instance()->getConnect()[0]?
-		OptionsParam::instance()->getConnect():
+		(ClientParams::instance()->getConnect()[0]?
+		ClientParams::instance()->getConnect():
 		"Localhost");
 
 	host_ = serverName;
@@ -124,7 +124,7 @@ void ConnectDialog::tryConnection()
 		serverName[0]?serverName:"Loopback"));
 
 	connectionState_ = eTryingConnection;
-	if (OptionsParam::instance()->getConnectedToServer())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		// Do in a thread so connect can block if it wants!
 		SDL_CreateThread(ConnectDialog::tryRemoteConnection, 0);
@@ -163,7 +163,7 @@ void ConnectDialog::connected()
 	Logger::log(formatString("Connected."));
 
 	// Update unique id store
-	if (OptionsParam::instance()->getConnectedToServer())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		IPaddress address;
 		if (SDLNet_ResolveHost(&address, (char *) host_.c_str(), 0) == 0)
@@ -175,7 +175,7 @@ void ConnectDialog::connected()
 
 	// Check the number of players that are connecting
 	unsigned int noPlayers = 1;
-	if (!OptionsParam::instance()->getConnectedToServer())
+	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		noPlayers = ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks();
@@ -185,8 +185,8 @@ void ConnectDialog::connected()
 	ComsConnectMessage connectMessage;
 	connectMessage.setVersion(ScorchedVersion);
 	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
-	connectMessage.setUserName(OptionsParam::instance()->getUserName());
-	connectMessage.setPassword(OptionsParam::instance()->getPassword());
+	connectMessage.setUserName(ClientParams::instance()->getUserName());
+	connectMessage.setPassword(ClientParams::instance()->getPassword());
 	connectMessage.setUniqueId(uniqueId_.c_str());
 	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
 	connectMessage.setNoPlayers(noPlayers);

@@ -24,15 +24,15 @@
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <engine/ModFiles.h>
-#include <GLEXT/GLGif.h>
+#include <GLEXT/GLPng.h>
 #include <tank/TankContainer.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <coms/ComsHaveModFilesMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
+#include <client/ClientParams.h>
 #include <common/Defines.h>
 
 ClientConnectionAcceptHandler *ClientConnectionAcceptHandler::instance_ = 0;
@@ -66,7 +66,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	ComsConnectAcceptMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	if (OptionsParam::instance()->getConnectedToServer())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		unsigned int ip = ScorchedClient::instance()->getNetInterface().
 			getIpAddress(id);
@@ -93,14 +93,14 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 	RulesDialog::instance()->addMOTD(
 		ScorchedClient::instance()->getOptionsGame().getMOTD());
 
-	// Set the server specific gif for the current server
+	// Set the server specific png for the current server
 	{
 		GLTexture *texture = 0;
-		if (message.getServerGif().getBufferUsed() > 0)
+		if (message.getServerPng().getBufferUsed() > 0)
 		{
 			// Use a custom icon
-			GLGif map;
-			map.loadFromBuffer(message.getServerGif());
+			GLPng map;
+			map.loadFromBuffer(message.getServerPng());
 
 			// Set the texture
 			texture = new GLTexture;
@@ -109,9 +109,9 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 		else
 		{
 			// Use the default icon
-			std::string file1(getDataFile("data/windows/scorched.gif"));
-			std::string file2(getDataFile("data/windows/scorcheda.gif"));
-			GLGif map(file1.c_str(), file2.c_str(), false);
+			std::string file1(getDataFile("data/windows/scorched.png"));
+			std::string file2(getDataFile("data/windows/scorcheda.png"));
+			GLPng map(file1.c_str(), file2.c_str(), false);
 
 			// Set the texture
 			texture = new GLTexture;
@@ -127,8 +127,7 @@ bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
 
 	// Load any mod files we currently have for the mod
 	// the server is using.
-	if (OptionsParam::instance()->getConnectedToServer() ||
-		OptionsParam::instance()->getLoadModFiles())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		if (!ScorchedClient::instance()->getModFiles().loadModFiles(
 			ScorchedClient::instance()->getOptionsGame().getMod(), true,

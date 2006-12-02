@@ -31,19 +31,25 @@
 #include <tank/TankSort.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankDeadContainer.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankState.h>
+#include <tank/TankScore.h>
+#include <tank/TankPosition.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankModelContainer.h>
+#include <tankai/TankAI.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsNewGameMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/DeformLandscape.h>
+#include <landscapemap/HeightMapSender.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeDefinitions.h>
-#include <landscape/DeformLandscape.h>
-#include <landscape/HeightMapSender.h>
 #include <GLEXT/GLBitmap.h>
+#include <common/RandomGenerator.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
 #include <common/Clock.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
@@ -103,7 +109,8 @@ void ServerNewGameState::enterState(const unsigned state)
 	ScorchedServer::instance()->getContext().tankTeamScore->newGame();
 
 	// Check if we can load/save a game
-	if (OptionsParam::instance()->getConnectedToServer() == false)
+#ifndef S3D_SERVER
+	//if (ClientParams::instance()->getConnectedToServer() == false)
 	{
 		if (ScorchedServer::instance()->getTankContainer().getNoOfTanks() == 0 ||
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks() -
@@ -126,6 +133,7 @@ void ServerNewGameState::enterState(const unsigned state)
 			}
 		}
 	}
+#endif
 
 	// Setup landscape and tank start pos
 	ServerCommon::serverLog( "Generating landscape");
@@ -306,16 +314,26 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 				tank->getState().setState(TankState::sDead);
 			}
 
+			// Add to the list of destinations to send this message to
+			// (if not already added)
 			unsigned int destination = tank->getDestinationId();
 			findItor = destinations.find(destination);
 			if (findItor == destinations.end())
 			{
 				destinations.insert(destination);
-				// Send new game message to clients
-				ComsMessageSender::sendToSingleClient(newGameMessage,
-					destination);
 			}
 		}
+	}
+
+	for (findItor = destinations.begin();
+		findItor != destinations.end();
+		findItor++)
+	{
+		unsigned int destination = (*findItor);
+
+		// Send new game message to clients
+		ComsMessageSender::sendToSingleClient(newGameMessage,
+			destination);
 	}
 
 	return count;

@@ -20,7 +20,7 @@
 
 #include <GLEXT/GLDynamicVertexArray.h>
 #include <GLEXT/GLInfo.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 GLDynamicVertexArray *GLDynamicVertexArray::instance_ = 0;
 

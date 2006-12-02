@@ -18,15 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <engine/FrameTimer.h>
 #include <engine/ActionController.h>
-#include <engine/ParticleEngine.h>
-#include <client/Main2DCamera.h>
-#include <client/SpeedChange.h>
-#include <client/MainCamera.h>
+#include <graph/FrameTimer.h>
+#include <graph/ParticleEngine.h>
+#include <graph/Main2DCamera.h>
+#include <graph/SpeedChange.h>
+#include <graph/MainCamera.h>
+#include <graph/ShotCountDown.h>
+#include <graph/SoftwareMouse.h>
 #include <client/ClientState.h>
-#include <client/ShotCountDown.h>
-#include <client/SoftwareMouse.h>
 #include <client/ClientShotState.h>
 #include <client/ClientWaitState.h>
 #include <client/ClientLoadPlayersState.h>

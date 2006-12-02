@@ -22,6 +22,8 @@
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankScore.h>
 #include <common/Defines.h>
 #include <common/LoggerI.h>
 #include <common/Logger.h>

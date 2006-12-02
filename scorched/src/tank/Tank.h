@@ -21,16 +21,16 @@
 #if !defined(AFX_TANK_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_)
 #define AFX_TANK_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_
 
-#include <tank/TankAccessories.h>
-#include <tank/TankScore.h>
-#include <tank/TankState.h>
-#include <tank/TankPosition.h>
-#include <tank/TankModelContainer.h>
-#include <tank/TankMod.h>
-#include <tank/TankAvatar.h>
-#include <tankai/TankAI.h>
 #include <target/Target.h>
 
+class TankAI;
+class TankAccessories;
+class TankScore;
+class TankState;
+class TankPosition;
+class TankModelContainer;
+class TankMod;
+class TankAvatar;
 class Tank : public Target
 {
 public:
@@ -77,23 +77,23 @@ public:
 	virtual Weapon *getDeathAction();
 
 	// Other attributes
-	TankAccessories& getAccessories() { return accessories_; }
-	TankScore &getScore() { return score_; }
-	TankPosition &getPosition() { return position_; }
-	TankState &getState() { return state_; }
-	TankMod &getMod() { return mod_; }
-	TankAvatar &getAvatar() { return avatar_; }
-	TankModelContainer &getModelContainer() { return modelContainer_; }
+	TankAccessories& getAccessories() { return *accessories_; }
+	TankScore &getScore() { return *score_; }
+	TankPosition &getPosition() { return *position_; }
+	TankState &getState() { return *state_; }
+	TankMod &getMod() { return *mod_; }
+	TankAvatar &getAvatar() { return *avatar_; }
+	TankModelContainer &getModelContainer() { return *modelContainer_; }
 
 protected:
 	ScorchedContext &context_;
-	TankModelContainer modelContainer_;
-	TankAccessories accessories_;
-	TankScore score_;
-	TankPosition position_;
-	TankState state_;
-	TankMod mod_;
-	TankAvatar avatar_;
+	TankModelContainer *modelContainer_;
+	TankAccessories *accessories_;
+	TankScore *score_;
+	TankPosition *position_;
+	TankState *state_;
+	TankMod *mod_;
+	TankAvatar *avatar_;
 	TankAI *tankAI_;
 	Vector color_;
 	std::string uniqueId_;

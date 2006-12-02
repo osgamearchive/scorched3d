@@ -25,27 +25,28 @@
 #include <server/ServerCommon.h>
 #include <server/ServerTextHandler.h>
 #include <server/ServerState.h>
+#include <server/ServerParams.h>
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
-#include <coms/NetInterface.h>
+#include <common/FileList.h>
+#include <net/NetInterface.h>
 #include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
+#include <tank/TankState.h>
+#include <tank/TankScore.h>
 #include <tankai/TankAIStore.h>
 #include <tankai/TankAIAdder.h>
 #include <XML/XMLParser.h>
-#include <wx/dir.h>
-#include <wx/utils.h>
 #include <vector>
 #include <algorithm>
 
 struct LogFile
 {
-	wxString fileName;
+	std::string fileName;
 	time_t fileTime;
 };
 
@@ -311,43 +312,46 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 		std::vector<LogFile> logFiles;
 		
 		const char *dirName = getLogFile("");
-		wxDir dir(wxString(dirName, wxConvUTF8));
-		if (dir.IsOpened())
+		FileList dir(dirName, "*.log", false);
+		if (dir.getStatus())
 		{
-			wxString filename;
-			bool cont = dir.GetFirst(&filename, wxT("*.log"), wxDIR_FILES);
-			while (cont)
+			std::list<std::string> &files = dir.getFiles();
+			std::list<std::string>::iterator itor;
+			for (itor = files.begin();
+				itor!= files.end();
+				itor++)
 			{
-				const char *fullFilename = getLogFile(filename.mb_str(wxConvUTF8));
+				const char *fileName = (*itor).c_str();
+				const char *fullFilename = getLogFile(fileName);;
 
 				LogFile logFile;
-				logFile.fileName = filename;
+				logFile.fileName = fileName;
 				logFile.fileTime = s3d_fileModTime(fullFilename);
 				logFiles.push_back(logFile);
-
-				cont = dir.GetNext(&filename);
 			}
 		}
 
 		std::sort(logFiles.begin(), logFiles.end(), lt_logfile);
 
 		std::string log;
-		std::vector<LogFile>::iterator itor;
-		for (itor = logFiles.begin();
-			itor != logFiles.end();
-			itor++)
 		{
-			LogFile &logFile = *itor;
-			const char *fileName = logFile.fileName.mb_str(wxConvUTF8);
-			log += formatString(
-				"<tr>"
-				"<td><font size=-1><a href=?filename=%s&sid=%s>%s</a></font></td>"
-				"<td><font size=-1>%s</font></td>"
-				"</tr>\n",
-				fileName,
-				fields["sid"].c_str(),
-				fileName,
-				ctime(&logFile.fileTime));
+			std::vector<LogFile>::iterator itor;
+			for (itor = logFiles.begin();
+				itor != logFiles.end();
+				itor++)
+			{
+				LogFile &logFile = *itor;
+				const char *fileName = logFile.fileName.c_str();
+				log += formatString(
+					"<tr>"
+					"<td><font size=-1><a href=?filename=%s&sid=%s>%s</a></font></td>"
+					"<td><font size=-1>%s</font></td>"
+					"</tr>\n",
+					fileName,
+					fields["sid"].c_str(),
+					fileName,
+					ctime(&logFile.fileTime));
+			}
 		}
 		fields["LOG"] = log;
 
@@ -430,7 +434,7 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-			readOptionsFromFile((char *) OptionsParam::instance()->getServerFile());
+			readOptionsFromFile((char *) ServerParams::instance()->getServerFile());
 	}
 	else
 	{
@@ -548,7 +552,7 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 	if (action && 0 == strcmp(action, "Save"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
-			writeOptionsToFile((char *) OptionsParam::instance()->getServerFile());
+			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
 	return ServerWebServer::getHtmlTemplate("settings.html", fields, text);

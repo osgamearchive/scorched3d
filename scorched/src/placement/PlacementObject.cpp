@@ -20,7 +20,6 @@
 
 #include <placement/PlacementObject.h>
 #include <placement/PlacementObjectTree.h>
-#include <placement/PlacementObjectModel.h>
 #include <placement/PlacementObjectTarget.h>
 #include <placement/PlacementObjectTank.h>
 #include <placement/PlacementObjectGroup.h>
@@ -33,7 +32,7 @@
 PlacementObject *PlacementObject::create(const char *type)
 {
 	if (0 == strcmp(type, "tree")) return new PlacementObjectTree;
-	if (0 == strcmp(type, "model")) return new PlacementObjectModel;
+	if (0 == strcmp(type, "model")) return new PlacementObjectTarget;
 	if (0 == strcmp(type, "target")) return new PlacementObjectTarget;
 	if (0 == strcmp(type, "tank")) return new PlacementObjectTank;
 	if (0 == strcmp(type, "group")) return new PlacementObjectGroup;

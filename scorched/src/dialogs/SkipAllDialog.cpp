@@ -25,6 +25,7 @@
 #include <client/ScorchedClient.h>
 #include <tankai/TankAIHuman.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <common/Defines.h>
 #include <time.h>
 
@@ -59,7 +60,7 @@ void SkipAllDialog::simulate(float frameTime)
 {
 	if (skipAll_)
 	{
-		unsigned int currentTime = time(0);
+		unsigned int currentTime = (unsigned int) time(0);
 		unsigned int passedTime = currentTime - startTime_;
 
 		if (passedTime >= 5)
@@ -86,7 +87,7 @@ void SkipAllDialog::simulate(float frameTime)
 
 void SkipAllDialog::display()
 {
-	startTime_ = time(0);
+	startTime_ = (unsigned int) time(0);
 }
 
 void SkipAllDialog::windowInit(const unsigned state)

@@ -18,13 +18,10 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/MainCamera.h>
 #include <client/ScorchedClient.h>
 #include <target/TargetDamageCalc.h>
 #include <sound/SoundUtils.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
-#include <common/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <weapons/AccessoryStore.h>
@@ -33,10 +30,12 @@
 #include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
-#include <engine/ParticleEmitter.h>
-#include <landscape/DeformLandscape.h>
+#include <graph/OptionsDisplay.h>
+#include <graph/ParticleEmitter.h>
+#include <graph/MainCamera.h>
+#include <landscapemap/DeformLandscape.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/DeformTextures.h>
-#include <landscape/LandscapeMaps.h>
 #include <landscape/Landscape.h>
 #include <landscape/Water.h>
 #include <landscape/Smoke.h>
@@ -72,6 +71,7 @@ void Explosion::init()
 	multiplier += 1.0f;
 	float explosionSize = weapon_->getSize() * multiplier;	
 
+#ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
 		float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
@@ -206,6 +206,7 @@ void Explosion::init()
 		// Make the camera shake
 		MainCamera::instance()->getCamera().addShake(weapon_->getShake());
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 void Explosion::simulate(float frameTime, bool &remove)
@@ -214,6 +215,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 	if (firstTime_)
 	{
 		firstTime_ = false;
+#ifndef S3D_SERVER
 		if (!context_->serverMode) 
 		{
 			if (weapon_->getExplosionSound() &&
@@ -226,6 +228,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 					expSound, position_);
 			}
 		}
+#endif // #ifndef S3D_SERVER
 
 		// Dirt should only form along the ground
 		Vector newPosition = position_;
@@ -253,6 +256,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 				(weapon_->getDeformType() == DeformDown), map,
 				playerId_))
 			{
+#ifndef S3D_SERVER
 				if (!context_->serverMode) 
 				{
 					Landscape::instance()->recalculate(
@@ -263,6 +267,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 						ExplosionTextures::instance()->getScorchBitmap(weapon_->getDeformTexture()),
 						map);
 				}
+#endif // #ifndef S3D_SERVER
 			}
 		}
 

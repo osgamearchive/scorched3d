@@ -19,12 +19,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/AccessoryStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankModelContainer.h>
 #include <tank/TankAccessories.h>
 #include <tank/TankType.h>
 #include <tank/Tank.h>
+#include <target/TargetParachute.h>
+#include <target/TargetShield.h>
+#include <target/TargetLife.h>
 #include <tankai/TankAIHuman.h>
-#include <tankgraph/TankModelStore.h>
-#include <common/OptionsDisplay.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 

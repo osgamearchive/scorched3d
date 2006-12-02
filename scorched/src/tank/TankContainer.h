@@ -41,7 +41,6 @@ public:
 
 	Tank *removeTank(unsigned int playerId);
 	Tank *getTankById(unsigned int id);
-	Tank *getTankByPos(unsigned int pos);
 	Tank *getTankByName(const char *name);
 	
 	void clientNewGame();
@@ -62,6 +61,7 @@ protected:
 	unsigned int playerId_;
 	unsigned int destinationId_;
 	TargetContainer &targets_;
+	std::map<unsigned int, Tank *> tanks_;
 
 };
 

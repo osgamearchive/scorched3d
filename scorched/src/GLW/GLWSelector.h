@@ -34,13 +34,13 @@ class GLWSelectorEntry
 {
 public:
 	GLWSelectorEntry(const char *text = "", 
-		GLWTip *tooltip = 0, 
+		ToolTip *tooltip = 0, 
 		bool selected = false,
 		GLTexture *icon = 0,
 		void *userData = 0);
 	
 	const char *getText() { return text_.c_str(); }
-	GLWTip *getToolTip() { return tip_; }
+	ToolTip *getToolTip() { return tip_; }
 	GLTexture *getIcon() { return icon_; }
 	bool getSelected() { return selected_; }
 	void *getUserData() { return userData_; }
@@ -51,7 +51,7 @@ protected:
 	std::string text_;
 	GLTexture *icon_;
 	int textureWidth_;
-	GLWTip *tip_;
+	ToolTip *tip_;
 	Vector color_;
 	bool selected_;
 	void *userData_;

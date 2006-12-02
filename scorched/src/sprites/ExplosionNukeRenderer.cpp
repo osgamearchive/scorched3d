@@ -22,9 +22,9 @@
 #include <sprites/ExplosionTextures.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <math.h>
 
 static const int AlphaSteps = int(ExplosionNukeRenderer_STEPS * 0.9f);

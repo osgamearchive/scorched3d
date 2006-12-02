@@ -20,7 +20,7 @@
 
 #include <landscape/DeformTextures.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLState.h>

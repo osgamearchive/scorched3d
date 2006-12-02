@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_ServerWebServerh_INCLUDE__)
 #define __INCLUDE_ServerWebServerh_INCLUDE__
 
-#include <coms/NetServer.h>
+#include <net/NetServerTCP.h>
 #include <common/FileLogger.h>
 #include <string>
 #include <map>
@@ -64,7 +64,7 @@ protected:
 	static ServerWebServer *instance_;
 	std::map <unsigned int, SessionParams> sessions_;
 	std::map <std::string, ServerWebServerI *> handlers_;
-	NetServer netServer_;
+	NetServerTCP netServer_;
 	FileLogger *logger_;
 
 	bool processRequest(

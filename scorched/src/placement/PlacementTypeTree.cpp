@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementTypeTree.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
@@ -94,7 +94,7 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 
 		int mx = int(map.getWidth() * (float(x) / 64.0f));
 		int my = int(map.getHeight() * (float(y) / 64.0f));
-		GLubyte *bits = map.getBits() +
+		unsigned char *bits = map.getBits() +
 			mx * 3 + my * map.getWidth() * 3;
 		if (bits[0] > 127 &&
 			height > minheight && 

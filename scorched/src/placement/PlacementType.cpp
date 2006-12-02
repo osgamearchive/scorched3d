@@ -24,8 +24,7 @@
 #include <placement/PlacementTypeDirect.h>
 #include <placement/PlacementTypeTree.h>
 #include <placement/PlacementTypeTankStart.h>
-#include <landscape/LandscapeObjectsGroupEntry.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <target/TargetContainer.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 #include <engine/ScorchedContext.h>
@@ -85,29 +84,6 @@ bool PlacementType::checkCloseness(Vector &position,
 	std::list<Position> &returnPositions,
 	float mincloseness)
 {
-	// Check for border closeness for existing objects
-	std::multimap<unsigned int, LandscapeObjectsEntry*> &entries =
-		context.landscapeMaps->getGroundMaps().getObjects().getEntries();
-	std::multimap<unsigned int, LandscapeObjectsEntry*>::iterator objectsitor;
-	for (objectsitor = entries.begin();
-		objectsitor != entries.end();
-		objectsitor++)
-	{
-		LandscapeObjectsEntry *object = (*objectsitor).second;
-		float distx = object->position[0] - position[0];
-		float disty = object->position[1] - position[1];
-		float closeness = mincloseness + object->border;
-
-		if (closeness > 0.0f)
-		{
-			float distsq = closeness * closeness;
-			if (distx * distx + disty *disty < distsq)
-			{
-				return false;
-			}
-		}
-	}
-
 	// Check for border closeness for targets
 	std::map<unsigned int, Target *> &targets = 
 		context.targetContainer->getTargets();

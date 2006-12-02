@@ -35,19 +35,19 @@ class GLMenuItem
 {
 public:
 	GLMenuItem(const char *text, 
-		GLWTip *tooltip = 0, bool selected = false, 
+		ToolTip *tooltip = 0, bool selected = false, 
 		GLTexture *texture = 0,
 		void *userData = 0);
 
 	const char *getText() { return menuText_.c_str(); }
-	GLWTip *getToolTip() { return tip_; }
+	ToolTip *getToolTip() { return tip_; }
 	GLTexture *getTexture() { return texture_; }
 	bool getSelected() { return selected_; }
 	void *getUserData() { return userData_; }
 
 protected:
 	std::string menuText_;
-	GLWTip *tip_;
+	ToolTip *tip_;
 	GLTexture *texture_;
 	bool selected_;
 	void *userData_;

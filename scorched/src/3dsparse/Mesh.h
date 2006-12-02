@@ -28,7 +28,6 @@
 #include <vector>
 #include <string>
 
-class GLTexture;
 class Mesh
 {
 public:
@@ -53,7 +52,6 @@ public:
 		{ return textureName_.c_str(); }
 	const char *getATextureName() 
 		{ return aTextureName_.c_str(); }
-	GLTexture *getTexture();
 
 	std::vector<int> &getCollapseMap()
 		{ return collapseMap_; }
@@ -100,7 +98,6 @@ protected:
 	Vector4 diffuseNoTexColor_, specularNoTexColor_;
 	Vector4 ambientNoTexColor_, emissiveNoTexColor_;
 	Vector min_, max_;
-	GLTexture *texture_;
 };
 
 #endif // __INCLUDE_Meshh_INCLUDE__

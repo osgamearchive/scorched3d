@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <GLEXT/GLLuminance.h>
+#include <common/Defines.h>
 
 GLLuminance::GLLuminance(const char *filename) : base_(NULL)
 {
@@ -32,7 +33,7 @@ GLLuminance::~GLLuminance()
 	free(base_);
 }
 
-GLubyte *GLLuminance::getBits()
+unsigned char *GLLuminance::getBits()
 {
 	return base_;
 }
@@ -87,20 +88,20 @@ void GLLuminance::convertUint(unsigned *array, unsigned int length)
 	}
 }
 
-void GLLuminance::imageGetRow(FILE *file, GLubyte *buf, int y, int z, unsigned int *rowStart, int *rowSize)
+void GLLuminance::imageGetRow(FILE *file, unsigned char *buf, int y, int z, unsigned int *rowStart, int *rowSize)
 {
 	if ((image.type & 0xFF00) == 0x0100) 
 	{
-		GLubyte *tmp = (GLubyte *) malloc(image.xsize * 256);
+		unsigned char *tmp = (unsigned char *) malloc(image.xsize * 256);
 
 		fseek(file, (long) rowStart[y + z * image.ysize], SEEK_SET);
 		fread(tmp, 1, (unsigned int) rowSize[y + z * image.ysize], file);
 
-		GLubyte *iPtr = tmp;
-		GLubyte *oPtr = buf;
+		unsigned char *iPtr = tmp;
+		unsigned char *oPtr = buf;
 		for (;;) 
 		{
-			GLubyte pixel = *iPtr++;
+			unsigned char pixel = *iPtr++;
 			int count = (int) (pixel & 0x7F);
 			if (!count) break;
 

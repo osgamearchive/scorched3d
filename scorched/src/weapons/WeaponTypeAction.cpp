@@ -22,6 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
+#include <tank/TankModelContainer.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponTypeAction);
 

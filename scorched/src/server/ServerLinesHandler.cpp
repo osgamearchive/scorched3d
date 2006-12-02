@@ -25,6 +25,7 @@
 #include <coms/ComsLinesMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <common/Logger.h>
 
 ServerLinesHandler *ServerLinesHandler::instance()

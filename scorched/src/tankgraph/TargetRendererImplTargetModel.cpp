@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TargetRendererImplTargetModel.h>
+#include <target/TargetLife.h>
 #include <landscape/Landscape.h>
 #include <landscape/ShadowMap.h>
 #include <3dsparse/ModelStore.h>

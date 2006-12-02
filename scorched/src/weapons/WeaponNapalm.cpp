@@ -23,7 +23,7 @@
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>
 #include <engine/ActionController.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
@@ -102,6 +102,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 		addNapalm(context, playerId, x, y, data);
 	}
 
+#ifndef S3D_SERVER
 	if (!context.serverMode) 
 	{
 		if (getNapalmSound()[0] &&
@@ -114,6 +115,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 				expSound, position);
 		}
 	}
+#endif
 }
 
 void WeaponNapalm::addNapalm(ScorchedContext &context, 

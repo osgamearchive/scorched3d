@@ -26,7 +26,7 @@
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <tankai/TankAIAdder.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponAddTarget);
 

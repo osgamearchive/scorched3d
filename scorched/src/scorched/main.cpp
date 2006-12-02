@@ -18,46 +18,25 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/wx.h>
-#include <wx/utils.h>
-#include <SDL/SDL.h>
-#include <client/ClientMain.h>
-#include <client/ClientSave.h>
-#include <client/ScorchedClient.h>
-#include <server/ScorchedServer.h>
-#include <server/ServerMain.h>
+#include <scorched/ScorchedParams.h>
 #include <engine/ModDirs.h>
-#include <common/OptionsDisplay.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/ARGParser.h>
 #include <common/Defines.h>
-#include <common/OptionsTransient.h>
-#include <scorched/MainDialog.h>
+#include <graph/OptionsDisplay.h>
+#include <wx/wx.h>
+#include <wx/utils.h>
 #include <locale.h>
 #include <math.h>
 #include <signal.h>
 #include <float.h>
 #include <time.h>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <common/main.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
-extern bool wxWindowInit;
-extern bool wxWindowExit;
-char scorched3dAppName[128];
-
-bool parseCommandLine(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	// Read options from command line
-	ARGParser aParser;
-	if (!OptionEntryHelper::addToArgParser(
-		OptionsParam::instance()->getOptions(), aParser)) return false;
-	if (!aParser.parse(argc, argv)) return false;
-	setSettingsDir(OptionsParam::instance()->getSettingsDir());
+	// From main.h
+	run_main(argc, argv, *ScorchedParams::instance());
 
 	// Read display options from a file
 	// **This NEEDS to be after the arg parser**
@@ -69,113 +48,16 @@ bool parseCommandLine(int argc, char *argv[])
 	// Get this host's description and username
 	if (!OptionsDisplay::instance()->getHostDescription()[0])
 	{
-		wxString osDesc = ::wxGetOsDescription();
-		osDesc.Remove(osDesc.Find(wxT(" ")));
-		OptionsDisplay::instance()->getHostDescriptionEntry().setValue(osDesc.mb_str(wxConvUTF8));
-
-		wxString userName = ::wxGetUserName();
-		if (!userName.empty())
-		{
-			OptionsDisplay::instance()->getOnlineUserNameEntry().setValue(userName.mb_str(wxConvUTF8));
-		}
+		OptionsDisplay::instance()->getHostDescriptionEntry().setValue(s3d_getOSDesc());
+		OptionsDisplay::instance()->getOnlineUserNameEntry().setValue("Player");
 	}
 
 	// Write the new options back the the file
 	OptionsDisplay::instance()->writeOptionsToFile();
 
-	// Check that the mods are uptodate with the current scorched3d
-	// version
-	ModDirs dirs;
-	dirs.loadModDirs();
-
-	return true;
-}
-
-// Compilers from Borland report floating-point exceptions in a manner 
-// that is incompatible with Microsoft Direct3D.
-int _matherr(struct _exception  *e)
-{
-    e;               // Dummy reference to catch the warning.
-    return 1;        // Error has been handled.
-}
-
-void _no_storage()
-{
-	printf("Failed to allocate memory!!");
-	std::exit(1);
-}
-
-int main(int argc, char *argv[])
-{
-	std::set_new_handler(&_no_storage);
-
-	// Set the path the executable was run with
-	setExeName((const char *) argv[0]);
-
-	// Generate the version
-	snprintf(scorched3dAppName, 128, "Scorched3D - Version %s (%s)", 
-		ScorchedVersion, ScorchedProtocolVersion);
-
-	srand((unsigned)time(0));
-	// Parse command line
-	if (!parseCommandLine(argc, argv)) exit(64);
-
-	// Check we are in the correct directory
-	FILE *checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
-	if (!checkfile)
-	{
-		// Perhaps we can get the directory from the executables path name
-		char path[1024];
-		snprintf(path, sizeof(path), "%s", argv[0]);
-		char *sep = strrchr(path, '/');
-		if (sep)
-		{
-			// Change into this new direcotry
-			*sep = '\0';
-#ifdef _WIN32
-			SetCurrentDirectory(path);
-#else
-			chdir(path);
-#endif // _WIN32
-		}
-
-		// Now try again for the correct directory
-		checkfile = fopen(getDataFile("data/autoexec.xml"), "r");
-		if (!checkfile)
-		{	
-#ifdef _WIN32
-			GetCurrentDirectory(sizeof(path), path);
-#else
-			getcwd(path, sizeof(path));
-#endif // _WIN32
-			dialogExit(
-				scorched3dAppName, formatString(
-				"Error: This game requires the Scorched3D data directory to run.\n"
-				"Your machine does not appear to have the Scorched3D data directory in\n"
-				"the required location.\n"
-				"The data directory is set to \"%s\" which does not exist.\n"
-				"(Current working directory %s)\n\n"
-				"If Scorched3D does not run please re-install Scorched3D.",
-				getDataFile("data"), path));
-		}
-	}
-	else fclose(checkfile);
-
-#ifdef _WIN32
-	// For borland compilers disable floating point exceptions. 
-	_control87(MCW_EM,MCW_EM);
-#endif // _WIN32
-
-#ifndef _WIN32
-	// Tells Linux not to issue a sig pipe when writting to a closed socket
-	// Why does it have to be dificult!
-	signal(SIGPIPE, SIG_IGN);
-	signal(SIGFPE, SIG_IGN);
-#endif
-
 	// Init SDL
 	unsigned int initFlags = SDL_INIT_VIDEO;
-	if (OptionsParam::instance()->getAllowExceptions()) initFlags |= SDL_INIT_NOPARACHUTE;
+	if (ScorchedParams::instance()->getAllowExceptions()) initFlags |= SDL_INIT_NOPARACHUTE;
 	if (SDL_Init(initFlags) < 0)
 	{
 		dialogMessage(
@@ -186,126 +68,16 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		OptionsParam::instance()->getSDLInitVideo() = true;
+		ScorchedParams::instance()->getSDLInitVideo() = true;
 	}
 
-	switch (OptionsParam::instance()->getAction())
-	{
-	case OptionsParam::ActionRunServer:
-	
-		// Load the server settings file
-		if (!s3d_fileExists(OptionsParam::instance()->getServerFile()))
-		{
-			dialogExit(scorched3dAppName, formatString(
-				"Server file \"%s\" does not exist.",
-				OptionsParam::instance()->getServerFile()));
-		}
-		ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
-			(char *) OptionsParam::instance()->getServerFile());
-
-		if (OptionsParam::instance()->getConsole())
-		{
-			consoleServer();
-			exit(0);
-		}
-
-		// Note: WE DO NOT BREAK
-	
-	case OptionsParam::ActionNone:
-		// Note: We DO NOT BREAK
-	case OptionsParam::ActionHelp:
-		// Run the wxWindows main loop
-		// Dialogs are created int CreateDialogs.cpp
 #ifdef _WIN32
 		wxEntry((WXHINSTANCE) (HINSTANCE) GetModuleHandle(NULL),
 			(WXHINSTANCE) NULL, "", SW_SHOWNORMAL);
 #else
 		wxEntry(argc, argv);
 #endif
-		break;
-	case OptionsParam::ActionRunClient:
 
-#ifdef _WIN32
-		{
-			// Do a check for directX 8.0
-			HINSTANCE hD3D8DLL = LoadLibrary( "D3D8.DLL" );
-			if(hD3D8DLL == NULL)
-			{
-				dialogMessage(
-					scorched3dAppName,
-					"Warning: This game requires DirectX 8.0 or later to run.\n"
-					"Your machine does not appear to have DirectX 8.0 installed.\n\n"
-					"The latest version of DirectX can be obtained freely from Microsoft at:\n"
-					"http://www.microsoft.com/windows/directx/default.asp");
-			}
-			FreeLibrary(hD3D8DLL);
-		}
-#endif
-
-		// Actually start the client game if that is desired
-		wxWindowInit = false;
-		if (OptionsParam::instance()->getSDLInitVideo())
-		{
-			if (setlocale(LC_ALL, "C") == 0)
-			{
-				dialogMessage(
-					scorched3dAppName,
-					"Warning: Failed to set client locale");
-			}
-
-			// Check if we are connecting to a server
-			if (!OptionsParam::instance()->getConnect()[0])
-			{
-				if (OptionsParam::instance()->getClientFile()[0])
-				{
-					// If not load the client settings file
-					if (!s3d_fileExists(OptionsParam::instance()->getClientFile()))
-					{
-						dialogExit(scorched3dAppName, formatString(
-							"Client file \"%s\" does not exist.",
-							OptionsParam::instance()->getClientFile()));
-					}
-					ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
-						(char *) OptionsParam::instance()->getClientFile());
-				}
-				else
-				{
-					// Or the client saved game
-					if (!s3d_fileExists(OptionsParam::instance()->getSaveFile()))
-					{
-						dialogExit(scorched3dAppName, formatString(
-							"Client save file \"%s\" does not exist.",
-							OptionsParam::instance()->getSaveFile()));
-					}
-					if (!ClientSave::loadClient(OptionsParam::instance()->getSaveFile()) ||
-						!ClientSave::restoreClient(true, false))
-					{
-						dialogExit(scorched3dAppName, formatString(
-							"Cannot load client save file \"%s\".",
-							OptionsParam::instance()->getSaveFile()));
-					}
-				}
-			}
-
-			if (!clientMain()) exit(64);
-
-			// Write display options back to the file
-			// in case they have been changed by this client (in game by the console)
-			OptionsDisplay::instance()->writeOptionsToFile();
-		}
-		else
-		{
-			dialogMessage(
-				scorched3dAppName,
-				"Error: Cannot start scorched3d client, graphics mode was not initilaized");
-		}
-		break;
-	default:
-		dialogExit(
-			scorched3dAppName,
-			"Error: You provided incorrect or incompatable parameters");
-	}
-
+	SDL_Quit();
 	return 0; // exit(0)
 }
-

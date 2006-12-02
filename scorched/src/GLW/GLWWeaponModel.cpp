@@ -20,11 +20,13 @@
 
 #include <GLW/GLWWeaponModel.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
 #include <client/ClientState.h>
+#include <graph/MainCamera.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/MissileMesh.h>
 #include <tank/TankContainer.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankState.h>
 #include <GLW/GLWTranslate.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Accessory.h>

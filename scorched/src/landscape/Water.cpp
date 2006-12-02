@@ -20,14 +20,14 @@
 
 #include <landscape/Water.h>
 #include <landscape/WaterMapModifier.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefinition.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
-#include <engine/ParticleEmitter.h>
+#include <graph/ParticleEmitter.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 

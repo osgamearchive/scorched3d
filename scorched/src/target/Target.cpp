@@ -21,7 +21,12 @@
 #include <math.h>
 #include <tankai/TankAIAdder.h>
 #include <target/Target.h>
+#include <target/TargetState.h>
 #include <target/TargetRenderer.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
+#include <target/TargetParachute.h>
+#include <target/TargetGroupEntry.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
 
@@ -31,30 +36,37 @@ Target::Target(unsigned int playerId,
 	playerId_(playerId),
 	name_(name),
 	context_(context),
-	life_(context, playerId), 
-	shield_(context, playerId),
-	parachute_(context),
-	deathAction_(0),
-	renderer_(0),
+	deathAction_(0), burnAction_(0),
+	renderer_(0), 
 	border_(0.0f)
 {
-	life_.setTarget(this);
-	life_.setBoundingSphere(true);
-	group_.setTarget(this);
+	life_ = new TargetLife(context, playerId);
+	shield_ = new TargetShield(context, playerId);
+	parachute_ = new TargetParachute(context);
+	group_ = new TargetGroupEntry();
+	targetState_ = new TargetState();
+
+	life_->setTarget(this);
+	life_->setBoundingSphere(true);
+	group_->setTarget(this);
 }
 
 Target::~Target()
 {
 	playerId_ = 0;
-	delete renderer_;
-	renderer_ = 0;
+	delete renderer_; renderer_ = 0;
+	delete life_; life_ = 0;
+	delete shield_; shield_ = 0;
+	delete group_; group_ = 0;
+	delete parachute_; parachute_ = 0;
+	delete targetState_; targetState_ = 0;
 }
 
 void Target::newGame()
 {
-	life_.newGame();
-	shield_.newGame();
-	parachute_.newGame();
+	life_->newGame();
+	shield_->newGame();
+	parachute_->newGame();
 }
 
 bool Target::isTemp()
@@ -65,30 +77,30 @@ bool Target::isTemp()
 
 bool Target::getAlive()
 {
-	return (life_.getLife() > 0.0f);
+	return (life_->getLife() > 0.0f);
 }
 
 Vector &Target::getCenterPosition()
 {
 	static Vector result;
 	result = getTargetPosition();
-	result[2] += life_.getSize()[2] / 2.0f;
+	result[2] += life_->getSize()[2] / 2.0f;
 	return result;
 }
 
 void Target::setTargetPosition(Vector &pos)
 {
 	targetPosition_ = pos;
-	life_.setPosition(pos);
-	shield_.setPosition(pos);
+	life_->setPosition(pos);
+	shield_->setPosition(pos);
 }
 
 bool Target::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	buffer.addToBuffer(name_);
-	if (!shield_.writeMessage(buffer)) return false;
-	if (!life_.writeMessage(buffer)) return false;
-	if (!parachute_.writeMessage(buffer, writeAccessories)) return false;
+	if (!shield_->writeMessage(buffer)) return false;
+	if (!life_->writeMessage(buffer)) return false;
+	if (!parachute_->writeMessage(buffer, writeAccessories)) return false;
 
 	// Do after shield and life so their position is set
 	buffer.addToBuffer(targetPosition_);
@@ -98,9 +110,9 @@ bool Target::writeMessage(NetBuffer &buffer, bool writeAccessories)
 bool Target::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(name_)) return false;
-	if (!shield_.readMessage(reader)) return false;
-	if (!life_.readMessage(reader)) return false;
-	if (!parachute_.readMessage(reader)) return false;
+	if (!shield_->readMessage(reader)) return false;
+	if (!life_->readMessage(reader)) return false;
+	if (!parachute_->readMessage(reader)) return false;
 
 	// Do after shield and life so their position is set
 	Vector pos;

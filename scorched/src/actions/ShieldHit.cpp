@@ -20,12 +20,12 @@
 
 #include <actions/ShieldHit.h>
 #include <sound/SoundUtils.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/Accessory.h>
 #include <weapons/Shield.h>
 #include <target/TargetContainer.h>
+#include <target/TargetShield.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <tankgraph/TargetRendererImplTank.h>
 
@@ -70,6 +70,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 			if (accessory)
 			{
 				Shield *shield = (Shield *) accessory->getAction();
+#ifndef S3D_SERVER
 				if (!context_->serverMode) 
 				{
 					SoundBuffer *shieldSound = 
@@ -84,6 +85,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 						renderer->shieldHit();
 					}
 				}
+#endif // #ifndef S3D_SERVER
 
 				target->getShield().setShieldPower(
 					target->getShield().getShieldPower() -
@@ -99,10 +101,13 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 
 void ShieldHit::draw()
 {
-	if (context_->serverMode) return;
-
-	GLLenseFlare::instance()->draw(position_, false, 0, 
-		1.0f, 1.0f);
+#ifndef S3D_SERVER
+	if (!context_->serverMode)
+	{
+		GLLenseFlare::instance()->draw(position_, false, 0, 
+			1.0f, 1.0f);
+	}
+#endif // #ifndef S3D_SERVER
 }
 
 bool ShieldHit::writeAction(NetBuffer &buffer)

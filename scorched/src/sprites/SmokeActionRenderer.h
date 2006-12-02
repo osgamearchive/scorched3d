@@ -22,6 +22,7 @@
 #define __INCLUDE_SmokeActionRendererh_INCLUDE__
 
 #include <common/Vector.h>
+#include <common/Counter.h>
 #include <landscape/Smoke.h>
 
 class SmokeActionRenderer : public ParticleUserData
@@ -33,7 +34,7 @@ public:
 	void simulate(Vector &position, float timepassed);
 
 public:
-	SmokeCounter counter_;
+	Counter counter_;
 };
 
 #endif

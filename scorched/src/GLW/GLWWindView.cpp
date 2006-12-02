@@ -20,14 +20,14 @@
 
 #include <GLW/GLWWindView.h>
 #include <client/ScorchedClient.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
 #include <GLEXT/GLViewPort.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/Sky.h>
 #include <math.h>
 

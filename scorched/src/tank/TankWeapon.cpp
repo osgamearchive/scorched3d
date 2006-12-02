@@ -22,14 +22,14 @@
 #include <weapons/WeaponMoveTank.h>
 #include <tank/TankWeapon.h>
 #include <tank/TankContainer.h>
+#include <tank/TankAccessories.h>
 #include <engine/ScorchedContext.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
-#include <landscape/MovementMap.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/MovementMap.h>
 #include <dialogs/MessageDialog.h>
 
 TankWeapon::TankWeapon(ScorchedContext &context) : 
@@ -84,6 +84,7 @@ Accessory *TankWeapon::getCurrent()
 
 void TankWeapon::setCurrentWeapon(Accessory *wp)
 {
+#ifndef S3D_SERVER
 	if (!context_.serverMode)
 	{
 		// Only show this information on this tanks client
@@ -133,60 +134,9 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 
 		}
 	}
+#endif
 
 	currentWeapon_ = wp;
-}
-
-void TankWeapon::nextWeapon()
-{
-	std::list<Accessory *> &result =
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryWeapon);
-	context_.accessoryStore->sortList(result,
-		OptionsDisplay::instance()->getSortAccessories());
-
-	std::list<Accessory *>::iterator itor;
-	for (itor = result.begin();
-		itor != result.end();
-		itor++)
-	{
-		if (currentWeapon_ == (*itor))
-		{
-			if (++itor == result.end())
-			{
-				itor = result.begin();
-			}
-			setCurrentWeapon(*itor);
-			break;
-		}
-	}
-}
-
-void TankWeapon::prevWeapon()
-{
-	std::list<Accessory *> &result =
-		tank_->getAccessories().getAllAccessoriesByType(
-			AccessoryPart::AccessoryWeapon);
-	context_.accessoryStore->sortList(result,
-		OptionsDisplay::instance()->getSortAccessories());
-
-	std::list<Accessory *>::iterator itor;
-	for (itor = result.begin();
-		itor != result.end();
-		itor++)
-	{
-		if (currentWeapon_ == (*itor))
-		{
-			if (itor == result.begin())
-			{
-				itor = result.end();
-			}
-
-			--itor;
-			setCurrentWeapon(*itor);
-			break;
-		}
-	}
 }
 
 const char *TankWeapon::getWeaponString()

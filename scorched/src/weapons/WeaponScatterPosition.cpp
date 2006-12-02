@@ -20,7 +20,7 @@
 
 #include <weapons/WeaponScatterPosition.h>
 #include <weapons/AccessoryStore.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <common/Defines.h>
 #include <math.h>

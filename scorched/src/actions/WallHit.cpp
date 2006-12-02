@@ -20,7 +20,6 @@
 
 #include <actions/WallHit.h>
 #include <sprites/WallActionRenderer.h>
-#include <common/OptionsParam.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 
@@ -44,11 +43,13 @@ WallHit::~WallHit()
 
 void WallHit::init()
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		context_->actionController->addAction(
 			new SpriteAction(new WallActionRenderer(position_, type_)));
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 void WallHit::simulate(float frameTime, bool &remove)

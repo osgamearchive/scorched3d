@@ -68,7 +68,7 @@ public:
 	virtual void loadPosition(XMLNode *node);
 
 	const char *getDescription() { return description_.c_str(); }
-	GLWTip &getToolTip() { return toolTip_; }
+	ToolTip &getToolTip() { return toolTip_; }
 	unsigned int getWindowLevel() { return windowLevel_; }
 	unsigned int getWindowState() { return windowState_; }
 	void needsCentered() { needCentered_ = true; }
@@ -84,7 +84,7 @@ protected:
 		SizeDrag
 	} dragging_;
 
-	GLWTip toolTip_;
+	ToolTip toolTip_;
 	GLTexture moveTexture_;
 	bool showTitle_;
 	bool needCentered_;

@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/HUDDialog.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWWindowManager.h>
 

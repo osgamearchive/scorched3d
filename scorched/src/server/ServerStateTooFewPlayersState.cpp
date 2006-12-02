@@ -27,7 +27,6 @@
 #include <tank/TankContainer.h>
 #include <coms/ComsGameStoppedMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 
@@ -74,7 +73,7 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 	}
 
 	// Check settings
-	if (!OptionsParam::instance()->getDedicatedServer())
+#ifndef S3D_SERVER
 	{
 		if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() ==
 			ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
@@ -87,6 +86,7 @@ bool ServerStateTooFewPlayersState::acceptStateChange(const unsigned state,
 				"Is this a team game with un-even teams?");
 		}
 	}
+#endif // S3D_SERVER
 
 	return false;
 }

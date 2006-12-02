@@ -61,7 +61,6 @@ public:
 	static bool translateKeyState(const char *name, unsigned int &state);
 	static bool translateKeyNameValue(unsigned int key, const char *&name);
 	static bool translateKeyStateValue(unsigned int state, const char *&name);
-	static bool translateKeyNameWX(unsigned int wxkey, unsigned int &key);
 
 protected:
 	std::string name_;

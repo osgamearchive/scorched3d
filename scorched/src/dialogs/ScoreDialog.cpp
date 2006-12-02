@@ -23,10 +23,14 @@
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankColorGenerator.h>
+#include <tank/TankScore.h>
+#include <tank/TankState.h>
+#include <tank/TankAvatar.h>
+#include <tankai/TankAI.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
-#include <common/OptionsParam.h>
-#include <common/OptionsDisplay.h>
+#include <client/ClientParams.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
@@ -153,7 +157,7 @@ void ScoreDialog::draw()
 	}
 
 	Vector white(0.9f, 0.9f, 1.0f);
-	bool server = (OptionsParam::instance()->getConnectedToServer());
+	bool server = (ClientParams::instance()->getConnectedToServer());
 	{
 		const char *text = "Current Rankings";
 		if (finished)
@@ -416,7 +420,7 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 	static char name[256];
 	// Max strcat usage 12
 	snprintf(name, sizeof(name) - 12, "%s", current->getName());
-	if (finished && ! OptionsParam::instance()->getConnectedToServer())
+	if (finished && ! ClientParams::instance()->getConnectedToServer())
 	{
 		strcat(name, " (");
 		Tank *serverTank = 

@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
 #include <dialogs/PlayerDialog.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
@@ -26,8 +26,10 @@
 #include <tankai/TankAIStrings.h>
 #include <tank/TankContainer.h>
 #include <tank/TankColorGenerator.h>
-#include <common/OptionsParam.h>
-#include <common/OptionsDisplay.h>
+#include <tank/TankState.h>
+#include <tank/TankAvatar.h>
+#include <client/ClientParams.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
@@ -61,7 +63,7 @@ PlayerDialog::PlayerDialog() :
 	// Add buttons
 	okId_ = addWidget(new GLWTextButton("Ok", 395, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	if (OptionsParam::instance()->getConnectedToServer())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		cancelId_ = addWidget(new GLWTextButton("Cancel", 300, 10, 85, this, 
 			GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
@@ -84,13 +86,13 @@ PlayerDialog::PlayerDialog() :
 		"CANNOT be changed while playing,\n"
 		"you must quit to change.");
 	imageList_ = new GLWImageList(10.0f, 20.0f, getDataFile("data/avatars"));
-	imageList_->setCurrent("player.gif");
+	imageList_->setCurrent("player.png");
 	imageList_->setToolTip(&avatarTip1_);
 	imageList_->setName("Avatar");
 	infoPanel->addWidget(imageList_);
 
 	// Create player name choice
-	GLWTip *nameTip = new GLWTip("Player Name",
+	ToolTip *nameTip = new ToolTip("Player Name",
 		"The name of this player.\n"
 		"Use the backspace or delete key to remove this name.\n"
 		"Type in a new player name via the keyboad to change.");
@@ -104,7 +106,7 @@ PlayerDialog::PlayerDialog() :
 	playerName_->setName("Name");
 	
 	// Create team choice
-	GLWTip *teamTip = new GLWTip("Team Selection",
+	ToolTip *teamTip = new ToolTip("Team Selection",
 		"Change the team this player will join.\n"
 		"This is only available when playing team games.");
 	teamLabel_ = (GLWLabel *) 
@@ -117,7 +119,7 @@ PlayerDialog::PlayerDialog() :
 	teamDropDown_->setName("Team");
 
 	// Create color choice
-	GLWTip *colorTip = new GLWTip("Color Selection",
+	ToolTip *colorTip = new ToolTip("Color Selection",
 		"Change the color this player displayed as.\n"
 		"This is only available when playing non-team games.");
 	colorLabel_ = (GLWLabel *) 
@@ -130,7 +132,7 @@ PlayerDialog::PlayerDialog() :
 	colorDropDown_->setName("Color");
 
 	// Create computer type choice
-	GLWTip *typeTip = new GLWTip("Player Type",
+	ToolTip *typeTip = new ToolTip("Player Type",
 		"Change between human and computer controlled\n"
 		"players.  This is only available when playing\n"
 		"single player games.");
@@ -173,11 +175,11 @@ void PlayerDialog::select(unsigned int id, const int pos,
 	{
 		if (0 == strcmp("Human", value.getText()))
 		{
-			imageList_->setCurrent("player.gif");
+			imageList_->setCurrent("player.png");
 		}
 		else
 		{
-			imageList_->setCurrent("computer.gif");
+			imageList_->setCurrent("computer.png");
 		}
 	}
 	else if (id == teamDropDown_->getId())
@@ -191,7 +193,7 @@ void PlayerDialog::keyDown(char *buffer, unsigned int keyState,
 		bool &skipRest)
 {
 	GLWWindow::keyDown(buffer, keyState, history, hisCount, skipRest);
-	if (OptionsParam::instance()->getConnectedToServer()) skipRest = true;
+	if (ClientParams::instance()->getConnectedToServer()) skipRest = true;
 }
 
 void PlayerDialog::display()
@@ -241,7 +243,7 @@ void PlayerDialog::display()
 	typeDropDown_->clear();
 	typeDropDown_->addEntry(GLWSelectorEntry("Human", 
 		&tankAIStore.getAIByName("Human")->getDescription()));
-	if (!OptionsParam::instance()->getConnectedToServer() &&
+	if (!ClientParams::instance()->getConnectedToServer() &&
 		!ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
 	{
 		std::list<TankAI *>::iterator aiitor;
@@ -274,7 +276,7 @@ void PlayerDialog::nextPlayer()
 
 	Tank *tank = 
 		ScorchedClient::instance()->getTankContainer().getTankById(currentPlayerId_);
-	if (OptionsParam::instance()->getConnectedToServer())
+	if (ClientParams::instance()->getConnectedToServer())
 	{
 		// If we are connected online then use the online name
 		playerName_->setText(
@@ -284,7 +286,7 @@ void PlayerDialog::nextPlayer()
 		if (!imageList_->setCurrent(
 			OptionsDisplay::instance()->getOnlineUserIcon()))
 		{
-			imageList_->setCurrent("player.gif");
+			imageList_->setCurrent("player.png");
 		}
 	}
 	else
@@ -324,7 +326,7 @@ void PlayerDialog::nextPlayer()
 			colorDropDown_->addEntry(entry);
 		}
 
-		if (OptionsParam::instance()->getConnectedToServer())
+		if (ClientParams::instance()->getConnectedToServer())
 		{
 			Vector onlineColor = 
 				OptionsDisplay::instance()->getOnlineColor();
@@ -379,7 +381,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 		if (!playerName_->getText().empty())
 		{
 			// If we are connected online save this players name
-			if (OptionsParam::instance()->getConnectedToServer())
+			if (ClientParams::instance()->getConnectedToServer())
 			{
 				OptionsDisplay::instance()->getOnlineUserNameEntry().setValue(
 					playerName_->getText().c_str());

@@ -22,8 +22,11 @@
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
+#include <common/ToolTip.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
 
 REGISTER_CLASS_SOURCE(GLWSlider);
 
@@ -76,7 +79,7 @@ GLWTankSlider::GLWTankSlider() :
 	GLWSlider(0.0f, 0.0f, 0.0f, 100.0f)
 {
 	setHandler(this);
-	setToolTip(new GLWTip("Power",
+	setToolTip(new ToolTip("Power",
 		"Change the power of the current tank\n"
 		"by clicking with the left mouse button\n"
 		"and dragging up and down.\n"

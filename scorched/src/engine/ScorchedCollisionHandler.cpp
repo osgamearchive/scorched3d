@@ -25,7 +25,8 @@
 #include <actions/WallHit.h>
 #include <actions/ShieldHit.h>
 #include <actions/TankDamage.h>
-#include <landscape/LandscapeMaps.h>
+#include <actions/Explosion.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedCollisionHandler.h>
 #include <engine/PhysicsParticle.h>
 #include <engine/ActionController.h>
@@ -35,6 +36,11 @@
 #include <weapons/ShieldSquareReflective.h>
 #include <weapons/Accessory.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tankai/TankAI.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
 
 ScorchedCollisionHandler::ScorchedCollisionHandler(ScorchedContext *context) :
 	context_(context)
@@ -106,6 +112,15 @@ void ScorchedCollisionHandler::targetCollision(
 			context_->actionController->addAction(
 				new TankDamage(weapon, playerId1, playerId2, target1->getLife().getLife(),
 					false, false, false, 0));
+
+			Accessory *accessory = 
+				context_->accessoryStore->findByPrimaryAccessoryName("DriveOverDestroy");
+			if (accessory && accessory->getType() == AccessoryPart::AccessoryWeapon)
+			{
+				Weapon *weapon = (Weapon *) accessory->getAction();
+				weapon->fireWeapon(*context_, playerId2, 
+					target2->getTargetPosition(), Vector::nullVector);
+			}
 		}
 	}
 	else if (!target1->isTarget() && target2->isTarget())
@@ -115,6 +130,15 @@ void ScorchedCollisionHandler::targetCollision(
 			context_->actionController->addAction(
 				new TankDamage(weapon, playerId2, playerId1, target2->getLife().getLife(),
 					false, false, false, 0));
+
+			Accessory *accessory = 
+				context_->accessoryStore->findByPrimaryAccessoryName("DriveOverDestroy");
+			if (accessory && accessory->getType() == AccessoryPart::AccessoryWeapon)
+			{
+				Weapon *weapon = (Weapon *) accessory->getAction();
+				weapon->fireWeapon(*context_, playerId1, 
+					target1->getTargetPosition(), Vector::nullVector);
+			}
 		}
 	}
 }
@@ -541,16 +565,16 @@ ScorchedCollisionHandler::ParticleAction ScorchedCollisionHandler::collisionShie
 }
 
 void ScorchedCollisionHandler::collisionBounce(dGeomID o1, dGeomID o2, 
-		dContactGeom *contacts, int noContacts, double bounceFactor)
+		dContactGeom *contacts, int noContacts, float bounceFactor)
 {
 	dContact contact;
 	if (bounceFactor != 0.0f) contact.surface.mode = dContactBounce;
 	else contact.surface.mode = dContactSoftCFM;
 	contact.surface.mu = dInfinity;
-	contact.surface.mu2 = 0;
+	contact.surface.mu2 = 0.0f;
 	contact.surface.bounce = bounceFactor;
 	contact.surface.bounce_vel = 0.0f;
-	contact.surface.soft_cfm = 0.01;
+	contact.surface.soft_cfm = 0.01f;
 
 	for (int i=0; i<noContacts; i++)
 	{

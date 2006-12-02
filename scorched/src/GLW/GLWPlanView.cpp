@@ -25,17 +25,19 @@
 #include <tankgraph/TargetRendererImplTank.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
-#include <client/MainCamera.h>
+#include <graph/MainCamera.h>
 #include <client/ClientLinesHandler.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
 #include <common/Vector.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsLinesMessage.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <math.h>
 
 REGISTER_CLASS_SOURCE(GLWPlanView);
@@ -48,7 +50,7 @@ GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
 	animationTime_(0.0f), flashTime_(0.0f), totalTime_(0.0f), pointTime_(0.0f),
 	flash_(true), dragging_(false), firstTime_(true)
 {
-	setToolTip(new GLWTip("Plan View",
+	setToolTip(new ToolTip("Plan View",
 		"Shows the position of the the tanks\n"
 		"on a overhead map of the island.\n"
 		"Flashing tanks are still to make a move.\n"

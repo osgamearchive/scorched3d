@@ -19,11 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapePoints.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/MapPoints.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 #include <GLEXT/GLState.h>
 
 LandscapePoints::LandscapePoints()

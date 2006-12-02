@@ -22,7 +22,7 @@
 #define __INCLUDE_CameraDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
-#include <client/TargetCamera.h>
+#include <graph/TargetCamera.h>
 
 class CameraDialog : public GLWWindow 
 {

@@ -21,6 +21,7 @@
 #include <weapons/AccessoryStore.h>
 #include <tank/TankAutoDefense.h>
 #include <tank/Tank.h>
+#include <tank/TankAccessories.h>
 
 TankAutoDefense::TankAutoDefense(ScorchedContext &context) :
 	context_(context),

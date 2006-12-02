@@ -24,7 +24,7 @@
 #include <engine/ActionMeta.h>
 #include <engine/ViewPoints.h>
 #include <common/Vector.h>
-#include <landscape/Smoke.h>
+#include <common/Counter.h>
 #include <list>
 #include <map>
 
@@ -77,7 +77,7 @@ protected:
 	float timePassed_;
 	ViewPoints::ViewPoint *vPoint_;
 	VirtualSoundSource *moveSoundSource_;
-	SmokeCounter smokeCounter_;
+	Counter smokeCounter_;
 
 	unsigned int playerId_;
 	Vector startPosition_;

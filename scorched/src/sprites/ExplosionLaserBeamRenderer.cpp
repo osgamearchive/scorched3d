@@ -24,8 +24,8 @@
 #include <GLEXT/GLBitmap.h>
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
-#include <engine/ParticleEmitter.h>
-#include <engine/ParticleEngine.h>
+#include <graph/ParticleEmitter.h>
+#include <graph/ParticleEngine.h>
 
 
 REGISTER_CLASS_SOURCE(ExplosionLaserBeamRenderer);

@@ -22,6 +22,7 @@
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <time.h>
 #include <math.h>
 

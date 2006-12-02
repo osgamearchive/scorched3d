@@ -26,6 +26,8 @@
 #include <weapons/Shield.h>
 #include <actions/ShieldHit.h>
 #include <target/TargetContainer.h>
+#include <target/TargetShield.h>
+#include <target/TargetLife.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <GLEXT/GLState.h>
@@ -163,6 +165,7 @@ void Laser::simulate(float frameTime, bool &remove)
 
 void Laser::draw()
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode && (drawLength_ > 0.0f))
 	{
 		static GLUquadric *obj = 0;
@@ -194,6 +197,7 @@ void Laser::draw()
 		glPopMatrix();
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 bool Laser::writeAction(NetBuffer &buffer)

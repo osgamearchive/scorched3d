@@ -21,10 +21,14 @@
 #if !defined(__INCLUDE_TargetDefinitionh_INCLUDE__)
 #define __INCLUDE_TargetDefinitionh_INCLUDE__
 
-#include <placement/PlacementModelDefinition.h>
+#include <common/ModelID.h>
+#include <common/RandomGenerator.h>
+#include <engine/ScorchedContext.h>
+#include <placement/PlacementShadowDefinition.h>
+#include <placement/PlacementGroupDefinition.h>
 
 class Target;
-class TargetDefinition : public PlacementModelDefinition
+class TargetDefinition
 {
 public:
 	TargetDefinition();
@@ -36,12 +40,28 @@ public:
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
+	Vector &getSize() { return size_; }
+	PlacementShadowDefinition &getShadow() { return shadow_; }
+	PlacementGroupDefinition &getGroups() { return groups_; }
+
 protected:
 	float life_;
 	bool boundingsphere_;
+	bool driveovertodestroy_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;
+	Vector size_;
+	float modelscale_;
+	float modelrotation_;
+	float modelrotationsnap_;
+	float border_;
+	std::string removeaction_;
+	std::string burnaction_;
+	ModelID modelId_;
+	ModelID modelburntId_;
+	PlacementShadowDefinition shadow_;
+	PlacementGroupDefinition groups_;
 };
 
 #endif // __INCLUDE_TargetDefinitionh_INCLUDE__

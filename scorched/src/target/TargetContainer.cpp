@@ -30,8 +30,19 @@ TargetContainer::~TargetContainer()
 
 void TargetContainer::addTarget(Target *target)
 {
-	DIALOG_ASSERT(
-		targets_.find(target->getPlayerId()) == targets_.end());
+	std::map<unsigned int, Target *>::iterator findItor = 
+		targets_.find(target->getPlayerId());
+	if (findItor != targets_.end())
+	{
+		Target *original = (*findItor).second;
+		dialogExit("Scorched3D",
+			formatString("Duplicate target %u being added to container.\n"
+			"Original :%s, this %s",
+			target->getPlayerId(),
+			original->getName(),
+			target->getName()));
+	}
+
 	targets_[target->getPlayerId()] = target;
 }
 
@@ -54,7 +65,10 @@ Target *TargetContainer::getTargetById(unsigned int id)
 		targets_.find(id);
 	if (mainitor != targets_.end())
 	{
-		return (*mainitor).second;
+		Target *target = (*mainitor).second;
+		DIALOG_ASSERT(target->getPlayerId() == id);
+
+		return target;
 	}
 	return 0;
 }

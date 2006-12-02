@@ -25,6 +25,14 @@
 #include <client/ScorchedClient.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankAvatar.h>
+#include <tank/TankScore.h>
+#include <tank/TankAccessories.h>
+#include <tank/TankPosition.h>
+#include <target/TargetParachute.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <weapons/AccessoryStore.h>

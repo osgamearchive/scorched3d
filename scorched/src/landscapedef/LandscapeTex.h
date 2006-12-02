@@ -22,7 +22,7 @@
 #define __INCLUDE_LandscapeTexh_INCLUDE__
 
 #include <landscapedef/LandscapeTexDefn.h>
-#include <3dsparse/ModelID.h>
+#include <common/ModelID.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>

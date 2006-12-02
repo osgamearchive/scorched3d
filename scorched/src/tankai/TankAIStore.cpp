@@ -134,8 +134,15 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 TankAI *TankAIStore::getAIByName(const char *name)
 {
 	// Human
-	static TankAIHuman humanAI;
-	if (0 == strcmp(name, "Human")) return &humanAI;
+	if (0 == strcmp(name, "Human"))
+	{
+#ifdef S3D_SERVER
+		DIALOG_ASSERT(false);
+#else
+		static TankAIHuman humanAI;
+		return &humanAI;
+#endif
+	}
 
 	// Random
 	if (0 == strcmp(name, "Random"))

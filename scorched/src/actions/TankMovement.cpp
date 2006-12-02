@@ -26,14 +26,21 @@
 #include <engine/ActionController.h>
 #include <weapons/WeaponMoveTank.h>
 #include <weapons/AccessoryStore.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeTex.h>
-#include <landscape/MovementMap.h>
+#include <landscapemap/MovementMap.h>
+#include <landscape/Smoke.h>
 #include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
-#include <tankgraph/TankModelStore.h>
-#include <3dsparse/ImageStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankPosition.h>
+#include <tank/TankState.h>
+#include <tank/TankModelContainer.h>
+#include <tank/TankAccessories.h>
+#include <target/TargetLife.h>
+#include <target/TargetState.h>
+#include <graph/ImageStore.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
@@ -80,6 +87,7 @@ void TankMovement::init()
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 	
 	// Start the tank movement sound
+#ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
 		SoundBuffer *moveSound = 
@@ -89,6 +97,7 @@ void TankMovement::init()
 		moveSoundSource_->setPosition(tank->getPosition().getTankPosition());
 		moveSoundSource_->play(moveSound);
 	}
+#endif // #ifndef S3D_SERVER
 
 	// As with everything to do with movement
 	// The xy position is stored as an unsigned int
@@ -180,10 +189,12 @@ void TankMovement::simulate(float frameTime, bool &remove)
 		remove = true;
 	}
 
+#ifndef S3D_SERVER
 	if (remove && moveSoundSource_)
 	{
 		moveSoundSource_->stop();
 	}
+#endif // #ifndef S3D_SERVER
 	
 	ActionMeta::simulate(frameTime, remove);
 }
@@ -206,12 +217,11 @@ void TankMovement::simulationMove(float frameTime)
 		{
 			// Check to see if this tank is falling
 			// If it is then we wait until the fall is over
-			std::map<unsigned int, TankFalling *>::iterator findItor =
-				TankFalling::fallingTanks.find(playerId_);
-			if (findItor == TankFalling::fallingTanks.end())
+			if (!tank->getTargetState().getFalling())
 			{
 				// Add a smoke trail
 				// Check if we are not on the server
+#ifndef S3D_SERVER
 				if (!context_->serverMode)
 				{
 					// Check if this tank type allows smoke trails
@@ -230,6 +240,7 @@ void TankMovement::simulationMove(float frameTime)
 						}
 					}
 				}
+#endif // S3D_SERVER
 
 				// Move the tank one position every stepTime seconds
 				// i.e. 1/stepTime positions a second
@@ -341,6 +352,7 @@ void TankMovement::moveTank(Tank *tank)
 	tank->setTargetPosition(newPos);
 
 	// Add tracks
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		stepCount_++;
@@ -385,9 +397,12 @@ void TankMovement::moveTank(Tank *tank)
 		}
 	}
 
+	if (moveSoundSource_) moveSoundSource_->setPosition(newPos);
+
+#endif // #ifndef S3D_SERVER
+
 	// Set viewpoints
 	if (vPoint_) vPoint_->setPosition(newPos);
-	if (moveSoundSource_) moveSoundSource_->setPosition(newPos);
 }
 
 bool TankMovement::writeAction(NetBuffer &buffer)

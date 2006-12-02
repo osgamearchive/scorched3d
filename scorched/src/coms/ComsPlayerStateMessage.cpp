@@ -96,6 +96,7 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 
 bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 {
+#ifndef S3D_SERVER
 	if (!reader.getFromBuffer(playersOnly_)) return false;
 	if (!ScorchedClient::instance()->getContext().tankTeamScore->
 		readMessage(reader)) return false;
@@ -159,6 +160,7 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 			}
 		}
 	}
+#endif
 	
 	return true;
 }

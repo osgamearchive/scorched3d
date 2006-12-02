@@ -20,9 +20,11 @@
 
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
+#include <tank/TankPosition.h>
+#include <tank/TankState.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <GLEXT/GLState.h>
 #include <math.h>
 

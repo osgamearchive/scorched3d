@@ -26,7 +26,7 @@
 #include <weapons/AccessoryStore.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ModelStore.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 #include <ode/ode.h>
 #include <string.h>
 
@@ -81,7 +81,7 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 	totalTime_ += frameTime;
 	if (totalTime_ > weapon_->getTime())
 	{
-		if (context_->serverMode) doCollision();
+		doCollision();
 		remove = true;
 	}
 
@@ -90,6 +90,7 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 
 void ShotBounce::draw()
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
 		static double rotMatrix[16];
@@ -139,6 +140,7 @@ void ShotBounce::draw()
 			model_->draw();
 		glPopMatrix();
 	}
+#endif // #ifndef S3D_SERVER
 }
 
 void ShotBounce::doCollision()

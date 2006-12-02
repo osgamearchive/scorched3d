@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <math.h>
-#include <GLEXT/GLState.h>
+#include <string.h>
 #include <GLEXT/GLBitmap.h>
 #include <common/Defines.h>
 #include <SDL/SDL.h>
@@ -57,9 +57,9 @@ GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert
 		bitmap.getHeight() == alpha.getHeight())
 	{
 		createBlank(bitmap.getWidth(), bitmap.getHeight(), true);
-		GLubyte *bbits = bitmap.getBits();
-		GLubyte *abits = alpha.getBits();
-		GLubyte *bits = getBits();
+		unsigned char *bbits = bitmap.getBits();
+		unsigned char *abits = alpha.getBits();
+		unsigned char *bits = getBits();
 		for (int y=0; y<bitmap.getHeight(); y++)
 		{
 			for (int x=0; x<bitmap.getWidth(); x++)
@@ -68,10 +68,10 @@ GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert
 				bits[1] = bbits[1];
 				bits[2] = bbits[2];
 
-				GLubyte avg = GLubyte(int(abits[0] + abits[1] + abits[2]) / 3);
+				unsigned char avg = (unsigned char)(int(abits[0] + abits[1] + abits[2]) / 3);
 				if (invert)
 				{
-					bits[3] = GLubyte(255 - avg);
+					bits[3] = (unsigned char)(255 - avg);
 				}
 				else
 				{
@@ -91,6 +91,10 @@ GLBitmap::~GLBitmap()
 	clear();
 }
 
+#ifndef S3D_SERVER
+
+#include <GLEXT/GLState.h>
+
 void GLBitmap::resize(int newWidth, int newHeight)
 {
 	if (!newbits_) return;
@@ -101,7 +105,7 @@ void GLBitmap::resize(int newWidth, int newHeight)
 		return;
 	}
 
-	GLubyte *oldbits = newbits_;
+	unsigned char *oldbits = newbits_;
 	int oldWidth = width_;
 	int oldHeight = height_;
 	newbits_ = 0;
@@ -121,6 +125,7 @@ void GLBitmap::resize(int newWidth, int newHeight)
 
 	delete [] oldbits;
 }
+#endif
 
 void GLBitmap::createBlank(int width, int height, bool alpha, unsigned char fill)
 {
@@ -130,7 +135,7 @@ void GLBitmap::createBlank(int width, int height, bool alpha, unsigned char fill
 	alpha_ = alpha;
 	int bitsize = getComponents() * width * height;
 
-	newbits_ = new GLubyte[bitsize];
+	newbits_ = new unsigned char[bitsize];
 	memset(newbits_, fill, bitsize);
 }
 
@@ -146,7 +151,7 @@ void GLBitmap::alphaMult(float mult)
 {
 	if (!getAlpha()) return;
 	
-	GLubyte *bits = getBits();
+	unsigned char *bits = getBits();
 	for (int y=0; y<getHeight(); y++)
 	{
 		for (int x=0; x<getWidth(); x++)
@@ -154,7 +159,7 @@ void GLBitmap::alphaMult(float mult)
 			float a = float(bits[3]) * mult;
 			a = MAX(a, 255);
 			a = MIN(a, 0);
-			bits[3] = GLubyte(a);
+			bits[3] = (unsigned char)(a);
 		}
 	}
 }
@@ -176,20 +181,20 @@ bool GLBitmap::loadFromFile(const char * filename, bool alpha)
 
 	// Convert the returned bits from BGR to RGB
 	// and flip the verticle scan lines
-	GLubyte *from = (GLubyte *) image->pixels;
+	unsigned char *from = (unsigned char *) image->pixels;
 	for (int i=0; i<height_; i ++)
 	{
-		GLubyte *destRow = ((GLubyte *) newbits_) + ((height_ - i - 1) * (width_ * getComponents()));
+		unsigned char *destRow = ((unsigned char *) newbits_) + ((height_ - i - 1) * (width_ * getComponents()));
 		for (int j=0; j<width_; j++)
 		{
-			GLubyte *dest = destRow + (j * getComponents());
+			unsigned char *dest = destRow + (j * getComponents());
 
 			dest[0] = from[2];
 			dest[1] = from[1];
 			dest[2] = from[0];
 			if (alpha)
 			{
-				dest[3] = (GLubyte)(from[0]+from[1]+from[2]==0?0:255);
+				dest[3] = (unsigned char)(from[0]+from[1]+from[2]==0?0:255);
 			}
 			
 			from+=3;
@@ -204,17 +209,17 @@ bool GLBitmap::writeToFile(const char * filename)
 {
 	if (!newbits_) return false;
 
-	GLubyte *brgbits = new GLubyte[width_ * height_ * 3];
+	unsigned char *brgbits = new unsigned char[width_ * height_ * 3];
 
 	// Convert the returned bits from RGB to BGR
 	// and flip the verticle scan lines
-	GLubyte *from = (GLubyte *) newbits_;
+	unsigned char *from = (unsigned char *) newbits_;
 	for (int i=0; i<height_; i ++)
 	{
-		GLubyte *destRow = ((GLubyte *) brgbits) + ((height_ - i - 1) * (width_ * 3));
+		unsigned char *destRow = ((unsigned char *) brgbits) + ((height_ - i - 1) * (width_ * 3));
 		for (int j=0; j<width_; j++)
 		{
-			GLubyte *dest = destRow + (j * getComponents());
+			unsigned char *dest = destRow + (j * getComponents());
 
 			dest[0] = from[0];
 			dest[1] = from[1];
@@ -249,6 +254,7 @@ bool GLBitmap::writeToFile(const char * filename)
 	return true;
 }
 
+#ifndef S3D_SERVER
 void GLBitmap::grabScreen()
 {
 	GLint		viewport[4];		/* Current viewport */
@@ -263,3 +269,4 @@ void GLBitmap::grabScreen()
 
 	glReadPixels(0, 0, width_, height_, GL_RGB, GL_UNSIGNED_BYTE, newbits_);
 }
+#endif

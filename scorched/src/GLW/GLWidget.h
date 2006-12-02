@@ -25,7 +25,7 @@
 #include <common/KeyboardHistory.h>
 
 class XMLNode;
-class GLWTip;
+class ToolTip;
 class GLWPanel;
 
 /**
@@ -55,7 +55,7 @@ public:
 	// Accessors
 	unsigned int getId() { return id_; }
 	virtual bool initFromXML(XMLNode *node);
-	virtual void setToolTip(GLWTip *tooltip) { tooltip_ = tooltip; }
+	virtual void setToolTip(ToolTip *tooltip) { tooltip_ = tooltip; }
 	virtual void setParent(GLWPanel *parent);
 	virtual GLWPanel *getParent() { return parent_; }
 	virtual void layout();
@@ -90,7 +90,7 @@ protected:
 	std::string name_;
 	unsigned int id_;
 	float x_, y_, w_, h_;
-	GLWTip *tooltip_;
+	ToolTip *tooltip_;
 	bool tooltipTransparent_;
 	bool visible_;
 	GLWPanel *parent_;

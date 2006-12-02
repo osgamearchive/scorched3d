@@ -21,10 +21,11 @@
 #include <actions/Resurrection.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
-#include <landscape/DeformLandscape.h>
+#include <landscapemap/DeformLandscape.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 
 REGISTER_ACTION_SOURCE(Resurrection);
 
@@ -56,6 +57,7 @@ void Resurrection::simulate(float frameTime, bool &remove)
 	Tank *tank = context_->tankContainer->getTankById(playerId_);
 	if (tank)
 	{
+#ifndef S3D_SERVER
 		if (!context_->serverMode)
 		{
 			LoggerInfo info(LoggerInfo::TypeDeath,
@@ -65,6 +67,7 @@ void Resurrection::simulate(float frameTime, bool &remove)
 			info.setPlayerId(playerId_);
 			Logger::log(info);
 		}
+#endif
 
 		// Rez this tank
 		tank->rezTank();

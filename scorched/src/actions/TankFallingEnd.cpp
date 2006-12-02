@@ -23,10 +23,13 @@
 #include <common/OptionsGame.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Parachute.h>
-#include <landscape/DeformLandscape.h>
+#include <landscapemap/DeformLandscape.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
+#include <target/TargetParachute.h>
+#include <target/TargetState.h>
 #include <tank/Tank.h>
+#include <tank/TankAccessories.h>
 
 REGISTER_ACTION_SOURCE(TankFallingEnd);
 
@@ -66,6 +69,14 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 {
 	Target *current = 
 		context_->targetContainer->getTargetById(fallingPlayerId_);
+	if (current)
+	{
+		if (current->getTargetState().getFalling())
+		{
+			current->getTargetState().getFalling()->remove();
+		}
+	}
+
 	if (current && current->getAlive())
 	{
 		// Find how far we have falled to get the total damage
@@ -104,7 +115,12 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 
 		// Move the tank to the final position
 		current->setTargetPosition(endPosition_);
-		DeformLandscape::flattenArea(*context_, endPosition_, 0);
+
+		// Flatten the area around tanks
+		if (!current->isTarget())
+		{
+			DeformLandscape::flattenArea(*context_, endPosition_, 0);
+		}
 
 		// Add the damage to the tank
 		TargetDamageCalc::damageTarget(
@@ -114,12 +130,6 @@ void TankFallingEnd::simulate(float frameTime, bool &remove)
 			false, false, false, data_);
 	}
 
-	std::map<unsigned int, TankFalling *>::iterator findItor =
-		TankFalling::fallingTanks.find(fallingPlayerId_);
-	if (findItor != TankFalling::fallingTanks.end())
-	{
-		(*findItor).second->remove();
-	}
 	remove=true;
 }
 

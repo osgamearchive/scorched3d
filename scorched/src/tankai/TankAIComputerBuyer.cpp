@@ -24,6 +24,8 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <tank/Tank.h>
+#include <tank/TankScore.h>
+#include <tank/TankAccessories.h>
 #include <math.h>
 
 TankAIComputerBuyer::Entry::Entry(const Entry &other)

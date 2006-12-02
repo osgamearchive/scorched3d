@@ -23,6 +23,11 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankAccessories.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
+#include <target/TargetParachute.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <coms/ComsDefenseMessage.h>

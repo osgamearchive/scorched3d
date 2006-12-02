@@ -20,8 +20,8 @@
 
 #include <engine/ScorchedPhysicsEngine.h>
 #include <engine/ScorchedCollisionHandler.h>
-#include <landscape/HeightMapCollision.h>
-#include <landscape/SkyRoofCollision.h>
+#include <landscapemap/HeightMapCollision.h>
+#include <landscapemap/SkyRoofCollision.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 

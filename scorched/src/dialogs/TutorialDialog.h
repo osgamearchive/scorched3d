@@ -24,7 +24,7 @@
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWListView.h>
 #include <GLEXT/GLTexture.h>
-#include <client/TutorialFile.h>
+#include <graph/TutorialFile.h>
 
 class TutorialDialog : 
 	public GLWWindow,

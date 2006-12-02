@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankModelContainer.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <engine/ScorchedContext.h>
 #include <common/DefinesString.h>
@@ -43,12 +43,14 @@ void TankModelContainer::setTankModelName(
 	if (0 != strcmp(modelName, tankModelName_.c_str()) ||
 		0 != strcmp(originalModelName, tankOriginalModelName_.c_str()))
 	{
+#ifndef S3D_SERVER
 		if (tank_->getRenderer())
 		{
 			TargetRendererImplTank *renderer = (TargetRendererImplTank *)
 				tank_->getRenderer();
 			renderer->resetModel();
 		}
+#endif
 	}
 
 	tankModelName_ = modelName;

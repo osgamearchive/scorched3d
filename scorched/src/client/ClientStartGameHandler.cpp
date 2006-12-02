@@ -23,9 +23,10 @@
 #include <client/ClientNewGameHandler.h>
 #include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
+#include <tank/TankAccessories.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>

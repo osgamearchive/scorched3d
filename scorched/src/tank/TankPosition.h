@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_TankPositionh_INCLUDE__)
 #define __INCLUDE_TankPositionh_INCLUDE__
 
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 #include <vector>
 
 class Tank;

@@ -257,7 +257,7 @@ bool ServerWebServer::validateUser(
 	std::map<std::string, std::string> &fields)
 {
 	const unsigned int SessionTimeOut = 60 * 15;
-	unsigned int currentTime = time(0);
+	unsigned int currentTime = (unsigned int) time(0);
 
 	// Tidy expired sessions
 	std::map <unsigned int, SessionParams>::iterator sitor;

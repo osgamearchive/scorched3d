@@ -20,8 +20,8 @@
 
 #include <weapons/WeaponLeapFrog.h>
 #include <weapons/AccessoryStore.h>
-#include <landscape/LandscapeMaps.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/HeightMap.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 

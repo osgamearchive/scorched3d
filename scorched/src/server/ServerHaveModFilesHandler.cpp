@@ -23,10 +23,10 @@
 #include <server/ServerCommon.h>
 #include <engine/ModFiles.h>
 #include <coms/ComsHaveModFilesMessage.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <tank/TankMod.h>
 #include <tank/TankContainer.h>
 #include <time.h>
 
@@ -114,7 +114,8 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		ServerCommon::sendString(destinationId, 
 			"No mod files need downloading", false);
 	}
-	else if (OptionsParam::instance()->getSinglePlayer())
+#ifndef S3D_SERVER
+	else
 	{
 		// Do a sanity check that single player games don't need to download
 		// any mod files.  As the server and client is the same process and
@@ -122,6 +123,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 		dialogExit("ModFiles",
 			"ERROR: Single player client required mod files");
 	}
+#else
 	else if (ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed() == 0)
 	{
 		// If this server does not allow file downloads tell the client
@@ -133,7 +135,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			"You must download and install this mod before you\n"
 			"can connect to this server.",
 			ScorchedServer::instance()->getOptionsGame().getMod()), false);
-		ServerCommon::kickDestination(destinationId, true);
+		ServerCommon::kickDestination(destinationId);
 	}
 	else 
 	{
@@ -157,6 +159,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 			timeMinutes,
 			timeSeconds), false);
 	}
+#endif
 
 	// Set the files to download in this tanks profile
 	std::map<unsigned int, Tank *> &tanks = 

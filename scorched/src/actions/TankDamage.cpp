@@ -23,18 +23,25 @@
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/LoggerI.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
+#include <tank/TankScore.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
+#include <tankai/TankAI.h>
+#include <target/TargetShield.h>
+#include <target/TargetLife.h>
+#include <target/TargetParachute.h>
+#include <target/TargetState.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
@@ -113,7 +120,9 @@ void TankDamage::calculateDamage()
 	// Remove the remaining damage from the tank
 	if (damage_ > 0.0f && !shieldOnlyDamage_)
 	{
-		if (!context_->serverMode)
+#ifndef S3D_SERVER
+		if (!context_->serverMode &&
+			damagedTarget->getTargetState().getDisplayDamage())
 		{
 			Vector position = damagedTarget->getTargetPosition();
 			position[0] += RAND * 5.0f - 2.5f;
@@ -128,6 +137,7 @@ void TankDamage::calculateDamage()
 						redColor,
 						formatString("%.0f", damage_))));
 		}
+#endif // #ifndef S3D_SERVER
 
 		// Remove the life
 		if (damage_ > damagedTarget->getLife().getLife()) damage_ = 
@@ -308,9 +318,7 @@ void TankDamage::calculateDamage()
 			getInterpHeight(position[0], position[1]) < position[2])
 		{
 			// Check this tank is not already falling
-			std::map<unsigned int, TankFalling *>::iterator findItor =
-				TankFalling::fallingTanks.find(damagedPlayerId_);
-			if (findItor == TankFalling::fallingTanks.end())
+			if (!damagedTarget->getTargetState().getFalling())
 			{
 				Parachute *parachute = 0;
 				Accessory *paraAccessory = 
@@ -329,7 +337,7 @@ void TankDamage::calculateDamage()
 	}
 
 	// Remove from groups
-	context_->landscapeMaps->getGroundMaps().getObjects().
+	context_->landscapeMaps->getGroundMaps().getGroups().
 		removeFromGroups(&damagedTarget->getGroup());	
 
 	// DO LAST
@@ -374,6 +382,7 @@ void TankDamage::logDeath()
 
 	// Print the banner on who killed who
 	GLTexture *weaponTexture = 0;
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		Accessory *accessory = 
@@ -384,22 +393,21 @@ void TankDamage::logDeath()
 			weaponTexture = accessory->getTexture();
 		}
 	}
+#endif // #ifndef S3D_SERVER
 
 	Tank *killedTank = (Tank *) killedTarget;
 	Tank *firedTank = 
 		context_->tankContainer->getTankById(firedPlayerId_);
 	if (firedTank)
 	{
-		if (!context_->serverMode ||
-			OptionsParam::instance()->getDedicatedServer())
+		if (damagedPlayerId_ == firedPlayerId_)
 		{
-			if (damagedPlayerId_ == firedPlayerId_)
+			StatsLogger::instance()->
+				tankSelfKilled(firedTank, weapon_);
+			StatsLogger::instance()->
+				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+			if (!context_->serverMode)
 			{
-				StatsLogger::instance()->
-					tankSelfKilled(firedTank, weapon_);
-				StatsLogger::instance()->
-					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-				
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" killed self with a %s",
 						killedTank->getName(),
@@ -409,14 +417,16 @@ void TankDamage::logDeath()
 				info.setIcon(weaponTexture);
 				Logger::log(info);
 			}
-			else if ((context_->optionsGame->getTeams() > 1) &&
-					(firedTank->getTeam() == killedTank->getTeam())) 
+		}
+		else if ((context_->optionsGame->getTeams() > 1) &&
+				(firedTank->getTeam() == killedTank->getTeam())) 
+		{
+			StatsLogger::instance()->
+				tankTeamKilled(firedTank, killedTank, weapon_);
+			StatsLogger::instance()->
+				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+			if (!context_->serverMode)
 			{
-				StatsLogger::instance()->
-					tankTeamKilled(firedTank, killedTank, weapon_);
-				StatsLogger::instance()->
-					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" team killed \"%s\" with a %s",
 						firedTank->getName(),
@@ -427,13 +437,15 @@ void TankDamage::logDeath()
 				info.setIcon(weaponTexture);
 				Logger::log(info);
 			}
-			else
+		}
+		else
+		{
+			StatsLogger::instance()->
+				tankKilled(firedTank, killedTank, weapon_);
+			StatsLogger::instance()->
+				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+			if (!context_->serverMode)
 			{
-				StatsLogger::instance()->
-					tankKilled(firedTank, killedTank, weapon_);
-				StatsLogger::instance()->
-					weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" %skilled \"%s\" with a %s",
 					firedTank->getName(),
@@ -449,17 +461,15 @@ void TankDamage::logDeath()
 	}
 	else if (firedPlayerId_ == 0)
 	{
-		if (!context_->serverMode ||
-			OptionsParam::instance()->getDedicatedServer())
+		static Tank firedTank(*context_, 0, 0, "Environment", 
+			Vector::nullVector, "", "");
+		firedTank.setUniqueId("Environment");
+		StatsLogger::instance()->
+			tankKilled(&firedTank, killedTank, weapon_); 
+		StatsLogger::instance()->
+			weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+		if (!context_->serverMode)
 		{
-			static Tank firedTank(*context_, 0, 0, "Environment", 
-				Vector::nullVector, "", "");
-			firedTank.setUniqueId("Environment");
-			StatsLogger::instance()->
-				tankKilled(&firedTank, killedTank, weapon_); 
-			StatsLogger::instance()->
-				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
-
 			LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" %skilled \"%s\" with a \"%s\"",
 				firedTank.getName(),

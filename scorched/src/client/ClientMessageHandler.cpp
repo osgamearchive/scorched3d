@@ -24,7 +24,7 @@
 #include <dialogs/ConnectDialog.h>
 #include <tank/TankContainer.h>
 #include <common/Logger.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 
 ClientMessageHandler *ClientMessageHandler::instance_ = 0;
 

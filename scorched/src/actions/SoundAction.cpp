@@ -42,6 +42,7 @@ void SoundAction::init()
 
 void SoundAction::simulate(float frameTime, bool &remove)
 {
+#ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
 		SoundBuffer *activateSound = 
@@ -57,6 +58,7 @@ void SoundAction::simulate(float frameTime, bool &remove)
 		source->setRolloff(weapon_->getRolloff());
 		source->play(activateSound);
 	}
+#endif // #ifndef S3D_SERVER
 
 	remove = true;
 	Action::simulate(frameTime, remove);

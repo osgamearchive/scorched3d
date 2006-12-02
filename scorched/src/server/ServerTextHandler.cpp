@@ -23,6 +23,7 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/Logger.h>

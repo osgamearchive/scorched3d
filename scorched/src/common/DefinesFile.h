@@ -29,5 +29,6 @@ extern bool s3d_dirExists(const char *file);
 extern bool s3d_dirMake(const char *file);
 extern time_t s3d_fileModTime(const char *file);
 extern char *s3d_getHomeDir();
+extern char *s3d_getOSDesc();
 
 #endif // __DEFINESFILE__

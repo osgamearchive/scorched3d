@@ -1167,6 +1167,22 @@ trace of the shot path.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>DriveOverDestroy</name>
+		<armslevel>0</armslevel>
+		<description>The explosion seen when tanks drive over objects</description>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponExplosion'>
+			<hurtamount>0.0</hurtamount>
+			<nocreatedebris></nocreatedebris>
+			<nocreatesplash></nocreatesplash>
+			<deform>none</deform>
+			<size>1</size>
+			<noluminance></noluminance>
+			<explosiontexture>smoke</explosiontexture>
+			<explosionsound>none</explosionsound>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Lightning</name>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>

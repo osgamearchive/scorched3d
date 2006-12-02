@@ -22,7 +22,7 @@
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <client/ScorchedClient.h>
-#include <client/Main2DCamera.h>
+#include <graph/Main2DCamera.h>
 #include <client/ClientMain.h>
 #include <engine/MainLoop.h>
 #include <common/Clock.h>

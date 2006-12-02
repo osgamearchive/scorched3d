@@ -20,10 +20,10 @@
 
 #include <math.h>
 #include <tankgraph/MissileMesh.h>
-#include <3dsparse/ModelRenderer.h>
+#include <graph/ModelRenderer.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <landscape/Landscape.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h> // For porting
 

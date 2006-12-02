@@ -23,9 +23,11 @@
 #include <GLW/GLWToolTip.h>
 #include <GLEXT/GLState.h>
 #include <common/Keyboard.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
 
 REGISTER_CLASS_SOURCE(GLWTracker);
 
@@ -83,7 +85,7 @@ GLWTankTracker::GLWTankTracker() :
 	GLWTracker(0.0f, 0.0f, 0.0f, 100.0f)
 {
 	setHandler(this);
-	setToolTip(new GLWTip("Rotation/Elevation",
+	setToolTip(new ToolTip("Rotation/Elevation",
 		"Change the rotation and elevation of the\n"
 		"current tank by clicking with the left\n"
 		"mouse button and dragging up and down,\n"

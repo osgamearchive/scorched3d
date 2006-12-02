@@ -24,13 +24,14 @@
 #include <tankai/TankAIStrings.h>
 #include <tank/TankColorGenerator.h>
 #include <tank/TankContainer.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankAvatar.h>
+#include <tank/TankModelContainer.h>
 #include <server/ServerState.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
@@ -143,7 +144,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 			tankModel->getName(),
 			tankModel->getTypeName());
 
-		tank->getAvatar().loadFromFile("computer.gif");
+		tank->getAvatar().loadFromFile("computer.png");
 		tank->setUniqueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
 		context.getTankContainer().addTank(tank);
@@ -153,15 +154,12 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 			tank->setTeam(team);
 		}
 
-		if (OptionsParam::instance()->getDedicatedServer())
-		{
-			Logger::log(
-				formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
-				tank->getDestinationId(),
-				tank->getPlayerId(),
-				tank->getName(),
-				tank->getUniqueId()));
-		}
+		Logger::log(
+			formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
+			tank->getDestinationId(),
+			tank->getPlayerId(),
+			tank->getName(),
+			tank->getUniqueId()));
 
 		StatsLogger::instance()->tankConnected(tank);
 		StatsLogger::instance()->tankJoined(tank);

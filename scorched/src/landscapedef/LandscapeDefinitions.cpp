@@ -27,43 +27,11 @@
 #include <landscapedef/LandscapeShips.h>
 #include <landscapedef/LandscapeEvents.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
-bool LandscapeDefinitionsEntry::readXML(LandscapeDefinitions *definitions, XMLNode *node)
-{
-	if (!node->getNamedChild("name", name)) return false;
-	if (!node->getNamedChild("weight", weight)) return false;
-	if (!node->getNamedChild("description", description)) return false;
-	if (!node->getNamedChild("picture", picture)) return false;
-
-	XMLNode *tex, *defn, *tmp;
-	if (!node->getNamedChild("defn", defn)) return false;
-	while (defn->getNamedChild("item", tmp, false, true))
-	{
-		const char *landscapeDefnFile = tmp->getContent();
-		LandscapeDefn *landscapeDefn = 
-			definitions->getDefn(landscapeDefnFile, true);
-		if (!landscapeDefn) return false;
-		defns.push_back(landscapeDefnFile);
-	}
-	if (!node->getNamedChild("tex", tex)) return false;
-	while (tex->getNamedChild("item", tmp, false, true))
-	{
-		const char *landscapeTexFile = tmp->getContent();
-		LandscapeTex *landscapeTex = 
-			definitions->getTex(landscapeTexFile, true);
-		if (!landscapeTex) return false;
-		texs.push_back(landscapeTexFile);
-	}
-
-	DIALOG_ASSERT(!texs.empty() && !defns.empty());
-	return node->failChildren();
-}
 
 LandscapeDefinitions::LandscapeDefinitions() :
 	lastDefinition_(0),
@@ -83,7 +51,8 @@ LandscapeDefinitions::~LandscapeDefinitions()
 
 void LandscapeDefinitions::clearLandscapeDefinitions()
 {
-	entries_.clear();
+	LandscapeDefinitionsBase::clearLandscapeDefinitions();
+
 	defns_.clearItems();
 	texs_.clearItems();
 	sounds_.clearItems();
@@ -130,61 +99,40 @@ LandscapeDefn *LandscapeDefinitions::getDefn(const char *file, bool load)
 
 bool LandscapeDefinitions::readLandscapeDefinitions()
 {
-	// Load landscape definition file
-	XMLFile file;
-	if (!file.readFile(getDataFile("data/landscapes.xml")) ||
-		!file.getRootNode())
-	{
-		dialogMessage("Scorched Landscape", formatString(
-					  "Failed to parse \"data/landscapes.xml\"\n%s", 
-					  file.getParserError()));
-		return false;
-	}
+	// Parse base landscape information
+	if (!LandscapeDefinitionsBase::readLandscapeDefinitions()) return false;
 
-	// Itterate all of the landscapes in the file
-	std::list<XMLNode *>::iterator childrenItor;
-		std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-	for (childrenItor = children.begin();
-		childrenItor != children.end();
-		childrenItor++)
-	{
-		LandscapeDefinitionsEntry newDefn;
-		if (!newDefn.readXML(this, *childrenItor)) return false;
-		entries_.push_back(newDefn);
-	}
-	return true;
-}
-
-bool LandscapeDefinitions::landscapeEnabled(OptionsGame &context, 
-											const char *name)
-{
-	std::string landscapes = context.getLandscapes();
-	if (landscapes.empty()) return true; // Default un-initialized state
-
-	char *token = strtok((char *) landscapes.c_str(), ":");
-	while(token != 0)
-	{
-		if (0 == strcmp(token, name)) return true;
-		token = strtok(0, ":");
-	}
-	return false;
-}
-
-LandscapeDefinitionsEntry *LandscapeDefinitions::getLandscapeByName(
-	const char *name)
-{
+	// Now check that the landscape tex and defn files parse correctly
 	std::list<LandscapeDefinitionsEntry>::iterator itor;
 	for (itor = entries_.begin();
 		itor != entries_.end();
 		itor++)
 	{
-		LandscapeDefinitionsEntry &result = *itor;
-		if (0 == strcmp(name, result.name.c_str()))
+		LandscapeDefinitionsEntry &entry = (*itor);
+		std::vector<std::string>::iterator itor2;
+
+		std::vector<std::string> &defns = entry.defns;
+		for (itor2 = defns.begin();
+			itor2 != defns.end();
+			itor2++)
 		{
-			return &result;
+			const char *landscapeDefnFile = (*itor2).c_str();
+			LandscapeDefn *landscapeDefn = getDefn(landscapeDefnFile, true);
+			if (!landscapeDefn) return false;
+		}
+
+		std::vector<std::string> &texs = entry.texs;
+		for (itor2 = texs.begin();
+			itor2 != texs.end();
+			itor2++)
+		{
+			const char *landscapeTexFile = (*itor2).c_str();
+			LandscapeTex *landscapeTex = getTex(landscapeTexFile, true);
+			if (!landscapeTex) return false;
 		}
 	}
-	return 0;
+
+	return true;
 }
 
 const char *LandscapeDefinitions::getLeastUsedFile(std::vector<std::string> &files)
@@ -316,10 +264,6 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	std::string tex = getLeastUsedFile(result->texs);
 	std::string defn = getLeastUsedFile(result->defns);
 	unsigned int seed = (unsigned int) rand();
-	if (OptionsParam::instance()->getSeed() != 0)
-	{
-		seed = (unsigned int) OptionsParam::instance()->getSeed();
-	}
 
 	LandscapeDefinition entry(
 		tex.c_str(), defn.c_str(), seed, result->name.c_str());

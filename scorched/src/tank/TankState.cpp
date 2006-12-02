@@ -20,9 +20,12 @@
 
 #include <stdio.h>
 #include <tank/Tank.h>
+#include <tank/TankState.h>
 #include <tank/TankAdmin.h>
+#include <target/TargetLife.h>
+#include <target/TargetShield.h>
+#include <target/TargetState.h>
 #include <engine/ScorchedContext.h>
-#include <common/OptionsDisplay.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 
@@ -56,6 +59,7 @@ void TankState::newGame()
 	}
 
 	lives_ = maxLives_;
+	tank_->getTargetState().setFalling(0);
 }
 
 void TankState::clientNewGame()

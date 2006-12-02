@@ -21,17 +21,17 @@
 #include <client/ClientInitializeHandler.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
-#include <client/WindowSetup.h>
+#include <graph/WindowSetup.h>
 #include <sprites/ExplosionTextures.h>
 #include <server/ScorchedServer.h>
 #include <weapons/AccessoryStore.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsParam.h>
+#include <client/ClientParams.h>
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
 #include <engine/ModFiles.h>
 #include <coms/ComsInitializeMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -120,7 +120,7 @@ bool ClientInitializeHandler::initialize()
 	GLWWindowManager::instance()->loadPositions();		
 
 	// Move into the player setup state
-	if (OptionsParam::instance()->getSaveFile()[0])
+	if (ClientParams::instance()->getSaveFile()[0])
 	{
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimLoadPlayers);
 	}

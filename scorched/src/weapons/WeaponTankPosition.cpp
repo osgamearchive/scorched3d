@@ -21,6 +21,8 @@
 #include <weapons/WeaponTankPosition.h>
 #include <weapons/AccessoryStore.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tank/TankPosition.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponTankPosition);
 

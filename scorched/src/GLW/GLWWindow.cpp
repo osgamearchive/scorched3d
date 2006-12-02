@@ -27,7 +27,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 
 static const float roundSize = 20.0f;
 static const float smallRoundSize = 10.0f;
@@ -201,7 +201,7 @@ void GLWWindow::drawMaximizedWindow()
 				float sizeX = 20.0f;
 				float sizeY = 20.0f;
 
-				static GLWTip moveTip("Move",
+				static ToolTip moveTip("Move",
 					"Left click and drag to move the window.");
 				GLWToolTip::instance()->addToolTip(&moveTip, 
 					x_, y_ + h_ - sizeY, sizeX, sizeY);

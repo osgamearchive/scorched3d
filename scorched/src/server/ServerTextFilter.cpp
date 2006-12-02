@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/filefn.h>
 #include <vector>
 #include <server/ServerTextFilter.h>
 #include <server/ScorchedServer.h>

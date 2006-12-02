@@ -27,16 +27,17 @@
 #include <server/ServerCommon.h>
 #include <tank/TankColorGenerator.h>
 #include <tank/TankContainer.h>
+#include <tank/TankModelContainer.h>
+#include <tank/TankAvatar.h>
+#include <tank/TankState.h>
 #include <tankai/TankAIAdder.h>
 #include <tankai/TankAIStrings.h>
-#include <GLEXT/GLGif.h>
-#include <common/OptionsParam.h>
 #include <common/Defines.h>
 #include <common/FileLines.h>
 #include <common/OptionsGame.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsConnectAcceptMessage.h>
@@ -70,7 +71,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 {
 	unsigned int ipAddress = 0;
 	// Only do this on the server, the client can have all bots
-	if (OptionsParam::instance()->getDedicatedServer())
+#ifdef S3D_SERVER
 	{
 		// First things, first
 		// Check we can actually accept the connection
@@ -82,7 +83,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 				"This server is full, you cannot join!\n"
 				"--------------------------------------------------", false);
 			ServerCommon::serverLog("Server full, kicking");
-			ServerCommon::kickDestination(destinationId, true);
+			ServerCommon::kickDestination(destinationId);
 			return true;		
 		}
 
@@ -90,6 +91,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ipAddress = ScorchedServer::instance()->getNetInterface().
 			getIpAddress(destinationId);
 	}
+#endif // S3D_SERVER
 
 	// Decode the connect message
 	ComsConnectMessage message;
@@ -117,22 +119,22 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			message.getVersion(),
 			message.getProtocolVersion()));
 
-		ServerCommon::kickDestination(destinationId, true);
+		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
 
+#ifdef S3D_SERVER
 	// Check for no players when a dedicated server is being used
-	if (message.getNoPlayers() > 1 &&
-		OptionsParam::instance()->getDedicatedServer())
+	if (message.getNoPlayers() > 1)
 	{
 		ServerCommon::serverLog(
 			formatString(
 			"Client connecting with %u players",
 			message.getNoPlayers()));
-		ServerCommon::kickDestination(destinationId, true);
+		ServerCommon::kickDestination(destinationId);
 		return true;
-
 	}
+#endif // S3D_SERVER
 
 	// Check player availability
 	if (message.getNoPlayers() > 
@@ -146,7 +148,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			"This server is full, you cannot join!\n"
 			"--------------------------------------------------"));
 		ServerCommon::serverLog("Server full, kicking");
-		ServerCommon::kickDestination(destinationId, true);
+		ServerCommon::kickDestination(destinationId);
 		return true;
 	}
 
@@ -164,7 +166,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 				"--------------------------------------------------", false);
 			Logger::log( "Player connected with an invalid password");
 			
-			ServerCommon::kickDestination(destinationId, true);
+			ServerCommon::kickDestination(destinationId);
 			return true;
 		}
 	}
@@ -200,7 +202,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			Logger::log(formatString("User failed authentication \"%s\" [%s]",
 				message.getUserName(), uniqueId.c_str()));
 
-			ServerCommon::kickDestination(destinationId, true);			
+			ServerCommon::kickDestination(destinationId);			
 			return true;
 		}
 	}
@@ -247,24 +249,25 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 		ScorchedServer::instance()->getOptionsGame().getServerName(),
 		ScorchedServer::instance()->getOptionsGame().getPublishAddress(),
 		uniqueId.c_str());
-	// Add the connection gif
-	if (OptionsParam::instance()->getDedicatedServer())
+	// Add the connection png
+#ifdef S3D_SERVER
 	{
 		const char *fileName = 
-			getSettingsFile(formatString("icon-%i.gif",
+			getSettingsFile(formatString("icon-%i.png",
 				ScorchedServer::instance()->getOptionsGame().getPortNo()));
 		FILE *in = fopen(fileName, "rb");
 		if (in)
 		{
-			acceptMessage.getServerGif().reset();
+			acceptMessage.getServerPng().reset();
 			unsigned char readBuf[512];
 			while (unsigned int size = fread(readBuf, sizeof(unsigned char), 512, in))
 			{
-				acceptMessage.getServerGif().addDataToBuffer(readBuf, size);
+				acceptMessage.getServerPng().addDataToBuffer(readBuf, size);
 			}
 			fclose(in);
 		}
 	}
+#endif
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
 		Logger::log(formatString(
@@ -314,7 +317,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 	// Add a spectator that will always remain a spectator
 	// this is so if we only have computer players we still
 	// send messages to them
-	if (!OptionsParam::instance()->getDedicatedServer())
+#ifndef S3D_SERVER
 	{
 		addNextTank(destinationId,
 			ipAddress,
@@ -322,6 +325,7 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			message.getHostDesc(),
 			true);
 	}
+#endif
 
 	// Send the state of all the currently connect clients
 	ComsPlayerStateMessage comsPlayerStateMessage(true);
@@ -401,7 +405,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	ComsMessageSender::sendToAllConnectedClients(addPlayerMessage);
 
 	// Tell this computer that a new tank has connected
-	if (OptionsParam::instance()->getDedicatedServer())
+#ifdef S3D_SERVER
 	{
 		// Add to dialog
 		Logger::log(formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
@@ -413,6 +417,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		ServerCommon::sendString(0, formatString("Player connected \"%s\"",
 			tank->getName()));
 	}
+#endif
 
 	// Add this tank to stats
 	StatsLogger::instance()->tankConnected(tank);

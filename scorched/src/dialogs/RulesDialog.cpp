@@ -24,7 +24,7 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
 #include <tank/TankContainer.h>
-#include <common/OptionsParam.h>
+#include <client/ClientParams.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
@@ -193,10 +193,6 @@ void RulesDialog::buttonDown(unsigned int id)
 void RulesDialog::display()
 {
 	GLWWindow::display();
-	if (OptionsParam::instance()->getScreenSaverMode())
-	{
-		GLWWindowManager::instance()->hideWindow(getId());
-	}
 }
 
 void RulesDialog::hide()

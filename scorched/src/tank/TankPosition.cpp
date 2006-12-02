@@ -21,12 +21,14 @@
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
 #include <tank/TankType.h>
-#include <tankgraph/TankModelStore.h>
+#include <tank/TankModelStore.h>
+#include <tank/TankPosition.h>
+#include <tank/TankModelContainer.h>
+#include <target/TargetLife.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
 #include <common/OptionsGame.h>
-#include <common/OptionsDisplay.h>
 
 TankPosition::TankPosition(ScorchedContext &context) :
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),
@@ -215,18 +217,9 @@ const char *TankPosition::getRotationString()
 	static char messageBuffer[255];
 	float rotDiff = getRotationXYDiff();
 
-	if (OptionsDisplay::instance()->getUseHexidecimal())
-	{
-		snprintf(messageBuffer, 255, "0x%x (0x%x)", 
-				int(360.0f - getRotationGunXY()),
-				int(rotDiff));
-	}
-	else
-	{
-		snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
-				360.0f - getRotationGunXY(),
-				rotDiff);
-	}
+	snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
+			360.0f - getRotationGunXY(),
+			rotDiff);
 
 	return messageBuffer;
 }
@@ -236,18 +229,9 @@ const char *TankPosition::getElevationString()
 	static char messageBuffer[255];
 	float rotDiff = getRotationYZDiff();
 
-	if (OptionsDisplay::instance()->getUseHexidecimal())
-	{
-		snprintf(messageBuffer, 255, "0x%x (0X%x)", 
-				int(getRotationGunYZ()),
-				int(rotDiff));
-	}
-	else
-	{
-		snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
-				getRotationGunYZ(),
-				rotDiff);
-	}
+	snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
+			getRotationGunYZ(),
+			rotDiff);
 	return messageBuffer;
 }
 
@@ -256,19 +240,9 @@ const char *TankPosition::getPowerString()
 	static char messageBuffer[255];
 	float powDiff = getPowerDiff();
 
-	if (OptionsDisplay::instance()->getUseHexidecimal())
-	{
-		snprintf(messageBuffer, 255, "0X%x (0X%x)", 		
-				int(getPower()),
-				int(powDiff));
-	}
-	else
-	{
-		snprintf(messageBuffer, 255, "%.1f (%+.1f)", 		
-				getPower(),
-				powDiff);
-	}
-
+	snprintf(messageBuffer, 255, "%.1f (%+.1f)", 		
+			getPower(),
+			powDiff);
 	return messageBuffer;
 }
 

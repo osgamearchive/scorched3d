@@ -21,7 +21,7 @@
 #include <GLEXT/GLMenuI.h>
 
 GLMenuItem::GLMenuItem(const char *text, 
-	GLWTip *tooltip, 
+	ToolTip *tooltip, 
 	bool selected,
 	GLTexture *texture,
 	void *userData) : 

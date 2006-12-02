@@ -22,7 +22,7 @@
 #include <client/ScorchedClient.h>
 #include <tank/TankContainer.h>
 #include <engine/ActionController.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/Landscape.h>
 #include <landscape/PatchGrid.h>
 #include <coms/ComsGameStateMessage.h>

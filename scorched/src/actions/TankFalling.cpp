@@ -21,14 +21,13 @@
 #include <actions/TankFalling.h>
 #include <actions/TankFallingEnd.h>
 #include <target/TargetContainer.h>
+#include <target/TargetState.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Parachute.h>
 
 REGISTER_ACTION_SOURCE(TankFalling);
-
-std::map<unsigned int, TankFalling*> TankFalling::fallingTanks;
 
 TankFallingParticle::TankFallingParticle(TankFalling *tell) : 
 	tell_(tell), collisionInfo_(CollisionIdFallingTank)
@@ -69,16 +68,26 @@ TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 
 TankFalling::~TankFalling()
 {
+	if (context_)
+	{
+		Target *target = context_->targetContainer->getTargetById(fallingPlayerId_);
+		if (target)
+		{
+			if (target->getTargetState().getFalling() == this)
+			{
+				target->getTargetState().setFalling(0);
+			}
+		}
+	}
 }
 
 void TankFalling::init()
 {
 	Target *current = 
 		context_->targetContainer->getTargetById(fallingPlayerId_);
-	if (current && 
-		fallingTanks.find(fallingPlayerId_) == fallingTanks.end())
+	if (current && !current->getTargetState().getFalling())
 	{
-		fallingTanks[fallingPlayerId_] = this;
+		current->getTargetState().setFalling(this);
 
 		// Store the start positions
 		tankStartPosition_ = current->getTargetPosition();
@@ -229,9 +238,6 @@ void TankFalling::remove()
 		particles_.pop_front();
 		part->hadCollision();
 	}
-
-	// Remove the fact we are falling
-	TankFalling::fallingTanks.erase(fallingPlayerId_);
 
 	// This is the end of falling
 	remove_ = true;

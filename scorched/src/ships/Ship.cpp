@@ -26,7 +26,7 @@
 #include <landscape/Landscape.h>
 #include <landscape/Water.h>
 #include <common/Defines.h>
-#include <common/OptionsDisplay.h>
+#include <graph/OptionsDisplay.h>
 #include <math.h>
 
 Ship::Ship(LandscapeShip *texShip)

@@ -21,10 +21,12 @@
 #if !defined(__INCLUDE_TargetGroupEntryh_INCLUDE__)
 #define __INCLUDE_TargetGroupEntryh_INCLUDE__
 
-#include <landscape/LandscapeObjectsEntry.h>
+#include <common/Vector.h>
+#include <vector>
 
+class TargetGroupsGroupEntry;
 class Target;
-class TargetGroupEntry : public LandscapeObjectEntryBase
+class TargetGroupEntry
 {
 public:
 	TargetGroupEntry();
@@ -32,7 +34,8 @@ public:
 
 	void setTarget(Target *target);
 
-	virtual Vector &getPosition();
+	std::vector<TargetGroupsGroupEntry *> groups;
+	Vector &getPosition();
 
 protected:
 	Target *target_;

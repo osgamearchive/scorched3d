@@ -19,8 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscapedef/LandscapeEvents.h>
-#include <landscape/LandscapeMaps.h>
-#include <landscape/LandscapeObjects.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
 #include <XML/XMLNode.h>
@@ -76,8 +75,8 @@ bool LandscapeConditionGroupSize::fireEvent(ScorchedContext &context,
 {
 	if (eventNumber == 1) // i.e. the first event
 	{
-		LandscapeObjectsGroupEntry *groupEntry =
-			context.landscapeMaps->getGroundMaps().getObjects().getGroup(
+		TargetGroupsGroupEntry *groupEntry =
+			context.landscapeMaps->getGroundMaps().getGroups().getGroup(
 				groupname.c_str());
 		if (groupEntry)
 		{

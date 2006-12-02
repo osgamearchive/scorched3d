@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/LoggerI.h>
-#include <GLEXT/GLTexture.h>
 
 LoggerInfo::LoggerInfo(
 	LogType type,

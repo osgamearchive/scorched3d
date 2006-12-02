@@ -24,6 +24,7 @@
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <engine/GameState.h>
 #include <coms/ComsPlayedMoveMessage.h>
 

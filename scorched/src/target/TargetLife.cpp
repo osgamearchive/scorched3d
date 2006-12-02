@@ -71,7 +71,7 @@ void TargetLife::setSize(Vector &size)
 	size_ = size;
 	if (sphereGeom_)
 	{
-		double radius = MAX(size_[0], size_[1]) / 2.0f;
+		float radius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2.0f;
 		dGeomSphereSetRadius(targetGeom_, radius);
 	}
 	else
@@ -104,7 +104,7 @@ void TargetLife::setRotation(float rotation)
 	rotation_ = rotation;
 
 	dQuaternion q;
-	dQFromAxisAndAngle(q, 0.0, 0.0, 1.0, double(rotation_) / 180.0 * 3.14);
+	dQFromAxisAndAngle(q, 0.0, 0.0, 1.0, rotation_ / 180.0f * 3.14f);
 	dGeomSetQuaternion(targetGeom_, q);
 }
 
@@ -130,7 +130,7 @@ void TargetLife::setBoundingSphere(bool sphereGeom)
 	// The tank collision object
 	if (sphereGeom_)
 	{
-		double radius = MAX(size_[0], size_[1]) / 2.0f;
+		float radius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2.0f;
 		targetGeom_ = dCreateSphere(spaceId, radius);
 	}
 	else

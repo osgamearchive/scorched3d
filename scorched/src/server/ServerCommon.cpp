@@ -24,7 +24,9 @@
 #include <server/ServerMessageHandler.h>
 #include <server/ServerTextHandler.h>
 #include <tank/TankContainer.h>
-#include <common/OptionsParam.h>
+#include <tank/TankState.h>
+#include <tank/TankScore.h>
+#include <target/TargetLife.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
@@ -32,7 +34,7 @@
 #include <common/Defines.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/NetInterface.h>
+#include <net/NetInterface.h>
 
 static FileLogger *serverFileLogger = 0;
 
@@ -174,7 +176,7 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 	}
 }
 
-void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
+void ServerCommon::kickDestination(unsigned int destinationId)
 {
 	Logger::log(formatString("Kicking destination \"%i\"", destinationId));
 
@@ -198,7 +200,7 @@ void ServerCommon::kickDestination(unsigned int destinationId, bool delayed)
 	if (!kickedPlayers)
 	{
 		ScorchedServer::instance()->getNetInterface().
-			disconnectClient(destinationId, delayed);
+			disconnectClient(destinationId);
 	}
 }
 
@@ -311,8 +313,9 @@ void ServerCommon::startNewGame()
 
 void ServerCommon::serverLog(const char *text)
 {
-	if (OptionsParam::instance()->getDedicatedServer())
+#ifdef S3D_SERVER
 	{
 		Logger::log(text);
 	}
+#endif
 }

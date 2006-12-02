@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementTypeDirect.h>
-#include <landscape/LandscapeMaps.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
 #include <common/ProgressCounter.h>
 #include <XML/XMLParser.h>

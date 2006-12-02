@@ -24,7 +24,7 @@
 #include <list>
 #include <vector>
 #include <common/Vector.h>
-#include <3dsparse/ModelID.h>
+#include <common/ModelID.h>
 
 class LandscapeDefinitions;
 class LandscapeShip

@@ -24,7 +24,7 @@
 #include <map>
 #include <list>
 #include <string>
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 
 class ScorchedContext;
 class Tank;
@@ -43,8 +43,6 @@ public:
 	bool setWeapon(Accessory *wp);
 
 	// Change the currently selected weapon
-	void prevWeapon();
-	void nextWeapon();
 	Accessory *getCurrent();
 	const char *getWeaponString();
 

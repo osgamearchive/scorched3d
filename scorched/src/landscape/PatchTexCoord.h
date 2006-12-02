@@ -22,7 +22,7 @@
 #define __INCLUDE_PatchTexCoordh_INCLUDE__
 
 #include <common/DefinesAssert.h>
-#include <landscape/HeightMap.h>
+#include <landscapemap/HeightMap.h>
 
 class PatchTexCoord
 {

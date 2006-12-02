@@ -22,7 +22,7 @@
 #define AFX_ACCESSORYPART_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
 #include <XML/XMLFile.h>
-#include <coms/NetBuffer.h>
+#include <net/NetBuffer.h>
 #include <map>
 
 #define REGISTER_ACCESSORY_HEADER(x, y) \

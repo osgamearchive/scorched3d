@@ -21,10 +21,10 @@
 #include <actions/TankResign.h>
 #include <engine/ScorchedContext.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
-#include <common/OptionsParam.h>
 
 REGISTER_ACTION_SOURCE(TankResign);
 
@@ -65,14 +65,15 @@ void TankResign::simulate(float frameTime, bool &remove)
 					tank->getState().getLives() - 1);
 			}
 
-			if (!context_->serverMode ||
-				OptionsParam::instance()->getDedicatedServer())
+#ifndef S3D_SERVER
+			if (!context_->serverMode)
 			{
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" resigned from round", tank->getName()));
 				info.setPlayerId(playerId_);
 				Logger::log(info);
 			}
+#endif // #ifndef S3D_SERVER
 		}
 	}
 

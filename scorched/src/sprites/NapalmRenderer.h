@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_NapalmRendererh_INCLUDE__)
 #define __INCLUDE_NapalmRendererh_INCLUDE__
 
-#include <engine/Particle.h>
+#include <graph/Particle.h>
 
 class GLTextureSet;
 class NapalmRenderer : public ParticleUserData
