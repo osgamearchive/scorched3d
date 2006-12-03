@@ -53,6 +53,9 @@ public:
 		const char *name,
 		std::map<std::string, std::string> &fields,
 		std::string &result);
+	static void getHtmlRedirect(
+		const char *url,
+		std::string &result);
 
 protected:
 	struct SessionParams
@@ -73,6 +76,10 @@ protected:
 		const char *url,
 		std::map<std::string, std::string> &fields);
 	bool validateUser(
+		const char *ip,
+		const char *url,
+		std::map<std::string, std::string> &fields);
+	bool validateSession(
 		const char *ip,
 		const char *url,
 		std::map<std::string, std::string> &fields);

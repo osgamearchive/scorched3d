@@ -9,7 +9,9 @@ Added: Windows build of scorched has been updated to use visual studio express
 Added: Split server, client and laucher into seperate applications (server now has no reliance on GUI libs)
 Added: Refactored source to give a better client/server devide
 Added: More smoke kicked up when tank drives over and removes a target
-Added: Transparency available to missiles
+Added: Transparency available to missiles (and all other models)
+Added: Users connecting to web admin console from the local machine don't need an admin account
+Added: Console server now sends server logging to stdout
 
 Fixed: Bug where a space in the installation file name could cause starting issues
 Fixed: Spectators cannot win (or draw) a game

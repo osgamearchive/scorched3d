@@ -46,7 +46,7 @@ ServerWebServer::ServerWebServer() :
 	netServer_(new NetServerHTTPProtocolRecv),
 	logger_(0)
 {
-	addRequestHandler("/", new ServerWebHandler::PlayerHandler());
+	addRequestHandler("/players", new ServerWebHandler::PlayerHandler());
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
 	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
@@ -239,15 +239,39 @@ bool ServerWebServer::processRequest(
 	std::map<std::string, std::string> &fields)
 {
 	std::string text;
-	if (validateUser(ip, url, fields))
+	if (0 == strcmp(url, "/"))
 	{
-		if (!generatePage(url, fields, text)) return false;
+		// We have requested the login page
+		// Have the login credentials been supplied
+		if (validateUser(ip, url, fields))
+		{
+			// Yes, and credentials are correct
+			// Show the starting (players) page
+			getHtmlRedirect(formatString("/players?sid=%s", fields["sid"].c_str()), text);
+		}
+		else
+		{
+			// No, or credentials are not correct
+			// Show the login page
+			if (!getHtmlTemplate("login.html", fields, text)) return false;
+		}
 	}
 	else
 	{
-		if (!getTemplate("login.html", fields, text)) return false;
+		// A "normal" page has been requested
+		// Check the session is valid
+		if (validateSession(ip, url, fields))
+		{
+			// The session is valid, show the page
+			if (!generatePage(url, fields, text)) return false;
+		}
+		else
+		{
+			// The session is invalid show the login page
+			getHtmlRedirect("/", text);
+		}
 	}
-	
+
 	NetBuffer buffer;
 	buffer.addDataToBuffer(text.c_str(), text.size()); // No null
 	netServer_.sendMessage(buffer, destinationId);
@@ -255,7 +279,7 @@ bool ServerWebServer::processRequest(
 	return true;
 }
 
-bool ServerWebServer::validateUser(
+bool ServerWebServer::validateSession(
 	const char *ip,
 	const char *url,
 	std::map<std::string, std::string> &fields)
@@ -298,7 +322,24 @@ bool ServerWebServer::validateUser(
 		}
 	}
 
-	//if (0 == strcmp(url, "/"))
+	return false;
+}
+
+bool ServerWebServer::validateUser(
+	const char *ip,
+	const char *url,
+	std::map<std::string, std::string> &fields)
+{
+	unsigned int currentTime = (unsigned int) time(0);
+	bool authenticated = false;
+
+	// Check if this is a local user
+	if (0 == strcmp(ip, "127.0.0.1"))
+	{
+		fields["name"] = "localconnection";
+		authenticated = true;
+	}
+	else
 	{
 		// Check if user has a valid username and password
 		if (fields.find("name") != fields.end() ||
@@ -308,24 +349,34 @@ bool ServerWebServer::validateUser(
 				fields["name"].c_str(),
 				fields["password"].c_str()))
 			{
-				SessionParams params;
-				params.sessionTime = currentTime;
-				params.userName = fields["name"];
-
-				unsigned int sid = rand();
-				sessions_[sid] = params;
-				fields["sid"] = formatString("%u", sid);
-
-				ServerCommon::sendString(0,
-					formatString("server admin \"%s\" logged in",
-					fields["name"].c_str()));
-
-				return true;
+				authenticated = true;
 			}
 		}
 	}
 
-	return false;
+	// Create a session for the authenticated user
+	if (authenticated)
+	{
+		SessionParams params;
+		params.sessionTime = currentTime;
+		params.userName = fields["name"];
+
+		// Generate a new unique session id
+		unsigned int sid = 0;
+		do 
+		{
+			sid = rand();
+		} while (sessions_.find(sid) != sessions_.end());
+		
+		sessions_[sid] = params;
+		fields["sid"] = formatString("%u", sid);
+
+		ServerCommon::sendString(0,
+			formatString("server admin \"%s\" logged in",
+			fields["name"].c_str()));
+	}
+
+	return authenticated;
 }
 
 bool ServerWebServer::generatePage(
@@ -339,6 +390,21 @@ bool ServerWebServer::generatePage(
 
 	ServerWebServerI *handler = (*itor).second;
 	return handler->processRequest(url, fields, text);
+}
+
+void ServerWebServer::getHtmlRedirect(
+	const char *url,
+	std::string &result)
+{
+	const char *header = 
+		formatString(
+		"HTTP/1.1 302 OK\r\n"
+		"Server: Scorched3D\r\n"
+		"Content-Type: text/html\r\n"
+		"Connection: Close\r\n"
+		"Location: %s\r\n"
+		"\r\n", url);
+	result.append(header);
 }
 
 bool ServerWebServer::getHtmlTemplate(
