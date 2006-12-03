@@ -32,7 +32,8 @@ $totalplayers = $totalplayersrow->playercount;
 <font size=-1>
 <?=$seriesrow->started?> to <?=$seriesrow->ended?><br>
 Players : <?=$totalplayers?>, Games: <?=$seriesrow->games?>, Rounds : <?=$seriesrow->rounds?>, Server : <a href="playeros.php">activity</a><br>
-<a href="allseries.php">View stats for other versions of Scorched3D</a>
+<a href="allseries.php">View stats for other versions of Scorched3D</a><br>
+<a href="weekly.php">View weekly stats</a>
 </font>
 </td>
 </tr>

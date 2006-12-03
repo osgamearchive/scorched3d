@@ -214,7 +214,8 @@ void ServerWebServer::processMessage(NetMessage &message)
 					}
 					
 					// Process request
-					ok = processRequest(message.getDestinationId(), url, fields);
+					const char *ipaddress = NetInterface::getIpName(message.getIpAddress());
+					ok = processRequest(message.getDestinationId(), ipaddress, url, fields);
 				}
 			}
 		}
@@ -233,11 +234,12 @@ void ServerWebServer::processMessage(NetMessage &message)
 
 bool ServerWebServer::processRequest(
 	unsigned int destinationId,
+	const char *ip,
 	const char *url,
 	std::map<std::string, std::string> &fields)
 {
 	std::string text;
-	if (validateUser(fields))
+	if (validateUser(ip, url, fields))
 	{
 		if (!generatePage(url, fields, text)) return false;
 	}
@@ -254,6 +256,8 @@ bool ServerWebServer::processRequest(
 }
 
 bool ServerWebServer::validateUser(
+	const char *ip,
+	const char *url,
 	std::map<std::string, std::string> &fields)
 {
 	const unsigned int SessionTimeOut = 60 * 15;
@@ -294,27 +298,30 @@ bool ServerWebServer::validateUser(
 		}
 	}
 
-	// Check if user has a valid username and password
-	if (fields.find("name") != fields.end() ||
-		fields.find("password") != fields.end()) 
+	//if (0 == strcmp(url, "/"))
 	{
-		if (ServerAdminHandler::instance()->login(
-			fields["name"].c_str(),
-			fields["password"].c_str()))
+		// Check if user has a valid username and password
+		if (fields.find("name") != fields.end() ||
+			fields.find("password") != fields.end()) 
 		{
-			SessionParams params;
-			params.sessionTime = currentTime;
-			params.userName = fields["name"];
+			if (ServerAdminHandler::instance()->login(
+				fields["name"].c_str(),
+				fields["password"].c_str()))
+			{
+				SessionParams params;
+				params.sessionTime = currentTime;
+				params.userName = fields["name"];
 
-			unsigned int sid = rand();
-			sessions_[sid] = params;
-			fields["sid"] = formatString("%u", sid);
+				unsigned int sid = rand();
+				sessions_[sid] = params;
+				fields["sid"] = formatString("%u", sid);
 
-			ServerCommon::sendString(0,
-				formatString("server admin \"%s\" logged in",
-				fields["name"].c_str()));
+				ServerCommon::sendString(0,
+					formatString("server admin \"%s\" logged in",
+					fields["name"].c_str()));
 
-			return true;
+				return true;
+			}
 		}
 	}
 

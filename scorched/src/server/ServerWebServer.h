@@ -69,9 +69,12 @@ protected:
 
 	bool processRequest(
 		unsigned int destinationId,
+		const char *ip,
 		const char *url,
 		std::map<std::string, std::string> &fields);
 	bool validateUser(
+		const char *ip,
+		const char *url,
 		std::map<std::string, std::string> &fields);
 	bool generatePage(
 		const char *url,

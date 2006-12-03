@@ -206,10 +206,14 @@ void serverMain(ProgressCounter *counter)
 	{
 		ServerWebServer::instance()->start(
 			ScorchedServer::instance()->getOptionsGame().getManagementPortNo());
+
+		Logger::log(
+			formatString("Management server running on url http://127.0.0.1:%i",
+			ScorchedServer::instance()->getOptionsGame().getManagementPortNo()));
 	}
 	ServerLog::instance();
 
-	Logger::log( "Server started");
+	Logger::log("Server started");
 }
 
 void serverLoop()
@@ -245,38 +249,65 @@ class ConsoleServerProgressCounter : public ProgressCounterI
 public:
 	ConsoleServerProgressCounter() : lastOp_(""), hashes_(0) {}
 
+	virtual void drawHashes(int neededHashes)
+	{
+		if (hashes_ < neededHashes)
+		{
+			for (int h=hashes_;h<neededHashes; h++)
+			{
+				printf("#");
+				if (h == 9)
+				{
+					printf("\n");
+				}
+			}
+			hashes_ = neededHashes;
+		}
+		fflush(stdout);
+	}
+
 	virtual void progressChange(const char *op, const float percentage)
 	{
 		if (0 != strcmp(op, lastOp_.c_str()))
 		{
+			if (lastOp_.c_str()[0])
+			{
+				drawHashes(10);
+			}
+
 			Logger::log(op);
-			printf("\n%s:", op);
+			printf("%s:", op);
 			lastOp_ = op;
 			hashes_ = 0;
 		}
 
 		int neededHashes = int(percentage / 10.0f);
-		for (;hashes_<=neededHashes; hashes_++)
-		{
-			printf("#");
-		}
-		fflush(stdout);
+		drawHashes(neededHashes);
 	}
 protected:
 	std::string lastOp_;
 	int hashes_;
 };
 
+class ConsoleLogger : public LoggerI
+{
+public:
+	virtual void logMessage(LoggerInfo &info)
+	{
+		printf("%s - %s\n", info.getTime(), info.getMessage());
+	}
+};
+
 void consoleServer()
 {
+	ConsoleLogger consoleLogger;
 	ProgressCounter progressCounter;
 	ConsoleServerProgressCounter progressCounterI;
 	progressCounter.setUser(&progressCounterI);
 
-	printf("\nStarting Server...");
 	ServerCommon::startFileLogger();
+	Logger::instance()->addLogger(&consoleLogger);
 	serverMain(&progressCounter);
-	printf("\nServer Started.\n");
 
 	for (;;)
 	{

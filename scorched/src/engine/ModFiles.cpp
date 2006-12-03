@@ -112,7 +112,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 		loadModFile(getDataFile("data/accessories.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/modinfo.xml"), modDir.c_str(), mod);
 		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
-		FileList fList(getDataFile("data/landscapes"), "*.xml");
+		FileList fList(getDataFile("data/landscapes"), "*.xml", true);
 		std::list<std::string> &files = fList.getFiles();
 		std::list<std::string>::iterator itor;
 		for (itor = files.begin();
@@ -156,7 +156,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 bool ModFiles::loadModDir(const char *modDir, const char *mod, ProgressCounter *counter)
 {
 	// Load all files contained in this directory
-	FileList allfiles(modDir, "*", false, true);
+	FileList allfiles(modDir, "*", true, true);
 	FileList::ListType &files = allfiles.getFiles();
 	FileList::ListType::iterator itor;
 

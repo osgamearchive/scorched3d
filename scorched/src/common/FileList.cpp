@@ -65,14 +65,6 @@ bool FileList::addAllFiles(const char *baseDir, const char *directory, char *fil
 		{
 			std::string &fileName = (*itor);
 
-			if (fullPath) files_.push_back(fileName);
-			else
-			{
-				const char *add = fileName.c_str();
-				add += MIN(strlen(baseDir) + 1, strlen(add));
-				files_.push_back(add);
-			}
-
 			struct stat buf;
 			memset(&buf, 0, sizeof(buf));
 			if (stat(fileName.c_str(), &buf) == 0)
@@ -80,6 +72,16 @@ bool FileList::addAllFiles(const char *baseDir, const char *directory, char *fil
 				if (buf.st_mode & _S_IFDIR)
 				{
 					addAllFiles(baseDir, fileName.c_str(), filter, fullPath);
+				}
+				else
+				{
+					if (fullPath) files_.push_back(fileName);
+					else
+					{
+						const char *add = fileName.c_str();
+						add += MIN(strlen(baseDir) + 1, strlen(add));
+						files_.push_back(add);
+					}
 				}
 			}
 		}

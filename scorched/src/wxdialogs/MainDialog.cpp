@@ -81,7 +81,7 @@ static int exitCode_ = 0;
 class ScorchedProcess : public wxProcess
 {
 public:
-	ScorchedProcess() : wxProcess(wxPROCESS_REDIRECT) { }
+	ScorchedProcess(bool server) : wxProcess(!server?wxPROCESS_REDIRECT:0) { }
 	
 	virtual void OnTerminate(int pid, int status) 
 	{
@@ -128,7 +128,7 @@ void runScorched3D(const char *text, bool server)
 		ScorchedParams::instance()->getSettingsDir(), 
 		text);
 
-	ScorchedProcess *process = new ScorchedProcess();
+	ScorchedProcess *process = new ScorchedProcess(server);
 	long result = ::wxExecute(wxString(path, wxConvUTF8), wxEXEC_ASYNC, process);
 	if (result == 0)
 	{
