@@ -70,6 +70,7 @@ scorcheddata_DATA = data/accessories.xml \
 	data/autoexec.xml \
 	data/fastestdisplay.xml \
 	data/keys.xml \
+	data/landscapes.xml \
 	data/modinfo.xml \
 	data/mysql.xml \
 	data/pgprunetables.sql \
@@ -95,8 +96,7 @@ scorcheddata_DATA = data/accessories.xml \
 	data/textureset.xml \
 	data/tips.txt \
 	data/tutorial.xml \
-	data/windows.xml \
-	data/landscapes.xml
+	data/windows.xml
 scorcheddataaccessoriesdir = ${datadir}/data/accessories
 scorcheddataaccessories_DATA = data/accessories/clusterbomb.ase \
 	data/accessories/clusterbomb2.ase \
@@ -243,29 +243,29 @@ scorcheddataacessoriesdir = ${datadir}/data/acessories
 scorcheddataacessories_DATA = 
 scorcheddataavatarsdir = ${datadir}/data/avatars
 scorcheddataavatars_DATA = data/avatars/agreement.txt \
-	data/avatars/animal.gif \
-	data/avatars/baby.gif \
-	data/avatars/bavia.gif \
-	data/avatars/computer.gif \
-	data/avatars/daisy.gif \
-	data/avatars/fish.gif \
-	data/avatars/flower.gif \
-	data/avatars/floyd.gif \
-	data/avatars/heart.gif \
-	data/avatars/lips.gif \
-	data/avatars/mxpx.gif \
-	data/avatars/pint.gif \
-	data/avatars/player.gif \
-	data/avatars/prot.gif \
-	data/avatars/termin.gif \
-	data/avatars/vader.gif \
-	data/avatars/web.gif \
-	data/avatars/yoda.gif
+	data/avatars/animal.png \
+	data/avatars/baby.png \
+	data/avatars/bavia.png \
+	data/avatars/computer.png \
+	data/avatars/daisy.png \
+	data/avatars/fish.png \
+	data/avatars/flower.png \
+	data/avatars/floyd.png \
+	data/avatars/heart.png \
+	data/avatars/lips.png \
+	data/avatars/mxpx.png \
+	data/avatars/pint.png \
+	data/avatars/player.png \
+	data/avatars/prot.png \
+	data/avatars/termin.png \
+	data/avatars/vader.png \
+	data/avatars/web.png \
+	data/avatars/yoda.png
 scorcheddatafontsdir = ${datadir}/data/fonts
-scorcheddatafonts_DATA = data/fonts/test.ttf \
+scorcheddatafonts_DATA = data/fonts/VERA-COPYRIGHT.TXT \
+	data/fonts/test.ttf \
 	data/fonts/testout.ttf \
-	data/fonts/veramobd.ttf \
-	data/fonts/VERA-COPYRIGHT.TXT
+	data/fonts/veramobd.ttf
 scorcheddataglobalmodsdir = ${datadir}/data/globalmods
 scorcheddataglobalmods_DATA = data/globalmods/globalmods.txt
 scorcheddataglobalmodsapocdir = ${datadir}/data/globalmods/apoc
@@ -319,6 +319,8 @@ scorcheddataglobalmodsapocdataaccessoriesbuildings_DATA = data/globalmods/apoc/d
 	data/globalmods/apoc/data/accessories/buildings/house1-3burnt.txt \
 	data/globalmods/apoc/data/accessories/buildings/house1.txt \
 	data/globalmods/apoc/data/accessories/buildings/house1burnt.txt \
+	data/globalmods/apoc/data/accessories/buildings/igloo.bmp \
+	data/globalmods/apoc/data/accessories/buildings/igloo.txt \
 	data/globalmods/apoc/data/accessories/buildings/logcabin1.txt \
 	data/globalmods/apoc/data/accessories/buildings/logcabin1burnt.txt \
 	data/globalmods/apoc/data/accessories/buildings/mainport.txt \
@@ -340,9 +342,7 @@ scorcheddataglobalmodsapocdataaccessoriesbuildings_DATA = data/globalmods/apoc/d
 	data/globalmods/apoc/data/accessories/buildings/store1.txt \
 	data/globalmods/apoc/data/accessories/buildings/store1burnt.txt \
 	data/globalmods/apoc/data/accessories/buildings/trailorhouse1.txt \
-	data/globalmods/apoc/data/accessories/buildings/trailorhouse1burnt.txt \
-	data/globalmods/apoc/data/accessories/buildings/igloo.bmp \
-	data/globalmods/apoc/data/accessories/buildings/igloo.txt
+	data/globalmods/apoc/data/accessories/buildings/trailorhouse1burnt.txt
 scorcheddataglobalmodsapocdataaccessoriesbulletdir = ${datadir}/data/globalmods/apoc/data/accessories/bullet
 scorcheddataglobalmodsapocdataaccessoriesbullet_DATA = 
 scorcheddataglobalmodsapocdataaccessoriescactusdir = ${datadir}/data/globalmods/apoc/data/accessories/cactus
@@ -375,6 +375,8 @@ scorcheddataglobalmodsapocdataaccessoriesnapalmdir = ${datadir}/data/globalmods/
 scorcheddataglobalmodsapocdataaccessoriesnapalm_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesobjectsdir = ${datadir}/data/globalmods/apoc/data/accessories/objects
 scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/data/accessories/objects/9volt.txt \
+	data/globalmods/apoc/data/accessories/objects/acidpod.bmp \
+	data/globalmods/apoc/data/accessories/objects/acidpod.txt \
 	data/globalmods/apoc/data/accessories/objects/atom.txt \
 	data/globalmods/apoc/data/accessories/objects/brownrock1.txt \
 	data/globalmods/apoc/data/accessories/objects/brownrock2.txt \
@@ -394,6 +396,8 @@ scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/dat
 	data/globalmods/apoc/data/accessories/objects/earth.bmp \
 	data/globalmods/apoc/data/accessories/objects/earth.txt \
 	data/globalmods/apoc/data/accessories/objects/earth_half.txt \
+	data/globalmods/apoc/data/accessories/objects/fleshpod.bmp \
+	data/globalmods/apoc/data/accessories/objects/fleshpod.txt \
 	data/globalmods/apoc/data/accessories/objects/fuelbarrel.txt \
 	data/globalmods/apoc/data/accessories/objects/medkit.txt \
 	data/globalmods/apoc/data/accessories/objects/mushroom.txt \
@@ -404,18 +408,18 @@ scorcheddataglobalmodsapocdataaccessoriesobjects_DATA = data/globalmods/apoc/dat
 	data/globalmods/apoc/data/accessories/objects/rock2.txt \
 	data/globalmods/apoc/data/accessories/objects/rock3.txt \
 	data/globalmods/apoc/data/accessories/objects/rock4.txt \
-	data/globalmods/apoc/data/accessories/objects/smalloakburnt.txt \
-	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt \
-	data/globalmods/apoc/data/accessories/objects/acidpod.bmp \
-	data/globalmods/apoc/data/accessories/objects/acidpod.txt \
-	data/globalmods/apoc/data/accessories/objects/fleshpod.bmp \
-	data/globalmods/apoc/data/accessories/objects/fleshpod.txt \
 	data/globalmods/apoc/data/accessories/objects/satellite.bmp \
-	data/globalmods/apoc/data/accessories/objects/satellite.txt
+	data/globalmods/apoc/data/accessories/objects/satellite.txt \
+	data/globalmods/apoc/data/accessories/objects/smalloakburnt.txt \
+	data/globalmods/apoc/data/accessories/objects/smalloakfall.txt
 scorcheddataglobalmodsapocdataaccessoriesoffice3dir = ${datadir}/data/globalmods/apoc/data/accessories/office3
 scorcheddataglobalmodsapocdataaccessoriesoffice3_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesofficeplaza1dir = ${datadir}/data/globalmods/apoc/data/accessories/officeplaza1
 scorcheddataglobalmodsapocdataaccessoriesofficeplaza1_DATA = 
+scorcheddataglobalmodsapocdataaccessoriespeopledir = ${datadir}/data/globalmods/apoc/data/accessories/people
+scorcheddataglobalmodsapocdataaccessoriespeople_DATA = data/globalmods/apoc/data/accessories/people/male1_soldier.bmp \
+	data/globalmods/apoc/data/accessories/people/male1_soldier.txt \
+	data/globalmods/apoc/data/accessories/people/male1_soldier_standing.txt
 scorcheddataglobalmodsapocdataaccessoriesredhornetdir = ${datadir}/data/globalmods/apoc/data/accessories/redhornet
 scorcheddataglobalmodsapocdataaccessoriesredhornet_DATA = 
 scorcheddataglobalmodsapocdataaccessoriesremorcebombletdir = ${datadir}/data/globalmods/apoc/data/accessories/remorcebomblet
@@ -451,10 +455,6 @@ scorcheddataglobalmodsapocdataaccessoriesweapons_DATA = data/globalmods/apoc/dat
 	data/globalmods/apoc/data/accessories/weapons/tsarbomba.txt \
 	data/globalmods/apoc/data/accessories/weapons/weapons1.bmp \
 	data/globalmods/apoc/data/accessories/weapons/wobblebomb.txt
-scorcheddataglobalmodsapocdataaccessoriespeopledir = ${datadir}/data/globalmods/apoc/data/accessories/people
-scorcheddataglobalmodsapocdataaccessoriespeople_DATA = data/globalmods/apoc/data/accessories/people/male1_soldier.bmp \
-	data/globalmods/apoc/data/accessories/people/male1_soldier.txt \
-	data/globalmods/apoc/data/accessories/people/male1_soldier_standing.txt
 scorcheddataglobalmodsapocdatalandscapesdir = ${datadir}/data/globalmods/apoc/data/landscapes
 scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landscapes/ambientsoundbuildings.xml \
 	data/globalmods/apoc/data/landscapes/ambientsoundcars.xml \
@@ -509,7 +509,9 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/desertmesa.bmp \
 	data/globalmods/apoc/data/landscapes/dirt.bmp \
 	data/globalmods/apoc/data/landscapes/donuthills-pic.bmp \
+	data/globalmods/apoc/data/landscapes/eventsatellitecrash.xml \
 	data/globalmods/apoc/data/landscapes/eventscargodrop.xml \
+	data/globalmods/apoc/data/landscapes/eventsflamespurt.xml \
 	data/globalmods/apoc/data/landscapes/farmland.bmp \
 	data/globalmods/apoc/data/landscapes/farmlanda.bmp \
 	data/globalmods/apoc/data/landscapes/halved.bmp \
@@ -530,6 +532,8 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/placecity3.xml \
 	data/globalmods/apoc/data/landscapes/placecityport.xml \
 	data/globalmods/apoc/data/landscapes/placedesert.xml \
+	data/globalmods/apoc/data/landscapes/placefleshpods.xml \
+	data/globalmods/apoc/data/landscapes/placeigloo.xml \
 	data/globalmods/apoc/data/landscapes/placemoon.xml \
 	data/globalmods/apoc/data/landscapes/placeoak2_bldg.xml \
 	data/globalmods/apoc/data/landscapes/placeoak_bldg.xml \
@@ -560,6 +564,7 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/texarizona_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texasianspring_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texcastle_bldg.xml \
+	data/globalmods/apoc/data/landscapes/texchina_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texcity1_storm.xml \
 	data/globalmods/apoc/data/landscapes/texcity1_summer.xml \
 	data/globalmods/apoc/data/landscapes/texcity1_winter.xml \
@@ -572,6 +577,9 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/texdefault_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texdenali_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texdesert.xml \
+	data/globalmods/apoc/data/landscapes/texhell.xml \
+	data/globalmods/apoc/data/landscapes/texice.xml \
+	data/globalmods/apoc/data/landscapes/texice_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texmoon.xml \
 	data/globalmods/apoc/data/landscapes/texnight_bldg.xml \
 	data/globalmods/apoc/data/landscapes/texsand_bldg.xml \
@@ -590,15 +598,7 @@ scorcheddataglobalmodsapocdatalandscapes_DATA = data/globalmods/apoc/data/landsc
 	data/globalmods/apoc/data/landscapes/weathered-pic.bmp \
 	data/globalmods/apoc/data/landscapes/weathered.bmp \
 	data/globalmods/apoc/data/landscapes/world-map.bmp \
-	data/globalmods/apoc/data/landscapes/world.bmp \
-	data/globalmods/apoc/data/landscapes/eventsflamespurt.xml \
-	data/globalmods/apoc/data/landscapes/placefleshpods.xml \
-	data/globalmods/apoc/data/landscapes/placeigloo.xml \
-	data/globalmods/apoc/data/landscapes/texchina_bldg.xml \
-	data/globalmods/apoc/data/landscapes/texhell.xml \
-	data/globalmods/apoc/data/landscapes/texice_bldg.xml \
-	data/globalmods/apoc/data/landscapes/texice.xml \
-	data/globalmods/apoc/data/landscapes/eventsatellitecrash.xml
+	data/globalmods/apoc/data/landscapes/world.bmp
 scorcheddataglobalmodsapocdatalandscapesmasksdir = ${datadir}/data/globalmods/apoc/data/landscapes/masks
 scorcheddataglobalmodsapocdatalandscapesmasks_DATA = data/globalmods/apoc/data/landscapes/masks/anywhere.bmp \
 	data/globalmods/apoc/data/landscapes/masks/center-square.bmp \
@@ -737,6 +737,7 @@ scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/te
 	data/globalmods/apoc/data/textures/wicons/lstrike.bmp \
 	data/globalmods/apoc/data/textures/wicons/meteor.bmp \
 	data/globalmods/apoc/data/textures/wicons/mgun.bmp \
+	data/globalmods/apoc/data/textures/wicons/mirror.bmp \
 	data/globalmods/apoc/data/textures/wicons/mountain.bmp \
 	data/globalmods/apoc/data/textures/wicons/mshower.bmp \
 	data/globalmods/apoc/data/textures/wicons/nblast.bmp \
@@ -751,8 +752,7 @@ scorcheddataglobalmodsapocdatatextureswicons_DATA = data/globalmods/apoc/data/te
 	data/globalmods/apoc/data/textures/wicons/up.bmp \
 	data/globalmods/apoc/data/textures/wicons/volcano.bmp \
 	data/globalmods/apoc/data/textures/wicons/x.bmp \
-	data/globalmods/apoc/data/textures/wicons/xmirv.bmp \
-	data/globalmods/apoc/data/textures/wicons/mirror.bmp
+	data/globalmods/apoc/data/textures/wicons/xmirv.bmp
 scorcheddataglobalmodsapocdatawavdir = ${datadir}/data/globalmods/apoc/data/wav
 scorcheddataglobalmodsapocdatawav_DATA = 
 scorcheddataglobalmodsapocdatawavexplosionsdir = ${datadir}/data/globalmods/apoc/data/wav/explosions
@@ -844,13 +844,13 @@ scorcheddatahtmlserver_DATA = data/html/server/banned.html \
 	data/html/server/logfiles.html \
 	data/html/server/login.html \
 	data/html/server/menu.html \
+	data/html/server/message.html \
 	data/html/server/mods.html \
 	data/html/server/player.html \
 	data/html/server/server.css \
+	data/html/server/server.html \
 	data/html/server/settings.html \
-	data/html/server/talk.html \
-	data/html/server/message.html \
-	data/html/server/server.html
+	data/html/server/talk.html
 scorcheddatalandscapesdir = ${datadir}/data/landscapes
 scorcheddatalandscapes_DATA = data/landscapes/ambientsoundjet.xml \
 	data/landscapes/ambientsoundjungle.xml \
@@ -891,6 +891,7 @@ scorcheddatalandscapes_DATA = data/landscapes/ambientsoundjet.xml \
 	data/landscapes/denali.bmp \
 	data/landscapes/eventslightning.xml \
 	data/landscapes/eventsmeteor.xml \
+	data/landscapes/eventstest.xml \
 	data/landscapes/glaciation-pic.bmp \
 	data/landscapes/glaciation.bmp \
 	data/landscapes/half-mask-start.bmp \
@@ -957,8 +958,7 @@ scorcheddatalandscapes_DATA = data/landscapes/ambientsoundjet.xml \
 	data/landscapes/textuscan.xml \
 	data/landscapes/texvulcano.xml \
 	data/landscapes/valley-mask.bmp \
-	data/landscapes/valley-pic.bmp \
-	data/landscapes/eventstest.xml
+	data/landscapes/valley-pic.bmp
 scorcheddatameshesdir = ${datadir}/data/meshes
 scorcheddatameshes_DATA = data/meshes/autoaim.ase \
 	data/meshes/bird.txt \
@@ -1126,16 +1126,16 @@ scorcheddatatanks_DATA = data/tanks/apache.ase \
 	data/tanks/towedartillery.ase \
 	data/tanks/towedartillery.bmp \
 	data/tanks/towedartilleryb.bmp \
+	data/tanks/tracksh.bmp \
+	data/tanks/trackshv.bmp \
+	data/tanks/tracksv.bmp \
+	data/tanks/tracksvh.bmp \
 	data/tanks/v2.ase \
 	data/tanks/v2.bmp \
 	data/tanks/wespe.ase \
 	data/tanks/wespe.bmp \
 	data/tanks/zsu-24-1.ase \
-	data/tanks/zsu-24-1.bmp \
-	data/tanks/tracksh.bmp \
-	data/tanks/trackshv.bmp \
-	data/tanks/tracksv.bmp \
-	data/tanks/tracksvh.bmp
+	data/tanks/zsu-24-1.bmp
 scorcheddatatanksCF104dir = ${datadir}/data/tanks/CF-104
 scorcheddatatanksCF104_DATA = data/tanks/CF-104/104.bmp \
 	data/tanks/CF-104/104.txt
@@ -1196,6 +1196,9 @@ scorcheddatatankshelder_DATA = data/tanks/helder/helder.txt \
 	data/tanks/helder/helder2.txt \
 	data/tanks/helder/redspace.bmp \
 	data/tanks/helder/whitespace.bmp
+scorcheddatatanksignignoktdir = ${datadir}/data/tanks/ignignokt
+scorcheddatatanksignignokt_DATA = data/tanks/ignignokt/ignignokt.bmp \
+	data/tanks/ignignokt/ignignokt.txt
 scorcheddatatankslav25dir = ${datadir}/data/tanks/lav-25
 scorcheddatatankslav25_DATA = data/tanks/lav-25/bigtire.bmp \
 	data/tanks/lav-25/camo.bmp \
@@ -1242,6 +1245,9 @@ scorcheddatatankssa6_DATA = data/tanks/sa6/black.bmp \
 	data/tanks/sa6/sa6.txt \
 	data/tanks/sa6/white.bmp \
 	data/tanks/sa6/zsu23.bmp
+scorcheddatatankssentrygundir = ${datadir}/data/tanks/sentrygun
+scorcheddatatankssentrygun_DATA = data/tanks/sentrygun/sentrygun.bmp \
+	data/tanks/sentrygun/sentrygun.txt
 scorcheddatatankssonicdir = ${datadir}/data/tanks/sonic
 scorcheddatatankssonic_DATA = data/tanks/sonic/sonic.bmp \
 	data/tanks/sonic/sonic.txt
@@ -1284,12 +1290,6 @@ scorcheddatatankszsu57dir = ${datadir}/data/tanks/zsu57
 scorcheddatatankszsu57_DATA = data/tanks/zsu57/black.bmp \
 	data/tanks/zsu57/zsu57.bmp \
 	data/tanks/zsu57/zsu57.txt
-scorcheddatatanksignignoktdir = ${datadir}/data/tanks/ignignokt
-scorcheddatatanksignignokt_DATA = data/tanks/ignignokt/ignignokt.bmp \
-	data/tanks/ignignokt/ignignokt.txt
-scorcheddatatankssentrygundir = ${datadir}/data/tanks/sentrygun
-scorcheddatatankssentrygun_DATA = data/tanks/sentrygun/sentrygun.bmp \
-	data/tanks/sentrygun/sentrygun.txt
 scorcheddatatexturesdir = ${datadir}/data/textures
 scorcheddatatextures_DATA = data/textures/clearsky.bmp \
 	data/textures/glow1.bmp \
@@ -1768,8 +1768,8 @@ scorcheddatawindows_DATA = data/windows/aima.bmp \
 	data/windows/question.gif \
 	data/windows/save.bmp \
 	data/windows/scorched.bmp \
-	data/windows/scorched.gif \
-	data/windows/scorcheda.gif \
+	data/windows/scorched.png \
+	data/windows/scorcheda.png \
 	data/windows/screen.bmp \
 	data/windows/screena.bmp \
 	data/windows/server.bmp \

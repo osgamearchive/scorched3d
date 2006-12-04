@@ -32,9 +32,9 @@ void HeightMapLoader::saveTerrain(HeightMap &hmap, GLBitmap &bitmap)
 		for (int x=0; x<hmap.getMapWidth(); x++)
 		{
 			float height = hmap.getHeight(x,y);
-			bits[0] = unsigned char(height);
-			bits[1] = unsigned char(height);
-			bits[2] = unsigned char(height);
+			bits[0] = (unsigned char)(height);
+			bits[1] = (unsigned char)(height);
+			bits[2] = (unsigned char)(height);
 
 			bits+=3;
 		}

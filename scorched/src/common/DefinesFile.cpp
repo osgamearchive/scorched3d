@@ -20,13 +20,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <direct.h>
 #include <string>
 #include <common/DefinesFile.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #pragma warning(disable : 4996)
+
+#ifdef WIN32
+#include <direct.h>
+#endif
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -60,7 +63,11 @@ void s3d_fileDos2Unix(char *file)
 
 bool s3d_dirMake(const char *file)
 {
+#ifdef WIN32
 	_mkdir(file);
+#else
+	mkdir(file, 0755);
+#endif
 	return true;
 }
 

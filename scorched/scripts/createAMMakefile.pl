@@ -6,7 +6,7 @@ sub getFiles
   {
     my ($vcfile) = @_;
 
-open (IN, $vcfile) || die;
+open (IN, $vcfile) || die $vcfile;
 my @files = grep { /\.cpp\"/ or /\.c\"/ or /\.h\"/ } <IN>;
 close (IN);
 for (my $i=0; $i<=$#files; $i++)
@@ -56,30 +56,47 @@ sub locatefiles
 	}
 }
 
+sub createBinaryMakefile
+{
+my ($input, $output, $binary, $flags) = @_;
+
+my @clientfiles = getFiles($input);
+
+open (CLIENT, ">$output") || die $output;
+
+print CLIENT "bin_PROGRAMS = $binary\n\n";
+print CLIENT $binary."_SOURCES = \\\n";
+print CLIENT @clientfiles;
+print CLIENT "\n\nAM_CPPFLAGS = -I../porting -I.. ${flags}\n\n";
+
+close(CLIENT);
+
+}
+
+sub createInstallMakefile
+{
 open (CLIENT, ">../Makefile.am") || die "ERROR: Failed to write to ../Makefile.am";
 print CLIENT "SUBDIRS = src\n\n";
 print CLIENT "docdir = \@docdir\@\n\n";
 locatefiles("documentation", "\$\{docdir\}", "\$\{docdir\}");
 locatefiles("data", "\$\{datadir\}", "\$\{datadir\}/data");
 close(CLIENT);
+}
 
-my @clientfiles = getFiles("../src/scorched/scorched.vcproj");
-
-open (CLIENT, ">../src/scorched/Makefile.am") || die "../src/scorched/Makefile.am";
-
-print CLIENT << "EOF";
-## Process with automake to produce Makefile.in
-                                                                                
-bin_PROGRAMS = scorched3d
-
-scorched3d_SOURCES = \\
-EOF
-
-print CLIENT @clientfiles;
-
-print CLIENT << "EOF";
-
-INCLUDES = -I../porting -I.. 
-EOF
-close(CLIENT);
+createInstallMakefile();
+createBinaryMakefile(
+	"../src/scorched/scorched.vcproj", 
+	"../src/scorched/Makefile.am", 
+	"scorched3d",
+	"");
+createBinaryMakefile(
+	"../src/scorchedc/scorchedc.vcproj", 
+	"../src/scorchedc/Makefile.am", 
+	"scorched3dc",
+	"");
+createBinaryMakefile(
+	"../src/scorcheds/scorcheds.vcproj", 
+	"../src/scorcheds/Makefile.am", 
+	"scorched3ds",
+	"-DS3D_SERVER=1");
 

@@ -28,8 +28,8 @@
 #include <tank/TankState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
-#include <zlib/zlib.h>
 #include <set>
+#include <zlib.h>
 
 #ifndef S3D_SERVER
 bool ComsMessageSender::sendToServer(ComsMessage &message)

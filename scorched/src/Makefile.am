@@ -1,1 +1,1 @@
-SUBDIRS = scorched
+SUBDIRS = scorched scorchedc scorcheds

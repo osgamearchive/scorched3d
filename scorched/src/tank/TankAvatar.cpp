@@ -21,8 +21,8 @@
 #include <tank/TankAvatar.h>
 #include <common/Defines.h>
 #include <GLEXT/GLPng.h>
-#include <zlib/zlib.h>
 #include <stdio.h>
+#include <zlib.h>
 
 #ifndef S3D_SERVER
 #include <GLEXT/GLTexture.h>

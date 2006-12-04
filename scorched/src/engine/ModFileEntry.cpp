@@ -21,7 +21,7 @@
 #include <common/Defines.h>
 #include <engine/ModFileEntry.h>
 #include <engine/ModFiles.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 
 ModFileEntry::ModFileEntry() : 
 	compressedcrc_(0)

@@ -23,7 +23,7 @@
 
 #include <stdio.h> // For snprintf on linux
 
-#if !defined(HAVE_SNPRINTF)
+#ifndef HAVE_SNPRINTF
 
 #include <stdarg.h> // For va_list
 

@@ -22,7 +22,7 @@
 #include <net/NetServerTCPRead.h>
 #include <net/NetMessagePool.h>
 #include <common/Logger.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 
 NetServerTCPProtocol::NetServerTCPProtocol()
 {

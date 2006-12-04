@@ -69,7 +69,11 @@ bool FileList::addAllFiles(const char *baseDir, const char *directory, char *fil
 			memset(&buf, 0, sizeof(buf));
 			if (stat(fileName.c_str(), &buf) == 0)
 			{
+#ifdef WIN32
 				if (buf.st_mode & _S_IFDIR)
+#else
+				if (buf.st_mode & S_IFDIR)
+#endif
 				{
 					addAllFiles(baseDir, fileName.c_str(), filter, fullPath);
 				}
@@ -101,16 +105,16 @@ bool FileList::readFiles(const char *directory, char *filter, bool fullPath)
 #ifndef _WIN32
 	DIR *dirp;
    	struct dirent *direntp;
-   	dirp = opendir( directory.c_str());
+   	dirp = opendir(directory);
 
 	while ( (direntp = readdir( dirp )) != NULL )
    	{
-		if (fnmatch(filter.c_str(), (const char *)direntp->d_name,0))
+		if (fnmatch(filter, (const char *)direntp->d_name,0))
 			continue;
 		
 		if (direntp->d_name[0] != '.')
 		{
-			if (fullPath_) files_.push_back(std::string(directory) + "/" + std::string(direntp->d_name));
+			if (fullPath) files_.push_back(std::string(directory) + "/" + std::string(direntp->d_name));
 			else files_.push_back(std::string(direntp->d_name));
 		}
    	}

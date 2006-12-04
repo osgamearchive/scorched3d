@@ -22,7 +22,7 @@
 #include <math.h>
 #include <common/Defines.h>
 #include <GLEXT/GLPng.h>
-#include <png/png.h>
+#include <png.h>
 
 GLPng::GLPng() :
 	width_(0), height_(0), bits_(0), alpha_(false)

@@ -4,7 +4,7 @@ AC_INIT(README)
 AC_CANONICAL_TARGET([]) 
 
 dnl Setup for automake
-AM_INIT_AUTOMAKE(scorched3d, 40)
+AM_INIT_AUTOMAKE(scorched3d, 41)
 
 dnl Check for tools
 AC_PROG_MAKE_SET
@@ -329,6 +329,27 @@ CFLAGS="$CFLAGS $FT2_CFLAGS"
 CXXFLAGS="$CXXFLAGS $FT2_CFLAGS"
 LIBS="$LIBS $FT2_LIBS"
 
+dnl Checking for ODE
+AC_MSG_CHECKING(for ODE library)
+AC_PATH_PROG(ODE_CONFIG, ode-config, no)
+if test x$ODE_CONFIG = xno; then
+	echo "*** The ode-config script installed by ODE could not be found"
+	echo "*** Make sure ode-config is in your path, or set the ODE_CONFIG"
+	echo "*** environment variable to the full path to ode-config."
+
+	AC_MSG_ERROR([*** Can't find the openal library. Try: installing from http://www.ode.org/])
+else
+
+	LIBS="$LIBS `$ODE_CONFIG --libs`"
+	CFLAGS="$CFLAGS `$ODE_CONFIG --cflags`"
+	CXXFLAGS="$CXXFLAGS `$ODE_CONFIG --cflags`"
+
+	AC_MSG_RESULT(yes)
+fi
+
+dnl Checking for Zlib Png
+LIBS="$LIBS -lz -lpng"
+
 # Check for extra functions
 AC_CHECK_FUNCS(vsnprintf snprintf vasprintf asprintf)
 
@@ -352,10 +373,6 @@ AC_PREFIX_DEFAULT(/usr/local/games/scorched3d)
 CFLAGS="$CFLAGS -DS3D_DOCDIR=\\\"${docdir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
 CXXFLAGS="$CXXFLAGS -DS3D_DOCDIR=\\\"${docdir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
 
-# extra fixed flags
-CFLAGS="$CFLAGS -DdDOUBLE"
-CXXFLAGS="$CXXFLAGS -DdDOUBLE"
-
 # put here at end because of sdl.m4 not defining
 AC_LANG_CPLUSPLUS
 
@@ -364,4 +381,6 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 src/scorched/Makefile
+src/scorchedc/Makefile
+src/scorcheds/Makefile
 ])

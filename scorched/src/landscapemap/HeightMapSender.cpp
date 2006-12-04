@@ -20,9 +20,9 @@
 
 #include <landscapemap/HeightMapSender.h>
 #include <common/Logger.h>
-#include <zlib/zlib.h>
 #include <float.h>
 #include <stdlib.h>
+#include <zlib.h>
 
 bool HeightMapSender::generateHMapDiff(
 	HeightMap &hMap, 
