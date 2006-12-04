@@ -418,37 +418,28 @@ void OptionsGameWrapper::updateChangeSet()
 
 bool OptionsGameWrapper::commitChanges()
 {
-	// Setup buffers
-	static NetBuffer testBuffer;
-	testBuffer.reset();
-	NetBufferDefault::defaultBuffer.reset();
-
-	// Write to buffers
-	writeToBuffer(NetBufferDefault::defaultBuffer, true, true);
-	changedOptions_.writeToBuffer(testBuffer, true, true);
+	bool different = false;
 
 	// Compare buffers
-	if (memcmp(testBuffer.getBuffer(), 
-		NetBufferDefault::defaultBuffer.getBuffer(),
-		MIN(testBuffer.getBufferUsed(),
-		NetBufferDefault::defaultBuffer.getBufferUsed())) != 0)
+	std::list<OptionEntry *> &options = getOptions();
+	std::list<OptionEntry *> &otheroptions = changedOptions_.getOptions();
+	std::list<OptionEntry *>::iterator itor;
+	std::list<OptionEntry *>::iterator otheritor;
+	for (itor=options.begin(), otheritor=otheroptions.begin();
+		itor!=options.end() && otheritor!=otheroptions.end();
+		itor++, otheritor++)
 	{
-		std::list<OptionEntry *> &options = getOptions();
-		std::list<OptionEntry *> &otheroptions = changedOptions_.getOptions();
-		std::list<OptionEntry *>::iterator itor;
-		std::list<OptionEntry *>::iterator otheritor;
-		for (itor=options.begin(), otheritor=otheroptions.begin();
-			itor!=options.end() && otheritor!=options.end();
-			itor++, otheritor++)
+		OptionEntry *entry = *itor;
+		OptionEntry *otherentry = *otheritor;
+
+		DIALOG_ASSERT(0 == strcmp(entry->getName(), otherentry->getName()));
+
+		std::string str = entry->getValueAsString();
+		std::string otherstr = otherentry->getValueAsString();
+		if (str != otherstr)
 		{
-			OptionEntry *entry = *itor;
-			OptionEntry *otherentry = *otheritor;
 			if (!(entry->getData() & OptionEntry::DataProtected) &&
 				!(otherentry->getData() & OptionEntry::DataProtected))
-			{
-			std::string str = entry->getValueAsString();
-			std::string otherstr = otherentry->getValueAsString();
-			if (str != otherstr)
 			{
 				if (strlen(str.c_str()) < 20 && strlen(otherstr.c_str()) < 20)
 				{
@@ -461,13 +452,11 @@ bool OptionsGameWrapper::commitChanges()
 						entry->getName()));
 				}
 			}
-			}
-		}
 
-		NetBufferReader reader(testBuffer);
-		readFromBuffer(reader, true, true);
-		return true;
+			different = true;
+			entry->setValueFromString(otherentry->getValueAsString());
+		}
 	}
 
-	return false;
+	return different;
 }

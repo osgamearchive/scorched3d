@@ -485,10 +485,23 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 				OptionEntryBoundedInt *intEntry = (OptionEntryBoundedInt *) entry;
 
 				value = formatString("<select name='%s'>", entry->getName());
+				bool found = false;
 				for (int i=intEntry->getMinValue(); 
 					i<=intEntry->getMaxValue();
 					i+=intEntry->getStepValue())
 				{
+					if (intEntry->getValue() < i && !found)
+					{
+						found = true;
+						value.append(formatString("<option %s>%i</option>",
+							"selected", 
+							intEntry->getValue()));
+					}
+					else if (intEntry->getValue() == i)
+					{
+						found = true;
+					}
+
 					value.append(formatString("<option %s>%i</option>",
 						(intEntry->getValue() == i?"selected":""), 
 						i));

@@ -13,6 +13,7 @@ Added: Transparency available to missiles (and all other models)
 Added: Users connecting to web admin console from the local machine don't need an admin account
 Added: Console server now sends server logging to stdout
 
+Fixed: Server web managament can view settings that do not fall into the usual brackets
 Fixed: Bug where a space in the installation file name could cause starting issues
 Fixed: Spectators cannot win (or draw) a game
 Fixed: Pressing enter can send many lines of text
