@@ -1184,6 +1184,6 @@ scorched3dc_SOURCES = \
 	../sound/VirtualSoundSource.cpp \
 	../sound/VirtualSoundSource.h
 
-
-AM_CPPFLAGS = -I../porting -I.. 
+AM_CPPFLAGS = -I../porting -I.. @AL_CFLAGS@ @FT2_CFLAGS@ @ODE_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@
+LDADD = @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @ODE_LIBS@ @OGG_LIBS@ @SDL_LIBS@
 

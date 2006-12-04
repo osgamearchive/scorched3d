@@ -58,7 +58,7 @@ sub locatefiles
 
 sub createBinaryMakefile
 {
-my ($input, $output, $binary, $flags) = @_;
+my ($input, $output, $binary, $flags, $libs) = @_;
 
 my @clientfiles = getFiles($input);
 
@@ -67,7 +67,10 @@ open (CLIENT, ">$output") || die $output;
 print CLIENT "bin_PROGRAMS = $binary\n\n";
 print CLIENT $binary."_SOURCES = \\\n";
 print CLIENT @clientfiles;
-print CLIENT "\n\nAM_CPPFLAGS = -I../porting -I.. ${flags}\n\n";
+print CLIENT "\n";
+print CLIENT "AM_CPPFLAGS = -I../porting -I.. ${flags}\n";
+print CLIENT "LDADD = ${libs}\n";
+print CLIENT "\n";
 
 close(CLIENT);
 
@@ -88,15 +91,20 @@ createBinaryMakefile(
 	"../src/scorched/scorched.vcproj", 
 	"../src/scorched/Makefile.am", 
 	"scorched3d",
-	"");
+	'@WX_CFLAGS@ @SDL_CFLAGS@',
+	'@WX_LIBS@ @SDL_LIBS@'
+	);
 createBinaryMakefile(
 	"../src/scorchedc/scorchedc.vcproj", 
 	"../src/scorchedc/Makefile.am", 
 	"scorched3dc",
-	"");
+	'@AL_CFLAGS@ @FT2_CFLAGS@ @ODE_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@',
+	'@AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @ODE_LIBS@ @OGG_LIBS@ @SDL_LIBS@'
+	);
 createBinaryMakefile(
 	"../src/scorcheds/scorcheds.vcproj", 
 	"../src/scorcheds/Makefile.am", 
 	"scorched3ds",
-	"-DS3D_SERVER=1");
-
+	'-DS3D_SERVER=1 @ODE_CFLAGS@ @SDL_CFLAGS@',
+	'@ODE_LIBS@ @SDL_LIBS@ @MYSQL_LIBS@'
+	);

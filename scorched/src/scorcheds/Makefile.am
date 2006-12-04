@@ -704,6 +704,6 @@ scorched3ds_SOURCES = \
 	../3dsparse/Vertex.cpp \
 	../3dsparse/Vertex.h
 
-
-AM_CPPFLAGS = -I../porting -I.. -DS3D_SERVER=1
+AM_CPPFLAGS = -I../porting -I.. -DS3D_SERVER=1 @ODE_CFLAGS@ @SDL_CFLAGS@
+LDADD = @ODE_LIBS@ @SDL_LIBS@ @MYSQL_LIBS@
 
