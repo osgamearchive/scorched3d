@@ -22,15 +22,11 @@
 #define __INCLUDE_NetInterfaceh_INCLUDE__
 
 #include <net/NetMessageHandler.h>
+#include <net/NetInterfaceFlags.h>
 
 class NetInterface
 {
 public:
-	enum Flags
-	{
-		fAsync = 1 // Send message async (no ack) if supported
-	};
-
 	NetInterface();
 	virtual ~NetInterface();
 

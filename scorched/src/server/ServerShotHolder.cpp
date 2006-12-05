@@ -101,7 +101,7 @@ void ServerShotHolder::addShot(unsigned int playerId,
 					statusMessage.getWaitingPlayers().push_back(playerId);
 			}
 		}
-		ComsMessageSender::sendToAllPlayingClients(statusMessage);
+		ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);
 	}
 }
 

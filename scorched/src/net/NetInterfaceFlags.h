@@ -18,29 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _comsMessageSender_h
-#define _comsMessageSender_h
+#if !defined(__INCLUDE_NetInterfaceFlagsh_INCLUDE__)
+#define __INCLUDE_NetInterfaceFlagsh_INCLUDE__
 
-#include <coms/ComsMessage.h>
-#include <net/NetInterfaceFlags.h>
-
-class ComsMessageSender
+namespace NetInterfaceFlags
 {
-public:
-	static bool sendToServer(
-		ComsMessage &message, unsigned int flags = 0);
-	static bool sendToSingleClient(
-		ComsMessage &message, unsigned int destination, unsigned int flags = 0);
-	static bool sendToAllPlayingClients(
-		ComsMessage &message, unsigned int flags = 0);
-	static bool sendToAllConnectedClients(
-		ComsMessage &message, unsigned int flags = 0);
-
-private:
-	ComsMessageSender();
-	virtual ~ComsMessageSender();
-
+	enum Flags
+	{
+		fAsync = 1 // Send message async (no ack) if supported
+	};
 };
 
-#endif // _comsMessageSender_h
-
+#endif

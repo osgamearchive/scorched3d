@@ -71,7 +71,7 @@ void ServerNextTurnState::enterState(const unsigned state)
 		// Tell the client who we are currently waiting on
 		ComsPlayerStatusMessage statusMessage;
 		statusMessage.getWaitingPlayers() = TurnController::instance()->getPlayersThisTurn();
-		ComsMessageSender::sendToAllPlayingClients(statusMessage);
+		ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);
 
 		// Tell the players to play the turn
 		std::list<unsigned int>::iterator itor;

@@ -90,7 +90,11 @@ void ClientKeepAliveSender::send()
 	if (theTime - lastSendTime_ >= sendTime)
 	{
 		// Use this directly as it is thread safe
-		ScorchedClient::instance()->getNetInterface().sendMessageServer(buffer_);
+		if (ScorchedClient::instance()->getNetInterface().started())
+		{
+			ScorchedClient::instance()->getNetInterface().sendMessageServer(
+				buffer_, NetInterfaceFlags::fAsync);
+		}
 
 		lastSendTime_ = theTime;
 		lastWarnTime_ = theTime;

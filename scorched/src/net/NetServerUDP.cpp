@@ -22,9 +22,10 @@
 #include <net/NetMessagePool.h>
 #include <common/Logger.h>
 #include <common/Clock.h>
+#include <limits.h>
 
 NetServerUDP::NetServerUDP() : 
-	serverDestinationId_(0), udpsock_(0), nextDestinationId_(1),
+	serverDestinationId_(UINT_MAX), udpsock_(0), nextDestinationId_(1),
 	sendRecvThread_(0)
 {
 	packetVIn_ = SDLNet_AllocPacketV(20, 10000);
@@ -62,6 +63,7 @@ bool NetServerUDP::connect(const char *hostName, int portNo)
 		Logger::log(formatString("NetServerUDP: Failed to open client socket"));
 		return false;		
 	}
+	serverDestinationId_ = 0;
 
 	// Send connect message
 	if (!sendConnect(serverAddress, eConnect)) return false;
@@ -137,7 +139,7 @@ int NetServerUDP::sendRecvThreadFunc(void *c)
 void NetServerUDP::actualSendRecvFunc()
 {
 	Clock netClock;
-	while(true)
+	while(udpsock_ != 0)
 	{
 		// Send/recv packets
 		if (!checkOutgoing() &&
@@ -250,6 +252,9 @@ bool NetServerUDP::checkOutgoing()
 
 bool NetServerUDP::checkIncoming()
 {
+	// Check socket is still valid
+	if (!udpsock_) return false;
+
 	// Get the next set of packets from the socket
 	int numrecv = SDLNet_UDP_RecvV(udpsock_, packetVIn_);
 	if(numrecv <=0) return false;
@@ -387,6 +392,12 @@ void NetServerUDP::destroyDestination(unsigned int destinationId)
 		return;
 	}
 
+	if (serverDestinationId_ == destinationId)
+	{
+		SDLNet_UDP_Close(udpsock_);
+		udpsock_ = 0;
+	}
+
 	NetServerUDPDestination *destination = (*itor).second;
 
 	// Get a new buffer from the pool (with the discconect type set)
@@ -427,7 +438,10 @@ unsigned int NetServerUDP::addDestination(IPaddress &address)
 	NetInterface::getConnects() ++;
 
 	// Allocate new destination id
-	unsigned int destinationId = nextDestinationId_++;
+	do {
+		nextDestinationId_++;
+	} while (nextDestinationId_ == 0 || nextDestinationId_ == UINT_MAX);
+	unsigned int destinationId = nextDestinationId_;
 
 	// Create new destination 
 	NetServerUDPDestination *destination = 

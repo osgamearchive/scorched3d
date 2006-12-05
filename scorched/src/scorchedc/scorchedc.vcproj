@@ -1345,6 +1345,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\net\NetInterfaceFlags.h"
+				>
+			</File>
+			<File
 				RelativePath="..\net\NetLoopBack.cpp"
 				>
 			</File>

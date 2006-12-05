@@ -106,7 +106,7 @@ void ServerReadyState::enterState(const unsigned state)
 	}
 
 	// Tell clients who we are waiting on
-	ComsMessageSender::sendToAllPlayingClients(statusMessage);	
+	ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);	
 }
 
 bool ServerReadyState::acceptStateChange(const unsigned state, 
@@ -133,7 +133,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					statusMessage.getWaitingPlayers().push_back(tank->getPlayerId());
 				}
 			}
-			ComsMessageSender::sendToAllPlayingClients(statusMessage);			
+			ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);			
 
 #ifdef S3D_SERVER
 			// Send out a last chance message just before we kick
