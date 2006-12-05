@@ -36,7 +36,6 @@ Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 -- Client Stuff
 Scripting language
 Gun fires at same point for all tanks (ignores turret/gun position in model)
-Animated GIFs for avitars
 Option to reconnect when disconected from server.
 In local mode when it's the next person's turn, re-center the view to where they last had it.
 Ability to re center view around other tanks
