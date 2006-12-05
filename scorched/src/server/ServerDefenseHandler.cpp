@@ -56,7 +56,8 @@ ServerDefenseHandler::~ServerDefenseHandler()
 {
 }
 
-bool ServerDefenseHandler::processMessage(unsigned int destinationId,
+bool ServerDefenseHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -85,7 +86,7 @@ bool ServerDefenseHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	if (tank->getDestinationId() != destinationId)
+	if (tank->getDestinationId() != netMessage.getDestinationId())
 	{
 		Logger::log("ERROR: Player using defense does not exist at this destination");
 		return true;

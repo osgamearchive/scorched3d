@@ -113,7 +113,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 			// We don't have this packet yet, add the data
 			NetMessage *message = NetMessagePool::instance()->
 				getFromPool((fin?NetMessage::DisconnectMessage:NetMessage::BufferMessage),
-					0, 0);
+					destinationId, getAddress().host);
 			message->getBuffer().addDataToBuffer(data, len);
 			incomingMessages_[seq] = message;
 		}
@@ -156,7 +156,7 @@ void NetServerUDPDestination::addData(unsigned int destinationId, int len, unsig
 	{
 		recvMessage_ = NetMessagePool::instance()->
 			getFromPool(NetMessage::BufferMessage,
-				destinationId, server_->getIpAddress(destinationId));
+				destinationId, getAddress().host);
 	}
 
 	// Add the data
@@ -286,7 +286,7 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::SentMessage, 
-			oldmessage.getDestinationId(), 0);
+			oldmessage.getDestinationId(), getAddress().host);
 
 	// Add message to new buffer
 	NetBuffer &buffer = oldmessage.getBuffer();

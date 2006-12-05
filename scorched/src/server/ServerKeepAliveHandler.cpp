@@ -49,7 +49,7 @@ ServerKeepAliveHandler::~ServerKeepAliveHandler()
 {
 }
 
-bool ServerKeepAliveHandler::processMessage(unsigned int destinationId,
+bool ServerKeepAliveHandler::processMessage(NetMessage &message,
 	const char *messageType, NetBufferReader &reader)
 {
 	return true;

@@ -52,12 +52,15 @@ ServerAdminHandler::~ServerAdminHandler()
 {
 }
 
-bool ServerAdminHandler::processMessage(unsigned int destinationId,
+bool ServerAdminHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
 	ComsAdminMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	unsigned int destinationId = netMessage.getDestinationId();
 
 	// Find the tank for this destination
 	Tank *adminTank = 0;

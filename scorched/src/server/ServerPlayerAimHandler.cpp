@@ -40,9 +40,10 @@ ServerPlayerAimHandler::~ServerPlayerAimHandler()
 {
 }
 
-bool ServerPlayerAimHandler::processMessage(unsigned int destinationId,
+bool ServerPlayerAimHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
-									NetBufferReader &reader)
+	NetBufferReader &reader)
 {
 	ComsPlayerAimMessage message;
 	if (!message.readMessage(reader)) return false;

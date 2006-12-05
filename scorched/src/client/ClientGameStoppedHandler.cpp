@@ -47,7 +47,8 @@ ClientGameStoppedHandler::~ClientGameStoppedHandler()
 {
 }
 
-bool ClientGameStoppedHandler::processMessage(unsigned int id,
+bool ClientGameStoppedHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

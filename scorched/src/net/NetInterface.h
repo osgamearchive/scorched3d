@@ -26,6 +26,11 @@
 class NetInterface
 {
 public:
+	enum Flags
+	{
+		fAsync = 1 // Send message async (no ack) if supported
+	};
+
 	NetInterface();
 	virtual ~NetInterface();
 
@@ -38,16 +43,16 @@ public:
 
 	virtual void disconnectAllClients() = 0;
 	virtual void disconnectClient(unsigned int client) = 0;
-	virtual void sendMessage(NetBuffer &buffer) = 0;
-	virtual void sendMessage(NetBuffer &buffer, unsigned int destination) = 0;
+	virtual void sendMessageServer(NetBuffer &buffer, 
+		unsigned int flags = 0) = 0;
+	virtual void sendMessageDest(NetBuffer &buffer, 
+		unsigned int destination, unsigned int flags = 0) = 0;
 
 	static unsigned int &getBytesIn() { return bytesIn_; }
 	static unsigned int &getBytesOut() { return bytesOut_; }
 	static unsigned int &getPings() { return pings_; }
 	static unsigned int &getConnects() { return connects_; }
-
 	static const char *getIpName(unsigned int ipAddress);
-	virtual unsigned int getIpAddress(unsigned int destination);
 
 protected:
 	static unsigned int bytesIn_;

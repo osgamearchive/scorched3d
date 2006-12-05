@@ -57,7 +57,8 @@ ServerBuyAccessoryHandler::~ServerBuyAccessoryHandler()
 {
 }
 
-bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
+bool ServerBuyAccessoryHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -88,7 +89,7 @@ bool ServerBuyAccessoryHandler::processMessage(unsigned int destinationId,
 		return true;
 	}
 
-	if (tank->getDestinationId() != destinationId)
+	if (tank->getDestinationId() != netMessage.getDestinationId())
 	{
 		Logger::log( "ERROR: Player buying does not exist at this destination");
 		return true;

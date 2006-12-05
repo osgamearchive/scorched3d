@@ -46,7 +46,8 @@ ServerTextHandler::~ServerTextHandler()
 {
 }
 
-bool ServerTextHandler::processMessage(unsigned int destinationId,
+bool ServerTextHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -69,14 +70,14 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 			itor++)
 		{
 			Tank *tank = (*itor).second;
-			if (tank->getDestinationId() == destinationId) 
+			if (tank->getDestinationId() == netMessage.getDestinationId()) 
 				tankId = tank->getPlayerId();
 		}
 	}
 
 	// Check this is a tank, and comes from the correct destination
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
-	if (tank && tank->getDestinationId() == destinationId)
+	if (tank && tank->getDestinationId() == netMessage.getDestinationId())
 	{
 		// Construct the message to send to all the clients
 		std::string newText(tank->getName());
@@ -201,7 +202,7 @@ bool ServerTextHandler::processMessage(unsigned int destinationId,
 				itor++)
 			{
 				Tank *currentTank = (*itor).second;
-				if (currentTank->getDestinationId() == destinationId ||
+				if (currentTank->getDestinationId() == netMessage.getDestinationId() ||
 					currentTank->getState().getAdmin())
 				{
 					ComsMessageSender::sendToSingleClient(newMessage,

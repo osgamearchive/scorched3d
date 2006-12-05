@@ -49,7 +49,7 @@ ServerPlayerReadyHandler::~ServerPlayerReadyHandler()
 {
 }
 
-bool ServerPlayerReadyHandler::processMessage(unsigned int destinationId,
+bool ServerPlayerReadyHandler::processMessage(NetMessage &netMessage,
 	const char *messageType, NetBufferReader &reader)
 {
 	// Decode the connect message
@@ -65,11 +65,11 @@ bool ServerPlayerReadyHandler::processMessage(unsigned int destinationId,
 		return false;
 	}
 
-	if (tank->getDestinationId() != destinationId)
+	if (tank->getDestinationId() != netMessage.getDestinationId())
 	{
 		Logger::log(formatString("ERROR: ServerPlayerReadyHandler - "
 			"Message from tank at wrong destination \"%i != %i\"", 
-			tank->getDestinationId(), destinationId));
+			tank->getDestinationId(), netMessage.getDestinationId()));
 		return false;
 	}
 

@@ -46,7 +46,8 @@ ClientPlayerStatusHandler::~ClientPlayerStatusHandler()
 {
 }
 
-bool ClientPlayerStatusHandler::processMessage(unsigned int id,
+bool ClientPlayerStatusHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

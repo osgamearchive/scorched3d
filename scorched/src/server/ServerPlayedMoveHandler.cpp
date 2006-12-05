@@ -50,9 +50,10 @@ ServerPlayedMoveHandler::~ServerPlayedMoveHandler()
 {
 }
 
-bool ServerPlayedMoveHandler::processMessage(unsigned int id,
+bool ServerPlayedMoveHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
-									NetBufferReader &reader)
+	NetBufferReader &reader)
 {
 	ComsPlayedMoveMessage *message = new ComsPlayedMoveMessage;
 	if (!message->readMessage(reader))
@@ -65,7 +66,7 @@ bool ServerPlayedMoveHandler::processMessage(unsigned int id,
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (tank && tank->getState().getState() == TankState::sNormal)
 	{	
-		if (tank->getDestinationId() == id)
+		if (tank->getDestinationId() == netMessage.getDestinationId())
 		{
 			if (TurnController::instance()->playerThisTurn(playerId))
 			{

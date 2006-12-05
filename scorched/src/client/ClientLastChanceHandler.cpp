@@ -49,8 +49,10 @@ ClientLastChanceHandler::~ClientLastChanceHandler()
 {
 }
 
-bool ClientLastChanceHandler::processMessage(unsigned int destinationId,
-	const char *messageType, NetBufferReader &reader)
+bool ClientLastChanceHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType, 
+	NetBufferReader &reader)
 {
 	// Decode the connect message
 	ComsLastChanceMessage message;

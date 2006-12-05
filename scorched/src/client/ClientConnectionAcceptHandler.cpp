@@ -59,17 +59,17 @@ ClientConnectionAcceptHandler::~ClientConnectionAcceptHandler()
 
 }
 
-bool ClientConnectionAcceptHandler::processMessage(unsigned int id,
-												   const char *messageType,
-												   NetBufferReader &reader)
+bool ClientConnectionAcceptHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
 {
 	ComsConnectAcceptMessage message;
 	if (!message.readMessage(reader)) return false;
 
 	if (ClientParams::instance()->getConnectedToServer())
 	{
-		unsigned int ip = ScorchedClient::instance()->getNetInterface().
-			getIpAddress(id);
+		unsigned int ip = netMessage.getIpAddress();
 		if (!ConnectDialog::instance()->getIdStore().saveUniqueId(
 			ip, message.getUniqueId(), message.getPublishAddress()))
 		{

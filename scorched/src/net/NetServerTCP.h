@@ -42,10 +42,10 @@ public:
 
 	virtual void disconnectAllClients();
 	virtual void disconnectClient(unsigned int client);
-	virtual void sendMessage(NetBuffer &buffer);
-	virtual void sendMessage(NetBuffer &buffer, unsigned int destination);
-
-	virtual unsigned int getIpAddress(unsigned int destination);
+	virtual void sendMessageServer(NetBuffer &buffer, 
+		unsigned int flags = 0);
+	virtual void sendMessageDest(NetBuffer &buffer, 
+		unsigned int destination, unsigned int flags = 0);
 
 protected:
 	NetServerTCPProtocol *protocol_;
@@ -64,6 +64,7 @@ protected:
 	bool pollDeleted();
 	void addClient(TCPsocket client);
 	void sendMessage(unsigned int client, NetMessage *message);
+	unsigned int getIpAddress(unsigned int destination);
 
 private:
 

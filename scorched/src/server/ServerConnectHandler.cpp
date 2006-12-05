@@ -66,10 +66,12 @@ ServerConnectHandler::~ServerConnectHandler()
 {
 }
 
-bool ServerConnectHandler::processMessage(unsigned int destinationId,
+bool ServerConnectHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType, NetBufferReader &reader)
 {
-	unsigned int ipAddress = 0;
+	unsigned int destinationId = netMessage.getDestinationId();
+	unsigned int ipAddress = netMessage.getIpAddress();
 	// Only do this on the server, the client can have all bots
 #ifdef S3D_SERVER
 	{
@@ -86,10 +88,6 @@ bool ServerConnectHandler::processMessage(unsigned int destinationId,
 			ServerCommon::kickDestination(destinationId);
 			return true;		
 		}
-
-		// Get the ip address
-		ipAddress = ScorchedServer::instance()->getNetInterface().
-			getIpAddress(destinationId);
 	}
 #endif // S3D_SERVER
 

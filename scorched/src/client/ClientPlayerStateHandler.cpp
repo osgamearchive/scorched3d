@@ -46,9 +46,10 @@ ClientPlayerStateHandler::~ClientPlayerStateHandler()
 
 }
 
-bool ClientPlayerStateHandler::processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader)
+bool ClientPlayerStateHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
 {
 	ComsPlayerStateMessage message(false);
 	if (!message.readMessage(reader)) return false;

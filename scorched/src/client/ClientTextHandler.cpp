@@ -57,7 +57,8 @@ ClientTextHandler::~ClientTextHandler()
 {
 }
 
-bool ClientTextHandler::processMessage(unsigned int id,
+bool ClientTextHandler::processMessage(
+	NetMessage &netNessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

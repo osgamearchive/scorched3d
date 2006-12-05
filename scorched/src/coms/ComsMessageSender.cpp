@@ -32,7 +32,8 @@
 #include <zlib.h>
 
 #ifndef S3D_SERVER
-bool ComsMessageSender::sendToServer(ComsMessage &message)
+bool ComsMessageSender::sendToServer(
+	ComsMessage &message, unsigned int flags)
 {
 	if (!ScorchedClient::instance()->getNetInterface().started()) return false;
 
@@ -54,12 +55,13 @@ bool ComsMessageSender::sendToServer(ComsMessage &message)
 		Logger::log( "ERROR: ComsMessageSender::sendToServer - Failed to write message");
 		return false;
 	}
-	ScorchedClient::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer);
+	ScorchedClient::instance()->getNetInterface().sendMessageServer(
+		NetBufferDefault::defaultBuffer, flags);
 	return true;
 }
 #endif
 bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
-						unsigned int destination)
+	unsigned int destination, unsigned int flags)
 {
 	if (destination == 0) return true;
 	if (!ScorchedServer::instance()->getNetInterface().started())
@@ -97,12 +99,13 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 					NetBufferDefault::defaultBuffer.getBufferUsed(),
 					destLen));
 	}
-	ScorchedServer::instance()->getNetInterface().sendMessage(NetBufferDefault::defaultBuffer,
-		destination);
+	ScorchedServer::instance()->getNetInterface().sendMessageDest(
+		NetBufferDefault::defaultBuffer, destination, flags);
 	return true;
 }
 
-bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
+bool ComsMessageSender::sendToAllConnectedClients(
+	ComsMessage &message, unsigned int flags)
 {
 	bool result = true;
 
@@ -125,7 +128,7 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 		if (findItor == destinations.end())
 		{
 			destinations.insert(destination);
-			if (!sendToSingleClient(message, destination))
+			if (!sendToSingleClient(message, destination, flags))
 			{
 				result = false;
 			}
@@ -135,7 +138,8 @@ bool ComsMessageSender::sendToAllConnectedClients(ComsMessage &message)
 	return result;
 }
 
-bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
+bool ComsMessageSender::sendToAllPlayingClients(
+	ComsMessage &message, unsigned int flags)
 {
 	bool result = true;
 
@@ -159,7 +163,7 @@ bool ComsMessageSender::sendToAllPlayingClients(ComsMessage &message)
 			if (findItor == destinations.end())
 			{
 				destinations.insert(destination);
-				if (!sendToSingleClient(message, destination))
+				if (!sendToSingleClient(message, destination, flags))
 				{
 					result = false;
 				}

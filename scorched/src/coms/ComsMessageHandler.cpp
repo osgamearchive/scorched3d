@@ -148,8 +148,8 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	ComsMessageHandlerI *handler = (*itor).second;
 	const char *messageTypeStr = messageType.c_str();
-	if (!handler->processMessage(message.getDestinationId(), 
-		messageTypeStr, reader))
+	if (!handler->processMessage(
+		message, messageTypeStr, reader))
 	{
 		char buffer[1024];
 		snprintf(buffer, 1024, "Failed to handle RECV message type \"%s\"",

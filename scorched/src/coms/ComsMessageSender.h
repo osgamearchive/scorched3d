@@ -27,10 +27,14 @@
 class ComsMessageSender
 {
 public:
-	static bool sendToServer(ComsMessage &message);
-	static bool sendToSingleClient(ComsMessage &message, unsigned int destination);
-	static bool sendToAllPlayingClients(ComsMessage &message);
-	static bool sendToAllConnectedClients(ComsMessage &message);
+	static bool sendToServer(
+		ComsMessage &message, unsigned int flags = 0);
+	static bool sendToSingleClient(
+		ComsMessage &message, unsigned int destination, unsigned int flags = 0);
+	static bool sendToAllPlayingClients(
+		ComsMessage &message, unsigned int flags = 0);
+	static bool sendToAllConnectedClients(
+		ComsMessage &message, unsigned int flags = 0);
 
 private:
 	ComsMessageSender();

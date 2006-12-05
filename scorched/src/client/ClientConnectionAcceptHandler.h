@@ -31,8 +31,9 @@ public:
 	static ClientConnectionAcceptHandler* instance();
 
 	// Inherited from ComsMessageHandlerI
-	virtual bool processMessage(unsigned int id,
-		const char *message,
+	virtual bool processMessage(
+		NetMessage &message,
+		const char *messageType,
 		NetBufferReader &reader);
 
 protected:

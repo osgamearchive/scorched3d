@@ -42,7 +42,8 @@ ServerFileAkHandler::~ServerFileAkHandler()
 {
 }
 
-bool ServerFileAkHandler::processMessage(unsigned int destinationId,
+bool ServerFileAkHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -59,7 +60,7 @@ bool ServerFileAkHandler::processMessage(unsigned int destinationId,
 	{
 		// For each tank
 		Tank *tank = (*itor).second;
-		if (destinationId == tank->getDestinationId())
+		if (netMessage.getDestinationId() == tank->getDestinationId())
 		{
 			tank->getMod().setReadyToReceive(true);
 		}

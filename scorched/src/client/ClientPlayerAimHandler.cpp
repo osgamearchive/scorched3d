@@ -44,7 +44,8 @@ ClientPlayerAimHandler::~ClientPlayerAimHandler()
 {
 }
 
-bool ClientPlayerAimHandler::processMessage(unsigned int id,
+bool ClientPlayerAimHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

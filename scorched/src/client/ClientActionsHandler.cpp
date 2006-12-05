@@ -46,7 +46,8 @@ ClientActionsHandler::~ClientActionsHandler()
 {
 }
 
-bool ClientActionsHandler::processMessage(unsigned int id,
+bool ClientActionsHandler::processMessage(
+	NetMessage &message,
 	const char *messageType,
 	NetBufferReader &reader)
 {

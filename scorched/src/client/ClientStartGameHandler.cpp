@@ -58,9 +58,10 @@ ClientStartGameHandler::~ClientStartGameHandler()
 
 }
 
-bool ClientStartGameHandler::processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader)
+bool ClientStartGameHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
 {
 	ComsStartGameMessage message;
 	if (!message.readMessage(reader)) return false;

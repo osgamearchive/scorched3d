@@ -47,9 +47,10 @@ ClientRmPlayerHandler::~ClientRmPlayerHandler()
 {
 }
 
-bool ClientRmPlayerHandler::processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader)
+bool ClientRmPlayerHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
 {
 	ComsRmPlayerMessage message;
 	if (!message.readMessage(reader)) return false;

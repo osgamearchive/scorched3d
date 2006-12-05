@@ -71,19 +71,21 @@ void NetLoopBack::disconnectClient(unsigned int client)
 	Logger::log(formatString("Cannot disconnect client %i, they are local!", client));
 }
 
-void NetLoopBack::sendMessage(NetBuffer &buffer)
+void NetLoopBack::sendMessageServer(NetBuffer &buffer, 
+	unsigned int flags)
 {
-	sendMessage(buffer, ServerLoopBackID);
+	sendMessageDest(buffer, ServerLoopBackID, flags);
 }
 
-void NetLoopBack::sendMessage(NetBuffer &buffer, unsigned int destination)
+void NetLoopBack::sendMessageDest(NetBuffer &buffer, 
+	unsigned int destination, unsigned int flags)
 {
 	DIALOG_ASSERT(loopback_);
 	DIALOG_ASSERT(destination == ClientLoopBackID ||
 		destination == ServerLoopBackID);
 
 	NetMessage *message = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, currentId_, 0);
+		getFromPool(NetMessage::BufferMessage, currentId_, 0, flags);
 	message->getBuffer().reset();
 	message->getBuffer().addDataToBuffer(buffer.getBuffer(), buffer.getBufferUsed());
 	loopback_->messageHandler_.addMessage(message);

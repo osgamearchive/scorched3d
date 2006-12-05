@@ -54,7 +54,8 @@ ClientDefenseHandler::~ClientDefenseHandler()
 {
 }
 
-bool ClientDefenseHandler::processMessage(unsigned int id,
+bool ClientDefenseHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

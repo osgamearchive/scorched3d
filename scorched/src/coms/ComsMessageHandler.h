@@ -44,8 +44,8 @@ public:
 	virtual ~ComsMessageHandlerI();
 
 	virtual bool processMessage(
-		unsigned int id,
-		const char *message,
+		NetMessage &message,
+		const char *messageType,
 		NetBufferReader &reader) = 0;
 };
 

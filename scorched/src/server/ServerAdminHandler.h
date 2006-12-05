@@ -30,7 +30,8 @@ public:
 	static ServerAdminHandler *instance();
 
 	bool login(const char *name, const char *password);
-	virtual bool processMessage(unsigned int id,
+	virtual bool processMessage(
+		NetMessage &message,
 		const char *messageType,
 		NetBufferReader &reader);
 

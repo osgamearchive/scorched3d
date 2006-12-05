@@ -63,7 +63,7 @@ ServerAddPlayerHandler::~ServerAddPlayerHandler()
 {
 }
 
-bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
+bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 	const char *messageType, NetBufferReader &reader)
 {
 	ComsAddPlayerMessage message;
@@ -76,7 +76,8 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		(tank->getState().getState() != TankState::sDead) &&
 		(tank->getState().getState() != TankState::sPending))
 	{
-		ServerCommon::sendString(destinationId, "Can only change tank when dead.", false);
+		ServerCommon::sendString(netMessage.getDestinationId(), 
+			"Can only change tank when dead.", false);
 		return true;
 	}
 
@@ -86,7 +87,8 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 		if (ScorchedServer::instance()->getGameState().getState() !=
 			ServerState::ServerStateTooFewPlayers)
 		{
-			ServerCommon::sendString(destinationId, "Can only change type before game starts.", false);
+			ServerCommon::sendString(netMessage.getDestinationId(), 
+				"Can only change type before game starts.", false);
 			return true;
 		}
 
@@ -107,7 +109,7 @@ bool ServerAddPlayerHandler::processMessage(unsigned int destinationId,
 	}
 	else
 	{
-		tank->setDestinationId(destinationId);
+		tank->setDestinationId(netMessage.getDestinationId());
 		tank->setTankAI(0);
 	}
 

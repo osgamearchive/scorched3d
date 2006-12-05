@@ -45,7 +45,8 @@ ClientStartTimerHandler::~ClientStartTimerHandler()
 {
 }
 
-bool ClientStartTimerHandler::processMessage(unsigned int id,
+bool ClientStartTimerHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

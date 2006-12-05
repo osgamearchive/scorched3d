@@ -49,7 +49,8 @@ ClientScoreHandler::~ClientScoreHandler()
 {
 }
 
-bool ClientScoreHandler::processMessage(unsigned int id,
+bool ClientScoreHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {

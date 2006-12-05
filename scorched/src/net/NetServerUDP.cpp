@@ -209,6 +209,8 @@ void NetServerUDP::processMessage(NetMessage &message)
 	}
 	else
 	{
+		NetInterface::getBytesOut() += message.getBuffer().getBufferUsed();
+
 		// Add this buffer to the list of items to be sent
 		destination->addMessage(message);
 	}
@@ -263,6 +265,7 @@ bool NetServerUDP::checkIncoming()
 			Logger::log(formatString("NetServerUDP: Invalid incoming packet size %i", packetLen));
 			continue;
 		}
+		NetInterface::getBytesIn() += packetLen;
 
 		// Check what type of packet we have recieved
 		unsigned char packetType = packetData[0];
@@ -337,18 +340,20 @@ void NetServerUDP::disconnectClient(unsigned int destination)
 	outgoingMessageHandler_.addMessage(message);
 }
 
-void NetServerUDP::sendMessage(NetBuffer &buffer)
+void NetServerUDP::sendMessageServer(NetBuffer &buffer, 
+	unsigned int flags)
 {
 	// Send a message to the server
-	sendMessage(buffer, serverDestinationId_);
+	sendMessageDest(buffer, serverDestinationId_, flags);
 }
 
-void NetServerUDP::sendMessage(NetBuffer &buffer, unsigned int destination)
+void NetServerUDP::sendMessageDest(NetBuffer &buffer, 
+	unsigned int destination, unsigned int flags)
 {
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::BufferMessage, 
-				destination, getIpAddress(destination));
+				destination, 0, flags);
 
 	// Add message to new buffer
 	message->getBuffer().allocate(buffer.getBufferUsed());
@@ -377,18 +382,21 @@ void NetServerUDP::destroyDestination(unsigned int destinationId)
 	// Destroy this destination
 	std::map<unsigned int, NetServerUDPDestination *>::iterator itor =
 		destinations_.find(destinationId);
-	if (itor != destinations_.end())
+	if (itor == destinations_.end())
 	{
-		NetServerUDPDestination *destination = (*itor).second;
-		destinations_.erase(destinationId);
-		destination->printStats(destinationId);
-		delete destination;
+		return;
 	}
+
+	NetServerUDPDestination *destination = (*itor).second;
 
 	// Get a new buffer from the pool (with the discconect type set)
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::DisconnectMessage, 
-				destinationId, getIpAddress(destinationId));
+			destinationId, destination->getAddress().host);
+
+	destinations_.erase(destinationId);
+	destination->printStats(destinationId);
+	delete destination;
 
 	// Add to outgoing message pool
 	incomingMessageHandler_.addMessage(message);
@@ -416,6 +424,8 @@ unsigned int NetServerUDP::getDestination(IPaddress &address)
 
 unsigned int NetServerUDP::addDestination(IPaddress &address)
 {
+	NetInterface::getConnects() ++;
+
 	// Allocate new destination id
 	unsigned int destinationId = nextDestinationId_++;
 
@@ -427,7 +437,7 @@ unsigned int NetServerUDP::addDestination(IPaddress &address)
 	// Get a new buffer from the pool (with the connect type set)
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::ConnectMessage, 
-			destinationId, getIpAddress(destinationId));
+			destinationId, destination->getAddress().host);
 	incomingMessageHandler_.addMessage(message);
 
 	// Make the server destination id the first destination

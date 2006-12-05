@@ -52,7 +52,8 @@ ClientFileHandler::~ClientFileHandler()
 {
 }
 
-bool ClientFileHandler::processMessage(unsigned int id,
+bool ClientFileHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &mainreader)
 {

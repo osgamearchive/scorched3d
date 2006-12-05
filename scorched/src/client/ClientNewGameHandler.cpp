@@ -64,9 +64,10 @@ ClientNewGameHandler::~ClientNewGameHandler()
 
 }
 
-bool ClientNewGameHandler::processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader)
+bool ClientNewGameHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
 {
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;

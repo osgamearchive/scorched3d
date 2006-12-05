@@ -29,8 +29,9 @@ class ClientFileHandler  :
 public:
 	static ClientFileHandler* instance();
 
-	virtual bool processMessage(unsigned int id,
-		const char *message,
+	virtual bool processMessage(
+		NetMessage &message,
+		const char *messageType,
 		NetBufferReader &reader);
 
 protected:

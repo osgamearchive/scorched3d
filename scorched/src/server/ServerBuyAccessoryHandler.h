@@ -30,7 +30,8 @@ class ServerBuyAccessoryHandler :
 public:
 	static ServerBuyAccessoryHandler *instance();
 
-	virtual bool processMessage(unsigned int id,
+	virtual bool processMessage(
+		NetMessage &message,
 		const char *messageType,
 		NetBufferReader &reader);
 

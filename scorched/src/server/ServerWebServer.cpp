@@ -274,7 +274,7 @@ bool ServerWebServer::processRequest(
 
 	NetBuffer buffer;
 	buffer.addDataToBuffer(text.c_str(), text.size()); // No null
-	netServer_.sendMessage(buffer, destinationId);
+	netServer_.sendMessageDest(buffer, destinationId);
 	
 	return true;
 }

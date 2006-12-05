@@ -240,18 +240,20 @@ void NetServerTCP::disconnectClient(unsigned int dest)
 	sendMessage(dest, message);
 }
 
-void NetServerTCP::sendMessage(NetBuffer &buffer)
+void NetServerTCP::sendMessageServer(NetBuffer &buffer, 
+	unsigned int flags)
 {
-	sendMessage(buffer, firstDestination_);
+	sendMessageDest(buffer, firstDestination_, flags);
 }
 
-void NetServerTCP::sendMessage(NetBuffer &buffer, unsigned int dest)
+void NetServerTCP::sendMessageDest(NetBuffer &buffer, 
+	unsigned int destination, unsigned int flags)
 							
 {
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::NoMessage, 
-				dest, getIpAddress(dest));
+				destination, getIpAddress(destination), flags);
 
 	// Add message to new buffer
 	message->getBuffer().allocate(buffer.getBufferUsed());
@@ -260,7 +262,7 @@ void NetServerTCP::sendMessage(NetBuffer &buffer, unsigned int dest)
 	message->getBuffer().setBufferUsed(buffer.getBufferUsed());
 
 	// Send Mesage
-	sendMessage(dest, message);
+	sendMessage(destination, message);
 }
 
 void NetServerTCP::sendMessage(unsigned int client, NetMessage *message)

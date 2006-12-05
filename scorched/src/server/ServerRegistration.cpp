@@ -161,7 +161,7 @@ bool ServerRegistrationEntry::registerGame()
 	if (!netServer_.connect(masterListServer_, 80)) return false;
 
 	// Send the web request
-	netServer_.sendMessage(sendNetBuffer_);
+	netServer_.sendMessageServer(sendNetBuffer_);
 	return true;
 }
 

@@ -42,7 +42,8 @@ ServerInitializeHandler::~ServerInitializeHandler()
 {
 }
 
-bool ServerInitializeHandler::processMessage(unsigned int destinationId,
+bool ServerInitializeHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -59,7 +60,7 @@ bool ServerInitializeHandler::processMessage(unsigned int destinationId,
 	{
 		// For each tank
 		Tank *tank = (*itor).second;
-		if (destinationId == tank->getDestinationId())
+		if (netMessage.getDestinationId() == tank->getDestinationId())
 		{
 			tank->getState().setInitializing(false);
 		}

@@ -74,7 +74,7 @@ bool ServerBrowserCollect::fetchServerList(
 	}
 
 	// Send the master server request
-	netServer_.sendMessage(sendNetBuffer_);
+	netServer_.sendMessageServer(sendNetBuffer_);
 	
 	const int WaitTime =
 		OptionsMasterListServer::instance()->getMasterListServerTimeout();

@@ -46,7 +46,8 @@ ServerLinesHandler::~ServerLinesHandler()
 {
 }
 
-bool ServerLinesHandler::processMessage(unsigned int destinationId,
+bool ServerLinesHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
@@ -62,7 +63,7 @@ bool ServerLinesHandler::processMessage(unsigned int destinationId,
 
 	// Check this is a tank, and comes from the correct destination
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (!tank || tank->getDestinationId() != destinationId) return true;
+	if (!tank || tank->getDestinationId() != netMessage.getDestinationId()) return true;
 
 	// If this tank has been muted also don't allow lines
 	if (tank->getState().getMuted()) return true;
@@ -70,7 +71,7 @@ bool ServerLinesHandler::processMessage(unsigned int destinationId,
 	// Send all team messages to everyone in the team (or any admins)
 	// Only send to the same destination once
 	std::set<unsigned int> doneDests;
-	doneDests.insert(destinationId); // Don't send to recieved dest
+	doneDests.insert(netMessage.getDestinationId()); // Don't send to recieved dest
 	std::map<unsigned int, Tank *> &tanks =
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator itor;

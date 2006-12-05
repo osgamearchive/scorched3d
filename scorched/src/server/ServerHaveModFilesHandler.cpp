@@ -48,12 +48,15 @@ ServerHaveModFilesHandler::~ServerHaveModFilesHandler()
 {
 }
 
-bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
+bool ServerHaveModFilesHandler::processMessage(
+	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
 {
 	ComsHaveModFilesMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	unsigned int destinationId = netMessage.getDestinationId();
 
 	std::list<ModFileEntry *> neededEntries_;
 	unsigned int neededLength = 0;
@@ -111,7 +114,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 	if (neededEntries_.empty())
 	{
 		// No files need downloading
-		ServerCommon::sendString(destinationId, 
+		ServerCommon::sendString(netMessage.getDestinationId(), 
 			"No mod files need downloading", false);
 	}
 #ifndef S3D_SERVER
@@ -171,7 +174,7 @@ bool ServerHaveModFilesHandler::processMessage(unsigned int destinationId,
 	{
 		// For each tank
 		Tank *tank = (*itor).second;
-		if (destinationId == tank->getDestinationId())
+		if (netMessage.getDestinationId() == tank->getDestinationId())
 		{
 			// and for each needed entry
 			std::list<ModFileEntry *>::iterator neededItor;

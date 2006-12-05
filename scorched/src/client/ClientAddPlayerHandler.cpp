@@ -51,9 +51,10 @@ ClientAddPlayerHandler::~ClientAddPlayerHandler()
 
 }
 
-bool ClientAddPlayerHandler::processMessage(unsigned int id,
-		const char *messageType,
-		NetBufferReader &reader)
+bool ClientAddPlayerHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
 {
 	ComsAddPlayerMessage message;
 	if (!message.readMessage(reader)) return false;
