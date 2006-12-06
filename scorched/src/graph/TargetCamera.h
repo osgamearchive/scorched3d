@@ -85,8 +85,11 @@ protected:
 	bool useHeightFunc_;
 	int dragXStart_, dragYStart_;
 	bool dragging_;
+	bool lastLandIntersectValid_;
+	Vector lastLandIntersect_;
 
 	bool moveCamera(float frameTime, bool playing);
+	bool getLandIntersect(int x, int y, Vector &intersect);
 
 };
 

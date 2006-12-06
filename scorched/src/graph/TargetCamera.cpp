@@ -392,6 +392,22 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	return simulateCamera;
 }
 
+bool TargetCamera::getLandIntersect(int x, int y, Vector &intersect)
+{
+	mainCam_.draw();
+	Line direction;
+	if (!mainCam_.getDirectionFromPt((float) x, (float) y, direction))
+	{
+		return false;
+	}
+	if (!ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+		getIntersect(direction, intersect))
+	{
+		return false;
+	}
+	return true;
+}
+
 void TargetCamera::mouseDrag(GameState::MouseButton button, 
 	int mx, int my, int x, int y, bool &skipRest)
 {
@@ -416,6 +432,15 @@ void TargetCamera::mouseDrag(GameState::MouseButton button,
 		{
 			dragging_ = true;
 		}
+
+		if (dragging_)
+		{
+			float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().
+				getGroundMaps().getMapWidth();
+			float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
+				getGroundMaps().getMapHeight();
+			mainCam_.scroll(float(-x), float(-y), mapWidth, mapHeight);
+		}
 	}
 	else
 	{
@@ -438,6 +463,9 @@ void TargetCamera::mouseDown(GameState::MouseButton button,
 {
 	dragXStart_ = x;
 	dragYStart_ = y;
+
+	lastLandIntersectValid_ = 
+		getLandIntersect(x, y, lastLandIntersect_);
 }
 
 void TargetCamera::mouseUp(GameState::MouseButton button, 
@@ -452,18 +480,8 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 		return;
 	}
 
-	// Set the current viewport etc...
-	mainCam_.draw();
-
-	// Try to find the intersection point
-	Vector intersect;
-	Line direction;
-	if (!mainCam_.getDirectionFromPt((GLfloat) x, (GLfloat) y, direction))
-	{
-		return;
-	}
-	if (!ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
-		getIntersect(direction, intersect))
+	// Check the intersection point was valid
+	if (!lastLandIntersectValid_)
 	{
 		return;
 	}
@@ -495,7 +513,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 	if (selectType == Accessory::ePositionSelectNone)
 	{
 		cameraPos_ = CamFree;
-		mainCam_.setLookAt((Vector &) intersect);
+		mainCam_.setLookAt(lastLandIntersect_);
 		return;
 	}
 
@@ -504,8 +522,8 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 		getLandscapeMaps().getDefinitions().getDefn()->landscapewidth;
 	int landHeight = ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions().getDefn()->landscapeheight;
-	int posX = (int) intersect[0];
-	int posY = (int) intersect[1];
+	int posX = (int) lastLandIntersect_[0];
+	int posY = (int) lastLandIntersect_[1];
 	if (posX > 0 && posX < landWidth &&
 		posY > 0 && posY < landHeight)
 	{
