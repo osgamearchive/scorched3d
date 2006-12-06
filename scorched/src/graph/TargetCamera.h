@@ -60,6 +60,8 @@ public:
 	void mouseWheel(int x, int y, int z, bool &skipRest);
 	void mouseDown(GameState::MouseButton button, 
 		int x, int y, bool &skipRest);
+	void mouseUp(GameState::MouseButton button, 
+		int x, int y, bool &skipRest);
 	void mouseDrag(GameState::MouseButton button,
 		int mx, int my, int x, int y, bool &skipRest);
 	void keyboardCheck(
@@ -81,6 +83,8 @@ protected:
 	ParticleEngine particleEngine_;
 	float totalTime_;
 	bool useHeightFunc_;
+	int dragXStart_, dragYStart_;
+	bool dragging_;
 
 	bool moveCamera(float frameTime, bool playing);
 

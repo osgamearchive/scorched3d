@@ -95,7 +95,8 @@ TargetCamera::TargetCamera() :
 	cameraPos_(CamSpectator), 
 	totalTime_(0.0f),
 	particleEngine_(&mainCam_, 6000),
-	useHeightFunc_(true)
+	useHeightFunc_(true),
+	dragging_(false)
 {
 	resetCam();
 	mainCam_.setMinHeightFunc(minHeightFunc, this);
@@ -408,6 +409,14 @@ void TargetCamera::mouseDrag(GameState::MouseButton button,
 			(GLfloat) (-y) * QPI,
 			0.0f);
 	}
+	else if (button == GameState::MouseButtonLeft)
+	{
+		if (mx - dragXStart_ > 4 || mx - dragXStart_ < -4 ||
+			my - dragYStart_ > 4 || my - dragYStart_ < -4)
+		{
+			dragging_ = true;
+		}
+	}
 	else
 	{
 		mainCam_.movePositionDelta(
@@ -427,6 +436,22 @@ void TargetCamera::mouseWheel(int x, int y, int z, bool &skipRest)
 void TargetCamera::mouseDown(GameState::MouseButton button, 
 	int x, int y, bool &skipRest)
 {
+	dragXStart_ = x;
+	dragYStart_ = y;
+}
+
+void TargetCamera::mouseUp(GameState::MouseButton button, 
+	int x, int y, bool &skipRest)
+{
+	// Check if we were dragging with the left mouse button
+	// If we were then we ignore the request as the user will have already
+	// moved the camera using dragging, not using clicking
+	if (dragging_)
+	{
+		dragging_ = false;
+		return;
+	}
+
 	// Set the current viewport etc...
 	mainCam_.draw();
 

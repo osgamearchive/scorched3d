@@ -201,6 +201,12 @@ void MainCamera::mouseDown(const unsigned state, GameState::MouseButton button,
 	targetCam_.mouseDown(button, x, y, skipRest);
 }
 
+void MainCamera::mouseUp(const unsigned state, GameState::MouseButton button,
+	int x, int y, bool &skipRest)
+{
+	targetCam_.mouseUp(button, x, y, skipRest);
+}
+
 void MainCamera::keyboardCheck(const unsigned state, float frameTime, 
 							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, 

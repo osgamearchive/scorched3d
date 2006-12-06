@@ -103,8 +103,12 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		SoftwareMouse::instance());
 	gameState.addStateMouseDownEntry(state,
 		GameState::MouseButtonLeft, MainCamera::instance());
+	gameState.addStateMouseUpEntry(state,
+		GameState::MouseButtonLeft, MainCamera::instance());
 	gameState.addStateMouseDragEntry(state, 
-		GameState::MouseButtonRight| GameState::MouseButtonMiddle, MainCamera::instance());
+		GameState::MouseButtonLeft | 
+		GameState::MouseButtonRight | 
+		GameState::MouseButtonMiddle, MainCamera::instance());
 	gameState.addStateMouseWheelEntry(state, 
 		MainCamera::instance());
 	gameState.addStateKeyEntry(state, 

@@ -43,6 +43,8 @@ public:
 		int x, int y, int z, bool &skipRest);
 	virtual void mouseDown(const unsigned state, 
 		GameState::MouseButton button, int x, int y, bool &skipRest);
+	virtual void mouseUp(const unsigned state, 
+		GameState::MouseButton button, int x, int y, bool &skipRest);
 	virtual void mouseDrag(const unsigned state, 
 		GameState::MouseButton button,
 		int mx, int my, int x, int y, bool &skipRest);

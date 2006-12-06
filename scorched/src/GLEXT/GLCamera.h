@@ -153,6 +153,9 @@ public:
 	*/
 	float getZoom() { return zoom_; }
 
+	/**
+	Scrolls the camera along the ground, in the direction given.
+	*/
 	enum ScrollDir
 	{
 		eScrollLeft,
@@ -161,6 +164,7 @@ public:
 		eScrollDown
 	};
 	void scroll(ScrollDir direction, float maxWidth, float maxHeight);
+	void scroll(float x, float y, float maxWidth, float maxHeight);
 
 	static GLCamera *getCurrentCamera() { return currentCamera_; }
 
