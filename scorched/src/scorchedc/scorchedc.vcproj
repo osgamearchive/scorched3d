@@ -3737,6 +3737,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWTime.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTime.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWToolTip.cpp"
 				>
 			</File>

@@ -371,10 +371,32 @@ void GLWPlanView::drawTanks()
 
 	// Draw the rest of the tanks
 	// as points on the plan view
+	glEnable(GL_POINT_SMOOTH);
+
+	glPointSize(7.0f);
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 0.0f);
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = currentTanks.begin();
+		itor != currentTanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getState() == TankState::sNormal &&
+			!tank->getState().getSpectator())
+		{
+			position = tank->getPosition().getTankPosition();
+			position[0] += (maxWidth - mapWidth) / 2.0f;
+			position[1] += (maxWidth - mapHeight) / 2.0f;
+			position /= maxWidth;
+
+			glVertex3fv(position);
+		}
+	}
+	glEnd();
+
 	glPointSize(5.0f);
 	glBegin(GL_POINTS);
-	bool first = true;
-	std::map<unsigned int, Tank *>::iterator itor;
 	for (itor = currentTanks.begin();
 		itor != currentTanks.end();
 		itor++)
@@ -407,6 +429,7 @@ void GLWPlanView::drawTanks()
 		}
 	}
 	glEnd();
+	glDisable(GL_POINT_SMOOTH);
 }
 
 void GLWPlanView::drawCurrentTank()

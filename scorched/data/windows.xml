@@ -1,4 +1,32 @@
 <windows>
+	<!--
+	<window>
+		<name>Clock</name>
+		<state>all</state>
+		<state>start</state>
+		<visible>true</visible>
+		<key></key>
+		<windowlevel>50000</windowlevel>
+		<w>100</w>
+		<h>40</h>
+		<x>100</x>
+		<y>100</y>
+		<description>A Clock</description>
+		<items>
+			<item>
+				<widget type="GLWTime">
+					<x>0</x><y>0</y>
+					<w>0</w><h>0</h>
+					<fontcolor>
+						<a>0.8</a>
+						<b>0.8</b>
+						<c>0.0</c>
+					</fontcolor>
+				</widget>
+			</item>
+		</items>
+	</window>
+	-->
 	<window>
 		<name>Talk </name>
 		<state>all</state>
