@@ -1993,6 +1993,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\tank\TankCamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tank\TankCamera.h"
+				>
+			</File>
+			<File
 				RelativePath="..\tank\TankColorGenerator.cpp"
 				>
 			</File>
