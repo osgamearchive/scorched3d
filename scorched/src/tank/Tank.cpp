@@ -30,6 +30,7 @@
 #include <tank/TankModelContainer.h>
 #include <tank/TankMod.h>
 #include <tank/TankAvatar.h>
+#include <tank/TankCamera.h>
 #include <tankai/TankAI.h>
 #include <tankai/TankAIStore.h>
 #include <target/TargetLife.h>
@@ -59,6 +60,7 @@ Tank::Tank(ScorchedContext &context,
 	modelContainer_ = new TankModelContainer(modelName, typeName);
 	mod_ = new TankMod();
 	avatar_ = new TankAvatar();
+	camera_ = new TankCamera(context);
 
 	position_->setTank(this);
 	state_->setTank(this);
@@ -77,6 +79,7 @@ Tank::~Tank()
 	delete modelContainer_; modelContainer_ = 0;
 	delete mod_; mod_ = 0;
 	delete avatar_; avatar_ = 0;
+	delete camera_; camera_ = 0;
 }
 
 void Tank::setTankAI(TankAI *ai)
