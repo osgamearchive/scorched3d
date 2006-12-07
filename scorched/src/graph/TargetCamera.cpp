@@ -96,7 +96,8 @@ TargetCamera::TargetCamera() :
 	totalTime_(0.0f),
 	particleEngine_(&mainCam_, 6000),
 	useHeightFunc_(true),
-	dragging_(false)
+	dragging_(false),
+	lastLandIntersectValid_(false)
 {
 	resetCam();
 	mainCam_.setMinHeightFunc(minHeightFunc, this);
@@ -485,6 +486,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 	{
 		return;
 	}
+	lastLandIntersectValid_ = false;
 
     skipRest = true;
 
