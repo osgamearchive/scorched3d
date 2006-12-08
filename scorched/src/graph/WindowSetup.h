@@ -22,11 +22,15 @@
 #if !defined(__INCLUDE_WindowSetuph_INCLUDE__)
 #define __INCLUDE_WindowSetuph_INCLUDE__
 
+class GLWWindowSkinManager;
 namespace WindowSetup
 {
-	void addCommonComponents(unsigned state);
-	void setupStartWindows();
-	void setupGameWindows();
+	void addStateWindows(GLWWindowSkinManager *skinManager,
+		unsigned int state, const char *windowState);
+	void addCommonComponents(GLWWindowSkinManager *skinManager,
+		unsigned state);
+	void setupStartWindows(GLWWindowSkinManager *skinManager);
+	void setupGameWindows(GLWWindowSkinManager *skinManager);
 };
 
 

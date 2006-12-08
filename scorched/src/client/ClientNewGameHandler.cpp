@@ -23,6 +23,7 @@
 #include <client/ClientState.h>
 #include <client/ClientWaitState.h>
 #include <graph/SpeedChange.h>
+#include <graph/MainCamera.h>
 #include <tankgraph/RenderTracer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
@@ -39,6 +40,7 @@
 #include <landscapedef/LandscapeDefinitions.h>
 #include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
+#include <tank/TankCamera.h>
 
 ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
 
@@ -111,6 +113,9 @@ bool ClientNewGameHandler::processMessage(
 	// Set all of the attribute for the objects
 	if(!message.getPlayerStateMessage().readMessage(reader)) return false;
 
+	// Make sure the landscape has been optimized
+	Landscape::instance()->reset(ProgressDialog::instance());
+
 	RenderTracer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
 
@@ -125,8 +130,15 @@ bool ClientNewGameHandler::processMessage(
 	// Get rid of this time so we don't screw things up
 	ScorchedClient::instance()->getMainLoop().getTimer().getTimeDifference();
 
-	// Make sure the landscape has been optimized
-	Landscape::instance()->reset(ProgressDialog::instance());
+	// Reset camera positions for each tank
+	std::map<unsigned int, Tank *>::iterator tankItor;
+	for (tankItor = ScorchedClient::instance()->getTankContainer().getAllTanks().begin();
+		tankItor != ScorchedClient::instance()->getTankContainer().getAllTanks().end();
+		tankItor++)
+	{
+		Tank *current = (*tankItor).second;
+		current->getCamera().setCameraType(1);
+	}
 
 	// Tell the server we have finished processing the landscape
 	ClientWaitState::instance()->sendClientReady();
@@ -134,6 +146,7 @@ bool ClientNewGameHandler::processMessage(
 	// Move into the wait state
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();
+
 	return true;
 }
 

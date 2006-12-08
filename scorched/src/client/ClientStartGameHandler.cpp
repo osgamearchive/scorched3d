@@ -27,6 +27,8 @@
 #include <engine/ActionController.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAccessories.h>
+#include <tank/TankCamera.h>
+#include <graph/MainCamera.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
@@ -69,11 +71,19 @@ bool ClientStartGameHandler::processMessage(
 	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(
 		message.getCurrentPlayerId());
 
+	// Set the camera back to this players camera position
+	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
+	if (current)
+	{
+		MainCamera::instance()->getTarget().getCamera().setLookAt(current->getCamera().getCameraLookAt());
+		MainCamera::instance()->getTarget().getCamera().setCurrentPos(current->getCamera().getCameraPosition());
+		MainCamera::instance()->getTarget().setCameraType((TargetCamera::CamType) current->getCamera().getCameraType());
+	}
+
 	// Ensure that the landscape is set to the "proper" texture
 	Landscape::instance()->restoreLandscapeTexture();
 
 	// make sound to tell client a new game is commencing
-	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (current->getDestinationId() == 
 		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
 	{

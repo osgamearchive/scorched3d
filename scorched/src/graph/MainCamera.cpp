@@ -18,10 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <graph/MainCamera.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientParams.h>
+#include <graph/MainCamera.h>
 #include <graph/Main2DCamera.h>
+#include <graph/OptionsDisplay.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <engine/ViewPoints.h>
@@ -30,9 +32,10 @@
 #include <sound/Sound.h>
 #include <sound/SoundUtils.h>
 #include <common/Keyboard.h>
-#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <tank/TankContainer.h>
+#include <tank/TankCamera.h>
 #include <math.h>
 #include <time.h>
 
@@ -176,6 +179,19 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 		targetCam_.getCamera().getCurrentPos();
 	Sound::instance()->getDefaultListener()->setOrientation(
 		direction);
+
+	// Update the current tank's camera attributes
+	if (state == ClientState::StatePlaying ||
+		ClientParams::instance()->getConnectedToServer())
+	{
+		Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
+		if (current)
+		{
+			current->getCamera().setCameraLookAt(targetCam_.getCamera().getLookAt());
+			current->getCamera().setCameraPosition(targetCam_.getCamera().getCurrentPos());
+			current->getCamera().setCameraType((int) targetCam_.getCameraType());
+		}
+	}
 }
 
 void MainCamera::draw(const unsigned state)

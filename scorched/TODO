@@ -14,6 +14,9 @@ Added: Users connecting to web admin console from the local machine don't need a
 Added: Console server now sends server logging to stdout
 Added: GLWTime widget to allow a clock to be drawn on screen
 Added: Dragging the mouse will drag the landscape (clicking still moves to look at point)
+Added: Split and inter-dependancy removal of configure.ac files
+Added: Camera recentered on tank at the start of each new round
+Added: For single player games camera position remembered for each player
 
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)
 Fixed: Server web managament can view settings that do not fall into the usual brackets
@@ -40,7 +43,6 @@ Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
 Scripting language
 Gun fires at same point for all tanks (ignores turret/gun position in model)
 Option to reconnect when disconected from server.
-In local mode when it's the next person's turn, re-center the view to where they last had it.
 Ability to re center view around other tanks
 Make a count down sound when timer runs out.
 Add option for human players to say stuff when firing/killed

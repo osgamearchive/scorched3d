@@ -58,6 +58,7 @@
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowManager.h>
+#include <GLW/GLWWindowSkinManager.h>
 #include <engine/MainLoop.h>
 #include <engine/ActionController.h>
 #include <dialogs/ProgressDialog.h>
@@ -170,7 +171,12 @@ bool startClient(ProgressCounter *progressCounter)
 
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");
-	WindowSetup::setupStartWindows();
+	if (!GLWWindowSkinManager::defaultinstance()->loadWindows())
+	{
+		dialogMessage("Scorched3D", "Failed to load default windows skins");
+		return false;
+	}
+	WindowSetup::setupStartWindows(GLWWindowSkinManager::defaultinstance());
 	HelpButtonDialog::instance();
 	
 	std::string errorString;

@@ -23,15 +23,19 @@
 #include <XML/XMLFile.h>
 #include <common/Defines.h>
 
-GLWWindowSkinManager *GLWWindowSkinManager::instance_ = 0;
+GLWWindowSkinManager *GLWWindowSkinManager::defaultinstance_ = 0;
+GLWWindowSkinManager *GLWWindowSkinManager::modinstance_ = 0;
 
-GLWWindowSkinManager *GLWWindowSkinManager::instance()
+GLWWindowSkinManager *GLWWindowSkinManager::defaultinstance()
 {
-	if (!instance_)
-	{
-		instance_ = new GLWWindowSkinManager();
-	}
-	return instance_;
+	if (!defaultinstance_) defaultinstance_ = new GLWWindowSkinManager();
+	return defaultinstance_;
+}
+
+GLWWindowSkinManager *GLWWindowSkinManager::modinstance()
+{
+	if (!modinstance_) modinstance_ = new GLWWindowSkinManager();
+	return modinstance_;
 }
 
 GLWWindowSkinManager::GLWWindowSkinManager()

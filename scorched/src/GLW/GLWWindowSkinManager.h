@@ -27,14 +27,16 @@
 class GLWWindowSkinManager
 {
 public:
-	static GLWWindowSkinManager *instance();
+	static GLWWindowSkinManager *modinstance(); // After mod has been loaded
+	static GLWWindowSkinManager *defaultinstance(); // Before mod has been loaded
 
 	bool loadWindows();
 
 	std::list<GLWWindowSkin *> getStateWindows(const char *state);
 
 protected:
-	static GLWWindowSkinManager *instance_;
+	static GLWWindowSkinManager *modinstance_;
+	static GLWWindowSkinManager *defaultinstance_;
 	std::list<GLWWindowSkin *> windows_;
 
 private:

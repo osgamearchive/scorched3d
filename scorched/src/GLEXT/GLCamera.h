@@ -62,6 +62,11 @@ public:
 	move instantly.
 	*/
 	void setLookAt(Vector &lookAt, bool instant = false);
+
+	/**
+	Sets the position that the camera will look from.
+	*/
+	void setCurrentPos(Vector &pos);
 	/**
 	Sets the position that the camera will look from.
 	This position is relative to the current look at position.

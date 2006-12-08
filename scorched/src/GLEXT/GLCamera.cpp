@@ -78,6 +78,11 @@ void GLCamera::setLookAt(Vector &lookAt, bool instant)
 	}
 }
 
+void GLCamera::setCurrentPos(Vector &pos)
+{
+	currentPosition_ = pos;
+}
+
 void GLCamera::setOffSet(Vector &offSet, bool instant)
 {
 	wantedOffset_ = offSet;
@@ -307,6 +312,7 @@ void GLCamera::scroll(float x, float y,
 	up *= y;
 	
 	wantedLookAt_ += left + up;
+	currentPosition_ += left + up;
 
 	if (wantedLookAt_[0] < 0.0f) wantedLookAt_[0] = 0.0f;
 	else if (wantedLookAt_[0] > maxWidth) wantedLookAt_[0] = maxWidth;

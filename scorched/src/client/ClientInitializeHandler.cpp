@@ -115,9 +115,11 @@ bool ClientInitializeHandler::initialize()
 	// Load game windows
 	ProgressDialog::instance()->setNewPercentage(0.0f);
 	ProgressDialog::instance()->setNewOp("Initializing Game Windows");
-	if (!GLWWindowSkinManager::instance()->loadWindows())
+	if (!GLWWindowSkinManager::modinstance()->loadWindows())
+	{
 		dialogExit("Scorched3D", "Failed to load windows skins");
-	WindowSetup::setupGameWindows();
+	}
+	WindowSetup::setupGameWindows(GLWWindowSkinManager::modinstance());
 	GLWWindowManager::instance()->loadPositions();		
 
 	// Move into the player setup state
