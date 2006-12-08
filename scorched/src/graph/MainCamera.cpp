@@ -247,13 +247,25 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 	float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
 		getDefinitions().getDefn()->landscapeheight;
 	if (scrollUp->keyDown(buffer, keyState)) 
+	{
+		targetCam_.setCameraType(TargetCamera::CamFree);
 		targetCam_.getCamera().scroll(GLCamera::eScrollUp, mapWidth, mapHeight);
+	}
 	else if (scrollDown->keyDown(buffer, keyState)) 
+	{
+		targetCam_.setCameraType(TargetCamera::CamFree);
 		targetCam_.getCamera().scroll(GLCamera::eScrollDown, mapWidth, mapHeight);
+	}
 	else if (scrollLeft->keyDown(buffer, keyState)) 
+	{
+		targetCam_.setCameraType(TargetCamera::CamFree);
 		targetCam_.getCamera().scroll(GLCamera::eScrollLeft, mapWidth, mapHeight);
+	}
 	else if (scrollRight->keyDown(buffer, keyState)) 
+	{
+		targetCam_.setCameraType(TargetCamera::CamFree);
 		targetCam_.getCamera().scroll(GLCamera::eScrollRight, mapWidth, mapHeight);
+	}
 
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_1", setQuick1);
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_2", setQuick2);

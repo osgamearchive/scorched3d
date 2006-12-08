@@ -436,6 +436,7 @@ void TargetCamera::mouseDrag(GameState::MouseButton button,
 
 		if (dragging_)
 		{
+			cameraPos_ = CamFree;
 			float mapWidth = (float) ScorchedClient::instance()->getLandscapeMaps().
 				getGroundMaps().getMapWidth();
 			float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
