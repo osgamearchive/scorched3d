@@ -26,15 +26,28 @@ AC_CHECK_LIB(fridge, beer, echo "Hmm?!",[
 	echo "We highly suggest that you rectify this situation immediately."
 ])
 
-m4_include([configure-sdl.m4])
+AC_ARG_ENABLE(serveronly, 
+	[  --enable-serveronly Enable server only compilation],
+		    , enable_serveronly=no,
+		    enable_serveronly=yes)
+
+# Include the other configuration files
+if test "x$enable_serveronly" = "xno" ; then
 m4_include([configure-gl.m4])
 m4_include([configure-al.m4])
-m4_include([configure-flt.m4])
-m4_include([configure-sql.m4])
 m4_include([configure-wx.m4])
 m4_include([configure-ogg.m4])
 m4_include([configure-ft.m4])
+S3D_SUBDIRS="scorched scorchedc scorcheds"
+else
+S3D_SUBDIRS="scorcheds"
+fi
+m4_include([configure-sdl.m4])
+m4_include([configure-flt.m4])
+m4_include([configure-sql.m4])
 m4_include([configure-ode.m4])
+
+AC_SUBST(S3D_SUBDIRS)
 
 dnl Checks for Profiling
 AC_MSG_CHECKING(for profiling enabled)

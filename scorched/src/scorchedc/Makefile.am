@@ -292,6 +292,7 @@ scorched3dc_SOURCES = \
 	../net/NetBufferUtil.h \
 	../net/NetInterface.cpp \
 	../net/NetInterface.h \
+	../net/NetInterfaceFlags.h \
 	../net/NetLoopBack.cpp \
 	../net/NetLoopBack.h \
 	../net/NetMessage.cpp \
@@ -448,6 +449,8 @@ scorched3dc_SOURCES = \
 	../tank/TankAvatar.h \
 	../tank/TankBatteries.cpp \
 	../tank/TankBatteries.h \
+	../tank/TankCamera.cpp \
+	../tank/TankCamera.h \
 	../tank/TankColorGenerator.cpp \
 	../tank/TankColorGenerator.h \
 	../tank/TankContainer.cpp \
@@ -877,6 +880,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWTextBox.h \
 	../GLW/GLWTextButton.cpp \
 	../GLW/GLWTextButton.h \
+	../GLW/GLWTime.cpp \
+	../GLW/GLWTime.h \
 	../GLW/GLWToolTip.cpp \
 	../GLW/GLWToolTip.h \
 	../GLW/GLWTracker.cpp \

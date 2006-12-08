@@ -296,6 +296,7 @@ scorched3ds_SOURCES = \
 	../net/NetBufferUtil.h \
 	../net/NetInterface.cpp \
 	../net/NetInterface.h \
+	../net/NetInterfaceFlags.h \
 	../net/NetLoopBack.cpp \
 	../net/NetLoopBack.h \
 	../net/NetMessage.cpp \
@@ -450,6 +451,8 @@ scorched3ds_SOURCES = \
 	../tank/TankAvatar.h \
 	../tank/TankBatteries.cpp \
 	../tank/TankBatteries.h \
+	../tank/TankCamera.cpp \
+	../tank/TankCamera.h \
 	../tank/TankColorGenerator.cpp \
 	../tank/TankColorGenerator.h \
 	../tank/TankContainer.cpp \

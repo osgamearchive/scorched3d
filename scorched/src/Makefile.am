@@ -1,1 +1,1 @@
-SUBDIRS = scorched scorchedc scorcheds
+SUBDIRS = @S3D_SUBDIRS@

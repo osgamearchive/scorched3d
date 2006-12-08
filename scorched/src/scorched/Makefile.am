@@ -101,6 +101,7 @@ scorched3d_SOURCES = \
 	../net/NetBufferUtil.h \
 	../net/NetInterface.cpp \
 	../net/NetInterface.h \
+	../net/NetInterfaceFlags.h \
 	../net/NetLoopBack.cpp \
 	../net/NetLoopBack.h \
 	../net/NetMessage.cpp \
