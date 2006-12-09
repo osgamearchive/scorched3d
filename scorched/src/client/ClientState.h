@@ -48,6 +48,7 @@ namespace ClientState
 		StateLoadFiles,
 		StateGetPlayers,
 		StateLoadPlayers,
+		StateLoadLevel,
 		StateWait,
 		StateBuyWeapons,
 		StateAutoDefense,

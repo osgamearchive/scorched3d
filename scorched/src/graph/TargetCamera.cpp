@@ -248,7 +248,7 @@ void TargetCamera::drawPrecipitation()
 bool TargetCamera::moveCamera(float frameTime, bool playing)
 {
 	bool simulateCamera = true;
-	Vector position(128.0f, 128.0f, 0.0f);
+	Vector position(128.0f, 128.0f, 15.0f);
 	float currentRotation = 0.0f;
 
 	Tank *currentTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();

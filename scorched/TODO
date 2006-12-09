@@ -17,7 +17,8 @@ Added: Dragging the mouse will drag the landscape (clicking still moves to look 
 Added: Split and inter-dependancy removal of configure.ac files
 Added: Camera recentered on tank at the start of each new round
 Added: For single player games camera position remembered for each player
-Added: Server only compilation for Unix systems
+Added: Server only compilation for Windows and Unix systems
+Added: Text chat shown during level loading
 
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)
 Fixed: Server web managament can view settings that do not fall into the usual brackets

@@ -24,13 +24,23 @@
 #include <client/ScorchedClient.h>
 #include <graph/Main2DCamera.h>
 #include <client/ClientMain.h>
+#include <client/ClientState.h>
 #include <engine/MainLoop.h>
 #include <common/Clock.h>
 #include <common/Defines.h>
 #include <GLW/GLWFont.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLBitmap.h>
 #include <math.h>
 #include <string.h>
+
+ProgressDialog *ProgressDialog::instance_ = 0;
+
+ProgressDialog *ProgressDialog::instance()
+{
+	if (!instance_) instance_ = new ProgressDialog();
+	return instance_;
+}
 
 ProgressDialog::ProgressDialog() : 
 	GLWWindow("Progress", 10.0f, 10.0f, 420.0f, 300.0f, eNoTitle,
@@ -43,6 +53,12 @@ ProgressDialog::ProgressDialog() :
 
 ProgressDialog::~ProgressDialog()
 {
+}
+
+void ProgressDialog::progressChange(const char *op, const float percentage)
+{
+	progressLabel_->setText(op);
+	progress_->setCurrent(percentage);
 }
 
 void ProgressDialog::changeTip()
@@ -200,6 +216,7 @@ ProgressDialogSync *ProgressDialogSync::instance()
 
 ProgressDialogSync::ProgressDialogSync()
 {
+	setUser(this);
 }
 
 ProgressDialogSync::~ProgressDialogSync()
@@ -214,41 +231,31 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 
 	clientEventLoop();	
 
-	progressLabel_->setText(op);
-	progress_->setCurrent(percentage);
+	ProgressDialog::instance()->progressChange(op, percentage);
+
+	//progressLabel_->setText(op);
+	//progress_->setCurrent(percentage);
 	//for (int i=0; i<100000000; i++);
 
 	if ((timeDelay > 0.25f) || 
 		(percentage > 99.0f))
 	{
-		timeDelay = 0.0f;
-	
 		Main2DCamera::instance()->draw(0);
-		BackdropDialog::instance()->draw();
-		draw();
+
+		unsigned int state = ScorchedClient::instance()->getGameState().getState();
+		if (state >= ClientState::StateGetPlayers)
+		{
+			GLWWindowManager::instance()->simulate(ClientState::StateLoadLevel, MIN(0.25f, timeDelay));
+			GLWWindowManager::instance()->draw(ClientState::StateLoadLevel);
+		}
+		else
+		{
+			GLWWindowManager::instance()->simulate(ClientState::StateLoadFiles, MIN(0.25f, timeDelay));
+			GLWWindowManager::instance()->draw(ClientState::StateLoadFiles);
+		}
 
 		ScorchedClient::instance()->getMainLoop().swapBuffers();
+
+		timeDelay = 0.0f;
 	}
-}
-
-ProgressDialogAsync *ProgressDialogAsync::instance_ = 0;
-
-ProgressDialogAsync *ProgressDialogAsync::instance()
-{
-	if (!instance_) instance_ = new ProgressDialogAsync();
-	return instance_;
-}
-
-ProgressDialogAsync::ProgressDialogAsync()
-{
-}
-
-ProgressDialogAsync::~ProgressDialogAsync()
-{
-}
-
-void ProgressDialogAsync::progressChange(const char *op, const float percentage)
-{
-	progressLabel_->setText(op);
-	progress_->setCurrent(percentage);
 }

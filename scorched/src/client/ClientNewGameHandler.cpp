@@ -75,7 +75,7 @@ bool ClientNewGameHandler::processMessage(
 	if (!message.readMessage(reader)) return false;
 
 	// Set the progress dialog nicities
-	ProgressDialogSync::instance()->changeTip();
+	ProgressDialog::instance()->changeTip();
 	LandscapeDefinitionsEntry *landscapeDefinition =
 		ScorchedClient::instance()->getLandscapes().getLandscapeByName(
 			message.getLevelMessage().getGroundMapsDefn().getName());
@@ -84,7 +84,7 @@ bool ClientNewGameHandler::processMessage(
 		const char *fileName = getDataFile(
 			formatString("data/landscapes/%s", 
 			landscapeDefinition->picture.c_str()));
-		ProgressDialogSync::instance()->setIcon(fileName);
+		ProgressDialog::instance()->setIcon(fileName);
 	}
 
 	// Remove any old targets

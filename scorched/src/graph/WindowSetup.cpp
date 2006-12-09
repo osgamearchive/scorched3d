@@ -187,7 +187,7 @@ void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		BackdropDialog::instance(), 0, true);
 	addStateWindows(skinManager, ClientState::StateLoadFiles, "start");
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadFiles,
-		ProgressDialogAsync::instance(), 0, true);
+		ProgressDialog::instance(), 0, true);
 }
 
 // This is called after the correct mod has been loaded
@@ -201,6 +201,13 @@ void WindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
 	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
 	
+	// StateLoadLevel
+	GLWWindowManager::instance()->addWindow(ClientState::StateLoadLevel,
+		BackdropDialog::instance(), 0, true);
+	addStateWindows(skinManager, ClientState::StateLoadLevel, "start");
+	GLWWindowManager::instance()->addWindow(ClientState::StateLoadLevel,
+		ProgressDialog::instance(), 0, true);
+
 	// StateGetPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		BackdropDialog::instance(), 0, true);

@@ -95,7 +95,7 @@ bool ClientFileHandler::processMessage(
 		const char *shortFileName = fileName.c_str();
 		if (strrchr(shortFileName, '/')) shortFileName = strrchr(shortFileName, '/') + 1;
 		unsigned int doneBytes = totalBytes_ - bytesLeft;
-		ProgressDialogAsync::instance()->progressChange(
+		ProgressDialog::instance()->progressChange(
 			formatString("Downloading %s",
 				shortFileName), float(doneBytes * 100 / totalBytes_));
 
