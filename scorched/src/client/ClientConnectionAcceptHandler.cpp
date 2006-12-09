@@ -131,7 +131,7 @@ bool ClientConnectionAcceptHandler::processMessage(
 	{
 		if (!ScorchedClient::instance()->getModFiles().loadModFiles(
 			ScorchedClient::instance()->getOptionsGame().getMod(), true,
-			ProgressDialog::instance()))
+			ProgressDialogSync::instance()))
 		{
 			dialogMessage("ModFiles", 
 				formatString("Failed to load mod \"%s\"",

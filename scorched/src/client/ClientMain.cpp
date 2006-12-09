@@ -262,8 +262,8 @@ bool clientMain()
 		ClientParams::instance()->getConnectedToServer());
 
 	ProgressCounter progressCounter;
-	ProgressDialog::instance()->changeTip();
-	progressCounter.setUser(ProgressDialog::instance());
+	ProgressDialogSync::instance()->changeTip();
+	progressCounter.setUser(ProgressDialogSync::instance());
 	progressCounter.setNewPercentage(0.0f);
 	if (!initHardware(&progressCounter)) return false;
 	if (!startClient(&progressCounter)) return false;

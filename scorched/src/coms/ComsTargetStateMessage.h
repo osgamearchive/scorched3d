@@ -19,26 +19,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef _comsPlayerStateMessage_h
-#define _comsPlayerStateMessage_h
+#ifndef _ComsTargetStateMessage_h
+#define _ComsTargetStateMessage_h
 
 #include <coms/ComsMessage.h>
 
-class ComsPlayerStateMessage : public ComsMessage
+class ComsTargetStateMessage : public ComsMessage
 {
 public:
-	ComsPlayerStateMessage();
-	virtual ~ComsPlayerStateMessage();
+	ComsTargetStateMessage();
+	virtual ~ComsTargetStateMessage();
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
     virtual bool readMessage(NetBufferReader &reader);
 
 private:
-	ComsPlayerStateMessage(const ComsPlayerStateMessage &);
-	const ComsPlayerStateMessage & operator=(const ComsPlayerStateMessage &);
+	ComsTargetStateMessage(const ComsTargetStateMessage &);
+	const ComsTargetStateMessage & operator=(const ComsTargetStateMessage &);
 
 };
 
-#endif // _comsPlayerStateMessage_h
+#endif // _ComsTargetStateMessage_h
 

@@ -187,7 +187,7 @@ void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		BackdropDialog::instance(), 0, true);
 	addStateWindows(skinManager, ClientState::StateLoadFiles, "start");
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadFiles,
-		ProgressDialog::instance(), 0, true);
+		ProgressDialogAsync::instance(), 0, true);
 }
 
 // This is called after the correct mod has been loaded

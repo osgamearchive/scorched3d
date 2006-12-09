@@ -34,28 +34,53 @@ class ProgressDialog :
 	public ProgressCounter
 {
 public:
-	static ProgressDialog *instance();
+	ProgressDialog();
+	virtual ~ProgressDialog();
 
-	virtual void progressChange(const char *op, const float percentage);
 	virtual void draw();
 
 	void changeTip();
 	void setIcon(const char *iconName);
-	void setProgress(const char *op, const float percentage);
 
 protected:
-	static ProgressDialog *instance_;
 	GLTexture wait_;
 	GLTexture icon_;
 	GLWLabel *progressLabel_;
 	GLWProgress *progress_;
 	FileLines tips_;
 	std::string tip1_, tip2_;
-
-private:
-	ProgressDialog();
-	virtual ~ProgressDialog();
 };
 
+class ProgressDialogAsync :
+	public ProgressDialog
+{
+public:
+	static ProgressDialogAsync *instance();
+
+	virtual void progressChange(const char *op, const float percentage);
+
+protected:
+	static ProgressDialogAsync *instance_;
+
+private:
+	ProgressDialogAsync();
+	virtual ~ProgressDialogAsync();
+};
+
+class ProgressDialogSync :
+	public ProgressDialog
+{
+public:
+	static ProgressDialogSync *instance();
+
+	virtual void progressChange(const char *op, const float percentage);
+
+protected:
+	static ProgressDialogSync *instance_;
+
+private:
+	ProgressDialogSync();
+	virtual ~ProgressDialogSync();
+};
 
 #endif

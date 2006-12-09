@@ -90,13 +90,13 @@ bool ClientInitializeHandler::initialize()
 	// Load the accessory files
 	if (!ScorchedClient::instance()->getAccessoryStore().parseFile(
 		ScorchedClient::instance()->getOptionsGame(),
-		ProgressDialog::instance())) return false;
+		ProgressDialogSync::instance())) return false;
 
 	// Load tank models here
 	// This is after mods are complete but before any tanks models are used
 	if (!ScorchedClient::instance()->getTankModels().loadTankMeshes(
 		ScorchedClient::instance()->getContext(), 
-		ProgressDialog::instance()))
+		ProgressDialogSync::instance()))
 	{
 		dialogMessage("Scorched 3D", "Failed to load all tank models");
 		return false;
@@ -107,14 +107,14 @@ bool ClientInitializeHandler::initialize()
 
 	// Load textures
 	if (!ExplosionTextures::instance()->createTextures(
-		ProgressDialog::instance())) 
+		ProgressDialogSync::instance())) 
 			dialogExit("Scorched3D", "Failed to load explosion textures");
 	GLLenseFlare::instance()->init(
-		ProgressDialog::instance());
+		ProgressDialogSync::instance());
 		
 	// Load game windows
-	ProgressDialog::instance()->setNewPercentage(0.0f);
-	ProgressDialog::instance()->setNewOp("Initializing Game Windows");
+	ProgressDialogSync::instance()->setNewPercentage(0.0f);
+	ProgressDialogSync::instance()->setNewOp("Initializing Game Windows");
 	if (!GLWWindowSkinManager::modinstance()->loadWindows())
 	{
 		dialogExit("Scorched3D", "Failed to load windows skins");

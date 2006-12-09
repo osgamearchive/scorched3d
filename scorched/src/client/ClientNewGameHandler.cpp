@@ -75,7 +75,7 @@ bool ClientNewGameHandler::processMessage(
 	if (!message.readMessage(reader)) return false;
 
 	// Set the progress dialog nicities
-	ProgressDialog::instance()->changeTip();
+	ProgressDialogSync::instance()->changeTip();
 	LandscapeDefinitionsEntry *landscapeDefinition =
 		ScorchedClient::instance()->getLandscapes().getLandscapeByName(
 			message.getLevelMessage().getGroundMapsDefn().getName());
@@ -84,12 +84,8 @@ bool ClientNewGameHandler::processMessage(
 		const char *fileName = getDataFile(
 			formatString("data/landscapes/%s", 
 			landscapeDefinition->picture.c_str()));
-		ProgressDialog::instance()->setIcon(fileName);
+		ProgressDialogSync::instance()->setIcon(fileName);
 	}
-
-	// Read the accessory prices
-	if (!ScorchedClient::instance()->getAccessoryStore().
-		readEconomyFromBuffer(reader)) return false;
 
 	// Remove any old targets
 	removeTargets();
@@ -98,7 +94,7 @@ bool ClientNewGameHandler::processMessage(
 	ScorchedClient::instance()->getLandscapeMaps().generateMaps(
 		ScorchedClient::instance()->getContext(),
 		message.getLevelMessage().getGroundMapsDefn(),
-		ProgressDialog::instance());
+		ProgressDialogSync::instance());
 
 	if (!HeightMapSender::generateHMapFromDiff(
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
@@ -108,13 +104,13 @@ bool ClientNewGameHandler::processMessage(
 	}
 
 	// Calculate all the new landscape settings (graphics)
-	Landscape::instance()->generate(ProgressDialog::instance());
+	Landscape::instance()->generate(ProgressDialogSync::instance());
 
-	// Set all of the attribute for the objects
-	if(!message.getPlayerStateMessage().readMessage(reader)) return false;
+	// Set all of the attribute for the objects and targets
+	if (!message.getTargetStateMessage().readMessage(reader)) return false;
 
 	// Make sure the landscape has been optimized
-	Landscape::instance()->reset(ProgressDialog::instance());
+	Landscape::instance()->reset(ProgressDialogSync::instance());
 
 	RenderTracer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();

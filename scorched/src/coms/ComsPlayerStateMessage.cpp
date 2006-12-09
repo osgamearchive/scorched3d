@@ -27,9 +27,8 @@
 #include <common/Logger.h>
 #include <set>
 
-ComsPlayerStateMessage::ComsPlayerStateMessage(bool playersOnly) : 
-	ComsMessage("ComsPlayerStateMessage"),
-	playersOnly_(playersOnly)
+ComsPlayerStateMessage::ComsPlayerStateMessage() : 
+	ComsMessage("ComsPlayerStateMessage")
 {
 
 }
@@ -41,55 +40,25 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 
 bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
-	buffer.addToBuffer(playersOnly_);
 	if (!ScorchedServer::instance()->getContext().tankTeamScore->
 		writeMessage(buffer)) return false;
 
-	std::map<unsigned int, Target *> targets;
-	if (playersOnly_)
-	{
-		std::map<unsigned int, Tank *> &tanks =
-			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-		std::map<unsigned int, Tank *>::iterator itor;
-
-		for (itor = tanks.begin();
-			itor != tanks.end();
-			itor++)
-		{
-			if (!(*itor).second->isTemp())
-			{
-				targets[(*itor).first] = (*itor).second;
-			}
-		}
-	}
-	else
-	{
-		targets = 
-			ScorchedServer::instance()->getTargetContainer().getTargets();
-	}
+	std::map<unsigned int, Tank *> &tanks =
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 
 	// Add count
-	buffer.addToBuffer((int) targets.size());
+	buffer.addToBuffer((int) tanks.size());
 
 	// For each tank
-	std::map<unsigned int, Target *>::iterator itor;
-	for (itor = targets.begin();
-		itor != targets.end();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
 		itor++)
 	{
 		// Add each tank
-		Target *target = (*itor).second;
-		buffer.addToBuffer(target->getPlayerId());
-
-		if (!target->isTarget())
-		{
-			Tank *tank = (Tank *) target;
-			if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
-		}
-		else
-		{
-			if (!target->writeMessage(buffer, true)) return false;
-		}
+		Tank *tank = (*itor).second;
+		buffer.addToBuffer(tank->getPlayerId());
+		if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
 	}
 	return true;
 }
@@ -97,67 +66,30 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 {
 #ifndef S3D_SERVER
-	if (!reader.getFromBuffer(playersOnly_)) return false;
 	if (!ScorchedClient::instance()->getContext().tankTeamScore->
 		readMessage(reader)) return false;
 
 	// Update all targets with the state from the targets on the
 	// server
-	std::set<unsigned int> updatedTargets;
 	int count = 0;
 	if (!reader.getFromBuffer(count)) return false;
 	for (int i=0; i<count; i++)
 	{
 		unsigned int playerId;
 		if (!reader.getFromBuffer(playerId)) return false;
-		Target *target = ScorchedClient::instance()->getTargetContainer().
-			getTargetById(playerId);
-		if (target)
+		Tank *tank = ScorchedClient::instance()->getTankContainer().
+			getTankById(playerId);
+		if (tank)
 		{
-			if (!target->readMessage(reader)) return false;
-			updatedTargets.insert(target->getPlayerId());
+			if (!tank->readMessage(reader)) return false;
 		}
 		else
 		{
-			if (playerId > TankAIAdder::MAX_TANK_ID)
-			{
-				target = new Target(
-					playerId, "", 
-					ScorchedClient::instance()->getContext());
-				ScorchedClient::instance()->getTargetContainer().
-					addTarget(target);
-
-				if (!target->readMessage(reader)) return false;
-				updatedTargets.insert(target->getPlayerId());
-			}
-			else
-			{
-				std::string name;
-				reader.getFromBuffer(name);
-				Logger::log(formatString("Error: Failed to find target %u\"%s\"",
-					playerId, name.c_str()));
-				return false;
-			}
-		}
-	}
-
-	// Remove any targets the client has but the server does not
-	if (!playersOnly_)
-	{
-		std::map<unsigned int, Target *> targets = // Note copy
-			ScorchedClient::instance()->getTargetContainer().getTargets();
-		std::map<unsigned int, Target *>::iterator itor;
-		for (itor = targets.begin();
-			itor != targets.end();
-			itor++)
-		{
-			unsigned int playerId = (*itor).first;
-			if (updatedTargets.find(playerId) == updatedTargets.end())
-			{
-				Target *removedTarget = 
-					ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
-				delete removedTarget;
-			}
+			std::string name;
+			reader.getFromBuffer(name);
+			Logger::log(formatString("Error: Failed to find tank %u\"%s\"",
+				playerId, name.c_str()));
+			return false;
 		}
 	}
 #endif

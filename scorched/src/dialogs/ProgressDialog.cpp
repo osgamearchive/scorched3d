@@ -32,17 +32,6 @@
 #include <math.h>
 #include <string.h>
 
-ProgressDialog *ProgressDialog::instance_ = 0;
-
-ProgressDialog *ProgressDialog::instance()
-{
-	if (!instance_)
-	{
-		instance_ = new ProgressDialog;
-	}
-	return instance_;
-}
-
 ProgressDialog::ProgressDialog() : 
 	GLWWindow("Progress", 10.0f, 10.0f, 420.0f, 300.0f, eNoTitle,
 		"Shows loading progress")
@@ -201,14 +190,32 @@ void ProgressDialog::draw()
 	}
 }
 
-void ProgressDialog::progressChange(const char *op, const float percentage)
+ProgressDialogSync *ProgressDialogSync::instance_ = 0;
+
+ProgressDialogSync *ProgressDialogSync::instance()
+{
+	if (!instance_) instance_ = new ProgressDialogSync();
+	return instance_;
+}
+
+ProgressDialogSync::ProgressDialogSync()
+{
+}
+
+ProgressDialogSync::~ProgressDialogSync()
+{
+}
+
+void ProgressDialogSync::progressChange(const char *op, const float percentage)
 {
 	static Clock localTimer;
 	static float timeDelay = 0.0f;
 	timeDelay += localTimer.getTimeDifference();
 
 	clientEventLoop();	
-	setProgress(op, percentage);
+
+	progressLabel_->setText(op);
+	progress_->setCurrent(percentage);
 	//for (int i=0; i<100000000; i++);
 
 	if ((timeDelay > 0.25f) || 
@@ -224,9 +231,24 @@ void ProgressDialog::progressChange(const char *op, const float percentage)
 	}
 }
 
-void ProgressDialog::setProgress(const char *op, const float percentage)
+ProgressDialogAsync *ProgressDialogAsync::instance_ = 0;
+
+ProgressDialogAsync *ProgressDialogAsync::instance()
+{
+	if (!instance_) instance_ = new ProgressDialogAsync();
+	return instance_;
+}
+
+ProgressDialogAsync::ProgressDialogAsync()
+{
+}
+
+ProgressDialogAsync::~ProgressDialogAsync()
+{
+}
+
+void ProgressDialogAsync::progressChange(const char *op, const float percentage)
 {
 	progressLabel_->setText(op);
 	progress_->setCurrent(percentage);
 }
-

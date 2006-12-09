@@ -156,6 +156,13 @@ void NetBuffer::addToBuffer(std::string &string)
 	addToBuffer(string.c_str());
 }
 
+NetBufferReader::NetBufferReader() :
+	buffer_(0),
+	bufferSize_(0),
+	readSize_(0)
+{
+}
+
 NetBufferReader::NetBufferReader(NetBuffer &buffer) :
 	buffer_(buffer.getBuffer()),
 	bufferSize_(buffer.getBufferUsed()),

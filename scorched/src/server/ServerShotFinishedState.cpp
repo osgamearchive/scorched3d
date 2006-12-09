@@ -75,7 +75,7 @@ void ServerShotFinishedState::enterState(const unsigned state)
 				getOptionsGame().getRoundScoreTime();
 		}
 
-		ComsPlayerStateMessage playerMessage(false);
+		ComsPlayerStateMessage playerMessage;
 		ComsMessageSender::sendToAllPlayingClients(playerMessage);
 		ComsScoreMessage message(finalScore);
 		ComsMessageSender::sendToAllPlayingClients(message);

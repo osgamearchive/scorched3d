@@ -27,8 +27,7 @@
 
 ComsNewGameMessage::ComsNewGameMessage() :
 	ComsMessage("ComsNewGameMessage"),
-	gameStateEnclosed_(false),
-	playerState_(false)
+	gameStateEnclosed_(false)
 {
 
 }
@@ -54,12 +53,13 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinatio
 			getOptionsTransient().writeToBuffer(buffer)) return false;
 	}
 	if (!levelMessage_.writeMessage(buffer, destinationId)) return false;
+	if (!playerState_.writeMessage(buffer, destinationId)) return false;
+	if (!ScorchedServer::instance()->getAccessoryStore().
+		writeEconomyToBuffer(buffer)) return false;
 
 	// Both of these are read later as they must be processed after the level
 	// has been built
-	if (!ScorchedServer::instance()->getAccessoryStore().
-		writeEconomyToBuffer(buffer)) return false;
-	if (!playerState_.writeMessage(buffer, destinationId)) return false;
+	if (!targetState_.writeMessage(buffer, destinationId)) return false;
 
 	return true;
 }
@@ -76,6 +76,9 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 			getOptionsTransient().readFromBuffer(reader)) return false;
 	}
 	if (!levelMessage_.readMessage(reader)) return false;
+	if (!playerState_.readMessage(reader)) return false;
+	if (!ScorchedClient::instance()->getAccessoryStore().
+		readEconomyFromBuffer(reader)) return false;
 #endif
 
 	return true;

@@ -76,6 +76,7 @@ private:
 class NetBufferReader
 {
 public:
+	NetBufferReader();
 	NetBufferReader(NetBuffer &buffer);
 	virtual ~NetBufferReader();
 
@@ -84,6 +85,8 @@ public:
 	unsigned getBufferSize() { return bufferSize_; }
 	unsigned getReadSize() { return readSize_; }
 	char *getBuffer() { return buffer_; }
+
+	void setBuffer(char *buffer) { buffer_ = buffer; }
 	void setReadSize(unsigned size) { readSize_ = size; }
 	void setBufferSize(unsigned size) { bufferSize_ = size; }
 

@@ -1318,6 +1318,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\coms\ComsTargetStateMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsTargetStateMessage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\coms\ComsTextMessage.cpp"
 				>
 			</File>

@@ -24,6 +24,7 @@
 #include <coms/ComsMessage.h>
 #include <coms/ComsLevelMessage.h>
 #include <coms/ComsPlayerStateMessage.h>
+#include <coms/ComsTargetStateMessage.h>
 
 class ComsNewGameMessage : public ComsMessage
 {
@@ -32,7 +33,7 @@ public:
 	virtual ~ComsNewGameMessage();
 
 	ComsLevelMessage &getLevelMessage() { return levelMessage_; }
-	ComsPlayerStateMessage &getPlayerStateMessage() { return playerState_; }
+	ComsTargetStateMessage &getTargetStateMessage() { return targetState_; }
 	void addGameState();
 
 	// Inherited from ComsMessage
@@ -42,6 +43,7 @@ public:
 protected:
 	ComsLevelMessage levelMessage_;
 	ComsPlayerStateMessage playerState_;
+	ComsTargetStateMessage targetState_;
 	bool gameStateEnclosed_;
 
 private:

@@ -21,8 +21,7 @@
 #include <coms/ComsGameStoppedMessage.h>
 
 ComsGameStoppedMessage::ComsGameStoppedMessage() :
-	ComsMessage("ComsGameStoppedMessage"),
-	stateMessage_(true)
+	ComsMessage("ComsGameStoppedMessage")
 {
 }
 
