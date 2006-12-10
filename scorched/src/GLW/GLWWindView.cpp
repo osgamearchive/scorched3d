@@ -26,6 +26,8 @@
 #include <common/Defines.h>
 #include <3dsparse/ModelStore.h>
 #include <graph/ModelRenderer.h>
+#include <graph/ModelRendererStore.h>
+#include <graph/ModelRendererSimulator.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/Sky.h>
@@ -100,8 +102,8 @@ void GLWWindView::draw()
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/wind.ase", "none");
-		windModel_ = new ModelRenderer(
-			ModelStore::instance()->loadModel(id));
+		windModel_ = new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
 
 	if (changeCount_ != Landscape::instance()->getChangeCount())

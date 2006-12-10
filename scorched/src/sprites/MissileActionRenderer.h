@@ -47,6 +47,7 @@ protected:
 	MissileMesh *mesh_;
 	float rotation_;
 	float scale_;
+	float frame_;
 
 };
 

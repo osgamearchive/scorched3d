@@ -250,8 +250,8 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 		}
 		else
 		{
-			GLWWindowManager::instance()->simulate(ClientState::StateLoadFiles, MIN(0.25f, timeDelay));
-			GLWWindowManager::instance()->draw(ClientState::StateLoadFiles);
+			BackdropDialog::instance()->draw();
+			ProgressDialog::instance()->draw();
 		}
 
 		ScorchedClient::instance()->getMainLoop().swapBuffers();

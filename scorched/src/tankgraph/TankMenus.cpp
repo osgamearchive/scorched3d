@@ -287,7 +287,7 @@ TankMenus::PlayerMenu::PlayerMenu()
 		false);
 	DIALOG_ASSERT(map->getBits());
 	MainMenuDialog::instance()->addMenu("Player", 32, 
-		ClientState::StimPlaying, this, map);
+		ClientState::StatePlaying, this, map);
 
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Skip Move",
@@ -371,7 +371,7 @@ TankMenus::AccessoryMenu::AccessoryMenu()
 		false);
 	DIALOG_ASSERT(map->getBits());
 	MainMenuDialog::instance()->addMenu("Weapons", 32, 
-		ClientState::StimPlaying, this, map);
+		ClientState::StatePlaying, this, map);
 }
 
 void TankMenus::AccessoryMenu::menuSelection(const char* menuName, 

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,44 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
-#define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
-
-#include <common/Vector.h>
+#include <graph/ModelRendererSimulator.h>
 #include <graph/ModelRenderer.h>
-#include <list>
+#include <stdlib.h>
 
-class TankMesh : public ModelRenderer
+ModelRendererSimulator::ModelRendererSimulator(ModelRenderer *renderer) : 
+	renderer_(renderer)
 {
-public:
-	TankMesh(Model &tank);
-	virtual ~TankMesh();
+	currentFrame_ = (float) renderer_->getModel()->getStartFrame();
 
-	void draw(float frame, bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false, float scale = 1.0f);
-	int getNoTris();
-
-	static void drawSight();
-protected:
-	enum MeshType
+	int totalFrames = renderer_->getModel()->getTotalFrames() - 
+		renderer_->getModel()->getStartFrame();
+	if (totalFrames > 1)
 	{
-		eNone,
-		eTurret,
-		eGun
-	};
+		currentFrame_ += (float) (rand() % totalFrames);		
+	}
+}
 
-	bool drawS_;
-	float fireOffSet_;
-	float scale_;
-	float rotXY_;
-	float rotXZ_;
-	Vector gunOffset_;
-	Vector turretCenter_;
-	std::vector<MeshType> meshTypes_;
+ModelRendererSimulator::~ModelRendererSimulator()
+{
+}
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
-	void setupTankMesh();
-};
+void ModelRendererSimulator::drawBottomAligned()
+{
+	renderer_->drawBottomAligned(currentFrame_);
+}
 
-#endif // !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
+void ModelRendererSimulator::draw()
+{
+	renderer_->draw(currentFrame_);
+}
+
+void ModelRendererSimulator::simulate(float frameTime)
+{
+	currentFrame_ += frameTime;
+}

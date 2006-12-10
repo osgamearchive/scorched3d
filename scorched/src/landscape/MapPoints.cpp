@@ -21,6 +21,8 @@
 #include <landscape/MapPoints.h>
 #include <3dsparse/ModelStore.h>
 #include <graph/ModelRenderer.h>
+#include <graph/ModelRendererSimulator.h>
+#include <graph/ModelRendererStore.h>
 
 MapPoints *MapPoints::instance_ = 0;
 
@@ -35,20 +37,20 @@ MapPoints::MapPoints()
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/wrap.ase", "none");
-		borderModelWrap_ = new ModelRenderer(
-			ModelStore::instance()->loadModel(id));
+		borderModelWrap_ = new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/bounce.ase", "none");
-		borderModelBounce_ =  new ModelRenderer(
-			ModelStore::instance()->loadModel(id));
+		borderModelBounce_ =  new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/concrete.ase", "none");
-		borderModelConcrete_ =  new ModelRenderer(
-			ModelStore::instance()->loadModel(id));
+		borderModelConcrete_ = new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
 }
 

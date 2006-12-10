@@ -4581,6 +4581,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\graph\ModelRendererSimulator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\ModelRendererSimulator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\ModelRendererStore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\ModelRendererStore.h"
+				>
+			</File>
+			<File
 				RelativePath="..\graph\Mouse.cpp"
 				>
 			</File>

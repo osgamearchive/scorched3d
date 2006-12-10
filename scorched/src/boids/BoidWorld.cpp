@@ -29,6 +29,7 @@
 #include <common/Defines.h>
 #include <graph/OptionsDisplay.h>
 #include <graph/ModelRenderer.h>
+#include <graph/ModelRendererStore.h>
 #include <sound/Sound.h>
 #include <boids/BoidWorld.h>
 #include <boids/Boid.h>
@@ -67,13 +68,11 @@ BoidWorld::BoidWorld(LandscapeBoidsType *boids) :
 	}
 
 	// Create bird model
-	bird_ = new ModelRenderer(
-			ModelStore::instance()->loadModel(boids->model));
+	bird_ = ModelRendererStore::instance()->loadModel(boids->model);
 }
 
 BoidWorld::~BoidWorld()
 {
-	delete bird_;
 	for (unsigned int i=0; i<boids_.size(); i++) 
 	{
 		delete []visibilityMatrix_[i];
@@ -188,7 +187,6 @@ void BoidWorld::simulate(float frameTime)
 	stepTime2_ += frameTime * 20.0f;
 	while (stepTime2_ > StepTime2)
 	{
-		bird_->simulate(StepTime2);
 		stepTime2_ -= StepTime2;
 
 		std::vector<SoundEntry>::iterator itor;
@@ -276,7 +274,7 @@ void BoidWorld::draw()
 			glRotated(boid->dampedroll / 3.14f * 180.0f, 0.0f, 1.0f, 0.0f);
 			glScalef(modelSize_, modelSize_, modelSize_);
 		
-			bird_->draw();
+			bird_->draw(boid->getFrame());
 		glPopMatrix();
 	}
 }

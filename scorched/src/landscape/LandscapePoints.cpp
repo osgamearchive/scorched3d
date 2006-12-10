@@ -23,7 +23,7 @@
 #include <landscape/MapPoints.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
-#include <graph/ModelRenderer.h>
+#include <graph/ModelRendererSimulator.h>
 #include <GLEXT/GLState.h>
 
 LandscapePoints::LandscapePoints()

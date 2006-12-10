@@ -27,6 +27,8 @@
 #include <GLEXT/GLState.h>
 #include <3dsparse/ModelStore.h>
 #include <graph/ModelRenderer.h>
+#include <graph/ModelRendererStore.h>
+#include <graph/ModelRendererSimulator.h>
 #include <ode/ode.h>
 #include <string.h>
 
@@ -119,8 +121,8 @@ void ShotBounce::draw()
 		{
 			ModelID &id = ((WeaponRoller *) weapon_)->getRollerModelID();
 			bool useTexture = (strcmp(id.getSkinName(), "none") != 0);
-			model_ = new ModelRenderer(
-				ModelStore::instance()->loadModel(id));
+			model_ = new ModelRendererSimulator(
+				ModelRendererStore::instance()->loadModel(id));
 		}
 
 		if (vPoint_)

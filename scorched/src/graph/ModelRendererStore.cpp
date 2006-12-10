@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,44 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
-#define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
-
-#include <common/Vector.h>
+#include <graph/ModelRendererStore.h>
 #include <graph/ModelRenderer.h>
-#include <list>
+#include <3dsparse/ModelStore.h>
+#include <common/Defines.h>
 
-class TankMesh : public ModelRenderer
+ModelRendererStore *ModelRendererStore::instance_ = 0;
+
+ModelRendererStore *ModelRendererStore::instance()
 {
-public:
-	TankMesh(Model &tank);
-	virtual ~TankMesh();
-
-	void draw(float frame, bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false, float scale = 1.0f);
-	int getNoTris();
-
-	static void drawSight();
-protected:
-	enum MeshType
+	if (!instance_)
 	{
-		eNone,
-		eTurret,
-		eGun
-	};
+		instance_ = new ModelRendererStore;
+	}
+	return instance_;
+}
 
-	bool drawS_;
-	float fireOffSet_;
-	float scale_;
-	float rotXY_;
-	float rotXZ_;
-	Vector gunOffset_;
-	Vector turretCenter_;
-	std::vector<MeshType> meshTypes_;
+ModelRendererStore::ModelRendererStore()
+{
+}
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
-	void setupTankMesh();
-};
+ModelRendererStore::~ModelRendererStore()
+{
+}
 
-#endif // !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
+ModelRenderer *ModelRendererStore::loadModel(ModelID &modelId)
+{
+	std::map<std::string, ModelRenderer *>::iterator findItor =
+		fileMap_.find(modelId.getStringHash());
+	if (findItor == fileMap_.end())
+	{
+		ModelRenderer *model = getModel(modelId);
+		fileMap_[modelId.getStringHash()] = model;
+		return model;
+	}
+	return (*findItor).second;
+}
+
+ModelRenderer *ModelRendererStore::getModel(ModelID &id)
+{
+	Model *model = ModelStore::instance()->loadModel(id);
+	ModelRenderer *modelRenderer = new ModelRenderer(model);
+	return modelRenderer;
+}

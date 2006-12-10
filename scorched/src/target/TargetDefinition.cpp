@@ -27,6 +27,7 @@
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/Model.h>
 #include <common/Defines.h>
 #include <XML/XMLNode.h>
 

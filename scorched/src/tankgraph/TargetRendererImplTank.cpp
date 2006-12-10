@@ -27,6 +27,7 @@
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
 #include <tankgraph/TankMesh.h>
+#include <tankgraph/TankMeshStore.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
@@ -35,6 +36,7 @@
 #include <tank/TankLib.h>
 #include <tank/TankContainer.h>
 #include <actions/TankFalling.h>
+#include <engine/ActionController.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <graph/OptionsDisplay.h>
@@ -80,11 +82,11 @@ TargetRendererImplTank::TargetRendererImplTank(Tank *tank) :
 	posX_(0.0f), posY_(0.0f), posZ_(0.0f), 
 	totalTime_(0.0f)
 {
+	frame_ = (float) rand();
 }
 
 TargetRendererImplTank::~TargetRendererImplTank()
 {
-	delete mesh_;
 }
 
 TankModel *TargetRendererImplTank::getModel()
@@ -113,11 +115,7 @@ TankMesh *TargetRendererImplTank::getMesh()
 {
 	if (!mesh_)
 	{
-		Model *newFile = ModelStore::instance()->loadModel(getModel()->getTankModelID());
-		if (!newFile) return 0;
-
-		// Create tank mesh
-		mesh_ = new TankMesh(*newFile);
+		mesh_ = TankMeshStore::instance()->getMesh(getModel()->getTankModelID());
 	}
 	return mesh_;
 }
@@ -133,7 +131,7 @@ void TargetRendererImplTank::draw(float distance)
 
 		glPushMatrix();
 			glTranslatef(pos[0], pos[1], pos[2]);
-			TargetRendererImplTankAIM::getAutoAimModel()->draw();
+			TargetRendererImplTankAIM::getAutoAimModel()->draw(0.0f);
 		glPopMatrix();
 	}
 
@@ -171,7 +169,8 @@ void TargetRendererImplTank::draw(float distance)
 	TankMesh *mesh = getMesh();
 	if (mesh)
 	{
-		mesh->draw(currentTank, 
+		mesh->draw(frame_,
+			currentTank, 
 			tank_->getLife().getRotation(),
 			tank_->getPosition().getTankPosition(), 
 			fireOffSet_, 
@@ -291,7 +290,9 @@ void TargetRendererImplTank::simulate(float frameTime)
 {
 	if (tank_->getState().getState() != TankState::sNormal) return;
 
+	frameTime *= ScorchedClient::instance()->getActionController().getFast();
 	totalTime_ += frameTime;
+	frame_ += frameTime * 20.0f;
 
 	if (fireOffSet_ < 0.0f)
 	{

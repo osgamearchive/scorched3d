@@ -258,11 +258,7 @@ MissileMesh *Accessory::getWeaponMesh(ModelID &id, Tank *currentPlayer)
 		loadedMeshes_.find(name);
 	if (itor == loadedMeshes_.end())
 	{
-		Model *model = 
-			ModelStore::instance()->loadModel(*usedModelId);
-		if (!model) return 0;
-
-		mesh = new MissileMesh(*model);
+		mesh = new MissileMesh(*usedModelId);
 		loadedMeshes_[name] = mesh;
 	}
 	else

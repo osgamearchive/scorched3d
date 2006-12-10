@@ -39,6 +39,7 @@ MissileActionRenderer::MissileActionRenderer(int flareType, float scale) :
 	mesh_(0), scale_(scale), rotation_(180.0f),
 	flameemitter_(0), smokeemitter_(0), sound_(0)
 {
+	frame_ = (float) rand();
 }
 
 MissileActionRenderer::~MissileActionRenderer()
@@ -117,6 +118,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 	actualPos2[2] = actualPos[2] + 0.25f;
 
 	// Rotate the shot
+	frame_ += timepassed * 20.0f;
 	rotation_ += shot->getCurrentVelocity().Magnitude() * 
 		shot->getWeapon()->getSpinSpeed();
 
@@ -186,7 +188,7 @@ void MissileActionRenderer::draw(Action *action)
 
 	// Draw the missile
 	mesh_->setScale(scale_);
-	mesh_->draw(actualPos, actualdir, flareType_, rotation_);
+	mesh_->draw(actualPos, actualdir, flareType_, rotation_, frame_);
 
 	// Draw the missile shadow
 	float aboveGround =

@@ -33,7 +33,7 @@ public:
 	virtual void populate();
 };
 
-class ModelRenderer;
+class ModelRendererSimulator;
 class GLWWindView : public GLWidget
 {
 public:
@@ -48,7 +48,7 @@ public:
 
 protected:
 	unsigned int changeCount_;
-	ModelRenderer *windModel_;
+	ModelRendererSimulator *windModel_;
 	unsigned int listNo_;
 
 	void drawArrow();

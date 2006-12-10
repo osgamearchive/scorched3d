@@ -21,21 +21,21 @@
 #if !defined(__INCLUDE_MapPointsh_INCLUDE__)
 #define __INCLUDE_MapPointsh_INCLUDE__
 
-class ModelRenderer;
+class ModelRendererSimulator;
 class MapPoints
 {
 public:
 	static MapPoints *instance();
 
-	ModelRenderer *getBorderModelWrap() { return borderModelWrap_; }
-	ModelRenderer *getBorderModelBounce() { return borderModelBounce_; }
-	ModelRenderer *getBorderModelConcrete() { return borderModelConcrete_; }
+	ModelRendererSimulator *getBorderModelWrap() { return borderModelWrap_; }
+	ModelRendererSimulator *getBorderModelBounce() { return borderModelBounce_; }
+	ModelRendererSimulator *getBorderModelConcrete() { return borderModelConcrete_; }
 
 protected:
 	static MapPoints *instance_;
-	ModelRenderer *borderModelWrap_;
-	ModelRenderer *borderModelBounce_;
-	ModelRenderer *borderModelConcrete_;
+	ModelRendererSimulator *borderModelWrap_;
+	ModelRendererSimulator *borderModelBounce_;
+	ModelRendererSimulator *borderModelConcrete_;
 
 private:
 	MapPoints();

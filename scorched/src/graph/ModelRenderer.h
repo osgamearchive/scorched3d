@@ -30,30 +30,35 @@ public:
 	ModelRenderer(Model *model);
 	virtual ~ModelRenderer();
 
-	void draw(float LOD = 1.0f);
-	void drawBottomAligned(float LOD = 1.0f);
-	void simulate(float frameTime);
+	void draw(float currentFrame);
+	void drawBottomAligned(float currentFrame);
 
 	Model *getModel() { return model_; }
 
 protected:
-	struct MeshInfo
+	struct MeshFrameInfo
 	{
-		MeshInfo() : displayList(0), lastCachedState(0), texture(0) {}
+		MeshFrameInfo() : displayList(0), lastCachedState(0) {}
 
 		unsigned int displayList;
 		unsigned int lastCachedState;
+	};
+
+	struct MeshInfo
+	{
+		MeshInfo() : texture(0) {}
+
 		GLTexture *texture;
+		std::vector<MeshFrameInfo> frameInfos_;
 	};
 
 	Model *model_;
-	float currentFrame_;
 	std::vector<BoneType *> boneTypes_;
 	std::vector<MeshInfo> meshInfos_;
 	Vector vertexTranslation_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD);
-	virtual void drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertexLighting);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
+	virtual void drawVerts(unsigned int m, Mesh *mesh, bool vertexLighting, int frame);
 	virtual void setup();
 };
 

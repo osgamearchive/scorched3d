@@ -116,9 +116,9 @@ void TankMesh::setupTankMesh()
 	gunOffset_ = gunCenter - turretCenter_;
 }
 
-void TankMesh::draw(bool drawS, float angle, Vector &position, 
+void TankMesh::draw(float frame, bool drawS, float angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
-					bool absCenter, float scale, float LOD)
+					bool absCenter, float scale)
 {
 	rotXY_ = rotXY;
 	rotXZ_ = rotXZ;
@@ -130,12 +130,12 @@ void TankMesh::draw(bool drawS, float angle, Vector &position,
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
 		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
-		if (absCenter) ModelRenderer::draw(LOD);
-		else ModelRenderer::drawBottomAligned(LOD);
+		if (absCenter) ModelRenderer::draw(frame);
+		else ModelRenderer::drawBottomAligned(frame);
 	glPopMatrix();
 }
 
-void TankMesh::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
+void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 {
 	glPushMatrix();
 		MeshType type = meshTypes_[m];
@@ -146,9 +146,6 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
 			glRotatef(rotXY_, 0.0f, 0.0f, 1.0f);
 			if (type == eGun)
 			{
-				// Don't cache the gun model as we need to translate it
-				dontCache = true;
-
 				glTranslatef(gunOffset_[0], gunOffset_[1], gunOffset_[2]);
 				vertexTranslation_ -= gunOffset_;
 				glRotatef(rotXZ_, 1.0f, 0.0f, 0.0f);
@@ -169,7 +166,7 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
 			}
 		}
 
-		ModelRenderer::drawMesh(m, mesh, dontCache, LOD);
+		ModelRenderer::drawMesh(m, mesh, currentFrame);
 	glPopMatrix();
 
 	vertexTranslation_.zero();

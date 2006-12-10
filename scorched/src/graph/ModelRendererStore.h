@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,44 +18,30 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
-#define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
+#if !defined(__INCLUDE_ModelRendererStoreh_INCLUDE__)
+#define __INCLUDE_ModelRendererStoreh_INCLUDE__
 
-#include <common/Vector.h>
-#include <graph/ModelRenderer.h>
-#include <list>
+#include <common/ModelID.h>
+#include <map>
+#include <string>
 
-class TankMesh : public ModelRenderer
+class ModelRenderer;
+class ModelRendererStore
 {
 public:
-	TankMesh(Model &tank);
-	virtual ~TankMesh();
+	static ModelRendererStore *instance();
 
-	void draw(float frame, bool drawS, float angle, Vector &position, 
-		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false, float scale = 1.0f);
-	int getNoTris();
+	ModelRenderer *loadModel(ModelID &modelId);
 
-	static void drawSight();
 protected:
-	enum MeshType
-	{
-		eNone,
-		eTurret,
-		eGun
-	};
+	static ModelRendererStore *instance_;
+	std::map<std::string, ModelRenderer *> fileMap_;
 
-	bool drawS_;
-	float fireOffSet_;
-	float scale_;
-	float rotXY_;
-	float rotXZ_;
-	Vector gunOffset_;
-	Vector turretCenter_;
-	std::vector<MeshType> meshTypes_;
+	ModelRenderer *getModel(ModelID &id);
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
-	void setupTankMesh();
+private:
+	ModelRendererStore();
+	virtual ~ModelRendererStore();
 };
 
-#endif // !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
+#endif // __INCLUDE_ModelRendererStoreh_INCLUDE__

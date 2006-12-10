@@ -45,6 +45,7 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	rot_(0.0f), selected_(0),
 	rotXY_(0.0f), rotYZ_(0.0f), 
 	rotXYD_(1.0f), rotYZD_(1.0f),
+	totalTime_(0.0f),
 	team_(0),
 	catagoryChoice_(x + TankSquareSize * numH + TankPadding + 10.0f, 
 					y + TankSquareSize * numV + TankPadding - 25.0f,
@@ -215,6 +216,7 @@ const char *GLWTankViewer::getModelName()
 
 void GLWTankViewer::simulate(float frameTime)
 {
+	totalTime_ += frameTime;
 	rot_ += frameTime * 45.0f;
 	rotXY_ += frameTime * rotXYD_ * 5.0f;
 	rotYZ_ += frameTime * rotYZD_ * 5.0f;
@@ -397,11 +399,11 @@ void GLWTankViewer::drawItem(int pos, bool selected)
 	Vector tankPos;
 	if (selected)
 	{
-		mesh->draw(false, 0.0f, tankPos, 0.0f, rotXY_, rotYZ_);
+		mesh->draw(totalTime_ * 20.0f, false, 0.0f, tankPos, 0.0f, rotXY_, rotYZ_);
 	}
 	else
 	{
-		mesh->draw(false, 0.0f, tankPos, 0.0f, 45.0f, 45.0f);
+		mesh->draw(totalTime_ * 20.0f, false, 0.0f, tankPos, 0.0f, 45.0f, 45.0f);
 	}
 
 	// Ground

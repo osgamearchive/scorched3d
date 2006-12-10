@@ -24,7 +24,7 @@
 #include <tankgraph/TargetRendererImplTarget.h>
 #include <GLW/GLWTankTip.h>
 #include <common/ModelID.h>
-#include <graph/ModelRenderer.h>
+#include <graph/ModelRendererSimulator.h>
 
 class TargetRendererImplTargetModel : 
 	public TargetRendererImplTarget
@@ -45,8 +45,8 @@ public:
 
 protected:
 	Target *target_;
-	ModelRenderer *modelRenderer_;
-	ModelRenderer *burntModelRenderer_;
+	ModelRendererSimulator *modelRenderer_;
+	ModelRendererSimulator *burntModelRenderer_;
 	bool canSeeTank_;
 	bool burnt_;
 	float shieldHit_, totalTime_;

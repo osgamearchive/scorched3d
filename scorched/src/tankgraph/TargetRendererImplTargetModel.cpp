@@ -29,6 +29,9 @@
 #include <GLEXT/GLCamera.h>
 #include <GLW/GLWToolTip.h>
 #include <dialogs/TutorialDialog.h>
+#include <client/ScorchedClient.h>
+#include <engine/ActionController.h>
+#include <graph/ModelRendererStore.h>
 
 TargetRendererImplTargetModel::TargetRendererImplTargetModel(Target *target,
 	ModelID model, ModelID burntModel, 
@@ -40,18 +43,21 @@ TargetRendererImplTargetModel::TargetRendererImplTargetModel(Target *target,
 	targetTips_(target),
 	scale_(scale)
 {
-	modelRenderer_ = new ModelRenderer(
-		ModelStore::instance()->loadModel(model));
-	burntModelRenderer_ = new ModelRenderer(
-		ModelStore::instance()->loadModel(burntModel));
+	modelRenderer_ = new ModelRendererSimulator(
+		ModelRendererStore::instance()->loadModel(model));
+	burntModelRenderer_ = new ModelRendererSimulator(
+		ModelRendererStore::instance()->loadModel(burntModel));
 }
 
 TargetRendererImplTargetModel::~TargetRendererImplTargetModel()
 {
+	delete modelRenderer_;
+	delete burntModelRenderer_;
 }
 
 void TargetRendererImplTargetModel::simulate(float frameTime)
 {
+	frameTime *= ScorchedClient::instance()->getActionController().getFast();
 	totalTime_ += frameTime;
 	if (shieldHit_ > 0.0f)
 	{

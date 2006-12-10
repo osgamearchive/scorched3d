@@ -24,15 +24,15 @@
 #include <common/Vector.h>
 #include <list>
 
-class Model;
+class ModelID;
 class ModelRenderer;
 class MissileMesh  
 {
 public:
-	MissileMesh(Model &missile);
+	MissileMesh(ModelID &missile);
 	virtual ~MissileMesh();
 
-	void draw(Vector &position, Vector &direction, int flareType, float rotation);
+	void draw(Vector &position, Vector &direction, int flareType, float rotation, float frame);
 	void setScale(float scale);
 
 protected:

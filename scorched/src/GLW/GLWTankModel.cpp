@@ -33,7 +33,8 @@
 REGISTER_CLASS_SOURCE(GLWTankModel);
 
 GLWTankModel::GLWTankModel(float x, float y, float w, float h) :
-	GLWidget(x, y, w, h)
+	GLWidget(x, y, w, h), 
+	totalTime_(0.0f)
 {
 }
 
@@ -89,6 +90,7 @@ void GLWTankModel::draw()
 		if (mesh)
 		{
 			mesh->draw(
+				totalTime_ * 20.0f,
 				false, 0.0f, position, 0.0f,
 				current->getPosition().getRotationGunXY(),
 				current->getPosition().getRotationGunYZ(),
@@ -106,4 +108,9 @@ void GLWTankModel::mouseDown(int button, float x, float y, bool &skipRest)
 		skipRest = true;
 		MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamBehind);
 	}
+}
+
+void GLWTankModel::simulate(float frameTime)
+{
+	totalTime_ += frameTime;
 }

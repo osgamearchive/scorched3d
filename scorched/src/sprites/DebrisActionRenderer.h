@@ -22,7 +22,7 @@
 #define __INCLUDE_DebrisActionRendererh_INCLUDE__
 
 #include <common/Vector.h>
-#include <graph/ModelRenderer.h>
+#include <graph/ModelRendererSimulator.h>
 #include <graph/Particle.h>
 
 class DebrisActionRenderer : public ParticleUserData
@@ -35,7 +35,7 @@ public:
 	void draw(Vector &position);
 
 protected:
-	ModelRenderer *debris_;
+	ModelRendererSimulator *debris_;
 	float rotationAng_;
 	float rotationX_, rotationY_, rotationZ_;
 	float rotationSpeed_;

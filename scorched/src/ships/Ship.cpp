@@ -27,15 +27,19 @@
 #include <landscape/Water.h>
 #include <common/Defines.h>
 #include <graph/OptionsDisplay.h>
+#include <graph/ModelRendererStore.h>
+#include <graph/ModelRenderer.h>
 #include <math.h>
 
 Ship::Ship(LandscapeShip *texShip)
 {
-	Model *model = ModelStore::instance()->loadModel(texShip->model);
 	scale_ = texShip->scale;
-	ship_ = new ModelRenderer(model);
-	size_ = MAX(model->getMax()[0], model->getMax()[1]) * scale_;
-	length_ = model->getMax()[1];
+	ship_ = new ModelRendererSimulator(
+		ModelRendererStore::instance()->loadModel(texShip->model));
+	size_ = MAX(
+		ship_->getRenderer()->getModel()->getMax()[0], 
+		ship_->getRenderer()->getModel()->getMax()[1]) * scale_;
+	length_ = ship_->getRenderer()->getModel()->getMax()[1];
 }
 
 Ship::~Ship()

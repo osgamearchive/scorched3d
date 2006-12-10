@@ -407,6 +407,8 @@ Boid::flockCentering(void) {
 bool
 Boid::update(const double &elapsedSeconds) {
 
+  frame = (float) (elapsedSeconds * 20.0) + (float) frameOffset;
+
   bool ok =  true;
   
   if (flightflag == false) {
@@ -466,6 +468,8 @@ Boid::Boid(BoidWorld *w, int boidNum,
   flockSelectively = false; 
 
   boidNumber = boidNum;
+
+  frameOffset = (float) rand();
 }		
 			
 #endif /* __BOID_C */

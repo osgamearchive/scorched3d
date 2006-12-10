@@ -21,17 +21,18 @@
 #include <math.h>
 #include <tankgraph/MissileMesh.h>
 #include <graph/ModelRenderer.h>
+#include <graph/ModelRendererStore.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <common/Defines.h> // For porting
 
-MissileMesh::MissileMesh(Model &missile) : 
+MissileMesh::MissileMesh(ModelID &missile) : 
 	innerScale_(1.0f),
 	scale_(1.0f)
 {
-	model_ = new ModelRenderer(&missile);
+	model_ = ModelRendererStore::instance()->loadModel(missile);
 
 	// Make sure the missile is not too large
 	const float maxSize = 2.0f;
@@ -64,10 +65,9 @@ MissileMesh::MissileMesh(Model &missile) :
 
 MissileMesh::~MissileMesh()
 {
-	delete model_;
 }
 
-void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float rotation)
+void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float rotation, float frame)
 {
 	// Figure out the opengl roation matrix from the direction
 	// of the fired missile
@@ -88,7 +88,7 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 		glScalef(scale, scale, scale);
-		model_->draw();
+		model_->draw(frame);
 	glPopMatrix();
 
 	// Draw any lense flares associated with the missile

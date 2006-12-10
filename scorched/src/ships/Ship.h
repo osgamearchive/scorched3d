@@ -21,7 +21,8 @@
 #if !defined(__INCLUDE_Shiph_INCLUDE__)
 #define __INCLUDE_Shiph_INCLUDE__
 
-#include <graph/ModelRenderer.h>
+#include <graph/ModelRendererSimulator.h>
+#include <common/Vector.h>
 
 class ModelID;
 class LandscapeShip;
@@ -38,7 +39,7 @@ public:
 
 protected:
 	Vector offset_;
-	ModelRenderer *ship_;
+	ModelRendererSimulator *ship_;
 	float size_;
 	float scale_;
 	float length_;

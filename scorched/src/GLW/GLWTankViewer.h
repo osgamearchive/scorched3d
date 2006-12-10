@@ -70,6 +70,7 @@ protected:
 	float rot_;
 	float rotXY_, rotYZ_;
 	float rotXYD_, rotYZD_;
+	float totalTime_;
 	int selected_;
 	int team_;
 

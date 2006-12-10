@@ -26,7 +26,7 @@
 #include <engine/ViewPoints.h>
 #include <weapons/WeaponRoller.h>
 
-class ModelRenderer;
+class ModelRendererSimulator;
 class ShotBounce : 
 	public PhysicsParticleMeta
 {
@@ -59,7 +59,7 @@ protected:
 	unsigned int playerId_;
 	unsigned int data_;
 	float totalTime_;
-	ModelRenderer *model_;
+	ModelRendererSimulator *model_;
 
 	void doCollision();
 

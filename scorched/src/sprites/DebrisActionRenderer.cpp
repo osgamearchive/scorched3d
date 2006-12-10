@@ -22,6 +22,7 @@
 #include <3dsparse/ModelStore.h>
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
+#include <graph/ModelRendererStore.h>
 #include <stdlib.h>
 
 DebrisActionRenderer::DebrisActionRenderer() :
@@ -37,14 +38,16 @@ DebrisActionRenderer::DebrisActionRenderer() :
 		ModelID id;
 		id.initFromString("ase", "data/meshes/rock1.ase", 
 			"none");
-		debris_ = new ModelRenderer(ModelStore::instance()->loadModel(id));
+		debris_ = new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
 	else
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/rock2.ase", 
 			"none");
-		debris_ = new ModelRenderer(ModelStore::instance()->loadModel(id));
+		debris_ = new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
 	DIALOG_ASSERT(debris_);
 }

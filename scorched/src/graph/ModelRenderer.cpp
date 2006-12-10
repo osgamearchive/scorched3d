@@ -44,14 +44,21 @@ ModelRenderer::~ModelRenderer()
 	{
 		MeshInfo info = meshInfos_.back();
 		meshInfos_.pop_back();
-		glDeleteLists(info.displayList, 1);
+
+		while (!info.frameInfos_.empty())
+		{
+			MeshFrameInfo frameInfo = info.frameInfos_.back();
+			info.frameInfos_.pop_back();
+			if (frameInfo.displayList != 0)
+			{
+				glDeleteLists(frameInfo.displayList, 1);
+			}
+		}
 	}
 }
 
 void ModelRenderer::setup()
 {
-	currentFrame_ = (float) model_->getStartFrame();
-
 	std::vector<BoneType *> &baseTypes = model_->getBaseBoneTypes();
 	std::vector<BoneType *>::iterator itor;
 	for (itor = baseTypes.begin();
@@ -62,21 +69,27 @@ void ModelRenderer::setup()
 	}
 
 	MeshInfo info;
+	MeshFrameInfo frameInfo;
+	for (int f=model_->getStartFrame(); f<=model_->getTotalFrames(); f++)
+	{
+		info.frameInfos_.push_back(frameInfo);
+	}
+	
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		meshInfos_.push_back(info);
 	}
 }
 
-void ModelRenderer::drawBottomAligned(float LOD)
+void ModelRenderer::drawBottomAligned(float currentFrame)
 {
 	glPushMatrix();
 		glTranslatef(0.0f, 0.0f, -model_->getMin()[2]);
-		draw(LOD);
+		draw(currentFrame);
 	glPopMatrix();
 }
 
-void ModelRenderer::draw(float LOD)
+void ModelRenderer::draw(float currentFrame)
 {
 	// Set transparency on
 	GLState glstate(GLState::BLEND_ON | GLState::ALPHATEST_ON);
@@ -84,53 +97,11 @@ void ModelRenderer::draw(float LOD)
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		Mesh *mesh = model_->getMeshes()[m];
-		drawMesh(m, mesh, mesh->getReferencesBones(), LOD);
+		drawMesh(m, mesh, currentFrame);
 	}
 }
 
-void ModelRenderer::simulate(float frameTime)
-{
-	currentFrame_ += frameTime;
-	if (currentFrame_ > (float) model_->getTotalFrames())
-	{
-		currentFrame_ = (float) model_->getStartFrame();
-	}
-
-	for (unsigned int b=0; b<boneTypes_.size(); b++)
-	{
-		Bone *bone = model_->getBones()[b];
-		BoneType *type = boneTypes_[b];
-
-		unsigned int posKeys = bone->getPositionKeys().size();
-		unsigned int rotKeys = bone->getRotationKeys().size();
-		if (posKeys == 0 && rotKeys == 0)
-		{
-			memcpy(type->final_, type->absolute_, sizeof(BoneMatrixType));
-			continue;
-		}
-
-		BoneMatrixType m;
-		bone->getRotationAtTime(currentFrame_, m);
-				
-		Vector &pos = bone->getPositionAtTime(currentFrame_);
-		m[0][3] = pos[0];
-		m[1][3] = pos[1];
-		m[2][3] = pos[2];
-
-		ModelMaths::concatTransforms(type->relative_, m, type->relativeFinal_);
-		if (type->parent_ == -1)
-		{
-			memcpy(type->final_, type->relativeFinal_, sizeof(BoneMatrixType));
-		}
-		else
-		{
-			BoneType *parent = boneTypes_[type->parent_];
-			ModelMaths::concatTransforms(parent->final_, type->relativeFinal_, type->final_);
-		}
-	}
-}
-
-void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float LOD)
+void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 {
 	MeshInfo &meshInfo = meshInfos_[m];
 
@@ -188,15 +159,26 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 		}
 	}
 
-	GLState glState(state);
-	if (dontCache)
+	// Get the current frame for the animation
+	// If we have no bones, when we only have one frame
+	int frame = model_->getStartFrame();
+	if (mesh->getReferencesBones())
 	{
-		drawVerts(m, mesh, LOD, vertexLighting);
+		// If we have bones, make sure the frame falls within the accepted bounds
+		int totalFrames = model_->getTotalFrames() - model_->getStartFrame();
+		if (totalFrames > 1)
+		{
+			frame = int(currentFrame) % totalFrames + model_->getStartFrame();
+		}
 	}
-	else
+
+	GLState glState(state);
 	{
-		unsigned int lastState = meshInfo.lastCachedState;
-		unsigned int displayList = meshInfo.displayList;
+		int frameNo = frame - model_->getStartFrame();
+		DIALOG_ASSERT(frameNo >= 0 && frameNo < (int) meshInfo.frameInfos_.size());
+		
+		unsigned int lastState = meshInfo.frameInfos_[frameNo].lastCachedState;
+		unsigned int displayList = meshInfo.frameInfos_[frameNo].displayList;
 		if (lastState != state)
 		{
 			if (displayList != 0)
@@ -204,16 +186,16 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 				glDeleteLists(displayList, 1);
 				displayList = 0;
 			}
-			meshInfo.lastCachedState = state;
+			meshInfo.frameInfos_[frameNo].lastCachedState = state;
 		}
 
 		if (!displayList)
 		{
 			glNewList(displayList = glGenLists(1), GL_COMPILE);
-				drawVerts(m, mesh, LOD, vertexLighting);
+				drawVerts(m, mesh, vertexLighting, frame);
 			glEndList();
 
-			meshInfo.displayList = displayList;
+			meshInfo.frameInfos_[frameNo].displayList = displayList;
 		}
 
 		glCallList(displayList);
@@ -231,19 +213,47 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, bool dontCache, float L
 	}
 }
 
-void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertexLighting)
+void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, bool vertexLighting, int frame)
 {
+	// Move the bones into position
+	for (unsigned int b=0; b<boneTypes_.size(); b++)
+	{
+		Bone *bone = model_->getBones()[b];
+		BoneType *type = boneTypes_[b];
+
+		unsigned int posKeys = bone->getPositionKeys().size();
+		unsigned int rotKeys = bone->getRotationKeys().size();
+		if (posKeys == 0 && rotKeys == 0)
+		{
+			memcpy(type->final_, type->absolute_, sizeof(BoneMatrixType));
+			continue;
+		}
+
+		BoneMatrixType m;
+		bone->getRotationAtTime(float(frame), m);
+				
+		Vector &pos = bone->getPositionAtTime(float(frame));
+		m[0][3] = pos[0];
+		m[1][3] = pos[1];
+		m[2][3] = pos[2];
+
+		ModelMaths::concatTransforms(type->relative_, m, type->relativeFinal_);
+		if (type->parent_ == -1)
+		{
+			memcpy(type->final_, type->relativeFinal_, sizeof(BoneMatrixType));
+		}
+		else
+		{
+			BoneType *parent = boneTypes_[type->parent_];
+			ModelMaths::concatTransforms(parent->final_, type->relativeFinal_, type->final_);
+		}
+	}
+
+	// Draw the vertices
 	Vector vec;
 	glBegin(GL_TRIANGLES);
 
-	int maxIndex = int(float(mesh->getVertexes().size()) * LOD);
 	int faceVerts[3];
-	if (mesh->getCollapseMap().empty() &&
-		!mesh->getFaces().empty() &&
-		!OptionsDisplay::instance()->getNoModelLOD())
-	{
-		mesh->setupCollapse();
-	}
 	
 	std::vector<Face *>::iterator itor;
 	for (itor = mesh->getFaces().begin();
@@ -255,15 +265,6 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertex
 		for (int i=0; i<3; i++)
 		{
 			int index = face->v[i];
-			if (!OptionsDisplay::instance()->getNoModelLOD() &&
-				LOD < 1.0f)
-			{
-				while (index > maxIndex)
-				{
-					index = mesh->getCollapseMap()[index];
-				}
-			}
-
 			faceVerts[i] = index;
 		}
 		
@@ -326,75 +327,4 @@ void ModelRenderer::drawVerts(unsigned int m, Mesh *mesh, float LOD, bool vertex
 		}
 	}
 	glEnd();
-
-	/*
-	// draw normals
-	{
-		glBegin(GL_LINES);
-		for (itor = mesh->getFaces().begin();
-			itor != mesh->getFaces().end();
-			itor++)
-		{
-			Face *face = *itor;
-
-			for (int i=0; i<3; i++)
-			{
-				int index = face->v[i];
-				if (!OptionsDisplay::instance()->getNoModelLOD() &&
-					LOD < 1.0f)
-				{
-					while (index > maxIndex)
-					{
-						index = mesh->getCollapseMap()[index];
-					}
-				}
-
-				faceVerts[i] = index;
-			}
-			
-			if (faceVerts[0] != faceVerts[1] &&
-				faceVerts[1] != faceVerts[2] &&
-				faceVerts[0] != faceVerts[2])
-			{
-				GLInfo::addNoTriangles(1);
-				for (int i=0; i<3; i++)
-				{
-					Vertex *vertex = mesh->getVertex(faceVerts[i]);
-
-					glColor3f(1.0f, 0.0f, 0.0f);
-					if (vertex->boneIndex != -1)
-					{
-						BoneType *type = boneTypes_[vertex->boneIndex];
-
-						// Note: Translation of MS to S3D coords
-						Vector newPos, newVec;
-						newPos[0] = vertex->position[0];
-						newPos[1] = vertex->position[2];
-						newPos[2] = vertex->position[1];
-
-						ModelMaths::vectorRotate(newPos, type->final_, newVec);
-						vec[0] = newVec[0];
-						vec[1] = newVec[2];
-						vec[2] = newVec[1];
-
-						vec[0] += type->final_[0][3] + vertexTranslation_[0];
-						vec[1] += type->final_[2][3] + vertexTranslation_[1];
-						vec[2] += type->final_[1][3] + vertexTranslation_[2];
-						
-					}
-					else
-					{
-						vec[0] = vertex->position[0] + vertexTranslation_[0];
-						vec[1] = vertex->position[1] + vertexTranslation_[1];
-						vec[2] = vertex->position[2] + vertexTranslation_[2];
-					}
-
-					glVertex3fv(vec);
-					glVertex3fv(vec + face->normal[i] * 2.0f);
-				}
-			}
-		}
-		glEnd();
-	}
-	*/
 }
