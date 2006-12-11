@@ -22,6 +22,7 @@ Added: Text chat shown during level loading
 Added: All models are cached including animated models
 Added: All models are now animated (missiles, tanks, targets, boids etc...)
 Added: Bird animations are now not syncronized
+Added: Concept of an offical server, displayed on the net browsing dialog
 
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)
 Fixed: Server web managament can view settings that do not fall into the usual brackets

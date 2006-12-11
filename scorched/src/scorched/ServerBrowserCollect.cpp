@@ -200,11 +200,19 @@ void ServerBrowserCollect::processMessage(NetMessage &message)
 						ServerBrowserEntry newEntry;
 
 						// Get the name attribute
-						XMLNode *nameNode = 0;
-						currentNode->getNamedChild("name", nameNode, false);
-						if (nameNode) newEntry.addAttribute(
-							"address", nameNode->getContent());
-
+						std::string address;
+						if (currentNode->getNamedChild("name", address, false))
+						{
+							newEntry.addAttribute("address", address.c_str());
+						}
+						
+						// Get the official attribute
+						std::string official;
+						if (currentNode->getNamedChild("official", official, false))
+						{
+							newEntry.addAttribute("official", official.c_str());
+						}
+						
 						// Add the new and its attributes
 						list_.addEntry(newEntry);
 					}

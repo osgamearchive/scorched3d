@@ -25,27 +25,53 @@ static void createImageMap()
 {
 	wxBitmap questionBitmap;
 	questionBitmap.LoadFile(
-		wxString(getDataFile("data/windows/question.gif"), wxConvUTF8),
+		wxString(getDataFile("data/windows/questionu.gif"), wxConvUTF8),
 		wxBITMAP_TYPE_GIF);
 	wxBitmap okBitmap;
 	okBitmap.LoadFile(
-		wxString(getDataFile("data/windows/ok.gif"), wxConvUTF8),
+		wxString(getDataFile("data/windows/oku.gif"), wxConvUTF8),
 		wxBITMAP_TYPE_GIF);
 	wxBitmap warnBitmap;
 	warnBitmap.LoadFile(
-		wxString(getDataFile("data/windows/warn.gif"), wxConvUTF8),
+		wxString(getDataFile("data/windows/warnu.gif"), wxConvUTF8),
 		wxBITMAP_TYPE_GIF);
 	wxBitmap exlaimBitmap;
 	exlaimBitmap.LoadFile(
-		wxString(getDataFile("data/windows/exclaim.gif"), wxConvUTF8),
+		wxString(getDataFile("data/windows/exclaimu.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap noentryBitmap;
+	noentryBitmap.LoadFile(
+		wxString(getDataFile("data/windows/noentryu.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+
+	wxBitmap okBitmapo;
+	okBitmapo.LoadFile(
+		wxString(getDataFile("data/windows/oko.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap warnBitmapo;
+	warnBitmapo.LoadFile(
+		wxString(getDataFile("data/windows/warno.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap exlaimBitmapo;
+	exlaimBitmapo.LoadFile(
+		wxString(getDataFile("data/windows/exclaimo.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap noentryBitmapo;
+	noentryBitmapo.LoadFile(
+		wxString(getDataFile("data/windows/noentryo.gif"), wxConvUTF8),
 		wxBITMAP_TYPE_GIF);
 	if (!netLanImageList)
 	{
-		netLanImageList = new wxImageList(16, 16, TRUE);
+		netLanImageList = new wxImageList(32, 16, TRUE);
 		netLanImageList->Add(questionBitmap);
 		netLanImageList->Add(okBitmap);
 		netLanImageList->Add(warnBitmap);
 		netLanImageList->Add(exlaimBitmap);
+		netLanImageList->Add(noentryBitmap);
+		netLanImageList->Add(okBitmapo);
+		netLanImageList->Add(warnBitmapo);
+		netLanImageList->Add(exlaimBitmapo);
+		netLanImageList->Add(noentryBitmapo);
 	}
 }
 
@@ -130,11 +156,19 @@ static void createControlsPost(wxWindow *parent, wxSizer *sizer)
 	exlaimBitmap.LoadFile(
 		wxString(getDataFile("data/windows/exclaim.gif"), wxConvUTF8),
 		wxBITMAP_TYPE_GIF);
+	wxBitmap noentryBitmap;
+	noentryBitmap.LoadFile(
+		wxString(getDataFile("data/windows/noentry.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
+	wxBitmap officialBitmap;
+	officialBitmap.LoadFile(
+		wxString(getDataFile("data/windows/tank2s.gif"), wxConvUTF8),
+		wxBITMAP_TYPE_GIF);
 
 	wxBoxSizer *overallSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	// Key
-	wxFlexGridSizer *keySizer = new wxFlexGridSizer(2, 4, 5, 5);
+	wxFlexGridSizer *keySizer = new wxFlexGridSizer(4, 4, 5, 5);
 	keySizer->Add(new wxStaticBitmap(parent, -1, questionBitmap));
 	keySizer->Add(new wxStaticText(parent, -1, wxT("State unknown")), 0, wxRIGHT, 10);
 	keySizer->Add(new wxStaticBitmap(parent, -1, okBitmap));
@@ -142,7 +176,11 @@ static void createControlsPost(wxWindow *parent, wxSizer *sizer)
 	keySizer->Add(new wxStaticBitmap(parent, -1, warnBitmap));
 	keySizer->Add(new wxStaticText(parent, -1, wxT("No game in progress")), 0, wxRIGHT, 10);
 	keySizer->Add(new wxStaticBitmap(parent, -1, exlaimBitmap));
-	keySizer->Add(new wxStaticText(parent, -1, wxT("Cannot join")));	
+	keySizer->Add(new wxStaticText(parent, -1, wxT("Server Full")));	
+	keySizer->Add(new wxStaticBitmap(parent, -1, noentryBitmap));
+	keySizer->Add(new wxStaticText(parent, -1, wxT("Incompatible version")));
+	keySizer->Add(new wxStaticBitmap(parent, -1, officialBitmap));
+	keySizer->Add(new wxStaticText(parent, -1, wxT("Official server")));	
 	overallSizer->Add(keySizer, 0, wxALIGN_LEFT | wxALL, 5);
 
 	wxBoxSizer *overallButtonSizer = new wxBoxSizer(wxVERTICAL);

@@ -92,12 +92,7 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Make sure the most up-to-date options are used and sent to the client
 	// The original options are sent in the connection accept message
 	// but send new options if the server has changed the options
-	bool sendGameState = (ScorchedServer::instance()->getContext().
-		optionsTransient->getCurrentRoundNo() == 0);
-	sendGameState = true; // HACK always send state until we bump
-	// protocol version and change game state message to 
-	// always send options transient, also do we need to send 
-	// when current round == 0?? Check later.
+	bool sendGameState = false;
 	if (ScorchedServer::instance()->getOptionsGame().commitChanges())
 	{
 		sendGameState = true;

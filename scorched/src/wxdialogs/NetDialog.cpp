@@ -41,10 +41,9 @@ static const char *getColumnDataName(long column)
 	case 2: name = "noplayers"; break;
 	case 3: name = "round"; break;
 	case 4: name = "mod"; break;
-	case 5: name = "fullversion"; break;
-	case 6: name = "gametype"; break;
-	case 7: name = "os"; break;
-	case 8: name = "address"; break;
+	case 5: name = "gametype"; break;
+	case 6: name = "os"; break;
+	case 7: name = "address"; break;
 	}
 	return name;
 }
@@ -101,6 +100,11 @@ int NetListControl::OnGetItemImage(long item) const
 	if ((item != -1) && 
 		(item < ServerBrowser::instance()->getServerList().getNoEntries()))
 	{
+		std::string officialStr = 
+			ServerBrowser::instance()->getServerList().
+				getEntryValue(item, "official");
+		bool official = (officialStr.c_str()[0] != '\0');
+
 		std::string pversion =
 			ServerBrowser::instance()->getServerList().
 				getEntryValue(item, "protocolversion");
@@ -109,7 +113,7 @@ int NetListControl::OnGetItemImage(long item) const
 				getEntryValue(item, "version");
 		if (!serverCompatable(pversion, version))
 		{
-			return 3;
+			return (official?8:4);
 		}
 
 		std::string clients = 
@@ -121,14 +125,14 @@ int NetListControl::OnGetItemImage(long item) const
 		if (clients.size() > 0 &&
 			0 == strcmp(clients.c_str(), maxclients.c_str()))
 		{
-			return 3;
+			return (official?7:3);
 		}
 		
 		std::string state = 
 			ServerBrowser::instance()->getServerList().
 				getEntryValue(item, "state");
-		if (0 == strcmp(state.c_str(), "Waiting")) return 2;
-		if (0 == strcmp(state.c_str(), "Started")) return 1;
+		if (0 == strcmp(state.c_str(), "Waiting")) return (official?6:2);
+		if (0 == strcmp(state.c_str(), "Started")) return (official?5:1);
 	}
 	return 0;
 }
@@ -515,9 +519,8 @@ bool NetLanFrame::TransferDataToWindow()
 		{ "Plyrs", 55 },
 		{ "Round", 50 },
 		{ "Mod", 70 },
-		{ "Ver", 50 },
 		{ "Game Type", 160 },
-		{ "OS", 160 },
+		{ "OS", 70 },
 		{ "Server IP Address", 140 }
 	};
 	for (int i=0; i<sizeof(mainListItems)/sizeof(ListItem); i++)
