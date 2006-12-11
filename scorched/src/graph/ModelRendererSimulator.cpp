@@ -26,12 +26,9 @@ ModelRendererSimulator::ModelRendererSimulator(ModelRenderer *renderer) :
 	renderer_(renderer)
 {
 	currentFrame_ = (float) renderer_->getModel()->getStartFrame();
-
-	int totalFrames = renderer_->getModel()->getTotalFrames() - 
-		renderer_->getModel()->getStartFrame();
-	if (totalFrames > 1)
+	if (renderer_->getModel()->getTotalFrames() > 1)
 	{
-		currentFrame_ += (float) (rand() % totalFrames);		
+		currentFrame_ = (float) (rand() % renderer_->getModel()->getTotalFrames());		
 	}
 }
 

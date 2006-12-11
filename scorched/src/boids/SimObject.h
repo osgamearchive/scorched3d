@@ -62,7 +62,7 @@ class SimObject {
 public:
 
   // -- Query Methods -- 
-  float getFrame(void) const;					// Returns the graphics frame of the object
+  float getFrameOffset(void) const;					// Returns the graphics frame of the object
 
   virtual double getMass(void) const;		      // Returns the mass of the object in kilograms. 
   
@@ -97,7 +97,6 @@ protected:
 
   double lastUpdate;				      // Last time this object was updated via update().
 
-  float frame;
   float frameOffset;
   
 private:
@@ -128,9 +127,9 @@ SimObject::getMass(void) const {
 }
 
 inline float 
-SimObject::getFrame(void) const {
+SimObject::getFrameOffset(void) const {
 
-  return frame;
+  return frameOffset;
   
 }
 

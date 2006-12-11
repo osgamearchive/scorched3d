@@ -88,6 +88,22 @@ void MainCamera::menuSelection(const char* menuName,
 	targetCam_.setCameraType((TargetCamera::CamType) position);
 }
 
+static int getNumberOfPlayers()
+{
+	int count = 0;
+	std::map<unsigned int, Tank *> &tanks = 
+		ScorchedClient::instance()->getTankContainer().getAllTanks();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks.begin();
+		mainitor != tanks.end();
+		mainitor++)
+	{
+		Tank *current = (*mainitor).second;
+		if (current->getTankAI()) count++;
+	}
+	return count;
+}
+
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
 	if (OptionsDisplay::instance()->getSideScroll())
@@ -182,7 +198,8 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 
 	// Update the current tank's camera attributes
 	if (state == ClientState::StatePlaying ||
-		ClientParams::instance()->getConnectedToServer())
+		ClientParams::instance()->getConnectedToServer() ||
+		getNumberOfPlayers() <= 1)
 	{
 		Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (current)

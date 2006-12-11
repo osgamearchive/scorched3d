@@ -70,7 +70,7 @@ void ModelRenderer::setup()
 
 	MeshInfo info;
 	MeshFrameInfo frameInfo;
-	for (int f=model_->getStartFrame(); f<=model_->getTotalFrames(); f++)
+	for (int f=0; f<=model_->getTotalFrames(); f++)
 	{
 		info.frameInfos_.push_back(frameInfo);
 	}
@@ -165,16 +165,16 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 	if (mesh->getReferencesBones())
 	{
 		// If we have bones, make sure the frame falls within the accepted bounds
-		int totalFrames = model_->getTotalFrames() - model_->getStartFrame();
-		if (totalFrames > 1)
+		if (model_->getTotalFrames() > 1)
 		{
-			frame = int(currentFrame) % totalFrames + model_->getStartFrame();
+			frame = int(currentFrame) % model_->getTotalFrames();
+			if (frame < 0) frame = 0;
 		}
 	}
 
 	GLState glState(state);
 	{
-		int frameNo = frame - model_->getStartFrame();
+		int frameNo = frame;
 		DIALOG_ASSERT(frameNo >= 0 && frameNo < (int) meshInfo.frameInfos_.size());
 		
 		unsigned int lastState = meshInfo.frameInfos_[frameNo].lastCachedState;
