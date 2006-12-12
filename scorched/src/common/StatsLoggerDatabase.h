@@ -70,8 +70,9 @@ protected:
 	// Overridden by new implementations
 	virtual bool runQuery(const char *, ...) = 0;
 	virtual std::list<RowResult> runSelectQuery(const char *, ...) = 0;
-	virtual bool connectDatabase(const char *host, const char *user, 
-		const char *passwd, const char *db) = 0;
+	virtual bool connectDatabase(const char *host, const char *port,
+		const char *user, const char *passwd, 
+		const char *db) = 0;
 
 	virtual int getLastInsertId() = 0;
 	virtual void escapeString(char *to, const char *from, unsigned long length) = 0;

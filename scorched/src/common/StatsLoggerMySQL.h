@@ -41,8 +41,9 @@ protected:
 
 	virtual bool runQuery(const char *, ...);
 	virtual std::list<StatsLoggerDatabase::RowResult> runSelectQuery(const char *, ...);
-	virtual bool connectDatabase(const char *host, const char *user, 
-		const char *passwd, const char *db);
+	virtual bool connectDatabase(const char *host, const char *port,
+		const char *user, const char *passwd, 
+		const char *db);
 
 	virtual int getLastInsertId();
 	virtual void escapeString(char *to, const char *from, unsigned long length);

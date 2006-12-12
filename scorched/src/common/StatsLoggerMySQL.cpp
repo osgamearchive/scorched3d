@@ -83,8 +83,9 @@ std::list<StatsLoggerDatabase::RowResult> StatsLoggerMySQL::runSelectQuery(const
 	return results;
 }
 
-bool StatsLoggerMySQL::connectDatabase(const char *host, const char *user, 
-	const char *passwd, const char *db)
+bool StatsLoggerMySQL::connectDatabase(const char *host, const char *port,
+	const char *user, const char *passwd, 
+	const char *db)
 {
     mysql_ = mysql_init(0);
 	if (!mysql_)
@@ -93,13 +94,25 @@ bool StatsLoggerMySQL::connectDatabase(const char *host, const char *user,
 		return false;
 	}
 
+	int connectPort = 0;
+	const char *connectSocket = 0;
+	if (0 == stricmp(host, "localhost"))
+	{
+		connectSocket = port;
+	}
+	else
+	{
+		connectPort = atoi(port);
+	}
+
 	if (!mysql_real_connect(
 		mysql_,
 		host,
 		user,
 		passwd,
 		db,
-		0, "/tmp/mysql.sock", 0))
+		connectPort, 
+		connectSocket, 0))
 	{
 		Logger::log(formatString("mysql stats logger failed to start. "
 			"Error: %s",

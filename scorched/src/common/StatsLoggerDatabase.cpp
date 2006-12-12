@@ -67,7 +67,7 @@ void StatsLoggerDatabase::createLogger()
 	const char *fileName = getSettingsFile(formatString("mysql-%i.xml",
 		ScorchedServer::instance()->getOptionsGame().getPortNo()));
 
-	std::string host, user, passwd, db, prefix;
+	std::string host, port, user, passwd, db, prefix;
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
@@ -78,6 +78,7 @@ void StatsLoggerDatabase::createLogger()
 	}
 
 	if (!file.getRootNode()->getNamedChild("host", host) ||
+		!file.getRootNode()->getNamedChild("port", port) ||
 		!file.getRootNode()->getNamedChild("user", user) ||
 		!file.getRootNode()->getNamedChild("passwd", passwd) ||
 		!file.getRootNode()->getNamedChild("db", db) ||
@@ -89,7 +90,9 @@ void StatsLoggerDatabase::createLogger()
 
 	// Create the database connection
 	success_ = false;
-	if (!connectDatabase(host.c_str(), user.c_str(), passwd.c_str(), db.c_str())) return;
+	if (!connectDatabase(host.c_str(), port.c_str(), 
+		user.c_str(), passwd.c_str(), 
+		db.c_str())) return;
 	success_ = true;
 
 	// Add event types
