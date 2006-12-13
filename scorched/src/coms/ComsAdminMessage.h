@@ -35,6 +35,7 @@ public:
 		AdminShowBanned,
 		AdminShowAliases,
 		AdminShowIpAliases,
+		AdminSyncCheck,
 		AdminKillAll,
 		AdminKick,
 		AdminSlap,

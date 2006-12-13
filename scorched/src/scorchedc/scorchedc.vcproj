@@ -1301,6 +1301,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\coms\ComsSyncCheckMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsSyncCheckMessage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\coms\ComsTargetStateMessage.cpp"
 				>
 			</File>
@@ -3434,6 +3442,14 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientSyncCheckHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientSyncCheckHandler.h"
 				>
 			</File>
 			<File

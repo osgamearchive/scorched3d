@@ -64,7 +64,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 			0 == stricmp(firstsplit.rule.c_str(), "newgame") ||
 			0 == stricmp(firstsplit.rule.c_str(), "showbanned") ||
 			0 == stricmp(firstsplit.rule.c_str(), "show") ||
-			0 == stricmp(firstsplit.rule.c_str(), "logout"))
+			0 == stricmp(firstsplit.rule.c_str(), "logout") ||
+			0 == stricmp(firstsplit.rule.c_str(), "synccheck"))
 		{
 			result.push_back(formatString("  sending %s...", 
 				firstsplit.rule.c_str()));
@@ -81,6 +82,8 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 				type = ComsAdminMessage::AdminNewGame;
 			else if (0 == stricmp(firstsplit.rule.c_str(), "logout"))
 				type = ComsAdminMessage::AdminLogout;
+			else if (0 == stricmp(firstsplit.rule.c_str(), "synccheck"))
+				type = ComsAdminMessage::AdminSyncCheck;
 
 			ComsAdminMessage message(type);
 			ComsMessageSender::sendToServer(message);
@@ -207,4 +210,5 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 	result.push_back("  talk <text> - Admin talk to all players (white with no name)");
 	result.push_back("  admintalk <text> - Admin talk to all admin players only");
 	result.push_back("  message <text> - Message to all players (yellow in center of screen)");
+	result.push_back("  synccheck - Check client landscape is in sync with server");
 }

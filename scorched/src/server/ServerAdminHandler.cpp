@@ -27,6 +27,8 @@
 #include <common/StatsLogger.h>
 #include <common/Defines.h>
 #include <coms/ComsAdminMessage.h>
+#include <coms/ComsSyncCheckMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <net/NetInterface.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAdmin.h>
@@ -381,6 +383,13 @@ bool ServerAdminHandler::processMessage(
 		break;
 	case ComsAdminMessage::AdminMessage:
 		ServerCommon::sendStringMessage(0, message.getParam1());
+		break;
+	case ComsAdminMessage::AdminSyncCheck:
+		{
+			ServerCommon::sendString(destinationId, "sending sync...");
+			ComsSyncCheckMessage syncCheck;
+			ComsMessageSender::sendToSingleClient(syncCheck, destinationId);
+		}
 		break;
 	case ComsAdminMessage::AdminKillAll:
 		ServerCommon::sendString(0, "admin killall");
