@@ -227,9 +227,10 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 {
 	static Clock localTimer;
 	static float timeDelay = 0.0f;
-	timeDelay += localTimer.getTimeDifference();
+	float frameTime = localTimer.getTimeDifference();
+	timeDelay += frameTime;
 
-	clientEventLoop();	
+	clientEventLoop(frameTime);	
 
 	ProgressDialog::instance()->progressChange(op, percentage);
 

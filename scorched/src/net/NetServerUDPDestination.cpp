@@ -78,8 +78,16 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		Logger::log(formatString("Recieving part %u%s - %i bytes", seq, (fin?"*":" "), len));
 	}
 
-	// Is this is next packet we want
-	if (seq == recvSeq_)
+	if (seq == 0) // Is this async
+	{
+		// We should have all the information we need in this 1 packet
+		NetMessage *recvMessage = NetMessagePool::instance()->
+			getFromPool(NetMessage::BufferMessage,
+				destinationId, getAddress().host);
+		recvMessage->getBuffer().addDataToBuffer(data, len);
+		server_->incomingMessageHandler_.addMessage(recvMessage);
+	}
+	else if (seq == recvSeq_) // Is this is next packet we want
 	{
 		// We've recieved the next message in the sequence
 		// add the data to the current buffer
@@ -120,6 +128,11 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 	}
 
 	bool sendAck = true;
+	if (seq == 0)
+	{
+		// Its async no ack required
+		sendAck = false;
+	}
 #ifdef UDP_TEST
 	// Test code to simulate packet loss
 	if (rand() < RAND_MAX / 4)
@@ -172,8 +185,6 @@ void NetServerUDPDestination::addData(unsigned int destinationId, int len, unsig
 
 void NetServerUDPDestination::processDataAck(unsigned int destinationId, int len, unsigned char *data)
 {
-	if (outgoingMessages_.empty()) return;
-
 	// Get the sequence number
 	data++; len--;// Remove type
 	Uint32 seqValue = 0;
@@ -184,6 +195,14 @@ void NetServerUDPDestination::processDataAck(unsigned int destinationId, int len
 	{
 		Logger::log(formatString("Recieving ack %u", seq));
 	}
+
+	// Process this ack
+	processAck(seq);
+}
+
+void NetServerUDPDestination::processAck(unsigned int seq)
+{
+	if (outgoingMessages_.empty()) return;
 
 	// Remove this packet from the list of sent packets
 	OutgoingMessage *message = outgoingMessages_.front();
@@ -235,6 +254,15 @@ NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoing()
 		{
 			message->pendingParts_.pop_front();
 			message->sentParts_[part.seq] = part;
+
+			// This is an async packet, so we ack it here
+			// as the other end won't send an ack
+			if (part.seq == 0)
+			{
+				processAck(0);
+				// Must return as the outgoing messages will now be changed
+				return result;
+			}
 		}
 	}
 
@@ -307,6 +335,16 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 	if (remainder > 0) parts ++;
 	else remainder = SendLength; 
 
+	// If we are sending an async message, make sure that it only has one part
+	if (oldmessage.getFlags() & NetInterfaceFlags::fAsync)
+	{
+		if (parts > 1)
+		{
+			Logger::log("NetServerUDP: Cannot send async multi part message");
+			return;
+		}
+	}
+
 	// Add each part into the list of parts pending to send to this client
 	for (int p=0; p<parts; p++)
 	{
@@ -316,8 +354,17 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 		part.end = (p == parts - 1);
 		part.length = ((p == parts - 1)?remainder:SendLength);
 		part.offset = p * SendLength;
-		part.seq = sendSeq_++;
 		part.retries = 0;
+
+		// If this message is async, then don't add the sequence number
+		if (oldmessage.getFlags() & NetInterfaceFlags::fAsync)
+		{
+			part.seq = 0;
+		}
+		else
+		{
+			part.seq = sendSeq_++;
+		}
 
 #ifdef UDP_TEST
 		// Test code for sending out of sequence packets

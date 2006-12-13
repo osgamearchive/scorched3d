@@ -188,8 +188,9 @@ bool startClient(ProgressCounter *progressCounter)
 	return true;
 }
 
-bool clientEventLoop()
+bool clientEventLoop(float frameTime)
 {
+	static float serverTime = 0.0f;
 	static SDL_Event event;
 	bool idle = true;
 	if (SDL_PollEvent(&event))
@@ -242,7 +243,12 @@ bool clientEventLoop()
 	ClientKeepAliveSender::instance()->sendKeepAlive();
 	if (!ClientParams::instance()->getConnectedToServer())
 	{
-		serverLoop();
+		serverTime += frameTime;
+		if (serverTime > 0.05f)
+		{
+			serverTime = 0.0f;
+			serverLoop();
+		}
 	}
 
 	Logger::processLogEntries();
@@ -297,7 +303,8 @@ bool clientMain()
 	FrameLimiter limiter;
 	for (;;)
 	{
-		bool idle = clientEventLoop();
+		float frameTime = loopClock.getTimeDifference();
+		bool idle = clientEventLoop(frameTime);
 
 		if (!ScorchedClient::instance()->getMainLoop().mainLoop()) break;
 		if ((!paused) && (idle) )

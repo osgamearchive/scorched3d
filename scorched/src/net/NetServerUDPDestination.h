@@ -79,6 +79,7 @@ protected:
 	std::map<unsigned int, NetMessage *> incomingMessages_;
 	std::list<OutgoingMessage *> outgoingMessages_;
 
+	void processAck(unsigned int seq);
 	void addData(unsigned int destinationId, int len, unsigned char *data, bool fin);
 	bool sendPart(MessagePart &part, NetMessage &message);
 };
