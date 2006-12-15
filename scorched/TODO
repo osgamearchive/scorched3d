@@ -27,6 +27,7 @@ Added: Custom port and socket support for stats database connection
 Added: Asyncronous message support to UDP message handler
 Added: Server is only simulated periodically when playing offline
 
+Fixed: Flag reseting on buying screen when buying items
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)
 Fixed: Server web managament can view settings that do not fall into the usual brackets
 Fixed: Bug where a space in the installation file name could cause starting issues

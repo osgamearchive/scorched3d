@@ -25,6 +25,7 @@
 #include <set>
 #include <vector>
 #include <weapons/Weapon.h>
+#include <GLW/GLWFlag.h>
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 #include <GLW/GLWPanel.h>
@@ -61,6 +62,7 @@ protected:
 	GLWPanel *topPanel_;
 	GLWCheckBox *sortBox_;
 	GLWCheckBoxText *defaultTab_;
+	GLWFlag *flag_;
 	std::map<unsigned int, Accessory *> sellMap_;
 	std::map<unsigned int, Accessory *> buyMap_;
 	std::map<unsigned int, Accessory *> favMap_;

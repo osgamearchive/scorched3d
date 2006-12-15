@@ -21,7 +21,6 @@
 #include <dialogs/BuyAccessoryDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWIcon.h>
-#include <GLW/GLWFlag.h>
 #include <GLEXT/GLViewPort.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
@@ -41,7 +40,7 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 	GLWWindow("", 10.0f, 10.0f, 465.0f, 300.0f, 0,
 		"Allows the current player to buy and sell\n"
 		"weapons and other accessories."),
-	firstDrawTime_(true), sellTab_(0)
+	firstDrawTime_(true), sellTab_(0), flag_(0)
 {
 	okId_ = addWidget(new GLWTextButton("Ok", 400, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
@@ -111,11 +110,14 @@ void BuyAccessoryDialog::draw()
 
 void BuyAccessoryDialog::addPlayerName()
 {
+	float flagOffset = 0.0f;
+	if (flag_) flagOffset = flag_->getOffset();
 	topPanel_->clear();
 
 	Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!tank) return;
-	topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 15, 60));
+	flag_ = (GLWFlag *) topPanel_->addWidget(new GLWFlag(tank->getColor(), 5, 15, 60));
+	flag_->setOffset(flagOffset);
 	topPanel_->addWidget(new GLWLabel(75, 10, (char *) tank->getName()));
 	topPanel_->addWidget(new GLWLabel(260, 20, (char *)
 		formatString("$%i", tank->getScore().getMoney())));

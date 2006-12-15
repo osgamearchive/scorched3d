@@ -35,6 +35,8 @@ public:
 	virtual void simulate(float frameTime);
 	virtual void draw();
 
+	float getOffset() { return offset_; }
+	void setOffset(float offset) { offset_ = offset; }
 	void setColor(Vector &color) { color_ = color; }
 	Vector &getColor() { return color_; }
 
