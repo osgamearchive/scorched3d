@@ -101,4 +101,16 @@
 		<name>EffectsDetail</name>
 		<value>0</value>
 	</option>
+	<!-- Do not draw any trees -->
+	<!-- (default value : "off") -->
+	<option>
+		<name>NoTrees</name>
+		<value>on</value>
+	</option>
+	<!-- Do not use dynamic lighting calculations for models -->
+	<!-- (default value : "off") -->
+	<option>
+		<name>NoModelLighting</name>
+		<value>on</value>
+	</option>
 </options>
