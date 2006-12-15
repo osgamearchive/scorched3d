@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponAimedOver.h>
 #include <weapons/AccessoryStore.h>
+#include <engine/ActionController.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <tank/Tank.h>
 #include <tank/TankLib.h>
@@ -146,6 +147,8 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 			maxDist += (*itor).first;
 		}
 	}
+
+	RandomGenerator &random = context.actionController->getRandom();
 	
 	// Add a percetage that we will not fire at any tank
 	maxDist *= 1.0f + (percentageMissChance_ / 100.0f);
@@ -154,7 +157,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	for (int i=0; i<warHeads_; i++)
 	{
 		// Random probablity
-		float dist = maxDist * RAND;
+		float dist = maxDist * random.getRandFloat();
 
 		// Find which tank fits this probability
 		Tank *shootAt = 0;
@@ -172,22 +175,23 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 		}			
 
 		// Calcuate the angle for the shot
-		float angleXYDegs = 360.0f * RAND;
-		float angleYZDegs = 30.0f * RAND + 50.0f;
-		float power = 300.0f * RAND + 150.0f;
+		float angleXYDegs = 360.0f * random.getRandFloat();
+		float angleYZDegs = 30.0f * random.getRandFloat() + 50.0f;
+		float power = 300.0f * random.getRandFloat() + 150.0f;
 		if (shootAt)
 		{
 			// We have a tank to aim at
 			// Aim a shot towards it
 			TankLib::getShotTowardsPosition(
 				context,
+				random,
 				position, 
 				shootAt->getPosition().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (RAND * maxInacuracy_) - 
+			angleXYDegs += (random.getRandFloat() * maxInacuracy_) - 
 				(maxInacuracy_ / 2.0f);
-			angleYZDegs += (RAND * maxInacuracy_) - 
+			angleYZDegs += (random.getRandFloat() * maxInacuracy_) - 
 				(maxInacuracy_ / 2.0f);
 		}
 		if (ceiling) angleYZDegs += 180.0f;

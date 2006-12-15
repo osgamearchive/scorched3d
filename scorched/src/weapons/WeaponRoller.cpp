@@ -93,14 +93,15 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 		}
 	}
 
+	RandomGenerator &random = context.actionController->getRandom();
 	for (int i=0; i<numberRollers_; i++)
 	{
 		Vector position = oldposition;
 		position[2] += 1.5f;
 		
 		// Make a slightly different starting position
-		position[0] += RAND * 2.0f - 1.0f;
-		position[1] += RAND * 2.0f - 1.0f;
+		position[0] += random.getRandFloat() * 2.0f - 1.0f;
+		position[1] += random.getRandFloat() * 2.0f - 1.0f;
 		float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 			position[0], position[1]) + 1.0f;
 		if (position[2] < minHeight) position[2] = minHeight;
@@ -155,11 +156,15 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 {
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
+	RandomGenerator &random = context.actionController->getRandom();
 	if (position[0] > 1 && position[1] > 1 &&
 		position[0] < context.landscapeMaps->getGroundMaps().getMapWidth() - 1 &&
 		position[1] < context.landscapeMaps->getGroundMaps().getMapHeight() - 1)
 	{
-		Vector velocity(RAND - 0.5f, RAND - 0.5f, 2.0f * RAND);
+		float velx = random.getRandFloat() - 0.5f;
+		float vely = random.getRandFloat() - 0.5f;
+		float velz = random.getRandFloat() * 2.0f;
+		Vector velocity(velx, vely, velz);
 		context.actionController->addAction(
 			new ShotBounce(position, velocity, this, playerId, data));
 	}

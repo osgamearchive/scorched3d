@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponRandomChoice.h>
 #include <weapons/AccessoryStore.h>
+#include <engine/ActionController.h>
 #include <common/Defines.h>
 #include <stdlib.h>
 
@@ -84,7 +85,8 @@ void WeaponRandomChoice::fireWeapon(ScorchedContext &context,
 	unsigned int playerId, Vector &position, Vector &velocity,
 	unsigned int data)
 {
-	int randWeight = rand() % totalWeight_;
+	RandomGenerator &random = context.actionController->getRandom();
+	int randWeight = random.getRandUInt() % totalWeight_;
 	int currentWeight = 0;
 
 	std::list<WeaponWeight>::iterator itor;

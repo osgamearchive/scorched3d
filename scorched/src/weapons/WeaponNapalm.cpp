@@ -95,10 +95,11 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 		}
 	}
 
+	RandomGenerator &random = context.actionController->getRandom();
 	for (int i=0; i<numberStreams_; i++)
 	{
-		int x = int(position[0] + RAND * 4.0f - 2.0f);
-		int y = int(position[1] + RAND * 4.0f - 2.0f);
+		int x = int(position[0] + random.getRandFloat() * 4.0f - 2.0f);
+		int y = int(position[1] + random.getRandFloat() * 4.0f - 2.0f);
 		addNapalm(context, playerId, x, y, data);
 	}
 

@@ -28,6 +28,8 @@ public:
 	virtual ~RandomGenerator();
 
 	void seed(unsigned int seed);
+	unsigned int getSeed();
+
 	unsigned int getRandUInt();
 	float getRandFloat();
 
@@ -35,6 +37,10 @@ protected:
 	static unsigned int bufferSize_;
 	static unsigned int *buffer_;
 	unsigned int position_;
+
+private:
+	RandomGenerator(const RandomGenerator &other);
+	RandomGenerator &operator=(const RandomGenerator &other);
 
 };
 

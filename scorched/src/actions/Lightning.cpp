@@ -49,7 +49,6 @@ Lightning::Lightning(WeaponLightning *weapon,
 	position_(position), velocity_(velocity),
 	generator_(0)
 {
-	seed_ = (unsigned int) rand();
 }
 
 Lightning::~Lightning()
@@ -60,7 +59,7 @@ Lightning::~Lightning()
 void Lightning::init()
 {
 	generator_ = new RandomGenerator();
-	generator_->seed(seed_);
+	generator_->seed(playerId_);
 	Vector direction = velocity_.Normalize();
 	std::map<Target *, float> hurtMap;
 
@@ -169,7 +168,6 @@ void Lightning::draw()
 
 bool Lightning::writeAction(NetBuffer &buffer)
 {
-	buffer.addToBuffer(seed_);
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer(data_);
 	buffer.addToBuffer(position_);
@@ -180,7 +178,6 @@ bool Lightning::writeAction(NetBuffer &buffer)
 
 bool Lightning::readAction(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(seed_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	if (!reader.getFromBuffer(position_)) return false;

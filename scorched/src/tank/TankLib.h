@@ -26,6 +26,7 @@
 #include <list>
 
 class Tank;
+class RandomGenerator;
 namespace TankLib
 {
 	bool intersection(ScorchedContext &context,
@@ -44,6 +45,7 @@ namespace TankLib
 		bool checkIntersection = false);
 	void getShotTowardsPosition(
 		ScorchedContext &context,
+		RandomGenerator &random,
 		Vector &position, Vector &shootAt, 
 		float &angleXYDegs, float &angleYZDegs, float &power);
 	Vector &getVelocityVector(float xy, float yz);

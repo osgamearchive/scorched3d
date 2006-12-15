@@ -62,7 +62,6 @@ protected:
 	WeaponLightning *weapon_;
 	Vector position_;
 	Vector velocity_;
-	unsigned int seed_;
 	unsigned int playerId_;
 	unsigned int data_;
 

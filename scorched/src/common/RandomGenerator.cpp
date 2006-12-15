@@ -65,6 +65,11 @@ void RandomGenerator::seed(unsigned int seed)
 	position_ = seed;
 }
 
+unsigned int RandomGenerator::getSeed()
+{
+	return position_;
+}
+
 unsigned int RandomGenerator::getRandUInt()
 {
 	unsigned int pos = position_ % bufferSize_;

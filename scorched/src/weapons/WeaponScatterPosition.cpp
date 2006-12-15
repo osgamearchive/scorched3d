@@ -20,6 +20,7 @@
 
 #include <weapons/WeaponScatterPosition.h>
 #include <weapons/AccessoryStore.h>
+#include <engine/ActionController.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <common/Defines.h>
@@ -84,13 +85,14 @@ void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
 		scatterpercentage_ / 100.0f;
 
 	Vector pos;
+	RandomGenerator &random = context.actionController->getRandom();
 	bool ok = false;
 	while (!ok)
 	{
 		ok = true;
 
-		pos[0] = p[0] + (RAND * width) - (width / 2.0f);
-		pos[1] = p[1] + (RAND * height) - (height / 2.0f);
+		pos[0] = p[0] + (random.getRandFloat() * width) - (width / 2.0f);
+		pos[1] = p[1] + (random.getRandFloat() * height) - (height / 2.0f);
 		pos[2] = p[2];
 		if (landheight_)
 		{

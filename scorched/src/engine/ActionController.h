@@ -26,6 +26,7 @@
 #include <engine/ActionBuffer.h>
 #include <engine/ScorchedPhysicsEngine.h>
 #include <engine/GameStateI.h>
+#include <common/RandomGenerator.h>
 
 class ScorchedContext;
 class ActionController : public GameStateI
@@ -52,6 +53,7 @@ public:
 	// Get the current physics engine
 	ScorchedPhysicsEngine &getPhysics() { return physicsEngine_; }
 	ActionBuffer &getBuffer() { return buffer_; }
+	RandomGenerator &getRandom() { return random_; }
 	float getActionTime() { return time_; }
 
 	// Set the simulation speed
@@ -67,6 +69,7 @@ public:
 protected:
 	static ActionController* instance_;
 	ScorchedContext *context_;
+	RandomGenerator random_;
 	std::list<Action *> newActions_;
 	std::set<Action *> actions_;
 	std::map<std::string, int> actionProfile_;

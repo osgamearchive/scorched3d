@@ -21,6 +21,7 @@
 #include <tankai/TankAIComputerAim.h>
 #include <tankai/TankAIComputerBuyer.h>
 #include <server/ScorchedServer.h>
+#include <common/RandomGenerator.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <tank/TankPosition.h>
@@ -462,10 +463,14 @@ TankAIComputerAim::AimResult TankAIComputerAim::refinedAim(
 		if (!refine ||
 			!refineLastShot(targetTank, angleXYDegs, angleYZDegs, power))
 		{
+			RandomGenerator random;
+			random.seed(rand());
+
 			// Else make a new shot up
 			// Makes a randow powered shot towards the target
 			TankLib::getShotTowardsPosition(
 				ScorchedServer::instance()->getContext(),
+				random,
 				currentTank_->getPosition().getTankPosition(), 
 				targetTank->getPosition().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);

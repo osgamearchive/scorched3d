@@ -22,6 +22,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankPosition.h>
 #include <tank/TankState.h>
+#include <common/RandomGenerator.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscapemap/LandscapeMaps.h>
@@ -141,6 +142,7 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 }
 
 void TankLib::getShotTowardsPosition(ScorchedContext &context,
+	RandomGenerator &random,
 	Vector &position, Vector &shootAt,
 	float &angleXYDegs, float &angleYZDegs, float &power)
 {
@@ -167,7 +169,7 @@ void TankLib::getShotTowardsPosition(ScorchedContext &context,
 	}
 
 	// Add some randomness to the power
-	power += (RAND * 200.0f) - 100.0f;
+	power += (random.getRandFloat() * 200.0f) - 100.0f;
 	if (power < 100) power = 100;
 
 	if (context.optionsTransient->getWindOn())
@@ -181,7 +183,7 @@ void TankLib::getShotTowardsPosition(ScorchedContext &context,
 		ndirection = ndirection.Normalize();
 		ndirection = ndirection.get2DPerp();
 		float windoffsetLR = context.optionsTransient->getWindDirection().dotP(ndirection);
-		angleXYDegs += windoffsetLR * distance2D * (0.12f + RAND * 0.04f) * windMag;
+		angleXYDegs += windoffsetLR * distance2D * (0.12f + random.getRandFloat() * 0.04f) * windMag;
 
 		float windoffsetFB = context.optionsTransient->getWindDirection().dotP(direction.Normalize());
 		windoffsetFB /= 10.0f;

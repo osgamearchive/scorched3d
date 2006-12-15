@@ -243,7 +243,8 @@ void Napalm::simulateAddStep()
 	} 
 
 	// Add this current point to the napalm map
-	int offset = int(RAND * 31);
+	RandomGenerator &random = context_->actionController->getRandom();
+	int offset = int(random.getRandFloat() * 31.0f);
 	NapalmEntry *newEntry = new NapalmEntry(x_, y_, offset);
 	napalmPoints_.push_back(newEntry);
 #ifndef S3D_SERVER
