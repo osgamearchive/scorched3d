@@ -274,7 +274,7 @@ void BoidWorld::draw()
 			glRotated(boid->dampedroll / 3.14f * 180.0f, 0.0f, 1.0f, 0.0f);
 			glScalef(modelSize_, modelSize_, modelSize_);
 		
-			bird_->draw((boid->getFrameOffset() * 20.0f) + elapsedTime_);
+			bird_->draw(boid->getFrameOffset() + elapsedTime_ * 20.0f);
 		glPopMatrix();
 	}
 }
