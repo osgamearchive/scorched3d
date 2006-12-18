@@ -26,6 +26,7 @@ Added: Concept of an offical server, displayed on the net browsing dialog
 Added: Custom port and socket support for stats database connection
 Added: Asyncronous message support to UDP message handler
 Added: Server is only simulated periodically when playing offline
+Added: Mysql reconnection when connection lost
 
 Fixed: Flag reseting on buying screen when buying items
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)

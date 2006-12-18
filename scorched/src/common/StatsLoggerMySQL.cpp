@@ -93,6 +93,7 @@ bool StatsLoggerMySQL::connectDatabase(const char *host, const char *port,
 		Logger::log( "Failed to init mysql");
 		return false;
 	}
+	mysql_->reconnect = 1;
 
 	int connectPort = 0;
 	const char *connectSocket = 0;
