@@ -88,6 +88,12 @@ public:
 		return !((*this) == Vin1);
 	}
 
+	// Quaternion maths
+	void setQuatFromAxisAndAngle(Vector &axis, float angle);
+	void getRotationMatrix(float *R); // R = float[4*3];
+	void getOpenGLRotationMatrix(float *R); // R = float[16];
+	void getRelativeVector(Vector &result, Vector &position);
+
 	float &operator[](const int m) { DIALOG_ASSERT(m<=3); return V[m]; }
 	float const &operator[](const int m) const { DIALOG_ASSERT(m<=3); return V[m]; }
 

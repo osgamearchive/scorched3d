@@ -2313,6 +2313,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\target\TargetSpace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\target\TargetSpace.h"
+				>
+			</File>
+			<File
 				RelativePath="..\target\TargetState.cpp"
 				>
 			</File>
