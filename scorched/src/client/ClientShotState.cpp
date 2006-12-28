@@ -21,11 +21,12 @@
 #include <client/ClientShotState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientWaitState.h>
+#include <client/ClientParams.h>
+#include <client/ClientPlayMovesHandler.h>
 #include <engine/ActionController.h>
 #include <engine/ViewPoints.h>
 #include <landscape/Landscape.h>
 #include <landscape/PatchGrid.h>
-#include <client/ClientParams.h>
 #include <landscape/Landscape.h>
 
 ClientShotState *ClientShotState::instance_ = 0;
@@ -40,7 +41,10 @@ ClientShotState *ClientShotState::instance()
 }
 
 ClientShotState::ClientShotState() :
-	GameStateI("ClientShotState")
+	GameStateI("ClientShotState"),
+	shotState_(ScorchedClient::instance()->getContext(),
+		*ClientPlayMovesHandler::instance())
+
 {
 }
 
@@ -52,6 +56,9 @@ void ClientShotState::enterState(const unsigned state)
 {
 	Landscape::instance()->restoreLandscapeTexture();
 	ScorchedClient::instance()->getContext().viewPoints->reset();
+
+	// Play the shots
+	shotState_.enterState(state);
 }
 
 bool ClientShotState::acceptStateChange(const unsigned state, 
@@ -59,14 +66,15 @@ bool ClientShotState::acceptStateChange(const unsigned state,
 		float frameTime)
 {
 	// All the shots have finished, move to finished
-	if (ScorchedClient::instance()->getActionController().noReferencedActions())
+	if (shotState_.acceptStateChange(state, nextState, frameTime))
 	{
 		// Check area around tank has correct variance
 		Landscape::instance()->getPatchGrid().recalculateTankVariance();
 
 		// Tell the server we have finished processing the landscape
+		// This will stimulate us into the wait state
 		ClientWaitState::instance()->sendClientReady();
-		return false;
+		return false; // This is done by the send ready
 	}
 
 	return false;

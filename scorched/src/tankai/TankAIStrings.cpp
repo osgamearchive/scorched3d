@@ -47,7 +47,6 @@ TankAIStrings::TankAIStrings()
 
 TankAIStrings::~TankAIStrings()
 {
-
 }
 
 const char *TankAIStrings::getPlayerName()
@@ -61,33 +60,42 @@ const char *TankAIStrings::getPlayerName()
 const char *TankAIStrings::getAIPlayerName()
 {
 	static int counter = 0;
-	const char *playerName = 
-		aiPlayerNames_.getLines()[counter++ % aiPlayerNames_.getLines().size()].c_str();
 	if (ScorchedServer::instance()->getOptionsGame().getRandomizeBotNames())
 	{
-		playerName = aiPlayerNames_.getRandomLine();
+		counter = (int) rand();
 	}
+
+	const char *playerName = 
+		aiPlayerNames_.getLines()[counter++ % aiPlayerNames_.getLines().size()].c_str();
 	return playerName;
 }
 
-const char *TankAIStrings::getDeathLine()
+const char *TankAIStrings::getDeathLine(RandomGenerator &generator)
 {
 	const char *deathLine = 0;
 	float percentage = 
 		float(ScorchedServer::instance()->getOptionsGame().getComputersDeathTalk());
-	float talkPer = RAND * 100.0f;
-	if (talkPer < percentage) deathLine = deathLines_.getRandomLine();
+	float talkPer = generator.getRandFloat() * 100.0f;
+	if (talkPer < percentage)
+	{
+		deathLine = deathLines_.getLines()
+			[generator.getRandUInt() % deathLines_.getLines().size()].c_str();
+	}
 
 	return deathLine;
 }
 
-const char *TankAIStrings::getAttackLine()
+const char *TankAIStrings::getAttackLine(RandomGenerator &generator)
 {
 	const char *attackLine = 0;
 	float percentage = 
 		float(ScorchedServer::instance()->getOptionsGame().getComputersAttackTalk());
-	float talkPer = RAND * 100.0f;
-	if (talkPer < percentage) attackLine = attackLines_.getRandomLine();
+	float talkPer = generator.getRandFloat() * 100.0f;
+	if (talkPer < percentage)
+	{
+		attackLine = attackLines_.getLines()
+			[generator.getRandUInt() % attackLines_.getLines().size()].c_str();
+	}
 	
 	return attackLine;
 }

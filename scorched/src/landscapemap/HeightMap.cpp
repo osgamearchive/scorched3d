@@ -71,9 +71,14 @@ void HeightMap::reset()
 {
 	memset(hMap_, 0, sizeof(float)  * (width_ + 1) * (height_ + 1));
 	memset(backupMap_, 0, sizeof(float)  * (width_ + 1) * (height_ + 1));
-	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (height_ + 1));
+	resetNormals();
 	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = FLT_MAX;
 	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = 0.0f;
+}
+
+void HeightMap::resetNormals()
+{
+	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (height_ + 1));
 }
 
 bool HeightMap::getVector(Vector &vec, int x, int y)
@@ -101,56 +106,6 @@ void HeightMap::getVectorPos(int pos, int &x, int &y, int dist)
 		break;
 	default:
 		x=0; y=-dist;
-	}
-}
-
-void HeightMap::generateNormals(int minX, int maxX, int minY, int maxY, ProgressCounter *counter)
-{
-	if (counter) counter->setNewOp("Normals");
-
-	for (int x=minX; x<=maxX; x++)
-	{
-		if (counter) counter->setNewPercentage((100.0f * float(x - minX)) / float(maxX - minX));
-
-		for (int y=minY; y<=maxY; y++)
-		{
-			static Vector C;
-			if (!getVector(C, x, y)) continue;
-
-			static Vector total;
-			total.zero();
-
-			int times = 0;
-			for (int dist=1; dist<=3; dist+=2)
-			{
-				for (int a=0, b=1; a<4; a++, b++)
-				{
-					if (b>3) b=0;
-
-					static Vector A;
-					int aPosX, aPosY;
-					getVectorPos(a, aPosX, aPosY, dist);
-					if (!getVector(A, aPosX + x, aPosY + y)) continue;
-
-					static Vector B;
-					int bPosX, bPosY;				
-					getVectorPos(b, bPosX, bPosY, dist);
-					if (!getVector(B, bPosX + x, bPosY + y)) continue;
-
-					A-=C;
-					B.StoreInvert();
-					B+=C;
-					A *= B;
-					A.StoreNormalize();
-					total += A;
-					times += 1;
-				}
-
-				if (times > 4) break;
-			}
-
-			getNormal(x, y) = total / (float) times;
-		}
 	}
 }
 
@@ -186,59 +141,6 @@ bool HeightMap::getIntersect(Line &line, Vector &intersect)
 		start += direction;
 	}
 	return false;
-
-	/*
-
-	const float maxFloat = -999999;
-	const int searchSquareWidth_ = 3;
-
-	float maxdist = maxFloat;
-	for (int x=0; x<width_ - searchSquareWidth_; x+=searchSquareWidth_-1)
-	{
-		for (int y=0; y<height_ - searchSquareWidth_; y+=searchSquareWidth_-1)
-		{
-			static Triangle triA;
-			triA.setPointComponents(
-				float(x) - 0.5f, float(y), getHeight(x, y),
-				getNormal(x, y),
-				float(x + searchSquareWidth_), float(y), getHeight(x + searchSquareWidth_, y),
-					getNormal(x + searchSquareWidth_, y),
-				float(x + searchSquareWidth_), float(y + searchSquareWidth_) + 0.5f, 
-					getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
-				getNormal(x + searchSquareWidth_, y + searchSquareWidth_));
-
-			static Triangle triB;
-			triB.setPointComponents(
-				float(x + searchSquareWidth_) + 0.5f, float(y + searchSquareWidth_), 
-					getHeight(x + searchSquareWidth_, y + searchSquareWidth_),
-				getNormal(x + searchSquareWidth_, y+  searchSquareWidth_),
-				float(x), float(y + searchSquareWidth_), getHeight(x, y + searchSquareWidth_),
-				getNormal(x, y+  searchSquareWidth_),
-				float(x), float(y) - 0.5f, getHeight(x, y),
-				getNormal(x, y));
-
-			static Vector newInter, interN;
-			float dist;
-			if (triA.rayIntersect(direction, newInter, interN, dist, true))
-			{
-				if (dist > maxdist)
-				{
-					maxdist = dist;
-					intersect = newInter;
-				}
-			}
-			if (triB.rayIntersect(direction, newInter, interN, dist, true))
-			{
-				if (dist > maxdist)
-				{
-					maxdist = dist;
-					intersect = newInter;
-				}
-			}
-		}
-	}
-
-	return (maxdist != maxFloat);*/
 }
 
 float HeightMap::getInterpHeight(float w, float h)
@@ -265,6 +167,63 @@ float HeightMap::getInterpHeight(float w, float h)
 	float height = heightE + (heightDiffEF * fhx);	
 
 	return height;
+}
+
+Vector &HeightMap::getNormal(int w, int h)
+{
+	if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
+	{
+		int pos = (width_+1) * h + w;
+		Vector &normal = normals_[pos];
+		if (normal[0] == 0.0f && 
+			normal[1] == 0.0f && 
+			normal[2] == 0.0f)
+		{
+			int x = w;
+			int y = h;
+
+			static Vector C;
+			getVector(C, x, y);
+
+			static Vector total;
+			total.zero();
+
+			int times = 0;
+			for (int dist=1; dist<=3; dist+=2)
+			{
+				for (int a=0, b=1; a<4; a++, b++)
+				{
+					if (b>3) b=0;
+
+					static Vector A;
+					int aPosX, aPosY;
+					getVectorPos(a, aPosX, aPosY, dist);
+					if (!getVector(A, aPosX + x, aPosY + y)) continue;
+
+					static Vector B;
+					int bPosX, bPosY;				
+					getVectorPos(b, bPosX, bPosY, dist);
+					if (!getVector(B, bPosX + x, bPosY + y)) continue;
+
+					A-=C;
+					B.StoreInvert();
+					B+=C;
+					A *= B;
+					A.StoreNormalize();
+					total += A;
+					times += 1;
+				}
+
+				if (times > 4) break;
+			}
+
+			normal = total / (float) times;
+		}
+
+		return normal; 
+	}
+	nvec.zero();
+	return nvec; 
 }
 
 void HeightMap::getInterpNormal(float w, float h, Vector &normal)
@@ -311,6 +270,24 @@ void HeightMap::setHeight(int w, int h, float height)
 {
 	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=height_);
 	hMap_[(width_+1) * h + w] = height;
+
+	// Reset all of the normals around this position
+	for (int dist=1; dist<=3; dist++)
+	{
+		for (int a=0; a<4; a++)
+		{
+			int aPosX, aPosY;
+			getVectorPos(a, aPosX, aPosY, dist);
+
+			int x = w + aPosX;
+			int y = h + aPosY;
+			if (x>=0 && y>=0 && x<=width_ && y<=height_)
+			{
+				normals_[(width_+1) * y + x].zero();
+			}
+		}
+	}
+	normals_[(width_+1) * h + w].zero();
 
 	int newW = w >> minMapShift;
 	int newH = h >> minMapShift;

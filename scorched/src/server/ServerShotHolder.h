@@ -21,36 +21,22 @@
 #if !defined(__INCLUDE_ServerShotHolderh_INCLUDE__)
 #define __INCLUDE_ServerShotHolderh_INCLUDE__
 
-#include <coms/ComsPlayedMoveMessage.h>
-#include <engine/ScorchedContext.h>
-#include <tank/TankContainer.h>
-#include <map>
+#include <engine/PlayShots.h>
 
-class ServerShotHolder
+class ServerShotHolder : public PlayShots
 {
 public:
 	static ServerShotHolder *instance();
 
-	void clearShots();
-	void playShots(bool roundStart);
-
-	void addShot(unsigned int playerId,
-		ComsPlayedMoveMessage *message);
-	bool haveShot(unsigned int playerId);
+	virtual void addShot(unsigned int playerId, ComsPlayedMoveMessage *message);
 	bool haveAllTurnShots();
 	bool allSkipped();
 
 protected:
 	static ServerShotHolder *instance_;
-	std::map<unsigned int, ComsPlayedMoveMessage *> 
-		messages_;
 
-	void processPlayedMoveMessage(
-		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank,
-		bool roundStart);
-	void processResignMessage(
-		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
-	void processFiredMessage(
+	void sendWaitingMessage();
+	bool validateFiredMessage(
 		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
 
 private:

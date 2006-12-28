@@ -18,24 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ComsPlayMovesMessageh_INCLUDE__)
+#define __INCLUDE_ComsPlayMovesMessageh_INCLUDE__
 
-#include <actions/SpriteProjectile.h>
+#include <coms/ComsPlayedMoveMessage.h>
+#include <map>
 
-unsigned int SpriteProjectile::noSpriteProjectiles_ = 0;
-
-SpriteProjectile::SpriteProjectile() : 
-	collisionInfo(CollisionIdSprite)
+class ComsPlayMovesMessage : public ComsMessage
 {
-	collisionInfo.data = this;
-	noSpriteProjectiles_++;
-}
+public:
+	ComsPlayMovesMessage();
+	virtual ~ComsPlayMovesMessage();
 
-SpriteProjectile::~SpriteProjectile()
-{
-	noSpriteProjectiles_--;
-}
+	std::map<unsigned int, ComsPlayedMoveMessage *> &getMoves() { return moves_; }
+	unsigned int &getSeed() { return seed_; }
 
-void SpriteProjectile::init()
-{
-	
-}
+	// Inherited from ComsMessage
+    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
+    virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	std::map<unsigned int, ComsPlayedMoveMessage *> moves_;
+	unsigned int seed_;
+
+private:
+	ComsPlayMovesMessage(const ComsPlayMovesMessage &);
+	const ComsPlayMovesMessage & operator=(const ComsPlayMovesMessage &);
+};
+
+#endif

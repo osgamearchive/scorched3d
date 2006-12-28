@@ -52,9 +52,6 @@ void ServerReadyState::enterState(const unsigned state)
 	// Add any pending tanks into the game
 	int count = ServerNewGameState::addTanksToGame(state);
 
-	// Set all the tanks to not ready
-	ScorchedServer::instance()->getTankContainer().setAllNotReady();
-
 	// Set the wait timer to the current time
 	time_ = 0.0f;
 
@@ -75,11 +72,6 @@ void ServerReadyState::enterState(const unsigned state)
 			idleTime_ = (float) ScorchedServer::instance()->
 				getOptionsGame().getIdleKickTime();
 		}
-
-		// Add on the time the shots took to simulate
-		// So we don't time clients out too quickly
-		time_ -= shotState_->getShotTime();
-		shotState_->getShotTime() = 0.0f;
 	}
 
 	// Make all computer players ready
@@ -114,8 +106,6 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		float frameTime)
 {
 	// Send status messages every 5 seconds
-	if (time_ > 0.0f)
-	{
 		if (((int) time_) / 5 != ((int) (time_ + frameTime)) / 5)
 		{
 			// Say who we are waiting on
@@ -135,7 +125,6 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 			}
 			ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);			
 
-#ifdef S3D_SERVER
 			// Send out a last chance message just before we kick
 			if ((idleTime_ > 0) && (time_ > idleTime_ - 6))
 			{
@@ -157,27 +146,16 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 					}
 				}
 			}
-#endif // S3D_SERVER
 		}
-	}	
 
 	time_ += frameTime;
 
-	// Slow down the shots, when we are on a dedicated server
-	// so if there are only bots playing the games don't end
-	// too quickly
-#ifndef S3D_SERVER
-	time_ = 1.0f;
-#endif
-	if (time_ > 0.0f) 
+	// Check all players returned ready
+	if(ScorchedServer::instance()->getTankContainer().allReady())
 	{
-		// Check all players returned ready
-		if (ScorchedServer::instance()->getTankContainer().allReady())
-		{
-			//Logger::log( "All ready after %.2f seconds", time_);
-			finished();
-			return true;
-		}
+		//Logger::log( "All ready after %.2f seconds", time_);
+		finished();
+		return true;
 	}
 
 #ifdef S3D_SERVER
@@ -213,6 +191,9 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 
 void ServerReadyState::finished()
 {
+	// Set all the tanks to not ready
+	ScorchedServer::instance()->getTankContainer().setAllNotReady();
+
 	// Say we are waiting on no one
 	ComsPlayerStatusMessage statusMessage;
 	ComsMessageSender::sendToAllPlayingClients(statusMessage);	

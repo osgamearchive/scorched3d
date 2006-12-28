@@ -18,33 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_PlayShotsh_INCLUDE__)
+#define __INCLUDE_PlayShotsh_INCLUDE__
 
-#if !defined(__INCLUDE_ClientActionsHandlerh_INCLUDE__)
-#define __INCLUDE_ClientActionsHandlerh_INCLUDE__
+#include <coms/ComsPlayedMoveMessage.h>
+#include <coms/ComsPlayMovesMessage.h>
+#include <engine/ScorchedContext.h>
+#include <tank/TankContainer.h>
+#include <map>
 
-#include <coms/ComsMessageHandler.h>
-
-class ClientActionsHandler  : 
-	public ComsMessageHandlerI
+class PlayShots
 {
 public:
-	static ClientActionsHandler* instance();
+	PlayShots();
+	virtual ~PlayShots();
 
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
+	void clearShots();
+	bool haveShot(unsigned int playerId);
+
+	void createMessage(ComsPlayMovesMessage &message);
+	void readMessage(ComsPlayMovesMessage &message);
+
+	void playShots(ScorchedContext &context, bool roundStart);
 
 protected:
-	static ClientActionsHandler* instance_;
+	static PlayShots *instance_;
+	std::map<unsigned int, ComsPlayedMoveMessage *> 
+		messages_;
 
-private:
-	ClientActionsHandler();
-	virtual ~ClientActionsHandler();
-
-	ClientActionsHandler(const ClientActionsHandler &);
-	const ClientActionsHandler & operator=(const ClientActionsHandler &);
+	void processPlayedMoveMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank,
+		bool roundStart);
+	void processResignMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
+	void processFiredMessage(
+		ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank);
 };
-
 
 #endif

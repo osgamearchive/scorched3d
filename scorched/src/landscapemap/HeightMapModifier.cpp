@@ -272,6 +272,5 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	if (defn.levelsurround) levelSurround(hmap);
 	smooth(hmap, defn, counter);
 	if (defn.levelsurround) levelSurround(hmap);
-	hmap.generateNormals(0, hmap.getMapWidth(), 0, hmap.getMapHeight(), counter);
 }
 

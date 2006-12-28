@@ -45,6 +45,8 @@ bool ComsSyncCheckMessage::writeMessage(NetBuffer &buffer, unsigned int destinat
 		{
 			float height = map.getHeight(x, y);
 			buffer.addToBuffer(height);
+			Vector &normal = map.getNormal(x, y);
+			buffer.addToBuffer(normal);
 		}
 	}
 
@@ -62,12 +64,22 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		for (int x=0; x<map.getMapWidth(); x++)
 		{
 			float actualheight = map.getHeight(x, y);
+			Vector actualnormal = map.getNormal(x, y);
 			float sentheight;
+			Vector sentnormal;
 			if (!reader.getFromBuffer(sentheight)) return false;
+			if (!reader.getFromBuffer(sentnormal)) return false;
 			
 			if (actualheight != sentheight)
 			{
-				Logger::log(formatString("Height diff %i,%i", x, y));
+				Logger::log(formatString("Height diff %i,%i %.2f %.2f", x, y, actualheight, sentheight));
+			}
+			if (actualnormal != sentnormal)
+			{
+				Logger::log(formatString("Normal diff %i,%i %f,%f,%f %f,%f,%f", 
+					x, y,
+					actualnormal[0], actualnormal[1],actualnormal[2],
+					sentnormal[0], sentnormal[1],sentnormal[2]));
 			}
 		}
 	}

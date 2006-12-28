@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankMovementEndh_INCLUDE__)
-#define __INCLUDE_TankMovementEndh_INCLUDE__
+#if !defined(__INCLUDE_ClientPlayMovesHandlerh_INCLUDE__)
+#define __INCLUDE_ClientPlayMovesHandlerh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <coms/ComsMessageHandler.h>
+#include <engine/PlayShots.h>
 
-class TankMovementEnd : public ActionMeta
+class ClientPlayMovesHandler  : 
+	public ComsMessageHandlerI,
+	public PlayShots
 {
 public:
-	TankMovementEnd();
-	TankMovementEnd(
-		Vector &position,
-		unsigned int playerId);
-	virtual ~TankMovementEnd();
+	static ClientPlayMovesHandler* instance();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(TankMovementEnd);
+	virtual bool processMessage(
+		NetMessage &message,
+		const char *messageType,
+		NetBufferReader &reader);
 
 protected:
-	unsigned int playerId_;
-	unsigned int data_;
-	Vector position_;
+	static ClientPlayMovesHandler* instance_;
+
+private:
+	ClientPlayMovesHandler();
+	virtual ~ClientPlayMovesHandler();
 };
 
-#endif // __INCLUDE_TankMovementEndh_INCLUDE__
+
+#endif

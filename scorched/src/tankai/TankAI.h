@@ -68,11 +68,9 @@ public:
 	// or who fired shots at them
 	virtual void tankHurt(Weapon *weapon, unsigned int firer) = 0;
 	virtual void shotLanded(
-		ScorchedCollisionType action,
-		ScorchedCollisionInfo *collision,
+		ScorchedCollisionId collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position,
-		unsigned int landedCounter) = 0;
+		Vector &position) = 0;
 
 protected:
 	ToolTip description_;

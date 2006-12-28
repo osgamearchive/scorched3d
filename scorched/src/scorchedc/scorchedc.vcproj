@@ -38,7 +38,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/ode;../../visualc/include/cg;../../visualc/include/png/png;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;$(NOINHERIT)"
 				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:WINDOWS /NODEFAULTLIB:msvcrt.lib"
-				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/ode/ode.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib"
 				GenerateDebugInformation="true"
 			/>
 			<Tool
@@ -109,7 +109,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/ode;../../visualc/include/cg;../../visualc/include/png/png;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;$(NOINHERIT)"
 				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -126,7 +126,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:WINDOWS"
-				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/ode/ode.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -273,14 +273,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\actions\SpriteProjectile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\SpriteProjectile.h"
-				>
-			</File>
-			<File
 				RelativePath="..\actions\TankDamage.cpp"
 				>
 			</File>
@@ -297,14 +289,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\actions\TankFallingEnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\TankFallingEnd.h"
-				>
-			</File>
-			<File
 				RelativePath="..\actions\TankFired.cpp"
 				>
 			</File>
@@ -318,14 +302,6 @@
 			</File>
 			<File
 				RelativePath="..\actions\TankMovement.h"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\TankMovementEnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\TankMovementEnd.h"
 				>
 			</File>
 			<File
@@ -1061,14 +1037,6 @@
 			Name="coms"
 			>
 			<File
-				RelativePath="..\coms\ComsActionsMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsActionsMessage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\coms\ComsAddPlayerMessage.cpp"
 				>
 			</File>
@@ -1274,6 +1242,14 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsPlayerStatusMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayMovesMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsPlayMovesMessage.h"
 				>
 			</File>
 			<File
@@ -1553,14 +1529,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ActionBuffer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\engine\ActionBuffer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\engine\ActionController.cpp"
 				>
 			</File>
@@ -1665,14 +1633,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\engine\PhysicsEngine.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\engine\PhysicsEngine.h"
-				>
-			</File>
-			<File
 				RelativePath="..\engine\PhysicsParticle.cpp"
 				>
 			</File>
@@ -1689,11 +1649,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ScorchedCollisionHandler.cpp"
+				RelativePath="..\engine\PlayShots.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ScorchedCollisionHandler.h"
+				RelativePath="..\engine\PlayShots.h"
 				>
 			</File>
 			<File
@@ -1713,11 +1673,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ScorchedPhysicsEngine.cpp"
+				RelativePath="..\engine\ShotState.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ScorchedPhysicsEngine.h"
+				RelativePath="..\engine\ShotState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\engine\SyncCheck.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\engine\SyncCheck.h"
 				>
 			</File>
 			<File
@@ -1914,6 +1882,14 @@
 			</File>
 			<File
 				RelativePath="..\placement\PlacementShadowDefinition.h"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTankPosition.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTankPosition.h"
 				>
 			</File>
 			<File
@@ -2318,6 +2294,14 @@
 			</File>
 			<File
 				RelativePath="..\target\TargetSpace.h"
+				>
+			</File>
+			<File
+				RelativePath="..\target\TargetSpaceContainment.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\target\TargetSpaceContainment.h"
 				>
 			</File>
 			<File
@@ -2833,14 +2817,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\landscapemap\HeightMapCollision.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscapemap\HeightMapCollision.h"
-				>
-			</File>
-			<File
 				RelativePath="..\landscapemap\HeightMapLoader.cpp"
 				>
 			</File>
@@ -2894,14 +2870,6 @@
 			</File>
 			<File
 				RelativePath="..\landscapemap\RoofMaps.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscapemap\SkyRoofCollision.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscapemap\SkyRoofCollision.h"
 				>
 			</File>
 			<File
@@ -3229,14 +3197,6 @@
 			Name="client"
 			>
 			<File
-				RelativePath="..\client\ClientActionsHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientActionsHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\client\ClientAddPlayerHandler.cpp"
 				>
 			</File>
@@ -3394,6 +3354,14 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientPlayerStatusHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayMovesHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientPlayMovesHandler.h"
 				>
 			</File>
 			<File

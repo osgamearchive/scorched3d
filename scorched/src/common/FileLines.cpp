@@ -33,18 +33,6 @@ FileLines::~FileLines()
 
 }
 
-const char *FileLines::getRandomLine()
-{
-	if (fileLines_.empty()) return "";
-	const char *result = 0;
-
-	int count = (int) fileLines_.size() - 1;;
-	int i = int((float(rand()) / float(RAND_MAX)) * count);
-	result = fileLines_[i].c_str();
-
-	return result;
-}
-
 bool FileLines::readFile(char *filename)
 {
 	FILE *in = fopen(filename, "r");

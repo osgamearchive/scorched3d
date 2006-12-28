@@ -39,7 +39,7 @@
 #include <client/ClientSyncCheckHandler.h>
 #include <client/ClientFileHandler.h>
 #include <client/ClientPlayerAimHandler.h>
-#include <client/ClientActionsHandler.h>
+#include <client/ClientPlayMovesHandler.h>
 #include <client/ClientLastChanceHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <client/ClientPlayerStatusHandler.h>
@@ -167,7 +167,7 @@ bool startClient(ProgressCounter *progressCounter)
 	ClientGameStateHandler::instance();
 	ClientPlayerStateHandler::instance();
 	ClientDefenseHandler::instance();
-	ClientActionsHandler::instance();
+	ClientPlayMovesHandler::instance();
 	ClientPlayerStatusHandler::instance();
 	ClientScoreHandler::instance();
 

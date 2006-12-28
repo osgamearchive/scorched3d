@@ -20,6 +20,7 @@
 
 #include <actions/TankDamage.h>
 #include <actions/TankFalling.h>
+#include <actions/TankSay.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
 #include <common/OptionsGame.h>
@@ -42,6 +43,7 @@
 #include <target/TargetLife.h>
 #include <target/TargetParachute.h>
 #include <target/TargetState.h>
+#include <tankai/TankAIStrings.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 
 REGISTER_ACTION_SOURCE(TankDamage);
@@ -68,6 +70,16 @@ TankDamage::~TankDamage()
 
 void TankDamage::init()
 {
+	Target *damagedTarget = 
+		context_->targetContainer->getTargetById(damagedPlayerId_);
+	if (damagedTarget)
+	{
+		const float ShowTime = 4.0f;
+		ActionMeta *pos = new CameraPositionAction(
+			damagedTarget->getTargetPosition(), ShowTime,
+			15);
+		context_->actionController->addAction(pos);
+	}
 }
 
 void TankDamage::simulate(float frameTime, bool &remove)
@@ -396,6 +408,23 @@ void TankDamage::logDeath()
 #endif // #ifndef S3D_SERVER
 
 	Tank *killedTank = (Tank *) killedTarget;
+
+	if (killedTank->getDestinationId() == 0)
+	{
+		const char *line = TankAIStrings::instance()->getDeathLine(
+			context_->actionController->getRandom());
+		if (line)
+		{
+			std::string newText(killedTarget->getName());
+			newText += ": ";
+			unsigned int infoLen = newText.length();
+			newText += line;
+
+			context_->actionController->addAction(
+				new TankSay(killedTank->getPlayerId(), newText.c_str(), infoLen));
+		}
+	}
+
 	Tank *firedTank = 
 		context_->tankContainer->getTankById(firedPlayerId_);
 	if (firedTank)
@@ -507,20 +536,6 @@ bool TankDamage::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(checkFall_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
 	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-
-	Target *damagedTarget = 
-		context_->targetContainer->getTargetById(damagedPlayerId_);
-	if (damagedTarget)
-	{
-		if (damagedTarget->getAlive())
-		{
-			const float ShowTime = 4.0f;
-			ActionMeta *pos = new CameraPositionAction(
-				damagedTarget->getTargetPosition(), ShowTime,
-				15);
-			context_->actionController->getBuffer().clientAdd(-3.0f, pos);
-		}
-	}
 
 	return true;
 }

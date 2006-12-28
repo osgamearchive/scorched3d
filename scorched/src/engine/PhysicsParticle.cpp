@@ -34,22 +34,24 @@ PhysicsParticle::~PhysicsParticle()
 }
 
 void PhysicsParticle::setPhysics(
+	PhysicsParticleInfo info,
 	Vector &position, Vector &velocity,
-	float sphereSize, float sphereDensity, float windFactor)
+	float sphereSize, float sphereDensity, float windFactor,
+	bool underGroundCollision)
 {
-	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
+	physicsObject_.setPhysics(
+		info,
+		*context_,
 		position, velocity,
-		sphereSize, sphereDensity, windFactor);
+		sphereSize, sphereDensity, windFactor,
+		underGroundCollision);
+	physicsObject_.setHandler(this);
 }
 
-void PhysicsParticle::collision(Vector &position)
+void PhysicsParticle::collision(PhysicsParticleObject &position, 
+	ScorchedCollisionId collisionId)
 {
 	collision_ = true;
-}
-
-void PhysicsParticle::setData(void *data)
-{
-	physicsObject_.setData(data);
 }
 
 void PhysicsParticle::applyForce(Vector &force)
@@ -77,7 +79,7 @@ void PhysicsParticle::simulate(float frameTime, bool &remove)
 }
 
 PhysicsParticleMeta::PhysicsParticleMeta()  : 
-	collision_(false), totalActionTime_(0), warp_(false)
+	collision_(false), totalActionTime_(0)
 {
 
 }
@@ -88,12 +90,18 @@ PhysicsParticleMeta::~PhysicsParticleMeta()
 }
 
 void PhysicsParticleMeta::setPhysics(
+	PhysicsParticleInfo info,
 	Vector &position, Vector &velocity,
-	float sphereSize, float sphereDensity, float windFactor)
+	float sphereSize, float sphereDensity, float windFactor,
+	bool underGroundCollision)
 {
-	physicsObject_.setPhysics(context_->actionController->getPhysics(), 
+	physicsObject_.setPhysics(
+		info,
+		*context_, 
 		position, velocity,
-		sphereSize, sphereDensity, windFactor);
+		sphereSize, sphereDensity, windFactor,
+		underGroundCollision);
+	physicsObject_.setHandler(this);
 }
 
 void PhysicsParticleMeta::applyForce(Vector &force)
@@ -101,14 +109,15 @@ void PhysicsParticleMeta::applyForce(Vector &force)
 	physicsObject_.applyForce(force);
 }
 
-void PhysicsParticleMeta::collision(Vector &position)
+void PhysicsParticleMeta::collision(PhysicsParticleObject &position, 
+	ScorchedCollisionId collisionId)
 {
 	collision_ = true;
 }
 
-void PhysicsParticleMeta::setData(void *data)
+void PhysicsParticleMeta::setCurrentPosition(Vector &position)
 {
-	physicsObject_.setData(data);
+	physicsObject_.setPosition(position);
 }
 
 Vector &PhysicsParticleMeta::getCurrentPosition()
@@ -121,25 +130,13 @@ Vector &PhysicsParticleMeta::getCurrentVelocity()
 	return physicsObject_.getVelocity();
 }
 
-void PhysicsParticleMeta::setCurrentPosition(Vector &position)
-{
-	warp_ = true;
-	warpPosition_ = position;
-}
-
-float *PhysicsParticleMeta::getRotationQuat()
+Vector4 &PhysicsParticleMeta::getRotationQuat()
 {
 	return physicsObject_.getRotationQuat();
 }
 
 void PhysicsParticleMeta::simulate(float frameTime, bool &remove)
 {
-	if (warp_)
-	{
-		warp_ = false;
-		physicsObject_.setPosition(warpPosition_);
-	}
-
 	physicsObject_.simulate(frameTime);
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;

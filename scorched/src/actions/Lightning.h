@@ -66,13 +66,13 @@ protected:
 	unsigned int data_;
 
 	void damageTargets(Vector &position, 
-		std::map<Target *, float> &hurtMap);
+		std::map<unsigned int, float> &hurtMap);
 	void dispaceDirection(Vector &direction, 
 		Vector &originalDirection, float angle);
 	void generateLightning(int id, int depth, float size, 
 		Vector &originalPosition, Vector &originalDirection,
 		Vector &position, Vector &direction,
-		std::map<Target *, float> &hurtMap);
+		std::map<unsigned int, float> &hurtMap);
 };
 
 #endif // __INCLUDE_Lightningh_INCLUDE__

@@ -32,7 +32,6 @@
 #include <engine/ActionController.h>
 #include <actions/TankMovement.h>
 #include <actions/TankResign.h>
-#include <actions/TankFired.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapemap/MovementMap.h>
 #include <landscapedef/LandscapeDefn.h>
@@ -63,46 +62,97 @@ ServerShotHolder::~ServerShotHolder()
 {
 }
 
-void ServerShotHolder::clearShots()
+void ServerShotHolder::sendWaitingMessage()
 {
-	std::map<unsigned int, ComsPlayedMoveMessage *>::iterator itor;
-	for (itor = messages_.begin();
-		itor != messages_.end();
-		itor++)
+	// Tell the client who we are currently waiting on
+	ComsPlayerStatusMessage statusMessage;
+	std::list<unsigned int> &tanks = 
+		TurnController::instance()->getPlayersThisTurn();
+	std::list<unsigned int>::iterator itor;
+	for (itor = tanks.begin();
+		 itor != tanks.end();
+		 itor++)
 	{
-		delete (*itor).second;
+		unsigned int playerId = (*itor);
+		Tank *tank = 
+			ScorchedServer::instance()->getTankContainer().getTankById(playerId);
+		if (tank && tank->getState().getState() == TankState::sNormal)
+		{
+			if (!haveShot(tank->getPlayerId())) 
+			{
+				statusMessage.getWaitingPlayers().push_back(playerId);
+			}
+		}
 	}
-	messages_.clear();
+	ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);
 }
 
 void ServerShotHolder::addShot(unsigned int playerId,
-							   ComsPlayedMoveMessage *message)
+	ComsPlayedMoveMessage *message)
 {
+	// Check the tank exists for this player
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
+	if (!tank) return;
+
+	// Check the tank is alive
+	if (tank->getState().getState() != TankState::sNormal)
+	{
+		return;
+	}
+
+	// Validate this message
+	if (message->getType() == ComsPlayedMoveMessage::eShot)
+	{
+		// Check this player can fire this weapon etc...
+		if (!validateFiredMessage(ScorchedServer::instance()->getContext(), *message, tank)) return;
+	}
+
 	// Ensure each player can only add one message
 	if (!haveShot(playerId))
 	{
 		messages_[playerId] = message;
 
-		// Tell the client who we are currently waiting on
-		ComsPlayerStatusMessage statusMessage;
-		std::list<unsigned int> &tanks = 
-			TurnController::instance()->getPlayersThisTurn();
-		std::list<unsigned int>::iterator itor;
-		for (itor = tanks.begin();
-			 itor != tanks.end();
-			 itor++)
-		{
-			unsigned int playerId = (*itor);
-			Tank *tank = 
-				ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-			if (tank && tank->getState().getState() == TankState::sNormal)
-			{
-				if (!haveShot(tank->getPlayerId())) 
-					statusMessage.getWaitingPlayers().push_back(playerId);
-			}
-		}
-		ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);
+		sendWaitingMessage();
 	}
+}
+
+bool ServerShotHolder::validateFiredMessage(
+	ScorchedContext &context, ComsPlayedMoveMessage &message, Tank *tank)
+{
+	// Check the weapon name exists and is a weapon
+	Accessory *accessory = 
+		context.accessoryStore->findByAccessoryId(
+		message.getWeaponId());
+	if (accessory && accessory->getType() != AccessoryPart::AccessoryWeapon)
+	{
+		return false;
+	}
+
+	// Check this tank has these weapons
+	int count = 
+		tank->getAccessories().getAccessoryCount(accessory);
+	if (count > 0 || count == -1) {}
+	else return false;
+
+	// Check armslevel
+	if ((10 - accessory->getArmsLevel()) <=
+		context.optionsTransient->getArmsLevel() ||
+		context.optionsGame->getGiveAllWeapons()) {}
+	else return false;
+
+	// Check weapons selection parameters
+	if (accessory->getPositionSelect() == Accessory::ePositionSelectLimit)
+	{
+		Vector position(
+			message.getSelectPositionX(), message.getSelectPositionY());
+		if ((position - tank->getTargetPosition()).Magnitude() > 
+			accessory->getPositionSelectLimit())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool ServerShotHolder::allSkipped()
@@ -124,13 +174,6 @@ bool ServerShotHolder::allSkipped()
 	return true;
 }
 
-bool ServerShotHolder::haveShot(unsigned int playerId)
-{
-	std::map<unsigned int, ComsPlayedMoveMessage *>::iterator itor =
-		messages_.find(playerId);
-	return (itor != messages_.end());
-}
-
 bool ServerShotHolder::haveAllTurnShots()
 {
 	std::list<unsigned int> &tanks = 
@@ -150,189 +193,3 @@ bool ServerShotHolder::haveAllTurnShots()
 	}
 	return true;
 }
-
-void ServerShotHolder::playShots(bool roundStart)
-{
-	std::map<unsigned int, ComsPlayedMoveMessage *>::iterator itor;
-	for (itor = messages_.begin();
-		itor != messages_.end();
-		itor++)
-	{
-		unsigned int playerId = (*itor).first;
-		ComsPlayedMoveMessage *message = (*itor).second;
-
-		// Check the tank exists for this player
-		// It may not if the player has left the game after firing.
-		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-		if (tank)
-		{
-			// This tank has now made a move, reset its missed move counter
-			tank->getScore().setMissedMoves(0);
-
-			// Actually play the move
-			processPlayedMoveMessage(
-				ScorchedServer::instance()->getContext(),
-				*message, tank, roundStart);
-		}
-	}
-}
-
-void ServerShotHolder::processPlayedMoveMessage(ScorchedContext &context, 
-	ComsPlayedMoveMessage &message, Tank *tank, bool roundStart)
-{
-	if (roundStart)
-	{
-		// All actions that are done at the very START of a new round
-		switch (message.getType())
-		{
-			case ComsPlayedMoveMessage::eShot:
-				processFiredMessage(context, message, tank);
-				break;
-			case ComsPlayedMoveMessage::eSkip:
-				// Just do nothing as the player has requested
-				// That they skip their move
-				break;
-			case ComsPlayedMoveMessage::eFinishedBuy:
-				// Just used as a notification that the player
-				// has finished buying, do nothing
-				break;
-			case ComsPlayedMoveMessage::eResign:
-				if (context.optionsGame->getResignMode() == OptionsGame::ResignStart)
-				{
-					processResignMessage(context, message, tank);
-				}
-				else if (context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
-				{
-					if (RAND * tank->getLife().getMaxLife() <= tank->getLife().getLife())
-					{
-						processResignMessage(context, message, tank);
-					}
-				}
-				break;
-			default:
-				// add other START round types
-				break;
-		}
-	}
-	else
-	{
-		// All actions that are done at the very END of a round
-		switch (message.getType())
-		{
-			case ComsPlayedMoveMessage::eResign:
-				if (context.optionsGame->getResignMode() == OptionsGame::ResignEnd ||
-					context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
-				{
-					processResignMessage(context, message, tank);
-				}
-				break;
-			default:
-				// Add other END round types
-				break;
-		}
-	}
-}
-
-void ServerShotHolder::processResignMessage(ScorchedContext &context, 
-	ComsPlayedMoveMessage &message, Tank *tank)
-{
-	// Check the tank is alive
-	if (tank->getState().getState() == TankState::sNormal)
-	{
-		// Tank resign action
-		TankResign *resign = new TankResign(tank->getPlayerId());
-		context.actionController->addAction(resign);
-
-		StatsLogger::instance()->tankResigned(tank);
-	}
-}
-
-void ServerShotHolder::processFiredMessage(ScorchedContext &context, 
-	ComsPlayedMoveMessage &message, Tank *tank)
-{
-	// Check the tank is alive
-	if (tank->getState().getState() != TankState::sNormal)
-	{
-		return;
-	}
-
-	// Check the weapon name exists and is a weapon
-	Accessory *accessory = 
-		context.accessoryStore->findByAccessoryId(
-		message.getWeaponId());
-	if (accessory && accessory->getType() != AccessoryPart::AccessoryWeapon)
-	{
-		return;
-	}
-
-	// Check this tank has these weapons
-	int count = 
-		tank->getAccessories().getAccessoryCount(accessory);
-	if (count > 0 || count == -1) {}
-	else return;
-
-	// Check armslevel
-	if ((10 - accessory->getArmsLevel()) <=
-		context.optionsTransient->getArmsLevel() ||
-		context.optionsGame->getGiveAllWeapons()) {}
-	else return;
-
-	// Check weapons selection parameters
-	if (accessory->getPositionSelect() == Accessory::ePositionSelectLimit)
-	{
-		Vector position(
-			message.getSelectPositionX(), message.getSelectPositionY());
-		if ((position - tank->getTargetPosition()).Magnitude() > 
-			accessory->getPositionSelectLimit())
-		{
-			return;
-		}
-	}
-
-	if (accessory->getPositionSelect() != Accessory::ePositionSelectFuel)
-	{
-		// Actually use up one of the weapons
-		// Fuel, is used up differently at the rate of one weapon per movement square
-		// This is done sperately in the tank movement action
-		tank->getAccessories().rm(accessory, 1);
-	}
-
-	// shot fired action
-	Weapon *weapon = (Weapon *) accessory->getAction();
-	TankFired *fired = new TankFired(tank->getPlayerId(), 
-		weapon,
-		message.getRotationXY(), message.getRotationYZ());
-	context.actionController->addAction(fired);
-
-	// Set the tank to have the correct rotation etc..
-	tank->getPosition().rotateGunXY(
-		message.getRotationXY(), false);
-	tank->getPosition().rotateGunYZ(
-		message.getRotationYZ(), false);
-	tank->getPosition().changePower(
-		message.getPower(), false);
-	tank->getPosition().setSelectPosition(
-		message.getSelectPositionX(), 
-		message.getSelectPositionY());
-
-	// Create the action for the weapon and
-	// add it to the action controller
-	Vector velocity = tank->getPosition().getVelocityVector() *
-		(tank->getPosition().getPower() + 1.0f);
-	Vector position = tank->getPosition().getTankGunPosition();
-
-	weapon->fireWeapon(context, tank->getPlayerId(), position, velocity, 0);
-	StatsLogger::instance()->tankFired(tank, weapon);
-	StatsLogger::instance()->weaponFired(weapon, false);
-
-	// Does a computer tank want to say something?
-	if (tank->getDestinationId() == 0 && tank->getTankAI())
-	{
-		const char *line = TankAIStrings::instance()->getAttackLine();
-		if (line)
-		{
-			((TankAIComputer*)tank->getTankAI())->say(line);
-		}
-	}
-}
-

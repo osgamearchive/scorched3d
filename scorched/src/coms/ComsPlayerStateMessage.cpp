@@ -27,8 +27,9 @@
 #include <common/Logger.h>
 #include <set>
 
-ComsPlayerStateMessage::ComsPlayerStateMessage() : 
-	ComsMessage("ComsPlayerStateMessage")
+ComsPlayerStateMessage::ComsPlayerStateMessage(bool writeAccessories) : 
+	ComsMessage("ComsPlayerStateMessage"),
+	writeAccessories_(writeAccessories)
 {
 
 }
@@ -58,7 +59,7 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 		// Add each tank
 		Tank *tank = (*itor).second;
 		buffer.addToBuffer(tank->getPlayerId());
-		if (!tank->writeMessage(buffer, (destinationId == tank->getDestinationId()))) return false;
+		if (!tank->writeMessage(buffer, writeAccessories_)) return false;
 	}
 	return true;
 }

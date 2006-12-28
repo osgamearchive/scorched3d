@@ -37,7 +37,6 @@ public:
 	virtual ~ActionMeta();
 
 	virtual bool getReferenced() { return true; }
-	virtual bool getServerOnly() { return true; }
 	virtual const char *getActionType() { return getClassName(); }
 
 	// Needs to be implemented by inherited actions

@@ -27,6 +27,11 @@ Added: Custom port and socket support for stats database connection
 Added: Asyncronous message support to UDP message handler
 Added: Server is only simulated periodically when playing offline
 Added: Mysql reconnection when connection lost
+Added: File logger splits files into ~256K chunks (and not by number of lines)
+Added: Removed use of ODE in preference to a simplier particle physics engine
+Added: Added target collision space that can be used for fast target bounds checking
+Added: Server now simulates the shots in real-time allowing for the addition of real-time gameplay
+Added: Server only sends initial shots and seeds to clients for each turn saving on bandwidth
 
 Fixed: Flag reseting on buying screen when buying items
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)

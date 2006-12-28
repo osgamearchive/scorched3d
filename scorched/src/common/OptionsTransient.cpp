@@ -198,11 +198,15 @@ void OptionsTransient::newGameWind()
 	if (windSpeed_.getValue() > 0.0f)
 	{
 		float winAngle = RAND * 360.0f;
+		winAngle = float(int(winAngle * 100.0f)) / 100.0f; // Round
 		windStartAngle_.setValue(winAngle);
 		windAngle_.setValue(winAngle);
 		
-		Vector windDir(sinf(winAngle / 180.0f * 3.14f),
-			cosf(winAngle / 180.0f * 3.14f), 0.0f);
+		float windDirX = sinf(winAngle / 180.0f * 3.14f);
+		float windDirY = cosf(winAngle / 180.0f * 3.14f);
+		windDirX = float(int(windDirX * 100.0f)) / 100.0f; // Round
+		windDirY = float(int(windDirY * 100.0f)) / 100.0f; // Round
+		Vector windDir(windDirX, windDirY, 0.0f);
 		windDirection_.setValue(windDir);
 	}
 	else

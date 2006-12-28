@@ -66,9 +66,6 @@ void ServerNextRoundState::enterState(const unsigned state)
 		StatsLogger::instance()->roundStart(currentTanks);
 	}
 
-	// Set the physics for the next shot
-	ScorchedServer::instance()->getActionController().getPhysics().generate();
-
 	// Setup this list of players that need to move before this round is over
 	TurnController::instance()->nextRound();
 

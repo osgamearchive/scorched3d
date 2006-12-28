@@ -24,6 +24,7 @@
 #include <target/TargetDamageCalc.h>
 #include <target/TargetRenderer.h>
 #include <target/TargetState.h>
+#include <target/TargetSpace.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/ExplosionTextures.h>
@@ -42,8 +43,6 @@
 
 REGISTER_ACTION_SOURCE(Napalm);
 
-DeformLandscape::DeformPoints Napalm::deformMap_;
-bool Napalm::deformCreated_ = false;
 static const int deformSize = 3;
 
 Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
@@ -67,23 +66,12 @@ Napalm::~Napalm()
 
 void Napalm::init()
 {
-	if (!deformCreated_)
-	{
-		deformCreated_ = true;
-
-		Vector center(deformSize + 1, deformSize + 1);
-		for (int x=0; x<(deformSize + 1) * 2; x++)
-		{
-			for (int y=0; y<(deformSize + 1) * 2; y++)
-			{
-				Vector pos(x, y);
-				float dist = (center - pos).Magnitude();
-				dist /= deformSize;
-				dist = 1.0f - MIN(1.0f, dist);
-				deformMap_.map[x][y] = dist;
-			}
-		}
-	}
+	const float ShowTime = 5.0f;
+	Vector position((float) x_, (float) y_, context_->landscapeMaps->
+		getGroundMaps().getHeight(x_, y_));
+	ActionMeta *pos = new CameraPositionAction(
+		position, ShowTime, 5);
+	context_->actionController->addAction(pos);
 
 #ifndef S3D_SERVER
 	if (!context_->serverMode) 
@@ -307,6 +295,26 @@ void Napalm::simulateAddStep()
 #ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
+		static DeformLandscape::DeformPoints deformMap;
+		static bool deformCreated = false;
+		if (!deformCreated)
+		{
+			deformCreated = true;
+
+			Vector center(deformSize + 1, deformSize + 1);
+			for (int x=0; x<(deformSize + 1) * 2; x++)
+			{
+				for (int y=0; y<(deformSize + 1) * 2; y++)
+				{
+					Vector pos(x, y);
+					float dist = (center - pos).Magnitude();
+					dist /= deformSize;
+					dist = 1.0f - MIN(1.0f, dist);
+					deformMap.map[x][y] = dist;
+				}
+			}
+		}
+
 		// Add the ground scorch
 		if (!GLStateExtension::getNoTexSubImage())
 		{
@@ -317,7 +325,7 @@ void Napalm::simulateAddStep()
 					(int) (deformSize + 1),
 					ExplosionTextures::instance()->getScorchBitmap(
 						weapon_->getDeformTexture()),
-					deformMap_);
+					deformMap);
 			}
 		}
 	}
@@ -377,13 +385,7 @@ void Napalm::simulateDamage()
 	// Store how much each tank is damaged
 	// Keep in a map so we don't need to create multiple
 	// damage actions.  Now we only create one per tank
-	static std::map<Target *, float> TargetDamageCalc;
-
-	// Get the tanks
-	std::map<unsigned int, Target *> &targets = 
-		context_->targetContainer->getTargets();
-	std::map<unsigned int, Target *>::iterator targetItor;
-	std::map<unsigned int, Target *>::iterator endTargetItor = targets.end();
+	static std::map<unsigned int, float> TargetDamageCalc;
 
 	// Add damage into the damage map for each napalm point that is near to
 	// the tanks
@@ -395,33 +397,34 @@ void Napalm::simulateDamage()
 		itor++)
 	{
 		NapalmEntry *entry = (*itor);
-		int napalmX = entry->posX;
-		int napalmY = entry->posY;
 
-		for (targetItor = targets.begin();
-			targetItor != endTargetItor;
-			targetItor++)
+		float height = context_->landscapeMaps->getGroundMaps().
+			getHeight(entry->posX, entry->posY);
+		Vector position(
+			float(entry->posX), 
+			float(entry->posY),
+			height);
+
+		std::map<unsigned int, Target *> collisionTargets;
+		context_->targetSpace->getCollisionSet(position, 
+			float(EffectRadius), collisionTargets);
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = collisionTargets.begin();
+			itor != collisionTargets.end();
+			itor++)
 		{
-			Target *target = (*targetItor).second;
+			Target *target = (*itor).second;
 			if (target->getAlive())
 			{
-				// Check if this tank is in the damage field
-				Vector &tankPos = target->getTargetPosition();
-				if (tankPos[0] > napalmX - EffectRadius &&
-					tankPos[0] < napalmX + EffectRadius &&
-					tankPos[1] > napalmY - EffectRadius &&
-					tankPos[1] < napalmY + EffectRadius)
+				std::map<unsigned int, float>::iterator damageItor = 
+					TargetDamageCalc.find(target->getPlayerId());
+				if (damageItor == TargetDamageCalc.end())
 				{
-					std::map<Target *, float>::iterator damageItor = 
-						TargetDamageCalc.find(target);
-					if (damageItor == TargetDamageCalc.end())
-					{
-						TargetDamageCalc[target] = damagePerPointSecond;
-					}
-					else
-					{
-						TargetDamageCalc[target] += damagePerPointSecond;
-					}
+					TargetDamageCalc[target->getPlayerId()] = damagePerPointSecond;
+				}
+				else
+				{
+					TargetDamageCalc[target->getPlayerId()] += damagePerPointSecond;
 				}
 			}
 		}
@@ -430,13 +433,16 @@ void Napalm::simulateDamage()
 	// Add all the damage to the tanks (if any)
 	if (!TargetDamageCalc.empty())
 	{
-		std::map<Target *, float>::iterator damageItor;
+		std::map<unsigned int, float>::iterator damageItor;
 		for (damageItor = TargetDamageCalc.begin();
 			damageItor != TargetDamageCalc.end();
 			damageItor++)
 		{
-			Target *target = (*damageItor).first;
+			unsigned int playerId = (*damageItor).first;
 			float damage = (*damageItor).second;
+
+			Target *target = context_->targetContainer->getTargetById(playerId);
+			if (!target) continue;
 
 			// Add damage to the tank
 			// If allowed for this target type (mainly for trees)
@@ -474,13 +480,6 @@ bool Napalm::readAction(NetBufferReader &reader)
 	weapon_ = (WeaponNapalm *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-
-	const float ShowTime = 5.0f;
-	Vector position((float) x_, (float) y_, context_->landscapeMaps->
-		getGroundMaps().getHeight(x_, y_));
-	ActionMeta *pos = new CameraPositionAction(
-		position, ShowTime, 5);
-	context_->actionController->getBuffer().clientAdd(-4.0f, pos);
 
 	return true;
 }

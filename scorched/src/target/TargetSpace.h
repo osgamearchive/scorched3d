@@ -23,6 +23,7 @@
 
 #include <target/Target.h>
 #include <map>
+#include <set>
 
 class TargetSpace
 {
@@ -32,6 +33,11 @@ public:
 
 	void addTarget(Target *target);
 	void removeTarget(Target *target);
+
+	Target *getCollision(Vector &position);
+	void getCollisionSet(Vector &position, float radius, 
+		std::map<unsigned int, Target *> &collisionTargets, 
+		bool ignoreHeight = false);
 
 	void draw();
 

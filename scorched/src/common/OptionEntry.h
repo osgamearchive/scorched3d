@@ -285,7 +285,8 @@ public:
 				   const char *name, 
 				   const char *description,
 				   unsigned int data,
-				   float defaultValue);
+				   float defaultValue,
+				   bool truncate = false);
 	virtual ~OptionEntryFloat();
 
 	virtual EntryType getEntryType() { return OptionEntryFloatType; }
@@ -301,6 +302,7 @@ public:
 	operator float () { return value_; }
 
 protected:
+	bool truncate_;
 	float defaultValue_;
 	float value_;
 
@@ -313,7 +315,8 @@ public:
 				   const char *name, 
 				   const char *description,
 				   unsigned int data,
-				   Vector defaultValue);
+				   Vector defaultValue,
+				   bool truncate = false);
 	virtual ~OptionEntryVector();
 
 	virtual EntryType getEntryType() { return OptionEntryVectorType; }
@@ -329,6 +332,7 @@ public:
 	operator Vector() { return value_; }
 
 protected:
+	bool truncate_;
 	Vector defaultValue_;
 	Vector value_;
 

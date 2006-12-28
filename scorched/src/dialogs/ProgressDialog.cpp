@@ -72,7 +72,7 @@ void ProgressDialog::changeTip()
 	tips_.readFile((char *) getDataFile("data/tips.txt"));
 	needsCentered();
 
-	const char *tip = tips_.getRandomLine();
+	const char *tip = tips_.getLines()[rand() % tips_.getLines().size()].c_str();
 	char *nl = (char *) strchr(tip, ':');
 	if (nl)
 	{

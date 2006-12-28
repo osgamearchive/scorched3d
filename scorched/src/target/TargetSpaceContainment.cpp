@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,30 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <target/TargetSpaceContainment.h>
 
-#if !defined(__INCLUDE_SpriteProjectileh_INCLUDE__)
-#define __INCLUDE_SpriteProjectileh_INCLUDE__
-
-#include <engine/PhysicsParticle.h>
-#include <engine/ScorchedCollisionIds.h>
-
-class SpriteProjectile : 
-	public PhysicsParticle
+TargetSpaceContainment::TargetSpaceContainment()
 {
-public:
-	SpriteProjectile();
-	virtual ~SpriteProjectile();
+}
 
-	virtual void init();
-
-	static unsigned int getNoSpriteProjectiles() 
-		{ return noSpriteProjectiles_; }
-
-	ScorchedCollisionInfo collisionInfo;
-protected:
-	static unsigned int noSpriteProjectiles_;
-	
-};
-
-
-#endif
+TargetSpaceContainment::~TargetSpaceContainment()
+{
+}

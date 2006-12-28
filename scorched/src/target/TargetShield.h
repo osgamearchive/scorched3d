@@ -22,9 +22,9 @@
 #define __INCLUDE_TargetShieldh_INCLUDE__
 
 #include <engine/ScorchedCollisionIds.h>
-#include <engine/PhysicsEngine.h>
 #include <net/NetBuffer.h>
 
+class Target;
 class Accessory;
 class ScorchedContext;
 class TargetShield
@@ -35,6 +35,7 @@ public:
 	virtual ~TargetShield();
 
 	virtual void newGame();
+	void setTarget(Target *target) { target_ = target; }
 
 	Accessory *getCurrentShield() { return currentShield_; }
 	void setCurrentShield(Accessory *sh);
@@ -49,14 +50,11 @@ public:
     bool readMessage(NetBufferReader &reader);
 
 protected:
+	Target *target_;
 	Vector position_;
 	ScorchedContext &context_;
 	Accessory *currentShield_;
 	float power_;
-
-	// Physics item
-	dGeomID shieldGeom_;
-	ScorchedCollisionInfo shieldInfo_;
 };
 
 #endif // __INCLUDE_TargetShieldh_INCLUDE__

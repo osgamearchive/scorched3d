@@ -18,44 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ActionBufferh_INCLUDE__)
-#define __INCLUDE_ActionBufferh_INCLUDE__
+#if !defined(__INCLUDE_ShotStateh_INCLUDE__)
+#define __INCLUDE_ShotStateh_INCLUDE__
 
-#include <engine/ActionMeta.h>
-#include <list>
-#include <map>
+#include <engine/ScorchedContext.h>
+#include <engine/PlayShots.h>
 
-class ScorchedContext;
-class ActionController;
-class ActionBuffer
+// Sends out the new game message
+class ShotState
 {
 public:
-	ActionBuffer();
-	virtual ~ActionBuffer();
+	ShotState(ScorchedContext &context,
+		PlayShots &playShots);
+	virtual ~ShotState();
 
-	void clear();
-	bool empty();
-	int size();
-
-	void clientAdd(float time, ActionMeta *action);
-	bool writeMessage(NetBuffer &buffer);
-	bool readMessage(NetBufferReader &reader);
+	void enterState(const unsigned state);
+	bool acceptStateChange(const unsigned state, 
+		const unsigned nextState,
+		float frameTime);
 
 protected:
-	friend class ActionController;
+	ScorchedContext &context_;
+	PlayShots &playShots_;
+	float totalTime_;
+	bool firstTime_, lastTime_;
 
-	void serverAdd(float time, ActionMeta *action);
-	ActionMeta *getActionForTime(float time);
-	void setContext(ScorchedContext *c) { context_ = c; }
-
-protected:
-	NetBuffer actionBuffer_;
-	std::list<std::pair<float, ActionMeta *> > actionList_;
-	std::multimap<float, ActionMeta *> tmpOrderedList;
-	ScorchedContext *context_;
-	float clientTime_;
+	void resurectTanks();
 
 };
-
 
 #endif

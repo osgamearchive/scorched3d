@@ -38,8 +38,6 @@ public:
 	bool readFile(char *filename);
 	bool writeFile(char *filename);
 
-	const char *getRandomLine();
-
 	void addLine(const char *text);
 	std::vector<std::string> &getLines() { return fileLines_; }
 	void getAsOneLine(std::string &output);

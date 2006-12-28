@@ -21,9 +21,9 @@
 #include <landscapedef/LandscapeEvents.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
 #include <XML/XMLNode.h>
-#include <common/Defines.h>
 #include <float.h>
 
 // LandscapeEvent
@@ -65,7 +65,7 @@ LandscapeCondition *LandscapeCondition::create(const char *type)
 }
 
 // LandscapeConditionGroupSize
-float LandscapeConditionGroupSize::getNextEventTime(int eventNumber)
+float LandscapeConditionGroupSize::getNextEventTime(ScorchedContext &context, int eventNumber)
 {
 	return FLT_MAX;
 }
@@ -95,7 +95,7 @@ bool LandscapeConditionGroupSize::readXML(XMLNode *node)
 }
 
 // LandscapeConditionTime
-float LandscapeConditionTime::getNextEventTime(int eventNumber)
+float LandscapeConditionTime::getNextEventTime(ScorchedContext &context, int eventNumber)
 {
 	if (eventNumber > 1 &&
 		singletimeonly)
@@ -103,7 +103,8 @@ float LandscapeConditionTime::getNextEventTime(int eventNumber)
 		return FLT_MAX;
 	}
 
-	return RAND * (maxtime - mintime) + mintime;
+	return context.actionController->getRandom().getRandFloat() * 
+		(maxtime - mintime) + mintime;
 }
 
 bool LandscapeConditionTime::fireEvent(ScorchedContext &context, 
@@ -121,14 +122,14 @@ bool LandscapeConditionTime::readXML(XMLNode *node)
 }
 
 // LandscapeConditionRandom
-float LandscapeConditionRandom::getNextEventTime(int eventNumber)
+float LandscapeConditionRandom::getNextEventTime(ScorchedContext &context, int eventNumber)
 {
 	if (eventNumber > 1)
 	{
 		return FLT_MAX;
 	}
 
-	if (RAND < randomchance)
+	if (context.actionController->getRandom().getRandFloat() < randomchance)
 	{
 		return randomdelay;
 	}

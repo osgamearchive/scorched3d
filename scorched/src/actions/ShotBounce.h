@@ -43,7 +43,8 @@ public:
 	virtual void draw();
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
-	virtual void collision(Vector &position);
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId);
 
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponRoller *getWeapon() { return weapon_; }
@@ -51,7 +52,6 @@ public:
 	REGISTER_ACTION_HEADER(ShotBounce);
 
 protected:
-	ScorchedCollisionInfo collisionInfo_;
 	ViewPoints::ViewPoint *vPoint_;
 	Vector startPosition_, velocity_;
 	Vector lookFrom_;

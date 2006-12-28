@@ -51,18 +51,20 @@ public:
 	virtual void setScorchedContext(ScorchedContext *context);
 	virtual ScorchedContext *getScorchedContext();
 	virtual bool getReferenced() { return false; }
-	virtual bool getServerOnly() { return false; }
 	virtual const char *getActionType() { return "Action"; }
 
 	void setActionStartTime(float time) { actionStartTime_ = time; }
 	float getActionStartTime() { return actionStartTime_; }
 	bool getActionEvent() { return actionEvent_; }
 	void setActionEvent(bool ae) { actionEvent_ = ae; }
+	unsigned int getActionNumber() { return actionNumber_; }
+	void setActionNumber(unsigned int number) { actionNumber_ = number; }
 
 protected:
 	ActionRenderer *renderer_;
 	ScorchedContext *context_;
 	float actionStartTime_;
+	unsigned int actionNumber_;
 	bool actionEvent_;
 
 };
@@ -84,7 +86,6 @@ public:
 	SpriteActionReferenced(ActionRenderer *render = 0);
 	virtual ~SpriteActionReferenced();
 
-	virtual bool getServerOnly() { return false; }
 	virtual bool getReferenced() { return true; }
 	virtual const char *getActionType() { return "SpriteActionReferenced"; }
 

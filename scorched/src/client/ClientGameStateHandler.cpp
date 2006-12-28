@@ -59,8 +59,6 @@ bool ClientGameStateHandler::processMessage(
 	ComsGameStateMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	// Set the physics for the next shot
-	ScorchedClient::instance()->getActionController().getPhysics().generate();
 	Landscape::instance()->getPatchGrid().recalculateTankVariance();
 
 	return true;

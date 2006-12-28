@@ -35,11 +35,9 @@ public:
 	bool parseConfig(XMLNode *node);
 	void setTank(Tank *tank);
 	void shotLanded(
-		ScorchedCollisionType action,
-		ScorchedCollisionInfo *collision,
+		ScorchedCollisionId collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position,
-		unsigned int landedCounter);
+		Vector &position);
 	void newMatch();
 	void tankHurt(Weapon *weapon, unsigned int firer);
 

@@ -18,29 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ComsActionsMessageh_INCLUDE__)
-#define __INCLUDE_ComsActionsMessageh_INCLUDE__
+#if !defined(__INCLUDE_SyncCheckh_INCLUDE__)
+#define __INCLUDE_SyncCheckh_INCLUDE__
 
-#include <coms/ComsMessage.h>
+#include <vector>
+#include <common/FileLogger.h>
 
-class ComsActionsMessage : public ComsMessage
+class ScorchedContext;
+class SyncCheck
 {
 public:
-	ComsActionsMessage(float totalTime = 0.0f);
-	virtual ~ComsActionsMessage();
+	static SyncCheck *instance();
 
-	float getTotalTime() { return totalTime_; }
-
-	// Inherited from ComsMessage
-	virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
-	virtual bool readMessage(NetBufferReader &reader);
+	void addString(ScorchedContext &context, const char *string);
 
 protected:
-	float totalTime_;
+	std::vector<std::string> client;
+	std::vector<std::string> server;
+	FileLogger clientFile;
+	FileLogger serverFile;
 
 private:
-	ComsActionsMessage(const ComsActionsMessage &);
-	const ComsActionsMessage & operator=(const ComsActionsMessage &);
+	SyncCheck();
+	virtual ~SyncCheck();
 };
 
 #endif

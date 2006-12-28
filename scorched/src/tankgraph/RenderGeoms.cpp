@@ -19,6 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/RenderGeoms.h>
+#include <target/TargetSpace.h>
+#include <target/TargetContainer.h>
+#include <target/TargetLife.h>
 #include <client/ScorchedClient.h>
 #include <graph/OptionsDisplay.h>
 #include <engine/ActionController.h>
@@ -40,33 +43,127 @@ RenderGeoms::~RenderGeoms()
 
 void RenderGeoms::draw(const unsigned state)
 {
-	if (!OptionsDisplay::instance()->getDrawCollisionGeoms()) return;
+	if (OptionsDisplay::instance()->getDrawCollisionGeoms())
+	{
+		drawCollisionGeoms();
+		drawCollisionBounds();
+	}
 
-	GLState glState(GLState::TEXTURE_OFF);
-
-	drawSpace(ScorchedClient::instance()->getActionController().
-		getPhysics().getTargetSpace());
-	drawSpace(ScorchedClient::instance()->getActionController().
-		getPhysics().getTankSpace());
-	drawSpace(ScorchedClient::instance()->getActionController().
-		getPhysics().getParticleSpace());
+	if (OptionsDisplay::instance()->getDrawCollisionSpace())
+	{
+		drawTargetSpace();
+	}
 }
 
-void RenderGeoms::drawSpace(dSpaceID space)
+void RenderGeoms::drawTargetSpace()
 {
-	int enabledGeoms = 0;
-	int geoms = dSpaceGetNumGeoms(space);
-	for (int i=0; i<geoms; i++)
-	{
-		dGeomID geom = dSpaceGetGeom(space, i);
-		if (dGeomIsEnabled(geom) != 1) glColor3f(1.0f, 0.0f, 0.0f);
-		else glColor3f(1.0f, 1.0f, 1.0f);
+	ScorchedClient::instance()->getContext().targetSpace->draw();
+}
 
-		int geomClass = dGeomGetClass(geom);
-		if (geomClass == dSphereClass)
+void RenderGeoms::drawCollisionBounds()
+{
+	GLState glState(GLState::TEXTURE_OFF);
+
+	glColor3f(0.0f, 0.0f, 1.0f);
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		Target *target = (*itor).second;
+		if (!target->getAlive())
 		{
-			dReal radius = dGeomSphereGetRadius(geom);
-			const dReal *position = dGeomGetPosition(geom);
+			continue;
+		}
+
+		Vector position = target->getTargetPosition();
+		Vector &size = target->getLife().getAabbSize();
+		position[2] += size[2] / 2.0f;
+
+		double wid = size[0] + 0.1f;
+		double hgt = size[1] + 0.1f;
+		double dep = size[2] + 0.1f;
+
+		glPushMatrix();
+			glTranslated(position[0], position[1], position[2]);
+			glBegin(GL_LINE_LOOP);
+				// Top
+				glNormal3d(0,1,0);
+				glVertex3d(-wid/2,hgt/2,dep/2);
+				glVertex3d(wid/2,hgt/2,dep/2);
+				glVertex3d(wid/2,hgt/2,-dep/2);
+				glVertex3d(-wid/2,hgt/2,-dep/2);
+			glEnd();
+			glBegin(GL_LINE_LOOP);
+				// Back
+				glNormal3d(0,0,1);
+				glVertex3d(-wid/2,hgt/2,dep/2);
+				glVertex3d(-wid/2,-hgt/2,dep/2);
+				glVertex3d(wid/2,-hgt/2,dep/2);
+				glVertex3d(wid/2,hgt/2,dep/2);
+			glEnd();
+			glBegin(GL_LINE_LOOP);
+				// Front
+				glNormal3d(0,0,-1);
+				glVertex3d(-wid/2,hgt/2,-dep/2);
+				glVertex3d(wid/2,hgt/2,-dep/2);
+				glVertex3d(wid/2,-hgt/2,-dep/2);
+				glVertex3d(-wid/2,-hgt/2,-dep/2);
+			glEnd();
+			glBegin(GL_LINE_LOOP);
+				// Left
+				glNormal3d(1,0,0);
+				glVertex3d(wid/2,hgt/2,-dep/2);
+				glVertex3d(wid/2,hgt/2,dep/2);
+				glVertex3d(wid/2,-hgt/2,dep/2);
+				glVertex3d(wid/2,-hgt/2,-dep/2);
+			glEnd();
+			glBegin(GL_LINE_LOOP);
+				// Right
+				glNormal3d(-1,0,0);
+				glVertex3d(-wid/2,hgt/2,dep/2);
+				glVertex3d(-wid/2,hgt/2,-dep/2);
+				glVertex3d(-wid/2,-hgt/2,-dep/2);
+				glVertex3d(-wid/2,-hgt/2,dep/2);
+			glEnd();
+			glBegin(GL_LINE_LOOP);
+				// Bottom
+				glNormal3d(0,-1,0);
+				glVertex3d(-wid/2,-hgt/2,dep/2);
+				glVertex3d(-wid/2,-hgt/2,-dep/2);
+				glVertex3d(wid/2,-hgt/2,-dep/2);
+				glVertex3d(wid/2,-hgt/2,dep/2);
+			glEnd();
+		glPopMatrix();
+	}
+}
+
+void RenderGeoms::drawCollisionGeoms()
+{
+	GLState glState(GLState::TEXTURE_OFF);
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		Target *target = (*itor).second;
+		if (!target->getAlive())
+		{
+			continue;
+		}
+
+		if (target->getLife().getBoundingSphere())
+		{
+			Vector position = target->getTargetPosition();
+			Vector &size = target->getLife().getSize();
+			position[2] += size[2] / 2.0f;
+			float radius = MAX(MAX(size[0], size[1]), size[2]) / 2.0f;
 
 			static GLUquadric *obj = 0;
 			if (!obj)
@@ -80,42 +177,22 @@ void RenderGeoms::drawSpace(dSpaceID space)
 				gluSphere(obj, radius, 6, 6);
 			glPopMatrix();
 		}
-		else if (geomClass == dBoxClass)
+		else
 		{
-			// Position
-			const dReal *position = dGeomGetPosition(geom);
+			Vector position = target->getTargetPosition();
+			Vector &size = target->getLife().getSize();
+			position[2] += size[2] / 2.0f;
 
-			// Size
-			dVector3 size;
-			dGeomBoxGetLengths(geom, size);
 			double wid = size[0];
 			double hgt = size[1];
 			double dep = size[2];
 
-			// Rotation
-			static double rotMatrix[16];
-			dQuaternion quat;
-			dGeomGetQuaternion(geom, quat);
-
-			// And I thought this would be easy!!
-			dMatrix3 matrix;
-			dQtoR(quat, matrix);
-			rotMatrix[0] = matrix[0];
-			rotMatrix[1] = matrix[4];
-			rotMatrix[2] = matrix[8];
-			rotMatrix[4] = matrix[1];
-			rotMatrix[5] = matrix[5];
-			rotMatrix[6] = matrix[9];
-			rotMatrix[8] = matrix[2];
-			rotMatrix[9] = matrix[6];
-			rotMatrix[10] = matrix[10];
-			rotMatrix[3] = rotMatrix[7] = rotMatrix[11] = 0.0;
-			rotMatrix[15] = 1.0;
-			rotMatrix[12] = rotMatrix[13] = rotMatrix[14] = 0.0;	
+			static float rotMatrix[16];
+			target->getLife().getQuaternion().getOpenGLRotationMatrix(rotMatrix);
 
 			glPushMatrix();
 				glTranslated(position[0], position[1], position[2]);
-				glMultMatrixd(rotMatrix);
+				glMultMatrixf(rotMatrix);
 				glBegin(GL_LINE_LOOP);
 					// Top
 					glNormal3d(0,1,0);

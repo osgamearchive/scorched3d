@@ -23,7 +23,7 @@
 
 #include <engine/GameStateI.h>
 #include <engine/GameStateStimulusI.h>
-#include <engine/EventContainer.h>
+#include <engine/ShotState.h>
 
 // Sends out the new game message
 class ServerShotState : 
@@ -39,15 +39,8 @@ public:
 		const unsigned nextState,
 		float frameTime);
 
-	float &getShotTime() { return totalTime_; }
-
 protected:
-	float totalTime_;
-	bool firstTime_;
-	EventContainer events_;
-
-	void stepActions(unsigned int state, float maxSingleSimTime, bool allowEvents);
-	void resurectTanks();
+	ShotState shotState_;
 
 };
 

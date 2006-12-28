@@ -21,40 +21,17 @@
 #if !defined(__INCLUDE_ScorchedCollisionIdsh_INCLUDE__)
 #define __INCLUDE_ScorchedCollisionIdsh_INCLUDE__
 
-enum ScorchedCollisionType
-{
-	CollisionNone = 0,
-	CollisionFinished = 1,
-	CollisionWall = 2,
-	CollisionShield = 3
-};
-
 enum ScorchedCollisionId
 {
 	CollisionIdNone = 0,
 	CollisionIdLandscape,
 	CollisionIdRoof,
-	CollisionIdShot,
-	CollisionIdFallingTank,
-	CollisionIdGround,
 	CollisionIdWallLeft,
 	CollisionIdWallRight,
 	CollisionIdWallTop,
 	CollisionIdWallBottom,
 	CollisionIdTarget,
-	CollisionIdShield,
-	CollisionIdSprite,
-	CollisionIdBounce
-};
-
-struct ScorchedCollisionInfo
-{
-	ScorchedCollisionInfo(ScorchedCollisionId i = CollisionIdNone, 
-		void *d = 0);
-
-	ScorchedCollisionId id;
-	void *data;
-	bool collisionOnSurface;
+	CollisionIdShield
 };
 
 #endif

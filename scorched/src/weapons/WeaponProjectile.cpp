@@ -22,6 +22,7 @@
 #include <weapons/WeaponProjectile.h>
 #include <actions/ShotProjectile.h>
 #include <engine/ActionController.h>
+#include <common/Logger.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 

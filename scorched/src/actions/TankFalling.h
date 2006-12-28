@@ -28,23 +28,9 @@
 #include <map>
 #include <list>
 
-class TankFalling;
-class TankFallingParticle : public PhysicsParticle
-{
-public:
-	TankFallingParticle(TankFalling *tell);
-
-	virtual void init();
-	virtual void collision(Vector &position);
-	void hadCollision();
-
-protected:
-	TankFalling *tell_;
-	ScorchedCollisionInfo collisionInfo_;
-};
-
 class Parachute;
-class TankFalling : public ActionMeta
+class TankFalling : 
+	public PhysicsParticleMeta
 {
 public:
 	TankFalling();
@@ -58,25 +44,20 @@ public:
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
 
-	void collision();
-	void remove();
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId);
 
 	Parachute *getParachute() { return parachute_; }
 
 	REGISTER_ACTION_HEADER(TankFalling);
 
 protected:
-	std::list<TankFallingParticle *> particles_;
 	Weapon *weapon_;
 	Parachute *parachute_;
 	unsigned int fallingPlayerId_;
 	unsigned int firedPlayerId_;
 	unsigned int data_;
 	Vector tankStartPosition_;
-	bool remove_;
-
-	void applyForce();
-	void getAllPositions(Vector &spherePositions);
 
 };
 

@@ -119,8 +119,7 @@ bool HeightMapSender::generateHMapFromDiff(
 		// Update this level with any changes specified in the diffs
 		// need to change from network byte ordering so 
 		// will work on all arches
-		unsigned char *destCurrent = dest;
-		float *current = hMap.getData();		
+		unsigned char *destCurrent = dest;	
 		for (int j = 0; j<(hMap.getMapHeight() + 1); j++)
 		{
 			for (int i = 0; i<(hMap.getMapWidth() + 1); i++)
@@ -144,9 +143,6 @@ bool HeightMapSender::generateHMapFromDiff(
 				destCurrent += 4; // Move by 4 bytes (32 bits)
 			}
 		}
-
-		hMap.generateNormals(0, hMap.getMapWidth(), 0, hMap.getMapHeight(), counter);
-		//dialogMessage("hmm", "%i=%i", message.getLevelLen(), destLen);
 	}
 
 	delete [] dest;

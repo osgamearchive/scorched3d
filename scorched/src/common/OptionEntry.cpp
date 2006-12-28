@@ -609,9 +609,10 @@ OptionEntryFloat::OptionEntryFloat(std::list<OptionEntry *> &group,
 							   const char *name,
 							   const char *description,
 							   unsigned int data,
-							   float value) :
+							   float value,
+							   bool truncate) :
 	OptionEntry(group, name, description, data), 
-	value_(value), defaultValue_(value)
+	value_(value), defaultValue_(value), truncate_(truncate)
 {
 	
 }
@@ -624,14 +625,16 @@ OptionEntryFloat::~OptionEntryFloat()
 const char *OptionEntryFloat::getValueAsString()
 {
 	static char value[256];
-	snprintf(value, 256, "%.2f", value_);
+	if (truncate_) snprintf(value, 256, "%.2f", value_);
+	else snprintf(value, 256, "%.8f", value_);
 	return value;
 }
 
 const char *OptionEntryFloat::getDefaultValueAsString()
 {
 	static char value[256];
-	snprintf(value, 256, "%.2f", defaultValue_);
+	if (truncate_) snprintf(value, 256, "%.2f", defaultValue_);
+	else snprintf(value, 256, "%.8f", defaultValue_);
 	return value;
 }
 
@@ -663,9 +666,10 @@ OptionEntryVector::OptionEntryVector(std::list<OptionEntry *> &group,
 							   const char *name,
 							   const char *description,
 							   unsigned int data,
-							   Vector value) :
+							   Vector value,
+							   bool truncate) :
 	OptionEntry(group, name, description, data), 
-	value_(value), defaultValue_(value)
+	value_(value), defaultValue_(value), truncate_(truncate)
 {
 	
 }
@@ -678,16 +682,32 @@ OptionEntryVector::~OptionEntryVector()
 const char *OptionEntryVector::getValueAsString()
 {
 	static char value[256];
-	snprintf(value, 256, "%.2f %.2f %.2f", 
-		value_[0], value_[1], value_[2]);
+	if (truncate_)
+	{
+		snprintf(value, 256, "%.2f %.2f %.2f", 
+			value_[0], value_[1], value_[2]);
+	}
+	else
+	{
+		snprintf(value, 256, "%.8f %.8f %.8f", 
+			value_[0], value_[1], value_[2]);
+	}
 	return value;
 }
 
 const char *OptionEntryVector::getDefaultValueAsString()
 {
 	static char value[256];
-	snprintf(value, 256, "%.2f %.2f %.2f", 
-		defaultValue_[0], defaultValue_[1], defaultValue_[2]);
+	if (truncate_)
+	{
+		snprintf(value, 256, "%.2f %.2f %.2f", 
+			defaultValue_[0], defaultValue_[1], defaultValue_[2]);
+	}
+	else
+	{
+		snprintf(value, 256, "%.8f %.8f %.8f", 
+			defaultValue_[0], defaultValue_[1], defaultValue_[2]);
+	}
 	return value;
 }
 

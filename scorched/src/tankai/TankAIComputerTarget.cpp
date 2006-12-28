@@ -157,17 +157,12 @@ Tank *TankAIComputerTarget::findShotAtTankToShootAt()
 }
 
 void TankAIComputerTarget::shotLanded(
-		ScorchedCollisionType action,
-		ScorchedCollisionInfo *collision,
+		ScorchedCollisionId collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position,
-		unsigned int landedCounter)
+		Vector &position)
 {
 	// Check we did not fire this shot
 	if (firer == currentTank_->getPlayerId()) return;
-
-	// Check this is the first time this shot landed
-	//if (landedCounter > 1) return;
 
 	// Find the closest tank to this shot
 	Tank *currentTank = 0;

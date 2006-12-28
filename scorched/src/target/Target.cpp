@@ -48,18 +48,20 @@ Target::Target(unsigned int playerId,
 
 	life_->setTarget(this);
 	life_->setBoundingSphere(true);
+	shield_->setTarget(this);
+	shield_->setCurrentShield(0);
 	group_->setTarget(this);
 }
 
 Target::~Target()
 {
-	playerId_ = 0;
 	delete renderer_; renderer_ = 0;
 	delete life_; life_ = 0;
 	delete shield_; shield_ = 0;
 	delete group_; group_ = 0;
 	delete parachute_; parachute_ = 0;
 	delete targetState_; targetState_ = 0;
+	playerId_ = 0;
 }
 
 void Target::newGame()
@@ -95,12 +97,12 @@ void Target::setTargetPosition(Vector &pos)
 	shield_->setPosition(pos);
 }
 
-bool Target::writeMessage(NetBuffer &buffer, bool writeAccessories)
+bool Target::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(name_);
 	if (!shield_->writeMessage(buffer)) return false;
 	if (!life_->writeMessage(buffer)) return false;
-	if (!parachute_->writeMessage(buffer, writeAccessories)) return false;
+	if (!parachute_->writeMessage(buffer)) return false;
 
 	// Do after shield and life so their position is set
 	buffer.addToBuffer(targetPosition_);

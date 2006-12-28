@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/ActionController.h>
+#include <engine/ScorchedContext.h>
+#include <engine/SyncCheck.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <list>
@@ -27,8 +29,9 @@ ActionController::ActionController() :
 	GameStateI("ActionController"),
 	speed_(1.0f), referenceCount_(0), time_(0.0f), 
 	context_(0), lastTraceTime_(0.0f),
-	actionTracing_(false), totalTime_(0.0f),
-	actionEvents_(false), actionProfiling_(false)
+	actionTracing_(false), stepTime_(0.0f),
+	actionEvents_(false), actionProfiling_(false),
+	actionNumber_(0)
 {
 
 }
@@ -40,9 +43,6 @@ ActionController::~ActionController()
 
 void ActionController::clear(bool warn)
 {
-	// Action Buffer
-	buffer_.clear();
-
 	// New actions
 	std::list<Action *>::iterator newItor;
 	for (newItor = newActions_.begin();
@@ -60,12 +60,9 @@ void ActionController::clear(bool warn)
 	newActions_.clear();
 
 	// Current actions
-	std::set<Action *>::iterator cItor;
-	for (cItor = actions_.begin();
-		cItor != actions_.end();
-		cItor++)
+	for (int a=0; a<actions_.actionCount; a++)
 	{
-		Action *act = *cItor;
+		Action *act = actions_.actions[a];
 		if (warn)
 		{
 			Logger::log(formatString("Warning: removing added timed out action %s, %s",
@@ -81,38 +78,36 @@ void ActionController::clear(bool warn)
 
 bool ActionController::allEvents()
 {
+	// Criteria to add more events :-
+	// Check that there are referenced actions in the simulation,
+	// and that these referenced actions are not events
 	std::list<Action *>::iterator newItor;
 	for (newItor = newActions_.begin();
 		newItor != newActions_.end();
 		newItor++)
 	{
 		Action *act = *newItor;
-		if (!act->getActionEvent()) return false;
+		if (!act->getActionEvent() &&
+			act->getReferenced()) return false;
 	}
-	std::set<Action *>::iterator cItor;
-	for (cItor = actions_.begin();
-		cItor != actions_.end();
-		cItor++)
+	for (int a=0; a<actions_.actionCount; a++)
 	{
-		Action *act = *cItor;
-		if (!act->getActionEvent()) return false;
+		Action *act = actions_.actions[a];
+		if (!act->getActionEvent() &&
+			act->getReferenced()) return false;
 	}
 	return true;
 }
 
 void ActionController::logActions()
 {
-	Logger::log(formatString("ActionLog : Time %.2f, New %i, Ref %i, Buf %i",
+	Logger::log(formatString("ActionLog : Time %.2f, New %i, Ref %i",
 		time_,
 		(int) newActions_.size(), 
-		referenceCount_,
-		buffer_.size()));
-	std::set<Action *>::iterator itor;
-	for (itor = actions_.begin();
-		itor != actions_.end();
-		itor++)
+		referenceCount_));
+	for (int a=0; a<actions_.actionCount; a++)
 	{
-		Action *act = *itor;
+		Action *act = actions_.actions[a];
 		Logger::log(formatString("Action : %s", act->getActionType()));
 	}
 }
@@ -142,8 +137,7 @@ void ActionController::logProfiledActions()
 bool ActionController::noReferencedActions()
 {
 	bool finished = (newActions_.empty() && 
-		(referenceCount_ == 0) &&
-		buffer_.empty());
+		(referenceCount_ == 0));
 
 	if (actionTracing_)
 	{
@@ -161,14 +155,11 @@ void ActionController::resetTime()
 {
 	time_ = 0.0f;
 	lastTraceTime_ = 0.0f;
-	totalTime_ = 0.0f;
 }
 
 void ActionController::setScorchedContext(ScorchedContext *context)
 {
 	context_ = context;
-	buffer_.setContext(context);
-	physicsEngine_.setScorchedContext(context);
 }
 
 void ActionController::setFast(float speedMult)
@@ -182,11 +173,13 @@ void ActionController::addAction(Action *action)
 	action->setActionStartTime(time_);
 	action->setActionEvent(actionEvents_);
 
-	if (!context_->serverMode &&
-		action->getServerOnly())
+	if (action->getReferenced())
 	{
-		delete action;
-		return;
+		action->setActionNumber(++actionNumber_);
+
+		/*SyncCheck::instance()->addString(*context_, 
+			formatString("Action : %f %u %s", 
+				time_, action->getActionNumber(), action->getActionType()));*/
 	}
 
 	newActions_.push_back(action);
@@ -208,21 +201,6 @@ void ActionController::addAction(Action *action)
 
 void ActionController::addNewActions()
 {
-	if (!context_->serverMode)
-	{
-		ActionMeta *action = 
-			buffer_.getActionForTime(time_);
-		while (action)
-		{
-			if (action->getReferenced()) referenceCount_ ++;
-			action->setScorchedContext(context_);
-			action->setActionStartTime(time_);
-			action->init();
-			actions_.insert(action);
-			action = buffer_.getActionForTime(time_);
-		}
-	}
-
 	while (!newActions_.empty())
 	{
 		Action *action = newActions_.front(); 
@@ -231,20 +209,8 @@ void ActionController::addNewActions()
 		action->setActionStartTime(time_);
 		if (action->getReferenced()) referenceCount_ ++;
 
-		if (context_->serverMode)
-		{
-			if (action->getServerOnly()) 
-			{
-				buffer_.serverAdd(time_, (ActionMeta*) action);
-			}
-		}
-		else
-		{
-			DIALOG_ASSERT(!action->getServerOnly());
-		}
-
 		action->init();
-		actions_.insert(action);
+		actions_.push_back(action);
 
 		newActions_.pop_front();
 	}
@@ -253,12 +219,9 @@ void ActionController::addNewActions()
 void ActionController::draw(const unsigned state)
 {
 	// Itterate and draw all of the actions
-	std::set<Action *>::iterator itor;
-	for (itor = actions_.begin();
-		itor != actions_.end();
-		itor++)
+	for (int a=0; a<actions_.actionCount; a++)
 	{
-		Action *act = *itor;
+		Action *act = actions_.actions[a];
 		act->draw();
 	}
 }
@@ -269,20 +232,17 @@ void ActionController::simulate(const unsigned state, float frameTime)
 
 	// As this simulator gives differing results dependant on
 	// step size, always ensure step size is the same
-	static float timePassed = 0.0f;
-	timePassed += frameTime;
+	stepTime_ += frameTime;
 
 	// step size = 1.0 / physics fps = steps per second
-	physicsEngine_.resetContext();
 	const float stepSize = 1.0f / float(context_->optionsGame->getPhysicsFPS());
-	while (timePassed >= stepSize)
+	while (stepTime_ >= stepSize)
 	{
 		time_ += stepSize;
 		stepActions(stepSize);
-		physicsEngine_.stepSimulation(stepSize);
 
 		// More time has passed
-		timePassed -= stepSize;
+		stepTime_ -= stepSize;
 	}
 }
 
@@ -291,23 +251,26 @@ void ActionController::stepActions(float frameTime)
 	// Ensure any new actions are added
 	addNewActions();
 
-	std::list<Action *> removeActions;
-	// Itterate and draw all of the actions
-	std::set<Action *>::iterator itor;
-	for (itor = actions_.begin();
-		itor != actions_.end();
-		itor++)
+	// Add any new events (if allowed)
+	if (time_ < 10.0f && !allEvents())
 	{
-		Action *act = *itor;
+		actionEvents_ = true;
+		events_.simulate(frameTime, *context_);
+		actionEvents_ = false;
+	}
 
+	// Itterate and draw all of the actions
+	int keepcount=0;
+	for (int a=0; a<actions_.actionCount; a++)
+	{
+		Action *act = actions_.actions[a];
 		bool remove = false;
 		act->simulate(frameTime, remove);
 
 		// Ensure that no referenced actions over do their time
 		if (act->getReferenced())
 		{
-			if ((time_ - act->getActionStartTime() > 30.0f) ||
-				(totalTime_ > 0.0f && time_ > totalTime_ + 15.0f))
+			if ((time_ - act->getActionStartTime() > 30.0f))
 			{
 				Logger::log(formatString("Warning: removing timed out action %s",
 					act->getActionType()));
@@ -316,27 +279,22 @@ void ActionController::stepActions(float frameTime)
 		}
 
 		// If this action has finished add to list to be removed
-		if (remove) removeActions.push_back(act);
-	}
-
-	// Remove removed shots from the action list
-	if (!removeActions.empty())
-	{
-		std::list<Action *>::iterator ritor;
-		for (ritor = removeActions.begin();
-			ritor != removeActions.end();
-			ritor++)
+		if (remove)
 		{
-			Action *action = *ritor;
-			if (action->getReferenced())
+			if (act->getReferenced())
 			{
 				referenceCount_--;
 				if (referenceCount_<0) referenceCount_ = 0;
 			}
-			actions_.erase(action);
-			delete action;
+
+			delete act;
 		}
-		removeActions.clear();
+		else
+		{
+			actions_.actions[keepcount] = act;
+			keepcount++;
+		}
 	}
+	actions_.actionCount = keepcount;
 }
 

@@ -23,33 +23,104 @@
 #define __INCLUDE_PhysicsParticleObjecth_INCLUDE__
 
 #include <common/Vector.h>
-#include <engine/PhysicsEngine.h>
+#include <common/Vector4.h>
+#include <engine/ScorchedCollisionIds.h>
 
+enum PhysicsParticleType
+{
+	ParticleTypeNone = 0,
+	ParticleTypeShot,
+	ParticleTypeBounce,
+	ParticleTypeFalling
+};
+
+struct PhysicsParticleInfo
+{
+	PhysicsParticleInfo(
+		PhysicsParticleType type,
+		unsigned int playerId,
+		void *data) :
+		type_(type),
+		playerId_(playerId),
+		data_(data)
+	{
+	}
+
+	PhysicsParticleType type_;
+	unsigned int playerId_;
+	void *data_;
+};
+
+class PhysicsParticleObject;
+class PhysicsParticleObjectHandler
+{
+public:
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId) = 0;
+};
+
+class Target;
+class ScorchedContext;
 class PhysicsParticleObject
 {
 public:
 	PhysicsParticleObject();
 	virtual ~PhysicsParticleObject();
 
-	void setPhysics(PhysicsEngine &engine, 
+	void setPhysics(
+		PhysicsParticleInfo info,
+		ScorchedContext &context, 
 		Vector &position, Vector &velocity,
 		float sphereSize = 0.0f,
 		float sphereDensity = 0.0f,
-		float windFactor = 1.0f);
+		float windFactor = 1.0f,
+		bool underGroundCollision = false);
 
 	void applyForce(Vector &force);
 	void simulate(float frameTime);
 
-	Vector &getPosition();
-	Vector &getVelocity();
-	float *getRotationQuat();
-	void setPosition(Vector &position);
-	void setData(void *data);
+	Vector &getPosition() { return position_; }
+	Vector &getVelocity() { return velocity_; }
+	Vector4 &getRotationQuat() { return rotation_; }
+
+	void setHandler(PhysicsParticleObjectHandler *handler) { handler_ = handler; }
+	void setPosition(Vector &position) { position_ = position; }
 
 protected:
-	dBodyID body_;
-	dGeomID geom_;
+	PhysicsParticleInfo info_;
+	ScorchedContext *context_;
+	PhysicsParticleObjectHandler *handler_;
+	bool underGroundCollision_;
+	unsigned int iterations_;
+	Vector position_;
+	Vector velocity_;
 	Vector windFactor_;
+	Vector4 rotation_;
+
+	enum CollisionAction
+	{
+		CollisionActionNone = 0,
+		CollisionActionCollision,
+		CollisionActionBounce
+	};
+	struct CollisionInfo
+	{
+		ScorchedCollisionId collisionId;
+		float deflectFactor;
+		Vector normal;
+	};
+
+	void checkCollision();
+	CollisionAction checkShotCollision(CollisionInfo &collision, Target *target);
+	CollisionAction checkBounceCollision(CollisionInfo &collision, Target *target);
+	CollisionAction checkFallingCollision(CollisionInfo &collision, Target *target);
+
+	bool getLandscapeCollision(CollisionInfo &collision);
+	bool getRoofCollision(CollisionInfo &collision);
+	bool getWallCollision(CollisionInfo &collision);
+	bool getShieldCollision(CollisionInfo &collision, Target *target);
+	bool getTargetCollision(CollisionInfo &collision, Target *target);
+	bool getTargetBounceCollision(CollisionInfo &collision, Target *target);
 };
 
 #endif

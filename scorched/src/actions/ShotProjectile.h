@@ -44,20 +44,16 @@ public:
 	virtual void init();
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
-	virtual void collision(Vector &position);
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId);
 
 	REGISTER_ACTION_HEADER(ShotProjectile);
 
-	void incLandedCounter() { landedCounter_++; }
-	unsigned int getLandedCounter() { return landedCounter_; }
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponProjectile *getWeapon() { return weapon_; }
 	std::list<RenderTracer::TracerLinePoint> &getPositions() { return positions_; }
 
 protected:
-	static Vector lookatPosition_;
-	static unsigned int lookatCount_;
-	ScorchedCollisionInfo collisionInfo_;
 	Vector startPosition_, velocity_;
 	WeaponProjectile *weapon_;
 	ViewPoints::ViewPoint *vPoint_;
@@ -68,7 +64,6 @@ protected:
 	float snapTime_;
 	float totalTime_;
 	std::list<RenderTracer::TracerLinePoint> positions_;
-	unsigned int landedCounter_;
 
 	void doCollision(Vector &position);
 

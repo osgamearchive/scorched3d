@@ -55,9 +55,6 @@ public:
 REGISTER_ACTION_HEADER(Napalm);
 
 protected:
-	static DeformLandscape::DeformPoints deformMap_;
-	static bool deformCreated_;
-
 	int x_, y_;
 	unsigned int playerId_;
 	unsigned int data_;

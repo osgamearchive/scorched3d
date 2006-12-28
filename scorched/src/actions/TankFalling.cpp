@@ -19,40 +19,22 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/TankFalling.h>
-#include <actions/TankFallingEnd.h>
 #include <target/TargetContainer.h>
 #include <target/TargetState.h>
+#include <target/TargetParachute.h>
+#include <target/TargetDamageCalc.h>
+#include <tank/Tank.h>
+#include <tank/TankAccessories.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Parachute.h>
+#include <common/OptionsGame.h>
+#include <landscapemap/DeformLandscape.h>
 
 REGISTER_ACTION_SOURCE(TankFalling);
 
-TankFallingParticle::TankFallingParticle(TankFalling *tell) : 
-	tell_(tell), collisionInfo_(CollisionIdFallingTank)
-{
-
-}
-
-void TankFallingParticle::init()
-{
-	collisionInfo_.data = this;
-	physicsObject_.setData(&collisionInfo_);
-}
-
-void TankFallingParticle::collision(Vector &position)
-{
-	if (tell_) tell_->collision();
-}
-
-void TankFallingParticle::hadCollision()
-{
-	collision_ = true;
-	tell_ = 0;
-}
-
-TankFalling::TankFalling() : remove_(false)
+TankFalling::TankFalling()
 {
 }
 
@@ -60,7 +42,7 @@ TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 				   unsigned int firedPlayerId,
 				   Parachute *parachute,
 				   unsigned int data) :
-	weapon_(weapon), remove_(false),
+	weapon_(weapon),
 	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId),
 	data_(data), parachute_(parachute)
 {
@@ -92,92 +74,38 @@ void TankFalling::init()
 		// Store the start positions
 		tankStartPosition_ = current->getTargetPosition();
 
-		for (int i=0; i<4; i++)
-		{
-			TankFallingParticle *particle = new TankFallingParticle(this);
-			particles_.push_back(particle);
-
-			// The sphere is 0.25 radius
-			Vector nullVelocity;
-			Vector initPos = current->getTargetPosition();	
-			switch (i)
-			{
-			case 0:
-				initPos[0] += 0.5f;
-				initPos[1] += 0.5f;
-				initPos[2] += 0.25;
-				break;
-			case 1:
-				initPos[0] += 0.5f;
-				initPos[1] -= 0.5f;
-				initPos[2] += 0.25;
-				break;
-			case 2:
-				initPos[0] -= 0.5f;
-				initPos[1] -= 0.5f;
-				initPos[2] += 0.25;
-				break;
-			case 3:
-				initPos[0] -= 0.5f;
-				initPos[1] += 0.5f;
-				initPos[2] += 0.25;
-				break;
-			}
-
-			particle->setScorchedContext(context_);
-			particle->setPhysics(initPos, nullVelocity);
-			particle->init();
-
-			context_->actionController->addAction(particle);
-		}
+		Vector velocity(0.0f, 0.0f, 0.0f);
+		PhysicsParticleInfo info(ParticleTypeFalling, fallingPlayerId_, this);
+		setPhysics(info, tankStartPosition_, velocity, 
+			0.0f, 0.0f, 0.0f, false);
 	}
 	else
 	{
-		remove_ = true;
+		collision_ = true;
 	}
 }
 
 void TankFalling::simulate(float frameTime, bool &remove)
 {
-	if (!remove_)
+	if (!collision_)
 	{
-		applyForce();
-
-		Vector spherePosition;
-		getAllPositions(spherePosition);
-		
-		// Calcuate the action position
-		Vector position(spherePosition[0], 
-			spherePosition[1], 
-			spherePosition[2] - 0.25f);
+		// Slow falling
+		if (parachute_)	applyForce(parachute_->getSlowForce());
 
 		// Move the tank to the new position
 		Target *target = context_->targetContainer->getTargetById(fallingPlayerId_);
 		if (target && target->getAlive())
 		{
+			Vector &position = getCurrentPosition();
 			if (position[0] != 0.0f || position[1] != 0.0f || position[2] != 0.0f)
 			{
 				target->setTargetPosition(position);
 			}
 		}
-
-		// Simulate the particles
-		bool fakeRemove = false;
-		std::list<TankFallingParticle *>::iterator itor;
-		for (itor = particles_.begin();
-			itor != particles_.end();
-			itor++)
-		{
-			TankFallingParticle *part = (*itor);
-			part->simulate(frameTime, fakeRemove);
-		}
-	}
-	else
-	{
-		remove = true;
+		else collision_ = true;
 	}
 
-	ActionMeta::simulate(frameTime, remove);
+	PhysicsParticleMeta::simulate(frameTime, remove);
 }
 
 bool TankFalling::writeAction(NetBuffer &buffer)
@@ -200,78 +128,62 @@ bool TankFalling::readAction(NetBufferReader &reader)
 	return true;
 }
 
-void TankFalling::applyForce()
+void TankFalling::collision(PhysicsParticleObject &position, 
+	ScorchedCollisionId collisionId)
 {
-	if (!parachute_) return;
-	Vector force = parachute_->getSlowForce();
-
-	std::list<TankFallingParticle *>::iterator itor;
-	for (itor = particles_.begin();
-		itor != particles_.end();
-		itor++)
-	{
-		TankFallingParticle *part = (*itor);
-		part->applyForce(force);
-	}
-}
-
-void TankFalling::getAllPositions(Vector &spherePosition)
-{
-	std::list<TankFallingParticle *>::iterator itor;
-	for (itor = particles_.begin();
-		itor != particles_.end();
-		itor++)
-	{
-		TankFallingParticle *part = (*itor);
-		spherePosition += part->getCurrentPosition();
-	}
-	spherePosition /= 4.0f;
-}
-
-void TankFalling::remove()
-{
-	// Make sure we dont get called again when a sub particle has 
-	// a collision
-	while (!particles_.empty())
-	{
-		TankFallingParticle *part = particles_.front();
-		particles_.pop_front();
-		part->hadCollision();
-	}
-
-	// This is the end of falling
-	remove_ = true;
-}
-
-void TankFalling::collision()
-{
-	// Create end action
-	Vector position;
-	Target *current = 
-		context_->targetContainer->getTargetById(fallingPlayerId_);
+	Target *current = context_->targetContainer->getTargetById(fallingPlayerId_);
 	if (current && current->getAlive())
 	{
-		// Calcuate the end position
-		Vector spherePosition;
-		getAllPositions(spherePosition);
-		position = Vector(spherePosition[0], 
-			spherePosition[1], 
-			spherePosition[2] - 0.25f);
+		// Find how far we have falled to get the total damage
+		float dist = (tankStartPosition_ - position.getPosition()).Magnitude();
+		float damage = dist * 20.0f;
+
+		// Check we need to cancel the damage
+		float minDist = float(context_->optionsGame->
+			getMinFallingDistance()) / 10.0f;
+		if (dist < minDist)
+		{
+			// No damage (or parachutes used for tiny falls)
+			damage = 0.0f;
+		}
+		else
+		if (parachute_)
+		{
+			const float ParachuteThreshold = 0.0f;
+			if (dist >= ParachuteThreshold)
+			{
+				// No damage we were using parachutes
+				damage = 0.0f;
+
+				// Remove parachutes if we have one
+				if (!current->isTarget())
+				{
+					Tank *currentTank = (Tank *) current;
+					currentTank->getAccessories().rm(parachute_->getParent());
+					if (currentTank->getAccessories().getAccessoryCount(parachute_->getParent()) == 0)
+					{
+						current->getParachute().setCurrentParachute(0);
+					}
+				}
+			}
+		}
+
+		// Move the tank to the final position
+		current->setTargetPosition(position.getPosition());
+
+		// Flatten the area around tanks
+		if (!current->isTarget())
+		{
+			DeformLandscape::flattenArea(*context_, position.getPosition(), 0);
+		}
+
+		// Add the damage to the tank
+		TargetDamageCalc::damageTarget(
+			*context_,
+			current, weapon_, 
+			firedPlayerId_, damage, 
+			false, false, false, data_);
 	}
 
-	// Make sure we dont get called again when a sub particle has 
-	// a collision
-	// Do this after we get the current position
-	while (!particles_.empty())
-	{
-		TankFallingParticle *part = particles_.front();
-		particles_.pop_front();
-		part->hadCollision();
-	}
-
-	// Say we have ended
-	TankFallingEnd *end = new TankFallingEnd(
-		weapon_, tankStartPosition_, position,
-		fallingPlayerId_, firedPlayerId_, parachute_, data_);
-	context_->actionController->addAction(end);
+	PhysicsParticleMeta::collision(position, collisionId);
 }

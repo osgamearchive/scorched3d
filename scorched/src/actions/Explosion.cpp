@@ -30,6 +30,7 @@
 #include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
+#include <engine/SyncCheck.h>
 #include <graph/OptionsDisplay.h>
 #include <graph/ParticleEmitter.h>
 #include <graph/MainCamera.h>
@@ -65,6 +66,15 @@ Explosion::~Explosion()
 
 void Explosion::init()
 {
+	/*SyncCheck::instance()->addString(*context_, 
+		formatString("Explosion %f,%f,%f %s", 
+			position_[0], position_[1], position_[2], weapon_->getParent()->getName()));*/
+
+	const float ShowTime = 4.0f;
+	ActionMeta *pos = new CameraPositionAction(
+		position_, ShowTime, 10);
+	context_->actionController->addAction(pos);
+
 	float multiplier = float(((int) context_->optionsGame->getWeapScale()) - 
 							 OptionsGame::ScaleMedium);
 	multiplier *= 0.5f;
@@ -310,14 +320,6 @@ bool Explosion::readAction(NetBufferReader &reader)
 	weapon_ = (WeaponExplosion *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	if (!reader.getFromBuffer(data_)) return false;
-
-	if (0 != strcmp(weapon_->getAccessoryTypeName(), "WeaponMuzzle"))
-	{
-		const float ShowTime = 4.0f;
-		ActionMeta *pos = new CameraPositionAction(
-			position_, ShowTime, 10);
-		context_->actionController->getBuffer().clientAdd(-3.0f, pos);
-	}
 
 	return true;
 }

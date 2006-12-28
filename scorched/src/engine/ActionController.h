@@ -23,9 +23,9 @@
 
 #include <set>
 #include <list>
-#include <engine/ActionBuffer.h>
-#include <engine/ScorchedPhysicsEngine.h>
 #include <engine/GameStateI.h>
+#include <engine/Action.h>
+#include <engine/EventContainer.h>
 #include <common/RandomGenerator.h>
 
 class ScorchedContext;
@@ -38,11 +38,8 @@ public:
 	// Add an action to be simulated
 	void addAction(Action *action);
 	bool noReferencedActions();
-	bool allEvents();
 	void resetTime();
 	void clear(bool warn = false);
-
-	void setTotalTime(float t) { totalTime_ = t; }
 
 	// Turn on action tracing
 	bool &getActionLogging() { return actionTracing_; }
@@ -50,15 +47,12 @@ public:
 	void logProfiledActions();
 	void logActions();
 
-	// Get the current physics engine
-	ScorchedPhysicsEngine &getPhysics() { return physicsEngine_; }
-	ActionBuffer &getBuffer() { return buffer_; }
 	RandomGenerator &getRandom() { return random_; }
+	EventContainer &getEvents() { return events_; }
 	float getActionTime() { return time_; }
 
 	// Set the simulation speed
 	void setScorchedContext(ScorchedContext *context);
-	void setActionEvent(bool ae) { actionEvents_ = ae; }
 	void setFast(float speedMult);
 	float getFast() { return speed_; }
 
@@ -67,23 +61,55 @@ public:
 	virtual void draw(const unsigned state);
 
 protected:
-	static ActionController* instance_;
+	class ActionList
+	{
+	public:
+		ActionList() : actionCount(0), maxActions(1000)
+		{
+			actions = new Action*[maxActions];
+		}
+
+		void push_back(Action *action)
+		{
+			actions[actionCount++] = action;
+			if (actionCount == maxActions)
+			{
+				Action **newActions = new Action*[maxActions * 2];
+				memcpy(newActions, actions, sizeof(Action *) * maxActions);
+				delete [] actions;
+				maxActions = maxActions * 2;
+				actions = newActions;
+			}
+		}
+		void clear()
+		{
+			actionCount = 0;
+		}
+
+		int actionCount;
+		Action **actions;
+	private:
+		int maxActions;
+	};
+
 	ScorchedContext *context_;
+	EventContainer events_;
 	RandomGenerator random_;
 	std::list<Action *> newActions_;
-	std::set<Action *> actions_;
+	ActionList actions_;
 	std::map<std::string, int> actionProfile_;
-	ScorchedPhysicsEngine physicsEngine_;
-	ActionBuffer buffer_;
 	int referenceCount_;
+	unsigned int actionNumber_;
 	float speed_;
 	float time_;
 	float lastTraceTime_;
 	float totalTime_;
+	float stepTime_;
 	bool actionProfiling_;
 	bool actionTracing_;
 	bool actionEvents_;
 
+	bool allEvents();
 	void stepActions(float frameTime);
 	void addNewActions();
 

@@ -41,7 +41,18 @@ Shield::ShieldType ShieldRound::getShieldType()
 
 bool ShieldRound::inShield(Vector &offset)
 {
-	return offset.Magnitude() <= radius_;
+	if (offset.Magnitude() <= radius_)
+	{
+		if (!halfShield_) return true;
+
+		Vector normal = offset.Normalize();
+		Vector up(0.0f, 0.0f, 1.0f);
+		if (normal.dotP(up) > 0.7f)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 bool ShieldRound::parseXML(OptionsGame &context,

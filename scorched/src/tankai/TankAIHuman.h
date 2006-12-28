@@ -39,11 +39,9 @@ public:
 	virtual void newGame();
 	virtual void newMatch();
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
-	virtual void shotLanded(ScorchedCollisionType action,
-		ScorchedCollisionInfo *collision,
+	virtual void shotLanded(ScorchedCollisionId collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position,
-		unsigned int landedCounter);
+		Vector &position);
 
 	// Tank move methods and tank defense methods
 	//

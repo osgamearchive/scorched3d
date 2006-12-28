@@ -18,55 +18,52 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <client/ClientActionsHandler.h>
+#include <client/ClientPlayMovesHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
-#include <coms/ComsActionsMessage.h>
+#include <coms/ComsPlayMovesMessage.h>
 
-ClientActionsHandler *ClientActionsHandler::instance_ = 0;
+ClientPlayMovesHandler *ClientPlayMovesHandler::instance_ = 0;
 
-ClientActionsHandler *ClientActionsHandler::instance()
+ClientPlayMovesHandler *ClientPlayMovesHandler::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new ClientActionsHandler;
+		instance_ = new ClientPlayMovesHandler;
 	}
 	return instance_;
 }
 
-ClientActionsHandler::ClientActionsHandler()
+ClientPlayMovesHandler::ClientPlayMovesHandler()
 {
 	ScorchedClient::instance()->getComsMessageHandler().addHandler(
-		"ComsActionsMessage",
+		"ComsPlayMovesMessage",
 		this);
 }
 
-ClientActionsHandler::~ClientActionsHandler()
+ClientPlayMovesHandler::~ClientPlayMovesHandler()
 {
 }
 
-bool ClientActionsHandler::processMessage(
+bool ClientPlayMovesHandler::processMessage(
 	NetMessage &message,
 	const char *messageType,
 	NetBufferReader &reader)
 {
-	// Reset the action controller in anticipation of the new shots
-	ScorchedClient::instance()->getActionController().resetTime();
-	ScorchedClient::instance()->getActionController().getBuffer().clear();
-
 	// Read the new shots into the action controller
-	ComsActionsMessage actionsMessage;
-	if (!actionsMessage.readMessage(reader)) return false;
+	ComsPlayMovesMessage playMovesMessage;
+	if (!playMovesMessage.readMessage(reader)) return false;
 
-	// Set the maximum amount of time to allow for these shots
-	ScorchedClient::instance()->getActionController().setTotalTime(
-		actionsMessage.getTotalTime());
+	// Read the moves from the message
+	readMessage(playMovesMessage);
 
-	// Ensure we are in the shot state
+	// Seed
+	ScorchedClient::instance()->getActionController().getRandom().seed(playMovesMessage.getSeed());
+
+	// Ensure and move to the shot state
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
 	return true;
 }
-

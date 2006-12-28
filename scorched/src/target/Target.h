@@ -79,7 +79,7 @@ public:
 	unsigned int getNameLen() { return name_.size(); }
 
 	// Serialize the target
-	virtual bool writeMessage(NetBuffer &buffer, bool writeAccessories);
+	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
 
 protected:

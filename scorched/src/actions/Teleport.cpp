@@ -63,6 +63,11 @@ Teleport::~Teleport()
 void Teleport::init()
 {
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
+
+	const float ShowTime = 5.0f;
+	ActionMeta *pos = new CameraPositionAction(
+		position_, ShowTime, 5);
+	context_->actionController->addAction(pos);
 }
 
 void Teleport::simulate(float frameTime, bool &remove)
@@ -131,18 +136,6 @@ bool Teleport::readAction(NetBufferReader &reader)
 	if (!reader.getFromBuffer(position_)) return false;
 	if (!reader.getFromBuffer(playerId_)) return false;
 	weapon_ = (WeaponTeleport *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-
-	Tank *movedTank = context_->tankContainer->getTankById(playerId_);
-	if (movedTank)
-	{
-		if (movedTank->getState().getState() == TankState::sNormal)
-		{
-			const float ShowTime = 5.0f;
-			ActionMeta *pos = new CameraPositionAction(
-				position_, ShowTime, 5);
-			context_->actionController->getBuffer().clientAdd(-4.0f, pos);
-		}
-	}
 
 	return true;
 }

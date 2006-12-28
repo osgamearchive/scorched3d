@@ -20,11 +20,3 @@
 
 #include <engine/ScorchedCollisionIds.h>
 
-ScorchedCollisionInfo::ScorchedCollisionInfo(
-	ScorchedCollisionId i, 
-	void *d) : 
-	id(i), data(d), collisionOnSurface(true)
-{
-
-}
-

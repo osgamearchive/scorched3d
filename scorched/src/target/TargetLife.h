@@ -22,8 +22,9 @@
 #define __INCLUDE_TargetLifeh_INCLUDE__
 
 #include <engine/ScorchedCollisionIds.h>
-#include <engine/PhysicsEngine.h>
+#include <target/TargetSpaceContainment.h>
 #include <net/NetBuffer.h>
+#include <common/Vector4.h>
 
 class ScorchedContext;
 class Target;
@@ -40,13 +41,18 @@ public:
 	void setTarget(Target *target) { target_ = target; }
 	void setSize(Vector &size);
 	Vector &getSize() { return size_; }
+	Vector4 getQuaternion() { return quaternion_; }
+	Vector getAabbSize() { return aabbSize_; }
 	float getRotation() { return rotation_; }
 	void setRotation(float rotation);
 	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
 	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
 	void setBoundingSphere(bool sphereGeom);
 	bool getBoundingSphere() { return sphereGeom_; }
-	Vector getGeomRelativePosition(Vector &position);
+	TargetSpaceContainment &getSpaceContainment() { return spaceContainment_; }
+
+	float collisionDistance(Vector &position);
+	bool collision(Vector &position);
 
 	// Tank Life / Health
 	float getLife() { return life_; }
@@ -60,7 +66,10 @@ public:
 
 protected:
 	ScorchedContext &context_;
-
+	TargetSpaceContainment spaceContainment_;
+	Target *target_;
+	Vector4 quaternion_;
+	Vector aabbSize_;
 	Vector size_;
 	float rotation_;
 	float life_;
@@ -68,10 +77,9 @@ protected:
 	bool sphereGeom_;
 	bool driveOverToDestroy_;
 
-	// Physics engine stuff
-	dGeomID targetGeom_;
-	ScorchedCollisionInfo targetInfo_;
-	Target *target_;
+	void addToSpace();
+	void removeFromSpace();
+	void updateAABB();
 
 };
 

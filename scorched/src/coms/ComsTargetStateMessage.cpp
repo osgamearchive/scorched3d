@@ -50,7 +50,7 @@ bool ComsTargetStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 			itor != possibletargets.end();
 			itor++)
 		{
-			if ((*itor).second->isTemp())
+			if ((*itor).second->isTarget())
 			{
 				targets[(*itor).first] = (*itor).second;
 			}
@@ -70,7 +70,7 @@ bool ComsTargetStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 		Target *target = (*itor).second;
 		buffer.addToBuffer(target->getPlayerId());
 
-		if (!target->writeMessage(buffer, true)) return false;
+		if (!target->writeMessage(buffer)) return false;
 	}
 	return true;
 }
@@ -128,7 +128,7 @@ bool ComsTargetStateMessage::readMessage(NetBufferReader &reader)
 	{
 		unsigned int playerId = (*itor).first;
 		Target *target = (*itor).second;
-		if (target->isTemp())
+		if (target->isTarget())
 		{
 			if (updatedTargets.find(playerId) == updatedTargets.end())
 			{

@@ -18,41 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankFallingEndh_INCLUDE__)
-#define __INCLUDE_TankFallingEndh_INCLUDE__
+#if !defined(__INCLUDE_TargetSpaceContainmenth_INCLUDE__)
+#define __INCLUDE_TargetSpaceContainmenth_INCLUDE__
 
-#include <engine/PhysicsParticle.h>
-#include <engine/ScorchedCollisionIds.h>
-#include <weapons/Weapon.h>
+#include <set>
 
-class Parachute;
-class TankFallingEnd : public ActionMeta
+class TargetSpaceContainment
 {
 public:
-	TankFallingEnd();
-	TankFallingEnd(Weapon *weapon, 
-		Vector &startPosition,
-		Vector &endPosition,
-		unsigned int fallingPlayerId,
-		unsigned int firedPlayerId,
-		Parachute *parachute,
-		unsigned int data);
-	virtual ~TankFallingEnd();
+	TargetSpaceContainment();
+	virtual ~TargetSpaceContainment();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
+	// Which squares this target ocupies within the target space
+	std::set<int> squares;
 
-	REGISTER_ACTION_HEADER(TankFallingEnd);
-
-protected:
-	Weapon *weapon_;
-	unsigned int fallingPlayerId_;
-	unsigned int firedPlayerId_;
-	unsigned int data_;
-	Parachute *parachute_;
-	Vector startPosition_, endPosition_;
+private:
+	TargetSpaceContainment(TargetSpaceContainment &other);
+	TargetSpaceContainment &operator=(TargetSpaceContainment &other);
 };
 
-#endif // __INCLUDE_TankFallingEndh_INCLUDE__
+#endif // __INCLUDE_TargetSpaceContainmenth_INCLUDE__

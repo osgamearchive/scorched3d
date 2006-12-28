@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/EventContainer.h>
-#include <server/ScorchedServer.h>
+#include <engine/ScorchedContext.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapemap/LandscapeMaps.h>
@@ -32,22 +32,26 @@ EventContainer::~EventContainer()
 {
 }
 
-void EventContainer::initialize()
+void EventContainer::clear()
 {
 	events_.clear();
-
-	LandscapeTex &tex = 
-		*ScorchedServer::instance()->getLandscapeMaps().
-			getDefinitions().getTex();
-	LandscapeDefn &defn = 
-		*ScorchedServer::instance()->getLandscapeMaps().
-			getDefinitions().getDefn();
-
-	addEvents(tex.texDefn.events);
-	addEvents(defn.texDefn.events);
 }
 
-void EventContainer::addEvents(std::vector<LandscapeEvents *> &events)
+void EventContainer::initialize(ScorchedContext &context)
+{
+	clear();
+
+	LandscapeTex &tex = 
+		*context.landscapeMaps->getDefinitions().getTex();
+	LandscapeDefn &defn = 
+		*context.landscapeMaps->getDefinitions().getDefn();
+
+	addEvents(context, tex.texDefn.events);
+	addEvents(context, defn.texDefn.events);
+}
+
+void EventContainer::addEvents(ScorchedContext &context, 
+	std::vector<LandscapeEvents *> &events)
 {
 	std::vector<LandscapeEvents *>::iterator itor;
 	for (itor = events.begin();
@@ -55,11 +59,12 @@ void EventContainer::addEvents(std::vector<LandscapeEvents *> &events)
 		itor++)
 	{
 		LandscapeEvents *event = (*itor);
-		addEvent(event->objects);
+		addEvent(context, event->objects);
 	}
 }
 
-void EventContainer::addEvent(std::vector<LandscapeEvent *> &events)
+void EventContainer::addEvent(ScorchedContext &context, 
+	std::vector<LandscapeEvent *> &events)
 {
 	std::vector<LandscapeEvent *>::iterator itor;
 	for (itor = events.begin();
@@ -71,7 +76,7 @@ void EventContainer::addEvent(std::vector<LandscapeEvent *> &events)
 		EventEntry entry;
 		entry.eventNumber = 0;
 		entry.eventTime = 
-			event->condition->getNextEventTime(++entry.eventNumber);
+			event->condition->getNextEventTime(context, ++entry.eventNumber);
 		events_[event] = entry;
 	}
 }
@@ -93,7 +98,7 @@ void EventContainer::simulate(float frameTime, ScorchedContext &context)
 			event->action->fireAction(context);
 			entry.eventTime = 
 				event->condition->getNextEventTime(
-					++entry.eventNumber);
+					context, ++entry.eventNumber);
 		}
 	}	
 }

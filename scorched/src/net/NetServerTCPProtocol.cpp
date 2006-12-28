@@ -115,7 +115,7 @@ NetMessage *NetServerTCPScorchedProtocol::readBuffer(TCPsocket socket, unsigned 
 	}
 
 	// Cannot recieve a message large than .5 MB
-	if (len > 512000)
+	if (len > 5000000)
 	{
 		Logger::log(formatString("Buffer was too large to recieve.  Size %i.",
 			len));
@@ -215,7 +215,7 @@ NetMessage *NetServerTCPCompressedProtocol::readBuffer(TCPsocket socket, unsigne
 		}
 
 		// Check for silly sized buffer
-		if (dLen > 512000)
+		if (dLen > 5000000)
 		{
 			Logger::log(formatString("Compressed coms buffer was too large to recieve. Size = %i.",
 				dLen));

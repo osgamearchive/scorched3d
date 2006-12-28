@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/TankMovement.h>
-#include <actions/TankMovementEnd.h>
 #include <actions/TankFalling.h>
+#include <actions/TankDamage.h>
 #include <actions/ShotProjectile.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
@@ -30,6 +30,7 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapemap/MovementMap.h>
+#include <landscapemap/DeformLandscape.h>
 #include <landscape/Smoke.h>
 #include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
@@ -40,6 +41,7 @@
 #include <tank/TankAccessories.h>
 #include <target/TargetLife.h>
 #include <target/TargetState.h>
+#include <target/TargetSpace.h>
 #include <graph/ImageStore.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <common/OptionsGame.h>
@@ -47,7 +49,6 @@
 #include <sound/Sound.h>
 
 static const int NoMovementTransitions = 4;
-std::map<unsigned int, TankMovement*> TankMovement::movingTanks;
 
 REGISTER_ACTION_SOURCE(TankMovement);
 
@@ -78,8 +79,6 @@ TankMovement::~TankMovement()
 
 void TankMovement::init()
 {
-	movingTanks[playerId_] = this;
-
 	Tank *tank = context_->tankContainer->getTankById(playerId_);
 	if (!tank) return;	
 
@@ -199,13 +198,6 @@ void TankMovement::simulate(float frameTime, bool &remove)
 	ActionMeta::simulate(frameTime, remove);
 }
 
-void TankMovement::remove()
-{
-	remove_ = true;
-
-	TankMovement::movingTanks.erase(playerId_);
-}
-
 void TankMovement::simulationMove(float frameTime)
 {
 	Tank *tank = 
@@ -265,11 +257,19 @@ void TankMovement::simulationMove(float frameTime)
 
 	if (moving_ == false)
 	{
-		// If this is the very last movement made
-		// Ensure all tanks always end in the same place
-		context_->actionController->addAction(
-			new TankMovementEnd(tank->getPosition().getTankPosition(),
-				tank->getPlayerId()));
+		Tank *current = 
+			context_->tankContainer->getTankById(playerId_);
+		if (current)
+		{
+			current->getLife().setRotation(0.0f);
+			if (current->getState().getState() == TankState::sNormal)
+			{
+				// Move the tank to the final position
+				DeformLandscape::flattenArea(*context_, current->getTargetPosition(), 0);
+			}
+		}
+
+		remove_ = true;
 	}
 }
 
@@ -350,6 +350,41 @@ void TankMovement::moveTank(Tank *tank)
 	// Actually move the tank
 	tank->getLife().setRotation(a);
 	tank->setTargetPosition(newPos);
+
+	// Remove the targets that this tank "drives over"
+	std::map<unsigned int, Target *> collisionTargets;
+	context_->targetSpace->getCollisionSet(
+		tank->getTargetPosition(), 3.0f, collisionTargets, false);
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = collisionTargets.begin();
+		itor != collisionTargets.end();
+		itor++)
+	{
+		// Check that this is a target we have driven over
+		// and we can destroy it
+		Target *target = (*itor).second;
+		if (target->isTarget() &&
+			target->getLife().getDriveOverToDestroy())
+		{
+			// Kill the target we've driven over
+			context_->actionController->addAction(
+				new TankDamage(weapon_, target->getPlayerId(), tank->getPlayerId(), 
+					target->getLife().getLife(),
+					false, false, false, 0));
+
+			// Do a small explosion where we remove this target
+			Accessory *accessory = 
+				context_->accessoryStore->findByPrimaryAccessoryName("DriveOverDestroy");
+			if (accessory && accessory->getType() == AccessoryPart::AccessoryWeapon)
+			{
+				Weapon *weapon = (Weapon *) accessory->getAction();
+				weapon->fireWeapon(*context_, 
+					tank->getPlayerId(),
+					tank->getTargetPosition(), 
+					Vector::nullVector);
+			}
+		}
+	}
 
 	// Add tracks
 #ifndef S3D_SERVER

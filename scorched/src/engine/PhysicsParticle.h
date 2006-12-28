@@ -25,27 +25,30 @@
 // Need to find a better way to do this
 
 #include <engine/ActionMeta.h>
-#include <common/Vector.h>
 #include <engine/PhysicsParticleObject.h>
 
-class PhysicsParticle : public Action
+class PhysicsParticle : 
+	public Action, 
+	public PhysicsParticleObjectHandler
 {
 public:
 	PhysicsParticle();
 	virtual ~PhysicsParticle();
 
 	virtual void setPhysics(
+		PhysicsParticleInfo info,
 		Vector &position, Vector &velocity,
 		float sphereSize = 0.0f,
 		float sphereDensity = 0.0f,
-		float windFactor = 1.0f);
-	virtual void collision(Vector &position);
+		float windFactor = 1.0f,
+		bool underGroundCollision = false);
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId);
 
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
 
 	void applyForce(Vector &force);
-	void setData(void *data);
 
 	// Inherited from action
 	virtual void simulate(float timepassed, bool &remove);
@@ -57,23 +60,27 @@ protected:
 
 };
 
-class PhysicsParticleMeta : public ActionMeta
+class PhysicsParticleMeta : 
+	public ActionMeta,
+	public PhysicsParticleObjectHandler
 {
 public:
 	PhysicsParticleMeta();
 	virtual ~PhysicsParticleMeta();
 
 	virtual void setPhysics(
+		PhysicsParticleInfo info,
 		Vector &position, Vector &velocity,
 		float sphereSize = 0.0f,
 		float sphereDensity = 0.0f,
-		float windFactor = 1.0f);
-	virtual void collision(Vector &position);
+		float windFactor = 1.0f,
+		bool underGroundCollision = false);
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId);
 
 	Vector &getCurrentPosition();
 	Vector &getCurrentVelocity();
-	float *getRotationQuat();
-	void setData(void *data);
+	Vector4 &getRotationQuat();
 	void setCurrentPosition(Vector &position);
 
 	void applyForce(Vector &force);
@@ -85,8 +92,6 @@ protected:
 	PhysicsParticleObject physicsObject_;
 	bool collision_;
 	float totalActionTime_;
-	Vector warpPosition_;
-	bool warp_;
 
 };
 

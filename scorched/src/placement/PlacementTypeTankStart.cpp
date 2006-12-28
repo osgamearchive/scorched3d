@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <placement/PlacementTypeTankStart.h>
-#include <server/ServerNewGameState.h>
+#include <placement/PlacementTankPosition.h>
 #include <engine/ScorchedContext.h>
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
@@ -51,7 +51,7 @@ void PlacementTypeTankStart::getPositions(ScorchedContext &context,
 	{
 		Position position;
 		position.position = 
-			ServerNewGameState::placeTank(0, team, context, generator);
+			PlacementTankPosition::placeTank(0, team, context, generator);
 
 		if (checkCloseness(position.position, context, 
 			returnPositions, mincloseness))

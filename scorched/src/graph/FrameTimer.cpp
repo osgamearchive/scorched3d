@@ -63,18 +63,6 @@ void FrameTimer::draw(const unsigned state)
 	frameCount_++;
 }
 
-int FrameTimer::geomCount(dSpaceID space)
-{
-	int enabledGeoms = 0;
-	int geoms = dSpaceGetNumGeoms(space);
-	for (int i=0; i<geoms; i++)
-	{
-		dGeomID geom = dSpaceGetGeom(space, i);
-		if (dGeomIsEnabled(geom) == 1) enabledGeoms++;
-	}
-	return enabledGeoms;
-}
-
 void FrameTimer::simulate(const unsigned state, float frameTime)
 {
 	totalTime_ += frameTime;
@@ -94,23 +82,12 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 		unsigned int tris = GLInfo::getNoTriangles();
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
-			int enabledGeoms = 
-				//geomCount(ScorchedClient::instance()->getActionController().
-				//	getPhysics().getTargetSpace()) +
-				geomCount(ScorchedClient::instance()->getActionController().
-					getPhysics().getTankSpace()) +
-				geomCount(ScorchedClient::instance()->getActionController().
-					getPhysics().getParticleSpace()) +
-				geomCount(ScorchedClient::instance()->getActionController().
-					getPhysics().getGroundSpace());
-
 			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
 				formatString("%.2f FPS", fps)));
 			Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
-				formatString("%iTRI %iPART %iGEOM %iSQR %iSND %uSHD", 
+				formatString("%iTRI %iPART %iSQR %iSND %uSHD", 
 					tris,
 					pOnScreen,
-					enabledGeoms,
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
 					Sound::instance()->getPlayingChannels(),
 					Landscape::instance()->getShadowMap().getShadowCount())));

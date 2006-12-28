@@ -379,7 +379,10 @@ bool TankAccessories::readMessage(NetBufferReader &reader)
 
 		Accessory *accessory = 
 			context_.accessoryStore->findByAccessoryId(accessoryId);
-		if (!accessoryId) return false;
+		if (!accessory)
+		{
+			return false;
+		}
 
 		add_(accessory, accessoryCount, false);
 	}

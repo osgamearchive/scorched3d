@@ -25,7 +25,6 @@
 #include <server/ServerDefenseHandler.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
-#include <actions/TankSay.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <coms/ComsMessageSender.h>
@@ -156,25 +155,21 @@ void TankAIComputer::newGame()
 void TankAIComputer::tankHurt(Weapon *weapon, unsigned int firer)
 {
 	tankTarget_.tankHurt(weapon, firer);
-	if (currentTank_->getState().getState() == TankState::sDead)
-	{
-		const char *line = TankAIStrings::instance()->getDeathLine();
-		if (line) say(line);
-	}
 }
 
-void TankAIComputer::shotLanded(ScorchedCollisionType action,
-								ScorchedCollisionInfo *collision,
+void TankAIComputer::shotLanded(ScorchedCollisionId collision,
 								Weapon *weapon, unsigned int firer, 
-								Vector &position,
-								unsigned int landedCounter)
+								Vector &position)
 {
-	tankTarget_.shotLanded(action, collision, weapon, firer,
-		position, landedCounter);
+	tankTarget_.shotLanded(collision, weapon, firer,
+		position);
 	if (primaryShot_ && firer == currentTank_->getPlayerId())
 	{
 		Vector newPosition = position;
-		if (action == CollisionWall)
+		if (collision == CollisionIdWallLeft ||
+			collision == CollisionIdWallRight ||
+			collision == CollisionIdWallTop ||
+			collision == CollisionIdWallBottom)
 		{
 			// Pretend the shot went through the wall so 
 			// the ai gets the length it would have travelled and thus
@@ -236,17 +231,6 @@ void TankAIComputer::raiseDefenses()
 
 	// Try to raise shields (fails if we don't have any)
 	if (useShields_) selectFirstShield();
-}
-
-void TankAIComputer::say(const char *text)
-{
-	std::string newText(currentTank_->getName());
-	newText += ": ";
-	unsigned int infoLen = newText.length();
-	newText += text;
-
-	ScorchedServer::instance()->getActionController().addAction(
-		new TankSay(currentTank_->getPlayerId(), newText.c_str(), infoLen));
 }
 
 void TankAIComputer::playMove(const unsigned state, float frameTime, 

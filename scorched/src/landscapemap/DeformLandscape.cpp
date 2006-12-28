@@ -24,7 +24,9 @@
 #include <landscapedef/LandscapeDefinition.h>
 #include <target/TargetContainer.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <engine/ScorchedContext.h>
+#include <engine/SyncCheck.h>
 #include <common/Defines.h>
 #include <math.h>
 
@@ -33,6 +35,10 @@ bool DeformLandscape::deformLandscape(
 	Vector &pos, float radius, bool down, DeformPoints &map,
 	unsigned int playerId)
 {
+	/*SyncCheck::instance()->addString(context, 
+		formatString("Deform : %f,%f,%f %f %s", 
+			pos[0], pos[1], pos[2], radius, (down?"Down":"Up")));*/
+
 	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 
 	bool hits = false;
@@ -121,14 +127,6 @@ bool DeformLandscape::deformLandscape(
 		}
 	}
 
-	if (hits)
-	{
-		// Recalcualte the normals
-		hmap.generateNormals(
-			MAX(0, (int) (pos[0] - radius - 3.0f)), MIN(hmap.getMapWidth(), (int) (pos[0] + radius + 4.0f)),
-			MAX(0, (int) (pos[1] - radius - 3.0f)), MIN(hmap.getMapHeight(), (int) (pos[1] + radius + 3.0f)));
-	}
-
 	return hits;
 }
 
@@ -136,6 +134,10 @@ void DeformLandscape::flattenArea(
 	ScorchedContext &context, Vector &tankPos, unsigned int playerId,
 	bool removeObjects, float size)
 {
+	/*SyncCheck::instance()->addString(context, 
+		formatString("Flatten : %f,%f,%f %f", 
+			tankPos[0], tankPos[1], tankPos[2], size));*/
+
 	int iSize = (int) size;
 	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 	int posX = (int) tankPos[0];
@@ -157,36 +159,22 @@ void DeformLandscape::flattenArea(
 		}
 	}
 
-	// Recalcualte the normals
-	hmap.generateNormals(
-		MAX(0, posX - iSize - 1), MIN(hmap.getMapWidth(), posX + iSize + 1),
-		MAX(0, posY - iSize - 1), MIN(hmap.getMapHeight(), posY + iSize + 1));
-
 	if (removeObjects)
 	{
-		// Get the tanks
-		std::map<unsigned int, Target *> targets = // A Copy
-			context.targetContainer->getTargets();
-		std::map<unsigned int, Target *>::iterator targetItor;
-
-		for (targetItor = targets.begin();
-			targetItor != targets.end();
-			targetItor++)
+		// Remove any targets in this location
+		std::map<unsigned int, Target *> collisionTargets;
+		context.targetSpace->getCollisionSet(tankPos, size * 1.5f, collisionTargets);
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = collisionTargets.begin();
+			itor != collisionTargets.end();
+			itor++)
 		{
-			Target *target = (*targetItor).second;
-			if (target->getAlive() &&
-				target->isTarget())
+			Target *target = (*itor).second;
+			if (target->isTarget())
 			{
-				Vector position = target->getTargetPosition();
-				if (position[0] > tankPos[0] - size - target->getLife().getSize()[0] / 2.0f &&
-					position[0] < tankPos[0] + size + target->getLife().getSize()[0] / 2.0f &&
-					position[1] > tankPos[1] - size - target->getLife().getSize()[1] / 2.0f &&
-					position[1] < tankPos[1] + size + target->getLife().getSize()[1] / 2.0f)
-				{
-					Target *removedTarget = 
-						context.targetContainer->removeTarget(target->getPlayerId());
-					delete removedTarget;
-				}
+				Target *removedTarget = 
+					context.targetContainer->removeTarget(target->getPlayerId());
+				delete removedTarget;
 			}
 		}
 	}

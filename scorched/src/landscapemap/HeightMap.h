@@ -36,9 +36,8 @@ public:
 	void create(int width, int height);
 	void backup();
 	void reset();
+	void resetNormals();
 	void resetMinHeight();
-	void generateNormals(int minX, int maxX, int minY, 
-		int maxY, ProgressCounter *counter = 0);
 
 	// Height map size fns
 	int getMapWidth() { return width_; }
@@ -60,10 +59,7 @@ public:
 	float getInterpHeight(float w, float h);
 
 	// Get normal functions
-	inline Vector &getNormal(int w, int h) {
-		if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
-			return normals_[(width_+1) * h + w]; 
-		return nvec; }
+	inline Vector &getNormal(int w, int h);
 	void getInterpNormal(float w, float h, Vector &normal);
 
 	bool getIntersect(Line &direction, Vector &intersect);
@@ -71,7 +67,6 @@ public:
 	// Returns the actual internal HeightMap points
 	// Should not be used
 	void setHeight(int w, int h, float height);
-	float *getData() { return hMap_; }
 
 protected:
 	Vector nvec;

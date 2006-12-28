@@ -27,6 +27,7 @@
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <weapons/AccessoryStore.h>
 #include <math.h>
 
@@ -61,22 +62,27 @@ void Lightning::init()
 	generator_ = new RandomGenerator();
 	generator_->seed(playerId_);
 	Vector direction = velocity_.Normalize();
-	std::map<Target *, float> hurtMap;
+	std::map<unsigned int, float> hurtMap;
 
 	generateLightning(0, 1, weapon_->getSize(), 
 		position_, direction, position_, direction,
 		hurtMap);
 
-	std::map<Target *, float>::iterator hurtItor;
+	std::map<unsigned int, float>::iterator hurtItor;
 	for (hurtItor = hurtMap.begin();
 		hurtItor != hurtMap.end();
 		hurtItor++)
 	{
-		Target *target = (*hurtItor).first;
+		unsigned int playerId = (*hurtItor).first;
 		float damage = (*hurtItor).second;
-		TargetDamageCalc::damageTarget(
-			*context_, target, weapon_, playerId_, 
-			damage, true, false, false, data_);
+
+		Target *target = context_->targetContainer->getTargetById(playerId);
+		if (target)
+		{
+			TargetDamageCalc::damageTarget(
+				*context_, target, weapon_, playerId_, 
+				damage, true, false, false, data_);
+		}
 	}
 }
 
@@ -218,7 +224,7 @@ void Lightning::dispaceDirection(Vector &direction,
 void Lightning::generateLightning(int id, int depth, float size, 
 	Vector &originalPosition, Vector &originalDirection,
 	Vector &start, Vector &direction,
-	std::map<Target *, float> &hurtMap)
+	std::map<unsigned int, float> &hurtMap)
 {
 	if (id > 100) return;
 
@@ -286,15 +292,16 @@ void Lightning::generateLightning(int id, int depth, float size,
 }
 
 void Lightning::damageTargets(Vector &position, 
-		std::map<Target *, float> &hurtMap)
+		std::map<unsigned int, float> &hurtMap)
 {
 	if (weapon_->getSegHurt() <= 0.0f) return;
 
-	std::map<unsigned int, Target *> &targets = 
-		context_->targetContainer->getTargets();
+	std::map<unsigned int, Target *> collisionTargets;
+	context_->targetSpace->getCollisionSet(position, 
+		weapon_->getSegHurtRadius() * 1.5f, collisionTargets);
 	std::map<unsigned int, Target *>::iterator itor;
-	for (itor = targets.begin();
-		itor != targets.end();
+	for (itor = collisionTargets.begin();
+		itor != collisionTargets.end();
 		itor++)
 	{
 		Target *target = (*itor).second;
@@ -306,15 +313,15 @@ void Lightning::damageTargets(Vector &position,
 			if (distance < weapon_->getSegHurtRadius() + 
 				MAX(target->getLife().getSize()[0], target->getLife().getSize()[1]))
 			{
-				std::map<Target *, float>::iterator findItor = 
-					hurtMap.find(target);
+				std::map<unsigned int, float>::iterator findItor = 
+					hurtMap.find(target->getPlayerId());
 				if (findItor == hurtMap.end())
 				{
-					hurtMap[target] = weapon_->getSegHurt();
+					hurtMap[target->getPlayerId()] = weapon_->getSegHurt();
 				}
 				else
 				{
-					hurtMap[target] += weapon_->getSegHurt();
+					hurtMap[target->getPlayerId()] += weapon_->getSegHurt();
 				}
 			}
 		}

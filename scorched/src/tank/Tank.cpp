@@ -146,7 +146,7 @@ Vector &Tank::getColor()
 
 bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (!Target::writeMessage(buffer, writeAccessories)) return false;  // Base class 1st
+	if (!Target::writeMessage(buffer)) return false;  // Base class 1st
 	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(team_);
 	buffer.addToBuffer(color_);

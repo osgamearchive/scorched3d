@@ -18,8 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef HAVE_MYSQL
-
 #include <common/StatsLoggerDatabase.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
@@ -266,7 +264,7 @@ void StatsLoggerDatabase::createLogger()
 		weaponId_[accessory->getName()] = weaponId;
 	}
 
-	Logger::log(formatString("mysql stats logger started, prefix=%i, server=%i, series=%i",
+	Logger::log(formatString("database stats logger started, prefix=%i, server=%i, series=%i",
 		prefixid_, serverid_, seriesid_));
 }
 
@@ -1041,4 +1039,3 @@ void StatsLoggerDatabase::weaponKilled(Weapon *weapon, bool deathAni)
 	}
 }
 
-#endif

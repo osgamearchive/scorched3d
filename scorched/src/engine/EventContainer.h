@@ -30,7 +30,8 @@ public:
 	EventContainer();
 	virtual ~EventContainer();
 
-	void initialize();
+	void clear();
+	void initialize(ScorchedContext &context);
 	void simulate(float frameTime, ScorchedContext &context);
 
 protected:
@@ -42,8 +43,10 @@ protected:
 
 	std::map<LandscapeEvent *, EventEntry> events_;
 
-	void addEvent(std::vector<LandscapeEvent *> &events);
-	void addEvents(std::vector<LandscapeEvents *> &events);
+	void addEvent(ScorchedContext &context, 
+		std::vector<LandscapeEvent *> &events);
+	void addEvents(ScorchedContext &context, 
+		std::vector<LandscapeEvents *> &events);
 };
 
 #endif // __INCLUDE_EventContainerh_INCLUDE__

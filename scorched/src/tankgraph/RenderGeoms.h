@@ -21,8 +21,6 @@
 #if !defined(__INCLUDE_RenderGeomsh_INCLUDE__)
 #define __INCLUDE_RenderGeomsh_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
-
 class RenderGeoms
 {
 public:
@@ -31,7 +29,9 @@ public:
 	virtual void draw(const unsigned state);
 
 protected:
-	void drawSpace(dSpaceID space);
+	void drawTargetSpace();
+	void drawCollisionBounds();
+	void drawCollisionGeoms();
 
 private:
 	RenderGeoms();

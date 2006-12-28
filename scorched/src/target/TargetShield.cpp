@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <target/TargetShield.h>
+#include <target/TargetSpace.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/ShieldRound.h>
 #include <weapons/ShieldSquare.h>
@@ -28,18 +29,14 @@
 TargetShield::TargetShield(ScorchedContext &context,
 	unsigned int playerId) :
 	context_(context),
-	shieldInfo_(CollisionIdShield),
-	currentShield_(0), shieldGeom_(0),
-	power_(0)
+	currentShield_(0),
+	power_(0), 
+	target_(0)
 {
-	shieldInfo_.data = (void *) playerId;
-	setCurrentShield(0);
 }
 
 TargetShield::~TargetShield()
 {
-	if (shieldGeom_) context_.actionController->getPhysics().destroyGeom(shieldGeom_);
-	shieldGeom_ = 0;
 }
 
 void TargetShield::newGame()
@@ -50,46 +47,25 @@ void TargetShield::newGame()
 void TargetShield::setPosition(Vector &pos)
 {
 	position_ = pos;
-	if (shieldGeom_) dGeomSetPosition(shieldGeom_, pos[0], pos[1], pos[2]);
 }
 
 void TargetShield::setCurrentShield(Accessory *sh)
 {
-	if (shieldGeom_) context_.actionController->getPhysics().destroyGeom(shieldGeom_);
-	shieldGeom_ = 0;
-
 	if (sh)
 	{
 		Shield *shield = (Shield *) sh->getAction();
 		power_ = shield->getPower();
 		currentShield_ = sh;	
-
-		dSpaceID spaceId = context_.actionController->getPhysics().getTargetSpace();
-		if (shield->getRound())
-		{
-			ShieldRound *round = (ShieldRound *) shield;
-			shieldGeom_ = dCreateSphere(spaceId, 
-				round->getActualRadius());
-		}
-		else
-		{
-			ShieldSquare *square = (ShieldSquare *) shield;
-			shieldGeom_ = dCreateBox(spaceId, 
-				square->getSize()[0] * 2.0f, 
-				square->getSize()[1] * 2.0f, 
-				square->getSize()[2] * 2.0f);
-		}
-
-		dGeomSetData(shieldGeom_, &shieldInfo_);
-		dGeomEnable(shieldGeom_);
-
-		setPosition(position_);
 	}
 	else
 	{
 		power_ = 0.0f;
 		currentShield_ = 0;
 	}
+
+	// Update the target space with this new shield information
+	context_.targetSpace->removeTarget(target_);
+	context_.targetSpace->addTarget(target_);
 }
 
 void TargetShield::setShieldPower(float power)

@@ -22,14 +22,15 @@
 #define AFX_TankAIStrings_H__C6D1A1B3_EA15_43B7_9232_A90A5D0CF60B__INCLUDED_
 
 #include <common/FileLines.h>
+#include <common/RandomGenerator.h>
 
 class TankAIStrings  
 {
 public:
 	static TankAIStrings *instance();
 
-	const char *getDeathLine();
-	const char *getAttackLine();
+	const char *getDeathLine(RandomGenerator &generator);
+	const char *getAttackLine(RandomGenerator &generator);
 	const char *getPlayerName();
 	const char *getAIPlayerName();
 

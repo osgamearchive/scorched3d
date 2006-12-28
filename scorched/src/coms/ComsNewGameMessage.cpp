@@ -27,7 +27,8 @@
 
 ComsNewGameMessage::ComsNewGameMessage() :
 	ComsMessage("ComsNewGameMessage"),
-	gameStateEnclosed_(false)
+	gameStateEnclosed_(false),
+	playerState_(true)
 {
 
 }

@@ -39,11 +39,9 @@ public:
 	virtual void newGame();
 	virtual bool parseConfig(AccessoryStore *store, XMLNode *node);
 	virtual void tankHurt(Weapon *weapon, unsigned int firer);
-	virtual void shotLanded(ScorchedCollisionType action,
-		ScorchedCollisionInfo *collision,
+	virtual void shotLanded(ScorchedCollisionId collision,
 		Weapon *weapon, unsigned int firer, 
-		Vector &position,
-		unsigned int landedCounter);
+		Vector &position);
 	virtual void playMove(const unsigned state, float frameTime, 
 		char *buffer, unsigned int keyState);
 
@@ -71,7 +69,6 @@ public:
 	virtual void parachutesUpDown(unsigned int paraId=0);
 	virtual void shieldsUpDown(unsigned int name=0);
 	virtual void useBattery(unsigned int batteryId);
-	void say(const char *text);
 
 TANKAI_DEFINE(TankAIComputer);
 

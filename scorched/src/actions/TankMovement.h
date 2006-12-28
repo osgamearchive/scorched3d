@@ -34,8 +34,6 @@ class Tank;
 class TankMovement : public ActionMeta
 {
 public:
-	static std::map<unsigned int, TankMovement*> movingTanks;
-
 	TankMovement();
 	TankMovement(unsigned int playerId,
 		WeaponMoveTank *weapon_,
@@ -46,8 +44,6 @@ public:
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);
 	virtual bool readAction(NetBufferReader &reader);
-
-	void remove();
 
 	REGISTER_ACTION_HEADER(TankMovement);
 

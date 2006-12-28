@@ -40,12 +40,18 @@ CameraPositionAction::CameraPositionAction(Vector &showPosition,
 
 CameraPositionAction::~CameraPositionAction()
 {
-	CameraPositionActionRegistry::rmCameraPositionAction(this);
+	if (!context_->serverMode)
+	{
+		CameraPositionActionRegistry::rmCameraPositionAction(this);
+	}
 }
 
 void CameraPositionAction::init()
 {
-	CameraPositionActionRegistry::addCameraPositionAction(this);
+	if (!context_->serverMode)
+	{
+		CameraPositionActionRegistry::addCameraPositionAction(this);
+	}
 	startTime_ = context_->actionController->getActionTime();
 }
 

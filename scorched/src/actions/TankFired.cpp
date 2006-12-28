@@ -20,6 +20,7 @@
 
 #include <actions/TankFired.h>
 #include <actions/Explosion.h>
+#include <actions/TankSay.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
@@ -27,6 +28,7 @@
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <tank/TankPosition.h>
+#include <tankai/TankAIStrings.h>
 #include <target/TargetRenderer.h>
 
 REGISTER_ACTION_SOURCE(TankFired);
@@ -65,6 +67,22 @@ void TankFired::simulate(float frameTime, bool &remove)
 			tank->getPosition().rotateGunXY(rotXY_, false);
 			tank->getPosition().rotateGunYZ(rotXZ_, false);
 			tank->getPosition().madeShot();
+
+			if (tank->getDestinationId() == 0)
+			{
+				const char *line = TankAIStrings::instance()->getAttackLine(
+					context_->actionController->getRandom());
+				if (line)
+				{
+					std::string newText(tank->getName());
+					newText += ": ";
+					unsigned int infoLen = newText.length();
+					newText += line;
+
+					context_->actionController->addAction(
+						new TankSay(tank->getPlayerId(), newText.c_str(), infoLen));
+				}
+			}
 
 #ifndef S3D_SERVER
 			if (!context_->serverMode) 

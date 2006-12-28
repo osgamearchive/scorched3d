@@ -21,6 +21,9 @@
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
 #include <tankgraph/RenderTracer.h>
+#include <tank/TankContainer.h>
+#include <tank/TankState.h>
+#include <tankai/TankAI.h>
 #include <common/Defines.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ViewPoints.h>
@@ -29,12 +32,11 @@
 
 REGISTER_ACTION_SOURCE(ShotProjectile);
 
-Vector ShotProjectile::lookatPosition_;
-unsigned int ShotProjectile::lookatCount_ = 0;
-
 ShotProjectile::ShotProjectile() : 
-	collisionInfo_(CollisionIdShot), vPoint_(0), 
-	snapTime_(0.2f),  up_(false), landedCounter_(0), data_(0),
+	vPoint_(0), 
+	snapTime_(0.2f), 
+	up_(false), 
+	data_(0),
 	totalTime_(0.0)
 {
 
@@ -44,12 +46,11 @@ ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   WeaponProjectile *weapon, unsigned int playerId,
 							   unsigned int flareType,
 							   unsigned int data) :
-	collisionInfo_(CollisionIdShot), 
 	startPosition_(startPosition), velocity_(velocity), 
 	weapon_(weapon), playerId_(playerId), 
 	flareType_(flareType), vPoint_(0),
 	snapTime_(0.2f), up_(false),
-	landedCounter_(0), data_(data),
+	data_(data),
 	totalTime_(0.0)
 {
 
@@ -65,10 +66,9 @@ void ShotProjectile::init()
 #endif // #ifndef S3D_SERVER
 
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
-	setPhysics(startPosition_, velocity_, 0.0f, 0.0f, weapon_->getWindFactor());
-	collisionInfo_.data = this;
-	collisionInfo_.collisionOnSurface = !getWeapon()->getUnder();
-	physicsObject_.setData(&collisionInfo_);
+	PhysicsParticleInfo info(ParticleTypeShot, playerId_, this);
+	setPhysics(info, startPosition_, velocity_, 
+		0.0f, 0.0f, weapon_->getWindFactor(), getWeapon()->getUnder());
 }
 
 ShotProjectile::~ShotProjectile()
@@ -76,10 +76,33 @@ ShotProjectile::~ShotProjectile()
 	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
 }
 
-void ShotProjectile::collision(Vector &position)
+void ShotProjectile::collision(PhysicsParticleObject &position, 
+	ScorchedCollisionId collisionId)
 {
 	if (!collision_)
 	{
+		// Tell all AIs about this collision
+		std::map<unsigned int, Tank *> tanks = 
+			context_->tankContainer->getAllTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			TankAI *ai = tank->getTankAI();
+			if (ai)
+			{		
+				if (tank->getState().getState() == TankState::sNormal &&
+					!tank->getState().getSpectator())
+				{
+					ai->shotLanded(collisionId, 
+						getWeapon(), getPlayerId(), 
+						getCurrentPosition());
+				}
+			}
+		}
+
 		bool doColl = true;
 
 		// Apex collisions dud if they collide with the ground
@@ -93,9 +116,9 @@ void ShotProjectile::collision(Vector &position)
 			doColl = false;
 		}
 
-		if (doColl) doCollision(position);
+		if (doColl) doCollision(position.getPosition());
 	}
-	PhysicsParticleMeta::collision(position);
+	PhysicsParticleMeta::collision(position, collisionId);
 }
 
 void ShotProjectile::simulate(float frameTime, bool &remove)

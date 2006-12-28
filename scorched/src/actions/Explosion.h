@@ -42,6 +42,8 @@ public:
 		unsigned int playerId, unsigned int data);
 	virtual ~Explosion();
 
+	Vector &getPosition() { return position_; }
+
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual bool writeAction(NetBuffer &buffer);

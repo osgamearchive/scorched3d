@@ -100,7 +100,6 @@ void GroundMaps::generateHMap(
 					smap_.setHeight(i, j, 0);
 				}
 			}
-			smap_.generateNormals(0, smap_.getMapWidth(), 0, smap_.getMapHeight());
 		}
 	}
 }

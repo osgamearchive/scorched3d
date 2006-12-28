@@ -21,6 +21,7 @@
 #include <target/TargetDamageCalc.h>
 #include <tank/TankContainer.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <common/Vector.h>
 #include <common/Logger.h>
 #include <engine/ActionController.h>
@@ -33,81 +34,18 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 							   bool shieldOnlyDamage,
 							   unsigned int data)
 {
+	std::map<unsigned int, Target *> collisionTargets;
+	context.targetSpace->getCollisionSet(position, radius, collisionTargets, true);
 	std::map<unsigned int, Target *>::iterator itor;
-	std::map<unsigned int, Target *> &targets = 
-		context.targetContainer->getTargets();
-	for (itor = targets.begin();
-		itor != targets.end();
+	for (itor = collisionTargets.begin();
+		itor != collisionTargets.end();
 		itor++)
 	{
 		Target *current = (*itor).second;
 		if (!current->getAlive()) continue;
-
-		Vector &currentPosition = current->getCenterPosition();
-		Vector direction = position - currentPosition;
-		float dist = 0.0f;
-
-		// Get how close the exposion was
-		if (current->getLife().getBoundingSphere())
-		{
-			// Find how close the explosion was to the 
-			// outside of the sphere
-			float sphereRadius = MAX(
-				current->getLife().getSize()[0], 
-				current->getLife().getSize()[1]) / 2.0f;
-
-			dist = direction.Magnitude() - sphereRadius;
-			if (dist < 0.0f) dist = 0.0f;
-		}
-		else
-		{
-			// Make the direction relative to the geom
-			// incase the geom has been rotated
-			Vector relativeDirection = 
-				current->getLife().getGeomRelativePosition(direction);
-
-			// Find how close the explosion was to the 
-			// outside edge of the cube
-			Vector touchPosition = relativeDirection;
-
-			// Check each size of the cube to see if the point is outside.
-			// If it is, then scale it back until the point sits on the
-			// outside edge of the cube.
-			int inner = 0;
-			for (int i=0; i<3; i++)
-			{
-				float halfSize = current->getLife().getSize()[i] / 2.0f;
-				if (touchPosition[i] < -halfSize)
-				{
-					// Scale the point so it sits on this edge
-					float diff = -halfSize / touchPosition[i];
-					touchPosition *= diff;
-				}
-				else if (touchPosition[i] > halfSize)
-				{
-					// Scale the point so it sits on this edge
-					float diff = halfSize / touchPosition[i];
-					touchPosition *= diff;
-				}
-				else inner++; // The point is inside this edge
-			}
-
-			if (inner == 3)
-			{
-				// We are inside the cube
-				dist = 0.0f;
-			}
-			else
-			{
-				// We are outside the cube
-				relativeDirection -= touchPosition;
-				dist = relativeDirection.Magnitude();
-			}
-
-			//Logger::log(formatString("%.1f", dist));
-		}
 		
 		// Check if the explosion causes damage
+		float dist = current->getLife().collisionDistance(position);
 		if (dist < radius)
 		{
 			// Direct hit by explosion
@@ -123,6 +61,8 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 		}
 		else 
 		{
+			Vector &currentPosition = current->getCenterPosition();
+			Vector direction = position - currentPosition;
 			float dist2d = sqrtf(direction[0] * direction[0] + 
 				direction[1] * direction[1]);
 			if (dist2d < radius + 5.0f)

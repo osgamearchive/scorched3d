@@ -23,7 +23,7 @@
 #include <time.h>
 
 FileLogger::FileLogger(const char *fileName) : 
-	lines_(0), logFile_(0), fileName_(fileName)
+	size_(0), logFile_(0), fileName_(fileName)
 {
 
 }
@@ -34,18 +34,19 @@ FileLogger::~FileLogger()
 
 void FileLogger::logMessage(LoggerInfo &info)
 {
-	const unsigned int MaxLines = 4000;
-	if (!logFile_ || (lines_++>MaxLines)) openFile(fileName_.c_str());
+	const unsigned int MaxSize = 256000;
+	if (!logFile_ || (size_>MaxSize)) openFile(fileName_.c_str());
 	if (!logFile_) return;
 
 	// Log to file and flush file
+	size_ += info.getMessageLen();
 	fprintf(logFile_, "%s - %s\n", info.getTime(), info.getMessage());
 	fflush(logFile_);
 }
 
 void FileLogger::openFile(const char *fileName)
 {
-	lines_ = 0;
+	size_ = 0;
 	if (logFile_) fclose(logFile_);
 
 	time_t theTime = time(0);

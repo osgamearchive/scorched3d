@@ -35,7 +35,7 @@ public:
 protected:
 	std::string fileName_;
 	FILE *logFile_;
-	unsigned int lines_;
+	unsigned int size_;
 
 	void openFile(const char *fileName);
 

@@ -23,6 +23,7 @@
 
 class AccessoryStore;
 class ActionController;
+class TargetSpace;
 class GameState;
 class TargetContainer;
 class TankContainer;
@@ -58,6 +59,7 @@ public:
 	TankContainer *tankContainer;
 	TankModelStore *tankModelStore;
 	TankTeamScore *tankTeamScore;
+	TargetSpace *targetSpace;
 	bool serverMode;
 };
 

@@ -24,6 +24,7 @@
 
 #include <engine/GameStateStimulusI.h>
 #include <engine/GameStateI.h>
+#include <engine/ShotState.h>
 
 class ClientShotState : public GameStateStimulusI,
 	public GameStateI
@@ -38,6 +39,8 @@ public:
 
 protected:
 	static ClientShotState *instance_;
+	ShotState shotState_;
+
 
 private:
 	ClientShotState();

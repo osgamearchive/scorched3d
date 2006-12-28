@@ -18,30 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedPhysicsEngineh_INCLUDE__)
-#define __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#if !defined(__INCLUDE_PlacementTankPositionh_INCLUDE__)
+#define __INCLUDE_PlacementTankPositionh_INCLUDE__
 
-#include <engine/PhysicsEngine.h>
+#include <common/Vector.h>
+#include <common/RandomGenerator.h>
 #include <engine/ScorchedContext.h>
 
-class HeightMapCollision;
-class SkyRoofCollision;
-class ScorchedCollisionHandler;
-class ScorchedPhysicsEngine : public PhysicsEngine
+namespace PlacementTankPosition 
 {
-public:
-	ScorchedPhysicsEngine();
-	virtual ~ScorchedPhysicsEngine();
-
-	void setScorchedContext(ScorchedContext *context);
-	void resetContext();
-	void generate();
-
-protected:
-	ScorchedContext *context_;
-	HeightMapCollision *hmcol_;
-	SkyRoofCollision *srcol_;
-	ScorchedCollisionHandler *sccol_;
+	Vector placeTank(unsigned int playerId, int team,
+		ScorchedContext &context, RandomGenerator &generator);
 };
 
-#endif // __INCLUDE_ScorchedPhysicsEngineh_INCLUDE__
+#endif // __INCLUDE_PlacementTankPositionh_INCLUDE__

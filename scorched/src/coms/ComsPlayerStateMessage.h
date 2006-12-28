@@ -27,12 +27,15 @@
 class ComsPlayerStateMessage : public ComsMessage
 {
 public:
-	ComsPlayerStateMessage();
+	ComsPlayerStateMessage(bool writeAccessories);
 	virtual ~ComsPlayerStateMessage();
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
     virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	bool writeAccessories_;
 
 private:
 	ComsPlayerStateMessage(const ComsPlayerStateMessage &);

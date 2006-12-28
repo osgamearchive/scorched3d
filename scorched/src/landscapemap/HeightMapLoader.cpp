@@ -91,7 +91,6 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 	}
 
 	if (levelSurround) HeightMapModifier::levelSurround(hmap);
-	hmap.generateNormals(0, hmap.getMapWidth(), 0, hmap.getMapHeight(), counter);
 }
 
 bool HeightMapLoader::generateTerrain(
