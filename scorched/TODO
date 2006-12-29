@@ -32,6 +32,7 @@ Added: Removed use of ODE in preference to a simplier particle physics engine
 Added: Added target collision space that can be used for fast target bounds checking
 Added: Server now simulates the shots in real-time allowing for the addition of real-time gameplay
 Added: Server only sends initial shots and seeds to clients for each turn saving on bandwidth
+Added: ScorePerMoney value is now per 1000 rather tahn per 100
 
 Fixed: Flag reseting on buying screen when buying items
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)

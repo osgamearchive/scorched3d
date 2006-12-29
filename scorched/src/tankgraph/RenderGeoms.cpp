@@ -79,7 +79,7 @@ void RenderGeoms::drawCollisionBounds()
 		}
 
 		Vector position = target->getTargetPosition();
-		Vector &size = target->getLife().getAabbSize();
+		Vector size = target->getLife().getAabbSize();
 		position[2] += size[2] / 2.0f;
 
 		double wid = size[0] + 0.1f;
