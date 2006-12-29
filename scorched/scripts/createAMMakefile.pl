@@ -98,13 +98,13 @@ createBinaryMakefile(
 	"../src/scorchedc/scorchedc.vcproj", 
 	"../src/scorchedc/Makefile.am", 
 	"scorched3dc",
-	'@AL_CFLAGS@ @FT2_CFLAGS@ @ODE_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@',
-	'@AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @ODE_LIBS@ @OGG_LIBS@ @SDL_LIBS@'
+	'@AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@',
+	'@AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@'
 	);
 createBinaryMakefile(
 	"../src/scorcheds/scorcheds.vcproj", 
 	"../src/scorcheds/Makefile.am", 
 	"scorched3ds",
-	'-DS3D_SERVER=1 @ODE_CFLAGS@ @SDL_CFLAGS@',
-	'@ODE_LIBS@ @SDL_LIBS@ @MYSQL_LIBS@'
+	'-DS3D_SERVER=1 @SDL_CFLAGS@ @MYSQL_CFLAGS@',
+	'@SDL_LIBS@ @MYSQL_LIBS@'
 	);

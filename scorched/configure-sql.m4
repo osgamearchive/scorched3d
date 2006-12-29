@@ -20,11 +20,13 @@ if test x"$use_mysql" = x"yes"; then
 	if test x$have_mysql != xyes; then
 		AC_MSG_ERROR([*** Can't find the MySql library Try: http://www.mysql.com])
 	else
-		AC_DEFINE(HAVE_MYSQL)
+		MYSQL_CFLAGS=mysql_config --cflags
+		MYSQL_CFLAGS="$MYSQL_CFLAGS -DHAVE_MYSQL=1"
 		MYSQL_LIBS=`mysql_config --libs`
 	fi
 fi
 AC_SUBST(MYSQL_LIBS)
+AC_SUBST(MYSQL_CFLAGS)
 
 dnl Checks for pgsql
 PGSQL_LIBS=

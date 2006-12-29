@@ -41,8 +41,8 @@ public:
 	void setTarget(Target *target) { target_ = target; }
 	void setSize(Vector &size);
 	Vector &getSize() { return size_; }
-	Vector4 getQuaternion() { return quaternion_; }
-	Vector getAabbSize() { return aabbSize_; }
+	Vector4 &getQuaternion() { return quaternion_; }
+	Vector &getAabbSize() { return aabbSize_; }
 	float getRotation() { return rotation_; }
 	void setRotation(float rotation);
 	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }

@@ -1169,11 +1169,13 @@ scorcheddataaccessoriesicbm_DATA = data/accessories/icbm/gradient.bmp \
 	data/accessories/icbm/icbm.txt
 scorcheddatawindowsdir = ${datadir}/data/windows
 scorcheddatawindows_DATA = data/windows/target.bmp \
+	data/windows/noentryu.gif \
 	data/windows/winda2.bmp \
 	data/windows/scorcheda.png \
 	data/windows/weapona2.bmp \
 	data/windows/bomb.bmp \
 	data/windows/tank-med.bmp \
+	data/windows/exclaimo.gif \
 	data/windows/winda.bmp \
 	data/windows/help.bmp \
 	data/windows/move.bmp \
@@ -1192,6 +1194,7 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/setting.bmp \
 	data/windows/scorched.png \
 	data/windows/tank-hard.bmp \
+	data/windows/warnu.gif \
 	data/windows/donate.bmp \
 	data/windows/triangle.bmp \
 	data/windows/scorched.bmp \
@@ -1207,8 +1210,11 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/cameraa.bmp \
 	data/windows/camera.bmp \
 	data/windows/plana.bmp \
+	data/windows/oko.gif \
 	data/windows/player.bmp \
+	data/windows/noentryo.gif \
 	data/windows/white.bmp \
+	data/windows/exclaimu.gif \
 	data/windows/screen.bmp \
 	data/windows/mask.bmp \
 	data/windows/tank-easy.bmp \
@@ -1216,16 +1222,21 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/weapona.bmp \
 	data/windows/diffa.bmp \
 	data/windows/tank.bmp \
+	data/windows/noentry.gif \
 	data/windows/save.bmp \
+	data/windows/warno.gif \
 	data/windows/screena.bmp \
 	data/windows/book.bmp \
+	data/windows/questionu.gif \
 	data/windows/weapon.bmp \
 	data/windows/warn.gif \
 	data/windows/wind.bmp \
+	data/windows/tank2s.gif \
 	data/windows/helpa.bmp \
 	data/windows/settinga.bmp \
 	data/windows/diff.bmp \
 	data/windows/question.gif \
+	data/windows/oku.gif \
 	data/windows/pointer.bmp \
 	data/windows/ok.gif \
 	data/windows/tank2.bmp \

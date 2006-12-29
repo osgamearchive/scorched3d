@@ -55,7 +55,7 @@ protected:
 	int spaceSq_; // Width of each square
 	int noSquares_; // The total number of squares
 
-	void TargetSpace::normalizeCoords(int &x, int &y)
+	void normalizeCoords(int &x, int &y)
 	{
 		// Make sure x and y are in the space
 		x = MIN(x, spaceW_ + spaceX_);

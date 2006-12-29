@@ -29,20 +29,14 @@ scorched3ds_SOURCES = \
 	../actions/SkyFlash.h \
 	../actions/SoundAction.cpp \
 	../actions/SoundAction.h \
-	../actions/SpriteProjectile.cpp \
-	../actions/SpriteProjectile.h \
 	../actions/TankDamage.cpp \
 	../actions/TankDamage.h \
 	../actions/TankFalling.cpp \
 	../actions/TankFalling.h \
-	../actions/TankFallingEnd.cpp \
-	../actions/TankFallingEnd.h \
 	../actions/TankFired.cpp \
 	../actions/TankFired.h \
 	../actions/TankMovement.cpp \
 	../actions/TankMovement.h \
-	../actions/TankMovementEnd.cpp \
-	../actions/TankMovementEnd.h \
 	../actions/TankResign.cpp \
 	../actions/TankResign.h \
 	../actions/TankSay.cpp \
@@ -226,8 +220,6 @@ scorched3ds_SOURCES = \
 	../server/ServerWebServer.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
-	../coms/ComsActionsMessage.cpp \
-	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
 	../coms/ComsAddPlayerMessage.h \
 	../coms/ComsAdminMessage.cpp \
@@ -280,12 +272,18 @@ scorched3ds_SOURCES = \
 	../coms/ComsPlayerStateMessage.h \
 	../coms/ComsPlayerStatusMessage.cpp \
 	../coms/ComsPlayerStatusMessage.h \
+	../coms/ComsPlayMovesMessage.cpp \
+	../coms/ComsPlayMovesMessage.h \
 	../coms/ComsRmPlayerMessage.cpp \
 	../coms/ComsRmPlayerMessage.h \
 	../coms/ComsScoreMessage.cpp \
 	../coms/ComsScoreMessage.h \
 	../coms/ComsStartGameMessage.cpp \
 	../coms/ComsStartGameMessage.h \
+	../coms/ComsSyncCheckMessage.cpp \
+	../coms/ComsSyncCheckMessage.h \
+	../coms/ComsTargetStateMessage.cpp \
+	../coms/ComsTargetStateMessage.h \
 	../coms/ComsTextMessage.cpp \
 	../coms/ComsTextMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
@@ -340,8 +338,6 @@ scorched3ds_SOURCES = \
 	../XML/xmltok.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
-	../engine/ActionBuffer.cpp \
-	../engine/ActionBuffer.h \
 	../engine/ActionController.cpp \
 	../engine/ActionController.h \
 	../engine/ActionMeta.cpp \
@@ -368,20 +364,18 @@ scorched3ds_SOURCES = \
 	../engine/ModFiles.h \
 	../engine/ModInfo.cpp \
 	../engine/ModInfo.h \
-	../engine/PhysicsEngine.cpp \
-	../engine/PhysicsEngine.h \
 	../engine/PhysicsParticle.cpp \
 	../engine/PhysicsParticle.h \
 	../engine/PhysicsParticleObject.cpp \
 	../engine/PhysicsParticleObject.h \
-	../engine/ScorchedCollisionHandler.cpp \
-	../engine/ScorchedCollisionHandler.h \
+	../engine/PlayShots.cpp \
+	../engine/PlayShots.h \
 	../engine/ScorchedCollisionIds.cpp \
 	../engine/ScorchedCollisionIds.h \
 	../engine/ScorchedContext.cpp \
 	../engine/ScorchedContext.h \
-	../engine/ScorchedPhysicsEngine.cpp \
-	../engine/ScorchedPhysicsEngine.h \
+	../engine/ShotState.cpp \
+	../engine/ShotState.h \
 	../engine/ViewPoints.cpp \
 	../engine/ViewPoints.h \
 	../landscapedef/LandscapeBoids.cpp \
@@ -429,6 +423,8 @@ scorched3ds_SOURCES = \
 	../placement/PlacementObjectTree.h \
 	../placement/PlacementShadowDefinition.cpp \
 	../placement/PlacementShadowDefinition.h \
+	../placement/PlacementTankPosition.cpp \
+	../placement/PlacementTankPosition.h \
 	../placement/PlacementType.cpp \
 	../placement/PlacementType.h \
 	../placement/PlacementTypeDirect.cpp \
@@ -521,6 +517,10 @@ scorched3ds_SOURCES = \
 	../target/TargetRenderer.h \
 	../target/TargetShield.cpp \
 	../target/TargetShield.h \
+	../target/TargetSpace.cpp \
+	../target/TargetSpace.h \
+	../target/TargetSpaceContainment.cpp \
+	../target/TargetSpaceContainment.h \
 	../target/TargetState.cpp \
 	../target/TargetState.h \
 	../weapons/Accessory.cpp \
@@ -647,8 +647,6 @@ scorched3ds_SOURCES = \
 	../landscapemap/GroundMaps.h \
 	../landscapemap/HeightMap.cpp \
 	../landscapemap/HeightMap.h \
-	../landscapemap/HeightMapCollision.cpp \
-	../landscapemap/HeightMapCollision.h \
 	../landscapemap/HeightMapLoader.cpp \
 	../landscapemap/HeightMapLoader.h \
 	../landscapemap/HeightMapModifier.cpp \
@@ -663,8 +661,6 @@ scorched3ds_SOURCES = \
 	../landscapemap/NapalmMap.h \
 	../landscapemap/RoofMaps.cpp \
 	../landscapemap/RoofMaps.h \
-	../landscapemap/SkyRoofCollision.cpp \
-	../landscapemap/SkyRoofCollision.h \
 	../landscapemap/TargetGroups.cpp \
 	../landscapemap/TargetGroups.h \
 	../landscapemap/TargetGroupsGroupEntry.cpp \
@@ -707,6 +703,6 @@ scorched3ds_SOURCES = \
 	../3dsparse/Vertex.cpp \
 	../3dsparse/Vertex.h
 
-AM_CPPFLAGS = -I../porting -I.. -DS3D_SERVER=1 @ODE_CFLAGS@ @SDL_CFLAGS@
-LDADD = @ODE_LIBS@ @SDL_LIBS@ @MYSQL_LIBS@
+AM_CPPFLAGS = -I../porting -I.. -DS3D_SERVER=1 @SDL_CFLAGS@ @MYSQL_CFLAGS@
+LDADD = @SDL_LIBS@ @MYSQL_LIBS@
 

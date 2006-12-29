@@ -29,20 +29,14 @@ scorched3dc_SOURCES = \
 	../actions/SkyFlash.h \
 	../actions/SoundAction.cpp \
 	../actions/SoundAction.h \
-	../actions/SpriteProjectile.cpp \
-	../actions/SpriteProjectile.h \
 	../actions/TankDamage.cpp \
 	../actions/TankDamage.h \
 	../actions/TankFalling.cpp \
 	../actions/TankFalling.h \
-	../actions/TankFallingEnd.cpp \
-	../actions/TankFallingEnd.h \
 	../actions/TankFired.cpp \
 	../actions/TankFired.h \
 	../actions/TankMovement.cpp \
 	../actions/TankMovement.h \
-	../actions/TankMovementEnd.cpp \
-	../actions/TankMovementEnd.h \
 	../actions/TankResign.cpp \
 	../actions/TankResign.h \
 	../actions/TankSay.cpp \
@@ -222,8 +216,6 @@ scorched3dc_SOURCES = \
 	../server/ServerWebServer.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
-	../coms/ComsActionsMessage.cpp \
-	../coms/ComsActionsMessage.h \
 	../coms/ComsAddPlayerMessage.cpp \
 	../coms/ComsAddPlayerMessage.h \
 	../coms/ComsAdminMessage.cpp \
@@ -276,12 +268,18 @@ scorched3dc_SOURCES = \
 	../coms/ComsPlayerStateMessage.h \
 	../coms/ComsPlayerStatusMessage.cpp \
 	../coms/ComsPlayerStatusMessage.h \
+	../coms/ComsPlayMovesMessage.cpp \
+	../coms/ComsPlayMovesMessage.h \
 	../coms/ComsRmPlayerMessage.cpp \
 	../coms/ComsRmPlayerMessage.h \
 	../coms/ComsScoreMessage.cpp \
 	../coms/ComsScoreMessage.h \
 	../coms/ComsStartGameMessage.cpp \
 	../coms/ComsStartGameMessage.h \
+	../coms/ComsSyncCheckMessage.cpp \
+	../coms/ComsSyncCheckMessage.h \
+	../coms/ComsTargetStateMessage.cpp \
+	../coms/ComsTargetStateMessage.h \
 	../coms/ComsTextMessage.cpp \
 	../coms/ComsTextMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
@@ -338,8 +336,6 @@ scorched3dc_SOURCES = \
 	../XML/xmltok.h \
 	../engine/Action.cpp \
 	../engine/Action.h \
-	../engine/ActionBuffer.cpp \
-	../engine/ActionBuffer.h \
 	../engine/ActionController.cpp \
 	../engine/ActionController.h \
 	../engine/ActionMeta.cpp \
@@ -366,20 +362,20 @@ scorched3dc_SOURCES = \
 	../engine/ModFiles.h \
 	../engine/ModInfo.cpp \
 	../engine/ModInfo.h \
-	../engine/PhysicsEngine.cpp \
-	../engine/PhysicsEngine.h \
 	../engine/PhysicsParticle.cpp \
 	../engine/PhysicsParticle.h \
 	../engine/PhysicsParticleObject.cpp \
 	../engine/PhysicsParticleObject.h \
-	../engine/ScorchedCollisionHandler.cpp \
-	../engine/ScorchedCollisionHandler.h \
+	../engine/PlayShots.cpp \
+	../engine/PlayShots.h \
 	../engine/ScorchedCollisionIds.cpp \
 	../engine/ScorchedCollisionIds.h \
 	../engine/ScorchedContext.cpp \
 	../engine/ScorchedContext.h \
-	../engine/ScorchedPhysicsEngine.cpp \
-	../engine/ScorchedPhysicsEngine.h \
+	../engine/ShotState.cpp \
+	../engine/ShotState.h \
+	../engine/SyncCheck.cpp \
+	../engine/SyncCheck.h \
 	../engine/ViewPoints.cpp \
 	../engine/ViewPoints.h \
 	../landscapedef/LandscapeBoids.cpp \
@@ -427,6 +423,8 @@ scorched3dc_SOURCES = \
 	../placement/PlacementObjectTree.h \
 	../placement/PlacementShadowDefinition.cpp \
 	../placement/PlacementShadowDefinition.h \
+	../placement/PlacementTankPosition.cpp \
+	../placement/PlacementTankPosition.h \
 	../placement/PlacementType.cpp \
 	../placement/PlacementType.h \
 	../placement/PlacementTypeDirect.cpp \
@@ -523,6 +521,10 @@ scorched3dc_SOURCES = \
 	../target/TargetRenderer.h \
 	../target/TargetShield.cpp \
 	../target/TargetShield.h \
+	../target/TargetSpace.cpp \
+	../target/TargetSpace.h \
+	../target/TargetSpaceContainment.cpp \
+	../target/TargetSpaceContainment.h \
 	../target/TargetState.cpp \
 	../target/TargetState.h \
 	../weapons/Accessory.cpp \
@@ -649,8 +651,6 @@ scorched3dc_SOURCES = \
 	../landscapemap/GroundMaps.h \
 	../landscapemap/HeightMap.cpp \
 	../landscapemap/HeightMap.h \
-	../landscapemap/HeightMapCollision.cpp \
-	../landscapemap/HeightMapCollision.h \
 	../landscapemap/HeightMapLoader.cpp \
 	../landscapemap/HeightMapLoader.h \
 	../landscapemap/HeightMapModifier.cpp \
@@ -665,8 +665,6 @@ scorched3dc_SOURCES = \
 	../landscapemap/NapalmMap.h \
 	../landscapemap/RoofMaps.cpp \
 	../landscapemap/RoofMaps.h \
-	../landscapemap/SkyRoofCollision.cpp \
-	../landscapemap/SkyRoofCollision.h \
 	../landscapemap/TargetGroups.cpp \
 	../landscapemap/TargetGroups.h \
 	../landscapemap/TargetGroupsGroupEntry.cpp \
@@ -746,8 +744,6 @@ scorched3dc_SOURCES = \
 	../GLEXT/GLVertexSetGroup.h \
 	../GLEXT/GLViewPort.cpp \
 	../GLEXT/GLViewPort.h \
-	../client/ClientActionsHandler.cpp \
-	../client/ClientActionsHandler.h \
 	../client/ClientAddPlayerHandler.cpp \
 	../client/ClientAddPlayerHandler.h \
 	../client/ClientAdmin.cpp \
@@ -788,6 +784,8 @@ scorched3dc_SOURCES = \
 	../client/ClientPlayerStateHandler.h \
 	../client/ClientPlayerStatusHandler.cpp \
 	../client/ClientPlayerStatusHandler.h \
+	../client/ClientPlayMovesHandler.cpp \
+	../client/ClientPlayMovesHandler.h \
 	../client/ClientRmPlayerHandler.cpp \
 	../client/ClientRmPlayerHandler.h \
 	../client/ClientSave.cpp \
@@ -802,6 +800,8 @@ scorched3dc_SOURCES = \
 	../client/ClientStartTimerHandler.h \
 	../client/ClientState.cpp \
 	../client/ClientState.h \
+	../client/ClientSyncCheckHandler.cpp \
+	../client/ClientSyncCheckHandler.h \
 	../client/ClientTextHandler.cpp \
 	../client/ClientTextHandler.h \
 	../client/ClientWaitState.cpp \
@@ -1080,6 +1080,10 @@ scorched3dc_SOURCES = \
 	../graph/MainCamera.h \
 	../graph/ModelRenderer.cpp \
 	../graph/ModelRenderer.h \
+	../graph/ModelRendererSimulator.cpp \
+	../graph/ModelRendererSimulator.h \
+	../graph/ModelRendererStore.cpp \
+	../graph/ModelRendererStore.h \
 	../graph/Mouse.cpp \
 	../graph/Mouse.h \
 	../graph/OptionsDisplay.cpp \
@@ -1189,6 +1193,6 @@ scorched3dc_SOURCES = \
 	../sound/VirtualSoundSource.cpp \
 	../sound/VirtualSoundSource.h
 
-AM_CPPFLAGS = -I../porting -I.. @AL_CFLAGS@ @FT2_CFLAGS@ @ODE_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@
-LDADD = @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @ODE_LIBS@ @OGG_LIBS@ @SDL_LIBS@
+AM_CPPFLAGS = -I../porting -I.. @AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@
+LDADD = @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@
 
