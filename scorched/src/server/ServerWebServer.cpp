@@ -26,6 +26,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
+#include <net/NetMessagePool.h>
 #include <common/OptionsGame.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
@@ -55,6 +56,7 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
+	addRequestHandler("/sessions", new ServerWebHandler::SessionsHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -84,6 +86,26 @@ void ServerWebServer::addRequestHandler(const char *url,
 
 void ServerWebServer::processMessages()
 {
+	// Check if any delayed messages should be sent
+	while (!delayedMessages_.empty())
+	{
+		unsigned int theTime = (unsigned int) time(0);
+		std::pair<unsigned int, NetMessage *> &delayedMessage =
+			delayedMessages_.front();
+		if (delayedMessage.first <= theTime)
+		{
+			// Get the message
+			NetMessage *message = delayedMessage.second;
+			delayedMessages_.pop_front();
+
+			// Send this message now
+			netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
+			NetMessagePool::instance()->addToPool(message);
+		}
+		else break;
+	}
+
+	// Check if any non-delayed messages should be processed
 	netServer_.processMessages();
 }
 
@@ -238,6 +260,7 @@ bool ServerWebServer::processRequest(
 	const char *url,
 	std::map<std::string, std::string> &fields)
 {
+	bool delayed = false; // Set delayed on authentication failure
 	std::string text;
 	if (0 == strcmp(url, "/"))
 	{
@@ -252,8 +275,9 @@ bool ServerWebServer::processRequest(
 		else
 		{
 			// No, or credentials are not correct
-			// Show the login page
+			// Show the login page after a delay
 			if (!getHtmlTemplate("login.html", fields, text)) return false;
+			delayed = true;
 		}
 	}
 	else
@@ -267,14 +291,29 @@ bool ServerWebServer::processRequest(
 		}
 		else
 		{
-			// The session is invalid show the login page
+			// The session is invalid show the login page after a delay
 			getHtmlRedirect("/", text);
+			delayed = true;
 		}
 	}
 
-	NetBuffer buffer;
-	buffer.addDataToBuffer(text.c_str(), text.size()); // No null
-	netServer_.sendMessageDest(buffer, destinationId);
+	// Generate the message to send
+	NetMessage *message = NetMessagePool::instance()->getFromPool(
+		NetMessage::BufferMessage, destinationId, 0, 0);
+	message->getBuffer().addDataToBuffer(text.c_str(), text.size()); // No null
+	if (delayed)
+	{
+		// Generate an outgoing message, that will be sent after a time delay
+		unsigned int delayedTime = (unsigned int) time(0) + 5;
+		std::pair<unsigned int, NetMessage *> delayedMessage(delayedTime, message);
+		delayedMessages_.push_back(delayedMessage);
+	}
+	else
+	{
+		// Send this message now
+		netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
+		NetMessagePool::instance()->addToPool(message);
+	}
 	
 	return true;
 }
@@ -360,6 +399,7 @@ bool ServerWebServer::validateUser(
 		SessionParams params;
 		params.sessionTime = currentTime;
 		params.userName = fields["name"];
+		params.ipAddress = ip;
 
 		// Generate a new unique session id
 		unsigned int sid = 0;

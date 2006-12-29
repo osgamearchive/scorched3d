@@ -21,9 +21,11 @@
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerNewGameState.h>
 #include <server/ScorchedServer.h>
+#include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <common/OptionsGame.h>
+#include <common/Logger.h>
 
 ServerTooFewPlayersStimulus *ServerTooFewPlayersStimulus::instance_ = 0;
 
@@ -57,6 +59,7 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 	if (ScorchedServer::instance()->getTankContainer().getNoOfNonSpectatorTanks() <
 		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
 	{
+		checkExit();
 		return true;
 	}
 	
@@ -100,9 +103,22 @@ bool ServerTooFewPlayersStimulus::acceptStateChange(const unsigned state,
 		}
 		for (int i=0; i<ScorchedServer::instance()->getOptionsGame().getTeams();i++)
 		{
-			if (teamCount[i] == 0) return true;
+			if (teamCount[i] == 0)
+			{
+				checkExit();
+				return true;
+			}
 		}
 	}
 	
 	return false;
+}
+
+void ServerTooFewPlayersStimulus::checkExit()
+{
+	if (ServerCommon::getExitEmpty())
+	{
+		Logger::log("Exit server when empty");
+		exit(0);
+	}
 }

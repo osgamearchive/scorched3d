@@ -38,6 +38,7 @@ namespace ServerCommon
 	void slapPlayer(unsigned int playerId, float slap);
 	void killAll();
 	void startNewGame();
+	bool &getExitEmpty();
 }
 
 #endif

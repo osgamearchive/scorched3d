@@ -4,13 +4,18 @@
 
 <table align="center" border="0">
 	<tr>
-		<td align="center">Current Server State : [[STATE]]</td>
+		<td align="center">
+			Current Server State : [[STATE]]<br>
+			Server Start Time : [[STARTTIME]]<br>
+			Server Version : [[VERSION]]<br>
+		</td>
 	</tr>
 	<tr>
 		<td align="center">
 		<form method="post">
 			<input type="hidden" name="sid" value="[[sid]]"> 
-			<input type="submit" name="action" value="Stop Server"> 
+			<input type="submit" name="action" value="Stop Server"><br>
+			<input type="submit" name="action" value="Stop Server When Empty"> (Currently [[EXITEMPTY]])<br>
 		</form>
 		</td>
 	</tr>

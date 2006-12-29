@@ -293,6 +293,8 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	const char *logFilename = getField(fields, "filename");
 	if (logFilename)
 	{
+		// We've requested to view a log file
+		// So load the file and display it
 		text.append(formatString(
 			"HTTP/1.1 200 OK\r\n"
 			"Server: Scorched3D\r\n"
@@ -309,8 +311,18 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	}
 	else
 	{
+		// We've requested to see the list of current log files
+
+		// Check to see if we want to search these files
+		const char *search = 0;
+		const char *action = getField(fields, "action");
+		if (action && 0 == strcmp(action, "Search"))
+		{
+			search = getField(fields, "search");
+		}
+
+		// Iterator through all of the log files in the logs directory
 		std::vector<LogFile> logFiles;
-		
 		const char *dirName = getLogFile("");
 		FileList dir(dirName, "*.log", false);
 		if (dir.getStatus())
@@ -322,8 +334,17 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 				itor++)
 			{
 				const char *fileName = (*itor).c_str();
-				const char *fullFilename = getLogFile(fileName);;
+				const char *fullFilename = getLogFile(fileName);
 
+				// If searching is enabled check to see if this file contains 
+				// the specified string
+				if (search)
+				{
+					std::string file = getFile(fullFilename);
+					if (0 == strstr(file.c_str(), search)) continue;
+				}
+
+				// Add this file to the list of files to view
 				LogFile logFile;
 				logFile.fileName = fileName;
 				logFile.fileTime = s3d_fileModTime(fullFilename);
@@ -331,8 +352,10 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 			}
 		}
 
+		// Sort the list of files to view
 		std::sort(logFiles.begin(), logFiles.end(), lt_logfile);
 
+		// Create the table that will show the list of log files
 		std::string log;
 		{
 			std::vector<LogFile>::iterator itor;
@@ -413,10 +436,18 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 		{
 			exit(0);
 		}
+		else if (0 == strcmp(action, "Stop Server When Empty"))
+		{
+			ServerCommon::getExitEmpty() = true;
+		}
 	}
 
 	unsigned int state = ScorchedServer::instance()->getGameState().getState();
 	fields["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
+	fields["VERSION"] = formatString("%s (%s) - Built %s", 
+		ScorchedVersion, ScorchedProtocolVersion, ScorchedBuildTime);
+	fields["STARTTIME"] = getStartTime();
+	fields["EXITEMPTY"] = (ServerCommon::getExitEmpty()?"True":"False");
 
 	return ServerWebServer::getHtmlTemplate("server.html", fields, text);
 }
@@ -694,4 +725,34 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 	fields["MODFILES"] = modfiles;
 
 	return ServerWebServer::getHtmlTemplate("mods.html", fields, text);
+}
+
+bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	// Sessions Entries
+	std::string sessions;
+	std::map<unsigned int, ServerWebServer::SessionParams> &sessionparams = 
+		ServerWebServer::instance()->getSessions();
+	std::map<unsigned int, ServerWebServer::SessionParams>::iterator itor;
+	for (itor = sessionparams.begin(); itor != sessionparams.end(); itor++)
+	{
+		ServerWebServer::SessionParams &params = (*itor).second;
+
+		const char *timeStr = ctime((const time_t *) (&params.sessionTime));
+		sessions += formatString(
+			"<tr>"
+			"<td>%s</td>" // Name
+			"<td>%s</td>" // Time
+			"<td>%s</td>" // Ip
+			"</tr>\n",
+			params.userName.c_str(),
+			timeStr,
+			params.ipAddress.c_str()
+		);
+	}
+	fields["SESSIONS"] = sessions;
+
+	return ServerWebServer::getHtmlTemplate("sessions.html", fields, text);
 }

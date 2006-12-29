@@ -37,12 +37,21 @@ public:
 class ServerWebServer : public NetMessageHandlerI
 {
 public:
+	struct SessionParams
+	{
+		unsigned int sessionTime;
+		std::string ipAddress;
+		std::string userName;
+	};
+
 	static ServerWebServer *instance();
 
 	void start(int port);
 	void processMessages();
 	void addRequestHandler(const char *url,
 		ServerWebServerI *handler);
+
+	std::map<unsigned int, SessionParams> &getSessions() { return sessions_; }
 
 	// Util
 	static bool getTemplate(
@@ -58,15 +67,10 @@ public:
 		std::string &result);
 
 protected:
-	struct SessionParams
-	{
-		unsigned int sessionTime;
-		std::string userName;
-	};
-
 	static ServerWebServer *instance_;
-	std::map <unsigned int, SessionParams> sessions_;
-	std::map <std::string, ServerWebServerI *> handlers_;
+	std::map<unsigned int, SessionParams> sessions_;
+	std::map<std::string, ServerWebServerI *> handlers_;
+	std::list<std::pair<unsigned int, NetMessage *> > delayedMessages_;
 	NetServerTCP netServer_;
 	FileLogger *logger_;
 

@@ -213,7 +213,7 @@ void serverMain(ProgressCounter *counter)
 	}
 	ServerLog::instance();
 
-	Logger::log("Server started");
+	Logger::log(formatString("Server started : %s", getStartTime()));
 }
 
 void serverLoop()
@@ -256,7 +256,7 @@ public:
 			for (int h=hashes_;h<neededHashes; h++)
 			{
 				printf("#");
-				if (h == 9)
+				if (h == 24)
 				{
 					printf("\n");
 				}
@@ -272,7 +272,7 @@ public:
 		{
 			if (lastOp_.c_str()[0])
 			{
-				drawHashes(10);
+				drawHashes(25);
 			}
 
 			Logger::log(op);
@@ -281,7 +281,7 @@ public:
 			hashes_ = 0;
 		}
 
-		int neededHashes = int(percentage / 10.0f);
+		int neededHashes = int(percentage / 4.0f);
 		drawHashes(neededHashes);
 	}
 protected:

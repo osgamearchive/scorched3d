@@ -71,6 +71,17 @@ const char *getExeName()
 	return exeName;
 }
 
+const char *getStartTime()
+{
+	static std::string startTime;
+	if (startTime.empty())
+	{
+		time_t theTime = time(0);
+		startTime = ctime(&theTime);
+	}
+	return startTime.c_str();
+}
+
 void setSettingsDir(const char *dir)
 {
 	settingsDir = dir;

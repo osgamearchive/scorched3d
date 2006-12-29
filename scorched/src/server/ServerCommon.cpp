@@ -311,6 +311,12 @@ void ServerCommon::startNewGame()
 	ScorchedServer::instance()->getOptionsTransient().startNewGame();
 }
 
+bool &ServerCommon::getExitEmpty()
+{
+	static bool exitEmpty = false;
+	return exitEmpty;
+}
+
 void ServerCommon::serverLog(const char *text)
 {
 #ifdef S3D_SERVER

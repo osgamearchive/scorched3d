@@ -26,6 +26,7 @@ extern void setSettingsDir(const char *dir);
 extern void setDataFileMod(const char *mod);
 extern const char *getDataFileMod();
 extern const char *getExeName();
+extern const char *getStartTime();
 extern void showURL(const char *url);
 
 extern bool checkDataFile(const char *filename);

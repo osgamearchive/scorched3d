@@ -35,6 +35,7 @@ public:
 
 protected:
 	static ServerTooFewPlayersStimulus *instance_;
+	void checkExit();
 
 private:
 	ServerTooFewPlayersStimulus();
