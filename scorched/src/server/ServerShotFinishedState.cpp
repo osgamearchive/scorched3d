@@ -289,7 +289,7 @@ bool ServerShotFinishedState::scoreWinners()
 		int newMoney = tank->getScore().getTotalMoneyEarnedStat();
 		int scoreAdded = (newMoney * 
 			ScorchedServer::instance()->getOptionsGame().getScorePerMoneyEntry())
-			/ 100;
+			/ 1000;
 		tank->getScore().setScore(tank->getScore().getScore() + scoreAdded);
 
 		// Ensure stats are uptodate
