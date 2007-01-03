@@ -37,7 +37,8 @@ if test x$FREEALUT_CONFIG = xno; then
 	echo "*** environment variable to the full path to openal-config."
 else
 
-	AL_CFLAGS="`$FREEALUT_CONFIG --cflags`"
+	AL_LIBS="$AL_LIBS `$FREEALUT_CONFIG --libs`"
+	AL_CFLAGS="$AL_CFLAGS `$FREEALUT_CONFIG --cflags`"
 
 	AC_MSG_RESULT(yes)
 fi

@@ -2,19 +2,24 @@ Name: scorched3d
 Version: 41
 Release: 1
 License: GPL
-Group: Amusements/Games
+Group: Amusements/Games/3D/Other
 Summary: A 3D version of the classic DOS game Scorched Earth
 URL: http://www.scorched3d.co.uk
 Source0: http://unc.dl.sourceforge.net/sourceforge/scorched3d/Scorched3D-%{version}-src.tar.gz
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
-BuildRequires:  perl, automake, autoconf, SDL-devel 
-BuildRequires:  SDL_net-devel, freetype-devel
+BuildRequires:  SDL_net SDL SDL-devel >= 1.2.5
+BuildRequires:  freetype2 freetype2-devel
+BuildRequires:  libogg libogg-devel libvorbis libvorbis-devel
+BuildRequires:  wxGTK wxGTK-devel >= 2.4.0
+BuildRequires:  openal openal-devel
+BuildRequires:  autoconf automake libtool update-desktop-files
 Requires: SDL, freetype, SDL_net
 
 %description
-Scorched 3D is a game based loosely on the classic DOS game Scorched
-Earth "The Mother Of All Games".
+Scorched3D is a cross-platform 3D remake of the popular 2D artillery game
+Scorched Earth. Scorched3D can be played against the computer, other players,
+and remotely across the Internet or LAN.
 
 %prep
 %setup -q -n scorched
