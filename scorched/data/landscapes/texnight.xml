@@ -12,14 +12,14 @@
 	<skysunyz>30</skysunyz>
 	<skyambience><A>0.1</A><B>0.1</B><C>0.1</C></skyambience>
 	<skydiffuse><A>0.4</A><B>0.4</B><C>0.4</C></skydiffuse>
-	<fog><A>0.2</A><B>0.2</B><C>0.2</C></fog>
+	<fog><A>0.1</A><B>0.1</B><C>0.1</C></fog>
 	<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
 	<suntexture>data/textures/moon.bmp</suntexture>
 	<nosunfog>true</nosunfog>
 	<fogdensity>0.0011</fogdensity>
 	<border type="water">
 		<reflection>data/textures/landscape/default/cubemap.bmp</reflection>
-		<texture>data/textures/landscape/default/water.bmp</texture>
+		<texture>data/textures/landscape/default/waternight.bmp</texture>
 		<wavecolor><A>0.7</A><B>0.7</B><C>0.7</C></wavecolor>
 		<wavetexture1>data/textures/waves.bmp</wavetexture1>
 		<wavetexture2>data/textures/waves.bmp</wavetexture2>

@@ -291,7 +291,12 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 		ServerLog::instance()->getEntries();
 
 	const char *logFilename = getField(fields, "filename");
-	if (logFilename)
+	if (logFilename &&
+		// Disallow directory backtracking
+		!strstr(logFilename, "..") &&
+		!strstr(logFilename, ":") &&
+		!strstr(logFilename, "/") &&
+		!strstr(logFilename, "\\"))
 	{
 		// We've requested to view a log file
 		// So load the file and display it

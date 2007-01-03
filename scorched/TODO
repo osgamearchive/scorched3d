@@ -38,6 +38,7 @@ Added: Web management sessions view to show logined in web admins
 Added: Web management exit when empty option (to exit server when no one is playing)
 Added: Web management log file search feature for finding strings in log files
 
+Fixed: Darkened night water (thanks Deathstryker)
 Fixed: Flag reseting on buying screen when buying items
 Fixed: Tanks on the plan view are surrounded by a black border (also smoothed)
 Fixed: Server web managament can view settings that do not fall into the usual brackets
