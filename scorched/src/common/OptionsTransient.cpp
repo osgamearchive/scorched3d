@@ -270,8 +270,16 @@ void OptionsTransient::newGameWall()
 	case OptionsGame::WallNone:
 		wallType_.setValue((int) wallNone);
 		break;
+	case OptionsGame::WallActive:	// Bouncy or Wrap
+		float r = RAND * 2.0f + 1.0f;
+		wallType_.setValue((int) r);
+		break;
+	case OptionsGame::WallInactive:	// Concrete or None
+		if (RAND < 0.5f) wallType_.setValue((int) wallConcrete);
+		else wallType_.setValue((int) wallNone);
+		break;
 	default:
-		float r = RAND * 4.0f;
+		r = RAND * 4.0f;
 		wallType_.setValue((int) r);
 		break;
 	}

@@ -68,6 +68,8 @@ static OptionEntryEnum::EnumEntry wallEnum[] =
 	{ "WallBouncy", 2 },
 	{ "WallWrapAround", 3 },
 	{ "WallNone", 4 },
+	{ "WallActive", 5 },
+	{ "WallInactive", 6},
 	{ "", -1 }
 };
 
