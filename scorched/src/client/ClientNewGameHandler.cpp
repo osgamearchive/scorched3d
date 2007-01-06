@@ -35,6 +35,7 @@
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>
 #include <dialogs/ProgressDialog.h>
+#include <dialogs/RulesDialog.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapemap/HeightMapSender.h>
 #include <landscapedef/LandscapeDefinitions.h>
@@ -114,6 +115,10 @@ bool ClientNewGameHandler::processMessage(
 
 	RenderTracer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
+
+	// Reset the MOTD and Rules in case they have changed
+	RulesDialog::instance()->addMOTD(
+		ScorchedClient::instance()->getOptionsGame().getMOTD());
 
 	// Remove all actions (graphical objects) from the last round
 	ScorchedClient::instance()->getActionController().clear();
