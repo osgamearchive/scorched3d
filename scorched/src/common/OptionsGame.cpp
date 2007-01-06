@@ -273,6 +273,9 @@ OptionsGame::OptionsGame() :
 		"The percentage chance the computers will say something when killed", 0, 100, 0, 100, 10),
 	computersAttackTalk_(options_, "ComputersAttackTalk",
 		"The percentage chance the computers will say something when shooting", 0, 25, 0, 100, 10),
+	debugFeatures_(options_, "DebugFeatures",
+		"Set to \"true\" to enable debugging features such as InfoGrid", 0, false),
+
 
 	// Deprecated options
 	depricatedMasterListServer_(options_, "MasterListServer",

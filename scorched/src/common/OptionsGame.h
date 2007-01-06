@@ -323,6 +323,9 @@ public:
 	bool getRegisteredUserNames() { return registeredUserNames_; }
 	OptionEntryBool &getRegisteredUserNamesEntry() { return registeredUserNames_; }
 
+	bool getDebugFeatures() { return debugFeatures_; }
+	OptionEntryBool &getDebugFeaturesEntry() { return debugFeatures_; }
+
 	// Fns used to save or restore the state of the options
 	std::list<OptionEntry *> &getOptions();
 	std::list<OptionEntry *> &getPlayerTypeOptions(); 
@@ -418,6 +421,7 @@ protected:
 	OptionEntryBool publishServer_;
 	OptionEntryBool allowSameIP_;
 	OptionEntryBool allowSameUniqueId_;
+	OptionEntryBool debugFeatures_;
 
 	// Depricated (old) options
 	OptionEntryEnum depricatedScoreType_;
