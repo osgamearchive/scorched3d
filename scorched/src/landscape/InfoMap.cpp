@@ -23,6 +23,8 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <client/ScorchedClient.h>
+#include <common/OptionsTransient.h>
+
 
 InfoMap *InfoMap::instance_ = 0;
 
@@ -37,13 +39,15 @@ InfoMap *InfoMap::instance()
 
 InfoMap::InfoMap()
 {
-	new GLConsoleRuleMethodIAdapter<Landscape>(
-		Landscape::instance(), &Landscape::restoreLandscapeTexture, "LandscapeInfoOff");
-	new GLConsoleRuleMethodIAdapter<InfoMap>(
-		this, &InfoMap::showHeightBands, "LandscapeInfoHeightBands");
-	new GLConsoleRuleMethodIAdapter<InfoMap>(
-		this, &InfoMap::showGrid, "LandscapeInfoGrid");
-
+	if(ScorchedClient::instance()->getOptionsGame().getDebugFeatures())
+	{
+		new GLConsoleRuleMethodIAdapter<Landscape>(
+			Landscape::instance(), &Landscape::restoreLandscapeTexture, "LandscapeInfoOff");
+		new GLConsoleRuleMethodIAdapter<InfoMap>(
+			this, &InfoMap::showHeightBands, "LandscapeInfoHeightBands");
+		new GLConsoleRuleMethodIAdapter<InfoMap>(
+			this, &InfoMap::showGrid, "LandscapeInfoGrid");
+	}
 }
 
 InfoMap::~InfoMap()
