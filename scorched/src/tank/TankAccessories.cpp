@@ -220,6 +220,15 @@ bool TankAccessories::accessoryAllowed(Accessory *accessory, int count)
 			return false;
 		}
 	}
+	
+	// Check if this is a bot only weapon
+	if (accessory->getBotOnly())
+	{
+		if(tank_->getDestinationId() != 0)
+		{
+	        	return false;
+		}
+	}
 
 	return true;
 }
