@@ -45,7 +45,8 @@ bool validAccessory(Accessory *accessory)
 	return 
 		accessory->getStartingNumber() != -1 &&
 		accessory->getMaximumNumber() != 0 &&
-		!accessory->getAIOnly();
+		!accessory->getAIOnly() &&
+		!accessory->getBotOnly();
 }
 
 EconomyFreeMarket::EconomyFreeMarket()
