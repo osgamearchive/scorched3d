@@ -171,7 +171,7 @@ void TargetRendererImplTank::draw(float distance)
 	{
 		mesh->draw(frame_,
 			currentTank, 
-			tank_->getLife().getRotation(),
+			tank_->getLife().getQuaternion(),
 			tank_->getPosition().getTankPosition(), 
 			fireOffSet_, 
 			tank_->getPosition().getRotationGunXY(), 

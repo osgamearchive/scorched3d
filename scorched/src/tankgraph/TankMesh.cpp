@@ -116,7 +116,7 @@ void TankMesh::setupTankMesh()
 	gunOffset_ = gunCenter - turretCenter_;
 }
 
-void TankMesh::draw(float frame, bool drawS, float angle, Vector &position, 
+void TankMesh::draw(float frame, bool drawS, Vector4 &angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
 					bool absCenter, float scale)
 {
@@ -125,9 +125,12 @@ void TankMesh::draw(float frame, bool drawS, float angle, Vector &position,
 	drawS_ = drawS;
 	fireOffSet_ = fireOffset;
 
+	static float rotMatrix[16];
+	angle.getOpenGLRotationMatrix(rotMatrix);
+
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
-		glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		glMultMatrixf(rotMatrix);
 		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
 		if (absCenter) ModelRenderer::draw(frame);

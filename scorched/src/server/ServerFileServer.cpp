@@ -67,7 +67,7 @@ void ServerFileServer::simulate(float timeDifference)
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		if (tank->getState().getLoading())
+		if (tank->getState().getState() == TankState::sLoading)
 		{
 			// Does this tank have any more files to send
 			if (!tank->getMod().getFiles().empty())
@@ -81,7 +81,7 @@ void ServerFileServer::simulate(float timeDifference)
 				if (tank->getMod().getInit())
 				{
 					// Set this tank to finished
-					tank->getState().setLoading(false);
+					tank->getState().setState(TankState::sInitializing);
 
 					// If all tanks at this destination have finished send init message
 					bool allComplete = true;
@@ -93,7 +93,8 @@ void ServerFileServer::simulate(float timeDifference)
 						Tank *secondtank = (*seconditor).second;
 						if (secondtank->getDestinationId() == tank->getDestinationId())
 						{
-							if (secondtank->getState().getLoading())
+							if (secondtank->getState().getState() ==
+								TankState::sLoading)
 							{
 								allComplete = false;
 								break;
@@ -102,8 +103,7 @@ void ServerFileServer::simulate(float timeDifference)
 					}
 
 					// If this tank is not initialized make it initialized
-					if (tank->getState().getInitializing() &&
-						allComplete)
+					if (allComplete)
 					{
 						// Tell this destination to start initializing
 						ComsInitializeMessage initMessage;
@@ -144,7 +144,7 @@ void ServerFileServer::simulate(float timeDifference)
 			itor++)
 		{
 			Tank *tank = (*itor).second;
-			if (tank->getState().getLoading())
+			if (tank->getState().getState() == TankState::sLoading)
 			{
 				tank->getMod().setSent(false);
 			}
@@ -164,7 +164,7 @@ void ServerFileServer::simulate(float timeDifference)
 		}
 
 		Tank *tank = (*itor).second;
-		if (tank->getState().getLoading())
+		if (tank->getState().getState() == TankState::sLoading)
 		{
 			// Check if the client is ready to recieve more
 			// bytes and there is some to send and

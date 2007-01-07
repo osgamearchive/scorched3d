@@ -21,7 +21,7 @@
 #if !defined(AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_)
 #define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
-#include <common/Vector.h>
+#include <common/Vector4.h>
 #include <graph/ModelRenderer.h>
 #include <list>
 
@@ -31,7 +31,7 @@ public:
 	TankMesh(Model &tank);
 	virtual ~TankMesh();
 
-	void draw(float frame, bool drawS, float angle, Vector &position, 
+	void draw(float frame, bool drawS, Vector4 &angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ,
 		bool absCenter = false, float scale = 1.0f);
 	int getNoTris();

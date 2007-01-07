@@ -189,9 +189,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		{
 			Tank *tank = (*itor).second;
 			// Check to see if any tanks are pending being added
-			if (tank->getState().getState() == TankState::sPending &&
-				!tank->getState().getLoading() &&
-				!tank->getState().getInitializing())
+			if (tank->getState().getState() == TankState::sPending)
 			{
 				pending = true;
 			}
@@ -246,10 +244,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	{
 		Tank *tank = (*itor).second;
 		// Check to see if any tanks are pending being added
-		if (!tank->getState().getLoading() &&
-			!tank->getState().getInitializing() &&
-			(tank->getState().getState() == TankState::sPending ||
-			state == ServerState::ServerStateNewGame))
+		if (tank->getState().getState() == TankState::sPending ||
+			state == ServerState::ServerStateNewGame)
 		{
 			count++;
 
@@ -352,8 +348,8 @@ void ServerNewGameState::calculateStartPosition(
 		Tank *tank = (*mainitor).second;
 
 		if (!tank->getState().getSpectator() &&
-			!tank->getState().getLoading() &&
-			!tank->getState().getInitializing())
+			(tank->getState().getState() == TankState::sDead ||
+			tank->getState().getState() == TankState::sNormal))
 		{
 			Vector tankPos = PlacementTankPosition::placeTank(
 				tank->getPlayerId(), tank->getTeam(), 

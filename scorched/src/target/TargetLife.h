@@ -43,7 +43,6 @@ public:
 	Vector &getSize() { return size_; }
 	Vector4 &getQuaternion() { return quaternion_; }
 	Vector &getAabbSize() { return aabbSize_; }
-	float getRotation() { return rotation_; }
 	void setRotation(float rotation);
 	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
 	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
@@ -71,7 +70,6 @@ protected:
 	Vector4 quaternion_;
 	Vector aabbSize_;
 	Vector size_;
-	float rotation_;
 	float life_;
 	float maxLife_;
 	bool sphereGeom_;

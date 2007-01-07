@@ -30,14 +30,13 @@
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	context_(context), sphereGeom_(true),
 	life_(100.0f), maxLife_(1.0f), target_(0),
-	size_(2.0f, 2.0f, 2.0f), rotation_(0.0f),
+	size_(2.0f, 2.0f, 2.0f), 
 	driveOverToDestroy_(false)
 {
 }
 
 TargetLife::~TargetLife()
 {
-
 	removeFromSpace();
 }
 
@@ -54,7 +53,7 @@ void TargetLife::setLife(float life)
 	if (life_ <= 0)
 	{
 		life_ = 0;
-		rotation_ = 0.0f;
+		setRotation(0.0f);
 
 		removeFromSpace();
 	}
@@ -74,9 +73,8 @@ void TargetLife::setSize(Vector &size)
 
 void TargetLife::setRotation(float rotation)
 {
-	rotation_ = rotation;
 	Vector zaxis(0.0f, 0.0f, 1.0f);
-	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation_ / 180.0f * PI);
+	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation / 180.0f * PI);
 
 	updateAABB();
 }
@@ -225,7 +223,7 @@ bool TargetLife::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(maxLife_);
 	buffer.addToBuffer(life_);
 	buffer.addToBuffer(size_);
-	buffer.addToBuffer(rotation_);
+	buffer.addToBuffer(quaternion_);
 	return true;
 }
 
@@ -236,7 +234,7 @@ bool TargetLife::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(l)) return false;
 	setLife(l);
 	if (!reader.getFromBuffer(size_)) return false;
-	if (!reader.getFromBuffer(rotation_)) return false;
+	if (!reader.getFromBuffer(quaternion_)) return false;
 	return true;
 }
 

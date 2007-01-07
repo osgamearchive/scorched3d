@@ -62,7 +62,7 @@ bool ServerInitializeHandler::processMessage(
 		Tank *tank = (*itor).second;
 		if (netMessage.getDestinationId() == tank->getDestinationId())
 		{
-			tank->getState().setInitializing(false);
+			tank->getState().setState(TankState::sPending);
 		}
 	}
 

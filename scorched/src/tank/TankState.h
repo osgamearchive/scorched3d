@@ -31,6 +31,8 @@ class TankState
 public:
 	enum State
 	{
+		sInitializing,
+		sLoading,
 		sPending,
 		sNormal,
 		sDead
@@ -52,18 +54,17 @@ public:
 	void newMatch();
 	void clientNewGame();
 	
-	// State
+	// Ready State
 	void setReady() { readyState_ = sReady; }
 	void setNotReady() { readyState_ = SNotReady; }
+	ReadyState getReadyState() { return readyState_; }
+
+	// State
 	void setState(State s);
 	State getState() { return state_; }
-	ReadyState getReadyState() { return readyState_; }
 	void setSpectator(bool s) { spectator_ = s; }
 	bool getSpectator() { return spectator_; }	
-	void setLoading(bool l) { loading_ = l; }
-	bool getLoading() { return loading_; }
-	void setInitializing(bool i) { initializing_ = i; }
-	bool getInitializing() { return initializing_; }
+
 	void setAdmin(TankAdmin *admin);
 	TankAdmin *getAdmin() { return admin_; }
 	void setAdminTries(int adminTries) { adminTries_ = adminTries; }
@@ -91,8 +92,6 @@ protected:
 	TankAdmin *admin_; int adminTries_;
 	int lives_, maxLives_;
 	bool spectator_;
-	bool initializing_;
-	bool loading_;
 	bool muted_;
 	bool skipshots_;
 

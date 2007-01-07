@@ -110,6 +110,14 @@ void NetBuffer::addDataToBuffer(const void *add, unsigned len)
 	usedSize_ += len;
 }
 
+void NetBuffer::addToBuffer(Vector4 &add)
+{
+	addToBuffer(add[0]);
+	addToBuffer(add[1]);
+	addToBuffer(add[2]);
+	addToBuffer(add[3]);
+}
+
 void NetBuffer::addToBuffer(Vector &add)
 {
 	addToBuffer(add[0]);
@@ -177,6 +185,15 @@ NetBufferReader::~NetBufferReader()
 void NetBufferReader::reset()
 {
 	readSize_ = 0;
+}
+
+bool NetBufferReader::getFromBuffer(Vector4 &result)
+{
+	if (!getFromBuffer(result[0])) return false;
+	if (!getFromBuffer(result[1])) return false;
+	if (!getFromBuffer(result[2])) return false;
+	if (!getFromBuffer(result[3])) return false;
+	return true;
 }
 
 bool NetBufferReader::getFromBuffer(Vector &result)

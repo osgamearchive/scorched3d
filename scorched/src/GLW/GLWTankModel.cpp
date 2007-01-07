@@ -89,9 +89,10 @@ void GLWTankModel::draw()
 		TankMesh *mesh = renderer->getMesh();
 		if (mesh)
 		{
+			Vector4 rotation(1.0f, 0.0f, 0.0f, 0.0f);
 			mesh->draw(
 				totalTime_ * 20.0f,
-				false, 0.0f, position, 0.0f,
+				false, rotation, position, 0.0f,
 				current->getPosition().getRotationGunXY(),
 				current->getPosition().getRotationGunYZ(),
 				true);

@@ -396,14 +396,15 @@ void GLWTankViewer::drawItem(int pos, bool selected)
 	}
 
 	// Tank
+	Vector4 tankRot(1.0f, 0.0f, 0.0f, 0.0f);
 	Vector tankPos;
 	if (selected)
 	{
-		mesh->draw(totalTime_ * 20.0f, false, 0.0f, tankPos, 0.0f, rotXY_, rotYZ_);
+		mesh->draw(totalTime_ * 20.0f, false, tankRot, tankPos, 0.0f, rotXY_, rotYZ_);
 	}
 	else
 	{
-		mesh->draw(totalTime_ * 20.0f, false, 0.0f, tankPos, 0.0f, 45.0f, 45.0f);
+		mesh->draw(totalTime_ * 20.0f, false, tankRot, tankPos, 0.0f, 45.0f, 45.0f);
 	}
 
 	// Ground

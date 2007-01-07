@@ -207,8 +207,6 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 	// This also fixes setting the state after loading 
 	// a saved game
 	tank->getState().setSpectator(false);
-	tank->getState().setLoading(false);
-	tank->getState().setInitializing(false);
 
 	// Choose a team (if applicable)
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() > 1)

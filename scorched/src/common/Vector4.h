@@ -88,6 +88,20 @@ public:
 		return !((*this) == Vin1);
 	}
 
+	Vector4 operator*(const Vector4 &qc)
+        {
+		Vector4 qa;
+		Vector4 &qb = *this;
+		
+		// dQMultiply0 from ODE
+		qa[0] = qb[0]*qc[0] - qb[1]*qc[1] - qb[2]*qc[2] - qb[3]*qc[3];
+		qa[1] = qb[0]*qc[1] + qb[1]*qc[0] + qb[2]*qc[3] - qb[3]*qc[2];
+		qa[2] = qb[0]*qc[2] + qb[2]*qc[0] + qb[3]*qc[1] - qb[1]*qc[3];
+		qa[3] = qb[0]*qc[3] + qb[3]*qc[0] + qb[1]*qc[2] - qb[2]*qc[1];
+	
+		return qa;
+        }
+
 	// Quaternion maths
 	void setQuatFromAxisAndAngle(Vector &axis, float angle);
 	void getRotationMatrix(float *R); // R = float[4*3];

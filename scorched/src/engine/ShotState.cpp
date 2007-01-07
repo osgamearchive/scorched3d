@@ -130,8 +130,6 @@ void ShotState::resurectTanks()
 
 		// Check for any dead tanks that can be rezed
 		if (!tank->getState().getSpectator() &&
-			!tank->getState().getInitializing() &&
-			!tank->getState().getLoading() &&
 			tank->getState().getState() == TankState::sDead &&
 			(tank->getState().getLives() > 0 ||
 			tank->getState().getMaxLives() == 0))

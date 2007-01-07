@@ -29,11 +29,23 @@
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 
+static struct AllowedStateTransitions
+{
+	TankState::State from, to;
+}
+allowedStateTransitions[] =
+{
+	TankState::sLoading, TankState::sInitializing,
+	TankState::sInitializing,TankState::sPending,
+	TankState::sPending, TankState::sDead,
+	TankState::sDead, TankState::sNormal,
+	TankState::sNormal , TankState::sDead
+};
+
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
-	state_(sPending), tank_(0),
+	state_(sLoading), tank_(0),
 	readyState_(sReady), admin_(0),
 	context_(context), spectator_(false), 
-	loading_(false), initializing_(false),
 	muted_(false), adminTries_(0),
 	skipshots_(false), 
 	lives_(0), maxLives_(1)
@@ -46,7 +58,7 @@ TankState::~TankState()
 
 void TankState::newMatch()
 {
-	if (getState() == sNormal) setState(sDead);
+	setState(sDead);
 	readyState_ = sReady;
 }
 
@@ -69,9 +81,16 @@ void TankState::clientNewGame()
 
 void TankState::setState(State s)
 {
-	if (loading_) return;
-
-	state_ = s;
+	for (int i=0; i<sizeof(allowedStateTransitions) / 
+			sizeof(AllowedStateTransitions); i++)
+	{
+		if (state_ == allowedStateTransitions[i].from &&
+			s == allowedStateTransitions[i].to)
+		{
+			state_ = s;
+			break;
+		}
+	}
 
  	if (state_ != sNormal)
 	{
@@ -102,11 +121,26 @@ const char *TankState::getStateString()
 const char *TankState::getSmallStateString()
 {
 	const char *type = "";
-	if (spectator_) type = "(Spectator)";
-	if (initializing_) type = "(Initializing)";
-	if (loading_) type = "(Loading)";
-	const char *other = ((state_==sDead)?"Dead":((state_==sNormal)?"Alive":"Pending"));
-	return formatString("%s%s", other, type);
+	switch (state_)
+	{
+	case sPending:
+		type = "Pending";
+		break;
+	case sNormal:
+		type = "Alive";
+		break;
+	case sInitializing:
+		type = "Initializing";
+		break;
+	case sLoading:
+		type = "Loading";
+		break;
+	case sDead:
+		type = "Dead";
+		break;
+	}
+
+	return formatString("%s%s", (spectator_?"(Spec)":""), type);
 }
 
 bool TankState::writeMessage(NetBuffer &buffer)
@@ -122,6 +156,7 @@ bool TankState::readMessage(NetBufferReader &reader)
 {
 	int s;
 	if (!reader.getFromBuffer(s)) return false;
+	state_ = (TankState::State) s;
 	setState((TankState::State) s);
 	if (!reader.getFromBuffer(spectator_)) return false;
 	if (!reader.getFromBuffer(lives_)) return false;

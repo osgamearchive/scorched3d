@@ -93,13 +93,15 @@ void TargetRendererImplTargetModel::draw(float distance)
 		target_->getLife().getSize().Max() + 2.0f);
 
 	// Draw the tank model
+	static float rotMatrix[16];
+	target_->getLife().getQuaternion().getOpenGLRotationMatrix(rotMatrix);
+
 	glPushMatrix();
 		glTranslatef(
 			target_->getTargetPosition()[0], 
 			target_->getTargetPosition()[1], 
 			target_->getTargetPosition()[2]);
-		glRotatef(target_->getLife().getRotation(), 
-			0.0f, 0.0f, 1.0f);
+		glMultMatrixf(rotMatrix);
 		glScalef(scale_, scale_, scale_);
 		if (burnt_) burntModelRenderer_->drawBottomAligned();
 		else modelRenderer_->drawBottomAligned();
