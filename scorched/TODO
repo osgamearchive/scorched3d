@@ -39,6 +39,7 @@ Added: Web management exit when empty option (to exit server when no one is play
 Added: Web management log file search feature for finding strings in log files
 Added: DebugFeatures option for server.xml to disable InfoGrid
 Added: New wall types: WallActive and WallInactive
+Added: botonly option for accessories (ie: only for bots, not for AI objects)
 
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server
 Fixed: Darkened night water (thanks Deathstryker)
