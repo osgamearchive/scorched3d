@@ -145,19 +145,4 @@ public:
 	LandscapeSoundSound *sound;
 };
 
-class LandscapeDefinitions;
-class LandscapeSound
-{
-public:
-	LandscapeSound();
-	virtual ~LandscapeSound();
-
-	std::vector<LandscapeSoundType *> objects;
-
-	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
-
-private:
-	LandscapeSound(const LandscapeSound &other);
-	LandscapeSound &operator=(LandscapeSound &other);
-};
 #endif // __INCLUDE_LandscapeSoundh_INCLUDE__

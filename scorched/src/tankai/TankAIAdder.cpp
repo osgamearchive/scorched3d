@@ -27,6 +27,7 @@
 #include <tank/TankModelStore.h>
 #include <tank/TankAvatar.h>
 #include <tank/TankModelContainer.h>
+#include <tank/TankState.h>
 #include <server/ServerState.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
@@ -147,6 +148,8 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		tank->getAvatar().loadFromFile("computer.png");
 		tank->setUniqueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
+		tank->getState().setState(TankState::sInitializing);
+		tank->getState().setState(TankState::sPending);
 		context.getTankContainer().addTank(tank);
 
 		if (context.getOptionsGame().getTeams() > 1)

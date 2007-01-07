@@ -21,11 +21,7 @@
 #include <landscapedef/LandscapeDefinitions.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
-#include <landscapedef/LandscapePlace.h>
-#include <landscapedef/LandscapeSound.h>
-#include <landscapedef/LandscapeBoids.h>
-#include <landscapedef/LandscapeShips.h>
-#include <landscapedef/LandscapeEvents.h>
+#include <landscapedef/LandscapeInclude.h>
 #include <common/OptionsGame.h>
 #include <common/Defines.h>
 #include <limits.h>
@@ -37,11 +33,7 @@ LandscapeDefinitions::LandscapeDefinitions() :
 	lastDefinition_(0),
 	texs_("Tex"),
 	defns_("Defns"),
-	places_("Placement"),
-	sounds_("Sound"),
-	boids_("Boids"),
-	ships_("Ships"),
-	events_("Events")
+	include_("Include")
 {
 }
 
@@ -55,11 +47,7 @@ void LandscapeDefinitions::clearLandscapeDefinitions()
 
 	defns_.clearItems();
 	texs_.clearItems();
-	sounds_.clearItems();
-	places_.clearItems();
-	boids_.clearItems();
-	ships_.clearItems();
-	events_.clearItems();
+	include_.clearItems();
 }
 
 LandscapeTex *LandscapeDefinitions::getTex(const char *file, bool load)
@@ -67,29 +55,9 @@ LandscapeTex *LandscapeDefinitions::getTex(const char *file, bool load)
 	return texs_.getItem(this, file, load, true);
 }
 
-LandscapePlace *LandscapeDefinitions::getPlace(const char *file, bool load)
+LandscapeInclude *LandscapeDefinitions::getInclude(const char *file, bool load)
 {
-	return places_.getItem(this, file, load, true);
-}
-
-LandscapeSound *LandscapeDefinitions::getSound(const char *file, bool load)
-{
-	return sounds_.getItem(this, file, load, true);
-}
-
-LandscapeBoids *LandscapeDefinitions::getBoids(const char *file, bool load)
-{
-	return boids_.getItem(this, file, load, true);
-}
-
-LandscapeShips *LandscapeDefinitions::getShips(const char *file, bool load)
-{
-	return ships_.getItem(this, file, load, true);
-}
-
-LandscapeEvents *LandscapeDefinitions::getEvents(const char *file, bool load)
-{
-	return events_.getItem(this, file, load, true);
+	return include_.getItem(this, file, load, true);
 }
 
 LandscapeDefn *LandscapeDefinitions::getDefn(const char *file, bool load)

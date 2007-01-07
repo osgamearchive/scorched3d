@@ -23,6 +23,7 @@
 #include <tankgraph/RenderTracer.h>
 #include <tankgraph/RenderGeoms.h>
 #include <tank/TankContainer.h>
+#include <target/TargetLife.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLCamera.h>
@@ -111,8 +112,8 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 	{
 		Target *target = (*itor).second;
 		float distance = approx_distance(
-				target->getTargetPosition()[0] - campos[0],
-				target->getTargetPosition()[1] - campos[1]);
+				target->getLife().getTargetPosition()[0] - campos[0],
+				target->getLife().getTargetPosition()[1] - campos[1]);
 
 		// Check we have the tank model for each tank
 		TargetRenderer *model = target->getRenderer();

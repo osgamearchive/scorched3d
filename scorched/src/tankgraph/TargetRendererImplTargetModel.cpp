@@ -20,6 +20,7 @@
 
 #include <tankgraph/TargetRendererImplTargetModel.h>
 #include <target/TargetLife.h>
+#include <target/TargetState.h>
 #include <landscape/Landscape.h>
 #include <landscape/ShadowMap.h>
 #include <3dsparse/ModelStore.h>
@@ -74,7 +75,7 @@ void TargetRendererImplTargetModel::draw(float distance)
 	// Check we can see the tank
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
-		sphereInFrustum(target_->getTargetPosition(), 
+		sphereInFrustum(target_->getLife().getTargetPosition(), 
 		target_->getLife().getSize().Max() / 2.0f,
 		GLCameraFrustum::FrustrumRed) ||
 		!target_->getAlive())
@@ -87,10 +88,13 @@ void TargetRendererImplTargetModel::draw(float distance)
 	storeTank2DPos();
 
 	// Add the tank shadow
-	Landscape::instance()->getShadowMap().addCircle(
-		target_->getTargetPosition()[0], 
-		target_->getTargetPosition()[1], 
-		target_->getLife().getSize().Max() + 2.0f);
+	if (target_->getTargetState().getDisplayShadow())
+	{
+		Landscape::instance()->getShadowMap().addCircle(
+			target_->getLife().getTargetPosition()[0], 
+			target_->getLife().getTargetPosition()[1], 
+			target_->getLife().getSize().Max() + 2.0f);
+	}
 
 	// Draw the tank model
 	static float rotMatrix[16];
@@ -98,9 +102,9 @@ void TargetRendererImplTargetModel::draw(float distance)
 
 	glPushMatrix();
 		glTranslatef(
-			target_->getTargetPosition()[0], 
-			target_->getTargetPosition()[1], 
-			target_->getTargetPosition()[2]);
+			target_->getLife().getTargetPosition()[0], 
+			target_->getLife().getTargetPosition()[1], 
+			target_->getLife().getTargetPosition()[2]);
 		glMultMatrixf(rotMatrix);
 		glScalef(scale_, scale_, scale_);
 		if (burnt_) burntModelRenderer_->drawBottomAligned();
@@ -136,7 +140,7 @@ void TargetRendererImplTargetModel::shieldHit()
 void TargetRendererImplTargetModel::storeTank2DPos()
 {
 	Vector &tankTurretPos = 
-		target_->getCenterPosition();
+		target_->getLife().getCenterPosition();
 	Vector camDir = 
 		GLCamera::getCurrentCamera()->getLookAt() - 
 		GLCamera::getCurrentCamera()->getCurrentPos();

@@ -26,6 +26,8 @@
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <coms/ComsPlayerReadyMessage.h>
+#include <coms/ComsTargetStateMessage.h>
+#include <coms/ComsMessageSender.h>
 
 ServerPlayerReadyHandler *ServerPlayerReadyHandler::instance_ = 0;
 
@@ -84,6 +86,29 @@ bool ServerPlayerReadyHandler::processMessage(NetMessage &netMessage,
 	// Set this tank as ready to proceed
 	// This is used by stimuli to check if all tanks are syncronised
 	tank->getState().setReady();
+
+	// Check if this tank needs a sync message
+	if (tank->getState().getNeedSync())
+	{
+		// Send the sync message to this client
+		ComsTargetStateMessage targetState;
+		ComsMessageSender::sendToSingleClient(targetState, netMessage.getDestinationId());
+
+		// Set all of the tanks at this destination not needing a sync
+		std::map<unsigned int, Tank *> &tanks = 
+			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *current = (*itor).second;
+			if (current->getDestinationId() == netMessage.getDestinationId())
+			{
+				current->getState().setNeedSync(false);
+			}
+		}
+	}
 
 	return true;
 }

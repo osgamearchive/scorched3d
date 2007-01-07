@@ -1,5 +1,4 @@
 <ambientsound>
-	<sounds>
 		<sound>
 			<position type='water'>
 				<falloff>1.0</falloff>
@@ -10,5 +9,4 @@
 				<gain>1.0</gain>
 			</sound>
 		</sound>
-	</sounds>
 </ambientsound>

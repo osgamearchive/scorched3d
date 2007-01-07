@@ -34,13 +34,21 @@ Added: Server now simulates the shots in real-time allowing for the addition of 
 Added: Server only sends initial shots and seeds to clients for each turn saving on bandwidth
 Added: ScorePerMoney value is now per 1000 rather than per 100
 Added: Web management authentication failure reponse is delayed before sending back to client
-Added: Web management sessions view to show logined in web admins
+Added: Web management sessions view to show logged in web admins
 Added: Web management exit when empty option (to exit server when no one is playing)
 Added: Web management log file search feature for finding strings in log files
 Added: DebugFeatures option for server.xml to disable InfoGrid
 Added: New wall types: WallActive and WallInactive
 Added: botonly option for accessories (ie: only for bots, not for AI objects)
+Added: Server file logging can be turned on from server settings
+Added: Concept of movement routines for targets so targets can now move
+Added: Boids and ships are now targets (can have a physical presence)
+Added: Boids and ships have the same positions on all clients and the server
+Added: Cleaned unused tags from landscape placement and ambientsound files
+Added: All aspects of the landscape (placement, sound, movement...) can be defined in the same file
+Added: Concept of a general include file to replace specific sound, movement, placement files.
 
+Fixed: Cleaned up tank state machine
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server
 Fixed: Darkened night water (thanks Deathstryker)
 Fixed: Flag reseting on buying screen when buying items
@@ -57,7 +65,6 @@ Crashing when minimized during texture/level load
 
 -- Things I am currently looking at
 Fix crashing when people win (Graphics card drivers??)
-Better collision for models (switch all models to targets, ODE issue?)
 Better shadows?
 
 -- Server Stuff

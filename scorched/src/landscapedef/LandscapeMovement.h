@@ -18,42 +18,57 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeSoundManagerh_INCLUDE__)
-#define __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeMovementh_INCLUDE__)
+#define __INCLUDE_LandscapeMovementh_INCLUDE__
 
 #include <list>
+#include <vector>
+#include <common/Vector.h>
+#include <common/ModelID.h>
 
-class VirtualSoundSource;
-class SoundBuffer;
-class LandscapeInclude;
-class LandscapeSoundType;
-class LandscapeSoundManager
+class LandscapeMovementType
 {
 public:
-	LandscapeSoundManager();
-	virtual ~LandscapeSoundManager();
-
-	void initialize(std::list<LandscapeInclude *> sounds);
-	void simulate(float frameTime);
-	void cleanUp();
-
-protected:
-	struct LandscapeSoundManagerEntry
+	enum Type
 	{
-		LandscapeSoundManagerEntry() : 
-			soundSource(0), removed(false) {}
-
-		VirtualSoundSource *soundSource;
-		LandscapeSoundType *soundType;
-		void *initData;
-
-		float timeLeft;
-		bool removed;
+		eShips,
+		eBoids
 	};
 
-	std::list<LandscapeSoundManagerEntry> entries_;
-	float lastTime_;
+	static LandscapeMovementType *create(const char *type);
 
+	virtual bool readXML(XMLNode *node);
+	virtual Type getType() = 0;
+
+	std::string groupname;
 };
 
-#endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+class LandscapeMovementTypeBoids : public LandscapeMovementType
+{
+public:
+	ModelID model;
+	Vector minbounds, maxbounds;
+	float maxvelocity;
+	float cruisedistance;
+	float maxacceleration;
+
+	virtual bool readXML(XMLNode *node);
+	virtual Type getType() { return eBoids; }
+};
+
+class LandscapeMovementTypeShips : public LandscapeMovementType
+{
+public:
+	float speed;
+	int controlpoints;
+	float controlpointswidth;
+	float controlpointsheight;
+	float controlpointsrand;
+	float starttime;
+
+	virtual bool readXML(XMLNode *node);
+	virtual Type getType() { return eShips; }
+};
+
+
+#endif // __INCLUDE_LandscapeMovementh_INCLUDE__

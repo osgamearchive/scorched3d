@@ -46,20 +46,20 @@ void EventContainer::initialize(ScorchedContext &context)
 	LandscapeDefn &defn = 
 		*context.landscapeMaps->getDefinitions().getDefn();
 
-	addEvents(context, tex.texDefn.events);
-	addEvents(context, defn.texDefn.events);
+	addEvents(context, tex.texDefn.includes);
+	addEvents(context, defn.texDefn.includes);
 }
 
 void EventContainer::addEvents(ScorchedContext &context, 
-	std::vector<LandscapeEvents *> &events)
+	std::vector<LandscapeInclude *> &events)
 {
-	std::vector<LandscapeEvents *>::iterator itor;
+	std::vector<LandscapeInclude *>::iterator itor;
 	for (itor = events.begin();
 		itor != events.end();
 		itor++)
 	{
-		LandscapeEvents *event = (*itor);
-		addEvent(context, event->objects);
+		LandscapeInclude *event = (*itor);
+		addEvent(context, event->events);
 	}
 }
 

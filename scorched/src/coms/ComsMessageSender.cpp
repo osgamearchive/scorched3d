@@ -156,7 +156,9 @@ bool ComsMessageSender::sendToAllPlayingClients(
 		itor++)
 	{
 		Tank *tank = (*itor).second;
-		if (tank->getState().getState() != TankState::sPending)
+		if (tank->getState().getState() != TankState::sPending &&
+			tank->getState().getState() != TankState::sLoading &&
+			tank->getState().getState() != TankState::sInitializing)
 		{
 			unsigned int destination = tank->getDestinationId();
 			findItor = destinations.find(destination);

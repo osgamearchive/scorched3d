@@ -18,38 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscapedef/LandscapePlace.h>
-#include <common/DefinesString.h>
-#include <XML/XMLNode.h>
+#if !defined(__INCLUDE_TargetMovementh_INCLUDE__)
+#define __INCLUDE_TargetMovementh_INCLUDE__
 
-LandscapePlace::LandscapePlace()
-{
-}
+#include <landscapedef/LandscapeInclude.h>
+#include <movement/TargetMovementEntry.h>
 
-LandscapePlace::~LandscapePlace()
+class ScorchedContext;
+class RandomGenerator;
+class TargetMovement
 {
-	for (unsigned int i=0; i<objects.size(); i++)
-	{
-		delete objects[i];
-	}
-	objects.clear();
-}
+public:
+	TargetMovement();
+	virtual ~TargetMovement();
 
-bool LandscapePlace::readXML(LandscapeDefinitions *definitions, XMLNode *node)
-{
-	{
-		XMLNode *placementsNode, *placementNode;
-		if (!node->getNamedChild("placements", placementsNode)) return false;
-		while (placementsNode->getNamedChild("placement", placementNode, false))
-		{
-			std::string placementtype;
-			PlacementType *placement = 0;
-			if (!placementNode->getNamedParameter("type", placementtype)) return false;
-			if (!(placement = PlacementType::create(placementtype.c_str()))) return false;
-			if (!placement->readXML(placementNode)) return false;
-			objects.push_back(placement);
-		}
-		if (!placementsNode->failChildren()) return false;
-	}
-	return node->failChildren();
-}
+	void generate(ScorchedContext &context);
+	void simulate(float frameTime);
+
+	// Serialize the movement data (if any)
+	bool writeMessage(NetBuffer &buffer);
+	bool readMessage(NetBufferReader &reader);
+
+protected:
+	std::vector<TargetMovementEntry *> movements_;
+
+	void addMovements(ScorchedContext &context, 
+		RandomGenerator &random, 
+		std::vector<LandscapeInclude *> &movements);
+	void addMovementType(ScorchedContext &context, 
+		RandomGenerator &random, 
+		std::vector<LandscapeMovementType *> &movementtype);
+};
+
+#endif // __INCLUDE_TargetMovementh_INCLUDE__

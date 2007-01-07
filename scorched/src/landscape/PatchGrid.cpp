@@ -27,6 +27,7 @@
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
+#include <target/TargetLife.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/TriNodePool.h>
 
@@ -152,8 +153,8 @@ void PatchGrid::recalculateTankVariance()
 		Target *current = (*itor).second;
 		if (current->getAlive())
 		{
-			float posX = current->getTargetPosition()[0];
-			float posY = current->getTargetPosition()[1];
+			float posX = current->getLife().getTargetPosition()[0];
+			float posY = current->getLife().getTargetPosition()[1];
 
 			posX /= float(patchSize_);
 			posY /= float(patchSize_);

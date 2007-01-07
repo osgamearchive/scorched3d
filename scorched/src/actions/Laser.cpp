@@ -101,7 +101,7 @@ void Laser::simulate(float frameTime, bool &remove)
 					if (current->getAlive() &&
 						current->getPlayerId() != playerId_)
 					{
-						Vector offset = current->getTargetPosition() -	pos;
+						Vector offset = current->getLife().getTargetPosition() -	pos;
 						float targetDistance = offset.Magnitude();
 						bool laserProof = false;
 

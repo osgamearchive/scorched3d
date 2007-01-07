@@ -31,81 +31,32 @@ LandscapeTexDefn::~LandscapeTexDefn()
 
 bool LandscapeTexDefn::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
-	{
-		XMLNode *eventsNode;
-		if (node->getNamedChild("events", eventsNode, false))
-		{
-			std::string event;
-			while (eventsNode->getNamedChild("event", event, false))
-			{
-				LandscapeEvents *landscapeEvents = 
-					definitions->getEvents(event.c_str(), true);
-				if (!landscapeEvents) return false;
-				events.push_back(landscapeEvents);
-			}
-			if (!eventsNode->failChildren()) return false;
-		}
-	}
-	{
-		XMLNode *boidsNode;
-		if (node->getNamedChild("boids", boidsNode, false))
-		{
-			std::string boid;
-			while (boidsNode->getNamedChild("boid", boid, false))
-			{
-				LandscapeBoids *landscapeBoids = 
-					definitions->getBoids(boid.c_str(), true);
-				if (!landscapeBoids) return false;
-				boids.push_back(landscapeBoids);
-			}
-			if (!boidsNode->failChildren()) return false;
-		}
-	}
-	{
-		XMLNode *shipgoupsNode;
-		if (node->getNamedChild("shipgroups", shipgoupsNode, false))
-		{
-			std::string shipgroup;
-			while (shipgoupsNode->getNamedChild("shipgroup", shipgroup, false))
-			{
-				LandscapeShips *landscapeShips = 
-					definitions->getShips(shipgroup.c_str(), true);
-				if (!landscapeShips) return false;
-				ships.push_back(landscapeShips);
-			}
-			if (!shipgoupsNode->failChildren()) return false;
-		}
-	}
-	{
-		XMLNode *placementsNode;
-		if (node->getNamedChild("placements", placementsNode, false))
-		{
-			std::string placement;
-			while (placementsNode->getNamedChild("placement", placement, false))
-			{
-				LandscapePlace *landscapePlace = 
-					definitions->getPlace(placement.c_str(), true);
-				if (!landscapePlace) return false;
-				placements.push_back(landscapePlace);
-			}
-			if (!placementsNode->failChildren()) return false;
-		}
-	}
-	{
-		XMLNode *soundsNode;
-		if (node->getNamedChild("ambientsounds", soundsNode, false))
-		{
-			std::string sound;
-			while (soundsNode->getNamedChild("ambientsound", sound, false))
-			{
-				LandscapeSound *landscapeSound = 
-					definitions->getSound(sound.c_str(), true);
-				if (!landscapeSound) return false;
-				sounds.push_back(landscapeSound);
-			}
-			if (!soundsNode->failChildren()) return false;
-		}
-	}
+	if (!readXML("events", "event", definitions, node)) return false;
+	if (!readXML("placements", "placement", definitions, node)) return false;
+	if (!readXML("ambientsounds", "ambientsound", definitions, node)) return false;
+	if (!readXML("includes", "include", definitions, node)) return false;
+	if (!readXML("boids", "boid", definitions, node)) return false;
+	if (!readXML("shipgroups", "shipgroup", definitions, node)) return false;
+	return true;
+}
 
+bool LandscapeTexDefn::readXML(const char *names, const char *name,
+	LandscapeDefinitions *definitions, XMLNode *node)
+{
+	{
+		XMLNode *includesNode;
+		if (node->getNamedChild(names, includesNode, false))
+		{
+			std::string include;
+			while (includesNode->getNamedChild(name, include, false))
+			{
+				LandscapeInclude *landscapeInclude = 
+					definitions->getInclude(include.c_str(), true);
+				if (!landscapeInclude) return false;
+				includes.push_back(landscapeInclude);
+			}
+			if (!includesNode->failChildren()) return false;
+		}
+	}
 	return true;
 }

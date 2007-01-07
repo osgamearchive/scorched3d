@@ -23,6 +23,7 @@
 #include <tank/TankColorGenerator.h>
 #include <tank/TankModelStore.h>
 #include <tank/TankAvatar.h>
+#include <tank/TankState.h>
 #include <target/TargetLife.h>
 #include <target/TargetParachute.h>
 #include <target/TargetShield.h>
@@ -127,6 +128,8 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	tank->getLife().setMaxLife(life_);
 	tank->getLife().setSize(size_);
 	tank->getLife().setDriveOverToDestroy(driveovertodestroy_);
+	tank->getState().setState(TankState::sInitializing);
+	tank->getState().setState(TankState::sPending);
 	tank->newMatch();
 	tank->newGame();
 
@@ -185,7 +188,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 		tank->setBurnAction((Weapon *) action->getAction());
 	}
 
-	tank->setTargetPosition(position);
+	tank->getLife().setTargetPosition(position);
 
 	groups_.addToGroups(context, &tank->getGroup(), false);
 

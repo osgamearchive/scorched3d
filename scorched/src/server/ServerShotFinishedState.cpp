@@ -346,7 +346,9 @@ void ServerShotFinishedState::scoreOverallWinner()
 		{
 			Tank *current = (*itor).second;
 			if (!current->getState().getSpectator() &&
-				!current->getState().getState() == TankState::sPending)
+				current->getState().getState() != TankState::sPending &&
+				current->getState().getState() != TankState::sInitializing &&
+				current->getState().getState() != TankState::sLoading)
 			{
 				sortedTanks.push_back(current);
 			}
@@ -420,7 +422,9 @@ void ServerShotFinishedState::scoreOverallWinner()
 				if (tank->getTeam() == winningTeam)
 				{
 					if (!tank->getState().getSpectator() &&
-						!tank->getState().getState() == TankState::sPending)
+						tank->getState().getState() != TankState::sPending &&
+						tank->getState().getState() != TankState::sInitializing &&
+						tank->getState().getState() != TankState::sLoading)
 					{
 						StatsLogger::instance()->tankOverallWinner(tank);
 					}

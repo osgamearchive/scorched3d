@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,47 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeBoidsh_INCLUDE__)
-#define __INCLUDE_LandscapeBoidsh_INCLUDE__
+#if !defined(__INCLUDE_ClientTargetStateHandlerh_INCLUDE__)
+#define __INCLUDE_ClientTargetStateHandlerh_INCLUDE__
 
-#include <list>
-#include <vector>
-#include <common/Vector.h>
-#include <common/ModelID.h>
+#include <coms/ComsMessageHandler.h>
 
-class LandscapeDefinitions;
-class LandscapeBoidsType
+class ClientTargetStateHandler : 
+	public ComsMessageHandlerI
 {
 public:
-	ModelID model;
-	int count;
-	Vector minbounds, maxbounds;
-	float soundmintime, soundmaxtime;
-	float soundvolume;
-	float modelsize;
-	float maxvelocity;
-	float cruisedistance;
-	float maxacceleration;
-	int soundmaxsimul;
-	std::list<std::string> sounds;
+	static ClientTargetStateHandler* instance();
 
-	bool readXML(XMLNode *node);
-};
+	virtual bool processMessage(
+		NetMessage &message,
+		const char *messageType,
+		NetBufferReader &reader);
 
-class LandscapeBoids
-{
-public:
-	LandscapeBoids();
-	virtual ~LandscapeBoids();
-
-	std::vector<LandscapeBoidsType *> objects;
-
-	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
+protected:
+	static ClientTargetStateHandler* instance_;
 
 private:
-	LandscapeBoids(const LandscapeBoids &other);
-	LandscapeBoids &operator=(LandscapeBoids &other);
+	ClientTargetStateHandler();
+	virtual ~ClientTargetStateHandler();
+
+	ClientTargetStateHandler(const ClientTargetStateHandler &);
+	const ClientTargetStateHandler & operator=(const ClientTargetStateHandler &);
+
 };
 
-
-#endif // __INCLUDE_LandscapeBoidsh_INCLUDE__
+#endif

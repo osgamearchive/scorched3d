@@ -47,7 +47,7 @@ TankState::TankState(ScorchedContext &context, unsigned int playerId) :
 	readyState_(sReady), admin_(0),
 	context_(context), spectator_(false), 
 	muted_(false), adminTries_(0),
-	skipshots_(false), 
+	skipshots_(false), needsync_(false),
 	lives_(0), maxLives_(1)
 {
 }

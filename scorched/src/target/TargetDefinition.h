@@ -37,6 +37,7 @@ public:
 	virtual bool readXML(XMLNode *node, const char *base);
 	Target *createTarget(unsigned int playerId,
 		Vector &position,
+		Vector &velocity,
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
@@ -48,6 +49,8 @@ protected:
 	float life_;
 	bool boundingsphere_;
 	bool driveovertodestroy_;
+	bool nocollision_, nodamageburn_;
+	bool displaydamage_, displayshadow_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;

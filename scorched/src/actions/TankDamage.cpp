@@ -76,7 +76,7 @@ void TankDamage::init()
 	{
 		const float ShowTime = 4.0f;
 		ActionMeta *pos = new CameraPositionAction(
-			damagedTarget->getTargetPosition(), ShowTime,
+			damagedTarget->getLife().getTargetPosition(), ShowTime,
 			15);
 		context_->actionController->addAction(pos);
 	}
@@ -136,7 +136,7 @@ void TankDamage::calculateDamage()
 		if (!context_->serverMode &&
 			damagedTarget->getTargetState().getDisplayDamage())
 		{
-			Vector position = damagedTarget->getTargetPosition();
+			Vector position = damagedTarget->getLife().getTargetPosition();
 			position[0] += RAND * 5.0f - 2.5f;
 			position[1] += RAND * 5.0f - 2.5f;
 			position[2] += RAND * 5.0f - 2.5f;
@@ -325,7 +325,7 @@ void TankDamage::calculateDamage()
 	if (checkFall_ && damagedTarget->getAlive())
 	{
 		// The tank is not dead check if it needs to fall
-		Vector &position = damagedTarget->getTargetPosition();
+		Vector &position = damagedTarget->getLife().getTargetPosition();
 		if (context_->landscapeMaps->getGroundMaps().
 			getInterpHeight(position[0], position[1]) < position[2])
 		{
@@ -378,7 +378,7 @@ void TankDamage::calculateDeath()
 	Weapon *weapon = killedTarget->getDeathAction();
 	if (weapon)
 	{
-		Vector position = killedTarget->getTargetPosition();
+		Vector position = killedTarget->getLife().getTargetPosition();
 		Vector velocity;
 		weapon->fireWeapon(*context_, firedPlayerId_, 
 			position, velocity, Weapon::eDataDeathAnimation);

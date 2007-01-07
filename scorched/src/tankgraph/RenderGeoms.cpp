@@ -78,7 +78,7 @@ void RenderGeoms::drawCollisionBounds()
 			continue;
 		}
 
-		Vector position = target->getTargetPosition();
+		Vector position = target->getLife().getTargetPosition();
 		Vector size = target->getLife().getAabbSize();
 		position[2] += size[2] / 2.0f;
 
@@ -160,7 +160,7 @@ void RenderGeoms::drawCollisionGeoms()
 
 		if (target->getLife().getBoundingSphere())
 		{
-			Vector position = target->getTargetPosition();
+			Vector position = target->getLife().getTargetPosition();
 			Vector &size = target->getLife().getSize();
 			position[2] += size[2] / 2.0f;
 			float radius = MAX(MAX(size[0], size[1]), size[2]) / 2.0f;
@@ -179,7 +179,7 @@ void RenderGeoms::drawCollisionGeoms()
 		}
 		else
 		{
-			Vector position = target->getTargetPosition();
+			Vector position = target->getLife().getTargetPosition();
 			Vector &size = target->getLife().getSize();
 			position[2] += size[2] / 2.0f;
 

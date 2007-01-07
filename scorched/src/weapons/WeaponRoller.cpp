@@ -26,6 +26,7 @@
 #include <engine/ActionController.h>
 #include <target/TargetContainer.h>
 #include <target/TargetShield.h>
+#include <target/TargetLife.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <math.h>
 
@@ -130,7 +131,7 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 			{
 				Target *current = (*itor).second;
 				Vector &tankPos = 
-					current->getTargetPosition();
+					current->getLife().getTargetPosition();
 				Accessory *accessory = 
 					current->getShield().getCurrentShield();
 				if (accessory)

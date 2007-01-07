@@ -82,7 +82,7 @@ void TankMovement::init()
 	Tank *tank = context_->tankContainer->getTankById(playerId_);
 	if (!tank) return;	
 
-	startPosition_ = tank->getTargetPosition();
+	startPosition_ = tank->getLife().getTargetPosition();
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 	
 	// Start the tank movement sound
@@ -226,9 +226,9 @@ void TankMovement::simulationMove(float frameTime)
 						if (smokeCounter_.nextDraw(frameTime))
 						{
 							Landscape::instance()->getSmoke().addSmoke(
-								tank->getTargetPosition()[0],
-								tank->getTargetPosition()[1],
-								tank->getTargetPosition()[2]);
+								tank->getLife().getTargetPosition()[0],
+								tank->getLife().getTargetPosition()[1],
+								tank->getLife().getTargetPosition()[2]);
 						}
 					}
 				}
@@ -265,7 +265,7 @@ void TankMovement::simulationMove(float frameTime)
 			if (current->getState().getState() == TankState::sNormal)
 			{
 				// Move the tank to the final position
-				DeformLandscape::flattenArea(*context_, current->getTargetPosition(), 0);
+				DeformLandscape::flattenArea(*context_, current->getLife().getTargetPosition(), 0);
 			}
 		}
 
@@ -349,12 +349,12 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Actually move the tank
 	tank->getLife().setRotation(a);
-	tank->setTargetPosition(newPos);
+	tank->getLife().setTargetPosition(newPos);
 
 	// Remove the targets that this tank "drives over"
 	std::map<unsigned int, Target *> collisionTargets;
 	context_->targetSpace->getCollisionSet(
-		tank->getTargetPosition(), 3.0f, collisionTargets, false);
+		tank->getLife().getTargetPosition(), 3.0f, collisionTargets, false);
 	std::map<unsigned int, Target *>::iterator itor;
 	for (itor = collisionTargets.begin();
 		itor != collisionTargets.end();
@@ -380,7 +380,7 @@ void TankMovement::moveTank(Tank *tank)
 				Weapon *weapon = (Weapon *) accessory->getAction();
 				weapon->fireWeapon(*context_, 
 					tank->getPlayerId(),
-					tank->getTargetPosition(), 
+					tank->getLife().getTargetPosition(), 
 					Vector::nullVector);
 			}
 		}

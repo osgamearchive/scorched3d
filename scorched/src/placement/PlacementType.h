@@ -36,13 +36,16 @@ public:
 	enum Type
 	{
 		eMask,
+		eCount,
 		eTree,
 		eDirect,
+		eBounds,
 		eTankStart
 	};
 	struct Position
 	{
 		Vector position;
+		Vector velocity;
 	};
 
 	static PlacementType *create(const char *type);

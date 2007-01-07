@@ -308,7 +308,7 @@ void Lightning::damageTargets(Vector &position,
 		if (target->getAlive() &&
 			target->getPlayerId() != playerId_)
 		{
-			float distance = (target->getTargetPosition() -
+			float distance = (target->getLife().getTargetPosition() -
 				position).Magnitude();
 			if (distance < weapon_->getSegHurtRadius() + 
 				MAX(target->getLife().getSize()[0], target->getLife().getSize()[1]))

@@ -44,8 +44,8 @@ TargetSpace::~TargetSpace()
 void TargetSpace::addTarget(Target *target)
 {
 	// Set the bounding constaints
-	int x = (int) target->getTargetPosition()[0];
-	int y = (int) target->getTargetPosition()[1];
+	int x = (int) target->getLife().getTargetPosition()[0];
+	int y = (int) target->getLife().getTargetPosition()[1];
 	int w = (int) target->getLife().getAabbSize()[0];
 	int h = (int) target->getLife().getAabbSize()[1];
 
@@ -136,7 +136,7 @@ Target *TargetSpace::getCollision(Vector &position)
 		if (shieldAcc)
 		{
 			Shield *shield = (Shield *) shieldAcc->getAction();
-			Vector direction = position - target->getTargetPosition();
+			Vector direction = position - target->getLife().getTargetPosition();
 			if (shield->inShield(direction)) return target;
 		}
 
@@ -187,7 +187,7 @@ void TargetSpace::getCollisionSet(Vector &position, float radius,
 				Vector checkPos = position;
 				if (ignoreHeight)
 				{
-					Vector centerPos = target->getCenterPosition();
+					Vector centerPos = target->getLife().getCenterPosition();
 					checkPos[2] = centerPos[2];
 				}
 				float distance = target->getLife().collisionDistance(checkPos);
@@ -305,7 +305,7 @@ void TargetSpace::draw()
 				itor++)
 			{
 				Target *target = (*itor).second;
-				glVertex3fv(target->getTargetPosition());
+				glVertex3fv(target->getLife().getTargetPosition());
 				glVertex3f(position[0], position[1], position[2] + 10.0f);
 			}
 			glEnd();

@@ -22,6 +22,7 @@
 #include <tankgraph/TargetRendererImpl.h>
 #include <graph/Particle.h>
 #include <target/TargetContainer.h>
+#include <target/TargetLife.h>
 #include <client/ScorchedClient.h>
 
 TargetParticleRenderer *TargetParticleRenderer::getInstance()
@@ -39,7 +40,7 @@ void TargetParticleRenderer::simulateParticle(Particle &particle, float time)
 	{
 		// Target and particle alive
 		particle.life_ = 1000.0f; // Alive
-		particle.position_ = target->getTargetPosition();
+		particle.position_ = target->getLife().getTargetPosition();
 	}
 	else
 	{

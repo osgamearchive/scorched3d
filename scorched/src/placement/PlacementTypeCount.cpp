@@ -18,26 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedBoidsObstacleh_INCLUDE__)
-#define __INCLUDE_ScorchedBoidsObstacleh_INCLUDE__
+#include <placement/PlacementTypeCount.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <engine/ScorchedContext.h>
+#include <common/ProgressCounter.h>
+#include <common/RandomGenerator.h>
+#include <common/Defines.h>
+#include <GLEXT/GLBitmap.h>
+#include <XML/XMLParser.h>
 
-#include <boids/Obstacle.h>
-#include <common/Vector.h>
-
-class ScorchedBoidsObstacle : public Obstacle
+PlacementTypeCount::PlacementTypeCount()
 {
-public:
-	ScorchedBoidsObstacle(Vector &maxBounds, Vector &minBounds);
-	virtual ~ScorchedBoidsObstacle();
+}
 
-	virtual Obstacle *Clone(void) const 
-		{ return new ScorchedBoidsObstacle(*this); }
+PlacementTypeCount::~PlacementTypeCount()
+{
+}
 
-protected:
-	virtual ISectData IntersectionWithRay(const BoidVector & raydirection,
-		const BoidVector &rayorigin) const;
+bool PlacementTypeCount::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("count", count)) return false;
+	return PlacementType::readXML(node);
+}
 
-	Vector maxBounds_, minBounds_;
-};
-
-#endif // __INCLUDE_ScorchedBoidsObstacleh_INCLUDE__
+void PlacementTypeCount::getPositions(ScorchedContext &context,
+	RandomGenerator &generator,
+	std::list<Position> &returnPositions,
+	ProgressCounter *counter)
+{
+	for (int i=0; i<count; i++)
+	{
+		Position position;
+		returnPositions.push_back(position);
+	}
+}

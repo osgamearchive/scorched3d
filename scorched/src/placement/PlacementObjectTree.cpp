@@ -247,7 +247,7 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 			target->setBurnAction((Weapon *) action->getAction());
 		}
 
-		target->setTargetPosition(position.position);
+		target->getLife().setTargetPosition(position.position);
 		context.targetContainer->addTarget(target);
 		group_.addToGroups(context, &target->getGroup(), true);
 

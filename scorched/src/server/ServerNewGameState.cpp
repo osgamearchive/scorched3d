@@ -37,6 +37,7 @@
 #include <tank/TankPosition.h>
 #include <tank/TankAccessories.h>
 #include <tank/TankModelContainer.h>
+#include <target/TargetLife.h>
 #include <tankai/TankAI.h>
 #include <weapons/EconomyStore.h>
 #include <coms/ComsNewGameMessage.h>
@@ -307,6 +308,9 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 				tank->getState().setState(TankState::sDead);
 			}
 
+			// Tell the server that it needs to send this client a sync message
+			tank->getState().setNeedSync(true);
+
 			// Add to the list of destinations to send this message to
 			// (if not already added)
 			unsigned int destination = tank->getDestinationId();
@@ -357,7 +361,7 @@ void ServerNewGameState::calculateStartPosition(
 
 			// Set the starting position of the tank
 			DeformLandscape::flattenArea(context, tankPos, 0);
-			tank->setTargetPosition(tankPos);
+			tank->getLife().setTargetPosition(tankPos);
 		}
 	}
 }

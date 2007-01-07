@@ -45,8 +45,6 @@ public:
 	virtual void fired();
 	virtual void targetBurnt();
 
-	virtual Vector &getPosition() { return target_->getTargetPosition(); }
-
 protected:
 	Target *target_;
 

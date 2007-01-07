@@ -20,6 +20,7 @@
 
 #include <target/TargetGroupEntry.h>
 #include <target/Target.h>
+#include <target/TargetLife.h>
 
 TargetGroupEntry::TargetGroupEntry()
 {
@@ -36,5 +37,5 @@ void TargetGroupEntry::setTarget(Target *target)
 
 Vector &TargetGroupEntry::getPosition()
 {
-	return target_->getTargetPosition();
+	return target_->getLife().getTargetPosition();
 }

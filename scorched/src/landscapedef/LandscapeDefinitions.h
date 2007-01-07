@@ -26,13 +26,9 @@
 #include <landscapedef/LandscapeDefinition.h>
 
 class LandscapeDefinitions;
-class LandscapePlace;
-class LandscapeSound;
-class LandscapeBoids;
-class LandscapeShips;
 class LandscapeDefn;
 class LandscapeTex;
-class LandscapeEvents;
+class LandscapeInclude;
 class OptionsGame;
 
 class LandscapeDefinitions : public LandscapeDefinitionsBase
@@ -48,11 +44,7 @@ public:
 	LandscapeDefinition getRandomLandscapeDefn(OptionsGame &context);
 	LandscapeTex *getTex(const char *file, bool load = false);
 	LandscapeDefn *getDefn(const char *file, bool load = false);
-	LandscapePlace *getPlace(const char *file, bool load = false);
-	LandscapeSound *getSound(const char *file, bool load = false);
-	LandscapeBoids *getBoids(const char *file, bool load = false);
-	LandscapeShips *getShips(const char *file, bool load = false);
-	LandscapeEvents *getEvents(const char *file, bool load = false);
+	LandscapeInclude *getInclude(const char *file, bool load = false);
 
 protected:
 	LandscapeDefinitionsEntry* lastDefinition_;
@@ -60,11 +52,7 @@ protected:
 
 	LandscapeDefinitionsItem<LandscapeTex> texs_;
 	LandscapeDefinitionsItem<LandscapeDefn> defns_;
-	LandscapeDefinitionsItem<LandscapePlace> places_;
-	LandscapeDefinitionsItem<LandscapeSound> sounds_;
-	LandscapeDefinitionsItem<LandscapeBoids> boids_;
-	LandscapeDefinitionsItem<LandscapeShips> ships_;
-	LandscapeDefinitionsItem<LandscapeEvents> events_;
+	LandscapeDefinitionsItem<LandscapeInclude> include_;
 
 	const char *getLeastUsedFile(std::vector<std::string> &files);
 };

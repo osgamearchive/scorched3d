@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscapemap/TargetGroupsSetEntry.h>
+#include <target/Target.h>
 #include <common/Defines.h>
 
 TargetGroupsSetEntry::TargetGroupsSetEntry()
@@ -31,30 +32,35 @@ TargetGroupsSetEntry::~TargetGroupsSetEntry()
 
 void TargetGroupsSetEntry::addObject(TargetGroupEntry *object, bool thin)
 {
-	objects_.insert(object);
+	objects_[object->getTarget()->getPlayerId()] = object;
 }
 
 bool TargetGroupsSetEntry::removeObject(TargetGroupEntry *object)
 {
-	return (objects_.erase(object) > 0);
+	return (objects_.erase(object->getTarget()->getPlayerId()) > 0);
 }
 
 TargetGroupEntry *TargetGroupsSetEntry::getObject(int position)
 {
 	int pos = position % int(objects_.size());
-	std::set<TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
 	for (itor = objects_.begin();
 		itor != objects_.end();
 		itor ++, pos--)
 	{
-		if (pos <=0) return (*itor);
+		if (pos <=0) return (*itor).second;
 	}
 	return 0;
 }
 
 bool TargetGroupsSetEntry::hasObject(TargetGroupEntry *object)
 {
-	return (objects_.find(object) != objects_.end());
+	return (objects_.find(object->getTarget()->getPlayerId()) != objects_.end());
+}
+
+bool TargetGroupsSetEntry::hasObjectById(unsigned int playerId)
+{
+	return (objects_.find(playerId) != objects_.end());
 }
 
 int TargetGroupsSetEntry::getObjectCount()

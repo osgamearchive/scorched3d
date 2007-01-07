@@ -36,6 +36,7 @@ public:
 
 	std::vector<TargetGroupsGroupEntry *> groups;
 	Vector &getPosition();
+	Target *getTarget() { return target_; }
 
 protected:
 	Target *target_;

@@ -18,6 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_BoidsObstacleh_INCLUDE__)
+#define __INCLUDE_BoidsObstacleh_INCLUDE__
+
 /*
  * Copyright (C) 1996, Christopher John Kline
  * Electronic mail: ckline@acm.org
@@ -43,11 +46,8 @@
  *
  */
 
-#ifndef _OBSTACLE_H
-#define _OBSTACLE_H
-
 #include "BoidVector.h"
-
+#include <common/Vector.h>
 
 /* information about a possible intersection of 
    a ray with a BoidPolygonal obstacle */
@@ -285,4 +285,22 @@ Sphere::Clone(void) const
   return new Sphere(*this);
 }   
 
-#endif	/* #ifndef _OBSTACLE_H */
+class ScorchedContext;
+class BoidsObstacle : public Obstacle
+{
+public:
+	BoidsObstacle(ScorchedContext &context, Vector &maxBounds, Vector &minBounds);
+	virtual ~BoidsObstacle();
+
+	virtual Obstacle *Clone(void) const 
+		{ return new BoidsObstacle(*this); }
+
+protected:
+	virtual ISectData IntersectionWithRay(const BoidVector & raydirection,
+		const BoidVector &rayorigin) const;
+
+	Vector maxBounds_, minBounds_;
+	ScorchedContext &context_;
+};
+
+#endif // __INCLUDE_BoidsObstacleh_INCLUDE__

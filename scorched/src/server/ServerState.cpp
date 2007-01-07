@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <engine/GameState.h>
+#include <engine/ActionController.h>
 #include <server/ServerState.h>
 #include <server/ServerNewGameState.h>
 #include <server/ServerNextRoundState.h>
@@ -32,9 +33,16 @@
 #include <server/ServerStartingState.h>
 #include <server/ServerShotState.h>
 #include <server/ServerShotFinishedState.h>
+#include <server/ScorchedServer.h>
 
 void ServerState::setupStates(GameState &gameState)
 {
+	static class DummyLoop : public GameStateI
+	{
+	public:
+		DummyLoop() : GameStateI("DummyLoop") {}
+	} dummyLoop_;
+
 	gameState.clear();
 
 	// ServerStateTooFewPlayers (Start State)
@@ -66,6 +74,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNewGame
 	ServerNewGameState *serverNewGame = new ServerNewGameState;
+	gameState.addStateLoop(ServerStateNewGame, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateNewGame,
 		serverNewGame);
 	gameState.addStateStimulus(ServerStateNewGame, 
@@ -75,6 +85,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNewGameReady
 	ServerReadyState *serverNewGameReady = new ServerReadyState(serverShot);
+	gameState.addStateLoop(ServerStateNewGameReady, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateNewGameReady,
 		serverNewGameReady);
 	gameState.addStateStimulus(ServerStateNewGameReady, 
@@ -82,6 +94,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNextRound
 	ServerNextRoundState *serverNextRound = new ServerNextRoundState();
+	gameState.addStateLoop(ServerStateNextRound, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateNextRound,
 		serverNextRound);
 	gameState.addStateStimulus(ServerStateNextRound, 
@@ -89,6 +103,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNextShot
 	ServerNextShotState *serverNextShot = new ServerNextShotState;
+	gameState.addStateLoop(ServerStateNextShot, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateNextShot,
 		serverNextShot);
 	gameState.addStateStimulus(ServerStateNextShot, 
@@ -102,6 +118,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNextTurn
 	ServerNextTurnState *serverNextTurn = new ServerNextTurnState;
+	gameState.addStateLoop(ServerStateNextTurn, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateNextTurn,
 		serverNextTurn);
 	gameState.addStateStimulus(ServerStateNextTurn,
@@ -113,6 +131,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStatePlaying
 	ServerPlayingState *serverPlaying = new ServerPlayingState;
+	gameState.addStateLoop(ServerStatePlaying, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStatePlaying,
 		serverPlaying);
 	gameState.addStateStimulus(ServerStatePlaying,
@@ -122,6 +142,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateBuying
 	ServerPlayingState *serverBuying = new ServerPlayingState;
+	gameState.addStateLoop(ServerStateBuying, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateBuying,
 		serverBuying);
 	gameState.addStateStimulus(ServerStateBuying,
@@ -130,6 +152,8 @@ void ServerState::setupStates(GameState &gameState)
 		serverBuying, ServerStateNextTurn);
 
 	// ServerStateShot
+	gameState.addStateLoop(ServerStateShot, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateShot,
 		serverShot);
 	gameState.addStateStimulus(ServerStateShot,
@@ -137,6 +161,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateShotReady
 	ServerReadyState *serverShotReady = new ServerReadyState(serverShot);
+	gameState.addStateLoop(ServerStateShotReady, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateShotReady,
 		serverShotReady);
 	gameState.addStateStimulus(ServerStateShotReady, 
@@ -144,6 +170,8 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateShotFinished
 	ServerShotFinishedState *serverShotFinished = new ServerShotFinishedState();
+	gameState.addStateLoop(ServerStateShotFinished, &dummyLoop_, 
+		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateShotFinished,
 		serverShotFinished);
 	gameState.addStateStimulus(ServerStateShotFinished, 

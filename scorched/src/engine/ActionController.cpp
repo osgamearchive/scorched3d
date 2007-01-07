@@ -21,6 +21,7 @@
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <engine/SyncCheck.h>
+#include <movement/TargetMovement.h>
 #include <common/Logger.h>
 #include <common/OptionsGame.h>
 #include <list>
@@ -258,6 +259,9 @@ void ActionController::stepActions(float frameTime)
 		events_.simulate(frameTime, *context_);
 		actionEvents_ = false;
 	}
+
+	// Move the targets
+	context_->targetMovement->simulate(frameTime);
 
 	// Itterate and draw all of the actions
 	int keepcount=0;

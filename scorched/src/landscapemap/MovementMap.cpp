@@ -34,6 +34,7 @@
 #include <tank/TankPosition.h>
 #include <tank/TankAccessories.h>
 #include <target/TargetShield.h>
+#include <target/TargetLife.h>
 #include <memory.h>
 
 MovementMap::MovementMap(int width, int height) :
@@ -198,7 +199,7 @@ bool MovementMap::allowedPosition(ScorchedContext &context, Tank *tank, Vector &
 
 			if (movementProof)
 			{
-				Vector offset = position - target->getTargetPosition();
+				Vector offset = position - target->getLife().getTargetPosition();
 				offset[0] = fabsf(offset[0]);
 				offset[1] = fabsf(offset[1]);
 				offset[2] = 0.0f;

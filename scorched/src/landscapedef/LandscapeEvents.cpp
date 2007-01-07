@@ -179,30 +179,3 @@ bool LandscapeActionFireWeapon::readXML(XMLNode *node)
 	if (!node->getNamedChild("weapon", weapon)) return false;
 	return node->failChildren();
 }
-
-LandscapeEvents::LandscapeEvents()
-{
-}
-
-LandscapeEvents::~LandscapeEvents()
-{
-	for (unsigned int i=0; i<objects.size(); i++)
-	{
-		delete objects[i];
-	}
-	objects.clear();
-}
-
-bool LandscapeEvents::readXML(LandscapeDefinitions *definitions, XMLNode *node)
-{
-	{
-		XMLNode *eventNode;
-		while (node->getNamedChild("event", eventNode, false))
-		{
-			LandscapeEvent *event = new LandscapeEvent;
-			if (!event->readXML(eventNode)) return false;
-			objects.push_back(event);
-		}
-	}
-	return node->failChildren();
-}

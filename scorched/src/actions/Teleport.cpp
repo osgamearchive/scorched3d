@@ -26,6 +26,7 @@
 #include <tank/TankState.h>
 #include <tank/TankPosition.h>
 #include <target/TargetDamageCalc.h>
+#include <target/TargetLife.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <weapons/AccessoryStore.h>
@@ -113,7 +114,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 					0, 0.0f, false, true, false, 0);
 			}
 
-			tank->setTargetPosition(position_);
+			tank->getLife().setTargetPosition(position_);
 			DeformLandscape::flattenArea(*context_, position_, 0);
 		}
 

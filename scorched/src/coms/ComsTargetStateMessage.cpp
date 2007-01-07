@@ -25,6 +25,7 @@
 #include <tank/TankContainer.h>
 #include <tankai/TankAIAdder.h>
 #include <common/Logger.h>
+#include <movement/TargetMovement.h>
 #include <set>
 
 ComsTargetStateMessage::ComsTargetStateMessage() : 
@@ -72,6 +73,9 @@ bool ComsTargetStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 
 		if (!target->writeMessage(buffer)) return false;
 	}
+
+	// Add all of the movement information
+	if (!ScorchedServer::instance()->getTargetMovement().writeMessage(buffer)) return false;
 	return true;
 }
 
@@ -138,6 +142,9 @@ bool ComsTargetStateMessage::readMessage(NetBufferReader &reader)
 			}
 		}
 	}
+
+	// Get all of the movement information
+	if (!ScorchedClient::instance()->getTargetMovement().readMessage(reader)) return false;
 #endif
 	
 	return true;

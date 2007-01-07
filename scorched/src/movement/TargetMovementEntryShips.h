@@ -18,28 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedShipsh_INCLUDE__)
-#define __INCLUDE_ScorchedShipsh_INCLUDE__
+#if !defined(__INCLUDE_TargetMovementEntryShipsh_INCLUDE__)
+#define __INCLUDE_TargetMovementEntryShipsh_INCLUDE__
 
-#include <ships/ShipGroup.h>
+#include <common/SplinePath.h>
+#include <movement/TargetMovementEntry.h>
+#include <map>
 
-class LandscapeShips;
-class LandscapeShipGroup;
-class ScorchedShips
+class TargetGroupsGroupEntry;
+class TargetMovementEntryShips : public TargetMovementEntry
 {
 public:
-	ScorchedShips();
-	virtual ~ScorchedShips();
+	TargetMovementEntryShips();
+	virtual ~TargetMovementEntryShips();
 
-	void generate();
-	void simulate(float frameTime);
-	void draw();
+	// Overridden from TargetMovementEntry
+	virtual void generate(ScorchedContext &context, 
+		RandomGenerator &random, 
+		LandscapeMovementType *movementType);
+	virtual void simulate(float frameTime);
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::vector<ShipGroup *> groups_;
-
-	void addShips(std::vector<LandscapeShips *> &ships);
-	void addShipGroups(std::vector<LandscapeShipGroup *> &shipgroups);
+	SplinePath path_;
+	TargetGroupsGroupEntry *groupEntry_;
+	std::map<unsigned int, Vector> offsets_;
 };
 
-#endif // __INCLUDE_ScorchedShipsh_INCLUDE__
+#endif // __INCLUDE_TargetMovementEntryShipsh_INCLUDE__

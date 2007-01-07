@@ -78,6 +78,10 @@ static void createControls(wxWindow *parent,
 		new wxCheckBox(parent, -1,
 		wxT("Allow multiple clients with the same unique id to use this server"));	
 	servernameSizer->Add(IDC_ALLOWSAMEID_CTRL, 0, wxTOP, 5);
+	IDC_LOGTOFILE_CTRL = 
+		new wxCheckBox(parent, -1,
+		wxT("Log to file"));	
+	servernameSizer->Add(IDC_LOGTOFILE_CTRL, 0, wxTOP, 5);
 
 	sizer->Add(servernameSizer, 0, wxALL, 5);
 	

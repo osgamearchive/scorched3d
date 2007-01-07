@@ -34,6 +34,7 @@ static wxTextCtrl *IDC_SERVERMANAGEMENT_PORT_CTRL = 0;
 static wxCheckBox *IDC_PUBLISH_CTRL = 0;
 static wxCheckBox *IDC_ALLOWSAME_CTRL = 0;
 static wxCheckBox *IDC_ALLOWSAMEID_CTRL = 0;
+static wxCheckBox *IDC_LOGTOFILE_CTRL = 0;
 static wxTextCtrl *IDC_PUBLISHIP_CTRL = 0;
 static wxButton *IDOK_PUBLISHAUTO_CTRL = 0;
 static wxButton *IDOK_CTRL = 0;

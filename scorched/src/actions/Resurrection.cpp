@@ -26,6 +26,7 @@
 #include <common/LoggerI.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
+#include <target/TargetLife.h>
 
 REGISTER_ACTION_SOURCE(Resurrection);
 
@@ -71,7 +72,7 @@ void Resurrection::simulate(float frameTime, bool &remove)
 
 		// Rez this tank
 		tank->rezTank();
-		tank->setTargetPosition(position_);
+		tank->getLife().setTargetPosition(position_);
 		DeformLandscape::flattenArea(*context_, position_, 0);
 	}
 

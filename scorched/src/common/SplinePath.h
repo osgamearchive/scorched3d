@@ -40,6 +40,9 @@ public:
 	void simulate(float frameTime);
 	void getPathAttrs(Vector &position, Vector &direction);
 
+	float getPathTime() { return pathTime_; }
+	void setPathTime(float pathTime) { pathTime_ = pathTime; }
+
 	std::vector<Vector> &getControlPoints() { return controlPoints_; }
 	std::vector<Vector> &getPathPoints() { return pathPoints_; }
 

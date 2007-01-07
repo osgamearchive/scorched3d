@@ -20,10 +20,11 @@
 
 #include <landscapemap/GroundMaps.h>
 #include <landscapemap/HeightMapLoader.h>
-#include <landscapedef/LandscapePlace.h>
+#include <landscapedef/LandscapeInclude.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <landscapedef/LandscapeDefinitionCache.h>
+#include <movement/TargetMovement.h>
 #include <common/Logger.h>
 #include <tankai/TankAIAdder.h>
 
@@ -42,6 +43,7 @@ void GroundMaps::generateMaps(
 {
 	generateHMap(context, counter);
 	generateObjects(context, counter);
+	context.targetMovement->generate(context);
 	nmap_.create(getMapWidth(), getMapHeight());
 
 	// Store the hmap to create the landscape diff.
@@ -105,7 +107,7 @@ void GroundMaps::generateHMap(
 }
 
 void GroundMaps::generateObject(RandomGenerator &generator, 
-	LandscapePlace &place,
+	LandscapeInclude &place,
 	ScorchedContext &context,
 	unsigned int &playerId,
 	ProgressCounter *counter)
@@ -113,9 +115,9 @@ void GroundMaps::generateObject(RandomGenerator &generator,
 	if (counter) counter->setNewOp("Populating Landscape");
 
 	// Generate all the objects using the objects definitions
-	for (unsigned int i=0; i<place.objects.size(); i++)
+	for (unsigned int i=0; i<place.placements.size(); i++)
 	{
-		PlacementType *type = place.objects[i];
+		PlacementType *type = place.placements[i];
 		type->createObjects(context, generator, playerId, counter);
 	}
 }
@@ -130,17 +132,20 @@ void GroundMaps::generateObjects(
 	// Remove any existing shadows
 	groups_.getShadows().clear();
 
+	// Remove any existing groups
+	groups_.clearGroups();
+
 	// Add objects to the landscape (if any)
 	// Do this now as it adds shadows to the mainmap
 	unsigned int playerId = TankAIAdder::MIN_TARGET_ID;
 	{
 		// Do this for the definition file
-		std::vector<LandscapePlace *>::iterator itor;
-		for (itor = defn->texDefn.placements.begin();
-			itor != defn->texDefn.placements.end();
+		std::vector<LandscapeInclude *>::iterator itor;
+		for (itor = defn->texDefn.includes.begin();
+			itor != defn->texDefn.includes.end();
 			itor++)
 		{
-			LandscapePlace *place = (*itor);
+			LandscapeInclude *place = (*itor);
 			RandomGenerator objectsGenerator;
 			objectsGenerator.seed(defnCache_.getSeed());
 			generateObject(objectsGenerator, *place, 
@@ -149,12 +154,12 @@ void GroundMaps::generateObjects(
 	}
 	{
 		// Do this for the texture file
-		std::vector<LandscapePlace *>::iterator itor;
-		for (itor = tex->texDefn.placements.begin();
-			itor != tex->texDefn.placements.end();
+		std::vector<LandscapeInclude *>::iterator itor;
+		for (itor = tex->texDefn.includes.begin();
+			itor != tex->texDefn.includes.end();
 			itor++)
 		{
-			LandscapePlace *place = (*itor);
+			LandscapeInclude *place = (*itor);
 			RandomGenerator objectsGenerator;
 			objectsGenerator.seed(defnCache_.getSeed());
 			generateObject(objectsGenerator, *place, 

@@ -1,5 +1,4 @@
 <ambientsound>
-	<sounds>
 		<sound>
 			<position type='absolute'>
 				<position>
@@ -34,5 +33,4 @@
 				<gain>1.0</gain>
 			</sound>
 		</sound>
-	</sounds>
 </ambientsound>

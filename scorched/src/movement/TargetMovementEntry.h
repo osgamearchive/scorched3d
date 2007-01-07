@@ -18,15 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <target/TargetState.h>
+#if !defined(__INCLUDE_TargetMovementEntryh_INCLUDE__)
+#define __INCLUDE_TargetMovementEntryh_INCLUDE__
 
-TargetState::TargetState() :
-	falling_(0),
-	displayDamage_(true), displayShadow_(true),
-	noDamageBurn_(false), noCollision_(false)
+class NetBuffer;
+class NetBufferReader;
+class RandomGenerator;
+class ScorchedContext;
+class LandscapeMovementType;
+class TargetMovementEntry
 {
-}
+public:
+	virtual void generate(ScorchedContext &context, 
+		RandomGenerator &random, 
+		LandscapeMovementType *movementType) = 0;
+	virtual void simulate(float frameTime) = 0;
 
-TargetState::~TargetState()
-{
-}
+	virtual bool writeMessage(NetBuffer &buffer) = 0;
+	virtual bool readMessage(NetBufferReader &reader) = 0;
+};
+
+#endif // __INCLUDE_TargetMovementEntryh_INCLUDE__

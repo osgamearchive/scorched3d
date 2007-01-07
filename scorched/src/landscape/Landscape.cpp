@@ -40,8 +40,6 @@
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
-#include <boids/ScorchedBoids.h>
-#include <ships/ScorchedShips.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <graph/OptionsDisplay.h>
@@ -77,8 +75,6 @@ Landscape::Landscape() :
 	surround_ = new Surround(
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap());
 	sky_ = new Sky();
-	boids_ = new ScorchedBoids();
-	ships_ = new ScorchedShips();
 	smoke_ = new Smoke();
 	wall_ = new Wall();
 
@@ -113,8 +109,6 @@ void Landscape::simulate(float frameTime)
 	patchGrid_->simulate(frameTime);
 	sky_->simulate(frameTime * speedMult);
 	wall_->simulate(frameTime * speedMult);
-	boids_->simulate(frameTime * speedMult);
-	ships_->simulate(frameTime * speedMult);
 	soundManager_->simulate(frameTime * speedMult);
 }
 
@@ -195,8 +189,6 @@ void Landscape::drawObjects()
 {
 	drawSetup();
 
-	boids_->draw();
-	ships_->draw();
 	wall_->draw();
 
 	drawTearDown();
@@ -309,12 +301,6 @@ void Landscape::generate(ProgressCounter *counter)
 	water_->generate(counter);
 	points_->generate();
 
-	// Add any boids
-	boids_->generate();
-
-	// Add any ships
-	ships_->generate();
-
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	if (!GLStateExtension::hasHardwareShadows())
@@ -391,20 +377,20 @@ void Landscape::generate(ProgressCounter *counter)
 	surround_->generate();
 
 	// Add any ambientsounds
-	std::list<LandscapeSound *> sounds;
-	std::vector<LandscapeSound *>::iterator soundItor;
-	for (soundItor = tex->texDefn.sounds.begin();
-		soundItor != tex->texDefn.sounds.end();
+	std::list<LandscapeInclude *> sounds;
+	std::vector<LandscapeInclude *>::iterator soundItor;
+	for (soundItor = tex->texDefn.includes.begin();
+		soundItor != tex->texDefn.includes.end();
 		soundItor++)
 	{
-		LandscapeSound *sound = (*soundItor);
+		LandscapeInclude *sound = (*soundItor);
 		sounds.push_back(sound);
 	}
-	for (soundItor = defn->texDefn.sounds.begin();
-		soundItor != defn->texDefn.sounds.end();
+	for (soundItor = defn->texDefn.includes.begin();
+		soundItor != defn->texDefn.includes.end();
 		soundItor++)
 	{
-		LandscapeSound *sound = (*soundItor);
+		LandscapeInclude *sound = (*soundItor);
 		sounds.push_back(sound);
 	}
 	soundManager_->initialize(sounds);

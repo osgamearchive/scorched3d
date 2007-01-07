@@ -43,7 +43,7 @@
  *
  */
 
-#include "Obstacle.h"
+#include <movement/BoidsObstacle.h>
 #include <assert.h>
 #include <limits.h>
 #include <float.h>
@@ -452,4 +452,121 @@ Sphere::IntersectionWithRay(const BoidVector &raydirection,
 
     return data;
 
+}
+
+
+#include <common/Line.h>
+#include <engine/ScorchedContext.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/HeightMap.h>
+
+BoidsObstacle::BoidsObstacle(ScorchedContext &context, Vector &maxBounds, Vector &minBounds) :
+	context_(context), minBounds_(minBounds), maxBounds_(maxBounds)
+{
+}
+
+BoidsObstacle::~BoidsObstacle()
+{
+}
+
+ISectData BoidsObstacle::IntersectionWithRay(const BoidVector & raydirection,
+		const BoidVector &rayorigin) const
+{
+	ISectData result;
+	result.intersectionflag = 0;
+
+	Vector direction(
+		(float) raydirection.x, 
+		(float) raydirection.z, 
+		(float) raydirection.y);
+	direction.StoreNormalize();
+	direction *= 2.0f;
+	Vector position(
+		(float) rayorigin.x, 
+		(float) rayorigin.z, 
+		(float) rayorigin.y);
+	result.normal.x = 0.0;
+	result.normal.y = 0.0;
+	result.normal.z = 0.0;
+
+	for (int i = 0; i < 12; i++)
+	{
+		position += direction;
+		if (position[0] < minBounds_[0])
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.x = 1.0f;
+		}
+		else if (position[0] > maxBounds_[0])
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.x = -1.0f;
+		}
+		if (position[1] < minBounds_[1])
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.z = 1.0f;
+		}
+		else if (position[1] > maxBounds_[1])
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.z = -1.0f;
+		}
+		if (position[2] < double(minBounds_[2]))
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.y = 1.0f;
+		}
+		else if (position[2] > double(maxBounds_[2]))
+		{
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.y = -1.0f;
+		}
+		if (result.intersectionflag == 1)
+		{
+			if (result.normal.x + result.normal.y + result.point.z > 1.0f)
+			{
+				result.normal.Normalize();
+			}
+			break;
+		}
+
+		if (context_.landscapeMaps->getGroundMaps().
+			getHeight((int) position[0], (int) position[1]) >
+			position[2] - 3.0f)
+		{
+			position -= direction;
+			Vector &normal = context_.landscapeMaps->getGroundMaps().
+				getNormal((int) position[0], (int) position[1]);
+
+			result.intersectionflag = 1;
+			result.point.x = position[0];
+			result.point.y = position[2];
+			result.point.z = position[1];
+			result.normal.x = normal[0];
+			result.normal.y = normal[2];
+			result.normal.z = normal[1];
+			break;
+		}
+	}
+
+	return result;
 }

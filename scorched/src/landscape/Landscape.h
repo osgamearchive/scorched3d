@@ -32,8 +32,6 @@ class PatchGrid;
 class LandscapeSoundManager;
 class Water;
 class LandscapePoints;
-class ScorchedBoids;
-class ScorchedShips;
 class Surround;
 class Sky;
 class Landscape
@@ -99,8 +97,6 @@ protected:
 	Wall *wall_;
 	PatchGrid *patchGrid_;
 	Sky *sky_;
-	ScorchedBoids *boids_;
-	ScorchedShips *ships_;
 	Surround *surround_;
 	Smoke *smoke_;
 	Water *water_;

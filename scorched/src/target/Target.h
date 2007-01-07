@@ -44,11 +44,6 @@ public:
 
 	virtual void newGame();
 
-	// Position
-	void setTargetPosition(Vector &position);
-	Vector &getTargetPosition() { return targetPosition_; }
-	Vector &getCenterPosition();
-
 	virtual bool getAlive();
 	virtual bool isTarget() { return true; }
 	virtual bool isTemp();
@@ -86,7 +81,6 @@ protected:
 	unsigned int playerId_;
 	float border_;
 	ScorchedContext &context_;
-	Vector targetPosition_;
 	TargetLife *life_;
 	TargetShield *shield_;
 	TargetParachute *parachute_;

@@ -30,6 +30,7 @@
 #include <tank/TankTeamScore.h>
 #include <tank/TankModelStore.h>
 #include <target/TargetSpace.h>
+#include <movement/TargetMovement.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <weapons/AccessoryStore.h>
@@ -53,6 +54,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	tankModelStore = new TankModelStore();
 	tankTeamScore = new TankTeamScore();
 	targetSpace = new TargetSpace();
+	targetMovement = new TargetMovement();
 
 	viewPoints->setContext(this);
 	actionController->setScorchedContext(this);

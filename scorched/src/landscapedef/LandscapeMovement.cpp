@@ -18,71 +18,52 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscapedef/LandscapeBoids.h>
+#include <landscapedef/LandscapeMovement.h>
 #include <XML/XMLNode.h>
 #include <common/Defines.h>
 
-bool LandscapeBoidsType::readXML(XMLNode *node)
+LandscapeMovementType *LandscapeMovementType::create(const char *type)
 {
-	XMLNode *modelnode;
-	if (!node->getNamedChild("model", modelnode)) return false;
-	if (!model.initFromNode(".", modelnode)) return false;
-	if (!node->getNamedChild("count", count)) return false;
+	if (0 == strcmp(type, "boids")) return new LandscapeMovementTypeBoids;
+	if (0 == strcmp(type, "ships")) return new LandscapeMovementTypeShips;
+	dialogMessage("LandscapeMovementType", formatString("Unknown movement type %s", type));
+	return 0;
+}
+
+bool LandscapeMovementType::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("groupname", groupname)) return false;
+
+	return node->failChildren();
+}
+
+bool LandscapeMovementTypeShips::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("speed", speed)) return false;
+	if (!node->getNamedChild("controlpoints", controlpoints)) return false;
+	if (!node->getNamedChild("controlpointswidth", controlpointswidth)) return false;
+	if (!node->getNamedChild("controlpointsheight", controlpointsheight)) return false;
+	if (!node->getNamedChild("controlpointsrand", controlpointsrand)) return false;
+	if (!node->getNamedChild("starttime", starttime)) return false;
+
+	return LandscapeMovementType::readXML(node);
+}
+
+bool LandscapeMovementTypeBoids::readXML(XMLNode *node)
+{
 	if (!node->getNamedChild("minbounds", minbounds)) return false;
 	if (!node->getNamedChild("maxbounds", maxbounds)) return false;
 	if (!node->getNamedChild("maxvelocity", maxvelocity)) return false;
 	if (!node->getNamedChild("cruisedistance", cruisedistance)) return false;
 	if (!node->getNamedChild("maxacceleration", maxacceleration)) return false;
-	modelsize = 1.0f; node->getNamedChild("modelsize", modelsize, false);
 
 	if (maxbounds[0] - minbounds[0] < 25.0f ||
 		maxbounds[1] - minbounds[1] < 25.0f ||
 		maxbounds[2] - minbounds[2] < 10.0f)
 	{
 		return node->returnError(
-			"Boid bounding box is too small, it must be at least 25 units");
+			"Boid bounding box is too small, it must be at least 25x10 units");
 	}
 
-	XMLNode *soundsNode;
-	std::string sound;
-	if (!node->getNamedChild("sounds", soundsNode)) return false;
-	if (!soundsNode->getNamedChild("mintime", soundmintime)) return false;
-	if (!soundsNode->getNamedChild("maxtime", soundmaxtime)) return false;
-	if (!soundsNode->getNamedChild("maxsimul", soundmaxsimul)) return false;
-	if (!soundsNode->getNamedChild("volume", soundvolume)) return false;
-	while (soundsNode->getNamedChild("sound", sound, false))
-	{
-		if (!checkDataFile(sound.c_str())) return false;
-		sounds.push_back(sound);
-	}
-	if (!soundsNode->failChildren()) return false;
-
-	return node->failChildren();
-}
-
-LandscapeBoids::LandscapeBoids()
-{
-}
-
-LandscapeBoids::~LandscapeBoids()
-{
-	for (unsigned int i=0; i<objects.size(); i++)
-	{
-		delete objects[i];
-	}
-	objects.clear();
-}
-
-bool LandscapeBoids::readXML(LandscapeDefinitions *definitions, XMLNode *node)
-{
-	{
-		XMLNode *boidNode;
-		while (node->getNamedChild("boid", boidNode, false))
-		{
-			LandscapeBoidsType *boid = new LandscapeBoidsType;
-			if (!boid->readXML(boidNode)) return false;
-			objects.push_back(boid);
-		}
-	}
-	return node->failChildren();
+	return LandscapeMovementType::readXML(node);
 }

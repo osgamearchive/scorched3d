@@ -1702,14 +1702,6 @@
 			Name="landscapedef"
 			>
 			<File
-				RelativePath="..\landscapedef\LandscapeBoids.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscapedef\LandscapeBoids.h"
-				>
-			</File>
-			<File
 				RelativePath="..\landscapedef\LandscapeDefinition.cpp"
 				>
 			</File>
@@ -1762,19 +1754,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapePlace.cpp"
+				RelativePath="..\landscapedef\LandscapeInclude.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapePlace.h"
+				RelativePath="..\landscapedef\LandscapeInclude.h"
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapeShips.cpp"
+				RelativePath="..\landscapedef\LandscapeMovement.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapeShips.h"
+				RelativePath="..\landscapedef\LandscapeMovement.h"
 				>
 			</File>
 			<File
@@ -1899,6 +1891,22 @@
 			</File>
 			<File
 				RelativePath="..\placement\PlacementType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeBounds.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeBounds.h"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeCount.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeCount.h"
 				>
 			</File>
 			<File
@@ -3027,6 +3035,66 @@
 			</File>
 			<File
 				RelativePath="..\3dsparse\Vertex.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="movement"
+			>
+			<File
+				RelativePath="..\movement\Boid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\Boid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidsObstacle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidsObstacle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovement.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovement.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryBoids.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryBoids.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryShips.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryShips.h"
 				>
 			</File>
 		</Filter>

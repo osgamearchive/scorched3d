@@ -23,6 +23,7 @@
 #include <target/TargetState.h>
 #include <target/TargetParachute.h>
 #include <target/TargetDamageCalc.h>
+#include <target/TargetLife.h>
 #include <tank/Tank.h>
 #include <tank/TankAccessories.h>
 #include <engine/ScorchedContext.h>
@@ -72,7 +73,7 @@ void TankFalling::init()
 		current->getTargetState().setFalling(this);
 
 		// Store the start positions
-		tankStartPosition_ = current->getTargetPosition();
+		tankStartPosition_ = current->getLife().getTargetPosition();
 
 		Vector velocity(0.0f, 0.0f, 0.0f);
 		PhysicsParticleInfo info(ParticleTypeFalling, fallingPlayerId_, this);
@@ -99,7 +100,7 @@ void TankFalling::simulate(float frameTime, bool &remove)
 			Vector &position = getCurrentPosition();
 			if (position[0] != 0.0f || position[1] != 0.0f || position[2] != 0.0f)
 			{
-				target->setTargetPosition(position);
+				target->getLife().setTargetPosition(position);
 			}
 		}
 		else collision_ = true;
@@ -169,7 +170,7 @@ void TankFalling::collision(PhysicsParticleObject &position,
 		}
 
 		// Move the tank to the final position
-		current->setTargetPosition(position.getPosition());
+		current->getLife().setTargetPosition(position.getPosition());
 
 		// Flatten the area around tanks
 		if (!current->isTarget())

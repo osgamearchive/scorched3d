@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='direct'>
 			<position>
 				<position>
@@ -73,5 +72,4 @@
 				</groupobject>
 			</object>
 		</placement>
-	</placements>
 </place>

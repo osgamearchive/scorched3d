@@ -20,7 +20,6 @@
 
 #include <landscapemap/TargetGroups.h>
 #include <landscapemap/LandscapeMaps.h>
-#include <landscapedef/LandscapePlace.h>
 #include <common/Defines.h>
 #include <stdio.h>
 

@@ -22,6 +22,7 @@
 #include <tankgraph/TargetParticleRenderer.h>
 #include <target/TargetShield.h>
 #include <target/TargetState.h>
+#include <target/TargetLife.h>
 #include <client/ScorchedClient.h>
 #include <graph/ParticleEngine.h>
 #include <common/Defines.h>
@@ -176,7 +177,7 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	Shield *shield = (Shield *) accessory->getAction();
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
-	Vector &position = target->getTargetPosition();
+	Vector &position = target->getLife().getTargetPosition();
 	Vector &color = shield->getColor();
 
 	if (shield->getRound())
@@ -288,7 +289,7 @@ void TargetRendererImpl::drawParachute(Target *target)
 		return;
 	}
 
-	Vector &position = target->getTargetPosition();
+	Vector &position = target->getLife().getTargetPosition();
 	GLState state(GLState::TEXTURE_OFF);
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);

@@ -18,27 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ShipGrouph_INCLUDE__)
-#define __INCLUDE_ShipGrouph_INCLUDE__
+#if !defined(__INCLUDE_LandscapeIncludeh_INCLUDE__)
+#define __INCLUDE_LandscapeIncludeh_INCLUDE__
 
-#include <common/SplinePath.h>
-#include <ships/Ship.h>
+#include <landscapedef/LandscapeEvents.h>
+#include <landscapedef/LandscapeMovement.h>
+#include <landscapedef/LandscapeSound.h>
+#include <placement/PlacementType.h>
 
-class RandomGenerator;
-class LandscapeShipGroup;
-class ShipGroup
+class LandscapeDefinitions;
+class LandscapeInclude
 {
 public:
-	ShipGroup();
-	virtual ~ShipGroup();
+	LandscapeInclude();
+	virtual ~LandscapeInclude();
 
-	void generate(RandomGenerator &random, LandscapeShipGroup *shipGroup);
-	void draw();
-	void simulate(float frameTime);
+	std::vector<LandscapeEvent *> events;
+	std::vector<LandscapeMovementType *> movements;
+	std::vector<PlacementType *> placements;
+	std::vector<LandscapeSoundType *> sounds;
 
-protected:
-	SplinePath path_;
-	std::vector<Ship *> ships_;
+	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
+
+private:
+	LandscapeInclude(const LandscapeInclude &other);
+	LandscapeInclude &operator=(LandscapeInclude &other);
 };
 
-#endif // __INCLUDE_ShipGrouph_INCLUDE__
+#endif // __INCLUDE_LandscapeIncludeh_INCLUDE__

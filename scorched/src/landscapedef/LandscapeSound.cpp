@@ -289,32 +289,3 @@ bool LandscapeSoundType::readXML(XMLNode *node)
 	}
 	return node->failChildren();
 }
-
-LandscapeSound::LandscapeSound()
-{
-}
-
-LandscapeSound::~LandscapeSound()
-{
-	for (unsigned int i=0; i<objects.size(); i++)
-	{
-		delete objects[i];
-	}
-	objects.clear();
-}
-
-bool LandscapeSound::readXML(LandscapeDefinitions *definitions, XMLNode *node)
-{
-	{
-		XMLNode *soundsNode, *soundNode;
-		if (!node->getNamedChild("sounds", soundsNode)) return false;
-		while (soundsNode->getNamedChild("sound", soundNode, false))
-		{
-			LandscapeSoundType *sound = new LandscapeSoundType;
-			if (!sound->readXML(soundNode)) return false;
-			objects.push_back(sound);
-		}
-		if (!soundsNode->failChildren()) return false;
-	}
-	return node->failChildren();
-}

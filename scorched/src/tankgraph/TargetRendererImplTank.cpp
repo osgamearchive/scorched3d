@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TargetRendererImplTank.h>
+#include <tank/TankLib.h>
+#include <tank/TankContainer.h>
 #include <tank/TankModelStore.h>
 #include <tank/TankModelContainer.h>
 #include <tank/TankState.h>
@@ -26,6 +28,7 @@
 #include <tank/TankAvatar.h>
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
+#include <target/TargetState.h>
 #include <tankgraph/TankMesh.h>
 #include <tankgraph/TankMeshStore.h>
 #include <landscape/Landscape.h>
@@ -33,8 +36,6 @@
 #include <landscape/ShadowMap.h>
 #include <landscape/Smoke.h>
 #include <landscape/Hemisphere.h>
-#include <tank/TankLib.h>
-#include <tank/TankContainer.h>
 #include <actions/TankFalling.h>
 #include <engine/ActionController.h>
 #include <client/ScorchedClient.h>
@@ -156,10 +157,13 @@ void TargetRendererImplTank::draw(float distance)
 
 	// Add the tank shadow
 	GLState currentState(GLState::TEXTURE_OFF);
-	Landscape::instance()->getShadowMap().addCircle(
-		tank_->getPosition().getTankPosition()[0], 
-		tank_->getPosition().getTankPosition()[1], 
-		(tank_->getLife().getSize().Max() + 2.0f) * modelSize);
+	if (tank_->getTargetState().getDisplayShadow())
+	{
+		Landscape::instance()->getShadowMap().addCircle(
+			tank_->getPosition().getTankPosition()[0], 
+			tank_->getPosition().getTankPosition()[1], 
+			(tank_->getLife().getSize().Max() + 2.0f) * modelSize);
+	}
 
 	// Draw the tank model
 	bool currentTank = 

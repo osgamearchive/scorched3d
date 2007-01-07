@@ -171,6 +171,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 		// Tidy player
 		if (ScorchedServer::instance()->getOptionsGame().getResidualPlayers() &&
 			tank->getState().getState() != TankState::sPending &&
+			tank->getState().getState() != TankState::sLoading &&
+			tank->getState().getState() != TankState::sInitializing &&
 			tank->getUniqueId()[0])
 		{
 			ScorchedServer::instance()->getTankDeadContainer().addTank(tank);

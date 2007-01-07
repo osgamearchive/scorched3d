@@ -108,21 +108,4 @@ public:
 	virtual bool readXML(XMLNode *node);
 };
 
-class LandscapeDefinitions;
-class LandscapeEvents
-{
-public:
-	LandscapeEvents();
-	virtual ~LandscapeEvents();
-
-	std::vector<LandscapeEvent *> objects;
-
-	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
-
-private:
-	LandscapeEvents(const LandscapeEvents &other);
-	LandscapeEvents &operator=(LandscapeEvents &other);
-};
-
-
 #endif // __INCLUDE_LandscapeEventsh_INCLUDE__

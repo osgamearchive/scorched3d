@@ -146,7 +146,7 @@ Vector &TankPosition::getTankTurretPosition()
 
 Vector &TankPosition::getTankPosition()
 { 
-	return tank_->getTargetPosition();
+	return tank_->getLife().getTargetPosition();
 }
 
 Vector &TankPosition::getVelocityVector()

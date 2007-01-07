@@ -23,6 +23,7 @@
 #include <tank/TankWeapon.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAccessories.h>
+#include <target/TargetLife.h>
 #include <engine/ScorchedContext.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
@@ -123,7 +124,7 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 			}
 			else if (wp->getPositionSelect() == Accessory::ePositionSelectLimit)
 			{
-				MovementMap::limitTexture(tank_->getTargetPosition(), 
+				MovementMap::limitTexture(tank_->getLife().getTargetPosition(), 
 					wp->getPositionSelectLimit());
 			}
 

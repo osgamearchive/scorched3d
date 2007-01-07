@@ -24,25 +24,21 @@
 #include <vector>
 #include <XML/XMLNode.h>
 
+class LandscapeInclude;
 class LandscapeDefinitions;
-class LandscapeSound;
-class LandscapePlace;
-class LandscapeBoids;
-class LandscapeShips;
-class LandscapeEvents;
 class LandscapeTexDefn
 {
 public:
 	LandscapeTexDefn();
 	virtual ~LandscapeTexDefn();
 
-	std::vector<LandscapeSound *> sounds;
-	std::vector<LandscapePlace *> placements;
-	std::vector<LandscapeBoids *> boids;
-	std::vector<LandscapeEvents *> events;
-	std::vector<LandscapeShips *> ships;
+	std::vector<LandscapeInclude *> includes;
 
 	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
+
+protected:
+	bool readXML(const char *names, const char *name,
+		LandscapeDefinitions *definitions, XMLNode *node);
 };
 
 #endif // __INCLUDE_LandscapeTexDefnh_INCLUDE__

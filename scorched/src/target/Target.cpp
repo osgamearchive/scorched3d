@@ -82,30 +82,12 @@ bool Target::getAlive()
 	return (life_->getLife() > 0.0f);
 }
 
-Vector &Target::getCenterPosition()
-{
-	static Vector result;
-	result = getTargetPosition();
-	result[2] += life_->getSize()[2] / 2.0f;
-	return result;
-}
-
-void Target::setTargetPosition(Vector &pos)
-{
-	targetPosition_ = pos;
-	life_->setPosition(pos);
-	shield_->setPosition(pos);
-}
-
 bool Target::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(name_);
 	if (!shield_->writeMessage(buffer)) return false;
 	if (!life_->writeMessage(buffer)) return false;
 	if (!parachute_->writeMessage(buffer)) return false;
-
-	// Do after shield and life so their position is set
-	buffer.addToBuffer(targetPosition_);
 	return true;
 }
 
@@ -115,10 +97,5 @@ bool Target::readMessage(NetBufferReader &reader)
 	if (!shield_->readMessage(reader)) return false;
 	if (!life_->readMessage(reader)) return false;
 	if (!parachute_->readMessage(reader)) return false;
-
-	// Do after shield and life so their position is set
-	Vector pos;
-	if (!reader.getFromBuffer(pos)) return false;
-	setTargetPosition(pos);
 	return true;
 }

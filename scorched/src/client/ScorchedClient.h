@@ -35,6 +35,7 @@ public:
 	GameState &getGameState() { return *context_.gameState; }
 	TankContainer &getTankContainer() { return *context_.tankContainer; }
 	TargetContainer &getTargetContainer() { return *context_.targetContainer; }
+	TargetMovement &getTargetMovement() { return *context_.targetMovement; }
 	ActionController &getActionController() { return *context_.actionController; }
 	LandscapeMaps &getLandscapeMaps() { return *context_.landscapeMaps; }
 	ScorchedContext &getContext() { return context_; }

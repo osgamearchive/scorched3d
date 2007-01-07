@@ -18,28 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ScorchedBoidsh_INCLUDE__)
-#define __INCLUDE_ScorchedBoidsh_INCLUDE__
+#if !defined(__INCLUDE_PlacementTypeCounth_INCLUDE__)
+#define __INCLUDE_PlacementTypeCounth_INCLUDE__
 
-#include <vector>
+#include <placement/PlacementType.h>
 
-class BoidWorld;
-class LandscapeBoids;
-class ScorchedBoids
+class PlacementTypeCount : public PlacementType
 {
 public:
-	ScorchedBoids();
-	virtual ~ScorchedBoids();
+	PlacementTypeCount();
+	virtual ~PlacementTypeCount();
 
-	void generate();
-	void simulate(float frameTime);
-	void draw();
+	virtual PlacementType::Type getType() { return PlacementType::eCount; }
+	virtual bool readXML(XMLNode *node);
+	virtual void getPositions(ScorchedContext &context,
+		RandomGenerator &generator,
+		std::list<Position> &returnPositions,
+		ProgressCounter *counter = 0);
 
 protected:
-	std::vector<BoidWorld*> worlds_;
-	void addBoids(std::vector<LandscapeBoids *> boids);
-	void addBoid(LandscapeBoids *boid);
-
+	int count;
 };
 
-#endif // __INCLUDE_ScorchedBoidsh_INCLUDE__
+#endif // __INCLUDE_PlacementTypeCounth_INCLUDE__

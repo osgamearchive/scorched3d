@@ -1,5 +1,26 @@
 <boids>
-	<boid>
+	<placement type="bounds">
+		<count>3</count>
+		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
+		<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
+		<object type='target'>
+			<model type='MilkShape'>data/meshes/f18/f18.txt</model>
+			<nocollision>true</nocollision>
+			<displayshadow>false</displayshadow>
+			<groupname>boids-f18</groupname>
+			<modelscale>0.01</modelscale>
+		</object>
+	</placement>
+	<movement type="boids">
+		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
+		<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
+		<maxvelocity>15.0</maxvelocity>
+		<maxacceleration>5.0</maxacceleration>
+		<cruisedistance>10.0</cruisedistance>
+		<groupname>boids-f18</groupname>
+	</movement>
+	
+	<!--<boid>
 		<count>3</count>
 		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
 		<maxbounds><A>355</A><B>355</B><C>65</C></maxbounds>
@@ -15,5 +36,5 @@
 			<sound>data/wav/misc/f18_1.wav</sound>
 			<sound>data/wav/misc/f18_2.wav</sound>
 		</sounds>
-	</boid>
+	</boid>-->
 </boids>

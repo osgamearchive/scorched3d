@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankgraph/TargetRendererImplTargetTree.h>
+#include <target/TargetLife.h>
 #include <landscape/Landscape.h>
 #include <landscape/ShadowMap.h>
 #include <3dsparse/ModelStore.h>
@@ -640,7 +641,7 @@ void TargetRendererImplTargetTree::draw(float distance)
 
 	if (OptionsDisplay::instance()->getNoTrees()) return;
 
-	Vector &position = target_->getTargetPosition();
+	Vector &position = target_->getLife().getTargetPosition();
 	if (!GLCameraFrustum::instance()->sphereInFrustum(
 		position, size_)) return;
 

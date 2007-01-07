@@ -73,8 +73,10 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 	unsigned int playerId = message.getPlayerId();
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
 	if (!tank || 
-		(tank->getState().getState() != TankState::sDead) &&
-		(tank->getState().getState() != TankState::sPending))
+		(tank->getState().getState() != TankState::sDead &&
+		tank->getState().getState() != TankState::sPending &&
+		tank->getState().getState() != TankState::sLoading &&
+		tank->getState().getState() != TankState::sInitializing))
 	{
 		ServerCommon::sendString(netMessage.getDestinationId(), 
 			"Can only change tank when dead.", false);

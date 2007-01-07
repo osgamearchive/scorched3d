@@ -22,7 +22,7 @@
 #define __INCLUDE_TargetGroupsSetEntryh_INCLUDE__
 
 #include <target/TargetGroupEntry.h>
-#include <set>
+#include <map>
 
 class TargetGroupsSetEntry
 {
@@ -32,6 +32,8 @@ public:
 
 	TargetGroupEntry *getObject(int position);
 	bool hasObject(TargetGroupEntry *object);
+	bool hasObjectById(unsigned int playerId);
+	std::map<unsigned int, TargetGroupEntry *> &getObjects() { return objects_; }
 
 	virtual void addObject(TargetGroupEntry *object, bool thin);
 	virtual bool removeObject(TargetGroupEntry *object);
@@ -39,7 +41,7 @@ public:
 	virtual int getObjectCount();
 
 protected:
-	std::set<TargetGroupEntry *> objects_;
+	std::map<unsigned int, TargetGroupEntry *> objects_;
 };
 
 #endif // __INCLUDE_TargetGroupsSetEntryh_INCLUDE__

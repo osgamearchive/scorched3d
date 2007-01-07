@@ -35,13 +35,21 @@ public:
 	bool getDisplayDamage() { return displayDamage_; }
 	void setDisplayDamage(bool displayDamage) { displayDamage_ = displayDamage; }
 
+	bool getDisplayShadow() { return displayShadow_; }
+	void setDisplayShadow(bool displayShadow) { displayShadow_ = displayShadow; }
+
 	bool getNoDamageBurn() { return noDamageBurn_; }
 	void setNoDamageBurn(bool noDamageBurn) { noDamageBurn_ = noDamageBurn; }
 
+	bool getNoCollision() { return noCollision_; }
+	void setNoCollision(bool noCollision) { noCollision_ = noCollision; }
+
 protected:
 	TankFalling *falling_;
+	bool displayShadow_;
 	bool displayDamage_;
 	bool noDamageBurn_;
+	bool noCollision_;
 
 };
 

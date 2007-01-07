@@ -27,7 +27,7 @@
 
 class RandomGenerator;
 class ScorchedContext;
-class LandscapePlace;
+class LandscapeInclude;
 class LandscapeDefinitionCache;
 class GroundMaps
 {
@@ -77,7 +77,7 @@ protected:
 		ScorchedContext &context,
 		ProgressCounter *counter = 0);
 	void generateObject(RandomGenerator &generator, 
-		LandscapePlace &place,
+		LandscapeInclude &place,
 		ScorchedContext &context,
 		unsigned int &playerId,
 		ProgressCounter *counter = 0);

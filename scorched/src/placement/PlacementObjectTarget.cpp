@@ -50,7 +50,7 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 {
 	++playerId;
 	Target *target = targetDef_.createTarget(
-		playerId, position.position, context, generator);
+		playerId, position.position, position.velocity, context, generator);
 	context.targetContainer->addTarget(target);
 
 	context.landscapeMaps->getGroundMaps().getGroups().getShadows().push_back(

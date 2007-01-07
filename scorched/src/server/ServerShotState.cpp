@@ -22,7 +22,6 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerCommon.h>
-#include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
@@ -76,10 +75,7 @@ void ServerShotState::enterState(const unsigned state)
 	// Send the player state to all players to ensure that the playing field
 	// is consistent before the shots start
 	// This should be done before the actual shots are fired or
-	// any play is made
-	ComsPlayerStateMessage playerState(true);
-	ComsMessageSender::sendToAllPlayingClients(playerState);
-
+	// any play is made also
 	// Send all of the shots to the client
 	unsigned int seed = rand();
 	ComsPlayMovesMessage playMovesMessage;
@@ -97,7 +93,5 @@ bool ServerShotState::acceptStateChange(const unsigned state,
 		const unsigned nextState,
 		float frameTime)
 {
-	ScorchedServer::instance()->getActionController().simulate(state, frameTime);
-
 	return shotState_.acceptStateChange(state, nextState, frameTime);
 }

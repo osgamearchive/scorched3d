@@ -37,19 +37,25 @@ public:
 	void newGame();
 
 	// Position
-	void setPosition(Vector &pos);
-	void setTarget(Target *target) { target_ = target; }
+	void setTargetPosition(Vector &position);
+	Vector &getTargetPosition() { return targetPosition_; }
+	Vector &getCenterPosition();
 	void setSize(Vector &size);
 	Vector &getSize() { return size_; }
 	Vector4 &getQuaternion() { return quaternion_; }
 	Vector &getAabbSize() { return aabbSize_; }
 	void setRotation(float rotation);
+	Vector &getVelocity() { return velocity_; }
+	void setVelocity(Vector &velocity) { velocity_ = velocity; }
+
+	void setTarget(Target *target) { target_ = target; }
 	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
 	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
 	void setBoundingSphere(bool sphereGeom);
 	bool getBoundingSphere() { return sphereGeom_; }
 	TargetSpaceContainment &getSpaceContainment() { return spaceContainment_; }
 
+	// Collision
 	float collisionDistance(Vector &position);
 	bool collision(Vector &position);
 
@@ -68,6 +74,8 @@ protected:
 	TargetSpaceContainment spaceContainment_;
 	Target *target_;
 	Vector4 quaternion_;
+	Vector targetPosition_;
+	Vector velocity_;
 	Vector aabbSize_;
 	Vector size_;
 	float life_;

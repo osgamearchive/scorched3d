@@ -23,6 +23,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankPosition.h>
+#include <target/TargetLife.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponTankPosition);
 
@@ -68,7 +69,7 @@ void WeaponTankPosition::fireWeapon(ScorchedContext &context,
 	Tank *tank = context.tankContainer->getTankById(playerId);
 	if (tank && tank->getState().getState() == TankState::sNormal)
 	{
-		Vector newPosition = tank->getTargetPosition();
+		Vector newPosition = tank->getLife().getTargetPosition();
 		if (sightPos_)
 		{
 			newPosition = tank->getPosition().getTankGunPosition();

@@ -21,7 +21,8 @@
 #include <coms/ComsPlayMovesMessage.h>
 
 ComsPlayMovesMessage::ComsPlayMovesMessage() :
-	ComsMessage("ComsPlayMovesMessage")
+	ComsMessage("ComsPlayMovesMessage"),
+	playerState_(true), targetState_()
 {
 }
 
@@ -31,6 +32,9 @@ ComsPlayMovesMessage::~ComsPlayMovesMessage()
 
 bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
 {
+	if (!playerState_.writeMessage(buffer, destinationId)) return false;
+	if (!targetState_.writeMessage(buffer, destinationId)) return false;
+
 	int size = (int) moves_.size();
 	buffer.addToBuffer(size);
 
@@ -51,6 +55,9 @@ bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer, unsigned int destinat
 
 bool ComsPlayMovesMessage::readMessage(NetBufferReader &reader)
 {
+	if (!playerState_.readMessage(reader)) return false;
+	if (!targetState_.readMessage(reader)) return false;
+
 	int size = 0;
 	if (!reader.getFromBuffer(size)) return false;
 

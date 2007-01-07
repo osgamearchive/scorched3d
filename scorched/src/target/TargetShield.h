@@ -40,8 +40,6 @@ public:
 	Accessory *getCurrentShield() { return currentShield_; }
 	void setCurrentShield(Accessory *sh);
 
-	void setPosition(Vector &position);
-
 	float getShieldPower() { return power_; }
 	void setShieldPower(float power);
 

@@ -38,7 +38,6 @@ public:
 	virtual void buttonDown(unsigned int id);
 	virtual void draw();
 
-	void addMOTD(const char *text);
 	void addIcon(GLTexture *texture);
 
 protected:
@@ -50,6 +49,7 @@ protected:
 	unsigned int okId_;
 
 	void drawRules();
+	void addMOTD(const char *text);
 
 private:
 	RulesDialog();

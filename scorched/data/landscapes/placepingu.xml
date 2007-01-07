@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='mask'>
 			<numobjects>50</numobjects>
 			<mask>data/landscapes/nomask.bmp</mask>
@@ -36,5 +35,4 @@
 				</randomobject>
 			</object>
 		</placement>
-	</placements>
 </place>

@@ -145,7 +145,7 @@ bool ServerShotHolder::validateFiredMessage(
 	{
 		Vector position(
 			message.getSelectPositionX(), message.getSelectPositionY());
-		if ((position - tank->getTargetPosition()).Magnitude() > 
+		if ((position - tank->getLife().getTargetPosition()).Magnitude() > 
 			accessory->getPositionSelectLimit())
 		{
 			return false;

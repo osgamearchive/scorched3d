@@ -58,10 +58,6 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinatio
 	if (!ScorchedServer::instance()->getAccessoryStore().
 		writeEconomyToBuffer(buffer)) return false;
 
-	// Both of these are read later as they must be processed after the level
-	// has been built
-	if (!targetState_.writeMessage(buffer, destinationId)) return false;
-
 	return true;
 }
 

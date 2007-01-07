@@ -116,6 +116,9 @@ bool ServerSFrame::TransferDataToWindow()
 	IDC_ALLOWSAMEID_CTRL->SetValue(options_.getAllowSameUniqueId());
 	IDC_ALLOWSAMEID_CTRL->SetToolTip(
 		wxString(options_.getAllowSameUniqueIdEntry().getDescription(), wxConvUTF8));
+	IDC_LOGTOFILE_CTRL->SetValue(0 == strcmp("file", options_.getServerFileLogger()));
+	IDC_LOGTOFILE_CTRL->SetToolTip(
+		wxString(options_.getServerFileLoggerEntry().getDescription(), wxConvUTF8));
 
 	ModDirs modDirs;
 	if (!modDirs.loadModDirs()) dialogExit("ModFiles", "Failed to load mod files");
@@ -147,6 +150,7 @@ bool ServerSFrame::TransferDataFromWindow()
 	options_.getAllowSameIPEntry().setValue(IDC_ALLOWSAME_CTRL->GetValue());
 	options_.getAllowSameUniqueIdEntry().setValue(IDC_ALLOWSAMEID_CTRL->GetValue());
 	options_.getModEntry().setValue(IDC_SERVER_MOD_CTRL->GetValue().mb_str(wxConvUTF8));
+	options_.getServerFileLoggerEntry().setValue((IDC_LOGTOFILE_CTRL->GetValue()?"file":"none"));
 	return true;
 }
 

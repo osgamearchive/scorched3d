@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapePlaceh_INCLUDE__)
-#define __INCLUDE_LandscapePlaceh_INCLUDE__
+#include <client/ClientTargetStateHandler.h>
+#include <client/ScorchedClient.h>
+#include <coms/ComsTargetStateMessage.h>
 
-#include <vector>
-#include <placement/PlacementType.h>
+ClientTargetStateHandler *ClientTargetStateHandler::instance_ = 0;
 
-class LandscapeDefinitions;
-class LandscapePlace
+ClientTargetStateHandler *ClientTargetStateHandler::instance()
 {
-public:
-	LandscapePlace();
-	virtual ~LandscapePlace();
+	if (!instance_)
+	{
+	  instance_ = new ClientTargetStateHandler();
+	}
 
-	std::vector<PlacementType *> objects;
+	return instance_;
+}
 
-	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
+ClientTargetStateHandler::ClientTargetStateHandler()
+{
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
+		"ComsTargetStateMessage",
+		this);
+}
 
-private:
-	LandscapePlace(const LandscapePlace &other);
-	LandscapePlace &operator=(LandscapePlace &other);
-};
+ClientTargetStateHandler::~ClientTargetStateHandler()
+{
 
-#endif // __INCLUDE_LandscapePlaceh_INCLUDE__
+}
+
+bool ClientTargetStateHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
+{
+	ComsTargetStateMessage message;
+	if (!message.readMessage(reader)) return false;
+
+	return true;
+}

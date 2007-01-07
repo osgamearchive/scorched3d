@@ -449,7 +449,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	if (shotTank)
 	{
 		Vector offset = shotTank->getPosition().getTankPosition() -
-			target->getTargetPosition();
+			target->getLife().getTargetPosition();
 		if (shield->inShield(offset))
 		{
 			// We can ignore this shield as this tank is in the shield
@@ -458,7 +458,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	}
 
 	// Check we are in this shield
-	Vector direction = position_ - target->getTargetPosition();
+	Vector direction = position_ - target->getLife().getTargetPosition();
 	if (!shield->inShield(direction)) return false;
 
 	// Perform the shield action
@@ -483,7 +483,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 
 			collision.collisionId = CollisionIdShield;
 			collision.deflectFactor = deflectFactor;
-			collision.normal = (position_ - target->getTargetPosition()).Normalize();
+			collision.normal = (position_ - target->getLife().getTargetPosition()).Normalize();
 		}
 		return true;
 	case Shield::ShieldTypeSquareReflective:
@@ -540,7 +540,7 @@ bool PhysicsParticleObject::getTargetCollision(CollisionInfo &collision, Target 
 	// Check we are in this target
 	if (target->getLife().collision(position_))
 	{
-		collision.normal = (position_ - target->getCenterPosition()).Normalize();	
+		collision.normal = (position_ - target->getLife().getCenterPosition()).Normalize();	
 		collision.deflectFactor = 1.0f;
 		collision.collisionId = CollisionIdTarget;
 		return true;
@@ -566,7 +566,7 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 		if (target->getLife().collision(position_) ||
 			target->getLife().collisionDistance(position_) < 3.0f)
 		{
-			collision.normal = (position_ - target->getCenterPosition()).Normalize();	
+			collision.normal = (position_ - target->getLife().getCenterPosition()).Normalize();	
 			collision.deflectFactor = 1.0f;
 			collision.collisionId = CollisionIdTarget;
 			return true;

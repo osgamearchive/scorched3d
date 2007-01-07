@@ -44,11 +44,6 @@ void TargetShield::newGame()
 	setCurrentShield(0);
 }
 
-void TargetShield::setPosition(Vector &pos)
-{
-	position_ = pos;
-}
-
 void TargetShield::setCurrentShield(Accessory *sh)
 {
 	if (sh)

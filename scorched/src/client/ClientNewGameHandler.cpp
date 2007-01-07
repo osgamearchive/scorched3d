@@ -107,18 +107,11 @@ bool ClientNewGameHandler::processMessage(
 	// Calculate all the new landscape settings (graphics)
 	Landscape::instance()->generate(ProgressDialogSync::instance());
 
-	// Set all of the attribute for the objects and targets
-	if (!message.getTargetStateMessage().readMessage(reader)) return false;
-
 	// Make sure the landscape has been optimized
 	Landscape::instance()->reset(ProgressDialogSync::instance());
 
 	RenderTracer::instance()->newGame();
 	SpeedChange::instance()->resetSpeed();
-
-	// Reset the MOTD and Rules in case they have changed
-	RulesDialog::instance()->addMOTD(
-		ScorchedClient::instance()->getOptionsGame().getMOTD());
 
 	// Remove all actions (graphical objects) from the last round
 	ScorchedClient::instance()->getActionController().clear();

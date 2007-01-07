@@ -57,7 +57,7 @@ void AddTarget::simulate(float frameTime, bool &remove)
 	RandomGenerator generator;
 	generator.seed(playerId_);
 	Target *target = addTarget_->getTargetDefinition().createTarget(
-		playerId_, position_, *context_, generator);
+		playerId_, position_, Vector::nullVector, *context_, generator);
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall

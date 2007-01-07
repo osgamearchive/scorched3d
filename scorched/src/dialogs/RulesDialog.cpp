@@ -192,6 +192,8 @@ void RulesDialog::buttonDown(unsigned int id)
 
 void RulesDialog::display()
 {
+	addMOTD(ScorchedClient::instance()->getOptionsGame().getMOTD());
+
 	GLWWindow::display();
 }
 

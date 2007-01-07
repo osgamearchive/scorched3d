@@ -23,10 +23,10 @@
 
 class AccessoryStore;
 class ActionController;
-class TargetSpace;
 class GameState;
+class TargetSpace;
 class TargetContainer;
-class TankContainer;
+class TargetMovement;
 class LandscapeMaps;
 class ComsMessageHandler;
 class NetInterface;
@@ -35,6 +35,7 @@ class OptionsTransient;
 class ViewPoints;
 class ModFiles;
 class LandscapeDefinitions;
+class TankContainer;
 class TankModelStore;
 class TankTeamScore;
 
@@ -60,6 +61,7 @@ public:
 	TankModelStore *tankModelStore;
 	TankTeamScore *tankTeamScore;
 	TargetSpace *targetSpace;
+	TargetMovement *targetMovement;
 	bool serverMode;
 };
 

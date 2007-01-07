@@ -1701,14 +1701,6 @@
 			Name="landscapedef"
 			>
 			<File
-				RelativePath="..\landscapedef\LandscapeBoids.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscapedef\LandscapeBoids.h"
-				>
-			</File>
-			<File
 				RelativePath="..\landscapedef\LandscapeDefinition.cpp"
 				>
 			</File>
@@ -1761,19 +1753,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapePlace.cpp"
+				RelativePath="..\landscapedef\LandscapeInclude.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapePlace.h"
+				RelativePath="..\landscapedef\LandscapeInclude.h"
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapeShips.cpp"
+				RelativePath="..\landscapedef\LandscapeMovement.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\landscapedef\LandscapeShips.h"
+				RelativePath="..\landscapedef\LandscapeMovement.h"
 				>
 			</File>
 			<File
@@ -1898,6 +1890,22 @@
 			</File>
 			<File
 				RelativePath="..\placement\PlacementType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeBounds.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeBounds.h"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeCount.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementTypeCount.h"
 				>
 			</File>
 			<File
@@ -3429,6 +3437,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\ClientTargetStateHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientTargetStateHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\ClientTextHandler.cpp"
 				>
 			</File>
@@ -4254,34 +4270,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="ships"
-			>
-			<File
-				RelativePath="..\ships\ScorchedShips.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\ships\ScorchedShips.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ships\Ship.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\ships\Ship.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ships\ShipGroup.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\ships\ShipGroup.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="sprites"
 			>
 			<File
@@ -4694,62 +4682,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="boids"
-			>
-			<File
-				RelativePath="..\boids\Boid.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\Boid.h"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\BoidVector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\BoidVector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\BoidWorld.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\BoidWorld.h"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\Obstacle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\Obstacle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\ScorchedBoids.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\ScorchedBoids.h"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\ScorchedBoidsObstacle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\ScorchedBoidsObstacle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\boids\SimObject.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="dialogs"
 			>
 			<File
@@ -5030,6 +4962,102 @@
 			</File>
 			<File
 				RelativePath="..\sound\VirtualSoundSource.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="movement"
+			>
+			<File
+				RelativePath="..\movement\Boid.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\movement\Boid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidsObstacle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidsObstacle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\BoidVector.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\movement\BoidVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovement.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovement.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryBoids.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryBoids.h"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryShips.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntryShips.h"
 				>
 			</File>
 		</Filter>

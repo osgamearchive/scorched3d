@@ -20,6 +20,7 @@
 
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
+#include <target/TargetState.h>
 #include <target/Target.h>
 #include <tank/TankType.h>
 #include <engine/ScorchedContext.h>
@@ -79,8 +80,18 @@ void TargetLife::setRotation(float rotation)
 	updateAABB();
 }
 
-void TargetLife::setPosition(Vector &pos)
+Vector &TargetLife::getCenterPosition()
 {
+	static Vector result;
+	result = getTargetPosition();
+	result[2] += getSize()[2] / 2.0f;
+	return result;
+}
+
+void TargetLife::setTargetPosition(Vector &pos)
+{
+	targetPosition_ = pos;
+
 	if (life_ > 0)
 	{
 		addToSpace();
@@ -89,7 +100,7 @@ void TargetLife::setPosition(Vector &pos)
 
 float TargetLife::collisionDistance(Vector &position)
 {
-	Vector &currentPosition = target_->getCenterPosition();
+	Vector &currentPosition = getCenterPosition();
 	Vector direction = position - currentPosition;
 	float dist = 0.0f;
 
@@ -153,7 +164,7 @@ float TargetLife::collisionDistance(Vector &position)
 
 bool TargetLife::collision(Vector &position)
 {
-	Vector &currentPosition = target_->getCenterPosition();
+	Vector &currentPosition = getCenterPosition();
 	Vector direction = position - currentPosition;
 
 	// Check against bounding box
@@ -210,7 +221,10 @@ void TargetLife::setBoundingSphere(bool sphereGeom)
 void TargetLife::addToSpace()
 {
 	removeFromSpace();
-	context_.targetSpace->addTarget(target_);
+	if (!target_->getTargetState().getNoCollision())
+	{
+		context_.targetSpace->addTarget(target_);
+	}
 }
 
 void TargetLife::removeFromSpace()
@@ -223,6 +237,8 @@ bool TargetLife::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(maxLife_);
 	buffer.addToBuffer(life_);
 	buffer.addToBuffer(size_);
+	buffer.addToBuffer(velocity_);
+	buffer.addToBuffer(targetPosition_);
 	buffer.addToBuffer(quaternion_);
 	return true;
 }
@@ -234,6 +250,14 @@ bool TargetLife::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(l)) return false;
 	setLife(l);
 	if (!reader.getFromBuffer(size_)) return false;
+	if (!reader.getFromBuffer(velocity_)) return false;
+
+	Vector pos;
+	if (!reader.getFromBuffer(pos)) return false;
+	if (pos != targetPosition_)
+	{
+		setTargetPosition(pos);
+	}
 	if (!reader.getFromBuffer(quaternion_)) return false;
 	return true;
 }

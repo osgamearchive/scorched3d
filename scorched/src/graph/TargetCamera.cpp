@@ -39,6 +39,7 @@
 #include <tank/TankState.h>
 #include <tank/TankPosition.h>
 #include <tank/TankAccessories.h>
+#include <target/TargetLife.h>
 #include <common/Keyboard.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
@@ -551,7 +552,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 		{
 			int limit = currentWeapon->getPositionSelectLimit();
 			Vector position(posX, posY);
-			if ((currentTank->getTargetPosition() - position).Magnitude() > limit)
+			if ((currentTank->getLife().getTargetPosition() - position).Magnitude() > limit)
 			{
 				// Out of limit
 				return;

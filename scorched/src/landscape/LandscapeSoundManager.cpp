@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscape/LandscapeSoundManager.h>
-#include <landscapedef/LandscapeSound.h>
+#include <landscapedef/LandscapeInclude.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
@@ -46,22 +46,22 @@ void LandscapeSoundManager::cleanUp()
 	entries_.clear();
 }
 
-void LandscapeSoundManager::initialize(std::list<LandscapeSound *> sounds)
+void LandscapeSoundManager::initialize(std::list<LandscapeInclude *> sounds)
 {
 	cleanUp();
 
 	if (OptionsDisplay::instance()->getNoAmbientSound()) return;
 
-	std::list<LandscapeSound *>::iterator itor;
+	std::list<LandscapeInclude *>::iterator itor;
 	for (itor = sounds.begin();
 		itor != sounds.end();
 		itor++)
 	{
-		LandscapeSound *sound = (*itor);
+		LandscapeInclude *sound = (*itor);
 
 		std::vector<LandscapeSoundType *>::iterator typeItor;
-		for (typeItor = sound->objects.begin();
-			typeItor != sound->objects.end();
+		for (typeItor = sound->sounds.begin();
+			typeItor != sound->sounds.end();
 			typeItor ++)
 		{
 			LandscapeSoundType *soundType = (*typeItor);

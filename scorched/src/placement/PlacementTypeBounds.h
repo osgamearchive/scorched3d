@@ -18,31 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Shiph_INCLUDE__)
-#define __INCLUDE_Shiph_INCLUDE__
+#if !defined(__INCLUDE_PlacementTypeBoundsh_INCLUDE__)
+#define __INCLUDE_PlacementTypeBoundsh_INCLUDE__
 
-#include <graph/ModelRendererSimulator.h>
-#include <common/Vector.h>
+#include <placement/PlacementType.h>
 
-class ModelID;
-class LandscapeShip;
-class Ship
+class PlacementTypeBounds : public PlacementType
 {
 public:
-	Ship(LandscapeShip *texShip);
-	virtual ~Ship();
+	PlacementTypeBounds();
+	virtual ~PlacementTypeBounds();
 
-	float getSize() { return size_; }
-	Vector &getOffSet() { return offset_; }
-	void draw(Vector &position, Vector &direction, Vector &directionPerp);
-	void simulate(float frameTime);
+	virtual PlacementType::Type getType() { return PlacementType::eBounds; }
+	virtual bool readXML(XMLNode *node);
+	virtual void getPositions(ScorchedContext &context,
+		RandomGenerator &generator,
+		std::list<Position> &returnPositions,
+		ProgressCounter *counter = 0);
 
 protected:
-	Vector offset_;
-	ModelRendererSimulator *ship_;
-	float size_;
-	float scale_;
-	float length_;
+	int count;
+	Vector minbounds, maxbounds;
 };
 
-#endif // __INCLUDE_Shiph_INCLUDE__
+#endif // __INCLUDE_PlacementTypeBoundsh_INCLUDE__

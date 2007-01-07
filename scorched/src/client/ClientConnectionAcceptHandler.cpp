@@ -88,11 +88,6 @@ bool ClientConnectionAcceptHandler::processMessage(
 		"Connection accepted by \"%s\".\nPlease wait...",
 		message.getServerName()));
 
-	// Show the MOTD (Message of the Day) on the screen and
-	// rules dialog
-	RulesDialog::instance()->addMOTD(
-		ScorchedClient::instance()->getOptionsGame().getMOTD());
-
 	// Set the server specific png for the current server
 	{
 		GLTexture *texture = 0;

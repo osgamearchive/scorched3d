@@ -54,7 +54,9 @@
 #ifndef __BOID_C
 #define __BOID_C
 
-#include "Boid.h"
+#include <movement/Boid.h>
+#include <target/Target.h>
+#include <target/TargetLife.h>
 #include <stdio.h>
 
 // Returns the value in the visibility matrix which determines if this boid
@@ -71,7 +73,7 @@ Boid::calculateVisibilityMatrix(void) {
   int val;
   
   // Foreach boid, if it's not visible to us, put a a -1 in the
-  // matrix. Otherwise put the boidType in the matrix.
+  // matrix. Otherwise put 1 in the matrix.
 
   for (int i=0; i<world->getBoidCount(); i++) {
 	  Boid *n = world->getBoids()[i];
@@ -81,7 +83,7 @@ Boid::calculateVisibilityMatrix(void) {
       val = -1;
     }
     else {
-      val = (visibleToSelf(n) ? n->boidType : -1);
+      val = (visibleToSelf(n) ? 1 : -1);
     }
 
     visMatrix(n) = val;
@@ -135,9 +137,23 @@ MAXACCEL_ATTAINED:  /* label */
 }
 
 void
-Boid::calculateRollPitchYaw(BoidVector appliedAcceleration,
+Boid::calculateRollPitchYaw(Target *target,
+				BoidVector appliedAcceleration,
 			    BoidVector currentVelocity,
 			    BoidVector /*currentPosition*/) {
+
+  double roll = 0.0;
+  // [radians] Rotation around body-local z-axis (+roll =
+  // counterclockwise). Default value is 0.
+
+  double pitch = 0.0;
+  // [radians] Rotation around body-local x-axis (+pitch = nose tilting
+  // upward). Default value is 0.
+
+  double yaw = 0.0;
+  // [radians] Rotation around body-local y-axis (increasing
+  // counterclockwise, 0 is along body-local +z). Default value is 0. 
+
   // NOTES:
   // 
   // 1) currentPosition (the third argument) is unused, though in a more
@@ -172,24 +188,22 @@ Boid::calculateRollPitchYaw(BoidVector appliedAcceleration,
 
   yaw = atan2(currentVelocity.x, currentVelocity.z);
 
-}
-
-void Boid::updateslow()
-{
-	dampedroll = (dampedroll + roll) / 2.0;
+	// Update target
+	float angleDegs = -float(yaw) / 3.14f * 180.0f;
+	target->getLife().setRotation(angleDegs);
 }
 
 BoidVector 
 Boid::wander(void) {
 
   double distanceFromCruiseSpeed =
-    (Magnitude(velocity) - desiredCruisingSpeed()) / world->getMaxVelocity();
+    (Magnitude(getVelocity()) - desiredCruisingSpeed()) / world->getMaxVelocity();
 
   double urgency = fabs(distanceFromCruiseSpeed);
   if (urgency > 0.25)
     urgency = 0.25;
   
-  return Direction(velocity) * urgency * (distanceFromCruiseSpeed > 0 ? -1 : 1);
+  return Direction(getVelocity()) * urgency * (distanceFromCruiseSpeed > 0 ? -1 : 1);
 
 }
 
@@ -209,16 +223,16 @@ Boid::collisionAvoidance(void) {
 
 		Obstacle *obs = world->getObstacles()[o];
       
-      d = obs->DoesRayIntersect(Direction(velocity), position);
+      d = obs->DoesRayIntersect(Direction(getVelocity()), getPosition());
 
       if (d.intersectionflag == 1) {      
 
 	// Velocity BoidVector intersects an obstacle
 	
-	if (Magnitude(d.point-position) <= distanceToObject) {
+	if (Magnitude(d.point-getPosition()) <= distanceToObject) {
 	  // found a closer object
 	  objectSeen = 1; 
-	  distanceToObject = Magnitude(d.point-position);
+	  distanceToObject = Magnitude(d.point-getPosition());
 	  normalToObject = d.normal;
 	  pointOnObject = d.point;
 	}
@@ -237,13 +251,13 @@ Boid::collisionAvoidance(void) {
 BoidVector 
 Boid::resolveCollision(BoidVector pointOnObject, BoidVector normalToObject) {
 
-  double distanceToObject = Magnitude(pointOnObject - position);
+  double distanceToObject = Magnitude(pointOnObject - getPosition());
   
   // Make sure the object's normal is pointing towards the boid.
   // The boid wants to head in the direction of the normal, which
   // should push it away from the obstacle if the normal is pointing
   // towards the boid.
-  if (AngleBetween(velocity, normalToObject) < 3.14/2) 
+  if (AngleBetween(getVelocity(), normalToObject) < 3.14/2) 
     normalToObject = - normalToObject;
 
   double mag = 1 - distanceToObject/getProbeLength();
@@ -268,10 +282,9 @@ Boid::maintainingCruisingDistance(void) {
 
     // Skip boids that we don't need to consider
     if (visMatrix(n) == -1) continue; 
-    if (visMatrix(n) != boidType && flockSelectively) continue; 
     
     // Find distance from the current boid to self
-    tempDistance = Magnitude(n->position - position);
+    tempDistance = Magnitude(n->getPosition() - getPosition());
     
     // remember distance to closest boid
     if (tempDistance < distanceToClosestNeighbor) {
@@ -291,7 +304,7 @@ Boid::maintainingCruisingDistance(void) {
     // your neighbor's "personal space" bounding sphere of radius
     // cruiseDistance, but stay as close to the neighbor as possible). 
 
-    BoidVector separationBoidVector = closestNeighbor->getPosition() - position;
+    BoidVector separationBoidVector = closestNeighbor->getPosition() - getPosition();
 
      float separateFactor = 0.09f;
      float approachFactor = 0.05f;
@@ -340,15 +353,14 @@ Boid::velocityMatching(void) {
     
     // Skip boids that we don't need to consider
     if (visMatrix(n) == -1) continue; 
-    if (visMatrix(n) != boidType && flockSelectively) continue; 
     
     // Find distance from the current boid to self
-    tempDistance = Magnitude(n->position - position);
+    tempDistance = Magnitude(n->getPosition() - getPosition());
     
     // remember velocity BoidVector of closest boid
     if (tempDistance < distanceToClosestNeighbor) {
       distanceToClosestNeighbor = tempDistance;
-      velocityOfClosestNeighbor = n->velocity;
+      velocityOfClosestNeighbor = n->getVelocity();
     }
     
   }
@@ -380,9 +392,8 @@ Boid::flockCentering(void) {
 	  n = world->getBoids()[i];
 
     if (visMatrix(n) == -1) continue; 
-    if (visMatrix(n) != boidType && flockSelectively) continue; 
    
-    flockcenter += n->position;
+    flockcenter += n->getPosition();
     boids_observed++;
   }
   
@@ -390,7 +401,7 @@ Boid::flockCentering(void) {
     flockcenter /= boids_observed;
     
     // now calculate a BoidVector to head towards center of flock
-    t = flockcenter - position;
+    t = flockcenter - getPosition();
     
     // and the percentage of maximum acceleration (in decimal) to use when yaw toward center
     t.SetMagnitude(0.1); 
@@ -405,69 +416,60 @@ Boid::flockCentering(void) {
 }
 
 bool
-Boid::update(const double &elapsedSeconds) {
+Boid::update(const double &dt) {
 
   bool ok =  true;
   
-  if (flightflag == false) {
-    flightflag = true;
-  }
-  else {
-    double dt = elapsedSeconds - lastUpdate;
-    
+  // remember desired acceleration (the acceleration BoidVector that the
+  // Navigator() module specified
+  BoidVector acceleration = navigator(); 
+
+  // remember current velocity 
+  BoidVector oldVelocity = getVelocity(); 
+
     // Step 1: Calculate new position and velocity by integrating
     //         the acceleration BoidVector.
     
     // Update position based on where we wanted to go, and how long it has 
     // been since we made the decision to go there
-    position += (oldVelocity*dt + 0.5*acceleration*dt*dt);
+    BoidVector position = getPosition() + (oldVelocity*dt + 0.5*acceleration*dt*dt);
     
     // Set new velocity, which will be in the direction boid is traveling.
-    velocity += (acceleration*dt);
+    BoidVector velocity = getVelocity() + (acceleration*dt);
     
     // Cap off velocity at maximum allowed value
     if (Magnitude(velocity) > world->getMaxVelocity()) {
       velocity.SetMagnitude(world->getMaxVelocity());
     }
     
+	// Update position
+	Vector targetPosition(
+		(float) position.x,
+		(float) position.z,
+		(float) position.y);
+	Vector targetVelocity(
+		(float) velocity.x,
+		(float) velocity.z,
+		(float) velocity.y);
+	target->getLife().setTargetPosition(targetPosition);
+	target->getLife().setVelocity(targetVelocity);
+
     // Step 2: Calculate new roll, pitch, and yaw of the boid
     //         which correspond to the changes in position and velocity.
     //         Remember: the boid isn't necessarily oriented in the
     //         direction of the velocity!
     // (assuming +y is up, +z is through the nose, +x is through the left wing)
-    calculateRollPitchYaw(acceleration, oldVelocity, position);
-  }    
-  
-  // remember current velocity 
-  oldVelocity = velocity; 
-
-  // remember desired acceleration (the acceleration BoidVector that the
-  // Navigator() module specified
-  acceleration = navigator(); 
-  
-  ok &= SimObject::update(elapsedSeconds); // Do generic object  updating
+    calculateRollPitchYaw(target, acceleration, oldVelocity, position);
 
   return ok;
 }
 
 
-Boid::Boid(BoidWorld *w, int boidNum, 
-	BoidVector bPosition, BoidVector bVelocity) {
+Boid::Boid(Target *t, TargetMovementEntryBoids *w, int boidNum) {
   
-  flightflag = false;	      // haven't flown yet
   world = w;
-
-  position = bPosition;
-  velocity = bVelocity;
-  mass = 9.07; // 9.07 kg is approx 20 lbs.
-
-  roll = pitch = yaw = dampedroll = 0;
-  boidType = NORMAL;
-  flockSelectively = false; 
-
   boidNumber = boidNum;
-
-  frameOffset = (float) rand();
+  target = t;
 }		
 			
 #endif /* __BOID_C */

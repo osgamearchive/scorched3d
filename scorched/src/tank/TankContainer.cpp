@@ -180,7 +180,9 @@ void TankContainer::setAllDead()
 		Tank *current = (*mainitor).second;
 		if (!current->isTemp())
 		{
-			if (current->getState().getState() != TankState::sPending)
+			if (current->getState().getState() != TankState::sPending &&
+				current->getState().getState() != TankState::sLoading &&
+				current->getState().getState() != TankState::sInitializing)
 			{
 				current->getState().setState(TankState::sDead);
 				current->getState().setLives(0);
@@ -200,7 +202,9 @@ bool TankContainer::allReady()
 		if (!current->isTemp())
 		{
 			// current check tanks that are not pending
-			if (current->getState().getState() != TankState::sPending)
+			if (current->getState().getState() != TankState::sPending &&
+				current->getState().getState() != TankState::sLoading &&
+				current->getState().getState() != TankState::sInitializing)
 			{
 				if (current->getState().getReadyState() == 
 					TankState::SNotReady) return false;
@@ -220,9 +224,10 @@ void TankContainer::setAllNotReady()
 		Tank *current = (*mainitor).second;
 		if (!current->isTemp())
 		{
-
 			// current check tanks that are not pending
-			if (current->getState().getState() != TankState::sPending)
+			if (current->getState().getState() != TankState::sPending &&
+				current->getState().getState() != TankState::sLoading &&
+				current->getState().getState() != TankState::sInitializing)
 			{
 				current->getState().setNotReady();
 			}

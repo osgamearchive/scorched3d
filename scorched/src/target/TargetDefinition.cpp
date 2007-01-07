@@ -26,6 +26,7 @@
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
+#include <target/TargetState.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
 #include <common/Defines.h>
@@ -35,7 +36,9 @@ TargetDefinition::TargetDefinition() :
 	life_(1.0f), boundingsphere_(true),
 	size_(2.0f, 2.0f, 2.0f), 
 	modelscale_(0.05f), modelrotation_(0.0f), modelrotationsnap_(-1.0f),
-	driveovertodestroy_(false), border_(0.0f)
+	driveovertodestroy_(false), border_(0.0f), 
+	displaydamage_(true), displayshadow_(true), 
+	nodamageburn_(false), nocollision_(false)
 {
 	shadow_.setDrawShadow(false);
 }
@@ -51,6 +54,10 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("shield", shield_, false);
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("boundingsphere", boundingsphere_, false);
+	node->getNamedChild("nocollision", nocollision_, false);
+	node->getNamedChild("nodamageburn", nodamageburn_, false);
+	node->getNamedChild("displaydamage", displaydamage_, false);
+	node->getNamedChild("displayshadow", displayshadow_, false);
 
 	node->getNamedChild("modelscale", modelscale_, false);
 	node->getNamedChild("modelrotation", modelrotation_, false);
@@ -88,6 +95,7 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 
 Target *TargetDefinition::createTarget(unsigned int playerId,
 	Vector &position,
+	Vector &velocity,
 	ScorchedContext &context,
 	RandomGenerator &generator)
 {
@@ -111,8 +119,13 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	}
 #endif // #ifndef S3D_SERVER
 
+	target->getTargetState().setNoCollision(nocollision_);
+	target->getTargetState().setDisplayDamage(displaydamage_);
+	target->getTargetState().setDisplayShadow(displayshadow_);
+	target->getTargetState().setNoDamageBurn(nodamageburn_);
 	target->getLife().setMaxLife(life_);
 	target->getLife().setSize(size_);
+	target->getLife().setVelocity(velocity);
 	target->getLife().setDriveOverToDestroy(driveovertodestroy_);
 	target->getLife().setRotation(rotation);
 	target->setBorder(border_);
@@ -173,7 +186,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->setBurnAction((Weapon *) action->getAction());
 	}
 
-	target->setTargetPosition(position);
+	target->getLife().setTargetPosition(position);
 
 	groups_.addToGroups(context, &target->getGroup(), false);
 

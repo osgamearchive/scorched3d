@@ -23,9 +23,12 @@
 #include <placement/PlacementTypeMask.h>
 #include <placement/PlacementTypeDirect.h>
 #include <placement/PlacementTypeTree.h>
+#include <placement/PlacementTypeCount.h>
+#include <placement/PlacementTypeBounds.h>
 #include <placement/PlacementTypeTankStart.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <target/TargetContainer.h>
+#include <target/TargetLife.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 #include <engine/ScorchedContext.h>
 #include <common/DefinesString.h>
@@ -36,6 +39,8 @@ PlacementType *PlacementType::create(const char *type)
 	if (0 == strcmp(type, "trees")) return new PlacementTypeTree;
 	if (0 == strcmp(type, "mask")) return new PlacementTypeMask;
 	if (0 == strcmp(type, "direct")) return new PlacementTypeDirect;
+	if (0 == strcmp(type, "count")) return new PlacementTypeCount;
+	if (0 == strcmp(type, "bounds")) return new PlacementTypeBounds;
 	if (0 == strcmp(type, "tankstart")) return new PlacementTypeTankStart;
 	dialogMessage("PlacementType", formatString("Unknown placement type %s", type));
 	return 0;
@@ -95,8 +100,8 @@ bool PlacementType::checkCloseness(Vector &position,
 		Target *target = (*targetsitor).second;
 		if (!target->isTarget()) continue;
 
-		float distx = target->getTargetPosition()[0] - position[0];
-		float disty = target->getTargetPosition()[1] - position[1];
+		float distx = target->getLife().getTargetPosition()[0] - position[0];
+		float disty = target->getLife().getTargetPosition()[1] - position[1];
 		float closeness = mincloseness + target->getBorder();
 
 		if (closeness > 0.0f)
