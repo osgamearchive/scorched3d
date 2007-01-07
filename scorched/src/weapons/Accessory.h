@@ -62,6 +62,7 @@ public:
 	const int getMaximumNumber() { return maximumNumber_; }
 	const int getStartingNumber() { return startingNumber_; }
 	const bool getAIOnly() { return aiOnly_; }
+	const bool getBotOnly() { return botOnly_; }
 	PositionSelectType getPositionSelect() { return positionSelect_; }
 	int getPositionSelectLimit() { return positionSelectLimit_; }
 
@@ -92,6 +93,7 @@ protected:
 	static unsigned int nextAccessoryId_;
 	unsigned int accessoryId_;
 	bool aiOnly_;
+	bool botOnly_;
 	AccessoryPart *accessoryAction_;
 	PositionSelectType positionSelect_;
 	ToolTip toolTip_;
