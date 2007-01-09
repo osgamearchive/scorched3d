@@ -378,8 +378,6 @@ scorched3ds_SOURCES = \
 	../engine/ShotState.h \
 	../engine/ViewPoints.cpp \
 	../engine/ViewPoints.h \
-	../landscapedef/LandscapeBoids.cpp \
-	../landscapedef/LandscapeBoids.h \
 	../landscapedef/LandscapeDefinition.cpp \
 	../landscapedef/LandscapeDefinition.h \
 	../landscapedef/LandscapeDefinitionCache.cpp \
@@ -393,10 +391,10 @@ scorched3ds_SOURCES = \
 	../landscapedef/LandscapeDefn.h \
 	../landscapedef/LandscapeEvents.cpp \
 	../landscapedef/LandscapeEvents.h \
-	../landscapedef/LandscapePlace.cpp \
-	../landscapedef/LandscapePlace.h \
-	../landscapedef/LandscapeShips.cpp \
-	../landscapedef/LandscapeShips.h \
+	../landscapedef/LandscapeInclude.cpp \
+	../landscapedef/LandscapeInclude.h \
+	../landscapedef/LandscapeMovement.cpp \
+	../landscapedef/LandscapeMovement.h \
 	../landscapedef/LandscapeSound.cpp \
 	../landscapedef/LandscapeSound.h \
 	../landscapedef/LandscapeTex.cpp \
@@ -427,6 +425,10 @@ scorched3ds_SOURCES = \
 	../placement/PlacementTankPosition.h \
 	../placement/PlacementType.cpp \
 	../placement/PlacementType.h \
+	../placement/PlacementTypeBounds.cpp \
+	../placement/PlacementTypeBounds.h \
+	../placement/PlacementTypeCount.cpp \
+	../placement/PlacementTypeCount.h \
 	../placement/PlacementTypeDirect.cpp \
 	../placement/PlacementTypeDirect.h \
 	../placement/PlacementTypeMask.cpp \
@@ -701,7 +703,21 @@ scorched3ds_SOURCES = \
 	../3dsparse/MSModelFactory.cpp \
 	../3dsparse/MSModelFactory.h \
 	../3dsparse/Vertex.cpp \
-	../3dsparse/Vertex.h
+	../3dsparse/Vertex.h \
+	../movement/Boid.cpp \
+	../movement/Boid.h \
+	../movement/BoidsObstacle.cpp \
+	../movement/BoidsObstacle.h \
+	../movement/BoidVector.cpp \
+	../movement/BoidVector.h \
+	../movement/TargetMovement.cpp \
+	../movement/TargetMovement.h \
+	../movement/TargetMovementEntry.cpp \
+	../movement/TargetMovementEntry.h \
+	../movement/TargetMovementEntryBoids.cpp \
+	../movement/TargetMovementEntryBoids.h \
+	../movement/TargetMovementEntryShips.cpp \
+	../movement/TargetMovementEntryShips.h
 
 AM_CPPFLAGS = -I../porting -I.. -DS3D_SERVER=1 @SDL_CFLAGS@ @MYSQL_CFLAGS@
 LDADD = @SDL_LIBS@ @MYSQL_LIBS@

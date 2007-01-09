@@ -112,6 +112,7 @@ scorcheddatahtmlserver_DATA = data/html/server/player.html \
 	data/html/server/banned.html \
 	data/html/server/header.html \
 	data/html/server/log.html \
+	data/html/server/sessions.html \
 	data/html/server/logfiles.html \
 	data/html/server/logfile.html \
 	data/html/server/settings.html \
@@ -619,7 +620,6 @@ scorcheddatalandscapes_DATA = data/landscapes/defnvalley.xml \
 	data/landscapes/glaciation.bmp \
 	data/landscapes/shipssub.xml \
 	data/landscapes/placesnowpine.xml \
-	data/landscapes/boidst38.xml \
 	data/landscapes/texhell.xml \
 	data/landscapes/parkinga.bmp \
 	data/landscapes/half-mask-start.bmp \
@@ -628,7 +628,6 @@ scorcheddatalandscapes_DATA = data/landscapes/defnvalley.xml \
 	data/landscapes/icebergs003.bmp \
 	data/landscapes/defndenali.xml \
 	data/landscapes/ambientsoundjungle.xml \
-	data/landscapes/placenone.xml \
 	data/landscapes/eventslightning.xml \
 	data/landscapes/eventsmeteor.xml \
 	data/landscapes/picture-none.bmp \
@@ -930,6 +929,7 @@ scorcheddatatextureslandscapedefault_DATA = data/textures/landscape/default/text
 	data/textures/landscape/default/texture4.bmp \
 	data/textures/landscape/default/cubemap.bmp \
 	data/textures/landscape/default/detail.bmp \
+	data/textures/landscape/default/waternight.bmp \
 	data/textures/landscape/default/water.bmp \
 	data/textures/landscape/default/texture0.bmp \
 	data/textures/landscape/default/cloud1.bmp

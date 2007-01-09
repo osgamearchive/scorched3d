@@ -378,8 +378,6 @@ scorched3dc_SOURCES = \
 	../engine/SyncCheck.h \
 	../engine/ViewPoints.cpp \
 	../engine/ViewPoints.h \
-	../landscapedef/LandscapeBoids.cpp \
-	../landscapedef/LandscapeBoids.h \
 	../landscapedef/LandscapeDefinition.cpp \
 	../landscapedef/LandscapeDefinition.h \
 	../landscapedef/LandscapeDefinitionCache.cpp \
@@ -393,10 +391,10 @@ scorched3dc_SOURCES = \
 	../landscapedef/LandscapeDefn.h \
 	../landscapedef/LandscapeEvents.cpp \
 	../landscapedef/LandscapeEvents.h \
-	../landscapedef/LandscapePlace.cpp \
-	../landscapedef/LandscapePlace.h \
-	../landscapedef/LandscapeShips.cpp \
-	../landscapedef/LandscapeShips.h \
+	../landscapedef/LandscapeInclude.cpp \
+	../landscapedef/LandscapeInclude.h \
+	../landscapedef/LandscapeMovement.cpp \
+	../landscapedef/LandscapeMovement.h \
 	../landscapedef/LandscapeSound.cpp \
 	../landscapedef/LandscapeSound.h \
 	../landscapedef/LandscapeTex.cpp \
@@ -427,6 +425,10 @@ scorched3dc_SOURCES = \
 	../placement/PlacementTankPosition.h \
 	../placement/PlacementType.cpp \
 	../placement/PlacementType.h \
+	../placement/PlacementTypeBounds.cpp \
+	../placement/PlacementTypeBounds.h \
+	../placement/PlacementTypeCount.cpp \
+	../placement/PlacementTypeCount.h \
 	../placement/PlacementTypeDirect.cpp \
 	../placement/PlacementTypeDirect.h \
 	../placement/PlacementTypeMask.cpp \
@@ -802,6 +804,8 @@ scorched3dc_SOURCES = \
 	../client/ClientState.h \
 	../client/ClientSyncCheckHandler.cpp \
 	../client/ClientSyncCheckHandler.h \
+	../client/ClientTargetStateHandler.cpp \
+	../client/ClientTargetStateHandler.h \
 	../client/ClientTextHandler.cpp \
 	../client/ClientTextHandler.h \
 	../client/ClientWaitState.cpp \
@@ -1004,12 +1008,6 @@ scorched3dc_SOURCES = \
 	../landscape/WaterMapSurround.h \
 	../landscape/WaterWaves.cpp \
 	../landscape/WaterWaves.h \
-	../ships/ScorchedShips.cpp \
-	../ships/ScorchedShips.h \
-	../ships/Ship.cpp \
-	../ships/Ship.h \
-	../ships/ShipGroup.cpp \
-	../ships/ShipGroup.h \
 	../sprites/DebrisActionRenderer.cpp \
 	../sprites/DebrisActionRenderer.h \
 	../sprites/ExplosionLaserBeamRenderer.cpp \
@@ -1110,19 +1108,6 @@ scorched3dc_SOURCES = \
 	../graph/TutorialFile.h \
 	../graph/WindowSetup.cpp \
 	../graph/WindowSetup.h \
-	../boids/Boid.cpp \
-	../boids/Boid.h \
-	../boids/BoidVector.cpp \
-	../boids/BoidVector.h \
-	../boids/BoidWorld.cpp \
-	../boids/BoidWorld.h \
-	../boids/Obstacle.cpp \
-	../boids/Obstacle.h \
-	../boids/ScorchedBoids.cpp \
-	../boids/ScorchedBoids.h \
-	../boids/ScorchedBoidsObstacle.cpp \
-	../boids/ScorchedBoidsObstacle.h \
-	../boids/SimObject.h \
 	../dialogs/AutoDefenseDialog.cpp \
 	../dialogs/AutoDefenseDialog.h \
 	../dialogs/BackdropDialog.cpp \
@@ -1191,7 +1176,21 @@ scorched3dc_SOURCES = \
 	../sound/SoundUtils.h \
 	../sound/VirtualSoundPriority.h \
 	../sound/VirtualSoundSource.cpp \
-	../sound/VirtualSoundSource.h
+	../sound/VirtualSoundSource.h \
+	../movement/Boid.cpp \
+	../movement/Boid.h \
+	../movement/BoidsObstacle.cpp \
+	../movement/BoidsObstacle.h \
+	../movement/BoidVector.cpp \
+	../movement/BoidVector.h \
+	../movement/TargetMovement.cpp \
+	../movement/TargetMovement.h \
+	../movement/TargetMovementEntry.cpp \
+	../movement/TargetMovementEntry.h \
+	../movement/TargetMovementEntryBoids.cpp \
+	../movement/TargetMovementEntryBoids.h \
+	../movement/TargetMovementEntryShips.cpp \
+	../movement/TargetMovementEntryShips.h
 
 AM_CPPFLAGS = -I../porting -I.. @AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@
 LDADD = @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@
