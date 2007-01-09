@@ -38,7 +38,7 @@ TargetDefinition::TargetDefinition() :
 	modelscale_(0.05f), modelrotation_(0.0f), modelrotationsnap_(-1.0f),
 	driveovertodestroy_(false), border_(0.0f), 
 	displaydamage_(true), displayshadow_(true), 
-	nodamageburn_(false), nocollision_(false)
+	nodamageburn_(false), nocollision_(false), nofalling_(false)
 {
 	shadow_.setDrawShadow(false);
 }
@@ -55,6 +55,7 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("parachute", parachute_, false);
 	node->getNamedChild("boundingsphere", boundingsphere_, false);
 	node->getNamedChild("nocollision", nocollision_, false);
+	node->getNamedChild("nofalling", nofalling_, false);
 	node->getNamedChild("nodamageburn", nodamageburn_, false);
 	node->getNamedChild("displaydamage", displaydamage_, false);
 	node->getNamedChild("displayshadow", displayshadow_, false);
@@ -123,6 +124,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	target->getTargetState().setDisplayDamage(displaydamage_);
 	target->getTargetState().setDisplayShadow(displayshadow_);
 	target->getTargetState().setNoDamageBurn(nodamageburn_);
+	target->getTargetState().setNoFalling(nofalling_);
 	target->getLife().setMaxLife(life_);
 	target->getLife().setSize(size_);
 	target->getLife().setVelocity(velocity);

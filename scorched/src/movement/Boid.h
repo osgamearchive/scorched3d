@@ -65,14 +65,18 @@ class Boid {
   
 public:
   					 
-  Boid(Target *target, TargetMovementEntryBoids *world, int boidNumber); 
+  Boid(Target *target, TargetMovementEntryBoids *world); 
   // Constructor. Creates a bird of type NORMAL with the given dimensions,
   // initial position, and velocity.
   // bDimensions.{x,y,z} = {length, width, height}
+  ~Boid();
 
   bool update(const double &elapsedSeconds);  
   // Updates this object based on the amount of elapsed time since the last
   // update, and the previous acceleration and velocity.
+
+  void clearTarget();
+  // Called when the target is destroyed
 
 protected:
 
@@ -112,7 +116,7 @@ protected:
   int visibleToSelf(Boid *b);
   // Returns 1 if this boid can see boid b, 0 otherwise.
   
-  void calculateRollPitchYaw(Target *target,
+  void calculateRollPitchYaw(
 					BoidVector appliedAcceleration,
 				     BoidVector currentVelocity,
 				     BoidVector currentPosition);
@@ -161,9 +165,16 @@ protected:
   
 private:
 
-  int boidNumber;
-  // Unique integer identifying the number of this boid. The first boid
-  // created is given boidNumber 1, and the values increase sequentially.
+  struct VisibilityEntry
+  {
+	  int visible;
+	  Boid *boid;
+  }
+  *visibilityMatrix;
+  // Returns the value in the visibility matrix which determines if this boid
+  // can see the "otherBoid". A value of -1 means that otherBoid cannot be
+  // seen; any other value indicates that otherBoid _can_ be seen, and the
+  // value is equal to the otherBoid's boidType.
 
   TargetMovementEntryBoids *world;
   // All visible boids + obstacles
@@ -209,18 +220,24 @@ Boid::getProbeLength(void)
 inline BoidVector Boid::getPosition()
 {
 	BoidVector result;
-	result.x = target->getLife().getTargetPosition()[0];
-	result.y = target->getLife().getTargetPosition()[2];
-	result.z = target->getLife().getTargetPosition()[1];
+	if (target)
+	{
+		result.x = target->getLife().getTargetPosition()[0];
+		result.y = target->getLife().getTargetPosition()[2];
+		result.z = target->getLife().getTargetPosition()[1];
+	}
 	return result;
 }
 
 inline BoidVector Boid::getVelocity()
 {
 	BoidVector result;
-	result.x = target->getLife().getVelocity()[0];
-	result.y = target->getLife().getVelocity()[2];
-	result.z = target->getLife().getVelocity()[1];
+	if (target)
+	{
+		result.x = target->getLife().getVelocity()[0];
+		result.y = target->getLife().getVelocity()[2];
+		result.z = target->getLife().getVelocity()[1];
+	}
 	return result;
 }
 
@@ -238,6 +255,12 @@ Boid::levelFlight(BoidVector AccelSoFar) {
 
   // Try to negate it.
   return -verticalAcc;
+}
+
+inline void 
+Boid::clearTarget()
+{
+	target = 0;
 }
 
 #endif /* __BOID_H */

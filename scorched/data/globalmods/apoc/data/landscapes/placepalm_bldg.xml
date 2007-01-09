@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='trees'>
 			<numobjects>400000</numobjects>
 			<numclusters>12</numclusters>
@@ -36,5 +35,4 @@
 				</randomobject>
 			</object>
 		</placement>
-	</placements>
 </place>

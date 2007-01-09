@@ -37,6 +37,7 @@ Added: Web management authentication failure reponse is delayed before sending b
 Added: Web management sessions view to show logged in web admins
 Added: Web management exit when empty option (to exit server when no one is playing)
 Added: Web management log file search feature for finding strings in log files
+Added: Web management landscape settings dialog
 Added: DebugFeatures option for server.xml to disable InfoGrid
 Added: New wall types: WallActive and WallInactive
 Added: botonly option for accessories (ie: only for bots, not for AI objects)
@@ -47,6 +48,7 @@ Added: Boids and ships have the same positions on all clients and the server
 Added: Cleaned unused tags from landscape placement and ambientsound files
 Added: All aspects of the landscape (placement, sound, movement...) can be defined in the same file
 Added: Concept of a general include file to replace specific sound, movement, placement files.
+Added: nocollision, nodamageburn, nofalling, displaydamage and displayshadow attributes to targets.
 
 Fixed: Cleaned up tank state machine
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server

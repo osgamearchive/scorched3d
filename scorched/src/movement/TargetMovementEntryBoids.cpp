@@ -31,22 +31,21 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeMovement.h>
 
-TargetMovementEntryBoids::TargetMovementEntryBoids() :
-	visibilityMatrix_(0)
+TargetMovementEntryBoids::TargetMovementEntryBoids()
 {
 }
 
 TargetMovementEntryBoids::~TargetMovementEntryBoids()
 {
 	{
-		for (unsigned int i=0; i<boids_.size(); i++) 
+		std::map<unsigned int, Boid *>::iterator itor;
+		for (itor = boidsMap_.begin();
+			itor != boidsMap_.end();
+			itor++)
 		{
-			delete [] visibilityMatrix_[i];
-			delete boids_[i];
+			Boid *boid = (*itor).second;
+			delete boid;
 		}
-		delete [] visibilityMatrix_;
-		visibilityMatrix_ = 0;
-		boids_.clear();
 		boidsMap_.clear();
 	}
 	{
@@ -83,17 +82,6 @@ void TargetMovementEntryBoids::generate(ScorchedContext &context,
 	// Create boids
 	makeBoids(context, random, boids->maxbounds, boids->minbounds);
 	makeObstacles(context, random, boids->maxbounds, boids->minbounds);
-
-	// Allocate a new visibility matrix
-	visibilityMatrix_ = new int*[boids_.size()];
-	for (unsigned int i=0; i<boids_.size(); i++)
-	{
-		visibilityMatrix_[i] = new int[boids_.size()];
-		for (unsigned int j=0; j<boids_.size(); j++)
-		{
-			visibilityMatrix_[i][j] = -1;
-		}
-	}
 }
 
 void TargetMovementEntryBoids::makeBoids(ScorchedContext &context, 
@@ -104,12 +92,11 @@ void TargetMovementEntryBoids::makeBoids(ScorchedContext &context,
 	BoidVector v;             // velocity vector
 
 	// Generate the list of offsets for all of the targets in the group
-	int i = 0;
 	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
 	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
-	for (i=0, itor = objects.begin();
+	for (itor = objects.begin();
 		itor != objects.end();
-		itor++, i++)
+		itor++)
 	{
 		unsigned int playerId = (*itor).first;
 		TargetGroupEntry *groupEntry = (*itor).second;
@@ -121,8 +108,7 @@ void TargetMovementEntryBoids::makeBoids(ScorchedContext &context,
 		}
 
 		// Add to world
-		Boid *boid = new Boid(groupEntry->getTarget(), this, i + 1);
-		boids_.push_back(boid);
+		Boid *boid = new Boid(groupEntry->getTarget(), this);
 		boidsMap_[playerId] = boid;
 	}
 }

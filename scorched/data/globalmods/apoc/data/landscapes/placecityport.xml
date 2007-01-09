@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='direct'>
 			<position>
 				<position>
@@ -27,5 +26,4 @@
 				</groundmap>
 			</object>
 		</placement>
-	</placements>
 </place>

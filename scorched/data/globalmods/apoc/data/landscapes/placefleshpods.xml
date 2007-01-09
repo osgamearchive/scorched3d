@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='mask'>
 			<numobjects>20</numobjects>
 			<mask>data/landscapes/masks/anywhere.bmp</mask>
@@ -68,5 +67,4 @@
 				<border>10</border>
 			</object>-->
 		</placement>
-	</placements>
 </place>

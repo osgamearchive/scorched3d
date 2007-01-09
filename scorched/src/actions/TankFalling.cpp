@@ -68,7 +68,9 @@ void TankFalling::init()
 {
 	Target *current = 
 		context_->targetContainer->getTargetById(fallingPlayerId_);
-	if (current && !current->getTargetState().getFalling())
+	if (current && 
+		!current->getTargetState().getFalling() && 
+		!current->getTargetState().getNoFalling())
 	{
 		current->getTargetState().setFalling(this);
 

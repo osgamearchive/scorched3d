@@ -49,7 +49,7 @@ protected:
 	float life_;
 	bool boundingsphere_;
 	bool driveovertodestroy_;
-	bool nocollision_, nodamageburn_;
+	bool nocollision_, nodamageburn_, nofalling_;
 	bool displaydamage_, displayshadow_;
 	std::string name_;
 	std::string parachute_;

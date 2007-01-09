@@ -59,34 +59,43 @@
 #include <target/TargetLife.h>
 #include <stdio.h>
 
-// Returns the value in the visibility matrix which determines if this boid
-// can see the "otherBoid". A value of -1 means that otherBoid cannot be
-// seen; any other value indicates that otherBoid _can_ be seen, and the
-// value is equal to the otherBoid's boidType.
-#define visMatrix(otherBoid) \
-     (world->getVisibilityMatrix()[boidNumber-1][(otherBoid)->boidNumber-1])
-
 void 
 Boid::calculateVisibilityMatrix(void) {
 
   
   int val;
+  Boid *n;
   
   // Foreach boid, if it's not visible to us, put a a -1 in the
   // matrix. Otherwise put 1 in the matrix.
-
-  for (int i=0; i<world->getBoidCount(); i++) {
-	  Boid *n = world->getBoids()[i];
-
-    // Can't see self!
-    if (n == this) {
+  int i = 0;
+  std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+  for (itor = world->getTargets().begin();
+	  itor != world->getTargets().end();
+	  itor++, i++)
+  {
+	  unsigned int playerId = (*itor).first;
+	  std::map<unsigned int, Boid *>::iterator findItor = 
+		  world->getBoidsMap().find(playerId);
+	  if (findItor != world->getBoidsMap().end())
+	  {
+		  n = (*findItor).second;
+	  }
+	  else 
+	  {
+		  n = this;
+	  }
+	
+    // Can't see self! or boid with no target
+	if (n == this) {
       val = -1;
     }
     else {
       val = (visibleToSelf(n) ? 1 : -1);
     }
 
-    visMatrix(n) = val;
+	visibilityMatrix[i].visible = val;
+	visibilityMatrix[i].boid = n;
   }
   
 }
@@ -113,7 +122,7 @@ Boid::navigator(void) {
   BoidVector vacc(0, 0, 0);  // BoidVector accumulator
 
   if (accumulate(vacc, collisionAvoidance()) >= 1.0)           goto MAXACCEL_ATTAINED;
-  if (world->getBoidCount() > 1)
+  if (world->getTargets().size() > 1)
   {
 	if (accumulate(vacc, flockCentering()) >= 1.0)               goto MAXACCEL_ATTAINED;
 	if (accumulate(vacc, maintainingCruisingDistance()) >= 1.0)  goto MAXACCEL_ATTAINED;
@@ -137,7 +146,7 @@ MAXACCEL_ATTAINED:  /* label */
 }
 
 void
-Boid::calculateRollPitchYaw(Target *target,
+Boid::calculateRollPitchYaw(
 				BoidVector appliedAcceleration,
 			    BoidVector currentVelocity,
 			    BoidVector /*currentPosition*/) {
@@ -276,12 +285,12 @@ Boid::maintainingCruisingDistance(void) {
   Boid *n, *closestNeighbor;   
   double tempDistance;
   
-  for (int i=0; i<world->getBoidCount(); i++) {
-   
-	  n = world->getBoids()[i];
+  for (int i=0; i<(int) world->getTargets().size(); i++)
+  {
+	  n = visibilityMatrix[i].boid;
 
     // Skip boids that we don't need to consider
-    if (visMatrix(n) == -1) continue; 
+	  if (visibilityMatrix[i].visible == -1) continue; 
     
     // Find distance from the current boid to self
     tempDistance = Magnitude(n->getPosition() - getPosition());
@@ -347,12 +356,12 @@ Boid::velocityMatching(void) {
   double distanceToClosestNeighbor = DBL_MAX;
   Boid *n;   
   
-  for (int i=0; i<world->getBoidCount(); i++) {
-   
-	  n = world->getBoids()[i];
-    
+  for (int i=0; i<(int) world->getTargets().size(); i++)
+  {
+	  n = visibilityMatrix[i].boid;
+
     // Skip boids that we don't need to consider
-    if (visMatrix(n) == -1) continue; 
+	  if (visibilityMatrix[i].visible == -1) continue; 
     
     // Find distance from the current boid to self
     tempDistance = Magnitude(n->getPosition() - getPosition());
@@ -387,11 +396,12 @@ Boid::flockCentering(void) {
   
   // Calculate approximate center of flock by averaging the positions of all
   // visible boids that we are flocking with.
-  for (int i=0; i<world->getBoidCount(); i++) {
-   
-	  n = world->getBoids()[i];
+  for (int i=0; i<(int) world->getTargets().size(); i++)
+  {
+	  n = visibilityMatrix[i].boid;
 
-    if (visMatrix(n) == -1) continue; 
+    // Skip boids that we don't need to consider
+	  if (visibilityMatrix[i].visible == -1) continue; 
    
     flockcenter += n->getPosition();
     boids_observed++;
@@ -459,17 +469,28 @@ Boid::update(const double &dt) {
     //         Remember: the boid isn't necessarily oriented in the
     //         direction of the velocity!
     // (assuming +y is up, +z is through the nose, +x is through the left wing)
-    calculateRollPitchYaw(target, acceleration, oldVelocity, position);
+    calculateRollPitchYaw(acceleration, oldVelocity, position);
 
   return ok;
 }
 
 
-Boid::Boid(Target *t, TargetMovementEntryBoids *w, int boidNum) {
+Boid::Boid(Target *t, TargetMovementEntryBoids *w) {
   
   world = w;
-  boidNumber = boidNum;
   target = t;
+
+  visibilityMatrix = new VisibilityEntry[(int) w->getTargets().size()];
+  for (int i=0; i<(int) w->getTargets().size(); i++)
+  {
+	  visibilityMatrix[i].visible = -1;
+	  visibilityMatrix[i].boid = 0;
+  }
 }		
+
+Boid::~Boid()
+{
+	delete [] visibilityMatrix;
+}
 			
 #endif /* __BOID_C */

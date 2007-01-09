@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='mask'>
 			<numobjects>2500</numobjects>
 			<mask>data/landscapes/masks/usa-pines.bmp</mask>
@@ -135,5 +134,4 @@
 				<groupname></groupname>
 			</object>
 		</placement>
-	</placements>
 </place>

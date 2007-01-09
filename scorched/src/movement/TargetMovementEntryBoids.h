@@ -23,12 +23,12 @@
 
 #include <common/SplinePath.h>
 #include <movement/TargetMovementEntry.h>
+#include <landscapemap/TargetGroupsSetEntry.h>
 #include <map>
 #include <vector>
 
 class Obstacle;
 class Boid;
-class TargetGroupsGroupEntry;
 class TargetMovementEntryBoids : public TargetMovementEntry
 {
 public:
@@ -47,26 +47,21 @@ public:
 	float getCruiseDistance() { return cruiseDistance_; }
 	float getMaxVelocity() { return maxVelocity_; }
 	float getMaxAcceleration() { return maxAcceleration_; }
-	std::vector<Boid *> &getBoids() { return boids_; }
+
+	std::map<unsigned int, TargetGroupEntry *> &getTargets() { return groupEntry_->getObjects(); }
+	std::map<unsigned int, Boid *> &getBoidsMap() { return boidsMap_; }
 	std::vector<Obstacle *> &getObstacles() { return obstacles_; }
-	int getBoidCount() { return (int) boids_.size(); } 
-	int **getVisibilityMatrix() { return visibilityMatrix_; }
 
 protected:
-	TargetGroupsGroupEntry *groupEntry_;
+	TargetGroupsSetEntry *groupEntry_;
 
 	// All boids have access to this list, and use it to 
 	// determine where all the other boids are. 
-	std::vector<Boid *> boids_;
 	std::map<unsigned int, Boid *> boidsMap_;
 
 	// Linked list of obstacles that every boid will try to avoid. By default
 	// there are no obstacles.
 	std::vector<Obstacle *> obstacles_;
-
-	// See description in CalculateVisibilityMatrix() and the comments for the
-	// visMatrix macro for more info.
-	int **visibilityMatrix_;
 
 	// Boid settings
 	float cruiseDistance_;

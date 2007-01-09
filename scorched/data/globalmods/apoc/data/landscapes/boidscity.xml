@@ -1,86 +1,141 @@
 <boids>
-	<boid>
+	<placement type="bounds">
 		<count>2</count>
+		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
+		<maxbounds><A>355</A><B>355</B><C>75</C></maxbounds>
+		<object type='target'>
+			<model type="MilkShape">data/meshes/f16/f16.txt</model>
+			<nocollision>true</nocollision>
+			<displayshadow>false</displayshadow>
+			<groupname>boids-city1</groupname>
+		</object>
+	</placement>
+	<movement type="boids">
 		<minbounds><A>-100</A><B>-100</B><C>30</C></minbounds>
 		<maxbounds><A>355</A><B>355</B><C>75</C></maxbounds>
 		<maxvelocity>7.5</maxvelocity>
 		<maxacceleration>5.0</maxacceleration>
 		<cruisedistance>10.0</cruisedistance>
-		<model type="MilkShape">data/meshes/f16/f16.txt</model>
-		<sounds>
-			<mintime>15</mintime>
-			<maxtime>15</maxtime>
-			<maxsimul>3</maxsimul>
-			<volume>25</volume>
-			<sound>data/wav/misc/f16_1.wav</sound>
-			<sound>data/wav/misc/f16_2.wav</sound>
-		</sounds>
-	</boid>
-	<boid>
+		<groupname>boids-city1</groupname>
+	</movement>
+	<sound>
+		<position type='set'>
+			<maxsounds>3</maxsounds>
+			<name>boids-city1</name>
+		</position>
+		<timing type='repeat'>
+			<min>15</min>
+			<max>15</max>
+		</timing>
+		<sound type='file'>
+			<file>data/wav/misc/f16_1.wav</file>
+			<file>data/wav/misc/f16_2.wav</file>
+			<gain>0.25</gain>
+		</sound>
+	</sound>
+	
+	<placement type="bounds">
 		<count>1</count>
+		<minbounds><A>150</A><B>150</B><C>30</C></minbounds>
+		<maxbounds><A>300</A><B>300</B><C>70</C></maxbounds>
+		<object type='target'>
+			<model type="MilkShape">data/meshes/737ua/737ua.txt</model>
+			<modelscale>0.3</modelscale>
+			<nocollision>true</nocollision>
+			<displayshadow>false</displayshadow>
+			<groupname>boids-city2</groupname>
+		</object>
+	</placement>
+	<movement type="boids">
 		<minbounds><A>150</A><B>150</B><C>30</C></minbounds>
 		<maxbounds><A>300</A><B>300</B><C>70</C></maxbounds>
 		<maxvelocity>3.0</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>7.0</cruisedistance>
-		<model type="MilkShape">data/meshes/737ua/737ua.txt</model>
-		<modelsize>9.0</modelsize>
-		<sounds>
-			<mintime>0</mintime>
-			<maxtime>2</maxtime>
-			<maxsimul>4</maxsimul>
-			<volume>30</volume>
-			<sound>data/wav/misc/jet.wav</sound>
-		</sounds>
-	</boid>
-	<boid>
+		<groupname>boids-city2</groupname>
+	</movement>
+	<sound>
+		<position type='set'>
+			<maxsounds>1</maxsounds>
+			<name>boids-city2</name>
+		</position>
+		<timing type='repeat'>
+			<min>0</min>
+			<max>2</max>
+		</timing>
+		<sound type='file'>
+			<file>data/wav/misc/jet.wav</file>
+			<gain>0.3</gain>
+		</sound>
+	</sound>
+	
+	<placement type="bounds">
 		<count>1</count>
+		<minbounds><A>100</A><B>100</B><C>20</C></minbounds>
+		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
+		<object type='target'>
+			<model type="MilkShape">data/meshes/cessna/cessna.txt</model>
+			<modelscale>0.3</modelscale>
+			<nocollision>true</nocollision>
+			<displayshadow>false</displayshadow>
+			<groupname>boids-city3</groupname>
+		</object>
+	</placement>
+	<movement type="boids">
 		<minbounds><A>100</A><B>100</B><C>20</C></minbounds>
 		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
 		<maxvelocity>2.5</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>5.0</cruisedistance>
-		<model type="MilkShape">data/meshes/cessna/cessna.txt</model>
-		<modelsize>9.0</modelsize>
-		<sounds>
-			<mintime>0</mintime>
-			<maxtime>2</maxtime>
-			<maxsimul>4</maxsimul>
-			<volume>30</volume>
-			<sound>data/wav/misc/cessna.wav</sound>
-		</sounds>
-	</boid>
-	<boid>
+		<groupname>boids-city3</groupname>
+	</movement>
+	<sound>
+		<position type='set'>
+			<maxsounds>1</maxsounds>
+			<name>boids-city3</name>
+		</position>
+		<timing type='repeat'>
+			<min>0</min>
+			<max>2</max>
+		</timing>
+		<sound type='file'>
+			<file>data/wav/misc/cessna.wav</file>
+			<gain>0.3</gain>
+		</sound>
+	</sound>
+
+	<placement type="bounds">
 		<count>1</count>
+		<minbounds><A>100</A><B>100</B><C>10</C></minbounds>
+		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
+		<object type='target'>
+			<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
+			<modelscale>0.015</modelscale>
+			<nocollision>true</nocollision>
+			<displayshadow>false</displayshadow>
+			<groupname>boids-city4</groupname>
+		</object>
+	</placement>
+	<movement type="boids">
 		<minbounds><A>100</A><B>100</B><C>10</C></minbounds>
 		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
 		<maxvelocity>2.5</maxvelocity>
 		<maxacceleration>2.0</maxacceleration>
 		<cruisedistance>4.0</cruisedistance>
-		<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
-		<sounds>
-			<mintime>0</mintime>
-			<maxtime>2</maxtime>
-			<maxsimul>4</maxsimul>
-			<volume>15</volume>
-			<sound>data/wav/misc/apache_1.wav</sound>
-		</sounds>
-	</boid>
-	<!--<boid>
-		<count>1</count>
-		<minbounds><A>75</A><B>75</B><C>10</C></minbounds>
-		<maxbounds><A>175</A><B>175</B><C>60</C></maxbounds>
-		<maxvelocity>2.5</maxvelocity>
-		<maxacceleration>2.0</maxacceleration>
-		<cruisedistance>2.0</cruisedistance>
-		<model type="MilkShape">data/meshes/fight4life/fight4life.txt</model>
-		<modelsize>10.0</modelsize>
-		<sounds>
-			<mintime>0</mintime>
-			<maxtime>2</maxtime>
-			<maxsimul>4</maxsimul>
-			<volume>10</volume>
-			<sound>data/wav/misc/fight4life.wav</sound>
-		</sounds>
-	</boid>-->
+		<groupname>boids-city4</groupname>
+	</movement>
+	<sound>
+		<position type='set'>
+			<maxsounds>1</maxsounds>
+			<name>boids-city4</name>
+		</position>
+		<timing type='repeat'>
+			<min>0</min>
+			<max>2</max>
+		</timing>
+		<sound type='file'>
+			<file>data/wav/misc/apache_1.wav</file>
+			<gain>0.15</gain>
+		</sound>
+	</sound>
 </boids>

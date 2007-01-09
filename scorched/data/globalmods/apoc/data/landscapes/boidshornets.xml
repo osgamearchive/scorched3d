@@ -1,19 +1,36 @@
 <boids>
-	<boid>
+	<placement type="bounds">
 		<count>4</count>
 		<minbounds><A>128</A><B>128</B><C>10</C></minbounds>
 		<maxbounds><A>256</A><B>256</B><C>30</C></maxbounds>
-		<maxvelocity>2</maxvelocity>
-		<maxacceleration>1</maxacceleration>
+		<object type='target'>
+			<model type="MilkShape">data/accessories/weapons/redhornet_anim.txt</model>
+			<modelscale>0.25</modelscale>	  
+			<nocollision>true</nocollision>
+			<displayshadow>false</displayshadow>
+			<groupname>boids-hornets</groupname>
+		</object>
+	</placement>
+	<movement type="boids">
+		<minbounds><A>128</A><B>128</B><C>10</C></minbounds>
+		<maxbounds><A>256</A><B>256</B><C>30</C></maxbounds>
+		<maxvelocity>2.0</maxvelocity>
+		<maxacceleration>1.0</maxacceleration>
 		<cruisedistance>4.0</cruisedistance>
-		<model type="MilkShape">data/accessories/weapons/redhornet_anim.txt</model>
-		<modelsize>5.0</modelsize>
-		<sounds>
-			<mintime>30</mintime>
-			<maxtime>60</maxtime>
-			<maxsimul>1</maxsimul>
-			<volume>25</volume>
-			<sound>data/wav/explosions/bees.wav</sound>
-		</sounds>
-	</boid>
+		<groupname>boids-hornets</groupname>
+	</movement>
+	<sound>
+		<position type='set'>
+			<maxsounds>1</maxsounds>
+			<name>boids-hornets</name>
+		</position>
+		<timing type='repeat'>
+			<min>30</min>
+			<max>60</max>
+		</timing>
+		<sound type='file'>
+			<file>data/wav/explosions/bees.wav</file>
+			<gain>0.25</gain>
+		</sound>
+	</sound>
 </boids>

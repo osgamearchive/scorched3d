@@ -44,12 +44,16 @@ public:
 	bool getNoCollision() { return noCollision_; }
 	void setNoCollision(bool noCollision) { noCollision_ = noCollision; }
 
+	bool getNoFalling() { return noFalling_; }
+	void setNoFalling(bool noFalling) { noFalling_ = noFalling; }
+
 protected:
 	TankFalling *falling_;
 	bool displayShadow_;
 	bool displayDamage_;
 	bool noDamageBurn_;
 	bool noCollision_;
+	bool noFalling_;
 
 };
 

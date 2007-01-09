@@ -22,6 +22,8 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/Landscape.h>
 #include <landscape/Water.h>
+#include <target/Target.h>
+#include <target/TargetLife.h>
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
 #include <graph/MainCamera.h>
@@ -49,7 +51,9 @@ bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, void *da
 	if (!groupEntry->hasObject(obj)) return false;
 
 	Vector position = obj->getPosition();
+	Vector velocity = obj->getTarget()->getLife().getVelocity();
 	source->setPosition(position);
+	source->setVelocity(velocity);
 #endif
 
 	return true;
@@ -201,8 +205,13 @@ float LandscapeSoundTimingRepeat::getNextEventTime()
 
 bool LandscapeSoundSoundFile::readXML(XMLNode *node)
 {
-	if (!node->getNamedChild("file", file)) return false;
-	if (!checkDataFile(file.c_str())) return false;
+	std::string file;
+	while (node->getNamedChild("file", file, false))
+	{
+		if (!checkDataFile(file.c_str())) return false;
+		files.push_back(file);
+	}
+	if (files.empty()) return node->returnError("No file node");
 
 	gain = 1.0f;
 	node->getNamedChild("gain", gain, false);
@@ -217,6 +226,7 @@ bool LandscapeSoundSoundFile::readXML(XMLNode *node)
 bool LandscapeSoundSoundFile::play(VirtualSoundSource *source)
 {
 #ifndef S3D_SERVER
+	std::string &file = files[rand() % files.size()];
 	SoundBuffer *buffer = 
 		Sound::instance()->fetchOrCreateBuffer((char *)
 			getDataFile(file.c_str()));

@@ -1,5 +1,4 @@
 <place>
-	<placements>
 		<placement type='direct'>
 			<position>
 				<position>
@@ -990,5 +989,4 @@
 				<groupname>factories</groupname>
 			</object>
 		</placement>
-	</placements>
 </place>

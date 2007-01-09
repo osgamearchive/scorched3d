@@ -19,21 +19,18 @@
 		<cruisedistance>4.0</cruisedistance>
 		<groupname>boids-ah64</groupname>
 	</movement>
-	
-	<!--<boid>
-		<count>4</count>
-		<minbounds><A>-50</A><B>-50</B><C>10</C></minbounds>
-		<maxbounds><A>300</A><B>300</B><C>50</C></maxbounds>
-		<maxvelocity>2.0</maxvelocity>
-		<maxacceleration>2.0</maxacceleration>
-		<cruisedistance>4.0</cruisedistance>
-		<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
-		<sounds>
-			<mintime>0</mintime>
-			<maxtime>2</maxtime>
-			<maxsimul>4</maxsimul>
-			<volume>25</volume>
-			<sound>data/wav/misc/apache_1.wav</sound>
-		</sounds>
-	</boid>-->
+	<sound>
+		<position type='set'>
+			<maxsounds>4</maxsounds>
+			<name>boids-ah64</name>
+		</position>
+		<timing type='repeat'>
+			<min>0</min>
+			<max>2</max>
+		</timing>
+		<sound type='file'>
+			<file>data/wav/misc/apache_1.wav</file>
+			<gain>0.25</gain>
+		</sound>
+	</sound>
 </boids>

@@ -126,7 +126,7 @@ public:
 	virtual bool play(VirtualSoundSource *source);
 
 protected:
-	std::string file;
+	std::vector<std::string> files;
 	float gain;
 	float referencedistance;
 	float rolloff;
