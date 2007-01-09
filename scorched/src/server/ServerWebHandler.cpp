@@ -487,20 +487,26 @@ bool ServerWebHandler::SettingsLandscapeHandler::processRequest(const char *url,
 		))
 	{
 		std::string landscapesString = "";
-		for (itor = defns.begin();
-			itor != defns.end();
-			itor++)
+		if (0 != strcmp(action, "Select None"))
 		{
-			LandscapeDefinitionsEntry &dfn = *itor;
-	
-			const char *setting = getField(fields, dfn.name.c_str());
-			if ((0 == strcmp(action, "Select All") || 
-				(setting && 0 == strcmp(setting, "on"))) &&
-				0 != strcmp(action, "Select None"))
+			for (itor = defns.begin();
+				itor != defns.end();
+				itor++)
 			{
-				if (!landscapesString.empty()) landscapesString.append(":");
-				landscapesString.append(dfn.name.c_str());
+				LandscapeDefinitionsEntry &dfn = *itor;
+		
+				const char *setting = getField(fields, dfn.name.c_str());
+				if (0 == strcmp(action, "Select All") || 
+					(setting && 0 == strcmp(setting, "on")))
+				{
+					if (!landscapesString.empty()) landscapesString.append(":");
+					landscapesString.append(dfn.name.c_str());
+				}
 			}
+		}
+		else
+		{
+			landscapesString = " ";
 		}
 		optionsGame.getLandscapesEntry().setValue(landscapesString.c_str());
 	}
@@ -522,8 +528,10 @@ bool ServerWebHandler::SettingsLandscapeHandler::processRequest(const char *url,
 			dfn.name.c_str(), (enabled?"checked":""),
 			dfn.name.c_str(), (!enabled?"checked":""));
 
-		landscapes.append(formatString("<tr><td>%s</td><td>%s</td><td>%s</td>",
-			dfn.name.c_str(), dfn.description.c_str(), value.c_str()));
+		landscapes.append(formatString("<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n",
+			dfn.name.c_str(), 
+			(dfn.description.c_str()[0]?dfn.description.c_str():"-"), 
+			value.c_str()));
 	}
 	fields["LANDSCAPES"] = landscapes;
 
