@@ -26,6 +26,7 @@
 #include <server/ServerTextHandler.h>
 #include <server/ServerState.h>
 #include <server/ServerParams.h>
+#include <landscapedef/LandscapeDefinitionsBase.h>
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -457,7 +458,85 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 	return ServerWebServer::getHtmlTemplate("server.html", fields, text);
 }
 
-bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
+bool ServerWebHandler::SettingsLandscapeHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	const char *action = getField(fields, "action");
+	if (action && 0 == strcmp(action, "Load"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			readOptionsFromFile((char *) ServerParams::instance()->getServerFile());
+	}
+
+	LandscapeDefinitionsBase landscapeDefinitions;
+	landscapeDefinitions.readLandscapeDefinitions();
+	std::list<LandscapeDefinitionsEntry> &defns =
+		landscapeDefinitions.getAllLandscapes();
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
+
+	OptionsGame &optionsGame = 
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions();
+
+	// Set new options if any 
+	if (action && (
+		0 == strcmp(action, "Save") || 
+		0 == strcmp(action, "Set") || 
+		0 == strcmp(action, "Select All") || 
+		0 == strcmp(action, "Select None")
+		))
+	{
+		std::string landscapesString = "";
+		for (itor = defns.begin();
+			itor != defns.end();
+			itor++)
+		{
+			LandscapeDefinitionsEntry &dfn = *itor;
+	
+			const char *setting = getField(fields, dfn.name.c_str());
+			if ((0 == strcmp(action, "Select All") || 
+				(setting && 0 == strcmp(setting, "on"))) &&
+				0 != strcmp(action, "Select None"))
+			{
+				if (!landscapesString.empty()) landscapesString.append(":");
+				landscapesString.append(dfn.name.c_str());
+			}
+		}
+		optionsGame.getLandscapesEntry().setValue(landscapesString.c_str());
+	}
+
+	// Read the current options
+	std::string landscapes;
+	for (itor = defns.begin();
+		itor != defns.end();
+		itor++)
+	{
+		LandscapeDefinitionsEntry &dfn = *itor;
+
+		bool enabled = landscapeDefinitions.landscapeEnabled(
+			optionsGame, dfn.name.c_str());
+
+		std::string value = formatString(
+			"<input type='radio' name='%s' %s value='on'>On</input>"
+			"<input type='radio' name='%s' %s value='off'>Off</input>",
+			dfn.name.c_str(), (enabled?"checked":""),
+			dfn.name.c_str(), (!enabled?"checked":""));
+
+		landscapes.append(formatString("<tr><td>%s</td><td>%s</td><td>%s</td>",
+			dfn.name.c_str(), dfn.description.c_str(), value.c_str()));
+	}
+	fields["LANDSCAPES"] = landscapes;
+
+	if (action && 0 == strcmp(action, "Save"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
+	}
+
+	return ServerWebServer::getHtmlTemplate("settingslandscape.html", fields, text);
+}
+
+bool ServerWebHandler::SettingsAllHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::string &text)
 {
@@ -604,7 +683,7 @@ bool ServerWebHandler::SettingsHandler::processRequest(const char *url,
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getHtmlTemplate("settings.html", fields, text);
+	return ServerWebServer::getHtmlTemplate("settingsall.html", fields, text);
 }
 
 bool ServerWebHandler::TalkHandler::processRequest(const char *url,

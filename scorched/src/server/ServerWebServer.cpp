@@ -52,7 +52,8 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
 	addRequestHandler("/server", new ServerWebHandler::ServerHandler());
-	addRequestHandler("/settings", new ServerWebHandler::SettingsHandler());
+	addRequestHandler("/settingsall", new ServerWebHandler::SettingsAllHandler());
+	addRequestHandler("/settingslandscape", new ServerWebHandler::SettingsLandscapeHandler());
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());

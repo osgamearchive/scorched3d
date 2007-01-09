@@ -66,13 +66,22 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
-	class SettingsHandler : public ServerWebServerI
+	class SettingsAllHandler : public ServerWebServerI
 	{
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::string &text);
 	};
+
+	class SettingsLandscapeHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
 
 	class TalkHandler : public ServerWebServerI
 	{
