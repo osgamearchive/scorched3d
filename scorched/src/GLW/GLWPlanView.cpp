@@ -435,7 +435,7 @@ void GLWPlanView::drawBuoys()
 		glEnd();	
 
 		glGetFloatv(GL_CURRENT_COLOR, tmpColor);	// lighten up the color for the centre
-		glColor3f(tmpColor[0] + 0.2f, tmpColor[1] + 0.2f, tmpColor[2] + 0.2f);
+		glColor3f(tmpColor[0] + 0.4f, tmpColor[1] + 0.4f, tmpColor[2] + 0.4f);
 		glPointSize(2.0f);
 		glBegin(GL_POINTS);
 	}
