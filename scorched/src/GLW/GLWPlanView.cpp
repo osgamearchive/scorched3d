@@ -35,6 +35,7 @@
 #include <common/Vector.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <common/OptionsTransient.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsLinesMessage.h>
 #include <graph/OptionsDisplay.h>
@@ -159,6 +160,7 @@ void GLWPlanView::drawMap()
 			drawCameraPointer();
 			drawTanks();
 			drawLines();
+			drawBuoys();
 		}
 	glPopMatrix();
 }
@@ -353,6 +355,92 @@ void GLWPlanView::drawCameraPointer()
 	glDisable(GL_LINE_STIPPLE);
 }
 
+void GLWPlanView::drawBuoys()
+{
+        int mapWidth = ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapWidth();
+	int mapHeight = ScorchedClient::instance()->
+		getLandscapeMaps().getGroundMaps().getMapHeight();
+	int maxWidth = MAX(mapWidth, mapHeight);
+	
+	// Note: Buoys are placed every 64 units, stretched up to fit
+	// ie: a 256 map will have 4, a 240 will have three
+	//
+	// Figure out how many bouys
+	int pointsX = mapWidth / 64;	// Each point is 64 units apart, as per landscape/LandscapePoints.cpp
+	int pointsY = mapHeight / 64;
+
+	// Get the scaling factor for non-square maps
+	float xscale = (float) mapWidth / (float) maxWidth;
+	float yscale = (float) mapHeight / (float) maxWidth;
+
+
+	int i;
+	std::vector<Vector> points;
+	// Generate the points (not scaled yet)
+	for (i=0; i<pointsX; i++)
+	{
+		float pos = 1.0f / float(pointsX - 1) * float(i);
+
+		points.push_back(Vector(pos, 0.0f));
+		points.push_back(Vector(pos, float(mapHeight)));
+	}
+	for (i=0; i<pointsY; i++)
+	{
+		float pos = 1.0f / float(pointsY - 1) * float(i);
+
+		points.push_back(Vector(0.0f, pos));
+		points.push_back(Vector(float(mapWidth), pos));
+	}
+
+
+	// Draw the dots!
+	glEnable(GL_POINT_SMOOTH);
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+
+	//Get the wall type and set the colour accordingly
+	switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
+	{
+	case OptionsTransient::wallWrapAround:
+		glColor3f(0.5f, 0.5f, 0.0f);	// Keep the colours dark on the outside
+		break;				// to try to give a look of shape
+	case OptionsTransient::wallBouncy:
+		glColor3f(0.0f, 0.0f, 0.5f);
+		break;
+	case OptionsTransient::wallConcrete:
+		glColor3f(0.2f, 0.2f, 0.2f);
+		break;
+	case OptionsTransient::wallNone:
+		return;
+	default:
+		break;	// should never happen....
+	}
+
+	// Plot the dots, scaling for non-square maps
+	// TODO - split this into separate generate and draw functions
+	GLfloat tmpColor[4];
+	for (int a=0; a<2; a++)
+	{
+		for (int i=1; i<(int) points.size(); i++)
+		{
+			glVertex3f( (1.0f - xscale) / 2.0f + points[i][0] * xscale, 
+				(1.0f - yscale) / 2.0f + points[i][1] * yscale, 0.0f);
+		}
+		for (int i=1; i<(int) points.size(); i++)
+		{
+			glVertex3f( 1.0f - ((1.0f - xscale) / 2.0f + points[i][0] * xscale), 
+				1.0f - ((1.0f - yscale) / 2.0f + points[i][1] * yscale), 0.0f);
+		}
+		glEnd();	
+
+		glGetFloatv(GL_CURRENT_COLOR, tmpColor);	// lighten up the color for the centre
+		glColor3f(tmpColor[0] + 0.2f, tmpColor[1] + 0.2f, tmpColor[2] + 0.2f);
+		glPointSize(2.0f);
+		glBegin(GL_POINTS);
+	}
+	glEnd();
+}
 void GLWPlanView::drawTanks()
 {
 	std::map<unsigned int, Tank *> &currentTanks = 

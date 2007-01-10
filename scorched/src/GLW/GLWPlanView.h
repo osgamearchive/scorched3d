@@ -70,6 +70,7 @@ protected:
 	void drawCurrentTank();
 	void drawLines();
 	void drawLine(PlayerDrawnInfo &info);
+	void drawBuoys();
 	bool simulateLine(PlayerDrawnInfo &info);
 
 };
