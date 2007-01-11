@@ -281,6 +281,14 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 			fields["sid"].c_str());
 	fields["PAGES"] = pages;
 
+        const char *refreshRate = getField(fields, "RefreshRate");
+        int refreshSeconds = 0;
+        if (refreshRate) refreshSeconds = atoi(refreshRate);
+        else fields["RefreshRate"]="0";
+
+	if (refreshSeconds > 0)
+        fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
+
 	return ServerWebServer::getHtmlTemplate("log.html", fields, text);
 }
 
