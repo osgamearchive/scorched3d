@@ -50,6 +50,7 @@ Added: All aspects of the landscape (placement, sound, movement...) can be defin
 Added: Concept of a general include file to replace specific sound, movement, placement files.
 Added: nocollision, nodamageburn, nofalling, displaydamage and displayshadow attributes to targets.
 Added: New Plan map and buoys drawn on map
+Added: Server log page on web admin can auto-refresh
 
 Fixed: Cleaned up tank state machine
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server
