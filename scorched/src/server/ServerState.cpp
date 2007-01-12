@@ -74,8 +74,6 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNewGame
 	ServerNewGameState *serverNewGame = new ServerNewGameState;
-	gameState.addStateLoop(ServerStateNewGame, &dummyLoop_, 
-		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateNewGame,
 		serverNewGame);
 	gameState.addStateStimulus(ServerStateNewGame, 
@@ -85,8 +83,15 @@ void ServerState::setupStates(GameState &gameState)
 
 	// ServerStateNewGameReady
 	ServerReadyState *serverNewGameReady = new ServerReadyState(serverShot);
+#ifdef S3D_SERVER
+	// Only required on the server.
+	// For client games, there will only be one client waiting
+	// so the server and client will start simulating in sync anyway
+	// The server starts simulating after this state (and will exit this
+	// state as soon as the only client is ready).
 	gameState.addStateLoop(ServerStateNewGameReady, &dummyLoop_, 
 		&ScorchedServer::instance()->getActionController());
+#endif
 	gameState.addStateEntry(ServerStateNewGameReady,
 		serverNewGameReady);
 	gameState.addStateStimulus(ServerStateNewGameReady, 

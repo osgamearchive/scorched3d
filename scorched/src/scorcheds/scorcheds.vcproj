@@ -1166,14 +1166,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\coms\ComsLastChanceMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsLastChanceMessage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\coms\ComsLevelMessage.cpp"
 				>
 			</File>

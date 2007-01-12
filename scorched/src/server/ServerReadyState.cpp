@@ -30,7 +30,6 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsPlayerStatusMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/ComsLastChanceMessage.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 
@@ -73,6 +72,9 @@ void ServerReadyState::enterState(const unsigned state)
 				getOptionsGame().getIdleKickTime();
 		}
 	}
+#ifndef S3D_SERVER
+	idleTime_ = 0;
+#endif
 
 	// Make all computer players ready
 	// And send out the first status messages
@@ -124,28 +126,6 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 				}
 			}
 			ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);			
-
-			// Send out a last chance message just before we kick
-			if ((idleTime_ > 0) && (time_ > idleTime_ - 6))
-			{
-				for (itor = tanks.begin();
-					itor != tanks.end();
-					itor++)
-				{
-					Tank *tank = (*itor).second;
-					if (tank->getState().getReadyState() == TankState::SNotReady)
-					{
-						Logger::log(formatString("Sending last chance message to \"%s\" after %.0f seconds",
-							tank->getName(), time_));
-
-						// Tell client to hurry up
-						ComsLastChanceMessage chanceMessage;
-						ComsMessageSender::sendToSingleClient(
-							chanceMessage,
-							tank->getDestinationId());	
-					}
-				}
-			}
 		}
 
 	time_ += frameTime;
@@ -158,7 +138,6 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		return true;
 	}
 
-#ifdef S3D_SERVER
 	// Check if any players have timed out
 	if ((idleTime_ > 0) && (time_ > idleTime_))
 	{
@@ -185,7 +164,7 @@ bool ServerReadyState::acceptStateChange(const unsigned state,
 		// Stimulate into the next state
 		return true;
 	}
-#endif
+
 	return false;
 }
 
