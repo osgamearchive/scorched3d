@@ -1563,4 +1563,34 @@ and shields damaging the tank directly.</description>
 			<power>100</power>
 		</accessoryaction>
 	</accessory>
+        <accessory>
+                <name>TestUpdatePosition</name>
+                <armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+                <description></description>
+                <icon>bmissile.bmp</icon>
+                <startingnumber>-1</startingnumber>
+                <activationsound>shoot/small.wav</activationsound>
+		<accessoryaction type='WeaponProjectile'>
+                        <nocreateflame></nocreateflame>
+                        <projectilemodel type='MilkShape'>flare.txt</projectilemodel>
+                        <showendpoint></showendpoint>
+                        <showshotpath></showshotpath>
+			<timedcollision>0.50</timedcollision>
+                        <collisionaction type='WeaponRepeat'>
+				<repeat>10</repeat>
+				<delay>0.25</delay>
+				<repeatweapon type="WeaponRedirect">
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>10</hredirect>
+					<vredirect>0</vredirect>
+					<updateposition>true</updateposition>
+					<nextaction type="WeaponReference">
+						<weapon>Smoke Tracer</weapon>
+					</nextaction>
+				</repeatweapon>
+			</collisionaction>
+		</accessoryaction>
+	</accessory>
 </accessories>
