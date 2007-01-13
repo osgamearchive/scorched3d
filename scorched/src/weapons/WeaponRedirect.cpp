@@ -53,6 +53,9 @@ bool WeaponRedirect::parseXML(OptionsGame &context,
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
 	
+	// Check if position and velocity should be updated for future events
+	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
+	
 	// Check next weapon is correct type
 	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
@@ -83,5 +86,10 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	newVelocity *= currentMag;
 	
 	nextAction_->fireWeapon(context, playerId, position, newVelocity, data);
+
+	if (updatePosition_)
+        {
+		velocity = newVelocity;
+	}
 }
 

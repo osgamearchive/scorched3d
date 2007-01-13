@@ -59,6 +59,9 @@ bool WeaponScatterPosition::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("landheight", landheight_)) return false;
 	if (!accessoryNode->getNamedChild("scatterpercentage", scatterpercentage_)) return false;
 
+	// Check if position and velocity should be updated for future events
+	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
+
 	return true;
 }
 
@@ -111,5 +114,8 @@ void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
 	}
 
 	aimedWeapon_->fireWeapon(context, playerId, pos, velocity, data);
+
+	if (updatePosition_)
+		p = pos;
 }
 

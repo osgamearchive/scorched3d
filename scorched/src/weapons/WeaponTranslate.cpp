@@ -51,6 +51,10 @@ bool WeaponTranslate::parseXML(OptionsGame &context,
 	{
 		return subNode->returnError("Failed to find sub weapon, not a weapon");
 	}
+
+	// Check if position and velocity should be updated for future events
+	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
+
 	nextAction_ = (Weapon*) accessory;
 
 	return true;
@@ -64,5 +68,11 @@ void WeaponTranslate::fireWeapon(ScorchedContext &context,
 	Vector newPosition = position + newVelocity;
 	
 	nextAction_->fireWeapon(context, playerId, newPosition, velocity, data);
+	
+	if (updatePosition_)
+	{
+		position = newPosition;
+		velocity = newVelocity;
+	}
 }
 

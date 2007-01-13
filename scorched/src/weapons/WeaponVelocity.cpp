@@ -55,6 +55,9 @@ bool WeaponVelocity::parseXML(OptionsGame &context,
 
 	accessoryNode->getNamedChild("abs", abs_, false);
 
+	// Check if position and velocity should be updated for future events
+	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
+
 	return true;
 }
 
@@ -64,16 +67,20 @@ void WeaponVelocity::fireWeapon(ScorchedContext &context,
 {
 	// Add a shot that will fall where the original was aimed
 	// but with altered velocity
+	Vector newVelocity;
 	if (abs_)
 	{
-		Vector newVelocity = velocity.Normalize() * 50.0f * velocityChange_; 
+		newVelocity = velocity.Normalize() * 50.0f * velocityChange_; 
 		aimedWeapon_->fireWeapon(context, playerId, position, newVelocity, data);
 	}
 	else
 	{
 
-		Vector newVelocity = velocity * velocityChange_;
+		newVelocity = velocity * velocityChange_;
 		aimedWeapon_->fireWeapon(context, playerId, position, newVelocity, data);
 	}
+
+	if (updatePosition_)
+		velocity = newVelocity;
 }
 

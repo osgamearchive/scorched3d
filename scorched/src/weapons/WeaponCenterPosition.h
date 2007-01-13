@@ -42,6 +42,7 @@ public:
 protected:
 	float height_;
 	Weapon *nextAction_;
+	bool updatePosition_;
 };
 
 #endif // __INCLUDE_WeaponCenterPositionh_INCLUDE__

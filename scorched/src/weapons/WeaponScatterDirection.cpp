@@ -58,6 +58,9 @@ bool WeaponScatterDirection::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("direction", direction_)) return false;
 	if (!accessoryNode->getNamedChild("directionoffset", directionOffset_)) return false;
 
+	// Check if position and velocity should be updated for future events
+	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
+
 	return true;
 }
 
@@ -75,4 +78,8 @@ void WeaponScatterDirection::fireWeapon(ScorchedContext &context,
 		directionOffset_[2] * 2.0f * random.getRandFloat();
 
 	aimedWeapon_->fireWeapon(context, playerId, position, vel, data);
+
+	if (updatePosition_)
+		v = vel;
+
 }

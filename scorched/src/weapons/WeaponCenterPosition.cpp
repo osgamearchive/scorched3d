@@ -55,6 +55,9 @@ bool WeaponCenterPosition::parseXML(OptionsGame &context,
 	}
 	nextAction_ = (Weapon*) accessory;
 
+	// Check if position and velocity should be updated for future events
+	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
+
 	return true;
 }
 
@@ -71,4 +74,9 @@ void WeaponCenterPosition::fireWeapon(ScorchedContext &context,
 	newPositon[2] = height_;
 	
 	nextAction_->fireWeapon(context, playerId, newPositon, velocity, data);
+
+	if (updatePosition_)
+	{
+		position = newPositon;
+	}
 }

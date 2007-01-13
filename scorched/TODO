@@ -51,6 +51,7 @@ Added: Concept of a general include file to replace specific sound, movement, pl
 Added: nocollision, nodamageburn, nofalling, displaydamage and displayshadow attributes to targets.
 Added: New Plan map and buoys drawn on map
 Added: Server log page on web admin can auto-refresh
+Added: updateposition attribute to weapon translation/redirection primitives
 
 Fixed: Cleaned up tank state machine
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server

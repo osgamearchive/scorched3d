@@ -42,7 +42,7 @@ public:
 protected:
 	Vector direction_, directionOffset_;
 	Weapon *aimedWeapon_;
-
+	bool updatePosition_;
 };
 
 #endif // !defined(AFX_WeaponScatterDirection_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
