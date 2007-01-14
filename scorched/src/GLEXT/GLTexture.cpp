@@ -111,18 +111,19 @@ bool GLTexture::createObject()
 		GLfloat priority = 1.0f;
 		glGenTextures(1, &texNum_);
 
+		if (texNum_ == 0 ||
+			glGetError() == GL_INVALID_VALUE ||
+			glGetError() == GL_INVALID_OPERATION)
+		{
+			//DIALOG_ASSERT("Failed to create texture" == 0);
+			return false;
+		}
 		if (usedNumbers_.find(texNum_) != usedNumbers_.end())
 		{
 			DIALOG_ASSERT("Texture Reuse" == 0);
 		}
 		usedNumbers_.insert(texNum_);
 
-		if (glGetError() == GL_INVALID_VALUE ||
-			glGetError() == GL_INVALID_OPERATION)
-		{
-			//DIALOG_ASSERT("Failed to create texture" == 0);
-			return false;
-		}
 		glPrioritizeTextures(1, &texNum_, &priority);
 	}
 
