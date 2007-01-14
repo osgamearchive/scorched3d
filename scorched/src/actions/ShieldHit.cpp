@@ -29,14 +29,6 @@
 #include <GLEXT/GLLenseFlare.h>
 #include <tankgraph/TargetRendererImplTank.h>
 
-REGISTER_ACTION_SOURCE(ShieldHit);
-
-ShieldHit::ShieldHit() : 
-	totalTime_(0.0f),
-	firstTime_(true)
-{
-}
-
 ShieldHit::ShieldHit(unsigned int playerId,
 	Vector &position,
 	float hitPercentage) :
@@ -108,20 +100,4 @@ void ShieldHit::draw()
 			1.0f, 1.0f);
 	}
 #endif // #ifndef S3D_SERVER
-}
-
-bool ShieldHit::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(hitPercentage_);
-	buffer.addToBuffer(position_);
-	return true;
-}
-
-bool ShieldHit::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(hitPercentage_)) return false;
-	if (!reader.getFromBuffer(position_)) return false;
-	return true;
 }

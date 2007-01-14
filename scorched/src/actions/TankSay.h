@@ -22,12 +22,11 @@
 #if !defined(__INCLUDE_TankSayh_INCLUDE__)
 #define __INCLUDE_TankSayh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 
-class TankSay : public ActionMeta
+class TankSay : public ActionReferenced
 {
 public:
-	TankSay();
 	TankSay(unsigned int playerId,
 		const char *text,
 		unsigned int infoLen);
@@ -35,10 +34,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(TankSay);
 
 protected:
 	unsigned int playerId_;

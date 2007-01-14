@@ -30,12 +30,6 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 
-REGISTER_ACTION_SOURCE(TankSay);
-
-TankSay::TankSay()
-{
-}
-
 TankSay::TankSay(unsigned int playerId,
 		const char *text,
 		unsigned int infoLen) :
@@ -78,20 +72,4 @@ void TankSay::simulate(float frameTime, bool &remove)
 {
 	remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool TankSay::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(text_);
-	buffer.addToBuffer(infoLen_);
-	return true;
-}
-
-bool TankSay::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(text_)) return false;
-	if (!reader.getFromBuffer(infoLen_)) return false;
-	return true;
 }

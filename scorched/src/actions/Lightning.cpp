@@ -31,15 +31,6 @@
 #include <weapons/AccessoryStore.h>
 #include <math.h>
 
-REGISTER_ACTION_SOURCE(Lightning);
-
-Lightning::Lightning() :
-	totalTime_(0.0f), firstTime_(true),
-	weapon_(0), playerId_(0), data_(0),
-	generator_(0)
-{
-}
-
 Lightning::Lightning(WeaponLightning *weapon,
 		unsigned int playerId, 
 		Vector &position, Vector &velocity,
@@ -170,26 +161,6 @@ void Lightning::draw()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 #endif // #ifndef S3D_SERVER
-}
-
-bool Lightning::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(data_);
-	buffer.addToBuffer(position_);
-	buffer.addToBuffer(velocity_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool Lightning::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	if (!reader.getFromBuffer(position_)) return false;
-	if (!reader.getFromBuffer(velocity_)) return false;
-	weapon_ = (WeaponLightning*) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	return true;
 }
 
 void Lightning::dispaceDirection(Vector &direction, 

@@ -22,13 +22,12 @@
 #if !defined(__INCLUDE_TankFiredh_INCLUDE__)
 #define __INCLUDE_TankFiredh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <weapons/Weapon.h>
 
-class TankFired : public ActionMeta
+class TankFired : public ActionReferenced
 {
 public:
-	TankFired();
 	TankFired(unsigned int playerId,
 		Weapon *weapon,
 		float rotXY, float rotYZ);
@@ -36,10 +35,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(TankFired);
 
 protected:
 	unsigned int playerId_;

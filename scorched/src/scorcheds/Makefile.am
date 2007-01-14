@@ -248,8 +248,6 @@ scorched3ds_SOURCES = \
 	../coms/ComsInitializeMessage.h \
 	../coms/ComsKeepAliveMessage.cpp \
 	../coms/ComsKeepAliveMessage.h \
-	../coms/ComsLastChanceMessage.cpp \
-	../coms/ComsLastChanceMessage.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
 	../coms/ComsLinesMessage.cpp \
@@ -340,8 +338,8 @@ scorched3ds_SOURCES = \
 	../engine/Action.h \
 	../engine/ActionController.cpp \
 	../engine/ActionController.h \
-	../engine/ActionMeta.cpp \
-	../engine/ActionMeta.h \
+	../engine/ActionReferenced.cpp \
+	../engine/ActionReferenced.h \
 	../engine/EventContainer.cpp \
 	../engine/EventContainer.h \
 	../engine/GameState.cpp \

@@ -21,13 +21,12 @@
 #if !defined(__INCLUDE_Animationh_INCLUDE__)
 #define __INCLUDE_Animationh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <common/Vector.h>
 
-class Animation : public ActionMeta
+class Animation : public ActionReferenced
 {
 public:
-	Animation();
 	Animation(unsigned int playerId,
 		Vector &position, 
 		Vector &velocity,
@@ -37,10 +36,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-REGISTER_ACTION_HEADER(Animation);
 
 protected:
 	Vector position_, velocity_;

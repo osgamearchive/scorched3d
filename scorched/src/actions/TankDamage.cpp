@@ -46,12 +46,6 @@
 #include <tankai/TankAIStrings.h>
 #include <tankgraph/TargetRendererImplTarget.h>
 
-REGISTER_ACTION_SOURCE(TankDamage);
-
-TankDamage::TankDamage() : firstTime_(true)
-{
-}
-
 TankDamage::TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, unsigned int firedPlayerId,
 		float damage, bool useShieldDamage, bool checkFall,
@@ -75,7 +69,7 @@ void TankDamage::init()
 	if (damagedTarget)
 	{
 		const float ShowTime = 4.0f;
-		ActionMeta *pos = new CameraPositionAction(
+		CameraPositionAction *pos = new CameraPositionAction(
 			damagedTarget->getLife().getTargetPosition(), ShowTime,
 			15);
 		context_->actionController->addAction(pos);
@@ -511,31 +505,4 @@ void TankDamage::logDeath()
 			Logger::log(info);
 		}
 	}
-}
-
-bool TankDamage::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(damagedPlayerId_);
-	buffer.addToBuffer(firedPlayerId_);
-	buffer.addToBuffer(damage_);
-	buffer.addToBuffer(useShieldDamage_);
-	buffer.addToBuffer(shieldOnlyDamage_);
-	buffer.addToBuffer(checkFall_);
-	buffer.addToBuffer(data_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool TankDamage::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(damagedPlayerId_)) return false;
-	if (!reader.getFromBuffer(firedPlayerId_)) return false;
-	if (!reader.getFromBuffer(damage_)) return false;
-	if (!reader.getFromBuffer(useShieldDamage_)) return false;
-	if (!reader.getFromBuffer(shieldOnlyDamage_)) return false;
-	if (!reader.getFromBuffer(checkFall_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-
-	return true;
 }

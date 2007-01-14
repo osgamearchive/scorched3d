@@ -23,12 +23,6 @@
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 
-REGISTER_ACTION_SOURCE(WallHit);
-
-WallHit::WallHit() : firstTime_(true)
-{
-}
-
 WallHit::WallHit(Vector &position, 
 		OptionsTransient::WallSide type) :
 	firstTime_(true),
@@ -56,24 +50,4 @@ void WallHit::simulate(float frameTime, bool &remove)
 {
 	if (!renderer_) remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool WallHit::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_[0]);
-	buffer.addToBuffer(position_[1]);
-	buffer.addToBuffer(position_[2]);
-	buffer.addToBuffer((int) type_);
-	return true;
-}
-
-bool WallHit::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position_[0])) return false;
-	if (!reader.getFromBuffer(position_[1])) return false;
-	if (!reader.getFromBuffer(position_[2])) return false;
-	int t = 0;
-	if (!reader.getFromBuffer(t)) return false;
-	type_ = (OptionsTransient::WallSide) t;
-	return true;
 }

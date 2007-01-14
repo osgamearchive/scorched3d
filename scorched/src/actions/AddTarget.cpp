@@ -27,13 +27,6 @@
 #include <weapons/Shield.h>
 #include <common/RandomGenerator.h>
 
-REGISTER_ACTION_SOURCE(AddTarget);
-
-AddTarget::AddTarget() :
-	addTarget_(0)
-{
-}
-
 AddTarget::AddTarget(unsigned int playerId,
 	Vector &position,
 	WeaponAddTarget *addTarget) :
@@ -66,21 +59,4 @@ void AddTarget::simulate(float frameTime, bool &remove)
 
 	remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool AddTarget::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_);
-	buffer.addToBuffer(playerId_);
-	context_->accessoryStore->writeWeapon(buffer, addTarget_);
-	return true;
-}
-
-bool AddTarget::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position_)) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	addTarget_ = (WeaponAddTarget *) context_->accessoryStore->readWeapon(reader); 
-	if (!addTarget_) return false;
-	return true;
 }

@@ -21,13 +21,6 @@
 #include <actions/CallbackWeapon.h>
 #include <weapons/AccessoryStore.h>
 
-REGISTER_ACTION_SOURCE(CallbackWeapon);
-
-CallbackWeapon::CallbackWeapon() :
-	totalTime_(0.0f)
-{
-}
-
 CallbackWeapon::CallbackWeapon(
 	WeaponCallback *callback,
 	float delay, unsigned int callbackData,
@@ -64,29 +57,4 @@ void CallbackWeapon::simulate(float frameTime, bool &remove)
 	}
 
 	Action::simulate(frameTime, remove);
-}
-
-bool CallbackWeapon::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_);
-	buffer.addToBuffer(velocity_);
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(data_);
-	buffer.addToBuffer(callbackData_);
-	buffer.addToBuffer(delay_);
-	context_->accessoryStore->writeWeapon(buffer, callback_);
-	return true;
-}
-
-bool CallbackWeapon::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position_)) return false;
-	if (!reader.getFromBuffer(velocity_)) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	if (!reader.getFromBuffer(callbackData_)) return false;
-	if (!reader.getFromBuffer(delay_)) return false;
-	callback_ = (WeaponCallback *) context_->accessoryStore->readWeapon(reader); 
-	if (!callback_) return false;
-	return true;
 }

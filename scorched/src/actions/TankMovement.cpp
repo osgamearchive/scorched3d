@@ -50,15 +50,6 @@
 
 static const int NoMovementTransitions = 4;
 
-REGISTER_ACTION_SOURCE(TankMovement);
-
-TankMovement::TankMovement() : 
-	timePassed_(0.0f), vPoint_(0), weapon_(0),
-	remove_(false), moving_(true), moveSoundSource_(0),
-	smokeCounter_(0.1f, 0.1f), stepCount_(0)
-{
-}
-
 TankMovement::TankMovement(unsigned int playerId,
 	WeaponMoveTank *weapon,
 	int positionX, int positionY) : 
@@ -195,7 +186,7 @@ void TankMovement::simulate(float frameTime, bool &remove)
 	}
 #endif // #ifndef S3D_SERVER
 	
-	ActionMeta::simulate(frameTime, remove);
+	ActionReferenced::simulate(frameTime, remove);
 }
 
 void TankMovement::simulationMove(float frameTime)
@@ -438,22 +429,4 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Set viewpoints
 	if (vPoint_) vPoint_->setPosition(newPos);
-}
-
-bool TankMovement::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	buffer.addToBuffer(positionX_);
-	buffer.addToBuffer(positionY_);
-	return true;
-}
-
-bool TankMovement::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	weapon_ = (WeaponMoveTank *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	if (!reader.getFromBuffer(positionX_)) return false;
-	if (!reader.getFromBuffer(positionY_)) return false;
-	return true;
 }

@@ -21,10 +21,10 @@
 #if !defined(__INCLUDE_SoundActionh_INCLUDE__)
 #define __INCLUDE_SoundActionh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 
 class WeaponSound;
-class SoundAction : public ActionMeta
+class SoundAction : public ActionReferenced
 {
 public:
 	SoundAction(Vector &position = Vector::nullVector, 
@@ -33,10 +33,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(SoundAction);
 
 protected:
 	WeaponSound *weapon_;

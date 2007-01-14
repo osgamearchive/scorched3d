@@ -21,13 +21,12 @@
 #if !defined(__INCLUDE_Resurrectionh_INCLUDE__)
 #define __INCLUDE_Resurrectionh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <common/Vector.h>
 
-class Resurrection : public ActionMeta
+class Resurrection : public ActionReferenced
 {
 public:
-	Resurrection();
 	Resurrection(
 		unsigned int playerId,
 		Vector &position);
@@ -35,10 +34,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(Resurrection);
 
 protected:
 	unsigned int playerId_;

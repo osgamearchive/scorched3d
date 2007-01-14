@@ -22,7 +22,7 @@
 #define __INCLUDE_CallbackWeaponh_INCLUDE__
 
 #include <weapons/Weapon.h>
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 
 class WeaponCallback : public Weapon
 {
@@ -34,10 +34,9 @@ public:
 		unsigned int userData) = 0;
 };
 
-class CallbackWeapon : public ActionMeta
+class CallbackWeapon : public ActionReferenced
 {
 public:
-	CallbackWeapon();
 	CallbackWeapon(WeaponCallback *callback,
 		float delay, unsigned int callbackData,
 		unsigned int playerId, Vector &position, Vector &velocity,
@@ -46,10 +45,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(CallbackWeapon);
 
 protected:
 	float totalTime_;

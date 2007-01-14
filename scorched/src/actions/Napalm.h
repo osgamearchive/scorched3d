@@ -21,14 +21,14 @@
 #if !defined(__INCLUDE_Napalmh_INCLUDE__)
 #define __INCLUDE_Napalmh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <weapons/WeaponNapalm.h>
 #include <common/Counter.h>
 #include <landscapemap/DeformLandscape.h>
 #include <list>
 
 class GLTextureSet;
-class Napalm : public ActionMeta
+class Napalm : public ActionReferenced
 {
 public:
 	struct NapalmEntry 
@@ -40,19 +40,14 @@ public:
 		int posX, posY;
 	};
 
-	Napalm();
 	Napalm(int x, int y, Weapon *weapon, unsigned int playerId, unsigned int data);
 	virtual ~Napalm();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponNapalm *getWeapon() { return weapon_; }
-
-REGISTER_ACTION_HEADER(Napalm);
 
 protected:
 	int x_, y_;

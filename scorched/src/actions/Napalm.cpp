@@ -41,14 +41,7 @@
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
 
-REGISTER_ACTION_SOURCE(Napalm);
-
 static const int deformSize = 3;
-
-Napalm::Napalm() : hitWater_(false), totalTime_(0.0f), hurtTime_(0.0f),
-	napalmTime_(0.0f), counter_(0.1f, 0.1f), set_(0)
-{
-}
 
 Napalm::Napalm(int x, int y, Weapon *weapon, 
 	unsigned int playerId, unsigned int data) :
@@ -69,7 +62,7 @@ void Napalm::init()
 	const float ShowTime = 5.0f;
 	Vector position((float) x_, (float) y_, context_->landscapeMaps->
 		getGroundMaps().getHeight(x_, y_));
-	ActionMeta *pos = new CameraPositionAction(
+	CameraPositionAction *pos = new CameraPositionAction(
 		position, ShowTime, 5);
 	context_->actionController->addAction(pos);
 
@@ -461,25 +454,4 @@ void Napalm::simulateDamage()
 		}
 		TargetDamageCalc.clear();
 	}
-}
-
-bool Napalm::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(x_);
-	buffer.addToBuffer(y_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(data_);
-	return true;
-}
-
-bool Napalm::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(x_)) return false;
-	if (!reader.getFromBuffer(y_)) return false;
-	weapon_ = (WeaponNapalm *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-
-	return true;
 }

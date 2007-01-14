@@ -34,15 +34,6 @@
 #include <math.h>
 #include <set>
 
-REGISTER_ACTION_SOURCE(Laser);
-
-Laser::Laser() :
-	totalTime_(0.0f),
-	drawLength_(0.0f),
-	firstTime_(true)
-{
-}
-
 Laser::Laser(unsigned int playerId,
 		WeaponLaser *weapon,
 		Vector &position, Vector &direction,
@@ -198,24 +189,4 @@ void Laser::draw()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 #endif // #ifndef S3D_SERVER
-}
-
-bool Laser::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(position_);
-	buffer.addToBuffer(direction_);
-	buffer.addToBuffer(data_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool Laser::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(position_)) return false;
-	if (!reader.getFromBuffer(direction_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	weapon_ = (WeaponLaser *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	return true;
 }

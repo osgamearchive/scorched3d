@@ -18,36 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ActionMetah_INCLUDE__)
-#define __INCLUDE_ActionMetah_INCLUDE__
+#include <engine/ActionReferenced.h>
 
-#include <net/NetBuffer.h>
-#include <engine/Action.h>
-#include <engine/MetaClass.h>
-#include <string>
-#include <map>
-
-#define REGISTER_ACTION_HEADER(x) REGISTER_CLASS_HEADER(x)
-#define REGISTER_ACTION_SOURCE(x) REGISTER_CLASS_SOURCE(x)
-
-class ActionMeta : public Action, public MetaClass
+ActionReferenced::ActionReferenced()
 {
-public:
-	ActionMeta();
-	virtual ~ActionMeta();
+}
 
-	virtual bool getReferenced() { return true; }
-	virtual const char *getActionType() { return getClassName(); }
+ActionReferenced::~ActionReferenced()
+{
+}
 
-	// Needs to be implemented by inherited actions
-	virtual bool writeAction(NetBuffer &buffer) = 0;
-	virtual bool readAction(NetBufferReader &reader) = 0;
-
-	// Automatically given by the 
-	// REGISTER_ACTION_HEADER and
-	// REGISTER_ACTION_SOURCE macros
-	//virtual const char *getClassName() = 0;
-	//virtual MetaClass *getClassCopy() = 0;
-};
-
-#endif

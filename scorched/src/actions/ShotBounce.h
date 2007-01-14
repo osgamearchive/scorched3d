@@ -28,10 +28,9 @@
 
 class ModelRendererSimulator;
 class ShotBounce : 
-	public PhysicsParticleMeta
+	public PhysicsParticleReferenced
 {
 public:
-	ShotBounce();
 	ShotBounce(
 		Vector &startPosition, Vector &velocity,
 		WeaponRoller *weapon, unsigned int playerId,
@@ -41,15 +40,11 @@ public:
 	virtual void simulate(float frameTime, bool &remove);
 	virtual void init();
 	virtual void draw();
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
 
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponRoller *getWeapon() { return weapon_; }
-
-	REGISTER_ACTION_HEADER(ShotBounce);
 
 protected:
 	ViewPoints::ViewPoint *vPoint_;

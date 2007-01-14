@@ -22,13 +22,12 @@
 #if !defined(__INCLUDE_TankDamageh_INCLUDE__)
 #define __INCLUDE_TankDamageh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <weapons/Weapon.h>
 
-class TankDamage : public ActionMeta
+class TankDamage : public ActionReferenced
 {
 public:
-	TankDamage();
 	TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, unsigned int firedPlayerId,
 		float damage, bool useShieldDamage, bool checkFall,
@@ -38,10 +37,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(TankDamage);
 
 protected:
 	bool firstTime_;

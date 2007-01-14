@@ -22,14 +22,13 @@
 #if !defined(__INCLUDE_WallHith_INCLUDE__)
 #define __INCLUDE_WallHith_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <common/OptionsTransient.h>
 #include <common/Vector.h>
 
-class WallHit : public ActionMeta
+class WallHit : public ActionReferenced
 {
 public:
-	WallHit();
 	WallHit(
 		Vector &position, 
 		OptionsTransient::WallSide type);
@@ -37,10 +36,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(WallHit);
 
 protected:
 	bool firstTime_;

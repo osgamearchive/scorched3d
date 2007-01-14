@@ -104,8 +104,11 @@ scorcheddatahtmlserver_DATA = data/html/server/player.html \
 	data/html/server/message.html \
 	data/html/server/server.css \
 	data/html/server/talk.html \
+	data/html/server/settingsall.html \
 	data/html/server/game.html \
 	data/html/server/menu.html \
+	data/html/server/settingslandscape.html \
+	data/html/server/settingsmenu.html \
 	data/html/server/mods.html \
 	data/html/server/server.html \
 	data/html/server/login.html \
@@ -115,7 +118,6 @@ scorcheddatahtmlserver_DATA = data/html/server/player.html \
 	data/html/server/sessions.html \
 	data/html/server/logfiles.html \
 	data/html/server/logfile.html \
-	data/html/server/settings.html \
 	data/html/server/footer.html
 scorcheddataavatarsdir = ${datadir}/data/avatars
 scorcheddataavatars_DATA = data/avatars/mxpx.png \

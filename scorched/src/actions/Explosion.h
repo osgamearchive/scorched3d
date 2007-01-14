@@ -21,13 +21,13 @@
 #if !defined(__INCLUDE_Explosionh_INCLUDE__)
 #define __INCLUDE_Explosionh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <engine/ViewPoints.h>
 #include <weapons/Weapon.h>
 #include <common/Vector.h>
 
 class WeaponExplosion;
-class Explosion : public ActionMeta
+class Explosion : public ActionReferenced
 {
 public:
 	enum DeformType
@@ -37,7 +37,6 @@ public:
 		DeformNone
 	};
 
-	Explosion();
 	Explosion(Vector &position, WeaponExplosion *weapon, 
 		unsigned int playerId, unsigned int data);
 	virtual ~Explosion();
@@ -46,10 +45,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(Explosion);
 
 protected:
 	bool firstTime_;

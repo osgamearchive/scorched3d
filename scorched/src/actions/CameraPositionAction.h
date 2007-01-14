@@ -21,14 +21,13 @@
 #if !defined(__INCLUDE_CameraPositionActionh_INCLUDE__)
 #define __INCLUDE_CameraPositionActionh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <common/Vector.h>
 #include <set>
 
-class CameraPositionAction : public ActionMeta
+class CameraPositionAction : public ActionReferenced
 {
 public:
-	CameraPositionAction();
 	CameraPositionAction(Vector &showPosition,
 		float showTime,
 		unsigned int priority);
@@ -36,10 +35,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(CameraPositionAction);
 
 	float getShowTime() { return showTime_; }
 	float getStartTime() { return startTime_; }
@@ -48,7 +43,6 @@ public:
 
 protected:
 	float totalTime_;
-
 	float startTime_;
 	float showTime_;
 	unsigned int showPriority_;

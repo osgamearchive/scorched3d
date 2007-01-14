@@ -26,12 +26,6 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 
-REGISTER_ACTION_SOURCE(TankResign);
-
-TankResign::TankResign() : firstTime_(true)
-{
-}
-
 TankResign::TankResign(unsigned int playerId) :
 	firstTime_(true),
 	playerId_(playerId)
@@ -80,16 +74,3 @@ void TankResign::simulate(float frameTime, bool &remove)
 	if (!renderer_) remove = true;
 	Action::simulate(frameTime, remove);
 }
-
-bool TankResign::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	return true;
-}
-
-bool TankResign::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	return true;
-}
-

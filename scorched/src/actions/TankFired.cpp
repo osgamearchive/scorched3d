@@ -31,12 +31,6 @@
 #include <tankai/TankAIStrings.h>
 #include <target/TargetRenderer.h>
 
-REGISTER_ACTION_SOURCE(TankFired);
-
-TankFired::TankFired() : firstTime_(true)
-{
-}
-
 TankFired::TankFired(unsigned int playerId,
 					 Weapon *weapon,
 					 float rotXY, float rotXZ) :
@@ -118,22 +112,4 @@ void TankFired::simulate(float frameTime, bool &remove)
 
 	remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool TankFired::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(rotXY_);
-	buffer.addToBuffer(rotXZ_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool TankFired::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(rotXY_)) return false;
-	if (!reader.getFromBuffer(rotXZ_)) return false;
-	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	return true;
 }

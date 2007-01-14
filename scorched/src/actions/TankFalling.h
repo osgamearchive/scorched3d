@@ -30,10 +30,9 @@
 
 class Parachute;
 class TankFalling : 
-	public PhysicsParticleMeta
+	public PhysicsParticleReferenced
 {
 public:
-	TankFalling();
 	TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 			unsigned int firedPlayerId, Parachute *parachute,
 			unsigned int data);
@@ -41,15 +40,11 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
 
 	Parachute *getParachute() { return parachute_; }
-
-	REGISTER_ACTION_HEADER(TankFalling);
 
 protected:
 	Weapon *weapon_;

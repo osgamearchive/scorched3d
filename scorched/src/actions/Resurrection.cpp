@@ -28,12 +28,6 @@
 #include <tank/TankState.h>
 #include <target/TargetLife.h>
 
-REGISTER_ACTION_SOURCE(Resurrection);
-
-Resurrection::Resurrection()
-{
-}
-
 Resurrection::Resurrection(
 	unsigned int playerId,
 	Vector &position) :
@@ -77,18 +71,4 @@ void Resurrection::simulate(float frameTime, bool &remove)
 	}
 
 	Action::simulate(frameTime, remove);
-}
-
-bool Resurrection::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_);
-	buffer.addToBuffer(playerId_);
-	return true;
-}
-
-bool Resurrection::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position_)) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	return true;
 }

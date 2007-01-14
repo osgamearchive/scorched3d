@@ -21,52 +21,16 @@
 #if !defined(AFX_PhysicsParticle_H__53A44445_C8C9_4108_B5E1_744C0AF7A1D5__INCLUDED_)
 #define AFX_PhysicsParticle_H__53A44445_C8C9_4108_B5E1_744C0AF7A1D5__INCLUDED_
 
-// Both these classes are the same except for the inheritance
-// Need to find a better way to do this
-
-#include <engine/ActionMeta.h>
+#include <engine/Action.h>
 #include <engine/PhysicsParticleObject.h>
 
 class PhysicsParticle : 
-	public Action, 
+	public Action,
 	public PhysicsParticleObjectHandler
 {
 public:
 	PhysicsParticle();
 	virtual ~PhysicsParticle();
-
-	virtual void setPhysics(
-		PhysicsParticleInfo info,
-		Vector &position, Vector &velocity,
-		float sphereSize = 0.0f,
-		float sphereDensity = 0.0f,
-		float windFactor = 1.0f,
-		bool underGroundCollision = false);
-	virtual void collision(PhysicsParticleObject &position, 
-		ScorchedCollisionId collisionId);
-
-	Vector &getCurrentPosition();
-	Vector &getCurrentVelocity();
-
-	void applyForce(Vector &force);
-
-	// Inherited from action
-	virtual void simulate(float timepassed, bool &remove);
-
-protected:
-	PhysicsParticleObject physicsObject_;
-	bool collision_;
-	float totalActionTime_;
-
-};
-
-class PhysicsParticleMeta : 
-	public ActionMeta,
-	public PhysicsParticleObjectHandler
-{
-public:
-	PhysicsParticleMeta();
-	virtual ~PhysicsParticleMeta();
 
 	virtual void setPhysics(
 		PhysicsParticleInfo info,
@@ -93,6 +57,17 @@ protected:
 	bool collision_;
 	float totalActionTime_;
 
+};
+
+
+class PhysicsParticleReferenced : 
+	public PhysicsParticle
+{
+public:
+	PhysicsParticleReferenced();
+	virtual ~PhysicsParticleReferenced();
+
+	virtual bool getReferenced() { return true; }
 };
 
 #endif // !defined(AFX_PhysicsParticle_H__53A44445_C8C9_4108_B5E1_744C0AF7A1D5__INCLUDED_)

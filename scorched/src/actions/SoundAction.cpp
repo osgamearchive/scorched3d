@@ -24,8 +24,6 @@
 #include <sound/SoundUtils.h>
 #include <common/Defines.h>
 
-REGISTER_ACTION_SOURCE(SoundAction);
-
 SoundAction::SoundAction(Vector &position, WeaponSound *weapon) :
 	weapon_(weapon), position_(position)
 {
@@ -62,19 +60,4 @@ void SoundAction::simulate(float frameTime, bool &remove)
 
 	remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool SoundAction::writeAction(NetBuffer &buffer)
-{
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	buffer.addToBuffer(position_);
-	return true;
-}
-
-bool SoundAction::readAction(NetBufferReader &reader)
-{
-	weapon_ = (WeaponSound *) context_->
-		accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	if (!reader.getFromBuffer(position_)) return false;
-	return true;
 }

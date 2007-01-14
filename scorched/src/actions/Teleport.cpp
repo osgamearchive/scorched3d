@@ -34,15 +34,6 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <sound/SoundUtils.h>
 
-REGISTER_ACTION_SOURCE(Teleport);
-
-Teleport::Teleport() : 
-	totalTime_(0.0f),
-	firstTime_(true),
-	vPoint_(0)
-{
-}
-
 Teleport::Teleport(Vector position,
 		unsigned int playerId,
 		WeaponTeleport *weapon) :
@@ -66,7 +57,7 @@ void Teleport::init()
 	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
 
 	const float ShowTime = 5.0f;
-	ActionMeta *pos = new CameraPositionAction(
+	CameraPositionAction *pos = new CameraPositionAction(
 		position_, ShowTime, 5);
 	context_->actionController->addAction(pos);
 }
@@ -122,21 +113,4 @@ void Teleport::simulate(float frameTime, bool &remove)
 	}
 
 	Action::simulate(frameTime, remove);
-}
-
-bool Teleport::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_);
-	buffer.addToBuffer(playerId_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool Teleport::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position_)) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	weapon_ = (WeaponTeleport *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-
-	return true;
 }

@@ -44,13 +44,6 @@
 #include <sprites/ExplosionTextures.h>
 #include <math.h>
 
-REGISTER_ACTION_SOURCE(Explosion);
-
-Explosion::Explosion() :
-	firstTime_(true), totalTime_(0.0f)
-{
-}
-
 Explosion::Explosion(Vector &position,
 	WeaponExplosion *weapon, unsigned int fired,
 	unsigned int data) :
@@ -71,7 +64,7 @@ void Explosion::init()
 			position_[0], position_[1], position_[2], weapon_->getParent()->getName()));*/
 
 	const float ShowTime = 4.0f;
-	ActionMeta *pos = new CameraPositionAction(
+	CameraPositionAction *pos = new CameraPositionAction(
 		position_, ShowTime, 10);
 	context_->actionController->addAction(pos);
 
@@ -299,27 +292,4 @@ void Explosion::simulate(float frameTime, bool &remove)
 
 	if (!renderer_) remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool Explosion::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(position_[0]);
-	buffer.addToBuffer(position_[1]);
-	buffer.addToBuffer(position_[2]);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(data_);
-	return true;
-}
-
-bool Explosion::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(position_[0])) return false;
-	if (!reader.getFromBuffer(position_[1])) return false;
-	if (!reader.getFromBuffer(position_[2])) return false;
-	weapon_ = (WeaponExplosion *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-
-	return true;
 }

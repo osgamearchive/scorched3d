@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_TankMovementh_INCLUDE__)
 #define __INCLUDE_TankMovementh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <engine/ViewPoints.h>
 #include <common/Vector.h>
 #include <common/Counter.h>
@@ -31,10 +31,9 @@
 class VirtualSoundSource;
 class WeaponMoveTank;
 class Tank;
-class TankMovement : public ActionMeta
+class TankMovement : public ActionReferenced
 {
 public:
-	TankMovement();
 	TankMovement(unsigned int playerId,
 		WeaponMoveTank *weapon_,
 		int positionX, int positionY);
@@ -42,10 +41,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(TankMovement);
 
 protected:
 	// A list containing smooth positions

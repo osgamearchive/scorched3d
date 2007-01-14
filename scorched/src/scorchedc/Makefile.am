@@ -244,8 +244,6 @@ scorched3dc_SOURCES = \
 	../coms/ComsInitializeMessage.h \
 	../coms/ComsKeepAliveMessage.cpp \
 	../coms/ComsKeepAliveMessage.h \
-	../coms/ComsLastChanceMessage.cpp \
-	../coms/ComsLastChanceMessage.h \
 	../coms/ComsLevelMessage.cpp \
 	../coms/ComsLevelMessage.h \
 	../coms/ComsLinesMessage.cpp \
@@ -338,8 +336,8 @@ scorched3dc_SOURCES = \
 	../engine/Action.h \
 	../engine/ActionController.cpp \
 	../engine/ActionController.h \
-	../engine/ActionMeta.cpp \
-	../engine/ActionMeta.h \
+	../engine/ActionReferenced.cpp \
+	../engine/ActionReferenced.h \
 	../engine/EventContainer.cpp \
 	../engine/EventContainer.h \
 	../engine/GameState.cpp \
@@ -766,8 +764,6 @@ scorched3dc_SOURCES = \
 	../client/ClientInitializeHandler.h \
 	../client/ClientKeepAliveSender.cpp \
 	../client/ClientKeepAliveSender.h \
-	../client/ClientLastChanceHandler.cpp \
-	../client/ClientLastChanceHandler.h \
 	../client/ClientLinesHandler.cpp \
 	../client/ClientLinesHandler.h \
 	../client/ClientLoadPlayersState.cpp \

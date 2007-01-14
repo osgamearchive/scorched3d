@@ -25,12 +25,6 @@
 #include <sprites/MetaActionRenderer.h>
 #include <common/Defines.h>
 
-REGISTER_ACTION_SOURCE(Animation);
-
-Animation::Animation()
-{
-}
-
 Animation::Animation(unsigned int playerId,
 		Vector &position, 
 		Vector &velocity,
@@ -71,35 +65,6 @@ void Animation::init()
 
 void Animation::simulate(float frameTime, bool &removeAction)
 {
-	ActionMeta::simulate(frameTime, removeAction);
+	ActionReferenced::simulate(frameTime, removeAction);
 	if (!renderer_) removeAction = true;
 }
-
-bool Animation::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(position_[0]);
-	buffer.addToBuffer(position_[1]);
-	buffer.addToBuffer(position_[2]);
-	buffer.addToBuffer(velocity_[0]);
-	buffer.addToBuffer(velocity_[1]);
-	buffer.addToBuffer(velocity_[2]);
-	buffer.addToBuffer(rendererName_);
-	buffer.addToBuffer(data_);
-	return true;
-}
-
-bool Animation::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(position_[0])) return false;
-	if (!reader.getFromBuffer(position_[1])) return false;
-	if (!reader.getFromBuffer(position_[2])) return false;
-	if (!reader.getFromBuffer(velocity_[0])) return false;
-	if (!reader.getFromBuffer(velocity_[1])) return false;
-	if (!reader.getFromBuffer(velocity_[2])) return false;
-	if (!reader.getFromBuffer(rendererName_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	return true;
-}
-

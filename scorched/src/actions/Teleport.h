@@ -21,15 +21,14 @@
 #if !defined(__INCLUDE_Teleporth_INCLUDE__)
 #define __INCLUDE_Teleporth_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <engine/ViewPoints.h>
 #include <common/Vector.h>
 #include <weapons/WeaponTeleport.h>
 
-class Teleport : public ActionMeta
+class Teleport : public ActionReferenced
 {
 public:
-	Teleport();
 	Teleport(
 		Vector position,
 		unsigned int playerId,
@@ -38,10 +37,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(Teleport);
 
 protected:
 	ViewPoints::ViewPoint *vPoint_;

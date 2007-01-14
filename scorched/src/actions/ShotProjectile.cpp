@@ -30,18 +30,6 @@
 #include <weapons/AccessoryStore.h>
 #include <math.h>
 
-REGISTER_ACTION_SOURCE(ShotProjectile);
-
-ShotProjectile::ShotProjectile() : 
-	vPoint_(0), 
-	snapTime_(0.2f), 
-	up_(false), 
-	data_(0),
-	totalTime_(0.0)
-{
-
-}
-
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   WeaponProjectile *weapon, unsigned int playerId,
 							   unsigned int flareType,
@@ -118,7 +106,7 @@ void ShotProjectile::collision(PhysicsParticleObject &position,
 
 		if (doColl) doCollision(position.getPosition());
 	}
-	PhysicsParticleMeta::collision(position, collisionId);
+	PhysicsParticleReferenced::collision(position, collisionId);
 }
 
 void ShotProjectile::simulate(float frameTime, bool &remove)
@@ -169,29 +157,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		}
 	}
 
-	PhysicsParticleMeta::simulate(frameTime, remove);
-}
-
-bool ShotProjectile::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(startPosition_);
-	buffer.addToBuffer(velocity_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(flareType_);
-	buffer.addToBuffer(data_);
-	return true;
-}
-
-bool ShotProjectile::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(startPosition_)) return false;
-	if (!reader.getFromBuffer(velocity_)) return false;
-	weapon_ = (WeaponProjectile *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(flareType_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	return true;
+	PhysicsParticleReferenced::simulate(frameTime, remove);
 }
 
 void ShotProjectile::doCollision(Vector &position)

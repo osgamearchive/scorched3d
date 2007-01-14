@@ -21,9 +21,9 @@
 #if !defined(__INCLUDE_SkyFlashh_INCLUDE__)
 #define __INCLUDE_SkyFlashh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 
-class SkyFlash : public ActionMeta
+class SkyFlash : public ActionReferenced
 {
 public:
 	SkyFlash();
@@ -31,10 +31,6 @@ public:
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(SkyFlash);
 
 protected:
 };

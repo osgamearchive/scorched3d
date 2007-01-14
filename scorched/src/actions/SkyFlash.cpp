@@ -23,8 +23,6 @@
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
 
-REGISTER_ACTION_SOURCE(SkyFlash);
-
 SkyFlash::SkyFlash() 
 {
 }
@@ -48,14 +46,4 @@ void SkyFlash::simulate(float frameTime, bool &remove)
 
 	remove = true;
 	Action::simulate(frameTime, remove);
-}
-
-bool SkyFlash::writeAction(NetBuffer &buffer)
-{
-	return true;
-}
-
-bool SkyFlash::readAction(NetBufferReader &reader)
-{
-	return true;
 }

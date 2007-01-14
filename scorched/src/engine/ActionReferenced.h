@@ -18,12 +18,22 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <engine/ActionMeta.h>
+#if !defined(__INCLUDE_ActionReferencedh_INCLUDE__)
+#define __INCLUDE_ActionReferencedh_INCLUDE__
 
-ActionMeta::ActionMeta()
-{
-}
+#include <net/NetBuffer.h>
+#include <engine/Action.h>
+#include <string>
+#include <map>
 
-ActionMeta::~ActionMeta()
+class ActionReferenced : public Action
 {
-}
+public:
+	ActionReferenced();
+	virtual ~ActionReferenced();
+
+	virtual bool getReferenced() { return true; }
+	virtual const char *getActionType() { return "ActionReferenced"; }
+};
+
+#endif

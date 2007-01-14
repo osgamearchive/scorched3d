@@ -1538,11 +1538,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ActionMeta.cpp"
+				RelativePath="..\engine\ActionReferenced.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\engine\ActionMeta.h"
+				RelativePath="..\engine\ActionReferenced.h"
 				>
 			</File>
 			<File

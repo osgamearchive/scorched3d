@@ -21,22 +21,17 @@
 #if !defined(__INCLUDE_AddTargeth_INCLUDE__)
 #define __INCLUDE_AddTargeth_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 
 class WeaponAddTarget;
-class AddTarget : public ActionMeta
+class AddTarget : public ActionReferenced
 {
 public:
-	AddTarget();
 	AddTarget(unsigned int playerId, Vector &position, WeaponAddTarget *addTarget);
 	virtual ~AddTarget();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(AddTarget);
 
 protected:
 	Vector position_;

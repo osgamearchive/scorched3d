@@ -33,12 +33,6 @@
 #include <common/OptionsGame.h>
 #include <landscapemap/DeformLandscape.h>
 
-REGISTER_ACTION_SOURCE(TankFalling);
-
-TankFalling::TankFalling()
-{
-}
-
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
 				   unsigned int firedPlayerId,
 				   Parachute *parachute,
@@ -108,27 +102,7 @@ void TankFalling::simulate(float frameTime, bool &remove)
 		else collision_ = true;
 	}
 
-	PhysicsParticleMeta::simulate(frameTime, remove);
-}
-
-bool TankFalling::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(fallingPlayerId_);
-	buffer.addToBuffer(firedPlayerId_);
-	buffer.addToBuffer(data_);
-	context_->accessoryStore->writeAccessoryPart(buffer, parachute_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool TankFalling::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(fallingPlayerId_)) return false;
-	if (!reader.getFromBuffer(firedPlayerId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	parachute_ = (Parachute *) context_->accessoryStore->readAccessoryPart(reader);
-	weapon_ = context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-	return true;
+	PhysicsParticleReferenced::simulate(frameTime, remove);
 }
 
 void TankFalling::collision(PhysicsParticleObject &position, 
@@ -188,5 +162,5 @@ void TankFalling::collision(PhysicsParticleObject &position,
 			false, false, false, data_);
 	}
 
-	PhysicsParticleMeta::collision(position, collisionId);
+	PhysicsParticleReferenced::collision(position, collisionId);
 }

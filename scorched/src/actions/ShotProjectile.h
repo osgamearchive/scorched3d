@@ -29,10 +29,9 @@
 #include <list>
 
 class ShotProjectile : 
-	public PhysicsParticleMeta
+	public PhysicsParticleReferenced
 {
 public:
-	ShotProjectile();
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
 		WeaponProjectile *weapon, unsigned int playerId,
@@ -42,12 +41,8 @@ public:
 
 	virtual void simulate(float frameTime, bool &remove);
 	virtual void init();
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
-
-	REGISTER_ACTION_HEADER(ShotProjectile);
 
 	unsigned int getPlayerId() { return playerId_; }
 	WeaponProjectile *getWeapon() { return weapon_; }

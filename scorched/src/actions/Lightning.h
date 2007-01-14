@@ -21,16 +21,15 @@
 #if !defined(__INCLUDE_Lightningh_INCLUDE__)
 #define __INCLUDE_Lightningh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <weapons/WeaponLightning.h>
 #include <common/RandomGenerator.h>
 #include <list>
 
 class Target;
-class Lightning : public ActionMeta
+class Lightning : public ActionReferenced
 {
 public:
-	Lightning();
 	Lightning(WeaponLightning *weapon,
 		unsigned int playerId, 
 		Vector &position, Vector &velocity,
@@ -40,10 +39,6 @@ public:
 	virtual void draw();
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(Lightning);
 
 protected:
 	struct Segment

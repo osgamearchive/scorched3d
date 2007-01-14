@@ -21,13 +21,12 @@
 #if !defined(__INCLUDE_Laserh_INCLUDE__)
 #define __INCLUDE_Laserh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 #include <weapons/WeaponLaser.h>
 
-class Laser : public ActionMeta
+class Laser : public ActionReferenced
 {
 public:
-	Laser();
 	Laser(unsigned int playerId,
 		WeaponLaser *weapon,
 		Vector &position, Vector &direction,
@@ -37,10 +36,6 @@ public:
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 	virtual void draw();
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(Laser);
 
 protected:
 	float totalTime_;

@@ -41,11 +41,16 @@ void PhysicsParticle::setPhysics(
 {
 	physicsObject_.setPhysics(
 		info,
-		*context_,
+		*context_, 
 		position, velocity,
 		sphereSize, sphereDensity, windFactor,
 		underGroundCollision);
 	physicsObject_.setHandler(this);
+}
+
+void PhysicsParticle::applyForce(Vector &force)
+{
+	physicsObject_.applyForce(force);
 }
 
 void PhysicsParticle::collision(PhysicsParticleObject &position, 
@@ -54,9 +59,9 @@ void PhysicsParticle::collision(PhysicsParticleObject &position,
 	collision_ = true;
 }
 
-void PhysicsParticle::applyForce(Vector &force)
+void PhysicsParticle::setCurrentPosition(Vector &position)
 {
-	physicsObject_.applyForce(force);
+	physicsObject_.setPosition(position);
 }
 
 Vector &PhysicsParticle::getCurrentPosition()
@@ -69,6 +74,11 @@ Vector &PhysicsParticle::getCurrentVelocity()
 	return physicsObject_.getVelocity();
 }
 
+Vector4 &PhysicsParticle::getRotationQuat()
+{
+	return physicsObject_.getRotationQuat();
+}
+
 void PhysicsParticle::simulate(float frameTime, bool &remove)
 {
 	physicsObject_.simulate(frameTime);
@@ -78,69 +88,12 @@ void PhysicsParticle::simulate(float frameTime, bool &remove)
 	if (totalActionTime_ > 30.0f) remove = true;
 }
 
-PhysicsParticleMeta::PhysicsParticleMeta()  : 
-	collision_(false), totalActionTime_(0)
+PhysicsParticleReferenced::PhysicsParticleReferenced()
 {
-
 }
 
-PhysicsParticleMeta::~PhysicsParticleMeta()
+PhysicsParticleReferenced::~PhysicsParticleReferenced()
 {
-
 }
 
-void PhysicsParticleMeta::setPhysics(
-	PhysicsParticleInfo info,
-	Vector &position, Vector &velocity,
-	float sphereSize, float sphereDensity, float windFactor,
-	bool underGroundCollision)
-{
-	physicsObject_.setPhysics(
-		info,
-		*context_, 
-		position, velocity,
-		sphereSize, sphereDensity, windFactor,
-		underGroundCollision);
-	physicsObject_.setHandler(this);
-}
-
-void PhysicsParticleMeta::applyForce(Vector &force)
-{
-	physicsObject_.applyForce(force);
-}
-
-void PhysicsParticleMeta::collision(PhysicsParticleObject &position, 
-	ScorchedCollisionId collisionId)
-{
-	collision_ = true;
-}
-
-void PhysicsParticleMeta::setCurrentPosition(Vector &position)
-{
-	physicsObject_.setPosition(position);
-}
-
-Vector &PhysicsParticleMeta::getCurrentPosition()
-{
-	return physicsObject_.getPosition();
-}
-
-Vector &PhysicsParticleMeta::getCurrentVelocity()
-{
-	return physicsObject_.getVelocity();
-}
-
-Vector4 &PhysicsParticleMeta::getRotationQuat()
-{
-	return physicsObject_.getRotationQuat();
-}
-
-void PhysicsParticleMeta::simulate(float frameTime, bool &remove)
-{
-	physicsObject_.simulate(frameTime);
-	Action::simulate(frameTime, remove);
-	if (collision_) remove = true;
-	totalActionTime_ += frameTime;
-	if (totalActionTime_ > 30.0f) remove = true;
-}
 

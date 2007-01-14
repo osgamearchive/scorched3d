@@ -23,12 +23,6 @@
 #include <actions/CameraPositionAction.h>
 #include <dialogs/ScoreDialog.h>
 
-REGISTER_ACTION_SOURCE(CameraPositionAction);
-
-CameraPositionAction::CameraPositionAction() : totalTime_(0.0f)
-{
-}
-
 CameraPositionAction::CameraPositionAction(Vector &showPosition,
 		float showTime,
 		unsigned int priority) : 
@@ -64,26 +58,6 @@ void CameraPositionAction::simulate(float frameTime, bool &remove)
 	}
 
 	Action::simulate(frameTime, remove);
-}
-
-bool CameraPositionAction::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(showTime_);
-	buffer.addToBuffer(showPosition_[0]);
-	buffer.addToBuffer(showPosition_[1]);
-	buffer.addToBuffer(showPosition_[2]);
-	buffer.addToBuffer(showPriority_);
-	return true;
-}
-
-bool CameraPositionAction::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(showTime_)) return false;
-	if (!reader.getFromBuffer(showPosition_[0])) return false;
-	if (!reader.getFromBuffer(showPosition_[1])) return false;
-	if (!reader.getFromBuffer(showPosition_[2])) return false;
-	if (!reader.getFromBuffer(showPriority_)) return false;
-	return true;
 }
 
 std::set<CameraPositionAction *> CameraPositionActionRegistry::actions_;

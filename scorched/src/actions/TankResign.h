@@ -22,21 +22,16 @@
 #if !defined(__INCLUDE_TankResignh_INCLUDE__)
 #define __INCLUDE_TankResignh_INCLUDE__
 
-#include <engine/ActionMeta.h>
+#include <engine/ActionReferenced.h>
 
-class TankResign : public ActionMeta
+class TankResign : public ActionReferenced
 {
 public:
-	TankResign();
 	TankResign(unsigned int playerId);
 	virtual ~TankResign();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
-	virtual bool writeAction(NetBuffer &buffer);
-	virtual bool readAction(NetBufferReader &reader);
-
-	REGISTER_ACTION_HEADER(TankResign);
 
 protected:
 	bool firstTime_;

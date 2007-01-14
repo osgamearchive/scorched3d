@@ -31,14 +31,6 @@
 #include <graph/ModelRendererSimulator.h>
 #include <string.h>
 
-REGISTER_ACTION_SOURCE(ShotBounce);
-
-ShotBounce::ShotBounce() : 
-	totalTime_(0.0f), 
-	vPoint_(0), model_(0), data_(0)
-{
-}
-
 ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
 	WeaponRoller *weapon, unsigned int playerId,
 	unsigned int data) : 
@@ -61,7 +53,7 @@ void ShotBounce::init()
 
 	// Point the action camera at this event
 	const float ShowTime = 5.0f;
-	ActionMeta *pos = new CameraPositionAction(
+	CameraPositionAction *pos = new CameraPositionAction(
 		startPosition_, ShowTime,
 		5);
 	context_->actionController->addAction(pos);
@@ -80,7 +72,7 @@ void ShotBounce::collision(PhysicsParticleObject &position,
 	{
 		doCollision();
 	}
-	PhysicsParticleMeta::collision(position, collisionId);
+	PhysicsParticleReferenced::collision(position, collisionId);
 }
 
 void ShotBounce::simulate(float frameTime, bool &remove)
@@ -92,7 +84,7 @@ void ShotBounce::simulate(float frameTime, bool &remove)
 		remove = true;
 	}
 
-	PhysicsParticleMeta::simulate(frameTime, remove);
+	PhysicsParticleReferenced::simulate(frameTime, remove);
 }
 
 void ShotBounce::draw()
@@ -138,25 +130,4 @@ void ShotBounce::doCollision()
 		*context_,
 		playerId_, getCurrentPosition(), getCurrentVelocity(),
 		data_);
-}
-
-bool ShotBounce::writeAction(NetBuffer &buffer)
-{
-	buffer.addToBuffer(playerId_);
-	buffer.addToBuffer(data_);
-	buffer.addToBuffer(startPosition_);
-	buffer.addToBuffer(velocity_);
-	context_->accessoryStore->writeWeapon(buffer, weapon_);
-	return true;
-}
-
-bool ShotBounce::readAction(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(playerId_)) return false;
-	if (!reader.getFromBuffer(data_)) return false;
-	if (!reader.getFromBuffer(startPosition_)) return false;
-	if (!reader.getFromBuffer(velocity_)) return false;
-	weapon_ = (WeaponRoller *) context_->accessoryStore->readWeapon(reader); if (!weapon_) return false;
-
-	return true;
 }
