@@ -92,21 +92,26 @@ void Teleport::simulate(float frameTime, bool &remove)
 		Tank *tank = context_->tankContainer->getTankById(playerId_);
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
-			if (weapon_->getGroundOnly())
+			float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
+				position_[0], position_[1]);
+			if (weapon_->getGroundOnly() || height >= position_[2])
 			{
-				float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
-					position_[0], position_[1]);
+				// Set the position on the ground
 				position_[2] = height;
+
+				// Set this position and flatten the landscape
+				tank->getLife().setTargetPosition(position_);
+				DeformLandscape::flattenArea(*context_, position_, 0);
 			}
 			else
 			{
-				// Check if this tank can fall
+				// Set the position, what ever this is
+				tank->getLife().setTargetPosition(position_);
+
+				// Check if this tank can fall, this will result in flattening the area
 				TargetDamageCalc::damageTarget(*context_, tank, weapon_, 
 					0, 0.0f, false, true, false, 0);
 			}
-
-			tank->getLife().setTargetPosition(position_);
-			DeformLandscape::flattenArea(*context_, position_, 0);
 		}
 
 		remove = true;

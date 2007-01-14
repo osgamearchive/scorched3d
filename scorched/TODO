@@ -53,6 +53,7 @@ Added: New Plan map and buoys drawn on map
 Added: Server log page on web admin can auto-refresh
 Added: updateposition attribute to weapon translation/redirection primitives
 
+Fixed: Teleports with groundonly set to false should function correctly in caverns
 Fixed: Cleaned up tank state machine
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server
 Fixed: Darkened night water (thanks Deathstryker)
