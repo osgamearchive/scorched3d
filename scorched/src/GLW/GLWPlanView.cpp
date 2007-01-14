@@ -357,7 +357,25 @@ void GLWPlanView::drawCameraPointer()
 
 void GLWPlanView::drawBuoys()
 {
-        int mapWidth = ScorchedClient::instance()->
+	//Get the wall type and set the colour accordingly
+	switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
+	{
+	case OptionsTransient::wallWrapAround:
+		glColor3f(0.5f, 0.5f, 0.0f);	// Keep the colours dark on the outside
+		break;				// to try to give a look of shape
+	case OptionsTransient::wallBouncy:
+		glColor3f(0.0f, 0.0f, 0.5f);
+		break;
+	case OptionsTransient::wallConcrete:
+		glColor3f(0.2f, 0.2f, 0.2f);
+		break;
+	case OptionsTransient::wallNone:
+		return;
+	default:
+		break;	// should never happen....
+	}
+
+	int mapWidth = ScorchedClient::instance()->
 		getLandscapeMaps().getGroundMaps().getMapWidth();
 	int mapHeight = ScorchedClient::instance()->
 		getLandscapeMaps().getGroundMaps().getMapHeight();
@@ -393,33 +411,14 @@ void GLWPlanView::drawBuoys()
 		points.push_back(Vector(float(mapWidth), pos));
 	}
 
+	// Plot the dots, scaling for non-square maps
+	// TODO - split this into separate generate and draw functions
+	GLfloat tmpColor[4];
 
 	// Draw the dots!
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(5.0f);
 	glBegin(GL_POINTS);
-
-	//Get the wall type and set the colour accordingly
-	switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
-	{
-	case OptionsTransient::wallWrapAround:
-		glColor3f(0.5f, 0.5f, 0.0f);	// Keep the colours dark on the outside
-		break;				// to try to give a look of shape
-	case OptionsTransient::wallBouncy:
-		glColor3f(0.0f, 0.0f, 0.5f);
-		break;
-	case OptionsTransient::wallConcrete:
-		glColor3f(0.2f, 0.2f, 0.2f);
-		break;
-	case OptionsTransient::wallNone:
-		return;
-	default:
-		break;	// should never happen....
-	}
-
-	// Plot the dots, scaling for non-square maps
-	// TODO - split this into separate generate and draw functions
-	GLfloat tmpColor[4];
 	for (int a=0; a<2; a++)
 	{
 		for (int i=1; i<(int) points.size(); i++)
@@ -432,14 +431,21 @@ void GLWPlanView::drawBuoys()
 			glVertex3f( 1.0f - ((1.0f - xscale) / 2.0f + points[i][0] * xscale), 
 				1.0f - ((1.0f - yscale) / 2.0f + points[i][1] * yscale), 0.0f);
 		}
-		glEnd();	
 
-		glGetFloatv(GL_CURRENT_COLOR, tmpColor);	// lighten up the color for the centre
-		glColor3f(tmpColor[0] + 0.4f, tmpColor[1] + 0.4f, tmpColor[2] + 0.4f);
-		glPointSize(2.0f);
-		glBegin(GL_POINTS);
+		if (a == 0)
+		{
+			glEnd();	
+
+			glGetFloatv(GL_CURRENT_COLOR, tmpColor);	// lighten up the color for the centre
+			glColor3f(tmpColor[0] + 0.4f, tmpColor[1] + 0.4f, tmpColor[2] + 0.4f);
+			glPointSize(2.0f);
+			glBegin(GL_POINTS);
+		}
 	}
 	glEnd();
+
+	glDisable(GL_POINT_SMOOTH);
+	glPointSize(1.0f);
 }
 void GLWPlanView::drawTanks()
 {
