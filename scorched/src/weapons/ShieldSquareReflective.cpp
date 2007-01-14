@@ -30,10 +30,9 @@ ShieldSquareReflective::~ShieldSquareReflective()
 {
 }
 
-bool ShieldSquareReflective::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool ShieldSquareReflective::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!ShieldSquare::parseXML(context, store, accessoryNode)) return false;
+	if (!ShieldSquare::parseXML(context, accessoryNode)) return false;
 
 	// Get the half size
 	if (!accessoryNode->getNamedChild("deflectfactor", deflectFactor_)) return false;

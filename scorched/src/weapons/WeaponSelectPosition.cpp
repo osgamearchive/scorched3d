@@ -37,17 +37,17 @@ WeaponSelectPosition::~WeaponSelectPosition()
 
 }
 
-bool WeaponSelectPosition::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponSelectPosition::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	// Get the next weapon
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	AccessoryPart *accessory = context.getAccessoryStore()->
+		createAccessoryPart(context, parent_, subNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		return subNode->returnError("Failed to find sub weapon, not a weapon");

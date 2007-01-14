@@ -29,8 +29,8 @@ public:
 	ShieldSquare();
 	virtual ~ShieldSquare();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	// ShieldSquare attributes
 	Vector &getSize() { return size_; }

@@ -38,8 +38,8 @@ public:
 	Weapon();
 	virtual ~Weapon();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 	
 	virtual void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, 

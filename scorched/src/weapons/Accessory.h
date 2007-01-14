@@ -25,14 +25,13 @@
 #include <common/ModelID.h>
 #include <XML/XMLFile.h>
 #include <weapons/AccessoryPart.h>
+#include <weapons/AccessoryCreateContext.h>
 #include <string>
 #include <map>
 
 class GLTexture;
 class Tank;
 class MissileMesh;
-class AccessoryStore;
-class OptionsGame;
 class Accessory  
 {
 public:
@@ -47,8 +46,7 @@ public:
 		ePositionSelectLimit = 3
 	};
 
-	bool parseXML(OptionsGame &context,
-		AccessoryStore *store, XMLNode *accessoryNode);
+	bool parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode);
 
 	const char *getActivationSound();
 	const char *getName() { return name_.c_str(); }

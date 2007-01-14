@@ -31,8 +31,7 @@ Battery::~Battery()
 {
 }
 
-bool Battery::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool Battery::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	return true;
 }

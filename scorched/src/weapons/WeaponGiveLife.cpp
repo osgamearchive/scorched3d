@@ -39,10 +39,9 @@ WeaponGiveLife::~WeaponGiveLife()
 
 }
 
-bool WeaponGiveLife::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponGiveLife::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("life", life_)) return false;
 	if (!accessoryNode->getNamedChild("exceedmax", exceedMax_)) return false;

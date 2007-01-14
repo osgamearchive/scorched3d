@@ -30,8 +30,8 @@ public:
 	WeaponNapalm();
 	virtual ~WeaponNapalm();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	const float getNapalmTime() { return napalmTime_; }
 	const float getNaplamHeight() { return napalmHeight_; }

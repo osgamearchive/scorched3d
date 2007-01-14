@@ -49,8 +49,8 @@ public:
 	Shield();
 	virtual ~Shield();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	// Shield attributes
 	const char *getCollisionSound();

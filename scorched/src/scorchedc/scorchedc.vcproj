@@ -2325,6 +2325,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\weapons\AccessoryCreateContext.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\AccessoryCreateContext.h"
+				>
+			</File>
+			<File
 				RelativePath="..\weapons\AccessoryPart.cpp"
 				>
 			</File>

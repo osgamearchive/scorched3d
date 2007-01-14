@@ -43,10 +43,9 @@ WeaponGiveWin::~WeaponGiveWin()
 
 }
 
-bool WeaponGiveWin::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponGiveWin::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("objective", objective_)) return false;
 

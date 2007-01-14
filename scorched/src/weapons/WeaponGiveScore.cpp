@@ -40,10 +40,9 @@ WeaponGiveScore::~WeaponGiveScore()
 
 }
 
-bool WeaponGiveScore::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponGiveScore::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("score", score_)) return false;
 

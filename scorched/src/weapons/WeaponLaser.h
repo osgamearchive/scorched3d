@@ -29,8 +29,8 @@ public:
 	WeaponLaser();
 	virtual ~WeaponLaser();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	float getMinimumHurt() { return minimumHurt_; }
 	float getMaximumHurt() { return maximumHurt_; }

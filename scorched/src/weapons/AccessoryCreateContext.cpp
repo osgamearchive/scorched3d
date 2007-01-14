@@ -17,30 +17,15 @@
 //    along with Scorched3D; if not, write to the Free Software
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
+#include <weapons/AccessoryCreateContext.h>
 
-#include <weapons/WeaponNull.h>
-
-REGISTER_ACCESSORY_SOURCE(WeaponNull);
-
-WeaponNull::WeaponNull()
+AccessoryCreateContext::AccessoryCreateContext(
+	OptionsGame &optionsGame, AccessoryStore *store) :
+	optionsGame_(optionsGame), store_(store)
 {
 
 }
 
-WeaponNull::~WeaponNull()
+AccessoryCreateContext::~AccessoryCreateContext()
 {
-
-}
-
-bool WeaponNull::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
-{
-	if (!Weapon::parseXML(context, accessoryNode)) return false;
-	return true;
-}
-
-void WeaponNull::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
-{
-
 }

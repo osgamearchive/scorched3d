@@ -30,10 +30,9 @@ ShieldRoundReflective::~ShieldRoundReflective()
 {
 }
 
-bool ShieldRoundReflective::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool ShieldRoundReflective::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!ShieldRound::parseXML(context, store, accessoryNode)) return false;
+	if (!ShieldRound::parseXML(context, accessoryNode)) return false;
 
 	// Get the half size
 	if (!accessoryNode->getNamedChild("deflectfactor", deflectFactor_)) return false;

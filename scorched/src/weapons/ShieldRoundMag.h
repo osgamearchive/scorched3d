@@ -29,8 +29,8 @@ public:
 	ShieldRoundMag();
 	virtual ~ShieldRoundMag();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 	virtual ShieldType getShieldType();
 
 	float getDeflectPower() { return deflectPower_; }

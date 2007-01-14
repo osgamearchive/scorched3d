@@ -29,8 +29,8 @@ public:
 	WeaponTranslate();
 	virtual ~WeaponTranslate();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	Weapon *getNextAction() { return nextAction_; }
 	float getTranslateDist() { return translateDist_; }

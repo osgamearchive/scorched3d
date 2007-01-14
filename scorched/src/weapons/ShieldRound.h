@@ -29,8 +29,8 @@ public:
 	ShieldRound();
 	virtual ~ShieldRound();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	// ShieldRound attributes
 	float getActualRadius() { return radius_; }

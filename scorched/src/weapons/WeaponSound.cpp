@@ -44,10 +44,9 @@ const char *WeaponSound::getSound()
 	return sound.c_str();
 }
 
-bool WeaponSound::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponSound::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	std::string sound;
 	while (accessoryNode->getNamedChild("sound", sound, false))

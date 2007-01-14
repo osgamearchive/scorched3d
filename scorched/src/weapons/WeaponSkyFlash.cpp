@@ -34,10 +34,9 @@ WeaponSkyFlash::~WeaponSkyFlash()
 
 }
 
-bool WeaponSkyFlash::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponSkyFlash::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 	return true;
 }
 

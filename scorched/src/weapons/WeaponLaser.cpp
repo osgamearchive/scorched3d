@@ -33,10 +33,9 @@ WeaponLaser::~WeaponLaser()
 {
 }
 
-bool WeaponLaser::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponLaser::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("minimumhurt", minimumHurt_)) return false;
 	if (!accessoryNode->getNamedChild("maximumhurt", maximumHurt_)) return false;

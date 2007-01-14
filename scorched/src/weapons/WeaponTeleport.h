@@ -29,8 +29,8 @@ public:
 	WeaponTeleport();
 	virtual ~WeaponTeleport();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	const char *getSound() { return sound_.c_str(); }
 	bool getGroundOnly() { return groundOnly_; }

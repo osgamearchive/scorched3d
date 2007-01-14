@@ -32,8 +32,7 @@ AutoDefense::~AutoDefense()
 {
 }
 
-bool AutoDefense::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool AutoDefense::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	return true;
 }

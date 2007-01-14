@@ -29,8 +29,8 @@ public:
 	WeaponLightning();
 	virtual ~WeaponLightning();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	float getConeLength() { return coneLength_; }
 	float getSegLength() { return segLength_; }

@@ -29,8 +29,8 @@ public:
 	WeaponMoveTank();
 	virtual ~WeaponMoveTank();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	int getMaximumRange() { return maximumRange_; }
 	float getStepTime() { return stepTime_; }

@@ -30,8 +30,8 @@ public:
 	WeaponSound();
 	virtual ~WeaponSound();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	const char *getSound();
 	float getGain() { return gain_; }

@@ -40,15 +40,15 @@ WeaponGiveAccessory::~WeaponGiveAccessory()
 
 }
 
-bool WeaponGiveAccessory::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponGiveAccessory::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	std::string giveaccessory;
 	while (accessoryNode->getNamedChild("giveaccessory", giveaccessory, false))
 	{
-		Accessory *accessory = store->findByPrimaryAccessoryName(giveaccessory.c_str());
+		Accessory *accessory = context.getAccessoryStore()->
+			findByPrimaryAccessoryName(giveaccessory.c_str());
 		if (!accessory)
 		{
 			return accessoryNode->returnError(

@@ -29,8 +29,8 @@ public:
 	Battery();
 	virtual ~Battery();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	REGISTER_ACCESSORY_HEADER(Battery, AccessoryPart::AccessoryBattery);
 

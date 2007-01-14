@@ -38,10 +38,9 @@ WeaponMoveTank::~WeaponMoveTank()
 
 }
 
-bool WeaponMoveTank::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponMoveTank::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 	accessoryNode->getNamedChild("steptime", stepTime_, false);
 	accessoryNode->getNamedChild("usefuel", useFuel_, false);
 	accessoryNode->getNamedChild("maximumrange", maximumRange_, false);

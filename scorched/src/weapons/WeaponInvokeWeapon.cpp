@@ -37,14 +37,14 @@ WeaponInvokeWeapon::~WeaponInvokeWeapon()
 
 }
 
-bool WeaponInvokeWeapon::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponInvokeWeapon::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	std::string invoke;
 	if (!accessoryNode->getNamedChild("invoke", invoke)) return false;
-	Accessory *accessory = store->findByPrimaryAccessoryName(invoke.c_str());
+	Accessory *accessory = context.getAccessoryStore()->
+		findByPrimaryAccessoryName(invoke.c_str());
 	if (!accessory)
 	{
 		return accessoryNode->returnError(

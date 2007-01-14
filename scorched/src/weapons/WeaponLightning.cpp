@@ -34,10 +34,9 @@ WeaponLightning::~WeaponLightning()
 {
 }
 
-bool WeaponLightning::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponLightning::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 	if (!accessoryNode->getNamedChild("conelength", coneLength_)) return false;
 	if (!accessoryNode->getNamedChild("seglength", segLength_)) return false;
 	if (!accessoryNode->getNamedChild("segvar", segVar_)) return false;

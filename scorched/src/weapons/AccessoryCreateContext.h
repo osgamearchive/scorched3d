@@ -18,29 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/WeaponNull.h>
+#if !defined(AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)
+#define AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
-REGISTER_ACCESSORY_SOURCE(WeaponNull);
-
-WeaponNull::WeaponNull()
+class OptionsGame;
+class AccessoryStore;
+class AccessoryCreateContext  
 {
+public:
+	AccessoryCreateContext(OptionsGame &optionsGame, AccessoryStore *store);
+	virtual ~AccessoryCreateContext();
 
-}
+	OptionsGame &getOptionsGame() { return optionsGame_; }
+	AccessoryStore *getAccessoryStore() { return store_; }
 
-WeaponNull::~WeaponNull()
-{
+protected:
+	OptionsGame &optionsGame_;
+	AccessoryStore *store_;
 
-}
+private:
+	AccessoryCreateContext(const AccessoryCreateContext&);
+	AccessoryCreateContext &operator=(const AccessoryCreateContext &other);
+};
 
-bool WeaponNull::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
-{
-	if (!Weapon::parseXML(context, accessoryNode)) return false;
-	return true;
-}
-
-void WeaponNull::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
-{
-
-}
+#endif // !defined(AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)

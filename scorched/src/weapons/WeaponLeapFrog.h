@@ -29,8 +29,8 @@ public:
 	WeaponLeapFrog();
 	virtual ~WeaponLeapFrog();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	Weapon *getCollisionAction() { return collisionAction_; }
 

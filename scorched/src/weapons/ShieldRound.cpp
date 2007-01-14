@@ -55,10 +55,9 @@ bool ShieldRound::inShield(Vector &offset)
 	return false;
 }
 
-bool ShieldRound::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool ShieldRound::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Shield::parseXML(context, store, accessoryNode)) return false;
+	if (!Shield::parseXML(context, accessoryNode)) return false;
 
 	// Get the penetration
 	if (!accessoryNode->getNamedChild("radius", radius_)) return false;

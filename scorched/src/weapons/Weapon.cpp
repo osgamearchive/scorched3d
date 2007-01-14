@@ -32,7 +32,7 @@ Weapon::~Weapon()
 
 }
 
-bool Weapon::parseXML(OptionsGame &context, AccessoryStore *store, XMLNode *accessoryNode)
+bool Weapon::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	// Get the optional weapon armslevel
 	accessoryNode->getNamedChild("armslevel", armsLevel_, false);

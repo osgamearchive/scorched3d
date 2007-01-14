@@ -29,8 +29,8 @@ public:
 	AutoDefense();
 	virtual ~AutoDefense();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	REGISTER_ACCESSORY_HEADER(AutoDefense, AccessoryPart::AccessoryAutoDefense);
 };

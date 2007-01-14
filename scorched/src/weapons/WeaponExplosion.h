@@ -30,8 +30,8 @@ public:
 	WeaponExplosion();
 	virtual ~WeaponExplosion();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	const char *getExplosionTexture();
 	const char *getExplosionSound();

@@ -34,10 +34,9 @@ WeaponTypeAction::~WeaponTypeAction()
 {
 }
 
-bool WeaponTypeAction::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponTypeAction::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	std::list<XMLNode *> children = accessoryNode->getChildren(); // Copy
 	std::list<XMLNode *>::iterator itor;
@@ -51,7 +50,8 @@ bool WeaponTypeAction::parseXML(OptionsGame &context,
 		accessoryNode->getNamedChild(node->getName(), tmpNode); // Just to remove child
 
 		// Check next weapon is correct type
-		AccessoryPart *accessory = store->createAccessoryPart(context, parent_, node);
+		AccessoryPart *accessory = context.getAccessoryStore()->
+			createAccessoryPart(context, parent_, node);
 		if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 		{
 			return node->returnError("Failed to find sub weapon, not a weapon");

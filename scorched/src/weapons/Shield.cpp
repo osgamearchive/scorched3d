@@ -33,8 +33,7 @@ Shield::~Shield()
 {
 }
 
-bool Shield::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool Shield::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	// Get the remove power 
 	if (!accessoryNode->getNamedChild("removepower", removePower_)) return false;

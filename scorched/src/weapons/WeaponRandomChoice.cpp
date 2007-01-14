@@ -35,10 +35,9 @@ WeaponRandomChoice::~WeaponRandomChoice()
 {
 }
 
-bool WeaponRandomChoice::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponRandomChoice::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	for (int i=1;;i++)
 	{
@@ -56,7 +55,8 @@ bool WeaponRandomChoice::parseXML(OptionsGame &context,
 		// Get the weapon
 		XMLNode *weaponNode = 0;
 		if (!subNode->getNamedChild("weapon", weaponNode)) return false;
-		AccessoryPart *accessory = store->createAccessoryPart(context, parent_, weaponNode);
+		AccessoryPart *accessory = context.getAccessoryStore()->
+			createAccessoryPart(context, parent_, weaponNode);
 		if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 		{
 			return weaponNode->returnError("Failed to find sub weapon, not a weapon");

@@ -29,8 +29,8 @@ public:
 	WeaponAimedOver();
 	virtual ~WeaponAimedOver();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,

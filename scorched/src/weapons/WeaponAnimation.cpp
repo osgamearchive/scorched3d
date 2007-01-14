@@ -36,10 +36,9 @@ WeaponAnimation::~WeaponAnimation()
 
 }
 
-bool WeaponAnimation::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponAnimation::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("data", data_)) return false;
 	if (!accessoryNode->getNamedChild("animation", rendererName_)) return false;

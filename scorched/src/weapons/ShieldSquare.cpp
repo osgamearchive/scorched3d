@@ -46,10 +46,9 @@ bool ShieldSquare::inShield(Vector &offset)
 		offset[2] < +size_[2];
 }
 
-bool ShieldSquare::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool ShieldSquare::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Shield::parseXML(context, store, accessoryNode)) return false;
+	if (!Shield::parseXML(context, accessoryNode)) return false;
 
 	// Get the size
 	if (!accessoryNode->getNamedChild("size", size_)) return false;

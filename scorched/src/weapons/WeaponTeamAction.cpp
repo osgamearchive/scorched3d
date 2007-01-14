@@ -33,10 +33,9 @@ WeaponTeamAction::~WeaponTeamAction()
 {
 }
 
-bool WeaponTeamAction::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponTeamAction::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	bool actions = false;
 	for (int i=0; i<5; i++)
@@ -47,7 +46,8 @@ bool WeaponTeamAction::parseXML(OptionsGame &context,
 		if (accessoryNode->getNamedChild(formatString("team%i", i), subNode, false))
 		{
 			// Check next weapon is correct type
-			AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+			AccessoryPart *accessory = context.getAccessoryStore()->
+				createAccessoryPart(context, parent_, subNode);
 			if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 			{
 				return subNode->returnError("Failed to find sub weapon, not a weapon");

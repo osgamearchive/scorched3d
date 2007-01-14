@@ -43,10 +43,9 @@ WeaponRoller::~WeaponRoller()
 
 }
 
-bool WeaponRoller::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	// Get number of rollers
 	if (!accessoryNode->getNamedChild("numberrollers", numberRollers_)) return false;
@@ -63,7 +62,8 @@ bool WeaponRoller::parseXML(OptionsGame &context,
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
 
-	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	AccessoryPart *accessory = context.getAccessoryStore()->
+		createAccessoryPart(context, parent_, subNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		return subNode->returnError("Failed to find sub weapon, not a weapon");

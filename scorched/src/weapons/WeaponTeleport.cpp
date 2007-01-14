@@ -37,10 +37,9 @@ WeaponTeleport::~WeaponTeleport()
 
 }
 
-bool WeaponTeleport::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponTeleport::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 	if (!accessoryNode->getNamedChild("delay", delay_)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
 	accessoryNode->getNamedChild("groundonly", groundOnly_, false);

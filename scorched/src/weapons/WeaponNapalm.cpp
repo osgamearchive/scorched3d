@@ -39,10 +39,9 @@ WeaponNapalm::~WeaponNapalm()
 
 }
 
-bool WeaponNapalm::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponNapalm::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	// Mandatory Attributes
 	if (!accessoryNode->getNamedChild("napalmtime", napalmTime_)) return false;

@@ -36,7 +36,7 @@
 
 class Accessory;
 class AccessoryStore;
-class OptionsGame;
+class AccessoryCreateContext;
 class AccessoryPart  
 {
 public:
@@ -58,7 +58,7 @@ public:
 	unsigned int getAccessoryPartId() { return accessoryPartId_; }
 	static void resetAccessoryPartIds() { nextAccessoryPartId_ = 100000; }
 
-	virtual bool parseXML(OptionsGame &context, AccessoryStore *store, XMLNode *accessoryNode) = 0;
+	virtual bool parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode) = 0;
 	virtual AccessoryType getType() = 0;
 	virtual const char *getAccessoryTypeName() = 0;
 	virtual AccessoryPart *getAccessoryCopy() = 0;

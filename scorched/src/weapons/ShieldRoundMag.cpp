@@ -30,10 +30,9 @@ ShieldRoundMag::~ShieldRoundMag()
 {
 }
 
-bool ShieldRoundMag::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool ShieldRoundMag::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!ShieldRound::parseXML(context, store, accessoryNode)) return false;
+	if (!ShieldRound::parseXML(context, accessoryNode)) return false;
 
 	// Get the half size
 	if (!accessoryNode->getNamedChild("deflectpower", deflectPower_)) return false;

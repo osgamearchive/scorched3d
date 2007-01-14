@@ -27,6 +27,7 @@
 #include <set>
 #include <weapons/Weapon.h>
 #include <weapons/Accessory.h>
+#include <weapons/AccessoryCreateContext.h>
 #include <common/ProgressCounter.h>
 
 class XMLNode;
@@ -42,7 +43,7 @@ public:
 	Accessory *findByAccessoryId(unsigned int id);
 	Accessory *findByPrimaryAccessoryName(const char *name); // **careful there**
 	AccessoryPart *findAccessoryPartByAccessoryId(unsigned int id, const char *type);
-	AccessoryPart *createAccessoryPart(OptionsGame &context, 
+	AccessoryPart *createAccessoryPart(AccessoryCreateContext &context, 
 		Accessory *parent, XMLNode *currentNode);
 
 	Weapon *getDeathAnimation();

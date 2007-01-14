@@ -73,8 +73,9 @@ bool AccessoryStore::parseFile(
 			float(++childCount) / float(noChildren) * 100.0f);
 
 		// Parse the accessory
+		AccessoryCreateContext createContext(context, this);
 		Accessory *accessory = new Accessory();
-		if (!accessory->parseXML(context, this, currentNode))
+		if (!accessory->parseXML(createContext, currentNode))
 		{
 			return currentNode->returnError(
 				formatString("Failed to create accessory \"%s\"",
@@ -128,7 +129,7 @@ bool AccessoryStore::parseFile(
 }
 
 AccessoryPart *AccessoryStore::createAccessoryPart(
-	OptionsGame &context, 
+	AccessoryCreateContext &context, 
 	Accessory *parent, XMLNode *currentNode)
 {
 	XMLNode *typeNode = 0;
@@ -148,7 +149,7 @@ AccessoryPart *AccessoryStore::createAccessoryPart(
 	
 	// Tell this accessory instance to initialize its settings from
 	// the current accessory xml definition node
-	if (!accessoryPart->parseXML(context, this, currentNode)) return 0;
+	if (!accessoryPart->parseXML(context, currentNode)) return 0;
 
 	// There should not be any children left
 	// Any that are, are children that have not been

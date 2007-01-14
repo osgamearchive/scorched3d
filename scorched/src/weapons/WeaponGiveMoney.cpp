@@ -39,10 +39,9 @@ WeaponGiveMoney::~WeaponGiveMoney()
 
 }
 
-bool WeaponGiveMoney::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponGiveMoney::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("money", money_)) return false;
 

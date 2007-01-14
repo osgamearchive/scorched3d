@@ -41,10 +41,9 @@ WeaponAimedUnder::~WeaponAimedUnder()
 
 }
 
-bool WeaponAimedUnder::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponAimedUnder::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	// Get the accessory size
 	if (!accessoryNode->getNamedChild("nowarheads", warHeads_)) return false;
@@ -54,7 +53,8 @@ bool WeaponAimedUnder::parseXML(OptionsGame &context,
 	if (!accessoryNode->getNamedChild("aimedweapon", subNode)) return false;
 
 	// Check next weapon is correct type
-	AccessoryPart *accessory = store->createAccessoryPart(context, parent_, subNode);
+	AccessoryPart *accessory = context.getAccessoryStore()->
+		createAccessoryPart(context, parent_, subNode);
 	if (!accessory || accessory->getType() != AccessoryPart::AccessoryWeapon)
 	{
 		return subNode->returnError("Failed to find sub weapon, not a weapon");

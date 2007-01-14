@@ -57,8 +57,7 @@ Accessory::~Accessory()
 {
 }
 
-bool Accessory::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool Accessory::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	// Get the accessory name
 	if (!accessoryNode->getNamedChild("name", name_)) return false;
@@ -97,7 +96,7 @@ bool Accessory::parseXML(OptionsGame &context,
 	accessoryNode->getNamedChild("botonly", botOnly_, false);
 
 	// Get the maximum number
-	maximumNumber_ = context.getMaxNumberWeapons();
+	maximumNumber_ = context.getOptionsGame().getMaxNumberWeapons();
 	accessoryNode->getNamedChild("maximumnumber", maximumNumber_, false);
 
 	// Get the starting number
@@ -119,7 +118,7 @@ bool Accessory::parseXML(OptionsGame &context,
 	// Get action
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("accessoryaction", subNode)) return false;
-	accessoryAction_ = store->createAccessoryPart(context, this, subNode);
+	accessoryAction_ = context.getAccessoryStore()->createAccessoryPart(context, this, subNode);
 	if (!accessoryAction_)
 	{
 		dialogMessage("Accessory", formatString(
@@ -150,7 +149,7 @@ bool Accessory::parseXML(OptionsGame &context,
 			positionSelect_ = ePositionSelectFuel;
 
 			// Make sure there is a "WeaponMoveTank" under here somewhere
-			if (!store->findAccessoryPartByAccessoryId(
+			if (!context.getAccessoryStore()->findAccessoryPartByAccessoryId(
 				getAccessoryId(), "WeaponMoveTank"))
 			{
 				return accessoryNode->returnError(

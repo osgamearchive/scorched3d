@@ -32,8 +32,7 @@ Parachute::~Parachute()
 {
 }
 
-bool Parachute::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool Parachute::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	accessoryNode->getNamedChild("slowforce", slowForce_, false);
 

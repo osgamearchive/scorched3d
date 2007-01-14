@@ -43,10 +43,9 @@ WeaponExplosion::~WeaponExplosion()
 
 }
 
-bool WeaponExplosion::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
     // Get the accessory size
     if (!accessoryNode->getNamedChild("size", size_)) return false;

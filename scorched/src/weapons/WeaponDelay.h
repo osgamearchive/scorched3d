@@ -30,8 +30,8 @@ public:
 	virtual ~WeaponDelay();
 
 	// Inherited from Weapon
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 	void fireWeapon(ScorchedContext &context,
 		unsigned int playerId, Vector &position, Vector &velocity,
 		unsigned int data = 0);

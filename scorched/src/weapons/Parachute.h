@@ -29,8 +29,8 @@ public:
 	Parachute();
 	virtual ~Parachute();
 
-	virtual bool parseXML(OptionsGame &context, 
-		AccessoryStore *store, XMLNode *accessoryNode);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
 	Vector &getSlowForce() { return slowForce_; }
 

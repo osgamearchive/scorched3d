@@ -39,10 +39,9 @@ WeaponGiveLives::~WeaponGiveLives()
 
 }
 
-bool WeaponGiveLives::parseXML(OptionsGame &context, 
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponGiveLives::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-	if (!Weapon::parseXML(context, store, accessoryNode)) return false;
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
 	if (!accessoryNode->getNamedChild("lives", lives_)) return false;
 

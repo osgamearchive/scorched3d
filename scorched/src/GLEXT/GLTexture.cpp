@@ -151,7 +151,7 @@ bool GLTexture::create(const void * data,
 				width, height));
 		}
 
-		createObject();
+		if (!createObject()) return false;
 		glBindTexture(texType_, texNum_);
 
 		success = createTexture(data, width, height, components, alignment, format, mipMap);

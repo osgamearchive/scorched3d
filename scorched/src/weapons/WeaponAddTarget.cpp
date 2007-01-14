@@ -38,8 +38,7 @@ WeaponAddTarget::~WeaponAddTarget()
 {
 }
 
-bool WeaponAddTarget::parseXML(OptionsGame &context,
-	AccessoryStore *store, XMLNode *accessoryNode)
+bool WeaponAddTarget::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	targetDefinition_.readXML(accessoryNode, "data/accessories");
 	return accessoryNode->failChildren();
