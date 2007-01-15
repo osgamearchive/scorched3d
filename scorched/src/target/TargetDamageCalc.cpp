@@ -28,11 +28,10 @@
 #include <actions/TankDamage.h>
 
 void TargetDamageCalc::explosion(ScorchedContext &context,
-							   Weapon *weapon, unsigned int firer, 
+							   Weapon *weapon,WeaponFireContext &weaponContext,
 							   Vector &position, float radius,
 							   float damageAmount, bool checkFall,
-							   bool shieldOnlyDamage,
-							   unsigned int data)
+							   bool shieldOnlyDamage)
 {
 	std::map<unsigned int, Target *> collisionTargets;
 	context.targetSpace->getCollisionSet(position, radius, collisionTargets, true);
@@ -56,8 +55,8 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 				damage = 100.0f - damage;
 			}
 
-			damageTarget(context, current, weapon, firer, 
-				damage * damageAmount, true, checkFall, shieldOnlyDamage, data);
+			damageTarget(context, current, weapon, weaponContext, 
+				damage * damageAmount, true, checkFall, shieldOnlyDamage);
 		}
 		else 
 		{
@@ -68,8 +67,8 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 			if (dist2d < radius + 5.0f)
 			{
 				// explosion under tank
-				damageTarget(context, current, weapon, firer, 
-					0, true, checkFall, shieldOnlyDamage, data);
+				damageTarget(context, current, weapon, weaponContext, 
+					0, true, checkFall, shieldOnlyDamage);
 			}
 		}
 	}
@@ -77,14 +76,13 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 
 void TargetDamageCalc::damageTarget(ScorchedContext &context,
 								Target *target, Weapon *weapon, 
-								unsigned int firer, float damage,
+								WeaponFireContext &weaponContext, float damage,
 								bool useShieldDamage, bool checkFall,
-								bool shieldOnlyDamage,
-								unsigned int data)
+								bool shieldOnlyDamage)
 {
 	// Remove the correct damage from the tanks
 	TankDamage *tankDamage = new TankDamage(
-		weapon, target->getPlayerId(), firer, 
-		damage, useShieldDamage, checkFall, shieldOnlyDamage, data);
+		weapon, target->getPlayerId(), weaponContext, 
+		damage, useShieldDamage, checkFall, shieldOnlyDamage);
 	context.actionController->addAction(tankDamage);
 }

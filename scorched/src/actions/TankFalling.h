@@ -34,8 +34,7 @@ class TankFalling :
 {
 public:
 	TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
-			unsigned int firedPlayerId, Parachute *parachute,
-			unsigned int data);
+			WeaponFireContext &weaponContext, Parachute *parachute);
 	virtual ~TankFalling();
 
 	virtual void init();
@@ -50,7 +49,7 @@ protected:
 	Weapon *weapon_;
 	Parachute *parachute_;
 	unsigned int fallingPlayerId_;
-	unsigned int firedPlayerId_;
+	WeaponFireContext weaponContext_;
 	unsigned int data_;
 	Vector tankStartPosition_;
 

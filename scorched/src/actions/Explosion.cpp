@@ -45,11 +45,10 @@
 #include <math.h>
 
 Explosion::Explosion(Vector &position,
-	WeaponExplosion *weapon, unsigned int fired,
-	unsigned int data) :
+	WeaponExplosion *weapon, WeaponFireContext &weaponContext) :
 	firstTime_(true), totalTime_(0.0f),
-	weapon_(weapon), playerId_(fired), 
-	position_(position), data_(data)
+	weapon_(weapon), weaponContext_(weaponContext), 
+	position_(position)
 {
 }
 
@@ -158,7 +157,7 @@ void Explosion::init()
 		}
 		else
 		{
-			context_->viewPoints->explosion(playerId_);
+			context_->viewPoints->explosion(weaponContext_.getPlayerId());
 		}
 
 		{
@@ -256,8 +255,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 			if (DeformLandscape::deformLandscape(
 				*context_,
 				newPosition, explosionSize, 
-				(weapon_->getDeformType() == DeformDown), map,
-				playerId_))
+				(weapon_->getDeformType() == DeformDown), map))
 			{
 #ifndef S3D_SERVER
 				if (!context_->serverMode) 
@@ -280,13 +278,12 @@ void Explosion::simulate(float frameTime, bool &remove)
 			// Check the tanks for damage
 			TargetDamageCalc::explosion(
 				*context_,
-				weapon_, playerId_, 
+				weapon_, weaponContext_, 
 				newPosition, 
 				weapon_->getSize() , 
 				weapon_->getHurtAmount(),
 				(weapon_->getDeformType() != DeformNone),
-				weapon_->getOnlyHurtShield(),
-				data_);
+				weapon_->getOnlyHurtShield());
 		}
 	}
 

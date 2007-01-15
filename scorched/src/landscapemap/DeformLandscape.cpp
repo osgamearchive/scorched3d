@@ -32,8 +32,7 @@
 
 bool DeformLandscape::deformLandscape(
 	ScorchedContext &context,
-	Vector &pos, float radius, bool down, DeformPoints &map,
-	unsigned int playerId)
+	Vector &pos, float radius, bool down, DeformPoints &map)
 {
 	/*SyncCheck::instance()->addString(context, 
 		formatString("Deform : %f,%f,%f %f %s", 
@@ -131,7 +130,7 @@ bool DeformLandscape::deformLandscape(
 }
 
 void DeformLandscape::flattenArea(
-	ScorchedContext &context, Vector &tankPos, unsigned int playerId,
+	ScorchedContext &context, Vector &tankPos, 
 	bool removeObjects, float size)
 {
 	/*SyncCheck::instance()->addString(context, 

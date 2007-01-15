@@ -31,9 +31,8 @@ class Lightning : public ActionReferenced
 {
 public:
 	Lightning(WeaponLightning *weapon,
-		unsigned int playerId, 
-		Vector &position, Vector &velocity,
-		unsigned int data);
+		WeaponFireContext &weaponContext,
+		Vector &position, Vector &velocity);
 	virtual ~Lightning();
 
 	virtual void draw();
@@ -57,8 +56,7 @@ protected:
 	WeaponLightning *weapon_;
 	Vector position_;
 	Vector velocity_;
-	unsigned int playerId_;
-	unsigned int data_;
+	WeaponFireContext weaponContext_;
 
 	void damageTargets(Vector &position, 
 		std::map<unsigned int, float> &hurtMap);

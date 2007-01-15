@@ -77,8 +77,7 @@ bool WeaponAimedUnder::parseXML(AccessoryCreateContext &context, XMLNode *access
 }
 
 void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &oldvelocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &oldvelocity)
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
@@ -180,6 +179,6 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 			angleXYDegs, angleYZDegs);
 		velocity *= power;
 
-		aimedWeapon_->fireWeapon(context, playerId, position, velocity, data);
+		aimedWeapon_->fireWeapon(context, weaponContext, position, velocity);
 	}
 }

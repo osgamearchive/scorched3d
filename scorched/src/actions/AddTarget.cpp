@@ -54,8 +54,9 @@ void AddTarget::simulate(float frameTime, bool &remove)
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall
+	WeaponFireContext weaponContext(0, 0);
 	TargetDamageCalc::damageTarget(*context_, target, addTarget_, 
-		0, 0.0f, false, true, false, 0);
+		weaponContext, 0.0f, false, true, false);
 
 	remove = true;
 	Action::simulate(frameTime, remove);

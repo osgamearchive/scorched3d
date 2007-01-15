@@ -146,15 +146,14 @@ bool WeaponProjectile::parseXML(AccessoryCreateContext &context, XMLNode *access
 }
 
 void WeaponProjectile::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Action *action = new ShotProjectile(
 		position, 
 		velocity,
 		this, 
-		playerId, 
-		flareType_, // FlareType
-		data); 
+		weaponContext,
+		flareType_ // FlareType
+		); 
 	context.actionController->addAction(action);	
 }

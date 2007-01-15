@@ -41,8 +41,7 @@ bool WeaponSkyFlash::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponSkyFlash::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(new SkyFlash);
 }

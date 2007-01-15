@@ -34,18 +34,16 @@
 #include <math.h>
 #include <set>
 
-Laser::Laser(unsigned int playerId,
-		WeaponLaser *weapon,
+Laser::Laser(WeaponLaser *weapon,
 		Vector &position, Vector &direction,
-		unsigned int data) :
+		WeaponFireContext &weaponContext) :
 	totalTime_(0.0f),
 	drawLength_(0.0f),
 	firstTime_(true),
-	playerId_(playerId), 
+	weaponContext_(weaponContext), 
 	weapon_(weapon),
 	position_(position), 
-	direction_(direction),
-	data_(data)
+	direction_(direction)
 {
 }
 
@@ -90,7 +88,7 @@ void Laser::simulate(float frameTime, bool &remove)
 				{
 					Target *current = (*itor).second;
 					if (current->getAlive() &&
-						current->getPlayerId() != playerId_)
+						current->getPlayerId() != weaponContext_.getPlayerId())
 					{
 						Vector offset = current->getLife().getTargetPosition() -	pos;
 						float targetDistance = offset.Magnitude();
@@ -142,8 +140,8 @@ void Laser::simulate(float frameTime, bool &remove)
 				unsigned int damagedTarget = (*itor);
 				context_->actionController->addAction(
 					new TankDamage(
-						weapon_, damagedTarget, playerId_,
-						damage_, false, false, false, data_));
+						weapon_, damagedTarget, weaponContext_,
+						damage_, false, false, false));
 			}
 		}
 	}

@@ -33,16 +33,14 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 	void fireWeapon(ScorchedContext &context,
-		unsigned int playerId, Vector &position, Vector &velocity,
-		unsigned int data = 0);
+		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponDelay, AccessoryPart::AccessoryWeapon);
 
 	// Inhirited from CallbackWeapon
 	virtual void weaponCallback(
 			ScorchedContext &context,
-			unsigned int playerId, Vector &position, Vector &velocity,
-			unsigned int data,
+			WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 			unsigned int userData);
 
 protected:

@@ -49,21 +49,19 @@ bool WeaponGiveLives::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponGiveLives::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponGiveLives::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
 	if (tank->getState().getMaxLives() > 0)
@@ -78,7 +76,7 @@ void WeaponGiveLives::weaponCallback(
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" has received %i extra live(s)", 
 					tank->getName(), lives_));
-				info.setPlayerId(playerId);
+				info.setPlayerId(weaponContext.getPlayerId());
 				Logger::log(info);
 			}
 			else
@@ -86,7 +84,7 @@ void WeaponGiveLives::weaponCallback(
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" has lost %i extra live(s)", 
 					tank->getName(), -lives_));
-				info.setPlayerId(playerId);
+				info.setPlayerId(weaponContext.getPlayerId());
 				Logger::log(info);
 			}
 		}

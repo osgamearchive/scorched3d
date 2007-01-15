@@ -49,21 +49,19 @@ bool WeaponGivePower::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponGivePower::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponGivePower::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
 	tank->getPosition().setMaxPower(
@@ -74,7 +72,7 @@ void WeaponGivePower::weaponCallback(
 		LoggerInfo info(LoggerInfo::TypeDeath,
 			formatString("\"%s\" received %.0f power", 
 			tank->getName(), power_));
-		info.setPlayerId(playerId);
+		info.setPlayerId(weaponContext.getPlayerId());
 		Logger::log(info);
 	}
 }

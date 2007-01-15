@@ -76,8 +76,7 @@ bool WeaponAimedOver::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponAimedOver::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &sentPosition, Vector &oldvelocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &sentPosition, Vector &oldvelocity)
 {
 	Vector position = sentPosition;
 
@@ -202,8 +201,6 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 		velocity *= power;
 
 		aimedWeapon_->fireWeapon(
-			context, 
-			playerId, position, velocity,
-			data);	
+			context, weaponContext, position, velocity);	
 	}
 }

@@ -21,6 +21,22 @@
 #include <weapons/Weapon.h>
 #include <weapons/AccessoryStore.h>
 
+WeaponFireContext::WeaponFireContext(unsigned int playerId, unsigned int data) :
+	playerId_(playerId),
+	data_(data)
+{
+}
+
+WeaponFireContext::WeaponFireContext(WeaponFireContext &other) :
+	playerId_(other.playerId_),
+	data_(other.data_)
+{
+}
+
+WeaponFireContext::~WeaponFireContext()
+{
+}
+
 Weapon::Weapon() : 
 	armsLevel_(-1)
 {

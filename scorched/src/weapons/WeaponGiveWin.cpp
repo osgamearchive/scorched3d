@@ -55,26 +55,24 @@ bool WeaponGiveWin::parseXML(AccessoryCreateContext &context, XMLNode *accessory
 }
 
 void WeaponGiveWin::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponGiveWin::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
-	unsigned int userData)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+	unsigned int data)
 {
 	if (context.optionsGame->getTeams() > 1)
 	{
 		int team = winningTeam_;
 		if (team == 0) 
 		{
-			Tank *tank = context.tankContainer->getTankById(playerId);
+			Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 			if (!tank) return;
 
 			team = tank->getTeam();
@@ -92,7 +90,7 @@ void WeaponGiveWin::weaponCallback(
 	}
 	else
 	{
-		Tank *tank = context.tankContainer->getTankById(playerId);
+		Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 		if (!tank) return;
 
 		tank->getScore().setWonGame();
@@ -102,7 +100,7 @@ void WeaponGiveWin::weaponCallback(
 			LoggerInfo info(LoggerInfo::TypeDeath,
 				formatString("\"%s\" %s and won the game", 
 				tank->getName(), objective_.c_str()));
-			info.setPlayerId(playerId);
+			info.setPlayerId(weaponContext.getPlayerId());
 			Logger::log(info);
 		}
 	}

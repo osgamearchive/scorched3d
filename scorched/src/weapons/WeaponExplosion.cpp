@@ -165,11 +165,10 @@ Vector &WeaponExplosion::getExplosionColor()
 }
 
 void WeaponExplosion::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Action *action = new Explosion(
-		position, this, playerId, data);
+		position, this, weaponContext);
 	context.actionController->addAction(action);	
 }
 

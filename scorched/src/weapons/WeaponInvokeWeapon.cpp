@@ -63,8 +63,7 @@ bool WeaponInvokeWeapon::parseXML(AccessoryCreateContext &context, XMLNode *acce
 }
 
 void WeaponInvokeWeapon::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	if (weaponStack_.find(invokeWeapon_) != weaponStack_.end())
 	{
@@ -74,6 +73,6 @@ void WeaponInvokeWeapon::fireWeapon(ScorchedContext &context,
 	}
     
 	weaponStack_.insert(invokeWeapon_);
-	invokeWeapon_->fireWeapon(context, playerId, position, velocity, data);
+	invokeWeapon_->fireWeapon(context, weaponContext, position, velocity);
 	weaponStack_.erase(invokeWeapon_);
 }

@@ -60,8 +60,7 @@ bool WeaponLeapFrog::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Vector newVelocity = velocity * bounce_;
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
@@ -82,5 +81,5 @@ void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 		}
 	}
 
-	collisionAction_->fireWeapon(context, playerId, newPosition, newVelocity, data);
+	collisionAction_->fireWeapon(context, weaponContext, newPosition, newVelocity);
 }

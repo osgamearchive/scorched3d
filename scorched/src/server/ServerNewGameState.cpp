@@ -360,7 +360,7 @@ void ServerNewGameState::calculateStartPosition(
 				context, generator);
 
 			// Set the starting position of the tank
-			DeformLandscape::flattenArea(context, tankPos, 0);
+			DeformLandscape::flattenArea(context, tankPos);
 			tank->getLife().setTargetPosition(tankPos);
 		}
 	}

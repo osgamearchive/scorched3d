@@ -79,8 +79,7 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 }
 
 void WeaponRoller::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &oldposition, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &oldposition, Vector &velocity)
 {
 	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		oldposition[0], oldposition[1]);
@@ -147,13 +146,13 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 			}
 		}
 		
-		addRoller(context, playerId, position, data);
+		addRoller(context, weaponContext, position);
 	}
 }
 
 void WeaponRoller::addRoller(ScorchedContext &context,
-	unsigned int playerId,
-	Vector &position, unsigned int data)
+	WeaponFireContext &weaponContext,
+	Vector &position)
 {
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
@@ -167,6 +166,6 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 		float velz = random.getRandFloat() * 2.0f;
 		Vector velocity(velx, vely, velz);
 		context.actionController->addAction(
-			new ShotBounce(position, velocity, this, playerId, data));
+			new ShotBounce(this, position, velocity, weaponContext));
 	}
 }

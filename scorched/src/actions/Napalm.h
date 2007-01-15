@@ -40,19 +40,18 @@ public:
 		int posX, posY;
 	};
 
-	Napalm(int x, int y, Weapon *weapon, unsigned int playerId, unsigned int data);
+	Napalm(int x, int y, Weapon *weapon, WeaponFireContext &weaponContext);
 	virtual ~Napalm();
 
 	virtual void init();
 	virtual void simulate(float frameTime, bool &remove);
 
-	unsigned int getPlayerId() { return playerId_; }
+	unsigned int getPlayerId() { return weaponContext_.getPlayerId(); }
 	WeaponNapalm *getWeapon() { return weapon_; }
 
 protected:
 	int x_, y_;
-	unsigned int playerId_;
-	unsigned int data_;
+	WeaponFireContext weaponContext_;
 	WeaponNapalm *weapon_;
 	Counter counter_;
 	GLTextureSet *set_;

@@ -67,7 +67,7 @@ void Resurrection::simulate(float frameTime, bool &remove)
 		// Rez this tank
 		tank->rezTank();
 		tank->getLife().setTargetPosition(position_);
-		DeformLandscape::flattenArea(*context_, position_, 0);
+		DeformLandscape::flattenArea(*context_, position_);
 	}
 
 	Action::simulate(frameTime, remove);

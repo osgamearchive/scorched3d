@@ -29,10 +29,9 @@ class TankDamage : public ActionReferenced
 {
 public:
 	TankDamage(Weapon *weapon, 
-		unsigned int damagedPlayerId, unsigned int firedPlayerId,
+		unsigned int damagedPlayerId, WeaponFireContext &weaponContext,
 		float damage, bool useShieldDamage, bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
+		bool shieldOnlyDamage);
 	virtual ~TankDamage();
 
 	virtual void init();
@@ -41,11 +40,10 @@ public:
 protected:
 	bool firstTime_;
 	Weapon *weapon_;
+	WeaponFireContext weaponContext_;
 	unsigned int damagedPlayerId_;
-	unsigned int firedPlayerId_;
 	float damage_;
 	bool useShieldDamage_, checkFall_, shieldOnlyDamage_;
-	unsigned int data_;
 
 	void calculateDamage();
 	void calculateDeath();

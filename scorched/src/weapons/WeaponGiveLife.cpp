@@ -50,21 +50,19 @@ bool WeaponGiveLife::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponGiveLife::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponGiveLife::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
 	if (life_ > 0.0f)
@@ -82,7 +80,7 @@ void WeaponGiveLife::weaponCallback(
 			LoggerInfo info(LoggerInfo::TypeDeath,
 				formatString("\"%s\" received %.0f life", 
 				tank->getName(), life_));
-			info.setPlayerId(playerId);
+			info.setPlayerId(weaponContext.getPlayerId());
 			Logger::log(info);
 		}
 	}
@@ -104,7 +102,7 @@ void WeaponGiveLife::weaponCallback(
 			LoggerInfo info(LoggerInfo::TypeDeath,
 				formatString("\"%s\" lost %.0f life", 
 				tank->getName(), -life_));
-			info.setPlayerId(playerId);
+			info.setPlayerId(weaponContext.getPlayerId());
 			Logger::log(info);
 		}
 	}

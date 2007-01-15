@@ -68,21 +68,19 @@ bool WeaponTypeAction::parseXML(AccessoryCreateContext &context, XMLNode *access
 }
 
 void WeaponTypeAction::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponTypeAction::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
 	std::map<std::string, Weapon *>::iterator itor = 
@@ -92,7 +90,7 @@ void WeaponTypeAction::weaponCallback(
 	Weapon *action = (*itor).second;
 	if (action)
 	{
-		action->fireWeapon(context, playerId, position, velocity, data);
+		action->fireWeapon(context, weaponContext, position, velocity);
 	}
 }
 

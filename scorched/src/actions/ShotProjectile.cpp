@@ -31,14 +31,12 @@
 #include <math.h>
 
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
-							   WeaponProjectile *weapon, unsigned int playerId,
-							   unsigned int flareType,
-							   unsigned int data) :
+							   WeaponProjectile *weapon, WeaponFireContext &weaponContext,
+							   unsigned int flareType) :
 	startPosition_(startPosition), velocity_(velocity), 
-	weapon_(weapon), playerId_(playerId), 
+	weapon_(weapon), weaponContext_(weaponContext), 
 	flareType_(flareType), vPoint_(0),
 	snapTime_(0.2f), up_(false),
-	data_(data),
 	totalTime_(0.0)
 {
 
@@ -53,8 +51,8 @@ void ShotProjectile::init()
 	}
 #endif // #ifndef S3D_SERVER
 
-	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
-	PhysicsParticleInfo info(ParticleTypeShot, playerId_, this);
+	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
+	PhysicsParticleInfo info(ParticleTypeShot, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
 		0.0f, 0.0f, weapon_->getWindFactor(), getWeapon()->getUnder());
 }
@@ -168,19 +166,18 @@ void ShotProjectile::doCollision(Vector &position)
 		if (getWeapon()->getShowShotPath())
 		{
 			RenderTracer::instance()->
-				addSmokeTracer(playerId_, position, positions_);
+				addSmokeTracer(weaponContext_.getPlayerId(), position, positions_);
 		}
 		else if (getWeapon()->getShowEndPoint())
 		{
 			RenderTracer::instance()->
-				addTracer(playerId_, position);
+				addTracer(weaponContext_.getPlayerId(), position);
 		}
 	}
 #endif // #ifndef S3D_SERVER
 
 	Vector velocity;
 	getWeapon()->getCollisionAction()->fireWeapon(
-		*context_,
-		playerId_, position, getCurrentVelocity(), data_);
+		*context_, weaponContext_, position, getCurrentVelocity());
 }
 

@@ -103,9 +103,10 @@ void TankFired::simulate(float frameTime, bool &remove)
 
 			if (weapon_->getParent()->getMuzzleFlash())
 			{
+				WeaponFireContext weaponContext(playerId_, 0);
 				Weapon *muzzleFlash = context_->accessoryStore->getMuzzelFlash();
-				if (muzzleFlash) muzzleFlash->fireWeapon(*context_, playerId_, 
-					tank->getPosition().getTankGunPosition(), Vector::nullVector, 0);
+				if (muzzleFlash) muzzleFlash->fireWeapon(*context_, weaponContext, 
+					tank->getPosition().getTankGunPosition(), Vector::nullVector);
 			}
 		}
 	}

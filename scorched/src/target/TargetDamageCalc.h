@@ -26,24 +26,22 @@
 
 class Target;
 class Weapon;
+class WeaponFireContext;
 class TargetDamageCalc
 {
 public:
 	static void explosion(ScorchedContext &context,
-		Weapon *weapon, unsigned int firer, 
+		Weapon *weapon, WeaponFireContext &weaponContext,
 		Vector &position, float radius,
 		float damageAmount,
 		bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
+		bool shieldOnlyDamage);
 	static void damageTarget(ScorchedContext &context,
 		Target *target, 
-		Weapon *weapon,
-		unsigned int firer,
+		Weapon *weapon, WeaponFireContext &weaponContext,
 		float damage,
 		bool useShieldDamage, bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data);
+		bool shieldOnlyDamage);
 
 private:
 	TargetDamageCalc();

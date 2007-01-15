@@ -49,21 +49,19 @@ bool WeaponGiveMoney::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponGiveMoney::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponGiveMoney::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
 	tank->getScore().setMoney(tank->getScore().getMoney() + money_);
@@ -75,7 +73,7 @@ void WeaponGiveMoney::weaponCallback(
 			LoggerInfo info(LoggerInfo::TypeDeath,
 				formatString("\"%s\" received $%i", 
 				tank->getName(), money_));
-			info.setPlayerId(playerId);
+			info.setPlayerId(weaponContext.getPlayerId());
 			Logger::log(info);
 		}
 		else
@@ -83,7 +81,7 @@ void WeaponGiveMoney::weaponCallback(
 			LoggerInfo info(LoggerInfo::TypeDeath,
 				formatString("\"%s\" lost $%i", 
 				tank->getName(), -money_));
-			info.setPlayerId(playerId);
+			info.setPlayerId(weaponContext.getPlayerId());
 			Logger::log(info);
 		}
 	}

@@ -47,14 +47,13 @@
 #include <tankgraph/TargetRendererImplTarget.h>
 
 TankDamage::TankDamage(Weapon *weapon, 
-		unsigned int damagedPlayerId, unsigned int firedPlayerId,
+		unsigned int damagedPlayerId, WeaponFireContext &weaponContext,
 		float damage, bool useShieldDamage, bool checkFall,
-		bool shieldOnlyDamage,
-		unsigned int data) :
+		bool shieldOnlyDamage) :
 	weapon_(weapon), firstTime_(true),
-	damagedPlayerId_(damagedPlayerId), firedPlayerId_(firedPlayerId),
+	damagedPlayerId_(damagedPlayerId), weaponContext_(weaponContext),
 	damage_(damage), useShieldDamage_(useShieldDamage), checkFall_(checkFall),
-	data_(data), shieldOnlyDamage_(shieldOnlyDamage)
+	shieldOnlyDamage_(shieldOnlyDamage)
 {
 }
 
@@ -90,6 +89,8 @@ void TankDamage::simulate(float frameTime, bool &remove)
 
 void TankDamage::calculateDamage()
 {
+	unsigned int firedPlayerId = weaponContext_.getPlayerId();
+
 	// Find the tank that has been damaged
 	Target *damagedTarget = 
 		context_->targetContainer->getTargetById(damagedPlayerId_);
@@ -162,7 +163,7 @@ void TankDamage::calculateDamage()
 		// Add any score got from this endevour
 		// Should always be a tank that has fired
 		Tank *firedTank = 
-			context_->tankContainer->getTankById(firedPlayerId_);
+			context_->tankContainer->getTankById(firedPlayerId);
 		if (firedTank && !damagedTarget->isTarget())
 		{	
 			Tank *damagedTank = (Tank *) damagedTarget;
@@ -171,7 +172,7 @@ void TankDamage::calculateDamage()
 			damagedTank->getScore().getHurtBy().insert(firedTank->getPlayerId());
 
 			// Calculate team kills
-			bool selfKill = (damagedPlayerId_ ==  firedPlayerId_);
+			bool selfKill = (damagedPlayerId_ ==  firedPlayerId);
 			bool teamKill = ((context_->optionsGame->getTeams() > 1) &&
 				(firedTank->getTeam() == damagedTank->getTeam()));
 
@@ -312,7 +313,7 @@ void TankDamage::calculateDamage()
 	{
 		Tank *damagedTank = (Tank *) damagedTarget;
 		TankAI *ai = damagedTank->getTankAI();
-		if (ai) ai->tankHurt(weapon_, firedPlayerId_);
+		if (ai) ai->tankHurt(weapon_, firedPlayerId);
 	}
 
 	// Check if the tank needs to fall
@@ -336,8 +337,8 @@ void TankDamage::calculateDamage()
 
 				// Tank falling
 				context_->actionController->addAction(
-					new TankFalling(weapon_, damagedPlayerId_, firedPlayerId_,
-						parachute, data_));
+					new TankFalling(weapon_, damagedPlayerId_, weaponContext_,
+						parachute));
 			}
 		}
 	}
@@ -374,14 +375,18 @@ void TankDamage::calculateDeath()
 	{
 		Vector position = killedTarget->getLife().getTargetPosition();
 		Vector velocity;
-		weapon->fireWeapon(*context_, firedPlayerId_, 
-			position, velocity, Weapon::eDataDeathAnimation);
+		WeaponFireContext weaponContext(weaponContext_.getPlayerId(), 
+			Weapon::eDataDeathAnimation);
+		weapon->fireWeapon(*context_, weaponContext, 
+			position, velocity);
 		StatsLogger::instance()->weaponFired(weapon, true);
 	}
 }
 
 void TankDamage::logDeath()
 {
+	unsigned int firedPlayerId = weaponContext_.getPlayerId();
+
 	Target *killedTarget = 
 		context_->targetContainer->getTargetById(damagedPlayerId_);
 	if (killedTarget->isTarget()) return;
@@ -420,22 +425,22 @@ void TankDamage::logDeath()
 	}
 
 	Tank *firedTank = 
-		context_->tankContainer->getTankById(firedPlayerId_);
+		context_->tankContainer->getTankById(firedPlayerId);
 	if (firedTank)
 	{
-		if (damagedPlayerId_ == firedPlayerId_)
+		if (damagedPlayerId_ == firedPlayerId)
 		{
 			StatsLogger::instance()->
 				tankSelfKilled(firedTank, weapon_);
 			StatsLogger::instance()->
-				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+				weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 			if (!context_->serverMode)
 			{
 				LoggerInfo info(LoggerInfo::TypeDeath,
 					formatString("\"%s\" killed self with a %s",
 						killedTank->getName(),
 						weapon_->getParent()->getName()));
-				info.setPlayerId(firedPlayerId_);
+				info.setPlayerId(firedPlayerId);
 				info.setOtherPlayerId(damagedPlayerId_);
 				info.setIcon(weaponTexture);
 				Logger::log(info);
@@ -447,7 +452,7 @@ void TankDamage::logDeath()
 			StatsLogger::instance()->
 				tankTeamKilled(firedTank, killedTank, weapon_);
 			StatsLogger::instance()->
-				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+				weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 			if (!context_->serverMode)
 			{
 				LoggerInfo info(LoggerInfo::TypeDeath,
@@ -455,7 +460,7 @@ void TankDamage::logDeath()
 						firedTank->getName(),
 						killedTank->getName(),
 						weapon_->getParent()->getName()));
-				info.setPlayerId(firedPlayerId_);
+				info.setPlayerId(firedPlayerId);
 				info.setOtherPlayerId(damagedPlayerId_);
 				info.setIcon(weaponTexture);
 				Logger::log(info);
@@ -466,7 +471,7 @@ void TankDamage::logDeath()
 			StatsLogger::instance()->
 				tankKilled(firedTank, killedTank, weapon_);
 			StatsLogger::instance()->
-				weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+				weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 			if (!context_->serverMode)
 			{
 				LoggerInfo info(LoggerInfo::TypeDeath,
@@ -475,14 +480,14 @@ void TankDamage::logDeath()
 					((firedTank->getScore().getTurnKills() > 1)?"multi-":""),
 					killedTank->getName(),
 					weapon_->getParent()->getName()));
-				info.setPlayerId(firedPlayerId_);
+				info.setPlayerId(firedPlayerId);
 				info.setOtherPlayerId(damagedPlayerId_);
 				info.setIcon(weaponTexture);
 				Logger::log(info);
 			}
 		}
 	}
-	else if (firedPlayerId_ == 0)
+	else if (firedPlayerId == 0)
 	{
 		static Tank firedTank(*context_, 0, 0, "Environment", 
 			Vector::nullVector, "", "");
@@ -490,7 +495,7 @@ void TankDamage::logDeath()
 		StatsLogger::instance()->
 			tankKilled(&firedTank, killedTank, weapon_); 
 		StatsLogger::instance()->
-			weaponKilled(weapon_, (data_ & Weapon::eDataDeathAnimation));
+			weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 		if (!context_->serverMode)
 		{
 			LoggerInfo info(LoggerInfo::TypeDeath,
@@ -499,7 +504,7 @@ void TankDamage::logDeath()
 				((firedTank.getScore().getTurnKills() > 1)?"multi-":""),
 				killedTank->getName(),
 				weapon_->getParent()->getName()));
-			info.setPlayerId(firedPlayerId_);
+			info.setPlayerId(firedPlayerId);
 			info.setOtherPlayerId(damagedPlayerId_);
 			info.setIcon(weaponTexture);
 			Logger::log(info);

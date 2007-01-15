@@ -79,8 +79,7 @@ bool WeaponNapalm::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 }
 
 void WeaponNapalm::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
@@ -99,7 +98,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	{
 		int x = int(position[0] + random.getRandFloat() * 4.0f - 2.0f);
 		int y = int(position[1] + random.getRandFloat() * 4.0f - 2.0f);
-		addNapalm(context, playerId, x, y, data);
+		addNapalm(context, weaponContext, x, y);
 	}
 
 #ifndef S3D_SERVER
@@ -119,7 +118,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 }
 
 void WeaponNapalm::addNapalm(ScorchedContext &context, 
-	unsigned int playerId, int x, int y, unsigned int data)
+	WeaponFireContext &weaponContext, int x, int y)
 {
 	// Ensure that the napalm has not hit the walls
 	// or anything outside the landscape
@@ -128,6 +127,6 @@ void WeaponNapalm::addNapalm(ScorchedContext &context,
 		y < context.landscapeMaps->getGroundMaps().getMapHeight() - 1)
 	{
 		context.actionController->addAction(
-			new Napalm(x, y, this, playerId, data));
+			new Napalm(x, y, this, weaponContext));
 	}
 }

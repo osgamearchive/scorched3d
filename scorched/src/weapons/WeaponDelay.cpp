@@ -58,23 +58,18 @@ bool WeaponDelay::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponDelay::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Action *action = new CallbackWeapon(
 		this, delay_, 0,
-		playerId,
-		position,
-		velocity,
-		data);
+		weaponContext, position, velocity);
 	context.actionController->addAction(action);
 }
 
 void WeaponDelay::weaponCallback(
 			ScorchedContext &context,
-			unsigned int playerId, Vector &position, Vector &velocity,
-			unsigned int data,
+			WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 			unsigned int userData)
 {
-	delayedWeapon_->fireWeapon(context, playerId, position, velocity, data);
+	delayedWeapon_->fireWeapon(context, weaponContext, position, velocity);
 }

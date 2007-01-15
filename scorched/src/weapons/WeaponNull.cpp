@@ -39,8 +39,7 @@ bool WeaponNull::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNod
 }
 
 void WeaponNull::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 
 }

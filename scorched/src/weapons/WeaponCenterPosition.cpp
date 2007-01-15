@@ -62,8 +62,7 @@ bool WeaponCenterPosition::parseXML(AccessoryCreateContext &context, XMLNode *ac
 }
 
 void WeaponCenterPosition::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	int mapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
 	int mapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
@@ -73,7 +72,7 @@ void WeaponCenterPosition::fireWeapon(ScorchedContext &context,
 	newPositon[1] = mapHeight / 2.0f;
 	newPositon[2] = height_;
 	
-	nextAction_->fireWeapon(context, playerId, newPositon, velocity, data);
+	nextAction_->fireWeapon(context, weaponContext, newPositon, velocity);
 
 	if (updatePosition_)
 	{

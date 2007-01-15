@@ -82,8 +82,7 @@ bool WeaponRandomChoice::parseXML(AccessoryCreateContext &context, XMLNode *acce
 }
 
 void WeaponRandomChoice::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	RandomGenerator &random = context.actionController->getRandom();
 	int randWeight = random.getRandUInt() % totalWeight_;
@@ -100,7 +99,7 @@ void WeaponRandomChoice::fireWeapon(ScorchedContext &context,
 		if (currentWeight >= randWeight)
 		{
 			Weapon *weapon = weightEntry.weapon;
-			weapon->fireWeapon(context, playerId, position, velocity, data);
+			weapon->fireWeapon(context, weaponContext, position, velocity);
 			break;
 		}
 	}

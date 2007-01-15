@@ -49,9 +49,8 @@ bool WeaponLaser::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponLaser::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
-		new Laser(playerId, this, position, velocity, data));
+		new Laser(this, position, velocity, weaponContext));
 }

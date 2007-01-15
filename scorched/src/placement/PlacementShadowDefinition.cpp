@@ -60,7 +60,7 @@ void PlacementShadowDefinition::updateLandscapeHeight(
 			areaSize = MAX(size[0], size[1])/2.0f + 1.0f;
 		}
 
-		DeformLandscape::flattenArea(context, position, 0, false, areaSize);
+		DeformLandscape::flattenArea(context, position, false, areaSize);
 	}
 }
 

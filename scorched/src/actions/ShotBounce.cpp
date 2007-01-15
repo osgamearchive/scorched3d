@@ -31,24 +31,24 @@
 #include <graph/ModelRendererSimulator.h>
 #include <string.h>
 
-ShotBounce::ShotBounce(Vector &startPosition, Vector &velocity,
-	WeaponRoller *weapon, unsigned int playerId,
-	unsigned int data) : 
+ShotBounce::ShotBounce(WeaponRoller *weapon, 
+		Vector &startPosition, Vector &velocity,
+		WeaponFireContext &weaponContext) : 
 	startPosition_(startPosition),
-	velocity_(velocity), weapon_(weapon), playerId_(playerId),
+	velocity_(velocity), weapon_(weapon), weaponContext_(weaponContext),
 	totalTime_(0.0f), 
-	vPoint_(0), model_(0), data_(data)
+	vPoint_(0), model_(0)
 {
 }
 
 void ShotBounce::init()
 {
-	PhysicsParticleInfo info(ParticleTypeBounce, playerId_, this);
+	PhysicsParticleInfo info(ParticleTypeBounce, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
 		1.0f, 5.0f, weapon_->getWindFactor(), true);
 
 	Vector lookatPos;
-	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
+	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 	context_->viewPoints->getValues(lookatPos, lookFrom_);
 
 	// Point the action camera at this event
@@ -127,7 +127,5 @@ void ShotBounce::doCollision()
 {
 	WeaponRoller *proj = (WeaponRoller *) weapon_;
 	proj->getCollisionAction()->fireWeapon(
-		*context_,
-		playerId_, getCurrentPosition(), getCurrentVelocity(),
-		data_);
+		*context_, weaponContext_, getCurrentPosition(), getCurrentVelocity());
 }

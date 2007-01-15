@@ -68,8 +68,7 @@ bool WeaponRedirect::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponRedirect::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	float currentMag = velocity.Magnitude();
 	float currenth = (atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f) - 90.0f;
@@ -85,7 +84,7 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	newVelocity.StoreNormalize();
 	newVelocity *= currentMag;
 	
-	nextAction_->fireWeapon(context, playerId, position, newVelocity, data);
+	nextAction_->fireWeapon(context, weaponContext, position, newVelocity);
 
 	if (updatePosition_)
         {

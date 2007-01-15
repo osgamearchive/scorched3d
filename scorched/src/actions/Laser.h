@@ -27,10 +27,9 @@
 class Laser : public ActionReferenced
 {
 public:
-	Laser(unsigned int playerId,
-		WeaponLaser *weapon,
+	Laser(WeaponLaser *weapon,
 		Vector &position, Vector &direction,
-		unsigned int data);
+		WeaponFireContext &weaponContext);
 	virtual ~Laser();
 
 	virtual void init();
@@ -40,8 +39,7 @@ public:
 protected:
 	float totalTime_;
 	float drawLength_;
-	unsigned int playerId_;
-	unsigned int data_;
+	WeaponFireContext weaponContext_;
 	WeaponLaser *weapon_;
 	Vector position_, direction_;
 

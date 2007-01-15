@@ -223,7 +223,8 @@ void PlayShots::processFiredMessage(ScorchedContext &context,
 		(tank->getPosition().getPower() + 1.0f);
 	Vector position = tank->getPosition().getTankGunPosition();
 
-	weapon->fireWeapon(context, tank->getPlayerId(), position, velocity, 0);
+	WeaponFireContext weaponContext(tank->getPlayerId(), 0);
+	weapon->fireWeapon(context, weaponContext, position, velocity);
 	StatsLogger::instance()->tankFired(tank, weapon);
 	StatsLogger::instance()->weaponFired(weapon, false);
 }

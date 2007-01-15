@@ -66,8 +66,7 @@ bool WeaponScatterPosition::parseXML(AccessoryCreateContext &context, XMLNode *a
 }
 
 void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &p, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &p, Vector &velocity)
 {
 	// Mininum height, if we are grounding
 	float allowedHeight = 0.0f;
@@ -113,7 +112,7 @@ void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
 		}
 	}
 
-	aimedWeapon_->fireWeapon(context, playerId, pos, velocity, data);
+	aimedWeapon_->fireWeapon(context, weaponContext, pos, velocity);
 
 	if (updatePosition_)
 		p = pos;

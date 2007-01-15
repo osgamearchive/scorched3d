@@ -62,8 +62,7 @@ bool WeaponVelocity::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponVelocity::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	// Add a shot that will fall where the original was aimed
 	// but with altered velocity
@@ -71,13 +70,13 @@ void WeaponVelocity::fireWeapon(ScorchedContext &context,
 	if (abs_)
 	{
 		newVelocity = velocity.Normalize() * 50.0f * velocityChange_; 
-		aimedWeapon_->fireWeapon(context, playerId, position, newVelocity, data);
+		aimedWeapon_->fireWeapon(context, weaponContext, position, newVelocity);
 	}
 	else
 	{
 
 		newVelocity = velocity * velocityChange_;
-		aimedWeapon_->fireWeapon(context, playerId, position, newVelocity, data);
+		aimedWeapon_->fireWeapon(context, weaponContext, position, newVelocity);
 	}
 
 	if (updatePosition_)

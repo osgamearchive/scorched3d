@@ -31,7 +31,7 @@ class Teleport : public ActionReferenced
 public:
 	Teleport(
 		Vector position,
-		unsigned int playerId,
+		WeaponFireContext &weaponContext,
 		WeaponTeleport *weapon);
 	virtual ~Teleport();
 
@@ -42,7 +42,7 @@ protected:
 	ViewPoints::ViewPoint *vPoint_;
 	bool firstTime_;
 	Vector position_;
-	unsigned int playerId_;
+	WeaponFireContext weaponContext_;
 	WeaponTeleport *weapon_;
 	float totalTime_;
 

@@ -29,8 +29,7 @@ class WeaponCallback : public Weapon
 public:
 	virtual void weaponCallback(
 		ScorchedContext &context,
-		unsigned int playerId, Vector &position, Vector &velocity,
-		unsigned int data,
+		WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 		unsigned int userData) = 0;
 };
 
@@ -39,8 +38,7 @@ class CallbackWeapon : public ActionReferenced
 public:
 	CallbackWeapon(WeaponCallback *callback,
 		float delay, unsigned int callbackData,
-		unsigned int playerId, Vector &position, Vector &velocity,
-    	unsigned int data);
+		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
 	virtual ~CallbackWeapon();
 
 	virtual void init();
@@ -51,8 +49,7 @@ protected:
 
 	Vector position_;
 	Vector velocity_;
-	unsigned int playerId_;
-	unsigned int data_;
+	WeaponFireContext weaponContext_;
 	float delay_;
 	unsigned int callbackData_;
 	WeaponCallback *callback_;

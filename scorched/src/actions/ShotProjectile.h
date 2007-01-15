@@ -34,9 +34,8 @@ class ShotProjectile :
 public:
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
-		WeaponProjectile *weapon, unsigned int playerId,
-		unsigned int flareType,
-		unsigned int data);
+		WeaponProjectile *weapon, WeaponFireContext &weaponContext,
+		unsigned int flareType);
 	virtual ~ShotProjectile();
 
 	virtual void simulate(float frameTime, bool &remove);
@@ -44,7 +43,7 @@ public:
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
 
-	unsigned int getPlayerId() { return playerId_; }
+	unsigned int getPlayerId() { return weaponContext_.getPlayerId(); }
 	WeaponProjectile *getWeapon() { return weapon_; }
 	std::list<RenderTracer::TracerLinePoint> &getPositions() { return positions_; }
 
@@ -52,9 +51,8 @@ protected:
 	Vector startPosition_, velocity_;
 	WeaponProjectile *weapon_;
 	ViewPoints::ViewPoint *vPoint_;
-	unsigned int playerId_;
+	WeaponFireContext weaponContext_;
 	unsigned int flareType_;
-	unsigned int data_;
 	bool up_;
 	float snapTime_;
 	float totalTime_;

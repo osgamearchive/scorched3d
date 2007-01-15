@@ -44,10 +44,10 @@
 static const int deformSize = 3;
 
 Napalm::Napalm(int x, int y, Weapon *weapon, 
-	unsigned int playerId, unsigned int data) :
+	WeaponFireContext &weaponContext) :
 	x_(x), y_(y), napalmTime_(0.0f), 
 	weapon_((WeaponNapalm *) weapon), 
-	playerId_(playerId), data_(data), hitWater_(false),
+	weaponContext_(weaponContext), hitWater_(false),
 	totalTime_(0.0f), hurtTime_(0.0f),
 	counter_(0.1f, 0.1f), set_(0)
 {
@@ -442,7 +442,7 @@ void Napalm::simulateDamage()
 			if (!target->getTargetState().getNoDamageBurn())
 			{
 				TargetDamageCalc::damageTarget(*context_, target, weapon_, 
-					playerId_, damage, true, false, false, data_);
+					weaponContext_, damage, true, false, false);
 			}
 
 			// Set this target to burnt

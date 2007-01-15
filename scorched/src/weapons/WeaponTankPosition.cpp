@@ -60,13 +60,12 @@ bool WeaponTankPosition::parseXML(AccessoryCreateContext &context, XMLNode *acce
 }
 
 void WeaponTankPosition::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	// This weapon re-centers the current shot on the firing tank.
 	// This can be used for firing from a moving tank
 
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (tank && tank->getState().getState() == TankState::sNormal)
 	{
 		Vector newPosition = tank->getLife().getTargetPosition();
@@ -75,7 +74,7 @@ void WeaponTankPosition::fireWeapon(ScorchedContext &context,
 			newPosition = tank->getPosition().getTankGunPosition();
 		}
 
-		aimedWeapon_->fireWeapon(context, playerId, newPosition, velocity, data);
+		aimedWeapon_->fireWeapon(context, weaponContext, newPosition, velocity);
 	}
 }
 

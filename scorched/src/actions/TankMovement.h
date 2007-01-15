@@ -25,6 +25,7 @@
 #include <engine/ViewPoints.h>
 #include <common/Vector.h>
 #include <common/Counter.h>
+#include <weapons/Weapon.h>
 #include <list>
 #include <map>
 
@@ -34,7 +35,7 @@ class Tank;
 class TankMovement : public ActionReferenced
 {
 public:
-	TankMovement(unsigned int playerId,
+	TankMovement(WeaponFireContext &weaponContext,
 		WeaponMoveTank *weapon_,
 		int positionX, int positionY);
 	virtual ~TankMovement();
@@ -70,7 +71,7 @@ protected:
 	VirtualSoundSource *moveSoundSource_;
 	Counter smokeCounter_;
 
-	unsigned int playerId_;
+	WeaponFireContext weaponContext_;
 	Vector startPosition_;
 	int positionX_, positionY_;
 	int stepCount_;

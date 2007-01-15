@@ -26,6 +26,24 @@
 #include <common/Vector.h>
 #include <engine/ScorchedContext.h>
 
+class WeaponFireContext
+{
+public:
+	WeaponFireContext(unsigned int playerId, unsigned int data);
+	WeaponFireContext(WeaponFireContext &other);
+	virtual ~WeaponFireContext();
+
+	unsigned int getPlayerId() { return playerId_; }
+	unsigned int getData() { return data_; }
+
+protected:
+	unsigned int playerId_;
+	unsigned int data_;
+
+private:
+	WeaponFireContext &operator=(WeaponFireContext &other);
+};
+
 class Action;
 class Weapon : public AccessoryPart
 {
@@ -42,9 +60,8 @@ public:
 		XMLNode *accessoryNode);
 	
 	virtual void fireWeapon(ScorchedContext &context,
-		unsigned int playerId, 
-		Vector &position, Vector &velocity,
-		unsigned int data = 0) = 0;
+		WeaponFireContext &weaponContext,
+		Vector &position, Vector &velocity) = 0;
 
 	int getArmsLevel();
 

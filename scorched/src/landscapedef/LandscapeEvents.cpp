@@ -169,9 +169,9 @@ void LandscapeActionFireWeapon::fireAction(ScorchedContext &context)
 			formatString("Accessory named \"%s\" is not a weapon", weapon.c_str()));
 	Weapon *weapon = (Weapon *) accessory->getAction();
 
+	WeaponFireContext weaponContext(0, Weapon::eDataDeathAnimation);
 	Vector pos, vel;
-	weapon->fireWeapon(context, 0, pos, vel, 
-		Weapon::eDataDeathAnimation);
+	weapon->fireWeapon(context, weaponContext, pos, vel);
 }
 
 bool LandscapeActionFireWeapon::readXML(XMLNode *node)

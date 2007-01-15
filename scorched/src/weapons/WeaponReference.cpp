@@ -76,9 +76,8 @@ bool WeaponReference::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponReference::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
-	refWeapon_->fireWeapon(context, playerId, position, velocity, data);
+	refWeapon_->fireWeapon(context, weaponContext, position, velocity);
 }
 

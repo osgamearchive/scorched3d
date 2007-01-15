@@ -59,35 +59,32 @@ bool WeaponRepeat::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 }
 
 void WeaponRepeat::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	if (delay_ == 0.0f)
 	{
 		for (int i=0; i<repeat_; i++)
 		{
-			repeatWeapon_->fireWeapon(context, playerId, position, velocity, data);
+			repeatWeapon_->fireWeapon(context, weaponContext, position, velocity);
 		}
 	}
 	else
 	{
-		weaponCallback(context, playerId, position, velocity,
-			data, repeat_);
+		weaponCallback(context, weaponContext, position, velocity, repeat_);
 	}
 }
 
 void WeaponRepeat::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	repeatWeapon_->fireWeapon(context, playerId, position, velocity, data);
+	repeatWeapon_->fireWeapon(context, weaponContext, position, velocity);
 
 	if (userData > 1)
 	{
 		context.actionController->addAction(
 			new CallbackWeapon(this, delay_, userData - 1, 
-				playerId, position, velocity, data));
+				weaponContext, position, velocity));
 	}
 }

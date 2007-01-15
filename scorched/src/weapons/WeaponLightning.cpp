@@ -57,10 +57,9 @@ bool WeaponLightning::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponLightning::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Action *action = new Lightning(
-		this, playerId, position, velocity, data); 
+		this, weaponContext, position, velocity); 
 	context.actionController->addAction(action);	
 }

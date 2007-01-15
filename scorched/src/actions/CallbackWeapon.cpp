@@ -24,15 +24,13 @@
 CallbackWeapon::CallbackWeapon(
 	WeaponCallback *callback,
 	float delay, unsigned int callbackData,
-	unsigned int playerId, Vector &position, Vector &velocity,
-    unsigned int data) :
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity) :
 	callback_(callback),
 	delay_(delay),
 	callbackData_(callbackData),
 	position_(position),
 	velocity_(velocity),
-	playerId_(playerId),
-	data_(data),
+	weaponContext_(weaponContext),
 	totalTime_(0.0f)
 {
 
@@ -52,7 +50,7 @@ void CallbackWeapon::simulate(float frameTime, bool &remove)
 	if (totalTime_ > delay_)
 	{
 		callback_->weaponCallback(
-			*context_, playerId_, position_, velocity_, data_, callbackData_);
+			*context_, weaponContext_, position_, velocity_, callbackData_);
 		remove = true;
 	}
 

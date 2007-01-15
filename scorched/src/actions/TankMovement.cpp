@@ -50,10 +50,10 @@
 
 static const int NoMovementTransitions = 4;
 
-TankMovement::TankMovement(unsigned int playerId,
+TankMovement::TankMovement(WeaponFireContext &weaponContext,
 	WeaponMoveTank *weapon,
 	int positionX, int positionY) : 
-	playerId_(playerId), 
+	weaponContext_(weaponContext), 
 	positionX_(positionX), positionY_(positionY),
 	timePassed_(0.0f), vPoint_(0), weapon_(weapon),
 	remove_(false), moving_(true), moveSoundSource_(0),
@@ -70,11 +70,11 @@ TankMovement::~TankMovement()
 
 void TankMovement::init()
 {
-	Tank *tank = context_->tankContainer->getTankById(playerId_);
+	Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 	if (!tank) return;	
 
 	startPosition_ = tank->getLife().getTargetPosition();
-	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
+	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 	
 	// Start the tank movement sound
 #ifndef S3D_SERVER
@@ -192,7 +192,7 @@ void TankMovement::simulate(float frameTime, bool &remove)
 void TankMovement::simulationMove(float frameTime)
 {
 	Tank *tank = 
-		context_->tankContainer->getTankById(playerId_);
+		context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 	if (tank)
 	{
 		// Stop moving if the tank is dead
@@ -249,14 +249,14 @@ void TankMovement::simulationMove(float frameTime)
 	if (moving_ == false)
 	{
 		Tank *current = 
-			context_->tankContainer->getTankById(playerId_);
+			context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 		if (current)
 		{
 			current->getLife().setRotation(0.0f);
 			if (current->getState().getState() == TankState::sNormal)
 			{
 				// Move the tank to the final position
-				DeformLandscape::flattenArea(*context_, current->getLife().getTargetPosition(), 0);
+				DeformLandscape::flattenArea(*context_, current->getLife().getTargetPosition());
 			}
 		}
 
@@ -359,9 +359,9 @@ void TankMovement::moveTank(Tank *tank)
 		{
 			// Kill the target we've driven over
 			context_->actionController->addAction(
-				new TankDamage(weapon_, target->getPlayerId(), tank->getPlayerId(), 
+				new TankDamage(weapon_, target->getPlayerId(), weaponContext_, 
 					target->getLife().getLife(),
-					false, false, false, 0));
+					false, false, false));
 
 			// Do a small explosion where we remove this target
 			Accessory *accessory = 
@@ -370,7 +370,7 @@ void TankMovement::moveTank(Tank *tank)
 			{
 				Weapon *weapon = (Weapon *) accessory->getAction();
 				weapon->fireWeapon(*context_, 
-					tank->getPlayerId(),
+					weaponContext_,
 					tank->getLife().getTargetPosition(), 
 					Vector::nullVector);
 			}

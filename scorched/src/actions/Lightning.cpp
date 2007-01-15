@@ -32,12 +32,11 @@
 #include <math.h>
 
 Lightning::Lightning(WeaponLightning *weapon,
-		unsigned int playerId, 
-		Vector &position, Vector &velocity,
-		unsigned int data) :
+		WeaponFireContext &weaponContext,
+		Vector &position, Vector &velocity) :
 	totalTime_(0.0f),
 	weapon_(weapon),
-	playerId_(playerId), data_(data),
+	weaponContext_(weaponContext),
 	position_(position), velocity_(velocity),
 	generator_(0)
 {
@@ -51,7 +50,7 @@ Lightning::~Lightning()
 void Lightning::init()
 {
 	generator_ = new RandomGenerator();
-	generator_->seed(playerId_);
+	generator_->seed(weaponContext_.getPlayerId());
 	Vector direction = velocity_.Normalize();
 	std::map<unsigned int, float> hurtMap;
 
@@ -71,8 +70,8 @@ void Lightning::init()
 		if (target)
 		{
 			TargetDamageCalc::damageTarget(
-				*context_, target, weapon_, playerId_, 
-				damage, true, false, false, data_);
+				*context_, target, weapon_, weaponContext_, 
+				damage, true, false, false);
 		}
 	}
 }
@@ -277,7 +276,7 @@ void Lightning::damageTargets(Vector &position,
 	{
 		Target *target = (*itor).second;
 		if (target->getAlive() &&
-			target->getPlayerId() != playerId_)
+			target->getPlayerId() != weaponContext_.getPlayerId())
 		{
 			float distance = (target->getLife().getTargetPosition() -
 				position).Magnitude();

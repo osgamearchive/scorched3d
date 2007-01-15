@@ -45,8 +45,7 @@ bool WeaponAddTarget::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponAddTarget::fireWeapon(ScorchedContext &context, 
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Action *action = new AddTarget(TankAIAdder::getNextTargetId(context), 
 		position, this);

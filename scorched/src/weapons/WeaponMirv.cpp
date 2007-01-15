@@ -66,11 +66,10 @@ bool WeaponMirv::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNod
 }
 
 void WeaponMirv::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	// Add a shot that will fall where the original was aimed
-	aimedWeapon_->fireWeapon(context, playerId, position, velocity, data);
+	aimedWeapon_->fireWeapon(context, weaponContext, position, velocity);
 
 	RandomGenerator &random = context.actionController->getRandom();
 
@@ -90,7 +89,7 @@ void WeaponMirv::fireWeapon(ScorchedContext &context,
 		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
 			float(noWarheads_ / 2)) * vspreadDist_;
 
-		aimedWeapon_->fireWeapon(context, playerId, position, newDiff, data);
+		aimedWeapon_->fireWeapon(context, weaponContext, position, newDiff);
 	}
 }
 

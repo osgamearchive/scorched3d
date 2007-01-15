@@ -64,21 +64,19 @@ bool WeaponGiveAccessory::parseXML(AccessoryCreateContext &context, XMLNode *acc
 }
 
 void WeaponGiveAccessory::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new CallbackWeapon(this, 0.0f, 0, 
-			playerId, position, velocity, data));
+			weaponContext, position, velocity));
 }
 
 void WeaponGiveAccessory::weaponCallback(
 	ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	Tank *tank = context.tankContainer->getTankById(playerId);
+	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
 	std::vector<Accessory *>::iterator itor;
@@ -99,7 +97,7 @@ void WeaponGiveAccessory::weaponCallback(
 						formatString("\"%s\" received %i * %s", 
 						tank->getName(),
 						number_, accessory->getName()));
-					info.setPlayerId(playerId);
+					info.setPlayerId(weaponContext.getPlayerId());
 					Logger::log(info);
 				}
 			}
@@ -113,7 +111,7 @@ void WeaponGiveAccessory::weaponCallback(
 					LoggerInfo info(LoggerInfo::TypeDeath,
 						formatString("\"%s\" received $%i", 
 						tank->getName(), money));
-					info.setPlayerId(playerId);
+					info.setPlayerId(weaponContext.getPlayerId());
 					Logger::log(info);
 				}
 			}
@@ -132,7 +130,7 @@ void WeaponGiveAccessory::weaponCallback(
 						formatString("\"%s\" lost %i * %s", 
 						tank->getName(),
 						loose, accessory->getName()));
-					info.setPlayerId(playerId);
+					info.setPlayerId(weaponContext.getPlayerId());
 					Logger::log(info);
 				}
 			}

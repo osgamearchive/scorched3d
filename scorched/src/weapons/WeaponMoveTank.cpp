@@ -48,8 +48,7 @@ bool WeaponMoveTank::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponMoveTank::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	int posX = (int) position[0];
 	int posY = (int) position[1];
@@ -57,6 +56,6 @@ void WeaponMoveTank::fireWeapon(ScorchedContext &context,
 		posY > 5 && posY < context.landscapeMaps->getDefinitions().getDefn()->landscapeheight - 5)
 	{
 		context.actionController->addAction(
-			new TankMovement(playerId, this, posX, posY));		
+			new TankMovement(weaponContext, this, posX, posY));		
 	}
 }

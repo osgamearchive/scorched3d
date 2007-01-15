@@ -50,8 +50,7 @@ bool WeaponTeleport::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponTeleport::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	// Mininum height
 	float allowedHeight = 0.0f;
@@ -76,7 +75,8 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 			position[0], position[1]);
 		if (landscapeHeight >= allowedHeight - 1.0f)
 		{
-			context.actionController->addAction(new Teleport(position, playerId, this));
+			context.actionController->addAction(
+				new Teleport(position, weaponContext, this));
 		}
 	}
 }

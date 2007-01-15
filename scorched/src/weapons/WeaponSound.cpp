@@ -62,8 +62,7 @@ bool WeaponSound::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponSound::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
 		new SoundAction(position, this));

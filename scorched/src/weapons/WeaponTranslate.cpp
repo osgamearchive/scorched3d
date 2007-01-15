@@ -61,13 +61,12 @@ bool WeaponTranslate::parseXML(AccessoryCreateContext &context,XMLNode *accessor
 }
 
 void WeaponTranslate::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Vector newVelocity = velocity.Normalize() * translateDist_;
 	Vector newPosition = position + newVelocity;
 	
-	nextAction_->fireWeapon(context, playerId, newPosition, velocity, data);
+	nextAction_->fireWeapon(context, weaponContext, newPosition, velocity);
 	
 	if (updatePosition_)
 	{

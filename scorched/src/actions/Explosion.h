@@ -38,7 +38,7 @@ public:
 	};
 
 	Explosion(Vector &position, WeaponExplosion *weapon, 
-		unsigned int playerId, unsigned int data);
+		WeaponFireContext &weaponContext);
 	virtual ~Explosion();
 
 	Vector &getPosition() { return position_; }
@@ -51,8 +51,7 @@ protected:
 	Vector position_;
 	float totalTime_;
 	WeaponExplosion *weapon_;
-	unsigned int playerId_;
-	unsigned int data_;
+	WeaponFireContext weaponContext_;
 	
 };
 

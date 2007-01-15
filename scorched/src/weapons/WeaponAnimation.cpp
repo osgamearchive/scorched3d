@@ -57,11 +57,10 @@ bool WeaponAnimation::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponAnimation::fireWeapon(ScorchedContext &context,
-	unsigned int playerId, Vector &position, Vector &velocity,
-	unsigned int data)
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	context.actionController->addAction(
-		new Animation(playerId, 
+		new Animation(weaponContext.getPlayerId(), 
 			position, velocity,
 			rendererName_.c_str(), 
 			data_.c_str()));

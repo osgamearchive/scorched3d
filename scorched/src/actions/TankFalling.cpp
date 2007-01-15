@@ -34,12 +34,11 @@
 #include <landscapemap/DeformLandscape.h>
 
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,
-				   unsigned int firedPlayerId,
-				   Parachute *parachute,
-				   unsigned int data) :
+				   WeaponFireContext &weaponContext,
+				   Parachute *parachute) :
 	weapon_(weapon),
-	fallingPlayerId_(fallingPlayerId), firedPlayerId_(firedPlayerId),
-	data_(data), parachute_(parachute)
+	fallingPlayerId_(fallingPlayerId),
+	weaponContext_(weaponContext), parachute_(parachute)
 {
 }
 
@@ -151,15 +150,15 @@ void TankFalling::collision(PhysicsParticleObject &position,
 		// Flatten the area around tanks
 		if (!current->isTarget())
 		{
-			DeformLandscape::flattenArea(*context_, position.getPosition(), 0);
+			DeformLandscape::flattenArea(*context_, position.getPosition());
 		}
 
 		// Add the damage to the tank
 		TargetDamageCalc::damageTarget(
 			*context_,
 			current, weapon_, 
-			firedPlayerId_, damage, 
-			false, false, false, data_);
+			weaponContext_, damage, 
+			false, false, false);
 	}
 
 	PhysicsParticleReferenced::collision(position, collisionId);

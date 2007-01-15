@@ -35,10 +35,10 @@
 #include <sound/SoundUtils.h>
 
 Teleport::Teleport(Vector position,
-		unsigned int playerId,
+		WeaponFireContext &weaponContext,
 		WeaponTeleport *weapon) :
 	position_(position), 
-	playerId_(playerId),
+	weaponContext_(weaponContext),
 	weapon_(weapon),
 	totalTime_(0.0f),
 	firstTime_(true),
@@ -54,7 +54,7 @@ Teleport::~Teleport()
 
 void Teleport::init()
 {
-	vPoint_ = context_->viewPoints->getNewViewPoint(playerId_);
+	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 
 	const float ShowTime = 5.0f;
 	CameraPositionAction *pos = new CameraPositionAction(
@@ -73,7 +73,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 #ifndef S3D_SERVER
 		if (!context_->serverMode)
 		{
-			Tank *tank = context_->tankContainer->getTankById(playerId_);
+			Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 			if (tank && tank->getState().getState() == TankState::sNormal)
 			{
 				SoundBuffer *activateSound = 
@@ -89,7 +89,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 	totalTime_ += frameTime;
 	if (totalTime_ > weapon_->getDelay())
 	{
-		Tank *tank = context_->tankContainer->getTankById(playerId_);
+		Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
 			float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
@@ -101,7 +101,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 
 				// Set this position and flatten the landscape
 				tank->getLife().setTargetPosition(position_);
-				DeformLandscape::flattenArea(*context_, position_, 0);
+				DeformLandscape::flattenArea(*context_, position_);
 			}
 			else
 			{
@@ -110,7 +110,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 
 				// Check if this tank can fall, this will result in flattening the area
 				TargetDamageCalc::damageTarget(*context_, tank, weapon_, 
-					0, 0.0f, false, true, false, 0);
+					weaponContext_, 0.0f, false, true, false);
 			}
 		}
 
