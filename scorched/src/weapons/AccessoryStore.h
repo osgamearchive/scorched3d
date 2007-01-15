@@ -45,6 +45,7 @@ public:
 	AccessoryPart *findAccessoryPartByAccessoryId(unsigned int id, const char *type);
 	AccessoryPart *createAccessoryPart(AccessoryCreateContext &context, 
 		Accessory *parent, XMLNode *currentNode);
+	AccessoryPart *findByAccessoryPartId(unsigned int id);
 
 	Weapon *getDeathAnimation();
 	Weapon *getMuzzelFlash();
@@ -65,8 +66,6 @@ public:
 	void sortList(std::list<Accessory *> &accList, bool alpha);
 
 protected:
-	AccessoryPart *findByAccessoryPartId(unsigned int id);
-
 	std::set<std::string> groups_;
 	std::list<Accessory *> accessories_;
 	std::list<AccessoryPart *> accessoryParts_;

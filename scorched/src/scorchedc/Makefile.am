@@ -529,6 +529,8 @@ scorched3dc_SOURCES = \
 	../target/TargetState.h \
 	../weapons/Accessory.cpp \
 	../weapons/Accessory.h \
+	../weapons/AccessoryCreateContext.cpp \
+	../weapons/AccessoryCreateContext.h \
 	../weapons/AccessoryPart.cpp \
 	../weapons/AccessoryPart.h \
 	../weapons/AccessoryStore.cpp \
