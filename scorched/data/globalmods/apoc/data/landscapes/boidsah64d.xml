@@ -5,10 +5,11 @@
 		<maxbounds><A>255</A><B>255</B><C>50</C></maxbounds>
 		<object type='target'>
 			<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
-			<modelscale>0.015</modelscale>
-			<nocollision>true</nocollision>
+			<modelscale>0.01</modelscale>
+			<nocollision>false</nocollision>
 			<displayshadow>false</displayshadow>
-			<groupname>boids-ah64d</groupname>
+			<groupname>boids-city4</groupname>
+			<removeaction>Airplane</removeaction>
 		</object>
 	</placement>
 	<movement type="boids">
@@ -21,7 +22,7 @@
 	</movement>
 	<sound>
 		<position type='set'>
-			<maxsounds>4</maxsounds>
+			<maxsounds>2</maxsounds>
 			<name>boids-ah64d</name>
 		</position>
 		<timing type='repeat'>

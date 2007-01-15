@@ -396,7 +396,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -424,7 +424,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
 					<noobjectdamage/>
@@ -499,7 +499,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.2</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -544,7 +544,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
 					<noobjectdamage/>
@@ -764,7 +764,7 @@ Capacity: 200 dmg | Collision Damage: Timed</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.2</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -1264,7 +1264,7 @@ destroyed, releasing a devestating explosion and
 radioactive fallout which travels downwind.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<nowindaffected/>
@@ -1616,7 +1616,7 @@ radioactive fallout which travels downwind.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.2</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -1684,7 +1684,7 @@ radioactive fallout which travels downwind.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponNapalm'>
 					<noobjectdamage/>
@@ -7132,7 +7132,7 @@ several acid bomblets which eat the
 earth and burn targets.</description>
 		<icon>ablast.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>3000</cost>
+		<cost>4000</cost>
 		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>weapons/fusionbarrel.txt</model>
 		<accessoryaction type='WeaponProjectile'>
@@ -12951,7 +12951,7 @@ violently on one or both sides of the portal.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -13077,7 +13077,7 @@ violently on one or both sides of the portal.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -13097,52 +13097,30 @@ violently on one or both sides of the portal.</description>
 					<explosionsound>explosions/small.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
-				<subweapon3 type='WeaponRandomChoice'>
-					<weaponchoice1>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>1</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Bar1Items</invoke>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice1>
-					<weaponchoice2>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>2</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Bar1Items</invoke>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice2>
-					<weaponchoice3>
-						<weight>10</weight>
-						<weapon type='WeaponAimedOver'>
-							<nowarheads>3</nowarheads>
-							<percentagemiss>99</percentagemiss>
-							<maxaimdistance>0</maxaimdistance>
-							<inaccuracy>99</inaccuracy>
-							<aimedweapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Bar1Items</invoke>
-								</aimedweapon>
-							</aimedweapon>
-						</weapon>
-					</weaponchoice3>
+				<subweapon3 type='WeaponRepeat'>
+					<repeat>3</repeat>
+					<delay>0.01</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>99</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>99</inaccuracy>
+						<aimedweapon type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>10</weight>
+								<weapon type='WeaponVelocity'>
+									<velocitychange>0.8</velocitychange>
+									<aimedweapon type='WeaponInvokeWeapon'>
+										<invoke>Bar1Items</invoke>
+									</aimedweapon>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>10</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice2>
+						</aimedweapon>
+					</repeatweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
@@ -13242,7 +13220,7 @@ violently on one or both sides of the portal.</description>
 which explode and spread fire when ignited.</description>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0.5</hurtamount>
@@ -13303,23 +13281,30 @@ which explode and spread fire when ignited.</description>
 						</aimedweapon>
 					</aimedweapon>
 				</subweapon4>
-				<subweapon5 type='WeaponAimedOver'>
-					<nowarheads>3</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>10</weight>
-							<weapon type='WeaponInvokeWeapon'>
-								<invoke>GasStationItems</invoke>
-							</weapon>
-						</weaponchoice1>
-						<weaponchoice2>
-							<weight>10</weight>
-							<weapon type='WeaponNull'></weapon>
-						</weaponchoice2>
-					</aimedweapon>
+				<subweapon5 type='WeaponRepeat'>
+					<repeat>3</repeat>
+					<delay>0.01</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>99</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>99</inaccuracy>
+						<aimedweapon type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>10</weight>
+								<weapon type='WeaponVelocity'>
+									<velocitychange>0.8</velocitychange>
+									<aimedweapon type='WeaponInvokeWeapon'>
+										<invoke>GasStationItems</invoke>
+									</aimedweapon>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>10</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice2>
+						</aimedweapon>
+					</repeatweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
@@ -13522,7 +13507,7 @@ which explode and spread fire when ignited.</description>
 		<armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<accessoryaction type='WeaponDelay'>
-			<delay>0.25</delay>
+			<delay>0.1</delay>
 			<delayedweapon type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>0</hurtamount>
@@ -13542,26 +13527,30 @@ which explode and spread fire when ignited.</description>
 					<explosionsound>explosions/small.wav</explosionsound>
 					<explosiontexture>cloud00-5</explosiontexture>
 				</subweapon2>
-				<subweapon3 type='WeaponAimedOver'>
-					<nowarheads>3</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>10</weight>
-							<weapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Store1Items</invoke>
-								</aimedweapon>
-							</weapon>
-						</weaponchoice1>
-						<weaponchoice2>
-							<weight>10</weight>
-							<weapon type='WeaponNull'></weapon>
-						</weaponchoice2>
-					</aimedweapon>
+				<subweapon3 type='WeaponRepeat'>
+					<repeat>3</repeat>
+					<delay>0.01</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>99</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>99</inaccuracy>
+						<aimedweapon type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>10</weight>
+								<weapon type='WeaponVelocity'>
+									<velocitychange>0.8</velocitychange>
+									<aimedweapon type='WeaponInvokeWeapon'>
+										<invoke>Store1Items</invoke>
+									</aimedweapon>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>10</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice2>
+						</aimedweapon>
+					</repeatweapon>
 				</subweapon3>
 				<subweapon4 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
@@ -13660,26 +13649,30 @@ which explode and spread fire when ignited.</description>
 						</weapon>
 					</weaponchoice2>
 				</subweapon4>
-				<subweapon5 type='WeaponAimedOver'>
-					<nowarheads>3</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>10</weight>
-							<weapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>Store1Items</invoke>
-								</aimedweapon>
-							</weapon>
-						</weaponchoice1>
-						<weaponchoice2>
-							<weight>10</weight>
-							<weapon type='WeaponNull'></weapon>
-						</weaponchoice2>
-					</aimedweapon>
+				<subweapon5 type='WeaponRepeat'>
+					<repeat>3</repeat>
+					<delay>0.01</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>99</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>99</inaccuracy>
+						<aimedweapon type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>10</weight>
+								<weapon type='WeaponVelocity'>
+									<velocitychange>0.8</velocitychange>
+									<aimedweapon type='WeaponInvokeWeapon'>
+										<invoke>Store1Items</invoke>
+									</aimedweapon>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>10</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice2>
+						</aimedweapon>
+					</repeatweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponGiveScore'>
 					<score>2</score>
@@ -14340,7 +14333,7 @@ which explode and spread fire when ignited.</description>
 					<weapon>LgBldgDebris</weapon>
 				</subweapon3>
 				<subweapon4 type='WeaponAimedOver'>
-					<nowarheads>4</nowarheads>
+					<nowarheads>3</nowarheads>
 					<percentagemiss>0</percentagemiss>
 					<maxaimdistance>0</maxaimdistance>
 					<inaccuracy>0</inaccuracy>
@@ -14607,26 +14600,30 @@ release lethal clouds of gas when destroyed.</description>
 					<explosiontexture>gas00</explosiontexture>
 					<explosionsound>none</explosionsound>
 				</subweapon4>
-				<subweapon5 type='WeaponAimedOver'>
-					<nowarheads>3</nowarheads>
-					<percentagemiss>99</percentagemiss>
-					<maxaimdistance>0</maxaimdistance>
-					<inaccuracy>99</inaccuracy>
-					<aimedweapon type='WeaponRandomChoice'>
-						<weaponchoice1>
-							<weight>10</weight>
-							<weapon type='WeaponVelocity'>
-								<velocitychange>0.8</velocitychange>
-								<aimedweapon type='WeaponInvokeWeapon'>
-									<invoke>FactoryItems</invoke>
-								</aimedweapon>
-							</weapon>
-						</weaponchoice1>
-						<weaponchoice2>
-							<weight>10</weight>
-							<weapon type='WeaponNull'></weapon>
-						</weaponchoice2>
-					</aimedweapon>
+				<subweapon5 type='WeaponRepeat'>
+					<repeat>2</repeat>
+					<delay>0.01</delay>
+					<repeatweapon type='WeaponAimedOver'>
+						<nowarheads>1</nowarheads>
+						<percentagemiss>99</percentagemiss>
+						<maxaimdistance>0</maxaimdistance>
+						<inaccuracy>99</inaccuracy>
+						<aimedweapon type='WeaponRandomChoice'>
+							<weaponchoice1>
+								<weight>10</weight>
+								<weapon type='WeaponVelocity'>
+									<velocitychange>0.8</velocitychange>
+									<aimedweapon type='WeaponInvokeWeapon'>
+										<invoke>FactoryItems</invoke>
+									</aimedweapon>
+								</weapon>
+							</weaponchoice1>
+							<weaponchoice2>
+								<weight>10</weight>
+								<weapon type='WeaponNull'></weapon>
+							</weaponchoice2>
+						</aimedweapon>
+					</repeatweapon>
 				</subweapon5>
 				<subweapon6 type='WeaponReference'>
 					<weapon>LgBldgDebris</weapon>
@@ -14676,6 +14673,74 @@ release lethal clouds of gas when destroyed.</description>
 					<score>2</score>
 				</subweapon9>
 			</delayedweapon>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>Airplane</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<hurtamount>0.8</hurtamount>
+				<deform>down</deform>
+				<size>4</size>
+				<explosionsound>explosions/large.wav</explosionsound>
+				<explosiontexture>exp00</explosiontexture>
+			</subweapon1>
+			<subweapon2 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<nocreatesplash/>
+				<noluminance/>
+				<minlife>6</minlife>
+				<maxlife>8</maxlife>
+				<hurtamount>0</hurtamount>
+				<deform>down</deform>
+				<size>6</size>
+				<explosionsound>explosions/large.wav</explosionsound>
+				<explosiontexture>cloud00-5</explosiontexture>
+			</subweapon2>
+			<subweapon3 type='WeaponReference'>
+				<weapon>LgBldgDebris</weapon>
+			</subweapon3>
+			<subweapon4 type='WeaponAimedOver'>
+				<nowarheads>6</nowarheads>
+				<percentagemiss>0</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>0</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>20</vredirect>
+					<nextaction type='WeaponVelocity'>
+						<abs>true</abs>
+						<velocitychange>0.25</velocitychange>
+						<aimedweapon type='WeaponProjectile'>
+							<flamelife>0.5</flamelife>
+							<smokestartsize>2.0</smokestartsize>
+							<smokeendsize>6.0</smokeendsize>
+							<shieldhurtfactor>0.25</shieldhurtfactor>
+							<enginesound>none</enginesound>
+							<projectilescale>0.5</projectilescale>
+							<projectilemodel type='ase'>
+								<mesh>roller.ase</mesh>
+								<skin>white.bmp</skin>
+							</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<nocreatedebris/>
+								<hurtamount>0.25</hurtamount>
+								<deform>none</deform>
+								<size>4</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</collisionaction>
+						</aimedweapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon4>
+			<subweapon5 type='WeaponGiveScore'>
+				<score>10</score>
+			</subweapon5>
 		</accessoryaction>
 	</accessory>
 	<accessory>

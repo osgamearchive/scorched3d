@@ -5,9 +5,11 @@
 		<maxbounds><A>355</A><B>355</B><C>75</C></maxbounds>
 		<object type='target'>
 			<model type="MilkShape">data/meshes/f16/f16.txt</model>
-			<nocollision>true</nocollision>
+			<modelscale>0.2</modelscale>
+			<nocollision>false</nocollision>
 			<displayshadow>false</displayshadow>
 			<groupname>boids-city1</groupname>
+			<removeaction>Airplane</removeaction>
 		</object>
 	</placement>
 	<movement type="boids">
@@ -40,10 +42,11 @@
 		<maxbounds><A>300</A><B>300</B><C>70</C></maxbounds>
 		<object type='target'>
 			<model type="MilkShape">data/meshes/737ua/737ua.txt</model>
-			<modelscale>0.3</modelscale>
-			<nocollision>true</nocollision>
-			<displayshadow>false</displayshadow>
+			<modelscale>0.08</modelscale>
+			<nocollision>false</nocollision>
+			<displayshadow>true</displayshadow>
 			<groupname>boids-city2</groupname>
+			<removeaction>Airplane</removeaction>
 		</object>
 	</placement>
 	<movement type="boids">
@@ -64,7 +67,7 @@
 			<max>2</max>
 		</timing>
 		<sound type='file'>
-			<file>data/wav/misc/jet.wav</file>
+			<file>data/wav/misc/t38.wav</file>
 			<gain>0.3</gain>
 		</sound>
 	</sound>
@@ -75,10 +78,11 @@
 		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
 		<object type='target'>
 			<model type="MilkShape">data/meshes/cessna/cessna.txt</model>
-			<modelscale>0.3</modelscale>
-			<nocollision>true</nocollision>
+			<modelscale>0.1</modelscale>
+			<nocollision>false</nocollision>
 			<displayshadow>false</displayshadow>
 			<groupname>boids-city3</groupname>
+			<removeaction>Airplane</removeaction>
 		</object>
 	</placement>
 	<movement type="boids">
@@ -110,10 +114,11 @@
 		<maxbounds><A>255</A><B>255</B><C>60</C></maxbounds>
 		<object type='target'>
 			<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
-			<modelscale>0.015</modelscale>
-			<nocollision>true</nocollision>
+			<modelscale>0.01</modelscale>
+			<nocollision>false</nocollision>
 			<displayshadow>false</displayshadow>
 			<groupname>boids-city4</groupname>
+			<removeaction>Airplane</removeaction>
 		</object>
 	</placement>
 	<movement type="boids">
