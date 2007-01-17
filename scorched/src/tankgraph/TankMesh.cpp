@@ -118,7 +118,7 @@ void TankMesh::setupTankMesh()
 
 void TankMesh::draw(float frame, bool drawS, Vector4 &angle, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
-					bool absCenter, float scale)
+					bool absCenter, float scale, float fade)
 {
 	rotXY_ = rotXY;
 	rotXZ_ = rotXZ;
@@ -133,8 +133,8 @@ void TankMesh::draw(float frame, bool drawS, Vector4 &angle, Vector &position,
 		glMultMatrixf(rotMatrix);
 		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
-		if (absCenter) ModelRenderer::draw(frame);
-		else ModelRenderer::drawBottomAligned(frame);
+		if (absCenter) ModelRenderer::draw(frame, fade);
+		else ModelRenderer::drawBottomAligned(frame, fade);
 	glPopMatrix();
 }
 

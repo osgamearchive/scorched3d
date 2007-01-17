@@ -30,8 +30,8 @@ public:
 	ModelRenderer(Model *model);
 	virtual ~ModelRenderer();
 
-	void draw(float currentFrame);
-	void drawBottomAligned(float currentFrame);
+	void draw(float currentFrame, float fade = 1.0f);
+	void drawBottomAligned(float currentFrame, float fade = 1.0f);
 
 	Model *getModel() { return model_; }
 

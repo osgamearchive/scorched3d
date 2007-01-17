@@ -47,6 +47,8 @@ public:
 	inline static PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT() { return glDeleteFramebuffersEXT_; }
 	inline static PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT() { return glCheckFramebufferStatusEXT_; }
 	inline static PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT() { return glFramebufferTexture2DEXT_; }
+	// Use blend color
+	inline static PFNGLBLENDCOLOREXTPROC glBlendColorEXT() { return glBlendColorEXT_; }
 
 	// Use tex sub image extension?
 	static bool getNoTexSubImage() { return noTexSubImage_; }
@@ -60,6 +62,8 @@ public:
 	static int getTextureUnits() { return textureUnits_; }
 	// Use FrameBuffer extension
 	static bool hasHardwareShadows() { return hasHardwareShadows_; }
+	// Use glBlendColorEXT
+	static bool hasBlendColor() { return hasBlendColor_; }
 
 protected:
 	static bool hasExtension(char *name);
@@ -67,6 +71,7 @@ protected:
 	static bool envCombine_;
 	static bool multiTexDisabled_;
 
+	static PFNGLBLENDCOLOREXTPROC glBlendColorEXT_;
 	static PFNGLGENBUFFERSARBPROC glGenBuffersARB_;
 	static PFNGLBINDBUFFERARBPROC glBindBufferARB_;
 	static PFNGLBUFFERDATAARBPROC glBufferDataARB_;
@@ -89,6 +94,7 @@ protected:
 	static bool hasHardwareMipmaps_;
 	static bool noTexSubImage_;
 	static bool hasHardwareShadows_;
+	static bool hasBlendColor_;
 
 private:
 	GLStateExtension();

@@ -31,7 +31,10 @@ bool GLStateExtension::hasCubeMap_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
 bool GLStateExtension::noTexSubImage_ = false;
+bool GLStateExtension::hasBlendColor_ = false;
 int GLStateExtension::textureUnits_ = 0;
+
+PFNGLBLENDCOLOREXTPROC GLStateExtension::glBlendColorEXT_ = 0;
 PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
 PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
 PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
@@ -127,6 +130,13 @@ void GLStateExtension::setup()
 		hasHardwareMipmaps_ = hasExtension("GL_SGIS_generate_mipmap");
 	}
 
+	if (hasExtension("GL_EXT_blend_color"))
+	{
+		hasBlendColor_ = true;
+		glBlendColorEXT_ = (PFNGLBLENDCOLOREXTPROC) 
+			SDL_GL_GetProcAddress("glBlendColorEXT");
+	}
+
 	{
 		if (hasExtension("GL_EXT_framebuffer_object") &&
 			hasExtension("GL_ARB_shadow") &&
@@ -170,4 +180,6 @@ void GLStateExtension::setup()
 	Logger::log(formatString("%s", (hasHardwareMipmaps_?"On":"Off")));
 	Logger::log("HW SHADOWS:");
 	Logger::log(formatString("%s", (hasHardwareShadows_?"On":"Off")));
+	Logger::log("BLEND COLOR:");
+	Logger::log(formatString("%s", (hasBlendColor_?"On":"Off")));
 }

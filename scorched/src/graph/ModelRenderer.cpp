@@ -22,7 +22,7 @@
 #include <graph/OptionsDisplay.h>
 #include <graph/TextureStore.h>
 #include <3dsparse/ModelMaths.h>
-#include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLInfo.h>
 
@@ -81,23 +81,39 @@ void ModelRenderer::setup()
 	}
 }
 
-void ModelRenderer::drawBottomAligned(float currentFrame)
+void ModelRenderer::drawBottomAligned(float currentFrame, float fade)
 {
 	glPushMatrix();
 		glTranslatef(0.0f, 0.0f, -model_->getMin()[2]);
-		draw(currentFrame);
+		draw(currentFrame, fade);
 	glPopMatrix();
 }
 
-void ModelRenderer::draw(float currentFrame)
+void ModelRenderer::draw(float currentFrame, float fade)
 {
 	// Set transparency on
 	GLState glstate(GLState::BLEND_ON | GLState::ALPHATEST_ON);
 
+	// Fade the model (make it transparent)
+	bool useBlendColor = (GLStateExtension::hasBlendColor() && fade < 1.0f);
+	if (useBlendColor)
+	{
+		fade = MIN(1.0f, MAX(fade, 0.2f));
+		GLStateExtension::glBlendColorEXT()(0.0f, 0.0f, 0.0f, fade);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);
+	}
+
+	// Draw the model
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		Mesh *mesh = model_->getMeshes()[m];
 		drawMesh(m, mesh, currentFrame);
+	}
+
+	// Turn off fading
+	if (useBlendColor)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }
 
@@ -117,10 +133,9 @@ void ModelRenderer::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 			meshInfo.texture = 
 				TextureStore::instance()->loadTexture(
  					mesh->getTextureName(), mesh->getATextureName());
-
 		}
-
-		meshInfo.texture->draw();
+		if (meshInfo.texture) meshInfo.texture->draw();
+		
 		if (mesh->getSphereMap())
 		{
 			state |= GLState::NORMALIZE_ON;

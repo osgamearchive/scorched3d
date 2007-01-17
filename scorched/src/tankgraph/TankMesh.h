@@ -33,7 +33,7 @@ public:
 
 	void draw(float frame, bool drawS, Vector4 &angle, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false, float scale = 1.0f);
+		bool absCenter = false, float scale = 1.0f, float fade = 1.0f);
 	int getNoTris();
 
 	static void drawSight();

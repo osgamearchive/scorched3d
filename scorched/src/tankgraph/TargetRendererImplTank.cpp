@@ -153,6 +153,15 @@ void TargetRendererImplTank::draw(float distance)
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
 
+	// Figure out the drawing distance
+	//if (distance > 25000.0f) return;
+	float fade = 1.0f;
+	/*if (distance > 15000.0f)
+	{
+		fade = 1.0f - ((distance - 15000.0f) / 10000.0f);
+	}*/
+
+	// Get the model size
 	float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
 
 	// Add the tank shadow
@@ -162,7 +171,8 @@ void TargetRendererImplTank::draw(float distance)
 		Landscape::instance()->getShadowMap().addCircle(
 			tank_->getPosition().getTankPosition()[0], 
 			tank_->getPosition().getTankPosition()[1], 
-			(tank_->getLife().getSize().Max() + 2.0f) * modelSize);
+			(tank_->getLife().getSize().Max() + 2.0f) * modelSize, 
+			fade);
 	}
 
 	// Draw the tank model
@@ -180,7 +190,7 @@ void TargetRendererImplTank::draw(float distance)
 			fireOffSet_, 
 			tank_->getPosition().getRotationGunXY(), 
 			tank_->getPosition().getRotationGunYZ(),
-			false, modelSize);
+			false, modelSize, fade);
 	}
 
 	// Draw the tank sight

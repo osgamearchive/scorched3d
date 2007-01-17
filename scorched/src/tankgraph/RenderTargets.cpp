@@ -83,16 +83,10 @@ void RenderTargets::Renderer2D::simulate(const unsigned state, float simTime)
 	}
 }
 
-static inline float approx_distance(float  dx, float dy)
+static inline float approx_distance(float  dx, float dy, float dz)
 {
-   float approx = (dx * dx) + (dy * dy);
+   float approx = (dx * dx) + (dy * dy) + (dz * dz);
    return approx;
-}
-
-static inline bool lt_distance(const std::pair<float, Target *> &o1, 
-	const std::pair<float, Target *> &o2) 
-{ 
-	return o1.first > o2.first;
 }
 
 void RenderTargets::draw(DrawType dt, const unsigned state)
@@ -111,18 +105,22 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 		itor++)
 	{
 		Target *target = (*itor).second;
-		float distance = approx_distance(
-				target->getLife().getTargetPosition()[0] - campos[0],
-				target->getLife().getTargetPosition()[1] - campos[1]);
 
-		// Check we have the tank model for each tank
+		// Check we have the tank model for each target
 		TargetRenderer *model = target->getRenderer();
 		if (!model) continue;
 
 		switch (dt)
 		{
 		case Type3D:
-			model->draw(distance);
+			{
+				float distance = approx_distance(
+					target->getLife().getTargetPosition()[0] - campos[0],
+					target->getLife().getTargetPosition()[1] - campos[1],
+					target->getLife().getTargetPosition()[2] - campos[2]);
+
+				model->draw(distance);
+			}
 			break;
 		case Type2D:
 			model->draw2d();
