@@ -52,6 +52,7 @@ Added: nocollision, nodamageburn, nofalling, displaydamage and displayshadow att
 Added: New Plan map and buoys drawn on map
 Added: Server log page on web admin can auto-refresh
 Added: updateposition attribute to weapon translation/redirection primitives
+Added: minsize and maxsize attributes to tree placement type to control scale
 
 Fixed: Teleports with groundonly set to false should function correctly in caverns
 Fixed: Cleaned up tank state machine
