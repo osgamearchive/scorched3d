@@ -30,7 +30,9 @@
 #include <target/TargetState.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectTree::PlacementObjectTree() : border_(0.0f)
+PlacementObjectTree::PlacementObjectTree() : 
+	border_(0.0f),
+	minsize_(1.0f), maxsize_(3.0f)
 {
 }
 
@@ -175,6 +177,8 @@ bool PlacementObjectTree::readXML(XMLNode *node)
 	node->getNamedChild("border", border_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
 	node->getNamedChild("burnaction", burnaction_, false);
+	node->getNamedChild("minsize", minsize_, false);
+	node->getNamedChild("maxsize", maxsize_, false);
 
 	if (!shadow_.readXML(node, ".")) return false;
 	if (!group_.readXML(node)) return false;
@@ -191,7 +195,7 @@ void PlacementObjectTree::createObject(ScorchedContext &context,
 
 	bool useSnow = (position.position[2] > snow_ + (generator.getRandFloat() * 10.0f) - 5.0f);
 	float color = generator.getRandFloat() * 0.5f + 0.5f;
-	float size = generator.getRandFloat() * 2.0f + 1.0f;
+	float size = generator.getRandFloat() * (maxsize_ - minsize_) + minsize_;
 	float rotation = generator.getRandFloat() * 360.0f;
 
 	{

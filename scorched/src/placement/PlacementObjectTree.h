@@ -79,6 +79,7 @@ protected:
 	std::string removeaction_;
 	float snow_;
 	float border_;
+	float minsize_,	maxsize_;
 
 	bool getTypes(const char *type, bool snow, 
 		TreeType &normalType, TreeType &burntType);
