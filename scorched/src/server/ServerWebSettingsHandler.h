@@ -51,6 +51,22 @@ namespace ServerWebSettingsHandler
 			std::map<std::string, std::string> &fields,
 			std::string &text);
 	};
+
+	class SettingsMainHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
+
+	class SettingsModHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::string &text);
+	};
 };
 
 #endif // __INCLUDE_ServerWebSettingsHandlerh_INCLUDE__

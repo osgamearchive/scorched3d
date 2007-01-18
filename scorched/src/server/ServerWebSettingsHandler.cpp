@@ -31,6 +31,7 @@
 #include <common/OptionsGame.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
+#include <engine/ModDirs.h>
 #include <tankai/TankAINames.h>
 #include <XML/XMLParser.h>
 #include <vector>
@@ -203,6 +204,8 @@ bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char
 			std::string value = "";
 
 			value.append("<tr><td>");
+			value.append(entry->getName());
+			value.append("</td><td>");
 			value.append(formatString("<select name='%s'>", entry->getName()));
 			std::list<std::string> &ais = tankAIStore.getAis();
 			std::list<std::string>::iterator aiitor;
@@ -376,4 +379,89 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 	}
 
 	return ServerWebServer::getHtmlTemplate("settingsall.html", fields, text);
+}
+
+bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	std::list<OptionEntry *>::iterator itor;
+	std::list<OptionEntry *> &options = 
+		ScorchedServer::instance()->getOptionsGame().
+			getChangedOptions().getOptions();
+
+	const char *action = getField(fields, "action");
+	if (action && 0 == strcmp(action, "Load"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			readOptionsFromFile((char *) ServerParams::instance()->getServerFile());
+	}
+	else
+	{
+		// Check if any changes have been made
+		setValues(fields);
+	}
+
+	if (action && 0 == strcmp(action, "Save"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
+	}
+
+	return ServerWebServer::getHtmlTemplate("settingsmain.html", fields, text);
+}
+
+bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::string &text)
+{
+	std::list<OptionEntry *>::iterator itor;
+	std::list<OptionEntry *> &options = 
+		ScorchedServer::instance()->getOptionsGame().
+			getChangedOptions().getOptions();
+
+	const char *action = getField(fields, "action");
+	if (action && 0 == strcmp(action, "Load"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			readOptionsFromFile((char *) ServerParams::instance()->getServerFile());
+	}
+	else
+	{
+		// Check if any changes have been made
+		setValues(fields);
+	}
+
+	ModDirs modDirs;
+	if (modDirs.loadModDirs())
+	{
+		OptionEntryString &modOption = 
+			ScorchedServer::instance()->getOptionsGame().getChangedOptions().getModEntry();
+
+		std::string mods;
+		std::list<ModInfo>::iterator itor;
+		for (itor = modDirs.getDirs().begin();
+			itor != modDirs.getDirs().end();
+			itor++)
+		{
+			ModInfo &modInfo = (*itor);
+
+			mods.append(formatString("<tr><td>%s</td><td>%s</td><td><input type='radio' name='%s' %s value='%s'></input></td>\n",
+				modInfo.getName(),
+				modInfo.getDescription(),
+				modOption.getName(),
+				((0 == strcmp(modOption.getValueAsString(), modInfo.getName()))?"checked":""),
+				modInfo.getName()));
+		}
+
+		fields["MODS"] = mods;
+	}
+
+	if (action && 0 == strcmp(action, "Save"))
+	{
+		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
+			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
+	}
+
+	return ServerWebServer::getHtmlTemplate("settingsmod.html", fields, text);
 }

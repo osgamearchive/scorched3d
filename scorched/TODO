@@ -37,7 +37,7 @@ Added: Web management authentication failure reponse is delayed before sending b
 Added: Web management sessions view to show logged in web admins
 Added: Web management exit when empty option (to exit server when no one is playing)
 Added: Web management log file search feature for finding strings in log files
-Added: Web management landscape settings dialog
+Added: Web management landscape, main, players, mods settings dialogs
 Added: DebugFeatures option for server.xml to disable InfoGrid
 Added: New wall types: WallActive and WallInactive
 Added: botonly option for accessories (ie: only for bots, not for AI objects)

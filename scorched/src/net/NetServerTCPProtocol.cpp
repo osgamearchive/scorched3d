@@ -382,7 +382,7 @@ NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket, unsigned int
 		len += 1;
 		
 		// Check for the end of the HTTP header
-		if (len > 4)
+		if (len > 4 && dataLen == 0)
 		{
 			if (netBuffer->getBuffer().getBuffer()[len - 4] == '\r' &&
 				netBuffer->getBuffer().getBuffer()[len - 3] == '\n' &&
@@ -409,7 +409,7 @@ NetMessage *NetServerHTTPProtocolRecv::readBuffer(TCPsocket socket, unsigned int
 			
 		}
 		
-		if (len == dataLen) break;
+		if (len >= dataLen && dataLen != 0) break;
 	}
 	NetInterface::getBytesIn() += len;
 

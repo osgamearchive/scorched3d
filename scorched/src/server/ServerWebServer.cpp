@@ -57,9 +57,11 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
 	addRequestHandler("/sessions", new ServerWebHandler::SessionsHandler());
+	addRequestHandler("/settingsmain", new ServerWebSettingsHandler::SettingsMainHandler());
 	addRequestHandler("/settingsall", new ServerWebSettingsHandler::SettingsAllHandler());
 	addRequestHandler("/settingslandscape", new ServerWebSettingsHandler::SettingsLandscapeHandler());
 	addRequestHandler("/settingsplayers", new ServerWebSettingsHandler::SettingsPlayersHandler());
+	addRequestHandler("/settingsmod", new ServerWebSettingsHandler::SettingsModHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -399,19 +401,41 @@ bool ServerWebServer::validateUser(
 	// Create a session for the authenticated user
 	if (authenticated)
 	{
+		unsigned int sid = 0;
+
+		// Try to find an existing session for this user
+		std::map<unsigned int, SessionParams>::iterator itor;
+		for (itor = sessions_.begin();
+			itor != sessions_.end();
+			itor++)
+		{
+			SessionParams &params = (*itor).second;
+			if (0 == strcmp(params.userName.c_str(), fields["name"].c_str()))
+			{
+				// Found one
+				sid = (*itor).first;
+				break;
+			}
+		}
+
+		// Generate a sid if we didn't find an existing login
+		if (sid == 0)
+		{
+			// Generate a new unique session id
+			do 
+			{
+				sid = rand();
+			} while (sessions_.find(sid) != sessions_.end());
+		}
+
+		// Update the session params
 		SessionParams params;
 		params.sessionTime = currentTime;
 		params.userName = fields["name"];
 		params.ipAddress = ip;
-
-		// Generate a new unique session id
-		unsigned int sid = 0;
-		do 
-		{
-			sid = rand();
-		} while (sessions_.find(sid) != sessions_.end());
-		
 		sessions_[sid] = params;
+
+		// Set the sid for use in the html templates
 		fields["sid"] = formatString("%u", sid);
 
 		ServerCommon::sendString(0,
@@ -525,7 +549,8 @@ bool ServerWebServer::getTemplate(
 						// Then in the scorched3d settings
 						std::list<OptionEntry *>::iterator itor;
 						std::list<OptionEntry *> &options = 
-							ScorchedServer::instance()->getOptionsGame().getOptions();
+							ScorchedServer::instance()->getOptionsGame().
+								getChangedOptions().getOptions();
 						for (itor = options.begin();
 							itor != options.end();
 							itor++)
