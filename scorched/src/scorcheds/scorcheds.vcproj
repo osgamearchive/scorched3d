@@ -1034,6 +1034,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerWebSettingsHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerWebSettingsHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerWebServer.cpp"
 				>
 			</File>
@@ -2187,6 +2195,14 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIStore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAINames.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAINames.h"
 				>
 			</File>
 			<File

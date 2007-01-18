@@ -23,6 +23,7 @@
 #include <time.h>
 #include <server/ServerWebServer.h>
 #include <server/ServerWebHandler.h>
+#include <server/ServerWebSettingsHandler.h>
 #include <server/ServerCommon.h>
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
@@ -52,12 +53,13 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
 	addRequestHandler("/server", new ServerWebHandler::ServerHandler());
-	addRequestHandler("/settingsall", new ServerWebHandler::SettingsAllHandler());
-	addRequestHandler("/settingslandscape", new ServerWebHandler::SettingsLandscapeHandler());
 	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
 	addRequestHandler("/sessions", new ServerWebHandler::SessionsHandler());
+	addRequestHandler("/settingsall", new ServerWebSettingsHandler::SettingsAllHandler());
+	addRequestHandler("/settingslandscape", new ServerWebSettingsHandler::SettingsLandscapeHandler());
+	addRequestHandler("/settingsplayers", new ServerWebSettingsHandler::SettingsPlayersHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -529,12 +531,25 @@ bool ServerWebServer::getTemplate(
 							itor++)
 						{
 							OptionEntry *entry = (*itor);
-							if ((strcmp(entry->getName(), name) == 0) &&
-								!(entry->getData() & OptionEntry::DataProtected))
+							if (!(entry->getData() & OptionEntry::DataProtected))
 							{
-								result += entry->getValueAsString();
+								if (strcmp(entry->getName(), name) == 0)
+								{
+									result += entry->getValueAsString();
+								}
+								else
+								{
+									std::string newName(entry->getName());
+									newName.append("_set");
+									if (strcmp(newName.c_str(), name) == 0)
+									{
+										std::string value;
+										ServerWebSettingsHandler::generateSettingValue(entry,value);
+										result += value;
+									}
+								}
 							}
-						}
+						}						
 					}
 				}
 				else

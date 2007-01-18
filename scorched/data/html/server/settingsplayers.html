@@ -1,0 +1,30 @@
+#include header.html 
+
+#include menu.html
+
+#include settingsmenu.html
+
+<form method="post">
+<table align="center" border="0">
+	<tr>
+		<td align="center">Startup Player Settings<br>
+	</tr>
+	<tr>
+		<td>
+			<input type="hidden" name="sid" value="[[sid]]"> 
+			<table border="0" width="400">
+				[[PLAYERS]]
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td align="Left">
+			<input type="submit" name="action" value="Set"> <i>Set these settings as the server current settings.</i><br>
+			<input type="submit" name="action" value="Load"> <i>Load settings from server.xml file.</i><br>
+			<input type="submit" name="action" value="Save"> <i>Save settings to server.xml file.</i><br>
+		</td>
+	</tr>
+</table>
+</form>
+
+#include footer.html

@@ -107,6 +107,7 @@ scorcheddatahtmlserver_DATA = data/html/server/player.html \
 	data/html/server/settingsall.html \
 	data/html/server/game.html \
 	data/html/server/menu.html \
+	data/html/server/settingsplayers.html \
 	data/html/server/settingslandscape.html \
 	data/html/server/settingsmenu.html \
 	data/html/server/mods.html \

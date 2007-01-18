@@ -18,15 +18,17 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerWebHandlerh_INCLUDE__)
-#define __INCLUDE_ServerWebHandlerh_INCLUDE__
+#if !defined(__INCLUDE_ServerWebSettingsHandlerh_INCLUDE__)
+#define __INCLUDE_ServerWebSettingsHandlerh_INCLUDE__
 
 #include <server/ServerWebServer.h>
 
-namespace ServerWebHandler
+class OptionEntry;
+namespace ServerWebSettingsHandler
 {
+	void generateSettingValue(OptionEntry *entry, std::string &value);
 
-	class PlayerHandler : public ServerWebServerI
+	class SettingsAllHandler : public ServerWebServerI
 	{
 	public:
 		virtual bool processRequest(const char *url,
@@ -34,7 +36,7 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
-	class LogFileHandler : public ServerWebServerI
+	class SettingsPlayersHandler : public ServerWebServerI
 	{
 	public:
 		virtual bool processRequest(const char *url,
@@ -42,55 +44,7 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
-	class LogHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::string &text);
-	};
-
-	class GameHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::string &text);
-	};
-
-	class ServerHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::string &text);
-	};
-
-	class TalkHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::string &text);
-	};
-
-	class BannedHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::string &text);
-	};
-
-	class ModsHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::string &text);
-	};
-
-	class SessionsHandler : public ServerWebServerI
+	class SettingsLandscapeHandler : public ServerWebServerI
 	{
 	public:
 		virtual bool processRequest(const char *url,
@@ -99,4 +53,4 @@ namespace ServerWebHandler
 	};
 };
 
-#endif // __INCLUDE_ServerWebHandlerh_INCLUDE__
+#endif // __INCLUDE_ServerWebSettingsHandlerh_INCLUDE__

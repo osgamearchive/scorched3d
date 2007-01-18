@@ -212,6 +212,8 @@ scorched3dc_SOURCES = \
 	../server/ServerTooFewPlayersStimulus.h \
 	../server/ServerWebHandler.cpp \
 	../server/ServerWebHandler.h \
+	../server/ServerWebSettingsHandler.cpp \
+	../server/ServerWebSettingsHandler.h \
 	../server/ServerWebServer.cpp \
 	../server/ServerWebServer.h \
 	../server/TurnController.cpp \
@@ -501,6 +503,8 @@ scorched3dc_SOURCES = \
 	../tankai/TankAIHumanCtrl.h \
 	../tankai/TankAIStore.cpp \
 	../tankai/TankAIStore.h \
+	../tankai/TankAINames.cpp \
+	../tankai/TankAINames.h \
 	../tankai/TankAIStrings.cpp \
 	../tankai/TankAIStrings.h \
 	../target/Target.cpp \
