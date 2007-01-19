@@ -32,6 +32,7 @@
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <engine/ModDirs.h>
+#include <engine/ModFiles.h>
 #include <tankai/TankAINames.h>
 #include <XML/XMLParser.h>
 #include <vector>
@@ -173,6 +174,7 @@ void ServerWebSettingsHandler::generateSettingValue(OptionEntry *entry, std::str
 
 bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	const char *action = getField(fields, "action");
@@ -236,6 +238,7 @@ bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char
 
 bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	const char *action = getField(fields, "action");
@@ -322,6 +325,7 @@ bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const ch
 
 bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::list<OptionEntry *>::iterator itor;
@@ -383,6 +387,7 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 
 bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::list<OptionEntry *>::iterator itor;
@@ -413,6 +418,7 @@ bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *u
 
 bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::list<OptionEntry *>::iterator itor;
@@ -432,6 +438,42 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 		setValues(fields);
 	}
 
+	// Import/upload a mod (if specified)
+	if (!parts.empty())
+	{
+		std::map<std::string, NetMessage *>::iterator modupload =
+			parts.find("modupload");
+		if (modupload != parts.end())
+		{
+			NetMessage *message = (*modupload).second;
+			ModFiles files;
+			const char *mod = 0;
+			if (files.importModFiles(&mod, message->getBuffer()))
+			{
+				if (files.writeModFiles(mod))
+				{
+					return ServerWebServer::getHtmlMessage(
+						"Mod Upload", 
+						formatString("Successfuly uploaded and imported mod %s",
+						(mod?mod:"Unknown")), fields, text);
+				}
+				else
+				{
+					return ServerWebServer::getHtmlMessage(
+						"Mod Upload", 
+						"Failed to write mod files to disk", fields, text);
+				}
+			}
+			else
+			{
+				return ServerWebServer::getHtmlMessage(
+					"Mod Upload", 
+					"Failed to load mod files from network", fields, text);
+			}
+		}
+	}
+
+	// Display the list of mods, and the displayed the currently selected mod
 	ModDirs modDirs;
 	if (modDirs.loadModDirs())
 	{

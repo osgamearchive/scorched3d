@@ -31,6 +31,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -39,6 +40,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -47,6 +49,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -55,6 +58,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -63,6 +67,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -71,6 +76,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -79,6 +85,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -87,6 +94,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
@@ -95,6 +103,7 @@ namespace ServerWebHandler
 	public:
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 };

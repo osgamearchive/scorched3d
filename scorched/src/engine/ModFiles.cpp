@@ -321,7 +321,12 @@ bool ModFiles::importModFiles(const char **mod, const char *fileName)
 	{
 		tmpBuffer.addDataToBuffer(readBuf, size);
 	}
+	fclose(in);
+	return importModFiles(mod, tmpBuffer);
+}
 
+bool ModFiles::importModFiles(const char **mod, NetBuffer &tmpBuffer)
+{
 	// Mod Name
 	static std::string modName;
 	std::string version;
@@ -370,6 +375,5 @@ bool ModFiles::importModFiles(const char **mod, const char *fileName)
 		files_[name] = entry;
 	}
 
-	fclose(in);
 	return true;
 }

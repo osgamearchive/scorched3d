@@ -99,6 +99,7 @@ static std::string concatLines(std::list<std::string> &lines)
 
 bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	// Check for an add
@@ -163,15 +164,17 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				{
 					std::list<std::string> aliases =
 						StatsLogger::instance()->getAliases(tank);
-					fields["MESSAGE"] = concatLines(aliases);
-					return ServerWebServer::getHtmlTemplate("message.html", fields, text);
+					std::string lines = concatLines(aliases);
+					return ServerWebServer::getHtmlMessage(
+						"ShowAliases", lines.c_str(), fields, text);
 				}
 				else if (0 == strcmp(action, "ShowIPAliases"))
 				{
 					std::list<std::string> aliases =
 						StatsLogger::instance()->getIpAliases(tank);
-					fields["MESSAGE"] = concatLines(aliases);
-					return ServerWebServer::getHtmlTemplate("message.html", fields, text);
+					std::string lines = concatLines(aliases);
+					return ServerWebServer::getHtmlMessage(
+						"ShowIPAliases", lines.c_str(), fields, text);
 				}
 				else
 				{
@@ -237,6 +240,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 
 bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::deque<ServerLog::ServerLogEntry> &entries = 
@@ -294,6 +298,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 
 bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::deque<ServerLog::ServerLogEntry> &entries = 
@@ -399,6 +404,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 
 bool ServerWebHandler::GameHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	// Check for any action
@@ -440,6 +446,7 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 
 bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	// Check for any action
@@ -468,6 +475,7 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 
 bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	const char *say = getField(fields, "text");
@@ -513,6 +521,7 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 
 bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	const char *action = getField(fields, "action");
@@ -566,6 +575,7 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 
 bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::string modfiles;
@@ -593,6 +603,7 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 
 bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	// Sessions Entries

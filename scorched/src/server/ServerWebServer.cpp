@@ -114,6 +114,68 @@ void ServerWebServer::processMessages()
 	netServer_.processMessages();
 }
 
+static const char *strstrlen(const char *start, const char *find, int size)
+{
+	int findsize = strlen(find);
+	const char *current = start;
+	for (int i=0; i<size - findsize; i++, current++)
+	{
+		bool found = true;
+		for (int j=0; j<findsize; j++)
+		{
+			if (current[j] != find[j])
+			{
+				found = false;
+				break;
+			}
+		}
+		if (found) return current;
+	}
+	return 0;
+}
+
+static void extractMultiPartPost(const char *start, 
+	const char *boundry, int sizeleft, std::map<std::string, NetMessage *> &parts)
+{
+	int boundrylen = strlen(boundry);
+	while (true)
+	{
+		// Find the first boundry
+		const char *first = strstrlen(start, boundry, sizeleft);
+		if (!first) return;
+
+		// We've now got less to search
+		first += boundrylen;
+		sizeleft -= first - start; 
+		start = first;
+
+		// Find the name
+		const char *namestart = strstrlen(start, "name=\"", sizeleft); 
+		if (!namestart) return;
+		namestart += 6;
+		const char *nameend = strstrlen(namestart, "\"", sizeleft);
+		if (!nameend) return;
+		if (nameend-namestart < 1) return;
+		std::string name(namestart, nameend - namestart);
+
+		// Find the data start
+		const char *data = strstrlen(start, "\r\n\r\n", sizeleft);
+		if (!data) return;
+		data += 4;
+
+		// Find the second boundry
+		const char *second = strstrlen(start, boundry, sizeleft);
+		if (!second) return;
+
+		// The message is from data to second
+		int messagelen = second - data;
+		NetMessage *message = NetMessagePool::instance()->getFromPool(
+			NetMessage::BufferMessage, 0, 0, 0);
+		message->getBuffer().addDataToBuffer(data, messagelen);
+		parts[name] = message;
+	}
+}
+
 static void extractQueryFields(std::map<std::string, std::string> &fields, char *sep)
 {
 	char *token = strtok(sep, "&");
@@ -160,6 +222,10 @@ void ServerWebServer::processMessage(NetMessage &message)
 	if (message.getMessageType() == NetMessage::BufferMessage)
 	{
 		// We have received a request for the web server
+
+		// Add a NULL to the end of the buffer so we can 
+		// do string searches on it and they dont run out of
+		// the buffer.
 		message.getBuffer().addToBuffer("");
 		const char *buffer = message.getBuffer().getBuffer();
 		
@@ -170,15 +236,49 @@ void ServerWebServer::processMessage(NetMessage &message)
 		if (get || post)
 		{
 			std::map<std::string, std::string> fields;
+			std::map<std::string, NetMessage *> parts;
 		
 			// Get POST query fields if any
 			if (post)
 			{
-				char *sep = (char *) strstr(buffer, "\r\n\r\n");
-				if (sep)
+				// Find the end of the header
+				char *headerend = (char *) strstr(buffer, "\r\n\r\n");
+				if (headerend)
 				{
-					sep += 4;
-					extractQueryFields(fields, sep);
+					// Try to find the multipart POST information
+					// in the header only
+					// (So make the headerend a null to bound the search)
+					headerend[0] = '\0';
+					const char *findStr = "Content-Type: multipart/form-data; boundary=";
+					const char *multipart = strstr(buffer, findStr);
+					headerend[0] = '\r';
+					if (multipart)
+					{
+						// We have a multipart message
+						// Get the boundry type
+						const char *boundryStart = multipart + strlen(findStr);
+						char *boundrysep = (char *) strstr(boundryStart, "\r\n");
+						if (boundrysep)
+						{
+							// Get the multi-part boundry
+							boundrysep[0] = '\0';
+							std::string boundry = boundryStart;
+							boundrysep[0] = '\r';
+
+							// Extract the multi-part data from after the header
+							headerend += 4; // Skip past /r/n/r/n
+							int headersize = headerend - buffer;
+							int sizeleft = message.getBuffer().getBufferUsed() - headersize;
+
+							extractMultiPartPost(headerend, boundry.c_str(), sizeleft, parts);
+						}
+					}
+					else
+					{
+						// Extract the query fields from after the header
+						headerend += 4; // Skip past /r/n/r/n
+						extractQueryFields(fields, headerend);
+					}
 				}
 			}
 		
@@ -242,8 +342,18 @@ void ServerWebServer::processMessage(NetMessage &message)
 					
 					// Process request
 					const char *ipaddress = NetInterface::getIpName(message.getIpAddress());
-					ok = processRequest(message.getDestinationId(), ipaddress, url, fields);
+					ok = processRequest(message.getDestinationId(), ipaddress, url, fields, parts);
 				}
+			}
+
+			// Add any message parts back to the pool
+			std::map<std::string, NetMessage *>::iterator partitor;
+			for (partitor = parts.begin();
+				partitor != parts.end();
+				partitor++)
+			{
+				NetMessage *newMessage = (*partitor).second;
+				NetMessagePool::instance()->addToPool(newMessage);
 			}
 		}
 
@@ -263,7 +373,8 @@ bool ServerWebServer::processRequest(
 	unsigned int destinationId,
 	const char *ip,
 	const char *url,
-	std::map<std::string, std::string> &fields)
+	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts)
 {
 	bool delayed = false; // Set delayed on authentication failure
 	std::string text;
@@ -292,7 +403,7 @@ bool ServerWebServer::processRequest(
 		if (validateSession(ip, url, fields))
 		{
 			// The session is valid, show the page
-			if (!generatePage(url, fields, text)) return false;
+			if (!generatePage(url, fields, parts, text)) return false;
 		}
 		else
 		{
@@ -449,6 +560,7 @@ bool ServerWebServer::validateUser(
 bool ServerWebServer::generatePage(
 	const char *url,
 	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	std::map <std::string, ServerWebServerI *>::iterator itor =
@@ -456,7 +568,7 @@ bool ServerWebServer::generatePage(
 	if (itor == handlers_.end()) return false;
 
 	ServerWebServerI *handler = (*itor).second;
-	return handler->processRequest(url, fields, text);
+	return handler->processRequest(url, fields, parts, text);
 }
 
 void ServerWebServer::getHtmlRedirect(
@@ -591,3 +703,13 @@ bool ServerWebServer::getTemplate(
 	return true;
 }
 
+bool ServerWebServer::getHtmlMessage(
+	const char *title,
+	const char *text,
+	std::map<std::string, std::string> &fields,
+	std::string &result)
+{
+	fields["MESSAGE"] = text;
+	fields["TITLE"] = title;
+	return getHtmlTemplate("message.html", fields, result);
+}

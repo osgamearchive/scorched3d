@@ -33,6 +33,7 @@ public:
 
 	bool exportModFiles(const char *mod, const char *fileName);
 	bool importModFiles(const char **mod, const char *fileName);
+	bool importModFiles(const char **mod, NetBuffer &buffer);
 
 	bool loadModFiles(const char *mod, bool createDir, 
 		ProgressCounter *counter = 0);

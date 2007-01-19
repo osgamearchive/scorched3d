@@ -31,6 +31,7 @@ class ServerWebServerI
 public:
 	virtual bool processRequest(const char *url,
 		std::map<std::string, std::string> &fields,
+		std::map<std::string, NetMessage *> &parts,
 		std::string &text) = 0;
 };
 
@@ -65,6 +66,11 @@ public:
 	static void getHtmlRedirect(
 		const char *url,
 		std::string &result);
+	static bool getHtmlMessage(
+		const char *title,
+		const char *text,
+		std::map<std::string, std::string> &fields,
+		std::string &result);
 
 protected:
 	static ServerWebServer *instance_;
@@ -78,7 +84,8 @@ protected:
 		unsigned int destinationId,
 		const char *ip,
 		const char *url,
-		std::map<std::string, std::string> &fields);
+		std::map<std::string, std::string> &fields,
+		std::map<std::string, NetMessage *> &parts);
 	bool validateUser(
 		const char *ip,
 		const char *url,
@@ -90,6 +97,7 @@ protected:
 	bool generatePage(
 		const char *url,
 		std::map<std::string, std::string> &fields,
+		std::map<std::string, NetMessage *> &parts,
 		std::string &text);
 
 	// Inherited from NetMessageHandlerI
