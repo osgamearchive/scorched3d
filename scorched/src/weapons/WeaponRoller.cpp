@@ -33,7 +33,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
 WeaponRoller::WeaponRoller() : 
-	shieldHurtFactor_(0.0f), windFactor_(1.0f)
+	shieldHurtFactor_(0.0f), windFactor_(1.0f), maintainVelocity_(false)
 {
 
 }
@@ -58,6 +58,9 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 
 	// Get the wind factor (if any)
 	accessoryNode->getNamedChild("windfactor", windFactor_, false);
+
+	// Get the maintianvelocity (if any)
+	accessoryNode->getNamedChild("maintainvelocity", maintainVelocity_, false);
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;
@@ -146,13 +149,13 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 			}
 		}
 		
-		addRoller(context, weaponContext, position);
+		addRoller(context, weaponContext, position, velocity);
 	}
 }
 
 void WeaponRoller::addRoller(ScorchedContext &context,
 	WeaponFireContext &weaponContext,
-	Vector &position)
+	Vector &position, Vector &velocity)
 {
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
@@ -161,11 +164,18 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 		position[0] < context.landscapeMaps->getGroundMaps().getMapWidth() - 1 &&
 		position[1] < context.landscapeMaps->getGroundMaps().getMapHeight() - 1)
 	{
-		float velx = random.getRandFloat() - 0.5f;
-		float vely = random.getRandFloat() - 0.5f;
-		float velz = random.getRandFloat() * 2.0f;
-		Vector velocity(velx, vely, velz);
+		Vector newVelocity;
+		if (maintainVelocity_)
+		{
+			newVelocity = velocity;
+		}
+		else
+		{
+			newVelocity[0] = random.getRandFloat() - 0.5f;
+			newVelocity[1] = random.getRandFloat() - 0.5f;
+			newVelocity[2] = random.getRandFloat() * 2.0f;
+		}
 		context.actionController->addAction(
-			new ShotBounce(this, position, velocity, weaponContext));
+			new ShotBounce(this, position, newVelocity, weaponContext));
 	}
 }

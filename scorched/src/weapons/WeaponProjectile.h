@@ -59,6 +59,8 @@ public:
 	float getSmokeLife() { return smokeLife_; }
 	float getSmokeStartSize() { return smokeStartSize_; }
 	float getSmokeEndSize() { return smokeEndSize_; }
+	float getThrustAmount() { return thrustAmount_; }
+	float getThrustTime() { return thrustTime_; }
 	Vector &getFlameStartColor1() { return flameStartColor1_; }
 	Vector &getFlameStartColor2() { return flameStartColor2_; }
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
@@ -78,6 +80,7 @@ protected:
 	float flameLife_, smokeLife_;
 	float flameStartSize_, flameEndSize_;
 	float smokeStartSize_, smokeEndSize_;
+	float thrustTime_, thrustAmount_;
 	float timedCollision_;
 	float shieldHurtFactor_;
 	float scale_;

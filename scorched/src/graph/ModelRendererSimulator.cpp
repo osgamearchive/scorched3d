@@ -36,14 +36,14 @@ ModelRendererSimulator::~ModelRendererSimulator()
 {
 }
 
-void ModelRendererSimulator::drawBottomAligned()
+void ModelRendererSimulator::drawBottomAligned(float fade)
 {
-	renderer_->drawBottomAligned(currentFrame_);
+	renderer_->drawBottomAligned(currentFrame_, fade);
 }
 
-void ModelRendererSimulator::draw()
+void ModelRendererSimulator::draw(float fade)
 {
-	renderer_->draw(currentFrame_);
+	renderer_->draw(currentFrame_, fade);
 }
 
 void ModelRendererSimulator::simulate(float frameTime)

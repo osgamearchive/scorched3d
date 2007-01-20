@@ -23,6 +23,7 @@
 #define __INCLUDE_SpeedChangeh_INCLUDE__
 
 #include <engine/GameStateI.h>
+#include <common/Clock.h>
 
 class SpeedChange : public GameStateI
 {
@@ -32,6 +33,7 @@ public:
 	void resetSpeed();
 
 	virtual void draw(const unsigned state);
+	virtual void simulate(const unsigned state, float simTime);
 	virtual void keyboardCheck(const unsigned state, float frameTime, 
 							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
@@ -40,6 +42,7 @@ public:
 protected:
 	static SpeedChange *instance_;
 	void setSpeed(float speed);
+	Clock frameClock_;
 
 private:
 	SpeedChange();

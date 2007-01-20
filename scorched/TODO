@@ -54,7 +54,12 @@ Added: New Plan map and buoys drawn on map
 Added: Server log page on web admin can auto-refresh
 Added: updateposition attribute to weapon translation/redirection primitives
 Added: minsize and maxsize attributes to tree placement type to control scale
+Added: WeaponGroupSelect to allow weapons to select target from groups (e.g. boids weapons)
+Added: thrusttime and thrustamount attributes to WeaponProjectile to simulate missile thrust
+Added: maintainvelocity attribute to WeaponRoller to allow rollers to main the previous weapons momentum
+Added: Objects that become very small are now culled (not drawn)
 
+Fixed: If client starts falling behind at 8x speed it will drop to 4x speed
 Fixed: Teleports with groundonly set to false should function correctly in caverns
 Fixed: Cleaned up tank state machine
 Fixed: MOTD and Rules dialogs reflect changes made while connected to server

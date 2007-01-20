@@ -442,7 +442,7 @@ void TargetCamera::mouseDrag(GameState::MouseButton button,
 				getGroundMaps().getMapWidth();
 			float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
 				getGroundMaps().getMapHeight();
-			mainCam_.scroll(float(-x), float(-y), mapWidth, mapHeight);
+			mainCam_.scroll(float(-x / 2), float(-y / 2), mapWidth, mapHeight);
 		}
 	}
 	else

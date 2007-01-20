@@ -161,6 +161,13 @@ void PhysicsParticleObject::checkCollision()
 			break;
 		}
 	}
+	else
+	{
+		if (info_.type_ == ParticleTypeBounce)
+		{
+			velocity_[2] = MIN(velocity_[2], 10.0f);
+		}
+	}
 }
 
 PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision(
@@ -278,8 +285,10 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkBounceCollisi
 {
 	switch(collision.collisionId)
 	{
-	case CollisionIdLandscape:
 	case CollisionIdRoof:
+		return CollisionActionNone;
+		break;
+	case CollisionIdLandscape:
 	case CollisionIdWallLeft:
 	case CollisionIdWallRight:
 	case CollisionIdWallTop:

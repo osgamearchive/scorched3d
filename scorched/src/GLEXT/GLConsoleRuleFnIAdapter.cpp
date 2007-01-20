@@ -68,6 +68,7 @@ GLConsoleRuleFnIOptionsAdapter::GLConsoleRuleFnIOptionsAdapter(
 		case OptionEntry::OptionEntryEnumType:
 		case OptionEntry::OptionEntryIntType:
 		case OptionEntry::OptionEntryBoundedIntType:
+		case OptionEntry::OptionEntryFloatType:
 			type = GLConsoleRuleTypeNumber;
 		break;
 		case OptionEntry::OptionEntryVectorType:

@@ -130,6 +130,19 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		}
 	}
 
+	// Thrust
+	if (getWeapon()->getThrustAmount() > 0.0f)
+	{
+		if (totalTime_ < getWeapon()->getThrustTime() ||
+			getWeapon()->getThrustTime() == 0.0f)
+		{
+			Vector direction = getCurrentVelocity();
+			direction.StoreNormalize();
+			direction *= getWeapon()->getThrustAmount();
+			applyForce(direction);
+		}
+	}
+
 	// Timed collision
 	if (getWeapon()->getTimedCollision() > 0.0f)
 	{

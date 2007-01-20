@@ -45,7 +45,7 @@ void ShotBounce::init()
 {
 	PhysicsParticleInfo info(ParticleTypeBounce, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		1.0f, 5.0f, weapon_->getWindFactor(), true);
+		1.0f, 5.0f, weapon_->getWindFactor(), false);
 
 	Vector lookatPos;
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());

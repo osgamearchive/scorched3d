@@ -45,7 +45,7 @@ protected:
 
 		VirtualSoundSource *soundSource;
 		LandscapeSoundType *soundType;
-		void *initData;
+		unsigned int initData;
 
 		float timeLeft;
 		bool removed;

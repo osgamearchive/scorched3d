@@ -489,9 +489,9 @@ ISectData BoidsObstacle::IntersectionWithRay(const BoidVector & raydirection,
 	result.normal.y = 0.0;
 	result.normal.z = 0.0;
 
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		position += direction;
+		position += direction * 4;
 		if (position[0] < minBounds_[0])
 		{
 			result.intersectionflag = 1;

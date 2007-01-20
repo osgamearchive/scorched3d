@@ -28,6 +28,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLInfo.h>
+#include <GLEXT/GLStateExtension.h>
 #include <GLW/GLWToolTip.h>
 #include <dialogs/TutorialDialog.h>
 #include <common/Vector4.h>
@@ -645,6 +646,18 @@ void TargetRendererImplTargetTree::draw(float distance)
 	if (!GLCameraFrustum::instance()->sphereInFrustum(
 		position, size_)) return;
 
+	// Figure out the drawing distance
+	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * size_ * 2.0f;
+	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
+	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
+	if (distance > drawDistance) return;
+	float fade = 1.0f;
+	if (distance > drawDistanceFadeStart)
+	{
+		fade = 1.0f - ((distance - drawDistanceFadeStart) / drawDistanceFade);
+	}
+
+	// Figure out which display list to call
 	GLuint treeList = 0;
 	GLuint smallTreeList = 0;
 	switch(burnt_?burntType_:normalType_)
@@ -811,6 +824,14 @@ void TargetRendererImplTargetTree::draw(float distance)
 	}
 	GLState glState(state);
 
+	bool useBlendColor = (GLStateExtension::hasBlendColor() && fade < 1.0f);
+	if (useBlendColor)
+	{
+		fade = MIN(1.0f, MAX(fade, 0.2f));
+		GLStateExtension::glBlendColorEXT()(0.0f, 0.0f, 0.0f, fade);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);
+	}
+
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
 		glRotatef(rotation_, 0.0f, 0.0f, 1.0f);
@@ -828,6 +849,12 @@ void TargetRendererImplTargetTree::draw(float distance)
 			GLInfo::addNoTriangles(10);
 		}
 	glPopMatrix();
+
+	// Turn off fading
+	if (useBlendColor)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
 }
 
 void TargetRendererImplTargetTree::draw2d()

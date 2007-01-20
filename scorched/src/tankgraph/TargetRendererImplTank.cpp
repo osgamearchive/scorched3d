@@ -153,16 +153,19 @@ void TargetRendererImplTank::draw(float distance)
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
 
-	// Figure out the drawing distance
-	//if (distance > 25000.0f) return;
-	float fade = 1.0f;
-	/*if (distance > 15000.0f)
-	{
-		fade = 1.0f - ((distance - 15000.0f) / 10000.0f);
-	}*/
-
 	// Get the model size
 	float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
+
+	// Figure out the drawing distance
+	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * modelSize * 2.0f;
+	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
+	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
+	if (distance > drawDistance) return;
+	float fade = 1.0f;
+	if (distance > drawDistanceFadeStart)
+	{
+		fade = 1.0f - ((distance - drawDistanceFadeStart) / drawDistanceFade);
+	}
 
 	// Add the tank shadow
 	GLState currentState(GLState::TEXTURE_OFF);

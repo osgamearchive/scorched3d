@@ -37,6 +37,7 @@ WeaponProjectile::WeaponProjectile() :
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
 	flameStartSize_(0.5f), flameEndSize_(3.0f),
 	smokeStartSize_(0.5f), smokeEndSize_(4.0f),
+	thrustAmount_(0.0f), thrustTime_(0.0f),
 	engineSound_("data/wav/misc/rocket.wav"),
 	scale_(1.0f), flareType_(0)
 {
@@ -83,6 +84,10 @@ bool WeaponProjectile::parseXML(AccessoryCreateContext &context, XMLNode *access
 	accessoryNode->getNamedChild("flamestartcolor2", flameStartColor2_, false);
 	accessoryNode->getNamedChild("flameendcolor1", flameEndColor1_, false);
 	accessoryNode->getNamedChild("flameendcolor2", flameEndColor2_, false);
+
+	// Thrust
+	accessoryNode->getNamedChild("thrusttime", thrustTime_, false);
+	accessoryNode->getNamedChild("thrustamount", thrustAmount_, false);
 
 	// Get the smoke trails
 	XMLNode *smokeNode = 0;

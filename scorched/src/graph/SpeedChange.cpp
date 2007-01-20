@@ -69,6 +69,16 @@ void SpeedChange::draw(const unsigned state)
 	}
 }
 
+void SpeedChange::simulate(const unsigned state, float simTime)
+{
+	float speed = ScorchedClient::instance()->getActionController().getFast();
+	float timeTaken = frameClock_.getTimeDifference();
+	if (timeTaken > 0.2f && speed > 1.0f)
+	{
+		setSpeed(speed / 2.0f);
+	}
+}
+
 void SpeedChange::keyboardCheck(const unsigned state, float frameTime, 
 							   char *buffer, unsigned int keyState,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 

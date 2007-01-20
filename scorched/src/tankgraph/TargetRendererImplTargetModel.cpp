@@ -33,6 +33,7 @@
 #include <client/ScorchedClient.h>
 #include <engine/ActionController.h>
 #include <graph/ModelRendererStore.h>
+#include <graph/OptionsDisplay.h>
 
 TargetRendererImplTargetModel::TargetRendererImplTargetModel(Target *target,
 	ModelID model, ModelID burntModel, 
@@ -84,6 +85,18 @@ void TargetRendererImplTargetModel::draw(float distance)
 		return;
 	}
 
+	// Figure out the drawing distance
+	float size = target_->getLife().getAabbSize().Max();
+	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * size * 2.0f;
+	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
+	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
+	if (distance > drawDistance) return;
+	float fade = 1.0f;
+	if (distance > drawDistanceFadeStart)
+	{
+		fade = 1.0f - ((distance - drawDistanceFadeStart) / drawDistanceFade);
+	}
+
 	createParticle(target_);
 	storeTank2DPos();
 
@@ -93,7 +106,8 @@ void TargetRendererImplTargetModel::draw(float distance)
 		Landscape::instance()->getShadowMap().addCircle(
 			target_->getLife().getTargetPosition()[0], 
 			target_->getLife().getTargetPosition()[1], 
-			target_->getLife().getSize().Max() + 2.0f);
+			target_->getLife().getSize().Max() + 2.0f,
+			fade);
 	}
 
 	// Draw the tank model
@@ -107,8 +121,8 @@ void TargetRendererImplTargetModel::draw(float distance)
 			target_->getLife().getTargetPosition()[2]);
 		glMultMatrixf(rotMatrix);
 		glScalef(scale_, scale_, scale_);
-		if (burnt_) burntModelRenderer_->drawBottomAligned();
-		else modelRenderer_->drawBottomAligned();
+		if (burnt_) burntModelRenderer_->drawBottomAligned(fade);
+		else modelRenderer_->drawBottomAligned(fade);
 	glPopMatrix();
 }
 

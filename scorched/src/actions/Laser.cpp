@@ -28,6 +28,7 @@
 #include <target/TargetContainer.h>
 #include <target/TargetShield.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <GLEXT/GLState.h>
@@ -79,11 +80,12 @@ void Laser::simulate(float frameTime, bool &remove)
 			bool end = false;
 			while (!end)
 			{
-				std::map<unsigned int, Target *> &targets = 
-					context_->targetContainer->getTargets();
+				std::map<unsigned int, Target *> collisionTargets;
+				context_->targetSpace->getCollisionSet(pos, 
+					float(weapon_->getHurtRadius()), collisionTargets);
 				std::map<unsigned int, Target *>::iterator itor;
-				for (itor = targets.begin();
-					itor != targets.end();
+				for (itor = collisionTargets.begin();
+					itor != collisionTargets.end();
 					itor++)
 				{
 					Target *current = (*itor).second;

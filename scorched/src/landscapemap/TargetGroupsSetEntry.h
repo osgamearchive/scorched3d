@@ -30,7 +30,8 @@ public:
 	TargetGroupsSetEntry();
 	virtual ~TargetGroupsSetEntry();
 
-	TargetGroupEntry *getObject(int position);
+	TargetGroupEntry *getObjectByPos(int position);
+	TargetGroupEntry *getObjectById(unsigned int playerId);
 	bool hasObject(TargetGroupEntry *object);
 	bool hasObjectById(unsigned int playerId);
 	std::map<unsigned int, TargetGroupEntry *> &getObjects() { return objects_; }

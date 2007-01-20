@@ -306,12 +306,17 @@ void GLCamera::scroll(float x, float y,
 	Vector dir = lookAt_ - currentPosition_;
 	dir.StoreNormalize();
 
+	x *= zoom_ / 225.0f;
+	y *= zoom_ / 225.0f;
+
 	Vector left = dir * zvec;
+	left.StoreNormalize();
 	Vector up = left * zvec;
 	left *= x;
 	up *= y;
 	
 	wantedLookAt_ += left + up;
+	lookAt_ = wantedLookAt_;
 	currentPosition_ += left + up;
 
 	if (wantedLookAt_[0] < 0.0f) wantedLookAt_[0] = 0.0f;

@@ -52,10 +52,11 @@ protected:
 	float shieldHurtFactor_;
 	float windFactor_;
 	float time_;
+	bool maintainVelocity_;
 
 	void addRoller(ScorchedContext &context, 
 		WeaponFireContext &weaponContext,
-		Vector &position);
+		Vector &position, Vector &velocity);
 
 };
 

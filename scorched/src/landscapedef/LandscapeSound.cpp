@@ -38,7 +38,7 @@ bool LandscapeSoundPositionSet::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, void *data)
+bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, unsigned int data)
 {
 #ifndef S3D_SERVER
 	TargetGroupsGroupEntry *groupEntry =
@@ -47,8 +47,8 @@ bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, void *da
 	if (!groupEntry) return false;
 	if (groupEntry->getObjectCount() <= 0) return false;
 
-	TargetGroupEntry *obj = (TargetGroupEntry*) data;
-	if (!groupEntry->hasObject(obj)) return false;
+	TargetGroupEntry *obj = groupEntry->getObjectById(data);
+	if (!obj) return false;
 
 	Vector position = obj->getPosition();
 	Vector velocity = obj->getTarget()->getLife().getVelocity();
@@ -71,13 +71,17 @@ int LandscapeSoundPositionSet::getInitCount()
 	return 0;
 }
 
-void *LandscapeSoundPositionSet::getInitData(int count)
+unsigned int LandscapeSoundPositionSet::getInitData(int count)
 {
 #ifndef S3D_SERVER
 	TargetGroupsGroupEntry *groupEntry =
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getGroups().getGroup(
 			name.c_str());
-	if (groupEntry) return groupEntry->getObject(count);	
+	if (groupEntry)
+	{
+		unsigned int playerId = groupEntry->getObjectByPos(count)->getTarget()->getPlayerId();
+		return playerId;
+	}
 #endif
 
 	return 0;
@@ -90,7 +94,7 @@ bool LandscapeSoundPositionGroup::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source, void *data)
+bool LandscapeSoundPositionGroup::setPosition(VirtualSoundSource *source, unsigned int data)
 {
 #ifndef S3D_SERVER
 	Vector &cameraPos = 
@@ -133,7 +137,7 @@ bool LandscapeSoundPositionWater::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, void *data)
+bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, unsigned int data)
 {
 #ifndef S3D_SERVER
 	Vector &cameraPos = 
@@ -157,7 +161,7 @@ bool LandscapeSoundPositionAmbient::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source, void *data)
+bool LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source, unsigned int data)
 {
 #ifndef S3D_SERVER
 	source->setRelative();
@@ -173,7 +177,7 @@ bool LandscapeSoundPositionAbsoulte::readXML(XMLNode *node)
 	return node->failChildren();
 }
 
-bool LandscapeSoundPositionAbsoulte::setPosition(VirtualSoundSource *source, void *data)
+bool LandscapeSoundPositionAbsoulte::setPosition(VirtualSoundSource *source, unsigned int data)
 {
 #ifndef S3D_SERVER
 	source->setPosition(position);

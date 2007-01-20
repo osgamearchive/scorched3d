@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModelRendererSimulatorh_INCLUDE__)
-#define __INCLUDE_ModelRendererSimulatorh_INCLUDE__
+#if !defined(AFX_WeaponGroupSelect_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponGroupSelect_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
 
-class ModelRenderer;
-class ModelRendererSimulator
+#include <weapons/Weapon.h>
+
+class WeaponGroupSelect  : public Weapon
 {
 public:
-	ModelRendererSimulator(ModelRenderer *renderer);
-	virtual ~ModelRendererSimulator();
+	WeaponGroupSelect();
+	virtual ~WeaponGroupSelect();
 
-	void draw(float fade = 1.0f);
-	void drawBottomAligned(float fade = 1.0f);
-	void simulate(float frameTime);
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
-	ModelRenderer *getRenderer() { return renderer_; }
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+
+	REGISTER_ACCESSORY_HEADER(WeaponGroupSelect, AccessoryPart::AccessoryWeapon);
 
 protected:
-	ModelRenderer *renderer_;
+	std::string groupName_;
+	Weapon *nextAction_;
 
-	float currentFrame_;
 };
 
-#endif // __INCLUDE_ModelRendererSimulatorh_INCLUDE__
+#endif // !defined(AFX_WeaponGroupSelect_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+

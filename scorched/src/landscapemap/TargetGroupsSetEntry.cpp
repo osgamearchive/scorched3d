@@ -40,7 +40,15 @@ bool TargetGroupsSetEntry::removeObject(TargetGroupEntry *object)
 	return (objects_.erase(object->getTarget()->getPlayerId()) > 0);
 }
 
-TargetGroupEntry *TargetGroupsSetEntry::getObject(int position)
+TargetGroupEntry *TargetGroupsSetEntry::getObjectById(unsigned int playerId)
+{
+	std::map<unsigned int, TargetGroupEntry *>::iterator itor =
+		objects_.find(playerId);
+	if (itor == objects_.end()) return 0;
+	return (*itor).second;
+}
+
+TargetGroupEntry *TargetGroupsSetEntry::getObjectByPos(int position)
 {
 	int pos = position % int(objects_.size());
 	std::map<unsigned int, TargetGroupEntry *>::iterator itor;

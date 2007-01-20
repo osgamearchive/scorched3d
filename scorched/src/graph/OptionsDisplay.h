@@ -66,6 +66,12 @@ public:
 	int getBrightness() { return brightness_; }
 	OptionEntryInt &getBrightnessEntry() { return brightness_; }
 
+	float getDrawDistance() { return drawDistance_; }
+	OptionEntryFloat &getDrawDistanceEntry() { return drawDistance_; } ;
+
+	float getDrawDistanceFade() { return drawDistanceFade_; }
+	OptionEntryFloat &getDrawDistanceFadeEntry() { return drawDistanceFade_; } ;
+
 	bool getSmoothLines() { return smoothLines_; }
 	OptionEntryBool &getSmoothLinesEntry() { return smoothLines_; }
 
@@ -390,6 +396,8 @@ protected:
 	OptionEntryBool noSimulateParticles_;
 	OptionEntryBool drawNormals_;
 	OptionEntryBool drawLines_;
+	OptionEntryFloat drawDistance_;
+	OptionEntryFloat drawDistanceFade_;
 	OptionEntryBool drawCollisionGeoms_;
 	OptionEntryBool drawCollisionSpace_;
 	OptionEntryBool drawBoundingSpheres_;

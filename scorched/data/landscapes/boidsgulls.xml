@@ -36,4 +36,16 @@
 			<gain>1.0</gain>
 		</sound>
 	</sound>
+	<!--
+	<event>
+		<condition type="time">
+			<mintime>0.2</mintime>
+			<maxtime>0.4</maxtime>
+			<singletimeonly>false</singletimeonly>
+		</condition>
+		<action type="fireweapon">
+			<weapon>BoidsLaser</weapon>
+		</action>
+	</event>
+	-->
 </boids>
