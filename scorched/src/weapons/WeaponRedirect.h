@@ -42,7 +42,6 @@ protected:
 	float hredirect_, vredirect_;
 	bool habs_, vabs_;
 	Weapon *nextAction_;
-	bool updatePosition_;
 };
 
 #endif // !defined(AFX_WeaponRedirect_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

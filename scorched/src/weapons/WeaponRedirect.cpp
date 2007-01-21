@@ -52,9 +52,6 @@ bool WeaponRedirect::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("nextaction", subNode)) return false;
 	
-	// Check if position and velocity should be updated for future events
-	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
-	
 	// Check next weapon is correct type
 	AccessoryPart *accessory = context.getAccessoryStore()->
 		createAccessoryPart(context, parent_, subNode);
@@ -86,9 +83,5 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	
 	nextAction_->fireWeapon(context, weaponContext, position, newVelocity);
 
-	if (updatePosition_)
-        {
-		velocity = newVelocity;
-	}
 }
 

@@ -41,7 +41,7 @@ public:
 protected:
 	float velocityChange_;
 	Weapon *aimedWeapon_;
-	bool abs_, updatePosition_;
+	bool abs_,;
 
 };
 

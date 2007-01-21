@@ -44,7 +44,6 @@ public:
 protected:
 	float translateDist_;
 	Weapon *nextAction_;
-	bool updatePosition_;
 
 };
 

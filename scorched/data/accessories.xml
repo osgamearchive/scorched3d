@@ -1588,7 +1588,6 @@ and shields damaging the tank directly.</description>
 					<vabs>false</vabs>
 					<hredirect>10</hredirect>
 					<vredirect>0</vredirect>
-					<updateposition>true</updateposition>
 					<nextaction type="WeaponReference">
 						<weapon>Smoke Tracer</weapon>
 					</nextaction>

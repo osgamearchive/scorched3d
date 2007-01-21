@@ -40,7 +40,7 @@ public:
 
 protected:
 	float scatterpercentage_;
-	bool landonly_, landheight_, updatePosition_;
+	bool landonly_, landheight_;
 	Weapon *aimedWeapon_;
 
 };

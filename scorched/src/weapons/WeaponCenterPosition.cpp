@@ -55,9 +55,6 @@ bool WeaponCenterPosition::parseXML(AccessoryCreateContext &context, XMLNode *ac
 	}
 	nextAction_ = (Weapon*) accessory;
 
-	// Check if position and velocity should be updated for future events
-	accessoryNode->getNamedChild("updateposition", updatePosition_, false);
-
 	return true;
 }
 
@@ -74,8 +71,4 @@ void WeaponCenterPosition::fireWeapon(ScorchedContext &context,
 	
 	nextAction_->fireWeapon(context, weaponContext, newPositon, velocity);
 
-	if (updatePosition_)
-	{
-		position = newPositon;
-	}
 }

@@ -52,7 +52,6 @@ Added: Concept of a general include file to replace specific sound, movement, pl
 Added: nocollision, nodamageburn, nofalling, displaydamage and displayshadow attributes to targets.
 Added: New Plan map and buoys drawn on map
 Added: Server log page on web admin can auto-refresh
-Added: updateposition attribute to weapon translation/redirection primitives
 Added: minsize and maxsize attributes to tree placement type to control scale
 Added: WeaponGroupSelect to allow weapons to select target from groups (e.g. boids weapons)
 Added: thrusttime and thrustamount attributes to WeaponProjectile to simulate missile thrust
