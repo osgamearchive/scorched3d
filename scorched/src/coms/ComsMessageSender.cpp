@@ -98,6 +98,11 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 bool ComsMessageSender::sendToAllConnectedClients(
 	ComsMessage &message, unsigned int flags)
 {
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	if (tanks.empty()) return true;
+
 	if (!ScorchedServer::instance()->getNetInterface().started())
 	{
 		Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
@@ -112,10 +117,6 @@ bool ComsMessageSender::sendToAllConnectedClients(
 	std::set<unsigned int> destinations;
 	destinations.insert(0); // Make sure we don't send to dest 0
 	std::set<unsigned int>::iterator findItor;
-
-	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
@@ -146,6 +147,11 @@ bool ComsMessageSender::sendToAllConnectedClients(
 bool ComsMessageSender::sendToAllPlayingClients(
 	ComsMessage &message, unsigned int flags)
 {
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	if (tanks.empty()) return true;
+
 	if (!ScorchedServer::instance()->getNetInterface().started())
 	{
 		Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
@@ -160,10 +166,6 @@ bool ComsMessageSender::sendToAllPlayingClients(
 	std::set<unsigned int> destinations;
 	destinations.insert(0); // Make sure we don't send to dest 0
 	std::set<unsigned int>::iterator findItor;
-
-	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)

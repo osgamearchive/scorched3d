@@ -85,6 +85,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 #ifndef S3D_SERVER
 
 	// Read the height map data
+	int heightDiffs = 0, normalDiffs = 0;
 	HeightMap &map = ScorchedClient::instance()->getLandscapeMaps().
 		getGroundMaps().getHeightMap();
 	for (int y=0; y<map.getMapHeight(); y++)
@@ -98,18 +99,14 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 			if (!reader.getFromBuffer(sentheight)) return false;
 			if (!reader.getFromBuffer(sentnormal)) return false;
 			
-			if (actualheight != sentheight)
-			{
-				Logger::log(formatString("Height diff %i,%i %.2f %.2f", x, y, actualheight, sentheight));
-			}
-			if (actualnormal != sentnormal)
-			{
-				Logger::log(formatString("Normal diff %i,%i %f,%f,%f %f,%f,%f", 
-					x, y,
-					actualnormal[0], actualnormal[1],actualnormal[2],
-					sentnormal[0], sentnormal[1],sentnormal[2]));
-			}
+			if (actualheight != sentheight) heightDiffs++;
+			if (actualnormal != sentnormal) normalDiffs++;
 		}
+	}
+	if (heightDiffs > 0 || normalDiffs > 0)
+	{
+		Logger::log(formatString("Height diffs %i, Normal diffs %i",
+			heightDiffs, normalDiffs));
 	}
 
 	// Read the target data
@@ -132,14 +129,22 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		}
 
 		tmpBuffer.reset();
-		target->writeMessage(tmpBuffer);
+		if (target->isTarget())
+		{
+			target->writeMessage(tmpBuffer);
+		}
+		else
+		{
+			((Tank*)target)->writeMessage(tmpBuffer, true);
+		}
 		if (memcmp(
 			tmpBuffer.getBuffer(), &reader.getBuffer()[reader.getReadSize()], 
 			tmpBuffer.getBufferUsed()) != 0)
 		{
 			if (!target->getTargetState().getMovement())
 			{
-				Logger::log(formatString("Targets values differ : %u", playerId));
+				Logger::log(formatString("Targets values differ : %u:%s", 
+					playerId, target->getName()));
 			}
 		}
 
