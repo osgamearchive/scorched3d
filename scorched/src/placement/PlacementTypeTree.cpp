@@ -27,7 +27,8 @@
 #include <XML/XMLParser.h>
 #include <GLEXT/GLBitmap.h>
 
-PlacementTypeTree::PlacementTypeTree() : mincloseness(0.0f)
+PlacementTypeTree::PlacementTypeTree() : 
+	mincloseness(0.0f), maxobjects(2000)
 {
 }
 
@@ -43,6 +44,7 @@ bool PlacementTypeTree::readXML(XMLNode *node)
 	if (!node->getNamedChild("minheight", minheight)) return false;
 	if (!node->getNamedChild("maxheight", maxheight)) return false;
 	node->getNamedChild("mincloseness", mincloseness, false);
+	node->getNamedChild("maxobjects", maxobjects, false);
 	return PlacementType::readXML(node);
 }
 
@@ -177,7 +179,7 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 	// the map is stongest
 	int objectCount = 0;
 	const int NoIterations = numobjects;
-	for (int i=0; i<NoIterations; i++)
+	for (int i=0; i<NoIterations && objectCount < maxobjects; i++)
 	{
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
@@ -199,6 +201,7 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 
 			if (height > minheight + 0.5f)
 			{
+				objectCount ++;
 				Position position;
 				position.position[0] = lx;
 				position.position[1] = ly;

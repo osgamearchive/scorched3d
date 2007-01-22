@@ -37,6 +37,7 @@ public:
 		ProgressCounter *counter = 0);
 
 protected:
+	int maxobjects;
 	int numobjects;
 	int numclusters;
 	float minheight, maxheight;

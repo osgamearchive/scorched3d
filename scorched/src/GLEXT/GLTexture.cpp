@@ -108,12 +108,14 @@ bool GLTexture::createObject()
 {
 	if (!textureValid())
 	{
+		glGetError(); // Clear error indicator
+
 		GLfloat priority = 1.0f;
 		glGenTextures(1, &texNum_);
-
+		GLenum result = glGetError();
 		if (texNum_ == 0 ||
-			glGetError() == GL_INVALID_VALUE ||
-			glGetError() == GL_INVALID_OPERATION)
+			result == GL_INVALID_VALUE ||
+			result == GL_INVALID_OPERATION)
 		{
 			//DIALOG_ASSERT("Failed to create texture" == 0);
 			return false;

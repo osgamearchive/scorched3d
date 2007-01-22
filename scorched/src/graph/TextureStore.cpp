@@ -66,7 +66,7 @@ GLTexture *TextureStore::loadTexture(const char *name,
 		map = new GLBitmap((char *) name, (char *) aname, invert);
 		if (!map->getBits())
 		{
-			dialogMessage("Scorched3D load model texture", formatString(
+			dialogMessage("Scorched3D load texture", formatString(
 						  "Failed to load texture file \"%s\",\n"
 						  "alpha file \"%s\"",
 						  name,
@@ -79,7 +79,7 @@ GLTexture *TextureStore::loadTexture(const char *name,
 		map = new GLBitmap((char *) name);
 		if (!map->getBits())
 		{
-			dialogMessage("Scorched3D load model texture", formatString(
+			dialogMessage("Scorched3D load texture", formatString(
 						  "Failed to load texture file \"%s\"",
 						  name));
 			return 0;
@@ -101,7 +101,14 @@ GLTexture *TextureStore::loadTexture(const char *name,
 	GLenum format = GL_RGB;
 	if (aname[0]) format = GL_RGBA;
 	GLTexture *texture = new GLTexture;
-	if (!texture->create(*map, format)) return 0;
+	if (!texture->create(*map, format))
+	{
+		delete map;
+		dialogMessage("Scorched3D create texture", formatString(
+					  "Failed to create texture \"%s\"",
+					  name));
+		return 0;
+	}
 	delete map;
 
 	skins_[wholeName] = texture;

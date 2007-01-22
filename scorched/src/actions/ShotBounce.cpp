@@ -117,7 +117,7 @@ void ShotBounce::draw()
 				getCurrentPosition()[2]);
 			glMultMatrixf(rotMatrix);
 			glScalef(0.08f, 0.08f, 0.08f);
-			model_->draw();
+			model_->drawBottomAligned();
 		glPopMatrix();
 	}
 #endif // #ifndef S3D_SERVER

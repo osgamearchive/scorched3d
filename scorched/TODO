@@ -57,6 +57,7 @@ Added: WeaponGroupSelect to allow weapons to select target from groups (e.g. boi
 Added: thrusttime and thrustamount attributes to WeaponProjectile to simulate missile thrust
 Added: maintainvelocity attribute to WeaponRoller to allow rollers to main the previous weapons momentum
 Added: Objects that become very small are now culled (not drawn)
+Added: maxobjects attribute to tree placement to set an upper limit on the number of trees created (default 2000)
 
 Fixed: Server only serializes and compresses coms message once when sending to multiple clients
 Fixed: If client starts falling behind at 8x speed it will drop to 4x speed
