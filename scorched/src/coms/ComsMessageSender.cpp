@@ -103,12 +103,6 @@ bool ComsMessageSender::sendToAllConnectedClients(
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	if (tanks.empty()) return true;
 
-	if (!ScorchedServer::instance()->getNetInterface().started())
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
-		return false;
-	}
-
 	// Serialize the same message once for all client
 	if (!formMessage(message)) return false;
 
@@ -136,6 +130,11 @@ bool ComsMessageSender::sendToAllConnectedClients(
 					destination,
 					NetBufferDefault::defaultBuffer.getBufferUsed()));
 			}	
+			if (!ScorchedServer::instance()->getNetInterface().started())
+			{
+				Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
+				return false;
+			}
 			ScorchedServer::instance()->getNetInterface().sendMessageDest(
 				NetBufferDefault::defaultBuffer, destination, flags);
 		}
@@ -151,12 +150,6 @@ bool ComsMessageSender::sendToAllPlayingClients(
 	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	if (tanks.empty()) return true;
-
-	if (!ScorchedServer::instance()->getNetInterface().started())
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
-		return false;
-	}
 
 	// Serialize the same message once for all client
 	if (!formMessage(message)) return false;
@@ -188,6 +181,11 @@ bool ComsMessageSender::sendToAllPlayingClients(
 						destination,
 						NetBufferDefault::defaultBuffer.getBufferUsed()));
 				}	
+				if (!ScorchedServer::instance()->getNetInterface().started())
+				{
+					Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
+					return false;
+				}
 				ScorchedServer::instance()->getNetInterface().sendMessageDest(
 					NetBufferDefault::defaultBuffer, destination, flags);
 			}

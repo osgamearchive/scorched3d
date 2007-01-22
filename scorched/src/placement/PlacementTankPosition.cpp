@@ -43,7 +43,7 @@ void PlacementTankPosition::calculateStartPosition(unsigned int seed, ScorchedCo
 		Tank *tank = (*mainitor).second;
 
 		if (!tank->getState().getSpectator() &&
-			(tank->getState().getState() == TankState::sDead ||
+			((tank->getState().getState() == TankState::sDead && context.serverMode) ||
 			tank->getState().getState() == TankState::sNormal))
 		{
 			Vector tankPos = PlacementTankPosition::placeTank(

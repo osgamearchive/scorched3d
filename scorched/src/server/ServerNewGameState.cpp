@@ -305,6 +305,7 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 
 			// Tell the server that it needs to send this client a sync message
 			tank->getState().setNeedSync(true);
+			tank->getState().setNotReady();
 
 			// Add to the list of destinations to send this message to
 			// (if not already added)

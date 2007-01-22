@@ -80,14 +80,18 @@ bool ComsSyncCheckMessage::writeMessage(NetBuffer &buffer)
 	return true;
 }
 
-bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
-{
 #ifndef S3D_SERVER
 
+#include <GLEXT/GLBitmap.h>
+#include <landscape/Landscape.h>
+
+bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
+{
 	// Read the height map data
-	int heightDiffs = 0, normalDiffs = 0;
 	HeightMap &map = ScorchedClient::instance()->getLandscapeMaps().
 		getGroundMaps().getHeightMap();
+	int heightDiffs = 0, normalDiffs = 0;
+	bool *heightDiff = new bool[map.getMapHeight() * map.getMapWidth()];
 	for (int y=0; y<map.getMapHeight(); y++)
 	{
 		for (int x=0; x<map.getMapWidth(); x++)
@@ -101,12 +105,46 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 			
 			if (actualheight != sentheight) heightDiffs++;
 			if (actualnormal != sentnormal) normalDiffs++;
+
+			heightDiff[x + y * map.getMapWidth()] = (actualheight != sentheight);
 		}
 	}
 	if (heightDiffs > 0 || normalDiffs > 0)
 	{
 		Logger::log(formatString("Height diffs %i, Normal diffs %i",
 			heightDiffs, normalDiffs));
+
+		GLBitmap newMap(
+			Landscape::instance()->getMainMap().getWidth(),
+			Landscape::instance()->getMainMap().getHeight());
+
+		GLubyte *dest = newMap.getBits();
+		GLubyte *src = Landscape::instance()->getMainMap().getBits();
+		for (int y=0; y<newMap.getHeight(); y++)
+		{
+			for (int x=0; x<newMap.getWidth(); x++)
+			{
+				GLubyte r = src[0];
+				GLubyte g = src[1];
+				GLubyte b = src[2];
+
+				int x2 = (x * map.getMapWidth()) / newMap.getWidth();
+				int y2 = (y * map.getMapHeight()) / newMap.getHeight();
+				if (heightDiff[x2 + y2 * map.getMapWidth()])
+				{
+					r = g = b = 255;
+				}
+		
+				dest[0] = r;
+				dest[1] = g;
+				dest[2] = b;
+
+				dest+=3;
+				src+=3;
+			}
+		}
+		Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+		Landscape::instance()->setTextureType(Landscape::eOther);
 	}
 
 	// Read the target data
@@ -158,6 +196,14 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		}
 	}
 
-#endif // #ifndef S3D_SERVER
 	return true;
 }
+
+#else // #ifndef S3D_SERVER
+
+bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
+{
+	return true;
+}
+
+#endif // #ifndef S3D_SERVER
