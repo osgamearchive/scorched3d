@@ -42,7 +42,7 @@ void ComsHeightMapMessage::createMessage(
 	levelLen_ = levelLen;
 }
 
-bool ComsHeightMapMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsHeightMapMessage::writeMessage(NetBuffer &buffer)
 {
 	DIALOG_ASSERT(levelData_ && levelLen_);
 

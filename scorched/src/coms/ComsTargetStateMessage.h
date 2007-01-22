@@ -27,12 +27,15 @@
 class ComsTargetStateMessage : public ComsMessage
 {
 public:
-	ComsTargetStateMessage();
+	ComsTargetStateMessage(bool fullmessage);
 	virtual ~ComsTargetStateMessage();
 
 	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
+    virtual bool writeMessage(NetBuffer &buffer);
     virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	bool fullmessage_;
 
 private:
 	ComsTargetStateMessage(const ComsTargetStateMessage &);

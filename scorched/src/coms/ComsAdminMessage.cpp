@@ -37,7 +37,7 @@ ComsAdminMessage::~ComsAdminMessage()
 
 }
 
-bool ComsAdminMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsAdminMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((int) type_);
 	buffer.addToBuffer(param1_);

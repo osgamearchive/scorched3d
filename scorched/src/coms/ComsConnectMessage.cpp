@@ -37,7 +37,7 @@ void ComsConnectMessage::setNoPlayers(unsigned int players)
 	char buf[10]; snprintf(buf, 10, "%i", players); setValue("numplayers", buf);
 }
 
-bool ComsConnectMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((unsigned int) values_.size());
 	std::map<std::string, std::string>::iterator itor;

@@ -23,13 +23,14 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <tankai/TankAIAdder.h>
 #include <common/Logger.h>
 #include <set>
 
-ComsPlayerStateMessage::ComsPlayerStateMessage(bool writeAccessories) : 
+ComsPlayerStateMessage::ComsPlayerStateMessage(MessageContents contents) : 
 	ComsMessage("ComsPlayerStateMessage"),
-	writeAccessories_(writeAccessories)
+	contents_(contents)
 {
 
 }
@@ -39,8 +40,10 @@ ComsPlayerStateMessage::~ComsPlayerStateMessage()
 
 }
 
-bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer)
 {
+	buffer.addToBuffer((int) contents_);
+
 	if (!ScorchedServer::instance()->getContext().tankTeamScore->
 		writeMessage(buffer)) return false;
 
@@ -59,7 +62,19 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 		// Add each tank
 		Tank *tank = (*itor).second;
 		buffer.addToBuffer(tank->getPlayerId());
-		if (!tank->writeMessage(buffer, writeAccessories_)) return false;
+
+		switch (contents_)
+		{
+		case eTankStateOnly:
+			if (!tank->getState().writeMessage(buffer)) return false;
+			break;
+		case eTankNoAccessories:
+			if (!tank->writeMessage(buffer, false)) return false;
+			break;
+		case eTankFullState:
+			if (!tank->writeMessage(buffer, true)) return false;
+			break;
+		}
 	}
 	return true;
 }
@@ -67,6 +82,10 @@ bool ComsPlayerStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 {
 #ifndef S3D_SERVER
+	int contents = 0;
+	if (!reader.getFromBuffer(contents)) return false;
+	contents_ = (MessageContents) contents;
+
 	if (!ScorchedClient::instance()->getContext().tankTeamScore->
 		readMessage(reader)) return false;
 
@@ -82,7 +101,16 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 			getTankById(playerId);
 		if (tank)
 		{
-			if (!tank->readMessage(reader)) return false;
+			switch (contents_)
+			{
+			case eTankStateOnly:
+				if (!tank->getState().readMessage(reader)) return false;
+				break;
+			case eTankNoAccessories:
+			case eTankFullState:
+				if (!tank->readMessage(reader)) return false;
+				break;
+			}
 		}
 		else
 		{

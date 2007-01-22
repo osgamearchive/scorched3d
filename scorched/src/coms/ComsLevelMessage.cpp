@@ -42,10 +42,10 @@ LandscapeDefinition &ComsLevelMessage::getGroundMapsDefn()
 	return hdef_; 
 }
 
-bool ComsLevelMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!hdef_.writeMessage(buffer)) return false;
-	if (!hMap_.writeMessage(buffer, destinationId)) return false;
+	if (!hMap_.writeMessage(buffer)) return false;
 	return true;
 }
 

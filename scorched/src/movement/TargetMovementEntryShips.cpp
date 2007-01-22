@@ -25,6 +25,7 @@
 #include <engine/ScorchedContext.h>
 #include <target/Target.h>
 #include <target/TargetLife.h>
+#include <target/TargetState.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeMovement.h>
@@ -104,10 +105,14 @@ void TargetMovementEntryShips::generate(ScorchedContext &context,
 
 		if (!entry->getTarget()->isTarget())
 		{
-			dialogMessage("TargetMovementEntryShips",
+			dialogExit("TargetMovementEntryShips",
 				"Movement can be assigned to targets only (no tanks)");
 		}
 
+		// Set this target as moving
+		entry->getTarget()->getTargetState().setMovement(true);
+
+		// Generate the offsets for each target
 		float offX = random.getRandFloat() * 200.0f;
 		float offY = random.getRandFloat() * 200.0f;
 		Vector offset(offX, offY - 100.0f);

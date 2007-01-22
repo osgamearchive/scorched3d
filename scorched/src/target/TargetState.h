@@ -47,8 +47,12 @@ public:
 	bool getNoFalling() { return noFalling_; }
 	void setNoFalling(bool noFalling) { noFalling_ = noFalling; }
 
+	bool getMovement() { return movement_; }
+	void setMovement(bool movement) { movement_ = movement; }
+
 protected:
 	TankFalling *falling_;
+	bool movement_;
 	bool displayShadow_;
 	bool displayDamage_;
 	bool noDamageBurn_;

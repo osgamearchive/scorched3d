@@ -42,7 +42,7 @@ ComsConnectAcceptMessage::~ComsConnectAcceptMessage()
 
 }
 
-bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(destinationId_);
 	buffer.addToBuffer(serverName_);

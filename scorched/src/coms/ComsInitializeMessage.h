@@ -30,7 +30,7 @@ public:
 	virtual ~ComsInitializeMessage();
 
 	// Inherited from ComsMessage
-	virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
+	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
 
 private:

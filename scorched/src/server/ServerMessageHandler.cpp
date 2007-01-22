@@ -53,12 +53,12 @@ ServerMessageHandler::~ServerMessageHandler()
 {
 }
 
-void ServerMessageHandler::messageRecv(NetMessage &message)
+void ServerMessageHandler::messageRecv(unsigned int destinationId)
 {
-	ServerKeepAliveHandler::instance()->keepAlive(message.getDestinationId());
+	ServerKeepAliveHandler::instance()->keepAlive(destinationId);
 }
 
-void ServerMessageHandler::messageSent(NetMessage &message)
+void ServerMessageHandler::messageSent(unsigned int destinationId)
 {
 }
 

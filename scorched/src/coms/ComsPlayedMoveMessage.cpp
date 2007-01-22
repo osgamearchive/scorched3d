@@ -48,7 +48,7 @@ void ComsPlayedMoveMessage::setShot(unsigned int weaponId,
 	selectPositionY_ = selectPositionY;
 }
 
-bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsPlayedMoveMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) moveType_);

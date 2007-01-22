@@ -27,15 +27,22 @@
 class ComsPlayerStateMessage : public ComsMessage
 {
 public:
-	ComsPlayerStateMessage(bool writeAccessories);
+	enum MessageContents
+	{
+		eTankStateOnly = 1,
+		eTankNoAccessories = 2,
+		eTankFullState = 3
+	};
+
+	ComsPlayerStateMessage(MessageContents contents);
 	virtual ~ComsPlayerStateMessage();
 
 	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
+    virtual bool writeMessage(NetBuffer &buffer);
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	bool writeAccessories_;
+	MessageContents contents_;
 
 private:
 	ComsPlayerStateMessage(const ComsPlayerStateMessage &);

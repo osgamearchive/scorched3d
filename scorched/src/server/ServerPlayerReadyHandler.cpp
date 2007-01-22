@@ -27,6 +27,7 @@
 #include <tank/TankState.h>
 #include <coms/ComsPlayerReadyMessage.h>
 #include <coms/ComsTargetStateMessage.h>
+#include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsMessageSender.h>
 
 ServerPlayerReadyHandler *ServerPlayerReadyHandler::instance_ = 0;
@@ -91,7 +92,16 @@ bool ServerPlayerReadyHandler::processMessage(NetMessage &netMessage,
 	if (tank->getState().getNeedSync())
 	{
 		// Send the sync message to this client
-		ComsTargetStateMessage targetState;
+		// Only send a full message if the client has connected after the level has been made,
+		// otherwise only send minimal information as this client should already be in sync
+
+		// Player state
+		ComsPlayerStateMessage playerState(ComsPlayerStateMessage::eTankFullState);
+		ComsMessageSender::sendToSingleClient(playerState, netMessage.getDestinationId());
+		// Target state
+		bool fullmessage = 
+			(ScorchedServer::instance()->getGameState().getState() != ServerState::ServerStateNewGameReady);
+		ComsTargetStateMessage targetState(fullmessage);
 		ComsMessageSender::sendToSingleClient(targetState, netMessage.getDestinationId());
 
 		// Set all of the tanks at this destination not needing a sync

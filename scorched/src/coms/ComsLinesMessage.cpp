@@ -30,7 +30,7 @@ ComsLinesMessage::~ComsLinesMessage()
 {
 }
 
-bool ComsLinesMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsLinesMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) lines_.size());

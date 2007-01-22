@@ -76,12 +76,12 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 	{
 		case NetMessage::BufferMessage:
 			if (connectionHandler_) 
-				connectionHandler_->messageRecv(message);
+				connectionHandler_->messageRecv(message.getDestinationId());
 			processReceiveMessage(message);
 			break;
 		case NetMessage::SentMessage:
 			if (connectionHandler_) 
-				connectionHandler_->messageSent(message);
+				connectionHandler_->messageSent(message.getDestinationId());
 			processSentMessage(message);
 			break;
 		case NetMessage::DisconnectMessage:
@@ -114,6 +114,7 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 
 void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 {
+	message.getBuffer().uncompressBuffer();
 	NetBufferReader reader(message.getBuffer());
 
 	std::string messageType;
@@ -171,6 +172,9 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 void ComsMessageHandler::processSentMessage(NetMessage &message)
 {
+	if (sentHandlerMap_.empty()) return;
+
+	message.getBuffer().uncompressBuffer();
 	NetBufferReader reader(message.getBuffer());
 
 	std::string messageType;

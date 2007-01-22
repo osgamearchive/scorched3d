@@ -22,8 +22,10 @@
 #include <net/NetBuffer.h>
 #include <SDL/SDL_net.h>
 #include <string.h>
+#include <zlib.h>
 
 NetBuffer NetBufferDefault::defaultBuffer;
+NetBuffer NetBufferDefault::compressBuffer;
 static const unsigned startSize = 1024 * 10;
 
 NetBuffer::NetBuffer() : 
@@ -80,6 +82,55 @@ void NetBuffer::clear()
 	usedSize_ = 0;
 	buffer_ = 0;
 	bufferSize_ = 0;
+}
+
+bool NetBuffer::compressBuffer()
+{
+	NetBuffer &newBuffer = NetBufferDefault::compressBuffer;
+
+	unsigned long destLen = getBufferUsed() * 2;
+	unsigned long srcLen = getBufferUsed();
+
+	// Compress the message into the new buffer
+	newBuffer.allocate(destLen);
+	newBuffer.reset();
+	newBuffer.addToBuffer((unsigned int) srcLen); // First 4 bytes are for uncompressed size
+	if (compress2((unsigned char *) (newBuffer.getBuffer() + 4), &destLen, 
+				   (unsigned char *) getBuffer(), srcLen, 
+				   6) != Z_OK) return false;
+	newBuffer.setBufferUsed(destLen + 4);
+
+	// Copy the new buffer into the current buffer
+	reset();
+	addDataToBuffer(newBuffer.getBuffer(), newBuffer.getBufferUsed());
+
+	return true;
+}
+
+bool NetBuffer::uncompressBuffer()
+{
+	// Get the size of the uncompressed data
+	NetBufferReader reader(*this);
+	unsigned int dLen = 0;
+	if (!reader.getFromBuffer(dLen)) return false;
+
+	// Create a new buffer for the uncompressed data
+	unsigned long srcLen = getBufferUsed() - 4;
+	unsigned long destLen = dLen;
+
+	NetBuffer &newBuffer = NetBufferDefault::compressBuffer;
+	newBuffer.allocate(destLen);
+	newBuffer.setBufferUsed(destLen);
+
+	// Uncompress the data
+	if (uncompress((unsigned char *) newBuffer.getBuffer(), &destLen, 
+				   (unsigned char *) (getBuffer() + 4), srcLen) != Z_OK) return false;
+
+	// Copy the new buffer into the current buffer
+	reset();
+	addDataToBuffer(newBuffer.getBuffer(), newBuffer.getBufferUsed());
+
+	return true;
 }
 
 void NetBuffer::resize(unsigned newBufferSize)

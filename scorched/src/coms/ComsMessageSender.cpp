@@ -31,74 +31,65 @@
 #include <set>
 #include <zlib.h>
 
+bool ComsMessageSender::formMessage(ComsMessage &message)
+{
+	// Write the message and its type to the buffer
+	NetBufferDefault::defaultBuffer.reset();
+	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
+	{
+		Logger::log( "ERROR: ComsMessageSender - Failed to write message type");
+		return false;
+	}
+	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
+	{
+		Logger::log( "ERROR: ComsMessageSender - Failed to write message");
+		return false;
+	}
+
+	// Compress the message
+	NetBufferDefault::defaultBuffer.compressBuffer();
+
+	return true;
+}
+
 #ifndef S3D_SERVER
 bool ComsMessageSender::sendToServer(
 	ComsMessage &message, unsigned int flags)
 {
 	if (!ScorchedClient::instance()->getNetInterface().started()) return false;
+	if (!formMessage(message)) return false;
 
-	NetBufferDefault::defaultBuffer.reset();
-	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToServer - Failed to write message type");
-		return false;
-	}
-	
 	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
 	{
-		Logger::log(formatString("Client::send(%s, %u)", message.getMessageType(),
+		Logger::log(formatString("Client::send(%s, %u)", 
+			message.getMessageType(),
 			NetBufferDefault::defaultBuffer.getBufferUsed()));
 	}	
-
-	if (!message.writeMessage(NetBufferDefault::defaultBuffer, 0))
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToServer - Failed to write message");
-		return false;
-	}
 	ScorchedClient::instance()->getNetInterface().sendMessageServer(
 		NetBufferDefault::defaultBuffer, flags);
 	return true;
 }
 #endif
+
 bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	unsigned int destination, unsigned int flags)
 {
 	if (destination == 0) return true;
 	if (!ScorchedServer::instance()->getNetInterface().started())
 	{
-		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Client not started");
+		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Server not started");
 		return false;
 	}
 
-	NetBufferDefault::defaultBuffer.reset();
-	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message type");
-		return false;
-	}
-	if (!message.writeMessage(NetBufferDefault::defaultBuffer, destination))
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Failed to write message");
-		return false;
-	}
-	
+	if (!formMessage(message)) return false;
+
 	if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
 	{
-		NetBuffer tmpBuffer;
-		unsigned long destLen = NetBufferDefault::defaultBuffer.getBufferUsed() * 2 + 12;
-		tmpBuffer.allocate(destLen);
-		compress2((unsigned char *) tmpBuffer.getBuffer(), 
-			&destLen,
-			(unsigned char *)NetBufferDefault::defaultBuffer.getBuffer(),
-			NetBufferDefault::defaultBuffer.getBufferUsed(),
-			6);
-	
-		Logger::log(formatString("Server::send(%s, %i, %u (%u))", 
-					message.getMessageType(),
-					(int) destination,
-					NetBufferDefault::defaultBuffer.getBufferUsed(),
-					destLen));
-	}
+		Logger::log(formatString("Server::send(%s, %u, %u)", 
+			message.getMessageType(),
+			destination,
+			NetBufferDefault::defaultBuffer.getBufferUsed()));
+	}	
 	ScorchedServer::instance()->getNetInterface().sendMessageDest(
 		NetBufferDefault::defaultBuffer, destination, flags);
 	return true;
@@ -107,11 +98,19 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 bool ComsMessageSender::sendToAllConnectedClients(
 	ComsMessage &message, unsigned int flags)
 {
-	bool result = true;
+	if (!ScorchedServer::instance()->getNetInterface().started())
+	{
+		Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
+		return false;
+	}
+
+	// Serialize the same message once for all client
+	if (!formMessage(message)) return false;
 
 	// Used to ensure we only send messages to each
 	// destination once
 	std::set<unsigned int> destinations;
+	destinations.insert(0); // Make sure we don't send to dest 0
 	std::set<unsigned int>::iterator findItor;
 
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -128,24 +127,38 @@ bool ComsMessageSender::sendToAllConnectedClients(
 		if (findItor == destinations.end())
 		{
 			destinations.insert(destination);
-			if (!sendToSingleClient(message, destination, flags))
+
+			if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
 			{
-				result = false;
-			}
+				Logger::log(formatString("Server::send(%s, %u, %u)", 
+					message.getMessageType(),
+					destination,
+					NetBufferDefault::defaultBuffer.getBufferUsed()));
+			}	
+			ScorchedServer::instance()->getNetInterface().sendMessageDest(
+				NetBufferDefault::defaultBuffer, destination, flags);
 		}
 	}
 
-	return result;
+	return true;
 }
 
 bool ComsMessageSender::sendToAllPlayingClients(
 	ComsMessage &message, unsigned int flags)
 {
-	bool result = true;
+	if (!ScorchedServer::instance()->getNetInterface().started())
+	{
+		Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
+		return false;
+	}
+
+	// Serialize the same message once for all client
+	if (!formMessage(message)) return false;
 
 	// Used to ensure we only send messages to each
 	// destination once
 	std::set<unsigned int> destinations;
+	destinations.insert(0); // Make sure we don't send to dest 0
 	std::set<unsigned int>::iterator findItor;
 
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -165,13 +178,19 @@ bool ComsMessageSender::sendToAllPlayingClients(
 			if (findItor == destinations.end())
 			{
 				destinations.insert(destination);
-				if (!sendToSingleClient(message, destination, flags))
+
+				if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
 				{
-					result = false;
-				}
+					Logger::log(formatString("Server::send(%s, %u, %u)", 
+						message.getMessageType(),
+						destination,
+						NetBufferDefault::defaultBuffer.getBufferUsed()));
+				}	
+				ScorchedServer::instance()->getNetInterface().sendMessageDest(
+					NetBufferDefault::defaultBuffer, destination, flags);
 			}
 		}
 	}
 
-	return result;
+	return true;
 }

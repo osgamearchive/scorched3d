@@ -45,11 +45,11 @@ ClientMessageHandler::~ClientMessageHandler()
 {
 }
 
-void ClientMessageHandler::messageRecv(NetMessage &message)
+void ClientMessageHandler::messageRecv(unsigned int destinationId)
 {
 }
 
-void ClientMessageHandler::messageSent(NetMessage &message)
+void ClientMessageHandler::messageSent(unsigned int destinationId)
 {
 }
 

@@ -51,7 +51,7 @@ bool ClientTargetStateHandler::processMessage(
 	const char *messageType,
 	NetBufferReader &reader)
 {
-	ComsTargetStateMessage message;
+	ComsTargetStateMessage message(false);
 	if (!message.readMessage(reader)) return false;
 
 	return true;

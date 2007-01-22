@@ -36,6 +36,11 @@ public:
 	static bool sendToAllConnectedClients(
 		ComsMessage &message, unsigned int flags = 0);
 
+protected:
+
+	static bool formMessage(
+		ComsMessage &message);
+
 private:
 	ComsMessageSender();
 	virtual ~ComsMessageSender();

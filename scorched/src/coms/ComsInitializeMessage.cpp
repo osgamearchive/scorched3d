@@ -31,7 +31,7 @@ ComsInitializeMessage::~ComsInitializeMessage()
 
 }
 
-bool ComsInitializeMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsInitializeMessage::writeMessage(NetBuffer &buffer)
 {
 	return true;
 }

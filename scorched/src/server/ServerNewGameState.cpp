@@ -150,11 +150,6 @@ void ServerNewGameState::enterState(const unsigned state)
 	ScorchedServer::instance()->getContext().landscapeMaps->generateMaps(
 		ScorchedServer::instance()->getContext(), defn);
 
-	// Set the start positions for the tanks
-	// Must be generated after the level as it alters the
-	// level
-	calculateStartPosition(ScorchedServer::instance()->getContext());
-
 	// Add pending tanks (all tanks should be pending) into the game
 	addTanksToGame(state, sendGameState);
 
@@ -322,6 +317,8 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 		}
 	}
 
+	// Send after all of the states have been set
+	// Do this after incase the message contains the new states
 	for (findItor = destinations.begin();
 		findItor != destinations.end();
 		findItor++)
@@ -334,36 +331,6 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 	}
 
 	return count;
-}
-
-void ServerNewGameState::calculateStartPosition(
-	ScorchedContext &context)
-{
-	RandomGenerator generator;
-	generator.seed(rand());
-
-	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer->getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = tanks.begin();
-		mainitor != tanks.end();
-		mainitor++)
-	{
-		Tank *tank = (*mainitor).second;
-
-		if (!tank->getState().getSpectator() &&
-			(tank->getState().getState() == TankState::sDead ||
-			tank->getState().getState() == TankState::sNormal))
-		{
-			Vector tankPos = PlacementTankPosition::placeTank(
-				tank->getPlayerId(), tank->getTeam(), 
-				context, generator);
-
-			// Set the starting position of the tank
-			DeformLandscape::flattenArea(context, tankPos);
-			tank->getLife().setTargetPosition(tankPos);
-		}
-	}
 }
 
 void ServerNewGameState::checkTeams()

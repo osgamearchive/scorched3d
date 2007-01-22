@@ -28,7 +28,7 @@
 ComsNewGameMessage::ComsNewGameMessage() :
 	ComsMessage("ComsNewGameMessage"),
 	gameStateEnclosed_(false),
-	playerState_(true)
+	playerState_(ComsPlayerStateMessage::eTankStateOnly)
 {
 
 }
@@ -43,7 +43,7 @@ void ComsNewGameMessage::addGameState()
 	gameStateEnclosed_ = true;
 }
 
-bool ComsNewGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(gameStateEnclosed_);
 	if (gameStateEnclosed_)
@@ -53,8 +53,8 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinatio
 	}
 	if (!ScorchedServer::instance()->
 		getOptionsTransient().writeToBuffer(buffer)) return false;
-	if (!levelMessage_.writeMessage(buffer, destinationId)) return false;
-	if (!playerState_.writeMessage(buffer, destinationId)) return false;
+	if (!levelMessage_.writeMessage(buffer)) return false;
+	if (!playerState_.writeMessage(buffer)) return false;
 	if (!ScorchedServer::instance()->getAccessoryStore().
 		writeEconomyToBuffer(buffer)) return false;
 

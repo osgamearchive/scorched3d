@@ -35,8 +35,8 @@ public:
 	virtual void clientError(NetMessage &message,
 		const char *errorString);
 
-	virtual void messageRecv(NetMessage &message);
-	virtual void messageSent(NetMessage &message);
+	virtual void messageRecv(unsigned int destinationId);
+	virtual void messageSent(unsigned int destinationId);
 
 protected:
 	static ClientMessageHandler *instance_;

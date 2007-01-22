@@ -21,9 +21,41 @@
 #include <placement/PlacementTankPosition.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/DeformLandscape.h>
 #include <tank/TankContainer.h>
 #include <tank/TankPosition.h>
+#include <tank/TankState.h>
+#include <target/TargetLife.h>
 #include <GLEXT/GLBitmap.h>
+
+void PlacementTankPosition::calculateStartPosition(unsigned int seed, ScorchedContext &context)
+{
+	RandomGenerator generator;
+	generator.seed(seed);
+
+	std::map<unsigned int, Tank *> &tanks = 
+		context.tankContainer->getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator mainitor;
+	for (mainitor = tanks.begin();
+		mainitor != tanks.end();
+		mainitor++)
+	{
+		Tank *tank = (*mainitor).second;
+
+		if (!tank->getState().getSpectator() &&
+			(tank->getState().getState() == TankState::sDead ||
+			tank->getState().getState() == TankState::sNormal))
+		{
+			Vector tankPos = PlacementTankPosition::placeTank(
+				tank->getPlayerId(), tank->getTeam(), 
+				context, generator);
+
+			// Set the starting position of the tank
+			DeformLandscape::flattenArea(context, tankPos);
+			tank->getLife().setTargetPosition(tankPos);
+		}
+	}
+}
 
 Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 	ScorchedContext &context, RandomGenerator &generator)

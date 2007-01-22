@@ -50,7 +50,7 @@ public:
 	unsigned int getInfoId() { return infoId_; }
 
 	// Inherited from ComsMessage
-    virtual bool writeMessage(NetBuffer &buffer, unsigned int destinationId);
+    virtual bool writeMessage(NetBuffer &buffer);
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:

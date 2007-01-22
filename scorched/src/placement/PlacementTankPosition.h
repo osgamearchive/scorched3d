@@ -27,6 +27,7 @@
 
 namespace PlacementTankPosition 
 {
+	void calculateStartPosition(unsigned int seed, ScorchedContext &context);
 	Vector placeTank(unsigned int playerId, int team,
 		ScorchedContext &context, RandomGenerator &generator);
 };

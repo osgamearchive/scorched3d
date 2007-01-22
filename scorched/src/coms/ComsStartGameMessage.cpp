@@ -32,7 +32,7 @@ ComsStartGameMessage::~ComsStartGameMessage()
 {
 }
 
-bool ComsStartGameMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsStartGameMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(currentPlayerId_);
 	buffer.addToBuffer(buyWeapons_);

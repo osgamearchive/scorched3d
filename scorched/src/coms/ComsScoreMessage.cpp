@@ -32,7 +32,7 @@ ComsScoreMessage::~ComsScoreMessage()
 
 }
 
-bool ComsScoreMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsScoreMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(finalScore_);
 	return true;

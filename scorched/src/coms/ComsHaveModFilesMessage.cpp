@@ -44,7 +44,7 @@ ModIdentifierEntry *ComsHaveModFilesMessage::getFile(const char *name)
 	return 0;
 }
 
-bool ComsHaveModFilesMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsHaveModFilesMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((int) files_.size());
 	std::list<ModIdentifierEntry>::iterator itor;

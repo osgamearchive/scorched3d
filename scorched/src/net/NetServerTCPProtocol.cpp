@@ -22,7 +22,6 @@
 #include <net/NetServerTCPRead.h>
 #include <net/NetMessagePool.h>
 #include <common/Logger.h>
-#include <zlib.h>
 
 NetServerTCPProtocol::NetServerTCPProtocol()
 {
@@ -145,120 +144,6 @@ NetMessage *NetServerTCPScorchedProtocol::readBuffer(TCPsocket socket, unsigned 
 	return buffer;
 }
 
-NetServerTCPCompressedProtocol::NetServerTCPCompressedProtocol()
-{
-}
-
-NetServerTCPCompressedProtocol::~NetServerTCPCompressedProtocol()
-{
-}
-
-bool NetServerTCPCompressedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socket, unsigned int id)
-{
-	unsigned long destLen = buffer.getBufferUsed() * 2;
-	unsigned long srcLen = buffer.getBufferUsed();
-
-	// Allocate a new buffer
-	NetMessage *newMessage = NetMessagePool::instance()->
-		getFromPool(NetMessage::BufferMessage, 
-				id,
-				NetServerTCPRead::getIpAddressFromSocket(socket));
-	NetBuffer &newBuffer = newMessage->getBuffer();
-	newBuffer.allocate(destLen);
-
-	// Compress the message into the new buffer
-	newBuffer.reset();
-	newBuffer.addToBuffer((unsigned int) srcLen); // First 4 bytes are for uncompressed size
-	bool result = 
-		(compress2((unsigned char *) (newBuffer.getBuffer() + 4), &destLen, 
-				   (unsigned char *) buffer.getBuffer(), srcLen, 
-				   6) == Z_OK);
-	
-	// Send the new buffer instead
-	bool retVal = false;
-	if (result)
-	{
-		// Set the correct lengths
-		newBuffer.setBufferUsed(destLen + 4);
-
-		// Actualy send the new message
-		//Logger::log( "Compressed %i->%i",
-		//			buffer.getBufferUsed(), newBuffer.getBufferUsed());
-
-		retVal = NetServerTCPScorchedProtocol::sendBuffer(newBuffer, socket, id);
-	}
-	else
-	{
-		Logger::log( "Failed to compress coms buffer");
-	}
-
-	// Re-cycle the new message buffer
-	NetMessagePool::instance()->addToPool(newMessage);
-	return retVal;
-}
-
-NetMessage *NetServerTCPCompressedProtocol::readBuffer(TCPsocket socket, unsigned int id)
-{
-	// Read the message from the socket
-	NetMessage *message = NetServerTCPScorchedProtocol::readBuffer(socket, id);
-	if (message)
-	{
-		// Get the uncompressed size from the buffer
-		NetBufferReader reader(message->getBuffer());
-		unsigned int dLen = 0;
-		if (!reader.getFromBuffer(dLen))
-		{
-			// Return the error to the caller
-			Logger::log( "Failed to get compressed coms buffer size");
-			NetMessagePool::instance()->addToPool(message);	
-			return 0;
-		}
-
-		// Check for silly sized buffer
-		if (dLen > 5000000)
-		{
-			Logger::log(formatString("Compressed coms buffer was too large to recieve. Size = %i.",
-				dLen));
-			NetMessagePool::instance()->addToPool(message);	
-			return 0;
-		}
-
-		// Create a new buffer for the uncompressed data
-		unsigned long srcLen = message->getBuffer().getBufferUsed() - 4;
-		unsigned long destLen = dLen;
-		NetMessage *newMessage =
-			NetMessagePool::instance()->getFromPool(message->getMessageType(),
-													message->getDestinationId(),
-													NetServerTCPRead::getIpAddressFromSocket(socket));
-		NetBuffer &newBuffer = newMessage->getBuffer();
-		newBuffer.allocate(destLen);
-		newBuffer.setBufferUsed(destLen);
-
-		// Uncompress the data
-		unsigned uncompressResult = 
-			uncompress((unsigned char *) newBuffer.getBuffer(), &destLen, 
-					   (unsigned char *) (message->getBuffer().getBuffer() + 4), srcLen);
-		if (Z_OK == uncompressResult)
-		{
-			// Add the new data back into the original message
-			message->getBuffer().reset();
-			message->getBuffer().addDataToBuffer(newBuffer.getBuffer(), destLen);
-		}
-		else
-		{
-			Logger::log( "Failed to uncompress coms buffer");
-
-			// Return the error to the caller
-			NetMessagePool::instance()->addToPool(message);	
-			NetMessagePool::instance()->addToPool(newMessage);		
-			return 0;
-		}
-		
-		// Re-cycle the new message buffer
-		NetMessagePool::instance()->addToPool(newMessage);		
-	}
-	return message;
-}
 
 NetServerHTTPProtocolSend::NetServerHTTPProtocolSend()
 {

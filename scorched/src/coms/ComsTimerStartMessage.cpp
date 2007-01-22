@@ -32,7 +32,7 @@ ComsTimerStartMessage::~ComsTimerStartMessage()
 
 }
 
-bool ComsTimerStartMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsTimerStartMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(timerValue_);
 	return true;

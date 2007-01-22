@@ -32,7 +32,7 @@ ComsGameStateMessage::~ComsGameStateMessage()
 {
 }
 
-bool ComsGameStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsGameStateMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!ScorchedServer::instance()->getOptionsTransient().
 		writeToBuffer(buffer)) return false;

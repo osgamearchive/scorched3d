@@ -49,6 +49,9 @@ public:
 	void addToBuffer(const unsigned int add);
 	void addToBuffer(const float add);
 
+	bool compressBuffer();
+	bool uncompressBuffer();
+
 	char *getBuffer() { return buffer_; }
 	unsigned getTotalBufferSize() { return bufferSize_; }
 	unsigned getBufferUsed() { return usedSize_; }
@@ -69,6 +72,7 @@ class NetBufferDefault
 {
 public:
 	static NetBuffer defaultBuffer;
+	static NetBuffer compressBuffer;
 
 private:
 	NetBufferDefault();

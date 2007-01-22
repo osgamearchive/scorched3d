@@ -130,8 +130,7 @@ bool startClient(ProgressCounter *progressCounter)
 	if (ClientParams::instance()->getConnectedToServer())
 	{
 		ScorchedClient::instance()->getContext().netInterface = 
-			//new NetServer(new NetServerScorchedProtocol());
-			new NetServerTCP(new NetServerTCPCompressedProtocol());
+			new NetServerTCP(new NetServerTCPScorchedProtocol());
 			//new NetServerUDP();
 	}
 	else

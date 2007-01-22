@@ -449,6 +449,11 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
+	bool &messageLogging = ScorchedServer::instance()->
+		getComsMessageHandler().getMessageLogging();
+	bool &stateLogging = ScorchedServer::instance()->
+		getGameState().getStateLogging();
+
 	// Check for any action
 	const char *action = getField(fields, "action");
 	if (action)
@@ -461,6 +466,24 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 		{
 			ServerCommon::getExitEmpty() = true;
 		}
+		else if (0 == strcmp(action, "Set Logging"))
+		{
+			messageLogging = (0 == strcmp(fields["MessageLogging"].c_str(), "on"));
+			stateLogging = (0 == strcmp(fields["StateLogging"].c_str(), "on"));
+		}
+	}
+
+	{
+		fields["MESSAGELOGGING"] = formatString(
+			"<input type='radio' name='MessageLogging' %s value='on'>On</input>"
+			"<input type='radio' name='MessageLogging' %s value='off'>Off</input>",
+			(messageLogging?"checked":""),
+			(!messageLogging?"checked":""));
+		fields["STATELOGGING"] =  formatString(
+			"<input type='radio' name='StateLogging' %s value='on'>On</input>"
+			"<input type='radio' name='StateLogging' %s value='off'>Off</input>",
+			(stateLogging?"checked":""),
+			(!stateLogging?"checked":""));
 	}
 
 	unsigned int state = ScorchedServer::instance()->getGameState().getState();

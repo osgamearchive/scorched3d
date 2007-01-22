@@ -58,6 +58,7 @@ Added: thrusttime and thrustamount attributes to WeaponProjectile to simulate mi
 Added: maintainvelocity attribute to WeaponRoller to allow rollers to main the previous weapons momentum
 Added: Objects that become very small are now culled (not drawn)
 
+Fixed: Server only serializes and compresses coms message once when sending to multiple clients
 Fixed: If client starts falling behind at 8x speed it will drop to 4x speed
 Fixed: Teleports with groundonly set to false should function correctly in caverns
 Fixed: Cleaned up tank state machine

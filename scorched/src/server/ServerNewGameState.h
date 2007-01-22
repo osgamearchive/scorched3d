@@ -42,8 +42,6 @@ public:
 	static void checkTeams();
 	static void checkBots(bool removeBots);
 	static void removeTargets();
-	static void calculateStartPosition(
-		ScorchedContext &contex);
 
 protected:
 

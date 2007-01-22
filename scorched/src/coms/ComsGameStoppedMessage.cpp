@@ -22,7 +22,7 @@
 
 ComsGameStoppedMessage::ComsGameStoppedMessage() :
 	ComsMessage("ComsGameStoppedMessage"),
-	stateMessage_(false)
+	stateMessage_(ComsPlayerStateMessage::eTankNoAccessories)
 {
 }
 
@@ -30,9 +30,9 @@ ComsGameStoppedMessage::~ComsGameStoppedMessage()
 {
 }
 
-bool ComsGameStoppedMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsGameStoppedMessage::writeMessage(NetBuffer &buffer)
 {
-	return stateMessage_.writeMessage(buffer, destinationId);
+	return stateMessage_.writeMessage(buffer);
 }
 
 bool ComsGameStoppedMessage::readMessage(NetBufferReader &reader)

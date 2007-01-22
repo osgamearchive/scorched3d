@@ -34,8 +34,8 @@ public:
 	virtual void clientError(NetMessage &message,
 		const char *errorString) = 0;
 
-	virtual void messageRecv(NetMessage &message) = 0;
-	virtual void messageSent(NetMessage &message) = 0;
+	virtual void messageRecv(unsigned int destinationId) = 0;
+	virtual void messageSent(unsigned int destinationId) = 0;
 };
 
 class ComsMessageHandlerI

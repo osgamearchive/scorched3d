@@ -24,6 +24,7 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <landscapedef/LandscapeDefinitionCache.h>
+#include <placement/PlacementTankPosition.h>
 #include <movement/TargetMovement.h>
 #include <common/Logger.h>
 #include <tankai/TankAIAdder.h>
@@ -43,7 +44,14 @@ void GroundMaps::generateMaps(
 {
 	generateHMap(context, counter);
 	generateObjects(context, counter);
-	context.targetMovement->generate(context);
+
+	// Place the tanks after the objects and hmap
+	// This can remove objects, and flatten the hmap
+	PlacementTankPosition::calculateStartPosition(defnCache_.getSeed(), context);
+
+	// Create movement after targets, so we can mark 
+	// those targets that are in movement groups
+	context.targetMovement->generate(context); 
 	nmap_.create(getMapWidth(), getMapHeight());
 
 	// Store the hmap to create the landscape diff.

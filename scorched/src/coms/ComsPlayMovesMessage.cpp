@@ -22,7 +22,7 @@
 
 ComsPlayMovesMessage::ComsPlayMovesMessage() :
 	ComsMessage("ComsPlayMovesMessage"),
-	playerState_(true), targetState_()
+	playerState_(ComsPlayerStateMessage::eTankFullState), targetState_(false)
 {
 }
 
@@ -30,10 +30,10 @@ ComsPlayMovesMessage::~ComsPlayMovesMessage()
 {
 }
 
-bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer)
 {
-	if (!playerState_.writeMessage(buffer, destinationId)) return false;
-	if (!targetState_.writeMessage(buffer, destinationId)) return false;
+	if (!playerState_.writeMessage(buffer)) return false;
+	if (!targetState_.writeMessage(buffer)) return false;
 
 	int size = (int) moves_.size();
 	buffer.addToBuffer(size);
@@ -47,7 +47,7 @@ bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer, unsigned int destinat
 		ComsPlayedMoveMessage *message = (*itor).second;
 
 		buffer.addToBuffer(playerId);
-		if (!message->writeMessage(buffer, destinationId)) return false;
+		if (!message->writeMessage(buffer)) return false;
 	}
 	buffer.addToBuffer(seed_);
 	return true;

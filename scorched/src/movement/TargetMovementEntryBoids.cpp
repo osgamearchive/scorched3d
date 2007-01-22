@@ -27,6 +27,7 @@
 #include <engine/ScorchedContext.h>
 #include <target/Target.h>
 #include <target/TargetLife.h>
+#include <target/TargetState.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeMovement.h>
@@ -103,9 +104,12 @@ void TargetMovementEntryBoids::makeBoids(ScorchedContext &context,
 
 		if (!groupEntry->getTarget()->isTarget())
 		{
-			dialogMessage("TargetMovementEntryBoids",
+			dialogExit("TargetMovementEntryBoids",
 				"Movement can be assigned to targets only (no tanks)");
 		}
+
+		// Set this target as moving
+		groupEntry->getTarget()->getTargetState().setMovement(true);
 
 		// Add to world
 		Boid *boid = new Boid(groupEntry->getTarget(), this);

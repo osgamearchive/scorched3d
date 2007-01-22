@@ -23,13 +23,15 @@
 #include <coms/ComsTargetStateMessage.h>
 #include <tank/TankTeamScore.h>
 #include <tank/TankContainer.h>
+#include <target/TargetState.h>
 #include <tankai/TankAIAdder.h>
 #include <common/Logger.h>
 #include <movement/TargetMovement.h>
 #include <set>
 
-ComsTargetStateMessage::ComsTargetStateMessage() : 
-	ComsMessage("ComsTargetStateMessage")
+ComsTargetStateMessage::ComsTargetStateMessage(bool fullmessage) : 
+	ComsMessage("ComsTargetStateMessage"),
+	fullmessage_(fullmessage)
 {
 
 }
@@ -39,7 +41,7 @@ ComsTargetStateMessage::~ComsTargetStateMessage()
 
 }
 
-bool ComsTargetStateMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsTargetStateMessage::writeMessage(NetBuffer &buffer)
 {
 	std::map<unsigned int, Target *> targets;
 	{
@@ -51,12 +53,21 @@ bool ComsTargetStateMessage::writeMessage(NetBuffer &buffer, unsigned int destin
 			itor != possibletargets.end();
 			itor++)
 		{
-			if ((*itor).second->isTarget())
+			Target *target = (*itor).second;
+			if (target->isTarget())
 			{
-				targets[(*itor).first] = (*itor).second;
+				// If its not a full message only send the state of targets
+				// than can move
+				if (fullmessage_ || target->getTargetState().getMovement())
+				{
+					targets[(*itor).first] = (*itor).second;
+				}
 			}
 		}
 	}
+
+	// Add full message ident
+	buffer.addToBuffer(fullmessage_);
 
 	// Add count
 	buffer.addToBuffer((int) targets.size());
@@ -85,6 +96,7 @@ bool ComsTargetStateMessage::readMessage(NetBufferReader &reader)
 	// Update all targets with the state from the targets on the
 	// server
 	std::set<unsigned int> updatedTargets;
+	if (!reader.getFromBuffer(fullmessage_)) return false;
 	int count = 0;
 	if (!reader.getFromBuffer(count)) return false;
 	for (int i=0; i<count; i++)
@@ -122,23 +134,26 @@ bool ComsTargetStateMessage::readMessage(NetBufferReader &reader)
 		}
 	}
 
-	// Remove any targets the client has but the server does not
-	std::map<unsigned int, Target *> targets = // Note copy
-		ScorchedClient::instance()->getTargetContainer().getTargets();
-	std::map<unsigned int, Target *>::iterator itor;
-	for (itor = targets.begin();
-		itor != targets.end();
-		itor++)
+	if (fullmessage_)
 	{
-		unsigned int playerId = (*itor).first;
-		Target *target = (*itor).second;
-		if (target->isTarget())
+		// Remove any targets the client has but the server does not
+		std::map<unsigned int, Target *> targets = // Note copy
+			ScorchedClient::instance()->getTargetContainer().getTargets();
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = targets.begin();
+			itor != targets.end();
+			itor++)
 		{
-			if (updatedTargets.find(playerId) == updatedTargets.end())
+			unsigned int playerId = (*itor).first;
+			Target *target = (*itor).second;
+			if (target->isTarget())
 			{
-				Target *removedTarget = 
-					ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
-				delete removedTarget;
+				if (updatedTargets.find(playerId) == updatedTargets.end())
+				{
+					Target *removedTarget = 
+						ScorchedClient::instance()->getTargetContainer().removeTarget(playerId);
+					delete removedTarget;
+				}
 			}
 		}
 	}

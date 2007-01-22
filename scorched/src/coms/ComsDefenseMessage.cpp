@@ -44,7 +44,7 @@ ComsDefenseMessage::~ComsDefenseMessage()
 {
 }
 
-bool ComsDefenseMessage::writeMessage(NetBuffer &buffer, unsigned int destinationId)
+bool ComsDefenseMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(playerId_);
 	buffer.addToBuffer((int) change_);

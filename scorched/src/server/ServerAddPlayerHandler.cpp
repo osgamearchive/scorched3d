@@ -240,7 +240,7 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
 		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateStarting)
 	{
-		ComsPlayerStateMessage message(false);
+		ComsPlayerStateMessage message(ComsPlayerStateMessage::eTankNoAccessories);
 		ComsMessageSender::sendToAllConnectedClients(message);
 	}
 	return true;
