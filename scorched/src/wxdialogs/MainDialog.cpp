@@ -81,15 +81,21 @@ static int exitCode_ = 0;
 class ScorchedProcess : public wxProcess
 {
 public:
-	ScorchedProcess(bool server) : wxProcess(!server?wxPROCESS_REDIRECT:0) { }
+	ScorchedProcess(bool server) : 
+		wxProcess(!server?wxPROCESS_REDIRECT:0),
+		server_(server)
+	{ 
+	}
 	
 	virtual void OnTerminate(int pid, int status) 
 	{
 		if (status != 0)
 		{
 			SDL_LockMutex(messageMutex_);
-			exitCode_ = status;
-			if (exitCode_ != 64)
+			if (server_) exitCode_ = 64; // So it doesn't say to load failsafe
+			else exitCode_ = status;
+
+			if (status != 64)
 			{
 				messageString_ = "The Scorched3d process "
 					"terminated unexpectedly.\n";
@@ -111,6 +117,9 @@ public:
 		Detach();
 		wxProcess::OnTerminate(pid, status);
 	}
+
+protected:
+	bool server_;
 };
 
 void runScorched3D(const char *text, bool server)

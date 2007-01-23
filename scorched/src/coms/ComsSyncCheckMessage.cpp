@@ -175,9 +175,10 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		{
 			((Tank*)target)->writeMessage(tmpBuffer, true);
 		}
-		if (memcmp(
+		int memresult = memcmp(
 			tmpBuffer.getBuffer(), &reader.getBuffer()[reader.getReadSize()], 
-			tmpBuffer.getBufferUsed()) != 0)
+			tmpBuffer.getBufferUsed());
+		if (memresult != 0)
 		{
 			if (!target->getTargetState().getMovement())
 			{

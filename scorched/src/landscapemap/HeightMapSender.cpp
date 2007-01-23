@@ -48,11 +48,15 @@ bool HeightMapSender::generateHMapDiff(
 		{
 			float current = hMap.getHeight(i, j);
 			float stored = hMap.getBackupHeight(i, j);
-			float diff = current - stored;
-			if (diff != 0.0f)
+
+			// Send the current height if it is different from the original
+			// or FLT_MAX is it the same as the original.
+			// The idea is that a large number of FLT_MAX will compress well
+			// if the level is mostly the same.
+			float diff = current;
+			if (current == stored)
 			{
-				noDiffs ++;
-				if (current == 0.0f) diff = FLT_MAX;
+				diff = FLT_MAX;
 			}
 
 			Uint32 value = 0;
@@ -130,14 +134,9 @@ bool HeightMapSender::generateHMapFromDiff(
 				Uint32 result = SDLNet_Read32(&value);
 				memcpy(&diff, &result, sizeof(Uint32));
 
-				if (diff == FLT_MAX)
+				if (diff != FLT_MAX)
 				{
-					hMap.setHeight(i, j, 0.0f);
-				}
-				else if (diff != 0.0f)
-				{
-					float current = hMap.getHeight(i, j);
-					hMap.setHeight(i, j, current + diff);
+					hMap.setHeight(i, j, diff);
 				}
 			
 				destCurrent += 4; // Move by 4 bytes (32 bits)
