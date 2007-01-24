@@ -29,7 +29,16 @@ class ServerAdminHandler :
 public:
 	static ServerAdminHandler *instance();
 
+	struct Credential
+	{
+		std::string username;
+		std::string password;
+	};
+
 	bool login(const char *name, const char *password);
+	bool getAllCredentials(std::list<Credential> &creds);
+
+	// Inherited from ComsMessageHandlerI
 	virtual bool processMessage(
 		NetMessage &message,
 		const char *messageType,

@@ -106,6 +106,15 @@ namespace ServerWebHandler
 			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
+
+	class StatsHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
+			std::string &text);
+	};
 };
 
 #endif // __INCLUDE_ServerWebHandlerh_INCLUDE__

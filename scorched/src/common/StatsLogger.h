@@ -43,6 +43,7 @@ public:
 	virtual void updateStats(Tank *tank) = 0;
 	virtual char *allocateId() = 0;
 	virtual char *getStatsId(Tank *tank) = 0;
+	virtual char *getTopRanks() = 0;
 
 	virtual void tankConnected(Tank *tank) = 0;
 	virtual void tankDisconnected(Tank *tank) = 0;
@@ -84,6 +85,7 @@ public:
 	virtual void updateStats(Tank *tank) {}
 	virtual char *allocateId() { return ""; }
 	virtual char *getStatsId(Tank *tank) { return ""; }
+	virtual char *getTopRanks() { return ""; }
 
 	virtual void tankConnected(Tank *tank) {}
 	virtual void tankDisconnected(Tank *tank) {}

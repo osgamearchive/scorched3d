@@ -327,6 +327,40 @@ void StatsLoggerDatabase::addIpAliases(int playerId,
 	}
 }
 
+char *StatsLoggerDatabase::getTopRanks()
+{
+	const char *columns = 
+		"kills, deaths, selfkills, teamkills, shots, wins, "
+		"overallwinner, resigns, gamesplayed, timeplayed, roundsplayed, "
+		"moneyearned, skill, name";
+
+	std::string stringResult;
+	std::list<StatsLoggerDatabase::RowResult> rankRows =
+		runSelectQuery(
+			"select %s from scorched3d_stats "
+			"left join scorched3d_players on scorched3d_stats.playerid = "
+			"scorched3d_players.playerid where seriesid=%i order by kills desc",
+			columns, seriesid_);
+	stringResult.append(columns).append("\n");
+	if (!rankRows.empty())
+	{
+		std::list<StatsLoggerDatabase::RowResult>::iterator itor;
+		for (itor = rankRows.begin();
+			itor != rankRows.end();
+			itor++)
+		{
+			StatsLoggerDatabase::RowResult &result = (*itor);
+			for (unsigned int i=0; i<result.columns.size(); i++)
+			{
+				stringResult.append(result.columns[i]);
+				if (i < result.columns.size() - 1) stringResult.append(",");
+				else stringResult.append("\n");
+			}
+		}
+	}
+	return (char *) formatString("%s", stringResult.c_str());
+}
+
 std::list<std::string> StatsLoggerDatabase::getIpAliases(Tank *tank)
 {
 	std::list<std::string> results;

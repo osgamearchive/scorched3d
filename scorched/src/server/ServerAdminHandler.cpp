@@ -430,6 +430,26 @@ bool ServerAdminHandler::login(const char *name, const char *password)
 	}
 #endif
 
+	std::list<Credential> creds;
+	std::list<Credential>::iterator itor;
+	if (!getAllCredentials(creds)) return false;
+
+	for (itor = creds.begin();
+		itor != creds.end();
+		itor++)
+	{
+		Credential &credential = (*itor);
+		if (0 == strcmp(name, credential.username.c_str()) &&
+			0 == strcmp(password, credential.password.c_str()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ServerAdminHandler::getAllCredentials(std::list<Credential> &creds)
+{
 	const char *fileName = 
 		getSettingsFile(formatString("adminpassword-%i.xml",
 			ScorchedServer::instance()->getOptionsGame().getPortNo()));
@@ -461,17 +481,12 @@ bool ServerAdminHandler::login(const char *name, const char *password)
         XMLNode *currentNode = (*childrenItor);
 		if (strcmp(currentNode->getName(), "user")) return false;
 
-		std::string currentName, currentPassword;
-		if (!currentNode->getNamedChild("name", currentName)) return false;
-		if (!currentNode->getNamedChild("password", currentPassword)) return false;
+		Credential credential;
+		if (!currentNode->getNamedChild("name", credential.username)) return false;
+		if (!currentNode->getNamedChild("password", credential.password)) return false;
 		if (!currentNode->failChildren()) return false;
-
-		if (0 == strcmp(name, currentName.c_str()) &&
-			0 == strcmp(password, currentPassword.c_str()))
-		{
-			return true;
-		}
+		creds.push_back(credential);
 	}
 
-	return false;	
+	return true;	
 }

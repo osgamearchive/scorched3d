@@ -96,6 +96,11 @@ char *StatsLoggerFile::getStatsId(Tank *tank)
 	return "";
 }
 
+char *StatsLoggerFile::getTopRanks()
+{ 
+	return ""; 
+}
+
 std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
 {
 	std::list<std::string> result;

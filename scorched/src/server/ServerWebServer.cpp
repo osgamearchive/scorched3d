@@ -57,6 +57,7 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
 	addRequestHandler("/sessions", new ServerWebHandler::SessionsHandler());
+	addRequestHandler("/stats", new ServerWebHandler::StatsHandler());
 	addRequestHandler("/settingsmain", new ServerWebSettingsHandler::SettingsMainHandler());
 	addRequestHandler("/settingsall", new ServerWebSettingsHandler::SettingsAllHandler());
 	addRequestHandler("/settingslandscape", new ServerWebSettingsHandler::SettingsLandscapeHandler());

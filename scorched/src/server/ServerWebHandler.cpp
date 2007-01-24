@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerWebHandler.h>
+#include <server/ServerAdminHandler.h>
 #include <server/ServerLog.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
@@ -630,27 +631,61 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 	std::string &text)
 {
 	// Sessions Entries
-	std::string sessions;
-	std::map<unsigned int, ServerWebServer::SessionParams> &sessionparams = 
-		ServerWebServer::instance()->getSessions();
-	std::map<unsigned int, ServerWebServer::SessionParams>::iterator itor;
-	for (itor = sessionparams.begin(); itor != sessionparams.end(); itor++)
 	{
-		ServerWebServer::SessionParams &params = (*itor).second;
+		std::string sessions;
+		std::map<unsigned int, ServerWebServer::SessionParams> &sessionparams = 
+			ServerWebServer::instance()->getSessions();
+		std::map<unsigned int, ServerWebServer::SessionParams>::iterator itor;
+		for (itor = sessionparams.begin(); itor != sessionparams.end(); itor++)
+		{
+			ServerWebServer::SessionParams &params = (*itor).second;
 
-		const char *timeStr = ctime((const time_t *) (&params.sessionTime));
-		sessions += formatString(
-			"<tr>"
-			"<td>%s</td>" // Name
-			"<td>%s</td>" // Time
-			"<td>%s</td>" // Ip
-			"</tr>\n",
-			params.userName.c_str(),
-			timeStr,
-			params.ipAddress.c_str()
-		);
+			const char *timeStr = ctime((const time_t *) (&params.sessionTime));
+			sessions += formatString(
+				"<tr>"
+				"<td>%s</td>" // Name
+				"<td>%s</td>" // Time
+				"<td>%s</td>" // Ip
+				"</tr>\n",
+				params.userName.c_str(),
+				timeStr,
+				params.ipAddress.c_str()
+			);
+		}
+		fields["SESSIONS"] = sessions;
 	}
-	fields["SESSIONS"] = sessions;
+
+	// List of admins
+	{
+		std::string admins;
+		std::list<ServerAdminHandler::Credential> creds;
+		std::list<ServerAdminHandler::Credential>::iterator itor;
+		ServerAdminHandler::instance()->getAllCredentials(creds);
+		for (itor = creds.begin();
+			itor != creds.end();
+			itor++)
+		{
+			ServerAdminHandler::Credential &crendential = (*itor);
+			admins += formatString(
+				"<tr>"
+				"<td>%s</td>" // Name
+				"</tr>\n",
+				crendential.username.c_str()
+			);
+		}
+		fields["ADMINS"] = admins;
+	}
 
 	return ServerWebServer::getHtmlTemplate("sessions.html", fields, text);
+}
+
+bool ServerWebHandler::StatsHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
+	std::string &text)
+{
+	const char *ranks = StatsLogger::instance()->getTopRanks();
+	fields["RANKS"] = ranks;
+
+	return ServerWebServer::getHtmlTemplate("stats.html", fields, text);
 }
