@@ -25,6 +25,7 @@
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
 #include <target/TargetContainer.h>
+#include <target/TargetLife.h>
 #include <target/Target.h>
 #include <XML/XMLParser.h>
 
@@ -57,5 +58,5 @@ void PlacementObjectTarget::createObject(ScorchedContext &context,
 		PlacementShadowDefinition::Entry(
 		&targetDef_.getShadow(),
 		position.position,
-		targetDef_.getSize()));
+		target->getLife().getSize()));
 }

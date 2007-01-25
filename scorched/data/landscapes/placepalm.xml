@@ -6,30 +6,94 @@
 			<maxheight>30</maxheight>
 			<object type='random'>
 				<randomobject>
-					<object type='tree'>
-						<tree>palm</tree>
-						<snow>100</snow>
+					<object type='model'>
+						<model type='Tree'>
+							<type>palm</type>
+							<snow>false</snow>
+							<burnt>false</burnt>
+						</model>
+						<modelburnt type='Tree'>
+							<type>palm</type>
+							<snow>false</snow>
+							<burnt>true</burnt>
+						</modelburnt>
+						<modelscale>1.0</modelscale>
+						<modelscalediff>2.0</modelscalediff>
+						<modelrotationsnap>1</modelrotationsnap>
+						<modelbrightness>-1.0</modelbrightness>
+						<displayshadow>false</displayshadow>
+						<nodamageburn>true</nodamageburn>
+						<displaydamage>false</displaydamage>
+						<drawshadow>true</drawshadow>
 						<groupname>trees</groupname>
 					</object>
 				</randomobject>
 				<randomobject>
-					<object type='tree'>
-						<tree>palm2</tree>
-						<snow>100</snow>
+					<object type='model'>
+						<model type='Tree'>
+							<type>palm2</type>
+							<snow>false</snow>
+							<burnt>false</burnt>
+						</model>
+						<modelburnt type='Tree'>
+							<type>palm2</type>
+							<snow>false</snow>
+							<burnt>true</burnt>
+						</modelburnt>
+						<modelscale>1.0</modelscale>
+						<modelscalediff>2.0</modelscalediff>
+						<modelrotationsnap>1</modelrotationsnap>
+						<modelbrightness>-1.0</modelbrightness>
+						<displayshadow>false</displayshadow>
+						<nodamageburn>true</nodamageburn>
+						<displaydamage>false</displaydamage>
+						<drawshadow>true</drawshadow>
 						<groupname>trees</groupname>
 					</object>
 				</randomobject>
 				<randomobject>
-					<object type='tree'>
-						<tree>palm3</tree>
-						<snow>100</snow>
+					<object type='model'>
+						<model type='Tree'>
+							<type>palm3</type>
+							<snow>false</snow>
+							<burnt>false</burnt>
+						</model>
+						<modelburnt type='Tree'>
+							<type>palm3</type>
+							<snow>false</snow>
+							<burnt>true</burnt>
+						</modelburnt>
+						<modelscale>1.0</modelscale>
+						<modelscalediff>2.0</modelscalediff>
+						<modelrotationsnap>1</modelrotationsnap>
+						<modelbrightness>-1.0</modelbrightness>
+						<displayshadow>false</displayshadow>
+						<nodamageburn>true</nodamageburn>
+						<displaydamage>false</displaydamage>
+						<drawshadow>true</drawshadow>
 						<groupname>trees</groupname>
 					</object>
 				</randomobject>
 				<randomobject>
-					<object type='tree'>
-						<tree>palm4</tree>
-						<snow>100</snow>
+					<object type='model'>
+						<model type='Tree'>
+							<type>palm4</type>
+							<snow>false</snow>
+							<burnt>false</burnt>
+						</model>
+						<modelburnt type='Tree'>
+							<type>palm4</type>
+							<snow>false</snow>
+							<burnt>true</burnt>
+						</modelburnt>
+						<modelscale>1.0</modelscale>
+						<modelscalediff>2.0</modelscalediff>
+						<modelrotationsnap>1</modelrotationsnap>
+						<modelbrightness>-1.0</modelbrightness>
+						<displayshadow>false</displayshadow>
+						<nodamageburn>true</nodamageburn>
+						<displaydamage>false</displaydamage>
+						<drawshadow>true</drawshadow>
 						<groupname>trees</groupname>
 					</object>
 				</randomobject>

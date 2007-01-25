@@ -34,8 +34,9 @@
 
 TargetDefinition::TargetDefinition() : 
 	life_(1.0f), boundingsphere_(true),
-	size_(2.0f, 2.0f, 2.0f), 
-	modelscale_(0.05f), modelrotation_(0.0f), modelrotationsnap_(-1.0f),
+	size_(0.0f, 0.0f, 0.0f), 
+	modelscale_(0.05f), modelscalediff_(0.0f),
+	modelrotation_(0.0f), modelrotationsnap_(-1.0f),
 	driveovertodestroy_(false), border_(0.0f), 
 	displaydamage_(true), displayshadow_(true), 
 	nodamageburn_(false), nocollision_(false), nofalling_(false)
@@ -60,9 +61,12 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("displaydamage", displaydamage_, false);
 	node->getNamedChild("displayshadow", displayshadow_, false);
 
+	node->getNamedChild("size", size_, false);
 	node->getNamedChild("modelscale", modelscale_, false);
+	node->getNamedChild("modelscalediff", modelscalediff_, false);
 	node->getNamedChild("modelrotation", modelrotation_, false);
 	node->getNamedChild("modelrotationsnap", modelrotationsnap_, false);
+	node->getNamedChild("modelbrightness", modelbrightness_, false);
 	node->getNamedChild("border", border_, false);
 
 	XMLNode *modelnode, *burntmodelnode;
@@ -77,13 +81,6 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 		modelnode->resurrectRemovedChildren();
 		if (!modelburntId_.initFromNode(base, modelnode)) return false;
 	}
-	if (!node->getNamedChild("size", size_, false))
-	{
-		Model *model = ModelStore::instance()->loadModel(modelId_);
-		size_ = model->getMax() - model->getMin();
-		size_ *= modelscale_;
-	}
-
 	node->getNamedChild("driveovertodestroy", driveovertodestroy_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
 	node->getNamedChild("burnaction", burnaction_, false);
@@ -110,15 +107,24 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		rotation = float(int(generator.getRandFloat() * 360.0f) / 
 			int(modelrotationsnap_)) * modelrotationsnap_;
 	}
-#ifndef S3D_SERVER
-	if (!context.serverMode)
+	float finalModelScale = modelscale_;
+	if (modelscalediff_ > 0.0f)
 	{
-		target->setRenderer(
-			new TargetRendererImplTargetModel(
-				target, modelId_, modelburntId_,
-				modelscale_));
+		finalModelScale += generator.getRandFloat() * modelscalediff_;
 	}
-#endif // #ifndef S3D_SERVER
+	float finalBrightness = modelbrightness_;
+	if (finalBrightness == -1.0)
+	{
+		finalBrightness = generator.getRandFloat() * 0.7f + 0.3f;
+	}
+
+	Vector finalSize = size_;
+	if (finalSize == Vector::nullVector)
+	{
+		Model *model = ModelStore::instance()->loadModel(modelId_);
+		finalSize = model->getMax() - model->getMin();
+		finalSize *= finalModelScale;
+	}
 
 	target->getTargetState().setNoCollision(nocollision_);
 	target->getTargetState().setDisplayDamage(displaydamage_);
@@ -126,7 +132,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	target->getTargetState().setNoDamageBurn(nodamageburn_);
 	target->getTargetState().setNoFalling(nofalling_);
 	target->getLife().setMaxLife(life_);
-	target->getLife().setSize(size_);
+	target->getLife().setSize(finalSize);
 	target->getLife().setVelocity(velocity);
 	target->getLife().setDriveOverToDestroy(driveovertodestroy_);
 	target->getLife().setRotation(rotation);
@@ -191,6 +197,16 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	target->getLife().setTargetPosition(position);
 
 	groups_.addToGroups(context, &target->getGroup(), false);
+
+#ifndef S3D_SERVER
+	if (!context.serverMode)
+	{
+		target->setRenderer(
+			new TargetRendererImplTargetModel(
+				target, modelId_, modelburntId_,
+				finalModelScale, finalBrightness));
+	}
+#endif // #ifndef S3D_SERVER
 
 	return target;
 }

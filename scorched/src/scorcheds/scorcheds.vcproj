@@ -1862,14 +1862,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\placement\PlacementObjectTree.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\placement\PlacementObjectTree.h"
-				>
-			</File>
-			<File
 				RelativePath="..\placement\PlacementShadowDefinition.cpp"
 				>
 			</File>

@@ -125,9 +125,8 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 	}
 	else if (strcmp(typeNode->getContent(), "Tree") == 0)
 	{
-		float snow;
 		std::string meshName;
-		bool burnt;
+		bool burnt, snow;
 		if (!modelNode->getNamedChild("type", meshName)) return false;
 		if (!modelNode->getNamedChild("snow", snow)) return false;
 		if (!modelNode->getNamedChild("burnt", burnt)) return false;
@@ -142,8 +141,8 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 					meshName.c_str()));
 		}
 
-		skinName_ = formatString("%f", snow);
-		meshName_ = formatString("%s:%s", (burnt?"B":"N"), meshName_.c_str());
+		skinName_ = formatString("%s", (snow?"S":"N"));
+		meshName_ = formatString("%s:%s", (burnt?"B":"N"), meshName.c_str());
 	}
 	else
 	{

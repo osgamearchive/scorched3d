@@ -29,7 +29,6 @@ class PlacementObject
 public:
 	enum Type
 	{
-		eTree,
 		eModel,
 		eTarget,
 		eGroup,

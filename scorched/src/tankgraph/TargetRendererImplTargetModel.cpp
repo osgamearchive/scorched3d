@@ -40,13 +40,13 @@
 
 TargetRendererImplTargetModel::TargetRendererImplTargetModel(Target *target,
 	ModelID model, ModelID burntModel, 
-	float scale) :
+	float scale, float color) :
 	target_(target),
 	canSeeTank_(false), burnt_(false),
 	shieldHit_(0.0f), totalTime_(0.0f),
 	posX_(0.0), posY_(0.0), posZ_(0.0),
 	targetTips_(target),
-	scale_(scale)
+	scale_(scale), color_(color)
 {
 	modelRenderer_ = new ModelRendererSimulator(
 		ModelRendererStore::instance()->loadModel(model));
@@ -125,6 +125,7 @@ void TargetRendererImplTargetModel::draw(float distance)
 	static float rotMatrix[16];
 	target_->getLife().getQuaternion().getOpenGLRotationMatrix(rotMatrix);
 
+	glColor4f(color_, color_, color_, 1.0f);
 	glPushMatrix();
 		glTranslatef(
 			target_->getLife().getTargetPosition()[0], 

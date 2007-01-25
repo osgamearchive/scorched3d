@@ -32,7 +32,7 @@ class TargetRendererImplTargetModel :
 public:
 	TargetRendererImplTargetModel(Target *target, 
 		ModelID model, ModelID burntModel,
-		float scale);
+		float scale, float color);
 	virtual ~TargetRendererImplTargetModel();
 
 	virtual void simulate(float frameTime);
@@ -50,7 +50,7 @@ protected:
 	bool canSeeTank_;
 	bool burnt_;
 	float shieldHit_, totalTime_;
-	float scale_;
+	float scale_, color_;
 	double posX_, posY_, posZ_;
 	GLWTargetTips targetTips_;
 

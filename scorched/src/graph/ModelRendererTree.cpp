@@ -338,10 +338,12 @@ ModelRendererTree::ModelRendererTree(Model *model, ModelID &id) :
 	model_(model), treeType_(0)
 {
 	const char *modelName = id.getMeshName();
+	const char *skinName = id.getSkinName();
 	bool burnt = modelName[0] == 'B';
+	bool snow = skinName[0] == 'S';
 
 	TreeModelFactory::TreeType normalType, burntType;
-	TreeModelFactory::getTypes(&modelName[1], true, 
+	TreeModelFactory::getTypes(&modelName[2], snow, 
 		normalType, burntType);
 	treeType_ = (burnt?burntType:normalType);
 }
@@ -814,9 +816,7 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);
 	}
 
-	float color_ = 1.0f;
 	glPushMatrix();
-		glColor4f(color_, color_, color_, 1.0f);
 		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000)
 		{
 			glCallList(smallTreeList);

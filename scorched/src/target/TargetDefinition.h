@@ -41,7 +41,6 @@ public:
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
-	Vector &getSize() { return size_; }
 	PlacementShadowDefinition &getShadow() { return shadow_; }
 	PlacementGroupDefinition &getGroups() { return groups_; }
 
@@ -55,8 +54,8 @@ protected:
 	std::string parachute_;
 	std::string shield_;
 	Vector size_;
-	float modelscale_;
-	float modelrotation_;
+	float modelscale_, modelscalediff_;
+	float modelrotation_, modelbrightness_;
 	float modelrotationsnap_;
 	float border_;
 	std::string removeaction_;

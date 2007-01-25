@@ -1861,14 +1861,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\placement\PlacementObjectTree.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\placement\PlacementObjectTree.h"
-				>
-			</File>
-			<File
 				RelativePath="..\placement\PlacementShadowDefinition.cpp"
 				>
 			</File>
@@ -4498,14 +4490,6 @@
 			</File>
 			<File
 				RelativePath="..\tankgraph\TargetRendererImplTargetModel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\tankgraph\TargetRendererImplTargetTree.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\tankgraph\TargetRendererImplTargetTree.h"
 				>
 			</File>
 		</Filter>
