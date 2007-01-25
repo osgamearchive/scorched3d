@@ -22,6 +22,7 @@
 #include <tankgraph/MissileMesh.h>
 #include <graph/ModelRenderer.h>
 #include <graph/ModelRendererStore.h>
+#include <3dsparse/Model.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
@@ -88,7 +89,7 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 		glScalef(scale, scale, scale);
-		model_->draw(frame);
+		model_->draw(frame, 0.0f, 1.0f);
 	glPopMatrix();
 
 	// Draw any lense flares associated with the missile

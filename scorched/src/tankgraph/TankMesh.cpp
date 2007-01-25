@@ -26,7 +26,7 @@
 #include <common/Defines.h>
 
 TankMesh::TankMesh(Model &tank) : 
-	ModelRenderer(&tank),
+	ModelRendererMesh(&tank),
 	scale_(1.0f)
 {
 	setupTankMesh();
@@ -133,8 +133,8 @@ void TankMesh::draw(float frame, bool drawS, Vector4 &angle, Vector &position,
 		glMultMatrixf(rotMatrix);
 		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
-		if (absCenter) ModelRenderer::draw(frame, fade);
-		else ModelRenderer::drawBottomAligned(frame, fade);
+		if (absCenter) ModelRendererMesh::draw(frame, 0.0f, fade);
+		else ModelRendererMesh::drawBottomAligned(frame, 0.0f, fade);
 	glPopMatrix();
 }
 
@@ -169,7 +169,7 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 			}
 		}
 
-		ModelRenderer::drawMesh(m, mesh, currentFrame);
+		ModelRendererMesh::drawMesh(m, mesh, currentFrame);
 	glPopMatrix();
 
 	vertexTranslation_.zero();

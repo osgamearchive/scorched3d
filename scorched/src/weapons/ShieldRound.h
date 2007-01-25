@@ -40,6 +40,7 @@ public:
 	virtual bool inShield(Vector &offset);
 	virtual ShieldType getShieldType();
 	virtual bool getRound() { return true; }
+	virtual float getBoundingSize() { return radius_; }
 
 	REGISTER_ACCESSORY_HEADER(ShieldRound, AccessoryPart::AccessoryShield);
 

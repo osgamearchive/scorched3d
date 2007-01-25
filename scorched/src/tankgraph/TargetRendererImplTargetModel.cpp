@@ -21,6 +21,7 @@
 #include <tankgraph/TargetRendererImplTargetModel.h>
 #include <target/TargetLife.h>
 #include <target/TargetState.h>
+#include <target/TargetShield.h>
 #include <landscape/Landscape.h>
 #include <landscape/ShadowMap.h>
 #include <3dsparse/ModelStore.h>
@@ -28,6 +29,8 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
+#include <weapons/Accessory.h>
+#include <weapons/Shield.h>
 #include <GLW/GLWToolTip.h>
 #include <dialogs/TutorialDialog.h>
 #include <client/ScorchedClient.h>
@@ -85,8 +88,16 @@ void TargetRendererImplTargetModel::draw(float distance)
 		return;
 	}
 
-	// Figure out the drawing distance
+	// Get the size of the object
 	float size = target_->getLife().getAabbSize().Max();
+	Accessory *shieldAcc = target_->getShield().getCurrentShield();
+	if (shieldAcc)
+	{
+		Shield *shield = (Shield *) shieldAcc->getAction();
+		size = MAX(shield->getBoundingSize(), size);
+	}	
+
+	// Figure out the drawing distance
 	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * size * 2.0f;
 	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
 	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
@@ -121,8 +132,8 @@ void TargetRendererImplTargetModel::draw(float distance)
 			target_->getLife().getTargetPosition()[2]);
 		glMultMatrixf(rotMatrix);
 		glScalef(scale_, scale_, scale_);
-		if (burnt_) burntModelRenderer_->drawBottomAligned(fade);
-		else modelRenderer_->drawBottomAligned(fade);
+		if (burnt_) burntModelRenderer_->drawBottomAligned(distance, fade);
+		else modelRenderer_->drawBottomAligned(distance, fade);
 	glPopMatrix();
 }
 
@@ -153,6 +164,8 @@ void TargetRendererImplTargetModel::shieldHit()
 
 void TargetRendererImplTargetModel::storeTank2DPos()
 {
+	if (!target_->getName()[0]) return;
+
 	Vector &tankTurretPos = 
 		target_->getLife().getCenterPosition();
 	Vector camDir = 

@@ -3969,6 +3969,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\3dsparse\TreeModelFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\3dsparse\TreeModelFactory.h"
+				>
+			</File>
+			<File
 				RelativePath="..\3dsparse\Vertex.cpp"
 				>
 			</File>
@@ -4577,6 +4585,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\graph\ModelRendererMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\ModelRendererMesh.h"
+				>
+			</File>
+			<File
 				RelativePath="..\graph\ModelRendererSimulator.cpp"
 				>
 			</File>
@@ -4590,6 +4606,14 @@
 			</File>
 			<File
 				RelativePath="..\graph\ModelRendererStore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\ModelRendererTree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\ModelRendererTree.h"
 				>
 			</File>
 			<File

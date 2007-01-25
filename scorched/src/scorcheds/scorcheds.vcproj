@@ -3054,6 +3054,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\3dsparse\TreeModelFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\3dsparse\TreeModelFactory.h"
+				>
+			</File>
+			<File
 				RelativePath="..\3dsparse\Vertex.cpp"
 				>
 			</File>

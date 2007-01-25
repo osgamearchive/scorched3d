@@ -18,22 +18,51 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModelRendererh_INCLUDE__)
-#define __INCLUDE_ModelRendererh_INCLUDE__
+#if !defined(__INCLUDE_ModelRendererMeshh_INCLUDE__)
+#define __INCLUDE_ModelRendererMeshh_INCLUDE__
 
-class Model;
-class ModelRenderer
+#include <graph/ModelRenderer.h>
+#include <3dsparse/Model.h>
+
+class GLTexture;
+class ModelRendererMesh : public ModelRenderer
 {
 public:
-	ModelRenderer();
-	virtual ~ModelRenderer();
+	ModelRendererMesh(Model *model);
+	virtual ~ModelRendererMesh();
 
 	virtual void draw(float currentFrame, 
-		float distance, float fade) = 0;
+		float distance, float fade);
 	virtual void drawBottomAligned(float currentFrame, 
-		float distance, float fade) = 0;
+		float distance, float fade);
 
-	virtual Model *getModel() = 0;
+	virtual Model *getModel() { return model_; }
+
+protected:
+	struct MeshFrameInfo
+	{
+		MeshFrameInfo() : displayList(0), lastCachedState(0) {}
+
+		unsigned int displayList;
+		unsigned int lastCachedState;
+	};
+
+	struct MeshInfo
+	{
+		MeshInfo() : texture(0) {}
+
+		GLTexture *texture;
+		std::vector<MeshFrameInfo> frameInfos_;
+	};
+
+	Model *model_;
+	std::vector<BoneType *> boneTypes_;
+	std::vector<MeshInfo> meshInfos_;
+	Vector vertexTranslation_;
+
+	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
+	virtual void drawVerts(unsigned int m, Mesh *mesh, bool vertexLighting, int frame);
+	virtual void setup();
 };
 
-#endif // __INCLUDE_ModelRendererh_INCLUDE__
+#endif // __INCLUDE_ModelRendererMeshh_INCLUDE__

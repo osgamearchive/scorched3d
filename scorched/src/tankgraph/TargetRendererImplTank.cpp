@@ -43,7 +43,8 @@
 #include <graph/OptionsDisplay.h>
 #include <graph/ModelRenderer.h>
 #include <common/Defines.h>
-#include <3dsparse/ModelStore.h>
+#include <graph/ModelRendererStore.h>
+#include <graph/ModelRendererSimulator.h>
 #include <weapons/Shield.h>
 #include <weapons/Accessory.h>
 #include <dialogs/TutorialDialog.h>
@@ -62,17 +63,17 @@ std::string TargetRendererImplTankHUD::textB_ = "";
 Vector TargetRendererImplTankAIM::aimPosition_;
 float TargetRendererImplTankAIM::timeLeft_ = -1.0f;
 
-ModelRenderer *TargetRendererImplTankAIM::getAutoAimModel()
+ModelRendererSimulator *TargetRendererImplTankAIM::getAutoAimModel()
 {
-	static ModelRenderer *array = 0;
-	if (!array)
+	static ModelRendererSimulator *modelRenderer = 0;
+	if (!modelRenderer)
 	{
 		ModelID id;
 		id.initFromString("ase", "data/meshes/autoaim.ase", "none");
-		array = new ModelRenderer(
-			ModelStore::instance()->loadModel(id));
+		modelRenderer = new ModelRendererSimulator(
+			ModelRendererStore::instance()->loadModel(id));
 	}
-	return array;
+	return modelRenderer;
 }
 
 TargetRendererImplTank::TargetRendererImplTank(Tank *tank) :
@@ -132,7 +133,7 @@ void TargetRendererImplTank::draw(float distance)
 
 		glPushMatrix();
 			glTranslatef(pos[0], pos[1], pos[2]);
-			TargetRendererImplTankAIM::getAutoAimModel()->draw(0.0f);
+			TargetRendererImplTankAIM::getAutoAimModel()->draw();
 		glPopMatrix();
 	}
 

@@ -28,13 +28,13 @@
 #include <GLW/GLWTankTip.h>
 #include <GLEXT/GLState.h>
 
-class ModelRenderer;
+class ModelRendererSimulator;
 class TargetRendererImplTankAIM
 {
 public:
 	static void simulate(float frameTime) { timeLeft_ -= frameTime; }
 
-	static ModelRenderer *getAutoAimModel();
+	static ModelRendererSimulator *getAutoAimModel();
 	static bool drawAim() { return (timeLeft_ > 0.0f); }
 	static void setAimPosition(Vector &pos) { aimPosition_ = pos; timeLeft_= 5.0f; }
 	static Vector &getAimPosition() { return aimPosition_; }

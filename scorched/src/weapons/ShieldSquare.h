@@ -38,6 +38,7 @@ public:
 	virtual bool inShield(Vector &offset);
 	virtual ShieldType getShieldType();
 	virtual bool getRound() { return false; }
+	virtual float getBoundingSize() { return size_.Max(); }
 
 	REGISTER_ACCESSORY_HEADER(ShieldSquare, AccessoryPart::AccessoryShield);
 

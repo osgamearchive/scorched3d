@@ -22,6 +22,7 @@
 #include <common/Defines.h>
 #include <net/NetBuffer.h>
 #include <XML/XMLParser.h>
+#include <3dsparse/TreeModelFactory.h>
 
 ModelID::ModelID()
 {
@@ -121,6 +122,28 @@ bool ModelID::initFromNode(const char *directory, XMLNode *modelNode)
 		}
 
 		meshName_ = meshName;
+	}
+	else if (strcmp(typeNode->getContent(), "Tree") == 0)
+	{
+		float snow;
+		std::string meshName;
+		bool burnt;
+		if (!modelNode->getNamedChild("type", meshName)) return false;
+		if (!modelNode->getNamedChild("snow", snow)) return false;
+		if (!modelNode->getNamedChild("burnt", burnt)) return false;
+
+		TreeModelFactory::TreeType normalType, burntType;
+		if (!TreeModelFactory::getTypes(meshName.c_str(), true, 
+			normalType, burntType))
+		{
+			return modelNode->returnError(
+				formatString(
+					"Tree type \"%s\" does not exist",
+					meshName.c_str()));
+		}
+
+		skinName_ = formatString("%f", snow);
+		meshName_ = formatString("%s:%s", (burnt?"B":"N"), meshName_.c_str());
 	}
 	else
 	{

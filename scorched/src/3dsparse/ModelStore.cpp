@@ -20,6 +20,7 @@
 
 #include <3dsparse/ASEModelFactory.h>
 #include <3dsparse/MSModelFactory.h>
+#include <3dsparse/TreeModelFactory.h>
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
 #include <graph/OptionsDisplay.h>
@@ -71,12 +72,22 @@ Model *ModelStore::getModel(ModelID &id)
 		model = factory.createModel(meshName.c_str(), 
 			(noSkin?"":getDataFile(id.getSkinName())));
 	}
-	else
+	else if (0 == strcmp(id.getType(), "MilkShape"))
 	{
 		// Load the Milkshape containing the tank definitions
 		std::string meshName(getDataFile(id.getMeshName()));
 		MSModelFactory factory;
 		model = factory.createModel(meshName.c_str());		
+	}
+	else if (0 == strcmp(id.getType(), "Tree"))
+	{
+		// Create a model for the tree
+		TreeModelFactory factory;
+		model = factory.createModel(id.getMeshName(), id.getSkinName());		
+	}
+	else
+	{
+		DIALOG_ASSERT(0);
 	}
 
 	return model;

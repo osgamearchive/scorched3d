@@ -22,10 +22,10 @@
 #define AFX_TANKMESH_H__CB857C65_A22F_4FBC_9344_EFF22F8A4EEA__INCLUDED_
 
 #include <common/Vector4.h>
-#include <graph/ModelRenderer.h>
+#include <graph/ModelRendererMesh.h>
 #include <list>
 
-class TankMesh : public ModelRenderer
+class TankMesh : public ModelRendererMesh
 {
 public:
 	TankMesh(Model &tank);

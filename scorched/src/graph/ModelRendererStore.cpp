@@ -19,7 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <graph/ModelRendererStore.h>
-#include <graph/ModelRenderer.h>
+#include <graph/ModelRendererMesh.h>
+#include <graph/ModelRendererTree.h>
 #include <3dsparse/ModelStore.h>
 #include <common/Defines.h>
 
@@ -58,6 +59,14 @@ ModelRenderer *ModelRendererStore::loadModel(ModelID &modelId)
 ModelRenderer *ModelRendererStore::getModel(ModelID &id)
 {
 	Model *model = ModelStore::instance()->loadModel(id);
-	ModelRenderer *modelRenderer = new ModelRenderer(model);
+	ModelRenderer *modelRenderer = 0;
+	if (0 == strcmp("Tree", id.getType()))
+	{
+		modelRenderer = new ModelRendererTree(model, id);
+	}
+	else
+	{
+		modelRenderer = new ModelRendererMesh(model);
+	}
 	return modelRenderer;
 }

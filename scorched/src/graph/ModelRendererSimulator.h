@@ -28,8 +28,8 @@ public:
 	ModelRendererSimulator(ModelRenderer *renderer);
 	virtual ~ModelRendererSimulator();
 
-	void draw(float fade = 1.0f);
-	void drawBottomAligned(float fade = 1.0f);
+	void draw(float distance = 0.0f, float fade = 1.0f);
+	void drawBottomAligned(float distance = 0.0f, float fade = 1.0f);
 	void simulate(float frameTime);
 
 	ModelRenderer *getRenderer() { return renderer_; }

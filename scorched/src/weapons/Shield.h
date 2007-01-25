@@ -61,6 +61,7 @@ public:
 	bool getLaserProof() { return laserProof_; }
 	ShieldMovementType getMovementProof() { return movementProof_; }
 
+	virtual float getBoundingSize() = 0;
 	virtual bool inShield(Vector &offset) = 0;
 	virtual ShieldType getShieldType() = 0;
 	virtual bool getRound() = 0;

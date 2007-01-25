@@ -18,36 +18,57 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <graph/ModelRendererSimulator.h>
-#include <graph/ModelRenderer.h>
+#if !defined(__INCLUDE_TreeModelFactoryh_INCLUDE__)
+#define __INCLUDE_TreeModelFactoryh_INCLUDE__
+
 #include <3dsparse/Model.h>
-#include <stdlib.h>
 
-ModelRendererSimulator::ModelRendererSimulator(ModelRenderer *renderer) : 
-	renderer_(renderer)
+class TreeModelFactory
 {
-	currentFrame_ = (float) renderer_->getModel()->getStartFrame();
-	if (renderer_->getModel()->getTotalFrames() > 1)
+public:
+	enum TreeType
 	{
-		currentFrame_ = (float) (rand() % renderer_->getModel()->getTotalFrames());		
-	}
-}
+		eNone,
+		ePineNormal,
+		ePineBurnt,
+		ePineYellow,
+		ePineLight,
+		ePineSnow,
+		ePine2,
+		ePine3,
+		ePine4,
+		ePine2Snow,
+		ePine3Snow,
+		ePine4Snow,
+		ePalmNormal,
+		ePalmBurnt,
+		ePalm2,
+		ePalm3,
+		ePalm4,
+		ePalmB,
+		ePalmB2,
+		ePalmB3,
+		ePalmB4,
+		ePalmB5,
+		ePalmB6,
+		ePalmB7,
+		eOak,
+		eOak2,
+		eOak3,
+		eOak4
+	};
 
-ModelRendererSimulator::~ModelRendererSimulator()
-{
-}
+	TreeModelFactory();
+	virtual ~TreeModelFactory();
 
-void ModelRendererSimulator::drawBottomAligned(float distance, float fade)
-{
-	renderer_->drawBottomAligned(currentFrame_, distance, fade);
-}
+	Model *createModel(const char *fileName,
+		const char *texName);
 
-void ModelRendererSimulator::draw(float distance, float fade)
-{
-	renderer_->draw(currentFrame_, distance, fade);
-}
+	static bool getTypes(const char *type, bool snow, 
+		TreeType &normalType, TreeType &burntType);
 
-void ModelRendererSimulator::simulate(float frameTime)
-{
-	currentFrame_ += frameTime;
-}
+protected:
+
+};
+
+#endif // __INCLUDE_TreeModelFactoryh_INCLUDE__
