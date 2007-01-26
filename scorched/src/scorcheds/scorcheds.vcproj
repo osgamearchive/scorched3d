@@ -1822,6 +1822,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\placement\PlacementObjectHeight.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\placement\PlacementObjectHeight.h"
+				>
+			</File>
+			<File
 				RelativePath="..\placement\PlacementObjectNone.cpp"
 				>
 			</File>

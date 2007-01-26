@@ -18,38 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_PlacementObjecth_INCLUDE__)
-#define __INCLUDE_PlacementObjecth_INCLUDE__
+#if !defined(__INCLUDE_PlacementObjectHeighth_INCLUDE__)
+#define __INCLUDE_PlacementObjectHeighth_INCLUDE__
 
-#include <placement/PlacementType.h>
+#include <placement/PlacementObject.h>
+#include <vector>
 
-class XMLNode;
-class PlacementObject
+class PlacementObjectHeight : public PlacementObject
 {
 public:
-	enum Type
-	{
-		eModel,
-		eTarget,
-		eGroup,
-		eRandom,
-		eTank,
-		eShadow,
-		eHeight,
-		eNone
-	};
-
-	static PlacementObject *create(const char *type);
-
-	PlacementObject();
-	virtual ~PlacementObject();
+	PlacementObjectHeight();
+	virtual ~PlacementObjectHeight();
 
 	virtual bool readXML(XMLNode *node);
-	virtual Type getType() = 0;
+	virtual PlacementObject::Type getType() { return PlacementObject::eHeight; }
 	virtual void createObject(ScorchedContext &context,
 		RandomGenerator &generator,
 		unsigned int &playerId,
-		PlacementType::Position &position) = 0;
-};
+		PlacementType::Position &position);
 
-#endif // __INCLUDE_PlacementObjecth_INCLUDE__
+protected:
+	struct HeightObject
+	{
+		PlacementObject *object;
+		float min;
+		float max;
+	};
+	std::vector<HeightObject> objects_;
+};
+#endif // __INCLUDE_PlacementObjectHeighth_INCLUDE__
