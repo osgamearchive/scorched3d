@@ -92,8 +92,6 @@ TankMenus::TankMenus() : logger_("ClientLog")
 	new GLConsoleRuleFnIBooleanAdapter(
 		"StateTimeLogging",
 		ScorchedClient::instance()->getGameState().getStateTimeLogging());
-	new GLConsoleRuleMethodIAdapter<TankMenus>(
-		this, &TankMenus::showInventory, "TankInventory");
 	
 	if (OptionsDisplay::instance()->getClientLogToFile())
 	{

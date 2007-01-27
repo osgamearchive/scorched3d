@@ -235,6 +235,23 @@ void MovementMap::calculateForTank(Tank *tank,
 		return;
 	}
 
+	// Setup movement variables
+	unsigned int posX = (unsigned int) 
+		tank->getPosition().getTankPosition()[0];
+	unsigned int posY = (unsigned int) 
+		tank->getPosition().getTankPosition()[1];
+
+	float fuel = 0.0f;
+	int numberFuel = tank->getAccessories().getAccessoryCount(weapon->getParent());
+	if (numberFuel == -1 || maxFuel)
+	{
+		fuel = (float) weapon->getMaximumRange();
+	}
+	else
+	{
+		fuel = (float) MIN(weapon->getMaximumRange(), numberFuel);
+	}
+
 	// If other tanks have shields then check if we can move into the shields
 	for (int y=0; y<height_; y++)
 	{
@@ -279,23 +296,6 @@ void MovementMap::calculateForTank(Tank *tank,
 		{
 			waterHeight = tank->getPosition().getTankPosition()[2] - 0.1f;
 		}
-	}
-
-	// Setup movement variables
-	unsigned int posX = (unsigned int) 
-		tank->getPosition().getTankPosition()[0];
-	unsigned int posY = (unsigned int) 
-		tank->getPosition().getTankPosition()[1];
-
-	float fuel = 0.0f;
-	int numberFuel = tank->getAccessories().getAccessoryCount(weapon->getParent());
-	if (numberFuel == -1 || maxFuel)
-	{
-		fuel = (float) weapon->getMaximumRange();
-	}
-	else
-	{
-		fuel = (float) MIN(weapon->getMaximumRange(), numberFuel);
 	}
 
 	std::list<unsigned int> edgeList;
