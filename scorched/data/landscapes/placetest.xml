@@ -28,6 +28,7 @@
 						</groundmap>
 						<groupname>bob</groupname>
 						<groupname>sam</groupname>
+						<groupname>testmove</groupname>
 					</object>
 				</groupobject>
 				<groupobject>
@@ -65,4 +66,25 @@
 				</groupobject>
 			</object>
 		</placement>
+	<movement type="spline">
+		<speed>0.1</speed>
+		<starttime>600</starttime>
+		<groundonly>true</groundonly>
+		<groupname>testmove</groupname>
+		<controlpoint>
+			<A>128</A>
+			<B>128</B>
+			<C>0</C>
+		</controlpoint>
+		<controlpoint>
+			<A>256</A>
+			<B>128</B>
+			<C>0</C>
+		</controlpoint>
+		<controlpoint>
+			<A>128</A>
+			<B>256</B>
+			<C>0</C>
+		</controlpoint>
+	</movement>
 </place>

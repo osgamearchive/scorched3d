@@ -26,6 +26,7 @@ LandscapeMovementType *LandscapeMovementType::create(const char *type)
 {
 	if (0 == strcmp(type, "boids")) return new LandscapeMovementTypeBoids;
 	if (0 == strcmp(type, "ships")) return new LandscapeMovementTypeShips;
+	if (0 == strcmp(type, "spline")) return new LandscapeMovementTypeSpline;
 	dialogMessage("LandscapeMovementType", formatString("Unknown movement type %s", type));
 	return 0;
 }
@@ -45,6 +46,22 @@ bool LandscapeMovementTypeShips::readXML(XMLNode *node)
 	if (!node->getNamedChild("controlpointsheight", controlpointsheight)) return false;
 	if (!node->getNamedChild("controlpointsrand", controlpointsrand)) return false;
 	if (!node->getNamedChild("starttime", starttime)) return false;
+
+	return LandscapeMovementType::readXML(node);
+}
+
+bool LandscapeMovementTypeSpline::readXML(XMLNode *node)
+{
+	if (!node->getNamedChild("speed", speed)) return false;
+	if (!node->getNamedChild("starttime", starttime)) return false;
+	if (!node->getNamedChild("groundonly", groundonly)) return false;
+	Vector point;
+	while (node->getNamedChild("controlpoint", point, false))
+	{
+		points.push_back(point);
+	}
+
+	if (points.size() < 3) return node->returnError("Must have at least 3 control points");
 
 	return LandscapeMovementType::readXML(node);
 }

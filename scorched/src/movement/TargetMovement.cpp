@@ -21,6 +21,7 @@
 #include <movement/TargetMovement.h>
 #include <movement/TargetMovementEntryShips.h>
 #include <movement/TargetMovementEntryBoids.h>
+#include <movement/TargetMovementEntrySpline.h>
 #include <common/RandomGenerator.h>
 #include <engine/ScorchedContext.h>
 #include <landscapemap/LandscapeMaps.h>
@@ -88,6 +89,9 @@ void TargetMovement::addMovementType(ScorchedContext &context,
 			break;
 		case LandscapeMovementType::eShips:
 			entry = new TargetMovementEntryShips();
+			break;
+		case LandscapeMovementType::eSpline:
+			entry = new TargetMovementEntrySpline();
 			break;
 		default:
 			DIALOG_ASSERT(0);

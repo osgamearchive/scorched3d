@@ -647,9 +647,18 @@ void ServerNewGameState::removeTargets()
 		Target *target = (*itor).second;
 		if (target->isTemp())
 		{
-			Target *removedTarget = 
-				ScorchedServer::instance()->getTargetContainer().removeTarget(playerId);
-			delete removedTarget;
+			if (target->isTarget())
+			{
+				Target *removedTarget = 
+					ScorchedServer::instance()->getTargetContainer().removeTarget(playerId);
+				delete removedTarget;
+			}
+			else
+			{
+				Tank *removedTank = 
+					ScorchedServer::instance()->getTankContainer().removeTank(playerId);
+				delete removedTank;
+			}
 		}
 	}
 }

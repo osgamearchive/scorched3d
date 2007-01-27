@@ -30,6 +30,12 @@ TargetContainer::~TargetContainer()
 
 void TargetContainer::addTarget(Target *target)
 {
+	DIALOG_ASSERT(target->isTarget());
+	internalAddTarget(target);
+}
+
+void TargetContainer::internalAddTarget(Target *target)
+{
 	std::map<unsigned int, Target *>::iterator findItor = 
 		targets_.find(target->getPlayerId());
 	if (findItor != targets_.end())
@@ -47,6 +53,13 @@ void TargetContainer::addTarget(Target *target)
 }
 
 Target *TargetContainer::removeTarget(unsigned int playerId)
+{
+	Target *target = internalRemoveTarget(playerId);
+	DIALOG_ASSERT(target->isTarget());
+	return target;
+}
+
+Target *TargetContainer::internalRemoveTarget(unsigned int playerId)
 {
     std::map<unsigned int, Target *>::iterator itor =
 		targets_.find(playerId);

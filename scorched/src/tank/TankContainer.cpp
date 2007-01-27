@@ -36,13 +36,13 @@ TankContainer::~TankContainer()
 
 void TankContainer::addTank(Tank *tank)
 {
-	targets_.addTarget(tank);
+	targets_.internalAddTarget(tank);
 	tanks_[tank->getPlayerId()] = tank;
 }
 
 Tank *TankContainer::removeTank(unsigned int playerId)
 {
-	Target *target = targets_.removeTarget(playerId);
+	Target *target = targets_.internalRemoveTarget(playerId);
 	if (target)
 	{
 		tanks_.erase(playerId);

@@ -32,7 +32,8 @@ public:
 	enum Type
 	{
 		eShips,
-		eBoids
+		eBoids,
+		eSpline
 	};
 
 	static LandscapeMovementType *create(const char *type);
@@ -68,6 +69,18 @@ public:
 
 	virtual bool readXML(XMLNode *node);
 	virtual Type getType() { return eShips; }
+};
+
+class LandscapeMovementTypeSpline : public LandscapeMovementType
+{
+public:
+	float speed;
+	float starttime;
+	bool groundonly;
+	std::vector<Vector> points;
+
+	virtual bool readXML(XMLNode *node);
+	virtual Type getType() { return eSpline; }
 };
 
 

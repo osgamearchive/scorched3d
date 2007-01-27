@@ -58,9 +58,9 @@ protected:
 	void normalizeCoords(int &x, int &y)
 	{
 		// Make sure x and y are in the space
-		x = MIN(x, spaceW_ + spaceX_);
+		x = MIN(x, spaceW_ + spaceX_ - 1);
 		x = MAX(x, spaceX_);
-		y = MIN(y, spaceH_ + spaceY_);
+		y = MIN(y, spaceH_ + spaceY_ - 1);
 		y = MAX(y, spaceY_);
 
 		// Find the square pos

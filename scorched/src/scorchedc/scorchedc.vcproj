@@ -5092,6 +5092,14 @@
 				RelativePath="..\movement\TargetMovementEntryShips.h"
 				>
 			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntrySpline.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\movement\TargetMovementEntrySpline.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

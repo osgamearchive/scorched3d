@@ -58,6 +58,8 @@ Added: thrusttime and thrustamount attributes to WeaponProjectile to simulate mi
 Added: maintainvelocity attribute to WeaponRoller to allow rollers to main the previous weapons momentum
 Added: Objects that become very small are now culled (not drawn)
 Added: maxobjects attribute to tree placement to set an upper limit on the number of trees created (default 2000)
+Added: Trees are now specified as a different model type (Tree) instead of a seperate placement type
+Added: Spline movement type for moving targets round a pre-defined set of control points
 
 Fixed: Server only serializes and compresses coms message once when sending to multiple clients
 Fixed: If client starts falling behind at 8x speed it will drop to 4x speed

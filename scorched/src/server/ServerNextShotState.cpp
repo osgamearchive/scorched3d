@@ -107,7 +107,7 @@ void ServerNextShotState::enterState(const unsigned state)
 		{
 			ServerCommon::sendString(0, "Skipping round due to turn limit");
 
-			// We have shots to make, lets make them
+			// Clear any shots that may be waiting
 			ServerShotHolder::instance()->clearShots();
 			ScorchedServer::instance()->getGameState().stimulate(ServerState::ServerStimulusNextTurn);
 		}

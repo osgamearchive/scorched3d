@@ -18,33 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TargetContainerh_INCLUDE__)
-#define __INCLUDE_TargetContainerh_INCLUDE__
+#if !defined(__INCLUDE_TargetMovementEntrySplineh_INCLUDE__)
+#define __INCLUDE_TargetMovementEntrySplineh_INCLUDE__
 
-#include <target/Target.h>
+#include <common/SplinePath.h>
+#include <movement/TargetMovementEntry.h>
 #include <map>
 
-class TankContainer;
-class TargetContainer
+class TargetGroupsGroupEntry;
+class TargetMovementEntrySpline : public TargetMovementEntry
 {
 public:
-	TargetContainer();
-	virtual ~TargetContainer();
+	TargetMovementEntrySpline();
+	virtual ~TargetMovementEntrySpline();
 
-	void addTarget(Target *target);
-	Target *removeTarget(unsigned int playerId);
-	Target *getTargetById(unsigned int id);
-	
-	std::map<unsigned int, Target *> &getTargets() { return targets_; }
+	// Overridden from TargetMovementEntry
+	virtual void generate(ScorchedContext &context, 
+		RandomGenerator &random, 
+		LandscapeMovementType *movementType);
+	virtual void simulate(float frameTime);
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	friend class TankContainer;
-
-	std::map<unsigned int, Target *> targets_;
-
-	void internalAddTarget(Target *target);
-	Target *internalRemoveTarget(unsigned int playerId);
-
+	SplinePath path_;
+	TargetGroupsGroupEntry *groupEntry_;
+	bool groundOnly_;
+	ScorchedContext *context_;
 };
 
-#endif // __INCLUDE_TargetContainerh_INCLUDE__
+#endif // __INCLUDE_TargetMovementEntrySplineh_INCLUDE__
