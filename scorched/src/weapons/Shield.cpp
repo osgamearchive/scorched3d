@@ -24,7 +24,7 @@
 #include <math.h>
 
 Shield::Shield() : 
-	laserProof_(false), 
+	laserProof_(ShieldLaserProofNone), 
 	movementProof_(ShieldMovementAll)
 {
 }
@@ -55,7 +55,17 @@ bool Shield::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 	if (!colorNode->getNamedChild("g", color_[1])) return false;
 	if (!colorNode->getNamedChild("b", color_[2])) return false;
 
-	accessoryNode->getNamedChild("laserproof", laserProof_, false);
+	std::string laserproof;
+	if (accessoryNode->getNamedChild("laserproof", laserproof, false))
+	{
+		if (0 == strcmp(laserproof.c_str(), "false"))
+			laserProof_ = ShieldLaserProofNone;
+		else if (0 == strcmp(laserproof.c_str(), "true"))
+			laserProof_ = ShieldLaserProofStop;
+		else if (0 == strcmp(laserproof.c_str(), "total"))
+			laserProof_ = ShieldLaserProofTotal;
+		else return accessoryNode->returnError("Unknown laserproof type");
+	}
 
 	std::string movementproof;
 	if (accessoryNode->getNamedChild("movementproof", movementproof, false))

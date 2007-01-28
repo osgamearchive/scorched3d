@@ -94,15 +94,15 @@ void Laser::simulate(float frameTime, bool &remove)
 					{
 						Vector offset = current->getLife().getTargetPosition() -	pos;
 						float targetDistance = offset.Magnitude();
-						bool laserProof = false;
+						Shield::ShieldLaserProofType laserProof = Shield::ShieldLaserProofNone;
 
 						if (current->getShield().getCurrentShield())
 						{
 							Shield *shield = (Shield *)
 								current->getShield().getCurrentShield()->getAction();
-							if (shield->getLaserProof())
+							if (shield->getLaserProof() != Shield::ShieldLaserProofNone)
 							{
-								laserProof = true;
+								laserProof = shield->getLaserProof();
 								if (shield->inShield(offset))
 								{
 									context_->actionController->addAction(
@@ -114,7 +114,7 @@ void Laser::simulate(float frameTime, bool &remove)
 							}
 						}
 
-						if (!laserProof)
+						if (laserProof != Shield::ShieldLaserProofTotal)
 						{
 							if (targetDistance < weapon_->getHurtRadius() + 
 								MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))

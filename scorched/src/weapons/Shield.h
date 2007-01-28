@@ -45,6 +45,12 @@ public:
 		ShieldMovementTeam3,
 		ShieldMovementTeam4
 	};
+	enum ShieldLaserProofType
+	{
+		ShieldLaserProofNone,
+		ShieldLaserProofStop,
+		ShieldLaserProofTotal
+	};
 
 	Shield();
 	virtual ~Shield();
@@ -58,7 +64,7 @@ public:
 	float getHitPenetration() { return penetration_; }
 	float getPower() { return power_; }
 	Vector &getColor() { return color_; }
-	bool getLaserProof() { return laserProof_; }
+	ShieldLaserProofType getLaserProof() { return laserProof_; }
 	ShieldMovementType getMovementProof() { return movementProof_; }
 
 	virtual float getBoundingSize() = 0;
@@ -72,7 +78,7 @@ protected:
 	float removePower_;
 	float penetration_;
 	float power_;
-	bool laserProof_;
+	ShieldLaserProofType laserProof_;
 	ShieldMovementType movementProof_;
 };
 
