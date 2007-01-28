@@ -344,8 +344,6 @@ void DisplayFrame::refreshScreen()
 	IDC_NOSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOAMBIENTSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoAmbientSound());
 	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoAmbientSoundEntry().getDescription(), wxConvUTF8));
-	IDC_NOBOIDSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoBoidSound());
-	IDC_NOBOIDSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBoidSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
 	IDC_NOSKINS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkinsEntry().getDescription(), wxConvUTF8));
 	IDC_NODYNAMICLIGHT_CTRL->SetValue(OptionsDisplay::instance()->getNoModelLighting());
@@ -398,10 +396,6 @@ void DisplayFrame::refreshScreen()
 	IDC_HOSTDESC_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getHostDescriptionEntry().getDescription(), wxConvUTF8));
 	IDC_NODETAILTEX_CTRL->SetValue(!OptionsDisplay::instance()->getDetailTexture());
 	IDC_NODETAILTEX_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDetailTextureEntry().getDescription(), wxConvUTF8));
-	IDC_NOBOIDS_CTRL->SetValue(OptionsDisplay::instance()->getNoBOIDS());
-	IDC_NOBOIDS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoBOIDSEntry().getDescription(), wxConvUTF8));
-	IDC_NOSHIPS_CTRL->SetValue(OptionsDisplay::instance()->getNoShips());
-	IDC_NOSHIPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoShipsEntry().getDescription(), wxConvUTF8));
 	IDC_MORERES_CTRL->SetValue(OptionsDisplay::instance()->getMoreRes());
 	IDC_MORERES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMoreResEntry().getDescription(), wxConvUTF8));
 	//IDC_SWAPYAXIS_CTRL->SetValue(OptionsDisplay::instance()->getSwapYAxis());
@@ -556,7 +550,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().setValue(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSoundEntry().setValue(IDC_NOSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoAmbientSoundEntry().setValue(IDC_NOAMBIENTSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoBoidSoundEntry().setValue(IDC_NOBOIDSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoundChannelsEntry().setValue(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue().mb_str(wxConvUTF8)));
 	OptionsDisplay::instance()->getNoSkinsEntry().setValue(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoModelLightingEntry().setValue(IDC_NODYNAMICLIGHT_CTRL->GetValue());
@@ -583,8 +576,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getOnlineTankModelEntry().setValue(IDC_TANKMODEL_CTRL->GetValue().mb_str(wxConvUTF8));
 	OptionsDisplay::instance()->getHostDescriptionEntry().setValue(IDC_HOSTDESC_CTRL->GetValue().mb_str(wxConvUTF8));
 	OptionsDisplay::instance()->getDetailTextureEntry().setValue(!IDC_NODETAILTEX_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoBOIDSEntry().setValue(IDC_NOBOIDS_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoShipsEntry().setValue(IDC_NOSHIPS_CTRL->GetValue());
 	OptionsDisplay::instance()->getMoreResEntry().setValue(IDC_MORERES_CTRL->GetValue());
 	//OptionsDisplay::instance()->getSwapYAxisEntry().setValue(IDC_SWAPYAXIS_CTRL->GetValue());
 	OptionsDisplay::instance()->getClientLogToFileEntry().setValue(IDC_LOGGING_CTRL->GetValue());

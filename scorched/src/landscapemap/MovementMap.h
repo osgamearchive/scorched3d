@@ -56,8 +56,7 @@ public:
 
 	void calculateForTank(Tank *tank, 
 		WeaponMoveTank *weapon,
-		ScorchedContext &context, 
-		bool maxFuel = false);
+		ScorchedContext &context);
 	void movementTexture();
 	static void limitTexture(Vector &center, int limit);
 	static bool allowedPosition(ScorchedContext &context, 

@@ -25,6 +25,7 @@
 #include <sprites/SmokeActionRenderer.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionNukeRenderer.h>
+#include <sprites/WallActionRenderer.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
@@ -303,4 +304,24 @@ void ParticleRendererSnow::simulateParticle(Particle &particle, float time)
 		alpha = 0.7f * (1.0f - (particle.distance_ / MaxDist));
 	}
 	particle.alpha_ = alpha;
+}
+
+ParticleRendererWall *ParticleRendererWall::getInstance()
+{
+	static ParticleRendererWall instance_;
+	return &instance_;
+}
+
+void ParticleRendererWall::renderParticle(Particle &particle)
+{
+	WallActionRenderer *renderer = (WallActionRenderer *)
+		particle.userData_;
+	renderer->draw();
+}
+
+void ParticleRendererWall::simulateParticle(Particle &particle, float time)
+{
+	WallActionRenderer *renderer = (WallActionRenderer *)
+		particle.userData_;
+	renderer->simulate(time);
 }

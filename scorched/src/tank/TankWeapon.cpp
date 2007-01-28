@@ -117,8 +117,7 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 					mmap.calculateForTank(
 						tank_, 
 						moveWeapon, 
-						context_,
-						!moveWeapon->getUseFuel());
+						context_);
 					mmap.movementTexture();	
 				}
 			}

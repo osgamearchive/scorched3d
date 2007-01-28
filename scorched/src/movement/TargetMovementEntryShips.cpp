@@ -176,3 +176,10 @@ bool TargetMovementEntryShips::readMessage(NetBufferReader &reader)
 	path_.setPathTime(pathTime);
 	return true;
 }
+
+void TargetMovementEntryShips::draw()
+{
+#ifndef S3D_SERVER
+	path_.draw();
+#endif
+}

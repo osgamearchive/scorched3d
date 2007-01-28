@@ -24,17 +24,17 @@
 #include <engine/Action.h>
 #include <common/Vector.h>
 #include <common/OptionsTransient.h>
+#include <graph/Particle.h>
 #include <GLEXT/GLTexture.h>
 
-class WallActionRenderer : public ActionRenderer
+class WallActionRenderer : public ParticleUserData
 {
 public:
 	WallActionRenderer(Vector &position, OptionsTransient::WallSide type);
 	virtual ~WallActionRenderer();
 
-	// Inherited from SimulatorAction
-	virtual void simulate(Action *action, float frameTime, bool &remove);
-	virtual void draw(Action *action);
+	void simulate(float frameTime);
+	void draw();
 
 protected:
 	static GLTexture texture_;
@@ -47,7 +47,7 @@ protected:
 	Vector cornerA_, cornerB_;
 	Vector cornerC_, cornerD_;
 
-	void init(Action *action);
+	void init();
 
 };
 

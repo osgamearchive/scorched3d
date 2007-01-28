@@ -542,8 +542,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 			MovementMap mmap(landWidth, landHeight);
 			mmap.calculateForTank(currentTank,
 				moveWeapon,
-				ScorchedClient::instance()->getContext(),
-				!moveWeapon->getUseFuel());
+				ScorchedClient::instance()->getContext());
 
 			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
 			if (entry.type != MovementMap::eMovement) return;  // Do nothing

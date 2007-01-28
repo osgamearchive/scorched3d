@@ -37,6 +37,7 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeDefinitions.h>
+#include <movement/TargetMovement.h>
 #include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
@@ -172,6 +173,10 @@ void Landscape::drawLand()
 	actualDrawLand();
 	points_->draw();
 	surround_->draw();
+	if (OptionsDisplay::instance()->getDrawMovement())
+	{
+		ScorchedClient::instance()->getTargetMovement().draw();
+	}
 
 	drawTearDown();
 }

@@ -94,4 +94,12 @@ public:
 	virtual void simulateParticle(Particle &particle, float time);
 };
 
+class ParticleRendererWall : public ParticleRenderer
+{
+public:
+	static ParticleRendererWall *getInstance();
+	virtual void renderParticle(Particle &particle);
+	virtual void simulateParticle(Particle &particle, float time);
+};
+
 #endif // __INCLUDE_ParticleRendererh_INCLUDE__

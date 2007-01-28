@@ -114,6 +114,18 @@ void TargetMovement::simulate(float frameTime)
 	}
 }
 
+void TargetMovement::draw()
+{
+	std::vector<TargetMovementEntry *>::iterator itor;
+	for (itor = movements_.begin();
+		itor != movements_.end();
+		itor++)
+	{
+		TargetMovementEntry *movementEntry = *itor;
+		movementEntry->draw();
+	}
+}
+
 bool TargetMovement::writeMessage(NetBuffer &buffer)
 {
 	std::vector<TargetMovementEntry *>::iterator itor;

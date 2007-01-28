@@ -329,14 +329,6 @@
 				RelativePath="..\actions\Teleport.h"
 				>
 			</File>
-			<File
-				RelativePath="..\actions\WallHit.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\WallHit.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="scorcheds"

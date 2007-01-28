@@ -28,7 +28,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponMoveTank);
 
 WeaponMoveTank::WeaponMoveTank() :
-	stepTime_(0.05f), useFuel_(true), maximumRange_(100)
+	stepTime_(0.05f), useFuel_(-1), maximumRange_(100)
 {
 
 }
@@ -42,8 +42,16 @@ bool WeaponMoveTank::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 {
 	if (!Weapon::parseXML(context, accessoryNode)) return false;
 	accessoryNode->getNamedChild("steptime", stepTime_, false);
-	accessoryNode->getNamedChild("usefuel", useFuel_, false);
 	accessoryNode->getNamedChild("maximumrange", maximumRange_, false);
+
+	std::string usefuel;
+	if (accessoryNode->getNamedChild("usefuel", usefuel, false))
+	{
+		if (0 == strcmp(usefuel.c_str(), "true")) useFuel_ = -1;
+		else if (0 == strcmp(usefuel.c_str(), "false")) useFuel_ = 0;
+		else useFuel_ = atoi(usefuel.c_str());
+	}
+
 	return true;
 }
 

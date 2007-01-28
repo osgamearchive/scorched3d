@@ -34,6 +34,7 @@ public:
 
 	void generate(ScorchedContext &context);
 	void simulate(float frameTime);
+	void draw();
 
 	// Serialize the movement data (if any)
 	bool writeMessage(NetBuffer &buffer);

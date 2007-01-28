@@ -100,8 +100,7 @@ void TankMovement::init()
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight);
 	mmap.calculateForTank(tank, 
 		weapon_, 
-		*context_,
-		!weapon_->getUseFuel());
+		*context_);
 	
 	MovementMap::MovementMapEntry entry =
 		mmap.getEntry(positionX_, positionY_);
@@ -157,6 +156,12 @@ void TankMovement::init()
 						ang, (i==(NoMovementTransitions-1))));
 			}
 		}
+	}
+
+	// If this weapon is set to use a constant amount of fuel then use this amount
+	if (weapon_->getUseFuel() > 0)
+	{
+		tank->getAccessories().rm(weapon_->getParent(), weapon_->getUseFuel());
 	}
 }
 
@@ -328,7 +333,8 @@ void TankMovement::moveTank(Tank *tank)
 
 	// Move the tank to this new position
 	// Use up one unit of fuel
-	if (useF && weapon_->getUseFuel())
+	// -1 means use 1 unit of fuel per movement square
+	if (useF && (weapon_->getUseFuel() == -1))
 	{
 		tank->getAccessories().rm(weapon_->getParent());
 	}

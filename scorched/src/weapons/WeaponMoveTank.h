@@ -34,7 +34,7 @@ public:
 
 	int getMaximumRange() { return maximumRange_; }
 	float getStepTime() { return stepTime_; }
-	bool getUseFuel() { return useFuel_; }
+	int getUseFuel() { return useFuel_; }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -45,7 +45,7 @@ public:
 protected:
 	int maximumRange_;
 	float stepTime_;
-	bool useFuel_;
+	int useFuel_;
 
 };
 

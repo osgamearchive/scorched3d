@@ -23,6 +23,7 @@
 
 #include <graph/ParticleEngine.h>
 #include <GLEXT/GLTextureSet.h>
+#include <common/OptionsTransient.h>
 
 class ParticleEmitter
 {
@@ -110,6 +111,10 @@ public:
 	void emitTalk(
 		Vector &position,
 		ParticleEngine &engine);
+	void emitWallHit(
+		Vector &position,
+		ParticleEngine &engine,
+		OptionsTransient::WallSide type);
 	void emitExplosion(
 		Vector &position,
 		ParticleEngine &engine,

@@ -211,6 +211,9 @@ void SettingsFrame::createEcoPanel()
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
 			ecoPanel_, sizer, context_.getMoneyPerHealthPointEntry()));
+	setters_.push_back(
+		OptionEntrySetterUtil::createOtherSetter(
+			ecoPanel_, sizer, context_.getGiveAllWeaponsEntry()));
 
 	book_->AddPage(ecoPanel_, wxT("Eco"));
 	ecoPanel_->SetAutoLayout(TRUE);
@@ -260,9 +263,6 @@ void SettingsFrame::createEnvPanel()
 	setters_.push_back(
 		OptionEntrySetterUtil::createOtherSetter(
 			envPanel_, sizer, context_.getDelayedDefenseActivationEntry()));
-	setters_.push_back(
-		OptionEntrySetterUtil::createOtherSetter(
-			envPanel_, sizer, context_.getGiveAllWeaponsEntry()));
 
 	book_->AddPage(envPanel_, wxT("Env"));
 	envPanel_->SetAutoLayout(TRUE);

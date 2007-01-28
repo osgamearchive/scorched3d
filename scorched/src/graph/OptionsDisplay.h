@@ -84,12 +84,6 @@ public:
 	bool getNoROAM() { return noROAM_; }
 	OptionEntryBool &getNoROAMEntry() { return noROAM_; }
 
-	bool getNoBOIDS() { return noBOIDS_; }
-	OptionEntryBool &getNoBOIDSEntry() { return noBOIDS_; }
-
-	bool getNoShips() { return noShips_; }
-	OptionEntryBool &getNoShipsEntry() { return noShips_; }
-
 	bool getNoShadows() { return noShadows_; }
 	OptionEntryBool &getNoShadowsEntry() { return noShadows_; }
 
@@ -183,9 +177,6 @@ public:
 	bool getNoAmbientSound() { return noAmbientSound_; }
 	OptionEntryBool &getNoAmbientSoundEntry() { return noAmbientSound_; }
 
-	bool getNoBoidSound() { return noBoidSound_; }
-	OptionEntryBool &getNoBoidSoundEntry() { return noBoidSound_; }
-
 	bool getNoSkins() { return noSkins_; }
 	OptionEntryBool &getNoSkinsEntry() { return noSkins_; }
 
@@ -209,9 +200,6 @@ public:
 
 	bool getDrawBoundingSpheres() { return drawBoundingSpheres_; }
 	OptionEntryBool &getDrawBoundingSpheresEntry() { return drawBoundingSpheres_; }
-
-	bool getDrawShipPaths() { return drawShipPaths_; }
-	OptionEntryBool &getDrawShipPathsEntry() { return drawShipPaths_; }
 
 	bool getDrawPlayerNames() { return drawPlayerNames_; }
 	OptionEntryBool &getDrawPlayerNamesEntry() { return drawPlayerNames_; }
@@ -239,6 +227,9 @@ public:
 
 	bool getDrawSurround() { return drawSurround_; }
 	OptionEntryBool &getDrawSurroundEntry() { return drawSurround_; }
+
+	bool getDrawMovement() { return drawMovement_; }
+	OptionEntryBool &getDrawMovementEntry() { return drawMovement_; }
 
 	bool getNoWaterMovement() { return noWaterMovement_; }
 	OptionEntryBool &getNoWaterMovementEntry() { return noWaterMovement_; }
@@ -351,20 +342,27 @@ protected:
 	static OptionsDisplay *instance_;
 	std::list<OptionEntry *> options_;
 
-	OptionEntryBoundedInt brightness_;
-	OptionEntryBoundedInt explosionParts_;
-	OptionEntryBoundedInt explosionSubParts_;
+	OptionEntryBool depricatedNoBoidSound_;
+	OptionEntryBool depricatedNoBOIDS_;
 	OptionEntryBoundedInt depricatedMaxModelTriPercentage_;
-	OptionEntryBoundedInt explosionParticleMult_;
 	OptionEntryBool depricatedUseHex_;
 	OptionEntryInt depricatedDayTime_;
 	OptionEntryInt depricatedSunYZAng_;
 	OptionEntryInt depricatedSunXYAng_;
+	OptionEntryInt bannerRowsDepricated_;
+	OptionEntryString depricatedUniqueUserId_;
+	OptionEntryBool depricatedNoShips_;
+	OptionEntryBool depricatedDrawShipPaths_;
+
+	OptionEntryBoundedInt brightness_;
+	OptionEntryBoundedInt explosionParts_;
+	OptionEntryBoundedInt explosionSubParts_;
+	OptionEntryBoundedInt explosionParticleMult_;
+	OptionEntryBool drawMovement_;
 	OptionEntryInt colorComponentSize_;
 	OptionEntryInt soundChannels_;
 	OptionEntryInt bitsPerPixel_;
 	OptionEntryInt depthBufferBits_;
-	OptionEntryInt bannerRowsDepricated_;
 	OptionEntryInt tankModelSize_;
 	OptionEntryInt toolTipTime_;
 	OptionEntryInt toolTipSpeed_;
@@ -389,8 +387,6 @@ protected:
 	OptionEntryBool invertMouse_;
 	OptionEntryBool noSound_;
 	OptionEntryBool noAmbientSound_;
-	OptionEntryBool noBoidSound_;
-	OptionEntryBool noShips_;
 	OptionEntryBool noShadows_;
 	OptionEntryBool noDrawParticles_;
 	OptionEntryBool noSimulateParticles_;
@@ -401,7 +397,6 @@ protected:
 	OptionEntryBool drawCollisionGeoms_;
 	OptionEntryBool drawCollisionSpace_;
 	OptionEntryBool drawBoundingSpheres_;
-	OptionEntryBool drawShipPaths_;
 	OptionEntryBool noLenseFlare_;
 	OptionEntryBool noSkins_;
 	OptionEntryBool sortAccessories_;
@@ -423,7 +418,6 @@ protected:
 	OptionEntryBool firstTimePlayed_;
 	OptionEntryBool hideMenus_;
 	OptionEntryBool noROAM_;
-	OptionEntryBool noBOIDS_;
 	OptionEntryBool noTessalation_;
 	OptionEntryBool noVBO_;
 	OptionEntryBool noCg_;
@@ -452,7 +446,6 @@ protected:
 	OptionEntryBoundedInt soundVolume_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
-	OptionEntryString depricatedUniqueUserId_;
 	OptionEntryString hostDescription_;
 	OptionEntryString onlineUserName_;
 	OptionEntryString onlineTankModel_;

@@ -58,6 +58,20 @@ void TargetMovementEntrySpline::generate(ScorchedContext &context,
 	controlPoints.push_back(midPt);
 	controlPoints.front() = midPt;
 
+	// This is done mainly so they are draw correctly for debug
+	if (groundOnly_) 
+	{
+		std::vector<Vector>::iterator itor;
+		for (itor = controlPoints.begin();
+			itor != controlPoints.end();
+			itor++)
+		{
+			Vector &point = (*itor);
+			point[2] = context.landscapeMaps->getGroundMaps().getInterpHeight(
+				point[0], point[1]);
+		}
+	}
+
 	// Generate the spline path
 	path_.generate(controlPoints, 200, 3, splineGroup->speed);
 	path_.simulate(splineGroup->starttime);
@@ -143,4 +157,11 @@ bool TargetMovementEntrySpline::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(pathTime)) return false;
 	path_.setPathTime(pathTime);
 	return true;
+}
+
+void TargetMovementEntrySpline::draw()
+{
+#ifndef S3D_SERVER
+	path_.draw();
+#endif
 }

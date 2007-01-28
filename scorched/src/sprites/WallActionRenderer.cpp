@@ -22,6 +22,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <sprites/WallActionRenderer.h>
 #include <engine/ScorchedContext.h>
+#include <client/ScorchedClient.h>
 #include <landscape/Wall.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
@@ -43,7 +44,7 @@ WallActionRenderer::~WallActionRenderer()
 
 }
 
-void WallActionRenderer::init(Action *action)
+void WallActionRenderer::init()
 {
 	init_ = true;
 
@@ -75,7 +76,7 @@ void WallActionRenderer::init(Action *action)
 		break;
 	case OptionsTransient::RightSide:
 		pos[0] = (float) 
-			action->getScorchedContext()->landscapeMaps->getDefinitions().getDefn()->landscapewidth;
+			ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getDefn()->landscapewidth;
 		xOff_ = -offset; yOff_ = 0.0f;
 		offSet1 = Vector(0.0f, 1.0f, 1.0f);
 		offSet2 = Vector(0.0f, 1.0f, -1.0f);
@@ -93,7 +94,7 @@ void WallActionRenderer::init(Action *action)
 	default:
 	case OptionsTransient::BotSide:
 		pos[1] = (float) 
-			action->getScorchedContext()->landscapeMaps->getDefinitions().getDefn()->landscapeheight;
+			ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getDefn()->landscapeheight;
 		xOff_ = 0.0f; yOff_ = offset;
 		offSet1 = Vector(1.0f, 0.0f, 1.0f);
 		offSet2 = Vector(1.0f, 0.0f, -1.0f);
@@ -108,18 +109,17 @@ void WallActionRenderer::init(Action *action)
 	cornerC_ = pos + offSet3 * size;
 	cornerD_ = pos + offSet4 * size;
 
-	color_ = action->getScorchedContext()->optionsTransient->getWallColor();
+	color_ = ScorchedClient::instance()->getOptionsTransient().getWallColor();
 }
 
-void WallActionRenderer::simulate(Action *action, float frameTime, bool &remove)
+void WallActionRenderer::simulate(float frameTime)
 {
 	fade_ -= frameTime / 2.0f;
-	remove = (fade_ < 0.0f);
 }
 
-void WallActionRenderer::draw(Action *action)
+void WallActionRenderer::draw()
 {
-	if (!init_) init(action);
+	if (!init_) init();
 
 	GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
 

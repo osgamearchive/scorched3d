@@ -219,8 +219,7 @@ bool MovementMap::allowedPosition(ScorchedContext &context, Tank *tank, Vector &
 
 void MovementMap::calculateForTank(Tank *tank, 
 	WeaponMoveTank *weapon,
-	ScorchedContext &context, 
-	bool maxFuel)
+	ScorchedContext &context)
 {
 	// Check if the tank is buried and cannot move
 	float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
@@ -243,7 +242,7 @@ void MovementMap::calculateForTank(Tank *tank,
 
 	float fuel = 0.0f;
 	int numberFuel = tank->getAccessories().getAccessoryCount(weapon->getParent());
-	if (numberFuel == -1 || maxFuel)
+	if (numberFuel == -1)
 	{
 		fuel = (float) weapon->getMaximumRange();
 	}

@@ -161,3 +161,7 @@ bool TargetMovementEntryBoids::readMessage(NetBufferReader &reader)
 	// contains no random factors!
 	return true;
 }
+
+void TargetMovementEntryBoids::draw()
+{
+}

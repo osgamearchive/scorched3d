@@ -20,7 +20,6 @@
 
 #include <actions/Teleport.h>
 #include <actions/CameraPositionAction.h>
-#include <sprites/WallActionRenderer.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>

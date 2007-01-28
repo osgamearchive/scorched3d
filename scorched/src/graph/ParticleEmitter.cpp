@@ -25,6 +25,7 @@
 #include <sprites/ExplosionTextures.h>
 #include <sprites/NapalmRenderer.h>
 #include <sprites/ExplosionNukeRenderer.h>
+#include <sprites/WallActionRenderer.h>
 #include <landscape/Landscape.h>
 #include <math.h>
 #include <stdlib.h>
@@ -359,6 +360,21 @@ void ParticleEmitter::emitTalk(
 	particle->renderer_ = ParticleRendererQuads::getInstance();
 	particle->textureCoord_ = 0;
 	particle->texture_ = &ExplosionTextures::instance()->talkTexture;
+}
+
+void ParticleEmitter::emitWallHit(
+	Vector &position,
+	ParticleEngine &engine,
+	OptionsTransient::WallSide type)
+{
+	Particle *particle = engine.getNextAliveParticle();
+	if (!particle) return;
+
+	createDefaultParticle(*particle);
+
+	particle->position_ = position;
+	particle->renderer_ = ParticleRendererWall::getInstance();
+	particle->userData_ = new WallActionRenderer(position, type);
 }
 
 void ParticleEmitter::emitExplosion(

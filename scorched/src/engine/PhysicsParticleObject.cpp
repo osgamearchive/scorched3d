@@ -36,10 +36,61 @@
 #include <actions/ShotBounce.h>
 #include <actions/ShotProjectile.h>
 #include <actions/ShieldHit.h>
-#include <actions/WallHit.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
+
+
+#ifndef S3D_SERVER
+
+#include <client/ScorchedClient.h>
+#include <graph/ParticleEmitter.h>
+
+static void addWallCollisionParticle(Vector &position, ScorchedCollisionId collisionId)
+{
+
+	Vector color(1.0f, 1.0f, 1.0f);
+	ParticleEmitter emitter;
+	emitter.setAttributes(
+		8.5f, 8.0f, // Life
+		0.2f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+		color, 1.0f, // StartColor1
+		color, 1.0f, // StartColor2
+		color, 0.0f, // EndColor1
+		color, 0.0f, // EndColor2
+		2.0f, 2.0f, 2.0f, 2.0f, // Start Size
+		2.0f, 2.0f, 2.0f, 2.0f, // EndSize
+		Vector(0.0f, 0.0f, 0.0f), // Gravity
+		false,
+		false);
+
+	switch (collisionId)
+	{
+	case CollisionIdWallLeft:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::LeftSide);
+		break;
+	case CollisionIdWallRight:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::RightSide);
+		break;
+	case CollisionIdWallTop:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::TopSide);
+		break;
+	case CollisionIdWallBottom:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::BotSide);
+		break;
+	}
+}
+#endif
 
 PhysicsParticleObject::PhysicsParticleObject() : 
 	handler_(0), context_(0), underGroundCollision_(false), iterations_(0),
@@ -225,25 +276,11 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 	case CollisionIdWallRight:
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
-		switch (collision.collisionId)
-		{
-		case CollisionIdWallLeft:
-			context_->actionController->addAction(
-				new WallHit(position_, OptionsTransient::LeftSide));
-			break;
-		case CollisionIdWallRight:
-			context_->actionController->addAction(
-				new WallHit(position_, OptionsTransient::RightSide));
-			break;
-		case CollisionIdWallTop:
-			context_->actionController->addAction(
-				new WallHit(position_, OptionsTransient::TopSide));
-			break;
-		case CollisionIdWallBottom:
-			context_->actionController->addAction(
-				new WallHit(position_, OptionsTransient::BotSide));
-			break;
-		}
+
+#ifndef S3D_SERVER
+		addWallCollisionParticle(position_, collision.collisionId);
+#endif
+
 		switch (context_->optionsTransient->getWallType())
 		{
 		case OptionsTransient::wallBouncy:
