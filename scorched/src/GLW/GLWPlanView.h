@@ -55,6 +55,7 @@ protected:
 	float flashTime_;
 	float totalTime_;
 	float pointTime_;
+	float planColor_;
 	bool flash_, firstTime_;
 	bool dragging_;
 	float dragLastX_, dragLastY_;

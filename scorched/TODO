@@ -63,6 +63,7 @@ Added: Spline movement type for moving targets round a pre-defined set of contro
 Added: usefuel attribute on WeaponMoveTank can now be true, false or an integer for a constant use of fuel.
 Added: Changed the default web interface colors to match the forum scheme (finally)
 Added: Laserproof shield attribute can be set to true, false or total.  Total blocks all laser damage.
+Added: Plan view darkens to increase the visibility of when lines are drawn by other players
 
 Fixed: Wall hit indicators are now particles and so won't mask other effects
 Fixed: Server only serializes and compresses coms message once when sending to multiple clients

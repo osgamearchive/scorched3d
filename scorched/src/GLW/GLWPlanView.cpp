@@ -49,7 +49,8 @@ static const float maxAnimationTime = 2.0f;
 GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
 	GLWidget(x, y, w, h),
 	animationTime_(0.0f), flashTime_(0.0f), totalTime_(0.0f), pointTime_(0.0f),
-	flash_(true), dragging_(false), firstTime_(true)
+	flash_(true), dragging_(false), firstTime_(true),
+	planColor_(1.0f)
 {
 	setToolTip(new ToolTip("Plan View",
 		"Shows the position of the the tanks\n"
@@ -65,6 +66,9 @@ GLWPlanView::~GLWPlanView()
 
 void GLWPlanView::simulate(float frameTime)
 {
+	planColor_ += frameTime * 0.2f;
+	if (planColor_ > 1.0f) planColor_ = 1.0f;
+
 	totalTime_ += frameTime;
 	flashTime_ += frameTime;
 	if (flashTime_ > 0.3f)
@@ -167,6 +171,7 @@ void GLWPlanView::drawMap()
 
 void GLWPlanView::drawLines()
 {
+	glLineWidth(2.0f);
 	if (!localPoints_.points.empty())
 	{
 		localPoints_.playerId = ScorchedClient::instance()->
@@ -185,6 +190,7 @@ void GLWPlanView::drawLines()
 			drawLine(info);
 		}
 	}
+	glLineWidth(1.0f);
 }
 
 bool GLWPlanView::simulateLine(PlayerDrawnInfo &info)
@@ -272,7 +278,7 @@ void GLWPlanView::drawTexture()
 	upperRight[1] += (maxWidth - mapHeight) / maxWidth / 2.0f;
 
 	// Draw the square of land
-	glColor3f(1.0f, 1.0f, 1.0f);
+	glColor3f(planColor_, planColor_, planColor_);
 	Landscape::instance()->getPlanATexture().draw(true);
 	glBegin(GL_QUADS);
 		glTexCoord2f(1.0f, 0.0f);
@@ -677,6 +683,8 @@ void GLWPlanView::addRecievePoints(unsigned int playerId,
 	}
 	if (!foundInfo)
 	{
+		planColor_ = 0.5f;
+
 		dragPoints_.push_back(PlayerDrawnInfo());
 		foundInfo = &dragPoints_.back();
 		foundInfo->playerId = playerId;
