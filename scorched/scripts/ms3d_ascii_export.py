@@ -1,13 +1,13 @@
 #!BPY
 
 """
-Name: 'MS3D ASCII (.txt) v 1.4'
+Name: 'MS3D ASCII (.txt) v 1.5'
 Blender: 242
 Group: 'Export'
-Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.4'
+Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5'
 """
 
-#Copyright (C) 2004-2006 Paul Vint cbx550f@sourceforge.net
+#Copyright (C) 2004-2007 Paul Vint cbx550f@sourceforge.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -88,9 +88,14 @@ def draw():     # Define the draw function (which draws your GUI).
         # Note the first number, '1' means this is button number 1
 	global EVENT_NOEVENT,EVENT_DRAW,EVENT_EXIT,EVENT_EXPORT,EVENT_CHOOSE_FILENAME,FILENAME,EVENT_PROGRESS, showProgress
 
+	ypos = 110
 	glClear(GL_COLOR_BUFFER_BIT)
-	glRasterPos2d(8, 103)
-	Text("MilkShape3d ASCII Export")
+	glRasterPos2d(8, ypos)
+	Text("MilkShape3d ASCII Export version 1.5")
+	glRasterPos2d(8, ypos - 15)
+	Text("Copyright 2007 - Paul Vint cbx550f@users.sourceforge.net")
+	glRasterPos2d(8, ypos - 30)
+	Text("For updates visit http://sourceforge.net/projects/scorched3d-mods")
 
 	## Buttons etc
 	glRasterPos2d(8, 83)
