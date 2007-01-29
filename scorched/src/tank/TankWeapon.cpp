@@ -113,11 +113,11 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 				{
 					MovementMap mmap(
 						context_.landscapeMaps->getGroundMaps().getMapWidth(),
-						context_.landscapeMaps->getGroundMaps().getMapHeight());
-					mmap.calculateForTank(
+						context_.landscapeMaps->getGroundMaps().getMapHeight(),
 						tank_, 
 						moveWeapon, 
 						context_);
+					mmap.calculateAllPositions();
 					mmap.movementTexture();	
 				}
 			}

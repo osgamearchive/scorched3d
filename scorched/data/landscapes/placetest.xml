@@ -26,12 +26,14 @@
 							<alpha>data/landscapes/parkinga.bmp</alpha>
 							<invert>true</invert>
 						</groundmap>
+						<shield>TestSquareShield</shield>
+						<displayshadow>false</displayshadow>
 						<groupname>bob</groupname>
 						<groupname>sam</groupname>
 						<groupname>testmove</groupname>
 					</object>
 				</groupobject>
-				<groupobject>
+				<!--<groupobject>
 					<offset>
 						<A>0</A>
 						<B>0</B>
@@ -54,7 +56,7 @@
 						<groupname>bob</groupname>
 						<groupname>sams</groupname>
 					</object>
-				</groupobject>
+				</groupobject>-->
 				<groupobject>
 					<offset>
 						<A>0</A>
@@ -66,6 +68,7 @@
 				</groupobject>
 			</object>
 		</placement>
+	<!--
 	<movement type="spline">
 		<speed>0.1</speed>
 		<starttime>600</starttime>
@@ -87,4 +90,5 @@
 			<C>0</C>
 		</controlpoint>
 	</movement>
+	   -->
 </place>

@@ -33,7 +33,6 @@
 #include <actions/TankMovement.h>
 #include <actions/TankResign.h>
 #include <landscapemap/LandscapeMaps.h>
-#include <landscapemap/MovementMap.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <weapons/AccessoryStore.h>
 #include <coms/ComsMessageSender.h>

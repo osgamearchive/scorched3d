@@ -65,6 +65,7 @@ Added: Changed the default web interface colors to match the forum scheme (final
 Added: Laserproof shield attribute can be set to true, false or total.  Total blocks all laser damage.
 Added: Plan view darkens to increase the visibility of when lines are drawn by other players
 
+Fixed: Optimized path finding code for tank movement
 Fixed: Wall hit indicators are now particles and so won't mask other effects
 Fixed: Server only serializes and compresses coms message once when sending to multiple clients
 Fixed: If client starts falling behind at 8x speed it will drop to 4x speed

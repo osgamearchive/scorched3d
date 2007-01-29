@@ -97,10 +97,12 @@ void TankMovement::init()
 	std::list<unsigned int> positions;
 	MovementMap mmap(
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
-		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight);
-	mmap.calculateForTank(tank, 
+		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight,
+		tank, 
 		weapon_, 
 		*context_);
+	Vector pos((int) positionX_, (int) positionY_);
+	mmap.calculatePosition(pos);
 	
 	MovementMap::MovementMapEntry entry =
 		mmap.getEntry(positionX_, positionY_);

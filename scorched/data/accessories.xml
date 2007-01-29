@@ -1548,7 +1548,7 @@ and shields damaging the tank directly.</description>
 		<bundlesize>3</bundlesize>
 		<cost>20000</cost>
 		<accessoryaction type='ShieldSquareReflective'>
-			<movementproof>team1</movementproof>
+			<movementproof>true</movementproof>
 			<deflectfactor>1.0</deflectfactor>
 			<size>
 				<a>3.0</a>
