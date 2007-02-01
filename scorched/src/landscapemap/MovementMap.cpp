@@ -35,6 +35,7 @@
 #include <tank/TankAccessories.h>
 #include <target/TargetShield.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <memory.h>
 
 MovementMap::MovementMap(int width, int height,
@@ -268,8 +269,8 @@ bool MovementMap::inShield(Target *target, Tank *tank, Vector &position)
 bool MovementMap::allowedPosition(ScorchedContext &context, Tank *tank, Vector &position)
 {
 	std::map<unsigned int, Target *>::iterator targetItor;
-	std::map<unsigned int, Target *> &targets = 
-		context.targetContainer->getTargets();
+	std::map<unsigned int, Target *> targets;
+	context.targetSpace->getCollisionSet(position, 1.0f, targets);
 	for (targetItor = targets.begin(); 
 		targetItor != targets.end();
 		targetItor++)

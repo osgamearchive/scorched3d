@@ -64,6 +64,7 @@ Added: usefuel attribute on WeaponMoveTank can now be true, false or an integer 
 Added: Changed the default web interface colors to match the forum scheme (finally)
 Added: Laserproof shield attribute can be set to true, false or total.  Total blocks all laser damage.
 Added: Plan view darkens to increase the visibility of when lines are drawn by other players
+Added: flattendestroy attribute to targets to specify if they should be removed then a tank stops near them
 
 Fixed: Optimized path finding code for tank movement
 Fixed: Wall hit indicators are now particles and so won't mask other effects

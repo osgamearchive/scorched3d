@@ -47,7 +47,7 @@ public:
 protected:
 	float life_;
 	bool boundingsphere_;
-	bool driveovertodestroy_;
+	bool driveovertodestroy_, flattendestroy_;
 	bool nocollision_, nodamageburn_, nofalling_;
 	bool displaydamage_, displayshadow_;
 	std::string name_;

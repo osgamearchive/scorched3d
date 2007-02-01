@@ -32,7 +32,7 @@ TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	context_(context), sphereGeom_(true),
 	life_(100.0f), maxLife_(1.0f), target_(0),
 	size_(2.0f, 2.0f, 2.0f), 
-	driveOverToDestroy_(false)
+	driveOverToDestroy_(false), flattenDestroy_(false)
 {
 }
 

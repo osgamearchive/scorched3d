@@ -37,7 +37,7 @@ TargetDefinition::TargetDefinition() :
 	size_(0.0f, 0.0f, 0.0f), 
 	modelscale_(0.05f), modelscalediff_(0.0f),
 	modelrotation_(0.0f), modelrotationsnap_(-1.0f),
-	driveovertodestroy_(false), border_(0.0f), 
+	driveovertodestroy_(false), flattendestroy_(false), border_(0.0f), 
 	displaydamage_(true), displayshadow_(true), 
 	nodamageburn_(false), nocollision_(false), nofalling_(false)
 {
@@ -81,6 +81,8 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 		modelnode->resurrectRemovedChildren();
 		if (!modelburntId_.initFromNode(base, modelnode)) return false;
 	}
+
+	node->getNamedChild("flattendestroy", flattendestroy_, false);
 	node->getNamedChild("driveovertodestroy", driveovertodestroy_, false);
 	node->getNamedChild("removeaction", removeaction_, false);
 	node->getNamedChild("burnaction", burnaction_, false);
@@ -135,6 +137,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	target->getLife().setSize(finalSize);
 	target->getLife().setVelocity(velocity);
 	target->getLife().setDriveOverToDestroy(driveovertodestroy_);
+	target->getLife().setFlattenDestroy(flattendestroy_);
 	target->getLife().setRotation(rotation);
 	target->setBorder(border_);
 	target->newGame();

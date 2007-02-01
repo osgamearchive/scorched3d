@@ -51,6 +51,8 @@ public:
 	void setTarget(Target *target) { target_ = target; }
 	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
 	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
+	void setFlattenDestroy(bool d) { flattenDestroy_ = d; }
+	bool getFlattenDestroy() { return flattenDestroy_; }
 	void setBoundingSphere(bool sphereGeom);
 	bool getBoundingSphere() { return sphereGeom_; }
 	TargetSpaceContainment &getSpaceContainment() { return spaceContainment_; }
@@ -82,6 +84,7 @@ protected:
 	float maxLife_;
 	bool sphereGeom_;
 	bool driveOverToDestroy_;
+	bool flattenDestroy_;
 
 	void addToSpace();
 	void removeFromSpace();

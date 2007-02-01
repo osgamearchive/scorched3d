@@ -26,6 +26,7 @@
 #include <tank/TankPosition.h>
 #include <tank/TankState.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <GLEXT/GLBitmap.h>
 
 void PlacementTankPosition::calculateStartPosition(unsigned int seed, ScorchedContext &context)
@@ -182,21 +183,22 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 		// Make sure the tank is not too close to other tanks
 		if (!tooClose)
 		{
-			std::map<unsigned int, Tank *> &alltanks = 
-				context.tankContainer->getAllTanks();
-			std::map<unsigned int, Tank *>::iterator itor;
-			for (itor = alltanks.begin();
-				itor != alltanks.end();
+			std::map<unsigned int, Target *> targets;
+			std::map<unsigned int, Target *>::iterator itor;
+			context.targetSpace->getCollisionSet(
+				tankPos, 4.0f, targets);
+			for (itor = targets.begin();
+				itor != targets.end();
 				itor++)
 			{
-				Tank *thisTank = (*itor).second;
-				if (thisTank->getPlayerId() == playerId) break;
+				Target *thisTarget = (*itor).second;
+				if (thisTarget->getPlayerId() == playerId) break;
 
-				if ((tankPos - thisTank->getPosition().getTankPosition()).Magnitude() < 
-					closeness) 
+				if ((tankPos - thisTarget->getLife().getTargetPosition()).Magnitude() < 
+					MAX(closeness, thisTarget->getBorder())) 
 				{
 					tooClose = true;
-					closeness -= 1.0f;
+					closeness -= 0.1f;
 					break;
 				}
 			}

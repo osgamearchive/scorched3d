@@ -169,7 +169,8 @@ void DeformLandscape::flattenArea(
 			itor++)
 		{
 			Target *target = (*itor).second;
-			if (target->isTarget())
+			if (target->isTarget() &&
+				target->getLife().getFlattenDestroy())
 			{
 				Target *removedTarget = 
 					context.targetContainer->removeTarget(target->getPlayerId());
