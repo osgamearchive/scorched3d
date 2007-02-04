@@ -18,42 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeSoundManagerh_INCLUDE__)
-#define __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeMusich_INCLUDE__)
+#define __INCLUDE_LandscapeMusich_INCLUDE__
 
-#include <list>
+#include <XML/XMLFile.h>
+#include <string>
+#include <vector>
 
-class VirtualSoundSource;
-class SoundBuffer;
-class LandscapeInclude;
-class LandscapeSoundType;
-class LandscapeSoundManager
+class LandscapeMusicType
 {
 public:
-	LandscapeSoundManager();
-	virtual ~LandscapeSoundManager();
-
-	void initialize(std::list<LandscapeInclude *> &sounds);
-	void simulate(float frameTime);
-	void cleanUp();
-
-protected:
-	struct LandscapeSoundManagerEntry
+	enum PlayState
 	{
-		LandscapeSoundManagerEntry() : 
-			soundSource(0), removed(false) {}
-
-		VirtualSoundSource *soundSource;
-		LandscapeSoundType *soundType;
-		unsigned int initData;
-
-		float timeLeft;
-		bool removed;
+		StateNone,
+		StateWait,
+		StateLoading,
+		StateBuying,
+		StatePlaying,
+		StateShot,
+		StateScore
 	};
 
-	std::list<LandscapeSoundManagerEntry> entries_;
-	float lastTime_;
+	LandscapeMusicType();
+	virtual ~LandscapeMusicType();
 
+	virtual bool readXML(XMLNode *node);
+
+	std::string file;
+	std::vector<PlayState> playstates;
+	float gain;
 };
 
-#endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#endif // __INCLUDE_LandscapeMusich_INCLUDE__

@@ -18,42 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeSoundManagerh_INCLUDE__)
-#define __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#if !defined(__INCLUDE_SplashDialogh_INCLUDE__)
+#define __INCLUDE_SplashDialogh_INCLUDE__
 
-#include <list>
+bool showSplashDialog();
 
-class VirtualSoundSource;
-class SoundBuffer;
-class LandscapeInclude;
-class LandscapeSoundType;
-class LandscapeSoundManager
-{
-public:
-	LandscapeSoundManager();
-	virtual ~LandscapeSoundManager();
-
-	void initialize(std::list<LandscapeInclude *> &sounds);
-	void simulate(float frameTime);
-	void cleanUp();
-
-protected:
-	struct LandscapeSoundManagerEntry
-	{
-		LandscapeSoundManagerEntry() : 
-			soundSource(0), removed(false) {}
-
-		VirtualSoundSource *soundSource;
-		LandscapeSoundType *soundType;
-		unsigned int initData;
-
-		float timeLeft;
-		bool removed;
-	};
-
-	std::list<LandscapeSoundManagerEntry> entries_;
-	float lastTime_;
-
-};
-
-#endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#endif // __INCLUDE_SplashDialogh_INCLUDE__

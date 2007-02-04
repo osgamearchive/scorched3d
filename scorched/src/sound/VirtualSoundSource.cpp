@@ -33,7 +33,6 @@ VirtualSoundSource::VirtualSoundSource(
 	managed_(managed),
 	looping_(looping)
 {
-	DIALOG_ASSERT(!(managed_ && looping_));
 	if (managed_) Sound::instance()->addManaged(this);
 }
 
@@ -52,13 +51,13 @@ void VirtualSoundSource::play(SoundBuffer *buffer)
 
 void VirtualSoundSource::actualPlay()
 {
-	playingSource_->actualSource->setGain(gain_);
-	playingSource_->actualSource->setRolloff(rolloff_);
-	playingSource_->actualSource->setReferenceDistance(refDist_);
-	playingSource_->actualSource->setRelative(relative_);
-	playingSource_->actualSource->setPosition(position_);
-	playingSource_->actualSource->setVelocity(velocity_);
-	playingSource_->actualSource->play(buffer_, looping_);
+	playingSource_->getActualSource()->setGain(gain_);
+	playingSource_->getActualSource()->setRolloff(rolloff_);
+	playingSource_->getActualSource()->setReferenceDistance(refDist_);
+	playingSource_->getActualSource()->setRelative(relative_);
+	playingSource_->getActualSource()->setPosition(position_);
+	playingSource_->getActualSource()->setVelocity(velocity_);
+	playingSource_->getActualSource()->play(buffer_, looping_);
 }
 
 void VirtualSoundSource::stop()
@@ -67,7 +66,6 @@ void VirtualSoundSource::stop()
 	{
 		Sound::instance()->removePlaying(this);
 	}
-	playingSource_ = 0;
 }
 
 void VirtualSoundSource::setPlayingSource(PlayingSoundSource *s)
@@ -77,9 +75,9 @@ void VirtualSoundSource::setPlayingSource(PlayingSoundSource *s)
 
 bool VirtualSoundSource::getPlaying()
 {
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		return playingSource_->actualSource->getPlaying();
+		return playingSource_->getActualSource()->getPlaying();
 	}
 	return false;
 }
@@ -87,54 +85,54 @@ bool VirtualSoundSource::getPlaying()
 void VirtualSoundSource::setRelative()
 {
 	relative_ = true;
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		playingSource_->actualSource->setRelative(true);
+		playingSource_->getActualSource()->setRelative(true);
 	}
 }
 
 void VirtualSoundSource::setPosition(Vector &position)
 {
 	position_ = position;
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		playingSource_->actualSource->setPosition(position);
+		playingSource_->getActualSource()->setPosition(position);
 	}
 }
 
 void VirtualSoundSource::setVelocity(Vector &velocity)
 {
 	velocity_ = velocity;
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		playingSource_->actualSource->setVelocity(velocity);
+		playingSource_->getActualSource()->setVelocity(velocity);
 	}
 }
 
 void VirtualSoundSource::setGain(float gain)
 {
 	gain_ = gain;
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		playingSource_->actualSource->setGain(gain);
+		playingSource_->getActualSource()->setGain(gain);
 	}
 }
 
 void VirtualSoundSource::setReferenceDistance(float refDist)
 {
 	refDist_ = refDist;
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		playingSource_->actualSource->setReferenceDistance(refDist);
+		playingSource_->getActualSource()->setReferenceDistance(refDist);
 	}
 }
 
 void VirtualSoundSource::setRolloff(float rolloff)
 {
 	rolloff_ = rolloff;
-	if (playingSource_ && playingSource_->actualSource)
+	if (playingSource_ && playingSource_->getActualSource())
 	{
-		playingSource_->actualSource->setRolloff(rolloff);
+		playingSource_->getActualSource()->setRolloff(rolloff);
 	}
 }
 

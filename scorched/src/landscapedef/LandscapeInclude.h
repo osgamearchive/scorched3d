@@ -24,6 +24,7 @@
 #include <landscapedef/LandscapeEvents.h>
 #include <landscapedef/LandscapeMovement.h>
 #include <landscapedef/LandscapeSound.h>
+#include <landscapedef/LandscapeMusic.h>
 #include <placement/PlacementType.h>
 
 class LandscapeDefinitions;
@@ -37,6 +38,7 @@ public:
 	std::vector<LandscapeMovementType *> movements;
 	std::vector<PlacementType *> placements;
 	std::vector<LandscapeSoundType *> sounds;
+	std::vector<LandscapeMusicType *> musics;
 
 	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
 

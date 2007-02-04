@@ -18,42 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeSoundManagerh_INCLUDE__)
-#define __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeMusicManagerh_INCLUDE__)
+#define __INCLUDE_LandscapeMusicManagerh_INCLUDE__
 
-#include <list>
+#include <landscapedef/LandscapeInclude.h>
+#include <engine/GameStateI.h>
+#include <vector>
+#include <map>
 
-class VirtualSoundSource;
-class SoundBuffer;
-class LandscapeInclude;
-class LandscapeSoundType;
-class LandscapeSoundManager
+class LandscapeMusicManager : public GameStateI
 {
 public:
-	LandscapeSoundManager();
-	virtual ~LandscapeSoundManager();
+	static LandscapeMusicManager *instance();
 
-	void initialize(std::list<LandscapeInclude *> &sounds);
-	void simulate(float frameTime);
-	void cleanUp();
+	virtual void simulate(const unsigned state, float simTime);
+
+	void addMusics();
+	void removeAllMusic();
 
 protected:
-	struct LandscapeSoundManagerEntry
-	{
-		LandscapeSoundManagerEntry() : 
-			soundSource(0), removed(false) {}
+	std::vector<LandscapeMusicType *> globalMusics_;
+	std::map<LandscapeMusicType::PlayState, LandscapeMusicType *> stateMusic_;
+	LandscapeMusicType *currentMusic_;
+	VirtualSoundSource *currentSource_;
 
-		VirtualSoundSource *soundSource;
-		LandscapeSoundType *soundType;
-		unsigned int initData;
+	void readGlobalMusicFile();
+	void addMusic(std::vector<LandscapeInclude *> &musics);
+	void addMusicTypes(std::vector<LandscapeMusicType *> &musics);
 
-		float timeLeft;
-		bool removed;
-	};
-
-	std::list<LandscapeSoundManagerEntry> entries_;
-	float lastTime_;
-
+private:
+	LandscapeMusicManager();
+	virtual ~LandscapeMusicManager();
 };
 
-#endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__
+#endif // __INCLUDE_LandscapeMusicManagerh_INCLUDE__

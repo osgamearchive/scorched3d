@@ -23,6 +23,7 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/LandscapeShadowHandler.h>
 #include <landscape/LandscapeSoundManager.h>
+#include <landscape/LandscapeMusicManager.h>
 #include <landscape/Smoke.h>
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
@@ -399,6 +400,7 @@ void Landscape::generate(ProgressCounter *counter)
 		sounds.push_back(sound);
 	}
 	soundManager_->initialize(sounds);
+	LandscapeMusicManager::instance()->addMusics();
 }
 
 void Landscape::updatePlanTexture()

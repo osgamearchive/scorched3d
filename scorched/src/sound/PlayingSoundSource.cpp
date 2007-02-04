@@ -21,12 +21,27 @@
 #include <sound/PlayingSoundSource.h>
 
 PlayingSoundSource::PlayingSoundSource(VirtualSoundSource *virt) :
-	virtualSource(virt),
-	actualSource(0),
-	stopped(false)
+	virtualSource_(virt),
+	actualSource_(0),
+	stopped_(false)
 {
 }
 
 PlayingSoundSource::~PlayingSoundSource()
 {
+}
+
+void PlayingSoundSource::setActualSource(SoundSource *actualSource)
+{
+	actualSource_ = actualSource;
+}
+
+void PlayingSoundSource::setVirtualSource(VirtualSoundSource *virtualSource)
+{
+	virtualSource_ = virtualSource;
+}
+
+void PlayingSoundSource::setStopped(bool stopped)
+{
+	stopped_ = stopped;
 }

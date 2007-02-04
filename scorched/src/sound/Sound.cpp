@@ -184,15 +184,15 @@ void Sound::showSoundBuffers()
 		itor++, i++)
 	{
 		PlayingSoundSource *source = (*itor);
-		if (source->virtualSource)
+		if (source->getVirtualSource())
 		{
 			Logger::log(formatString("%i - %u,%f - %s%s:%s",
 				i, 
-				source->virtualSource->getPriority(),
-				source->virtualSource->getDistance(),
-				(source->stopped?"Finished":(source->virtualSource->getPlaying()?"Playing":"Stopped")),
-				(source->virtualSource->getLooping()?"(Looped)":""),
-				source->virtualSource->getBuffer()->getFileName()));
+				source->getVirtualSource()->getPriority(),
+				source->getVirtualSource()->getDistance(),
+				(source->getStopped()?"Finished":(source->getVirtualSource()->getPlaying()?"Playing":"Stopped")),
+				(source->getVirtualSource()->getLooping()?"(Looped)":""),
+				source->getVirtualSource()->getBuffer()->getFileName()));
 		}
 		else
 		{
@@ -210,7 +210,7 @@ void Sound::simulate(const unsigned state, float frameTime)
 		playingitor != playingSources_.end();
 		playingitor++)
 	{
-		SoundSource *source = (*playingitor)->actualSource;
+		SoundSource *source = (*playingitor)->getActualSource();
 		if (source && source->getPlaying())
 		{
 			source->simulate();
@@ -232,11 +232,11 @@ static inline bool lt_virt(PlayingSoundSource *p2, PlayingSoundSource *p1)
 	unsigned int priority1 = 0;
 	unsigned int priority2 = 0;
 
-    VirtualSoundSource *v1 = p1->virtualSource;
-	VirtualSoundSource *v2 = p2->virtualSource;
+    VirtualSoundSource *v1 = p1->getVirtualSource();
+	VirtualSoundSource *v2 = p2->getVirtualSource();
 
-	if (v1 && !p1->stopped) priority1 = v1->getPriority();
-	if (v2 && !p2->stopped) priority2 = v2->getPriority();
+	if (v1 && !p1->getStopped()) priority1 = v1->getPriority();
+	if (v2 && !p2->getStopped()) priority2 = v2->getPriority();
 	if (v1) dist1 = v1->getDistance();
 	if (v2) dist2 = v2->getDistance();
 
@@ -264,9 +264,9 @@ void Sound::updateSources()
 		fitor++)
 	{
 		PlayingSoundSource *source = (*fitor);
-		if (source->virtualSource)
+		if (source->getVirtualSource())
 		{
-			source->virtualSource->updateDistance(listenerPosition);
+			source->getVirtualSource()->updateDistance(listenerPosition);
 		}
 	}
 
@@ -287,16 +287,16 @@ void Sound::updateSources()
 		bool stopSource = false;
 
 		// Check if we have been stopped
-		if (source->stopped)
+		if (source->getStopped())
 		{
 			stopSource = true;
 		}
 		// Check if we should be playing
 		else if (totalPlaying - count <= totalSources)
 		{
-			if (source->actualSource)
+			if (source->getActualSource())
 			{
-				if (source->actualSource->getPlaying())
+				if (source->getActualSource()->getPlaying())
 				{
 					// It should be playing and is playing
 				}
@@ -306,13 +306,13 @@ void Sound::updateSources()
 					stopSource = true;
 				}
 			}
-			else if (!source->actualSource)
+			else if (!source->getActualSource())
 			{
 				// Its not playing and should be playing
 				DIALOG_ASSERT(!availableSources_.empty());
-				source->actualSource = availableSources_.back();
+				source->setActualSource(availableSources_.back());
 				availableSources_.pop_back();
-				source->virtualSource->actualPlay();
+				source->getVirtualSource()->actualPlay();
 			}
 		}
 		// We should not be playing this one
@@ -325,20 +325,20 @@ void Sound::updateSources()
 		if (stopSource)
 		{
 			// We are currently playing
-			if (source->actualSource)
+			if (source->getActualSource())
 			{
 				// Stop it
-				source->actualSource->stop();
-				availableSources_.push_back(source->actualSource);
-				source->actualSource = 0;
+				source->getActualSource()->stop();
+				availableSources_.push_back(source->getActualSource());
+				source->setActualSource(0);
 			}
 
 			// If we are not looped so stop for good
-			if (source->virtualSource)
+			if (source->getVirtualSource())
 			{
-				if (!source->virtualSource->getLooping())
+				if (!source->getVirtualSource()->getLooping())
 				{
-					source->stopped = true;
+					source->setStopped(true);
 				}
 			}
 		}
@@ -348,14 +348,14 @@ void Sound::updateSources()
 	while (!playingSources_.empty())
 	{
 		PlayingSoundSource *source = playingSources_.back();
-		if (source->stopped)
+		if (source->getStopped())
 		{
-			if (source->virtualSource)
+			if (source->getVirtualSource())
 			{
-				source->virtualSource->setPlayingSource(0);
+				source->getVirtualSource()->setPlayingSource(0);
 			}
 
-			DIALOG_ASSERT(!(source->actualSource));
+			DIALOG_ASSERT(!(source->getActualSource()));
 			delete source;
 			playingSources_.pop_back();
 		}
@@ -390,12 +390,10 @@ void Sound::removePlaying(VirtualSoundSource *virt)
 {
 	if (virt->getPlayingSource())
 	{
-		if (virt->getPlayingSource())
-		{
-			virt->getPlayingSource()->stopped = true;
-			virt->getPlayingSource()->virtualSource = 0;
-		}
+		virt->getPlayingSource()->setStopped(true);
+		virt->getPlayingSource()->setVirtualSource(0);
 	}
+	virt->setPlayingSource(0);
 
 	updateSources();
 }

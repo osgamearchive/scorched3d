@@ -40,6 +40,7 @@ static wxCheckBox *IDC_NOMIPMAPS_CTRL = 0;
 static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;
 static wxCheckBox *IDC_NOSOUND_CTRL = 0;
+static wxCheckBox *IDC_NOMUSIC_CTRL = 0;
 static wxCheckBox *IDC_NOAMBIENTSOUND_CTRL = 0;
 static wxComboBox *IDC_SOUNDCHANNELS_CTRL = 0;
 static wxCheckBox *IDC_NOWATER_CTRL = 0;

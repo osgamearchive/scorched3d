@@ -29,9 +29,19 @@ public:
 	PlayingSoundSource(VirtualSoundSource *virt);
 	virtual ~PlayingSoundSource();
 
-	VirtualSoundSource *virtualSource;
-	SoundSource *actualSource;
-	bool stopped;
+	void setActualSource(SoundSource *actualSource);
+	SoundSource *getActualSource() { return actualSource_; }
+
+	void setVirtualSource(VirtualSoundSource *virtualSource);
+	VirtualSoundSource *getVirtualSource() { return virtualSource_; }
+
+	void setStopped(bool stopped);
+	bool getStopped() { return stopped_; }
+
+protected:
+	VirtualSoundSource *virtualSource_;
+	SoundSource *actualSource_;
+	bool stopped_;
 };
 
 #endif // __INCLUDE_PlayingSoundSourceh_INCLUDE__

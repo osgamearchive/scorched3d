@@ -344,6 +344,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOAMBIENTSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoAmbientSound());
 	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoAmbientSoundEntry().getDescription(), wxConvUTF8));
+	IDC_NOMUSIC_CTRL->SetValue(OptionsDisplay::instance()->getNoMusic());
+	IDC_NOMUSIC_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoMusicEntry().getDescription(), wxConvUTF8));
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
 	IDC_NOSKINS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkinsEntry().getDescription(), wxConvUTF8));
 	IDC_NODYNAMICLIGHT_CTRL->SetValue(OptionsDisplay::instance()->getNoModelLighting());
@@ -550,6 +552,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().setValue(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSoundEntry().setValue(IDC_NOSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoAmbientSoundEntry().setValue(IDC_NOAMBIENTSOUND_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoMusicEntry().setValue(IDC_NOMUSIC_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoundChannelsEntry().setValue(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue().mb_str(wxConvUTF8)));
 	OptionsDisplay::instance()->getNoSkinsEntry().setValue(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoModelLightingEntry().setValue(IDC_NODYNAMICLIGHT_CTRL->GetValue());

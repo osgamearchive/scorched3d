@@ -114,8 +114,8 @@ public:
 	bool getHideMenus() { return hideMenus_; }
 	OptionEntryBool &getHideMenusEntry() { return hideMenus_; }
 
-	bool getFirstTimePlayed() { return firstTimePlayed_; }
-	OptionEntryBool &getFirstTimePlayedEntry() { return firstTimePlayed_; }
+	const char *getLastVersionPlayed() { return lastVersionPlayed_; }
+	OptionEntryString &getLastVersionPlayedEntry() { return lastVersionPlayed_; }
 
 	bool getDetailTexture() { return detailTexture_; }
 	OptionEntryBool &getDetailTextureEntry() { return detailTexture_; }
@@ -173,6 +173,9 @@ public:
 
 	bool getNoSound() { return noSound_; }
 	OptionEntryBool &getNoSoundEntry() { return noSound_; }
+
+	bool getNoMusic() { return noMusic_; }
+	OptionEntryBool &getNoMusicEntry() { return noMusic_; }
 
 	bool getNoAmbientSound() { return noAmbientSound_; }
 	OptionEntryBool &getNoAmbientSoundEntry() { return noAmbientSound_; }
@@ -353,6 +356,7 @@ protected:
 	OptionEntryString depricatedUniqueUserId_;
 	OptionEntryBool depricatedNoShips_;
 	OptionEntryBool depricatedDrawShipPaths_;
+	OptionEntryBool depricatedFirstTimePlayed_;
 
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
@@ -386,6 +390,7 @@ protected:
 	OptionEntryBool invertElevation_;
 	OptionEntryBool invertMouse_;
 	OptionEntryBool noSound_;
+	OptionEntryBool noMusic_;
 	OptionEntryBool noAmbientSound_;
 	OptionEntryBool noShadows_;
 	OptionEntryBool noDrawParticles_;
@@ -415,7 +420,6 @@ protected:
 	OptionEntryInt roamVarianceStart_;
 	OptionEntryInt roamVarianceRamp_;
 	OptionEntryInt roamVarianceTank_;
-	OptionEntryBool firstTimePlayed_;
 	OptionEntryBool hideMenus_;
 	OptionEntryBool noROAM_;
 	OptionEntryBool noTessalation_;
@@ -452,6 +456,7 @@ protected:
 	OptionEntryString onlineUserIcon_;
 	OptionEntryVector onlineColor_;
 	OptionEntryString buyTab_;
+	OptionEntryString lastVersionPlayed_;
 
 private:
 	OptionsDisplay();

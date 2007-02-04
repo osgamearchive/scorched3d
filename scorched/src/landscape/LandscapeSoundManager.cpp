@@ -46,7 +46,7 @@ void LandscapeSoundManager::cleanUp()
 	entries_.clear();
 }
 
-void LandscapeSoundManager::initialize(std::list<LandscapeInclude *> sounds)
+void LandscapeSoundManager::initialize(std::list<LandscapeInclude *> &sounds)
 {
 	cleanUp();
 

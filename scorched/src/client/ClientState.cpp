@@ -39,6 +39,7 @@
 #include <landscape/LandscapeStateHandler.h>
 #include <landscape/LandscapeShadowHandler.h>
 #include <landscape/LandscapeShadowCamera.h>
+#include <landscape/LandscapeMusicManager.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLConsole.h>
 
@@ -48,6 +49,8 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWWindowManager::instance());
+	gameState.addStateLoop(state, Main2DCamera::instance(),
+		LandscapeMusicManager::instance()); // MUSIC
 	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
 	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 

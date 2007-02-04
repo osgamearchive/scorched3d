@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="scorched"
 	ProjectGUID="{1C5AEC15-1C77-49B8-948E-FA65FD3ABA2F}"
+	RootNamespace="scorched"
 	>
 	<Platforms>
 		<Platform
@@ -306,6 +307,14 @@
 			</File>
 			<File
 				RelativePath="..\wxdialogs\SingleSDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wxdialogs\SplashDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\wxdialogs\SplashDialog.h"
 				>
 			</File>
 			<File

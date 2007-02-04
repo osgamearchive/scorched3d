@@ -95,6 +95,7 @@ void SoundBufferDynamicOVSourceInstance::stop()
 		ALuint buffer;            
 		alSourceUnqueueBuffers(source_, 1, &buffer);
 	}
+	alSourceStop(source_);
 }
 
 void SoundBufferDynamicOVSourceInstance::simulate(bool repeat)

@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="scorchedc"
 	ProjectGUID="{714D8D7B-FA29-4B43-B481-CB53218D0595}"
+	RootNamespace="scorchedc"
 	>
 	<Platforms>
 		<Platform
@@ -1758,6 +1759,14 @@
 			</File>
 			<File
 				RelativePath="..\landscapedef\LandscapeMovement.h"
+				>
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeMusic.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeMusic.h"
 				>
 			</File>
 			<File
@@ -4050,6 +4059,14 @@
 			</File>
 			<File
 				RelativePath="..\landscape\Landscape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeMusicManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\landscape\LandscapeMusicManager.h"
 				>
 			</File>
 			<File

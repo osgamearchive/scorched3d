@@ -54,6 +54,13 @@ LandscapeInclude::~LandscapeInclude()
 			sounds.pop_back();
 		}
 	}
+	{
+		while (!musics.empty())
+		{
+			delete musics.back();
+			musics.pop_back();
+		}
+	}
 }
 
 bool LandscapeInclude::readXML(LandscapeDefinitions *definitions, XMLNode *node)
@@ -74,6 +81,15 @@ bool LandscapeInclude::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 			LandscapeSoundType *sound = new LandscapeSoundType;
 			if (!sound->readXML(soundNode)) return false;
 			sounds.push_back(sound);
+		}
+	}
+	{
+		XMLNode *musicNode;
+		while (node->getNamedChild("music", musicNode, false))
+		{
+			LandscapeMusicType *music = new LandscapeMusicType;
+			if (!music->readXML(musicNode)) return false;
+			musics.push_back(music);
 		}
 	}
 	{

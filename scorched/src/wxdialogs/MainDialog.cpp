@@ -33,6 +33,7 @@
 #include <wxdialogs/SingleDialog.h>
 #include <wxdialogs/DisplayDialog.h>
 #include <wxdialogs/ServerSDialog.h>
+#include <wxdialogs/SplashDialog.h>
 #include <server/ServerMain.h>
 #include <scorched/ScorchedParams.h>
 #include <graph/OptionsDisplay.h>
@@ -442,18 +443,12 @@ void showMainDialog()
 	mainDialog = new MainFrame;
 	mainDialog->Show(TRUE);
 
-	if (OptionsDisplay::instance()->getFirstTimePlayed())
+	if (0 != strcmp(OptionsDisplay::instance()->getLastVersionPlayed(), ScorchedVersion))
 	{
-		OptionsDisplay::instance()->getFirstTimePlayedEntry().setValue(false);
+		OptionsDisplay::instance()->getLastVersionPlayedEntry().setValue(ScorchedVersion);
 		OptionsDisplay::instance()->writeOptionsToFile();
 
-		dialogMessage(
-			scorched3dAppName,
-			"Welcome to Scorched3D.\n"
-			"News, updates and stats are available at http://www.scorched3d.co.uk\n"
-			"\n"
-			"If the game runs slowly please ensure you are using the latest graphics drivers.\n"
-			"Game speed can also be optimized by changing the Scorched3D game settings.");
+		showSplashDialog();
 	}
 }
 
