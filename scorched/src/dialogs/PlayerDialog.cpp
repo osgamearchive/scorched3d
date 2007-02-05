@@ -31,7 +31,7 @@
 #include <client/ClientParams.h>
 #include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <common/Defines.h>
 #include <GLW/GLWWindowManager.h>

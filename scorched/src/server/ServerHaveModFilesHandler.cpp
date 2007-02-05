@@ -23,7 +23,7 @@
 #include <server/ServerCommon.h>
 #include <engine/ModFiles.h>
 #include <coms/ComsHaveModFilesMessage.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <tank/TankMod.h>

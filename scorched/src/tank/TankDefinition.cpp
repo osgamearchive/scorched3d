@@ -30,7 +30,7 @@
 #include <tankai/TankAIStore.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <common/RandomGenerator.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ScorchedContext.h>

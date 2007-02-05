@@ -27,7 +27,7 @@
 #include <weapons/AccessoryStore.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <client/ClientParams.h>
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/PlayerDialog.h>

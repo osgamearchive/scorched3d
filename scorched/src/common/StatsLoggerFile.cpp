@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/StatsLoggerFile.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/LoggerI.h>
 #include <common/Defines.h>
 #include <server/ScorchedServer.h>

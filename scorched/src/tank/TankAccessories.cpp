@@ -28,7 +28,7 @@
 #include <target/TargetShield.h>
 #include <target/TargetLife.h>
 #include <tankai/TankAIHuman.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 
 TankAccessories::TankAccessories(ScorchedContext &context) :

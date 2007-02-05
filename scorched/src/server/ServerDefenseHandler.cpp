@@ -29,7 +29,7 @@
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <coms/ComsDefenseMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <weapons/AccessoryStore.h>

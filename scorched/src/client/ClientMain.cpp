@@ -70,7 +70,7 @@
 #include <common/Keyboard.h>
 #include <common/Logger.h>
 #include <client/ClientParams.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Keyboard.h>
 #include <common/ProgressCounter.h>
 #include <common/Clock.h>

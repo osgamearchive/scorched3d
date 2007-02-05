@@ -19,9 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/OptionsGame.h>
-#include <common/OptionsTransient.h>
 #include <common/Defines.h>
-#include <common/Logger.h>
 #include <string.h>
 
 static OptionEntryEnum::EnumEntry scoreEnum[] =
@@ -403,65 +401,4 @@ std::list<OptionEntry *> &OptionsGame::getPlayerTypeOptions()
 std::list<OptionEntry *> &OptionsGame::getOptions()
 {
 	return options_;
-}
-
-OptionsGameWrapper::OptionsGameWrapper()
-{
-}
-
-OptionsGameWrapper::~OptionsGameWrapper()
-{
-}
-
-void OptionsGameWrapper::updateChangeSet()
-{
-	NetBufferDefault::defaultBuffer.reset();
-	writeToBuffer(NetBufferDefault::defaultBuffer, true, true);
-	NetBufferReader reader(NetBufferDefault::defaultBuffer);
-	changedOptions_.readFromBuffer(reader, true, true);
-}
-
-bool OptionsGameWrapper::commitChanges()
-{
-	bool different = false;
-
-	// Compare buffers
-	std::list<OptionEntry *> &options = getOptions();
-	std::list<OptionEntry *> &otheroptions = changedOptions_.getOptions();
-	std::list<OptionEntry *>::iterator itor;
-	std::list<OptionEntry *>::iterator otheritor;
-	for (itor=options.begin(), otheritor=otheroptions.begin();
-		itor!=options.end() && otheritor!=otheroptions.end();
-		itor++, otheritor++)
-	{
-		OptionEntry *entry = *itor;
-		OptionEntry *otherentry = *otheritor;
-
-		DIALOG_ASSERT(0 == strcmp(entry->getName(), otherentry->getName()));
-
-		std::string str = entry->getValueAsString();
-		std::string otherstr = otherentry->getValueAsString();
-		if (str != otherstr)
-		{
-			if (!(entry->getData() & OptionEntry::DataProtected) &&
-				!(otherentry->getData() & OptionEntry::DataProtected))
-			{
-				if (strlen(str.c_str()) < 20 && strlen(otherstr.c_str()) < 20)
-				{
-					Logger::log(formatString("Option %s has been changed from %s to %s",
-						entry->getName(), str.c_str(), otherstr.c_str()));
-				}
-				else
-				{
-					Logger::log(formatString("Option %s has been changed.",
-						entry->getName()));
-				}
-			}
-
-			different = true;
-			entry->setValueFromString(otherentry->getValueAsString());
-		}
-	}
-
-	return different;
 }

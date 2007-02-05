@@ -34,7 +34,7 @@
 #include <coms/ComsPlayerStatusMessage.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 
 ServerNextTurnState::ServerNextTurnState() :
 	GameStateI("ServerNextTurnState")

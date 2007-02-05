@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 			"Server file \"%s\" does not exist.",
 			ServerParams::instance()->getServerFile()));
 	}
-	ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+	ScorchedServer::instance()->getOptionsGame().getMainOptions().readOptionsFromFile(
 		(char *) ServerParams::instance()->getServerFile());
 
 	// Run Server

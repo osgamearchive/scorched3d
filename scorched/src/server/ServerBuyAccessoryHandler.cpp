@@ -30,7 +30,7 @@
 #include <coms/ComsBuyAccessoryMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/EconomyStore.h>

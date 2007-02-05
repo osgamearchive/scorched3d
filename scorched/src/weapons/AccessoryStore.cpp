@@ -37,7 +37,7 @@ AccessoryStore::~AccessoryStore()
 }
 
 bool AccessoryStore::parseFile(
-	OptionsGame &context, ProgressCounter *counter)
+	OptionsScorched &context, ProgressCounter *counter)
 {
 	if (counter) counter->setNewOp("Loading weapons");
 
@@ -91,7 +91,7 @@ bool AccessoryStore::parseFile(
 		}
 
 		// Add the accessory
-		groups_.insert(accessory->getGroupName());
+		tabGroups_.insert(accessory->getTabGroupName());
 		accessories_.push_back(accessory);
 
 		// Add weapons to death animations, weighted by arms level
@@ -229,8 +229,8 @@ void AccessoryStore::sortList(std::list<Accessory *> &accList, bool alpha)
 	}
 }
 
-std::list<Accessory *> AccessoryStore::getAllAccessoriesByGroup(
-	const char *group, bool sort)
+std::list<Accessory *> AccessoryStore::getAllAccessoriesByTabGroup(
+	const char *tabgroup, bool sort)
 {
 	std::list<Accessory *> result;
 	std::list<Accessory *>::iterator itor;
@@ -239,7 +239,7 @@ std::list<Accessory *> AccessoryStore::getAllAccessoriesByGroup(
 		itor++)
 	{
 		Accessory *accessory = (*itor);
-		if (0 == strcmp(group, accessory->getGroupName()))
+		if (0 == strcmp(tabgroup, accessory->getTabGroupName()))
 		{
 			result.push_back(*itor);
 		}

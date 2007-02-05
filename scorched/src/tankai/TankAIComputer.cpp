@@ -23,7 +23,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerDefenseHandler.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>

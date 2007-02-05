@@ -44,6 +44,7 @@ to move rather than fire.  Maximum range is 50.</description>
 		<nomuzzleflash/>
 		<positionselection>fuel</positionselection>
 		<group>fuel</group>
+		<tabgroup>defense</tabgroup>
 	</accessory>
 	<accessory>
 		<name>Rocket Fuel</name>
@@ -64,6 +65,7 @@ to move rather than fire.  Maximum range is 75.</description>
 		<nomuzzleflash/>
 		<positionselection>fuel</positionselection>
 		<group>fuel</group>
+		<tabgroup>defense</tabgroup>
 	</accessory>
 	<accessory>
 		<name>Shield</name>

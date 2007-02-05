@@ -30,7 +30,7 @@ class TargetMovement;
 class LandscapeMaps;
 class ComsMessageHandler;
 class NetInterface;
-class OptionsGameWrapper;
+class OptionsScorched;
 class OptionsTransient;
 class ViewPoints;
 class ModFiles;
@@ -50,7 +50,7 @@ public:
 	LandscapeMaps *landscapeMaps;
 	ComsMessageHandler *comsMessageHandler;
 	NetInterface *netInterface;
-	OptionsGameWrapper *optionsGame;
+	OptionsScorched *optionsGame;
 	OptionsTransient *optionsTransient;
 	ViewPoints *viewPoints;
 	ModFiles *modFiles;

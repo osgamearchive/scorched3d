@@ -25,7 +25,7 @@
 #include <dialogs/ProgressDialog.h>
 #include <common/Logger.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsFileMessage.h>
 #include <coms/ComsFileAkMessage.h>

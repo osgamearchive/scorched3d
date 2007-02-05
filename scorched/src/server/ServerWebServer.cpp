@@ -28,7 +28,7 @@
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
 #include <net/NetMessagePool.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/Defines.h>

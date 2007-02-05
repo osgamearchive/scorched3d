@@ -27,7 +27,7 @@
 #include <graph/Gamma.h>
 #include <client/ClientParams.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <cgext/CGLoader.h>
 #include <stdio.h>

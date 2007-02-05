@@ -28,7 +28,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsGameStateMessage.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 

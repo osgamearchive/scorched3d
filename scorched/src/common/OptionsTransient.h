@@ -22,14 +22,14 @@
 #define __INCLUDE_OptionsTransienth_INCLUDE__
 
 #include <common/Vector.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <net/NetBuffer.h>
 
 class TankContainer;
 class OptionsTransient
 {
 public:
-	OptionsTransient(OptionsGame &optionsGame);
+	OptionsTransient(OptionsScorched &optionsGame);
 	virtual ~OptionsTransient();
 
 	const char *getGameType();
@@ -80,7 +80,7 @@ public:
 
 protected:
 	std::list<OptionEntry *> options_;
-	OptionsGame &optionsGame_;
+	OptionsScorched &optionsGame_;
 	OptionEntryInt currentRoundNo_;
 	OptionEntryInt currentGameNo_;
 	OptionEntryFloat windAngle_;

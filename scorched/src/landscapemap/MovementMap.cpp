@@ -28,7 +28,7 @@
 #include <target/TargetContainer.h>
 #include <engine/ScorchedContext.h>
 #include <common/Vector.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <tank/TankPosition.h>

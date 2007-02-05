@@ -26,7 +26,7 @@
 #include <coms/ComsPlayerStateMessage.h>
 #include <common/Logger.h>
 #include <common/RandomGenerator.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <tank/TankState.h>
 #include <tank/TankScore.h>

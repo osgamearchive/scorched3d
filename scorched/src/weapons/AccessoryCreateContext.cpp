@@ -20,7 +20,7 @@
 #include <weapons/AccessoryCreateContext.h>
 
 AccessoryCreateContext::AccessoryCreateContext(
-	OptionsGame &optionsGame, AccessoryStore *store) :
+	OptionsScorched &optionsGame, AccessoryStore *store) :
 	optionsGame_(optionsGame), store_(store)
 {
 

@@ -21,7 +21,7 @@
 #include <tankai/TankAIStrings.h>
 #include <server/ScorchedServer.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 
 TankAIStrings *TankAIStrings::instance_ = 0;
 

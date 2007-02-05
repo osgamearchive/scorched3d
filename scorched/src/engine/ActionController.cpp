@@ -23,7 +23,7 @@
 #include <engine/SyncCheck.h>
 #include <movement/TargetMovement.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <list>
 
 ActionController::ActionController() : 

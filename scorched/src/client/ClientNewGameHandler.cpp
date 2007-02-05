@@ -30,7 +30,7 @@
 #include <engine/MainLoop.h>
 #include <GLW/GLWWindowManager.h>
 #include <client/ClientParams.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>

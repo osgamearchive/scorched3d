@@ -24,7 +24,7 @@
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
 #include <coms/ComsMessageSender.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 
 ServerStartingState::ServerStartingState() :

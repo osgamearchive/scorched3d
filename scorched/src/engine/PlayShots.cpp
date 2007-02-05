@@ -28,7 +28,7 @@
 #include <actions/TankFired.h>
 #include <actions/TankResign.h>
 #include <target/TargetLife.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/StatsLogger.h>
 #include <weapons/AccessoryStore.h>
 

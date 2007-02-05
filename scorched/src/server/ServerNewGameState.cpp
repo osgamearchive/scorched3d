@@ -51,7 +51,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <common/RandomGenerator.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Clock.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>

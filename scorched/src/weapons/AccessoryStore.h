@@ -37,7 +37,7 @@ public:
 	AccessoryStore();
 	virtual ~AccessoryStore();
 
-	bool parseFile(OptionsGame &context, ProgressCounter *counter = 0);
+	bool parseFile(OptionsScorched &context, ProgressCounter *counter = 0);
 	void clearAccessories();
 
 	Accessory *findByAccessoryId(unsigned int id);
@@ -51,9 +51,9 @@ public:
 	Weapon *getMuzzelFlash();
 
 	std::list<Accessory *> getAllAccessories(bool sort=false);	
-	std::list<Accessory *> getAllAccessoriesByGroup(const char *group, bool sort=false);
+	std::list<Accessory *> getAllAccessoriesByTabGroup(const char *tabgroup, bool sort=false);
 	std::map<std::string, XMLNode *> &getParsingNodes() { return parsingNodes_; }
-	std::set<std::string> &getGroupNames() { return groups_; }
+	std::set<std::string> &getTabGroupNames() { return tabGroups_; }
 
 	bool writeWeapon(NetBuffer &buffer, Weapon *weapon);
 	Weapon *readWeapon(NetBufferReader &reader);
@@ -66,7 +66,7 @@ public:
 	void sortList(std::list<Accessory *> &accList, bool alpha);
 
 protected:
-	std::set<std::string> groups_;
+	std::set<std::string> tabGroups_;
 	std::list<Accessory *> accessories_;
 	std::list<AccessoryPart *> accessoryParts_;
 	std::map<std::string, XMLNode *> parsingNodes_;

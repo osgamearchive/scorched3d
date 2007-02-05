@@ -23,7 +23,7 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Vector4.h>

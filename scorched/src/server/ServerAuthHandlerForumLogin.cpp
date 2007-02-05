@@ -21,7 +21,7 @@
 #include <server/ServerAuthHandlerForumLogin.h>
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
 

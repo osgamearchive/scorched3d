@@ -46,7 +46,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 	landscapeMaps = new LandscapeMaps();
 	comsMessageHandler = new ComsMessageHandler(name);
 	netInterface = (NetInterface *) 0;
-	optionsGame = new OptionsGameWrapper();
+	optionsGame = new OptionsScorched();
 	optionsTransient = new OptionsTransient(*optionsGame);
 	viewPoints = new ViewPoints();
 	modFiles = new ModFiles();

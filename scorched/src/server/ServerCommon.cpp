@@ -27,7 +27,7 @@
 #include <tank/TankState.h>
 #include <tank/TankScore.h>
 #include <target/TargetLife.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/FileLogger.h>

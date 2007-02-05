@@ -31,7 +31,7 @@
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <common/FileList.h>

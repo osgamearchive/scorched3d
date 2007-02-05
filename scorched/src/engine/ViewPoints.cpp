@@ -21,7 +21,7 @@
 #include <engine/ViewPoints.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <tank/TankContainer.h>
 
 ViewPoints::ViewPoints() : context_(0), totalTime_(0), finished_(false)

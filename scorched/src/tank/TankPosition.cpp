@@ -28,7 +28,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 
 TankPosition::TankPosition(ScorchedContext &context) :
 	turretRotXY_(0.0f), turretRotYZ_(0.0f),

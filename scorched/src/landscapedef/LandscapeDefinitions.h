@@ -40,8 +40,8 @@ public:
 	virtual bool readLandscapeDefinitions();
 	virtual void clearLandscapeDefinitions();
 
-	void checkEnabled(OptionsGame &context);
-	LandscapeDefinition getRandomLandscapeDefn(OptionsGame &context);
+	void checkEnabled(OptionsScorched &context);
+	LandscapeDefinition getRandomLandscapeDefn(OptionsScorched &context);
 	LandscapeTex *getTex(const char *file, bool load = false);
 	LandscapeDefn *getDefn(const char *file, bool load = false);
 	LandscapeInclude *getInclude(const char *file, bool load = false);

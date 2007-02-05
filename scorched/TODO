@@ -67,6 +67,7 @@ Added: Plan view darkens to increase the visibility of when lines are drawn by o
 Added: flattendestroy attribute to targets to specify if they should be removed then a tank stops near them
 Added: Scorched splash screen shown each time a new version is installed
 Added: Capability for music (music can be configured for different actions both globaly and on a per level basis)
+Added: tabgroups to accessories, a tabgroup is the grouping used to group accessories in the buy dialog
 
 Fixed: Optimized path finding code for tank movement
 Fixed: Wall hit indicators are now particles and so won't mask other effects

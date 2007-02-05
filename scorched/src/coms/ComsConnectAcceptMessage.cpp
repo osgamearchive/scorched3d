@@ -22,7 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <coms/ComsConnectAcceptMessage.h>
 #include <weapons/AccessoryStore.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 
 ComsConnectAcceptMessage::ComsConnectAcceptMessage(unsigned int destinationId,
 	const char *serverName,
@@ -50,7 +50,7 @@ bool ComsConnectAcceptMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(uniqueId_);
 	buffer.addToBuffer(serverPng_.getBufferUsed());
 	buffer.addDataToBuffer(serverPng_.getBuffer(), serverPng_.getBufferUsed());
-	if (!ScorchedServer::instance()->getOptionsGame().
+	if (!ScorchedServer::instance()->getOptionsGame().getMainOptions().
 		writeToBuffer(buffer, false, false)) return false;
 	return true;
 }
@@ -68,7 +68,7 @@ bool ComsConnectAcceptMessage::readMessage(NetBufferReader &reader)
 	serverPng_.setBufferUsed(used);
 	reader.getDataFromBuffer(serverPng_.getBuffer(), used);
 #ifndef S3D_SERVER
-	if (!ScorchedClient::instance()->getOptionsGame().
+	if (!ScorchedClient::instance()->getOptionsGame().getMainOptions().
 		readFromBuffer(reader, false, false)) return false;
 #endif // #ifndef S3D_SERVER
 	return true;

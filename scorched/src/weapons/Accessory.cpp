@@ -23,7 +23,7 @@
 #include <weapons/Accessory.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <stdlib.h>
 
 unsigned int Accessory::nextAccessoryId_ = 0;
@@ -169,16 +169,42 @@ bool Accessory::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode
 		}
 	}
 
-	// Get the accessory groupname
-	if (!accessoryNode->getNamedChild("group", groupName_, false))
+	// Get the accessory tabgroupname
+	if (!accessoryNode->getNamedChild("tabgroup", tabGroupName_, false))
 	{
 		if (accessoryAction_->getType() == AccessoryPart::AccessoryWeapon)
 		{
-			groupName_ = "weapon";
+			tabGroupName_ = "weapon";
 		}
 		else
 		{
-			groupName_ = "defense";
+			tabGroupName_ = "defense";
+		}
+	}
+
+	// Get the accessory groupname
+	if (!accessoryNode->getNamedChild("group", groupName_, false))
+	{
+		switch (accessoryAction_->getType())
+		{
+		case AccessoryPart::AccessoryWeapon:
+			groupName_ = "weapon";
+			break;
+		case AccessoryPart::AccessoryParachute:
+			groupName_ = "parachute";
+			break;
+		case AccessoryPart::AccessoryShield:
+			groupName_ = "shield";
+			break;
+		case AccessoryPart::AccessoryAutoDefense:
+			groupName_ = "autodefense";
+			break;
+		case AccessoryPart::AccessoryBattery:
+			groupName_ = "battery";
+			break;
+		default:
+			groupName_ = "none";
+			break;
 		}
 	}
 

@@ -34,7 +34,7 @@
 #include <tankai/TankAIStrings.h>
 #include <common/Defines.h>
 #include <common/FileLines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>
 #include <net/NetInterface.h>

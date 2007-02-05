@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_LandscapeDefinitionsBaseh_INCLUDE__)
 #define __INCLUDE_LandscapeDefinitionsBaseh_INCLUDE__
 
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <XML/XMLFile.h>
 #include <string>
 #include <vector>

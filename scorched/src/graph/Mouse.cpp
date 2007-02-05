@@ -21,7 +21,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <graph/Mouse.h>
 #include <graph/OptionsDisplay.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <client/ScorchedClient.h>
 #include <engine/GameState.h>
 

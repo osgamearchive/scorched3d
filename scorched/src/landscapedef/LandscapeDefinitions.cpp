@@ -22,7 +22,7 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeInclude.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <limits.h>
 #include <string.h>
@@ -136,7 +136,7 @@ const char *LandscapeDefinitions::getLeastUsedFile(std::vector<std::string> &fil
 	return result;
 }
 
-void LandscapeDefinitions::checkEnabled(OptionsGame &context)
+void LandscapeDefinitions::checkEnabled(OptionsScorched &context)
 {
 	std::list<LandscapeDefinitionsEntry>::iterator itor;
 	for (itor = entries_.begin();
@@ -144,7 +144,7 @@ void LandscapeDefinitions::checkEnabled(OptionsGame &context)
 		itor++)
 	{
 		LandscapeDefinitionsEntry &result = *itor;
-		if (landscapeEnabled(context, result.name.c_str()))
+		if (landscapeEnabled(context.getMainOptions(), result.name.c_str()))
 		{
 			return;
 		}
@@ -156,7 +156,7 @@ void LandscapeDefinitions::checkEnabled(OptionsGame &context)
 }
 
 LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
-	OptionsGame &context)
+	OptionsScorched &context)
 {
 	// Build a list of the maps that are enabled
 	float totalWeight = 0.0f;
@@ -167,7 +167,7 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 		itor++)
 	{
 		LandscapeDefinitionsEntry &result = *itor;
-		if (landscapeEnabled(context, result.name.c_str()))
+		if (landscapeEnabled(context.getMainOptions(), result.name.c_str()))
 		{
 			passedLandscapes.push_back(&result);
 			totalWeight += result.weight;

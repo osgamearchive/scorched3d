@@ -23,7 +23,7 @@
 #include <coms/ComsKeepAliveMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <net/NetInterface.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <time.h>
 

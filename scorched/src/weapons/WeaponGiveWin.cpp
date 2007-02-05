@@ -28,7 +28,7 @@
 #include <common/Defines.h>
 #include <common/LoggerI.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveWin);
 

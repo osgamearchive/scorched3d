@@ -21,7 +21,7 @@
 #include <weapons/WeaponAddTarget.h>
 #include <weapons/AccessoryStore.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <actions/AddTarget.h>
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>

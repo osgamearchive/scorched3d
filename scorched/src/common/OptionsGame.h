@@ -435,20 +435,4 @@ protected:
 
 };
 
-class OptionsGameWrapper : public OptionsGame
-{
-public:
-	OptionsGameWrapper();
-	virtual ~OptionsGameWrapper();
-
-	// Options that can be changed on the fly
-	OptionsGame &getChangedOptions() { return changedOptions_; }
-	void updateChangeSet();
-	bool commitChanges();
-
-protected:
-	OptionsGame changedOptions_;
-
-};
-
 #endif

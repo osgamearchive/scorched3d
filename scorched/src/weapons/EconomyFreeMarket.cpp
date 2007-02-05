@@ -22,7 +22,7 @@
 #include <weapons/AccessoryStore.h>
 #include <server/ScorchedServer.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <XML/XMLFile.h>
 #include <XML/XMLParser.h>

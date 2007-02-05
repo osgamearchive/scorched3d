@@ -31,7 +31,7 @@
 #include <coms/ComsMessageSender.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <stdio.h>
 
@@ -47,7 +47,7 @@ bool ClientSave::storeClient()
 	buffer.addToBuffer(ScorchedProtocolVersion);
 	
 	// GameState
-	ScorchedServer::instance()->getOptionsGame().writeToBuffer(buffer, true, false);
+	ScorchedServer::instance()->getOptionsGame().getMainOptions().writeToBuffer(buffer, true, false);
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
@@ -127,7 +127,7 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	// GameState
 	if (loadGameState)
 	{
-		if (!ScorchedServer::instance()->getOptionsGame().readFromBuffer(
+		if (!ScorchedServer::instance()->getOptionsGame().getMainOptions().readFromBuffer(
 			reader, true, false)) return false;
 	}
 	else

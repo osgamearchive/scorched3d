@@ -21,19 +21,19 @@
 #if !defined(AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)
 #define AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
-class OptionsGame;
+class OptionsScorched;
 class AccessoryStore;
 class AccessoryCreateContext  
 {
 public:
-	AccessoryCreateContext(OptionsGame &optionsGame, AccessoryStore *store);
+	AccessoryCreateContext(OptionsScorched &optionsGame, AccessoryStore *store);
 	virtual ~AccessoryCreateContext();
 
-	OptionsGame &getOptionsGame() { return optionsGame_; }
+	OptionsScorched &getOptionsGame() { return optionsGame_; }
 	AccessoryStore *getAccessoryStore() { return store_; }
 
 protected:
-	OptionsGame &optionsGame_;
+	OptionsScorched &optionsGame_;
 	AccessoryStore *store_;
 
 private:

@@ -386,82 +386,80 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (!firstTank) return true;
 
+	std::string lastGroup;
 	bool firstIteration = true;
-	std::string lastGroup = "";
-
-	std::list<Accessory *> tankAccessories;
-	std::set<std::string> &groups =
-		ScorchedClient::instance()->getAccessoryStore().getGroupNames();
+	std::set<std::string> tabGroups = ScorchedClient::instance()->
+		getAccessoryStore().getTabGroupNames();
 	std::set<std::string>::iterator groupitor;
-	for (groupitor = groups.begin();
-		groupitor != groups.end();
+	for (groupitor = tabGroups.begin();
+		groupitor != tabGroups.end();
 		groupitor++)
 	{
-		std::list<Accessory *> tmpAccessories =
-			firstTank->getAccessories().getAllAccessoriesByGroup(
-				(*groupitor).c_str());	
-		ScorchedClient::instance()->getAccessoryStore().sortList(tmpAccessories,
-			OptionsDisplay::instance()->getSortAccessories());
-		tankAccessories.insert(tankAccessories.end(), tmpAccessories.begin(), tmpAccessories.end());
-	}
+		const char *group = (*groupitor).c_str();
+		std::list<Accessory *> weapons = ScorchedClient::instance()->
+			getAccessoryStore().getAllAccessoriesByTabGroup(
+				group,
+				OptionsDisplay::instance()->getSortAccessories());
 
-	std::list<Accessory *>::iterator itor;
-	for (itor = tankAccessories.begin();
-		itor != tankAccessories.end();
-		itor++)
-	{
-		Accessory *accessory = (*itor);
-		int accessoryCount = 
-			firstTank->getAccessories().getAccessoryCount(accessory);
-
-		bool sel = false;
-		switch (accessory->getType())
+		std::list<Accessory *>::iterator itor;
+		for (itor = weapons.begin();
+			itor != weapons.end();
+			itor++)
 		{
-		case AccessoryPart::AccessoryParachute:
-			sel = (firstTank->getParachute().getCurrentParachute() == accessory);
-			break;
-		case AccessoryPart::AccessoryShield:
-			sel = (firstTank->getShield().getCurrentShield() == accessory);
-			break;
-		case AccessoryPart::AccessoryWeapon:
-			sel = (firstTank->getAccessories().getWeapons().getCurrent() == accessory);
-			break;
-		case AccessoryPart::AccessoryAutoDefense:
-			sel = true;
-			break;
-		default:
-		case AccessoryPart::AccessoryBattery:
-			sel = false;
-			break;
-		}
+			Accessory *accessory = (*itor);
+			int accessoryCount = 
+				firstTank->getAccessories().getAccessoryCount(accessory);
+			if (accessoryCount == 0) continue;
 
-		if (!firstIteration &&
-			0 != strcmp(lastGroup.c_str(), accessory->getGroupName()))
-		{
-			result.push_back("----------");
-		}
-		lastGroup = accessory->getGroupName();
-		firstIteration = false;
+			bool sel = false;
+			switch (accessory->getType())
+			{
+			case AccessoryPart::AccessoryParachute:
+				sel = (firstTank->getParachute().getCurrentParachute() == accessory);
+				break;
+			case AccessoryPart::AccessoryShield:
+				sel = (firstTank->getShield().getCurrentShield() == accessory);
+				break;
+			case AccessoryPart::AccessoryWeapon:
+				sel = (firstTank->getAccessories().getWeapons().getCurrent() == accessory);
+				break;
+			case AccessoryPart::AccessoryAutoDefense:
+				sel = true;
+				break;
+			default:
+			case AccessoryPart::AccessoryBattery:
+				sel = false;
+				break;
+			}
 
-		static char buffer[1024];
-		if (accessoryCount > 0)
-		{
-			snprintf(buffer, 1024, "%s (%i)", 
-				accessory->getName(), accessoryCount);
-		}
-		else
-		{
-			snprintf(buffer, 1024, "%s (In)", 
-				accessory->getName());
-		}
+			if (!firstIteration &&
+				0 != strcmp(lastGroup.c_str(), accessory->getTabGroupName()))
+			{
+				result.push_back("----------");
+			}
+			lastGroup = accessory->getTabGroupName();
+			firstIteration = false;
 
-		result.push_back(
-			GLMenuItem(
-				buffer, 
-				&accessory->getToolTip(), 
-				sel,
-				accessory->getTexture(),
-				accessory));
+			static char buffer[1024];
+			if (accessoryCount > 0)
+			{
+				snprintf(buffer, 1024, "%s (%i)", 
+					accessory->getName(), accessoryCount);
+			}
+			else
+			{
+				snprintf(buffer, 1024, "%s (In)", 
+					accessory->getName());
+			}
+
+			result.push_back(
+				GLMenuItem(
+					buffer, 
+					&accessory->getToolTip(), 
+					sel,
+					accessory->getTexture(),
+					accessory));
+		}
 	}
 	return true;
 }

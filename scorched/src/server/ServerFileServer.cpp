@@ -24,7 +24,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankMod.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsInitializeMessage.h>

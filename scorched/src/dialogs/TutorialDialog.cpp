@@ -34,7 +34,7 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <common/Defines.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <time.h>
 
 TutorialDialog *TutorialDialog::instance_ = 0;

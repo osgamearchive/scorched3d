@@ -26,7 +26,7 @@
 #include <target/TargetShield.h>
 #include <target/TargetState.h>
 #include <engine/ScorchedContext.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 
 static struct AllowedStateTransitions

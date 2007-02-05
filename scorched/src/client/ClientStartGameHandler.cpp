@@ -30,7 +30,7 @@
 #include <tank/TankCamera.h>
 #include <graph/MainCamera.h>
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>
 #include <coms/ComsStartGameMessage.h>

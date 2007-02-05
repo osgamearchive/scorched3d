@@ -24,7 +24,7 @@
 #include <server/ServerCommon.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 
 ServerTooFewPlayersStimulus *ServerTooFewPlayersStimulus::instance_ = 0;

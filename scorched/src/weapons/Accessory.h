@@ -67,6 +67,7 @@ public:
 	ToolTip &getToolTip() { return toolTip_; }
 	const char *getIconName() { return iconName_.c_str(); }
 	const char *getGroupName() { return groupName_.c_str(); }
+	const char *getTabGroupName() { return tabGroupName_.c_str(); }
 	AccessoryPart *getAction() { return accessoryAction_; }
 	float getModelScale() { return modelScale_; }
 	ModelID &getModel() { return modelId_; }
@@ -97,7 +98,7 @@ protected:
 	ToolTip toolTip_;
 	ModelID modelId_;
 	std::string iconName_;
-	std::string groupName_;
+	std::string groupName_, tabGroupName_;
 	std::string name_;
 	std::string description_;
 	std::string activationSound_;

@@ -23,7 +23,7 @@
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
 #include <common/OptionsMasterListServer.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 
 ServerRegistration *ServerRegistration::instance_ = 0;

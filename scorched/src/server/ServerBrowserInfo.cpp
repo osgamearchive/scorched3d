@@ -21,7 +21,7 @@
 #include <server/ServerBrowserInfo.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerState.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <net/NetInterface.h>
@@ -187,7 +187,8 @@ void ServerBrowserInfo::processInfoMessage(std::list<std::string> &reply)
 {
 	// Add all of the other tank options
 	// Currently nothing on the client uses this info
-	std::list<OptionEntry *> &options = ScorchedServer::instance()->getOptionsGame().getOptions();
+	std::list<OptionEntry *> &options = ScorchedServer::instance()->getOptionsGame().
+		getMainOptions().getOptions();
 	std::list<OptionEntry *>::iterator optionItor;
 	for (optionItor = options.begin();
 		optionItor != options.end();

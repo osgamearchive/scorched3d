@@ -23,7 +23,7 @@
 #include <actions/TankSay.h>
 #include <actions/CameraPositionAction.h>
 #include <sprites/TextActionRenderer.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <common/LoggerI.h>
 #include <common/Logger.h>

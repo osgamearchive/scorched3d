@@ -22,7 +22,7 @@
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <tank/TankContainer.h>
 #include <coms/ComsKeepAliveMessage.h>
 #include <time.h>

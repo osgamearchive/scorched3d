@@ -24,7 +24,7 @@
 #include <client/ClientMain.h>
 #include <server/ScorchedServer.h>
 #include <engine/ModDirs.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/ARGParser.h>
 #include <common/Defines.h>
 #include <common/OptionsTransient.h>
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 					"Client file \"%s\" does not exist.",
 					clientFile.c_str()));
 			}
-			ScorchedServer::instance()->getOptionsGame().readOptionsFromFile(
+			ScorchedServer::instance()->getOptionsGame().getMainOptions().readOptionsFromFile(
 				(char *) clientFile.c_str());
 		}
 		else if (ClientParams::instance()->getSaveFile()[0])

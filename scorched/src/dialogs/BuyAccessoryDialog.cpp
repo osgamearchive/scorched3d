@@ -24,7 +24,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
@@ -133,7 +133,7 @@ void BuyAccessoryDialog::addTabs()
 
 	std::set<std::string> &groupNames =
 		ScorchedClient::instance()->
-			getAccessoryStore().getGroupNames();
+			getAccessoryStore().getTabGroupNames();
 	std::set<std::string>::reverse_iterator itor;
 	for (itor = groupNames.rbegin();
 		itor != groupNames.rend();
@@ -212,7 +212,7 @@ void BuyAccessoryDialog::addPlayerWeapons()
 
 	std::set<std::string> &groupNames =
 		ScorchedClient::instance()->
-			getAccessoryStore().getGroupNames();
+			getAccessoryStore().getTabGroupNames();
 	std::set<std::string>::iterator groupItor;
 	for (groupItor = groupNames.begin();
 		groupItor != groupNames.end();
@@ -251,7 +251,7 @@ void BuyAccessoryDialog::addPlayerWeaponsBuy(GLWTab *tab, const char *group)
 	if (!tank) return;
 
 	std::list<Accessory *> weapons = ScorchedClient::instance()->
-		getAccessoryStore().getAllAccessoriesByGroup(
+		getAccessoryStore().getAllAccessoriesByTabGroup(
 			group,
 			OptionsDisplay::instance()->getSortAccessories());
 

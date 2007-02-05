@@ -44,7 +44,7 @@
 #include <target/TargetSpace.h>
 #include <graph/ImageStore.h>
 #include <GLEXT/GLBitmapModifier.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
 

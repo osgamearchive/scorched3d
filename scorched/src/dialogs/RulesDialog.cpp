@@ -25,7 +25,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <tank/TankContainer.h>
 #include <client/ClientParams.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
@@ -80,7 +80,7 @@ void RulesDialog::addMOTD(const char *text)
 
 	// Add all the server rules
 	std::list<OptionEntry *> &options =
-		ScorchedClient::instance()->getOptionsGame().getOptions();
+		ScorchedClient::instance()->getOptionsGame().getMainOptions().getOptions();
 	std::list<OptionEntry *>::iterator itor;
 	for (itor = options.begin();
 		itor != options.end();
@@ -131,7 +131,7 @@ void RulesDialog::draw()
 void RulesDialog::drawRules()
 {
 	OptionsTransient &optionsT = ScorchedClient::instance()->getOptionsTransient();
-	OptionsGame &options = ScorchedClient::instance()->getOptionsGame();
+	OptionsScorched &options = ScorchedClient::instance()->getOptionsGame();
 
 	GLState newState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 

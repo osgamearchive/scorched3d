@@ -538,6 +538,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\OptionsScorched.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\OptionsScorched.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\OptionsTransient.cpp"
 				>
 			</File>

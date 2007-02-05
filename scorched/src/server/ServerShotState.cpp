@@ -23,7 +23,7 @@
 #include <server/ServerShotHolder.h>
 #include <server/ServerCommon.h>
 #include <coms/ComsMessageSender.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <tank/TankState.h>
 #include <engine/ActionController.h>

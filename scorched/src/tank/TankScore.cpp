@@ -20,7 +20,7 @@
 
 #include <tank/TankScore.h>
 #include <engine/ScorchedContext.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 
 // The maximum amount of money allowed by anyone

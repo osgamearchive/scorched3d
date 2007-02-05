@@ -24,7 +24,7 @@
 #include <tank/TankTeamScore.h>
 #include <tank/TankScore.h>
 #include <tank/TankState.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 
 int TankSort::compare(ScorchedContext &context,
 		const char *nameX, TankScore &scoreX,

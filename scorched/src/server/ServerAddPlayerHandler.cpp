@@ -24,7 +24,7 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerState.h>
 #include <server/ServerCommon.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
 #include <common/Logger.h>

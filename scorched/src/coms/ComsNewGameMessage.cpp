@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <coms/ComsNewGameMessage.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <weapons/AccessoryStore.h>
 #include <client/ScorchedClient.h>
@@ -49,7 +49,7 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 	if (gameStateEnclosed_)
 	{
 		if (!ScorchedServer::instance()->
-			getOptionsGame().writeToBuffer(buffer, false, false)) return false;
+			getOptionsGame().getMainOptions().writeToBuffer(buffer, false, false)) return false;
 	}
 	if (!ScorchedServer::instance()->
 		getOptionsTransient().writeToBuffer(buffer)) return false;
@@ -68,7 +68,7 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 	if (gameStateEnclosed_)
 	{
 		if (!ScorchedClient::instance()->
-			getOptionsGame().readFromBuffer(reader, false, false)) return false;
+			getOptionsGame().getMainOptions().readFromBuffer(reader, false, false)) return false;
 	}
 	if (!ScorchedClient::instance()->
 		getOptionsTransient().readFromBuffer(reader)) return false;

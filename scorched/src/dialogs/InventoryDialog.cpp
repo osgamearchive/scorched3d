@@ -26,7 +26,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>

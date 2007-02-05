@@ -31,7 +31,7 @@
 #include <coms/ComsMessageSender.h>
 #include <net/NetInterface.h>
 #include <common/Logger.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/StatsLogger.h>
 
 ServerMessageHandler *ServerMessageHandler::instance_ = 0;

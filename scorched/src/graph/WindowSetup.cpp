@@ -23,7 +23,7 @@
 #include <GLW/GLWSelector.h>
 #include <common/Keyboard.h>
 #include <client/ClientParams.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <client/ClientState.h>
 #include <graph/WindowSetup.h>
 #include <client/ScorchedClient.h>

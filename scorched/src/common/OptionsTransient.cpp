@@ -19,14 +19,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/OptionsTransient.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <time.h>
 #include <math.h>
 
-OptionsTransient::OptionsTransient(OptionsGame &optionsGame) :
+OptionsTransient::OptionsTransient(OptionsScorched &optionsGame) :
 	optionsGame_(optionsGame), newGame_(false),
 	currentRoundNo_(options_, "CurrentRoundNo", 
 		"The current number of rounds played in this game", 0, 0),

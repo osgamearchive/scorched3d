@@ -30,7 +30,7 @@
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Parachute.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <landscapemap/DeformLandscape.h>
 
 TankFalling::TankFalling(Weapon *weapon, unsigned int fallingPlayerId,

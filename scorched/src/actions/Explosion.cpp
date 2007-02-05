@@ -21,7 +21,7 @@
 #include <client/ScorchedClient.h>
 #include <target/TargetDamageCalc.h>
 #include <sound/SoundUtils.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <weapons/AccessoryStore.h>

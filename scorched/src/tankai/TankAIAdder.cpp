@@ -32,7 +32,7 @@
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsPlayerStateMessage.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>

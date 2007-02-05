@@ -21,7 +21,7 @@
 #include <graph/ShotCountDown.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/DefinesString.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>

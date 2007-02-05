@@ -23,7 +23,7 @@
 #include <server/ServerAuthHandlerForumLogin.h>
 #include <server/ServerAuthHandlerPrefered.h>
 #include <server/ServerAuthHandlerMinKills.h>
-#include <common/OptionsGame.h>
+#include <common/OptionsScorched.h>
 #include <common/Logger.h>
 
 ScorchedServerUtil *ScorchedServerUtil::instance_ = 0;
