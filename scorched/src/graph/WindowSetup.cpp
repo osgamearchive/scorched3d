@@ -47,6 +47,7 @@
 #include <dialogs/SkipDialog.h>
 #include <dialogs/SkipAllDialog.h>
 #include <dialogs/HUDDialog.h>
+#include <dialogs/SoundDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <dialogs/TutorialDialog.h>
 #include <dialogs/MessageDialog.h>
@@ -78,6 +79,10 @@ void WindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager,
 	KEYBOARDKEY("HUD_ITEMS", hudItemsKey);
 	GLWWindowManager::instance()->addWindow(state, 
  		HUDDialog::instance(), hudItemsKey, false);
+
+	KEYBOARDKEY("SHOW_SOUND_DIALOG", showSoundKey);
+	GLWWindowManager::instance()->addWindow(state, 
+ 		SoundDialog::instance(), showSoundKey, false);
 
 	KEYBOARDKEY("SHOW_INVENTORY_DIALOG", showInvKey);
 	GLWWindowManager::instance()->addWindow(state, 
@@ -149,12 +154,15 @@ void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 	KEYBOARDKEY("SHOW_WEAPON_DIALOG", weaponKey);
 	KEYBOARDKEY("SHOW_RESIGN_DIALOG", resignKey);
 	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
+	KEYBOARDKEY("SHOW_SOUND_DIALOG", showSoundKey);
 
 	// StateConnect
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		BackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		QuitDialog::instance(), quitKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+ 		SoundDialog::instance(), showSoundKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		LogDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -167,6 +175,8 @@ void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 	// StateDisconnected
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		BackdropDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+ 		SoundDialog::instance(), showSoundKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		QuitDialog::instance(), quitKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
@@ -200,6 +210,7 @@ void WindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
 	KEYBOARDKEY("SHOW_RESIGN_DIALOG", resignKey);
 	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
 	KEYBOARDKEY("SHOW_RULES_DIALOG", rulesKey);
+	KEYBOARDKEY("SHOW_SOUND_DIALOG", showSoundKey);
 	
 	// StateLoadLevel
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadLevel,
@@ -218,6 +229,8 @@ void WindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
 		PlayerDialog::instance(), playerKey, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers,
 		RulesDialog::instance(), rulesKey, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+ 		SoundDialog::instance(), showSoundKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		QuitDialog::instance(), quitKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 

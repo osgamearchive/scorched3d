@@ -30,12 +30,14 @@
 
 REGISTER_CLASS_SOURCE(GLWSlider);
 
-GLWSlider::GLWSlider(float x, float y, float w,  float range) :
+GLWSlider::GLWSlider(float x, float y, float w, 
+	float min, float max, int marks) :
 	GLWidget(x, y, w, 20.0f), 
-	range_(range),
-	dragging_(false), handler_(0)
+	min_(min), max_(max),
+	marks_(marks),
+	handler_(0)
 {
-
+	setCurrent(min_);
 }
 
 GLWSlider::~GLWSlider()
@@ -43,80 +45,63 @@ GLWSlider::~GLWSlider()
 
 }
 
+void GLWSlider::draw()
+{
+	glBegin(GL_LINE_LOOP);
+		drawBox(x_ - 4.0f, y_ + 8.0f, w_ + 12.0f, 4.0f, false);
+	glEnd();
+
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+	for (int i=0; i<=marks_; i++)
+	{
+		float dist = float(i) / float(marks_);
+		glVertex2f(x_ + w_ * dist, y_ + 12.0f);
+		glVertex2f(x_ + w_ * dist, y_ + 18.0f);
+
+		glVertex2f(x_ + w_ * dist, y_ + 2.0f);
+		glVertex2f(x_ + w_ * dist, y_ + 8.0f);
+	}
+	glEnd();
+
+	float dist = (current_ - min_) / max_;
+	glColor3f(0.8f, 0.8f, 1.0f);
+	glBegin(GL_QUADS);
+		glVertex2f(x_ + w_ * dist , y_);
+		glVertex2f(x_ + w_ * dist + 4.0f, y_);
+		glVertex2f(x_ + w_ * dist + 4.0f, y_ + 20.0f);
+		glVertex2f(x_ + w_ * dist, y_ + 20.0f);
+	glEnd();
+	glBegin(GL_LINE_LOOP);
+		drawBox(x_ + w_ * dist, y_, 4.0f, 20.0f, true);
+	glEnd();
+}
+
+void GLWSlider::setCurrent(float current)
+{ 
+	current_ = current; 
+	if (handler_) handler_->currentChanged(getId(), current_);
+}
+
 void GLWSlider::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
-		dragging_ = true;
+
+		float dist = (x - x_) / w_;
+		if (dist >= 0.0f && dist <= 1.0f)
+		{
+			setCurrent(((max_ - min_) * dist) + min_);
+		}
 	}
 }
 
 void GLWSlider::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	dragging_ = false;
 }
 
 void GLWSlider::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	if (dragging_)
-	{
-		float rangeMult = 1.0f;
-		unsigned int keyState = 
-			Keyboard::instance()->getKeyboardState();
-		if (keyState & KMOD_LSHIFT) rangeMult = 0.5f;
-
-		current_ += y /w_ * range_ * rangeMult;
-		if (handler_) handler_->currentChanged(getId(), current_);
-
-		skipRest = true;
-	}
-}
-
-REGISTER_CLASS_SOURCE(GLWTankSlider);
-
-GLWTankSlider::GLWTankSlider() : 
-	GLWSlider(0.0f, 0.0f, 0.0f, 100.0f)
-{
-	setHandler(this);
-	setToolTip(new ToolTip("Power",
-		"Change the power of the current tank\n"
-		"by clicking with the left mouse button\n"
-		"and dragging up and down.\n"
-		"Shift key decreases sensitivity."));
-}
-
-GLWTankSlider::~GLWTankSlider()
-{
-}
-
-void GLWTankSlider::draw()
-{
-	Tank *currentTank =
-		ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (currentTank)
-	{
-		if (currentTank->getState().getState() == TankState::sNormal)
-		{
-			setCurrent(currentTank->getPosition().getPower());
-		}
-	}
-	
-	GLWSlider::draw();
-}
-
-void GLWTankSlider::currentChanged(unsigned int id, float value)
-{
-	Tank *currentTank =
-		ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (currentTank)
-	{
-		if (currentTank->getState().getState() == TankState::sNormal)
-		{
-			if (id == getId())
-			{
-				currentTank->getPosition().changePower(value, false);
-			}
-		}
-	}
+	mouseDown(button, mx, my, skipRest);
 }

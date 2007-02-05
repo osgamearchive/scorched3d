@@ -171,9 +171,8 @@ bool GLMenuEntry::click(float currentTop, int x, int y)
 				left_, currentTop - (height + 10.0f), 
 				entries,
 				state_);
-
-			return true;
 		}
+		return true;
 	}
 
 	return false;

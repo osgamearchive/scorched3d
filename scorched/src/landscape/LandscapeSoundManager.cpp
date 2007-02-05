@@ -20,11 +20,16 @@
 
 #include <landscape/LandscapeSoundManager.h>
 #include <landscapedef/LandscapeInclude.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <client/ScorchedClient.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
 
-LandscapeSoundManager::LandscapeSoundManager() : lastTime_(0)
+LandscapeSoundManager::LandscapeSoundManager() : 
+	lastTime_(0), haveSound_(false)
 {
 }
 
@@ -34,6 +39,7 @@ LandscapeSoundManager::~LandscapeSoundManager()
 
 void LandscapeSoundManager::cleanUp()
 {
+	haveSound_ = false;
 	std::list<LandscapeSoundManagerEntry>::iterator itor;
 	for (itor = entries_.begin();
 		itor != entries_.end();
@@ -46,13 +52,24 @@ void LandscapeSoundManager::cleanUp()
 	entries_.clear();
 }
 
-void LandscapeSoundManager::initialize(std::list<LandscapeInclude *> &sounds)
+void LandscapeSoundManager::addSounds()
 {
 	cleanUp();
 
-	if (OptionsDisplay::instance()->getNoAmbientSound()) return;
+	// Load in the per level sound
+	LandscapeDefn *defn = 
+		ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getDefn();
+	LandscapeTex *tex = 
+		ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getTex();
 
-	std::list<LandscapeInclude *>::iterator itor;
+	haveSound_ = true;
+	loadSound(tex->texDefn.includes);
+	loadSound(defn->texDefn.includes);
+}
+
+void LandscapeSoundManager::loadSound(std::vector<LandscapeInclude *> &sounds)
+{
+	std::vector<LandscapeInclude *>::iterator itor;
 	for (itor = sounds.begin();
 		itor != sounds.end();
 		itor++)
@@ -98,6 +115,16 @@ void LandscapeSoundManager::initialize(std::list<LandscapeInclude *> &sounds)
 
 void LandscapeSoundManager::simulate(float frameTime)
 {
+	if (OptionsDisplay::instance()->getNoAmbientSound())
+	{
+		if (haveSound_) cleanUp();
+		return;
+	}
+	else if (!haveSound_)
+	{
+		addSounds();
+	}
+
 	lastTime_ += frameTime;
 	if (lastTime_ < 0.1f) return;
 

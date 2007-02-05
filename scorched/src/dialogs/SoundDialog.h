@@ -18,50 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_HelpButtonDialogh_INCLUDE__)
-#define __INCLUDE_HelpButtonDialogh_INCLUDE__
+#if !defined(__INCLUDE_SoundDialogh_INCLUDE__)
+#define __INCLUDE_SoundDialogh_INCLUDE__
 
-#include <GLEXT/GLTexture.h>
-#include <GLEXT/GLMenuI.h>
+#include <GLW/GLWWindow.h>
+#include <GLW/GLWButton.h>
+#include <GLW/GLWCheckBoxText.h>
+#include <GLW/GLWSlider.h>
 
-class HelpButtonDialog
+class SoundDialog : public GLWWindow ,
+	public GLWButtonI
 {
 public:
-	static HelpButtonDialog *instance();
+	static SoundDialog *instance();
 
-	struct HelpMenu : public GLMenuI
-	{
-		HelpMenu();
+	// Inherited from GLWButtonI
+	virtual void buttonDown(unsigned int id);
 
-		// Inherited from GLMenuI
-		virtual void menuSelection(const char* menuName, 
-			const int position, GLMenuItem &item);
-		virtual bool getMenuItems(const char* menuName, 
-			std::list<GLMenuItem> &result);
-
-		GLTexture &getHelpTexture();
-
-	protected:
-		GLTexture helpTexture_;
-	} helpMenu_;
-
-	struct VolumeMenu : public GLMenuI
-	{
-		VolumeMenu();
-
-		// Inherited from GLMenuI
-		virtual bool menuOpened(const char* menuName);
-
-		GLTexture soundTexture_;
-
-	} volumeMenu_;
+	// Inherited from GLWWindow
+	virtual void display();
 
 protected:
-	static HelpButtonDialog *instance_;
+	static SoundDialog *instance_;
+	unsigned int okId_, cancelId_;
+	GLWCheckBoxText *noSoundBox_;
+	GLWCheckBoxText *noMusicBox_;
+	GLWCheckBoxText *noAmbientSoundBox_;
+	GLWSlider *soundVolume_;
 
 private:
-	HelpButtonDialog();
-	virtual ~HelpButtonDialog();
+	SoundDialog();
+	virtual ~SoundDialog();
 };
 
 #endif

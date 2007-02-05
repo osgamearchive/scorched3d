@@ -25,6 +25,7 @@
 #include <sound/Sound.h>
 #include <sound/SoundBufferFactory.h>
 #include <sound/PlayingSoundSource.h>
+#include <graph/OptionsDisplay.h>
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>

@@ -22,6 +22,7 @@
 #define __INCLUDE_LandscapeSoundManagerh_INCLUDE__
 
 #include <list>
+#include <vector>
 
 class VirtualSoundSource;
 class SoundBuffer;
@@ -33,7 +34,7 @@ public:
 	LandscapeSoundManager();
 	virtual ~LandscapeSoundManager();
 
-	void initialize(std::list<LandscapeInclude *> &sounds);
+	void addSounds();
 	void simulate(float frameTime);
 	void cleanUp();
 
@@ -53,7 +54,9 @@ protected:
 
 	std::list<LandscapeSoundManagerEntry> entries_;
 	float lastTime_;
+	bool haveSound_;
 
+	void loadSound(std::vector<LandscapeInclude *> &sounds);
 };
 
 #endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__

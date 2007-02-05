@@ -18,50 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_HelpButtonDialogh_INCLUDE__)
-#define __INCLUDE_HelpButtonDialogh_INCLUDE__
+#ifndef _GLWDragger_H_
+#define _GLWDragger_H_
 
-#include <GLEXT/GLTexture.h>
-#include <GLEXT/GLMenuI.h>
+#include <GLW/GLWidget.h>
 
-class HelpButtonDialog
+class GLWDraggerI
 {
 public:
-	static HelpButtonDialog *instance();
-
-	struct HelpMenu : public GLMenuI
-	{
-		HelpMenu();
-
-		// Inherited from GLMenuI
-		virtual void menuSelection(const char* menuName, 
-			const int position, GLMenuItem &item);
-		virtual bool getMenuItems(const char* menuName, 
-			std::list<GLMenuItem> &result);
-
-		GLTexture &getHelpTexture();
-
-	protected:
-		GLTexture helpTexture_;
-	} helpMenu_;
-
-	struct VolumeMenu : public GLMenuI
-	{
-		VolumeMenu();
-
-		// Inherited from GLMenuI
-		virtual bool menuOpened(const char* menuName);
-
-		GLTexture soundTexture_;
-
-	} volumeMenu_;
-
-protected:
-	static HelpButtonDialog *instance_;
-
-private:
-	HelpButtonDialog();
-	virtual ~HelpButtonDialog();
+	virtual void currentChanged(unsigned int id, float value) = 0;
 };
 
-#endif
+class GLWDragger : public GLWidget
+{
+public:
+	GLWDragger(float x = 0.0f, float y = 0.0f, float w = 0.0f, 
+		float range = 0.0f);
+	virtual ~GLWDragger();
+
+	void setHandler(GLWDraggerI *handler) { handler_ = handler; }
+
+	float getCurrent() { return current_; }
+	void setCurrent(float current) { current_ = current; }
+
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+	virtual void mouseUp(int button, float x, float y, bool &skipRest);
+	virtual void mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest);
+
+	REGISTER_CLASS_HEADER(GLWDragger);
+
+protected:
+	GLWDraggerI *handler_;
+	bool dragging_;
+	float current_;
+	float range_;
+
+};
+
+#endif /* _GLWDragger_H_ */

@@ -20,10 +20,9 @@
 
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/HelpButtonDialog.h>
-#include <sound/Sound.h>
-#include <graph/OptionsDisplay.h>
+#include <dialogs/SoundDialog.h>
 #include <common/Defines.h>
-#include <GLEXT/GLViewPort.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLMenu.h>
 
@@ -95,41 +94,9 @@ HelpButtonDialog::VolumeMenu::VolumeMenu()
 		GLMenu::eMenuAlignRight);
 }
 
-bool HelpButtonDialog::VolumeMenu::getMenuItems(const char* menuName, std::list<GLMenuItem> &result)
+bool HelpButtonDialog::VolumeMenu::menuOpened(const char* menuName)
 {
-	if (OptionsDisplay::instance()->getNoSound())
-	{
-		int i = -1;
-		result.push_back(
-				GLMenuItem(
-					"Sound Off", 
-					0, true, 0, (void *) i));
-	}
-	else
-	{
-		for (int i=0; i<=10; i++)
-		{
-			int volume = int(float(i) * 12.8f);
-			bool selected = 
-				(OptionsDisplay::instance()->getSoundVolume() >= volume &&
-				OptionsDisplay::instance()->getSoundVolume() < volume + 12);
-			result.push_back(
-				GLMenuItem(
-					formatString("Volume : %i", i * 10), 
-					0, selected, 0, (void *) i));
-		}
-	}
-	return true;
-}
-
-void HelpButtonDialog::VolumeMenu::menuSelection(const char* menuName, 
-	const int position, GLMenuItem &item)
-{
-	int data = (long) item.getUserData();
-	if (data != -1)
-	{
-		int volume = int(float(data) * 12.8f);
-		Sound::instance()->getDefaultListener()->setGain(float(volume) / 128.0f);
-		OptionsDisplay::instance()->getSoundVolumeEntry().setValue(volume);
-	}
+	GLWWindowManager::instance()->showWindow(
+		SoundDialog::instance()->getId());
+	return false;
 }

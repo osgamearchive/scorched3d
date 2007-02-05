@@ -18,50 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_HelpButtonDialogh_INCLUDE__)
-#define __INCLUDE_HelpButtonDialogh_INCLUDE__
+#ifndef _GLWTankSlider_H_
+#define _GLWTankSlider_H_
 
-#include <GLEXT/GLTexture.h>
-#include <GLEXT/GLMenuI.h>
+#include <GLW/GLWDragger.h>
 
-class HelpButtonDialog
+class GLWTankSlider : public GLWDragger, 
+	public GLWDraggerI
 {
 public:
-	static HelpButtonDialog *instance();
+	GLWTankSlider();
+	virtual ~GLWTankSlider();
 
-	struct HelpMenu : public GLMenuI
-	{
-		HelpMenu();
+	virtual void draw();
+	virtual void currentChanged(unsigned int id, float value);
 
-		// Inherited from GLMenuI
-		virtual void menuSelection(const char* menuName, 
-			const int position, GLMenuItem &item);
-		virtual bool getMenuItems(const char* menuName, 
-			std::list<GLMenuItem> &result);
+	REGISTER_CLASS_HEADER(GLWTankSlider);
 
-		GLTexture &getHelpTexture();
-
-	protected:
-		GLTexture helpTexture_;
-	} helpMenu_;
-
-	struct VolumeMenu : public GLMenuI
-	{
-		VolumeMenu();
-
-		// Inherited from GLMenuI
-		virtual bool menuOpened(const char* menuName);
-
-		GLTexture soundTexture_;
-
-	} volumeMenu_;
-
-protected:
-	static HelpButtonDialog *instance_;
-
-private:
-	HelpButtonDialog();
-	virtual ~HelpButtonDialog();
 };
 
-#endif
+#endif /* _GLWTankSlider_H_ */

@@ -559,6 +559,12 @@
 		<group>5</group>
 	</keyentry>
 	<keyentry>
+		<name>SHOW_SOUND_DIALOG</name>
+		<title>Show sound settings dialog</title>
+		<description>Shows or hides the sound settings dialog</description>
+		<group>5</group>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_SKIP_DIALOG</name>
 		<title>Show skip move dialog</title>
 		<description>Shows or hides the skip move dialog</description>

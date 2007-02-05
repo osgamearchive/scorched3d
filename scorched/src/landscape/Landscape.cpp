@@ -383,23 +383,7 @@ void Landscape::generate(ProgressCounter *counter)
 	surround_->generate();
 
 	// Add any ambientsounds
-	std::list<LandscapeInclude *> sounds;
-	std::vector<LandscapeInclude *>::iterator soundItor;
-	for (soundItor = tex->texDefn.includes.begin();
-		soundItor != tex->texDefn.includes.end();
-		soundItor++)
-	{
-		LandscapeInclude *sound = (*soundItor);
-		sounds.push_back(sound);
-	}
-	for (soundItor = defn->texDefn.includes.begin();
-		soundItor != defn->texDefn.includes.end();
-		soundItor++)
-	{
-		LandscapeInclude *sound = (*soundItor);
-		sounds.push_back(sound);
-	}
-	soundManager_->initialize(sounds);
+	soundManager_->addSounds();
 	LandscapeMusicManager::instance()->addMusics();
 }
 

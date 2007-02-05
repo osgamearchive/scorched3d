@@ -3522,6 +3522,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWDragger.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWDragger.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWDropDown.cpp"
 				>
 			</File>
@@ -3743,6 +3751,14 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWTankModel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTankSlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTankSlider.h"
 				>
 			</File>
 			<File
@@ -4891,6 +4907,14 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\SkipDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SoundDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SoundDialog.h"
 				>
 			</File>
 			<File
