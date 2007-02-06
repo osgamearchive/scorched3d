@@ -23,23 +23,17 @@
 
 #include <common/OptionsGame.h>
 
-#define OPTIONSTRING_GETTER(x, y) const char *get##x() { return mainOptions_.get##x(); } \
-	OptionEntryString &get##x##Entry() { return mainOptions_.get##x##Entry(); }
+#define OPTIONSTRING_GETTER(x, y) const char *get##x() { return mainOptions_.get##x(); }
 
-#define OPTIONINT_GETTER(x, y) int get##x() { return mainOptions_.get##x(); } \
-	OptionEntryInt &get##x##Entry() { return mainOptions_.get##x##Entry(); }
+#define OPTIONINT_GETTER(x, y) int get##x() { return mainOptions_.get##x(); }
 
-#define OPTIONENUM_GETTER(x, y) OptionEntryEnum get##x() { return mainOptions_.get##x(); } \
-	OptionEntryEnum &get##x##Entry() { return mainOptions_.get##x##Entry(); }
+#define OPTIONENUM_GETTER(x, y) OptionEntryEnum get##x() { return mainOptions_.get##x(); }
 
-#define OPTIONSTRINGENUM_GETTER(x, y) const char *get##x() { return mainOptions_.get##x(); } \
-	OptionEntryStringEnum &get##x##Entry() { return mainOptions_.get##x##Entry(); }
+#define OPTIONSTRINGENUM_GETTER(x, y) const char *get##x() { return mainOptions_.get##x(); }
 
-#define OPTIONBOOL_GETTER(x, y) bool get##x() { return mainOptions_.get##x(); } \
-	OptionEntryBool &get##x##Entry() { return mainOptions_.get##x##Entry(); }
+#define OPTIONBOOL_GETTER(x, y) bool get##x() { return mainOptions_.get##x(); }
 
-#define OPTIONBOOL_GETTER(x, y) bool get##x() { return mainOptions_.get##x(); } \
-	OptionEntryBool &get##x##Entry() { return mainOptions_.get##x##Entry(); }
+#define OPTIONBOOL_GETTER(x, y) bool get##x() { return mainOptions_.get##x(); }
 
 class OptionsScorched
 {
