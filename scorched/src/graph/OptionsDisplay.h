@@ -279,6 +279,9 @@ public:
 	int getSoundVolume() { return soundVolume_; }
 	OptionEntryInt &getSoundVolumeEntry() { return soundVolume_; }
 
+	int getMusicVolume() { return musicVolume_; }
+	OptionEntryInt &getMusicVolumeEntry() { return musicVolume_; }
+
 	int getDialogSize() { return dialogSize_; }
 	OptionEntryInt &getDialogSizeEntry() { return dialogSize_; }
 
@@ -448,6 +451,7 @@ protected:
 	OptionEntryBoundedInt tankDetail_;
 	OptionEntryBoundedInt effectsDetail_;
 	OptionEntryBoundedInt soundVolume_;
+	OptionEntryBoundedInt musicVolume_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;
 	OptionEntryString hostDescription_;

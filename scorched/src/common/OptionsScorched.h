@@ -23,17 +23,19 @@
 
 #include <common/OptionsGame.h>
 
-#define OPTIONSTRING_GETTER(x, y) const char *get##x() { return mainOptions_.get##x(); }
+#define GENERIC_GETTER(x) \
+	{ \
+	if (levelOptions_.get##x##Entry().isDefaultValue()) return mainOptions_.get##x(); \
+	else return levelOptions_.get##x(); \
+	};
 
-#define OPTIONINT_GETTER(x, y) int get##x() { return mainOptions_.get##x(); }
-
-#define OPTIONENUM_GETTER(x, y) OptionEntryEnum get##x() { return mainOptions_.get##x(); }
-
-#define OPTIONSTRINGENUM_GETTER(x, y) const char *get##x() { return mainOptions_.get##x(); }
-
-#define OPTIONBOOL_GETTER(x, y) bool get##x() { return mainOptions_.get##x(); }
-
-#define OPTIONBOOL_GETTER(x, y) bool get##x() { return mainOptions_.get##x(); }
+#define OPTIONSTRING_GETTER(x) const char *get##x() GENERIC_GETTER(x)
+#define OPTIONINT_GETTER(x) int get##x() GENERIC_GETTER(x)
+#define OPTIONENUM_GETTER(x) OptionEntryEnum get##x() GENERIC_GETTER(x)
+#define OPTIONSTRINGENUM_GETTER(x) const char *get##x() GENERIC_GETTER(x)
+#define OPTIONBOOL_GETTER(x) bool get##x() GENERIC_GETTER(x)
+#define OPTIONFLOAT_GETTER(x) bool get##x() GENERIC_GETTER(x)
+#define OPTIONVECTOR_GETTER(x) bool get##x() GENERIC_GETTER(x)
 
 class OptionsScorched
 {
@@ -41,96 +43,96 @@ public:
 	OptionsScorched();
 	virtual ~OptionsScorched();
 
-	OPTIONINT_GETTER(PortNo, portNo);
-	OPTIONINT_GETTER(ManagementPortNo, managementPortNo);
+	OPTIONINT_GETTER(PortNo);
+	OPTIONINT_GETTER(ManagementPortNo);
 
-	OPTIONSTRING_GETTER(Tutorial, tutorial);
-	OPTIONINT_GETTER(PhysicsFPS, physicsFPS);
-	OPTIONINT_GETTER(Teams, teams);
-	OPTIONINT_GETTER(StartArmsLevel, startArmsLevel);
-	OPTIONINT_GETTER(EndArmsLevel, endArmsLevel);
-	OPTIONINT_GETTER(MaxNumberWeapons, maxNumberWeapons);
-	OPTIONINT_GETTER(NoMaxPlayers, numberOfPlayers);
-	OPTIONINT_GETTER(NoMinPlayers, numberOfMinPlayers);
-	OPTIONINT_GETTER(NoRounds, numberOfRounds);
-	OPTIONINT_GETTER(RemoveBotsAtPlayers, removeBotsAtPlayers);
-	OPTIONINT_GETTER(NoMaxRoundTurns, maxRoundTurns);
-	OPTIONINT_GETTER(MaxLandscapeSize, maxLandscapeSize);
-	OPTIONINT_GETTER(AllowedMissedMoves, allowedMissedMoves);
-	OPTIONINT_GETTER(IdleKickTime, idleKickTime);
-	OPTIONINT_GETTER(IdleShotKickTime, idleShotKickTime);
-	OPTIONINT_GETTER(MinFallingDistance, minFallingDistance);
-	OPTIONINT_GETTER(MaxClimbingDistance, maxClimbingDistance);
-	OPTIONINT_GETTER(PlayerLives, playerLives);
-	OPTIONINT_GETTER(Gravity, gravity);
+	OPTIONSTRING_GETTER(Tutorial);
+	OPTIONINT_GETTER(PhysicsFPS);
+	OPTIONINT_GETTER(Teams);
+	OPTIONINT_GETTER(StartArmsLevel);
+	OPTIONINT_GETTER(EndArmsLevel);
+	OPTIONINT_GETTER(MaxNumberWeapons);
+	OPTIONINT_GETTER(NoMaxPlayers);
+	OPTIONINT_GETTER(NoMinPlayers);
+	OPTIONINT_GETTER(NoRounds);
+	OPTIONINT_GETTER(RemoveBotsAtPlayers);
+	OPTIONINT_GETTER(NoMaxRoundTurns);
+	OPTIONINT_GETTER(MaxLandscapeSize);
+	OPTIONINT_GETTER(AllowedMissedMoves);
+	OPTIONINT_GETTER(IdleKickTime);
+	OPTIONINT_GETTER(IdleShotKickTime);
+	OPTIONINT_GETTER(MinFallingDistance);
+	OPTIONINT_GETTER(MaxClimbingDistance);
+	OPTIONINT_GETTER(PlayerLives);
+	OPTIONINT_GETTER(Gravity);
 
-	OPTIONINT_GETTER(StartTime, startTime);
-	OPTIONINT_GETTER(ShotTime, shotTime);
-	OPTIONINT_GETTER(KeepAliveTime, keepAliveTime);
-	OPTIONINT_GETTER(KeepAliveTimeoutTime, keepAliveTimeoutTime);
-	OPTIONINT_GETTER(BuyingTime, buyingTime);
-	OPTIONINT_GETTER(RoundScoreTime, roundScoreTime);
-	OPTIONINT_GETTER(ScoreTime, scoreTime);
+	OPTIONINT_GETTER(StartTime);
+	OPTIONINT_GETTER(ShotTime);
+	OPTIONINT_GETTER(KeepAliveTime);
+	OPTIONINT_GETTER(KeepAliveTimeoutTime);
+	OPTIONINT_GETTER(BuyingTime);
+	OPTIONINT_GETTER(RoundScoreTime);
+	OPTIONINT_GETTER(ScoreTime);
 
-	OPTIONENUM_GETTER(WindForce, windForce);
-	OPTIONENUM_GETTER(WindType, windType);
-	OPTIONENUM_GETTER(WallType, wallType);
-	OPTIONENUM_GETTER(WeapScale, weapScale);
-	OPTIONENUM_GETTER(TurnType, turnType);
-	OPTIONENUM_GETTER(TeamBallance, teamBallance);
-	OPTIONENUM_GETTER(MovementRestriction, movementRestriction);
+	OPTIONENUM_GETTER(WindForce);
+	OPTIONENUM_GETTER(WindType);
+	OPTIONENUM_GETTER(WallType);
+	OPTIONENUM_GETTER(WeapScale);
+	OPTIONENUM_GETTER(TurnType);
+	OPTIONENUM_GETTER(TeamBallance);
+	OPTIONENUM_GETTER(MovementRestriction);
 
-	OPTIONINT_GETTER(ScorePerMoney, scorePerMoney);
-	OPTIONINT_GETTER(ScorePerAssist, scorePerAssist);
-	OPTIONINT_GETTER(ScorePerKill, scorePerKill);
-	OPTIONINT_GETTER(ScoreWonForRound, scoreWonForRound);
-	OPTIONINT_GETTER(ScoreWonForLives, scoreWonForLives);
+	OPTIONINT_GETTER(ScorePerMoney);
+	OPTIONINT_GETTER(ScorePerAssist);
+	OPTIONINT_GETTER(ScorePerKill);
+	OPTIONINT_GETTER(ScoreWonForRound);
+	OPTIONINT_GETTER(ScoreWonForLives);
 
-	OPTIONINT_GETTER(StartMoney, moneyStarting);
-	OPTIONINT_GETTER(Interest, moneyInterest);
-	OPTIONINT_GETTER(FreeMarketAdjustment, freeMarketAdjustment);
-	OPTIONINT_GETTER(BuyOnRound, moneyBuyOnRound);
-	OPTIONINT_GETTER(MoneyPerRound, moneyPerRound);
-	OPTIONINT_GETTER(MoneyWonForRound, moneyWonForRound);
-	OPTIONINT_GETTER(MoneyWonForLives, moneyWonForLives);
-	OPTIONINT_GETTER(MoneyWonPerKillPoint, moneyPerKillPoint);
-	OPTIONINT_GETTER(MoneyWonPerMultiKillPoint, moneyPerMultiKillPoint);
-	OPTIONINT_GETTER(MoneyWonPerAssistPoint, moneyPerAssistPoint);
-	OPTIONINT_GETTER(MoneyWonPerHitPoint, moneyPerHitPoint);
-	OPTIONBOOL_GETTER(MoneyPerHealthPoint, moneyPerHealthPoint);
-	OPTIONBOOL_GETTER(LimitPowerByHealth, limitPowerByHealth);
-	OPTIONBOOL_GETTER(GiveAllWeapons, giveAllWeapons);
-	OPTIONBOOL_GETTER(DelayedDefenseActivation, delayedDefenseActivation);
-	OPTIONSTRINGENUM_GETTER(Economy, economy);
-	OPTIONINT_GETTER(ResignMode, resignMode);
+	OPTIONINT_GETTER(StartMoney);
+	OPTIONINT_GETTER(Interest);
+	OPTIONINT_GETTER(FreeMarketAdjustment);
+	OPTIONINT_GETTER(BuyOnRound);
+	OPTIONINT_GETTER(MoneyPerRound);
+	OPTIONINT_GETTER(MoneyWonForRound);
+	OPTIONINT_GETTER(MoneyWonForLives);
+	OPTIONINT_GETTER(MoneyWonPerKillPoint);
+	OPTIONINT_GETTER(MoneyWonPerMultiKillPoint);
+	OPTIONINT_GETTER(MoneyWonPerAssistPoint);
+	OPTIONINT_GETTER(MoneyWonPerHitPoint);
+	OPTIONBOOL_GETTER(MoneyPerHealthPoint);
+	OPTIONBOOL_GETTER(LimitPowerByHealth);
+	OPTIONBOOL_GETTER(GiveAllWeapons);
+	OPTIONBOOL_GETTER(DelayedDefenseActivation);
+	OPTIONSTRINGENUM_GETTER(Economy);
+	OPTIONINT_GETTER(ResignMode);
 
-	OPTIONINT_GETTER(ComputersDeathTalk, computersDeathTalk);
-	OPTIONINT_GETTER(ComputersAttackTalk, computersAttackTalk);
-	OPTIONSTRING_GETTER(BotNamePrefix, botNamePrefix);
-	OPTIONBOOL_GETTER(RandomizeBotNames, randomizeBotNames);
+	OPTIONINT_GETTER(ComputersDeathTalk);
+	OPTIONINT_GETTER(ComputersAttackTalk);
+	OPTIONSTRING_GETTER(BotNamePrefix);
+	OPTIONBOOL_GETTER(RandomizeBotNames);
 
-	OPTIONBOOL_GETTER(CycleMaps, cycleMaps);
-	OPTIONSTRING_GETTER(Landscapes, landscapes);
+	OPTIONBOOL_GETTER(CycleMaps);
+	OPTIONSTRING_GETTER(Landscapes);
 
-	OPTIONSTRING_GETTER(StatsLogger, statsLogger);
-	OPTIONSTRING_GETTER(ServerFileLogger, serverFileLogger);
+	OPTIONSTRING_GETTER(StatsLogger);
+	OPTIONSTRING_GETTER(ServerFileLogger);
 	
-	OPTIONSTRING_GETTER(Mod, mod);
-	OPTIONSTRING_GETTER(MOTD, motd);
-	OPTIONINT_GETTER(ModDownloadSpeed, modDownloadSpeed);
-	OPTIONINT_GETTER(MaxAvatarSize, maxAvatarSize);
-	OPTIONSTRING_GETTER(ServerName, serverName);
-	OPTIONSTRING_GETTER(ServerPassword, serverPassword);
-	OPTIONSTRING_GETTER(PublishAddress, publishAddress);
+	OPTIONSTRING_GETTER(Mod);
+	OPTIONSTRING_GETTER(MOTD);
+	OPTIONINT_GETTER(ModDownloadSpeed);
+	OPTIONINT_GETTER(MaxAvatarSize);
+	OPTIONSTRING_GETTER(ServerName);
+	OPTIONSTRING_GETTER(ServerPassword);
+	OPTIONSTRING_GETTER(PublishAddress);
 
-	OPTIONBOOL_GETTER(AllowSameIP, allowSameIP);
-	OPTIONBOOL_GETTER(AllowSameUniqueId, allowSameUniqueId);
-	OPTIONBOOL_GETTER(PublishServer, publishServer);
-	OPTIONBOOL_GETTER(ResidualPlayers, residualPlayers);
+	OPTIONBOOL_GETTER(AllowSameIP);
+	OPTIONBOOL_GETTER(AllowSameUniqueId);
+	OPTIONBOOL_GETTER(PublishServer);
+	OPTIONBOOL_GETTER(ResidualPlayers);
 
-	OPTIONSTRING_GETTER(AuthHandler, authHandler);
-	OPTIONBOOL_GETTER(RegisteredUserNames, registeredUserNames);
-	OPTIONBOOL_GETTER(DebugFeatures, debugFeatures);
+	OPTIONSTRING_GETTER(AuthHandler);
+	OPTIONBOOL_GETTER(RegisteredUserNames);
+	OPTIONBOOL_GETTER(DebugFeatures);
 
 	OptionEntryString &getPlayerType(int no) { DIALOG_ASSERT(no<24); return mainOptions_.getPlayerType(no); }
 

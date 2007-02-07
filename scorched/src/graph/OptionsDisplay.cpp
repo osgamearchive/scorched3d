@@ -236,6 +236,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Show the tank angles and amounts in hex", RWAccess | OptionEntry::DataDepricated, false),
 	soundVolume_(options_, "SoundVolume",
 		"The sound effect volume. Max = 128, Min = 0", RAccess | NoRestore, 128, 0, 128, 1),
+	musicVolume_(options_, "MusicVolume",
+		"The music effect volume. Max = 128, Min = 0", RAccess | NoRestore, 128, 0, 128, 1),
 	texSize_(options_, "TexureSize", 
 		"The texture details setting.  Lower is faster.", RAccess, 1, 0, 2, 1),
 	bannerRowsDepricated_(options_, "BannerRows",

@@ -388,8 +388,13 @@ void DisplayFrame::refreshScreen()
 	IDC_SLIDER1_CTRL->SetValue(OptionsDisplay::instance()->getBrightness());
 	IDC_SLIDER1_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getBrightnessEntry().getDescription(), wxConvUTF8));
 	IDC_VOLUME_CTRL->SetRange(0, 128);
+	IDC_VOLUME_CTRL->SetTickFreq(4, 0);
 	IDC_VOLUME_CTRL->SetValue(OptionsDisplay::instance()->getSoundVolume());
 	IDC_VOLUME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSoundVolumeEntry().getDescription(), wxConvUTF8));
+	IDC_MUSICVOLUME_CTRL->SetRange(0, 128);
+	IDC_MUSICVOLUME_CTRL->SetTickFreq(4, 0);
+	IDC_MUSICVOLUME_CTRL->SetValue(OptionsDisplay::instance()->getMusicVolume());
+	IDC_MUSICVOLUME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMusicVolumeEntry().getDescription(), wxConvUTF8));
 	IDC_USERNAME_CTRL->SetValue(wxString(OptionsDisplay::instance()->getOnlineUserName(), wxConvUTF8));
 	IDC_USERNAME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getOnlineUserNameEntry().getDescription(), wxConvUTF8));
 	IDC_TANKMODEL_CTRL->SetValue(wxString(OptionsDisplay::instance()->getOnlineTankModel(), wxConvUTF8));
@@ -566,6 +571,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoWaterMovementEntry().setValue(IDC_NOWATERANI_CTRL->GetValue());
 	OptionsDisplay::instance()->getBrightnessEntry().setValue(IDC_SLIDER1_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoundVolumeEntry().setValue(IDC_VOLUME_CTRL->GetValue());
+	OptionsDisplay::instance()->getMusicVolumeEntry().setValue(IDC_MUSICVOLUME_CTRL->GetValue());
 	OptionsDisplay::instance()->getDrawWaterEntry().setValue(!IDC_NOWATER_CTRL->GetValue());
 	OptionsDisplay::instance()->getDrawSurroundEntry().setValue(!IDC_NOSURROUND_CTRL->GetValue());
 	OptionsDisplay::instance()->getInvertElevationEntry().setValue(IDC_INVERT_CTRL->GetValue());

@@ -39,7 +39,8 @@ public:
 protected:
 	std::vector<LandscapeMusicType *> globalMusics_;
 	std::map<LandscapeMusicType::PlayState, LandscapeMusicType *> stateMusic_;
-	LandscapeMusicType *currentMusic_;
+	std::string currentMusicFile_;
+	float currentGain_;
 	VirtualSoundSource *currentSource_;
 
 	void readGlobalMusicFile();

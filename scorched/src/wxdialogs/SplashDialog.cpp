@@ -71,7 +71,7 @@ SplashFrame::SplashFrame() :
 			"\n"
 			"If the game runs slowly please ensure you are using the latest graphics drivers.\n"
 			"Game speed can also be optimized by changing the Scorched3D game settings."));
-	topsizer->Add(text);
+	topsizer->Add(text, 0, wxALL, 10);
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);

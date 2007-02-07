@@ -42,12 +42,19 @@ SoundDialog::SoundDialog() :
 {
 	needCentered_ = true;
 
-	GLWPanel *sliderPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
-	sliderPanel->addWidget(new GLWLabel(0.0f, 0.0f, "Volume"), 0, SpaceRight, 10.0f);
+	GLWPanel *soundVolumePanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
+	soundVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Sound Volume"), 0, SpaceRight, 10.0f);
 	soundVolume_ = new GLWSlider(0.0f, 0.0f, 300.0f);
-	sliderPanel->addWidget(soundVolume_, 0, AlignCenterLeftRight);
-	sliderPanel->setLayout(GLWPanel::LayoutHorizontal);
-	addWidget(sliderPanel, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+	soundVolumePanel->addWidget(soundVolume_, 0, AlignCenterLeftRight);
+	soundVolumePanel->setLayout(GLWPanel::LayoutHorizontal);
+	addWidget(soundVolumePanel, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+
+	GLWPanel *musicVolumePanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
+	musicVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Music Volume"), 0, SpaceRight, 10.0f);
+	musicVolume_ = new GLWSlider(0.0f, 0.0f, 300.0f);
+	musicVolumePanel->addWidget(musicVolume_, 0, AlignCenterLeftRight);
+	musicVolumePanel->setLayout(GLWPanel::LayoutHorizontal);
+	addWidget(musicVolumePanel, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 
 	GLWPanel *checkPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
 	noSoundBox_ = new GLWCheckBoxText(0.0f, 0.0f, "No Sound");
@@ -85,6 +92,8 @@ void SoundDialog::display()
 
 	soundVolume_->setCurrent(
 		float(OptionsDisplay::instance()->getSoundVolume()) / 1.28f);
+	musicVolume_->setCurrent(
+		float(OptionsDisplay::instance()->getMusicVolume()) / 1.28f);
 	noSoundBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getNoSound());
 	noMusicBox_->getCheckBox().setState(
@@ -107,6 +116,9 @@ void SoundDialog::buttonDown(unsigned int id)
 		int volume = int(soundVolume_->getCurrent() * 1.28f);
 		OptionsDisplay::instance()->getSoundVolumeEntry().setValue(volume);
 		Sound::instance()->getDefaultListener()->setGain(float(volume) / 128.0f);
+
+		volume = int(musicVolume_->getCurrent() * 1.28f);
+		OptionsDisplay::instance()->getMusicVolumeEntry().setValue(volume);
 	}
 	GLWWindowManager::instance()->hideWindow(getId());
 }

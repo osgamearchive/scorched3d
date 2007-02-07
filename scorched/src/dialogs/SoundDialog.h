@@ -45,6 +45,7 @@ protected:
 	GLWCheckBoxText *noMusicBox_;
 	GLWCheckBoxText *noAmbientSoundBox_;
 	GLWSlider *soundVolume_;
+	GLWSlider *musicVolume_;
 
 private:
 	SoundDialog();

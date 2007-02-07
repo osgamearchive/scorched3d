@@ -80,6 +80,7 @@ static wxComboBox *IDC_DISPLAY_CTRL = 0;
 static wxCheckBox *IDC_SIDESCROLL_CTRL = 0;
 static wxSlider *IDC_SLIDER1_CTRL = 0;
 static wxSlider *IDC_VOLUME_CTRL = 0;
+static wxSlider *IDC_MUSICVOLUME_CTRL = 0;
 static wxCheckBox *IDC_SINGLESKYLAYER_CTRL = 0;
 static wxCheckBox *IDC_NOSKYANI_CTRL = 0;
 static wxCheckBox *IDC_NOWATERANI_CTRL = 0;

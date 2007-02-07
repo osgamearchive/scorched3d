@@ -37,7 +37,7 @@ LandscapeMusicManager *LandscapeMusicManager::instance()
 
 LandscapeMusicManager::LandscapeMusicManager() : 
 	GameStateI("LandscapeMusicManager"),
-	currentMusic_(0), currentSource_(0)
+	currentSource_(0), currentGain_(0.0f)
 {
 	addMusics();
 }
@@ -167,20 +167,33 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 	}
 
 	// Find which music entry we should be playing in this state
-	LandscapeMusicType *wantedMusic = 0;
+	std::string wantedMusicFile;
+	float wantedGain = 0.0f;
 	if (!OptionsDisplay::instance()->getNoMusic())
 	{
 		std::map<LandscapeMusicType::PlayState, LandscapeMusicType *>::iterator findItor =
 			stateMusic_.find(playState);
 		if (findItor != stateMusic_.end())
 		{
-			wantedMusic = (*findItor).second;	
+			wantedMusicFile = (*findItor).second->file;	
+			wantedGain = (*findItor).second->gain *
+				float(OptionsDisplay::instance()->getMusicVolume()) / 128.0f;
 		}
 	}
 
 	// Check if this is different from the currently playing music
 	// If its the same music then there is nothing to do
-	if (wantedMusic == currentMusic_) return;
+	if (currentMusicFile_ == wantedMusicFile)
+	{
+		// If we are playing the correct music, check that the
+		// current volume is correct
+		if (currentGain_ != wantedGain)
+		{
+			currentGain_ = wantedGain;
+			if (currentSource_) currentSource_->setGain(wantedGain);
+		}
+		return;
+	}
 
 	// Stop the currently playing sound source (if any)
 	// Since the source is managed it will be automatically deleted once it has stopped
@@ -191,17 +204,18 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 
 	// Update the state
 	currentSource_ = 0;
-	currentMusic_ = wantedMusic;
+	currentGain_ = wantedGain;
+	currentMusicFile_ = wantedMusicFile;
 
 	// Check if this state wants any music
 	// If there is no music to play then there is nothing to do
-	if (!currentMusic_) return;
+	if (currentMusicFile_.empty()) return;
 
 	// Play the next set of music
 	// Load the next sound buffer
 	SoundBuffer *buffer = 
 		Sound::instance()->fetchOrCreateBuffer((char *)
-			getDataFile(currentMusic_->file.c_str()));
+			getDataFile(currentMusicFile_.c_str()));
 	if (!buffer) return;
 
 	// Start a new sound source
@@ -209,7 +223,7 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 		VirtualSoundPriority::eMusic, // A high music priority
 		true, // Its a looping sound
 		true); // Its automatically deleted when finished
-	currentSource_->setGain(currentMusic_->gain);
+	currentSource_->setGain(currentGain_);
 	currentSource_->setRelative();
 	currentSource_->play(buffer);
 }

@@ -61,6 +61,7 @@ public:
 	virtual EntryType getEntryType() = 0;
 	virtual const char *getDefaultValueAsString() = 0;
 	virtual const char *getValueAsString() = 0;
+	virtual bool isDefaultValue() = 0;
 	virtual bool setValueFromString(const char *string) = 0;
 	virtual bool addToArgParser(ARGParser &parser) = 0;
 
@@ -119,6 +120,7 @@ public:
 
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setIntArgument(int value);
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
 
 	operator int () { return value_; }
 
@@ -210,6 +212,7 @@ public:
 
 	virtual bool addToArgParser(ARGParser &parser);
 	virtual bool setBoolArgument(bool value);
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
 
 	operator bool () { return value_; }
 
@@ -241,6 +244,7 @@ public:
 	virtual bool setStringArgument(const char* value);
 
 	operator const char *() { return value_.c_str(); }
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
 
 protected:
 	std::string value_;
@@ -298,6 +302,7 @@ public:
 	virtual bool setValue(float value);
 
 	virtual bool addToArgParser(ARGParser &parser);
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
 
 	operator float () { return value_; }
 
@@ -328,6 +333,7 @@ public:
 	virtual bool setValue(Vector value);
 
 	virtual bool addToArgParser(ARGParser &parser);
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
 
 	operator Vector() { return value_; }
 
