@@ -79,18 +79,26 @@ void RulesDialog::addMOTD(const char *text)
 	rulesList_->clear();
 
 	// Add all the server rules
-	std::list<OptionEntry *> &options =
+	std::list<OptionEntry *> &leveloptions = 
+		ScorchedClient::instance()->getOptionsGame().getLevelOptions().getOptions();
+	std::list<OptionEntry *> &mainoptions =
 		ScorchedClient::instance()->getOptionsGame().getMainOptions().getOptions();
-	std::list<OptionEntry *>::iterator itor;
-	for (itor = options.begin();
-		itor != options.end();
-		itor++)
+	std::list<OptionEntry *>::iterator mainitor;
+	std::list<OptionEntry *>::iterator levelitor;
+	for (mainitor = mainoptions.begin(), levelitor = leveloptions.begin();
+		mainitor != mainoptions.end() && levelitor != leveloptions.end();
+		mainitor++, levelitor++)
 	{
-		OptionEntry *entry = (*itor);
+		OptionEntry *mainentry = (*mainitor);
+		OptionEntry *levelentry = (*levelitor);
+		OptionEntry *entry = levelentry;
+		if (levelentry->isDefaultValue()) entry = mainentry;
+
 		rulesList_->addLine(
-			formatString("%s = %s",
+			formatString("%s = %s%s",
 				entry->getName(),
-				entry->getValueAsString()));
+				entry->getValueAsString(),
+				((entry == levelentry)?" *":"")));
 	}
 
 	// Add single or multiple lines
