@@ -27,6 +27,7 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeMovement.h>
 
 TargetMovement::TargetMovement()
 {

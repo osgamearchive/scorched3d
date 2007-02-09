@@ -19,6 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscapedef/LandscapeInclude.h>
+#include <landscapedef/LandscapeEvents.h>
+#include <landscapedef/LandscapeMovement.h>
+#include <landscapedef/LandscapeSound.h>
+#include <landscapedef/LandscapeMusic.h>
+#include <landscapedef/LandscapeOptions.h>
 
 LandscapeInclude::LandscapeInclude()
 {
@@ -61,6 +66,13 @@ LandscapeInclude::~LandscapeInclude()
 			musics.pop_back();
 		}
 	}
+	{
+		while (!options.empty())
+		{
+			delete options.back();
+			options.pop_back();
+		}
+	}
 }
 
 bool LandscapeInclude::readXML(LandscapeDefinitions *definitions, XMLNode *node)
@@ -90,6 +102,15 @@ bool LandscapeInclude::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 			LandscapeMusicType *music = new LandscapeMusicType;
 			if (!music->readXML(musicNode)) return false;
 			musics.push_back(music);
+		}
+	}
+	{
+		XMLNode *optionsNode;
+		while (node->getNamedChild("options", optionsNode, false))
+		{
+			LandscapeOptionsType *music = new LandscapeOptionsType;
+			if (!music->readXML(optionsNode)) return false;
+			options.push_back(music);
 		}
 	}
 	{

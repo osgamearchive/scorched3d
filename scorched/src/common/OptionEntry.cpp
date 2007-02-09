@@ -41,6 +41,47 @@ OptionEntry::~OptionEntry()
 
 }
 
+bool OptionEntryHelper::setToDefaultOptions(std::list<OptionEntry *> &srcoptions)
+{
+	bool changed = false;
+	std::list<OptionEntry *>::iterator srcitor;
+	for (srcitor = srcoptions.begin();
+		srcitor != srcoptions.end();
+		srcitor++)
+	{
+		OptionEntry *srcEntry = (*srcitor);
+		if (!srcEntry->isDefaultValue())
+		{
+			changed = true;
+			srcEntry->setValueFromString(srcEntry->getDefaultValueAsString());
+		}
+	}
+	return changed;
+}
+
+bool OptionEntryHelper::updateOptions(std::list<OptionEntry *> &destoptions,
+	std::list<OptionEntry *> &srcoptions)
+{
+	bool changed = false;
+	std::list<OptionEntry *>::iterator destitor;
+	std::list<OptionEntry *>::iterator srcitor;
+	for (srcitor = srcoptions.begin(), destitor = destoptions.begin();
+		srcitor != srcoptions.end() && destitor != destoptions.end();
+		srcitor++, destitor++)
+	{
+		OptionEntry *srcEntry = (*srcitor);
+		if (!srcEntry->isDefaultValue())
+		{
+			changed = true;
+			OptionEntry *destEntry = (*destitor);
+			destEntry->setValueFromString(
+				srcEntry->getValueAsString());
+		}
+	}
+
+	return changed;
+}
+
 bool OptionEntryHelper::addToArgParser(std::list<OptionEntry *> &options,
 									   ARGParser &parser)
 {

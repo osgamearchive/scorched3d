@@ -18,37 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeIncludeh_INCLUDE__)
-#define __INCLUDE_LandscapeIncludeh_INCLUDE__
+#include <landscapedef/LandscapeOptions.h>
+#include <math.h>
 
-#include <placement/PlacementType.h>
-#include <vector>
-
-class LandscapeEvent;
-class LandscapeMovementType;
-class PlacementType;
-class LandscapeSoundType;
-class LandscapeMusicType;
-class LandscapeOptionsType;
-class LandscapeDefinitions;
-class LandscapeInclude
+LandscapeOptionsType::LandscapeOptionsType()
 {
-public:
-	LandscapeInclude();
-	virtual ~LandscapeInclude();
+}
 
-	std::vector<LandscapeEvent *> events;
-	std::vector<LandscapeMovementType *> movements;
-	std::vector<PlacementType *> placements;
-	std::vector<LandscapeSoundType *> sounds;
-	std::vector<LandscapeMusicType *> musics;
-	std::vector<LandscapeOptionsType *> options;
+LandscapeOptionsType::~LandscapeOptionsType()
+{
+}
 
-	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
-
-private:
-	LandscapeInclude(const LandscapeInclude &other);
-	LandscapeInclude &operator=(LandscapeInclude &other);
-};
-
-#endif // __INCLUDE_LandscapeIncludeh_INCLUDE__
+bool LandscapeOptionsType::readXML(XMLNode *node)
+{
+	if (!OptionEntryHelper::readFromXML(
+		options.getOptions(), node)) return false;
+	return node->failChildren();
+}

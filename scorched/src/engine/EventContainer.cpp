@@ -22,6 +22,7 @@
 #include <engine/ScorchedContext.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeEvents.h>
 #include <landscapemap/LandscapeMaps.h>
 
 EventContainer::EventContainer()

@@ -1778,6 +1778,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\landscapedef\LandscapeOptions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\landscapedef\LandscapeOptions.h"
+				>
+			</File>
+			<File
 				RelativePath="..\landscapedef\LandscapeSound.cpp"
 				>
 			</File>

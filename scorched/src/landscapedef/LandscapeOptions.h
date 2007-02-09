@@ -18,37 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_LandscapeIncludeh_INCLUDE__)
-#define __INCLUDE_LandscapeIncludeh_INCLUDE__
+#if !defined(__INCLUDE_LandscapeOptionsh_INCLUDE__)
+#define __INCLUDE_LandscapeOptionsh_INCLUDE__
 
-#include <placement/PlacementType.h>
+#include <XML/XMLFile.h>
+#include <common/OptionsGame.h>
+#include <string>
 #include <vector>
 
-class LandscapeEvent;
-class LandscapeMovementType;
-class PlacementType;
-class LandscapeSoundType;
-class LandscapeMusicType;
-class LandscapeOptionsType;
-class LandscapeDefinitions;
-class LandscapeInclude
+class LandscapeOptionsType
 {
 public:
-	LandscapeInclude();
-	virtual ~LandscapeInclude();
+	LandscapeOptionsType();
+	virtual ~LandscapeOptionsType();
 
-	std::vector<LandscapeEvent *> events;
-	std::vector<LandscapeMovementType *> movements;
-	std::vector<PlacementType *> placements;
-	std::vector<LandscapeSoundType *> sounds;
-	std::vector<LandscapeMusicType *> musics;
-	std::vector<LandscapeOptionsType *> options;
+	virtual bool readXML(XMLNode *node);
 
-	bool readXML(LandscapeDefinitions *definitions, XMLNode *node);
-
-private:
-	LandscapeInclude(const LandscapeInclude &other);
-	LandscapeInclude &operator=(LandscapeInclude &other);
+	OptionsGame options;
 };
 
-#endif // __INCLUDE_LandscapeIncludeh_INCLUDE__
+#endif // __INCLUDE_LandscapeOptionsh_INCLUDE__

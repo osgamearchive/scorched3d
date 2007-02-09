@@ -22,6 +22,7 @@
 #include <landscapedef/LandscapeInclude.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
+#include <landscapedef/LandscapeSound.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
 #include <graph/OptionsDisplay.h>

@@ -98,6 +98,10 @@ public:
 
 	static bool addToArgParser(std::list<OptionEntry *> &options,
 								ARGParser &parser);
+
+	static bool updateOptions(std::list<OptionEntry *> &destoptions,
+		std::list<OptionEntry *> &srcoptions);
+	static bool setToDefaultOptions(std::list<OptionEntry *> &srcoptions);
 };
 
 class OptionEntryInt : public OptionEntry, public ARGParserIntI

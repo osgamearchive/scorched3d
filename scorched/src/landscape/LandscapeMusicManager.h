@@ -22,10 +22,12 @@
 #define __INCLUDE_LandscapeMusicManagerh_INCLUDE__
 
 #include <landscapedef/LandscapeInclude.h>
+#include <landscapedef/LandscapeMusic.h>
 #include <engine/GameStateI.h>
 #include <vector>
 #include <map>
 
+class VirtualSoundSource;
 class LandscapeMusicManager : public GameStateI
 {
 public:

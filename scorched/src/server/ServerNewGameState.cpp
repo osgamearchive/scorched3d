@@ -99,7 +99,14 @@ void ServerNewGameState::enterState(const unsigned state)
 	{
 		sendGameState = true;
 		ServerCommon::sendString(0, "Game options have been changed!");
-	}		
+	}
+
+	// Get a landscape definition to use
+	LandscapeDefinition defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
+		*ScorchedServer::instance()->getContext().optionsGame);
+
+	// Load the per level options
+	// TODO
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient->newGame();
@@ -145,8 +152,6 @@ void ServerNewGameState::enterState(const unsigned state)
 	checkBots(true);
 
 	// Generate the new level
-	LandscapeDefinition defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
-		*ScorchedServer::instance()->getContext().optionsGame);
 	ScorchedServer::instance()->getContext().landscapeMaps->generateMaps(
 		ScorchedServer::instance()->getContext(), defn);
 
