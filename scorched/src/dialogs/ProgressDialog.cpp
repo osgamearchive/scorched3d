@@ -21,6 +21,8 @@
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/HelpButtonDialog.h>
+#include <landscape/LandscapeMusicManager.h>
+#include <sound/Sound.h>
 #include <client/ScorchedClient.h>
 #include <graph/Main2DCamera.h>
 #include <client/ClientMain.h>
@@ -248,11 +250,15 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 		{
 			GLWWindowManager::instance()->simulate(ClientState::StateLoadLevel, MIN(0.25f, timeDelay));
 			GLWWindowManager::instance()->draw(ClientState::StateLoadLevel);
+			LandscapeMusicManager::instance()->simulate(ClientState::StateLoadLevel, frameTime);
+			Sound::instance()->simulate(ClientState::StateLoadLevel, frameTime);
 		}
 		else
 		{
 			BackdropDialog::instance()->draw();
 			ProgressDialog::instance()->draw();
+			LandscapeMusicManager::instance()->simulate(state, frameTime);
+			Sound::instance()->simulate(state, frameTime);
 		}
 
 		ScorchedClient::instance()->getMainLoop().swapBuffers();

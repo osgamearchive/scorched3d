@@ -108,9 +108,9 @@ bool LandscapeInclude::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 		XMLNode *optionsNode;
 		while (node->getNamedChild("options", optionsNode, false))
 		{
-			LandscapeOptionsType *music = new LandscapeOptionsType;
-			if (!music->readXML(optionsNode)) return false;
-			options.push_back(music);
+			LandscapeOptionsType *option = new LandscapeOptionsType;
+			if (!option->readXML(optionsNode)) return false;
+			options.push_back(option);
 		}
 	}
 	{

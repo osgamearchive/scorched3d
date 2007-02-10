@@ -68,7 +68,10 @@ Added: flattendestroy attribute to targets to specify if they should be removed 
 Added: Scorched splash screen shown each time a new version is installed
 Added: Capability for music (music can be configured for different actions both globaly and on a per level basis)
 Added: tabgroups to accessories, a tabgroup is the grouping used to group accessories in the buy dialog
+Added: Seperate volume control for music
+Added: Per-level options to allow levels to specify specific options e.g. Teams, No Walls etc..
 
+Fixed: Optimized settings sent to the client to send only different settings
 Fixed: Optimized path finding code for tank movement
 Fixed: Wall hit indicators are now particles and so won't mask other effects
 Fixed: Server only serializes and compresses coms message once when sending to multiple clients

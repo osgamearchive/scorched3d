@@ -35,6 +35,7 @@
 #include <float.h>
 #include <time.h>
 #include <common/main.h>
+#include <SDL/SDL.h>
 
 int main(int argc, char *argv[])
 {

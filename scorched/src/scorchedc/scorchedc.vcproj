@@ -58,8 +58,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/SUBSYSTEM:WINDOWS /NODEFAULTLIB:msvcrt.lib"
+				AdditionalOptions="/SUBSYSTEM:WINDOWS /NODEFAULTLIB:msvcrt.lib  /FIXED:NO"
 				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 			/>
 			<Tool

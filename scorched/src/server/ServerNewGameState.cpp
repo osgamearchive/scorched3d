@@ -106,7 +106,8 @@ void ServerNewGameState::enterState(const unsigned state)
 		*ScorchedServer::instance()->getContext().optionsGame);
 
 	// Load the per level options
-	// TODO
+	ScorchedServer::instance()->getOptionsGame().updateLevelOptions(
+		ScorchedServer::instance()->getContext(), defn);
 
 	// Set all options (wind etc..)
 	ScorchedServer::instance()->getContext().optionsTransient->newGame();

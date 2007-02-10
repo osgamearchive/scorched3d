@@ -200,6 +200,7 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 	if (currentSource_)
 	{
 		currentSource_->stop();
+		delete currentSource_;
 	}
 
 	// Update the state
@@ -222,7 +223,7 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 	currentSource_ = new VirtualSoundSource(
 		VirtualSoundPriority::eMusic, // A high music priority
 		true, // Its a looping sound
-		true); // Its automatically deleted when finished
+		false); // Its not automatically deleted when finished
 	currentSource_->setGain(currentGain_);
 	currentSource_->setRelative();
 	currentSource_->play(buffer);

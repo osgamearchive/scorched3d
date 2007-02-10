@@ -92,7 +92,7 @@ void RulesDialog::addMOTD(const char *text)
 		OptionEntry *mainentry = (*mainitor);
 		OptionEntry *levelentry = (*levelitor);
 		OptionEntry *entry = levelentry;
-		if (levelentry->isDefaultValue()) entry = mainentry;
+		if (levelentry->isChangedValue()) entry = mainentry;
 
 		rulesList_->addLine(
 			formatString("%s = %s%s",

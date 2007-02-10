@@ -62,8 +62,10 @@ public:
 	virtual const char *getDefaultValueAsString() = 0;
 	virtual const char *getValueAsString() = 0;
 	virtual bool isDefaultValue() = 0;
+	virtual bool isChangedValue() { return changedValue_; }
 	virtual bool setValueFromString(const char *string) = 0;
 	virtual bool addToArgParser(ARGParser &parser) = 0;
+	virtual void setNotChanged() { changedValue_ = false; }
 
 	virtual const char *getComsBufferValue() 
 		{ return getValueAsString(); }
@@ -71,6 +73,7 @@ public:
 		{ return setValueFromString(string); }
 
 protected:
+	bool changedValue_;
 	unsigned int data_;
 	std::string name_;
 	std::string description_;
@@ -98,10 +101,6 @@ public:
 
 	static bool addToArgParser(std::list<OptionEntry *> &options,
 								ARGParser &parser);
-
-	static bool updateOptions(std::list<OptionEntry *> &destoptions,
-		std::list<OptionEntry *> &srcoptions);
-	static bool setToDefaultOptions(std::list<OptionEntry *> &srcoptions);
 };
 
 class OptionEntryInt : public OptionEntry, public ARGParserIntI

@@ -49,8 +49,6 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWWindowManager::instance());
-	gameState.addStateLoop(state, Main2DCamera::instance(),
-		LandscapeMusicManager::instance()); // MUSIC
 	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
 	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
@@ -62,7 +60,9 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateLoop(state, Main2DCamera::instance(),
 		GLConsole::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
-		Sound::instance());
+		Sound::instance()); // SOUND
+	gameState.addStateLoop(state, Main2DCamera::instance(),
+		LandscapeMusicManager::instance()); // MUSIC
 }
 
 void ClientState::addStandardComponents(GameState &gameState, unsigned state, bool network)

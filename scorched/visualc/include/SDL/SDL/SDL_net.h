@@ -1,6 +1,6 @@
 /*
     SDL_net:  An example cross-platform network library for use with SDL
-    Copyright (C) 1997, 1998, 1999, 2000, 2001  Sam Lantinga
+    Copyright (C) 1997-2004 Sam Lantinga
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -22,11 +22,12 @@
 
 /* $Id$ */
 
-#ifndef _SDLnet_h
-#define _SDLnet_h
+#ifndef _SDL_NET_H
+#define _SDL_NET_H
 
 #include "SDL.h"
 #include "SDL_endian.h"
+#include "SDL_version.h"
 #include "begin_code.h"
 
 
@@ -35,6 +36,28 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* Printable format: "%d.%d.%d", MAJOR, MINOR, PATCHLEVEL
+*/
+#define SDL_NET_MAJOR_VERSION	1
+#define SDL_NET_MINOR_VERSION	2
+#define SDL_NET_PATCHLEVEL	6
+
+/* This macro can be used to fill a version structure with the compile-time
+ * version of the SDL_net library.
+ */
+#define SDL_NET_VERSION(X)						\
+{									\
+	(X)->major = SDL_NET_MAJOR_VERSION;				\
+	(X)->minor = SDL_NET_MINOR_VERSION;				\
+	(X)->patch = SDL_NET_PATCHLEVEL;				\
+}
+
+/* This function gets the version of the dynamically linked SDL_net library.
+   it should NOT be used to fill a version structure, instead you should
+   use the SDL_NET_VERSION() macro.
+ */
+extern DECLSPEC const SDL_version * SDLCALL SDLNet_Linked_Version(void);
 
 /* Initialize/Cleanup the network API
    SDL must be initialized before calls to functions in this library,
@@ -108,7 +131,8 @@ extern DECLSPEC IPaddress * SDLCALL SDLNet_TCP_GetPeerAddress(TCPsocket sock);
    is less than the amount of data sent, then either the remote connection was
    closed, or an unknown socket error occurred.
 */
-extern DECLSPEC int SDLCALL SDLNet_TCP_Send(TCPsocket sock, void *data, int len);
+extern DECLSPEC int SDLCALL SDLNet_TCP_Send(TCPsocket sock, const void *data,
+		int len);
 
 /* Receive up to 'maxlen' bytes of data over the non-server socket 'sock',
    and store them in the buffer pointed to by 'data'.
@@ -413,8 +437,8 @@ do					\
 #endif
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 #include "close_code.h"
 
-#endif /* _SDLnet_h */
+#endif /* _SDL_NET_H */

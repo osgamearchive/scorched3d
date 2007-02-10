@@ -45,6 +45,7 @@ void ComsNewGameMessage::addGameState()
 
 bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 {
+	if (!levelMessage_.writeMessage(buffer)) return false;
 	buffer.addToBuffer(gameStateEnclosed_);
 	if (gameStateEnclosed_)
 	{
@@ -53,7 +54,6 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 	}
 	if (!ScorchedServer::instance()->
 		getOptionsTransient().writeToBuffer(buffer)) return false;
-	if (!levelMessage_.writeMessage(buffer)) return false;
 	if (!playerState_.writeMessage(buffer)) return false;
 	if (!ScorchedServer::instance()->getAccessoryStore().
 		writeEconomyToBuffer(buffer)) return false;
@@ -64,15 +64,17 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 {
 #ifndef S3D_SERVER
+	if (!levelMessage_.readMessage(reader)) return false;
 	if (!reader.getFromBuffer(gameStateEnclosed_)) return false;
 	if (gameStateEnclosed_)
 	{
 		if (!ScorchedClient::instance()->
 			getOptionsGame().getMainOptions().readFromBuffer(reader, false, false)) return false;
 	}
+	ScorchedClient::instance()->getOptionsGame().updateLevelOptions(
+		ScorchedClient::instance()->getContext(), levelMessage_.getGroundMapsDefn());
 	if (!ScorchedClient::instance()->
 		getOptionsTransient().readFromBuffer(reader)) return false;
-	if (!levelMessage_.readMessage(reader)) return false;
 	if (!playerState_.readMessage(reader)) return false;
 	if (!ScorchedClient::instance()->getAccessoryStore().
 		readEconomyFromBuffer(reader)) return false;

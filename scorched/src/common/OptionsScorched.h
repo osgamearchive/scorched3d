@@ -25,8 +25,8 @@
 
 #define GENERIC_GETTER(x) \
 	{ \
-	if (levelOptions_.get##x##Entry().isDefaultValue()) return mainOptions_.get##x(); \
-	else return levelOptions_.get##x(); \
+	if (levelOptions_.get##x##Entry().isChangedValue()) return levelOptions_.get##x(); \
+	else return mainOptions_.get##x(); \
 	};
 
 #define OPTIONSTRING_GETTER(x) const char *get##x() GENERIC_GETTER(x)
@@ -37,6 +37,9 @@
 #define OPTIONFLOAT_GETTER(x) bool get##x() GENERIC_GETTER(x)
 #define OPTIONVECTOR_GETTER(x) bool get##x() GENERIC_GETTER(x)
 
+class ScorchedContext;
+class LandscapeDefinition;
+class LandscapeInclude;
 class OptionsScorched
 {
 public:
@@ -140,6 +143,7 @@ public:
 	OptionsGame &getMainOptions() { return mainOptions_; }
 	OptionsGame &getLevelOptions() { return levelOptions_; }
 
+	void updateLevelOptions(ScorchedContext &context, LandscapeDefinition &defn);
 	void updateChangeSet();
 	bool commitChanges();
 
@@ -148,6 +152,8 @@ protected:
 	OptionsGame changedOptions_;
 	OptionsGame levelOptions_;
 
+	void updateLevelOptions(std::vector<LandscapeInclude *> &options,
+		std::map<std::string, OptionEntry *> &values);
 };
 
 #endif

@@ -39,6 +39,7 @@ VirtualSoundSource::VirtualSoundSource(
 VirtualSoundSource::~VirtualSoundSource()
 {
 	stop();
+	playingSource_ = 0;
 }
 
 void VirtualSoundSource::play(SoundBuffer *buffer)

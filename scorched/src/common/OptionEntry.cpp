@@ -31,7 +31,8 @@ OptionEntry::OptionEntry(std::list<OptionEntry *> &group,
 						 unsigned int data) :
 	name_(name),
 	description_(description),
-	data_(data)
+	data_(data),
+	changedValue_(false)
 {
 	group.push_back(this);
 }
@@ -39,47 +40,6 @@ OptionEntry::OptionEntry(std::list<OptionEntry *> &group,
 OptionEntry::~OptionEntry()
 {
 
-}
-
-bool OptionEntryHelper::setToDefaultOptions(std::list<OptionEntry *> &srcoptions)
-{
-	bool changed = false;
-	std::list<OptionEntry *>::iterator srcitor;
-	for (srcitor = srcoptions.begin();
-		srcitor != srcoptions.end();
-		srcitor++)
-	{
-		OptionEntry *srcEntry = (*srcitor);
-		if (!srcEntry->isDefaultValue())
-		{
-			changed = true;
-			srcEntry->setValueFromString(srcEntry->getDefaultValueAsString());
-		}
-	}
-	return changed;
-}
-
-bool OptionEntryHelper::updateOptions(std::list<OptionEntry *> &destoptions,
-	std::list<OptionEntry *> &srcoptions)
-{
-	bool changed = false;
-	std::list<OptionEntry *>::iterator destitor;
-	std::list<OptionEntry *>::iterator srcitor;
-	for (srcitor = srcoptions.begin(), destitor = destoptions.begin();
-		srcitor != srcoptions.end() && destitor != destoptions.end();
-		srcitor++, destitor++)
-	{
-		OptionEntry *srcEntry = (*srcitor);
-		if (!srcEntry->isDefaultValue())
-		{
-			changed = true;
-			OptionEntry *destEntry = (*destitor);
-			destEntry->setValueFromString(
-				srcEntry->getValueAsString());
-		}
-	}
-
-	return changed;
 }
 
 bool OptionEntryHelper::addToArgParser(std::list<OptionEntry *> &options,
@@ -110,10 +70,15 @@ bool OptionEntryHelper::writeToBuffer(std::list<OptionEntry *> &options,
 		itor++)
 	{
 		OptionEntry *entry = *itor;
+		// Only send data that is allowed to be sent
 		if (!(entry->getData() & OptionEntry::DataProtected) || useprotected)
 		{
-			buffer.addToBuffer(entry->getName());
-			buffer.addToBuffer(entry->getComsBufferValue());
+			// Optimization, only send options that have changed from thier default
+			if (!entry->isDefaultValue())
+			{
+				buffer.addToBuffer(entry->getName());
+				buffer.addToBuffer(entry->getComsBufferValue());
+			}
 		}
 	}
 	buffer.addToBuffer("-"); // Marks the end of the entries
@@ -136,8 +101,15 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 		OptionEntry *entry = (*itor);
 		if (!(entry->getData() & OptionEntry::DataProtected) || useprotected)
 		{
+			// Create map
 			std::string name = entry->getName();
 			entryMap[name] = entry;
+
+			// Reset to the default value as only the non-default values are sent
+			if (!entry->isDefaultValue())
+			{
+				entry->setValueFromString(entry->getDefaultValueAsString());
+			}
 		}
 	}
 
@@ -231,12 +203,9 @@ bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
 	}
 
 	// Itterate all of the options in the file
-	std::list<XMLNode *>::iterator childrenItor;
-	for (childrenItor = rootnode->getChildren().begin();
-		childrenItor != rootnode->getChildren().end();
-		childrenItor++)
+	XMLNode *currentNode = 0;
+	while (rootnode->getNamedChild("option", currentNode, false))
 	{
-		XMLNode *currentNode = (*childrenItor);
 		XMLNode *nameNode, *valueNode; 
 		if (!currentNode->getNamedChild("name", nameNode)) return false;
 		if (!currentNode->getNamedChild("value", valueNode)) return false;
@@ -336,6 +305,7 @@ int OptionEntryInt::getValue()
 
 bool OptionEntryInt::setValue(int value)
 {
+	changedValue_ = true;
 	value_ = value;
 	return true;
 }
@@ -461,7 +431,7 @@ bool OptionEntryEnum::setValueFromString(const char *string)
 	{
 		if (0 == strcmp(current->description, string))
 		{
-			value_ = current->value;
+			setValue(current->value);
 			return true;
 		}
 	}
@@ -501,12 +471,12 @@ bool OptionEntryBool::setValueFromString(const char *string)
 {
 	if (stricmp("on", string) == 0)
 	{
-		value_ = true;
+		setValue(true);
 		return true;
 	}
 	if (stricmp("off", string) == 0)
 	{
-		value_ = false;
+		setValue(false);
 		return true;
 	}
 	return false;
@@ -514,6 +484,7 @@ bool OptionEntryBool::setValueFromString(const char *string)
 
 bool OptionEntryBool::setValue(bool value)
 {
+	changedValue_ = true;
 	value_ = (value?1:0);
 	return true;
 }
@@ -579,6 +550,7 @@ const char *OptionEntryString::getValue()
 
 bool OptionEntryString::setValue(const char *value)
 {
+	changedValue_ = true;
 	value_ = value;
 	return true;
 }
@@ -693,6 +665,7 @@ float OptionEntryFloat::getValue()
 
 bool OptionEntryFloat::setValue(float value)
 {
+	changedValue_ = true;
 	value_ = value;
 	return true;
 }
@@ -767,6 +740,7 @@ Vector &OptionEntryVector::getValue()
 
 bool OptionEntryVector::setValue(Vector value)
 {
+	changedValue_ = true;
 	value_ = value;
 	return true;
 }
