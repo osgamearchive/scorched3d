@@ -124,7 +124,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	{
 		tank->setTeam(team_);
 	}
-	tank->getAvatar().loadFromFile("computer.png");
+	tank->getAvatar().loadFromFile(getDataFile("data/avatars/computer.png"));
 	tank->getLife().setMaxLife(life_);
 	tank->getLife().setSize(size_);
 	tank->getLife().setDriveOverToDestroy(driveovertodestroy_);

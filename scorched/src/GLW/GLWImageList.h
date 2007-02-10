@@ -31,9 +31,10 @@ class GLWImageList :
 	public GLWSelectorI
 {
 public:
-	GLWImageList(float x = 0.0f, float y = 0.0f, 
-		const char *directory = 0);
+	GLWImageList(float x = 0.0f, float y = 0.0f);
 	virtual ~GLWImageList();
+
+	void addDirectory(const char *directory);
 
 	const char *getCurrent();
 	bool setCurrent(const char *current);
@@ -57,6 +58,7 @@ protected:
 	{
 	public:
 		std::string shortFileName;
+		std::string longFileName;
 		GLTexture texture;
 	};
 	std::list<GLWImageListEntry*> entries_;

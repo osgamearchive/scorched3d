@@ -27,8 +27,22 @@
 
 REGISTER_CLASS_SOURCE(GLWImageList);
 
-GLWImageList::GLWImageList(float x, float y, const char *directory) :
+GLWImageList::GLWImageList(float x, float y) :
 	GLWidget(x, y, 32.0f, 32.0f), current_(0), enabled_(true)
+{
+}
+
+GLWImageList::~GLWImageList()
+{
+	while (!entries_.empty())
+	{
+		GLWImageListEntry* entry = entries_.front();
+		entries_.pop_front();
+		delete entry;
+	}
+}
+
+void GLWImageList::addDirectory(const char *directory)
 {
 	if (!directory) return;
 
@@ -47,6 +61,7 @@ GLWImageList::GLWImageList(float x, float y, const char *directory) :
 			GLWImageListEntry *entry = new GLWImageListEntry;
 			if (entry->texture.create(png))
 			{
+				entry->longFileName = filename;
 				const char *sep = strrchr(filename, '/');
 				if (sep) sep++;
 				else sep = filename;
@@ -58,16 +73,6 @@ GLWImageList::GLWImageList(float x, float y, const char *directory) :
 	}
 
 	setCurrent("");
-}
-
-GLWImageList::~GLWImageList()
-{
-	while (!entries_.empty())
-	{
-		GLWImageListEntry* entry = entries_.front();
-		entries_.pop_front();
-		delete entry;
-	}
 }
 
 void GLWImageList::draw()
@@ -129,7 +134,7 @@ bool GLWImageList::setCurrent(const char *current)
 
 const char *GLWImageList::getCurrent()
 {
-	if (current_) return current_->shortFileName.c_str();
+	if (current_) return current_->longFileName.c_str();
 	return "";
 }
 

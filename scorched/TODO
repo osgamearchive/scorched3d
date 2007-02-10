@@ -70,6 +70,7 @@ Added: Capability for music (music can be configured for different actions both 
 Added: tabgroups to accessories, a tabgroup is the grouping used to group accessories in the buy dialog
 Added: Seperate volume control for music
 Added: Per-level options to allow levels to specify specific options e.g. Teams, No Walls etc..
+Added: Customer user avatars can be placed into the .scorched3d/avatars directory
 
 Fixed: Optimized settings sent to the client to send only different settings
 Fixed: Optimized path finding code for tank movement

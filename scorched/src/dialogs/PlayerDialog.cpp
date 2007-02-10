@@ -85,7 +85,9 @@ PlayerDialog::PlayerDialog() :
 		"The current player's avatar.\n"
 		"CANNOT be changed while playing,\n"
 		"you must quit to change.");
-	imageList_ = new GLWImageList(10.0f, 20.0f, getDataFile("data/avatars"));
+	imageList_ = new GLWImageList(10.0f, 20.0f);
+	imageList_->addDirectory(getSettingsFile("avatars"));
+	imageList_->addDirectory(getDataFile("data/avatars"));
 	imageList_->setCurrent("player.png");
 	imageList_->setToolTip(&avatarTip1_);
 	imageList_->setName("Avatar");

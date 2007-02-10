@@ -83,9 +83,7 @@ bool TankAvatar::readMessage(NetBufferReader &reader)
 
 bool TankAvatar::loadFromFile(const char *fileName)
 {
-	FILE *in = fopen(
-		getDataFile(formatString("data/avatars/%s", fileName)),
-		"rb");
+	FILE *in = fopen(fileName, "rb");
 	if (in)
 	{
 		name_ = fileName;

@@ -145,7 +145,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 			tankModel->getName(),
 			tankModel->getTypeName());
 
-		tank->getAvatar().loadFromFile("computer.png");
+		tank->getAvatar().loadFromFile(getDataFile("data/avatars/computer.png"));
 		tank->setUniqueId(uniqueId);
 		tank->setTankAI(ai->getCopy(tank));
 		tank->getState().setState(TankState::sInitializing);
