@@ -47,6 +47,9 @@ public:
 	bool getNoFalling() { return noFalling_; }
 	void setNoFalling(bool noFalling) { noFalling_ = noFalling; }
 
+	bool getNoFallingDamage() { return noFallingDamage_; }
+	void setNoFallingDamage(bool noFalling) { noFallingDamage_ = noFalling; }
+
 	bool getMovement() { return movement_; }
 	void setMovement(bool movement) { movement_ = movement; }
 
@@ -58,6 +61,7 @@ protected:
 	bool noDamageBurn_;
 	bool noCollision_;
 	bool noFalling_;
+	bool noFallingDamage_;
 
 };
 

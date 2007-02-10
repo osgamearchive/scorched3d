@@ -61,6 +61,7 @@ public:
 	float getSmokeEndSize() { return smokeEndSize_; }
 	float getThrustAmount() { return thrustAmount_; }
 	float getThrustTime() { return thrustTime_; }
+	float getDrag() { return drag_; }
 	Vector &getFlameStartColor1() { return flameStartColor1_; }
 	Vector &getFlameStartColor2() { return flameStartColor2_; }
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
@@ -85,6 +86,7 @@ protected:
 	float shieldHurtFactor_;
 	float scale_;
 	float windFactor_;
+	float drag_;
 	Vector flameStartColor1_, flameStartColor2_;
 	Vector flameEndColor1_, flameEndColor2_;
 	std::string engineSound_;

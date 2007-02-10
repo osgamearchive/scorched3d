@@ -23,6 +23,7 @@
 #include <stdarg.h>
 #include <common/Defines.h>
 #include <windows.h>
+#include <string>
 
 #pragma warning(disable : 4996)
 
@@ -30,10 +31,26 @@ extern bool wxWindowInit;
 
 void dialogMessage(const char *header, const char *text)
 {
+	std::string newtext;
+	int count = 0;
+	for (const char *t=text; *t; t++)
+	{
+		if (*t == '\n') count = 0;
+		else count++;
+		if (count > 75)
+		{
+			newtext.append("...\n");
+			count = 0;
+		}
+
+		newtext.append(formatString("%c", *t));
+	}
+
+
 #if defined(_WIN32) && !defined(S3D_SERVER)
-	MessageBox(NULL, text, header, MB_OK);
+	MessageBox(NULL, newtext.c_str(), header, MB_OK);
 #else
-	printf("%s : %s\n", header, text);
+	printf("%s : %s\n", header, newtext.c_str());
 #endif
 }
 

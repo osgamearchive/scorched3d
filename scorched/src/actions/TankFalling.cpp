@@ -122,7 +122,10 @@ void TankFalling::collision(PhysicsParticleObject &position,
 			// No damage (or parachutes used for tiny falls)
 			damage = 0.0f;
 		}
-		else
+		else if (current->getTargetState().getNoFallingDamage())
+		{
+			damage = 0.0f;
+		}
 		if (parachute_)
 		{
 			const float ParachuteThreshold = 0.0f;

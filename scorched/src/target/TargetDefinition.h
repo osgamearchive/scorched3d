@@ -50,6 +50,7 @@ protected:
 	bool driveovertodestroy_, flattendestroy_;
 	bool nocollision_, nodamageburn_, nofalling_;
 	bool displaydamage_, displayshadow_;
+	bool nofallingdamage_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;

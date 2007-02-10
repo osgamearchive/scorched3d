@@ -38,6 +38,7 @@ WeaponProjectile::WeaponProjectile() :
 	flameStartSize_(0.5f), flameEndSize_(3.0f),
 	smokeStartSize_(0.5f), smokeEndSize_(4.0f),
 	thrustAmount_(0.0f), thrustTime_(0.0f),
+	drag_(0.0f),
 	engineSound_("data/wav/misc/rocket.wav"),
 	scale_(1.0f), flareType_(0)
 {
@@ -84,6 +85,9 @@ bool WeaponProjectile::parseXML(AccessoryCreateContext &context, XMLNode *access
 	accessoryNode->getNamedChild("flamestartcolor2", flameStartColor2_, false);
 	accessoryNode->getNamedChild("flameendcolor1", flameEndColor1_, false);
 	accessoryNode->getNamedChild("flameendcolor2", flameEndColor2_, false);
+
+	// Drag
+	accessoryNode->getNamedChild("drag", drag_, false);
 
 	// Thrust
 	accessoryNode->getNamedChild("thrusttime", thrustTime_, false);

@@ -24,7 +24,7 @@ TargetState::TargetState() :
 	falling_(0),
 	displayDamage_(true), displayShadow_(true),
 	noDamageBurn_(false), noCollision_(false), noFalling_(false),
-	movement_(false)
+	movement_(false), noFallingDamage_(false)
 {
 }
 

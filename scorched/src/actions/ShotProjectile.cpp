@@ -143,6 +143,14 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		}
 	}
 
+	// Drag
+	if (getWeapon()->getDrag() > 0.0f)
+	{
+		Vector direction = getCurrentVelocity();
+		direction *= -getWeapon()->getDrag();
+		applyForce(direction);
+	}
+
 	// Timed collision
 	if (getWeapon()->getTimedCollision() > 0.0f)
 	{
