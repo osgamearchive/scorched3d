@@ -552,8 +552,9 @@ void TankWeaponTip::showItems(float x, float y)
 			snprintf(buffer, 128, "%s (In)", 
 				weapon->getName());
 		}
-		entries.push_back(GLWSelectorEntry(buffer, &weapon->getToolTip(), 
-			(currentWeapon == weapon), weapon->getTexture(), weapon));
+		GLWSelectorEntry newEntry(buffer, &weapon->getToolTip(), 
+			(currentWeapon == weapon), weapon->getTexture(), weapon);
+		entries.push_back(newEntry);
 	}
 	GLWSelector::instance()->showSelector(this, x, y, entries,
 		ClientState::StatePlaying);

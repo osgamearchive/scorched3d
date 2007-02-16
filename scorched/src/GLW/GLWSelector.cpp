@@ -94,9 +94,10 @@ void GLWSelector::showSelector(GLWSelectorI *user,
 				user, basePosition, 
 				left, y, 
 				partEntries,
-				transparent);
+				transparent,
+				0, 0); // Parent
 			left += part->getSelectedWidth() + 10.0f;
-			parts_.push_back(part);
+			addPart(part);
 			basePosition += (int) partEntries.size();
 			partEntries.clear();
 		}
@@ -107,8 +108,9 @@ void GLWSelector::showSelector(GLWSelectorI *user,
 			user, basePosition,
 			left, y, 
 			partEntries,
-			transparent);
-		parts_.push_back(part);	
+			transparent,
+			0, 0); // Parent
+		addPart(part);
 	}
 }
 
@@ -125,6 +127,18 @@ void GLWSelector::hideSelector()
 		parts_.pop_front();
 		delete part;
 	}
+}
+
+void GLWSelector::addPart(GLWSelectorPart *part)
+{
+	parts_.push_back(part);
+}
+
+void GLWSelector::rmPart(GLWSelectorPart *part)
+{
+	if (part->getChild()) rmPart(part->getChild());
+	parts_.remove(part);
+	delete part;
 }
 
 void GLWSelector::draw()

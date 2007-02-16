@@ -26,6 +26,7 @@
 #include <GLEXT/GLTexture.h>
 #include <string>
 #include <list>
+#include <map>
 
 /**
 Defines the contents of one row of the selection dialog.
@@ -46,6 +47,8 @@ public:
 	void *getUserData() { return userData_; }
 	Vector &getColor() { return color_; }
 	int &getTextureWidth() { return textureWidth_; }
+
+	std::list<GLWSelectorEntry> &getPopups() { return popups_; }
 	
 protected:
 	std::string text_;
@@ -55,6 +58,7 @@ protected:
 	Vector color_;
 	bool selected_;
 	void *userData_;
+	std::list<GLWSelectorEntry> popups_;
 };
 
 /**
@@ -88,6 +92,11 @@ public:
 		bool transparent = true);
 	// Hide the selector
 	void hideSelector();
+
+	// Add/remove a popup
+	GLWSelectorI *getUser() { return user_; }
+	void addPart(GLWSelectorPart *part);
+	void rmPart(GLWSelectorPart *part);
 
 	// Inherited from GLWWindow
 	virtual void draw();

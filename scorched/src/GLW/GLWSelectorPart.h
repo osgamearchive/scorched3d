@@ -30,11 +30,18 @@ public:
 		int basePosition,
 		float x, float y,
 		std::list<GLWSelectorEntry> &entries,
-		bool transparent);
+		bool transparent,
+		GLWSelectorPart *parent,
+		int parentPosition);
 	virtual ~GLWSelectorPart();
 
 	void draw();
 	void mouseDown(float x, float y, bool &hit);
+
+	// Links the SelectorParts together for popups
+	GLWSelectorPart *getParent() { return parent_; }
+	GLWSelectorPart *getChild() { return child_; }
+	int getParentPosition() { return parentPosition_; }
 	
 	float getSelectedHeight() { return selectedHeight_; }
 	float getSelectedWidth() { return selectedWidth_; }
@@ -47,7 +54,10 @@ protected:
 	float selectedIndent_;
 	int basePosition_;
 	bool transparent_;
-	bool selected_;
+	bool hasSelectedEntry_, hasPopupEntry_;
+	GLWSelectorPart *parent_; // If this is popup it will have a parent
+	GLWSelectorPart *child_; // If this has a popup it may have a child
+	int parentPosition_;
 
 	void calculateDimensions(float x, float y);
 

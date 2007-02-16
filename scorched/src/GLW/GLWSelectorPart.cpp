@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWSelectorPart.h>
+#include <GLW/GLWSelector.h>
 #include <GLW/GLWFont.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLViewPort.h>
@@ -29,11 +30,15 @@ GLWSelectorPart::GLWSelectorPart(GLWSelectorI *user,
 	int basePosition,
 	float x, float y,
 	std::list<GLWSelectorEntry> &entries,
-	bool transparent) :
+	bool transparent,
+	GLWSelectorPart *parent,
+	int parentPosition) :
 	user_(user),
 	entries_(entries),
 	transparent_(transparent),
-	basePosition_(basePosition)
+	basePosition_(basePosition),
+	parent_(parent), parentPosition_(parentPosition),
+	child_(0)
 {
 	calculateDimensions(x, y);
 }
@@ -49,7 +54,8 @@ void GLWSelectorPart::calculateDimensions(float drawX, float drawY)
 	float selectedHeight = 10.0f; // Padding
 	float selectedWidth = 0.0f;
 	float iconWidth = 0.0f;
-	selected_ = false;
+	hasSelectedEntry_ = false;
+	hasPopupEntry_ = false;
 	std::list<GLWSelectorEntry>::iterator itor;
 	for (itor =	entries_.begin();
 		itor != entries_.end();
@@ -66,12 +72,14 @@ void GLWSelectorPart::calculateDimensions(float drawX, float drawY)
 		{
 			currentwidth = (float) font.getWidth(12, (char *) item.getText()) + 20.0f;
 		}
-		if (item.getSelected()) selected_ = true;
+		if (item.getSelected()) hasSelectedEntry_ = true;
+		if (!item.getPopups().empty()) hasPopupEntry_ = true;
 		if (item.getIcon()) iconWidth = item.getTextureWidth() + 16.0f;
 		if (currentwidth > selectedWidth) selectedWidth = currentwidth;
 	}
 	float indent = 0.0f;
-	if (selected_) indent += 10.0f;
+	if (hasSelectedEntry_) indent += 10.0f;
+	if (hasPopupEntry_) selectedWidth += 10.0f;
 	indent += iconWidth;
 	selectedWidth += indent;
 
@@ -144,10 +152,11 @@ void GLWSelectorPart::draw()
 
 	// Draw the menu items
 	float currentTop = selectedY_;
+	int position = 1;
 	std::list<GLWSelectorEntry>::iterator itor;
 	for (itor =	entries_.begin();
 		itor != entries_.end();
-		itor++)
+		itor++, position++)
 	{
 		GLWSelectorEntry &item = (*itor);
 
@@ -169,7 +178,45 @@ void GLWSelectorPart::draw()
 			if (selectedX_ < mouseX && mouseX < selectedX_ + selectedWidth_ &&
 				currentTop - 18.0f <= mouseY && mouseY < currentTop)
 			{
+				// This item is selected
 				selected = true;
+
+				// Check popup status
+				if (!item.getPopups().empty())
+				{
+					// This is a popup entry, make sure
+					// 1) This popup is shown
+					// 2) Any popups that have this as a parent are removed
+					if (child_ && child_->getParentPosition() != position)
+					{
+						// This child is incorrect, remove it
+						GLWSelector::instance()->rmPart(child_);
+						child_ = 0;
+					}
+					if (!child_)
+					{
+						// There is no child, create it
+						child_ = new GLWSelectorPart(
+							GLWSelector::instance()->getUser(),
+							10000, 
+							selectedX_ + selectedWidth_, currentTop,
+							item.getPopups(),
+							transparent_,
+							this, 
+							position);
+						GLWSelector::instance()->addPart(child_);
+					}
+				}
+				else
+				{
+					// This is not a popup entry, make sure
+					// 1) Any popups that have this as a parent are removed
+					if (child_)
+					{
+						GLWSelector::instance()->rmPart(child_);
+						child_ = 0;
+					}
+				}
 			}
 
 			if (item.getToolTip())
@@ -184,7 +231,7 @@ void GLWSelectorPart::draw()
 				GLState textureOn(GLState::TEXTURE_ON);
 				item.getIcon()->draw();
 
-				float x = selectedX_ + (selected_?15.0f:5.0f);
+				float x = selectedX_ + (hasSelectedEntry_?15.0f:5.0f);
 				float y = currentTop - 19.0f;
 				glBegin(GL_QUADS);
 					glTexCoord2f(0.0f, 0.0f);
@@ -212,6 +259,11 @@ void GLWSelectorPart::draw()
 			}
 			font.draw(*c, 12, selectedX_ + selectedIndent_ + 10.0f, 
 				currentTop - 16.0f, 0.0f, (char *) item.getText());
+			if (!item.getPopups().empty())
+			{
+				font.draw(*c, 12, selectedX_ + selectedWidth_ - 15.0f, 
+					currentTop - 16.0f, 0.0f, ">");				
+			}
 			currentTop -= 18.0f;
 		}
 	}
