@@ -106,7 +106,8 @@ bool FileList::readFiles(const char *directory, char *filter, bool fullPath)
 	DIR *dirp;
    	struct dirent *direntp;
    	dirp = opendir(directory);
-
+	if (!dirp)
+		return false;
 	while ( (direntp = readdir( dirp )) != NULL )
    	{
 		if (fnmatch(filter, (const char *)direntp->d_name,0))
