@@ -794,6 +794,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerGiftMoneyHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerGiftMoneyHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerHaveModFilesHandler.cpp"
 				>
 			</File>
@@ -1102,6 +1110,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\coms\ComsConnectRejectMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectRejectMessage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\coms\ComsDefenseMessage.cpp"
 				>
 			</File>
@@ -1139,6 +1155,14 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsGameStoppedMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsGiftMoneyMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsGiftMoneyMessage.h"
 				>
 			</File>
 			<File

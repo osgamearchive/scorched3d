@@ -80,12 +80,12 @@ bool ServerConnectHandler::processMessage(
 		if (ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() <=
 			ScorchedServer::instance()->getTankContainer().getNoOfTanks())
 		{
-			ServerCommon::sendString(destinationId, 
+			const char *kickMessage =
 				"--------------------------------------------------\n"
 				"This server is full, you cannot join!\n"
-				"--------------------------------------------------", false);
+				"--------------------------------------------------";
 			ServerCommon::serverLog("Server full, kicking");
-			ServerCommon::kickDestination(destinationId);
+			ServerCommon::kickDestination(destinationId, kickMessage);
 			return true;		
 		}
 	}
@@ -98,7 +98,7 @@ bool ServerConnectHandler::processMessage(
 	if (!message.readMessage(reader) ||
 		(0 != strcmp(message.getProtocolVersion(), ScorchedProtocolVersion)))
 	{
-		ServerCommon::sendString(destinationId, 	
+		const char *kickMessage = 
 			formatString(
 			"--------------------------------------------------\n"
 			"The version of Scorched you are running\n"
@@ -110,14 +110,14 @@ bool ServerConnectHandler::processMessage(
 			"Connection failed.\n"
 			"--------------------------------------------------", 
 			ScorchedVersion, ScorchedProtocolVersion,
-			message.getVersion(), message.getProtocolVersion()), false);
+			message.getVersion(), message.getProtocolVersion());
 		Logger::log( 
 			formatString(
 			"Player connected with out of date version \"%s(%s)\"",
 			message.getVersion(),
 			message.getProtocolVersion()));
 
-		ServerCommon::kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId, kickMessage);
 		return true;
 	}
 
@@ -140,13 +140,13 @@ bool ServerConnectHandler::processMessage(
 		(ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
 		ScorchedServer::instance()->getTankContainer().getNoOfTanks()))
 	{
-		ServerCommon::sendString(destinationId, 
+		const char *kickMessage = 
 			formatString(
 			"--------------------------------------------------\n"
 			"This server is full, you cannot join!\n"
-			"--------------------------------------------------"));
+			"--------------------------------------------------");
 		ServerCommon::serverLog("Server full, kicking");
-		ServerCommon::kickDestination(destinationId);
+		ServerCommon::kickDestination(destinationId, kickMessage);
 		return true;
 	}
 
@@ -156,15 +156,15 @@ bool ServerConnectHandler::processMessage(
 		if (0 != strcmp(message.getPassword(),
 						ScorchedServer::instance()->getOptionsGame().getServerPassword()))
 		{
-			ServerCommon::sendString(destinationId, 	
+			const char *kickMessage = 
 				"--------------------------------------------------\n"
 				"This server is running a password protected game.\n"
 				"Your supplied password does not match.\n"
 				"Connection failed.\n"
-				"--------------------------------------------------", false);
+				"--------------------------------------------------";
 			Logger::log( "Player connected with an invalid password");
 			
-			ServerCommon::kickDestination(destinationId);
+			ServerCommon::kickDestination(destinationId, kickMessage);
 			return true;
 		}
 	}
@@ -190,17 +190,17 @@ bool ServerConnectHandler::processMessage(
 		if (!authHandler->authenticateUser(uniqueId, 
 			message.getUserName(), message.getPassword(), resultMessage))
 		{
-			ServerCommon::sendString(destinationId,
+			const char *kickMessage = 
 				formatString(
 				"--------------------------------------------------\n"
 				"%s"
 				"Connection failed.\n"
 				"--------------------------------------------------",
-				resultMessage.c_str()), false);
+				resultMessage.c_str());
 			Logger::log(formatString("User failed authentication \"%s\" [%s]",
 				message.getUserName(), uniqueId.c_str()));
 
-			ServerCommon::kickDestination(destinationId);			
+			ServerCommon::kickDestination(destinationId, kickMessage);			
 			return true;
 		}
 	}

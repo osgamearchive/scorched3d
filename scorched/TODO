@@ -74,6 +74,7 @@ Added: Customer user avatars can be placed into the .scorched3d/avatars director
 Added: nofallingdamage attribute to targets so they don't get hurt when falling
 Added: drag attribute to WeaponProjectile to allow a more realistic projectile motion
 Added: Error messages with lines that are more than 75 characters are wrapped onto the next line
+Added: Players can gift money to other players in their team
 
 Fixed: Optimized settings sent to the client to send only different settings
 Fixed: Optimized path finding code for tank movement

@@ -43,6 +43,7 @@
 #include <server/ServerMessageHandler.h>
 #include <server/ServerPlayerReadyHandler.h>
 #include <server/ServerTextHandler.h>
+#include <server/ServerGiftMoneyHandler.h>
 #include <server/ServerDefenseHandler.h>
 #include <server/ServerPlayedMoveHandler.h>
 #include <server/ServerAddPlayerHandler.h>
@@ -129,6 +130,7 @@ bool startServer(bool local, ProgressCounter *counter)
 	ServerConnectHandler::instance();
 	ServerLinesHandler::instance();
 	ServerTextHandler::instance();
+	ServerGiftMoneyHandler::instance();
 	ServerPlayerReadyHandler::instance();
 	ServerPlayerAimHandler::instance();
 	ServerAdminHandler::instance();

@@ -25,6 +25,8 @@
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientMessageHandler.h>
 #include <client/ClientTextHandler.h>
+#include <client/ClientConnectionRejectHandler.h>
+#include <client/ClientGiftMoneyHandler.h>
 #include <client/ClientLinesHandler.h>
 #include <client/ClientStartGameHandler.h>
 #include <client/ClientScoreHandler.h>
@@ -150,6 +152,8 @@ bool startClient(ProgressCounter *progressCounter)
 	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(
 		ClientMessageHandler::instance());
 	ClientTextHandler::instance();
+	ClientConnectionRejectHandler::instance();
+	ClientGiftMoneyHandler::instance();
 	ClientLinesHandler::instance();
 	ClientConnectionAcceptHandler::instance();
 	ClientAddPlayerHandler::instance();

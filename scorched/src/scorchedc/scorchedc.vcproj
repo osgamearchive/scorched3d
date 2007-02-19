@@ -779,6 +779,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerGiftMoneyHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerGiftMoneyHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerHaveModFilesHandler.cpp"
 				>
 			</File>
@@ -1087,6 +1095,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\coms\ComsConnectRejectMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectRejectMessage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\coms\ComsDefenseMessage.cpp"
 				>
 			</File>
@@ -1124,6 +1140,14 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsGameStoppedMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsGiftMoneyMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsGiftMoneyMessage.h"
 				>
 			</File>
 			<File
@@ -3271,6 +3295,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\ClientConnectionRejectHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientConnectionRejectHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\ClientDefenseHandler.cpp"
 				>
 			</File>
@@ -3308,6 +3340,14 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientGameStoppedHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientGiftMoneyHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientGiftMoneyHandler.h"
 				>
 			</File>
 			<File
@@ -4796,6 +4836,14 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\ConnectDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\GiftMoneyDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\GiftMoneyDialog.h"
 				>
 			</File>
 			<File

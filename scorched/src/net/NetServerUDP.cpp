@@ -60,7 +60,8 @@ bool NetServerUDP::connect(const char *hostName, int portNo)
 	if (!udpsock_) udpsock_ = SDLNet_UDP_Open(0);
 	if (!udpsock_)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to open client socket"));
+		Logger::log(formatString("NetServerUDP: Failed to open client socket : %s",
+			SDLNet_GetError()));
 		return false;		
 	}
 	serverDestinationId_ = 0;

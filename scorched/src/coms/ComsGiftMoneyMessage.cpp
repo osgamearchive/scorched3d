@@ -18,27 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerCommonh_INCLUDE__)
-#define __INCLUDE_ServerCommonh_INCLUDE__
+#include <coms/ComsGiftMoneyMessage.h>
 
-#include <server/ServerBanned.h>
-#include <common/DefinesString.h>
-
-namespace ServerCommon
+ComsGiftMoneyMessage::ComsGiftMoneyMessage(
+	unsigned int fromPlayerId,
+	unsigned int toPlayerId,
+	int money) :
+	ComsMessage("ComsGiftMoneyMessage"),
+	fromPlayerId_(fromPlayerId), 
+	toPlayerId_(toPlayerId),
+	money_(money)
 {
-	void startFileLogger();
-	void sendString(unsigned int destinationId, const char *text, bool logMessage = true);
-	void sendStringMessage(unsigned int destinationId, const char *text, bool logMessage = true);
-	void sendStringAdmin(const char *text);
-	void serverLog(const char *text);
-	void kickDestination(unsigned int destinationId, const char *message = "");
-	void kickPlayer(unsigned int playerId);
-	void poorPlayer(unsigned int playerId);
-	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
-	void slapPlayer(unsigned int playerId, float slap);
-	void killAll();
-	void startNewGame();
-	bool &getExitEmpty();
 }
 
-#endif
+ComsGiftMoneyMessage::~ComsGiftMoneyMessage()
+{
+}
+
+bool ComsGiftMoneyMessage::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(fromPlayerId_);
+	buffer.addToBuffer(toPlayerId_);
+	buffer.addToBuffer(money_);
+	return true;
+}
+
+bool ComsGiftMoneyMessage::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(fromPlayerId_)) return false;
+	if (!reader.getFromBuffer(toPlayerId_)) return false;
+	if (!reader.getFromBuffer(money_)) return false;
+	return true;
+}

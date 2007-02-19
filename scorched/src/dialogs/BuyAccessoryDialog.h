@@ -39,13 +39,12 @@ class BuyAccessoryDialog : public GLWWindow,
 						public GLWTabI
 {
 public:
-	BuyAccessoryDialog();
-	virtual ~BuyAccessoryDialog();
+	static BuyAccessoryDialog *instance();
 
 	// Inherited from GLWButtonI
 	virtual void draw();
 	virtual void buttonDown(unsigned int id);
-	virtual void windowInit(const unsigned state);
+	virtual void display();
 
 	// Inherited from GLWCheckBoxI
 	virtual void stateChange(bool state, unsigned int id);
@@ -54,7 +53,8 @@ public:
 	virtual void tabDown(unsigned int id);
 
 protected:
-	unsigned int okId_;
+	static BuyAccessoryDialog *instance_;
+	unsigned int okId_, giftId_;
 	bool firstDrawTime_;
 	std::map<std::string, GLWTab *> buyTabs_;
 	GLWTab *sellTab_;
@@ -80,6 +80,9 @@ protected:
 	void addPlayerWeaponsBuy(GLWTab *tab, const char *group);
 	bool addAccessory(Tank *tank, GLWTab *tab, float height, Accessory *current);
 
+private:
+	BuyAccessoryDialog();
+	virtual ~BuyAccessoryDialog();
 };
 
 #endif // !defined(AFX_BuyAccessoryDialog_H__4B5E93CF_1DE2_4979_A629_AEBD725ABE65__INCLUDED_)

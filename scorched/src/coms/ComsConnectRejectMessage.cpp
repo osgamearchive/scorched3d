@@ -18,27 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerCommonh_INCLUDE__)
-#define __INCLUDE_ServerCommonh_INCLUDE__
+#include <coms/ComsConnectRejectMessage.h>
 
-#include <server/ServerBanned.h>
-#include <common/DefinesString.h>
-
-namespace ServerCommon
+ComsConnectRejectMessage::ComsConnectRejectMessage(const char *text) :
+	ComsMessage("ComsConnectRejectMessage"),
+	text_(text)
 {
-	void startFileLogger();
-	void sendString(unsigned int destinationId, const char *text, bool logMessage = true);
-	void sendStringMessage(unsigned int destinationId, const char *text, bool logMessage = true);
-	void sendStringAdmin(const char *text);
-	void serverLog(const char *text);
-	void kickDestination(unsigned int destinationId, const char *message = "");
-	void kickPlayer(unsigned int playerId);
-	void poorPlayer(unsigned int playerId);
-	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
-	void slapPlayer(unsigned int playerId, float slap);
-	void killAll();
-	void startNewGame();
-	bool &getExitEmpty();
 }
 
-#endif
+ComsConnectRejectMessage::~ComsConnectRejectMessage()
+{
+}
+
+bool ComsConnectRejectMessage::writeMessage(NetBuffer &buffer)
+{
+	buffer.addToBuffer(text_);
+	return true;
+}
+
+bool ComsConnectRejectMessage::readMessage(NetBufferReader &reader)
+{
+	if (!reader.getFromBuffer(text_)) return false;
+	return true;
+}

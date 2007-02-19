@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/BuyAccessoryDialog.h>
+#include <dialogs/GiftMoneyDialog.h>
+#include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWIcon.h>
 #include <GLEXT/GLViewPort.h>
@@ -36,6 +38,17 @@
 #include <tank/TankAccessories.h>
 #include <stdio.h>
 
+BuyAccessoryDialog *BuyAccessoryDialog::instance_ = 0;
+
+BuyAccessoryDialog *BuyAccessoryDialog::instance()
+{
+	if (!instance_)
+	{
+		instance_ = new BuyAccessoryDialog;
+	}
+	return instance_;
+}
+
 BuyAccessoryDialog::BuyAccessoryDialog() : 
 	GLWWindow("", 10.0f, 10.0f, 465.0f, 300.0f, 0,
 		"Allows the current player to buy and sell\n"
@@ -44,6 +57,8 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 {
 	okId_ = addWidget(new GLWTextButton("Ok", 400, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+	giftId_ = addWidget(new GLWTextButton("Gift", 320, 10, 70, this, 
+		GLWButton::ButtonFlagCenterX))->getId();
 
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 450, 50));
@@ -367,7 +382,7 @@ bool BuyAccessoryDialog::addAccessory(
 	return true;
 }
 
-void BuyAccessoryDialog::windowInit(const unsigned state)
+void BuyAccessoryDialog::display()
 {
 	addTabs();
 	loadFavorites();
@@ -494,6 +509,13 @@ void BuyAccessoryDialog::buttonDown(unsigned int id)
 	{
 		saveFavorites();
 		ScorchedClient::instance()->getGameState().stimulate(ClientState::StimAutoDefense);
+	}
+	else if (id == giftId_)
+	{
+		GLWWindowManager::instance()->showWindow(
+			GiftMoneyDialog::instance()->getId());
+		GLWWindowManager::instance()->hideWindow(
+			getId());
 	}
 	else
 	{

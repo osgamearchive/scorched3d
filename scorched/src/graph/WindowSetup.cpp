@@ -37,6 +37,7 @@
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/ProgressDialog.h>
+#include <dialogs/GiftMoneyDialog.h>
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
 #include <dialogs/TalkSettingsDialog.h>
@@ -249,7 +250,9 @@ void WindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
 	// StateBuyWeapons
 	addCommonComponents(skinManager, ClientState::StateBuyWeapons);
 	GLWWindowManager::instance()->addWindow(ClientState::StateBuyWeapons, 
-		new BuyAccessoryDialog, 0, true);
+		BuyAccessoryDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateBuyWeapons, 
+		GiftMoneyDialog::instance(), 0, false);
 
 	// StateAutoDefense
 	addCommonComponents(skinManager, ClientState::StateAutoDefense);

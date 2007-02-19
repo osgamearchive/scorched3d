@@ -34,6 +34,7 @@
 #include <common/Defines.h>
 #include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsConnectRejectMessage.h>
 #include <net/NetInterface.h>
 
 static FileLogger *serverFileLogger = 0;
@@ -176,9 +177,19 @@ void ServerCommon::slapPlayer(unsigned int playerId, float slap)
 	}
 }
 
-void ServerCommon::kickDestination(unsigned int destinationId)
+void ServerCommon::kickDestination(unsigned int destinationId, 
+	const char *message)
 {
-	Logger::log(formatString("Kicking destination \"%i\"", destinationId));
+	Logger::log(formatString("Kicking destination \"%i\"", 
+		destinationId));
+
+	if (message[0])
+	{
+		ComsConnectRejectMessage rejectMessage(message);
+		ComsMessageSender::sendToSingleClient(rejectMessage, destinationId);
+		ScorchedServer::instance()->getNetInterface().processMessages();
+		//SDL_Delay(100); // Hack!!
+	}
 
 	bool kickedPlayers = false;
 	std::map<unsigned int, Tank *>::iterator itor;
