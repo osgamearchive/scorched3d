@@ -49,6 +49,7 @@ public:
 	void addKey(unsigned int position,
 		unsigned int key, unsigned int state);
 	void removeKey(unsigned int position);
+	bool hasKey(unsigned int key, unsigned int state);
 
 	std::vector<KeyEntry> &getKeys() { return keys_; }
 	const char *getName() { return name_.c_str(); }
@@ -56,6 +57,8 @@ public:
 	const char *getDescription() { return description_.c_str(); }
 	int getGroup() { return group_; }
 	bool getNameIsCommand() { return command_; }
+	bool getChanged() { return changed_; }
+	void setChanged(bool changed) { changed_ = changed; }
 
 	static bool translateKeyName(const char *name, unsigned int &key);
 	static bool translateKeyState(const char *name, unsigned int &state);
@@ -70,6 +73,7 @@ protected:
 	int group_;
 	bool keyToogle_;
 	bool command_;
+	bool changed_;
 
 private:
 	KeyboardKey(const KeyboardKey &);

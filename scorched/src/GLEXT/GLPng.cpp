@@ -30,10 +30,10 @@ GLPng::GLPng() :
 
 }
 
-GLPng::GLPng(const char * filename) :
-	bits_(0), width_(0), height_(0), alpha_(false)
+GLPng::GLPng(const char * filename, bool readalpha) :
+	bits_(0), width_(0), height_(0), alpha_(readalpha)
 {
-	loadFromFile(filename);
+	loadFromFile(filename, readalpha);
 }
 
 GLPng::GLPng(const char * filename, const char *alphafilename, bool invert) : 
@@ -101,7 +101,7 @@ void GLPng::createBlank(int width, int height, bool alpha, unsigned char fill)
 	memset(bits_, fill, bitsize);
 }
 
-bool GLPng::loadFromFile(const char * filename)
+bool GLPng::loadFromFile(const char * filename, bool readalpha)
 {
 	FILE *file = fopen(filename, "rb");
 	if (!file) return false;
@@ -115,7 +115,7 @@ bool GLPng::loadFromFile(const char * filename)
 	}
 	fclose(file);
 
-	return loadFromBuffer(netBuffer);
+	return loadFromBuffer(netBuffer, readalpha);
 }
 
 struct user_read_struct
@@ -137,7 +137,7 @@ static void user_read_fn(png_structp png_ptr,
 }
 
 // CODE TAKEN FROM PNG SUPPLIED example.c
-bool GLPng::loadFromBuffer(NetBuffer &buffer)
+bool GLPng::loadFromBuffer(NetBuffer &buffer, bool readalpha)
 {
 	png_structp png_ptr;
 	png_infop info_ptr;
@@ -189,11 +189,13 @@ bool GLPng::loadFromBuffer(NetBuffer &buffer)
 	* adjustment), then you can read the entire image (including
 	* pixels) into the info structure with this call:
 	*/
-	png_read_png(png_ptr, info_ptr, 
+	unsigned int settings = 
 		PNG_TRANSFORM_PACKING | 
 		PNG_TRANSFORM_STRIP_16 | 
-		PNG_TRANSFORM_EXPAND |
-		PNG_TRANSFORM_STRIP_ALPHA, NULL);
+		PNG_TRANSFORM_EXPAND;
+	if (!readalpha) settings |= PNG_TRANSFORM_STRIP_ALPHA;
+
+	png_read_png(png_ptr, info_ptr, settings, NULL);
 
 	/* At this point you have read the entire image */
 
@@ -205,17 +207,17 @@ bool GLPng::loadFromBuffer(NetBuffer &buffer)
 	png_uint_32 coltype = png_get_color_type(png_ptr, info_ptr);
 	png_byte channels = png_get_channels(png_ptr, info_ptr);
 
-	if (coltype == PNG_COLOR_TYPE_RGB &&
+	if (coltype == (readalpha?PNG_COLOR_TYPE_RGB_ALPHA:PNG_COLOR_TYPE_RGB) &&
 		bitdepth == 8 &&
-		channels == 3 &&
-		bytes / width == 3)
+		channels == (readalpha?4:3) &&
+		(bytes / width) == (readalpha?4:3))
 	{
 		png_bytepp row_pointers = png_get_rows(png_ptr, info_ptr);
 		width_ = width;
 		height_ = height;
-		alpha_ = false;
+		alpha_ = readalpha;
 
-		createBlank(width, height);
+		createBlank(width, height, readalpha);
 
 		for (unsigned int h=0; h<height; h++)
 		{

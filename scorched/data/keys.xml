@@ -228,16 +228,22 @@
 		<key>ESCAPE</key>
 	</keyentry>
 	<keyentry>
-		<name>SHOW_TALK_DIALOG</name>
+		<name>SHOW_GENERAL_CHANNEL_DIALOG</name>
+		<title>Online talk</title>
+		<description>Shows or hides the general talk dialog</description>
+		<group>2</group>
+		<key>t</key>
+	</keyentry>
+	<keyentry>
+		<name>SHOW_CHANNEL_DIALOG</name>
 		<title>Online talk</title>
 		<description>Shows or hides the talk dialog</description>
 		<group>2</group>
-		<key>t</key>
 		<key>RETURN</key>
 		<key>SLASH</key>
 	</keyentry>
 	<keyentry>
-		<name>SHOW_TEAM_TALK_DIALOG</name>
+		<name>SHOW_TEAM_CHANNEL_DIALOG</name>
 		<title>Online team talk</title>
 		<description>Shows or hides the team talk dialog</description>
 		<group>2</group>
@@ -445,6 +451,13 @@
 		<description>Assigns camera quick slot</description>
 		<group>4</group>
 		<key state='LCTRL'>2</key>
+	</keyentry>
+	<keyentry>
+		<name>CAMERA_SET_QUICK_SLOT_3</name>
+		<title>Set camera quick slot 3</title>
+		<description>Assigns camera quick slot</description>
+		<group>4</group>
+		<key state='LCTRL'>3</key>
 	</keyentry>
 	<keyentry>
 		<name>CAMERA_SET_QUICK_SLOT_3</name>

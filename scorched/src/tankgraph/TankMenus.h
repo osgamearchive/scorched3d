@@ -65,9 +65,6 @@ protected:
 	void resetLandscape();
 	void clearTracerLines();
 	void logToFile();
-	void say(std::list<GLConsoleRuleSplit>);
-	void teamsay(std::list<GLConsoleRuleSplit>);
-	void whisper(std::list<GLConsoleRuleSplit>);
 
 };
 

@@ -29,7 +29,8 @@ KeyboardKey::KeyboardKey(const char *name,
 	int group,
 	bool command) :
 	name_(name), title_(title), description_(description), 
-	keyToogle_(false), command_(command), group_(group)
+	keyToogle_(false), command_(command), group_(group),
+	changed_(false)
 {
 }
 
@@ -74,8 +75,21 @@ bool KeyboardKey::addKeys(std::list<std::string> &keyNames,
 
 		addKey(i, keyValue, keyState);
 	}
-
 	return true;
+}
+
+bool KeyboardKey::hasKey(unsigned int key, unsigned int state)
+{
+	std::vector<KeyEntry>::iterator itor;
+	for (itor = keys_.begin();
+		itor != keys_.end();
+		itor++)
+	{
+		KeyEntry &entry = *itor;
+		if (entry.key == key &&
+			entry.state == state) return true;
+	}
+	return false;
 }
 
 void KeyboardKey::addKey(unsigned int position,
@@ -93,6 +107,7 @@ void KeyboardKey::addKey(unsigned int position,
 	{
 		keys_.push_back(entry);
 	}
+	changed_ = true;
 }
 
 void KeyboardKey::removeKey(unsigned int position)
@@ -112,6 +127,7 @@ void KeyboardKey::removeKey(unsigned int position)
 			}
 		}
 	}
+	changed_ = true;
 }
 
 bool KeyboardKey::translateKeyName(const char *name, unsigned int &key)

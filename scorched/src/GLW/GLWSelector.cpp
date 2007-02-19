@@ -26,15 +26,17 @@
 #include <graph/OptionsDisplay.h>
 
 GLWSelectorEntry::GLWSelectorEntry(const char *text, 
-			ToolTip *tooltip, 
-			bool selected,
-			GLTexture *icon,
-			void *userData) : 
+	ToolTip *tooltip, 
+	bool selected,
+	GLTexture *icon,
+	void *userData,
+	const char *dataText) : 
 	text_(text),
 	tip_(tooltip),
 	selected_(selected),
 	icon_(icon),
 	userData_(userData),
+	dataText_(dataText),
 	color_(1.0f, 1.0f, 1.0f),
 	textureWidth_(0)
 {

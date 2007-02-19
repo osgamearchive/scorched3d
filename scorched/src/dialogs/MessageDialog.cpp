@@ -40,15 +40,26 @@ MessageDialog::MessageDialog() :
 {
 	disabled_ = true;
 	windowLevel_ = 90000;
+
+	std::list<std::string> startupChannels;
+	startupChannels.push_back("banner");
+	ClientChannelManager::instance()->registerClient(this, startupChannels);
 }
 
 MessageDialog::~MessageDialog()
 {
 }
 
-void MessageDialog::addMessage(const char *text)
+void MessageDialog::channelText(ChannelText &text)
 {
-	texts_.push_back(text);
+	clear();
+	texts_.push_back(text.getMessage());
+}
+
+void MessageDialog::registeredForChannels(
+	std::list<std::string> &registeredChannels,
+	std::list<std::string> &availableChannels)
+{
 }
 
 void MessageDialog::simulate(float simTime)

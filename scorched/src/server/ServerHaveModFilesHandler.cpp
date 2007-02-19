@@ -115,7 +115,7 @@ bool ServerHaveModFilesHandler::processMessage(
 	{
 		// No files need downloading
 		ServerCommon::sendString(netMessage.getDestinationId(), 
-			"No mod files need downloading", false);
+			"No mod files need downloading");
 	}
 #ifndef S3D_SERVER
 	else
@@ -137,7 +137,7 @@ bool ServerHaveModFilesHandler::processMessage(
 			"The server does not allow in game file downloads.\n"
 			"You must download and install this mod before you\n"
 			"can connect to this server.",
-			ScorchedServer::instance()->getOptionsGame().getMod()), false);
+			ScorchedServer::instance()->getOptionsGame().getMod()));
 		ServerCommon::kickDestination(destinationId);
 	}
 	else 
@@ -160,7 +160,7 @@ bool ServerHaveModFilesHandler::processMessage(
 			neededLength,
 			ScorchedServer::instance()->getOptionsGame().getModDownloadSpeed(),
 			timeMinutes,
-			timeSeconds), false);
+			timeSeconds));
 	}
 #endif
 

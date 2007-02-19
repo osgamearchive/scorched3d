@@ -18,30 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_GLWLoggerViewh_INCLUDE__)
-#define __INCLUDE_GLWLoggerViewh_INCLUDE__
+#if !defined(__INCLUDE_GLWChannelTexth_INCLUDE__)
+#define __INCLUDE_GLWChannelTexth_INCLUDE__
 
-#include <GLW/GLWidget.h>
-#include <GLW/GLWButton.h>
-#include <common/LoggerI.h>
-#include <common/KeyboardKey.h>
-#include <list>
+#include <GLW/GLWChannelView.h>
+#include <GLW/GLWIconButton.h>
+#include <GLW/GLWSelector.h>
+#include <string>
 
-class GLWLoggerViewEntry
+class GLWChannelText : 
+	public GLWidget, 
+	public GLWButtonI, 
+	public GLWSelectorI, 
+	public GLWChannelViewI
 {
 public:
-	LoggerInfo info;
-	float timeRemaining;
-};
+	GLWChannelText();
+	virtual ~GLWChannelText();
 
-class GLWLoggerView : 
-	public GLWidget,
-	public LoggerI,
-	public GLWButtonI
-{
-public:
-	GLWLoggerView();
-	virtual ~GLWLoggerView();
+	// GLWChannelViewI
+	virtual void channelsChanged(unsigned int id);
+
+	// GLWSelectorI
+	virtual void itemSelected(GLWSelectorEntry *entry, int position);
+
+	// GLWButtonI
+	virtual void buttonDown(unsigned int id);
 
 	// GLWidget
 	virtual void draw();
@@ -53,38 +55,30 @@ public:
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
+	virtual void setParent(GLWPanel *parent);
+	virtual void setX(float x);
+	virtual void setY(float y);
+	virtual void setW(float w);
+	virtual void setH(float h);
 
-	// LoggerI
-	virtual void logMessage(LoggerInfo &info);
-
-	// ButtonI
-	virtual void buttonDown(unsigned int id);
-
-	REGISTER_CLASS_HEADER(GLWLoggerView);
-
+	REGISTER_CLASS_HEADER(GLWChannelText);
 protected:
-	GLWButton upButton_;
-	GLWButton downButton_;
-	GLWButton resetButton_;
+	GLTexture buttonTexture_, colorTexture_;
+	GLWChannelView::ChannelEntry channelEntry_;
+	GLWIconButton button_;
+	GLWChannelView view_;
+	std::map<KeyboardKey *, std::string> keys_;
+	std::string text_;
+	float ctime_;
+	bool cursor_, visible_;
+	int maxTextLen_;
 
-	int mask_;
-	bool oldStyle_;
-	bool init_;
-	bool alignTop_, parentSized_;
-	bool splitLargeLines_, allowScroll_;
-	int lineDepth_;
-	int scrollPosition_;
-	float displayTime_;
-	float fontSize_, outlineFontSize_;
-	int visibleLines_, totalLines_;
-	int currentVisible_;
-	std::list<GLWLoggerViewEntry> textLines_;
-	KeyboardKey *scrollUpKey_;
-	KeyboardKey *scrollDownKey_;
-	KeyboardKey *scrollResetKey_;
-
-	void addInfo(LoggerInfo &info);
-	int splitLine(const char *message, std::string &result);
+	void processNotVisibleKey(char c, unsigned int dik, bool &skipRest);
+	void processVisibleKey(char c, unsigned int dik);
+	void processSpecialText();
+	void processNormalText();
+	bool checkCurrentChannel();
+	void setVisible(bool visible);
 };
 
-#endif // __INCLUDE_GLWLoggerViewh_INCLUDE__
+#endif // __INCLUDE_GLWChannelTexth_INCLUDE__

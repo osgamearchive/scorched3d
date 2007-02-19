@@ -69,6 +69,7 @@ public:
 
 	const char *getDescription() { return description_.c_str(); }
 	ToolTip &getToolTip() { return toolTip_; }
+	void setWindowLevel(unsigned int windowLevel) { windowLevel_ = windowLevel; }
 	unsigned int getWindowLevel() { return windowLevel_; }
 	unsigned int getWindowState() { return windowState_; }
 	void needsCentered() { needCentered_ = true; }

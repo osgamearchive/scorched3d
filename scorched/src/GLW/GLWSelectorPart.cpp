@@ -218,6 +218,10 @@ void GLWSelectorPart::draw()
 					}
 				}
 			}
+			if (child_ && child_->getParentPosition() == position)
+			{
+				selected = true;
+			}
 
 			if (item.getToolTip())
 			{

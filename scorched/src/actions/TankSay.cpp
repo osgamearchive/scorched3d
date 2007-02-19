@@ -27,8 +27,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
-#include <common/Logger.h>
-#include <common/LoggerI.h>
+#include <common/ChannelManager.h>
 
 TankSay::TankSay(unsigned int playerId,
 		const char *text,
@@ -58,11 +57,11 @@ void TankSay::init()
 				white);
 			context_->actionController->addAction(new SpriteAction(talk));
 
-			LoggerInfo info(LoggerInfo::TypeTalk, text_.c_str());
-			info.setPlayerId(tank->getPlayerId());
-			info.setIcon(tank->getAvatar().getTexture());
-			info.setInfoLen(infoLen_);
-			Logger::log(info);
+			ChannelText text("general", text_.c_str());
+			//info.setPlayerId(tank->getPlayerId());
+			//info.setIcon(tank->getAvatar().getTexture());
+			//info.setInfoLen(infoLen_);
+			ChannelManager::showText(text);
 		}
 #endif // #ifndef S3D_SERVER
 	}

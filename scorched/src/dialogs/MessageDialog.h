@@ -22,19 +22,28 @@
 #define __INCLUDE_MessageDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
+#include <client/ClientChannelManager.h>
 #include <string>
 #include <list>
 
-class MessageDialog : public GLWWindow
+class MessageDialog : 
+	public GLWWindow,
+	public ClientChannelManagerI
 {
 public:
 	static MessageDialog *instance();
 
+	void clear();
+
+	// GLWWindow
 	virtual void draw();
 	virtual void simulate(float frameTime);
 
-	void clear();
-	void addMessage(const char *text);
+	// ClientChannelManagerI
+	virtual void channelText(ChannelText &text);
+	virtual void registeredForChannels(
+		std::list<std::string> &registeredChannels,
+		std::list<std::string> &availableChannels);
 
 protected:
 	static MessageDialog *instance_;

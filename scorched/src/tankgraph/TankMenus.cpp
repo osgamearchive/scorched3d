@@ -41,7 +41,6 @@
 #include <common/Logger.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsMessageHandler.h>
-#include <coms/ComsTextMessage.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <tankgraph/RenderTracer.h>
@@ -71,12 +70,6 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		this, &TankMenus::showTextureDetails, "TextureDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::logToFile, "LogToFile");
-	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
-		this, &TankMenus::say, "Say");
-	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
-		this, &TankMenus::teamsay, "Teamsay");
-	new GLConsoleRuleMethodIAdapterEx<TankMenus>(
-		this, &TankMenus::whisper, "Whisper");
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", 
 		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging());
@@ -114,63 +107,6 @@ TankMenus::TankMenus() : logger_("ClientLog")
 TankMenus::~TankMenus()
 {
 
-}
-
-void TankMenus::say(std::list<GLConsoleRuleSplit> list)
-{
-	list.pop_front();
-	if (!list.empty())
-	{
-		ComsTextMessage message(list.begin()->rule.c_str(),
-			ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(),
-			false,
-			false);
-		ComsMessageSender::sendToServer(message);
-	}
-}
-
-void TankMenus::teamsay(std::list<GLConsoleRuleSplit> list)
-{
-	list.pop_front();
-	if (!list.empty())
-	{
-		ComsTextMessage message(list.begin()->rule.c_str(),
-			ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(),
-			false,
-			true);
-		ComsMessageSender::sendToServer(message);
-	}
-}
-
-void TankMenus::whisper(std::list<GLConsoleRuleSplit> list)
-{
-	list.pop_front();
-	if (!list.empty())
-	{
-		const char *playerName = list.begin()->rule.c_str();
-		Tank *tank = 
-			ScorchedClient::instance()->getTankContainer().
-				getTankByName(playerName);
-		if (!tank)
-		{
-			Logger::log(formatString("Failed to find a player name \"%s\"",
-				playerName));
-		}
-		else
-		{
-			list.pop_front();
-			if (!list.empty())
-			{
-				ComsTextMessage message(list.begin()->rule.c_str(),
-					ScorchedClient::instance()->getTankContainer().getCurrentPlayerId(),
-					false,
-					false,
-					0,
-					tank->getPlayerId());
-				ComsMessageSender::sendToServer(message);
-			}
-		}
-	}
 }
 
 void TankMenus::logToFile()

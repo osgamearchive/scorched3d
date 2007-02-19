@@ -18,33 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerTextHandlerh_INCLUDE__)
-#define __INCLUDE_ServerTextHandlerh_INCLUDE__
+#include <client/ClientChannelManagerI.h>
 
-#include <coms/ComsMessageHandler.h>
-
-class ServerTextHandler : 
-	public ComsMessageHandlerI
+ClientChannelManagerI::ClientChannelManagerI()
 {
-public:
-	static ServerTextHandler *instance();
+}
 
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
-
-	void addMessage(const char *text);
-	std::list<std::string> &getLastMessages() { return lastMessages_; }
-
-protected:
-	std::list<std::string> lastMessages_;
-
-private:
-	ServerTextHandler();
-	virtual ~ServerTextHandler();
-
-};
-
-
-#endif
+ClientChannelManagerI::~ClientChannelManagerI()
+{
+}

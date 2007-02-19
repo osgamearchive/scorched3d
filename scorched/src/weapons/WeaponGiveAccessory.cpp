@@ -25,8 +25,7 @@
 #include <tank/TankAccessories.h>
 #include <tank/TankScore.h>
 #include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
+#include <common/ChannelManager.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveAccessory);
 
@@ -93,12 +92,12 @@ void WeaponGiveAccessory::weaponCallback(
 				tank->getAccessories().add(accessory, number_);
 				if (!context.serverMode)
 				{
-					LoggerInfo info(LoggerInfo::TypeDeath,
+					ChannelText text("combat", 
 						formatString("\"%s\" received %i * %s", 
 						tank->getName(),
 						number_, accessory->getName()));
-					info.setPlayerId(weaponContext.getPlayerId());
-					Logger::log(info);
+					//info.setPlayerId(weaponContext.getPlayerId());
+					ChannelManager::showText(text);
 				}
 			}
 			else
@@ -108,11 +107,11 @@ void WeaponGiveAccessory::weaponCallback(
 
 				if (!context.serverMode)
 				{
-					LoggerInfo info(LoggerInfo::TypeDeath,
+					ChannelText text("combat", 
 						formatString("\"%s\" received $%i", 
 						tank->getName(), money));
-					info.setPlayerId(weaponContext.getPlayerId());
-					Logger::log(info);
+					//info.setPlayerId(weaponContext.getPlayerId());
+					ChannelManager::showText(text);
 				}
 			}
 		}
@@ -126,12 +125,12 @@ void WeaponGiveAccessory::weaponCallback(
 				tank->getAccessories().rm(accessory, loose);
 				if (!context.serverMode)
 				{
-					LoggerInfo info(LoggerInfo::TypeDeath,
+					ChannelText text("combat", 
 						formatString("\"%s\" lost %i * %s", 
 						tank->getName(),
 						loose, accessory->getName()));
-					info.setPlayerId(weaponContext.getPlayerId());
-					Logger::log(info);
+					//info.setPlayerId(weaponContext.getPlayerId());
+					ChannelManager::showText(text);
 				}
 			}
 		}

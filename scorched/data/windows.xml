@@ -26,55 +26,9 @@
 			</item>
 		</items>
 	</window>
-	-->
+	-->	
 	<window>
-		<name>Talk </name>
-		<state>all</state>
-		<state>start</state>
-		<visible>false</visible>
-		<key>SHOW_TALK_DIALOG</key>
-		<windowlevel>40000</windowlevel>
-		<w>-400</w>
-		<h>20</h>
-		<x>200</x>
-		<y>5</y>
-		<description>Talk to to other opponents</description>
-		<items>
-			<item>
-				<widget type="GLWTalkBox">
-					<x>0</x><y>0</y>
-					<w>0</w><h>0</h>
-					<parentsized>true</parentsized>
-					<mode>say</mode>
-				</widget>
-			</item>
-		</items>
-	</window>	
-	<window>
-		<name>TeamTalk </name>
-		<state>all</state>
-		<state>start</state>
-		<visible>false</visible>
-		<key>SHOW_TEAM_TALK_DIALOG</key>
-		<windowlevel>40000</windowlevel>
-		<w>-400</w>
-		<h>20</h>
-		<x>200</x>
-		<y>5</y>
-		<description>Talk to to other opponents in the same team</description>
-		<items>
-			<item>
-				<widget type="GLWTalkBox">
-					<x>0</x><y>0</y>
-					<w>0</w><h>0</h>
-					<parentsized>true</parentsized>
-					<mode>teamsay</mode>
-				</widget>
-			</item>
-		</items>
-	</window>		
-	<window>
-		<name>Log</name>
+		<name>Channels</name>
 		<state>all</state>
 		<state>start</state>
 		<visible>true</visible>
@@ -87,14 +41,12 @@
 		<windowstate>805</windowstate>
 		<tooltiptransparent>true</tooltiptransparent>
 		<notooltip>true</notooltip>
-		<description>Shows log messages</description>
+		<description>Shows channel messages</description>
 		<items>
 			<item>
-				<widget type="GLWLoggerView">
+				<widget type="GLWChannelText">
 					<x>0</x><y>0</y>
 					<w>0</w><h>0</h>
-					<mask>12</mask>
-					<oldstyle>false</oldstyle>
 					<displaytime>15.0</displaytime>
 					<totallines>50</totallines>
 					<visiblelines>5</visiblelines>
@@ -109,6 +61,35 @@
 					<scrollupkey>LOG_SCROLL_UP</scrollupkey>
 					<scrolldownkey>LOG_SCROLL_DOWN</scrolldownkey>
 					<scrollresetkey>LOG_SCROLL_RESET</scrollresetkey>
+					<talkkey>
+						<key>SHOW_GENERAL_CHANNEL_DIALOG</key>
+						<channel>general</channel>
+					</talkkey>
+					<talkkey>
+						<key>SHOW_TEAM_CHANNEL_DIALOG</key>
+						<channel>team</channel>
+					</talkkey>
+					<talkkey>
+						<key>SHOW_CHANNEL_DIALOG</key>
+						<channel></channel>
+					</talkkey>
+					<textsound>data/wav/misc/text.wav</textsound>
+					<defaultchannel>general</defaultchannel>
+					<channel>info</channel>
+					<channel>general</channel>
+					<channel>team</channel>
+					<channelcolor>
+						<channel>info</channel>
+						<color><A>0.8</A><B>0.8</B><C>0.8</C></color>
+					</channelcolor>
+					<channelcolor>
+						<channel>general</channel>
+						<color><A>1.0</A><B>1.0</B><C>1.0</C></color>
+					</channelcolor>
+					<channelcolor>
+						<channel>team</channel>
+						<color><A>0.7</A><B>0.7</B><C>1.0</C></color>
+					</channelcolor>
 				</widget>
 			</item>
 		</items>
@@ -128,11 +109,9 @@
 		<disabled/>
 		<items>
 			<item>
-				<widget type="GLWLoggerView">
+				<widget type="GLWChannelView">
 					<x>0</x><y>0</y>
 					<w>0</w><h>0</h>
-					<mask>2</mask>
-					<oldstyle>true</oldstyle>
 					<displaytime>10.0</displaytime>
 					<totallines>8</totallines>
 					<visiblelines>5</visiblelines>
@@ -143,6 +122,11 @@
 					<parentsized>true</parentsized>
 					<splitlargelines>false</splitlargelines>
 					<allowscroll>false</allowscroll>
+					<channel>combat</channel>
+					<channelcolor>
+						<channel>combat</channel>
+						<color><A>1.0</A><B>1.0</B><C>1.0</C></color>
+					</channelcolor>
 				</widget>
 			</item>
 		</items>

@@ -1,0 +1,552 @@
+////////////////////////////////////////////////////////////////////////////////
+//    Scorched3D (c) 2000-2004
+//
+//    This file is part of Scorched3D.
+//
+//    Scorched3D is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    Scorched3D is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Scorched3D; if not, write to the Free Software
+//    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+#include <GLW/GLWChannelView.h>
+#include <GLW/GLWFont.h>
+#include <GLW/GLWPanel.h>
+#include <GLEXT/GLState.h>
+#include <GLEXT/GLPng.h>
+#include <XML/XMLParser.h>
+#include <common/Keyboard.h>
+#include <common/ToolTip.h>
+#include <client/ClientChannelManager.h>
+#include <client/ScorchedClient.h>
+#include <sound/SoundUtils.h>
+#include <tank/TankContainer.h>
+
+GLWChannelViewI::~GLWChannelViewI()
+{
+}
+
+REGISTER_CLASS_SOURCE(GLWChannelView);
+
+GLWChannelView::GLWChannelView() : 
+	init_(false), 
+	visibleLines_(5), totalLines_(50),
+	displayTime_(10.0f),
+	fontSize_(12.0f), outlineFontSize_(14.0f), lineDepth_(18),
+	currentVisible_(0), lastChannelId_(1),
+	alignTop_(false), parentSized_(false), splitLargeLines_(false),
+	scrollPosition_(-1), allowScroll_(false),
+	upButton_(x_ + 2.0f, y_ + 1.0f, 12.0f, 12.0f),
+	downButton_(x_ + 2.0f, y_ + 1.0f, 12.0f, 12.0f),
+	resetButton_(x_ + 2.0f, y_ + 1.0f, 14.0f, 14.0f),
+	scrollUpKey_(0), scrollDownKey_(0), scrollResetKey_(0),
+	handler_(0)
+{
+	upButton_.setHandler(this);
+	downButton_.setHandler(this);
+	resetButton_.setHandler(this);
+
+	upButton_.setToolTip(new ToolTip("Chat", "Show previous chat entry"));
+	downButton_.setToolTip(new ToolTip("Chat", "Show next chat entry"));
+	resetButton_.setToolTip(new ToolTip("Chat", "Go to the end of the chat\n"
+		"and hide all elapsed log entries"));
+}
+
+GLWChannelView::~GLWChannelView()
+{
+}
+
+GLWChannelView::ChannelEntry *GLWChannelView::getChannel(const char *channelName)
+{
+	std::list<ChannelEntry>::iterator itor;
+	for (itor = currentChannels_.begin();
+		itor != currentChannels_.end();
+		itor++)
+	{
+		ChannelEntry &current = *itor;
+		if (0 == stricmp(current.channel.c_str(), channelName)) return &current;
+		if (0 == strcmp(formatString("%u", current.id), channelName)) return &current;
+	}
+	return 0;
+}
+
+void GLWChannelView::registeredForChannels(
+	std::list<std::string> &registeredChannels,
+	std::list<std::string> &availableChannels)
+{
+	// Some not efficient stuff....
+	std::list<ChannelEntry> oldCurrentChannels = currentChannels_;
+	std::list<std::string> oldAvailableChannels = availableChannels_;
+	currentChannels_.clear();
+	availableChannels_.clear();
+
+	// For all of the new channels
+	{
+		std::list<std::string>::iterator itor;
+		for (itor = registeredChannels.begin();
+			itor != registeredChannels.end();
+			itor++)
+		{
+			std::string &channel = *itor;
+
+			// Find out if we were already in this channel
+			bool found = false;
+			std::list<ChannelEntry>::iterator olditor;
+			for (olditor = oldCurrentChannels.begin();
+				olditor != oldCurrentChannels.end();
+				olditor++)
+			{
+				ChannelEntry &oldEntry = (*olditor);
+				if (channel == oldEntry.channel)
+				{
+					// Add the existing channel, under the existing number
+					found = true;
+					currentChannels_.push_back(oldEntry);
+					break;
+				}
+			}
+			if (!found)
+			{
+				// Add a new channel with a new number
+				ChannelEntry newEntry;
+				newEntry.id = lastChannelId_++;
+				newEntry.color = Vector(0.8f, 0.8f, 0.8f);
+				newEntry.channel = channel;
+
+				std::map<std::string, Vector>::iterator colorItor =
+					channelColors_.find(channel.c_str());
+				if (colorItor != channelColors_.end()) 
+				{
+					newEntry.color = colorItor->second;
+				}
+
+				//addInfo(formatString("joined %u. [%s]", 
+				//	newEntry.id, channel.c_str()));
+				currentChannels_.push_back(newEntry);
+			}	
+		}
+	}
+
+	// For all of the available channels
+	{
+		std::list<std::string>::iterator itor;
+		for (itor = availableChannels.begin();
+			itor != availableChannels.end();
+			itor++)
+		{
+			std::string &channel = *itor;
+
+			// Find out if we were already in this channel
+			std::list<ChannelEntry>::iterator olditor;
+			for (olditor = oldCurrentChannels.begin();
+				olditor != oldCurrentChannels.end();
+				olditor++)
+			{
+				ChannelEntry &oldEntry = (*olditor);
+				if (channel == oldEntry.channel)
+				{
+					//addInfo(formatString("left %u. [%s]", 
+					//	oldEntry.id, channel.c_str()));
+					break;
+				}
+			}
+
+			// Add this channel to list of available
+			availableChannels_.push_back(channel);
+		}
+	}
+
+	if (handler_) handler_->channelsChanged(getId());
+}
+
+void GLWChannelView::joinChannel(const char *channelName)
+{
+	std::list<std::string> channels;
+	formCurrentChannelList(channels);
+	channels.push_back(channelName);
+
+	ClientChannelManager::instance()->changeRegistration(this, channels);
+}
+
+void GLWChannelView::leaveChannel(const char *channelName)
+{
+	std::list<std::string> channels;
+	formCurrentChannelList(channels);
+	channels.remove(channelName);
+
+	ClientChannelManager::instance()->changeRegistration(this, channels);
+}
+
+void GLWChannelView::channelText(ChannelText &channelText)
+{
+	if (!textSound_.empty())
+	{
+		CACHE_SOUND(sound, (char *) getDataFile(textSound_.c_str()));
+		SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);	
+	}
+
+	const char *channel = channelText.getChannel();
+	const char *text = channelText.getMessage();
+
+	if (!splitLargeLines_)
+	{
+		addInfo(channel, text);
+		return;
+	}
+
+	bool firstTime = true;
+	int currentLen = 0;
+	int totalLen = (int) strlen(text);
+	while (currentLen < totalLen)
+	{
+		std::string result;
+		int partLen = splitLine(&text[currentLen], result);
+		currentLen += partLen;
+
+		addInfo(channel, result.c_str());
+	}
+}
+
+void GLWChannelView::buttonDown(unsigned int id)
+{
+	if (!allowScroll_) return;
+
+	if (id == upButton_.getId())
+	{
+		scrollPosition_ ++;
+		if (scrollPosition_ > (int) textLines_.size() - 1)
+			scrollPosition_ = (int) textLines_.size() - 1;
+	}
+	else if (id == downButton_.getId())
+	{
+		scrollPosition_ --;
+		if (scrollPosition_ < 0) scrollPosition_ = 0;
+	}
+	else
+	{
+		scrollPosition_ = -1;
+	}
+}
+
+int GLWChannelView::splitLine(const char *message, std::string &result)
+{
+	int lastSpace = 0;
+	int totalLen = (int) strlen(message);
+	for (int len=1; len<totalLen; len++)
+	{
+		float width = GLWFont::instance()->getLargePtFont()->
+			getWidth(outlineFontSize_, message, len);
+		if (width > w_)
+		{
+			if (lastSpace)
+			{
+				result.append(message, lastSpace);
+				return lastSpace;
+			}
+			else
+			{
+				result.append(message, len-1);
+				return len-1;
+			}
+		}
+
+		if (message[len] == ' ')
+		{
+			lastSpace = len;
+		}
+	}
+
+	result.append(message);
+	return totalLen;
+}
+
+void GLWChannelView::addInfo(const char *channelName, const char *text)
+{
+	ChannelEntry *channel = getChannel(channelName);
+	if (!channel) return;
+
+	GLWChannelViewEntry entry;
+	entry.text = formatString("%u. [%s] : %s", 
+		channel->id, channel->channel.c_str(), text);
+	entry.timeRemaining = displayTime_;
+	entry.color = channel->color;
+	textLines_.push_front(entry);
+
+	if (scrollPosition_ > 0)
+	{
+		scrollPosition_ ++;
+		if (scrollPosition_ > (int) textLines_.size() - 1)
+			scrollPosition_ = (int) textLines_.size() - 1;
+	}
+
+	if (textLines_.size() > (unsigned int) totalLines_)
+	{
+		textLines_.pop_back();
+	}
+}
+
+void GLWChannelView::simulate(float frameTime)
+{
+	currentVisible_ = 0;
+	int count = 0;
+	std::list<GLWChannelViewEntry>::iterator itor;
+	for (itor = textLines_.begin();
+		itor != textLines_.end() && count < visibleLines_;
+		itor++, count++)
+	{
+		GLWChannelViewEntry &entry = (*itor);
+		entry.timeRemaining -= frameTime;
+		if (entry.timeRemaining > 0.0f) currentVisible_ ++;
+	}
+}
+
+void GLWChannelView::setX(float x)
+{
+	GLWidget::setX(x);
+	upButton_.setX(x_ + 1.0f);
+	downButton_.setX(x_ + 1.0f);
+	resetButton_.setX(x_ + 1.0f);
+}
+
+void GLWChannelView::setY(float y)
+{
+	GLWidget::setY(y);
+	upButton_.setY(y_ + 36.0f);
+	downButton_.setY(y_ + 24.0f);
+	resetButton_.setY(y_ + 6.0f);
+}
+
+void GLWChannelView::draw()
+{
+	GLWidget::draw();
+
+	if (!upTexture_.textureValid())
+	{
+		GLPng upImg(getDataFile("data/windows/arrow_u.png"), true);
+		GLPng downImg(getDataFile("data/windows/arrow_d.png"), true);
+		GLPng resetImg(getDataFile("data/windows/arrow_s.png"), true);
+
+		upTexture_.create(upImg, GL_RGBA, false);
+		downTexture_.create(downImg, GL_RGBA, false);
+		resetTexture_.create(resetImg, GL_RGBA, false);
+
+		upButton_.setTexture(&upTexture_);
+		downButton_.setTexture(&downTexture_);
+		resetButton_.setTexture(&resetTexture_);
+	}
+
+	if (allowScroll_)
+	{
+		upButton_.draw();
+		downButton_.draw();
+		resetButton_.draw();
+	}
+
+	if (!init_)
+	{
+		ClientChannelManager::instance()->registerClient(this, startupChannels_);
+		init_ = true;
+		if (parent_ && parentSized_)
+		{
+			w_ = parent_->getW();
+			h_ = parent_->getH();
+		}
+	}
+
+	if (textLines_.empty()) return;
+
+	GLState currentStateBlend(GLState::TEXTURE_ON | 
+		GLState::BLEND_ON | GLState::DEPTH_OFF);
+	float start = y_ + 8.0f; //lineDepth_;
+	if (alignTop_)
+	{
+		start = y_ + h_ - float(currentVisible_) * lineDepth_;
+	}
+
+	std::list<GLWChannelViewEntry>::iterator startingPos = textLines_.begin();
+	{
+		int count = 0;
+		for (;
+			startingPos != textLines_.end() && count < scrollPosition_;
+			startingPos++, count++)
+		{
+		}
+	}
+
+
+
+
+	{
+		int count = 0;
+		std::list<GLWChannelViewEntry>::iterator itor;
+		for (itor = startingPos;
+			itor != textLines_.end() && count < visibleLines_;
+			itor++, count++)
+		{
+			GLWChannelViewEntry &entry = (*itor);
+
+			float alpha = 1.0f;
+			if (scrollPosition_ < 0)
+			{
+				if (entry.timeRemaining <= 0.0f) continue;
+				if (entry.timeRemaining < 1.0f) alpha = entry.timeRemaining;
+			}
+
+			float x = x_ + 20.0f - 1.0f;
+			float y = start + count * lineDepth_ - 1.0f;
+
+			static Vector black(0.0f, 0.0f, 0.0f);
+			GLWFont::instance()->getSmallPtFontOutline()->
+				drawOutlineA(black, alpha, outlineFontSize_, fontSize_,
+					x, y, 0.0f,
+					entry.text.c_str());
+		}
+	}
+	{
+		int count = 0;
+		std::list<GLWChannelViewEntry>::iterator itor;
+		for (itor = startingPos;
+			itor != textLines_.end() && count < visibleLines_;
+			itor++, count++)
+		{
+			GLWChannelViewEntry &entry = (*itor);
+
+			float alpha = 1.0f;
+			if (scrollPosition_ < 0)
+			{
+				if (entry.timeRemaining <= 0.0f) continue;
+				if (entry.timeRemaining < 1.0f) alpha = entry.timeRemaining;
+			}
+
+			float x = x_ + 20.0f;
+			float y = start + count * lineDepth_;
+
+			GLWFont::instance()->getLargePtFont()->
+				drawA(entry.color, alpha, fontSize_,
+					x, y, 0.0f, 
+					entry.text.c_str());
+		}
+	}
+}
+
+void GLWChannelView::mouseDown(int button, float x, float y, bool &skipRest)
+{
+	skipRest = false;
+	upButton_.mouseDown(button, x, y, skipRest);
+	downButton_.mouseDown(button, x, y, skipRest);
+	resetButton_.mouseDown(button, x, y, skipRest);
+}
+
+void GLWChannelView::mouseUp(int button, float x, float y, bool &skipRest)
+{
+	skipRest = false;
+	upButton_.mouseUp(button, x, y, skipRest);
+	downButton_.mouseUp(button, x, y, skipRest);
+	resetButton_.mouseUp(button, x, y, skipRest);
+}
+
+void GLWChannelView::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
+{
+	skipRest = false;
+	upButton_.mouseDrag(button, mx, my, x, y, skipRest);
+	downButton_.mouseDrag(button, mx, my, x, y, skipRest);
+	resetButton_.mouseDrag(button, mx, my, x, y, skipRest);
+}
+
+void GLWChannelView::keyDown(char *buffer, unsigned int keyState, 
+	KeyboardHistory::HistoryElement *history, int hisCount, 
+	bool &skipRest)
+{
+	if (scrollUpKey_ && scrollUpKey_->keyDown(buffer, keyState, false))
+	{
+		buttonDown(upButton_.getId());
+		skipRest = true;
+	}
+	if (scrollDownKey_ && scrollDownKey_->keyDown(buffer, keyState, false))
+	{
+		buttonDown(downButton_.getId());
+		skipRest = true;
+	}
+	if (scrollResetKey_ && scrollResetKey_->keyDown(buffer, keyState, false))
+	{
+		buttonDown(resetButton_.getId());
+		skipRest = true;
+	}
+}
+
+bool GLWChannelView::initFromXML(XMLNode *node)
+{
+	if (!GLWidget::initFromXML(node)) return false;
+
+	if (!initFromXMLInternal(node)) return false;
+		
+	return true;
+}
+
+void GLWChannelView::formCurrentChannelList(std::list<std::string> &result)
+{
+	std::list<ChannelEntry>::iterator itor;
+	for (itor = currentChannels_.begin();
+		itor != currentChannels_.end();
+		itor++)
+	{
+		ChannelEntry &entry = *itor;
+		result.push_back(entry.channel);
+	}
+}
+
+bool GLWChannelView::initFromXMLInternal(XMLNode *node)
+{
+	if (!node->getNamedChild("displaytime", displayTime_)) return false;
+	if (!node->getNamedChild("totallines", totalLines_)) return false;
+	if (!node->getNamedChild("visiblelines", visibleLines_)) return false;
+	if (!node->getNamedChild("linedepth", lineDepth_)) return false;
+	if (!node->getNamedChild("fontsize", fontSize_)) return false;
+	if (!node->getNamedChild("outlinefontsize", outlineFontSize_)) return false;
+	if (!node->getNamedChild("textaligntop", alignTop_)) return false;
+	if (!node->getNamedChild("parentsized", parentSized_)) return false;
+	if (!node->getNamedChild("splitlargelines", splitLargeLines_)) return false;
+	if (!node->getNamedChild("allowscroll", allowScroll_)) return false;
+	
+	node->getNamedChild("textsound", textSound_, false);
+
+	std::string startupchannel;
+	while (node->getNamedChild("channel", startupchannel, false))
+	{
+		startupChannels_.push_back(startupchannel);
+	}
+
+	XMLNode *channelcolors;
+	while (node->getNamedChild("channelcolor", channelcolors, false))
+	{
+		std::string channel;
+		Vector color;
+		if (!channelcolors->getNamedChild("channel", channel)) return false;
+		if (!channelcolors->getNamedChild("color", color)) return false;
+		channelColors_[channel] = color;
+	}
+
+	std::string scrollUpKey, scrollDownKey, scrollResetKey;
+	if (node->getNamedChild("scrollupkey", scrollUpKey, false))
+	{
+		scrollUpKey_ = Keyboard::instance()->getKey(scrollUpKey.c_str());
+	}
+	if (node->getNamedChild("scrolldownkey", scrollDownKey, false))
+	{
+		scrollDownKey_ = Keyboard::instance()->getKey(scrollDownKey.c_str());
+	}
+	if (node->getNamedChild("scrollresetkey", scrollResetKey, false))
+	{
+		scrollResetKey_ = Keyboard::instance()->getKey(scrollResetKey.c_str());
+	}
+	return true;
+}

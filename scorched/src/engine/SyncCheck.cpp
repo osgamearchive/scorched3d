@@ -43,7 +43,7 @@ void SyncCheck::addString(ScorchedContext &context, const char *string)
 	if (context.serverMode)
 	{
 		server.push_back(string);
-		LoggerInfo info(LoggerInfo::TypeNormal, string);
+		LoggerInfo info(string);
 		serverFile.logMessage(info);
 
 		if (client.size() >= server.size())
@@ -60,7 +60,7 @@ void SyncCheck::addString(ScorchedContext &context, const char *string)
 	else
 	{
 		client.push_back(string);
-		LoggerInfo info(LoggerInfo::TypeNormal, string);
+		LoggerInfo info(string);
 		clientFile.logMessage(info);
 
 		if (server.size() >= client.size())

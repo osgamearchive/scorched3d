@@ -24,8 +24,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
+#include <common/ChannelManager.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveLives);
 
@@ -73,19 +72,19 @@ void WeaponGiveLives::weaponCallback(
 		{
 			if (lives_ > 0)
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
+				ChannelText text("combat", 
 					formatString("\"%s\" has received %i extra live(s)", 
 					tank->getName(), lives_));
-				info.setPlayerId(weaponContext.getPlayerId());
-				Logger::log(info);
+				//info.setPlayerId(weaponContext.getPlayerId());
+				ChannelManager::showText(text);
 			}
 			else
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
+				ChannelText text("combat", 
 					formatString("\"%s\" has lost %i extra live(s)", 
 					tank->getName(), -lives_));
-				info.setPlayerId(weaponContext.getPlayerId());
-				Logger::log(info);
+				//info.setPlayerId(weaponContext.getPlayerId());
+				ChannelManager::showText(text);
 			}
 		}
 	}

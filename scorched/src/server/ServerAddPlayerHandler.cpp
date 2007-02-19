@@ -79,7 +79,7 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 		tank->getState().getState() != TankState::sInitializing))
 	{
 		ServerCommon::sendString(netMessage.getDestinationId(), 
-			"Can only change tank when dead.", false);
+			"Can only change tank when dead.");
 		return true;
 	}
 
@@ -90,7 +90,7 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 			ServerState::ServerStateTooFewPlayers)
 		{
 			ServerCommon::sendString(netMessage.getDestinationId(), 
-				"Can only change type before game starts.", false);
+				"Can only change type before game starts.");
 			return true;
 		}
 
@@ -185,7 +185,7 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 		{
 			ServerCommon::sendString(0, 
 				formatString("Welcome back %s, you are ranked %s",
-				tank->getName(), rank), false);
+				tank->getName(), rank));
 		}
 
 		if (tank->getState().getSpectator())

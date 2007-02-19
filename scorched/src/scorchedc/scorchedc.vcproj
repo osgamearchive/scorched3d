@@ -351,6 +351,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\ChannelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelText.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\Clock.cpp"
 				>
 			</File>
@@ -739,6 +755,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerChannelFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelFilter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerCommon.cpp"
 				>
 			</File>
@@ -995,14 +1027,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\server\ServerTextHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\server\ServerTextHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\server\ServerTimedMessage.cpp"
 				>
 			</File>
@@ -1076,6 +1100,22 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsBuyAccessoryMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelTextMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelTextMessage.h"
 				>
 			</File>
 			<File
@@ -1316,14 +1356,6 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsTargetStateMessage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTextMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTextMessage.h"
 				>
 			</File>
 			<File
@@ -3287,6 +3319,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\ClientChannelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientChannelManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientChannelManagerI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientChannelManagerI.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\ClientConnectionAcceptHandler.cpp"
 				>
 			</File>
@@ -3519,14 +3567,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\ClientTextHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientTextHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\client\ClientWaitState.cpp"
 				>
 			</File>
@@ -3560,6 +3600,22 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWChannelText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWChannelText.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWChannelView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWChannelView.h"
 				>
 			</File>
 			<File
@@ -3643,6 +3699,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWIconButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWIconButton.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWidget.cpp"
 				>
 			</File>
@@ -3672,14 +3736,6 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWListView.h"
-				>
-			</File>
-			<File
-				RelativePath="..\GLW\GLWLoggerView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\GLW\GLWLoggerView.h"
 				>
 			</File>
 			<File

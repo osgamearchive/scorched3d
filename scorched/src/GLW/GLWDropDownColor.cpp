@@ -20,6 +20,7 @@
 
 #include <GLW/GLWDropDownColor.h>
 #include <GLW/GLWFont.h>
+#include <GLEXT/GLBitmap.h>
 #include <client/ScorchedClient.h>
 
 REGISTER_CLASS_SOURCE(GLWDropDownColor);
@@ -35,8 +36,15 @@ GLWDropDownColor::~GLWDropDownColor()
 
 void GLWDropDownColor::addColor(Vector &color)
 {
-	GLWSelectorEntry entry("", 0, 0, 0, 0);
+	if (!colorTexture_.textureValid())
+	{
+		GLBitmap map(getDataFile("data/windows/white.bmp"));
+		colorTexture_.create(map);
+	}
+
+	GLWSelectorEntry entry("", 0, false, &colorTexture_, 0);
 	entry.getColor() = color;
+	entry.getTextureWidth() = 32;
 	addEntry(entry);
 }
 

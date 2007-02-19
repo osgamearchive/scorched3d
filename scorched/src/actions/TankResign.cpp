@@ -23,8 +23,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <common/Defines.h>
-#include <common/Logger.h>
-#include <common/LoggerI.h>
+#include <common/ChannelManager.h>
 
 TankResign::TankResign(unsigned int playerId) :
 	firstTime_(true),
@@ -62,10 +61,10 @@ void TankResign::simulate(float frameTime, bool &remove)
 #ifndef S3D_SERVER
 			if (!context_->serverMode)
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
+				ChannelText text("combat",
 					formatString("\"%s\" resigned from round", tank->getName()));
-				info.setPlayerId(playerId_);
-				Logger::log(info);
+				//info.setPlayerId(playerId_);
+				ChannelManager::showText(text);
 			}
 #endif // #ifndef S3D_SERVER
 		}

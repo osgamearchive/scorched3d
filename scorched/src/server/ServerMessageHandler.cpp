@@ -24,6 +24,7 @@
 #include <server/ServerCommon.h>
 #include <server/ServerBanned.h>
 #include <server/ServerKeepAliveHandler.h>
+#include <server/ServerChannelManager.h>
 #include <tank/TankDeadContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankContainer.h>
@@ -146,6 +147,9 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 		unsigned int playerId = *remItor;
 		destroyPlayer(playerId);
 	}
+
+	// Inform the channel manager
+	ServerChannelManager::instance()->destinationDisconnected(message.getDestinationId());
 }
 
 void ServerMessageHandler::destroyPlayer(unsigned int tankId)

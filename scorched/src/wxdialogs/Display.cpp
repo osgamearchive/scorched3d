@@ -392,14 +392,14 @@ static void createKeysControls(wxWindow *parent, wxSizer *topsizer)
 	}
 
 	int lastGroup = 0;
-	std::list<KeyboardKey *> &keys = 
+	std::list<std::string> &keys = 
 		Keyboard::instance()->getKeyList();
-	std::list<KeyboardKey *>::iterator itor;
+	std::list<std::string>::iterator itor;
 	for (itor = keys.begin();
 		itor != keys.end();
 		itor++)
 	{
-		KeyboardKey *key = (*itor);
+		KeyboardKey *key = Keyboard::instance()->getKey((*itor).c_str());
 
 		// Add a spacer line
 		if (key->getGroup() != lastGroup)

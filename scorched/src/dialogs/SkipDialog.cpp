@@ -47,7 +47,7 @@ SkipDialog::SkipDialog() :
 	okId_ = addWidget(new GLWTextButton("Skip Move", 10, 80, 190, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
 	allId_ = addWidget(new GLWTextButton("Skip All Moves", 10, 45, 190, this, 
-		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
+		GLWButton::ButtonFlagCenterX))->getId();
 	cancelId_ = addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 }

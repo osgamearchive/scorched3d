@@ -24,8 +24,7 @@
 #include <tank/TankContainer.h>
 #include <target/TargetLife.h>
 #include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
+#include <common/ChannelManager.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveLife);
 
@@ -77,11 +76,11 @@ void WeaponGiveLife::weaponCallback(
 
 		if (!context.serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 				formatString("\"%s\" received %.0f life", 
 				tank->getName(), life_));
-			info.setPlayerId(weaponContext.getPlayerId());
-			Logger::log(info);
+			//info.setPlayerId(weaponContext.getPlayerId());
+			ChannelManager::showText(text);
 		}
 	}
 	else
@@ -99,11 +98,11 @@ void WeaponGiveLife::weaponCallback(
 
 		if (!context.serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 				formatString("\"%s\" lost %.0f life", 
 				tank->getName(), -life_));
-			info.setPlayerId(weaponContext.getPlayerId());
-			Logger::log(info);
+			//info.setPlayerId(weaponContext.getPlayerId());
+			ChannelManager::showText(text);
 		}
 	}
 }

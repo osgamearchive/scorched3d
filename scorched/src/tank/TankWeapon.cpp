@@ -28,10 +28,10 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>
+#include <common/ChannelManager.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapemap/MovementMap.h>
-#include <dialogs/MessageDialog.h>
 
 TankWeapon::TankWeapon(ScorchedContext &context) : 
 	currentWeapon_(0), context_(context),
@@ -127,8 +127,7 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 					wp->getPositionSelectLimit());
 			}
 
-			MessageDialog::instance()->clear();
-			MessageDialog::instance()->addMessage(
+			ChannelManager::showText(
 				formatString("Click ground to activate %s", wp->getName()));
 		}
 

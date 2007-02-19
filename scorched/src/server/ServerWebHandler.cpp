@@ -24,9 +24,9 @@
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerCommon.h>
-#include <server/ServerTextHandler.h>
 #include <server/ServerState.h>
 #include <server/ServerParams.h>
+#include <server/ServerChannelManager.h>
 #include <landscapedef/LandscapeDefinitionsBase.h>
 #include <engine/ModFiles.h>
 #include <common/Defines.h>
@@ -522,7 +522,7 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 
 	std::string texts;
 	std::list<std::string> &textsList = 
-		ServerTextHandler::instance()->getLastMessages();
+		ServerChannelManager::instance()->getLastMessages();
 	std::list<std::string>::iterator textsListItor;
 	for (textsListItor = textsList.begin();
 		textsListItor != textsList.end();

@@ -131,10 +131,15 @@ bool GLWidget::initFromXML(XMLNode *node)
 	node->getNamedChild("visible", visible_, false);
 	node->getNamedChild("tooltiptransparent", tooltipTransparent_, false);
 
-	if (!node->getNamedChild("x", x_)) return false;
-	if (!node->getNamedChild("y", y_)) return false;
-	if (!node->getNamedChild("w", w_)) return false;
-	if (!node->getNamedChild("h", h_)) return false; 
+	float x, y, w, h;
+	if (!node->getNamedChild("x", x)) return false;
+	if (!node->getNamedChild("y", y)) return false;
+	if (!node->getNamedChild("w", w)) return false;
+	if (!node->getNamedChild("h", h)) return false; 
+	setX(x);
+	setY(y);
+	setW(w);
+	setH(h);
 
 	return true;
 }

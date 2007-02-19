@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,34 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_ChannelTexth_INCLUDE__)
+#define __INCLUDE_ChannelTexth_INCLUDE__
 
-#if !defined(__INCLUDE_ClientTextHandlerh_INCLUDE__)
-#define __INCLUDE_ClientTextHandlerh_INCLUDE__
+#include <string>
+#include <net/NetBuffer.h>
 
-#include <coms/ComsMessageHandler.h>
-
-class ClientTextHandler : 
-	public ComsMessageHandlerI
+class ChannelText
 {
 public:
-	static ClientTextHandler *instance();
+	ChannelText(
+		const char *channel = "", 
+		const char *message = "");
 
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
+	void setChannel(const char *channel) { channel_ = channel; }
+	void setMessage(const char *message) { message_ = message; }
+	void setPlayerId(unsigned int playerId) { playerId_ = playerId; }
+
+	const char *getChannel() { return channel_.c_str(); }
+	const char *getMessage() { return message_.c_str(); }
+    unsigned int getPlayerId() { return playerId_; }
+
+    bool writeMessage(NetBuffer &buffer);
+    bool readMessage(NetBufferReader &reader);
 
 protected:
-	static ClientTextHandler *instance_;
-
-private:
-	ClientTextHandler();
-	virtual ~ClientTextHandler();
-
+	unsigned int playerId_;
+	std::string channel_;
+	std::string message_;
 };
 
-
-#endif
+#endif // __INCLUDE_ChannelTexth_INCLUDE__

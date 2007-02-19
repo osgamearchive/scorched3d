@@ -39,7 +39,7 @@ void FileLogger::logMessage(LoggerInfo &info)
 	if (!logFile_) return;
 
 	// Log to file and flush file
-	size_ += info.getMessageLen();
+	size_ += strlen(info.getMessage());
 	fprintf(logFile_, "%s - %s\n", info.getTime(), info.getMessage());
 	fflush(logFile_);
 }

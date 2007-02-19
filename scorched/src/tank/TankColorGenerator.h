@@ -39,6 +39,7 @@ public:
 		Tank *currentTank = 0);
 	std::vector<Vector *> getAvailableColors(std::map<unsigned int, Tank *> &tanks,
 		Tank *currentTank = 0);
+	std::vector<Vector *> &getAllColors() { return availableColors_; }
 
 	static Vector &getTeamColor(int team);
 	static const char *getTeamName(int team);

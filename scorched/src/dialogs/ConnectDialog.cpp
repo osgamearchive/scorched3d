@@ -65,8 +65,7 @@ UniqueIdStore &ConnectDialog::getIdStore()
 		// Get the unique id
 		if (!idStore_->loadStore())
 		{
-			LoggerInfo info (LoggerInfo::TypeNormal, 
-				"Failed to load id store", "");
+			LoggerInfo info("Failed to load id store");
 			LogDialog::instance()->logMessage(info);
 		}
 	}

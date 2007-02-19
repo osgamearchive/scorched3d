@@ -47,7 +47,7 @@ public:
 	static bool &getDvorak();
 
 	KeyboardKey *getKey(const char *name);
-	std::list<KeyboardKey *> &getKeyList() { return keyList_; }
+	std::list<std::string> &getKeyList() { return keyList_; }
 	std::list<KeyboardKey *> &getCommandKeys() { return commandKeys_; }
 	std::map<std::string, KeyboardKey *> &getKeyMap() { return keyMap_; }
 			                       
@@ -57,12 +57,11 @@ protected:
 	KeyboardHistory::HistoryElement keybHist_[MAX_KEYBDHIST];
 	int keybHistCnt_;
 	void clear();
-	bool loadKeyFile(const char *fileName, 
-		std::map<std::string, KeyboardKey *> &usedKeyMap);
+	bool loadKeyFile(const char *fileName, bool masterFile);
 
 	std::map<std::string, KeyboardKey *> keyMap_;
 	std::list<KeyboardKey *> commandKeys_;
-	std::list<KeyboardKey *> keyList_;
+	std::list<std::string> keyList_;
                        
 private:
 	Keyboard();

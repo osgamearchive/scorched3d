@@ -82,15 +82,13 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 		unsigned int tris = GLInfo::getNoTriangles();
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
-			Logger::log(LoggerInfo(LoggerInfo::TypePerformance, 
-				formatString("%.2f FPS", fps)));
-			Logger::log(LoggerInfo(LoggerInfo::TypeNormal, 
-				formatString("%iTRI %iPART %iSQR %iSND %uSHD", 
+			Logger::log(formatString("%.2f FPS", fps));
+			Logger::log(formatString("%iTRI %iPART %iSQR %iSND %uSHD", 
 					tris,
 					pOnScreen,
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
 					Sound::instance()->getPlayingChannels(),
-					Landscape::instance()->getShadowMap().getShadowCount())));
+					Landscape::instance()->getShadowMap().getShadowCount()));
 		}
 
 	}

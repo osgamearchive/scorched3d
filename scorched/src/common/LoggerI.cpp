@@ -21,14 +21,8 @@
 #include <common/LoggerI.h>
 
 LoggerInfo::LoggerInfo(
-	LogType type,
 	const char *message, 
 	const char *time) : 
-	type_(type),
-	playerId_(0),
-	otherPlayerId_(0),
-	infoLen_(0),
-	icon_(0),
 	message_(message),
 	time_(time)
 {
@@ -39,29 +33,8 @@ void LoggerInfo::setMessage(const char *message)
 	message_ = message;
 }
 
-void LoggerInfo::setInfoLen(unsigned int infoLen)
-{
-	infoLen_ = infoLen;
-}
-
 void LoggerInfo::setTime(const char *time)
 {
 	time_ = time;
 }
-
-void LoggerInfo::setIcon(GLTexture *icon)
-{
-	icon_ = icon;
-}
-
-void LoggerInfo::setPlayerId(unsigned int playerId)
-{
-	playerId_ = playerId;
-}
-
-void LoggerInfo::setOtherPlayerId(unsigned int playerId)
-{
-	otherPlayerId_ = playerId;
-}
-
 

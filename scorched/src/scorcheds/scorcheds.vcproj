@@ -350,6 +350,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\ChannelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelText.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\Clock.cpp"
 				>
 			</File>
@@ -754,6 +770,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerChannelFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelFilter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerCommon.cpp"
 				>
 			</File>
@@ -1010,14 +1042,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\server\ServerTextHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\server\ServerTextHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\server\ServerTimedMessage.cpp"
 				>
 			</File>
@@ -1091,6 +1115,22 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsBuyAccessoryMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelTextMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsChannelTextMessage.h"
 				>
 			</File>
 			<File
@@ -1331,14 +1371,6 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsTargetStateMessage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTextMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTextMessage.h"
 				>
 			</File>
 			<File

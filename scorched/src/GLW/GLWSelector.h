@@ -38,9 +38,11 @@ public:
 		ToolTip *tooltip = 0, 
 		bool selected = false,
 		GLTexture *icon = 0,
-		void *userData = 0);
+		void *userData = 0,
+		const char *dataText = "");
 	
 	const char *getText() { return text_.c_str(); }
+	const char *getDataText() { return dataText_.c_str(); }
 	ToolTip *getToolTip() { return tip_; }
 	GLTexture *getIcon() { return icon_; }
 	bool getSelected() { return selected_; }
@@ -52,6 +54,7 @@ public:
 	
 protected:
 	std::string text_;
+	std::string dataText_;
 	GLTexture *icon_;
 	int textureWidth_;
 	ToolTip *tip_;

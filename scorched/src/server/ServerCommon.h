@@ -27,8 +27,8 @@
 namespace ServerCommon
 {
 	void startFileLogger();
-	void sendString(unsigned int destinationId, const char *text, bool logMessage = true);
-	void sendStringMessage(unsigned int destinationId, const char *text, bool logMessage = true);
+	void sendString(unsigned int destinationId, const char *text);
+	void sendStringMessage(unsigned int destinationId, const char *text);
 	void sendStringAdmin(const char *text);
 	void serverLog(const char *text);
 	void kickDestination(unsigned int destinationId, const char *message = "");

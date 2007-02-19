@@ -18,48 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_ComsTextMessageh_INCLUDE__)
-#define __INCLUDE_ComsTextMessageh_INCLUDE__
+#if !defined(__INCLUDE_ComsChannelMessageh_INCLUDE__)
+#define __INCLUDE_ComsChannelMessageh_INCLUDE__
 
 #include <coms/ComsMessage.h>
-#include <common/Vector.h>
+#include <list>
 
-class ComsTextMessage : public ComsMessage
+class ComsChannelMessage : public ComsMessage
 {
 public:
-	ComsTextMessage(const char *text = "",
-		unsigned int playerId = 0,
-		bool showAsMessage = false,
-		bool teamOnlyMessage = false,
-		unsigned int infoLen = 0,
-		unsigned int toPlayerId = 0);
-	virtual ~ComsTextMessage();
+	enum RequestType
+	{
+		eNoRequest = 0,
+		eRegisterRequest = 1,
+		eDeregisterRequest = 2,
+		eJoinRequest = 3
+	};
 
-	const char *getText() { return text_.c_str(); }
-	unsigned int getPlayerId() { return playerId_; }
-	unsigned int getToPlayerId() { return toPlayerId_; }
-	unsigned int getInfoLen() { return infoLen_; }
-	bool getShowAsMessage() { return showAsMessage_; }
-	bool getTeamOnlyMessage() { return teamOnlyMessage_; }
+	ComsChannelMessage();
+	ComsChannelMessage(RequestType type, unsigned int id);
+	virtual ~ComsChannelMessage();
+
+	RequestType getType() { return type_; }
+	unsigned int getId() { return id_; }
+	std::list<std::string> &getChannels() { return channels_; }
+	std::list<std::string> &getAvailableChannels() { return availableChannels_;	}
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	std::string text_;
-	unsigned int playerId_;
-	unsigned int toPlayerId_;
-	unsigned int infoLen_;
-	bool showAsMessage_;
-	bool teamOnlyMessage_;
+	RequestType type_;
+	unsigned int id_;
+	std::list<std::string> channels_;
+	std::list<std::string> availableChannels_;
 
 private:
-	ComsTextMessage(const ComsTextMessage &);
-	const ComsTextMessage & operator=(const ComsTextMessage &);
+	ComsChannelMessage(const ComsChannelMessage &);
+	const ComsChannelMessage & operator=(const ComsChannelMessage &);
 
 };
-
 
 #endif

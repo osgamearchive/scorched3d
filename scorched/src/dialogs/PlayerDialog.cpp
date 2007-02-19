@@ -322,10 +322,7 @@ void PlayerDialog::nextPlayer()
 			itor++)
 		{
 			Vector &color = *(*itor);
-			GLWSelectorEntry entry("", 0, false, &colorTexture_, 0);
-			entry.getColor() = color;
-			entry.getTextureWidth() = 32;
-			colorDropDown_->addEntry(entry);
+			colorDropDown_->addColor(color);
 		}
 
 		if (ClientParams::instance()->getConnectedToServer())

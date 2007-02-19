@@ -26,8 +26,7 @@
 #include <tank/TankColorGenerator.h>
 #include <tank/TankScore.h>
 #include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
+#include <common/ChannelManager.h>
 #include <common/OptionsScorched.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveWin);
@@ -81,11 +80,12 @@ void WeaponGiveWin::weaponCallback(
 
 		if (!context.serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 				formatString("%s team %s and won the game", 
 				TankColorGenerator::getTeamName(team), 
 				objective_.c_str()));
-			Logger::log(info);
+			//info.setPlayerId(weaponContext.getPlayerId());
+			ChannelManager::showText(text);
 		}
 	}
 	else
@@ -97,11 +97,11 @@ void WeaponGiveWin::weaponCallback(
 
 		if (!context.serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 				formatString("\"%s\" %s and won the game", 
 				tank->getName(), objective_.c_str()));
-			info.setPlayerId(weaponContext.getPlayerId());
-			Logger::log(info);
+			//info.setPlayerId(weaponContext.getPlayerId());
+			ChannelManager::showText(text);
 		}
 	}
 }

@@ -25,8 +25,7 @@
 #include <tank/TankTeamScore.h>
 #include <tank/TankScore.h>
 #include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
+#include <common/ChannelManager.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponGiveScore);
 
@@ -75,19 +74,19 @@ void WeaponGiveScore::weaponCallback(
 	{
 		if (score_ > 0)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 				formatString("\"%s\" received %i bonus score", 
 				tank->getName(), score_));
-			info.setPlayerId(weaponContext.getPlayerId());
-			Logger::log(info);
+			//info.setPlayerId(weaponContext.getPlayerId());
+			ChannelManager::showText(text);
 		}
 		else
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 				formatString("\"%s\" lost %i bonus score", 
 				tank->getName(), -score_));
-			info.setPlayerId(weaponContext.getPlayerId());
-			Logger::log(info);
+			//info.setPlayerId(weaponContext.getPlayerId());
+			ChannelManager::showText(text);
 		}
 	}
 }

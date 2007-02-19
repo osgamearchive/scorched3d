@@ -28,7 +28,7 @@ class GLPng : public GLImage
 {
 public:
 	GLPng();
-	GLPng(const char *filename);
+	GLPng(const char *filename, bool readalpha = false);
 	GLPng(const char *filename, const char *alphafilename, bool invert = true);
 	virtual ~GLPng();
 
@@ -40,8 +40,8 @@ public:
 
 	void clear();
 	void createBlank(int width, int height, bool alpha = false, unsigned char fill = 255);
-	bool loadFromFile(const char *filename);
-	bool loadFromBuffer(NetBuffer &buffer);
+	bool loadFromFile(const char *filename, bool readalpha = false);
+	bool loadFromBuffer(NetBuffer &buffer, bool readalpha = false);
 
 protected:
 	unsigned char *bits_;

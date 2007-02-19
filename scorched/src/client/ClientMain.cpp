@@ -22,9 +22,10 @@
 #include <client/ClientDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientAdmin.h>
+#include <client/ClientParams.h>
+#include <client/ClientChannelManager.h>
 #include <client/ClientGameStoppedHandler.h>
 #include <client/ClientMessageHandler.h>
-#include <client/ClientTextHandler.h>
 #include <client/ClientConnectionRejectHandler.h>
 #include <client/ClientGiftMoneyHandler.h>
 #include <client/ClientLinesHandler.h>
@@ -71,7 +72,6 @@
 #include <common/ARGParser.h>
 #include <common/Keyboard.h>
 #include <common/Logger.h>
-#include <client/ClientParams.h>
 #include <common/OptionsScorched.h>
 #include <common/Keyboard.h>
 #include <common/ProgressCounter.h>
@@ -151,7 +151,7 @@ bool startClient(ProgressCounter *progressCounter)
 		&ScorchedClient::instance()->getComsMessageHandler());
 	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(
 		ClientMessageHandler::instance());
-	ClientTextHandler::instance();
+	ClientChannelManager::instance();
 	ClientConnectionRejectHandler::instance();
 	ClientGiftMoneyHandler::instance();
 	ClientLinesHandler::instance();

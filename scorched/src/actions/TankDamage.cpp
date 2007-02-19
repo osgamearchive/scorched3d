@@ -25,8 +25,7 @@
 #include <sprites/TextActionRenderer.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
-#include <common/LoggerI.h>
-#include <common/Logger.h>
+#include <common/ChannelManager.h>
 #include <common/StatsLogger.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
@@ -436,14 +435,14 @@ void TankDamage::logDeath()
 				weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 			if (!context_->serverMode)
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
+				ChannelText text("combat", 
 					formatString("\"%s\" killed self with a %s",
 						killedTank->getName(),
 						weapon_->getParent()->getName()));
-				info.setPlayerId(firedPlayerId);
-				info.setOtherPlayerId(damagedPlayerId_);
-				info.setIcon(weaponTexture);
-				Logger::log(info);
+				//info.setPlayerId(firedPlayerId);
+				//info.setOtherPlayerId(damagedPlayerId_);
+				//info.setIcon(weaponTexture);
+				ChannelManager::showText(text);
 			}
 		}
 		else if ((context_->optionsGame->getTeams() > 1) &&
@@ -455,15 +454,15 @@ void TankDamage::logDeath()
 				weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 			if (!context_->serverMode)
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
+				ChannelText text("combat", 
 					formatString("\"%s\" team killed \"%s\" with a %s",
 						firedTank->getName(),
 						killedTank->getName(),
 						weapon_->getParent()->getName()));
-				info.setPlayerId(firedPlayerId);
-				info.setOtherPlayerId(damagedPlayerId_);
-				info.setIcon(weaponTexture);
-				Logger::log(info);
+				//info.setPlayerId(firedPlayerId);
+				//info.setOtherPlayerId(damagedPlayerId_);
+				//info.setIcon(weaponTexture);
+				ChannelManager::showText(text);
 			}
 		}
 		else
@@ -474,16 +473,16 @@ void TankDamage::logDeath()
 				weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 			if (!context_->serverMode)
 			{
-				LoggerInfo info(LoggerInfo::TypeDeath,
+				ChannelText text("combat", 
 					formatString("\"%s\" %skilled \"%s\" with a %s",
 					firedTank->getName(),
 					((firedTank->getScore().getTurnKills() > 1)?"multi-":""),
 					killedTank->getName(),
 					weapon_->getParent()->getName()));
-				info.setPlayerId(firedPlayerId);
-				info.setOtherPlayerId(damagedPlayerId_);
-				info.setIcon(weaponTexture);
-				Logger::log(info);
+				//info.setPlayerId(firedPlayerId);
+				//info.setOtherPlayerId(damagedPlayerId_);
+				//info.setIcon(weaponTexture);
+				ChannelManager::showText(text);
 			}
 		}
 	}
@@ -498,16 +497,16 @@ void TankDamage::logDeath()
 			weaponKilled(weapon_, (weaponContext_.getData() & Weapon::eDataDeathAnimation));
 		if (!context_->serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat", 
 					formatString("\"%s\" %skilled \"%s\" with a \"%s\"",
 				firedTank.getName(),
 				((firedTank.getScore().getTurnKills() > 1)?"multi-":""),
 				killedTank->getName(),
 				weapon_->getParent()->getName()));
-			info.setPlayerId(firedPlayerId);
-			info.setOtherPlayerId(damagedPlayerId_);
-			info.setIcon(weaponTexture);
-			Logger::log(info);
+			//info.setPlayerId(firedPlayerId);
+			//info.setOtherPlayerId(damagedPlayerId_);
+			//info.setIcon(weaponTexture);
+			ChannelManager::showText(text);
 		}
 	}
 }

@@ -22,7 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerMessageHandler.h>
-#include <server/ServerTextHandler.h>
+#include <server/ServerChannelManager.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankScore.h>
@@ -32,7 +32,6 @@
 #include <common/Logger.h>
 #include <common/FileLogger.h>
 #include <common/Defines.h>
-#include <coms/ComsTextMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectRejectMessage.h>
 #include <net/NetInterface.h>
@@ -61,89 +60,36 @@ void ServerCommon::startFileLogger()
 	}	
 }
 
-void ServerCommon::sendStringMessage(unsigned int dest, const char *text, bool blogMessage)
+void ServerCommon::sendStringMessage(unsigned int destinationId, const char *text)
 {
-	// Remove any bad characters
-	for (char *r = (char *) text; *r; r++)
+	ChannelText message("banner", text);
+	if (destinationId == 0)
 	{
-		if (*r == '%') *r = ' ';
-		if (*r < 0) *r = ' ';
-	}
-
-	if (blogMessage)
-	{
-		const char *logMessage = formatString("Messages : %s", text);
-		ServerTextHandler::instance()->addMessage(logMessage);
-		ServerCommon::serverLog(logMessage);
-	}
-
-	ComsTextMessage message(text, 0, true);
-	if (dest == 0)
-	{
-		ComsMessageSender::sendToAllConnectedClients(message);
+		ServerChannelManager::instance()->sendText(message);
 	}
 	else
 	{
-		ComsMessageSender::sendToSingleClient(message, dest);
+		ServerChannelManager::instance()->sendText(message, destinationId);
 	}
 }
 
-void ServerCommon::sendString(unsigned int dest, const char *text, bool blogMessage)
+void ServerCommon::sendString(unsigned int destinationId, const char *text)
 {
-	// Remove any bad characters
-	for (char *r = (char *) text; *r; r++)
+	ChannelText message("info", text);
+	if (destinationId == 0)
 	{
-		if (*r == '%') *r = ' ';
-		if (*r < 0) *r = ' ';
-	}
-
-	if (blogMessage)
-	{
-		const char *logMessage = formatString("Says : %s", text);
-		ServerTextHandler::instance()->addMessage(logMessage);
-		ServerCommon::serverLog(logMessage);
-	}
-
-	ComsTextMessage message(text);
-	if (dest == 0)
-	{
-		ComsMessageSender::sendToAllConnectedClients(message);
+		ServerChannelManager::instance()->sendText(message);
 	}
 	else
 	{
-		ComsMessageSender::sendToSingleClient(message, dest);
+		ServerChannelManager::instance()->sendText(message, destinationId);
 	}
 }
 
 void ServerCommon::sendStringAdmin(const char *text)
 {
-	// Remove any bad characters
-	for (char *r = (char *) text; *r; r++)
-	{
-		if (*r == '%') *r = ' ';
-		if (*r < 0) *r = ' ';
-	}
-
-	const char *logMessage = formatString("Admin Says : %s", text);
-	ServerTextHandler::instance()->addMessage(logMessage);
-	ServerCommon::serverLog(logMessage);
-
-	std::map<unsigned int, Tank *> &tanks = 
-		ScorchedServer::instance()->	
-			getTankContainer().getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator itor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
-		itor++)
-	{
-		Tank *tank = (*itor).second;
-		if (tank->getState().getAdmin())
-		{
-			ServerCommon::sendString(
-				tank->getDestinationId(), 
-				formatString("(Admin) %s", text), false);
-		}
-	}
+	ChannelText message("admin", text);
+	ServerChannelManager::instance()->sendText(message);
 }
 
 void ServerCommon::poorPlayer(unsigned int playerId)
@@ -152,7 +98,7 @@ void ServerCommon::poorPlayer(unsigned int playerId)
 		getTankContainer().getTankById(playerId);
 	if (tank)
 	{
-		ServerCommon::sendString(0,
+		ServerCommon::sendString(0, 
 			formatString("admin poor \"%s\"",
 			tank->getName()));
 

@@ -42,7 +42,6 @@
 #include <server/ServerLinesHandler.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ServerPlayerReadyHandler.h>
-#include <server/ServerTextHandler.h>
 #include <server/ServerGiftMoneyHandler.h>
 #include <server/ServerDefenseHandler.h>
 #include <server/ServerPlayedMoveHandler.h>
@@ -54,6 +53,7 @@
 #include <server/ServerKeepAliveHandler.h>
 #include <server/ServerFileAkHandler.h>
 #include <server/ServerInitializeHandler.h>
+#include <server/ServerChannelManager.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
@@ -129,7 +129,7 @@ bool startServer(bool local, ProgressCounter *counter)
 		ServerMessageHandler::instance());
 	ServerConnectHandler::instance();
 	ServerLinesHandler::instance();
-	ServerTextHandler::instance();
+	ServerChannelManager::instance();
 	ServerGiftMoneyHandler::instance();
 	ServerPlayerReadyHandler::instance();
 	ServerPlayerAimHandler::instance();

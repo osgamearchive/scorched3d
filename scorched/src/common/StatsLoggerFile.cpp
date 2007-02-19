@@ -62,7 +62,7 @@ void StatsLoggerFile::gameStart(std::list<Tank *> &tanks)
 	char *nl = strchr(time, '\n'); 
 	if (nl) *nl = '\0';
 
-	LoggerInfo info(LoggerInfo::TypeNormal, "startgame", time);
+	LoggerInfo info("startgame", time);
 	statsLogger_->logMessage(info);
 }
 
@@ -76,7 +76,7 @@ void StatsLoggerFile::roundStart(std::list<Tank *> &tanks)
 	char *nl = strchr(time, '\n'); 
 	if (nl) *nl = '\0';
 
-	LoggerInfo info(LoggerInfo::TypeNormal, "startround", time);
+	LoggerInfo info("startround", time);
 	statsLogger_->logMessage(info);
 }
 
@@ -133,7 +133,7 @@ void StatsLoggerFile::tankFired(Tank *firedTank, Weapon *weapon)
 		firedTank->getName(), firedTank->getUniqueId(),
 		weapon->getParent()->getName());
 
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -150,7 +150,7 @@ void StatsLoggerFile::tankResigned(Tank *resignedTank)
 	char message[1024];
 	snprintf(message, 1024, "resigined \"%s\" [%s]", 
 		resignedTank->getName(), resignedTank->getUniqueId());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -167,7 +167,7 @@ void StatsLoggerFile::tankJoined(Tank *tank)
 	char message[1024];
 	snprintf(message, 1024, "joined \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -184,7 +184,7 @@ void StatsLoggerFile::tankConnected(Tank *tank)
 	char message[1024];
 	snprintf(message, 1024, "connected \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -201,7 +201,7 @@ void StatsLoggerFile::tankDisconnected(Tank *tank)
 	char message[1024];
 	snprintf(message, 1024, "disconnected \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -220,7 +220,7 @@ void StatsLoggerFile::tankKilled(Tank *firedTank, Tank *deadTank, Weapon *weapon
 		firedTank->getName(), firedTank->getUniqueId(),
 		deadTank->getName(), deadTank->getUniqueId(),
 		weapon->getParent()->getName());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -239,7 +239,7 @@ void StatsLoggerFile::tankTeamKilled(Tank *firedTank, Tank *deadTank, Weapon *we
 		firedTank->getName(), firedTank->getUniqueId(),
 		deadTank->getName(), deadTank->getUniqueId(),
 		weapon->getParent()->getName());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -257,7 +257,7 @@ void StatsLoggerFile::tankSelfKilled(Tank *firedTank, Weapon *weapon)
 	snprintf(message, 1024, "selfkilled \"%s\" [%s] \"%s\"", 
 		firedTank->getName(), firedTank->getUniqueId(),
 		weapon->getParent()->getName());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -274,7 +274,7 @@ void StatsLoggerFile::tankWon(Tank *tank)
 	char message[1024];
 	snprintf(message, 1024, "won \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -291,7 +291,7 @@ void StatsLoggerFile::tankOverallWinner(Tank *tank)
 	char message[1024];
 	snprintf(message, 1024, "overallwinner \"%s\" [%s]", 
 		tank->getName(), tank->getUniqueId());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -307,7 +307,7 @@ void StatsLoggerFile::weaponFired(Weapon *weapon, bool deathAni)
 
 	char message[1024];
 	snprintf(message, 1024, "weaponfired \"%s\"", weapon->getParent()->getName());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }
 
@@ -323,6 +323,6 @@ void StatsLoggerFile::weaponKilled(Weapon *weapon, bool deathAni)
 
 	char message[1024];
 	snprintf(message, 1024, "weaponkilled \"%s\"", weapon->getParent()->getName());
-	LoggerInfo info(LoggerInfo::TypeNormal, message, time);
+	LoggerInfo info(message, time);
 	statsLogger_->logMessage(info);
 }

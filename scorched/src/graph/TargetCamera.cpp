@@ -40,6 +40,7 @@
 #include <tank/TankPosition.h>
 #include <tank/TankAccessories.h>
 #include <target/TargetLife.h>
+#include <common/ChannelManager.h>
 #include <common/Keyboard.h>
 #include <common/Logger.h>
 #include <common/LoggerI.h>
@@ -642,8 +643,8 @@ void TargetCamera::keyboardCheck(float frameTime,
 	if (limitKey->keyDown(buffer, keyState, false))
 	{	
 		useHeightFunc_ = !useHeightFunc_;
-		Logger::log(LoggerInfo(LoggerInfo::TypePerformance,
-			formatString("Restricted camera movement : %s", 
+		ChannelManager::showText(
+			ChannelText("info", formatString("Restricted camera movement : %s", 
 			(useHeightFunc_?"On":"Off"))));
 	}
 	mainCam_.setUseHeightFunc(useHeightFunc_);

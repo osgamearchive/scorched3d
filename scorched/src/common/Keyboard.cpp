@@ -122,12 +122,14 @@ void Keyboard::clear()
 bool Keyboard::saveKeyFile()
 {
 	XMLNode keysNode("keys");
-	std::list<KeyboardKey *>::iterator itor;
+	std::list<std::string>::iterator itor;
 	for (itor = keyList_.begin();
 		itor != keyList_.end();
 		itor++)
 	{
-		KeyboardKey *key = (*itor);
+		KeyboardKey *key = getKey((*itor).c_str());
+		if (!key || !key->getChanged()) continue;
+
 		XMLNode *keyNode = new XMLNode("keyentry");
 		if (key->getNameIsCommand())
 			keyNode->addChild(new XMLNode("command", key->getName()));
@@ -164,20 +166,65 @@ bool Keyboard::saveKeyFile()
 
 bool Keyboard::loadKeyFile(bool loadDefaults)
 {
+	// Empty the current keys
 	clear();
-	std::map<std::string, KeyboardKey *> usedKeyMap_;
 
+	// Load the master list of keys
+	if (!loadKeyFile(getDataFile("data/keys.xml"), true)) return false;
+
+	// Replace with any custom keys
 	const char *fileName = getSettingsFile("keys.xml");
 	if (s3d_fileExists(fileName) && !loadDefaults)
 	{
-		if (!loadKeyFile(fileName, usedKeyMap_)) return false;
+		if (!loadKeyFile(fileName, false)) return false;
 	}
-	if (!loadKeyFile(getDataFile("data/keys.xml"), usedKeyMap_)) return false;
+
+	// Build the command list
+	std::map<std::string, KeyboardKey *>::iterator keyItor;
+	for (keyItor = keyMap_.begin();
+		keyItor != keyMap_.end();
+		keyItor++)
+	{
+		KeyboardKey *key = keyItor->second;		
+
+		// Add a command
+		if (key->getNameIsCommand()) commandKeys_.push_back(key);
+
+		// Find if this key is already in use
+		std::map<std::string, KeyboardKey *>::iterator dupeItor;
+		for (dupeItor = keyMap_.begin();
+			dupeItor != keyMap_.end();
+			dupeItor++)
+		{
+			KeyboardKey *dupe = dupeItor->second;
+			if (dupe == key) continue;
+
+			std::vector<KeyboardKey::KeyEntry> &dupeKeys = dupe->getKeys();
+			std::vector<KeyboardKey::KeyEntry>::iterator itor;
+			for (itor = dupeKeys.begin();
+				itor != dupeKeys.end();
+				itor++)
+			{
+				KeyboardKey::KeyEntry &entry = *itor;
+				if (key->hasKey(entry.key, entry.state))
+				{
+					const char *keyName = "", *stateName = "";
+					KeyboardKey::translateKeyNameValue(entry.key, keyName);
+					KeyboardKey::translateKeyStateValue(entry.state, stateName);
+
+					dialogMessage("Keyboard", formatString(
+								  "Key \"%s\" and state \"%s\" defined for \"%s\" was also defined for \"%s\"",
+								  keyName, stateName, key->getName(), dupe->getName()));
+					return false;					
+				}
+			}
+		}
+	}
+
 	return true;
 }
 
-bool Keyboard::loadKeyFile(const char *fileName,
-	std::map<std::string, KeyboardKey *> &usedKeyMap)
+bool Keyboard::loadKeyFile(const char *fileName, bool masterFile)
 {
 	// Load key definition file
 	XMLFile file;
@@ -237,8 +284,40 @@ bool Keyboard::loadKeyFile(const char *fileName,
 			return false;
 		}
 
-		// Check to see if we have already loaded this entry
-		if (keyMap_.find(keyName) != keyMap_.end()) continue;
+		if (masterFile)
+		{
+			// We have already seen this key entry, 
+			// and we are loading the master key file.
+			std::map<std::string, KeyboardKey *>::iterator findItor =
+				keyMap_.find(keyName);
+			if (findItor != keyMap_.end())
+			{
+				// Delete it to make space for the new entry.
+				delete findItor->second;
+				keyMap_.erase(findItor);
+			}
+		}
+		else
+		{
+			// We have already seen this key entry, 
+			// and we are loading custom keys.
+			// Only load custom key entries for keys that we have already
+			// seen in the master file
+			std::map<std::string, KeyboardKey *>::iterator findItor =
+				keyMap_.find(keyName);
+			if (findItor != keyMap_.end())
+			{
+				// Delete it to make space for the new entry.
+				delete findItor->second;
+				keyMap_.erase(findItor);		
+			}
+			else
+			{
+				// This is not in the master file
+				// Ignore it
+				continue;
+			}
+		}
 		
 		// Get the description for the key
 		XMLNode *descNode;
@@ -254,49 +333,29 @@ bool Keyboard::loadKeyFile(const char *fileName,
 		if (!currentNode->getNamedChild("title", titleNode)) return false;
 		const char *keyTitle = titleNode->getContent();
 
-		// Create the key
-		KeyboardKey *newKey = new KeyboardKey(keyName, keyTitle, keyDesc, group, command);
-
 		// Add all the key names
 		XMLNode *currentKey = 0;
 		std::list<std::string> keyNames, keyStateNames;
 		while (currentNode->getNamedChild("key", currentKey, false))
 		{
-				const char *state = "NONE";
-				XMLNode *stateNode;
-				if (currentKey->getNamedParameter("state", stateNode, false)) 
-					state = stateNode->getContent();
+			const char *state = "NONE";
+			XMLNode *stateNode;
+			if (currentKey->getNamedParameter("state", stateNode, false)) 
+			state = stateNode->getContent();
 
-				// Add a key and state
-				keyNames.push_back(currentKey->getContent());
-				keyStateNames.push_back(state);
-
-				// Check the key is not already in use
-				std::string wholeKey;
-				wholeKey += state;
-				wholeKey += ":";
-				wholeKey += currentKey->getContent();
-				std::map<std::string, KeyboardKey *>::iterator useditor =
-					usedKeyMap.find(wholeKey);
-				if (useditor != usedKeyMap.end())
-				{
-					KeyboardKey *usedKey = (*useditor).second;
-					dialogMessage("Keyboard", formatString(
-								  "Key \"%s\" and state \"%s\" defined for \"%s\" was already defined for \"%s\"",
-								  currentKey->getContent(), state, keyName, usedKey->getName()));
-					return false;					
-				}
-				usedKeyMap[wholeKey] = newKey;
+			// Add a key and state
+			keyNames.push_back(currentKey->getContent());
+			keyStateNames.push_back(state);
 		}
 
-		// Actually add the key
+		// Create the key
+		KeyboardKey *newKey = new KeyboardKey(keyName, keyTitle, keyDesc, group, command);
 		if (!newKey->addKeys(keyNames, keyStateNames)) return false;
-		
+		if (masterFile) newKey->setChanged(false);
+
 		// Add to the list of pre-defined keys
 		keyMap_[keyName] = newKey;
-		keyList_.push_back(newKey);
-		if (command) commandKeys_.push_back(newKey);
-
+		if (masterFile) keyList_.push_back(keyName);
 		if (!currentNode->failChildren()) return false;
 	}
 

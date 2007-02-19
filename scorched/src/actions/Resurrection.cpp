@@ -22,8 +22,7 @@
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <landscapemap/DeformLandscape.h>
-#include <common/Logger.h>
-#include <common/LoggerI.h>
+#include <common/ChannelManager.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <target/TargetLife.h>
@@ -55,12 +54,12 @@ void Resurrection::simulate(float frameTime, bool &remove)
 #ifndef S3D_SERVER
 		if (!context_->serverMode)
 		{
-			LoggerInfo info(LoggerInfo::TypeDeath,
+			ChannelText text("combat",
 				formatString("\"%s\" was resurrected, %i lives remaining",
 					tank->getName(),
 					tank->getState().getLives()));
-			info.setPlayerId(playerId_);
-			Logger::log(info);
+			//info.setPlayerId(playerId_);
+			ChannelManager::showText(text);
 		}
 #endif
 

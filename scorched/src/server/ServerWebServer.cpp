@@ -333,7 +333,7 @@ void ServerWebServer::processMessage(NetMessage &message)
 							}
 						}
 
-						LoggerInfo info(LoggerInfo::TypeNormal,
+						LoggerInfo info(
 							formatString("%u %s http://%s [%s]", 
 							message.getDestinationId(), 
 							username.c_str(), url, f.c_str()),
