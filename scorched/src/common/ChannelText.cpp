@@ -42,3 +42,8 @@ bool ChannelText::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(playerId_)) return false;
 	return true;
 }
+
+ChannelDefinition::ChannelDefinition(const char *c, unsigned int t) :
+	channel_(c), type_(t)
+{
+}

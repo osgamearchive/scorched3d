@@ -24,6 +24,28 @@
 #include <string>
 #include <net/NetBuffer.h>
 
+class ChannelDefinition
+{
+public:
+	enum ChannelDefinitionTypes
+	{
+		eReadOnlyChannel = 1
+	};
+
+	ChannelDefinition(const char *channel = "", 
+		unsigned int type = 0);
+
+	const char *getChannel() { return channel_.c_str(); }
+	void setChannel(const char *c) { channel_ = c; }
+
+	unsigned int getType() { return type_; }
+	void setType(unsigned int t) { type_ = t; }
+
+protected:
+	std::string channel_;
+	unsigned int type_;
+};
+
 class ChannelText
 {
 public:

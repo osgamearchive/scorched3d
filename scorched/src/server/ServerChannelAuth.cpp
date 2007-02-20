@@ -18,24 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientChannelManagerIh_INCLUDE__)
-#define __INCLUDE_ClientChannelManagerIh_INCLUDE__
+#include <server/ServerChannelAuth.h>
+#include <server/ScorchedServer.h>
+#include <tank/TankContainer.h>
+#include <tank/TankState.h>
 
-#include <list>
-#include <string>
-#include <common/ChannelText.h>
-
-class ClientChannelManagerI
+ServerChannelAuth::ServerChannelAuth()
 {
-public:
-	ClientChannelManagerI();
-	virtual ~ClientChannelManagerI();
+}
 
-	virtual void registeredForChannels(
-		std::list<ChannelDefinition> &registeredChannels,
-		std::list<ChannelDefinition> &availableChannels) = 0;
-	virtual void channelText(ChannelText &text) = 0;
+ServerChannelAuth::~ServerChannelAuth()
+{
+}
 
-};
+bool ServerChannelAuthAdmin::allowConnection(
+	const char *channel, unsigned int destination)
+{
+	std::map<unsigned int, Tank *> &tanks =
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = itor->second;
+		if (tank->getState().getAdmin() &&
+			tank->getDestinationId() == destination) return true;
+	}
 
-#endif
+	return false;
+}

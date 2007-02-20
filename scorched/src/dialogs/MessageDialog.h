@@ -42,8 +42,8 @@ public:
 	// ClientChannelManagerI
 	virtual void channelText(ChannelText &text);
 	virtual void registeredForChannels(
-		std::list<std::string> &registeredChannels,
-		std::list<std::string> &availableChannels);
+		std::list<ChannelDefinition> &registeredChannels,
+		std::list<ChannelDefinition> &availableChannels);
 
 protected:
 	static MessageDialog *instance_;

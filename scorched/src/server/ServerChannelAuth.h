@@ -18,24 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientChannelManagerIh_INCLUDE__)
-#define __INCLUDE_ClientChannelManagerIh_INCLUDE__
+#if !defined(__INCLUDE_ServerChannelAuthh_INCLUDE__)
+#define __INCLUDE_ServerChannelAuthh_INCLUDE__
 
-#include <list>
-#include <string>
 #include <common/ChannelText.h>
 
-class ClientChannelManagerI
+class ServerChannelAuth
 {
 public:
-	ClientChannelManagerI();
-	virtual ~ClientChannelManagerI();
+	ServerChannelAuth();
+	virtual ~ServerChannelAuth();
 
-	virtual void registeredForChannels(
-		std::list<ChannelDefinition> &registeredChannels,
-		std::list<ChannelDefinition> &availableChannels) = 0;
-	virtual void channelText(ChannelText &text) = 0;
+	virtual bool allowConnection(const char *channel, unsigned int destination) = 0;
+};
 
+class ServerChannelAuthAdmin : public ServerChannelAuth
+{
+	virtual bool allowConnection(const char *channel, unsigned int destination);
 };
 
 #endif

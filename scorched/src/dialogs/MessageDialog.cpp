@@ -57,8 +57,8 @@ void MessageDialog::channelText(ChannelText &text)
 }
 
 void MessageDialog::registeredForChannels(
-	std::list<std::string> &registeredChannels,
-	std::list<std::string> &availableChannels)
+	std::list<ChannelDefinition> &registeredChannels,
+	std::list<ChannelDefinition> &availableChannels)
 {
 }
 

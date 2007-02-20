@@ -22,6 +22,7 @@
 #define __INCLUDE_ComsChannelMessageh_INCLUDE__
 
 #include <coms/ComsMessage.h>
+#include <common/ChannelText.h>
 #include <list>
 
 class ComsChannelMessage : public ComsMessage
@@ -41,8 +42,8 @@ public:
 
 	RequestType getType() { return type_; }
 	unsigned int getId() { return id_; }
-	std::list<std::string> &getChannels() { return channels_; }
-	std::list<std::string> &getAvailableChannels() { return availableChannels_;	}
+	std::list<ChannelDefinition> &getChannels() { return channels_; }
+	std::list<ChannelDefinition> &getAvailableChannels() { return availableChannels_;	}
 
 	// Inherited from ComsMessage
     virtual bool writeMessage(NetBuffer &buffer);
@@ -51,8 +52,8 @@ public:
 protected:
 	RequestType type_;
 	unsigned int id_;
-	std::list<std::string> channels_;
-	std::list<std::string> availableChannels_;
+	std::list<ChannelDefinition> channels_;
+	std::list<ChannelDefinition> availableChannels_;
 
 private:
 	ComsChannelMessage(const ComsChannelMessage &);

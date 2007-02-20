@@ -29,10 +29,12 @@
 #include <tank/TankState.h>
 
 ServerChannelManager::ChannelEntry::ChannelEntry(
-	const char *channelName,
-	ServerChannelFilter *filter) :
-	channelName_(channelName),
-	filter_(filter)
+	ChannelDefinition def,
+	ServerChannelFilter *filter,
+	ServerChannelAuth *auth) :
+	channelDef_(def),
+	filter_(filter),
+	auth_(auth)
 {
 }
 
@@ -140,13 +142,23 @@ ServerChannelManager::ServerChannelManager()
 		this);
 
 	// Create some default channels
-	channelEntries_.push_back(new ChannelEntry("info"));
-	channelEntries_.push_back(new ChannelEntry("general"));
-	channelEntries_.push_back(new ChannelEntry("team", 
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("info", ChannelDefinition::eReadOnlyChannel)));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("general")));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("team"), 
 		new ServerChannelFilterTeams()));
-	channelEntries_.push_back(new ChannelEntry("spam"));
-	channelEntries_.push_back(new ChannelEntry("combat"));
-	channelEntries_.push_back(new ChannelEntry("banner"));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("spam")));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("combat", ChannelDefinition::eReadOnlyChannel)));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("banner", ChannelDefinition::eReadOnlyChannel)));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("admin"),
+		0, 
+		new ServerChannelAuthAdmin()));
 }
 
 ServerChannelManager::~ServerChannelManager()
@@ -186,7 +198,7 @@ ServerChannelManager::DestinationEntry *ServerChannelManager::getDestinationEntr
 }
 
 void ServerChannelManager::registerClient(unsigned int destinationId, unsigned int localId,
-	std::list<std::string> &startChannels)
+	std::list<ChannelDefinition> &startChannels)
 {
 	// Get the sender for this message
 	DestinationEntry *destEntry = getDestinationEntryById(destinationId);
@@ -219,7 +231,7 @@ void ServerChannelManager::deregisterClient(unsigned int destinationId, unsigned
 }
 
 void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int localId,
-	std::list<std::string> &startChannels)
+	std::list<ChannelDefinition> &startChannels)
 {
 	// Get the sender for this message
 	DestinationEntry *destEntry = getDestinationEntryById(destinationId);
@@ -235,32 +247,37 @@ void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int l
 	{
 		ChannelEntry *channelEntry = (*itor);
 
-		// TODO check if a user is allowed a channel at all
+		// Check if a user is allowed a channel at all
+		if (channelEntry->getAuth() &&
+			!channelEntry->getAuth()->allowConnection(
+			channelEntry->getName(), destinationId))
+		{
+			continue;
+		}
 
 		// Check if the user has asked for this channel
 		bool add = false;
-		std::list<std::string>::iterator startItor;
+		std::list<ChannelDefinition>::iterator startItor;
 		for (startItor = startChannels.begin();
 			startItor != startChannels.end();
 			startItor++)
 		{
-			std::string &startChannel = *startItor;
-			if (0 == strcmp(startChannel.c_str(), channelEntry->getName()))
+			const char *startChannel = startItor->getChannel();
+			if (0 == strcmp(startChannel, channelEntry->getName()))
 			{
 				add = true;
 				break;
 			}
 		}
 
-
 		if (add)
 		{
-			message.getChannels().push_back(channelEntry->getName());
+			message.getChannels().push_back(channelEntry->getDefinition());
 			destEntry->addChannel(channelEntry->getName(), localId);
 		}
 		else
 		{
-			message.getAvailableChannels().push_back(channelEntry->getName());
+			message.getAvailableChannels().push_back(channelEntry->getDefinition());
 			destEntry->removeChannel(channelEntry->getName(), localId);
 		}
 	}
@@ -336,7 +353,8 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 			{
 				ComsChannelTextMessage newTextMessage(text);
 				entry->getLocalIds(text.getChannel(), newTextMessage.getIds());
-				ComsMessageSender::sendToSingleClient(newTextMessage, entry->getDestinationId());
+				ComsMessageSender::sendToSingleClient(
+					newTextMessage, entry->getDestinationId());
 			}
 		}
 	}
@@ -379,16 +397,34 @@ bool ServerChannelManager::processMessage(
 		// Validate that this message came from this tank
 		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(
 			textMessage.getChannelText().getPlayerId());
-		if (!tank || tank->getDestinationId() != netNessage.getDestinationId()) return true;
+		if (!tank || tank->getDestinationId() != 
+			netNessage.getDestinationId()) return true;
 
 		// Check this tank has not been admin muted
 		if (tank->getState().getMuted()) return true;
 
 		// Check that this client has this channel
-		DestinationEntry *destEntry = getDestinationEntryById(netNessage.getDestinationId());
-		if (!destEntry || !destEntry->hasChannel(textMessage.getChannelText().getChannel()))
+		DestinationEntry *destEntry = 
+			getDestinationEntryById(netNessage.getDestinationId());
+		if (!destEntry || !destEntry->hasChannel(
+			textMessage.getChannelText().getChannel()))
 		{
 			// This client does not have this channel
+			return true;
+		}
+
+		// Check that this channel exists and is not a read only channel
+		ChannelEntry *channelEntry = getChannelEntryByName(
+			textMessage.getChannelText().getChannel());
+		if (!channelEntry)
+		{
+			// This channel does not exist
+			return true;
+		}
+		if (channelEntry->getDefinition().getType() & 
+			ChannelDefinition::eReadOnlyChannel)
+		{
+			// Cannot send to this channel from a client
 			return true;
 		}
 

@@ -40,26 +40,27 @@ bool ComsChannelMessage::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer((int) type_);
 	buffer.addToBuffer(id_);
 	buffer.addToBuffer((int) channels_.size());
-	std::list<std::string>::iterator itor;
+	std::list<ChannelDefinition>::iterator itor;
 	for (itor = channels_.begin();
 		itor != channels_.end();
 		itor++)
 	{
-		buffer.addToBuffer(*itor);
+		buffer.addToBuffer(itor->getType());
+		buffer.addToBuffer(itor->getChannel());
 	}
 	buffer.addToBuffer((int) availableChannels_.size());
 	for (itor = availableChannels_.begin();
 		itor != availableChannels_.end();
 		itor++)
 	{
-		buffer.addToBuffer(*itor);
+		buffer.addToBuffer(itor->getType());
+		buffer.addToBuffer(itor->getChannel());
 	}
 	return true;
 }
 
 bool ComsChannelMessage::readMessage(NetBufferReader &reader)
 {
-	std::string channel;
 	int type, size;
 	if (!reader.getFromBuffer(type)) return false;
 	type_ = (RequestType) type;
@@ -67,14 +68,22 @@ bool ComsChannelMessage::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(size)) return false;
 	for (int s=0; s<size; s++)
 	{
-		if (!reader.getFromBuffer(channel)) return false;
-		channels_.push_back(channel);
+		unsigned int channelType;
+		std::string channelChannel;
+		if (!reader.getFromBuffer(channelType)) return false;
+		if (!reader.getFromBuffer(channelChannel)) return false;
+		channels_.push_back(
+			ChannelDefinition(channelChannel.c_str(), channelType));
 	}
 	if (!reader.getFromBuffer(size)) return false;
 	for (int s=0; s<size; s++)
 	{
-		if (!reader.getFromBuffer(channel)) return false;
-		availableChannels_.push_back(channel);
+		unsigned int channelType;
+		std::string channelChannel;
+		if (!reader.getFromBuffer(channelType)) return false;
+		if (!reader.getFromBuffer(channelChannel)) return false;
+		availableChannels_.push_back(
+			ChannelDefinition(channelChannel.c_str(), channelType));
 	}
 	return true;
 }

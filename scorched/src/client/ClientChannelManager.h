@@ -57,7 +57,7 @@ protected:
 		ChannelEntry(ClientChannelManagerI *user);
 
 		ClientChannelManagerI *getUser() { return user_; }
-		void setChannels(std::list<std::string> &channels);
+		void setChannels(std::list<ChannelDefinition> &channels);
 		bool hasChannel(const char *channel);
 
 	protected:

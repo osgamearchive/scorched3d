@@ -28,14 +28,6 @@
 #include <common/Vector.h>
 #include <list>
 
-class GLWChannelViewEntry
-{
-public:
-	Vector color;
-	std::string text;
-	float timeRemaining;
-};
-
 class GLWChannelViewI
 {
 public:
@@ -50,11 +42,16 @@ class GLWChannelView :
 	public GLWButtonI
 {
 public:
-	class ChannelEntry
+	class BaseChannelEntry
+	{
+	public:
+		std::string channel;
+		unsigned int type;
+	};
+	class CurrentChannelEntry : public BaseChannelEntry
 	{
 	public:
 		Vector color;
-		std::string channel;
 		unsigned int id;
 	};
 
@@ -64,9 +61,9 @@ public:
 	bool getParentSized() { return parentSized_; }
 	bool initFromXMLInternal(XMLNode *node);
 
-	std::list<ChannelEntry> &getCurrentChannels() { return currentChannels_; }
-	std::list<std::string> &getAvailableChannels() { return availableChannels_; }
-	ChannelEntry *getChannel(const char *channelName);
+	std::list<CurrentChannelEntry> &getCurrentChannels() { return currentChannels_; }
+	std::list<BaseChannelEntry> &getAvailableChannels() { return availableChannels_; }
+	CurrentChannelEntry *getChannel(const char *channelName);
 
 	void joinChannel(const char *channelName);
 	void leaveChannel(const char *channelName);
@@ -89,8 +86,8 @@ public:
 	// ClientChannelManagerI
 	virtual void channelText(ChannelText &text);
 	virtual void registeredForChannels(
-		std::list<std::string> &registeredChannels,
-		std::list<std::string> &availableChannels);
+		std::list<ChannelDefinition> &registeredChannels,
+		std::list<ChannelDefinition> &availableChannels);
 
 	// ButtonI
 	virtual void buttonDown(unsigned int id);
@@ -98,6 +95,14 @@ public:
 	REGISTER_CLASS_HEADER(GLWChannelView);
 
 protected:
+	class GLWChannelViewEntry
+	{
+	public:
+		Vector color;
+		std::string text;
+		float timeRemaining;
+	};
+
 	GLWChannelViewI *handler_;
 	GLWIconButton upButton_;
 	GLWIconButton downButton_;
@@ -122,8 +127,8 @@ protected:
 	KeyboardKey *scrollResetKey_;
 	std::map<std::string, Vector> channelColors_;
 	std::list<std::string> startupChannels_;
-	std::list<ChannelEntry> currentChannels_;
-	std::list<std::string> availableChannels_;
+	std::list<CurrentChannelEntry> currentChannels_;
+	std::list<BaseChannelEntry> availableChannels_;
 	std::string textSound_;
 
 	void addInfo(const char *channel, const char *text);

@@ -23,6 +23,7 @@
 
 #include <coms/ComsMessageHandler.h>
 #include <server/ServerChannelFilter.h>
+#include <server/ServerChannelAuth.h>
 #include <set>
 #include <map>
 
@@ -87,16 +88,20 @@ protected:
 	class ChannelEntry
 	{
 	public:
-		ChannelEntry(const char *channelName,
-			ServerChannelFilter *filter = 0);
+		ChannelEntry(ChannelDefinition def,
+			ServerChannelFilter *filter = 0,
+			ServerChannelAuth *auth = 0);
 		virtual ~ChannelEntry();
 
-		const char *getName() { return channelName_.c_str(); }
+		const char *getName() { return channelDef_.getChannel(); }
+		ChannelDefinition &getDefinition() { return channelDef_; }
 		ServerChannelFilter *getFilter() { return filter_; }
+		ServerChannelAuth *getAuth() { return auth_; }
 
 	protected:
-		std::string channelName_;
+		ChannelDefinition channelDef_;
 		ServerChannelFilter *filter_;
+		ServerChannelAuth *auth_;
 	};
 
 	std::map<unsigned int, DestinationEntry *> destinationEntries_;
@@ -107,10 +112,10 @@ protected:
 	DestinationEntry *getDestinationEntryById(unsigned int destinationId);
 
 	void registerClient(unsigned int destinationId, unsigned int localId,
-		std::list<std::string> &startChannels);
+		std::list<ChannelDefinition> &startChannels);
 	void deregisterClient(unsigned int destinationId, unsigned int localId);
 	void joinClient(unsigned int destinationId, unsigned int localId,
-		std::list<std::string> &startChannels);
+		std::list<ChannelDefinition> &startChannels);
 	void actualSend(const ChannelText &constText,
 		std::map<unsigned int, DestinationEntry *> &destinations);
 

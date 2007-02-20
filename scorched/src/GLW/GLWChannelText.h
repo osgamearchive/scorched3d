@@ -64,7 +64,7 @@ public:
 	REGISTER_CLASS_HEADER(GLWChannelText);
 protected:
 	GLTexture buttonTexture_, colorTexture_;
-	GLWChannelView::ChannelEntry channelEntry_;
+	GLWChannelView::CurrentChannelEntry channelEntry_;
 	GLWIconButton button_;
 	GLWChannelView view_;
 	std::map<KeyboardKey *, std::string> keys_;

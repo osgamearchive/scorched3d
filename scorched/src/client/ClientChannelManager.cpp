@@ -35,10 +35,16 @@ ClientChannelManager::ChannelEntry::ChannelEntry(ClientChannelManagerI *user) :
 {
 }
 
-void ClientChannelManager::ChannelEntry::setChannels(std::list<std::string> &channels)
+void ClientChannelManager::ChannelEntry::setChannels(std::list<ChannelDefinition> &channels)
 {
 	channels_.clear();
-	channels_.insert(channels.begin(), channels.end());
+	std::list<ChannelDefinition>::iterator itor;
+	for (itor = channels.begin();
+		itor != channels.end();
+		itor++)
+	{
+		channels_.insert(itor->getChannel());
+	}
 }
 
 bool ClientChannelManager::ChannelEntry::hasChannel(const char *channel)
@@ -88,7 +94,14 @@ bool ClientChannelManager::registerClient(ClientChannelManagerI *reciever,
 
 	// Send the request for a new reciever
 	ComsChannelMessage message(ComsChannelMessage::eRegisterRequest, channelId);
-	message.getChannels() = channels;
+	std::list<std::string>::iterator itor;
+	for (itor = channels.begin();
+		itor != channels.end();
+		itor++)
+	{
+		ChannelDefinition entry(itor->c_str());
+		message.getChannels().push_back(entry);
+	}
 	ComsMessageSender::sendToServer(message);
 
 	return true;
@@ -118,7 +131,14 @@ bool ClientChannelManager::changeRegistration(ClientChannelManagerI *reciever,
 
 	// Send the request to add a new channel
 	ComsChannelMessage message(ComsChannelMessage::eJoinRequest, channelId);	
-	message.getChannels() = channels;
+	std::list<std::string>::iterator itor;
+	for (itor = channels.begin();
+		itor != channels.end();
+		itor++)
+	{
+		ChannelDefinition entry(itor->c_str());
+		message.getChannels().push_back(entry);
+	}
 	ComsMessageSender::sendToServer(message);
 
 	return true;

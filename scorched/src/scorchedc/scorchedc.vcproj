@@ -755,6 +755,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerChannelAuth.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerChannelAuth.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerChannelFilter.cpp"
 				>
 			</File>

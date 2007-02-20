@@ -65,14 +65,14 @@ GLWChannelView::~GLWChannelView()
 {
 }
 
-GLWChannelView::ChannelEntry *GLWChannelView::getChannel(const char *channelName)
+GLWChannelView::CurrentChannelEntry *GLWChannelView::getChannel(const char *channelName)
 {
-	std::list<ChannelEntry>::iterator itor;
+	std::list<CurrentChannelEntry>::iterator itor;
 	for (itor = currentChannels_.begin();
 		itor != currentChannels_.end();
 		itor++)
 	{
-		ChannelEntry &current = *itor;
+		CurrentChannelEntry &current = *itor;
 		if (0 == stricmp(current.channel.c_str(), channelName)) return &current;
 		if (0 == strcmp(formatString("%u", current.id), channelName)) return &current;
 	}
@@ -80,32 +80,32 @@ GLWChannelView::ChannelEntry *GLWChannelView::getChannel(const char *channelName
 }
 
 void GLWChannelView::registeredForChannels(
-	std::list<std::string> &registeredChannels,
-	std::list<std::string> &availableChannels)
+	std::list<ChannelDefinition> &registeredChannels,
+	std::list<ChannelDefinition> &availableChannels)
 {
 	// Some not efficient stuff....
-	std::list<ChannelEntry> oldCurrentChannels = currentChannels_;
-	std::list<std::string> oldAvailableChannels = availableChannels_;
+	std::list<CurrentChannelEntry> oldCurrentChannels = currentChannels_;
+	std::list<BaseChannelEntry> oldAvailableChannels = availableChannels_;
 	currentChannels_.clear();
 	availableChannels_.clear();
 
 	// For all of the new channels
 	{
-		std::list<std::string>::iterator itor;
+		std::list<ChannelDefinition>::iterator itor;
 		for (itor = registeredChannels.begin();
 			itor != registeredChannels.end();
 			itor++)
 		{
-			std::string &channel = *itor;
+			std::string channel = itor->getChannel();
 
 			// Find out if we were already in this channel
 			bool found = false;
-			std::list<ChannelEntry>::iterator olditor;
+			std::list<CurrentChannelEntry>::iterator olditor;
 			for (olditor = oldCurrentChannels.begin();
 				olditor != oldCurrentChannels.end();
 				olditor++)
 			{
-				ChannelEntry &oldEntry = (*olditor);
+				CurrentChannelEntry &oldEntry = (*olditor);
 				if (channel == oldEntry.channel)
 				{
 					// Add the existing channel, under the existing number
@@ -117,10 +117,11 @@ void GLWChannelView::registeredForChannels(
 			if (!found)
 			{
 				// Add a new channel with a new number
-				ChannelEntry newEntry;
+				CurrentChannelEntry newEntry;
 				newEntry.id = lastChannelId_++;
 				newEntry.color = Vector(0.8f, 0.8f, 0.8f);
 				newEntry.channel = channel;
+				newEntry.type = itor->getType();
 
 				std::map<std::string, Vector>::iterator colorItor =
 					channelColors_.find(channel.c_str());
@@ -138,20 +139,20 @@ void GLWChannelView::registeredForChannels(
 
 	// For all of the available channels
 	{
-		std::list<std::string>::iterator itor;
+		std::list<ChannelDefinition>::iterator itor;
 		for (itor = availableChannels.begin();
 			itor != availableChannels.end();
 			itor++)
 		{
-			std::string &channel = *itor;
+			std::string channel = itor->getChannel();
 
 			// Find out if we were already in this channel
-			std::list<ChannelEntry>::iterator olditor;
+			std::list<CurrentChannelEntry>::iterator olditor;
 			for (olditor = oldCurrentChannels.begin();
 				olditor != oldCurrentChannels.end();
 				olditor++)
 			{
-				ChannelEntry &oldEntry = (*olditor);
+				CurrentChannelEntry &oldEntry = (*olditor);
 				if (channel == oldEntry.channel)
 				{
 					//addInfo(formatString("left %u. [%s]", 
@@ -161,7 +162,10 @@ void GLWChannelView::registeredForChannels(
 			}
 
 			// Add this channel to list of available
-			availableChannels_.push_back(channel);
+			BaseChannelEntry newEntry;
+			newEntry.channel = channel;
+			newEntry.type = itor->getType();
+			availableChannels_.push_back(newEntry);
 		}
 	}
 
@@ -271,7 +275,7 @@ int GLWChannelView::splitLine(const char *message, std::string &result)
 
 void GLWChannelView::addInfo(const char *channelName, const char *text)
 {
-	ChannelEntry *channel = getChannel(channelName);
+	CurrentChannelEntry *channel = getChannel(channelName);
 	if (!channel) return;
 
 	GLWChannelViewEntry entry;
@@ -494,12 +498,12 @@ bool GLWChannelView::initFromXML(XMLNode *node)
 
 void GLWChannelView::formCurrentChannelList(std::list<std::string> &result)
 {
-	std::list<ChannelEntry>::iterator itor;
+	std::list<CurrentChannelEntry>::iterator itor;
 	for (itor = currentChannels_.begin();
 		itor != currentChannels_.end();
 		itor++)
 	{
-		ChannelEntry &entry = *itor;
+		CurrentChannelEntry &entry = *itor;
 		result.push_back(entry.channel);
 	}
 }
