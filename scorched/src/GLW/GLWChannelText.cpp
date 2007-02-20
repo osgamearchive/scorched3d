@@ -30,6 +30,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientChannelManager.h>
 #include <tank/TankContainer.h>
+#include <tank/TankState.h>
 #include <tank/TankColorGenerator.h>
 #include <common/ToolTip.h>
 #include <common/Defines.h>
@@ -272,20 +273,20 @@ void GLWChannelText::processSpecialText()
 
 void GLWChannelText::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	button_.mouseDown(button, x, y, skipRest);
 	view_.mouseDown(button, x, y, skipRest);
+	button_.mouseDown(button, x, y, skipRest);
 }
 
 void GLWChannelText::mouseUp(int button, float x, float y, bool &skipRest)
 {
-	button_.mouseUp(button, x, y, skipRest);
 	view_.mouseUp(button, x, y, skipRest);
+	button_.mouseUp(button, x, y, skipRest);
 }
 
 void GLWChannelText::mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest)
 {
-	button_.mouseDrag(button, mx, my, x, y, skipRest);
 	view_.mouseDrag(button, mx, my, x, y, skipRest);
+	button_.mouseDrag(button, mx, my, x, y, skipRest);
 }
 
 void GLWChannelText::setParent(GLWPanel *parent)
@@ -351,17 +352,20 @@ void GLWChannelText::buttonDown(unsigned int id)
 	GLWSelectorEntry selectChannel("Select Channel", &selectTooltip);
 	GLWSelectorEntry colorChannel("Channel Color", &colorTooltip);
 
-	int i = 0;
+	Tank *currentTank = 
+		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	std::map<unsigned int, Tank *> &tanks = ScorchedClient::instance()->
 		getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator tankItor;
 	for (tankItor = tanks.begin();
 		tankItor != tanks.end();
-		tankItor++, i++)
+		tankItor++)
 	{
 		Tank *tank = (*tankItor).second;
+		if (tank == currentTank) continue;
+
 		mute.getPopups().push_back(GLWSelectorEntry(tank->getName(), 
-			0, false, 0, (void *) eMuteSelectorStart, tank->getName()));
+			0, tank->getState().getMuted(), 0, (void *) eMuteSelectorStart, tank->getName()));
 		whisper.getPopups().push_back(GLWSelectorEntry(tank->getName(),
 			0, false, 0, (void *) eWhisperSelectorStart, tank->getName()));
 	}
@@ -424,7 +428,13 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 	switch (type)
 	{
 	case eMuteSelectorStart:
-
+		{
+			Tank *tank = 
+				ScorchedClient::instance()->getTankContainer().
+					getTankByName(entry->getDataText());
+			if (tank) tank->getState().setMuted(
+				!tank->getState().getMuted());
+		}
 		break;
 	case eWhisperSelectorStart:
 

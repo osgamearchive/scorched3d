@@ -238,9 +238,6 @@ bool ClientChannelManager::processMessage(
 		ComsChannelTextMessage textMessage;
 		if (!textMessage.readMessage(reader)) return false;
 
-		// Add this line to the console
-		Logger::log(textMessage.getChannelText().getMessage());
-
 		Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(
 			textMessage.getChannelText().getPlayerId());
 		if(tank && tank->getState().getState() == TankState::sNormal)
@@ -253,6 +250,11 @@ bool ClientChannelManager::processMessage(
 			ScorchedClient::instance()->getActionController().
 				addAction(new SpriteAction(talk));
 		}
+		// Ignore any messages from this tank
+		if (tank && tank->getState().getMuted()) return true;
+
+		// Log this message
+		Logger::log(textMessage.getChannelText().getMessage());
 
 		// Foreach reciever
 		std::list<unsigned int>::iterator itor;

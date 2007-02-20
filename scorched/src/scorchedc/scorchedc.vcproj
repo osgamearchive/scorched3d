@@ -5039,14 +5039,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\dialogs\TalkSettingsDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\dialogs\TalkSettingsDialog.h"
-				>
-			</File>
-			<File
 				RelativePath="..\dialogs\TutorialDialog.cpp"
 				>
 			</File>

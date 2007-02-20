@@ -40,7 +40,6 @@
 #include <dialogs/GiftMoneyDialog.h>
 #include <dialogs/BuyAccessoryDialog.h>
 #include <dialogs/RulesDialog.h>
-#include <dialogs/TalkSettingsDialog.h>
 #include <dialogs/ScoreDialog.h>
 #include <dialogs/KibitzingDialog.h>
 #include <dialogs/InventoryDialog.h>
@@ -117,9 +116,6 @@ void WindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager,
 		GLWWindowManager::instance()->addWindow(state, 
 			ScoreDialog::instance(), scoreKey, false);
 	}
-	GLWWindowManager::instance()->addWindow(state, 
-		TalkSettingsDialog::instance(), 0, false);
-
 	GLWWindowManager::instance()->addWindow(state,
 		MessageDialog::instance(), 0, true);
 
