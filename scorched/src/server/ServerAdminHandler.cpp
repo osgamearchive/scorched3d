@@ -21,6 +21,7 @@
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
+#include <server/ServerChannelManager.h>
 #include <server/ServerCommon.h>
 #include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
@@ -94,6 +95,8 @@ bool ServerAdminHandler::processMessage(
 				message.getParam1()));
 			adminTank->getState().setAdmin(
 				new TankAdmin(message.getParam1()));
+			ServerChannelManager::instance()->refreshDestination(
+				netMessage.getDestinationId());
 		}
 		else
 		{
@@ -159,6 +162,8 @@ bool ServerAdminHandler::processMessage(
 				adminTank->getName(),
 				adminTank->getState().getAdmin()->getName()));
 			adminTank->getState().setAdmin(0);
+			ServerChannelManager::instance()->refreshDestination(
+				netMessage.getDestinationId());
 		}
 		break;
 	case ComsAdminMessage::AdminShowBanned:

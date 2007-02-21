@@ -50,7 +50,8 @@ ServerChannelManager::DestinationLocalEntry::DestinationLocalEntry(
 
 ServerChannelManager::DestinationEntry::DestinationEntry(
 	unsigned int destinationId) :
-	destinationId_(destinationId)
+	destinationId_(destinationId),
+	messageCount_(0), muteTime_(0)
 {
 }
 
@@ -59,10 +60,21 @@ bool ServerChannelManager::DestinationEntry::hasChannel(const char *channel)
 	return (channels_.find(channel) != channels_.end()); 
 }
 
-void ServerChannelManager::DestinationEntry::addChannel(const char *channel, unsigned int localId)
+void ServerChannelManager::DestinationEntry::addChannel(const char *channel, unsigned int localId, bool current)
 {
 	if (!hasLocalId(localId)) return;
-	localEntries_[localId].getChannels().insert(channel);
+
+	if (current)
+	{
+		localEntries_[localId].getChannels().insert(channel);
+		localEntries_[localId].getAvailableChannels().erase(channel);
+	}
+	else
+	{
+		localEntries_[localId].getChannels().erase(channel);
+		localEntries_[localId].getAvailableChannels().insert(channel);
+	}
+
 	updateChannels();
 }
 
@@ -70,6 +82,7 @@ void ServerChannelManager::DestinationEntry::removeChannel(const char *channel, 
 {
 	if (!hasLocalId(localId)) return;
 	localEntries_[localId].getChannels().erase(channel);
+	localEntries_[localId].getAvailableChannels().erase(channel);
 	updateChannels();
 }
 
@@ -131,7 +144,8 @@ ServerChannelManager *ServerChannelManager::instance()
 	return instance_;
 }
 
-ServerChannelManager::ServerChannelManager()
+ServerChannelManager::ServerChannelManager() :
+	totalTime_(0.0f)
 {
 	// Register to recieve comms messages
 	ScorchedServer::instance()->getComsMessageHandler().addHandler(
@@ -163,6 +177,51 @@ ServerChannelManager::ServerChannelManager()
 
 ServerChannelManager::~ServerChannelManager()
 {
+}
+
+void ServerChannelManager::simulate(float frameTime)
+{
+	const int MuteTime = 60;
+	const int MuteThreshold = 10;
+
+	totalTime_ += frameTime;
+	if (totalTime_ > 10.0f)
+	{
+		totalTime_ = 0.0f;
+
+		// Check each destination for the amount of messages they have
+		// sent recently
+		// If its more than a certain threshold, mute them for x seconds
+		std::map<unsigned int, DestinationEntry *>::iterator itor;
+		for (itor = destinationEntries_.begin();
+			itor != destinationEntries_.end();
+			itor++)
+		{
+			DestinationEntry *entry = itor->second;
+			if (entry->getMessageCount() > MuteThreshold)
+			{
+				time_t t = time(0);
+				entry->setMuteTime(t);
+
+				ChannelText text("info", 
+					formatString("You have been muted for %i seconds for spamming!",
+					MuteTime));
+				sendText(text, entry->getDestinationId());
+			}
+			else if (entry->getMuteTime())
+			{
+				time_t t = time(0);
+				if (t - entry->getMuteTime() > MuteTime)
+				{
+					entry->setMuteTime(0);
+
+					ChannelText text("info", "You have been unmuted.");
+					sendText(text, entry->getDestinationId());
+				}
+			}
+			entry->setMessageCount(0);
+		}
+	}
 }
 
 void ServerChannelManager::destinationDisconnected(unsigned int destinationId)
@@ -230,6 +289,102 @@ void ServerChannelManager::deregisterClient(unsigned int destinationId, unsigned
 	destEntry->removeLocalId(localId);
 }
 
+void ServerChannelManager::refreshDestination(unsigned int destinationId)
+{
+	// Get the sender for this message
+	DestinationEntry *destEntry = getDestinationEntryById(destinationId);
+
+	// Form the list of available and joined channels
+	// for each local id and send them back to the client
+	std::map<unsigned int, DestinationLocalEntry> &localEntries = 
+		destEntry->getLocalEntries();
+	std::map<unsigned int, DestinationLocalEntry>::iterator localItor;
+	for (localItor = localEntries.begin();
+		localItor != localEntries.end();
+		localItor++)
+	{
+		unsigned int localId = localItor->first;
+		DestinationLocalEntry &localEntry = localItor->second;
+
+		ComsChannelMessage message(ComsChannelMessage::eJoinRequest, localId);
+		bool differentMessage = false;
+		std::list<ChannelEntry *>::iterator itor;
+		for (itor = channelEntries_.begin();
+			itor != channelEntries_.end();
+			itor++)
+		{
+			ChannelEntry *channelEntry = (*itor);
+
+			// Check if a user is allowed a channel at all
+			bool allowedChannel = (!channelEntry->getAuth() ||
+				channelEntry->getAuth()->allowConnection(
+				channelEntry->getName(), destinationId));
+
+			// Check if they currently have the channel
+			if (localEntry.getChannels().find(channelEntry->getName()) !=
+				localEntry.getChannels().end())
+			{
+				// They currently have the channel in their 
+				// current subscription list
+				if (allowedChannel)
+				{
+					// They are allowed this channel
+					// Add it to the list of subscribed channels
+					message.getChannels().push_back(
+						channelEntry->getDefinition());
+				}
+				else
+				{
+					// They are not allowed this channel
+					// Remove it from their list
+					destEntry->removeChannel(channelEntry->getName(), localId);
+					differentMessage = true;
+				}
+			}
+			else if (localEntry.getAvailableChannels().find(channelEntry->getName()) !=
+				localEntry.getAvailableChannels().end())
+			{
+				// They currently have their channel in their
+				// avialable channel list
+				if (allowedChannel)
+				{
+					// They are allowed this channel
+					// Add it to the list of available channels
+					message.getAvailableChannels().push_back(
+						channelEntry->getDefinition());
+				}
+				else
+				{
+					// They are not allowed this channel
+					// Remove it from their list
+					destEntry->removeChannel(channelEntry->getName(), localId);
+					differentMessage = true;
+				}
+			}
+			else
+			{
+				// This a new channel the user has not seen
+				if (allowedChannel)
+				{
+					// They are allowed this channel
+					// Add it to the list of available channels
+					message.getAvailableChannels().push_back(
+						channelEntry->getDefinition());
+					destEntry->addChannel(channelEntry->getName(), localId, false);
+					differentMessage = true;
+				}
+			}
+		}
+
+		if (differentMessage)
+		{
+			// The user's subscriptions have changed
+			// Send the new subscriptions
+			ComsMessageSender::sendToSingleClient(message, destinationId);
+		}
+	}
+}
+
 void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int localId,
 	std::list<ChannelDefinition> &startChannels)
 {
@@ -252,11 +407,12 @@ void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int l
 			!channelEntry->getAuth()->allowConnection(
 			channelEntry->getName(), destinationId))
 		{
+			destEntry->removeChannel(channelEntry->getName(), localId);
 			continue;
 		}
 
 		// Check if the user has asked for this channel
-		bool add = false;
+		bool current = false;
 		std::list<ChannelDefinition>::iterator startItor;
 		for (startItor = startChannels.begin();
 			startItor != startChannels.end();
@@ -265,21 +421,14 @@ void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int l
 			const char *startChannel = startItor->getChannel();
 			if (0 == strcmp(startChannel, channelEntry->getName()))
 			{
-				add = true;
+				current = true;
 				break;
 			}
 		}
 
-		if (add)
-		{
-			message.getChannels().push_back(channelEntry->getDefinition());
-			destEntry->addChannel(channelEntry->getName(), localId);
-		}
-		else
-		{
-			message.getAvailableChannels().push_back(channelEntry->getDefinition());
-			destEntry->removeChannel(channelEntry->getName(), localId);
-		}
+		destEntry->addChannel(channelEntry->getName(), localId, current);
+		if (current) message.getChannels().push_back(channelEntry->getDefinition());
+		else message.getAvailableChannels().push_back(channelEntry->getDefinition());
 	}
 	ComsMessageSender::sendToSingleClient(message, destinationId);
 }
@@ -413,6 +562,9 @@ bool ServerChannelManager::processMessage(
 			return true;
 		}
 
+		// Check this tank has not been muted for spamming
+		if (destEntry->getMuteTime()) return true;
+
 		// Check that this channel exists and is not a read only channel
 		ChannelEntry *channelEntry = getChannelEntryByName(
 			textMessage.getChannelText().getChannel());
@@ -430,6 +582,9 @@ bool ServerChannelManager::processMessage(
 
 		// Check that we don't recieve too much text
 		if (strlen(textMessage.getChannelText().getMessage()) > 1024) return true;
+
+		// Increment message count
+		destEntry->setMessageCount(destEntry->getMessageCount() + 1);
 
 		// Send the text
 		sendText(textMessage.getChannelText());

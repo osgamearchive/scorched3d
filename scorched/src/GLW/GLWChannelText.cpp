@@ -494,7 +494,8 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 		break;
 	case eChatSelectorStart:
 		text_ = "";
-		setVisible(!visible_);
+		if (visible_) setVisible(false);
+		else if (checkCurrentChannel()) setVisible(true);
 		break;
 	}
 }
@@ -512,21 +513,28 @@ bool GLWChannelText::checkCurrentChannel()
 	if (!channelEntry)
 	{
 		// Its not, try to find a valid channel
-		if (!view_.getCurrentChannels().empty())
+		std::list<GLWChannelView::CurrentChannelEntry> &entries = 
+			view_.getCurrentChannels();
+		std::list<GLWChannelView::CurrentChannelEntry>::iterator itor;
+		for (itor = entries.begin();
+			itor != entries.end();
+			itor++)
 		{
-			// Choose the first channel
-			channelEntry_ = view_.getCurrentChannels().front();
+			GLWChannelView::CurrentChannelEntry &entry = *itor;
+			if (!(entry.type & ChannelDefinition::eReadOnlyChannel))
+			{
+				// Use the first non-readonly channel
+				channelEntry_ = entry;
+				return true;
+			}
 		}
-		else
-		{
-			// There is no valid channel
-			return false;
-		}
+		return false;
 	}
 	else 
 	{
 		// The current channel is valid
 		channelEntry_ = *channelEntry;
+		return true;
 	}	
 
 	return true;

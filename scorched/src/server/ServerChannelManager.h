@@ -24,6 +24,7 @@
 #include <coms/ComsMessageHandler.h>
 #include <server/ServerChannelFilter.h>
 #include <server/ServerChannelAuth.h>
+#include <time.h>
 #include <set>
 #include <map>
 
@@ -37,8 +38,11 @@ public:
 	void sendText(const ChannelText &text, unsigned int destination);
 	std::list<std::string> &getLastMessages() { return lastMessages_; }
 
+	void simulate(float frameTime);
+
 	// Notification of when players disconnect
 	void destinationDisconnected(unsigned int destinationId);
+	void refreshDestination(unsigned int destinationId);
 
 	// Inherited from ComsMessageHandlerI
 	virtual bool processMessage(
@@ -56,10 +60,12 @@ protected:
 
 		unsigned int getLocalId() { return localId_; }
 		std::set<std::string> &getChannels() { return channels_; }
+		std::set<std::string> &getAvailableChannels() { return availableChannels_; }
 
 	protected:
 		unsigned int localId_;
-		std::set<std::string> channels_;
+		std::set<std::string> channels_; // Subscribed channels
+		std::set<std::string> availableChannels_; // Available channeld
 	};
 	class DestinationEntry 
 	{
@@ -69,18 +75,27 @@ protected:
 		unsigned int getDestinationId() { return destinationId_; }
 
 		bool hasChannel(const char *channel);
-		void addChannel(const char *channel, unsigned int localId);
+		void addChannel(const char *channel, unsigned int localId, bool current);
 		void removeChannel(const char *channel, unsigned int localId);
 
 		bool hasLocalId(unsigned int localId);
 		void addLocalId(unsigned int localId);
 		void removeLocalId(unsigned int localId);
 
+		void setMessageCount(unsigned int count) { messageCount_ = count; }
+		unsigned int getMessageCount() { return messageCount_; }
+
+		time_t getMuteTime() { return muteTime_; }
+		void setMuteTime(time_t t) { muteTime_ = t; }
+
 		void getLocalIds(const char *channel, std::list<unsigned int> &ids);
+		std::map<unsigned int, DestinationLocalEntry> &getLocalEntries() { return localEntries_; }
 
 	protected:
+		time_t muteTime_;
+		unsigned int messageCount_;
 		unsigned int destinationId_;
-		std::set<std::string> channels_;
+		std::set<std::string> channels_; // Subscribed channeld for all localids
 		std::map<unsigned int, DestinationLocalEntry> localEntries_;
 
 		void updateChannels();
@@ -104,6 +119,7 @@ protected:
 		ServerChannelAuth *auth_;
 	};
 
+	float totalTime_;
 	std::map<unsigned int, DestinationEntry *> destinationEntries_;
 	std::list<ChannelEntry *> channelEntries_;
 	std::list<std::string> lastMessages_;

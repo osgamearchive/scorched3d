@@ -234,6 +234,7 @@ void serverLoop()
 		float timeDifference = serverTimer.getTimeDifference();
 		ScorchedServer::instance()->getGameState().simulate(timeDifference);
 		ServerFileServer::instance()->simulate(timeDifference);
+		ServerChannelManager::instance()->simulate(timeDifference);
 		ScorchedServerUtil::instance()->timedMessage.simulate();
 		ServerKeepAliveHandler::instance()->checkKeepAlives();
 
