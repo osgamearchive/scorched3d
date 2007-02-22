@@ -57,6 +57,7 @@
 					<splitlargelines>true</splitlargelines>
 					<parentsized>true</parentsized>
 					<tooltiptransparent>true</tooltiptransparent>
+					<showchannelname>true</showchannelname>
 					<allowscroll>true</allowscroll>
 					<scrollupkey>LOG_SCROLL_UP</scrollupkey>
 					<scrolldownkey>LOG_SCROLL_DOWN</scrolldownkey>
@@ -78,17 +79,38 @@
 					<channel>info</channel>
 					<channel>general</channel>
 					<channel>team</channel>
+					<channel>whisper</channel>
 					<channelcolor>
 						<channel>info</channel>
-						<color><A>0.8</A><B>0.8</B><C>0.8</C></color>
+						<color>
+							<A>0.8</A>
+							<B>0.8</B>
+							<C>0.8</C>
+						</color>
 					</channelcolor>
 					<channelcolor>
 						<channel>general</channel>
-						<color><A>1.0</A><B>1.0</B><C>1.0</C></color>
+						<color>
+							<A>1.0</A>
+							<B>1.0</B>
+							<C>1.0</C>
+						</color>
 					</channelcolor>
 					<channelcolor>
 						<channel>team</channel>
-						<color><A>0.7</A><B>0.7</B><C>1.0</C></color>
+						<color>
+							<A>0.7</A>
+							<B>0.7</B>
+							<C>1.0</C>
+						</color>
+					</channelcolor>
+					<channelcolor>
+						<channel>whisper</channel>
+						<color>
+							<A>0.5</A>
+							<B>0.0</B>
+							<C>0.5</C>
+						</color>
 					</channelcolor>
 				</widget>
 			</item>
@@ -110,8 +132,10 @@
 		<items>
 			<item>
 				<widget type="GLWChannelView">
-					<x>0</x><y>0</y>
-					<w>0</w><h>0</h>
+					<x>0</x>
+					<y>0</y>
+					<w>0</w>
+					<h>0</h>
 					<displaytime>10.0</displaytime>
 					<totallines>8</totallines>
 					<visiblelines>5</visiblelines>
@@ -122,6 +146,7 @@
 					<parentsized>true</parentsized>
 					<splitlargelines>false</splitlargelines>
 					<allowscroll>false</allowscroll>
+					<showchannelname>false</showchannelname>
 					<channel>combat</channel>
 					<channelcolor>
 						<channel>combat</channel>

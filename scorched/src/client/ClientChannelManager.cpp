@@ -198,7 +198,7 @@ void ClientChannelManager::sendText(const ChannelText &constText)
 		}
 	}
 
-	text.setPlayerId(playerId);
+	text.setSrcPlayerId(playerId);
 	ComsChannelTextMessage message(text);
 	ComsMessageSender::sendToServer(message);
 }
@@ -259,7 +259,7 @@ bool ClientChannelManager::processMessage(
 		if (!textMessage.readMessage(reader)) return false;
 
 		Tank *tank = ScorchedClient::instance()->getTankContainer().getTankById(
-			textMessage.getChannelText().getPlayerId());
+			textMessage.getChannelText().getSrcPlayerId());
 		if(tank && tank->getState().getState() == TankState::sNormal)
 		{
 			// put a speach bubble over the talking tank

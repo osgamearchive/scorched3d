@@ -34,7 +34,7 @@ bool ServerChannelFilterTeams::sentToDestination(ChannelText &text, unsigned int
 {
 	// Find the tank that is sending the message
 	Tank *sendTank = ScorchedServer::instance()->getTankContainer().getTankById(
-		text.getPlayerId());
+		text.getSrcPlayerId());
 	if (!sendTank) return false;
 
 	// Check this tank is actualy in a team

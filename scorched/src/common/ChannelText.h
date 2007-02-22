@@ -29,7 +29,8 @@ class ChannelDefinition
 public:
 	enum ChannelDefinitionTypes
 	{
-		eReadOnlyChannel = 1
+		eReadOnlyChannel = 1,
+		eWhisperChannel = 2
 	};
 
 	ChannelDefinition(const char *channel = "", 
@@ -55,17 +56,20 @@ public:
 
 	void setChannel(const char *channel) { channel_ = channel; }
 	void setMessage(const char *message) { message_ = message; }
-	void setPlayerId(unsigned int playerId) { playerId_ = playerId; }
+	void setSrcPlayerId(unsigned int srcPlayerId) { srcPlayerId_ = srcPlayerId; }
+	void setDestPlayerId(unsigned int destPlayerId) { destPlayerId_ = destPlayerId; }
 
 	const char *getChannel() { return channel_.c_str(); }
 	const char *getMessage() { return message_.c_str(); }
-    unsigned int getPlayerId() { return playerId_; }
+    unsigned int getSrcPlayerId() { return srcPlayerId_; }
+	unsigned int getDestPlayerId() { return destPlayerId_; }
 
     bool writeMessage(NetBuffer &buffer);
     bool readMessage(NetBufferReader &reader);
 
 protected:
-	unsigned int playerId_;
+	unsigned int srcPlayerId_;
+	unsigned int destPlayerId_;
 	std::string channel_;
 	std::string message_;
 };

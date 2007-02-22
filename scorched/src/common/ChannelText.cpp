@@ -21,7 +21,7 @@
 #include <common/ChannelText.h>
 
 ChannelText::ChannelText(const char *channel, const char *message) : 
-	playerId_(0),
+	srcPlayerId_(0), destPlayerId_(0),
 	channel_(channel),
 	message_(message)
 {
@@ -31,7 +31,8 @@ bool ChannelText::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer(channel_);
 	buffer.addToBuffer(message_);
-	buffer.addToBuffer(playerId_);
+	buffer.addToBuffer(srcPlayerId_);
+	buffer.addToBuffer(destPlayerId_);
 	return true;
 }
 
@@ -39,7 +40,8 @@ bool ChannelText::readMessage(NetBufferReader &reader)
 {
 	if (!reader.getFromBuffer(channel_)) return false;
 	if (!reader.getFromBuffer(message_)) return false;
-	if (!reader.getFromBuffer(playerId_)) return false;
+	if (!reader.getFromBuffer(srcPlayerId_)) return false;
+	if (!reader.getFromBuffer(destPlayerId_)) return false;
 	return true;
 }
 

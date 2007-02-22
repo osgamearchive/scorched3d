@@ -173,6 +173,8 @@ ServerChannelManager::ServerChannelManager() :
 		ChannelDefinition("admin"),
 		0, 
 		new ServerChannelAuthAdmin()));
+	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("whisper", ChannelDefinition::eWhisperChannel)));
 }
 
 ServerChannelManager::~ServerChannelManager()
@@ -458,7 +460,7 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 
 	// Get the tank for this message (if any)
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(
-		text.getPlayerId());
+		text.getSrcPlayerId());
 
 	// Check that this channel exists
 	ChannelEntry *channelEntry = getChannelEntryByName(text.getChannel());
@@ -545,7 +547,7 @@ bool ServerChannelManager::processMessage(
 
 		// Validate that this message came from this tank
 		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(
-			textMessage.getChannelText().getPlayerId());
+			textMessage.getChannelText().getSrcPlayerId());
 		if (!tank || tank->getDestinationId() != 
 			netNessage.getDestinationId()) return true;
 
@@ -579,6 +581,19 @@ bool ServerChannelManager::processMessage(
 			// Cannot send to this channel from a client
 			return true;
 		}
+		if ((!(channelEntry->getDefinition().getType() &
+			ChannelDefinition::eWhisperChannel) &&
+			textMessage.getChannelText().getDestPlayerId()) ||
+			
+			((channelEntry->getDefinition().getType() &
+			ChannelDefinition::eWhisperChannel) &&
+			!textMessage.getChannelText().getDestPlayerId()))
+		{
+			// Cannot send a whisper message to a non-whisper channel
+			// or
+			// Cannot send a non-whisper message to a whisper channel
+			return true;
+		}
 
 		// Check that we don't recieve too much text
 		if (strlen(textMessage.getChannelText().getMessage()) > 1024) return true;
@@ -587,7 +602,23 @@ bool ServerChannelManager::processMessage(
 		destEntry->setMessageCount(destEntry->getMessageCount() + 1);
 
 		// Send the text
-		sendText(textMessage.getChannelText());
+		if (textMessage.getChannelText().getDestPlayerId())
+		{
+			// This is a whisper message, check the destination exists
+			Tank *destTank = ScorchedServer::instance()->getTankContainer().
+				getTankById(textMessage.getChannelText().getDestPlayerId());
+			if (destTank && destTank->getDestinationId())
+			{
+				// Send to this destination
+				sendText(textMessage.getChannelText(), 
+					destTank->getDestinationId());
+			}
+		}
+		else
+		{
+			// Send to all destinations
+			sendText(textMessage.getChannelText());
+		}
 	}
 	else return false;
 

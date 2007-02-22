@@ -72,12 +72,15 @@ protected:
 	float ctime_;
 	bool cursor_, visible_;
 	int maxTextLen_;
+	unsigned int whisperDest_;
+	std::string whisperDestStr_;
 
 	void processNotVisibleKey(char c, unsigned int dik, bool &skipRest);
 	void processVisibleKey(char c, unsigned int dik);
 	void processSpecialText();
 	void processNormalText();
 	bool checkCurrentChannel();
+	bool channelValid(const char *channelName);
 	void setVisible(bool visible);
 };
 

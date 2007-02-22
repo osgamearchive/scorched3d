@@ -41,7 +41,8 @@ REGISTER_CLASS_SOURCE(GLWChannelText);
 GLWChannelText::GLWChannelText() :
 	ctime_(0.0f), cursor_(false), maxTextLen_(0), 
 	visible_(false),
-	button_(x_ + 2.0f, y_ + 4.0f, 12.0f, 12.0f)
+	button_(x_ + 2.0f, y_ + 4.0f, 12.0f, 12.0f),
+	whisperDest_(0)
 {
 	view_.setHandler(this);
 	button_.setHandler(this);
@@ -107,9 +108,21 @@ void GLWChannelText::draw()
 		drawRoundBox(x_ + 15.0f, y_, w_ - 15.0f, h_, 10.0f);
 	glEnd();
 
-	const char *text = formatString("%u. [%s] : %s%s", 
-		channelEntry_.id, channelEntry_.channel.c_str(),
-		text_.c_str(), cursor_?" ":"_");
+	const char *channelName = "";
+	if (channelEntry_.type & ChannelDefinition::eWhisperChannel)
+	{
+		channelName = formatString("%u. [%s][%s] : ",
+			channelEntry_.id, channelEntry_.channel.c_str(), 
+			whisperDestStr_.c_str());
+	}
+	else
+	{
+		channelName = formatString("%u. [%s] : ",
+			channelEntry_.id, channelEntry_.channel.c_str());
+	}
+
+	const char *text = formatString("%s%s%s", 
+		channelName, text_.c_str(), cursor_?" ":"_");
 
 	GLWFont::instance()->getLargePtFont()->drawWidthRhs(
 		w_ - 25.0f,
@@ -257,6 +270,10 @@ void GLWChannelText::setVisible(bool visible)
 void GLWChannelText::processNormalText()
 {
 	ChannelText text(channelEntry_.channel.c_str(), text_.c_str());
+	if (channelEntry_.type & ChannelDefinition::eWhisperChannel)
+	{
+		text.setDestPlayerId(whisperDest_);
+	}
 	ClientChannelManager::instance()->sendText(text);
 }
 
@@ -265,10 +282,23 @@ void GLWChannelText::processSpecialText()
 	GLWChannelView::CurrentChannelEntry *channelEntry = 
 		view_.getChannel(&text_[1]);
 	if (channelEntry && 
-		!(channelEntry->type & ChannelDefinition::eReadOnlyChannel))
+		channelValid(channelEntry->channel.c_str()))
 	{
 		text_ = "";
 		channelEntry_ = *channelEntry;
+	}
+	else if (strcmp("r", &text_[1]) == 0)
+	{
+		text_ = "";
+
+		whisperDest_ = view_.getLastWhisperSrc();
+		GLWChannelView::CurrentChannelEntry *channelEntry = 
+			view_.getChannel("whisper");
+		if (channelEntry && 
+			channelValid(channelEntry->channel.c_str()))
+		{
+			channelEntry_ = *channelEntry;
+		}
 	}
 }
 
@@ -330,12 +360,17 @@ static enum
 	eJoinSelectorStart = 3000,
 	eLeaveSelectorStart = 4000,
 	eSelectSelectorStart = 5000,
-	eColorSelectorStart = 7000,
-	eChatSelectorStart = 6000
+	eColorSelectorStart = 6000,
+	eChatSelectorStart = 7000,
+	eReplySelectorStart = 8000
 };
 
 void GLWChannelText::buttonDown(unsigned int id)
 {
+	// Make sure the current channel is valid
+	checkCurrentChannel();
+
+	// All of the tooltips
 	static ToolTip muteTooltip("Ignore", "Ignore chat from another player (mute)");
 	static ToolTip whisperTooltip("Whisper", "Send private chat to another player");
 	static ToolTip joinTooltip("Join Channel", "Join another chat channel.\n"
@@ -345,7 +380,8 @@ void GLWChannelText::buttonDown(unsigned int id)
 	static ToolTip selectTooltip("Select Channel", "Select the current channel.\n"
 		"This is the channel you will send messages on.");
 	static ToolTip colorTooltip("Channel Color", "Change the color of the current channel.");
-	static ToolTip chatTooltip("Chat", "Chat on the current channel.");
+	static ToolTip replyTooltip("Reply", "Reply to the last person that whispered you.");
+	static ToolTip chatTooltip("Chat", "Show or hide the chat text entry box.");
 
 	GLWSelectorEntry mute("Ignore", &muteTooltip);
 	GLWSelectorEntry whisper("Whisper", &whisperTooltip);
@@ -354,8 +390,10 @@ void GLWChannelText::buttonDown(unsigned int id)
 	GLWSelectorEntry leaveChannel("Leave Channel", &leaveTooltip);
 	GLWSelectorEntry selectChannel("Select Channel", &selectTooltip);
 	GLWSelectorEntry colorChannel("Channel Color", &colorTooltip);
+	GLWSelectorEntry reply("Reply (/r)", &replyTooltip, false, 0, (void *) eReplySelectorStart);
 	GLWSelectorEntry chat("Chat", &chatTooltip, false, 0, (void *) eChatSelectorStart);
 
+	// For each tank
 	Tank *currentTank = 
 		ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	std::map<unsigned int, Tank *> &tanks = ScorchedClient::instance()->
@@ -366,7 +404,8 @@ void GLWChannelText::buttonDown(unsigned int id)
 		tankItor++)
 	{
 		Tank *tank = (*tankItor).second;
-		if (tank == currentTank) continue;
+		if (tank == currentTank ||
+			!tank->getDestinationId()) continue;
 
 		// Add tanks to the mute and whisper lines
 		mute.getPopups().push_back(GLWSelectorEntry(tank->getName(), 
@@ -374,6 +413,8 @@ void GLWChannelText::buttonDown(unsigned int id)
 		whisper.getPopups().push_back(GLWSelectorEntry(tank->getName(),
 			0, false, 0, (void *) eWhisperSelectorStart, tank->getName()));
 	}
+
+	// For each current channel
 	std::list<GLWChannelView::CurrentChannelEntry> &channels = view_.getCurrentChannels();
 	std::list<GLWChannelView::CurrentChannelEntry>::iterator channelItor;
 	for (channelItor = channels.begin();
@@ -391,16 +432,18 @@ void GLWChannelText::buttonDown(unsigned int id)
 			text, 0, false, 0, 
 			(void *) eLeaveSelectorStart, channel.channel.c_str()));
 
-		if (!(channel.type & ChannelDefinition::eReadOnlyChannel))
+		if (channelValid(channel.channel.c_str()))
 		{
 			// Add an entry saying which channels we can write on
-			// (not readonly channels)
 			selectChannel.getPopups().push_back(GLWSelectorEntry(
-				formatString("%u. %s", channel.id, channel.channel.c_str()),
+				formatString("%u. %s %s", channel.id, channel.channel.c_str(),
+				(channel.type & ChannelDefinition::eWhisperChannel?whisperDestStr_.c_str():"")),
 				0, (channelEntry_.channel == channel.channel), 0, 
 				(void *) eSelectSelectorStart, channel.channel.c_str()));
 		}
 	}
+
+	// For each available channel
 	std::list<GLWChannelView::BaseChannelEntry> &available = view_.getAvailableChannels();
 	std::list<GLWChannelView::BaseChannelEntry>::iterator availableItor;
 	for (availableItor = available.begin();
@@ -418,6 +461,8 @@ void GLWChannelText::buttonDown(unsigned int id)
 			0, false, 0, (void *) eJoinSelectorStart, 
 			availableItor->channel.c_str()));
 	}
+
+	// For each color
 	std::vector<Vector *> &colors = TankColorGenerator::instance()->getAllColors();
 	std::vector<Vector *>::iterator colorItor;
 	for (colorItor = colors.begin();
@@ -443,6 +488,7 @@ void GLWChannelText::buttonDown(unsigned int id)
 	topLevel.push_back(selectChannel);
 	topLevel.push_back(colorChannel);
 	topLevel.push_back(bar);
+	topLevel.push_back(reply);
 	topLevel.push_back(chat);
 
 	// Show all the entries
@@ -466,7 +512,23 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 		}
 		break;
 	case eWhisperSelectorStart:
-
+		{
+			Tank *tank = 
+				ScorchedClient::instance()->getTankContainer().
+					getTankByName(entry->getDataText());
+			if (tank)
+			{
+				whisperDest_ = tank->getPlayerId();
+				GLWChannelView::CurrentChannelEntry *channelEntry = 
+					view_.getChannel("whisper");
+				if (channelEntry && 
+					channelValid(channelEntry->channel.c_str()))
+				{
+					channelEntry_ = *channelEntry;
+					if (checkCurrentChannel()) setVisible(true);
+				}
+			}
+		}
 		break;
 	case eJoinSelectorStart:
 		view_.joinChannel(entry->getDataText());
@@ -497,6 +559,21 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 		if (visible_) setVisible(false);
 		else if (checkCurrentChannel()) setVisible(true);
 		break;
+	case eReplySelectorStart:
+		{
+			whisperDest_ = view_.getLastWhisperSrc();
+			GLWChannelView::CurrentChannelEntry *channelEntry = 
+				view_.getChannel("whisper");
+			if (channelEntry && 
+				channelValid(channelEntry->channel.c_str()))
+			{
+				channelEntry_ = *channelEntry;
+
+				text_ = "";
+				setVisible(true);
+			}
+		}
+		break;
 	}
 }
 
@@ -505,12 +582,50 @@ void GLWChannelText::channelsChanged(unsigned int id)
 	checkCurrentChannel();
 }
 
+bool GLWChannelText::channelValid(const char *channelName)
+{
+	// Check the whisper destination is ok
+	bool whisperDestValid = false;
+	if (whisperDest_)
+	{
+		Tank *whisperTank = ScorchedClient::instance()->getTankContainer().
+			getTankById(whisperDest_);
+		if (whisperTank)
+		{
+			whisperDestValid = true;
+			whisperDestStr_ = whisperTank->getName();
+		}
+		else
+		{
+			whisperDest_ = 0;
+			whisperDestStr_ = "";
+		}
+	}
+
+	// Check the actual channel exists
+	GLWChannelView::CurrentChannelEntry *channelEntry = view_.getChannel(
+		channelName);				
+	if (!channelEntry) return false;
+
+	// Check if this channel is actualy readonly
+	if (channelEntry->type & ChannelDefinition::eReadOnlyChannel)
+	{
+		return false;
+	}
+
+	// Check if the channel is a invalid whisper dest
+	if ((channelEntry->type & ChannelDefinition::eWhisperChannel) && 
+		!whisperDestValid)
+	{
+		return false;
+	}
+	return true;
+}
+
 bool GLWChannelText::checkCurrentChannel()
 {
 	// Just turned visible, check the current channel is valid
-	GLWChannelView::CurrentChannelEntry *channelEntry = view_.getChannel(
-		channelEntry_.channel.c_str());				
-	if (!channelEntry)
+	if (!channelValid(channelEntry_.channel.c_str()))
 	{
 		// Its not, try to find a valid channel
 		std::list<GLWChannelView::CurrentChannelEntry> &entries = 
@@ -521,9 +636,9 @@ bool GLWChannelText::checkCurrentChannel()
 			itor++)
 		{
 			GLWChannelView::CurrentChannelEntry &entry = *itor;
-			if (!(entry.type & ChannelDefinition::eReadOnlyChannel))
+			if (channelValid(channelEntry_.channel.c_str()))
 			{
-				// Use the first non-readonly channel
+				// Use the first valid channel
 				channelEntry_ = entry;
 				return true;
 			}
@@ -532,6 +647,10 @@ bool GLWChannelText::checkCurrentChannel()
 	}
 	else 
 	{
+		// Get the current channel
+		GLWChannelView::CurrentChannelEntry *channelEntry = view_.getChannel(
+			channelEntry_.channel.c_str());	
+
 		// The current channel is valid
 		channelEntry_ = *channelEntry;
 		return true;

@@ -61,6 +61,8 @@ public:
 	bool getParentSized() { return parentSized_; }
 	bool initFromXMLInternal(XMLNode *node);
 
+	unsigned int getLastWhisperSrc() { return lastWhisperSrc_; }
+
 	std::list<CurrentChannelEntry> &getCurrentChannels() { return currentChannels_; }
 	std::list<BaseChannelEntry> &getAvailableChannels() { return availableChannels_; }
 	CurrentChannelEntry *getChannel(const char *channelName);
@@ -112,9 +114,11 @@ protected:
 	GLTexture resetTexture_;
 
 	unsigned int lastChannelId_;
+	unsigned int lastWhisperSrc_;
 	bool init_;
 	bool alignTop_, parentSized_;
 	bool splitLargeLines_, allowScroll_;
+	bool showChannelName_;
 	int lineDepth_;
 	int scrollPosition_;
 	float displayTime_;
@@ -131,7 +135,7 @@ protected:
 	std::list<BaseChannelEntry> availableChannels_;
 	std::string textSound_;
 
-	void addInfo(const char *channel, const char *text);
+	void addInfo(ChannelText &channelText, const char *text);
 	void formCurrentChannelList(std::list<std::string> &result);
 	int splitLine(const char *message, std::string &result);
 };

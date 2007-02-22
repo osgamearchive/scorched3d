@@ -42,9 +42,9 @@ GLWChannelView::GLWChannelView() :
 	visibleLines_(5), totalLines_(50),
 	displayTime_(10.0f),
 	fontSize_(12.0f), outlineFontSize_(14.0f), lineDepth_(18),
-	currentVisible_(0), lastChannelId_(1),
+	currentVisible_(0), lastChannelId_(1), lastWhisperSrc_(0),
 	alignTop_(false), parentSized_(false), splitLargeLines_(false),
-	scrollPosition_(-1), allowScroll_(false),
+	scrollPosition_(-1), allowScroll_(false), showChannelName_(true),
 	upButton_(x_ + 2.0f, y_ + 1.0f, 12.0f, 12.0f),
 	downButton_(x_ + 2.0f, y_ + 1.0f, 12.0f, 12.0f),
 	resetButton_(x_ + 2.0f, y_ + 1.0f, 14.0f, 14.0f),
@@ -130,8 +130,6 @@ void GLWChannelView::registeredForChannels(
 					newEntry.color = colorItor->second;
 				}
 
-				//addInfo(formatString("joined %u. [%s]", 
-				//	newEntry.id, channel.c_str()));
 				currentChannels_.push_back(newEntry);
 			}	
 		}
@@ -145,21 +143,6 @@ void GLWChannelView::registeredForChannels(
 			itor++)
 		{
 			std::string channel = itor->getChannel();
-
-			// Find out if we were already in this channel
-			std::list<CurrentChannelEntry>::iterator olditor;
-			for (olditor = oldCurrentChannels.begin();
-				olditor != oldCurrentChannels.end();
-				olditor++)
-			{
-				CurrentChannelEntry &oldEntry = (*olditor);
-				if (channel == oldEntry.channel)
-				{
-					//addInfo(formatString("left %u. [%s]", 
-					//	oldEntry.id, channel.c_str()));
-					break;
-				}
-			}
 
 			// Add this channel to list of available
 			BaseChannelEntry newEntry;
@@ -203,7 +186,7 @@ void GLWChannelView::channelText(ChannelText &channelText)
 
 	if (!splitLargeLines_)
 	{
-		addInfo(channel, text);
+		addInfo(channelText, text);
 		return;
 	}
 
@@ -216,7 +199,7 @@ void GLWChannelView::channelText(ChannelText &channelText)
 		int partLen = splitLine(&text[currentLen], result);
 		currentLen += partLen;
 
-		addInfo(channel, result.c_str());
+		addInfo(channelText, result.c_str());
 	}
 }
 
@@ -273,14 +256,30 @@ int GLWChannelView::splitLine(const char *message, std::string &result)
 	return totalLen;
 }
 
-void GLWChannelView::addInfo(const char *channelName, const char *text)
+void GLWChannelView::addInfo(ChannelText &channelText, const char *text)
 {
-	CurrentChannelEntry *channel = getChannel(channelName);
+	CurrentChannelEntry *channel = getChannel(channelText.getChannel());
 	if (!channel) return;
 
+	Tank *tank = ScorchedClient::instance()->getTankContainer().
+		getTankById(channelText.getSrcPlayerId());
+	if (!tank) return;
+
+	if (channel->type & ChannelDefinition::eWhisperChannel)
+	{
+		lastWhisperSrc_ = tank->getPlayerId();
+	}
+
+	const char *channelName = "";
+	if (showChannelName_)
+	{
+		channelName = formatString("%u. [%s][%s] : ", 
+			channel->id, channel->channel.c_str(), tank->getName());
+	}
+
 	GLWChannelViewEntry entry;
-	entry.text = formatString("%u. [%s] : %s", 
-		channel->id, channel->channel.c_str(), text);
+	entry.text = formatString("%s%s", 
+		channelName, text);
 	entry.timeRemaining = displayTime_;
 	entry.color = channel->color;
 	textLines_.push_front(entry);
@@ -520,6 +519,7 @@ bool GLWChannelView::initFromXMLInternal(XMLNode *node)
 	if (!node->getNamedChild("parentsized", parentSized_)) return false;
 	if (!node->getNamedChild("splitlargelines", splitLargeLines_)) return false;
 	if (!node->getNamedChild("allowscroll", allowScroll_)) return false;
+	if (!node->getNamedChild("showchannelname", showChannelName_)) return false;
 	
 	node->getNamedChild("textsound", textSound_, false);
 
