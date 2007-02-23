@@ -69,6 +69,7 @@ protected:
 	GLWChannelView view_;
 	std::map<KeyboardKey *, std::string> keys_;
 	std::string text_;
+	float fontSize_, outlineFontSize_;
 	float ctime_;
 	bool cursor_, visible_;
 	int maxTextLen_;

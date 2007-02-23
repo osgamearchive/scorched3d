@@ -23,6 +23,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsChannelMessage.h>
 #include <coms/ComsChannelTextMessage.h>
+#include <GLEXT/GLConsole.h>
 #include <common/Logger.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
@@ -159,6 +160,8 @@ unsigned int ClientChannelManager::getChannelEntry(ClientChannelManagerI *reciev
 
 void ClientChannelManager::say(std::list<GLConsoleRuleSplit> list)
 {
+	bool usage = false;
+
 	list.pop_front();
 	if (!list.empty())
 	{
@@ -170,7 +173,11 @@ void ClientChannelManager::say(std::list<GLConsoleRuleSplit> list)
 			ChannelText message(channel.c_str(), text.c_str());
 			sendText(message);
 		}
+		else usage = true;
 	}
+	else usage = true;
+
+	GLConsole::instance()->addLine(false, "Usage: say <channel> <text>");
 }
 
 void ClientChannelManager::sendText(const ChannelText &constText)
@@ -274,7 +281,21 @@ bool ClientChannelManager::processMessage(
 		if (tank && tank->getState().getMuted()) return true;
 
 		// Log this message
-		Logger::log(textMessage.getChannelText().getMessage());
+		if (tank)
+		{
+			Logger::log(
+				formatString("[%s][%s] : %s",
+				textMessage.getChannelText().getChannel(),
+				tank->getName(),
+				textMessage.getChannelText().getMessage()));
+		}
+		else
+		{
+			Logger::log(
+				formatString("[%s] : %s",
+				textMessage.getChannelText().getChannel(),
+				textMessage.getChannelText().getMessage()));
+		}
 
 		// Foreach reciever
 		std::list<unsigned int>::iterator itor;

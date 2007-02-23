@@ -135,7 +135,7 @@ protected:
 	std::list<BaseChannelEntry> availableChannels_;
 	std::string textSound_;
 
-	void addInfo(ChannelText &channelText, const char *text);
+	void addInfo(Vector &color, const char *text);
 	void formCurrentChannelList(std::list<std::string> &result);
 	int splitLine(const char *message, std::string &result);
 };

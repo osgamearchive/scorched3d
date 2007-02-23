@@ -181,12 +181,40 @@ void GLWChannelView::channelText(ChannelText &channelText)
 		SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);	
 	}
 
-	const char *channel = channelText.getChannel();
-	const char *text = channelText.getMessage();
+	CurrentChannelEntry *channel = getChannel(channelText.getChannel());
+	if (!channel) return;
+
+	const char *channelName = "";
+	Tank *tank = ScorchedClient::instance()->getTankContainer().
+		getTankById(channelText.getSrcPlayerId());
+	if (tank)
+	{
+		if (channel->type & ChannelDefinition::eWhisperChannel)
+		{
+			lastWhisperSrc_ = tank->getPlayerId();
+		}
+	}
+
+	if (showChannelName_)
+	{
+		if (tank)
+		{
+			channelName = formatString("%u. [%s][%s] : ", 
+				channel->id, channel->channel.c_str(), tank->getName());
+		}
+		else
+		{
+			channelName = formatString("%u. [%s] : ", 
+				channel->id, channel->channel.c_str());
+		}
+	}
+
+	const char *text = formatString("%s%s", 
+		channelName, channelText.getMessage());
 
 	if (!splitLargeLines_)
 	{
-		addInfo(channelText, text);
+		addInfo(channel->color, text);
 		return;
 	}
 
@@ -199,7 +227,7 @@ void GLWChannelView::channelText(ChannelText &channelText)
 		int partLen = splitLine(&text[currentLen], result);
 		currentLen += partLen;
 
-		addInfo(channelText, result.c_str());
+		addInfo(channel->color, result.c_str());
 	}
 }
 
@@ -256,32 +284,12 @@ int GLWChannelView::splitLine(const char *message, std::string &result)
 	return totalLen;
 }
 
-void GLWChannelView::addInfo(ChannelText &channelText, const char *text)
+void GLWChannelView::addInfo(Vector &color, const char *text)
 {
-	CurrentChannelEntry *channel = getChannel(channelText.getChannel());
-	if (!channel) return;
-
-	Tank *tank = ScorchedClient::instance()->getTankContainer().
-		getTankById(channelText.getSrcPlayerId());
-	if (!tank) return;
-
-	if (channel->type & ChannelDefinition::eWhisperChannel)
-	{
-		lastWhisperSrc_ = tank->getPlayerId();
-	}
-
-	const char *channelName = "";
-	if (showChannelName_)
-	{
-		channelName = formatString("%u. [%s][%s] : ", 
-			channel->id, channel->channel.c_str(), tank->getName());
-	}
-
 	GLWChannelViewEntry entry;
-	entry.text = formatString("%s%s", 
-		channelName, text);
+	entry.text = text;
 	entry.timeRemaining = displayTime_;
-	entry.color = channel->color;
+	entry.color = color;
 	textLines_.push_front(entry);
 
 	if (scrollPosition_ > 0)

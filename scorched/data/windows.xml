@@ -82,35 +82,21 @@
 					<channel>whisper</channel>
 					<channelcolor>
 						<channel>info</channel>
-						<color>
-							<A>0.8</A>
-							<B>0.8</B>
-							<C>0.8</C>
-						</color>
+						<color><A>0.8</A><B>0.8</B><C>0.8</C></color>
 					</channelcolor>
 					<channelcolor>
 						<channel>general</channel>
-						<color>
-							<A>1.0</A>
-							<B>1.0</B>
-							<C>1.0</C>
+						<color><A>1.0</A><B>1.0</B><C>1.0</C>
 						</color>
 					</channelcolor>
 					<channelcolor>
 						<channel>team</channel>
-						<color>
-							<A>0.7</A>
-							<B>0.7</B>
-							<C>1.0</C>
+						<color><A>0.7</A><B>0.7</B><C>1.0</C>
 						</color>
 					</channelcolor>
 					<channelcolor>
 						<channel>whisper</channel>
-						<color>
-							<A>0.5</A>
-							<B>0.0</B>
-							<C>0.5</C>
-						</color>
+						<color><A>0.5</A><B>0.0</B><C>0.5</C></color>
 					</channelcolor>
 				</widget>
 			</item>

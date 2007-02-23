@@ -23,7 +23,6 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWPanel.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLConsole.h>
 #include <GLEXT/GLPng.h>
 #include <GLEXT/GLBitmap.h>
 #include <XML/XMLParser.h>
@@ -42,6 +41,7 @@ GLWChannelText::GLWChannelText() :
 	ctime_(0.0f), cursor_(false), maxTextLen_(0), 
 	visible_(false),
 	button_(x_ + 2.0f, y_ + 4.0f, 12.0f, 12.0f),
+	fontSize_(12.0f), outlineFontSize_(14.0f),
 	whisperDest_(0)
 {
 	view_.setHandler(this);
@@ -121,12 +121,19 @@ void GLWChannelText::draw()
 			channelEntry_.id, channelEntry_.channel.c_str());
 	}
 
-	const char *text = formatString("%s%s%s", 
-		channelName, text_.c_str(), cursor_?" ":"_");
+	const char *text = formatString("%s%s", 
+		channelName, text_.c_str());
+
+	static Vector black(0.0f, 0.0f, 0.0f);
+	GLWFont::instance()->getSmallPtFontOutline()->
+		drawOutlineWidthRhs(w_ - 25.0f, 
+			black, outlineFontSize_, fontSize_,
+			x_ + 20.0f - 1.0f, y_ + 5.0f - 1.0f, 0.0f, 
+			text);
 
 	GLWFont::instance()->getLargePtFont()->drawWidthRhs(
 		w_ - 25.0f,
-		channelEntry_.color, 12,
+		channelEntry_.color, fontSize_,
 		x_ + 20.0f, y_ + 5.0f, 0.0f, 
 		text);
 }
@@ -135,9 +142,6 @@ void GLWChannelText::keyDown(char *buffer, unsigned int keyState,
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
-	view_.keyDown(buffer, keyState, history, hisCount, skipRest);
-	if (skipRest) return;
-
 	if (visible_) skipRest = true;
 	for (int i=0; i<hisCount; i++)
 	{
@@ -154,6 +158,7 @@ void GLWChannelText::keyDown(char *buffer, unsigned int keyState,
 		}
 	}
 	if (visible_) skipRest = true;
+	else view_.keyDown(buffer, keyState, history, hisCount, skipRest);
 }
 
 void GLWChannelText::processNotVisibleKey(char c, unsigned int dik, bool &skipRest)
@@ -300,6 +305,31 @@ void GLWChannelText::processSpecialText()
 			channelEntry_ = *channelEntry;
 		}
 	}
+	else if (strcmp("t", &text_[1]) == 0)
+	{
+		text_ = "";
+
+		GLWChannelView::CurrentChannelEntry *channelEntry = 
+			view_.getChannel("team");
+		if (channelEntry && 
+			channelValid(channelEntry->channel.c_str()))
+		{
+			channelEntry_ = *channelEntry;
+		}
+	}
+	else if (strcmp("s", &text_[1]) == 0 ||
+		strcmp("say", &text_[1]) == 0)
+	{
+		text_ = "";
+
+		GLWChannelView::CurrentChannelEntry *channelEntry = 
+			view_.getChannel("general");
+		if (channelEntry && 
+			channelValid(channelEntry->channel.c_str()))
+		{
+			channelEntry_ = *channelEntry;
+		}
+	}
 }
 
 void GLWChannelText::mouseDown(int button, float x, float y, bool &skipRest)
@@ -353,7 +383,7 @@ void GLWChannelText::setH(float h)
 	view_.setH(h - 20.0f);
 }
 
-static enum
+enum
 {
 	eMuteSelectorStart = 1000,
 	eWhisperSelectorStart = 2000,

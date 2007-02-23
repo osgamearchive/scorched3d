@@ -138,9 +138,9 @@ void GLFont2d::drawWidth(float len, Vector &color, float size,
 	drawString(l, color, 1.0f, size, x, y, z, text, false);
 }
 
-void GLFont2d::drawWidthRhs(float len, Vector &color, float size, 
-					   float x, float y, float z, 
-					   const char *text)
+void GLFont2d::drawOutlineWidthRhs(float len, Vector &color, float size, float size2,
+					float x, float y, float z, 
+					const char *text)
 {
 	int slen = strlen(text);
 	if (slen > 0)
@@ -150,13 +150,20 @@ void GLFont2d::drawWidthRhs(float len, Vector &color, float size,
 		char *a=& ((char *)text)[slen-1];
 		for (; a >= text; a--, l++)
 		{
-			width += float(characters_[*a].advances) * size / height_;
+			width += float(characters_[*a].advances) * (size2==0.0?size:size2) / height_;
 			if (width > len) break;
 		}
 		a++;
 
-		drawString(l, color, 1.0f, size, x, y, z, a, false);
+		drawString(l, color, 1.0f, size, x, y, z, a, false, size2);
 	}
+}
+
+void GLFont2d::drawWidthRhs(float len, Vector &color, float size, 
+					   float x, float y, float z, 
+					   const char *text)
+{
+	drawOutlineWidthRhs(len, color, size, 0.0f, x, y, z, text);
 }
 
 void GLFont2d::drawBilboard(Vector &color, float alpha, float size, 
