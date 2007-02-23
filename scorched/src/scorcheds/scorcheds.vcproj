@@ -1066,6 +1066,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerWebAppletHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerWebAppletHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerWebHandler.cpp"
 				>
 			</File>

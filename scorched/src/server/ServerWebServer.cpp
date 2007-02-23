@@ -24,6 +24,7 @@
 #include <server/ServerWebServer.h>
 #include <server/ServerWebHandler.h>
 #include <server/ServerWebSettingsHandler.h>
+#include <server/ServerWebAppletHandler.h>
 #include <server/ServerCommon.h>
 #include <server/ServerAdminHandler.h>
 #include <server/ScorchedServer.h>
@@ -63,6 +64,9 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/settingslandscape", new ServerWebSettingsHandler::SettingsLandscapeHandler());
 	addRequestHandler("/settingsplayers", new ServerWebSettingsHandler::SettingsPlayersHandler());
 	addRequestHandler("/settingsmod", new ServerWebSettingsHandler::SettingsModHandler());
+
+	addRequestHandler("/applet", new ServerWebAppletHandler::AppletHtmlHandler());
+	addRequestHandler("/Applet.jar", new ServerWebAppletHandler::AppletFileHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -417,7 +421,7 @@ bool ServerWebServer::processRequest(
 	// Generate the message to send
 	NetMessage *message = NetMessagePool::instance()->getFromPool(
 		NetMessage::BufferMessage, destinationId, 0, 0);
-	message->getBuffer().addDataToBuffer(text.c_str(), text.size()); // No null
+	message->getBuffer().addDataToBuffer(text.data(), text.size()); // No null
 	if (delayed)
 	{
 		// Generate an outgoing message, that will be sent after a time delay

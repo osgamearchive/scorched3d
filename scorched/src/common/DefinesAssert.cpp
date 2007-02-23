@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <windows.h>
 #include <string>
 
@@ -46,7 +47,11 @@ void dialogMessage(const char *header, const char *text)
 		newtext.append(formatString("%c", *t));
 	}
 
+	// Make sure that this is logged
+	Logger::log(text);
+	Logger::instance()->processLogEntries();
 
+	// Show the dialog (if any)
 #if defined(_WIN32) && !defined(S3D_SERVER)
 	MessageBox(NULL, newtext.c_str(), header, MB_OK);
 #else
