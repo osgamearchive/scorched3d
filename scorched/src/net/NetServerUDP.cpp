@@ -47,6 +47,11 @@ bool NetServerUDP::started()
 
 bool NetServerUDP::connect(const char *hostName, int portNo)
 {
+	if(SDLNet_Init()==-1)
+	{
+		return false;
+	}
+
 	// Resolve server address
 	IPaddress serverAddress;
 	if (SDLNet_ResolveHost(&serverAddress, hostName, portNo) != 0)
@@ -77,6 +82,11 @@ bool NetServerUDP::connect(const char *hostName, int portNo)
 
 bool NetServerUDP::start(int portNo)
 {
+	if(SDLNet_Init()==-1)
+	{
+		return false;
+	}
+
 	// Create a new server listening socket
 	if (!udpsock_) udpsock_ = SDLNet_UDP_Open(portNo);
 	if (!udpsock_)
