@@ -61,7 +61,7 @@ void WeaponDelay::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	Action *action = new CallbackWeapon(
-		this, delay_, 0,
+		this, delay_.getValue(context), 0,
 		weaponContext, position, velocity);
 	context.actionController->addAction(action);
 }

@@ -25,6 +25,7 @@
 #include <net/NetBuffer.h>
 #include <common/Vector.h>
 #include <engine/ScorchedContext.h>
+#include <common/NumberParser.h>
 
 class WeaponFireContext
 {

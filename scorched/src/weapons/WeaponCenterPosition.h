@@ -39,7 +39,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponCenterPosition, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float height_;
+	NumberParser height_;
 	Weapon *nextAction_;
 };
 

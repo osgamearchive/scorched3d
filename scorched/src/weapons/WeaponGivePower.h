@@ -45,7 +45,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponGivePower, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float power_;
+	NumberParser power_;
 
 };
 

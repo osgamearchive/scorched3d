@@ -72,10 +72,10 @@ void WeaponRedirect::fireWeapon(ScorchedContext &context,
 	float dist = (float) sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
 	float currentv = atan2f(dist, velocity[2]) / 3.14f * 180.0f;
 
-	if (habs_) currenth = hredirect_;
-	else currenth += hredirect_;
-	if (vabs_) currentv = vredirect_;
-	else currentv += vredirect_;
+	if (habs_) currenth = hredirect_.getValue(context);	// call NumberParser::getValue
+	else currenth += hredirect_.getValue(context);		// to evaluate at runtime
+	if (vabs_) currentv = vredirect_.getValue(context);
+	else currentv += vredirect_.getValue(context);
 	
 	Vector newVelocity = TankLib::getVelocityVector(currenth, 90.0f - currentv);
 	newVelocity.StoreNormalize();

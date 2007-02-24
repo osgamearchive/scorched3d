@@ -63,14 +63,15 @@ void WeaponGivePower::weaponCallback(
 	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
+	float power = power_.getValue(context);
 	tank->getPosition().setMaxPower(
-		MAX(tank->getPosition().getMaxPower(), power_));
+		MAX(tank->getPosition().getMaxPower(), power));
 
 	if (!context.serverMode)
 	{
 		ChannelText text("combat", 
 			formatString("\"%s\" received %.0f power", 
-			tank->getName(), power_));
+			tank->getName(), power));
 		//info.setPlayerId(weaponContext.getPlayerId());
 		ChannelManager::showText(text);
 	}

@@ -25,6 +25,7 @@
 #include <list>
 #include <common/Vector.h>
 #include <common/FileLines.h>
+#include <common/NumberParser.h>
 
 class XMLNode
 {
@@ -38,6 +39,8 @@ public:
 	};
 
 	XMLNode(const char *name, const char *content = "", 
+		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, NumberParser &content,
 		NodeType = XMLNode::XMLNodeType);
 	XMLNode(const char *name, float content, 
 		NodeType = XMLNode::XMLNodeType);
@@ -71,6 +74,8 @@ public:
 	bool getNamedChild(const char *name, std::string &value,
 		bool failOnError = true, bool remove = true);
 	bool getNamedChild(const char *name, bool &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedChild(const char *name, NumberParser &value,
 		bool failOnError = true, bool remove = true);
 	bool getNamedChild(const char *name, float &value,
 		bool failOnError = true, bool remove = true);

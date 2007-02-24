@@ -521,6 +521,14 @@
 				RelativePath="..\common\ModelID.h"
 				>
 			</File>
+                        <File
+                                RelativePath="..\common\NumberParser.cpp"
+                                >
+                        </File>
+                        <File
+                                RelativePath="..\common\NumberParser.h"
+                                >
+                        </File>
 			<File
 				RelativePath="..\common\OptionEntry.cpp"
 				>

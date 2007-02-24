@@ -44,7 +44,7 @@ public:
 			unsigned int userData);
 
 protected:
-	float delay_;
+	NumberParser delay_;
 	Weapon *delayedWeapon_;
 
 };

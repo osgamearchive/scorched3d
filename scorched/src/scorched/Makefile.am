@@ -37,6 +37,8 @@ scorched3d_SOURCES = \
 	../wxdialogs/SingleDialog.h \
 	../wxdialogs/SingleSDialog.cpp \
 	../wxdialogs/SingleSDialog.h \
+	../wxdialogs/SplashDialog.cpp \
+	../wxdialogs/SplashDialog.h \
 	../engine/ModDirs.cpp \
 	../engine/ModDirs.h \
 	../engine/ModFileEntry.cpp \
@@ -78,6 +80,10 @@ scorched3d_SOURCES = \
 	../common/Logger.h \
 	../common/LoggerI.cpp \
 	../common/LoggerI.h \
+	../common/NumberParser.cpp \
+	../common/NumberParser.h \
+	../common/RandomGenerator.cpp \
+	../common/RandomGenerator.h \
 	../common/OptionEntry.cpp \
 	../common/OptionEntry.h \
 	../common/OptionsGame.cpp \

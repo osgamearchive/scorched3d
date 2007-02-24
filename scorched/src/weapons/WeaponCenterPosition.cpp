@@ -67,7 +67,7 @@ void WeaponCenterPosition::fireWeapon(ScorchedContext &context,
 	Vector newPositon = position;
 	newPositon[0] = mapWidth / 2.0f;
 	newPositon[1] = mapHeight / 2.0f;
-	newPositon[2] = height_;
+	newPositon[2] = height_.getValue(context);
 	
 	nextAction_->fireWeapon(context, weaponContext, newPositon, velocity);
 

@@ -40,8 +40,8 @@ public:
 
 protected:
 	int noWarheads_;
-	float hspreadDist_;
-	float vspreadDist_;
+	NumberParser hspreadDist_;
+	NumberParser vspreadDist_;
 	Weapon *aimedWeapon_;
 
 };

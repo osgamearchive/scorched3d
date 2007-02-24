@@ -74,20 +74,23 @@ void WeaponMirv::fireWeapon(ScorchedContext &context,
 	RandomGenerator &random = context.actionController->getRandom();
 
 	// Add all of the sub warheads that have a random spread
+	float hspreadDist;
 	for (int i=0; i<noWarheads_ - 1; i++)
 	{
 		Vector newDiff = velocity;
 		newDiff[2] = 0.0f;
-		if (hspreadDist_ != 0.0f)
+		// Ensure the same value is used in all parts of the calc
+		hspreadDist = hspreadDist_.getValue(context);
+		if (hspreadDist != 0.0f)
 		{
 			Vector diff = newDiff;
 			diff[2] -= 1.0f;
 			Vector perp = newDiff * diff;
 
-			newDiff += (perp * ((random.getRandFloat() * hspreadDist_) - (hspreadDist_ * 0.5f)));
+			newDiff += (perp * ((random.getRandFloat() * hspreadDist) - (hspreadDist * 0.5f)));
 		}
 		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
-			float(noWarheads_ / 2)) * vspreadDist_;
+			float(noWarheads_ / 2)) * vspreadDist_.getValue(context);
 
 		aimedWeapon_->fireWeapon(context, weaponContext, position, newDiff);
 	}

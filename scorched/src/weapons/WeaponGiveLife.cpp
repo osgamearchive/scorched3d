@@ -64,28 +64,29 @@ void WeaponGiveLife::weaponCallback(
 	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
-	if (life_ > 0.0f)
+	float life = life_.getValue(context);
+	if (life > 0.0f)
 	{
-		if (life_ > tank->getLife().getMaxLife() &&
+		if (life > tank->getLife().getMaxLife() &&
 			exceedMax_)
 		{
-			tank->getLife().setMaxLife(life_);
+			tank->getLife().setMaxLife(life);
 		}
 		tank->getLife().setLife(
-			tank->getLife().getLife() + life_);
+			tank->getLife().getLife() + life);
 
 		if (!context.serverMode)
 		{
 			ChannelText text("combat", 
 				formatString("\"%s\" received %.0f life", 
-				tank->getName(), life_));
+				tank->getName(), life));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
 		}
 	}
 	else
 	{
-		if (tank->getLife().getLife() + life_ <= 0.0f)
+		if (tank->getLife().getLife() + life <= 0.0f)
 		{
 			tank->getLife().setLife(
 				MIN(1.0f, tank->getLife().getLife()));
@@ -93,14 +94,14 @@ void WeaponGiveLife::weaponCallback(
 		else
 		{
 			tank->getLife().setLife(
-				tank->getLife().getLife() + life_);
+				tank->getLife().getLife() + life);
 		}
 
 		if (!context.serverMode)
 		{
 			ChannelText text("combat", 
 				formatString("\"%s\" lost %.0f life", 
-				tank->getName(), -life_));
+				tank->getName(), -life));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
 		}

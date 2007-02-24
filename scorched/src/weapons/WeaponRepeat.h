@@ -45,7 +45,7 @@ public:
 
 protected:
 	Weapon *repeatWeapon_;
-	float delay_;
+	NumberParser delay_;
 	int repeat_;
 
 };

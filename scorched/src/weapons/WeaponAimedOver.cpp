@@ -118,7 +118,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 		position, 
 		sortedTanks,
 		0,
-		maxAimedDistance_);
+		maxAimedDistance_.getValue(context));
 
 	// Add all of these distances together
 	float totalDist = 0.0f;
@@ -150,7 +150,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	RandomGenerator &random = context.actionController->getRandom();
 	
 	// Add a percetage that we will not fire at any tank
-	maxDist *= 1.0f + (percentageMissChance_ / 100.0f);
+	maxDist *= 1.0f + (percentageMissChance_.getValue(context) / 100.0f);
 
 	// For each war head
 	for (int i=0; i<warHeads_; i++)
@@ -188,10 +188,10 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 				shootAt->getPosition().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (random.getRandFloat() * maxInacuracy_) - 
-				(maxInacuracy_ / 2.0f);
-			angleYZDegs += (random.getRandFloat() * maxInacuracy_) - 
-				(maxInacuracy_ / 2.0f);
+			angleXYDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2.0f);
+			angleYZDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2.0f);
 		}
 		if (ceiling) angleYZDegs += 180.0f;
 

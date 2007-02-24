@@ -24,6 +24,7 @@
 #include <weapons/Weapon.h>
 #include <common/ModelID.h>
 
+class ScorchedContext;
 class WeaponRoller : public Weapon
 {
 public:
@@ -36,6 +37,7 @@ public:
 	Weapon *getCollisionAction() { return collisionAction_; }
 	ModelID &getRollerModelID() { return rollerModelId_; }
 	float getShieldHurtFactor() { return shieldHurtFactor_; }
+	float getTime(ScorchedContext &context);
 	float getTime() { return time_; }
 	float getWindFactor() { return windFactor_; }
 
@@ -46,7 +48,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponRoller, AccessoryPart::AccessoryWeapon);
 
 protected:
-	int numberRollers_;
+	NumberParser numberRollers_;
 	Weapon *collisionAction_;
 	ModelID rollerModelId_;
 	float shieldHurtFactor_;

@@ -24,6 +24,7 @@
 #include <float.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <common/NumberParser.h>
 
 void XMLNode::removeSpecialChars(std::string &content, std::string &result)
 {
@@ -385,6 +386,18 @@ bool XMLNode::getNamedChild(const char *name, bool &value,
 			"Failed to parse boolean value (should be true or false)");
 	}
 	return true;
+}
+
+bool XMLNode::getNamedChild(const char *name, NumberParser &value,
+        bool failOnError, bool remove)
+{
+        XMLNode *node;
+        if (!getNamedChild(name, node, failOnError, remove)) return false;
+
+        if (!value.setExpression(node->getContent()))
+                return node->returnError("Failed to parse expression");
+
+        return true;
 }
 
 bool XMLNode::getNamedChild(const char *name, float &value,

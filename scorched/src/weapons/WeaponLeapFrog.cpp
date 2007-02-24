@@ -62,7 +62,7 @@ bool WeaponLeapFrog::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
-	Vector newVelocity = velocity * bounce_;
+	Vector newVelocity = velocity * bounce_.getValue(context);
 	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
 
 	Vector newPosition = position;

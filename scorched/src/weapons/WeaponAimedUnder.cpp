@@ -99,7 +99,7 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 		position, 
 		sortedTanks,
 		0,
-		maxAimedDistance_);
+		maxAimedDistance_.getValue(context));
 
 	// Add all of these distances together
 	float totalDist = 0.0f;
@@ -129,7 +129,7 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 	}
 	
 	// Add a percetage that we will not fire at any tank
-	maxDist *= 1.0f + (percentageMissChance_ / 100.0f);
+	maxDist *= 1.0f + (percentageMissChance_.getValue(context)/ 100.0f);
 
 	RandomGenerator &random = context.actionController->getRandom();
 
@@ -168,10 +168,10 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 				shootAt->getPosition().getTankPosition(), -1.0f, 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (random.getRandFloat() * maxInacuracy_) - 
-				(maxInacuracy_ / 2.0f);
-			angleYZDegs += (random.getRandFloat() * maxInacuracy_) - 
-				(maxInacuracy_ / 2.0f);
+			angleXYDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2.0f);
+			angleYZDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2.0f);
 		}
 
 		// Create the shot

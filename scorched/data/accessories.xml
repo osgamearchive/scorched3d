@@ -1597,7 +1597,30 @@ and shields damaging the tank directly.</description>
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
-
+        <accessory>
+                <name>TestNumberParser</name>
+                <armslevel>10</armslevel>
+                <description>Test accessory for the NumberParser class.</description>
+                <icon>bmissile.bmp</icon>
+		<maximumnumber>0</maximumnumber>
+                <startingnumber>-1</startingnumber>
+                <activationsound>shoot/small.wav</activationsound>
+                <accessoryaction type='WeaponRepeat'>
+                        <repeat>10</repeat>
+                        <delay>0.255555</delay>
+                        <repeatweapon type="WeaponRedirect">
+                                <habs>false</habs>
+                                <vabs>false</vabs>
+                                <!-- DISTRIBUTION will randomly pick from the list of values -->
+                                <hredirect>DISTRIBUTION(1,5,10.1,20,40,80,160)</hredirect>
+                                <!-- RANGE(x,y,z) will pick a random value from x to y, with an optional step of z -->
+                                <vredirect>RANGE(0,90,10)</vredirect>
+                                <nextaction type="WeaponReference">
+                                        <weapon>Smoke Tracer</weapon>
+                                </nextaction>
+                        </repeatweapon>
+                </accessoryaction>
+        </accessory>
 	<accessory>
 		<name>BoidsLaser</name>
 		<maximumnumber>0</maximumnumber>

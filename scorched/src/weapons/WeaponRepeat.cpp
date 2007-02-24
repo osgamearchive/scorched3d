@@ -61,7 +61,7 @@ bool WeaponRepeat::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 void WeaponRepeat::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
-	if (delay_ == 0.0f)
+	if (delay_.getValue(context) == 0.0f)
 	{
 		for (int i=0; i<repeat_; i++)
 		{
@@ -84,7 +84,7 @@ void WeaponRepeat::weaponCallback(
 	if (userData > 1)
 	{
 		context.actionController->addAction(
-			new CallbackWeapon(this, delay_, userData - 1, 
+			new CallbackWeapon(this, delay_.getValue(context), userData - 1, 
 				weaponContext, position, velocity));
 	}
 }

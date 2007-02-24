@@ -513,6 +513,22 @@
 				RelativePath="..\common\LoggerI.h"
 				>
 			</File>
+                        <File
+                                RelativePath="..\common\NumberParser.cpp"
+                                >
+                        </File>
+                        <File
+                                RelativePath="..\common\NumberParser.h"
+                                >
+                        </File>
+			<File
+				RelativePath="..\common\RandomGenerator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\RandomGenerator.h"
+				>
+			</File>
 			<File
 				RelativePath="..\common\OptionEntry.cpp"
 				>

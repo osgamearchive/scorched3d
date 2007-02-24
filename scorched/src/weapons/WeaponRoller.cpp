@@ -81,6 +81,11 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 	return true;
 }
 
+float WeaponRoller::getTime(ScorchedContext &context)
+{
+	return time_;
+}
+
 void WeaponRoller::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &oldposition, Vector &velocity)
 {
@@ -97,7 +102,8 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	}
 
 	RandomGenerator &random = context.actionController->getRandom();
-	for (int i=0; i<numberRollers_; i++)
+	int numberRollers = numberRollers_.getUInt(context);
+	for (int i=0; i<numberRollers; i++)
 	{
 		Vector position = oldposition;
 		position[2] += 1.5f;

@@ -43,11 +43,13 @@ scorched3dc_SOURCES = \
 	../actions/TankSay.h \
 	../actions/Teleport.cpp \
 	../actions/Teleport.h \
-	../actions/WallHit.cpp \
-	../actions/WallHit.h \
 	./main.cpp \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
+	../common/ChannelManager.cpp \
+	../common/ChannelManager.h \
+	../common/ChannelText.cpp \
+	../common/ChannelText.h \
 	../common/Clock.cpp \
 	../common/Clock.h \
 	../common/Counter.cpp \
@@ -87,6 +89,8 @@ scorched3dc_SOURCES = \
 	../common/LoggerI.h \
 	../common/ModelID.cpp \
 	../common/ModelID.h \
+	../common/NumberParser.cpp \
+	../common/NumberParser.h \
 	../common/OptionEntry.cpp \
 	../common/OptionEntry.h \
 	../common/OptionsGame.cpp \
@@ -95,6 +99,8 @@ scorched3dc_SOURCES = \
 	../common/OptionsMasterListServer.h \
 	../common/OptionsParameters.cpp \
 	../common/OptionsParameters.h \
+	../common/OptionsScorched.cpp \
+	../common/OptionsScorched.h \
 	../common/OptionsTransient.cpp \
 	../common/OptionsTransient.h \
 	../common/ProgressCounter.cpp \
@@ -142,6 +148,12 @@ scorched3dc_SOURCES = \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
+	../server/ServerChannelAuth.cpp \
+	../server/ServerChannelAuth.h \
+	../server/ServerChannelFilter.cpp \
+	../server/ServerChannelFilter.h \
+	../server/ServerChannelManager.cpp \
+	../server/ServerChannelManager.h \
 	../server/ServerCommon.cpp \
 	../server/ServerCommon.h \
 	../server/ServerConnectHandler.cpp \
@@ -152,6 +164,8 @@ scorched3dc_SOURCES = \
 	../server/ServerFileAkHandler.h \
 	../server/ServerFileServer.cpp \
 	../server/ServerFileServer.h \
+	../server/ServerGiftMoneyHandler.cpp \
+	../server/ServerGiftMoneyHandler.h \
 	../server/ServerHaveModFilesHandler.cpp \
 	../server/ServerHaveModFilesHandler.h \
 	../server/ServerInitializeHandler.cpp \
@@ -204,18 +218,18 @@ scorched3dc_SOURCES = \
 	../server/ServerStateTooFewPlayersState.h \
 	../server/ServerTextFilter.cpp \
 	../server/ServerTextFilter.h \
-	../server/ServerTextHandler.cpp \
-	../server/ServerTextHandler.h \
 	../server/ServerTimedMessage.cpp \
 	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
+	../server/ServerWebAppletHandler.cpp \
+	../server/ServerWebAppletHandler.h \
 	../server/ServerWebHandler.cpp \
 	../server/ServerWebHandler.h \
-	../server/ServerWebSettingsHandler.cpp \
-	../server/ServerWebSettingsHandler.h \
 	../server/ServerWebServer.cpp \
 	../server/ServerWebServer.h \
+	../server/ServerWebSettingsHandler.cpp \
+	../server/ServerWebSettingsHandler.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -224,10 +238,16 @@ scorched3dc_SOURCES = \
 	../coms/ComsAdminMessage.h \
 	../coms/ComsBuyAccessoryMessage.cpp \
 	../coms/ComsBuyAccessoryMessage.h \
+	../coms/ComsChannelMessage.cpp \
+	../coms/ComsChannelMessage.h \
+	../coms/ComsChannelTextMessage.cpp \
+	../coms/ComsChannelTextMessage.h \
 	../coms/ComsConnectAcceptMessage.cpp \
 	../coms/ComsConnectAcceptMessage.h \
 	../coms/ComsConnectMessage.cpp \
 	../coms/ComsConnectMessage.h \
+	../coms/ComsConnectRejectMessage.cpp \
+	../coms/ComsConnectRejectMessage.h \
 	../coms/ComsDefenseMessage.cpp \
 	../coms/ComsDefenseMessage.h \
 	../coms/ComsFileAkMessage.cpp \
@@ -238,6 +258,8 @@ scorched3dc_SOURCES = \
 	../coms/ComsGameStateMessage.h \
 	../coms/ComsGameStoppedMessage.cpp \
 	../coms/ComsGameStoppedMessage.h \
+	../coms/ComsGiftMoneyMessage.cpp \
+	../coms/ComsGiftMoneyMessage.h \
 	../coms/ComsHaveModFilesMessage.cpp \
 	../coms/ComsHaveModFilesMessage.h \
 	../coms/ComsHeightMapMessage.cpp \
@@ -280,8 +302,6 @@ scorched3dc_SOURCES = \
 	../coms/ComsSyncCheckMessage.h \
 	../coms/ComsTargetStateMessage.cpp \
 	../coms/ComsTargetStateMessage.h \
-	../coms/ComsTextMessage.cpp \
-	../coms/ComsTextMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
 	../net/NetBuffer.cpp \
@@ -395,6 +415,10 @@ scorched3dc_SOURCES = \
 	../landscapedef/LandscapeInclude.h \
 	../landscapedef/LandscapeMovement.cpp \
 	../landscapedef/LandscapeMovement.h \
+	../landscapedef/LandscapeMusic.cpp \
+	../landscapedef/LandscapeMusic.h \
+	../landscapedef/LandscapeOptions.cpp \
+	../landscapedef/LandscapeOptions.h \
 	../landscapedef/LandscapeSound.cpp \
 	../landscapedef/LandscapeSound.h \
 	../landscapedef/LandscapeTex.cpp \
@@ -407,6 +431,8 @@ scorched3dc_SOURCES = \
 	../placement/PlacementObject.h \
 	../placement/PlacementObjectGroup.cpp \
 	../placement/PlacementObjectGroup.h \
+	../placement/PlacementObjectHeight.cpp \
+	../placement/PlacementObjectHeight.h \
 	../placement/PlacementObjectNone.cpp \
 	../placement/PlacementObjectNone.h \
 	../placement/PlacementObjectRandom.cpp \
@@ -417,8 +443,6 @@ scorched3dc_SOURCES = \
 	../placement/PlacementObjectTank.h \
 	../placement/PlacementObjectTarget.cpp \
 	../placement/PlacementObjectTarget.h \
-	../placement/PlacementObjectTree.cpp \
-	../placement/PlacementObjectTree.h \
 	../placement/PlacementShadowDefinition.cpp \
 	../placement/PlacementShadowDefinition.h \
 	../placement/PlacementTankPosition.cpp \
@@ -501,10 +525,10 @@ scorched3dc_SOURCES = \
 	../tankai/TankAIHuman.h \
 	../tankai/TankAIHumanCtrl.cpp \
 	../tankai/TankAIHumanCtrl.h \
-	../tankai/TankAIStore.cpp \
-	../tankai/TankAIStore.h \
 	../tankai/TankAINames.cpp \
 	../tankai/TankAINames.h \
+	../tankai/TankAIStore.cpp \
+	../tankai/TankAIStore.h \
 	../tankai/TankAIStrings.cpp \
 	../tankai/TankAIStrings.h \
 	../target/Target.cpp \
@@ -595,6 +619,8 @@ scorched3dc_SOURCES = \
 	../weapons/WeaponGiveScore.h \
 	../weapons/WeaponGiveWin.cpp \
 	../weapons/WeaponGiveWin.h \
+	../weapons/WeaponGroupSelect.cpp \
+	../weapons/WeaponGroupSelect.h \
 	../weapons/WeaponInvokeWeapon.cpp \
 	../weapons/WeaponInvokeWeapon.h \
 	../weapons/WeaponLaser.cpp \
@@ -754,8 +780,14 @@ scorched3dc_SOURCES = \
 	../client/ClientAddPlayerHandler.h \
 	../client/ClientAdmin.cpp \
 	../client/ClientAdmin.h \
+	../client/ClientChannelManager.cpp \
+	../client/ClientChannelManager.h \
+	../client/ClientChannelManagerI.cpp \
+	../client/ClientChannelManagerI.h \
 	../client/ClientConnectionAcceptHandler.cpp \
 	../client/ClientConnectionAcceptHandler.h \
+	../client/ClientConnectionRejectHandler.cpp \
+	../client/ClientConnectionRejectHandler.h \
 	../client/ClientDefenseHandler.cpp \
 	../client/ClientDefenseHandler.h \
 	../client/ClientDialog.cpp \
@@ -766,6 +798,8 @@ scorched3dc_SOURCES = \
 	../client/ClientGameStateHandler.h \
 	../client/ClientGameStoppedHandler.cpp \
 	../client/ClientGameStoppedHandler.h \
+	../client/ClientGiftMoneyHandler.cpp \
+	../client/ClientGiftMoneyHandler.h \
 	../client/ClientInitializeHandler.cpp \
 	../client/ClientInitializeHandler.h \
 	../client/ClientKeepAliveSender.cpp \
@@ -808,8 +842,6 @@ scorched3dc_SOURCES = \
 	../client/ClientSyncCheckHandler.h \
 	../client/ClientTargetStateHandler.cpp \
 	../client/ClientTargetStateHandler.h \
-	../client/ClientTextHandler.cpp \
-	../client/ClientTextHandler.h \
 	../client/ClientWaitState.cpp \
 	../client/ClientWaitState.h \
 	../client/ScorchedClient.cpp \
@@ -818,10 +850,16 @@ scorched3dc_SOURCES = \
 	../GLW/GLWBitmap.h \
 	../GLW/GLWButton.cpp \
 	../GLW/GLWButton.h \
+	../GLW/GLWChannelText.cpp \
+	../GLW/GLWChannelText.h \
+	../GLW/GLWChannelView.cpp \
+	../GLW/GLWChannelView.h \
 	../GLW/GLWCheckBox.cpp \
 	../GLW/GLWCheckBox.h \
 	../GLW/GLWCheckBoxText.cpp \
 	../GLW/GLWCheckBoxText.h \
+	../GLW/GLWDragger.cpp \
+	../GLW/GLWDragger.h \
 	../GLW/GLWDropDown.cpp \
 	../GLW/GLWDropDown.h \
 	../GLW/GLWDropDownColor.cpp \
@@ -836,6 +874,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWFont.h \
 	../GLW/GLWIcon.cpp \
 	../GLW/GLWIcon.h \
+	../GLW/GLWIconButton.cpp \
+	../GLW/GLWIconButton.h \
 	../GLW/GLWidget.cpp \
 	../GLW/GLWidget.h \
 	../GLW/GLWImageList.cpp \
@@ -844,8 +884,6 @@ scorched3dc_SOURCES = \
 	../GLW/GLWLabel.h \
 	../GLW/GLWListView.cpp \
 	../GLW/GLWListView.h \
-	../GLW/GLWLoggerView.cpp \
-	../GLW/GLWLoggerView.h \
 	../GLW/GLWPanel.cpp \
 	../GLW/GLWPanel.h \
 	../GLW/GLWPlanView.cpp \
@@ -878,6 +916,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWTankFire.h \
 	../GLW/GLWTankModel.cpp \
 	../GLW/GLWTankModel.h \
+	../GLW/GLWTankSlider.cpp \
+	../GLW/GLWTankSlider.h \
 	../GLW/GLWTankTip.cpp \
 	../GLW/GLWTankTip.h \
 	../GLW/GLWTankViewer.cpp \
@@ -933,6 +973,8 @@ scorched3dc_SOURCES = \
 	../3dsparse/ModelStore.h \
 	../3dsparse/MSModelFactory.cpp \
 	../3dsparse/MSModelFactory.h \
+	../3dsparse/TreeModelFactory.cpp \
+	../3dsparse/TreeModelFactory.h \
 	../3dsparse/Vertex.cpp \
 	../3dsparse/Vertex.h \
 	../cgext/CGFog.cpp \
@@ -952,6 +994,8 @@ scorched3dc_SOURCES = \
 	../landscape/InfoMap.h \
 	../landscape/Landscape.cpp \
 	../landscape/Landscape.h \
+	../landscape/LandscapeMusicManager.cpp \
+	../landscape/LandscapeMusicManager.h \
 	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapePoints.h \
 	../landscape/LandscapeShadowCamera.cpp \
@@ -1060,8 +1104,6 @@ scorched3dc_SOURCES = \
 	../tankgraph/TargetRendererImplTarget.h \
 	../tankgraph/TargetRendererImplTargetModel.cpp \
 	../tankgraph/TargetRendererImplTargetModel.h \
-	../tankgraph/TargetRendererImplTargetTree.cpp \
-	../tankgraph/TargetRendererImplTargetTree.h \
 	../graph/Display.cpp \
 	../graph/Display.h \
 	../graph/FrameLimiter.cpp \
@@ -1080,10 +1122,14 @@ scorched3dc_SOURCES = \
 	../graph/MainCamera.h \
 	../graph/ModelRenderer.cpp \
 	../graph/ModelRenderer.h \
+	../graph/ModelRendererMesh.cpp \
+	../graph/ModelRendererMesh.h \
 	../graph/ModelRendererSimulator.cpp \
 	../graph/ModelRendererSimulator.h \
 	../graph/ModelRendererStore.cpp \
 	../graph/ModelRendererStore.h \
+	../graph/ModelRendererTree.cpp \
+	../graph/ModelRendererTree.h \
 	../graph/Mouse.cpp \
 	../graph/Mouse.h \
 	../graph/OptionsDisplay.cpp \
@@ -1120,6 +1166,8 @@ scorched3dc_SOURCES = \
 	../dialogs/CameraDialog.h \
 	../dialogs/ConnectDialog.cpp \
 	../dialogs/ConnectDialog.h \
+	../dialogs/GiftMoneyDialog.cpp \
+	../dialogs/GiftMoneyDialog.h \
 	../dialogs/HelpButtonDialog.cpp \
 	../dialogs/HelpButtonDialog.h \
 	../dialogs/HUDDialog.cpp \
@@ -1152,8 +1200,8 @@ scorched3dc_SOURCES = \
 	../dialogs/SkipAllDialog.h \
 	../dialogs/SkipDialog.cpp \
 	../dialogs/SkipDialog.h \
-	../dialogs/TalkSettingsDialog.cpp \
-	../dialogs/TalkSettingsDialog.h \
+	../dialogs/SoundDialog.cpp \
+	../dialogs/SoundDialog.h \
 	../dialogs/TutorialDialog.cpp \
 	../dialogs/TutorialDialog.h \
 	../sound/PlayingSoundSource.cpp \
@@ -1192,7 +1240,9 @@ scorched3dc_SOURCES = \
 	../movement/TargetMovementEntryBoids.cpp \
 	../movement/TargetMovementEntryBoids.h \
 	../movement/TargetMovementEntryShips.cpp \
-	../movement/TargetMovementEntryShips.h
+	../movement/TargetMovementEntryShips.h \
+	../movement/TargetMovementEntrySpline.cpp \
+	../movement/TargetMovementEntrySpline.h
 
 AM_CPPFLAGS = -I../porting -I.. @AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@
 LDADD = @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@

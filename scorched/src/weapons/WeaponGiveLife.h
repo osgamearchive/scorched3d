@@ -45,7 +45,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponGiveLife, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float life_;
+	NumberParser life_;
 	bool exceedMax_;
 
 };

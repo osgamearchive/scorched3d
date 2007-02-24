@@ -33,7 +33,6 @@ public:
 		XMLNode *accessoryNode);
 
 	Weapon *getNextAction() { return nextAction_; }
-	float getTranslateDist() { return translateDist_; }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -42,7 +41,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponTranslate, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float translateDist_;
+	NumberParser translateDist_;
 	Weapon *nextAction_;
 
 };

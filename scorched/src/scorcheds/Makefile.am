@@ -43,11 +43,13 @@ scorched3ds_SOURCES = \
 	../actions/TankSay.h \
 	../actions/Teleport.cpp \
 	../actions/Teleport.h \
-	../actions/WallHit.cpp \
-	../actions/WallHit.h \
 	./main.cpp \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
+	../common/ChannelManager.cpp \
+	../common/ChannelManager.h \
+	../common/ChannelText.cpp \
+	../common/ChannelText.h \
 	../common/Clock.cpp \
 	../common/Clock.h \
 	../common/Counter.cpp \
@@ -87,6 +89,8 @@ scorched3ds_SOURCES = \
 	../common/LoggerI.h \
 	../common/ModelID.cpp \
 	../common/ModelID.h \
+	../common/NumberParser.cpp \
+	../common/NumberParser.h \
 	../common/OptionEntry.cpp \
 	../common/OptionEntry.h \
 	../common/OptionsGame.cpp \
@@ -95,6 +99,8 @@ scorched3ds_SOURCES = \
 	../common/OptionsMasterListServer.h \
 	../common/OptionsParameters.cpp \
 	../common/OptionsParameters.h \
+	../common/OptionsScorched.cpp \
+	../common/OptionsScorched.h \
 	../common/OptionsTransient.cpp \
 	../common/OptionsTransient.h \
 	../common/ProgressCounter.cpp \
@@ -146,6 +152,12 @@ scorched3ds_SOURCES = \
 	../server/ServerBrowserInfo.h \
 	../server/ServerBuyAccessoryHandler.cpp \
 	../server/ServerBuyAccessoryHandler.h \
+	../server/ServerChannelAuth.cpp \
+	../server/ServerChannelAuth.h \
+	../server/ServerChannelFilter.cpp \
+	../server/ServerChannelFilter.h \
+	../server/ServerChannelManager.cpp \
+	../server/ServerChannelManager.h \
 	../server/ServerCommon.cpp \
 	../server/ServerCommon.h \
 	../server/ServerConnectHandler.cpp \
@@ -156,6 +168,8 @@ scorched3ds_SOURCES = \
 	../server/ServerFileAkHandler.h \
 	../server/ServerFileServer.cpp \
 	../server/ServerFileServer.h \
+	../server/ServerGiftMoneyHandler.cpp \
+	../server/ServerGiftMoneyHandler.h \
 	../server/ServerHaveModFilesHandler.cpp \
 	../server/ServerHaveModFilesHandler.h \
 	../server/ServerInitializeHandler.cpp \
@@ -208,18 +222,18 @@ scorched3ds_SOURCES = \
 	../server/ServerStateTooFewPlayersState.h \
 	../server/ServerTextFilter.cpp \
 	../server/ServerTextFilter.h \
-	../server/ServerTextHandler.cpp \
-	../server/ServerTextHandler.h \
 	../server/ServerTimedMessage.cpp \
 	../server/ServerTimedMessage.h \
 	../server/ServerTooFewPlayersStimulus.cpp \
 	../server/ServerTooFewPlayersStimulus.h \
+	../server/ServerWebAppletHandler.cpp \
+	../server/ServerWebAppletHandler.h \
 	../server/ServerWebHandler.cpp \
 	../server/ServerWebHandler.h \
-	../server/ServerWebSettingsHandler.cpp \
-	../server/ServerWebSettingsHandler.h \
 	../server/ServerWebServer.cpp \
 	../server/ServerWebServer.h \
+	../server/ServerWebSettingsHandler.cpp \
+	../server/ServerWebSettingsHandler.h \
 	../server/TurnController.cpp \
 	../server/TurnController.h \
 	../coms/ComsAddPlayerMessage.cpp \
@@ -228,10 +242,16 @@ scorched3ds_SOURCES = \
 	../coms/ComsAdminMessage.h \
 	../coms/ComsBuyAccessoryMessage.cpp \
 	../coms/ComsBuyAccessoryMessage.h \
+	../coms/ComsChannelMessage.cpp \
+	../coms/ComsChannelMessage.h \
+	../coms/ComsChannelTextMessage.cpp \
+	../coms/ComsChannelTextMessage.h \
 	../coms/ComsConnectAcceptMessage.cpp \
 	../coms/ComsConnectAcceptMessage.h \
 	../coms/ComsConnectMessage.cpp \
 	../coms/ComsConnectMessage.h \
+	../coms/ComsConnectRejectMessage.cpp \
+	../coms/ComsConnectRejectMessage.h \
 	../coms/ComsDefenseMessage.cpp \
 	../coms/ComsDefenseMessage.h \
 	../coms/ComsFileAkMessage.cpp \
@@ -242,6 +262,8 @@ scorched3ds_SOURCES = \
 	../coms/ComsGameStateMessage.h \
 	../coms/ComsGameStoppedMessage.cpp \
 	../coms/ComsGameStoppedMessage.h \
+	../coms/ComsGiftMoneyMessage.cpp \
+	../coms/ComsGiftMoneyMessage.h \
 	../coms/ComsHaveModFilesMessage.cpp \
 	../coms/ComsHaveModFilesMessage.h \
 	../coms/ComsHeightMapMessage.cpp \
@@ -284,8 +306,6 @@ scorched3ds_SOURCES = \
 	../coms/ComsSyncCheckMessage.h \
 	../coms/ComsTargetStateMessage.cpp \
 	../coms/ComsTargetStateMessage.h \
-	../coms/ComsTextMessage.cpp \
-	../coms/ComsTextMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
 	../net/NetBuffer.cpp \
@@ -395,6 +415,10 @@ scorched3ds_SOURCES = \
 	../landscapedef/LandscapeInclude.h \
 	../landscapedef/LandscapeMovement.cpp \
 	../landscapedef/LandscapeMovement.h \
+	../landscapedef/LandscapeMusic.cpp \
+	../landscapedef/LandscapeMusic.h \
+	../landscapedef/LandscapeOptions.cpp \
+	../landscapedef/LandscapeOptions.h \
 	../landscapedef/LandscapeSound.cpp \
 	../landscapedef/LandscapeSound.h \
 	../landscapedef/LandscapeTex.cpp \
@@ -407,6 +431,8 @@ scorched3ds_SOURCES = \
 	../placement/PlacementObject.h \
 	../placement/PlacementObjectGroup.cpp \
 	../placement/PlacementObjectGroup.h \
+	../placement/PlacementObjectHeight.cpp \
+	../placement/PlacementObjectHeight.h \
 	../placement/PlacementObjectNone.cpp \
 	../placement/PlacementObjectNone.h \
 	../placement/PlacementObjectRandom.cpp \
@@ -417,8 +443,6 @@ scorched3ds_SOURCES = \
 	../placement/PlacementObjectTank.h \
 	../placement/PlacementObjectTarget.cpp \
 	../placement/PlacementObjectTarget.h \
-	../placement/PlacementObjectTree.cpp \
-	../placement/PlacementObjectTree.h \
 	../placement/PlacementShadowDefinition.cpp \
 	../placement/PlacementShadowDefinition.h \
 	../placement/PlacementTankPosition.cpp \
@@ -497,10 +521,10 @@ scorched3ds_SOURCES = \
 	../tankai/TankAIComputerBuyer.h \
 	../tankai/TankAIComputerTarget.cpp \
 	../tankai/TankAIComputerTarget.h \
-	../tankai/TankAIStore.cpp \
-	../tankai/TankAIStore.h \
 	../tankai/TankAINames.cpp \
 	../tankai/TankAINames.h \
+	../tankai/TankAIStore.cpp \
+	../tankai/TankAIStore.h \
 	../tankai/TankAIStrings.cpp \
 	../tankai/TankAIStrings.h \
 	../target/Target.cpp \
@@ -591,6 +615,8 @@ scorched3ds_SOURCES = \
 	../weapons/WeaponGiveScore.h \
 	../weapons/WeaponGiveWin.cpp \
 	../weapons/WeaponGiveWin.h \
+	../weapons/WeaponGroupSelect.cpp \
+	../weapons/WeaponGroupSelect.h \
 	../weapons/WeaponInvokeWeapon.cpp \
 	../weapons/WeaponInvokeWeapon.h \
 	../weapons/WeaponLaser.cpp \
@@ -706,6 +732,8 @@ scorched3ds_SOURCES = \
 	../3dsparse/ModelStore.h \
 	../3dsparse/MSModelFactory.cpp \
 	../3dsparse/MSModelFactory.h \
+	../3dsparse/TreeModelFactory.cpp \
+	../3dsparse/TreeModelFactory.h \
 	../3dsparse/Vertex.cpp \
 	../3dsparse/Vertex.h \
 	../movement/Boid.cpp \
@@ -721,7 +749,9 @@ scorched3ds_SOURCES = \
 	../movement/TargetMovementEntryBoids.cpp \
 	../movement/TargetMovementEntryBoids.h \
 	../movement/TargetMovementEntryShips.cpp \
-	../movement/TargetMovementEntryShips.h
+	../movement/TargetMovementEntryShips.h \
+	../movement/TargetMovementEntrySpline.cpp \
+	../movement/TargetMovementEntrySpline.h
 
 AM_CPPFLAGS = -I../porting -I.. -DS3D_SERVER=1 @SDL_CFLAGS@ @MYSQL_CFLAGS@
 LDADD = @SDL_LIBS@ @MYSQL_LIBS@

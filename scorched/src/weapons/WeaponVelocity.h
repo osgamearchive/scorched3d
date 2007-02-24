@@ -39,7 +39,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponVelocity, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float velocityChange_;
+	NumberParser velocityChange_;
 	Weapon *aimedWeapon_;
 	bool abs_;
 
