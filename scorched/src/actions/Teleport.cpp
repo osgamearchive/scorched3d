@@ -86,7 +86,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 	}
 
 	totalTime_ += frameTime;
-	if (totalTime_ > weapon_->getDelay())
+	if (totalTime_ > weapon_->getDelay(*context_))
 	{
 		Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 		if (tank && tank->getState().getState() == TankState::sNormal)

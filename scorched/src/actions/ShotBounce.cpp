@@ -45,7 +45,7 @@ void ShotBounce::init()
 {
 	PhysicsParticleInfo info(ParticleTypeBounce, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		1.0f, 5.0f, weapon_->getWindFactor(), false);
+		1.0f, 5.0f, weapon_->getWindFactor(*context_), false);
 
 	Vector lookatPos;
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
@@ -78,7 +78,7 @@ void ShotBounce::collision(PhysicsParticleObject &position,
 void ShotBounce::simulate(float frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
-	if (totalTime_ > weapon_->getTime())
+	if (totalTime_ > weapon_->getTime(*context_))
 	{
 		doCollision();
 		remove = true;

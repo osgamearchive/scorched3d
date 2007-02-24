@@ -76,12 +76,13 @@ void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
 		allowedHeight = water->height;
 	}
 
+	float scatterpercentage = scatterpercentage_.getValue(context);
 	float width = 
 		float(context.landscapeMaps->getGroundMaps().getMapWidth()) *
-		scatterpercentage_ / 100.0f;
+		scatterpercentage / 100.0f;
 	float height = 
 		float(context.landscapeMaps->getGroundMaps().getMapHeight()) *
-		scatterpercentage_ / 100.0f;
+		scatterpercentage / 100.0f;
 
 	Vector pos;
 	RandomGenerator &random = context.actionController->getRandom();

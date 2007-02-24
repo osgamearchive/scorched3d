@@ -49,9 +49,9 @@ public:
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
 	bool getTimedDud() { return timedDud_; }
-	float getWindFactor() { return windFactor_; }
-	float getShieldHurtFactor() { return shieldHurtFactor_; }
-	float getTimedCollision() { return timedCollision_; }
+	float getWindFactor(ScorchedContext &context);
+	float getShieldHurtFactor(ScorchedContext &context);
+	float getTimedCollision(ScorchedContext &context) { return timedCollision_.getValue(context); }
 	float getSpinSpeed() { return spinSpeed_; }
 	float getFlameLife() { return flameLife_; }
 	float getFlameStartSize() { return flameStartSize_; }
@@ -59,15 +59,15 @@ public:
 	float getSmokeLife() { return smokeLife_; }
 	float getSmokeStartSize() { return smokeStartSize_; }
 	float getSmokeEndSize() { return smokeEndSize_; }
-	float getThrustAmount() { return thrustAmount_; }
-	float getThrustTime() { return thrustTime_; }
-	float getDrag() { return drag_; }
+	float getThrustAmount(ScorchedContext &context) { return thrustAmount_.getValue(context); }
+	float getThrustTime(ScorchedContext &context) { return thrustTime_.getValue(context); }
+	float getDrag(ScorchedContext &context) { return drag_.getValue(context); }
 	Vector &getFlameStartColor1() { return flameStartColor1_; }
 	Vector &getFlameStartColor2() { return flameStartColor2_; }
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
 	Vector &getFlameEndColor2() { return flameEndColor2_; }
 	const char *getEngineSound() { return engineSound_.c_str(); }
-	float getScale() { return scale_; }
+	float getScale(ScorchedContext &context) { return scale_.getValue(context); }
 	ModelID &getModelID() { return modelId_; }
 
 protected:
@@ -81,12 +81,12 @@ protected:
 	float flameLife_, smokeLife_;
 	float flameStartSize_, flameEndSize_;
 	float smokeStartSize_, smokeEndSize_;
-	float thrustTime_, thrustAmount_;
-	float timedCollision_;
-	float shieldHurtFactor_;
-	float scale_;
-	float windFactor_;
-	float drag_;
+	NumberParser thrustTime_, thrustAmount_;
+	NumberParser timedCollision_;
+	NumberParser shieldHurtFactor_;
+	NumberParser scale_;
+	NumberParser windFactor_;
+	NumberParser drag_;
 	Vector flameStartColor1_, flameStartColor2_;
 	Vector flameEndColor1_, flameEndColor2_;
 	std::string engineSound_;

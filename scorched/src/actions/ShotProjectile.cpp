@@ -47,14 +47,16 @@ void ShotProjectile::init()
 #ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
-		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale()));
+		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale(*context_)));
 	}
 #endif // #ifndef S3D_SERVER
 
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 	PhysicsParticleInfo info(ParticleTypeShot, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		0.0f, 0.0f, weapon_->getWindFactor(), getWeapon()->getUnder());
+		0.0f, 0.0f, weapon_->getWindFactor(*context_), getWeapon()->getUnder());
+	thrustTime_ = getWeapon()->getThrustTime(*context_);
+	thrustAmount_ = getWeapon()->getThrustAmount(*context_);
 }
 
 ShotProjectile::~ShotProjectile()
@@ -97,7 +99,7 @@ void ShotProjectile::collision(PhysicsParticleObject &position,
 		{
 			doColl = false;
 		}
-		if ((getWeapon()->getTimedCollision() > 0.0f) && getWeapon()->getTimedDud())
+		if ((getWeapon()->getTimedCollision(*context_) > 0.0f) && getWeapon()->getTimedDud())
 		{
 			doColl = false;
 		}
@@ -131,30 +133,32 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	}
 
 	// Thrust
-	if (getWeapon()->getThrustAmount() > 0.0f)
+	if (thrustAmount_ > 0.0f)
 	{
-		if (totalTime_ < getWeapon()->getThrustTime() ||
-			getWeapon()->getThrustTime() == 0.0f)
+		if (totalTime_ < thrustTime_ ||
+			thrustTime_ == 0.0f)
 		{
 			Vector direction = getCurrentVelocity();
 			direction.StoreNormalize();
-			direction *= getWeapon()->getThrustAmount();
+			direction *= thrustAmount_;
 			applyForce(direction);
 		}
 	}
 
 	// Drag
-	if (getWeapon()->getDrag() > 0.0f)
+	float drag = getWeapon()->getDrag(*context_);
+	if (drag > 0.0f)
 	{
 		Vector direction = getCurrentVelocity();
-		direction *= -getWeapon()->getDrag();
+		direction *= -drag;
 		applyForce(direction);
 	}
 
 	// Timed collision
-	if (getWeapon()->getTimedCollision() > 0.0f)
+	float timedCollision = getWeapon()->getTimedCollision(*context_);
+	if (timedCollision > 0.0f)
 	{
-		if (totalTime_ > getWeapon()->getTimedCollision())
+		if (totalTime_ > timedCollision)
 		{
 			doCollision(getCurrentPosition());
 			remove = true;

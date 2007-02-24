@@ -154,6 +154,16 @@ bool WeaponProjectile::parseXML(AccessoryCreateContext &context, XMLNode *access
 	return true;
 }
 
+float WeaponProjectile::getWindFactor(ScorchedContext &context)
+{
+	return windFactor_.getValue(context);
+}
+
+float WeaponProjectile::getShieldHurtFactor(ScorchedContext &context)
+{
+	return shieldHurtFactor_.getValue(context);
+}
+
 void WeaponProjectile::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {

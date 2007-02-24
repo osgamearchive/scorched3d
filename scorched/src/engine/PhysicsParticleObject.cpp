@@ -236,7 +236,7 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 		{
 			Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 			ShotProjectile *shot = (ShotProjectile *) info_.data_;
-			float hurtFactor = shot->getWeapon()->getShieldHurtFactor();
+			float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
 			if (hurtFactor > 0.0f)
 			{
 				if (shield->getShieldType() != Shield::ShieldTypeRoundMag)
@@ -336,7 +336,7 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkBounceCollisi
 		{
 			Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 			ShotBounce *shot = (ShotBounce *) info_.data_;
-			float hurtFactor = shot->getWeapon()->getShieldHurtFactor();
+			float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
 			if (shield->getShieldType() != Shield::ShieldTypeRoundMag && hurtFactor > 0.0f)
 			{
 				context_->actionController->addAction(

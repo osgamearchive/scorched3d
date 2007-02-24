@@ -49,6 +49,11 @@ bool WeaponTeleport::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 	return true;
 }
 
+float WeaponTeleport::getDelay(ScorchedContext &context)
+{
+	return delay_.getValue(context);
+}
+
 void WeaponTeleport::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {

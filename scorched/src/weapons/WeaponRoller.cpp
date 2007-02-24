@@ -81,9 +81,19 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 	return true;
 }
 
+float WeaponRoller::getWindFactor(ScorchedContext &context)
+{
+	return windFactor_.getValue(context);
+}
+
 float WeaponRoller::getTime(ScorchedContext &context)
 {
-	return time_;
+	return time_.getValue(context);	// hmmm... this one seems odd. TODO
+}
+
+float WeaponRoller::getShieldHurtFactor(ScorchedContext &context)
+{
+	return shieldHurtFactor_.getValue(context);
 }
 
 void WeaponRoller::fireWeapon(ScorchedContext &context,

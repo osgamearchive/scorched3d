@@ -39,7 +39,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponScatterPosition, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float scatterpercentage_;
+	NumberParser scatterpercentage_;
 	bool landonly_, landheight_;
 	Weapon *aimedWeapon_;
 

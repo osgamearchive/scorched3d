@@ -56,6 +56,10 @@ protected:
 	bool up_;
 	float snapTime_;
 	float totalTime_;
+	// TODO add things like thrusttime etc that should have their 
+	// 	values set ONCE per projectile
+	float thrustTime_;
+	float thrustAmount_;
 	std::list<RenderTracer::TracerLinePoint> positions_;
 
 	void doCollision(Vector &position);

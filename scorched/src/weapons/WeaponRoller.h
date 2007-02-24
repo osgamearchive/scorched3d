@@ -36,10 +36,9 @@ public:
 
 	Weapon *getCollisionAction() { return collisionAction_; }
 	ModelID &getRollerModelID() { return rollerModelId_; }
-	float getShieldHurtFactor() { return shieldHurtFactor_; }
+	float getShieldHurtFactor(ScorchedContext &context);
 	float getTime(ScorchedContext &context);
-	float getTime() { return time_; }
-	float getWindFactor() { return windFactor_; }
+	float getWindFactor(ScorchedContext &context);
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
@@ -51,9 +50,9 @@ protected:
 	NumberParser numberRollers_;
 	Weapon *collisionAction_;
 	ModelID rollerModelId_;
-	float shieldHurtFactor_;
-	float windFactor_;
-	float time_;
+	NumberParser shieldHurtFactor_;
+	NumberParser windFactor_;
+	NumberParser time_;
 	bool maintainVelocity_;
 
 	void addRoller(ScorchedContext &context, 

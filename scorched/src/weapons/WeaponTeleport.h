@@ -34,7 +34,7 @@ public:
 
 	const char *getSound() { return sound_.c_str(); }
 	bool getGroundOnly() { return groundOnly_; }
-	float getDelay() { return delay_; }
+	float getDelay(ScorchedContext &context);
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -43,7 +43,7 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponTeleport, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float delay_;
+	NumberParser delay_;
 	std::string sound_;
 	bool groundOnly_;
 
