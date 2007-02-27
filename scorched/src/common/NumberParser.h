@@ -42,7 +42,6 @@ public:
         NumberParser(int value);
         virtual ~NumberParser();
 
-        bool testValue(const char *expression, bool isInt, bool isFloat);
         float getValue(ScorchedContext &context); //RandomGenerator &generator);
         unsigned int getUInt(ScorchedContext &context);
 	int getInt(ScorchedContext &context);

@@ -117,11 +117,6 @@ bool NumberParser::setExpression(float value)
         return true;
 }
 
-bool NumberParser::testValue(const char *expression, bool isInt, bool isFloat)
-{
-
-}
-
 
 float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &generator)
 {
