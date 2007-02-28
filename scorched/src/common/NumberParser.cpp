@@ -64,13 +64,13 @@ bool NumberParser::getOperands()
 {
 	operands_.clear();
         int count = 0;
-	int nextPos;
+	int nextPos = 0;
         std::string value;
         int pos = expression_.find('(',0);
 	if (pos == std::string::npos)
 	{
-		value = expression_.substr(pos + 1, nextPos - pos + 1);
-		operands_.push_back(atof(value.c_str()));
+		//value = expression_.substr(pos + 1, nextPos - pos + 1);
+		operands_.push_back(atof(expression_.c_str()));
 		return true;
 	}
 
