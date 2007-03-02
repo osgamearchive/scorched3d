@@ -156,7 +156,9 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
         }
 
         // TODO - add error dialog
-        return 0;
+        dialogExit("NumberParser",
+	        formatString("Invalid float expression: \"%s\"",
+                expression_.c_str()));
 }
 
 unsigned int NumberParser::getUInt(ScorchedContext &context)
@@ -194,7 +196,9 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 		for (int i = 0; i <= operandNo; i++) itor++;
 		return (unsigned int) *itor;
 	}
-	return 0;
+	dialogExit("NumberParser",
+		formatString("Invalid integer expression: \"%s\"",
+		expression_.c_str()));
 
 }
 
