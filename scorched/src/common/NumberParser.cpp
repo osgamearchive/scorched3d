@@ -148,14 +148,15 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
         else if (expression_.find("DISTRIBUTION",0) != std::string::npos)
         {
                 if (operands_.size() < 2)
-                        return 0;       // need better error handling
+        		dialogExit("Accessory",
+		                formatString("Invalid DISTRIBUTION expression: \"%s\"",
+				expression_.c_str()));
                 int operandNo = int(random.getRandFloat() * float(operands_.size()));
                 for (int i = 0; i <= operandNo; i++) itor++;
                 value = *itor;
                 return value;
         }
 
-        // TODO - add error dialog
         dialogExit("NumberParser",
 	        formatString("Invalid float expression: \"%s\"",
                 expression_.c_str()));
@@ -191,7 +192,10 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 	else if (expression_.find("DISTRIBUTION",0) != std::string::npos)
 	{
 		if (operands_.size() < 2)
-			return 0;
+			dialogExit("Accessory",
+				formatString("Invalid integer expression: \"%s\"",
+				expression_.c_str()));
+
 		int operandNo = random.getRandUInt() % operands_.size();
 		for (int i = 0; i <= operandNo; i++) itor++;
 		return (unsigned int) *itor;
