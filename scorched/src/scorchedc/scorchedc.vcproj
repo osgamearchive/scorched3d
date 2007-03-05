@@ -1083,6 +1083,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerWebServerUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerWebServerUtil.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerWebSettingsHandler.cpp"
 				>
 			</File>

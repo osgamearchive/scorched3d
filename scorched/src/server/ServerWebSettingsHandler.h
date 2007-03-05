@@ -26,8 +26,6 @@
 class OptionEntry;
 namespace ServerWebSettingsHandler
 {
-	void generateSettingValue(OptionEntry *entry, std::string &value);
-
 	class SettingsAllHandler : public ServerWebServerI
 	{
 	public:

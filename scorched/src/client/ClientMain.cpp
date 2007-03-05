@@ -113,9 +113,6 @@ bool initHardware(ProgressCounter *progressCounter)
 		{
 			dialogMessage("Scorched3D Sound", 
 				"Failed to aquire sound.\n"
-#ifdef WIN32
-				"Is DirectX 5.0 installed?\n"
-#endif
 				"Is anything else currently using the sound card?");
 		}
 		Sound::instance()->getDefaultListener()->setGain(
@@ -329,7 +326,6 @@ bool clientMain()
     SDL_Delay(1000);
 	Gamma::instance()->reset();
 	Sound::instance()->destroy();
-	SDL_Quit();
 
 	return true;
 }

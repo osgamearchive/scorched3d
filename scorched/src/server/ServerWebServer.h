@@ -35,6 +35,14 @@ public:
 		std::string &text) = 0;
 };
 
+class ServerWebServerAsyncI
+{
+public:
+	virtual ServerWebServerAsyncI *create() = 0;
+
+	virtual bool processRequest(std::string &text) = 0;
+};
+
 class ServerWebServer : public NetMessageHandlerI
 {
 public:
@@ -51,31 +59,23 @@ public:
 	void processMessages();
 	void addRequestHandler(const char *url,
 		ServerWebServerI *handler);
+	void addAsyncRequestHandler(const char *url,
+		ServerWebServerAsyncI *handler);
 
 	std::map<unsigned int, SessionParams> &getSessions() { return sessions_; }
 
-	// Util
-	static bool getTemplate(
-		const char *name,
-		std::map<std::string, std::string> &fields,
-		std::string &result);
-	static bool getHtmlTemplate(
-		const char *name,
-		std::map<std::string, std::string> &fields,
-		std::string &result);
-	static void getHtmlRedirect(
-		const char *url,
-		std::string &result);
-	static bool getHtmlMessage(
-		const char *title,
-		const char *text,
-		std::map<std::string, std::string> &fields,
-		std::string &result);
-
 protected:
 	static ServerWebServer *instance_;
+
+	struct AsyncEntry
+	{
+		unsigned int sid;
+		ServerWebServerAsyncI *handler;
+	};
+	std::map<unsigned int, AsyncEntry> asyncProcesses_;
 	std::map<unsigned int, SessionParams> sessions_;
 	std::map<std::string, ServerWebServerI *> handlers_;
+	std::map<std::string, ServerWebServerAsyncI *> asyncHandlers_;
 	std::list<std::pair<unsigned int, NetMessage *> > delayedMessages_;
 	NetServerTCP netServer_;
 	FileLogger *logger_;
@@ -90,11 +90,13 @@ protected:
 		const char *ip,
 		const char *url,
 		std::map<std::string, std::string> &fields);
-	bool validateSession(
+	unsigned int validateSession(
 		const char *ip,
 		const char *url,
 		std::map<std::string, std::string> &fields);
 	bool generatePage(
+		unsigned int destinationId,
+		unsigned int sid,
 		const char *url,
 		std::map<std::string, std::string> &fields,
 		std::map<std::string, NetMessage *> &parts,

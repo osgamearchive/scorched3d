@@ -77,6 +77,8 @@ Added: Error messages with lines that are more than 75 characters are wrapped on
 Added: Players can gift money to other players in their team
 Added: Some floats can now be a random range or a distribution of values
 
+Fixed: SDL_Quit being called twice on the client
+Fixed: Sound failing to initialize will not prevent the client from being run
 Fixed: Optimized settings sent to the client to send only different settings
 Fixed: Optimized path finding code for tank movement
 Fixed: Wall hit indicators are now particles and so won't mask other effects

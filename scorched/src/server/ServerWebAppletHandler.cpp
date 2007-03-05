@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerWebAppletHandler.h>
+#include <server/ServerWebServerUtil.h>
 #include <server/ServerWebServer.h>
 
 bool ServerWebAppletHandler::AppletFileHandler::processRequest(const char *url,
@@ -61,5 +62,15 @@ bool ServerWebAppletHandler::AppletHtmlHandler::processRequest(const char *url,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
-	return ServerWebServer::getHtmlTemplate("applet.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("applet.html", fields, text);
+}
+
+ServerWebServerAsyncI *ServerWebAppletHandler::AppletAsyncHandler::create()
+{
+	return new AppletAsyncHandler();
+}
+
+bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(std::string &text)
+{
+	return false;
 }

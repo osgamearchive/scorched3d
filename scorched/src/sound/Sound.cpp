@@ -102,7 +102,7 @@ bool Sound::init(int channels)
 	ALCdevice *soundDevice = alcOpenDevice(0);
 	if (!soundDevice)
 	{
-		dialogExit("Scorched3D", "Failed to open sound device");
+		dialogMessage("Scorched3D", "Failed to open sound device");
 		return false;
 	}
 
@@ -116,7 +116,7 @@ bool Sound::init(int channels)
 	ALCcontext *soundContext = alcCreateContext(soundDevice, 0);
 	if (!soundContext)
 	{
-		dialogExit("Scorched3D", "Failed to create sound context");
+		dialogMessage("Scorched3D", "Failed to create sound context");
 		return false;
 	}
 
@@ -127,16 +127,16 @@ bool Sound::init(int channels)
 	Logger::log(
 		checkString((char *) alGetString(AL_VENDOR)));
 	Logger::log("AL_VERSION:");
-	GLConsole::instance()->addLine(false,
+	Logger::log(
 		checkString((char *) alGetString(AL_VERSION)));
 	Logger::log("AL_RENDERER:");
 	Logger::log(
 		checkString((char *) alGetString(AL_RENDERER)));
 	Logger::log("AL_EXTENSIONS:");
-	GLConsole::instance()->addLine(false,
+	Logger::log(
 		checkString((char *) alGetString(AL_EXTENSIONS)));
 	Logger::log("ALC_DEVICE_SPECIFIER:");
-	GLConsole::instance()->addLine(false,
+	Logger::log(
 		checkString((char *) alcGetString(soundDevice, ALC_DEVICE_SPECIFIER)));
 
 	// Create all sound channels
@@ -145,7 +145,7 @@ bool Sound::init(int channels)
 		SoundSource *source = new SoundSource;
 		if (!source->create())
 		{
-			dialogExit("Scorched3D", 
+			dialogMessage("Scorched3D", 
 				formatString("Failed to create sound channel number %i", i));
 			return false;
 		}

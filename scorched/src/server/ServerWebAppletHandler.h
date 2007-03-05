@@ -26,6 +26,14 @@
 class OptionEntry;
 namespace ServerWebAppletHandler
 {
+	class AppletAsyncHandler : public ServerWebServerAsyncI
+	{
+	public:
+		virtual ServerWebServerAsyncI *create();
+
+		virtual bool processRequest(std::string &text);
+	};
+
 	class AppletFileHandler : public ServerWebServerI
 	{
 	public:

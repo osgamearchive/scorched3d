@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerWebSettingsHandler.h>
+#include <server/ServerWebServerUtil.h>
 #include <server/ServerLog.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
@@ -90,88 +91,6 @@ static void setValues(std::map<std::string, std::string> &fields)
 	}
 }
 
-void ServerWebSettingsHandler::generateSettingValue(OptionEntry *entry, std::string &value)
-{
-	if (entry->getEntryType() == OptionEntry::OptionEntryTextType)
-	{
-		value = formatString("<textarea name='%s' cols=20 rows=5>%s</textarea>",
-			entry->getName(),
-			entry->getValueAsString());
-	}
-	else if (entry->getEntryType() == OptionEntry::OptionEntryBoolType)
-	{
-		OptionEntryBool *boolEntry = (OptionEntryBool *) entry;
-		
-		value = formatString(
-			"<input type='radio' name='%s' %s value='on'>On</input>"
-			"<input type='radio' name='%s' %s value='off'>Off</input>",
-			entry->getName(), (boolEntry->getValue()?"checked":""),
-			entry->getName(), (!boolEntry->getValue()?"checked":""));
-	}
-	else if (entry->getEntryType() == OptionEntry::OptionEntryBoundedIntType)
-	{
-		OptionEntryBoundedInt *intEntry = (OptionEntryBoundedInt *) entry;
-		
-		value = formatString("<select name='%s'>", entry->getName());
-		bool found = false;
-		for (int i=intEntry->getMinValue(); 
-			i<=intEntry->getMaxValue();
-			i+=intEntry->getStepValue())
-		{
-			if (intEntry->getValue() < i && !found)
-			{
-				found = true;
-				value.append(formatString("<option %s>%i</option>",
-					"selected", 
-					intEntry->getValue()));
-			}
-			else if (intEntry->getValue() == i)
-			{
-				found = true;
-			}
-
-			value.append(formatString("<option %s>%i</option>",
-				(intEntry->getValue() == i?"selected":""), 
-				i));
-		}
-		value.append("</select>");
-	}
-	else if (entry->getEntryType() == OptionEntry::OptionEntryEnumType)
-	{
-		OptionEntryEnum *enumEntry = (OptionEntryEnum *) entry;
-
-		value = formatString("<select name='%s'>", entry->getName());
-		OptionEntryEnum::EnumEntry *enums = enumEntry->getEnums();
-		for (OptionEntryEnum::EnumEntry *current = enums; current->description[0]; current++)
-		{
-			value.append(formatString("<option %s>%s</option>",
-				(enumEntry->getValue() == current->value?"selected":""), 
-				current->description));		
-		}
-		value.append("</select>");
-	}
-	else if (entry->getEntryType() == OptionEntry::OptionEntryStringEnumType)
-	{
-		OptionEntryStringEnum *enumEntry = (OptionEntryStringEnum *) entry;
-		
-		value = formatString("<select name='%s'>", entry->getName());
-		OptionEntryStringEnum::EnumEntry *enums = enumEntry->getEnums();
-		for (OptionEntryStringEnum::EnumEntry *current = enums; current->value[0]; current++)
-		{
-			value.append(formatString("<option %s>%s</option>",
-				(0 == strcmp(enumEntry->getValue(), current->value)?"selected":""), 
-				current->value));		
-		}
-		value.append("</select>");
-	}
-	else
-	{
-		value = formatString("<input type='text' name='%s' value='%s'>",
-			entry->getName(),
-			entry->getValueAsString());
-	}
-}
-
 bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::map<std::string, NetMessage *> &parts,
@@ -233,7 +152,7 @@ bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getHtmlTemplate("settingsplayers.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsplayers.html", fields, text);
 }
 
 bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const char *url,
@@ -320,7 +239,7 @@ bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const ch
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getHtmlTemplate("settingslandscape.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingslandscape.html", fields, text);
 }
 
 bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *url,
@@ -355,7 +274,7 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 		if (!(entry->getData() & OptionEntry::DataDepricated))
 		{
 			std::string value;
-			generateSettingValue(entry, value);
+			ServerWebServerUtil::generateSettingValue(entry, value);
 			
 			bool different = (0 != strcmp(entry->getValueAsString(), 
 				entry->getDefaultValueAsString()));
@@ -382,7 +301,7 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getHtmlTemplate("settingsall.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsall.html", fields, text);
 }
 
 bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *url,
@@ -413,7 +332,7 @@ bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *u
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getHtmlTemplate("settingsmain.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsmain.html", fields, text);
 }
 
 bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *url,
@@ -452,21 +371,21 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 			{
 				if (files.writeModFiles(mod))
 				{
-					return ServerWebServer::getHtmlMessage(
+					return ServerWebServerUtil::getHtmlMessage(
 						"Mod Upload", 
 						formatString("Successfuly uploaded and imported mod %s",
 						(mod?mod:"Unknown")), fields, text);
 				}
 				else
 				{
-					return ServerWebServer::getHtmlMessage(
+					return ServerWebServerUtil::getHtmlMessage(
 						"Mod Upload", 
 						"Failed to write mod files to disk", fields, text);
 				}
 			}
 			else
 			{
-				return ServerWebServer::getHtmlMessage(
+				return ServerWebServerUtil::getHtmlMessage(
 					"Mod Upload", 
 					"Failed to load mod files from network", fields, text);
 			}
@@ -505,5 +424,5 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServer::getHtmlTemplate("settingsmod.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsmod.html", fields, text);
 }

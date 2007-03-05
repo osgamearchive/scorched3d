@@ -27,6 +27,7 @@
 #include <server/ServerWebAppletHandler.h>
 #include <server/ServerCommon.h>
 #include <server/ServerAdminHandler.h>
+#include <server/ServerWebServerUtil.h>
 #include <server/ScorchedServer.h>
 #include <net/NetMessagePool.h>
 #include <common/OptionsScorched.h>
@@ -94,6 +95,12 @@ void ServerWebServer::addRequestHandler(const char *url,
 	handlers_[url] = handler;
 }
 
+void ServerWebServer::addAsyncRequestHandler(const char *url,
+	ServerWebServerAsyncI *handler)
+{
+	asyncHandlers_[url] = handler;
+}
+
 void ServerWebServer::processMessages()
 {
 	// Check if any delayed messages should be sent
@@ -117,108 +124,39 @@ void ServerWebServer::processMessages()
 
 	// Check if any non-delayed messages should be processed
 	netServer_.processMessages();
-}
 
-static const char *strstrlen(const char *start, const char *find, int size)
-{
-	int findsize = strlen(find);
-	const char *current = start;
-	for (int i=0; i<size - findsize; i++, current++)
+	// Check if anything needs to be done for the async processing
+	std::map<unsigned int, AsyncEntry>::iterator asyncItor;
+	for (asyncItor = asyncProcesses_.begin();
+		asyncItor != asyncProcesses_.end();
+		asyncItor++)
 	{
-		bool found = true;
-		for (int j=0; j<findsize; j++)
+		unsigned int destinationId = asyncItor->first;
+		unsigned int sid = asyncItor->second.sid;
+		ServerWebServerAsyncI *process = asyncItor->second.handler;
+
+		// Ask the async processor to generate the message
+		std::string text;
+		if (process->processRequest(text))
 		{
-			if (current[j] != find[j])
+			// It has generated some text
+			// Generate the message to send
+			NetMessage *message = NetMessagePool::instance()->getFromPool(
+				NetMessage::BufferMessage, destinationId, 0, 0);
+			message->getBuffer().addDataToBuffer(text.data(), text.size()); // No null
+
+			// Send this message now
+			netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
+			NetMessagePool::instance()->addToPool(message);
+
+			// Update the session
+			std::map <unsigned int, SessionParams>::iterator sessionItor =
+				sessions_.find(sid);
+			if (sessionItor != sessions_.end())
 			{
-				found = false;
-				break;
+				sessionItor->second.sessionTime = (unsigned int) time(0);
 			}
 		}
-		if (found) return current;
-	}
-	return 0;
-}
-
-static void extractMultiPartPost(const char *start, 
-	const char *boundry, int sizeleft, std::map<std::string, NetMessage *> &parts)
-{
-	int boundrylen = strlen(boundry);
-	while (true)
-	{
-		// Find the first boundry
-		const char *first = strstrlen(start, boundry, sizeleft);
-		if (!first) return;
-
-		// We've now got less to search
-		first += boundrylen;
-		sizeleft -= first - start; 
-		start = first;
-
-		// Find the name
-		const char *namestart = strstrlen(start, "name=\"", sizeleft); 
-		if (!namestart) return;
-		namestart += 6;
-		const char *nameend = strstrlen(namestart, "\"", sizeleft);
-		if (!nameend) return;
-		if (nameend-namestart < 1) return;
-		std::string name(namestart, nameend - namestart);
-
-		// Find the data start
-		const char *data = strstrlen(start, "\r\n\r\n", sizeleft);
-		if (!data) return;
-		data += 4;
-
-		// Find the second boundry
-		const char *second = strstrlen(start, boundry, sizeleft);
-		if (!second) return;
-
-		// The message is from data to second
-		int messagelen = second - data;
-		NetMessage *message = NetMessagePool::instance()->getFromPool(
-			NetMessage::BufferMessage, 0, 0, 0);
-		message->getBuffer().addDataToBuffer(data, messagelen);
-		parts[name] = message;
-	}
-}
-
-static void extractQueryFields(std::map<std::string, std::string> &fields, char *sep)
-{
-	char *token = strtok(sep, "&");
-	while(token)
-	{
-		char *eq = strchr(token, '=');
-		if (eq)
-		{
-			*eq = '\0';
-			std::string value;
-			for (const char *valueStr = (eq + 1); *valueStr; valueStr++)
-			{
-				char c = *valueStr;
-				if (c == '+') c = ' ';
-				else if (c == '%')
-				{
-					char buf[3] = { 0, 0, 0 };
-
-					buf[0] = *(valueStr + 1);
-					if (!buf[0]) break;
-					buf[1] = *(valueStr + 2);
-					if (!buf[1]) break;
-
-					c = (char) strtol(buf, 0, 16);
-
-					valueStr += 2;
-				}
-
-				if (c != '\r') value += c;
-			}
-
-			if (fields.find(token) == fields.end())
-			{
-				fields[token] = value;
-			}
-			*eq = '=';
-		}				
-		token = strtok(0, "&");
 	}
 }
 
@@ -275,14 +213,14 @@ void ServerWebServer::processMessage(NetMessage &message)
 							int headersize = headerend - buffer;
 							int sizeleft = message.getBuffer().getBufferUsed() - headersize;
 
-							extractMultiPartPost(headerend, boundry.c_str(), sizeleft, parts);
+							ServerWebServerUtil::extractMultiPartPost(headerend, boundry.c_str(), sizeleft, parts);
 						}
 					}
 					else
 					{
 						// Extract the query fields from after the header
 						headerend += 4; // Skip past /r/n/r/n
-						extractQueryFields(fields, headerend);
+						ServerWebServerUtil::extractQueryFields(fields, headerend);
 					}
 				}
 			}
@@ -300,7 +238,7 @@ void ServerWebServer::processMessage(NetMessage &message)
 					if (sep)
 					{
 						*sep = '\0'; sep++;
-						extractQueryFields(fields, sep);
+						ServerWebServerUtil::extractQueryFields(fields, sep);
 					}
 
 					// Add ip address into fields
@@ -370,7 +308,31 @@ void ServerWebServer::processMessage(NetMessage &message)
 	}
 	else if (message.getMessageType() == NetMessage::SentMessage)
 	{
-		netServer_.disconnectClient(message.getDestinationId());
+		// Check if this is a sync or async destination
+		std::map<unsigned int, AsyncEntry>::iterator itor = 
+			asyncProcesses_.find(message.getDestinationId());
+		if (itor != asyncProcesses_.end())
+		{
+			// Its an async destination do nothing
+		}
+		else
+		{
+			// Its a sync destination
+			// Once a sync message has been fully sent close the connection
+			netServer_.disconnectClient(message.getDestinationId());
+		}
+	}
+	else if (message.getMessageType() == NetMessage::DisconnectMessage)
+	{
+		// Remove any async processes we may be processing for this 
+		// destination
+		std::map<unsigned int, AsyncEntry>::iterator itor = 
+			asyncProcesses_.find(message.getDestinationId());
+		if (itor != asyncProcesses_.end())
+		{
+			delete itor->second.handler;
+			asyncProcesses_.erase(itor);
+		}
 	}
 }
 
@@ -391,13 +353,13 @@ bool ServerWebServer::processRequest(
 		{
 			// Yes, and credentials are correct
 			// Show the starting (players) page
-			getHtmlRedirect(formatString("/players?sid=%s", fields["sid"].c_str()), text);
+			ServerWebServerUtil::getHtmlRedirect(formatString("/players?sid=%s", fields["sid"].c_str()), text);
 		}
 		else
 		{
 			// No, or credentials are not correct
 			// Show the login page after a delay
-			if (!getHtmlTemplate("login.html", fields, text)) return false;
+			if (!ServerWebServerUtil::getHtmlTemplate("login.html", fields, text)) return false;
 			delayed = true;
 		}
 	}
@@ -405,15 +367,16 @@ bool ServerWebServer::processRequest(
 	{
 		// A "normal" page has been requested
 		// Check the session is valid
-		if (validateSession(ip, url, fields))
+		unsigned int sid = validateSession(ip, url, fields);
+		if (sid)
 		{
 			// The session is valid, show the page
-			if (!generatePage(url, fields, parts, text)) return false;
+			if (!generatePage(destinationId, sid, url, fields, parts, text)) return false;
 		}
 		else
 		{
 			// The session is invalid show the login page after a delay
-			getHtmlRedirect("/", text);
+			ServerWebServerUtil::getHtmlRedirect("/", text);
 			delayed = true;
 		}
 	}
@@ -439,7 +402,7 @@ bool ServerWebServer::processRequest(
 	return true;
 }
 
-bool ServerWebServer::validateSession(
+unsigned int ServerWebServer::validateSession(
 	const char *ip,
 	const char *url,
 	std::map<std::string, std::string> &fields)
@@ -473,7 +436,7 @@ bool ServerWebServer::validateSession(
 			if (currentTime < params.sessionTime + SessionTimeOut)
 			{
 				params.sessionTime = currentTime;
-				return true;
+				return sid;
 			}
 			else
 			{
@@ -482,7 +445,7 @@ bool ServerWebServer::validateSession(
 		}
 	}
 
-	return false;
+	return 0;
 }
 
 bool ServerWebServer::validateUser(
@@ -563,158 +526,37 @@ bool ServerWebServer::validateUser(
 }
 
 bool ServerWebServer::generatePage(
+	unsigned int destinationId,
+	unsigned int sid,
 	const char *url,
 	std::map<std::string, std::string> &fields,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
-	std::map <std::string, ServerWebServerI *>::iterator itor =
-		handlers_.find(url);
-	if (itor == handlers_.end()) return false;
-
-	ServerWebServerI *handler = (*itor).second;
-	return handler->processRequest(url, fields, parts, text);
-}
-
-void ServerWebServer::getHtmlRedirect(
-	const char *url,
-	std::string &result)
-{
-	const char *header = 
-		formatString(
-		"HTTP/1.1 302 OK\r\n"
-		"Server: Scorched3D\r\n"
-		"Content-Type: text/html\r\n"
-		"Connection: Close\r\n"
-		"Location: %s\r\n"
-		"\r\n", url);
-	result.append(header);
-}
-
-bool ServerWebServer::getHtmlTemplate(
-	const char *name,
-	std::map<std::string, std::string> &fields,
-	std::string &result)
-{
-	const char *header = 
-		"HTTP/1.1 200 OK\r\n"
-		"Server: Scorched3D\r\n"
-		"Content-Type: text/html\r\n"
-		"Connection: Close\r\n"
-		"\r\n";
-	result.append(header);
-
-	return getTemplate(name, fields, result);
-}
-
-bool ServerWebServer::getTemplate(
-	const char *name,
-	std::map<std::string, std::string> &fields,
-	std::string &result)
-{
-	// Perhaps cache this
-	const char *fileName = getDataFile(formatString("data/html/server/%s", name));
-	FILE *in = fopen(fileName, "r");
-	if (!in) 
 	{
-		Logger::log(formatString("ERROR: Failed to open web template \"%s\"", fileName));
-		return false;
-	}
-
-	char buffer[1024], include[256];
-	while (fgets(buffer, 1024, in))
-	{
-		// Check for an include line
-		if (sscanf(buffer, "#include %s",
-			include) == 1)
+		// First check for an async handler
+		std::map<std::string, ServerWebServerAsyncI *>::iterator itor =
+			asyncHandlers_.find(url);
+		if (itor != asyncHandlers_.end())
 		{
-			// Add the included file
-			std::string tmp;
-			if (!getTemplate(include, fields, tmp))
-			{
-				return false;
-			}
+			ServerWebServerAsyncI *handler = (*itor).second;
 
-			result += tmp;
-		}
-		else
-		{
-			// Check for any value replacements
-			char *position = buffer;
-			for (;;)
-			{
-				char *start, *end;
-				if ((start = strstr(position, "[[")) &&
-					(end = strstr(position, "]]")) &&
-					(end > start))
-				{
-					// Replace the text [[name]] with the value
-					*start = '\0';
-					*end = '\0';
-					result += position;
-					position = end + 2;
-
-					char *name = start + 2;
-
-					// First check to see if it is in the supplied fields
-					if (fields.find(name) != fields.end())
-					{
-						result += fields[name];
-					}
-					else
-					{
-						// Then in the scorched3d settings
-						std::list<OptionEntry *>::iterator itor;
-						std::list<OptionEntry *> &options = 
-							ScorchedServer::instance()->getOptionsGame().
-								getChangedOptions().getOptions();
-						for (itor = options.begin();
-							itor != options.end();
-							itor++)
-						{
-							OptionEntry *entry = (*itor);
-							if (!(entry->getData() & OptionEntry::DataProtected))
-							{
-								if (strcmp(entry->getName(), name) == 0)
-								{
-									result += entry->getValueAsString();
-								}
-								else
-								{
-									std::string newName(entry->getName());
-									newName.append("_set");
-									if (strcmp(newName.c_str(), name) == 0)
-									{
-										std::string value;
-										ServerWebSettingsHandler::generateSettingValue(entry,value);
-										result += value;
-									}
-								}
-							}
-						}						
-					}
-				}
-				else
-				{
-					// No replacements
-					result += position;
-					break;
-				}
-			}
+			AsyncEntry entry;
+			entry.handler = handler->create();
+			entry.sid = sid;
+			asyncProcesses_[destinationId] = entry;
+			return true;
 		}
 	}
-	fclose(in);
-
-	return true;
-}
-
-bool ServerWebServer::getHtmlMessage(
-	const char *title,
-	const char *text,
-	std::map<std::string, std::string> &fields,
-	std::string &result)
-{
-	fields["MESSAGE"] = text;
-	fields["TITLE"] = title;
-	return getHtmlTemplate("message.html", fields, result);
+	{
+		// Then check for a sync handler
+		std::map <std::string, ServerWebServerI *>::iterator itor =
+			handlers_.find(url);
+		if (itor != handlers_.end())
+		{
+			ServerWebServerI *handler = (*itor).second;
+			return handler->processRequest(url, fields, parts, text);
+		}
+	}
+	return false; // No handler
 }

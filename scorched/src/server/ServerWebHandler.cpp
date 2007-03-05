@@ -23,6 +23,7 @@
 #include <server/ServerLog.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
+#include <Server/ServerWebServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerState.h>
 #include <server/ServerParams.h>
@@ -166,7 +167,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 					std::list<std::string> aliases =
 						StatsLogger::instance()->getAliases(tank);
 					std::string lines = concatLines(aliases);
-					return ServerWebServer::getHtmlMessage(
+					return ServerWebServerUtil::getHtmlMessage(
 						"ShowAliases", lines.c_str(), fields, text);
 				}
 				else if (0 == strcmp(action, "ShowIPAliases"))
@@ -174,7 +175,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 					std::list<std::string> aliases =
 						StatsLogger::instance()->getIpAliases(tank);
 					std::string lines = concatLines(aliases);
-					return ServerWebServer::getHtmlMessage(
+					return ServerWebServerUtil::getHtmlMessage(
 						"ShowIPAliases", lines.c_str(), fields, text);
 				}
 				else
@@ -236,7 +237,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	}
 	fields["ADD"] = add;
 
-	return ServerWebServer::getHtmlTemplate("player.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("player.html", fields, text);
 }
 
 bool ServerWebHandler::LogHandler::processRequest(const char *url,
@@ -294,7 +295,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	if (refreshSeconds > 0)
         fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
 
-	return ServerWebServer::getHtmlTemplate("log.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("log.html", fields, text);
 }
 
 bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
@@ -327,7 +328,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 		std::string file = getFile(filename);
 		fields["FILE"] = file;
 
-		return ServerWebServer::getTemplate("logfile.html", fields, text);
+		return ServerWebServerUtil::getTemplate("logfile.html", fields, text);
 	}
 	else
 	{
@@ -398,7 +399,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 		}
 		fields["LOG"] = log;
 
-		return ServerWebServer::getHtmlTemplate("logfiles.html", fields, text);
+		return ServerWebServerUtil::getHtmlTemplate("logfiles.html", fields, text);
 	}
 	return false;
 }
@@ -442,7 +443,7 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 	fields["P"] = formatString("%u", NetInterface::getPings());
 	fields["C"] = formatString("%u", NetInterface::getConnects());
 
-	return ServerWebServer::getHtmlTemplate("game.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("game.html", fields, text);
 }
 
 bool ServerWebHandler::ServerHandler::processRequest(const char *url,
@@ -494,7 +495,7 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 	fields["STARTTIME"] = getStartTime();
 	fields["EXITEMPTY"] = (ServerCommon::getExitEmpty()?"True":"False");
 
-	return ServerWebServer::getHtmlTemplate("server.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("server.html", fields, text);
 }
 
 bool ServerWebHandler::TalkHandler::processRequest(const char *url,
@@ -540,7 +541,7 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 	else fields["RefreshRate"]="0";
 	if (refreshSeconds > 0)
 		fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
-	return ServerWebServer::getHtmlTemplate("talk.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("talk.html", fields, text);
 }
 
 bool ServerWebHandler::BannedHandler::processRequest(const char *url,
@@ -594,7 +595,7 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 	if (action && 0 == strcmp(action, "Save")) 
 		ScorchedServerUtil::instance()->bannedPlayers.save();
 
-	return ServerWebServer::getHtmlTemplate("banned.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("banned.html", fields, text);
 }
 
 bool ServerWebHandler::ModsHandler::processRequest(const char *url,
@@ -622,7 +623,7 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 	}
 	fields["MODFILES"] = modfiles;
 
-	return ServerWebServer::getHtmlTemplate("mods.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("mods.html", fields, text);
 }
 
 bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
@@ -676,7 +677,7 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 		fields["ADMINS"] = admins;
 	}
 
-	return ServerWebServer::getHtmlTemplate("sessions.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("sessions.html", fields, text);
 }
 
 bool ServerWebHandler::StatsHandler::processRequest(const char *url,
@@ -687,5 +688,5 @@ bool ServerWebHandler::StatsHandler::processRequest(const char *url,
 	const char *ranks = StatsLogger::instance()->getTopRanks();
 	fields["RANKS"] = ranks;
 
-	return ServerWebServer::getHtmlTemplate("stats.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("stats.html", fields, text);
 }

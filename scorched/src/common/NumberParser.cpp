@@ -70,18 +70,18 @@ bool NumberParser::getOperands()
 	if (pos == std::string::npos)
 	{
 		//value = expression_.substr(pos + 1, nextPos - pos + 1);
-		operands_.push_back(atof(expression_.c_str()));
+		operands_.push_back((float) atof(expression_.c_str()));
 		return true;
 	}
 
 	pos += 1;
-        while (pos < expression_.length())
+        while (pos < (int) expression_.length())
         {
                 nextPos = expression_.find_first_of(",)", pos);
                 if (nextPos == std::string::npos)
                         nextPos = expression_.length() -1;
                 value = expression_.substr(pos, nextPos - pos);
-                operands_.push_back(atof(value.c_str()));
+                operands_.push_back((float) atof(value.c_str()));
                 pos = nextPos + 1;
         }
         return true;
@@ -160,6 +160,7 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
         dialogExit("NumberParser",
 	        formatString("Invalid float expression: \"%s\"",
                 expression_.c_str()));
+		return false; // VC++ complains
 }
 
 unsigned int NumberParser::getUInt(ScorchedContext &context)
@@ -203,7 +204,7 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 	dialogExit("NumberParser",
 		formatString("Invalid integer expression: \"%s\"",
 		expression_.c_str()));
-
+	return false;  // VC++ complains
 }
 
 int NumberParser::getInt(ScorchedContext &context)
