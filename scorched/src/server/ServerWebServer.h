@@ -72,6 +72,7 @@ protected:
 		unsigned int sid;
 		ServerWebServerAsyncI *handler;
 	};
+	unsigned int asyncTimer_;
 	std::map<unsigned int, AsyncEntry> asyncProcesses_;
 	std::map<unsigned int, SessionParams> sessions_;
 	std::map<std::string, ServerWebServerI *> handlers_;

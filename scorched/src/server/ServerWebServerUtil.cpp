@@ -226,6 +226,19 @@ void ServerWebServerUtil::getHtmlRedirect(
 	result.append(header);
 }
 
+void ServerWebServerUtil::getHtmlNotFound(
+	std::string &result)
+{
+	const char *header = 
+		formatString(
+		"HTTP/1.1 404 OK\r\n"
+		"Server: Scorched3D\r\n"
+		"Content-Type: text/html\r\n"
+		"Connection: Close\r\n"
+		"\r\n");
+	result.append(header);
+}
+
 bool ServerWebServerUtil::getHtmlTemplate(
 	const char *name,
 	std::map<std::string, std::string> &fields,

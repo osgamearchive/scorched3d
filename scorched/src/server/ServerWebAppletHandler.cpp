@@ -21,6 +21,8 @@
 #include <server/ServerWebAppletHandler.h>
 #include <server/ServerWebServerUtil.h>
 #include <server/ServerWebServer.h>
+#include <server/ServerChannelManager.h>
+#include <XML/XMLNode.h>
 
 bool ServerWebAppletHandler::AppletFileHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
@@ -65,6 +67,12 @@ bool ServerWebAppletHandler::AppletHtmlHandler::processRequest(const char *url,
 	return ServerWebServerUtil::getHtmlTemplate("applet.html", fields, text);
 }
 
+ServerWebAppletHandler::AppletAsyncHandler::AppletAsyncHandler() :
+	lastMessage_(0),
+	initialized_(false)
+{
+}
+
 ServerWebServerAsyncI *ServerWebAppletHandler::AppletAsyncHandler::create()
 {
 	return new AppletAsyncHandler();
@@ -72,5 +80,51 @@ ServerWebServerAsyncI *ServerWebAppletHandler::AppletAsyncHandler::create()
 
 bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(std::string &text)
 {
-	return false;
+	// Check if we have sent the initial data
+	if (!initialized_)
+	{
+		initialized_ = true;
+
+		// Add all of the available chat channels
+		{
+			std::list<std::string> channels =
+				ServerChannelManager::instance()->getAllChannels();
+			std::list<std::string>::iterator itor;
+			for (itor = channels.begin();
+				itor != channels.end();
+				itor++)
+			{
+				text.append("<addchannel>").
+					append(itor->c_str()).
+					append("</addchannel>\n");
+			}
+		}
+	}
+
+	// Add all of the chat message that this applet has not seen
+	std::string chatText;
+	std::list<ServerChannelManager::MessageEntry> &textsList = 
+		ServerChannelManager::instance()->getLastMessages();
+	if (!textsList.empty())
+	{
+		std::list<ServerChannelManager::MessageEntry>::reverse_iterator textsListItor;
+		for (textsListItor = textsList.rbegin();
+			textsListItor != textsList.rend();
+			textsListItor++)
+		{
+			ServerChannelManager::MessageEntry &entry = *textsListItor;
+			if (lastMessage_ >= entry.messageid) break;
+
+			std::string cleanText;
+			XMLNode::removeSpecialChars(entry.message, cleanText);
+			
+			chatText.insert(0, 
+				formatString("<chat>%s</chat>\n", cleanText.c_str()));
+		}
+		lastMessage_ = textsList.back().messageid;
+		text.append(chatText);
+	}
+
+	// Have we anything to send?
+	return (!text.empty());
 }

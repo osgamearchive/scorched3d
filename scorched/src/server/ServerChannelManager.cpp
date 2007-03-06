@@ -145,7 +145,7 @@ ServerChannelManager *ServerChannelManager::instance()
 }
 
 ServerChannelManager::ServerChannelManager() :
-	totalTime_(0.0f)
+	totalTime_(0.0f), lastMessageId_(0)
 {
 	// Register to recieve comms messages
 	ScorchedServer::instance()->getComsMessageHandler().addHandler(
@@ -256,6 +256,20 @@ ServerChannelManager::DestinationEntry *ServerChannelManager::getDestinationEntr
 	if (findItor == destinationEntries_.end()) return 0;
 
 	return (*findItor).second;
+}
+
+std::list<std::string> ServerChannelManager::getAllChannels()
+{
+	std::list<std::string> result;
+	std::list<ChannelEntry *>::iterator itor;
+	for (itor = channelEntries_.begin();
+		itor != channelEntries_.end();
+		itor++)
+	{
+		ChannelEntry *channelEntry = (*itor);
+		result.push_back(channelEntry->getName());
+	}
+	return result;
 }
 
 void ServerChannelManager::registerClient(unsigned int destinationId, unsigned int localId,
@@ -487,7 +501,10 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 		(tank?tank->getName():""),
 		newText.c_str());
 	ServerCommon::serverLog(logtext);
-	lastMessages_.push_back(logtext);
+	MessageEntry messageEntry;
+	messageEntry.message = logtext;
+	messageEntry.messageid = ++lastMessageId_;
+	lastMessages_.push_back(messageEntry);
 	if (lastMessages_.size() > 25) lastMessages_.pop_front();
 
 	// Send to all clients

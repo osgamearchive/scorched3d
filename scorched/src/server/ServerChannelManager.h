@@ -34,9 +34,16 @@ class ServerChannelManager :
 public:
 	static ServerChannelManager *instance();
 
+	struct MessageEntry
+	{
+		std::string message;
+		unsigned int messageid;
+	};
+
 	void sendText(const ChannelText &text);
 	void sendText(const ChannelText &text, unsigned int destination);
-	std::list<std::string> &getLastMessages() { return lastMessages_; }
+	std::list<MessageEntry> &getLastMessages() { return lastMessages_; }
+	std::list<std::string> getAllChannels();
 
 	void simulate(float frameTime);
 
@@ -119,10 +126,11 @@ protected:
 		ServerChannelAuth *auth_;
 	};
 
+	unsigned int lastMessageId_;
 	float totalTime_;
 	std::map<unsigned int, DestinationEntry *> destinationEntries_;
 	std::list<ChannelEntry *> channelEntries_;
-	std::list<std::string> lastMessages_;
+	std::list<MessageEntry> lastMessages_;
 
 	ChannelEntry *getChannelEntryByName(const char *name);
 	DestinationEntry *getDestinationEntryById(unsigned int destinationId);

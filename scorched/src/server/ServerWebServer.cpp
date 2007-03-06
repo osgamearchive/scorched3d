@@ -48,7 +48,7 @@ ServerWebServer *ServerWebServer::instance()
 
 ServerWebServer::ServerWebServer() : 
 	netServer_(new NetServerHTTPProtocolRecv),
-	logger_(0)
+	logger_(0), asyncTimer_(0)
 {
 	addRequestHandler("/players", new ServerWebHandler::PlayerHandler());
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
@@ -68,6 +68,7 @@ ServerWebServer::ServerWebServer() :
 
 	addRequestHandler("/applet", new ServerWebAppletHandler::AppletHtmlHandler());
 	addRequestHandler("/Applet.jar", new ServerWebAppletHandler::AppletFileHandler());
+	addAsyncRequestHandler("/appletstream", new ServerWebAppletHandler::AppletAsyncHandler());
 }
 
 ServerWebServer::~ServerWebServer()
@@ -126,35 +127,42 @@ void ServerWebServer::processMessages()
 	netServer_.processMessages();
 
 	// Check if anything needs to be done for the async processing
-	std::map<unsigned int, AsyncEntry>::iterator asyncItor;
-	for (asyncItor = asyncProcesses_.begin();
-		asyncItor != asyncProcesses_.end();
-		asyncItor++)
+	unsigned int theTime = (unsigned int) time(0);
+	if (theTime != asyncTimer_)
 	{
-		unsigned int destinationId = asyncItor->first;
-		unsigned int sid = asyncItor->second.sid;
-		ServerWebServerAsyncI *process = asyncItor->second.handler;
-
-		// Ask the async processor to generate the message
-		std::string text;
-		if (process->processRequest(text))
+		asyncTimer_ = theTime;
+		std::map<unsigned int, AsyncEntry>::iterator asyncItor;
+		for (asyncItor = asyncProcesses_.begin();
+			asyncItor != asyncProcesses_.end();
+			asyncItor++)
 		{
-			// It has generated some text
-			// Generate the message to send
-			NetMessage *message = NetMessagePool::instance()->getFromPool(
-				NetMessage::BufferMessage, destinationId, 0, 0);
-			message->getBuffer().addDataToBuffer(text.data(), text.size()); // No null
+			unsigned int destinationId = asyncItor->first;
+			unsigned int sid = asyncItor->second.sid;
+			ServerWebServerAsyncI *process = asyncItor->second.handler;
 
-			// Send this message now
-			netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
-			NetMessagePool::instance()->addToPool(message);
-
-			// Update the session
-			std::map <unsigned int, SessionParams>::iterator sessionItor =
-				sessions_.find(sid);
-			if (sessionItor != sessions_.end())
+			// Ask the async processor to generate the message
+			std::string text;
+			if (process->processRequest(text))
 			{
-				sessionItor->second.sessionTime = (unsigned int) time(0);
+				DIALOG_ASSERT(!text.empty());
+
+				// It has generated some text
+				// Generate the message to send
+				NetMessage *message = NetMessagePool::instance()->getFromPool(
+					NetMessage::BufferMessage, destinationId, 0, 0);
+				message->getBuffer().addDataToBuffer(text.data(), text.size()); // No null
+
+				// Send this message now
+				netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
+				NetMessagePool::instance()->addToPool(message);
+
+				// Update the session
+				std::map <unsigned int, SessionParams>::iterator sessionItor =
+					sessions_.find(sid);
+				if (sessionItor != sessions_.end())
+				{
+					sessionItor->second.sessionTime = (unsigned int) time(0);
+				}
 			}
 		}
 	}
@@ -375,11 +383,26 @@ bool ServerWebServer::processRequest(
 		}
 		else
 		{
-			// The session is invalid show the login page after a delay
-			ServerWebServerUtil::getHtmlRedirect("/", text);
-			delayed = true;
+			if (asyncHandlers_.find(url) == asyncHandlers_.end() &&
+				handlers_.find(url) == handlers_.end())
+			{
+				// The session is invalid,
+				// but the page does not exist show the 404 page.
+				// This is for cases where the browser asks for stupid files
+				// from the webserver that must fail for the browser to continue.
+				ServerWebServerUtil::getHtmlNotFound(text);
+			}
+			else
+			{
+				// The session is invalid show the login page after a delay
+				ServerWebServerUtil::getHtmlRedirect("/", text);
+				delayed = true;
+			}
 		}
 	}
+
+	// Check the text is not empty
+	if (text.empty()) return false;
 
 	// Generate the message to send
 	NetMessage *message = NetMessagePool::instance()->getFromPool(
@@ -541,10 +564,14 @@ bool ServerWebServer::generatePage(
 		{
 			ServerWebServerAsyncI *handler = (*itor).second;
 
+			// Create a new async entry
 			AsyncEntry entry;
 			entry.handler = handler->create();
 			entry.sid = sid;
 			asyncProcesses_[destinationId] = entry;
+
+			// Add text to the entry
+			entry.handler->processRequest(text);
 			return true;
 		}
 	}
@@ -558,5 +585,8 @@ bool ServerWebServer::generatePage(
 			return handler->processRequest(url, fields, parts, text);
 		}
 	}
-	return false; // No handler
+
+	// No handler
+	ServerWebServerUtil::getHtmlNotFound(text);
+	return true;
 }

@@ -46,6 +46,8 @@ namespace ServerWebServerUtil
 	void getHtmlRedirect(
 		const char *url,
 		std::string &result);
+	void getHtmlNotFound(
+		std::string &result);
 	bool getHtmlMessage(
 		const char *title,
 		const char *text,

@@ -522,15 +522,15 @@ bool ServerWebHandler::TalkHandler::processRequest(const char *url,
 	}
 
 	std::string texts;
-	std::list<std::string> &textsList = 
+	std::list<ServerChannelManager::MessageEntry> &textsList = 
 		ServerChannelManager::instance()->getLastMessages();
-	std::list<std::string>::iterator textsListItor;
+	std::list<ServerChannelManager::MessageEntry>::iterator textsListItor;
 	for (textsListItor = textsList.begin();
 		textsListItor != textsList.end();
 		textsListItor++)
 	{
 		std::string cleanText;
-		XMLNode::removeSpecialChars((*textsListItor), cleanText);
+		XMLNode::removeSpecialChars(textsListItor->message, cleanText);
 		texts += cleanText;
 		texts += "<br>\n";
 	}
