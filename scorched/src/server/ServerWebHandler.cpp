@@ -58,54 +58,13 @@ static inline bool lt_logfile(const LogFile &o1, const LogFile &o2)
 	return o1.fileTime < o2.fileTime;
 }
 
-static const char *getField(std::map<std::string, std::string> &fields, const char *field)
-{
-	std::map<std::string, std::string>::iterator itor = 
-		fields.find(field);
-	if (itor != fields.end())
-	{
-		return (*itor).second.c_str();
-	}
-	return 0;
-}
-
-static std::string getFile(const char *filename)
-{
-	char buffer[100];
-	std::string file;
-	FILE *in = fopen(filename, "r");
-	if (in)
-	{
-		while (fgets(buffer, 100, in))
-		{
-			file += buffer;
-		}
-		fclose(in);
-	}
-	return file;
-}
-
-static std::string concatLines(std::list<std::string> &lines)
-{
-	std::string result;
-	std::list<std::string>::iterator itor;
-	for (itor = lines.begin();
-		itor != lines.end();
-		itor++)
-	{
-		result.append(*itor).append("<br>");
-
-	}
-	return result;
-}
-
 bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
 	// Check for an add
-	const char *addType = getField(fields, "add");
+	const char *addType = ServerWebServerUtil::getField(fields, "add");
 	if (addType)
 	{
 		TankAIAdder::addTankAI(*ScorchedServer::instance(), addType);
@@ -116,14 +75,14 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<unsigned int, Tank *>::iterator itor;
 
 	// Check for any action
-	const char *action = getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(fields, "action");
 	if (action)
 	{
 		for (itor = tanks.begin(); itor != tanks.end(); itor++)
 		{
 			// Is this tank selected
 			Tank *tank = (*itor).second;
-			if (getField(fields, formatString("player-%u", tank->getPlayerId())))
+			if (ServerWebServerUtil::getField(fields, formatString("player-%u", tank->getPlayerId())))
 			{
 				if (0 == strcmp(action, "Kick"))
 				{
@@ -166,7 +125,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				{
 					std::list<std::string> aliases =
 						StatsLogger::instance()->getAliases(tank);
-					std::string lines = concatLines(aliases);
+					std::string lines = ServerWebServerUtil::concatLines(aliases);
 					return ServerWebServerUtil::getHtmlMessage(
 						"ShowAliases", lines.c_str(), fields, text);
 				}
@@ -174,7 +133,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				{
 					std::list<std::string> aliases =
 						StatsLogger::instance()->getIpAliases(tank);
-					std::string lines = concatLines(aliases);
+					std::string lines = ServerWebServerUtil::concatLines(aliases);
 					return ServerWebServerUtil::getHtmlMessage(
 						"ShowIPAliases", lines.c_str(), fields, text);
 				}
@@ -250,7 +209,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 
 	const int pagesize = 20;
 	int start = (int(entries.size()) / pagesize) * pagesize;
-	const char *page = getField(fields, "page");
+	const char *page = ServerWebServerUtil::getField(fields, "page");
 	if (page) start = atoi(page);
 	else start = entries.size() - pagesize;
 
@@ -287,7 +246,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 			fields["sid"].c_str());
 	fields["PAGES"] = pages;
 
-        const char *refreshRate = getField(fields, "RefreshRate");
+        const char *refreshRate = ServerWebServerUtil::getField(fields, "RefreshRate");
         int refreshSeconds = 0;
         if (refreshRate) refreshSeconds = atoi(refreshRate);
         else fields["RefreshRate"]="0";
@@ -306,7 +265,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 	std::deque<ServerLog::ServerLogEntry> &entries = 
 		ServerLog::instance()->getEntries();
 
-	const char *logFilename = getField(fields, "filename");
+	const char *logFilename = ServerWebServerUtil::getField(fields, "filename");
 	if (logFilename &&
 		// Disallow directory backtracking
 		!strstr(logFilename, "..") &&
@@ -325,7 +284,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 			"\r\n", logFilename));
 
 		const char *filename = getLogFile(logFilename);
-		std::string file = getFile(filename);
+		std::string file = ServerWebServerUtil::getFile(filename);
 		fields["FILE"] = file;
 
 		return ServerWebServerUtil::getTemplate("logfile.html", fields, text);
@@ -336,10 +295,10 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 
 		// Check to see if we want to search these files
 		const char *search = 0;
-		const char *action = getField(fields, "action");
+		const char *action = ServerWebServerUtil::getField(fields, "action");
 		if (action && 0 == strcmp(action, "Search"))
 		{
-			search = getField(fields, "search");
+			search = ServerWebServerUtil::getField(fields, "search");
 		}
 
 		// Iterator through all of the log files in the logs directory
@@ -361,7 +320,7 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 				// the specified string
 				if (search)
 				{
-					std::string file = getFile(fullFilename);
+					std::string file = ServerWebServerUtil::getFile(fullFilename);
 					if (0 == strstr(file.c_str(), search)) continue;
 				}
 
@@ -410,7 +369,7 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 	std::string &text)
 {
 	// Check for any action
-	const char *action = getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(fields, "action");
 	if (action)
 	{
 		if (0 == strcmp(action, "NewGame"))
@@ -457,7 +416,7 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 		getGameState().getStateLogging();
 
 	// Check for any action
-	const char *action = getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(fields, "action");
 	if (action)
 	{
 		if (0 == strcmp(action, "Stop Server"))
@@ -498,62 +457,16 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 	return ServerWebServerUtil::getHtmlTemplate("server.html", fields, text);
 }
 
-bool ServerWebHandler::TalkHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
-	std::string &text)
-{
-	const char *say = getField(fields, "text");
-	if (say)
-	{
-		const char *type = getField(fields, "type");
-		if (!type || 0 == strcmp(type, "all"))
-		{
-			ServerCommon::sendString(0, say);
-		}
-		else if (0 == strcmp(type, "message"))
-		{
-			ServerCommon::sendStringMessage(0, say);
-		}
-		else if (0 == strcmp(type, "admin"))
-		{
-			ServerCommon::sendStringAdmin(say);
-		}
-	}
-
-	std::string texts;
-	std::list<ServerChannelManager::MessageEntry> &textsList = 
-		ServerChannelManager::instance()->getLastMessages();
-	std::list<ServerChannelManager::MessageEntry>::iterator textsListItor;
-	for (textsListItor = textsList.begin();
-		textsListItor != textsList.end();
-		textsListItor++)
-	{
-		std::string cleanText;
-		XMLNode::removeSpecialChars(textsListItor->message, cleanText);
-		texts += cleanText;
-		texts += "<br>\n";
-	}
-	fields["TEXTS"] = texts;
-	const char *refreshRate = getField(fields, "RefreshRate");
-	int refreshSeconds = 0;
-	if (refreshRate) refreshSeconds = atoi(refreshRate);
-	else fields["RefreshRate"]="0";
-	if (refreshSeconds > 0)
-		fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
-	return ServerWebServerUtil::getHtmlTemplate("talk.html", fields, text);
-}
-
 bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
-	const char *action = getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(fields, "action");
 	if (action && 0 == strcmp(action, "Load")) 
 		ScorchedServerUtil::instance()->bannedPlayers.load(true);
 
-	const char *selected = getField(fields, "selected");
+	const char *selected = ServerWebServerUtil::getField(fields, "selected");
 	std::string banned;
 	std::list<ServerBanned::BannedRange> &bannedIps = 
 		ScorchedServerUtil::instance()->bannedPlayers.getBannedIps();

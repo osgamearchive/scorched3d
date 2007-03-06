@@ -26,6 +26,47 @@
 #include <common/Logger.h>
 #include <common/OptionEntry.h>
 
+const char *ServerWebServerUtil::getField(std::map<std::string, std::string> &fields, const char *field)
+{
+	std::map<std::string, std::string>::iterator itor = 
+		fields.find(field);
+	if (itor != fields.end())
+	{
+		return (*itor).second.c_str();
+	}
+	return 0;
+}
+
+std::string ServerWebServerUtil::getFile(const char *filename)
+{
+	char buffer[100];
+	std::string file;
+	FILE *in = fopen(filename, "r");
+	if (in)
+	{
+		while (fgets(buffer, 100, in))
+		{
+			file += buffer;
+		}
+		fclose(in);
+	}
+	return file;
+}
+
+std::string ServerWebServerUtil::concatLines(std::list<std::string> &lines)
+{
+	std::string result;
+	std::list<std::string>::iterator itor;
+	for (itor = lines.begin();
+		itor != lines.end();
+		itor++)
+	{
+		result.append(*itor).append("<br>");
+
+	}
+	return result;
+}
+
 const char *ServerWebServerUtil::strstrlen(const char *start, const char *find, int size)
 {
 	int findsize = strlen(find);

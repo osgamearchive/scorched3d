@@ -44,6 +44,15 @@ namespace ServerWebAppletHandler
 			std::string &text);
 	};
 
+	class AppletActionHandler : public ServerWebServerI
+	{
+	public:
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
+			std::string &text);
+	};
+
 	class AppletAsyncHandler : public ServerWebServerAsyncI
 	{
 	public:

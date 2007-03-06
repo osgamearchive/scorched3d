@@ -22,19 +22,26 @@
 #define __INCLUDE_ServerWebServerUtilh_INCLUDE__
 
 #include <string>
+#include <list>
 #include <map>
 
 class NetMessage;
 class OptionEntry;
 namespace ServerWebServerUtil
 {
+	// Get query fields
 	void extractMultiPartPost(const char *start, 
 		const char *boundry, int sizeleft, std::map<std::string, NetMessage *> &parts);
 	void extractQueryFields(std::map<std::string, std::string> &fields, char *sep);
 
+	// General fns
 	const char *strstrlen(const char *start, const char *find, int size);
 	void generateSettingValue(OptionEntry *entry, std::string &value);
+	const char *getField(std::map<std::string, std::string> &fields, const char *field);
+	std::string getFile(const char *filename);
+	std::string concatLines(std::list<std::string> &lines);
 
+	// HTML template functions
 	bool getTemplate(
 		const char *name,
 		std::map<std::string, std::string> &fields,

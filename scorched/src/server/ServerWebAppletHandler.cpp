@@ -67,6 +67,31 @@ bool ServerWebAppletHandler::AppletHtmlHandler::processRequest(const char *url,
 	return ServerWebServerUtil::getHtmlTemplate("applet.html", fields, text);
 }
 
+bool ServerWebAppletHandler::AppletActionHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
+	std::string &text)
+{
+	const char *action = ServerWebServerUtil::getField(fields, "action");
+	if (action)
+	{
+		// Check which action we need to perform
+		if (0 == strcmp(action, "chat"))
+		{
+			// Add a new chat message
+			const char *text = ServerWebServerUtil::getField(fields, "text");
+			const char *channel = ServerWebServerUtil::getField(fields, "channel");
+			if (text && channel)
+			{
+				ServerChannelManager::instance()->sendText(
+					ChannelText(channel, text));
+			}
+		}
+	}
+
+	return true; // Return empty document
+}
+
 ServerWebAppletHandler::AppletAsyncHandler::AppletAsyncHandler() :
 	lastMessage_(0),
 	initialized_(false)

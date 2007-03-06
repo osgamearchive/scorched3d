@@ -71,15 +71,6 @@ namespace ServerWebHandler
 			std::string &text);
 	};
 
-	class TalkHandler : public ServerWebServerI
-	{
-	public:
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::map<std::string, NetMessage *> &parts,
-			std::string &text);
-	};
-
 	class BannedHandler : public ServerWebServerI
 	{
 	public:

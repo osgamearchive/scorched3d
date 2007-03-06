@@ -55,7 +55,7 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
 	addRequestHandler("/server", new ServerWebHandler::ServerHandler());
-	addRequestHandler("/talk", new ServerWebHandler::TalkHandler());
+	addRequestHandler("/talk", new ServerWebAppletHandler::AppletHtmlHandler());
 	addRequestHandler("/banned", new ServerWebHandler::BannedHandler());
 	addRequestHandler("/mods", new ServerWebHandler::ModsHandler());
 	addRequestHandler("/sessions", new ServerWebHandler::SessionsHandler());
@@ -65,10 +65,9 @@ ServerWebServer::ServerWebServer() :
 	addRequestHandler("/settingslandscape", new ServerWebSettingsHandler::SettingsLandscapeHandler());
 	addRequestHandler("/settingsplayers", new ServerWebSettingsHandler::SettingsPlayersHandler());
 	addRequestHandler("/settingsmod", new ServerWebSettingsHandler::SettingsModHandler());
-
-	addRequestHandler("/applet", new ServerWebAppletHandler::AppletHtmlHandler());
 	addRequestHandler("/Applet.jar", new ServerWebAppletHandler::AppletFileHandler());
 	addAsyncRequestHandler("/appletstream", new ServerWebAppletHandler::AppletAsyncHandler());
+	addRequestHandler("/action", new ServerWebAppletHandler::AppletActionHandler());
 }
 
 ServerWebServer::~ServerWebServer()

@@ -76,6 +76,7 @@ Added: drag attribute to WeaponProjectile to allow a more realistic projectile m
 Added: Error messages with lines that are more than 75 characters are wrapped onto the next line
 Added: Players can gift money to other players in their team
 Added: Some floats can now be a random range or a distribution of values
+Added: Web management chat is now in real-time
 
 Fixed: SDL_Quit being called twice on the client
 Fixed: Sound failing to initialize will not prevent the client from being run

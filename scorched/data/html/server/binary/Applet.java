@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.xml.parsers.*;
 import java.io.*;
+import java.net.*;
 import org.xml.sax.*;
 import org.w3c.dom.*;
 
@@ -39,6 +40,10 @@ public class Applet
 			System.err.println("CreateGUI" + e.getMessage());
 		}
 	}
+	
+	public void destroy() {
+		if (streamReader != null) streamReader.close();
+	}
 
 	private void createGUI() {
 		Container pane = getContentPane();
@@ -69,12 +74,12 @@ public class Applet
 	
 		String sid = getParameter("sid");
 		if (sid == null) return;
-		
 		String host = getDocumentBase().getHost();
 		int port = getDocumentBase().getPort();
-	
-		streamReader = new EventStreamReader();
-		streamReader.start(this, host, port, sid);
+
+		String url = "/appletstream?sid=" + sid;
+		streamReader = new EventStreamReader(this, host, port, url);
+		streamReader.start();
 	}
 	
 	public void handleData(String s) {
@@ -162,5 +167,21 @@ public class Applet
 		// User has hit return
 		String text = textField.getText();
 		textField.setText("");	
+
+		// Send text
+		String sid = getParameter("sid");
+		if (sid == null) return;
+		String host = getDocumentBase().getHost();
+		int port = getDocumentBase().getPort();
+
+		String channel = channelBox.getSelectedItem().toString();
+
+		try {
+                        text = URLEncoder.encode(text, "UTF-8");
+                } catch (Exception ex) {
+                }
+
+		String url = "/action?sid=" + sid + "&action=chat&text=" + text + "&channel=" + channel;
+		new EventStreamReader(this, host, port, url).start();
 	}
 }

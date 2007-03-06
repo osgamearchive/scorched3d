@@ -496,10 +496,20 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 	}
 
 	// Update the server console with the say text
-	const char *logtext = formatString("[%s] : %s \"%s\"", 
-		text.getChannel(),
-		(tank?tank->getName():""),
-		newText.c_str());
+	const char *logtext = 0;
+	if (tank)
+	{
+		logtext = formatString("[%s][%s] : \"%s\"", 
+			text.getChannel(),
+			tank->getName(),
+			newText.c_str());
+	}
+	else
+	{
+		logtext = formatString("[%s] : \"%s\"", 
+			text.getChannel(),
+			newText.c_str());
+	}
 	ServerCommon::serverLog(logtext);
 	MessageEntry messageEntry;
 	messageEntry.message = logtext;
