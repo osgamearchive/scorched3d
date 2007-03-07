@@ -37,10 +37,14 @@ public:
 	virtual void draw(const unsigned state);
 
 	GLViewPort &getViewPort() { return viewPort_; }
+	bool getHide() { return hide_; }
+	void setHide(bool hide) { hide_ = hide; }
+
 
 protected:
 	static Main2DCamera *instance_;
 	GLViewPort viewPort_;
+	bool hide_;
 
 private:
 	Main2DCamera();

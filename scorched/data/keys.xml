@@ -516,6 +516,13 @@
 		<key state='LSHIFT'>5</key>
 	</keyentry>
 	<keyentry>
+		<name>HIDE_ALL_DIALOGS</name>
+		<title>Hide all dialogs</title>
+		<description>Hides all on-screen dialogs</description>
+		<group>5</group>
+		<key state='LSHIFT'>z</key>
+	</keyentry>
+	<keyentry>
 		<name>SHOW_HELP_DIALOG</name>
 		<title>Show help dialog</title>
 		<description>Shows or hides the help dialog</description>

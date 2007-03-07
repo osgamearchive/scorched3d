@@ -285,6 +285,13 @@ void MainCamera::keyboardCheck(const unsigned state, float frameTime,
 		targetCam_.getCamera().scroll(GLCamera::eScrollRight, mapWidth, mapHeight);
 	}
 
+	KEYBOARDKEY("HIDE_ALL_DIALOGS", hideWindows);
+	if (hideWindows->keyDown(buffer, keyState, false)) 
+	{
+		Main2DCamera::instance()->setHide(
+			!Main2DCamera::instance()->getHide());
+	}
+
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_1", setQuick1);
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_2", setQuick2);
 	KEYBOARDKEY("CAMERA_SET_QUICK_SLOT_3", setQuick3);
@@ -347,6 +354,11 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 {
 	if (!saveScreen_) return;
 	saveScreen_ = false;
+
+	bool hide = Main2DCamera::instance()->getHide();
+	Main2DCamera::instance()->setHide(false);
+	Main2DCamera::instance()->draw(0);
+	Main2DCamera::instance()->setHide(hide);
 
 	static unsigned counter = 0;
 	time_t currentTime = time(0);

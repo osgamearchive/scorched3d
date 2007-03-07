@@ -37,7 +37,8 @@ Main2DCamera *Main2DCamera::instance()
 }
 
 Main2DCamera::Main2DCamera() :
-	GameStateI("Main2DCamera")
+	GameStateI("Main2DCamera"),
+	hide_(false)
 {
 
 }
@@ -68,5 +69,13 @@ void Main2DCamera::draw(const unsigned state)
 		}
 	}
 
-	viewPort_.draw();
+	if (!hide_) viewPort_.draw();
+	else
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();	
+		glViewport(0, 0, 0, 0);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+	}
 }
