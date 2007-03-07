@@ -60,7 +60,17 @@ void ClientMessageHandler::clientConnected(NetMessage &message)
 
 void ClientMessageHandler::clientDisconnected(NetMessage &message)
 {
-	Logger::log( "Disconnected");
+	const char *type = "";
+	if (message.getFlags() == NetMessage::TimeoutDisconnect)
+	{
+		type = "Timeout";
+	}
+	else if (message.getFlags() == NetMessage::UserDisconnect)
+	{
+		type = "User";
+	}
+
+	Logger::log(formatString("Disconnected %s", type));
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getTankContainer().setCurrentDestinationId(0);

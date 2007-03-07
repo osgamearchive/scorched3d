@@ -32,12 +32,19 @@ public:
 
 	enum MessageType
 	{
-		NoMessage,
+		NoMessage = 0,
 		ConnectMessage,
 		DisconnectMessage,
 		DisconnectAllMessage,
 		BufferMessage,
 		SentMessage
+	};
+	enum DisconnectFlags
+	{
+		UnknownDisconnect = 0,
+		UserDisconnect = 1,
+		KickDisconnect = 2,
+		TimeoutDisconnect = 4
 	};
 
 	unsigned int &getDestinationId() { return destinationId_; }

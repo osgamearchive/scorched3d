@@ -178,7 +178,7 @@ void ServerCommon::kickPlayer(unsigned int playerId)
 		if (tank->getDestinationId() == 0)
 		{
 			ServerMessageHandler::instance()->
-				destroyPlayer(tank->getPlayerId());
+				destroyPlayer(tank->getPlayerId(), "Kicked");
 		}
 		else
 		{

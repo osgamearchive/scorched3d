@@ -584,7 +584,8 @@ void ServerNewGameState::checkBots(bool removeBots)
 			if (aiItor != ais_.rend())
 			{
 				std::pair<unsigned int, unsigned int> item = *aiItor;
-				ServerMessageHandler::instance()->destroyPlayer(item.second);
+				ServerMessageHandler::instance()->destroyPlayer(
+					item.second, "Auto-kick");
 				aiItor++;
 			}
 			noPlayers--;

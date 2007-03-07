@@ -117,9 +117,15 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 
 void ServerMessageHandler::clientDisconnected(NetMessage &message)
 {
-	Logger::log(formatString("Client disconnected dest=\"%i\" ip=\"%s\"", 
+	const char *reason = "Unknown";
+	if (message.getFlags() == NetMessage::UserDisconnect) reason = "User";
+	else if (message.getFlags() == NetMessage::KickDisconnect) reason = "Kicked";
+	else if (message.getFlags() == NetMessage::TimeoutDisconnect) reason = "Timeout";
+
+	Logger::log(formatString("Client disconnected dest=\"%i\" ip=\"%s\" reason=\"%s\"", 
 		message.getDestinationId(),
-		NetInterface::getIpName(message.getIpAddress())));
+		NetInterface::getIpName(message.getIpAddress()),
+		reason));
 
 	// Build up a list of players at this destination
 	std::list<unsigned int> removePlayers;
@@ -145,25 +151,26 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 		 remItor++)
 	{
 		unsigned int playerId = *remItor;
-		destroyPlayer(playerId);
+		destroyPlayer(playerId, reason);
 	}
 
 	// Inform the channel manager
 	ServerChannelManager::instance()->destinationDisconnected(message.getDestinationId());
 }
 
-void ServerMessageHandler::destroyPlayer(unsigned int tankId)
+void ServerMessageHandler::destroyPlayer(unsigned int tankId, const char *reason)
 {
 	// Try to remove this player
 	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
 	if (tank)
 	{
 		Logger::log( 
-			formatString("Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\"", 
+			formatString("Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\" reason=\"%s\"", 
 			tank->getDestinationId(),
-			tankId, tank->getName()));
-		ServerCommon::sendString(0, formatString("Player disconnected \"%s\"",
-			tank->getName()));
+			tankId, tank->getName(),
+			reason));
+		ServerCommon::sendString(0, formatString("Player disconnected \"%s\" (%s)",
+			tank->getName(), reason));
 
 		StatsLogger::instance()->tankDisconnected(tank);
 
@@ -188,7 +195,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId)
 	}
 	else
 	{
-		Logger::log(formatString("Unknown player disconnected id=\"%i\"", tankId));
+		Logger::log(formatString("Unknown player disconnected id=\"%i\" (%s)", 
+			tankId, reason));
 	}
 }
 

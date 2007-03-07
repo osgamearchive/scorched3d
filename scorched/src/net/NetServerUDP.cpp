@@ -167,7 +167,7 @@ void NetServerUDP::actualSendRecvFunc()
 		if (timeDiff > 1.0f)
 		{
 			Logger::log(formatString(
-				"Warning: udp coms loop took %.2f seconds", 
+				"NetServerUDP: coms loop took %.2f seconds", 
 				timeDiff));
 		}
 	}
@@ -193,8 +193,8 @@ void NetServerUDP::processMessage(NetMessage &message)
 			sendConnect(destination->getAddress(), eDisconnect);
 
 			// This is a message telling us to kick the client, do so
-			Logger::log(formatString("Disconnected %u - kicked", destinationId));
-			destroyDestination(destinationId);
+			//Logger::log(formatString("Disconnected %u - kicked", destinationId));
+			destroyDestination(destinationId, NetMessage::KickDisconnect);
 		}
 
 		return;
@@ -217,8 +217,8 @@ void NetServerUDP::processMessage(NetMessage &message)
 		sendConnect(destination->getAddress(), eDisconnect);
 
 		// This is a message telling us to kick the client, do so
-		Logger::log(formatString("Disconnected %u - kicked", message.getDestinationId()));
-		destroyDestination(message.getDestinationId());
+		//Logger::log(formatString("Disconnected %u - kicked", message.getDestinationId()));
+		destroyDestination(message.getDestinationId(), NetMessage::KickDisconnect);
 	}
 	else
 	{
@@ -248,8 +248,8 @@ bool NetServerUDP::checkOutgoing()
 		case NetServerUDPDestination::OutgoingTimeout:
 
 			// Client timedout
-			Logger::log(formatString("Disconnected %u - timedout", destinationId));
-			destroyDestination(destinationId);
+			//Logger::log(formatString("Disconnected %u - timedout", destinationId));
+			destroyDestination(destinationId, NetMessage::TimeoutDisconnect);
 			return true; // Because we are in iterator
 			break;
 		case NetServerUDPDestination::OutgoingSent:
@@ -307,8 +307,8 @@ bool NetServerUDP::checkIncoming()
 			// A disconnect request
 			if (destinationId != 0)
 			{
-				Logger::log(formatString("Disconnected %u - user", destinationId));
-				destroyDestination(destinationId);
+				//Logger::log(formatString("Disconnected %u - user", destinationId));
+				destroyDestination(destinationId, NetMessage::UserDisconnect);
 			}
 			break;
 		case eData:
@@ -393,7 +393,8 @@ void NetServerUDP::setMessageHandler(NetMessageHandlerI *handler)
 	incomingMessageHandler_.setMessageHandler(handler);
 }
 
-void NetServerUDP::destroyDestination(unsigned int destinationId)
+void NetServerUDP::destroyDestination(unsigned int destinationId,
+	NetMessage::DisconnectFlags type)
 {
 	// Destroy this destination
 	std::map<unsigned int, NetServerUDPDestination *>::iterator itor =
@@ -415,6 +416,7 @@ void NetServerUDP::destroyDestination(unsigned int destinationId)
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::DisconnectMessage, 
 			destinationId, destination->getAddress().host);
+	message->setFlags((unsigned int) type);
 
 	destinations_.erase(destinationId);
 	destination->printStats(destinationId);

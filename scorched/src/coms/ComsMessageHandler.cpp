@@ -87,8 +87,8 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::DisconnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log(formatString("ComsMessage::Disconnected(%i)",
-					message.getDestinationId()));
+				Logger::log(formatString("ComsMessage::Disconnected(%i, %i)",
+					message.getDestinationId(), message.getFlags()));
 			}
 
 			if (connectionHandler_) 

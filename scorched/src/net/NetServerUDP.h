@@ -80,7 +80,8 @@ protected:
 	bool sendConnect(IPaddress &address, PacketType type);
 	static int sendRecvThreadFunc(void *);
 
-	void destroyDestination(unsigned int destinationId);
+	void destroyDestination(unsigned int destinationId, 
+		NetMessage::DisconnectFlags type);
 	unsigned int getDestination(IPaddress &address);
 	unsigned int addDestination(IPaddress &address);
 };

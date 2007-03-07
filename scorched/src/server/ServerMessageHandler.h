@@ -38,7 +38,7 @@ public:
 	virtual void messageRecv(unsigned int destinationId);
 	virtual void messageSent(unsigned int destinationId);
 
-	void destroyPlayer(unsigned int playerId);
+	void destroyPlayer(unsigned int playerId, const char *reason);
 
 protected:
 	static ServerMessageHandler *instance_;
