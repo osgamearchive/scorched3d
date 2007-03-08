@@ -310,14 +310,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wxdialogs\SplashDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SplashDialog.h"
-				>
-			</File>
-			<File
 				RelativePath="..\wxdialogs\wxinclude.rc"
 				>
 				<FileConfiguration
@@ -513,20 +505,12 @@
 				RelativePath="..\common\LoggerI.h"
 				>
 			</File>
-                        <File
-                                RelativePath="..\common\NumberParser.cpp"
-                                >
-                        </File>
-                        <File
-                                RelativePath="..\common\NumberParser.h"
-                                >
-                        </File>
 			<File
-				RelativePath="..\common\RandomGenerator.cpp"
+				RelativePath="..\common\NumberParser.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\common\RandomGenerator.h"
+				RelativePath="..\common\NumberParser.h"
 				>
 			</File>
 			<File
@@ -567,6 +551,14 @@
 			</File>
 			<File
 				RelativePath="..\common\ProgressCounter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\RandomGenerator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\RandomGenerator.h"
 				>
 			</File>
 			<File

@@ -25,6 +25,7 @@
 #include <wx/txtstrm.h>
 #include <wx/msgdlg.h>
 #include <wx/dcbuffer.h>
+#include <wx/splash.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <SDL/SDL.h>
@@ -33,7 +34,6 @@
 #include <wxdialogs/SingleDialog.h>
 #include <wxdialogs/DisplayDialog.h>
 #include <wxdialogs/ServerSDialog.h>
-#include <wxdialogs/SplashDialog.h>
 #include <server/ServerMain.h>
 #include <scorched/ScorchedParams.h>
 #include <graph/OptionsDisplay.h>
@@ -506,13 +506,16 @@ void showMainDialog()
 	mainDialog = new MainFrame;
 	mainDialog->Show(TRUE);
 
-	if (0 != strcmp(OptionsDisplay::instance()->getLastVersionPlayed(), ScorchedVersion))
+	wxBitmap bitmap;
+	if (bitmap.LoadFile(wxString(getDataFile("data/windows/splash.gif"), wxConvUTF8), 
+		wxBITMAP_TYPE_GIF))
 	{
-		OptionsDisplay::instance()->getLastVersionPlayedEntry().setValue(ScorchedVersion);
-		OptionsDisplay::instance()->writeOptionsToFile();
-
-		showSplashDialog();
+	wxSplashScreen* splash = new wxSplashScreen(bitmap,
+		wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT,
+		6000, NULL, -1, wxDefaultPosition, wxDefaultSize,
+		wxSIMPLE_BORDER | wxSTAY_ON_TOP);
 	}
+	wxYield();
 }
 
 wxFrame *getMainDialog()
