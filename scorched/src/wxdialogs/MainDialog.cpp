@@ -29,7 +29,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
 #include <wxdialogs/MainDialog.h>
-#include <wxdialogs/NetDialog.h>
 #include <wxdialogs/SingleDialog.h>
 #include <wxdialogs/DisplayDialog.h>
 #include <wxdialogs/ServerSDialog.h>
@@ -45,14 +44,6 @@ bool wxWindowExit = false;
 
 enum
 {
-	ID_BUTTON_DISPLAY = 27270,
-	ID_BUTTON_NETLAN,
-	ID_BUTTON_SINGLE,
-	ID_BUTTON_SERVER,
-	ID_BUTTON_SCORCHED,
-	ID_BUTTON_DONATE,
-	ID_BUTTON_TUTORIAL,
-	ID_BUTTON_HELP,
 	ID_MAIN_TIMER
 };
 
@@ -187,38 +178,48 @@ public:
 	MainFrame();
 
 	void onTimer(wxTimerEvent &event);
-	void onDisplayButton(wxCommandEvent &event);
-	void onQuitButton(wxCommandEvent &event);
-	void onNetLanButton(wxCommandEvent &event);
-	void onSingleButton(wxCommandEvent &event);
-	void onServerButton(wxCommandEvent &event);
-	void onScorchedClick(wxCommandEvent &event);
-	void onDonateClick(wxCommandEvent &event);
-	void onHelpButton(wxCommandEvent &event);
-	void onTutorialButton(wxCommandEvent &event);
+	void onPaint(wxPaintEvent& event);
+	void onMotion(wxMouseEvent &event);	
+	void onEraseBackground(wxEraseEvent &event);
+
+	void onDisplayButton();
+	void onQuitButton();
+	void onSingleButton();
+	void onServerButton();
+	void onDonateClick();
+	void onHelpButton();
 
 private:
 	DECLARE_EVENT_TABLE()
+
+	struct ImageData
+	{
+		int x, y;
+		wxImage loadedImage;
+		wxBitmap cachedBitmap1;
+		wxBitmap cachedBitmap2;
+		(void *)callback(void);
+	};
+
 	wxTimer timer_;
+	wxBitmap backdropBitmap_;
+	std::list<ImageData *> images_;
+	long mouseX_, mouseY_;
+	int lastPos_;
 };
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_TIMER(ID_MAIN_TIMER, MainFrame::onTimer)
-	EVT_BUTTON(ID_BUTTON_DISPLAY,  MainFrame::onDisplayButton)
-	EVT_BUTTON(ID_BUTTON_NETLAN,  MainFrame::onNetLanButton)
-	EVT_BUTTON(ID_BUTTON_SINGLE,  MainFrame::onSingleButton)
-	EVT_BUTTON(ID_BUTTON_TUTORIAL,  MainFrame::onTutorialButton)
-	EVT_BUTTON(ID_BUTTON_SERVER,  MainFrame::onServerButton)
-	EVT_BUTTON(wxID_CANCEL,  MainFrame::onQuitButton)
-	EVT_BUTTON(ID_BUTTON_SCORCHED,  MainFrame::onScorchedClick)
-	EVT_BUTTON(ID_BUTTON_DONATE, MainFrame::onDonateClick)
-	EVT_BUTTON(ID_BUTTON_HELP,  MainFrame::onHelpButton)
+	EVT_PAINT(MainFrame::onPaint) 
+	EVT_MOUSE_EVENTS(MainFrame::onMotion)
+	EVT_ERASE_BACKGROUND(MainFrame::onEraseBackground)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame() :
 	wxFrame((wxFrame *)NULL, -1, wxString(scorched3dAppName, wxConvUTF8), 
-		wxDefaultPosition, wxDefaultSize, 
-		wxMINIMIZE_BOX | wxCAPTION)
+		wxDefaultPosition, wxDefaultSize,
+		wxMINIMIZE_BOX | wxCAPTION),
+	mouseX_(0), mouseY_(0), lastPos_(-1)
 {
 	if (!messageMutex_) messageMutex_ = SDL_CreateMutex();
 
@@ -227,120 +228,185 @@ MainFrame::MainFrame() :
 	wxIcon icon(iconName, wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 
-	// Set the backbround color to be that of the default
-	// panel colour
-	wxPanel panel;
-	SetBackgroundColour(panel.GetBackgroundColour());
-
-	// Create the positioning sizer
-	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
-
-	// Top Scorched Bitmap
+	// Load the backdrop bitmaps
+	if (!backdropBitmap_.LoadFile(wxString(getDataFile("data/windows/backdrop.gif"), wxConvUTF8), 
+		wxBITMAP_TYPE_GIF))
 	{
-		addTitleToWindow(this, topsizer, 
-			getDataFile("data/windows/scorched.bmp"),
-			ID_BUTTON_SCORCHED);
-	}	
+		dialogMessage("Scorched", "Failed to load backdrop");
+	}
 
-	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
-
-	// Tutorial Bitmap
+	struct ImageDefinition
 	{
-		wxButton *button =
-			addButtonToWindow(ID_BUTTON_TUTORIAL,
-				"Start the single player tutorial.\n"
-				"Learn how to play Scorched 3D.", 
-				getDataFile("data/windows/book.bmp"), this, gridsizer);
-		if (button && !ScorchedParams::instance()->getSDLInitVideo())
+		const char *file;
+		int x, y;
+	} imageDefinitions[] = {
+		"data/windows/play.gif", 30, 150,
+		"data/windows/startserver.gif", 30, 180,
+		"data/windows/display.gif", 30, 210,
+		"data/windows/help.gif", 30, 260,
+		"data/windows/donate.gif", 30, 290,
+		"data/windows/quit.gif", 30, 340
+	};
+	for (int i=0; i<sizeof(imageDefinitions) / sizeof(ImageDefinition); i++)
+	{
+		ImageData *image = new ImageData();
+		image->x = imageDefinitions[i].x;
+		image->y = imageDefinitions[i].y;
+		if (!image->loadedImage.LoadFile(wxString(getDataFile(imageDefinitions[i].file), wxConvUTF8), 
+			wxBITMAP_TYPE_GIF))
 		{
-			button->Disable();
+			dialogMessage("Scorched", 
+				formatString("Failed to load button %s", imageDefinitions[i].file));
+		}
+		else
+		{
+			images_.push_back(image);
 		}
 	}
-
-	// Single Player Bitmap
-	{
-		wxButton *button =
-			addButtonToWindow(ID_BUTTON_SINGLE,
-				"Start a single or multi-player game.\n"
-				"One or more people play against themselves or the computer.", 
-				getDataFile("data/windows/tank.bmp"), this, gridsizer);
-		if (button && !ScorchedParams::instance()->getSDLInitVideo())
-		{
-			button->Disable();
-		}
-	}
-
-	// Client Player Bitmap
-	{
-		wxButton *button =
-			addButtonToWindow(ID_BUTTON_NETLAN,
-				"Join a game over the internet or LAN.\n"
-				"Connect to a server and play with others over the internet.", 
-				getDataFile("data/windows/client.bmp"), this, gridsizer);
-		if (button && !ScorchedParams::instance()->getSDLInitVideo())
-		{
-			button->Disable();
-		}
-	}
-
-	// Server Player Bitmap
-	{
-		addButtonToWindow(ID_BUTTON_SERVER,
-			"Start a multi-player LAN or internet server.\n"
-			"Allow other people to connect to your computer to play.", 
-			getDataFile("data/windows/server.bmp"), this, gridsizer);
-	}
-
-	// Display Settings
-	{
-		wxButton *button =
-			addButtonToWindow(ID_BUTTON_DISPLAY,
-				"Change game settings.\n"
-				"Graphics, compatability and other options", 
-				getDataFile("data/windows/display.bmp"), this, gridsizer);
-		if (button && !ScorchedParams::instance()->getSDLInitVideo())
-		{
-			button->Disable();
-		}
-	}
-
-	// Help Dialog
-	{
-		addButtonToWindow(ID_BUTTON_HELP,
-			"Show help for Scorched3D",
-			getDataFile("data/windows/help.bmp"), this, gridsizer);
-	}
-
-	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, 20);
-	
-	// Donatations
-	// Quit button
-	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	{
-		wxBitmap scorchedBitmap;
-		if (scorchedBitmap.LoadFile(wxString(getDataFile("data/windows/donate.bmp"), wxConvUTF8), 
-			wxBITMAP_TYPE_BMP) &&
-			scorchedBitmap.Ok())
-		{
-			wxBitmapButton *button = new wxBitmapButton(
-				this, ID_BUTTON_DONATE, scorchedBitmap);
-			buttonSizer->Add(button, 0, wxALIGN_LEFT | wxALL, 10);
-		}
-	}
-	buttonSizer->Add(new wxBoxSizer(wxHORIZONTAL), 1, wxGROW);
-	buttonSizer->Add(new wxButton(this, wxID_CANCEL, wxT("Quit")), 0, 
-		wxALIGN_RIGHT | wxALIGN_BOTTOM | wxALL, 10);
-	topsizer->Add(buttonSizer, 1, wxGROW);
 
 	// Setup timer
 	timer_.SetOwner(this, ID_MAIN_TIMER);
 	timer_.Start(1000, false);
 
 	// use the sizer for layout
+	// Create the positioning sizer
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+	topsizer->SetMinSize(533, 400);
 	SetSizer(topsizer); 
 	topsizer->SetSizeHints(this); // set size hints to honour minimum size
 
 	CentreOnScreen();
+}
+
+void MainFrame::onMotion(wxMouseEvent &event)
+{
+	mouseX_ = event.m_x;
+	mouseY_ = event.m_y;
+
+	int foundPos = -1;
+	int pos = 0;
+	std::list<ImageData *>::iterator itor;
+	for (itor = images_.begin();
+		itor != images_.end();
+		itor++, pos++)
+	{
+		ImageData *imageData = (*itor);
+		if (mouseX_ > imageData->x &&
+			mouseY_ > imageData->y &&
+			mouseX_ < imageData->x + imageData->cachedBitmap1.GetWidth() &&
+			mouseY_ < imageData->y + imageData->cachedBitmap1.GetHeight())
+		{
+			foundPos = pos;
+		}
+	}
+
+	if (event.ButtonDown() &&
+		foundPos != -1)
+	{
+		switch (foundPos)
+		{
+		case 0:
+			onSingleButton();
+			break;
+		case 1:
+			onServerButton();
+			break;
+		case 2:
+			onDisplayButton();
+			break;
+		case 3:
+			onHelpButton();
+			break;
+		case 4:
+			onDonateClick();
+			break;
+		case 5:
+			onQuitButton();
+			break;
+		}
+	}
+
+	if (lastPos_ != foundPos)
+	{
+		lastPos_ = foundPos;
+		Refresh();
+	}
+}
+
+void MainFrame::onPaint(wxPaintEvent& event)
+{
+	wxPaintDC dc(this);
+
+	dc.DrawBitmap(backdropBitmap_, 0, 0, false);
+
+	// So its easy to display an alpha blended bitmap in wxWindows then!!!
+	std::list<ImageData *>::iterator itor;
+	for (itor = images_.begin();
+		itor != images_.end();
+		itor++)
+	{
+		ImageData *imageData = (*itor);
+
+		if (!imageData->cachedBitmap1.Ok())
+		{
+			wxImage cachedImage1(
+				imageData->loadedImage.GetWidth(),
+				imageData->loadedImage.GetHeight());
+			wxImage cachedImage2(
+				imageData->loadedImage.GetWidth(),
+				imageData->loadedImage.GetHeight());
+
+			wxPen pen;
+			unsigned char *srcdata = imageData->loadedImage.GetData();
+			unsigned char *destdata1 = cachedImage1.GetData();
+			unsigned char *destdata2 = cachedImage2.GetData();
+			for (int y=0; y<imageData->loadedImage.GetHeight(); y++)
+			{
+				for (int x=0; x<imageData->loadedImage.GetWidth(); x++)
+				{
+					float alpha1 = srcdata[0] + srcdata[1] + srcdata[2];
+					alpha1 /= 255.0f + 255.0f + 255.0f;
+
+					wxColour col;
+					dc.GetPixel(imageData->x + x, imageData->y + y, &col);
+
+					destdata1[0] = (1.0f - alpha1) * float(col.Red()) + alpha1 * float(srcdata[0]);
+					destdata1[1] = (1.0f - alpha1) * float(col.Green()) + alpha1 * float(srcdata[1]);
+					destdata1[2] = (1.0f - alpha1) * float(col.Blue()) + alpha1 * float(srcdata[2]);
+
+					float src0 = float(srcdata[0]) * 1.5f; if (src0 > 255.0f) src0 = 255.0f;
+					float src1 = float(srcdata[1]) * 1.5f; if (src1 > 255.0f) src1 = 255.0f;
+					float src2 = float(srcdata[2]) * 1.5f; if (src2 > 255.0f) src2 = 255.0f				;
+					destdata2[0] = (1.0f - alpha1) * float(col.Red()) + alpha1 * float(src0);
+					destdata2[1] = (1.0f - alpha1) * float(col.Green()) + alpha1 * float(src1);
+					destdata2[2] = (1.0f - alpha1) * float(col.Blue()) + alpha1 * float(src2);
+
+					srcdata += 3;
+					destdata1 += 3;
+					destdata2 += 3;
+				}
+			}
+
+			imageData->cachedBitmap1 = wxBitmap(cachedImage1, backdropBitmap_.GetDepth());
+			imageData->cachedBitmap2 = wxBitmap(cachedImage2, backdropBitmap_.GetDepth());
+		}
+
+		if (mouseX_ > imageData->x &&
+			mouseY_ > imageData->y &&
+			mouseX_ < imageData->x + imageData->cachedBitmap1.GetWidth() &&
+			mouseY_ < imageData->y + imageData->cachedBitmap1.GetHeight())
+		{
+			dc.DrawBitmap(imageData->cachedBitmap2, imageData->x, imageData->y, false);
+		}
+		else
+		{
+			dc.DrawBitmap(imageData->cachedBitmap1, imageData->x, imageData->y, false);
+		}
+	}
+}
+
+void MainFrame::onEraseBackground(wxEraseEvent &event)
+{
 }
 
 void MainFrame::onTimer(wxTimerEvent &event)
@@ -388,12 +454,7 @@ void MainFrame::onTimer(wxTimerEvent &event)
 	}
 }
 
-void MainFrame::onScorchedClick(wxCommandEvent &event)
-{
-	showURL("http://www.scorched3d.co.uk");
-}
-
-void MainFrame::onDonateClick(wxCommandEvent &event)
+void MainFrame::onDonateClick()
 {
 	const char *exec = 
 		"\"https://www.paypal.com/xclick/business=donations%40"
@@ -401,39 +462,28 @@ void MainFrame::onDonateClick(wxCommandEvent &event)
 	showURL(exec);
 }
 
-void MainFrame::onTutorialButton(wxCommandEvent &event)
-{
-	const char *targetFilePath = getDataFile("data/singletutorial.xml");
-	runScorched3D(formatString("-startclient \"%s\"", targetFilePath), false);
-}
-
-void MainFrame::onDisplayButton(wxCommandEvent &event)
+void MainFrame::onDisplayButton()
 {
 	showDisplayDialog();
 }
 
-void MainFrame::onNetLanButton(wxCommandEvent &event)
-{
-	showNetLanDialog();
-}
-
-void MainFrame::onSingleButton(wxCommandEvent &event)
+void MainFrame::onSingleButton()
 {
 	showSingleDialog();
 }
 
-void MainFrame::onServerButton(wxCommandEvent &event)
+void MainFrame::onServerButton()
 {
 	showServerSDialog();
 }
 
-void MainFrame::onQuitButton(wxCommandEvent &event)
+void MainFrame::onQuitButton()
 {
 	wxWindowExit = true;
 	Close();
 }
 
-void MainFrame::onHelpButton(wxCommandEvent &event)
+void MainFrame::onHelpButton()
 {
 	showURL(formatString("file://%s", getDocFile("html/index.html")));
 }

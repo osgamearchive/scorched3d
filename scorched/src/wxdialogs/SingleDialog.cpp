@@ -22,6 +22,7 @@
 #include <wx/utils.h>
 #include <wx/image.h>
 #include <wx/filedlg.h>
+#include <wxdialogs/NetDialog.h>
 #include <wxdialogs/MainDialog.h>
 #include <wxdialogs/SingleSDialog.h>
 #include <wxdialogs/SingleChoiceDialog.h>
@@ -37,6 +38,8 @@ enum
 	ID_BUTTON_EASY = 1,
 	ID_BUTTON_CUSTOM,
 	ID_BUTTON_LOAD,
+	ID_BUTTON_NETLAN,
+	ID_BUTTON_TUTORIAL,
 	ID_BUTTON_SCORCHED3D,
 	ID_BUTTON_GAME = 100
 };
@@ -59,6 +62,8 @@ public:
 	void onCustomButton(wxCommandEvent &event);
 	void onLoadButton(wxCommandEvent &event);
 	void onScorchedButton(wxCommandEvent &event);
+	void onNetLanButton(wxCommandEvent &event);
+	void onTutorialButton(wxCommandEvent &event);
 
 protected:
 	void addModButton(
@@ -74,6 +79,8 @@ BEGIN_EVENT_TABLE(SingleFrame, wxDialog)
 	EVT_BUTTON(ID_BUTTON_CUSTOM,  SingleFrame::onCustomButton)
 	EVT_BUTTON(ID_BUTTON_LOAD, SingleFrame::onLoadButton)
 	EVT_BUTTON(ID_BUTTON_SCORCHED3D, SingleFrame::onScorchedButton)
+	EVT_BUTTON(ID_BUTTON_NETLAN, SingleFrame::onNetLanButton)
+	EVT_BUTTON(ID_BUTTON_TUTORIAL, SingleFrame::onTutorialButton)
 	EVT_BUTTON(ID_BUTTON_GAME,  SingleFrame::onGameButton)
 	EVT_BUTTON(ID_BUTTON_GAME + 1,  SingleFrame::onGameButton)
 	EVT_BUTTON(ID_BUTTON_GAME + 2,  SingleFrame::onGameButton)
@@ -110,11 +117,18 @@ SingleFrame::SingleFrame() :
 	SetIcon(icon);
 #endif
 
-	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
-
 	addTitleToWindow(this, topsizer, 
 		getDataFile("data/windows/scorched.bmp"),
 		ID_BUTTON_SCORCHED3D);
+
+	wxFlexGridSizer *topgridsizer = new wxFlexGridSizer(4, 2, 5, 5);
+	{
+		addButtonToWindow(ID_BUTTON_TUTORIAL,
+			"Start the single player tutorial.\n"
+			"Learn how to play Scorched 3D.", 
+			getDataFile("data/windows/book.bmp"), this, topgridsizer);
+	}
+	topsizer->Add(topgridsizer, 0, wxALIGN_LEFT | wxLEFT | wxRIGHT, 5);
 
 	// Add all of the mods
 	wxStaticBox *modbox = 
@@ -166,6 +180,7 @@ SingleFrame::SingleFrame() :
 	modboxsizer->Add(modgridsizer);
 	topsizer->Add(modboxsizer, 1, wxGROW | wxALL, 5);
 
+	wxFlexGridSizer *gridsizer = new wxFlexGridSizer(4, 2, 5, 5);
 	{
 		addButtonToWindow(ID_BUTTON_CUSTOM,
 			"Select your own game settings.\n"
@@ -175,11 +190,17 @@ SingleFrame::SingleFrame() :
 	}
 
 	{
+		addButtonToWindow(ID_BUTTON_NETLAN,
+			"Join a game over the internet or LAN.\n"
+			"Connect to a server and play with others over the internet.", 
+			getDataFile("data/windows/client.bmp"), this, gridsizer);
+	}
+	{
 		addButtonToWindow(ID_BUTTON_LOAD,
 			"Load a previously saved single or multi-player game.", 
 			getDataFile("data/windows/save.bmp"), this, gridsizer);
 	}
-	topsizer->Add(gridsizer, 0, wxALIGN_CENTER | wxALL, 5);
+	topsizer->Add(gridsizer, 0, wxALIGN_LEFT | wxLEFT | wxRIGHT, 5);
 
 	// Quit button
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -233,6 +254,19 @@ void SingleFrame::onGameButton(wxCommandEvent &event)
 	{
 		EndModal(wxID_OK);
 	}
+}
+
+void SingleFrame::onNetLanButton(wxCommandEvent &event)
+{
+	showNetLanDialog();
+	EndModal(wxID_OK);
+}
+
+void SingleFrame::onTutorialButton(wxCommandEvent &event)
+{
+	const char *targetFilePath = getDataFile("data/singletutorial.xml");
+	runScorched3D(formatString("-startclient \"%s\"", targetFilePath), false);
+	EndModal(wxID_OK);
 }
 
 void SingleFrame::onCustomButton(wxCommandEvent &event)
