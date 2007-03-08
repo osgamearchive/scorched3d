@@ -228,7 +228,9 @@ MainFrame::MainFrame() :
 	wxIcon icon(iconName, wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 
-	//SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+#if wxCHECK_VERSION(2, 6, 0)
+	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+#endif
 
 	// Load the backdrop bitmaps
 	if (!backdropBitmap_.LoadFile(wxString(getDataFile("data/windows/backdrop.gif"), wxConvUTF8), 
