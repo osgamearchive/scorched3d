@@ -24,6 +24,7 @@
 #include <wx/process.h>
 #include <wx/txtstrm.h>
 #include <wx/msgdlg.h>
+#include <wx/dcbuffer.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <SDL/SDL.h>
@@ -227,6 +228,8 @@ MainFrame::MainFrame() :
 	wxIcon icon(iconName, wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
 
+	//SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+
 	// Load the backdrop bitmaps
 	if (!backdropBitmap_.LoadFile(wxString(getDataFile("data/windows/backdrop.gif"), wxConvUTF8), 
 		wxBITMAP_TYPE_GIF))
@@ -334,7 +337,7 @@ void MainFrame::onMotion(wxMouseEvent &event)
 
 void MainFrame::onPaint(wxPaintEvent& event)
 {
-	wxPaintDC dc(this);
+	wxBufferedPaintDC dc(this);
 
 	dc.DrawBitmap(backdropBitmap_, 0, 0, false);
 
