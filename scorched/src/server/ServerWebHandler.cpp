@@ -23,7 +23,7 @@
 #include <server/ServerLog.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
-#include <Server/ServerWebServerUtil.h>
+#include <server/ServerWebServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerState.h>
 #include <server/ServerParams.h>
