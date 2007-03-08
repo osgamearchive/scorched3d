@@ -232,6 +232,8 @@ scorched3ds_SOURCES = \
 	../server/ServerWebHandler.h \
 	../server/ServerWebServer.cpp \
 	../server/ServerWebServer.h \
+	../server/ServerWebServerUtil.cpp \
+	../server/ServerWebServerUtil.h \
 	../server/ServerWebSettingsHandler.cpp \
 	../server/ServerWebSettingsHandler.h \
 	../server/TurnController.cpp \

@@ -198,7 +198,6 @@ private:
 		wxImage loadedImage;
 		wxBitmap cachedBitmap1;
 		wxBitmap cachedBitmap2;
-		(void *)callback(void);
 	};
 
 	wxTimer timer_;
@@ -370,16 +369,16 @@ void MainFrame::onPaint(wxPaintEvent& event)
 					wxColour col;
 					dc.GetPixel(imageData->x + x, imageData->y + y, &col);
 
-					destdata1[0] = (1.0f - alpha1) * float(col.Red()) + alpha1 * float(srcdata[0]);
-					destdata1[1] = (1.0f - alpha1) * float(col.Green()) + alpha1 * float(srcdata[1]);
-					destdata1[2] = (1.0f - alpha1) * float(col.Blue()) + alpha1 * float(srcdata[2]);
+					destdata1[0] = (unsigned char) ((1.0f - alpha1) * float(col.Red()) + alpha1 * float(srcdata[0]));
+					destdata1[1] = (unsigned char) ((1.0f - alpha1) * float(col.Green()) + alpha1 * float(srcdata[1]));
+					destdata1[2] = (unsigned char) ((1.0f - alpha1) * float(col.Blue()) + alpha1 * float(srcdata[2]));
 
 					float src0 = float(srcdata[0]) * 1.5f; if (src0 > 255.0f) src0 = 255.0f;
 					float src1 = float(srcdata[1]) * 1.5f; if (src1 > 255.0f) src1 = 255.0f;
 					float src2 = float(srcdata[2]) * 1.5f; if (src2 > 255.0f) src2 = 255.0f				;
-					destdata2[0] = (1.0f - alpha1) * float(col.Red()) + alpha1 * float(src0);
-					destdata2[1] = (1.0f - alpha1) * float(col.Green()) + alpha1 * float(src1);
-					destdata2[2] = (1.0f - alpha1) * float(col.Blue()) + alpha1 * float(src2);
+					destdata2[0] = (unsigned char) ((1.0f - alpha1) * float(col.Red()) + alpha1 * float(src0));
+					destdata2[1] = (unsigned char) ((1.0f - alpha1) * float(col.Green()) + alpha1 * float(src1));
+					destdata2[2] = (unsigned char) ((1.0f - alpha1) * float(col.Blue()) + alpha1 * float(src2));
 
 					srcdata += 3;
 					destdata1 += 3;
