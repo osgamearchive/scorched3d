@@ -32,12 +32,13 @@
 
 ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
 							   WeaponProjectile *weapon, WeaponFireContext &weaponContext,
-							   unsigned int flareType) :
+							   unsigned int flareType,
+							   float spinSpeed ) :
 	startPosition_(startPosition), velocity_(velocity), 
 	weapon_(weapon), weaponContext_(weaponContext), 
 	flareType_(flareType), vPoint_(0),
 	snapTime_(0.2f), up_(false),
-	totalTime_(0.0)
+	totalTime_(0.0), spinSpeed_(spinSpeed)
 {
 
 }
@@ -47,7 +48,9 @@ void ShotProjectile::init()
 #ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
-		setActionRender(new MissileActionRenderer(flareType_, weapon_->getScale(*context_)));
+		setActionRender(new MissileActionRenderer(flareType_, 
+				weapon_->getScale(*context_),
+				spinSpeed_));
 	}
 #endif // #ifndef S3D_SERVER
 
@@ -57,6 +60,8 @@ void ShotProjectile::init()
 		0.0f, 0.0f, weapon_->getWindFactor(*context_), getWeapon()->getUnder());
 	thrustTime_ = getWeapon()->getThrustTime(*context_);
 	thrustAmount_ = getWeapon()->getThrustAmount(*context_);
+	timedCollision_ = getWeapon()->getTimedCollision(*context_);
+	drag_ = getWeapon()->getDrag(*context_);
 }
 
 ShotProjectile::~ShotProjectile()
@@ -146,19 +151,17 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	}
 
 	// Drag
-	float drag = getWeapon()->getDrag(*context_);
-	if (drag > 0.0f)
+	if (drag_ > 0.0f)
 	{
 		Vector direction = getCurrentVelocity();
-		direction *= -drag;
+		direction *= -drag_;
 		applyForce(direction);
 	}
 
 	// Timed collision
-	float timedCollision = getWeapon()->getTimedCollision(*context_);
-	if (timedCollision > 0.0f)
+	if (timedCollision_ > 0.0f)
 	{
-		if (totalTime_ > timedCollision)
+		if (totalTime_ > timedCollision_)
 		{
 			doCollision(getCurrentPosition());
 			remove = true;

@@ -35,7 +35,7 @@ public:
 	ShotProjectile(
 		Vector &startPosition, Vector &velocity,
 		WeaponProjectile *weapon, WeaponFireContext &weaponContext,
-		unsigned int flareType);
+		unsigned int flareType, float spinSpeed);
 	virtual ~ShotProjectile();
 
 	virtual void simulate(float frameTime, bool &remove);
@@ -56,10 +56,13 @@ protected:
 	bool up_;
 	float snapTime_;
 	float totalTime_;
-	// TODO add things like thrusttime etc that should have their 
+	// 	things like thrusttime etc should have their 
 	// 	values set ONCE per projectile
 	float thrustTime_;
 	float thrustAmount_;
+	float drag_;
+	float timedCollision_;
+	float spinSpeed_;
 	std::list<RenderTracer::TracerLinePoint> positions_;
 
 	void doCollision(Vector &position);

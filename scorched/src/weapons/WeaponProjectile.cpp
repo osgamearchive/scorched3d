@@ -172,7 +172,7 @@ void WeaponProjectile::fireWeapon(ScorchedContext &context,
 		velocity,
 		this, 
 		weaponContext,
-		flareType_ // FlareType
-		); 
+		flareType_, // FlareType
+		spinSpeed_.getValue(context)); 
 	context.actionController->addAction(action);	
 }

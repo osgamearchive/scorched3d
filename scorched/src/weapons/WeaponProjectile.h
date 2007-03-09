@@ -52,7 +52,7 @@ public:
 	float getWindFactor(ScorchedContext &context);
 	float getShieldHurtFactor(ScorchedContext &context);
 	float getTimedCollision(ScorchedContext &context) { return timedCollision_.getValue(context); }
-	float getSpinSpeed() { return spinSpeed_; }
+	float getSpinSpeed(ScorchedContext &context) { return spinSpeed_.getValue(context); }
 	float getFlameLife() { return flameLife_; }
 	float getFlameStartSize() { return flameStartSize_; }
 	float getFlameEndSize() { return flameEndSize_; }
@@ -76,7 +76,7 @@ protected:
 	bool showEndPoint_;
 	bool apexCollision_;
 	bool apexNoDud_, timedDud_;
-	float spinSpeed_;
+	NumberParser spinSpeed_;
 	bool createSmoke_, createFlame_;
 	float flameLife_, smokeLife_;
 	float flameStartSize_, flameEndSize_;

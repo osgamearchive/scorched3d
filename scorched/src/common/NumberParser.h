@@ -51,7 +51,7 @@ public:
 
 protected:
         bool getOperands();
-        bool isInt_, isFloat_;
+        bool isInt_, isFloat_, isValid_;
         std::string expression_;
         std::list<float> operands_;
         float max_, min_, step_;
