@@ -60,6 +60,13 @@ protected:
 	bool hitWater_;
 	float totalTime_, hurtTime_;
 	float napalmTime_;
+	float allowedNapalmTime_;
+	float napalmHeight_;
+	float stepTime_;
+	float hurtStepTime_;
+	float hurtPerSecond_;
+	float groundScorchPer_;
+	int effectRadius_;
 	std::list<NapalmEntry *> napalmPoints_;
 
 	float getHeight(int x, int y);

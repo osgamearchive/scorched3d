@@ -59,6 +59,15 @@ Napalm::~Napalm()
 
 void Napalm::init()
 {
+	// Get the NumberParser variables 
+	allowedNapalmTime_ = getWeapon()->getNapalmTime(*context_);
+	napalmHeight_ = getWeapon()->getNaplamHeight(*context_);
+	stepTime_ = getWeapon()->getStepTime(*context_);
+	hurtStepTime_ = getWeapon()->getHurtStepTime(*context_);
+	hurtPerSecond_ = getWeapon()->getHurtPerSecond(*context_);
+	groundScorchPer_ = getWeapon()->getGroundScorchPer(*context_);
+
+
 	const float ShowTime = 5.0f;
 	Vector position((float) x_, (float) y_, context_->landscapeMaps->
 		getGroundMaps().getHeight(x_, y_));
@@ -110,15 +119,12 @@ void Napalm::simulate(float frameTime, bool &remove)
 	// Add napalm for the period of the time interval
 	// once the time interval has expired then start taking it away
 	// Once all napalm has disapeared the simulation is over
-	const float StepTime = weapon_->getStepTime();
-	const float HurtStepTime = weapon_->getHurtStepTime();
-
 	totalTime_ += frameTime;
-	while (totalTime_ > StepTime)
+	while (totalTime_ > stepTime_)
 	{
-		totalTime_ -= StepTime;
-		napalmTime_ += StepTime;
-		if (napalmTime_ < weapon_->getNapalmTime())
+		totalTime_ -= stepTime_;
+		napalmTime_ += stepTime_;
+		if (napalmTime_ < allowedNapalmTime_)
 		{
 			// Still within the time period, add more napalm
 			simulateAddStep();
@@ -147,9 +153,9 @@ void Napalm::simulate(float frameTime, bool &remove)
 
 	// Calculate how much damage to make to the tanks
 	hurtTime_ += frameTime;
-	while (hurtTime_ > HurtStepTime)
+	while (hurtTime_ > hurtStepTime_)
 	{
-		hurtTime_ -= HurtStepTime;
+		hurtTime_ -= hurtStepTime_;
 
 		simulateDamage();
 	}
@@ -179,8 +185,6 @@ float Napalm::getHeight(int x, int y)
 
 void Napalm::simulateRmStep()
 {
-	const float NapalmHeight = weapon_->getNaplamHeight();
-
 	// Remove the first napalm point from the list
 	// and remove the height from the landscape
 	NapalmEntry *entry = napalmPoints_.front();
@@ -189,13 +193,11 @@ void Napalm::simulateRmStep()
 	int y = entry->posY;
 	delete entry;
 
-	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x, y) -= NapalmHeight;
+	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x, y) -= napalmHeight_;
 }
 
 void Napalm::simulateAddStep()
 {
-	const float NapalmHeight = weapon_->getNaplamHeight();
-
 	// Get the height of this point
 	float height = getHeight(x_, y_);
 
@@ -233,7 +235,7 @@ void Napalm::simulateAddStep()
 	{
 		ParticleEmitter emitter;
 		emitter.setAttributes(
-			weapon_->getNapalmTime(), weapon_->getNapalmTime(),
+			allowedNapalmTime_, allowedNapalmTime_,
 			0.5f, 1.0f, // Mass
 			0.01f, 0.02f, // Friction
 			Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
@@ -282,8 +284,8 @@ void Napalm::simulateAddStep()
 	}
 	*/
 
-	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x_, y_) += NapalmHeight;
-	height += NapalmHeight;
+	context_->landscapeMaps->getGroundMaps().getNapalmHeight(x_, y_) += napalmHeight_;
+	height += napalmHeight_;
 
 #ifndef S3D_SERVER
 	if (!context_->serverMode)
@@ -311,7 +313,7 @@ void Napalm::simulateAddStep()
 		// Add the ground scorch
 		if (!GLStateExtension::getNoTexSubImage())
 		{
-			if (RAND < weapon_->getGroundScorchPer())
+			if (RAND < groundScorchPer_)
 			{
 				Vector pos(x_, y_);
 				DeformTextures::deformLandscape(pos, 
@@ -372,7 +374,6 @@ void Napalm::simulateAddStep()
 
 void Napalm::simulateDamage()
 {
-	float damagePerPointSecond = weapon_->getHurtPerSecond();
 	const int EffectRadius = weapon_->getEffectRadius();
 
 	// Store how much each tank is damaged
@@ -413,11 +414,11 @@ void Napalm::simulateDamage()
 					TargetDamageCalc.find(target->getPlayerId());
 				if (damageItor == TargetDamageCalc.end())
 				{
-					TargetDamageCalc[target->getPlayerId()] = damagePerPointSecond;
+					TargetDamageCalc[target->getPlayerId()] = hurtPerSecond_;
 				}
 				else
 				{
-					TargetDamageCalc[target->getPlayerId()] += damagePerPointSecond;
+					TargetDamageCalc[target->getPlayerId()] += hurtPerSecond_;
 				}
 			}
 		}

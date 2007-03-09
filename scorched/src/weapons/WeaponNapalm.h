@@ -33,12 +33,12 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 
-	const float getNapalmTime() { return napalmTime_; }
-	const float getNaplamHeight() { return napalmHeight_; }
-	const float getStepTime() { return stepTime_; }
-	const float getHurtStepTime() { return hurtStepTime_; }
-	const float getHurtPerSecond() { return hurtPerSecond_; }
-	const float getGroundScorchPer() { return groundScorchPer_; }
+	const float getNapalmTime(ScorchedContext &context) { return napalmTime_.getValue(context); }
+	const float getNaplamHeight(ScorchedContext &context) { return napalmHeight_.getValue(context); }
+	const float getStepTime(ScorchedContext &context) { return stepTime_.getValue(context); }
+	const float getHurtStepTime(ScorchedContext &context) { return hurtStepTime_.getValue(context); }
+	const float getHurtPerSecond(ScorchedContext &context) { return hurtPerSecond_.getValue(context); }
+	const float getGroundScorchPer(ScorchedContext &context) { return groundScorchPer_.getValue(context); }
 	const int getEffectRadius() { return effectRadius_; }
 	const int getNumberStreams() { return numberStreams_; }
 	const char *getNapalmSound() { return napalmSound_.c_str(); }
@@ -56,12 +56,12 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponNapalm, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float napalmTime_;   // The time to generate napalm
-	float napalmHeight_; // The height of a napalm point
-	float stepTime_;     // Add/rm napalm every StepTime secs
-	float hurtStepTime_; // Calculate damage every HurtStepTime secs
-	float hurtPerSecond_;// Damage per second
-	float groundScorchPer_; // The percentage chance the ground will be scorched
+	NumberParser napalmTime_;   // The time to generate napalm
+	NumberParser napalmHeight_; // The height of a napalm point
+	NumberParser stepTime_;     // Add/rm napalm every StepTime secs
+	NumberParser hurtStepTime_; // Calculate damage every HurtStepTime secs
+	NumberParser hurtPerSecond_;// Damage per second
+	NumberParser groundScorchPer_; // The percentage chance the ground will be scorched
 	int numberStreams_;  // The number of napalm paths
 	int effectRadius_;   // How close do tanks take damage
 	bool noSmoke_;       // Turns off smoke emitted by napalm
