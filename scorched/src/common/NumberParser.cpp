@@ -152,7 +152,7 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
 		                formatString("Invalid DISTRIBUTION expression: \"%s\"",
 				expression_.c_str()));
                 int operandNo = int(random.getRandFloat() * float(operands_.size()));
-                for (int i = 0; i <= operandNo; i++) itor++;
+                for (int i = 0; i < operandNo; i++) itor++;
                 value = *itor;
                 return value;
         }
@@ -198,7 +198,7 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 				expression_.c_str()));
 
 		int operandNo = random.getRandUInt() % operands_.size();
-		for (int i = 0; i <= operandNo; i++) itor++;
+		for (int i = 0; i < operandNo; i++) itor++;
 		return (unsigned int) *itor;
 	}
 	dialogExit("NumberParser",
