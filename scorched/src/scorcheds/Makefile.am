@@ -50,6 +50,8 @@ scorched3ds_SOURCES = \
 	../common/ChannelManager.h \
 	../common/ChannelText.cpp \
 	../common/ChannelText.h \
+	../common/ChannelTextParser.cpp \
+	../common/ChannelTextParser.h \
 	../common/Clock.cpp \
 	../common/Clock.h \
 	../common/Counter.cpp \

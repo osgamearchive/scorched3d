@@ -70,6 +70,20 @@ protected:
 	float segHurt_;
 	float segHurtRadius_;
 	std::string sound_;
+	NumberParser coneLengthExp_;
+	NumberParser segLengthExp_;
+	NumberParser segVarExp_;
+	NumberParser sizeExp_;
+	NumberParser sizeVarExp_;
+	NumberParser minSizeExp_;
+	NumberParser splitProbExp_;
+	NumberParser splitVarExp_;
+	NumberParser deathProbExp_;
+	NumberParser derivAngleExp_;
+	NumberParser angleVarExp_;
+	NumberParser totalTimeExp_;
+	NumberParser segHurtExp_;
+	NumberParser segHurtRadiusExp_;
 
 };
 

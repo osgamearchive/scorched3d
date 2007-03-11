@@ -75,6 +75,12 @@ protected:
 	std::string explosionSound_;
 	Explosion::DeformType deform_;
 
+	NumberParser sizeExp_;
+	NumberParser shakeExp_;
+	NumberParser minLifeExp_, maxLifeExp_;
+	NumberParser createMushroomAmountExp_;
+	NumberParser hurtAmountExp_;
+
 };
 
 #endif // !defined(AFX_WEAPONPEXPLOSION_H__70119A64_2064_4066_8EE5_FD6A3E24D5FC__INCLUDED_)

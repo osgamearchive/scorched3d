@@ -50,9 +50,13 @@ protected:
 	NumberParser numberRollers_;
 	Weapon *collisionAction_;
 	ModelID rollerModelId_;
-	NumberParser shieldHurtFactor_;
-	NumberParser windFactor_;
-	NumberParser time_;
+	NumberParser shieldHurtFactorExp_;
+	NumberParser windFactorExp_;
+	NumberParser timeExp_;
+	float shieldHurtFactor_;
+	float windFactor_;
+	float time_;
+
 	bool maintainVelocity_;
 
 	void addRoller(ScorchedContext &context, 

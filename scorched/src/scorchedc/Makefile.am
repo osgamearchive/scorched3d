@@ -50,6 +50,8 @@ scorched3dc_SOURCES = \
 	../common/ChannelManager.h \
 	../common/ChannelText.cpp \
 	../common/ChannelText.h \
+	../common/ChannelTextParser.cpp \
+	../common/ChannelTextParser.h \
 	../common/Clock.cpp \
 	../common/Clock.h \
 	../common/Counter.cpp \
@@ -856,6 +858,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWChannelText.h \
 	../GLW/GLWChannelView.cpp \
 	../GLW/GLWChannelView.h \
+	../GLW/GLWChannelViewTextRenderer.cpp \
+	../GLW/GLWChannelViewTextRenderer.h \
 	../GLW/GLWCheckBox.cpp \
 	../GLW/GLWCheckBox.h \
 	../GLW/GLWCheckBoxText.cpp \

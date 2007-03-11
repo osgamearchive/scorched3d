@@ -37,20 +37,20 @@ WeaponLightning::~WeaponLightning()
 bool WeaponLightning::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	if (!Weapon::parseXML(context, accessoryNode)) return false;
-	if (!accessoryNode->getNamedChild("conelength", coneLength_)) return false;
-	if (!accessoryNode->getNamedChild("seglength", segLength_)) return false;
-	if (!accessoryNode->getNamedChild("segvar", segVar_)) return false;
-	if (!accessoryNode->getNamedChild("size", size_)) return false;
-	if (!accessoryNode->getNamedChild("sizevar", sizeVar_)) return false;
-	if (!accessoryNode->getNamedChild("minsize", minSize_)) return false;
-	if (!accessoryNode->getNamedChild("splitprob", splitProb_)) return false;
-	if (!accessoryNode->getNamedChild("splitvar", splitVar_)) return false;
-	if (!accessoryNode->getNamedChild("deathprob", deathProb_)) return false;
-	if (!accessoryNode->getNamedChild("derivangle", derivAngle_)) return false;
-	if (!accessoryNode->getNamedChild("anglevar", angleVar_)) return false;
-	if (!accessoryNode->getNamedChild("totaltime", totalTime_)) return false;
-	if (!accessoryNode->getNamedChild("seghurt", segHurt_)) return false;
-	if (!accessoryNode->getNamedChild("seghurtradius", segHurtRadius_)) return false;
+	if (!accessoryNode->getNamedChild("conelength", coneLengthExp_)) return false;
+	if (!accessoryNode->getNamedChild("seglength", segLengthExp_)) return false;
+	if (!accessoryNode->getNamedChild("segvar", segVarExp_)) return false;
+	if (!accessoryNode->getNamedChild("size", sizeExp_)) return false;
+	if (!accessoryNode->getNamedChild("sizevar", sizeVarExp_)) return false;
+	if (!accessoryNode->getNamedChild("minsize", minSizeExp_)) return false;
+	if (!accessoryNode->getNamedChild("splitprob", splitProbExp_)) return false;
+	if (!accessoryNode->getNamedChild("splitvar", splitVarExp_)) return false;
+	if (!accessoryNode->getNamedChild("deathprob", deathProbExp_)) return false;
+	if (!accessoryNode->getNamedChild("derivangle", derivAngleExp_)) return false;
+	if (!accessoryNode->getNamedChild("anglevar", angleVarExp_)) return false;
+	if (!accessoryNode->getNamedChild("totaltime", totalTimeExp_)) return false;
+	if (!accessoryNode->getNamedChild("seghurt", segHurtExp_)) return false;
+	if (!accessoryNode->getNamedChild("seghurtradius", segHurtRadiusExp_)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
 	if (!checkDataFile(getSound())) return false;
 	return true;
@@ -59,7 +59,23 @@ bool WeaponLightning::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 void WeaponLightning::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
+	coneLength_ = coneLengthExp_.getValue(context);
+	segLength_ = segLengthExp_.getValue(context);
+	segVar_ = segVarExp_.getValue(context);
+	size_ = sizeExp_.getValue(context);
+	sizeVar_ = sizeVarExp_.getValue(context);
+	minSize_ = minSizeExp_.getValue(context);
+	splitProb_ = splitProbExp_.getValue(context);
+	splitVar_ = splitVarExp_.getValue(context);
+	deathProb_ = deathProbExp_.getValue(context);
+	derivAngle_ = derivAngleExp_.getValue(context);
+	angleVar_ = angleVarExp_.getValue(context);
+	totalTime_ = totalTimeExp_.getValue(context);
+	segHurt_ = segHurtExp_.getValue(context);
+	segHurtRadius_ = segHurtRadiusExp_.getValue(context);
+
 	Action *action = new Lightning(
 		this, weaponContext, position, velocity); 
 	context.actionController->addAction(action);	
 }
+

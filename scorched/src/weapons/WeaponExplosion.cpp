@@ -48,7 +48,7 @@ bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
     // Get the accessory size
-    if (!accessoryNode->getNamedChild("size", size_)) return false;
+    if (!accessoryNode->getNamedChild("size", sizeExp_)) return false;
 
     // Get the accessory colored
     XMLNode *colorNode = 0;
@@ -56,10 +56,10 @@ bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accesso
     if (colorNode) multiColored_ = true;
 
     // Get the hutiness
-	if (!accessoryNode->getNamedChild("hurtamount", hurtAmount_)) return false;
+	if (!accessoryNode->getNamedChild("hurtamount", hurtAmountExp_)) return false;
 
 	// Get the weapon model explosion shake
-	accessoryNode->getNamedChild("explosionshake", shake_, false);
+	accessoryNode->getNamedChild("explosionshake", shakeExp_, false);
 
 	// Get the hurt shield node
 	accessoryNode->getNamedChild("onlyhurtshield", onlyHurtShield_, false);
@@ -75,7 +75,7 @@ bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 	if (noCreateSplashNode) createSplash_ = false;
 
 	// Get the createmushroomamount node
-	accessoryNode->getNamedChild("createmushroomamount", createMushroomAmount_, false);
+	accessoryNode->getNamedChild("createmushroomamount", createMushroomAmountExp_, false);
 
 	// Get the no windaffecting
 	XMLNode *noWindAffectedNode = 0;
@@ -93,8 +93,8 @@ bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 	if (animateNode) animate_ = true;
 
 	// Get the optional explosion life nodes
-	accessoryNode->getNamedChild("minlife", minLife_, false);
-	accessoryNode->getNamedChild("maxlife", maxLife_, false);
+	accessoryNode->getNamedChild("minlife", minLifeExp_, false);
+	accessoryNode->getNamedChild("maxlife", maxLifeExp_, false);
 
 	// Get tje deform texture
 	if (accessoryNode->getNamedChild("deformtexture", deformTexture_, false))
@@ -167,6 +167,13 @@ Vector &WeaponExplosion::getExplosionColor()
 void WeaponExplosion::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
+	size_ = sizeExp_.getValue(context, size_);
+	shake_= shakeExp_.getValue(context, shake_);
+	minLife_ = minLifeExp_.getValue(context, minLife_);
+	maxLife_ = maxLifeExp_.getValue(context, maxLife_);
+	createMushroomAmount_ = createMushroomAmountExp_.getValue(context, createMushroomAmount_);
+	hurtAmount_ = hurtAmountExp_.getValue(context, hurtAmount_);
+
 	Action *action = new Explosion(
 		position, this, weaponContext);
 	context.actionController->addAction(action);	

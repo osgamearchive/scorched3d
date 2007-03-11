@@ -117,7 +117,6 @@ bool NumberParser::setExpression(float value)
         return true;
 }
 
-
 float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &generator)
 {
         // Examples: 10, RANGE(1,10)
@@ -148,19 +147,28 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
         else if (expression_.find("DISTRIBUTION",0) != std::string::npos)
         {
                 if (operands_.size() < 2)
-        		dialogExit("Accessory",
+        		dialogExit("NumberParser.cpp",
 		                formatString("Invalid DISTRIBUTION expression: \"%s\"",
 				expression_.c_str()));
                 int operandNo = int(random.getRandFloat() * float(operands_.size()));
-                for (int i = 0; i < operandNo; i++) itor++;
+                for (int i = 0; i <= operandNo; i++) itor++;
                 value = *itor;
                 return value;
         }
 
-        dialogExit("NumberParser",
+        dialogExit("NumberParser.cpp",
 	        formatString("Invalid float expression: \"%s\"",
                 expression_.c_str()));
-		return false; // VC++ complains
+	return false;  // VC++ complains
+}
+
+// Allow for default values to be passed along for optional attributes
+float NumberParser::getValue(ScorchedContext &context, float defaultValue)
+{
+	if (expression_.size() == 0)
+		this->setExpression(defaultValue);
+
+	return getValue(context);
 }
 
 unsigned int NumberParser::getUInt(ScorchedContext &context)
@@ -193,15 +201,15 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 	else if (expression_.find("DISTRIBUTION",0) != std::string::npos)
 	{
 		if (operands_.size() < 2)
-			dialogExit("Accessory",
+			dialogExit("NumberParser.cpp",
 				formatString("Invalid integer expression: \"%s\"",
 				expression_.c_str()));
 
 		int operandNo = random.getRandUInt() % operands_.size();
-		for (int i = 0; i < operandNo; i++) itor++;
+		for (int i = 0; i <= operandNo; i++) itor++;
 		return (unsigned int) *itor;
 	}
-	dialogExit("NumberParser",
+	dialogExit("NumberParser.cpp",
 		formatString("Invalid integer expression: \"%s\"",
 		expression_.c_str()));
 	return false;  // VC++ complains

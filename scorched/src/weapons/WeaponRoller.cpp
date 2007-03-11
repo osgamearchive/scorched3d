@@ -51,13 +51,13 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 	if (!accessoryNode->getNamedChild("numberrollers", numberRollers_)) return false;
 
 	// Get life time
-	if (!accessoryNode->getNamedChild("time", time_)) return false;
+	if (!accessoryNode->getNamedChild("time", timeExp_)) return false;
 
     // Get the hurt factor (if any)
-    accessoryNode->getNamedChild("shieldhurtfactor", shieldHurtFactor_, false);
+    accessoryNode->getNamedChild("shieldhurtfactor", shieldHurtFactorExp_, false);
 
 	// Get the wind factor (if any)
-	accessoryNode->getNamedChild("windfactor", windFactor_, false);
+	accessoryNode->getNamedChild("windfactor", windFactorExp_, false);
 
 	// Get the maintianvelocity (if any)
 	accessoryNode->getNamedChild("maintainvelocity", maintainVelocity_, false);
@@ -83,22 +83,30 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 
 float WeaponRoller::getWindFactor(ScorchedContext &context)
 {
-	return windFactor_.getValue(context);
+	return windFactor_;
 }
 
 float WeaponRoller::getTime(ScorchedContext &context)
 {
-	return time_.getValue(context);	// hmmm... this one seems odd. TODO
+	return timeExp_.getValue(context);
 }
 
 float WeaponRoller::getShieldHurtFactor(ScorchedContext &context)
 {
-	return shieldHurtFactor_.getValue(context);
+	return shieldHurtFactor_;
 }
 
 void WeaponRoller::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &oldposition, Vector &velocity)
 {
+	// Get the values from the numberparser expressions
+	// leaving time in the sim loop so that individual rollers can
+	//  have different times
+	// time_ = timeExp_.getValue(context);
+	
+	shieldHurtFactor_ = shieldHurtFactorExp_.getValue(context, shieldHurtFactor_);
+	windFactor_ = windFactorExp_.getValue(context, windFactor_);
+
 	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		oldposition[0], oldposition[1]);
 

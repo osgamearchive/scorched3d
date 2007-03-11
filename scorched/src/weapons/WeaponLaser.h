@@ -52,6 +52,13 @@ protected:
 	float hurtRadius_;
 	float totalTime_;
 	Vector color_;
+	// Use the following to hold the NumberParser float expression
+	// convert to values in ::fireWeapon()
+	NumberParser minimumHurtExp_, maximumHurtExp_;
+	NumberParser minimumDistanceExp_, maximumDistanceExp_;
+	NumberParser hurtRadiusExp_;
+	NumberParser totalTimeExp_;
+
 
 };
 

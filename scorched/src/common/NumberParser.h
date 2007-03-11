@@ -43,6 +43,7 @@ public:
         virtual ~NumberParser();
 
         float getValue(ScorchedContext &context); //RandomGenerator &generator);
+	float getValue(ScorchedContext &context, float defaultValue);
         unsigned int getUInt(ScorchedContext &context);
 	int getInt(ScorchedContext &context);
         bool setExpression(const char *expression);
