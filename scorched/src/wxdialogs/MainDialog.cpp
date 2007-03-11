@@ -34,6 +34,7 @@
 #include <wxdialogs/SingleDialog.h>
 #include <wxdialogs/DisplayDialog.h>
 #include <wxdialogs/ServerSDialog.h>
+#include <wxdialogs/DialogUtils.h>
 #include <server/ServerMain.h>
 #include <scorched/ScorchedParams.h>
 #include <graph/OptionsDisplay.h>
@@ -197,8 +198,10 @@ private:
 	{
 		int x, y;
 		wxImage loadedImage;
+		wxImage descriptionImage;
 		wxBitmap cachedBitmap1;
 		wxBitmap cachedBitmap2;
+		wxBitmap cachedDescription;
 	};
 
 	wxTimer timer_;
@@ -207,6 +210,10 @@ private:
 	std::list<ImageData *> images_;
 	long mouseX_, mouseY_;
 	int lastPos_;
+
+	void generateCachedImage(int x, int y, 
+		wxImage &src, wxBitmap &destBitamp, 
+		bool highlight = false);
 };
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
@@ -244,26 +251,32 @@ MainFrame::MainFrame() :
 	// Load all of the button bitmaps
 	struct ImageDefinition
 	{
-		const char *file;
+		const char *name;
+		const char *description;
 		int x, y;
 	} imageDefinitions[] = {
-		"data/windows/play.gif", 30, 150,
-		"data/windows/startserver.gif", 30, 180,
-		"data/windows/display.gif", 30, 210,
-		"data/windows/help.gif", 30, 260,
-		"data/windows/donate.gif", 30, 290,
-		"data/windows/quit.gif", 30, 340
+		"Play", "- Play a game.", 30, 150,
+		"Start Server", "- Start a LAN or internet server.", 30, 180,
+		"Settings", "- Change the display, sound or other settings.", 30, 210,
+		"Help", "- View the online help.", 30, 260,
+		"Donate", "- Show support for Scorched3D.", 30, 290,
+		"Quit", "- Exit the game.", 30, 340
 	};
+
+	TrueTypeFont largeImageFont(getDataFile("data/fonts/vera.ttf"), 14);
+	TrueTypeFont smallImageFont(getDataFile("data/fonts/vera.ttf"), 12);
+
 	for (int i=0; i<sizeof(imageDefinitions) / sizeof(ImageDefinition); i++)
 	{
 		ImageData *image = new ImageData();
 		image->x = imageDefinitions[i].x;
 		image->y = imageDefinitions[i].y;
-		if (!image->loadedImage.LoadFile(wxString(getDataFile(imageDefinitions[i].file), wxConvUTF8), 
-			wxBITMAP_TYPE_GIF))
+
+		if (!largeImageFont.getImageForText(imageDefinitions[i].name, image->loadedImage) ||
+			!smallImageFont.getImageForText(imageDefinitions[i].description, image->descriptionImage))
 		{
 			dialogMessage("Scorched", 
-				formatString("Failed to load button %s", imageDefinitions[i].file));
+				formatString("Failed to load button %s", imageDefinitions[i].name));
 		}
 		else
 		{
@@ -340,6 +353,48 @@ void MainFrame::onMotion(wxMouseEvent &event)
 	}
 }
 
+void MainFrame::generateCachedImage(int x, int y, 
+	wxImage &src, wxBitmap &destBitamp,
+	bool highlight)
+{
+	wxImage dest(
+		src.GetWidth(),
+		src.GetHeight());
+
+	unsigned char *backdropdata = backdropImage_.GetData();
+	backdropdata += 
+		3 * x +
+		3 * y * backdropImage_.GetWidth();
+	
+	unsigned char *srcdata = src.GetData();
+	unsigned char *destdata = dest.GetData();
+	for (int y=0; y<src.GetHeight(); y++)
+	{
+		unsigned char *backdropstart = backdropdata;
+		for (int x=0; x<src.GetWidth(); x++)
+		{
+			float alpha = srcdata[0] + srcdata[1] + srcdata[2];
+			alpha /= 255.0f + 255.0f + 255.0f;
+
+			float mult = (highlight?1.5f:1.0f);
+			float src0 = float(srcdata[0]) * mult; if (src0 > 255.0f) src0 = 255.0f;
+			float src1 = float(srcdata[1]) * mult; if (src1 > 255.0f) src1 = 255.0f;
+			float src2 = float(srcdata[2]) * mult; if (src2 > 255.0f) src2 = 255.0f;
+			destdata[0] = (unsigned char) ((1.0f - alpha) * float(backdropdata[0]) + alpha * float(src0));
+			destdata[1] = (unsigned char) ((1.0f - alpha) * float(backdropdata[1]) + alpha * float(src1));
+			destdata[2] = (unsigned char) ((1.0f - alpha) * float(backdropdata[2]) + alpha * float(src2));
+
+			srcdata += 3;
+			destdata += 3;
+			backdropdata += 3;
+		}
+		backdropdata = backdropstart + 3 * backdropImage_.GetWidth();
+		
+	}
+
+	destBitamp = wxBitmap(dest, -1);
+}
+
 void MainFrame::onPaint(wxPaintEvent& event)
 {
 	wxBufferedPaintDC dc(this);
@@ -356,52 +411,12 @@ void MainFrame::onPaint(wxPaintEvent& event)
 
 		if (!imageData->cachedBitmap1.Ok())
 		{
-			wxImage cachedImage1(
-				imageData->loadedImage.GetWidth(),
-				imageData->loadedImage.GetHeight());
-			wxImage cachedImage2(
-				imageData->loadedImage.GetWidth(),
-				imageData->loadedImage.GetHeight());
-
-			wxPen pen;
-			unsigned char *backdropdata = backdropImage_.GetData();
-			backdropdata += 
-				3 * imageData->x +
-				3 * imageData->y * backdropImage_.GetWidth();
-			
-			unsigned char *srcdata = imageData->loadedImage.GetData();
-			unsigned char *destdata1 = cachedImage1.GetData();
-			unsigned char *destdata2 = cachedImage2.GetData();
-			for (int y=0; y<imageData->loadedImage.GetHeight(); y++)
-			{
-				unsigned char *backdropstart = backdropdata;
-				for (int x=0; x<imageData->loadedImage.GetWidth(); x++)
-				{
-					float alpha1 = srcdata[0] + srcdata[1] + srcdata[2];
-					alpha1 /= 255.0f + 255.0f + 255.0f;
-
-					destdata1[0] = (unsigned char) ((1.0f - alpha1) * float(backdropdata[0]) + alpha1 * float(srcdata[0]));
-					destdata1[1] = (unsigned char) ((1.0f - alpha1) * float(backdropdata[1]) + alpha1 * float(srcdata[1]));
-					destdata1[2] = (unsigned char) ((1.0f - alpha1) * float(backdropdata[2]) + alpha1 * float(srcdata[2]));
-
-					float src0 = float(srcdata[0]) * 1.5f; if (src0 > 255.0f) src0 = 255.0f;
-					float src1 = float(srcdata[1]) * 1.5f; if (src1 > 255.0f) src1 = 255.0f;
-					float src2 = float(srcdata[2]) * 1.5f; if (src2 > 255.0f) src2 = 255.0f;
-					destdata2[0] = (unsigned char) ((1.0f - alpha1) * float(backdropdata[0]) + alpha1 * float(src0));
-					destdata2[1] = (unsigned char) ((1.0f - alpha1) * float(backdropdata[1]) + alpha1 * float(src1));
-					destdata2[2] = (unsigned char) ((1.0f - alpha1) * float(backdropdata[2]) + alpha1 * float(src2));
-
-					srcdata += 3;
-					destdata1 += 3;
-					destdata2 += 3;
-					backdropdata += 3;
-				}
-				backdropdata = backdropstart + 3 * backdropImage_.GetWidth();
-				
-			}
-
-			imageData->cachedBitmap1 = wxBitmap(cachedImage1, -1);
-			imageData->cachedBitmap2 = wxBitmap(cachedImage2, -1);
+			generateCachedImage(imageData->x, imageData->y, 
+				imageData->loadedImage, imageData->cachedBitmap1, false);
+			generateCachedImage(imageData->x, imageData->y, 
+				imageData->loadedImage, imageData->cachedBitmap2, true);
+			generateCachedImage(imageData->x + 135, imageData->y + 2, 
+				imageData->descriptionImage, imageData->cachedDescription, true);
 		}
 
 		if (mouseX_ > imageData->x &&
@@ -410,6 +425,7 @@ void MainFrame::onPaint(wxPaintEvent& event)
 			mouseY_ < imageData->y + imageData->cachedBitmap1.GetHeight())
 		{
 			dc.DrawBitmap(imageData->cachedBitmap2, imageData->x, imageData->y, false);
+			dc.DrawBitmap(imageData->cachedDescription, imageData->x + 135, imageData->y + 2, false);
 		}
 		else
 		{
