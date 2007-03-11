@@ -23,6 +23,7 @@
 
 #include <common/Vector.h>
 #include <vector>
+#include <string>
 
 class ScorchedContext;
 class ChannelTextParser
