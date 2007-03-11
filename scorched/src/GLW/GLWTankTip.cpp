@@ -641,6 +641,11 @@ static void generateTargetTip(std::string &tip, Target *target)
 	{
 		Tank *tank = (Tank *) target;
 
+		if (tank->getState().getState() != TankState::sNormal)
+		{
+			tip += formatString("\nState : %s",
+				tank->getState().getSmallStateString());
+		}
 		tip += formatString("\nLives : %i/%i",
 			tank->getState().getLives(),
 			tank->getState().getMaxLives());

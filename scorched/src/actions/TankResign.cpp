@@ -62,7 +62,7 @@ void TankResign::simulate(float frameTime, bool &remove)
 			if (!context_->serverMode)
 			{
 				ChannelText text("combat",
-					formatString("\"%s\" resigned from round", tank->getName()));
+					formatString("[p:%s] resigned from round", tank->getName()));
 				//info.setPlayerId(playerId_);
 				ChannelManager::showText(text);
 			}

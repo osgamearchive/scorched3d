@@ -366,6 +366,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\ChannelTextParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelTextParser.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\Clock.cpp"
 				>
 			</File>

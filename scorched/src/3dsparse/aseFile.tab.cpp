@@ -5,7 +5,7 @@
 
 #define YYBISON 1  /* Identify Bison output.  */
 
-#if !defined(__FreeBSD__) && !defined(__DARWIN__)
+#if !defined(__FreeBSD__) && !defined(__DARWIN__) && !defined(_WIN32)
 #define alloca 
 #endif //!defined(__FreeBSD__) && !defined(__DARWIN__)
 

@@ -39,6 +39,7 @@ Added: Web management exit when empty option (to exit server when no one is play
 Added: Web management log file search feature for finding strings in log files
 Added: Web management landscape, main, players, mods settings dialogs
 Added: Web management mod upload and import feature to allow remote uploading of mods
+Added: Web management looking up of unique ids for users
 Added: DebugFeatures option for server.xml to disable InfoGrid
 Added: New wall types: WallActive and WallInactive
 Added: botonly option for accessories (ie: only for bots, not for AI objects)
@@ -79,7 +80,12 @@ Added: Some floats can now be a random range or a distribution of values
 Added: Web management chat is now in real-time
 Added: Reason for user discconecting from a net game is now visible to all clients
 Added: Shift-z hides and shows all gui components
+Added: Chat channels for server side filtering of chat
+Added: Chat spam auto muting
+Added: Chat supports links to players, channels and weapons.  Displayed as tooltips.
+Added: New launcher and splash screen graphics
 
+Fixed: Server will only show log files via the management interface that it created
 Fixed: SDL_Quit being called twice on the client
 Fixed: Sound failing to initialize will not prevent the client from being run
 Fixed: Optimized settings sent to the client to send only different settings

@@ -64,6 +64,7 @@ public:
 	REGISTER_CLASS_HEADER(GLWChannelText);
 protected:
 	GLTexture buttonTexture_, colorTexture_;
+	GLWChannelViewTextRenderer prompt_;
 	GLWChannelView::CurrentChannelEntry channelEntry_;
 	GLWIconButton button_;
 	GLWChannelView view_;
@@ -83,6 +84,7 @@ protected:
 	bool checkCurrentChannel();
 	bool channelValid(const char *channelName);
 	void setVisible(bool visible);
+	void setChannelEntry(GLWChannelView::CurrentChannelEntry &entry);
 };
 
 #endif // __INCLUDE_GLWChannelTexth_INCLUDE__

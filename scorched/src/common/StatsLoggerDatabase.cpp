@@ -361,6 +361,33 @@ char *StatsLoggerDatabase::getTopRanks()
 	return (char *) formatString("%s", stringResult.c_str());
 }
 
+char *StatsLoggerDatabase::getPlayerInfo(const char *player)
+{
+	std::string stringResult;
+	std::list<StatsLoggerDatabase::RowResult> playerRows =
+		runSelectQuery("select name, uniqueid from "
+		"scorched3d_players where LOCATE(LOWER(\"%s\"), LOWER(name)) != 0", 
+		player);
+	if (!playerRows.empty())
+	{
+		std::list<StatsLoggerDatabase::RowResult>::iterator itor;
+		for (itor = playerRows.begin();
+			itor != playerRows.end();
+			itor++)
+		{
+			StatsLoggerDatabase::RowResult &result = (*itor);
+			for (unsigned int i=0; i<result.columns.size(); i++)
+			{
+				stringResult.append(result.columns[i]);
+				if (i < result.columns.size() - 1) stringResult.append(",");
+				else stringResult.append("\n");
+			}
+		}
+	}
+	
+	return (char *) formatString("%s", stringResult.c_str());
+}
+
 std::list<std::string> StatsLoggerDatabase::getIpAliases(Tank *tank)
 {
 	std::list<std::string> results;

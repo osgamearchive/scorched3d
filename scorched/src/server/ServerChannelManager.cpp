@@ -487,12 +487,16 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 	// Filter the string for bad language
 	std::string filteredText(text.getMessage());
 	ScorchedServerUtil::instance()->textFilter.filterString(filteredText);
-	std::string newText = filteredText;
 
 	// Remove any bad characters
-	for (char *r = (char *) newText.c_str(); *r; r++)
+	for (char *r = (char *) filteredText.c_str(); *r; r++)
 	{
-		if (*r == '%' || *r < 0 || *r == '[' || *r == ']') *r = ' ';
+		if (*r == '%' || *r < 0) *r = ' ';
+	}
+	for (char *r = (char *) filteredText.c_str(); *r; r++)
+	{
+		if (*r == '[') *r = '(';
+		else if (*r == ']') *r = ')';
 	}
 
 	// Update the server console with the say text
@@ -502,13 +506,13 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 		logtext = formatString("[%s][%s] : \"%s\"", 
 			text.getChannel(),
 			tank->getName(),
-			newText.c_str());
+			filteredText.c_str());
 	}
 	else
 	{
 		logtext = formatString("[%s] : \"%s\"", 
 			text.getChannel(),
-			newText.c_str());
+			filteredText.c_str());
 	}
 	ServerCommon::serverLog(logtext);
 	MessageEntry messageEntry;
@@ -516,6 +520,9 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 	messageEntry.messageid = ++lastMessageId_;
 	lastMessages_.push_back(messageEntry);
 	if (lastMessages_.size() > 25) lastMessages_.pop_front();
+
+	// Update the message with the filtered text
+	text.setMessage(filteredText.c_str());
 
 	// Send to all clients
 	std::map<unsigned int, DestinationEntry *>::iterator destItor;

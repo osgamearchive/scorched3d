@@ -101,6 +101,11 @@ char *StatsLoggerFile::getTopRanks()
 	return ""; 
 }
 
+char *StatsLoggerFile::getPlayerInfo(const char *player)
+{
+	return "";
+}
+
 std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
 {
 	std::list<std::string> result;

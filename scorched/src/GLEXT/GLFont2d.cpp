@@ -89,6 +89,13 @@ void GLFont2d::drawA(Vector &color, float alpha, float size,
 	drawString((GLsizei) strlen(text), color, alpha, size, x, y, z, text, false);
 }
 
+void GLFont2d::drawA(GLFont2dI *handler, Vector &color, float alpha, float size, 
+	  float x, float y, float z, 
+	  const char *text)
+{
+	drawStringHandler((GLsizei) strlen(text), handler, color, alpha, size, x, y, z, text);
+}
+
 void GLFont2d::drawOutline(Vector &color, float size, float size2,
 					float x, float y, float z, 
 					const char *text)
@@ -203,6 +210,48 @@ static void drawLetter(char ch, GLuint list_base, GLuint *tex_base,
 
 	bilX *= (float)((characters+ch)->advances);
 	glTranslatef(bilX[0], bilX[1], bilX[2]);
+}
+
+bool GLFont2d::drawStringHandler(unsigned length, GLFont2dI *handler, Vector &color, float alpha, float size, 
+	float x, float y, float z, 
+	const char *string)
+{
+	if (textures_)
+	{
+		GLTextureBase::setLastBind(0); // Clear so no texture is cached
+
+		GLState currentState(GLState::BLEND_ON | GLState::TEXTURE_ON);
+		Vector4 acolor;
+		Vector position(x, y, z);
+
+		glPushMatrix();
+			glTranslatef(position[0], position[1], position[2]);
+			glScalef(size / height_, size / height_, size / height_);
+
+			int pos = 0;
+			for (;*string; string++, pos++)
+			{
+				unsigned int list = *string;
+
+				acolor[0] = color[0];
+				acolor[1] = color[1];
+				acolor[2] = color[2];
+				acolor[3] = alpha;
+
+				CharEntry &charEntry = *(characters_ + *string);
+				handler->drawCharacter(pos, position, charEntry, acolor);
+
+				glColor4fv(acolor);
+				glCallList(list + list_base_);
+
+				position[0] += float(charEntry.advances) * size / height_;
+			}
+		glPopMatrix();
+
+		return false;
+	}
+
+	return true;
 }
 
 bool GLFont2d::drawString(unsigned length, Vector &color, float alpha, float size, 

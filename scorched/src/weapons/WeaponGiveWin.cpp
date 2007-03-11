@@ -98,7 +98,7 @@ void WeaponGiveWin::weaponCallback(
 		if (!context.serverMode)
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" %s and won the game", 
+				formatString("[p:%s] %s and won the game", 
 				tank->getName(), objective_.c_str()));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);

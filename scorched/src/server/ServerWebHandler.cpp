@@ -303,6 +303,8 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 
 		// Iterator through all of the log files in the logs directory
 		std::vector<LogFile> logFiles;
+		std::string portNumber = formatString("%i",
+			ScorchedServer::instance()->getOptionsGame().getPortNo());
 		const char *dirName = getLogFile("");
 		FileList dir(dirName, "*.log", false);
 		if (dir.getStatus())
@@ -315,6 +317,9 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 			{
 				const char *fileName = (*itor).c_str();
 				const char *fullFilename = getLogFile(fileName);
+
+				// Only show files from this server (this port)
+				if (0 == strstr(fileName, portNumber.c_str())) continue;
 
 				// If searching is enabled check to see if this file contains 
 				// the specified string
@@ -598,8 +603,30 @@ bool ServerWebHandler::StatsHandler::processRequest(const char *url,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
-	const char *ranks = StatsLogger::instance()->getTopRanks();
-	fields["RANKS"] = ranks;
+	std::string message;
+
+	const char *find;
+	const char *action = ServerWebServerUtil::getField(fields, "action");
+	if (action && 
+		(0 == strcmp(action, "Find")) &&
+		(find = ServerWebServerUtil::getField(fields, "find")))
+	{
+		message.append("<b>Players</b>\n");
+		message.append(StatsLogger::instance()->getPlayerInfo(find));
+	}
+	else
+	{
+		message.append("<b>Ranks</b>\n");
+		message.append(StatsLogger::instance()->getTopRanks());
+	}
+
+	int pos;
+	while ((pos = message.find("\n")) > 0)
+	{
+		message.replace(pos, 1, "<br>");
+	}
+
+	fields["RANKS"] = message;
 
 	return ServerWebServerUtil::getHtmlTemplate("stats.html", fields, text);
 }

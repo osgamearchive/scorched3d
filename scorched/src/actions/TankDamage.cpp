@@ -436,7 +436,7 @@ void TankDamage::logDeath()
 			if (!context_->serverMode)
 			{
 				ChannelText text("combat", 
-					formatString("\"%s\" killed self with a %s",
+					formatString("[p:%s] killed self with a [w:%s]",
 						killedTank->getName(),
 						weapon_->getParent()->getName()));
 				//info.setPlayerId(firedPlayerId);
@@ -455,7 +455,7 @@ void TankDamage::logDeath()
 			if (!context_->serverMode)
 			{
 				ChannelText text("combat", 
-					formatString("\"%s\" team killed \"%s\" with a %s",
+					formatString("[p:%s] team killed [p:%s] with a [w:%s]",
 						firedTank->getName(),
 						killedTank->getName(),
 						weapon_->getParent()->getName()));
@@ -474,7 +474,7 @@ void TankDamage::logDeath()
 			if (!context_->serverMode)
 			{
 				ChannelText text("combat", 
-					formatString("\"%s\" %skilled \"%s\" with a %s",
+					formatString("[p:%s] %skilled [p:%s] with a [w:%s]",
 					firedTank->getName(),
 					((firedTank->getScore().getTurnKills() > 1)?"multi-":""),
 					killedTank->getName(),
@@ -498,7 +498,7 @@ void TankDamage::logDeath()
 		if (!context_->serverMode)
 		{
 			ChannelText text("combat", 
-					formatString("\"%s\" %skilled \"%s\" with a \"%s\"",
+					formatString("[p:%s] %skilled [p:%s] with a [w:%s]",
 				firedTank.getName(),
 				((firedTank.getScore().getTurnKills() > 1)?"multi-":""),
 				killedTank->getName(),

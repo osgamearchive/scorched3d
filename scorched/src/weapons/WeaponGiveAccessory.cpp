@@ -93,7 +93,7 @@ void WeaponGiveAccessory::weaponCallback(
 				if (!context.serverMode)
 				{
 					ChannelText text("combat", 
-						formatString("\"%s\" received %i * %s", 
+						formatString("[p:%s] received %i * [w:%s]", 
 						tank->getName(),
 						number_, accessory->getName()));
 					//info.setPlayerId(weaponContext.getPlayerId());
@@ -108,7 +108,7 @@ void WeaponGiveAccessory::weaponCallback(
 				if (!context.serverMode)
 				{
 					ChannelText text("combat", 
-						formatString("\"%s\" received $%i", 
+						formatString("[p:%s] received $%i", 
 						tank->getName(), money));
 					//info.setPlayerId(weaponContext.getPlayerId());
 					ChannelManager::showText(text);
@@ -126,7 +126,7 @@ void WeaponGiveAccessory::weaponCallback(
 				if (!context.serverMode)
 				{
 					ChannelText text("combat", 
-						formatString("\"%s\" lost %i * %s", 
+						formatString("[p:%s] lost %i * [w:%s]", 
 						tank->getName(),
 						loose, accessory->getName()));
 					//info.setPlayerId(weaponContext.getPlayerId());

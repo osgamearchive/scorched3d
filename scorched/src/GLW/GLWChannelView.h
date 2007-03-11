@@ -23,6 +23,7 @@
 
 #include <GLW/GLWidget.h>
 #include <GLW/GLWIconButton.h>
+#include <GLW/GLWChannelViewTextRenderer.h>
 #include <client/ClientChannelManagerI.h>
 #include <common/KeyboardKey.h>
 #include <common/Vector.h>
@@ -101,7 +102,7 @@ protected:
 	{
 	public:
 		Vector color;
-		std::string text;
+		GLWChannelViewTextRenderer text;
 		float timeRemaining;
 	};
 
@@ -135,9 +136,9 @@ protected:
 	std::list<BaseChannelEntry> availableChannels_;
 	std::string textSound_;
 
-	void addInfo(Vector &color, const char *text);
+	void addInfo(Vector &color, GLWChannelViewTextRenderer &text);
 	void formCurrentChannelList(std::list<std::string> &result);
-	int splitLine(const char *message, std::string &result);
+	int splitLine(const char *message);
 };
 
 #endif // __INCLUDE_GLWChannelViewh_INCLUDE__

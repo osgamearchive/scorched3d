@@ -224,7 +224,7 @@ void GLWToolTip::draw(const unsigned state)
 	}
 	else
 	{
-		posY += 5.0f;
+		posY += 15.0f;
 	}
 
 	if (posX < 0) posX = 0;

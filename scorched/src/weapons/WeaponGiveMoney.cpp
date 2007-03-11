@@ -70,7 +70,7 @@ void WeaponGiveMoney::weaponCallback(
 		if (money_ > 0)
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" received $%i", 
+				formatString("[p:%s] received $%i", 
 				tank->getName(), money_));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
@@ -78,7 +78,7 @@ void WeaponGiveMoney::weaponCallback(
 		else
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" lost $%i", 
+				formatString("[p:%s] lost $%i", 
 				tank->getName(), -money_));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);

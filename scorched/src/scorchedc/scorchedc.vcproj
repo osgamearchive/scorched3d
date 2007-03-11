@@ -367,6 +367,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\ChannelTextParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\ChannelTextParser.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\Clock.cpp"
 				>
 			</File>
@@ -3648,6 +3656,14 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWChannelView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWChannelViewTextRenderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWChannelViewTextRenderer.h"
 				>
 			</File>
 			<File

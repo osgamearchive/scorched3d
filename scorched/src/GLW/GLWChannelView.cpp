@@ -199,35 +199,52 @@ void GLWChannelView::channelText(ChannelText &channelText)
 	{
 		if (tank)
 		{
-			channelName = formatString("%u. [%s][%s] : ", 
+			channelName = formatString("%u. [c:%s][p:%s] : ", 
 				channel->id, channel->channel.c_str(), tank->getName());
 		}
 		else
 		{
-			channelName = formatString("%u. [%s] : ", 
+			channelName = formatString("%u. [c:%s] : ", 
 				channel->id, channel->channel.c_str());
 		}
 	}
-
-	const char *text = formatString("%s%s", 
-		channelName, channelText.getMessage());
-
-	if (!splitLargeLines_)
+	else
 	{
-		addInfo(channel->color, text);
-		return;
+		if (tank)
+		{
+			channelName = formatString("[p:%s] : ", 
+				tank->getName());
+		}
 	}
 
+	const char *inputText = formatString("%s%s", 
+		channelName, channelText.getMessage());
+
+	GLWChannelViewTextRenderer chanText(this);
+	chanText.parseText(ScorchedClient::instance()->getContext(), inputText);
+	
+	if (!splitLargeLines_)
+	{
+		addInfo(channel->color, chanText);
+		return;
+	}
+	
 	bool firstTime = true;
 	int currentLen = 0;
+	const char *text = chanText.getText();
 	int totalLen = (int) strlen(text);
 	while (currentLen < totalLen)
 	{
-		std::string result;
-		int partLen = splitLine(&text[currentLen], result);
-		currentLen += partLen;
+		// Get the next split position
+		int partLen = splitLine(&text[currentLen]);
 
-		addInfo(channel->color, result.c_str());
+		// Create the new text and add it
+		GLWChannelViewTextRenderer newText(this);
+		newText.subset(chanText, currentLen, partLen);
+		addInfo(channel->color, newText);
+
+		// Increment the current position
+		currentLen += partLen;
 	}
 }
 
@@ -252,7 +269,7 @@ void GLWChannelView::buttonDown(unsigned int id)
 	}
 }
 
-int GLWChannelView::splitLine(const char *message, std::string &result)
+int GLWChannelView::splitLine(const char *message)
 {
 	int lastSpace = 0;
 	int totalLen = (int) strlen(message);
@@ -262,14 +279,14 @@ int GLWChannelView::splitLine(const char *message, std::string &result)
 			getWidth(outlineFontSize_, message, len);
 		if (width > w_)
 		{
-			if (lastSpace)
+			// If there is a space within the last 15 characters split to it
+			if (lastSpace && (len - lastSpace < 15)) 
 			{
-				result.append(message, lastSpace);
 				return lastSpace;
 			}
 			else
 			{
-				result.append(message, len-1);
+				// Else just split where we are now
 				return len-1;
 			}
 		}
@@ -280,11 +297,11 @@ int GLWChannelView::splitLine(const char *message, std::string &result)
 		}
 	}
 
-	result.append(message);
+	// The whole message fits, split to the end of the message
 	return totalLen;
 }
 
-void GLWChannelView::addInfo(Vector &color, const char *text)
+void GLWChannelView::addInfo(Vector &color, GLWChannelViewTextRenderer &text)
 {
 	GLWChannelViewEntry entry;
 	entry.text = text;
@@ -373,8 +390,10 @@ void GLWChannelView::draw()
 		}
 	}
 
+	// Check if there is anything to draw
 	if (textLines_.empty()) return;
 
+	// Find the start of the area to draw to
 	GLState currentStateBlend(GLState::TEXTURE_ON | 
 		GLState::BLEND_ON | GLState::DEPTH_OFF);
 	float start = y_ + 8.0f; //lineDepth_;
@@ -383,6 +402,8 @@ void GLWChannelView::draw()
 		start = y_ + h_ - float(currentVisible_) * lineDepth_;
 	}
 
+	// Skip the lines we are not viewing
+	// (Should make this more efficient)
 	std::list<GLWChannelViewEntry>::iterator startingPos = textLines_.begin();
 	{
 		int count = 0;
@@ -393,9 +414,9 @@ void GLWChannelView::draw()
 		}
 	}
 
-
-
-
+	// Draw all the black outlines first
+	// Do this in a block incase any of the outlines would over write any
+	// of the other lines
 	{
 		int count = 0;
 		std::list<GLWChannelViewEntry>::iterator itor;
@@ -419,9 +440,10 @@ void GLWChannelView::draw()
 			GLWFont::instance()->getSmallPtFontOutline()->
 				drawOutlineA(black, alpha, outlineFontSize_, fontSize_,
 					x, y, 0.0f,
-					entry.text.c_str());
+					entry.text.getText());
 		}
 	}
+	// Draw the actual text
 	{
 		int count = 0;
 		std::list<GLWChannelViewEntry>::iterator itor;
@@ -442,9 +464,9 @@ void GLWChannelView::draw()
 			float y = start + count * lineDepth_;
 
 			GLWFont::instance()->getLargePtFont()->
-				drawA(entry.color, alpha, fontSize_,
+				drawA(&entry.text, entry.color, alpha, fontSize_,
 					x, y, 0.0f, 
-					entry.text.c_str());
+					entry.text.getText());
 		}
 	}
 }

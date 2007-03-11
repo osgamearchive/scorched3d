@@ -75,7 +75,7 @@ void WeaponGiveScore::weaponCallback(
 		if (score_ > 0)
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" received %i bonus score", 
+				formatString("[p:%s] received %i bonus score", 
 				tank->getName(), score_));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
@@ -83,7 +83,7 @@ void WeaponGiveScore::weaponCallback(
 		else
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" lost %i bonus score", 
+				formatString("[p:%s] lost %i bonus score", 
 				tank->getName(), -score_));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);

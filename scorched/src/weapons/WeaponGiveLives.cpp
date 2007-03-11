@@ -73,7 +73,7 @@ void WeaponGiveLives::weaponCallback(
 			if (lives_ > 0)
 			{
 				ChannelText text("combat", 
-					formatString("\"%s\" has received %i extra live(s)", 
+					formatString("[p:%s] has received %i extra live(s)", 
 					tank->getName(), lives_));
 				//info.setPlayerId(weaponContext.getPlayerId());
 				ChannelManager::showText(text);
@@ -81,7 +81,7 @@ void WeaponGiveLives::weaponCallback(
 			else
 			{
 				ChannelText text("combat", 
-					formatString("\"%s\" has lost %i extra live(s)", 
+					formatString("[p:%s] has lost %i extra live(s)", 
 					tank->getName(), -lives_));
 				//info.setPlayerId(weaponContext.getPlayerId());
 				ChannelManager::showText(text);

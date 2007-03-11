@@ -55,7 +55,7 @@ void Resurrection::simulate(float frameTime, bool &remove)
 		if (!context_->serverMode)
 		{
 			ChannelText text("combat",
-				formatString("\"%s\" was resurrected, %i lives remaining",
+				formatString("[p:%s] was resurrected, %i lives remaining",
 					tank->getName(),
 					tank->getState().getLives()));
 			//info.setPlayerId(playerId_);

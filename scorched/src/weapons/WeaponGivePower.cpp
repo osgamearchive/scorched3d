@@ -70,7 +70,7 @@ void WeaponGivePower::weaponCallback(
 	if (!context.serverMode)
 	{
 		ChannelText text("combat", 
-			formatString("\"%s\" received %.0f power", 
+			formatString("[p:%s] received %.0f power", 
 			tank->getName(), power));
 		//info.setPlayerId(weaponContext.getPlayerId());
 		ChannelManager::showText(text);

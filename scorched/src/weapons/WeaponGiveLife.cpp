@@ -78,7 +78,7 @@ void WeaponGiveLife::weaponCallback(
 		if (!context.serverMode)
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" received %.0f life", 
+				formatString("[p:%s] received %.0f life", 
 				tank->getName(), life));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
@@ -100,7 +100,7 @@ void WeaponGiveLife::weaponCallback(
 		if (!context.serverMode)
 		{
 			ChannelText text("combat", 
-				formatString("\"%s\" lost %.0f life", 
+				formatString("[p:%s] lost %.0f life", 
 				tank->getName(), -life));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);

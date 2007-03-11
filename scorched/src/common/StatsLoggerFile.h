@@ -41,6 +41,7 @@ public:
 	virtual char *allocateId();
 	virtual char *getStatsId(Tank *tank);
 	virtual char *getTopRanks();
+	virtual char *getPlayerInfo(const char *player);
 
 	virtual void tankConnected(Tank *tank);
 	virtual void tankDisconnected(Tank *tank);

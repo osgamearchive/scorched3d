@@ -23,7 +23,9 @@
 
 #include <GLEXT/GLState.h>
 #include <common/Vector.h>
+#include <common/Vector4.h>
 
+class GLFont2dI;
 class GLFont2d  
 {
 public:
@@ -42,39 +44,42 @@ public:
 	bool getInit();
 
 	void draw(Vector &color, float size, 
-			  float x, float y, float z, 
-			  const char *text);
+		float x, float y, float z, 
+		const char *text);
 	void drawA(Vector &color, float alpha, float size, 
-			  float x, float y, float z, 
-			  const char *text);
+		float x, float y, float z, 
+		const char *text);
+	void drawA(GLFont2dI *handler, Vector &color, float alpha, float size, 
+		float x, float y, float z, 
+		const char *text);
 	void drawWidth(float width, 
-				 Vector &color, float size, 
-				 float x, float y, float z, 
-				 const char *text);
+		Vector &color, float size, 
+		float x, float y, float z, 
+		const char *text);
 	void drawWidthRhs(float width, 
-				 Vector &color, float size, 
-				 float x, float y, float z, 
-				 const char *text);
+		Vector &color, float size, 
+		float x, float y, float z, 
+		const char *text);
 	void drawSubStr(int start, int len,
-				 Vector &color, float size, 
-				 float x, float y, float z, 
-				 const char *text);
+		Vector &color, float size, 
+		float x, float y, float z, 
+		const char *text);
 	void drawSubStrA(int start, int len,
-				 Vector &color, float alpha, float size, 
-				 float x, float y, float z, 
-				 const char *text);
+		Vector &color, float alpha, float size, 
+		float x, float y, float z, 
+		const char *text);
 	void drawOutline(Vector &color, float size, float size2,
-			float x, float y, float z,
-			const char *text);
+		float x, float y, float z,
+		const char *text);
 	void drawOutlineA(Vector &color, float alpha, float size, float size2,
-			float x, float y, float z,
-			const char *text);
+		float x, float y, float z,
+		const char *text);
 	void drawOutlineWidthRhs(float len, Vector &color, float size, float size2,
-			float x, float y, float z, 
-			const char *text);
+		float x, float y, float z, 
+		const char *text);
 	void drawBilboard(Vector &color, float alpha, float size, 
-			  float x, float y, float z, 
-			  const char *text);
+		float x, float y, float z, 
+		const char *text);
 
 	float getWidth(float size, const char *text, int len = 0);
 	int getChars(float size, const char *text, float width);
@@ -86,13 +91,25 @@ protected:
 	CharEntry *characters_;
 
 	virtual bool drawString(unsigned len,
-							Vector &color, float alpha, 
-							float size, 
-							float x, float y, float z, 
-							const char *string,
-							bool bilboard,
-							float size2 = 0.0f);
+		Vector &color, float alpha, 
+		float size, 
+		float x, float y, float z, 
+		const char *string,
+		bool bilboard,
+		float size2 = 0.0f);
+	virtual bool drawStringHandler(unsigned length, 
+		GLFont2dI *handler, 
+		Vector &color, float alpha, 
+		float size, 
+		float x, float y, float z, 
+		const char *string);
+};
 
+class GLFont2dI
+{
+public:
+	virtual void drawCharacter(
+		int charPosition, Vector &position, GLFont2d::CharEntry &charEntry, Vector4 &color) = 0;
 };
 
 #endif /* _GLFONT2D_H_ */

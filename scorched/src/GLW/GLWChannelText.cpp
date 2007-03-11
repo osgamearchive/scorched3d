@@ -47,6 +47,7 @@ GLWChannelText::GLWChannelText() :
 	view_.setHandler(this);
 	button_.setHandler(this);
 	button_.setToolTip(new ToolTip("Chat", "Select channels, mute players..."));
+	prompt_.setChannelView(&view_);
 }
 
 GLWChannelText::~GLWChannelText()
@@ -108,34 +109,37 @@ void GLWChannelText::draw()
 		drawRoundBox(x_ + 15.0f, y_, w_ - 15.0f, h_, 10.0f);
 	glEnd();
 
-	const char *channelName = "";
-	if (channelEntry_.type & ChannelDefinition::eWhisperChannel)
-	{
-		channelName = formatString("%u. [%s][%s] : ",
-			channelEntry_.id, channelEntry_.channel.c_str(), 
-			whisperDestStr_.c_str());
-	}
-	else
-	{
-		channelName = formatString("%u. [%s] : ",
-			channelEntry_.id, channelEntry_.channel.c_str());
-	}
-
-	const char *text = formatString("%s%s", 
-		channelName, text_.c_str());
-
 	static Vector black(0.0f, 0.0f, 0.0f);
-	GLWFont::instance()->getSmallPtFontOutline()->
-		drawOutlineWidthRhs(w_ - 25.0f, 
-			black, outlineFontSize_, fontSize_,
-			x_ + 20.0f - 1.0f, y_ + 5.0f - 1.0f, 0.0f, 
-			text);
 
+	// Get the width of the prompt
+	float promptWidth = GLWFont::instance()->getLargePtFont()->getWidth(
+		fontSize_, prompt_.getText());
+
+	// Draw prompt black outline
+	GLWFont::instance()->getSmallPtFontOutline()->
+		drawOutlineA(black, 1.0f, outlineFontSize_, fontSize_,
+			x_ + 20.0f - 1.0f, y_ + 5.0f - 1.0f, 0.0f, 
+			prompt_.getText());
+	
+	// Draw text black outline
+	GLWFont::instance()->getSmallPtFontOutline()->
+		drawOutlineWidthRhs(w_ - 25.0f - promptWidth, 
+			black, outlineFontSize_, fontSize_,
+			x_ + 20.0f - 1.0f + promptWidth, y_ + 5.0f - 1.0f, 0.0f, 
+			text_.c_str());
+
+	// Draw the prompt
+	GLWFont::instance()->getLargePtFont()->
+		drawA(&prompt_, channelEntry_.color, 1.0f, fontSize_,
+			x_ + 20.0f, y_ + 5.0f, 0.0f, 
+			prompt_.getText());
+
+	// Draw the text
 	GLWFont::instance()->getLargePtFont()->drawWidthRhs(
-		w_ - 25.0f,
+		w_ - 25.0f - promptWidth,
 		channelEntry_.color, fontSize_,
-		x_ + 20.0f, y_ + 5.0f, 0.0f, 
-		text);
+		x_ + 20.0f + promptWidth, y_ + 5.0f, 0.0f, 
+		text_.c_str());
 }
 
 void GLWChannelText::keyDown(char *buffer, unsigned int keyState, 
@@ -190,7 +194,7 @@ void GLWChannelText::processNotVisibleKey(char c, unsigned int dik, bool &skipRe
 				{
 					GLWChannelView::CurrentChannelEntry *channelEntry = view_.getChannel(
 						channel.c_str());
-					if (channelEntry) channelEntry_ = *channelEntry;
+					if (channelEntry) setChannelEntry(*channelEntry);
 				}
 
 				if (entry.key == SDLK_SLASH) text_ = "/";
@@ -290,7 +294,7 @@ void GLWChannelText::processSpecialText()
 		channelValid(channelEntry->channel.c_str()))
 	{
 		text_ = "";
-		channelEntry_ = *channelEntry;
+		setChannelEntry(*channelEntry);
 	}
 	else if (strcmp("r", &text_[1]) == 0)
 	{
@@ -302,7 +306,7 @@ void GLWChannelText::processSpecialText()
 		if (channelEntry && 
 			channelValid(channelEntry->channel.c_str()))
 		{
-			channelEntry_ = *channelEntry;
+			setChannelEntry(*channelEntry);
 		}
 	}
 	else if (strcmp("t", &text_[1]) == 0)
@@ -314,7 +318,7 @@ void GLWChannelText::processSpecialText()
 		if (channelEntry && 
 			channelValid(channelEntry->channel.c_str()))
 		{
-			channelEntry_ = *channelEntry;
+			setChannelEntry(*channelEntry);
 		}
 	}
 	else if (strcmp("s", &text_[1]) == 0 ||
@@ -327,7 +331,7 @@ void GLWChannelText::processSpecialText()
 		if (channelEntry && 
 			channelValid(channelEntry->channel.c_str()))
 		{
-			channelEntry_ = *channelEntry;
+			setChannelEntry(*channelEntry);
 		}
 	}
 }
@@ -554,7 +558,7 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 				if (channelEntry && 
 					channelValid(channelEntry->channel.c_str()))
 				{
-					channelEntry_ = *channelEntry;
+					setChannelEntry(*channelEntry);
 					if (checkCurrentChannel()) setVisible(true);
 				}
 			}
@@ -570,7 +574,7 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 		{
 			GLWChannelView::CurrentChannelEntry *channel = 
 				view_.getChannel(entry->getDataText());
-			if (channel) channelEntry_ = *channel;
+			if (channel) setChannelEntry(*channel);
 		}
 		break;
 	case eColorSelectorStart:
@@ -597,7 +601,7 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 			if (channelEntry && 
 				channelValid(channelEntry->channel.c_str()))
 			{
-				channelEntry_ = *channelEntry;
+				setChannelEntry(*channelEntry);
 
 				text_ = "";
 				setVisible(true);
@@ -669,7 +673,7 @@ bool GLWChannelText::checkCurrentChannel()
 			if (channelValid(channelEntry_.channel.c_str()))
 			{
 				// Use the first valid channel
-				channelEntry_ = entry;
+				setChannelEntry(entry);
 				return true;
 			}
 		}
@@ -682,11 +686,30 @@ bool GLWChannelText::checkCurrentChannel()
 			channelEntry_.channel.c_str());	
 
 		// The current channel is valid
-		channelEntry_ = *channelEntry;
+		setChannelEntry(*channelEntry);
 		return true;
 	}	
 
 	return true;
+}
+
+void GLWChannelText::setChannelEntry(GLWChannelView::CurrentChannelEntry &entry)
+{
+	channelEntry_ = entry;
+
+	const char *channelName = "";
+	if (channelEntry_.type & ChannelDefinition::eWhisperChannel)
+	{
+		channelName = formatString("%u. [c:%s][p:%s] : ",
+			channelEntry_.id, channelEntry_.channel.c_str(), 
+			whisperDestStr_.c_str());
+	}
+	else
+	{
+		channelName = formatString("%u. [c:%s] : ",
+			channelEntry_.id, channelEntry_.channel.c_str());
+	}
+	prompt_.parseText(ScorchedClient::instance()->getContext(), channelName);
 }
 
 bool GLWChannelText::initFromXML(XMLNode *node)
