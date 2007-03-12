@@ -26,7 +26,7 @@ public class EventStreamReader extends Thread {
 		InetSocketAddress address = new InetSocketAddress(host, port);
 		try {
 			socket_ = new Socket();
-			socket_.connect(address, 10); // 10Second timeout
+			socket_.connect(address, 10000); // 10 second timeout
 		} catch (IOException ex) {
 			if (handler != null) handler.handleData(ex.getMessage());
 		}
