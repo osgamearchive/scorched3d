@@ -99,6 +99,9 @@ scorcheddata_DATA = data/singlecustom.xml \
 	data/modinfo.xml
 scorcheddatahtmldir = ${datadir}/data/html
 scorcheddatahtml_DATA = 
+scorcheddatahtmldialogsdir = ${datadir}/data/html/dialogs
+scorcheddatahtmldialogs_DATA = data/html/dialogs/backdrop.gif \
+	data/html/dialogs/launcher.html
 scorcheddatahtmlserverdir = ${datadir}/data/html/server
 scorcheddatahtmlserver_DATA = data/html/server/player.html \
 	data/html/server/message.html \
@@ -664,6 +667,7 @@ scorcheddatalandscapes_DATA = data/landscapes/defnvalley.xml \
 scorcheddatafontsdir = ${datadir}/data/fonts
 scorcheddatafonts_DATA = data/fonts/testout.ttf \
 	data/fonts/VERA-COPYRIGHT.TXT \
+	data/fonts/vera.ttf \
 	data/fonts/veramobd.ttf \
 	data/fonts/test.ttf
 scorcheddatatexturesdir = ${datadir}/data/textures
@@ -1250,6 +1254,7 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/book.bmp \
 	data/windows/questionu.gif \
 	data/windows/weapon.bmp \
+	data/windows/splash.gif \
 	data/windows/warn.gif \
 	data/windows/wind.bmp \
 	data/windows/tank2s.gif \

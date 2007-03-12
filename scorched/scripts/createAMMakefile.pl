@@ -91,8 +91,8 @@ createBinaryMakefile(
 	"../src/scorched/scorched.vcproj", 
 	"../src/scorched/Makefile.am", 
 	"scorched3d",
-	'@WX_CFLAGS@ @SDL_CFLAGS@',
-	'@WX_LIBS@ @SDL_LIBS@'
+	'@WX_CFLAGS@ @FT2_CFLAGS@ @SDL_CFLAGS@',
+	'@WX_LIBS@ @FT2_LIBS@ @SDL_LIBS@'
 	);
 createBinaryMakefile(
 	"../src/scorchedc/scorchedc.vcproj", 

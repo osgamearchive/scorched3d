@@ -13,6 +13,8 @@ scorched3d_SOURCES = \
 	./ServerBrowserServerList.cpp \
 	./ServerBrowserServerList.h \
 	../wxdialogs/CreateDialogs.cpp \
+	../wxdialogs/DialogUtils.cpp \
+	../wxdialogs/DialogUtils.h \
 	../wxdialogs/DisplayDialog.cpp \
 	../wxdialogs/DisplayDialog.h \
 	../wxdialogs/KeyDialog.cpp \
@@ -154,6 +156,6 @@ scorched3d_SOURCES = \
 	../landscapedef/LandscapeDefinitionsBase.cpp \
 	../landscapedef/LandscapeDefinitionsBase.h
 
-AM_CPPFLAGS = -I../porting -I.. @WX_CFLAGS@ @SDL_CFLAGS@
-LDADD = @WX_LIBS@ @SDL_LIBS@
+AM_CPPFLAGS = -I../porting -I.. @WX_CFLAGS@ @FT2_CFLAGS@ @SDL_CFLAGS@
+LDADD = @WX_LIBS@ @FT2_LIBS@ @SDL_LIBS@
 
