@@ -85,6 +85,7 @@ Added: Chat spam auto muting
 Added: Chat supports links to players, channels and weapons.  Displayed as tooltips.
 Added: New launcher and splash screen graphics
 
+Fixed: Removed keep-alive header in http requests
 Fixed: Server will only show log files via the management interface that it created
 Fixed: SDL_Quit being called twice on the client
 Fixed: Sound failing to initialize will not prevent the client from being run

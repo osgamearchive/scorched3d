@@ -69,7 +69,7 @@ ServerRegistrationEntry::ServerRegistrationEntry(
 		"GET %s/servers.php?register=%s&port=%i HTTP/1.0\r\n"
 		"User-Agent: Scorched3D\r\n"
 		"Host: %s\r\n"
-		"Connection: Keep-Alive\r\n"
+		"Connection: close\r\n"
 		"\r\n"
 		"\r\n",
 		masterListServerURI,
