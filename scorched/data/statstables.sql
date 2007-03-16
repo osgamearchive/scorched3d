@@ -97,6 +97,7 @@ create table if not exists scorched3d_stats (
 	moneyearned INTEGER NOT NULL DEFAULT 0,
 	scoreearned INTEGER NOT NULL DEFAULT 0,
 	skill INTEGER NOT NULL DEFAULT 1000,
+	rank INTEGER NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (playerid, prefixid, seriesid),
 	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid) on delete cascade,
