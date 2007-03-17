@@ -69,6 +69,12 @@ MainCamera::~MainCamera()
 
 }
 
+bool MainCamera::getEnabled(const char* menuName)
+{
+	unsigned int state = ScorchedClient::instance()->getGameState().getState();
+	return (state >= ClientState::StateWait);
+}
+
 bool MainCamera::getMenuItems(const char* menuName, 
 	std::list<GLMenuItem> &result)
 {

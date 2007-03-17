@@ -21,7 +21,7 @@
 #include <client/ClientInitializeHandler.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
-#include <graph/WindowSetup.h>
+#include <client/ClientWindowSetup.h>
 #include <sprites/ExplosionTextures.h>
 #include <server/ScorchedServer.h>
 #include <weapons/AccessoryStore.h>
@@ -119,7 +119,7 @@ bool ClientInitializeHandler::initialize()
 	{
 		dialogExit("Scorched3D", "Failed to load windows skins");
 	}
-	WindowSetup::setupGameWindows(GLWWindowSkinManager::modinstance());
+	ClientWindowSetup::setupGameWindows(GLWWindowSkinManager::modinstance());
 	GLWWindowManager::instance()->loadPositions();		
 
 	// Move into the player setup state

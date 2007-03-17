@@ -19,9 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerMain.h>
+#include <client/ClientMain.h>
 #include <client/ClientDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientAdmin.h>
+#include <client/ClientSave.h>
 #include <client/ClientParams.h>
 #include <client/ClientChannelManager.h>
 #include <client/ClientGameStoppedHandler.h>
@@ -48,7 +50,7 @@
 #include <client/ClientPlayerStatusHandler.h>
 #include <client/ClientKeepAliveSender.h>
 #include <client/ClientState.h>
-#include <graph/WindowSetup.h>
+#include <client/ClientWindowSetup.h>
 #include <graph/FrameLimiter.h>
 #include <graph/Mouse.h>
 #include <graph/Gamma.h>
@@ -82,8 +84,9 @@
 
 static int mouseEventCount = 0;
 static bool paused = false;
+extern char scorched3dAppName[128];
 
-bool initHardware(ProgressCounter *progressCounter)
+static bool initHardware(ProgressCounter *progressCounter)
 {
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Keyboard");
@@ -121,11 +124,14 @@ bool initHardware(ProgressCounter *progressCounter)
 	return true;
 }
 
-bool startClient(ProgressCounter *progressCounter)
+static bool initComs(ProgressCounter *progressCounter)
 {
 	progressCounter->setNewPercentage(0.0f);
-	progressCounter->setNewOp("Initializing Client");
+	progressCounter->setNewOp("Initializing Coms");
 	ScorchedClient::instance();
+
+	delete ScorchedClient::instance()->getContext().netInterface;
+	delete ScorchedServer::instance()->getContext().netInterface;
 	if (ClientParams::instance()->getConnectedToServer())
 	{
 		ScorchedClient::instance()->getContext().netInterface = 
@@ -141,11 +147,16 @@ bool startClient(ProgressCounter *progressCounter)
 		serverLoopBack->setLoopBack(clientLoopBack);
 		clientLoopBack->setLoopBack(serverLoopBack);
 	}
-
-	// Setup the coms handlers
-	ClientAdmin::instance();
 	ScorchedClient::instance()->getNetInterface().setMessageHandler(
 		&ScorchedClient::instance()->getComsMessageHandler());
+	ClientAdmin::instance();
+
+	return true;
+}
+
+static bool initComsHandlers()
+{
+	// Setup the coms handlers
 	ScorchedClient::instance()->getComsMessageHandler().setConnectionHandler(
 		ClientMessageHandler::instance());
 	ClientChannelManager::instance();
@@ -171,6 +182,11 @@ bool startClient(ProgressCounter *progressCounter)
 	ClientPlayerStatusHandler::instance();
 	ClientScoreHandler::instance();
 
+	return true;
+}
+
+static bool initWindows(ProgressCounter *progressCounter)
+{
 	progressCounter->setNewPercentage(0.0f);
 	progressCounter->setNewOp("Initializing Windows");
 	if (!GLWWindowSkinManager::defaultinstance()->loadWindows())
@@ -178,19 +194,118 @@ bool startClient(ProgressCounter *progressCounter)
 		dialogMessage("Scorched3D", "Failed to load default windows skins");
 		return false;
 	}
-	WindowSetup::setupStartWindows(GLWWindowSkinManager::defaultinstance());
+	ClientWindowSetup::setupStartWindows(GLWWindowSkinManager::defaultinstance());
 	HelpButtonDialog::instance();
-	
+
 	std::string errorString;
 	if (!GLConsoleFileReader::loadFileIntoConsole(getDataFile("data/autoexec.xml"), errorString))
 	{
 		dialogMessage("Failed to parse data/autoexec.xml", errorString.c_str());
 		return false;
 	}
+
 	return true;
 }
 
-bool clientEventLoop(float frameTime)
+static bool initClient()
+{
+	ProgressCounter progressCounter;
+	progressCounter.setUser(ProgressDialogSync::instance());
+	progressCounter.setNewPercentage(0.0f);
+
+	// Load in all the other states
+	ClientState::setupGameState(
+		ClientParams::instance()->getConnectedToServer());
+
+	// Load in all the coms
+	if (!initComs(&progressCounter)) return false;
+	
+	// Start the server (if required)
+	if (!ClientParams::instance()->getConnectedToServer())
+	{
+		if (!startServer(true, &progressCounter)) return false;
+	}
+
+	// Add all of the options to the console
+	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = OptionsDisplay::instance()->getOptions().begin();
+		itor != OptionsDisplay::instance()->getOptions().end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		if (!(entry->getData() & OptionEntry::DataDepricated))
+		{
+			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
+			if (entry->getData() & OptionsDisplay::RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
+
+			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
+				*entry,
+				access));
+		}
+	}
+
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimConnect);
+
+	return true;
+}
+
+bool ClientMain::startClient()
+{
+	// Check if we are connecting to a server
+	if (ClientParams::instance()->getConnect()[0])
+	{
+		return initClient();	
+	}
+	else if (ClientParams::instance()->getStartCustom() ||
+		ClientParams::instance()->getClientFile()[0])
+	{
+		std::string clientFile = ClientParams::instance()->getClientFile();
+		if (ClientParams::instance()->getStartCustom())
+		{
+			clientFile = getSettingsFile("singlecustom.xml");
+		}
+
+		// If not load the client settings file
+		if (!s3d_fileExists(clientFile.c_str()))
+		{
+			dialogExit(scorched3dAppName, formatString(
+				"Client file \"%s\" does not exist.",
+				clientFile.c_str()));
+		}
+		ScorchedServer::instance()->getOptionsGame().getMainOptions().readOptionsFromFile(
+			(char *) clientFile.c_str());
+
+		return initClient();
+	}
+	else if (ClientParams::instance()->getSaveFile()[0])
+	{
+		// Or the client saved game
+		if (!s3d_fileExists(ClientParams::instance()->getSaveFile()))
+		{
+			dialogExit(scorched3dAppName, formatString(
+				"Client save file \"%s\" does not exist.",
+				ClientParams::instance()->getSaveFile()));
+		}
+		if (!ClientSave::loadClient(ClientParams::instance()->getSaveFile()) ||
+			!ClientSave::restoreClient(true, false))
+		{
+			dialogExit(scorched3dAppName, formatString(
+				"Cannot load client save file \"%s\".",
+				ClientParams::instance()->getSaveFile()));
+		}
+
+		return initClient();
+	}
+	else
+	{
+		// Do nothing
+	}
+
+	return true;
+}
+
+bool ClientMain::clientEventLoop(float frameTime)
 {
 	static float serverTime = 0.0f;
 	static SDL_Event event;
@@ -262,43 +377,23 @@ bool clientEventLoop(float frameTime)
 	return idle;
 }
 
-bool clientMain()
+bool ClientMain::clientMain()
 {
+	// Create the actual window
 	if (!createScorchedWindow()) return false;
 
-	ClientState::setupGameState(
-		ClientParams::instance()->getConnectedToServer());
-
+	// Start the initial windows
+	ClientState::setupInitialGameState();
 	ProgressCounter progressCounter;
 	ProgressDialog::instance()->changeTip();
 	progressCounter.setUser(ProgressDialogSync::instance());
 	progressCounter.setNewPercentage(0.0f);
 	if (!initHardware(&progressCounter)) return false;
-	if (!startClient(&progressCounter)) return false;
-	
-	if (!ClientParams::instance()->getConnectedToServer())
-	{
-		if (!startServer(true, &progressCounter)) return false;
-	}
+	if (!initWindows(&progressCounter)) return false;
+	if (!initComsHandlers()) return false;
 
-	// Add all of the options to the console
-	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
-	std::list<OptionEntry *>::iterator itor;
-	for (itor = OptionsDisplay::instance()->getOptions().begin();
-		itor != OptionsDisplay::instance()->getOptions().end();
-		itor++)
-	{
-		OptionEntry *entry = (*itor);
-		if (!(entry->getData() & OptionEntry::DataDepricated))
-		{
-			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
-			if (entry->getData() & OptionsDisplay::RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
-
-			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
-				*entry,
-				access));
-		}
-	}
+	// Try and start the client
+	if (!startClient()) return false;
 
 	// Enter the SDL main loop to process SDL events
 	Clock loopClock;
@@ -321,7 +416,10 @@ bool clientMain()
 		if (paused) SDL_Delay(100);  // Otherwise when not drawing graphics its an infinite loop	
 	}
 
-	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
+	if (ScorchedClient::instance()->getContext().netInterface)
+	{
+		ScorchedClient::instance()->getNetInterface().disconnectAllClients();
+	}
 	GLWWindowManager::instance()->savePositions();
     SDL_Delay(1000);
 	Gamma::instance()->reset();

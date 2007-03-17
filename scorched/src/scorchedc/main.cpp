@@ -20,7 +20,6 @@
 
 #include <client/ClientParams.h>
 #include <client/ScorchedClient.h>
-#include <client/ClientSave.h>
 #include <client/ClientMain.h>
 #include <server/ScorchedServer.h>
 #include <engine/ModDirs.h>
@@ -70,53 +69,7 @@ int main(int argc, char *argv[])
 			"The graphics section of this library failed to initialize.");
 	}
 
-	// Check if we are connecting to a server
-	if (!ClientParams::instance()->getConnect()[0])
-	{
-		if (ClientParams::instance()->getStartCustom() ||
-			ClientParams::instance()->getClientFile()[0])
-		{
-			std::string clientFile = ClientParams::instance()->getClientFile();
-			if (ClientParams::instance()->getStartCustom())
-			{
-				clientFile = getSettingsFile("singlecustom.xml");
-			}
-
-			// If not load the client settings file
-			if (!s3d_fileExists(clientFile.c_str()))
-			{
-				dialogExit(scorched3dAppName, formatString(
-					"Client file \"%s\" does not exist.",
-					clientFile.c_str()));
-			}
-			ScorchedServer::instance()->getOptionsGame().getMainOptions().readOptionsFromFile(
-				(char *) clientFile.c_str());
-		}
-		else if (ClientParams::instance()->getSaveFile()[0])
-		{
-			// Or the client saved game
-			if (!s3d_fileExists(ClientParams::instance()->getSaveFile()))
-			{
-				dialogExit(scorched3dAppName, formatString(
-					"Client save file \"%s\" does not exist.",
-					ClientParams::instance()->getSaveFile()));
-			}
-			if (!ClientSave::loadClient(ClientParams::instance()->getSaveFile()) ||
-				!ClientSave::restoreClient(true, false))
-			{
-				dialogExit(scorched3dAppName, formatString(
-					"Cannot load client save file \"%s\".",
-					ClientParams::instance()->getSaveFile()));
-			}
-		}
-		else
-		{
-			aParser.showArgs();
-			exit(64);
-		}
-	}
-
-	if (!clientMain()) exit(64);
+	if (!ClientMain::clientMain()) exit(64);
 
 	// Write display options back to the file
 	// in case they have been changed by this client (in game by the console)

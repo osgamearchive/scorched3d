@@ -39,12 +39,15 @@ namespace ClientState
 		StimDisconnected,
 		StimGameStopped,
 		StimShot,
-		StimScore
+		StimScore,
+		StimConnect
 	};
 
 	enum State
 	{
-		StateConnect = 1,
+		StateOptions = 1,
+		StateConnect,
+		StateDisconnected,
 		StateLoadFiles,
 		StateGetPlayers,
 		StateLoadPlayers,
@@ -54,10 +57,10 @@ namespace ClientState
 		StateAutoDefense,
 		StatePlaying,
 		StateShot,
-		StateScore,
-		StateDisconnected
+		StateScore
 	};
 
+	void setupInitialGameState();
 	void setupGameState(bool network);
 	void addWindowManager(GameState &gameState, unsigned state);
 	void addStandardComponents(GameState &gameState, unsigned state, bool network);

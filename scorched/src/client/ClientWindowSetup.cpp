@@ -22,10 +22,10 @@
 #include <GLW/GLWWindowSkinManager.h>
 #include <GLW/GLWSelector.h>
 #include <common/Keyboard.h>
-#include <client/ClientParams.h>
 #include <common/OptionsScorched.h>
+#include <client/ClientParams.h>
 #include <client/ClientState.h>
-#include <graph/WindowSetup.h>
+#include <client/ClientWindowSetup.h>
 #include <client/ScorchedClient.h>
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
@@ -52,7 +52,7 @@
 #include <dialogs/TutorialDialog.h>
 #include <dialogs/MessageDialog.h>
 
-void WindowSetup::addStateWindows(GLWWindowSkinManager *skinManager,
+void ClientWindowSetup::addStateWindows(GLWWindowSkinManager *skinManager,
 	unsigned int state, const char *windowState)
 {
 	std::list<GLWWindowSkin *> allStateWindows = 
@@ -71,7 +71,7 @@ void WindowSetup::addStateWindows(GLWWindowSkinManager *skinManager,
 	}
 }
 
-void WindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager, 
+void ClientWindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager, 
 	unsigned state)
 {
 	addStateWindows(skinManager, state, "all");
@@ -143,7 +143,7 @@ void WindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager,
 }
 
 // This is called before any mod has been loaded
-void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
+void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);
@@ -152,6 +152,18 @@ void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 	KEYBOARDKEY("SHOW_RESIGN_DIALOG", resignKey);
 	KEYBOARDKEY("SHOW_SKIP_DIALOG", skipKey);
 	KEYBOARDKEY("SHOW_SOUND_DIALOG", showSoundKey);
+
+	// StateOptions
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
+		BackdropDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
+		QuitDialog::instance(), quitKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
+ 		SoundDialog::instance(), showSoundKey, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
+		MainMenuDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
+		GLWSelector::instance(), 0, true);
 
 	// StateConnect
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -198,7 +210,7 @@ void WindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 }
 
 // This is called after the correct mod has been loaded
-void WindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
+void ClientWindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
 {
 	KEYBOARDKEY("SHOW_QUIT_DIALOG", quitKey);
 	KEYBOARDKEY("SHOW_PLAYER_DIALOG", playerKey);

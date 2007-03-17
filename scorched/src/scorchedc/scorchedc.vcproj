@@ -3615,6 +3615,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\ClientWindowSetup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientWindowSetup.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\ScorchedClient.cpp"
 				>
 			</File>
@@ -4888,14 +4896,6 @@
 			</File>
 			<File
 				RelativePath="..\graph\TutorialFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\graph\WindowSetup.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\graph\WindowSetup.h"
 				>
 			</File>
 		</Filter>

@@ -56,7 +56,8 @@ bool ComsMessageSender::formMessage(ComsMessage &message)
 bool ComsMessageSender::sendToServer(
 	ComsMessage &message, unsigned int flags)
 {
-	if (!ScorchedClient::instance()->getNetInterface().started()) return false;
+	if (!ScorchedClient::instance()->getContext().netInterface ||
+		!ScorchedClient::instance()->getNetInterface().started()) return false;
 	if (!formMessage(message)) return false;
 
 	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
@@ -75,7 +76,8 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	unsigned int destination, unsigned int flags)
 {
 	if (destination == 0) return true;
-	if (!ScorchedServer::instance()->getNetInterface().started())
+	if (!ScorchedClient::instance()->getContext().netInterface ||
+		!ScorchedServer::instance()->getNetInterface().started())
 	{
 		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Server not started");
 		return false;
@@ -130,7 +132,8 @@ bool ComsMessageSender::sendToAllConnectedClients(
 					destination,
 					NetBufferDefault::defaultBuffer.getBufferUsed()));
 			}	
-			if (!ScorchedServer::instance()->getNetInterface().started())
+			if (!ScorchedClient::instance()->getContext().netInterface ||
+				!ScorchedServer::instance()->getNetInterface().started())
 			{
 				Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
 				return false;
@@ -181,7 +184,8 @@ bool ComsMessageSender::sendToAllPlayingClients(
 						destination,
 						NetBufferDefault::defaultBuffer.getBufferUsed()));
 				}	
-				if (!ScorchedServer::instance()->getNetInterface().started())
+				if (!ScorchedClient::instance()->getContext().netInterface ||
+					!ScorchedServer::instance()->getNetInterface().started())
 				{
 					Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
 					return false;

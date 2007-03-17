@@ -55,6 +55,7 @@ public:
 		bool &skipRest);
 
 	// Inherited from GLMenuI
+	virtual bool getEnabled(const char* menuName);
 	virtual void menuSelection(const char* menuName, 
 		const int position, GLMenuItem &item);
 	virtual bool getMenuItems(const char* menuName, 

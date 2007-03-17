@@ -21,7 +21,11 @@
 #if !defined(__INCLUDE_ClientMainh_INCLUDE__)
 #define __INCLUDE_ClientMainh_INCLUDE__
 
-bool clientEventLoop(float frameTime);
-bool clientMain();
+namespace ClientMain
+{
+	bool startClient();
+	bool clientEventLoop(float frameTime);
+	bool clientMain();
+};
 
 #endif

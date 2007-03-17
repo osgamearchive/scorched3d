@@ -120,10 +120,22 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		Main2DCamera::instance(), &MainCamera::instance()->saveScreen_);
 }
 
-void ClientState::setupGameState(bool network)
+void ClientState::setupInitialGameState()
 {
 	GameState &gameState = ScorchedClient::instance()->getGameState();
 	gameState.clear();
+
+	// StateOptions
+	addWindowManager(gameState, StateOptions);
+	gameState.addStateLoop(StateOptions, 
+		Main2DCamera::instance(), SoftwareMouse::instance());
+	gameState.addStateStimulus(StateOptions, 
+		StimDisconnected, StateDisconnected);
+	gameState.addStateStimulus(StateOptions, 
+		StimConnect, StateConnect);
+
+	// Set the start state
+	gameState.setState(StateOptions);
 
 	// StateConnect
 	addWindowManager(gameState, StateConnect);
@@ -174,6 +186,24 @@ void ClientState::setupGameState(bool network)
 		ClientLoadPlayersState::instance());
 	gameState.addStateStimulus(StateLoadPlayers,
 		StimWait, StateWait);
+
+	// StateDisconnected
+	addWindowManager(gameState, StateDisconnected);
+	gameState.addStateLoop(StateDisconnected, 
+		Main2DCamera::instance(), SoftwareMouse::instance());
+	gameState.addStateStimulus(StateDisconnected, 
+		StimDisconnected, StateDisconnected);
+	gameState.addStateStimulus(StateDisconnected, 
+		StimGameStopped, StateDisconnected);
+	gameState.addStateStimulus(StateDisconnected, 
+		StimGetPlayers, StateDisconnected);
+	gameState.addStateStimulus(StateDisconnected, 
+		StimWait, StateDisconnected);
+}
+
+void ClientState::setupGameState(bool network)
+{
+	GameState &gameState = ScorchedClient::instance()->getGameState();
 
 	// StateWait
 	addStandardComponents(gameState, StateWait, network);
@@ -262,20 +292,4 @@ void ClientState::setupGameState(bool network)
 		StimGameStopped, StateGetPlayers);
 	gameState.addStateStimulus(StateScore, 
 		StimWait, StateWait);
-
-	// StateDisconnected
-	addWindowManager(gameState, StateDisconnected);
-	gameState.addStateLoop(StateDisconnected, 
-		Main2DCamera::instance(), SoftwareMouse::instance());
-	gameState.addStateStimulus(StateDisconnected, 
-		StimDisconnected, StateDisconnected);
-	gameState.addStateStimulus(StateDisconnected, 
-		StimGameStopped, StateDisconnected);
-	gameState.addStateStimulus(StateDisconnected, 
-		StimGetPlayers, StateDisconnected);
-	gameState.addStateStimulus(StateDisconnected, 
-		StimWait, StateDisconnected);
-
-	// Set the start state
-	gameState.setState(StateConnect);
 }

@@ -81,6 +81,7 @@ void QuitDialog::display()
 
 	unsigned int state = ScorchedClient::instance()->getGameState().getState();
 	bool disable = (ClientParams::instance()->getConnectedToServer() ||
+		state == ClientState::StateOptions ||
 		state == ClientState::StateConnect ||
 		state == ClientState::StateGetPlayers ||
 		state == ClientState::StateLoadPlayers);

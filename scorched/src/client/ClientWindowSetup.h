@@ -19,11 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#if !defined(__INCLUDE_WindowSetuph_INCLUDE__)
-#define __INCLUDE_WindowSetuph_INCLUDE__
+#if !defined(__INCLUDE_ClientWindowSetuph_INCLUDE__)
+#define __INCLUDE_ClientWindowSetuph_INCLUDE__
 
 class GLWWindowSkinManager;
-namespace WindowSetup
+namespace ClientWindowSetup
 {
 	void addStateWindows(GLWWindowSkinManager *skinManager,
 		unsigned int state, const char *windowState);
@@ -32,6 +32,5 @@ namespace WindowSetup
 	void setupStartWindows(GLWWindowSkinManager *skinManager);
 	void setupGameWindows(GLWWindowSkinManager *skinManager);
 };
-
 
 #endif
