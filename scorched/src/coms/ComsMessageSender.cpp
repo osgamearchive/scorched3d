@@ -76,9 +76,13 @@ bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
 	unsigned int destination, unsigned int flags)
 {
 	if (destination == 0) return true;
+#ifndef S3D_SERVER
 	if (!ScorchedClient::instance()->getContext().netInterface ||
 		!ScorchedServer::instance()->getNetInterface().started())
-	{
+#else
+	if (!ScorchedServer::instance()->getNetInterface().started())
+#endif
+{
 		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Server not started");
 		return false;
 	}
@@ -132,9 +136,13 @@ bool ComsMessageSender::sendToAllConnectedClients(
 					destination,
 					NetBufferDefault::defaultBuffer.getBufferUsed()));
 			}	
+#ifndef S3D_SERVER
 			if (!ScorchedClient::instance()->getContext().netInterface ||
 				!ScorchedServer::instance()->getNetInterface().started())
-			{
+#else
+			if (!ScorchedServer::instance()->getNetInterface().started())
+#endif
+{
 				Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
 				return false;
 			}
@@ -184,9 +192,13 @@ bool ComsMessageSender::sendToAllPlayingClients(
 						destination,
 						NetBufferDefault::defaultBuffer.getBufferUsed()));
 				}	
+#ifndef S3D_SERVER
 				if (!ScorchedClient::instance()->getContext().netInterface ||
 					!ScorchedServer::instance()->getNetInterface().started())
-				{
+#else
+				if (!ScorchedServer::instance()->getNetInterface().started())
+#endif
+{
 					Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
 					return false;
 				}
