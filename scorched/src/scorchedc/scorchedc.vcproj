@@ -5087,6 +5087,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\dialogs\StartDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\StartDialog.h"
+				>
+			</File>
+			<File
 				RelativePath="..\dialogs\TutorialDialog.cpp"
 				>
 			</File>

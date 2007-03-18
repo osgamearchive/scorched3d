@@ -50,6 +50,10 @@ GLWFont::GLWFont()
 	courier16OutlineFont_->createFont(
 		getDataFile("data/fonts/testout.ttf"),
 		16);
+	normalFont_ = new GLFont2d;
+	normalFont_->createFont(
+		getDataFile("data/fonts/vera.ttf"),
+		16);
 }
 
 GLWFont::~GLWFont()

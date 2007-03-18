@@ -18,40 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ClientParamsh_INCLUDE__)
-#define __INCLUDE_ClientParamsh_INCLUDE__
+#if !defined(__INCLUDE_StartDialogh_INCLUDE__)
+#define __INCLUDE_StartDialogh_INCLUDE__
 
-#include <common/OptionsParameters.h>
+#include <GLW/GLWWindow.h>
+#include <vector>
 
-class ClientParams : public OptionsParameters
+class StartDialog : public GLWWindow
 {
 public:
-	static ClientParams *instance();
+	static StartDialog *instance();
 
-	const char *getConnect() { return connect_.getValue(); }
-	const char *getClientFile() { return client_.getValue(); }
-	const char *getSaveFile() { return save_.getValue(); }
-	const char *getUserName() { return username_.getValue(); }
-	const char *getPassword() { return password_.getValue(); }
-	bool getStartCustom() { return startcustom_.getValue(); }
-	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
-
-	void setClientFile(const char *file) { client_.setValue(file); }
+	virtual void draw();
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
 
 protected:
-	static ClientParams *instance_;
-
-	OptionEntryString connect_;
-	OptionEntryString client_;
-	OptionEntryString password_;
-	OptionEntryString username_;
-	OptionEntryString save_;
-	OptionEntryBool startcustom_;
+	static StartDialog *instance_;
+	struct OptionDefinition
+	{
+		const char *option;
+		const char *description;
+		float x, y;
+		float width;
+	};
+	std::vector<OptionDefinition> definitions_;
+	int selected_;
 
 private:
-	ClientParams();
-	virtual ~ClientParams();
-
+	StartDialog();
+	virtual ~StartDialog();
 };
 
-#endif // __INCLUDE_ClientParamsh_INCLUDE__
+#endif
