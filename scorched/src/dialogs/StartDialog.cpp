@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <dialogs/StartDialog.h>
+#include <dialogs/ModSelectDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientParams.h>
 #include <client/ClientMain.h>
@@ -26,6 +27,7 @@
 #include <engine/MainLoop.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTranslate.h>
+#include <GLW/GLWWindowManager.h>
 
 StartDialog *StartDialog::instance_ = 0;
 
@@ -110,6 +112,8 @@ void StartDialog::draw()
 
 void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 {
+	if (selected_ != -1) skipRest = true;
+
 	switch (selected_)
 	{
 	case 0:
@@ -120,6 +124,8 @@ void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 		}
 		break;
 	case 1:
+		GLWWindowManager::instance()->showWindow(
+			ModSelectDialog::instance()->getId());
 		break;
 	case 2:
 		break;

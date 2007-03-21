@@ -52,6 +52,7 @@
 #include <dialogs/TutorialDialog.h>
 #include <dialogs/MessageDialog.h>
 #include <dialogs/StartDialog.h>
+#include <dialogs/ModSelectDialog.h>
 
 void ClientWindowSetup::addStateWindows(GLWWindowSkinManager *skinManager,
 	unsigned int state, const char *windowState)
@@ -163,6 +164,8 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
  		SoundDialog::instance(), showSoundKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
 		StartDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
+		ModSelectDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
