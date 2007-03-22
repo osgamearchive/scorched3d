@@ -13,7 +13,7 @@ $orderby = getColumnParameter('OrderBy', 'kills');
 $filterby = getColumnParameter('FBy', 'none');
 $filtercompare = getCompareParameter('FComp');
 $filtervalue=getIntParameter('FVal');
-$fielddata = $HTTP_GET_VARS['Fields'];
+$fielddata = $_GET['Fields'];
 
 // Looks to see if $valuetocheck exists in the array of currently displayed fields
 function fieldcheck($datastring, $valuetocheck){
@@ -369,10 +369,10 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 
 	echo "<td>";
 	echo "<table><tr>";
-	echo "<td align=center><img border=0 src='getbinary.php?id=".$row[avatarid]."'></td>";
+	echo "<td align=center><img border=0 src='".getBinaryImage($row["avatarid"])."'></td>";
 	echo "<td>";
-	echo "<a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row[playerid]."\">";
-	echo $row[name];
+	echo "<a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row["playerid"]."\">";
+	echo $row["name"];
 	echo "</a>";
 	echo "</td>";
 	echo "</tr></table>";

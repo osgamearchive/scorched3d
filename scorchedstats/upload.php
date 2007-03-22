@@ -3,7 +3,8 @@ include('statsheader.php');
 ?>
 
 <?
-$fp = gzopen("../backup.sql.gz", "r");
+$fp = gzopen("../upload/backup.sql.gz", "r");
+if (!fp) die("Failed to open upload file");
 $sql = "";
 $affected = 0;
 $count = 0;

@@ -121,7 +121,7 @@ while ($row = mysql_fetch_object($result))
 	echo "<td align=center>$rownum</center></td>";
 	echo "<td>";
 	echo "<table><tr>";
-	echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
+	echo "<td align=center><img border=0 src='".getBinaryImage($row->avatarid)."'></td>";
 	echo "<td>";
 	echo "<a href=\"playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row->playerid."\">";
 	echo $row->name;

@@ -14,7 +14,7 @@ $weaponid = getIntParameter('WeaponID');
 // General Weapon Stats
 $query = "SELECT name, description, weaponid, armslevel, cost, bundlesize, shots, kills, COALESCE(round(kills/shots, 2), 0.0) as killratio FROM scorched3d_weapons where weaponid=$weaponid and prefixid=$prefixid and seriesid=$seriesid";
 $result = mysqlQuery($query) or die("Query failed : " . mysql_error());
-$row = mysql_fetch_object($result);
+if (!($row = mysql_fetch_object($result))) die("Invalid weapon");
 $weaponname=$row->name;
 ?>
 

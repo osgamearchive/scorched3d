@@ -31,7 +31,7 @@ while ($row = mysql_fetch_object($result))
 	echo "<td><center>$row->lastconnected</td></center>";
 	echo "<td>";
 	echo "<table><tr>";
-	echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
+	echo "<td align=center><img border=0 src='".getBinaryImage($row->avatarid)."'></td>";
 	echo "<td><a href=playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->playerid>$row->name</a></td>";
 	echo "</td>";
 	echo "</tr></table>";

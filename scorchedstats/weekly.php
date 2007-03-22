@@ -39,7 +39,7 @@ function show_stat($title, $eventtype, $eventname)
 		"and ".
 		"TO_DAYS(NOW()) - TO_DAYS(scorched3d_events.eventtime) <= 7 ".
 		"group by scorched3d_events.playerid order by scount desc limit 0, 10";
-	if( !($result = mysql_query($sql)) )
+	if( !($result = mysqlQuery($sql)) )
 	{
 		message_die(GENERAL_ERROR, "Could run query $eventtype");
 	}
@@ -73,7 +73,7 @@ function show_stat($title, $eventtype, $eventname)
 	echo "<td align=center>$rownum</center></td>";
 	echo "<td>";
 	echo "<table><tr>";
-	echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
+	echo "<td align=center><img border=0 src='".getBinaryImage($row->avatarid)."'></td>";
 	echo "<td>";
 	echo $row->name;
 	echo "</td>";

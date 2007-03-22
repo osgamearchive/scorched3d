@@ -22,9 +22,9 @@ $other = $row->cnt;
 </tr>
 <?
 $arr = array(
-	"Windows NT/2000/XP" => "Windows NT%", 
-	"Windows ME/98" => "Windows 98%", 
+	"Windows" => "Win%", 
 	"Darwin" => "Darwin%", 
+	"FreeBSD" => "FreeBSD%", 
 	"Linux" => "Linux%"
 );
 
@@ -38,7 +38,7 @@ foreach ($arr as $key => $value) {
 	$w = round($per, 0);
 	$w2 = 100 - $w;
 	
-	echo "<tr><td>$key</td><td>$windows</td><td><img src=green.gif width=$w height=10 border=0><img src=grey.gif width=$w2 height=10 border = 0>&nbsp;$per %</td></tr>";
+	echo "<tr><td>$key</td><td>$windows</td><td><img src=images/green.gif width=$w height=10 border=0><img src=images/grey.gif width=$w2 height=10 border = 0>&nbsp;$per %</td></tr>";
 }
 
 $windows = $other;
@@ -46,7 +46,7 @@ $per = round($windows / $total * 100, 1);
 $w = round($per, 0);
 $w2 = 100 - $w;
 $key="Others";
-echo "<tr><td>$key</td><td>$windows</td><td><img src=green.gif width=$w height=10 border=0><img src=grey.gif width=$w2 height=10 border = 0>&nbsp;$per %</td></tr>";
+echo "<tr><td>$key</td><td>$windows</td><td><img src=images/green.gif width=$w height=10 border=0><img src=images/grey.gif width=$w2 height=10 border = 0>&nbsp;$per %</td></tr>";
 echo "<tr><td>Total Players</td><td>$total</td><td></td></tr>";
 ?>
 </table>
@@ -72,7 +72,7 @@ for ($i=27; $i>=0; $i--)
 	echo "<tr>";
 	echo "<td> Time -".($i * 4)." to -".(($i+1) * 4)."hours</td>\n";
 	echo "<td>".$total."</td>\n";
-	echo "<td><img src=green.gif width=".$total." height=10 border=0></td>\n";
+	echo "<td><img src=images/green.gif width=".$total." height=10 border=0></td>\n";
 	echo "</tr>";
 }
 

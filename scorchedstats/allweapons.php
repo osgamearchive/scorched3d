@@ -18,7 +18,7 @@ $query="SELECT *, COALESCE(round(100*kills/shots, 2), 0.0) as killratio from sco
 $result = mysqlQuery($query) or die("Query failed : " . mysql_error());
 ?>
 <table width="600" border="0" align="center">
-<tr><td align=center><font size="+1"><b><? echo $mod_name." Weapons"; ?></b></font></td></tr>
+<tr><td align=center><font size="+1"><b><? echo "Weapons"; ?></b></font></td></tr>
 </table>
 <table width="600" bordercolor=#333333 cellspacing="0" border="1" align="Center">
 <tr>

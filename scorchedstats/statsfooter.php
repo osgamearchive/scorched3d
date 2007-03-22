@@ -1,7 +1,7 @@
 <p align=center>
 <?
         $query=" select (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(eventtime)) as lasttime from scorched3d_events order by eventtime desc limit 1";
-        $result = mysql_query($query) or die("Query failed : " . mysql_error());
+        $result = mysqlQuery($query) or die("Query failed : " . mysql_error());
         if ($row = mysql_fetch_object($result))
         {
                 $eventtimesecs = $row->lasttime + 0;
@@ -12,7 +12,7 @@
         }
 ?>
 
-<a href="http://www.scorched3d.co.uk/wiki/index.php/FAQ#I_appear_in_the_stats_more_than_once">
+<a href="/phpBB2/viewtopic.php?p=2935#2935">
 Why do I appear in the stats more than once?</a>
 </p>
 

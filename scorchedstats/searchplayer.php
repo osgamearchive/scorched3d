@@ -11,7 +11,7 @@ include('search.php');
 </table>
 
 <?
-$playername = ( isset($HTTP_GET_VARS['playername']) ) ? htmlspecialchars($HTTP_GET_VARS['playername']) : '';
+$playername = ( isset($_GET['playername']) ) ? htmlspecialchars($_GET['playername']) : '';
 $playername = str_replace("\'", "''", $playername);
 
 $query = " select name, playerid from scorched3d_names where name rlike '$playername'";

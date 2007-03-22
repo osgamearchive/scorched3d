@@ -44,7 +44,7 @@ while ($row = mysql_fetch_object($result))
 	switch ($row->eventtype)
 	{
 	case 1:
-	case 2: $otherplayer = "<table><tr><td align=center><img border=0 src='getbinary.php?id=".$row->otheravatarid."'></td><td><a href=playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row->otherplayerid.">".$row->otherplayername."</a></td></tr></table>"; break;
+	case 2: $otherplayer = "<table><tr><td align=center><img border=0 src='".getBinaryImage($row->otheravatarid)."'></td><td><a href=playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=".$row->otherplayerid.">".$row->otherplayername."</a></td></tr></table>"; break;
 	case 3: $otherplayer = "<font color=violet><center>with</center></font>"; break;
 	case 4:
 	case 5:
@@ -56,7 +56,7 @@ while ($row = mysql_fetch_object($result))
         echo "<td>$row->eventtime</td>";
         echo "<td>";
 		echo "<table><tr>";
-		echo "<td align=center><img border=0 src='getbinary.php?id=".$row->avatarid."'></td>";
+		echo "<td align=center><img border=0 src='".getBinaryImage($row->avatarid)."'></td>";
 		echo "<td><a href=playerstats.php?Prefix=".$prefixid."&Series=".$seriesid."&PlayerID=$row->playerid>$row->playername</a></td>";
 		echo "</td>";
 		echo "</tr></table>";
