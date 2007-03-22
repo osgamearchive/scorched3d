@@ -1,1 +1,9 @@
-Please see http://www.scorched3d.co.uk/wiki/index.php/Stats_logging_for_servers for information on how to setup Scorched3D stats logging.
+Please see http://www.scorched3d.co.uk/wiki/index.php/Stats_logging_for_servers for information on how to setup Scorched3D to produce stats logging.
+
+Once installed the imagecache directory must be writable by the webserver process.  This directory will be used to store avatars that are retrieved from the database.
+
+The generateranks.php script must be run periodicaly to update ranking information.
+The best way to do this is to use cron or some other system scheduler.
+
+e.g. crontab line
+0 7 * * * php <wwwroot>/stats/generateranks.php 
