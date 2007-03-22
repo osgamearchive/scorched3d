@@ -36,7 +36,7 @@ public class EventStreamReader extends Thread {
 			try {
 				String connectionString = 
 					"GET " + url + " HTTP/1.0" + CRLF +
-					"Connection: Keep-Alive" + CRLF +
+					"Connection: Close" + CRLF +
 					CRLF +
 					CRLF;
 				socket_.getOutputStream().write(
