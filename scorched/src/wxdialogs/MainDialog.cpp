@@ -516,21 +516,24 @@ void MainFrame::onHelpButton()
 	showURL(formatString("file://%s", getDocFile("html/index.html")));
 }
 
+extern bool newVersion;
 void showMainDialog()
 {
 	mainDialog = new MainFrame;
 	mainDialog->Show(TRUE);
 
-	wxBitmap bitmap;
-	if (bitmap.LoadFile(wxString(getDataFile("data/windows/splash.gif"), wxConvUTF8), 
-		wxBITMAP_TYPE_GIF))
+	if (newVersion)
 	{
-	wxSplashScreen* splash = new wxSplashScreen(bitmap,
-		wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT,
-		6000, NULL, -1, wxDefaultPosition, wxDefaultSize,
-		wxSIMPLE_BORDER | wxSTAY_ON_TOP);
+		wxBitmap bitmap;
+		if (bitmap.LoadFile(wxString(getDataFile("data/windows/splash.gif"), wxConvUTF8), 
+			wxBITMAP_TYPE_GIF))
+		{
+			wxSplashScreen* splash = new wxSplashScreen(bitmap,
+				wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT,
+				9000, NULL, -1, wxDefaultPosition, wxDefaultSize,
+				wxSIMPLE_BORDER | wxSTAY_ON_TOP);
+		}
 	}
-	wxYield();
 }
 
 wxFrame *getMainDialog()

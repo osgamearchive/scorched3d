@@ -414,12 +414,16 @@ void GLWPanel::layout()
 	
 	float w = 0.0f;
 	float h = 0.0f;
+	float *gridW = 0;
+	if (gridWidth_ > 0) gridW = new float[gridWidth_];
+	for (unsigned int i=0; i<gridWidth_; i++) gridW[i] = 0.0f;
 	
 	// Figure out how wide and high this frame should be
+	int wid = 0;
 	std::list<GLWPanelEntry>::iterator itor;
 	for (itor = widgets_.begin();
 		itor != widgets_.end();
-		itor++)
+		itor++, wid++)
 	{
 		GLWPanelEntry &entry = *itor;
 		
@@ -443,17 +447,20 @@ void GLWPanel::layout()
 		}
 		else if (layout_ == LayoutGrid)
 		{
-			w = MAX(w, width);
+			gridW[wid % gridWidth_] = MAX(gridW[wid % gridWidth_], width);
 			h = MAX(h, height);
 		}
 		else DIALOG_ASSERT(0);
 	}
 	
-	float prevw = w;
 	float prevh = h;
+	float prevw = w;
 	if (layout_ == LayoutGrid)
 	{
-		w *= gridWidth_;
+		DIALOG_ASSERT(gridWidth_ != 0);
+
+		w = 0.0f;
+		for (unsigned int i=0; i<gridWidth_; i++) w += gridW[i];
 		int rows = widgets_.size() / gridWidth_;
 		if (widgets_.size() % gridWidth_ > 0) rows ++;
 		h *= rows;
@@ -528,8 +535,6 @@ void GLWPanel::layout()
 	}
 	else if (layout_ == LayoutGrid)
 	{
-		DIALOG_ASSERT(gridWidth_ != 0);
-	
 		unsigned int cell = 0;
 		float width = 0.0f;
 		float height = getH();
@@ -538,6 +543,9 @@ void GLWPanel::layout()
 			itor++)
 		{
 			GLWPanelEntry &entry = *itor;
+
+			float prevw = gridW[cell];
+
 			if (entry.flags & AlignLeft)
 			{
 				entry.widget->setX(width + entry.leftSpace);
@@ -583,6 +591,8 @@ void GLWPanel::layout()
 		}		
 	}
 	else DIALOG_ASSERT(0);
+	
+	delete [] gridW;
 }
 
 void GLWPanel::setLayout(unsigned int layout)

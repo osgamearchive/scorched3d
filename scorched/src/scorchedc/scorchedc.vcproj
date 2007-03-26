@@ -3843,6 +3843,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWOptionEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWOptionEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWPanel.cpp"
 				>
 			</File>
@@ -3939,6 +3947,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWSpacer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWSpacer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWSpinBox.cpp"
 				>
 			</File>
@@ -3952,6 +3968,14 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWTab.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTabContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWTabContainer.h"
 				>
 			</File>
 			<File
@@ -5156,6 +5180,22 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\ScoreDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SettingsSelectDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SettingsSelectDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SettingsSubSelectDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SettingsSubSelectDialog.h"
 				>
 			</File>
 			<File

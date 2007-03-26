@@ -475,6 +475,7 @@ void NetworkSelectDialog::buttonDown(unsigned int id)
 
 		if (ipaddress_->getText()[0])
 		{
+			ClientParams::instance()->reset();
 			ClientParams::instance()->setConnect(ipaddress_->getText().c_str());
 			ClientParams::instance()->setPassword(password_->getText().c_str());
 			ClientMain::startClient();

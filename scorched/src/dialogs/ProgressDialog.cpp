@@ -20,18 +20,20 @@
 
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/BackdropDialog.h>
-#include <dialogs/HelpButtonDialog.h>
 #include <landscape/LandscapeMusicManager.h>
 #include <sound/Sound.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientChannelManager.h>
 #include <graph/Main2DCamera.h>
 #include <client/ClientMain.h>
 #include <client/ClientState.h>
 #include <engine/MainLoop.h>
 #include <common/Clock.h>
 #include <common/Defines.h>
+#include <common/ChannelText.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
+#include <GLEXT/GLPng.h>
 #include <GLEXT/GLBitmap.h>
 #include <math.h>
 #include <string.h>
@@ -45,12 +47,10 @@ ProgressDialog *ProgressDialog::instance()
 }
 
 ProgressDialog::ProgressDialog() : 
-	GLWWindow("Progress", 10.0f, 10.0f, 420.0f, 300.0f, eNoTitle,
-		"Shows loading progress")
+	GLWWindow("", 10.0f, 10.0f, 450.0f, 60.0f, eTransparent | eNoTitle, ""),
+	progressPercentage_(0)
 {
 	setUser(this);
-	progress_ = (GLWProgress *) new GLWProgress(10, 10, 260);
-	progressLabel_ = (GLWLabel *) new GLWLabel(10, 30);
 }
 
 ProgressDialog::~ProgressDialog()
@@ -59,35 +59,22 @@ ProgressDialog::~ProgressDialog()
 
 void ProgressDialog::progressChange(const char *op, const float percentage)
 {
-	progressLabel_->setText(op);
-	progress_->setCurrent(percentage);
+	progressText_ = op;
+	progressPercentage_ = percentage;
 }
 
 void ProgressDialog::changeTip()
 {
-	std::string file1 = getDataFile("data/windows/wait.bmp");
-	std::string file2 = getDataFile("data/windows/waita.bmp");
-	GLBitmap map(file1.c_str(), file2.c_str());
-	DIALOG_ASSERT(wait_.create(map, GL_RGBA, false));
-
 	tips_.getLines().clear();
 	tips_.readFile((char *) getDataFile("data/tips.txt"));
 	needsCentered();
 
-	const char *tip = tips_.getLines()[rand() % tips_.getLines().size()].c_str();
-	char *nl = (char *) strchr(tip, ':');
-	if (nl)
-	{
-		*nl = '\0';
-		tip1_ = tip;
-		tip2_ = nl + 1;
-		*nl = ':';
-	}
-	else
-	{
-		tip1_ = tip;
-		tip2_ = "";
-	}
+	std::string tip = tips_.getLines()[rand() % tips_.getLines().size()].c_str();
+	char *nl = (char *) strchr(tip.c_str(), ':');
+	if (nl) *nl = ' ';
+
+	ChannelText text("info", formatString("Tip: %s", tip.c_str()));
+	ClientChannelManager::instance()->showText(text);
 }
 
 void ProgressDialog::setIcon(const char *iconName)
@@ -103,107 +90,94 @@ void ProgressDialog::draw()
 
 	{
 		GLState state(GLState::DEPTH_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON);
-		wait_.draw();
 
+		if (!icon_.textureValid())
+		{
+			setIcon(getDataFile("data/windows/tank2.bmp"));
+
+			GLPng bar1(getDataFile("data/windows/bar1.png"), true);
+			GLPng bar2(getDataFile("data/windows/bar2.png"), true);
+			bar1_.create(bar1, GL_RGBA);
+			bar2_.create(bar2, GL_RGBA);
+
+			bar1_.draw(true);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+
+			bar2_.draw(true);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+		}
+
+		// Draw the progress bars
 		glPushMatrix();
-			glTranslatef(x_, y_ + 20.0f, 0.0f);
-			{
-				glColor3f(1.0f, 1.0f, 1.0f);
-				glBegin(GL_QUADS);
-					glTexCoord2f(0.0f, 0.0f);
-					glVertex2f(20.0f, 60.0f);
-					glTexCoord2f(1.0f, 0.0f);
-					glVertex2f(400.0f, 60.0f);
-					glTexCoord2f(1.0f, 1.0f);
-					glVertex2f(400.0f, 260.0f);
-					glTexCoord2f(0.0f, 1.0f);
-					glVertex2f(20.0f, 260.0f);
-				glEnd();
-			}
+			glTranslatef(x_ + 60.0f, y_ + 0.0f, 0.0f);
 
-			{
-				GLState state3(GLState::TEXTURE_OFF);
-
-				glColor3f(0.6f, 0.0f, 0.0f);
-				glBegin(GL_QUADS);
-					glVertex2f(20.0f, 21.0f);
-					glVertex2f(20.0f + 380.0f * progress_->getCurrent() / 100.0f, 21.0f);
-					glVertex2f(20.0f + 380.0f * progress_->getCurrent() / 100.0f, 26.0f);
-					glVertex2f(20.0f, 26.0f);
-				glEnd();
-				glColor3f(0.2f, 0.2f, 0.2f);
-				glBegin(GL_LINE_LOOP);
-					glVertex2f(20.0f, 21.0f);
-					glVertex2f(400.0f, 21.0f);
-					glVertex2f(400.0f, 26.0f);
-					glVertex2f(20.0f, 26.0f);
-				glEnd();
-			}
-
-			Vector color(0.2f, 0.2f, 0.2f);
+			bar1_.draw();
+			glColor3f(1.0f, 1.0f, 1.0f);
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.0f, 0.0f);
+				glVertex2f(0.0f, 15.0f);
+				glTexCoord2f(progressPercentage_ / 100.0f, 0.0f);
+				glVertex2f(380.0f * progressPercentage_ / 100.0f, 15.0f);
+				glTexCoord2f(progressPercentage_ / 100.0f, 1.0f);
+				glVertex2f(380.0f * progressPercentage_ / 100.0f, 26.0f);
+				glTexCoord2f(0.0, 1.0f);
+				glVertex2f(0.0f, 26.0f);
+			glEnd();
+			bar2_.draw();
+			glBegin(GL_QUADS);
+				glTexCoord2f(progressPercentage_ / 100.0f, 0.0f);
+				glVertex2f(380.0f * progressPercentage_ / 100.0f, 15.0f);
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex2f(380.0f, 15.0f);
+				glTexCoord2f(1.0f, 1.0f);
+				glVertex2f(380.0f, 26.0f);
+				glTexCoord2f(progressPercentage_ / 100.0f, 1.0f);
+				glVertex2f(380.0f * progressPercentage_ / 100.0f, 26.0f);
+			glEnd();
+			
+			// Draw the progress text
+			Vector color(1.0f, 1.0f, 1.0f);
 			GLWFont::instance()->getLargePtFont()->draw(color, 
-				14.0f, 20.0f, 33.0f, 0.0f, 
-				progressLabel_->getText());
+				14.0f, 0.0f, 33.0f, 0.0f, 
+				progressText_.c_str());
+		glPopMatrix();
 
-			HelpButtonDialog::instance()->helpMenu_.getHelpTexture().draw();
-			glPushMatrix();
-				glColor3f(1.0f, 1.0f, 1.0f);
-				glTranslatef(18.0f, -11.0f, 0.0f);
-				glBegin(GL_QUADS);
-					glTexCoord2f(0.0f, 0.0f);
-					glVertex2f(0.0f, 0.0f);
-					glTexCoord2f(1.0f, 0.0f);
-					glVertex2f(22.0f, 0.0f);
-					glTexCoord2f(1.0f, 1.0f);
-					glVertex2f(22.0f, 22.0f);
-					glTexCoord2f(0.0f, 1.0f);
-					glVertex2f(0.0f, 22.0f);
-				glEnd();
-			glPopMatrix();
+		// Draw the icon
+		icon_.draw();
+		glPushMatrix();
+		{
+			glTranslatef(x_ + 12.0f, y_ + 12.0f, 0.0f);
+			glColor3f(1.0f, 1.0f, 1.0f);
 
-			if (icon_.textureValid())
-			{
-				icon_.draw();
-				glPushMatrix();
-					glColor3f(1.0f, 1.0f, 1.0f);
-					glTranslatef(38.0f, 76.0f, 0.0f);
-					glBegin(GL_QUADS);
-						glTexCoord2f(0.0f, 0.0f);
-						glVertex2f(0.0f, 0.0f);
-						glTexCoord2f(1.0f, 0.0f);
-						glVertex2f(66.0f, 0.0f);
-						glTexCoord2f(1.0f, 1.0f);
-						glVertex2f(66.0f, 66.0f);
-						glTexCoord2f(0.0f, 1.0f);
-						glVertex2f(0.0f, 66.0f);
-					glEnd();
-
-				{
-					GLState state2(GLState::TEXTURE_OFF);
-					glColor3f(0.0f, 0.0f, 0.0f);
-					glLineWidth(2.0f);
-					glBegin(GL_LINE_LOOP);
-						glTexCoord2f(0.0f, 0.0f);
-						glVertex2f(0.0f, 0.0f);
-						glTexCoord2f(1.0f, 0.0f);
-						glVertex2f(66.0f, 0.0f);
-						glTexCoord2f(1.0f, 1.0f);
-						glVertex2f(66.0f, 66.0f);
-						glTexCoord2f(0.0f, 1.0f);
-						glVertex2f(0.0f, 66.0f);
-					glEnd();
-					glLineWidth(1.0f);
-				}
-				glPopMatrix();
-			}
-
-			Vector color2(0.4f, 0.4f, 0.4f);
-			GLWFont::instance()->getLargePtFont()->drawWidth(380, 
-				color2, 10.0f, 44.0f, 3.0f, 0.0f, 
-				tip1_.c_str());
-			GLWFont::instance()->getLargePtFont()->drawWidth(380, 
-				color2, 10.0f, 44.0f, -12.0f, 0.0f, 
-				tip2_.c_str());
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.0f, 0.0f);
+				glVertex2f(0.0f, 0.0f);
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex2f(36.0f, 0.0f);
+				glTexCoord2f(1.0f, 1.0f);
+				glVertex2f(36.0f, 36.0f);
+				glTexCoord2f(0.0f, 1.0f);
+				glVertex2f(0.0f, 36.0f);
+			glEnd();
+		}
+		{
+			GLState state2(GLState::TEXTURE_OFF);
+			glColor3f(0.0f, 0.0f, 0.0f);
+			glLineWidth(2.0f);
+			glBegin(GL_LINE_LOOP);
+				glTexCoord2f(0.0f, 0.0f);
+				glVertex2f(0.0f, 0.0f);
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex2f(36.0f, 0.0f);
+				glTexCoord2f(1.0f, 1.0f);
+				glVertex2f(36.0f, 36.0f);
+				glTexCoord2f(0.0f, 1.0f);
+				glVertex2f(0.0f, 36.0f);
+			glEnd();
+			glLineWidth(1.0f);
+		}
 		glPopMatrix();
 	}
 }
@@ -235,10 +209,6 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 	ClientMain::clientEventLoop(frameTime);	
 
 	ProgressDialog::instance()->progressChange(op, percentage);
-
-	//progressLabel_->setText(op);
-	//progress_->setCurrent(percentage);
-	//for (int i=0; i<100000000; i++);
 
 	if ((timeDelay > 0.25f) || 
 		(percentage > 99.0f))

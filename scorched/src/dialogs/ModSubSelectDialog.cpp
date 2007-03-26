@@ -138,6 +138,7 @@ void ModSubSelectDialog::buttonDown(unsigned int id)
 		if (selected)
 		{
 			const char *targetFilePath = selected->getModInfoEntry().gamefile.c_str();
+			ClientParams::instance()->reset();
 			ClientParams::instance()->setClientFile(targetFilePath);
 			ClientMain::startClient();
 		}

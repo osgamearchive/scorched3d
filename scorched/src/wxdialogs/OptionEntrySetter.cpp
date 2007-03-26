@@ -138,48 +138,6 @@ OptionEntrySetter OptionEntrySetterUtil::createOtherSetter(
 	return OptionEntrySetter(control, entry);
 }
 
-OptionEntrySetter OptionEntrySetterUtil::createIntSetter(
-	wxWindow *parent, wxSizer *sizer, OptionEntry &entry,
-	int min, int max, int step)
-{
-	wxStaticText *staticText = 0;
-	sizer->Add(staticText = new wxStaticText(parent, -1,
-		wxString(entry.getName(), wxConvUTF8)), 
-		0, wxALIGN_RIGHT | wxRIGHT, 10);
-	staticText->SetToolTip(
-		wxString(entry.getDescription(), wxConvUTF8));
-
-	wxControl *control = 0;
-	switch (entry.getEntryType())
-	{
-	case OptionEntry::OptionEntryIntType:
-		{
-			sizer->Add(control = 
-				new wxComboBox(parent, -1,
-				wxT(""),
-				wxDefaultPosition, wxSize(160, -1),
-				0, 0, 0), 
-				0, wxALIGN_LEFT);
-			control->SetToolTip(
-				wxString(entry.getDescription(), wxConvUTF8));
-
-			for (int i=min; i<=max; i+=step)
-			{
-				((wxComboBox *) control)->Append(
-					wxString(formatString("%i", i), wxConvUTF8), 
-					(void *) i);
-			}
-		}
-		break;
-	default:
-		dialogExit("createIntSetter",
-			formatString("Unhandled OptionEntry type %s:%i",
-			entry.getName(), entry.getEntryType()));
-	}
-
-	return OptionEntrySetter(control, entry);
-}
-
 void OptionEntrySetterUtil::updateControls(
 	std::list<OptionEntrySetter> &controls)
 {

@@ -57,6 +57,8 @@
 #include <dialogs/SaveSelectDialog.h>
 #include <dialogs/NetworkSelectDialog.h>
 #include <dialogs/MsgBoxDialog.h>
+#include <dialogs/SettingsSelectDialog.h>
+#include <dialogs/SettingsSubSelectDialog.h>
 
 void ClientWindowSetup::addStateWindows(GLWWindowSkinManager *skinManager,
 	unsigned int state, const char *windowState)
@@ -178,6 +180,10 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		SaveSelectDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
 		NetworkSelectDialog::instance(), 0, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
+		SettingsSelectDialog::instance(), 0, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
+		SettingsSubSelectDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 

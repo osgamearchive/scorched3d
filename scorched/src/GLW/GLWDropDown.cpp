@@ -152,6 +152,15 @@ void GLWDropDown::buttonUp(unsigned int id)
 void GLWDropDown::mouseDown(int button, float x, float y, bool &skipRest)
 {
 	button_.mouseDown(button, x, y, skipRest);
+	if (!skipRest)
+	{
+		if (inBox(x, y, x_, y_, w_, h_))
+		{
+			skipRest = true;
+			button_.getPressed() = true;
+			buttonDown(0);
+		}
+	}
 }
 
 void GLWDropDown::setX(float x)

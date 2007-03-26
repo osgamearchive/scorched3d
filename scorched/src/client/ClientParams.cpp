@@ -53,3 +53,13 @@ ClientParams::~ClientParams()
 {
 	
 }
+
+void ClientParams::reset()
+{
+	connect_.setValueFromString(connect_.getDefaultValueAsString());
+	client_.setValueFromString(connect_.getDefaultValueAsString());
+	startcustom_.setValueFromString(connect_.getDefaultValueAsString());
+	save_.setValueFromString(connect_.getDefaultValueAsString());
+	username_.setValueFromString(connect_.getDefaultValueAsString());
+	password_.setValueFromString(connect_.getDefaultValueAsString());
+}

@@ -18,57 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ProgressDialogh_INCLUDE__)
-#define __INCLUDE_ProgressDialogh_INCLUDE__
+#if !defined(__INCLUDE_SettingsSelectDialogh_INCLUDE__)
+#define __INCLUDE_SettingsSelectDialogh_INCLUDE__
 
-#include <common/ProgressCounter.h>
-#include <common/FileLines.h>
 #include <GLW/GLWWindow.h>
-#include <GLEXT/GLTexture.h>
+#include <GLW/GLWTextButton.h>
+#include <GLW/GLWOptionEntry.h>
+#include <common/OptionsGame.h>
 
-class ProgressDialog : 
+class SettingsSelectDialog : 
 	public GLWWindow,
-	public ProgressCounterI,
-	public ProgressCounter
+	public GLWButtonI
 {
 public:
-	static ProgressDialog *instance();
+	static SettingsSelectDialog *instance();
 
-	virtual void progressChange(const char *op, const float percentage);
-	virtual void draw();
+	OptionsGame &getOptions() { return options_; }
 
-	void changeTip();
-	void setIcon(const char *iconName);
+	// GLWButtonI
+	virtual void buttonDown(unsigned int id);
 
-protected:
-	static ProgressDialog *instance_;
-
-	GLTexture icon_;
-	GLTexture bar1_, bar2_;
-	FileLines tips_;
-	std::string progressText_;
-	float progressPercentage_;
-
-private:
-	ProgressDialog();
-	virtual ~ProgressDialog();
-};
-
-class ProgressDialogSync :
-	public ProgressCounterI,
-	public ProgressCounter
-{
-public:
-	static ProgressDialogSync *instance();
-
-	virtual void progressChange(const char *op, const float percentage);
+	// GLWWindow
+	virtual void display();
 
 protected:
-	static ProgressDialogSync *instance_;
+	static SettingsSelectDialog *instance_;
+
+	std::list<GLWOptionEntry> controls_;
+	OptionsGame options_;
+	unsigned int cancelId_, okId_, advancedId_;
 
 private:
-	ProgressDialogSync();
-	virtual ~ProgressDialogSync();
+	SettingsSelectDialog();
+	virtual ~SettingsSelectDialog();
+
 };
 
 #endif

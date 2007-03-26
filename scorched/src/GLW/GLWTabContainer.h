@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,36 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_OptionEntrySetterh_INCLUDE__)
-#define __INCLUDE_OptionEntrySetterh_INCLUDE__
+#if !defined(AFX_GLWTabContainer_H__5A717DEA_0AE4_4341_9991_A4575E3FF041__INCLUDED_)
+#define AFX_GLWTabContainer_H__5A717DEA_0AE4_4341_9991_A4575E3FF041__INCLUDED_
 
-#include <common/OptionEntry.h>
-#include <list>
-#include <wx/wx.h>
+#include <GLW/GLWPanel.h>
+#include <GLW/GLWLabel.h>
 
-class OptionEntrySetter
+class GLWTabContainer : public GLWPanel
 {
 public:
-	OptionEntrySetter(wxControl *control, OptionEntry &entry);
-	virtual ~OptionEntrySetter();
+	GLWTabContainer(
+		float x = 0.0f, float y = 0.0f, 
+		float w = 0.0f, float h =  0.0f);
+	virtual ~GLWTabContainer();
 
-	OptionEntry &getEntry() { return entry_; }
-	wxControl *getControl() { return control_; }
+	virtual void layout();
 
-protected:
-	OptionEntry &entry_;
-	wxControl *control_;
+	virtual void setX(float x);
+	virtual void setY(float y);
+
+	REGISTER_CLASS_HEADER(GLWTabContainer);
 };
 
-class OptionEntrySetterUtil
-{
-public:
-	static OptionEntrySetter createOtherSetter(
-		wxWindow *parent, wxSizer *topsizer, OptionEntry &entry);
-
-	static void updateControls(std::list<OptionEntrySetter> &controls);
-	static void updateEntries(std::list<OptionEntrySetter> &controls);
-};
-
-
-#endif // __INCLUDE_OptionEntrySetterh_INCLUDE__
+#endif // !defined(AFX_GLWTabContainer_H__5A717DEA_0AE4_4341_9991_A4575E3FF041__INCLUDED_)

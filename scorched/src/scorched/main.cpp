@@ -33,6 +33,8 @@
 #include <time.h>
 #include <common/main.h>
 
+bool newVersion = false;
+
 int main(int argc, char *argv[])
 {
 	// From main.h
@@ -50,6 +52,13 @@ int main(int argc, char *argv[])
 	{
 		OptionsDisplay::instance()->getHostDescriptionEntry().setValue(s3d_getOSDesc());
 		OptionsDisplay::instance()->getOnlineUserNameEntry().setValue("Player");
+	}
+
+	// Check if this a new version we've seen
+	if (0 != strcmp(ScorchedVersion, OptionsDisplay::instance()->getLastVersionPlayed()))
+	{
+		newVersion = true;
+		OptionsDisplay::instance()->getLastVersionPlayedEntry().setValue(ScorchedVersion);
 	}
 
 	// Write the new options back the the file

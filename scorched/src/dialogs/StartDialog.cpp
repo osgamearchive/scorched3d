@@ -23,6 +23,8 @@
 #include <dialogs/ModSubSelectDialog.h>
 #include <dialogs/SaveSelectDialog.h>
 #include <dialogs/NetworkSelectDialog.h>
+#include <dialogs/SettingsSelectDialog.h>
+#include <dialogs/SettingsSubSelectDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientParams.h>
 #include <client/ClientMain.h>
@@ -128,6 +130,10 @@ void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 			SaveSelectDialog::instance()->getId());	
 		GLWWindowManager::instance()->hideWindow(
 			NetworkSelectDialog::instance()->getId());	
+		GLWWindowManager::instance()->hideWindow(
+			SettingsSelectDialog::instance()->getId());	
+		GLWWindowManager::instance()->hideWindow(
+			SettingsSubSelectDialog::instance()->getId());	
 	}
 
 	switch (selected_)
@@ -135,6 +141,7 @@ void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 	case 0:
 		{
 		const char *targetFilePath = getDataFile("data/singletutorial.xml");
+		ClientParams::instance()->reset();
 		ClientParams::instance()->setClientFile(targetFilePath);
 		ClientMain::startClient();
 		}

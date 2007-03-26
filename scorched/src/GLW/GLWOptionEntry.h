@@ -18,36 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_OptionEntrySetterh_INCLUDE__)
-#define __INCLUDE_OptionEntrySetterh_INCLUDE__
+#if !defined(__INCLUDE_GLWOptionEntryh_INCLUDE__)
+#define __INCLUDE_GLWOptionEntryh_INCLUDE__
 
 #include <common/OptionEntry.h>
+#include <GLW/GLWidget.h>
 #include <list>
-#include <wx/wx.h>
 
-class OptionEntrySetter
+class GLWOptionEntry
 {
 public:
-	OptionEntrySetter(wxControl *control, OptionEntry &entry);
-	virtual ~OptionEntrySetter();
+	GLWOptionEntry(GLWidget *control, OptionEntry *entry);
+	virtual ~GLWOptionEntry();
 
-	OptionEntry &getEntry() { return entry_; }
-	wxControl *getControl() { return control_; }
+	static void createEntry(
+		std::list<GLWOptionEntry> &controls, 
+		GLWPanel *parent, OptionEntry &entry);
+
+	static void updateControls(std::list<GLWOptionEntry> &controls);
+	static void updateEntries(std::list<GLWOptionEntry> &controls);
+
+	OptionEntry *getEntry() { return entry_; }
+	GLWidget *getControl() { return control_; }
 
 protected:
-	OptionEntry &entry_;
-	wxControl *control_;
+	OptionEntry *entry_;
+	GLWidget *control_;
 };
 
-class OptionEntrySetterUtil
-{
-public:
-	static OptionEntrySetter createOtherSetter(
-		wxWindow *parent, wxSizer *topsizer, OptionEntry &entry);
-
-	static void updateControls(std::list<OptionEntrySetter> &controls);
-	static void updateEntries(std::list<OptionEntrySetter> &controls);
-};
-
-
-#endif // __INCLUDE_OptionEntrySetterh_INCLUDE__
+#endif // __INCLUDE_GLWOptionEntryh_INCLUDE__

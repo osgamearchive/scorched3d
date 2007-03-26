@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,36 +18,15 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_OptionEntrySetterh_INCLUDE__)
-#define __INCLUDE_OptionEntrySetterh_INCLUDE__
+#include <GLW/GLWSpacer.h>
 
-#include <common/OptionEntry.h>
-#include <list>
-#include <wx/wx.h>
+REGISTER_CLASS_SOURCE(GLWSpacer);
 
-class OptionEntrySetter
+GLWSpacer::GLWSpacer(float w, float h) :
+	GLWidget(0.0f, 0.0f, w, h)
 {
-public:
-	OptionEntrySetter(wxControl *control, OptionEntry &entry);
-	virtual ~OptionEntrySetter();
+}
 
-	OptionEntry &getEntry() { return entry_; }
-	wxControl *getControl() { return control_; }
-
-protected:
-	OptionEntry &entry_;
-	wxControl *control_;
-};
-
-class OptionEntrySetterUtil
+GLWSpacer::~GLWSpacer()
 {
-public:
-	static OptionEntrySetter createOtherSetter(
-		wxWindow *parent, wxSizer *topsizer, OptionEntry &entry);
-
-	static void updateControls(std::list<OptionEntrySetter> &controls);
-	static void updateEntries(std::list<OptionEntrySetter> &controls);
-};
-
-
-#endif // __INCLUDE_OptionEntrySetterh_INCLUDE__
+}

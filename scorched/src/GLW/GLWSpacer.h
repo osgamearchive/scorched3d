@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,36 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_OptionEntrySetterh_INCLUDE__)
-#define __INCLUDE_OptionEntrySetterh_INCLUDE__
+#if !defined(AFX_GLWSpacer_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_)
+#define AFX_GLWSpacer_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_
 
-#include <common/OptionEntry.h>
-#include <list>
-#include <wx/wx.h>
+#include <GLW/GLWidget.h>
 
-class OptionEntrySetter
+class GLWSpacer : public GLWidget  
 {
 public:
-	OptionEntrySetter(wxControl *control, OptionEntry &entry);
-	virtual ~OptionEntrySetter();
+	GLWSpacer(float w = 0.0f, float h = 0.0f);
+	virtual ~GLWSpacer();
 
-	OptionEntry &getEntry() { return entry_; }
-	wxControl *getControl() { return control_; }
-
-protected:
-	OptionEntry &entry_;
-	wxControl *control_;
+	REGISTER_CLASS_HEADER(GLWSpacer);
 };
 
-class OptionEntrySetterUtil
-{
-public:
-	static OptionEntrySetter createOtherSetter(
-		wxWindow *parent, wxSizer *topsizer, OptionEntry &entry);
-
-	static void updateControls(std::list<OptionEntrySetter> &controls);
-	static void updateEntries(std::list<OptionEntrySetter> &controls);
-};
-
-
-#endif // __INCLUDE_OptionEntrySetterh_INCLUDE__
+#endif // !defined(AFX_GLWSpacer_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_)

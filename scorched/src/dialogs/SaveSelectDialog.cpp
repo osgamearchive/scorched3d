@@ -149,6 +149,7 @@ void SaveSelectDialog::buttonDown(unsigned int id)
 		if (selected)
 		{
 			const char *targetFilePath = getSaveFile(selected->getFile());
+			ClientParams::instance()->reset();
 			ClientParams::instance()->setSaveFile(targetFilePath);
 			ClientMain::startClient();
 		}

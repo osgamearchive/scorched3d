@@ -20,6 +20,7 @@
 
 #include <dialogs/ModSelectDialog.h>
 #include <dialogs/ModSubSelectDialog.h>
+#include <dialogs/SettingsSelectDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
@@ -119,6 +120,14 @@ void ModSelectDialog::display()
 			iconList_->addItem(item);
 		}
 	}
+
+	// Add the info that represents a custom game
+	{
+		ModInfo customInfo("Custom");
+		customInfo.parse(getDataFile("data/custominfo.xml"));
+		GLWIconListModItem *item = new GLWIconListModItem(customInfo);
+		iconList_->addItem(item);
+	}
 }
 
 void ModSelectDialog::selected(unsigned int id, int position)
@@ -138,9 +147,17 @@ void ModSelectDialog::buttonDown(unsigned int id)
 			(GLWIconListModItem *) iconList_->getSelected();
 		if (selected)
 		{
-			ModSubSelectDialog::instance()->setModInfo(selected->getModInfo());
-			GLWWindowManager::instance()->showWindow(
-				ModSubSelectDialog::instance()->getId());
+			if (0 == strcmp("Custom", selected->getModInfo().getName()))
+			{
+				GLWWindowManager::instance()->showWindow(
+					SettingsSelectDialog::instance()->getId());
+			}
+			else
+			{
+				ModSubSelectDialog::instance()->setModInfo(selected->getModInfo());
+				GLWWindowManager::instance()->showWindow(
+					ModSubSelectDialog::instance()->getId());
+			}
 		}
 	}
 	else if (id == cancelId_)

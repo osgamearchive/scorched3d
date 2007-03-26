@@ -24,6 +24,7 @@
 #include <landscapedef/LandscapeInclude.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
@@ -150,8 +151,9 @@ void LandscapeDefinitions::checkEnabled(OptionsScorched &context)
 		}
 	}
 
-	dialogExit("Scorched3D", formatString(
-		"No existing landscapes are enabled (Landscapes : %s)",
+	context.getChangedOptions().getLandscapesEntry().setValue("");
+	Logger::log(formatString(
+		"Warning: No existing landscapes are enabled (Landscapes : %s)",
 		context.getLandscapes()));
 }
 
