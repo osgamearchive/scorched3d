@@ -18,9 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_BackdropDialogh_INCLUDE__)
 #define __INCLUDE_BackdropDialogh_INCLUDE__
+
 #include <GLEXT/GLTexture.h>
 #include <GLW/GLWWindow.h>
 
@@ -33,9 +33,7 @@ public:
 
 protected:
 	static BackdropDialog *instance_;
-	float offset_;
-	static GLTexture backTex_;
-	static GLuint displayList_;
+	GLTexture backTex_;
 
 private:
 	BackdropDialog();

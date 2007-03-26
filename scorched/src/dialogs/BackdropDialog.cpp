@@ -21,11 +21,10 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLPng.h>
 #include <dialogs/BackdropDialog.h>
 #include <common/Defines.h>
 
-GLTexture BackdropDialog::backTex_ = GLTexture();
-GLuint BackdropDialog::displayList_ = 0;
 BackdropDialog *BackdropDialog::instance_ = 0;
 
 BackdropDialog *BackdropDialog::instance()
@@ -39,15 +38,13 @@ BackdropDialog *BackdropDialog::instance()
 
 BackdropDialog::BackdropDialog() : 
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0,
-		"The backdrop dialog"), offset_(0)
+		"The backdrop dialog")
 {
 	windowLevel_ = 5000000;
-	if (!displayList_)
-	{
-		GLBitmap backMap(getDataFile("data/windows/logotiled.bmp"));
-		backTex_.create(backMap, GL_RGB, false);
-		displayList_ = 1;
-	}
+
+	GLPng backMap(getDataFile("data/windows/backdrop.png"));
+	//GLBitmap backMap(getDataFile("data/windows/logotiled.bmp"));
+	backTex_.create(backMap, GL_RGB, false);
 }
 
 BackdropDialog::~BackdropDialog()
@@ -61,20 +58,20 @@ void BackdropDialog::draw()
 	// Calcuate how may tiles are needed
 	float wWidth = (float) GLViewPort::getWidth();
 	float wHeight = (float) GLViewPort::getHeight();
-	float xScale = wWidth / 128.0f;
-	float yScale = wHeight / 128.0f;
+	float xScale = 1.0f;//wWidth / 128.0f;
+	float yScale = 1.0f;//wHeight / 128.0f;
 
 	// Draw the tiled logo backdrop
 	backTex_.draw(true);
-	glColor3f(0.2f, 0.2f, 0.2f);
+	glColor3f(1.0f, 1.0f, 1.0f);//0.2f, 0.2f, 0.2f);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f - offset_, 0.0f + offset_);
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(xScale - offset_, 0.0f + offset_);
+		glTexCoord2f(xScale, 0.0f);
 		glVertex2f(wWidth, 0.0f);
-		glTexCoord2f(xScale - offset_, yScale + offset_);
+		glTexCoord2f(xScale, yScale);
 		glVertex2f(wWidth, wHeight);
-		glTexCoord2f(0.0f - offset_, yScale + offset_);
+		glTexCoord2f(0.0f, yScale);
 		glVertex2f(0.0f, wHeight);
 	glEnd();	
 }

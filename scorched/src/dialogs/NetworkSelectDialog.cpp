@@ -129,8 +129,8 @@ void NetworkSelectDialog::drawIcon(GLTexture *tex, float &x, float y, const char
 	glColor3f(1.0f, 1.0f, 1.0f);
 	tex->draw();
 
-	float w = 20.0f;
-	float h = 20.0f;
+	float w = 18.0f;
+	float h = 18.0f;
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex2f(x, y);
