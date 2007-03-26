@@ -4,14 +4,6 @@ scorched3d_SOURCES = \
 	./main.cpp \
 	./ScorchedParams.cpp \
 	./ScorchedParams.h \
-	./ServerBrowser.cpp \
-	./ServerBrowser.h \
-	./ServerBrowserCollect.cpp \
-	./ServerBrowserCollect.h \
-	./ServerBrowserRefresh.cpp \
-	./ServerBrowserRefresh.h \
-	./ServerBrowserServerList.cpp \
-	./ServerBrowserServerList.h \
 	../wxdialogs/CreateDialogs.cpp \
 	../wxdialogs/DialogUtils.cpp \
 	../wxdialogs/DialogUtils.h \
@@ -19,26 +11,14 @@ scorched3d_SOURCES = \
 	../wxdialogs/DisplayDialog.h \
 	../wxdialogs/KeyDialog.cpp \
 	../wxdialogs/KeyDialog.h \
-	../wxdialogs/ListDialog.cpp \
-	../wxdialogs/ListDialog.h \
 	../wxdialogs/MainDialog.cpp \
 	../wxdialogs/MainDialog.h \
-	../wxdialogs/NetDialog.cpp \
-	../wxdialogs/NetDialog.h \
 	../wxdialogs/OptionEntrySetter.cpp \
 	../wxdialogs/OptionEntrySetter.h \
-	../wxdialogs/ProgressBarDialog.cpp \
-	../wxdialogs/ProgressBarDialog.h \
 	../wxdialogs/ServerSDialog.cpp \
 	../wxdialogs/ServerSDialog.h \
 	../wxdialogs/SettingsDialog.cpp \
 	../wxdialogs/SettingsDialog.h \
-	../wxdialogs/SingleChoiceDialog.cpp \
-	../wxdialogs/SingleChoiceDialog.h \
-	../wxdialogs/SingleDialog.cpp \
-	../wxdialogs/SingleDialog.h \
-	../wxdialogs/SingleSDialog.cpp \
-	../wxdialogs/SingleSDialog.h \
 	../engine/ModDirs.cpp \
 	../engine/ModDirs.h \
 	../engine/ModFileEntry.cpp \
@@ -103,29 +83,8 @@ scorched3d_SOURCES = \
 	../common/VectorLib.h \
 	../net/NetBuffer.cpp \
 	../net/NetBuffer.h \
-	../net/NetBufferUtil.cpp \
-	../net/NetBufferUtil.h \
 	../net/NetInterface.cpp \
 	../net/NetInterface.h \
-	../net/NetInterfaceFlags.h \
-	../net/NetLoopBack.cpp \
-	../net/NetLoopBack.h \
-	../net/NetMessage.cpp \
-	../net/NetMessage.h \
-	../net/NetMessageHandler.cpp \
-	../net/NetMessageHandler.h \
-	../net/NetMessagePool.cpp \
-	../net/NetMessagePool.h \
-	../net/NetServerTCP.cpp \
-	../net/NetServerTCP.h \
-	../net/NetServerTCPProtocol.cpp \
-	../net/NetServerTCPProtocol.h \
-	../net/NetServerTCPRead.cpp \
-	../net/NetServerTCPRead.h \
-	../net/NetServerUDP.cpp \
-	../net/NetServerUDP.h \
-	../net/NetServerUDPDestination.cpp \
-	../net/NetServerUDPDestination.h \
 	../net/UniqueIdStore.cpp \
 	../net/UniqueIdStore.h \
 	../XML/ascii.h \

@@ -74,13 +74,11 @@ scorcheddata_DATA = data/singlecustom.xml \
 	data/ainames.txt \
 	data/textureset.xml \
 	data/tanks.xml \
-	data/pgprunetables.sql \
 	data/server.xml \
 	data/tips.txt \
 	data/tankais.xml \
 	data/keys.xml \
 	data/tanktypes.xml \
-	data/pgstatstables.sql \
 	data/tutorial.xml \
 	data/singleeasy.xml \
 	data/fastestdisplay.xml \
@@ -89,7 +87,6 @@ scorcheddata_DATA = data/singlecustom.xml \
 	data/playernames.txt \
 	data/ssdisplay.xml \
 	data/singletutorial.xml \
-	data/pgsql.xml \
 	data/singlehard.xml \
 	data/ssgame.xml \
 	data/accessories.xml \
@@ -1184,90 +1181,79 @@ scorcheddataaccessoriesicbm_DATA = data/accessories/icbm/gradient.bmp \
 	data/accessories/icbm/icbm.txt
 scorcheddatawindowsdir = ${datadir}/data/windows
 scorcheddatawindows_DATA = data/windows/target.bmp \
-	data/windows/noentryu.gif \
 	data/windows/arrow_r.png \
 	data/windows/winda2.bmp \
 	data/windows/scorcheda.png \
 	data/windows/weapona2.bmp \
 	data/windows/bomb.bmp \
 	data/windows/tank-med.bmp \
-	data/windows/exclaimo.gif \
-	data/windows/help.gif \
 	data/windows/arrow_d.png \
 	data/windows/winda.bmp \
 	data/windows/help.bmp \
 	data/windows/backdrop.gif \
 	data/windows/move.bmp \
-	data/windows/play.gif \
 	data/windows/playera.bmp \
+	data/windows/ok.bmp \
 	data/windows/logotiled.bmp \
 	data/windows/aima.bmp \
 	data/windows/arrow.bmp \
 	data/windows/aim.bmp \
 	data/windows/pointera.bmp \
-	data/windows/exclaim.gif \
+	data/windows/key.bmp \
 	data/windows/playera2.bmp \
 	data/windows/bomba.bmp \
-	data/windows/donate.gif \
 	data/windows/sounda.bmp \
-	data/windows/quit.gif \
 	data/windows/server.bmp \
 	data/windows/client.bmp \
 	data/windows/setting.bmp \
 	data/windows/scorched.png \
 	data/windows/tank-hard.bmp \
-	data/windows/warnu.gif \
 	data/windows/donate.bmp \
 	data/windows/triangle.bmp \
+	data/windows/keya.bmp \
 	data/windows/scorched.bmp \
 	data/windows/waita.bmp \
 	data/windows/tank2.ico \
 	data/windows/planaa.bmp \
 	data/windows/island.ico \
+	data/windows/warn.bmp \
 	data/windows/sound.bmp \
 	data/windows/island.bmp \
 	data/windows/arrowi.bmp \
+	data/windows/question.bmp \
 	data/windows/arrow_s.png \
-	data/windows/startserver.gif \
 	data/windows/wait.bmp \
 	data/windows/plan.bmp \
 	data/windows/cameraa.bmp \
 	data/windows/camera.bmp \
 	data/windows/plana.bmp \
-	data/windows/oko.gif \
 	data/windows/player.bmp \
-	data/windows/noentryo.gif \
+	data/windows/coga.bmp \
 	data/windows/white.bmp \
-	data/windows/display.gif \
-	data/windows/exclaimu.gif \
 	data/windows/screen.bmp \
 	data/windows/mask.bmp \
+	data/windows/cog.bmp \
 	data/windows/tank-easy.bmp \
 	data/windows/display.bmp \
 	data/windows/weapona.bmp \
 	data/windows/diffa.bmp \
 	data/windows/tank.bmp \
-	data/windows/noentry.gif \
 	data/windows/save.bmp \
-	data/windows/warno.gif \
 	data/windows/screena.bmp \
 	data/windows/book.bmp \
-	data/windows/questionu.gif \
 	data/windows/weapon.bmp \
 	data/windows/splash.gif \
-	data/windows/warn.gif \
+	data/windows/noentry.bmp \
+	data/windows/exclaim.bmp \
 	data/windows/wind.bmp \
-	data/windows/tank2s.gif \
 	data/windows/helpa.bmp \
 	data/windows/settinga.bmp \
 	data/windows/diff.bmp \
-	data/windows/question.gif \
 	data/windows/arrow_u.png \
-	data/windows/oku.gif \
 	data/windows/pointer.bmp \
-	data/windows/ok.gif \
 	data/windows/tank2.bmp \
-	data/windows/tank-cus.bmp
+	data/windows/tank-cus.bmp \
+	data/windows/tank2s.bmp
 scorcheddataglobalmodsdir = ${datadir}/data/globalmods
 scorcheddataglobalmods_DATA = data/globalmods/globalmods.txt
 scorcheddataglobalmodsapocdir = ${datadir}/data/globalmods/apoc

@@ -44,6 +44,14 @@ scorched3dc_SOURCES = \
 	../actions/Teleport.cpp \
 	../actions/Teleport.h \
 	./main.cpp \
+	./ServerBrowser.cpp \
+	./ServerBrowser.h \
+	./ServerBrowserCollect.cpp \
+	./ServerBrowserCollect.h \
+	./ServerBrowserRefresh.cpp \
+	./ServerBrowserRefresh.h \
+	./ServerBrowserServerList.cpp \
+	./ServerBrowserServerList.h \
 	../common/ARGParser.cpp \
 	../common/ARGParser.h \
 	../common/ChannelManager.cpp \
@@ -848,6 +856,8 @@ scorched3dc_SOURCES = \
 	../client/ClientTargetStateHandler.h \
 	../client/ClientWaitState.cpp \
 	../client/ClientWaitState.h \
+	../client/ClientWindowSetup.cpp \
+	../client/ClientWindowSetup.h \
 	../client/ScorchedClient.cpp \
 	../client/ScorchedClient.h \
 	../GLW/GLWBitmap.cpp \
@@ -882,6 +892,10 @@ scorched3dc_SOURCES = \
 	../GLW/GLWIcon.h \
 	../GLW/GLWIconButton.cpp \
 	../GLW/GLWIconButton.h \
+	../GLW/GLWIconList.cpp \
+	../GLW/GLWIconList.h \
+	../GLW/GLWIconTable.cpp \
+	../GLW/GLWIconTable.h \
 	../GLW/GLWidget.cpp \
 	../GLW/GLWidget.h \
 	../GLW/GLWImageList.cpp \
@@ -906,6 +920,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWScrollPanel.h \
 	../GLW/GLWScrollW.cpp \
 	../GLW/GLWScrollW.h \
+	../GLW/GLWScrollWBackwards.cpp \
+	../GLW/GLWScrollWBackwards.h \
 	../GLW/GLWSelector.cpp \
 	../GLW/GLWSelector.h \
 	../GLW/GLWSelectorPart.cpp \
@@ -1160,8 +1176,6 @@ scorched3dc_SOURCES = \
 	../graph/TextureStore.h \
 	../graph/TutorialFile.cpp \
 	../graph/TutorialFile.h \
-	../graph/WindowSetup.cpp \
-	../graph/WindowSetup.h \
 	../dialogs/AutoDefenseDialog.cpp \
 	../dialogs/AutoDefenseDialog.h \
 	../dialogs/BackdropDialog.cpp \
@@ -1188,6 +1202,14 @@ scorched3dc_SOURCES = \
 	../dialogs/MainMenuDialog.h \
 	../dialogs/MessageDialog.cpp \
 	../dialogs/MessageDialog.h \
+	../dialogs/ModSelectDialog.cpp \
+	../dialogs/ModSelectDialog.h \
+	../dialogs/ModSubSelectDialog.cpp \
+	../dialogs/ModSubSelectDialog.h \
+	../dialogs/MsgBoxDialog.cpp \
+	../dialogs/MsgBoxDialog.h \
+	../dialogs/NetworkSelectDialog.cpp \
+	../dialogs/NetworkSelectDialog.h \
 	../dialogs/PlayerDialog.cpp \
 	../dialogs/PlayerDialog.h \
 	../dialogs/ProgressDialog.cpp \
@@ -1200,6 +1222,8 @@ scorched3dc_SOURCES = \
 	../dialogs/RulesDialog.h \
 	../dialogs/SaveDialog.cpp \
 	../dialogs/SaveDialog.h \
+	../dialogs/SaveSelectDialog.cpp \
+	../dialogs/SaveSelectDialog.h \
 	../dialogs/ScoreDialog.cpp \
 	../dialogs/ScoreDialog.h \
 	../dialogs/SkipAllDialog.cpp \
@@ -1208,6 +1232,8 @@ scorched3dc_SOURCES = \
 	../dialogs/SkipDialog.h \
 	../dialogs/SoundDialog.cpp \
 	../dialogs/SoundDialog.h \
+	../dialogs/StartDialog.cpp \
+	../dialogs/StartDialog.h \
 	../dialogs/TutorialDialog.cpp \
 	../dialogs/TutorialDialog.h \
 	../sound/PlayingSoundSource.cpp \
