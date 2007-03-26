@@ -213,8 +213,8 @@ void GLWScrollW::mouseWheel(float x, float y, float z, bool &skipRest)
 	{
 		skipRest = true;
 
-		if (z < 0.0f) setCurrent(getCurrent() + 1);
-		else setCurrent(getCurrent() - 1);
+		if (z < 0.0f) GLWScrollW::setCurrent(current_ + 1);
+		else GLWScrollW::setCurrent(current_ - 1);
 	}
 }
 
@@ -255,7 +255,7 @@ void GLWScrollW::buttonDrag(unsigned int id, float x, float y)
 
 		if (newCurrent != current_)
 		{
-			setCurrent(newCurrent);
+			GLWScrollW::setCurrent(newCurrent);
 		}
 	}
 }

@@ -31,7 +31,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
 #include <wxdialogs/MainDialog.h>
-#include <wxdialogs/SingleDialog.h>
 #include <wxdialogs/DisplayDialog.h>
 #include <wxdialogs/ServerSDialog.h>
 #include <wxdialogs/DialogUtils.h>
@@ -498,7 +497,7 @@ void MainFrame::onDisplayButton()
 
 void MainFrame::onSingleButton()
 {
-	showSingleDialog();
+	runScorched3D("", false);
 }
 
 void MainFrame::onServerButton()

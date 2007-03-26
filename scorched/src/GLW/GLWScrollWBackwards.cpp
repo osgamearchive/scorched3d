@@ -18,38 +18,43 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wxdialogs/MainDialog.h>
-#include <server/ServerMain.h>
-#include <common/OptionsGame.h>
-#include <wx/wx.h>
-#include <wx/image.h>
-#include <locale.h>
+#include <GLW/GLWScrollWBackwards.h>
+#include <common/Defines.h>
 
-bool wxWindowInit = false;
-class ScorchedApp: public wxApp
+REGISTER_CLASS_SOURCE(GLWScrollWBackwards);
+
+GLWScrollWBackwards::GLWScrollWBackwards(float x, float y, float h, int min, int max, int see) :
+	GLWScrollW(x, y, h, min, max, see)
 {
-    bool OnInit();
-};     
-
-bool ScorchedApp::OnInit()
-{
-	if (setlocale(LC_ALL, "C") == 0)
-	{
-		dialogMessage(
-			"ScorchedApp",
-			"Warning: Failed to set wx locale");
-	}
-
-	wxImage::AddHandler(new wxICOHandler);
-	wxImage::AddHandler(new wxGIFHandler);
-
-	// Show the launcher dialogs
-	showMainDialog();
-	SetTopWindow(getMainDialog());
-
-	wxWindowInit = true;
-	return TRUE;
 }
 
-IMPLEMENT_APP_NO_MAIN(ScorchedApp);
-IMPLEMENT_WX_THEME_SUPPORT
+GLWScrollWBackwards::~GLWScrollWBackwards()
+{
+}
+
+void GLWScrollWBackwards::setCurrent(int c)
+{
+	if (getMax() <= getSee()) 
+	{
+		GLWScrollW::setCurrent(0);
+	}
+	else
+	{
+		int left = getMax() - getSee();
+		GLWScrollW::setCurrent(MAX(0, left - c));
+	}
+}
+
+int GLWScrollWBackwards::getCurrent()
+{
+	if (getMax() <= getSee()) 
+	{
+		return 0;
+	}
+	return getMax() - getSee() - GLWScrollW::getCurrent();
+}
+
+void GLWScrollWBackwards::mouseWheel(float x, float y, float z, bool &skipRest)
+{
+	GLWScrollW::mouseWheel(x, y, z, skipRest);
+}

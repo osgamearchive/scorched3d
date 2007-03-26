@@ -18,41 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModSelectDialogh_INCLUDE__)
-#define __INCLUDE_ModSelectDialogh_INCLUDE__
+#if !defined(__INCLUDE_SaveSelectDialogh_INCLUDE__)
+#define __INCLUDE_SaveSelectDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
 #include <GLW/GLWIconList.h>
 #include <GLW/GLWIcon.h>
 #include <common/ToolTip.h>
-#include <engine/ModInfo.h>
 
-class GLWIconListModItem : public GLWIconListItem
+class GLWIconListSaveItem : public GLWIconListItem
 {
 public:
-	GLWIconListModItem(ModInfo &modInfo);
-	virtual ~GLWIconListModItem();
+	GLWIconListSaveItem(const char *file, const char *time);
+	virtual ~GLWIconListSaveItem();
 
-	ModInfo &getModInfo() { return modInfo_; }
+	const char *getFile() { return file_.c_str(); }
 
 	// GLWIconListItem
 	virtual void draw(float x, float y, float w);
 
 protected:
-	ModInfo modInfo_;
 	GLWIcon icon_;
 	ToolTip tip_;
+	std::string file_;
+	std::string time_;
 };
 
-
-class ModSelectDialog : 
+class SaveSelectDialog : 
 	public GLWWindow,
 	public GLWButtonI, 
 	public GLWIconListI
 {
 public:
-	static ModSelectDialog *instance();
+	static SaveSelectDialog *instance();
 
 	// GLWWindow
 	virtual void display();
@@ -65,14 +64,15 @@ public:
 	virtual void chosen(unsigned int id, int position);
 
 protected:
-	static ModSelectDialog *instance_;
+	static SaveSelectDialog *instance_;
 
-	unsigned int okId_, cancelId_;
+	GLWButton *ok_;
+	unsigned int cancelId_;
 	GLWIconList *iconList_;
 
 private:
-	ModSelectDialog();
-	virtual ~ModSelectDialog();
+	SaveSelectDialog();
+	virtual ~SaveSelectDialog();
 
 };
 

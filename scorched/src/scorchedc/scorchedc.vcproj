@@ -338,6 +338,38 @@
 				RelativePath=".\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\ServerBrowser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowserCollect.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowserCollect.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowserRefresh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowserRefresh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowserServerList.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerBrowserServerList.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="common"
@@ -3771,6 +3803,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWIconTable.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWIconTable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWidget.cpp"
 				>
 			</File>
@@ -3864,6 +3904,14 @@
 			</File>
 			<File
 				RelativePath="..\GLW\GLWScrollW.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWScrollWBackwards.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWScrollWBackwards.h"
 				>
 			</File>
 			<File
@@ -5023,6 +5071,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\dialogs\ModSubSelectDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\ModSubSelectDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\MsgBoxDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\MsgBoxDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\NetworkSelectDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\NetworkSelectDialog.h"
+				>
+			</File>
+			<File
 				RelativePath="..\dialogs\PlayerDialog.cpp"
 				>
 			</File>
@@ -5068,6 +5140,14 @@
 			</File>
 			<File
 				RelativePath="..\dialogs\SaveDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SaveSelectDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\SaveSelectDialog.h"
 				>
 			</File>
 			<File

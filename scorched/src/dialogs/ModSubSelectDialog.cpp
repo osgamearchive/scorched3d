@@ -18,35 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dialogs/ModSelectDialog.h>
 #include <dialogs/ModSubSelectDialog.h>
+#include <dialogs/ModSelectDialog.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTranslate.h>
+#include <client/ClientParams.h>
+#include <client/ClientMain.h>
 #include <graph/TextureStore.h>
 #include <engine/ModDirs.h>
 #include <common/Defines.h>
 
-GLWIconListModItem::GLWIconListModItem(ModInfo &modInfo) :
-	modInfo_(modInfo), 
-	tip_(modInfo.getName(), modInfo.getDescription()),
+GLWIconListSubModItem::GLWIconListSubModItem(ModInfo::MenuEntry &modInfoEntry) :
+	modInfoEntry_(modInfoEntry), 
+	tip_(modInfoEntry.shortdescription.c_str(), modInfoEntry.description.c_str()),
 	icon_(0.0f, 0.0f, 40.0f, 40.0f)
 {
-	if (s3d_fileExists(modInfo_.getIcon()))
+	if (s3d_fileExists(modInfoEntry_.icon.c_str()))
 	{
 		GLTexture *texture = TextureStore::instance()->loadTexture(
-			modInfo_.getIcon());
+			modInfoEntry_.icon.c_str());
 		icon_.setTexture(texture);
 	}
 }
 
-GLWIconListModItem::~GLWIconListModItem()
+GLWIconListSubModItem::~GLWIconListSubModItem()
 {
 }
 
-void GLWIconListModItem::draw(float x, float y, float w)
+void GLWIconListSubModItem::draw(float x, float y, float w)
 {
 	icon_.setX(x + 2.0f);
 	icon_.setY(y + 2.0f);
@@ -56,30 +58,27 @@ void GLWIconListModItem::draw(float x, float y, float w)
 		GLWTranslate::getPosX() + x, 
 		GLWTranslate::getPosY() + y, w, 50.0f);
 
-	GLWFont::instance()->getLargePtFont()->draw(
-		GLWFont::widgetFontColor, 
-		12.0f, x + 50.0f, y + 25.0f, 0.0f, 
-		formatString("Mod : %s", modInfo_.getName()));
 	GLWFont::instance()->getLargePtFont()->drawWidth(
 		w - 50.0f,
 		GLWFont::widgetFontColor, 
-		8.0f, x + 50.0f, y + 12.0f, 0.0f, 
-		modInfo_.getShortDescription());
+		8.0f, x + 50.0f, y + 17.0f, 0.0f, 
+		modInfoEntry_.shortdescription.c_str());
 }
 
-ModSelectDialog *ModSelectDialog::instance_ = 0;
+ModSubSelectDialog *ModSubSelectDialog::instance_ = 0;
 
-ModSelectDialog *ModSelectDialog::instance()
+ModSubSelectDialog *ModSubSelectDialog::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new ModSelectDialog;
+		instance_ = new ModSubSelectDialog;
 	}
 	return instance_;
 }
 
-ModSelectDialog::ModSelectDialog() : 
-	GLWWindow("", 300.0f, 410.0f, 0, "")
+ModSubSelectDialog::ModSubSelectDialog() : 
+	GLWWindow("", 300.0f, 410.0f, 0, ""),
+	modInfo_("None")
 {
 	iconList_ = new GLWIconList(10.0f, 40.0f, 280.0f, 360.0f, 50.0f);
 	addWidget(iconList_);
@@ -92,55 +91,55 @@ ModSelectDialog::ModSelectDialog() :
 	iconList_->setHandler(this);
 }
 
-ModSelectDialog::~ModSelectDialog()
+ModSubSelectDialog::~ModSubSelectDialog()
 {
 
 }
 
-void ModSelectDialog::display()
+void ModSubSelectDialog::setModInfo(ModInfo &modInfo)
+{
+	modInfo_ = modInfo;
+}
+
+void ModSubSelectDialog::display()
 {
 	iconList_->clear();
 
-	ModDirs modDirs;
-	if (!modDirs.loadModDirs())
-	{
-		dialogExit("ModSelectDialog", "Failed to load mod dirs");	
-	}
-
-	std::list<ModInfo>::iterator itor;
-	for (itor = modDirs.getDirs().begin();
-		itor != modDirs.getDirs().end();
+	std::list<ModInfo::MenuEntry>::iterator itor;
+	for (itor = modInfo_.getMenuEntries().begin();
+		itor != modInfo_.getMenuEntries().end();
 		itor++)
 	{
-		ModInfo &info = (*itor);
-		if (!info.getMenuEntries().empty())
-		{
-			GLWIconListModItem *item = new GLWIconListModItem(info);
-			iconList_->addItem(item);
-		}
+		ModInfo::MenuEntry &entry = (*itor);
+		GLWIconListSubModItem *item = new GLWIconListSubModItem(entry);
+		iconList_->addItem(item);
 	}
 }
 
-void ModSelectDialog::selected(unsigned int id, int position)
+void ModSubSelectDialog::selected(unsigned int id, int position)
 {
 }
 
-void ModSelectDialog::chosen(unsigned int id, int position)
+void ModSubSelectDialog::chosen(unsigned int id, int position)
 {
 	buttonDown(okId_);
 }
 
-void ModSelectDialog::buttonDown(unsigned int id)
+void ModSubSelectDialog::buttonDown(unsigned int id)
 {
 	if (id == okId_)
 	{
-		GLWIconListModItem *selected = 
-			(GLWIconListModItem *) iconList_->getSelected();
+		GLWWindowManager::instance()->hideWindow(
+			ModSelectDialog::instance()->getId());
+		GLWWindowManager::instance()->hideWindow(id_);
+
+		GLWIconListSubModItem *selected = 
+			(GLWIconListSubModItem *) iconList_->getSelected();
 		if (selected)
 		{
-			ModSubSelectDialog::instance()->setModInfo(selected->getModInfo());
-			GLWWindowManager::instance()->showWindow(
-				ModSubSelectDialog::instance()->getId());
+			const char *targetFilePath = selected->getModInfoEntry().gamefile.c_str();
+			ClientParams::instance()->setClientFile(targetFilePath);
+			ClientMain::startClient();
 		}
 	}
 	else if (id == cancelId_)

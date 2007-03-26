@@ -49,11 +49,15 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 	gameState.addStateEntry(state, GLWWindowManager::instance());
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWWindowManager::instance());
-	gameState.addStateMouseDownEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
+	gameState.addStateMouseDownEntry(state, 
+		GameState::MouseButtonLeft | GameState::MouseButtonRight |
+		GameState::MouseButtonLeftDoubleClick | GameState::MouseButtonRightDoubleClick, 
 		GLWWindowManager::instance());
-	gameState.addStateMouseDragEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
+	gameState.addStateMouseDragEntry(state, 
+		GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
-	gameState.addStateMouseUpEntry(state, GameState::MouseButtonLeft | GameState::MouseButtonRight, 
+	gameState.addStateMouseUpEntry(state, 
+		GameState::MouseButtonLeft | GameState::MouseButtonRight, 
 		GLWWindowManager::instance());
 	gameState.addStateKeyEntry(state, GLWWindowManager::instance());
 	gameState.addStateMouseWheelEntry(state, GLWWindowManager::instance());
@@ -127,6 +131,8 @@ void ClientState::setupInitialGameState()
 
 	// StateOptions
 	addWindowManager(gameState, StateOptions);
+	gameState.addStateLoop(StateOptions, 
+		Main2DCamera::instance(), GLWToolTip::instance());
 	gameState.addStateLoop(StateOptions, 
 		Main2DCamera::instance(), SoftwareMouse::instance());
 	gameState.addStateStimulus(StateOptions, 

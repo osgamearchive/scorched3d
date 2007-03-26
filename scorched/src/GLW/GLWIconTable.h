@@ -18,40 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _GLWIconList_h
-#define _GLWIconList_h
+#ifndef _GLWIconTable_h
+#define _GLWIconTable_h
 
 #include <GLW/GLWScrollWBackwards.h>
+#include <GLW/GLWTextButton.h>
 #include <GLW/GLWToolTip.h>
 #include <vector>
+#include <list>
 
-class GLWIconListI
+class GLWIconTableI
 {
 public:
-	virtual void selected(unsigned int id, int position) = 0;
-	virtual void chosen(unsigned int id, int position) = 0;
+	virtual void drawColumn(unsigned int id, int row, int column, float x, float y, float w) = 0;
+	virtual void rowSelected(unsigned int id, int row) = 0;
+	virtual void columnSelected(unsigned int id, int col) = 0;
+	virtual void rowChosen(unsigned int id, int row) = 0;
 };
 
-class GLWIconListItem
+class GLWIconTable : 
+	public GLWidget,
+	public GLWButtonI
 {
 public:
-	virtual void draw(float x, float y, float w) = 0;
-};
+	struct Column
+	{
+		std::string name;
+		float width;
+	};
 
-class GLWIconList : public GLWidget
-{
-public:
-	GLWIconList(float x = 0.0f, float y = 0.0f, 
+	GLWIconTable(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f,
-		float squaresHeight = 40.0f);
-	virtual ~GLWIconList();
+		std::list<Column> *columns = 0,
+		float rowHeight = 20.0f);
+	virtual ~GLWIconTable();
 
-	void addItem(GLWIconListItem *item);
-	void clear();
+	void setItemCount(int items);
+	int getItemCount() { return itemCount_; }
 
-	void setHandler(GLWIconListI *handler) { handler_ = handler; }
-
-	GLWIconListItem *getSelected();
+	void setHandler(GLWIconTableI *handler) { handler_ = handler; }
+	int getSelected() { return selected_; }
 
 	// Inhertied from GLWidget
 	virtual void draw();
@@ -62,18 +68,22 @@ public:
 						   bool &skipRest);
 	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
-	REGISTER_CLASS_HEADER(GLWIconList);
+	// GLWButtonI
+	virtual void buttonDown(unsigned int id);
+
+	REGISTER_CLASS_HEADER(GLWIconTable);
 protected:
+	std::vector<GLWTextButton *> columns_;
 	GLWScrollWBackwards scrollBar_;
-	GLWIconListI *handler_;
-	float squaresHeight_;
+	GLWIconTableI *handler_;
+	float rowHeight_;
 	int selected_;
-	std::vector<GLWIconListItem *> items_;
+	int itemCount_;
 
 private:
-	GLWIconList(const GLWIconList &);
-	const GLWIconList & operator=(const GLWIconList &);
+	GLWIconTable(const GLWIconTable &);
+	const GLWIconTable & operator=(const GLWIconTable &);
 };
 
-#endif // _GLWIconList_h
+#endif // _GLWIconTable_h
 

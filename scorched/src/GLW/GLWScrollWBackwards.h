@@ -18,38 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wxdialogs/MainDialog.h>
-#include <server/ServerMain.h>
-#include <common/OptionsGame.h>
-#include <wx/wx.h>
-#include <wx/image.h>
-#include <locale.h>
+#if !defined(AFX_GLWScrollWBackwards_H__DCD17624_BF31_45DD_8766_2710AB9FFC6D__INCLUDED_)
+#define AFX_GLWScrollWBackwards_H__DCD17624_BF31_45DD_8766_2710AB9FFC6D__INCLUDED_
 
-bool wxWindowInit = false;
-class ScorchedApp: public wxApp
+#include <GLW/GLWScrollW.h>
+
+class GLWScrollWBackwards  : 
+	public GLWScrollW
 {
-    bool OnInit();
-};     
+public:
+	GLWScrollWBackwards(float x = 0.0f, float y = 0.0f, 
+		float h = 0.0f, 
+		int min = 0, int max = 0, int see = 1);
+	virtual ~GLWScrollWBackwards();
 
-bool ScorchedApp::OnInit()
-{
-	if (setlocale(LC_ALL, "C") == 0)
-	{
-		dialogMessage(
-			"ScorchedApp",
-			"Warning: Failed to set wx locale");
-	}
+	virtual void setCurrent(int c);
+	virtual int getCurrent();
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
-	wxImage::AddHandler(new wxICOHandler);
-	wxImage::AddHandler(new wxGIFHandler);
+	REGISTER_CLASS_HEADER(GLWScrollWBackwards);
+protected:
 
-	// Show the launcher dialogs
-	showMainDialog();
-	SetTopWindow(getMainDialog());
+};
 
-	wxWindowInit = true;
-	return TRUE;
-}
-
-IMPLEMENT_APP_NO_MAIN(ScorchedApp);
-IMPLEMENT_WX_THEME_SUPPORT
+#endif // !defined(AFX_GLWScrollWBackwards_H__DCD17624_BF31_45DD_8766_2710AB9FFC6D__INCLUDED_)

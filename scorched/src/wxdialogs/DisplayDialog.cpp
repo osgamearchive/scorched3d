@@ -425,7 +425,6 @@ void DisplayFrame::refreshScreen()
 	IDC_SMALLDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
 	IDC_MEDIUMDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
 	IDC_LARGEDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
-	IDC_HUGEDIALOGS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDialogSizeEntry().getDescription(), wxConvUTF8));
 	switch (OptionsDisplay::instance()->getDialogSize())
 	{
 	case 0:
@@ -439,9 +438,6 @@ void DisplayFrame::refreshScreen()
 		break;
 	case 3:
 		IDC_LARGEDIALOGS_CTRL->SetValue(true);
-		break;
-	case 4:
-		IDC_HUGEDIALOGS_CTRL->SetValue(true);
 		break;
 	}
 
@@ -604,7 +600,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	if (IDC_SMALLDIALOGS_CTRL->GetValue()) dialogSize = 1;
 	if (IDC_MEDIUMDIALOGS_CTRL->GetValue()) dialogSize = 2;
 	if (IDC_LARGEDIALOGS_CTRL->GetValue()) dialogSize = 3;
-	if (IDC_HUGEDIALOGS_CTRL->GetValue()) dialogSize = 4;
 	OptionsDisplay::instance()->getDialogSizeEntry().setValue(dialogSize);
 
 	int texSize = 1;

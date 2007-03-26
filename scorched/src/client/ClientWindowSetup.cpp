@@ -53,6 +53,10 @@
 #include <dialogs/MessageDialog.h>
 #include <dialogs/StartDialog.h>
 #include <dialogs/ModSelectDialog.h>
+#include <dialogs/ModSubSelectDialog.h>
+#include <dialogs/SaveSelectDialog.h>
+#include <dialogs/NetworkSelectDialog.h>
+#include <dialogs/MsgBoxDialog.h>
 
 void ClientWindowSetup::addStateWindows(GLWWindowSkinManager *skinManager,
 	unsigned int state, const char *windowState)
@@ -125,6 +129,8 @@ void ClientWindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager,
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(state,
 		GLWSelector::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(state,
+		MsgBoxDialog::instance(), 0, false);
 
 	if (ClientParams::instance()->getConnectedToServer())
 	{
@@ -166,10 +172,18 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		StartDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
 		ModSelectDialog::instance(), 0, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
+		ModSubSelectDialog::instance(), 0, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
+		SaveSelectDialog::instance(), 0, false);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions,
+		NetworkSelectDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
 		GLWSelector::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
+		MsgBoxDialog::instance(), 0, false);
 
 	// StateConnect
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -186,6 +200,8 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		GLWSelector::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+		MsgBoxDialog::instance(), 0, false);
 
 	// StateDisconnected
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
@@ -202,6 +218,8 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		GLWSelector::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
+		MsgBoxDialog::instance(), 0, false);
 
 	// StateLoadPlayers
 	GLWWindowManager::instance()->addWindow(ClientState::StateLoadPlayers,
@@ -252,6 +270,8 @@ void ClientWindowSetup::setupGameWindows(GLWWindowSkinManager *skinManager)
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
 		GLWSelector::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 
+		MsgBoxDialog::instance(), 0, false);
 	if (ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
 	{
 		GLWWindowManager::instance()->addWindow(ClientState::StateGetPlayers, 

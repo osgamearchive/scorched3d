@@ -34,8 +34,8 @@ GameState::GameState(const char *name) :
 	pendingStimulus_(UINT_MAX),
 	currentState_(UINT_MAX),
 	currentEntry_(0),
-	currentMouseX_(0),
-	currentMouseY_(0),
+	currentMouseX_(0), currentMouseY_(0),
+	mouseDoubleX_(0), mouseDoubleY_(0),
 	stateLogging_(false), stateTimeLogging_(false)
 {
 	clearTimers();
@@ -158,6 +158,26 @@ void GameState::mouseMoveCall(const unsigned state, MouseButton button,
 void GameState::mouseDown(MouseButton button, int x, int y)
 {
 	mouseUpDown(button, true, x, y);
+
+	if (doubleClickClock_.getTimeDifference() < 0.25 &&
+		abs(mouseDoubleX_ - x) <= 4 &&
+		abs(mouseDoubleY_ - y) <= 4)
+	{
+		switch (button)
+		{
+		case MouseButtonLeft:
+			mouseUpDown(MouseButtonLeftDoubleClick, true, x, y);
+			break;
+		case MouseButtonMiddle:
+			mouseUpDown(MouseButtonMiddleDoubleClick, true, x, y);
+			break;
+		case MouseButtonRight:
+			mouseUpDown(MouseButtonRightDoubleClick, true, x, y);
+			break;
+		}
+	}
+	mouseDoubleX_ = x;
+	mouseDoubleY_ = y;
 }
 
 void GameState::mouseUp(MouseButton button, int x, int y)

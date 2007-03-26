@@ -18,38 +18,46 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <wxdialogs/MainDialog.h>
-#include <server/ServerMain.h>
-#include <common/OptionsGame.h>
-#include <wx/wx.h>
-#include <wx/image.h>
-#include <locale.h>
+#if !defined(__INCLUDE_ServerBrowserh_INCLUDE__)
+#define __INCLUDE_ServerBrowserh_INCLUDE__
 
-bool wxWindowInit = false;
-class ScorchedApp: public wxApp
-{
-    bool OnInit();
-};     
+#include <scorchedc/ServerBrowserRefresh.h>
+#include <scorchedc/ServerBrowserCollect.h>
 
-bool ScorchedApp::OnInit()
+class ServerBrowser 
 {
-	if (setlocale(LC_ALL, "C") == 0)
+public:
+	static ServerBrowser *instance();
+
+	enum RefreshType
 	{
-		dialogMessage(
-			"ScorchedApp",
-			"Warning: Failed to set wx locale");
-	}
+		RefreshNone = 0,
+		RefreshLan = 1,
+		RefreshNet = 2,
+		RefreshFavourites = 3
+	};
 
-	wxImage::AddHandler(new wxICOHandler);
-	wxImage::AddHandler(new wxGIFHandler);
+	bool getRefreshing() { return refreshing_; }
+	void refreshList(RefreshType t);
+	void cancel();
+	
+	ServerBrowserServerList &getServerList() { return serverList_; }
+	ServerBrowserCollect &getCollect() { return serverCollector_; }
 
-	// Show the launcher dialogs
-	showMainDialog();
-	SetTopWindow(getMainDialog());
+protected:
+	static ServerBrowser *instance_;
+	bool refreshing_;
+	SDL_mutex *refreshingMutex_;
 
-	wxWindowInit = true;
-	return TRUE;
-}
+	ServerBrowserServerList serverList_;
+	ServerBrowserCollect serverCollector_;
+	ServerBrowserRefresh serverRefresh_;
 
-IMPLEMENT_APP_NO_MAIN(ScorchedApp);
-IMPLEMENT_WX_THEME_SUPPORT
+	static int threadFunc(void *);
+
+private:
+	ServerBrowser();
+	virtual ~ServerBrowser();
+};
+
+#endif

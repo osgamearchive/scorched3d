@@ -21,14 +21,18 @@
 #include <GLEXT/GLState.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTextBox.h>
+#include <GLW/GLWPanel.h>
 #include <common/Keyboard.h>
 #include <common/DefinesString.h>
 
 REGISTER_CLASS_SOURCE(GLWTextBox);
 
-GLWTextBox::GLWTextBox(float x, float y, float w, char *startText) :
+GLWTextBox::GLWTextBox(float x, float y, float w, 
+	char *startText, unsigned int flags) :
 	GLWidget(x, y, w, 25.0f), ctime_(0.0f), text_(startText?startText:""), 
-	cursor_(false), maxTextLen_(0)
+	flags_(flags),
+	cursor_(false), maxTextLen_(0), handler_(0),
+	current_(true)
 {
 
 }
@@ -51,21 +55,32 @@ void GLWTextBox::simulate(float frameTime)
 void GLWTextBox::draw()
 {
 	GLWidget::draw();
+	if (current_) glLineWidth(2.0f);
 	glBegin(GL_LINE_LOOP);
 		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
 	glEnd();
+	if (current_) glLineWidth(1.0f);
+
+	const char *text = text_.c_str();
+	if (flags_ & eFlagPassword)
+	{
+		std::string stars( text_.size(), '*');
+		text = formatString("%s", stars.c_str());
+	}
 
 	GLWFont::instance()->getLargePtFont()->drawWidth(
 		w_,
 		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, 
-		formatString("%s%s", text_.c_str(), cursor_?"":"_"));
+		formatString("%s%s", text, ((cursor_&&current_)?"_":"")));
 }
 
 void GLWTextBox::keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest)
 {
+	if (!current_) return;
+
 	for (int i=0; i<hisCount; i++)
 	{
 		char c = history[i].representedKey;
@@ -75,6 +90,7 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 			if (!text_.empty())
 			{
 				text_ = text_.substr(0, text_.length() - 1);
+				if (handler_) handler_->textChanged(id_, text_.c_str());
 			}
 			skipRest = true;
 		}
@@ -83,8 +99,48 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 			if ((maxTextLen_==0) || ((int) text_.size() < maxTextLen_))
 			{
 				text_ += c;
+				if (handler_) handler_->textChanged(id_, text_.c_str());
 			}
 			skipRest = true;
 		}
 	}
+}
+
+void GLWTextBox::mouseDown(int button, float x, float y, bool &skipRest)
+{
+	if (inBox(x, y, x_, y_, w_, h_))
+	{
+		skipRest = true;
+		setCurrent();
+	}
+}
+
+void GLWTextBox::setText(const char *text)
+{ 
+	text_ = text; 
+	if (handler_) handler_->textChanged(id_, text_.c_str());
+}
+
+void GLWTextBox::setParent(GLWPanel *parent)
+{
+	GLWidget::setParent(parent);
+	setCurrent();
+}
+
+void GLWTextBox::setCurrent()
+{
+	std::list<GLWPanel::GLWPanelEntry> &widgets = parent_->getWidgets();
+	std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+	for (itor = widgets.begin();
+		itor != widgets.end();
+		itor++)
+	{
+		GLWPanel::GLWPanelEntry &entry = *itor;
+		if (entry.widget->getMetaClassId() == getMetaClassId())
+		{
+			GLWTextBox *textBox = (GLWTextBox *) entry.widget;
+			textBox->current_ = false;
+		}
+	}
+	current_ = true;
 }

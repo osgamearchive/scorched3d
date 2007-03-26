@@ -43,18 +43,18 @@ public:
 		GLWScrollWI *handler = 0);
 	virtual ~GLWScrollW();
 
-	void setHandler(GLWScrollWI *handler = 0) { handler_ = handler; }
+	virtual void setHandler(GLWScrollWI *handler = 0) { handler_ = handler; }
 	void setMin(int min) { min_ = min; }
 	void setMax(int max) { max_ = max; }
 	void setSee(int see) { see_ = see; }
-	void setCurrent(int c);
+	virtual void setCurrent(int c);
 
 	virtual void setX(float x);
 	virtual void setY(float y);
 	virtual void setW(float w);
 	virtual void setH(float h);
 
-	int getCurrent() { return current_; }
+	virtual int getCurrent() { return current_; }
 	int getMin() { return min_; }
 	int getMax() { return max_; }
 	int getSee() { return see_; }

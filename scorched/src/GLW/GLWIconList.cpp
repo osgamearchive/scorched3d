@@ -19,30 +19,51 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWIconList.h>
-#include <tank/TankModelStore.h>
-#include <tankgraph/TankMeshStore.h>
-#include <3dsparse/ModelStore.h>
-#include <client/ScorchedClient.h>
-#include <graph/OptionsDisplay.h>
+#include <GLEXT/GLState.h>
 #include <common/DefinesString.h>
-#include <GLW/GLWFont.h>
-#include <GLW/GLWTranslate.h>
-
-static const float TankSquareSize = 60.0f;
-static const float TankHalfSquareSize = TankSquareSize / 2.0f;
-static const float TankPadding = 20.0f;
-static const float TankInfo = 165.0f;
 
 GLWIconList::GLWIconList(
 	float x, float y, float w, float h,
-	int squares) :
+	float squaresHeight) :
 	GLWidget(x, y, w, h),
-	scrollBar_(w_ - 12.0f, y + 2.0f, h_ - 4.0f, 0, 0, squares)
+	squaresHeight_(squaresHeight),
+	scrollBar_(w_ - 7.0f, y + 2.0f, h_ - 4.0f, 0, 0, int(h / squaresHeight)),
+	selected_(-1), handler_(0)
 {
 }
 
 GLWIconList::~GLWIconList()
 {
+}
+
+void GLWIconList::addItem(GLWIconListItem *item)
+{
+	if (selected_ == -1)
+	{
+		selected_ = 0;
+		if (handler_) handler_->selected(selected_, getId());
+	}
+
+	items_.push_back(item);
+	scrollBar_.setMax((int) items_.size());
+	scrollBar_.setCurrent(0);
+}
+
+void GLWIconList::clear()
+{
+	selected_ = -1;
+	while (!items_.empty())
+	{
+		GLWIconListItem *item = items_.back();
+		items_.pop_back();
+		delete item;
+	}
+}
+
+GLWIconListItem *GLWIconList::getSelected()
+{
+	if (selected_ < 0 || selected_ >= (int) items_.size()) return 0;
+	return items_[selected_];
 }
 
 void GLWIconList::simulate(float frameTime)
@@ -56,8 +77,34 @@ void GLWIconList::draw()
 	scrollBar_.draw();
 
 	glBegin(GL_LINE_LOOP);
-		drawShadedRoundBox(x_, y_, w_, h_, 10.0f, false);
+		drawShadedRoundBox(x_, y_, w_, h_, 5.0f, false);
 	glEnd();
+
+	int min = MIN((int) items_.size(), scrollBar_.getCurrent());
+	int max = MIN((int) items_.size(), scrollBar_.getCurrent() + scrollBar_.getSee());
+
+	float x = x_ + 5.0f; 
+	float y = y_ + h_;
+	for (int i=min; i<max; i++)
+	{
+		y -= squaresHeight_;
+
+		if (selected_ == i)
+		{
+			float SelectW = w_ - 27.0f;
+			float SelectH = squaresHeight_ - 5.0f;
+			glColor3f(0.4f, 0.4f, 0.6f);
+			glBegin(GL_LINE_LOOP);
+				glVertex2f(x, y);
+				glVertex2f(x + SelectW, y);
+				glVertex2f(x + SelectW, y + SelectH);
+				glVertex2f(x, y + SelectH);
+			glEnd();
+		}
+
+		GLWIconListItem *item = items_[i];
+		item->draw(x, y, w_ - 30.0f);
+	}
 }
 
 void GLWIconList::mouseDown(int button, float x, float y, bool &skipRest)
@@ -65,7 +112,23 @@ void GLWIconList::mouseDown(int button, float x, float y, bool &skipRest)
 	scrollBar_.mouseDown(button, x, y, skipRest);
 	if (!skipRest)
 	{
+		if (inBox(x, y, x_, y_, w_ - 20.0f, h_))
+		{
+			skipRest = true;
 
+			int pos = int((y_ + h_ - y) / squaresHeight_) + scrollBar_.getCurrent();
+			if (pos >=0 && pos < (int) items_.size())
+			{
+				selected_ = pos;
+
+				if (handler_) handler_->selected(selected_, getId());
+
+				if (button == GameState::MouseButtonLeftDoubleClick)
+				{
+					if (handler_) handler_->chosen(selected_, getId());
+				}
+			}
+		}
 	}
 }
 
@@ -84,8 +147,6 @@ void GLWIconList::mouseWheel(float x, float y, float z, bool &skipRest)
 	if (inBox(x, y, x_, y_, w_, h_))
 	{
 		skipRest = true;
-
-		if (z < 0.0f) scrollBar_.setCurrent(scrollBar_.getCurrent() + 1);
-		else scrollBar_.setCurrent(scrollBar_.getCurrent() - 1);
+		scrollBar_.mouseWheel(scrollBar_.getX() + 1, scrollBar_.getY() + 1, z, skipRest);
 	}
 }

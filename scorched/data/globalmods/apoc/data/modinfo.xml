@@ -1,5 +1,6 @@
 <modinfo>
 	<main>
+		<shortdescription>Play an Apocalypse mod game.</shortdescription>
 		<description>Start a single or multi-player Apocalypse mod game.
 One or more people play against themselves or the computer.</description>
 		<icon>data/windows/nuke.bmp</icon>
@@ -7,26 +8,26 @@ One or more people play against themselves or the computer.</description>
 		<protocolversion>da</protocolversion>
 	</main>
 	<game>
-		<description>Start a target practice Apocalypse mod game.
-Play a practice level against targets that don't fire back.</description>
+		<shortdescription>Start a target practice Apocalypse mod game.</shortdescription>
+		<description>Play a practice level against targets that don't fire back.</description>
 		<icon>data/windows/target.bmp</icon>
 		<gamefile>data/singletarget.xml</gamefile>
 	</game>
 	<game>
-		<description>Start an easy single player Apocalypse game.
-Play a quick game against easy computer players.</description>
+		<shortdescription>Start an easy single player Apocalypse game.</shortdescription>
+		<description>Play a quick game against easy computer players.</description>
 		<icon>data/windows/nuke-easy.bmp</icon>
 		<gamefile>data/singleeasy.xml</gamefile>
 	</game>
 	<game>
-		<description>Start an normal single player Apocalypse game.
-Play a quick game against normal strength computer players.</description>
+		<shortdescription>Start an normal single player Apocalypse game.</shortdescription>
+		<description>Play a quick game against normal strength computer players.</description>
 		<icon>data/windows/nuke-med.bmp</icon>
 		<gamefile>data/singlenormal.xml</gamefile>
 	</game>
 	<game>
-		<description>Start an hard single player Apocalypse game.
-Play a quick game against hard computer players.</description>
+		<shortdescription>Start an hard single player Apocalypse game.</shortdescription>
+		<description>Play a quick game against hard computer players.</description>
 		<icon>data/windows/nuke-hard.bmp</icon>
 		<gamefile>data/singlehard.xml</gamefile>
 	</game>

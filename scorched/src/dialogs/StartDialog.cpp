@@ -20,6 +20,9 @@
 
 #include <dialogs/StartDialog.h>
 #include <dialogs/ModSelectDialog.h>
+#include <dialogs/ModSubSelectDialog.h>
+#include <dialogs/SaveSelectDialog.h>
+#include <dialogs/NetworkSelectDialog.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientParams.h>
 #include <client/ClientMain.h>
@@ -112,7 +115,20 @@ void StartDialog::draw()
 
 void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 {
-	if (selected_ != -1) skipRest = true;
+	if (selected_ != -1)
+	{
+		skipRest = true;
+
+		// Make sure all other options are hidden
+		GLWWindowManager::instance()->hideWindow(
+			ModSelectDialog::instance()->getId());
+		GLWWindowManager::instance()->hideWindow(
+			ModSubSelectDialog::instance()->getId());
+		GLWWindowManager::instance()->hideWindow(
+			SaveSelectDialog::instance()->getId());	
+		GLWWindowManager::instance()->hideWindow(
+			NetworkSelectDialog::instance()->getId());	
+	}
 
 	switch (selected_)
 	{
@@ -128,8 +144,12 @@ void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 			ModSelectDialog::instance()->getId());
 		break;
 	case 2:
+		GLWWindowManager::instance()->showWindow(
+			NetworkSelectDialog::instance()->getId());
 		break;
 	case 3:
+		GLWWindowManager::instance()->showWindow(
+			SaveSelectDialog::instance()->getId());
 		break;
 	case 4:
 		{

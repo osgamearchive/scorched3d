@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModSelectDialogh_INCLUDE__)
-#define __INCLUDE_ModSelectDialogh_INCLUDE__
+#if !defined(__INCLUDE_ModSubSelectDialogh_INCLUDE__)
+#define __INCLUDE_ModSubSelectDialogh_INCLUDE__
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWButton.h>
@@ -28,31 +28,32 @@
 #include <common/ToolTip.h>
 #include <engine/ModInfo.h>
 
-class GLWIconListModItem : public GLWIconListItem
+class GLWIconListSubModItem : public GLWIconListItem
 {
 public:
-	GLWIconListModItem(ModInfo &modInfo);
-	virtual ~GLWIconListModItem();
+	GLWIconListSubModItem(ModInfo::MenuEntry &modInfoEntry);
+	virtual ~GLWIconListSubModItem();
 
-	ModInfo &getModInfo() { return modInfo_; }
+	ModInfo::MenuEntry &getModInfoEntry() { return modInfoEntry_; }
 
 	// GLWIconListItem
 	virtual void draw(float x, float y, float w);
 
 protected:
-	ModInfo modInfo_;
+	ModInfo::MenuEntry modInfoEntry_;
 	GLWIcon icon_;
 	ToolTip tip_;
 };
 
-
-class ModSelectDialog : 
+class ModSubSelectDialog : 
 	public GLWWindow,
-	public GLWButtonI, 
+	public GLWButtonI,
 	public GLWIconListI
 {
 public:
-	static ModSelectDialog *instance();
+	static ModSubSelectDialog *instance();
+
+	void setModInfo(ModInfo &modInfo);
 
 	// GLWWindow
 	virtual void display();
@@ -65,14 +66,15 @@ public:
 	virtual void chosen(unsigned int id, int position);
 
 protected:
-	static ModSelectDialog *instance_;
+	static ModSubSelectDialog *instance_;
 
 	unsigned int okId_, cancelId_;
 	GLWIconList *iconList_;
+	ModInfo modInfo_;
 
 private:
-	ModSelectDialog();
-	virtual ~ModSelectDialog();
+	ModSubSelectDialog();
+	virtual ~ModSubSelectDialog();
 
 };
 

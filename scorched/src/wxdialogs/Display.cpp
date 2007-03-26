@@ -57,13 +57,11 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_SMALLDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Small"));
 	IDC_MEDIUMDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Medium"));
 	IDC_LARGEDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Large"));
-	IDC_HUGEDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Huge"));
 	displaySizer3->Add(new wxStaticText(parent, -1, wxT("Dialog/Font Sizes :")));
 	displaySizer3->Add(IDC_TINYDIALOGS_CTRL);
 	displaySizer3->Add(IDC_SMALLDIALOGS_CTRL);
 	displaySizer3->Add(IDC_MEDIUMDIALOGS_CTRL);
 	displaySizer3->Add(IDC_LARGEDIALOGS_CTRL);
-	displaySizer3->Add(IDC_HUGEDIALOGS_CTRL);
 	displaySizer->Add(displaySizer3, 0, wxTOP | wxBOTTOM, 10);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 	}

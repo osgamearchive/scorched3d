@@ -601,7 +601,7 @@ void GLWPlanView::mouseDown(int button, float x, float y, bool &skipRest)
 	{
 		skipRest = true;
 
-		if (button == 1)
+		if (button == GameState::MouseButtonLeft)
 		{
 			float mapWidth = (float) ScorchedClient::instance()->
 				getLandscapeMaps().getGroundMaps().getMapWidth();
@@ -619,7 +619,7 @@ void GLWPlanView::mouseDown(int button, float x, float y, bool &skipRest)
 			MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
 			MainCamera::instance()->getCamera().setLookAt(lookAt);
 		}
-		else if (button == 4)
+		else if (button == GameState::MouseButtonRight)
 		{
 			dragging_ = true;
 

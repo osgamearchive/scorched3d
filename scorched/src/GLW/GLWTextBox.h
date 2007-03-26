@@ -24,30 +24,49 @@
 #include <string>
 #include <GLW/GLWidget.h>
 
+class GLWTextBoxI
+{
+public:
+	virtual void textChanged(unsigned int id, const char *text) = 0;
+};
+
 class GLWTextBox : public GLWidget
 {
 public:
+	enum TextFlags
+	{
+		eFlagPassword = 1
+	};
+
 	GLWTextBox(float x = 0.0f, float y = 0.0f, 
-		float w = 0.0f, char *startText = 0);
+		float w = 0.0f, char *startText = 0,
+		unsigned int flags = 0);
 	virtual ~GLWTextBox();
 
+	void setHandler(GLWTextBoxI *handler) { handler_ = handler; }
+
+	virtual void setParent(GLWPanel *parent);
 	virtual void draw();
 	virtual void simulate(float frameTime);
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
+	virtual void mouseDown(int button, float x, float y, bool &skipRest);
+
+	void setCurrent();
 
 	std::string &getText() { return text_; }
-	void setText(const char *text) { text_ = text; }
+	void setText(const char *text);
 	void setMaxTextLen(unsigned int maxLen) { maxTextLen_ = maxLen; }
 
 	REGISTER_CLASS_HEADER(GLWTextBox);
 
 protected:
 	float ctime_;
-	bool cursor_;
-	unsigned int maxTextLen_;
+	bool cursor_, current_;
+	unsigned int maxTextLen_, flags_;
 	std::string text_;
+	GLWTextBoxI *handler_;
 
 };
 

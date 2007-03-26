@@ -173,38 +173,6 @@
 				RelativePath=".\ScorchedParams.h"
 				>
 			</File>
-			<File
-				RelativePath=".\ServerBrowser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowserCollect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowserCollect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowserRefresh.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowserRefresh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowserServerList.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerBrowserServerList.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="wxdialogs"
@@ -238,14 +206,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wxdialogs\ListDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\ListDialog.h"
-				>
-			</File>
-			<File
 				RelativePath="..\wxdialogs\MainDialog.cpp"
 				>
 			</File>
@@ -254,27 +214,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wxdialogs\NetDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\NetDialog.h"
-				>
-			</File>
-			<File
 				RelativePath="..\wxdialogs\OptionEntrySetter.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\wxdialogs\OptionEntrySetter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\ProgressBarDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\ProgressBarDialog.h"
 				>
 			</File>
 			<File
@@ -291,30 +235,6 @@
 			</File>
 			<File
 				RelativePath="..\wxdialogs\SettingsDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SingleChoiceDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SingleChoiceDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SingleDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SingleDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SingleSDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\wxdialogs\SingleSDialog.h"
 				>
 			</File>
 			<File
@@ -610,95 +530,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\net\NetBufferUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetBufferUtil.h"
-				>
-			</File>
-			<File
 				RelativePath="..\net\NetInterface.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\net\NetInterface.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetInterfaceFlags.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetLoopBack.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetLoopBack.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetMessage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetMessageHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetMessageHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetMessagePool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetMessagePool.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerTCP.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerTCP.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerTCPProtocol.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerTCPProtocol.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerTCPRead.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerTCPRead.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerUDP.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerUDP.h"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerUDPDestination.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\net\NetServerUDPDestination.h"
 				>
 			</File>
 			<File

@@ -22,21 +22,29 @@
 #define AFX_GLWLABEL_H__75483479_A6F8_45CC_8E83_B517E721211F__INCLUDED_
 
 #include <string>
+#include <vector>
 #include <GLW/GLWidget.h>
 #include <common/Vector.h>
 
 class GLWLabel : public GLWidget  
 {
 public:
+	enum LabelFlags
+	{
+		eMultiLine = 1
+	};
+
 	GLWLabel(float x = 0.0f, float y = 0.0f, 
-		char *buttonText = 0,
-		float size = 14.0f);
+		char *labelText = 0,
+		float size = 14.0f,
+		unsigned int flags = 0);
 	virtual ~GLWLabel();
 
 	virtual float getW() { calcWidth(); return GLWidget::getW(); }
+	virtual float getH() { calcWidth(); return GLWidget::getH(); }
 	virtual void draw();
 
-	const char *getText() { return buttonText_.c_str(); }
+	const char *getText() { return labelText_.c_str(); }
 	void setText(const char *text);
 	void setColor(const Vector &color);
 	void setSize(float size);
@@ -45,7 +53,9 @@ public:
 	REGISTER_CLASS_HEADER(GLWLabel);
 
 protected:
-	std::string buttonText_;
+	unsigned int flags_;
+	std::string labelText_;
+	std::vector<std::string> labelTexts_;
 	Vector color_;
 	float size_;
 

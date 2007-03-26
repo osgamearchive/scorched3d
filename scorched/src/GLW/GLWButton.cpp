@@ -64,9 +64,18 @@ void GLWButton::draw()
 	else if (w_ < 12 || h_ < 12) size = 4.0f;
 
 	glLineWidth((flags_&ButtonFlagOk)?2.0f:1.0f);
-	glBegin(GL_LINE_LOOP);
-		drawShadedRoundBox(x_, y_, w_, h_, size, !pressed_);
-	glEnd();
+	if (flags_&ButtonSquare)
+	{
+		glBegin(GL_LINE_LOOP);
+			drawBox(x_, y_, w_, h_, !pressed_);
+		glEnd();
+	}
+	else
+	{
+		glBegin(GL_LINE_LOOP);
+			drawShadedRoundBox(x_, y_, w_, h_, size, !pressed_);
+		glEnd();
+	}
 	glLineWidth(1.0f);
 }
 

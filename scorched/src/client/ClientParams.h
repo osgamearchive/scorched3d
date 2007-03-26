@@ -37,6 +37,9 @@ public:
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
 
 	void setClientFile(const char *file) { client_.setValue(file); }
+	void setSaveFile(const char *file) { save_.setValue(file); }
+	void setPassword(const char *password) { password_.setValue(password); }
+	void setConnect(const char *address) { connect_.setValue(address); }
 
 protected:
 	static ClientParams *instance_;

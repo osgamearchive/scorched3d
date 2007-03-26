@@ -37,7 +37,10 @@ public:
 	{
 		MouseButtonLeft = 0x1,
 		MouseButtonMiddle = 0x2,
-		MouseButtonRight = 0x4
+		MouseButtonRight = 0x4,
+		MouseButtonLeftDoubleClick = 0x8,
+		MouseButtonMiddleDoubleClick = 0x16,
+		MouseButtonRightDoubleClick = 0x32
 	};
 
 	GameState(const char *name);
@@ -156,6 +159,7 @@ protected:
 	float timerSimulateTime_;
 	Clock timerClock_;
 	Clock overallTimerClock_;
+	Clock doubleClickClock_;
 	TimerInfo timers_[50];
 
 	// Dragging stuff
@@ -164,6 +168,7 @@ protected:
 	int mouseLDragX_, mouseLDragY_;
 	int mouseMDragX_, mouseMDragY_;
 	int mouseRDragX_, mouseRDragY_;
+	int mouseDoubleX_, mouseDoubleY_;
 	int currentMouseX_, currentMouseY_;
 
 	void mouseMoveCall(const unsigned state, MouseButton button, 

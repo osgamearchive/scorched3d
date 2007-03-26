@@ -52,6 +52,7 @@ bool ModInfo::parse(const char *fileName)
 		return false;		
 	}
 
+	// Parse the main mod info
 	std::string tmpicon, tmpgamefile;
 	XMLNode *mainNode = 0;
 	if (!file.getRootNode()->getNamedChild("main", mainNode)) return false;
@@ -59,6 +60,11 @@ bool ModInfo::parse(const char *fileName)
 	if (!mainNode->getNamedChild("icon", tmpicon)) return false;
 	if (!mainNode->getNamedChild("url", url_)) return false;
 	if (!mainNode->getNamedChild("protocolversion", protocolversion_)) return false;
+	if (!mainNode->getNamedChild("shortdescription", shortDescription_, false))
+	{
+		shortDescription_ = description_;
+	}
+	if (!mainNode->failChildren()) return false;
 
 	if (checkDataFile(tmpicon.c_str()))
 	{
@@ -69,6 +75,7 @@ bool ModInfo::parse(const char *fileName)
 		icon_ = getDataFile("data/windows/tank2.bmp");
 	}
 
+	// Parse the mod game info
 	XMLNode *gameNode = 0;
 	while (file.getRootNode()->getNamedChild("game", gameNode, false))
 	{
@@ -76,6 +83,10 @@ bool ModInfo::parse(const char *fileName)
 		if (!gameNode->getNamedChild("description", entry.description)) return false;
 		if (!gameNode->getNamedChild("icon", tmpicon)) return false;
 		if (!gameNode->getNamedChild("gamefile", tmpgamefile)) return false;
+		if (!gameNode->getNamedChild("shortdescription", entry.shortdescription, false))
+		{
+			entry.shortdescription = entry.description;
+		}
 
 		if (checkDataFile(tmpicon.c_str())) 
 		{

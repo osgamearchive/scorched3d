@@ -66,9 +66,6 @@ bool createScorchedWindow()
 	case 3:
 		windowWidth = 800;
 		break;
-	case 4:
-		windowWidth = 640;
-		break;
 	}
 	windowHeight = (height * windowWidth) / width;
 

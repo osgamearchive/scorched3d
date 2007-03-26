@@ -18,44 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModInfoh_INCLUDE__)
-#define __INCLUDE_ModInfoh_INCLUDE__
+#if !defined(__INCLUDE_ServerBrowserCollecth_INCLUDE__)
+#define __INCLUDE_ServerBrowserCollecth_INCLUDE__
 
-#include <string>
-#include <list>
+#include <net/NetServerTCP.h>
+#include <scorchedc/ServerBrowserServerList.h>
+#include <set>
 
-class ModInfo
+class ServerBrowserCollect : public NetMessageHandlerI
 {
 public:
-	struct MenuEntry
-	{
-		std::string icon;
-		std::string shortdescription;
-		std::string description;
-		std::string gamefile;
-	};
+	ServerBrowserCollect(ServerBrowserServerList &list);
+	virtual ~ServerBrowserCollect();
 
-	ModInfo(const char *name);
-	virtual ~ModInfo();
+	// Fetch the new list from the server
+	bool fetchServerList(
+		const char *masterListServer,
+		const char *masterListServerURI);
+	bool fetchLANList();
+	bool fetchFavoritesList();
 
-	bool parse(const char *fileName);
+	std::set<std::string> getFavourites();
+	void setFavourites(std::set<std::string> &favs);
 
-	const char *getName() { return name_.c_str(); }
-	const char *getUrl() { return url_.c_str(); }
-	const char *getIcon() { return icon_.c_str(); }
-	const char *getDescription() { return description_.c_str(); }
-	const char *getShortDescription() { return shortDescription_.c_str(); }
-	const char *getProtocolVersion() { return protocolversion_.c_str(); }
-	std::list<MenuEntry> &getMenuEntries() { return entries_; }
+	void setCancel(bool cancel) { cancel_ = cancel; }
+
+	// Inherited from NetMessageHandlerI
+	virtual void processMessage(NetMessage &message);
 
 protected:
-	std::string name_;
-	std::string url_;
-	std::string icon_;
-	std::string description_;
-	std::string shortDescription_;
-	std::string protocolversion_;
-	std::list<MenuEntry> entries_;
+	ServerBrowserServerList &list_;
+	bool cancel_;
+	bool complete_;
+	UDPpacket *sendPacket_;
+	UDPpacket *recvPacket_;
+	NetServerTCP netServer_;
+	NetBuffer sendNetBuffer_;
 };
 
-#endif // __INCLUDE_ModInfoh_INCLUDE__
+#endif // __INCLUDE_ServerBrowserCollecth_INCLUDE__

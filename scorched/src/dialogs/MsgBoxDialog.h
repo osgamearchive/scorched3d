@@ -18,65 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _GLWBUTTON_H_
-#define _GLWBUTTON_H_
+#if !defined(__INCLUDE_MsgBoxDialogh_INCLUDE__)
+#define __INCLUDE_MsgBoxDialogh_INCLUDE__
 
-#include <GLW/GLWidget.h>
+#include <GLW/GLWWindow.h>
+#include <GLW/GLWTextButton.h>
+#include <GLW/GLWIcon.h>
 
-class GLWButtonI
+class MsgBoxDialog : public GLWWindow,
+	public GLWButtonI
 {
 public:
-	virtual ~GLWButtonI();
+	static MsgBoxDialog *instance();
 
-	virtual void buttonDown(unsigned int id) = 0;
-};
+	void show(const char *message);
 
-class GLWButton : public GLWidget
-{
-public:
-	enum
-	{
-		ButtonFlagOk = 1,
-		ButtonFlagCancel = 2,
-		ButtonFlagCenterX = 4,
-		ButtonSquare = 8
-	};
-
-	GLWButton(float x = 0.0f, float y = 0.0f, 
-		float w = 0.0f, float h = 0.0f, 
-		GLWButtonI *handler = 0,
-		unsigned flags = 0);
-	virtual ~GLWButton();
-
-	virtual void draw();	
-	virtual void simulate(float frameTime);
 	virtual void mouseDown(int button, float x, float y, bool &skipRest);
-	virtual void mouseDrag(int button, float mx, float my, float x, float y, bool &skipRest);
 	virtual void mouseUp(int button, float x, float y, bool &skipRest);
 	virtual void keyDown(char *buffer, unsigned int keyState, 
 		KeyboardHistory::HistoryElement *history, int hisCount, 
 		bool &skipRest);
-	bool &getPressed() { return pressed_; }
+	virtual void mouseWheel(float x, float y, float z, bool &skipRest);
 
-	bool getEnabled() { return enabled_; }
-	void setEnabled(bool enabled);
-
-	void setFlags(unsigned f) { flags_ = f; }
-	unsigned int getFlags() { return flags_; }
-
-	virtual void setHandler(GLWButtonI *handler);
-	void setRepeatMode() { repeatMode_ = true; }
-
-	REGISTER_CLASS_HEADER(GLWButton);
+	virtual void buttonDown(unsigned int id);
 
 protected:
-	GLWButtonI *handler_;
-	unsigned flags_;
-	bool startdrag_, pressed_;
-	bool repeatMode_;
-	bool enabled_;
-	float repeatTime_;
+	static MsgBoxDialog *instance_;
+
+	GLWTextButton *okButton_;
+	GLWIcon *icon_;
+	GLWLabel *message_;
+
+private:
+	MsgBoxDialog();
+	virtual ~MsgBoxDialog();
 
 };
 
-#endif /* _GLWBUTTON_H_ */
+#endif
+
