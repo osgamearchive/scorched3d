@@ -207,10 +207,14 @@ void ServerBrowserCollect::processMessage(NetMessage &message)
 						}
 						
 						// Get the official attribute
-						std::string official;
-						if (currentNode->getNamedChild("official", official, false))
+						std::string type;
+						if (currentNode->getNamedChild("official", type, false))
 						{
-							newEntry.addAttribute("official", official.c_str());
+							newEntry.addAttribute("type", "official");
+						}
+						if (currentNode->getNamedChild("mod", type, false))
+						{
+							newEntry.addAttribute("type", "mod");
 						}
 						
 						// Add the new and its attributes

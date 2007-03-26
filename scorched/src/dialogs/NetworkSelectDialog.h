@@ -25,13 +25,15 @@
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWIconTable.h>
 #include <GLW/GLWTextBox.h>
+#include <GLW/GLWDropDownText.h>
 #include <common/ToolTip.h>
 
 class NetworkSelectDialog : 
 	public GLWWindow,
 	public GLWButtonI,
 	public GLWIconTableI,
-	public GLWTextBoxI
+	public GLWTextBoxI,
+	public GLWDropDownI
 {
 public:
 	static NetworkSelectDialog *instance();
@@ -54,6 +56,9 @@ public:
 	// GLWTextBoxI
 	virtual void textChanged(unsigned int id, const char *text);
 
+	// GLWDropDownI
+	virtual void select(unsigned int id, const int pos, GLWSelectorEntry value);
+
 protected:
 	static NetworkSelectDialog *instance_;
 
@@ -63,8 +68,9 @@ protected:
 	GLTexture *tankTex_, *exclaimTex_;
 	GLTexture *keyTex_, *cogTex_;
 	GLWIconTable *iconTable_;
-	GLWTextButton *ok_, *refresh_;
+	GLWTextButton *ok_, *refresh_, *favourites_;
 	GLWTextBox *ipaddress_, *password_;
+	GLWDropDownText *refreshType_;
 	unsigned int invalidateId_;
 	unsigned int cancelId_, addFavouriteId_;
 	ToolTip colToolTip_;

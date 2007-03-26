@@ -94,6 +94,35 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 			}
 			skipRest = true;
 		}
+		else if (dik == SDLK_TAB)
+		{
+			skipRest = true;
+
+			// Find all text boxes in scope
+			unsigned int position = 0;
+			std::vector<GLWTextBox *> textBoxes;
+			std::list<GLWPanel::GLWPanelEntry> &widgets = parent_->getWidgets();
+			std::list<GLWPanel::GLWPanelEntry>::iterator itor;
+			for (itor = widgets.begin();
+				itor != widgets.end();
+				itor++)
+			{
+				GLWPanel::GLWPanelEntry &entry = *itor;
+				if (entry.widget->getMetaClassId() == getMetaClassId())
+				{
+					GLWTextBox *textBox = (GLWTextBox *) entry.widget;
+					if (this == textBox) position = textBoxes.size();
+					textBoxes.push_back(textBox);
+				}
+			}
+
+			// Select the next text box
+			position++;
+			if (position >= textBoxes.size()) position = 0;
+			textBoxes[position]->setCurrent();
+
+			break;
+		}
 		else if (c >= ' ')
 		{
 			if ((maxTextLen_==0) || ((int) text_.size() < maxTextLen_))

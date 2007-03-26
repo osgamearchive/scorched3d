@@ -73,22 +73,36 @@ NetworkSelectDialog::NetworkSelectDialog() :
 	addWidget(iconTable_);
 	iconTable_->setHandler(this);
 
-	ok_ = (GLWTextButton *) addWidget(new GLWTextButton("Join Game", 560, 10, 130, this, 
+	ok_ = (GLWTextButton *) addWidget(
+		new GLWTextButton("Join Game", 560, 10, 130, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX));
-	cancelId_ = addWidget(new GLWTextButton("Cancel", 450, 10, 105, this, 
+	cancelId_ = addWidget(
+		new GLWTextButton("Cancel", 450, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
-	refresh_ = (GLWTextButton *) addWidget(new GLWTextButton("Refresh", 595, 40, 95, this, 
+	refresh_ = (GLWTextButton *) addWidget(
+		new GLWTextButton("Refresh", 595, 40, 95, this, 
 		GLWButton::ButtonFlagCenterX));
-	addFavouriteId_ = addWidget(new GLWTextButton("Add Favourite", 435, 40, 155, this, 
-		GLWButton::ButtonFlagCenterX))->getId();
+	favourites_ = (GLWTextButton *) addWidget(
+		new GLWTextButton("Add Favourite", 435, 40, 155, this, 
+		GLWButton::ButtonFlagCenterX));
 
-	ipaddress_ = (GLWTextBox *) addWidget(new GLWTextBox(200.0f, 510.0f, 300.0));
-	addWidget(new GLWLabel(65.0f, 510.0f, "Connect To :"));
+	ipaddress_ = (GLWTextBox *) addWidget(
+		new GLWTextBox(170.0f, 510.0f, 300.0));
+	addWidget(new GLWLabel(35.0f, 510.0f, "Connect To :"));
 	ipaddress_->setHandler(this);
 
-	password_ = (GLWTextBox *) addWidget(new GLWTextBox(200.0f, 480.0f, 300.0, 
+	password_ = (GLWTextBox *) addWidget(
+		new GLWTextBox(170.0f, 480.0f, 300.0, 
 		"", GLWTextBox::eFlagPassword));
-	addWidget(new GLWLabel(80.0f, 480.0f, "Password :"));
+	addWidget(new GLWLabel(50.0f, 480.0f, "Password :"));
+
+	refreshType_ = (GLWDropDownText *) addWidget(
+		new GLWDropDownText(490.0f, 480.0f, 150.0f));
+	refreshType_->addText("Internet");
+	refreshType_->addText("LAN");
+	refreshType_->addText("Favourites");
+	refreshType_->setCurrentText("Internet");
+	refreshType_->setHandler(this);
 
 	ipaddress_->setCurrent();
 }
@@ -192,7 +206,7 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 		return;
 	}
 
-	const char *value = 0;
+	const char *value = 0, *tipValue = 0;
 	if (col == 0)
 	{
 		if (!okTex_)
@@ -238,10 +252,14 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 
 		std::string officialStr = 
 			ServerBrowser::instance()->getServerList().
-				getEntryValue(row, "official");
-		if (officialStr.c_str()[0] != '\0')
+				getEntryValue(row, "type");
+		if (officialStr == "official")
 		{
 			drawIcon(tankTex_, x, y, "An offical server.");
+		}
+		else if (officialStr == "mod")
+		{
+			drawIcon(cogTex_, x, y, "Home of mod server.");
 		}
 	}
 	else if (col == 2)
@@ -256,19 +274,36 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 			ServerBrowser::instance()->getServerList().
 				getEntryValue(row, "compplayers");
 
+		std::string name;
 		if (compplayers.c_str()[0])
 		{
-			value = formatString("%s/%s (%i)", clients.c_str(), maxclients.c_str(),
+			name = formatString("%s/%s (%i)", clients.c_str(), maxclients.c_str(),
 				(atoi(clients.c_str()) - atoi(compplayers.c_str())));
 		}
 		else
 		{
-			value = formatString("%s/%s (?)", clients.c_str(), maxclients.c_str());
-		}		
+			name = formatString("%s/%s (?)", clients.c_str(), maxclients.c_str());
+		}
+
+		std::string message = name;
+		int noplayers = atoi(clients.c_str());
+		for (int i=0; i<noplayers; i++)
+		{
+			message.append(formatString("\n%i: %s", 
+				i, ServerBrowser::instance()->getServerList().
+				getEntryValue(row, formatString("pn%i", i))));
+		}
+
+		value = formatString("%s", name.c_str());
+		tipValue = formatString("%s", message.c_str());
 	}
 	else
 	{
-		value = ServerBrowser::instance()->getServerList().getEntryValue(row, cols[col].dataName);
+		tipValue = value = ServerBrowser::instance()->getServerList().getEntryValue(row, cols[col].dataName);
+		if (value[0] == '\0' && col == 1)
+		{
+			tipValue = value = ServerBrowser::instance()->getServerList().getEntryValue(row, "address");
+		}
 	}
 
 	if (value)
@@ -278,12 +313,15 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 			color, 
 			10.0f, x + 3.0f, y + 5.0f, 0.0f, value);
 
-		if (GLWToolTip::instance()->addToolTip(&colToolTip_, 
-			GLWTranslate::getPosX() + x, 
-			GLWTranslate::getPosY() + y, 
-			w, 20.0f))
+		if (tipValue)
 		{
-			colToolTip_.setText(cols[col].col.name.c_str(), value);
+			if (GLWToolTip::instance()->addToolTip(&colToolTip_, 
+				GLWTranslate::getPosX() + x, 
+				GLWTranslate::getPosY() + y, 
+				w, 20.0f))
+			{
+				colToolTip_.setText(cols[col].col.name.c_str(), tipValue);
+			}
 		}
 	}
 }
@@ -344,10 +382,8 @@ void NetworkSelectDialog::columnSelected(unsigned int id, int col)
 
 void NetworkSelectDialog::display()
 {
-	ok_->setEnabled(false);
-	iconTable_->setItemCount(0);
 	ipaddress_->setText("");
-	startRefresh();
+	refreshType_->setCurrentText("Internet");
 }
 
 void NetworkSelectDialog::hide()
@@ -379,16 +415,32 @@ void NetworkSelectDialog::updateTable()
 	}
 }
 
+void NetworkSelectDialog::select(unsigned int id, const int pos, GLWSelectorEntry value)
+{
+	if (0 == strcmp(refreshType_->getCurrentText(), "Favourites"))
+	{
+		favourites_->setText("Del Favourite");
+	}
+	else
+	{
+		favourites_->setText("Add Favourite");
+	}
+
+	startRefresh();
+}
+
 void NetworkSelectDialog::startRefresh()
 {
+	stopRefresh();
+
 	iconTable_->setItemCount(0);
 
-	/*ServerBrowser::RefreshType t = ServerBrowser::RefreshNone;
-	if (IDC_RADIO_LAN_CTRL->GetValue()) t = ServerBrowser::RefreshLan;
-	else if (IDC_RADIO_NET_CTRL->GetValue()) t = ServerBrowser::RefreshNet;
-	else if (IDC_RADIO_FAV_CTRL->GetValue()) t = ServerBrowser::RefreshFavourites;*/
+	ServerBrowser::RefreshType t = ServerBrowser::RefreshNone;
+	if (0 == strcmp(refreshType_->getCurrentText(), "LAN")) t = ServerBrowser::RefreshLan;
+	else if (0 == strcmp(refreshType_->getCurrentText(), "Internet")) t = ServerBrowser::RefreshNet;
+	else if (0 == strcmp(refreshType_->getCurrentText(), "Favourites")) t = ServerBrowser::RefreshFavourites;
 
-	ServerBrowser::instance()->refreshList(ServerBrowser::RefreshNet);
+	ServerBrowser::instance()->refreshList(t);
 	updateTable();
 }
 
@@ -401,6 +453,7 @@ void NetworkSelectDialog::stopRefresh()
 void NetworkSelectDialog::textChanged(unsigned int id, const char *text)
 {
 	ok_->setEnabled(text[0]!='\0');
+	favourites_->setEnabled(text[0]!='\0');
 }
 
 void NetworkSelectDialog::buttonDown(unsigned int id)
@@ -425,6 +478,24 @@ void NetworkSelectDialog::buttonDown(unsigned int id)
 			ClientParams::instance()->setConnect(ipaddress_->getText().c_str());
 			ClientParams::instance()->setPassword(password_->getText().c_str());
 			ClientMain::startClient();
+		}
+	}
+	else if (id == favourites_->getId())
+	{
+		if (!ipaddress_->getText().empty())
+		{
+			std::set<std::string> favs = 
+				ServerBrowser::instance()->getCollect().getFavourites();
+
+			if (0 == strcmp(refreshType_->getCurrentText(), "Favourites"))
+			{
+				favs.erase(ipaddress_->getText().c_str());
+			}
+			else 
+			{
+				favs.insert(ipaddress_->getText().c_str());
+			}
+			ServerBrowser::instance()->getCollect().setFavourites(favs);
 		}
 	}
 	else if (id == cancelId_)
