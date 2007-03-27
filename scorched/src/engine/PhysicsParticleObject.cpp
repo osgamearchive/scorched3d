@@ -428,7 +428,7 @@ bool PhysicsParticleObject::getRoofCollision(CollisionInfo &collision)
 {
 	// This will return MAX_FLT when there is no roof
 	float maxHeight = context_->landscapeMaps->getRoofMaps().getInterpRoofHeight(
-		position_[0] / 4.0f, position_[1] / 4.0f);
+		position_[0], position_[1]);
 	if (position_[2] >= maxHeight)
 	{
 		collision.collisionId = CollisionIdRoof;

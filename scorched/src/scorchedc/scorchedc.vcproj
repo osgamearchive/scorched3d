@@ -4252,38 +4252,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="cgext"
-			>
-			<File
-				RelativePath="..\cgext\CGFog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\cgext\CGFog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\cgext\CGIncludes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\cgext\CGLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\cgext\CGLoader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\cgext\CGProgram.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\cgext\CGProgram.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="landscape"
 			>
 			<File
@@ -5436,6 +5404,38 @@
 			</File>
 			<File
 				RelativePath="..\movement\TargetMovementEntrySpline.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="cgext"
+			>
+			<File
+				RelativePath="..\cgext\CGFog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\cgext\CGFog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\cgext\CGIncludes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\cgext\CGLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\cgext\CGLoader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\cgext\CGProgram.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\cgext\CGProgram.h"
 				>
 			</File>
 		</Filter>

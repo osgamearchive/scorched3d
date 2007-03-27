@@ -23,13 +23,41 @@
 
 #include <GLW/GLWWindow.h>
 #include <GLW/GLWTextButton.h>
+#include <GLW/GLWCheckBox.h>
 #include <GLW/GLWOptionEntry.h>
+#include <GLW/GLWIconList.h>
 #include <GLW/GLWTab.h>
+#include <GLW/GLWIcon.h>
+#include <common/ToolTip.h>
 #include <common/OptionsGame.h>
+
+class SettingsSubSelectDialogListItem : public GLWIconListItem
+{
+public:
+	SettingsSubSelectDialogListItem(
+		const char *icon, 
+		const char *name, const char *description,
+		bool selected);
+	virtual ~SettingsSubSelectDialogListItem();
+
+	const char *getName() { return name_.c_str(); }
+	bool getSelected() { return selected_.getState(); }
+	void setSelected(bool selected) { selected_.setState(selected); }
+
+	// GLWIconListItem
+	virtual void draw(float x, float y, float w);
+
+protected:
+	std::string name_;
+	GLWIcon icon_;
+	GLWCheckBox selected_;
+	ToolTip tip_;
+};
 
 class SettingsSubSelectDialog : 
 	public GLWWindow,
-	public GLWButtonI
+	public GLWButtonI,
+	public GLWIconListI
 {
 public:
 	static SettingsSubSelectDialog *instance();
@@ -40,13 +68,19 @@ public:
 	// GLWWindow
 	virtual void display();
 
+	// GLWIconListI
+	virtual void selected(unsigned int id, int position);
+	virtual void chosen(unsigned int id, int position);
+
 protected:
 	static SettingsSubSelectDialog *instance_;
 
 	GLWTab *mainTab_, *ecoTab_;
 	GLWTab *scoreTab_, *envTab_, *landTab_;
+	GLWIconList *landList_;
 	std::list<GLWOptionEntry> controls_;
 	unsigned int cancelId_, okId_, advancedId_;
+	unsigned int selectAllId_, selectNoneId_;
 
 	void displayLand();
 

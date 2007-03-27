@@ -87,6 +87,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 						int movesMissed = tank->getScore().getMissedMoves() + 1;
 						tank->getScore().setMissedMoves(movesMissed);
 
+#ifdef S3D_SERVER
 						// If the allowed missed moves has been specified
 						if (ScorchedServer::instance()->getOptionsGame().getAllowedMissedMoves() > 0)
 						{
@@ -103,6 +104,7 @@ bool ServerPlayingState::acceptStateChange(const unsigned state,
 								ServerCommon::kickDestination(tank->getDestinationId());
 							}
 						}
+#endif
 					}
 				}
 			}

@@ -24,11 +24,12 @@
 
 GLWIconList::GLWIconList(
 	float x, float y, float w, float h,
-	float squaresHeight) :
+	float squaresHeight,
+	unsigned int flags) :
 	GLWidget(x, y, w, h),
 	squaresHeight_(squaresHeight),
-	scrollBar_(w_ - 7.0f, y + 2.0f, h_ - 4.0f, 0, 0, int(h / squaresHeight)),
-	selected_(-1), handler_(0)
+	scrollBar_(x + w_ - 17.0f, y + 2.0f, h_ - 4.0f, 0, 0, int(h / squaresHeight)),
+	selected_(-1), handler_(0), flags_(flags)
 {
 }
 
@@ -41,7 +42,7 @@ void GLWIconList::addItem(GLWIconListItem *item)
 	if (selected_ == -1)
 	{
 		selected_ = 0;
-		if (handler_) handler_->selected(selected_, getId());
+		if (handler_) handler_->selected(getId(), selected_);
 	}
 
 	items_.push_back(item);
@@ -89,7 +90,7 @@ void GLWIconList::draw()
 	{
 		y -= squaresHeight_;
 
-		if (selected_ == i)
+		if (!(flags_ & eNoDrawSelected) && selected_ == i)
 		{
 			float SelectW = w_ - 27.0f;
 			float SelectH = squaresHeight_ - 5.0f;
@@ -121,11 +122,11 @@ void GLWIconList::mouseDown(int button, float x, float y, bool &skipRest)
 			{
 				selected_ = pos;
 
-				if (handler_) handler_->selected(selected_, getId());
+				if (handler_) handler_->selected(getId(), selected_);
 
 				if (button == GameState::MouseButtonLeftDoubleClick)
 				{
-					if (handler_) handler_->chosen(selected_, getId());
+					if (handler_) handler_->chosen(getId(), selected_);
 				}
 			}
 		}

@@ -8,7 +8,7 @@
 			<modelscale>0.01</modelscale>
 			<nocollision>false</nocollision>
 			<displayshadow>false</displayshadow>
-			<groupname>boids-city4</groupname>
+			<groupname>boids-ah64d</groupname>
 			<removeaction>Airplane</removeaction>
 		</object>
 	</placement>

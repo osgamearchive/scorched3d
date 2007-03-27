@@ -41,17 +41,25 @@ public:
 class GLWIconList : public GLWidget
 {
 public:
+	enum Flags
+	{
+		eNoDrawSelected = 1
+	};
+
 	GLWIconList(float x = 0.0f, float y = 0.0f, 
 		float w = 0.0f, float h = 0.0f,
-		float squaresHeight = 40.0f);
+		float squaresHeight = 40.0f,
+		unsigned int flags = 0);
 	virtual ~GLWIconList();
 
 	void addItem(GLWIconListItem *item);
 	void clear();
 
+	void setFlags(unsigned int flags) { flags_ = flags; }
 	void setHandler(GLWIconListI *handler) { handler_ = handler; }
 
 	GLWIconListItem *getSelected();
+	std::vector<GLWIconListItem *> &getItems() { return items_; }
 
 	// Inhertied from GLWidget
 	virtual void draw();
@@ -66,6 +74,7 @@ public:
 protected:
 	GLWScrollWBackwards scrollBar_;
 	GLWIconListI *handler_;
+	unsigned int flags_;
 	float squaresHeight_;
 	int selected_;
 	std::vector<GLWIconListItem *> items_;
