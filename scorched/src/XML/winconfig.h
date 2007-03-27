@@ -13,6 +13,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
+#include <SDL/SDL.h>
 
 #include <memory.h>
 #include <string.h>
@@ -21,10 +22,11 @@
 #define XML_DTD 1
 #define XML_CONTEXT_BYTES 1024
 
-/* we will assume all Windows platforms are little endian */
+/* we will NOT assume all Windows platforms are little endian */
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#define BYTEORDER 4321
+#else
 #define BYTEORDER 1234
-
-/* Windows has memmove() available. */
-#define HAVE_MEMMOVE
+#endif
 
 #endif /* ndef WINCONFIG_H */

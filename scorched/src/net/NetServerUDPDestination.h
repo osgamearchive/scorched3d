@@ -34,6 +34,7 @@ public:
 	virtual ~NetServerUDPDestination();
 
 	IPaddress &getAddress() { return address_; }
+	unsigned int getIpAddress();
 
 	void processData(unsigned int destinationId, int len, unsigned char *data, bool fin);
 	void processDataAck(unsigned int destinationId, int len, unsigned char *data);

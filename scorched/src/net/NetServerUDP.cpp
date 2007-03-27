@@ -415,7 +415,7 @@ void NetServerUDP::destroyDestination(unsigned int destinationId,
 	// Get a new buffer from the pool (with the discconect type set)
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::DisconnectMessage, 
-			destinationId, destination->getAddress().host);
+			destinationId, destination->getIpAddress());
 	message->setFlags((unsigned int) type);
 
 	destinations_.erase(destinationId);
@@ -464,7 +464,7 @@ unsigned int NetServerUDP::addDestination(IPaddress &address)
 	// Get a new buffer from the pool (with the connect type set)
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::ConnectMessage, 
-			destinationId, destination->getAddress().host);
+			destinationId, destination->getIpAddress());
 	incomingMessageHandler_.addMessage(message);
 
 	// Make the server destination id the first destination

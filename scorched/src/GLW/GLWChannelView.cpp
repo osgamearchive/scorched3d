@@ -223,12 +223,6 @@ void GLWChannelView::channelText(ChannelText &channelText)
 	GLWChannelViewTextRenderer chanText(this);
 	chanText.parseText(ScorchedClient::instance()->getContext(), inputText);
 	
-	if (!splitLargeLines_)
-	{
-		addInfo(channel->color, chanText);
-		return;
-	}
-	
 	bool firstTime = true;
 	int currentLen = 0;
 	const char *text = chanText.getText();
@@ -237,10 +231,11 @@ void GLWChannelView::channelText(ChannelText &channelText)
 	{
 		// Get the next split position
 		int partLen = splitLine(&text[currentLen]);
+		bool nl=(text[currentLen + partLen - 1] == '\n');
 
 		// Create the new text and add it
 		GLWChannelViewTextRenderer newText(this);
-		newText.subset(chanText, currentLen, partLen);
+		newText.subset(chanText, currentLen, (nl?partLen-1:partLen));
 		addInfo(channel->color, newText);
 
 		// Increment the current position
@@ -275,8 +270,13 @@ int GLWChannelView::splitLine(const char *message)
 	int totalLen = (int) strlen(message);
 	for (int len=1; len<totalLen; len++)
 	{
-		float width = GLWFont::instance()->getLargePtFont()->
-			getWidth(outlineFontSize_, message, len);
+		float width = 0.0f;
+		if (splitLargeLines_)
+		{
+			width = GLWFont::instance()->getLargePtFont()->
+				getWidth(outlineFontSize_, message, len);
+		}
+
 		if (width > w_)
 		{
 			// If there is a space within the last 15 characters split to it
@@ -287,13 +287,17 @@ int GLWChannelView::splitLine(const char *message)
 			else
 			{
 				// Else just split where we are now
-				return len-1;
+				return len - 1;
 			}
 		}
 
+		if (message[len] == '\n')
+		{
+			return len + 1;
+		}
 		if (message[len] == ' ')
 		{
-			lastSpace = len;
+			lastSpace = len + 1;
 		}
 	}
 

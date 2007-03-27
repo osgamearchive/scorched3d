@@ -83,7 +83,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		// We should have all the information we need in this 1 packet
 		NetMessage *recvMessage = NetMessagePool::instance()->
 			getFromPool(NetMessage::BufferMessage,
-				destinationId, getAddress().host);
+				destinationId, getIpAddress());
 		recvMessage->getBuffer().addDataToBuffer(data, len);
 		server_->incomingMessageHandler_.addMessage(recvMessage);
 	}
@@ -121,7 +121,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 			// We don't have this packet yet, add the data
 			NetMessage *message = NetMessagePool::instance()->
 				getFromPool((fin?NetMessage::DisconnectMessage:NetMessage::BufferMessage),
-					destinationId, getAddress().host);
+					destinationId, getIpAddress());
 			message->getBuffer().addDataToBuffer(data, len);
 			incomingMessages_[seq] = message;
 		}
@@ -169,7 +169,7 @@ void NetServerUDPDestination::addData(unsigned int destinationId, int len, unsig
 	{
 		recvMessage_ = NetMessagePool::instance()->
 			getFromPool(NetMessage::BufferMessage,
-				destinationId, getAddress().host);
+				destinationId, getIpAddress());
 	}
 
 	// Add the data
@@ -314,7 +314,7 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 	// Get a new buffer from the pool
 	NetMessage *message = NetMessagePool::instance()->
 		getFromPool(NetMessage::SentMessage, 
-			oldmessage.getDestinationId(), getAddress().host);
+			oldmessage.getDestinationId(), getIpAddress());
 
 	// Add message to new buffer
 	NetBuffer &buffer = oldmessage.getBuffer();
@@ -414,6 +414,12 @@ bool NetServerUDPDestination::sendPart(MessagePart &part, NetMessage &message)
 	}
 	
 	return true;
+}
+
+unsigned int NetServerUDPDestination::getIpAddress()
+{
+	unsigned int addr = SDLNet_Read32(&address_.host);
+	return addr;
 }
 
 void NetServerUDPDestination::printStats(unsigned int destination)
