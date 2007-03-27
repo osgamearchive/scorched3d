@@ -36,7 +36,7 @@ public:
 	bool getStartCustom() { return startcustom_.getValue(); }
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
 
-	bool setStartCustom(bool custom) { startcustom_.setValue(custom); }
+	void setStartCustom(bool custom) { startcustom_.setValue(custom); }
 	void setClientFile(const char *file) { client_.setValue(file); }
 	void setSaveFile(const char *file) { save_.setValue(file); }
 	void setPassword(const char *password) { password_.setValue(password); }

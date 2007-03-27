@@ -64,7 +64,7 @@ NetworkSelectDialog::NetworkSelectDialog() :
 	tankTex_(0)
 {
 	std::list<GLWIconTable::Column> columns;
-	for (int i=0; i<sizeof(cols)/sizeof(GLWIconTable::Column); i++)
+	for (int i=0; i<sizeof(cols)/sizeof(ColumnInfo); i++)
 	{
 		columns.push_back(cols[i].col);
 	}

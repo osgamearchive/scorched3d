@@ -82,6 +82,7 @@ scorcheddata_DATA = data/singlecustom.xml \
 	data/tutorial.xml \
 	data/singleeasy.xml \
 	data/fastestdisplay.xml \
+	data/custominfo.xml \
 	data/singlenormal.xml \
 	data/landscapes.xml \
 	data/playernames.txt \
@@ -1200,6 +1201,7 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/aim.bmp \
 	data/windows/pointera.bmp \
 	data/windows/key.bmp \
+	data/windows/backdrop.png \
 	data/windows/playera2.bmp \
 	data/windows/bomba.bmp \
 	data/windows/sounda.bmp \
@@ -1212,7 +1214,6 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/triangle.bmp \
 	data/windows/keya.bmp \
 	data/windows/scorched.bmp \
-	data/windows/waita.bmp \
 	data/windows/tank2.ico \
 	data/windows/planaa.bmp \
 	data/windows/island.ico \
@@ -1222,7 +1223,6 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/arrowi.bmp \
 	data/windows/question.bmp \
 	data/windows/arrow_s.png \
-	data/windows/wait.bmp \
 	data/windows/plan.bmp \
 	data/windows/cameraa.bmp \
 	data/windows/camera.bmp \
@@ -1238,9 +1238,11 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/weapona.bmp \
 	data/windows/diffa.bmp \
 	data/windows/tank.bmp \
+	data/windows/bar1.png \
 	data/windows/save.bmp \
 	data/windows/screena.bmp \
 	data/windows/book.bmp \
+	data/windows/bar2.png \
 	data/windows/weapon.bmp \
 	data/windows/splash.gif \
 	data/windows/noentry.bmp \

@@ -904,6 +904,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWLabel.h \
 	../GLW/GLWListView.cpp \
 	../GLW/GLWListView.h \
+	../GLW/GLWOptionEntry.cpp \
+	../GLW/GLWOptionEntry.h \
 	../GLW/GLWPanel.cpp \
 	../GLW/GLWPanel.h \
 	../GLW/GLWPlanView.cpp \
@@ -928,10 +930,14 @@ scorched3dc_SOURCES = \
 	../GLW/GLWSelectorPart.h \
 	../GLW/GLWSlider.cpp \
 	../GLW/GLWSlider.h \
+	../GLW/GLWSpacer.cpp \
+	../GLW/GLWSpacer.h \
 	../GLW/GLWSpinBox.cpp \
 	../GLW/GLWSpinBox.h \
 	../GLW/GLWTab.cpp \
 	../GLW/GLWTab.h \
+	../GLW/GLWTabContainer.cpp \
+	../GLW/GLWTabContainer.h \
 	../GLW/GLWTalkBox.cpp \
 	../GLW/GLWTalkBox.h \
 	../GLW/GLWTankFire.cpp \
@@ -1226,6 +1232,10 @@ scorched3dc_SOURCES = \
 	../dialogs/SaveSelectDialog.h \
 	../dialogs/ScoreDialog.cpp \
 	../dialogs/ScoreDialog.h \
+	../dialogs/SettingsSelectDialog.cpp \
+	../dialogs/SettingsSelectDialog.h \
+	../dialogs/SettingsSubSelectDialog.cpp \
+	../dialogs/SettingsSubSelectDialog.h \
 	../dialogs/SkipAllDialog.cpp \
 	../dialogs/SkipAllDialog.h \
 	../dialogs/SkipDialog.cpp \
