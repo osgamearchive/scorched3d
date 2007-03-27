@@ -48,6 +48,8 @@ protected:
 	std::list<GLWOptionEntry> controls_;
 	unsigned int cancelId_, okId_, advancedId_;
 
+	void displayLand();
+
 private:
 	SettingsSubSelectDialog();
 	virtual ~SettingsSubSelectDialog();

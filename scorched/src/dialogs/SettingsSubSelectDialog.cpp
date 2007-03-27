@@ -21,10 +21,13 @@
 #include <dialogs/SettingsSubSelectDialog.h>
 #include <dialogs/SettingsSelectDialog.h>
 #include <dialogs/MsgBoxDialog.h>
+#include <landscapedef/LandscapeDefinitionsBase.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWOptionEntry.h>
 #include <GLW/GLWTabContainer.h>
 #include <GLW/GLWSpacer.h>
+#include <GLW/GLWCheckBox.h>
+#include <graph/TextureStore.h>
 #include <client/ClientParams.h>
 #include <client/ClientMain.h>
 
@@ -171,8 +174,48 @@ SettingsSubSelectDialog::~SettingsSubSelectDialog()
 {
 }
 
+void SettingsSubSelectDialog::displayLand()
+{
+	OptionsGame &optionsGame = 
+		SettingsSelectDialog::instance()->getOptions();
+
+	LandscapeDefinitionsBase landscapeDefinitions;
+	landscapeDefinitions.readLandscapeDefinitions();
+	landTab_->clear();
+
+	/*float y = 0.0f;
+	std::list<LandscapeDefinitionsEntry> &defns =
+		landscapeDefinitions.getAllLandscapes();
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
+	for (itor = defns.begin();
+		 itor != defns.end();
+		 itor++, y += 50.0f)
+	{
+		LandscapeDefinitionsEntry &dfn = *itor;
+
+		const char *fileName = getDataFile(formatString("data/landscapes/%s", dfn.picture.c_str()));
+		if (!::s3d_fileExists(fileName))
+		{
+			fileName = getDataFile("data/landscapes/picture-none.bmp");
+		}
+
+		checkBox->setState(
+			landscapeDefinitions.landscapeEnabled(
+				optionsGame,
+					dfn.name.c_str()));
+	}*/
+}
+
 void SettingsSubSelectDialog::display()
 {
+	// START MOD SET
+	OptionsGame &optionsGame = 
+		SettingsSelectDialog::instance()->getOptions();
+	setDataFileMod(optionsGame.getMod());
+	displayLand();
+	setDataFileMod("none");
+	// END MOD SET
+
 	GLWOptionEntry::updateControls(controls_);
 	mainTab_->setDepressed();
 }
