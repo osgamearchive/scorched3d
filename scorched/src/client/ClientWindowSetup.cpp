@@ -199,7 +199,7 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
  		SoundDialog::instance(), showSoundKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
-		LogDialog::instance(), 0, true);
+		ProgressDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
@@ -218,8 +218,6 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		QuitDialog::instance(), quitKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		LogDialog::instance(), 0, true);
-	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
-		ConnectDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateDisconnected, 

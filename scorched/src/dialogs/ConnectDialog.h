@@ -32,6 +32,8 @@ public:
 
 	void connected();
 
+	virtual void windowInit(const unsigned state);
+
 	// Inherited from GLWWindow
 	virtual void simulate(float frameTime);
 

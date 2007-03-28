@@ -152,6 +152,8 @@ void ClientState::setupInitialGameState()
 	gameState.addStateStimulus(StateConnect, 
 		StimGameStopped, StateConnect);
 	gameState.addStateStimulus(StateConnect, 
+		StimOptions, StateOptions);
+	gameState.addStateStimulus(StateConnect, 
 		StimGetPlayers, StateGetPlayers);
 	gameState.addStateStimulus(StateConnect, 
 		StimLoadPlayers, StateLoadPlayers);

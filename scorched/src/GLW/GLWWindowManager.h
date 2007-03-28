@@ -92,6 +92,9 @@ protected:
 	std::map<unsigned, StateEntry> stateEntrys_;
 	StateEntry *currentStateEntry_;
 
+	// To check for re-entrancy
+	unsigned int changeEpoc_;
+
 	void setCurrentEntry(const unsigned state);
 
 private:

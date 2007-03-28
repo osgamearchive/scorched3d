@@ -28,7 +28,8 @@ namespace ClientState
 {
 	enum Stimulus
 	{
-		StimNextPlayerDialog = 1,
+		StimOptions = 1,
+		StimNextPlayerDialog,
 		StimGetPlayers,
 		StimLoadPlayers,
 		StimLoadFiles,

@@ -42,7 +42,8 @@ GLWWindowManager *GLWWindowManager::instance()
 
 GLWWindowManager::GLWWindowManager() : 
 	GameStateI("GLWWindowManager"),
-	currentStateEntry_(0)
+	currentStateEntry_(0),
+	changeEpoc_(0)
 {
 	setCurrentEntry(UINT_MAX);
 
@@ -167,6 +168,7 @@ bool GLWWindowManager::showWindow(unsigned id)
 			window->display();
 			moveToFront(id);
 
+			changeEpoc_++;
 			return true;
 		}
 	}
@@ -190,6 +192,7 @@ bool GLWWindowManager::moveToFront(unsigned id)
 	currentStateEntry_->windows_ = tmpList;
 	if (found) 
 	{
+		changeEpoc_++;
 		currentStateEntry_->windows_.push_back(found);
 		sortWindowLevels();
 	}
@@ -216,6 +219,7 @@ void GLWWindowManager::sortWindowLevels()
 				windows[i] = second;
 				windows[i+1] = first;
 				changed = true;
+				changeEpoc_++;
 			}
 		}
 	}
@@ -245,6 +249,7 @@ bool GLWWindowManager::hideWindow(unsigned id)
 			window->hide();
 
 			(*itor).second = false;
+			changeEpoc_++;
 			return true;
 		}
 	}
@@ -280,6 +285,7 @@ void GLWWindowManager::enterState(const unsigned state)
 void GLWWindowManager::draw(const unsigned state)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::iterator itor;
 	for (itor = currentStateEntry_->windows_.begin();
@@ -290,6 +296,7 @@ void GLWWindowManager::draw(const unsigned state)
 		if (windowVisible(window->getId()))
 		{
 			window->draw();
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}
 }
@@ -334,6 +341,7 @@ unsigned int GLWWindowManager::getFocus(int x, int y)
 void GLWWindowManager::simulate(const unsigned state, float simTime)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::iterator itor;
 	for (itor = currentStateEntry_->windows_.begin();
@@ -344,6 +352,7 @@ void GLWWindowManager::simulate(const unsigned state, float simTime)
 		if (windowVisible(window->getId()))
 		{
 			window->simulate(simTime);
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}	
 }
@@ -354,6 +363,7 @@ void GLWWindowManager::keyboardCheck(const unsigned state, float frameTime,
 							   bool &skipRest)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
@@ -367,6 +377,7 @@ void GLWWindowManager::keyboardCheck(const unsigned state, float frameTime,
 								history, hisCount, 
 								skipRest);
 			if (skipRest) break;
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}
 
@@ -404,6 +415,7 @@ void GLWWindowManager::keyboardCheck(const unsigned state, float frameTime,
 void GLWWindowManager::mouseDown(const unsigned state, GameState::MouseButton button, int x, int y, bool &skipRest)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
@@ -415,6 +427,7 @@ void GLWWindowManager::mouseDown(const unsigned state, GameState::MouseButton bu
 		{
 			window->mouseDown((int) button, (float) x, (float) y, skipRest);
 			if (skipRest) break;
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}
 }
@@ -422,6 +435,7 @@ void GLWWindowManager::mouseDown(const unsigned state, GameState::MouseButton bu
 void GLWWindowManager::mouseUp(const unsigned state, GameState::MouseButton button, int x, int y, bool &skipRest)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
@@ -433,6 +447,7 @@ void GLWWindowManager::mouseUp(const unsigned state, GameState::MouseButton butt
 		{
 			window->mouseUp((int) button, (float) x, (float) y, skipRest);
 			if (skipRest) break;
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}
 }
@@ -441,6 +456,7 @@ void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton bu
 							  int x, int y, int dx, int dy, bool &skipRest)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
@@ -452,6 +468,7 @@ void GLWWindowManager::mouseDrag(const unsigned state, GameState::MouseButton bu
 		{
 			window->mouseDrag((int) button, (float) x, (float) y, (float) dx, (float) dy, skipRest);
 			if (skipRest) break;
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}
 }
@@ -460,6 +477,7 @@ void GLWWindowManager::mouseWheel(const unsigned state,
 	int x, int y, int z, bool &skipRest)
 {
 	if (currentStateEntry_->state_ != state) setCurrentEntry(state);
+	unsigned int entryEpoc = changeEpoc_;
 
 	std::deque<GLWWindow *>::reverse_iterator itor;
 	for (itor = currentStateEntry_->windows_.rbegin();
@@ -471,6 +489,7 @@ void GLWWindowManager::mouseWheel(const unsigned state,
 		{
 			window->mouseWheel((float) x, (float) y, (float) z, skipRest);
 			if (skipRest) break;
+			if (entryEpoc != changeEpoc_) break;
 		}
 	}
 }

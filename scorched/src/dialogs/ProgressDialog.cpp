@@ -47,7 +47,7 @@ ProgressDialog *ProgressDialog::instance()
 }
 
 ProgressDialog::ProgressDialog() : 
-	GLWWindow("", 10.0f, 10.0f, 450.0f, 60.0f, eTransparent | eNoTitle, ""),
+	GLWWindow("", 10.0f, 10.0f, 470.0f, 80.0f, eTransparent | eNoTitle, ""),
 	progressPercentage_(0)
 {
 	setUser(this);
@@ -111,7 +111,7 @@ void ProgressDialog::draw()
 
 		// Draw the progress bars
 		glPushMatrix();
-			glTranslatef(x_ + 60.0f, y_ + 0.0f, 0.0f);
+			glTranslatef(x_ + 80.0f, y_ + 10.0f, 0.0f);
 
 			bar1_.draw();
 			glColor3f(1.0f, 1.0f, 1.0f);
@@ -139,7 +139,8 @@ void ProgressDialog::draw()
 			
 			// Draw the progress text
 			Vector color(1.0f, 1.0f, 1.0f);
-			GLWFont::instance()->getLargePtFont()->draw(color, 
+			GLWFont::instance()->getLargePtFont()->drawWidth(380.0f, 
+				color, 
 				14.0f, 0.0f, 33.0f, 0.0f, 
 				progressText_.c_str());
 		glPopMatrix();
@@ -155,11 +156,11 @@ void ProgressDialog::draw()
 				glTexCoord2f(0.0f, 0.0f);
 				glVertex2f(0.0f, 0.0f);
 				glTexCoord2f(1.0f, 0.0f);
-				glVertex2f(36.0f, 0.0f);
+				glVertex2f(56.0f, 0.0f);
 				glTexCoord2f(1.0f, 1.0f);
-				glVertex2f(36.0f, 36.0f);
+				glVertex2f(56.0f, 56.0f);
 				glTexCoord2f(0.0f, 1.0f);
-				glVertex2f(0.0f, 36.0f);
+				glVertex2f(0.0f, 56.0f);
 			glEnd();
 		}
 		{
@@ -170,11 +171,11 @@ void ProgressDialog::draw()
 				glTexCoord2f(0.0f, 0.0f);
 				glVertex2f(0.0f, 0.0f);
 				glTexCoord2f(1.0f, 0.0f);
-				glVertex2f(36.0f, 0.0f);
+				glVertex2f(56.0f, 0.0f);
 				glTexCoord2f(1.0f, 1.0f);
-				glVertex2f(36.0f, 36.0f);
+				glVertex2f(56.0f, 56.0f);
 				glTexCoord2f(0.0f, 1.0f);
-				glVertex2f(0.0f, 36.0f);
+				glVertex2f(0.0f, 56.0f);
 			glEnd();
 			glLineWidth(1.0f);
 		}

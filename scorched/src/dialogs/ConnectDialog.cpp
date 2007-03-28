@@ -20,8 +20,10 @@
 
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <dialogs/LogDialog.h>
+#include <dialogs/ProgressDialog.h>
+#include <dialogs/MsgBoxDialog.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientState.h>
 #include <tank/TankContainer.h>
 #include <server/ScorchedServer.h>
 #include <graph/OptionsDisplay.h>
@@ -65,11 +67,17 @@ UniqueIdStore &ConnectDialog::getIdStore()
 		// Get the unique id
 		if (!idStore_->loadStore())
 		{
-			LoggerInfo info("Failed to load id store");
-			LogDialog::instance()->logMessage(info);
+			Logger::log("Failed to load id store");
 		}
 	}
 	return *idStore_;
+}
+
+void ConnectDialog::windowInit(const unsigned state)
+{
+	connectionState_ = eWaiting;
+	tryCount_ = 0;
+	lastTime_ = 0;
 }
 
 void ConnectDialog::simulate(float frameTime)
@@ -88,7 +96,15 @@ void ConnectDialog::simulate(float frameTime)
 			else
 			{
 				connectionState_ = eFinished;
-				Logger::log("Connection Failed");
+
+				const char *msg = 
+					formatString("Failed to connect to server \"%s:%i\", timeout.",
+						host_.c_str(), port_);
+				Logger::log(msg);
+				MsgBoxDialog::instance()->show(msg);
+
+				ScorchedClient::instance()->getGameState().stimulate(
+					ClientState::StimOptions);
 			}
 		}
 	}
@@ -116,11 +132,9 @@ void ConnectDialog::tryConnection()
 		*colon = ':';
 	}	
 
-	LogDialog::instance()->setServerName(
-		formatString("Connecting to : %s", serverName));
-	Logger::log("Attempting connection");
-	Logger::log(formatString("  Trying \"%s\"....", 
-		serverName[0]?serverName:"Loopback"));
+	ProgressDialog::instance()->progressChange(
+		formatString("Connecting to \"%s:%i\" (%i)....", 
+			host_.c_str(), port_, tryCount_), 0);
 
 	connectionState_ = eTryingConnection;
 	if (ClientParams::instance()->getConnectedToServer())
@@ -159,7 +173,7 @@ void ConnectDialog::tryLocalConnection()
 
 void ConnectDialog::connected()
 {
-	Logger::log(formatString("Connected."));
+	ProgressDialog::instance()->progressChange("Connected", 100);
 
 	// Update unique id store
 	if (ClientParams::instance()->getConnectedToServer())
@@ -191,7 +205,14 @@ void ConnectDialog::connected()
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
-		Logger::log("  Connection Send Failed!");
+		const char *msg = 
+			formatString("Failed to connect to server \"%s:%i\", send failed.",
+				host_.c_str(), port_);
+		Logger::log(msg);
+		MsgBoxDialog::instance()->show(msg);
+
+		ScorchedClient::instance()->getGameState().stimulate(
+			ClientState::StimOptions);
 	}
 
 	connectionState_ = eFinished;
