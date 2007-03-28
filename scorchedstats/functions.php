@@ -100,6 +100,8 @@ function getColumnParameter($paramname, $defaultvalue)
 
 function getBinaryImage($id)
 {
+	global $dbhost, $dbuser, $dbname, $dbpasswd;
+
 $use_file = "images/player.gif";
 if($id != 0)
 {
