@@ -69,13 +69,9 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 		LandscapeMusicManager::instance()); // MUSIC
 }
 
-void ClientState::addStandardComponents(GameState &gameState, unsigned state, bool network)
+void ClientState::addStandardComponents(GameState &gameState, unsigned state)
 {
-	if (!network)
-	{
-		gameState.addStateKeyEntry(state, SpeedChange::instance());
-	}
-	
+	gameState.addStateKeyEntry(state, SpeedChange::instance());
 	gameState.addStateLoop(state, 
 		LandscapeShadowCamera::instance(), LandscapeShadowHandler::instance());
 	gameState.addStateLoop(state, 
@@ -98,11 +94,8 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		Main2DCamera::instance(), &RenderTargets::instance()->render2D);
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), FrameTimer::instance());
-	if (!network)
-	{
-		gameState.addStateLoop(state, 
-			Main2DCamera::instance(), SpeedChange::instance());
-	}
+	gameState.addStateLoop(state, 
+		Main2DCamera::instance(), SpeedChange::instance());
 	addWindowManager(gameState, state);
 	gameState.addStateLoop(state, Main2DCamera::instance(), 
 		GLWToolTip::instance());
@@ -124,7 +117,7 @@ void ClientState::addStandardComponents(GameState &gameState, unsigned state, bo
 		Main2DCamera::instance(), &MainCamera::instance()->saveScreen_);
 }
 
-void ClientState::setupInitialGameState()
+void ClientState::setupGameState()
 {
 	GameState &gameState = ScorchedClient::instance()->getGameState();
 	gameState.clear();
@@ -207,14 +200,9 @@ void ClientState::setupInitialGameState()
 		StimGetPlayers, StateDisconnected);
 	gameState.addStateStimulus(StateDisconnected, 
 		StimWait, StateDisconnected);
-}
-
-void ClientState::setupGameState(bool network)
-{
-	GameState &gameState = ScorchedClient::instance()->getGameState();
 
 	// StateWait
-	addStandardComponents(gameState, StateWait, network);
+	addStandardComponents(gameState, StateWait);
 	gameState.addStateLoop(StateWait,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateEntry(StateWait, 
@@ -241,7 +229,7 @@ void ClientState::setupGameState(bool network)
 		StimGetPlayers, StateGetPlayers);
 
 	// StateBuyWeapons
-	addStandardComponents(gameState, StateBuyWeapons, network);
+	addStandardComponents(gameState, StateBuyWeapons);
 	gameState.addStateLoop(StateBuyWeapons,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateStimulus(StateBuyWeapons, 
@@ -254,7 +242,7 @@ void ClientState::setupGameState(bool network)
 		StimWait, StateWait);
 
 	// StateAutoDefense
-	addStandardComponents(gameState, StateAutoDefense, network);
+	addStandardComponents(gameState, StateAutoDefense);
 	gameState.addStateLoop(StateAutoDefense,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateStimulus(StateAutoDefense, 
@@ -265,7 +253,7 @@ void ClientState::setupGameState(bool network)
 		StimWait, StateWait);
 
 	// StatePlaying
-	addStandardComponents(gameState, StatePlaying, network);
+	addStandardComponents(gameState, StatePlaying);
 	gameState.addStateKeyEntry(StatePlaying, 
 		TankAIHumanCtrl::instance());
 	gameState.addStateLoop(StatePlaying,
@@ -278,7 +266,7 @@ void ClientState::setupGameState(bool network)
 		StimWait, StateWait);
 
 	// StateShot
-	addStandardComponents(gameState, StateShot, network);
+	addStandardComponents(gameState, StateShot);
 	gameState.addStateEntry(StateShot, 
 		TankAIHumanCtrl::instance());
 	gameState.addStateEntry(StateShot,
@@ -293,7 +281,7 @@ void ClientState::setupGameState(bool network)
 		StimGameStopped, StateGetPlayers);
 
 	// StateScore
-	addStandardComponents(gameState, StateScore, network);
+	addStandardComponents(gameState, StateScore);
 	gameState.addStateStimulus(StateScore, 
 		StimDisconnected, StateDisconnected);
 	gameState.addStateStimulus(StateScore, 

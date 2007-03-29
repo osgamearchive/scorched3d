@@ -213,10 +213,6 @@ static bool initClient()
 	progressCounter.setUser(ProgressDialogSync::instance());
 	progressCounter.setNewPercentage(0.0f);
 
-	// Load in all the other states
-	ClientState::setupGameState(
-		ClientParams::instance()->getConnectedToServer());
-
 	// Load in all the coms
 	if (!initComs(&progressCounter)) return false;
 	
@@ -383,7 +379,7 @@ bool ClientMain::clientMain()
 	if (!createScorchedWindow()) return false;
 
 	// Start the initial windows
-	ClientState::setupInitialGameState();
+	ClientState::setupGameState();
 	ProgressCounter progressCounter;
 	ProgressDialog::instance()->changeTip();
 	progressCounter.setUser(ProgressDialogSync::instance());

@@ -20,6 +20,7 @@
 
 #include <graph/SpeedChange.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientParams.h>
 #include <server/ServerShotFinishedState.h>
 #include <server/ScorchedServer.h>
 #include <common/Keyboard.h>
@@ -84,6 +85,8 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 							   KeyboardHistory::HistoryElement *history, int hisCount, 
 							   bool &skipRest)
 {
+	if (ClientParams::instance()->getConnectedToServer()) return;
+
 	KEYBOARDKEY("SIMULATION_SPEED_X1", x1Key);
 	KEYBOARDKEY("SIMULATION_SPEED_X2", x2Key);
 	KEYBOARDKEY("SIMULATION_SPEED_X3", x3Key);

@@ -61,10 +61,9 @@ namespace ClientState
 		StateScore
 	};
 
-	void setupInitialGameState();
-	void setupGameState(bool network);
+	void setupGameState();
 	void addWindowManager(GameState &gameState, unsigned state);
-	void addStandardComponents(GameState &gameState, unsigned state, bool network);
+	void addStandardComponents(GameState &gameState, unsigned state);
 };
 
 #endif
