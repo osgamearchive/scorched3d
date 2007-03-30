@@ -86,6 +86,11 @@ bool NetServerTCP::start(int port)
 	return true;
 }
 
+void NetServerTCP::stop()
+{
+	disconnectAllClients();
+}
+
 bool NetServerTCP::connect(const char *hostName, int portNo)
 {
 	if(SDLNet_Init()==-1)

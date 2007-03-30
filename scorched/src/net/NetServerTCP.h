@@ -36,6 +36,7 @@ public:
 	virtual bool started();
 	virtual bool connect(const char *hostName, int portNo);
 	virtual bool start(int portNo);
+	virtual void stop();
 
 	virtual int processMessages();
 	virtual void setMessageHandler(NetMessageHandlerI *handler);

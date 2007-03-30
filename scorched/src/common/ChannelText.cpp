@@ -23,7 +23,8 @@
 ChannelText::ChannelText(const char *channel, const char *message) : 
 	srcPlayerId_(0), destPlayerId_(0),
 	channel_(channel),
-	message_(message)
+	message_(message),
+	flags_(0)
 {
 }
 
@@ -33,6 +34,7 @@ bool ChannelText::writeMessage(NetBuffer &buffer)
 	buffer.addToBuffer(message_);
 	buffer.addToBuffer(srcPlayerId_);
 	buffer.addToBuffer(destPlayerId_);
+	buffer.addToBuffer(flags_);
 	return true;
 }
 
@@ -42,6 +44,7 @@ bool ChannelText::readMessage(NetBufferReader &reader)
 	if (!reader.getFromBuffer(message_)) return false;
 	if (!reader.getFromBuffer(srcPlayerId_)) return false;
 	if (!reader.getFromBuffer(destPlayerId_)) return false;
+	if (!reader.getFromBuffer(flags_)) return false;
 	return true;
 }
 

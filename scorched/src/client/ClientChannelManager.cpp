@@ -215,9 +215,12 @@ void ClientChannelManager::showText(const ChannelText &constText)
 	ChannelText text = constText;
 
 	// Add this line to the console
-	Logger::log(formatString("[%s] : %s",
-		text.getChannel(),
-		text.getMessage()));
+	if (!(text.getFlags() & ChannelText::eNoLog))
+	{
+		Logger::log(formatString("[%s] : %s",
+			text.getChannel(),
+			text.getMessage()));
+	}
 
 	// Send to all recievers
 	std::map<unsigned int, ChannelEntry *>::iterator itor;

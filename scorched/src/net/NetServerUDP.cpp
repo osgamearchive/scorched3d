@@ -36,13 +36,12 @@ NetServerUDP::~NetServerUDP()
 {
 	SDLNet_FreePacketV(packetVIn_);
 	SDLNet_FreePacketV(packetVOut_);
-	SDLNet_UDP_Close(udpsock_);
 }
 
 bool NetServerUDP::started()
 {
-	// Do we have a valid socket
-	return (udpsock_ != 0);
+	// Do we have a valid send/recieve thread
+	return (sendRecvThread_ != 0);
 }
 
 bool NetServerUDP::connect(const char *hostName, int portNo)
@@ -61,8 +60,11 @@ bool NetServerUDP::connect(const char *hostName, int portNo)
 		return false;
 	}
 
+	// Stop any previous connections
+	stop();
+
 	// Create a new socket with anon port
-	if (!udpsock_) udpsock_ = SDLNet_UDP_Open(0);
+	udpsock_ = SDLNet_UDP_Open(0);
 	if (!udpsock_)
 	{
 		Logger::log(formatString("NetServerUDP: Failed to open client socket : %s",
@@ -87,8 +89,11 @@ bool NetServerUDP::start(int portNo)
 		return false;
 	}
 
+	// Stop any previous connections
+	stop();
+
 	// Create a new server listening socket
-	if (!udpsock_) udpsock_ = SDLNet_UDP_Open(portNo);
+	udpsock_ = SDLNet_UDP_Open(portNo);
 	if (!udpsock_)
 	{
 		Logger::log(formatString("NetServerUDP: Failed to open server socket %i", portNo));
@@ -99,6 +104,15 @@ bool NetServerUDP::start(int portNo)
 	if (!startProcessing()) return false;
 
 	return true;
+}
+
+void NetServerUDP::stop()
+{
+	if (started())
+	{
+		disconnectAllClients();
+		while (started()) SDL_Delay(100);
+	}
 }
 
 bool NetServerUDP::sendConnect(IPaddress &address, PacketType type)
@@ -120,7 +134,7 @@ bool NetServerUDP::sendConnect(IPaddress &address, PacketType type)
 bool NetServerUDP::startProcessing()
 {
 	// Check if we are already running
-	if (sendRecvThread_) return true;
+	DIALOG_ASSERT(!sendRecvThread_);
 
 	// We are going to process all incoming message
 	outgoingMessageHandler_.setMessageHandler(this);
@@ -143,6 +157,7 @@ int NetServerUDP::sendRecvThreadFunc(void *c)
 	NetServerUDP *th = (NetServerUDP*) c;
 	th->actualSendRecvFunc();
 
+	th->sendRecvThread_ = 0;
 	Logger::log(formatString("NetServerUDP: shutdown"));
 	return 0;
 }
@@ -195,6 +210,14 @@ void NetServerUDP::processMessage(NetMessage &message)
 			// This is a message telling us to kick the client, do so
 			//Logger::log(formatString("Disconnected %u - kicked", destinationId));
 			destroyDestination(destinationId, NetMessage::KickDisconnect);
+		}
+
+		// This can occur if we have not recieved the connection accept from 
+		// the server yet
+		if (udpsock_)
+		{
+			SDLNet_UDP_Close(udpsock_);
+			udpsock_ = 0;
 		}
 
 		return;
@@ -408,6 +431,7 @@ void NetServerUDP::destroyDestination(unsigned int destinationId,
 	{
 		SDLNet_UDP_Close(udpsock_);
 		udpsock_ = 0;
+		serverDestinationId_ = 0;
 	}
 
 	NetServerUDPDestination *destination = (*itor).second;

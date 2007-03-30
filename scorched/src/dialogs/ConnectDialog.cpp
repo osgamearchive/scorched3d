@@ -87,6 +87,8 @@ void ConnectDialog::simulate(float frameTime)
 	{
 		if (currentTime - lastTime_ > 3)
 		{
+			ScorchedClient::instance()->getNetInterface().stop();
+
 			if (tryCount_<3)
 			{
 				tryCount_++;
@@ -205,6 +207,8 @@ void ConnectDialog::connected()
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
+		ScorchedClient::instance()->getNetInterface().stop();
+
 		const char *msg = 
 			formatString("Failed to connect to server \"%s:%i\", send failed.",
 				host_.c_str(), port_);

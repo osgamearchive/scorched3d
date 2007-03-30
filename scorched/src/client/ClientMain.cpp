@@ -130,8 +130,21 @@ static bool initComs(ProgressCounter *progressCounter)
 	progressCounter->setNewOp("Initializing Coms");
 	ScorchedClient::instance();
 
-	delete ScorchedClient::instance()->getContext().netInterface;
-	delete ScorchedServer::instance()->getContext().netInterface;
+	// Tidy up any existing net handlers
+	if (ScorchedClient::instance()->getContext().netInterface)
+	{
+		ScorchedClient::instance()->getContext().netInterface->stop();
+		delete ScorchedClient::instance()->getContext().netInterface;
+		ScorchedClient::instance()->getContext().netInterface = 0;
+	}
+	if (ScorchedServer::instance()->getContext().netInterface)
+	{
+		ScorchedServer::instance()->getContext().netInterface->stop();
+		delete ScorchedServer::instance()->getContext().netInterface;
+		ScorchedServer::instance()->getContext().netInterface = 0;
+	}
+
+	// Create the new net handlers
 	if (ClientParams::instance()->getConnectedToServer())
 	{
 		ScorchedClient::instance()->getContext().netInterface = 
@@ -220,25 +233,6 @@ static bool initClient()
 	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		if (!startServer(true, &progressCounter)) return false;
-	}
-
-	// Add all of the options to the console
-	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
-	std::list<OptionEntry *>::iterator itor;
-	for (itor = OptionsDisplay::instance()->getOptions().begin();
-		itor != OptionsDisplay::instance()->getOptions().end();
-		itor++)
-	{
-		OptionEntry *entry = (*itor);
-		if (!(entry->getData() & OptionEntry::DataDepricated))
-		{
-			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
-			if (entry->getData() & OptionsDisplay::RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
-
-			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
-				*entry,
-				access));
-		}
 	}
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimConnect);
@@ -387,6 +381,25 @@ bool ClientMain::clientMain()
 	if (!initHardware(&progressCounter)) return false;
 	if (!initWindows(&progressCounter)) return false;
 	if (!initComsHandlers()) return false;
+
+	// Add all of the options to the console
+	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
+	std::list<OptionEntry *>::iterator itor;
+	for (itor = OptionsDisplay::instance()->getOptions().begin();
+		itor != OptionsDisplay::instance()->getOptions().end();
+		itor++)
+	{
+		OptionEntry *entry = (*itor);
+		if (!(entry->getData() & OptionEntry::DataDepricated))
+		{
+			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
+			if (entry->getData() & OptionsDisplay::RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
+
+			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
+				*entry,
+				access));
+		}
+	}
 
 	// Try and start the client
 	if (!startClient()) return false;

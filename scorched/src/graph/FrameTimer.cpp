@@ -20,16 +20,15 @@
 
 #include <stdio.h>
 #include <graph/FrameTimer.h>
-#include <common/Logger.h>
-#include <common/LoggerI.h>
 #include <graph/OptionsDisplay.h>
+#include <graph/MainCamera.h>
+#include <graph/ParticleEngine.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
 #include <GLEXT/GLInfo.h>
 #include <client/ScorchedClient.h>
-#include <graph/MainCamera.h>
+#include <client/ClientChannelManager.h>
 #include <engine/ActionController.h>
-#include <graph/ParticleEngine.h>
 #include <landscape/Landscape.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/ShadowMap.h>
@@ -82,14 +81,17 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 		unsigned int tris = GLInfo::getNoTriangles();
 		if (OptionsDisplay::instance()->getFrameTimer())
 		{
-			Logger::log(formatString("%.2f FPS", fps));
-			Logger::log(formatString("%iTRI %iPART %iSQR %iSND %uSHD", 
+			ChannelText chText
+				("info",
+					formatString("%.2f FPS (%iTRI %iPART %iSQR %iSND %uSHD)", 
+					fps,
 					tris,
 					pOnScreen,
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
 					Sound::instance()->getPlayingChannels(),
 					Landscape::instance()->getShadowMap().getShadowCount()));
+			chText.setFlags(ChannelText::eNoLog);
+			ClientChannelManager::instance()->showText(chText);
 		}
-
 	}
 }
