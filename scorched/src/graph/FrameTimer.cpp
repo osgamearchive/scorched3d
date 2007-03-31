@@ -90,7 +90,7 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
 					Sound::instance()->getPlayingChannels(),
 					Landscape::instance()->getShadowMap().getShadowCount()));
-			chText.setFlags(ChannelText::eNoLog);
+			chText.setFlags(ChannelText::eNoLog | ChannelText::eNoSound);
 			ClientChannelManager::instance()->showText(chText);
 		}
 	}

@@ -52,7 +52,8 @@ class ChannelText
 public:
 	enum Flags
 	{
-		eNoLog = 1
+		eNoLog = 1,
+		eNoSound
 	};
 
 	ChannelText(

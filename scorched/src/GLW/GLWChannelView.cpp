@@ -175,7 +175,8 @@ void GLWChannelView::leaveChannel(const char *channelName)
 
 void GLWChannelView::channelText(ChannelText &channelText)
 {
-	if (!textSound_.empty())
+	if (!(channelText.getFlags() & ChannelText.eNoSound) &&
+		!textSound_.empty())
 	{
 		CACHE_SOUND(sound, (char *) getDataFile(textSound_.c_str()));
 		SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);	
