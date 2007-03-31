@@ -53,7 +53,7 @@ public:
 	enum Flags
 	{
 		eNoLog = 1,
-		eNoSound
+		eNoSound = 2
 	};
 
 	ChannelText(
