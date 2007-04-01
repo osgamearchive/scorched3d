@@ -38,6 +38,7 @@ public:
 	float getMaximumDistance() { return maximumDistance_; }
 	float getHurtRadius() { return hurtRadius_; }
 	float getTotalTime() { return totalTime_; }
+	bool getHurtFirer() { return hurtFirer_; }
 	Vector &getColor() { return color_; }
 
 	// Inherited from Weapon
@@ -52,6 +53,7 @@ protected:
 	float hurtRadius_;
 	float totalTime_;
 	Vector color_;
+	bool hurtFirer_;
 	// Use the following to hold the NumberParser float expression
 	// convert to values in ::fireWeapon()
 	NumberParser minimumHurtExp_, maximumHurtExp_;

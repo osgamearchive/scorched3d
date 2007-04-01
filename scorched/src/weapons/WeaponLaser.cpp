@@ -25,7 +25,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponLaser);
 
-WeaponLaser::WeaponLaser()
+WeaponLaser::WeaponLaser() : hurtFirer_(false)
 {
 }
 
@@ -44,6 +44,7 @@ bool WeaponLaser::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 	if (!accessoryNode->getNamedChild("maximumdistance", maximumDistanceExp_)) return false;
 	if (!accessoryNode->getNamedChild("totaltime", totalTimeExp_)) return false;
 	if (!accessoryNode->getNamedChild("color", color_)) return false;
+	accessoryNode->getNamedChild("hurtfirer", hurtFirer_, false);
 
 	return true;
 }

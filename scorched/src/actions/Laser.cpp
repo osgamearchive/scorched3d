@@ -90,7 +90,8 @@ void Laser::simulate(float frameTime, bool &remove)
 				{
 					Target *current = (*itor).second;
 					if (current->getAlive() &&
-						current->getPlayerId() != weaponContext_.getPlayerId())
+						((current->getPlayerId() != weaponContext_.getPlayerId()) ||
+						weapon_->getHurtFirer()))
 					{
 						Vector offset = current->getLife().getTargetPosition() -	pos;
 						float targetDistance = offset.Magnitude();
