@@ -339,8 +339,9 @@ char *StatsLoggerDatabase::getTopRanks()
 		runSelectQuery(
 			"select %s from scorched3d_stats "
 			"left join scorched3d_players on scorched3d_stats.playerid = "
-			"scorched3d_players.playerid where seriesid=%i order by kills desc",
-			columns, seriesid_);
+			"scorched3d_players.playerid where seriesid=%i and prefixid=%i "
+			"order by kills desc limit 0,50",
+			columns, seriesid_, prefixid_);
 	stringResult.append(columns).append("\n");
 	if (!rankRows.empty())
 	{
