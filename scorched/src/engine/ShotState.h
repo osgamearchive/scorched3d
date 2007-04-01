@@ -40,7 +40,6 @@ public:
 protected:
 	ScorchedContext &context_;
 	PlayShots &playShots_;
-	float totalTime_;
 	bool firstTime_, lastTime_;
 
 	void resurectTanks();

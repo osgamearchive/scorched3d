@@ -37,7 +37,7 @@
 ShotState::ShotState(ScorchedContext &context,
 	PlayShots &playShots) :
 	context_(context), playShots_(playShots),
-	totalTime_(0.0f), firstTime_(true)
+	firstTime_(true)
 {
 }
 
@@ -70,7 +70,6 @@ void ShotState::enterState(const unsigned state)
 	playShots_.playShots(context_, true);
 
 	// Reset the amount of time taken
-	totalTime_ = 0.0f;
 	firstTime_ = true;
 	lastTime_ = false;
 
@@ -107,7 +106,7 @@ bool ShotState::acceptStateChange(const unsigned state,
 		{
 			// We have finished all shots
 			Logger::log(formatString(
-				"Finished playing Shots (%.2f seconds)", totalTime_));
+				"Finished playing Shots"));
 			context_.actionController->getEvents().clear();
 			context_.actionController->logProfiledActions();
 
