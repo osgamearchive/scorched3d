@@ -38,6 +38,7 @@ public:
 	virtual std::list<std::string> getIpAliases(Tank *tank);
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
+	virtual void periodicUpdate();
 	virtual char *allocateId();
 	virtual char *getStatsId(Tank *tank);
 	virtual char *getTopRanks();

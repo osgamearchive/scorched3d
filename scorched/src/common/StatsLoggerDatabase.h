@@ -22,6 +22,7 @@
 #define __INCLUDE_StatsLoggerDatabaseh_INCLUDE__
 
 #include <common/StatsLogger.h>
+#include <time.h>
 #include <string>
 #include <map>
 #include <set>
@@ -41,6 +42,7 @@ public:
 	virtual std::list<std::string> getIpAliases(Tank *tank);
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
+	virtual void periodicUpdate();
 	virtual char *allocateId();
 	virtual char *getStatsId(Tank *tank);
 	virtual char *getTopRanks();
@@ -84,6 +86,7 @@ protected:
 	virtual void escapeString(char *to, const char *from, unsigned long length) = 0;
 
 	// Default stuff
+	time_t updateTime_;
 	int serverid_;
 	int seriesid_;
 	int prefixid_;

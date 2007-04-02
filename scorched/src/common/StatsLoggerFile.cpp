@@ -110,6 +110,10 @@ void StatsLoggerFile::combinePlayers(unsigned int player1, unsigned int player2)
 {
 }
 
+void StatsLoggerFile::periodicUpdate()
+{
+}
+
 std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
 {
 	std::list<std::string> result;

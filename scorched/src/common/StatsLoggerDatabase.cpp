@@ -58,7 +58,8 @@ const char *StatsLoggerDatabase::RowResult::getValue(const char *name)
 
 StatsLoggerDatabase::StatsLoggerDatabase() : 
 	success_(false),
-	serverid_(0), seriesid_(0), prefixid_(0)
+	serverid_(0), seriesid_(0), prefixid_(0),
+	updateTime_(0)
 {
 }
 
@@ -275,6 +276,7 @@ void StatsLoggerDatabase::createLogger()
 
 	Logger::log(formatString("database stats logger started, prefix=%i, server=%i, series=%i",
 		prefixid_, serverid_, seriesid_));
+	periodicUpdate();
 }
 
 void StatsLoggerDatabase::addIpAliases(int playerId, 
@@ -686,6 +688,79 @@ void StatsLoggerDatabase::updateStats(Tank *tank)
 			playerId_[tank->getUniqueId()],
 			prefixid_,
 			seriesid_);
+	}
+}
+
+void StatsLoggerDatabase::periodicUpdate()
+{
+	time_t currentTime = time(0);
+	if (currentTime - updateTime_ > 60 * 60 * 12) // 12 hrs
+	{
+		Logger::log(formatString("statslogger database starting periodics"));
+
+		// Cleanup orphaned avatars
+		std::list<StatsLoggerDatabase::RowResult> binaryRows =
+			runSelectQuery("select binaryid, count(binaryid) "
+				"from scorched3d_binary left join "
+				"scorched3d_players on binaryid = avatarid group by avatarid");
+		if (!binaryRows.empty())
+		{
+			std::list<StatsLoggerDatabase::RowResult>::iterator itor;
+			for (itor = binaryRows.begin();
+				itor != binaryRows.end();
+				itor++)
+			{
+				StatsLoggerDatabase::RowResult &rowResult = (*itor);
+				if (rowResult.columns[1] == "0")
+				{
+					runQuery("delete from scorched3d_binary where binaryid = %s",
+						rowResult.columns[0].c_str());
+				}
+			}
+		}
+
+		// Generate ranks
+		std::list<StatsLoggerDatabase::RowResult> sourceRows =
+			runSelectQuery(
+				"SELECT "
+				"scorched3d_series.seriesid as seriesid, "
+				"scorched3d_prefixs.prefixid as prefixid "
+				"FROM `scorched3d_statssource` "
+				"LEFT JOIN scorched3d_series ON scorched3d_series.seriesid = scorched3d_statssource.seriesid " 
+				"LEFT JOIN scorched3d_prefixs ON scorched3d_prefixs.prefixid = scorched3d_statssource.prefixid");
+		if (!sourceRows.empty())
+		{
+			std::list<StatsLoggerDatabase::RowResult>::iterator sourceItor;
+			for (sourceItor = sourceRows.begin();
+				sourceItor != sourceRows.end();
+				sourceItor++)
+			{
+				StatsLoggerDatabase::RowResult &sourceRow = *sourceItor;
+				std::list<StatsLoggerDatabase::RowResult>::iterator playerItor;
+				std::list<StatsLoggerDatabase::RowResult> playerRows =
+					runSelectQuery(
+						"SELECT playerid, kills from scorched3d_stats "
+						"WHERE seriesid=%s and prefixid=%s order by kills desc",
+						sourceRow.columns[0].c_str(),
+						sourceRow.columns[1].c_str());
+
+				int rank = 1;
+				for (playerItor = playerRows.begin();
+					playerItor != playerRows.end();
+					playerItor++, rank++)
+				{
+					StatsLoggerDatabase::RowResult &playerRow = *playerItor;
+					runQuery("UPDATE scorched3d_stats SET rank=%i "
+						"WHERE seriesid=%s and prefixid=%s and playerid=%s",
+						rank, 
+						sourceRow.columns[0].c_str(),
+						sourceRow.columns[1].c_str(),
+						playerRow.columns[0].c_str());
+				}
+			}
+		}
+
+		Logger::log(formatString("statslogger database finished periodics"));
 	}
 }
 

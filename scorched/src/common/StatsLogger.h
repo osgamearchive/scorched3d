@@ -41,6 +41,7 @@ public:
 	virtual std::list<std::string> getIpAliases(Tank *tank) = 0;
 	virtual char *tankRank(Tank *tank) = 0;
 	virtual void updateStats(Tank *tank) = 0;
+	virtual void periodicUpdate() = 0;
 	virtual char *allocateId() = 0;
 	virtual char *getStatsId(Tank *tank) = 0;
 	virtual char *getTopRanks() = 0;
@@ -85,6 +86,7 @@ public:
 		{ std::list<std::string> result; return result; }
 	virtual char *tankRank(Tank *tank) { return "-"; }
 	virtual void updateStats(Tank *tank) {}
+	virtual void periodicUpdate() {}
 	virtual char *allocateId() { return ""; }
 	virtual char *getStatsId(Tank *tank) { return ""; }
 	virtual char *getTopRanks() { return ""; }
