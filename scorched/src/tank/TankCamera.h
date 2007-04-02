@@ -33,15 +33,15 @@ public:
 	int getCameraType() { return cameraType_; }
 	void setCameraType(int c) { cameraType_ = c; }
 
-	Vector &getCameraPosition() { return cameraPosition_; }
-	void setCameraPosition(Vector &pos) { cameraPosition_ = pos; }
+	Vector &getCameraRotation() { return cameraRotation_; }
+	void setCameraRotation(Vector &rot) { cameraRotation_ = rot; }
 	
 	Vector &getCameraLookAt() { return lookAt_; }
 	void setCameraLookAt(Vector &pos) { lookAt_ = pos; }
 
 protected:
 	ScorchedContext &context_;
-	Vector cameraPosition_, lookAt_;
+	Vector cameraRotation_, lookAt_;
 	int cameraType_;
 };
 

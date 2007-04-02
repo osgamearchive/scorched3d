@@ -29,6 +29,7 @@
 #include <tank/TankAccessories.h>
 #include <tank/TankCamera.h>
 #include <graph/MainCamera.h>
+#include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
@@ -70,14 +71,18 @@ bool ClientStartGameHandler::processMessage(
 
 	ScorchedClient::instance()->getTankContainer().setCurrentPlayerId(
 		message.getCurrentPlayerId());
+	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 
 	// Set the camera back to this players camera position
-	Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (current)
+	if (OptionsDisplay::instance()->getStorePlayerCamera())
 	{
-		MainCamera::instance()->getTarget().getCamera().setLookAt(current->getCamera().getCameraLookAt());
-		MainCamera::instance()->getTarget().getCamera().setCurrentPos(current->getCamera().getCameraPosition());
-		MainCamera::instance()->getTarget().setCameraType((TargetCamera::CamType) current->getCamera().getCameraType());
+		if (current)
+		{
+			MainCamera::instance()->getTarget().getCamera().setLookAt(current->getCamera().getCameraLookAt());
+			Vector rotation = current->getCamera().getCameraRotation();
+			MainCamera::instance()->getTarget().getCamera().movePosition(rotation[0], rotation[1], rotation[2]);
+			MainCamera::instance()->getTarget().setCameraType((TargetCamera::CamType) current->getCamera().getCameraType());
+		}
 	}
 
 	// Ensure that the landscape is set to the "proper" texture

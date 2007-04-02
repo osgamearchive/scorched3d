@@ -26,6 +26,7 @@
 #include <weapons/AccessoryStore.h>
 #include <GLEXT/GLState.h>
 #include <3dsparse/ModelStore.h>
+#include <3dsparse/Model.h>
 #include <graph/ModelRenderer.h>
 #include <graph/ModelRendererStore.h>
 #include <graph/ModelRendererSimulator.h>
@@ -45,7 +46,7 @@ void ShotBounce::init()
 {
 	PhysicsParticleInfo info(ParticleTypeBounce, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		1.0f, 5.0f, weapon_->getWindFactor(*context_), false);
+		1.0f, 5.0f, weapon_->getWindFactor(*context_), false, weapon_->getRoll());
 
 	Vector lookatPos;
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
@@ -114,10 +115,12 @@ void ShotBounce::draw()
 			glTranslatef(
 				getCurrentPosition()[0], 
 				getCurrentPosition()[1], 
-				getCurrentPosition()[2]);
+				getCurrentPosition()[2] -
+				model_->getRenderer()->getModel()->getMin()[2] * 0.08f);
+
 			glMultMatrixf(rotMatrix);
 			glScalef(0.08f, 0.08f, 0.08f);
-			model_->drawBottomAligned();
+			model_->draw();
 		glPopMatrix();
 	}
 #endif // #ifndef S3D_SERVER

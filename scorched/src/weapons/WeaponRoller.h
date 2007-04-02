@@ -36,6 +36,7 @@ public:
 
 	Weapon *getCollisionAction() { return collisionAction_; }
 	ModelID &getRollerModelID() { return rollerModelId_; }
+	bool getRoll() { return roll_; }
 	float getShieldHurtFactor(ScorchedContext &context);
 	float getTime(ScorchedContext &context);
 	float getWindFactor(ScorchedContext &context);
@@ -56,6 +57,7 @@ protected:
 	float shieldHurtFactor_;
 	float windFactor_;
 	float time_;
+	bool roll_;
 
 	bool maintainVelocity_;
 

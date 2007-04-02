@@ -38,7 +38,8 @@ public:
 		float sphereSize = 0.0f,
 		float sphereDensity = 0.0f,
 		float windFactor = 1.0f,
-		bool underGroundCollision = false);
+		bool underGroundCollision = false,
+		bool rotateOnCollision = false);
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
 

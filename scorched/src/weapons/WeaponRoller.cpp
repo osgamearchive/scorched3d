@@ -33,7 +33,8 @@
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
 WeaponRoller::WeaponRoller() : 
-	shieldHurtFactor_(0.0f), windFactor_(1.0f), maintainVelocity_(false)
+	shieldHurtFactor_(0.0f), windFactor_(1.0f), 
+	maintainVelocity_(false), roll_(true)
 {
 
 }
@@ -61,6 +62,9 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 
 	// Get the maintianvelocity (if any)
 	accessoryNode->getNamedChild("maintainvelocity", maintainVelocity_, false);
+
+	// Get if we are to roll
+	accessoryNode->getNamedChild("roll", roll_, false);
 
 	XMLNode *subNode = 0;
 	if (!accessoryNode->getNamedChild("collisionaction", subNode)) return false;

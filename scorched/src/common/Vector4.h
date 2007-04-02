@@ -88,8 +88,18 @@ public:
 		return !((*this) == Vin1);
 	}
 
+	Vector4 &operator+=(const Vector4 &qc)
+	{
+		V[0] += qc.V[0];
+		V[1] += qc.V[1];
+		V[2] += qc.V[2];
+		V[3] += qc.V[3];
+
+		return *this;
+	}
+
 	Vector4 operator*(const Vector4 &qc)
-        {
+	{
 		Vector4 qa;
 		Vector4 &qb = *this;
 		
@@ -100,13 +110,16 @@ public:
 		qa[3] = qb[0]*qc[3] + qb[3]*qc[0] + qb[1]*qc[2] - qb[2]*qc[1];
 	
 		return qa;
-        }
+	}
+
+	void Normalize();
 
 	// Quaternion maths
 	void setQuatFromAxisAndAngle(Vector &axis, float angle);
 	void getRotationMatrix(float *R); // R = float[4*3];
 	void getOpenGLRotationMatrix(float *R); // R = float[16];
 	void getRelativeVector(Vector &result, Vector &position);
+	static void dDQfromW(Vector4 &dq, Vector &w, Vector4 &q);
 
 	float &operator[](const int m) { DIALOG_ASSERT(m<=3); return V[m]; }
 	float const &operator[](const int m) const { DIALOG_ASSERT(m<=3); return V[m]; }

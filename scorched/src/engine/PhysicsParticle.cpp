@@ -37,14 +37,15 @@ void PhysicsParticle::setPhysics(
 	PhysicsParticleInfo info,
 	Vector &position, Vector &velocity,
 	float sphereSize, float sphereDensity, float windFactor,
-	bool underGroundCollision)
+	bool underGroundCollision, bool rotateOnCollision)
 {
 	physicsObject_.setPhysics(
 		info,
 		*context_, 
 		position, velocity,
 		sphereSize, sphereDensity, windFactor,
-		underGroundCollision);
+		underGroundCollision,
+		rotateOnCollision);
 	physicsObject_.setHandler(this);
 }
 

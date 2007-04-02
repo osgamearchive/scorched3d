@@ -139,6 +139,9 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	IDC_SIDESCROLL_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Side Scrolling"));
 	miscSizer2->Add(IDC_SIDESCROLL_CTRL, 0);
+	IDC_PLAYERCAMERA_CTRL = 
+		new wxCheckBox(parent, -1, wxT("Remember camera pos"));
+	miscSizer2->Add(IDC_PLAYERCAMERA_CTRL, 0);
 	IDC_LOGGING_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Client Logging"));
 	miscSizer2->Add(IDC_LOGGING_CTRL, 0);

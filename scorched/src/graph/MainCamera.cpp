@@ -211,8 +211,12 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 		Tank *current = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (current)
 		{
+			Vector rotation(
+				targetCam_.getCamera().getRotationXY(),
+				targetCam_.getCamera().getRotationYZ(),
+				targetCam_.getCamera().getZoom());
 			current->getCamera().setCameraLookAt(targetCam_.getCamera().getLookAt());
-			current->getCamera().setCameraPosition(targetCam_.getCamera().getCurrentPos());
+			current->getCamera().setCameraRotation(rotation);
 			current->getCamera().setCameraType((int) targetCam_.getCameraType());
 		}
 	}

@@ -94,7 +94,7 @@ static void addWallCollisionParticle(Vector &position, ScorchedCollisionId colli
 
 PhysicsParticleObject::PhysicsParticleObject() : 
 	handler_(0), context_(0), underGroundCollision_(false), iterations_(0),
-	info_(ParticleTypeNone, 0, 0)
+	info_(ParticleTypeNone, 0, 0), rotateOnCollision_(false)
 {
 }
 
@@ -112,11 +112,12 @@ void PhysicsParticleObject::setPhysics(
 	ScorchedContext &context, 
 	Vector &position, Vector &velocity,
 	float sphereSize, float sphereDensity, float windFactor,
-	bool underGroundCollision)
+	bool underGroundCollision, bool rotateOnCollision)
 {
 	info_ = info;
 	context_ = &context;
 	underGroundCollision_ = underGroundCollision;
+	rotateOnCollision_ = rotateOnCollision;
 
 	Vector zaxis(0.0f, 0.0f, 1.0f);
 	rotation_.setQuatFromAxisAndAngle(zaxis, 0.0f);
@@ -144,7 +145,13 @@ void PhysicsParticleObject::simulate(float frameTime)
 {
 	iterations_++;
 	velocity_ += windFactor_;
-	position_ += velocity_ / 100.0f;	
+	position_ += velocity_ / 100.0f;
+
+	if (rotateOnCollision_)
+	{
+		rotation_ += avelocity_;
+		rotation_.Normalize();
+	}
 
 	/*SyncCheck::instance()->addString(*context_, 
 		formatString("Move : %u P%f,%f,%f W%f,%f,%f",
@@ -208,6 +215,14 @@ void PhysicsParticleObject::checkCollision()
 				float dotp = -collision.normal.dotP(direction);
 				direction = direction + collision.normal * (2.0f * dotp);
 				velocity_ = direction * strength * collision.deflectFactor;
+
+				if (rotateOnCollision_)
+				{
+					Vector up(0.0f, 0.0f, -1.0f);
+					Vector rotAxis = velocity_ * up;
+					rotAxis.StoreNormalize();
+					avelocity_.setQuatFromAxisAndAngle(rotAxis, velocity_.Magnitude() * 5.0f);
+				}
 			}
 			break;
 		}

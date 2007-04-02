@@ -144,6 +144,9 @@ public:
 	bool getSideScroll() { return sideScroll_; }
 	OptionEntryBool &getSideScrollEntry() { return sideScroll_; }
 
+	bool getStorePlayerCamera() { return storePlayerCamera_; }
+	OptionEntryBool &getStorePlayerCameraEntry() { return storePlayerCamera_; }
+
 	bool getNoGLExt() { return noGLExt_; }
 	OptionEntryBool &getNoGLExtEntry() { return noGLExt_; }
 
@@ -441,6 +444,7 @@ protected:
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;
 	OptionEntryBool sideScroll_;
+	OptionEntryBool storePlayerCamera_;
 	OptionEntryBool swapYAxis_;
 	OptionEntryBool clientLogToFile_;
 	OptionEntryInt clientLogState_;

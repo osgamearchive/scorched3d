@@ -382,6 +382,8 @@ void DisplayFrame::refreshScreen()
 	IDC_TIMER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFrameTimerEntry().getDescription(), wxConvUTF8));
 	IDC_SIDESCROLL_CTRL->SetValue(OptionsDisplay::instance()->getSideScroll());
 	IDC_SIDESCROLL_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSideScrollEntry().getDescription(), wxConvUTF8));
+	IDC_PLAYERCAMERA_CTRL->SetValue(OptionsDisplay::instance()->getStorePlayerCamera());
+	IDC_PLAYERCAMERA_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getStorePlayerCameraEntry().getDescription(), wxConvUTF8));
 	IDC_VALIDATESERVER_CTRL->SetValue(OptionsDisplay::instance()->getValidateServerIp());
 	IDC_VALIDATESERVER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getValidateServerIpEntry().getDescription(), wxConvUTF8));	
 	IDC_SLIDER1_CTRL->SetRange(3, 40);
@@ -576,6 +578,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getShowContextHelpEntry().setValue(IDC_TOOLTIP_CTRL->GetValue());
 	OptionsDisplay::instance()->getFrameTimerEntry().setValue(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->getSideScrollEntry().setValue(IDC_SIDESCROLL_CTRL->GetValue());
+	OptionsDisplay::instance()->getStorePlayerCameraEntry().setValue(IDC_PLAYERCAMERA_CTRL->GetValue());
 	OptionsDisplay::instance()->getValidateServerIpEntry().setValue(IDC_VALIDATESERVER_CTRL->GetValue());
 	OptionsDisplay::instance()->getOnlineUserNameEntry().setValue(IDC_USERNAME_CTRL->GetValue().mb_str(wxConvUTF8));
 	OptionsDisplay::instance()->getOnlineTankModelEntry().setValue(IDC_TANKMODEL_CTRL->GetValue().mb_str(wxConvUTF8));

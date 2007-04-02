@@ -74,7 +74,8 @@ public:
 		float sphereSize = 0.0f,
 		float sphereDensity = 0.0f,
 		float windFactor = 1.0f,
-		bool underGroundCollision = false);
+		bool underGroundCollision = false,
+		bool rotateOnCollision = false);
 
 	void applyForce(Vector &force);
 	void simulate(float frameTime);
@@ -91,11 +92,13 @@ protected:
 	ScorchedContext *context_;
 	PhysicsParticleObjectHandler *handler_;
 	bool underGroundCollision_;
+	bool rotateOnCollision_;
 	unsigned int iterations_;
 	Vector position_;
 	Vector velocity_;
 	Vector windFactor_;
 	Vector4 rotation_;
+	Vector4 avelocity_;
 
 	enum CollisionAction
 	{

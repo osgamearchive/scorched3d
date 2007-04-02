@@ -25,6 +25,7 @@
 #define _R(i,j) R[(i)*4+(j)]
 #define dDOTpq(a,b,p,q) ((a)[0]*(b)[0] + (a)[p]*(b)[q] + (a)[2*(p)]*(b)[2*(q)])
 #define dDOT41(a,b) dDOTpq(a,b,4,1)
+#define dDOT(a,b)   dDOTpq(a,b,1,1)
 #define dMULTIPLYOP1_331(A,op,B,C) \
 do { \
   (A)[0] op dDOT41((B),(C)); \
@@ -99,6 +100,26 @@ void Vector4::getOpenGLRotationMatrix(float *rotMatrix)
 	rotMatrix[12] = rotMatrix[13] = rotMatrix[14] = 0.0;	
 }
 
+void Vector4::Normalize()
+{
+	float l = dDOT(V,V) + V[3] * V[3];
+	if (l > 0) 
+	{
+		l = 1.0f / sqrtf(l);
+		V[0] *= l;
+		V[1] *= l;
+		V[2] *= l;
+		V[3] *= l;
+	}
+	else 
+	{
+		V[0] = 1;
+		V[1] = 0;
+		V[2] = 0;
+		V[3] = 0;
+	}
+}
+
 void Vector4::getRelativeVector(Vector &r, Vector &p)
 {
 	static float matrix[12];
@@ -107,4 +128,12 @@ void Vector4::getRelativeVector(Vector &r, Vector &p)
 	float *result = r;
 	float *position = p;
 	dMULTIPLY1_331(result, matrix, position);
+}
+
+void Vector4::dDQfromW(Vector4 &dq, Vector &w, Vector4 &q)
+{
+	dq[0] = 0.5f *(- w[0]*q[1] - w[1]*q[2] - w[2]*q[3]);
+	dq[1] = 0.5f *(  w[0]*q[0] + w[1]*q[3] - w[2]*q[2]);
+	dq[2] = 0.5f *(- w[0]*q[3] + w[1]*q[0] + w[2]*q[1]);
+	dq[3] = 0.5f *(  w[0]*q[2] - w[1]*q[1] + w[2]*q[0]);
 }
