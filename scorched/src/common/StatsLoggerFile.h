@@ -42,6 +42,7 @@ public:
 	virtual char *getStatsId(Tank *tank);
 	virtual char *getTopRanks();
 	virtual char *getPlayerInfo(const char *player);
+	virtual void combinePlayers(unsigned int player1, unsigned int player2);
 
 	virtual void tankConnected(Tank *tank);
 	virtual void tankDisconnected(Tank *tank);

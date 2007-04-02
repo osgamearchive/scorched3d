@@ -47,6 +47,15 @@ enum EventType
 	EventJoined = 9
 };
 
+const char *StatsLoggerDatabase::RowResult::getValue(const char *name)
+{
+	std::map<std::string, unsigned int>::iterator findItor =
+		names.find(name);
+	if (findItor == names.end()) return 0;
+	unsigned int pos = findItor->second;
+	return columns[pos].c_str();
+}
+
 StatsLoggerDatabase::StatsLoggerDatabase() : 
 	success_(false),
 	serverid_(0), seriesid_(0), prefixid_(0)
@@ -366,8 +375,8 @@ char *StatsLoggerDatabase::getPlayerInfo(const char *player)
 {
 	std::string stringResult;
 	std::list<StatsLoggerDatabase::RowResult> playerRows =
-		runSelectQuery("select name, uniqueid from "
-		"scorched3d_players where LOCATE(LOWER(\"%s\"), LOWER(name)) != 0", 
+		runSelectQuery("select playerid, name, uniqueid from "
+		"scorched3d_players where LOCATE(LOWER(\"%s\"), LOWER(name)) != 0 limit 0,50", 
 		player);
 	if (!playerRows.empty())
 	{
@@ -387,6 +396,93 @@ char *StatsLoggerDatabase::getPlayerInfo(const char *player)
 	}
 	
 	return (char *) formatString("%s", stringResult.c_str());
+}
+
+void StatsLoggerDatabase::combinePlayers(unsigned int player1, unsigned int player2)
+{
+	// Check these players exist
+	std::list<StatsLoggerDatabase::RowResult> player1Rows =
+		runSelectQuery("select name, uniqueid from "
+		"scorched3d_players where playerid=%i", 
+		player1);
+	std::list<StatsLoggerDatabase::RowResult> player2Rows =
+		runSelectQuery("select name, uniqueid from "
+		"scorched3d_players where playerid=%i", 
+		player2);
+	if (player1Rows.empty()) return;
+	if (player2Rows.empty()) return;
+
+	// Find all results from player2
+	std::list<StatsLoggerDatabase::RowResult> player2Results =
+		runSelectQuery("select * from scorched3d_stats where playerid=%i", 
+		player2);
+	std::list<StatsLoggerDatabase::RowResult>::iterator itor;
+	for (itor = player2Results.begin();
+		itor != player2Results.end();
+		itor++)
+	{
+		StatsLoggerDatabase::RowResult &player2Result = *itor;
+		const char *prefixId = player2Result.getValue("prefixid");
+		const char *seriesId = player2Result.getValue("seriesid");
+		if (prefixId && seriesId)
+		{
+			// Find all results from player1 in the same prefix and series
+			std::list<StatsLoggerDatabase::RowResult> player1Results =
+				runSelectQuery("select * from scorched3d_stats where playerid=%i AND "
+				"prefixid=%s and seriesid=%s", 
+				player1, prefixId, seriesId);
+			if (player1Results.empty())
+			{
+				// There are no results for player1, just move the results
+				runQuery("update scorched3d_stats set playerid=%i where "
+					"playerid=%i and prefixid=%s and seriesid=%s", 
+					player1, player2,
+					prefixId, seriesId);
+			}
+			else
+			{
+				// There are results for player1, combine the results
+				StatsLoggerDatabase::RowResult &player1Result = player1Results.front();
+				std::map<std::string, unsigned int>::iterator itor;
+				for (itor != player1Result.names.begin();
+					itor != player1Result.names.end();
+					itor++)
+				{
+					std::string name = itor->first;
+					std::string value1 = player1Result.getValue(name.c_str());
+					std::string value2 = player2Result.getValue(name.c_str());
+					
+					std::string query = "update scorched3d_stats ";
+					if (name == "playerid" ||
+						name == "prefixid" ||
+						name == "seriesid" ||
+						name == "lastconnected" ||
+						name == "rank" ||
+						name == "skill")
+					{
+						// Ignore
+					}
+					else
+					{
+						int v1 = atoi(value1.c_str());
+						int v2 = atoi(value2.c_str());
+						int value = v1 + v2;
+						query.append(formatString("set %s=%i ", name.c_str(), value));
+					}
+					query.append(
+						formatString("where playerid=%i and prefixid=%s and seriesid=%s", 
+							player1, prefixId, seriesId));
+					runQuery(query.c_str());
+				}
+			}
+		}
+	}
+
+	// Remove player2
+	runQuery("delete from scorched3d_players where playerid=%i", player2);
+	runQuery("delete from scorched3d_stats where playerid=%i", player2);
+	runQuery("delete from scorched3d_names where playerid=%i", player2);
+	runQuery("delete from scorched3d_ipaddresses where playerid=%i", player2);
 }
 
 std::list<std::string> StatsLoggerDatabase::getIpAliases(Tank *tank)

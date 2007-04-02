@@ -65,6 +65,7 @@ std::list<StatsLoggerDatabase::RowResult> StatsLoggerMySQL::runSelectQuery(const
 	{
 		int rows = (int) mysql_num_rows(result);
 		int cols = (int) mysql_num_fields(result);
+		MYSQL_FIELD *fields = mysql_fetch_fields(result);
 		for (int r=0; r<rows; r++)
 		{
 			StatsLoggerDatabase::RowResult rowResult;
@@ -72,7 +73,10 @@ std::list<StatsLoggerDatabase::RowResult> StatsLoggerMySQL::runSelectQuery(const
 
 			for (int c=0; c<cols; c++)
 			{
-				rowResult.columns.push_back(row[c]);
+				const char *value = (row[c]?row[c]:"");
+				const char *name = fields[c].name;
+				rowResult.columns.push_back(value);
+				rowResult.names[name] = c;
 			}
 
 			results.push_back(rowResult);

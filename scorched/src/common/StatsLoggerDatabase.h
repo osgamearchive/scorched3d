@@ -45,6 +45,7 @@ public:
 	virtual char *getStatsId(Tank *tank);
 	virtual char *getTopRanks();
 	virtual char *getPlayerInfo(const char *player);
+	virtual void combinePlayers(unsigned int player1, unsigned int player2);
 
 	virtual void tankConnected(Tank *tank);
 	virtual void tankDisconnected(Tank *tank);
@@ -67,6 +68,9 @@ protected:
 	struct RowResult
 	{
 		std::vector<std::string> columns;
+		std::map<std::string, unsigned int> names;
+
+		const char *getValue(const char *name);
 	};
 
 	// Overridden by new implementations

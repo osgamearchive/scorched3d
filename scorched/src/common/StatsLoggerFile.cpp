@@ -106,6 +106,10 @@ char *StatsLoggerFile::getPlayerInfo(const char *player)
 	return "";
 }
 
+void StatsLoggerFile::combinePlayers(unsigned int player1, unsigned int player2)
+{
+}
+
 std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
 {
 	std::list<std::string> result;

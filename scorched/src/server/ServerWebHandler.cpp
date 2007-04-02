@@ -614,6 +614,21 @@ bool ServerWebHandler::StatsHandler::processRequest(const char *url,
 		message.append("<b>Players</b>\n");
 		message.append(StatsLogger::instance()->getPlayerInfo(find));
 	}
+	else if (action && (0 == strcmp(action, "Combine")))
+	{
+		const char *player1 = ServerWebServerUtil::getField(fields, "player1");
+		const char *player2 = ServerWebServerUtil::getField(fields, "player2");
+		if (player1 && player2)
+		{
+			int p1 = atoi(player1);
+			int p2 = atoi(player2);
+			if (p1 && p2)
+			{
+				StatsLogger::instance()->combinePlayers(p1, p2);
+				message.append("<b>Combined</b>\n");
+			}
+		}
+	}
 	else
 	{
 		message.append("<b>Ranks</b>\n");
