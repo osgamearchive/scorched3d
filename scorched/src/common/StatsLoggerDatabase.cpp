@@ -720,44 +720,26 @@ void StatsLoggerDatabase::periodicUpdate()
 		}
 
 		// Generate ranks
-		std::list<StatsLoggerDatabase::RowResult> sourceRows =
+		std::list<StatsLoggerDatabase::RowResult>::iterator playerItor;
+		std::list<StatsLoggerDatabase::RowResult> playerRows =
 			runSelectQuery(
-				"SELECT "
-				"scorched3d_series.seriesid as seriesid, "
-				"scorched3d_prefixs.prefixid as prefixid "
-				"FROM `scorched3d_statssource` "
-				"LEFT JOIN scorched3d_series ON scorched3d_series.seriesid = scorched3d_statssource.seriesid " 
-				"LEFT JOIN scorched3d_prefixs ON scorched3d_prefixs.prefixid = scorched3d_statssource.prefixid");
-		if (!sourceRows.empty())
-		{
-			std::list<StatsLoggerDatabase::RowResult>::iterator sourceItor;
-			for (sourceItor = sourceRows.begin();
-				sourceItor != sourceRows.end();
-				sourceItor++)
-			{
-				StatsLoggerDatabase::RowResult &sourceRow = *sourceItor;
-				std::list<StatsLoggerDatabase::RowResult>::iterator playerItor;
-				std::list<StatsLoggerDatabase::RowResult> playerRows =
-					runSelectQuery(
-						"SELECT playerid, kills from scorched3d_stats "
-						"WHERE seriesid=%s and prefixid=%s order by kills desc",
-						sourceRow.columns[0].c_str(),
-						sourceRow.columns[1].c_str());
+				"SELECT playerid, kills from scorched3d_stats "
+				"WHERE seriesid=%u and prefixid=%u order by kills desc",
+				seriesid_,
+				prefixid_);
 
-				int rank = 1;
-				for (playerItor = playerRows.begin();
-					playerItor != playerRows.end();
-					playerItor++, rank++)
-				{
-					StatsLoggerDatabase::RowResult &playerRow = *playerItor;
-					runQuery("UPDATE scorched3d_stats SET rank=%i "
-						"WHERE seriesid=%s and prefixid=%s and playerid=%s",
-						rank, 
-						sourceRow.columns[0].c_str(),
-						sourceRow.columns[1].c_str(),
-						playerRow.columns[0].c_str());
-				}
-			}
+		int rank = 1;
+		for (playerItor = playerRows.begin();
+			playerItor != playerRows.end();
+			playerItor++, rank++)
+		{
+			StatsLoggerDatabase::RowResult &playerRow = *playerItor;
+			runQuery("UPDATE scorched3d_stats SET rank=%i "
+				"WHERE seriesid=%u and prefixid=%u and playerid=%s",
+				rank, 
+				seriesid_,
+				prefixid_,
+				playerRow.columns[0].c_str());
 		}
 
 		Logger::log(formatString("statslogger database finished periodics"));
