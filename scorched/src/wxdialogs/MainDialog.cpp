@@ -513,7 +513,7 @@ void MainFrame::onQuitButton()
 
 void MainFrame::onHelpButton()
 {
-	showURL(formatString("file://%s", getDocFile("html/index.html")));
+	showURL("http://www.scorched3d.co.uk/wiki");
 }
 
 extern bool newVersion;

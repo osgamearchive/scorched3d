@@ -79,7 +79,7 @@ bool HelpButtonDialog::HelpMenu::getMenuItems(const char* menuName, std::list<GL
 void HelpButtonDialog::HelpMenu::menuSelection(const char* menuName, 
 	const int position, GLMenuItem &item)
 {
-	showURL(formatString("file://%s", getDocFile("html/index.html")));
+	showURL("http://www.scorched3d.co.uk/wiki");
 }
 
 HelpButtonDialog::VolumeMenu::VolumeMenu()

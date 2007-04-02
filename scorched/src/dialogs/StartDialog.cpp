@@ -160,7 +160,7 @@ void StartDialog::mouseDown(int button, float x, float y, bool &skipRest)
 		break;
 	case 4:
 		{
-		showURL(formatString("file://%s", getDocFile("html/index.html")));
+		showURL("http://www.scorched3d.co.uk/wiki");
 		}
 		break;
 	case 5:
