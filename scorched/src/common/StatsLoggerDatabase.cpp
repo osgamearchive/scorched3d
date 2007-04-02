@@ -338,6 +338,9 @@ void StatsLoggerDatabase::addIpAliases(int playerId,
 
 char *StatsLoggerDatabase::getTopRanks()
 {
+        createLogger();
+        if (!success_) return "";
+
 	const char *columns = 
 		"kills, deaths, selfkills, teamkills, shots, wins, "
 		"overallwinner, resigns, gamesplayed, timeplayed, roundsplayed, "
@@ -373,11 +376,19 @@ char *StatsLoggerDatabase::getTopRanks()
 
 char *StatsLoggerDatabase::getPlayerInfo(const char *player)
 {
+        createLogger();
+        if (!success_) return "";
+
 	std::string stringResult;
 	std::list<StatsLoggerDatabase::RowResult> playerRows =
-		runSelectQuery("select playerid, name, uniqueid from "
-		"scorched3d_players where LOCATE(LOWER(\"%s\"), LOWER(name)) != 0 limit 0,50", 
-		player);
+		runSelectQuery("select "
+			"scorched3d_names.playerid as playerid, "
+			"scorched3d_names.name as name, "
+			"uniqueid from "
+			"scorched3d_names left join "
+			"scorched3d_players on scorched3d_players.playerid = scorched3d_names.playerid "
+			"where LOCATE(LOWER(\"%s\"), LOWER(scorched3d_names.name)) != 0 limit 0,50",
+			player);
 	if (!playerRows.empty())
 	{
 		std::list<StatsLoggerDatabase::RowResult>::iterator itor;
@@ -400,6 +411,9 @@ char *StatsLoggerDatabase::getPlayerInfo(const char *player)
 
 void StatsLoggerDatabase::combinePlayers(unsigned int player1, unsigned int player2)
 {
+        createLogger();
+        if (!success_) return;
+
 	// Check these players exist
 	std::list<StatsLoggerDatabase::RowResult> player1Rows =
 		runSelectQuery("select name, uniqueid from "
@@ -444,7 +458,7 @@ void StatsLoggerDatabase::combinePlayers(unsigned int player1, unsigned int play
 				// There are results for player1, combine the results
 				StatsLoggerDatabase::RowResult &player1Result = player1Results.front();
 				std::map<std::string, unsigned int>::iterator itor;
-				for (itor != player1Result.names.begin();
+				for (itor = player1Result.names.begin();
 					itor != player1Result.names.end();
 					itor++)
 				{
@@ -658,6 +672,9 @@ void StatsLoggerDatabase::tankResigned(Tank *tank)
 
 void StatsLoggerDatabase::updateStats(Tank *tank)
 {
+	createLogger();
+	if (!success_) return;
+
 	if (!tank->getState().getSpectator())
 	{
 		runQuery("UPDATE scorched3d_stats SET "
@@ -818,6 +835,9 @@ void StatsLoggerDatabase::addInfo(Tank *tank)
 
 void StatsLoggerDatabase::tankConnected(Tank *tank)
 {
+        createLogger();
+        if (!success_) return;
+
 	// We don't have a player id, create one
 	int playerId = getPlayerId(tank->getUniqueId());
 	if (playerId == 0)
@@ -954,6 +974,9 @@ void StatsLoggerDatabase::tankJoined(Tank *tank)
 
 int StatsLoggerDatabase::getKillCount(const char *uniqueId)
 {
+        createLogger();
+        if (!success_) return 0;
+
 	int kills = 0;
 	int playerId = getPlayerId(uniqueId);
 	if (playerId != 0) 
@@ -1159,6 +1182,9 @@ void StatsLoggerDatabase::tankOverallWinner(Tank *tank)
 
 void StatsLoggerDatabase::weaponFired(Weapon *weapon, bool deathAni)
 {
+        createLogger();
+        if (!success_) return;
+
 	if (deathAni)
 	{
 		runQuery("UPDATE scorched3d_weapons SET deathshots=deathshots+1 "
@@ -1179,6 +1205,9 @@ void StatsLoggerDatabase::weaponFired(Weapon *weapon, bool deathAni)
 
 void StatsLoggerDatabase::weaponKilled(Weapon *weapon, bool deathAni)
 {
+        createLogger();
+        if (!success_) return;
+
 	if (deathAni)
 	{
 		runQuery("UPDATE scorched3d_weapons SET deathkills=deathkills+1 "
