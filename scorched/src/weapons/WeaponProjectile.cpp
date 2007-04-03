@@ -27,7 +27,8 @@
 REGISTER_ACCESSORY_SOURCE(WeaponProjectile);
 
 WeaponProjectile::WeaponProjectile() : 
-	under_(false), collisionAction_(0), apexCollision_(false),
+	under_(false), collisionAction_(0), 
+	apexCollision_(false), waterCollision_(false),
 	showShotPath_(false), showEndPoint_(false), 
 	createSmoke_(true),	createFlame_(true), 
 	spinSpeed_(1.0f), apexNoDud_(false), timedDud_(false),
@@ -109,6 +110,11 @@ bool WeaponProjectile::parseXML(AccessoryCreateContext &context, XMLNode *access
 	accessoryNode->getNamedChild("apexnodud", apexNoDudNode, false);
 	if (apexNode) apexCollision_ = true;
 	if (apexNoDudNode) apexNoDud_ = true;
+
+	// Water collision
+	XMLNode *waterNode = 0;
+	accessoryNode->getNamedChild("watercollision", waterNode, false);
+	if (waterNode) waterCollision_ = true;	
 
 	// Get the timed collision point
 	XMLNode *timedDudNode = 0;

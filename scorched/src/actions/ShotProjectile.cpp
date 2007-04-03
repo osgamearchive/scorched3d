@@ -20,6 +20,8 @@
 
 #include <actions/ShotProjectile.h>
 #include <sprites/MissileActionRenderer.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapedef/LandscapeTex.h>
 #include <tankgraph/RenderTracer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
@@ -126,8 +128,30 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		vPoint_->setLookFrom(velocity);
 	}
 
+	// Water collision
+	if (!remove &&
+		getWeapon()->getWaterCollision())
+	{
+		float waterHeight = -10.0f;
+		LandscapeTex &tex = *context_->landscapeMaps->getDefinitions().getTex();
+		if (tex.border->getType() == LandscapeTexType::eWater)
+		{
+			LandscapeTexBorderWater *water = 
+				(LandscapeTexBorderWater *) tex.border;
+
+			waterHeight = water->height;
+		}
+
+		if (getCurrentPosition()[2] < waterHeight)
+		{
+			doCollision(getCurrentPosition());
+			remove = true;
+		}
+	}
+
 	// Apex collision
-	if (getWeapon()->getApexCollision())
+	if (!remove &&
+		getWeapon()->getApexCollision())
 	{
 		if (getCurrentVelocity()[2] > 0.0f) up_ = true;
 		else if (up_)
@@ -159,7 +183,8 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	}
 
 	// Timed collision
-	if (timedCollision_ > 0.0f)
+	if (!remove &&
+		timedCollision_ > 0.0f)
 	{
 		if (totalTime_ > timedCollision_)
 		{

@@ -29,3 +29,23 @@ AccessoryCreateContext::AccessoryCreateContext(
 AccessoryCreateContext::~AccessoryCreateContext()
 {
 }
+
+WeaponLabel *AccessoryCreateContext::getLabel(const char *label)
+{
+	std::map<std::string, WeaponLabel*>::iterator findItor = 
+		labels_.find(label);
+	if (findItor == labels_.end()) return 0;
+	return findItor->second;
+}
+
+void AccessoryCreateContext::addLabel(const char *label, WeaponLabel *weapon)
+{
+	labels_[label] = weapon;
+}
+
+void AccessoryCreateContext::removeLabel(const char *label)
+{
+	std::map<std::string, WeaponLabel*>::iterator findItor = 
+		labels_.find(label);
+	if (findItor != labels_.end()) labels_.erase(findItor);
+}

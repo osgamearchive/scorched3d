@@ -1486,7 +1486,67 @@ and shields damaging the tank directly.</description>
 			</repeatweapon>
 		</accessoryaction>
 	</accessory>
-	
+
+
+
+	<accessory>
+		<name>Test Puncture</name>
+		<maximumnumber>0</maximumnumber>
+		<bundlesize>2</bundlesize>
+		<cost>10000</cost>
+		<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
+		<accessoryaction type='WeaponLabel'>
+			<label>label1</label>
+			<nextweapon type='WeaponProjectile'>
+				<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
+				<collisionaction type='WeaponMulti'>
+					<subweapon1 type='WeaponExplosion'>
+						<hurtamount>1.0</hurtamount>
+						<deform>down</deform>
+						<size>8</size>
+						<explosiontexture>exp01</explosiontexture>
+						<explosionsound>explosions/medium.wav</explosionsound>
+					</subweapon1>
+					<subweapon2 type='WeaponGotoLabel'>
+						<label>label1</label>
+						<count>10</count>
+					</subweapon2>
+				</collisionaction>
+			</nextweapon>
+		</accessoryaction>
+	</accessory>
+
+
+	<accessory>
+		<name>Test Leap Frog</name>
+		<maximumnumber>0</maximumnumber>
+		<bundlesize>2</bundlesize>
+		<cost>10000</cost>
+		<activationsound>shoot/medium.wav</activationsound>
+		<model type='MilkShape'>bouncingbetty/bouncingbetty.txt</model>
+		<accessoryaction type='WeaponLabel'>
+			<label>label1</label>
+			<nextweapon type='WeaponProjectile'>
+				<projectilemodel type='MilkShape'>bouncingbetty/bouncingbetty.txt</projectilemodel>
+				<collisionaction type='WeaponMulti'>
+					<subweapon1 type='WeaponExplosion'>
+						<hurtamount>1.0</hurtamount>
+						<deform>down</deform>
+						<size>8</size>
+						<explosiontexture>exp01</explosiontexture>
+						<explosionsound>explosions/medium.wav</explosionsound>
+					</subweapon1>
+					<subweapon2 type='WeaponLeapFrog'>
+						<bounce>0.4</bounce>
+						<collisionaction type='WeaponGotoLabel'>
+							<label>label1</label>
+							<count>10</count>
+						</collisionaction>
+					</subweapon2>
+				</collisionaction>
+			</nextweapon>
+		</accessoryaction>
+	</accessory>
 	
 	<accessory>
 		<name>Teleport Test</name>

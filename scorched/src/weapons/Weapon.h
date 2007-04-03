@@ -36,10 +36,12 @@ public:
 
 	unsigned int getPlayerId() { return playerId_; }
 	unsigned int getData() { return data_; }
+	int getIncLabelCount(unsigned int label);
 
 protected:
 	unsigned int playerId_;
 	unsigned int data_;
+	std::map<unsigned int, int> labelCount_;
 
 private:
 	WeaponFireContext &operator=(WeaponFireContext &other);

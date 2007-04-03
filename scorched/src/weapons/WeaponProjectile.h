@@ -45,6 +45,7 @@ public:
 	bool getShowShotPath() { return showShotPath_; }
 	bool getShowEndPoint() { return showEndPoint_; }
 	bool getApexCollision() { return apexCollision_; }
+	bool getWaterCollision() { return waterCollision_; }
 	bool getApexNoDud() { return apexNoDud_; }
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
@@ -75,6 +76,7 @@ protected:
 	bool showShotPath_;
 	bool showEndPoint_;
 	bool apexCollision_;
+	bool waterCollision_;
 	bool apexNoDud_, timedDud_;
 	NumberParser spinSpeed_;
 	bool createSmoke_, createFlame_;

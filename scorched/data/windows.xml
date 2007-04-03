@@ -149,14 +149,14 @@
 		<key>SHOW_PLAN_DIALOG</key>
 		<w>128</w>
 		<h>128</h>
-		<x>-138</x>
+		<x>-158</x>
 		<y>-168</y>
 		<description>Shows the position of the the tanks
 on a overhead map of the island.</description>
 		<items>
 			<item>
 				<widget type="GLWIcon">
-					<x>0</x><y>0</y>
+					<x>20</x><y>0</y>
 					<w>128</w><h>128</h>
 					<bitmap>data/windows/plan.bmp</bitmap>
 					<bitmapa>data/windows/plana.bmp</bitmapa>
@@ -165,7 +165,7 @@ on a overhead map of the island.</description>
 			</item>
 			<item>
 				<widget type="GLWPlanView">
-					<x>0</x><y>0</y>
+					<x>20</x><y>0</y>
 					<w>128</w><h>128</h>				
 				</widget>
 			</item>

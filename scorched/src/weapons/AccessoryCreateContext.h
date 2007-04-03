@@ -21,8 +21,12 @@
 #if !defined(AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_)
 #define AFX_ACCESSORYCREATECONTEXT_H__21765D5B_DB45_4275_AB63_BAD1E84C1790__INCLUDED_
 
+#include <map>
+#include <string>
+
 class OptionsScorched;
 class AccessoryStore;
+class WeaponLabel;
 class AccessoryCreateContext  
 {
 public:
@@ -31,10 +35,14 @@ public:
 
 	OptionsScorched &getOptionsGame() { return optionsGame_; }
 	AccessoryStore *getAccessoryStore() { return store_; }
+	WeaponLabel *getLabel(const char *label);
+	void addLabel(const char *label, WeaponLabel *weapon);
+	void removeLabel(const char *label);
 
 protected:
 	OptionsScorched &optionsGame_;
 	AccessoryStore *store_;
+	std::map<std::string, WeaponLabel*> labels_;
 
 private:
 	AccessoryCreateContext(const AccessoryCreateContext&);

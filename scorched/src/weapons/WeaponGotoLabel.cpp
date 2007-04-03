@@ -18,56 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <weapons/Weapon.h>
+#include <weapons/WeaponGotoLabel.h>
 #include <weapons/AccessoryStore.h>
 
-WeaponFireContext::WeaponFireContext(unsigned int playerId, unsigned int data) :
-	playerId_(playerId),
-	data_(data)
+REGISTER_ACCESSORY_SOURCE(WeaponGotoLabel);
+
+WeaponGotoLabel::WeaponGotoLabel()
 {
 }
 
-WeaponFireContext::WeaponFireContext(WeaponFireContext &other) :
-	playerId_(other.playerId_),
-	data_(other.data_),
-	labelCount_(other.labelCount_)
+WeaponGotoLabel::~WeaponGotoLabel()
 {
 }
 
-WeaponFireContext::~WeaponFireContext()
+bool WeaponGotoLabel::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
-}
+	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
-int WeaponFireContext::getIncLabelCount(unsigned int label)
-{
-	std::map<unsigned int, int>::iterator findItor =
-		labelCount_.find(label);
-	if (findItor == labelCount_.end()) labelCount_[label] = 0;
+	std::string label;
+	if (!accessoryNode->getNamedChild("label", label)) return false;
+	if (!accessoryNode->getNamedChild("count", count_)) return false;
 
-	return ++labelCount_[label];
-}
-
-Weapon::Weapon() : 
-	armsLevel_(-1)
-{
-
-}
-
-Weapon::~Weapon()
-{
-
-}
-
-bool Weapon::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
-{
-	// Get the optional weapon armslevel
-	accessoryNode->getNamedChild("armslevel", armsLevel_, false);
+	weaponLabel_ = context.getLabel(label.c_str());
+	if (!weaponLabel_)
+	{
+		return accessoryNode->returnError("Failed to find the named label");
+	}
 
 	return true;
 }
 
-int Weapon::getArmsLevel()
+void WeaponGotoLabel::fireWeapon(ScorchedContext &context,
+	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
-	if (armsLevel_ == -1) return parent_->getArmsLevel();
-	return armsLevel_;
+	int doneCount = weaponContext.getIncLabelCount(getAccessoryPartId());
+	if (doneCount <= count_)
+	{
+		weaponLabel_->fireWeapon(context, weaponContext, position, velocity);
+	}
 }

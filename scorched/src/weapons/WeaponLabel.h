@@ -18,56 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(AFX_WeaponLabel_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)
+#define AFX_WeaponLabel_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_
+
 #include <weapons/Weapon.h>
-#include <weapons/AccessoryStore.h>
 
-WeaponFireContext::WeaponFireContext(unsigned int playerId, unsigned int data) :
-	playerId_(playerId),
-	data_(data)
+class WeaponLabel  : public Weapon
 {
-}
+public:
+	WeaponLabel();
+	virtual ~WeaponLabel();
 
-WeaponFireContext::WeaponFireContext(WeaponFireContext &other) :
-	playerId_(other.playerId_),
-	data_(other.data_),
-	labelCount_(other.labelCount_)
-{
-}
+	virtual bool parseXML(AccessoryCreateContext &context,
+		XMLNode *accessoryNode);
 
-WeaponFireContext::~WeaponFireContext()
-{
-}
+	// Inherited from Weapon
+	void fireWeapon(ScorchedContext &context,
+		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
 
-int WeaponFireContext::getIncLabelCount(unsigned int label)
-{
-	std::map<unsigned int, int>::iterator findItor =
-		labelCount_.find(label);
-	if (findItor == labelCount_.end()) labelCount_[label] = 0;
+	REGISTER_ACCESSORY_HEADER(WeaponLabel, AccessoryPart::AccessoryWeapon);
 
-	return ++labelCount_[label];
-}
+protected:
+	Weapon *nextWeapon_;
 
-Weapon::Weapon() : 
-	armsLevel_(-1)
-{
+};
 
-}
-
-Weapon::~Weapon()
-{
-
-}
-
-bool Weapon::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
-{
-	// Get the optional weapon armslevel
-	accessoryNode->getNamedChild("armslevel", armsLevel_, false);
-
-	return true;
-}
-
-int Weapon::getArmsLevel()
-{
-	if (armsLevel_ == -1) return parent_->getArmsLevel();
-	return armsLevel_;
-}
+#endif // !defined(AFX_WeaponLabel_H__B5C043F0_7DC6_4198_AE5B_E19002234FCE__INCLUDED_)

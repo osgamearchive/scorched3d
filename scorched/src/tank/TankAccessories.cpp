@@ -349,15 +349,25 @@ bool TankAccessories::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
 	if (writeAccessories)
 	{
-		// Add all the accessories that are sent to the client
+		// Write accessories in partid order
+		std::map<unsigned int, int> ordered;
+		std::map<unsigned int, int>::iterator itor2;
 		std::map<Accessory *, int>::iterator itor;
-		buffer.addToBuffer((int) accessories_.size());
 		for (itor = accessories_.begin();
 			itor != accessories_.end();
 			itor++)
 		{
-			buffer.addToBuffer((*itor).first->getAccessoryId());
-			buffer.addToBuffer((*itor).second);
+			ordered[itor->first->getAccessoryId()] = itor->second;
+		}
+
+		// Add all the accessories that are sent to the client
+		buffer.addToBuffer((int) ordered.size());
+		for (itor2 = ordered.begin();
+			itor2 != ordered.end();
+			itor2++)
+		{
+			buffer.addToBuffer(itor2->first);
+			buffer.addToBuffer(itor2->second);
 		}
 	}
 	else

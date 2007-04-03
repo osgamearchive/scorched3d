@@ -175,15 +175,27 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		{
 			((Tank*)target)->writeMessage(tmpBuffer, true);
 		}
-		int memresult = memcmp(
-			tmpBuffer.getBuffer(), &reader.getBuffer()[reader.getReadSize()], 
-			tmpBuffer.getBufferUsed());
-		if (memresult != 0)
+
+		if (!target->getTargetState().getMovement())
 		{
-			if (!target->getTargetState().getMovement())
+			for (unsigned int i=0; i<tmpBuffer.getBufferUsed(); i++)
 			{
-				Logger::log(formatString("Targets values differ : %u:%s", 
-					playerId, target->getName()));
+				if (tmpBuffer.getBuffer()[i] != reader.getBuffer()[reader.getReadSize() + i])
+				{
+					Logger::log(formatString("Targets values differ : %u:%s, position %i", 
+						playerId, target->getName(), i));
+
+					// Only used for step-through debugging to see where the
+					// differences are
+					tmpBuffer.setBufferUsed(i);
+					NetBufferReader tmpReader(tmpBuffer);
+					if (!target->readMessage(tmpReader))
+					{
+						Logger::log(formatString("Re-parse failed"));
+					}
+
+					break;
+				}
 			}
 		}
 
