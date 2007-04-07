@@ -18,91 +18,64 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/Keyboard.h>
-#include <common/DefinesScorched.h>
-#include <sound/Sound.h>
-#include <weapons/AccessoryStore.h>
-#include <GLEXT/GLConsole.h>
-#include <graph/MainCamera.h>
-#include <graph/OptionsDisplay.h>
-#include <client/ScorchedClient.h>
-#include <client/ClientState.h>
-#include <tankai/TankAIHuman.h>
-#include <tankgraph/TargetRendererImplTank.h>
-#include <landscapemap/LandscapeMaps.h>
-#include <coms/ComsMessageSender.h>
-#include <coms/ComsDefenseMessage.h>
-#include <coms/ComsPlayedMoveMessage.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/Tank.h>
 #include <tank/TankPosition.h>
+#include <tank/TankState.h>
 #include <tank/TankAccessories.h>
+#include <tankgraph/TargetRendererImplTank.h>
 #include <target/TargetShield.h>
 #include <target/TargetLife.h>
-#include <stdio.h>
+#include <coms/ComsMessageSender.h>
+#include <coms/ComsPlayedMoveMessage.h>
+#include <coms/ComsDefenseMessage.h>
+#include <client/ScorchedClient.h>
+#include <client/ClientState.h>
+#include <weapons/AccessoryStore.h>
+#include <common/KeyBoard.h>
+#include <common/Line.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <graph/OptionsDisplay.h>
+#include <graph/MainCamera.h>
+#include <sound/Sound.h>
 
-TankAIHuman::TankAIHuman() :
-	elevateSound_(0), rotateSound_(0), startSound_(0), powerSound_(0)
-{
-	description_.setText("Human",
-		"A human controlled player\n"
-		"(turns off any computer controller player).");
-}
+VirtualSoundSource *TankKeyboardControlUtil::elevateSound_(0);
+VirtualSoundSource *TankKeyboardControlUtil::rotateSound_(0);
+VirtualSoundSource *TankKeyboardControlUtil::startSound_(0);
+VirtualSoundSource *TankKeyboardControlUtil::powerSound_(0);
 
-TankAIHuman::~TankAIHuman()
-{
-	delete elevateSound_;
-	delete rotateSound_;
-	delete startSound_;
-	delete powerSound_;
-}
-
-void TankAIHuman::newGame()
-{
-}
-
-void TankAIHuman::newMatch()
+TankKeyboardControlUtil::TankKeyboardControlUtil()
 {
 }
 
-void TankAIHuman::tankHurt(Weapon *weapon, unsigned int firer)
+TankKeyboardControlUtil::~TankKeyboardControlUtil()
 {
 }
 
-void TankAIHuman::shotLanded(ScorchedCollisionId collision,
-							 Weapon *weapon, unsigned int firer, 
-							 Vector &position)
+void TankKeyboardControlUtil::keyboardCheck(
+	Tank *tank,
+	const unsigned state, 
+	float frameTime, char *buffer, 
+	unsigned int keyState)
 {
-}
-
-void TankAIHuman::playMove(const unsigned state, 
-						   float frameTime, char *buffer, 
-						   unsigned int keyState)
-{
-	/*static float totalFrameTime = 0.0f;
-	totalFrameTime += frameTime;
-	while (totalFrameTime > 0.01f)
-	{
-		totalFrameTime-=0.01f;
-		GLConsole::instance()->addLine(true, 
-			"say \"Spam... 123123232131231232131321\"");
-	}*/
-
+	// Create sounds
 	if (!elevateSound_) elevateSound_ = 
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
-	elevateSound_->setPosition(currentTank_->getPosition().getTankPosition());
+	elevateSound_->setPosition(tank->getPosition().getTankPosition());
 	if (!rotateSound_) rotateSound_ =
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
-	rotateSound_->setPosition(currentTank_->getPosition().getTankPosition());
+	rotateSound_->setPosition(tank->getPosition().getTankPosition());
 	if (!startSound_) startSound_ =
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, false, false);
-	startSound_->setPosition(currentTank_->getPosition().getTankPosition());
+	startSound_->setPosition(tank->getPosition().getTankPosition());
 	if (!powerSound_) powerSound_ =
 		new VirtualSoundSource(VirtualSoundPriority::eRotation, true, false);
-	powerSound_->setPosition(currentTank_->getPosition().getTankPosition());
+	powerSound_->setPosition(tank->getPosition().getTankPosition());
 
-	moveLeftRight(buffer, keyState, frameTime);
-	moveUpDown(buffer, keyState, frameTime);
-	movePower(buffer, keyState, frameTime);
+	// Check key moves
+	moveLeftRight(tank, buffer, keyState, frameTime);
+	moveUpDown(tank, buffer, keyState, frameTime);
+	movePower(tank, buffer, keyState, frameTime);
 
 	KEYBOARDKEY("FIRE_WEAPON", fireKey);
 	if (fireKey->keyDown(buffer, keyState, false))
@@ -110,43 +83,43 @@ void TankAIHuman::playMove(const unsigned state,
 		// Only allow the standard fire key when we are not selecting a point
 		// on the landscape.
 		Accessory *currentWeapon = 
-			currentTank_->getAccessories().getWeapons().getCurrent();
+			tank->getAccessories().getWeapons().getCurrent();
 		if (currentWeapon &&
 			currentWeapon->getPositionSelect() == Accessory::ePositionSelectNone)
 		{
-			fireShot();
+			fireShot(tank);
 		}
 	}
 
 	KEYBOARDKEY("AUTO_AIM", aimKey);
 	if (aimKey->keyDown(buffer, keyState))
 	{
-		autoAim();
+		autoAim(tank);
 	}
 
 	KEYBOARDKEY("ENABLE_PARACHUTES", parachuteKey);
 	if (parachuteKey->keyDown(buffer, keyState, false))
 	{
 		std::list<Accessory *> &parachutes =
-			currentTank_->getAccessories().getAllAccessoriesByType(
+			tank->getAccessories().getAllAccessoriesByType(
 				AccessoryPart::AccessoryParachute);
 		if (parachutes.size() == 1)
 		{
-			parachutesUpDown(parachutes.front()->getAccessoryId());
+			parachutesUpDown(tank, parachutes.front()->getAccessoryId());
 		}
 	}
 
 	KEYBOARDKEY("ENABLE_SHIELDS", shieldKey);
 	if (shieldKey->keyDown(buffer, keyState, false))
 	{
-		if (!currentTank_->getShield().getCurrentShield())
+		if (!tank->getShield().getCurrentShield())
 		{
 			std::list<Accessory *> &shields =
-				currentTank_->getAccessories().getAllAccessoriesByType(
+				tank->getAccessories().getAllAccessoriesByType(
 					AccessoryPart::AccessoryShield);
 			if (shields.size() == 1)
 			{
-				shieldsUpDown(shields.front()->getAccessoryId());
+				shieldsUpDown(tank, shields.front()->getAccessoryId());
 			}
 		}
 	}
@@ -154,15 +127,15 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("USE_BATTERY", batteryKey);
 	if (batteryKey->keyDown(buffer, keyState, false))
 	{
-		if (currentTank_->getLife().getLife() < 
-			currentTank_->getLife().getMaxLife())
+		if (tank->getLife().getLife() < 
+			tank->getLife().getMaxLife())
 		{
 			std::list<Accessory *> &entries =
-				currentTank_->getAccessories().getAllAccessoriesByType(
+				tank->getAccessories().getAllAccessoriesByType(
 					AccessoryPart::AccessoryBattery);
 			if (!entries.empty())
 			{
-				useBattery(entries.front()->getAccessoryId());
+				useBattery(tank, entries.front()->getAccessoryId());
 			}
 		}
 	}
@@ -170,7 +143,7 @@ void TankAIHuman::playMove(const unsigned state,
 	KEYBOARDKEY("UNDO_MOVE", undoKey);
 	if (undoKey->keyDown(buffer, keyState, false))
 	{
-		currentTank_->getPosition().undo();
+		tank->getPosition().undo();
 	}
 
 	KEYBOARDKEY("CHANGE_UP_WEAPON", weaponUpKey);
@@ -181,22 +154,22 @@ void TankAIHuman::playMove(const unsigned state,
 	{
 		if (downWeapon)
 		{
-			prevWeapon();
+			prevWeapon(tank);
 		}
 		else
 		{
-			nextWeapon();
+			nextWeapon(tank);
 		}
 
 		TargetRendererImplTankHUD::setText("Weapon : ", 
-			currentTank_->getAccessories().getWeapons().getWeaponString());
+			tank->getAccessories().getWeapons().getWeaponString());
 	}
 }
 
-void TankAIHuman::nextWeapon()
+void TankKeyboardControlUtil::nextWeapon(Tank *tank)
 {
 	std::list<Accessory *> &result =
-		currentTank_->getAccessories().getAllAccessoriesByType(
+		tank->getAccessories().getAllAccessoriesByType(
 			AccessoryPart::AccessoryWeapon);
 	ScorchedClient::instance()->getAccessoryStore().sortList(result,
 		OptionsDisplay::instance()->getSortAccessories());
@@ -206,22 +179,22 @@ void TankAIHuman::nextWeapon()
 		itor != result.end();
 		itor++)
 	{
-		if (currentTank_->getAccessories().getWeapons().getCurrent() == (*itor))
+		if (tank->getAccessories().getWeapons().getCurrent() == (*itor))
 		{
 			if (++itor == result.end())
 			{
 				itor = result.begin();
 			}
-			currentTank_->getAccessories().getWeapons().setWeapon(*itor);
+			tank->getAccessories().getWeapons().setWeapon(*itor);
 			break;
 		}
 	}
 }
 
-void TankAIHuman::prevWeapon()
+void TankKeyboardControlUtil::prevWeapon(Tank *tank)
 {
 	std::list<Accessory *> &result =
-		currentTank_->getAccessories().getAllAccessoriesByType(
+		tank->getAccessories().getAllAccessoriesByType(
 			AccessoryPart::AccessoryWeapon);
 	ScorchedClient::instance()->getAccessoryStore().sortList(result,
 		OptionsDisplay::instance()->getSortAccessories());
@@ -231,7 +204,7 @@ void TankAIHuman::prevWeapon()
 		itor != result.end();
 		itor++)
 	{
-		if (currentTank_->getAccessories().getWeapons().getCurrent() == (*itor))
+		if (tank->getAccessories().getWeapons().getCurrent() == (*itor))
 		{
 			if (itor == result.begin())
 			{
@@ -239,20 +212,20 @@ void TankAIHuman::prevWeapon()
 			}
 
 			--itor;
-			currentTank_->getAccessories().getWeapons().setWeapon(*itor);
+			tank->getAccessories().getWeapons().setWeapon(*itor);
 			break;
 		}
 	}
 }
 
-void TankAIHuman::endPlayMove()
+void TankKeyboardControlUtil::endPlayMove(Tank *tank)
 {
 	if (elevateSound_) elevateSound_->stop();
 	if (rotateSound_) rotateSound_->stop();
 	if (powerSound_) powerSound_->stop();
 }
 
-void TankAIHuman::autoAim()
+void TankKeyboardControlUtil::autoAim(Tank *tank)
 {
 	int x = ScorchedClient::instance()->getGameState().getMouseX();
 	int y = ScorchedClient::instance()->getGameState().getMouseY();
@@ -266,22 +239,23 @@ void TankAIHuman::autoAim()
 		if (ScorchedClient::instance()->getLandscapeMaps().
 			getGroundMaps().getIntersect(direction, intersect))
         {
-			Vector &position = currentTank_->getPosition().getTankPosition();
+			Vector &position = tank->getPosition().getTankPosition();
 
 			// Calculate direction
 			Vector direction = intersect - position;
 			float angleXYRads = atan2f(direction[1], direction[0]);
 			float angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
 			
-			currentTank_->getPosition().rotateGunXY(angleXYDegs, false);
-			leftRightHUD();
+			tank->getPosition().rotateGunXY(angleXYDegs, false);
+			leftRightHUD(tank);
 
 			TargetRendererImplTankAIM::setAimPosition(intersect);
 		}
 	}
 }
 
-void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frameTime)
+void TankKeyboardControlUtil::moveLeftRight(Tank *tank, 
+	char *buffer, unsigned int keyState, float frameTime)
 {
 	static bool LRMoving = false;
 	bool currentLRMoving = false;
@@ -311,10 +285,10 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		else if (rightKS) mult *= 0.25f;
 		else if (rightKVS) mult *= 0.05f;
 
-		currentTank_->getPosition().rotateGunXY(-45.0f * mult);
+		tank->getPosition().rotateGunXY(-45.0f * mult);
 		currentLRMoving = true;
 
-		leftRightHUD();
+		leftRightHUD(tank);
 	}
 	else if (leftK || leftKF || leftKS || leftKVS)
 	{
@@ -323,10 +297,10 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 		else if (leftKS) mult *= 0.25f;
 		else if (leftKVS) mult *= 0.05f;
 
-		currentTank_->getPosition().rotateGunXY(45.0f * mult);
+		tank->getPosition().rotateGunXY(45.0f * mult);
 		currentLRMoving = true;
 
-		leftRightHUD();
+		leftRightHUD(tank);
 	}
 
 	if (LRMoving != currentLRMoving)
@@ -347,14 +321,15 @@ void TankAIHuman::moveLeftRight(char *buffer, unsigned int keyState, float frame
 	}
 } 
 
-void TankAIHuman::leftRightHUD()
+void TankKeyboardControlUtil::leftRightHUD(Tank *tank)
 {		
-	float rot = currentTank_->getPosition().getRotationGunXY() / 360.0f;
+	float rot = tank->getPosition().getRotationGunXY() / 360.0f;
 	TargetRendererImplTankHUD::setText("Rot:", 
-		currentTank_->getPosition().getRotationString(), rot * 100.0f);
+		tank->getPosition().getRotationString(), rot * 100.0f);
 }
 
-void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTime)
+void TankKeyboardControlUtil::moveUpDown(Tank *tank,
+	char *buffer, unsigned int keyState, float frameTime)
 {
 	static bool UDMoving = false;
 	bool currentUDMoving = false;
@@ -404,10 +379,10 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		else if (upKS) mult *= 0.25f;
 		else if (upKVS) mult *= 0.05f;
 
-		currentTank_->getPosition().rotateGunYZ(-45.0f * mult);
+		tank->getPosition().rotateGunYZ(-45.0f * mult);
 		currentUDMoving = true;
 
-		upDownHUD();
+		upDownHUD(tank);
 	}
 	else if (downK || downKS || downKF || downKVS)
 	{
@@ -416,10 +391,10 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 		else if (downKS) mult *= 0.25f;
 		else if (downKVS) mult *= 0.05f;
 
-		currentTank_->getPosition().rotateGunYZ(45.0f * mult);
+		tank->getPosition().rotateGunYZ(45.0f * mult);
 		currentUDMoving = true;
 
-		upDownHUD();
+		upDownHUD(tank);
 	}
 
 	if (UDMoving != currentUDMoving)
@@ -440,14 +415,15 @@ void TankAIHuman::moveUpDown(char *buffer, unsigned int keyState, float frameTim
 	}
 }
 
-void TankAIHuman::upDownHUD()
+void TankKeyboardControlUtil::upDownHUD(Tank *tank)
 {
-	float rot = currentTank_->getPosition().getRotationGunYZ() / 90.0f;
+	float rot = tank->getPosition().getRotationGunYZ() / 90.0f;
 	TargetRendererImplTankHUD::setText("Ele:", 
-		currentTank_->getPosition().getElevationString(), rot * 100.0f);
+		tank->getPosition().getElevationString(), rot * 100.0f);
 }
 
-void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime)
+void TankKeyboardControlUtil::movePower(Tank *tank,
+	char *buffer, unsigned int keyState, float frameTime)
 {
 	static bool PMoving = false;
 	bool currentPMoving = false;
@@ -476,10 +452,10 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		else if (incKS) mult *= 0.25f;
 		else if (incKVS) mult *= 0.05f;
 
-		currentTank_->getPosition().changePower(250.0f * mult);
+		tank->getPosition().changePower(250.0f * mult);
 		currentPMoving = true;
 
-		powerHUD();
+		powerHUD(tank);
 	}
 	else if (decK || decKS || decKF || decKVS) 
 	{
@@ -488,10 +464,10 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 		else if (decKS) mult *= 0.25f;
 		else if (decKVS) mult *= 0.05f;
 
-		currentTank_->getPosition().changePower(-250.0f * mult);
+		tank->getPosition().changePower(-250.0f * mult);
 		currentPMoving = true;
 
-		powerHUD();
+		powerHUD(tank);
 	}
 
 	if (PMoving != currentPMoving)
@@ -510,30 +486,30 @@ void TankAIHuman::movePower(char *buffer, unsigned int keyState, float frameTime
 	}
 }
 
-void TankAIHuman::powerHUD()
+void TankKeyboardControlUtil::powerHUD(Tank *tank)
 {
-	float power = currentTank_->getPosition().getPower() / 
-		currentTank_->getPosition().getMaxPower();
+	float power = tank->getPosition().getPower() / 
+		tank->getPosition().getMaxPower();
 	TargetRendererImplTankHUD::setText("Pwr:", 
-		currentTank_->getPosition().getPowerString(), power * 100.0f);
+		tank->getPosition().getPowerString(), power * 100.0f);
 }
 
 
-void TankAIHuman::fireShot()
+void TankKeyboardControlUtil::fireShot(Tank *tank)
 {
 	Accessory *currentWeapon = 
-		currentTank_->getAccessories().getWeapons().getCurrent();
+		tank->getAccessories().getWeapons().getCurrent();
 	if (currentWeapon)
 	{
 		// send message saying we are finished with shot
-		ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eShot);
+		ComsPlayedMoveMessage comsMessage(tank->getPlayerId(), ComsPlayedMoveMessage::eShot);
 		comsMessage.setShot(
 			currentWeapon->getAccessoryId(),
-			currentTank_->getPosition().getRotationGunXY(),
-			currentTank_->getPosition().getRotationGunYZ(),
-			currentTank_->getPosition().getPower(),
-			currentTank_->getPosition().getSelectPositionX(),
-			currentTank_->getPosition().getSelectPositionY());
+			tank->getPosition().getRotationGunXY(),
+			tank->getPosition().getRotationGunYZ(),
+			tank->getPosition().getPower(),
+			tank->getPosition().getSelectPositionX(),
+			tank->getPosition().getSelectPositionY());
 
 		// If so we send this move to the server
 		ComsMessageSender::sendToServer(comsMessage);
@@ -543,10 +519,10 @@ void TankAIHuman::fireShot()
 	}
 }
 
-void TankAIHuman::skipShot()
+void TankKeyboardControlUtil::skipShot(Tank *tank)
 {
 	// send message saying we are finished with shot
-	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eSkip);
+	ComsPlayedMoveMessage comsMessage(tank->getPlayerId(), ComsPlayedMoveMessage::eSkip);
 
 	// Check if we are running in a NET/LAN environment
 	// If so we send this move to the server
@@ -556,10 +532,10 @@ void TankAIHuman::skipShot()
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
-void TankAIHuman::resign()
+void TankKeyboardControlUtil::resign(Tank *tank)
 {
 	// send message saying we are finished with shot
-	ComsPlayedMoveMessage comsMessage(currentTank_->getPlayerId(), ComsPlayedMoveMessage::eResign);
+	ComsPlayedMoveMessage comsMessage(tank->getPlayerId(), ComsPlayedMoveMessage::eResign);
 
 	// Check if we are running in a NET/LAN environment
 	// If so we send this move to the server
@@ -569,28 +545,28 @@ void TankAIHuman::resign()
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 }
 
-void TankAIHuman::parachutesUpDown(unsigned int paraId)
+void TankKeyboardControlUtil::parachutesUpDown(Tank *tank, unsigned int paraId)
 {
 	ComsDefenseMessage defenseMessage(
-		currentTank_->getPlayerId(),
+		tank->getPlayerId(),
 		(paraId!=0)?ComsDefenseMessage::eParachutesUp:ComsDefenseMessage::eParachutesDown,
 		paraId);
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
-void TankAIHuman::shieldsUpDown(unsigned int shieldId)
+void TankKeyboardControlUtil::shieldsUpDown(Tank *tank, unsigned int shieldId)
 {
 	ComsDefenseMessage defenseMessage(
-		currentTank_->getPlayerId(),
+		tank->getPlayerId(),
 		(shieldId!=0)?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
 		shieldId);
 	ComsMessageSender::sendToServer(defenseMessage);
 }
 
-void TankAIHuman::useBattery(unsigned int batteryId)
+void TankKeyboardControlUtil::useBattery(Tank *tank, unsigned int batteryId)
 {
 	ComsDefenseMessage defenseMessage(
-		currentTank_->getPlayerId(),
+		tank->getPlayerId(),
 		ComsDefenseMessage::eBatteryUse,
 		batteryId);
 	ComsMessageSender::sendToServer(defenseMessage);

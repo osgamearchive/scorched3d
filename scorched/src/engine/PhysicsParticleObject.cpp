@@ -40,58 +40,6 @@
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
 
-
-#ifndef S3D_SERVER
-
-#include <client/ScorchedClient.h>
-#include <graph/ParticleEmitter.h>
-
-static void addWallCollisionParticle(Vector &position, ScorchedCollisionId collisionId)
-{
-
-	Vector color(1.0f, 1.0f, 1.0f);
-	ParticleEmitter emitter;
-	emitter.setAttributes(
-		8.5f, 8.0f, // Life
-		0.2f, 0.5f, // Mass
-		0.01f, 0.02f, // Friction
-		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
-		color, 1.0f, // StartColor1
-		color, 1.0f, // StartColor2
-		color, 0.0f, // EndColor1
-		color, 0.0f, // EndColor2
-		2.0f, 2.0f, 2.0f, 2.0f, // Start Size
-		2.0f, 2.0f, 2.0f, 2.0f, // EndSize
-		Vector(0.0f, 0.0f, 0.0f), // Gravity
-		false,
-		false);
-
-	switch (collisionId)
-	{
-	case CollisionIdWallLeft:
-		emitter.emitWallHit(position,
-			ScorchedClient::instance()->getParticleEngine(),
-			OptionsTransient::LeftSide);
-		break;
-	case CollisionIdWallRight:
-		emitter.emitWallHit(position,
-			ScorchedClient::instance()->getParticleEngine(),
-			OptionsTransient::RightSide);
-		break;
-	case CollisionIdWallTop:
-		emitter.emitWallHit(position,
-			ScorchedClient::instance()->getParticleEngine(),
-			OptionsTransient::TopSide);
-		break;
-	case CollisionIdWallBottom:
-		emitter.emitWallHit(position,
-			ScorchedClient::instance()->getParticleEngine(),
-			OptionsTransient::BotSide);
-		break;
-	}
-}
-#endif
-
 PhysicsParticleObject::PhysicsParticleObject() : 
 	handler_(0), context_(0), underGroundCollision_(false), iterations_(0),
 	info_(ParticleTypeNone, 0, 0), rotateOnCollision_(false)
@@ -249,26 +197,9 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 	case CollisionIdShield:
 		if (target && target->getShield().getCurrentShield())
 		{
-			Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
-			ShotProjectile *shot = (ShotProjectile *) info_.data_;
-			float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
-			if (hurtFactor > 0.0f)
-			{
-				if (shield->getShieldType() != Shield::ShieldTypeRoundMag)
-				{
-					context_->actionController->addAction(
-						new ShieldHit(target->getPlayerId(),
-							position_,
-							hurtFactor));
-				}
-				else
-				{
-					target->getShield().setShieldPower(
-						target->getShield().getShieldPower() -
-						shield->getHitRemovePower() * hurtFactor);
-				}
-			}
+			shotShieldHit(target);
 
+			Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 			switch (shield->getShieldType())
 			{
 			case Shield::ShieldTypeRoundNormal:
@@ -292,9 +223,7 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
 
-#ifndef S3D_SERVER
-		addWallCollisionParticle(position_, collision.collisionId);
-#endif
+		shotWallHit(collision);
 
 		switch (context_->optionsTransient->getWallType())
 		{
@@ -348,18 +277,7 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkBounceCollisi
 		return CollisionActionBounce;
 		break;
 	case CollisionIdShield:
-		{
-			Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
-			ShotBounce *shot = (ShotBounce *) info_.data_;
-			float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
-			if (shield->getShieldType() != Shield::ShieldTypeRoundMag && hurtFactor > 0.0f)
-			{
-				context_->actionController->addAction(
-					new ShieldHit(target->getPlayerId(),
-						position_,
-						hurtFactor));
-			}
-		}
+		bounceShieldHit(target);
 		return CollisionActionBounce;
 		break;
 	case CollisionIdTarget:
@@ -635,4 +553,99 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 	}
 
 	return false;
+}
+
+void PhysicsParticleObject::shotShieldHit(Target *target)
+{
+	Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
+	ShotProjectile *shot = (ShotProjectile *) info_.data_;
+	float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
+	if (hurtFactor > 0.0f)
+	{
+		if (shield->getShieldType() != Shield::ShieldTypeRoundMag)
+		{
+			context_->actionController->addAction(
+				new ShieldHit(target->getPlayerId(),
+					position_,
+					hurtFactor));
+		}
+		else
+		{
+			target->getShield().setShieldPower(
+				target->getShield().getShieldPower() -
+				shield->getHitRemovePower() * hurtFactor);
+		}
+	}
+}
+
+void PhysicsParticleObject::bounceShieldHit(Target *target)
+{
+	Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
+	ShotBounce *shot = (ShotBounce *) info_.data_;
+	float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
+	if (shield->getShieldType() != Shield::ShieldTypeRoundMag && hurtFactor > 0.0f)
+	{
+		context_->actionController->addAction(
+			new ShieldHit(target->getPlayerId(),
+				position_,
+				hurtFactor));
+	}
+}
+
+#ifndef S3D_SERVER
+
+#include <client/ScorchedClient.h>
+#include <graph/ParticleEmitter.h>
+
+static void addWallCollisionParticle(Vector &position, ScorchedCollisionId collisionId)
+{
+
+	Vector color(1.0f, 1.0f, 1.0f);
+	ParticleEmitter emitter;
+	emitter.setAttributes(
+		8.5f, 8.0f, // Life
+		0.2f, 0.5f, // Mass
+		0.01f, 0.02f, // Friction
+		Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
+		color, 1.0f, // StartColor1
+		color, 1.0f, // StartColor2
+		color, 0.0f, // EndColor1
+		color, 0.0f, // EndColor2
+		2.0f, 2.0f, 2.0f, 2.0f, // Start Size
+		2.0f, 2.0f, 2.0f, 2.0f, // EndSize
+		Vector(0.0f, 0.0f, 0.0f), // Gravity
+		false,
+		false);
+
+	switch (collisionId)
+	{
+	case CollisionIdWallLeft:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::LeftSide);
+		break;
+	case CollisionIdWallRight:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::RightSide);
+		break;
+	case CollisionIdWallTop:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::TopSide);
+		break;
+	case CollisionIdWallBottom:
+		emitter.emitWallHit(position,
+			ScorchedClient::instance()->getParticleEngine(),
+			OptionsTransient::BotSide);
+		break;
+	}
+}
+#endif
+
+void PhysicsParticleObject::shotWallHit(CollisionInfo &collision)
+{
+#ifndef S3D_SERVER
+		addWallCollisionParticle(position_, collision.collisionId);
+#endif
 }

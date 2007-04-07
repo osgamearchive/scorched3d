@@ -113,6 +113,10 @@ protected:
 		Vector normal;
 	};
 
+	virtual void shotWallHit(CollisionInfo &collision);
+	virtual void shotShieldHit(Target *target);
+	virtual void bounceShieldHit(Target *target);
+
 	void checkCollision();
 	CollisionAction checkShotCollision(CollisionInfo &collision, Target *target);
 	CollisionAction checkBounceCollision(CollisionInfo &collision, Target *target);

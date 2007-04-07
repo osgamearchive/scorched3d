@@ -48,7 +48,7 @@ void dialogMessage(const char *header, const char *text)
 	}
 
 	// Make sure that this is logged
-	Logger::log(text);
+	Logger::log(newtext.c_str());
 	Logger::instance()->processLogEntries();
 
 	// Show the dialog (if any)

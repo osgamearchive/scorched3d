@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLW/GLWTankTip.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/TankPosition.h>
 #include <tank/TankAccessories.h>
 #include <tank/TankState.h>
@@ -231,7 +231,6 @@ void TankBatteryTip::showItems(float x, float y)
 
 void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
 	for (int i=1; i<=(long) entry->getUserData(); i++)
 	{
 		if (tank_->getLife().getLife() < 
@@ -242,7 +241,9 @@ void TankBatteryTip::itemSelected(GLWSelectorEntry *entry, int position)
 					AccessoryPart::AccessoryBattery);
 			if (!entries.empty())
 			{
-				tankAI->useBattery(entries.front()->getAccessoryId());
+
+				TankKeyboardControlUtil::useBattery(tank_,
+					entries.front()->getAccessoryId());
 			}
 		}
 	}
@@ -334,9 +335,11 @@ void TankShieldTip::populate()
 
 void TankShieldTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	if (entry->getUserData() == 0) tankAI->shieldsUpDown(0);
-	else tankAI->shieldsUpDown(((Accessory *)entry->getUserData())->getAccessoryId());
+	if (entry->getUserData() == 0) 
+		TankKeyboardControlUtil::shieldsUpDown(tank_, 0);
+	else 
+		TankKeyboardControlUtil::shieldsUpDown(tank_,
+			((Accessory *)entry->getUserData())->getAccessoryId());
 }
 
 TankHealthTip::TankHealthTip(Tank *tank) : 
@@ -444,9 +447,11 @@ void TankParachutesTip::showItems(float x, float y)
 
 void TankParachutesTip::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	if (entry->getUserData() == 0) tankAI->parachutesUpDown(0);
-	else tankAI->parachutesUpDown(((Accessory *)entry->getUserData())->getAccessoryId());
+	if (entry->getUserData() == 0) 
+		TankKeyboardControlUtil::parachutesUpDown(tank_, 0);
+	else 
+		TankKeyboardControlUtil::parachutesUpDown(tank_,
+		((Accessory *)entry->getUserData())->getAccessoryId());
 }
 
 TankAutoDefenseTip::TankAutoDefenseTip(Tank *tank) : 

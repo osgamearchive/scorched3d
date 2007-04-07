@@ -2686,6 +2686,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponGotoLabel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponGotoLabel.h"
+				>
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponGroupSelect.cpp"
 				>
 			</File>
@@ -2699,6 +2707,14 @@
 			</File>
 			<File
 				RelativePath="..\weapons\WeaponInvokeWeapon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponLabel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponLabel.h"
 				>
 			</File>
 			<File

@@ -23,7 +23,7 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <common/Defines.h>
@@ -65,15 +65,7 @@ void SkipDialog::buttonDown(unsigned int id)
 		Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (firstTank)
 		{
-			TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
-			if (tankAI)
-			{
-				if (id == allId_)
-				{
-					firstTank->getState().setSkipShots(true);
-				}
-				tankAI->skipShot();
-			}
+			TankKeyboardControlUtil::skipShot(firstTank);
 		}
 
 		GLWWindowManager::instance()->hideWindow(id_);

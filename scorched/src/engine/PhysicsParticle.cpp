@@ -20,7 +20,6 @@
 
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedContext.h>
-#include <engine/ActionController.h>
 
 PhysicsParticle::PhysicsParticle()  : 
 	collision_(false), totalActionTime_(0)

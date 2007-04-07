@@ -18,19 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-#if !defined(__INCLUDE_TankAIHumanCtrlh_INCLUDE__)
-#define __INCLUDE_TankAIHumanCtrlh_INCLUDE__
+#if !defined(__INCLUDE_TankKeyboardControlh_INCLUDE__)
+#define __INCLUDE_TankKeyboardControlh_INCLUDE__
 
 #include <engine/GameStateI.h>
 #include <tank/Tank.h>
 
-class TankAIHumanCtrl : public GameStateI
+class TankKeyboardControl : public GameStateI
 {
 public:
-	static TankAIHumanCtrl *instance();
-
-	void setTankAI();
+	static TankKeyboardControl *instance();
 
 	// Inherited from GameStateI
 	virtual void enterState(const unsigned state);
@@ -40,11 +37,11 @@ public:
 		bool &skipRest);
 
 protected:
-	static TankAIHumanCtrl *instance_;
+	static TankKeyboardControl *instance_;
 
 private:
-	TankAIHumanCtrl();
-	virtual ~TankAIHumanCtrl();
+	TankKeyboardControl();
+	virtual ~TankKeyboardControl();
 
 };
 

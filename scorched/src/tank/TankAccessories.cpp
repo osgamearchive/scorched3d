@@ -27,7 +27,7 @@
 #include <target/TargetParachute.h>
 #include <target/TargetShield.h>
 #include <target/TargetLife.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 
@@ -418,18 +418,18 @@ void TankAccessories::activate(Accessory *accessory)
 {
 	DIALOG_ASSERT(!context_.serverMode);
 
-	TankAIHuman *tankAI = (TankAIHuman *) tank_->getTankAI();
-	if (!tankAI) return;
-
+#ifndef S3D_SERVER
 	switch (accessory->getType())
 	{
 	case AccessoryPart::AccessoryParachute:
-		tankAI->parachutesUpDown(
+		TankKeyboardControlUtil::parachutesUpDown(
+			tank_,
 			(tank_->getParachute().getCurrentParachute()==accessory)?
 			0:accessory->getAccessoryId());
 		break;
 	case AccessoryPart::AccessoryShield:
-		tankAI->shieldsUpDown(
+		TankKeyboardControlUtil::shieldsUpDown(
+			tank_,
 			(tank_->getShield().getCurrentShield()==accessory)?
 			0:accessory->getAccessoryId());
 		break;
@@ -440,11 +440,13 @@ void TankAccessories::activate(Accessory *accessory)
 		if (tank_->getLife().getLife() < 
 			tank_->getLife().getMaxLife())
 		{
-			tankAI->useBattery(accessory->getAccessoryId());
+			TankKeyboardControlUtil::useBattery(
+				tank_, accessory->getAccessoryId());
 		}
 		break;
 	case AccessoryPart::AccessoryAutoDefense:
 		default:
 		break;
 	}
+#endif
 }

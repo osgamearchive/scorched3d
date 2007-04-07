@@ -34,7 +34,7 @@
 #include <landscape/Water.h>
 #include <engine/ViewPoints.h>
 #include <engine/GameState.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankPosition.h>
@@ -562,12 +562,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 			}
 		}
 
-		TankAIHuman *ai = (TankAIHuman *) currentTank->getTankAI();
-		if (ai) 
-		{
-			currentTank->getPosition().setSelectPosition(posX, posY);
-			ai->fireShot();
-		}
+		TankKeyboardControlUtil::fireShot(currentTank);
 	}
 }
 

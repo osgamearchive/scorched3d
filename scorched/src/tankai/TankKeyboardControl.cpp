@@ -18,38 +18,38 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <tankai/TankAIHumanCtrl.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControl.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <common/Defines.h>
 
-TankAIHumanCtrl * TankAIHumanCtrl::instance_ = 0;
+TankKeyboardControl * TankKeyboardControl::instance_ = 0;
 
-TankAIHumanCtrl * TankAIHumanCtrl::instance()
+TankKeyboardControl * TankKeyboardControl::instance()
 {
 	if (!instance_)
 	{
-		instance_ = new TankAIHumanCtrl;
+		instance_ = new TankKeyboardControl;
 	}
 
 	return instance_;
 }
 
-TankAIHumanCtrl::TankAIHumanCtrl() :
-	GameStateI("TankAIHumanCtrl")
+TankKeyboardControl::TankKeyboardControl() :
+	GameStateI("TankKeyboardControl")
 {
 
 }
 
-TankAIHumanCtrl::~TankAIHumanCtrl()
+TankKeyboardControl::~TankKeyboardControl()
 {
 
 }
 
-void TankAIHumanCtrl::enterState(const unsigned state)
+void TankKeyboardControl::enterState(const unsigned state)
 {
 	if (state == ClientState::StateShot)
 	{
@@ -59,17 +59,13 @@ void TankAIHumanCtrl::enterState(const unsigned state)
 		{
 			if (currentTank->getState().getState() == TankState::sNormal)
 			{
-				TankAI *ai = currentTank->getTankAI();
-				if (ai)
-				{
-					ai->endPlayMove();
-				}
+				TankKeyboardControlUtil::endPlayMove(currentTank);
 			}
 		}
 	}
 }
 
-void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime, 
+void TankKeyboardControl::keyboardCheck(const unsigned state, float frameTime, 
 							char *buffer, unsigned int keyState,
 							KeyboardHistory::HistoryElement *history, int hisCount, 
 							bool &skipRest)
@@ -80,30 +76,8 @@ void TankAIHumanCtrl::keyboardCheck(const unsigned state, float frameTime,
 	{
 		if (currentTank->getState().getState() == TankState::sNormal)
 		{
-			setTankAI(); // Ensure this tank has an AI
-			TankAI *ai = currentTank->getTankAI();
-			if (ai)
-			{
-				ai->playMove(state, frameTime, buffer, keyState);
-			}
-		}
-	}
-}
-
-void TankAIHumanCtrl::setTankAI()
-{
-	Tank *currentTank =
-		ScorchedClient::instance()->getTankContainer().getCurrentTank();
-	if (currentTank)
-	{
-		if (currentTank->getDestinationId() == 
-			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() &&
-			!currentTank->getTankAI()) 
-		{
-			// If this is a player local to this destination then add the human ai
-			static TankAIHuman humanAI;
-			TankAI *ai = humanAI.getCopy(currentTank);
-			currentTank->setTankAI(ai);
+			TankKeyboardControlUtil::keyboardCheck(currentTank, state, frameTime,
+				buffer, keyState);
 		}
 	}
 }

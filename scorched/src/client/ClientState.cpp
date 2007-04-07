@@ -33,7 +33,7 @@
 #include <client/ScorchedClient.h>
 #include <sound/Sound.h>
 #include <tankgraph/RenderTargets.h>
-#include <tankai/TankAIHumanCtrl.h>
+#include <tankai/TankKeyboardControl.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWToolTip.h>
 #include <landscape/LandscapeStateHandler.h>
@@ -206,7 +206,7 @@ void ClientState::setupGameState()
 	gameState.addStateLoop(StateWait,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateEntry(StateWait, 
-		TankAIHumanCtrl::instance());
+		TankKeyboardControl::instance());
 	gameState.addStateEntry(StateWait,
 		ClientWaitState::instance());
 	gameState.addStateStimulus(StateWait, 
@@ -255,7 +255,7 @@ void ClientState::setupGameState()
 	// StatePlaying
 	addStandardComponents(gameState, StatePlaying);
 	gameState.addStateKeyEntry(StatePlaying, 
-		TankAIHumanCtrl::instance());
+		TankKeyboardControl::instance());
 	gameState.addStateLoop(StatePlaying,
 		Main2DCamera::instance(), ShotCountDown::instance());
 	gameState.addStateStimulus(StatePlaying, 
@@ -268,7 +268,7 @@ void ClientState::setupGameState()
 	// StateShot
 	addStandardComponents(gameState, StateShot);
 	gameState.addStateEntry(StateShot, 
-		TankAIHumanCtrl::instance());
+		TankKeyboardControl::instance());
 	gameState.addStateEntry(StateShot,
 		ClientShotState::instance());
 	gameState.addStateStimulus(StateShot,

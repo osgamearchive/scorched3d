@@ -23,7 +23,7 @@
 #include <GLW/GLWLabel.h>
 #include <GLW/GLWWindowManager.h>
 #include <client/ScorchedClient.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/TankContainer.h>
 #include <common/Defines.h>
 #include <time.h>
@@ -61,11 +61,7 @@ void ResignDialog::buttonDown(unsigned int id)
 		Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (firstTank)
 		{
-			TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
-			if (tankAI)
-			{
-				tankAI->resign();
-			}
+			TankKeyboardControlUtil::resign(firstTank);
 		}
 
 		GLWWindowManager::instance()->hideWindow(id_);

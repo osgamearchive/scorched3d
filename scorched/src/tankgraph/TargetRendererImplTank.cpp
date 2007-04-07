@@ -613,8 +613,8 @@ void TargetRendererImplTank::draw2d()
 	}
 
 	// Draw highlight around the tank
-	if ((highlightType_ == ePlayerHighlight && tank_->getTankAI()) ||
-		(highlightType_ == eOtherHighlight && !tank_->getTankAI()))
+	if ((highlightType_ == ePlayerHighlight && tank_->getDestinationId()) ||
+		(highlightType_ == eOtherHighlight && !tank_->getDestinationId() ))
 	{
 		TutorialDialog::instance()->drawHighlight(
 			float(posX_) - 10.0f, float(posY_) - 10.0f, 20.0f, 20.0f);

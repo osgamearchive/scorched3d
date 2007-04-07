@@ -2335,22 +2335,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIHuman.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHuman.h"
-				>
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHumanCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\tankai\TankAIHumanCtrl.h"
-				>
-			</File>
-			<File
 				RelativePath="..\tankai\TankAINames.cpp"
 				>
 			</File>
@@ -2372,6 +2356,22 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIStrings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankKeyboardControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankKeyboardControl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankKeyboardControlUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankKeyboardControlUtil.h"
 				>
 			</File>
 		</Filter>

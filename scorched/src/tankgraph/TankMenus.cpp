@@ -24,7 +24,6 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
-#include <tankai/TankAIHuman.h>
 #include <tankai/TankAIComputer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAccessories.h>
@@ -185,7 +184,7 @@ void TankMenus::showTankDetails()
 		const char *description = "Unknown";
 		Tank *otherTank = ScorchedServer::instance()->
 			getTankContainer().getTankById(tank->getPlayerId());
-		if (tank->getTankAI())
+		if (otherTank && !otherTank->getTankAI())
 		{
 			description = "Human";
 		}
@@ -250,32 +249,28 @@ void TankMenus::PlayerMenu::menuSelection(const char* menuName,
 	Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 	if (firstTank)
 	{
-		TankAIHuman *tankAI = (TankAIHuman *) firstTank->getTankAI();
-		if (tankAI)
+		switch (position)
 		{
-			switch (position)
-			{
-			case 0:
-				GLWWindowManager::instance()->showWindow(
-					SkipDialog::instance()->getId());
-				break;
-			case 1:
-				GLWWindowManager::instance()->showWindow(
-					ResignDialog::instance()->getId());
-				break;
-			case 2:
-				GLWWindowManager::instance()->showWindow(
-					QuitDialog::instance()->getId());
-				break;
-			case 3:
-				GLWWindowManager::instance()->showWindow(
-					QuitDialog::instance()->getId());
-				break;
-			case 4:
-				GLWWindowManager::instance()->showWindow(
-					SaveDialog::instance()->getId());
-				break;
-			}
+		case 0:
+			GLWWindowManager::instance()->showWindow(
+				SkipDialog::instance()->getId());
+			break;
+		case 1:
+			GLWWindowManager::instance()->showWindow(
+				ResignDialog::instance()->getId());
+			break;
+		case 2:
+			GLWWindowManager::instance()->showWindow(
+				QuitDialog::instance()->getId());
+			break;
+		case 3:
+			GLWWindowManager::instance()->showWindow(
+				QuitDialog::instance()->getId());
+			break;
+		case 4:
+			GLWWindowManager::instance()->showWindow(
+				SaveDialog::instance()->getId());
+			break;
 		}
 	}
 }

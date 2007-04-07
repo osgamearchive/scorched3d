@@ -23,8 +23,7 @@
 #include <GLW/GLWFlag.h>
 #include <GLW/GLWTextButton.h>
 #include <GLW/GLWWindowManager.h>
-#include <tankai/TankAIHuman.h>
-#include <tankai/TankAIHumanCtrl.h>
+#include <tankai/TankKeyboardControlUtil.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAccessories.h>
 #include <tank/TankScore.h>
@@ -109,14 +108,13 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 {
 	if (butid == okId_)
 	{
-		TankAIHumanCtrl::instance()->setTankAI();
 		Tank *tank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
-		if (tank && tank->getTankAI())
+		if (tank)
 		{
 			// Set Parachutes on/off
 			if (ddpara_->getCurrentPosition() == 0)
 			{
-				((TankAIHuman *) tank->getTankAI())->parachutesUpDown(0);
+				TankKeyboardControlUtil::parachutesUpDown(tank, 0);
 			}
 			else
 			{
@@ -128,7 +126,7 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 				
 				if (parasItor != paras.end())
 				{
-					((TankAIHuman *) tank->getTankAI())->parachutesUpDown(
+					TankKeyboardControlUtil::parachutesUpDown(tank, 
 						(*parasItor)->getAccessoryId());
 				}
 			}
@@ -136,7 +134,7 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 			// Set shields on/off
 			if (ddshields_->getCurrentPosition() == 0)
 			{
-				((TankAIHuman *) tank->getTankAI())->shieldsUpDown(0);
+				TankKeyboardControlUtil::shieldsUpDown(tank, 0);
 			}
 			else
 			{
@@ -148,7 +146,7 @@ void AutoDefenseDialog::buttonDown(unsigned int butid)
 				
 				if (shieldsItor != shields.end())
 				{
-					((TankAIHuman *) tank->getTankAI())->shieldsUpDown(
+					TankKeyboardControlUtil::shieldsUpDown(tank,
 						(*shieldsItor)->getAccessoryId());
 				}
 			}

@@ -20,7 +20,8 @@
 
 #include <GLW/GLWTankFire.h>
 #include <client/ScorchedClient.h>
-#include <tankai/TankAIHuman.h>
+#include <tankai/TankKeyboardControlUtil.h>
+#include <common/ToolTip.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 
@@ -60,9 +61,7 @@ void GLWTankFire::mouseUp(int button, float x, float y, bool &skipRest)
 				if (currentTank->getState().getState() == 
 					TankState::sNormal)
 				{
-					TankAIHuman *ai = (TankAIHuman *)
-						currentTank->getTankAI();
-					if (ai) ai->fireShot();
+					TankKeyboardControlUtil::fireShot(currentTank);
 				}
 			}
 		}
