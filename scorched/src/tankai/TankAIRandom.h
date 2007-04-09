@@ -18,25 +18,39 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankSayh_INCLUDE__)
-#define __INCLUDE_TankSayh_INCLUDE__
+#if !defined(AFX_TankAIRandom_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#define AFX_TankAIRandom_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
-#include <engine/ActionReferenced.h>
+#include <tankai/TankAI.h>
+#include <vector>
 
-class TankSay : public ActionReferenced
+class TankAIRandom : public TankAI
 {
 public:
-	TankSay(unsigned int playerId,
-		const char *text);
-	virtual ~TankSay();
+	TankAIRandom();
+	virtual ~TankAIRandom();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual TankAI *createCopy(Tank *tank);
+
+	virtual bool parseConfig(XMLNode *node) { return true; }
+	void addTankAI(TankAI *ai);
+
+	// Inherited from TankAIRandom
+	virtual void newMatch() {}
+	virtual void newGame() {}
+	virtual void playMove() {}
+	virtual void buyAccessories() {}
+	virtual void autoDefense() {}
+
+	// Notification of actions happened
+	virtual void tankHurt(Weapon *weapon, float damage, 
+		unsigned int damaged, unsigned int firer) {}
+	virtual void shotLanded(ScorchedCollisionId collision,
+		Weapon *weapon, unsigned int firer, 
+		Vector &position) {}
 
 protected:
-	unsigned int playerId_;
-	std::string text_;
-
+	std::vector<TankAI *> ais_;
 };
 
-#endif
+#endif // !defined(AFX_TankAIRandom_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)

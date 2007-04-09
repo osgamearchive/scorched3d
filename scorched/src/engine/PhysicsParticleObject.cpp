@@ -225,6 +225,8 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 
 		shotWallHit(collision);
 
+		handler_->wallCollision(*this, collision.collisionId);
+
 		switch (context_->optionsTransient->getWallType())
 		{
 		case OptionsTransient::wallBouncy:
@@ -557,6 +559,26 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 
 void PhysicsParticleObject::shotShieldHit(Target *target)
 {
+}
+
+void PhysicsParticleObject::bounceShieldHit(Target *target)
+{
+}
+
+void PhysicsParticleObject::shotWallHit(CollisionInfo &collision)
+{
+}
+
+PhysicsParticleActionObject::PhysicsParticleActionObject()
+{
+}
+
+PhysicsParticleActionObject::~PhysicsParticleActionObject()
+{
+}
+
+void PhysicsParticleActionObject::shotShieldHit(Target *target)
+{
 	Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 	ShotProjectile *shot = (ShotProjectile *) info_.data_;
 	float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
@@ -578,7 +600,7 @@ void PhysicsParticleObject::shotShieldHit(Target *target)
 	}
 }
 
-void PhysicsParticleObject::bounceShieldHit(Target *target)
+void PhysicsParticleActionObject::bounceShieldHit(Target *target)
 {
 	Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 	ShotBounce *shot = (ShotBounce *) info_.data_;
@@ -599,7 +621,6 @@ void PhysicsParticleObject::bounceShieldHit(Target *target)
 
 static void addWallCollisionParticle(Vector &position, ScorchedCollisionId collisionId)
 {
-
 	Vector color(1.0f, 1.0f, 1.0f);
 	ParticleEmitter emitter;
 	emitter.setAttributes(
@@ -643,7 +664,7 @@ static void addWallCollisionParticle(Vector &position, ScorchedCollisionId colli
 }
 #endif
 
-void PhysicsParticleObject::shotWallHit(CollisionInfo &collision)
+void PhysicsParticleActionObject::shotWallHit(CollisionInfo &collision)
 {
 #ifndef S3D_SERVER
 		addWallCollisionParticle(position_, collision.collisionId);

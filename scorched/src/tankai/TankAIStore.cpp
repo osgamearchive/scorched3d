@@ -21,7 +21,9 @@
 #include <XML/XMLFile.h>
 #include <common/Defines.h>
 #include <tankai/TankAIStore.h>
-#include <tankai/TankAIComputer.h>
+#include <tankai/TankAICurrent.h>
+#include <tankai/TankAIShallow.h>
+#include <tankai/TankAIRandom.h>
 #include <stdlib.h>
 
 TankAIStore::TankAIStore()
@@ -44,7 +46,7 @@ void TankAIStore::clearAIs()
 	}
 }
 
-bool TankAIStore::loadAIs(AccessoryStore *store)
+bool TankAIStore::loadAIs(bool shallow)
 {
 	// Load key definition file
 	XMLFile file;
@@ -82,16 +84,12 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 			return false;
 		}
 
-		TankAIComputer *computer = new TankAIComputer;
-		if (!computer->parseConfig(store, currentNode))
+		TankAI *computer = 0;
+		if (shallow) computer = new TankAIShallow;
+		else computer = new TankAICurrent;
+		if (!computer->parseConfig(currentNode))
 		{
 			return false;
-		}
-		if (store)
-		{
-			// Only check the rest of the children
-			// when we are not doing a shallow load
-			if (!currentNode->failChildren()) return false;
 		}
 
 		addAI(computer);
@@ -99,6 +97,7 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 
 	// Add the random player
 	{
+		TankAIRandom *tankAI = new TankAIRandom;
 		bool foundRandom = false;
 		std::list<TankAI *>::iterator itor;
 		for (itor = ais_.begin();
@@ -109,7 +108,7 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 			if (ai->availableForRandom())
 			{
 				foundRandom = true;
-				break;
+				tankAI->addTankAI(ai);
 			}
 		}
 		if (!foundRandom)
@@ -119,11 +118,6 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 			return false;
 		}
 
-		TankAI *tankAI = new TankAIComputer;
-		tankAI->getDescription().setText("Random",
-			"A computer controlled player.\n"
-			"Randomly chooses from all available computer\n"
-			"controled players (except targets).");
 		addAI(tankAI);
 	}
 
@@ -132,19 +126,6 @@ bool TankAIStore::loadAIs(AccessoryStore *store)
 
 TankAI *TankAIStore::getAIByName(const char *name)
 {
-	// Random
-	if (0 == strcmp(name, "Random"))
-	{
-		int tankNo = int(RAND * float(ais_.size()));
-		std::list<TankAI *>::iterator itor = ais_.begin();
-		for (int i=0; i<tankNo; i++) itor++;
-
-		TankAI *result = (*itor);
-		if (0 == strcmp(result->getName(), "Random")) return getAIByName(name);
-		if (!result->availableForRandom()) return getAIByName(name);
-		return result;
-	}
-
 	// Computers
 	std::list<TankAI *>::iterator itor;
 	for (itor = ais_.begin();

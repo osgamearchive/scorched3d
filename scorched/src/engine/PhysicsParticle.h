@@ -54,7 +54,7 @@ public:
 	virtual void simulate(float timepassed, bool &remove);
 
 protected:
-	PhysicsParticleObject physicsObject_;
+	PhysicsParticleActionObject physicsObject_;
 	bool collision_;
 	float totalActionTime_;
 

@@ -19,16 +19,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/Weapon.h>
+#include <weapons/AccessoryStore.h>
 #include <engine/GameState.h>
 #include <engine/ActionController.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
-#include <tankai/TankAIComputer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankAccessories.h>
 #include <tank/TankModelContainer.h>
 #include <tank/TankState.h>
+#include <tankai/TankAI.h>
 #include <target/TargetParachute.h>
 #include <target/TargetShield.h>
 #include <tankgraph/TankMenus.h>
@@ -190,8 +191,7 @@ void TankMenus::showTankDetails()
 		}
 		else if (otherTank && otherTank->getTankAI())
 		{
-			description = 
-				((TankAIComputer *)otherTank->getTankAI())->getName();
+			description = otherTank->getTankAI()->getName();
 		}
 
 		char buffer[1024];

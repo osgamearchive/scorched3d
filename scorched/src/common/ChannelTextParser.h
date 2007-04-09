@@ -33,7 +33,8 @@ public:
 	{
 		ePlayerEntry,
 		eWeaponEntry,
-		eChannelEntry
+		eChannelEntry,
+		eTipEntry
 	};
 	struct ChannelTextEntry
 	{
@@ -66,6 +67,8 @@ protected:
 	bool createWeaponEntry(ScorchedContext &context, 
 		const char *part, ChannelTextEntry &entry);
 	bool createChannelEntry(ScorchedContext &context, 
+		const char *part, ChannelTextEntry &entry);
+	bool createTipEntry(ScorchedContext &context, 
 		const char *part, ChannelTextEntry &entry);
 };
 

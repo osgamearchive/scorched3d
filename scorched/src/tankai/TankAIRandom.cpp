@@ -18,25 +18,27 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankSayh_INCLUDE__)
-#define __INCLUDE_TankSayh_INCLUDE__
+#include <tankai/TankAIRandom.h>
+#include <stdlib.h>
 
-#include <engine/ActionReferenced.h>
-
-class TankSay : public ActionReferenced
+TankAIRandom::TankAIRandom()
 {
-public:
-	TankSay(unsigned int playerId,
-		const char *text);
-	virtual ~TankSay();
+	name_ = "Random";
+	description_ = "A computer controlled player.\n"
+		"Chooses a random computer AI from the\nlist of all available types.";
+}
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+TankAIRandom::~TankAIRandom()
+{
+}
 
-protected:
-	unsigned int playerId_;
-	std::string text_;
+TankAI *TankAIRandom::createCopy(Tank *tank)
+{
+	TankAI *result = ais_[rand() % ais_.size()];
+	return result->createCopy(tank);
+}
 
-};
-
-#endif
+void TankAIRandom::addTankAI(TankAI *ai)
+{
+	ais_.push_back(ai);
+}

@@ -18,25 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankSayh_INCLUDE__)
-#define __INCLUDE_TankSayh_INCLUDE__
+#if !defined(AFX_TankAICurrentMove_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#define AFX_TankAICurrentMove_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
-#include <engine/ActionReferenced.h>
+#include <tankai/TankAICurrentTarget.h>
 
-class TankSay : public ActionReferenced
+class TankAICurrentMove
 {
 public:
-	TankSay(unsigned int playerId,
-		const char *text);
-	virtual ~TankSay();
+	TankAICurrentMove();
+	virtual ~TankAICurrentMove();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual bool parseConfig(XMLNode *node);
+
+	void playMove(Tank *tank);
+
+	TankAICurrentTarget &getTargets() { return targets_; }
 
 protected:
-	unsigned int playerId_;
-	std::string text_;
+	TankAICurrentTarget targets_;
+	bool useResign_;
+
+	void resign(Tank *tank);
+	void skipMove(Tank *tank);
+	void fireShot(Tank *tank);
 
 };
 
-#endif
+#endif // !defined(AFX_TankAICurrentMove_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)

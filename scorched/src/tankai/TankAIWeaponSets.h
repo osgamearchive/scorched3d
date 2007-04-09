@@ -18,51 +18,53 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankAIComputerBuyerh_INCLUDE__)
-#define __INCLUDE_TankAIComputerBuyerh_INCLUDE__
+#if !defined(__INCLUDE_TankAIWeaponSetsh_INCLUDE__)
+#define __INCLUDE_TankAIWeaponSetsh_INCLUDE__
 
-#include <weapons/AccessoryStore.h>
-#include <list>
 #include <vector>
 #include <map>
 
+class XMLNode;
+class Accessory;
 class Tank;
-class TankAIComputerBuyer
+class TankAIWeaponSets
 {
 public:
-	TankAIComputerBuyer();
-	virtual ~TankAIComputerBuyer();
+	static TankAIWeaponSets *instance();
 
-	bool parseConfig(AccessoryStore &store, XMLNode *node);
-	bool addAccessory(AccessoryStore &store, 
-		const char *accessoryName, int buyLevel);
-	void buyAccessories(int maxNoBought);
-	void clearAccessories();
+	class WeaponSetEntry
+	{
+	public:
+		Accessory *accessory;
+		int buymin, buymax;
+		int moneymin, moneymax;
+		int prioritybuy, priorityuse;
+		std::string type;
 
-	std::vector<Accessory *> getWeaponType(const char *type);
+		bool parseConfig(XMLNode *node);
+		bool weaponValid(Tank *tank);
+	};
 
-	std::multimap<std::string, std::string> &getTypes() { return buyTypes_; }
-	void setTank(Tank *tank) { currentTank_ = tank; }
+	class WeaponSet
+	{
+	public:
+		std::string name;
+		std::vector<WeaponSetEntry> weapons;
 
-	void dumpAccessories();
+		bool parseConfig(XMLNode *node);
+		void buyWeapons(Tank *tank);
+	};
+
+	WeaponSet *getWeaponSet(const char *name);
 
 protected:
-	struct Entry
-	{
-		Entry() {}
-		Entry(const Entry &other);
-		Entry &operator=(const Entry &other);
-		virtual ~Entry() { }
+	std::map<std::string, WeaponSet> weaponSets_;
+	bool parseConfig();
 
-		std::list<std::string> buyAccessories;
-		int level;
-	};
-	std::list<Entry> buyEntries_;
-	std::multimap<std::string, std::string> buyTypes_;
+private:
+	TankAIWeaponSets();
+	virtual ~TankAIWeaponSets();
 
-	Tank *currentTank_;
-	void buyAccessory();
 };
-
 
 #endif

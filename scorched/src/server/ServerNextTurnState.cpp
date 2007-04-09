@@ -23,10 +23,10 @@
 #include <server/ScorchedServer.h>
 #include <server/TurnController.h>
 #include <server/ServerCommon.h>
-#include <tankai/TankAIComputer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankAccessories.h>
+#include <tankai/TankAI.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <coms/ComsStartGameMessage.h>
 #include <coms/ComsTimerStartMessage.h>
@@ -91,18 +91,18 @@ void ServerNextTurnState::enterState(const unsigned state)
 				if (weaponBuy)
 				{
 					// Tell the computer ai to buy weapons
-					((TankAIComputer *) tank->getTankAI())->buyAccessories();
+					tank->getTankAI()->buyAccessories();
 
 					// Tell the computer ai to use its autodefense (if it has one)
 					if (tank->getAccessories().getAutoDefense().haveDefense())
 					{
-						((TankAIComputer *) tank->getTankAI())->autoDefense();
+						tank->getTankAI()->autoDefense();
 					}
 				}
 				else
 				{
 					// Tell the computer ai to move
-					tank->getTankAI()->playMove(state, 0.0f, 0, 0);
+					tank->getTankAI()->playMove();
 				}
 			}
 			else

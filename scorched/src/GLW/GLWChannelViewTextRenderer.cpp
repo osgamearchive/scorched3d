@@ -86,6 +86,7 @@ void GLWChannelViewTextRenderer::drawCharacter(
 	switch (textEntry->type)
 	{
 	case ePlayerEntry:
+	case eTipEntry:
 		color[0] = textEntry->color[0];
 		color[1] = textEntry->color[1];
 		color[2] = textEntry->color[2];

@@ -146,6 +146,8 @@ PlayerDialog::PlayerDialog() :
 	typeDropDown_->setHandler(this);
 	typeDropDown_->setToolTip(typeTip);
 	typeDropDown_->setName("Type");
+
+	humanToolTip_.setText("Human", "A human controlled player.");
 }
 
 PlayerDialog::~PlayerDialog()
@@ -217,7 +219,7 @@ void PlayerDialog::display()
 	if (!init)
 	{
 		init = true;
-		tankAIStore.loadAIs(0);
+		tankAIStore.loadAIs(true);
 	}
 
 	// Add teams
@@ -243,8 +245,7 @@ void PlayerDialog::display()
 
 	// Add player types
 	typeDropDown_->clear();
-	typeDropDown_->addEntry(GLWSelectorEntry("Human", 
-		&tankAIStore.getAIByName("Human")->getDescription()));
+	typeDropDown_->addEntry(GLWSelectorEntry("Human", &humanToolTip_));
 	if (!ClientParams::instance()->getConnectedToServer() &&
 		!ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
 	{
@@ -258,7 +259,7 @@ void PlayerDialog::display()
 			{
 				typeDropDown_->addEntry(
 					GLWSelectorEntry(ai->getName(),
-						&(*aiitor)->getDescription()));
+						(*aiitor)->getToolTip()));
 			}
 		}
 	}

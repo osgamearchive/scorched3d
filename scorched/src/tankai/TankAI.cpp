@@ -19,23 +19,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAI.h>
+#include <XML/XMLNode.h>
 
 TankAI::TankAI() : 
-	currentTank_(0)
+	availableForRandom_(true),
+	availableForPlayers_(true)
 {
-	description_.setText("TankAI",
-		"No Description");
 }
 
 TankAI::~TankAI()
 {
 }
 
-void TankAI::endPlayMove()
+bool TankAI::parseConfig(XMLNode *node)
 {
+	if (!node->getNamedChild("name", name_)) return false;
+	if (!node->getNamedChild("description", description_)) return false;
+	if (!node->getNamedChild("availableforrandom", availableForRandom_)) return false;
+	if (!node->getNamedChild("availableforplayers", availableForPlayers_)) return false;
+
+	return true;
 }
 
-void TankAI::setTank(Tank *tank)
+ToolTip *TankAI::getToolTip()
 {
-	currentTank_ = tank;
+	toolTip_.setText(name_.c_str(), description_.c_str());
+	return &toolTip_;
 }

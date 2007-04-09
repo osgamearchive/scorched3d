@@ -105,8 +105,8 @@ bool ShotState::acceptStateChange(const unsigned state,
 		else
 		{
 			// We have finished all shots
-			Logger::log(formatString(
-				"Finished playing Shots"));
+			//Logger::log(formatString(
+			//	"Finished playing Shots"));
 			context_.actionController->getEvents().clear();
 			context_.actionController->logProfiledActions();
 

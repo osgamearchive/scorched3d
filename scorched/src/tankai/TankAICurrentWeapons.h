@@ -18,25 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankSayh_INCLUDE__)
-#define __INCLUDE_TankSayh_INCLUDE__
+#if !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#define AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
-#include <engine/ActionReferenced.h>
+#include <tankai/TankAIWeaponSets.h>
 
-class TankSay : public ActionReferenced
+class TankAICurrentWeapons
 {
 public:
-	TankSay(unsigned int playerId,
-		const char *text);
-	virtual ~TankSay();
+	TankAICurrentWeapons();
+	virtual ~TankAICurrentWeapons();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual bool parseConfig(XMLNode *node);
+
+	void buyWeapons(Tank *tank);
+
+	TankAIWeaponSets::WeaponSet *getCurrentWeaponSet();
 
 protected:
-	unsigned int playerId_;
-	std::string text_;
-
+	std::vector<TankAIWeaponSets::WeaponSet *> weaponSets_;
+	TankAIWeaponSets::WeaponSet *currentWeaponSet_;
 };
 
-#endif
+#endif // !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)

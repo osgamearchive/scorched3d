@@ -2,166 +2,31 @@
 	<ai>
 		<name>Cyborg</name>
 		<description>A computer controlled player.
-Cyborgs are like Sharks, except they can 
+Cyborgs are like Sharks, except they can
 use batteries.</description>
-		<aimsniper>50</aimsniper>
-		<sniperwobble>4</sniperwobble>
-		<aimtype>newrefined</aimtype>
-		<targettype>agressor</targettype>
-		<nodefenses>false</nodefenses>
-		<noresign>false</noresign>
 		<availableforrandom>true</availableforrandom>
-		<checknearcollision>true</checknearcollision>
-		<weaponset>
-			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
-			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
-			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
-			<weapon><name>Laser</name><level>20</level><type>sniper</type></weapon>
-			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
-			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
-		</weaponset>
-		<weaponset>
-			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
-			<weapon><name>Battery</name><level>20</level><type>defense</type></weapon>
-			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
-			<weapon><name>Laser</name><level>20</level><type>sniper</type></weapon>
-			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-			<weapon><name>Spread MIRV</name><level>30</level><type>explosionlarge</type></weapon>
-			<weapon><name>Death's Head</name><level>30</level><type>explosionlarge</type></weapon>
-			<weapon><name>Riot Blast</name><level>20</level><type>dig</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>			
-		</weaponset>
-	</ai>
+		<availableforplayers>true</availableforplayers>
 
-	<ai>
-		<name>Shark</name>
-		<description>A computer controlled player.
-Sharks are like Choosers, except they take 
-grudges against players that are 
-shooting at them.</description>
-		<aimsniper>50</aimsniper>
-		<sniperwobble>6</sniperwobble>
-		<aimtype>refined</aimtype>
-		<targettype>agressor</targettype>
-		<nodefenses>false</nodefenses>
-		<noresign>false</noresign>
-		<availableforrandom>true</availableforrandom>
-		<checknearcollision>true</checknearcollision>
-		<weaponset>
-			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
-			<weapon><name>Shield</name><level>20</level><type>defense</type></weapon>
-			<weapon><name>Auto Defense</name><level>30</level><type>defense</type></weapon>
-			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
-		</weaponset>
-	</ai>
-
-	<ai>
-		<name>Chooser</name>
-		<description>A computer controlled player.
-Choosers are like Tossers, except they can 
-also fire in straight line when close 
-enough.</description>
-		<aimsniper>50</aimsniper>
-		<sniperwobble>8</sniperwobble>
-		<aimtype>refined</aimtype>
-		<targettype>nearest</targettype>
-		<nodefenses>false</nodefenses>
-		<noresign>false</noresign>
-		<availableforrandom>true</availableforrandom>
-		<checknearcollision>true</checknearcollision>
-		<weaponset>
-			<weapon><name>Parachute</name><level>10</level><type>defense</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
-			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
-		</weaponset>
-	</ai>
-	
-	<ai>
-		<name>Tosser</name>
-		<description>A computer controlled player.
-Tossers start out like Shooters, but they'll 
-refine their aim to get closer and 
-closer, until they hit. If their initial 
-shot isn't too close, you have some 
-time to kill them.</description>
-		<aimsniper>0</aimsniper>
-		<aimtype>refined</aimtype>
-		<targettype>nearest</targettype>
-		<nodefenses>false</nodefenses>
-		<noresign>true</noresign>
-		<availableforrandom>true</availableforrandom>
-		<checknearcollision>false</checknearcollision>
-		<weaponset>
-			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>	
-			<weapon><name>MIRV</name><level>20</level><type>explosionlarge</type></weapon>
-			<weapon><name>Nuke</name><level>30</level><type>explosionlarge</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
-		</weaponset>
-	</ai>
-	
-	<ai>
-		<name>Shooter</name>
-		<description>A computer controlled player.
-Shooters can be significantly deadlier than 
-Morons, but they don't ever learn, 
-not refining subsiquent shots.</description>
-		<aimsniper>0</aimsniper>
-		<aimtype>guess</aimtype>
-		<targettype>nearest</targettype>
-		<noresign>true</noresign>
-		<nodefenses>false</nodefenses>
-		<availableforrandom>true</availableforrandom>
-		<checknearcollision>false</checknearcollision>
-		<weaponset>
-			<weapon><name>Missile</name><level>20</level><type>explosionsmall</type></weapon>
-			<weapon><name>Baby Nuke</name><level>20</level><type>explosionlarge</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>	
-		</weaponset>
-	</ai>
-	
-	<ai>
-		<name>Moron</name>
-		<description>A computer controlled player.
-Well, you can't get much stupider than this. 
-Morons just pick an angle and power, 
-and shoot. Definitely for beginners 
-only.</description>
-		<aimsniper>0</aimsniper>
-		<aimtype>random</aimtype>
-		<targettype>nearest</targettype>
-		<nodefenses>false</nodefenses>
-		<noresign>true</noresign>
-		<checknearcollision>false</checknearcollision>
-		<availableforrandom>true</availableforrandom>
-		<weaponset>
-			<weapon><name>Missile</name><level>2</level><type>explosionsmall</type></weapon>
-			<weapon><name>Baby Missile</name><level>1</level><type>explosionsmall</type></weapon>
-		</weaponset>
-	</ai>
-	
-	<ai>
-		<name>Target</name>
-		<description>A computer controlled player.
-These tanks act as static targets.  They
-will NEVER fire back.</description>
-		<aimsniper>0</aimsniper>
-		<aimtype>random</aimtype>
-		<targettype>none</targettype>
-		<nodefenses>true</nodefenses>
-		<noresign>true</noresign>
-		<checknearcollision>false</checknearcollision>
-		<availableforrandom>false</availableforrandom>
-		<weaponset>
-		</weaponset>
+		<weapons>
+			<weaponset>WeaponSet1</weaponset>
+		</weapons>
+		<defense>
+			<usebatteries>true</usebatteries>
+			<useshields>true</useshields>
+			<useparachutes>true</useparachutes>
+		</defense>
+		<attack>
+			<targets>
+				<health>0</health>
+				<random>0</random>
+				<player>0</player>
+				<shield>0</shield>
+				<score>0</score>
+				<repeat>0</repeat>
+				<damagetaken>0</damagetaken>
+				<damagedone>0</damagedone>
+				<distance>-1.0</distance>
+			</targets>		  
+		</attack>
 	</ai>
 </ais>

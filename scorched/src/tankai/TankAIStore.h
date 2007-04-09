@@ -18,13 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #if !defined(__INCLUDE_TankAIStoreh_INCLUDE__)
 #define __INCLUDE_TankAIStoreh_INCLUDE__
 
 #include <list>
 #include <tankai/TankAI.h>
-#include <weapons/AccessoryStore.h>
 
 class TankAIStore
 {
@@ -32,7 +30,7 @@ public:
 	TankAIStore();
 	virtual ~TankAIStore();
 
-	bool loadAIs(AccessoryStore *store); // (Store == 0) == shallow parse
+	bool loadAIs(bool shallow = false); 
 	void clearAIs();
 
 	std::list<TankAI*> &getAis() { return ais_; }

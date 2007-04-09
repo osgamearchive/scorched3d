@@ -167,8 +167,7 @@ bool startServer(bool local, ProgressCounter *counter)
 
 	// Add the server side bots
 	// Add any new AIs
-	if (!ScorchedServer::instance()->getTankAIs().loadAIs(
-		&ScorchedServer::instance()->getAccessoryStore())) return false;
+	if (!ScorchedServer::instance()->getTankAIs().loadAIs()) return false;
 	TankAIAdder::addTankAIs(*ScorchedServer::instance());
 
 	// Start the state machine

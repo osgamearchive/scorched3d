@@ -57,6 +57,8 @@ class PhysicsParticleObjectHandler
 public:
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId) = 0;
+	virtual void wallCollision(PhysicsParticleObject &position,
+		ScorchedCollisionId collisionId) {}
 };
 
 class Target;
@@ -128,6 +130,18 @@ protected:
 	bool getShieldCollision(CollisionInfo &collision, Target *target);
 	bool getTargetCollision(CollisionInfo &collision, Target *target);
 	bool getTargetBounceCollision(CollisionInfo &collision, Target *target);
+};
+
+class PhysicsParticleActionObject : public PhysicsParticleObject
+{
+public:
+	PhysicsParticleActionObject();
+	virtual ~PhysicsParticleActionObject();
+
+protected:
+	virtual void shotWallHit(CollisionInfo &collision);
+	virtual void shotShieldHit(Target *target);
+	virtual void bounceShieldHit(Target *target);
 };
 
 #endif

@@ -68,13 +68,8 @@ void TankFired::simulate(float frameTime, bool &remove)
 					context_->actionController->getRandom());
 				if (line)
 				{
-					std::string newText(tank->getName());
-					newText += ": ";
-					unsigned int infoLen = newText.length();
-					newText += line;
-
 					context_->actionController->addAction(
-						new TankSay(tank->getPlayerId(), newText.c_str(), infoLen));
+						new TankSay(tank->getPlayerId(), line));
 				}
 			}
 

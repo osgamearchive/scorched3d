@@ -73,7 +73,7 @@ void ProgressDialog::changeTip()
 	char *nl = (char *) strchr(tip.c_str(), ':');
 	if (nl) *nl = ' ';
 
-	ChannelText text("info", formatString("Tip: %s", tip.c_str()));
+	ChannelText text("info", formatString("[t:Tip:] %s", tip.c_str()));
 	ClientChannelManager::instance()->showText(text);
 }
 

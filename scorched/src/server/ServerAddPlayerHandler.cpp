@@ -106,7 +106,7 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 		if (!ai) return true;
 
 		// Set the tank to have the ai
-		tank->setTankAI(ai->getCopy(tank));
+		tank->setTankAI(ai->createCopy(tank));
 		tank->setDestinationId(0);
 	}
 	else

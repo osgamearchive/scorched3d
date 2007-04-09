@@ -33,6 +33,7 @@
 #include <tank/TankCamera.h>
 #include <tankai/TankAI.h>
 #include <tankai/TankAIStore.h>
+#include <weapons/AccessoryStore.h>
 #include <target/TargetLife.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>

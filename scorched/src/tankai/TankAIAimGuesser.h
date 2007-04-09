@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,25 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankSayh_INCLUDE__)
-#define __INCLUDE_TankSayh_INCLUDE__
+#if !defined(__INCLUDE_TankAIAimGuesserh_INCLUDE__)
+#define __INCLUDE_TankAIAimGuesserh_INCLUDE__
 
-#include <engine/ActionReferenced.h>
+#include <engine/PhysicsParticleObject.h>
 
-class TankSay : public ActionReferenced
+class Tank;
+class TankAIAimGuesser : public PhysicsParticleObjectHandler
 {
 public:
-	TankSay(unsigned int playerId,
-		const char *text);
-	virtual ~TankSay();
+	TankAIAimGuesser();
+	virtual ~TankAIAimGuesser();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	bool guess(Tank *tank, Vector &target, 
+		float angleXYDegs, float distance, float &actualDistance);
+
+	// PhysicsParticleObjectHandler
+	virtual void collision(PhysicsParticleObject &position, 
+		ScorchedCollisionId collisionId);
+	virtual void wallCollision(PhysicsParticleObject &position,
+		ScorchedCollisionId collisionId);
 
 protected:
-	unsigned int playerId_;
-	std::string text_;
+	bool collision_;
+	PhysicsParticleObject currentGuess_;
 
+	void getCurrentGuess(Tank *tank);
+	void initialShot(Tank *tank, Vector &target);
+	void refineShot(Tank *tank,
+		Vector &currentPos, Vector &wantedPos);
 };
 
-#endif
+#endif // __INCLUDE_TankAIAimGuesserh_INCLUDE__

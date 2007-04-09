@@ -30,9 +30,8 @@
 #include <common/ChannelManager.h>
 
 TankSay::TankSay(unsigned int playerId,
-		const char *text,
-		unsigned int infoLen) :
-	playerId_(playerId), text_(text), infoLen_(infoLen)
+		const char *text) :
+	playerId_(playerId), text_(text)
 {
 
 }
@@ -58,9 +57,7 @@ void TankSay::init()
 			context_->actionController->addAction(new SpriteAction(talk));
 
 			ChannelText text("general", text_.c_str());
-			//info.setPlayerId(tank->getPlayerId());
-			//info.setIcon(tank->getAvatar().getTexture());
-			//info.setInfoLen(infoLen_);
+			text.setSrcPlayerId(playerId_);
 			ChannelManager::showText(text);
 		}
 #endif // #ifndef S3D_SERVER

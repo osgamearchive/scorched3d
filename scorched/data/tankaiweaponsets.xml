@@ -1,0 +1,37 @@
+<weaponsets>
+	<weaponset>
+		<name>WeaponSet1</name>
+		<set>
+			<weapon>
+				<name>Parachute</name>
+				<buymin>10</buymin>
+				<buymax>10</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>0</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>parachute</type>
+			</weapon>
+			<weapon>
+				<name>Shield</name>
+				<buymin>1</buymin>
+				<buymax>3</buymax>
+				<moneymin>20000</moneymin>
+				<moneymax>30000</moneymax>
+				<prioritybuy>5</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>shield</type>
+			</weapon>
+			<weapon>
+				<name>Baby Nuke</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>explosionlarge</type>
+			</weapon>
+		</set>
+	</weaponset>
+</weaponsets>

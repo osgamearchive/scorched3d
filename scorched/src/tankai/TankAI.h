@@ -18,64 +18,59 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankAIh_INCLUDE__)
-#define __INCLUDE_TankAIh_INCLUDE__
+#if !defined(AFX_TankAI_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#define AFX_TankAI_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
+#include <engine/ScorchedCollisionIds.h>
 #include <common/Vector.h>
 #include <common/ToolTip.h>
-#include <engine/ScorchedCollisionIds.h>
+#include <string>
 
 class Weapon;
+class XMLNode;
 class Tank;
-class ComsDefenseMessage;
-class ComsPlayedMoveMessage;
-
-#define TANKAI_DEFINE(y) \
-	virtual TankAI *getCopy(Tank *tank) { TankAI *comp = new y(*this); comp->setTank(tank); return comp; }
-
 class TankAI
 {
 public:
 	TankAI();
 	virtual ~TankAI();
 
-	const char *getName() { return description_.getTitle(); }
-	ToolTip &getDescription() { return description_; }
+	// Instance init
+	virtual TankAI *createCopy(Tank *tank) = 0;
 
-	virtual bool isHuman() = 0;
-	virtual TankAI *getCopy(Tank *tank) = 0;
-	virtual bool availableForRandom() { return false; }
-	virtual bool availableForPlayers() { return true; }
+	// Onetime init
+	virtual bool parseConfig(XMLNode *node);
 
-	// State information about when the ai should act
-	//
-	// These are callback methods information the tank ai
-	// when to play its move, or give information about the
-	// game state
-	virtual void playMove(const unsigned state, 
-		float frameTime, char *buffer, unsigned int keyState) = 0;
-	virtual void endPlayMove();
-	virtual void newGame() = 0;
+	// Other
+	virtual const char *getName() { return name_.c_str(); }
+	virtual const char *getDescription() { return description_.c_str(); }
+	virtual ToolTip *getToolTip();
+
+	// Notification of actions to perform
 	virtual void newMatch() = 0;
-	
-	// Set the tank and context this ai is for
-	virtual void setTank(Tank *tank);
+	virtual void newGame() = 0;
+	virtual void playMove() = 0;
+	virtual void buyAccessories() = 0;
+	virtual void autoDefense() = 0;
 
-	// Information about shots landing
-	//
-	// These are callback methods a tank ai can implement
-	// to gain information about what shots they have fired
-	// or who fired shots at them
-	virtual void tankHurt(Weapon *weapon, unsigned int firer) = 0;
-	virtual void shotLanded(
-		ScorchedCollisionId collision,
+	// Notification of actions happened
+	virtual void tankHurt(Weapon *weapon, float damage, 
+		unsigned int damaged, unsigned int firer) = 0;
+	virtual void shotLanded(ScorchedCollisionId collision,
 		Weapon *weapon, unsigned int firer, 
 		Vector &position) = 0;
 
+	// Indicates if this computer ai is available for choice by
+	// the random tank ai type
+	virtual bool availableForRandom() { return availableForRandom_; }
+	virtual bool availableForPlayers() { return availableForPlayers_; }
+
 protected:
-	ToolTip description_;
-	Tank *currentTank_;
+	std::string name_, description_;
+	bool availableForRandom_;
+	bool availableForPlayers_;
+	ToolTip toolTip_;
 
 };
 
-#endif
+#endif // !defined(AFX_TankAI_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)

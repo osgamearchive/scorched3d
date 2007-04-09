@@ -104,13 +104,8 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 				formatString("Cannot find a tank ai named \"%s\"",
 				ai_.c_str()));
 		}
-		if (ai->isHuman())
-		{
-			dialogExit("TankDefinition",
-				formatString("Cannot create a human tank"));
-		}
 
-		tank->setTankAI(ai->getCopy(tank));
+		tank->setTankAI(ai->createCopy(tank));
 		tank->setUniqueId(formatString("Tank - %u", playerId));
 	}
 	else

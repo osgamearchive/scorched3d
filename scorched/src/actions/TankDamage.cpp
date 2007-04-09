@@ -95,6 +95,32 @@ void TankDamage::calculateDamage()
 		context_->targetContainer->getTargetById(damagedPlayerId_);
 	if (!damagedTarget || !damagedTarget->getAlive()) return;
 
+	// Tell this tanks ai that is has been hurt by another tank
+	if (!damagedTarget->isTarget())
+	{
+		// Tell all AIs about this collision
+		std::map<unsigned int, Tank *> tanks = 
+			context_->tankContainer->getAllTanks();
+		std::map<unsigned int, Tank *>::iterator itor;
+		for (itor = tanks.begin();
+			itor != tanks.end();
+			itor++)
+		{
+			Tank *tank = (*itor).second;
+			TankAI *ai = tank->getTankAI();
+			if (ai)
+			{		
+				if (tank->getState().getState() == TankState::sNormal &&
+					!tank->getState().getSpectator())
+				{
+					ai->tankHurt(weapon_, damage_,
+						damagedTarget->getPlayerId(), 
+						firedPlayerId);
+				}
+			}
+		}
+	}
+
 	// Remove any damage from shield first
 	if (damage_ > 0.0f)
 	{
@@ -307,14 +333,6 @@ void TankDamage::calculateDamage()
 		}
 	}
 
-	// Tell this tanks ai that is has been hurt by another tank
-	if (!damagedTarget->isTarget())
-	{
-		Tank *damagedTank = (Tank *) damagedTarget;
-		TankAI *ai = damagedTank->getTankAI();
-		if (ai) ai->tankHurt(weapon_, firedPlayerId);
-	}
-
 	// Check if the tank needs to fall
 	if (checkFall_ && damagedTarget->getAlive())
 	{
@@ -413,13 +431,8 @@ void TankDamage::logDeath()
 			context_->actionController->getRandom());
 		if (line)
 		{
-			std::string newText(killedTarget->getName());
-			newText += ": ";
-			unsigned int infoLen = newText.length();
-			newText += line;
-
 			context_->actionController->addAction(
-				new TankSay(killedTank->getPlayerId(), newText.c_str(), infoLen));
+				new TankSay(killedTank->getPlayerId(), line));
 		}
 	}
 

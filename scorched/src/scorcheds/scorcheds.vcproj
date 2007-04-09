@@ -2270,35 +2270,51 @@
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputer.cpp"
+				RelativePath="..\tankai\TankAIAimGuesser.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputer.h"
+				RelativePath="..\tankai\TankAIAimGuesser.h"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerAim.cpp"
+				RelativePath="..\tankai\TankAICurrent.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerAim.h"
+				RelativePath="..\tankai\TankAICurrent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerBuyer.cpp"
+				RelativePath="..\tankai\TankAICurrentDefenses.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerBuyer.h"
+				RelativePath="..\tankai\TankAICurrentDefenses.h"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerTarget.cpp"
+				RelativePath="..\tankai\TankAICurrentMove.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\tankai\TankAIComputerTarget.h"
+				RelativePath="..\tankai\TankAICurrentMove.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAICurrentTarget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAICurrentTarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAICurrentWeapons.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAICurrentWeapons.h"
 				>
 			</File>
 			<File
@@ -2307,6 +2323,22 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAINames.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIRandom.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIRandom.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIShallow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIShallow.h"
 				>
 			</File>
 			<File
@@ -2323,6 +2355,14 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIStrings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIWeaponSets.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAIWeaponSets.h"
 				>
 			</File>
 		</Filter>

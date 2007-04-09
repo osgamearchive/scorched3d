@@ -28,7 +28,6 @@
 #include <tank/TankContainer.h>
 #include <target/TargetLife.h>
 #include <tankai/TankAIStrings.h>
-#include <tankai/TankAIComputer.h>
 #include <engine/ActionController.h>
 #include <actions/TankMovement.h>
 #include <actions/TankResign.h>

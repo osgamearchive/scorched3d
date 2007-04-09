@@ -18,25 +18,32 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankSayh_INCLUDE__)
-#define __INCLUDE_TankSayh_INCLUDE__
+#if !defined(AFX_TankAICurrentDefenses_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#define AFX_TankAICurrentDefenses_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
-#include <engine/ActionReferenced.h>
+#include <tankai/TankAIWeaponSets.h>
 
-class TankSay : public ActionReferenced
+class TankAICurrentDefenses
 {
 public:
-	TankSay(unsigned int playerId,
-		const char *text);
-	virtual ~TankSay();
+	TankAICurrentDefenses();
+	virtual ~TankAICurrentDefenses();
 
-	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual bool parseConfig(XMLNode *node);
+
+	void raiseDefenses(Tank *tank);
+	void useBatteries(Tank *tank);
 
 protected:
-	unsigned int playerId_;
-	std::string text_;
+	bool useParachutes_;
+	bool useShields_;
+	bool useBatteries_;
 
+	void selectFirstShield(Tank *tank);
+	void selectFirstParachute(Tank *tank);
+	void parachutesUpDown(Tank *tank, unsigned int paraId);
+	void shieldsUpDown(Tank *tank, unsigned int shieldId);
+	void useBattery(Tank *tank, unsigned int batteryId);
 };
 
-#endif
+#endif // !defined(AFX_TankAICurrentDefenses_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)

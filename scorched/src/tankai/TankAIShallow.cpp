@@ -18,39 +18,13 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankAIComputerTargeth_INCLUDE__)
-#define __INCLUDE_TankAIComputerTargeth_INCLUDE__
+#include <tankai/TankAIShallow.h>
 
-#include <tank/Tank.h>
-#include <XML/XMLParser.h>
-#include <engine/ScorchedCollisionIds.h>
-#include <map>
-
-class TankAIComputerTarget
+TankAIShallow::TankAIShallow()
 {
-public:
-	TankAIComputerTarget();
-	virtual ~TankAIComputerTarget();
+}
 
-	bool parseConfig(XMLNode *node);
-	void setTank(Tank *tank);
-	void shotLanded(
-		ScorchedCollisionId collision,
-		Weapon *weapon, unsigned int firer, 
-		Vector &position);
-	void newMatch();
-	void tankHurt(Weapon *weapon, unsigned int firer);
+TankAIShallow::~TankAIShallow()
+{
+}
 
-	Tank *findTankToShootAt();
-
-protected:
-	Tank *currentTank_;
-	std::map<unsigned int, int> hitlist_;
-	std::string targetType_;
-
-	Tank *findShotAtTankToShootAt();
-	Tank *findNearTankToShootAt();
-	void addTankToHitList(unsigned int firer, int count);
-};
-
-#endif

@@ -134,6 +134,10 @@ bool ChannelTextParser::parseUrl(ScorchedContext &context,
 	{
 		return createPlayerEntry(context, otherPart.c_str(), entry);
 	}
+	else if (0 == strcmp(urlPart.c_str(), "t")) // A tip
+	{
+		return createTipEntry(context, otherPart.c_str(), entry);
+	}
 	else if (0 == strcmp(urlPart.c_str(), "w")) // A weapon
 	{
 		return createWeaponEntry(context, otherPart.c_str(), entry);
@@ -163,6 +167,16 @@ bool ChannelTextParser::createWeaponEntry(ScorchedContext &context,
 {
 	entry.type = eWeaponEntry;
 	entry.text = formatString("[%s]", part);
+
+	return true;
+}
+
+bool ChannelTextParser::createTipEntry(ScorchedContext &context, 
+	const char *part, ChannelTextEntry &entry)
+{
+	entry.type = eTipEntry;
+	entry.text = formatString("%s", part);
+	entry.color = Vector(1.0f, 1.0f, 0.0f);
 
 	return true;
 }
