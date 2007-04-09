@@ -65,6 +65,7 @@ Section "MainSection" SEC01
   File /r /x "CVS" /x "*.db" "data"
   File /r /x "CVS" /x "*.db" "documentation"
   File "*.dll"
+  File "*.manifest"
   File "AUTHORS"
   File "COPYING"
   File "README"

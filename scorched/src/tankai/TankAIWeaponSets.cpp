@@ -129,7 +129,7 @@ void TankAIWeaponSets::WeaponSet::buyWeapons(Tank *tank)
 			priorityWeapons.push_back(weapon);
 			if (weapon->prioritybuy < priorityWeapons.back()->prioritybuy) break;
 		}
-		WeaponSetEntry *choosenWeapon = priorityWeapons[rand() & priorityWeapons.size()];
+		WeaponSetEntry *choosenWeapon = priorityWeapons[rand() % priorityWeapons.size()];
 		Accessory *choosenAccessory = choosenWeapon->accessory;
 
 		// Buy this weapon
