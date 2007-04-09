@@ -18,26 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
-#define AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
+#if !defined(AFX_TankAICurrentMoveWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#define AFX_TankAICurrentMoveWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
-#include <tankai/TankAIWeaponSets.h>
+#include <tankai/TankAICurrentWeapons.h>
 
-class TankAICurrentWeapons
+class Tank;
+class Shield;
+class Accessory;
+class TankAICurrentMoveWeapons
 {
 public:
-	TankAICurrentWeapons();
-	virtual ~TankAICurrentWeapons();
+	TankAICurrentMoveWeapons(Tank *tank, 
+		Tank *targetTank,
+		TankAIWeaponSets::WeaponSet *weapons);
+	virtual ~TankAICurrentMoveWeapons();
 
-	virtual bool parseConfig(XMLNode *node);
-
-	void buyWeapons(Tank *tank, bool lastRound);
-
-	TankAIWeaponSets::WeaponSet *getCurrentWeaponSet();
+	Accessory *small;
+	Accessory *large;
+	Accessory *napalm;
+	Accessory *laser;
+	Accessory *digger;
+	Accessory *roller;
+	Accessory *uncover;
+	Shield *shield;
 
 protected:
-	std::vector<TankAIWeaponSets::WeaponSet *> weaponSets_;
-	TankAIWeaponSets::WeaponSet *currentWeaponSet_;
+
 };
 
-#endif // !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#endif // !defined(AFX_TankAICurrentMoveWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)

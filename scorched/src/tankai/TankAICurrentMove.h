@@ -22,6 +22,7 @@
 #define AFX_TankAICurrentMove_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
 
 #include <tankai/TankAICurrentTarget.h>
+#include <tankai/TankAICurrentMoveWeapons.h>
 
 class TankAICurrentMove
 {
@@ -31,7 +32,9 @@ public:
 
 	virtual bool parseConfig(XMLNode *node);
 
-	void playMove(Tank *tank);
+	void playMove(Tank *tank, 
+		TankAIWeaponSets::WeaponSet *weapons,
+		bool useBatteries);
 
 	TankAICurrentTarget &getTargets() { return targets_; }
 
@@ -39,6 +42,19 @@ protected:
 	TankAICurrentTarget targets_;
 	bool useResign_;
 
+	bool shootAtTank(Tank *tank, Tank *targetTank, 
+		TankAICurrentMoveWeapons &weapons);
+	bool makeProjectileShot(Tank *tank, Tank *targetTank,
+		TankAICurrentMoveWeapons &weapons);
+	bool makeSniperShot(Tank *tank, Tank *targetTank,
+		TankAICurrentMoveWeapons &weapons);
+	bool makeLaserSniperShot(Tank *tank, Tank *targetTank, 
+		TankAICurrentMoveWeapons &weapons);
+	bool makeBurriedShot(Tank *tank, Tank *targetTank, 
+		TankAICurrentMoveWeapons &weapons);
+
+	void setWeapon(Tank *tank, Accessory *accessory);
+	void useBattery(Tank *tank, unsigned int batteryId);
 	void resign(Tank *tank);
 	void skipMove(Tank *tank);
 	void fireShot(Tank *tank);

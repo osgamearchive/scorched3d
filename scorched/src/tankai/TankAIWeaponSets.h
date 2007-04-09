@@ -42,7 +42,8 @@ public:
 		std::string type;
 
 		bool parseConfig(XMLNode *node);
-		bool weaponValid(Tank *tank);
+		bool weaponValid(Tank *tank, bool lastRound);
+		static bool checkType(const char *type);
 	};
 
 	class WeaponSet
@@ -52,7 +53,8 @@ public:
 		std::vector<WeaponSetEntry> weapons;
 
 		bool parseConfig(XMLNode *node);
-		void buyWeapons(Tank *tank);
+		void buyWeapons(Tank *tank, bool lastRound);
+		Accessory *getTankAccessoryByType(Tank *tank, const char *type);
 	};
 
 	WeaponSet *getWeaponSet(const char *name);

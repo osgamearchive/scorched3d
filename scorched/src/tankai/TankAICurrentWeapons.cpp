@@ -61,9 +61,9 @@ bool TankAICurrentWeapons::parseConfig(XMLNode *node)
 	return node->failChildren();	
 }
 
-void TankAICurrentWeapons::buyWeapons(Tank *tank)
+void TankAICurrentWeapons::buyWeapons(Tank *tank, bool lastRound)
 {
-	getCurrentWeaponSet()->buyWeapons(tank);
+	getCurrentWeaponSet()->buyWeapons(tank, lastRound);
 
 	// Finished this buying
 	ComsPlayedMoveMessage *message = 

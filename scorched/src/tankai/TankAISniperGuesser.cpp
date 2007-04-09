@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,40 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
-#define AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
+#include <tankai/TankAISniperGuesser.h>
+#include <tank/Tank.h>
+#include <tank/TankLib.h>
+#include <tank/TankPosition.h>
+#include <server/ScorchedServer.h>
+#include <common/Logger.h>
+#include <common/RandomGenerator.h>
 
-#include <tankai/TankAIWeaponSets.h>
-
-class TankAICurrentWeapons
+TankAISniperGuesser::TankAISniperGuesser()
 {
-public:
-	TankAICurrentWeapons();
-	virtual ~TankAICurrentWeapons();
+}
 
-	virtual bool parseConfig(XMLNode *node);
+TankAISniperGuesser::~TankAISniperGuesser()
+{
+}
 
-	void buyWeapons(Tank *tank, bool lastRound);
+bool TankAISniperGuesser::guess(Tank *tank, Vector &target, 
+	float distForSniper, bool checkIntersection)
+{
+	float angleXYDegs, angleYZDegs, power;
 
-	TankAIWeaponSets::WeaponSet *getCurrentWeaponSet();
+	Vector shotPosition = tank->getPosition().getTankGunPosition();
+	if (TankLib::getSniperShotTowardsPosition(
+		ScorchedServer::instance()->getContext(),
+		shotPosition, target, 
+		distForSniper, 
+		angleXYDegs, angleYZDegs, power,
+		checkIntersection))
+	{
+		tank->getPosition().rotateGunXY(angleXYDegs, false);
+		tank->getPosition().rotateGunYZ(angleYZDegs, false);
+		tank->getPosition().changePower(power, false);
 
-protected:
-	std::vector<TankAIWeaponSets::WeaponSet *> weaponSets_;
-	TankAIWeaponSets::WeaponSet *currentWeaponSet_;
-};
-
-#endif // !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+		return true;
+	}
+	return false;
+}

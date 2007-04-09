@@ -84,24 +84,6 @@ void TankAICurrentDefenses::raiseDefenses(Tank *tank)
 	if (useShields_) selectFirstShield(tank);
 }
 
-void TankAICurrentDefenses::useBatteries(Tank *tank)
-{
-	// Use batteries if we need to and have them
-	while (useBatteries_ &&
-		tank->getLife().getLife() < 
-		tank->getLife().getMaxLife() &&
-		tank->getAccessories().getBatteries().getNoBatteries() != 0)
-	{
-		std::list<Accessory *> &entries =
-			tank->getAccessories().getAllAccessoriesByType(
-				AccessoryPart::AccessoryBattery);			
-		if (!entries.empty())
-		{
-			useBattery(tank, entries.front()->getAccessoryId());
-		}
-	}
-}
-
 void TankAICurrentDefenses::parachutesUpDown(Tank *tank, unsigned int paraId)
 {
 	ComsDefenseMessage defenseMessage(
@@ -118,16 +100,6 @@ void TankAICurrentDefenses::shieldsUpDown(Tank *tank, unsigned int shieldId)
 		tank->getPlayerId(),
 		(shieldId!=0)?ComsDefenseMessage::eShieldUp:ComsDefenseMessage::eShieldDown,
 		shieldId);
-
-	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, tank);
-}
-
-void TankAICurrentDefenses::useBattery(Tank *tank, unsigned int batteryId)
-{
-	ComsDefenseMessage defenseMessage(
-		tank->getPlayerId(),
-		ComsDefenseMessage::eBatteryUse,
-		batteryId);
 
 	ServerDefenseHandler::instance()->processDefenseMessage(defenseMessage, tank);
 }

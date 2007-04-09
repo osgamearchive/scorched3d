@@ -2335,6 +2335,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\tankai\TankAICurrentMoveWeapons.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAICurrentMoveWeapons.h"
+				>
+			</File>
+			<File
 				RelativePath="..\tankai\TankAICurrentTarget.cpp"
 				>
 			</File>
@@ -2372,6 +2380,14 @@
 			</File>
 			<File
 				RelativePath="..\tankai\TankAIShallow.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAISniperGuesser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\tankai\TankAISniperGuesser.h"
 				>
 			</File>
 			<File

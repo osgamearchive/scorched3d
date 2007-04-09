@@ -8,7 +8,7 @@ use batteries.</description>
 		<availableforplayers>true</availableforplayers>
 
 		<weapons>
-			<weaponset>WeaponSet1</weaponset>
+			<weaponset>WeaponSetFull</weaponset>
 		</weapons>
 		<defense>
 			<usebatteries>true</usebatteries>
@@ -29,4 +29,36 @@ use batteries.</description>
 			</targets>		  
 		</attack>
 	</ai>
+
+	<ai>
+		<name>Target</name>
+		<description>A computer controlled player. 
+These tanks act as static targets. 
+They will NEVER fire back.</description>
+		<availableforrandom>true</availableforrandom>
+		<availableforplayers>true</availableforplayers>
+
+		<weapons>
+			<weaponset>WeaponSetEmpty</weaponset>
+		</weapons>
+		<defense>
+			<usebatteries>false</usebatteries>
+			<useshields>false</useshields>
+			<useparachutes>false</useparachutes>
+		</defense>
+		<attack>
+			<targets>
+				<health>0</health>
+				<random>0</random>
+				<player>0</player>
+				<shield>0</shield>
+				<score>0</score>
+				<repeat>0</repeat>
+				<damagetaken>0</damagetaken>
+				<damagedone>0</damagedone>
+				<distance>0.0</distance>
+			</targets>
+		</attack>	
+	</ai>
+
 </ais>

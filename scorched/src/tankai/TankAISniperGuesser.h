@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
-#define AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_
+#if !defined(__INCLUDE_TankAISniperGuesserh_INCLUDE__)
+#define __INCLUDE_TankAISniperGuesserh_INCLUDE__
 
-#include <tankai/TankAIWeaponSets.h>
+#include <common/Vector.h>
 
-class TankAICurrentWeapons
+class Tank;
+class TankAISniperGuesser
 {
 public:
-	TankAICurrentWeapons();
-	virtual ~TankAICurrentWeapons();
+	TankAISniperGuesser();
+	virtual ~TankAISniperGuesser();
 
-	virtual bool parseConfig(XMLNode *node);
-
-	void buyWeapons(Tank *tank, bool lastRound);
-
-	TankAIWeaponSets::WeaponSet *getCurrentWeaponSet();
-
-protected:
-	std::vector<TankAIWeaponSets::WeaponSet *> weaponSets_;
-	TankAIWeaponSets::WeaponSet *currentWeaponSet_;
+	bool guess(Tank *tank, Vector &target, 
+		float distForSniper, bool checkIntersection);
 };
 
-#endif // !defined(AFX_TankAICurrentWeapons_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
+#endif // __INCLUDE_TankAISniperGuesserh_INCLUDE__

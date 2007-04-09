@@ -1,6 +1,6 @@
 <weaponsets>
 	<weaponset>
-		<name>WeaponSet1</name>
+		<name>WeaponSetFull</name>
 		<set>
 			<weapon>
 				<name>Parachute</name>
@@ -23,6 +23,46 @@
 				<type>shield</type>
 			</weapon>
 			<weapon>
+				<name>Baby Roller</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>roller</type>
+			</weapon>
+			<weapon>
+				<name>Napalm</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>napalm</type>
+			</weapon>
+			<weapon>
+				<name>Riot Charge</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>uncover</type>
+			</weapon>
+			<weapon>
+				<name>Laser</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>laser</type>
+			</weapon>
+			<weapon>
 				<name>Baby Nuke</name>
 				<buymin>1</buymin>
 				<buymax>4</buymax>
@@ -32,6 +72,22 @@
 				<priorityuse>1</priorityuse>
 				<type>explosionlarge</type>
 			</weapon>
+			<weapon>
+				<name>Baby Missile</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>explosionsmall</type>
+			</weapon>
+		</set>
+	</weaponset>
+
+	<weaponset>
+		<name>WeaponSetEmpty</name>
+		<set>
 		</set>
 	</weaponset>
 </weaponsets>

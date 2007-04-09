@@ -21,6 +21,7 @@
 #include <tankai/TankAICurrent.h>
 #include <tank/TankContainer.h>
 #include <server/ScorchedServer.h>
+#include <common/OptionsTransient.h>
 #include <XML/XMLNode.h>
 
 TankAICurrent::TankAICurrent() : tank_(0)
@@ -80,11 +81,10 @@ void TankAICurrent::playMove()
 	// Raise any defenses
 	defenses_.raiseDefenses(tank_);
 
-	// Use batteries to raise health
-	defenses_.useBatteries(tank_);
-
 	// Make the move
-	move_.playMove(tank_);
+	move_.playMove(tank_, 
+		wantedWeapons_.getCurrentWeaponSet(),
+		defenses_.getUseBatteries());
 }
 
 void TankAICurrent::autoDefense()
@@ -94,7 +94,11 @@ void TankAICurrent::autoDefense()
 
 void TankAICurrent::buyAccessories()
 {
-	wantedWeapons_.buyWeapons(tank_);
+	bool lastRound = 
+		(ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo() >=
+		ScorchedServer::instance()->getOptionsGame().getNoRounds());
+
+	wantedWeapons_.buyWeapons(tank_, lastRound);
 }
 
 void TankAICurrent::tankHurt(Weapon *weapon, float damage, 

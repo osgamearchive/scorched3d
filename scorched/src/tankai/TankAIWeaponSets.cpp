@@ -96,7 +96,7 @@ bool TankAIWeaponSets::WeaponSet::parseConfig(XMLNode *node)
 	return node->failChildren();
 }
 
-void TankAIWeaponSets::WeaponSet::buyWeapons(Tank *tank)
+void TankAIWeaponSets::WeaponSet::buyWeapons(Tank *tank, bool lastRound)
 {
 	for (;;)
 	{
@@ -108,7 +108,7 @@ void TankAIWeaponSets::WeaponSet::buyWeapons(Tank *tank)
 			itor++)
 		{
 			WeaponSetEntry &weapon = *itor;
-			if (weapon.weaponValid(tank))
+			if (weapon.weaponValid(tank, lastRound))
 			{
 				potentialWeapons.insert(
 					std::pair<unsigned int, WeaponSetEntry *>
@@ -139,6 +139,35 @@ void TankAIWeaponSets::WeaponSet::buyWeapons(Tank *tank)
 	}
 }
 
+Accessory *TankAIWeaponSets::WeaponSet::
+	getTankAccessoryByType(Tank *tank, const char *getType)
+{
+	DIALOG_ASSERT(WeaponSetEntry::checkType(getType));
+
+	WeaponSetEntry *result = 0;
+
+	std::vector<WeaponSetEntry>::iterator itor;
+	for (itor = weapons.begin();
+		itor != weapons.end();
+		itor++)
+	{
+		WeaponSetEntry &current = *itor;
+		if (current.type == getType)
+		{
+			if (tank->getAccessories().getAccessoryCount(current.accessory) != 0)
+			{
+				if (!result ||
+					result->priorityuse < current.priorityuse)
+				{
+					result = &current;
+				}
+			}
+		}
+	}
+
+	return (result?result->accessory:0);
+}
+
 bool TankAIWeaponSets::WeaponSetEntry::parseConfig(XMLNode *node)
 {
 	std::string name;
@@ -159,9 +188,7 @@ bool TankAIWeaponSets::WeaponSetEntry::parseConfig(XMLNode *node)
 	if (!node->getNamedChild("priorityuse", priorityuse)) return false;
 	if (!node->getNamedChild("type", type)) return false;
 
-	if (type != "explosionlarge" &&
-		type != "shield" &&
-		type != "parachute")
+	if (!checkType(type.c_str()))
 	{
 		return node->returnError(
 			formatString("Unknown type %s", type.c_str()));
@@ -170,14 +197,38 @@ bool TankAIWeaponSets::WeaponSetEntry::parseConfig(XMLNode *node)
 	return node->failChildren();
 }
 
-bool TankAIWeaponSets::WeaponSetEntry::weaponValid(Tank *tank)
+bool TankAIWeaponSets::WeaponSetEntry::checkType(const char *type)
+{
+	if (0 != strcmp(type, "explosionlarge") &&
+		0 != strcmp(type, "explosionsmall") &&
+		0 != strcmp(type, "uncover") &&
+		0 != strcmp(type, "digger") &&
+		0 != strcmp(type, "roller") &&
+		0 != strcmp(type, "napalm") &&
+		0 != strcmp(type, "laser") &&
+		0 != strcmp(type, "shield") &&
+		0 != strcmp(type, "other") &&
+		0 != strcmp(type, "parachute"))
+	{
+		return false;
+	}
+	return true;
+}
+
+bool TankAIWeaponSets::WeaponSetEntry::weaponValid(Tank *tank, bool lastRound)
 {
 	int currentCount = tank->getAccessories().getAccessoryCount(accessory);
-	if (currentCount > buymin) return false;
-
 	int currentMoney = tank->getScore().getMoney();
-	if ((currentMoney < moneymin && moneymin != 0) || 
-		(currentMoney > moneymax && moneymax != 0)) return false;
 
+	if (currentCount < 0) return false;
+	if (currentMoney < accessory->getPrice()) return false;
+
+	if (!lastRound)
+	{
+		if (currentCount > buymin) return false;
+		if ((currentMoney < moneymin && moneymin != 0) || 
+			(currentMoney > moneymax && moneymax != 0)) return false;
+	}
+	
 	return true;
 }

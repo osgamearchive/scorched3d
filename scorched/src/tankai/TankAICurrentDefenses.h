@@ -32,7 +32,8 @@ public:
 	virtual bool parseConfig(XMLNode *node);
 
 	void raiseDefenses(Tank *tank);
-	void useBatteries(Tank *tank);
+
+	bool getUseBatteries() { return useBatteries_; }
 
 protected:
 	bool useParachutes_;
@@ -43,7 +44,6 @@ protected:
 	void selectFirstParachute(Tank *tank);
 	void parachutesUpDown(Tank *tank, unsigned int paraId);
 	void shieldsUpDown(Tank *tank, unsigned int shieldId);
-	void useBattery(Tank *tank, unsigned int batteryId);
 };
 
 #endif // !defined(AFX_TankAICurrentDefenses_H__5F21C9C7_0F71_4CCC_ABB9_976CF0A5C5EC__INCLUDED_)
