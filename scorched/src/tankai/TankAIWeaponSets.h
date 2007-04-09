@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 
 class XMLNode;
 class Accessory;
