@@ -32,7 +32,7 @@
 #include <client/ScorchedClient.h>
 #include <client/ClientState.h>
 #include <weapons/AccessoryStore.h>
-#include <common/KeyBoard.h>
+#include <common/Keyboard.h>
 #include <common/Line.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <graph/OptionsDisplay.h>
