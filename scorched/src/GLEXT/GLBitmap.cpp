@@ -26,19 +26,22 @@
 #include <SDL/SDL.h>
 
 GLBitmap::GLBitmap() :
-	width_(0), height_(0), alpha_(false), newbits_(0)
+	width_(0), height_(0), alpha_(false), newbits_(0),
+	owner_(true)
 {
 
 }
 
 GLBitmap::GLBitmap(int startWidth, int startHeight, bool alpha, unsigned char fill) : 
-	width_(startWidth), height_(startHeight), alpha_(alpha), newbits_(0)
+	width_(startWidth), height_(startHeight), alpha_(alpha), newbits_(0),
+	owner_(true)
 {
 	createBlank(startWidth, startHeight, alpha, fill);
 }
 
 GLBitmap::GLBitmap(const char * filename, bool alpha) :
-	newbits_(0), width_(0), height_(0), alpha_(alpha)
+	newbits_(0), width_(0), height_(0), alpha_(alpha),
+	owner_(true)
 {
 	if (filename)
 	{
@@ -47,7 +50,8 @@ GLBitmap::GLBitmap(const char * filename, bool alpha) :
 }
 
 GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert) : 
-	newbits_(0), width_(0), height_(0), alpha_(false)
+	newbits_(0), width_(0), height_(0), alpha_(false),
+	owner_(true)
 {
 	GLBitmap bitmap(filename, false);
 	GLBitmap alpha(alphafilename, false);
@@ -123,7 +127,7 @@ void GLBitmap::resize(int newWidth, int newHeight)
 		dialogExit("gluScaleImage", error);
 	}
 
-	delete [] oldbits;
+	if (owner_) delete [] oldbits;
 }
 #endif
 
@@ -141,7 +145,7 @@ void GLBitmap::createBlank(int width, int height, bool alpha, unsigned char fill
 
 void GLBitmap::clear()
 {
-	delete [] newbits_;
+	if (owner_) delete [] newbits_;
 	newbits_ = 0;
 	width_ = 0;
 	height_ = 0;
@@ -250,7 +254,7 @@ bool GLBitmap::writeToFile(const char * filename)
 	SDL_SaveBMP(image, filename);
     SDL_FreeSurface (image);
 
-	delete [] brgbits;
+	if (owner_) delete [] brgbits;
 	return true;
 }
 

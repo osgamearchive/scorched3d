@@ -26,6 +26,7 @@
 #include <common/Defines.h>
 #include <XML/XMLParser.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 
 PlacementTypeTree::PlacementTypeTree() : 
 	mincloseness(0.0f), maxobjects(2000)
@@ -53,19 +54,16 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 	std::list<Position> &returnPositions,
 	ProgressCounter *counter)
 {
-	GLBitmap map;
+	GLImageHandle map = GLBitmap(256, 256);
 	if (mask.c_str()[0])
 	{	
-		if (!map.loadFromFile(getDataFile(mask.c_str())))
+		map = GLImageFactory::loadImageHandle(getDataFile(mask.c_str()));
+		if (!map.getBits())
 		{
 			dialogExit("PlacementTypeTree",
 				formatString("Error: failed to find mask \"%s\"",
 				mask.c_str()));
 		}
-	}
-	else
-	{
-		map.createBlank(256, 256);
 	}
 
 	// Generate a map of where the trees should go

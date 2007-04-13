@@ -19,14 +19,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <landscapemap/HeightMapLoader.h>
+#include <GLEXT/GLImageFactory.h>
+#include <GLEXT/GLBitmap.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
 
-void HeightMapLoader::saveTerrain(HeightMap &hmap, GLBitmap &bitmap)
+GLImage *HeightMapLoader::saveTerrain(HeightMap &hmap)
 {
-	bitmap.createBlank(hmap.getMapWidth(), hmap.getMapHeight());
+	GLBitmap *bitmap = new GLBitmap();
+	bitmap->createBlank(hmap.getMapWidth(), hmap.getMapHeight());
 
-	unsigned char *bits = bitmap.getBits();
+	unsigned char *bits = bitmap->getBits();
 	for (int y=0; y<hmap.getMapHeight(); y++)
 	{
 		for (int x=0; x<hmap.getMapWidth(); x++)
@@ -39,10 +42,11 @@ void HeightMapLoader::saveTerrain(HeightMap &hmap, GLBitmap &bitmap)
 			bits+=3;
 		}
 	}
+	return bitmap;
 }
 
 void HeightMapLoader::loadTerrain(HeightMap &hmap, 
-	GLBitmap &bitmap, 
+	GLImage &bitmap,
 	bool levelSurround,
 	ProgressCounter *counter)
 {
@@ -108,9 +112,10 @@ bool HeightMapLoader::generateTerrain(
 
 		// Load the landscape
 		levelSurround = file->levelsurround;
-		GLBitmap bitmap;
+		
 		const char *fileName = getDataFile(file->file.c_str());
-		if (!bitmap.loadFromFile(fileName, false))
+		GLImageHandle image = GLImageFactory::loadImageHandle(fileName);
+		if (!image.getBits())
 		{
 			dialogMessage("HeightMapLoader", formatString(
 				"Error: Unable to find landscape map \"%s\"",
@@ -121,7 +126,7 @@ bool HeightMapLoader::generateTerrain(
 		{
 			HeightMapLoader::loadTerrain(
 				hmap,
-				bitmap, 
+				image, 
 				file->levelsurround,
 				counter);
 		}

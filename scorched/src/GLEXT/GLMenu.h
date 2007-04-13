@@ -25,7 +25,7 @@
 #include <GLW/GLWWindow.h>
 #include <GLEXT/GLMenuI.h>
 
-class GLBitmap;
+class GLImage;
 class GLMenuEntry;
 class GLMenu : public GLWWindow
 {
@@ -42,7 +42,7 @@ public:
 		float width, 
 		unsigned int state,
 		GLMenuI *callback,
-		GLBitmap *icon = 0,
+		GLImage *icon = 0,
 		unsigned int flags = 0);
 	bool addMenuItem(char *menuName, const GLMenuItem item);
 	GLMenuEntry *getMenu(char *menuItem);

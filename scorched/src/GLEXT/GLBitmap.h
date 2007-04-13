@@ -140,7 +140,10 @@ public:
 	*/
 	bool writeToFile(const char *filename);
 
+	virtual void removeOwnership() { owner_ = false; }
+
 protected:
+	bool owner_;
 	unsigned char *newbits_;
 	int width_;
 	int height_;

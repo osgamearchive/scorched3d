@@ -33,7 +33,7 @@ unsigned int Accessory::nextAccessoryId_ = 0;
 #include <3dsparse/ModelStore.h>
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/MissileMesh.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #endif
 
 Accessory::Accessory() :
@@ -226,13 +226,17 @@ GLTexture *Accessory::getTexture()
 	GLTexture *texture = 0;
 	if (getIconName()[0])
 	{
-		GLBitmap bmap(getDataFile(formatString("data/textures/wicons/%s", getIconName())), true);
+		GLImageHandle bmap =
+			GLImageFactory::loadAlphaImageHandle(
+				getDataFile(formatString("data/textures/wicons/%s", getIconName())));
 		texture = new GLTexture();
 		texture->create(bmap, GL_RGBA, false);
 	}
 	else
 	{
-		GLBitmap bmap(getDataFile(formatString("data/textures/wicons/%s", "tracer.bmp")), true);
+		GLImageHandle bmap =
+			GLImageFactory::loadAlphaImageHandle(
+				getDataFile(formatString("data/textures/wicons/%s", "tracer.bmp")));
 		texture = new GLTexture();
 		texture->create(bmap, GL_RGBA, false);
 	}

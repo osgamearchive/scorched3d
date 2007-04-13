@@ -52,7 +52,7 @@ bool GLMenu::addMenu(char *menuName,
 	float width, 
 	unsigned int state,
 	GLMenuI *callback,
-	GLBitmap *icon,
+	GLImage *icon,
 	unsigned int flags)
 {
 	if (getMenu(menuName)) return false;

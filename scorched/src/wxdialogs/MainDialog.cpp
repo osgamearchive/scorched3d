@@ -120,6 +120,8 @@ void runScorched3D(const char *text, bool server)
 	const char *exeName = formatString("%s", getExeName());
 	const char *exePart = strstr(exeName, ".exe");
 	if (exePart) ((char *)exePart)[0] = '\0';
+	exePart = strstr(exeName, ".EXE");
+	if (exePart) ((char *)exePart)[0] = '\0';
 
 	char path[1024];
 	snprintf(path, 1024, "\"%s%s%s\" %s -settingsdir %s %s", 

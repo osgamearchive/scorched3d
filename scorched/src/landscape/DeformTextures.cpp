@@ -22,7 +22,7 @@
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <client/ScorchedClient.h>
-#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLImageModifier.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
 #include <common/Defines.h>

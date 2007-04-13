@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <XML/XMLFile.h>
 #include <sprites/ExplosionTextures.h>
 #include <landscape/Landscape.h>
@@ -50,7 +50,9 @@ ExplosionTextures::~ExplosionTextures()
 bool ExplosionTextures::addTextureToSet(GLTextureSet &set,
 										const char *texPath)
 {
-	GLBitmap bitmap((char *) texPath, (char *) texPath, false);
+	GLImageHandle bitmap =
+		GLImageFactory::loadImageHandle(
+			(char *) texPath, (char *) texPath, false);
 	GLTexture *texture = new GLTexture;
 
 	if (!texture->create(bitmap, GL_RGBA)) return false;

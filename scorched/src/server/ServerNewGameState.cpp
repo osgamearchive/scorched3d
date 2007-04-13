@@ -48,7 +48,6 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <placement/PlacementTankPosition.h>
-#include <GLEXT/GLBitmap.h>
 #include <common/RandomGenerator.h>
 #include <common/OptionsTransient.h>
 #include <common/OptionsScorched.h>

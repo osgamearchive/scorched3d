@@ -36,6 +36,7 @@ public:
 	virtual ~GLLuminance();
 
 	virtual unsigned char *getBits();
+	virtual void removeOwnership();
 
 	virtual int getWidth();
 	virtual int getHeight();

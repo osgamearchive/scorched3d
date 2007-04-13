@@ -18,16 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GLBITMAPITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_)
-#define AFX_GLBITMAPITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_
+#if !defined(AFX_GLImageITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_)
+#define AFX_GLImageITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_
 
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImage.h>
 
 /**
 A helper class that simplifes the iteration (looping) through
 the components contained within bitmap files.
 
-	GLBitmapItterator bitmapItor(myBitmap,
+	GLImageItterator bitmapItor(myBitmap,
 		myRequiredWidth, myRequiredHeight, myRequiredType);
 	for (int by=0; by<myRequiredHeight; by++, bitmapItor.incY())
 	{
@@ -40,7 +40,7 @@ the components contained within bitmap files.
 		}
 	}
 */
-class GLBitmapItterator  
+class GLImageItterator  
 {
 public:
 	/**
@@ -61,11 +61,11 @@ public:
 	DestY is the maximum height you will ask the iterator to return.
 	Type defines how these width/height maps the bitmaps size.
 	*/
-	GLBitmapItterator(GLBitmap &bitmap, 
+	GLImageItterator(GLImage &bitmap, 
 						int destX,
 						int destY,
 						Type type = stretch);
-	virtual ~GLBitmapItterator();
+	virtual ~GLImageItterator();
 
 	/**
 	Reset the iterator.
@@ -85,7 +85,7 @@ public:
 	unsigned char *getPos();
 
 protected:
-	GLBitmap &bitmap_;
+	GLImage &bitmap_;
 	float dx_, dy_;
 	int width_;
 	Type type_;
@@ -94,4 +94,4 @@ protected:
 	float posX_, posY_;
 };
 
-#endif // !defined(AFX_GLBITMAPITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_)
+#endif // !defined(AFX_GLImageITTERATOR_H__F83D9F30_02DF_44EC_B2E7_1F4D87D6FBC8__INCLUDED_)

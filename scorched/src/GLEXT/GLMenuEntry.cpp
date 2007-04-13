@@ -22,7 +22,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLMenuEntry.h>
 #include <GLEXT/GLTexture.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImage.h>
 #include <GLW/GLWidget.h>
 #include <GLW/GLWFont.h>
 
@@ -35,7 +35,7 @@ GLMenuEntry::GLMenuEntry(
 	float width, 
 	unsigned int state,
 	GLMenuI *callback,
-	GLBitmap *icon,
+	GLImage *icon,
 	unsigned int flags) :
 	left_(0.0f), width_(width), height_(0.0f),
 	callback_(callback),

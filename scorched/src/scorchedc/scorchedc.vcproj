@@ -3159,22 +3159,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\GLEXT\GLBitmapItterator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLBitmapItterator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLBitmapModifier.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\GLEXT\GLBitmapModifier.h"
-				>
-			</File>
-			<File
 				RelativePath="..\GLEXT\GLCamera.cpp"
 				>
 			</File>
@@ -3292,6 +3276,38 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLImage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageHandle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageHandle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageItterator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageItterator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageModifier.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageModifier.h"
 				>
 			</File>
 			<File

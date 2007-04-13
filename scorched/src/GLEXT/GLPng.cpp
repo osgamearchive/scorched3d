@@ -25,19 +25,22 @@
 #include <png.h>
 
 GLPng::GLPng() :
-	width_(0), height_(0), bits_(0), alpha_(false)
+	width_(0), height_(0), bits_(0), alpha_(false),
+	owner_(true)
 {
 
 }
 
 GLPng::GLPng(const char * filename, bool readalpha) :
-	bits_(0), width_(0), height_(0), alpha_(readalpha)
+	bits_(0), width_(0), height_(0), alpha_(readalpha),
+	owner_(true)
 {
 	loadFromFile(filename, readalpha);
 }
 
 GLPng::GLPng(const char * filename, const char *alphafilename, bool invert) : 
-	bits_(0), width_(0), height_(0), alpha_(false)
+	bits_(0), width_(0), height_(0), alpha_(false),
+	owner_(true)
 {
 	GLPng bitmap(filename);
 	GLPng alpha(alphafilename);
@@ -83,7 +86,7 @@ GLPng::~GLPng()
 
 void GLPng::clear()
 {
-	delete [] bits_;
+	if (owner_) delete [] bits_;
 	bits_ = 0;
 	width_ = 0;
 	height_ = 0;

@@ -18,42 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GLPng_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_)
-#define AFX_GLPng_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_
+#if !defined(AFX_GLIMAGEHANDLE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)
+#define AFX_GLIMAGEHANDLE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_
 
 #include <GLEXT/GLImage.h>
-#include <net/NetBuffer.h>
 
-class GLPng : public GLImage
+class GLImageHandle : public GLImage
 {
 public:
-	GLPng();
-	GLPng(const char *filename, bool readalpha = false);
-	GLPng(const char *filename, const char *alphafilename, bool invert = true);
-	virtual ~GLPng();
+	GLImageHandle(GLImage &other);
+	GLImageHandle(GLImageHandle &other);
+	virtual ~GLImageHandle();
 
-	virtual void removeOwnership() { owner_ = false; }
+	GLImageHandle &operator=(GLImage &other);
+	GLImageHandle &operator=(GLImageHandle &other);
+
 	virtual unsigned char *getBits() { return bits_; }
 	virtual int getWidth() { return width_; }
 	virtual int getHeight() { return height_; }
-	virtual int getAlignment() { return 4; }
-	virtual int getComponents() { return alpha_?4:3; }
 
-	void clear();
-	void createBlank(int width, int height, bool alpha = false, unsigned char fill = 255);
-	bool loadFromFile(const char *filename, bool readalpha = false);
-	bool loadFromBuffer(NetBuffer &buffer, bool readalpha = false);
+	virtual void removeOwnership() { owner_ = false; }
+
+	virtual int getAlignment() { return alignment_; }
+	virtual int getComponents() { return components_; }
 
 protected:
-	bool owner_;
+	int width_, height_;
+	int alignment_, components_;
 	unsigned char *bits_;
-	int width_;
-	int height_;
-	bool alpha_;
-
-private:
-	GLPng(GLPng &other);
-	GLPng &operator=(GLPng &other);
+	bool owner_;
+	
 };
 
-#endif // !defined(AFX_GLPng_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_)
+#endif // !defined(AFX_GLIMAGEHANDLE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)

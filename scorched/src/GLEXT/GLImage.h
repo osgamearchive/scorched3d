@@ -30,6 +30,8 @@ public:
 	virtual int getWidth() = 0;
 	virtual int getHeight() = 0;
 
+	virtual void removeOwnership() = 0;
+
 	virtual int getAlignment() = 0;
 	virtual int getComponents() = 0;
 };

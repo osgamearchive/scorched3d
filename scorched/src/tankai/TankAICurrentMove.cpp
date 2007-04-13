@@ -33,6 +33,8 @@
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/GroundMaps.h>
 #include <weapons/Accessory.h>
 #include <weapons/Shield.h>
 #include <XML/XMLNode.h>
@@ -159,8 +161,28 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 		weapons.shield->getType() == Shield::ShieldTypeSquareReflective))
 	{
 		// Pick an area outside the shield
-		// TODO make sure its uphill if we can
-		directTarget[1] += weapons.shield->getBoundingSize() + 2.0f;
+		// and make sure its uphill if we can
+		float radius = weapons.shield->getBoundingSize() + 2.0f;
+		Vector bestPos = directTarget;
+		bestPos[1] += radius;
+		bestPos[2] = 
+			ScorchedServer::instance()->getLandscapeMaps().
+				getGroundMaps().getInterpHeight(bestPos[0], bestPos[1]);
+		for (float a=0.0f; a<360.0f; a+=22.5f)
+		{
+			float offSetX = sinf(a / 180.0f * PI) * radius;
+			float offSetY = cosf(a / 180.0f * PI) * radius;
+			
+			Vector newPos(
+				directTarget[0] + offSetX,
+				directTarget[1] + offSetY);
+			newPos[2] =
+				ScorchedServer::instance()->getLandscapeMaps().
+					getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+			if (newPos[2] > bestPos[2]) bestPos = newPos;
+		}
+
+		directTarget = bestPos;
 	}
 
 	// Check for all angles to see if we can shoot at this tank

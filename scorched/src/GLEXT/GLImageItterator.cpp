@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,36 +18,56 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <placement/PlacementTypeCount.h>
-#include <landscapemap/LandscapeMaps.h>
-#include <engine/ScorchedContext.h>
-#include <common/ProgressCounter.h>
-#include <common/RandomGenerator.h>
-#include <common/Defines.h>
-#include <XML/XMLParser.h>
+#include <GLEXT/GLImageItterator.h>
 
-PlacementTypeCount::PlacementTypeCount()
+GLImageItterator::GLImageItterator(GLImage &bitmap,
+									int destX,
+									int destY,
+									Type type)
+	: bitmap_(bitmap), type_(type)
 {
-}
-
-PlacementTypeCount::~PlacementTypeCount()
-{
-}
-
-bool PlacementTypeCount::readXML(XMLNode *node)
-{
-	if (!node->getNamedChild("count", count)) return false;
-	return PlacementType::readXML(node);
-}
-
-void PlacementTypeCount::getPositions(ScorchedContext &context,
-	RandomGenerator &generator,
-	std::list<Position> &returnPositions,
-	ProgressCounter *counter)
-{
-	for (int i=0; i<count; i++)
+	if (type == stretch)
 	{
-		Position position;
-		returnPositions.push_back(position);
+		dx_ = (float) bitmap.getWidth() / (float) destX;
+		dy_ = (float) bitmap.getHeight() / (float) destY;
 	}
+	else
+	{
+		dx_ = 1;
+		dy_ = 1;
+	}
+	width_ = 3 * bitmap.getWidth();
+	width_   = (width_ + 3) & ~3;	
+
+	reset();
+}
+
+GLImageItterator::~GLImageItterator()
+{
+
+}
+
+void GLImageItterator::reset()
+{
+	posX_ = posY_ = 0.0f;
+	pos_ = bitmap_.getBits();
+}
+
+void GLImageItterator::incX()
+{
+	posX_ += dx_;
+	if (posX_ >= bitmap_.getWidth()) posX_ = 0.0f;
+}
+
+void GLImageItterator::incY()
+{
+	posX_ = 0.0f;
+	posY_ += dy_;
+	if (posY_ >= bitmap_.getHeight()) posY_ = 0.0f;
+	pos_ = (unsigned char *) (bitmap_.getBits() + ((int) posY_  * width_));
+}
+
+unsigned char *GLImageItterator::getPos()
+{
+	return pos_ + (int) posX_ * 3;
 }

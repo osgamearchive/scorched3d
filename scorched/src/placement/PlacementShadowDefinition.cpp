@@ -66,7 +66,7 @@ void PlacementShadowDefinition::updateLandscapeHeight(
 
 #ifndef S3D_SERVER
 
-#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLImageModifier.h>
 void PlacementShadowDefinition::updateLandscapeTexture(
 	ScorchedContext &context,
 	Vector &position, Vector &size)
@@ -74,7 +74,7 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 	if (groundMap_.imageValid())
 	{
 		GLImage *image = ImageStore::instance()->loadImage(groundMap_);
-		GLBitmapModifier::addBitmapToLandscape(
+		GLImageModifier::addBitmapToLandscape(
 			context,
 			*image,
 			position[0], 
@@ -84,7 +84,7 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 
 	if (drawShadow_)
 	{
-		GLBitmapModifier::addCircleToLandscape(
+		GLImageModifier::addCircleToLandscape(
 			context,
 			position[0], 
 			position[1], 

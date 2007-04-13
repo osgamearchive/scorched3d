@@ -3118,6 +3118,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLImageFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageHandle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLImageHandle.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLPng.cpp"
 				>
 			</File>

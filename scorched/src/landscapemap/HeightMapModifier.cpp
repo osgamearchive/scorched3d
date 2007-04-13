@@ -24,6 +24,7 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <common/Defines.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 
 void HeightMapModifier::levelSurround(HeightMap &hmap)
 {
@@ -189,13 +190,14 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	if (counter) counter->setNewOp("Teraform Landscape");
 
 	// Create a default mask that allows everything
-	GLBitmap maskMap(256, 256);
+	GLImageHandle maskMap = GLBitmap(256, 256);
 
 	// Check if we need to load a new mask
 	if (!defn.mask.empty())
 	{
 		const char *fileName = getDataFile(defn.mask.c_str());
-		if (!maskMap.loadFromFile(fileName, false))
+		maskMap = GLImageFactory::loadImageHandle(fileName);
+		if (!maskMap.getBits())
 		{
 			dialogExit("Landscape", formatString(
 				"Error: Failed to find mask map \"%s\"",

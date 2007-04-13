@@ -25,7 +25,7 @@
 #include <GLW/GLWSelector.h>
 
 class GLTexture;
-class GLBitmap;
+class GLImage;
 class GLMenuEntry : public GLWSelectorI
 {
 public:
@@ -33,7 +33,7 @@ public:
 		float width, 
 		unsigned int state,
 		GLMenuI *callback,
-		GLBitmap *icon,
+		GLImage *icon,
 		unsigned int flags);
 	virtual ~GLMenuEntry();
 
@@ -62,7 +62,7 @@ protected:
 	unsigned int flags_;
 	GLMenuI *callback_;
 	GLTexture *texture_;
-	GLBitmap *icon_;
+	GLImage *icon_;
 	std::list<GLMenuItem> menuItems_;
 	std::string menuName_;
 

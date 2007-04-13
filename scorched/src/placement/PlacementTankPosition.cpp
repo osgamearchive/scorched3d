@@ -27,7 +27,7 @@
 #include <tank/TankState.h>
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 
 void PlacementTankPosition::calculateStartPosition(unsigned int seed, ScorchedContext &context)
 {
@@ -67,7 +67,7 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 	float minHeight = -1000.0f;
 	float maxHeight = 1000.0f;
 	float tankCloseness = 0.0f;
-	GLBitmap *tankMask = 0;
+	GLImage *tankMask = 0;
 
 	LandscapeDefnType *defn =
 		context.landscapeMaps->getDefinitions().getDefn()->tankstart;
@@ -80,8 +80,8 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 		tankCloseness = height->startcloseness;
 		if (!height->startmask.empty())
 		{
-			tankMask = new GLBitmap();
-			tankMask->loadFromFile(getDataFile(height->startmask.c_str()));
+			tankMask = GLImageFactory::loadImage(
+				getDataFile(height->startmask.c_str()));
 			DIALOG_ASSERT(tankMask->getBits());
 		}
 	}

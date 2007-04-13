@@ -24,7 +24,7 @@
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <XML/XMLParser.h>
 
 PlacementTypeMask::PlacementTypeMask()
@@ -56,7 +56,7 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 	int groundMapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
 	int groundMapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
 
-	GLBitmap map(getDataFile(mask.c_str()));
+	GLImageHandle map = GLImageFactory::loadImageHandle(getDataFile(mask.c_str()));
 	if (!map.getBits())
 	{
 		dialogExit("PlacementTypeMask",

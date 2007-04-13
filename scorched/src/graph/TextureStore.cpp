@@ -20,7 +20,7 @@
 
 #include <graph/TextureStore.h>
 #include <graph/OptionsDisplay.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLTexture.h>
 #include <common/Defines.h>
 
@@ -60,10 +60,10 @@ GLTexture *TextureStore::loadTexture(const char *name,
 	}
 
 	// Load tank skin as bitmap
-	GLBitmap *map = 0;
+	GLImage *map = 0;
 	if (aname[0])
 	{
-		map = new GLBitmap((char *) name, (char *) aname, invert);
+		map = GLImageFactory::loadImage((char *) name, (char *) aname, invert);
 		if (!map->getBits())
 		{
 			dialogMessage("Scorched3D load texture", formatString(
@@ -76,7 +76,7 @@ GLTexture *TextureStore::loadTexture(const char *name,
 	}
 	else
 	{
-		map = new GLBitmap((char *) name);
+		map = GLImageFactory::loadImage((char *) name);
 		if (!map->getBits())
 		{
 			dialogMessage("Scorched3D load texture", formatString(

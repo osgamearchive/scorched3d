@@ -43,7 +43,7 @@
 #include <target/TargetState.h>
 #include <target/TargetSpace.h>
 #include <graph/ImageStore.h>
-#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLImageModifier.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <sound/Sound.h>
@@ -415,7 +415,7 @@ void TankMovement::moveTank(Tank *tank)
 						loadImage(model->getTracksHVId());
 				}
 
-				GLBitmapModifier::addBitmapToLandscape(
+				GLImageModifier::addBitmapToLandscape(
 					*context_,
 					*image,
 					newPos[0], 

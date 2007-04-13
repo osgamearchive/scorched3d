@@ -33,6 +33,10 @@ GLLuminance::~GLLuminance()
 	free(base_);
 }
 
+void GLLuminance::removeOwnership()
+{
+}
+
 unsigned char *GLLuminance::getBits()
 {
 	return base_;

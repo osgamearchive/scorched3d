@@ -20,7 +20,6 @@
 
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLPng.h>
 #include <dialogs/BackdropDialog.h>
 #include <common/Defines.h>
@@ -43,7 +42,6 @@ BackdropDialog::BackdropDialog() :
 	windowLevel_ = 5000000;
 
 	GLPng backMap(getDataFile("data/windows/backdrop.png"));
-	//GLBitmap backMap(getDataFile("data/windows/logotiled.bmp"));
 	backTex_.create(backMap, GL_RGB, false);
 }
 

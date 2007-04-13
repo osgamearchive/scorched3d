@@ -39,7 +39,7 @@
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <movement/TargetMovement.h>
-#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLImageModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/OptionsTransient.h>
@@ -253,7 +253,7 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	GLBitmap plana(getDataFile("data/windows/planaa.bmp"), false);
-	GLBitmapModifier::scalePlanBitmap(bitmapPlanAlphaAlpha_, plana,
+	GLImageModifier::scalePlanBitmap(bitmapPlanAlphaAlpha_, plana,
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
 
@@ -276,7 +276,7 @@ void Landscape::generate(ProgressCounter *counter)
 		GLBitmap bitmapRock(getDataFile(generate->rockside.c_str()));
 		GLBitmap bitmapRoof(getDataFile(generate->roof.c_str()));
 		GLBitmap bitmapSurround(getDataFile(generate->surround.c_str()));
-		GLBitmap *bitmaps[5];
+		GLImage *bitmaps[5];
 		bitmaps[0] = &texture0;
 		bitmaps[1] = &texture1;
 		bitmaps[2] = &texture2;
@@ -285,7 +285,7 @@ void Landscape::generate(ProgressCounter *counter)
 
 		// Generate the new landscape
 		if (counter) counter->setNewOp("Landscape Map");
-		GLBitmapModifier::addHeightToBitmap(
+		GLImageModifier::addHeightToBitmap(
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
 			mainMap_,
 			bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
@@ -311,7 +311,7 @@ void Landscape::generate(ProgressCounter *counter)
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
 	if (!GLStateExtension::hasHardwareShadows())
 	{
-		GLBitmapModifier::addLightMapToBitmap(mainMap_,
+		GLImageModifier::addLightMapToBitmap(mainMap_,
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
 			sky_->getSun().getPosition(), 
 			tex->skyambience, tex->skydiffuse, counter);
@@ -353,7 +353,7 @@ void Landscape::generate(ProgressCounter *counter)
 	GLBitmap scorchMap(getDataFile(tex->scorch.c_str()));
 	scorchMap.resize(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 	GLBitmap texture1New(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
-	GLBitmapModifier::makeBitmapTransparent(texture1New, scorchMap, sprayMaskBitmap);
+	GLImageModifier::makeBitmapTransparent(texture1New, scorchMap, sprayMaskBitmap);
 	landTex1_.replace(texture1New, GL_RGBA);
 
 	// Magma
@@ -391,14 +391,14 @@ void Landscape::updatePlanTexture()
 {
 	if (water_->getWaterOn())
 	{
-		GLBitmapModifier::addWaterToBitmap(
+		GLImageModifier::addWaterToBitmap(
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
 			bitmapPlan_, water_->getWaterBitmap(), water_->getWaterHeight());
 	}
 	if (ScorchedClient::instance()->getOptionsTransient().getWallType() !=
 		OptionsTransient::wallNone)
 	{
-		GLBitmapModifier::addBorderToBitmap(bitmapPlan_, 3, 
+		GLImageModifier::addBorderToBitmap(bitmapPlan_, 3, 
 			ScorchedClient::instance()->getOptionsTransient().getWallColor());
 	}
 
@@ -534,7 +534,7 @@ void Landscape::actualDrawLand()
 
 void Landscape::updatePlanATexture()
 {
-	GLBitmapModifier::removeWaterFromBitmap(
+	GLImageModifier::removeWaterFromBitmap(
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
 		bitmapPlan_, bitmapPlanAlpha_, bitmapPlanAlphaAlpha_, 
 		(water_->getWaterOn()?water_->getWaterHeight():-50.0f));

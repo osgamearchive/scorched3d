@@ -24,7 +24,6 @@
 #include <common/ProgressCounter.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
-#include <GLEXT/GLBitmap.h>
 #include <XML/XMLParser.h>
 
 PlacementTypeBounds::PlacementTypeBounds()

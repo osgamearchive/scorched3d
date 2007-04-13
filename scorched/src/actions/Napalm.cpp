@@ -29,7 +29,6 @@
 #include <actions/CameraPositionAction.h>
 #include <sprites/ExplosionTextures.h>
 #include <sprites/NapalmRenderer.h>
-#include <GLEXT/GLBitmapModifier.h>
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/Landscape.h>
 #include <landscape/DeformTextures.h>

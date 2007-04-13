@@ -24,15 +24,15 @@
 
 #include <landscapemap/HeightMapModifier.h>
 #include <landscapedef/LandscapeDefn.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImage.h>
 
 namespace HeightMapLoader
 {
 	void loadTerrain(HeightMap &hmap, 
-		GLBitmap &bitmap, 
+		GLImage &image, 
 		bool levelSurround,
 		ProgressCounter *counter= 0);
-	void saveTerrain(HeightMap &hmap, GLBitmap &bitmap);
+	GLImage *saveTerrain(HeightMap &hmap);
 	
 	bool generateTerrain(
 		unsigned int seed,

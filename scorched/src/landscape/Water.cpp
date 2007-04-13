@@ -28,7 +28,7 @@
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
 #include <graph/ParticleEmitter.h>
-#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLImageModifier.h>
 #include <GLEXT/GLStateExtension.h>
 
 Water::Water() :
@@ -166,7 +166,7 @@ void Water::generate(ProgressCounter *counter)
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 		GLBitmap textureWaterNew(
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
-		GLBitmapModifier::makeBitmapTransparent(textureWaterNew, 
+		GLImageModifier::makeBitmapTransparent(textureWaterNew, 
 			bitmapWater, sprayMaskBitmap);
 		landTexWater_.replace(textureWaterNew, GL_RGBA);
 

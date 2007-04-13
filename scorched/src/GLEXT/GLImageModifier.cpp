@@ -20,14 +20,15 @@
 
 #include <vector>
 #include <math.h>
-#include <GLEXT/GLBitmapItterator.h>
-#include <GLEXT/GLBitmapModifier.h>
+#include <GLEXT/GLImageItterator.h>
+#include <GLEXT/GLImageModifier.h>
+#include <GLEXT/GLBitmap.h>
 #include <engine/ScorchedContext.h>
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <common/Defines.h>
 
-bool GLBitmapModifier::findIntersection(HeightMap &hMap,
+bool GLImageModifier::findIntersection(HeightMap &hMap,
 										Vector start,
 										Vector end,
 										float &dist,
@@ -65,7 +66,7 @@ bool GLBitmapModifier::findIntersection(HeightMap &hMap,
 	return result;
 }
 
-void GLBitmapModifier::tileBitmap(GLBitmap &src, GLBitmap &dest)
+void GLImageModifier::tileBitmap(GLImage &src, GLImage &dest)
 {
 	GLubyte *destBytes = dest.getBits();
 	for (int j=0; j<dest.getHeight(); j++)
@@ -85,7 +86,7 @@ void GLBitmapModifier::tileBitmap(GLBitmap &src, GLBitmap &dest)
 	}
 }
 
-void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap, 
+void GLImageModifier::addLightMapToBitmap(GLImage &destBitmap, 
 	HeightMap &hMap,
 	Vector &sunPos,
 	Vector &ambience,
@@ -179,11 +180,11 @@ void GLBitmapModifier::addLightMapToBitmap(GLBitmap &destBitmap,
 	delete [] bitmap;
 }
 
-void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
-										 GLBitmap &destBitmap, 
-										 GLBitmap &slopeBitmap,
-										 GLBitmap &shoreBitmap,
-										 GLBitmap **origHeightBitmaps,
+void GLImageModifier::addHeightToBitmap(HeightMap &hMap,
+										 GLImage &destBitmap, 
+										 GLImage &slopeBitmap,
+										 GLImage &shoreBitmap,
+										 GLImage **origHeightBitmaps,
 										 int numberSources,
 										 int destBitmapScaleSize,
 										 ProgressCounter *counter)
@@ -207,8 +208,8 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 	}
 
 	// Create new bitmaps with the bitmap scaled to the correct size
-	GLBitmap **heightBitmaps = new GLBitmap*[numberSources];
-	GLBitmapItterator ** bitmapItors = new GLBitmapItterator*[numberSources+2];
+	GLImage **heightBitmaps = new GLImage*[numberSources];
+	GLImageItterator ** bitmapItors = new GLImageItterator*[numberSources+2];
 	float bitmapScale = float(destBitmap.getWidth()) / float(destBitmapScaleSize);
 
 	// Create a bitmap iterator for each bitmap
@@ -237,25 +238,25 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 		}
 
 		// Create iterator
-		bitmapItors[i] = new GLBitmapItterator(
+		bitmapItors[i] = new GLImageItterator(
 			*heightBitmaps[i], 
 			destBitmap.getWidth(), 
 			destBitmap.getHeight(), 
-			GLBitmapItterator::wrap);
+			GLImageItterator::wrap);
 	}
 	// Add shore and slopt itterators
 	bitmapItors[numberSources] = 
-		new GLBitmapItterator(
+		new GLImageItterator(
 			slopeBitmap, 
 			destBitmap.getWidth(), 
 			destBitmap.getHeight(), 
-			GLBitmapItterator::wrap);
+			GLImageItterator::wrap);
 	bitmapItors[numberSources + 1] = 
-		new GLBitmapItterator(
+		new GLImageItterator(
 			shoreBitmap, 
 			destBitmap.getWidth(), 
 			destBitmap.getHeight(), 
-			GLBitmapItterator::wrap);
+			GLImageItterator::wrap);
 	
 	GLfloat hdx = (GLfloat) hMap.getMapWidth() / (GLfloat) destBitmap.getWidth();
 	GLfloat hdy = (GLfloat) hMap.getMapHeight() / (GLfloat) destBitmap.getHeight();
@@ -401,10 +402,10 @@ void GLBitmapModifier::addHeightToBitmap(HeightMap &hMap,
 	delete [] heightBitmaps;
 }
 
-void GLBitmapModifier::removeWaterFromBitmap(HeightMap &hMap,
-							GLBitmap &srcBitmap,
-							GLBitmap &destBitmap,
-							GLBitmap &alphaBitmap,
+void GLImageModifier::removeWaterFromBitmap(HeightMap &hMap,
+							GLImage &srcBitmap,
+							GLImage &destBitmap,
+							GLImage &alphaBitmap,
 							float waterHeight)
 {
 	DIALOG_ASSERT(srcBitmap.getWidth() == destBitmap.getWidth() &&
@@ -449,18 +450,18 @@ void GLBitmapModifier::removeWaterFromBitmap(HeightMap &hMap,
 	}
 }
 
-void GLBitmapModifier::addWaterToBitmap(HeightMap &hMap,
-										GLBitmap &destBitmap,
-										GLBitmap &waterBitmap,
+void GLImageModifier::addWaterToBitmap(HeightMap &hMap,
+										GLImage &destBitmap,
+										GLImage &waterBitmap,
 										float waterHeight)
 {
 	const float waterPercentage = 0.75f;
 	const float oneMinusPercentage = 1.0f - waterPercentage;
 
-	GLBitmapItterator bitmapItor(waterBitmap,
+	GLImageItterator bitmapItor(waterBitmap,
 								destBitmap.getWidth(), 
 								destBitmap.getHeight(), 
-								GLBitmapItterator::wrap);
+								GLImageItterator::wrap);
 
 	GLfloat hdx = (GLfloat) hMap.getMapWidth() / (GLfloat) destBitmap.getWidth();
 	GLfloat hdy = (GLfloat) hMap.getMapHeight() / (GLfloat) destBitmap.getHeight();
@@ -502,7 +503,7 @@ void GLBitmapModifier::addWaterToBitmap(HeightMap &hMap,
 	}
 }
 
-void GLBitmapModifier::addBorderToBitmap(GLBitmap &destBitmap,
+void GLImageModifier::addBorderToBitmap(GLImage &destBitmap,
 										int borderWidth,
 										float colors[3])
 {
@@ -541,9 +542,9 @@ void GLBitmapModifier::addBorderToBitmap(GLBitmap &destBitmap,
 	}
 }
 
-void GLBitmapModifier::makeBitmapTransparent(GLBitmap &output,
-		GLBitmap &input,
-		GLBitmap &mask)
+void GLImageModifier::makeBitmapTransparent(GLImage &output,
+		GLImage &input,
+		GLImage &mask)
 {
 	GLubyte *outputBits = output.getBits();
 	GLubyte *maskBits = mask.getBits();
@@ -562,7 +563,7 @@ void GLBitmapModifier::makeBitmapTransparent(GLBitmap &output,
 	}
 }
 
-void GLBitmapModifier::addCircleToLandscape(
+void GLImageModifier::addCircleToLandscape(
 	ScorchedContext &context,
 	float sx, float sy, float sw, float opacity)
 {
@@ -576,7 +577,7 @@ void GLBitmapModifier::addCircleToLandscape(
 		sw * shadowMultWidth, opacity);
 }
 
-void GLBitmapModifier::addCircle(GLBitmap &destBitmap, 
+void GLImageModifier::addCircle(GLImage &destBitmap, 
 								 float sx, float sy, float sw, float opacity)
 {
 	int decrement = int(opacity * 125.0f);
@@ -625,7 +626,7 @@ void GLBitmapModifier::addCircle(GLBitmap &destBitmap,
 }
 
 
-void GLBitmapModifier::addBitmapToLandscape(
+void GLImageModifier::addBitmapToLandscape(
 	ScorchedContext &context,
 	GLImage &srcBitmap,
 	float sx, float sy, float scalex, float scaley, 
@@ -646,7 +647,7 @@ void GLBitmapModifier::addBitmapToLandscape(
 		commit);
 }
 
-void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
+void GLImageModifier::addBitmap(GLImage &destBitmap,
 	GLImage &srcBitmap,
 	float sx, float sy, float scalex, float scaley, 
 	bool commit)
@@ -727,8 +728,8 @@ void GLBitmapModifier::addBitmap(GLBitmap &destBitmap,
 	}
 }
 
-void GLBitmapModifier::scalePlanBitmap(GLBitmap &destBitmap,
-	GLBitmap &srcBitmap,
+void GLImageModifier::scalePlanBitmap(GLImage &destBitmap,
+	GLImage &srcIncBitmap,
 	int landscapeX, int landscapeY)
 {
 	int maxSize = MAX(landscapeX, landscapeY);
@@ -740,6 +741,11 @@ void GLBitmapModifier::scalePlanBitmap(GLBitmap &destBitmap,
 	int offsetX = (newX - destBitmap.getWidth()) / 2;
 	int offsetY = (newY - destBitmap.getHeight()) / 2;
 
+	// A bit nasty in the copying but should work!
+	GLBitmap srcBitmap(srcIncBitmap.getWidth(), srcIncBitmap.getHeight());
+	memcpy(srcBitmap.getBits(), srcIncBitmap.getBits(),
+		srcIncBitmap.getComponents() * 
+		srcIncBitmap.getWidth() * srcIncBitmap.getHeight());
 	srcBitmap.resize(newX, newY);
 
 	GLubyte *dest = destBitmap.getBits();
