@@ -21,7 +21,7 @@
 #include <graph/ModelRendererTree.h>
 #include <graph/OptionsDisplay.h>
 #include <3dsparse/TreeModelFactory.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLInfo.h>
@@ -367,35 +367,35 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 		{
 			std::string file1 = getDataFile("data/textures/pine2.bmp");
 			std::string file2 = getDataFile("data/textures/pine2a.bmp");
-			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
 			pineTextureA_.create(map, GL_RGBA, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/pine3.bmp");
 			std::string file2 = getDataFile("data/textures/pine3a.bmp");
-			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
 			pineTextureB_.create(map, GL_RGBA, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/pine.bmp");
 			std::string file2 = getDataFile("data/textures/pinea.bmp");
-			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
 			palmTextureA_.create(map, GL_RGBA, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/palm2.bmp");
 			std::string file2 = getDataFile("data/textures/palm2a.bmp");
-			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
 			palmTextureB_.create(map, GL_RGBA, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/oak.bmp");
 			std::string file2 = getDataFile("data/textures/oaka.bmp");
-			GLBitmap map(file1.c_str(), file2.c_str(), false);
+			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
 			oakTextureA_.create(map, GL_RGBA, true);
 		}

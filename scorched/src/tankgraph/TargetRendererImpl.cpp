@@ -33,7 +33,7 @@
 #include <actions/TankFalling.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTexture.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLCameraFrustum.h>
 
@@ -59,24 +59,24 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	if (!texture)
 	{
 		std::string file1 = getDataFile("data/textures/bordershield/grid2.bmp");
-		GLBitmap map(file1.c_str(), file1.c_str(), false);
+		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file1.c_str(), false);
 		texture = new GLTexture;
 		texture->create(map, GL_RGBA, true);
 
 		std::string file2 = getDataFile("data/textures/bordershield/grid22.bmp");
-		GLBitmap map2(file2.c_str(), file2.c_str(), false);
+		GLImageHandle map2 = GLImageFactory::loadImageHandle(file2.c_str(), file2.c_str(), false);
 		texture2 = new GLTexture;
 		texture2->create(map2, GL_RGBA, true);
 
 		std::string file3 = getDataFile("data/textures/shield2.bmp");
-		GLBitmap map3(file3.c_str(), file3.c_str(), false);
+		GLImageHandle map3 = GLImageFactory::loadImageHandle(file3.c_str(), file3.c_str(), false);
 		magtexture = new GLTexture;
 		magtexture->create(map3, GL_RGBA, true);
 
 		std::string file4 = getDataFile("data/textures/shield.bmp");
 		std::string file5 = getDataFile("data/textures/shielda.bmp");
-		GLBitmap map4(file4.c_str(), file5.c_str(), false);
-		map4.alphaMult(4.0f);
+		GLImageHandle map4 = GLImageFactory::loadImageHandle(file4.c_str(), file5.c_str(), false);
+		//map4.alphaMult(4.0f);
 		shieldtexture = new GLTexture;
 		shieldtexture->create(map4, GL_RGBA, true);
 

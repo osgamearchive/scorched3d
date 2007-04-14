@@ -36,31 +36,34 @@ GLBitmap::GLBitmap(int startWidth, int startHeight, bool alpha, unsigned char fi
 	width_(startWidth), height_(startHeight), alpha_(alpha), newbits_(0),
 	owner_(true)
 {
-	createBlank(startWidth, startHeight, alpha, fill);
+	createBlankInternal(startWidth, startHeight, alpha, fill);
 }
 
-GLBitmap::GLBitmap(const char * filename, bool alpha) :
-	newbits_(0), width_(0), height_(0), alpha_(alpha),
-	owner_(true)
+GLBitmap::~GLBitmap()
 {
-	if (filename)
-	{
-		loadFromFile(filename, alpha);
-	}
+	clear();
 }
 
-GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert) : 
-	newbits_(0), width_(0), height_(0), alpha_(false),
-	owner_(true)
+void GLBitmap::clear()
 {
-	GLBitmap bitmap(filename, false);
-	GLBitmap alpha(alphafilename, false);
+	if (owner_) delete [] newbits_;
+	newbits_ = 0;
+	width_ = 0;
+	height_ = 0;
+}
+
+bool GLBitmap::loadFromFile(const char * filename, const char *alphafilename, bool invert)
+{
+	GLBitmap bitmap;
+	if (!bitmap.loadFromFile(filename, false)) return false;
+	GLBitmap alpha;
+	if (!alpha.loadFromFile(alphafilename, false)) return false;
 
 	if (bitmap.getBits() && alpha.getBits() && 
 		bitmap.getWidth() == alpha.getWidth() &&
 		bitmap.getHeight() == alpha.getHeight())
 	{
-		createBlank(bitmap.getWidth(), bitmap.getHeight(), true);
+		createBlankInternal(bitmap.getWidth(), bitmap.getHeight(), true);
 		unsigned char *bbits = bitmap.getBits();
 		unsigned char *abits = alpha.getBits();
 		unsigned char *bits = getBits();
@@ -88,84 +91,8 @@ GLBitmap::GLBitmap(const char * filename, const char *alphafilename, bool invert
 			}
 		}
 	}
-}
 
-GLBitmap::~GLBitmap()
-{
-	clear();
-}
-
-#ifndef S3D_SERVER
-
-#include <GLEXT/GLState.h>
-
-void GLBitmap::resize(int newWidth, int newHeight)
-{
-	if (!newbits_) return;
-
-	if (width_ == newWidth &&
-		height_ == newHeight)
-	{
-		return;
-	}
-
-	unsigned char *oldbits = newbits_;
-	int oldWidth = width_;
-	int oldHeight = height_;
-	newbits_ = 0;
-
-	createBlank(newWidth, newHeight, alpha_);
-	int result = gluScaleImage(
-		(alpha_?GL_RGBA:GL_RGB), 
-		oldWidth, oldHeight,
-		GL_UNSIGNED_BYTE, oldbits,
-		newWidth, newHeight, 
-		GL_UNSIGNED_BYTE, newbits_);
-	if (result != 0)
-	{
-		const char *error = (const char *) gluErrorString(result);
-		dialogExit("gluScaleImage", error);
-	}
-
-	if (owner_) delete [] oldbits;
-}
-#endif
-
-void GLBitmap::createBlank(int width, int height, bool alpha, unsigned char fill)
-{
-	clear();
-	width_ = width;
-	height_ = height;
-	alpha_ = alpha;
-	int bitsize = getComponents() * width * height;
-
-	newbits_ = new unsigned char[bitsize];
-	memset(newbits_, fill, bitsize);
-}
-
-void GLBitmap::clear()
-{
-	if (owner_) delete [] newbits_;
-	newbits_ = 0;
-	width_ = 0;
-	height_ = 0;
-}
-
-void GLBitmap::alphaMult(float mult)
-{
-	if (!getAlpha()) return;
-	
-	unsigned char *bits = getBits();
-	for (int y=0; y<getHeight(); y++)
-	{
-		for (int x=0; x<getWidth(); x++)
-		{
-			float a = float(bits[3]) * mult;
-			a = MAX(a, 255);
-			a = MIN(a, 0);
-			bits[3] = (unsigned char)(a);
-		}
-	}
+	return true;
 }
 
 bool GLBitmap::loadFromFile(const char * filename, bool alpha)
@@ -181,7 +108,7 @@ bool GLBitmap::loadFromFile(const char * filename, bool alpha)
 	}
 
 	// Create the internal byte array
-	createBlank(image->w, image->h, alpha);
+	createBlankInternal(image->w, image->h, alpha);
 
 	// Convert the returned bits from BGR to RGB
 	// and flip the verticle scan lines
@@ -209,68 +136,14 @@ bool GLBitmap::loadFromFile(const char * filename, bool alpha)
 	return true;
 }
 
-bool GLBitmap::writeToFile(const char * filename)
+void GLBitmap::createBlankInternal(int width, int height, bool alpha, unsigned char fill)
 {
-	if (!newbits_) return false;
+	clear();
+	width_ = width;
+	height_ = height;
+	alpha_ = alpha;
+	int bitsize = getComponents() * width * height;
 
-	unsigned char *brgbits = new unsigned char[width_ * height_ * 3];
-
-	// Convert the returned bits from RGB to BGR
-	// and flip the verticle scan lines
-	unsigned char *from = (unsigned char *) newbits_;
-	for (int i=0; i<height_; i ++)
-	{
-		unsigned char *destRow = ((unsigned char *) brgbits) + ((height_ - i - 1) * (width_ * 3));
-		for (int j=0; j<width_; j++)
-		{
-			unsigned char *dest = destRow + (j * getComponents());
-
-			dest[0] = from[0];
-			dest[1] = from[1];
-			dest[2] = from[2];
-			from+=getComponents();
-		}
-	}
-
-    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
-       on the endianness (byte order) of the machine */
-    Uint32 rmask, gmask, bmask;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xff000000;
-    gmask = 0x00ff0000;
-    bmask = 0x0000ff00;
-#else
-    rmask = 0x000000ff;
-    gmask = 0x0000ff00;
-    bmask = 0x00ff0000;
-#endif
-
-	SDL_Surface *image = SDL_CreateRGBSurface( 
-		SDL_SWSURFACE, width_, height_, 24, rmask, gmask, bmask, 0);
-	memcpy(image->pixels, brgbits, width_ * height_ * 3);
-
-	if (!image) return false;
-
-	SDL_SaveBMP(image, filename);
-    SDL_FreeSurface (image);
-
-	if (owner_) delete [] brgbits;
-	return true;
+	newbits_ = new unsigned char[bitsize];
+	memset(newbits_, fill, bitsize);
 }
-
-#ifndef S3D_SERVER
-void GLBitmap::grabScreen()
-{
-	GLint		viewport[4];		/* Current viewport */
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	createBlank(viewport[2], viewport[3], false);
-
-	glFinish();				/* Finish all OpenGL commands */
-	glPixelStorei(GL_PACK_ALIGNMENT, 4);	/* Force 4-byte alignment */
-	glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-
-	glReadPixels(0, 0, width_, height_, GL_RGB, GL_UNSIGNED_BYTE, newbits_);
-}
-#endif

@@ -19,8 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <graph/ImageStore.h>
-#include <GLEXT/GLPng.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLIMageFactory.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 
@@ -59,35 +58,17 @@ GLImage *ImageStore::loadImage(ImageID &imageId)
 GLImage *ImageStore::getImage(ImageID &id)
 {
 	GLImage *image = 0;
-	if (0 == strcmp(id.getType(), "png"))
+	if (id.getAlphaName()[0])
 	{
-		if (id.getAlphaName()[0])
-		{
-			image = new GLPng(
-				formatString(getDataFile(id.getImageName())),
-				formatString(getDataFile(id.getAlphaName())),
-				id.getInvert());
-		}
-		else
-		{
-			image = new GLPng(
-				getDataFile(id.getImageName()));
-		}
+		image = GLImageFactory::loadImage(
+			formatString(getDataFile(id.getImageName())),
+			formatString(getDataFile(id.getAlphaName())),
+			id.getInvert());
 	}
-	else if (0 == strcmp(id.getType(), "bmp"))
+	else
 	{
-		if (id.getAlphaName()[0])
-		{
-			image = new GLBitmap(
-				formatString(getDataFile(id.getImageName())),
-				formatString(getDataFile(id.getAlphaName())),
-				id.getInvert());
-		}
-		else
-		{
-			image = new GLBitmap(
-				getDataFile(id.getImageName()));
-		}		
+		image = GLImageFactory::loadImage(
+			getDataFile(id.getImageName()));
 	}
 
 	return image;

@@ -22,7 +22,7 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/Wall.h>
 #include <sound/SoundUtils.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <common/Defines.h>
 
 Wall::Wall()
@@ -40,7 +40,7 @@ void Wall::draw()
 	{
 		std::string file1 = getDataFile("data/textures/bordershield/grid.bmp");
 		std::string file2 = getDataFile("data/textures/bordershield/grid.bmp");
-		GLBitmap map(file1.c_str(), file2.c_str(), false);
+		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 		texture_.create(map, GL_RGBA, true);
 	}
 

@@ -25,6 +25,7 @@
 #include <landscape/WaterWaves.h>
 #include <landscape/WaterMapPoints.h>
 #include <common/ProgressCounter.h>
+#include <GLEXT/GLImageHandle.h>
 
 class Water
 {
@@ -42,7 +43,7 @@ public:
 
 	bool getWaterOn() { return waterOn_; }
 	float getWaterHeight() { return height_; }
-	GLBitmap &getWaterBitmap() { return bitmapWater_; }
+	GLImage &getWaterBitmap() { return bitmapWater_; }
 	WaterWaves &getWaves() { return wWaves_; }
 
 protected:
@@ -54,7 +55,7 @@ protected:
 	WaterMapPoints wMapPoints_;
 	WaterWaves wWaves_;
 	GLTexture landTexWater_;
-	GLBitmap bitmapWater_;
+	GLImageHandle bitmapWater_;
 
 };
 

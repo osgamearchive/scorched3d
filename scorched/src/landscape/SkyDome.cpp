@@ -27,6 +27,7 @@
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLDynamicVertexArray.h>
 #include <client/ScorchedClient.h>
 #include <graph/OptionsDisplay.h>
@@ -58,7 +59,7 @@ void SkyDome::generate()
 	// Sky
 	std::string ctex(getDataFile(tex->skytexture.c_str()));
 	std::string ctexm(getDataFile(tex->skytexturemask.c_str()));
-	GLBitmap bitmapCloud(ctex.c_str(), ctexm.c_str(), false);
+	GLImageHandle bitmapCloud = GLImageFactory::loadImageHandle(ctex.c_str(), ctexm.c_str(), false);
 	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud, GL_RGBA));
 	skyColorsMap_.loadFromFile(getDataFile(tex->skycolormap.c_str()));
 
@@ -68,7 +69,7 @@ void SkyDome::generate()
 	{
 		useStarTexture_ = true;
 		std::string stex(getDataFile(tex->skytexturestatic.c_str()));
-		GLBitmap bitmapStars(stex.c_str(), stex.c_str(), false);
+		GLImageHandle bitmapStars = GLImageFactory::loadImageHandle(stex.c_str(), stex.c_str(), false);
 		DIALOG_ASSERT(starTexture_.replace(bitmapStars, GL_RGBA));
 	}
 	noSunFog_ = tex->nosunfog;

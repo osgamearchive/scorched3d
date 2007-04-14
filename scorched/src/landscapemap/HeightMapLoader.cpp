@@ -26,9 +26,7 @@
 
 GLImage *HeightMapLoader::saveTerrain(HeightMap &hmap)
 {
-	GLBitmap *bitmap = new GLBitmap();
-	bitmap->createBlank(hmap.getMapWidth(), hmap.getMapHeight());
-
+	GLBitmap *bitmap = new GLBitmap(hmap.getMapWidth(), hmap.getMapHeight());
 	unsigned char *bits = bitmap->getBits();
 	for (int y=0; y<hmap.getMapHeight(); y++)
 	{

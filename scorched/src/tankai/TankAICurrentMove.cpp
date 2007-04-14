@@ -157,8 +157,8 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 
 	// Check for reflective shields
 	if (weapons.shield &&
-		(weapons.shield->getType() == Shield::ShieldTypeRoundReflective ||
-		weapons.shield->getType() == Shield::ShieldTypeSquareReflective))
+		(weapons.shield->getShieldType() == Shield::ShieldTypeRoundReflective ||
+		weapons.shield->getShieldType() == Shield::ShieldTypeSquareReflective))
 	{
 		// Pick an area outside the shield
 		// and make sure its uphill if we can
@@ -255,8 +255,8 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 
 		// Does this target have a bouncy shield
 		if (!weapons.shield ||
-			(weapons.shield->getType() != Shield::ShieldTypeRoundReflective &&
-			weapons.shield->getType() != Shield::ShieldTypeSquareReflective))
+			(weapons.shield->getShieldType() != Shield::ShieldTypeRoundReflective &&
+			weapons.shield->getShieldType() != Shield::ShieldTypeSquareReflective))
 		{
 			// This is good, use a normal sniper shot
 			if (weapons.shield)

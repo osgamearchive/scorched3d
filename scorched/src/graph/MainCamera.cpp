@@ -27,7 +27,7 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <engine/ViewPoints.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <dialogs/MainMenuDialog.h>
 #include <sound/Sound.h>
 #include <sound/SoundUtils.h>
@@ -55,7 +55,7 @@ MainCamera::MainCamera() :
 	GameStateI("MainCamera"),
 	scrollTime_(0.0f)
 {
-	GLBitmap *map = new GLBitmap(
+	GLImage *map = GLImageFactory::loadImage(
 		formatString(getDataFile("data/windows/camera.bmp")),
 		formatString(getDataFile("data/windows/cameraa.bmp")),
 		false);
@@ -375,8 +375,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 	char *fileName = (char *) 
 		getHomeFile(formatString("ScreenShot-%i-%i.bmp", currentTime, counter++));
 
-	GLBitmap screenMap;
-	screenMap.grabScreen();
+	GLImageHandle screenMap = GLImageFactory::grabScreen();
 	screenMap.writeToFile(fileName);
 
 	// Don't print to banner otherwise this message will be in

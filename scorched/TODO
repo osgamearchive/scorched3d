@@ -88,6 +88,7 @@ Added: New launcher and splash screen graphics
 Added: Scorched server automatically calculates ranks and orphaned avatars
 Added: WaterCollision attribute to WeaponProjectile
 Added: WeaponLabel and WeaponGotoLabel to allow looping with in weapons
+Added: Any image file type can be used for textures, levels, etc... (not avatars) 
 
 Fixed: Removed keep-alive header in http requests
 Fixed: Server will only show log files via the management interface that it created

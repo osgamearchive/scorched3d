@@ -23,7 +23,7 @@
 #include <dialogs/SoundDialog.h>
 #include <common/Defines.h>
 #include <GLW/GLWWindowManager.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLMenu.h>
 
 HelpButtonDialog *HelpButtonDialog::instance_ = 0;
@@ -47,10 +47,11 @@ HelpButtonDialog::~HelpButtonDialog()
 
 HelpButtonDialog::HelpMenu::HelpMenu()
 {
-	GLBitmap *map = new GLBitmap(
-		formatString(getDataFile("data/windows/help.bmp")),
-		formatString(getDataFile("data/windows/helpa.bmp")),
-		false);
+	GLImage *map = 
+		GLImageFactory::loadImage(
+			formatString(getDataFile("data/windows/help.bmp")),
+			formatString(getDataFile("data/windows/helpa.bmp")),
+			false);
 	DIALOG_ASSERT(map->getBits());
 	MainMenuDialog::instance()->
 		addMenu("Help", 32.0f, 0, this, map,
@@ -61,7 +62,7 @@ GLTexture &HelpButtonDialog::HelpMenu::getHelpTexture()
 {
 	if (!helpTexture_.textureValid())
 	{
-		GLBitmap map(
+		GLImageHandle map = GLImageFactory::loadImageHandle(
 			formatString(getDataFile("data/windows/help.bmp")),
 			formatString(getDataFile("data/windows/helpa.bmp")),
 			false);
@@ -84,7 +85,7 @@ void HelpButtonDialog::HelpMenu::menuSelection(const char* menuName,
 
 HelpButtonDialog::VolumeMenu::VolumeMenu()
 {
-	GLBitmap *map = new GLBitmap(
+	GLImage *map = GLImageFactory::loadImage(
 		formatString(getDataFile("data/windows/sound.bmp")),
 		formatString(getDataFile("data/windows/sounda.bmp")),
 		false);

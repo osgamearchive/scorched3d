@@ -24,6 +24,7 @@
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <engine/ModFiles.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLPng.h>
 #include <tank/TankContainer.h>
 #include <net/NetInterface.h>
@@ -106,7 +107,8 @@ bool ClientConnectionAcceptHandler::processMessage(
 			// Use the default icon
 			std::string file1(getDataFile("data/windows/scorched.png"));
 			std::string file2(getDataFile("data/windows/scorcheda.png"));
-			GLPng map(file1.c_str(), file2.c_str(), false);
+			GLImageHandle map = GLImageFactory::loadImageHandle(
+				file1.c_str(), file2.c_str(), false);
 
 			// Set the texture
 			texture = new GLTexture;

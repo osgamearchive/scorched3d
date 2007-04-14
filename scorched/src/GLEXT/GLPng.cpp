@@ -31,25 +31,18 @@ GLPng::GLPng() :
 
 }
 
-GLPng::GLPng(const char * filename, bool readalpha) :
-	bits_(0), width_(0), height_(0), alpha_(readalpha),
-	owner_(true)
+bool GLPng::loadFromFile(const char * filename, const char *alphafilename, bool invert)
 {
-	loadFromFile(filename, readalpha);
-}
-
-GLPng::GLPng(const char * filename, const char *alphafilename, bool invert) : 
-	bits_(0), width_(0), height_(0), alpha_(false),
-	owner_(true)
-{
-	GLPng bitmap(filename);
-	GLPng alpha(alphafilename);
+	GLPng bitmap;
+	if (!bitmap.loadFromFile(filename)) return false;
+	GLPng alpha;
+	if (!alpha.loadFromFile(alphafilename)) return false;
 
 	if (bitmap.getBits() && alpha.getBits() && 
 		bitmap.getWidth() == alpha.getWidth() &&
 		bitmap.getHeight() == alpha.getHeight())
 	{
-		createBlank(bitmap.getWidth(), bitmap.getHeight(), true);
+		createBlankInternal(bitmap.getWidth(), bitmap.getHeight(), true);
 		unsigned char *bbits = bitmap.getBits();
 		unsigned char *abits = alpha.getBits();
 		unsigned char *bits = getBits();
@@ -77,6 +70,7 @@ GLPng::GLPng(const char * filename, const char *alphafilename, bool invert) :
 			}
 		}
 	}
+	return true;
 }
 
 GLPng::~GLPng()
@@ -92,7 +86,7 @@ void GLPng::clear()
 	height_ = 0;
 }
 
-void GLPng::createBlank(int width, int height, bool alpha, unsigned char fill)
+void GLPng::createBlankInternal(int width, int height, bool alpha, unsigned char fill)
 {
 	clear();
 	width_ = width;
@@ -220,7 +214,7 @@ bool GLPng::loadFromBuffer(NetBuffer &buffer, bool readalpha)
 		height_ = height;
 		alpha_ = readalpha;
 
-		createBlank(width, height, readalpha);
+		createBlankInternal(width, height, readalpha);
 
 		for (unsigned int h=0; h<height; h++)
 		{

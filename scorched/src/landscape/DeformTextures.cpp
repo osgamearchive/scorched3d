@@ -29,7 +29,7 @@
 #include <math.h>
 
 void DeformTextures::deformLandscape(Vector &pos, float radius, 
-	GLBitmap &scorchedMap, 
+	GLImage &scorchedMap, 
 	DeformLandscape::DeformPoints &map)
 {
 	HeightMap &hmap = ScorchedClient::instance()->getLandscapeMaps().

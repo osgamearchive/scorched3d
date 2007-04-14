@@ -20,7 +20,7 @@
 
 #include <dialogs/TutorialDialog.h>
 #include <dialogs/MainMenuDialog.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLMenuEntry.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWTextButton.h>
@@ -256,7 +256,7 @@ void TutorialDialog::drawHighlight(float x, float y, float w, float h)
 	if (!triangleTex_.textureValid())
 	{
 		std::string file = getDataFile("data/windows/triangle.bmp");
-		GLBitmap maps(file.c_str(), file.c_str(), false);
+		GLImageHandle maps = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
 		triangleTex_.create(maps, GL_RGBA, true);
 	}
 

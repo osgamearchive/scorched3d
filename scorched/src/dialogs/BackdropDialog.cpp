@@ -20,7 +20,7 @@
 
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLPng.h>
+#include <GLEXT/GLImageFactory.h>
 #include <dialogs/BackdropDialog.h>
 #include <common/Defines.h>
 
@@ -41,7 +41,8 @@ BackdropDialog::BackdropDialog() :
 {
 	windowLevel_ = 5000000;
 
-	GLPng backMap(getDataFile("data/windows/backdrop.png"));
+	GLImageHandle backMap = GLImageFactory::loadImageHandle(
+		getDataFile("data/windows/backdrop.png"));
 	backTex_.create(backMap, GL_RGB, false);
 }
 

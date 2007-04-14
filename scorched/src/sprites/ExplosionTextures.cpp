@@ -65,38 +65,38 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	if (counter) counter->setNewOp("Explosion Textures");
 
 	std::string file1 = getDataFile("data/textures/smoke01.bmp");
-	GLBitmap bitmap(file1.c_str(), file1.c_str(), false);
+	GLImageHandle bitmap = GLImageFactory::loadImageHandle(file1.c_str(), file1.c_str(), false);
 	smokeTexture.create(bitmap, GL_RGBA);
 	DIALOG_ASSERT(smokeTexture.textureValid());
 
 	std::string file2 = getDataFile("data/textures/smoke02.bmp");
-	GLBitmap bitmap2(file2.c_str(), file2.c_str(), false);
+	GLImageHandle bitmap2 = GLImageFactory::loadImageHandle(file2.c_str(), file2.c_str(), false);
 	smokeTexture2.create(bitmap2, GL_RGBA);
 	DIALOG_ASSERT(smokeTexture2.textureValid());
 
 	std::string file3 = getDataFile("data/textures/particle.bmp");
-	GLBitmap bitmap3(file3.c_str(), file3.c_str(), false);
+	GLImageHandle bitmap3 = GLImageFactory::loadImageHandle(file3.c_str(), file3.c_str(), false);
 	particleTexture.create(bitmap3, GL_RGBA);
 	DIALOG_ASSERT(particleTexture.textureValid());
 
-	GLBitmap talkBitmap(getDataFile("data/textures/talk.bmp"), true);
+	GLImageHandle talkBitmap = GLImageFactory::loadAlphaImageHandle(getDataFile("data/textures/talk.bmp"));
 	talkTexture.create(talkBitmap, GL_RGBA);
 	DIALOG_ASSERT(talkTexture.textureValid());
 
 	std::string file4 = getDataFile("data/textures/lightning.bmp");
-	GLBitmap bitmap4(file4.c_str(), file4.c_str(), false);
+	GLImageHandle bitmap4 = GLImageFactory::loadImageHandle(file4.c_str(), file4.c_str(), false);
 	lightningTexture.create(bitmap4, GL_RGBA);
 	DIALOG_ASSERT(lightningTexture.textureValid());
 
 	std::string file5 = getDataFile("data/textures/rain.bmp");
 	std::string file5m = getDataFile("data/textures/rainm.bmp");
-	GLBitmap bitmap5(file5m.c_str(), file5.c_str(), false);
+	GLImageHandle bitmap5 = GLImageFactory::loadImageHandle(file5m.c_str(), file5.c_str(), false);
 	rainTexture.create(bitmap5, GL_RGBA);
 	DIALOG_ASSERT(rainTexture.textureValid());
 
 	std::string file6 = getDataFile("data/textures/snow.bmp");
 	std::string file6m = getDataFile("data/textures/snowm.bmp");
-	GLBitmap bitmap6(file6.c_str(), file6m.c_str(), false);
+	GLImageHandle bitmap6 = GLImageFactory::loadImageHandle(file6.c_str(), file6m.c_str(), false);
 	snowTexture.create(bitmap6, GL_RGBA);
 	DIALOG_ASSERT(snowTexture.textureValid());
 
@@ -185,11 +185,11 @@ GLTextureSet *ExplosionTextures::getTextureSetByName(const char *name)
 	return result;
 }
 
-GLBitmap &ExplosionTextures::getScorchBitmap(const char *name)
+GLImage &ExplosionTextures::getScorchBitmap(const char *name)
 {
 	if (name[0])
 	{
-		std::map<std::string, GLBitmap*>::iterator findItor =
+		std::map<std::string, GLImage*>::iterator findItor =
 			scorchedBitmaps.find(name);
 		if (findItor != scorchedBitmaps.end())
 		{
@@ -199,13 +199,9 @@ GLBitmap &ExplosionTextures::getScorchBitmap(const char *name)
 		const char *fileName = getDataFile(name);
 		if (s3d_fileExists(fileName))
 		{
-			GLBitmap *map = new GLBitmap;
-			if (map->loadFromFile(fileName, false))
-			{
-				scorchedBitmaps[name] = map;
-				return *map;
-			}
-			else delete map;
+			GLImage *map = GLImageFactory::loadImage(fileName);
+			scorchedBitmaps[name] = map;
+			return *map;
 		}
 	}
 	return Landscape::instance()->getScorchMap();

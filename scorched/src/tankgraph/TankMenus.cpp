@@ -51,6 +51,7 @@
 #include <dialogs/SkipDialog.h>
 #include <sound/SoundUtils.h>
 #include <GLEXT/GLConsoleRuleFnIAdapter.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLTexture.h>
 
 TankMenus::TankMenus() : logger_("ClientLog")
@@ -211,7 +212,7 @@ void TankMenus::showTankDetails()
 
 TankMenus::PlayerMenu::PlayerMenu()
 {
-	GLBitmap *map = new GLBitmap(
+	GLImage *map = GLImageFactory::loadImage(
 		formatString(getDataFile("data/windows/setting.bmp")),
 		formatString(getDataFile("data/windows/settinga.bmp")),
 		false);
@@ -291,7 +292,7 @@ bool TankMenus::PlayerMenu::getEnabled(const char* menuName)
 // Accessory Menus
 TankMenus::AccessoryMenu::AccessoryMenu()
 {
-	GLBitmap *map = new GLBitmap(
+	GLImage *map = GLImageFactory::loadImage(
 		formatString(getDataFile("data/windows/bomb.bmp")),
 		formatString(getDataFile("data/windows/bomba.bmp")),
 		false);

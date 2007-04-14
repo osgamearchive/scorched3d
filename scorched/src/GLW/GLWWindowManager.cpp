@@ -20,7 +20,7 @@
 
 #include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLViewPort.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <dialogs/MainMenuDialog.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
@@ -47,7 +47,7 @@ GLWWindowManager::GLWWindowManager() :
 {
 	setCurrentEntry(UINT_MAX);
 
-	GLBitmap *map = new GLBitmap(
+	GLImage *map = GLImageFactory::loadImage(
 		formatString(getDataFile("data/windows/screen.bmp")),
 		formatString(getDataFile("data/windows/screena.bmp")),
 		false);

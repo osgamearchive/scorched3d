@@ -34,7 +34,7 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLEXT/GLPng.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <math.h>
 #include <string.h>
 
@@ -79,9 +79,9 @@ void ProgressDialog::changeTip()
 
 void ProgressDialog::setIcon(const char *iconName)
 {
-	GLBitmap map(iconName);
-	map.resize(64, 64);
-	icon_.create(map);
+	GLImageHandle map = GLImageFactory::loadImageHandle(iconName);
+	GLImageHandle newMap = map.createResize(64, 64);
+	icon_.create(newMap);
 }
 
 void ProgressDialog::draw()
@@ -95,8 +95,10 @@ void ProgressDialog::draw()
 		{
 			setIcon(getDataFile("data/windows/tank2.bmp"));
 
-			GLPng bar1(getDataFile("data/windows/bar1.png"), true);
-			GLPng bar2(getDataFile("data/windows/bar2.png"), true);
+			GLImageHandle bar1 = 
+				GLImageFactory::loadAlphaImageHandle(getDataFile("data/windows/bar1.png"));
+			GLImageHandle bar2 = 
+				GLImageFactory::loadAlphaImageHandle(getDataFile("data/windows/bar2.png"));
 			bar1_.create(bar1, GL_RGBA);
 			bar2_.create(bar2, GL_RGBA);
 

@@ -22,6 +22,7 @@
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
+#include <GLEXT/GLImageFactory.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 
@@ -56,7 +57,7 @@ InfoMap::~InfoMap()
 
 void InfoMap::showHeightBands()
 {
-	GLBitmap newMap(
+	GLImageHandle newMap = GLImageFactory::createBlank(
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
 	float *heights = new float[
@@ -136,7 +137,7 @@ void InfoMap::showHeightBands()
 
 void InfoMap::showGrid()
 {
-	GLBitmap newMap(
+	GLImageHandle newMap = GLImageFactory::createBlank(
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
 

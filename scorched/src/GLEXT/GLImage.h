@@ -21,6 +21,7 @@
 #if !defined(AFX_GLIMAGE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)
 #define AFX_GLIMAGE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_
 
+class GLImageHandle;
 class GLImage  
 {
 public:
@@ -34,6 +35,13 @@ public:
 
 	virtual int getAlignment() = 0;
 	virtual int getComponents() = 0;
+
+	virtual bool writeToFile(const char * filename);
+
+#ifndef S3D_SERVER
+	GLImageHandle createAlphaMult(float mult);
+	GLImageHandle createResize(int newWidth, int newHeight);
+#endif
 };
 
 #endif // !defined(AFX_GLIMAGE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)

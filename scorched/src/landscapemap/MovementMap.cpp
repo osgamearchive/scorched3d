@@ -36,6 +36,7 @@
 #include <target/TargetShield.h>
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
+#include <GLEXT/GLImageFactory.h>
 #include <memory.h>
 
 MovementMap::MovementMap(int width, int height,
@@ -562,7 +563,7 @@ void MovementMap::calculateAllPositions()
 
 void MovementMap::movementTexture()
 {
-	GLBitmap newMap(
+	GLImageHandle newMap = GLImageFactory::createBlank(
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
 
@@ -625,7 +626,7 @@ void MovementMap::movementTexture()
 
 void MovementMap::limitTexture(Vector &center, int limit)
 {
-	GLBitmap newMap(
+	GLImageHandle newMap = GLImageFactory::createBlank(
 		Landscape::instance()->getMainMap().getWidth(),
 		Landscape::instance()->getMainMap().getHeight());
 

@@ -40,6 +40,7 @@
 #include <landscapedef/LandscapeDefinitions.h>
 #include <movement/TargetMovement.h>
 #include <GLEXT/GLImageModifier.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <common/OptionsTransient.h>
@@ -246,13 +247,13 @@ void Landscape::generate(ProgressCounter *counter)
 	// Generate the texture used to map onto the landscape
 	if (!mainMap_.getBits())
 	{
-		mainMap_.createBlank(mapTexSize, mapTexSize);
-		bitmapPlanAlpha_.createBlank(planTexSize, planTexSize, true);
-		bitmapPlan_.createBlank(planTexSize, planTexSize);
-		bitmapPlanAlphaAlpha_.createBlank(planTexSize, planTexSize);
+		mainMap_ = GLBitmap(mapTexSize, mapTexSize);
+		bitmapPlanAlpha_ = GLBitmap(planTexSize, planTexSize, true);
+		bitmapPlan_ = GLBitmap(planTexSize, planTexSize);
+		bitmapPlanAlphaAlpha_ = GLBitmap(planTexSize, planTexSize);
 	}
 
-	GLBitmap plana(getDataFile("data/windows/planaa.bmp"), false);
+	GLImageHandle plana = GLImageFactory::loadImageHandle(getDataFile("data/windows/planaa.bmp"));
 	GLImageModifier::scalePlanBitmap(bitmapPlanAlphaAlpha_, plana,
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth(),
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapHeight());
@@ -267,15 +268,24 @@ void Landscape::generate(ProgressCounter *counter)
 		LandscapeTexTextureGenerate *generate = 
 			(LandscapeTexTextureGenerate *) tex->texture;
 
-		GLBitmap texture0(getDataFile(generate->texture0.c_str()));
-		GLBitmap texture1(getDataFile(generate->texture1.c_str()));
-		GLBitmap texture2(getDataFile(generate->texture2.c_str()));
-		GLBitmap texture3(getDataFile(generate->texture3.c_str()));
-		GLBitmap texture4(getDataFile(generate->texture4.c_str()));
-		GLBitmap bitmapShore(getDataFile(generate->shore.c_str()));
-		GLBitmap bitmapRock(getDataFile(generate->rockside.c_str()));
-		GLBitmap bitmapRoof(getDataFile(generate->roof.c_str()));
-		GLBitmap bitmapSurround(getDataFile(generate->surround.c_str()));
+		GLImageHandle texture0 = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->texture0.c_str()));
+		GLImageHandle texture1 = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->texture1.c_str()));
+		GLImageHandle texture2 = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->texture2.c_str()));
+		GLImageHandle texture3 = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->texture3.c_str()));
+		GLImageHandle texture4 = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->texture4.c_str()));
+		GLImageHandle bitmapShore = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->shore.c_str()));
+		GLImageHandle bitmapRock = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->rockside.c_str()));
+		GLImageHandle bitmapRoof = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->roof.c_str()));
+		GLImageHandle bitmapSurround = 
+			GLImageFactory::loadImageHandle(getDataFile(generate->surround.c_str()));
 		GLImage *bitmaps[5];
 		bitmaps[0] = &texture0;
 		bitmaps[1] = &texture1;
@@ -348,20 +358,24 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Generate the scorch map for the landscape
 	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
-	GLBitmap sprayMaskBitmap(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
-	scorchMap_.loadFromFile(getDataFile(tex->scorch.c_str()));
-	GLBitmap scorchMap(getDataFile(tex->scorch.c_str()));
-	scorchMap.resize(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
+	GLImageHandle sprayMaskBitmap = 
+		GLImageFactory::loadImageHandle(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
+	scorchMap_ = 
+		GLImageFactory::loadImageHandle(getDataFile(tex->scorch.c_str()));
+	GLImageHandle scorchMap = scorchMap_.createResize(
+		sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 	GLBitmap texture1New(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
 	GLImageModifier::makeBitmapTransparent(texture1New, scorchMap, sprayMaskBitmap);
 	landTex1_.replace(texture1New, GL_RGBA);
 
 	// Magma
-	GLBitmap bitmapMagma(getDataFile(tex->magmasmall.c_str()));
+	GLImageHandle bitmapMagma = 
+		GLImageFactory::loadImageHandle(getDataFile(tex->magmasmall.c_str()));
 	DIALOG_ASSERT(magTexture_.replace(bitmapMagma));
 
 	// Detail
-	GLBitmap bitmapDetail(getDataFile(tex->detail.c_str()));
+	GLImageHandle bitmapDetail = 
+		GLImageFactory::loadImageHandle(getDataFile(tex->detail.c_str()));
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
 
 	// Create the plan textures (for the plan and wind dialogs)

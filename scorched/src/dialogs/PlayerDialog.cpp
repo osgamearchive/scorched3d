@@ -36,7 +36,7 @@
 #include <common/Defines.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWTextButton.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <stdio.h>
@@ -74,7 +74,7 @@ PlayerDialog::PlayerDialog() :
 	addWidget(infoPanel);
 
 	// Create a texture to display the player color selector
-	GLBitmap map(getDataFile("data/windows/white.bmp"));
+	GLImageHandle map = GLImageFactory::loadImageHandle(getDataFile("data/windows/white.bmp"));
 	colorTexture_.create(map);
 
 	// Create players avatar choice

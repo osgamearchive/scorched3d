@@ -35,12 +35,14 @@ GLImage *GLImageFactory::loadAlphaImage(
 
 	if (strstr(extension.c_str(), ".png"))
 	{
-		GLPng *png = new GLPng(filename, true);
+		GLPng *png = new GLPng();
+		png->loadFromFile(filename, true);
 		return png;
 	}
 
 	// Failsafe !!
-	GLBitmap *bitmap = new GLBitmap(filename, true);
+	GLBitmap *bitmap = new GLBitmap();
+	bitmap->loadFromFile(filename, true);
 	return bitmap;
 }
 GLImage *GLImageFactory::loadImage(
@@ -55,20 +57,24 @@ GLImage *GLImageFactory::loadImage(
 	{
 		if (alphafilename)
 		{
-			GLPng *png = new GLPng(filename, alphafilename, invert);
+			GLPng *png = new GLPng();
+			png->loadFromFile(filename, alphafilename, invert);
 			return png;
 		}
-		GLPng *png = new GLPng(filename);
+		GLPng *png = new GLPng();
+		png->loadFromFile(filename);
 		return png;
 	}
 
 	// Failsafe !!
 	if (alphafilename)
 	{
-		GLBitmap *bitmap = new GLBitmap(filename, alphafilename, invert);
+		GLBitmap *bitmap = new GLBitmap();
+		bitmap->loadFromFile(filename, alphafilename, invert);
 		return bitmap;
 	}
-	GLBitmap *bitmap = new GLBitmap(filename);
+	GLBitmap *bitmap = new GLBitmap();
+	bitmap->loadFromFile(filename);
 	return bitmap;
 }
 
@@ -91,3 +97,34 @@ GLImageHandle GLImageFactory::loadAlphaImageHandle(
 	delete image;
 	return handle;
 }
+
+GLImageHandle GLImageFactory::createBlank(int width, int height, bool alpha, unsigned char fill)
+{
+	GLBitmap result(width, height, alpha, fill);
+	return GLImageHandle(result);
+}
+
+#ifndef S3D_SERVER
+
+#include <GLEXT/GLState.h>
+#include <common/Defines.h>
+
+GLImageHandle GLImageFactory::grabScreen()
+{
+	GLint		viewport[4];		/* Current viewport */
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	GLBitmap map(viewport[2], viewport[3], false);
+
+	glFinish();				/* Finish all OpenGL commands */
+	glPixelStorei(GL_PACK_ALIGNMENT, 4);	/* Force 4-byte alignment */
+	glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
+	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+
+	glReadPixels(0, 0, map.getWidth(), map.getHeight(), 
+		GL_RGB, GL_UNSIGNED_BYTE, map.getBits());
+
+	return GLImageHandle(map);
+}
+#endif

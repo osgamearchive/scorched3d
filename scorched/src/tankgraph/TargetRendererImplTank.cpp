@@ -50,7 +50,7 @@
 #include <dialogs/TutorialDialog.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLCamera.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLW/GLWFont.h>
@@ -371,7 +371,8 @@ void TargetRendererImplTank::drawArrow()
 		{
 			std::string file1 = getDataFile("data/windows/arrow.bmp");
 			std::string file2 = getDataFile("data/windows/arrowi.bmp");
-			GLBitmap bitmap(file1.c_str(), file2.c_str(), true);
+			GLImageHandle bitmap = 
+				GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), true);
 			arrowTexture.create(bitmap, GL_RGBA);
 		}
 

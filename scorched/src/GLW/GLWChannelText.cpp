@@ -23,8 +23,7 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWPanel.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLPng.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <XML/XMLParser.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientChannelManager.h>
@@ -80,10 +79,12 @@ void GLWChannelText::draw()
 
 	if (!buttonTexture_.textureValid())
 	{
-		GLPng buttonImg(getDataFile("data/windows/arrow_r.png"), true);
+		GLImageHandle buttonImg = GLImageFactory::loadAlphaImageHandle(
+			getDataFile("data/windows/arrow_r.png"));
 		buttonTexture_.create(buttonImg, GL_RGBA, false);
 		button_.setTexture(&buttonTexture_);
-		GLBitmap map(getDataFile("data/windows/white.bmp"));
+		GLImageHandle map = GLImageFactory::loadImageHandle(
+			getDataFile("data/windows/white.bmp"));
 		colorTexture_.create(map);
 	}
 

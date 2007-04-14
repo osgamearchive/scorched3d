@@ -24,11 +24,11 @@
 
 #include <landscapemap/DeformLandscape.h>
 
-class GLBitmap;
+class GLImage;
 namespace DeformTextures
 {
 	void deformLandscape(Vector &pos, float radius, 
-		GLBitmap &deformMap, 
+		GLImage &deformMap, 
 		DeformLandscape::DeformPoints &map);
 };
 

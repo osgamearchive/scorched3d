@@ -22,7 +22,7 @@
 #include <GLW/GLWFont.h>
 #include <GLW/GLWPanel.h>
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLPng.h>
+#include <GLEXT/GLImageFactory.h>
 #include <XML/XMLParser.h>
 #include <common/Keyboard.h>
 #include <common/ToolTip.h>
@@ -364,9 +364,12 @@ void GLWChannelView::draw()
 
 	if (!upTexture_.textureValid())
 	{
-		GLPng upImg(getDataFile("data/windows/arrow_u.png"), true);
-		GLPng downImg(getDataFile("data/windows/arrow_d.png"), true);
-		GLPng resetImg(getDataFile("data/windows/arrow_s.png"), true);
+		GLImageHandle upImg = GLImageFactory::loadAlphaImageHandle(
+			getDataFile("data/windows/arrow_u.png"));
+		GLImageHandle downImg = GLImageFactory::loadAlphaImageHandle(
+			getDataFile("data/windows/arrow_d.png"));
+		GLImageHandle resetImg = GLImageFactory::loadAlphaImageHandle(
+			getDataFile("data/windows/arrow_s.png"));
 
 		upTexture_.create(upImg, GL_RGBA, false);
 		downTexture_.create(downImg, GL_RGBA, false);

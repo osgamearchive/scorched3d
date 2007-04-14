@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_Landscapeh_INCLUDE__)
 #define __INCLUDE_Landscapeh_INCLUDE__
 
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageHandle.h>
 #include <GLEXT/GLTexture.h>
 
 class Wall;
@@ -59,8 +59,8 @@ public:
 	PatchGrid &getPatchGrid() { return *patchGrid_; }
 
 	// Textures created during landscape texturing
-	GLBitmap &getMainMap() { return mainMap_; }
-	GLBitmap &getScorchMap() { return scorchMap_; }
+	GLImage &getMainMap() { return mainMap_; }
+	GLImage &getScorchMap() { return scorchMap_; }
 	GLTexture &getMainTexture() { return texture_; }
 	GLTexture &getMagTexture() { return magTexture_; }
 	GLTexture &getPlanATexture() { return planAlphaTexture_; }
@@ -114,11 +114,11 @@ protected:
 	GLTexture roofTexture_;
 	GLTexture landTex1_;
 	GLTexture groundTexture_;
-	GLBitmap mainMap_;
-	GLBitmap scorchMap_;
-	GLBitmap bitmapPlanAlphaAlpha_;
-	GLBitmap bitmapPlanAlpha_;
-	GLBitmap bitmapPlan_;
+	GLImageHandle mainMap_;
+	GLImageHandle scorchMap_;
+	GLImageHandle bitmapPlanAlphaAlpha_;
+	GLImageHandle bitmapPlanAlpha_;
+	GLImageHandle bitmapPlan_;
 
 	// Variables used to set when the water is refreshed
 	bool resetLandscape_;

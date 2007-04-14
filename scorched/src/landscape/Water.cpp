@@ -28,6 +28,7 @@
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
 #include <graph/ParticleEmitter.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLImageModifier.h>
 #include <GLEXT/GLStateExtension.h>
 
@@ -147,45 +148,54 @@ void Water::generate(ProgressCounter *counter)
 		waterOn_ = true;
 		const char *wave1 = getDataFile(
 			water->wavetexture1.c_str());
-		GLBitmap waves1Map(wave1, wave1, false);
+		GLImageHandle waves1Map = 
+			GLImageFactory::loadImageHandle(wave1, wave1, false);
 		const char *wave2 = getDataFile(
 			water->wavetexture2.c_str());
-		GLBitmap waves2Map(wave2, wave2, false);
+		GLImageHandle waves2Map = 
+			GLImageFactory::loadImageHandle(wave2, wave2, false);
 		wWaves_.getWavesTexture1().replace(waves1Map, GL_RGBA);
 		wWaves_.getWavesTexture2().replace(waves2Map, GL_RGBA);
-		bitmapWater_.loadFromFile(getDataFile(water->reflection.c_str()), false);
-		GLBitmap bitmapWaterDetail(getDataFile(water->texture.c_str()));
+		bitmapWater_ = GLImageFactory::loadImageHandle(getDataFile(water->reflection.c_str()));
+
+		GLImageHandle bitmapWaterDetail = 
+			GLImageFactory::loadImageHandle(getDataFile(water->texture.c_str()));
 		wMap_.getWaterDetail().replace(bitmapWaterDetail, GL_RGB, true);
 		wWaves_.getWavesColor() = water->wavecolor;
 
 		// Generate the water texture for the spray sprite
 		std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
-		GLBitmap sprayMaskBitmap(sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
-		GLBitmap bitmapWater(getDataFile(water->reflection.c_str()));
-		bitmapWater.resize(
+		GLImageHandle sprayMaskBitmap = 
+			GLImageFactory::loadImageHandle(
+				sprayMaskFile.c_str(), sprayMaskFile.c_str(), false);
+		GLImageHandle loadedBitmapWater = 
+			GLImageFactory::loadImageHandle(getDataFile(water->reflection.c_str()));
+
+		{
+		GLImageHandle bitmapWater = loadedBitmapWater.createResize(
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 		GLBitmap textureWaterNew(
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
 		GLImageModifier::makeBitmapTransparent(textureWaterNew, 
 			bitmapWater, sprayMaskBitmap);
 		landTexWater_.replace(textureWaterNew, GL_RGBA);
+		}
 
 		// Load the water reflection bitmap
 		// Create water cubemap texture
-		bitmapWater.resize(256, 256);
-		DIALOG_ASSERT(bitmapWater.getBits());
+		GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(256, 256);
 		delete wMap_.getWaterTexture();
 		if (GLStateExtension::hasCubeMap() &&
 			!OptionsDisplay::instance()->getNoGLSphereMap())
 		{
 			GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
-			waterCubeMap->create(bitmapWater, GL_RGB, false);
+			waterCubeMap->create(bitmapWater2, GL_RGB, false);
 			wMap_.getWaterTexture() = waterCubeMap;
 		}
 		else 
 		{
 			GLTexture *waterNormalMap = new GLTexture();
-			waterNormalMap->create(bitmapWater, GL_RGB, false);
+			waterNormalMap->create(bitmapWater2, GL_RGB, false);
 			wMap_.getWaterTexture() = waterNormalMap;
 		}
 

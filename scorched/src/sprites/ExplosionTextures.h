@@ -41,11 +41,11 @@ public:
 	GLTexture rainTexture;
 	GLTexture snowTexture;
 
-	GLBitmap &getScorchBitmap(const char *name);
+	GLImage &getScorchBitmap(const char *name);
 
 	GLTextureSet *getTextureSetByName(const char *name);
 	std::map<std::string, GLTextureSet*> textureSets;
-	std::map<std::string, GLBitmap*> scorchedBitmaps;
+	std::map<std::string, GLImage*> scorchedBitmaps;
 
 protected:
 	static ExplosionTextures *instance_;

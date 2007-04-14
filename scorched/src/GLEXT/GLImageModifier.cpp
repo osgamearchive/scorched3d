@@ -22,6 +22,7 @@
 #include <math.h>
 #include <GLEXT/GLImageItterator.h>
 #include <GLEXT/GLImageModifier.h>
+#include <GLEXT/GLImageHandle.h>
 #include <GLEXT/GLBitmap.h>
 #include <engine/ScorchedContext.h>
 #include <landscape/Landscape.h>
@@ -741,12 +742,8 @@ void GLImageModifier::scalePlanBitmap(GLImage &destBitmap,
 	int offsetX = (newX - destBitmap.getWidth()) / 2;
 	int offsetY = (newY - destBitmap.getHeight()) / 2;
 
-	// A bit nasty in the copying but should work!
-	GLBitmap srcBitmap(srcIncBitmap.getWidth(), srcIncBitmap.getHeight());
-	memcpy(srcBitmap.getBits(), srcIncBitmap.getBits(),
-		srcIncBitmap.getComponents() * 
-		srcIncBitmap.getWidth() * srcIncBitmap.getHeight());
-	srcBitmap.resize(newX, newY);
+	GLImageHandle srcBitmap = 
+		srcIncBitmap.createResize(srcIncBitmap.getWidth(), srcIncBitmap.getHeight());
 
 	GLubyte *dest = destBitmap.getBits();
 	for (int y=0; y<destBitmap.getWidth(); y++)

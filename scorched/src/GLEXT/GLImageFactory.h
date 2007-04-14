@@ -40,6 +40,13 @@ public:
 	static GLImageHandle loadAlphaImageHandle(
 		const char *filename);
 
+	static GLImageHandle createBlank(int width, int height, 
+		bool alpha = false, unsigned char fill = 255);
+
+#ifndef S3D_SERVER
+	static GLImageHandle grabScreen();
+#endif
+
 private:
 	GLImageFactory();
 };

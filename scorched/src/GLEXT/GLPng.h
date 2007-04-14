@@ -28,8 +28,6 @@ class GLPng : public GLImage
 {
 public:
 	GLPng();
-	GLPng(const char *filename, bool readalpha = false);
-	GLPng(const char *filename, const char *alphafilename, bool invert = true);
 	virtual ~GLPng();
 
 	virtual void removeOwnership() { owner_ = false; }
@@ -40,8 +38,15 @@ public:
 	virtual int getComponents() { return alpha_?4:3; }
 
 	void clear();
-	void createBlank(int width, int height, bool alpha = false, unsigned char fill = 255);
+
+	/**
+	Overwrite the bitmap with the contents of the given file.
+	If alpha is true then any black areas in the bitmap have full
+	opacity.  When creating an alpha bitmap the bitmap is created
+	in RGBA format, otherwise in RGB format.
+	*/
 	bool loadFromFile(const char *filename, bool readalpha = false);
+	bool loadFromFile(const char * filename, const char *alphafilename, bool invert);
 	bool loadFromBuffer(NetBuffer &buffer, bool readalpha = false);
 
 protected:
@@ -50,6 +55,9 @@ protected:
 	int width_;
 	int height_;
 	bool alpha_;
+
+	void createBlankInternal(int width, int height, 
+		bool alpha = false, unsigned char fill = 255);
 
 private:
 	GLPng(GLPng &other);

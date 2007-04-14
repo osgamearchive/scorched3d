@@ -26,6 +26,7 @@
 class GLImageHandle : public GLImage
 {
 public:
+	GLImageHandle();
 	GLImageHandle(GLImage &other);
 	GLImageHandle(GLImageHandle &other);
 	virtual ~GLImageHandle();

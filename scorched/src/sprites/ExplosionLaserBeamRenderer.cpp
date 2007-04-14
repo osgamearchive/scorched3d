@@ -21,7 +21,7 @@
 #include <sprites/ExplosionLaserBeamRenderer.h>
 #include <common/Defines.h>
 #include <GLEXT/GLConsole.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
 #include <graph/ParticleEmitter.h>
@@ -63,7 +63,7 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 	{
 		std::string file1 = getDataFile("data/textures/waves.bmp");
 	
-		GLBitmap map(file1.c_str(), file1.c_str(), false);
+		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file1.c_str(), false);
 		_texture = new GLTexture;
 		_texture->create(map, GL_RGBA, true);
 	}

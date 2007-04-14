@@ -20,6 +20,14 @@
 
 #include <GLEXT/GLImageHandle.h>
 
+GLImageHandle::GLImageHandle() :
+	owner_(true),
+	width_(0), height_(0),
+	alignment_(0), components_(0),
+	bits_(0)
+{
+}
+
 GLImageHandle::GLImageHandle(GLImage &other) :
 	owner_(true),
 	width_(other.getWidth()), height_(other.getHeight()),

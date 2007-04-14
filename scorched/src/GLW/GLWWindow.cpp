@@ -20,7 +20,7 @@
 
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTexture.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLViewPort.h>
 #include <XML/XMLParser.h>
 #include <GLW/GLWWindow.h>
@@ -173,7 +173,8 @@ void GLWWindow::drawMaximizedWindow()
 	{
 		if (!moveTexture_.textureValid())
 		{
-			GLBitmap moveMap(getDataFile("data/windows/move.bmp"), true);
+			GLImageHandle moveMap = GLImageFactory::loadAlphaImageHandle(
+				getDataFile("data/windows/move.bmp"));
 			moveTexture_.create(moveMap, GL_RGBA, false);
 		}
 

@@ -27,7 +27,7 @@
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <common/Vector4.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLLenseFlare.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLViewPort.h>
@@ -61,7 +61,7 @@ void Sun::generate()
 		getLandscapeMaps().getDefinitions().getTex();
 
 	std::string file = getDataFile(tex.suntexture.c_str());
-	GLBitmap map(file.c_str(), file.c_str(), false);
+	GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
 	DIALOG_ASSERT(texture_.replace(map, GL_RGBA, true));
 }
 

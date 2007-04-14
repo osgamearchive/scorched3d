@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <sprites/WallActionRenderer.h>
 #include <engine/ScorchedContext.h>
 #include <client/ScorchedClient.h>
@@ -51,7 +51,7 @@ void WallActionRenderer::init()
 	if (!texture_.textureValid())
 	{
 		std::string file = getDataFile("data/textures/bordershield/hit.bmp");
-		GLBitmap map(file.c_str(), file.c_str(), false);
+		GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
 		texture_.create(map, GL_RGBA, true);
 	}
 

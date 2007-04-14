@@ -21,7 +21,7 @@
 #include <graph/SoftwareMouse.h>
 #include <client/ScorchedClient.h>
 #include <engine/GameState.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLState.h>
 #include <common/Defines.h>
 #include <graph/OptionsDisplay.h>
@@ -55,7 +55,7 @@ void SoftwareMouse::draw(const unsigned currentstate)
 	{
 		std::string file1 = getDataFile("data/windows/pointer.bmp");
 		std::string file2 = getDataFile("data/windows/pointera.bmp");
-		GLBitmap map(file1.c_str(), file2.c_str());
+		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str());
 		mouseTex_.create(map, GL_RGBA, false);
 
 		SDL_ShowCursor(SDL_DISABLE);
