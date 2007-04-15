@@ -128,26 +128,6 @@ void GLWTankViewer::select(unsigned int id,
 				continue;
 			}
 
-			// Get the model file to determine if the file is too large
-			if (OptionsDisplay::instance()->getTankDetail() != 2)
-			{
-				Model *model = ModelStore::instance()->loadModel(
-					tankModel->getTankModelID());
-				if (strcmp(tankModel->getName(), "Random") != 0)
-				{
-					// Check if the model uses too many triangles
-					int triangles = model->getNumberTriangles();
-					if (OptionsDisplay::instance()->getTankDetail() == 0)
-					{
-						if (triangles > 250) continue;
-					}
-					else if (OptionsDisplay::instance()->getTankDetail() == 1)
-					{
-						if (triangles > 500) continue;
-					}
-				}
-			}
-
 			ModelEntry entry;
 			entry.model = tankModel;
 			entry.mesh = 0;

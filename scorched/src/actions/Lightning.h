@@ -26,6 +26,7 @@
 #include <common/RandomGenerator.h>
 #include <list>
 
+class GLTexture;
 class Target;
 class Lightning : public ActionReferenced
 {
@@ -53,6 +54,7 @@ protected:
 	std::list<Segment> segments_;
 	RandomGenerator *generator_;
 
+	GLTexture *texture_;
 	WeaponLightning *weapon_;
 	Vector position_;
 	Vector velocity_;

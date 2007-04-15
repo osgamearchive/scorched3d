@@ -155,34 +155,34 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition();
 
-	// Check for reflective shields
-	if (weapons.shield &&
-		(weapons.shield->getShieldType() == Shield::ShieldTypeRoundReflective ||
-		weapons.shield->getShieldType() == Shield::ShieldTypeSquareReflective))
+	// Check if the person is in a hole
+	bool inhole = false;
+	if (weapons.roller &&
+		inHole(directTarget))
 	{
-		// Pick an area outside the shield
-		// and make sure its uphill if we can
-		float radius = weapons.shield->getBoundingSize() + 2.0f;
-		Vector bestPos = directTarget;
-		bestPos[1] += radius;
-		bestPos[2] = 
-			ScorchedServer::instance()->getLandscapeMaps().
-				getGroundMaps().getInterpHeight(bestPos[0], bestPos[1]);
-		for (float a=0.0f; a<360.0f; a+=22.5f)
-		{
-			float offSetX = sinf(a / 180.0f * PI) * radius;
-			float offSetY = cosf(a / 180.0f * PI) * radius;
-			
-			Vector newPos(
-				directTarget[0] + offSetX,
-				directTarget[1] + offSetY);
-			newPos[2] =
-				ScorchedServer::instance()->getLandscapeMaps().
-					getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
-			if (newPos[2] > bestPos[2]) bestPos = newPos;
-		}
+		inhole = true;
 
-		directTarget = bestPos;
+		// Check for reflective shields
+		if (weapons.shield &&
+			(weapons.shield->getShieldType() == Shield::ShieldTypeRoundReflective ||
+			weapons.shield->getShieldType() == Shield::ShieldTypeSquareReflective))
+		{
+			// Pick an area outside the shield
+			// and make sure its downhill if we can
+			directTarget = lowestHighest(weapons, directTarget, false);
+		}
+	}
+	else
+	{
+		// Check for reflective shields
+		if (weapons.shield &&
+			(weapons.shield->getShieldType() == Shield::ShieldTypeRoundReflective ||
+			weapons.shield->getShieldType() == Shield::ShieldTypeSquareReflective))
+		{
+			// Pick an area outside the shield
+			// and make sure its uphill if we can
+			directTarget = lowestHighest(weapons, directTarget, true);
+		}
 	}
 
 	// Check for all angles to see if we can shoot at this tank
@@ -198,26 +198,32 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 			// Check how close we are
 			if (actualDistance < 10.0f)
 			{
-				// We are close
-				// Choose a suitably good weapon
-				if (weapons.shield)
+				// Check if the tank is in a hole
+				if (inhole)
 				{
-					// A shield beating weapon
-					if (weapons.napalm) setWeapon(tank, weapons.napalm);
-					else if (weapons.roller) setWeapon(tank, weapons.roller);
-					else if (weapons.digger) setWeapon(tank, weapons.digger);
-					else if (weapons.large) setWeapon(tank, weapons.large);
-					else return false;
+					setWeapon(tank, weapons.roller);
 				}
 				else
 				{
-					
-					// A normal weapon
-					if (weapons.large) setWeapon(tank, weapons.large);		
-					else if (weapons.digger) setWeapon(tank, weapons.digger);
-					else if (weapons.roller) setWeapon(tank, weapons.roller);
-					else if (weapons.small) setWeapon(tank, weapons.small);					
-					else return false;
+					// We are close
+					// Choose a suitably good weapon
+					if (weapons.shield)
+					{
+						// A shield beating weapon
+						if (weapons.napalm) setWeapon(tank, weapons.napalm);
+						else if (weapons.digger) setWeapon(tank, weapons.digger);
+						else if (weapons.large) setWeapon(tank, weapons.large);
+						else return false;
+					}
+					else
+					{
+						
+						// A normal weapon
+						if (weapons.large) setWeapon(tank, weapons.large);		
+						else if (weapons.digger) setWeapon(tank, weapons.digger);
+						else if (weapons.small) setWeapon(tank, weapons.small);					
+						else return false;
+					}
 				}
 			}
 			else
@@ -351,6 +357,108 @@ bool TankAICurrentMove::makeBurriedShot(Tank *tank, Tank *targetTank,
 
 	return false;
 }
+
+bool TankAICurrentMove::inHole(Vector &position)
+{
+	// Find the lowest pos around
+	Vector pos = position;
+	for (;;)
+	{
+		Vector lowest = pos;
+		for (float a=0.0f; a<360.0f; a+=45.0f)
+		{
+			float offSetX = sinf(a / 180.0f * PI) * 1.25f;
+			float offSetY = cosf(a / 180.0f * PI) * 1.25f;
+
+			Vector newPos(
+				pos[0] + offSetX,
+				pos[1] + offSetY);
+			newPos[2] =
+				ScorchedServer::instance()->getLandscapeMaps().
+					getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+			if (newPos[2] < lowest[2]) lowest = newPos;
+		}
+
+		if (lowest[2] < pos[2])
+		{
+			pos = lowest;
+			Vector direction = pos - position;
+			float dist =
+				float(sqrt(direction[0]*direction[0] + direction[1]*direction[1]));
+			if (dist > 6.0f) return false;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	// Then see if this is in a hole
+	for (float a=0.0f; a<360.0f; a+=22.5f)
+	{
+		bool ok = false;
+		for (float radius=2.0f; radius<10.0f; radius+=1.0f)
+		{
+			float offSetX = sinf(a / 180.0f * PI) * radius;
+			float offSetY = cosf(a / 180.0f * PI) * radius;
+			
+			Vector newPos(
+				pos[0] + offSetX,
+				pos[1] + offSetY);
+			newPos[2] =
+				ScorchedServer::instance()->getLandscapeMaps().
+					getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+
+			float heightDiff = newPos[2] - pos[2];
+			if (heightDiff < -2.0f) 
+			{
+				return false; // Its lower
+			}
+			if (heightDiff > 2.0f) 
+			{
+				ok = true;
+				break;
+			}
+		}
+		if (!ok) return false;
+	}
+
+	return true;
+}
+
+Vector TankAICurrentMove::lowestHighest(TankAICurrentMoveWeapons &weapons, 
+	Vector &directTarget, bool highest)
+{
+	float radius = weapons.shield->getBoundingSize() + 2.0f;
+	Vector bestPos = directTarget;
+	bestPos[1] += radius;
+	bestPos[2] = 
+		ScorchedServer::instance()->getLandscapeMaps().
+			getGroundMaps().getInterpHeight(bestPos[0], bestPos[1]);
+	for (float a=0.0f; a<360.0f; a+=22.5f)
+	{
+		float offSetX = sinf(a / 180.0f * PI) * radius;
+		float offSetY = cosf(a / 180.0f * PI) * radius;
+		
+		Vector newPos(
+			directTarget[0] + offSetX,
+			directTarget[1] + offSetY);
+		newPos[2] =
+			ScorchedServer::instance()->getLandscapeMaps().
+				getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+
+		if (highest)
+		{
+			if (newPos[2] > bestPos[2]) bestPos = newPos;
+		}
+		else
+		{
+			if (newPos[2] < bestPos[2]) bestPos = newPos;
+		}
+	}
+	return bestPos;
+}
+
 
 void TankAICurrentMove::setWeapon(Tank *tank, Accessory *accessory)
 {

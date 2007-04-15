@@ -33,6 +33,7 @@
 #include <dialogs/PlayerDialog.h>
 #include <tank/TankModelStore.h>
 #include <engine/ModFiles.h>
+#include <graph/OptionsDisplay.h>
 #include <coms/ComsInitializeMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <GLW/GLWWindowManager.h>
@@ -96,6 +97,7 @@ bool ClientInitializeHandler::initialize()
 	// This is after mods are complete but before any tanks models are used
 	if (!ScorchedClient::instance()->getTankModels().loadTankMeshes(
 		ScorchedClient::instance()->getContext(), 
+		OptionsDisplay::instance()->getTankDetail(),
 		ProgressDialogSync::instance()))
 	{
 		dialogMessage("Scorched 3D", "Failed to load all tank models");

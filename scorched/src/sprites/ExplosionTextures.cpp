@@ -83,11 +83,6 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 	talkTexture.create(talkBitmap, GL_RGBA);
 	DIALOG_ASSERT(talkTexture.textureValid());
 
-	std::string file4 = getDataFile("data/textures/lightning.bmp");
-	GLImageHandle bitmap4 = GLImageFactory::loadImageHandle(file4.c_str(), file4.c_str(), false);
-	lightningTexture.create(bitmap4, GL_RGBA);
-	DIALOG_ASSERT(lightningTexture.textureValid());
-
 	std::string file5 = getDataFile("data/textures/rain.bmp");
 	std::string file5m = getDataFile("data/textures/rainm.bmp");
 	GLImageHandle bitmap5 = GLImageFactory::loadImageHandle(file5m.c_str(), file5.c_str(), false);

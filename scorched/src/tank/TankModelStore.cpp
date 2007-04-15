@@ -19,6 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tank/TankModelStore.h>
+#include <3dsparse/ModelStore.h>
+#include <3dsparse/Model.h>
 #include <common/Defines.h>
 #include <XML/XMLFile.h>
 
@@ -32,7 +34,8 @@ TankModelStore::~TankModelStore()
 
 }
 
-bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *counter)
+bool TankModelStore::loadTankMeshes(ScorchedContext &context, 
+	int detailLevel, ProgressCounter *counter)
 {
 	// Load the tank types
 	if (!types_.loadTankTypes(context)) return false;
@@ -73,14 +76,33 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 			return currentNode->returnError("Failed to tank node");
 		}
 
-		TankModel *model = new TankModel();
-		if (!model->initFromXML(context, currentNode))
+		TankModel *tankModel = new TankModel();
+		if (!tankModel->initFromXML(context, currentNode))
 		{
 			return currentNode->returnError("Failed to parse tank node");;
 		}
 
+		if (detailLevel != 2)
+		{
+			Model *model = ModelStore::instance()->loadModel(
+				tankModel->getTankModelID());
+			if (strcmp(tankModel->getName(), "Random") != 0)
+			{
+				// Check if the model uses too many triangles
+				int triangles = model->getNumberTriangles();
+				if (detailLevel == 0)
+				{
+					if (triangles > 250) continue;
+				}
+				else if (detailLevel == 1)
+				{
+					if (triangles > 500) continue;
+				}
+			}
+		}
+
 		// Add catagories to list of all catagories
-		std::set<std::string> &catagories = model->getCatagories();
+		std::set<std::string> &catagories = tankModel->getCatagories();
 		std::set<std::string>::iterator catitor;
 		for (catitor = catagories.begin();
 			catitor != catagories.end();
@@ -90,7 +112,7 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context, ProgressCounter *c
 		}
 
 		// Add this model to the store
-		models_.push_back(model);
+		models_.push_back(tankModel);
 	}
 	return true;
 }

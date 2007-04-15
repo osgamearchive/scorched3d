@@ -52,6 +52,10 @@ bool WeaponLightning::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 	if (!accessoryNode->getNamedChild("seghurt", segHurtExp_)) return false;
 	if (!accessoryNode->getNamedChild("seghurtradius", segHurtRadiusExp_)) return false;
 	if (!accessoryNode->getNamedChild("sound", sound_)) return false;
+
+	texture_ = "data/textures/lightning.bmp";
+	accessoryNode->getNamedChild("texture", texture_, false);
+
 	if (!checkDataFile(getSound())) return false;
 	return true;
 }

@@ -252,10 +252,10 @@ public:
 	OptionEntryString &getLandscapesEntry() { return landscapes_; }
 
 	const char * getStatsLogger() { return statsLogger_; }
-	OptionEntryString &getStatsLoggerEntry() { return statsLogger_; }
+	OptionEntryStringEnum &getStatsLoggerEntry() { return statsLogger_; }
 
 	const char * getServerFileLogger() { return serverFileLogger_; }
-	OptionEntryString &getServerFileLoggerEntry() { return serverFileLogger_; }
+	OptionEntryStringEnum &getServerFileLoggerEntry() { return serverFileLogger_; }
 
 	const char * getBotNamePrefix() { return botNamePrefix_; }
 	OptionEntryString &getBotNamePrefixEntry() { return botNamePrefix_; }
@@ -320,7 +320,7 @@ public:
 	OptionEntryBool &getResidualPlayersEntry() { return residualPlayers_; }
 
 	const char * getAuthHandler() { return authHandler_; }
-	OptionEntryString &getAuthHandlerEntry() { return authHandler_; }
+	OptionEntryStringEnum &getAuthHandlerEntry() { return authHandler_; }
 
 	bool getRegisteredUserNames() { return registeredUserNames_; }
 	OptionEntryBool &getRegisteredUserNamesEntry() { return registeredUserNames_; }
@@ -404,8 +404,8 @@ protected:
 	OptionEntryString motd_;
 	OptionEntryStringEnum economy_;
 	OptionEntryString landscapes_;
-	OptionEntryString statsLogger_;
-	OptionEntryString serverFileLogger_;
+	OptionEntryStringEnum statsLogger_;
+	OptionEntryStringEnum serverFileLogger_;
 
 	// Server only options
 	OptionEntryString botNamePrefix_;
@@ -413,7 +413,7 @@ protected:
 	OptionEntryBool randomizeBotNames_;
 	OptionEntryBool giveAllWeapons_;
 	OptionEntryBool registeredUserNames_;
-	OptionEntryString authHandler_;
+	OptionEntryStringEnum authHandler_;
 	OptionEntryString serverName_;
 	OptionEntryString *playerType_[24];
 	OptionEntryString serverPassword_;

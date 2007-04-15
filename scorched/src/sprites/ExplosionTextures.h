@@ -37,7 +37,6 @@ public:
 	GLTexture smokeTexture2;
 	GLTexture particleTexture;
 	GLTexture talkTexture;
-	GLTexture lightningTexture;
 	GLTexture rainTexture;
 	GLTexture snowTexture;
 

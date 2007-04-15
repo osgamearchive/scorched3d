@@ -25,6 +25,7 @@
 #include <server/ScorchedServer.h>
 #include <common/Logger.h>
 #include <common/RandomGenerator.h>
+#include <math.h>
 
 TankAIAimGuesser::TankAIAimGuesser()
 {
@@ -54,7 +55,9 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 		}
 
 		// Its landed
-		actualDistance = (currentGuess_.getPosition() - target).Magnitude();
+		Vector direction = currentGuess_.getPosition() - target;
+		actualDistance = 
+			float(sqrt(direction[0]*direction[0] + direction[1]*direction[1]));
 		if (actualDistance < distance)
 		{
 			// Its close

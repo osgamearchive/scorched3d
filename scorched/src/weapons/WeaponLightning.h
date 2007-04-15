@@ -47,6 +47,7 @@ public:
 	float getSegHurt() { return segHurt_; }
 	float getSegHurtRadius() { return segHurtRadius_; }
 	const char *getSound() { return sound_.c_str(); }
+	const char *getTexture() { return texture_.c_str(); }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
@@ -70,6 +71,7 @@ protected:
 	float segHurt_;
 	float segHurtRadius_;
 	std::string sound_;
+	std::string texture_;
 	NumberParser coneLengthExp_;
 	NumberParser segLengthExp_;
 	NumberParser segVarExp_;

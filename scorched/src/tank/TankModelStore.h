@@ -34,7 +34,8 @@ public:
 	TankModelStore();
 	virtual ~TankModelStore();
 
-	bool loadTankMeshes(ScorchedContext &context, ProgressCounter *counter = 0);
+	bool loadTankMeshes(ScorchedContext &context, int detailLevel,
+		ProgressCounter *counter = 0);
 
 	TankModel *getModelByName(const char *name, int team, bool ai);
 	TankModel *getRandomModel(int team, bool ai);

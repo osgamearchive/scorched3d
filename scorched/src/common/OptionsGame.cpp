@@ -112,6 +112,30 @@ static OptionEntryStringEnum::EnumEntry economyEnum[] =
 	{ "" }
 };
 
+static OptionEntryStringEnum::EnumEntry serverFileLoggerEnum[] =
+{
+	{ "none" },
+	{ "file" },
+	{ "" }
+};
+
+static OptionEntryStringEnum::EnumEntry statsLoggerEnum[] =
+{
+	{ "none" },
+	{ "file" },
+	{ "mysql" },
+	{ "" }
+};
+
+static OptionEntryStringEnum::EnumEntry authHandlerEnum[] =
+{
+	{ "none" },
+	{ "prefered" },
+	{ "forumlogin" },
+	{ "minkills" },
+	{ "" }
+};
+
 OptionsGame::OptionsGame() :
 	physicsFPS_(options_, "PhysicsFPS",
 		"The speed at which the physics engine will calculate steps", 0, 66, 20, 100, 1),
@@ -220,9 +244,9 @@ OptionsGame::OptionsGame() :
 	weapScale_(options_, "WeaponScale", 
 		"The scale of the weapons used", 0, int(ScaleMedium), weapScaleEnum),
 	statsLogger_(options_, "StatsLogger",
-		"The type of player stats to be logged (none, pgsql, mysql, file)", 0, "none"),
+		"The type of player stats to be logged", 0, "none", statsLoggerEnum),
 	serverFileLogger_(options_, "ServerLogger",
-		"The type of server events to be logged to file (none, file)", 0, "none"),
+	"The type of server events to be logged to file", 0, "none", serverFileLoggerEnum),
 	portNo_(options_, "PortNo", 
 		"The port to start the server on", 0, ScorchedPort),
 	managementPortNo_(options_, "ManagementPortNo", 
@@ -262,7 +286,7 @@ OptionsGame::OptionsGame() :
 	registeredUserNames_(options_, "RegisteredUserNames",
 		"Only allow authenticated players to use their own player names", 0, false),
 	authHandler_(options_, "AuthHandler",
-		"Only allow authenticated players to connect", 0, "none"),
+		"Only allow authenticated players to connect", 0, "none", authHandlerEnum),
 	cycleMaps_(options_, "CycleMaps",
 		"Cycle through the maps instead of choosing them using a random probablity", 0, false),
 	delayedDefenseActivation_(options_, "DelayedDefenseActivation",

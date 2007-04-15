@@ -57,8 +57,12 @@ BuyAccessoryDialog::BuyAccessoryDialog() :
 {
 	okId_ = addWidget(new GLWTextButton("Ok", 400, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX))->getId();
-	giftId_ = addWidget(new GLWTextButton("Gift", 320, 10, 70, this, 
-		GLWButton::ButtonFlagCenterX))->getId();
+
+	if (!ScorchedClient::instance()->getOptionsGame().getTutorial()[0])
+	{
+		giftId_ = addWidget(new GLWTextButton("Gift", 320, 10, 70, this, 
+			GLWButton::ButtonFlagCenterX))->getId();
+	}
 
 	topPanel_ = (GLWPanel *)
 		addWidget(new GLWPanel(10, 265, 450, 50));

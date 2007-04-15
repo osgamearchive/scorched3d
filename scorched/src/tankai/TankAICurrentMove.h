@@ -24,6 +24,7 @@
 #include <tankai/TankAICurrentTarget.h>
 #include <tankai/TankAICurrentMoveWeapons.h>
 
+class Vector;
 class TankAICurrentMove
 {
 public:
@@ -52,6 +53,9 @@ protected:
 		TankAICurrentMoveWeapons &weapons);
 	bool makeBurriedShot(Tank *tank, Tank *targetTank, 
 		TankAICurrentMoveWeapons &weapons);
+	bool inHole(Vector &position);
+	Vector lowestHighest(TankAICurrentMoveWeapons &weapons,
+		Vector &position, bool highest);
 
 	void setWeapon(Tank *tank, Accessory *accessory);
 	void useBattery(Tank *tank, unsigned int batteryId);

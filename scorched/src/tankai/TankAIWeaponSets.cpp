@@ -23,6 +23,7 @@
 #include <tank/TankScore.h>
 #include <tank/TankAccessories.h>
 #include <server/ScorchedServer.h>
+#include <common/OptionsScorched.h>
 #include <weapons/AccessoryStore.h>
 #include <XML/XMLFile.h>
 
@@ -208,6 +209,7 @@ bool TankAIWeaponSets::WeaponSetEntry::checkType(const char *type)
 		0 != strcmp(type, "laser") &&
 		0 != strcmp(type, "shield") &&
 		0 != strcmp(type, "other") &&
+		0 != strcmp(type, "autodefense") &&
 		0 != strcmp(type, "parachute"))
 	{
 		return false;
@@ -222,6 +224,16 @@ bool TankAIWeaponSets::WeaponSetEntry::weaponValid(Tank *tank, bool lastRound)
 
 	if (currentCount < 0) return false;
 	if (currentMoney < accessory->getPrice()) return false;
+
+	if (type == "autodefense")
+	{
+		// Don't buy autodefense when simultaneous
+		if (ScorchedServer::instance()->getOptionsGame().getTurnType() == 
+			OptionsGame::TurnSimultaneous)
+		{
+			return false;
+		}
+	}
 
 	if (!lastRound)
 	{

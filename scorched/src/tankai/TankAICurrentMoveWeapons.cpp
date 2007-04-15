@@ -58,21 +58,10 @@ TankAICurrentMoveWeapons::TankAICurrentMoveWeapons(Tank *tank,
 
 		waterHeight = water->height;
 	}
+	napalm = 0;
 	if (targetTank->getPosition().getTankPosition()[2] > waterHeight)
 	{
 		napalm = weapons->getTankAccessoryByType(tank, "napalm");
-	}
-	else
-	{
-		Accessory *tryNapalm = weapons->getTankAccessoryByType(tank, "napalm");
-		if (tryNapalm)
-		{
-			WeaponNapalm *weapon = (WeaponNapalm *) tryNapalm->getAction();
-			if (weapon->getAllowUnderWater())
-			{
-				napalm = tryNapalm;
-			}
-		}
 	}
 
 	// Check for laser proof shields

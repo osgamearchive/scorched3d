@@ -21,6 +21,7 @@
 #include <actions/Lightning.h>
 #include <common/Defines.h>
 #include <sound/SoundUtils.h>
+#include <graph/TextureStore.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLCamera.h>
 #include <sprites/ExplosionTextures.h>
@@ -38,7 +39,7 @@ Lightning::Lightning(WeaponLightning *weapon,
 	weapon_(weapon),
 	weaponContext_(weaponContext),
 	position_(position), velocity_(velocity),
-	generator_(0)
+	generator_(0), texture_(0)
 {
 }
 
@@ -116,7 +117,13 @@ void Lightning::draw()
 		glColor4f(1.0f, 1.0f, 1.0f, 
 			1.0f - totalTime_ / weapon_->getTotalTime());
 
-		ExplosionTextures::instance()->lightningTexture.draw();
+		if (!texture_)
+		{
+			std::string file4 = getDataFile(weapon_->getTexture());
+			texture_ = TextureStore::instance()->loadTexture(
+				file4.c_str(), file4.c_str(), false);
+		}
+		texture_->draw();
 		
 		Vector offset(0.0f, 0.0f, 0.5f);
 		bool began = false; 

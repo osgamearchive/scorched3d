@@ -88,8 +88,10 @@ Added: New launcher and splash screen graphics
 Added: Scorched server automatically calculates ranks and orphaned avatars
 Added: WaterCollision attribute to WeaponProjectile
 Added: WeaponLabel and WeaponGotoLabel to allow looping with in weapons
-Added: Any image file type can be used for textures, levels, etc... (not avatars) 
+Added: Any image file type can be used for textures, levels, etc... (not avatars)
+Added: texture attribute to WeaponLightning to allow different textures to be used
 
+Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests
 Fixed: Server will only show log files via the management interface that it created
 Fixed: SDL_Quit being called twice on the client
