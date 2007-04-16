@@ -63,8 +63,8 @@ fi
 AC_MSG_RESULT($enable_profiling)
 
 # FIXEME
-dnl Checking for Zlib Png
-LIBS="$LIBS -lz -lpng"
+dnl Checking for Zlib Png Jpeg
+LIBS="$LIBS -lz -lpng -ljpeg"
 
 # Check for extra functions
 AC_CHECK_FUNCS(vsnprintf snprintf vasprintf asprintf)

@@ -54,7 +54,8 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 	std::list<Position> &returnPositions,
 	ProgressCounter *counter)
 {
-	GLImageHandle map = GLBitmap(256, 256);
+	GLBitmap bmap(256, 256);
+	GLImageHandle map = bmap;
 	if (mask.c_str()[0])
 	{	
 		map = GLImageFactory::loadImageHandle(getDataFile(mask.c_str()));

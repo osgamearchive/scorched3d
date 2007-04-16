@@ -12,58 +12,13 @@ scorcheddocumentation_DATA = documentation/README-zlib.txt \
 	documentation/README-SDLMIXER.txt \
 	documentation/README-EXPAT.txt
 scorcheddocumentationhtmldir = ${docdir}/html
-scorcheddocumentationhtml_DATA = documentation/html/dummies.html \
-	documentation/html/online.html \
-	documentation/html/keys.html \
-	documentation/html/camera.html \
-	documentation/html/serverfiles.html \
-	documentation/html/modelling.html \
-	documentation/html/ports.html \
-	documentation/html/aiming.html \
-	documentation/html/screen.html \
-	documentation/html/accessories.html \
-	documentation/html/players.html \
-	documentation/html/quickstart.html \
-	documentation/html/options.html \
-	documentation/html/index.html
+scorcheddocumentationhtml_DATA = 
 scorcheddocumentationhtmlnumbersdir = ${docdir}/html/numbers
-scorcheddocumentationhtmlnumbers_DATA = documentation/html/numbers/number-7.gif \
-	documentation/html/numbers/number-1.gif \
-	documentation/html/numbers/number-4.gif \
-	documentation/html/numbers/number-3.gif \
-	documentation/html/numbers/number-8.gif \
-	documentation/html/numbers/number-9.gif \
-	documentation/html/numbers/number-5.gif \
-	documentation/html/numbers/number-2.gif \
-	documentation/html/numbers/number-6.gif
+scorcheddocumentationhtmlnumbers_DATA = 
 scorcheddocumentationhtmlscreenshotsdir = ${docdir}/html/screenshots
-scorcheddocumentationhtmlscreenshots_DATA = documentation/html/screenshots/quickstart7.gif \
-	documentation/html/screenshots/quickstart3.gif \
-	documentation/html/screenshots/tooltip1.gif \
-	documentation/html/screenshots/online2.gif \
-	documentation/html/screenshots/server1.gif \
-	documentation/html/screenshots/player.gif \
-	documentation/html/screenshots/aiming.gif \
-	documentation/html/screenshots/quickstart2.gif \
-	documentation/html/screenshots/wind.gif \
-	documentation/html/screenshots/3ds.gif \
-	documentation/html/screenshots/plan.gif \
-	documentation/html/screenshots/quickstart1.gif \
-	documentation/html/screenshots/quickstart4.gif \
-	documentation/html/screenshots/quickstart6.gif \
-	documentation/html/screenshots/online1.gif \
-	documentation/html/screenshots/milkshape1.gif \
-	documentation/html/screenshots/indicators.gif \
-	documentation/html/screenshots/scorched37-4-small.gif \
-	documentation/html/screenshots/scorched37-3-small.gif \
-	documentation/html/screenshots/weapon.gif \
-	documentation/html/screenshots/server2.gif \
-	documentation/html/screenshots/milkshape2.gif \
-	documentation/html/screenshots/quickstart5.gif
+scorcheddocumentationhtmlscreenshots_DATA = 
 scorcheddocumentationhtmlbuttonsdir = ${docdir}/html/buttons
-scorcheddocumentationhtmlbuttons_DATA = documentation/html/buttons/scorchedlarge2.gif \
-	documentation/html/buttons/donate.gif \
-	documentation/html/buttons/dummies.gif
+scorcheddocumentationhtmlbuttons_DATA = 
 scorcheddatadir = ${datadir}/data
 scorcheddata_DATA = data/singlecustom.xml \
 	data/safedisplay.xml \
@@ -86,6 +41,7 @@ scorcheddata_DATA = data/singlecustom.xml \
 	data/singlenormal.xml \
 	data/landscapes.xml \
 	data/playernames.txt \
+	data/tankaiweaponsets.xml \
 	data/ssdisplay.xml \
 	data/singletutorial.xml \
 	data/singlehard.xml \

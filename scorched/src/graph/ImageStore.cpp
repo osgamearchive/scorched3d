@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <graph/ImageStore.h>
-#include <GLEXT/GLIMageFactory.h>
+#include <GLEXT/GLImageFactory.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 

@@ -190,7 +190,8 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 	if (counter) counter->setNewOp("Teraform Landscape");
 
 	// Create a default mask that allows everything
-	GLImageHandle maskMap = GLBitmap(256, 256);
+	GLBitmap bmap(256, 256);
+	GLImageHandle maskMap = bmap;
 
 	// Check if we need to load a new mask
 	if (!defn.mask.empty())

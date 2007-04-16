@@ -31,8 +31,8 @@ public:
 	GLImageHandle(const GLImageHandle &other);
 	virtual ~GLImageHandle();
 
-	GLImageHandle &operator=(GLImage &other);
-	GLImageHandle &operator=(GLImageHandle &other);
+	GLImageHandle &operator=(const GLImage &other);
+	GLImageHandle &operator=(const GLImageHandle &other);
 
 	virtual unsigned char *getBits() { return bits_; }
 	virtual int getWidth() { return width_; }

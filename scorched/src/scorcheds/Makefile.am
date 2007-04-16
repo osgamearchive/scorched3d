@@ -517,20 +517,34 @@ scorched3ds_SOURCES = \
 	../tankai/TankAI.h \
 	../tankai/TankAIAdder.cpp \
 	../tankai/TankAIAdder.h \
-	../tankai/TankAIComputer.cpp \
-	../tankai/TankAIComputer.h \
-	../tankai/TankAIComputerAim.cpp \
-	../tankai/TankAIComputerAim.h \
-	../tankai/TankAIComputerBuyer.cpp \
-	../tankai/TankAIComputerBuyer.h \
-	../tankai/TankAIComputerTarget.cpp \
-	../tankai/TankAIComputerTarget.h \
+	../tankai/TankAIAimGuesser.cpp \
+	../tankai/TankAIAimGuesser.h \
+	../tankai/TankAICurrent.cpp \
+	../tankai/TankAICurrent.h \
+	../tankai/TankAICurrentDefenses.cpp \
+	../tankai/TankAICurrentDefenses.h \
+	../tankai/TankAICurrentMove.cpp \
+	../tankai/TankAICurrentMove.h \
+	../tankai/TankAICurrentMoveWeapons.cpp \
+	../tankai/TankAICurrentMoveWeapons.h \
+	../tankai/TankAICurrentTarget.cpp \
+	../tankai/TankAICurrentTarget.h \
+	../tankai/TankAICurrentWeapons.cpp \
+	../tankai/TankAICurrentWeapons.h \
 	../tankai/TankAINames.cpp \
 	../tankai/TankAINames.h \
+	../tankai/TankAIRandom.cpp \
+	../tankai/TankAIRandom.h \
+	../tankai/TankAIShallow.cpp \
+	../tankai/TankAIShallow.h \
+	../tankai/TankAISniperGuesser.cpp \
+	../tankai/TankAISniperGuesser.h \
 	../tankai/TankAIStore.cpp \
 	../tankai/TankAIStore.h \
 	../tankai/TankAIStrings.cpp \
 	../tankai/TankAIStrings.h \
+	../tankai/TankAIWeaponSets.cpp \
+	../tankai/TankAIWeaponSets.h \
 	../target/Target.cpp \
 	../target/Target.h \
 	../target/TargetContainer.cpp \
@@ -619,10 +633,14 @@ scorched3ds_SOURCES = \
 	../weapons/WeaponGiveScore.h \
 	../weapons/WeaponGiveWin.cpp \
 	../weapons/WeaponGiveWin.h \
+	../weapons/WeaponGotoLabel.cpp \
+	../weapons/WeaponGotoLabel.h \
 	../weapons/WeaponGroupSelect.cpp \
 	../weapons/WeaponGroupSelect.h \
 	../weapons/WeaponInvokeWeapon.cpp \
 	../weapons/WeaponInvokeWeapon.h \
+	../weapons/WeaponLabel.cpp \
+	../weapons/WeaponLabel.h \
 	../weapons/WeaponLaser.cpp \
 	../weapons/WeaponLaser.h \
 	../weapons/WeaponLeapFrog.cpp \
@@ -707,6 +725,12 @@ scorched3ds_SOURCES = \
 	../GLEXT/GLBitmap.h \
 	../GLEXT/GLImage.cpp \
 	../GLEXT/GLImage.h \
+	../GLEXT/GLImageFactory.cpp \
+	../GLEXT/GLImageFactory.h \
+	../GLEXT/GLImageHandle.cpp \
+	../GLEXT/GLImageHandle.h \
+	../GLEXT/GLJpg.cpp \
+	../GLEXT/GLJpg.h \
 	../GLEXT/GLPng.cpp \
 	../GLEXT/GLPng.h \
 	../3dsparse/aseFile.lex.cpp \

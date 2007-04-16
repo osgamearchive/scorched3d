@@ -55,34 +55,34 @@ GLImageHandle::~GLImageHandle()
 	if (owner_) delete [] bits_;
 }
 
-GLImageHandle &GLImageHandle::operator=(GLImageHandle &other)
+GLImageHandle &GLImageHandle::operator=(const GLImageHandle &other)
 {
 	if (owner_) delete [] bits_;
 
 	owner_ = true;
-	width_ = other.getWidth();
-	height_ = other.getHeight();
-	alignment_ = other.getAlignment();
-	components_ = other.getComponents();
-	bits_ = other.getBits();
+	width_ = ((GLImageHandle &) other).getWidth();
+	height_ = ((GLImageHandle &) other).getHeight();
+	alignment_ = ((GLImageHandle &) other).getAlignment();
+	components_ = ((GLImageHandle &) other).getComponents();
+	bits_ = ((GLImageHandle &) other).getBits();
 
-	other.removeOwnership();
+	((GLImageHandle &) other).removeOwnership();
 
 	return *this;
 }
 
-GLImageHandle &GLImageHandle::operator=(GLImage &other)
+GLImageHandle &GLImageHandle::operator=(const GLImage &other)
 {
 	if (owner_) delete [] bits_;
 
 	owner_ = true;
-	width_ = other.getWidth();
-	height_ = other.getHeight();
-	alignment_ = other.getAlignment();
-	components_ = other.getComponents();
-	bits_ = other.getBits();
+	width_ = ((GLImageHandle &) other).getWidth();
+	height_ = ((GLImageHandle &) other).getHeight();
+	alignment_ = ((GLImageHandle &) other).getAlignment();
+	components_ = ((GLImageHandle &) other).getComponents();
+	bits_ = ((GLImageHandle &) other).getBits();
 
-	other.removeOwnership();
+	((GLImageHandle &) other).removeOwnership();
 
 	return *this;
 }

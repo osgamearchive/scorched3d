@@ -247,10 +247,14 @@ void Landscape::generate(ProgressCounter *counter)
 	// Generate the texture used to map onto the landscape
 	if (!mainMap_.getBits())
 	{
-		mainMap_ = GLBitmap(mapTexSize, mapTexSize);
-		bitmapPlanAlpha_ = GLBitmap(planTexSize, planTexSize, true);
-		bitmapPlan_ = GLBitmap(planTexSize, planTexSize);
-		bitmapPlanAlphaAlpha_ = GLBitmap(planTexSize, planTexSize);
+		GLBitmap mainMap(mapTexSize, mapTexSize);
+		mainMap_ = mainMap;
+		GLBitmap bitmapPlanAlpha(planTexSize, planTexSize, true);
+		bitmapPlanAlpha_ = bitmapPlanAlpha;
+		GLBitmap bitmapPlan(planTexSize, planTexSize);
+		bitmapPlan_ = bitmapPlan;
+		GLBitmap bitmapPlanAlphaAplha(planTexSize, planTexSize);
+		bitmapPlanAlphaAlpha_ = bitmapPlanAlphaAplha;
 	}
 
 	GLImageHandle plana = GLImageFactory::loadImageHandle(getDataFile("data/windows/planaa.bmp"));
