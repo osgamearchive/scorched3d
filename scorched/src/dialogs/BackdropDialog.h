@@ -34,6 +34,7 @@ public:
 protected:
 	static BackdropDialog *instance_;
 	GLTexture backTex_;
+	GLTexture logoTex_;
 
 private:
 	BackdropDialog();

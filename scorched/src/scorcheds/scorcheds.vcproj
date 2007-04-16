@@ -39,7 +39,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/png/png"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/png/png;../../visualc/include/jpg"
 				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_MYSQL;_WIN32;WIN32;S3D_SERVER"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:CONSOLE /NODEFAULTLIB:msvcrt.lib"
-				AdditionalDependencies="user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/mysql/libmysql.lib ../../visualc/lib/png/libpng13.lib"
+				AdditionalDependencies="user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/mysql/libmysql.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/jpg/jpeg.lib"
 				GenerateDebugInformation="true"
 			/>
 			<Tool
@@ -110,7 +110,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/png/png"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/png/png;../../visualc/include/jpg"
 				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_MYSQL;_WIN32;WIN32;S3D_SERVER"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -127,7 +127,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:CONSOLE"
-				AdditionalDependencies="user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/mysql/libmysql.lib ../../visualc/lib/png/libpng13.lib"
+				AdditionalDependencies="user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/mysql/libmysql.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/jpg/jpeg.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -3131,6 +3131,14 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLImageHandle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLJpg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLJpg.h"
 				>
 			</File>
 			<File

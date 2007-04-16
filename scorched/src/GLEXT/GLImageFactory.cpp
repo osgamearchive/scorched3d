@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLJpg.h>
 #include <GLEXT/GLPng.h>
 #include <string>
 
@@ -38,6 +39,12 @@ GLImage *GLImageFactory::loadAlphaImage(
 		GLPng *png = new GLPng();
 		png->loadFromFile(filename, true);
 		return png;
+	}
+	else if (strstr(extension.c_str(), ".jpg"))
+	{
+		GLJpg *jpg = new GLJpg();
+		jpg->loadFromFile(filename, true);
+		return jpg;
 	}
 
 	// Failsafe !!
@@ -64,7 +71,18 @@ GLImage *GLImageFactory::loadImage(
 		GLPng *png = new GLPng();
 		png->loadFromFile(filename);
 		return png;
-	}
+	} else if (strstr(extension.c_str(), ".jpg"))
+	{
+		if (alphafilename)
+		{
+			GLJpg *jpg = new GLJpg();
+			jpg->loadFromFile(filename, alphafilename, invert);
+			return jpg;
+		}
+		GLJpg *jpg = new GLJpg();
+		jpg->loadFromFile(filename);
+		return jpg;
+	} 
 
 	// Failsafe !!
 	if (alphafilename)

@@ -28,24 +28,26 @@ GLImageHandle::GLImageHandle() :
 {
 }
 
-GLImageHandle::GLImageHandle(GLImage &other) :
+GLImageHandle::GLImageHandle(const GLImage &other) :
 	owner_(true),
-	width_(other.getWidth()), height_(other.getHeight()),
-	alignment_(other.getAlignment()),
-	components_(other.getComponents()),
-	bits_(other.getBits())
+	width_(((GLImage &)other).getWidth()), 
+	height_(((GLImage &)other).getHeight()),
+	alignment_(((GLImage &)other).getAlignment()),
+	components_(((GLImage &)other).getComponents()),
+	bits_(((GLImage &)other).getBits())
 {
-	other.removeOwnership();
+	((GLImage &)other).removeOwnership();
 }
 
-GLImageHandle::GLImageHandle(GLImageHandle &other) :
+GLImageHandle::GLImageHandle(const GLImageHandle &other) :
 	owner_(true),
-	width_(other.getWidth()), height_(other.getHeight()),
-	alignment_(other.getAlignment()),
-	components_(other.getComponents()),
-	bits_(other.getBits())
+	width_(((GLImageHandle&)other).getWidth()), 
+	height_(((GLImageHandle&)other).getHeight()),
+	alignment_(((GLImageHandle&)other).getAlignment()),
+	components_(((GLImageHandle&)other).getComponents()),
+	bits_(((GLImageHandle&)other).getBits())
 {
-	other.removeOwnership();
+	((GLImageHandle&)other).removeOwnership();
 }
 
 GLImageHandle::~GLImageHandle()

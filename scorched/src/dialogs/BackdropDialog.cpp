@@ -44,6 +44,10 @@ BackdropDialog::BackdropDialog() :
 	GLImageHandle backMap = GLImageFactory::loadImageHandle(
 		getDataFile("data/windows/backdrop.png"));
 	backTex_.create(backMap, GL_RGB, false);
+
+	/*GLImageHandle logoMap = GLImageFactory::loadImageHandle(
+		getDataFile("data/windows/scorched.jpg"));
+	logoTex_.create(logoMap, GL_RGB, false);*/
 }
 
 BackdropDialog::~BackdropDialog()
@@ -57,8 +61,6 @@ void BackdropDialog::draw()
 	// Calcuate how may tiles are needed
 	float wWidth = (float) GLViewPort::getWidth();
 	float wHeight = (float) GLViewPort::getHeight();
-	float xScale = 1.0f;//wWidth / 128.0f;
-	float yScale = 1.0f;//wHeight / 128.0f;
 
 	// Draw the tiled logo backdrop
 	backTex_.draw(true);
@@ -66,12 +68,31 @@ void BackdropDialog::draw()
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(xScale, 0.0f);
+		glTexCoord2f(1.0f, 0.0f);
 		glVertex2f(wWidth, 0.0f);
-		glTexCoord2f(xScale, yScale);
+		glTexCoord2f(1.0f, 1.0f);
 		glVertex2f(wWidth, wHeight);
-		glTexCoord2f(0.0f, yScale);
+		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(0.0f, wHeight);
 	glEnd();	
+
+	// Draw the higer rez logo
+	/*const float logoWidth = 320.0f;
+	const float logoHeight = 40.0f;
+	logoTex_.draw(true);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glPushMatrix();
+		glTranslatef(10.0f, 10.0f, 0.0f);
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex2f(0.0f, 0.0f);
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex2f(logoWidth, 0.0f);
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex2f(logoWidth, logoHeight);
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex2f(0.0f, logoHeight);
+		glEnd();
+	glPopMatrix();*/
 }
 

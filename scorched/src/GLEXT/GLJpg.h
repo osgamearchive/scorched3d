@@ -18,37 +18,50 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GLIMAGEHANDLE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)
-#define AFX_GLIMAGEHANDLE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_
+#if !defined(AFX_GLJpg_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_)
+#define AFX_GLJpg_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_
 
 #include <GLEXT/GLImage.h>
+#include <net/NetBuffer.h>
 
-class GLImageHandle : public GLImage
+class GLJpg : public GLImage
 {
 public:
-	GLImageHandle();
-	GLImageHandle(const GLImage &other);
-	GLImageHandle(const GLImageHandle &other);
-	virtual ~GLImageHandle();
+	GLJpg();
+	virtual ~GLJpg();
 
-	GLImageHandle &operator=(GLImage &other);
-	GLImageHandle &operator=(GLImageHandle &other);
-
+	virtual void removeOwnership() { owner_ = false; }
 	virtual unsigned char *getBits() { return bits_; }
 	virtual int getWidth() { return width_; }
 	virtual int getHeight() { return height_; }
+	virtual int getAlignment() { return 4; }
+	virtual int getComponents() { return alpha_?4:3; }
 
-	virtual void removeOwnership() { owner_ = false; }
+	void clear();
 
-	virtual int getAlignment() { return alignment_; }
-	virtual int getComponents() { return components_; }
+	/**
+	Overwrite the bitmap with the contents of the given file.
+	If alpha is true then any black areas in the bitmap have full
+	opacity.  When creating an alpha bitmap the bitmap is created
+	in RGBA format, otherwise in RGB format.
+	*/
+	bool loadFromFile(const char *filename, bool readalpha = false);
+	bool loadFromFile(const char * filename, const char *alphafilename, bool invert);
+	bool loadFromBuffer(NetBuffer &buffer, bool readalpha);
 
 protected:
-	int width_, height_;
-	int alignment_, components_;
-	unsigned char *bits_;
 	bool owner_;
-	
+	unsigned char *bits_;
+	int width_;
+	int height_;
+	bool alpha_;
+
+	void createBlankInternal(int width, int height, 
+		bool alpha = false, unsigned char fill = 255);
+
+private:
+	GLJpg(GLJpg &other);
+	GLJpg &operator=(GLJpg &other);
 };
 
-#endif // !defined(AFX_GLIMAGEHANDLE_H__0EBAA0E7_3103_43A4_90C0_5708ECE6DB43__INCLUDED_)
+#endif // !defined(AFX_GLJpg_H__315BF771_5E56_4C78_9D9F_51608D8CB3F0__INCLUDED_)
