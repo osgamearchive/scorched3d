@@ -497,6 +497,11 @@ void NetworkSelectDialog::buttonDown(unsigned int id)
 				favs.insert(ipaddress_->getText().c_str());
 			}
 			ServerBrowser::instance()->getCollect().setFavourites(favs);
+
+			if (0 == strcmp(refreshType_->getCurrentText(), "Favourites"))
+			{
+				startRefresh();
+			}
 		}
 	}
 	else if (id == cancelId_)

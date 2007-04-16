@@ -45,9 +45,11 @@ BackdropDialog::BackdropDialog() :
 		getDataFile("data/windows/backdrop.png"));
 	backTex_.create(backMap, GL_RGB, false);
 
-	/*GLImageHandle logoMap = GLImageFactory::loadImageHandle(
-		getDataFile("data/windows/scorched.jpg"));
-	logoTex_.create(logoMap, GL_RGB, false);*/
+	GLImageHandle logoMap = GLImageFactory::loadImageHandle(
+		formatString(getDataFile("data/windows/scorched.jpg")),
+		formatString(getDataFile("data/windows/scorcheda.jpg")),
+		false);
+	logoTex_.create(logoMap, GL_RGBA, false);
 }
 
 BackdropDialog::~BackdropDialog()
@@ -76,13 +78,18 @@ void BackdropDialog::draw()
 		glVertex2f(0.0f, wHeight);
 	glEnd();	
 
+	GLState currentState2(GLState::BLEND_ON);
+
 	// Draw the higer rez logo
-	/*const float logoWidth = 320.0f;
-	const float logoHeight = 40.0f;
+	const float logoWidth = 480.0f;
+	const float logoHeight = 90.0f;
 	logoTex_.draw(true);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glPushMatrix();
-		glTranslatef(10.0f, 10.0f, 0.0f);
+		glTranslatef(
+			wWidth - logoWidth - 50.0f, 
+			wHeight - logoHeight - 50.0f, 
+			0.0f);
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
 			glVertex2f(0.0f, 0.0f);
@@ -93,6 +100,6 @@ void BackdropDialog::draw()
 			glTexCoord2f(0.0f, 1.0f);
 			glVertex2f(0.0f, logoHeight);
 		glEnd();
-	glPopMatrix();*/
+	glPopMatrix();
 }
 

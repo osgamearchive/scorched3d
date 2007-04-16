@@ -196,7 +196,10 @@ void GameState::mouseUpDown(MouseButton button, bool down, int x, int y)
 		StateIList *currentList = 0;
 		if (down)
 		{
-			currentMouseState_ |= (unsigned) button;
+			if (button <= MouseButtonLeftDoubleClick)
+			{
+				currentMouseState_ |= (unsigned) button;
+			}
 			switch(button)
 			{
 			case MouseButtonRight:
@@ -215,7 +218,10 @@ void GameState::mouseUpDown(MouseButton button, bool down, int x, int y)
 		}
 		else
 		{
-			currentMouseState_ ^= (unsigned) button;
+			if (button <= MouseButtonLeftDoubleClick)
+			{
+				currentMouseState_ ^= (unsigned) button;
+			}
 			switch(button)
 			{
 			case MouseButtonRight:

@@ -562,6 +562,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 			}
 		}
 
+		currentTank->getPosition().setSelectPosition(posX, posY);
 		TankKeyboardControlUtil::fireShot(currentTank);
 	}
 }

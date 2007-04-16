@@ -198,7 +198,6 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 					MAX(closeness, thisTarget->getBorder())) 
 				{
 					tooClose = true;
-					closeness -= 0.1f;
 					break;
 				}
 			}

@@ -66,6 +66,7 @@ bool ModFiles::excludeFile(const char *file)
 		!fileEnding(file, ".bmp") &&
 		!fileEnding(file, ".txt") &&
 		!fileEnding(file, ".png") &&
+		!fileEnding(file, ".jpg") &&
 		!fileEnding(file, ".ico") &&
 		!fileEnding(file, ".ase") &&
 		!fileEnding(file, ".wav") &&

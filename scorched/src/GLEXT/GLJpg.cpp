@@ -205,11 +205,19 @@ bool GLJpg::loadFromBuffer(NetBuffer &buffer, bool readalpha)
 
 			if (lines > 0)
 			{
-				int destPos = cinfo.output_width * cinfo.output_components * currentLine;
-				memcpy(
-					&bits_[destPos],
-					buffer,
-					cinfo.output_width * cinfo.output_components * lines);
+				int destPos = cinfo.output_width * cinfo.output_components * 
+					(cinfo.output_height - currentLine - 1);
+				JSAMPLE *src = buffer[0];
+				unsigned char *dest = &bits_[destPos];
+
+				for (unsigned int i = 0; i < cinfo.output_width; ++i, 
+					dest+=cinfo.output_components, src+=cinfo.output_components)
+				{
+					dest[0] = src[0];
+					dest[1] = src[1];
+					dest[2] = src[2];
+					if (readalpha) dest[3] = src[3];
+				}
 			}
 		}
 

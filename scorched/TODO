@@ -90,6 +90,7 @@ Added: WaterCollision attribute to WeaponProjectile
 Added: WeaponLabel and WeaponGotoLabel to allow looping with in weapons
 Added: Any image file type can be used for textures, levels, etc... (not avatars)
 Added: texture attribute to WeaponLightning to allow different textures to be used
+Added: jpg file support
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests
