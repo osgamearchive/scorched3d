@@ -18,16 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// ProgressCounter.cpp: implementation of the ProgressCounter class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <common/ProgressCounter.h>
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <common/Logger.h>
 
 ProgressCounterI::~ProgressCounterI()
 {
@@ -48,6 +40,7 @@ ProgressCounter::~ProgressCounter()
 void ProgressCounter::setNewOp(char *op)
 {
 	currentOp_ = op;
+	Logger::log(op);
 	if (user_) user_->progressChange(currentOp_.c_str(), currentPercentage_);
 }
 

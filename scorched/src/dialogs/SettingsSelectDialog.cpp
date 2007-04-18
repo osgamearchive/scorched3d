@@ -21,6 +21,7 @@
 #include <dialogs/SettingsSelectDialog.h>
 #include <dialogs/SettingsSubSelectDialog.h>
 #include <dialogs/MsgBoxDialog.h>
+#include <common/Logger.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWOptionEntry.h>
 #include <client/ClientParams.h>
@@ -95,6 +96,11 @@ void SettingsSelectDialog::display()
 		{
 			MsgBoxDialog::instance()->show("Failed to load custom options");
 		}
+	}
+	else
+	{
+		Logger::log(formatString("Single custom file not found \"%s\"",
+			singlecustom));
 	}
 
 	GLWOptionEntry::updateControls(controls_);
