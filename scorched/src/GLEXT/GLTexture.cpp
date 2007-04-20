@@ -36,6 +36,7 @@ GLTexture::GLTexture() :
 
 GLTexture::~GLTexture()
 {
+	textureSpace_ -= usedSpace_;
 	if (texNum_)
 	{
 		glDeleteTextures(1, &texNum_);
