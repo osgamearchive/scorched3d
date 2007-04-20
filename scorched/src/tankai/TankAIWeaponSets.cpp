@@ -209,6 +209,7 @@ bool TankAIWeaponSets::WeaponSetEntry::checkType(const char *type)
 		0 != strcmp(type, "laser") &&
 		0 != strcmp(type, "shield") &&
 		0 != strcmp(type, "other") &&
+		0 != strcmp(type, "fuel") &&
 		0 != strcmp(type, "autodefense") &&
 		0 != strcmp(type, "parachute"))
 	{

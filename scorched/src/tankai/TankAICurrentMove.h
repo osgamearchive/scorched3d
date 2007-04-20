@@ -53,10 +53,16 @@ protected:
 		TankAICurrentMoveWeapons &weapons);
 	bool makeBurriedShot(Tank *tank, Tank *targetTank, 
 		TankAICurrentMoveWeapons &weapons);
+	bool makeMoveShot(Tank *tank, 
+		TankAIWeaponSets::WeaponSet *weapons,
+		std::list<Tank *> &sortedTanks);
+
+	void checkGrouping();
 	bool inHole(Vector &position);
 	Vector lowestHighest(TankAICurrentMoveWeapons &weapons,
 		Vector &position, bool highest);
 
+	void useAvailableBatteries(Tank *tank);
 	void setWeapon(Tank *tank, Accessory *accessory);
 	void useBattery(Tank *tank, unsigned int batteryId);
 	void resign(Tank *tank);

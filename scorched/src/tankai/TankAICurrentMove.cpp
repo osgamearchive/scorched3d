@@ -34,9 +34,11 @@
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
 #include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/MovementMap.h>
 #include <landscapemap/GroundMaps.h>
-#include <weapons/Accessory.h>
+#include <weapons/AccessoryStore.h>
 #include <weapons/Shield.h>
+#include <weapons/WeaponMoveTank.h>
 #include <XML/XMLNode.h>
 
 TankAICurrentMove::TankAICurrentMove() : useResign_(true)
@@ -61,16 +63,6 @@ bool TankAICurrentMove::parseConfig(XMLNode *node)
 void TankAICurrentMove::playMove(Tank *tank, 
 	TankAIWeaponSets::WeaponSet *weapons, bool useBatteries)
 {
-	// Is there any point in making a move
-	// Done after select weapons to allow shields to be raised
-	if (useResign_ &&
-		tank->getLife().getLife() < 10 &&
-		!tank->getShield().getCurrentShield()) 
-	{
-		resign(tank);
-		return;
-	}
-
 	std::list<Tank *> sortedTanks;	
 	// If we have no weapons, we can't do anything!!
 	if (!weapons->weapons.empty())
@@ -79,6 +71,24 @@ void TankAICurrentMove::playMove(Tank *tank,
 		// In the order we want to shoot at them
 		targets_.getTargets(tank, sortedTanks);
 	}
+
+	// Check if we have been damaged by a target and we can move
+	// TODO
+	if (false)
+	{
+		// Bring the health back up
+		if (useBatteries)
+		{
+			useAvailableBatteries(tank);
+		}
+
+		if (tank->getLife().getLife() > 75.0f)
+		{
+			// Try to move
+			if (makeMoveShot(tank, weapons, sortedTanks)) return;
+		}
+	}
+
 	while (!sortedTanks.empty())
 	{
 		// Get the first tank
@@ -99,23 +109,29 @@ void TankAICurrentMove::playMove(Tank *tank,
 		if (useBatteries &&
 			tank->getLife().getLife() < tank->getLife().getMaxLife())
 		{
-			// Use batteries
-			while (tank->getLife().getLife() < 
-				tank->getLife().getMaxLife() &&
-				tank->getAccessories().getBatteries().getNoBatteries() != 0)
-			{
-				std::list<Accessory *> &entries =
-					tank->getAccessories().getAllAccessoriesByType(
-						AccessoryPart::AccessoryBattery);			
-				if (!entries.empty())
-				{
-					useBattery(tank, entries.front()->getAccessoryId());
-				}
-			}
+			// Bring the health back up
+			useAvailableBatteries(tank);
 
 			// Perhaps we can reach now so do this tank again
 			sortedTanks.push_front(targetTank);
 		}
+	}
+
+	// Try to move so we can get a better shot at the targets
+	// Only move if we have a hope of hitting them
+	if (tank->getLife().getLife() > 75.0f)
+	{
+		targets_.getTargets(tank, sortedTanks);
+		if (makeMoveShot(tank, weapons, sortedTanks)) return;
+	}
+
+	// Is there any point in making a move
+	// Done after select weapons to allow shields to be raised
+	if (useResign_ &&
+		tank->getLife().getLife() < 10) 
+	{
+		resign(tank);
+		return;
 	}
 
 	// By default skip this move if we can't find anything to do
@@ -141,7 +157,6 @@ bool TankAICurrentMove::shootAtTank(Tank *tank, Tank *targetTank,
 	// TODO sniperwobble
 	// TODO missing and refining shots
 	// TODO try to move
-	// TODO try to find people in holes
 	// TODO try to find people close together
 
 	return false;
@@ -424,6 +439,62 @@ bool TankAICurrentMove::inHole(Vector &position)
 	}
 
 	return true;
+}
+
+bool TankAICurrentMove::makeMoveShot(Tank *tank, 
+	TankAIWeaponSets::WeaponSet *weapons,
+	std::list<Tank *> &sortedTanks)
+{
+	if (sortedTanks.empty()) return false;
+
+	Accessory *fuel = weapons->getTankAccessoryByType(tank, "fuel");
+	if (!fuel) return false;
+
+	ScorchedContext &context = ScorchedServer::instance()->getContext();
+	WeaponMoveTank *moveWeapon = (WeaponMoveTank *)
+		context.accessoryStore->findAccessoryPartByAccessoryId(
+			fuel->getAccessoryId(), "WeaponMoveTank");
+	if (moveWeapon)
+	{
+		MovementMap mmap(
+			context.landscapeMaps->getGroundMaps().getMapWidth(),
+			context.landscapeMaps->getGroundMaps().getMapHeight(),
+			tank, 
+			moveWeapon, 
+			context);
+		mmap.calculateAllPositions();
+
+		if (false)
+		{
+			setWeapon(tank, fuel);
+			fireShot(tank);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void TankAICurrentMove::checkGrouping()
+{
+
+}
+
+void TankAICurrentMove::useAvailableBatteries(Tank *tank)
+{
+	// Use batteries
+	while (tank->getLife().getLife() < 
+		tank->getLife().getMaxLife() &&
+		tank->getAccessories().getBatteries().getNoBatteries() != 0)
+	{
+		std::list<Accessory *> &entries =
+			tank->getAccessories().getAllAccessoriesByType(
+				AccessoryPart::AccessoryBattery);			
+		if (!entries.empty())
+		{
+			useBattery(tank, entries.front()->getAccessoryId());
+		}
+	}
 }
 
 Vector TankAICurrentMove::lowestHighest(TankAICurrentMoveWeapons &weapons, 
