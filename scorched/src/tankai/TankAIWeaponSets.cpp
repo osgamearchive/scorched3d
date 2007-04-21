@@ -200,7 +200,8 @@ bool TankAIWeaponSets::WeaponSetEntry::parseConfig(XMLNode *node)
 
 bool TankAIWeaponSets::WeaponSetEntry::checkType(const char *type)
 {
-	if (0 != strcmp(type, "explosionlarge") &&
+	if (0 != strcmp(type, "explosionhuge") &&
+		0 != strcmp(type, "explosionlarge") &&
 		0 != strcmp(type, "explosionsmall") &&
 		0 != strcmp(type, "uncover") &&
 		0 != strcmp(type, "digger") &&

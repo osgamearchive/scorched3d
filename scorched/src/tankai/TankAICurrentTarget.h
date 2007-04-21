@@ -42,6 +42,8 @@ public:
 	void tookDamage(Tank *tank, float damage);
 	void shotAt(Tank *tank);
 
+	float getTotalDamageTaken();
+
 protected:
 	std::map<Tank *, float> damageGiven_;
 	std::map<Tank *, float> damageTaken_;

@@ -69,11 +69,13 @@ bool TankAICurrent::parseConfig(XMLNode *node)
 
 void TankAICurrent::newMatch()
 {
+	newGame();
 }
 
 void TankAICurrent::newGame()
 {
 	move_.getTargets().clear();
+	move_.clear();
 }
 
 void TankAICurrent::playMove()

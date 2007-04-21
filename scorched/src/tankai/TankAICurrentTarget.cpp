@@ -60,6 +60,19 @@ void TankAICurrentTarget::clear()
 	shotAt_.clear();
 }
 
+float TankAICurrentTarget::getTotalDamageTaken()
+{
+	float damage = 0.0f;
+	std::map<Tank *, float>::iterator itor;
+	for (itor = damageTaken_.begin();
+		itor != damageTaken_.end();
+		itor++)
+	{
+		damage += itor->second;
+	}
+	return damage;
+}
+
 void TankAICurrentTarget::gaveDamage(Tank *tank, float damage)
 {
 	std::map<Tank *, float>::iterator findItor =

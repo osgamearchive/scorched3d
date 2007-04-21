@@ -82,6 +82,26 @@
 				<priorityuse>1</priorityuse>
 				<type>explosionsmall</type>
 			</weapon>
+			<weapon>
+				<name>Fuel</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>fuel</type>
+			</weapon>
+			<weapon>
+				<name>Death's Head</name>
+				<buymin>1</buymin>
+				<buymax>4</buymax>
+				<moneymin>10000</moneymin>
+				<moneymax>20000</moneymax>
+				<prioritybuy>1</prioritybuy>
+				<priorityuse>1</priorityuse>
+				<type>explosionhuge</type>
+			</weapon>
 		</set>
 	</weaponset>
 

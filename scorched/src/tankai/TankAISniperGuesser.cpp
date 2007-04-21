@@ -35,7 +35,7 @@ TankAISniperGuesser::~TankAISniperGuesser()
 }
 
 bool TankAISniperGuesser::guess(Tank *tank, Vector &target, 
-	float distForSniper, bool checkIntersection)
+	float distForSniper, bool checkIntersection, float offset)
 {
 	float angleXYDegs, angleYZDegs, power;
 
@@ -47,8 +47,11 @@ bool TankAISniperGuesser::guess(Tank *tank, Vector &target,
 		angleXYDegs, angleYZDegs, power,
 		checkIntersection))
 	{
-		tank->getPosition().rotateGunXY(angleXYDegs, false);
-		tank->getPosition().rotateGunYZ(angleYZDegs, false);
+		float xyOffset = RAND * offset;
+		float yzOffset = offset - xyOffset;
+
+		tank->getPosition().rotateGunXY(angleXYDegs + xyOffset, false);
+		tank->getPosition().rotateGunYZ(angleYZDegs + yzOffset, false);
 		tank->getPosition().changePower(power, false);
 
 		return true;

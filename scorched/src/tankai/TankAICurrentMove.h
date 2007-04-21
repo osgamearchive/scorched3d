@@ -23,8 +23,8 @@
 
 #include <tankai/TankAICurrentTarget.h>
 #include <tankai/TankAICurrentMoveWeapons.h>
+#include <common/Vector.h>
 
-class Vector;
 class TankAICurrentMove
 {
 public:
@@ -33,6 +33,7 @@ public:
 
 	virtual bool parseConfig(XMLNode *node);
 
+	void clear();
 	void playMove(Tank *tank, 
 		TankAIWeaponSets::WeaponSet *weapons,
 		bool useBatteries);
@@ -40,8 +41,30 @@ public:
 	TankAICurrentTarget &getTargets() { return targets_; }
 
 protected:
+	struct ShotRecord
+	{
+		Vector position;
+		float projectileCurrentDistance;
+		float sniperCurrentDistance;
+	};
+
+	std::map<Tank *, ShotRecord> shotRecords_;
 	TankAICurrentTarget targets_;
-	bool useResign_;
+	float totalDamageBeforeMove_;
+	bool useResign_, useFuel_;
+	float movementDamage_, movementDamageChance_, movementLife_;
+	float movementRandom_, movementCloseness_;
+	float groupShotChance_, groupTargetDistance_;
+	int groupShotSize_;
+	float resignLife_;
+	float largeWeaponUseDistance_;
+	float sniperUseDistance_;
+	float sniperStartDistance_, sniperEndDistance_;
+	float sniperMinDecrement_, sniperMaxDecrement_;
+	float sniperMovementFactor_;
+	float projectileStartDistance_, projectileEndDistance_;
+	float projectileMinDecrement_, projectileMaxDecrement_;
+	float projectileMovementFactor_;
 
 	bool shootAtTank(Tank *tank, Tank *targetTank, 
 		TankAICurrentMoveWeapons &weapons);
@@ -56,12 +79,16 @@ protected:
 	bool makeMoveShot(Tank *tank, 
 		TankAIWeaponSets::WeaponSet *weapons,
 		std::list<Tank *> &sortedTanks);
+	bool makeGroupShot(Tank *tank, 
+		TankAIWeaponSets::WeaponSet *weapons,
+		std::list<Tank *> &sortedTanks);
 
-	void checkGrouping();
 	bool inHole(Vector &position);
 	Vector lowestHighest(TankAICurrentMoveWeapons &weapons,
 		Vector &position, bool highest);
 
+	float getShotDistance(Tank *tank, bool projectile);
+	void shotAtTank(Tank *tank, bool projectile, float newDistance);
 	void useAvailableBatteries(Tank *tank);
 	void setWeapon(Tank *tank, Accessory *accessory);
 	void useBattery(Tank *tank, unsigned int batteryId);

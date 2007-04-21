@@ -31,7 +31,7 @@ public:
 	virtual ~TankAISniperGuesser();
 
 	bool guess(Tank *tank, Vector &target, 
-		float distForSniper, bool checkIntersection);
+		float distForSniper, bool checkIntersection, float offset);
 };
 
 #endif // __INCLUDE_TankAISniperGuesserh_INCLUDE__

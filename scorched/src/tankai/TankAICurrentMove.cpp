@@ -41,7 +41,21 @@
 #include <weapons/WeaponMoveTank.h>
 #include <XML/XMLNode.h>
 
-TankAICurrentMove::TankAICurrentMove() : useResign_(true)
+TankAICurrentMove::TankAICurrentMove() : 
+	useResign_(true), useFuel_(true), 
+	totalDamageBeforeMove_(0.0f),
+	movementDamage_(300.0f), movementDamageChance_(0.3f), movementLife_(75.0f),
+	movementRandom_(10.0f), movementCloseness_(15.0f),
+	groupShotSize_(2), groupShotChance_(0.7f), groupTargetDistance_(25.0f),
+	resignLife_(10.0f), // Min life before resigning
+	largeWeaponUseDistance_(10.0f), // The distance under which large weapons will be used
+	sniperUseDistance_(80.0f), // The max distance to allow sniper shots
+	sniperStartDistance_(10.0f), sniperEndDistance_(0.0f),
+	sniperMinDecrement_(2.0f), sniperMaxDecrement_(5.0f),
+	sniperMovementFactor_(4.0f),
+	projectileStartDistance_(10.0f), projectileEndDistance_(5.0f),
+	projectileMinDecrement_(1.0f), projectileMaxDecrement_(4.0f),
+	projectileMovementFactor_(10.0f)
 {
 }
 
@@ -56,8 +70,62 @@ bool TankAICurrentMove::parseConfig(XMLNode *node)
 		if (!node->getNamedChild("targets", targets)) return false;
 		if (!targets_.parseConfig(targets)) return false;
 	}
+	{
+		XMLNode *resign = 0;
+		if (!node->getNamedChild("resign", resign)) return false;
+		if (!resign->getNamedChild("useresign", useResign_)) return false;
+		if (!resign->getNamedChild("resignlife", resignLife_)) return false;
+		if (!resign->failChildren()) return false;
+	}
+	{
+		XMLNode *movement = 0;
+		if (!node->getNamedChild("movement", movement)) return false;
+		if (!movement->getNamedChild("usefuel", useFuel_)) return false;
+		if (!movement->getNamedChild("movementdamage", movementDamage_)) return false;
+		if (!movement->getNamedChild("movementdamagechance", movementDamageChance_)) return false;
+		if (!movement->getNamedChild("movementlife", movementLife_)) return false;
+		if (!movement->getNamedChild("movementrandom", movementRandom_)) return false;
+		if (!movement->getNamedChild("movementcloseness", movementCloseness_)) return false;
+		if (!movement->failChildren()) return false;
+	}
+	{
+		XMLNode *groupshot = 0;
+		if (!node->getNamedChild("groupshot", groupshot)) return false;
+		if (!groupshot->getNamedChild("groupshotsize", groupShotSize_)) return false;
+		if (!groupshot->getNamedChild("groupshotchance", groupShotChance_)) return false;
+		if (!groupshot->getNamedChild("grouptargetdistance", groupTargetDistance_)) return false;
+		if (!groupshot->failChildren()) return false;
+	}
+	{
+		XMLNode *sniper = 0;
+		if (!node->getNamedChild("sniper", sniper)) return false;
+		if (!sniper->getNamedChild("snipermovementfactor", sniperMovementFactor_)) return false;
+		if (!sniper->getNamedChild("sniperusedistance", sniperUseDistance_)) return false;
+		if (!sniper->getNamedChild("sniperstartdistance", sniperStartDistance_)) return false;
+		if (!sniper->getNamedChild("sniperenddistance", sniperEndDistance_)) return false;
+		if (!sniper->getNamedChild("snipermindecrement", sniperMinDecrement_)) return false;
+		if (!sniper->getNamedChild("snipermaxdecrement", sniperMaxDecrement_)) return false;
+		if (!sniper->failChildren()) return false;
+	}
+	{
+		XMLNode *projectile = 0;
+		if (!node->getNamedChild("projectile", projectile)) return false;
+		if (!projectile->getNamedChild("projectilemovementfactor", projectileMovementFactor_)) return false;
+		if (!projectile->getNamedChild("projectilestartdistance", projectileStartDistance_)) return false;
+		if (!projectile->getNamedChild("projectileenddistance", projectileEndDistance_)) return false;
+		if (!projectile->getNamedChild("projectilemindecrement", projectileMinDecrement_)) return false;
+		if (!projectile->getNamedChild("projectilemaxdecrement", projectileMaxDecrement_)) return false;
+		if (!projectile->getNamedChild("largeweaponusedistance", largeWeaponUseDistance_)) return false;
+		if (!projectile->failChildren()) return false;
+	}
 
-	return true;
+	return node->failChildren();
+}
+
+void TankAICurrentMove::clear()
+{
+	totalDamageBeforeMove_ = 0.0f;
+	shotRecords_.clear();
 }
 
 void TankAICurrentMove::playMove(Tank *tank, 
@@ -72,9 +140,11 @@ void TankAICurrentMove::playMove(Tank *tank,
 		targets_.getTargets(tank, sortedTanks);
 	}
 
-	// Check if we have been damaged by a target and we can move
-	// TODO
-	if (false)
+	// Check if we have taken a lot of damage and we can move
+	float totalDamage = 
+		targets_.getTotalDamageTaken() - totalDamageBeforeMove_;
+	if (totalDamage > movementDamage_ &&
+		RAND <= movementDamageChance_)
 	{
 		// Bring the health back up
 		if (useBatteries)
@@ -82,13 +152,20 @@ void TankAICurrentMove::playMove(Tank *tank,
 			useAvailableBatteries(tank);
 		}
 
-		if (tank->getLife().getLife() > 75.0f)
+		if (tank->getLife().getLife() > movementLife_)
 		{
 			// Try to move
 			if (makeMoveShot(tank, weapons, sortedTanks)) return;
 		}
 	}
 
+	// Check to see if we can make a huge shot at a number of tanks
+	if (RAND <= groupShotChance_)
+	{
+		if (makeGroupShot(tank, weapons, sortedTanks)) return;
+	}
+
+	// Try to shoot at each tank in turn
 	while (!sortedTanks.empty())
 	{
 		// Get the first tank
@@ -119,7 +196,7 @@ void TankAICurrentMove::playMove(Tank *tank,
 
 	// Try to move so we can get a better shot at the targets
 	// Only move if we have a hope of hitting them
-	if (tank->getLife().getLife() > 75.0f)
+	if (tank->getLife().getLife() > movementLife_)
 	{
 		targets_.getTargets(tank, sortedTanks);
 		if (makeMoveShot(tank, weapons, sortedTanks)) return;
@@ -128,7 +205,7 @@ void TankAICurrentMove::playMove(Tank *tank,
 	// Is there any point in making a move
 	// Done after select weapons to allow shields to be raised
 	if (useResign_ &&
-		tank->getLife().getLife() < 10) 
+		tank->getLife().getLife() < resignLife_) 
 	{
 		resign(tank);
 		return;
@@ -154,19 +231,12 @@ bool TankAICurrentMove::shootAtTank(Tank *tank, Tank *targetTank,
 	// Check if we are burried
 	if (makeBurriedShot(tank, targetTank, weapons)) return true;
 
-	// TODO sniperwobble
-	// TODO missing and refining shots
-	// TODO try to move
-	// TODO try to find people close together
-
 	return false;
 }
 
 bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
-	float aimDistance = 5.0f;
-
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition();
 
@@ -205,13 +275,14 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 	{
 		// Check this angle
 		float actualDistance;
+		float aimDistance = getShotDistance(targetTank, true);
 		TankAIAimGuesser aimGuesser;
 		if (aimGuesser.guess(tank, directTarget, degs, aimDistance, actualDistance))
 		{	
 			// We can fire at this tank
 			// ...
 			// Check how close we are
-			if (actualDistance < 10.0f)
+			if (actualDistance < largeWeaponUseDistance_)
 			{
 				// Check if the tank is in a hole
 				if (inhole)
@@ -250,7 +321,7 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 			}
 
 			// Fire the shot
-			targets_.shotAt(targetTank);
+			shotAtTank(targetTank, true, actualDistance);
 			fireShot(tank);
 			return true;
 		}
@@ -262,15 +333,14 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
-	float sniperDistance = 80.0f;
-
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition();
 
 	// First check to see if we can make a sniper shot that carries all the way
 	// as this is generaly an easier shot
+	float offset = getShotDistance(targetTank, false);
 	TankAISniperGuesser sniperGuesser;
-	if (sniperGuesser.guess(tank, directTarget, sniperDistance, true))
+	if (sniperGuesser.guess(tank, directTarget, sniperUseDistance_, true, offset))
 	{
 		// We can make a ordinary sniper shot
 
@@ -284,7 +354,6 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 			{
 				// Use a shield beating weapon			
 				if (weapons.digger) setWeapon(tank, weapons.digger);
-				else if (weapons.napalm) setWeapon(tank, weapons.napalm);
 				else if (weapons.laser) setWeapon(tank, weapons.laser);
 				else if (weapons.large) setWeapon(tank, weapons.large);
 				else return false;
@@ -299,6 +368,7 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 			}
 
 			// Fire the shot
+			shotAtTank(targetTank, false, 0.0f);
 			fireShot(tank);
 			return true;
 		}
@@ -306,7 +376,7 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 		{
 			// They have a reflective shield but we can use a laser
 			// Set and fire the laser
-			setWeapon(tank, weapons.laser);
+			shotAtTank(targetTank, false, 0.0f);
 			fireShot(tank);
 			return true;
 		}
@@ -318,19 +388,19 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 bool TankAICurrentMove::makeLaserSniperShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
-	float sniperDistance = 80.0f;
-
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition();
 	
 	// Second check to see if we can make a sniper shot that is obstructed
 	// but could use a laser
+	float offset = getShotDistance(targetTank, false);
 	TankAISniperGuesser sniperGuesser;
-	if (sniperGuesser.guess(tank, directTarget, sniperDistance, false))
+	if (sniperGuesser.guess(tank, directTarget, sniperUseDistance_, false, offset))
 	{
 		if (weapons.laser)
 		{
 			// Set and fire the laser
+			shotAtTank(targetTank, false, 0.0f);
 			setWeapon(tank, weapons.laser);
 			fireShot(tank);
 			return true;
@@ -445,6 +515,7 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 	TankAIWeaponSets::WeaponSet *weapons,
 	std::list<Tank *> &sortedTanks)
 {
+	if (!useFuel_) return false;
 	if (sortedTanks.empty()) return false;
 
 	Accessory *fuel = weapons->getTankAccessoryByType(tank, "fuel");
@@ -464,8 +535,43 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 			context);
 		mmap.calculateAllPositions();
 
-		if (false)
+		// Try to find a position to move to that we want to move to
+		// For the moment, just use the 1st target
+		Tank *target = sortedTanks.front();
+		Vector targetPos = target->getPosition().getTankPosition();
+		Vector tankPos = tank->getPosition().getTankPosition();
+		Vector direction = tankPos - targetPos;
+		direction.StoreNormalize();
+		Vector position = targetPos;
+
+		// Try to find a position between us and the target
+		bool found = false;
+		for (int i=0; i<1000; i++)
 		{
+			position += direction;
+
+			Vector actualPosition(
+				position[0] + RAND * movementRandom_ - (movementRandom_ / 2.0f),
+				position[1] + RAND * movementRandom_ - (movementRandom_ / 2.0f),
+				position[2]);
+
+			MovementMap::MovementMapEntry &entry =	
+				mmap.getEntry((int) actualPosition[0], (int) actualPosition[1]);
+			if ((actualPosition - targetPos).Magnitude() > movementCloseness_ &&
+				entry.type == MovementMap::eMovement)
+			{
+				found = true;
+				position = actualPosition;
+				break;
+			}
+		}
+
+		if (found)
+		{
+			totalDamageBeforeMove_ = targets_.getTotalDamageTaken();
+
+			tank->getPosition().setSelectPosition(
+				(int) position[0], (int) position[1]);
 			setWeapon(tank, fuel);
 			fireShot(tank);
 			return true;
@@ -475,9 +581,106 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 	return false;
 }
 
-void TankAICurrentMove::checkGrouping()
+bool TankAICurrentMove::makeGroupShot(Tank *tank, 
+	TankAIWeaponSets::WeaponSet *weapons,
+	std::list<Tank *> &sortedTanks)
 {
+	if (groupShotSize_ == 0) return false;
+	Accessory *explosionhuge = weapons->getTankAccessoryByType(tank, "explosionhuge");
+	if (!explosionhuge) return false;
 
+	struct GroupingEntry
+	{
+		Vector position;
+		std::list<Tank *> targets;
+		float totalDistance;
+	};
+	
+	std::list<GroupingEntry> foundEntries;
+	HeightMap &map = 
+		ScorchedServer::instance()->getLandscapeMaps().getGroundMaps().getHeightMap();
+
+	// Braindead way of finding groupings
+	// For each landscape square
+	for (int y=0; y<map.getMapHeight(); y+=4)
+	{
+		for (int x=0; x<map.getMapWidth(); x+=4)
+		{
+			GroupingEntry entry;
+			entry.position = Vector(float(x), float(y), map.getHeight(x, y));
+			entry.totalDistance = 0.0f;
+
+			// Check this is not too near to us!
+			float distance = 
+				(tank->getPosition().getTankPosition() - 
+				entry.position).Magnitude();
+			if (distance < groupTargetDistance_ * 2.0f) continue;
+			
+			// Find all tanks near this position			
+			std::list<Tank *>::iterator toItor;
+			for (toItor = sortedTanks.begin();
+				toItor != sortedTanks.end();
+				toItor++)
+			{
+				Tank *to = *toItor;
+
+				distance = 
+					(to->getPosition().getTankPosition() - 
+					entry.position).Magnitude();
+				if (distance < groupTargetDistance_)
+				{
+					entry.totalDistance += distance;
+					entry.targets.push_back(to);
+				}
+			}
+
+			// Are there enough to warrent a shot
+			if (entry.targets.size() >= (unsigned int) groupShotSize_)
+			{
+				foundEntries.push_back(entry);
+			}
+		}
+	}
+
+	// Find the best entry
+	if (!foundEntries.empty())
+	{
+		GroupingEntry *current = 0;
+		std::list<GroupingEntry>::iterator itor;
+		for (itor = foundEntries.begin();
+			itor != foundEntries.end();
+			itor++)
+		{
+			GroupingEntry &entry = *itor;
+			if (!current ||
+				entry.targets.size() > current->targets.size() ||
+				(entry.targets.size() == current->targets.size() &&
+				entry.totalDistance < current->totalDistance))
+			{
+				current = &entry;
+			}
+		}
+
+		if (current)
+		{
+			// Check for all angles to see if we can shoot at this tank
+			for (float degs=85.0f; degs>=45.0f; degs-=8.0f)
+			{
+				// Check this angle
+				float actualDistance;
+				TankAIAimGuesser aimGuesser;
+				if (aimGuesser.guess(tank, current->position, 
+					degs, 15.0f, actualDistance))
+				{
+					setWeapon(tank, explosionhuge);
+					fireShot(tank);
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 void TankAICurrentMove::useAvailableBatteries(Tank *tank)
@@ -530,6 +733,77 @@ Vector TankAICurrentMove::lowestHighest(TankAICurrentMoveWeapons &weapons,
 	return bestPos;
 }
 
+float TankAICurrentMove::getShotDistance(Tank *tank, bool projectile)
+{
+	// Try to find an existing record
+	std::map<Tank *, ShotRecord>::iterator itor = 
+		shotRecords_.find(tank);
+	if (itor == shotRecords_.end())
+	{
+		if (projectile) return projectileStartDistance_;
+		else return sniperStartDistance_;
+	}
+	else
+	{
+		if (projectile) return itor->second.projectileCurrentDistance;
+		else return itor->second.sniperCurrentDistance;
+	}
+}
+
+void TankAICurrentMove::shotAtTank(Tank *tank, bool projectile, float newDistance)
+{
+	targets_.shotAt(tank);
+
+	// Try to find an existing record
+	std::map<Tank *, ShotRecord>::iterator itor = 
+		shotRecords_.find(tank);
+	if (itor == shotRecords_.end())
+	{
+		// Create one
+		ShotRecord record;
+		record.projectileCurrentDistance = projectileStartDistance_; 
+		record.sniperCurrentDistance = sniperStartDistance_;
+		record.position = tank->getPosition().getTankPosition();
+		shotRecords_[tank] = record;
+	}
+
+	// Update the new record with the details about the current shot
+	ShotRecord &record = shotRecords_[tank];
+	float distance = (record.position - tank->getPosition().getTankPosition()).Magnitude();
+	float distanceDec = 0.0f;
+	if (distance > 5.0f)
+	{
+		distanceDec = MIN(distance - 5.0f, 20.0f) / 20.0f;
+	}
+
+	record.position = tank->getPosition().getTankPosition();
+	if (projectile)
+	{
+		record.projectileCurrentDistance = newDistance;
+
+		distanceDec *= projectileMovementFactor_;
+		record.projectileCurrentDistance = 
+			MIN(projectileStartDistance_, record.projectileCurrentDistance + distanceDec);	
+
+		float decrement = 
+			projectileMinDecrement_ +
+			RAND * (projectileMaxDecrement_ - projectileMinDecrement_);
+		record.projectileCurrentDistance = 
+			MAX(projectileEndDistance_, record.projectileCurrentDistance - decrement);				
+	}
+	else 
+	{
+		distanceDec *= sniperMovementFactor_;
+		record.sniperCurrentDistance = 
+			MIN(sniperStartDistance_, record.sniperCurrentDistance + distanceDec);	
+
+		float decrement = 
+			sniperMinDecrement_ +
+			RAND * (sniperMaxDecrement_ - sniperMinDecrement_);
+		record.sniperCurrentDistance = 
+			MAX(sniperEndDistance_, record.sniperCurrentDistance - decrement);	
+	}
+}
 
 void TankAICurrentMove::setWeapon(Tank *tank, Accessory *accessory)
 {
