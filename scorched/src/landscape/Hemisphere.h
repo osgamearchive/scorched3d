@@ -23,7 +23,7 @@
 
 #include <list>
 
-class GLBitmap;
+class GLImage;
 class Vector;
 class Hemisphere  
 {
@@ -47,7 +47,7 @@ public:
 	static void createColored(std::list<HemispherePoint> &points,
 		float radius, float radius2, 
 		int heightSlices, int rotationSlices,
-		GLBitmap &colors,
+		GLImage &colors,
 		Vector &sunDir,
 		int colorIndex);
 

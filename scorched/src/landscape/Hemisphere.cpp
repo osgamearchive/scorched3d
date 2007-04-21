@@ -18,7 +18,7 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImage.h>
 #include <GLEXT/GLState.h>
 #include <common/Vector.h>
 #include <landscape/Hemisphere.h>
@@ -135,7 +135,7 @@ void Hemisphere::createXY(
 void Hemisphere::createColored(std::list<HemispherePoint> &points,
 	float radius, float radius2, 
 	int heightSlices, int rotationSlices,
-	GLBitmap &colors, Vector &sunDir, int daytime)
+	GLImage &colors, Vector &sunDir, int daytime)
 {
 	const float maxTexCoord = 1.0f;
 	HemispherePoint point;

@@ -20,7 +20,7 @@
 
 #include <GLW/GLWImageList.h>
 #include <GLW/GLWTranslate.h>
-#include <GLEXT/GLPng.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLState.h>
 #include <common/FileList.h>
 #include <string.h>
@@ -53,8 +53,8 @@ void GLWImageList::addDirectory(const char *directory)
 		itor++)
 	{
 		const char *filename = (*itor).c_str();
-		GLPng png;
-		if (png.loadFromFile(filename) &&
+		GLImageHandle png = GLImageFactory::loadImageHandle(filename);
+		if (png.getBits() &&
 			png.getWidth() == 32 &&
 			png.getHeight() == 32)
 		{

@@ -23,7 +23,7 @@
 
 #include <landscape/Hemisphere.h>
 #include <GLEXT/GLTexture.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageHandle.h>
 
 class SkyDome
 {
@@ -47,7 +47,7 @@ protected:
 	std::list<Hemisphere::HemispherePoint> layer4_;
 	GLTexture cloudTexture_;
 	GLTexture starTexture_;
-	GLBitmap skyColorsMap_;
+	GLImageHandle skyColorsMap_;
 	bool useStarTexture_;
 	bool noSunFog_;
 

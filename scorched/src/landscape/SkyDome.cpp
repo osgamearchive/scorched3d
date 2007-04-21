@@ -61,7 +61,7 @@ void SkyDome::generate()
 	std::string ctexm(getDataFile(tex->skytexturemask.c_str()));
 	GLImageHandle bitmapCloud = GLImageFactory::loadImageHandle(ctex.c_str(), ctexm.c_str(), false);
 	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud, GL_RGBA));
-	skyColorsMap_.loadFromFile(getDataFile(tex->skycolormap.c_str()));
+	skyColorsMap_ = GLImageFactory::loadImageHandle(getDataFile(tex->skycolormap.c_str()));
 
 	// Stars
 	useStarTexture_ = false;
