@@ -581,6 +581,13 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 	return false;
 }
 
+struct GroupingEntry
+{
+	Vector position;
+	std::list<Tank *> targets;
+	float totalDistance;
+};
+
 bool TankAICurrentMove::makeGroupShot(Tank *tank, 
 	TankAIWeaponSets::WeaponSet *weapons,
 	std::list<Tank *> &sortedTanks)
@@ -588,13 +595,6 @@ bool TankAICurrentMove::makeGroupShot(Tank *tank,
 	if (groupShotSize_ == 0) return false;
 	Accessory *explosionhuge = weapons->getTankAccessoryByType(tank, "explosionhuge");
 	if (!explosionhuge) return false;
-
-	struct GroupingEntry
-	{
-		Vector position;
-		std::list<Tank *> targets;
-		float totalDistance;
-	};
 	
 	std::list<GroupingEntry> foundEntries;
 	HeightMap &map = 
