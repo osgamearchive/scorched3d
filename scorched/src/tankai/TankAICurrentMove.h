@@ -65,6 +65,7 @@ protected:
 	float projectileStartDistance_, projectileEndDistance_;
 	float projectileMinDecrement_, projectileMaxDecrement_;
 	float projectileMovementFactor_;
+	float projectileMinDistance_;
 
 	bool shootAtTank(Tank *tank, Tank *targetTank, 
 		TankAICurrentMoveWeapons &weapons);

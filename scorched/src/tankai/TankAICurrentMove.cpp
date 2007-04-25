@@ -55,7 +55,7 @@ TankAICurrentMove::TankAICurrentMove() :
 	sniperMovementFactor_(4.0f),
 	projectileStartDistance_(10.0f), projectileEndDistance_(5.0f),
 	projectileMinDecrement_(1.0f), projectileMaxDecrement_(4.0f),
-	projectileMovementFactor_(10.0f)
+	projectileMovementFactor_(10.0f), projectileMinDistance_(10.0f)
 {
 }
 
@@ -110,6 +110,7 @@ bool TankAICurrentMove::parseConfig(XMLNode *node)
 	{
 		XMLNode *projectile = 0;
 		if (!node->getNamedChild("projectile", projectile)) return false;
+		if (!projectile->getNamedChild("projectilemindistance", projectileMinDistance_)) return false;
 		if (!projectile->getNamedChild("projectilemovementfactor", projectileMovementFactor_)) return false;
 		if (!projectile->getNamedChild("projectilestartdistance", projectileStartDistance_)) return false;
 		if (!projectile->getNamedChild("projectileenddistance", projectileEndDistance_)) return false;
@@ -279,6 +280,9 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 		TankAIAimGuesser aimGuesser;
 		if (aimGuesser.guess(tank, directTarget, degs, aimDistance, actualDistance))
 		{	
+			// Check we are not firing too close to us
+			if (actualDistance < projectileMinDistance_) continue;
+
 			// We can fire at this tank
 			// ...
 			// Check how close we are
