@@ -3449,157 +3449,14 @@ Guns are always shot at 1000 power.</description>
 		<name>M2 Spread</name>
 		<armslevel>8</armslevel>
 		<maximumnumber>0</maximumnumber>
-		<accessoryaction type='WeaponRandomChoice'>
-			<weaponchoice1>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>1.0</hredirect>
-					<vredirect>1.0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice1>
-			<weaponchoice2>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-1.0</hredirect>
-					<vredirect>1.0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice2>
-			<weaponchoice3>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-1.0</hredirect>
-					<vredirect>-1.0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice3>
-			<weaponchoice4>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>1.0</hredirect>
-					<vredirect>-1.0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice4>
-			<weaponchoice5>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>1.0</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice5>
-			<weaponchoice6>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0</hredirect>
-					<vredirect>1.0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice6>
-			<weaponchoice7>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0</hredirect>
-					<vredirect>-1.0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice7>
-			<weaponchoice8>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-1.0</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice8>
-			<weaponchoice9>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0.5</hredirect>
-					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice9>
-			<weaponchoice10>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-0.5</hredirect>
-					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice10>
-			<weaponchoice11>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-0.5</hredirect>
-					<vredirect>-0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice11>
-			<weaponchoice12>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0.5</hredirect>
-					<vredirect>-0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>M2 Round</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice12>
-			<weaponchoice13>
-				<weight>10</weight>
-				<weapon type='WeaponReference'>
-					<weapon>M2 Round</weapon>
-				</weapon>
-			</weaponchoice13>
+		<accessoryaction type='WeaponRedirect'>
+			<habs>false</habs>
+			<vabs>false</vabs>
+			<hredirect>RANGE(-1.0,1.0,0.25)</hredirect>
+			<vredirect>RANGE(-1.0,1.0,0.25)</vredirect>
+			<nextaction type='WeaponReference'>
+				<weapon>M2 Round</weapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -11970,109 +11827,14 @@ Min Dmg = 50, Max Dmg = 100</description>
 		<armslevel>4</armslevel>
 		<maximumnumber>0</maximumnumber>
 		<nomuzzleflash/>
-		<accessoryaction type='WeaponRandomChoice'>
-			<weaponchoice1>
-				<weight>10</weight>
-				<weapon type='WeaponReference'>
-					<weapon>CannonLaser</weapon>
-				</weapon>
-			</weaponchoice1>
-			<weaponchoice2>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0</hredirect>
-					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice2>
-			<weaponchoice3>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0</hredirect>
-					<vredirect>-0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice3>
-			<weaponchoice4>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0.5</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice4>
-			<weaponchoice5>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-0.5</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice5>
-			<weaponchoice6>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0.5</hredirect>
-					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice6>
-			<weaponchoice7>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-0.5</hredirect>
-					<vredirect>0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice7>
-			<weaponchoice8>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>0.5</hredirect>
-					<vredirect>-0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice8>
-			<weaponchoice9>
-				<weight>10</weight>
-				<weapon type='WeaponRedirect'>
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>-0.5</hredirect>
-					<vredirect>-0.5</vredirect>
-					<nextaction type='WeaponReference'>
-						<weapon>CannonLaser</weapon>
-					</nextaction>
-				</weapon>
-			</weaponchoice9>
+		<accessoryaction type='WeaponRedirect'>
+			<habs>false</habs>
+			<vabs>false</vabs>
+			<hredirect>RANGE(-0.5,0.5,0.1)</hredirect>
+			<vredirect>RANGE(-0.5,0.5,0.1)</vredirect>
+			<nextaction type='WeaponReference'>
+				<weapon>CannonLaser</weapon>
+			</nextaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
