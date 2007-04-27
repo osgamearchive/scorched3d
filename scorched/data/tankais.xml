@@ -110,6 +110,69 @@ use batteries.</description>
 	</ai>
 
 	<ai>
+		<name>Shark</name>
+		<description>A computer controlled player.</description>
+		<availableforrandom>true</availableforrandom>
+		<availableforplayers>true</availableforplayers>
+
+		<weapons>
+			<weaponset>WeaponSetFull</weaponset>
+		</weapons>
+		<defense>
+			<usebatteries>false</usebatteries>
+			<useshields>true</useshields>
+			<useparachutes>true</useparachutes>
+		</defense>
+		<attack>
+			<resign>
+				<useresign>true</useresign>
+				<resignlife>10.0</resignlife>
+			</resign>
+			<movement>
+				<usefuel>false</usefuel>
+				<movementdamage>300.0</movementdamage>
+				<movementdamagechance>0.3</movementdamagechance>
+				<movementlife>75.0</movementlife>
+				<movementrandom>10.0</movementrandom>
+				<movementcloseness>15.0</movementcloseness>
+			</movement>
+			<groupshot>
+				<groupshotsize>2</groupshotsize>
+				<groupshotchance>0.2</groupshotchance>
+				<grouptargetdistance>25.0</grouptargetdistance>
+			</groupshot>
+			<sniper>
+				<sniperusedistance>80.0</sniperusedistance>
+				<sniperstartdistance>10.0</sniperstartdistance>
+				<sniperenddistance>0.0</sniperenddistance>
+				<snipermindecrement>2.0</snipermindecrement>
+				<snipermaxdecrement>3.0</snipermaxdecrement>
+				<snipermovementfactor>4.0</snipermovementfactor>
+			</sniper>
+			<projectile>
+				<projectilemindistance>10.0</projectilemindistance>
+				<projectilestartdistance>60.0</projectilestartdistance>
+				<projectileenddistance>5.0</projectileenddistance>
+				<projectilemindecrement>5.0</projectilemindecrement>
+				<projectilemaxdecrement>20.0</projectilemaxdecrement>
+				<largeweaponusedistance>10.0</largeweaponusedistance>
+				<projectilemovementfactor>10.0</projectilemovementfactor>
+			</projectile>
+			<targets>
+				<health>0</health>
+				<random>0</random>
+				<player>0</player>
+				<shield>0</shield>
+				<score>0</score>
+				<repeat>0</repeat>
+				<damagetaken>0</damagetaken>
+				<damagedone>0</damagedone>
+				<distance>-1.0</distance>
+			</targets>
+		</attack>
+	</ai>
+	
+	<ai>
 		<name>Target</name>
 		<description>A computer controlled player. 
 These tanks act as static targets. 

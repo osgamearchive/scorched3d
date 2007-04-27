@@ -31,7 +31,8 @@ public:
 	virtual ~TankAIAimGuesser();
 
 	bool guess(Tank *tank, Vector &target, 
-		float angleXYDegs, float distance, float &actualDistance);
+		float angleXYDegs, float distance, 
+		Vector &actualPosition);
 
 	// PhysicsParticleObjectHandler
 	virtual void collision(PhysicsParticleObject &position, 

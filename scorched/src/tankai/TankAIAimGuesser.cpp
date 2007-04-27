@@ -36,7 +36,8 @@ TankAIAimGuesser::~TankAIAimGuesser()
 }
 
 bool TankAIAimGuesser::guess(Tank *tank, Vector &target, 
-	float angleYZDegs, float distance, float &actualDistance)
+	float angleYZDegs, float distance, 
+	Vector &actualPosition)
 {
 	tank->getPosition().rotateGunYZ(angleYZDegs, false);
 
@@ -55,8 +56,9 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 		}
 
 		// Its landed
+		actualPosition = currentGuess_.getPosition();
 		Vector direction = currentGuess_.getPosition() - target;
-		actualDistance = 
+		float actualDistance = 
 			float(sqrt(direction[0]*direction[0] + direction[1]*direction[1]));
 		if (actualDistance < distance)
 		{

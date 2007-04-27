@@ -275,18 +275,22 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 	for (float degs=45.0f; degs<=85.0f; degs+=8.0f)
 	{
 		// Check this angle
-		float actualDistance;
+		Vector actualPosition;
 		float aimDistance = getShotDistance(targetTank, true);
 		TankAIAimGuesser aimGuesser;
-		if (aimGuesser.guess(tank, directTarget, degs, aimDistance, actualDistance))
+		if (aimGuesser.guess(tank, directTarget, degs, aimDistance, actualPosition))
 		{	
 			// Check we are not firing too close to us
-			if (actualDistance < projectileMinDistance_) continue;
+			float distanceFromTarget = 
+				(actualPosition - directTarget).Magnitude();
+			float distanceFromUs = 
+				(actualPosition - tank->getPosition().getTankPosition()).Magnitude();
+			if (distanceFromUs < projectileMinDistance_) continue;
 
 			// We can fire at this tank
 			// ...
 			// Check how close we are
-			if (actualDistance < largeWeaponUseDistance_)
+			if (distanceFromTarget < largeWeaponUseDistance_)
 			{
 				// Check if the tank is in a hole
 				if (inhole)
@@ -325,7 +329,7 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 			}
 
 			// Fire the shot
-			shotAtTank(targetTank, true, actualDistance);
+			shotAtTank(targetTank, true, distanceFromTarget);
 			fireShot(tank);
 			return true;
 		}
@@ -671,10 +675,10 @@ bool TankAICurrentMove::makeGroupShot(Tank *tank,
 			for (float degs=85.0f; degs>=45.0f; degs-=8.0f)
 			{
 				// Check this angle
-				float actualDistance;
+				Vector actualPosition;
 				TankAIAimGuesser aimGuesser;
 				if (aimGuesser.guess(tank, current->position, 
-					degs, 15.0f, actualDistance))
+					degs, 15.0f, actualPosition))
 				{
 					setWeapon(tank, explosionhuge);
 					fireShot(tank);
