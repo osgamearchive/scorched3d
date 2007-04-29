@@ -240,6 +240,8 @@ OptionsDisplay::OptionsDisplay() :
 		"The sound effect volume. Max = 128, Min = 0", RAccess | NoRestore, 128, 0, 128, 1),
 	musicVolume_(options_, "MusicVolume",
 		"The music effect volume. Max = 128, Min = 0", RAccess | NoRestore, 128, 0, 128, 1),
+	antiAlias_(options_, "AntiAlias",
+		"Use anti aliasing", RAccess, 0, 0, 4, 1),
 	texSize_(options_, "TexureSize", 
 		"The texture details setting.  Lower is faster.", RAccess, 1, 0, 2, 1),
 	bannerRowsDepricated_(options_, "BannerRows",

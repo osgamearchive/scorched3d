@@ -58,6 +58,14 @@ bool Display::changeSettings(int width, int height, bool full)
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, componentSize);
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, componentSize);
 
+	if (OptionsDisplay::instance()->getAntiAlias() > 0)
+	{
+		// Anti-aliased
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 
+			OptionsDisplay::instance()->getAntiAlias());
+	}
+	
 	// At least 24 bits depth buffer
 	int depthBufferBits = OptionsDisplay::instance()->getDepthBufferBits();
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, depthBufferBits );

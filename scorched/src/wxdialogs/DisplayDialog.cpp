@@ -412,6 +412,15 @@ void DisplayFrame::refreshScreen()
 	IDC_LOGGING_CTRL->SetValue(OptionsDisplay::instance()->getClientLogToFile());
 	IDC_LOGGING_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getClientLogToFileEntry().getDescription(), wxConvUTF8));
 
+	IDC_ANTIALIAS_CTRL->Append("0");
+	IDC_ANTIALIAS_CTRL->Append("1");
+	IDC_ANTIALIAS_CTRL->Append("2");
+	IDC_ANTIALIAS_CTRL->Append("4");
+	IDC_ANTIALIAS_CTRL->SetValue(wxString(formatString("%i", 
+		OptionsDisplay::instance()->getAntiAlias()),
+		wxConvUTF8));
+	IDC_ANTIALIAS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getAntiAliasEntry().getDescription(), wxConvUTF8));
+
 	for (int i=2; i<=64; i+=2)
 	{
 		IDC_SOUNDCHANNELS_CTRL->Append(
@@ -587,6 +596,9 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getMoreResEntry().setValue(IDC_MORERES_CTRL->GetValue());
 	//OptionsDisplay::instance()->getSwapYAxisEntry().setValue(IDC_SWAPYAXIS_CTRL->GetValue());
 	OptionsDisplay::instance()->getClientLogToFileEntry().setValue(IDC_LOGGING_CTRL->GetValue());
+
+	OptionsDisplay::instance()->getAntiAliasEntry().setValue(
+		atoi(IDC_ANTIALIAS_CTRL->GetValue().mb_str(wxConvUTF8)));
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

@@ -42,7 +42,7 @@ BackdropDialog::BackdropDialog() :
 	windowLevel_ = 5000000;
 
 	GLImageHandle backMap = GLImageFactory::loadImageHandle(
-		getDataFile("data/windows/backdrop.png"));
+		getDataFile("data/windows/backdrop.jpg"));
 	backTex_.create(backMap, GL_RGB, false);
 
 	GLImageHandle logoMap = GLImageFactory::loadImageHandle(

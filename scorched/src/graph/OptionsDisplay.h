@@ -288,6 +288,9 @@ public:
 	int getDialogSize() { return dialogSize_; }
 	OptionEntryInt &getDialogSizeEntry() { return dialogSize_; }
 
+	int getAntiAlias() { return antiAlias_; }
+	OptionEntryInt &getAntiAliasEntry() { return antiAlias_; }
+
 	int getTexSize() { return texSize_; }
 	OptionEntryInt &getTexSizeEntry() { return texSize_; }
 
@@ -450,6 +453,7 @@ protected:
 	OptionEntryInt clientLogState_;
 	OptionEntryBool validateServerIp_;
 	OptionEntryBool noPlanDraw_;
+	OptionEntryBoundedInt antiAlias_;
 	OptionEntryBoundedInt dialogSize_;
 	OptionEntryBoundedInt texSize_;
 	OptionEntryBoundedInt tankDetail_;

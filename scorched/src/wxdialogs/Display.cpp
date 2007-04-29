@@ -64,6 +64,14 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer3->Add(IDC_LARGEDIALOGS_CTRL);
 	displaySizer->Add(displaySizer3, 0, wxTOP | wxBOTTOM, 10);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+
+	wxStaticText *aliasText = new wxStaticText(parent, -1, wxT("Anti Aliasing :"));
+	displaySizer2->Add(aliasText, 0);
+	IDC_ANTIALIAS_CTRL = new wxComboBox(parent, -1,
+		wxT(""),
+		wxDefaultPosition, wxSize(60, -1),
+		0, 0, wxCB_READONLY);
+	displaySizer2->Add(IDC_ANTIALIAS_CTRL, 0);
 	}
 
 	{

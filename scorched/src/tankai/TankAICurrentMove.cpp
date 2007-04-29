@@ -23,6 +23,7 @@
 #include <tankai/TankAISniperGuesser.h>
 #include <coms/ComsPlayedMoveMessage.h>
 #include <coms/ComsDefenseMessage.h>
+#include <common/Logger.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerDefenseHandler.h>
 #include <server/ScorchedServer.h>
@@ -271,14 +272,26 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 		}
 	}
 
+	// Get the distance to get to this tank
+	float tankAimDistance = getShotDistance(targetTank, true);
+	tankAimDistance -= 5.0f;
+	if (tankAimDistance < 0.0f) tankAimDistance = 0.0f;
+	//Logger::log(formatString("Aim Distance %.2f", tankAimDistance));
+
+	// Find a place where we will hit
+	Vector aimPosition = directTarget;
+	float a = RAND * 3.14f * 2.0f;
+	aimPosition[0] += sinf(a) * tankAimDistance;
+	aimPosition[1] += cosf(a) * tankAimDistance;
+	float aimDistance = MIN(tankAimDistance + 5.0f, 15.0f);
+
 	// Check for all angles to see if we can shoot at this tank
 	for (float degs=45.0f; degs<=85.0f; degs+=8.0f)
 	{
 		// Check this angle
 		Vector actualPosition;
-		float aimDistance = getShotDistance(targetTank, true);
 		TankAIAimGuesser aimGuesser;
-		if (aimGuesser.guess(tank, directTarget, degs, aimDistance, actualPosition))
+		if (aimGuesser.guess(tank, aimPosition, degs, aimDistance, actualPosition))
 		{	
 			// Check we are not firing too close to us
 			float distanceFromTarget = 
@@ -304,8 +317,8 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 					if (weapons.shield)
 					{
 						// A shield beating weapon
-						if (weapons.napalm) setWeapon(tank, weapons.napalm);
-						else if (weapons.digger) setWeapon(tank, weapons.digger);
+						if (weapons.digger) setWeapon(tank, weapons.digger);
+						else if (weapons.napalm) setWeapon(tank, weapons.napalm);
 						else if (weapons.large) setWeapon(tank, weapons.large);
 						else return false;
 					}
@@ -313,8 +326,8 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 					{
 						
 						// A normal weapon
-						if (weapons.large) setWeapon(tank, weapons.large);		
-						else if (weapons.digger) setWeapon(tank, weapons.digger);
+						if (weapons.digger) setWeapon(tank, weapons.digger);
+						else if (weapons.large) setWeapon(tank, weapons.large);		
 						else if (weapons.small) setWeapon(tank, weapons.small);					
 						else return false;
 					}
@@ -789,27 +802,27 @@ void TankAICurrentMove::shotAtTank(Tank *tank, bool projectile, float newDistanc
 	{
 		record.projectileCurrentDistance = newDistance;
 
-		distanceDec *= projectileMovementFactor_;
-		record.projectileCurrentDistance = 
-			MIN(projectileStartDistance_, record.projectileCurrentDistance + distanceDec);	
-
 		float decrement = 
 			projectileMinDecrement_ +
 			RAND * (projectileMaxDecrement_ - projectileMinDecrement_);
 		record.projectileCurrentDistance = 
 			MAX(projectileEndDistance_, record.projectileCurrentDistance - decrement);				
+
+		distanceDec *= projectileMovementFactor_;
+		record.projectileCurrentDistance = 
+			MIN(projectileStartDistance_, record.projectileCurrentDistance + distanceDec);	
 	}
 	else 
 	{
-		distanceDec *= sniperMovementFactor_;
-		record.sniperCurrentDistance = 
-			MIN(sniperStartDistance_, record.sniperCurrentDistance + distanceDec);	
-
 		float decrement = 
 			sniperMinDecrement_ +
 			RAND * (sniperMaxDecrement_ - sniperMinDecrement_);
 		record.sniperCurrentDistance = 
 			MAX(sniperEndDistance_, record.sniperCurrentDistance - decrement);	
+
+		distanceDec *= sniperMovementFactor_;
+		record.sniperCurrentDistance = 
+			MIN(sniperStartDistance_, record.sniperCurrentDistance + distanceDec);	
 	}
 }
 
