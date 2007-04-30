@@ -65,6 +65,10 @@ void SkipDialog::buttonDown(unsigned int id)
 		Tank *firstTank = ScorchedClient::instance()->getTankContainer().getCurrentTank();
 		if (firstTank)
 		{
+			if (id == allId_)
+			{
+				firstTank->getState().setSkipShots(true);
+			}
 			TankKeyboardControlUtil::skipShot(firstTank);
 		}
 

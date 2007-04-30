@@ -41,6 +41,8 @@ public:
 	TargetGroupsGroupEntry *getGroup(const char *name, HeightMap *create = 0);
 	void clearGroups();
 
+	std::map<std::string, TargetGroupsGroupEntry*> &getGroups() { return groups_; }
+
 	// Accessors
 	std::list<PlacementShadowDefinition::Entry> &getShadows() { return shadows_; }
 

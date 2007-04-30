@@ -43,6 +43,8 @@ public:
 	virtual void fired();
 	virtual void targetBurnt();
 
+	GLWTargetTips &getTips() { return targetTips_; }
+
 protected:
 	Target *target_;
 	ModelRendererSimulator *modelRenderer_;

@@ -71,6 +71,8 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		this, &TankMenus::showTextureDetails, "TextureDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::logToFile, "LogToFile");
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::groupInfo, "GroupInfo");
 	new GLConsoleRuleFnIBooleanAdapter(
 		"ComsMessageLogging", 
 		ScorchedClient::instance()->getComsMessageHandler().getMessageLogging());
@@ -108,6 +110,24 @@ TankMenus::TankMenus() : logger_("ClientLog")
 TankMenus::~TankMenus()
 {
 
+}
+
+void TankMenus::groupInfo()
+{
+	std::map<std::string, TargetGroupsGroupEntry*> &groups = 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+			getGroups().getGroups();
+	std::map<std::string, TargetGroupsGroupEntry*>::iterator itor;
+	for (itor = groups.begin();
+		itor != groups.end();
+		itor++)
+	{
+		const std::string &name = itor->first;
+		TargetGroupsGroupEntry *entry = itor->second;
+		Logger::log(formatString("Group %s count %i", 
+			name.c_str(),
+			entry->getObjectCount()));
+	}
 }
 
 void TankMenus::logToFile()

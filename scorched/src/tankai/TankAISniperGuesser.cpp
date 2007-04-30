@@ -39,7 +39,7 @@ bool TankAISniperGuesser::guess(Tank *tank, Vector &target,
 {
 	float angleXYDegs, angleYZDegs, power;
 
-	Vector shotPosition = tank->getPosition().getTankGunPosition();
+	Vector shotPosition = tank->getPosition().getTankPosition();
 	if (TankLib::getSniperShotTowardsPosition(
 		ScorchedServer::instance()->getContext(),
 		shotPosition, target, 

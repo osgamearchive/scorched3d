@@ -65,13 +65,14 @@ public:
 		ScorchedContext &context);
 	virtual ~MovementMap();
 
-	bool calculatePosition(Vector &position);
-	void calculateAllPositions();
+	bool calculatePosition(Vector &position, float fuel = 0.0f);
+	void calculateAllPositions(float fuel = 0.0f);
 	MovementMapEntry &getEntry(int w, int h);
 
 	// Create landscape textures that show where the tank can move to
 	void movementTexture();
 	static void limitTexture(Vector &center, int limit);
+	float getFuel();
 
 	// Functions returns true if a tank can move into the give position,
 	// false otherwise.  Shields and obstacles my prevent a tank moving.
@@ -105,7 +106,6 @@ protected:
 					 Vector &position);
 
 	float getWaterHeight();
-	float getFuel();
 	bool tankBurried();
 	MovementMapEntry &getAndCheckEntry(int w, int h);
 

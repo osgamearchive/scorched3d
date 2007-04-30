@@ -411,13 +411,16 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 		0);
 }
 
-bool MovementMap::calculatePosition(Vector &position)
+bool MovementMap::calculatePosition(Vector &position, float fuel)
 {
 	// Check if the tank is buried and cannot move
 	if (tankBurried()) return false;
 
 	// Get fuel
-	float fuel = getFuel();
+	if (fuel == 0.0f)
+	{
+		fuel = getFuel();
+	}
 
 	// A very clever weighted queue thingy
 	std::priority_queue<QueuePosition, 
@@ -486,13 +489,16 @@ bool MovementMap::calculatePosition(Vector &position)
 	return false;
 }
 
-void MovementMap::calculateAllPositions()
+void MovementMap::calculateAllPositions(float fuel)
 {
 	// Check if the tank is buried and cannot move
 	if (tankBurried()) return;
 
 	// Get fuel
-	float fuel = getFuel();
+	if (fuel == 0.0f)
+	{
+		fuel = getFuel();
+	}
 
 	std::list<unsigned int> edgeList;
 	unsigned int epoc = 0;

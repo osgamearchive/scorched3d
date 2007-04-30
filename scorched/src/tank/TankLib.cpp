@@ -121,7 +121,7 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 	// Special case
 	// If we are less than a certain distance and under the position we
 	// will use a direct shot on full power
-	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2])) ||
+	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2] - 2.0f)) ||
 		(distForSniper == -1.0f);
 	if (!useSniper) return false;
 

@@ -64,6 +64,7 @@ protected:
 	void showTextureDetails();
 	void resetLandscape();
 	void clearTracerLines();
+	void groupInfo();
 	void logToFile();
 
 };

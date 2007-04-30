@@ -90,7 +90,7 @@ protected:
 
 	float getShotDistance(Tank *tank, bool projectile);
 	void shotAtTank(Tank *tank, bool projectile, float newDistance);
-	void useAvailableBatteries(Tank *tank);
+	bool useAvailableBatteries(Tank *tank);
 	void setWeapon(Tank *tank, Accessory *accessory);
 	void useBattery(Tank *tank, unsigned int batteryId);
 	void resign(Tank *tank);

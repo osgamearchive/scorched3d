@@ -360,9 +360,12 @@ void TankDamage::calculateDamage()
 		}
 	}
 
-	// Remove from groups
-	context_->landscapeMaps->getGroundMaps().getGroups().
-		removeFromGroups(&damagedTarget->getGroup());	
+	if (!damagedTarget->getAlive())
+	{
+		// Remove from groups
+		context_->landscapeMaps->getGroundMaps().getGroups().
+			removeFromGroups(&damagedTarget->getGroup());	
+	}
 
 	// DO LAST
 	// If the tank is a target, remove the target

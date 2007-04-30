@@ -70,10 +70,7 @@ Tank *TankContainer::getTankByName(const char *name)
 		mainitor++)
 	{
 		Tank *tank = (*mainitor).second;
-		if (!tank->isTemp())
-		{
-			if (0 == strcmp(tank->getName(),name)) return tank;
-		}
+		if (0 == strcmp(tank->getName(),name)) return tank;
 	}
 	return 0;
 }

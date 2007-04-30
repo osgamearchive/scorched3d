@@ -23,6 +23,7 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
+#include <common/Logger.h>
 #include <XML/XMLNode.h>
 #include <float.h>
 
@@ -80,7 +81,8 @@ bool LandscapeConditionGroupSize::fireEvent(ScorchedContext &context,
 				groupname.c_str());
 		if (groupEntry)
 		{
-			if (groupEntry->getObjectCount() <= groupsize) return true;
+			int groupCount = groupEntry->getObjectCount();
+			if (groupCount <= groupsize) return true;
 		}
 	}
 

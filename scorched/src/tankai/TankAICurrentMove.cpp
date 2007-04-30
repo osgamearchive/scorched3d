@@ -189,10 +189,11 @@ void TankAICurrentMove::playMove(Tank *tank,
 			tank->getLife().getLife() < tank->getLife().getMaxLife())
 		{
 			// Bring the health back up
-			useAvailableBatteries(tank);
-
-			// Perhaps we can reach now so do this tank again
-			sortedTanks.push_front(targetTank);
+			if (useAvailableBatteries(tank))
+			{
+				// Perhaps we can reach now so do this tank again
+				sortedTanks.push_front(targetTank);
+			}
 		}
 	}
 
@@ -548,55 +549,58 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 			fuel->getAccessoryId(), "WeaponMoveTank");
 	if (moveWeapon)
 	{
+		// Try to find a position to move to that we want to move to
+		// For the moment, just use the 1st target
+		Tank *target = sortedTanks.front();
+		Vector targetPos = target->getPosition().getTankPosition();
+		Vector tankPos = tank->getPosition().getTankPosition();
+		float totalDistance = MAX(100.0f, MIN(500.0f, (targetPos - tankPos).Magnitude() * 2.0f));
+
+		// Can we move to this target at all?
 		MovementMap mmap(
 			context.landscapeMaps->getGroundMaps().getMapWidth(),
 			context.landscapeMaps->getGroundMaps().getMapHeight(),
 			tank, 
 			moveWeapon, 
 			context);
-		mmap.calculateAllPositions();
+		if (!mmap.calculatePosition(targetPos, totalDistance)) return false;
+		float totalFuel = mmap.getFuel();
 
-		// Try to find a position to move to that we want to move to
-		// For the moment, just use the 1st target
-		Tank *target = sortedTanks.front();
-		Vector targetPos = target->getPosition().getTankPosition();
-		Vector tankPos = tank->getPosition().getTankPosition();
-		Vector direction = tankPos - targetPos;
-		direction.StoreNormalize();
-		Vector position = targetPos;
+		// Calculate the path
+		MovementMap::MovementMapEntry entry =
+			mmap.getEntry((int) targetPos[0], (int) targetPos[1]);
+		if (entry.type != MovementMap::eMovement) return false;
 
-		// Try to find a position between us and the target
-		bool found = false;
-		for (int i=0; i<1000; i++)
+		// Work backward to the source point finding the nearest point we
+		// can actualy move to
+		while (entry.srcEntry)
 		{
-			position += direction;
+			unsigned int pt = entry.srcEntry;
+			unsigned int x = pt >> 16;
+			unsigned int y = pt & 0xffff;
 
-			Vector actualPosition(
-				position[0] + RAND * movementRandom_ - (movementRandom_ / 2.0f),
-				position[1] + RAND * movementRandom_ - (movementRandom_ / 2.0f),
-				position[2]);
-
-			MovementMap::MovementMapEntry &entry =	
-				mmap.getEntry((int) actualPosition[0], (int) actualPosition[1]);
-			if ((actualPosition - targetPos).Magnitude() > movementCloseness_ &&
-				entry.type == MovementMap::eMovement)
+			Vector position((float) x, (float) y,
+				ScorchedServer::instance()->getLandscapeMaps().getGroundMaps().getHeight(
+					(int) x, (int) y));
+			float distance = (position - targetPos).Magnitude();
+			if (distance > movementCloseness_)
 			{
-				found = true;
-				position = actualPosition;
-				break;
+				if (entry.dist < totalFuel)
+				{
+					// Move
+					totalDamageBeforeMove_ = targets_.getTotalDamageTaken();
+
+					// Move
+					tank->getPosition().setSelectPosition((int) x, (int) y);
+					setWeapon(tank, fuel);
+					fireShot(tank);
+
+					return true;
+				}
 			}
-		}
 
-		if (found)
-		{
-			totalDamageBeforeMove_ = targets_.getTotalDamageTaken();
-
-			tank->getPosition().setSelectPosition(
-				(int) position[0], (int) position[1]);
-			setWeapon(tank, fuel);
-			fireShot(tank);
-			return true;
-		}
+			entry = mmap.getEntry(x, y);
+		}	
 	}
 
 	return false;
@@ -704,9 +708,10 @@ bool TankAICurrentMove::makeGroupShot(Tank *tank,
 	return false;
 }
 
-void TankAICurrentMove::useAvailableBatteries(Tank *tank)
+bool TankAICurrentMove::useAvailableBatteries(Tank *tank)
 {
 	// Use batteries
+	bool result = false;
 	while (tank->getLife().getLife() < 
 		tank->getLife().getMaxLife() &&
 		tank->getAccessories().getBatteries().getNoBatteries() != 0)
@@ -717,8 +722,10 @@ void TankAICurrentMove::useAvailableBatteries(Tank *tank)
 		if (!entries.empty())
 		{
 			useBattery(tank, entries.front()->getAccessoryId());
+			result = true;
 		}
 	}
+	return result;
 }
 
 Vector TankAICurrentMove::lowestHighest(TankAICurrentMoveWeapons &weapons, 
