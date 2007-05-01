@@ -154,13 +154,13 @@ void Water::generate(ProgressCounter *counter)
 			water->wavetexture2.c_str());
 		GLImageHandle waves2Map = 
 			GLImageFactory::loadImageHandle(wave2, wave2, false);
-		wWaves_.getWavesTexture1().replace(waves1Map, GL_RGBA);
-		wWaves_.getWavesTexture2().replace(waves2Map, GL_RGBA);
+		wWaves_.getWavesTexture1().replace(waves1Map);
+		wWaves_.getWavesTexture2().replace(waves2Map);
 		bitmapWater_ = GLImageFactory::loadImageHandle(getDataFile(water->reflection.c_str()));
 
 		GLImageHandle bitmapWaterDetail = 
 			GLImageFactory::loadImageHandle(getDataFile(water->texture.c_str()));
-		wMap_.getWaterDetail().replace(bitmapWaterDetail, GL_RGB, true);
+		wMap_.getWaterDetail().replace(bitmapWaterDetail, true);
 		wWaves_.getWavesColor() = water->wavecolor;
 
 		// Generate the water texture for the spray sprite
@@ -178,7 +178,7 @@ void Water::generate(ProgressCounter *counter)
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
 		GLImageModifier::makeBitmapTransparent(textureWaterNew, 
 			bitmapWater, sprayMaskBitmap);
-		landTexWater_.replace(textureWaterNew, GL_RGBA);
+		landTexWater_.replace(textureWaterNew);
 		}
 
 		// Load the water reflection bitmap
@@ -189,13 +189,13 @@ void Water::generate(ProgressCounter *counter)
 			!OptionsDisplay::instance()->getNoGLSphereMap())
 		{
 			GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
-			waterCubeMap->create(bitmapWater2, GL_RGB, false);
+			waterCubeMap->create(bitmapWater2, false);
 			wMap_.getWaterTexture() = waterCubeMap;
 		}
 		else 
 		{
 			GLTexture *waterNormalMap = new GLTexture();
-			waterNormalMap->create(bitmapWater2, GL_RGB, false);
+			waterNormalMap->create(bitmapWater2, false);
 			wMap_.getWaterTexture() = waterNormalMap;
 		}
 

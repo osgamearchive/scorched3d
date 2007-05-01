@@ -175,7 +175,7 @@ void GLWWindow::drawMaximizedWindow()
 		{
 			GLImageHandle moveMap = GLImageFactory::loadAlphaImageHandle(
 				getDataFile("data/windows/move.bmp"));
-			moveTexture_.create(moveMap, GL_RGBA, false);
+			moveTexture_.create(moveMap, false);
 		}
 
 		if (windowState_ & eCircle)

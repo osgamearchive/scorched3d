@@ -50,9 +50,12 @@ void GLTextureCubeMap::draw(bool force)
 }
 
 bool GLTextureCubeMap::create(GLImage &bitmap, 
-			GLenum format, 
 			bool mipMap)
 {
+	GLenum format = 
+		(bitmap.getComponents()==1)?GL_LUMINANCE:
+		((bitmap.getComponents() == 3)?GL_RGB:GL_RGBA);
+
 	bool success = create(bitmap.getBits(),
 			bitmap.getWidth(), 
 			bitmap.getHeight(), 

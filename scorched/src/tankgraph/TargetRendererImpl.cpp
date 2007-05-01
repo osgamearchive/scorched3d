@@ -61,24 +61,24 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 		std::string file1 = getDataFile("data/textures/bordershield/grid2.bmp");
 		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file1.c_str(), false);
 		texture = new GLTexture;
-		texture->create(map, GL_RGBA, true);
+		texture->create(map, true);
 
 		std::string file2 = getDataFile("data/textures/bordershield/grid22.bmp");
 		GLImageHandle map2 = GLImageFactory::loadImageHandle(file2.c_str(), file2.c_str(), false);
 		texture2 = new GLTexture;
-		texture2->create(map2, GL_RGBA, true);
+		texture2->create(map2, true);
 
 		std::string file3 = getDataFile("data/textures/shield2.bmp");
 		GLImageHandle map3 = GLImageFactory::loadImageHandle(file3.c_str(), file3.c_str(), false);
 		magtexture = new GLTexture;
-		magtexture->create(map3, GL_RGBA, true);
+		magtexture->create(map3, true);
 
 		std::string file4 = getDataFile("data/textures/shield.bmp");
 		std::string file5 = getDataFile("data/textures/shielda.bmp");
 		GLImageHandle map4 = GLImageFactory::loadImageHandle(file4.c_str(), file5.c_str(), false);
 		//map4.alphaMult(4.0f);
 		shieldtexture = new GLTexture;
-		shieldtexture->create(map4, GL_RGBA, true);
+		shieldtexture->create(map4, true);
 
 		obj = gluNewQuadric();
 		gluQuadricTexture(obj, GL_TRUE);

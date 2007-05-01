@@ -305,9 +305,9 @@ void Landscape::generate(ProgressCounter *counter)
 			bitmapRock, bitmapShore, bitmaps, 5, 1024, counter);
 
 		// Set the general surround and roof texture
-		groundTexture_.replace(texture0, GL_RGB, false);
-		surroundTexture_.replace(bitmapSurround, GL_RGB, false);
-		roofTexture_.replace(bitmapRoof, GL_RGB, true);
+		groundTexture_.replace(texture0, false);
+		surroundTexture_.replace(bitmapSurround, false);
+		roofTexture_.replace(bitmapRoof, true);
 	}
 	else
 	{
@@ -350,7 +350,7 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Create the main landscape texture
-	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
+	DIALOG_ASSERT(texture_.replace(mainMap_, false));
 
     // Create the landscape texture used for the small plan window
 	gluScaleImage(
@@ -370,7 +370,7 @@ void Landscape::generate(ProgressCounter *counter)
 		sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
 	GLBitmap texture1New(sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
 	GLImageModifier::makeBitmapTransparent(texture1New, scorchMap, sprayMaskBitmap);
-	landTex1_.replace(texture1New, GL_RGBA);
+	landTex1_.replace(texture1New);
 
 	// Magma
 	GLImageHandle bitmapMagma = 
@@ -380,7 +380,7 @@ void Landscape::generate(ProgressCounter *counter)
 	// Detail
 	GLImageHandle bitmapDetail = 
 		GLImageFactory::loadImageHandle(getDataFile(tex->detail.c_str()));
-	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, GL_RGB, true));
+	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, true));
 
 	// Create the plan textures (for the plan and wind dialogs)
 	updatePlanTexture();
@@ -420,7 +420,7 @@ void Landscape::updatePlanTexture()
 			ScorchedClient::instance()->getOptionsTransient().getWallColor());
 	}
 
-	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, GL_RGB, false));
+	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, false));
 }
 
 void Landscape::actualDrawLand()
@@ -556,7 +556,7 @@ void Landscape::updatePlanATexture()
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 
 		bitmapPlan_, bitmapPlanAlpha_, bitmapPlanAlphaAlpha_, 
 		(water_->getWaterOn()?water_->getWaterHeight():-50.0f));
-	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, GL_RGBA, false));
+	DIALOG_ASSERT(planAlphaTexture_.replace(bitmapPlanAlpha_, false));
 	planAlphaTexture_.draw();
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
@@ -566,7 +566,7 @@ void Landscape::restoreLandscapeTexture()
 {
 	if (textureType_ == eDefault) return;
 
-	DIALOG_ASSERT(texture_.replace(mainMap_, GL_RGB, false));
+	DIALOG_ASSERT(texture_.replace(mainMap_, false));
 	textureType_ = eDefault;
 }
 

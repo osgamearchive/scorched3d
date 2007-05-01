@@ -373,7 +373,7 @@ void TargetRendererImplTank::drawArrow()
 			std::string file2 = getDataFile("data/windows/arrowi.bmp");
 			GLImageHandle bitmap = 
 				GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), true);
-			arrowTexture.create(bitmap, GL_RGBA);
+			arrowTexture.create(bitmap);
 		}
 
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);

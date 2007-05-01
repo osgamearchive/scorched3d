@@ -257,7 +257,7 @@ void TutorialDialog::drawHighlight(float x, float y, float w, float h)
 	{
 		std::string file = getDataFile("data/windows/triangle.bmp");
 		GLImageHandle maps = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
-		triangleTex_.create(maps, GL_RGBA, true);
+		triangleTex_.create(maps, true);
 	}
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);

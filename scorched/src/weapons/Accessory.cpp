@@ -230,7 +230,7 @@ GLTexture *Accessory::getTexture()
 			GLImageFactory::loadAlphaImageHandle(
 				getDataFile(formatString("data/textures/wicons/%s", getIconName())));
 		texture = new GLTexture();
-		texture->create(bmap, GL_RGBA, false);
+		texture->create(bmap, false);
 	}
 	else
 	{
@@ -238,7 +238,7 @@ GLTexture *Accessory::getTexture()
 			GLImageFactory::loadAlphaImageHandle(
 				getDataFile(formatString("data/textures/wicons/%s", "tracer.bmp")));
 		texture = new GLTexture();
-		texture->create(bmap, GL_RGBA, false);
+		texture->create(bmap, false);
 	}
 	texture_ = texture;
 	return texture;

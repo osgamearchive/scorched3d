@@ -56,7 +56,7 @@ void SoftwareMouse::draw(const unsigned currentstate)
 		std::string file1 = getDataFile("data/windows/pointer.bmp");
 		std::string file2 = getDataFile("data/windows/pointera.bmp");
 		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str());
-		mouseTex_.create(map, GL_RGBA, false);
+		mouseTex_.create(map, false);
 
 		SDL_ShowCursor(SDL_DISABLE);
 	}

@@ -33,7 +33,6 @@ public:
 	virtual void draw(bool force = false);
 
 	bool create(GLImage &bitmap, 
-			GLenum format = GL_RGB, 
 			bool mipMap = true);
 	bool create(const void * data, 
 			GLint width, 

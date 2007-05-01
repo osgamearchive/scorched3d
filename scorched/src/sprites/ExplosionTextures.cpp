@@ -55,7 +55,7 @@ bool ExplosionTextures::addTextureToSet(GLTextureSet &set,
 			(char *) texPath, (char *) texPath, false);
 	GLTexture *texture = new GLTexture;
 
-	if (!texture->create(bitmap, GL_RGBA)) return false;
+	if (!texture->create(bitmap)) return false;
 	set.addTexture(texture);
 	return true;
 }
@@ -66,33 +66,33 @@ bool ExplosionTextures::createTextures(ProgressCounter *counter)
 
 	std::string file1 = getDataFile("data/textures/smoke01.bmp");
 	GLImageHandle bitmap = GLImageFactory::loadImageHandle(file1.c_str(), file1.c_str(), false);
-	smokeTexture.create(bitmap, GL_RGBA);
+	smokeTexture.create(bitmap);
 	DIALOG_ASSERT(smokeTexture.textureValid());
 
 	std::string file2 = getDataFile("data/textures/smoke02.bmp");
 	GLImageHandle bitmap2 = GLImageFactory::loadImageHandle(file2.c_str(), file2.c_str(), false);
-	smokeTexture2.create(bitmap2, GL_RGBA);
+	smokeTexture2.create(bitmap2);
 	DIALOG_ASSERT(smokeTexture2.textureValid());
 
 	std::string file3 = getDataFile("data/textures/particle.bmp");
 	GLImageHandle bitmap3 = GLImageFactory::loadImageHandle(file3.c_str(), file3.c_str(), false);
-	particleTexture.create(bitmap3, GL_RGBA);
+	particleTexture.create(bitmap3);
 	DIALOG_ASSERT(particleTexture.textureValid());
 
 	GLImageHandle talkBitmap = GLImageFactory::loadAlphaImageHandle(getDataFile("data/textures/talk.bmp"));
-	talkTexture.create(talkBitmap, GL_RGBA);
+	talkTexture.create(talkBitmap);
 	DIALOG_ASSERT(talkTexture.textureValid());
 
 	std::string file5 = getDataFile("data/textures/rain.bmp");
 	std::string file5m = getDataFile("data/textures/rainm.bmp");
 	GLImageHandle bitmap5 = GLImageFactory::loadImageHandle(file5m.c_str(), file5.c_str(), false);
-	rainTexture.create(bitmap5, GL_RGBA);
+	rainTexture.create(bitmap5);
 	DIALOG_ASSERT(rainTexture.textureValid());
 
 	std::string file6 = getDataFile("data/textures/snow.bmp");
 	std::string file6m = getDataFile("data/textures/snowm.bmp");
 	GLImageHandle bitmap6 = GLImageFactory::loadImageHandle(file6.c_str(), file6m.c_str(), false);
-	snowTexture.create(bitmap6, GL_RGBA);
+	snowTexture.create(bitmap6);
 	DIALOG_ASSERT(snowTexture.textureValid());
 
 	XMLFile file;

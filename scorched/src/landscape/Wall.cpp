@@ -41,7 +41,7 @@ void Wall::draw()
 		std::string file1 = getDataFile("data/textures/bordershield/grid.bmp");
 		std::string file2 = getDataFile("data/textures/bordershield/grid.bmp");
 		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
-		texture_.create(map, GL_RGBA, true);
+		texture_.create(map, true);
 	}
 
 	float wallWidth = (float)

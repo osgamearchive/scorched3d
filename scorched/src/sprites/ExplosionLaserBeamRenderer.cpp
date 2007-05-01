@@ -65,7 +65,7 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 	
 		GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file1.c_str(), false);
 		_texture = new GLTexture;
-		_texture->create(map, GL_RGBA, true);
+		_texture->create(map, true);
 	}
 
 	position_ = position;

@@ -129,7 +129,7 @@ void InfoMap::showHeightBands()
 		}
 	}
 
-	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+	Landscape::instance()->getMainTexture().replace(newMap, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
 
 	delete [] heights;
@@ -169,6 +169,6 @@ void InfoMap::showGrid()
 		}
 	}
 
-	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+	Landscape::instance()->getMainTexture().replace(newMap, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
 }

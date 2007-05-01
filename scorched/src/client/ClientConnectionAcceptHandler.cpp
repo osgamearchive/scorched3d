@@ -100,7 +100,7 @@ bool ClientConnectionAcceptHandler::processMessage(
 
 			// Set the texture
 			texture = new GLTexture;
-			texture->create(map, GL_RGB, false);
+			texture->create(map, false);
 		}
 		else
 		{
@@ -112,7 +112,7 @@ bool ClientConnectionAcceptHandler::processMessage(
 
 			// Set the texture
 			texture = new GLTexture;
-			texture->create(map, GL_RGBA, false);
+			texture->create(map, false);
 		}
 		
 		RulesDialog::instance()->addIcon(texture);

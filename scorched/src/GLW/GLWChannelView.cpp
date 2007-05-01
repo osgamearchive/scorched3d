@@ -371,9 +371,9 @@ void GLWChannelView::draw()
 		GLImageHandle resetImg = GLImageFactory::loadAlphaImageHandle(
 			getDataFile("data/windows/arrow_s.png"));
 
-		upTexture_.create(upImg, GL_RGBA, false);
-		downTexture_.create(downImg, GL_RGBA, false);
-		resetTexture_.create(resetImg, GL_RGBA, false);
+		upTexture_.create(upImg, false);
+		downTexture_.create(downImg, false);
+		resetTexture_.create(resetImg, false);
 
 		upButton_.setTexture(&upTexture_);
 		downButton_.setTexture(&downTexture_);

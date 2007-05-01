@@ -66,7 +66,7 @@ GLTexture &HelpButtonDialog::HelpMenu::getHelpTexture()
 			formatString(getDataFile("data/windows/help.bmp")),
 			formatString(getDataFile("data/windows/helpa.bmp")),
 			false);
-		helpTexture_.create(map, GL_RGBA, false);
+		helpTexture_.create(map, false);
 	}
 	return helpTexture_;
 }

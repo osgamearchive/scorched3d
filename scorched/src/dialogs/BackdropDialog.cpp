@@ -43,13 +43,13 @@ BackdropDialog::BackdropDialog() :
 
 	GLImageHandle backMap = GLImageFactory::loadImageHandle(
 		getDataFile("data/windows/backdrop.jpg"));
-	backTex_.create(backMap, GL_RGB, false);
+	backTex_.create(backMap, false);
 
 	GLImageHandle logoMap = GLImageFactory::loadImageHandle(
 		formatString(getDataFile("data/windows/scorched.jpg")),
 		formatString(getDataFile("data/windows/scorcheda.jpg")),
 		false);
-	logoTex_.create(logoMap, GL_RGBA, false);
+	logoTex_.create(logoMap, false);
 }
 
 BackdropDialog::~BackdropDialog()

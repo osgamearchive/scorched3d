@@ -52,7 +52,7 @@ void WallActionRenderer::init()
 	{
 		std::string file = getDataFile("data/textures/bordershield/hit.bmp");
 		GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
-		texture_.create(map, GL_RGBA, true);
+		texture_.create(map, true);
 	}
 
 	Landscape::instance()->getWall().wallHit(position_, type_);

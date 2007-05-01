@@ -626,7 +626,7 @@ void MovementMap::movementTexture()
 		}
 	}
 
-	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+	Landscape::instance()->getMainTexture().replace(newMap, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
 }
 
@@ -689,7 +689,7 @@ void MovementMap::limitTexture(Vector &center, int limit)
 		}
 	}
 
-	Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+	Landscape::instance()->getMainTexture().replace(newMap, false);
 	Landscape::instance()->setTextureType(Landscape::eOther);
 }
 

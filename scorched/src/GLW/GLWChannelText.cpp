@@ -81,7 +81,7 @@ void GLWChannelText::draw()
 	{
 		GLImageHandle buttonImg = GLImageFactory::loadAlphaImageHandle(
 			getDataFile("data/windows/arrow_r.png"));
-		buttonTexture_.create(buttonImg, GL_RGBA, false);
+		buttonTexture_.create(buttonImg, false);
 		button_.setTexture(&buttonTexture_);
 		GLImageHandle map = GLImageFactory::loadImageHandle(
 			getDataFile("data/windows/white.bmp"));

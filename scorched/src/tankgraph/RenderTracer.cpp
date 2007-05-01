@@ -131,7 +131,7 @@ void RenderTracer::drawSmokeTracer(std::list<TracerLinePoint> &positions)
 		std::string file1 = getDataFile("data/windows/arrow.bmp");
 		std::string file2 = getDataFile("data/windows/arrowi.bmp");
 		GLBitmap bitmap(file1.c_str(), file2.c_str(), true);
-		arrowTexture.create(bitmap, GL_RGBA);
+		arrowTexture.create(bitmap);
 	}
 	arrowTexture.draw();*/
 

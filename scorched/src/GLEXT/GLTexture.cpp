@@ -54,10 +54,12 @@ void GLTexture::draw(bool force)
 	}
 }
 
-bool GLTexture::replace(GLImage &bitmap,
-						GLenum format, 
-						bool mipMap)
+bool GLTexture::replace(GLImage &bitmap, bool mipMap)
 {
+	GLenum format = 
+		(bitmap.getComponents()==1)?GL_LUMINANCE:
+		((bitmap.getComponents() == 3)?GL_RGB:GL_RGBA);
+
 	if (textureValid())
 	{ 
 		if(GLStateExtension::getNoTexSubImage() ||
@@ -85,15 +87,17 @@ bool GLTexture::replace(GLImage &bitmap,
 	}
 	else
 	{
-		return create(bitmap, format, mipMap);
+		return create(bitmap, mipMap);
 	}
 	return true;
 }
 
-bool GLTexture::create(GLImage &bitmap, 
-					   GLenum format, 
-					   bool mipMap)
+bool GLTexture::create(GLImage &bitmap, bool mipMap)
 {
+	GLenum format = 
+		(bitmap.getComponents()==1)?GL_LUMINANCE:
+		((bitmap.getComponents() == 3)?GL_RGB:GL_RGBA);
+	
 	bool success = create(bitmap.getBits(),
 			bitmap.getWidth(), 
 			bitmap.getHeight(), 

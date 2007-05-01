@@ -99,8 +99,8 @@ void ProgressDialog::draw()
 				GLImageFactory::loadAlphaImageHandle(getDataFile("data/windows/bar1.png"));
 			GLImageHandle bar2 = 
 				GLImageFactory::loadAlphaImageHandle(getDataFile("data/windows/bar2.png"));
-			bar1_.create(bar1, GL_RGBA);
-			bar2_.create(bar2, GL_RGBA);
+			bar1_.create(bar1);
+			bar2_.create(bar2);
 
 			bar1_.draw(true);
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);

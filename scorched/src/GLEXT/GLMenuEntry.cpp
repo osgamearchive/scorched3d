@@ -71,7 +71,7 @@ void GLMenuEntry::drawIcon()
 	if (!texture_)
 	{
 		texture_ = new GLTexture();
-		texture_->create(*icon_, GL_RGBA, false);
+		texture_->create(*icon_, false);
 	}
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON | GLState::DEPTH_OFF);

@@ -62,7 +62,7 @@ void Sun::generate()
 
 	std::string file = getDataFile(tex.suntexture.c_str());
 	GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
-	DIALOG_ASSERT(texture_.replace(map, GL_RGBA, true));
+	DIALOG_ASSERT(texture_.replace(map, true));
 }
 
 void Sun::setLightPosition()

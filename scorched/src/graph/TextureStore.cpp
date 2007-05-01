@@ -98,10 +98,8 @@ GLTexture *TextureStore::loadTexture(const char *name,
 #endif
 
 	// Create skin texture from bitmap
-	GLenum format = GL_RGB;
-	if (aname[0]) format = GL_RGBA;
 	GLTexture *texture = new GLTexture;
-	if (!texture->create(*map, format))
+	if (!texture->create(*map))
 	{
 		delete map;
 		dialogMessage("Scorched3D create texture", formatString(

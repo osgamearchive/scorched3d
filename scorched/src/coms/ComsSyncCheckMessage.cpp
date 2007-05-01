@@ -143,7 +143,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 				src+=3;
 			}
 		}
-		Landscape::instance()->getMainTexture().replace(newMap, GL_RGB, false);
+		Landscape::instance()->getMainTexture().replace(newMap, false);
 		Landscape::instance()->setTextureType(Landscape::eOther);
 	}
 

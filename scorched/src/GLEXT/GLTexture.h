@@ -34,7 +34,6 @@ public:
 	virtual void draw(bool force = false);
 
 	bool create(GLImage &bitmap, 
-				GLenum format = GL_RGB, 
 				bool mipMap = true);
 	bool create(const void * data, 
 				GLint width, 
@@ -47,7 +46,6 @@ public:
 				GLint height,
 				bool depthTex);
 	bool replace(GLImage &bitmap,
-						GLenum format = GL_RGB, 
 						bool mipMap = true);
 
 	bool textureValid();

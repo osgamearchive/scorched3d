@@ -60,7 +60,7 @@ void SkyDome::generate()
 	std::string ctex(getDataFile(tex->skytexture.c_str()));
 	std::string ctexm(getDataFile(tex->skytexturemask.c_str()));
 	GLImageHandle bitmapCloud = GLImageFactory::loadImageHandle(ctex.c_str(), ctexm.c_str(), false);
-	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud, GL_RGBA));
+	DIALOG_ASSERT(cloudTexture_.replace(bitmapCloud));
 	skyColorsMap_ = GLImageFactory::loadImageHandle(getDataFile(tex->skycolormap.c_str()));
 
 	// Stars
@@ -70,7 +70,7 @@ void SkyDome::generate()
 		useStarTexture_ = true;
 		std::string stex(getDataFile(tex->skytexturestatic.c_str()));
 		GLImageHandle bitmapStars = GLImageFactory::loadImageHandle(stex.c_str(), stex.c_str(), false);
-		DIALOG_ASSERT(starTexture_.replace(bitmapStars, GL_RGBA));
+		DIALOG_ASSERT(starTexture_.replace(bitmapStars));
 	}
 	noSunFog_ = tex->nosunfog;
 

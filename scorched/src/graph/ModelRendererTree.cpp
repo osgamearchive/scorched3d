@@ -369,35 +369,35 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 			std::string file2 = getDataFile("data/textures/pine2a.bmp");
 			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
-			pineTextureA_.create(map, GL_RGBA, true);
+			pineTextureA_.create(map, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/pine3.bmp");
 			std::string file2 = getDataFile("data/textures/pine3a.bmp");
 			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
-			pineTextureB_.create(map, GL_RGBA, true);
+			pineTextureB_.create(map, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/pine.bmp");
 			std::string file2 = getDataFile("data/textures/pinea.bmp");
 			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
-			palmTextureA_.create(map, GL_RGBA, true);
+			palmTextureA_.create(map, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/palm2.bmp");
 			std::string file2 = getDataFile("data/textures/palm2a.bmp");
 			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
-			palmTextureB_.create(map, GL_RGBA, true);
+			palmTextureB_.create(map, true);
 		}
 		{
 			std::string file1 = getDataFile("data/textures/oak.bmp");
 			std::string file2 = getDataFile("data/textures/oaka.bmp");
 			GLImageHandle map = GLImageFactory::loadImageHandle(file1.c_str(), file2.c_str(), false);
 			DIALOG_ASSERT(map.getBits());
-			oakTextureA_.create(map, GL_RGBA, true);
+			oakTextureA_.create(map, true);
 		}
 
 		glNewList(treePineList = glGenLists(1), GL_COMPILE);
