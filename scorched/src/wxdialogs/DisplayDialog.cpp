@@ -412,6 +412,7 @@ void DisplayFrame::refreshScreen()
 	IDC_LOGGING_CTRL->SetValue(OptionsDisplay::instance()->getClientLogToFile());
 	IDC_LOGGING_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getClientLogToFileEntry().getDescription(), wxConvUTF8));
 
+	IDC_ANTIALIAS_CTRL->Clear();
 	IDC_ANTIALIAS_CTRL->Append("0");
 	IDC_ANTIALIAS_CTRL->Append("1");
 	IDC_ANTIALIAS_CTRL->Append("2");
@@ -421,6 +422,7 @@ void DisplayFrame::refreshScreen()
 		wxConvUTF8));
 	IDC_ANTIALIAS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getAntiAliasEntry().getDescription(), wxConvUTF8));
 
+	IDC_SOUNDCHANNELS_CTRL->Clear();
 	for (int i=2; i<=64; i+=2)
 	{
 		IDC_SOUNDCHANNELS_CTRL->Append(

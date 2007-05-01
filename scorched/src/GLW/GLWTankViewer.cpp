@@ -200,13 +200,25 @@ void GLWTankViewer::simulate(float frameTime)
 	rot_ += frameTime * 45.0f;
 	rotXY_ += frameTime * rotXYD_ * 5.0f;
 	rotYZ_ += frameTime * rotYZD_ * 5.0f;
-	if (rotXY_ < -45.0f || rotXY_ > 45.0f)
+	if (rotXY_ < -45.0f)
 	{
-		rotXYD_ *= -1.0f;
+		rotXY_ = -45.0f;
+		rotXYD_ = 1.0f;
 	}
-	if (rotYZ_ < 0.0f || rotYZ_ > 45.0f)
+	else if (rotXY_ > 45.0f)
 	{
-		rotYZD_ *= -1.0f;
+		rotXY_ = 45.0f;
+		rotXYD_ = -1.0f;
+	}
+	if (rotYZ_ < 0.0f)
+	{
+		rotYZ_ = 0.0f;
+		rotYZD_ = 1.0f;
+	}
+	else if (rotYZ_ > 45.0f)
+	{
+		rotYZ_ = 45.0f;
+		rotYZD_ = -1.0f;
 	}
 
 	scrollBar_.simulate(frameTime);

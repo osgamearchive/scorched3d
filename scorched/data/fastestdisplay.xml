@@ -113,4 +113,8 @@
 		<name>NoModelLighting</name>
 		<value>on</value>
 	</option>
+	<option>
+		<name>FullClear</name>
+		<value>off</value>
+	</option>
 </options>
