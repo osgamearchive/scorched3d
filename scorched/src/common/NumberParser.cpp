@@ -140,7 +140,7 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
                 if (step_ == 0)
                         value = random.getRandFloat() * (max_ - min_) + min_;
                 else
-                        value = float((int(random.getRandFloat() * (max_ - min_) /  step_ )) + min_) * step_;
+                        value = float((int(random.getRandFloat() * (max_ - min_) /  step_ )) * step_) + min_;
                 return value;
         }
 
