@@ -37,12 +37,12 @@ bool WeaponLaser::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 {
 	if (!Weapon::parseXML(context, accessoryNode)) return false;
 
-	if (!accessoryNode->getNamedChild("minimumhurt", minimumHurtExp_)) return false;
-	if (!accessoryNode->getNamedChild("maximumhurt", maximumHurtExp_)) return false;
-	if (!accessoryNode->getNamedChild("hurtradius", hurtRadiusExp_)) return false;
-	if (!accessoryNode->getNamedChild("minimumdistance", minimumDistanceExp_)) return false;
-	if (!accessoryNode->getNamedChild("maximumdistance", maximumDistanceExp_)) return false;
-	if (!accessoryNode->getNamedChild("totaltime", totalTimeExp_)) return false;
+	if (!accessoryNode->getNamedChild("minimumhurt", minimumHurt_)) return false;
+	if (!accessoryNode->getNamedChild("maximumhurt", maximumHurt_)) return false;
+	if (!accessoryNode->getNamedChild("hurtradius", hurtRadius_)) return false;
+	if (!accessoryNode->getNamedChild("minimumdistance", minimumDistance_)) return false;
+	if (!accessoryNode->getNamedChild("maximumdistance", maximumDistance_)) return false;
+	if (!accessoryNode->getNamedChild("totaltime", totalTime_)) return false;
 	if (!accessoryNode->getNamedChild("color", color_)) return false;
 	accessoryNode->getNamedChild("hurtfirer", hurtFirer_, false);
 
@@ -53,12 +53,12 @@ void WeaponLaser::fireWeapon(ScorchedContext &context,
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
 	// convert NumberParser expressions to values
-	minimumHurt_ = minimumHurtExp_.getValue(context);
-	maximumHurt_ = maximumHurtExp_.getValue(context);
-	minimumDistance_ = minimumDistanceExp_.getValue(context);
-	maximumDistance_ = maximumDistanceExp_.getValue(context);
-	hurtRadius_ = hurtRadiusExp_.getValue(context);
-	totalTime_ = totalTimeExp_.getValue(context);
+	//minimumHurt_ = minimumHurtExp_.getValue(context);
+	//maximumHurt_ = maximumHurtExp_.getValue(context);
+	//minimumDistance_ = minimumDistanceExp_.getValue(context);
+	//maximumDistance_ = maximumDistanceExp_.getValue(context);
+	//hurtRadius_ = hurtRadiusExp_.getValue(context);
+	//totalTime_ = totalTimeExp_.getValue(context);
 
 	context.actionController->addAction(
 		new Laser(this, position, velocity, weaponContext));

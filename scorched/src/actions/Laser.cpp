@@ -55,10 +55,10 @@ Laser::~Laser()
 void Laser::init()
 {
 	float per = direction_.Magnitude() / 50.0f;
-	length_ = weapon_->getMinimumDistance() + 
-		(weapon_->getMaximumDistance() - weapon_->getMinimumDistance()) * per;
-	damage_ = weapon_->getMinimumHurt() + 
-		(weapon_->getMaximumHurt() - weapon_->getMinimumHurt()) * (1.0f - per);
+	length_ = weapon_->getMinimumDistance(*context_) + 
+		(weapon_->getMaximumDistance(*context_) - weapon_->getMinimumDistance(*context_)) * per;
+	damage_ = weapon_->getMinimumHurt(*context_) + 
+		(weapon_->getMaximumHurt(*context_) - weapon_->getMinimumHurt(*context_)) * (1.0f - per);
 
 	Vector dir = direction_.Normalize();
 	angXY_ = 180.0f - atan2f(dir[0], dir[1]) / 3.14f * 180.0f;
@@ -70,6 +70,11 @@ void Laser::simulate(float frameTime, bool &remove)
 	if (firstTime_)
 	{
 		firstTime_ = false;
+		
+		// preset some values from the numberparser expressions
+		laserTime_ = weapon_->getTotalTime(*context_);
+		hurtRadius_ = weapon_->getHurtRadius(*context_);
+
 		if (damage_ > 0.0f && direction_.Magnitude() > 0.0f)
 		{
 			std::set<unsigned int> damagedTargets_;
@@ -82,7 +87,7 @@ void Laser::simulate(float frameTime, bool &remove)
 			{
 				std::map<unsigned int, Target *> collisionTargets;
 				context_->targetSpace->getCollisionSet(pos, 
-					float(weapon_->getHurtRadius()), collisionTargets);
+					float(weapon_->getHurtRadius(*context_)), collisionTargets);
 				std::map<unsigned int, Target *>::iterator itor;
 				for (itor = collisionTargets.begin();
 					itor != collisionTargets.end();
@@ -117,7 +122,7 @@ void Laser::simulate(float frameTime, bool &remove)
 
 						if (laserProof != Shield::ShieldLaserProofTotal)
 						{
-							if (targetDistance < weapon_->getHurtRadius() + 
+							if (targetDistance < weapon_->getHurtRadius(*context_) + 
 								MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))
 							{
 								damagedTargets_.insert(current->getPlayerId());
@@ -151,7 +156,7 @@ void Laser::simulate(float frameTime, bool &remove)
 
 	totalTime_ += frameTime;
 
-	remove = (totalTime_ > weapon_->getTotalTime());
+	remove = (totalTime_ > laserTime_);
 	Action::simulate(frameTime, remove);
 }
 
@@ -165,9 +170,9 @@ void Laser::draw()
 		{
 			obj = gluNewQuadric();
 		}
-		float timePer = (1.0f - totalTime_ / weapon_->getTotalTime()) * 0.5f;
-		float radius1 = 0.05f / 2.0f * weapon_->getHurtRadius();
-		float radius2 = 0.2f / 2.0f * weapon_->getHurtRadius();
+		float timePer = (1.0f - totalTime_ / laserTime_) * 0.5f;
+		float radius1 = 0.05f / 2.0f * hurtRadius_;
+		float radius2 = 0.2f / 2.0f * hurtRadius_;
 
 		GLState glState(GLState::TEXTURE_OFF | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);

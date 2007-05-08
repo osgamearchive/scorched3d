@@ -32,12 +32,12 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 
-	float getMinimumHurt() { return minimumHurt_; }
-	float getMaximumHurt() { return maximumHurt_; }
-	float getMinimumDistance() { return minimumDistance_; }
-	float getMaximumDistance() { return maximumDistance_; }
-	float getHurtRadius() { return hurtRadius_; }
-	float getTotalTime() { return totalTime_; }
+	float getMinimumHurt(ScorchedContext &context) { return minimumHurt_.getValue(context); }
+	float getMaximumHurt(ScorchedContext &context) { return maximumHurt_.getValue(context); }
+	float getMinimumDistance(ScorchedContext &context) { return minimumDistance_.getValue(context); }
+	float getMaximumDistance(ScorchedContext &context) { return maximumDistance_.getValue(context); }
+	float getHurtRadius(ScorchedContext &context) { return hurtRadius_.getValue(context); }
+	float getTotalTime(ScorchedContext &context) { return totalTime_.getValue(context); }
 	bool getHurtFirer() { return hurtFirer_; }
 	Vector &getColor() { return color_; }
 
@@ -48,18 +48,14 @@ public:
 	REGISTER_ACCESSORY_HEADER(WeaponLaser, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float minimumHurt_, maximumHurt_;
-	float minimumDistance_, maximumDistance_;
-	float hurtRadius_;
-	float totalTime_;
 	Vector color_;
 	bool hurtFirer_;
 	// Use the following to hold the NumberParser float expression
-	// convert to values in ::fireWeapon()
-	NumberParser minimumHurtExp_, maximumHurtExp_;
-	NumberParser minimumDistanceExp_, maximumDistanceExp_;
-	NumberParser hurtRadiusExp_;
-	NumberParser totalTimeExp_;
+	// convert to values in actions/Laser
+	NumberParser minimumHurt_, maximumHurt_;
+	NumberParser minimumDistance_, maximumDistance_;
+	NumberParser hurtRadius_;
+	NumberParser totalTime_;
 
 
 };

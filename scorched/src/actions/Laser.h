@@ -44,6 +44,7 @@ protected:
 	Vector position_, direction_;
 
 	bool firstTime_;
+	float laserTime_, hurtRadius_;
 	float angXY_, angYZ_;
 	float length_, damage_;
 
