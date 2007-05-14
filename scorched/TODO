@@ -93,6 +93,7 @@ Added: texture attribute to WeaponLightning to allow different textures to be us
 Added: jpg file support
 Added: Full screen anti-aliasing support
 Added: New TankAIs, ais are more accurate, can defeat shields and use fuel, napalm, rollers
+Added: boolean option to select whether graphics are paused when window focus lost
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests
