@@ -329,7 +329,7 @@ bool ClientMain::clientEventLoop(float frameTime)
 				Gamma::instance()->set();
 			}
 
-			paused = (event.active.gain == 0);
+			paused = ( OptionsDisplay::instance()->getFocusPause() && (event.active.gain == 0));
 			break;
 		case SDL_VIDEORESIZE:
 			/*Display::instance()->changeSettings(

@@ -342,6 +342,9 @@ public:
 	int getFramesPerSecondLimit() { return framesPerSecondLimit_; }
 	OptionEntryInt &getFramesPerSecondLimitEntry() { return framesPerSecondLimit_; }
 
+	bool getFocusPause() { return focusPause_; }
+	OptionEntryBool &getFocusPauseEntry() { return focusPause_; }
+
 	void loadSafeValues();
 	void loadDefaultValues();
 	void loadFastestValues();
@@ -469,6 +472,7 @@ protected:
 	OptionEntryVector onlineColor_;
 	OptionEntryString buyTab_;
 	OptionEntryString lastVersionPlayed_;
+	OptionEntryBool focusPause_;
 
 private:
 	OptionsDisplay();

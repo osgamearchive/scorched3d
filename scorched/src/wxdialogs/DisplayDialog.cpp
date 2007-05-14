@@ -422,6 +422,9 @@ void DisplayFrame::refreshScreen()
 		wxConvUTF8));
 	IDC_ANTIALIAS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getAntiAliasEntry().getDescription(), wxConvUTF8));
 
+	IDC_FOCUSPAUSE_CTRL->SetValue(OptionsDisplay::instance()->getFocusPause());
+	IDC_FOCUSPAUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFocusPauseEntry().getDescription(), wxConvUTF8));
+
 	IDC_SOUNDCHANNELS_CTRL->Clear();
 	for (int i=2; i<=64; i+=2)
 	{
@@ -601,6 +604,7 @@ bool DisplayFrame::TransferDataFromWindow()
 
 	OptionsDisplay::instance()->getAntiAliasEntry().setValue(
 		atoi(IDC_ANTIALIAS_CTRL->GetValue().mb_str(wxConvUTF8)));
+	OptionsDisplay::instance()->getFocusPauseEntry().setValue(IDC_FOCUSPAUSE_CTRL->GetValue());
 
 	wxString buffer = IDC_DISPLAY_CTRL->GetValue();
 	int windowWidth, windowHeight;

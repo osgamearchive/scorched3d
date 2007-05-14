@@ -265,7 +265,10 @@ OptionsDisplay::OptionsDisplay() :
 	showContextHelp_(options_, "ShowContextHelp",
 		"Show in game help bubbles (tooltips) for items that have it", RWAccess, true),
 	sortAccessories_(options_, "SortAccessories",
-		"Sort accessories alphabetically by name before displaying", RWAccess, false)
+		"Sort accessories alphabetically by name before displaying", RWAccess, false),
+	focusPause_(options_, "FocusPause",
+		"Pause the graphics display when mouse leaves window.", RWAccess, true)
+
 {
 }
 

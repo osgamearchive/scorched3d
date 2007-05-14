@@ -72,6 +72,10 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 		wxDefaultPosition, wxSize(60, -1),
 		0, 0, wxCB_READONLY);
 	displaySizer2->Add(IDC_ANTIALIAS_CTRL, 0);
+	IDC_FOCUSPAUSE_CTRL =
+		new wxCheckBox(parent, -1, wxT("Pause graphics when not focused"));
+	displaySizer2->Add(IDC_FOCUSPAUSE_CTRL, 0);
+
 	}
 
 	{
