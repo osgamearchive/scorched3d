@@ -194,7 +194,7 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 		if (step_ == 0)
 			value = random.getRandUInt() % (int) (max_ - min_) + (int) min_;
 		else
-			value = random.getRandUInt() % (int) (max_ - min_) / (int) step_ * (int) step_ + (int) min_;
+			value = random.getRandUInt() % ((int) (max_ - min_)) / (int) step_ * (int) step_  + (int) min_;
 
 		return (unsigned int) value;
 	}
@@ -217,6 +217,6 @@ unsigned int NumberParser::getUInt(ScorchedContext &context)
 
 int NumberParser::getInt(ScorchedContext &context)
 {
-	return (int) this->getValue(context);
+	return (int) (this->getValue(context) + 0.5f);
 }
 
