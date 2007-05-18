@@ -92,7 +92,7 @@ const char *TankScore::getTimePlayedString()
 	div_t playedTimeHr = div((int) seconds, 3600);
 	div_t playedTime = div(playedTimeHr.rem, 60);
 
-	snprintf(timestr, 256, "%i:%i:%i secs",
+	snprintf(timestr, 256, "%i:%02i:%02i secs",
 		playedTimeHr.quot,
 		playedTime.quot,
 		playedTime.rem);
