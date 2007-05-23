@@ -2847,6 +2847,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponMessage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponMirv.cpp"
 				>
 			</File>
