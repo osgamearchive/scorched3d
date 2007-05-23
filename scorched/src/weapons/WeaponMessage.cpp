@@ -61,7 +61,7 @@ void WeaponMessage::weaponCallback(
 	unsigned int userData)
 {
 	ChannelText text("combat", 
-		formatString("%s",message_.c_str());
+		formatString("%s",message_.c_str()));
 	ChannelManager::showText(text);
 }
 
