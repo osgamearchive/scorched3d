@@ -60,8 +60,11 @@ void WeaponMessage::weaponCallback(
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
 	unsigned int userData)
 {
-	ChannelText text("combat", 
-		formatString("%s",message_.c_str()));
-	ChannelManager::showText(text);
+	if (!context.serverMode)
+	{
+		ChannelText text("combat", 
+			formatString("%s",message_.c_str()));
+		ChannelManager::showText(text);
+	}
 }
 
