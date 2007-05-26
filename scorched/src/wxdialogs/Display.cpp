@@ -279,18 +279,15 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NOENVCOMBINE_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No combined textures"));
 	troubleSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
-	IDC_NOCUBEMAP_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No cube map textures"));
-	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
+	IDC_NOSHADERS_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No shaders"));
+	troubleSizer2->Add(IDC_NOSHADERS_CTRL, 0);
 	IDC_NOMIPMAPS_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No HW mip maps"));
 	troubleSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);
 	IDC_FULLCLEAR_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Full Clear"));
 	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
-	IDC_NOSPHEREMAP_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No sphere map textures"));
-	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
 	IDC_NOVBO_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No VBO"));
 	troubleSizer2->Add(IDC_NOVBO_CTRL, 0);

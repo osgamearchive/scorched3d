@@ -162,14 +162,11 @@ public:
 	bool getNoGLEnvCombine() { return noGLEnvCombine_; }
 	OptionEntryBool &getNoGLEnvCombineEntry() { return noGLEnvCombine_; }
 
-	bool getNoGLCubeMap() { return noGLCubeMap_; }
-	OptionEntryBool &getNoGLCubeMapEntry() { return noGLCubeMap_; }
-
-	bool getNoGLSphereMap() { return noGLSphereMap_; }
-	OptionEntryBool &getNoGLSphereMapEntry() { return noGLSphereMap_; }
-
 	bool getNoGLHardwareMipmaps() { return noGLHardwareMipmaps_; }
 	OptionEntryBool &getNoGLHardwareMipmapsEntry() { return noGLHardwareMipmaps_; }
+
+	bool getNoGLShaders() { return noGLShaders_; }
+	OptionEntryBool &getNoGLShadersEntry() { return noGLShaders_; }
 
 	int getSoundChannels() { return soundChannels_; }
 	OptionEntryInt &getSoundChannelsEntry() { return soundChannels_; }
@@ -369,6 +366,8 @@ protected:
 	OptionEntryBool depricatedNoShips_;
 	OptionEntryBool depricatedDrawShipPaths_;
 	OptionEntryBool depricatedFirstTimePlayed_;
+	OptionEntryBool depricatedNoGLCubeMap_;
+	OptionEntryBool depricatedNoGLSphereMap_;
 
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
@@ -396,9 +395,8 @@ protected:
 	OptionEntryBool noGLMultiTex_;
 	OptionEntryBool noGLCompiledArrays_;
 	OptionEntryBool noGLEnvCombine_;
-	OptionEntryBool noGLCubeMap_;
-	OptionEntryBool noGLSphereMap_;
 	OptionEntryBool noGLHardwareMipmaps_;
+	OptionEntryBool noGLShaders_;
 	OptionEntryBool invertElevation_;
 	OptionEntryBool invertMouse_;
 	OptionEntryBool noSound_;

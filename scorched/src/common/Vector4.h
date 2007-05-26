@@ -112,6 +112,16 @@ public:
 		return qa;
 	}
 
+	///> component wise linear interpolation
+	Vector4 lerp(Vector4 &c1, Vector4 &c2) 
+	{
+		return Vector4(
+			c1[0] * (1.0f - V[0]) + c2[0] * V[0],
+			c1[1] * (1.0f - V[1]) + c2[1] * V[1],
+			c1[2] * (1.0f - V[2]) + c2[2] * V[2],
+			c1[3] * (1.0f - V[3]) + c2[3] * V[3]);
+	}
+
 	void Normalize();
 
 	// Quaternion maths

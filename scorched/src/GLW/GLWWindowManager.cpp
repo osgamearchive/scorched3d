@@ -386,7 +386,7 @@ void GLWWindowManager::keyboardCheck(const unsigned state, float frameTime,
 	for (int i=0; i<hisCount; i++)
 	{
 		char c = history[i].representedKey;
-		DWORD dik = history[i].sdlKey;
+		unsigned int dik = history[i].sdlKey;
 
 		std::list<std::pair<KeyboardKey *, GLWWindow *> >::iterator keyItor;
 		std::list<std::pair<KeyboardKey *, GLWWindow *> >::iterator endKeyItor = 

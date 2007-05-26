@@ -95,6 +95,9 @@ Added: Full screen anti-aliasing support
 Added: New TankAIs, ais are more accurate, can defeat shields and use fuel, napalm, rollers
 Added: boolean option to select whether graphics are paused when window focus lost
 Added: WeaponMessage primitive to be able to display messages (combat channel only - should add ability to select channel)
+Added: Level of detail for water (geo mipmaps) and changed water bounds so all of it moves
+Added: New water movement algorithm based using discrete fourier transform (based on an algorithm by Thorsten Jordan)
+Added: GL shader support for more realistic renderering of the water
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

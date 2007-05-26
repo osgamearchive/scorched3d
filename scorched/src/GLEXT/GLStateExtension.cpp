@@ -19,167 +19,116 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <GLEXT/GLStateExtension.h>
-#include <graph/OptionsDisplay.h> // Hmm library code pollution
+#include <graph/OptionsDisplay.h>
 #include <common/DefinesString.h>
 #include <common/Logger.h>
-#include <SDL/SDL.h>
-#include <string.h>
-#include <string>
+#include <common/Defines.h>
 
 bool GLStateExtension::hasHardwareShadows_ = false;
+bool GLStateExtension::hasMultiTex_ = false;
 bool GLStateExtension::hasCubeMap_ = false;
+bool GLStateExtension::hasVBO_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
 bool GLStateExtension::noTexSubImage_ = false;
 bool GLStateExtension::hasBlendColor_ = false;
+bool GLStateExtension::hasShaders_ = false;
+bool GLStateExtension::hasFBO_ = false;
 int GLStateExtension::textureUnits_ = 0;
-
-PFNGLBLENDCOLOREXTPROC GLStateExtension::glBlendColorEXT_ = 0;
-PFNGLACTIVETEXTUREARBPROC GLStateExtension::glActiveTextureARB_ =  0;
-PFNGLMULTITEXCOORD2FARBPROC GLStateExtension::glMultiTextCoord2fARB_ = 0;
-PFNGLCLIENTACTIVETEXTUREARBPROC GLStateExtension::glClientActiveTextureARB_ = 0;
-
-PFNGLGENBUFFERSARBPROC GLStateExtension::glGenBuffersARB_ = 0;
-PFNGLBINDBUFFERARBPROC GLStateExtension::glBindBufferARB_ = 0;
-PFNGLBUFFERDATAARBPROC GLStateExtension::glBufferDataARB_ = 0;
-PFNGLDELETEBUFFERSARBPROC GLStateExtension::glDeleteBuffersARB_ = 0;
-PFNGLMAPBUFFERARBPROC GLStateExtension::glMapBufferARB_ = 0;
-PFNGLUNMAPBUFFERARBPROC GLStateExtension::glUnmapBufferARB_ = 0;
-
-PFNGLGENFRAMEBUFFERSEXTPROC GLStateExtension::glGenFramebuffersEXT_ = 0;
-PFNGLBINDFRAMEBUFFEREXTPROC GLStateExtension::glBindFramebufferEXT_ = 0;
-PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC GLStateExtension::glCheckFramebufferStatusEXT_ = 0;
-PFNGLFRAMEBUFFERTEXTURE2DEXTPROC GLStateExtension::glFramebufferTexture2DEXT_ = 0;
-PFNGLDELETEFRAMEBUFFERSEXTPROC GLStateExtension::glDeleteFramebuffersEXT_ = 0;
-
-bool GLStateExtension::hasExtension(char *name)
-{
-	bool result = false;
-
-	if (!OptionsDisplay::instance()->getNoGLExt())
-	{
-		const char *ext = (char *) glGetString(GL_EXTENSIONS);
-		std::string extCopy(ext);
-		char *token = strtok((char *) extCopy.c_str(), " ");
-		while(token != 0)
-		{
-			if (0 == strcmp(token, name)) result = true;
-			token = strtok(NULL, " ");
-		}
-	}
-
-	Logger::log(
-		formatString("GL extension \"%s\" = %s",
-		name,
-		(result?"on":"off")));
-
-	return result;
-}
 
 void GLStateExtension::setup()
 {
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		dialogExit("GLEW", (const char *) glewGetErrorString(err));
+	}
+	Logger::log(formatString("GLEW VERSION:%s", glewGetString(GLEW_VERSION)));
+
 	if (!OptionsDisplay::instance()->getNoVBO())
 	{
-		if (hasExtension("GL_ARB_vertex_buffer_object"))
+		if (GLEW_ARB_vertex_buffer_object &&
+			GLEW_EXT_draw_range_elements)
 		{
-			glGenBuffersARB_ = (PFNGLGENBUFFERSARBPROC) 
-				SDL_GL_GetProcAddress("glGenBuffersARB");
-			glBindBufferARB_ = (PFNGLBINDBUFFERARBPROC) 
-				SDL_GL_GetProcAddress("glBindBufferARB");
-			glBufferDataARB_ = (PFNGLBUFFERDATAARBPROC) 
-				SDL_GL_GetProcAddress("glBufferDataARB");
-			glDeleteBuffersARB_ = (PFNGLDELETEBUFFERSARBPROC) 
-				SDL_GL_GetProcAddress("glDeleteBuffersARB");
-			glMapBufferARB_ = (PFNGLMAPBUFFERARBPROC) 
-				SDL_GL_GetProcAddress("glMapBufferARB");
-			glUnmapBufferARB_ = (PFNGLUNMAPBUFFERARBPROC) 
-				SDL_GL_GetProcAddress("glUnmapBufferARB");
+			hasVBO_ = true;
 		}
 	}
 
 	if (!OptionsDisplay::instance()->getNoGLMultiTex())
 	{
-		if (hasExtension("GL_ARB_multitexture"))
+		if (GLEW_ARB_multitexture)
 		{
 			GLint textureUnits;
 			glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits);
 			textureUnits_ = textureUnits;
-
-			glActiveTextureARB_ = (PFNGLACTIVETEXTUREARBPROC) 
-				SDL_GL_GetProcAddress("glActiveTextureARB");
-			glMultiTextCoord2fARB_ = (PFNGLMULTITEXCOORD2FARBPROC) 
-				SDL_GL_GetProcAddress("glMultiTexCoord2fARB");
-			glClientActiveTextureARB_ = (PFNGLCLIENTACTIVETEXTUREARBPROC) 
-				SDL_GL_GetProcAddress("glClientActiveTextureARB");
+			hasMultiTex_ = true;
 		}
 	}
 
 	if (!OptionsDisplay::instance()->getNoGLEnvCombine())
 	{
-		envCombine_ = hasExtension("GL_ARB_texture_env_combine");
+		envCombine_ = GLEW_ARB_texture_env_combine == GL_TRUE;
 	}
 
-	if (!OptionsDisplay::instance()->getNoGLCubeMap())
-	{
-		hasCubeMap_ = hasExtension("GL_EXT_texture_cube_map") ||
-			hasExtension("GL_ARB_texture_cube_map");
-	}
+	hasCubeMap_ = GLEW_EXT_texture_cube_map == GL_TRUE ||
+		GLEW_ARB_texture_cube_map == GL_TRUE;
 
 	if (!OptionsDisplay::instance()->getNoGLHardwareMipmaps())
 	{
-		hasHardwareMipmaps_ = hasExtension("GL_SGIS_generate_mipmap");
+		hasHardwareMipmaps_ = GLEW_SGIS_generate_mipmap == GL_TRUE;
 	}
 
-	if (hasExtension("GL_EXT_blend_color"))
+	if (GLEW_EXT_blend_color)
 	{
 		hasBlendColor_ = true;
-		glBlendColorEXT_ = (PFNGLBLENDCOLOREXTPROC) 
-			SDL_GL_GetProcAddress("glBlendColorEXT");
 	}
 
 	{
-		if (hasExtension("GL_EXT_framebuffer_object") &&
-			hasExtension("GL_ARB_shadow") &&
-			hasExtension("GL_ARB_depth_texture") &&
-			hasExtension("GL_ARB_multitexture"))
+		if (GLEW_EXT_framebuffer_object)
+		{
+			hasFBO_ = true;
+		}
+	}
+	{
+		if (GLEW_EXT_framebuffer_object &&
+			GLEW_ARB_shadow &&
+			GLEW_ARB_depth_texture &&
+			GLEW_ARB_multitexture)
 		{
 			hasHardwareShadows_ = false; //true;
-
-			glGenFramebuffersEXT_ = (PFNGLGENFRAMEBUFFERSEXTPROC)
-				SDL_GL_GetProcAddress("glGenFramebuffersEXT");
-			glBindFramebufferEXT_ = (PFNGLBINDFRAMEBUFFEREXTPROC)
-				SDL_GL_GetProcAddress("glBindFramebufferEXT");
-			glCheckFramebufferStatusEXT_ = (PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)
-				SDL_GL_GetProcAddress("glCheckFramebufferStatusEXT");
-			glFramebufferTexture2DEXT_ = (PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)
-				SDL_GL_GetProcAddress("glFramebufferTexture2DEXT");
-			glDeleteFramebuffersEXT_ = (PFNGLDELETEFRAMEBUFFERSEXTPROC)
-				SDL_GL_GetProcAddress("glDeleteFramebuffersEXT");
 		}
+	}
+
+	if (!OptionsDisplay::instance()->getNoGLShaders())
+	{
+		hasShaders_ = 
+			GLEW_ARB_fragment_shader &&
+			GLEW_ARB_shader_objects &&
+			GLEW_ARB_vertex_shader;
 	}
 
 	noTexSubImage_ = OptionsDisplay::instance()->getNoGLTexSubImage();
 
-	Logger::log("GL_VENDOR:");
-	Logger::log((const char *) glGetString(GL_VENDOR));
-	Logger::log("GL_RENDERER:");
-	Logger::log((const char *) glGetString(GL_RENDERER));
-	Logger::log("GL_VERSION:");
-	Logger::log((const char *) glGetString(GL_VERSION));
-	Logger::log("GL_EXTENSIONS:");
-	Logger::log((const char *) glGetString(GL_EXTENSIONS));
-	Logger::log("TEXTURE_UNITS:");
-	Logger::log(formatString("%s (%i units)", ((glActiveTextureARB_==0)?"Off":"On"),textureUnits_));
-	Logger::log("VBO:");
-	Logger::log(formatString("%s", ((glGenBuffersARB_==0)?"Off":"On")));
-	Logger::log("ENV COMBINE:");
-	Logger::log(formatString("%s", (envCombine_?"On":"Off")));
-	Logger::log("CUBE MAP:");
-	Logger::log(formatString("%s", (hasCubeMap_?"On":"Off")));
-	Logger::log("HW MIP MAPS:");
-	Logger::log(formatString("%s", (hasHardwareMipmaps_?"On":"Off")));
-	Logger::log("HW SHADOWS:");
-	Logger::log(formatString("%s", (hasHardwareShadows_?"On":"Off")));
-	Logger::log("BLEND COLOR:");
-	Logger::log(formatString("%s", (hasBlendColor_?"On":"Off")));
+	Logger::log(formatString("GL_VENDOR:%s", glGetString(GL_VENDOR)));
+	Logger::log(formatString("GL_RENDERER:%s", glGetString(GL_RENDERER)));
+	Logger::log(formatString("GL_VERSION:%s", glGetString(GL_VERSION)));
+	Logger::log(formatString("GL_EXTENSIONS:%s", glGetString(GL_EXTENSIONS)));
+	Logger::log(formatString("TEXTURE UNITS: %s (%i units)", 
+		(hasMultiTex()?"On":"Off"),textureUnits_));
+	Logger::log(formatString("VERTEX BUFFER OBJECT:%s", 
+		(hasVBO()?"On":"Off")));
+	Logger::log(formatString("FRAME BUFFER OBJECT:%s", 
+		(hasFBO()?"On":"Off")));
+	Logger::log(formatString("SHADERS:%s", 
+		(!hasShaders_?"Off":"On")));
+	Logger::log(formatString("ENV COMBINE:%s", 
+		(envCombine_?"On":"Off")));
+	Logger::log(formatString("CUBE MAP:%s", 
+		(hasCubeMap_?"On":"Off")));
+	Logger::log(formatString("HW MIP MAPS:%s", 
+		(hasHardwareMipmaps_?"On":"Off")));
+	Logger::log(formatString("HW SHADOWS:%s", 
+		(hasHardwareShadows_?"On":"Off")));
+	Logger::log(formatString("BLEND COLOR:%s", 
+		(hasBlendColor_?"On":"Off")));
 }

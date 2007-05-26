@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,18 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_)
-#define AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_
+#include <GLSL/GLSLShaderSetup.h>
 
-
-#include <landscapemap/HeightMap.h>
-#include <landscape/WaterMap.h>
-
-namespace WaterMapModifier  
+GLSLShaderSetup::GLSLShaderSetup(
+	const char *filename_vshader,
+	const char *filename_fshader,
+	const GLSLShader::defines_list& dl) :
+	vs_(filename_vshader, GLSLShader::VERTEX, dl),
+	fs_(filename_fshader, GLSLShader::FRAGMENT, dl)
 {
-	void addWaterVisibility(float waterHeight, 
-		HeightMap &hMap, WaterMap &wMap, 
-		ProgressCounter *counter = 0);
-};
+	prog_.attach(vs_);
+	prog_.attach(fs_);
+	prog_.link();
+}
 
-#endif // !defined(AFX_WATERMAPMODIFIER_H__AD3CF4DB_FB59_4D0F_89B5_A4536C7E7DFC__INCLUDED_)
+GLSLShaderSetup::~GLSLShaderSetup()
+{
+}

@@ -247,6 +247,35 @@ bool GLTexture::createTexture(const void * data,
 	return true;
 }
 
+bool GLTexture::create(GLint width, GLint height, GLenum format)
+{
+	// Init internals
+	texType_ = GL_TEXTURE_2D;
+	width_ = width;
+	height_ = height;
+	texFormat_ = format;
+
+	// Create texture
+	if (!createObject()) return false;
+
+	glBindTexture(texType_, texNum_);
+	if (glGetError() == GL_INVALID_VALUE ||
+		glGetError() == GL_INVALID_OPERATION)
+	{
+		return false;
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0,
+		GL_RGBA, GL_UNSIGNED_BYTE,NULL);
+
+	return true;
+}
+
 bool GLTexture::createBufferTexture(GLint width, GLint height, bool depthTex)
 {
 	// Init internals

@@ -31,7 +31,7 @@
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
-#include <landscape/Water.h>
+#include <water/Water.h>
 #include <engine/ViewPoints.h>
 #include <engine/GameState.h>
 #include <tankai/TankKeyboardControlUtil.h>

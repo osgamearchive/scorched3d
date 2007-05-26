@@ -22,34 +22,18 @@
 #define __INCLUDE_GLStateExtensionh_INCLUDE__
 
 #include <GLEXT/GLState.h>
-#include <GLEXT/GLMissingExt.h>
 
 class GLStateExtension
 {
 public:
-
 	static void setup(); // Setup and check for each extension
 
 	// Use VBO
-	inline static PFNGLGENBUFFERSARBPROC glGenBuffersARB() { return glGenBuffersARB_; }
-	inline static PFNGLBINDBUFFERARBPROC glBindBufferARB() { return glBindBufferARB_; }
-	inline static PFNGLBUFFERDATAARBPROC glBufferDataARB() { return glBufferDataARB_; }
-	inline static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB() { return glDeleteBuffersARB_; }
-	inline static PFNGLMAPBUFFERARBPROC glMapBufferARB() { return glMapBufferARB_; }
-	inline static PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB() { return glUnmapBufferARB_; }
-	// Use multi textureing?
-	inline static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB() { return glActiveTextureARB_; }
-	inline static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB() { return glMultiTextCoord2fARB_; }
-	inline static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB() { return glClientActiveTextureARB_; }
-	// Use frame buffers
-	inline static PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT() { return glGenFramebuffersEXT_; }
-	inline static PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT() { return glBindFramebufferEXT_; }
-	inline static PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT() { return glDeleteFramebuffersEXT_; }
-	inline static PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT() { return glCheckFramebufferStatusEXT_; }
-	inline static PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT() { return glFramebufferTexture2DEXT_; }
-	// Use blend color
-	inline static PFNGLBLENDCOLOREXTPROC glBlendColorEXT() { return glBlendColorEXT_; }
-
+	static bool hasVBO() { return hasVBO_; }
+	// Use MultiTex
+	static bool hasMultiTex() { return hasMultiTex_; }
+	// Use framebuffers
+	static bool hasFBO() { return hasFBO_; }
 	// Use tex sub image extension?
 	static bool getNoTexSubImage() { return noTexSubImage_; }
 	// Use cube map extension?
@@ -64,37 +48,22 @@ public:
 	static bool hasHardwareShadows() { return hasHardwareShadows_; }
 	// Use glBlendColorEXT
 	static bool hasBlendColor() { return hasBlendColor_; }
+	// Use shaders
+	static bool hasShaders() { return hasShaders_; }
 
 protected:
-	static bool hasExtension(char *name);
-
 	static bool envCombine_;
 	static bool multiTexDisabled_;
-
-	static PFNGLBLENDCOLOREXTPROC glBlendColorEXT_;
-	static PFNGLGENBUFFERSARBPROC glGenBuffersARB_;
-	static PFNGLBINDBUFFERARBPROC glBindBufferARB_;
-	static PFNGLBUFFERDATAARBPROC glBufferDataARB_;
-	static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB_;
-	static PFNGLMAPBUFFERARBPROC glMapBufferARB_;
-	static PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB_;
-
-	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB_;
-	static PFNGLMULTITEXCOORD2FARBPROC glMultiTextCoord2fARB_;
-	static PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB_;
-
-	static PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT_;
-	static PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT_;
-	static PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT_;
-	static PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT_;
-	static PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT_;
-
+	static bool hasVBO_;
+	static bool hasFBO_;
+	static bool hasShaders_;
 	static int textureUnits_;
 	static bool hasCubeMap_;
 	static bool hasHardwareMipmaps_;
 	static bool noTexSubImage_;
 	static bool hasHardwareShadows_;
 	static bool hasBlendColor_;
+	static bool hasMultiTex_;
 
 private:
 	GLStateExtension();

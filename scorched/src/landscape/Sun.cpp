@@ -25,6 +25,7 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsScorched.h>
 #include <graph/OptionsDisplay.h>
+#include <graph/MainCamera.h>
 #include <common/Defines.h>
 #include <common/Vector4.h>
 #include <GLEXT/GLImageFactory.h>
@@ -65,17 +66,25 @@ void Sun::generate()
 	DIALOG_ASSERT(texture_.replace(map, true));
 }
 
-void Sun::setLightPosition()
+void Sun::setLightPosition(bool light0)
 {
 	LandscapeTex &tex = *ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions().getTex();
 
 	Vector4 sunPosition = getPosition();
+	if (light0)
+	{
+		Vector &cameraPos = MainCamera::instance()->getTarget().getCamera().getCurrentPos();
+		sunPosition = getPosition() - cameraPos;
+	}
+
 	Vector4 sunDiffuse = tex.skydiffuse;
 	Vector4 sunAmbient = tex.skyambience;
-	glLightfv(GL_LIGHT1, GL_AMBIENT, sunAmbient);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, sunDiffuse);
-	glLightfv(GL_LIGHT1, GL_POSITION, sunPosition);
+
+	GLenum lightNo = light0?GL_LIGHT0:GL_LIGHT1;
+	glLightfv(lightNo, GL_AMBIENT, sunAmbient);
+	glLightfv(lightNo, GL_DIFFUSE, sunDiffuse);
+	glLightfv(lightNo, GL_POSITION, sunPosition);
 }
 
 void Sun::draw()

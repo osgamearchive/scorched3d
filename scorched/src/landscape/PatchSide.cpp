@@ -206,7 +206,7 @@ void PatchSide::recursRender( TriNode *tri,
 			GLDynamicVertexArray::instance()->addFloat(leftZ);
 			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(leftX).txa);
 			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(leftY).txa);
-			if (GLStateExtension::glClientActiveTextureARB() &&
+			if (GLStateExtension::hasMultiTex() &&
 				GLStateExtension::getTextureUnits() > 2)
 			{
 				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(leftX).txb);
@@ -219,7 +219,7 @@ void PatchSide::recursRender( TriNode *tri,
 			GLDynamicVertexArray::instance()->addFloat(rightZ);
 			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(rightX).txa);
 			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(rightY).txa);
-			if (GLStateExtension::glClientActiveTextureARB() &&
+			if (GLStateExtension::hasMultiTex() &&
 				GLStateExtension::getTextureUnits() > 2)
 			{
 				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(rightX).txb);
@@ -232,7 +232,7 @@ void PatchSide::recursRender( TriNode *tri,
 			GLDynamicVertexArray::instance()->addFloat(apexZ);
 			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(apexX).txa);
 			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(apexY).txa);
-			if (GLStateExtension::glClientActiveTextureARB() &&
+			if (GLStateExtension::hasMultiTex() &&
 				GLStateExtension::getTextureUnits() > 2)
 			{
 				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(apexX).txb);

@@ -81,7 +81,7 @@ void Laser::simulate(float frameTime, bool &remove)
 
 			// Build a set of all tanks in the path of the laser
 			Vector pos = position_;
-			Vector dir = direction_.Normalize() / 10.0f;
+			Vector dir = direction_.Normalize() / 4.0f;
 			bool end = false;
 			while (!end)
 			{
@@ -98,10 +98,7 @@ void Laser::simulate(float frameTime, bool &remove)
 						((current->getPlayerId() != weaponContext_.getPlayerId()) ||
 						weapon_->getHurtFirer()))
 					{
-						Vector offset = current->getLife().getTargetPosition() -	pos;
-						float targetDistance = offset.Magnitude();
 						Shield::ShieldLaserProofType laserProof = Shield::ShieldLaserProofNone;
-
 						if (current->getShield().getCurrentShield())
 						{
 							Shield *shield = (Shield *)
@@ -109,6 +106,7 @@ void Laser::simulate(float frameTime, bool &remove)
 							if (shield->getLaserProof() != Shield::ShieldLaserProofNone)
 							{
 								laserProof = shield->getLaserProof();
+								Vector offset = current->getLife().getTargetPosition() - pos;
 								if (shield->inShield(offset))
 								{
 									context_->actionController->addAction(
@@ -122,6 +120,9 @@ void Laser::simulate(float frameTime, bool &remove)
 
 						if (laserProof != Shield::ShieldLaserProofTotal)
 						{
+							Vector offset = current->getLife().getTargetPosition() - pos;
+							float targetDistance = offset.Magnitude();
+
 							if (targetDistance < weapon_->getHurtRadius(*context_) + 
 								MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))
 							{

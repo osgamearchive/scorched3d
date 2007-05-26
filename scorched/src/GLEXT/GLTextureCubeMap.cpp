@@ -21,6 +21,7 @@
 #include <common/Defines.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLTextureCubeMap.h>
+#include <string.h>
 
 GLTextureCubeMap::GLTextureCubeMap()
 {

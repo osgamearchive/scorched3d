@@ -123,21 +123,16 @@ bool Sound::init(int channels)
 	alcMakeContextCurrent(soundContext); 
 	alDistanceModel(AL_INVERSE_DISTANCE);
 
-	Logger::log("AL_VENDOR:");
-	Logger::log(
-		checkString((char *) alGetString(AL_VENDOR)));
-	Logger::log("AL_VERSION:");
-	Logger::log(
-		checkString((char *) alGetString(AL_VERSION)));
-	Logger::log("AL_RENDERER:");
-	Logger::log(
-		checkString((char *) alGetString(AL_RENDERER)));
-	Logger::log("AL_EXTENSIONS:");
-	Logger::log(
-		checkString((char *) alGetString(AL_EXTENSIONS)));
-	Logger::log("ALC_DEVICE_SPECIFIER:");
-	Logger::log(
-		checkString((char *) alcGetString(soundDevice, ALC_DEVICE_SPECIFIER)));
+	Logger::log(formatString("AL_VENDOR:%s",
+		checkString((char *) alGetString(AL_VENDOR))));
+	Logger::log(formatString("AL_VERSION:%s",
+		checkString((char *) alGetString(AL_VERSION))));
+	Logger::log(formatString("AL_RENDERER:%s",
+		checkString((char *) alGetString(AL_RENDERER))));
+	Logger::log(formatString("AL_EXTENSIONS:%s",
+		checkString((char *) alGetString(AL_EXTENSIONS))));
+	Logger::log(formatString("ALC_DEVICE_SPECIFIER:%s",
+		checkString((char *) alcGetString(soundDevice, ALC_DEVICE_SPECIFIER))));
 
 	// Create all sound channels
 	for (int i=1; i<=OptionsDisplay::instance()->getSoundChannels(); i++)

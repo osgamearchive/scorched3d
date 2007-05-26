@@ -35,13 +35,13 @@ bool GLShadowFrameBuffer::create(GLTexture &texture, GLenum type)
 	type_ = type;
 
 	//Generate the frame buffer object
-	GLStateExtension::glGenFramebuffersEXT()(1, &frameBufferObject_);
+	glGenFramebuffersEXT(1, &frameBufferObject_);
 
 	//Activate the frame buffer object
-	GLStateExtension::glBindFramebufferEXT()(GL_FRAMEBUFFER_EXT, frameBufferObject_);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBufferObject_);
 
 	//Attach our depth texture to the frame buffer object
-	GLStateExtension::glFramebufferTexture2DEXT()(
+	glFramebufferTexture2DEXT(
 		GL_FRAMEBUFFER_EXT,
 		type, // e.g. GL_DEPTH_ATTACHMENT_EXT or GL_COLOR_ATTACHMENT0_EXT,
 		GL_TEXTURE_2D, 
@@ -57,7 +57,7 @@ bool GLShadowFrameBuffer::create(GLTexture &texture, GLenum type)
 
 	//Check the completeness of our frame buffer object, with depth textures, there is no need for stencil
 	//and depth attachment for a FBO to be considered as complete
-	GLenum status = GLStateExtension::glCheckFramebufferStatusEXT()(GL_FRAMEBUFFER_EXT);  
+	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);  
 	switch(status) {                                          
 		case GL_FRAMEBUFFER_COMPLETE_EXT:
 		break;                                                
@@ -70,7 +70,7 @@ bool GLShadowFrameBuffer::create(GLTexture &texture, GLenum type)
 	}
 
 	//Turn off our frame buffer object
-	GLStateExtension::glBindFramebufferEXT()(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
 	return true;
 }
@@ -80,10 +80,10 @@ void GLShadowFrameBuffer::destroy()
 	if (!bufferValid()) return;
 
 	//Activate the frame buffer objcet
-	GLStateExtension::glBindFramebufferEXT()(GL_FRAMEBUFFER_EXT, frameBufferObject_);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBufferObject_);
 
 	//Detach our depth texture from the frame buffer object
-	GLStateExtension::glFramebufferTexture2DEXT()(
+	glFramebufferTexture2DEXT(
 		GL_FRAMEBUFFER_EXT,
 		type_,
 		GL_TEXTURE_2D, 
@@ -91,20 +91,20 @@ void GLShadowFrameBuffer::destroy()
 		0);
 
 	//DeActivate the frame buffer objcet
-	GLStateExtension::glBindFramebufferEXT()(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
 	//Delete the frame buffer object
-	GLStateExtension::glDeleteFramebuffersEXT()(1, &frameBufferObject_);
+	glDeleteFramebuffersEXT(1, &frameBufferObject_);
 
 	frameBufferObject_ = 0;
 }
 
 void GLShadowFrameBuffer::bind()
 {
-	GLStateExtension::glBindFramebufferEXT()(GL_FRAMEBUFFER_EXT, frameBufferObject_);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBufferObject_);
 }
 
 void GLShadowFrameBuffer::unBind()
 {
-	GLStateExtension::glBindFramebufferEXT()(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }

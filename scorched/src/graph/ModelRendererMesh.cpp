@@ -101,7 +101,7 @@ void ModelRendererMesh::draw(float currentFrame,
 	if (useBlendColor)
 	{
 		fade = MIN(1.0f, MAX(fade, 0.2f));
-		GLStateExtension::glBlendColorEXT()(0.0f, 0.0f, 0.0f, fade);
+		glBlendColorEXT(0.0f, 0.0f, 0.0f, fade);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);
 	}
 

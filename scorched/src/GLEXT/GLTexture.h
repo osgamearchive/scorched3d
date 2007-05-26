@@ -42,6 +42,9 @@ public:
 				GLint alignment = 4,
 				GLenum format = GL_RGB, 
 				bool mipMap = true);
+	bool create(GLint width, 
+				GLint height, 
+				GLenum format = GL_RGB);
 	bool createBufferTexture(GLint width, 
 				GLint height,
 				bool depthTex);
@@ -54,7 +57,9 @@ public:
 	GLuint getTexName() { return texNum_; }
 	int getWidth() { return width_; }
 	int getHeight() { return height_; }
+
 	static unsigned int getTextureSpace() { return textureSpace_; }
+	static bool validateSize(int size);
 
 protected:
 	static unsigned int textureSpace_;
@@ -64,7 +69,6 @@ protected:
 	GLenum texType_;
 	GLenum texFormat_;
 
-	bool validateSize(int size);
 	bool createTexture(const void * data, 
 						GLint width, 
 						GLint height, 

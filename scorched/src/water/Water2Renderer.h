@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_WaterMapPointsh_INCLUDE__)
-#define __INCLUDE_WaterMapPointsh_INCLUDE__
+#if !defined(__INCLUDE_Water2Rendererh_INCLUDE__)
+#define __INCLUDE_Water2Rendererh_INCLUDE__
 
-#include <landscape/WaterMap.h>
-#include <vector>
+#include <GLEXT/GLTexture.h>
+#include <GLSL/GLSLShaderSetup.h>
 
-class WaterMapPoints
+class Water2;
+class Water2Patches;
+class WaterMapPoints;
+class LandscapeTexBorderWater;
+class ProgressCounter;
+class Vector;
+class Water2Renderer
 {
 public:
-	WaterMapPoints();
-	virtual ~WaterMapPoints();
+	Water2Renderer();
+	~Water2Renderer();
 
-	void draw();
-	void generate(WaterMap &map, int mapWidth, int mapHeight);
+	void draw(Water2 &water2, WaterMapPoints &points);
+	void simulate(float frameTime);
+	void generate(LandscapeTexBorderWater *water, ProgressCounter *counter = 0);
 
 protected:
-	struct Position
-	{
-		float x;
-		float y;
-		WaterMap::WaterEntry *entry;
-	};
-	std::vector<Position> pts_;
+	float totalTime_;
+	float waterHeight_;
+	GLTexture foamTexture_;
+	GLTexture foamAmountTexture_;
+	GLTexture reflectionTexture_;
+	GLTexture normalTexture_;
 
-	void findPoint(WaterMap &map, float x, float y);
+	Water2Patches *currentPatch_;
+	GLSLShaderSetup *waterShader_;
+	unsigned int vattr_aof_index_;
+
+	void setup_textures(Water2 &water2);
+	void cleanup_textures();
 };
 
-#endif
+#endif // __INCLUDE_Water2Rendererh_INCLUDE__

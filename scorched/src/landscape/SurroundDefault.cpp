@@ -44,7 +44,7 @@ SurroundDefault::~SurroundDefault()
 
 void SurroundDefault::draw()
 {
-	bool detail = (GLStateExtension::glActiveTextureARB() &&
+	bool detail = (GLStateExtension::hasMultiTex() &&
 		GLStateExtension::getTextureUnits() > 2 &&
 		OptionsDisplay::instance()->getDetailTexture() &&
 		GLStateExtension::hasEnvCombine());
@@ -57,12 +57,12 @@ void SurroundDefault::draw()
 	
 	if (detail)
 	{
-		GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+		glActiveTextureARB(GL_TEXTURE2_ARB);
 		glEnable(GL_TEXTURE_2D);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
 		glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
 		Landscape::instance()->getDetailTexture().draw(true);
-		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+		glActiveTextureARB(GL_TEXTURE0_ARB);
 	}
 	Landscape::instance()->getGroundTexture().draw(true);
 
@@ -73,9 +73,9 @@ void SurroundDefault::draw()
 
 	if (detail)
 	{
-		GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+		glActiveTextureARB(GL_TEXTURE2_ARB);
 		glDisable(GL_TEXTURE_2D);
-		GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+		glActiveTextureARB(GL_TEXTURE0_ARB);
 	}
 
 	GLInfo::addNoTriangles(8);
@@ -167,8 +167,7 @@ void SurroundDefault::generateList(bool detail)
 			light[2] = MIN(1.0f, light[2]);
 
 			glTexCoord2f(x, y);
-			if (detail) GLStateExtension::glMultiTextCoord2fARB()
-				(GL_TEXTURE2_ARB, x, y);
+			if (detail) glMultiTexCoord2fARB(GL_TEXTURE2_ARB, x, y);
 			glColor3fv(light);
 			glVertex3fv(pos);
 		}

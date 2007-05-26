@@ -39,8 +39,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;../../visualc/include/jpg;$(NOINHERIT)"
-				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;../../visualc/include/jpg;../../visualc/include/fftw3;$(NOINHERIT)"
+				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32;GLEW_STATIC"
 				StringPooling="false"
 				MinimalRebuild="false"
 				RuntimeLibrary="3"
@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:WINDOWS /NODEFAULTLIB:msvcrt.lib  /FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib ../../visualc/lib/fftw3/fftw3.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 			/>
@@ -111,8 +111,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;../../visualc/include/jpg;$(NOINHERIT)"
-				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;../../visualc/include/jpg;../../visualc/include/fftw3;$(NOINHERIT)"
+				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32;GLEW_STATIC"
 				StringPooling="true"
 				RuntimeLibrary="2"
 			/>
@@ -128,7 +128,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:WINDOWS"
-				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib ../../visualc/lib/fftw3/fftw3.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -668,6 +668,10 @@
 			</File>
 			<File
 				RelativePath="..\common\StatsLoggerFile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\StdVectorPtr.h"
 				>
 			</File>
 			<File
@@ -3271,6 +3275,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLEXT\glew.c"
+				>
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLFont2d.cpp"
 				>
 			</File>
@@ -3448,6 +3456,14 @@
 			</File>
 			<File
 				RelativePath="..\GLEXT\GLVertexArray.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLVertexBufferObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLVertexBufferObject.h"
 				>
 			</File>
 			<File
@@ -4590,54 +4606,6 @@
 				RelativePath="..\landscape\Wall.h"
 				>
 			</File>
-			<File
-				RelativePath="..\landscape\Water.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\Water.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMap.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMap.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMapModifier.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMapModifier.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMapPoints.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMapPoints.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMapSurround.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterMapSurround.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterWaves.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\WaterWaves.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="sprites"
@@ -5512,34 +5480,114 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="cgext"
+			Name="water"
 			>
 			<File
-				RelativePath="..\cgext\CGFog.cpp"
+				RelativePath="..\water\ocean_wave_generator.h"
 				>
 			</File>
 			<File
-				RelativePath="..\cgext\CGFog.h"
+				RelativePath="..\water\Water.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\cgext\CGIncludes.h"
+				RelativePath="..\water\Water.h"
 				>
 			</File>
 			<File
-				RelativePath="..\cgext\CGLoader.cpp"
+				RelativePath="..\water\Water2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\cgext\CGLoader.h"
+				RelativePath="..\water\Water2.h"
 				>
 			</File>
 			<File
-				RelativePath="..\cgext\CGProgram.cpp"
+				RelativePath="..\water\Water2Constants.h"
 				>
 			</File>
 			<File
-				RelativePath="..\cgext\CGProgram.h"
+				RelativePath="..\water\Water2Patch.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2Patch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2Patches.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2Patches.h"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2PatchIndex.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2PatchIndex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2PatchIndexs.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2PatchIndexs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2PatchVisibility.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2PatchVisibility.h"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2Renderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\Water2Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\water\WaterMapPoints.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\WaterMapPoints.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="GLSL"
+			>
+			<File
+				RelativePath="..\GLSL\GLSLProgram.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLSL\GLSLProgram.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLSL\GLSLShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLSL\GLSLShader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\GLSL\GLSLShaderSetup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLSL\GLSLShaderSetup.h"
 				>
 			</File>
 		</Filter>

@@ -29,7 +29,6 @@
 #include <common/OptionsTransient.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
-#include <cgext/CGLoader.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -77,13 +76,13 @@ bool createScorchedWindow()
 	Gamma::instance()->set();
 
 	GLSetup::setup();
-	if (!OptionsDisplay::instance()->getNoCg())
+	/*if (!OptionsDisplay::instance()->getNoCg())
 	{
 		if (!CGLoader::instance()->init())
 		{
 			return false;
 		}
-	}
+	}*/
 
 	return true;
 }

@@ -57,9 +57,9 @@ GLVertexArray::~GLVertexArray()
 	if (colors_) free(colors_);
 	if (vertices_) free(vertices_);
 	if (texCoord_) free(texCoord_);
-	if (verticesVBO_) GLStateExtension::glDeleteBuffersARB()(1, &verticesVBO_);
-	if (colorsVBO_) GLStateExtension::glDeleteBuffersARB()(1, &colorsVBO_);
-	if (textureVBO_) GLStateExtension::glDeleteBuffersARB()(1, &textureVBO_);
+	if (verticesVBO_) glDeleteBuffersARB(1, &verticesVBO_);
+	if (colorsVBO_) glDeleteBuffersARB(1, &colorsVBO_);
+	if (textureVBO_) glDeleteBuffersARB(1, &textureVBO_);
 	if (glIsList(listNo_)) glDeleteLists(listNo_, 1);
 }
 
@@ -92,14 +92,14 @@ void GLVertexArray::setup()
 	// ************ NOTE VBO TURNED OFF FOR NOW ************** //
 	useVBO_ = false;
 
-	if (useVBO_ && GLStateExtension::glGenBuffersARB())
+	if (useVBO_ && GLStateExtension::hasVBO())
 	{
 		useVBO_ = true;
 		if (vertices_)
 		{
-			GLStateExtension::glGenBuffersARB()(1, &verticesVBO_);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, verticesVBO_);
-			GLStateExtension::glBufferDataARB()(GL_ARRAY_BUFFER_ARB, 
+			glGenBuffersARB(1, &verticesVBO_);
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, verticesVBO_);
+			glBufferDataARB(GL_ARRAY_BUFFER_ARB, 
 				sizeof(GLVertexArrayVertex) * noTris_, 
 				vertices_,
 				GL_STATIC_DRAW_ARB);
@@ -108,9 +108,9 @@ void GLVertexArray::setup()
 
 		if (colors_)
 		{
-			GLStateExtension::glGenBuffersARB()(1, &colorsVBO_);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, colorsVBO_);
-			GLStateExtension::glBufferDataARB()(GL_ARRAY_BUFFER_ARB, 
+			glGenBuffersARB(1, &colorsVBO_);
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, colorsVBO_);
+			glBufferDataARB(GL_ARRAY_BUFFER_ARB, 
 				sizeof(GLVertexArrayColor) * noTris_, 
 				colors_,
 				GL_STATIC_DRAW_ARB);
@@ -119,9 +119,9 @@ void GLVertexArray::setup()
 
 		if (texCoord_)
 		{
-			GLStateExtension::glGenBuffersARB()(1, &textureVBO_);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
-			GLStateExtension::glBufferDataARB()(GL_ARRAY_BUFFER_ARB, 
+			glGenBuffersARB(1, &textureVBO_);
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, textureVBO_);
+			glBufferDataARB(GL_ARRAY_BUFFER_ARB, 
 				sizeof(GLVertexArrayTexCoord) * noTris_, 
 				texCoord_,
 				GL_STATIC_DRAW_ARB);
@@ -194,7 +194,7 @@ void GLVertexArray::makeList()
 		if (texCoord_)
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
+			if (secondTexture_) glClientActiveTextureARB(GL_TEXTURE1_ARB); 
 			glTexCoordPointer(2, GL_FLOAT, 0, &texCoord_[0].a);
 		}
 	}
@@ -203,20 +203,20 @@ void GLVertexArray::makeList()
 		if (vertices_)
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, verticesVBO_);
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, verticesVBO_);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
 		}
 		if (colors_)
 		{
 			glEnableClientState(GL_COLOR_ARRAY);
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, colorsVBO_);
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, colorsVBO_);
 			glColorPointer(3, GL_FLOAT, 0, 0);
 		}
 		if (texCoord_)
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB); 
-			GLStateExtension::glBindBufferARB()(GL_ARRAY_BUFFER_ARB, textureVBO_);
+			if (secondTexture_) glClientActiveTextureARB(GL_TEXTURE1_ARB); 
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, textureVBO_);
 			glTexCoordPointer(2, GL_FLOAT, 0, 0);
 		}
 	}
@@ -229,7 +229,7 @@ void GLVertexArray::makeList()
 	if (colors_) glDisableClientState(GL_COLOR_ARRAY);
 	if (texCoord_)
 	{	
-		if (secondTexture_) GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB); 
+		if (secondTexture_) glClientActiveTextureARB(GL_TEXTURE0_ARB); 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }

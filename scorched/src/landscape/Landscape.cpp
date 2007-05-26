@@ -28,7 +28,6 @@
 #include <landscape/Wall.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/Sky.h>
-#include <landscape/Water.h>
 #include <landscape/Surround.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
@@ -38,11 +37,13 @@
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeDefinitions.h>
+#include <water/Water.h>
 #include <movement/TargetMovement.h>
 #include <GLEXT/GLImageModifier.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
+#include <GLEXT/GLBitmap.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <graph/OptionsDisplay.h>
@@ -125,7 +126,6 @@ void Landscape::recalculate(int posX, int posY, int dist)
 
 	// Recalculate the level of detail for the terrain
 	patchGrid_->recalculate(posX, posY, dist);
-	water_->recalculate();
 }
 
 void Landscape::reset(ProgressCounter *counter)
@@ -135,7 +135,6 @@ void Landscape::reset(ProgressCounter *counter)
 	// Recalculate all landscape objects
 	// Ensure all objects use any new landscape
 	patchGrid_->reset(counter);
-	water_->reset();
 	ScorchedClient::instance()->getParticleEngine().killAll();
 	MainCamera::instance()->getTarget().
 		getPrecipitationEngine().killAll();
@@ -316,9 +315,7 @@ void Landscape::generate(ProgressCounter *counter)
 			tex->texture->getType()));
 	}
 
-	// Create the water (if any)
 	patchGrid_->generate();
-	water_->generate(counter);
 	points_->generate();
 
 	// Add lighting to the landscape texture
@@ -382,10 +379,6 @@ void Landscape::generate(ProgressCounter *counter)
 		GLImageFactory::loadImageHandle(getDataFile(tex->detail.c_str()));
 	DIALOG_ASSERT(detailTexture_.replace(bitmapDetail, true));
 
-	// Create the plan textures (for the plan and wind dialogs)
-	updatePlanTexture();
-	updatePlanATexture();
-
 	// Set the fog color
 	GLfloat fogColorF[4];
 	fogColorF[0] = tex->fog[0];
@@ -400,9 +393,17 @@ void Landscape::generate(ProgressCounter *counter)
 	sky_->generate();
 	surround_->generate();
 
+	// Load water
+	water_->generate(counter);
+
+	// Create the plan textures (for the plan and wind dialogs)
+	updatePlanTexture();
+	updatePlanATexture();
+
 	// Add any ambientsounds
 	soundManager_->addSounds();
 	LandscapeMusicManager::instance()->addMusics();
+
 }
 
 void Landscape::updatePlanTexture()
@@ -428,13 +429,13 @@ void Landscape::actualDrawLand()
 	GLState *textureState = 0;
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
-		if (GLStateExtension::glActiveTextureARB())
+		if (GLStateExtension::hasMultiTex())
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
 				OptionsDisplay::instance()->getDetailTexture() &&
 				GLStateExtension::hasEnvCombine())
 			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glActiveTextureARB(GL_TEXTURE2_ARB);
 				glEnable(GL_TEXTURE_2D);
 				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
 				glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
@@ -442,7 +443,7 @@ void Landscape::actualDrawLand()
 				detailTexture_.draw(true);
 			}
 
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
+			glActiveTextureARB(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
 
 			if (GLStateExtension::hasHardwareShadows())
@@ -491,7 +492,7 @@ void Landscape::actualDrawLand()
 				getShadowMap().setTexture();
 			}
 
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+			glActiveTextureARB(GL_TEXTURE0_ARB);
 		}
 
 		texture_.draw(true);
@@ -524,24 +525,24 @@ void Landscape::actualDrawLand()
 
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
-		if (GLStateExtension::glActiveTextureARB())
+		if (GLStateExtension::hasMultiTex())
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
 				OptionsDisplay::instance()->getDetailTexture() &&
 				GLStateExtension::hasEnvCombine())
 			{
-				GLStateExtension::glActiveTextureARB()(GL_TEXTURE2_ARB);
+				glActiveTextureARB(GL_TEXTURE2_ARB);
 				glDisable(GL_TEXTURE_2D);
 			}
 
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE1_ARB);
+			glActiveTextureARB(GL_TEXTURE1_ARB);
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_TEXTURE_GEN_S);
 			glDisable(GL_TEXTURE_GEN_T);
 			glDisable(GL_TEXTURE_GEN_R);
 			glDisable(GL_TEXTURE_GEN_Q);
 
-			GLStateExtension::glActiveTextureARB()(GL_TEXTURE0_ARB);
+			glActiveTextureARB(GL_TEXTURE0_ARB);
 		}
 	}
 	else

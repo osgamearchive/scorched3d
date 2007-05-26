@@ -96,7 +96,22 @@ public:
 
 	float Magnitude()
 	{
-		return float(sqrt(V[0]*V[0] + V[1]*V[1] + V[2]*V[2]));
+		return float(sqrt(MagnitudeSquared()));
+	}
+
+	float Magnitude2d()
+	{
+		return float(sqrt(Magnitude2dSquared()));
+	}
+
+	float Magnitude2dSquared()
+	{
+		return V[0]*V[0] + V[1]*V[1];
+	}
+
+	float MagnitudeSquared()
+	{
+		return V[0]*V[0] + V[1]*V[1] + V[2]*V[2];
 	}
 
 	float dotP(const Vector &Vin)

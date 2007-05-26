@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,18 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_WATERMAPSURROUND_H__625E6F81_8391_48B7_9477_77E2EDC9C73E__INCLUDED_)
-#define AFX_WATERMAPSURROUND_H__625E6F81_8391_48B7_9477_77E2EDC9C73E__INCLUDED_
+#if !defined(__INCLUDE_Water2Constantsh_INCLUDE__)
+#define __INCLUDE_Water2Constantsh_INCLUDE__
 
-class WaterMapSurround  
-{
-public:
-	WaterMapSurround();
-	virtual ~WaterMapSurround();
+static inline float myfmod(float a, float b) { return a-floorf(a/b)*b; }//fmod is different for negative a/b
 
-	void generate(int mapWidth, int mapHeight,
-		int startX, int startY,
-		int mapWidthMult, int mapHeightMult);
-	void draw();
+static const float wave_tidecycle_time = 10.24f;
+static const unsigned int wave_phases = 256;
+static const unsigned int wave_patch_width = 16;
+static const unsigned int wave_resolution = 128;
 
-protected:
-	float startX_, startY_;
-	int mapWidth_, mapWidthMult_;
-	int mapHeight_, mapHeightMult_;
-	int triangles_;
-	unsigned int listNo_;
+static const float wavetile_length = 256.0f;
+static const float wave_waterwidth = wavetile_length;
+static const float wavetile_length_rcp = 1.0f / wavetile_length;
 
-	void drawPoint(Vector &start, Vector &diff, 
-		int numberX, int maxX,
-		int numberY, int maxY);
-	void generateList();
-};
-
-#endif // !defined(AFX_WATERMAPSURROUND_H__625E6F81_8391_48B7_9477_77E2EDC9C73E__INCLUDED_)
+#endif // __INCLUDE_Water2Constantsh_INCLUDE__

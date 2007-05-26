@@ -38,7 +38,7 @@ GLDynamicVertexArray::~GLDynamicVertexArray()
 void GLDynamicVertexArray::drawROAM()
 {
 	int stride = 5;
-	if (GLStateExtension::glClientActiveTextureARB())
+	if (GLStateExtension::hasMultiTex())
 	{
 		if (GLStateExtension::getTextureUnits() > 2)
 		{
@@ -58,14 +58,14 @@ void GLDynamicVertexArray::drawROAM()
 		for (int i=0; i<used_; i+=stride)
 		{
 			glTexCoord2f(start[3], start[4]); 
-			if (GLStateExtension::glClientActiveTextureARB())
+			if (GLStateExtension::hasMultiTex())
 			{
-				GLStateExtension::glMultiTextCoord2fARB()
-					(GL_TEXTURE1_ARB, start[3], start[4]);
+				glMultiTexCoord2fARB(
+					GL_TEXTURE1_ARB, start[3], start[4]);
 				if (GLStateExtension::getTextureUnits() > 2)
 				{
-					GLStateExtension::glMultiTextCoord2fARB()
-						(GL_TEXTURE2_ARB, start[5], start[6]);
+					glMultiTexCoord2fARB(
+						GL_TEXTURE2_ARB, start[5], start[6]);
 				}
 			}
 
@@ -77,27 +77,27 @@ void GLDynamicVertexArray::drawROAM()
 	else
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
-		if (GLStateExtension::glClientActiveTextureARB())
+		if (GLStateExtension::hasMultiTex())
 		{
-			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
+			glClientActiveTextureARB(GL_TEXTURE1_ARB);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			if (GLStateExtension::getTextureUnits() > 2)
 			{
-				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+				glClientActiveTextureARB(GL_TEXTURE2_ARB);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			}
 		}
-		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB);
+		glClientActiveTextureARB(GL_TEXTURE0_ARB);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
 		glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
-		if (GLStateExtension::glClientActiveTextureARB())
+		if (GLStateExtension::hasMultiTex())
 		{
-			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
+			glClientActiveTextureARB(GL_TEXTURE1_ARB);
 			glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
 			if (GLStateExtension::getTextureUnits() > 2)
 			{
-				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+				glClientActiveTextureARB(GL_TEXTURE2_ARB);
 				glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
 			}
 		}
@@ -105,17 +105,17 @@ void GLDynamicVertexArray::drawROAM()
 		glDrawArrays(GL_TRIANGLES, 0, used_ / stride);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
-		if (GLStateExtension::glClientActiveTextureARB())
+		if (GLStateExtension::hasMultiTex())
 		{
-			GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE1_ARB);
+			glClientActiveTextureARB(GL_TEXTURE1_ARB);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			if (GLStateExtension::getTextureUnits() > 2)
 			{
-				GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE2_ARB);
+				glClientActiveTextureARB(GL_TEXTURE2_ARB);
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			}
 		}
-		GLStateExtension::glClientActiveTextureARB()(GL_TEXTURE0_ARB);
+		glClientActiveTextureARB(GL_TEXTURE0_ARB);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 

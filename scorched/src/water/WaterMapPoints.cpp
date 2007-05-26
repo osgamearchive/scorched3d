@@ -18,10 +18,11 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/WaterMapPoints.h>
-#include <landscape/MapPoints.h>
-#include <3dsparse/ModelStore.h>
+#include <water/WaterMapPoints.h>
+#include <water/Water2Patches.h>
 #include <graph/ModelRendererSimulator.h>
+#include <landscape/MapPoints.h>
+#include <GLEXT/GLState.h>
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 
@@ -33,17 +34,19 @@ WaterMapPoints::~WaterMapPoints()
 {
 }
 
-void WaterMapPoints::draw()
+void WaterMapPoints::draw(Water2Patches &currentPatch)
 {
 	GLState currentState(GLState::TEXTURE_OFF);
 	for (int i=0; i<(int) pts_.size(); i++)
 	{
-		Position *current = &pts_[i];
+		Vector &current = pts_[i];
+		Water2Patch::Data *currentData = 
+			currentPatch.getPoint(int(current[0]) / 2, int(current[1]) / 2);
+
 		glPushMatrix();
-			glTranslatef(current->x, current->y, 
-				current->entry->height + 0.6f);
-			glRotatef(current->entry->normal[0] * 90.0f, 1.0f, 0.0f, 0.0f);
-			glRotatef(current->entry->normal[2] * 90.0f, 0.0f, 1.0f, 0.0f);
+			glTranslatef(current[0], current[1], currentData->z + 0.6f);
+			glRotatef(currentData->nx * 90.0f, 1.0f, 0.0f, 0.0f);
+			glRotatef(currentData->ny * 90.0f, 0.0f, 1.0f, 0.0f);
 			glScalef(0.15f, 0.15f, 0.15f);
 			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
@@ -63,35 +66,26 @@ void WaterMapPoints::draw()
 	}
 }
 
-void WaterMapPoints::generate(WaterMap &map, int mapWidth, int mapHeight)
+void WaterMapPoints::generate(int mapWidth, int mapHeight)
 {
 	int pointsWidth = mapWidth / 64; // One point every 64 units
 	int pointsHeight = mapHeight / 64; // One point every 64 units
 
 	pts_.clear();
+
 	int i;
 	for (i=0; i<pointsWidth; i++)
 	{
 		float pos = float(mapWidth) / float(pointsWidth-1) * float(i);
 
-		findPoint(map, pos, 0.0f);
-		findPoint(map, pos, float(mapHeight));
+		pts_.push_back(Vector(pos, 0.0f));
+		pts_.push_back(Vector(pos, float(mapHeight)));
 	}
 	for (i=1; i<pointsHeight-1; i++)
 	{
 		float pos = float(mapHeight) / float(pointsHeight-1) * float(i);
 
-		findPoint(map, 0.0f, pos);
-		findPoint(map, float(mapWidth), pos);
+		pts_.push_back(Vector(0.0f, pos));
+		pts_.push_back(Vector(float(mapWidth), pos));
 	}
-}
-
-void WaterMapPoints::findPoint(WaterMap &map, float x, float y)
-{
-	Position pos;
-	Vector point(x, y);
-	pos.x = x;
-	pos.y = y;
-	pos.entry = &map.getNearestWaterPoint(point);
-	pts_.push_back(pos);
 }

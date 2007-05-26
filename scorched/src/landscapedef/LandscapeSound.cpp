@@ -21,7 +21,7 @@
 #include <landscapedef/LandscapeSound.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/Landscape.h>
-#include <landscape/Water.h>
+#include <water/Water.h>
 #include <target/Target.h>
 #include <target/TargetLife.h>
 #include <common/Defines.h>
@@ -143,8 +143,9 @@ bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, unsign
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
 
-	float distance = Landscape::instance()->getWater().
-		getWaves().getWaveDistance(int(cameraPos[0]), int(cameraPos[1]));
+	float distance = 100.0f;
+	//Landscape::instance()->getWater().
+	//	getWaves().getWaveDistance(int(cameraPos[0]), int(cameraPos[1]));
 	distance *= 4.0f * falloff;
 
 	Vector position(0.0f, 0.0f, distance + cameraPos[2]);

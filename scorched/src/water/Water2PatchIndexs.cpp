@@ -18,45 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Waterh_INCLUDE__)
-#define __INCLUDE_Waterh_INCLUDE__
+#include <water/Water2PatchIndexs.h>
 
-#include <landscape/WaterMap.h>
-#include <landscape/WaterWaves.h>
-#include <landscape/WaterMapPoints.h>
-#include <common/ProgressCounter.h>
-#include <GLEXT/GLImageHandle.h>
-
-class Water
+Water2PatchIndexs::Water2PatchIndexs() : noPositions_(0)
 {
-public:
-	Water();
-	virtual ~Water();
+}
 
-	void draw();
-	void reset();
-	void recalculate();
-	void generate(ProgressCounter *counter = 0);
-	void simulate(float frameTime);
-	bool explosion(Vector position, float size);
-	void addWave(Vector position, float height);
+Water2PatchIndexs::~Water2PatchIndexs()
+{
+}
 
-	bool getWaterOn() { return waterOn_; }
-	float getWaterHeight() { return height_; }
-	GLImage &getWaterBitmap() { return bitmapWater_; }
-	WaterWaves &getWaves() { return wWaves_; }
+void Water2PatchIndexs::generate(int size)
+{
+	noPositions_ = 0;
+	int j = 1;
+	for (;;)
+	{
+		noPositions_ ++;
+		for (unsigned int i=0; i<=15; i++)
+		{
+			Water2PatchIndex *index = new Water2PatchIndex();
+			index->generate(size, j, i);
+			indexs_.push_back(index);
+		}
 
-protected:
-	bool waterOn_;
-	bool resetWater_;
-	float resetWaterTimer_;
-	float height_;
-	WaterMap wMap_;
-	WaterMapPoints wMapPoints_;
-	WaterWaves wWaves_;
-	GLTexture landTexWater_;
-	GLImageHandle bitmapWater_;
-
-};
-
-#endif // __INCLUDE_Waterh_INCLUDE__
+		j *= 2;
+		if (j > size) break;
+	}
+}

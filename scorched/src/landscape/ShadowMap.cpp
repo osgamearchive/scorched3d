@@ -75,7 +75,7 @@ void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 
 void ShadowMap::addShadow(float mapx, float mapy, float mapw, float opacity, bool circle)
 {
-	if (!GLStateExtension::glActiveTextureARB() ||
+	if (!GLStateExtension::hasMultiTex() ||
 		GLStateExtension::getNoTexSubImage() ||
 		OptionsDisplay::instance()->getNoShadows()) return;
 

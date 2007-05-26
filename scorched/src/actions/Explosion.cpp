@@ -38,7 +38,7 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/DeformTextures.h>
 #include <landscape/Landscape.h>
-#include <landscape/Water.h>
+#include <water/Water.h>
 #include <landscape/Smoke.h>
 #include <sprites/ExplosionNukeRenderer.h>
 #include <sprites/ExplosionTextures.h>
