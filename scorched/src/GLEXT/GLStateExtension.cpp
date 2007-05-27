@@ -27,6 +27,7 @@
 bool GLStateExtension::hasHardwareShadows_ = false;
 bool GLStateExtension::hasMultiTex_ = false;
 bool GLStateExtension::hasCubeMap_ = false;
+bool GLStateExtension::hasSphereMap_ = false;
 bool GLStateExtension::hasVBO_ = false;
 bool GLStateExtension::hasHardwareMipmaps_ = false;
 bool GLStateExtension::envCombine_ = false;
@@ -70,8 +71,16 @@ void GLStateExtension::setup()
 		envCombine_ = GLEW_ARB_texture_env_combine == GL_TRUE;
 	}
 
-	hasCubeMap_ = GLEW_EXT_texture_cube_map == GL_TRUE ||
-		GLEW_ARB_texture_cube_map == GL_TRUE;
+	if (!OptionsDisplay::instance()->getNoGLCubeMap())
+	{
+		hasCubeMap_ = GLEW_EXT_texture_cube_map == GL_TRUE ||
+			GLEW_ARB_texture_cube_map == GL_TRUE;
+	}
+
+	if (!OptionsDisplay::instance()->getNoGLSphereMap())
+	{
+		hasSphereMap_ = true;
+	}
 
 	if (!OptionsDisplay::instance()->getNoGLHardwareMipmaps())
 	{

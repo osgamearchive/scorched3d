@@ -218,8 +218,8 @@ bool GLTexture::createTexture(const void * data,
 	{
 		if (mipMap)
 		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 			if (GLStateExtension::hasHardwareMipmaps()) // Use hardware mipmaps
 			{
@@ -259,8 +259,9 @@ bool GLTexture::create(GLint width, GLint height, GLenum format)
 	if (!createObject()) return false;
 
 	glBindTexture(texType_, texNum_);
-	if (glGetError() == GL_INVALID_VALUE ||
-		glGetError() == GL_INVALID_OPERATION)
+	GLenum result = glGetError();
+	if (result == GL_INVALID_VALUE ||
+		result == GL_INVALID_OPERATION)
 	{
 		return false;
 	}
@@ -287,8 +288,9 @@ bool GLTexture::createBufferTexture(GLint width, GLint height, bool depthTex)
 	if (!createObject()) return false;
 
 	glBindTexture(texType_, texNum_);
-	if (glGetError() == GL_INVALID_VALUE ||
-		glGetError() == GL_INVALID_OPERATION)
+	GLenum result = glGetError();
+	if (result == GL_INVALID_VALUE ||
+		result == GL_INVALID_OPERATION)
 	{
 		return false;
 	}

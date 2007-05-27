@@ -156,6 +156,12 @@ public:
 	bool getNoGLMultiTex() { return noGLMultiTex_; }
 	OptionEntryBool &getNoGLMultiTexEntry() { return noGLMultiTex_; }
 
+	bool getNoGLCubeMap() { return noGLCubeMap_; }
+	OptionEntryBool &getNoGLCubeMapEntry() { return noGLCubeMap_; }
+
+	bool getNoGLSphereMap() { return noGLSphereMap_; }
+	OptionEntryBool &getNoGLSphereMapEntry() { return noGLSphereMap_; }
+
 	bool getNoGLCompiledArrays() { return noGLCompiledArrays_; }
 	OptionEntryBool &getNoGLCompiledArraysEntry() { return noGLCompiledArrays_; }
 	
@@ -257,9 +263,6 @@ public:
 
 	bool getNoDepthSorting() { return noDepthSorting_; }
 	OptionEntryBool &getNoDepthSortingEntry() { return noDepthSorting_; }
-
-	bool getNoWaves() { return noWaves_; }
-	OptionEntryBool &getNoWavesEntry() { return noWaves_; }
 
 	bool getSoftwareMouse() { return softwareMouse_; }
 	OptionEntryBool &getSoftwareMouseEntry() { return softwareMouse_; }
@@ -366,8 +369,7 @@ protected:
 	OptionEntryBool depricatedNoShips_;
 	OptionEntryBool depricatedDrawShipPaths_;
 	OptionEntryBool depricatedFirstTimePlayed_;
-	OptionEntryBool depricatedNoGLCubeMap_;
-	OptionEntryBool depricatedNoGLSphereMap_;
+	OptionEntryBool depricatedNoWaves_;
 
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
@@ -391,6 +393,8 @@ protected:
 	OptionEntryBool fullScreen_;
 	OptionEntryBool fullClear_;
 	OptionEntryBool noGLTexSubImage_;
+	OptionEntryBool noGLCubeMap_;
+	OptionEntryBool noGLSphereMap_;
 	OptionEntryBool noGLExt_;
 	OptionEntryBool noGLMultiTex_;
 	OptionEntryBool noGLCompiledArrays_;
@@ -443,7 +447,6 @@ protected:
 	OptionEntryBool noPrecipitation_;
 	OptionEntryBool frameTimer_;
 	OptionEntryBool noWaterMovement_;
-	OptionEntryBool noWaves_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;

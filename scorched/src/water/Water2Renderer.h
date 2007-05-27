@@ -47,13 +47,15 @@ protected:
 	GLTexture foamAmountTexture_;
 	GLTexture reflectionTexture_;
 	GLTexture normalTexture_;
+	GLTextureBase *noShaderWaterTexture_;
 
 	Water2Patches *currentPatch_;
 	GLSLShaderSetup *waterShader_;
 	unsigned int vattr_aof_index_;
 
-	void setup_textures(Water2 &water2);
-	void cleanup_textures();
+	void drawWaterShaders(Water2 &water2);
+	void drawWaterNoShaders(Water2 &water2);
+	void drawWater(Water2 &water2);
 };
 
 #endif // __INCLUDE_Water2Rendererh_INCLUDE__

@@ -33,6 +33,7 @@ public:
 
 	struct Data
 	{
+		// Fix me, we don't need all this info all the time!
 		float x, y, z;
 		float nx, ny, nz;
 		float aof;

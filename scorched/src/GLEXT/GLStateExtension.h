@@ -38,6 +38,8 @@ public:
 	static bool getNoTexSubImage() { return noTexSubImage_; }
 	// Use cube map extension?
 	static bool hasCubeMap() { return hasCubeMap_; }
+	// Use sphere map extension?
+	static bool hasSphereMap() { return hasSphereMap_; }
 	// Use hardware mipmap extension?
 	static bool hasHardwareMipmaps() { return hasHardwareMipmaps_; }
 	// Use env combine
@@ -59,6 +61,7 @@ protected:
 	static bool hasShaders_;
 	static int textureUnits_;
 	static bool hasCubeMap_;
+	static bool hasSphereMap_;
 	static bool hasHardwareMipmaps_;
 	static bool noTexSubImage_;
 	static bool hasHardwareShadows_;

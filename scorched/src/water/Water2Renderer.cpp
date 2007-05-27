@@ -24,6 +24,7 @@
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLTextureCubeMap.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
 #include <graph/MainCamera.h>
@@ -33,7 +34,9 @@
 #include <water/Water2Constants.h>
 
 Water2Renderer::Water2Renderer() : 
-	waterShader_(0), vattr_aof_index_(0), currentPatch_(0), totalTime_(0.0f)
+	waterShader_(0), vattr_aof_index_(0), 
+	currentPatch_(0), totalTime_(0.0f),
+	noShaderWaterTexture_(0)
 {
 }
 
@@ -48,38 +51,42 @@ void Water2Renderer::simulate(float frameTime)
 
 void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
 {
-	Vector cameraPos = MainCamera::instance()->getTarget().getCamera().getCurrentPos();
-
+	// Choose correct water frame
 	Water2Patches &currentPatch = water2.getPatch(totalTime_);
 	if (&currentPatch != currentPatch_)
 	{
 		currentPatch_ = &currentPatch;
-		normalTexture_.replace(currentPatch_->getNormalMap());
+
+		// Set the normal map for the current water frame
+		if (GLStateExtension::hasShaders())
+		{
+			normalTexture_.replace(currentPatch_->getNormalMap());
+		}
 	}
 
-	// Set shader
+	// Draw Water
+	if (GLStateExtension::hasShaders())
+	{
+		drawWaterShaders(water2);
+	}
+	else
+	{
+		drawWaterNoShaders(water2);
+	}
+
+	// Draw Points
+	points.draw(currentPatch);
+}
+
+void Water2Renderer::drawWaterShaders(Water2 &water2)
+{
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+	Vector cameraPos = MainCamera::instance()->getTarget().getCamera().getCurrentPos();
 	cameraPos[2] = -waterHeight_;
 	waterShader_->use();
 	waterShader_->set_uniform("viewpos", cameraPos);
 
-	// Setup textures
-	setup_textures(water2);
-
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	water2.getVisibility().draw(
-		currentPatch, water2.getIndexs(), cameraPos, vattr_aof_index_);
-
-	// Cleanup textures
-	cleanup_textures();
-
-	points.draw(currentPatch);
-}
-
-void Water2Renderer::setup_textures(Water2 &water2)
-{
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	waterShader_->use();
 	waterShader_->set_gl_texture(foamTexture_, "tex_foam", 2);
 	waterShader_->set_gl_texture(foamAmountTexture_, "tex_foamamount", 3);
 
@@ -141,72 +148,184 @@ void Water2Renderer::setup_textures(Water2 &water2)
 
 	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
-
 	waterShader_->set_gl_texture(reflectionTexture_, "tex_reflection", 1);
 
-}
+	// Draw Water
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	drawWater(water2);
 
-void Water2Renderer::cleanup_textures()
-{
+	// Cleanup	
 	waterShader_->use_fixed();
 
-	glActiveTexture(GL_TEXTURE0);
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-
 	glActiveTexture(GL_TEXTURE1);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_TEXTURE_2D);
 
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glActiveTexture(GL_TEXTURE0);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
 
 	glPopAttrib();
 }
 
+void Water2Renderer::drawWaterNoShaders(Water2 &water2)
+{
+	glPushAttrib(GL_TEXTURE_BIT);
+
+	// Set up texture coordinate generation for reflections
+	static float PlaneS[] = { 0.0f, 1.0f / 20.0f, 0.0f, 0.0f };
+	static float PlaneT[] = { 1.0f / 20.0f, 0.0f, 0.0f, 0.0f };
+
+	if (GLStateExtension::hasMultiTex())
+	{
+		// Set up texture coordinate generation for base texture
+		glActiveTexture(GL_TEXTURE1);
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_GEN_S); 
+		glEnable(GL_TEXTURE_GEN_T);
+		glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenfv(GL_S, GL_OBJECT_PLANE, PlaneS);
+		glTexGenfv(GL_T, GL_OBJECT_PLANE, PlaneT);
+		reflectionTexture_.draw(true);
+
+		glActiveTexture(GL_TEXTURE0);
+	}
+
+	// Turn lighting on (if enabled)
+	unsigned int state = 0;
+	if (!OptionsDisplay::instance()->getNoModelLighting())
+	{
+		state = 
+			GLState::LIGHTING_ON | 
+			GLState::LIGHT1_ON;
+
+		Vector4 ambientColor(0.4f, 0.4f, 0.4f, 1.0f);
+		Vector4 diffuseColor(0.6f, 0.6f, 0.6f, 1.0f);
+		Vector4 specularColor(1.0f, 1.0f, 1.0f, 1.0f);
+		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
+		float shininess = 1.0f;
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientColor);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseColor);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+
+		Landscape::instance()->getSky().getSun().setLightPosition();
+	}
+
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	if (GLStateExtension::hasCubeMap())
+	{
+		GLState currentState(state | GLState::TEXTURE_OFF | GLState::BLEND_ON | GLState::CUBEMAP_ON);
+
+		// Set up texture coordinate generation for cubemap reflections
+		glEnable(GL_TEXTURE_GEN_S); 
+		glEnable(GL_TEXTURE_GEN_T);
+		glEnable(GL_TEXTURE_GEN_R);
+		glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
+		glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
+		glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT);
+
+		drawWater(water2);
+	}
+	else if (GLStateExtension::hasSphereMap())
+	{
+		GLState currentState(state | GLState::TEXTURE_ON | GLState::BLEND_ON);
+		noShaderWaterTexture_->draw();
+
+		// Set up texture coordinate generation for spheremap reflections
+		glEnable(GL_TEXTURE_GEN_S); 
+		glEnable(GL_TEXTURE_GEN_T);
+		glEnable(GL_TEXTURE_GEN_R);
+		glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+		glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+		glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+
+		drawWater(water2);
+	}
+	else
+	{
+		GLState currentState(state | GLState::TEXTURE_ON | GLState::BLEND_ON);
+		noShaderWaterTexture_->draw();
+
+		// Set up texture coordinate generation for linear reflections
+		glEnable(GL_TEXTURE_GEN_S); 
+		glEnable(GL_TEXTURE_GEN_T);
+		glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenfv(GL_S, GL_OBJECT_PLANE, PlaneS);
+		glTexGenfv(GL_T, GL_OBJECT_PLANE, PlaneT);
+
+		drawWater(water2);
+	}
+
+	if (GLStateExtension::hasMultiTex())
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glDisable(GL_TEXTURE_GEN_S); 
+		glDisable(GL_TEXTURE_GEN_T);
+		glDisable(GL_TEXTURE_GEN_R);
+		glDisable(GL_TEXTURE_2D);
+
+		glActiveTexture(GL_TEXTURE0);
+		glDisable(GL_TEXTURE_GEN_S); 
+		glDisable(GL_TEXTURE_GEN_T);
+		glDisable(GL_TEXTURE_GEN_R);
+	}
+
+	glPopAttrib();
+}
+
+void Water2Renderer::drawWater(Water2 &water2)
+{
+	// Draw Water
+	Vector &cameraPos = 
+		MainCamera::instance()->getTarget().getCamera().getCurrentPos();
+	water2.getVisibility().draw(
+		*currentPatch_, water2.getIndexs(), cameraPos, vattr_aof_index_);
+}
 
 void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 {
-	// Load shaders
-	if (!waterShader_) 
+	if (GLStateExtension::hasShaders())
 	{
-		waterShader_ = new GLSLShaderSetup(
-			formatString(getDataFile("data/shaders/water.vshader")),
-			formatString(getDataFile("data/shaders/water.fshader")));
+		// Load shaders
+		if (!waterShader_) 
+		{
+			waterShader_ = new GLSLShaderSetup(
+				formatString(getDataFile("data/shaders/water.vshader")),
+				formatString(getDataFile("data/shaders/water.fshader")));
 
-		waterShader_->use();
-		vattr_aof_index_ = waterShader_->get_vertex_attrib_index("amount_of_foam");
-		waterShader_->use_fixed();
+			waterShader_->use();
+			vattr_aof_index_ = waterShader_->get_vertex_attrib_index("amount_of_foam");
+			waterShader_->use_fixed();
+		}
 	}
+
+	// Set the water height
+	waterHeight_ = water->height;
 
 	// fixme: color depends also on weather. bad weather -> light is less bright
 	// so this will be computed implicitly. Environment can also change water color
 	// (light blue in tropic waters), water depth also important etc.
 	// this depends on sky color...
 	// good weather
-//	color wavetop = color(color(10, 10, 10), color(18, 93, 77), light_brightness);
-//	color wavebottom = color(color(10, 10, 20), color(18, 73, 107), light_brightness);
+	//	color wavetop = color(color(10, 10, 10), color(18, 93, 77), light_brightness);
+	//	color wavebottom = color(color(10, 10, 20), color(18, 73, 107), light_brightness);
 	// rather bad weather
 	//fixme: multiply with light color here, not only light brightness.
 	//dim yellow light should result in dim yellow-green upwelling color, not dim green.
 	Vector4 light_color(1.0f, 1.0f, 1.0f, 1.0f);
-
-	Vector4 wavetop = light_color.lerp(Vector4(0, 0, 0, 0), Vector4(49.0f/100.0f, 83.0f/100.0f, 94.0f/100.0f));
-	Vector4 wavebottom = light_color.lerp(Vector4(0, 0, 0, 0), Vector4(29.0f/100.0f, 56.0f/100.0f, 91.0f/100.0f));
-
-	Vector upwelltop(wavetop[0], wavetop[1], wavetop[2]);
-	Vector upwellbot(wavebottom[0], wavebottom[1], wavebottom[2]);
-	Vector upwelltopbot = upwelltop - upwellbot;
-
-	waterShader_->use();
-	waterShader_->set_uniform("upwelltop", upwelltop);
-	waterShader_->set_uniform("upwellbot", upwellbot);
-	waterShader_->set_uniform("upwelltopbot", upwelltopbot);
-	waterShader_->use_fixed();
-	waterHeight_ = water->height;
+	Vector4 wavetop = light_color.lerp(Vector4(0, 0, 0, 0), 
+		Vector4(49.0f/100.0f, 83.0f/100.0f, 94.0f/100.0f));
+	Vector4 wavebottom = light_color.lerp(Vector4(0, 0, 0, 0), 
+		Vector4(29.0f/100.0f, 56.0f/100.0f, 91.0f/100.0f));
 
 	// Create textures
 	GLImageHandle loadedBitmapWater = 
@@ -223,4 +342,42 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	normalTexture_.create(map, false);
+
+
+	if (GLStateExtension::hasShaders())
+	{
+		Vector upwelltop(wavetop[0], wavetop[1], wavetop[2]);
+		Vector upwellbot(wavebottom[0], wavebottom[1], wavebottom[2]);
+		Vector upwelltopbot = upwelltop - upwellbot;
+
+		waterShader_->use();
+		waterShader_->set_uniform("upwelltop", upwelltop);
+		waterShader_->set_uniform("upwellbot", upwellbot);
+		waterShader_->set_uniform("upwelltopbot", upwelltopbot);
+		waterShader_->use_fixed();
+	}
+	else
+	{
+		// Load the water reflection bitmap
+		// Create water cubemap texture
+		GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(256, 256);
+		delete noShaderWaterTexture_;
+		if (GLStateExtension::hasCubeMap())
+		{
+			GLTextureCubeMap *waterCubeMap = new GLTextureCubeMap();
+			waterCubeMap->create(bitmapWater2, false);
+			noShaderWaterTexture_ = waterCubeMap;
+		}
+		else 
+		{
+			GLTexture *waterNormalMap = new GLTexture();
+			waterNormalMap->create(bitmapWater2, false);
+			noShaderWaterTexture_ = waterNormalMap;
+		}
+
+		GLState glState(GLState::TEXTURE_ON);
+		reflectionTexture_.draw();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
 }

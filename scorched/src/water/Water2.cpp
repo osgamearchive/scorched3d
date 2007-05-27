@@ -26,6 +26,7 @@
 #include <client/ScorchedClient.h>
 #include <landscapedef/LandscapeTex.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 #include "ocean_wave_generator.h"
 
 #include <water/Water2Constants.h>
@@ -111,72 +112,74 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 		visibility_.generate(offset, wave_resolution * 13, wave_resolution, wave_patch_width);
 	}
 
-
-	if (counter) counter->setNewOp("Water waves");
-
 	// compute amount of foam per vertex sample
-	std::vector<float> aof(wave_resolution*wave_resolution);
+	if (GLStateExtension::hasShaders())
+	{
+		if (counter) counter->setNewOp("Water waves");
 
-	float rndtab[37];
-	for (unsigned k = 0; k < 37; ++k)
-		rndtab[k] = RAND;
+		std::vector<float> aof(wave_resolution*wave_resolution);
 
-	// factor to build derivatives correctly
-	const float deriv_fac = wavetile_length_rcp * wave_resolution;
-	const float lambda = 1.0; // lambda has already been multiplied with x/y displacements...
-	const float decay = 4.0/wave_phases;
-	const float decay_rnd = 0.25/wave_phases;
-	const float foam_spawn_fac = 0.25;//0.125;
-	for (unsigned k = 0; k < wave_phases * 2; ++k) {
-		if (counter) counter->setNewPercentage(float(k * 50) / float(wave_phases));
+		float rndtab[37];
+		for (unsigned k = 0; k < 37; ++k)
+			rndtab[k] = RAND;
 
-		const std::vector<Vector>& wd = displacements[k % wave_phases];
-		// compute for each sample how much foam is added (spawned)
-		for (unsigned y = 0; y < wave_resolution; ++y) {
-			unsigned ym1 = (y + wave_resolution - 1) & (wave_resolution-1);
-			unsigned yp1 = (y + 1) & (wave_resolution-1);
-			for (unsigned x = 0; x < wave_resolution; ++x) {
-				unsigned xm1 = (x + wave_resolution - 1) & (wave_resolution-1);
-				unsigned xp1 = (x + 1) & (wave_resolution-1);
-				float dispx_dx = (wd[y*wave_resolution+xp1][0] - wd[y*wave_resolution+xm1][0]) * deriv_fac;
-				float dispx_dy = (wd[yp1*wave_resolution+x][0] - wd[ym1*wave_resolution+x][0]) * deriv_fac;
-				float dispy_dx = (wd[y*wave_resolution+xp1][1] - wd[y*wave_resolution+xm1][1]) * deriv_fac;
-				float dispy_dy = (wd[yp1*wave_resolution+x][1] - wd[ym1*wave_resolution+x][1]) * deriv_fac;
-				float Jxx = 1.0f + lambda * dispx_dx;
-				float Jyy = 1.0f + lambda * dispy_dy;
-				float Jxy = lambda * dispy_dx;
-				float Jyx = lambda * dispx_dy;
-				float J = Jxx*Jyy - Jxy*Jyx;
-				//printf("x,y=%u,%u, Jxx,yy=%f,%f Jxy,yx=%f,%f J=%f\n",
-				//       x,y, Jxx,Jyy, Jxy,Jyx, J);
-				//double foam_add = (J < 0.3) ? ((J < -1.0) ? 1.0 : (J - 0.3)/-1.3) : 0.0;
-				float foam_add = (J < 0.0f) ? ((J < -1.0f) ? 1.0f : -J) : 0.0f;
-				aof[y*wave_resolution+x] += foam_add * foam_spawn_fac;
-				// spawn foam also on neighbouring fields
-				aof[ym1*wave_resolution+x] += foam_add * foam_spawn_fac * 0.5f;
-				aof[yp1*wave_resolution+x] += foam_add * foam_spawn_fac * 0.5f;
-				aof[y*wave_resolution+xm1] += foam_add * foam_spawn_fac * 0.5f;
-				aof[y*wave_resolution+xp1] += foam_add * foam_spawn_fac * 0.5f;
+		// factor to build derivatives correctly
+		const float deriv_fac = wavetile_length_rcp * wave_resolution;
+		const float lambda = 1.0; // lambda has already been multiplied with x/y displacements...
+		const float decay = 4.0/wave_phases;
+		const float decay_rnd = 0.25/wave_phases;
+		const float foam_spawn_fac = 0.25;//0.125;
+		for (unsigned k = 0; k < wave_phases * 2; ++k) {
+			if (counter) counter->setNewPercentage(float(k * 50) / float(wave_phases));
+
+			const std::vector<Vector>& wd = displacements[k % wave_phases];
+			// compute for each sample how much foam is added (spawned)
+			for (unsigned y = 0; y < wave_resolution; ++y) {
+				unsigned ym1 = (y + wave_resolution - 1) & (wave_resolution-1);
+				unsigned yp1 = (y + 1) & (wave_resolution-1);
+				for (unsigned x = 0; x < wave_resolution; ++x) {
+					unsigned xm1 = (x + wave_resolution - 1) & (wave_resolution-1);
+					unsigned xp1 = (x + 1) & (wave_resolution-1);
+					float dispx_dx = (wd[y*wave_resolution+xp1][0] - wd[y*wave_resolution+xm1][0]) * deriv_fac;
+					float dispx_dy = (wd[yp1*wave_resolution+x][0] - wd[ym1*wave_resolution+x][0]) * deriv_fac;
+					float dispy_dx = (wd[y*wave_resolution+xp1][1] - wd[y*wave_resolution+xm1][1]) * deriv_fac;
+					float dispy_dy = (wd[yp1*wave_resolution+x][1] - wd[ym1*wave_resolution+x][1]) * deriv_fac;
+					float Jxx = 1.0f + lambda * dispx_dx;
+					float Jyy = 1.0f + lambda * dispy_dy;
+					float Jxy = lambda * dispy_dx;
+					float Jyx = lambda * dispx_dy;
+					float J = Jxx*Jyy - Jxy*Jyx;
+					//printf("x,y=%u,%u, Jxx,yy=%f,%f Jxy,yx=%f,%f J=%f\n",
+					//       x,y, Jxx,Jyy, Jxy,Jyx, J);
+					//double foam_add = (J < 0.3) ? ((J < -1.0) ? 1.0 : (J - 0.3)/-1.3) : 0.0;
+					float foam_add = (J < 0.0f) ? ((J < -1.0f) ? 1.0f : -J) : 0.0f;
+					aof[y*wave_resolution+x] += foam_add * foam_spawn_fac;
+					// spawn foam also on neighbouring fields
+					aof[ym1*wave_resolution+x] += foam_add * foam_spawn_fac * 0.5f;
+					aof[yp1*wave_resolution+x] += foam_add * foam_spawn_fac * 0.5f;
+					aof[y*wave_resolution+xm1] += foam_add * foam_spawn_fac * 0.5f;
+					aof[y*wave_resolution+xp1] += foam_add * foam_spawn_fac * 0.5f;
+				}
 			}
-		}
 
-		// compute decay, depends on time with some randomness
-		unsigned ptr = 0;
-		for (unsigned y = 0; y < wave_resolution; ++y) {
-			for (unsigned x = 0; x < wave_resolution; ++x) {
-				aof[ptr] = std::max(std::min(aof[ptr], 1.0f) - (decay + decay_rnd * rndtab[(3*x + 5*y) % 37]), 0.0f);
-				++ptr;
-			}
-		}
-
-		// store amount of foam data when in second iteration
-		if (k >= wave_phases) {
-			Water2Patches &patches = patches_[k - wave_phases];
-
+			// compute decay, depends on time with some randomness
 			unsigned ptr = 0;
-			for (int y=0; y<wave_resolution; y++) {
-				for (int x = 0; x < wave_resolution; ++x, ++ptr) {
-					patches.getPoint(x, y)->aof = aof[y * wave_resolution + x];
+			for (unsigned y = 0; y < wave_resolution; ++y) {
+				for (unsigned x = 0; x < wave_resolution; ++x) {
+					aof[ptr] = std::max(std::min(aof[ptr], 1.0f) - (decay + decay_rnd * rndtab[(3*x + 5*y) % 37]), 0.0f);
+					++ptr;
+				}
+			}
+
+			// store amount of foam data when in second iteration
+			if (k >= wave_phases) {
+				Water2Patches &patches = patches_[k - wave_phases];
+
+				unsigned ptr = 0;
+				for (int y=0; y<wave_resolution; y++) {
+					for (int x = 0; x < wave_resolution; ++x, ++ptr) {
+						patches.getPoint(x, y)->aof = aof[y * wave_resolution + x];
+					}
 				}
 			}
 		}

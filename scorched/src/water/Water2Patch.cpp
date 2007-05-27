@@ -19,8 +19,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <water/Water2Patch.h>
+#include <water/Water2Constants.h>
 #include <common/Logger.h>
+#include <graph/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
+#include <GLEXT/GLStateExtension.h>
 
 Water2Patch::Water2Patch() : data_(0), size_(0)
 {
@@ -63,24 +66,28 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 	int startX = posX * size;
 	int startY = posY * size;
 
-	int i=0;
+	Data *data = data_;
 	for (int y=0; y<=size; y++)
 	{
-		for (int x=0; x<=size; x++, i++)
+		for (int x=0; x<=size; x++, data++)
 		{
+			// Calculate the position
 			Vector position = getPosition(heights, x, y, startX, startY, totalSize);
-			data_[i].x = position[0];
-			data_[i].y = position[1];
-			data_[i].z = position[2];
-			data_[i].aof = 0.0f;
+
+			// Set the position
+			data->x = position[0];
+			data->y = position[1];
+			data->z = position[2];
+			data->aof = 0.0f;
 		}
 	}
 
-	i = 0;
+	data = data_;
 	for (int y=0; y<=size; y++)
 	{
-		for (int x=0; x<=size; x++, i++)
+		for (int x=0; x<=size; x++, data++)
 		{
+			// Calculate the normal
 			Vector current = getPosition(heights, x, y, startX, startY, totalSize);
 			Vector other1 = getPosition(heights, x + 1, y, startX, startY, totalSize);
 			Vector other2 = getPosition(heights, x, y + 1, startX, startY, totalSize);
@@ -99,9 +106,10 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 
 			Vector normal = (normal1 + normal2 + normal3 + normal4).Normalize();
 
-			data_[i].nx = normal[0];
-			data_[i].ny = normal[1];
-			data_[i].nz = normal[2];
+			// Set the normal
+			data->nx = normal[0];
+			data->ny = normal[1];
+			data->nz = normal[2];
 		}
 	}
 }
@@ -110,32 +118,40 @@ void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int border
 {
 	Water2PatchIndex &index = indexes.getIndex(indexPosition, borders);
 
+	// Vertices On
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(Data), &data_[0].x);
+
+	// Normals On
 	glEnableClientState(GL_NORMAL_ARRAY);
+	glNormalPointer(GL_FLOAT, sizeof(Data), &data_[0].nx);
 
 	if (vattr_aof_index != 0)
 	{
+		// Aof On
 		glEnableVertexAttribArray(vattr_aof_index);
 		glVertexAttribPointer(vattr_aof_index, 1, GL_FLOAT, GL_FALSE, sizeof(Data), &data_[0].aof);
 	}
-		
-	glVertexPointer(3, GL_FLOAT, sizeof(Data), &data_[0].x);
-	glNormalPointer(GL_FLOAT, sizeof(Data), &data_[0].nx);
+	
+	// Draw elements
 	glDrawElements(GL_TRIANGLE_STRIP, 
 		index.getSize(), 
 		GL_UNSIGNED_INT, 
 		index.getIndices());
 
+	// Vertices Off
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	// Normals Off
+	glDisableClientState(GL_NORMAL_ARRAY);
+
 	if (vattr_aof_index != 0)
 	{
+		// Aof Off
 		glDisableVertexAttribArray(vattr_aof_index);
 	}
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-
-
-	if(false) 
+	if(OptionsDisplay::instance()->getDrawNormals()) // Draw normals
 	{
 		GLState state(GLState::TEXTURE_OFF);
 		glBegin(GL_LINES);

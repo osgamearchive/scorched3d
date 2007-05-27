@@ -19,6 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <water/Water.h>
+#include <water/Water2.h>
+#include <water/Water2Renderer.h>
+#include <water/WaterMapPoints.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
@@ -35,6 +38,9 @@
 Water::Water() :
 	height_(25.0f), waterOn_(false)
 {
+	wTex_ = new Water2Renderer();
+	wMap_ = new Water2();
+	wMapPoints_ = new WaterMapPoints();
 }
 
 Water::~Water()
@@ -46,7 +52,7 @@ void Water::draw()
 	if (!waterOn_ ||
 		!OptionsDisplay::instance()->getDrawWater()) return;
 
-	wTex_.draw(wMap_, wMapPoints_);
+	wTex_->draw(*wMap_, *wMapPoints_);
 }
 
 void Water::simulate(float frameTime)
@@ -54,7 +60,7 @@ void Water::simulate(float frameTime)
 	if (!waterOn_ ||
 		!OptionsDisplay::instance()->getDrawWater()) return;
 
-	wTex_.simulate(frameTime);
+	wTex_->simulate(frameTime);
 }
 
 void Water::generate(ProgressCounter *counter)
@@ -65,10 +71,12 @@ void Water::generate(ProgressCounter *counter)
 		getDefinitions().getDefn();
 	if (tex.border->getType() == LandscapeTexType::eNone)
 	{
+		height_ = 0.0f;
 		waterOn_ = false;
 		return;
 	}
 
+	// Check the border means water
 	if (tex.border->getType() != LandscapeTexType::eWater)
 	{
 		dialogExit("Landscape", formatString(
@@ -79,12 +87,14 @@ void Water::generate(ProgressCounter *counter)
 	LandscapeTexBorderWater *water = 
 		(LandscapeTexBorderWater *) tex.border;
 
+	// Set quick water attributes
 	height_ = water->height;
 	waterOn_ = true;
 
-	wMap_.generate(water, counter);
-	wTex_.generate(water, counter);
-	wMapPoints_.generate(defn.landscapewidth, defn.landscapewidth);
+	// General all other water items
+	wMap_->generate(water, counter);
+	wTex_->generate(water, counter);
+	wMapPoints_->generate(defn.landscapewidth, defn.landscapewidth);
 
 	// Generate the water texture for the spray sprite
 	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");

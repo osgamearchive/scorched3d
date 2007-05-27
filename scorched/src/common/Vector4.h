@@ -41,6 +41,14 @@ public:
 		V[3] = 1.0f;
 	}
 
+	Vector4(const Vector4 &c1, const Vector4 &c2, float scal) 
+	{
+		V[0] = (c1[0]*(1-scal) + c2[0]*scal);
+		V[1] = (c1[1]*(1-scal) + c2[1]*scal);
+		V[2] = (c1[2]*(1-scal) + c2[2]*scal);
+		V[3] = (c1[3]*(1-scal) + c2[3]*scal);
+	}
+
 	Vector4(const Vector4 &v)
 	{
 		V[0] = ((Vector4 &) v)[0];

@@ -21,12 +21,14 @@
 #if !defined(__INCLUDE_Waterh_INCLUDE__)
 #define __INCLUDE_Waterh_INCLUDE__
 
-#include <water/Water2.h>
-#include <water/Water2Renderer.h>
-#include <water/WaterMapPoints.h>
 #include <common/ProgressCounter.h>
+#include <common/Vector.h>
 #include <GLEXT/GLImageHandle.h>
+#include <GLEXT/GLTexture.h>
 
+class Water2;
+class Water2Renderer;
+class WaterMapPoints;
 class Water
 {
 public:
@@ -45,9 +47,9 @@ public:
 protected:
 	bool waterOn_;
 	float height_;
-	Water2 wMap_;
-	Water2Renderer wTex_;
-	WaterMapPoints wMapPoints_;
+	Water2 *wMap_;
+	Water2Renderer *wTex_;
+	WaterMapPoints *wMapPoints_;
 	GLTexture landTexWater_;
 	GLImageHandle bitmapWater_;
 

@@ -59,6 +59,15 @@ void dialogMessage(const char *header, const char *text)
 #endif
 }
 
+void glAssert(unsigned int e, const int line, const char *file)
+{
+	// Dont use formatString here as this method is called by formatString.
+	char buffer[20048];
+	snprintf(buffer, 20048, "%u\n%i:%s", e, line, file);
+	//dialogMessage("GL Assert", buffer);
+	//exit(64);
+}
+
 void dialogAssert(const char *lineText, const int line, const char *file)
 {
 	// Dont use formatString here as this method is called by formatString.

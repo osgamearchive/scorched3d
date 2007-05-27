@@ -32,4 +32,33 @@ static const float wavetile_length = 256.0f;
 static const float wave_waterwidth = wavetile_length;
 static const float wavetile_length_rcp = 1.0f / wavetile_length;
 
+static const float VIRTUAL_PLANE_HEIGHT = 25.0f;
+
+#define REFRAC_COLOR_RES 32
+#define FRESNEL_FCT_RES 256
+
+static inline float exact_fresnel(float x)
+{
+	// the real formula (recheck it!)
+/*
+	float g = 1.333f + x*x - 1;
+	float z1 = g-x;
+	float z2 = g+x;
+	return (z1*z1)*(1+((x*z2-1)*(x*z2-1))/((x*z1+1)*(x*z1+1)))/(2*z2*z2);
+*/
+
+/*
+	// a very crude guess
+	float tmp = 1-4*x;
+	if (tmp < 0.0f) tmp = 0.0f;
+	return tmp;
+*/
+	// a good approximation (1/(x+1)^8)
+	float x1 = x + 1.0f;
+	float x2 = x1*x1;
+	float x4 = x2*x2;
+	return 1.0f/(x4*x4);
+}
+
+
 #endif // __INCLUDE_Water2Constantsh_INCLUDE__

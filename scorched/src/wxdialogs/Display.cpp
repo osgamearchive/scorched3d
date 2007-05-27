@@ -253,9 +253,6 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NODEPTHSORT_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No sprite depth sorting"));
 	detailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
-	IDC_NOWAVES_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No waves at shore"));
-	detailSizer2->Add(IDC_NOWAVES_CTRL, 0);
 	detailSizer->Add(detailSizer2, 0, wxGROW);
 	sizer->Add(detailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
@@ -282,6 +279,12 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NOSHADERS_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No shaders"));
 	troubleSizer2->Add(IDC_NOSHADERS_CTRL, 0);
+	IDC_NOCUBEMAP_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No cube map"));
+	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
+	IDC_NOSPHEREMAP_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No sphere map"));
+	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
 	IDC_NOMIPMAPS_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No HW mip maps"));
 	troubleSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);

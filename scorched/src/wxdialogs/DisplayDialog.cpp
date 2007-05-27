@@ -324,6 +324,10 @@ void DisplayFrame::refreshScreen()
 	IDC_FULLCLEAR_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFullClearEntry().getDescription(), wxConvUTF8));
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
 	IDC_NOEXT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLExtEntry().getDescription(), wxConvUTF8));
+	IDC_NOCUBEMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCubeMap());
+	IDC_NOCUBEMAP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLCubeMapEntry().getDescription(), wxConvUTF8));
+	IDC_NOSPHEREMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLSphereMap());
+	IDC_NOSPHEREMAP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLSphereMapEntry().getDescription(), wxConvUTF8));
 	IDC_NOLANDSCAPESCORCH_CTRL->SetValue(OptionsDisplay::instance()->getNoGLTexSubImage());
 	IDC_NOLANDSCAPESCORCH_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLTexSubImageEntry().getDescription(), wxConvUTF8));
 	IDC_NOMULTITEX_CTRL->SetValue(OptionsDisplay::instance()->getNoGLMultiTex());
@@ -364,8 +368,6 @@ void DisplayFrame::refreshScreen()
 	IDC_NOTREES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoTreesEntry().getDescription(), wxConvUTF8));
 	IDC_NOPRECIPITATION_CTRL->SetValue(OptionsDisplay::instance()->getNoPrecipitation());
 	IDC_NOPRECIPITATION_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoPrecipitationEntry().getDescription(), wxConvUTF8));
-	IDC_NOWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaves());
-	IDC_NOWAVES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWavesEntry().getDescription(), wxConvUTF8));
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
 	IDC_NODEPTHSORT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoDepthSortingEntry().getDescription(), wxConvUTF8));
 	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertElevation());
@@ -562,6 +564,8 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoGLCompiledArraysEntry().setValue(IDC_NOCOMPILEDARRAYS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLEnvCombineEntry().setValue(IDC_NOENVCOMBINE_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLShadersEntry().setValue(IDC_NOSHADERS_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLCubeMapEntry().setValue(IDC_NOCUBEMAP_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLSphereMapEntry().setValue(IDC_NOSPHEREMAP_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoVBOEntry().setValue(IDC_NOVBO_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().setValue(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSoundEntry().setValue(IDC_NOSOUND_CTRL->GetValue());
@@ -572,7 +576,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoModelLightingEntry().setValue(IDC_NODYNAMICLIGHT_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoTreesEntry().setValue(IDC_NOTREES_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoPrecipitationEntry().setValue(IDC_NOPRECIPITATION_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoWavesEntry().setValue(IDC_NOWAVES_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoDepthSortingEntry().setValue(IDC_NODEPTHSORT_CTRL->GetValue());
 	OptionsDisplay::instance()->getFullScreenEntry().setValue(IDC_FULLSCREEN_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSkyLayersEntry().setValue(IDC_SINGLESKYLAYER_CTRL->GetValue());

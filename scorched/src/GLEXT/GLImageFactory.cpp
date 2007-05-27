@@ -22,6 +22,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLJpg.h>
 #include <GLEXT/GLPng.h>
+#include <GLEXT/GLState.h>
 #include <string>
 
 GLImageFactory::GLImageFactory()
@@ -102,6 +103,8 @@ GLImageHandle GLImageFactory::loadImageHandle(
 	bool invert)
 {
 	GLImage *image = loadImage(filename, alphafilename, invert);
+	GL_ASSERT();
+
 	GLImageHandle handle(*image);
 	delete image;
 	return handle;
@@ -111,6 +114,8 @@ GLImageHandle GLImageFactory::loadAlphaImageHandle(
 	const char *filename)
 {
 	GLImage *image = loadAlphaImage(filename);
+	GL_ASSERT();
+
 	GLImageHandle handle(*image);
 	delete image;
 	return handle;

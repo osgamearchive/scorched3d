@@ -134,38 +134,44 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 			glPushMatrix();
 				glTranslatef(entry.offset[0], entry.offset[1], entry.offset[2]);
 
-				// Set lighting position
-				Landscape::instance()->getSky().getSun().setLightPosition(true);
+				// Setup the texture matrix for texture 0
+				if (vattr_aof_index)
+				{
+					// Set lighting position
+					// done after the translation
+					Landscape::instance()->getSky().getSun().setLightPosition(true);
 
+					// get projection and modelview matrix
+					// done after the translation
+					static float proj[16], model[16];
+					glGetFloatv(GL_PROJECTION_MATRIX, proj);
+					glGetFloatv(GL_MODELVIEW_MATRIX, model);
 
-				Vector transl(
-					myfmod(cameraPosition[0], float(128)),
-					myfmod(cameraPosition[1], float(128)));
-				glActiveTexture(GL_TEXTURE0);
-				glMatrixMode(GL_TEXTURE);
-				glLoadIdentity();
-				const float noisetilescale = 1.0f/32.0f;//meters (128/16=8, 8tex/m).
-				glScalef(noisetilescale, noisetilescale, 1.0f);	// fixme adjust scale
-				glTranslatef(transl[0], transl[1], 0);
-				glMatrixMode(GL_MODELVIEW);
-				glActiveTexture(GL_TEXTURE1);
+					const float noisetilescale = 1.0f/32.0f;//meters (128/16=8, 8tex/m).
 
+					Vector transl(
+						myfmod(cameraPosition[0], float(128)),
+						myfmod(cameraPosition[1], float(128)));
+					glActiveTexture(GL_TEXTURE0);
+					glMatrixMode(GL_TEXTURE);
+					glLoadIdentity();
+					glScalef(noisetilescale, noisetilescale, 1.0f);	// fixme adjust scale
+					glTranslatef(transl[0], transl[1], 0);
+					glMatrixMode(GL_MODELVIEW);
 
-				// get projection and modelview matrix
-				static float proj[16], model[16];
-				glGetFloatv(GL_PROJECTION_MATRIX, proj);
-				glGetFloatv(GL_MODELVIEW_MATRIX, model);
+					// Setup the texture matrix for texture 1
+					glActiveTexture(GL_TEXTURE1);
+					glMatrixMode(GL_TEXTURE);
+					glLoadIdentity();
+					glTranslatef(0.5f,0.5f,0.0f);
+					glScalef(0.5f,0.5f,1.0f);
+					glMultMatrixf(proj);
+					glMultMatrixf(model);
+					glMatrixMode(GL_MODELVIEW);
 
-				// Setup texture coords
-				glMatrixMode(GL_TEXTURE);
-				glLoadIdentity();
-				// rescale coordinates [-1,1] to [0,1]
-				glTranslatef(0.5f,0.5f,0.0f);
-				glScalef(0.5f,0.5f,1.0f);
-				glMultMatrixf(proj);
-				glMultMatrixf(model);
-				glMatrixMode(GL_MODELVIEW);
-				glActiveTexture(GL_TEXTURE0);
+					// Reset to texture 0
+					glActiveTexture(GL_TEXTURE0);
+				}
 
 				Water2Patch *patch = patches.getPatch(
 					x % patches.getSize(), y % patches.getSize());

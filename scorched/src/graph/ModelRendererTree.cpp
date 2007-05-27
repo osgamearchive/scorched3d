@@ -796,7 +796,7 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 			GLState::LIGHT1_ON;
 
 		Vector4 ambientColor(0.4f, 0.4f, 0.4f, 1.0f);
-		Vector4 diffuseColor(1.2f, 1.2f, 1.2f, 1.2f);
+		Vector4 diffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 		Vector4 specularColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
 		float shininess = 0.0f;

@@ -20,6 +20,7 @@
 
 #include <GLEXT/GLState.h>
 #include <common/DefinesString.h>
+#include <common/DefinesAssert.h>
 #include <string.h>
 #include <string>
 
@@ -44,6 +45,8 @@ GLState::~GLState()
 
 void GLState::setState(unsigned wanted)
 {
+	GL_ASSERT();
+
 	if ((wanted & ALPHATEST_ON) && (currentState_ & ALPHATEST_OFF))
 	{
 		currentState_ ^= ALPHATEST_OFF;
@@ -147,6 +150,8 @@ void GLState::setState(unsigned wanted)
 		currentState_ |= CUBEMAP_OFF;
 		glDisable(GL_TEXTURE_CUBE_MAP_EXT);
 	}
+
+	GL_ASSERT();
 }
 
 static void addToBuffer(std::string &buffer, unsigned int value, const char *name)

@@ -35,6 +35,8 @@ enum
 static wxCheckBox *IDC_NOCOMPILEDARRAYS_CTRL = 0;
 static wxCheckBox *IDC_NOENVCOMBINE_CTRL = 0;
 static wxCheckBox *IDC_NOSHADERS_CTRL = 0;
+static wxCheckBox *IDC_NOCUBEMAP_CTRL = 0;
+static wxCheckBox *IDC_NOSPHEREMAP_CTRL = 0;
 static wxCheckBox *IDC_NOMIPMAPS_CTRL = 0;
 static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;
@@ -53,7 +55,6 @@ static wxCheckBox *IDC_TIMER_CTRL = 0;
 static wxCheckBox *IDC_NODETAILTEX_CTRL = 0;
 static wxCheckBox *IDC_NOLANDSCAPESCORCH_CTRL = 0;
 static wxCheckBox *IDC_NODEPTHSORT_CTRL = 0;
-static wxCheckBox *IDC_NOWAVES_CTRL = 0;
 static wxCheckBox *IDC_SWAPYAXIS_CTRL = 0;
 static wxCheckBox *IDC_VALIDATESERVER_CTRL = 0;
 static wxRadioButton *IDC_SMALLTEX_CTRL = 0;
