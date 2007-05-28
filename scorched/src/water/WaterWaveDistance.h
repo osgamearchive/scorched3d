@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,44 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Waterh_INCLUDE__)
-#define __INCLUDE_Waterh_INCLUDE__
+#if !defined(__INCLUDE_WaterWaveDistanceh_INCLUDE__)
+#define __INCLUDE_WaterWaveDistanceh_INCLUDE__
 
-#include <common/ProgressCounter.h>
-#include <common/Vector.h>
-#include <GLEXT/GLImageHandle.h>
-#include <GLEXT/GLTexture.h>
-
-class Water2;
-class Water2Renderer;
-class WaterMapPoints;
-class WaterWaveDistance;
-class Water
+class ProgressCounter;
+class WaterWaveDistance
 {
 public:
-	Water();
-	virtual ~Water();
+	WaterWaveDistance();
+	virtual ~WaterWaveDistance();
 
-	void draw();
-	void generate(ProgressCounter *counter = 0);
-	void simulate(float frameTime);
-	bool explosion(Vector position, float size);
-
-	bool getWaterOn() { return waterOn_; }
-	float getWaterHeight() { return height_; }
-	GLImage &getWaterBitmap() { return bitmapWater_; }
+	void generate(
+		int mapWidth, int mapHeight, float waterHeight,
+		ProgressCounter *counter = 0);
 	float getWaveDistance(int x, int y);
 
 protected:
-	bool waterOn_;
-	float height_;
-	Water2 *wMap_;
-	Water2Renderer *wTex_;
-	WaterMapPoints *wMapPoints_;
-	WaterWaveDistance *wWaveDistance_;
-	GLTexture landTexWater_;
-	GLImageHandle bitmapWater_;
+	float *waveDistance_;
+	int distanceWidth_, distanceHeight_;
+	int distanceWidthMult_, distanceHeightMult_;
 
 };
 
-#endif // __INCLUDE_Waterh_INCLUDE__
+#endif

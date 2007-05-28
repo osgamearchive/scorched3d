@@ -22,6 +22,7 @@
 #include <water/Water2.h>
 #include <water/Water2Renderer.h>
 #include <water/WaterMapPoints.h>
+#include <water/WaterWaveDistance.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
@@ -40,6 +41,7 @@ Water::Water() :
 	wTex_ = new Water2Renderer();
 	wMap_ = new Water2();
 	wMapPoints_ = new WaterMapPoints();
+	wWaveDistance_ = new WaterWaveDistance();
 }
 
 Water::~Water()
@@ -94,6 +96,7 @@ void Water::generate(ProgressCounter *counter)
 	wMap_->generate(water, counter);
 	wTex_->generate(water, counter);
 	wMapPoints_->generate(defn.landscapewidth, defn.landscapewidth);
+	wWaveDistance_->generate(defn.landscapewidth, defn.landscapewidth, height_, counter);
 
 	// Generate the water texture for the spray sprite
 	std::string sprayMaskFile = getDataFile("data/textures/smoke01.bmp");
@@ -149,4 +152,9 @@ bool Water::explosion(Vector position, float size)
 	}
 
 	return false;
+}
+
+float Water::getWaveDistance(int x, int y)
+{
+	return wWaveDistance_->getWaveDistance(x, y);
 }

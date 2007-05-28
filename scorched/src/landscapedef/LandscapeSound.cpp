@@ -143,9 +143,8 @@ bool LandscapeSoundPositionWater::setPosition(VirtualSoundSource *source, unsign
 	Vector &cameraPos = 
 		MainCamera::instance()->getCamera().getCurrentPos();
 
-	float distance = 100.0f;
-	//Landscape::instance()->getWater().
-	//	getWaves().getWaveDistance(int(cameraPos[0]), int(cameraPos[1]));
+	float distance = Landscape::instance()->getWater().
+		getWaveDistance(int(cameraPos[0]), int(cameraPos[1]));
 	distance *= 4.0f * falloff;
 
 	Vector position(0.0f, 0.0f, distance + cameraPos[2]);
