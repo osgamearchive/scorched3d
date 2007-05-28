@@ -38,6 +38,7 @@ m4_include([configure-al.m4])
 m4_include([configure-wx.m4])
 m4_include([configure-ogg.m4])
 m4_include([configure-ft.m4])
+m4_include([configure-fftw.m4])
 S3D_SUBDIRS="scorched scorchedc scorcheds"
 else
 S3D_SUBDIRS="scorcheds"

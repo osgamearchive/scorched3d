@@ -98,8 +98,8 @@ createBinaryMakefile(
 	"../src/scorchedc/scorchedc.vcproj", 
 	"../src/scorchedc/Makefile.am", 
 	"scorched3dc",
-	'@AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@',
-	'@AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@'
+	'@FFTW_CFLAGS@ @AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@',
+	'@FFTW_LIBS@ @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@'
 	);
 createBinaryMakefile(
 	"../src/scorcheds/scorcheds.vcproj", 
