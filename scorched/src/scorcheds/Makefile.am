@@ -647,6 +647,8 @@ scorched3ds_SOURCES = \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponLightning.cpp \
 	../weapons/WeaponLightning.h \
+	../weapons/WeaponMessage.cpp \
+	../weapons/WeaponMessage.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
 	../weapons/WeaponMoveTank.cpp \

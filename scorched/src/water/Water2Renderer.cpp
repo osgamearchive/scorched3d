@@ -23,7 +23,7 @@
 #include <water/WaterMapPoints.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLTextureCubeMap.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
@@ -322,17 +322,20 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	//fixme: multiply with light color here, not only light brightness.
 	//dim yellow light should result in dim yellow-green upwelling color, not dim green.
 	Vector4 light_color(1.0f, 1.0f, 1.0f, 1.0f);
-	Vector4 wavetop = light_color.lerp(Vector4(0, 0, 0, 0), 
-		Vector4(49.0f/100.0f, 83.0f/100.0f, 94.0f/100.0f));
-	Vector4 wavebottom = light_color.lerp(Vector4(0, 0, 0, 0), 
-		Vector4(29.0f/100.0f, 56.0f/100.0f, 91.0f/100.0f));
+	Vector4 wavetopA(0, 0, 0, 0);
+	Vector4 wavetopB(49.0f/100.0f, 83.0f/100.0f, 94.0f/100.0f);
+	Vector4 wavebottomA(0, 0, 0, 0);
+	Vector4 wavebottomB(29.0f/100.0f, 56.0f/100.0f, 91.0f/100.0f);
+	Vector4 wavetop = light_color.lerp(wavetopA, wavetopB);
+	Vector4 wavebottom = light_color.lerp(wavebottomA, wavebottomB);
 
 	// Create textures
 	GLImageHandle loadedBitmapWater = 
 		GLImageFactory::loadImageHandle(getDataFile("data/textures/landscape/default/water.bmp"));
 	GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(128, 128);
 	reflectionTexture_.create(bitmapWater2, true);
-	GLBitmap map(128, 128, false, 0);
+
+	GLImageHandle map = GLImageFactory::createBlank(128, 128, false, 0);
 	foamAmountTexture_.create(map, false);
 	GLImageHandle loadedFoam = 
 		GLImageFactory::loadImageHandle(getDataFile("data/textures/foam.png"));	

@@ -33,7 +33,6 @@
 #include <graph/ParticleEmitter.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLImageModifier.h>
-#include <GLEXT/GLBitmap.h>
 
 Water::Water() :
 	height_(25.0f), waterOn_(false)
@@ -108,7 +107,7 @@ void Water::generate(ProgressCounter *counter)
 	{
 		GLImageHandle bitmapWater = loadedBitmapWater.createResize(
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight());
-		GLBitmap textureWaterNew(
+		GLImageHandle textureWaterNew = GLImageFactory::createBlank(
 			sprayMaskBitmap.getWidth(), sprayMaskBitmap.getHeight(), true);
 		GLImageModifier::makeBitmapTransparent(textureWaterNew, 
 			bitmapWater, sprayMaskBitmap);

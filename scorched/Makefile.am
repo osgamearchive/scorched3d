@@ -371,6 +371,9 @@ scorcheddatatanksturret2dir = ${datadir}/data/tanks/turret2
 scorcheddatatanksturret2_DATA = data/tanks/turret2/missileturret.bmp \
 	data/tanks/turret2/chrome.bmp \
 	data/tanks/turret2/turret2.txt
+scorcheddatashadersdir = ${datadir}/data/shaders
+scorcheddatashaders_DATA = data/shaders/water.vshader \
+	data/shaders/water.fshader
 scorcheddatatalkdir = ${datadir}/data/talk
 scorcheddatatalk_DATA = data/talk/talk2.txt \
 	data/talk/talk1.txt
@@ -633,6 +636,7 @@ scorcheddatatextures_DATA = data/textures/stars.bmp \
 	data/textures/snow.bmp \
 	data/textures/oak.bmp \
 	data/textures/glow1.bmp \
+	data/textures/foam.png \
 	data/textures/palm2a.bmp \
 	data/textures/talk.bmp \
 	data/textures/moon.bmp \
@@ -1138,6 +1142,7 @@ scorcheddataaccessoriesicbm_DATA = data/accessories/icbm/gradient.bmp \
 	data/accessories/icbm/icbm.txt
 scorcheddatawindowsdir = ${datadir}/data/windows
 scorcheddatawindows_DATA = data/windows/target.bmp \
+	data/windows/backdrop.jpg \
 	data/windows/arrow_r.png \
 	data/windows/winda2.bmp \
 	data/windows/scorcheda.png \
@@ -1157,7 +1162,6 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/aim.bmp \
 	data/windows/pointera.bmp \
 	data/windows/key.bmp \
-	data/windows/backdrop.png \
 	data/windows/playera2.bmp \
 	data/windows/bomba.bmp \
 	data/windows/sounda.bmp \
@@ -1168,6 +1172,7 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/tank-hard.bmp \
 	data/windows/donate.bmp \
 	data/windows/triangle.bmp \
+	data/windows/scorcheda.jpg \
 	data/windows/keya.bmp \
 	data/windows/scorched.bmp \
 	data/windows/tank2.ico \
@@ -1208,6 +1213,7 @@ scorcheddatawindows_DATA = data/windows/target.bmp \
 	data/windows/settinga.bmp \
 	data/windows/diff.bmp \
 	data/windows/arrow_u.png \
+	data/windows/scorched.jpg \
 	data/windows/pointer.bmp \
 	data/windows/tank2.bmp \
 	data/windows/tank-cus.bmp \
@@ -1227,6 +1233,7 @@ scorcheddataglobalmodsapocdata_DATA = data/globalmods/apoc/data/ainames.txt \
 	data/globalmods/apoc/data/singleeasy.xml \
 	data/globalmods/apoc/data/singlenormal.xml \
 	data/globalmods/apoc/data/landscapes.xml \
+	data/globalmods/apoc/data/tankaiweaponsets.xml \
 	data/globalmods/apoc/data/singlehard.xml \
 	data/globalmods/apoc/data/accessories.xml \
 	data/globalmods/apoc/data/singletarget.xml \

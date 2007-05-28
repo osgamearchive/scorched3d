@@ -126,6 +126,7 @@ scorched3dc_SOURCES = \
 	../common/StatsLogger.h \
 	../common/StatsLoggerFile.cpp \
 	../common/StatsLoggerFile.h \
+	../common/StdVectorPtr.h \
 	../common/ToolTip.cpp \
 	../common/ToolTip.h \
 	../common/Triangle.cpp \
@@ -659,6 +660,8 @@ scorched3dc_SOURCES = \
 	../weapons/WeaponLeapFrog.h \
 	../weapons/WeaponLightning.cpp \
 	../weapons/WeaponLightning.h \
+	../weapons/WeaponMessage.cpp \
+	../weapons/WeaponMessage.h \
 	../weapons/WeaponMirv.cpp \
 	../weapons/WeaponMirv.h \
 	../weapons/WeaponMoveTank.cpp \
@@ -761,6 +764,7 @@ scorched3dc_SOURCES = \
 	../GLEXT/GLConsoleRules.h \
 	../GLEXT/GLDynamicVertexArray.cpp \
 	../GLEXT/GLDynamicVertexArray.h \
+	../GLEXT/glew.c \
 	../GLEXT/GLFont2d.cpp \
 	../GLEXT/GLFont2d.h \
 	../GLEXT/GLImage.cpp \
@@ -806,6 +810,8 @@ scorched3dc_SOURCES = \
 	../GLEXT/GLTextureSet.h \
 	../GLEXT/GLVertexArray.cpp \
 	../GLEXT/GLVertexArray.h \
+	../GLEXT/GLVertexBufferObject.cpp \
+	../GLEXT/GLVertexBufferObject.h \
 	../GLEXT/GLVertexSet.cpp \
 	../GLEXT/GLVertexSet.h \
 	../GLEXT/GLVertexSetGroup.cpp \
@@ -1087,18 +1093,6 @@ scorched3dc_SOURCES = \
 	../landscape/Variance.h \
 	../landscape/Wall.cpp \
 	../landscape/Wall.h \
-	../landscape/Water.cpp \
-	../landscape/Water.h \
-	../landscape/WaterMap.cpp \
-	../landscape/WaterMap.h \
-	../landscape/WaterMapModifier.cpp \
-	../landscape/WaterMapModifier.h \
-	../landscape/WaterMapPoints.cpp \
-	../landscape/WaterMapPoints.h \
-	../landscape/WaterMapSurround.cpp \
-	../landscape/WaterMapSurround.h \
-	../landscape/WaterWaves.cpp \
-	../landscape/WaterWaves.h \
 	../sprites/DebrisActionRenderer.cpp \
 	../sprites/DebrisActionRenderer.h \
 	../sprites/ExplosionLaserBeamRenderer.cpp \
@@ -1302,13 +1296,32 @@ scorched3dc_SOURCES = \
 	../movement/TargetMovementEntryShips.h \
 	../movement/TargetMovementEntrySpline.cpp \
 	../movement/TargetMovementEntrySpline.h \
-	../cgext/CGFog.cpp \
-	../cgext/CGFog.h \
-	../cgext/CGIncludes.h \
-	../cgext/CGLoader.cpp \
-	../cgext/CGLoader.h \
-	../cgext/CGProgram.cpp \
-	../cgext/CGProgram.h
+	../water/ocean_wave_generator.h \
+	../water/Water.cpp \
+	../water/Water.h \
+	../water/Water2.cpp \
+	../water/Water2.h \
+	../water/Water2Constants.h \
+	../water/Water2Patch.cpp \
+	../water/Water2Patch.h \
+	../water/Water2Patches.cpp \
+	../water/Water2Patches.h \
+	../water/Water2PatchIndex.cpp \
+	../water/Water2PatchIndex.h \
+	../water/Water2PatchIndexs.cpp \
+	../water/Water2PatchIndexs.h \
+	../water/Water2PatchVisibility.cpp \
+	../water/Water2PatchVisibility.h \
+	../water/Water2Renderer.cpp \
+	../water/Water2Renderer.h \
+	../water/WaterMapPoints.cpp \
+	../water/WaterMapPoints.h \
+	../GLSL/GLSLProgram.cpp \
+	../GLSL/GLSLProgram.h \
+	../GLSL/GLSLShader.cpp \
+	../GLSL/GLSLShader.h \
+	../GLSL/GLSLShaderSetup.cpp \
+	../GLSL/GLSLShaderSetup.h
 
 AM_CPPFLAGS = -I../porting -I.. @AL_CFLAGS@ @FT2_CFLAGS@ @OGG_CFLAGS@ @SDL_CFLAGS@
 LDADD = @AL_LIBS@ @FT2_LIBS@ @GL_LIBS@ @OGG_LIBS@ @SDL_LIBS@

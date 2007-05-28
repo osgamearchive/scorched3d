@@ -21,7 +21,7 @@
 #include <water/Water2Patches.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLFont2d.h>
-#include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLImageFactory.h>
 
 Water2Patches::Water2Patches() : patches_(0), 
 	size_(0), totalSize_(0), patchSize_(0)
@@ -55,7 +55,10 @@ void Water2Patches::generate(std::vector<Vector> &heights,
 	//fixme: for higher levels the computed data is not used, as mipmaps are generated
 	//by glu. however this data should be much better!
 	//but we can't feed it to texture class yet
-	if (!normalMap_.getBits()) normalMap_ = GLBitmap(totalSize, totalSize);
+	if (!normalMap_.getBits()) 
+	{
+		normalMap_ = GLImageFactory::createBlank(totalSize, totalSize);
+	}
 
 	unsigned char *normalBits = normalMap_.getBits();
 	for (unsigned int y=0; y<totalSize; y++) 

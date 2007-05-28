@@ -167,7 +167,8 @@ void ocean_wave_generator<T>::compute_h0tilde()
 		T Ky = pi2*y2/Lm;
 		for (int x = 0, x2 = -N/2; x <= N; ++x, ++x2) {
 			T Kx = pi2*x2/Lm;
-			h0tilde[y*(N+1)+x] = h0_tilde(Vector(Kx, Ky));
+			Vector tmp(Kx, Ky);
+			h0tilde[y*(N+1)+x] = h0_tilde(tmp);
 		}
 	}
 }
@@ -219,7 +220,7 @@ ocean_wave_generator<T>::ocean_wave_generator(
 	plan = FFT_CREATE_PLAN(N, N, fft_in, fft_out, 0);
 	plan2 = FFT_CREATE_PLAN(N, N, fft_in2, fft_out2, 0);
 }
-
+/*
 template <class T>
 ocean_wave_generator<T>::ocean_wave_generator(const ocean_wave_generator<T>& owg, int gridsize,
 					      int clearlowfreq)
@@ -267,6 +268,7 @@ ocean_wave_generator<T>::ocean_wave_generator(const ocean_wave_generator<T>& owg
 	plan = FFT_CREATE_PLAN(N, N, fft_in, fft_out, 0);
 	plan2 = FFT_CREATE_PLAN(N, N, fft_in2, fft_out2, 0);
 }
+*/
 
 template <class T>
 ocean_wave_generator<T>::~ocean_wave_generator()
@@ -314,6 +316,8 @@ void ocean_wave_generator<T>::compute_heights(std::vector<T>& waveheights) const
 		for (int x = 0; x < N; ++x)
 			waveheights[y*N+x] = (T) fft_out[y*N+x] * signs[(x + y) & 1];
 }
+
+/*
 
 template <class T>
 void ocean_wave_generator<T>::compute_finite_normals(const std::vector<T>& heights,
@@ -375,6 +379,7 @@ void ocean_wave_generator<T>::compute_normals(std::vector<Vector >& wavenormals)
 		}
 	}
 }
+*/
 
 template <class T>
 void ocean_wave_generator<T>::compute_displacements(const T& scalefac,
