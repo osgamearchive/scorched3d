@@ -78,6 +78,7 @@ static wxCheckBox *IDC_LOGGING_CTRL = 0;
 static wxComboBox *IDC_DISPLAY_CTRL = 0;
 static wxComboBox *IDC_ANTIALIAS_CTRL = 0;
 static wxCheckBox *IDC_FOCUSPAUSE_CTRL = 0;
+static wxTextCtrl *IDC_FRAMELIMIT_CTRL = 0;
 static wxCheckBox *IDC_SIDESCROLL_CTRL = 0;
 static wxCheckBox *IDC_PLAYERCAMERA_CTRL = 0;
 static wxSlider *IDC_SLIDER1_CTRL = 0;

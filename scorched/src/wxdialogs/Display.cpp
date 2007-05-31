@@ -51,17 +51,23 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer2->Add(IDC_MORERES_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
 	displaySizer->Add(displaySizer2, 0);
 
-	wxFlexGridSizer *displaySizer3 = new wxFlexGridSizer(1, 6, 5, 5);
+	wxFlexGridSizer *displaySizer3 = new wxFlexGridSizer(1, 7, 5, 5);
 	IDC_TINYDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Tiny"), 
 		wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	IDC_SMALLDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Small"));
 	IDC_MEDIUMDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Medium"));
 	IDC_LARGEDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Large"));
+        wxStaticText *frameLimitText = new wxStaticText(parent, -1, wxT("     Limit Framerate :"));
+	IDC_FRAMELIMIT_CTRL = 
+		new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(60, -1));
+
 	displaySizer3->Add(new wxStaticText(parent, -1, wxT("Dialog/Font Sizes :")));
 	displaySizer3->Add(IDC_TINYDIALOGS_CTRL);
 	displaySizer3->Add(IDC_SMALLDIALOGS_CTRL);
 	displaySizer3->Add(IDC_MEDIUMDIALOGS_CTRL);
 	displaySizer3->Add(IDC_LARGEDIALOGS_CTRL);
+	displaySizer3->Add(frameLimitText, -1, wxALIGN_CENTRE_VERTICAL);
+	displaySizer3->Add(IDC_FRAMELIMIT_CTRL);
 	displaySizer->Add(displaySizer3, 0, wxTOP | wxBOTTOM, 10);
 	sizer->Add(displaySizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
