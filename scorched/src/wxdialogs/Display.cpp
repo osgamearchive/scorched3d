@@ -235,6 +235,9 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NOWATERANI_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Draw simplistic water"));
 	detailSizer2->Add(IDC_NOWATERANI_CTRL, 0);
+	IDC_NOWATERREF_CTRL = 
+		new wxCheckBox(parent, -1, wxT("Don't draw reflections"));
+	detailSizer2->Add(IDC_NOWATERREF_CTRL, 0);
 	IDC_NOWATER_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Don't draw water"));
 	detailSizer2->Add(IDC_NOWATER_CTRL, 0);

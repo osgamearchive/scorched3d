@@ -171,7 +171,7 @@ void Landscape::drawLand()
 	drawSetup();
 
 	sky_->draw();
-	actualDrawLand();
+	actualDrawLand(false);
 	points_->draw();
 	surround_->draw();
 	if (OptionsDisplay::instance()->getDrawMovement())
@@ -184,6 +184,36 @@ void Landscape::drawLand()
 
 void Landscape::drawWater()
 {
+	if (GLStateExtension::hasFBO() &&
+		GLStateExtension::hasShaders() &&
+		!OptionsDisplay::instance()->getNoWaterReflections())
+	{
+		water_->bindWaterReflection();
+
+		glClearColor(0, 1.0f/16.0f, 1.0f/8.0f, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glPushMatrix();
+
+		glTranslatef(0.0f, 0.0f, water_->getWaterHeight() * 2.0f);
+
+		// flip geometry at z=0 plane
+		glScalef(1.0f, 1.0f, -1.0f);
+		glCullFace(GL_FRONT);
+
+		drawSetup();
+		sky_->draw();
+		actualDrawLand(true);
+		drawTearDown();
+
+		//water_->drawPoints(); // Bad reflections in large wind
+
+		glCullFace(GL_BACK);
+		glPopMatrix();
+
+		water_->unBindWaterReflection();
+	}
+
 	drawSetup();
 
 	water_->draw();
@@ -424,9 +454,14 @@ void Landscape::updatePlanTexture()
 	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, false));
 }
 
-void Landscape::actualDrawLand()
+void Landscape::actualDrawLand(bool reflection)
 {
-	GLState *textureState = 0;
+	unsigned int state = 0;
+	if (reflection) state |= GLState::BLEND_ON;
+	if (!OptionsDisplay::instance()->getUseLandscapeTexture()) state |= GLState::TEXTURE_OFF;
+
+	GLState glState(state);
+
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
 		if (GLStateExtension::hasMultiTex())
@@ -495,11 +530,8 @@ void Landscape::actualDrawLand()
 			glActiveTextureARB(GL_TEXTURE0_ARB);
 		}
 
-		texture_.draw(true);
-	}
-	else
-	{
-		textureState = new GLState(GLState::TEXTURE_OFF);
+		if (reflection) planAlphaTexture_.draw(true);
+		else texture_.draw(true);
 	}
 	
 	if (OptionsDisplay::instance()->getDrawLandscape())
@@ -544,10 +576,6 @@ void Landscape::actualDrawLand()
 
 			glActiveTextureARB(GL_TEXTURE0_ARB);
 		}
-	}
-	else
-	{
-		delete textureState;
 	}
 }
 

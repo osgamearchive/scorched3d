@@ -24,6 +24,7 @@
 #include <water/Water2Patch.h>
 #include <water/Water2PatchVisibility.h>
 #include <GLEXT/GLImageHandle.h>
+#include <GLEXT/GLTexture.h>
 
 class Water2Patches
 {
@@ -38,11 +39,13 @@ public:
 	Water2Patch::Data *getPoint(int x, int y);
 	int getSize() { return size_; }
 	GLImage &getNormalMap() { return normalMap_; }
+	GLTexture &getAOF() { return aof_; }
 
 protected:
 	int size_;
 	int totalSize_, patchSize_;
 	GLImageHandle normalMap_;
+	GLTexture aof_;
 	Water2Patch *patches_;
 };
 

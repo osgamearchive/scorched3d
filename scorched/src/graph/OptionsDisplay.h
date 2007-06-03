@@ -243,6 +243,9 @@ public:
 	bool getNoWaterMovement() { return noWaterMovement_; }
 	OptionEntryBool &getNoWaterMovementEntry() { return noWaterMovement_; }
 
+	bool getNoWaterReflections() { return noWaterReflections_; }
+	OptionEntryBool &getNoWaterReflectionsEntry() { return noWaterReflections_; }
+
 	bool getNoSkyMovement() { return noSkyMovement_; }
 	OptionEntryBool &getNoSkyMovementEntry() { return noSkyMovement_; }
 
@@ -447,6 +450,7 @@ protected:
 	OptionEntryBool noPrecipitation_;
 	OptionEntryBool frameTimer_;
 	OptionEntryBool noWaterMovement_;
+	OptionEntryBool noWaterReflections_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;

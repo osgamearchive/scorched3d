@@ -98,6 +98,7 @@ Added: WeaponMessage primitive to be able to display messages (combat channel on
 Added: Level of detail for water (geo mipmaps) and changed water bounds so all of it moves
 Added: New water movement algorithm based using discrete fourier transform (based on an algorithm by Thorsten Jordan)
 Added: GL shader support for more realistic renderering of the water
+Added: Landscape reflections in water
 Added: Option to disable pausing of graphics when window loses focus
 Added: FramesPerSecondLimit option to settings dialog
 

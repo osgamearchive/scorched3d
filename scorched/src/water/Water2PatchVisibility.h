@@ -24,6 +24,7 @@
 #include <water/Water2PatchIndexs.h>
 #include <common/Vector.h>
 
+class GLSLShaderSetup;
 class Water2Patches;
 class Water2PatchVisibility
 {
@@ -35,7 +36,7 @@ public:
 		unsigned int patchesSize, unsigned int patchSize);
 	void draw(Water2Patches &patches, 
 		Water2PatchIndexs &indexes, Vector &cameraPosition, 
-		int vattr_aof_index);
+		GLSLShaderSetup *waterShader);
 
 	unsigned int getVisibility(int x, int y)
 	{

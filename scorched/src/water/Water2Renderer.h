@@ -22,6 +22,7 @@
 #define __INCLUDE_Water2Rendererh_INCLUDE__
 
 #include <GLEXT/GLTexture.h>
+#include <GLEXT/GLFrameBufferObject.h>
 #include <GLSL/GLSLShaderSetup.h>
 
 class Water2;
@@ -40,18 +41,21 @@ public:
 	void simulate(float frameTime);
 	void generate(LandscapeTexBorderWater *water, ProgressCounter *counter = 0);
 
+	void bindWaterReflection() { reflectionBuffer_.bind(); }
+	void unBindWaterReflection() { reflectionBuffer_.unBind(); }
+	void drawPoints(WaterMapPoints &points);
+
 protected:
 	float totalTime_;
 	float waterHeight_;
 	GLTexture foamTexture_;
-	GLTexture foamAmountTexture_;
 	GLTexture reflectionTexture_;
 	GLTexture normalTexture_;
 	GLTextureBase *noShaderWaterTexture_;
+	GLFrameBufferObject reflectionBuffer_;
 
 	Water2Patches *currentPatch_;
 	GLSLShaderSetup *waterShader_;
-	unsigned int vattr_aof_index_;
 
 	void drawWaterShaders(Water2 &water2);
 	void drawWaterNoShaders(Water2 &water2);

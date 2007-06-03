@@ -18,37 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_Water2Patchh_INCLUDE__)
-#define __INCLUDE_Water2Patchh_INCLUDE__
+#if !defined(__INCLUDE_GLFrameBufferObjecth_INCLUDE__)
+#define __INCLUDE_GLFrameBufferObjecth_INCLUDE__
 
-#include <water/Water2PatchIndexs.h>
-#include <common/Vector.h>
-#include <vector>
+#include <GLEXT/GLTexture.h>
 
-class Water2Patch
+class GLFrameBufferObject
 {
 public:
-	Water2Patch();
-	~Water2Patch();
+	GLFrameBufferObject();
+	virtual ~GLFrameBufferObject();
 
-	struct Data
-	{
-		// Fix me, we don't need all this info all the time!
-		float x, y, z;
-		float nx, ny, nz;
-	};
+	bool create(GLTexture &texture, bool withDepth = false);
+	void destroy();
 
-	void generate(std::vector<Vector> &heights,
-		int size, int totalSize,
-		int posX, int posY);
-	void draw(Water2PatchIndexs &indexes, 
-		int indexPosition, int borders);
-
-	Data *getData(int x, int y);
+	void bind();
+	void unBind();
+	bool bufferValid() { return frameBufferObject_ != 0; }
 
 protected:
-	int size_;
-	Data *data_;
+	GLuint frameBufferObject_;
+	GLuint depthBufferObject_;
+	GLTexture *texture_;
+	bool bound_;
 };
 
-#endif // __INCLUDE_Water2Patchh_INCLUDE__
+#endif // __INCLUDE_GLFrameBufferObjecth_INCLUDE__

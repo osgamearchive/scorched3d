@@ -118,6 +118,21 @@ void Water::generate(ProgressCounter *counter)
 	}
 }
 
+void Water::bindWaterReflection()
+{
+	wTex_->bindWaterReflection();
+}
+
+void Water::unBindWaterReflection()
+{
+	wTex_->unBindWaterReflection();
+}
+
+void Water::drawPoints()
+{
+	wTex_->drawPoints(*wMapPoints_);
+}
+
 bool Water::explosion(Vector position, float size)
 {
 	if (!waterOn_ ||

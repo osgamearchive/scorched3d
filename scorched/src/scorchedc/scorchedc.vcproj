@@ -3287,6 +3287,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLFrameBufferObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLFrameBufferObject.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLImage.cpp"
 				>
 			</File>

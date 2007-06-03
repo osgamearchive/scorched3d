@@ -78,7 +78,6 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 			data->x = position[0];
 			data->y = position[1];
 			data->z = position[2];
-			data->aof = 0.0f;
 		}
 	}
 
@@ -114,7 +113,7 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 	}
 }
 
-void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int borders, int vattr_aof_index)
+void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int borders)
 {
 	Water2PatchIndex &index = indexes.getIndex(indexPosition, borders);
 
@@ -126,13 +125,6 @@ void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int border
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glNormalPointer(GL_FLOAT, sizeof(Data), &data_[0].nx);
 
-	if (vattr_aof_index != 0)
-	{
-		// Aof On
-		glEnableVertexAttribArray(vattr_aof_index);
-		glVertexAttribPointer(vattr_aof_index, 1, GL_FLOAT, GL_FALSE, sizeof(Data), &data_[0].aof);
-	}
-	
 	// Draw elements
 	glDrawElements(GL_TRIANGLE_STRIP, 
 		index.getSize(), 
@@ -144,12 +136,6 @@ void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int border
 
 	// Normals Off
 	glDisableClientState(GL_NORMAL_ARRAY);
-
-	if (vattr_aof_index != 0)
-	{
-		// Aof Off
-		glDisableVertexAttribArray(vattr_aof_index);
-	}
 
 	if(OptionsDisplay::instance()->getDrawNormals()) // Draw normals
 	{

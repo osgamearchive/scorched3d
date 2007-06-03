@@ -46,6 +46,10 @@ public:
 	GLImage &getWaterBitmap() { return bitmapWater_; }
 	float getWaveDistance(int x, int y);
 
+	void bindWaterReflection();
+	void unBindWaterReflection();
+	void drawPoints();
+
 protected:
 	bool waterOn_;
 	float height_;

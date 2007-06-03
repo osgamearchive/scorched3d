@@ -56,6 +56,7 @@ public:
 
 	/// set uniform variable
 	void set_uniform(const char *name, const Vector& value) const;
+	void set_uniform(const char *name, const float value) const;
 
 	/// get vertex attribute index
 	unsigned get_vertex_attrib_index(const char *name) const;

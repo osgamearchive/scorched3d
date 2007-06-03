@@ -4,12 +4,13 @@
 varying vec3 viewerdir;
 varying vec3 lightdir;
 varying vec3 normal;
-varying vec3 foamtexcoord; // z coord is crest_foam value
+varying vec2 foamtexcoord; // coords for the actual tiled foam texture
+varying vec3 aoftexcoord; // coords for the aof texture for open sea
 varying vec4 reflectiontexcoord;	// x,y,w
-varying vec4 foamamounttexcoord;	// x,y,w
 varying vec2 noise_texc_0;
 varying vec2 noise_texc_1;
 
+uniform float landfoam;
 uniform vec3 viewpos;
 uniform vec3 upwelltop;
 uniform vec3 upwellbot;
@@ -17,11 +18,7 @@ uniform vec3 upwelltopbot;
 uniform vec3 noise_xform_0;
 uniform vec3 noise_xform_1;
 
-attribute float amount_of_foam;
-
-const float foamamount_f1 = 0.8;
-const float foamamount_f2 = -1.0;
-const float virtualplane_height = 5.0;
+const float virtualplane_height = 12.0;
 
 void main()
 {
@@ -36,7 +33,7 @@ void main()
 	// 1/9 = 0.1111111 , 7/15 = 0.466667
 	gl_FrontColor.xyz = upwelltopbot *
 		clamp((gl_Vertex.z + viewpos.z) * 0.1111111 + N.z - 0.4666667, 0.0, 1.0) + upwellbot;
-
+		
 	// compute direction to viewer (E) in object space (mvinv*(0,0,0,1) - inputpos)
 	viewerdir = normalize(vec3(gl_ModelViewMatrixInverse[3]) - vec3(gl_Vertex));
 
@@ -53,8 +50,9 @@ void main()
 	noise_texc_1 = vec2(gl_Vertex) * noise_xform_1.z + noise_xform_1.xy;
 
 	// transform inputpos.xy with texture matrix to get texture coodinates
-	//fixme: use uniforms here as well, no tex matrix.
-	foamtexcoord = vec3((gl_TextureMatrix[0] * gl_Vertex).xy, amount_of_foam);
+	//fixme: use uniforms here as well, no tex matrix.	
+	aoftexcoord = vec3(gl_Vertex.xy / 256.0, landfoam);	
+	foamtexcoord = (gl_TextureMatrix[0] * gl_Vertex).xy;
 
 	// compute reflection texture coordinates
 	// formula to compute them from inputpos (coord):
@@ -65,7 +63,4 @@ void main()
 	vec3 texc = N * (virtualplane_height * N.z) + vec3(gl_Vertex);
 	texc.z -= virtualplane_height;
 	reflectiontexcoord = gl_TextureMatrix[1] * vec4(texc, 1.0);
-
-	// compute texture coordinates for foam-amount texture
-	foamamounttexcoord = gl_TextureMatrix[1] * vec4(vec2(gl_Vertex), vec2(-viewpos.z, 1.0));
 }

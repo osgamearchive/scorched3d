@@ -302,10 +302,10 @@ bool GLTexture::createBufferTexture(GLint width, GLint height, bool depthTex)
 
 	if (!depthTex)
 	{
-		texFormat_ = GL_RGBA;
+		texFormat_ = GL_RGB;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE,NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
+			GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	}
 	else
 	{

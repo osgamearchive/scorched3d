@@ -127,6 +127,14 @@ void GLSLProgram::set_uniform(const char *name, const Vector& value) const
 	glUniform3f(loc, value[0], value[1], value[2]);
 }
 
+void GLSLProgram::set_uniform(const char *name, const float value) const
+{
+	DIALOG_ASSERT(used_program_ == this);
+
+	GLint loc = glGetUniformLocation(id_, name);
+	glUniform1f(loc, value);
+}
+
 unsigned GLSLProgram::get_vertex_attrib_index(const char *name) const
 {
 	DIALOG_ASSERT(used_program_ == this);

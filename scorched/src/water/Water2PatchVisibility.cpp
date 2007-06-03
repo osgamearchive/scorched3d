@@ -23,6 +23,7 @@
 #include <graph/OptionsDisplay.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
+#include <GLSL/GLSLShaderSetup.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLState.h>
 
@@ -74,7 +75,7 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 
 void Water2PatchVisibility::draw(Water2Patches &patches,
 	Water2PatchIndexs &indexes, Vector &cameraPosition,
-	int vattr_aof_index)
+	GLSLShaderSetup *waterShader)
 {
 	// Figure the visibility for all patches
 	int i=0;
@@ -135,8 +136,12 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 				glTranslatef(entry.offset[0], entry.offset[1], entry.offset[2]);
 
 				// Setup the texture matrix for texture 0
-				if (vattr_aof_index)
+				if (waterShader)
 				{
+					float landfoam = ((entry.offset[0] == 0.0f &&
+						entry.offset[1] == 0.0f)?1.0f:0.0f);
+					waterShader->set_uniform("landfoam", landfoam);
+
 					// Set lighting position
 					// done after the translation
 					Landscape::instance()->getSky().getSun().setLightPosition(true);
@@ -156,7 +161,7 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 					glMatrixMode(GL_TEXTURE);
 					glLoadIdentity();
 					glScalef(noisetilescale, noisetilescale, 1.0f);	// fixme adjust scale
-					glTranslatef(transl[0], transl[1], 0);
+					//glTranslatef(transl[0], transl[1], 0);
 					glMatrixMode(GL_MODELVIEW);
 
 					// Setup the texture matrix for texture 1
@@ -175,7 +180,7 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 
 				Water2Patch *patch = patches.getPatch(
 					x % patches.getSize(), y % patches.getSize());
-				patch->draw(indexes, index, borders, vattr_aof_index);
+				patch->draw(indexes, index, borders);
 			glPopMatrix();
 		}
 	}

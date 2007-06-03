@@ -25,8 +25,10 @@
 #include <common/OptionsTransient.h>
 #include <client/ScorchedClient.h>
 #include <landscapedef/LandscapeTex.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLImageFactory.h>
 #include "ocean_wave_generator.h"
 
 #include <water/Water2Constants.h>
@@ -92,8 +94,6 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 		{
 			for (int x=0; x<wave_resolution; x++, j++)	
 			{
-				//displacements[j][0] = displacements[j][0];
-				//displacements[j][1] = displacements[j][1];
 				displacements[i][j][2] = water->height + heights[j];
 			}
 		}
@@ -115,8 +115,12 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 	// compute amount of foam per vertex sample
 	if (GLStateExtension::hasShaders())
 	{
-		if (counter) counter->setNewOp("Water waves");
-
+		GLImageHandle aofImage[256];
+		for (int i=0; i<256; i++)
+		{
+			aofImage[i] = 
+				GLImageFactory::createBlank(wave_resolution, wave_resolution, false, 0);
+		}
 		std::vector<float> aof(wave_resolution*wave_resolution);
 
 		float rndtab[37];
@@ -129,6 +133,13 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 		const float decay = 4.0/wave_phases;
 		const float decay_rnd = 0.25/wave_phases;
 		const float foam_spawn_fac = 0.25;//0.125;
+
+
+		for (int landfoam=0; landfoam<=1; landfoam++)
+		{
+
+			if (counter) counter->setNewOp((char *) formatString("Water waves %i", (landfoam+1)));
+
 		for (unsigned k = 0; k < wave_phases * 2; ++k) {
 			if (counter) counter->setNewPercentage(float(k * 50) / float(wave_phases));
 
@@ -149,10 +160,20 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 					float Jxy = lambda * dispy_dx;
 					float Jyx = lambda * dispx_dy;
 					float J = Jxx*Jyy - Jxy*Jyx;
+
+					if (landfoam == 1)
+					{
+						float height = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(x * 2, y * 2);
+						if (height > 4.0f) J -= 1.0f;
+					}
+					//float heightdiff = MAX(1.0f, 3.0f - MAX(0.0f, 5.0f - height));
+					//J *= heightdiff;
+
 					//printf("x,y=%u,%u, Jxx,yy=%f,%f Jxy,yx=%f,%f J=%f\n",
 					//       x,y, Jxx,Jyy, Jxy,Jyx, J);
 					//double foam_add = (J < 0.3) ? ((J < -1.0) ? 1.0 : (J - 0.3)/-1.3) : 0.0;
-					float foam_add = (J < 0.0f) ? ((J < -1.0f) ? 1.0f : -J) : 0.0f;
+					float foam_add = (J < 0.0f) ? ((J < -1.0f) ? 1.0f : -J) : 0.0f;			
+
 					aof[y*wave_resolution+x] += foam_add * foam_spawn_fac;
 					// spawn foam also on neighbouring fields
 					aof[ym1*wave_resolution+x] += foam_add * foam_spawn_fac * 0.5f;
@@ -166,22 +187,26 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 			unsigned ptr = 0;
 			for (unsigned y = 0; y < wave_resolution; ++y) {
 				for (unsigned x = 0; x < wave_resolution; ++x) {
-					aof[ptr] = std::max(std::min(aof[ptr], 1.0f) - (decay + decay_rnd * rndtab[(3*x + 5*y) % 37]), 0.0f);
+					float aofVal = std::max(std::min(aof[ptr], 1.0f) - (decay + decay_rnd * rndtab[(3*x + 5*y) % 37]), 0.0f);
+
+					aof[ptr] = aofVal;
+
+					if (k >= wave_phases) {
+						aofImage[k - wave_phases].getBits()[ptr * 3 + landfoam] = (unsigned char) (255.0f * aofVal);
+					}
+
 					++ptr;
 				}
 			}
 
 			// store amount of foam data when in second iteration
-			if (k >= wave_phases) {
+			if (k >= wave_phases && landfoam == 1) {
 				Water2Patches &patches = patches_[k - wave_phases];
 
-				unsigned ptr = 0;
-				for (int y=0; y<wave_resolution; y++) {
-					for (int x = 0; x < wave_resolution; ++x, ++ptr) {
-						patches.getPoint(x, y)->aof = aof[y * wave_resolution + x];
-					}
-				}
+				patches.getAOF().create(aofImage[k - wave_phases]);
 			}
+		}
+
 		}
 	}
 }

@@ -34,7 +34,7 @@
 #include <water/Water2Constants.h>
 
 Water2Renderer::Water2Renderer() : 
-	waterShader_(0), vattr_aof_index_(0), 
+	waterShader_(0),
 	currentPatch_(0), totalTime_(0.0f),
 	noShaderWaterTexture_(0)
 {
@@ -74,8 +74,15 @@ void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
 		drawWaterNoShaders(water2);
 	}
 
+	drawPoints(points);
+}
+
+void Water2Renderer::drawPoints(WaterMapPoints &points)
+{
+	if (!currentPatch_) return;
+
 	// Draw Points
-	points.draw(currentPatch);
+	points.draw(*currentPatch_);
 }
 
 void Water2Renderer::drawWaterShaders(Water2 &water2)
@@ -88,7 +95,7 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	waterShader_->set_uniform("viewpos", cameraPos);
 
 	waterShader_->set_gl_texture(foamTexture_, "tex_foam", 2);
-	waterShader_->set_gl_texture(foamAmountTexture_, "tex_foamamount", 3);
+	waterShader_->set_gl_texture(currentPatch_->getAOF(), "tex_foamamount", 3);
 
 	// texture units / coordinates:
 	// tex0: noise map (color normals) / matching texcoords
@@ -288,7 +295,7 @@ void Water2Renderer::drawWater(Water2 &water2)
 	Vector &cameraPos = 
 		MainCamera::instance()->getTarget().getCamera().getCurrentPos();
 	water2.getVisibility().draw(
-		*currentPatch_, water2.getIndexs(), cameraPos, vattr_aof_index_);
+		*currentPatch_, water2.getIndexs(), cameraPos, waterShader_);
 }
 
 void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
@@ -301,10 +308,6 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 			waterShader_ = new GLSLShaderSetup(
 				formatString(getDataFile("data/shaders/water.vshader")),
 				formatString(getDataFile("data/shaders/water.fshader")));
-
-			waterShader_->use();
-			vattr_aof_index_ = waterShader_->get_vertex_attrib_index("amount_of_foam");
-			waterShader_->use_fixed();
 		}
 	}
 
@@ -332,11 +335,20 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	// Create textures
 	GLImageHandle loadedBitmapWater = 
 		GLImageFactory::loadImageHandle(getDataFile("data/textures/landscape/default/water.bmp"));
-	GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(128, 128);
-	reflectionTexture_.create(bitmapWater2, true);
+	if (GLStateExtension::hasFBO() &&
+		GLStateExtension::hasShaders() &&
+		!OptionsDisplay::instance()->getNoWaterReflections())
+	{
+		reflectionTexture_.createBufferTexture(512, 512, false);
+		reflectionBuffer_.create(reflectionTexture_, true);
+	}
+	else
+	{
+		GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(128, 128);
+		reflectionTexture_.create(bitmapWater2, true);
+	}
 
 	GLImageHandle map = GLImageFactory::createBlank(128, 128, false, 0);
-	foamAmountTexture_.create(map, false);
 	GLImageHandle loadedFoam = 
 		GLImageFactory::loadImageHandle(getDataFile("data/textures/foam.png"));	
 	foamTexture_.create(loadedFoam, false);
@@ -357,6 +369,7 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 		waterShader_->set_uniform("upwelltop", upwelltop);
 		waterShader_->set_uniform("upwellbot", upwellbot);
 		waterShader_->set_uniform("upwelltopbot", upwelltopbot);
+		waterShader_->set_uniform("landfoam", 0.0f);
 		waterShader_->use_fixed();
 	}
 	else
@@ -377,10 +390,5 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 			waterNormalMap->create(bitmapWater2, false);
 			noShaderWaterTexture_ = waterNormalMap;
 		}
-
-		GLState glState(GLState::TEXTURE_ON);
-		reflectionTexture_.draw();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 }

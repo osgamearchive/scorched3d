@@ -51,6 +51,10 @@ public:
 	{
 		prog_.set_uniform(name, value);
 	}
+	void set_uniform(const char *name, const float value) const
+	{
+		prog_.set_uniform(name, value);
+	}
 
 	/// get vertex attribute index
 	unsigned get_vertex_attrib_index(const char *name) const 

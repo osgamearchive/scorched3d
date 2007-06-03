@@ -3,9 +3,9 @@
 varying vec3 viewerdir;
 varying vec3 lightdir;
 varying vec3 normal;
-varying vec3 foamtexcoord;
+varying vec2 foamtexcoord;
+varying vec3 aoftexcoord;
 varying vec4 reflectiontexcoord;	// x,y,w
-varying vec4 foamamounttexcoord;	// x,y,w
 varying vec2 noise_texc_0;
 varying vec2 noise_texc_1;
 
@@ -75,15 +75,12 @@ void main()
 	// mix reflection and refraction (upwelling) color, and add specular color
 	vec3 water_color = mix(refractioncol, vec3(texture2DProj(tex_reflection, reflectiontexcoord)),
 			       fresnel) + specular_color;
-
-	// fetch amount of foam, sum of texture and cresnel foam, multiplied with luminance
-	// from foam texmap
-	//float foam_amount = min(texture2DProj(tex_foamamount, foamamounttexcoord).x
-	//			+ foamtexcoord.z /*crest_foam*/, 1.0)
-	//	* texture2D(tex_foam, foamtexcoord.xy).x;
 	
-	float foam_amount = min(foamtexcoord.z /*crest_foam*/, 1.0)
-		* texture2D(tex_foam, foamtexcoord.xy).x;
+	// foam
+	vec3 oaftex = texture2D(tex_foamamount, aoftexcoord.xy);
+	float aof = oaftex.x;
+	float aofland = oaftex.y * aoftexcoord.z;
+	float foam_amount = min(aof + aofland, 1.0) * texture2D(tex_foam, foamtexcoord.xy).x;
 
 	vec3 final_color = mix(water_color, vec3(gl_LightSource[0].diffuse), foam_amount);
 

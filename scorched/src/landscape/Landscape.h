@@ -126,7 +126,7 @@ protected:
 	unsigned int changeCount_;
 
 	void savePlan();
-	void actualDrawLand();
+	void actualDrawLand(bool reflection);
 
 	// Nasty, we really need some kind of viewport/rendering context
 	// that the current rendering state for the scene can be stored.
