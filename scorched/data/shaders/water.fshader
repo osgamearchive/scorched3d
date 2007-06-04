@@ -13,6 +13,7 @@ uniform sampler2D tex_normal;		// normal map, RGB
 uniform sampler2D tex_reflection;	// reflection, RGB
 uniform sampler2D tex_foam;		// foam texture (tileable)
 uniform sampler2D tex_foamamount;	// amount of foam per pixel
+uniform vec3 landscape_size;
 
 const float water_shininess = 120.0;
 
@@ -77,9 +78,11 @@ void main()
 			       fresnel) + specular_color;
 	
 	// foam
-	vec4 oaftex = texture2D(tex_foamamount, aoftexcoord.xy);
-	float aof = oaftex.x;
-	float aofland = oaftex.y * aoftexcoord.z;
+	float aof = 
+		texture2D(tex_foamamount, aoftexcoord.xy / 256.0).x;
+	float aofland = 
+		texture2D(tex_foamamount, 
+			vec2(aoftexcoord.x / landscape_size.x, aoftexcoord.y / landscape_size.y) ).y * aoftexcoord.z;
 	float foam_amount = min(aof + aofland, 1.0) * texture2D(tex_foam, foamtexcoord.xy).x;
 
 	vec3 final_color = mix(water_color, vec3(gl_LightSource[0].diffuse), foam_amount);

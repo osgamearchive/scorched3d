@@ -25,6 +25,7 @@
 #include <common/OptionsTransient.h>
 #include <client/ScorchedClient.h>
 #include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
@@ -115,6 +116,9 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 	// compute amount of foam per vertex sample
 	if (GLStateExtension::hasShaders())
 	{
+		LandscapeDefn &defn = *ScorchedClient::instance()->getLandscapeMaps().
+			getDefinitions().getDefn();
+
 		GLImageHandle aofImage[256];
 		for (int i=0; i<256; i++)
 		{
@@ -163,7 +167,11 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 
 					if (landfoam == 1)
 					{
-						float height = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(x * 2, y * 2);
+						// Not quite right!! but it will do
+						int lx = int(float(x) * float(defn.landscapewidth) / float(wave_resolution));
+						int ly = int(float(y) * float(defn.landscapeheight) / float(wave_resolution));
+
+						float height = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(lx, ly);
 						if (height > 4.0f) J -= 1.0f;
 					}
 					//float heightdiff = MAX(1.0f, 3.0f - MAX(0.0f, 5.0f - height));

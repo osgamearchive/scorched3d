@@ -36,6 +36,7 @@ public:
 		unsigned int patchesSize, unsigned int patchSize);
 	void draw(Water2Patches &patches, 
 		Water2PatchIndexs &indexes, Vector &cameraPosition, 
+		Vector landscapeSize,
 		GLSLShaderSetup *waterShader);
 
 	unsigned int getVisibility(int x, int y)

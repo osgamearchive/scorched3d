@@ -75,6 +75,7 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 
 void Water2PatchVisibility::draw(Water2Patches &patches,
 	Water2PatchIndexs &indexes, Vector &cameraPosition,
+	Vector landscapeSize,
 	GLSLShaderSetup *waterShader)
 {
 	// Figure the visibility for all patches
@@ -138,8 +139,11 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 				// Setup the texture matrix for texture 0
 				if (waterShader)
 				{
-					float landfoam = ((entry.offset[0] == 0.0f &&
-						entry.offset[1] == 0.0f)?1.0f:0.0f);
+					Vector landfoam;
+					landfoam[0] = entry.offset[0];
+					landfoam[1] = entry.offset[1];
+					landfoam[2] = ((entry.position[0] >= 0.0f && entry.position[1] >= 0.0f &&
+						entry.position[0] <= landscapeSize[0] && entry.position[1] <= landscapeSize[1])?1.0f:0.0f);
 					waterShader->set_uniform("landfoam", landfoam);
 
 					// Set lighting position
@@ -151,18 +155,6 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 					static float proj[16], model[16];
 					glGetFloatv(GL_PROJECTION_MATRIX, proj);
 					glGetFloatv(GL_MODELVIEW_MATRIX, model);
-
-					const float noisetilescale = 1.0f/32.0f;//meters (128/16=8, 8tex/m).
-
-					Vector transl(
-						myfmod(cameraPosition[0], float(128)),
-						myfmod(cameraPosition[1], float(128)));
-					glActiveTexture(GL_TEXTURE0);
-					glMatrixMode(GL_TEXTURE);
-					glLoadIdentity();
-					glScalef(noisetilescale, noisetilescale, 1.0f);	// fixme adjust scale
-					//glTranslatef(transl[0], transl[1], 0);
-					glMatrixMode(GL_MODELVIEW);
 
 					// Setup the texture matrix for texture 1
 					glActiveTexture(GL_TEXTURE1);

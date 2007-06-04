@@ -25,11 +25,14 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLTextureCubeMap.h>
+#include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
+#include <landscapemap/LandscapeMaps.h>
+#include <landscapedef/LandscapeTex.h>
+#include <landscapedef/LandscapeDefn.h>
 #include <graph/MainCamera.h>
 #include <graph/OptionsDisplay.h>
-#include <landscapedef/LandscapeTex.h>
 
 #include <water/Water2Constants.h>
 
@@ -153,6 +156,12 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	waterShader_->set_uniform("noise_xform_1", noise_1_pos);
 	waterShader_->set_gl_texture(normalTexture_, "tex_normal", 0);
 
+	const float noisetilescale = 1.0f/32.0f;//meters (128/16=8, 8tex/m).
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glScalef(noisetilescale, noisetilescale, 1.0f);	// fixme adjust scale
+	glMatrixMode(GL_MODELVIEW);
+
 	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
 	waterShader_->set_gl_texture(reflectionTexture_, "tex_reflection", 1);
@@ -165,14 +174,12 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	waterShader_->use_fixed();
 
 	glActiveTexture(GL_TEXTURE1);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 	glDisable(GL_TEXTURE_2D);
 
 	glActiveTexture(GL_TEXTURE0);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
@@ -295,7 +302,7 @@ void Water2Renderer::drawWater(Water2 &water2)
 	Vector &cameraPos = 
 		MainCamera::instance()->getTarget().getCamera().getCurrentPos();
 	water2.getVisibility().draw(
-		*currentPatch_, water2.getIndexs(), cameraPos, waterShader_);
+		*currentPatch_, water2.getIndexs(), cameraPos, landscapeSize_, waterShader_);
 }
 
 void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
@@ -358,9 +365,13 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 
 	normalTexture_.create(map, false);
 
+	LandscapeDefn &defn = *ScorchedClient::instance()->getLandscapeMaps().
+		getDefinitions().getDefn();
+	landscapeSize_ = Vector(defn.landscapewidth, defn.landscapeheight);
 
 	if (GLStateExtension::hasShaders())
 	{
+		Vector landfoam;
 		Vector upwelltop(wavetop[0], wavetop[1], wavetop[2]);
 		Vector upwellbot(wavebottom[0], wavebottom[1], wavebottom[2]);
 		Vector upwelltopbot = upwelltop - upwellbot;
@@ -369,7 +380,8 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 		waterShader_->set_uniform("upwelltop", upwelltop);
 		waterShader_->set_uniform("upwellbot", upwellbot);
 		waterShader_->set_uniform("upwelltopbot", upwelltopbot);
-		waterShader_->set_uniform("landfoam", 0.0f);
+		waterShader_->set_uniform("landfoam", landfoam);
+		waterShader_->set_uniform("landscape_size", landscapeSize_);
 		waterShader_->use_fixed();
 	}
 	else

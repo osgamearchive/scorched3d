@@ -10,7 +10,7 @@ varying vec4 reflectiontexcoord;	// x,y,w
 varying vec2 noise_texc_0;
 varying vec2 noise_texc_1;
 
-uniform float landfoam;
+uniform vec3 landfoam;
 uniform vec3 viewpos;
 uniform vec3 upwelltop;
 uniform vec3 upwellbot;
@@ -51,7 +51,7 @@ void main()
 
 	// transform inputpos.xy with texture matrix to get texture coodinates
 	//fixme: use uniforms here as well, no tex matrix.	
-	aoftexcoord = vec3(gl_Vertex.xy / 256.0, landfoam);	
+	aoftexcoord = vec3(gl_Vertex.x + landfoam.x, gl_Vertex.y + landfoam.y, landfoam.z);	
 	foamtexcoord = (gl_TextureMatrix[0] * gl_Vertex).xy;
 
 	// compute reflection texture coordinates

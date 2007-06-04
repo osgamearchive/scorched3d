@@ -24,13 +24,13 @@
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLFrameBufferObject.h>
 #include <GLSL/GLSLShaderSetup.h>
+#include <common/Vector.h>
 
 class Water2;
 class Water2Patches;
 class WaterMapPoints;
 class LandscapeTexBorderWater;
 class ProgressCounter;
-class Vector;
 class Water2Renderer
 {
 public:
@@ -53,6 +53,7 @@ protected:
 	GLTexture normalTexture_;
 	GLTextureBase *noShaderWaterTexture_;
 	GLFrameBufferObject reflectionBuffer_;
+	Vector landscapeSize_;
 
 	Water2Patches *currentPatch_;
 	GLSLShaderSetup *waterShader_;

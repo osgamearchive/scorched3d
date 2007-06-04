@@ -67,6 +67,8 @@ Snipers prefer to use laser weapons and guns.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<!-- The minimum distance to allow for shots.  Stops self kills -->
+				<projectilemindistance>10.0</projectilemindistance>
 				<!-- These are all distances of the 1st particle of the projectile to hit the ground. -->
 				<!-- The distance that the 1st projectile shot may miss by -->
 				<projectilestartdistance>10.0</projectilestartdistance>
@@ -175,6 +177,7 @@ use batteries.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<projectilemindistance>10.0</projectilemindistance>
 				<!-- These are all distances of the 1st particle of the projectile to hit the ground. -->
 				<!-- The distance that the 1st projectile shot may miss by -->
 				<projectilestartdistance>10.0</projectilestartdistance>
@@ -281,6 +284,7 @@ that prefers to use fire-based weaponry.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<projectilemindistance>10.0</projectilemindistance>
 				<!-- These are all distances of the 1st particle of the projectile to hit the ground. -->
 				<!-- The distance that the 1st projectile shot may miss by -->
 				<projectilestartdistance>10.0</projectilestartdistance>
@@ -387,6 +391,7 @@ use of bio/chemical weaponry.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<projectilemindistance>10.0</projectilemindistance>
 				<!-- These are all distances of the 1st particle of the projectile to hit the ground. -->
 				<!-- The distance that the 1st projectile shot may miss by -->
 				<projectilestartdistance>10.0</projectilestartdistance>
@@ -493,6 +498,7 @@ the use of energy based weaponset.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<projectilemindistance>5.0</projectilemindistance>
 				<!-- These are all distances of the 1st particle of the projectile to hit the ground. -->
 				<!-- The distance that the 1st projectile shot may miss by -->
 				<projectilestartdistance>10.0</projectilestartdistance>
@@ -572,6 +578,7 @@ will NEVER fire back but can use defense.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<projectilemindistance>0.0</projectilemindistance>
 				<projectilestartdistance>10.0</projectilestartdistance>
 				<projectileenddistance>5.0</projectileenddistance>
 				<projectilemindecrement>1.0</projectilemindecrement>
@@ -636,6 +643,7 @@ They will NEVER fire back.</description>
 				<snipermovementfactor>4.0</snipermovementfactor>
 			</sniper>
 			<projectile>
+				<projectilemindistance>10.0</projectilemindistance>
 				<projectilestartdistance>10.0</projectilestartdistance>
 				<projectileenddistance>5.0</projectileenddistance>
 				<projectilemindecrement>1.0</projectilemindecrement>
