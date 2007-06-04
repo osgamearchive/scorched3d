@@ -77,7 +77,7 @@ void main()
 			       fresnel) + specular_color;
 	
 	// foam
-	vec3 oaftex = texture2D(tex_foamamount, aoftexcoord.xy);
+	vec4 oaftex = texture2D(tex_foamamount, aoftexcoord.xy);
 	float aof = oaftex.x;
 	float aofland = oaftex.y * aoftexcoord.z;
 	float foam_amount = min(aof + aofland, 1.0) * texture2D(tex_foam, foamtexcoord.xy).x;
