@@ -108,9 +108,6 @@ public:
 	bool getNoFog() { return noFog_; }
 	OptionEntryBool &getNoFogEntry() { return noFog_; }
 
-	bool getNoCg() { return noCg_; }
-	OptionEntryBool &getNoCgEntry() { return noCg_; }
-
 	bool getHideMenus() { return hideMenus_; }
 	OptionEntryBool &getHideMenusEntry() { return hideMenus_; }
 
@@ -246,6 +243,9 @@ public:
 	bool getNoWaterReflections() { return noWaterReflections_; }
 	OptionEntryBool &getNoWaterReflectionsEntry() { return noWaterReflections_; }
 
+	bool getNoWaterBuffers() { return noWaterBuffers_; }
+	OptionEntryBool &getNoWaterBuffersEntry() { return noWaterBuffers_; }
+
 	bool getNoSkyMovement() { return noSkyMovement_; }
 	OptionEntryBool &getNoSkyMovementEntry() { return noSkyMovement_; }
 
@@ -373,6 +373,7 @@ protected:
 	OptionEntryBool depricatedDrawShipPaths_;
 	OptionEntryBool depricatedFirstTimePlayed_;
 	OptionEntryBool depricatedNoWaves_;
+	OptionEntryBool depricatedNoCg_;
 
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
@@ -441,7 +442,7 @@ protected:
 	OptionEntryBool noROAM_;
 	OptionEntryBool noTessalation_;
 	OptionEntryBool noVBO_;
-	OptionEntryBool noCg_;
+	OptionEntryBool noWaterBuffers_;
 	OptionEntryBool noModelLOD_;
 	OptionEntryBool noModelLighting_;
 	OptionEntryBool useLandscapeTexture_;

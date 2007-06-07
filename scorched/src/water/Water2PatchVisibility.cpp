@@ -61,8 +61,8 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 			VisibilityEntry &entry = visibility_[i];
 
 			entry.position = Vector(
-				float(x) * 32.0f + 16.0f + offset[0],
-				float(y) * 32.0f + 16.0f + offset[1],
+				float(x) * grid_size + half_grid_size + offset[0],
+				float(y) * grid_size + half_grid_size + offset[1],
 				5.0f + offset[2]);
 			entry.offset = Vector(
 				256.0f * (x / (patchesSize / patchSize)) + offset[0],
@@ -101,7 +101,7 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 				index = MAX(0, MIN(index, indexes.getNoPositions() - 1));
 			}
 
-			entry.onScreen = GLCameraFrustum::instance()->sphereInFrustum(position, 32.0f);
+			entry.onScreen = GLCameraFrustum::instance()->sphereInFrustum(position, grid_size);
 			entry.visibilityIndex = index;
 		}
 	}

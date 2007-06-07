@@ -25,6 +25,7 @@
 #include <common/Vector.h>
 #include <vector>
 
+class GLVertexBufferObject;
 class Water2Patch
 {
 public:
@@ -49,6 +50,9 @@ public:
 protected:
 	int size_;
 	Data *data_;
+	GLVertexBufferObject *bufferObject_;
+
+	void draw(Water2PatchIndex &index);
 };
 
 #endif // __INCLUDE_Water2Patchh_INCLUDE__

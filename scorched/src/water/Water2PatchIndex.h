@@ -21,6 +21,7 @@
 #if !defined(__INCLUDE_Water2PatchIndexh_INCLUDE__)
 #define __INCLUDE_Water2PatchIndexh_INCLUDE__
 
+class GLVertexBufferObject;
 class Water2PatchIndex
 {
 public:
@@ -39,10 +40,12 @@ public:
 
 	unsigned int *getIndices() { return indices_; }
 	int getSize() { return size_; }
+	GLVertexBufferObject *getBufferObject() { return bufferObject_; }
 
 protected:
 	int size_;
 	unsigned int *indices_;
+	GLVertexBufferObject *bufferObject_;
 };
 
 #endif // __INCLUDE_Water2PatchIndexh_INCLUDE__

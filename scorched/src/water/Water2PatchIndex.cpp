@@ -19,9 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <water/Water2PatchIndex.h>
+#include <graph/OptionsDisplay.h>
+#include <GLEXT/GLVertexBufferObject.h>
+#include <GLEXT/GLStateExtension.h>
 #include <vector>
 
-Water2PatchIndex::Water2PatchIndex() : indices_(0), size_(0)
+Water2PatchIndex::Water2PatchIndex() : 
+	indices_(0), size_(0), bufferObject_(0)
 {
 }
 
@@ -100,7 +104,21 @@ void Water2PatchIndex::generate(int size, int skip, unsigned int border)
 		}
 	}
 
+	// Special case for the single square
+	if (indices.size() % 2 == 1)
+	{
+		indices.pop_back();
+	}
+
 	size_ = (int) indices.size();
 	if (!indices_) indices_ = new unsigned int[size_];
 	for (int i=0; i<size_; i++) indices_[i] = indices[i];
+
+	if (GLEW_ARB_vertex_buffer_object &&
+		!OptionsDisplay::instance()->getNoWaterBuffers())
+	{
+		delete bufferObject_;
+		bufferObject_ = new GLVertexBufferObject(true);
+		bufferObject_->init_data(size_ * sizeof(unsigned int), indices_, GL_STATIC_DRAW);
+	}
 }

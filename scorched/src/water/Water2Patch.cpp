@@ -22,10 +22,13 @@
 #include <water/Water2Constants.h>
 #include <common/Logger.h>
 #include <graph/OptionsDisplay.h>
+#include <GLEXT/GLVertexBufferObject.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLInfo.h>
 
-Water2Patch::Water2Patch() : data_(0), size_(0)
+Water2Patch::Water2Patch() : 
+	data_(0), size_(0), bufferObject_(0)
 {
 }
 
@@ -111,32 +114,27 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 			data->nz = normal[2];
 		}
 	}
+
+	if (GLEW_ARB_vertex_buffer_object &&
+		!OptionsDisplay::instance()->getNoWaterBuffers())
+	{
+		delete bufferObject_;
+		bufferObject_ = new GLVertexBufferObject();
+		bufferObject_->init_data((size + 1) * (size + 1) * sizeof(Data), data_, GL_STREAM_DRAW);
+	}
 }
 
 void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int borders)
 {
 	Water2PatchIndex &index = indexes.getIndex(indexPosition, borders);
 
-	// Vertices On
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(Data), &data_[0].x);
+	// No triangles
+	GLInfo::addNoTriangles(index.getSize());
 
-	// Normals On
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glNormalPointer(GL_FLOAT, sizeof(Data), &data_[0].nx);
+	// draw
+	draw(index);
 
-	// Draw elements
-	glDrawElements(GL_TRIANGLE_STRIP, 
-		index.getSize(), 
-		GL_UNSIGNED_INT, 
-		index.getIndices());
-
-	// Vertices Off
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	// Normals Off
-	glDisableClientState(GL_NORMAL_ARRAY);
-
+	// Draw normals
 	if(OptionsDisplay::instance()->getDrawNormals()) // Draw normals
 	{
 		GLState state(GLState::TEXTURE_OFF);
@@ -151,6 +149,62 @@ void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int border
 		}
 		glEnd();
 	}
+}
+
+void Water2Patch::draw(Water2PatchIndex &index)
+{
+	// Map data to draw
+	float *data = 0;
+	if (bufferObject_)
+	{
+		bufferObject_->bind();
+	}
+	else
+	{
+		data = &data_[0].x;
+	}
+
+	// Vertices On
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(Data), data);
+
+	// Normals On
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glNormalPointer(GL_FLOAT, sizeof(Data), data + 3);
+
+	// Unmap data to draw
+	if (bufferObject_)
+	{
+		bufferObject_->unbind();
+	}
+
+	// Map indices to draw
+	unsigned int *indices = 0;
+	if (index.getBufferObject())
+	{
+		index.getBufferObject()->bind();
+	}
+	else
+	{
+		indices = index.getIndices();
+	}
+
+	// Draw elements
+	glDrawElements(GL_TRIANGLE_STRIP, 
+		index.getSize(), 
+		GL_UNSIGNED_INT, 
+		indices);
+
+	if (index.getBufferObject())
+	{
+		index.getBufferObject()->unbind();
+	}
+
+	// Vertices Off
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	// Normals Off
+	glDisableClientState(GL_NORMAL_ARRAY);
 }
 
 Water2Patch::Data *Water2Patch::getData(int x, int y)
