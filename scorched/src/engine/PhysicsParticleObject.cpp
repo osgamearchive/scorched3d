@@ -164,6 +164,19 @@ void PhysicsParticleObject::checkCollision()
 				direction = direction + collision.normal * (2.0f * dotp);
 				velocity_ = direction * strength * collision.deflectFactor;
 
+				float landHeight = 
+					context_->landscapeMaps->getGroundMaps().
+						getInterpHeight(position_[0], position_[1]);
+				float particleHeight = position_[2] - landHeight;
+				if (underGroundCollision_)
+				{
+					if (particleHeight > 0.5f) position_[2] = landHeight + 0.5f;
+				}
+				else
+				{
+					if (particleHeight < -0.5f) position_[2] = landHeight - 0.5f;
+				}
+
 				if (rotateOnCollision_)
 				{
 					Vector up(0.0f, 0.0f, -1.0f);
