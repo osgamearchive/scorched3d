@@ -33,9 +33,6 @@ namespace ServerCommon
 	void serverLog(const char *text);
 	void kickDestination(unsigned int destinationId, const char *message = "");
 	void kickPlayer(unsigned int playerId);
-	void poorPlayer(unsigned int playerId);
-	void banPlayer(unsigned int playerId, ServerBanned::BannedType type = ServerBanned::Banned);
-	void slapPlayer(unsigned int playerId, float slap);
 	void killAll();
 	void startNewGame();
 	bool &getExitEmpty();

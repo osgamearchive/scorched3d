@@ -101,6 +101,8 @@ Added: GL shader support for more realistic renderering of the water
 Added: Landscape reflections in water
 Added: Option to disable pausing of graphics when window loses focus
 Added: FramesPerSecondLimit option to settings dialog
+Added: Admin audit log showing all admin operations on players
+Added: Admin username and optional reason are added to the list of banned players
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

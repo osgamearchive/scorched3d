@@ -45,6 +45,8 @@ public:
 		time_t bantime;
 		std::string name;
 		std::string uniqueid;
+		std::string adminname;
+		std::string reason;
 		BannedType type;
 	};
 	struct BannedRange
@@ -56,8 +58,11 @@ public:
 	std::list<BannedRange> &getBannedIps();
 	BannedType getBanned(unsigned int ip, const char *unqiueid);
 	void addBanned(unsigned int ip, 
-		const char *name, const char *uniqueId,
-		BannedType type = Banned);
+		const char *name, 
+		const char *uniqueId,
+		BannedType type,
+		const char *adminname,
+		const char *reason);
 	bool save();
 	bool load(bool force = false);
 
@@ -70,7 +75,7 @@ protected:
 
 	void addBannedEntry(unsigned int ip, unsigned int mask,
 		const char *name, const char *unqiueId, unsigned int bantime,
-		BannedType type);
+		BannedType type, const char *adminname, const char *reason);
 
 };
 

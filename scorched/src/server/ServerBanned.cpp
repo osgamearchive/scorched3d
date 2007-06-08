@@ -84,19 +84,11 @@ bool ServerBanned::load(bool force)
 			m = mask[3] << 24 | mask[2] << 16 | mask[1] << 8 | mask[0];
 		}
 
-		// Read name
-		std::string name;
-		if (currentNode->getNamedParameter("name", nameNode, false))
-		{
-			name = nameNode->getContent();
-		}
-
-		// Read unqiueid
-		std::string uniqueid;
-		if (currentNode->getNamedParameter("id", idNode, false))
-		{
-			uniqueid = idNode->getContent();
-		}
+		std::string name, adminname, uniqueid, reason;
+		currentNode->getNamedParameter("name", name, false);
+		currentNode->getNamedParameter("adminname", adminname, false);
+		currentNode->getNamedParameter("reason", reason, false);
+		currentNode->getNamedParameter("id", uniqueid, false);
 
 		// Time
 		time_t bantime = 0;
@@ -136,7 +128,8 @@ bool ServerBanned::load(bool force)
 		ip = address[3] << 24 | address[2] << 16 | address[1] << 8 | address[0];
 
 		// Add the new entry
-		addBannedEntry(ip, m, name.c_str(), uniqueid.c_str(), (unsigned int) bantime, type);
+		addBannedEntry(ip, m, name.c_str(), uniqueid.c_str(), (unsigned int) bantime, type,
+			adminname.c_str(), reason.c_str());
 	}
 	return true;
 }
@@ -181,15 +174,17 @@ ServerBanned::BannedType ServerBanned::getBanned(
 }
 
 void ServerBanned::addBanned(unsigned int ip, const char *name, 
-	const char *uniqueId, BannedType type)
+	const char *uniqueId, BannedType type, 
+	const char *adminname, const char *reason)
 {
 	unsigned int t = (unsigned int) time(0);
-	addBannedEntry(ip, UINT_MAX, name, uniqueId, t, type);
+	addBannedEntry(ip, UINT_MAX, name, uniqueId, t, type, adminname, reason);
 	save();
 }
 
 void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
-	const char *name, const char *uniqueId, unsigned int bantime, BannedType type)
+	const char *name, const char *uniqueId, unsigned int bantime, BannedType type,
+	const char *adminname, const char *reason)
 {
 	unsigned int newip = mask & ip;
 	BannedEntry newEntry;
@@ -197,6 +192,8 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
 	newEntry.bantime = bantime;
 	newEntry.type = type;
 	newEntry.uniqueid = uniqueId;
+	newEntry.adminname = adminname;
+	newEntry.reason = reason;
 
 	BannedRange *found = 0;
 	std::list<BannedRange>::iterator itor;
@@ -297,6 +294,12 @@ bool ServerBanned::save()
 					XMLNode::XMLParameterType));
 			optionNode->addParameter(new XMLNode("id", 
 					entry.uniqueid.c_str(),
+					XMLNode::XMLParameterType));
+			optionNode->addParameter(new XMLNode("adminname", 
+					entry.adminname.c_str(),
+					XMLNode::XMLParameterType));
+			optionNode->addParameter(new XMLNode("reason", 
+					entry.reason.c_str(),
 					XMLNode::XMLParameterType));
 
 			// Add to file

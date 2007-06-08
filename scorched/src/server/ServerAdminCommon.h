@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/LoggerI.h>
-#include <time.h>
+#if !defined(__INCLUDE_ServerAdminCommonh_INCLUDE__)
+#define __INCLUDE_ServerAdminCommonh_INCLUDE__
 
-LoggerInfo::LoggerInfo(
-	const char *message, 
-	const char *time) : 
-	message_(message),
-	time_(time)
+#include <common/DefinesString.h>
+
+namespace ServerAdminCommon
 {
+	bool kickPlayer(const char *adminUser, unsigned int playerId);
+	bool poorPlayer(const char *adminUser, unsigned int playerId);
+	bool banPlayer(const char *adminUser, unsigned int playerId, const char *reason);
+	bool flagPlayer(const char *adminUser, unsigned int playerId, const char *reason);
+	bool slapPlayer(const char *adminUser, unsigned int playerId, float slap);
+	bool mutePlayer(const char *adminUser, unsigned int playerId, bool mute);
+	bool permMutePlayer(const char *adminUser, unsigned int playerId, const char *reason);
+	bool unpermMutePlayer(const char *adminUser, unsigned int playerId);
+	bool newGame(const char *adminUser);
+	bool killAll(const char *adminUser);
 }
 
-void LoggerInfo::setMessage(const char *message)
-{
-	message_ = message;
-}
-
-void LoggerInfo::setTime()
-{
-	time_t theTime = time(0);
-	char *time = ctime(&theTime); 
-	char *nl = strchr(time, '\n'); 
-	if (nl) *nl = '\0';
-	time_ = time;
-}
-
+#endif

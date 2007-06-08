@@ -110,11 +110,7 @@ void Logger::log(const LoggerInfo &info)
 void Logger::addLog(LoggerInfo &info)
 {
 	// Add the time to the beginning of the log message
-	time_t theTime = time(0);
-	char *time = ctime(&theTime); 
-	char *nl = strchr(time, '\n'); 
-	if (nl) *nl = '\0';
-	info.setTime(time);
+	info.setTime();
 
 	// Add single or multiple lines
 	char *found = (char *) strchr(info.getMessage(), '\n');

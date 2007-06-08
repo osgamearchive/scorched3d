@@ -32,7 +32,7 @@ public:
 		const char *time = "");
 
 	void setMessage(const char *message);
-	void setTime(const char *time);
+	void setTime();
 
 	const char *getMessage() { return message_.c_str(); }
 	const char *getTime() { return time_.c_str(); }

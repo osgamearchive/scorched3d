@@ -23,6 +23,7 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerChannelManager.h>
 #include <server/ServerCommon.h>
+#include <server/ServerAdminCommon.h>
 #include <common/OptionsScorched.h>
 #include <common/OptionsTransient.h>
 #include <common/StatsLogger.h>
@@ -267,117 +268,74 @@ bool ServerAdminHandler::processMessage(
 		break;
 	case ComsAdminMessage::AdminBan:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			if (!ServerAdminCommon::banPlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1()), "<via console>"))
 			{
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin ban \"%s\"",
-					adminTank->getName(),
-					targetTank->getName()));
-				ServerCommon::banPlayer(
-					targetTank->getPlayerId());
+				ServerCommon::sendString(destinationId, "Unknown player for ban");
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for ban");
 		}
 		break;
 	case ComsAdminMessage::AdminFlag:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			if (!ServerAdminCommon::flagPlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1()), "<via console>"))
 			{
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin flag \"%s\"",
-					adminTank->getName(),
-					targetTank->getName()));
-				ServerCommon::banPlayer(
-					targetTank->getPlayerId(), ServerBanned::Flagged);
+				ServerCommon::sendString(destinationId, "Unknown player for flag");
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for flag");
 		}
 		break;
 	case ComsAdminMessage::AdminPoor:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			if (!ServerAdminCommon::poorPlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1())))
 			{
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin poor \"%s\"",
-					adminTank->getName(),
-					targetTank->getName()));
-				ServerCommon::poorPlayer(
-					targetTank->getPlayerId());
+				ServerCommon::sendString(destinationId, "Unknown player for poor");
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for poor");
 		}
 		break;	
 	case ComsAdminMessage::AdminKick:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			if (!ServerAdminCommon::kickPlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1())))
 			{
-				ServerCommon::serverLog(
-					formatString("\"%s\" admin kick \"%s\"",
-					adminTank->getName(),
-					targetTank->getName()));
-				ServerCommon::kickPlayer(
-					targetTank->getPlayerId());
+				ServerCommon::sendString(destinationId, "Unknown player for kick");
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for kick");
 		}
 		break;
 	case ComsAdminMessage::AdminMute:
 	case ComsAdminMessage::AdminUnMute:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			bool mute = (message.getType() == ComsAdminMessage::AdminMute);
+			if (!ServerAdminCommon::mutePlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1()), mute))
 			{
-				bool mute = (message.getType() == ComsAdminMessage::AdminMute);
-				ServerCommon::sendString(0,
-					formatString("admin %s \"%s\"",
-					(mute?"mute":"unmute"),
-					targetTank->getName()));
-				targetTank->getState().setMuted(mute); 
-			}
-			else ServerCommon::sendString(destinationId, "Unknown player for mute");
+				ServerCommon::sendString(destinationId, "Unknown player for mute");
+			}	
 		}
 		break;
 	case ComsAdminMessage::AdminPermMute:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			if (!ServerAdminCommon::permMutePlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1()), "<via console>"))
 			{
-				ServerCommon::sendString(0,
-					formatString("admin permmute \"%s\"",
-					targetTank->getName()));
-				ServerCommon::banPlayer(
-					targetTank->getPlayerId(),
-					ServerBanned::Muted);
-				targetTank->getState().setMuted(true);
-			}
-			else ServerCommon::sendString(destinationId, "Unknown player for permmute");
+				ServerCommon::sendString(destinationId, "Unknown player for permmute");
+			}	
 		}
 		break;
 	case ComsAdminMessage::AdminUnPermMute:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
+			if (!ServerAdminCommon::unpermMutePlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1())))
 			{
-				ServerCommon::sendString(0,
-					formatString("admin unpermmute \"%s\"",
-					targetTank->getName()));
-				ServerCommon::banPlayer(
-					targetTank->getPlayerId(),
-					ServerBanned::NotBanned);
-				targetTank->getState().setMuted(false);
+				ServerCommon::sendString(destinationId, "Unknown player for inpermmute");
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for unpermmute");
 		}
 		break;
 	case ComsAdminMessage::AdminTalk:
@@ -397,29 +355,19 @@ bool ServerAdminHandler::processMessage(
 		}
 		break;
 	case ComsAdminMessage::AdminKillAll:
-		ServerCommon::sendString(0, "admin killall");
-		ServerCommon::killAll();
+		ServerAdminCommon::killAll(adminTank->getState().getAdmin()->getName());
 		break;
 	case ComsAdminMessage::AdminNewGame:
-		ServerCommon::sendString(0, "admin new game");
-		ServerCommon::killAll();
-		ScorchedServer::instance()->getOptionsTransient().startNewGame();	
+		ServerAdminCommon::newGame(adminTank->getState().getAdmin()->getName());
 		break;	
 	case ComsAdminMessage::AdminSlap:
 		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
-			{	
-				ServerCommon::sendString(0,
-					formatString("admin slap \"%s\" %.0f",
-					targetTank->getName(),
-					(float) atof(message.getParam2())));
-				ServerCommon::slapPlayer(
-					targetTank->getPlayerId(),
-					(float) atof(message.getParam2()));
+			if (!ServerAdminCommon::slapPlayer(
+				adminTank->getState().getAdmin()->getName(),
+				atoi(message.getParam1()), (float) atof(message.getParam2())))
+			{
+				ServerCommon::sendString(destinationId, "Unknown player for slap");
 			}
-			else ServerCommon::sendString(destinationId, "Unknown player for slap");
 		}
 		break;
 	}

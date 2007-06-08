@@ -722,6 +722,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerAdminCommon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerAdminCommon.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerAdminHandler.cpp"
 				>
 			</File>

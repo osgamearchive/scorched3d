@@ -92,37 +92,6 @@ void ServerCommon::sendStringAdmin(const char *text)
 	ServerChannelManager::instance()->sendText(message);
 }
 
-void ServerCommon::poorPlayer(unsigned int playerId)
-{
-	Tank *tank = ScorchedServer::instance()->
-		getTankContainer().getTankById(playerId);
-	if (tank)
-	{
-		ServerCommon::sendString(0, 
-			formatString("admin poor \"%s\"",
-			tank->getName()));
-
-		tank->getScore().setMoney(0);
-	}
-}
-
-void ServerCommon::slapPlayer(unsigned int playerId, float slap)
-{
-	Logger::log(formatString("Slapping player \"%i\" %.0f", 
-		playerId, slap));
-
-	Tank *tank = ScorchedServer::instance()->
-		getTankContainer().getTankById(playerId);
-	if (tank)
-	{
-		tank->getLife().setLife(
-			tank->getLife().getLife() - slap);
-		sendString(0,
-			formatString("Slapping player \"%s\" %.0f",
-			tank->getName(), slap));
-	}
-}
-
 void ServerCommon::kickDestination(unsigned int destinationId, 
 	const char *message)
 {
@@ -188,54 +157,6 @@ void ServerCommon::kickPlayer(unsigned int playerId)
 			ScorchedServer::instance()->getNetInterface().
 				disconnectClient(tank->getDestinationId());
 			ScorchedServer::instance()->getNetInterface().processMessages();
-		}
-	}
-}
-
-void ServerCommon::banPlayer(unsigned int playerId,
-	ServerBanned::BannedType type)
-{
-	Tank *tank = ScorchedServer::instance()->
-		getTankContainer().getTankById(playerId);
-	if (tank)
-	{
-		if (tank->getDestinationId() == 0)
-		{
-			Logger::log( "Cannot ban local player/bot");
-			return;
-		}
-		unsigned int ipAddress = tank->getIpAddress();
-		if (ipAddress != 0)
-		{
-			switch (type)
-			{
-			case ServerBanned::Banned:
-				Logger::log(formatString("Banning player %i", playerId));
-				break;
-			case ServerBanned::Muted:
-				Logger::log(formatString("Perminantly muting player %i", playerId));
-				break;
-			case ServerBanned::NotBanned:
-				Logger::log(formatString("Unbanning player %i", playerId));
-				break;
-			case ServerBanned::Flagged:
-				Logger::log(formatString("Flagging player %i", playerId));
-				break;				
-			}
-		
-			ScorchedServerUtil::instance()->bannedPlayers.
-				addBanned(ipAddress, tank->getName(), tank->getUniqueId(), type);
-			if (type == ServerBanned::Banned)
-			{
-				kickPlayer(playerId);
-
-				ServerAuthHandler *authHandler =
-					ScorchedServerUtil::instance()->getAuthHandler();
-				if (authHandler)
-				{
-					authHandler->banUser(tank->getUniqueId());
-				}
-			}
 		}
 	}
 }

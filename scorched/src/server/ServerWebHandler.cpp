@@ -25,6 +25,7 @@
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerWebServerUtil.h>
 #include <server/ServerCommon.h>
+#include <server/ServerAdminCommon.h>
 #include <server/ServerState.h>
 #include <server/ServerParams.h>
 #include <server/ServerChannelManager.h>
@@ -58,6 +59,18 @@ static inline bool lt_logfile(const LogFile &o1, const LogFile &o2)
 	return o1.fileTime < o2.fileTime;
 }
 
+static const char *getAdminUserName(std::map<std::string, std::string> &fields)
+{
+	std::map<unsigned int, ServerWebServer::SessionParams>::iterator findItor = 
+		ServerWebServer::instance()->getSessions().find(
+		atoi(ServerWebServerUtil::getField(fields, "sid")));
+	if (findItor != ServerWebServer::instance()->getSessions().end())
+	{
+		return findItor->second.userName.c_str();
+	}
+	return "Unknown";
+}
+
 bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 	std::map<std::string, std::string> &fields,
 	std::map<std::string, NetMessage *> &parts,
@@ -74,6 +87,8 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 		ScorchedServer::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 
+	const char *adminName = getAdminUserName(fields);
+
 	// Check for any action
 	const char *action = ServerWebServerUtil::getField(fields, "action");
 	if (action)
@@ -86,40 +101,43 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 			{
 				if (0 == strcmp(action, "Kick"))
 				{
-					ServerCommon::kickPlayer(tank->getPlayerId());
+					ServerAdminCommon::kickPlayer(adminName, tank->getPlayerId());
 					break;
 				}
 				else if (0 == strcmp(action, "Mute"))
 				{
-					tank->getState().setMuted(true);
+					ServerAdminCommon::mutePlayer(adminName, tank->getPlayerId(), true);
 				}
 				else if (0 == strcmp(action, "UnMute"))
 				{
-					tank->getState().setMuted(false);
+					ServerAdminCommon::mutePlayer(adminName, tank->getPlayerId(), false);
 				}
 				else if (0 == strcmp(action, "Flag"))
 				{
-					ServerCommon::banPlayer(tank->getPlayerId(), ServerBanned::Flagged);
+					ServerAdminCommon::flagPlayer(adminName, tank->getPlayerId(),
+						ServerWebServerUtil::getField(fields, "reason"));
 				}
 				else if (0 == strcmp(action, "Poor"))
 				{
-					ServerCommon::poorPlayer(tank->getPlayerId());
+					ServerAdminCommon::poorPlayer(adminName, tank->getPlayerId());
 				}
 				else if (0 == strcmp(action, "PermMute"))
 				{
-					ServerCommon::banPlayer(tank->getPlayerId(), ServerBanned::Muted);
+					ServerAdminCommon::permMutePlayer(adminName, tank->getPlayerId(),
+						ServerWebServerUtil::getField(fields, "reason"));
 				}
 				else if (0 == strcmp(action, "UnPermMute"))
 				{
-					ServerCommon::banPlayer(tank->getPlayerId(), ServerBanned::NotBanned);
+					ServerAdminCommon::unpermMutePlayer(adminName, tank->getPlayerId());
 				}
 				else if (0 == strcmp(action, "Banned"))
 				{
-					ServerCommon::banPlayer(tank->getPlayerId(), ServerBanned::Banned);
+					ServerAdminCommon::banPlayer(adminName, tank->getPlayerId(),
+						ServerWebServerUtil::getField(fields, "reason"));
 				}
 				else if (0 == strcmp(action, "Slap"))
 				{
-					ServerCommon::slapPlayer(tank->getPlayerId(), 25.0f);
+					ServerAdminCommon::slapPlayer(adminName, tank->getPlayerId(), 25.0f);
 				}
 				else if (0 == strcmp(action, "ShowAliases"))
 				{
@@ -373,17 +391,19 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 	std::map<std::string, NetMessage *> &parts,
 	std::string &text)
 {
+	const char *adminName = getAdminUserName(fields);
+
 	// Check for any action
 	const char *action = ServerWebServerUtil::getField(fields, "action");
 	if (action)
 	{
 		if (0 == strcmp(action, "NewGame"))
 		{
-			ServerCommon::startNewGame();
+			ServerAdminCommon::newGame(adminName);
 		}
 		else if (0 == strcmp(action, "KillAll"))
 		{
-			ServerCommon::killAll();
+			ServerAdminCommon::killAll(adminName);
 		}
 	}
 
@@ -493,11 +513,14 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 			std::string ipName = NetInterface::getIpName(ip);
 
 			if (selected && 0 == strcmp(selected, ipName.c_str()))
+			{
 				entry.type = ServerBanned::NotBanned;
+			}
 
 			std::string cleanName;
 			XMLNode::removeSpecialChars(entry.name, cleanName);
-			banned += formatString("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
+			banned += formatString("<tr><td>%s</td><td>%s</td><td>%s</td>"
+				"<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
 				"<td><input type=\"checkbox\" name=\"selected\" value=\"%s\"></td>" // Select
 				"</tr>",
 				(entry.bantime?ctime(&entry.bantime):""),
@@ -505,6 +528,7 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 				entry.uniqueid.c_str(),
 				ServerBanned::getBannedTypeStr(entry.type),
 				ipName.c_str(), mask.c_str(),
+				entry.adminname.c_str(), entry.reason.c_str(),
 				ipName.c_str());
 		}
 	}
