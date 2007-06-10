@@ -33,12 +33,12 @@ public:
 		V[0] = V[1] = V[2] = V[3] = 0.0f;
 	}
 
-	Vector4(const Vector &v)
+	Vector4(const Vector &v, float a = 1.0f)
 	{
 		V[0] = ((Vector &) v)[0];
 		V[1] = ((Vector &) v)[1];
 		V[2] = ((Vector &) v)[2];
-		V[3] = 1.0f;
+		V[3] = a;
 	}
 
 	Vector4(const Vector4 &c1, const Vector4 &c2, float scal) 

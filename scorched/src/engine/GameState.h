@@ -29,6 +29,30 @@
 
 class GameStateI;
 class GameStateStimulusI;
+class GameState;
+
+#define GAMESTATE_PERF_COUNTER_START(x, y) { static GameStatePerfCounter *__counter__ = x.getPerfCounter(y); __counter__->start(); }
+#define GAMESTATE_PERF_COUNTER_END(x, y) { static GameStatePerfCounter *__counter__ = x.getPerfCounter(y); __counter__->end(); }
+
+class GameStatePerfCounter
+{
+public:
+	GameStatePerfCounter(GameStateI *gameStateI, const char *name);
+	~GameStatePerfCounter();
+
+	void start();
+	void end();
+
+	const char *getName() { return name_.c_str(); }
+	GameStateI *getGameStateI() { return gameStateI_; }
+	unsigned int getTotal();
+
+protected:
+	std::string name_;
+	GameStateI *gameStateI_;
+	unsigned int start_;
+	unsigned int total_;
+};
 
 class GameState : public MainLoopI
 {
@@ -69,6 +93,8 @@ public:
 	bool &getStateLogging() { return stateLogging_; }
 	bool &getStateTimeLogging() { return stateTimeLogging_; }
 
+	GameStatePerfCounter *getPerfCounter(const char *name);
+
 	// User fns to add classes to state management
 	void addStateStimulus(const unsigned state, 
 						  const unsigned stim, 
@@ -99,6 +125,7 @@ protected:
 	typedef std::list<GameStateI *> StateIList;
 	typedef std::pair<GameStateStimulusI *, unsigned> SimulusIPair;
 	typedef std::list<SimulusIPair> StiulusIList;
+	typedef std::list<GameStatePerfCounter *> PerfCounterList;
 
 	struct TimerInfo
 	{
@@ -150,6 +177,7 @@ protected:
 	};
 
 	unsigned currentState_; 
+	GameStateI *currentStateI_;
 	GameStateEntry *currentEntry_; 
 	std::map<unsigned, GameStateEntry> stateList_;
 	std::string name_;
@@ -161,6 +189,7 @@ protected:
 	Clock overallTimerClock_;
 	Clock doubleClickClock_;
 	TimerInfo timers_[50];
+	PerfCounterList perfCounters_;
 
 	// Dragging stuff
 	// Up or down for each button (bit field)

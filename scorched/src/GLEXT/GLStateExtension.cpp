@@ -46,74 +46,77 @@ void GLStateExtension::setup()
 	}
 	Logger::log(formatString("GLEW VERSION:%s", glewGetString(GLEW_VERSION)));
 
-	if (!OptionsDisplay::instance()->getNoVBO())
+	if (!OptionsDisplay::instance()->getNoGLExt())
 	{
-		if (GLEW_ARB_vertex_buffer_object &&
-			GLEW_EXT_draw_range_elements)
+		if (!OptionsDisplay::instance()->getNoVBO())
 		{
-			hasVBO_ = true;
+			if (GLEW_ARB_vertex_buffer_object &&
+				GLEW_EXT_draw_range_elements)
+			{
+				hasVBO_ = true;
+			}
 		}
-	}
 
-	if (!OptionsDisplay::instance()->getNoGLMultiTex())
-	{
-		if (GLEW_ARB_multitexture)
+		if (!OptionsDisplay::instance()->getNoGLMultiTex())
 		{
-			GLint textureUnits;
-			glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits);
-			textureUnits_ = textureUnits;
-			hasMultiTex_ = true;
+			if (GLEW_ARB_multitexture)
+			{
+				GLint textureUnits;
+				glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureUnits);
+				textureUnits_ = textureUnits;
+				hasMultiTex_ = true;
+			}
 		}
-	}
 
-	if (!OptionsDisplay::instance()->getNoGLEnvCombine())
-	{
-		envCombine_ = GLEW_ARB_texture_env_combine == GL_TRUE;
-	}
-
-	if (!OptionsDisplay::instance()->getNoGLCubeMap())
-	{
-		hasCubeMap_ = GLEW_EXT_texture_cube_map == GL_TRUE ||
-			GLEW_ARB_texture_cube_map == GL_TRUE;
-	}
-
-	if (!OptionsDisplay::instance()->getNoGLSphereMap())
-	{
-		hasSphereMap_ = true;
-	}
-
-	if (!OptionsDisplay::instance()->getNoGLHardwareMipmaps())
-	{
-		hasHardwareMipmaps_ = GLEW_SGIS_generate_mipmap == GL_TRUE;
-	}
-
-	if (GLEW_EXT_blend_color)
-	{
-		hasBlendColor_ = true;
-	}
-
-	{
-		if (GLEW_EXT_framebuffer_object)
+		if (!OptionsDisplay::instance()->getNoGLEnvCombine())
 		{
-			hasFBO_ = true;
+			envCombine_ = (GLEW_ARB_texture_env_combine == GL_TRUE);
 		}
-	}
-	{
-		if (GLEW_EXT_framebuffer_object &&
-			GLEW_ARB_shadow &&
-			GLEW_ARB_depth_texture &&
-			GLEW_ARB_multitexture)
-		{
-			hasHardwareShadows_ = false; //true;
-		}
-	}
 
-	if (!OptionsDisplay::instance()->getNoGLShaders())
-	{
-		hasShaders_ = 
-			GLEW_ARB_fragment_shader &&
-			GLEW_ARB_shader_objects &&
-			GLEW_ARB_vertex_shader;
+		if (!OptionsDisplay::instance()->getNoGLCubeMap())
+		{
+			hasCubeMap_ = (GLEW_EXT_texture_cube_map == GL_TRUE ||
+				GLEW_ARB_texture_cube_map == GL_TRUE);
+		}
+
+		if (!OptionsDisplay::instance()->getNoGLSphereMap())
+		{
+			hasSphereMap_ = true;
+		}
+
+		if (!OptionsDisplay::instance()->getNoGLHardwareMipmaps())
+		{
+			hasHardwareMipmaps_ = GLEW_SGIS_generate_mipmap == GL_TRUE;
+		}
+
+		if (GLEW_EXT_blend_color)
+		{
+			hasBlendColor_ = true;
+		}
+
+		{
+			if (GLEW_EXT_framebuffer_object)
+			{
+				hasFBO_ = true;
+			}
+		}
+		{
+			if (GLEW_EXT_framebuffer_object &&
+				GLEW_ARB_shadow &&
+				GLEW_ARB_depth_texture &&
+				GLEW_ARB_multitexture)
+			{
+				hasHardwareShadows_ = false; //true;
+			}
+		}
+
+		if (!OptionsDisplay::instance()->getNoGLShaders())
+		{
+			hasShaders_ = 
+				GLEW_ARB_fragment_shader &&
+				GLEW_ARB_shader_objects &&
+				GLEW_ARB_vertex_shader;
+		}
 	}
 
 	noTexSubImage_ = OptionsDisplay::instance()->getNoGLTexSubImage();

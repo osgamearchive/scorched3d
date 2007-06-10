@@ -184,6 +184,7 @@ void Landscape::drawLand()
 
 void Landscape::drawWater()
 {
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_REFLECTIONS");
 	if (GLStateExtension::hasFBO() &&
 		GLStateExtension::hasShaders() &&
 		!OptionsDisplay::instance()->getNoWaterReflections())
@@ -213,10 +214,13 @@ void Landscape::drawWater()
 
 		water_->unBindWaterReflection();
 	}
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_REFLECTIONS");
 
 	drawSetup();
 
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER");
 	water_->draw();
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER");
 
 	drawTearDown();
 }

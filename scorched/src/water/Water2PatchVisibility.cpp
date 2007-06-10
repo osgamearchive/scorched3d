@@ -68,6 +68,7 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 				256.0f * (x / (patchesSize / patchSize)) + offset[0],
 				256.0f * (y / (patchesSize / patchSize)) + offset[1],
 				offset[2]);
+			entry.anyoffset = (entry.offset != Vector::nullVector);
 			entry.ignore = (((middle - entry.offset).Magnitude()) > 1700.0f);
 		}
 	}
@@ -106,6 +107,9 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 		}
 	}
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
 	// Draw all patches
 	i = 0;
 	for (int y=0; y<size_; y++)
@@ -133,8 +137,17 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 			if (bottomIndex != NotVisible && bottomIndex > index) 
 				borders |= Water2PatchIndex::BorderBottom;
 
-			glPushMatrix();
+			if (entry.anyoffset)
+			{
+				glPushMatrix();
 				glTranslatef(entry.offset[0], entry.offset[1], entry.offset[2]);
+			}
+			else
+			{
+				Vector hmm;
+				hmm[0] = 0.0f;
+			}
+
 
 				// Setup the texture matrix for texture 0
 				if (waterShader)
@@ -173,7 +186,14 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 				Water2Patch *patch = patches.getPatch(
 					x % patches.getSize(), y % patches.getSize());
 				patch->draw(indexes, index, borders);
-			glPopMatrix();
+
+			if (entry.anyoffset)
+			{
+				glPopMatrix();
+			}
 		}
 	}
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 }

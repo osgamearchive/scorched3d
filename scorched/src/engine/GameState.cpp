@@ -26,6 +26,34 @@
 #include <common/Logger.h>
 #include <common/LoggerI.h>
 #include <limits.h>
+#include <SDL/SDL.h>
+
+GameStatePerfCounter::GameStatePerfCounter(GameStateI *gameStateI, const char *name) : 
+	name_(name), total_(0), gameStateI_(gameStateI)
+{
+}
+
+GameStatePerfCounter::~GameStatePerfCounter()
+{
+}
+
+void GameStatePerfCounter::start()
+{
+	start_ = SDL_GetTicks();
+}
+
+void GameStatePerfCounter::end()
+{
+	unsigned int end = SDL_GetTicks();
+	total_ += end - start_;
+}
+
+unsigned int GameStatePerfCounter::getTotal()
+{ 
+	unsigned int lastTotal = total_;
+	total_ = 0;
+	return lastTotal; 
+}
 
 GameState::GameState(const char *name) :
 	name_(name),
@@ -34,6 +62,7 @@ GameState::GameState(const char *name) :
 	pendingStimulus_(UINT_MAX),
 	currentState_(UINT_MAX),
 	currentEntry_(0),
+	currentStateI_(0),
 	currentMouseX_(0), currentMouseY_(0),
 	mouseDoubleX_(0), mouseDoubleY_(0),
 	stateLogging_(false), stateTimeLogging_(false)
@@ -283,6 +312,7 @@ void GameState::simulate(float simTime)
 				subItor++, timerCount++)
 			{
 				GameStateI *stateI = (*subItor);
+				currentStateI_ = stateI;
 				stateI->simulate(thisState, simTime);
 				if (checkStimulate()) return;
 
@@ -370,6 +400,7 @@ void GameState::draw()
 				subItor++, timerCount++)
 			{
 				GameStateI *stateI = (*subItor);
+				currentStateI_ = stateI;
 				stateI->draw(thisState);
 				if (checkStimulate()) return;
 
@@ -656,15 +687,46 @@ void GameState::clearTimers(bool printTimers)
 				unsigned int percentageDraw =
 					(100 * timers_[i].drawTime) / bothTotal;
 				Logger::log(
-					formatString("%i:%s - Draw : %u (%u), Simulate : %u (%u)", 
+					formatString("%i:%s - Draw : %u (%u%%), Simulate : %u (%u%%)", 
 					i, 
 					timers_[i].gameStateI->getGameStateIName(),
 					timers_[i].drawTime, percentageDraw,
 					timers_[i].simulateTime, percentageSimulate));
+
+				std::list<GameStatePerfCounter *>::iterator itor;
+				for (itor = perfCounters_.begin();
+					itor != perfCounters_.end();
+					itor++)
+				{
+					GameStatePerfCounter *counter = *itor;
+					if (counter->getGameStateI() == timers_[i].gameStateI)
+					{
+						Logger::log(
+							formatString("    %s : %u", 
+							counter->getName(),
+							counter->getTotal()));
+					}
+				}
 			}
 		}
 	}
 
 	memset(&timers_, 0, sizeof(timers_));
 	timerSimulateTime_ = 0.0f;
+}
+
+GameStatePerfCounter *GameState::getPerfCounter(const char *name)
+{
+	std::list<GameStatePerfCounter *>::iterator itor;
+	for (itor = perfCounters_.begin();
+		itor != perfCounters_.end();
+		itor++)
+	{
+		GameStatePerfCounter *counter = *itor;
+		if (0 == strcmp(counter->getName(), name)) return counter;
+	}
+
+	GameStatePerfCounter *counter = new GameStatePerfCounter(currentStateI_, name);
+	perfCounters_.push_back(counter);
+	return counter;
 }

@@ -51,7 +51,7 @@ void GLDynamicVertexArray::drawROAM()
 		return;
 	}
 
-	if (OptionsDisplay::instance()->getNoVBO())
+	if (!GLStateExtension::hasVBO())
 	{
 		GLfloat *start = array_;
 		glBegin(GL_TRIANGLES);
@@ -133,7 +133,7 @@ void GLDynamicVertexArray::drawQuadStrip(bool useColor)
 		return;	
 	}
 
-	if (OptionsDisplay::instance()->getNoVBO())
+	if (!GLStateExtension::hasVBO())
 	{
 		GLfloat *start = array_;
 		glBegin(GL_QUAD_STRIP);

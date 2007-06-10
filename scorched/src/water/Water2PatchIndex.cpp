@@ -114,7 +114,7 @@ void Water2PatchIndex::generate(int size, int skip, unsigned int border)
 	if (!indices_) indices_ = new unsigned int[size_];
 	for (int i=0; i<size_; i++) indices_[i] = indices[i];
 
-	if (GLEW_ARB_vertex_buffer_object &&
+	if (GLStateExtension::hasVBO() &&
 		!OptionsDisplay::instance()->getNoWaterBuffers())
 	{
 		delete bufferObject_;

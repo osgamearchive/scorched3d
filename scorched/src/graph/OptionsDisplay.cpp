@@ -225,7 +225,7 @@ OptionsDisplay::OptionsDisplay() :
 	noTessalation_(options_,"NoTessalation", 
 		"Do not use ROAM tessalation algorithm", RWAccess, false),
 	noVBO_(options_,"NoVBO", 
-		"Do not use Vertex Buffer Objects (if avaialable)", RWAccess, true),
+		"Do not use Vertex Buffer Objects (if avaialable)", RWAccess, false),
 	noWaterBuffers_(options_,"NoWaterBuffers", 
 		"Do not use Vertex Buffers for water (if avaialable)", RAccess, false),
 	depricatedNoCg_(options_,"NoCg", 

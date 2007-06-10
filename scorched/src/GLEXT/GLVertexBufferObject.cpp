@@ -27,7 +27,7 @@ GLVertexBufferObject::GLVertexBufferObject(bool indexbuffer) :
 	id_(0), size_(0), mapped_(false),
 	target_(indexbuffer ? GL_ELEMENT_ARRAY_BUFFER_ARB : GL_ARRAY_BUFFER_ARB)
 {
-	DIALOG_ASSERT(GLEW_ARB_vertex_buffer_object);
+	DIALOG_ASSERT(GLStateExtension::hasVBO());
 
 	glGenBuffersARB(1, &id_);
 }

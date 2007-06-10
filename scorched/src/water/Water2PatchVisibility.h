@@ -55,6 +55,7 @@ protected:
 		unsigned int visibilityIndex;
 		Vector position;
 		Vector offset;
+		bool anyoffset;
 		bool onScreen;
 		bool ignore;
 	};

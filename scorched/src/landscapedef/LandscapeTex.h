@@ -74,13 +74,21 @@ public:
 class LandscapeTexBorderWater : public LandscapeTexType
 {
 public:
+	// Non-shader
 	std::string reflection;
 	std::string texture;
-	std::string wavetexture1;
-	std::string wavetexture2;
-	float height;
-	Vector wavecolor;
+	std::string foam;
 
+	// Shader
+	Vector wavetopa;
+	Vector wavetopb;
+	Vector wavebottoma;
+	Vector wavebottomb;
+	Vector wavelight;
+
+	// Both
+	float height;
+	
 	virtual bool readXML(XMLNode *node);
 	virtual TexType getType() { return eWater; }
 };

@@ -331,17 +331,15 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	// rather bad weather
 	//fixme: multiply with light color here, not only light brightness.
 	//dim yellow light should result in dim yellow-green upwelling color, not dim green.
-	Vector4 light_color(1.0f, 1.0f, 1.0f, 1.0f);
-	Vector4 wavetopA(0, 0, 0, 0);
-	Vector4 wavetopB(49.0f/100.0f, 83.0f/100.0f, 94.0f/100.0f);
-	Vector4 wavebottomA(0, 0, 0, 0);
-	Vector4 wavebottomB(29.0f/100.0f, 56.0f/100.0f, 91.0f/100.0f);
+	Vector4 light_color(water->wavelight, 1.0f);
+	Vector4 wavetopA(water->wavetopa, 0.0f);
+	Vector4 wavetopB(water->wavetopb, 0.0f);
+	Vector4 wavebottomA(water->wavebottoma, 0.0f);
+	Vector4 wavebottomB(water->wavebottomb, 0.0f);
 	Vector4 wavetop = light_color.lerp(wavetopA, wavetopB);
 	Vector4 wavebottom = light_color.lerp(wavebottomA, wavebottomB);
 
 	// Create textures
-	GLImageHandle loadedBitmapWater = 
-		GLImageFactory::loadImageHandle(getDataFile("data/textures/landscape/default/water.bmp"));
 	if (GLStateExtension::hasFBO() &&
 		GLStateExtension::hasShaders() &&
 		!OptionsDisplay::instance()->getNoWaterReflections())
@@ -351,13 +349,15 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	}
 	else
 	{
+		GLImageHandle loadedBitmapWater = 
+			GLImageFactory::loadImageHandle(getDataFile(water->texture.c_str()));
 		GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(128, 128);
-		reflectionTexture_.create(bitmapWater2, true);
+		reflectionTexture_.create(bitmapWater2, true); // Not the reflection in this case
 	}
 
 	GLImageHandle map = GLImageFactory::createBlank(128, 128, false, 0);
 	GLImageHandle loadedFoam = 
-		GLImageFactory::loadImageHandle(getDataFile("data/textures/foam.png"));	
+		GLImageFactory::loadImageHandle(getDataFile(water->foam.c_str()));	
 	foamTexture_.create(loadedFoam, false);
 	foamTexture_.draw(true);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -388,6 +388,8 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	{
 		// Load the water reflection bitmap
 		// Create water cubemap texture
+		GLImageHandle loadedBitmapWater = 
+			GLImageFactory::loadImageHandle(getDataFile(water->reflection.c_str()));
 		GLImageHandle bitmapWater2 = loadedBitmapWater.createResize(256, 256);
 		delete noShaderWaterTexture_;
 		if (GLStateExtension::hasCubeMap())

@@ -115,7 +115,7 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 		}
 	}
 
-	if (GLEW_ARB_vertex_buffer_object &&
+	if (GLStateExtension::hasVBO() &&
 		!OptionsDisplay::instance()->getNoWaterBuffers())
 	{
 		delete bufferObject_;
@@ -133,22 +133,6 @@ void Water2Patch::draw(Water2PatchIndexs &indexes, int indexPosition, int border
 
 	// draw
 	draw(index);
-
-	// Draw normals
-	if(OptionsDisplay::instance()->getDrawNormals()) // Draw normals
-	{
-		GLState state(GLState::TEXTURE_OFF);
-		glBegin(GL_LINES);
-		for (int i=0; i<index.getSize(); i++)
-		{
-			Data &data = data_[index.getIndices()[i]];
-			glVertex3f(data.x, data.y, data.z);
-			glVertex3f(data.x + data.nx * 4.0f,
-				data.y + data.ny * 4.0f,
-				data.z + data.nz * 4.0f);
-		}
-		glEnd();
-	}
 }
 
 void Water2Patch::draw(Water2PatchIndex &index)
@@ -165,11 +149,9 @@ void Water2Patch::draw(Water2PatchIndex &index)
 	}
 
 	// Vertices On
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(Data), data);
 
 	// Normals On
-	glEnableClientState(GL_NORMAL_ARRAY);
 	glNormalPointer(GL_FLOAT, sizeof(Data), data + 3);
 
 	// Unmap data to draw
@@ -199,12 +181,6 @@ void Water2Patch::draw(Water2PatchIndex &index)
 	{
 		index.getBufferObject()->unbind();
 	}
-
-	// Vertices Off
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	// Normals Off
-	glDisableClientState(GL_NORMAL_ARRAY);
 }
 
 Water2Patch::Data *Water2Patch::getData(int x, int y)

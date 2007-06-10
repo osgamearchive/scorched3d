@@ -69,14 +69,18 @@ bool LandscapeTexBorderWater::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("reflection", reflection)) return false;
 	if (!node->getNamedChild("texture", texture)) return false;
-	if (!node->getNamedChild("wavecolor", wavecolor)) return false;
-	if (!node->getNamedChild("wavetexture1", wavetexture1)) return false;
-	if (!node->getNamedChild("wavetexture2", wavetexture2)) return false;
-	if (!node->getNamedChild("height", height)) return false;
+	if (!node->getNamedChild("foam", foam)) return false;
 	if (!checkDataFile(reflection.c_str())) return false;
 	if (!checkDataFile(texture.c_str())) return false;
-	if (!checkDataFile(wavetexture1.c_str())) return false;
-	if (!checkDataFile(wavetexture2.c_str())) return false;
+	if (!checkDataFile(foam.c_str())) return false;
+
+	if (!node->getNamedChild("height", height)) return false;
+	if (!node->getNamedChild("wavetopa", wavetopa)) return false;
+	if (!node->getNamedChild("wavetopb", wavetopb)) return false;
+	if (!node->getNamedChild("wavebottoma", wavebottoma)) return false;
+	if (!node->getNamedChild("wavebottomb", wavebottomb)) return false;
+	if (!node->getNamedChild("wavelight", wavelight)) return false;
+
 	return node->failChildren();
 }
 
