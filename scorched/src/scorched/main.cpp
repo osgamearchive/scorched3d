@@ -37,6 +37,8 @@ bool newVersion = false;
 
 int main(int argc, char *argv[])
 {
+	setlocale(LC_ALL, "C");
+
 	// From main.h
 	run_main(argc, argv, *ScorchedParams::instance());
 
