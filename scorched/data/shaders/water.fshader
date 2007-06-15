@@ -6,8 +6,7 @@ varying vec3 normal;
 varying vec2 foamtexcoord;
 varying vec3 aoftexcoord;
 varying vec4 reflectiontexcoord;	// x,y,w
-varying vec2 noise_texc_0;
-varying vec2 noise_texc_1;
+varying vec4 noise_texc;
 
 uniform sampler2D tex_normal;		// normal map, RGB
 uniform sampler2D tex_reflection;	// reflection, RGB
@@ -20,8 +19,8 @@ const float water_shininess = 120.0;
 void main()
 {
 	// compute normal vector
-	vec3 N0 = vec3(texture2D(tex_normal, noise_texc_0) * 2.0 - 1.0);
-	vec3 N1 = vec3(texture2D(tex_normal, noise_texc_1) * 2.0 - 1.0);
+	vec3 N0 = vec3(texture2D(tex_normal, noise_texc.xy) * 2.0 - 1.0);
+	vec3 N1 = vec3(texture2D(tex_normal, noise_texc.zw) * 2.0 - 1.0);
 	vec3 N = normalize(normal+N0+N1);
 
 	// compute direction to viewer

@@ -7,8 +7,7 @@ varying vec3 normal;
 varying vec2 foamtexcoord; // coords for the actual tiled foam texture
 varying vec3 aoftexcoord; // coords for the aof texture for open sea
 varying vec4 reflectiontexcoord;	// x,y,w
-varying vec2 noise_texc_0;
-varying vec2 noise_texc_1;
+varying vec4 noise_texc;
 
 uniform vec3 landfoam;
 uniform vec3 viewpos;
@@ -46,8 +45,8 @@ void main()
 	lightdir = normalize(vec3(gl_ModelViewMatrixInverse * gl_LightSource[0].position));
 
 	// transform noise coordinates
-	noise_texc_0 = vec2(gl_Vertex) * noise_xform_0.z + noise_xform_0.xy;
-	noise_texc_1 = vec2(gl_Vertex) * noise_xform_1.z + noise_xform_1.xy;
+	noise_texc.xy = vec2(gl_Vertex) * noise_xform_0.z + noise_xform_0.xy;
+	noise_texc.zw = vec2(gl_Vertex) * noise_xform_1.z + noise_xform_1.xy;
 
 	// transform inputpos.xy with texture matrix to get texture coodinates
 	//fixme: use uniforms here as well, no tex matrix.	
