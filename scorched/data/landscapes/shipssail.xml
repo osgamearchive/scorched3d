@@ -10,7 +10,7 @@
 		</object>
 	</placement>
 	<movement type="ships">
-		<speed>0.1</speed>
+		<speed>0.03</speed>
 		<controlpoints>8</controlpoints>
 		<controlpointswidth>250</controlpointswidth>
 		<controlpointsheight>250</controlpointsheight>
