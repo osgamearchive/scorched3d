@@ -4447,22 +4447,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\landscape\LandscapeShadowCamera.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeShadowCamera.h"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeShadowHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\landscape\LandscapeShadowHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\landscape\LandscapeSoundManager.cpp"
 				>
 			</File>
@@ -4476,6 +4460,14 @@
 			</File>
 			<File
 				RelativePath="..\landscape\LandscapeStateHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\landscape\LargeHemisphere.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\landscape\LargeHemisphere.h"
 				>
 			</File>
 			<File

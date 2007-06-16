@@ -74,7 +74,7 @@ void TargetRendererImplTargetModel::simulate(float frameTime)
 	else modelRenderer_->simulate(frameTime * 20.0f);
 }
 
-void TargetRendererImplTargetModel::draw(float distance)
+void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 {
 	// Check we can see the tank
 	canSeeTank_ = true;

@@ -288,6 +288,9 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NOSHADERS_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No shaders"));
 	troubleSizer2->Add(IDC_NOSHADERS_CTRL, 0);
+	IDC_NOSHADOWS_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No shadows"));
+	troubleSizer2->Add(IDC_NOSHADOWS_CTRL, 0);
 	IDC_NOCUBEMAP_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No cube map"));
 	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);

@@ -171,8 +171,12 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 						int lx = int(float(x) * float(defn.landscapewidth) / float(wave_resolution));
 						int ly = int(float(y) * float(defn.landscapeheight) / float(wave_resolution));
 
-						float height = ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(lx, ly);
-						if (height > 4.0f) J -= 1.0f;
+						float height = ScorchedClient::instance()->getLandscapeMaps().
+							getGroundMaps().getHeight(lx, ly);
+						if (height > water->height - 1.0f) 
+						{
+							J = -(1.0f - (height - water->height));
+						}
 					}
 					//float heightdiff = MAX(1.0f, 3.0f - MAX(0.0f, 5.0f - height));
 					//J *= heightdiff;

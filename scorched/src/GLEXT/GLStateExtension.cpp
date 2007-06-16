@@ -100,13 +100,14 @@ void GLStateExtension::setup()
 				hasFBO_ = true;
 			}
 		}
+		if (!OptionsDisplay::instance()->getNoGLShadows())
 		{
 			if (GLEW_EXT_framebuffer_object &&
 				GLEW_ARB_shadow &&
 				GLEW_ARB_depth_texture &&
 				GLEW_ARB_multitexture)
 			{
-				hasHardwareShadows_ = false; //true;
+				hasHardwareShadows_ = true;
 			}
 		}
 

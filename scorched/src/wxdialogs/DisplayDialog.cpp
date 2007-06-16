@@ -338,6 +338,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOENVCOMBINE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLEnvCombineEntry().getDescription(), wxConvUTF8));
 	IDC_NOSHADERS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLShaders());
 	IDC_NOSHADERS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLShadersEntry().getDescription(), wxConvUTF8));
+	IDC_NOSHADOWS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLShadows());
+	IDC_NOSHADOWS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLShadowsEntry().getDescription(), wxConvUTF8));
 	IDC_NOVBO_CTRL->SetValue(OptionsDisplay::instance()->getNoVBO());
 	IDC_NOVBO_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoVBOEntry().getDescription(), wxConvUTF8));
 	IDC_NOMIPMAPS_CTRL->SetValue(OptionsDisplay::instance()->getNoGLHardwareMipmaps());
@@ -571,6 +573,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoGLCompiledArraysEntry().setValue(IDC_NOCOMPILEDARRAYS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLEnvCombineEntry().setValue(IDC_NOENVCOMBINE_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLShadersEntry().setValue(IDC_NOSHADERS_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoGLShadowsEntry().setValue(IDC_NOSHADOWS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLCubeMapEntry().setValue(IDC_NOCUBEMAP_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLSphereMapEntry().setValue(IDC_NOSPHEREMAP_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoVBOEntry().setValue(IDC_NOVBO_CTRL->GetValue());

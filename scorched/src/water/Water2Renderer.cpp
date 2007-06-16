@@ -54,6 +54,7 @@ void Water2Renderer::simulate(float frameTime)
 
 void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
 {
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_PATCHSETUP");
 	// Choose correct water frame
 	Water2Patches &currentPatch = water2.getPatch(totalTime_);
 	if (&currentPatch != currentPatch_)
@@ -66,6 +67,7 @@ void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
 			normalTexture_.replace(currentPatch_->getNormalMap());
 		}
 	}
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_PATCHSETUP");
 
 	// Draw Water
 	if (GLStateExtension::hasShaders())
@@ -77,7 +79,9 @@ void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
 		drawWaterNoShaders(water2);
 	}
 
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_DRAWPOINTS");
 	drawPoints(points);
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_DRAWPOINTS");
 }
 
 void Water2Renderer::drawPoints(WaterMapPoints &points)

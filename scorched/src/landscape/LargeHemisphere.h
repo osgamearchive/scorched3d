@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,28 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <landscape/LandscapeShadowCamera.h>
-#include <GLEXT/GLStateExtension.h>
+#if !defined(AFX_LargeHemisphere_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
+#define AFX_LargeHemisphere_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_
 
-LandscapeShadowCamera *LandscapeShadowCamera::instance()
-{
-	static LandscapeShadowCamera *inst = new LandscapeShadowCamera();
-	return inst;
-}
+#include <list>
+#include <common/Vector.h>
 
-LandscapeShadowCamera::LandscapeShadowCamera() :
-	GameStateI("LandscapeShadowCamera")
+class GLImage;
+class LargeHemisphere  
 {
-}
+public:
+	LargeHemisphere();
+	~LargeHemisphere();
 
-LandscapeShadowCamera::~LandscapeShadowCamera()
-{
-}
+	void clear();
 
-void LandscapeShadowCamera::simulate(const unsigned state, float frameTime)
-{
-}
+	void draw(float radius, float radius2, 
+		unsigned int flags = 0);
+	void drawColored(float radius, float radius2, 
+		GLImage &colors, Vector &sunDir, int daytime);
 
-void LandscapeShadowCamera::draw(const unsigned state)
-{
-}
+private:
+	struct Entry
+	{
+		unsigned int listNo_;
+		Vector position_;
+		Vector size_;
+	};
+
+	std::list<Entry> entries_;
+};
+
+#endif // !defined(AFX_LargeHemisphere_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)

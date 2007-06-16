@@ -70,7 +70,7 @@ public:
 	TargetRendererImplTank(Tank *tank);
 	virtual ~TargetRendererImplTank();
 
-	virtual void draw(float distance);
+	virtual void draw(float distance, bool shadowdraw);
 	virtual void drawSecond(float distance);
 	virtual void draw2d();
 	virtual void fired();
@@ -97,6 +97,9 @@ protected:
 	GLdouble posX_, posY_, posZ_; // 2d Position
 
 	void storeTank2DPos();
+	void drawMain(float fade);
+	void drawShadow(float fade);
+	void drawTank(float fade, bool currentTank);
 	void drawInfo();
 	void drawLife();
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);

@@ -23,6 +23,7 @@
 
 #include <GLEXT/GLImageHandle.h>
 #include <GLEXT/GLTexture.h>
+#include <GLEXT/GLShadowFrameBuffer.h>
 
 class Wall;
 class ShadowMap;
@@ -81,12 +82,12 @@ public:
 
 	unsigned int getChangeCount() { return changeCount_; }
 
-	void drawShadow();
 	void drawTearDown();
 	void drawSetup();
 	void drawLand();
 	void drawWater();
 	void drawObjects();
+	void drawShadows();
 
 	void simulate(float frameTime);
 
@@ -119,6 +120,12 @@ protected:
 	GLImageHandle bitmapPlanAlphaAlpha_;
 	GLImageHandle bitmapPlanAlpha_;
 	GLImageHandle bitmapPlan_;
+
+	// Shadow map
+	GLTexture shadowMapTexture_;
+	GLShadowFrameBuffer shadowFrameBuffer_;
+	GLdouble lightModelMatrix_[16];
+	GLdouble lightProjMatrix_[16];
 
 	// Variables used to set when the water is refreshed
 	bool resetLandscape_;

@@ -50,14 +50,14 @@ RenderTargets::~RenderTargets()
 
 void RenderTargets::Renderer2D::draw(const unsigned state)
 {
-	RenderTargets::instance()->draw(RenderTargets::Type2D, state);
+	RenderTargets::instance()->draw(RenderTargets::Type2D);
 }
 
 void RenderTargets::Renderer3D::draw(const unsigned state)
 {
 	RenderTracer::instance()->draw(state);
 	RenderGeoms::instance()->draw(state);
-	RenderTargets::instance()->draw(RenderTargets::Type3D, state);
+	RenderTargets::instance()->draw(RenderTargets::Type3D);
 }
 
 void RenderTargets::Renderer2D::simulate(const unsigned state, float simTime)
@@ -89,12 +89,22 @@ static inline float approx_distance(float  dx, float dy, float dz)
    return approx;
 }
 
-void RenderTargets::draw(DrawType dt, const unsigned state)
+void RenderTargets::shadowDraw()
+{
+	draw(TypeShadow);
+}
+
+void RenderTargets::draw(DrawType dt)
 {
 	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
 
 	// Don't put fully transparent areas into the depth buffer
-	GLState glstate(GLState::BLEND_ON | GLState::TEXTURE_ON | GLState::ALPHATEST_ON);
+	unsigned int wantedstate = GLState::BLEND_ON | GLState::ALPHATEST_ON;
+	if (dt != TypeShadow)
+	{
+		wantedstate |= GLState::TEXTURE_ON;
+	}
+	GLState glstate(wantedstate);
 	
 	// Draw all of the tanks
 	std::map<unsigned int, Target *> &targets = 
@@ -112,6 +122,7 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 
 		switch (dt)
 		{
+		case TypeShadow:
 		case Type3D:
 			{
 				float distance = approx_distance(
@@ -119,7 +130,7 @@ void RenderTargets::draw(DrawType dt, const unsigned state)
 					target->getLife().getTargetPosition()[1] - campos[1],
 					target->getLife().getTargetPosition()[2] - campos[2]);
 
-				model->draw(distance);
+				model->draw(distance, (dt == TypeShadow));
 			}
 			break;
 		case Type2D:

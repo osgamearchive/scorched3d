@@ -164,6 +164,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not play any sounds from boids.", OptionEntry::DataDepricated, false), 
 	noShadows_(options_, "NoShadows", 
 		"Do not draw real-time shadows.", RWAccess, false), 
+	noGLShadows_(options_, "NoGLShadows", 
+		"Do not draw GL shadow map shadows.", RAccess, false), 
 	noSimulateParticles_(options_, "NoParticleSimulate", 
 		"Do not use custom simulations for the  particles.", RWAccess, false), 
 	noDrawParticles_(options_, "NoParticleDraw", 

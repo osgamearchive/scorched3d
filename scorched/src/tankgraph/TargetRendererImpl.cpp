@@ -129,8 +129,8 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 			glEnd();
 		glEndList();
 		glNewList(smallHalfListNo = glGenLists(1), GL_COMPILE);
-			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, true);
-			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, false);
+			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, 10, 10, true);
+			Hemisphere::draw(1.0f, 1.0f, 10, 10, 6, 0, 10, 10, false);
 		glEndList();
 		glNewList(spiralListNo = glGenLists(1), GL_COMPILE);
 			float height = 0.0f;

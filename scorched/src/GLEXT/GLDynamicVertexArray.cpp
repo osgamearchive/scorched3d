@@ -27,7 +27,7 @@ GLDynamicVertexArray *GLDynamicVertexArray::instance_ = 0;
 GLDynamicVertexArray::GLDynamicVertexArray() : 
 	capacity_(3000), used_(0), array_(0)
 {
-	array_ = new GLfloat[capacity_];
+	current_ = array_ = new Data[capacity_];
 }
 
 GLDynamicVertexArray::~GLDynamicVertexArray()
@@ -35,48 +35,48 @@ GLDynamicVertexArray::~GLDynamicVertexArray()
 	delete [] array_;
 }
 
+void GLDynamicVertexArray::reset()
+{
+	used_ = 0;
+	current_ = array_;
+}
+
 void GLDynamicVertexArray::drawROAM()
 {
-	int stride = 5;
-	if (GLStateExtension::hasMultiTex())
+	if (used_ < 3)
 	{
-		if (GLStateExtension::getTextureUnits() > 2)
-		{
-			stride = 7;
-		}
-	}
-	if (used_ < stride * 3)
-	{
-		used_ = 0;
+		reset();
 		return;
 	}
 
 	if (!GLStateExtension::hasVBO())
 	{
-		GLfloat *start = array_;
+		Data *start = array_;
 		glBegin(GL_TRIANGLES);
-		for (int i=0; i<used_; i+=stride)
+		for (int i=0; i<used_; i++)
 		{
-			glTexCoord2f(start[3], start[4]); 
+			glTexCoord2f(start->t1x, start->t1y);
 			if (GLStateExtension::hasMultiTex())
 			{
 				glMultiTexCoord2fARB(
-					GL_TEXTURE1_ARB, start[3], start[4]);
+					GL_TEXTURE1_ARB, start->t1x, start->t1y);
 				if (GLStateExtension::getTextureUnits() > 2)
 				{
 					glMultiTexCoord2fARB(
-						GL_TEXTURE2_ARB, start[5], start[6]);
+						GL_TEXTURE2_ARB, start->t2x, start->t2y);
 				}
 			}
 
-			glVertex3fv(start); 
-			start += stride;
+			glNormal3fv(&start->nx);
+			glVertex3fv(&start->x); 
+			start ++;
 		}
 		glEnd();
 	}
 	else
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 		if (GLStateExtension::hasMultiTex())
 		{
 			glClientActiveTextureARB(GL_TEXTURE1_ARB);
@@ -89,22 +89,25 @@ void GLDynamicVertexArray::drawROAM()
 		}
 		glClientActiveTextureARB(GL_TEXTURE0_ARB);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
-		glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
+		glVertexPointer(3, GL_FLOAT, sizeof(Data), &array_[0].x);
+		glNormalPointer(GL_FLOAT, sizeof(Data), &array_[0].nx);
+
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Data), &array_[0].t1x);
 		if (GLStateExtension::hasMultiTex())
 		{
 			glClientActiveTextureARB(GL_TEXTURE1_ARB);
-			glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
+			glTexCoordPointer(2, GL_FLOAT, sizeof(Data), &array_[0].t1x);
 			if (GLStateExtension::getTextureUnits() > 2)
 			{
 				glClientActiveTextureARB(GL_TEXTURE2_ARB);
-				glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
+				glTexCoordPointer(2, GL_FLOAT, sizeof(Data), &array_[0].t2x);
 			}
 		}
 
-		glDrawArrays(GL_TRIANGLES, 0, used_ / stride);
+		glDrawArrays(GL_TRIANGLES, 0, used_);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 		if (GLStateExtension::hasMultiTex())
 		{
 			glClientActiveTextureARB(GL_TEXTURE1_ARB);
@@ -119,52 +122,6 @@ void GLDynamicVertexArray::drawROAM()
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
-	GLInfo::addNoTriangles((used_ / stride) / 3);
-	used_ = 0;
-}
-
-void GLDynamicVertexArray::drawQuadStrip(bool useColor)
-{
-	int stride = 5;
-	if (useColor) stride = 8;
-	if (used_ < 4 * stride)
-	{
-		used_ = 0;
-		return;	
-	}
-
-	if (!GLStateExtension::hasVBO())
-	{
-		GLfloat *start = array_;
-		glBegin(GL_QUAD_STRIP);
-		for (int i=0; i<used_; i+=stride)
-		{
-			glTexCoord2fv(start + 3);
-			if (useColor) glColor3fv(start + 5);
-			glVertex3fv(start);
-			start += stride;
-		}
-		glEnd();
-	}
-	else
-	{
-		// Define	
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		if (useColor) glEnableClientState(GL_COLOR_ARRAY);
-		glVertexPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_);
-		glTexCoordPointer(2, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 3);
-		if (useColor) glColorPointer(3, GL_FLOAT, stride * sizeof(GL_FLOAT), array_ + 5);
-
-		// Draw
-		glDrawArrays(GL_QUAD_STRIP, 0, used_ / stride);
-		
-		// Undefine
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		if (useColor) glDisableClientState(GL_COLOR_ARRAY);
-	}
-
-	GLInfo::addNoTriangles((used_ / stride) - 2);
-	used_ = 0;
+	GLInfo::addNoTriangles(used_ / 3);
+	reset();
 }

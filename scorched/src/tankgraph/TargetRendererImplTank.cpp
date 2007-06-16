@@ -35,7 +35,6 @@
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/ShadowMap.h>
 #include <landscape/Smoke.h>
-#include <landscape/Hemisphere.h>
 #include <actions/TankFalling.h>
 #include <engine/ActionController.h>
 #include <client/ScorchedClient.h>
@@ -122,10 +121,37 @@ TankMesh *TargetRendererImplTank::getMesh()
 	return mesh_;
 }
 
-void TargetRendererImplTank::draw(float distance)
+void TargetRendererImplTank::draw(float distance, bool shadowdraw)
 {
 	if (tank_->getState().getState() != TankState::sNormal) return;
 
+	// Get the model size
+	float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
+
+	// Figure out the drawing distance
+	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * modelSize * 2.0f;
+	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
+	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
+	if (distance > drawDistance) return;
+	float fade = 1.0f;
+	if (distance > drawDistanceFadeStart)
+	{
+		fade = 1.0f - ((distance - drawDistanceFadeStart) / drawDistanceFade);
+	}
+
+	if (shadowdraw) drawShadow(fade);
+	else drawMain(fade);
+}
+
+void TargetRendererImplTank::drawShadow(float fade)
+{
+	if (!canSeeTank_) return;
+
+	drawTank(fade, false);
+}
+
+void TargetRendererImplTank::drawMain(float fade)
+{
 	if (TargetRendererImplTankAIM::drawAim())
 	{
 		GLState texState(GLState::TEXTURE_OFF);
@@ -154,24 +180,11 @@ void TargetRendererImplTank::draw(float distance)
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
 
-	// Get the model size
-	float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
-
-	// Figure out the drawing distance
-	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * modelSize * 2.0f;
-	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
-	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
-	if (distance > drawDistance) return;
-	float fade = 1.0f;
-	if (distance > drawDistanceFadeStart)
-	{
-		fade = 1.0f - ((distance - drawDistanceFadeStart) / drawDistanceFade);
-	}
-
 	// Add the tank shadow
 	GLState currentState(GLState::TEXTURE_OFF);
 	if (tank_->getTargetState().getDisplayShadow())
 	{
+		float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
 		Landscape::instance()->getShadowMap().addCircle(
 			tank_->getPosition().getTankPosition()[0], 
 			tank_->getPosition().getTankPosition()[1], 
@@ -183,19 +196,7 @@ void TargetRendererImplTank::draw(float distance)
 	bool currentTank = 
 		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank() &&
 		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
-
-	TankMesh *mesh = getMesh();
-	if (mesh)
-	{
-		mesh->draw(frame_,
-			currentTank, 
-			tank_->getLife().getQuaternion(),
-			tank_->getPosition().getTankPosition(), 
-			fireOffSet_, 
-			tank_->getPosition().getRotationGunXY(), 
-			tank_->getPosition().getRotationGunYZ(),
-			false, modelSize, fade);
-	}
+	drawTank(fade, currentTank);
 
 	// Draw the tank sight
 	if (currentTank &&
@@ -207,6 +208,23 @@ void TargetRendererImplTank::draw(float distance)
 
 	// Draw the life bars
 	drawLife();
+}
+
+void TargetRendererImplTank::drawTank(float fade, bool currentTank)
+{
+	TankMesh *mesh = getMesh();
+	if (mesh)
+	{
+		float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
+		mesh->draw(frame_,
+			currentTank, 
+			tank_->getLife().getQuaternion(),
+			tank_->getPosition().getTankPosition(), 
+			fireOffSet_, 
+			tank_->getPosition().getRotationGunXY(), 
+			tank_->getPosition().getRotationGunYZ(),
+			false, modelSize, fade);
+	}
 }
 
 void TargetRendererImplTank::drawSecond(float distance)

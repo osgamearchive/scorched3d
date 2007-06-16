@@ -37,8 +37,6 @@
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWToolTip.h>
 #include <landscape/LandscapeStateHandler.h>
-#include <landscape/LandscapeShadowHandler.h>
-#include <landscape/LandscapeShadowCamera.h>
 #include <landscape/LandscapeMusicManager.h>
 #include <GLEXT/GLCameraFrustum.h>
 #include <GLEXT/GLConsole.h>
@@ -72,8 +70,6 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 void ClientState::addStandardComponents(GameState &gameState, unsigned state)
 {
 	gameState.addStateKeyEntry(state, SpeedChange::instance());
-	gameState.addStateLoop(state, 
-		LandscapeShadowCamera::instance(), LandscapeShadowHandler::instance());
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
 	gameState.addStateLoop(state, 

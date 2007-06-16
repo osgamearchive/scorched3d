@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_SkyDomeh_INCLUDE__)
 #define __INCLUDE_SkyDomeh_INCLUDE__
 
-#include <landscape/Hemisphere.h>
+#include <landscape/LargeHemisphere.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLImageHandle.h>
 
@@ -41,20 +41,16 @@ protected:
 	float cloudSpeed_;
 	float cloudDirection_;
 	float flashTime_;
-	std::list<Hemisphere::HemispherePoint> layer1_;
-	std::list<Hemisphere::HemispherePoint> layer2_;
-	std::list<Hemisphere::HemispherePoint> layer3_;
-	std::list<Hemisphere::HemispherePoint> layer4_;
 	GLTexture cloudTexture_;
 	GLTexture starTexture_;
 	GLImageHandle skyColorsMap_;
 	bool useStarTexture_;
 	bool noSunFog_;
 
-	void drawLayer(
-		std::list<Hemisphere::HemispherePoint> &layer,
-		float radius, float radius2, float x, float y,
-		bool useColor, float tx = 1.0f, float ty = 1.0f);
+	LargeHemisphere clouds1_;
+	LargeHemisphere clouds2_;
+	LargeHemisphere colors_;
+	LargeHemisphere stars_;
 };
 
 #endif // __INCLUDE_SkyDomeh_INCLUDE__

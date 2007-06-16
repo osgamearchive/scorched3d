@@ -194,50 +194,55 @@ void PatchSide::recursRender( TriNode *tri,
 	else
 	{
 		GLfloat leftZ  = hMap_->getHeight(leftX, leftY);
+		Vector &leftN = hMap_->getNormal(leftX, leftY);
 		GLfloat rightZ = hMap_->getHeight(rightX, rightY);
-		GLfloat apexZ  = hMap_->getHeight(apexX, apexY); 
+		Vector &rightN = hMap_->getNormal(rightX, rightY);
+		GLfloat apexZ  = hMap_->getHeight(apexX, apexY);
+		Vector &apexN = hMap_->getNormal(apexX, apexY);
 
 		switch (side)
 		{
 		case typeTop:
+			GLDynamicVertexArray::Data *data;
+
 			// Left
-			GLDynamicVertexArray::instance()->addFloat((GLfloat) leftX);
-			GLDynamicVertexArray::instance()->addFloat((GLfloat) leftY);
-			GLDynamicVertexArray::instance()->addFloat(leftZ);
-			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(leftX).txa);
-			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(leftY).txa);
-			if (GLStateExtension::hasMultiTex() &&
-				GLStateExtension::getTextureUnits() > 2)
-			{
-				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(leftX).txb);
-				GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(leftY).txb);
-			}
+			data = GLDynamicVertexArray::instance()->getData();
+			data->x = (GLfloat) leftX;
+			data->y = (GLfloat) leftY;
+			data->z = (GLfloat) leftZ;
+			data->t1x = coord_->getWidthEntry(leftX).txa;
+			data->t1y = coord_->getHeightEntry(leftY).txa;
+			data->t2x = coord_->getWidthEntry(leftX).txb;
+			data->t2y = coord_->getHeightEntry(leftY).txb;
+			data->nx = leftN[0];
+			data->ny = leftN[1];
+			data->nz = leftN[2];
 
 			// Right
-			GLDynamicVertexArray::instance()->addFloat((GLfloat) rightX);
-			GLDynamicVertexArray::instance()->addFloat((GLfloat) rightY);
-			GLDynamicVertexArray::instance()->addFloat(rightZ);
-			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(rightX).txa);
-			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(rightY).txa);
-			if (GLStateExtension::hasMultiTex() &&
-				GLStateExtension::getTextureUnits() > 2)
-			{
-				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(rightX).txb);
-				GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(rightY).txb);
-			}
+			data = GLDynamicVertexArray::instance()->getData();
+			data->x = (GLfloat) rightX;
+			data->y = (GLfloat) rightY;
+			data->z = (GLfloat) rightZ;
+			data->t1x = coord_->getWidthEntry(rightX).txa;
+			data->t1y = coord_->getHeightEntry(rightY).txa;
+			data->t2x = coord_->getWidthEntry(rightX).txb;
+			data->t2y = coord_->getHeightEntry(rightY).txb;
+			data->nx = rightN[0];
+			data->ny = rightN[1];
+			data->nz = rightN[2];
 
 			// Apex
-			GLDynamicVertexArray::instance()->addFloat((GLfloat) apexX);
-			GLDynamicVertexArray::instance()->addFloat((GLfloat) apexY);
-			GLDynamicVertexArray::instance()->addFloat(apexZ);
-			GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(apexX).txa);
-			GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(apexY).txa);
-			if (GLStateExtension::hasMultiTex() &&
-				GLStateExtension::getTextureUnits() > 2)
-			{
-				GLDynamicVertexArray::instance()->addFloat(coord_->getWidthEntry(apexX).txb);
-				GLDynamicVertexArray::instance()->addFloat(coord_->getHeightEntry(apexY).txb);
-			}
+			data = GLDynamicVertexArray::instance()->getData();
+			data->x = (GLfloat) apexX;
+			data->y = (GLfloat) apexY;
+			data->z = (GLfloat) apexZ;
+			data->t1x = coord_->getWidthEntry(apexX).txa;
+			data->t1y = coord_->getHeightEntry(apexY).txa;
+			data->t2x = coord_->getWidthEntry(apexX).txb;
+			data->t2y = coord_->getHeightEntry(apexY).txb;
+			data->nx = apexN[0];
+			data->ny = apexN[1];
+			data->nz = apexN[2];
 
 			if (GLDynamicVertexArray::instance()->getSpace() < 100)
 			{

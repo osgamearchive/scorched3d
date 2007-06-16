@@ -699,7 +699,9 @@ void GameState::clearTimers(bool printTimers)
 					itor++)
 				{
 					GameStatePerfCounter *counter = *itor;
-					if (counter->getGameStateI() == timers_[i].gameStateI)
+					const char *state1 = timers_[i].gameStateI->getGameStateIName();
+					const char *state2 = counter->getGameStateI()->getGameStateIName();
+					if (state1 == state2)
 					{
 						Logger::log(
 							formatString("    %s : %u", 

@@ -34,22 +34,33 @@ public:
 		return instance_;
 	}
 
+	struct Data
+	{
+		float x, y, z;
+		float nx, ny, nz;
+		float t1x, t1y;
+		float t2x, t2y;
+	};
+
 	int getSpace() { return capacity_ - used_; }
 	int getUsed() { return used_; }
 
-	void addFloat(GLfloat floats)
+	Data *getData()
 	{
-		DIALOG_ASSERT(used_ < capacity_);
-		array_[used_] = floats;
+		Data *c = current_;
+		current_++;
 		used_++;
+		return c;
 	}
+
 	void drawROAM();
-	void drawQuadStrip(bool useColor);
+	void reset();
 
 protected:
 	static GLDynamicVertexArray *instance_;
-	GLfloat *array_;
+	Data *array_;
 	int used_;
+	Data *current_;
 	int capacity_;
 
 private:

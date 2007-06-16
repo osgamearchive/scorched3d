@@ -21,6 +21,7 @@
 #include <water/Water2PatchVisibility.h>
 #include <water/Water2Patches.h>
 #include <graph/OptionsDisplay.h>
+#include <client/ScorchedClient.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
 #include <GLSL/GLSLShaderSetup.h>
@@ -79,7 +80,9 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 	Vector landscapeSize,
 	GLSLShaderSetup *waterShader)
 {
+	
 	// Figure the visibility for all patches
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_VISIBILITY");
 	int i=0;
 	for (int y=0; y<size_; y++)
 	{
@@ -106,7 +109,9 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 			entry.visibilityIndex = index;
 		}
 	}
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_VISIBILITY");
 
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_DRAW");
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
@@ -142,12 +147,6 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 				glPushMatrix();
 				glTranslatef(entry.offset[0], entry.offset[1], entry.offset[2]);
 			}
-			else
-			{
-				Vector hmm;
-				hmm[0] = 0.0f;
-			}
-
 
 				// Setup the texture matrix for texture 0
 				if (waterShader)
@@ -196,4 +195,6 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
+
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_DRAW");
 }

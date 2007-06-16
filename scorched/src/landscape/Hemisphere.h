@@ -21,35 +21,26 @@
 #if !defined(AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
 #define AFX_HEMISPHERE_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_
 
-#include <list>
-
 class GLImage;
 class Vector;
 class Hemisphere  
 {
 public:
-	struct HemispherePoint
+	enum Flags
 	{
-		float x; float y; float z;
-		float tx; float ty;
-		float r; float g; float b;
+		eWidthTexture = 1
 	};
 
 	static void draw(float radius, float radius2,
 		int heightSlices = 10, int rotationSlices = 20,
 		int startHeightSlice = 0, int startRotationSlice = 0,
-		bool inverse = false);
-	static void createXY(std::list<HemispherePoint> &points,
-		float radius, float radius2,
-		int heightSlices = 10, int rotationSlices = 20,
-		int startHeightSlice = 0, int startRotationSlice = 0,
-		float tx = 1.0f, float ty = 1.0f);
-	static void createColored(std::list<HemispherePoint> &points,
-		float radius, float radius2, 
+		int endHeightSlice = 10, int endRotationSlice = 10,
+		bool inverse = false, unsigned int flags = 0);
+	static void drawColored(float radius, float radius2, 
 		int heightSlices, int rotationSlices,
-		GLImage &colors,
-		Vector &sunDir,
-		int colorIndex);
+		int startHeightSlice, int startRotationSlice,
+		int endHeightSlice, int endRotationSlice,
+		bool inverse, GLImage &colors, Vector &sunDir, int daytime);
 
 private:
 	Hemisphere();

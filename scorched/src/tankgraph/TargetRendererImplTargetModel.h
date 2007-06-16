@@ -36,7 +36,7 @@ public:
 	virtual ~TargetRendererImplTargetModel();
 
 	virtual void simulate(float frameTime);
-	virtual void draw(float distance);
+	virtual void draw(float distance, bool shadowdraw);
 	virtual void drawSecond(float distance);
 	virtual void draw2d();
 	virtual void shieldHit();

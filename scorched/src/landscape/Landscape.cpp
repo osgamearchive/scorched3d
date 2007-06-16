@@ -21,7 +21,6 @@
 #include <landscape/Landscape.h>
 #include <landscape/LandscapePoints.h>
 #include <landscapemap/LandscapeMaps.h>
-#include <landscape/LandscapeShadowHandler.h>
 #include <landscape/LandscapeSoundManager.h>
 #include <landscape/LandscapeMusicManager.h>
 #include <landscape/Smoke.h>
@@ -142,10 +141,57 @@ void Landscape::reset(ProgressCounter *counter)
 		getPrecipitationEngine().killAll();
 }
 
-void Landscape::drawShadow()
-{
+void Landscape::drawShadows()
+{	
+	// Turn off texturing
+	GLState glstate(GLState::TEXTURE_OFF | GLState::DEPTH_ON);
+
+	// Get the sun's position and landscape dimensions
+	Vector sunPosition = Landscape::instance()->getSky().getSun().getPosition();
+	sunPosition /= 2.0f;
+	float landWidth = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getMapWidth() / 2.0f;
+	float landHeight = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getMapHeight() / 2.0f;
+
+	// Bind the frame buffer so we can render into it
+	shadowFrameBuffer_.bind();
+
+	// Setup the view from the sun
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();	
+	glViewport(0, 0, shadowMapTexture_.getWidth(), shadowMapTexture_.getHeight());
+	gluPerspective(60.0f, 1.0f, 1.0f, 1000.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(
+		sunPosition[0], sunPosition[1], sunPosition[2], 
+		landWidth, landHeight, 0.0f ,
+		0.0f, 0.0f, 1.0f);
+
+	// Save the matrixs used for the sun
+	glGetDoublev(GL_MODELVIEW_MATRIX, lightModelMatrix_);
+	glGetDoublev(GL_PROJECTION_MATRIX, lightProjMatrix_);
+
+	// Clear and setup the offset
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Set poly offset so that the shadows dont get precision artifacts
+    glPolygonOffset(2.5f, 10.0f);
+    glEnable(GL_POLYGON_OFFSET_FILL);
+
+	// Draw items that cast shadow
 	glColor3f(1.0f, 1.0f, 1.0f);
-	patchGrid_->draw(PatchSide::typeTop);
+	RenderTargets::instance()->shadowDraw();
+
+	// Reset offset
+    glDisable(GL_POLYGON_OFFSET_FILL);
+
+	// Stop drawing to frame buffer
+	shadowFrameBuffer_.unBind();
+
+	// Reset camera
+	MainCamera::instance()->getCamera().draw();
 }
 
 void Landscape::drawSetup()
@@ -168,12 +214,27 @@ void Landscape::drawTearDown()
 
 void Landscape::drawLand()
 {
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS");
+	if (GLStateExtension::hasHardwareShadows())
+	{
+		drawShadows();
+	}
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS");
+
 	drawSetup();
 
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SKY");
 	sky_->draw();
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SKY");
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_LAND");
 	actualDrawLand(false);
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_LAND");
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_POINTS");
 	points_->draw();
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_POINTS");
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SURROUND");
 	surround_->draw();
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SURROUND");
 	if (OptionsDisplay::instance()->getDrawMovement())
 	{
 		ScorchedClient::instance()->getTargetMovement().draw();
@@ -218,9 +279,7 @@ void Landscape::drawWater()
 
 	drawSetup();
 
-	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER");
 	water_->draw();
-	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER");
 
 	drawTearDown();
 }
@@ -354,13 +413,12 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
-	if (!GLStateExtension::hasHardwareShadows())
-	{
-		GLImageModifier::addLightMapToBitmap(mainMap_,
-			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
-			sky_->getSun().getPosition(), 
-			tex->skyambience, tex->skydiffuse, counter);
-	}
+	Vector sunPos = sky_->getSun().getPosition();
+	sunPos /= 2.0f;
+	GLImageModifier::addLightMapToBitmap(mainMap_,
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
+		sunPos,  // Match with shadows
+		tex->skyambience, tex->skydiffuse, counter);
 
 	// Add shadows to the mainmap
 	{
@@ -434,6 +492,26 @@ void Landscape::generate(ProgressCounter *counter)
 	updatePlanTexture();
 	updatePlanATexture();
 
+	if (GLStateExtension::hasHardwareShadows())
+	{
+		if (!shadowMapTexture_.textureValid())
+		{
+			// Create the shadow texture
+			// Set to false to allow rendering a non-depth scene that we can view
+			if (!shadowMapTexture_.createBufferTexture(2048 * 2, 2048 * 2, true)) 
+			{
+				dialogExit("Scorched3D", "Failed to create shadow texture");
+			}
+
+			// Create the frame buffer
+			// Set to GL_COLOR_ATTACHMENT0_EXT to allow viewing a non-depth scene
+			if (!shadowFrameBuffer_.create(shadowMapTexture_, GL_DEPTH_ATTACHMENT_EXT))
+			{
+				dialogExit("Scorched3D", "Failed to create shadow frame buffer");
+			}
+		}
+	}
+
 	// Add any ambientsounds
 	soundManager_->addSounds();
 	LandscapeMusicManager::instance()->addMusics();
@@ -468,7 +546,8 @@ void Landscape::actualDrawLand(bool reflection)
 
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
-		if (GLStateExtension::hasMultiTex())
+		if (GLStateExtension::hasMultiTex() &&
+			!reflection)
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
 				OptionsDisplay::instance()->getDetailTexture() &&
@@ -492,8 +571,8 @@ void Landscape::actualDrawLand(bool reflection)
 				glTranslatef(0.5f, 0.5f, 0.5f);
 				glScalef(0.5f, 0.5f, 0.5f);
 
-				glMultMatrixd(LandscapeShadowHandler::instance()->getLightProjMatrix());
-				glMultMatrixd(LandscapeShadowHandler::instance()->getLightModelMatrix());
+				glMultMatrixd(lightProjMatrix_);
+				glMultMatrixd(lightModelMatrix_);
 
 				GLdouble textureMatrix[16];
 				glGetDoublev(GL_TEXTURE_MATRIX, textureMatrix);
@@ -523,7 +602,7 @@ void Landscape::actualDrawLand(bool reflection)
 				glTexGendv(GL_Q, GL_EYE_PLANE, row3);
 				glEnable(GL_TEXTURE_GEN_Q);
 
-				LandscapeShadowHandler::instance()->getShadowTexture().draw(true);
+				shadowMapTexture_.draw(true);
 				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			}
 			else
@@ -561,7 +640,8 @@ void Landscape::actualDrawLand(bool reflection)
 
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
-		if (GLStateExtension::hasMultiTex())
+		if (GLStateExtension::hasMultiTex() &&
+			!reflection)
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
 				OptionsDisplay::instance()->getDetailTexture() &&

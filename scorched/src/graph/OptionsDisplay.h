@@ -87,6 +87,9 @@ public:
 	bool getNoShadows() { return noShadows_; }
 	OptionEntryBool &getNoShadowsEntry() { return noShadows_; }
 
+	bool getNoGLShadows() { return noGLShadows_; }
+	OptionEntryBool &getNoGLShadowsEntry() { return noGLShadows_; }
+
 	bool getNoDrawParticles() { return noDrawParticles_; }
 	OptionEntryBool &getNoDrawParticlesEntry() { return noDrawParticles_; }
 
@@ -411,6 +414,7 @@ protected:
 	OptionEntryBool noMusic_;
 	OptionEntryBool noAmbientSound_;
 	OptionEntryBool noShadows_;
+	OptionEntryBool noGLShadows_;
 	OptionEntryBool noDrawParticles_;
 	OptionEntryBool noSimulateParticles_;
 	OptionEntryBool drawNormals_;

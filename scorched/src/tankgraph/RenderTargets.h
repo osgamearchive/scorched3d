@@ -45,6 +45,8 @@ public:
 		virtual void simulate(const unsigned state, float simTime);
 	} render2D;
 
+	void shadowDraw();
+
 	friend struct Renderer3D;
 	friend struct Renderer2D;
 protected:
@@ -52,11 +54,12 @@ protected:
 	enum DrawType
 	{
 		Type3D,
-		Type2D
+		Type2D,
+		TypeShadow
 	};
 	TankMenus menus_;
 
-	void draw(DrawType dt, const unsigned state);
+	void draw(DrawType dt);
 
 private:
 	RenderTargets();
