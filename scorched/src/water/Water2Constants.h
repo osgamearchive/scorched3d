@@ -25,7 +25,7 @@ static inline float myfmod(float a, float b) { return a-floorf(a/b)*b; }//fmod i
 
 static const float wave_tidecycle_time = 10.24f;
 static const unsigned int wave_phases = 256;
-static const unsigned int wave_patch_width = 32;
+static const unsigned int wave_patch_width = 64;
 static const unsigned int wave_resolution = 128;
 
 static const float grid_size = 512.0f / (256.0f / float(wave_patch_width));

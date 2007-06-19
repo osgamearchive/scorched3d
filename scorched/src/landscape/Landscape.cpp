@@ -54,6 +54,10 @@
 #include <tankgraph/RenderTargets.h>
 #include <time.h>
 
+GLuint m_iFBOTarget;
+GLuint m_iDptBuffer;
+int m_iWidth = 1024, m_iHeight = 1024;
+
 Landscape *Landscape::instance_ = 0;
 
 Landscape *Landscape::instance()
@@ -143,6 +147,8 @@ void Landscape::reset(ProgressCounter *counter)
 
 void Landscape::drawShadows()
 {	
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_PRE");
+
 	// Turn off texturing
 	GLState glstate(GLState::TEXTURE_OFF | GLState::DEPTH_ON);
 
@@ -155,12 +161,13 @@ void Landscape::drawShadows()
 		getGroundMaps().getMapHeight() / 2.0f;
 
 	// Bind the frame buffer so we can render into it
-	shadowFrameBuffer_.bind();
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_iFBOTarget);
+	//shadowFrameBuffer_.bind();
 
 	// Setup the view from the sun
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
-	glViewport(0, 0, shadowMapTexture_.getWidth(), shadowMapTexture_.getHeight());
+	glViewport(0, 0, m_iWidth, m_iHeight);
 	gluPerspective(60.0f, 1.0f, 1.0f, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -177,21 +184,41 @@ void Landscape::drawShadows()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Set poly offset so that the shadows dont get precision artifacts
-    glPolygonOffset(2.5f, 10.0f);
+    glPolygonOffset(2.0f, 2.0f);
     glEnable(GL_POLYGON_OFFSET_FILL);
 
 	// Draw items that cast shadow
 	glColor3f(1.0f, 1.0f, 1.0f);
+
+	//Disable color writes, and use flat shading for speed
+	glCullFace(GL_FRONT);
+    glShadeModel(GL_FLAT);
+    glColorMask(0, 0, 0, 0); 
+
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_PRE");
+
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW");
 	RenderTargets::instance()->shadowDraw();
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW");
+
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
+
+	//restore states
+    glCullFace(GL_BACK);
+    glShadeModel(GL_SMOOTH);
+    glColorMask(1, 1, 1, 1); 
 
 	// Reset offset
     glDisable(GL_POLYGON_OFFSET_FILL);
 
 	// Stop drawing to frame buffer
-	shadowFrameBuffer_.unBind();
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	//shadowFrameBuffer_.unBind();
 
 	// Reset camera
 	MainCamera::instance()->getCamera().draw();
+
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
 }
 
 void Landscape::drawSetup()
@@ -214,12 +241,10 @@ void Landscape::drawTearDown()
 
 void Landscape::drawLand()
 {
-	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS");
 	if (GLStateExtension::hasHardwareShadows())
 	{
 		drawShadows();
 	}
-	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS");
 
 	drawSetup();
 
@@ -494,7 +519,40 @@ void Landscape::generate(ProgressCounter *counter)
 
 	if (GLStateExtension::hasHardwareShadows())
 	{
-		if (!shadowMapTexture_.textureValid())
+		glGenTextures(1, &m_iDptBuffer);
+		glBindTexture(GL_TEXTURE_2D, m_iDptBuffer);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_iWidth, m_iHeight, 0, 
+			GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);		
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_COMPARE_R_TO_TEXTURE_ARB);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB, GL_LEQUAL);
+
+
+
+		glGenFramebuffersEXT(1, &m_iFBOTarget);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_iFBOTarget);
+
+		glReadBuffer(GL_NONE);
+		glDrawBuffer(GL_NONE);
+
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, m_iDptBuffer, 0);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iFBOTarget);
+
+		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);  
+		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) 
+		{
+			DIALOG_ASSERT(0);
+		}
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+
+
+		/*if (!shadowMapTexture_.textureValid())
 		{
 			// Create the shadow texture
 			// Set to false to allow rendering a non-depth scene that we can view
@@ -509,7 +567,7 @@ void Landscape::generate(ProgressCounter *counter)
 			{
 				dialogExit("Scorched3D", "Failed to create shadow frame buffer");
 			}
-		}
+		}*/
 	}
 
 	// Add any ambientsounds
@@ -602,7 +660,9 @@ void Landscape::actualDrawLand(bool reflection)
 				glTexGendv(GL_Q, GL_EYE_PLANE, row3);
 				glEnable(GL_TEXTURE_GEN_Q);
 
-				shadowMapTexture_.draw(true);
+				glBindTexture(GL_TEXTURE_2D, m_iDptBuffer);
+				//shadowMapTexture_.draw(true);
+
 				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			}
 			else

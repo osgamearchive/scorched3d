@@ -101,7 +101,7 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 			if (!OptionsDisplay::instance()->getNoWaterMovement())
 			{
 				float distance = (cameraPosition - position).Magnitude();
-				index = int(distance - 50.0f) / 70;
+				index = int(distance - 50.0f) / 130;
 				index = MAX(0, MIN(index, indexes.getNoPositions() - 1));
 			}
 
@@ -134,13 +134,25 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 			unsigned int bottomIndex = getVisibility(x, y - 1);
 
 			if (leftIndex != NotVisible && leftIndex > index) 
+			{
+				if (leftIndex > index + 1) continue;
 				borders |= Water2PatchIndex::BorderLeft;
-			if (rightIndex != NotVisible && rightIndex > index) 
+			}
+			if (rightIndex != NotVisible && rightIndex > index)
+			{
+				if (rightIndex > index + 1) continue;
 				borders |= Water2PatchIndex::BorderRight;
+			}
 			if (topIndex != NotVisible && topIndex > index) 
+			{
+				if (topIndex > index + 1) continue;
 				borders |= Water2PatchIndex::BorderTop;
+			}
 			if (bottomIndex != NotVisible && bottomIndex > index) 
+			{
+				if (bottomIndex > index + 1) continue;
 				borders |= Water2PatchIndex::BorderBottom;
+			}
 
 			if (entry.anyoffset)
 			{
