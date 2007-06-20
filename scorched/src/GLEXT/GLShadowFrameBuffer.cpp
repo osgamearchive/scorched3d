@@ -21,7 +21,9 @@
 #include <GLEXT/GLShadowFrameBuffer.h>
 #include <GLEXT/GLStateExtension.h>
 
-GLShadowFrameBuffer::GLShadowFrameBuffer() : frameBufferObject_(0)
+GLShadowFrameBuffer::GLShadowFrameBuffer() : 
+	frameBufferObject_(0), textureObject_(0),
+	width_(0), height_(0)
 {
 }
 
@@ -30,49 +32,52 @@ GLShadowFrameBuffer::~GLShadowFrameBuffer()
 	destroy();
 }
 
-bool GLShadowFrameBuffer::create(GLTexture &texture, GLenum type)
+bool GLShadowFrameBuffer::create(int width, int height)
 {
-	type_ = type;
+	width_ = width;
+	height_ = height;
 
-	//Generate the frame buffer object
+	// Create texture
+	glGenTextures(1, &textureObject_);
+	glBindTexture(GL_TEXTURE_2D, textureObject_);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, 
+		GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);		
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_COMPARE_R_TO_TEXTURE_ARB);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB, GL_LEQUAL);
+
+	// Create framebuffer
 	glGenFramebuffersEXT(1, &frameBufferObject_);
-
-	//Activate the frame buffer object
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBufferObject_);
 
-	//Attach our depth texture to the frame buffer object
-	glFramebufferTexture2DEXT(
-		GL_FRAMEBUFFER_EXT,
-		type, // e.g. GL_DEPTH_ATTACHMENT_EXT or GL_COLOR_ATTACHMENT0_EXT,
-		GL_TEXTURE_2D, 
-		texture.getTexName(),
-		0);
+	glReadBuffer(GL_NONE);
+	glDrawBuffer(GL_NONE);
 
-	//You must set DrawBuffer and ReadBuffer to none since we're rendering to depth only
-	if (type == GL_DEPTH_ATTACHMENT_EXT)
-	{
-		glDrawBuffer(GL_NONE);
-		glReadBuffer(GL_NONE); 
-	}
+	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, 
+		GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, textureObject_, 0);
+	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, 
+		GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, textureObject_);
 
-	//Check the completeness of our frame buffer object, with depth textures, there is no need for stencil
-	//and depth attachment for a FBO to be considered as complete
 	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);  
-	switch(status) {                                          
-		case GL_FRAMEBUFFER_COMPLETE_EXT:
-		break;                                                
-		case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
-			return false;
-		break;                                                
-		default:
-			return false;
-		break;
+	if (status != GL_FRAMEBUFFER_COMPLETE_EXT) 
+	{
+		return false;
 	}
-
-	//Turn off our frame buffer object
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
 	return true;
+}
+
+void GLShadowFrameBuffer::bindTexture()
+{
+	glBindTexture(GL_TEXTURE_2D, textureObject_);
+	GLTexture::setLastBind(0);
 }
 
 void GLShadowFrameBuffer::destroy()
@@ -85,9 +90,14 @@ void GLShadowFrameBuffer::destroy()
 	//Detach our depth texture from the frame buffer object
 	glFramebufferTexture2DEXT(
 		GL_FRAMEBUFFER_EXT,
-		type_,
+		GL_DEPTH_ATTACHMENT_EXT,
 		GL_TEXTURE_2D, 
 		0,
+		0);
+	glFramebufferRenderbufferEXT(
+		GL_FRAMEBUFFER_EXT, 
+		GL_DEPTH_ATTACHMENT_EXT, 
+		GL_RENDERBUFFER_EXT, 
 		0);
 
 	//DeActivate the frame buffer objcet
@@ -97,6 +107,10 @@ void GLShadowFrameBuffer::destroy()
 	glDeleteFramebuffersEXT(1, &frameBufferObject_);
 
 	frameBufferObject_ = 0;
+
+	// Delete texture
+	glDeleteTextures(1, &textureObject_);
+	textureObject_ = 0;
 }
 
 void GLShadowFrameBuffer::bind()

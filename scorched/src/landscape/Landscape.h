@@ -122,7 +122,6 @@ protected:
 	GLImageHandle bitmapPlan_;
 
 	// Shadow map
-	GLTexture shadowMapTexture_;
 	GLShadowFrameBuffer shadowFrameBuffer_;
 	GLdouble lightModelMatrix_[16];
 	GLdouble lightProjMatrix_[16];

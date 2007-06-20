@@ -29,15 +29,20 @@ public:
 	GLShadowFrameBuffer();
 	virtual ~GLShadowFrameBuffer();
 
-	bool create(GLTexture &texture, GLenum type);
+	bool create(int width, int height);
 	void destroy();
 
 	void bind();
+	void bindTexture();
 	void unBind();
 	bool bufferValid() { return frameBufferObject_ != 0; }
 
+	int getWidth() { return width_; }
+	int getHeight() { return height_; }
+
 protected:
-	GLenum type_;
+	int width_, height_;
+	GLuint textureObject_;
 	GLuint frameBufferObject_;
 };
 
