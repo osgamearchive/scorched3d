@@ -542,7 +542,7 @@ void Landscape::generate(ProgressCounter *counter)
 		glDrawBuffer(GL_NONE);
 
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, m_iDptBuffer, 0);
-		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iFBOTarget);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iDptBuffer);
 
 		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);  
 		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) 
