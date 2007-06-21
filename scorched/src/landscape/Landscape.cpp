@@ -267,7 +267,8 @@ void Landscape::drawWater()
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_REFLECTIONS");
 	if (GLStateExtension::hasFBO() &&
 		GLStateExtension::hasShaders() &&
-		!OptionsDisplay::instance()->getNoWaterReflections())
+		!OptionsDisplay::instance()->getNoWaterReflections() &&
+		OptionsDisplay::instance()->getDrawWater())
 	{
 		water_->bindWaterReflection();
 
