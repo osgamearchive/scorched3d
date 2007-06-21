@@ -286,10 +286,10 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		new wxCheckBox(parent, -1, wxT("No combined textures"));
 	troubleSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
 	IDC_NOSHADERS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No shaders"));
+		new wxCheckBox(parent, -1, wxT("No GL shaders"));
 	troubleSizer2->Add(IDC_NOSHADERS_CTRL, 0);
 	IDC_NOSHADOWS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No shadows"));
+		new wxCheckBox(parent, -1, wxT("No GL shadows"));
 	troubleSizer2->Add(IDC_NOSHADOWS_CTRL, 0);
 	IDC_NOCUBEMAP_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No cube map"));
