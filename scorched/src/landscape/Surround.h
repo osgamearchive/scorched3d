@@ -30,7 +30,7 @@ public:
 	Surround(HeightMap &map);
 	virtual ~Surround();
 
-	void draw();
+	void draw(bool detail, bool lightMap);
 	void generate();
 
 protected:

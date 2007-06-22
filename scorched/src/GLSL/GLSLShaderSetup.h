@@ -45,6 +45,10 @@ public:
 	{
 		prog_.set_gl_texture(tex, texname, texunitnr);
 	}
+	void set_gl_texture(GLShadowFrameBuffer &tex, const char *texname, unsigned texunitnr) const
+	{
+		prog_.set_gl_texture(tex, texname, texunitnr);
+	}
 
 	/// set uniform variable
 	void set_uniform(const char *name, const Vector& value) const 

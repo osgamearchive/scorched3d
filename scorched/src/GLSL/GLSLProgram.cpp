@@ -119,6 +119,16 @@ void GLSLProgram::set_gl_texture(GLTexture &tex, const char *texname, unsigned t
 	glUniform1i(uniloc, texunit);
 }
 
+void GLSLProgram::set_gl_texture(GLShadowFrameBuffer &tex, const char *texname, unsigned texunit) const
+{
+	DIALOG_ASSERT(used_program_ == this);
+
+	GLint uniloc = glGetUniformLocation(id_, texname);
+	glActiveTexture(GL_TEXTURE0 + texunit);
+	tex.bindDepthTexture();
+	glUniform1i(uniloc, texunit);
+}
+
 void GLSLProgram::set_uniform(const char *name, const Vector& value) const
 {
 	DIALOG_ASSERT(used_program_ == this);

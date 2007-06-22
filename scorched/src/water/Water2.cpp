@@ -109,7 +109,7 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 		indexs_.generate(wave_patch_width);
 
 		// Create visibility mesh
-		Vector offset(-1280.0f, -1280.0f, 0.0f);
+		Vector offset(-1408.0f, -1408.0f, 0.0f);
 		visibility_.generate(offset, wave_resolution * 13, wave_resolution, wave_patch_width);
 	}
 

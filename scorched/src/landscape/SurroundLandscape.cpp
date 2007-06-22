@@ -72,7 +72,7 @@ void SurroundLandscape::makeNormal(Vector &position, Vector &normal)
 	glColor4f(light[0], light[1], light[2], alpha);
 }
 
-void SurroundLandscape::makeList()
+void SurroundLandscape::makeList(bool detail, bool lightMap)
 {
 	HeightMap &smap = 	
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getSurroundMap();
@@ -107,16 +107,25 @@ void SurroundLandscape::makeList()
 					i * mult + offset[0], 
 					(j + 1) * mult + offset[1], 
 					smap.getHeight(i, j + 1) + offset[2]);
-				makeNormal(b, smap.getNormal(i, j + 1));
+				Vector nb = smap.getNormal(i, j + 1);
+				glNormal3fv(nb);
+				if (lightMap) makeNormal(b, nb);
+				else glColor3f(1.0f, 1.0f, 1.0f);
 				glTexCoord2f(b[0] / 64.0f, b[1] / 64.0f);  // Tile the tex every 64 pixels
+				if (detail) glMultiTexCoord2fARB(GL_TEXTURE2_ARB, b[0] / 64.0f, b[1] / 64.0f);
 				glVertex3fv(b);
+
 
 				Vector a(
 					i * mult + offset[0], 
 					j * mult + offset[1], 
 					smap.getHeight(i, j) + offset[2]);
-				makeNormal(a, smap.getNormal(i, j));
+				Vector na = smap.getNormal(i, j);
+				glNormal3fv(na);
+				if (lightMap) makeNormal(b, na);
+				else glColor3f(1.0f, 1.0f, 1.0f);
 				glTexCoord2f(a[0] / 64.0f, a[1] / 64.0f);  // Tile the tex every 64 pixels
+				if (detail) glMultiTexCoord2fARB(GL_TEXTURE2_ARB, a[0] / 64.0f, a[1] / 64.0f);
 				glVertex3fv(a);
 
 				tris_ += 2;
@@ -127,9 +136,9 @@ void SurroundLandscape::makeList()
 	glEndList();
 }
 
-void SurroundLandscape::draw()
+void SurroundLandscape::draw(bool detail, bool lightMap)
 {
-	if (!list_) makeList();
+	if (!list_) makeList(detail, lightMap);
 	
 	GLInfo::addNoTriangles(tris_);
 	GLState state(GLState::BLEND_ON);

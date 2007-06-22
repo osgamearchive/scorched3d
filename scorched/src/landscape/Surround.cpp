@@ -33,14 +33,14 @@ Surround::~Surround()
 {
 }
 
-void Surround::draw()
+void Surround::draw(bool detail, bool lightMap)
 {
-	default_.draw();
+	default_.draw(detail, lightMap);
 	if (ScorchedClient::instance()->getLandscapeMaps().getDefinitions().
 		getDefn()->surround->getType() != LandscapeDefnType::eNone &&
 		OptionsDisplay::instance()->getDrawSurround())
 	{
-		landscape_.draw();
+		landscape_.draw(detail, lightMap);
 	}
 }
 

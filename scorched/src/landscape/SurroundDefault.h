@@ -29,14 +29,14 @@ public:
 	SurroundDefault(HeightMap &map);
 	virtual ~SurroundDefault();
 
-	void draw();
+	void draw(bool detail, bool lightMap);
 	void generate();
 
 protected:
 	unsigned int listNo_;
 	HeightMap &map_;
 	Vector hMapBoxVerts_[16];
-	void generateList(bool detail);
+	void generateList(bool detail, bool lightMap);
 	void generateVerts();
 
 };

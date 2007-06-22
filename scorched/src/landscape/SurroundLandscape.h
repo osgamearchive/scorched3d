@@ -29,14 +29,14 @@ public:
 	SurroundLandscape();
 	virtual ~SurroundLandscape();
 
-	void draw();
+	void draw(bool detail, bool lightMap);
 	void generate();
 
 protected:
 	unsigned int list_;
 	unsigned int tris_;
 
-	void makeList();
+	void makeList(bool detail, bool lightMap);
 	void makeNormal(Vector &position, Vector &normal);
 };
 

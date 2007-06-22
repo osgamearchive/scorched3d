@@ -43,6 +43,8 @@
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <GLEXT/GLBitmap.h>
+#include <GLEXT/GLCameraFrustum.h>
+#include <GLSL/GLSLShaderSetup.h>
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <graph/OptionsDisplay.h>
@@ -68,7 +70,8 @@ Landscape *Landscape::instance()
 Landscape::Landscape() : 
 	resetLandscape_(false), resetLandscapeTimer_(0.0f), 
 	textureType_(eDefault),
-	changeCount_(1)
+	changeCount_(1),
+	landShader_(0)
 {
 	soundManager_ = new LandscapeSoundManager();
 	patchGrid_ = new PatchGrid(
@@ -158,11 +161,11 @@ void Landscape::drawShadows()
 
 	// Bind the frame buffer so we can render into it
 	shadowFrameBuffer_.bind();
+	glViewport(0, 0, shadowFrameBuffer_.getWidth(), shadowFrameBuffer_.getHeight());
 
 	// Setup the view from the sun
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
-	glViewport(0, 0, shadowFrameBuffer_.getWidth(), shadowFrameBuffer_.getHeight());
 	gluPerspective(60.0f, 1.0f, 1.0f, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -171,46 +174,49 @@ void Landscape::drawShadows()
 		landWidth, landHeight, 0.0f ,
 		0.0f, 0.0f, 1.0f);
 
+	GLCameraFrustum::instance()->draw(0);
+
 	// Save the matrixs used for the sun
-	glGetDoublev(GL_MODELVIEW_MATRIX, lightModelMatrix_);
-	glGetDoublev(GL_PROJECTION_MATRIX, lightProjMatrix_);
+	glGetFloatv(GL_MODELVIEW_MATRIX, lightModelMatrix_);
+	glGetFloatv(GL_PROJECTION_MATRIX, lightProjMatrix_);
 
 	// Clear and setup the offset
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
 	// Set poly offset so that the shadows dont get precision artifacts
-    //glPolygonOffset(2.0f, 2.0f);
-    //glEnable(GL_POLYGON_OFFSET_FILL);
-
-	// Draw items that cast shadow
-	glColor3f(1.0f, 1.0f, 1.0f);
+    glPolygonOffset(10.0f, 10.0f);
+    glEnable(GL_POLYGON_OFFSET_FILL);
 
 	//Disable color writes, and use flat shading for speed
-	/*glCullFace(GL_FRONT);
-    glShadeModel(GL_FLAT);
-    glColorMask(0, 0, 0, 0); */
+    glColorMask(0, 0, 0, 0); 
 
+	// Draw items that cast shadows
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_PRE");
 
-	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW");
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_LAND");
+	//GLState hmmState(GLState::TEXTURE_ON);
+	//texture_.draw();
+	patchGrid_->draw(PatchSide::typeTop);
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_LAND");
+
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
 	RenderTargets::instance()->shadowDraw();
-	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW");
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
 
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
 
 	//restore states
-    /*glCullFace(GL_BACK);
-    glShadeModel(GL_SMOOTH);
-    glColorMask(1, 1, 1, 1); */
+    glColorMask(1, 1, 1, 1); 
 
 	// Reset offset
-    //glDisable(GL_POLYGON_OFFSET_FILL);
+	glDisable(GL_POLYGON_OFFSET_FILL);
 
 	// Stop drawing to frame buffer
 	shadowFrameBuffer_.unBind();
 
 	// Reset camera
 	MainCamera::instance()->getCamera().draw();
+	GLCameraFrustum::instance()->draw(0);
 
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
 }
@@ -246,14 +252,28 @@ void Landscape::drawLand()
 	sky_->draw();
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SKY");
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_LAND");
-	actualDrawLand(false);
+	if (OptionsDisplay::instance()->getDrawLandscape())
+	{
+		if (GLStateExtension::hasHardwareShadows() &&
+			OptionsDisplay::instance()->getUseLandscapeTexture())
+		{
+			actualDrawLandShader();
+		}
+		else
+		{
+			actualDrawLandTextured();
+		}
+		if (OptionsDisplay::instance()->getDrawNormals())
+		{
+			GLState currentState(GLState::TEXTURE_OFF);
+			glColor3f(1.0f, 1.0f, 1.0f);
+			patchGrid_->draw(PatchSide::typeNormals);
+		}
+	}
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_LAND");
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_POINTS");
 	points_->draw();
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_POINTS");
-	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SURROUND");
-	surround_->draw();
-	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SURROUND");
 	if (OptionsDisplay::instance()->getDrawMovement())
 	{
 		ScorchedClient::instance()->getTargetMovement().draw();
@@ -285,7 +305,7 @@ void Landscape::drawWater()
 
 		drawSetup();
 		sky_->draw();
-		actualDrawLand(true);
+		actualDrawLandReflection();
 		drawTearDown();
 
 		//water_->drawPoints(); // Bad reflections in large wind
@@ -433,14 +453,28 @@ void Landscape::generate(ProgressCounter *counter)
 
 	// Add lighting to the landscape texture
 	sky_->getSun().setPosition(tex->skysunxy, tex->skysunyz);
-	Vector sunPos = sky_->getSun().getPosition();
-	sunPos /= 2.0f;
-	GLImageModifier::addLightMapToBitmap(mainMap_,
-		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
-		sunPos,  // Match with shadows
-		tex->skyambience, tex->skydiffuse, counter);
+	if (!GLStateExtension::hasHardwareShadows())
+	{
+		Vector sunPos = sky_->getSun().getPosition();
+		sunPos /= 2.0f;
+		GLImageModifier::addLightMapToBitmap(mainMap_,
+			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
+			sunPos,  // Match with shadows
+			tex->skyambience, tex->skydiffuse, counter);
+	}
+	else
+	{
+		// Load shader
+		if (!landShader_) 
+		{
+			landShader_ = new GLSLShaderSetup(
+				formatString(getDataFile("data/shaders/land.vshader")),
+				formatString(getDataFile("data/shaders/land.fshader")));
+		}
+	}
 
 	// Add shadows to the mainmap
+	if (!GLStateExtension::hasHardwareShadows())
 	{
 		std::list<PlacementShadowDefinition::Entry> &shadows = 
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
@@ -517,8 +551,7 @@ void Landscape::generate(ProgressCounter *counter)
 		if (!shadowFrameBuffer_.bufferValid())
 		{
 			// Create the frame buffer
-			// Set to GL_COLOR_ATTACHMENT0_EXT to allow viewing a non-depth scene
-			if (!shadowFrameBuffer_.create(1024, 1024))
+			if (!shadowFrameBuffer_.create(2048, 2048))
 			{
 				dialogExit("Scorched3D", "Failed to create shadow frame buffer");
 			}
@@ -549,22 +582,23 @@ void Landscape::updatePlanTexture()
 	DIALOG_ASSERT(planTexture_.replace(bitmapPlan_, false));
 }
 
-void Landscape::actualDrawLand(bool reflection)
+void Landscape::actualDrawLandTextured()
 {
 	unsigned int state = 0;
-	if (reflection) state |= GLState::BLEND_ON;
 	if (!OptionsDisplay::instance()->getUseLandscapeTexture()) state |= GLState::TEXTURE_OFF;
 
 	GLState glState(state);
 
+	bool useDetail = 
+		GLStateExtension::getTextureUnits() > 2 &&
+		OptionsDisplay::instance()->getDetailTexture() &&
+		GLStateExtension::hasEnvCombine();
+
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
-		if (GLStateExtension::hasMultiTex() &&
-			!reflection)
+		if (GLStateExtension::hasMultiTex())
 		{
-			if (GLStateExtension::getTextureUnits() > 2 &&
-				OptionsDisplay::instance()->getDetailTexture() &&
-				GLStateExtension::hasEnvCombine())
+			if (useDetail)
 			{
 				glActiveTextureARB(GL_TEXTURE2_ARB);
 				glEnable(GL_TEXTURE_2D);
@@ -576,86 +610,30 @@ void Landscape::actualDrawLand(bool reflection)
 
 			glActiveTextureARB(GL_TEXTURE1_ARB);
 			glEnable(GL_TEXTURE_2D);
-
-			if (GLStateExtension::hasHardwareShadows())
-			{
-				glMatrixMode(GL_TEXTURE);
-				glLoadIdentity();
-				glTranslatef(0.5f, 0.5f, 0.5f);
-				glScalef(0.5f, 0.5f, 0.5f);
-
-				glMultMatrixd(lightProjMatrix_);
-				glMultMatrixd(lightModelMatrix_);
-
-				GLdouble textureMatrix[16];
-				glGetDoublev(GL_TEXTURE_MATRIX, textureMatrix);
-
-				glLoadIdentity();
-
-				glMatrixMode(GL_MODELVIEW);
-
-				//Set up texture coordinate generation.
-				double row0[4] = { textureMatrix[0], textureMatrix[4], textureMatrix[8], textureMatrix[12] };
-				glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-				glTexGendv(GL_S, GL_EYE_PLANE, row0);
-				glEnable(GL_TEXTURE_GEN_S);
-
-				double row1[4] = { textureMatrix[1], textureMatrix[5], textureMatrix[9], textureMatrix[13] };
-				glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-				glTexGendv(GL_T, GL_EYE_PLANE, row1);
-				glEnable(GL_TEXTURE_GEN_T);
-
-				double row2[4] = { textureMatrix[2], textureMatrix[6], textureMatrix[10], textureMatrix[14] };
-				glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-				glTexGendv(GL_R, GL_EYE_PLANE, row2);
-				glEnable(GL_TEXTURE_GEN_R);
-
-				double row3[4] = { textureMatrix[3], textureMatrix[7], textureMatrix[11], textureMatrix[15] };
-				glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-				glTexGendv(GL_Q, GL_EYE_PLANE, row3);
-				glEnable(GL_TEXTURE_GEN_Q);
-
-				shadowFrameBuffer_.bindTexture();
-
-				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			}
-			else
-			{
-				getShadowMap().setTexture();
-			}
+			getShadowMap().setTexture();
 
 			glActiveTextureARB(GL_TEXTURE0_ARB);
 		}
 
-		if (reflection) planAlphaTexture_.draw(true);
-		else texture_.draw(true);
+		texture_.draw(true);
 	}
 	
-	if (OptionsDisplay::instance()->getDrawLandscape())
+	if (OptionsDisplay::instance()->getNoROAM())
 	{
-		if (OptionsDisplay::instance()->getNoROAM())
-		{
-			HeightMapRenderer::drawHeightMap(
-				ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeightMap());
-		}
-		else
-		{
-			glColor3f(1.0f, 1.0f, 1.0f);
-			patchGrid_->draw(PatchSide::typeTop);
-
-			if (OptionsDisplay::instance()->getDrawNormals())
-			{
-				GLState currentState(GLState::TEXTURE_OFF);
-				patchGrid_->draw(PatchSide::typeNormals);
-			}
-		}
+		HeightMapRenderer::drawHeightMap(
+			ScorchedClient::instance()->getLandscapeMaps().
+				getGroundMaps().getHeightMap());
 	}
+	else
+	{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		patchGrid_->draw(PatchSide::typeTop);
+	}
+	surround_->draw(useDetail, true);
 
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{
-		if (GLStateExtension::hasMultiTex() &&
-			!reflection)
+		if (GLStateExtension::hasMultiTex())
 		{
 			if (GLStateExtension::getTextureUnits() > 2 &&
 				OptionsDisplay::instance()->getDetailTexture() &&
@@ -667,14 +645,112 @@ void Landscape::actualDrawLand(bool reflection)
 
 			glActiveTextureARB(GL_TEXTURE1_ARB);
 			glDisable(GL_TEXTURE_2D);
-			glDisable(GL_TEXTURE_GEN_S);
-			glDisable(GL_TEXTURE_GEN_T);
-			glDisable(GL_TEXTURE_GEN_R);
-			glDisable(GL_TEXTURE_GEN_Q);
-
 			glActiveTextureARB(GL_TEXTURE0_ARB);
 		}
 	}
+}
+
+void Landscape::actualDrawLandReflection()
+{
+	unsigned int state = GLState::BLEND_ON;
+	if (!OptionsDisplay::instance()->getUseLandscapeTexture()) state |= GLState::TEXTURE_OFF;
+	GLState glState(state);
+
+	if (OptionsDisplay::instance()->getUseLandscapeTexture())
+	{
+		planAlphaTexture_.draw(true);
+	}
+	
+	glColor3f(1.0f, 1.0f, 1.0f);
+	patchGrid_->draw(PatchSide::typeTop);
+}
+
+void Landscape::actualDrawLandShader()
+{
+	GLState glState(GLState::TEXTURE_ON | GLState::DEPTH_ON);
+
+	getSky().getSun().setLightPosition(true);
+
+	landShader_->use();
+	landShader_->set_gl_texture(texture_, "mainmap", 0);
+	landShader_->set_gl_texture(shadowFrameBuffer_, "shadow", 1);
+	landShader_->set_gl_texture(detailTexture_, "detailmap", 2);
+
+	// Tex 2
+	glActiveTextureARB(GL_TEXTURE2_ARB);
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
+	glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
+	detailTexture_.draw(true);
+
+	// Tex 1
+	glActiveTextureARB(GL_TEXTURE1_ARB);
+	glEnable(GL_TEXTURE_2D);
+	shadowFrameBuffer_.bindDepthTexture();
+
+	static const float mNormalizeMatrix[] = 
+	{ 
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 
+		0.0f, 0.0f, 0.5f, 0.0f, 
+		0.5f, 0.5f, 0.5f, 1.0f
+	};
+	static GLfloat modelMatrix[16], modelMatrixI[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelMatrix);
+
+	// Copy and transpose
+	modelMatrixI[ 0] = modelMatrix[ 0];
+	modelMatrixI[ 4] = modelMatrix[ 1];
+	modelMatrixI[ 8] = modelMatrix[ 2];
+	modelMatrixI[ 1] = modelMatrix[ 4];
+	modelMatrixI[ 5] = modelMatrix[ 5];
+	modelMatrixI[ 9] = modelMatrix[ 6];
+	modelMatrixI[ 2] = modelMatrix[ 8];
+	modelMatrixI[ 6] = modelMatrix[ 9];
+	modelMatrixI[10] = modelMatrix[10];
+	modelMatrixI[ 3] = 0;
+	modelMatrixI[ 7] = 0;
+	modelMatrixI[11] = 0;
+	modelMatrixI[15] = modelMatrix[15];
+	
+	// Apply the inverse transformation
+	modelMatrixI[12] = modelMatrixI[0] * -modelMatrix[12] + modelMatrixI[4] * -modelMatrix[13] + modelMatrixI[ 8] * -modelMatrix[14];
+	modelMatrixI[13] = modelMatrixI[1] * -modelMatrix[12] + modelMatrixI[5] * -modelMatrix[13] + modelMatrixI[ 9] * -modelMatrix[14];
+	modelMatrixI[14] = modelMatrixI[2] * -modelMatrix[12] + modelMatrixI[6] * -modelMatrix[13] + modelMatrixI[10] * -modelMatrix[14];
+
+	glMatrixMode(GL_TEXTURE);
+	glLoadMatrixf( mNormalizeMatrix );
+	glMultMatrixf(lightProjMatrix_);
+	glMultMatrixf(lightModelMatrix_);
+	glMultMatrixf(modelMatrixI);
+	glMatrixMode(GL_MODELVIEW);
+
+	// Tex 0
+	glActiveTextureARB(GL_TEXTURE0_ARB);
+	texture_.draw();
+
+	// Draw
+	if (OptionsDisplay::instance()->getNoROAM())
+	{
+		HeightMapRenderer::drawHeightMap(
+			ScorchedClient::instance()->getLandscapeMaps().
+				getGroundMaps().getHeightMap());
+	}
+	else
+	{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		patchGrid_->draw(PatchSide::typeTop);
+	}
+	surround_->draw(true, false);
+
+	// Disable
+	glActiveTextureARB(GL_TEXTURE2_ARB);
+	glDisable(GL_TEXTURE_2D);
+	glActiveTextureARB(GL_TEXTURE1_ARB);
+	glDisable(GL_TEXTURE_2D);
+	glActiveTextureARB(GL_TEXTURE0_ARB);
+
+	landShader_->use_fixed();
 }
 
 void Landscape::updatePlanATexture()

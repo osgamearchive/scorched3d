@@ -33,7 +33,7 @@ public:
 	void destroy();
 
 	void bind();
-	void bindTexture();
+	void bindDepthTexture();
 	void unBind();
 	bool bufferValid() { return frameBufferObject_ != 0; }
 
@@ -42,7 +42,7 @@ public:
 
 protected:
 	int width_, height_;
-	GLuint textureObject_;
+	GLuint depthTextureObject_;
 	GLuint frameBufferObject_;
 };
 

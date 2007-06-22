@@ -42,41 +42,17 @@ SurroundDefault::~SurroundDefault()
 
 }
 
-void SurroundDefault::draw()
+void SurroundDefault::draw(bool detail, bool lightMap)
 {
-	bool detail = (GLStateExtension::hasMultiTex() &&
-		GLStateExtension::getTextureUnits() > 2 &&
-		OptionsDisplay::instance()->getDetailTexture() &&
-		GLStateExtension::hasEnvCombine());
 	if (!listNo_)
 	{
 		glNewList(listNo_ = glGenLists(1), GL_COMPILE);
-			generateList(detail);
+			generateList(detail, lightMap);
 		glEndList();
 	}
 	
-	if (detail)
-	{
-		glActiveTextureARB(GL_TEXTURE2_ARB);
-		glEnable(GL_TEXTURE_2D);
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
-		glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
-		Landscape::instance()->getDetailTexture().draw(true);
-		glActiveTextureARB(GL_TEXTURE0_ARB);
-	}
 	Landscape::instance()->getGroundTexture().draw(true);
-
-	//CGFog::instance()->bind(
-	//	Landscape::instance()->getGroundTexture().getTexName());
 	glCallList(listNo_);
-	//CGFog::instance()->unBind();
-
-	if (detail)
-	{
-		glActiveTextureARB(GL_TEXTURE2_ARB);
-		glDisable(GL_TEXTURE_2D);
-		glActiveTextureARB(GL_TEXTURE0_ARB);
-	}
 
 	GLInfo::addNoTriangles(8);
 }
@@ -117,7 +93,7 @@ void SurroundDefault::generateVerts()
 	hMapBoxVerts_[15] = Vector(centre[0] + offset3[0], centre[1] - offset2[1], 0.0f);
 }
 
-void SurroundDefault::generateList(bool detail)
+void SurroundDefault::generateList(bool detail, bool lightMap)
 {
 	generateVerts();
 
@@ -168,7 +144,9 @@ void SurroundDefault::generateList(bool detail)
 
 			glTexCoord2f(x, y);
 			if (detail) glMultiTexCoord2fARB(GL_TEXTURE2_ARB, x, y);
-			glColor3fv(light);
+			if (lightMap) glColor3fv(light);
+			else glColor3f(1.0f, 1.0f, 1.0f);
+			glNormal3f(0.0f, 0.0f, 1.0f);
 			glVertex3fv(pos);
 		}
 	}

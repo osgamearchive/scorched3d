@@ -35,6 +35,7 @@ class Water;
 class LandscapePoints;
 class Surround;
 class Sky;
+class GLSLShaderSetup;
 class Landscape
 {
 public:
@@ -123,8 +124,9 @@ protected:
 
 	// Shadow map
 	GLShadowFrameBuffer shadowFrameBuffer_;
-	GLdouble lightModelMatrix_[16];
-	GLdouble lightProjMatrix_[16];
+	float lightModelMatrix_[16];
+	float lightProjMatrix_[16];
+	GLSLShaderSetup *landShader_;
 
 	// Variables used to set when the water is refreshed
 	bool resetLandscape_;
@@ -132,7 +134,9 @@ protected:
 	unsigned int changeCount_;
 
 	void savePlan();
-	void actualDrawLand(bool reflection);
+	void actualDrawLandTextured();
+	void actualDrawLandReflection();
+	void actualDrawLandShader();
 
 	// Nasty, we really need some kind of viewport/rendering context
 	// that the current rendering state for the scene can be stored.

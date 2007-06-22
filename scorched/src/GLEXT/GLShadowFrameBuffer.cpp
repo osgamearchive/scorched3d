@@ -22,7 +22,7 @@
 #include <GLEXT/GLStateExtension.h>
 
 GLShadowFrameBuffer::GLShadowFrameBuffer() : 
-	frameBufferObject_(0), textureObject_(0),
+	frameBufferObject_(0), depthTextureObject_(0),
 	width_(0), height_(0)
 {
 }
@@ -38,8 +38,8 @@ bool GLShadowFrameBuffer::create(int width, int height)
 	height_ = height;
 
 	// Create texture
-	glGenTextures(1, &textureObject_);
-	glBindTexture(GL_TEXTURE_2D, textureObject_);
+	glGenTextures(1, &depthTextureObject_);
+	glBindTexture(GL_TEXTURE_2D, depthTextureObject_);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, 
 		GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);		
@@ -51,6 +51,7 @@ bool GLShadowFrameBuffer::create(int width, int height)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_COMPARE_R_TO_TEXTURE_ARB);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB, GL_LEQUAL);
+	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE_ARB, GL_INTENSITY); 
 
 	// Create framebuffer
 	glGenFramebuffersEXT(1, &frameBufferObject_);
@@ -60,9 +61,9 @@ bool GLShadowFrameBuffer::create(int width, int height)
 	glDrawBuffer(GL_NONE);
 
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, 
-		GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, textureObject_, 0);
+		GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, depthTextureObject_, 0);
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, 
-		GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, textureObject_);
+		GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, depthTextureObject_);
 
 	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);  
 	if (status != GL_FRAMEBUFFER_COMPLETE_EXT) 
@@ -74,9 +75,9 @@ bool GLShadowFrameBuffer::create(int width, int height)
 	return true;
 }
 
-void GLShadowFrameBuffer::bindTexture()
+void GLShadowFrameBuffer::bindDepthTexture()
 {
-	glBindTexture(GL_TEXTURE_2D, textureObject_);
+	glBindTexture(GL_TEXTURE_2D, depthTextureObject_);
 	GLTexture::setLastBind(0);
 }
 
@@ -109,8 +110,8 @@ void GLShadowFrameBuffer::destroy()
 	frameBufferObject_ = 0;
 
 	// Delete texture
-	glDeleteTextures(1, &textureObject_);
-	textureObject_ = 0;
+	glDeleteTextures(1, &depthTextureObject_);
+	depthTextureObject_ = 0;
 }
 
 void GLShadowFrameBuffer::bind()

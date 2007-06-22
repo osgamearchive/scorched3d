@@ -100,7 +100,15 @@ void GLStateExtension::setup()
 				hasFBO_ = true;
 			}
 		}
-		if (!OptionsDisplay::instance()->getNoGLShadows())
+		if (!OptionsDisplay::instance()->getNoGLShaders())
+		{
+			hasShaders_ = 
+				GLEW_ARB_fragment_shader &&
+				GLEW_ARB_shader_objects &&
+				GLEW_ARB_vertex_shader;
+		}
+		if (!OptionsDisplay::instance()->getNoGLShadows() &&
+			hasShaders_)
 		{
 			if (GLEW_EXT_framebuffer_object &&
 				GLEW_ARB_shadow &&
@@ -109,14 +117,6 @@ void GLStateExtension::setup()
 			{
 				hasHardwareShadows_ = true;
 			}
-		}
-
-		if (!OptionsDisplay::instance()->getNoGLShaders())
-		{
-			hasShaders_ = 
-				GLEW_ARB_fragment_shader &&
-				GLEW_ARB_shader_objects &&
-				GLEW_ARB_vertex_shader;
 		}
 	}
 

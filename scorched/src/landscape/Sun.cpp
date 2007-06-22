@@ -75,7 +75,9 @@ void Sun::setLightPosition(bool light0)
 	if (light0)
 	{
 		Vector &cameraPos = MainCamera::instance()->getTarget().getCamera().getCurrentPos();
-		sunPosition = getPosition() - cameraPos;
+		sunPosition = getPosition();
+		sunPosition[0] -= cameraPos[0];
+		sunPosition[1] -= cameraPos[1];
 	}
 
 	Vector4 sunDiffuse = tex.skydiffuse;

@@ -25,6 +25,7 @@
 #include <string>
 #include <GLSL/GLSLShader.h>
 #include <GLEXT/GLTexture.h>
+#include <GLEXT/GLShadowFrameBuffer.h>
 #include <common/Vector.h>
 
 /// this class handles an OpenGL GLSL Program, that is a link unit of shaders.
@@ -53,6 +54,7 @@ public:
 
 	/// set up texture for a particular shader name
 	void set_gl_texture(GLTexture& tex, const char *texName, unsigned texunit) const;
+	void set_gl_texture(GLShadowFrameBuffer &tex, const char *texName, unsigned texunit) const;
 
 	/// set uniform variable
 	void set_uniform(const char *name, const Vector& value) const;

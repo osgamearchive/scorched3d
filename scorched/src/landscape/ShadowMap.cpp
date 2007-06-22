@@ -77,7 +77,8 @@ void ShadowMap::addShadow(float mapx, float mapy, float mapw, float opacity, boo
 {
 	if (!GLStateExtension::hasMultiTex() ||
 		GLStateExtension::getNoTexSubImage() ||
-		OptionsDisplay::instance()->getNoShadows()) return;
+		OptionsDisplay::instance()->getNoShadows() ||
+		GLStateExtension::hasHardwareShadows()) return;
 
 	int mapWidth = 
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();
