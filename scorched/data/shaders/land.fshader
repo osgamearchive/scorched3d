@@ -23,8 +23,8 @@ void main()
 	float fog_factor = clamp(fog, 0.8, 1.0);
 
     // Compute the final pixel color from the diffuse and ambient lighting.
-	vec4 groundColor = texture2D(mainmap, gl_TexCoord[0]);
-	vec4 detailColor = texture2D(detailmap, gl_TexCoord[2]);
+	vec4 groundColor = texture2D(mainmap, gl_TexCoord[0].xy);
+	vec4 detailColor = texture2D(detailmap, gl_TexCoord[2].xy);
 	
 	vec3 finalColor = 
 		((groundColor.rgb * 3.5) + detailColor.rgb) / 4.0 * 
