@@ -32,11 +32,11 @@ public:
 
 	void clearTanks();
 	void addTank(Tank *tank);
-	Tank *getTank(const char *uniqueId);
+	bool getTank(Tank *tank);
 
 protected:
 	static TankDeadContainer *instance_;
-	std::map<std::string, Tank *> deadTanks_;
+	std::map<std::string, NetBuffer *> deadTanks_;
 
 };
 

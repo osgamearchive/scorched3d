@@ -261,34 +261,9 @@ int ServerNewGameState::addTanksToGame(const unsigned state,
 				// if not update from any residual tank we have.
 				// Residual tanks are only available until the next
 				// whole game starts.
-				if (tank->getDestinationId() != 0)
+				if (ScorchedServer::instance()->getTankDeadContainer().getTank(tank))
 				{
-					Tank *savedTank = ScorchedServer::instance()->
-						getTankDeadContainer().getTank(tank->getUniqueId());
-					if (savedTank)
-					{
-						Logger::log( "Found residual player info");
-						NetBufferDefault::defaultBuffer.reset();
-						if (savedTank->getAccessories().writeMessage(
-								NetBufferDefault::defaultBuffer, true) &&
-							savedTank->getScore().writeMessage(
-								NetBufferDefault::defaultBuffer))
-						{
-							NetBufferReader reader(NetBufferDefault::defaultBuffer);
-							if (!tank->getAccessories().readMessage(reader) ||
-								!tank->getScore().readMessage(reader))
-							{
-								Logger::log( "Failed to update residual player info (read)");
-							}
-							// Don't get credited for the new game stats
-							tank->getScore().resetTotalEarnedStats();
-						}
-						else 
-						{
-							Logger::log( "Failed to update residual player info (write)");
-						}
-						delete savedTank;
-					}
+					Logger::log( "Found residual player info");
 				}
 			}
 

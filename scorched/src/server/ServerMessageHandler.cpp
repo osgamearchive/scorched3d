@@ -184,6 +184,9 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId, const char *reason
 	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShot ||
 		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShotReady)
 	{
+		// Store a residual copy, that will be over written when the player is actual deleted
+		ScorchedServer::instance()->getTankDeadContainer().addTank(tank);
+
 		// We are in a state where we cannot remove the player straight away
 		tank->getState().setDestroy(true);
 
@@ -198,6 +201,7 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId, const char *reason
 	}
 	else
 	{
+		// Destroy the player straight away
 		actualDestroyPlayer(tankId);
 	}
 }
@@ -233,18 +237,8 @@ void ServerMessageHandler::actualDestroyPlayer(unsigned int tankId)
 	ComsMessageSender::sendToAllConnectedClients(rmPlayerMessage);
 
 	// Tidy player
-	if (ScorchedServer::instance()->getOptionsGame().getResidualPlayers() &&
-		tank->getState().getState() != TankState::sPending &&
-		tank->getState().getState() != TankState::sLoading &&
-		tank->getState().getState() != TankState::sInitializing &&
-		tank->getUniqueId()[0])
-	{
-		ScorchedServer::instance()->getTankDeadContainer().addTank(tank);
-	}
-	else
-	{
-		delete tank;
-	}
+	ScorchedServer::instance()->getTankDeadContainer().addTank(tank);
+	delete tank;
 }
 
 void ServerMessageHandler::clientError(NetMessage &message,
