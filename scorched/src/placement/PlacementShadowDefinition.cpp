@@ -68,6 +68,7 @@ void PlacementShadowDefinition::updateLandscapeHeight(
 
 #include <GLEXT/GLImageModifier.h>
 void PlacementShadowDefinition::updateLandscapeTexture(
+	bool useShadows,
 	ScorchedContext &context,
 	Vector &position, Vector &size)
 {
@@ -82,7 +83,7 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 			0.25f, 0.25f);
 	}
 
-	if (drawShadow_)
+	if (drawShadow_ && useShadows)
 	{
 		GLImageModifier::addCircleToLandscape(
 			context,

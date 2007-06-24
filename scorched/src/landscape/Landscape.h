@@ -76,6 +76,9 @@ public:
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
 
+	float *getShadowTextureMatrix() { return shadowTextureMatrix_; }
+	GLShadowFrameBuffer &getShadowFrameBuffer() { return shadowFrameBuffer_; }
+
 	void updatePlanTexture();
 	void updatePlanATexture();
 	int getPlanTexSize();
@@ -116,6 +119,7 @@ protected:
 	GLTexture roofTexture_;
 	GLTexture landTex1_;
 	GLTexture groundTexture_;
+	GLTexture normalTexture_;
 	GLImageHandle mainMap_;
 	GLImageHandle scorchMap_;
 	GLImageHandle bitmapPlanAlphaAlpha_;
@@ -123,9 +127,8 @@ protected:
 	GLImageHandle bitmapPlan_;
 
 	// Shadow map
+	float shadowTextureMatrix_[16];
 	GLShadowFrameBuffer shadowFrameBuffer_;
-	float lightModelMatrix_[16];
-	float lightProjMatrix_[16];
 	GLSLShaderSetup *landShader_;
 
 	// Variables used to set when the water is refreshed

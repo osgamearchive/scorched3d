@@ -1,13 +1,23 @@
 uniform sampler2DShadow shadow;
 uniform sampler2D mainmap;
 uniform sampler2D detailmap;
+uniform sampler2D normalmap;
 
 varying vec3 position;
 varying vec4 vertex;
 varying vec3 normal;
+varying vec3 lightVec;
+varying vec3 eyeVec;
 
 void main()
 {
+	// Calculate bumpmap
+	float distSqr = dot(lightVec, lightVec);
+	vec3 lVec = lightVec * inversesqrt(distSqr);
+	vec3 vVec = normalize(eyeVec);
+	vec3 bump = normalize(texture2D(normalmap, gl_TexCoord[3].xy).xyz * 2.0 - 1.0);
+	float diffuse = max( dot(lVec, bump), 0.0 );
+
     // Look up the diffuse color and shadow states for each light source.
     float s0 = shadow2DProj(shadow, gl_TexCoord[1]).r;
     
@@ -28,7 +38,7 @@ void main()
 	
 	vec3 finalColor = 
 		((groundColor.rgb * 3.5) + detailColor.rgb) / 4.0 * 
-		(gl_LightSource[0].diffuse.rgb * d0 + 
+		((gl_LightSource[0].diffuse.rgb * d0 * diffuse) + 
 		gl_LightSource[0].ambient.rgb);
 		
 	gl_FragColor = vec4(mix(vec3(0.1, 0.1, 0.1), finalColor, fog_factor), 1.0);

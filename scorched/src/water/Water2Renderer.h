@@ -48,7 +48,6 @@ public:
 protected:
 	float totalTime_;
 	float waterHeight_;
-	GLTexture foamTexture_;
 	GLTexture reflectionTexture_;
 	GLTexture normalTexture_;
 	GLTextureBase *noShaderWaterTexture_;

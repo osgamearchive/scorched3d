@@ -177,8 +177,10 @@ void Landscape::drawShadows()
 	GLCameraFrustum::instance()->draw(0);
 
 	// Save the matrixs used for the sun
-	glGetFloatv(GL_MODELVIEW_MATRIX, lightModelMatrix_);
-	glGetFloatv(GL_PROJECTION_MATRIX, lightProjMatrix_);
+	static float lightModelMatrix[16];
+	static float lightProjMatrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, lightModelMatrix);
+	glGetFloatv(GL_PROJECTION_MATRIX, lightProjMatrix);
 
 	// Clear and setup the offset
     glClear(GL_DEPTH_BUFFER_BIT);
@@ -217,6 +219,47 @@ void Landscape::drawShadows()
 	// Reset camera
 	MainCamera::instance()->getCamera().draw();
 	GLCameraFrustum::instance()->draw(0);
+
+	// Create texture matrix
+	static const float mNormalizeMatrix[] = 
+	{ 
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 
+		0.0f, 0.0f, 0.5f, 0.0f, 
+		0.5f, 0.5f, 0.5f, 1.0f
+	};
+	static GLfloat modelMatrix[16], modelMatrixI[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelMatrix);
+
+	// Copy and transpose
+	modelMatrixI[ 0] = modelMatrix[ 0];
+	modelMatrixI[ 4] = modelMatrix[ 1];
+	modelMatrixI[ 8] = modelMatrix[ 2];
+	modelMatrixI[ 1] = modelMatrix[ 4];
+	modelMatrixI[ 5] = modelMatrix[ 5];
+	modelMatrixI[ 9] = modelMatrix[ 6];
+	modelMatrixI[ 2] = modelMatrix[ 8];
+	modelMatrixI[ 6] = modelMatrix[ 9];
+	modelMatrixI[10] = modelMatrix[10];
+	modelMatrixI[ 3] = 0;
+	modelMatrixI[ 7] = 0;
+	modelMatrixI[11] = 0;
+	modelMatrixI[15] = modelMatrix[15];
+	
+	// Apply the inverse transformation
+	modelMatrixI[12] = modelMatrixI[0] * -modelMatrix[12] + modelMatrixI[4] * -modelMatrix[13] + modelMatrixI[ 8] * -modelMatrix[14];
+	modelMatrixI[13] = modelMatrixI[1] * -modelMatrix[12] + modelMatrixI[5] * -modelMatrix[13] + modelMatrixI[ 9] * -modelMatrix[14];
+	modelMatrixI[14] = modelMatrixI[2] * -modelMatrix[12] + modelMatrixI[6] * -modelMatrix[13] + modelMatrixI[10] * -modelMatrix[14];
+
+	// Create and save texture matrix
+	glMatrixMode(GL_TEXTURE);
+	glLoadMatrixf(mNormalizeMatrix);
+	glMultMatrixf(lightProjMatrix);
+	glMultMatrixf(lightModelMatrix);
+	glMultMatrixf(modelMatrixI);
+	glGetFloatv(GL_TEXTURE_MATRIX, shadowTextureMatrix_);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
 
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
 }
@@ -440,6 +483,12 @@ void Landscape::generate(ProgressCounter *counter)
 		groundTexture_.replace(texture0, false);
 		surroundTexture_.replace(bitmapSurround, false);
 		roofTexture_.replace(bitmapRoof, true);
+
+
+		// Normal texture
+		GLImageHandle bitmapNormals =
+			GLImageFactory::loadImageHandle(getDataFile("data/textures/landscape/default/normal_map.bmp"));
+		normalTexture_.create(bitmapNormals);
 	}
 	else
 	{
@@ -474,22 +523,20 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Add shadows to the mainmap
-	if (!GLStateExtension::hasHardwareShadows())
+	std::list<PlacementShadowDefinition::Entry> &shadows = 
+		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
+			getGroups().getShadows();
+	std::list<PlacementShadowDefinition::Entry>::iterator itor;
+	for (itor = shadows.begin();
+		itor != shadows.end();
+		itor++)
 	{
-		std::list<PlacementShadowDefinition::Entry> &shadows = 
-			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
-				getGroups().getShadows();
-		std::list<PlacementShadowDefinition::Entry>::iterator itor;
-		for (itor = shadows.begin();
-			itor != shadows.end();
-			itor++)
-		{
-			PlacementShadowDefinition::Entry &entry = (*itor);
+		PlacementShadowDefinition::Entry &entry = (*itor);
 
-			entry.definition_->updateLandscapeTexture(
-				ScorchedClient::instance()->getContext(),
-				entry.position_, entry.size_);
-		}
+		entry.definition_->updateLandscapeTexture(
+			!GLStateExtension::hasHardwareShadows(),
+			ScorchedClient::instance()->getContext(),
+			entry.position_, entry.size_);
 	}
 
 	// Create the main landscape texture
@@ -675,54 +722,23 @@ void Landscape::actualDrawLandShader()
 	landShader_->set_gl_texture(texture_, "mainmap", 0);
 	landShader_->set_gl_texture(shadowFrameBuffer_, "shadow", 1);
 	landShader_->set_gl_texture(detailTexture_, "detailmap", 2);
+	landShader_->set_gl_texture(normalTexture_, "normalmap", 3);
+
+	// Tex 3
+	glActiveTextureARB(GL_TEXTURE3_ARB);
+	normalTexture_.draw();
 
 	// Tex 2
 	glActiveTextureARB(GL_TEXTURE2_ARB);
 	glEnable(GL_TEXTURE_2D);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
-	glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
 	detailTexture_.draw(true);
 
 	// Tex 1
 	glActiveTextureARB(GL_TEXTURE1_ARB);
 	glEnable(GL_TEXTURE_2D);
 	shadowFrameBuffer_.bindDepthTexture();
-
-	static const float mNormalizeMatrix[] = 
-	{ 
-		0.5f, 0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 0.0f, 
-		0.0f, 0.0f, 0.5f, 0.0f, 
-		0.5f, 0.5f, 0.5f, 1.0f
-	};
-	static GLfloat modelMatrix[16], modelMatrixI[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX, modelMatrix);
-
-	// Copy and transpose
-	modelMatrixI[ 0] = modelMatrix[ 0];
-	modelMatrixI[ 4] = modelMatrix[ 1];
-	modelMatrixI[ 8] = modelMatrix[ 2];
-	modelMatrixI[ 1] = modelMatrix[ 4];
-	modelMatrixI[ 5] = modelMatrix[ 5];
-	modelMatrixI[ 9] = modelMatrix[ 6];
-	modelMatrixI[ 2] = modelMatrix[ 8];
-	modelMatrixI[ 6] = modelMatrix[ 9];
-	modelMatrixI[10] = modelMatrix[10];
-	modelMatrixI[ 3] = 0;
-	modelMatrixI[ 7] = 0;
-	modelMatrixI[11] = 0;
-	modelMatrixI[15] = modelMatrix[15];
-	
-	// Apply the inverse transformation
-	modelMatrixI[12] = modelMatrixI[0] * -modelMatrix[12] + modelMatrixI[4] * -modelMatrix[13] + modelMatrixI[ 8] * -modelMatrix[14];
-	modelMatrixI[13] = modelMatrixI[1] * -modelMatrix[12] + modelMatrixI[5] * -modelMatrix[13] + modelMatrixI[ 9] * -modelMatrix[14];
-	modelMatrixI[14] = modelMatrixI[2] * -modelMatrix[12] + modelMatrixI[6] * -modelMatrix[13] + modelMatrixI[10] * -modelMatrix[14];
-
 	glMatrixMode(GL_TEXTURE);
-	glLoadMatrixf( mNormalizeMatrix );
-	glMultMatrixf(lightProjMatrix_);
-	glMultMatrixf(lightModelMatrix_);
-	glMultMatrixf(modelMatrixI);
+	glLoadMatrixf(shadowTextureMatrix_);
 	glMatrixMode(GL_MODELVIEW);
 
 	// Tex 0
@@ -744,9 +760,17 @@ void Landscape::actualDrawLandShader()
 	surround_->draw(true, false);
 
 	// Disable
+	glActiveTextureARB(GL_TEXTURE3_ARB);
+	glDisable(GL_TEXTURE_2D);
 	glActiveTextureARB(GL_TEXTURE2_ARB);
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
 	glDisable(GL_TEXTURE_2D);
 	glActiveTextureARB(GL_TEXTURE1_ARB);
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
 	glDisable(GL_TEXTURE_2D);
 	glActiveTextureARB(GL_TEXTURE0_ARB);
 

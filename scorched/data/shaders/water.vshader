@@ -21,6 +21,10 @@ const float virtualplane_height = 12.0;
 
 void main()
 {
+	// shadow coords
+    vec4 vertex = gl_ModelViewMatrix * gl_Vertex;
+    gl_TexCoord[2] = gl_TextureMatrix[2] * vertex;
+
 	// normalize vertex normal
 	vec3 N = normalize(gl_Normal);
 	normal = N;

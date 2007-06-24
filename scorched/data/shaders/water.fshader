@@ -10,14 +10,19 @@ varying vec4 noise_texc;
 
 uniform sampler2D tex_normal;		// normal map, RGB
 uniform sampler2D tex_reflection;	// reflection, RGB
-uniform sampler2D tex_foam;		// foam texture (tileable)
 uniform sampler2D tex_foamamount;	// amount of foam per pixel
+uniform sampler2DShadow tex_shadow;	
 uniform vec3 landscape_size;
+uniform float use_shadow;
 
 const float water_shininess = 120.0;
 
 void main()
 {
+	// compute shaodw amount
+	float s0 = 1.0;
+	if (use_shadow == 1.0) s0 = shadow2DProj(tex_shadow, gl_TexCoord[2]).r;
+
 	// compute normal vector
 	vec3 N0 = vec3(texture2D(tex_normal, noise_texc.xy) * 2.0 - 1.0);
 	vec3 N1 = vec3(texture2D(tex_normal, noise_texc.zw) * 2.0 - 1.0);
@@ -70,11 +75,11 @@ void main()
 
 	// compute refraction color
 	float dl = max(dot(L, N), 0.0);
-	vec3 refractioncol = vec3(gl_Color) * dl;
+	vec3 refractioncol = vec3(gl_Color) * dl * min(1.0, s0 + 0.9);
 
 	// mix reflection and refraction (upwelling) color, and add specular color
 	vec3 water_color = mix(refractioncol, vec3(texture2DProj(tex_reflection, reflectiontexcoord)),
-			       fresnel) + specular_color;
+			       fresnel* min(1.0, s0 + 0.8)) + specular_color * s0;
 	
 	// foam
 	float aof = 
@@ -82,7 +87,8 @@ void main()
 	float aofland = 
 		texture2D(tex_foamamount, 
 			vec2(aoftexcoord.x / landscape_size.x, aoftexcoord.y / landscape_size.y) ).y * aoftexcoord.z;
-	float foam_amount = min(aof + aofland, 1.0) * texture2D(tex_foam, foamtexcoord.xy).x;
+	float foam_amount = max(min(aof + aofland, 1.0) - ((1.0 - s0) * 0.5), 0.0) * 
+		texture2D(tex_foamamount, foamtexcoord.xy).z;
 
 	vec3 final_color = mix(water_color, vec3(gl_LightSource[0].diffuse), foam_amount);
 

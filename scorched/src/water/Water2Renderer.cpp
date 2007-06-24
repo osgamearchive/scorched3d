@@ -101,8 +101,26 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	waterShader_->use();
 	waterShader_->set_uniform("viewpos", cameraPos);
 
-	waterShader_->set_gl_texture(foamTexture_, "tex_foam", 2);
+	// Tex 3
 	waterShader_->set_gl_texture(currentPatch_->getAOF(), "tex_foamamount", 3);
+
+	// Tex 2
+	if (Landscape::instance()->getShadowFrameBuffer().bufferValid())
+	{
+		glActiveTextureARB(GL_TEXTURE2_ARB);
+		glEnable(GL_TEXTURE_2D);
+		waterShader_->set_gl_texture(Landscape::instance()->getShadowFrameBuffer(), 
+			"tex_shadow", 2);
+		glMatrixMode(GL_TEXTURE);
+		glLoadMatrixf(Landscape::instance()->getShadowTextureMatrix());
+		glMatrixMode(GL_MODELVIEW);
+
+		waterShader_->set_uniform("use_shadow", 1.0);
+	}
+	else
+	{
+		waterShader_->set_uniform("use_shadow", 0.0);
+	}
 
 	// texture units / coordinates:
 	// tex0: noise map (color normals) / matching texcoords
@@ -155,6 +173,7 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	//fixme: do we have to treat the viewer offset here, like with tex matrix
 	//       setup below?!
 
+	// Tex 0
 	glActiveTexture(GL_TEXTURE0);
 	waterShader_->set_uniform("noise_xform_0", noise_0_pos);
 	waterShader_->set_uniform("noise_xform_1", noise_1_pos);
@@ -166,6 +185,7 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	glScalef(noisetilescale, noisetilescale, 1.0f);	// fixme adjust scale
 	glMatrixMode(GL_MODELVIEW);
 
+	// Tex 1
 	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
 	waterShader_->set_gl_texture(reflectionTexture_, "tex_reflection", 1);
@@ -176,6 +196,12 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 
 	// Cleanup	
 	waterShader_->use_fixed();
+
+	glActiveTexture(GL_TEXTURE2);
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_TEXTURE_2D);
 
 	glActiveTexture(GL_TEXTURE1);
 	glMatrixMode(GL_TEXTURE);
@@ -360,13 +386,6 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	}
 
 	GLImageHandle map = GLImageFactory::createBlank(128, 128, false, 0);
-	GLImageHandle loadedFoam = 
-		GLImageFactory::loadImageHandle(getDataFile(water->foam.c_str()));	
-	foamTexture_.create(loadedFoam, false);
-	foamTexture_.draw(true);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 	normalTexture_.create(map, false);
 
 	LandscapeDefn &defn = *ScorchedClient::instance()->getLandscapeMaps().

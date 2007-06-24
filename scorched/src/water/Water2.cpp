@@ -116,6 +116,16 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 	// compute amount of foam per vertex sample
 	if (GLStateExtension::hasShaders())
 	{
+		GLImageHandle loadedFoam = 
+			GLImageFactory::loadImageHandle(getDataFile(water->foam.c_str()));	
+		if (loadedFoam.getWidth() != wave_resolution ||
+			loadedFoam.getHeight() != wave_resolution)
+		{
+			dialogExit("Water2", 
+				formatString("Foam image size must be %ix%i", 
+					wave_resolution, wave_resolution));
+		}
+
 		LandscapeDefn &defn = *ScorchedClient::instance()->getLandscapeMaps().
 			getDefinitions().getDefn();
 
@@ -124,6 +134,7 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 		{
 			aofImage[i] = 
 				GLImageFactory::createBlank(wave_resolution, wave_resolution, false, 0);
+			memcpy(aofImage[i].getBits(), loadedFoam.getBits(), wave_resolution * wave_resolution * 3);
 		}
 		std::vector<float> aof(wave_resolution*wave_resolution);
 
@@ -214,7 +225,6 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 			// store amount of foam data when in second iteration
 			if (k >= wave_phases && landfoam == 1) {
 				Water2Patches &patches = patches_[k - wave_phases];
-
 				patches.getAOF().create(aofImage[k - wave_phases]);
 			}
 		}

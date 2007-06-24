@@ -48,7 +48,8 @@ public:
 
 	void updateLandscapeHeight(ScorchedContext &context,
 		Vector &position, Vector &size);
-	void updateLandscapeTexture(ScorchedContext &context,
+	void updateLandscapeTexture(bool useShadows,
+		ScorchedContext &context,
 		Vector &position, Vector &size);
 
 	void setDrawShadow(bool draw) { drawShadow_ = draw; }
