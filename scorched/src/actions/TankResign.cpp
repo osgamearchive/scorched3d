@@ -22,8 +22,11 @@
 #include <engine/ScorchedContext.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
+#include <tank/TankScore.h>
+#include <tank/TankTeamScore.h>
 #include <common/Defines.h>
 #include <common/ChannelManager.h>
+#include <common/OptionsScorched.h>
 
 TankResign::TankResign(unsigned int playerId) :
 	firstTime_(true),
@@ -49,6 +52,48 @@ void TankResign::simulate(float frameTime, bool &remove)
 			context_->tankContainer->getTankById(playerId_);
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
+			// update player assists when this player resigns
+			int moneyPerAssist = 
+				context_->optionsGame->getMoneyWonPerAssistPoint() *
+					5;
+			int scorePerAssist = context_->optionsGame->getScorePerAssist();
+
+			// Update assists
+			std::set<unsigned int> &hurtBy = 
+				tank->getScore().getHurtBy();
+			std::set<unsigned int>::iterator itor;
+			for (itor = hurtBy.begin();
+				itor != hurtBy.end();
+				itor++)
+			{
+				unsigned int hurtByPlayer = (*itor);
+				Tank *hurtByTank = 
+					context_->tankContainer->getTankById(hurtByPlayer);
+				if (!hurtByTank) continue;
+
+				// Only score when the tank does not hurt itself
+				if (hurtByTank == tank) continue;
+
+				// or a team member
+				if ((context_->optionsGame->getTeams() > 1) &&
+					(hurtByTank->getTeam() == tank->getTeam())) continue;
+
+				// Update assist score
+				hurtByTank->getScore().setAssists(
+					hurtByTank->getScore().getAssists() + 1);
+				hurtByTank->getScore().setMoney(
+					hurtByTank->getScore().getMoney() + moneyPerAssist);
+				hurtByTank->getScore().setScore(
+					hurtByTank->getScore().getScore() + scorePerAssist);
+
+				if (hurtByTank->getTeam() > 0)
+				{
+					context_->tankTeamScore->addScore(
+						scorePerAssist, hurtByTank->getTeam());
+				}
+			}
+
+			// tank is dead
 			tank->getState().setState(TankState::sDead);
 
 			// This tank has lost a life

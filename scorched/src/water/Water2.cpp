@@ -107,11 +107,11 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 	{
 		// Create the indexes
 		indexs_.generate(wave_patch_width);
-
-		// Create visibility mesh
-		Vector offset(-1536.0f, -1536.0f, 0.0f);
-		visibility_.generate(offset, wave_resolution * 13, wave_resolution, wave_patch_width);
 	}
+
+	// Create visibility mesh
+	Vector offset(-1536.0f, -1536.0f, 0.0f);
+	visibility_.generate(offset, wave_resolution * 15, wave_resolution, wave_patch_width);
 
 	// compute amount of foam per vertex sample
 	if (GLStateExtension::hasShaders())

@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerState.h>
 #include <server/ServerTooFewPlayersStimulus.h>
+#include <server/ServerMessageHandler.h>
 #include <server/ServerNextShotState.h>
 #include <server/ServerCommon.h>
 #include <common/Logger.h>
@@ -51,6 +52,9 @@ ServerShotFinishedState::~ServerShotFinishedState()
 
 void ServerShotFinishedState::enterState(const unsigned state)
 {
+	// Remove any tanks that have disconected during the shot state
+	ServerMessageHandler::instance()->destroyTaggedPlayers();
+
 	totalTime_ = 0.0f;
 	waitTime_ = 0.0f;
 

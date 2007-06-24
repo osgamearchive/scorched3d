@@ -25,9 +25,11 @@
 #include <server/ServerBanned.h>
 #include <server/ServerKeepAliveHandler.h>
 #include <server/ServerChannelManager.h>
+#include <server/ServerState.h>
 #include <tank/TankDeadContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankContainer.h>
+#include <tankai/TankAIStore.h>
 #include <coms/ComsRmPlayerMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <net/NetInterface.h>
@@ -161,42 +163,87 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 void ServerMessageHandler::destroyPlayer(unsigned int tankId, const char *reason)
 {
 	// Try to remove this player
-	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
-	if (tank)
+	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
+	if (!tank)
 	{
-		Logger::log( 
-			formatString("Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\" reason=\"%s\"", 
-			tank->getDestinationId(),
-			tankId, tank->getName(),
-			reason));
-		ServerCommon::sendString(0, formatString("Player disconnected \"%s\" (%s)",
-			tank->getName(), reason));
+		Logger::log(formatString("Unknown player disconnected id=\"%i\" (%s)", 
+			tankId, reason));
+		return;
+	}
 
-		StatsLogger::instance()->tankDisconnected(tank);
+	// Log disconnect
+	Logger::log( 
+		formatString("Player disconnected dest=\"%i\" id=\"%i\" name=\"%s\" reason=\"%s\"", 
+		tank->getDestinationId(),
+		tankId, tank->getName(),
+		reason));
+	ServerCommon::sendString(0, formatString("Player disconnected \"%s\" (%s)",
+		tank->getName(), reason));	
 
-		// Tell all the clients to remove this player
-		ComsRmPlayerMessage rmPlayerMessage(
-			tankId);
-		ComsMessageSender::sendToAllConnectedClients(rmPlayerMessage);
+	// Check if we can remove player
+	if (ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShot ||
+		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShotReady)
+	{
+		// We are in a state where we cannot remove the player straight away
+		tank->getState().setDestroy(true);
 
-		// Tidy player
-		if (ScorchedServer::instance()->getOptionsGame().getResidualPlayers() &&
-			tank->getState().getState() != TankState::sPending &&
-			tank->getState().getState() != TankState::sLoading &&
-			tank->getState().getState() != TankState::sInitializing &&
-			tank->getUniqueId()[0])
+		// Make this player a computer controlled player
+		if (tank->getDestinationId() != 0)
 		{
-			ScorchedServer::instance()->getTankDeadContainer().addTank(tank);
-		}
-		else
-		{
-			delete tank;
+			TankAI *ai = ScorchedServer::instance()->getTankAIs().getAIByName("Random");
+			tank->setTankAI(ai->createCopy(tank));
+			tank->setDestinationId(0);
+			tank->setKeepAlive(0);
 		}
 	}
 	else
 	{
-		Logger::log(formatString("Unknown player disconnected id=\"%i\" (%s)", 
-			tankId, reason));
+		actualDestroyPlayer(tankId);
+	}
+}
+
+void ServerMessageHandler::destroyTaggedPlayers()
+{
+	std::map<unsigned int, Tank *> tanks = 
+		ScorchedServer::instance()->getTankContainer().getAllTanks();
+	std::map<unsigned int, Tank *>::iterator itor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = itor->second;
+		if (tank->getState().getDestroy())
+		{
+			actualDestroyPlayer(tank->getPlayerId());
+		}
+	}
+}
+
+void ServerMessageHandler::actualDestroyPlayer(unsigned int tankId)
+{
+	// Try to remove this player
+	Tank *tank = ScorchedServer::instance()->getTankContainer().removeTank(tankId);
+	if (!tank) return;
+
+	StatsLogger::instance()->tankDisconnected(tank);
+
+	// Tell all the clients to remove this player
+	ComsRmPlayerMessage rmPlayerMessage(
+		tankId);
+	ComsMessageSender::sendToAllConnectedClients(rmPlayerMessage);
+
+	// Tidy player
+	if (ScorchedServer::instance()->getOptionsGame().getResidualPlayers() &&
+		tank->getState().getState() != TankState::sPending &&
+		tank->getState().getState() != TankState::sLoading &&
+		tank->getState().getState() != TankState::sInitializing &&
+		tank->getUniqueId()[0])
+	{
+		ScorchedServer::instance()->getTankDeadContainer().addTank(tank);
+	}
+	else
+	{
+		delete tank;
 	}
 }
 

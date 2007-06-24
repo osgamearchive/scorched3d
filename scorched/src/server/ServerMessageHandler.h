@@ -39,9 +39,11 @@ public:
 	virtual void messageSent(unsigned int destinationId);
 
 	void destroyPlayer(unsigned int playerId, const char *reason);
+	void destroyTaggedPlayers();
 
 protected:
 	static ServerMessageHandler *instance_;
+	void actualDestroyPlayer(unsigned int tankId);
 
 private:
 	ServerMessageHandler();

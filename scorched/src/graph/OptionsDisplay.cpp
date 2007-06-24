@@ -188,6 +188,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not fill in the landscape", RWAccess, false),
 	drawNormals_(options_, "DrawNormals", 
 		"Show landscape normals on the landscape", RWAccess, false),
+	drawGraphicalShadowMap_(options_, "DrawGraphicalShadowMap", 
+		"Shows the depth map used for shadowing", RWAccess, false),
 	drawCollisionGeoms_(options_, "DrawCollisionGeoms",
 		"Show object collision geoms", RWAccess, false),
 	drawCollisionSpace_(options_, "DrawCollisionSpace",

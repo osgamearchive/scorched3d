@@ -105,6 +105,8 @@ Added: Admin audit log showing all admin operations on players
 Added: Admin username and optional reason are added to the list of banned players
 Added: Realtime-shadows
 Added: Depth-cueing on landscape
+Added: Assists are awarded when a tank resigns
+Added: Player tank remains when a player disconnects during shots being played
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

@@ -81,15 +81,27 @@ void main()
 	vec3 water_color = mix(refractioncol, vec3(texture2DProj(tex_reflection, reflectiontexcoord)),
 			       fresnel* min(1.0, s0 + 0.8)) + specular_color * s0;
 	
-	// foam
+	// foam due to breakers in the sea
 	float aof = 
 		texture2D(tex_foamamount, aoftexcoord.xy / 256.0).x;
-	float aofland = 
-		texture2D(tex_foamamount, 
-			vec2(aoftexcoord.x / landscape_size.x, aoftexcoord.y / landscape_size.y) ).y * aoftexcoord.z;
+		
+	// foam due to breakers at the shore
+	float aofland = 0.0;
+	float aoflandxper = aoftexcoord.x / landscape_size.x;
+	float aoflandyper = aoftexcoord.y / landscape_size.y;
+	float aoflandxclamp = clamp(aoflandxper, 0.0, 1.0);
+	float aoflandyclamp = clamp(aoflandyper, 0.0, 1.0);
+	if (aoflandxper == aoflandxclamp &&
+		aoflandyper == aoflandyclamp)
+	{
+		aofland = texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper)).y * aoftexcoord.z;
+	}
+	
+	// calc total foam from both of these	
 	float foam_amount = max(min(aof + aofland, 1.0) - ((1.0 - s0) * 0.5), 0.0) * 
 		texture2D(tex_foamamount, foamtexcoord.xy).z;
 
+	// Find color taking water and foam
 	vec3 final_color = mix(water_color, vec3(gl_LightSource[0].diffuse), foam_amount);
 
 	// add exp fog

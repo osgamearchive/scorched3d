@@ -22,6 +22,7 @@
 #include <water/Water2Patches.h>
 #include <graph/OptionsDisplay.h>
 #include <client/ScorchedClient.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
 #include <GLSL/GLSLShaderSetup.h>
@@ -52,7 +53,12 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 	size_ = totalSize / patchSize;
 	if (!visibility_) visibility_ = new VisibilityEntry[size_ * size_];
 
-	Vector middle(128.0f, 128.0f);
+	int width = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getMapWidth();
+	int height = ScorchedClient::instance()->getLandscapeMaps().
+		getGroundMaps().getMapWidth();
+	Vector middle(width / 2, height / 2);
+	float allowedDistance = 2048.0f + MAX(width, height)/2.0f - 128.0f;
 
 	int i=0;
 	for (int y=0; y<size_; y++)
@@ -70,7 +76,7 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 				256.0f * (y / (patchesSize / patchSize)) + offset[1],
 				offset[2]);
 			entry.anyoffset = (entry.offset != Vector::nullVector);
-			entry.ignore = (((middle - entry.offset).Magnitude()) > 2048.0f);
+			entry.ignore = (((middle - entry.offset).Magnitude()) > allowedDistance);
 		}
 	}
 }

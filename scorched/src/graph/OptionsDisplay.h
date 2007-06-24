@@ -201,6 +201,9 @@ public:
 	bool getDrawNormals() { return drawNormals_; }
 	OptionEntryBool &getDrawNormalsEntry() { return drawNormals_; }
 
+	bool getDrawGraphicalShadowMap() { return drawGraphicalShadowMap_; }
+	OptionEntryBool &getDrawGraphicalShadowMapEntry() { return drawGraphicalShadowMap_; }
+
 	bool getDrawCollisionGeoms() { return drawCollisionGeoms_; }
 	OptionEntryBool &getDrawCollisionGeomsEntry() { return drawCollisionGeoms_; }
 
@@ -418,6 +421,7 @@ protected:
 	OptionEntryBool noDrawParticles_;
 	OptionEntryBool noSimulateParticles_;
 	OptionEntryBool drawNormals_;
+	OptionEntryBool drawGraphicalShadowMap_;
 	OptionEntryBool drawLines_;
 	OptionEntryFloat drawDistance_;
 	OptionEntryFloat drawDistanceFade_;

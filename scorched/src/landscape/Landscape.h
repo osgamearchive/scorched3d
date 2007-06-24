@@ -72,6 +72,7 @@ public:
 	GLTexture &getGroundTexture() { return groundTexture_; }
 	GLTexture &getDetailTexture() { return detailTexture_; }
 	GLTexture &getRoofTexture() { return roofTexture_; }
+	GLTexture &getColorDepthMap() { return colorDepthMap_; }
 
 	LandscapeTextureType getTextureType() { return textureType_; }
 	void setTextureType(LandscapeTextureType type) { textureType_ = type; }
@@ -130,6 +131,7 @@ protected:
 	float shadowTextureMatrix_[16];
 	GLShadowFrameBuffer shadowFrameBuffer_;
 	GLSLShaderSetup *landShader_;
+	GLTexture colorDepthMap_;
 
 	// Variables used to set when the water is refreshed
 	bool resetLandscape_;

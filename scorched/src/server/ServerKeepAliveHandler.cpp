@@ -90,20 +90,22 @@ void ServerKeepAliveHandler::checkKeepAlives()
 		itor++)
 	{
 		Tank *current = (*itor).second;
-
-		if (current->getKeepAlive() != 0 &&
-			theTime - current->getKeepAlive()  > allowedTime)
+		if (current->getDestinationId() != 0)
 		{
-			ServerCommon::sendString(0, 
-				formatString("\"%s\" Kicked for exceeding keep alive timeout (%u seconds)",
-					current->getName(),
-					theTime - current->getKeepAlive()));
+			if (current->getKeepAlive() != 0 &&
+				theTime - current->getKeepAlive()  > allowedTime)
+			{
+				ServerCommon::sendString(0, 
+					formatString("\"%s\" Kicked for exceeding keep alive timeout (%u seconds)",
+						current->getName(),
+						theTime - current->getKeepAlive()));
 
-			ServerCommon::kickDestination(current->getDestinationId());
+				ServerCommon::kickDestination(current->getDestinationId());
 
-			// To give more time until we repeat this message
-			current->setKeepAlive(0); 
-			break; // As now the tank container may be out of date
+				// To give more time until we repeat this message
+				current->setKeepAlive(0); 
+				break; // As now the tank container may be out of date
+			}
 		}
 	}
 }

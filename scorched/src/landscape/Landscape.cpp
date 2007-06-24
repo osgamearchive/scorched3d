@@ -151,13 +151,16 @@ void Landscape::drawShadows()
 	// Turn off texturing
 	GLState glstate(GLState::TEXTURE_OFF | GLState::DEPTH_ON);
 
-	// Get the sun's position and landscape dimensions
-	Vector sunPosition = Landscape::instance()->getSky().getSun().getPosition();
-	sunPosition /= 2.0f;
 	float landWidth = ScorchedClient::instance()->getLandscapeMaps().
 		getGroundMaps().getMapWidth() / 2.0f;
 	float landHeight = ScorchedClient::instance()->getLandscapeMaps().
 		getGroundMaps().getMapHeight() / 2.0f;
+	float maxWidth = MAX(landWidth, landHeight);
+
+	// Get the sun's position and landscape dimensions
+	Vector sunPosition = Landscape::instance()->getSky().getSun().getPosition();
+	sunPosition *= 0.5f + (maxWidth - 128.0f) / 256.0f; 
+	float magnitude = sunPosition.Magnitude();
 
 	// Bind the frame buffer so we can render into it
 	shadowFrameBuffer_.bind();
@@ -166,7 +169,7 @@ void Landscape::drawShadows()
 	// Setup the view from the sun
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
-	gluPerspective(60.0f, 1.0f, 1.0f, 1000.0f);
+	gluPerspective(60.0f, 1.0f, magnitude * 0.5f, magnitude * 1.5f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(
@@ -206,6 +209,41 @@ void Landscape::drawShadows()
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
 
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
+
+	if (OptionsDisplay::instance()->getDrawGraphicalShadowMap())
+	{
+		static float *depthResult = 
+			new float[shadowFrameBuffer_.getWidth() * shadowFrameBuffer_.getHeight()];
+		static GLImageHandle depthImage =
+			GLImageFactory::createBlank(shadowFrameBuffer_.getWidth(),
+				shadowFrameBuffer_.getHeight());
+
+		glReadPixels(0, 0, 
+			shadowFrameBuffer_.getWidth(), shadowFrameBuffer_.getHeight(),
+			GL_DEPTH_COMPONENT, GL_FLOAT, depthResult);
+
+		float min = 1.0, max = 0.0;
+		float *src = depthResult;
+		unsigned char *dest = depthImage.getBits();
+		for (int i=0; i<shadowFrameBuffer_.getWidth() * shadowFrameBuffer_.getHeight(); i++, src++, dest+=3)
+		{
+			if (*src != 1.0f)
+			{
+				if (*src != 0.0f)
+				{
+					min = MIN(min, *src);
+					max = MAX(max, *src);
+				}
+
+				//*src = 0.0f; // Black and white
+				dest[0] = (unsigned char) (*src * 255.0f);
+				dest[1] = (unsigned char) (*src * 255.0f);
+				dest[2] = (unsigned char) (*src * 255.0f);
+			}
+		}
+
+		colorDepthMap_.replace(depthImage);
+	}
 
 	//restore states
     glColorMask(1, 1, 1, 1); 
@@ -505,7 +543,6 @@ void Landscape::generate(ProgressCounter *counter)
 	if (!GLStateExtension::hasHardwareShadows())
 	{
 		Vector sunPos = sky_->getSun().getPosition();
-		sunPos /= 2.0f;
 		GLImageModifier::addLightMapToBitmap(mainMap_,
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(),
 			sunPos,  // Match with shadows
@@ -775,6 +812,40 @@ void Landscape::actualDrawLandShader()
 	glActiveTextureARB(GL_TEXTURE0_ARB);
 
 	landShader_->use_fixed();
+
+	if (OptionsDisplay::instance()->getDrawGraphicalShadowMap())
+	{
+		glColor3f( 1.f, 1.f, 1.f );
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		////glViewport(0,   0, 800, 600);
+		gluOrtho2D( 0, 800, 0, 600 );
+		//glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable( GL_TEXTURE_2D );
+		getColorDepthMap().draw(true);
+		//glDisable( GL_DEPTH_TEST );
+		glMatrixMode( GL_TEXTURE );
+		glLoadIdentity();
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.f,   0.f);
+			glVertex2i  (0,   0);
+			glTexCoord2f(1.f, 0.f);
+			glVertex2i  (300, 0);
+			glTexCoord2f(1.f, 1.f);
+			glVertex2i  (300, 300);
+			glTexCoord2f(0.f,   1.f);
+			glVertex2i  (0,   300);
+		glEnd();  
+		glDisable( GL_TEXTURE_2D );
+		//glEnable( GL_DEPTH_TEST );
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode( GL_MODELVIEW );
+		glPopMatrix();
+	}
 }
 
 void Landscape::updatePlanATexture()
