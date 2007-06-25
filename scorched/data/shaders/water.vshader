@@ -4,7 +4,7 @@
 varying vec3 viewerdir;
 varying vec3 lightdir;
 varying vec3 normal;
-varying vec2 foamtexcoord; // coords for the actual tiled foam texture
+//varying vec2 foamtexcoord; // coords for the actual tiled foam texture
 varying vec3 aoftexcoord; // coords for the aof texture for open sea
 varying vec4 reflectiontexcoord;	// x,y,w
 varying vec4 noise_texc;
@@ -55,7 +55,7 @@ void main()
 	// transform inputpos.xy with texture matrix to get texture coodinates
 	//fixme: use uniforms here as well, no tex matrix.	
 	aoftexcoord = vec3(gl_Vertex.x + landfoam.x, gl_Vertex.y + landfoam.y, landfoam.z);	
-	foamtexcoord = (gl_TextureMatrix[0] * gl_Vertex).xy;
+	//foamtexcoord = (gl_TextureMatrix[0] * gl_Vertex).xy;
 
 	// compute reflection texture coordinates
 	// formula to compute them from inputpos (coord):

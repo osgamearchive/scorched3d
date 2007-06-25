@@ -3,15 +3,15 @@
 varying vec3 viewerdir;
 varying vec3 lightdir;
 varying vec3 normal;
-varying vec2 foamtexcoord;
-varying vec3 aoftexcoord;
-varying vec4 reflectiontexcoord;	// x,y,w
-varying vec4 noise_texc;
+//varying vec2 foamtexcoord; // ATI strikes again!!
+varying vec3 aoftexcoord; // xy = tex coord, z = aof around land
+varying vec4 reflectiontexcoord;	// x,y,z,w
+varying vec4 noise_texc; // xy = 1st coord pair, za = 2nd coord pair
 
 uniform sampler2D tex_normal;		// normal map, RGB
 uniform sampler2D tex_reflection;	// reflection, RGB
-uniform sampler2D tex_foamamount;	// amount of foam per pixel
-uniform sampler2DShadow tex_shadow;	
+uniform sampler2D tex_foamamount;	// r = aof open sea, g = aof round land, b = actual foam tex
+uniform sampler2DShadow tex_shadow;	// shadow map DEPTH_COMPONENT
 uniform vec3 landscape_size;
 uniform float use_shadow;
 
@@ -99,7 +99,7 @@ void main()
 	
 	// calc total foam from both of these	
 	float foam_amount = max(min(aof + aofland, 1.0) - ((1.0 - s0) * 0.5), 0.0) * 
-		texture2D(tex_foamamount, foamtexcoord.xy).z;
+		texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper) * 25.0).z;
 
 	// Find color taking water and foam
 	vec3 final_color = mix(water_color, vec3(gl_LightSource[0].diffuse), foam_amount);
