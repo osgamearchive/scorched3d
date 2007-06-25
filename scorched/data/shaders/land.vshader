@@ -14,7 +14,6 @@ void main()
     gl_TexCoord[0] = gl_MultiTexCoord0;
     gl_TexCoord[1] = gl_TextureMatrix[1] * vertex;
     gl_TexCoord[2] = gl_MultiTexCoord2;
-    gl_TexCoord[3] = gl_MultiTexCoord0 * 25.0;
 
     gl_Position = ftransform();
 	gl_FogFragCoord = max(gl_Position.z - 100.0, 0.0);
@@ -41,7 +40,7 @@ void main()
 	lightVec.y = dot(tmpVec, binormal);
 	lightVec.z = dot(tmpVec, normal);
 
-	tmpVec = -vertex;
+	tmpVec = -vertex.xyz;
 	eyeVec.x = dot(tmpVec, tangent);
 	eyeVec.y = dot(tmpVec, binormal);
 	eyeVec.z = dot(tmpVec, normal);

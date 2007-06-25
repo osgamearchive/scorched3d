@@ -15,7 +15,7 @@ void main()
 	float distSqr = dot(lightVec, lightVec);
 	vec3 lVec = lightVec * inversesqrt(distSqr);
 	vec3 vVec = normalize(eyeVec);
-	vec3 bump = normalize(texture2D(normalmap, gl_TexCoord[3].xy).xyz * 2.0 - 1.0);
+	vec3 bump = normalize(texture2D(normalmap, gl_TexCoord[0].xy * 25.0).xyz * 2.0 - 1.0);
 	float diffuse = max( dot(lVec, bump), 0.0 );
 
     // Look up the diffuse color and shadow states for each light source.
