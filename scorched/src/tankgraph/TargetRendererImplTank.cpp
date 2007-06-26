@@ -132,7 +132,11 @@ void TargetRendererImplTank::draw(float distance, bool shadowdraw)
 	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * modelSize * 2.0f;
 	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
 	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
-	if (distance > drawDistance) return;
+	if (distance > drawDistance) 
+	{
+		if (!shadowdraw) storeTank2DPos();
+		return;
+	}
 	float fade = 1.0f;
 	if (distance > drawDistanceFadeStart)
 	{
