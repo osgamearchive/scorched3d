@@ -262,7 +262,7 @@ OptionsGame::OptionsGame() :
 		"http://www.scorched3d.co.uk",
 		true),
 	modDownloadSpeed_(options_, "ModDownloadSpeed",
-		"Max download speed of mods in bytes per second (0 == no mod download)", 0, 0, 0, 250000, 5000),
+		"Max download speed of mods in bytes per second (0 == no mod download)", 0, 0, 0, 500000, 5000),
 	maxAvatarSize_(options_, "MaxAvatarSize",
 		"Max size allowed for avatars in bytes (0 == no avatars)", 0, 5000),
 	economy_(options_, "Economy", 
