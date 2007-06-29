@@ -20,8 +20,10 @@
 
 #include <actions/SkyFlash.h>
 #include <engine/ScorchedContext.h>
-#include <landscape/Landscape.h>
-#include <landscape/Sky.h>
+#ifndef S3D_SERVER
+	#include <landscape/Landscape.h>
+	#include <landscape/Sky.h>
+#endif
 
 SkyFlash::SkyFlash() 
 {

@@ -7,8 +7,6 @@ scorched3ds_SOURCES = \
 	../actions/Animation.h \
 	../actions/CallbackWeapon.cpp \
 	../actions/CallbackWeapon.h \
-	../actions/CameraPositionAction.cpp \
-	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
 	../actions/Laser.cpp \
@@ -138,6 +136,8 @@ scorched3ds_SOURCES = \
 	../server/ScorchedServerUtil.h \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
+	../server/ServerAdminCommon.cpp \
+	../server/ServerAdminCommon.h \
 	../server/ServerAdminHandler.cpp \
 	../server/ServerAdminHandler.h \
 	../server/ServerAuthHandler.cpp \

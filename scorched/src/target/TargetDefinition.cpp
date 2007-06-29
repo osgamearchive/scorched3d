@@ -20,7 +20,9 @@
 
 #include <weapons/AccessoryStore.h>
 #include <common/RandomGenerator.h>
-#include <tankgraph/TargetRendererImplTargetModel.h>
+#ifndef S3D_SERVER
+	#include <tankgraph/TargetRendererImplTargetModel.h>
+#endif
 #include <target/TargetDefinition.h>
 #include <target/Target.h>
 #include <target/TargetLife.h>

@@ -26,7 +26,9 @@
 #include <common/OptionsTransient.h>
 #include <common/Defines.h>
 #include <landscapemap/LandscapeMaps.h>
-#include <GLEXT/GLState.h>
+#ifndef S3D_SERVER
+	#include <GLEXT/GLState.h>
+#endif
 #include <math.h>
 
 float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)

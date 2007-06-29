@@ -20,14 +20,16 @@
 
 #include <landscapedef/LandscapeSound.h>
 #include <landscapemap/LandscapeMaps.h>
-#include <landscape/Landscape.h>
-#include <water/Water.h>
+#ifndef S3D_SERVER
+	#include <landscape/Landscape.h>
+	#include <graph/MainCamera.h>
+	#include <sound/Sound.h>
+	#include <water/Water.h>
+#endif
 #include <target/Target.h>
 #include <target/TargetLife.h>
 #include <common/Defines.h>
 #include <client/ScorchedClient.h>
-#include <graph/MainCamera.h>
-#include <sound/Sound.h>
 #include <math.h>
 
 bool LandscapeSoundPositionSet::readXML(XMLNode *node)

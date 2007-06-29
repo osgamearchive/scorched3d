@@ -24,7 +24,9 @@
 #include <engine/PhysicsParticle.h>
 #include <engine/ScorchedCollisionIds.h>
 #include <engine/ViewPoints.h>
-#include <tankgraph/RenderTracer.h>
+#ifndef	S3D_SERVER
+	#include <tankgraph/RenderTracer.h>
+#endif
 #include <weapons/WeaponProjectile.h>
 #include <list>
 
@@ -45,7 +47,9 @@ public:
 
 	unsigned int getPlayerId() { return weaponContext_.getPlayerId(); }
 	WeaponProjectile *getWeapon() { return weapon_; }
+#ifndef S3D_SERVER
 	std::list<RenderTracer::TracerLinePoint> &getPositions() { return positions_; }
+#endif
 
 protected:
 	Vector startPosition_, velocity_;
@@ -63,7 +67,9 @@ protected:
 	float drag_;
 	float timedCollision_;
 	float spinSpeed_;
+#ifndef S3D_SERVER
 	std::list<RenderTracer::TracerLinePoint> positions_;
+#endif
 
 	void doCollision(Vector &position);
 

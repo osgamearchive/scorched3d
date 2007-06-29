@@ -29,7 +29,9 @@
 #include <client/ClientState.h>
 #include <common/Defines.h>
 #include <common/ChannelManager.h>
-#include <landscape/Landscape.h>
+#ifndef S3D_SERVER
+	#include <landscape/Landscape.h>
+#endif
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapemap/MovementMap.h>
 

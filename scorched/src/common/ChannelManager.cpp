@@ -19,7 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/ChannelManager.h>
-#include <client/ClientChannelManager.h>
+#ifndef S3D_SERVER
+	#include <client/ClientChannelManager.h>
+#endif
 
 ChannelManager::ChannelManager()
 {

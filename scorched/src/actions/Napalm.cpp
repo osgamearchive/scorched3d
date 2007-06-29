@@ -27,12 +27,14 @@
 #include <target/TargetSpace.h>
 #include <actions/Napalm.h>
 #include <actions/CameraPositionAction.h>
-#include <sprites/ExplosionTextures.h>
-#include <sprites/NapalmRenderer.h>
-#include <GLEXT/GLStateExtension.h>
-#include <landscape/Landscape.h>
-#include <landscape/DeformTextures.h>
-#include <landscape/Smoke.h>
+#ifndef S3D_SERVER
+	#include <sprites/ExplosionTextures.h>
+	#include <sprites/NapalmRenderer.h>
+	#include <GLEXT/GLStateExtension.h>
+	#include <landscape/Landscape.h>
+	#include <landscape/DeformTextures.h>
+	#include <landscape/Smoke.h>
+#endif
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeDefinition.h>
 #include <landscapedef/LandscapeTex.h>
@@ -70,9 +72,14 @@ void Napalm::init()
 	const float ShowTime = 5.0f;
 	Vector position((float) x_, (float) y_, context_->landscapeMaps->
 		getGroundMaps().getHeight(x_, y_));
-	CameraPositionAction *pos = new CameraPositionAction(
-		position, ShowTime, 5);
+#ifndef S3D_SERVER
+	if (!context_->serverMode)
+	{
+		CameraPositionAction *pos = new CameraPositionAction(
+			position, ShowTime, 5);
 	context_->actionController->addAction(pos);
+	}
+#endif
 
 #ifndef S3D_SERVER
 	if (!context_->serverMode) 

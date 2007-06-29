@@ -20,7 +20,9 @@
 
 #include <tank/TankModelContainer.h>
 #include <tank/TankModelStore.h>
-#include <tankgraph/TargetRendererImplTank.h>
+#ifndef S3D_SERVER
+	#include <tankgraph/TargetRendererImplTank.h>
+#endif
 #include <engine/ScorchedContext.h>
 #include <common/DefinesString.h>
 

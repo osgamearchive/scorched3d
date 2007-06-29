@@ -31,7 +31,9 @@
 #include <target/TargetSpace.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
-#include <GLEXT/GLState.h>
+#ifndef S3D_SERVER
+	#include <GLEXT/GLState.h>
+#endif
 #include <math.h>
 #include <set>
 

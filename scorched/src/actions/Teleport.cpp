@@ -56,9 +56,14 @@ void Teleport::init()
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 
 	const float ShowTime = 5.0f;
-	CameraPositionAction *pos = new CameraPositionAction(
-		position_, ShowTime, 5);
-	context_->actionController->addAction(pos);
+#ifndef S3D_SERVER
+        if (!context_->serverMode)
+	{
+		CameraPositionAction *pos = new CameraPositionAction(
+			position_, ShowTime, 5);
+		context_->actionController->addAction(pos);
+	}
+#endif
 }
 
 void Teleport::simulate(float frameTime, bool &remove)

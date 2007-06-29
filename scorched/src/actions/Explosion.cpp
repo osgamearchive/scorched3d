@@ -31,17 +31,21 @@
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
 #include <engine/SyncCheck.h>
-#include <graph/OptionsDisplay.h>
-#include <graph/ParticleEmitter.h>
-#include <graph/MainCamera.h>
+#ifndef S3D_SERVER
+	#include <graph/OptionsDisplay.h>
+	#include <graph/ParticleEmitter.h>
+	#include <graph/MainCamera.h>
+#endif
 #include <landscapemap/DeformLandscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscape/DeformTextures.h>
-#include <landscape/Landscape.h>
-#include <water/Water.h>
-#include <landscape/Smoke.h>
-#include <sprites/ExplosionNukeRenderer.h>
-#include <sprites/ExplosionTextures.h>
+#ifndef S3D_SERVER
+	#include <landscape/Landscape.h>
+	#include <water/Water.h>
+	#include <landscape/Smoke.h>
+	#include <sprites/ExplosionNukeRenderer.h>
+	#include <sprites/ExplosionTextures.h>
+#endif
 #include <math.h>
 
 Explosion::Explosion(Vector &position,
@@ -63,9 +67,14 @@ void Explosion::init()
 			position_[0], position_[1], position_[2], weapon_->getParent()->getName()));*/
 
 	const float ShowTime = 4.0f;
-	CameraPositionAction *pos = new CameraPositionAction(
-		position_, ShowTime, 10);
-	context_->actionController->addAction(pos);
+#ifndef S3D_SERVER
+	if (!context_->serverMode)
+	{
+		CameraPositionAction *pos = new CameraPositionAction(
+			position_, ShowTime, 10);
+		context_->actionController->addAction(pos);
+	}
+#endif
 
 	float multiplier = float(((int) context_->optionsGame->getWeapScale()) - 
 							 OptionsGame::ScaleMedium);

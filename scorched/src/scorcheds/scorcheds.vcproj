@@ -186,14 +186,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\actions\CameraPositionAction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\CameraPositionAction.h"
-				>
-			</File>
-			<File
 				RelativePath="..\actions\Explosion.cpp"
 				>
 			</File>

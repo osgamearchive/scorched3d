@@ -31,8 +31,13 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapemap/MovementMap.h>
 #include <landscapemap/DeformLandscape.h>
-#include <landscape/Smoke.h>
-#include <landscape/Landscape.h>
+#ifndef S3D_SERVER
+	#include <landscape/Smoke.h>
+	#include <landscape/Landscape.h>
+	#include <graph/ImageStore.h>
+	#include <GLEXT/GLImageModifier.h>
+	#include <sound/Sound.h>
+#endif
 #include <tank/TankContainer.h>
 #include <tank/TankModelStore.h>
 #include <tank/TankPosition.h>
@@ -43,10 +48,8 @@
 #include <target/TargetState.h>
 #include <target/TargetSpace.h>
 #include <graph/ImageStore.h>
-#include <GLEXT/GLImageModifier.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
-#include <sound/Sound.h>
 
 static const int NoMovementTransitions = 4;
 
@@ -64,8 +67,13 @@ TankMovement::TankMovement(WeaponFireContext &weaponContext,
 TankMovement::~TankMovement()
 {
 	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
-	delete moveSoundSource_;
-	moveSoundSource_ = 0;
+#ifndef S3D_SERVER
+	if (!context_->serverMode)
+	{
+		delete moveSoundSource_;
+		moveSoundSource_ = 0;
+	}
+#endif
 }
 
 void TankMovement::init()

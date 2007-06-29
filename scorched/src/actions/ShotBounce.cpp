@@ -24,7 +24,9 @@
 #include <engine/ActionController.h>
 #include <weapons/WeaponRoller.h>
 #include <weapons/AccessoryStore.h>
-#include <GLEXT/GLState.h>
+#ifndef S3D_SERVER
+	#include <GLEXT/GLState.h>
+#endif
 #include <3dsparse/ModelStore.h>
 #include <3dsparse/Model.h>
 #include <graph/ModelRenderer.h>
@@ -54,10 +56,16 @@ void ShotBounce::init()
 
 	// Point the action camera at this event
 	const float ShowTime = 5.0f;
-	CameraPositionAction *pos = new CameraPositionAction(
-		startPosition_, ShowTime,
-		5);
-	context_->actionController->addAction(pos);
+#ifndef S3D_SERVER
+        if (!context_->serverMode)
+	{
+		CameraPositionAction *pos = new CameraPositionAction(
+			startPosition_, ShowTime,
+			5);
+		context_->actionController->addAction(pos);
+	}
+#endif
+
 }
 
 ShotBounce::~ShotBounce()

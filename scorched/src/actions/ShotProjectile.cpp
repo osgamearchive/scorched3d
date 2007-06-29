@@ -19,10 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/ShotProjectile.h>
-#include <sprites/MissileActionRenderer.h>
+#ifndef S3D_SERVER
+	#include <sprites/MissileActionRenderer.h>
+	#include <tankgraph/RenderTracer.h>
+#endif
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
-#include <tankgraph/RenderTracer.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tankai/TankAI.h>
@@ -194,19 +196,24 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	}
 
 	// Shot path
-	if (getWeapon()->getShowShotPath())
+#ifndef S3D_SERVER
+	if (!context_->serverMode)
 	{
-		snapTime_ += frameTime;
-		if (snapTime_ > 0.1f || remove)
+		if (getWeapon()->getShowShotPath())
 		{
-			Vector up (0.0f, 0.0f, 1.0f);
-			RenderTracer::TracerLinePoint point;
-			point.position = getCurrentPosition();
-			point.cross = (getCurrentVelocity() * up).Normalize();
-			positions_.push_back(point);
-			snapTime_ = 0.0f;
+			snapTime_ += frameTime;
+			if (snapTime_ > 0.1f || remove)
+			{
+				Vector up (0.0f, 0.0f, 1.0f);
+				RenderTracer::TracerLinePoint point;
+				point.position = getCurrentPosition();
+				point.cross = (getCurrentVelocity() * up).Normalize();
+				positions_.push_back(point);
+				snapTime_ = 0.0f;
+			}
 		}
 	}
+#endif	// #ifndef S3D_SERVER
 
 	PhysicsParticleReferenced::simulate(frameTime, remove);
 }

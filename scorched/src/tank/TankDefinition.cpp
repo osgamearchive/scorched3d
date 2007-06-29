@@ -28,7 +28,9 @@
 #include <target/TargetParachute.h>
 #include <target/TargetShield.h>
 #include <tankai/TankAIStore.h>
-#include <tankgraph/TargetRendererImplTank.h>
+#ifndef S3D_SERVER
+	#include <tankgraph/TargetRendererImplTank.h>
+#endif
 #include <common/RandomGenerator.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>

@@ -26,8 +26,10 @@
 #include <weapons/Shield.h>
 #include <target/TargetContainer.h>
 #include <target/TargetShield.h>
-#include <GLEXT/GLLenseFlare.h>
-#include <tankgraph/TargetRendererImplTank.h>
+#ifndef S3D_SERVER
+	#include <GLEXT/GLLenseFlare.h>
+	#include <tankgraph/TargetRendererImplTank.h>
+#endif
 
 ShieldHit::ShieldHit(unsigned int playerId,
 	Vector &position,

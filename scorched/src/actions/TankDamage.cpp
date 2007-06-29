@@ -67,11 +67,17 @@ void TankDamage::init()
 	if (damagedTarget)
 	{
 		const float ShowTime = 4.0f;
-		CameraPositionAction *pos = new CameraPositionAction(
-			damagedTarget->getLife().getTargetPosition(), ShowTime,
-			15);
-		context_->actionController->addAction(pos);
+#ifndef S3D_SERVER
+        	if (!context_->serverMode)
+        	{
+			CameraPositionAction *pos = new CameraPositionAction(
+				damagedTarget->getLife().getTargetPosition(), ShowTime,
+				15);
+			context_->actionController->addAction(pos);
+		}
+#endif
 	}
+
 }
 
 void TankDamage::simulate(float frameTime, bool &remove)

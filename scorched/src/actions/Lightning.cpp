@@ -20,11 +20,13 @@
 
 #include <actions/Lightning.h>
 #include <common/Defines.h>
-#include <sound/SoundUtils.h>
-#include <graph/TextureStore.h>
-#include <GLEXT/GLState.h>
-#include <GLEXT/GLCamera.h>
-#include <sprites/ExplosionTextures.h>
+#ifndef S3D_SERVER
+	#include <sound/SoundUtils.h>
+	#include <graph/TextureStore.h>
+	#include <GLEXT/GLState.h>
+	#include <GLEXT/GLCamera.h>
+	#include <sprites/ExplosionTextures.h>
+#endif
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
 #include <target/TargetLife.h>

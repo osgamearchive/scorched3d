@@ -19,8 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/TankSay.h>
-#include <sprites/TalkRenderer.h>
-#include <sprites/ExplosionTextures.h>
+#ifndef S3D_SERVER
+	#include <sprites/TalkRenderer.h>
+	#include <sprites/ExplosionTextures.h>
+#endif
 #include <tank/TankContainer.h>
 #include <tank/TankPosition.h>
 #include <tank/TankAvatar.h>

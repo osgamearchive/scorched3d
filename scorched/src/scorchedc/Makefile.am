@@ -143,6 +143,8 @@ scorched3dc_SOURCES = \
 	../server/ScorchedServerUtil.h \
 	../server/ServerAddPlayerHandler.cpp \
 	../server/ServerAddPlayerHandler.h \
+	../server/ServerAdminCommon.cpp \
+	../server/ServerAdminCommon.h \
 	../server/ServerAdminHandler.cpp \
 	../server/ServerAdminHandler.h \
 	../server/ServerAuthHandler.cpp \
@@ -767,6 +769,8 @@ scorched3dc_SOURCES = \
 	../GLEXT/glew.c \
 	../GLEXT/GLFont2d.cpp \
 	../GLEXT/GLFont2d.h \
+	../GLEXT/GLFrameBufferObject.cpp \
+	../GLEXT/GLFrameBufferObject.h \
 	../GLEXT/GLImage.cpp \
 	../GLEXT/GLImage.h \
 	../GLEXT/GLImageFactory.cpp \
@@ -1049,14 +1053,12 @@ scorched3dc_SOURCES = \
 	../landscape/LandscapeMusicManager.h \
 	../landscape/LandscapePoints.cpp \
 	../landscape/LandscapePoints.h \
-	../landscape/LandscapeShadowCamera.cpp \
-	../landscape/LandscapeShadowCamera.h \
-	../landscape/LandscapeShadowHandler.cpp \
-	../landscape/LandscapeShadowHandler.h \
 	../landscape/LandscapeSoundManager.cpp \
 	../landscape/LandscapeSoundManager.h \
 	../landscape/LandscapeStateHandler.cpp \
 	../landscape/LandscapeStateHandler.h \
+	../landscape/LargeHemisphere.cpp \
+	../landscape/LargeHemisphere.h \
 	../landscape/MapPoints.cpp \
 	../landscape/MapPoints.h \
 	../landscape/Patch.cpp \
@@ -1316,6 +1318,8 @@ scorched3dc_SOURCES = \
 	../water/Water2Renderer.h \
 	../water/WaterMapPoints.cpp \
 	../water/WaterMapPoints.h \
+	../water/WaterWaveDistance.cpp \
+	../water/WaterWaveDistance.h \
 	../GLSL/GLSLProgram.cpp \
 	../GLSL/GLSLProgram.h \
 	../GLSL/GLSLShader.cpp \

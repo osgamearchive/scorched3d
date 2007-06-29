@@ -22,7 +22,9 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLJpg.h>
 #include <GLEXT/GLPng.h>
-#include <GLEXT/GLState.h>
+#ifndef S3D_SERVER
+	#include <GLEXT/GLState.h>
+#endif
 #include <string>
 
 GLImageFactory::GLImageFactory()
