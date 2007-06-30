@@ -34,7 +34,8 @@ Water2Patches::~Water2Patches()
 }
 
 void Water2Patches::generate(std::vector<Vector> &heights, 
-	unsigned int totalSize, unsigned int patchSize)
+	unsigned int totalSize, unsigned int patchSize,
+	float waterHeight)
 {
 	size_ = totalSize / patchSize;
 	totalSize_= totalSize;
@@ -47,23 +48,29 @@ void Water2Patches::generate(std::vector<Vector> &heights,
 	{
 		for (int x=0; x<size_; x++, i++)
 		{
-			patches_[i].generate(heights, patchSize, int(totalSize), x , y);
+			patches_[i].generate(heights, patchSize, int(totalSize), x , y, waterHeight);
 		}
 	}
 
+	// Generate the normal map
+	generateNormalMap();
+}
+
+void Water2Patches::generateNormalMap()
+{
 	// compute texture data
 	//fixme: for higher levels the computed data is not used, as mipmaps are generated
 	//by glu. however this data should be much better!
 	//but we can't feed it to texture class yet
 	if (!normalMap_.getBits()) 
 	{
-		normalMap_ = GLImageFactory::createBlank(totalSize, totalSize);
+		normalMap_ = GLImageFactory::createBlank(totalSize_, totalSize_);
 	}
 
 	unsigned char *normalBits = normalMap_.getBits();
-	for (unsigned int y=0; y<totalSize; y++) 
+	for (int y=0; y<totalSize_; y++) 
 	{
-		for (unsigned int x=0; x<totalSize; x++, normalBits+=3) 
+		for (int x=0; x<totalSize_; x++, normalBits+=3) 
 		{
 			Water2Patch::Data *data = getPoint(x,y);
 			normalBits[0] = (unsigned char)(data->nx*127.0f+128.0f);

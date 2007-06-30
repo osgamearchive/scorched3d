@@ -33,7 +33,8 @@ public:
 	~Water2Patches();
 
 	void generate(std::vector<Vector> &heights, 
-		unsigned int totalSize, unsigned int patchSize);
+		unsigned int totalSize, unsigned int patchSize,
+		float waterHeight);
 
 	Water2Patch *getPatch(int x, int y);
 	Water2Patch::Data *getPoint(int x, int y);
@@ -47,6 +48,8 @@ protected:
 	GLImageHandle normalMap_;
 	GLTexture aof_;
 	Water2Patch *patches_;
+
+	void generateNormalMap();
 };
 
 #endif // __INCLUDE_Water2Patchesh_INCLUDE__

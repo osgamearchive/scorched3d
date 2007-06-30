@@ -27,6 +27,7 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapemap/LandscapeMaps.h>
+#include <graph/OptionsDisplay.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLImageFactory.h>
@@ -71,36 +72,58 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 			wave_tidecycle_time); // wave_tidecycle_time
 
 	// For each frame get the height data
-	std::vector<Vector> displacements[256];
+	static std::vector<Vector> displacements[256];
 	for (unsigned i=0; i<wave_phases; i++) 
 	{
 		if (counter) counter->setNewPercentage(float(i * 100) / float(wave_phases));
 
-		// Set frame number
-		float currentTime = wave_tidecycle_time * float(i) / float(wave_phases);
-		float timeMod = myfmod(currentTime, wave_tidecycle_time);
-		owg.set_time(timeMod);
-
-		// Calculate Zs
-		std::vector<float> heights;
-		owg.compute_heights(heights);
-
-		// Calculate X,Ys
-		owg.compute_displacements(-2.0f, displacements[i]);
-		DIALOG_ASSERT(heights.size() == displacements[i].size());
-
-		// Form a vector with the correct X,Y,Zs
-		int j = 0;
-		for (int y=0; y<wave_resolution; y++)
+		if (OptionsDisplay::instance()->getNoWaterMovement() ||
+			!OptionsDisplay::instance()->getDrawWater())
 		{
-			for (int x=0; x<wave_resolution; x++, j++)	
+			if (displacements[i].size() != wave_resolution * wave_resolution)
 			{
-				displacements[i][j][2] = water->height + heights[j];
+				displacements[i].resize(wave_resolution * wave_resolution);
+
+				int j = 0;
+				for (int y=0; y<wave_resolution; y++)
+				{
+					for (int x=0; x<wave_resolution; x++, j++)	
+					{
+						displacements[i][j][0] = 0.0f;
+						displacements[i][j][1] = 0.0f;
+						displacements[i][j][2] = water->height;
+					}
+				}
+			}
+		}
+		else
+		{
+			// Set frame number
+			float currentTime = wave_tidecycle_time * float(i) / float(wave_phases);
+			float timeMod = myfmod(currentTime, wave_tidecycle_time);
+			owg.set_time(timeMod);
+
+			// Calculate Zs
+			std::vector<float> heights;
+			owg.compute_heights(heights);
+
+			// Calculate X,Ys
+			owg.compute_displacements(-2.0f, displacements[i]);
+			DIALOG_ASSERT(heights.size() == displacements[i].size());
+
+			// Form a vector with the correct X,Y,Zs
+			int j = 0;
+			for (int y=0; y<wave_resolution; y++)
+			{
+				for (int x=0; x<wave_resolution; x++, j++)	
+				{
+					displacements[i][j][2] = water->height + heights[j];
+				}
 			}
 		}
 
 		// Create the patches
-		patches_[i].generate(displacements[i], wave_resolution, wave_patch_width);
+		patches_[i].generate(displacements[i], wave_resolution, wave_patch_width, water->height);
 	}
 
 	if (indexs_.getNoPositions() == 0)
@@ -114,7 +137,9 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 	visibility_.generate(offset, wave_resolution * 15, wave_resolution, wave_patch_width);
 
 	// compute amount of foam per vertex sample
-	if (GLStateExtension::hasShaders())
+	if (OptionsDisplay::instance()->getDrawWater() &&
+		!OptionsDisplay::instance()->getNoWaterWaves() &&
+		GLStateExtension::hasShaders())
 	{
 		GLImageHandle loadedFoam = 
 			GLImageFactory::loadImageHandle(getDataFile(water->foam.c_str()));	
@@ -229,6 +254,20 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 			}
 		}
 
+		}
+	}
+	else
+	{
+		if (counter) counter->setNewOp("Clearing Water waves");
+
+		GLImageHandle aofImage = 
+			GLImageFactory::createBlank(wave_resolution, wave_resolution, false, 0);
+		for (unsigned k = 0; k < wave_phases; k++)
+		{
+			if (counter) counter->setNewPercentage(100.0f * float(k) / float(wave_phases));
+
+			Water2Patches &patches = patches_[k];
+			patches.getAOF().create(aofImage);
 		}
 	}
 }

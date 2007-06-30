@@ -41,7 +41,8 @@ public:
 
 	void generate(std::vector<Vector> &heights,
 		int size, int totalSize,
-		int posX, int posY);
+		int posX, int posY,
+		float waterHeight);
 	void draw(Water2PatchIndexs &indexes, 
 		int indexPosition, int borders);
 

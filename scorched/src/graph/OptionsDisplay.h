@@ -252,6 +252,12 @@ public:
 	bool getNoWaterBuffers() { return noWaterBuffers_; }
 	OptionEntryBool &getNoWaterBuffersEntry() { return noWaterBuffers_; }
 
+	bool getNoWaterWaves() { return noWaterWaves_; }
+	OptionEntryBool &getNoWaterWavesEntry() { return noWaterWaves_; }
+
+	bool getNoWaterLOD() { return noWaterLOD_; }
+	OptionEntryBool &getNoWaterLODEntry() { return noWaterLOD_; }
+
 	bool getNoSkyMovement() { return noSkyMovement_; }
 	OptionEntryBool &getNoSkyMovementEntry() { return noSkyMovement_; }
 
@@ -450,7 +456,6 @@ protected:
 	OptionEntryBool noROAM_;
 	OptionEntryBool noTessalation_;
 	OptionEntryBool noVBO_;
-	OptionEntryBool noWaterBuffers_;
 	OptionEntryBool noModelLOD_;
 	OptionEntryBool noModelLighting_;
 	OptionEntryBool useLandscapeTexture_;
@@ -458,7 +463,10 @@ protected:
 	OptionEntryBool noSkyMovement_;
 	OptionEntryBool noPrecipitation_;
 	OptionEntryBool frameTimer_;
+	OptionEntryBool noWaterBuffers_;
 	OptionEntryBool noWaterMovement_;
+	OptionEntryBool noWaterWaves_;
+	OptionEntryBool noWaterLOD_;
 	OptionEntryBool noWaterReflections_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;

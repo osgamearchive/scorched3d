@@ -61,7 +61,8 @@ static Vector getPosition(std::vector<Vector> &heights,
 
 void Water2Patch::generate(std::vector<Vector> &heights,
 	int size, int totalSize,
-	int posX, int posY)
+	int posX, int posY,
+	float waterHeight)
 {
 	size_ = size;
 	if (!data_) data_ = new Data[(size + 1) * (size + 1)];
@@ -69,49 +70,76 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 	int startX = posX * size;
 	int startY = posY * size;
 
-	Data *data = data_;
-	for (int y=0; y<=size; y++)
+	if (OptionsDisplay::instance()->getNoWaterMovement() ||
+		!OptionsDisplay::instance()->getDrawWater())
 	{
-		for (int x=0; x<=size; x++, data++)
+		Data *data = data_;
+		for (int y=0; y<=size; y++)
 		{
-			// Calculate the position
-			Vector position = getPosition(heights, x, y, startX, startY, totalSize);
+			for (int x=0; x<=size; x++, data++)
+			{
+				// Calculate the position
+				int currentX = startX + x;
+				int currentY = startY + y;
 
-			// Set the position
-			data->x = position[0];
-			data->y = position[1];
-			data->z = position[2];
+				// Set the position
+				data->x = float(currentX) * 2.0f;
+				data->y = float(currentY) * 2.0f;
+				data->z = waterHeight;
+
+				// Set the normal
+				data->nx = 0.0f;
+				data->ny = 0.0f;
+				data->nz = 1.0f;
+			}
 		}
 	}
-
-	data = data_;
-	for (int y=0; y<=size; y++)
+	else
 	{
-		for (int x=0; x<=size; x++, data++)
+		Data *data = data_;
+		for (int y=0; y<=size; y++)
 		{
-			// Calculate the normal
-			Vector current = getPosition(heights, x, y, startX, startY, totalSize);
-			Vector other1 = getPosition(heights, x + 1, y, startX, startY, totalSize);
-			Vector other2 = getPosition(heights, x, y + 1, startX, startY, totalSize);
-			Vector other3 = getPosition(heights, x - 1, y, startX, startY, totalSize);
-			Vector other4 = getPosition(heights, x, y - 1, startX, startY, totalSize);
+			for (int x=0; x<=size; x++, data++)
+			{
+				// Calculate the position
+				Vector position = getPosition(heights, x, y, startX, startY, totalSize);
 
-			Vector dir1 = other1 - current;
-			Vector dir2 = other2 - current;
-			Vector dir3 = other3 - current;
-			Vector dir4 = other4 - current;
+				// Set the position
+				data->x = position[0];
+				data->y = position[1];
+				data->z = position[2];
+			}
+		}
 
-			Vector normal1 = dir1 * dir2;
-			Vector normal2 = dir2 * dir3;
-			Vector normal3 = dir3 * dir4;
-			Vector normal4 = dir4 * dir1;
+		data = data_;
+		for (int y=0; y<=size; y++)
+		{
+			for (int x=0; x<=size; x++, data++)
+			{
+				// Calculate the normal
+				Vector current = getPosition(heights, x, y, startX, startY, totalSize);
+				Vector other1 = getPosition(heights, x + 1, y, startX, startY, totalSize);
+				Vector other2 = getPosition(heights, x, y + 1, startX, startY, totalSize);
+				Vector other3 = getPosition(heights, x - 1, y, startX, startY, totalSize);
+				Vector other4 = getPosition(heights, x, y - 1, startX, startY, totalSize);
 
-			Vector normal = (normal1 + normal2 + normal3 + normal4).Normalize();
+				Vector dir1 = other1 - current;
+				Vector dir2 = other2 - current;
+				Vector dir3 = other3 - current;
+				Vector dir4 = other4 - current;
 
-			// Set the normal
-			data->nx = normal[0];
-			data->ny = normal[1];
-			data->nz = normal[2];
+				Vector normal1 = dir1 * dir2;
+				Vector normal2 = dir2 * dir3;
+				Vector normal3 = dir3 * dir4;
+				Vector normal4 = dir4 * dir1;
+
+				Vector normal = (normal1 + normal2 + normal3 + normal4).Normalize();
+
+				// Set the normal
+				data->nx = normal[0];
+				data->ny = normal[1];
+				data->nz = normal[2];
+			}
 		}
 	}
 

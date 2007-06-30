@@ -232,9 +232,15 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	IDC_NOSKYANI_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Don't animate sky"));
 	detailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
-	IDC_NOWATERANI_CTRL = 
+	IDC_NOWATERLOD_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Draw simplistic water"));
-	detailSizer2->Add(IDC_NOWATERANI_CTRL, 0);
+	detailSizer2->Add(IDC_NOWATERLOD_CTRL, 0);
+	IDC_NOWATERMOVEMENT_CTRL = 
+		new wxCheckBox(parent, -1, wxT("Don't draw water movement"));
+	detailSizer2->Add(IDC_NOWATERMOVEMENT_CTRL, 0);
+	IDC_NOWATERWAVES_CTRL = 
+		new wxCheckBox(parent, -1, wxT("Don't draw water breakers"));
+	detailSizer2->Add(IDC_NOWATERWAVES_CTRL, 0);
 	IDC_NOWATERREF_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Don't draw reflections"));
 	detailSizer2->Add(IDC_NOWATERREF_CTRL, 0);

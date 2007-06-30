@@ -360,8 +360,12 @@ void DisplayFrame::refreshScreen()
 	IDC_SINGLESKYLAYER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkyLayersEntry().getDescription(), wxConvUTF8));
 	IDC_NOSKYANI_CTRL->SetValue(OptionsDisplay::instance()->getNoSkyMovement());
 	IDC_NOSKYANI_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSkyMovementEntry().getDescription(), wxConvUTF8));
-	IDC_NOWATERANI_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterMovement());
-	IDC_NOWATERANI_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterMovementEntry().getDescription(), wxConvUTF8));
+	IDC_NOWATERMOVEMENT_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterMovement());
+	IDC_NOWATERMOVEMENT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterMovementEntry().getDescription(), wxConvUTF8));
+	IDC_NOWATERLOD_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterLOD());
+	IDC_NOWATERLOD_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterLODEntry().getDescription(), wxConvUTF8));
+	IDC_NOWATERWAVES_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterWaves());
+	IDC_NOWATERWAVES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterWavesEntry().getDescription(), wxConvUTF8));
 	IDC_NOWATERREF_CTRL->SetValue(OptionsDisplay::instance()->getNoWaterReflections());
 	IDC_NOWATERREF_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoWaterReflectionsEntry().getDescription(), wxConvUTF8));
 	IDC_NOWATER_CTRL->SetValue(!OptionsDisplay::instance()->getDrawWater());
@@ -590,7 +594,9 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getFullScreenEntry().setValue(IDC_FULLSCREEN_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSkyLayersEntry().setValue(IDC_SINGLESKYLAYER_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSkyMovementEntry().setValue(IDC_NOSKYANI_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoWaterMovementEntry().setValue(IDC_NOWATERANI_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoWaterMovementEntry().setValue(IDC_NOWATERMOVEMENT_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoWaterLODEntry().setValue(IDC_NOWATERLOD_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoWaterWavesEntry().setValue(IDC_NOWATERWAVES_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoWaterReflectionsEntry().setValue(IDC_NOWATERREF_CTRL->GetValue());
 	OptionsDisplay::instance()->getBrightnessEntry().setValue(IDC_SLIDER1_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoundVolumeEntry().setValue(IDC_VOLUME_CTRL->GetValue());

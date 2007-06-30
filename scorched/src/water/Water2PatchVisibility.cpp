@@ -104,7 +104,8 @@ void Water2PatchVisibility::draw(Water2Patches &patches,
 
 			Vector &position = entry.position;
 			int index = indexes.getNoPositions() - 1;
-			if (!OptionsDisplay::instance()->getNoWaterMovement())
+			if (!OptionsDisplay::instance()->getNoWaterLOD() &&
+				!OptionsDisplay::instance()->getNoWaterMovement())
 			{
 				float distance = (cameraPosition - position).Magnitude();
 				index = int(distance - 50.0f) / 130;
