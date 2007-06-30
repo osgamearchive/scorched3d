@@ -29,6 +29,7 @@ namespace ServerWebAppletHandler
 	class AppletFileHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new AppletFileHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -38,6 +39,7 @@ namespace ServerWebAppletHandler
 	class AppletHtmlHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new AppletHtmlHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -47,20 +49,23 @@ namespace ServerWebAppletHandler
 	class AppletActionHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new AppletActionHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
 
-	class AppletAsyncHandler : public ServerWebServerAsyncI
+	class AppletAsyncHandler : public ServerWebServerI
 	{
 	public:
 		AppletAsyncHandler();
 
-		virtual ServerWebServerAsyncI *create();
-
-		virtual bool processRequest(std::string &text);
+		virtual ServerWebServerI *createCopy() { return new AppletAsyncHandler(); }
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
+			std::string &text);
 
 	protected:
 		unsigned int lastMessage_;

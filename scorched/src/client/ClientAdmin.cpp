@@ -90,8 +90,6 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 		}
 		else if (
 			0 == stricmp(firstsplit.rule.c_str(), "kick") ||
-			0 == stricmp(firstsplit.rule.c_str(), "showaliases") ||
-			0 == stricmp(firstsplit.rule.c_str(), "showipaliases") ||
 			0 == stricmp(firstsplit.rule.c_str(), "ban") ||
 			0 == stricmp(firstsplit.rule.c_str(), "flag") ||
 			0 == stricmp(firstsplit.rule.c_str(), "mute") ||
@@ -133,10 +131,6 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 					type = ComsAdminMessage::AdminPoor;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "admintalk"))
 					type = ComsAdminMessage::AdminAdminTalk;	
-				else if (0 == stricmp(firstsplit.rule.c_str(), "showaliases"))
-					type = ComsAdminMessage::AdminShowAliases;	
-				else if (0 == stricmp(firstsplit.rule.c_str(), "showipaliases"))
-					type = ComsAdminMessage::AdminShowIpAliases;	
 				else if (0 == stricmp(firstsplit.rule.c_str(), "message"))
 					type = ComsAdminMessage::AdminMessage;	
 
@@ -194,8 +188,6 @@ void ClientAdmin::adminHelp(std::list<std::string> &result)
 	result.push_back("  logout - Logoff as admin");
 	result.push_back("  show - Show ids for all current players");
 	result.push_back("  showbanned - Shows all banned/perm muted players");
-	result.push_back("  showaliases <player id> - Shows all stats names this player has");
-	result.push_back("  showipaliases <player id> - Shows all names this player's ip adddresses has");
 	result.push_back("  killall - Kills all current players and starts next round");
 	result.push_back("  newgame - Kills all current players and starts new game");	
 	result.push_back("  kick <player id> - Kicks specified player");

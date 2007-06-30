@@ -23,24 +23,16 @@
 
 #include <net/NetServerTCP.h>
 #include <common/FileLogger.h>
-#include <string>
-#include <map>
+#include <server/ServerWebServerQueue.h>
 
 class ServerWebServerI
 {
 public:
+	virtual ServerWebServerI *createCopy() = 0;
 	virtual bool processRequest(const char *url,
 		std::map<std::string, std::string> &fields,
 		std::map<std::string, NetMessage *> &parts,
 		std::string &text) = 0;
-};
-
-class ServerWebServerAsyncI
-{
-public:
-	virtual ServerWebServerAsyncI *create() = 0;
-
-	virtual bool processRequest(std::string &text) = 0;
 };
 
 class ServerWebServer : public NetMessageHandlerI
@@ -59,25 +51,38 @@ public:
 	void processMessages();
 	void addRequestHandler(const char *url,
 		ServerWebServerI *handler);
+	void addThrededRequestHandler(const char *url,
+		ServerWebServerI *handler);
 	void addAsyncRequestHandler(const char *url,
-		ServerWebServerAsyncI *handler);
+		ServerWebServerI *handler);
 
 	std::map<unsigned int, SessionParams> &getSessions() { return sessions_; }
 
 protected:
 	static ServerWebServer *instance_;
 
-	struct AsyncEntry
+	struct HandlerEntry
 	{
-		unsigned int sid;
-		ServerWebServerAsyncI *handler;
+		enum Flags
+		{
+			eAsync = 1,
+			eThreaded = 2
+		};
+
+		ServerWebServerI *handler;
+		unsigned int flags;
 	};
+	std::map<std::string, HandlerEntry> handlers_;
+
+	ServerWebServerQueue asyncQueue_;
+	ServerWebServerQueue threadedQueue_;
+	ServerWebServerQueue normalQueue_;
+
 	unsigned int asyncTimer_;
-	std::map<unsigned int, AsyncEntry> asyncProcesses_;
 	std::map<unsigned int, SessionParams> sessions_;
-	std::map<std::string, ServerWebServerI *> handlers_;
-	std::map<std::string, ServerWebServerAsyncI *> asyncHandlers_;
 	std::list<std::pair<unsigned int, NetMessage *> > delayedMessages_;
+
+	SDL_Thread *sendThread_;
 	NetServerTCP netServer_;
 	FileLogger *logger_;
 
@@ -95,13 +100,9 @@ protected:
 		const char *ip,
 		const char *url,
 		std::map<std::string, std::string> &fields);
-	bool generatePage(
-		unsigned int destinationId,
-		unsigned int sid,
-		const char *url,
-		std::map<std::string, std::string> &fields,
-		std::map<std::string, NetMessage *> &parts,
-		std::string &text);
+
+	static int sendThreadFunc(void *);
+	bool processQueue(ServerWebServerQueue &queue, bool keepEntries);
 
 	// Inherited from NetMessageHandlerI
 	virtual void processMessage(NetMessage &message);

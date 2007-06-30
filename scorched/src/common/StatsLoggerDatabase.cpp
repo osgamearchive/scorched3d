@@ -501,13 +501,13 @@ void StatsLoggerDatabase::combinePlayers(unsigned int player1, unsigned int play
 	runQuery("delete from scorched3d_ipaddresses where playerid=%i", player2);
 }
 
-std::list<std::string> StatsLoggerDatabase::getIpAliases(Tank *tank)
+std::list<std::string> StatsLoggerDatabase::getIpAliases(const char *unqiueId)
 {
 	std::list<std::string> results;
 	createLogger();
 	if (!success_) return results;
 	
-	int playerId = getPlayerId(tank->getUniqueId());
+	int playerId = getPlayerId(unqiueId);
 	if (playerId == 0) return results;
 
 	std::set<int> currentPlayers;
@@ -576,13 +576,13 @@ void StatsLoggerDatabase::addAliases(int playerId,
 	}
 }
 
-std::list<std::string> StatsLoggerDatabase::getAliases(Tank *tank)
+std::list<std::string> StatsLoggerDatabase::getAliases(const char *unqiueId)
 {
 	std::list<std::string> results;
 	createLogger();
 	if (!success_) return results;
 	
-	int playerId = getPlayerId(tank->getUniqueId());
+	int playerId = getPlayerId(unqiueId);
 	if (playerId == 0) return results;
 	addAliases(playerId, results);
 

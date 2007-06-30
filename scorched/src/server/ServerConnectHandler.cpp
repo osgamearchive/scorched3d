@@ -378,7 +378,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 
 	// Use the stats name if stats are enabled and the player has one
 	std::list<std::string> aliases  = 
-		StatsLogger::instance()->getAliases(tank);
+		StatsLogger::instance()->getAliases(tank->getUniqueId());
 	if (!aliases.empty())
 	{
 		std::string alias = aliases.front();

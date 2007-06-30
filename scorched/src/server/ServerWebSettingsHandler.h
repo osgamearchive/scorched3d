@@ -29,6 +29,7 @@ namespace ServerWebSettingsHandler
 	class SettingsAllHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new SettingsAllHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -38,6 +39,7 @@ namespace ServerWebSettingsHandler
 	class SettingsPlayersHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new SettingsPlayersHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -47,6 +49,7 @@ namespace ServerWebSettingsHandler
 	class SettingsLandscapeHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new SettingsLandscapeHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -56,6 +59,7 @@ namespace ServerWebSettingsHandler
 	class SettingsMainHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new SettingsMainHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -65,6 +69,7 @@ namespace ServerWebSettingsHandler
 	class SettingsModHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new SettingsModHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,

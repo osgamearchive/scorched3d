@@ -1106,6 +1106,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerWebServerQueue.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerWebServerQueue.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerWebServerUtil.cpp"
 				>
 			</File>

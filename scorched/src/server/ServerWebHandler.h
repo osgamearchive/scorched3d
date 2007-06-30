@@ -29,6 +29,16 @@ namespace ServerWebHandler
 	class PlayerHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new PlayerHandler(); }
+		virtual bool processRequest(const char *url,
+			std::map<std::string, std::string> &fields,
+			std::map<std::string, NetMessage *> &parts,
+			std::string &text);
+	};
+	class PlayerHandlerThreaded : public ServerWebServerI
+	{
+	public:
+		virtual ServerWebServerI *createCopy() { return new PlayerHandlerThreaded(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -38,6 +48,7 @@ namespace ServerWebHandler
 	class LogFileHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new LogFileHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -47,6 +58,7 @@ namespace ServerWebHandler
 	class LogHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new LogHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -56,6 +68,7 @@ namespace ServerWebHandler
 	class GameHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new GameHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -65,6 +78,7 @@ namespace ServerWebHandler
 	class ServerHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new ServerHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -74,6 +88,7 @@ namespace ServerWebHandler
 	class BannedHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new BannedHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -83,6 +98,7 @@ namespace ServerWebHandler
 	class ModsHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new ModsHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -92,6 +108,7 @@ namespace ServerWebHandler
 	class SessionsHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new SessionsHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
@@ -101,11 +118,14 @@ namespace ServerWebHandler
 	class StatsHandler : public ServerWebServerI
 	{
 	public:
+		virtual ServerWebServerI *createCopy() { return new StatsHandler(); }
 		virtual bool processRequest(const char *url,
 			std::map<std::string, std::string> &fields,
 			std::map<std::string, NetMessage *> &parts,
 			std::string &text);
 	};
+
+
 };
 
 #endif // __INCLUDE_ServerWebHandlerh_INCLUDE__

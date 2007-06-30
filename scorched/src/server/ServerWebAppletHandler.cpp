@@ -98,12 +98,10 @@ ServerWebAppletHandler::AppletAsyncHandler::AppletAsyncHandler() :
 {
 }
 
-ServerWebServerAsyncI *ServerWebAppletHandler::AppletAsyncHandler::create()
-{
-	return new AppletAsyncHandler();
-}
-
-bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(std::string &text)
+bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
+	std::string &text)
 {
 	// Check if we have sent the initial data
 	if (!initialized_)
@@ -150,6 +148,5 @@ bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(std::string &tex
 		text.append(chatText);
 	}
 
-	// Have we anything to send?
-	return (!text.empty());
+	return true;
 }

@@ -114,13 +114,13 @@ void StatsLoggerFile::periodicUpdate()
 {
 }
 
-std::list<std::string> StatsLoggerFile::getAliases(Tank *tank)
+std::list<std::string> StatsLoggerFile::getAliases(const char *unqiueId)
 {
 	std::list<std::string> result;
 	return result;
 }
 
-std::list<std::string> StatsLoggerFile::getIpAliases(Tank *tank)
+std::list<std::string> StatsLoggerFile::getIpAliases(const char *unqiueId)
 {
 	std::list<std::string> result;
 	return result;

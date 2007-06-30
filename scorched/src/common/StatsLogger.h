@@ -37,8 +37,8 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks) = 0;
 	virtual void roundStart(std::list<Tank *> &tanks) = 0;
 
-	virtual std::list<std::string> getAliases(Tank *tank) = 0;
-	virtual std::list<std::string> getIpAliases(Tank *tank) = 0;
+	virtual std::list<std::string> getAliases(const char *unqiueId) = 0;
+	virtual std::list<std::string> getIpAliases(const char *unqiueId) = 0;
 	virtual char *tankRank(Tank *tank) = 0;
 	virtual void updateStats(Tank *tank) = 0;
 	virtual void periodicUpdate() = 0;
@@ -80,9 +80,9 @@ public:
 	virtual void gameStart(std::list<Tank *> &tanks) {}
 	virtual void roundStart(std::list<Tank *> &tanks) {}
 
-	virtual std::list<std::string> getAliases(Tank *tank) 
+	virtual std::list<std::string> getAliases(const char *unqiueId) 
 		{ std::list<std::string> result; return result; }
-	virtual std::list<std::string> getIpAliases(Tank *tank) 
+	virtual std::list<std::string> getIpAliases(const char *unqiueId) 
 		{ std::list<std::string> result; return result; }
 	virtual char *tankRank(Tank *tank) { return "-"; }
 	virtual void updateStats(Tank *tank) {}

@@ -206,66 +206,6 @@ bool ServerAdminHandler::processMessage(
 			ServerCommon::sendString(destinationId, result.c_str());
 		}
 		break;
-	case ComsAdminMessage::AdminShowAliases:
-		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
-			{
-				std::string result;
-				result += 
-					"--Admin Show Aliases---------------------------------\n";
-
-				std::list<std::string> aliases =
-					StatsLogger::instance()->getAliases(targetTank);
-				std::list<std::string>::iterator itor;
-				for (itor = aliases.begin();
-					itor != aliases.end();
-					itor++)
-				{
-					std::string alias = (*itor);
-
-					result += formatString("\"%s\"\n",
-						alias.c_str());
-				}
-				result +=
-					"-----------------------------------------------------\n";
-
-				ServerCommon::sendString(destinationId, result.c_str());
-			}
-			else ServerCommon::sendString(destinationId, "Unknown player for showaliases");
-		}
-		break;
-	case ComsAdminMessage::AdminShowIpAliases:
-		{
-			Tank *targetTank = ScorchedServer::instance()->
-				getTankContainer().getTankById(atoi(message.getParam1()));
-			if (targetTank)
-			{
-				std::string result;
-				result += 
-					"--Admin Show Ip Aliases------------------------------\n";
-
-				std::list<std::string> aliases =
-					StatsLogger::instance()->getIpAliases(targetTank);
-				std::list<std::string>::iterator itor;
-				for (itor = aliases.begin();
-					itor != aliases.end();
-					itor++)
-				{
-					std::string alias = (*itor);
-
-					result += formatString("\"%s\"\n",
-						alias.c_str());
-				}
-				result +=
-					"-----------------------------------------------------\n";
-
-				ServerCommon::sendString(destinationId, result.c_str());
-			}
-			else ServerCommon::sendString(destinationId, "Unknown player for showipaliases");
-		}
-		break;
 	case ComsAdminMessage::AdminBan:
 		{
 			if (!ServerAdminCommon::banPlayer(

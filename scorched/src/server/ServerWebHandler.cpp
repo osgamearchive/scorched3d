@@ -141,19 +141,21 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				}
 				else if (0 == strcmp(action, "ShowAliases"))
 				{
-					std::list<std::string> aliases =
-						StatsLogger::instance()->getAliases(tank);
-					std::string lines = ServerWebServerUtil::concatLines(aliases);
-					return ServerWebServerUtil::getHtmlMessage(
-						"ShowAliases", lines.c_str(), fields, text);
+					ServerWebServerUtil::getHtmlRedirect(
+						formatString("/playersthreaded?sid=%s&action=%s&uniqueid=%s",
+							ServerWebServerUtil::getField(fields, "sid"),
+							ServerWebServerUtil::getField(fields, "action"),
+							tank->getUniqueId()), text);
+					return true;
 				}
 				else if (0 == strcmp(action, "ShowIPAliases"))
 				{
-					std::list<std::string> aliases =
-						StatsLogger::instance()->getIpAliases(tank);
-					std::string lines = ServerWebServerUtil::concatLines(aliases);
-					return ServerWebServerUtil::getHtmlMessage(
-						"ShowIPAliases", lines.c_str(), fields, text);
+					ServerWebServerUtil::getHtmlRedirect(
+						formatString("/playersthreaded?sid=%s&action=%s&uniqueid=%s",
+							ServerWebServerUtil::getField(fields, "sid"),
+							ServerWebServerUtil::getField(fields, "action"),
+							tank->getUniqueId()), text);
+					return true;
 				}
 				else
 				{
@@ -213,6 +215,37 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 		}
 	}
 	fields["ADD"] = add;
+
+	return ServerWebServerUtil::getHtmlTemplate("player.html", fields, text);
+}
+
+bool ServerWebHandler::PlayerHandlerThreaded::processRequest(const char *url,
+	std::map<std::string, std::string> &fields,
+	std::map<std::string, NetMessage *> &parts,
+	std::string &text)
+{
+	// Check for any action
+	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *uniqueid = ServerWebServerUtil::getField(fields, "uniqueid");
+	if (action && uniqueid)
+	{
+		if (0 == strcmp(action, "ShowAliases"))
+		{
+			std::list<std::string> aliases =
+				StatsLogger::instance()->getAliases(uniqueid);
+			std::string lines = ServerWebServerUtil::concatLines(aliases);
+			return ServerWebServerUtil::getHtmlMessage(
+				"ShowAliases", lines.c_str(), fields, text);
+		}
+		else if (0 == strcmp(action, "ShowIPAliases"))
+		{
+			std::list<std::string> aliases =
+				StatsLogger::instance()->getIpAliases(uniqueid);
+			std::string lines = ServerWebServerUtil::concatLines(aliases);
+			return ServerWebServerUtil::getHtmlMessage(
+				"ShowIPAliases", lines.c_str(), fields, text);
+		}
+	}
 
 	return ServerWebServerUtil::getHtmlTemplate("player.html", fields, text);
 }

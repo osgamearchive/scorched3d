@@ -50,7 +50,14 @@ ServerWebServer::ServerWebServer() :
 	netServer_(new NetServerHTTPProtocolRecv),
 	logger_(0), asyncTimer_(0)
 {
+	sendThread_ = SDL_CreateThread(ServerWebServer::sendThreadFunc, 0);
+	if (sendThread_ == 0)
+	{
+		Logger::log(formatString("ServerWebServer: Failed to create thread"));
+	}	
+
 	addRequestHandler("/players", new ServerWebHandler::PlayerHandler());
+	addThrededRequestHandler("/playersthreaded", new ServerWebHandler::PlayerHandlerThreaded());
 	addRequestHandler("/logs", new ServerWebHandler::LogHandler());
 	addRequestHandler("/logfile", new ServerWebHandler::LogFileHandler());
 	addRequestHandler("/game", new ServerWebHandler::GameHandler());
@@ -74,6 +81,18 @@ ServerWebServer::~ServerWebServer()
 {
 }
 
+int ServerWebServer::sendThreadFunc(void *)
+{
+	while (true)
+	{
+		SDL_Delay(100);
+
+		// Process the threaded queue
+		instance_->processQueue(instance_->threadedQueue_, false);		
+	}
+	return 1;
+}
+
 void ServerWebServer::start(int port)
 {
 	Logger::log(formatString("Starting management web server on port %i", port));
@@ -92,13 +111,22 @@ void ServerWebServer::start(int port)
 void ServerWebServer::addRequestHandler(const char *url,
 	ServerWebServerI *handler)
 {
-	handlers_[url] = handler;
+	HandlerEntry entry = { handler, 0 };
+	handlers_[url] = entry;
+}
+
+void ServerWebServer::addThrededRequestHandler(const char *url,
+	ServerWebServerI *handler)
+{
+	HandlerEntry entry = { handler, HandlerEntry::eThreaded };
+	handlers_[url] = entry;
 }
 
 void ServerWebServer::addAsyncRequestHandler(const char *url,
-	ServerWebServerAsyncI *handler)
+	ServerWebServerI *handler)
 {
-	asyncHandlers_[url] = handler;
+	HandlerEntry entry = { handler, HandlerEntry::eAsync };
+	handlers_[url] = entry;
 }
 
 void ServerWebServer::processMessages()
@@ -130,40 +158,7 @@ void ServerWebServer::processMessages()
 	if (theTime != asyncTimer_)
 	{
 		asyncTimer_ = theTime;
-		std::map<unsigned int, AsyncEntry>::iterator asyncItor;
-		for (asyncItor = asyncProcesses_.begin();
-			asyncItor != asyncProcesses_.end();
-			asyncItor++)
-		{
-			unsigned int destinationId = asyncItor->first;
-			unsigned int sid = asyncItor->second.sid;
-			ServerWebServerAsyncI *process = asyncItor->second.handler;
-
-			// Ask the async processor to generate the message
-			std::string text;
-			if (process->processRequest(text))
-			{
-				DIALOG_ASSERT(!text.empty());
-
-				// It has generated some text
-				// Generate the message to send
-				NetMessage *message = NetMessagePool::instance()->getFromPool(
-					NetMessage::BufferMessage, destinationId, 0, 0);
-				message->getBuffer().addDataToBuffer(text.data(), text.size()); // No null
-
-				// Send this message now
-				netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
-				NetMessagePool::instance()->addToPool(message);
-
-				// Update the session
-				std::map <unsigned int, SessionParams>::iterator sessionItor =
-					sessions_.find(sid);
-				if (sessionItor != sessions_.end())
-				{
-					sessionItor->second.sessionTime = (unsigned int) time(0);
-				}
-			}
-		}
+		processQueue(asyncQueue_, true);
 	}
 }
 
@@ -316,9 +311,7 @@ void ServerWebServer::processMessage(NetMessage &message)
 	else if (message.getMessageType() == NetMessage::SentMessage)
 	{
 		// Check if this is a sync or async destination
-		std::map<unsigned int, AsyncEntry>::iterator itor = 
-			asyncProcesses_.find(message.getDestinationId());
-		if (itor != asyncProcesses_.end())
+		if (asyncQueue_.hasEntry(message.getDestinationId()))
 		{
 			// Its an async destination do nothing
 		}
@@ -333,13 +326,7 @@ void ServerWebServer::processMessage(NetMessage &message)
 	{
 		// Remove any async processes we may be processing for this 
 		// destination
-		std::map<unsigned int, AsyncEntry>::iterator itor = 
-			asyncProcesses_.find(message.getDestinationId());
-		if (itor != asyncProcesses_.end())
-		{
-			delete itor->second.handler;
-			asyncProcesses_.erase(itor);
-		}
+		asyncQueue_.removeEntry(message.getDestinationId());
 	}
 }
 
@@ -378,12 +365,37 @@ bool ServerWebServer::processRequest(
 		if (sid)
 		{
 			// The session is valid, show the page
-			if (!generatePage(destinationId, sid, url, fields, parts, text)) return false;
+			std::map<std::string, HandlerEntry>::iterator itor = 
+				handlers_.find(url);
+			if (itor == handlers_.end())
+			{
+				ServerWebServerUtil::getHtmlNotFound(text);
+			}
+			else
+			{
+				ServerWebServerI *handler = itor->second.handler->createCopy();
+				ServerWebServerQueueEntry *entry = new ServerWebServerQueueEntry(
+						destinationId, sid, url, handler, fields, parts);
+
+				if (itor->second.flags == HandlerEntry::eAsync)
+				{
+					asyncQueue_.addEntry(entry);
+				}
+				else if (itor->second.flags == HandlerEntry::eThreaded)
+				{
+					threadedQueue_.addEntry(entry);
+				}
+				else 
+				{
+					normalQueue_.addEntry(entry);
+					if (!processQueue(normalQueue_, false)) return false;
+				}
+				return true;
+			}
 		}
 		else
 		{
-			if (asyncHandlers_.find(url) == asyncHandlers_.end() &&
-				handlers_.find(url) == handlers_.end())
+			if (handlers_.find(url) == handlers_.end())
 			{
 				// The session is invalid,
 				// but the page does not exist show the 404 page.
@@ -547,45 +559,66 @@ bool ServerWebServer::validateUser(
 	return authenticated;
 }
 
-bool ServerWebServer::generatePage(
-	unsigned int destinationId,
-	unsigned int sid,
-	const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
-	std::string &text)
+bool ServerWebServer::processQueue(ServerWebServerQueue &queue, bool keepEntries)
 {
+	bool result = true;
+	std::list<ServerWebServerQueueEntry *> keptEntries;
+
+	// Process queue
+	ServerWebServerQueueEntry *entry = 0;
+	while ((entry = queue.getEntry()) != 0)
 	{
-		// First check for an async handler
-		std::map<std::string, ServerWebServerAsyncI *>::iterator itor =
-			asyncHandlers_.find(url);
-		if (itor != asyncHandlers_.end())
+		bool keepEntry = keepEntries;
+
+		// Call handler
+		std::string resultText;
+		if (entry->getHandler()->processRequest(
+				entry->getUrl(), entry->getFields(), 
+				entry->getParts(), resultText))
 		{
-			ServerWebServerAsyncI *handler = (*itor).second;
+			if (!resultText.empty())
+			{
+				// It has generated some text
+				// Generate the message to send
+				NetMessage *message = NetMessagePool::instance()->getFromPool(
+					NetMessage::BufferMessage, entry->getDestinationId(), 0, 0);
+				message->getBuffer().addDataToBuffer(resultText.data(), resultText.size()); // No null
 
-			// Create a new async entry
-			AsyncEntry entry;
-			entry.handler = handler->create();
-			entry.sid = sid;
-			asyncProcesses_[destinationId] = entry;
+				// Send this message now
+				netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
+				NetMessagePool::instance()->addToPool(message);
 
-			// Add text to the entry
-			entry.handler->processRequest(text);
-			return true;
+				// Update the session
+				std::map <unsigned int, SessionParams>::iterator sessionItor =
+					sessions_.find(entry->getSid());
+				if (sessionItor != sessions_.end())
+				{
+					sessionItor->second.sessionTime = (unsigned int) time(0);
+				}
+			}
+			else
+			{
+				result = false;
+			}
 		}
+		else
+		{
+			keepEntry = false;
+			result = false;
+		}
+
+		// Tidy queue entry
+		if (keepEntry) keptEntries.push_back(entry);
+		else delete entry;
 	}
+
+	// Keep entries
+	while (!keptEntries.empty())
 	{
-		// Then check for a sync handler
-		std::map <std::string, ServerWebServerI *>::iterator itor =
-			handlers_.find(url);
-		if (itor != handlers_.end())
-		{
-			ServerWebServerI *handler = (*itor).second;
-			return handler->processRequest(url, fields, parts, text);
-		}
+		entry = keptEntries.front();
+		keptEntries.pop_back();
+		queue.addEntry(entry);
 	}
 
-	// No handler
-	ServerWebServerUtil::getHtmlNotFound(text);
-	return true;
+	return result;
 }

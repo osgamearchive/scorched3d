@@ -34,8 +34,8 @@ public:
 	virtual void roundStart(std::list<Tank *> &tanks);
 
 	virtual int getKillCount(const char *uniqueId);
-	virtual std::list<std::string> getAliases(Tank *tank);
-	virtual std::list<std::string> getIpAliases(Tank *tank);
+	virtual std::list<std::string> getAliases(const char *unqiueId);
+	virtual std::list<std::string> getIpAliases(const char *unqiueId);
 	virtual char *tankRank(Tank *tank);
 	virtual void updateStats(Tank *tank);
 	virtual void periodicUpdate();

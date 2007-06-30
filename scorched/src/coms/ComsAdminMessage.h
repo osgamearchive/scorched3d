@@ -33,8 +33,6 @@ public:
 		AdminLogout,
 		AdminShow,
 		AdminShowBanned,
-		AdminShowAliases,
-		AdminShowIpAliases,
 		AdminSyncCheck,
 		AdminKillAll,
 		AdminKick,
