@@ -34,7 +34,8 @@ REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
 WeaponRoller::WeaponRoller() : 
 	shieldHurtFactor_(0.0f), windFactor_(1.0f), 
-	maintainVelocity_(false), roll_(true)
+	maintainVelocity_(false), roll_(true),
+	dampenVelocityExp_(1.0f)
 {
 
 }
@@ -62,6 +63,9 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 
 	// Get the maintianvelocity (if any)
 	accessoryNode->getNamedChild("maintainvelocity", maintainVelocity_, false);
+
+	// Get the velocity dampening factor (if any)
+	accessoryNode->getNamedChild("dampenvelocity", dampenVelocityExp_, false);
 
 	// Get if we are to roll
 	accessoryNode->getNamedChild("roll", roll_, false);
@@ -110,6 +114,8 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	
 	shieldHurtFactor_ = shieldHurtFactorExp_.getValue(context, shieldHurtFactor_);
 	windFactor_ = windFactorExp_.getValue(context, windFactor_);
+
+	dampenVelocity_ = dampenVelocityExp_.getValue(context, dampenVelocity_);
 
 	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		oldposition[0], oldposition[1]);
@@ -195,7 +201,7 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 		Vector newVelocity;
 		if (maintainVelocity_)
 		{
-			newVelocity = velocity;
+			newVelocity = velocity * dampenVelocity_;
 		}
 		else
 		{
@@ -203,6 +209,7 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 			newVelocity[1] = random.getRandFloat() - 0.5f;
 			newVelocity[2] = random.getRandFloat() * 2.0f;
 		}
+		
 		context.actionController->addAction(
 			new ShotBounce(this, position, newVelocity, weaponContext));
 	}

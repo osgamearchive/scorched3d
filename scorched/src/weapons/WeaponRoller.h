@@ -60,6 +60,8 @@ protected:
 	bool roll_;
 
 	bool maintainVelocity_;
+	NumberParser dampenVelocityExp_;
+	float dampenVelocity_;;
 
 	void addRoller(ScorchedContext &context, 
 		WeaponFireContext &weaponContext,

@@ -277,7 +277,8 @@ contact with any tank.</description>
 				<numberrollers>8</numberrollers>
 				<time>8</time>
 				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
-				<!--<maintainvelocity>true</maintainvelocity>-->
+				<!-- <maintainvelocity>true</maintainvelocity> -->
+				<!-- <dampenvelocity>RANGE(0.0,1.0)</dampenvelocity> -->
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
