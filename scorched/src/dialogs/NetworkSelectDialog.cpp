@@ -289,9 +289,15 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 		int noplayers = atoi(clients.c_str());
 		for (int i=0; i<noplayers; i++)
 		{
-			message.append(formatString("\n%i: %s", 
-				i, ServerBrowser::instance()->getServerList().
-				getEntryValue(row, formatString("pn%i", i))));
+			std::string pn = 
+				ServerBrowser::instance()->getServerList().getEntryValue(
+					row, formatString("pn%i", i));
+			std::string pa = 
+				ServerBrowser::instance()->getServerList().getEntryValue(
+					row, formatString("pa%i", i));
+
+			message.append(formatString("\n%i: %s: %s", 
+				i, pa.c_str(), pn.c_str()));
 		}
 
 		value = formatString("%s", name.c_str());

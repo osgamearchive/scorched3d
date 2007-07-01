@@ -129,14 +129,9 @@ void TargetRendererImplTank::draw(float distance, bool shadowdraw)
 	float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
 
 	// Figure out the drawing distance
-	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * modelSize * 2.0f;
+	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * modelSize * 2.5f;
 	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
 	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
-	if (distance > drawDistance) 
-	{
-		if (!shadowdraw) storeTank2DPos();
-		return;
-	}
 	float fade = 1.0f;
 	if (distance > drawDistanceFadeStart)
 	{
@@ -150,6 +145,7 @@ void TargetRendererImplTank::draw(float distance, bool shadowdraw)
 void TargetRendererImplTank::drawShadow(float fade)
 {
 	if (!canSeeTank_) return;
+	if (fade <= 0.0f) return;
 
 	drawTank(fade, false);
 }
@@ -184,23 +180,27 @@ void TargetRendererImplTank::drawMain(float fade)
 	// Store the position in which we should draw the players names
 	storeTank2DPos();
 
-	// Add the tank shadow
-	GLState currentState(GLState::TEXTURE_OFF);
-	if (tank_->getTargetState().getDisplayShadow())
-	{
-		float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
-		Landscape::instance()->getShadowMap().addCircle(
-			tank_->getPosition().getTankPosition()[0], 
-			tank_->getPosition().getTankPosition()[1], 
-			(tank_->getLife().getSize().Max() + 2.0f) * modelSize, 
-			fade);
-	}
-
-	// Draw the tank model
 	bool currentTank = 
 		(tank_ == ScorchedClient::instance()->getTankContainer().getCurrentTank() &&
 		ScorchedClient::instance()->getGameState().getState() == ClientState::StatePlaying);
-	drawTank(fade, currentTank);
+
+	if (fade > 0.0f)
+	{
+		// Add the tank shadow
+		GLState currentState(GLState::TEXTURE_OFF);
+		if (tank_->getTargetState().getDisplayShadow())
+		{
+			float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
+			Landscape::instance()->getShadowMap().addCircle(
+				tank_->getPosition().getTankPosition()[0], 
+				tank_->getPosition().getTankPosition()[1], 
+				(tank_->getLife().getSize().Max() + 2.0f) * modelSize, 
+				fade);
+		}
+
+		// Draw the tank model
+		drawTank(fade, currentTank);
+	}
 
 	// Draw the tank sight
 	if (currentTank &&
