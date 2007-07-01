@@ -753,13 +753,12 @@ void Landscape::actualDrawLandShader()
 {
 	GLState glState(GLState::TEXTURE_ON | GLState::DEPTH_ON);
 
-	getSky().getSun().setLightPosition(true);
+	getSky().getSun().setLightPosition(false);
 
 	landShader_->use();
 	landShader_->set_gl_texture(texture_, "mainmap", 0);
 	landShader_->set_gl_texture(shadowFrameBuffer_, "shadow", 1);
 	landShader_->set_gl_texture(detailTexture_, "detailmap", 2);
-	landShader_->set_gl_texture(normalTexture_, "normalmap", 3);
 
 	// Tex 3
 	glActiveTextureARB(GL_TEXTURE3_ARB);

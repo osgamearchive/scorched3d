@@ -441,6 +441,15 @@ unsigned int ServerWebServer::validateSession(
 	const char *url,
 	std::map<std::string, std::string> &fields)
 {
+	// Hack for silly java 6.0 applets
+	if (strcmp(url, "/Applet.jar") == 0)
+	{
+		if (!sessions_.empty())
+		{
+			return sessions_.begin()->first;
+		}
+	}
+
 	const unsigned int SessionTimeOut = 60 * 15;
 	unsigned int currentTime = (unsigned int) time(0);
 
@@ -616,7 +625,7 @@ bool ServerWebServer::processQueue(ServerWebServerQueue &queue, bool keepEntries
 	while (!keptEntries.empty())
 	{
 		entry = keptEntries.front();
-		keptEntries.pop_back();
+		keptEntries.pop_front();
 		queue.addEntry(entry);
 	}
 

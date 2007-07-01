@@ -105,7 +105,8 @@ void GLStateExtension::setup()
 			hasShaders_ = 
 				GLEW_ARB_fragment_shader &&
 				GLEW_ARB_shader_objects &&
-				GLEW_ARB_vertex_shader;
+				GLEW_ARB_vertex_shader &&
+				(textureUnits_ >=4 );
 		}
 		if (!OptionsDisplay::instance()->getNoGLShadows() &&
 			hasShaders_)
