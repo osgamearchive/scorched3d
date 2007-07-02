@@ -4715,6 +4715,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\sprites\TeleportRenderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\sprites\TeleportRenderer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\sprites\TextActionRenderer.cpp"
 				>
 			</File>

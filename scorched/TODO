@@ -99,6 +99,7 @@ Added: Level of detail for water (geo mipmaps) and changed water bounds so all o
 Added: New water movement algorithm using discrete fourier transform (based on an algorithm by Thorsten Jordan)
 Added: GL shader support for more realistic renderering of the water
 Added: Landscape reflections in water
+Added: Shadows on water (hides sun too)
 Added: Option to disable pausing of graphics when window loses focus
 Added: FramesPerSecondLimit option to settings dialog
 Added: Admin audit log showing all admin operations on players
@@ -108,6 +109,9 @@ Added: Depth-cueing on landscape
 Added: Assists are awarded when a tank resigns
 Added: Player tank remains when a player disconnects during shots being played
 Added: dampenvelocity tag to control amount of inertia given to rollers with maintainvelocity true
+Added: Different and more explosion textures
+Added: Explosion mode is always animate (noanimate tag added to WeaponExplosion)
+Added: Teleport animation
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

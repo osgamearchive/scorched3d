@@ -30,7 +30,7 @@ WeaponExplosion::WeaponExplosion() : size_(0.0f),
 	deform_(Explosion::DeformNone),
 	createDebris_(true), createMushroomAmount_(0.0f),
 	createSplash_(true), windAffected_(true),
-	luminance_(true), animate_(false),
+	luminance_(true), animate_(true),
 	onlyHurtShield_(false),
 	minLife_(0.5f), maxLife_(1.0f), shake_(0.0f),
 	explosionTexture_("exp00")
@@ -91,6 +91,9 @@ bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 	XMLNode *animateNode = 0;
 	accessoryNode->getNamedChild("animate", animateNode, false);
 	if (animateNode) animate_ = true;
+	XMLNode *noAnimateNode = 0;
+	accessoryNode->getNamedChild("noanimate", noAnimateNode, false);
+	if (noAnimateNode) animate_ = false;
 
 	// Get the optional explosion life nodes
 	accessoryNode->getNamedChild("minlife", minLifeExp_, false);

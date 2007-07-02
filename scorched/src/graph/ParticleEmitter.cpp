@@ -377,6 +377,23 @@ void ParticleEmitter::emitWallHit(
 	particle->userData_ = new WallActionRenderer(position, type);
 }
 
+void ParticleEmitter::emitTransport(
+	Vector &position,
+	ParticleEngine &engine,
+	GLTextureSet *set)
+{
+	Particle *particle = engine.getNextAliveParticle();
+	if (!particle) return;
+
+	Vector velocity;
+	createDefaultParticle(*particle);
+
+	particle->position_ = position;
+	particle->renderer_ = ParticleRendererQuads::getInstance();
+	particle->textureCoord_ = 0;
+	particle->textureSet_ = set;
+}
+
 void ParticleEmitter::emitExplosion(
 	Vector &position,
 	ParticleEngine &engine,

@@ -115,6 +115,10 @@ public:
 		Vector &position,
 		ParticleEngine &engine,
 		OptionsTransient::WallSide type);
+	void emitTransport(
+		Vector &position,
+		ParticleEngine &engine,
+		GLTextureSet *set);
 	void emitExplosion(
 		Vector &position,
 		ParticleEngine &engine,

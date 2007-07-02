@@ -32,6 +32,9 @@
 #include <landscapemap/DeformLandscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <sound/SoundUtils.h>
+#ifndef S3D_SERVER
+	#include <sprites/TeleportRenderer.h>
+#endif
 
 Teleport::Teleport(Vector position,
 		WeaponFireContext &weaponContext,
@@ -59,9 +62,19 @@ void Teleport::init()
 #ifndef S3D_SERVER
         if (!context_->serverMode)
 	{
-		CameraPositionAction *pos = new CameraPositionAction(
-			position_, ShowTime, 5);
-		context_->actionController->addAction(pos);
+		Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
+		if (tank && tank->getState().getState() == TankState::sNormal)
+		{
+			Vector white(1.0f, 1.0f, 1.0f);
+			TeleportRenderer *teleport = new TeleportRenderer(
+				tank->getPosition().getTankTurretPosition(),
+				white);
+			context_->actionController->addAction(new SpriteAction(teleport));
+
+			CameraPositionAction *pos = new CameraPositionAction(
+				position_, ShowTime, 5);
+			context_->actionController->addAction(pos);
+		}
 	}
 #endif
 }
