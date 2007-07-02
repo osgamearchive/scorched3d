@@ -35,7 +35,7 @@ void main()
 	vec4 detailColor = texture2D(detailmap, gl_TexCoord[2].xy);
 	
 	vec3 finalColor =
-		((groundColor.rgb * 3.5) + detailColor.rgb) / 4.0 * lightcolor;
+		((groundColor.rgb * 3.5) + detailColor.rgb) / 4.0 * lightcolor.rgb;
 		
 	gl_FragColor = vec4(mix(vec3(0.1, 0.1, 0.1), finalColor, fog_factor), 1.0);
 
