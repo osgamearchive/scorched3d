@@ -19,8 +19,8 @@ void main()
 	float fog_factor = clamp(fog, 0.8, 1.0);
 
 	// Light color
-	vec4 ambient = ambient = gl_LightSource[1].ambient; //* gl_FrontMaterial.ambient;
-	vec4 diffuse = diffuse = gl_LightSource[1].diffuse; //* gl_FrontMaterial.diffuse;
+	vec4 ambient = gl_LightSource[1].ambient; //* gl_FrontMaterial.ambient;
+	vec4 diffuse = gl_LightSource[1].diffuse; //* gl_FrontMaterial.diffuse;
 	vec4 lightcolor = (diffuse * NdotL + ambient);
 
 	/* Specular	
