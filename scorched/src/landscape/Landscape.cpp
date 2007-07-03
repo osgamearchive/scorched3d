@@ -28,7 +28,6 @@
 #include <landscape/ShadowMap.h>
 #include <landscape/Sky.h>
 #include <landscape/Surround.h>
-#include <landscape/ShadowMap.h>
 #include <landscape/InfoMap.h>
 #include <landscape/HeightMapRenderer.h>
 #include <landscape/PatchGrid.h>
