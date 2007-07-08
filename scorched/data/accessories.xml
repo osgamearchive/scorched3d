@@ -277,8 +277,7 @@ contact with any tank.</description>
 				<numberrollers>8</numberrollers>
 				<time>8</time>
 				<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
-				<!-- <maintainvelocity>true</maintainvelocity> -->
-				<!-- <dampenvelocity>RANGE(0.0,1.0)</dampenvelocity> -->
+				<!--<maintainvelocity>true</maintainvelocity>-->
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
@@ -505,50 +504,119 @@ cover them.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
-		<name>Dirt Charge</name>
-		<armslevel>9</armslevel>
-		<description>A Dirt Charge expels a cloud of dirt into 
-the air in a wedge shape.</description>
+		<name>Dirt Charge</name><armslevel>7</armslevel>
+		<description>A projectile weapon that throws many
+small dirt clods in all directions.</description>
 		<icon>dcharge.bmp</icon>
-		<bundlesize>5</bundlesize>
-		<cost>5000</cost>
+		<bundlesize>3</bundlesize><cost>5000</cost>
+		<activationsound>shoot/flare.wav</activationsound>
 		<model type='MilkShape'>dirt/dirt.txt</model>
-		<accessoryaction type='WeaponTranslate'>
-			<translatedist>3.0</translatedist>
-			<nextaction type='WeaponMulti'>
+		<accessoryaction type='WeaponProjectile'>
+			<projectilemodel type='MilkShape'>dirt/dirt.txt</projectilemodel>
+			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponExplosion'>
-					<hurtamount>0.0</hurtamount>
-					<nocreatedebris></nocreatedebris>
-					<deform>up</deform>
-					<size>2</size>
-					<explosiontexture>exp03</explosiontexture>
+					<hurtamount>0</hurtamount>
+					<deform>down</deform><size>4</size>
 					<explosionsound>explosions/gloop.wav</explosionsound>
+					<explosiontexture>exp03</explosiontexture>
 				</subweapon1>
-				<subweapon2 type='WeaponTranslate'>
-					<translatedist>4.0</translatedist>
-					<nextaction type='WeaponMulti'>
-						<subweapon1 type='WeaponExplosion'>
-							<hurtamount>0.0</hurtamount>
-							<nocreatedebris></nocreatedebris>
-							<deform>up</deform>
-							<size>3</size>
-							<explosiontexture>exp03</explosiontexture>
-							<explosionsound>none</explosionsound>
-						</subweapon1>
-						<subweapon2 type='WeaponTranslate'>
-							<translatedist>5.0</translatedist>
-							<nextaction type='WeaponExplosion'>
-								<hurtamount>0.0</hurtamount>
-								<nocreatedebris></nocreatedebris>
-								<deform>up</deform>
-								<size>4</size>
+				<subweapon2 type='WeaponAimedOver'>
+					<nowarheads>5</nowarheads>
+					<percentagemiss>1</percentagemiss>
+					<maxaimdistance>0</maxaimdistance>
+					<inaccuracy>50</inaccuracy>
+					<aimedweapon type='WeaponProjectile'>
+						<nocreateflame/><nocreatesmoke/>
+						<timedcollision>0.6</timedcollision>
+						<projectilescale>0.8</projectilescale>
+						<projectilemodel type='MilkShape'>dirt/dirt.txt</projectilemodel>
+						<collisionaction type='WeaponMulti'>
+							<subweapon1 type='WeaponExplosion'>
+								<hurtamount>0</hurtamount>
+								<deform>down</deform>
+								<size>3</size>
+								<explosionsound>explosions/gloop.wav</explosionsound>
 								<explosiontexture>exp03</explosiontexture>
-								<explosionsound>none</explosionsound>
-							</nextaction>
-						</subweapon2>
-					</nextaction>
+								<nocreatedebris/>
+							</subweapon1>
+							<subweapon2 type='WeaponAimedOver'>
+								<nowarheads>3</nowarheads>
+								<percentagemiss>1</percentagemiss>
+								<maxaimdistance>0</maxaimdistance>
+								<inaccuracy>20</inaccuracy>
+								<aimedweapon type='WeaponProjectile'>
+									<nocreateflame/>
+									<nocreatesmoke/>
+									<timedcollision>0.8</timedcollision>
+									<projectilescale>0.6</projectilescale>
+									<projectilemodel type='MilkShape'>dirt/dirt.txt</projectilemodel>
+									<collisionaction type='WeaponMulti'>
+										<subweapon1 type='WeaponExplosion'>
+											<hurtamount>0</hurtamount>
+											<deform>down</deform>
+											<size>3</size>
+											<explosionsound>explosions/gloop.wav</explosionsound>
+											<explosiontexture>exp03</explosiontexture>
+											<nocreatedebris/>
+										</subweapon1>
+										<subweapon2 type='WeaponAimedOver'>
+											<nowarheads>2</nowarheads>
+											<percentagemiss>5</percentagemiss>
+											<maxaimdistance>0</maxaimdistance>
+											<inaccuracy>50</inaccuracy>
+											<aimedweapon type='WeaponVelocity'>
+											<velocitychange>0.85</velocitychange>
+											<aimedweapon type='WeaponProjectile'>
+												<nocreateflame/>
+												<nocreatesmoke/>
+												<timedcollision>0.8</timedcollision>
+												<projectilescale>0.5</projectilescale>
+												<projectilemodel type='MilkShape'>dirt/dirt.txt</projectilemodel>
+												<collisionaction type='WeaponMulti'>
+													<subweapon1 type='WeaponExplosion'>
+														<hurtamount>0</hurtamount>
+														<deform>down</deform>
+														<size>2</size>
+														<explosionsound>explosions/gloop.wav</explosionsound>
+														<explosiontexture>exp03</explosiontexture>
+														<nocreatedebris/>
+													</subweapon1>
+													<subweapon2 type='WeaponAimedOver'>
+														<nowarheads>2</nowarheads>
+														<percentagemiss>5</percentagemiss>
+														<maxaimdistance>0</maxaimdistance>
+														<inaccuracy>20</inaccuracy>
+														<aimedweapon type='WeaponVelocity'>
+														    <velocitychange>0.7</velocitychange>
+															<aimedweapon type='WeaponProjectile'>
+															<nocreateflame/>
+															<nocreatesmoke/>
+															<projectilescale>0.5</projectilescale>
+															<shieldhurtfactor>0.5</shieldhurtfactor>
+															<projectilemodel type='ase'>
+																<mesh>roller.ase</mesh><skin>white.bmp</skin>
+																 </projectilemodel>
+																<collisionaction type='WeaponExplosion'>
+																	<hurtamount>0</hurtamount>
+																	<deform>up</deform><size>3.0</size>
+																	<explosionsound>explosions/gloop.wav</explosionsound>
+																	<explosiontexture>exp03</explosiontexture>
+																	<nocreatedebris/>
+																</collisionaction>
+			                                            	</aimedweapon>
+			                                            </aimedweapon>	
+													</subweapon2>
+												</collisionaction>
+											</aimedweapon>
+											</aimedweapon>
+										</subweapon2>
+									</collisionaction>
+								</aimedweapon>
+							</subweapon2>	
+						</collisionaction>
+					</aimedweapon>
 				</subweapon2>
-			</nextaction>
+			</collisionaction>
 		</accessoryaction>
 	</accessory>
 	<accessory>
@@ -1087,24 +1155,7 @@ target nearby tanks.</description>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponAimedOver'>
-					<nowarheads>12</nowarheads>
-					<percentagemiss>20</percentagemiss>
-					<maxaimdistance>50</maxaimdistance>
-					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
-						<collisionaction type='WeaponExplosion'>
-							<hurtamount>1.0</hurtamount>
-							<multicolor></multicolor>
-							<deform>down</deform>
-							<size>8</size>
-							<explosionsound>explosions/large.wav</explosionsound>
-							<explosiontexture>exp02</explosiontexture>
-						</collisionaction>
-					</aimedweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
+				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<multicolor></multicolor>
 					<deform>down</deform>
@@ -1112,7 +1163,77 @@ target nearby tanks.</description>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp02</explosiontexture>
 					<explosionshake>1.0</explosionshake>
-				</subweapon2>
+				</subweapon1>			
+				<subweapon2 type='WeaponAimedOver'>
+					<nowarheads>12</nowarheads>
+					<percentagemiss>12</percentagemiss>
+					<maxaimdistance>RANGE(40,55)</maxaimdistance>
+					<inaccuracy>12</inaccuracy>
+						<aimedweapon type='WeaponDelay'>
+							<delay>RANGE(0.4,8)</delay>
+							<delayedweapon type='WeaponVelocity'>
+							<velocitychange>RANGE(0.8,1.05)</velocitychange>
+							<aimedweapon type='WeaponProjectile'>
+							<shieldhurtfactor>0.85</shieldhurtfactor>
+							<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+								<collisionaction type='WeaponRandomChoice'>
+									<weaponchoice1>
+										<weight>6</weight>
+										<weapon type='WeaponExplosion'>
+										<hurtamount>0.85</hurtamount>
+										<multicolor></multicolor>
+										<minlife>1.2</minlife>
+										<maxlife>2</maxlife>
+										<deform>down</deform>
+										<size>4</size>
+										<explosionsound>explosions/small.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+										</weapon>
+									</weaponchoice1>
+									<weaponchoice2>
+										<weight>6</weight>
+										<weapon type='WeaponExplosion'>
+										<hurtamount>0.85</hurtamount>
+										<multicolor></multicolor>
+										<minlife>1.2</minlife>
+										<maxlife>2</maxlife>
+										<deform>down</deform>
+										<size>7</size>
+										<explosionsound>explosions/medium.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+										</weapon>
+									</weaponchoice2>
+									<weaponchoice3>
+										<weight>6</weight>
+										<weapon type='WeaponExplosion'>
+										<hurtamount>0.85</hurtamount>
+										<multicolor></multicolor>
+										<minlife>1.2</minlife>
+										<maxlife>2</maxlife>
+										<deform>down</deform>
+										<size>9</size>
+										<explosionsound>explosions/large.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+										</weapon>
+									</weaponchoice3>
+									<weaponchoice4>
+										<weight>6</weight>
+										<weapon type='WeaponExplosion'>
+										<hurtamount>0.85</hurtamount>
+										<multicolor></multicolor>
+										<minlife>1.2</minlife>
+										<maxlife>2</maxlife>
+										<deform>down</deform>
+										<size>12</size>
+										<explosionsound>explosions/large.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+										</weapon>
+									</weaponchoice4>
+								</collisionaction>
+							</aimedweapon>
+						</delayedweapon>
+					</aimedweapon>
+				</subweapon2>		
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
