@@ -117,6 +117,8 @@ scorched3dc_SOURCES = \
 	../common/ProgressCounter.h \
 	../common/RandomGenerator.cpp \
 	../common/RandomGenerator.h \
+	../common/sha2.cpp \
+	../common/sha2.h \
 	../common/snprintf.c \
 	../common/SplineCurve.cpp \
 	../common/SplineCurve.h \
@@ -346,6 +348,8 @@ scorched3dc_SOURCES = \
 	../net/NetServerUDP.h \
 	../net/NetServerUDPDestination.cpp \
 	../net/NetServerUDPDestination.h \
+	../net/SecureID.cpp \
+	../net/SecureID.h \
 	../net/UniqueIdStore.cpp \
 	../net/UniqueIdStore.h \
 	../XML/ascii.h \
@@ -1119,6 +1123,8 @@ scorched3dc_SOURCES = \
 	../sprites/SphereActionRenderer.h \
 	../sprites/TalkRenderer.cpp \
 	../sprites/TalkRenderer.h \
+	../sprites/TeleportRenderer.cpp \
+	../sprites/TeleportRenderer.h \
 	../sprites/TextActionRenderer.cpp \
 	../sprites/TextActionRenderer.h \
 	../sprites/WallActionRenderer.cpp \
