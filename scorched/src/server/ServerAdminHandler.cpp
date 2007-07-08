@@ -192,9 +192,10 @@ bool ServerAdminHandler::processMessage(
 					ServerBanned::BannedEntry &entry = (*ipitor).second;
 					std::string ipName = NetInterface::getIpName(ip);
 
-					result += formatString("\"%s:%s\" %s %s (%s) - %s",
+					result += formatString("\"%s:%s:%s\" %s %s (%s) - %s",
 						entry.name.c_str(),
 						entry.uniqueid.c_str(),
+						entry.SUI.c_str(),
 						ServerBanned::getBannedTypeStr(entry.type),
 						ipName.c_str(), mask.c_str(),
 						(entry.bantime?ctime(&entry.bantime):"\n"));

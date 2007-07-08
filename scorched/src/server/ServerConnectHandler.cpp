@@ -180,6 +180,7 @@ bool ServerConnectHandler::processMessage(
 		//
 		uniqueId = StatsLogger::instance()->allocateId();
 	}
+	std::string SUid = message.getSUI(); //request for SUI
 
 	// Auth handler, make sure that only prefered players can connect
 	ServerAuthHandler *authHandler =
@@ -206,22 +207,18 @@ bool ServerConnectHandler::processMessage(
 	}
 
 	// Check if this unique id has been banned
-	if (uniqueId.c_str()[0])
+	ServerBanned::BannedType type = 
+		ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId.c_str(), SUid.c_str());
+	if (type == ServerBanned::Banned)
 	{
-		ServerBanned::BannedType type = 
-			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId.c_str());
-		if (type == ServerBanned::Banned)
-		{
-			Logger::log(formatString("Banned uniqueid connection from destination \"%i\"", 
-				destinationId));
-			ServerCommon::kickDestination(destinationId);
-			return true;
-		}
+		Logger::log(formatString("Banned uniqueid/suid connection from destination \"%i\"", 
+			destinationId));
+		ServerCommon::kickDestination(destinationId);
+		return true;
 	}
 
 	// Check that this unique id has not already connected (if unique ids are in use)
-	if (uniqueId.c_str()[0] &&
-		!ScorchedServer::instance()->getOptionsGame().getAllowSameUniqueId())
+	if (!ScorchedServer::instance()->getOptionsGame().getAllowSameUniqueId())
 	{
 		std::map<unsigned int, Tank *> &playingTanks = 
 			ScorchedServer::instance()->getTankContainer().getPlayingTanks();
@@ -231,12 +228,26 @@ bool ServerConnectHandler::processMessage(
 			playingItor++)
 		{
 			Tank *current = (*playingItor).second;
-			if (0 == strcmp(current->getUniqueId(), uniqueId.c_str()))
+
+			if (uniqueId.c_str()[0])
 			{
-				Logger::log(formatString("Duplicate uniqueid connection from destination \"%i\"", 
-					destinationId));
-				ServerCommon::kickDestination(destinationId);
-				return true;
+				if (0 == strcmp(current->getUniqueId(), uniqueId.c_str()))
+				{
+					Logger::log(formatString("Duplicate uniqueid connection from destination \"%i\"", 
+						destinationId));
+					ServerCommon::kickDestination(destinationId);
+					return true;
+				}
+			}
+			if (SUid.c_str()[0])
+			{
+				if (0 == strcmp(current->getSUI(), SUid.c_str()))
+				{
+					Logger::log(formatString("Duplicate SUI connection from destination \"%i\"", 
+						destinationId));
+					ServerCommon::kickDestination(destinationId);
+					return true;
+				}
 			}
 		}
 	}
@@ -307,6 +318,7 @@ bool ServerConnectHandler::processMessage(
 		addNextTank(destinationId,
 			ipAddress,	
 			uniqueId.c_str(),
+			SUid.c_str(),
 			message.getHostDesc(),
 			false);
 	}
@@ -320,6 +332,7 @@ bool ServerConnectHandler::processMessage(
 		addNextTank(destinationId,
 			ipAddress,
 			uniqueId.c_str(),
+			SUid.c_str(),
 			message.getHostDesc(),
 			true);
 	}
@@ -336,6 +349,7 @@ bool ServerConnectHandler::processMessage(
 void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	unsigned int ipAddress,
 	const char *sentUniqueId,
+	const char *sentSUI,
 	const char *sentHostDesc,
 	bool extraSpectator)
 {
@@ -372,6 +386,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		"Random",
 		"none"); // The model, this will be turned into a "proper" model in the player choice dialog
 	tank->setUniqueId(sentUniqueId);
+	tank->setSUI(sentSUI);
 	tank->setIpAddress(ipAddress);
 	tank->setHostDesc(sentHostDesc);
 	tank->getState().setSpectator(true);
@@ -404,11 +419,12 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 #ifdef S3D_SERVER
 	{
 		// Add to dialog
-		Logger::log(formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
+		Logger::log(formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s] SUI=[%s]",
 			tank->getDestinationId(),
 			tank->getPlayerId(),
 			tank->getName(),
-			tank->getUniqueId()));
+			tank->getUniqueId(),
+			tank->getSUI()));
 
 		ServerCommon::sendString(0, formatString("Player connected \"%s\"",
 			tank->getName()));
@@ -422,7 +438,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 	if (ipAddress != 0)
 	{
 		ServerBanned::BannedType type = 
-			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, tank->getUniqueId());
+			ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, tank->getUniqueId(), tank->getSUI());
 		if (type == ServerBanned::Muted)	
 		{
 			tank->getState().setMuted(true);

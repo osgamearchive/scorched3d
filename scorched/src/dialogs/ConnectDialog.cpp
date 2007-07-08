@@ -35,6 +35,7 @@
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
 #include <net/NetInterface.h>
+#include <net/SecureID.h>
 
 ConnectDialog *ConnectDialog::instance_ = 0;
 
@@ -185,6 +186,9 @@ void ConnectDialog::connected()
 		{
 			unsigned int ipAddress = SDLNet_Read32(&address.host);
 			uniqueId_ = getIdStore().getUniqueId(ipAddress);
+
+			SecureID MakeKey;
+			SUI_ = MakeKey.getSecureID(ipAddress);
 		}
 	}
 
@@ -203,6 +207,7 @@ void ConnectDialog::connected()
 	connectMessage.setUserName(ClientParams::instance()->getUserName());
 	connectMessage.setPassword(ClientParams::instance()->getPassword());
 	connectMessage.setUniqueId(uniqueId_.c_str());
+	connectMessage.setSUI(SUI_.c_str());
 	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
 	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))

@@ -635,6 +635,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\sha2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\sha2.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\snprintf.c"
 				>
 			</File>
@@ -1560,6 +1568,14 @@
 			</File>
 			<File
 				RelativePath="..\net\NetServerUDPDestination.h"
+				>
+			</File>
+			<File
+				RelativePath="..\net\SecureID.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\net\SecureID.h"
 				>
 			</File>
 			<File

@@ -45,6 +45,7 @@ public:
 		time_t bantime;
 		std::string name;
 		std::string uniqueid;
+		std::string SUI;
 		std::string adminname;
 		std::string reason;
 		BannedType type;
@@ -56,10 +57,11 @@ public:
 	};	
 
 	std::list<BannedRange> &getBannedIps();
-	BannedType getBanned(unsigned int ip, const char *unqiueid);
+	BannedType getBanned(unsigned int ip, const char *unqiueid, const char *SUI);
 	void addBanned(unsigned int ip, 
 		const char *name, 
 		const char *uniqueId,
+		const char *SUI,
 		BannedType type,
 		const char *adminname,
 		const char *reason);
@@ -71,10 +73,11 @@ public:
 protected:
 	std::list<BannedRange> bannedIps_;	
 	std::map<std::string, BannedEntry> bannedIds_;
+	std::map<std::string, BannedEntry> bannedSUIs_;
 	time_t lastReadTime_;
 
 	void addBannedEntry(unsigned int ip, unsigned int mask,
-		const char *name, const char *unqiueId, unsigned int bantime,
+		const char *name, const char *unqiueId, const char *SUid, unsigned int bantime,
 		BannedType type, const char *adminname, const char *reason);
 
 };

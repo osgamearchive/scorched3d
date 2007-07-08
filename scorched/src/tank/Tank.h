@@ -67,6 +67,8 @@ public:
 	void setKeepAlive(unsigned int ka) { keepAlive_ = ka; }
 	const char *getUniqueId() { return uniqueId_.c_str(); }
 	void setUniqueId(const char *id) { uniqueId_ = id; }
+	const char *getSUI() { return SUI_.c_str(); }
+	void setSUI(const char *SecID) { SUI_ = SecID; }
 	const char *getHostDesc() { return hostDesc_.c_str(); }
 	void setHostDesc(const char *id) { hostDesc_ = id; }
 	TankAI *getTankAI() { return tankAI_; }
@@ -100,6 +102,7 @@ protected:
 	TankAI *tankAI_;
 	Vector color_;
 	std::string uniqueId_;
+	std::string SUI_;
 	std::string hostDesc_;
 	unsigned int team_;
 	unsigned int playerId_;

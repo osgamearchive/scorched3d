@@ -45,6 +45,7 @@ public:
 	void setUserName(const char *username) { setValue("username", username); }
 	void setPassword(const char *password) { setValue("password", password); }
 	void setUniqueId(const char *uid) { setValue("uid", uid); }
+	void setSUI(const char *SUId) { setValue("SUId", SUId); }
 	void setHostDesc(const char *host) { setValue("host", host); }
 	void setNoPlayers(unsigned int players);
 
@@ -54,6 +55,7 @@ public:
 	const char *getPassword() { return getValue("password"); }
 	const char *getHostDesc() { return getValue("host"); }
 	const char *getUniqueId() { return getValue("uid"); }
+	const char *getSUI() { return getValue("SUId"); }
 	unsigned int getNoPlayers() { 
 		return (unsigned int) atoi(getValue("numplayers")?getValue("numplayers"):"0"); }
 

@@ -55,6 +55,7 @@ protected:
 	ConnectState connectionState_;
 	time_t lastTime_;
 	std::string uniqueId_;
+	std::string SUI_;
 
 	void tryConnection();
 	static int tryRemoteConnection(void *);

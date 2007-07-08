@@ -64,7 +64,8 @@ static void internalBanPlayer(const char *adminName,
 		if (ipAddress != 0)
 		{	
 			ScorchedServerUtil::instance()->bannedPlayers.
-				addBanned(ipAddress, tank->getName(), tank->getUniqueId(), type, adminName, reason);
+				addBanned(ipAddress, tank->getName(), tank->getUniqueId(), tank->getSUI(), 
+					type, adminName, reason);
 			if (type == ServerBanned::Banned)
 			{
 				ServerCommon::kickPlayer(playerId);

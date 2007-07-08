@@ -57,6 +57,7 @@ bool ServerBanned::load(bool force)
 	lastReadTime_ = fileTime;
 	bannedIps_.clear();
 	bannedIds_.clear();
+	bannedSUIs_.clear();
 	if (!file.getRootNode()) return true; // Empty File
 
 	std::list<XMLNode *>::iterator childrenItor;
@@ -66,7 +67,7 @@ bool ServerBanned::load(bool force)
 		childrenItor++)
 	{
 		XMLNode *currentNode = (*childrenItor);
-		XMLNode *maskNode = 0, *nameNode = 0, *timeNode = 0, *typeNode = 0, *idNode = 0;
+		XMLNode *maskNode = 0, *nameNode = 0, *timeNode = 0, *typeNode = 0;
 
 		// Read the mask
 		unsigned int m = UINT_MAX;
@@ -84,11 +85,12 @@ bool ServerBanned::load(bool force)
 			m = mask[3] << 24 | mask[2] << 16 | mask[1] << 8 | mask[0];
 		}
 
-		std::string name, adminname, uniqueid, reason;
+		std::string name, adminname, uniqueid, reason, SUI;
 		currentNode->getNamedParameter("name", name, false);
 		currentNode->getNamedParameter("adminname", adminname, false);
 		currentNode->getNamedParameter("reason", reason, false);
 		currentNode->getNamedParameter("id", uniqueid, false);
+		currentNode->getNamedParameter("SUI", SUI, false);
 
 		// Time
 		time_t bantime = 0;
@@ -128,7 +130,8 @@ bool ServerBanned::load(bool force)
 		ip = address[3] << 24 | address[2] << 16 | address[1] << 8 | address[0];
 
 		// Add the new entry
-		addBannedEntry(ip, m, name.c_str(), uniqueid.c_str(), (unsigned int) bantime, type,
+		addBannedEntry(ip, m, name.c_str(), uniqueid.c_str(), SUI.c_str(), 
+			(unsigned int) bantime, type,
 			adminname.c_str(), reason.c_str());
 	}
 	return true;
@@ -141,7 +144,7 @@ std::list<ServerBanned::BannedRange> &ServerBanned::getBannedIps()
 }
 
 ServerBanned::BannedType ServerBanned::getBanned(
-	unsigned int ip, const char *unqiueid)
+	unsigned int ip, const char *unqiueid, const char *SUI)
 {
 	load();
 
@@ -151,6 +154,15 @@ ServerBanned::BannedType ServerBanned::getBanned(
 	if (findItor != bannedIds_.end())
 	{
 		BannedEntry &entry = (*findItor).second;
+		return entry.type;
+	}
+
+	// Check if the SUI has been banned
+	std::map<std::string, BannedEntry>::iterator findItor2 = 
+		bannedSUIs_.find(SUI);
+	if (findItor2 != bannedSUIs_.end())
+	{
+		BannedEntry &entry = (*findItor2).second;
 		return entry.type;
 	}
 
@@ -174,16 +186,16 @@ ServerBanned::BannedType ServerBanned::getBanned(
 }
 
 void ServerBanned::addBanned(unsigned int ip, const char *name, 
-	const char *uniqueId, BannedType type, 
+	const char *uniqueId, const char *SUI, BannedType type, 
 	const char *adminname, const char *reason)
 {
 	unsigned int t = (unsigned int) time(0);
-	addBannedEntry(ip, UINT_MAX, name, uniqueId, t, type, adminname, reason);
+	addBannedEntry(ip, UINT_MAX, name, uniqueId, SUI, t, type, adminname, reason);
 	save();
 }
 
 void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
-	const char *name, const char *uniqueId, unsigned int bantime, BannedType type,
+	const char *name, const char *uniqueId, const char *SUid, unsigned int bantime, BannedType type,
 	const char *adminname, const char *reason)
 {
 	unsigned int newip = mask & ip;
@@ -192,6 +204,7 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
 	newEntry.bantime = bantime;
 	newEntry.type = type;
 	newEntry.uniqueid = uniqueId;
+	newEntry.SUI = SUid;
 	newEntry.adminname = adminname;
 	newEntry.reason = reason;
 
@@ -229,6 +242,17 @@ void ServerBanned::addBannedEntry(unsigned int ip, unsigned int mask,
 			bannedIds_[uniqueId] = newEntry;
 		}
 	}
+
+ 	// Add SUI to list of banned SUIs
+ 	if (SUid[0])
+ 	{
+ 		std::map<std::string, BannedEntry>::iterator findItor2 = 
+			bannedSUIs_.find(SUid);
+ 		if (findItor2 == bannedSUIs_.end())
+ 		{
+ 			bannedSUIs_[SUid] = newEntry;
+ 		} 		
+ 	}
 }
 
 const char *ServerBanned::getBannedTypeStr(BannedType type)
@@ -295,6 +319,9 @@ bool ServerBanned::save()
 			optionNode->addParameter(new XMLNode("id", 
 					entry.uniqueid.c_str(),
 					XMLNode::XMLParameterType));
+			optionNode->addParameter(new XMLNode("SUI",
+ 					entry.SUI.c_str(),
+ 					XMLNode::XMLParameterType));
 			optionNode->addParameter(new XMLNode("adminname", 
 					entry.adminname.c_str(),
 					XMLNode::XMLParameterType));

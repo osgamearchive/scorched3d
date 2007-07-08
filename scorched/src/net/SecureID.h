@@ -18,38 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_SecureIDh_INCLUDE__)
+#define __INCLUDE_SecureIDh_INCLUDE__
 
-#if !defined(__INCLUDE_ServerConnectHandlerh_INCLUDE__)
-#define __INCLUDE_ServerConnectHandlerh_INCLUDE__
+#include <string>
+#include <common/sha2.h>
 
-#include <coms/ComsMessageHandler.h>
-
-class ServerConnectHandler : 
-	public ComsMessageHandlerI
+class SecureID
 {
+    sha2 shacalc;
+    std::string GetPrivateKey(void);
+    std::string MakeID (std::string ServerAddress);
 public:
-	static ServerConnectHandler *instance();
 
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
-
-protected:
-	static ServerConnectHandler *instance_;
-
-	void addNextTank(unsigned int destinationId,
-		unsigned int ipAddress,
-		const char *uniqueId,
-		const char *SUI,
-		const char *hostDesc,
-		bool extraSpectator);
-
-private:
-	ServerConnectHandler();
-	virtual ~ServerConnectHandler();
-
+    std::string getSecureID(unsigned int ip);
 };
 
-
-#endif
+#endif // __INCLUDE_SecureIDh_INCLUDE__

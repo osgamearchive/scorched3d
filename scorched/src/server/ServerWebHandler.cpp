@@ -553,12 +553,13 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 			std::string cleanName;
 			XMLNode::removeSpecialChars(entry.name, cleanName);
 			banned += formatString("<tr><td>%s</td><td>%s</td><td>%s</td>"
-				"<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
+				"<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>"
 				"<td><input type=\"checkbox\" name=\"selected\" value=\"%s\"></td>" // Select
 				"</tr>",
 				(entry.bantime?ctime(&entry.bantime):""),
 				cleanName.c_str(),
 				entry.uniqueid.c_str(),
+				entry.SUI.c_str(),
 				ServerBanned::getBannedTypeStr(entry.type),
 				ipName.c_str(), mask.c_str(),
 				entry.adminname.c_str(), entry.reason.c_str(),
