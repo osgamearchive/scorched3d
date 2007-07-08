@@ -36,6 +36,7 @@ public:
 	Vector &getSize() { return size_; }
 
 	virtual bool inShield(Vector &offset);
+	virtual bool tankInShield(Vector &offset);
 	virtual ShieldType getShieldType();
 	virtual bool getRound() { return false; }
 	virtual float getBoundingSize() { return size_.Max(); }

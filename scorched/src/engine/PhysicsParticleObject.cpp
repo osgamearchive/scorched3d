@@ -212,22 +212,25 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 		{
 			shotShieldHit(target);
 
-			Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
-			switch (shield->getShieldType())
+			if (target->getShield().getCurrentShield()) // shotShieldHit may have removed shield
 			{
-			case Shield::ShieldTypeRoundNormal:
-			case Shield::ShieldTypeSquareNormal:
-				return CollisionActionCollision;
-			case Shield::ShieldTypeRoundReflective:
-			case Shield::ShieldTypeSquareReflective:
-				return CollisionActionBounce;
-			case Shield::ShieldTypeRoundMag:
+				Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
+				switch (shield->getShieldType())
 				{
-					ShieldRoundMag *magShield = (ShieldRoundMag *) shield;
-					Vector force(0.0f, 0.0f, magShield->getDeflectPower() / 50.0f);
-					velocity_ += force;
+				case Shield::ShieldTypeRoundNormal:
+				case Shield::ShieldTypeSquareNormal:
+					return CollisionActionCollision;
+				case Shield::ShieldTypeRoundReflective:
+				case Shield::ShieldTypeSquareReflective:
+					return CollisionActionBounce;
+				case Shield::ShieldTypeRoundMag:
+					{
+						ShieldRoundMag *magShield = (ShieldRoundMag *) shield;
+						Vector force(0.0f, 0.0f, magShield->getDeflectPower() / 50.0f);
+						velocity_ += force;
+					}
+					return CollisionActionNone;
 				}
-				return CollisionActionNone;
 			}
 		}
 		break;
@@ -444,7 +447,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	{
 		Vector offset = shotTank->getPosition().getTankPosition() -
 			target->getLife().getTargetPosition();
-		if (shield->inShield(offset))
+		if (shield->tankInShield(offset))
 		{
 			// We can ignore this shield as this tank is in the shield
 			return false;

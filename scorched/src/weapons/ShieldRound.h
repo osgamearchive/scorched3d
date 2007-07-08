@@ -38,6 +38,7 @@ public:
 	bool getGlow() { return glow_; }
 
 	virtual bool inShield(Vector &offset);
+	virtual bool tankInShield(Vector &offset);
 	virtual ShieldType getShieldType();
 	virtual bool getRound() { return true; }
 	virtual float getBoundingSize() { return radius_; }

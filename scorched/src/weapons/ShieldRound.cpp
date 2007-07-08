@@ -55,6 +55,15 @@ bool ShieldRound::inShield(Vector &offset)
 	return false;
 }
 
+bool ShieldRound::tankInShield(Vector &offset)
+{
+	if (offset.Magnitude() <= radius_)
+	{
+		return true;
+	}
+	return false;
+}
+
 bool ShieldRound::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	if (!Shield::parseXML(context, accessoryNode)) return false;

@@ -46,6 +46,11 @@ bool ShieldSquare::inShield(Vector &offset)
 		offset[2] < +size_[2];
 }
 
+bool ShieldSquare::tankInShield(Vector &offset)
+{
+	return inShield(offset);
+}
+
 bool ShieldSquare::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode)
 {
 	if (!Shield::parseXML(context, accessoryNode)) return false;
