@@ -35,6 +35,8 @@ public:
 	void showText(const ChannelText &text);
 	void sendText(const ChannelText &text);
 
+	std::set<unsigned int> &getMutedPlayers() { return mutedPlayers_; }
+
 	bool registerClient(ClientChannelManagerI *reciever,
 		std::list<std::string> &channels);
 	bool deregisterClient(ClientChannelManagerI *reciever);
@@ -65,6 +67,7 @@ protected:
 		std::set<std::string> channels_;
 	};
 
+	std::set<unsigned int> mutedPlayers_;
 	std::map<unsigned int, ChannelEntry *> recievers_;
 	unsigned int getChannelEntry(ClientChannelManagerI *reciever);
 	void say(std::list<GLConsoleRuleSplit> list);

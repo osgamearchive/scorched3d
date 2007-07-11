@@ -91,9 +91,9 @@ char *StatsLoggerFile::allocateId()
 	return buffer;
 }
 
-char *StatsLoggerFile::getStatsId(Tank *tank)
+unsigned int StatsLoggerFile::getStatsId(const char *uniqueId)
 {
-	return "";
+	return 0;
 }
 
 char *StatsLoggerFile::getTopRanks()

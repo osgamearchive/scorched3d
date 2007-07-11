@@ -43,7 +43,7 @@ public:
 	virtual void updateStats(Tank *tank) = 0;
 	virtual void periodicUpdate() = 0;
 	virtual char *allocateId() = 0;
-	virtual char *getStatsId(Tank *tank) = 0;
+	virtual unsigned int getStatsId(const char *uniqueId) = 0;
 	virtual char *getTopRanks() = 0;
 	virtual char *getPlayerInfo(const char *player) = 0;
 	virtual void combinePlayers(unsigned int player1, unsigned int player2) = 0;
@@ -88,7 +88,7 @@ public:
 	virtual void updateStats(Tank *tank) {}
 	virtual void periodicUpdate() {}
 	virtual char *allocateId() { return ""; }
-	virtual char *getStatsId(Tank *tank) { return ""; }
+	virtual unsigned int getStatsId(const char *uniqueId) { return 0; }
 	virtual char *getTopRanks() { return ""; }
 	virtual char *getPlayerInfo(const char *player) { return ""; }
 	virtual void combinePlayers(unsigned int player1, unsigned int player2) {}

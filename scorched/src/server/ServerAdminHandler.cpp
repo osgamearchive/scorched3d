@@ -140,11 +140,11 @@ bool ServerAdminHandler::processMessage(
 				Tank *tank = (*itor).second;
 
 				result += 
-					formatString("%i \"%s\" \"%s\" \"%s\" %s \n",
+					formatString("%i \"%s\" \"%s\" \"%u\" %s \n",
 						tank->getPlayerId(), 
 						tank->getName(),
 						NetInterface::getIpName(tank->getIpAddress()),
-						StatsLogger::instance()->getStatsId(tank),
+						StatsLogger::instance()->getStatsId(tank->getUniqueId()),
 						(tank->getState().getMuted()?"Muted":"Not Muted"));
 			}
 			result +=

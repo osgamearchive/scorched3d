@@ -823,14 +823,12 @@ int StatsLoggerDatabase::getPlayerId(const char *uniqueId)
 	return playerId;
 }
 
-char *StatsLoggerDatabase::getStatsId(Tank *tank)
+unsigned int StatsLoggerDatabase::getStatsId(const char *uniqueId)
 {
 	createLogger();
-	if (!success_) return "";
-	int id = getPlayerId(tank->getUniqueId());
-	static char buffer[25];
-	snprintf(buffer, 25, "%i", id);
-	return buffer;
+	if (!success_) return 0;
+	int id = getPlayerId(uniqueId);
+	return id;
 }
 
 char *StatsLoggerDatabase::allocateId() 

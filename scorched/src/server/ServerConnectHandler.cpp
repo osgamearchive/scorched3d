@@ -370,6 +370,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 		color = TankColorGenerator::instance()->getNextColor(
 			ScorchedServer::instance()->getTankContainer().getPlayingTanks());
 		tankId = TankAIAdder::getNextTankId(
+			sentUniqueId,
 			ScorchedServer::instance()->getContext());
 	}
 

@@ -20,6 +20,7 @@
 
 #include <client/ScorchedClient.h>
 #include <client/ClientAddPlayerHandler.h>
+#include <client/ClientChannelManager.h>
 #include <coms/ComsAddPlayerMessage.h>
 #include <common/Logger.h>
 #include <tank/TankContainer.h>
@@ -82,8 +83,13 @@ bool ClientAddPlayerHandler::processMessage(
 		tank->getState().setSpectator(true);
 		ScorchedClient::instance()->getTankContainer().addTank(tank);
 
-		Logger::log(
-			formatString("Existing tank connected \"%s\"", tank->getName()));
+		if (ClientChannelManager::instance()->getMutedPlayers().find(tank->getPlayerId())
+			!= ClientChannelManager::instance()->getMutedPlayers().end())
+		{
+			tank->getState().setMuted(true);
+		}
+
+		Logger::log(formatString("Tank connected \"%s\"", tank->getName()));
 	}
 	else
 	{

@@ -112,7 +112,7 @@ bool ComsTargetStateMessage::readMessage(NetBufferReader &reader)
 		}
 		else
 		{
-			if (playerId > TankAIAdder::MAX_TANK_ID)
+			if (playerId >= TankAIAdder::MIN_TARGET_ID)
 			{
 				target = new Target(
 					playerId, "", 

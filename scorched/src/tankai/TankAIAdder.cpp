@@ -38,29 +38,39 @@
 #include <common/StatsLogger.h>
 #include <common/Defines.h>
 
-static unsigned int tankId_ = TankAIAdder::MIN_TANK_ID;
-
-unsigned int TankAIAdder::getNextTankId(ScorchedContext &context)
+unsigned int TankAIAdder::getNextTankId(const char *uniqueId, ScorchedContext &context)
 {
-	if (++tankId_ >= MAX_TANK_ID) tankId_ = MIN_TANK_ID;
-
-	while (context.targetContainer->getTargetById(tankId_))
+	// Try to use the persistent stats id
+	if (uniqueId[0])
 	{
-		++tankId_;
+		unsigned int id = StatsLogger::instance()->getStatsId(uniqueId);
+		if (id != 0 &&
+			!context.targetContainer->getTargetById(id))
+		{
+			DIALOG_ASSERT(id >= MIN_TANK_ID && id <= MAX_TANK_ID);
+			return id;
+		}
 	}
 
-	return tankId_;
-}
+	// Get the transient id
+	static unsigned int id = START_TRANSIENT_TANK_ID;
+	while (context.targetContainer->getTargetById(id))
+	{
+		++id;
+		if (id >= MAX_TANK_ID) id = START_TRANSIENT_TANK_ID;
+	}
 
-static unsigned int targetId_ = TankAIAdder::MIN_TARGET_ID;
+	DIALOG_ASSERT(id >= START_TRANSIENT_TANK_ID && id <= MAX_TANK_ID);
+	return id;
+}
 
 unsigned int TankAIAdder::getNextTargetId(ScorchedContext &context)
 {
-	if (++targetId_ >= MAX_TARGET_ID) targetId_ = MIN_TARGET_ID;
-
+	unsigned int targetId_ = TankAIAdder::MIN_TARGET_TRANSIENT_ID;
 	while (context.targetContainer->getTargetById(targetId_))
 	{
 		++targetId_;
+		if (targetId_ >= MAX_TARGET_ID) targetId_ = MIN_TARGET_TRANSIENT_ID;
 	}
 
 	return targetId_;
@@ -138,7 +148,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		// Create the new tank
 		Tank *tank = new Tank(
 			context.getContext(),
-			getNextTankId(context.getContext()),
+			getNextTankId(uniqueId, context.getContext()),
 			0,
 			newname.c_str(),
 			color,

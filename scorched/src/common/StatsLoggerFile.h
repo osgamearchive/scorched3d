@@ -40,7 +40,7 @@ public:
 	virtual void updateStats(Tank *tank);
 	virtual void periodicUpdate();
 	virtual char *allocateId();
-	virtual char *getStatsId(Tank *tank);
+	virtual unsigned int getStatsId(const char *uniqueId);
 	virtual char *getTopRanks();
 	virtual char *getPlayerInfo(const char *player);
 	virtual void combinePlayers(unsigned int player1, unsigned int player2);

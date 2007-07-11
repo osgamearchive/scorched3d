@@ -542,8 +542,21 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 			Tank *tank = 
 				ScorchedClient::instance()->getTankContainer().
 					getTankByName(entry->getDataText());
-			if (tank) tank->getState().setMuted(
-				!tank->getState().getMuted());
+			if (tank) 
+			{
+				if (tank->getState().getMuted()) 
+				{
+					tank->getState().setMuted(false);
+					ClientChannelManager::instance()->getMutedPlayers().erase(
+						tank->getPlayerId());
+				}
+				else
+				{
+					tank->getState().setMuted(true);
+					ClientChannelManager::instance()->getMutedPlayers().insert(
+						tank->getPlayerId());
+				}
+			}
 		}
 		break;
 	case eWhisperSelectorStart:
