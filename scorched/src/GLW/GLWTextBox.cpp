@@ -81,6 +81,9 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 {
 	if (!current_) return;
 
+	// By default swallow all text
+	skipRest = true;
+
 	for (int i=0; i<hisCount; i++)
 	{
 		char c = history[i].representedKey;
@@ -92,12 +95,9 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 				text_ = text_.substr(0, text_.length() - 1);
 				if (handler_) handler_->textChanged(id_, text_.c_str());
 			}
-			skipRest = true;
 		}
 		else if (dik == SDLK_TAB)
 		{
-			skipRest = true;
-
 			// Find all text boxes in scope
 			unsigned int position = 0;
 			std::vector<GLWTextBox *> textBoxes;
@@ -130,7 +130,10 @@ void GLWTextBox::keyDown(char *buffer, unsigned int keyState,
 				text_ += c;
 				if (handler_) handler_->textChanged(id_, text_.c_str());
 			}
-			skipRest = true;
+		}
+		else 
+		{
+			skipRest = false; // Don't swallow return or escape
 		}
 	}
 }
