@@ -24,10 +24,10 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 {
 	{
 	// Display settings
-	wxStaticBox *displayBox = new wxStaticBox(parent, -1, wxT("Display"));
+	wxStaticBox *displayBox = new wxStaticBox(parent, -1, wxT("&Display"));
 	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(displayBox, wxVERTICAL);
 	wxFlexGridSizer *displaySizer2 = new wxFlexGridSizer(2, 3, 5, 5);
-	wxStaticText *resText = new wxStaticText(parent, -1, wxT("Resolution :"));
+	wxStaticText *resText = new wxStaticText(parent, -1, wxT("&Resolution :"));
 	IDC_DISPLAY_CTRL = 
 		new wxComboBox(parent, -1,
 		wxT(""),
@@ -40,7 +40,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer2->Add(resText, 0, wxALIGN_CENTER_VERTICAL);
 	displaySizer2->Add(IDC_DISPLAY_CTRL, 0);
 	displaySizer2->Add(IDC_FULLSCREEN_CTRL, 0, wxALIGN_CENTRE_VERTICAL);
-	wxStaticText *brightText = new wxStaticText(parent, -1, wxT("Brightness :"));
+	wxStaticText *brightText = new wxStaticText(parent, -1, wxT("&Brightness :"));
 	IDC_SLIDER1_CTRL = 
 		new wxSlider(parent, -1,
 		0,0,0,
@@ -52,6 +52,8 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	displaySizer->Add(displaySizer2, 0);
 
 	wxFlexGridSizer *displaySizer3 = new wxFlexGridSizer(1, 7, 5, 5);
+
+	displaySizer3->Add(new wxStaticText(parent, -1, wxT("&Dialog/Font Sizes :")));
 	IDC_TINYDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Tiny"), 
 		wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	IDC_SMALLDIALOGS_CTRL = new wxRadioButton(parent, -1, wxT("Small"));
@@ -60,8 +62,6 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
         wxStaticText *frameLimitText = new wxStaticText(parent, -1, wxT("     Limit Framerate :"));
 	IDC_FRAMELIMIT_CTRL = 
 		new wxTextCtrl(parent, -1, wxString(), wxDefaultPosition, wxSize(60, -1));
-
-	displaySizer3->Add(new wxStaticText(parent, -1, wxT("Dialog/Font Sizes :")));
 	displaySizer3->Add(IDC_TINYDIALOGS_CTRL);
 	displaySizer3->Add(IDC_SMALLDIALOGS_CTRL);
 	displaySizer3->Add(IDC_MEDIUMDIALOGS_CTRL);
@@ -86,24 +86,13 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 
 	{
 	// Sound settings
-	wxStaticBox *soundBox = new wxStaticBox(parent, -1, wxT("Sound"));
+	wxStaticBox *soundBox = new wxStaticBox(parent, -1, wxT("&Sound"));
 	wxStaticBoxSizer *soundSizerMain = new wxStaticBoxSizer(soundBox, wxVERTICAL);
 	wxFlexGridSizer *soundSizer1 = new wxFlexGridSizer(4, 2);
 	wxGridSizer *soundSizer2 = new wxGridSizer(3, 3, 10, 10);
 	wxStaticText *volumeText = new wxStaticText(parent, -1, wxT("Sound Volume :"));
 	wxStaticText *musicVolumeText = new wxStaticText(parent, -1, wxT("Music Volume :"));
-	IDC_NOAMBIENTSOUND_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No Ambient Sound"));
-	IDC_NOMUSIC_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No Music"));
-	IDC_NOSOUND_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No Sound"));
 	IDC_VOLUME_CTRL = 
-		new wxSlider(parent, -1,
-		0,0,0,
-		wxDefaultPosition, wxSize(315, -1),
-		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
-	IDC_MUSICVOLUME_CTRL = 
 		new wxSlider(parent, -1,
 		0,0,0,
 		wxDefaultPosition, wxSize(315, -1),
@@ -113,6 +102,17 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 			wxT(""),
 			wxDefaultPosition, wxSize(55, -1),
 			0, 0, wxCB_READONLY);
+	IDC_MUSICVOLUME_CTRL = 
+		new wxSlider(parent, -1,
+		0,0,0,
+		wxDefaultPosition, wxSize(315, -1),
+		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
+	IDC_NOSOUND_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No Sound"));
+	IDC_NOAMBIENTSOUND_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No Ambient Sound"));
+	IDC_NOMUSIC_CTRL = 
+		new wxCheckBox(parent, -1, wxT("No Music"));
 	soundSizer1->Add(volumeText, 0, wxRIGHT, 10);
 	soundSizer1->Add(IDC_VOLUME_CTRL, 0, wxRIGHT, 10);
 	soundSizer1->Add(IDC_SOUNDCHANNELS_CTRL, 0, wxRIGHT, 5);
@@ -170,7 +170,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	{
 	// Load settings
 	wxGridSizer *loadSizer = new wxFlexGridSizer(2, 2);
-	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, wxT("Normal Options"), wxDefaultPosition, wxSize(120,-1));
+	IDC_LOADDEFAULTS_CTRL = new wxButton(parent, ID_LOADDEFAULTS, wxT("&Normal Options"), wxDefaultPosition, wxSize(120,-1));
 	IDC_LOADFASTEST_CTRL = new wxButton(parent, ID_LOADFASTEST, wxT("Fastest Options"), wxDefaultPosition, wxSize(120,-1));
 	IDC_LOADSAFE_CTRL = new wxButton(parent, ID_LOADSAFE, wxT("Safe Options"), wxDefaultPosition, wxSize(120,-1));
 	loadSizer->Add(IDC_LOADDEFAULTS_CTRL, 0, wxALL, 2);

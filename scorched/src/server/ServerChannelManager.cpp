@@ -157,6 +157,8 @@ ServerChannelManager::ServerChannelManager() :
 
 	// Create some default channels
 	channelEntries_.push_back(new ChannelEntry(
+		ChannelDefinition("announce", ChannelDefinition::eReadOnlyChannel)));
+	channelEntries_.push_back(new ChannelEntry(
 		ChannelDefinition("info", ChannelDefinition::eReadOnlyChannel)));
 	channelEntries_.push_back(new ChannelEntry(
 		ChannelDefinition("general")));

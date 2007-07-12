@@ -22,6 +22,7 @@
 #include <common/Logger.h>
 #include <common/Defines.h>
 #include <server/ServerTimedMessage.h>
+#include <server/ServerChannelManager.h>
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
 #include <server/ServerState.h>
@@ -76,7 +77,10 @@ void ServerTimedMessage::checkEntries(time_t currentTime)
 			   reasonable safe, although it would be better to just
 			   always prefix times-messages with the ctime and to not
 			   interpreted user supplied data this way. */
-			ServerCommon::sendString(0, formatString(message.c_str(), ctime(&currentTime)));
+
+			ChannelText textMessage("announce", 
+				formatString(message.c_str(), ctime(&currentTime)));
+			ServerChannelManager::instance()->sendText(textMessage);
 			entry.messages.pop_front();
 			entry.messages.push_back(message);
 		}

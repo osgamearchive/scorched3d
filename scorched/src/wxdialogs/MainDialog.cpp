@@ -227,7 +227,7 @@ END_EVENT_TABLE()
 MainFrame::MainFrame() :
 	wxFrame((wxFrame *)NULL, -1, wxString(scorched3dAppName, wxConvUTF8), 
 		wxDefaultPosition, wxDefaultSize,
-		wxMINIMIZE_BOX | wxCAPTION),
+		wxMINIMIZE_BOX | wxCAPTION | wxSYSTEM_MENU),
 	mouseX_(0), mouseY_(0), lastPos_(-1)
 {
 	if (!messageMutex_) messageMutex_ = SDL_CreateMutex();

@@ -112,6 +112,9 @@ Added: dampenvelocity tag to control amount of inertia given to rollers with mai
 Added: Different and more explosion textures
 Added: Explosion mode is always animate (noanimate tag added to WeaponExplosion)
 Added: Teleport animation
+Added: Server looped messages are sent on the announce channel so they can be turned off
+Added: Servers with stats support with always give the same players the same player id
+Added: Players that are muted and then leave and rejoin are still muted when stats support is enabled
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

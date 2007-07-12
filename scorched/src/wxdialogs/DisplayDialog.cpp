@@ -109,9 +109,16 @@ DisplayFrame::DisplayFrame() :
 	book_->AddPage(mainPanel_, wxT("Main"));
 	wxSizer *mainPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createMainControls(mainPanel_, mainPanelSizer);
+
+	wxString settingsFile(formatString("Settings Dir : %s", 
+			getSettingsFile("")), wxConvUTF8);
+	settingsFile.Replace(wxT("//"), wxT("/"));
+#ifdef _WIN32
+	settingsFile.Replace(wxT("/"), wxT("\\"));
+#endif
+
 	mainPanelSizer->Add(new wxStaticText(
-		mainPanel_, -1,wxString(formatString("Settings Dir : %s", 
-		getSettingsFile("")), wxConvUTF8)), 0, wxTOP, 10);
+		mainPanel_, -1, settingsFile), 0, wxTOP, 10);
 	mainPanel_->SetAutoLayout(TRUE);
 	mainPanel_->SetSizer(mainPanelSizer);
 	
@@ -119,7 +126,7 @@ DisplayFrame::DisplayFrame() :
 	troublePanel_ = new wxPanel(book_, -1);
 	wxSizer *troublePanelSizer = new wxBoxSizer(wxVERTICAL);
 	createTroubleControls(troublePanel_, troublePanelSizer);
-	book_->AddPage(troublePanel_, wxT("Troubleshooting / Detail"));
+	book_->AddPage(troublePanel_, wxT("&Troubleshooting / Detail"));
 	troublePanel_->SetAutoLayout(TRUE);
 	troublePanel_->SetSizer(troublePanelSizer);
 
@@ -127,7 +134,7 @@ DisplayFrame::DisplayFrame() :
 	keysPanel_ = new wxPanel(book_, -1);
 	wxSizer *keysPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createKeysControls(keysPanel_, keysPanelSizer);
-	book_->AddPage(keysPanel_, wxT("Keys"));
+	book_->AddPage(keysPanel_, wxT("&Keys"));
 	keysPanel_->SetAutoLayout(TRUE);
 #if wxCHECK_VERSION(2,6,0)
 	keysPanel_->SetSizer(keysPanelSizer);
@@ -142,7 +149,7 @@ DisplayFrame::DisplayFrame() :
 	identPanel_ = new wxPanel(book_, ID_PANEL_IDENT);
 	wxSizer *identPanelSizer = new wxBoxSizer(wxVERTICAL);
 	createIdentControls(identPanel_, identPanelSizer);
-	book_->AddPage(identPanel_, wxT("Identity"));
+	book_->AddPage(identPanel_, wxT("&Identity"));
 	identPanel_->SetAutoLayout(TRUE);
 	identPanel_->SetSizer(identPanelSizer);
 
@@ -150,7 +157,7 @@ DisplayFrame::DisplayFrame() :
 	modsPanel_ = new wxPanel(book_, -1);
     wxSizer *modsPanelSizer = new wxBoxSizer(wxVERTICAL);
     createModsControls(modsPanel_, modsPanelSizer);
-    book_->AddPage(modsPanel_, wxT("Mods"));
+    book_->AddPage(modsPanel_, wxT("&Mods"));
     modsPanel_->SetAutoLayout(TRUE);
     modsPanel_->SetSizer(modsPanelSizer);
 
@@ -159,8 +166,8 @@ DisplayFrame::DisplayFrame() :
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDOK_CTRL = new wxButton(this, wxID_OK, wxT("Ok"));
-	IDCANCEL_CTRL = new wxButton(this, wxID_CANCEL, wxT("Cancel"));
+	IDCANCEL_CTRL = new wxButton(this, wxID_CANCEL, wxT("&Cancel"));
+	IDOK_CTRL = new wxButton(this, wxID_OK, wxT("&Ok"));
 	buttonSizer->Add(IDCANCEL_CTRL, 0, wxRIGHT, 5);
 	buttonSizer->Add(IDOK_CTRL, 0, wxLEFT, 5);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);

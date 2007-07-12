@@ -76,10 +76,15 @@
 					</talkkey>
 					<textsound>data/wav/misc/text.wav</textsound>
 					<defaultchannel>general</defaultchannel>
+					<channel>announce</channel>
 					<channel>info</channel>
 					<channel>general</channel>
 					<channel>team</channel>
 					<channel>whisper</channel>
+					<channelcolor>
+						<channel>announce</channel>
+						<color><A>0.8</A><B>0.8</B><C>0.8</C></color>
+					</channelcolor>
 					<channelcolor>
 						<channel>info</channel>
 						<color><A>0.8</A><B>0.8</B><C>0.8</C></color>

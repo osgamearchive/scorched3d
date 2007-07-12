@@ -111,8 +111,8 @@ static void createControls(wxWindow *parent,
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	IDOK_CTRL = new wxButton(parent, wxID_OK, wxT("Start Server"));
 	IDCANCEL_CTRL = new wxButton(parent, wxID_CANCEL, wxT("Cancel"));
+	IDOK_CTRL = new wxButton(parent, wxID_OK, wxT("Start Server"));
 	buttonSizer->Add(IDCANCEL_CTRL, 0, wxALL, 10);
 	buttonSizer->Add(IDOK_CTRL, 0, wxALL, 10);
 	sizer->Add(buttonSizer, 0, wxALIGN_RIGHT);

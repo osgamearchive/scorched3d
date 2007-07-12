@@ -461,8 +461,8 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 
 	// Ok and cancel boxes
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *okButton = new wxButton(this, wxID_OK, wxT("Ok"));
-	wxButton *cancelButton = new wxButton(this, wxID_CANCEL, wxT("Cancel"));
+	wxButton *cancelButton = new wxButton(this, wxID_CANCEL, wxT("&Cancel"));
+	wxButton *okButton = new wxButton(this, wxID_OK, wxT("&Ok"));
 	buttonSizer->Add(cancelButton, 0, wxALL, 10);
 	buttonSizer->Add(okButton, 0, wxALL, 10);
 	topsizer->Add(buttonSizer, 0, wxALIGN_RIGHT);
