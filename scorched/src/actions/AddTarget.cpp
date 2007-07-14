@@ -22,16 +22,15 @@
 #include <engine/ScorchedContext.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
+#include <tankai/TankAIAdder.h>
 #include <weapons/AccessoryStore.h>
 #include <weapons/WeaponAddTarget.h>
 #include <weapons/Shield.h>
 #include <common/RandomGenerator.h>
 
-AddTarget::AddTarget(unsigned int playerId,
-	Vector &position,
+AddTarget::AddTarget(Vector &position,
 	WeaponAddTarget *addTarget) :
 	position_(position),
-	playerId_(playerId),
 	addTarget_(addTarget)
 {
 
@@ -47,10 +46,12 @@ void AddTarget::init()
 
 void AddTarget::simulate(float frameTime, bool &remove)
 {
+	unsigned int playerId = TankAIAdder::getNextTargetId(*context_);
+
 	RandomGenerator generator;
-	generator.seed(playerId_);
+	generator.seed(playerId);
 	Target *target = addTarget_->getTargetDefinition().createTarget(
-		playerId_, position_, Vector::nullVector, *context_, generator);
+		playerId, position_, Vector::nullVector, *context_, generator);
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall

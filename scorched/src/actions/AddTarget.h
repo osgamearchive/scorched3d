@@ -27,7 +27,7 @@ class WeaponAddTarget;
 class AddTarget : public ActionReferenced
 {
 public:
-	AddTarget(unsigned int playerId, Vector &position, WeaponAddTarget *addTarget);
+	AddTarget(Vector &position, WeaponAddTarget *addTarget);
 	virtual ~AddTarget();
 
 	virtual void init();
@@ -35,7 +35,6 @@ public:
 
 protected:
 	Vector position_;
-	unsigned int playerId_;
 	WeaponAddTarget *addTarget_;
 
 };

@@ -118,82 +118,77 @@ void PhysicsParticleObject::checkCollision()
 	collision.collisionId = CollisionIdNone;
 
 	// Find if we have had a collision
+	CollisionAction action = CollisionActionNone;
 	Target *target = context_->targetSpace->getCollision(position_);
-	if (getTargetBounceCollision(collision, target) ||
-		getTargetCollision(collision, target) ||
-		getShieldCollision(collision, target) ||
-		getLandscapeCollision(collision) ||
-		getRoofCollision(collision) ||
-		getWallCollision(collision))
+	switch (info_.type_)
 	{
-		/*SyncCheck::instance()->addString(*context_, 
-			formatString("Collision : %u %i P%f,%f,%f W%f,%f,%f N%f,%f,%f",
-				iterations_,
-				(int) collision.collisionId,
-				position_[0], position_[1], position_[2],
-				windFactor_[0], windFactor_[1], windFactor_[2],
-				collision.normal[0], collision.normal[1], collision.normal[2]));*/
-
-		// We have had a collision
-		// Check what each of these shot types does with different collision type
-		CollisionAction action = CollisionActionNone;
-		switch (info_.type_)
+	case ParticleTypeShot:
+		if (getTargetCollision(collision, target) ||
+			getShieldCollision(collision, target) ||
+			getLandscapeCollision(collision) ||
+			getRoofCollision(collision) ||
+			getWallCollision(collision)) 
 		{
-		case ParticleTypeShot:
 			action = checkShotCollision(collision, target);
-			break;
-		case ParticleTypeBounce:
+		}
+		break;
+	case ParticleTypeBounce:
+		if (getTargetBounceCollision(collision, target) ||
+			getTargetCollision(collision, target) ||
+			getShieldCollision(collision, target) ||
+			getLandscapeCollision(collision) ||
+			getWallCollision(collision))
+		{
 			action = checkBounceCollision(collision, target);
-			break;
-		case ParticleTypeFalling:
-			action = checkFallingCollision(collision, target);
-			break;
-		}
 
-		// Perform the result of the collision
-		switch (action)
-		{
-		case CollisionActionCollision:
-			handler_->collision(*this, collision.collisionId);
-			break;
-		case CollisionActionBounce:
-			{
-				float strength = velocity_.Magnitude();
-				Vector direction = velocity_ / strength;
-				float dotp = -collision.normal.dotP(direction);
-				direction = direction + collision.normal * (2.0f * dotp);
-				velocity_ = direction * strength * collision.deflectFactor;
-
-				float landHeight = 
-					context_->landscapeMaps->getGroundMaps().
-						getInterpHeight(position_[0], position_[1]);
-				float particleHeight = position_[2] - landHeight;
-				if (underGroundCollision_)
-				{
-					if (particleHeight > 0.5f) position_[2] = landHeight + 0.5f;
-				}
-				else
-				{
-					if (particleHeight < -0.5f) position_[2] = landHeight - 0.5f;
-				}
-
-				if (rotateOnCollision_)
-				{
-					Vector up(0.0f, 0.0f, -1.0f);
-					Vector rotAxis = velocity_ * up;
-					rotAxis.StoreNormalize();
-					avelocity_.setQuatFromAxisAndAngle(rotAxis, velocity_.Magnitude() * 5.0f);
-				}
-			}
-			break;
-		}
-	}
-	else
-	{
-		if (info_.type_ == ParticleTypeBounce)
-		{
 			velocity_[2] = MIN(velocity_[2], 10.0f);
 		}
+		break;
+	case ParticleTypeFalling:
+		if (getLandscapeCollision(collision) ||
+			getWallCollision(collision))
+		{
+			action = checkFallingCollision(collision, target);
+		}
+		break;
+	}	
+
+	// Perform the result of the collision (if any)
+	switch (action)
+	{
+	case CollisionActionCollision:
+		handler_->collision(*this, collision.collisionId);
+		break;
+	case CollisionActionBounce:
+		{
+			float strength = velocity_.Magnitude();
+			Vector direction = velocity_ / strength;
+			float dotp = -collision.normal.dotP(direction);
+			direction = direction + collision.normal * (2.0f * dotp);
+			velocity_ = direction * strength * collision.deflectFactor;
+
+			float landHeight = 
+				context_->landscapeMaps->getGroundMaps().
+					getInterpHeight(position_[0], position_[1]);
+			float particleHeight = position_[2] - landHeight;
+			if (underGroundCollision_)
+			{
+				if (particleHeight > 0.5f) position_[2] = landHeight + 0.5f;
+			}
+			else
+			{
+				if (particleHeight < -0.5f) position_[2] = landHeight - 0.5f;
+			}
+
+			if (rotateOnCollision_)
+			{
+				Vector up(0.0f, 0.0f, -1.0f);
+				Vector rotAxis = velocity_ * up;
+				rotAxis.StoreNormalize();
+				avelocity_.setQuatFromAxisAndAngle(rotAxis, velocity_.Magnitude() * 5.0f);
+			}
+		}
+		break;
 	}
 }
 
@@ -439,6 +434,12 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	Accessory *shieldAcc = target->getShield().getCurrentShield();			
 	if (!shieldAcc) return false;
 	Shield *shield = (Shield *) shieldAcc->getAction();
+
+	// Check if this is the shield of the current tank/target
+	if (target->getPlayerId() == info_.playerId_)
+	{
+		return false;
+	}
 
 	// Is this tank in the shield
 	// This should always be a tank as it is the one firing

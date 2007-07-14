@@ -19,14 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <weapons/WeaponAddTarget.h>
-#include <weapons/AccessoryStore.h>
-#include <common/Defines.h>
-#include <common/OptionsScorched.h>
 #include <actions/AddTarget.h>
 #include <engine/ActionController.h>
-#include <engine/ScorchedContext.h>
-#include <tankai/TankAIAdder.h>
-#include <landscapemap/LandscapeMaps.h>
 
 REGISTER_ACCESSORY_SOURCE(WeaponAddTarget);
 
@@ -47,7 +41,6 @@ bool WeaponAddTarget::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 void WeaponAddTarget::fireWeapon(ScorchedContext &context, 
 	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
 {
-	Action *action = new AddTarget(TankAIAdder::getNextTargetId(context), 
-		position, this);
+	Action *action = new AddTarget(position, this);
 	context.actionController->addAction(action);
 }
