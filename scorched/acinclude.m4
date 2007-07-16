@@ -388,7 +388,6 @@ AC_DEFUN([AM_PATH_WXCONFIG],
 # Configure paths for FreeType2
 # Marcelo Magallon 2001-10-26, based on gtk.m4 by Owen Taylor
 #
-# serial 2
 
 # AC_CHECK_FT2([MINIMUM-VERSION [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 # Test for FreeType 2, and define FT2_CFLAGS and FT2_LIBS.
