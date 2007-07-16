@@ -165,6 +165,17 @@ void Landscape::drawShadows()
 	shadowFrameBuffer_.bind();
 	glViewport(0, 0, shadowFrameBuffer_.getWidth(), shadowFrameBuffer_.getHeight());
 
+	// Reset depth buffer attributes
+	float originalDepthRange[2];
+	glGetFloatv(GL_DEPTH_RANGE, originalDepthRange);
+	int originalDepthFunc;
+	glGetIntegerv(GL_DEPTH_FUNC, &originalDepthFunc);
+	float originalClearDepth;
+	glGetFloatv(GL_DEPTH_CLEAR_VALUE, &originalClearDepth);
+	glDepthRange(0.0f, 1.0f);
+	glDepthFunc(GL_LESS);
+	glClearDepth(1.0f);
+
 	// Setup the view from the sun
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
@@ -246,6 +257,9 @@ void Landscape::drawShadows()
 
 	//restore states
     glColorMask(1, 1, 1, 1); 
+	glDepthRange(originalDepthRange[0], originalDepthRange[1]);
+	glDepthFunc(originalDepthFunc);
+	glClearDepth(originalClearDepth);
 
 	// Reset offset
 	glDisable(GL_POLYGON_OFFSET_FILL);
@@ -735,9 +749,22 @@ void Landscape::actualDrawLandTextured()
 
 void Landscape::actualDrawLandReflection()
 {
-	unsigned int state = GLState::BLEND_ON;
+	unsigned int state = GLState::BLEND_ON | GLState::LIGHTING_ON | GLState::LIGHT1_ON;
 	if (!OptionsDisplay::instance()->getUseLandscapeTexture()) state |= GLState::TEXTURE_OFF;
 	GLState glState(state);
+
+	Vector4 ambientColor(1.0f, 1.0f, 1.0f, 1.0f);
+	Vector4 diffuseColor(0.0f, 0.0f, 0.0f, 1.0f);
+	Vector4 specularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
+	float shininess = 1.0f;
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientColor);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseColor);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+
+	Landscape::instance()->getSky().getSun().setLightPosition();
 
 	if (OptionsDisplay::instance()->getUseLandscapeTexture())
 	{

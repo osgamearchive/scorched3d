@@ -76,6 +76,14 @@ void TargetRendererImplTargetModel::simulate(float frameTime)
 
 void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 {
+	// Don't draw the tank/target if we are drawing shadows and shadows are off
+	// for this target
+	if (shadowdraw &&
+		!target_->getTargetState().getDisplayShadow())
+	{
+		return;
+	}
+
 	// Check we can see the tank
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
