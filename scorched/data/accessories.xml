@@ -1751,32 +1751,20 @@ and shields damaging the tank directly.</description>
 		</accessoryaction>
 	</accessory>
         <accessory>
-                <name>TestUpdatePosition</name>
+                <name>TestWeaponPosition</name>
                 <armslevel>10</armslevel>
 		<maximumnumber>0</maximumnumber>
-                <description></description>
+                <description>Test Accessory for WeaponPosition</description>
                 <icon>bmissile.bmp</icon>
                 <startingnumber>-1</startingnumber>
                 <activationsound>shoot/small.wav</activationsound>
-		<accessoryaction type='WeaponProjectile'>
-                        <nocreateflame></nocreateflame>
-                        <projectilemodel type='MilkShape'>flare.txt</projectilemodel>
-                        <showendpoint></showendpoint>
-                        <showshotpath></showshotpath>
-			<timedcollision>0.50</timedcollision>
-                        <collisionaction type='WeaponRepeat'>
-				<repeat>10</repeat>
-				<delay>0.25</delay>
-				<repeatweapon type="WeaponRedirect">
-					<habs>false</habs>
-					<vabs>false</vabs>
-					<hredirect>10</hredirect>
-					<vredirect>0</vredirect>
-					<nextaction type="WeaponReference">
-						<weapon>Smoke Tracer</weapon>
-					</nextaction>
-				</repeatweapon>
-			</collisionaction>
+		<accessoryaction type='WeaponPosition'>
+			<position><a>128</a><b>128</b><c>66</c></position>
+			<positionoffset><a>33</a><b>33</b><c>33</c></positionoffset>
+			<!-- onground>true</onground -->
+                        <aimedweapon type='WeaponReference'>
+				<weapon>Smoke Tracer</weapon>
+			</aimedweapon>
 		</accessoryaction>
 	</accessory>
         <accessory>

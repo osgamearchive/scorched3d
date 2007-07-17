@@ -2939,6 +2939,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\weapons\WeaponPosition.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponPosition.h"
+				>
+			</File>
+			<File
 				RelativePath="..\weapons\WeaponProjectile.cpp"
 				>
 			</File>

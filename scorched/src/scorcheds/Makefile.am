@@ -663,6 +663,8 @@ scorched3ds_SOURCES = \
 	../weapons/WeaponNapalm.h \
 	../weapons/WeaponNull.cpp \
 	../weapons/WeaponNull.h \
+	../weapons/WeaponPosition.cpp \
+	../weapons/WeaponPosition.h \
 	../weapons/WeaponProjectile.cpp \
 	../weapons/WeaponProjectile.h \
 	../weapons/WeaponRandomChoice.cpp \
