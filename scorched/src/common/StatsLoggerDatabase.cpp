@@ -154,8 +154,8 @@ void StatsLoggerDatabase::createLogger()
 	if (!serverIdRows.empty())
 	{
 		std::list<StatsLoggerDatabase::RowResult>::iterator itor;
-		for (itor = prefixRows.begin();
-			itor != prefixRows.end();
+		for (itor = serverIdRows.begin();
+			itor != serverIdRows.end();
 			itor++)
 		{
 			StatsLoggerDatabase::RowResult &rowResult = (*itor);
@@ -182,8 +182,8 @@ void StatsLoggerDatabase::createLogger()
 	if (!seriesIdRows.empty())
 	{
 		std::list<StatsLoggerDatabase::RowResult>::iterator itor;
-		for (itor = prefixRows.begin();
-			itor != prefixRows.end();
+		for (itor = seriesIdRows.begin();
+			itor != seriesIdRows.end();
 			itor++)
 		{
 			StatsLoggerDatabase::RowResult &rowResult = (*itor);
@@ -226,8 +226,8 @@ void StatsLoggerDatabase::createLogger()
 		if (!weaponIdRows.empty())
 		{
 			std::list<StatsLoggerDatabase::RowResult>::iterator itor;
-			for (itor = prefixRows.begin();
-				itor != prefixRows.end();
+			for (itor = weaponIdRows.begin();
+				itor != weaponIdRows.end();
 				itor++)
 			{
 				StatsLoggerDatabase::RowResult &rowResult = (*itor);
