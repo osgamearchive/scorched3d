@@ -145,6 +145,8 @@ void Landscape::reset(ProgressCounter *counter)
 
 void Landscape::drawShadows()
 {	
+	if (!GLStateExtension::hasHardwareShadows()) return;
+
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_PRE");
 
 	// Turn off texturing
@@ -190,10 +192,8 @@ void Landscape::drawShadows()
 	GLCameraFrustum::instance()->draw(0);
 
 	// Save the matrixs used for the sun
-	static float lightModelMatrix[16];
-	static float lightProjMatrix[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX, lightModelMatrix);
-	glGetFloatv(GL_PROJECTION_MATRIX, lightProjMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, lightModelMatrix_);
+	glGetFloatv(GL_PROJECTION_MATRIX, lightProjMatrix_);
 
 	// Clear and setup the offset
     glClear(GL_DEPTH_BUFFER_BIT);
@@ -271,47 +271,6 @@ void Landscape::drawShadows()
 	MainCamera::instance()->getCamera().draw();
 	GLCameraFrustum::instance()->draw(0);
 
-	// Create texture matrix
-	static const float mNormalizeMatrix[] = 
-	{ 
-		0.5f, 0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 0.0f, 
-		0.0f, 0.0f, 0.5f, 0.0f, 
-		0.5f, 0.5f, 0.5f, 1.0f
-	};
-	static GLfloat modelMatrix[16], modelMatrixI[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX, modelMatrix);
-
-	// Copy and transpose
-	modelMatrixI[ 0] = modelMatrix[ 0];
-	modelMatrixI[ 4] = modelMatrix[ 1];
-	modelMatrixI[ 8] = modelMatrix[ 2];
-	modelMatrixI[ 1] = modelMatrix[ 4];
-	modelMatrixI[ 5] = modelMatrix[ 5];
-	modelMatrixI[ 9] = modelMatrix[ 6];
-	modelMatrixI[ 2] = modelMatrix[ 8];
-	modelMatrixI[ 6] = modelMatrix[ 9];
-	modelMatrixI[10] = modelMatrix[10];
-	modelMatrixI[ 3] = 0;
-	modelMatrixI[ 7] = 0;
-	modelMatrixI[11] = 0;
-	modelMatrixI[15] = modelMatrix[15];
-	
-	// Apply the inverse transformation
-	modelMatrixI[12] = modelMatrixI[0] * -modelMatrix[12] + modelMatrixI[4] * -modelMatrix[13] + modelMatrixI[ 8] * -modelMatrix[14];
-	modelMatrixI[13] = modelMatrixI[1] * -modelMatrix[12] + modelMatrixI[5] * -modelMatrix[13] + modelMatrixI[ 9] * -modelMatrix[14];
-	modelMatrixI[14] = modelMatrixI[2] * -modelMatrix[12] + modelMatrixI[6] * -modelMatrix[13] + modelMatrixI[10] * -modelMatrix[14];
-
-	// Create and save texture matrix
-	glMatrixMode(GL_TEXTURE);
-	glLoadMatrixf(mNormalizeMatrix);
-	glMultMatrixf(lightProjMatrix);
-	glMultMatrixf(lightModelMatrix);
-	glMultMatrixf(modelMatrixI);
-	glGetFloatv(GL_TEXTURE_MATRIX, shadowTextureMatrix_);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_POST");
 }
 
@@ -335,11 +294,6 @@ void Landscape::drawTearDown()
 
 void Landscape::drawLand()
 {
-	if (GLStateExtension::hasHardwareShadows())
-	{
-		drawShadows();
-	}
-
 	drawSetup();
 
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SKY");
@@ -775,9 +729,57 @@ void Landscape::actualDrawLandReflection()
 	patchGrid_->draw(PatchSide::typeTop);
 }
 
+void Landscape::createShadowMatrix()
+{
+	if (!GLStateExtension::hasHardwareShadows()) return;
+
+	// Create texture matrix
+	static const float mNormalizeMatrix[] = 
+	{ 
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 
+		0.0f, 0.0f, 0.5f, 0.0f, 
+		0.5f, 0.5f, 0.5f, 1.0f
+	};
+	static GLfloat modelMatrix[16], modelMatrixI[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelMatrix);
+
+	// Copy and transpose
+	modelMatrixI[ 0] = modelMatrix[ 0];
+	modelMatrixI[ 4] = modelMatrix[ 1];
+	modelMatrixI[ 8] = modelMatrix[ 2];
+	modelMatrixI[ 1] = modelMatrix[ 4];
+	modelMatrixI[ 5] = modelMatrix[ 5];
+	modelMatrixI[ 9] = modelMatrix[ 6];
+	modelMatrixI[ 2] = modelMatrix[ 8];
+	modelMatrixI[ 6] = modelMatrix[ 9];
+	modelMatrixI[10] = modelMatrix[10];
+	modelMatrixI[ 3] = 0;
+	modelMatrixI[ 7] = 0;
+	modelMatrixI[11] = 0;
+	modelMatrixI[15] = modelMatrix[15];
+	
+	// Apply the inverse transformation
+	modelMatrixI[12] = modelMatrixI[0] * -modelMatrix[12] + modelMatrixI[4] * -modelMatrix[13] + modelMatrixI[ 8] * -modelMatrix[14];
+	modelMatrixI[13] = modelMatrixI[1] * -modelMatrix[12] + modelMatrixI[5] * -modelMatrix[13] + modelMatrixI[ 9] * -modelMatrix[14];
+	modelMatrixI[14] = modelMatrixI[2] * -modelMatrix[12] + modelMatrixI[6] * -modelMatrix[13] + modelMatrixI[10] * -modelMatrix[14];
+
+	// Create and save texture matrix
+	glMatrixMode(GL_TEXTURE);
+	glLoadMatrixf(mNormalizeMatrix);
+	glMultMatrixf(lightProjMatrix_);
+	glMultMatrixf(lightModelMatrix_);
+	glMultMatrixf(modelMatrixI);
+	glGetFloatv(GL_TEXTURE_MATRIX, shadowTextureMatrix_);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+}
+
 void Landscape::actualDrawLandShader()
 {
 	GLState glState(GLState::TEXTURE_ON | GLState::DEPTH_ON);
+
+	createShadowMatrix();
 
 	getSky().getSun().setLightPosition(false);
 

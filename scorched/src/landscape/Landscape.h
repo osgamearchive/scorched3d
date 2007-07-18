@@ -129,6 +129,8 @@ protected:
 
 	// Shadow map
 	float shadowTextureMatrix_[16];
+	float lightModelMatrix_[16];
+	float lightProjMatrix_[16];
 	GLShadowFrameBuffer shadowFrameBuffer_;
 	GLSLShaderSetup *landShader_;
 	GLTexture colorDepthMap_;
@@ -142,6 +144,7 @@ protected:
 	void actualDrawLandTextured();
 	void actualDrawLandReflection();
 	void actualDrawLandShader();
+	void createShadowMatrix();
 
 	// Nasty, we really need some kind of viewport/rendering context
 	// that the current rendering state for the scene can be stored.
