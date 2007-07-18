@@ -56,7 +56,7 @@ bool WeaponPosition::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 	if (!accessoryNode->getNamedChild("position", position_)) return false;
 
 	// Optional random offset
-	accessoryNode->getNamedChild("positionoffset", positionOffset_);
+	accessoryNode->getNamedChild("positionoffset", positionOffset_, false);
 
 	// Force it to ground level
 	accessoryNode->getNamedChild("onground", onGround_, false);
