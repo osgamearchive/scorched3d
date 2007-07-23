@@ -22,7 +22,7 @@
 #define __INCLUDE_Water2Patchh_INCLUDE__
 
 #include <water/Water2PatchIndexs.h>
-#include <common/Vector.h>
+#include <water/Water2Constants.h>
 #include <vector>
 
 class GLVertexBufferObject;
@@ -39,7 +39,7 @@ public:
 		float nx, ny, nz;
 	};
 
-	void generate(std::vector<Vector> &heights,
+	void generate(Water2Points &heights,
 		int size, int totalSize,
 		int posX, int posY,
 		float waterHeight);

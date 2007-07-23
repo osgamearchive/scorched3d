@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_Water2Constantsh_INCLUDE__)
 #define __INCLUDE_Water2Constantsh_INCLUDE__
 
+#include <common/Vector.h>
+
 static inline float myfmod(float a, float b) { return a-floorf(a/b)*b; }//fmod is different for negative a/b
 
 static const float wave_tidecycle_time = 10.24f;
@@ -39,6 +41,19 @@ static const float VIRTUAL_PLANE_HEIGHT = 25.0f;
 
 #define REFRAC_COLOR_RES 32
 #define FRESNEL_FCT_RES 256
+
+class Water2Points
+{
+public:
+	Vector &getPoint(int x, int y)
+	{
+		DIALOG_ASSERT(x>=0 && y>=0 && x<wave_resolution && y<wave_resolution);
+		return points[x][y];
+	};
+
+private:
+	Vector points[wave_resolution][wave_resolution];
+};
 
 static inline float exact_fresnel(float x)
 {

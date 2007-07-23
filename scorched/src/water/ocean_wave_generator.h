@@ -83,12 +83,12 @@ public:
 	ocean_wave_generator(const ocean_wave_generator<T>& owg, int gridsize,
 			     int clearlowfreq = 0);
 	void set_time(T time);	// call this before any compute_*() function
-	void compute_heights(std::vector<T>& waveheights) const;
+	void compute_heights(Water2Points& waveheights) const;
 	// use this after height computation to avoid the overhead of fft normals
-	void compute_finite_normals(const std::vector<T>& heights, std::vector<Vector >& normals) const;
-	void compute_normals(std::vector<Vector >& wavenormals) const;
+	//void compute_finite_normals(const std::vector<T>& heights, std::vector<Vector >& normals) const;
+	//void compute_normals(std::vector<Vector >& wavenormals) const;
 	// give negative values to use default factor, positive for displacement scaling
-	void compute_displacements(const T& scalefac, std::vector<Vector >& wavedisplacements) const;
+	void compute_displacements(const T& scalefac, Water2Points& wavedisplacements) const;
 	~ocean_wave_generator();
 };
 
@@ -278,7 +278,7 @@ void ocean_wave_generator<T>::set_time(T time)
 }
 
 template <class T>
-void ocean_wave_generator<T>::compute_heights(std::vector<T>& waveheights) const
+void ocean_wave_generator<T>::compute_heights(Water2Points& waveheights) const
 {
 	// this loop is a bit overhead, we could store htilde already in a fft_complex array
 	// then we must transpose it, fftw has x*(N/2+1)+y, we use y*N+x
@@ -299,12 +299,13 @@ void ocean_wave_generator<T>::compute_heights(std::vector<T>& waveheights) const
 	// term: exp(I*pi*(x+y)) that is equal to (-1)^(x+y), so we have to adjust
 	// the sign at every second element in checkerboard form.
 	// we copy the result to the output array in parallel.
-	if (waveheights.size() != unsigned(N*N))
-		waveheights.resize(N*N);
 	T signs[2] = { T(1), T(-1) };
 	for (int y = 0; y < N; ++y)
 		for (int x = 0; x < N; ++x)
-			waveheights[y*N+x] = (T) fft_out[y*N+x] * signs[(x + y) & 1];
+		{
+			Vector &point = waveheights.getPoint(x, y);
+			point[2] = (T) fft_out[y*N+x] * signs[(x + y) & 1];
+		}
 }
 
 /*
@@ -373,7 +374,7 @@ void ocean_wave_generator<T>::compute_normals(std::vector<Vector >& wavenormals)
 
 template <class T>
 void ocean_wave_generator<T>::compute_displacements(const T& scalefac,
-						    std::vector<Vector >& wavedisplacements) const
+						    Water2Points& wavedisplacements) const
 {
 	for (int y = 0; y <= N/2; ++y) {
 		for (int x = 0; x < N; ++x) {
@@ -396,14 +397,15 @@ void ocean_wave_generator<T>::compute_displacements(const T& scalefac,
 	FFT_EXECUTE_PLAN(plan);
 	FFT_EXECUTE_PLAN(plan2);
 	
-	if (wavedisplacements.size() != unsigned(N*N))
-		wavedisplacements.resize(N*N);
 	T signs[2] = { T(1), T(-1) };
 	unsigned ptr = 0;
 	for (int y = 0; y < N; ++y) {
 		for (int x = 0; x < N; ++x) {
 			T s = signs[(x + y) & 1];
-			wavedisplacements[ptr] = Vector((T) fft_out[ptr], (T) fft_out2[ptr]) * s * scalefac;
+
+			Vector &point = wavedisplacements.getPoint(x, y);
+			point[0] = (T) fft_out[ptr] * s * scalefac;
+			point[1] = (T) fft_out2[ptr] * s * scalefac;
 			++ptr;
 		}
 	}

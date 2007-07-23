@@ -33,7 +33,7 @@ Water2Patches::~Water2Patches()
 	delete [] patches_;
 }
 
-void Water2Patches::generate(std::vector<Vector> &heights, 
+void Water2Patches::generate(Water2Points &heights, 
 	unsigned int totalSize, unsigned int patchSize,
 	float waterHeight)
 {

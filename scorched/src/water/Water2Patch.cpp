@@ -37,7 +37,7 @@ Water2Patch::~Water2Patch()
 	delete [] data_;
 }
 
-static Vector getPosition(std::vector<Vector> &heights, 
+static Vector getPosition(Water2Points &heights, 
 	int x, int y, int startX, int startY, int totalSize)
 {
 	int currentX = startX + x;
@@ -50,7 +50,7 @@ static Vector getPosition(std::vector<Vector> &heights,
 	int position = currentXNormalized + currentYNormalized * totalSize;
 	DIALOG_ASSERT(position >= 0 && position < totalSize * totalSize);
 
-	Vector &height = heights[position];
+	Vector &height = heights.getPoint(currentXNormalized, currentYNormalized);
 
 	Vector result(
 		height[0] + float(currentX) * 2.0f,
@@ -59,7 +59,7 @@ static Vector getPosition(std::vector<Vector> &heights,
 	return result;
 }
 
-void Water2Patch::generate(std::vector<Vector> &heights,
+void Water2Patch::generate(Water2Points &heights,
 	int size, int totalSize,
 	int posX, int posY,
 	float waterHeight)
@@ -70,31 +70,6 @@ void Water2Patch::generate(std::vector<Vector> &heights,
 	int startX = posX * size;
 	int startY = posY * size;
 
-	if (OptionsDisplay::instance()->getNoWaterMovement() ||
-		!OptionsDisplay::instance()->getDrawWater())
-	{
-		Data *data = data_;
-		for (int y=0; y<=size; y++)
-		{
-			for (int x=0; x<=size; x++, data++)
-			{
-				// Calculate the position
-				int currentX = startX + x;
-				int currentY = startY + y;
-
-				// Set the position
-				data->x = float(currentX) * 2.0f;
-				data->y = float(currentY) * 2.0f;
-				data->z = waterHeight;
-
-				// Set the normal
-				data->nx = 0.0f;
-				data->ny = 0.0f;
-				data->nz = 1.0f;
-			}
-		}
-	}
-	else
 	{
 		Data *data = data_;
 		for (int y=0; y<=size; y++)

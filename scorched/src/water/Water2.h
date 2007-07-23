@@ -38,6 +38,7 @@ public:
 	Water2PatchIndexs &getIndexs() { return indexs_; }
 
 protected:
+	int generatedPatches_;
 	Water2Patches patches_[256];
 	Water2PatchIndexs indexs_;
 	Water2PatchVisibility visibility_;

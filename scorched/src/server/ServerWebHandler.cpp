@@ -617,7 +617,8 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 		{
 			ServerWebServer::SessionParams &params = (*itor).second;
 
-			const char *timeStr = ctime((const time_t *) (&params.sessionTime));
+			time_t theTime = (time_t) params.sessionTime;
+			const char *timeStr = ctime(&theTime);
 			sessions += formatString(
 				"<tr>"
 				"<td>%s</td>" // Name
@@ -634,7 +635,7 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 
 	// List of admins
 	{
-		std::string admins;
+		/*std::string admins;
 		std::list<ServerAdminHandler::Credential> creds;
 		std::list<ServerAdminHandler::Credential>::iterator itor;
 		ServerAdminHandler::instance()->getAllCredentials(creds);
@@ -650,7 +651,7 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 				crendential.username.c_str()
 			);
 		}
-		fields["ADMINS"] = admins;
+		fields["ADMINS"] = admins;*/
 	}
 
 	return ServerWebServerUtil::getHtmlTemplate("sessions.html", fields, text);

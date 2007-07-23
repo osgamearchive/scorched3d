@@ -32,7 +32,7 @@ public:
 	Water2Patches();
 	~Water2Patches();
 
-	void generate(std::vector<Vector> &heights, 
+	void generate(Water2Points &heights, 
 		unsigned int totalSize, unsigned int patchSize,
 		float waterHeight);
 
