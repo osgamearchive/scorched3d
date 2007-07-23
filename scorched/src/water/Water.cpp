@@ -29,6 +29,8 @@
 #include <landscapedef/LandscapeDefinition.h>
 #include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
+#include <common/Clock.h>
+#include <common/Logger.h>
 #include <sound/SoundUtils.h>
 #include <client/ScorchedClient.h>
 #include <graph/ParticleEmitter.h>
@@ -93,7 +95,11 @@ void Water::generate(ProgressCounter *counter)
 	waterOn_ = true;
 
 	// General all other water items
+	Clock timer;
 	wMap_->generate(water, counter);
+	float timeDifference = timer.getTimeDifference();
+	Logger::log(formatString("Water time %.3f", timeDifference));
+
 	wTex_->generate(water, counter);
 	wMapPoints_->generate(defn.landscapewidth, defn.landscapewidth);
 	wWaveDistance_->generate(defn.landscapewidth, defn.landscapewidth, height_, counter);

@@ -150,6 +150,7 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 			memcpy(aofImage[i].getBits(), loadedFoam.getBits(), wave_resolution * wave_resolution * 3);
 		}
 		float aof[wave_resolution*wave_resolution];
+		memset(aof, 0, sizeof(float) * wave_resolution * wave_resolution);
 		float rndtab[37];
 		for (unsigned k = 0; k < 37; ++k)
 			rndtab[k] = RAND;
@@ -234,7 +235,8 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 				{
 					for (unsigned x = 0; x < wave_resolution; ++x) 
 					{
-						float aofVal = std::max(std::min(aof[ptr], 1.0f) - (decay + decay_rnd * rndtab[(3*x + 5*y) % 37]), 0.0f);
+						float aofVal = std::max(std::min(aof[ptr], 1.0f) - 
+							(decay + decay_rnd * rndtab[(3*x + 5*y) % 37]), 0.0f);
 
 						aof[ptr] = aofVal;
 						if (k >= wave_phases) 
@@ -256,7 +258,7 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 				// If we are no movement generate one patch
 				if (OptionsDisplay::instance()->getNoWaterMovement())
 				{
-					k += wave_phases;
+					k += wave_phases - 1; // K is incremented one by the loop
 				}
 			}
 		}

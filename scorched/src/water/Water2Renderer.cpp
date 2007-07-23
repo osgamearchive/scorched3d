@@ -337,6 +337,7 @@ void Water2Renderer::drawWater(Water2 &water2)
 
 void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 {
+	currentPatch_ = 0;
 	if (GLStateExtension::hasShaders())
 	{
 		// Load shaders
