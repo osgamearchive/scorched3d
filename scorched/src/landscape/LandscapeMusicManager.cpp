@@ -148,9 +148,11 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 	case ClientState::StateGetPlayers:
 	case ClientState::StateLoadPlayers:
 	case ClientState::StateLoadLevel:
+	case ClientState::StateConnect:
 		playState = LandscapeMusicType::StateLoading;
 		break;
 	case ClientState::StateWait:
+		playState = LandscapeMusicType::StateWait;
 		break;
 	case ClientState::StateBuyWeapons:
 	case ClientState::StateAutoDefense:
@@ -164,6 +166,10 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 		break;
 	case ClientState::StateScore:
 		playState = LandscapeMusicType::StateScore;
+		break;
+	default:
+		// So I can put a breakpoint in!!
+		playState = LandscapeMusicType::StateNone;
 		break;
 	}
 
