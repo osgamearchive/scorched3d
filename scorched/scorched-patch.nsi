@@ -56,9 +56,6 @@ FunctionEnd
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite try
-
-  RMDir /r "$INSTDIR\.scorched3d\mods"
-  RMDir /r "$PROFILE\.scorched3d\mods"
   
   
 File "/oname=$INSTDIR\.\data\accessories\banana\banana.txt" ".\data\accessories\banana\banana.txt" 

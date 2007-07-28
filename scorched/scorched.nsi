@@ -59,8 +59,6 @@ Section "MainSection" SEC01
   SetOverwrite try
 
   RMDir /r "$INSTDIR\data"
-  RMDir /r "$INSTDIR\.scorched3d\mods"
-  RMDir /r "$PROFILE\.scorched3d\mods"
   
   File /r /x "CVS" /x "*.db" "data"
   File /r /x "CVS" /x "*.db" "documentation"
