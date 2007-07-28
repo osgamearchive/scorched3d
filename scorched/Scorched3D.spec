@@ -45,6 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/scorched3d/data
 %{_datadir}/scorched3d/documentation
 %attr(755,root,root) %{_bindir}/scorched3d
+%attr(755,root,root) %{_bindir}/scorched3dc
+%attr(755,root,root) %{_bindir}/scorched3ds
 
 %changelog
 * Fri Apr 2 2004 Edward Rudd 
