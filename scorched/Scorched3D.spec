@@ -28,8 +28,7 @@ and remotely across the Internet or LAN.
 %build
 # sh ./autogen.sh
 %configure --datadir=%{_datadir}/scorched3d \
-	--program-prefix=%{?_program_prefix:%{_program_prefix}} \
-	--with-wx-static --with-openal-static
+	--program-prefix=%{?_program_prefix:%{_program_prefix}} 
 make -j2 %{?_smp_mflags}
 
 %install
