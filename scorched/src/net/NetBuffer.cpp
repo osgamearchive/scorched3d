@@ -21,6 +21,7 @@
 
 #include <net/NetBuffer.h>
 #include <SDL/SDL_net.h>
+#include <common/Logger.h>
 #include <string.h>
 #include <zlib.h>
 
@@ -64,6 +65,7 @@ void NetBuffer::allocate(unsigned size)
 	if (bufferSize_<size)
 	{
 		delete [] buffer_;
+		buffer_ = 0;
 		buffer_ = new char[size];
 		bufferSize_ = size;
 	}
@@ -117,6 +119,12 @@ bool NetBuffer::uncompressBuffer()
 	// Create a new buffer for the uncompressed data
 	unsigned long srcLen = getBufferUsed() - 4;
 	unsigned long destLen = dLen;
+
+	if (destLen > 500000)
+	{
+		Logger::log(formatString("ERROR: Asked to allocated %u bytes", destLen));
+		return false;
+	}
 
 	NetBuffer &newBuffer = NetBufferDefault::compressBuffer;
 	newBuffer.allocate(destLen);

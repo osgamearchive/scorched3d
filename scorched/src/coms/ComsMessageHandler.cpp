@@ -114,7 +114,13 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 
 void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 {
-	message.getBuffer().uncompressBuffer();
+	unsigned int bufferUsed = message.getBuffer().getBufferUsed();
+	if (!message.getBuffer().uncompressBuffer())
+	{
+		if (connectionHandler_)
+			connectionHandler_->clientError(message,
+				"Failed to uncompress RECV message type");
+	}
 	NetBufferReader reader(message.getBuffer());
 
 	std::string messageType;
@@ -128,9 +134,10 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log(formatString("%s::process(%s, %i)",
+		Logger::log(formatString("%s::process(%s, %i, %u)",
 			instanceName_.c_str(),
-			messageType.c_str(), message.getDestinationId()));
+			messageType.c_str(), message.getDestinationId(),
+			bufferUsed));
 	}
 
 	std::map<std::string, ComsMessageHandlerI *>::iterator itor =
