@@ -44,6 +44,7 @@ ClientKeepAliveSender::ClientKeepAliveSender() :
 	ComsKeepAliveMessage message;
 	message.writeTypeMessage(buffer_);
 	message.writeMessage(buffer_);
+	buffer_.compressBuffer();
 }
 
 ClientKeepAliveSender::~ClientKeepAliveSender()
