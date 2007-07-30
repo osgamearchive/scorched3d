@@ -1641,7 +1641,7 @@ and shields damaging the tank directly.</description>
 
 	<accessory>
 		<name>Test Leap Frog</name>
-		<maximumnumber>90</maximumnumber>
+		<maximumnumber>0</maximumnumber>
 		<bundlesize>2</bundlesize>
 		<cost>10000</cost>
 		<activationsound>shoot/medium.wav</activationsound>
