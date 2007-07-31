@@ -18,36 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(__INCLUDE_OptionsDisplayConsoleh_INCLUDE__)
+#define __INCLUDE_OptionsDisplayConsoleh_INCLUDE__
 
-// GLConsoleRules.h: interface for the GLConsoleRules class.
-//
-//////////////////////////////////////////////////////////////////////
+#include <GLEXT/GLConsoleRuleFnIAdapter.h>
 
-#if !defined(AFX_GLCONSOLERULES_H__F75EC197_F0BD_459C_BC62_929D3A97FB5A__INCLUDED_)
-#define AFX_GLCONSOLERULES_H__F75EC197_F0BD_459C_BC62_929D3A97FB5A__INCLUDED_
-
-#include <GLEXT/GLConsoleRule.h>
-
-class GLConsoleRules  
+class OptionsDisplayConsole
 {
 public:
-	GLConsoleRules();
-	virtual ~GLConsoleRules();
+	static OptionsDisplayConsole *instance();
 
-	void addLine(const char *line, std::string &result, std::list<std::string> &resultList);
-	bool addRule(GLConsoleRule *rule);
-	GLConsoleRule *removeRule(const char *rule);
-
-	const char *matchRule(const char *line,
-						std::list<GLConsoleRule *> &matches);
-	void dump(std::list<std::string> &resultList);
+	void addDisplayToConsole();
 
 protected:
-	std::map<std::string, GLConsoleRule *> rules_;
+	static OptionsDisplayConsole *instance_;
+	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
 
-	bool parseLine(const char *line, std::list<GLConsoleRuleSplit> &split);
-	void parseAddLine(int position, const char *line, std::list<GLConsoleRuleSplit> &split);
+private:
+	OptionsDisplayConsole();
+	virtual ~OptionsDisplayConsole();
 
 };
 
-#endif // !defined(AFX_GLCONSOLERULES_H__F75EC197_F0BD_459C_BC62_929D3A97FB5A__INCLUDED_)
+#endif

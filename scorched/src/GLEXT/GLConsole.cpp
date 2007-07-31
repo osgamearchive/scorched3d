@@ -286,6 +286,14 @@ bool GLConsole::addFunction(const char *name,
 	return true;
 }
 
+bool GLConsole::removeFunction(const char *name)
+{
+	GLConsoleRule *rule = rules_.removeRule(name);
+	delete rule;
+
+	return (rule!=0);
+}
+
 bool GLConsole::addMethod(const char *name,
 						  GLConsoleRuleMethodI *user)
 {
@@ -296,4 +304,12 @@ bool GLConsole::addMethod(const char *name,
 		return false;
 	}
 	return true;
+}
+
+bool GLConsole::removeMethod(const char *name)
+{
+	GLConsoleRule *rule = rules_.removeRule(name);
+	delete rule;
+
+	return (rule!=0);
 }

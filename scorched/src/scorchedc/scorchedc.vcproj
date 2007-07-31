@@ -4987,6 +4987,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\graph\OptionsDisplayConsole.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\graph\OptionsDisplayConsole.h"
+				>
+			</File>
+			<File
 				RelativePath="..\graph\Particle.cpp"
 				>
 			</File>

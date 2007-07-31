@@ -262,6 +262,12 @@ void GLWPanel::mouseDrag(int button, float mx, float my, float x, float y, bool 
 	mx -= x_;
 	my -= y_;
 
+	if (mx < 0.0f || mx > w_ ||
+		my < 0.0f || my > h_)
+	{
+		return;
+	}
+	
 	std::list<GLWPanelEntry>::reverse_iterator itor;
 	for (itor = widgets_.rbegin();
 		itor != widgets_.rend();
@@ -276,6 +282,7 @@ void GLWPanel::mouseDrag(int button, float mx, float my, float x, float y, bool 
 			if (skipRest) break;
 		}
 	}
+	skipRest = true;
 }
 
 void GLWPanel::keyDown(char *buffer, unsigned int keyState, 

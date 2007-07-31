@@ -94,6 +94,7 @@ GLConsoleRuleFnIOptionsAdapter::GLConsoleRuleFnIOptionsAdapter(
 
 GLConsoleRuleFnIOptionsAdapter::~GLConsoleRuleFnIOptionsAdapter()
 {
+	GLConsole::instance()->removeFunction(entry_.getName());
 }
 
 bool GLConsoleRuleFnIOptionsAdapter::getBoolParam(const char *name)

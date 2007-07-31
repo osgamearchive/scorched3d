@@ -24,6 +24,7 @@
 #include <client/ClientWaitState.h>
 #include <graph/SpeedChange.h>
 #include <graph/MainCamera.h>
+#include <graph/OptionsDisplayConsole.h>
 #include <tankgraph/RenderTracer.h>
 #include <weapons/AccessoryStore.h>
 #include <engine/ActionController.h>
@@ -74,6 +75,9 @@ bool ClientNewGameHandler::processMessage(
 {
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
+
+	// make sure we can only see the correct settings
+	OptionsDisplayConsole::instance()->addDisplayToConsole();
 
 	// Set the progress dialog nicities
 	ProgressDialog::instance()->changeTip();

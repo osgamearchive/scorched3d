@@ -33,7 +33,8 @@ public:
 		NoAccess = 0,
 		RWAccess = 1,
 		RAccess = 2,
-		NoRestore = 4
+		NoRestore = 4,
+		DebugOnly = 8
 	};
 
 	bool getHideFinalScore() { return hideFinalScore_; }

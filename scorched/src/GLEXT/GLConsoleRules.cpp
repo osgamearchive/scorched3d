@@ -56,6 +56,17 @@ bool GLConsoleRules::addRule(GLConsoleRule *rule)
 	return true;
 }
 
+GLConsoleRule *GLConsoleRules::removeRule(const char *rule) 
+{
+	std::map<std::string, GLConsoleRule *>::iterator itor =
+		rules_.find(rule);
+	if (itor == rules_.end()) return 0;
+
+	GLConsoleRule *result = itor->second;
+	rules_.erase(itor);
+	return result;
+}
+
 const char *GLConsoleRules::matchRule(const char *line, std::list<GLConsoleRule *> &matches)
 {
 	std::map<std::string, GLConsoleRule *>::iterator itor;

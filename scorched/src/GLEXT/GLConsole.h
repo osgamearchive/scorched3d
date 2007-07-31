@@ -37,9 +37,11 @@ public:
 		GLConsoleRuleFnI *user,
 		GLConsoleRuleType type, 
 		GLConsoleRuleAccessType access);
+	bool removeFunction(const char *name);
 
 	bool addMethod(const char *name,
 		GLConsoleRuleMethodI *user);
+	bool removeMethod(const char *name);
 
 	void addLine(bool parse, const char *line);
 

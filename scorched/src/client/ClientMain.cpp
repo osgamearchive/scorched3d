@@ -55,13 +55,13 @@
 #include <graph/Mouse.h>
 #include <graph/Gamma.h>
 #include <graph/OptionsDisplay.h>
+#include <graph/OptionsDisplayConsole.h>
 #include <graph/MainCamera.h>
 #include <graph/Main2DCamera.h>
 #include <graph/Display.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
-#include <GLEXT/GLConsoleRuleFnIAdapter.h>
 #include <GLEXT/GLConsole.h>
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWWindowSkinManager.h>
@@ -382,24 +382,7 @@ bool ClientMain::clientMain()
 	if (!initWindows(&progressCounter)) return false;
 	if (!initComsHandlers()) return false;
 
-	// Add all of the options to the console
-	std::list<GLConsoleRuleFnIOptionsAdapter *> adapters_;
-	std::list<OptionEntry *>::iterator itor;
-	for (itor = OptionsDisplay::instance()->getOptions().begin();
-		itor != OptionsDisplay::instance()->getOptions().end();
-		itor++)
-	{
-		OptionEntry *entry = (*itor);
-		if (!(entry->getData() & OptionEntry::DataDepricated))
-		{
-			GLConsoleRuleAccessType access = GLConsoleRuleAccessTypeRead;
-			if (entry->getData() & OptionsDisplay::RWAccess) access = GLConsoleRuleAccessTypeReadWrite;
-
-			adapters_.push_back(new GLConsoleRuleFnIOptionsAdapter(
-				*entry,
-				access));
-		}
-	}
+	OptionsDisplayConsole::instance()->addDisplayToConsole();
 
 	// Try and start the client
 	if (!startClient()) return false;
