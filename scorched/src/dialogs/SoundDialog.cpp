@@ -71,7 +71,11 @@ SoundDialog::SoundDialog() :
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX);
 	cancelId_ = cancelButton->getId();
 	buttonPanel->addWidget(cancelButton, 0, SpaceRight, 10.0f);
-	GLWButton *okButton = new GLWTextButton("Ok", 235, 10, 55, this, 
+	GLWButton *applyButton = new GLWTextButton("Apply", 235, 10, 110, this,
+		GLWButton::ButtonFlagCenterX);
+	applyId_ = applyButton->getId();
+	buttonPanel->addWidget(applyButton, 0, SpaceRight, 10.0f);
+	GLWButton *okButton = new GLWTextButton("Ok", 475, 10, 55, this, 
 		GLWButton::ButtonFlagOk | GLWButton::ButtonFlagCenterX);
 	okId_ = okButton->getId();
 	buttonPanel->addWidget(okButton);
@@ -120,5 +124,15 @@ void SoundDialog::buttonDown(unsigned int id)
 		volume = int(musicVolume_->getCurrent() * 1.28f);
 		OptionsDisplay::instance()->getMusicVolumeEntry().setValue(volume);
 	}
-	GLWWindowManager::instance()->hideWindow(getId());
+	if (id == applyId_)
+	{
+		int volume = int(soundVolume_->getCurrent() * 1.28f);
+		OptionsDisplay::instance()->getSoundVolumeEntry().setValue(volume);
+		Sound::instance()->getDefaultListener()->setGain(float(volume) / 128.0f);
+	}
+	else
+	{
+		// Only hide the window if Ok or Cancel are hit!
+		GLWWindowManager::instance()->hideWindow(getId());
+	}
 }

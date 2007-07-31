@@ -40,7 +40,7 @@ public:
 
 protected:
 	static SoundDialog *instance_;
-	unsigned int okId_, cancelId_;
+	unsigned int okId_, cancelId_, applyId_;
 	GLWCheckBoxText *noSoundBox_;
 	GLWCheckBoxText *noMusicBox_;
 	GLWCheckBoxText *noAmbientSoundBox_;
