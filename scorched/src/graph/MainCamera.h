@@ -81,7 +81,6 @@ public:
 protected:
 	static MainCamera *instance_;
 	TargetCamera targetCam_;
-	float scrollTime_;
 	// Quick key settings
 	std::map<int, std::pair<Vector, Vector> > quickKeys_;
 

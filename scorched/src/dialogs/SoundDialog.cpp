@@ -108,7 +108,7 @@ void SoundDialog::display()
 
 void SoundDialog::buttonDown(unsigned int id)
 {
-	if (id == okId_)
+	if (id == okId_ || id == applyId_)
 	{
 		OptionsDisplay::instance()->getNoSoundEntry().setValue(
 			noSoundBox_->getCheckBox().getState());
@@ -124,13 +124,8 @@ void SoundDialog::buttonDown(unsigned int id)
 		volume = int(musicVolume_->getCurrent() * 1.28f);
 		OptionsDisplay::instance()->getMusicVolumeEntry().setValue(volume);
 	}
-	if (id == applyId_)
-	{
-		int volume = int(soundVolume_->getCurrent() * 1.28f);
-		OptionsDisplay::instance()->getSoundVolumeEntry().setValue(volume);
-		Sound::instance()->getDefaultListener()->setGain(float(volume) / 128.0f);
-	}
-	else
+
+	if (id != applyId_)
 	{
 		// Only hide the window if Ok or Cancel are hit!
 		GLWWindowManager::instance()->hideWindow(getId());

@@ -42,7 +42,7 @@ static void adminLog(const char *message)
 		serverAdminFileLogger = new FileLogger(buffer);
 	}	
 
-	ServerCommon::serverLog(message);
+	ServerCommon::sendString(0, message);
 	LoggerInfo info(message);
 	info.setTime();
 	serverAdminFileLogger->logMessage(info);

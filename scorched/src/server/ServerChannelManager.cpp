@@ -210,7 +210,7 @@ void ServerChannelManager::simulate(float frameTime)
 				ChannelText text("info", 
 					formatString("You have been muted for %i seconds for spamming!",
 					MuteTime));
-				sendText(text, entry->getDestinationId());
+				sendText(text, entry->getDestinationId(), true);
 			}
 			else if (entry->getMuteTime())
 			{
@@ -220,7 +220,7 @@ void ServerChannelManager::simulate(float frameTime)
 					entry->setMuteTime(0);
 
 					ChannelText text("info", "You have been unmuted.");
-					sendText(text, entry->getDestinationId());
+					sendText(text, entry->getDestinationId(), true);
 				}
 			}
 			entry->setMessageCount(0);

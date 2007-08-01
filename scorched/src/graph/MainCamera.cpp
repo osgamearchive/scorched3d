@@ -52,8 +52,7 @@ MainCamera *MainCamera::instance()
 }
 
 MainCamera::MainCamera() : 
-	GameStateI("MainCamera"),
-	scrollTime_(0.0f)
+	GameStateI("MainCamera")
 {
 	GLImage *map = GLImageFactory::loadImage(
 		formatString(getDataFile("data/windows/camera.bmp")),
@@ -124,11 +123,7 @@ void MainCamera::simulate(const unsigned state, float frameTime)
 		float mapHeight = (float) ScorchedClient::instance()->getLandscapeMaps().
 			getDefinitions().getDefn()->landscapeheight;
 
-		scrollTime_ += frameTime;
-		while (scrollTime_ > 0.0f)
 		{
-			scrollTime_ -= 0.1f;
-
 			const int scrollWindow = 5;
 			if (mouseX < scrollWindow)
 			{
