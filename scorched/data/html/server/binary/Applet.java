@@ -155,6 +155,7 @@ public class Applet
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {
 					channelBox.addItem(cha);
+					channelBox.setSelectedItem("general");
 				}
 			});
 		} catch (Exception e) {

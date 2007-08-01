@@ -635,7 +635,7 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 
 	// List of admins
 	{
-		/*std::string admins;
+		std::string admins;
 		std::list<ServerAdminHandler::Credential> creds;
 		std::list<ServerAdminHandler::Credential>::iterator itor;
 		ServerAdminHandler::instance()->getAllCredentials(creds);
@@ -651,7 +651,7 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 				crendential.username.c_str()
 			);
 		}
-		fields["ADMINS"] = admins;*/
+		fields["ADMINS"] = admins;
 	}
 
 	return ServerWebServerUtil::getHtmlTemplate("sessions.html", fields, text);
