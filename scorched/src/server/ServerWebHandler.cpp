@@ -19,13 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerWebHandler.h>
-#include <server/ServerAdminHandler.h>
 #include <server/ServerLog.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
 #include <server/ServerWebServerUtil.h>
 #include <server/ServerCommon.h>
 #include <server/ServerAdminCommon.h>
+#include <server/ServerAdminSessions.h>
 #include <server/ServerState.h>
 #include <server/ServerParams.h>
 #include <server/ServerChannelManager.h>
@@ -61,13 +61,10 @@ static inline bool lt_logfile(const LogFile &o1, const LogFile &o2)
 
 static const char *getAdminUserName(std::map<std::string, std::string> &fields)
 {
-	std::map<unsigned int, ServerWebServer::SessionParams>::iterator findItor = 
-		ServerWebServer::instance()->getSessions().find(
-		atoi(ServerWebServerUtil::getField(fields, "sid")));
-	if (findItor != ServerWebServer::instance()->getSessions().end())
-	{
-		return findItor->second.userName.c_str();
-	}
+	unsigned int sid = atoi(ServerWebServerUtil::getField(fields, "sid"));
+	ServerAdminSessions::SessionParams *session =
+		ServerAdminSessions::instance()->getSession(sid);
+	if (session) return session->userName.c_str();
 	return "Unknown";
 }
 
@@ -610,12 +607,12 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 	// Sessions Entries
 	{
 		std::string sessions;
-		std::map<unsigned int, ServerWebServer::SessionParams> &sessionparams = 
-			ServerWebServer::instance()->getSessions();
-		std::map<unsigned int, ServerWebServer::SessionParams>::iterator itor;
+		std::map<unsigned int, ServerAdminSessions::SessionParams> &sessionparams = 
+			ServerAdminSessions::instance()->getAllSessions();
+		std::map<unsigned int, ServerAdminSessions::SessionParams>::iterator itor;
 		for (itor = sessionparams.begin(); itor != sessionparams.end(); itor++)
 		{
-			ServerWebServer::SessionParams &params = (*itor).second;
+			ServerAdminSessions::SessionParams &params = (*itor).second;
 
 			time_t theTime = (time_t) params.sessionTime;
 			const char *timeStr = ctime(&theTime);
@@ -636,14 +633,14 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 	// List of admins
 	{
 		std::string admins;
-		std::list<ServerAdminHandler::Credential> creds;
-		std::list<ServerAdminHandler::Credential>::iterator itor;
-		ServerAdminHandler::instance()->getAllCredentials(creds);
+		std::list<ServerAdminSessions::Credential> creds;
+		std::list<ServerAdminSessions::Credential>::iterator itor;
+		ServerAdminSessions::instance()->getAllCredentials(creds);
 		for (itor = creds.begin();
 			itor != creds.end();
 			itor++)
 		{
-			ServerAdminHandler::Credential &crendential = (*itor);
+			ServerAdminSessions::Credential &crendential = (*itor);
 			admins += formatString(
 				"<tr>"
 				"<td>%s</td>" // Name

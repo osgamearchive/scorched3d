@@ -80,7 +80,7 @@ void ServerTimedMessage::checkEntries(time_t currentTime)
 
 			ChannelText textMessage("announce", 
 				formatString(message.c_str(), ctime(&currentTime)));
-			ServerChannelManager::instance()->sendText(textMessage);
+			ServerChannelManager::instance()->sendText(textMessage, false);
 			entry.messages.pop_front();
 			entry.messages.push_back(message);
 		}

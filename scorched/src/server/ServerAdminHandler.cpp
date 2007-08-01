@@ -24,8 +24,7 @@
 #include <server/ServerChannelManager.h>
 #include <server/ServerCommon.h>
 #include <server/ServerAdminCommon.h>
-#include <common/OptionsScorched.h>
-#include <common/OptionsTransient.h>
+#include <server/ServerAdminSessions.h>
 #include <common/StatsLogger.h>
 #include <common/Defines.h>
 #include <coms/ComsAdminMessage.h>
@@ -33,9 +32,7 @@
 #include <coms/ComsMessageSender.h>
 #include <net/NetInterface.h>
 #include <tank/TankContainer.h>
-#include <tank/TankAdmin.h>
 #include <tank/TankState.h>
-#include <XML/XMLFile.h>
 #include <stdlib.h>
 
 ServerAdminHandler *ServerAdminHandler::instance()
@@ -85,7 +82,8 @@ bool ServerAdminHandler::processMessage(
 	// Login if that is what is happening
 	if (message.getType() == ComsAdminMessage::AdminLogin)
 	{
-		if (login(message.getParam1(), message.getParam2()))
+		if (ServerAdminSessions::instance()->
+			authenticate(message.getParam1(), message.getParam2()))
 		{
 			ServerCommon::sendString(0,
 				formatString("server admin \"%s\" logged in",
@@ -94,8 +92,11 @@ bool ServerAdminHandler::processMessage(
 				formatString("\"%s\" logged in as server admin \"%s\"",
 				adminTank->getName(),
 				message.getParam1()));
-			adminTank->getState().setAdmin(
-				new TankAdmin(message.getParam1()));
+
+			unsigned int sid = 
+				ServerAdminSessions::instance()->login(message.getParam1(), 
+					NetInterface::getIpName(netMessage.getIpAddress()));
+			adminTank->getState().setAdmin(sid);
 			ServerChannelManager::instance()->refreshDestination(
 				netMessage.getDestinationId());
 		}
@@ -114,13 +115,17 @@ bool ServerAdminHandler::processMessage(
 		}
 		return true;
 	}
-	// Else only allow logged in tanks
-	else if (!adminTank->getState().getAdmin())
+
+	// Only allow logged in tanks (may have timed out)
+	ServerAdminSessions::SessionParams *adminSession =
+		ServerAdminSessions::instance()->getSession(adminTank->getState().getAdmin());
+	if (!adminSession)
 	{
 		ServerCommon::sendString(destinationId,
 			"You are not logged in as admin");
-		return true;
+		return true;		
 	}
+	const char *adminName = adminSession->userName.c_str();
 
 	// Do admin fn (we are logged in at this point)
 	switch (message.getType())
@@ -157,11 +162,17 @@ bool ServerAdminHandler::processMessage(
 		{
 			ServerCommon::sendString(0,
 				formatString("server admin \"%s\" logged out",
-				adminTank->getState().getAdmin()->getName()));
+				adminName));
 			ServerCommon::serverLog(
 				formatString("\"%s\" logged out as server admin \"%s\"",
 				adminTank->getName(),
-				adminTank->getState().getAdmin()->getName()));
+				adminName));
+
+			if (adminTank->getState().getAdmin())
+			{
+				ServerAdminSessions::instance()->logout(
+					adminTank->getState().getAdmin());
+			}
 			adminTank->getState().setAdmin(0);
 			ServerChannelManager::instance()->refreshDestination(
 				netMessage.getDestinationId());
@@ -210,7 +221,7 @@ bool ServerAdminHandler::processMessage(
 	case ComsAdminMessage::AdminBan:
 		{
 			if (!ServerAdminCommon::banPlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1()), "<via console>"))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for ban");
@@ -220,7 +231,7 @@ bool ServerAdminHandler::processMessage(
 	case ComsAdminMessage::AdminFlag:
 		{
 			if (!ServerAdminCommon::flagPlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1()), "<via console>"))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for flag");
@@ -230,7 +241,7 @@ bool ServerAdminHandler::processMessage(
 	case ComsAdminMessage::AdminPoor:
 		{
 			if (!ServerAdminCommon::poorPlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1())))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for poor");
@@ -240,7 +251,7 @@ bool ServerAdminHandler::processMessage(
 	case ComsAdminMessage::AdminKick:
 		{
 			if (!ServerAdminCommon::kickPlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1())))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for kick");
@@ -252,7 +263,7 @@ bool ServerAdminHandler::processMessage(
 		{
 			bool mute = (message.getType() == ComsAdminMessage::AdminMute);
 			if (!ServerAdminCommon::mutePlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1()), mute))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for mute");
@@ -262,7 +273,7 @@ bool ServerAdminHandler::processMessage(
 	case ComsAdminMessage::AdminPermMute:
 		{
 			if (!ServerAdminCommon::permMutePlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1()), "<via console>"))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for permmute");
@@ -272,7 +283,7 @@ bool ServerAdminHandler::processMessage(
 	case ComsAdminMessage::AdminUnPermMute:
 		{
 			if (!ServerAdminCommon::unpermMutePlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1())))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for inpermmute");
@@ -296,15 +307,15 @@ bool ServerAdminHandler::processMessage(
 		}
 		break;
 	case ComsAdminMessage::AdminKillAll:
-		ServerAdminCommon::killAll(adminTank->getState().getAdmin()->getName());
+		ServerAdminCommon::killAll(adminName);
 		break;
 	case ComsAdminMessage::AdminNewGame:
-		ServerAdminCommon::newGame(adminTank->getState().getAdmin()->getName());
+		ServerAdminCommon::newGame(adminName);
 		break;	
 	case ComsAdminMessage::AdminSlap:
 		{
 			if (!ServerAdminCommon::slapPlayer(
-				adminTank->getState().getAdmin()->getName(),
+				adminName,
 				atoi(message.getParam1()), (float) atof(message.getParam2())))
 			{
 				ServerCommon::sendString(destinationId, "Unknown player for slap");
@@ -314,73 +325,4 @@ bool ServerAdminHandler::processMessage(
 	}
 
 	return true;
-}
-
-bool ServerAdminHandler::login(const char *name, const char *password)
-{
-#ifndef S3D_SERVER
-	{
-		return true;
-	}
-#endif
-
-	std::list<Credential> creds;
-	std::list<Credential>::iterator itor;
-	if (!getAllCredentials(creds)) return false;
-
-	for (itor = creds.begin();
-		itor != creds.end();
-		itor++)
-	{
-		Credential &credential = (*itor);
-		if (0 == strcmp(name, credential.username.c_str()) &&
-			0 == strcmp(password, credential.password.c_str()))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-bool ServerAdminHandler::getAllCredentials(std::list<Credential> &creds)
-{
-	const char *fileName = 
-		getSettingsFile(formatString("adminpassword-%i.xml",
-			ScorchedServer::instance()->getOptionsGame().getPortNo()));
-
-	XMLFile file;
-	if (!file.readFile(fileName))
-	{
-		ServerCommon::serverLog( 
-			formatString("Failed to parse \"%s\"\n%s", 
-			fileName,
-			file.getParserError()));
-		return false;
-	}
-	if (!file.getRootNode())
-	{
-		ServerCommon::serverLog( 
-			formatString("Please create file %s to have admin users", 
-			fileName));
-		return false;
-	}
-
-	// Itterate all of the users in the file
-    std::list<XMLNode *>::iterator childrenItor;
-	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
-    for (childrenItor = children.begin();
-		 childrenItor != children.end();
-		 childrenItor++)
-    {
-        XMLNode *currentNode = (*childrenItor);
-		if (strcmp(currentNode->getName(), "user")) return false;
-
-		Credential credential;
-		if (!currentNode->getNamedChild("name", credential.username)) return false;
-		if (!currentNode->getNamedChild("password", credential.password)) return false;
-		if (!currentNode->failChildren()) return false;
-		creds.push_back(credential);
-	}
-
-	return true;	
 }

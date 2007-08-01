@@ -26,7 +26,7 @@
 #include <server/ServerWebSettingsHandler.h>
 #include <server/ServerWebAppletHandler.h>
 #include <server/ServerCommon.h>
-#include <server/ServerAdminHandler.h>
+#include <server/ServerAdminSessions.h>
 #include <server/ServerWebServerUtil.h>
 #include <server/ScorchedServer.h>
 #include <net/NetMessagePool.h>
@@ -269,11 +269,11 @@ void ServerWebServer::processMessage(NetMessage &message)
 						if (fields.find("sid") != fields.end())
 						{
 							unsigned int sid = (unsigned int) atoi(fields["sid"].c_str());
-							std::map <unsigned int, SessionParams>::iterator findItor =
-								sessions_.find(sid);
-							if (findItor != sessions_.end())
+							ServerAdminSessions::SessionParams *session =
+								ServerAdminSessions::instance()->getSession(sid);
+							if (session)
 							{
-								username = (*findItor).second.userName;
+								username = session->userName;
 							}
 						}
 
@@ -444,48 +444,21 @@ unsigned int ServerWebServer::validateSession(
 	// Hack for silly java 6.0 applets
 	if (strcmp(url, "/Applet.jar") == 0)
 	{
-		if (!sessions_.empty())
+		ServerAdminSessions::SessionParams *session =
+			ServerAdminSessions::instance()->getFirstSession();
+		if (session)
 		{
-			return sessions_.begin()->first;
+			return session->sid;
 		}
 	}
 
-	const unsigned int SessionTimeOut = 60 * 15;
-	unsigned int currentTime = (unsigned int) time(0);
-
-	// Tidy expired sessions
-	std::map <unsigned int, SessionParams>::iterator sitor;
-	for (sitor = sessions_.begin();
-		sitor != sessions_.end();
-		sitor++)
-	{
-		SessionParams &params = (*sitor).second;
-		if (currentTime > params.sessionTime + SessionTimeOut)
-		{
-			sessions_.erase(sitor);
-			break;
-		}
-	}
-
-	// Check if user has a valid session
+	// Check this sid is valid
 	if (fields.find("sid") != fields.end())
 	{
 		unsigned int sid = (unsigned int) atoi(fields["sid"].c_str());
-		std::map <unsigned int, SessionParams>::iterator findItor =
-			sessions_.find(sid);
-		if (findItor != sessions_.end())
-		{
-			SessionParams &params = (*findItor).second;
-			if (currentTime < params.sessionTime + SessionTimeOut)
-			{
-				params.sessionTime = currentTime;
-				return sid;
-			}
-			else
-			{
-				sessions_.erase(findItor);
-			}
-		}
+		ServerAdminSessions::SessionParams *params =
+			ServerAdminSessions::instance()->getSession(sid);
+		if (params) return sid;
 	}
 
 	return 0;
@@ -496,7 +469,6 @@ bool ServerWebServer::validateUser(
 	const char *url,
 	std::map<std::string, std::string> &fields)
 {
-	unsigned int currentTime = (unsigned int) time(0);
 	bool authenticated = false;
 
 	// Check if this is a local user
@@ -511,7 +483,7 @@ bool ServerWebServer::validateUser(
 		if (fields.find("name") != fields.end() ||
 			fields.find("password") != fields.end()) 
 		{
-			if (ServerAdminHandler::instance()->login(
+			if (ServerAdminSessions::instance()->authenticate(
 				fields["name"].c_str(),
 				fields["password"].c_str()))
 			{
@@ -520,42 +492,11 @@ bool ServerWebServer::validateUser(
 		}
 	}
 
-	// Create a session for the authenticated user
 	if (authenticated)
 	{
-		unsigned int sid = 0;
-
-		// Try to find an existing session for this user
-		std::map<unsigned int, SessionParams>::iterator itor;
-		for (itor = sessions_.begin();
-			itor != sessions_.end();
-			itor++)
-		{
-			SessionParams &params = (*itor).second;
-			if (0 == strcmp(params.userName.c_str(), fields["name"].c_str()))
-			{
-				// Found one
-				sid = (*itor).first;
-				break;
-			}
-		}
-
-		// Generate a sid if we didn't find an existing login
-		if (sid == 0)
-		{
-			// Generate a new unique session id
-			do 
-			{
-				sid = rand();
-			} while (sessions_.find(sid) != sessions_.end());
-		}
-
-		// Update the session params
-		SessionParams params;
-		params.sessionTime = currentTime;
-		params.userName = fields["name"];
-		params.ipAddress = ip;
-		sessions_[sid] = params;
+		// Create a session for the authenticated user
+		unsigned int sid = ServerAdminSessions::instance()->login(
+			fields["name"].c_str(), ip);
 
 		// Set the sid for use in the html templates
 		fields["sid"] = formatString("%u", sid);
@@ -597,13 +538,8 @@ bool ServerWebServer::processQueue(ServerWebServerQueue &queue, bool keepEntries
 				netServer_.sendMessageDest(message->getBuffer(), message->getDestinationId());
 				NetMessagePool::instance()->addToPool(message);
 
-				// Update the session
-				std::map <unsigned int, SessionParams>::iterator sessionItor =
-					sessions_.find(entry->getSid());
-				if (sessionItor != sessions_.end())
-				{
-					sessionItor->second.sessionTime = (unsigned int) time(0);
-				}
+				// Update the session time so we don't timeout
+				ServerAdminSessions::instance()->getSession(entry->getSid());
 			}
 			else
 			{

@@ -145,6 +145,60 @@ bool ClientChannelManager::changeRegistration(ClientChannelManagerI *reciever,
 	return true;
 }
 
+void ClientChannelManager::addChannel(const char *lookfor, const char *channel)
+{
+	std::map<unsigned int, ChannelEntry *>::iterator itor;
+	for (itor = recievers_.begin();
+		itor != recievers_.end();
+		itor++)
+	{
+		ChannelEntry *r = (*itor).second;
+		if (r->hasChannel(lookfor))
+		{
+			std::set<std::string> currentChannels = r->getChannels();
+			currentChannels.insert(channel);
+			std::list<std::string> channels;
+			std::set<std::string>::iterator itor;
+			for (itor = currentChannels.begin();
+				itor != currentChannels.end();
+				itor++)
+			{
+				channels.push_back(*itor);
+			}
+
+			changeRegistration(r->getUser(), channels);
+			break;
+		}
+	}
+}
+
+void ClientChannelManager::removeChannel(const char *channel)
+{
+	std::map<unsigned int, ChannelEntry *>::iterator itor;
+	for (itor = recievers_.begin();
+		itor != recievers_.end();
+		itor++)
+	{
+		ChannelEntry *r = (*itor).second;
+		if (r->hasChannel(channel))
+		{
+			std::set<std::string> currentChannels = r->getChannels();
+			currentChannels.erase(channel);
+			std::list<std::string> channels;
+			std::set<std::string>::iterator itor;
+			for (itor = currentChannels.begin();
+				itor != currentChannels.end();
+				itor++)
+			{
+				channels.push_back(*itor);
+			}
+
+			changeRegistration(r->getUser(), channels);
+			break;
+		}
+	}
+}
+
 unsigned int ClientChannelManager::getChannelEntry(ClientChannelManagerI *reciever)
 {
 	std::map<unsigned int, ChannelEntry *>::iterator itor;

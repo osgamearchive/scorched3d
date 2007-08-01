@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <tank/Tank.h>
 #include <tank/TankState.h>
-#include <tank/TankAdmin.h>
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
 #include <target/TargetState.h>
@@ -44,7 +43,7 @@ allowedStateTransitions[] =
 
 TankState::TankState(ScorchedContext &context, unsigned int playerId) : 
 	state_(sLoading), tank_(0),
-	readyState_(sReady), admin_(0),
+	readyState_(sReady), sid_(0),
 	context_(context), spectator_(false), 
 	muted_(false), adminTries_(0),
 	skipshots_(false), needsync_(false),
@@ -99,12 +98,6 @@ void TankState::setState(State s)
 		tank_->getLife().setLife(0.0f);
 		tank_->getShield().setCurrentShield(0);
 	}
-}
-
-void TankState::setAdmin(TankAdmin *admin)
-{ 
-	delete admin_; 
-	admin_ = admin; 
 }
 
 const char *TankState::getStateString()

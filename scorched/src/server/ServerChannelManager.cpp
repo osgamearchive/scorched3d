@@ -452,7 +452,7 @@ void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int l
 }
 
 void ServerChannelManager::sendText(const ChannelText &constText, 
-	unsigned int destination)
+	unsigned int destination, bool log)
 {
 	DestinationEntry *destinationEntry = getDestinationEntryById(
 		destination);
@@ -460,17 +460,17 @@ void ServerChannelManager::sendText(const ChannelText &constText,
 	{
 		std::map<unsigned int, DestinationEntry *> destinations;
 		destinations[destination] = destinationEntry;
-		actualSend(constText, destinations);
+		actualSend(constText, destinations, log);
 	}
 }
 
-void ServerChannelManager::sendText(const ChannelText &constText)
+void ServerChannelManager::sendText(const ChannelText &constText, bool log)
 {
-	actualSend(constText, destinationEntries_);
+	actualSend(constText, destinationEntries_, log);
 }
 
 void ServerChannelManager::actualSend(const ChannelText &constText,
-	std::map<unsigned int, DestinationEntry *> &destinations)
+	std::map<unsigned int, DestinationEntry *> &destinations, bool log)
 {
 	ChannelText text = constText;
 
@@ -503,25 +503,31 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 
 	// Update the server console with the say text
 	const char *logtext = 0;
-	if (tank)
+	if (log)
 	{
-		logtext = formatString("[%s][%s] : \"%s\"", 
-			text.getChannel(),
-			tank->getName(),
-			filteredText.c_str());
+		if (tank)
+		{
+			logtext = formatString("[%s][%s] : \"%s\"", 
+				text.getChannel(),
+				tank->getName(),
+				filteredText.c_str());
+		}
+		else
+		{
+			logtext = formatString("[%s] : \"%s\"", 
+				text.getChannel(),
+				filteredText.c_str());
+		}
 	}
-	else
+	if (logtext)
 	{
-		logtext = formatString("[%s] : \"%s\"", 
-			text.getChannel(),
-			filteredText.c_str());
+		ServerCommon::serverLog(logtext);
+		MessageEntry messageEntry;
+		messageEntry.message = logtext;
+		messageEntry.messageid = ++lastMessageId_;
+		lastMessages_.push_back(messageEntry);
+		if (lastMessages_.size() > 25) lastMessages_.pop_front();
 	}
-	ServerCommon::serverLog(logtext);
-	MessageEntry messageEntry;
-	messageEntry.message = logtext;
-	messageEntry.messageid = ++lastMessageId_;
-	lastMessages_.push_back(messageEntry);
-	if (lastMessages_.size() > 25) lastMessages_.pop_front();
 
 	// Update the message with the filtered text
 	text.setMessage(filteredText.c_str());
@@ -587,9 +593,6 @@ bool ServerChannelManager::processMessage(
 		if (!tank || tank->getDestinationId() != 
 			netNessage.getDestinationId()) return true;
 
-		// Check this tank has not been admin muted
-		if (tank->getState().getMuted()) return true;
-
 		// Check that this client has this channel
 		DestinationEntry *destEntry = 
 			getDestinationEntryById(netNessage.getDestinationId());
@@ -599,9 +602,6 @@ bool ServerChannelManager::processMessage(
 			// This client does not have this channel
 			return true;
 		}
-
-		// Check this tank has not been muted for spamming
-		if (destEntry->getMuteTime()) return true;
 
 		// Check that this channel exists and is not a read only channel
 		ChannelEntry *channelEntry = getChannelEntryByName(
@@ -637,6 +637,21 @@ bool ServerChannelManager::processMessage(
 		// Increment message count
 		destEntry->setMessageCount(destEntry->getMessageCount() + 1);
 
+		// Check this tank has not been admin muted
+		// Check this tank has not been muted for spamming
+		if (tank->getState().getMuted() || 
+			destEntry->getMuteTime())
+		{
+			ChannelText mutedText(textMessage.getChannelText());
+			mutedText.setMessage(formatString("**muted** %s", mutedText.getMessage()));
+			ChannelText adminText(mutedText);
+			adminText.setChannel("admin");
+
+			sendText(mutedText, tank->getDestinationId(), true);
+			sendText(adminText, false);
+			return true;
+		}
+
 		// Send the text
 		if (textMessage.getChannelText().getDestPlayerId())
 		{
@@ -647,13 +662,13 @@ bool ServerChannelManager::processMessage(
 			{
 				// Send to this destination
 				sendText(textMessage.getChannelText(), 
-					destTank->getDestinationId());
+					destTank->getDestinationId(), true);
 			}
 		}
 		else
 		{
 			// Send to all destinations
-			sendText(textMessage.getChannelText());
+			sendText(textMessage.getChannelText(), true);
 		}
 	}
 	else return false;

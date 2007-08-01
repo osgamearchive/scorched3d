@@ -20,6 +20,7 @@
 
 #include <client/ClientAdmin.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientChannelManager.h>
 #include <tank/TankContainer.h>
 #include <GLEXT/GLConsole.h>
 #include <coms/ComsMessageSender.h>
@@ -87,6 +88,11 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 
 			ComsAdminMessage message(type);
 			ComsMessageSender::sendToServer(message);
+
+			if (type == ComsAdminMessage::AdminLogout)
+			{
+				ClientChannelManager::instance()->removeChannel("admin");
+			}
 		}
 		else if (
 			0 == stricmp(firstsplit.rule.c_str(), "kick") ||
@@ -163,6 +169,11 @@ void ClientAdmin::admin(std::list<GLConsoleRuleSplit> split,
 						secondsplit.rule.c_str(), 
 						thirdsplit.rule.c_str());
 					ComsMessageSender::sendToServer(message);
+
+					if (type == ComsAdminMessage::AdminLogin)
+					{
+						ClientChannelManager::instance()->addChannel("general", "admin");
+					}
 				}
 			}
 		}

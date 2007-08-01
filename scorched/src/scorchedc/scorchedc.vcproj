@@ -767,6 +767,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerAdminSessions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerAdminSessions.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerAuthHandler.cpp"
 				>
 			</File>
@@ -2140,14 +2148,6 @@
 			</File>
 			<File
 				RelativePath="..\tank\TankAccessories.h"
-				>
-			</File>
-			<File
-				RelativePath="..\tank\TankAdmin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\tank\TankAdmin.h"
 				>
 			</File>
 			<File

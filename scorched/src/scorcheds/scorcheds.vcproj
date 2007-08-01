@@ -730,6 +730,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerAdminSessions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerAdminSessions.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerAuthHandler.cpp"
 				>
 			</File>
@@ -2082,14 +2090,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\tank\TankAdmin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\tank\TankAdmin.h"
-				>
-			</File>
-			<File
 				RelativePath="..\tank\TankAutoDefense.cpp"
 				>
 			</File>
@@ -2861,15 +2861,14 @@
 				RelativePath="..\weapons\WeaponNull.h"
 				>
 			</File>
-                        <File
-                                RelativePath="..\weapons\WeaponPosition.cpp"
-                                >
-                        </File>
-                        <File
-                                RelativePath="..\weapons\WeaponPosition.h"
-                                >
-                        </File>
-
+			<File
+				RelativePath="..\weapons\WeaponPosition.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\weapons\WeaponPosition.h"
+				>
+			</File>
 			<File
 				RelativePath="..\weapons\WeaponProjectile.cpp"
 				>

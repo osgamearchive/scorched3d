@@ -65,11 +65,11 @@ void ServerCommon::sendStringMessage(unsigned int destinationId, const char *tex
 	ChannelText message("banner", text);
 	if (destinationId == 0)
 	{
-		ServerChannelManager::instance()->sendText(message);
+		ServerChannelManager::instance()->sendText(message, true);
 	}
 	else
 	{
-		ServerChannelManager::instance()->sendText(message, destinationId);
+		ServerChannelManager::instance()->sendText(message, destinationId, false);
 	}
 }
 
@@ -78,18 +78,18 @@ void ServerCommon::sendString(unsigned int destinationId, const char *text)
 	ChannelText message("info", text);
 	if (destinationId == 0)
 	{
-		ServerChannelManager::instance()->sendText(message);
+		ServerChannelManager::instance()->sendText(message, true);
 	}
 	else
 	{
-		ServerChannelManager::instance()->sendText(message, destinationId);
+		ServerChannelManager::instance()->sendText(message, destinationId, false);
 	}
 }
 
 void ServerCommon::sendStringAdmin(const char *text)
 {
 	ChannelText message("admin", text);
-	ServerChannelManager::instance()->sendText(message);
+	ServerChannelManager::instance()->sendText(message, true);
 }
 
 void ServerCommon::kickDestination(unsigned int destinationId, 

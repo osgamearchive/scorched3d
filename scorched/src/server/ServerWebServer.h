@@ -38,13 +38,6 @@ public:
 class ServerWebServer : public NetMessageHandlerI
 {
 public:
-	struct SessionParams
-	{
-		unsigned int sessionTime;
-		std::string ipAddress;
-		std::string userName;
-	};
-
 	static ServerWebServer *instance();
 
 	void start(int port);
@@ -55,8 +48,6 @@ public:
 		ServerWebServerI *handler);
 	void addAsyncRequestHandler(const char *url,
 		ServerWebServerI *handler);
-
-	std::map<unsigned int, SessionParams> &getSessions() { return sessions_; }
 
 protected:
 	static ServerWebServer *instance_;
@@ -79,7 +70,6 @@ protected:
 	ServerWebServerQueue normalQueue_;
 
 	unsigned int asyncTimer_;
-	std::map<unsigned int, SessionParams> sessions_;
 	std::list<std::pair<unsigned int, NetMessage *> > delayedMessages_;
 
 	SDL_Thread *sendThread_;

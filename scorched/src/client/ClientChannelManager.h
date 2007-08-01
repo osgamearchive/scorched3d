@@ -43,6 +43,9 @@ public:
 	bool changeRegistration(ClientChannelManagerI *reciever,
 		std::list<std::string> &channels);
 
+	void addChannel(const char *lookfor, const char *channel);
+	void removeChannel(const char *channel);
+
 	// Inherited from ComsMessageHandlerI
 	virtual bool processMessage(
 		NetMessage &message,
@@ -60,6 +63,8 @@ protected:
 
 		ClientChannelManagerI *getUser() { return user_; }
 		void setChannels(std::list<ChannelDefinition> &channels);
+		std::set<std::string> &getChannels() { return channels_; }
+
 		bool hasChannel(const char *channel);
 
 	protected:

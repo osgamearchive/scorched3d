@@ -40,8 +40,8 @@ public:
 		unsigned int messageid;
 	};
 
-	void sendText(const ChannelText &text);
-	void sendText(const ChannelText &text, unsigned int destination);
+	void sendText(const ChannelText &text, bool serverLog);
+	void sendText(const ChannelText &text, unsigned int destination, bool serverLog);
 	std::list<MessageEntry> &getLastMessages() { return lastMessages_; }
 	std::list<std::string> getAllChannels();
 
@@ -141,7 +141,8 @@ protected:
 	void joinClient(unsigned int destinationId, unsigned int localId,
 		std::list<ChannelDefinition> &startChannels);
 	void actualSend(const ChannelText &constText,
-		std::map<unsigned int, DestinationEntry *> &destinations);
+		std::map<unsigned int, DestinationEntry *> &destinations, 
+		bool serverLog);
 
 private:
 	ServerChannelManager();

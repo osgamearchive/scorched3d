@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,21 +18,52 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_TankAdminh_INCLUDE__)
-#define __INCLUDE_TankAdminh_INCLUDE__
+#if !defined(__INCLUDE_ServerAdminSessionsh_INCLUDE__)
+#define __INCLUDE_ServerAdminSessionsh_INCLUDE__
 
+#include <map>
+#include <list>
 #include <string>
 
-class TankAdmin
+class ServerAdminSessions
 {
 public:
-	TankAdmin(const char *name);
-	virtual ~TankAdmin();
+	static ServerAdminSessions *instance();
 
-	const char *getName() { return name_.c_str(); }
+	// Creds
+	struct Credential
+	{
+		std::string username;
+		std::string password;
+	};
+
+	bool authenticate(const char *name, const char *password);
+	bool getAllCredentials(std::list<Credential> &creds);
+
+	// Sessions
+	struct SessionParams
+	{
+		unsigned int sessionTime;
+		unsigned int sid;
+		std::string ipAddress;
+		std::string userName;
+	};
+
+	std::map<unsigned int, SessionParams> &getAllSessions() { return sessions_; }
+
+	SessionParams *getFirstSession();
+	SessionParams *getSession(unsigned int sid);
+
+	unsigned int login(const char *userId, const char *ipAddress);
+	void logout(unsigned int sid);
 
 protected:
-	std::string name_;
+	std::map<unsigned int, SessionParams> sessions_;
+
+private:
+	ServerAdminSessions();
+	virtual ~ServerAdminSessions();
+
 };
 
-#endif // __INCLUDE_TankAdminh_INCLUDE__
+#endif

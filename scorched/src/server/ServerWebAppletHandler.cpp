@@ -84,7 +84,7 @@ bool ServerWebAppletHandler::AppletActionHandler::processRequest(const char *url
 			if (text && channel)
 			{
 				ServerChannelManager::instance()->sendText(
-					ChannelText(channel, text));
+					ChannelText(channel, text), true);
 			}
 		}
 	}
