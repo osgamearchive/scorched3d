@@ -149,6 +149,8 @@ scorched3dc_SOURCES = \
 	../server/ServerAdminCommon.h \
 	../server/ServerAdminHandler.cpp \
 	../server/ServerAdminHandler.h \
+	../server/ServerAdminSessions.cpp \
+	../server/ServerAdminSessions.h \
 	../server/ServerAuthHandler.cpp \
 	../server/ServerAuthHandler.h \
 	../server/ServerAuthHandlerForumLogin.cpp \
@@ -486,8 +488,6 @@ scorched3dc_SOURCES = \
 	../tank/Tank.h \
 	../tank/TankAccessories.cpp \
 	../tank/TankAccessories.h \
-	../tank/TankAdmin.cpp \
-	../tank/TankAdmin.h \
 	../tank/TankAutoDefense.cpp \
 	../tank/TankAutoDefense.h \
 	../tank/TankAvatar.cpp \
@@ -1185,6 +1185,8 @@ scorched3dc_SOURCES = \
 	../graph/Mouse.h \
 	../graph/OptionsDisplay.cpp \
 	../graph/OptionsDisplay.h \
+	../graph/OptionsDisplayConsole.cpp \
+	../graph/OptionsDisplayConsole.h \
 	../graph/Particle.cpp \
 	../graph/Particle.h \
 	../graph/ParticleEmitter.cpp \
@@ -1330,6 +1332,8 @@ scorched3dc_SOURCES = \
 	../water/WaterMapPoints.h \
 	../water/WaterWaveDistance.cpp \
 	../water/WaterWaveDistance.h \
+	../water/WaterWaves.cpp \
+	../water/WaterWaves.h \
 	../GLSL/GLSLProgram.cpp \
 	../GLSL/GLSLProgram.h \
 	../GLSL/GLSLShader.cpp \

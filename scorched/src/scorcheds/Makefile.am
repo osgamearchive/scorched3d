@@ -140,6 +140,8 @@ scorched3ds_SOURCES = \
 	../server/ServerAdminCommon.h \
 	../server/ServerAdminHandler.cpp \
 	../server/ServerAdminHandler.h \
+	../server/ServerAdminSessions.cpp \
+	../server/ServerAdminSessions.h \
 	../server/ServerAuthHandler.cpp \
 	../server/ServerAuthHandler.h \
 	../server/ServerAuthHandlerForumLogin.cpp \
@@ -471,8 +473,6 @@ scorched3ds_SOURCES = \
 	../tank/Tank.h \
 	../tank/TankAccessories.cpp \
 	../tank/TankAccessories.h \
-	../tank/TankAdmin.cpp \
-	../tank/TankAdmin.h \
 	../tank/TankAutoDefense.cpp \
 	../tank/TankAutoDefense.h \
 	../tank/TankAvatar.cpp \
