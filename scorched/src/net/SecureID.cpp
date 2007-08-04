@@ -8,13 +8,11 @@
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #include <windows.h>
 #include <iphlpapi.h>
-#include <assert.h>
 
 #endif
 
 #include <net/SecureID.h>
 #include <common/Defines.h>
-#include <graph/OptionsDisplay.h>
 #include <net/NetInterface.h>
 
 #ifdef _WIN32
@@ -39,19 +37,43 @@ std::string SecureID::GetPrivateKey(void)
 
 std::string SecureID::GetPrivateKey(void)
 {
-    std::string Key;
-    int sock = socket (AF_INET, SOCK_DGRAM, 0);
-    if (sock < 0)
-    {
-        return ""; //not a valid socket
-    }
+	std::string Key;
+	int sock = socket (AF_INET, SOCK_DGRAM, 0);
+	if (sock < 0)
+	{
+		return ""; //not a valid socket
+	}
 
-    struct ifreq dev; //create the container for the hardware data
-    strcpy (dev.ifr_name, "eth0"); //select the card
-    if (ioctl(sock, SIOCGIFHWADDR, &dev) < 0)
-    {
-        return ""; //not a valid adapter pointer
-    }
+	struct ifreq dev; //container for the hardware data
+	struct if_nameindex *NameList = if_nameindex(); //container for the interfaces list
+	if (NameList == NULL)
+	{
+		close(sock);
+		return ""; //cannot list the interfaces
+	}
+
+	int pos = 0;
+	std::string InterfaceName;
+	do
+	{
+		if (NameList[pos].if_index == 0)
+		{
+			close(sock);
+			if_freenameindex(NameList);
+			return ""; // no valid interfaces found
+		}
+		InterfaceName = NameList[pos].if_name;
+		pos++;
+	} while (InterfaceName.substr(0,2) == "lo" || InterfaceName.substr(0,3) == "sit");
+
+	if_freenameindex(NameList); //free the memory
+
+	strcpy (dev.ifr_name, InterfaceName.c_str()); //select from the name
+	if (ioctl(sock, SIOCGIFHWADDR, &dev) < 0) //get the interface data
+	{
+		close(sock);
+		return ""; //cannot list the interfaces
+	}
 
     for (int i=0; i<6; i++)
     {
