@@ -23,6 +23,8 @@
 
 #include <water/Water2Patches.h>
 
+class LandscapeDefn;
+class GLImageHandle;
 class LandscapeTexBorderWater;
 class ProgressCounter;
 class Water2
@@ -42,6 +44,11 @@ protected:
 	Water2Patches patches_[256];
 	Water2PatchIndexs indexs_;
 	Water2PatchVisibility visibility_;
+
+	void generateAOF(Water2Points &wd, GLImageHandle *aofImage, float *rndtab, 
+		Water2Points *displacements, float *aof);
+	void generateTransparency(Water2Points &wd, GLImageHandle &oafImage, 
+		LandscapeDefn &defn);
 };
 
 #endif // __INCLUDE_Water2h_INCLUDE__

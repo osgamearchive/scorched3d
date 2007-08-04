@@ -27,7 +27,6 @@
 #include <landscape/Sky.h>
 #include <GLSL/GLSLShaderSetup.h>
 #include <GLEXT/GLCameraFrustum.h>
-#include <GLEXT/GLState.h>
 
 #include <water/Water2Constants.h>
 

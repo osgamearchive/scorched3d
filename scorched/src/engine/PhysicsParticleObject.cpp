@@ -161,6 +161,11 @@ void PhysicsParticleObject::checkCollision()
 		break;
 	case CollisionActionBounce:
 		{
+			// Move the shot back to the original position so that the
+			// shot is outside the object after the bounce
+			position_ -= velocity_ / 100.0f;
+
+			// Calculate the new bounce position
 			float strength = velocity_.Magnitude();
 			Vector direction = velocity_ / strength;
 			float dotp = -collision.normal.dotP(direction);
@@ -173,11 +178,11 @@ void PhysicsParticleObject::checkCollision()
 			float particleHeight = position_[2] - landHeight;
 			if (underGroundCollision_)
 			{
-				if (particleHeight > 0.5f) position_[2] = landHeight + 0.5f;
+				if (particleHeight > -0.1f) position_[2] = landHeight - 0.1f;
 			}
 			else
 			{
-				if (particleHeight < -0.5f) position_[2] = landHeight - 0.5f;
+				if (particleHeight < 0.1f) position_[2] = landHeight + 0.1f;
 			}
 
 			if (rotateOnCollision_)

@@ -120,11 +120,20 @@ bool NetBuffer::uncompressBuffer()
 	unsigned long srcLen = getBufferUsed() - 4;
 	unsigned long destLen = dLen;
 
+#ifdef S3D_SERVER
 	if (destLen > 500000)
 	{
-		Logger::log(formatString("ERROR: Asked to allocated %u bytes", destLen));
-		return false;
+		if (destLen > 2400000)
+		{
+			Logger::log(formatString("ERROR: Asked to allocated %u bytes", destLen));
+			return false;
+		}
+		else
+		{
+			Logger::log(formatString("Warning: Asked to allocated %u bytes", destLen));
+		}
 	}
+#endif
 
 	NetBuffer &newBuffer = NetBufferDefault::compressBuffer;
 	newBuffer.allocate(destLen);

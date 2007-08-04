@@ -347,48 +347,52 @@ void TankAccessories::changed()
 
 bool TankAccessories::writeMessage(NetBuffer &buffer, bool writeAccessories)
 {
-	if (writeAccessories)
+	// Send the fact we are not sending any accessories
+	if (!writeAccessories)
 	{
-		// Write accessories in partid order
-		std::map<unsigned int, int> ordered;
-		std::map<unsigned int, int>::iterator itor2;
-		std::map<Accessory *, int>::iterator itor;
-		for (itor = accessories_.begin();
-			itor != accessories_.end();
-			itor++)
-		{
-			ordered[itor->first->getAccessoryId()] = itor->second;
-		}
-
-		// Add all the accessories that are sent to the client
-		buffer.addToBuffer((int) ordered.size());
-		for (itor2 = ordered.begin();
-			itor2 != ordered.end();
-			itor2++)
-		{
-			buffer.addToBuffer(itor2->first);
-			buffer.addToBuffer(itor2->second);
-		}
-	}
-	else
-	{
-		// Don't let this client know about any accessories
-		buffer.addToBuffer((int) 0);
+		buffer.addToBuffer((int) -1);
+		return true;
 	}
 
-	if (!tankWeapon_.writeMessage(buffer, writeAccessories)) return false;
-	if (!tankAuto_.writeMessage(buffer, writeAccessories)) return false;
-	if (!tankBatteries_.writeMessage(buffer, writeAccessories)) return false;
+	// Write accessories in partid order
+	std::map<unsigned int, int> ordered;
+	std::map<unsigned int, int>::iterator itor2;
+	std::map<Accessory *, int>::iterator itor;
+	for (itor = accessories_.begin();
+		itor != accessories_.end();
+		itor++)
+	{
+		ordered[itor->first->getAccessoryId()] = itor->second;
+	}
+
+	// Add all the accessories that are sent to the client
+	buffer.addToBuffer((int) ordered.size());
+	for (itor2 = ordered.begin();
+		itor2 != ordered.end();
+		itor2++)
+	{
+		buffer.addToBuffer(itor2->first);
+		buffer.addToBuffer(itor2->second);
+	}
+
 	return true;
 }
 
 bool TankAccessories::readMessage(NetBufferReader &reader)
 {
+	int totalAccessories = 0;
+	if (!reader.getFromBuffer(totalAccessories)) return false;
+
+	// Check if we've been sent any accessories, if not return
+	if (totalAccessories == -1) 
+	{
+		return true;
+	}
+
+	// Clear all the current accessories
 	clearAccessories();
 
 	// Check all the servers accessories exist
-	int totalAccessories = 0;
-	if (!reader.getFromBuffer(totalAccessories)) return false;
 	for (int w=0; w<totalAccessories; w++)
 	{
 		unsigned int accessoryId = 0;
@@ -405,10 +409,6 @@ bool TankAccessories::readMessage(NetBufferReader &reader)
 
 		add_(accessory, accessoryCount, false);
 	}
-
-	if (!tankWeapon_.readMessage(reader)) return false;
-	if (!tankAuto_.readMessage(reader)) return false;
-	if (!tankBatteries_.readMessage(reader)) return false;
 
 	changed();
 	return true;

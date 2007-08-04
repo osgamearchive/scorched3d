@@ -23,6 +23,7 @@
 #include <water/Water2Renderer.h>
 #include <water/WaterMapPoints.h>
 #include <water/WaterWaveDistance.h>
+#include <water/WaterWaves.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
@@ -44,6 +45,7 @@ Water::Water() :
 	wMap_ = new Water2();
 	wMapPoints_ = new WaterMapPoints();
 	wWaveDistance_ = new WaterWaveDistance();
+	waves_ = new WaterWaves();
 }
 
 Water::~Water()
@@ -55,7 +57,7 @@ void Water::draw()
 	if (!waterOn_ ||
 		!OptionsDisplay::instance()->getDrawWater()) return;
 
-	wTex_->draw(*wMap_, *wMapPoints_);
+	wTex_->draw(*wMap_, *wMapPoints_, *waves_);
 }
 
 void Water::simulate(float frameTime)
@@ -64,6 +66,7 @@ void Water::simulate(float frameTime)
 		!OptionsDisplay::instance()->getDrawWater()) return;
 
 	wTex_->simulate(frameTime);
+	waves_->simulate(frameTime);
 }
 
 void Water::generate(ProgressCounter *counter)
@@ -122,6 +125,8 @@ void Water::generate(ProgressCounter *counter)
 			bitmapWater, sprayMaskBitmap);
 		landTexWater_.replace(textureWaterNew);
 	}
+
+	waves_->generateWaves(height_, counter);
 }
 
 void Water::bindWaterReflection()

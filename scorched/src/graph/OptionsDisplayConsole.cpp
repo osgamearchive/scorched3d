@@ -22,6 +22,7 @@
 #include <graph/OptionsDisplay.h>
 #include <common/OptionsScorched.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientParams.h>
 
 OptionsDisplayConsole *OptionsDisplayConsole::instance_ = 0;
 
@@ -62,7 +63,8 @@ void OptionsDisplayConsole::addDisplayToConsole()
 	{
 		OptionEntry *entry = (*itor);
 		if ((entry->getData() & OptionsDisplay::DebugOnly) &&
-			!ScorchedClient::instance()->getOptionsGame().getDebugFeatures())
+			!ScorchedClient::instance()->getOptionsGame().getDebugFeatures() &&
+			ClientParams::instance()->getConnectedToServer())
 		{
 			entry->setValueFromString(entry->getDefaultValueAsString());
 		}

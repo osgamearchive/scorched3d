@@ -20,6 +20,7 @@
 
 #include <actions/Lightning.h>
 #include <common/Defines.h>
+#include <common/RandomGenerator.h>
 #ifndef S3D_SERVER
 	#include <sound/SoundUtils.h>
 	#include <graph/TextureStore.h>
@@ -31,6 +32,7 @@
 #include <target/TargetDamageCalc.h>
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
+#include <engine/ActionController.h>
 #include <weapons/AccessoryStore.h>
 #include <math.h>
 
@@ -41,19 +43,16 @@ Lightning::Lightning(WeaponLightning *weapon,
 	weapon_(weapon),
 	weaponContext_(weaponContext),
 	position_(position), velocity_(velocity),
-	generator_(0), texture_(0)
+	texture_(0)
 {
 }
 
 Lightning::~Lightning()
 {
-	delete generator_;
 }
 
 void Lightning::init()
 {
-	generator_ = new RandomGenerator();
-	generator_->seed(weaponContext_.getPlayerId());
 	Vector direction = velocity_.Normalize();
 	std::map<unsigned int, float> hurtMap;
 
@@ -174,14 +173,16 @@ void Lightning::draw()
 void Lightning::dispaceDirection(Vector &direction, 
 	Vector &originalDirection, float angle)
 {
+	RandomGenerator &generator = context_->actionController->getRandom();
+
 	int breakCount = 0;
 
 	Vector newdir;
 	while (breakCount++ < 1000)
 	{
-		newdir[0] = (generator_->getRandFloat() - 0.5f) * 2.0f;
-		newdir[1] = (generator_->getRandFloat() - 0.5f) * 2.0f;
-		newdir[2] = (generator_->getRandFloat() - 0.5f) * 2.0f;
+		newdir[0] = (generator.getRandFloat() - 0.5f) * 2.0f;
+		newdir[1] = (generator.getRandFloat() - 0.5f) * 2.0f;
+		newdir[2] = (generator.getRandFloat() - 0.5f) * 2.0f;
 		newdir.StoreNormalize();
 
 		float a = newdir[0] * direction[0] + 
@@ -207,8 +208,9 @@ void Lightning::generateLightning(int id, int depth, float size,
 {
 	if (id > 100) return;
 
+	RandomGenerator &generator = context_->actionController->getRandom();
 	float length = weapon_->getSegLength() + 
-		weapon_->getSegVar() * generator_->getRandFloat();
+		weapon_->getSegVar() * generator.getRandFloat();
 	Vector end = start + direction * length;
 
 	// Add the new lightning segment
@@ -226,7 +228,7 @@ void Lightning::generateLightning(int id, int depth, float size,
 	damageTargets(segment.end, hurtMap);
 
 	// Rand posibility that we stop
-	if (depth > 1 && generator_->getRandFloat() < 
+	if (depth > 1 && generator.getRandFloat() < 
 		weapon_->getDeathProb())
 	{
 		segment.endsegment = true;
@@ -253,7 +255,7 @@ void Lightning::generateLightning(int id, int depth, float size,
 	}
 
 	// Make a new strand
-	if (generator_->getRandFloat() <= 
+	if (generator.getRandFloat() <= 
 		weapon_->getSplitProb() - (depth - 1) * weapon_->getSplitVar())
     {
 		float newsize = size + weapon_->getSizeVar();

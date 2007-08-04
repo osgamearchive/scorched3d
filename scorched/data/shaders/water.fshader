@@ -86,19 +86,27 @@ void main()
 		texture2D(tex_foamamount, aoftexcoord.xy / 256.0).x;
 		
 	// foam due to breakers at the shore
-	float aofland = 0.0;
+	float landfoam = 0.0;
+	float trans = 1.0;
 	float aoflandxper = aoftexcoord.x / landscape_size.x;
 	float aoflandyper = aoftexcoord.y / landscape_size.y;
 	float aoflandxclamp = clamp(aoflandxper, 0.0, 1.0);
 	float aoflandyclamp = clamp(aoflandyper, 0.0, 1.0);
 	if (aoflandxper == aoflandxclamp &&
-		aoflandyper == aoflandyclamp)
+		aoflandyper == aoflandyclamp &&
+		aoftexcoord.z == 1.0)
 	{
-		aofland = texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper)).y * aoftexcoord.z;
+		float aofland = texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper)).y;
+		trans = min(1.0, 0.2 + aofland * 2.0);
+		//if (trans < 0.25) 
+		//{
+		//	landfoam = (0.25 - trans) * 20;
+		//	trans = min(1.0, (0.25 - trans) * 20 + 0.2);
+		//}
 	}
 	
 	// calc total foam from both of these	
-	float foam_amount = max(min(aof + aofland, 1.0) - ((1.0 - s0) * 0.5), 0.0) * 
+	float foam_amount = max(min(aof + landfoam, 1.0) - ((1.0 - s0) * 0.5), 0.0) * 
 		texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper) * 25.0).z;
 
 	// Find color taking water and foam
@@ -109,5 +117,5 @@ void main()
 	float fog_factor = clamp(fog, 0.0, 1.0);
 
 	// output color is a mix between fog and final color
-	gl_FragColor = vec4(mix(vec3(gl_Fog.color), final_color, fog_factor), 1.0);
+	gl_FragColor = vec4(mix(vec3(gl_Fog.color), final_color, fog_factor), trans);
 }

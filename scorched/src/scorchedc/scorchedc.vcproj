@@ -5626,6 +5626,14 @@
 				RelativePath="..\water\WaterWaveDistance.h"
 				>
 			</File>
+			<File
+				RelativePath="..\water\WaterWaves.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\water\WaterWaves.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="GLSL"

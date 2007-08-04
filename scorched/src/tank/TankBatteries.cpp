@@ -48,13 +48,3 @@ int TankBatteries::getNoBatteries()
 	if (result.empty()) return 0;
 	return tank_->getAccessories().getAccessoryCount(result.front());
 }
-
-bool TankBatteries::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	return true;
-}
-
-bool TankBatteries::readMessage(NetBufferReader &reader)
-{
-	return true;
-}

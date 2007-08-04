@@ -21,6 +21,7 @@
 #include <water/Water2Renderer.h>
 #include <water/Water2.h>
 #include <water/WaterMapPoints.h>
+#include <water/WaterWaves.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLImageFactory.h>
@@ -52,7 +53,7 @@ void Water2Renderer::simulate(float frameTime)
 	totalTime_ += frameTime * 24.0f;
 }
 
-void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
+void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points, WaterWaves &waves)
 {
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_PATCHSETUP");
 	// Choose correct water frame
@@ -68,6 +69,9 @@ void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points)
 		}
 	}
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_PATCHSETUP");
+
+	// Draw waves
+	waves.draw(*currentPatch_);
 
 	// Draw Water
 	if (GLStateExtension::hasShaders())
@@ -94,6 +98,8 @@ void Water2Renderer::drawPoints(WaterMapPoints &points)
 
 void Water2Renderer::drawWaterShaders(Water2 &water2)
 {
+	GLState state(GLState::LIGHTING_OFF | GLState::TEXTURE_ON | GLState::BLEND_ON);
+
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	Vector cameraPos = MainCamera::instance()->getTarget().getCamera().getCurrentPos();

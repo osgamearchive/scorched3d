@@ -37,10 +37,6 @@ public:
 	void changed();
 	bool haveDefense();
 
-	// Serialize the tank
-    bool writeMessage(NetBuffer &buffer, bool writeAccessories);
-    bool readMessage(NetBufferReader &reader);
-
 protected:
 	ScorchedContext &context_;
 	Tank *tank_;

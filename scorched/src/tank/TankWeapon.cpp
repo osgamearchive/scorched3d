@@ -150,13 +150,3 @@ const char *TankWeapon::getWeaponString()
 		getCurrent()->getName(), count);
 	return buffer;
 }
-
-bool TankWeapon::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	return true;
-}
-
-bool TankWeapon::readMessage(NetBufferReader &reader)
-{
-	return true;
-}

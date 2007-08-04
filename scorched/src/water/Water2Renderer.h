@@ -28,6 +28,7 @@
 
 class Water2;
 class Water2Patches;
+class WaterWaves;
 class WaterMapPoints;
 class LandscapeTexBorderWater;
 class ProgressCounter;
@@ -37,7 +38,7 @@ public:
 	Water2Renderer();
 	~Water2Renderer();
 
-	void draw(Water2 &water2, WaterMapPoints &points);
+	void draw(Water2 &water2, WaterMapPoints &points, WaterWaves &waves);
 	void simulate(float frameTime);
 	void generate(LandscapeTexBorderWater *water, ProgressCounter *counter = 0);
 

@@ -181,10 +181,8 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId, const char *reason
 		tank->getName(), reason));	
 
 	// Check if we can remove player
-	if ((tank->getState().getState() == TankState::sNormal || 
-		tank->getState().getState() == TankState::sDead) &&
-		(ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShot ||
-		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShotReady))
+	if (tank->getState().getState() == TankState::sNormal &&
+		ScorchedServer::instance()->getGameState().getState() == ServerState::ServerStateShot)
 	{
 		// Store a residual copy, that will be over written when the player is actual deleted
 		ScorchedServer::instance()->getTankDeadContainer().addTank(tank);

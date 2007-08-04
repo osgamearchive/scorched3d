@@ -17,5 +17,5 @@ void main()
     gl_TexCoord[2] = gl_MultiTexCoord2;
 
     gl_Position = ftransform();
-	gl_FogFragCoord = max(gl_Position.z - 100.0, 0.0);
+	//gl_FogFragCoord = max(gl_Position.z - 100.0, 0.0);
 } 

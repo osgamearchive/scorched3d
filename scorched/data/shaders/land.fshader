@@ -15,8 +15,8 @@ void main()
 	float NdotL = max(dot(n,normalize(lightDir)),0.0) * s0;
 
 	// add exp fog (depth cueing)
-	float fog = exp2(-gl_Fog.density * gl_FogFragCoord * 7.0 * 1.442695);
-	float fog_factor = clamp(fog, 0.8, 1.0);
+	// float fog = exp2(-gl_Fog.density * gl_FogFragCoord * 7.0 * 1.442695);
+	// float fog_factor = clamp(fog, 0.8, 1.0);
 
 	// Light color
 	vec4 ambient = gl_LightSource[1].ambient; //* gl_FrontMaterial.ambient;
@@ -37,6 +37,6 @@ void main()
 	vec3 finalColor =
 		((groundColor.rgb * 3.5) + detailColor.rgb) / 4.0 * lightcolor.rgb;
 		
-	gl_FragColor = vec4(mix(vec3(0.1, 0.1, 0.1), finalColor, fog_factor), 1.0);
-
+	// gl_FragColor = vec4(mix(vec3(0.1, 0.1, 0.1), finalColor, fog_factor), 1.0);
+	gl_FragColor = vec4(finalColor, 1.0);
 }

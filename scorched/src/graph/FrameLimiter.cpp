@@ -37,10 +37,11 @@ void FrameLimiter::dontLimitFrameTime()
 
 void FrameLimiter::limitFrameTime()
 {
-	unsigned int lastFrameTicks = frameTime_.getTicksDifference();
-
 	unsigned int wantedFramesPerSecond = 
 		(unsigned int) OptionsDisplay::instance()->getFramesPerSecondLimit();
+	if (wantedFramesPerSecond == 0) return;
+
+	unsigned int lastFrameTicks = frameTime_.getTicksDifference();
 	unsigned int wantedTicksPerFrame = 1000 / wantedFramesPerSecond;
 
 	if (wantedTicksPerFrame > lastFrameTicks)

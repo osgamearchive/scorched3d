@@ -23,7 +23,6 @@
 
 #include <engine/ActionReferenced.h>
 #include <weapons/WeaponLightning.h>
-#include <common/RandomGenerator.h>
 #include <list>
 
 class GLTexture;
@@ -52,7 +51,6 @@ protected:
 	bool firstTime_;
 	float totalTime_;
 	std::list<Segment> segments_;
-	RandomGenerator *generator_;
 
 	GLTexture *texture_;
 	WeaponLightning *weapon_;

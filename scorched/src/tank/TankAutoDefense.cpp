@@ -48,13 +48,3 @@ bool TankAutoDefense::haveDefense()
 			AccessoryPart::AccessoryAutoDefense);
 	return !result.empty();
 }
-
-bool TankAutoDefense::writeMessage(NetBuffer &buffer, bool writeAccessories)
-{
-	return true;
-}
-
-bool TankAutoDefense::readMessage(NetBufferReader &reader)
-{
-	return true;
-}

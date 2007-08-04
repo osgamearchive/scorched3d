@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/AddTarget.h>
+#include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
 #include <target/TargetContainer.h>
 #include <target/TargetDamageCalc.h>
@@ -48,10 +49,8 @@ void AddTarget::simulate(float frameTime, bool &remove)
 {
 	unsigned int playerId = TankAIAdder::getNextTargetId(*context_);
 
-	RandomGenerator generator;
-	generator.seed(playerId);
 	Target *target = addTarget_->getTargetDefinition().createTarget(
-		playerId, position_, Vector::nullVector, *context_, generator);
+		playerId, position_, Vector::nullVector, *context_, context_->actionController->getRandom());
 	context_->targetContainer->addTarget(target);
 
 	// Check if this new target can fall

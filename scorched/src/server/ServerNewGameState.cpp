@@ -145,11 +145,11 @@ void ServerNewGameState::enterState(const unsigned state)
 	// Remove any old targets
 	removeTargets();
 
-	// Check teams are even
-	checkTeams();
-
 	// Check that we dont have too many bots
 	checkBots(true);
+
+	// Check teams are even
+	checkTeams();
 
 	// Generate the new level
 	ScorchedServer::instance()->getContext().landscapeMaps->generateMaps(

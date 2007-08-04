@@ -30,6 +30,7 @@ class Water2;
 class Water2Renderer;
 class WaterMapPoints;
 class WaterWaveDistance;
+class WaterWaves;
 class Water
 {
 public:
@@ -57,6 +58,7 @@ protected:
 	Water2Renderer *wTex_;
 	WaterMapPoints *wMapPoints_;
 	WaterWaveDistance *wWaveDistance_;
+	WaterWaves *waves_;
 	GLTexture landTexWater_;
 	GLImageHandle bitmapWater_;
 

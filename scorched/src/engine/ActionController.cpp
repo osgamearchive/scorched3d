@@ -156,6 +156,7 @@ void ActionController::resetTime()
 {
 	time_ = 0.0f;
 	lastTraceTime_ = 0.0f;
+	stepTime_ = 0.0f;
 }
 
 void ActionController::setScorchedContext(ScorchedContext *context)

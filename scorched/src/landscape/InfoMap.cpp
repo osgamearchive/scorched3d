@@ -24,8 +24,8 @@
 #include <GLEXT/GLConsoleRuleMethodIAdapter.h>
 #include <GLEXT/GLImageFactory.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientParams.h>
 #include <common/OptionsTransient.h>
-
 
 InfoMap *InfoMap::instance_ = 0;
 
@@ -40,7 +40,8 @@ InfoMap *InfoMap::instance()
 
 InfoMap::InfoMap()
 {
-	if(ScorchedClient::instance()->getOptionsGame().getDebugFeatures())
+	if(ScorchedClient::instance()->getOptionsGame().getDebugFeatures() ||
+		!ClientParams::instance()->getConnectedToServer())
 	{
 		new GLConsoleRuleMethodIAdapter<Landscape>(
 			Landscape::instance(), &Landscape::restoreLandscapeTexture, "LandscapeInfoOff");

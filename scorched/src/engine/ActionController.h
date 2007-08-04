@@ -103,7 +103,6 @@ protected:
 	float speed_;
 	float time_;
 	float lastTraceTime_;
-	float totalTime_;
 	float stepTime_;
 	bool actionProfiling_;
 	bool actionTracing_;
