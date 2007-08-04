@@ -68,6 +68,9 @@ LandscapeDefn *LandscapeDefinitions::getDefn(const char *file, bool load)
 
 bool LandscapeDefinitions::readLandscapeDefinitions()
 {
+	// Clear existing landscapes
+	clearLandscapeDefinitions();
+
 	// Parse base landscape information
 	if (!LandscapeDefinitionsBase::readLandscapeDefinitions()) return false;
 
@@ -155,6 +158,37 @@ void LandscapeDefinitions::checkEnabled(OptionsScorched &context)
 	Logger::log(formatString(
 		"Warning: No existing landscapes are enabled (Landscapes : %s)",
 		context.getLandscapes()));
+}
+
+LandscapeDefinition LandscapeDefinitions::getLandscapeDefn(
+	const char *name)
+{
+	LandscapeDefinitionsEntry *result = 0;
+
+	// Build a list of the maps that are enabled
+	float totalWeight = 0.0f;
+	std::list<LandscapeDefinitionsEntry *> passedLandscapes;
+	std::list<LandscapeDefinitionsEntry>::iterator itor;
+	for (itor = entries_.begin();
+		itor != entries_.end();
+		itor++)
+	{
+		result = &(*itor);
+		if (0 == strcmp(name, result->name.c_str()))
+		{
+
+			break;
+		}
+	}
+
+	// Return the chosen definition
+	std::string tex = getLeastUsedFile(result->texs);
+	std::string defn = getLeastUsedFile(result->defns);
+	unsigned int seed = (unsigned int) rand();
+
+	LandscapeDefinition entry(
+		tex.c_str(), defn.c_str(), seed, result->name.c_str());
+	return entry;
 }
 
 LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(

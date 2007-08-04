@@ -41,6 +41,7 @@ public:
 	virtual void clearLandscapeDefinitions();
 
 	void checkEnabled(OptionsScorched &context);
+	LandscapeDefinition getLandscapeDefn(const char *name);
 	LandscapeDefinition getRandomLandscapeDefn(OptionsScorched &context);
 	LandscapeTex *getTex(const char *file, bool load = false);
 	LandscapeDefn *getDefn(const char *file, bool load = false);

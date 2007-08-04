@@ -60,6 +60,7 @@
 #include <graph/Main2DCamera.h>
 #include <graph/Display.h>
 #include <dialogs/HelpButtonDialog.h>
+#include <dialogs/AnimatedBackdropDialog.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>

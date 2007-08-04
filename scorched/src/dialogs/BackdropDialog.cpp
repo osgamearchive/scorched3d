@@ -44,12 +44,6 @@ BackdropDialog::BackdropDialog() :
 	GLImageHandle backMap = GLImageFactory::loadImageHandle(
 		getDataFile("data/windows/backdrop.jpg"));
 	backTex_.create(backMap, false);
-
-	GLImageHandle logoMap = GLImageFactory::loadImageHandle(
-		formatString(getDataFile("data/windows/scorched.jpg")),
-		formatString(getDataFile("data/windows/scorcheda.jpg")),
-		false);
-	logoTex_.create(logoMap, false);
 }
 
 BackdropDialog::~BackdropDialog()
@@ -57,6 +51,12 @@ BackdropDialog::~BackdropDialog()
 }
 
 void BackdropDialog::draw()
+{
+	drawBackground();
+	drawLogo();
+}
+
+void BackdropDialog::drawBackground()
 {
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_ON);
 
@@ -77,8 +77,26 @@ void BackdropDialog::draw()
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(0.0f, wHeight);
 	glEnd();	
+}
 
-	GLState currentState2(GLState::BLEND_ON);
+void BackdropDialog::drawLogo()
+{
+	if (0 != strcmp(getDataFileMod(), lastMod_.c_str()))
+	{
+		lastMod_ = getDataFileMod();
+
+		GLImageHandle logoMap = GLImageFactory::loadImageHandle(
+			formatString(getDataFile("data/windows/scorched.jpg")),
+			formatString(getDataFile("data/windows/scorcheda.jpg")),
+			false);
+		logoTex_.create(logoMap, false);
+	}
+
+	GLState currentState(GLState::DEPTH_OFF | GLState::BLEND_ON | GLState::TEXTURE_ON);
+
+	// Calcuate how may tiles are needed
+	float wWidth = (float) GLViewPort::getWidth();
+	float wHeight = (float) GLViewPort::getHeight();
 
 	// Draw the higer rez logo
 	const float logoWidth = 480.0f;
@@ -102,4 +120,3 @@ void BackdropDialog::draw()
 		glEnd();
 	glPopMatrix();
 }
-

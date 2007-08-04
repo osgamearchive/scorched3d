@@ -18,30 +18,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_BackdropDialogh_INCLUDE__)
-#define __INCLUDE_BackdropDialogh_INCLUDE__
+#if !defined(__INCLUDE_AnimatedBackdropDialogh_INCLUDE__)
+#define __INCLUDE_AnimatedBackdropDialogh_INCLUDE__
 
 #include <GLEXT/GLTexture.h>
 #include <GLW/GLWWindow.h>
 
-class BackdropDialog : public GLWWindow
+class ProgressCounter;
+class AnimatedBackdropDialog : public GLWWindow
 {
 public:
-	static BackdropDialog *instance();
+	static AnimatedBackdropDialog *instance();
 
 	virtual void draw();
-	void drawBackground();
-	void drawLogo();
+	virtual void simulate(float frameTime);
 
 protected:
-	static BackdropDialog *instance_;
-	GLTexture backTex_;
-	GLTexture logoTex_;
-	std::string lastMod_;
+	static AnimatedBackdropDialog *instance_;
+	float rotation_;
+	bool init_;
+
+	void init();
 
 private:
-	BackdropDialog();
-	virtual ~BackdropDialog();
+	AnimatedBackdropDialog();
+	virtual ~AnimatedBackdropDialog();
 };
 
 

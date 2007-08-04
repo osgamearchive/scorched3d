@@ -27,6 +27,7 @@
 #include <client/ClientState.h>
 #include <client/ClientWindowSetup.h>
 #include <client/ScorchedClient.h>
+#include <dialogs/AnimatedBackdropDialog.h>
 #include <dialogs/AutoDefenseDialog.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/CameraDialog.h>
@@ -165,7 +166,7 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 
 	// StateOptions
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
-		BackdropDialog::instance(), 0, true);
+		AnimatedBackdropDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 
 		QuitDialog::instance(), quitKey, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateOptions, 

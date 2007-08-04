@@ -97,7 +97,7 @@ void main()
 		aoftexcoord.z == 1.0)
 	{
 		float aofland = texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper)).y;
-		trans = min(1.0, 0.2 + aofland * 2.0);
+		trans = min(1.0, 0.4 + aofland * 1.8);
 		//if (trans < 0.25) 
 		//{
 		//	landfoam = (0.25 - trans) * 20;

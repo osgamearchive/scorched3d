@@ -5079,6 +5079,14 @@
 			Name="dialogs"
 			>
 			<File
+				RelativePath="..\dialogs\AnimatedBackdropDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\AnimatedBackdropDialog.h"
+				>
+			</File>
+			<File
 				RelativePath="..\dialogs\AutoDefenseDialog.cpp"
 				>
 			</File>
