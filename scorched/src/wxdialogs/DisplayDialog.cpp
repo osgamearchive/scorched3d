@@ -379,8 +379,6 @@ void DisplayFrame::refreshScreen()
 	IDC_NOWATER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDrawWaterEntry().getDescription(), wxConvUTF8));
 	IDC_NOSURROUND_CTRL->SetValue(!OptionsDisplay::instance()->getDrawSurround());
 	IDC_NOSURROUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getDrawSurroundEntry().getDescription(), wxConvUTF8));
-	IDC_NOTREES_CTRL->SetValue(OptionsDisplay::instance()->getNoTrees());
-	IDC_NOTREES_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoTreesEntry().getDescription(), wxConvUTF8));
 	IDC_NOPRECIPITATION_CTRL->SetValue(OptionsDisplay::instance()->getNoPrecipitation());
 	IDC_NOPRECIPITATION_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoPrecipitationEntry().getDescription(), wxConvUTF8));
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
@@ -595,7 +593,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getSoundChannelsEntry().setValue(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue().mb_str(wxConvUTF8)));
 	OptionsDisplay::instance()->getNoSkinsEntry().setValue(IDC_NOSKINS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoModelLightingEntry().setValue(IDC_NODYNAMICLIGHT_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoTreesEntry().setValue(IDC_NOTREES_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoPrecipitationEntry().setValue(IDC_NOPRECIPITATION_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoDepthSortingEntry().setValue(IDC_NODEPTHSORT_CTRL->GetValue());
 	OptionsDisplay::instance()->getFullScreenEntry().setValue(IDC_FULLSCREEN_CTRL->GetValue());

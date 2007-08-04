@@ -436,7 +436,7 @@
 		<title>Camera no restrict</title>
 		<description>Allow the camera to move through the landscape</description>
 		<group>3</group>
-		<key state='RALT'>RALT</key>
+		<key>BACKSLASH</key>
 	</keyentry>
 	<keyentry>
 		<name>CAMERA_SET_QUICK_SLOT_1</name>

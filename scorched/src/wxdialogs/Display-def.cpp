@@ -49,7 +49,6 @@ static wxCheckBox *IDC_NOWATER_CTRL = 0;
 static wxCheckBox *IDC_NOWATERREF_CTRL = 0;
 static wxCheckBox *IDC_NOSURROUND_CTRL = 0;
 static wxCheckBox *IDC_NOVBO_CTRL = 0;
-static wxCheckBox *IDC_NOTREES_CTRL = 0;
 static wxCheckBox *IDC_NOPRECIPITATION_CTRL = 0;
 static wxCheckBox *IDC_NOMULTITEX_CTRL = 0;
 static wxCheckBox *IDC_INVERT_CTRL = 0;

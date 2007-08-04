@@ -222,99 +222,115 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 	sizer->Add(textureSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 
 	// Detail switches 
-	wxStaticBox *detailBox = new wxStaticBox(parent, -1, 
-		wxT("Detail (Turn off to speed up the game)"));
-	wxStaticBoxSizer *detailSizer = new wxStaticBoxSizer(detailBox, wxHORIZONTAL);
-	wxGridSizer *detailSizer2 = new wxGridSizer(3, 3, 10, 10);
-	IDC_SINGLESKYLAYER_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Single sky layer"));
-	detailSizer2->Add(IDC_SINGLESKYLAYER_CTRL, 0);
-	IDC_NOSKYANI_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't animate sky"));
-	detailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
-	IDC_NOWATERLOD_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Draw simplistic water"));
-	detailSizer2->Add(IDC_NOWATERLOD_CTRL, 0);
-	IDC_NOWATERMOVEMENT_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't draw water movement"));
-	detailSizer2->Add(IDC_NOWATERMOVEMENT_CTRL, 0);
-	IDC_NOWATERWAVES_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't draw water breakers"));
-	detailSizer2->Add(IDC_NOWATERWAVES_CTRL, 0);
-	IDC_NOWATERREF_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't draw reflections"));
-	detailSizer2->Add(IDC_NOWATERREF_CTRL, 0);
-	IDC_NOWATER_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't draw water"));
-	detailSizer2->Add(IDC_NOWATER_CTRL, 0);
-	IDC_NOSURROUND_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't draw surround"));
-	detailSizer2->Add(IDC_NOSURROUND_CTRL, 0);
-	IDC_NODETAILTEX_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Don't use detail textures"));
-	detailSizer2->Add(IDC_NODETAILTEX_CTRL, 0);
-	IDC_NOSKINS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No model skins"));
-	detailSizer2->Add(IDC_NOSKINS_CTRL, 0);
-	IDC_NODYNAMICLIGHT_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No model dynamic lighting"));
-	detailSizer2->Add(IDC_NODYNAMICLIGHT_CTRL, 0);
-	IDC_NOTREES_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No trees"));
-	detailSizer2->Add(IDC_NOTREES_CTRL, 0);
-	IDC_NOPRECIPITATION_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No precipitation"));
-	detailSizer2->Add(IDC_NOPRECIPITATION_CTRL, 0);
-	IDC_NODEPTHSORT_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No sprite depth sorting"));
-	detailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
-	detailSizer->Add(detailSizer2, 0, wxGROW);
-	sizer->Add(detailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	{
+		wxStaticBox *waterDetailBox = new wxStaticBox(parent, -1, 
+			wxT("Graphics Detail"));
+		wxStaticBoxSizer *waterDetailSizer = new wxStaticBoxSizer(waterDetailBox, wxHORIZONTAL);
+		wxGridSizer *waterDetailSizer2 = new wxGridSizer(3, 1, 10, 10);
 
-	// Troubleshooting switches 
-	wxStaticBox *troubleBox = new wxStaticBox(parent, -1,
-		wxT("Trouble shooting (Turn off if Scorched crashes)"));
-	wxStaticBoxSizer *troubleSizer = new wxStaticBoxSizer(troubleBox, wxHORIZONTAL);
-	wxGridSizer *troubleSizer2 = new wxGridSizer(3, 3, 10, 10);
-	IDC_NOEXT_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No GL Extensions"));
-	troubleSizer2->Add(IDC_NOEXT_CTRL, 0);
-	IDC_NOMULTITEX_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No multi texture"));
-	troubleSizer2->Add(IDC_NOMULTITEX_CTRL, 0);
-	IDC_NOLANDSCAPESCORCH_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No TexSubImaging"));
-	troubleSizer2->Add(IDC_NOLANDSCAPESCORCH_CTRL, 0);
-	IDC_NOCOMPILEDARRAYS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No compiled arrays"));
-	troubleSizer2->Add(IDC_NOCOMPILEDARRAYS_CTRL, 0);
-	IDC_NOENVCOMBINE_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No combined textures"));
-	troubleSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
-	IDC_NOSHADERS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No GL shaders"));
-	troubleSizer2->Add(IDC_NOSHADERS_CTRL, 0);
-	IDC_NOSHADOWS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No GL shadows"));
-	troubleSizer2->Add(IDC_NOSHADOWS_CTRL, 0);
-	IDC_NOCUBEMAP_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No cube map"));
-	troubleSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
-	IDC_NOSPHEREMAP_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No sphere map"));
-	troubleSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
-	IDC_NOMIPMAPS_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No HW mip maps"));
-	troubleSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);
-	IDC_FULLCLEAR_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Full Clear"));
-	troubleSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
-	IDC_NOVBO_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No VBO"));
-	troubleSizer2->Add(IDC_NOVBO_CTRL, 0);
+		IDC_NOWATERREF_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't draw water reflections - Large Framerate Improvement"));
+		waterDetailSizer2->Add(IDC_NOWATERREF_CTRL, 0);
+		IDC_NOWATERMOVEMENT_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't draw water movement - Large Framerate Improvement"));
+		waterDetailSizer2->Add(IDC_NOWATERMOVEMENT_CTRL, 0);
+		IDC_NOWATER_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't draw water - Large Framerate Improvement"));
+		waterDetailSizer2->Add(IDC_NOWATER_CTRL, 0);
+		IDC_NOWATERWAVES_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't draw water breakers - Small Loading Speed Improvement"));
+		waterDetailSizer2->Add(IDC_NOWATERWAVES_CTRL, 0);
+		IDC_NOWATERLOD_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Draw simplistic water - Medium Framerate Improvement"));
+		waterDetailSizer2->Add(IDC_NOWATERLOD_CTRL, 0);
+		IDC_NOSHADERS_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No GL shaders - Large Framerate Improvement"));
+		waterDetailSizer2->Add(IDC_NOSHADERS_CTRL, 0);
+		IDC_NOSHADOWS_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No GL shadows - Large Framerate Improvement"));
+		waterDetailSizer2->Add(IDC_NOSHADOWS_CTRL, 0);
 
-	troubleSizer->Add(troubleSizer2, 0, wxGROW);
-	sizer->Add(troubleSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+		waterDetailSizer->Add(waterDetailSizer2, 0, wxGROW);
+		sizer->Add(waterDetailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
+
+	// Graphics Settings
+	{
+		wxStaticBox *glDetailBox = new wxStaticBox(parent, -1, 
+			wxT("Compatability Settings"));
+		wxStaticBoxSizer *glDetailSizer = new wxStaticBoxSizer(glDetailBox, wxHORIZONTAL);
+		wxGridSizer *glDetailSizer2 = new wxGridSizer(3, 3, 10, 10);
+
+		IDC_NOEXT_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No GL Extensions"));
+		glDetailSizer2->Add(IDC_NOEXT_CTRL, 0);
+		IDC_NOMULTITEX_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No multi texture"));
+		glDetailSizer2->Add(IDC_NOMULTITEX_CTRL, 0);
+		IDC_NOLANDSCAPESCORCH_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No TexSubImaging"));
+		glDetailSizer2->Add(IDC_NOLANDSCAPESCORCH_CTRL, 0);
+		IDC_NOCOMPILEDARRAYS_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No compiled arrays"));
+		glDetailSizer2->Add(IDC_NOCOMPILEDARRAYS_CTRL, 0);
+		IDC_NOENVCOMBINE_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No combined textures"));
+		glDetailSizer2->Add(IDC_NOENVCOMBINE_CTRL, 0);
+		IDC_NOCUBEMAP_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No cube map"));
+		glDetailSizer2->Add(IDC_NOCUBEMAP_CTRL, 0);
+		IDC_NOSPHEREMAP_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No sphere map"));
+		glDetailSizer2->Add(IDC_NOSPHEREMAP_CTRL, 0);
+		IDC_NOMIPMAPS_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No HW mip maps"));
+		glDetailSizer2->Add(IDC_NOMIPMAPS_CTRL, 0);
+		IDC_NOVBO_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No VBO"));
+		glDetailSizer2->Add(IDC_NOVBO_CTRL, 0);
+
+		glDetailSizer->Add(glDetailSizer2, 0, wxGROW);
+		sizer->Add(glDetailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
+
+	{
+		wxStaticBox *miscDetailBox = new wxStaticBox(parent, -1, 
+			wxT("Misc Detail"));
+		wxStaticBoxSizer *miscDetailSizer = new wxStaticBoxSizer(miscDetailBox, wxHORIZONTAL);
+		wxGridSizer *miscDetailSizer2 = new wxGridSizer(3, 3, 10, 10);
+
+		IDC_NODETAILTEX_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't use detail textures"));
+		miscDetailSizer2->Add(IDC_NODETAILTEX_CTRL, 0);
+		IDC_NOSURROUND_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't draw surround"));
+		miscDetailSizer2->Add(IDC_NOSURROUND_CTRL, 0);
+		IDC_SINGLESKYLAYER_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Single sky layer"));
+		miscDetailSizer2->Add(IDC_SINGLESKYLAYER_CTRL, 0);
+		IDC_NOSKYANI_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Don't animate sky"));
+		miscDetailSizer2->Add(IDC_NOSKYANI_CTRL, 0);
+		IDC_NOSKINS_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No model skins"));
+		miscDetailSizer2->Add(IDC_NOSKINS_CTRL, 0);
+		IDC_NODYNAMICLIGHT_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No model dynamic lighting"));
+		miscDetailSizer2->Add(IDC_NODYNAMICLIGHT_CTRL, 0);
+		IDC_NOPRECIPITATION_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No precipitation"));
+		miscDetailSizer2->Add(IDC_NOPRECIPITATION_CTRL, 0);
+		IDC_NODEPTHSORT_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No sprite depth sorting"));
+		miscDetailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
+		IDC_FULLCLEAR_CTRL = 
+			new wxCheckBox(parent, -1, wxT("Full Clear"));
+		miscDetailSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
+
+		miscDetailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
+		miscDetailSizer->Add(miscDetailSizer2, 0, wxGROW);
+		sizer->Add(miscDetailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
+	}
 }
 
 static void createIdentControls(wxWindow *parent, wxSizer *sizer)
