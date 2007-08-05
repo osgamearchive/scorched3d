@@ -74,14 +74,23 @@ void StartDialog::draw()
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 	
+	GLState state(GLState::DEPTH_OFF);
+
 	selected_ = -1;
 	float size = 18.0f;
 	float smallSize = 14.0f;
+	Vector black(0.0, 0.0f, 0.0f);
 	Vector white(0.8f, 0.8f, 0.8f);
 	Vector lightWhite(1.0f, 1.0f, 1.0f);
 	for (int i=0; i<(int) definitions_.size(); i++)
 	{
 		OptionDefinition &definition = definitions_[i];
+
+		// Draw shadow
+		GLWFont::instance()->getNormalShadowFont()->draw(
+			black, size, 
+			definition.x - 2, h_ - definition.y + 2, 0.0f,
+			definition.option);
 
 		// Check if option is selected
 		Vector *color = &white;
@@ -107,6 +116,11 @@ void StartDialog::draw()
 		// Draw Description
 		if (selected_ == i)
 		{
+			GLWFont::instance()->getNormalShadowFont()->draw(
+				black, smallSize, 
+				definition.x + 200.0f - 2, h_ - definition.y + 1, 0.0f,
+				definition.description);
+
 			GLWFont::instance()->getNormalFont()->draw(
 				*color, smallSize, 
 				definition.x + 200.0f, h_ - definition.y, 0.0f,

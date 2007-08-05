@@ -36,6 +36,7 @@ public:
 	GLFont2d *getCourierFont() { return courierFont_; }
 	GLFont2d *getSmallPtFontOutline() { return  courier16OutlineFont_; }
 	GLFont2d *getNormalFont() { return normalFont_; }
+	GLFont2d *getNormalShadowFont() { return normalShadowFont_; }
 
 protected:
 	static  GLWFont *instance_;
@@ -43,6 +44,7 @@ protected:
 	GLFont2d *courierFont_;
 	GLFont2d *courier16OutlineFont_;
 	GLFont2d *normalFont_;
+	GLFont2d *normalShadowFont_;
 
 private:
 	GLWFont();

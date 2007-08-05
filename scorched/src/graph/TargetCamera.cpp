@@ -102,6 +102,7 @@ TargetCamera::TargetCamera() :
 	lastLandIntersectValid_(false)
 {
 	resetCam();
+
 	mainCam_.setMinHeightFunc(minHeightFunc, this);
 	mainCam_.setMaxHeightFunc(maxHeightFunc, this);
 	DIALOG_ASSERT(noCameraDescriptions == noCameraNames);

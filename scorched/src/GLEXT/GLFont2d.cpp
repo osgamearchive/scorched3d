@@ -323,7 +323,8 @@ static inline int next_p2 (int a )
 	return rval;
 }
 
-static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base, GLFont2d::CharEntry *characters) 
+static bool make_dlist(FT_Face face, char ch, GLuint list_base, 
+	GLuint *tex_base, GLFont2d::CharEntry *characters, bool makeShadow) 
 {
 	// The First Thing We Do Is Get FreeType To Render Our Character
 	// Into A Bitmap.  This Actually Requires A Couple Of FreeType Commands:
@@ -348,11 +349,53 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	// This Reference Will Make Accessing The Bitmap Easier.
 	FT_Bitmap& bitmap=bitmap_glyph->bitmap;
 
+	// Get the width and height
+	int bitmap_width = bitmap.width;
+	int bitmap_rows = bitmap.rows;
+	unsigned char *bitmap_buffer = bitmap.buffer;
+
+	if (makeShadow)
+	{
+		int shadow_width = bitmap_width + 4;
+		int shadow_rows = bitmap_rows + 4;
+		unsigned char *shadow_buffer = new unsigned char[
+			shadow_width * shadow_rows];
+		memset(shadow_buffer, 0, shadow_width * shadow_rows);
+		
+		for(int j=2; j<shadow_rows-2;j++) 
+		{
+			for(int i=2; i< shadow_width-2; i++)
+			{
+				int bi = i-2;
+				int bj = j-2;
+				unsigned char bitmapValue = bitmap_buffer[bi + bitmap_width*bj];
+				
+				for (int b=-2; b<=2; b++)
+				{
+					for (int a=-2; a<=2; a++)
+					{
+						int si = i+a;
+						int sj = j+b;
+						unsigned char &shadowValue = shadow_buffer[si + shadow_width*sj];
+
+						int sv = int(shadowValue) + int(bitmapValue);
+						if (sv > 255) sv = 255;
+						shadowValue = (unsigned char) sv;
+					}
+				}
+			}
+		}
+
+		bitmap_width = shadow_width;
+		bitmap_rows = shadow_rows;
+		bitmap_buffer = shadow_buffer;
+	}
+
 	// Use Our Helper Function To Get The Widths Of
 	// The Bitmap Data That We Will Need In Order To Create
 	// Our Texture.
-	int width = next_p2( bitmap.width );
-	int height = next_p2( bitmap.rows );
+	int width = next_p2( bitmap_width );
+	int height = next_p2( bitmap_rows );
 
 	// Allocate Memory For The Texture Data.
 	GLubyte* expanded_data = new GLubyte[ 2 * width * height];
@@ -368,10 +411,12 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	for(int j=0; j <height;j++) {
 		for(int i=0; i < width; i++){
 			expanded_data[2*(i+j*width)]= expanded_data[2*(i+j*width)+1] = 
-				(i>=bitmap.width || j>=bitmap.rows) ?
-				0 : bitmap.buffer[i + bitmap.width*j];
+				(i>=bitmap_width || j>=bitmap_rows) ?
+				0 : bitmap_buffer[i + bitmap_width*j];
 		}
 	}
+
+	if (makeShadow) delete [] bitmap_buffer;
 
 	// Now We Just Setup Some Texture Parameters.
 	glBindTexture( GL_TEXTURE_2D, tex_base[ch]);
@@ -403,8 +448,8 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	// Now We Move Down A Little In The Case That The
 	// Bitmap Extends Past The Bottom Of The Line 
 	// This Is Only True For Characters Like 'g' Or 'y'.
-	glTranslatef(0.0f,(float) bitmap_glyph->top-bitmap.rows,0.0f);
-	(characters+ch)->rows = bitmap_glyph->top-bitmap.rows;
+	glTranslatef(0.0f,(float) bitmap_glyph->top-bitmap_rows,0.0f);
+	(characters+ch)->rows = bitmap_glyph->top-bitmap_rows;
 
 	// Now We Need To Account For The Fact That Many Of
 	// Our Textures Are Filled With Empty Padding Space.
@@ -414,8 +459,8 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	// Quad, We Will Only Reference The Parts Of The Texture
 	// That Contains The Character Itself.
 	
-	float x=(float)bitmap.width / (float)width;
-	float y=(float)bitmap.rows / (float)height;
+	float x=(float)bitmap_width / (float)width;
+	float y=(float)bitmap_rows / (float)height;
 	(characters+ch)->x = x;
 	(characters+ch)->y = y;
 
@@ -424,14 +469,14 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	// Oriented Quite Like We Would Like It To Be,
 	// But We Link The Texture To The Quad
 	// In Such A Way That The Result Will Be Properly Aligned.
-	(characters+ch)->width = (float)bitmap.width;
-	(characters+ch)->height = (float)bitmap.rows;
+	(characters+ch)->width = (float)bitmap_width;
+	(characters+ch)->height = (float)bitmap_rows;
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f,0.0f); glVertex2f(0.0f,(float)bitmap.rows);
+	glTexCoord2f(0.0f,0.0f); glVertex2f(0.0f,(float)bitmap_rows);
 	glTexCoord2f(0.0f,y); glVertex2f(0.0f,0.0f);
-	glTexCoord2f(x,y); glVertex2f((float)bitmap.width,0.0f);
-	glTexCoord2f(x,0.0f); glVertex2f((float)bitmap.width,(float)bitmap.rows);
+	glTexCoord2f(x,y); glVertex2f((float)bitmap_width,0.0f);
+	glTexCoord2f(x,0.0f); glVertex2f((float)bitmap_width,(float)bitmap_rows);
 	glEnd();
 	glPopMatrix();
 	glTranslatef((float)(face->glyph->advance.x >> 6) ,0.0f ,0.0f);
@@ -447,7 +492,7 @@ static bool make_dlist(FT_Face face, char ch, GLuint list_base, GLuint *tex_base
 	return true;
 }
 
-bool GLFont2d::createFont(const char *typeFace, unsigned int h)
+bool GLFont2d::createFont(const char *typeFace, unsigned int h, bool makeShadow)
 {
 	// Allocate Some Memory To Store The Texture Ids.
 	textures_ = new GLuint[128];
@@ -490,7 +535,7 @@ bool GLFont2d::createFont(const char *typeFace, unsigned int h)
 
 	// This Is Where We Actually Create Each Of The Fonts Display Lists.
 	for(unsigned char i=0;i<128;i++)
-		make_dlist(face,i,list_base_,textures_,characters_);
+		make_dlist(face,i,list_base_,textures_,characters_, makeShadow);
 
 	// We Don't Need The Face Information Now That The Display
 	// Lists Have Been Created, So We Free The Assosiated Resources.

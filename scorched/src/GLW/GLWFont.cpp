@@ -54,6 +54,11 @@ GLWFont::GLWFont()
 	normalFont_->createFont(
 		getDataFile("data/fonts/vera.ttf"),
 		16);
+	normalShadowFont_ = new GLFont2d;
+	normalShadowFont_->createFont(
+		getDataFile("data/fonts/vera.ttf"),
+		16,
+		true);
 }
 
 GLWFont::~GLWFont()

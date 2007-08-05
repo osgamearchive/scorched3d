@@ -37,6 +37,7 @@ GLCamera::GLCamera(GLsizei windowWidth, GLsizei windowHeight) :
 	setWindowOffset(0, 0);
 	setWindowSize(windowWidth, windowHeight);
 	calculateWantedOffset();
+	currentPosition_ = wantedOffset_ + lookAt_;
 }
 
 GLCamera::~GLCamera()

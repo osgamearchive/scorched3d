@@ -40,7 +40,7 @@ public:
 	GLFont2d();
 	virtual ~GLFont2d();
 
-	bool createFont(const char *typeFace, unsigned int h);
+	bool createFont(const char *typeFace, unsigned int h, bool makeShadow = false);
 	bool getInit();
 
 	void draw(Vector &color, float size, 
