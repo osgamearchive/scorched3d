@@ -31,6 +31,7 @@ public:
 	static AnimatedBackdropDialog *instance();
 
 	virtual void draw();
+	void drawBackground();
 	virtual void simulate(float frameTime);
 
 protected:

@@ -37,12 +37,14 @@ BackdropDialog *BackdropDialog::instance()
 
 BackdropDialog::BackdropDialog() : 
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0,
-		"The backdrop dialog")
+		"The backdrop dialog"),
+	pixels_(0)
 {
 	windowLevel_ = 5000000;
 
 	GLImageHandle backMap = GLImageFactory::loadImageHandle(
 		getDataFile("data/windows/backdrop.jpg"));
+		//getDataFile("data/windows/logotiled.bmp"));
 	backTex_.create(backMap, false);
 }
 
@@ -52,7 +54,25 @@ BackdropDialog::~BackdropDialog()
 
 void BackdropDialog::draw()
 {
-	drawBackground();
+	if (!pixels_)
+	{
+		drawBackground();
+	}
+	else
+	{
+		GLState state(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
+
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glPixelStorei(GL_PACK_ALIGNMENT, 4);
+		glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+		glPixelStorei(GL_PACK_SKIP_ROWS, 0);
+		glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+
+		glRasterPos2i(0, 0);
+		glDrawPixels(GLViewPort::getWidth(), GLViewPort::getHeight(), 
+			GL_RGB, GL_UNSIGNED_BYTE, pixels_);
+	}
+
 	drawLogo();
 }
 
@@ -77,6 +97,32 @@ void BackdropDialog::drawBackground()
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(0.0f, wHeight);
 	glEnd();	
+}
+
+void BackdropDialog::drawBackgroundTiled()
+{
+	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_ON);
+
+	// Calcuate how may tiles are needed
+	float wWidth = (float) GLViewPort::getWidth();
+	float wHeight = (float) GLViewPort::getHeight();
+	float xScale = wWidth / 128.0f;
+	float yScale = wHeight / 128.0f;
+
+	// Draw the tiled logo backdrop
+	float offset_ = 0.0f;
+	backTex_.draw(true);
+	glColor3f(0.2f, 0.2f, 0.2f);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f - offset_, 0.0f + offset_);
+		glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(xScale - offset_, 0.0f + offset_);
+		glVertex2f(wWidth, 0.0f);
+		glTexCoord2f(xScale - offset_, yScale + offset_);
+		glVertex2f(wWidth, wHeight);
+		glTexCoord2f(0.0f - offset_, yScale + offset_);
+		glVertex2f(0.0f, wHeight);
+	glEnd();
 }
 
 void BackdropDialog::drawLogo()
@@ -119,4 +165,61 @@ void BackdropDialog::drawLogo()
 			glVertex2f(0.0f, logoHeight);
 		glEnd();
 	glPopMatrix();
+}
+
+void BackdropDialog::capture()
+{
+	glPixelStorei(GL_PACK_ALIGNMENT, 4);
+	glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
+	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+
+	unsigned char *screenpixels = new unsigned char[GLViewPort::getWidth() * GLViewPort::getHeight() * 3];
+	glReadPixels(0, 0, GLViewPort::getWidth(), GLViewPort::getHeight(), GL_RGB, GL_UNSIGNED_BYTE, screenpixels);
+
+	if (!pixels_) pixels_ = new unsigned char[GLViewPort::getWidth() * GLViewPort::getHeight() * 3];
+
+	unsigned char *dest = pixels_;
+	unsigned char *src = screenpixels;
+	for (int y=0; y<GLViewPort::getHeight(); y++)
+	{
+		for (int x=0; x<GLViewPort::getWidth(); x++, dest+=3, src+=3)
+		{
+			int totalr = 0;
+			int totalg = 0;
+			int totalb = 0;
+			if (x>=3 && x<GLViewPort::getWidth()-3 &&
+				y>=3 && y<GLViewPort::getHeight()-3)
+			{
+				for (int a=-3; a<=3; a++)
+				{
+					for (int b=-3; b<=3; b++)
+					{
+						int srcx = a + x;
+						int srcy = b + y;
+						unsigned char *src2 = src + a * 3 + b * GLViewPort::getWidth() * 3;
+
+						totalr += src2[0];
+						totalg += src2[1];
+						totalb += src2[2];
+					}
+				}
+				totalr /= 49;
+				totalg /= 49;
+				totalb /= 49;
+			}
+			else
+			{
+				totalr = src[0];
+				totalg = src[1];
+				totalb = src[2];
+			}
+
+			dest[0] = totalr;
+			dest[1] = totalg;
+			dest[2] = totalb;
+		}
+	}
+
+	delete [] screenpixels;
 }

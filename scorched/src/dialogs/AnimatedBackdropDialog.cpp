@@ -26,6 +26,7 @@
 #include <graph/Main2DCamera.h>
 #include <graph/OptionsDisplay.h>
 #include <engine/ActionController.h>
+#include <engine/MainLoop.h>
 #include <tankgraph/RenderTargets.h>
 #include <landscape/Landscape.h>
 #include <client/ScorchedClient.h>
@@ -94,9 +95,19 @@ void AnimatedBackdropDialog::init()
 	Landscape::instance()->reset(&progressCounter);
 
 	OptionsDisplay::instance()->getNoWaterMovementEntry().setValue(waterMove);
+
+	// Hack to get camera synched
+	simulate(5.0f);
+	ScorchedClient::instance()->getMainLoop().getTimer().getTimeDifference();
 }
 
 void AnimatedBackdropDialog::draw()
+{
+	drawBackground();
+	BackdropDialog::instance()->drawLogo();
+}
+
+void AnimatedBackdropDialog::drawBackground()
 {
 	if (!init_) init();
 
@@ -111,8 +122,6 @@ void AnimatedBackdropDialog::draw()
 
 	// Return the viewport to the original
 	Main2DCamera::instance()->draw(0);
-
-	BackdropDialog::instance()->drawLogo();
 }
 
 void AnimatedBackdropDialog::simulate(float frameTime)

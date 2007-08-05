@@ -61,6 +61,7 @@
 #include <graph/Display.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <dialogs/AnimatedBackdropDialog.h>
+#include <dialogs/BackdropDialog.h>
 #include <server/ScorchedServer.h>
 #include <GLEXT/GLConsoleFileReader.h>
 #include <GLEXT/GLConsole.h>
@@ -241,7 +242,7 @@ static bool initClient()
 	return true;
 }
 
-bool ClientMain::startClient()
+static bool startClientInternal()
 {
 	// Check if we are connecting to a server
 	if (ClientParams::instance()->getConnect()[0])
@@ -294,6 +295,14 @@ bool ClientMain::startClient()
 	}
 
 	return true;
+}
+
+bool ClientMain::startClient()
+{
+	AnimatedBackdropDialog::instance()->drawBackground();
+	BackdropDialog::instance()->capture();
+
+	return startClientInternal();
 }
 
 bool ClientMain::clientEventLoop(float frameTime)
@@ -386,7 +395,7 @@ bool ClientMain::clientMain()
 	OptionsDisplayConsole::instance()->addDisplayToConsole();
 
 	// Try and start the client
-	if (!startClient()) return false;
+	if (!startClientInternal()) return false;
 
 	// Enter the SDL main loop to process SDL events
 	Clock loopClock;

@@ -31,13 +31,17 @@ public:
 
 	virtual void draw();
 	void drawBackground();
+	void drawBackgroundTiled();
 	void drawLogo();
+
+	void capture();
 
 protected:
 	static BackdropDialog *instance_;
 	GLTexture backTex_;
 	GLTexture logoTex_;
 	std::string lastMod_;
+	unsigned char *pixels_;
 
 private:
 	BackdropDialog();
