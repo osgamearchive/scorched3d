@@ -100,11 +100,11 @@ void GLWScorchedInfo::draw()
 					getOptionsTransient().getWindSpeed());
 			}
 			float windwidth = GLWFont::instance()->
-				getSmallPtFont()->getWidth(
+				getGameFont()->getWidth(
 				fontSize_, buffer);
 			float offSet = 0.0f;
 			if (!noCenter_) offSet = w_ / 2.0f - (windwidth / 2.0f);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_ + offSet, y_, 0.0f,
 				buffer);                    
@@ -130,11 +130,11 @@ void GLWScorchedInfo::draw()
 		case ePlayerName:
 		{
 			setToolTip(&renderer->getTips()->nameTip);
-			float namewidth = GLWFont::instance()->getSmallPtFont()->getWidth(
+			float namewidth = GLWFont::instance()->getGameFont()->getWidth(
 				fontSize_, current->getName());
 			float offSet = 0.0f;
 			if (!noCenter_) offSet = w_ / 2.0f - (namewidth / 2.0f);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				current->getColor(), fontSize_,
 				x_ + offSet, y_, 0.0f,
 				current->getName());
@@ -161,7 +161,7 @@ void GLWScorchedInfo::draw()
 		case ePlayerColor:
 		{
 			setToolTip(&renderer->getTips()->nameTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				current->getColor(), fontSize_,
 				x_, y_, 0.0f,
 				current->getScore().getStatsRank());
@@ -169,7 +169,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eAutoDefenseCount:
 			setToolTip(&renderer->getTips()->autodTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				(current->getAccessories().getAutoDefense().haveDefense()?"On":"Off"));
@@ -178,7 +178,7 @@ void GLWScorchedInfo::draw()
 			setToolTip(&renderer->getTips()->paraTip);
 			if (!current->getParachute().getCurrentParachute())
 			{
-				GLWFont::instance()->getSmallPtFont()->draw(
+				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"Off");
@@ -190,7 +190,7 @@ void GLWScorchedInfo::draw()
 				char buffer[128];
 				if (count >= 0) snprintf(buffer, 128, "%i", count);
 				else snprintf(buffer, 128, "In");
-				GLWFont::instance()->getSmallPtFont()->draw(
+				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					formatString("%s", buffer));
@@ -198,7 +198,7 @@ void GLWScorchedInfo::draw()
 		break;
 		case eHealthCount:
 			setToolTip(&renderer->getTips()->healthTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.0f", current->getLife().getLife()));
@@ -207,14 +207,14 @@ void GLWScorchedInfo::draw()
 			setToolTip(&renderer->getTips()->shieldTip);
 			if (!current->getShield().getCurrentShield())
 			{
-				GLWFont::instance()->getSmallPtFont()->draw(
+				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"Off");
 			}
 			else
 			{
-				GLWFont::instance()->getSmallPtFont()->draw(
+				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					formatString("%.0f", current->getShield().getShieldPower()));
@@ -224,7 +224,7 @@ void GLWScorchedInfo::draw()
 			{
 			int count = current->getAccessories().getBatteries().getNoBatteries();
 			setToolTip(&renderer->getTips()->batteryTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString((count==-1?"In":"%i"),	count));
@@ -239,7 +239,7 @@ void GLWScorchedInfo::draw()
 			if (!weapon ||
 				weapon->getPositionSelect() != Accessory::ePositionSelectFuel)
 			{
-				GLWFont::instance()->getSmallPtFont()->draw(
+				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					"Off");
@@ -247,7 +247,7 @@ void GLWScorchedInfo::draw()
 			else
 			{
 				int count = current->getAccessories().getAccessoryCount(weapon);
-				GLWFont::instance()->getSmallPtFont()->draw(
+				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
 					formatString((count==-1?"In":"%i"), count));
@@ -263,12 +263,12 @@ void GLWScorchedInfo::draw()
 
 			static char buffer[256];
 			snprintf(buffer, 256, "%s", weapon->getName());
-			float weaponWidth = (float) GLWFont::instance()->getSmallPtFont()->
+			float weaponWidth = (float) GLWFont::instance()->getGameFont()->
 				getWidth(fontSize_, buffer);
 
 			float offSet = 0.0f;
 			if (!noCenter_) offSet = w_ / 2.0f - (weaponWidth / 2.0f);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_ + offSet, y_, 0.0f,
 				buffer);
@@ -283,7 +283,7 @@ void GLWScorchedInfo::draw()
 			int count = current->getAccessories().getAccessoryCount(weapon);
 			const char *format = "%i";
 			if (count < 0) format = "In";
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString(format, count));
@@ -313,14 +313,14 @@ void GLWScorchedInfo::draw()
 		break;
 		case eRotation:
 			setToolTip(&renderer->getTips()->rotationTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.1f",
 				360.0f - current->getPosition().getRotationGunXY()));
 		break;
 		case eRotationDiff:
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%+.1f",
@@ -328,14 +328,14 @@ void GLWScorchedInfo::draw()
 		break;
 		case eElevation:
 			setToolTip(&renderer->getTips()->elevationTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.1f",
 				current->getPosition().getRotationGunYZ()));
 		break;
 		case eElevationDiff:
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%+.1f",
@@ -343,14 +343,14 @@ void GLWScorchedInfo::draw()
 		break;
 		case ePower:
 			setToolTip(&renderer->getTips()->powerTip);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.1f",
 				current->getPosition().getPower()));
 		break;
 		case ePowerDiff:
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%+.1f",

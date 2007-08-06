@@ -29,6 +29,7 @@
 #include <tankai/TankAI.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
+#include <GLW/GLWColors.h>
 #include <client/ClientParams.h>
 #include <graph/OptionsDisplay.h>
 #include <common/OptionsTransient.h>
@@ -183,10 +184,15 @@ void ScoreDialog::draw()
 			text = ScorchedClient::instance()->getOptionsGame().getServerName();
 		}
 
-		GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::instance()->getGameShadowFont()->draw(
+			GLWColors::black,
+				20,
+				x_ + 8.0f - 2.0f, y_ + h_ - 22.0f + 2.0f, 0.0f,
+				text);
+		GLWFont::instance()->getGameFont()->draw(
 				white,
 				20,
-				x_ + 8.0f, y_ + h_ - 21.0f, 0.0f,
+				x_ + 8.0f, y_ + h_ - 22.0f, 0.0f,
 				text);
 	}
 
@@ -205,9 +211,9 @@ void ScoreDialog::draw()
 				ScorchedClient::instance()->getOptionsGame().getNoRounds(),
 				moves);
 
-		float roundsWidth = GLWFont::instance()->getSmallPtFont()->getWidth(
+		float roundsWidth = GLWFont::instance()->getGameFont()->getWidth(
 			10, rounds);
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			white,
 			10,
 			x_ + 470 - roundsWidth, y_ + h_ - 40.0f, 0.0f,
@@ -215,7 +221,7 @@ void ScoreDialog::draw()
 	}
 
 	float y = lineSpacer + 10.0f;
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -223,7 +229,7 @@ void ScoreDialog::draw()
 	GLWToolTip::instance()->addToolTip("Name", "The name of the player",
 		x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 100.0f, 16.0f);
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -233,7 +239,7 @@ void ScoreDialog::draw()
 		ScorchedClient::instance()->getOptionsGame().getScorePerKill()),
 		x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -243,7 +249,7 @@ void ScoreDialog::draw()
 		ScorchedClient::instance()->getOptionsGame().getScoreWonForRound()),
 		x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -253,7 +259,7 @@ void ScoreDialog::draw()
 		ScorchedClient::instance()->getOptionsGame().getScorePerAssist()),
 		x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + moneyLeft + 10, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -263,7 +269,7 @@ void ScoreDialog::draw()
 		float(ScorchedClient::instance()->getOptionsGame().getScorePerMoney()) / 1000.0f),
 		x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -272,7 +278,7 @@ void ScoreDialog::draw()
 		"The current score for this player.\nCalculated from the number of kills, wins, money and bonus score awards.",
 		x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 80.0f, 16.0f);
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -282,7 +288,7 @@ void ScoreDialog::draw()
 
 	if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
 	{
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			white,
 			12,
 			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
@@ -387,7 +393,7 @@ void ScoreDialog::addScoreLine(float y, Vector &color, int score)
 	float textY  = y_ + h_ - y - lineSpacer - 30.0f;
 
 	// Print the name on the screen
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		color,
 		10,
 		textX + scoreLeft, textY, 0.0f,
@@ -443,12 +449,12 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 		name[50] = '\0'; // Limit length
 
 		// Print the name on the screen
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + nameLeft, textY, 0.0f,
 			name);
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + readyLeft, textY, 0.0f,
@@ -478,55 +484,55 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
         glEnd();
 
 		// Print the name on the screen
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + rankLeft, textY, 0.0f,
 			formatString("%s", rank));
-		GLWFont::instance()->getSmallPtFont()->drawWidth(
+		GLWFont::instance()->getGameFont()->drawWidth(
 			killsLeft - nameLeft,
 			current->getColor(),
 			10,
 			textX + nameLeft, textY, 0.0f,
 			formatString("%s", name));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + killsLeft, textY, 0.0f,
 			formatString("%i", current->getScore().getKills()));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + moneyLeft, textY, 0.0f,
 			formatString("$%i", current->getScore().getMoney()));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + winsLeft, textY, 0.0f,
 			formatString("%i", current->getScore().getWins()));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + scoreLeft, textY, 0.0f,
 			formatString("%i", current->getScore().getScore()));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + assistsLeft, textY, 0.0f,
 			formatString("%i", current->getScore().getAssists()));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + readyLeft, textY, 0.0f,
 			formatString("%s",
 			((current->getState().getReadyState() == TankState::SNotReady)?"*":" ")));
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			current->getColor(),
 			10,
 			textX + statsLeft, textY, 0.0f,
 			formatString("%s", current->getScore().getStatsRank()));
 		if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				current->getColor(),
 				10,
 				textX + livesLeft, textY, 0.0f,

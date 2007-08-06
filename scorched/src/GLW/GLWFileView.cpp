@@ -55,7 +55,7 @@ void GLWFileView::draw()
 	float posY = y_ + h_ - 10.0f;
 	for (int i=scroll_.getMax() - scroll_.getCurrent(); i<(int) lines_.getLines().size(); i++)
 	{
-		GLWFont::instance()->getSmallPtFont()->drawWidth(
+		GLWFont::instance()->getGameFont()->drawWidth(
 			w_,
 			GLWFont::widgetFontColor, 8,
 			x_ + 5.0f, posY, 0.0f, 

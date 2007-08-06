@@ -119,7 +119,7 @@ protected:
 	bool init_;
 	bool alignTop_, parentSized_;
 	bool splitLargeLines_, allowScroll_;
-	bool showChannelName_;
+	bool showChannelName_, showChannelNumber_;
 	int lineDepth_;
 	int scrollPosition_;
 	float displayTime_;

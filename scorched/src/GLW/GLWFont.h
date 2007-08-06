@@ -31,18 +31,17 @@ public:
 	static Vector widgetFontColor;
 	static Vector disabledWidgetFontColor;
 
-	GLFont2d *getLargePtFont() { return courier16Font_; }
-	GLFont2d *getSmallPtFont() { return courier16Font_; }
+	GLFont2d *getGameFont() { return gameFont_; }
+	GLFont2d *getGameShadowFont() { return gameShadowFont_; }
 	GLFont2d *getCourierFont() { return courierFont_; }
-	GLFont2d *getSmallPtFontOutline() { return  courier16OutlineFont_; }
 	GLFont2d *getNormalFont() { return normalFont_; }
 	GLFont2d *getNormalShadowFont() { return normalShadowFont_; }
 
 protected:
 	static  GLWFont *instance_;
-	GLFont2d *courier16Font_;
+	GLFont2d *gameFont_;
+	GLFont2d *gameShadowFont_;
 	GLFont2d *courierFont_;
-	GLFont2d *courier16OutlineFont_;
 	GLFont2d *normalFont_;
 	GLFont2d *normalShadowFont_;
 

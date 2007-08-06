@@ -50,7 +50,7 @@ GLWSelectorPart::~GLWSelectorPart()
 void GLWSelectorPart::calculateDimensions(float drawX, float drawY)
 {
 	// Get the height and width of the selector
-	GLFont2d &font = *GLWFont::instance()->getLargePtFont();
+	GLFont2d &font = *GLWFont::instance()->getGameFont();
 	float selectedHeight = 10.0f; // Padding
 	float selectedWidth = 0.0f;
 	float iconWidth = 0.0f;
@@ -106,7 +106,7 @@ void GLWSelectorPart::draw()
 {
 	GLState currentStateBlend(GLState::TEXTURE_OFF | GLState::DEPTH_OFF | GLState::BLEND_ON);
 
-	GLFont2d &font = *GLWFont::instance()->getLargePtFont();
+	GLFont2d &font = *GLWFont::instance()->getGameFont();
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 

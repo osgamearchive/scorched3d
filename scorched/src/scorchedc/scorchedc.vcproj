@@ -3891,6 +3891,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLW\GLWColors.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLW\GLWColors.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLW\GLWDragger.cpp"
 				>
 			</File>

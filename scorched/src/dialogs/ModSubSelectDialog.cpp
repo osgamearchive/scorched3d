@@ -58,7 +58,7 @@ void GLWIconListSubModItem::draw(float x, float y, float w)
 		GLWTranslate::getPosX() + x, 
 		GLWTranslate::getPosY() + y, w, 50.0f);
 
-	GLWFont::instance()->getLargePtFont()->drawWidth(
+	GLWFont::instance()->getGameFont()->drawWidth(
 		w - 50.0f,
 		GLWFont::widgetFontColor, 
 		8.0f, x + 50.0f, y + 17.0f, 0.0f, 

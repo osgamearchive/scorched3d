@@ -138,7 +138,7 @@ void CameraDialog::draw()
 	// Draw the camera name
 	GLState newState(GLState::TEXTURE_OFF);
 	Vector col(0.7f, 0.7f, 0.7f);
-	GLWFont::instance()->getLargePtFont()->
+	GLWFont::instance()->getGameFont()->
 		draw(col, 10.0f, x_ + 15.0f, y_ + 15.0f, 0.0f, 
 		formatString("%s Camera",
 		targetCam_.getCameraNames()[targetCam_.getCameraType()]));

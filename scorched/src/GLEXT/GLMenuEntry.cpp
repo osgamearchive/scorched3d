@@ -124,7 +124,7 @@ void GLMenuEntry::drawText()
 		menuTitle = (char *) menuName_.c_str();
 	}
 
-	GLWFont::instance()->getLargePtFont()->
+	GLWFont::instance()->getGameFont()->
 		draw((selected_?color:itemcolor), 12, left_ + 5.0f, 
 			top_ - 15.0f, 0.0f, menuTitle);
 }

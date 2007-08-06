@@ -150,7 +150,7 @@ void RulesDialog::drawRules()
 	const char *type = "Annihilate free for all";
 	if (options.getTeams() > 1) type = "Annihilate opposing team(s)";
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		yellow,
 		12,
 		left, top - 45.0f, 0.0f,
@@ -158,31 +158,31 @@ void RulesDialog::drawRules()
 		type));
 
 
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		yellow,
 		12,
 		left, top - 75.0f, 0.0f,
 		formatString("Mod : %s", 
 		ScorchedClient::instance()->getOptionsGame().getMod()));
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		yellow,
 		12,
 		left, top - 90.0f, 0.0f,
 		formatString("Game type : %s", 
 		ScorchedClient::instance()->getOptionsTransient().getGameType()));
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		yellow,
 		12,
 		left, top - 105.0f, 0.0f,
 		formatString(((options.getTeams() > 1)?"Teams : %i":"Teams : None"),
 		options.getTeams()));
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		yellow,
 		12,
 		left, top - 135.0f, 0.0f,
 		formatString(((options.getShotTime() > 0)?"Shot time : %i (s)":"Shot time : Unlimited"),
 		options.getShotTime()));
-	GLWFont::instance()->getSmallPtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		yellow,
 		12,
 		left, top - 150.0f, 0.0f,

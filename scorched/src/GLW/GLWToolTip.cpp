@@ -129,12 +129,12 @@ void GLWToolTip::calculateTip(ToolTip *tip)
 	std::list<char *>::iterator enditor = tipTexts_.end();
 	for (itor = tipTexts_.begin(); itor != enditor; itor++)
 	{
-		float width = float(GLWFont::instance()->getSmallPtFont()->
+		float width = float(GLWFont::instance()->getGameFont()->
 			getWidth(9,(*itor))) + 10.0f;
 		if (width > tipTextWidth_) tipTextWidth_ = width;
 	}
 
-	float width = float(GLWFont::instance()->getSmallPtFont()->
+	float width = float(GLWFont::instance()->getGameFont()->
 		getWidth(11, tipTitle_.c_str())) + 10.0f; 
 	if (width > tipTextWidth_) tipTextWidth_ = width;
 }
@@ -262,7 +262,7 @@ void GLWToolTip::draw(const unsigned state)
 	}
 
 	float pos = posY + posH - 16.0f;
-	GLWFont::instance()->getSmallPtFont()->drawA(selectedColor, alpha, 11, posX + 3.0f, 
+	GLWFont::instance()->getGameFont()->drawA(selectedColor, alpha, 11, posX + 3.0f, 
 		pos, 0.0f, tipTitle_.c_str());
 	pos -= 2.0f;
 
@@ -272,7 +272,7 @@ void GLWToolTip::draw(const unsigned state)
 	{
 		pos -= 10.0f;
 
-		GLWFont::instance()->getSmallPtFont()->drawA(
+		GLWFont::instance()->getGameFont()->drawA(
 			color, alpha, 9, posX + 6.0f, 
 			pos, 0.0f, (*itor));
 	}

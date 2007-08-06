@@ -61,7 +61,7 @@ void SettingsSubSelectDialogListItem::draw(float x, float y, float w)
 		GLWTranslate::getPosX() + x, 
 		GLWTranslate::getPosY() + y, w, 50.0f);
 
-	GLWFont::instance()->getLargePtFont()->drawWidth(
+	GLWFont::instance()->getGameFont()->drawWidth(
 		w - 50.0f,
 		GLWFont::widgetFontColor, 
 		12.0f, x + 75.0f, y + 17.0f, 0.0f, 

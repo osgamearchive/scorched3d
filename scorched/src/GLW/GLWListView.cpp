@@ -59,7 +59,7 @@ void GLWListView::draw()
 	{
 		// Stops each font draw from changing state every time
 		GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
-		GLFont2d *font = GLWFont::instance()->getSmallPtFont();
+		GLFont2d *font = GLWFont::instance()->getGameFont();
 
 		// Clear the currently stored urls
 		urls_.clear();
@@ -286,7 +286,7 @@ bool GLWListView::getLines(std::list<WordEntry> &words, float &lineLen)
 		{
 			// Check if weve run out of space on the current line
 			float wordLen = 
-				GLWFont::instance()->getSmallPtFont()->
+				GLWFont::instance()->getGameFont()->
 				getWidth(textSize_, wordEntry.word_.c_str());
 			if (wordLen + lineLen >= w_ - BorderWidth)
 			{
@@ -402,7 +402,7 @@ void GLWListView::setScroll()
 
 void GLWListView::drawUrl(WordEntry &wordEntry, int drawChars, float x, float y)
 {
-	GLFont2d *font = GLWFont::instance()->getSmallPtFont();
+	GLFont2d *font = GLWFont::instance()->getGameFont();
 	float partWordWidth = font->getWidth(
 		textSize_, wordEntry.word_.c_str(), drawChars);
 

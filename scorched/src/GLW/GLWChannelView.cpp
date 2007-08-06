@@ -21,6 +21,7 @@
 #include <GLW/GLWChannelView.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWPanel.h>
+#include <GLW/GLWColors.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLImageFactory.h>
 #include <XML/XMLParser.h>
@@ -44,7 +45,8 @@ GLWChannelView::GLWChannelView() :
 	fontSize_(12.0f), outlineFontSize_(14.0f), lineDepth_(18),
 	currentVisible_(0), lastChannelId_(1), lastWhisperSrc_(0),
 	alignTop_(false), parentSized_(false), splitLargeLines_(false),
-	scrollPosition_(-1), allowScroll_(false), showChannelName_(true),
+	scrollPosition_(-1), allowScroll_(false), 
+	showChannelName_(true), showChannelNumber_(true),
 	upButton_(x_ + 2.0f, y_ + 1.0f, 12.0f, 12.0f),
 	downButton_(x_ + 2.0f, y_ + 1.0f, 12.0f, 12.0f),
 	resetButton_(x_ + 2.0f, y_ + 1.0f, 14.0f, 14.0f),
@@ -185,7 +187,6 @@ void GLWChannelView::channelText(ChannelText &channelText)
 	CurrentChannelEntry *channel = getChannel(channelText.getChannel());
 	if (!channel) return;
 
-	const char *channelName = "";
 	Tank *tank = ScorchedClient::instance()->getTankContainer().
 		getTankById(channelText.getSrcPlayerId());
 	if (tank)
@@ -196,30 +197,26 @@ void GLWChannelView::channelText(ChannelText &channelText)
 		}
 	}
 
+	std::string channelName;
+	if (showChannelNumber_)
+	{
+		channelName.append(formatString("%u. ", channel->id));
+	}
 	if (showChannelName_)
 	{
-		if (tank)
-		{
-			channelName = formatString("%u. [c:%s][p:%s] : ", 
-				channel->id, channel->channel.c_str(), tank->getName());
-		}
-		else
-		{
-			channelName = formatString("%u. [c:%s] : ", 
-				channel->id, channel->channel.c_str());
-		}
+		channelName.append(formatString("[c:%s]", channel->channel.c_str()));
 	}
-	else
+	if (tank)
 	{
-		if (tank)
-		{
-			channelName = formatString("[p:%s] : ", 
-				tank->getName());
-		}
+		 channelName.append(formatString("[p:%s]", tank->getName()));
+	}
+	if (!channelName.empty())
+	{
+		channelName.append(" : ");
 	}
 
 	const char *inputText = formatString("%s%s", 
-		channelName, channelText.getMessage());
+		channelName.c_str(), channelText.getMessage());
 
 	GLWChannelViewTextRenderer chanText(this);
 	chanText.parseText(ScorchedClient::instance()->getContext(), inputText);
@@ -274,7 +271,7 @@ int GLWChannelView::splitLine(const char *message)
 		float width = 0.0f;
 		if (splitLargeLines_)
 		{
-			width = GLWFont::instance()->getLargePtFont()->
+			width = GLWFont::instance()->getGameFont()->
 				getWidth(outlineFontSize_, message, len);
 		}
 
@@ -441,13 +438,12 @@ void GLWChannelView::draw()
 				if (entry.timeRemaining < 1.0f) alpha = entry.timeRemaining;
 			}
 
-			float x = x_ + 20.0f - 1.0f;
-			float y = start + count * lineDepth_ - 1.0f;
+			float x = x_ + 20.0f;
+			float y = start + count * lineDepth_;
 
-			static Vector black(0.0f, 0.0f, 0.0f);
-			GLWFont::instance()->getSmallPtFontOutline()->
-				drawOutlineA(black, alpha, outlineFontSize_, fontSize_,
-					x, y, 0.0f,
+			GLWFont::instance()->getGameShadowFont()->
+				drawA(GLWColors::black, alpha, fontSize_,
+					x - 1.0f, y + 1.0f, 0.0f, 
 					entry.text.getText());
 		}
 	}
@@ -471,7 +467,7 @@ void GLWChannelView::draw()
 			float x = x_ + 20.0f;
 			float y = start + count * lineDepth_;
 
-			GLWFont::instance()->getLargePtFont()->
+			GLWFont::instance()->getGameFont()->
 				drawA(&entry.text, entry.color, alpha, fontSize_,
 					x, y, 0.0f, 
 					entry.text.getText());
@@ -558,6 +554,7 @@ bool GLWChannelView::initFromXMLInternal(XMLNode *node)
 	if (!node->getNamedChild("splitlargelines", splitLargeLines_)) return false;
 	if (!node->getNamedChild("allowscroll", allowScroll_)) return false;
 	if (!node->getNamedChild("showchannelname", showChannelName_)) return false;
+	if (!node->getNamedChild("showchannelnumber", showChannelNumber_)) return false;
 	
 	node->getNamedChild("textsound", textSound_, false);
 

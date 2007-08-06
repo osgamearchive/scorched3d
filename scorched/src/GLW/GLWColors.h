@@ -18,51 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <GLW/GLWTime.h>
-#include <GLW/GLWFont.h>
-#include <XML/XMLNode.h>
+#if !defined(AFX_GLWColors_H__0BCF1F78_3D58_47EC_8B98_EB39AB3CADD4__INCLUDED_)
+#define AFX_GLWColors_H__0BCF1F78_3D58_47EC_8B98_EB39AB3CADD4__INCLUDED_
 
-REGISTER_CLASS_SOURCE(GLWTime);
+#include <common/Vector.h>
 
-GLWTime::GLWTime(float x, float y, float size) : 
-	GLWidget(x, y, 0.0f, 20.0f), size_(size),
-	color_(GLWFont::widgetFontColor)
+class GLWColors
 {
-	tooltipTransparent_ = true;
-}
+public:
+	static Vector black;
+	static Vector white;
 
-GLWTime::~GLWTime()
-{
+private:
+	GLWColors();
+	~GLWColors();
+};
 
-}
-
-void GLWTime::calcWidth()
-{
-	time_t t = time(0);
-	const char *timeStr = ctime(&t);
-	if (w_ == 0.0f) w_ = GLWFont::instance()->getGameFont()->getWidth(
-		size_, (char *) timeStr);
-}
-
-bool GLWTime::initFromXML(XMLNode *node)
-{
-	node->getNamedChild("fontsize", size_, false);
-	node->getNamedChild("fontcolor", color_, false);
-
-	return GLWidget::initFromXML(node);
-}
-
-void GLWTime::draw()
-{
-	GLWidget::draw();
-
-	time_t t = time(0);
-	char *timeStr = ctime(&t);
-
-	glColor3f(1.0f, 0.0f, 0.0f);
-	calcWidth();
-	GLWFont::instance()->getGameFont()->drawSubStr(
-		0, strlen(timeStr) - 1,
-		color_, size_,
-		x_, y_ + 6.0f, 0.0f, timeStr);
-}
+#endif // !defined(AFX_GLWColors_H__0BCF1F78_3D58_47EC_8B98_EB39AB3CADD4__INCLUDED_)

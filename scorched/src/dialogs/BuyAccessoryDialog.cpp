@@ -121,9 +121,9 @@ void BuyAccessoryDialog::draw()
 
 	Vector red(0.7f, 0.0f, 0.0f);
 	Vector green(0.0f, 0.4f, 0.0f);
-	GLWFont::instance()->getLargePtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		green, 12.0f, x_ + 260.0f, y_ + topPanel_->getY() - 50.0f, 0.0f, "Buy");
-	GLWFont::instance()->getLargePtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		red, 12.0f, x_ + 360.0f, y_ + topPanel_->getY() - 50.0f, 0.0f, "Sell");
 }
 

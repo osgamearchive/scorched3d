@@ -38,17 +38,18 @@ GLWFont *GLWFont::instance()
 
 GLWFont::GLWFont()
 {
-	courier16Font_ = new GLFont2d;
-	courier16Font_->createFont(
+	gameFont_ = new GLFont2d;
+	gameFont_->createFont(
 		getDataFile("data/fonts/test.ttf"),
 		16);
+	gameShadowFont_ = new GLFont2d;
+	gameShadowFont_->createFont(
+		getDataFile("data/fonts/test.ttf"),
+		16,
+		true);
 	courierFont_ = new GLFont2d;
 	courierFont_->createFont(
 		getDataFile("data/fonts/veramobd.ttf"),
-		16);
-	courier16OutlineFont_ = new GLFont2d;
-	courier16OutlineFont_->createFont(
-		getDataFile("data/fonts/testout.ttf"),
 		16);
 	normalFont_ = new GLFont2d;
 	normalFont_->createFont(

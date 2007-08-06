@@ -33,6 +33,7 @@
 #include <common/ChannelText.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWWindowManager.h>
+#include <GLW/GLWColors.h>
 #include <GLEXT/GLPng.h>
 #include <GLEXT/GLImageFactory.h>
 #include <math.h>
@@ -140,9 +141,14 @@ void ProgressDialog::draw()
 			glEnd();
 			
 			// Draw the progress text
-			Vector color(1.0f, 1.0f, 1.0f);
-			GLWFont::instance()->getLargePtFont()->drawWidth(380.0f, 
-				color, 
+			GLWFont::instance()->getGameShadowFont()->drawWidth(380.0f, 
+				GLWColors::black, 
+				14.0f, 0.0f - 2.0f, 33.0f + 2.0f, 0.0f, 
+				progressText_.c_str());
+
+			Vector white(1.0f, 1.0f, 1.0f);
+			GLWFont::instance()->getGameFont()->drawWidth(380.0f, 
+				white, 
 				14.0f, 0.0f, 33.0f, 0.0f, 
 				progressText_.c_str());
 		glPopMatrix();

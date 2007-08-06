@@ -57,7 +57,8 @@
 					<splitlargelines>true</splitlargelines>
 					<parentsized>true</parentsized>
 					<tooltiptransparent>true</tooltiptransparent>
-					<showchannelname>true</showchannelname>
+					<showchannelname>false</showchannelname>
+					<showchannelnumber>true</showchannelnumber>
 					<allowscroll>true</allowscroll>
 					<scrollupkey>LOG_SCROLL_UP</scrollupkey>
 					<scrolldownkey>LOG_SCROLL_DOWN</scrolldownkey>
@@ -138,6 +139,7 @@
 					<splitlargelines>false</splitlargelines>
 					<allowscroll>false</allowscroll>
 					<showchannelname>false</showchannelname>
+					<showchannelnumber>false</showchannelnumber>
 					<channel>combat</channel>
 					<channelcolor>
 						<channel>combat</channel>

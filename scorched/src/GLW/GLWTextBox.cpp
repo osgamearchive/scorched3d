@@ -68,7 +68,7 @@ void GLWTextBox::draw()
 		text = formatString("%s", stars.c_str());
 	}
 
-	GLWFont::instance()->getLargePtFont()->drawWidth(
+	GLWFont::instance()->getGameFont()->drawWidth(
 		w_,
 		GLWFont::widgetFontColor, 14,
 		x_ + 5.0f, y_ + 5.0f, 0.0f, 

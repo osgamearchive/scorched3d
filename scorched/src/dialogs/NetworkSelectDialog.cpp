@@ -315,7 +315,7 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 	if (value)
 	{
 		Vector color(0.3f, 0.3f, 0.3f);
-		GLWFont::instance()->getLargePtFont()->drawWidth(w, 
+		GLWFont::instance()->getGameFont()->drawWidth(w, 
 			color, 
 			10.0f, x + 3.0f, y + 5.0f, 0.0f, value);
 

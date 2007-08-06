@@ -97,14 +97,14 @@ void ShotCountDown::draw(const unsigned currentstate)
 	float width = 0.0f;
 	if (currentstate == ClientState::StateWait)
 	{
-		width = GLWFont::instance()->getSmallPtFont()->getWidth(10,
+		width = GLWFont::instance()->getGameFont()->getWidth(10,
 			formatString(format, 
 			split.quot,
 			split.rem));	
 	}
 	else 
 	{
-		width = GLWFont::instance()->getSmallPtFont()->getWidth(20,
+		width = GLWFont::instance()->getGameFont()->getWidth(20,
 			formatString(format, 
 			split.quot,
 			split.rem));	
@@ -115,7 +115,7 @@ void ShotCountDown::draw(const unsigned currentstate)
 	if (currentstate == ClientState::StateWait)
 	{
 		static Vector green(0.2f, 0.7f, 0.2f);
-		GLWFont::instance()->getSmallPtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			green, 10, (wWidth/2.0f) - (width / 2), 
 			wHeight - 50.0f, 0.0f, 
 			formatString(format, 
@@ -124,7 +124,7 @@ void ShotCountDown::draw(const unsigned currentstate)
 	}
 	else if (showTime_)
 	{
-		GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			fontColor, 20, (wWidth/2.0f) - (width / 2),
 			wHeight - 50.0f, 0.0f, 
 			formatString(format, 

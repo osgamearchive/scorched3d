@@ -66,7 +66,7 @@ void SpeedChange::draw(const unsigned state)
 		snprintf(buffer, 10, "%.1fX", speed);
 
 		static Vector fontColor(0.7f, 0.7f, 0.2f);
-		GLWFont::instance()->getLargePtFont()->draw(fontColor, 20, 10.0f, 10.0f, 0.0f, buffer);
+		GLWFont::instance()->getGameFont()->draw(fontColor, 20, 10.0f, 10.0f, 0.0f, buffer);
 	}
 }
 

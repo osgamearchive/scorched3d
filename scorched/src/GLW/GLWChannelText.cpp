@@ -22,6 +22,7 @@
 #include <GLW/GLWWindowManager.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWPanel.h>
+#include <GLW/GLWColors.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLImageFactory.h>
 #include <XML/XMLParser.h>
@@ -110,33 +111,31 @@ void GLWChannelText::draw()
 		drawRoundBox(x_ + 15.0f, y_, w_ - 15.0f, h_, 10.0f);
 	glEnd();
 
-	static Vector black(0.0f, 0.0f, 0.0f);
-
 	// Get the width of the prompt
-	float promptWidth = GLWFont::instance()->getLargePtFont()->getWidth(
+	float promptWidth = GLWFont::instance()->getGameFont()->getWidth(
 		fontSize_, prompt_.getText());
 
 	// Draw prompt black outline
-	GLWFont::instance()->getSmallPtFontOutline()->
-		drawOutlineA(black, 1.0f, outlineFontSize_, fontSize_,
-			x_ + 20.0f - 1.0f, y_ + 5.0f - 1.0f, 0.0f, 
+	GLWFont::instance()->getGameShadowFont()->
+		drawA(GLWColors::black, 1.0f, fontSize_,
+			x_ + 20.0f - 1.0f, y_ + 5.0f + 1.0f, 0.0f, 
 			prompt_.getText());
 	
 	// Draw text black outline
-	GLWFont::instance()->getSmallPtFontOutline()->
-		drawOutlineWidthRhs(w_ - 25.0f - promptWidth, 
-			black, outlineFontSize_, fontSize_,
-			x_ + 20.0f - 1.0f + promptWidth, y_ + 5.0f - 1.0f, 0.0f, 
-			text_.c_str());
+	GLWFont::instance()->getGameShadowFont()->drawWidthRhs(
+		w_ - 25.0f - promptWidth,
+		GLWColors::black, fontSize_,
+		x_ + 20.0f + promptWidth - 1.0f, y_ + 5.0f + 1.0f, 0.0f, 
+		text_.c_str());
 
 	// Draw the prompt
-	GLWFont::instance()->getLargePtFont()->
+	GLWFont::instance()->getGameFont()->
 		drawA(&prompt_, channelEntry_.color, 1.0f, fontSize_,
 			x_ + 20.0f, y_ + 5.0f, 0.0f, 
 			prompt_.getText());
 
 	// Draw the text
-	GLWFont::instance()->getLargePtFont()->drawWidthRhs(
+	GLWFont::instance()->getGameFont()->drawWidthRhs(
 		w_ - 25.0f - promptWidth,
 		channelEntry_.color, fontSize_,
 		x_ + 20.0f + promptWidth, y_ + 5.0f, 0.0f, 

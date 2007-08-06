@@ -260,11 +260,11 @@ void TargetRendererImplTank::drawInfo()
 	if (OptionsDisplay::instance()->getDrawPlayerNames())
 	{
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
-		bilX *= 0.5f * GLWFont::instance()->getSmallPtFont()->getWidth(
+		bilX *= 0.5f * GLWFont::instance()->getGameFont()->getWidth(
 			1, tank_->getName());
 
 		glDepthMask(GL_FALSE);
-		GLWFont::instance()->getSmallPtFont()->drawBilboard(
+		GLWFont::instance()->getGameFont()->drawBilboard(
 			tank_->getColor(), 1.0f, 1,
 			(float) tank_->getPosition().getTankPosition()[0] - bilX[0], 
 			(float) tank_->getPosition().getTankPosition()[1] - bilX[1], 
@@ -278,7 +278,7 @@ void TargetRendererImplTank::drawInfo()
 		Vector &bilX = GLCameraFrustum::instance()->getBilboardVectorX(); 
 		if (OptionsDisplay::instance()->getDrawPlayerNames())
 		{
-			bilX *= 0.5f * GLWFont::instance()->getSmallPtFont()->getWidth(
+			bilX *= 0.5f * GLWFont::instance()->getGameFont()->getWidth(
 				1, tank_->getName());
 			bilX += bilX.Normalize() * 1.0f;
 		}
@@ -565,11 +565,11 @@ void TargetRendererImplTank::draw2d()
 		if (TargetRendererImplTankHUD::drawText())
 		{
 			Vector yellow(0.7f, 0.7f, 0.0f);
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				yellow, 10,
 				(float) posX_ + 47.0f, (float) posY_ - 4.0f, (float) posZ_,
 				TargetRendererImplTankHUD::getTextA());
-			GLWFont::instance()->getSmallPtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				yellow, 10,
 				(float) posX_ + 47.0f, (float) posY_ - 15.0f, (float) posZ_,
 				TargetRendererImplTankHUD::getTextB());

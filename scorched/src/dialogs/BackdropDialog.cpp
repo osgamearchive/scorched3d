@@ -21,6 +21,7 @@
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLImageFactory.h>
+#include <graph/Main2DCamera.h>
 #include <dialogs/BackdropDialog.h>
 #include <common/Defines.h>
 
@@ -63,13 +64,13 @@ void BackdropDialog::draw()
 		GLState state(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
 
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glPixelStorei(GL_PACK_ALIGNMENT, 4);
-		glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-		glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-		glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+		glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+		glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
 
 		glRasterPos2i(0, 0);
-		glDrawPixels(GLViewPort::getWidth(), GLViewPort::getHeight(), 
+		glDrawPixels(GLViewPort::getActualWidth(), GLViewPort::getActualHeight(), 
 			GL_RGB, GL_UNSIGNED_BYTE, pixels_);
 	}
 
@@ -169,27 +170,31 @@ void BackdropDialog::drawLogo()
 
 void BackdropDialog::capture()
 {
+	glRasterPos2i(0, 0);
+
 	glPixelStorei(GL_PACK_ALIGNMENT, 4);
 	glPixelStorei(GL_PACK_ROW_LENGTH, 0);
 	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
 	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
 
-	unsigned char *screenpixels = new unsigned char[GLViewPort::getWidth() * GLViewPort::getHeight() * 3];
-	glReadPixels(0, 0, GLViewPort::getWidth(), GLViewPort::getHeight(), GL_RGB, GL_UNSIGNED_BYTE, screenpixels);
+	unsigned char *screenpixels = 
+		new unsigned char[GLViewPort::getActualWidth() * GLViewPort::getActualHeight() * 3];
+	glReadPixels(0, 0, GLViewPort::getActualWidth(), GLViewPort::getActualHeight(), 
+		GL_RGB, GL_UNSIGNED_BYTE, screenpixels);
 
-	if (!pixels_) pixels_ = new unsigned char[GLViewPort::getWidth() * GLViewPort::getHeight() * 3];
+	if (!pixels_) pixels_ = new unsigned char[GLViewPort::getActualWidth() * GLViewPort::getActualHeight() * 3];
 
 	unsigned char *dest = pixels_;
 	unsigned char *src = screenpixels;
-	for (int y=0; y<GLViewPort::getHeight(); y++)
+	for (int y=0; y<GLViewPort::getActualHeight(); y++)
 	{
-		for (int x=0; x<GLViewPort::getWidth(); x++, dest+=3, src+=3)
+		for (int x=0; x<GLViewPort::getActualWidth(); x++, dest+=3, src+=3)
 		{
 			int totalr = 0;
 			int totalg = 0;
 			int totalb = 0;
-			if (x>=3 && x<GLViewPort::getWidth()-3 &&
-				y>=3 && y<GLViewPort::getHeight()-3)
+			if (x>=3 && x<GLViewPort::getActualWidth()-3 &&
+				y>=3 && y<GLViewPort::getActualHeight()-3)
 			{
 				for (int a=-3; a<=3; a++)
 				{
@@ -197,7 +202,7 @@ void BackdropDialog::capture()
 					{
 						int srcx = a + x;
 						int srcy = b + y;
-						unsigned char *src2 = src + a * 3 + b * GLViewPort::getWidth() * 3;
+						unsigned char *src2 = src + a * 3 + b * GLViewPort::getActualWidth() * 3;
 
 						totalr += src2[0];
 						totalg += src2[1];

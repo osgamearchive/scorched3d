@@ -74,14 +74,14 @@ void GLWLabel::calcWidth()
 			for (int i=0; i<(int) labelTexts_.size(); i++)
 			{
 				const char *text = labelTexts_[i].c_str();
-				w_ = MAX(w_, GLWFont::instance()->getLargePtFont()->getWidth(
+				w_ = MAX(w_, GLWFont::instance()->getGameFont()->getWidth(
 					size_, (char *) text));
 			}
 			h_ = float(labelTexts_.size()) * 20.0f / 14.0f * size_;
 		}
 		else
 		{
-			w_ = GLWFont::instance()->getLargePtFont()->getWidth(
+			w_ = GLWFont::instance()->getGameFont()->getWidth(
 				size_, (char *) labelText_.c_str());
 			h_ = 20.0f / 14.0f * size_;
 		}
@@ -101,14 +101,14 @@ void GLWLabel::draw()
 		{
 			const char *text = labelTexts_[labelTexts_.size() - (i + 1)].c_str();
 
-			GLWFont::instance()->getLargePtFont()->draw(
+			GLWFont::instance()->getGameFont()->draw(
 				color_, size_,
 				x_, y_ + 6.0f + float(i) * 20.0f / 14.0f * size_, 0.0f, (char *) text);
 		}
 	}
 	else
 	{
-		GLWFont::instance()->getLargePtFont()->draw(
+		GLWFont::instance()->getGameFont()->draw(
 			color_, size_,
 			x_, y_ + 6.0f, 0.0f, (char *) labelText_.c_str());
 	}

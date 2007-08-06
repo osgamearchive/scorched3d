@@ -90,7 +90,7 @@ void MessageDialog::draw()
 
 	float wHeight = (float) GLViewPort::getHeight();
 	float wWidth = (float) GLViewPort::getWidth();
-	float textWidth = GLWFont::instance()->getLargePtFont()->getWidth(
+	float textWidth = GLWFont::instance()->getGameFont()->getWidth(
 		30, currentText_.c_str());
 
 	float x = (wWidth/2.0f) - (textWidth / 2) - 10.0f;
@@ -103,7 +103,7 @@ void MessageDialog::draw()
 	GLWWindow::draw();
 
 	Vector white(0.9f, 0.9f, 1.0f);
-	GLWFont::instance()->getLargePtFont()->draw(
+	GLWFont::instance()->getGameFont()->draw(
 		white, 30, 
 		x + 10.0f, y + 7.0f, 0.0f,
 		currentText_.c_str());

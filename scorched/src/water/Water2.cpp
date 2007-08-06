@@ -174,6 +174,17 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 		{
 			generateAOF(wd, &aofImage, rndtab, displacements, aof);
 		}
+		else
+		{
+			unsigned char *bits = aofImage.getBits();
+			for (unsigned y = 0; y<wave_resolution; ++y) 
+			{
+				for (unsigned x = 0; x<wave_resolution; ++x, bits+=3) 
+				{
+					bits[0] = 0;
+				}
+			}
+		}
 
 		// Add transparency to AOF image
 		generateTransparency(wd, aofImage, defn);
