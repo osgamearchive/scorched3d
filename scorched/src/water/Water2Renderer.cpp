@@ -65,7 +65,7 @@ void Water2Renderer::draw(Water2 &water2, WaterMapPoints &points, WaterWaves &wa
 		// Set the normal map for the current water frame
 		if (GLStateExtension::hasShaders())
 		{
-			normalTexture_.replace(currentPatch_->getNormalMap());
+			normalTexture_.replace(currentPatch_->getNormalMap(), false);
 		}
 	}
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "WATER_PATCHSETUP");

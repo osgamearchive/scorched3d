@@ -19,13 +19,17 @@ const float water_shininess = 120.0;
 
 void main()
 {
+	// add exp fog
+	float fog = exp2(-gl_Fog.density * gl_FogFragCoord * 3.0 * 1.442695);
+	float fog_factor = clamp(fog, 0.0, 1.0);
+
 	// compute shaodw amount
 	float s0 = 1.0;
 	if (use_shadow == 1.0) s0 = shadow2DProj(tex_shadow, gl_TexCoord[2]).r;
 
 	// compute normal vector
-	vec3 N0 = vec3(texture2D(tex_normal, noise_texc.xy) * 2.0 - 1.0);
-	vec3 N1 = vec3(texture2D(tex_normal, noise_texc.zw) * 2.0 - 1.0);
+	vec3 N0 = vec3(texture2D(tex_normal, noise_texc.xy) * 2.0 - 1.0) * fog_factor;
+	vec3 N1 = vec3(texture2D(tex_normal, noise_texc.zw) * 2.0 - 1.0) * fog_factor;
 	vec3 N = normalize(normal+N0+N1);
 
 	// compute direction to viewer
@@ -83,7 +87,7 @@ void main()
 	
 	// foam due to breakers in the sea
 	float aof = 
-		texture2D(tex_foamamount, aoftexcoord.xy / 256.0).x;
+		texture2D(tex_foamamount, aoftexcoord.xy / 256.0).x * fog_factor;
 		
 	// foam due to breakers at the shore
 	float landfoam = 0.0;
@@ -111,10 +115,6 @@ void main()
 
 	// Find color taking water and foam
 	vec3 final_color = mix(water_color, vec3(gl_LightSource[0].diffuse), foam_amount);
-
-	// add exp fog
-	float fog = exp2(-gl_Fog.density * gl_FogFragCoord * 3.0 * 1.442695);
-	float fog_factor = clamp(fog, 0.0, 1.0);
 
 	// output color is a mix between fog and final color
 	gl_FragColor = vec4(mix(vec3(gl_Fog.color), final_color, fog_factor), trans);

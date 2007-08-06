@@ -49,8 +49,8 @@ void main()
 	lightdir = normalize(vec3(gl_ModelViewMatrixInverse * gl_LightSource[0].position));
 
 	// transform noise coordinates
-	noise_texc.xy = vec2(gl_Vertex) * noise_xform_0.z + noise_xform_0.xy;
-	noise_texc.zw = vec2(gl_Vertex) * noise_xform_1.z + noise_xform_1.xy;
+	noise_texc.xy = vec2(gl_Vertex) / 2.0 * noise_xform_0.z + noise_xform_0.xy;
+	noise_texc.zw = vec2(gl_Vertex) / 2.0 * noise_xform_1.z + noise_xform_1.xy;
 
 	// transform inputpos.xy with texture matrix to get texture coodinates
 	//fixme: use uniforms here as well, no tex matrix.	
