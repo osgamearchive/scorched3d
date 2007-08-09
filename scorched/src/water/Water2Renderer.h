@@ -54,6 +54,8 @@ protected:
 	GLTextureBase *noShaderWaterTexture_;
 	GLFrameBufferObject reflectionBuffer_;
 	Vector landscapeSize_;
+	Vector windDir1_, windDir2_;
+	float windSpeed1_, windSpeed2_;
 
 	Water2Patches *currentPatch_;
 	GLSLShaderSetup *waterShader_;
