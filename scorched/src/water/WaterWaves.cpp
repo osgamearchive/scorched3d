@@ -333,14 +333,14 @@ void WaterWaves::drawBoxes(Water2Patches &currentPatch,
 				continue;
 
 			ptA = p.ptD - p.perp * frontlen;
-			ptA[2] = currentPatch.getPoint(ptA[0]/2, ptA[1]/2)->z + 0.05f;
+			ptA[2] = currentPatch.getPoint(int(ptA[0]/2), int(ptA[1]/2))->z + 0.05f;
 			ptB = p.ptC - p.perp * frontlen;
-			ptB[2] = currentPatch.getPoint(ptB[0]/2, ptB[1]/2)->z + 0.05f;
+			ptB[2] = currentPatch.getPoint(int(ptB[0]/2), int(ptB[1]/2))->z + 0.05f;
 
 			ptC = p.ptC - p.perp * endlen;
-			ptC[2] = currentPatch.getPoint(ptC[0]/2, ptC[1]/2)->z + 0.05f;
+			ptC[2] = currentPatch.getPoint(int(ptC[0]/2), int(ptC[1]/2))->z + 0.05f;
 			ptD = p.ptD - p.perp * endlen;
-			ptD[2] = currentPatch.getPoint(ptD[0]/2, ptD[1]/2)->z + 0.05f;
+			ptD[2] = currentPatch.getPoint(int(ptD[0]/2), int(ptD[1]/2))->z + 0.05f;
 			
 			glTexCoord2f(1.0f, 1.0f);
 			glVertex3fv(ptA);

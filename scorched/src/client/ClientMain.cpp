@@ -374,6 +374,14 @@ bool ClientMain::clientEventLoop(float frameTime)
 		ScorchedClient::instance()->getNetInterface().processMessages();
 	}
 
+	if (ClientParams::instance()->getExitTime() > 0)
+	{
+		if (time(0) > ClientParams::instance()->getExitTime())
+		{
+			exit(0);
+		}
+	}
+
 	return idle;
 }
 

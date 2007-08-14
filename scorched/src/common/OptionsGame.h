@@ -319,6 +319,9 @@ public:
 	bool getResidualPlayers() { return residualPlayers_; }
 	OptionEntryBool &getResidualPlayersEntry() { return residualPlayers_; }
 
+	bool getAutoSendSyncCheck() { return autoSendSyncCheck_; }
+	OptionEntryBool &getAutoSendSyncCheckEntry() { return autoSendSyncCheck_; }
+
 	const char * getAuthHandler() { return authHandler_; }
 	OptionEntryStringEnum &getAuthHandlerEntry() { return authHandler_; }
 
@@ -409,6 +412,7 @@ protected:
 
 	// Server only options
 	OptionEntryString botNamePrefix_;
+	OptionEntryBool autoSendSyncCheck_;
 	OptionEntryBool residualPlayers_;
 	OptionEntryBool randomizeBotNames_;
 	OptionEntryBool giveAllWeapons_;

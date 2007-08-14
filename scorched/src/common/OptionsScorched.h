@@ -132,6 +132,7 @@ public:
 	OPTIONBOOL_GETTER(AllowSameUniqueId);
 	OPTIONBOOL_GETTER(PublishServer);
 	OPTIONBOOL_GETTER(ResidualPlayers);
+	OPTIONBOOL_GETTER(AutoSendSyncCheck);
 
 	OPTIONSTRING_GETTER(AuthHandler);
 	OPTIONBOOL_GETTER(RegisteredUserNames);

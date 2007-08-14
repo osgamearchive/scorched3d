@@ -32,6 +32,7 @@
 #include <coms/ComsScoreMessage.h>
 #include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsMessageSender.h>
+#include <coms/ComsSyncCheckMessage.h>
 #include <tank/TankColorGenerator.h>
 #include <tank/TankContainer.h>
 #include <tank/TankTeamScore.h>
@@ -52,6 +53,14 @@ ServerShotFinishedState::~ServerShotFinishedState()
 
 void ServerShotFinishedState::enterState(const unsigned state)
 {
+	// Send sync check
+	if (ScorchedServer::instance()->getOptionsGame().getAutoSendSyncCheck())
+	{
+		ServerCommon::serverLog("Sending auto synccheck");
+		ComsSyncCheckMessage syncCheck;
+		ComsMessageSender::sendToAllPlayingClients(syncCheck);
+	}
+
 	// Remove any tanks that have disconected during the shot state
 	ServerMessageHandler::instance()->destroyTaggedPlayers();
 

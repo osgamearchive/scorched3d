@@ -203,6 +203,8 @@ OptionsGame::OptionsGame() :
 		"Show power is limited by the amount of health a player has", 0, true),
 	residualPlayers_(options_, "ResidualPlayers",
 		"Players that leave will have the same state when reconnecting", 0, true),
+	autoSendSyncCheck_(options_, "AutoSendSyncCheck",
+		"Automatically send a sync check at the end of each shot", 0, false),
 	resignMode_(options_, "ResignMode",
 		"When does a players resign take place", 0, int(ResignEnd), resignEnum),
 	movementRestriction_(options_, "MovementRestriction",

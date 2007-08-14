@@ -50,6 +50,13 @@ int main(int argc, char *argv[])
 		return false;
 	}
 
+	// Set the exittime
+	if (ClientParams::instance()->getExitTime() > 0)
+	{
+		ClientParams::instance()->setExitTime(
+			int(ClientParams::instance()->getExitTime() + time(0)));
+	}
+
 	// Get this host's description and username
 	if (!OptionsDisplay::instance()->getHostDescription()[0])
 	{

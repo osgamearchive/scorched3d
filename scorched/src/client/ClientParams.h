@@ -33,6 +33,7 @@ public:
 	const char *getSaveFile() { return save_.getValue(); }
 	const char *getUserName() { return username_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
+	int getExitTime() { return exittime_.getValue(); }
 	bool getStartCustom() { return startcustom_.getValue(); }
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
 
@@ -41,6 +42,7 @@ public:
 	void setSaveFile(const char *file) { save_.setValue(file); }
 	void setPassword(const char *password) { password_.setValue(password); }
 	void setConnect(const char *address) { connect_.setValue(address); }
+	void setExitTime(int time) { exittime_.setValue(time); }
 
 	void reset();
 
@@ -53,6 +55,7 @@ protected:
 	OptionEntryString username_;
 	OptionEntryString save_;
 	OptionEntryBool startcustom_;
+	OptionEntryInt exittime_;
 
 private:
 	ClientParams();
