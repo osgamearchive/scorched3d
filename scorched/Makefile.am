@@ -272,7 +272,6 @@ scorcheddatawavmisc_DATA = data/wav/misc/birdchirp6.wav \
 scorcheddatafontsdir = ${datadir}/data/fonts
 scorcheddatafonts_DATA = data/fonts/test.ttf \
 	data/fonts/VERA-COPYRIGHT.TXT \
-	data/fonts/testout.ttf \
 	data/fonts/vera.ttf \
 	data/fonts/veramobd.ttf
 scorcheddatatalkdir = ${datadir}/data/talk

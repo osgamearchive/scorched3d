@@ -916,6 +916,8 @@ scorched3dc_SOURCES = \
 	../GLW/GLWCheckBox.h \
 	../GLW/GLWCheckBoxText.cpp \
 	../GLW/GLWCheckBoxText.h \
+	../GLW/GLWColors.cpp \
+	../GLW/GLWColors.h \
 	../GLW/GLWDragger.cpp \
 	../GLW/GLWDragger.h \
 	../GLW/GLWDropDown.cpp \
@@ -1207,6 +1209,8 @@ scorched3dc_SOURCES = \
 	../graph/TextureStore.h \
 	../graph/TutorialFile.cpp \
 	../graph/TutorialFile.h \
+	../dialogs/AnimatedBackdropDialog.cpp \
+	../dialogs/AnimatedBackdropDialog.h \
 	../dialogs/AutoDefenseDialog.cpp \
 	../dialogs/AutoDefenseDialog.h \
 	../dialogs/BackdropDialog.cpp \
