@@ -109,19 +109,22 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 	// be downloaded
 	if (0 == strcmp("none", mod))
 	{
-		std::string modDir = getDataFile("");
-		loadModFile(getDataFile("data/accessories.xml"), modDir.c_str(), mod);
-		loadModFile(getDataFile("data/modinfo.xml"), modDir.c_str(), mod);
-		loadModFile(getDataFile("data/landscapes.xml"), modDir.c_str(), mod);
-		FileList fList(getDataFile("data/landscapes"), "*.xml", true);
+		loadLocalModFile("data/accessories.xml", mod);
+		loadLocalModFile("data/modinfo.xml", mod);
+		loadLocalModFile("data/landscapes.xml", mod);
+
+		const char *landscapesBase = "data/landscapes";
+		std::string dir = getDataFile(landscapesBase);
+		FileList fList(dir.c_str(), "*.xml", true);
 		std::list<std::string> &files = fList.getFiles();
 		std::list<std::string>::iterator itor;
 		for (itor = files.begin();
 			itor != files.end();
 			itor++)
 		{
-			const char *file = (*itor).c_str();
-			loadModFile(file, modDir.c_str(), mod);
+			char *file = (char *) (*itor).c_str();
+			file += dir.size() - strlen(landscapesBase);
+			loadLocalModFile(file, mod);
 		}
 	}
 	
@@ -152,6 +155,16 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 	}
 
 	return true;
+}
+
+bool ModFiles::loadLocalModFile(const char *local, const char *mod)
+{
+	const char *dataFile = getDataFile(local);
+	std::string modDirStr(dataFile);
+	char *modDir = (char *) modDirStr.c_str();
+	modDir[strlen(dataFile) - strlen(local)] = '\0';
+
+	return loadModFile(dataFile, modDir, mod);
 }
 
 bool ModFiles::loadModDir(const char *modDir, const char *mod, ProgressCounter *counter)

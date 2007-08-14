@@ -51,6 +51,8 @@ protected:
 		ProgressCounter *counter = 0);
 	bool loadModFile(const char *fullFileName,
 		const char *modDir, const char *mod);
+	bool loadLocalModFile(const char *local, 
+		const char *mod);
 
 private:
 	ModFiles(const ModFiles&other);
