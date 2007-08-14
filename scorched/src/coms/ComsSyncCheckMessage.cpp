@@ -82,8 +82,26 @@ bool ComsSyncCheckMessage::writeMessage(NetBuffer &buffer)
 
 #ifndef S3D_SERVER
 
+#include <common/FileLogger.h>
 #include <GLEXT/GLBitmap.h>
 #include <landscape/Landscape.h>
+
+static FileLogger *syncCheckFileLogger = 0;
+
+static void syncCheckLog(const char *message)
+{
+	if (!syncCheckFileLogger) 
+	{
+		char buffer[256];
+		snprintf(buffer, 256, "SyncCheckLog-%u-", time(0));
+		syncCheckFileLogger = new FileLogger(buffer);
+	}	
+
+	Logger::log(message);
+	LoggerInfo info(message);
+	info.setTime();
+	syncCheckFileLogger->logMessage(info);
+}
 
 bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 {
@@ -111,8 +129,10 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 	}
 	if (heightDiffs > 0 || normalDiffs > 0)
 	{
-		Logger::log(formatString("Height diffs %i, Normal diffs %i",
-			heightDiffs, normalDiffs));
+		const char *message = formatString(
+			"SyncCheck - Height diffs %i, Normal diffs %i",
+			heightDiffs, normalDiffs);
+		syncCheckLog(message);
 
 		GLBitmap newMap(
 			Landscape::instance()->getMainMap().getWidth(),
@@ -162,7 +182,9 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		Target *target = ScorchedClient::instance()->getTargetContainer().getTargetById(playerId);
 		if (!target)
 		{
-			Logger::log(formatString("Failed to find a client target : %u", playerId));
+			const char *message = formatString(
+				"SyncCheck - Failed to find a client target : %u", playerId);
+			syncCheckLog(message);
 			return true;
 		}
 
@@ -182,8 +204,10 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 			{
 				if (tmpBuffer.getBuffer()[i] != reader.getBuffer()[reader.getReadSize() + i])
 				{
-					Logger::log(formatString("Targets values differ : %u:%s, position %i", 
-						playerId, target->getName(), i));
+					const char *message =
+						formatString("SyncCheck - Targets values differ : %u:%s, position %i", 
+							playerId, target->getName(), i);
+					syncCheckLog(message);
 
 					// Only used for step-through debugging to see where the
 					// differences are
@@ -191,7 +215,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 					NetBufferReader tmpReader(tmpBuffer);
 					if (!target->readMessage(tmpReader))
 					{
-						Logger::log(formatString("Re-parse failed"));
+						syncCheckLog(formatString("Re-parse failed"));
 					}
 
 					break;
