@@ -23,13 +23,15 @@
 #include <engine/ScorchedContext.h>
 #include <landscapemap/DeformLandscape.h>
 #include <common/ChannelManager.h>
+#include <common/OptionsScorched.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <target/TargetLife.h>
 
 Resurrection::Resurrection(
 	unsigned int playerId,
-	Vector &position) :
+	FixedVector &position) :
+	ActionReferenced("Resurrection"),
 	playerId_(playerId),
 	position_(position)
 {
@@ -44,7 +46,7 @@ void Resurrection::init()
 {
 }
 
-void Resurrection::simulate(float frameTime, bool &remove)
+void Resurrection::simulate(fixed frameTime, bool &remove)
 {
 	remove = true;
 
@@ -62,6 +64,16 @@ void Resurrection::simulate(float frameTime, bool &remove)
 			ChannelManager::showText(text);
 		}
 #endif
+
+		if (context_->optionsGame->getAutoSendSyncCheck())
+		{
+			context_->actionController->addSyncCheck(
+				formatString("TankRez: %u %li, %li, %li", 
+					tank->getPlayerId(),
+					position_[0].getInternal(),
+					position_[1].getInternal(),
+					position_[2].getInternal()));
+		}
 
 		// Rez this tank
 		tank->rezTank();

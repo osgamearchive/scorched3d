@@ -69,7 +69,7 @@ public:
 	const char *getGroupName() { return groupName_.c_str(); }
 	const char *getTabGroupName() { return tabGroupName_.c_str(); }
 	AccessoryPart *getAction() { return accessoryAction_; }
-	float getModelScale() { return modelScale_; }
+	fixed getModelScale() { return modelScale_; }
 	ModelID &getModel() { return modelId_; }
 	bool getMuzzleFlash() { return muzzleFlash_; }
 
@@ -111,7 +111,7 @@ protected:
 	int originalSellPrice_;
 	int maximumNumber_;
 	int startingNumber_;
-	float modelScale_;
+	fixed modelScale_;
 	bool muzzleFlash_;
 };
 

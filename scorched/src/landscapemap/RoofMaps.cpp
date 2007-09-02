@@ -24,7 +24,6 @@
 #include <engine/ScorchedContext.h>
 #include <landscapedef/LandscapeDefinitionCache.h>
 #include <landscapedef/LandscapeDefn.h>
-#include <float.h>
 
 RoofMaps::RoofMaps(LandscapeDefinitionCache &defnCache) :
 	defnCache_(defnCache)
@@ -42,11 +41,11 @@ void RoofMaps::generateMaps(
 	generateRMap(context, counter);
 }
 
-float RoofMaps::getRoofHeight(int x, int y)
+fixed RoofMaps::getRoofHeight(int x, int y)
 {
 	if (defnCache_.getDefn()->roof->getType() != LandscapeDefnType::eRoofCavern)
 	{
-		return FLT_MAX;
+		return fixed::MAX_FIXED;
 	}
 
 	// Factors should be caclculated from hmap height/width
@@ -68,11 +67,11 @@ float RoofMaps::getRoofHeight(int x, int y)
 	return rmap_.getHeight(x, y);
 }
 
-float RoofMaps::getInterpRoofHeight(float x, float y)
+fixed RoofMaps::getInterpRoofHeight(fixed x, fixed y)
 {
 	if (defnCache_.getDefn()->roof->getType() != LandscapeDefnType::eRoofCavern)
 	{
-		return FLT_MAX;
+		return fixed::MAX_FIXED;
 	}
 
 	// Factors should be caclculated from hmap height/width
@@ -83,7 +82,7 @@ float RoofMaps::getInterpRoofHeight(float x, float y)
 	y /= yFactor;
 	if (x < 0 || y < 0 || x > rmap_.getMapWidth() || y > rmap_.getMapHeight())
 	{
-		return FLT_MAX;
+		return fixed::MAX_FIXED;
 	}
 	return rmap_.getInterpHeight(x, y);
 }
@@ -118,8 +117,8 @@ void RoofMaps::generateRMap(
 		{
 			for (int i=0; i<=rmap_.getMapWidth(); i++)
 			{
-				float height = rmap_.getHeight(i, j);
-				height = cavern->height - height;
+				fixed height = rmap_.getHeight(i, j);
+				height = fixed(cavern->height) - height;
 				rmap_.setHeight(i, j, height);
 				rmap_.getNormal(i, j)[2] = -rmap_.getNormal(i, j)[2];
 			}

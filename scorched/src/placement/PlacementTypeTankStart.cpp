@@ -26,7 +26,7 @@
 #include <common/Defines.h>
 #include <XML/XMLParser.h>
 
-PlacementTypeTankStart::PlacementTypeTankStart() : mincloseness(0.0f)
+PlacementTypeTankStart::PlacementTypeTankStart() : mincloseness(0)
 {
 }
 

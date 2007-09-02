@@ -19,12 +19,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <client/ClientShotState.h>
+#include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientWaitState.h>
 #include <client/ClientParams.h>
-#include <client/ClientPlayMovesHandler.h>
 #include <engine/ActionController.h>
 #include <engine/ViewPoints.h>
+#include <common/Logger.h>
+#include <coms/ComsPlayMovesMessage.h>
 #include <landscape/Landscape.h>
 #include <landscape/PatchGrid.h>
 #include <landscape/Landscape.h>
@@ -42,23 +44,49 @@ ClientShotState *ClientShotState::instance()
 
 ClientShotState::ClientShotState() :
 	GameStateI("ClientShotState"),
-	shotState_(ScorchedClient::instance()->getContext(),
-		*ClientPlayMovesHandler::instance())
-
+	playShots_(),
+	shotState_(ScorchedClient::instance()->getContext(), playShots_)
 {
+	ScorchedClient::instance()->getComsMessageHandler().addHandler(
+		"ComsPlayMovesMessage",
+		this);
 }
 
 ClientShotState::~ClientShotState()
 {
 }
 
-void ClientShotState::enterState(const unsigned state)
+bool ClientShotState::processMessage(
+	NetMessage &message,
+	const char *messageType,
+	NetBufferReader &reader)
 {
+	// Reset graphics
 	Landscape::instance()->restoreLandscapeTexture();
 	ScorchedClient::instance()->getContext().viewPoints->reset();
 
+	// Read the new shots into the action controller
+	ComsPlayMovesMessage playMovesMessage;
+	if (!playMovesMessage.readMessage(reader)) return false;
+
+	// Read the moves from the message
+	playShots_.readMessage(playMovesMessage);
+
 	// Play the shots
-	shotState_.enterState(state);
+	ScorchedClient::instance()->getActionController().
+		getRandom().seed(playMovesMessage.getSeed());
+	shotState_.setup();
+
+	// Ensure and move to the shot state
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
+	ScorchedClient::instance()->getGameState().checkStimulate();
+	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimShot);
+	return true;
+}
+
+void ClientShotState::enterState(const unsigned state)
+{
+	// Not needed as setup is done above
 }
 
 bool ClientShotState::acceptStateChange(const unsigned state, 
@@ -66,7 +94,7 @@ bool ClientShotState::acceptStateChange(const unsigned state,
 		float frameTime)
 {
 	// All the shots have finished, move to finished
-	if (shotState_.acceptStateChange(state, nextState, frameTime))
+	if (shotState_.run(frameTime))
 	{
 		// Check area around tank has correct variance
 		Landscape::instance()->getPatchGrid().recalculateTankVariance();

@@ -27,15 +27,14 @@
 #include <common/OptionsScorched.h>
 #include <common/Logger.h>
 #include <common/OptionsTransient.h>
-#include <coms/ComsPlayerStateMessage.h>
 #include <coms/ComsPlayerStatusMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 
-ServerReadyState::ServerReadyState(ServerShotState *shotState) : 
+ServerReadyState::ServerReadyState() : 
 	GameStateI("ServerReadyState"),
-	time_(0.0f), shotState_(shotState)
+	time_(0.0f)
 {
 }
 

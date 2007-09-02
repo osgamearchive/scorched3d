@@ -178,14 +178,6 @@ void NetBuffer::addDataToBuffer(const void *add, unsigned len)
 	usedSize_ += len;
 }
 
-void NetBuffer::addToBuffer(Vector4 &add)
-{
-	addToBuffer(add[0]);
-	addToBuffer(add[1]);
-	addToBuffer(add[2]);
-	addToBuffer(add[3]);
-}
-
 void NetBuffer::addToBuffer(Vector &add)
 {
 	addToBuffer(add[0]);
@@ -193,9 +185,40 @@ void NetBuffer::addToBuffer(Vector &add)
 	addToBuffer(add[2]);
 }
 
+void NetBuffer::addToBuffer(FixedVector &add)
+{
+	addToBuffer(add[0]);
+	addToBuffer(add[1]);
+	addToBuffer(add[2]);
+}
+
+void NetBuffer::addToBuffer(FixedVector4 &add)
+{
+	addToBuffer(add[0]);
+	addToBuffer(add[1]);
+	addToBuffer(add[2]);
+	addToBuffer(add[3]);
+}
+
+void NetBuffer::addToBuffer(const fixed add)
+{
+	Uint32 value = 0;
+	SDLNet_Write32(fixed(add).getInternal(), &value);
+	addDataToBuffer(&value, sizeof(Uint32));
+}
+
 void NetBuffer::addToBuffer(const int add)
 {
 	Uint32 value = 0;
+	SDLNet_Write32(add, &value);
+	addDataToBuffer(&value, sizeof(Uint32));
+}
+
+void NetBuffer::addToBuffer(const float addf)
+{
+	Uint32 value = 0;
+	Uint32 add = 0;
+	memcpy(&add, &addf, sizeof(Uint32));
 	SDLNet_Write32(add, &value);
 	addDataToBuffer(&value, sizeof(Uint32));
 }
@@ -213,15 +236,6 @@ void NetBuffer::addToBuffer(const unsigned int add)
 	addDataToBuffer(&value, sizeof(Uint32));
 }
 
-void NetBuffer::addToBuffer(const float addf)
-{
-	Uint32 value = 0;
-	Uint32 add = 0;
-	memcpy(&add, &addf, sizeof(Uint32));
-	SDLNet_Write32(add, &value);
-	addDataToBuffer(&value, sizeof(Uint32));
-}
-
 void NetBuffer::addToBuffer(const char *add)
 {
 	addDataToBuffer(add, (unsigned) strlen(add)+1);
@@ -230,6 +244,12 @@ void NetBuffer::addToBuffer(const char *add)
 void NetBuffer::addToBuffer(std::string &string)
 {
 	addToBuffer(string.c_str());
+}
+
+void NetBuffer::addToBuffer(NetBuffer &add)
+{
+	addToBuffer(add.getBufferUsed());
+	addDataToBuffer(add.getBuffer(), add.getBufferUsed());
 }
 
 NetBufferReader::NetBufferReader() :
@@ -255,20 +275,28 @@ void NetBufferReader::reset()
 	readSize_ = 0;
 }
 
-bool NetBufferReader::getFromBuffer(Vector4 &result)
-{
-	if (!getFromBuffer(result[0])) return false;
-	if (!getFromBuffer(result[1])) return false;
-	if (!getFromBuffer(result[2])) return false;
-	if (!getFromBuffer(result[3])) return false;
-	return true;
-}
-
 bool NetBufferReader::getFromBuffer(Vector &result)
 {
 	if (!getFromBuffer(result[0])) return false;
 	if (!getFromBuffer(result[1])) return false;
 	if (!getFromBuffer(result[2])) return false;
+	return true;
+}
+
+bool NetBufferReader::getFromBuffer(FixedVector &result)
+{
+	if (!getFromBuffer(result[0])) return false;
+	if (!getFromBuffer(result[1])) return false;
+	if (!getFromBuffer(result[2])) return false;
+	return true;
+}
+
+bool NetBufferReader::getFromBuffer(FixedVector4 &result)
+{
+	if (!getFromBuffer(result[0])) return false;
+	if (!getFromBuffer(result[1])) return false;
+	if (!getFromBuffer(result[2])) return false;
+	if (!getFromBuffer(result[3])) return false;
 	return true;
 }
 
@@ -280,11 +308,11 @@ bool NetBufferReader::getFromBuffer(int &result)
 	return true;
 }
 
-bool NetBufferReader::getFromBuffer(bool &result)
+bool NetBufferReader::getFromBuffer(fixed &result)
 {
-	char c = 0;
-	if (!getDataFromBuffer(&c, sizeof(c))) return false;
-	result = (c=='1'?true:false);
+	Uint32 value = 0;
+	if (!getDataFromBuffer(&value, sizeof(value))) return false;
+	result = fixed(true, SDLNet_Read32(&value));
 	return true;
 }
 
@@ -294,6 +322,14 @@ bool NetBufferReader::getFromBuffer(float &resultf)
 	if (!getDataFromBuffer(&value, sizeof(value))) return false;
 	Uint32 result = SDLNet_Read32(&value);
 	memcpy(&resultf, &result, sizeof(Uint32));
+	return true;
+}
+
+bool NetBufferReader::getFromBuffer(bool &result)
+{
+	char c = 0;
+	if (!getDataFromBuffer(&c, sizeof(c))) return false;
+	result = (c=='1'?true:false);
 	return true;
 }
 
@@ -330,6 +366,16 @@ bool NetBufferReader::getFromBuffer(std::string &result, bool safe)
 
 	delete [] value;
 	return false;
+}
+
+bool NetBufferReader::getFromBuffer(NetBuffer &buffer)
+{
+	buffer.reset();
+	unsigned int bufferSize = 0;
+	if (!getFromBuffer(bufferSize)) return false;
+	buffer.resize(bufferSize);
+	buffer.setBufferUsed(bufferSize);
+	return getDataFromBuffer(buffer.getBuffer(), bufferSize);
 }
 
 bool NetBufferReader::getDataFromBuffer(void *dest, int len)

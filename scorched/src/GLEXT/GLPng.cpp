@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 #include <GLEXT/GLPng.h>
 #include <png.h>
 
@@ -98,7 +99,7 @@ void GLPng::createBlankInternal(int width, int height, bool alpha, unsigned char
 	memset(bits_, fill, bitsize);
 }
 
-bool GLPng::loadFromFile(const char * filename, bool readalpha)
+bool GLPng::loadFromFile(const char *filename, bool readalpha)
 {
 	FILE *file = fopen(filename, "rb");
 	if (!file) return false;
@@ -112,7 +113,12 @@ bool GLPng::loadFromFile(const char * filename, bool readalpha)
 	}
 	fclose(file);
 
-	return loadFromBuffer(netBuffer, readalpha);
+	if (!loadFromBuffer(netBuffer, readalpha))
+	{
+		Logger::log(formatString("Failed to load PNG file \"%s\"", filename));
+		return false;
+	}
+	return true;
 }
 
 struct user_read_struct
@@ -122,6 +128,15 @@ struct user_read_struct
 	int position;
 	NetBuffer &buffer;
 };
+
+static void user_png_error(png_structp png_ptr, png_const_charp msg) 
+{
+	longjmp(png_ptr->jmpbuf,1);
+}
+
+static void user_png_warning(png_structp png_ptr, png_const_charp msg) 
+{
+}
 
 static void user_read_fn(png_structp png_ptr,
         png_bytep data, png_size_t length)
@@ -170,6 +185,7 @@ bool GLPng::loadFromBuffer(NetBuffer &buffer, bool readalpha)
 	  /* If we get here, we had a problem reading the file */
 	  return false;
 	}
+	png_set_error_fn(png_ptr, NULL, user_png_error, user_png_warning);
 
 	/* If you are using replacement read functions, instead of calling
 	* png_init_io() here you would call:

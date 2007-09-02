@@ -71,33 +71,31 @@ void PlacementTypeMask::getPositions(ScorchedContext &context,
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		float lx = generator.getRandFloat() * float(groundMapWidth);
-		float ly = generator.getRandFloat() * float(groundMapHeight);
+		fixed lx = generator.getRandFixed() * fixed(groundMapWidth);
+		fixed ly = generator.getRandFixed() * fixed(groundMapHeight);
 		
-		if (xsnap > 0.0f) 
+		if (xsnap > 0) 
 		{
-			lx = float(int(lx / xsnap)) * xsnap;
+			lx = fixed((lx / xsnap).asInt()) * xsnap;
 		}
-		if (ysnap > 0.0f)
+		if (ysnap > 0)
 		{
-			ly = float(int(ly / ysnap)) * ysnap;
+			ly = fixed((ly / ysnap).asInt()) * ysnap;
 		}
-		lx = MIN(MAX(0.0f, lx), float(groundMapWidth));
-		ly = MIN(MAX(0.0f, ly), float(groundMapHeight));
+		lx = MIN(MAX(fixed(0), lx), fixed(groundMapWidth));
+		ly = MIN(MAX(fixed(0), ly), fixed(groundMapHeight));
 
-		float height = 
-			context.landscapeMaps->
-				getGroundMaps().getInterpHeight(lx, ly);
-		Vector normal;
+		fixed height = 
+			context.landscapeMaps->getGroundMaps().getInterpHeight(lx, ly);
+		FixedVector normal;
 		context.landscapeMaps->
 			getGroundMaps().getInterpNormal(lx, ly, normal);
 		if (height > minheight && 
 			height < maxheight &&
 			normal[2] > minslope)
 		{
-				
-			int mx = int(map.getWidth() * (lx / float(groundMapWidth)));
-			int my = int(map.getWidth() * (ly / float(groundMapHeight)));
+			int mx = (map.getWidth() * lx.asInt()) / groundMapWidth;
+			int my = (map.getHeight() * ly.asInt()) / groundMapHeight;
 			unsigned char *bits = map.getBits() +
 				mx * 3 + my * map.getWidth() * 3;
 			if (bits[0] > 127)

@@ -23,7 +23,6 @@
 #include <actions/Resurrection.h>
 #include <placement/PlacementTankPosition.h>
 #include <coms/ComsMessageSender.h>
-#include <coms/ComsPlayerStateMessage.h>
 #include <common/Logger.h>
 #include <common/RandomGenerator.h>
 #include <common/OptionsScorched.h>
@@ -33,6 +32,7 @@
 #include <tank/TankAccessories.h>
 #include <tank/TankPosition.h>
 #include <target/TargetLife.h>
+#include <target/TargetState.h>
 
 ShotState::ShotState(ScorchedContext &context,
 	PlayShots &playShots) :
@@ -45,7 +45,7 @@ ShotState::~ShotState()
 {
 }
 
-void ShotState::enterState(const unsigned state)
+void ShotState::setup()
 {
 	// Set all player kills this turn to 0 (used for multikill)
 	{
@@ -65,6 +65,36 @@ void ShotState::enterState(const unsigned state)
 	context_.actionController->resetTime();
 	context_.actionController->clear();
 
+	if (context_.optionsGame->getAutoSendSyncCheck())
+	{
+		std::map<unsigned int, Target *> &targets =
+			context_.targetContainer->getTargets();
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = targets.begin();
+			itor != targets.end();
+			itor++)
+		{
+			Target *target = itor->second;
+			if (target->getPlayerId() >= TargetID::MIN_TARGET_TRANSIENT_ID ||
+				target->getTargetState().getMovement() ||
+				!target->isTarget())
+			{
+				context_.actionController->addSyncCheck(
+					formatString("TargetDef : %u %s %li %li,%li,%li %li,%li,%li %s", 
+						target->getPlayerId(),
+						target->getName(),
+						target->getLife().getLife().getInternal(),
+						target->getLife().getTargetPosition()[0].getInternal(),
+						target->getLife().getTargetPosition()[1].getInternal(),
+						target->getLife().getTargetPosition()[2].getInternal(),
+						target->getLife().getVelocity()[0].getInternal(),
+						target->getLife().getVelocity()[1].getInternal(),
+						target->getLife().getVelocity()[2].getInternal(),
+						target->getAlive()?"Alive":"Dead"));
+			}
+		}
+	}
+
 	// Add all shots that should be run at the start of the round
 	// to the action controller
 	playShots_.playShots(context_, true);
@@ -77,9 +107,7 @@ void ShotState::enterState(const unsigned state)
 	context_.actionController->getEvents().initialize(context_);
 }
 
-bool ShotState::acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime)
+bool ShotState::run(float frameTime)
 {
 	if (!context_.actionController->noReferencedActions() ||
 		firstTime_)
@@ -105,8 +133,9 @@ bool ShotState::acceptStateChange(const unsigned state,
 		else
 		{
 			// We have finished all shots
-			//Logger::log(formatString(
-			//	"Finished playing Shots"));
+			Logger::log(formatString(
+				"Finished playing Shots %.2f seconds", 
+					context_.actionController->getActionTime().asFloat()));
 			context_.actionController->getEvents().clear();
 			context_.actionController->logProfiledActions();
 
@@ -133,7 +162,7 @@ void ShotState::resurectTanks()
 			(tank->getState().getLives() > 0 ||
 			tank->getState().getMaxLives() == 0))
 		{
-			Vector tankPos = PlacementTankPosition::placeTank(
+			FixedVector tankPos = PlacementTankPosition::placeTank(
 				tank->getPlayerId(), tank->getTeam(),
 				context_,
 				context_.actionController->getRandom());

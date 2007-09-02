@@ -32,10 +32,8 @@ public:
 		PlayShots &playShots);
 	virtual ~ShotState();
 
-	void enterState(const unsigned state);
-	bool acceptStateChange(const unsigned state, 
-		const unsigned nextState,
-		float frameTime);
+	void setup();
+	bool run(float frameTime);
 
 protected:
 	ScorchedContext &context_;

@@ -24,12 +24,13 @@
 #include <engine/GameStateI.h>
 #include <engine/GameStateStimulusI.h>
 
+class ServerShotState;
 class ServerShotFinishedState : 
 	public GameStateI,
 	public GameStateStimulusI
 {
 public:
-	ServerShotFinishedState();
+	ServerShotFinishedState(ServerShotState *shotState);
 	virtual ~ServerShotFinishedState();
 
 	virtual void enterState(const unsigned state);
@@ -41,6 +42,7 @@ public:
 
 protected:
 	static float speed_;
+	ServerShotState *shotState_;
 	float waitTime_;
 	float totalTime_;
 

@@ -29,7 +29,7 @@
 #include <GLEXT/GLImageFactory.h>
 
 PlacementTypeTree::PlacementTypeTree() : 
-	mincloseness(0.0f), maxobjects(2000)
+	mincloseness(0), maxobjects(2000)
 {
 }
 
@@ -80,40 +80,40 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 	for (int i=0; i<numclusters; i++)
 	{
 		// Get a random point
-		int x = int(generator.getRandFloat() * 64.0f);
-		int y = int(generator.getRandFloat() * 64.0f);
+		int x = (generator.getRandFixed() * 64).asInt();
+		int y = (generator.getRandFixed() * 64).asInt();
 
 		// Check point is in the correct height band
-		float height = 
+		fixed height = 
 			context.landscapeMaps->
 				getGroundMaps().getHeight(
 					x * treeMapMultWidth, y * treeMapMultHeight);
-		Vector &normal =
+		FixedVector &normal =
 			context.landscapeMaps->
 				getGroundMaps().getNormal(
 					x * treeMapMultWidth, y * treeMapMultHeight);
 
-		int mx = int(map.getWidth() * (float(x) / 64.0f));
-		int my = int(map.getHeight() * (float(y) / 64.0f));
+		int mx = int(map.getWidth() * (fixed(x) / 64).asInt());
+		int my = int(map.getHeight() * (fixed(y) / 64).asInt());
 		unsigned char *bits = map.getBits() +
 			mx * 3 + my * map.getWidth() * 3;
 		if (bits[0] > 127 &&
 			height > minheight && 
 			height < maxheight && 
-			normal[2] > 0.7f)
+			normal[2] > fixed(true, 7000))
 		{
 			// Group other areas around this point that are likely to get trees
 			// Do a few groups
-			int n = int(generator.getRandFloat() * 10) + 5;
+			int n = (generator.getRandFixed() * 10).asInt() + 5;
 			for (int j=0; j<n; j++)
 			{
 				// Check groups is within bounds
-				int newX = x + int(generator.getRandFloat() * 8.0f) - 4;
-				int newY = y + int(generator.getRandFloat() * 8.0f) - 4;
+				int newX = x + (generator.getRandFixed() * 8).asInt() - 4;
+				int newY = y + (generator.getRandFixed() * 8).asInt() - 4;
 				if (newX >= 0 && newX < 64 &&
 					newY >= 0 && newY < 64)
 				{
-					Vector &normal =
+					FixedVector &normal =
 						context.landscapeMaps->
 						getGroundMaps().getNormal(
 							newX * treeMapMultWidth, newY * treeMapMultHeight);
@@ -123,7 +123,7 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 							newX * treeMapMultWidth, newY * treeMapMultHeight);
 					if (height > minheight && 
 						height < maxheight && 
-						normal[2] > 0.7f)
+						normal[2] > fixed(true, 7000))
 					{
 						objectMap[newX + 64 * newY] = 64;
 					}
@@ -138,13 +138,13 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 	// Smooth the treemap
 	unsigned char objectMapCopy[64 * 64];
 	memcpy(objectMapCopy, objectMap, sizeof(unsigned char) * 64 * 64);
-	float matrix[3][3];
+	fixed matrix[3][3];
 	for (int i=0; i<3; i++)
 	{
 		for (int j=0; j<3; j++)
 		{
-			matrix[i][j] = 0.7f; // How much smoothing is done (> is more)
-			if (i==1 && j==1) matrix[i][j] = 4.0f;
+			matrix[i][j] = fixed(true, 7000); // How much smoothing is done (> is more)
+			if (i==1 && j==1) matrix[i][j] = 4;
 		}
 	}
 	for (int y=0; y<64; y++)
@@ -152,8 +152,8 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 		for (int x=0; x<64; x++)
 		{
 			// Total is used to catch corner cases
-			float total = 0.0f;
-			float inc = 0.0f;
+			fixed total = 0;
+			fixed inc = 0;
 			for (int i=0; i<3; i++)
 			{
 				for (int j=0; j<3; j++)
@@ -170,7 +170,7 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 				}
 			}
 	 
-			objectMap[x + 64 * y] = (unsigned char)(inc/total);
+			objectMap[x + 64 * y] = (unsigned char)(inc/total).asInt();
 		}
 	}
 
@@ -183,22 +183,22 @@ void PlacementTypeTree::getPositions(ScorchedContext &context,
 		if (i % 1000 == 0) if (counter) 
 			counter->setNewPercentage(float(i)/float(NoIterations)*100.0f);
 
-		float lx = generator.getRandFloat() * float(groundMapWidth);
-		float ly = generator.getRandFloat() * float(groundMapHeight);
-		int rx = int(lx);
-		int ry = int(ly);
+		fixed lx = generator.getRandFixed() * fixed(groundMapWidth);
+		fixed ly = generator.getRandFixed() * fixed(groundMapHeight);
+		int rx = (lx.asInt());
+		int ry = (ly.asInt());
 		int nx = rx / treeMapMultWidth;
 		int ny = ry / treeMapMultHeight;
 		int r = objectMap[nx + 64 * ny];
-		int nr = int (generator.getRandFloat() * 512.0f);
+		int nr = (generator.getRandFixed() * 512).asInt();
 
 		if (nr < r)
 		{
-			float height = 
+			fixed height = 
 				context.landscapeMaps->
 					getGroundMaps().getInterpHeight(lx, ly);
 
-			if (height > minheight + 0.5f)
+			if (height > minheight + fixed(true, 5000))
 			{
 				objectCount ++;
 				Position position;

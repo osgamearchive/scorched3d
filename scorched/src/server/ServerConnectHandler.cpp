@@ -339,7 +339,7 @@ bool ServerConnectHandler::processMessage(
 #endif
 
 	// Send the state of all the currently connect clients
-	ComsPlayerStateMessage comsPlayerStateMessage(ComsPlayerStateMessage::eTankNoAccessories);
+	ComsPlayerStateMessage comsPlayerStateMessage(false, false);
 	if (!ComsMessageSender::sendToSingleClient(
 		comsPlayerStateMessage, destinationId)) return false;
 

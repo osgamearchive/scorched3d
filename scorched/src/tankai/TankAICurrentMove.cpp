@@ -154,7 +154,7 @@ void TankAICurrentMove::playMove(Tank *tank,
 			useAvailableBatteries(tank);
 		}
 
-		if (tank->getLife().getLife() > movementLife_)
+		if (tank->getLife().getLife().asFloat() > movementLife_)
 		{
 			// Try to move
 			if (makeMoveShot(tank, weapons, sortedTanks)) return;
@@ -199,7 +199,7 @@ void TankAICurrentMove::playMove(Tank *tank,
 
 	// Try to move so we can get a better shot at the targets
 	// Only move if we have a hope of hitting them
-	if (tank->getLife().getLife() > movementLife_)
+	if (tank->getLife().getLife().asFloat() > movementLife_)
 	{
 		targets_.getTargets(tank, sortedTanks);
 		if (makeMoveShot(tank, weapons, sortedTanks)) return;
@@ -208,7 +208,7 @@ void TankAICurrentMove::playMove(Tank *tank,
 	// Is there any point in making a move
 	// Done after select weapons to allow shields to be raised
 	if (useResign_ &&
-		tank->getLife().getLife() < resignLife_) 
+		tank->getLife().getLife().asFloat() < resignLife_) 
 	{
 		resign(tank);
 		return;
@@ -241,7 +241,7 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 	TankAICurrentMoveWeapons &weapons)
 {
 	// Get the place we want to shoot at
-	Vector directTarget = targetTank->getPosition().getTankPosition();
+	Vector directTarget = targetTank->getPosition().getTankPosition().asVector();
 
 	// Check if the person is in a hole
 	bool inhole = false;
@@ -298,7 +298,7 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 			float distanceFromTarget = 
 				(actualPosition - directTarget).Magnitude();
 			float distanceFromUs = 
-				(actualPosition - tank->getPosition().getTankPosition()).Magnitude();
+				(actualPosition - tank->getPosition().getTankPosition().asVector()).Magnitude();
 			if (distanceFromUs < projectileMinDistance_) continue;
 
 			// We can fire at this tank
@@ -356,7 +356,7 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 	TankAICurrentMoveWeapons &weapons)
 {
 	// Get the place we want to shoot at
-	Vector directTarget = targetTank->getPosition().getTankPosition();
+	Vector directTarget = targetTank->getPosition().getTankPosition().asVector();
 
 	// First check to see if we can make a sniper shot that carries all the way
 	// as this is generaly an easier shot
@@ -411,7 +411,7 @@ bool TankAICurrentMove::makeLaserSniperShot(Tank *tank, Tank *targetTank,
 	TankAICurrentMoveWeapons &weapons)
 {
 	// Get the place we want to shoot at
-	Vector directTarget = targetTank->getPosition().getTankPosition();
+	Vector directTarget = targetTank->getPosition().getTankPosition().asVector();
 	
 	// Second check to see if we can make a sniper shot that is obstructed
 	// but could use a laser
@@ -436,12 +436,11 @@ bool TankAICurrentMove::makeBurriedShot(Tank *tank, Tank *targetTank,
 	TankAICurrentMoveWeapons &weapons)
 {
 	// Find a shot towards a target
-	float xy, yz, power;
+	fixed xy, yz, power;
 	TankLib::getSniperShotTowardsPosition(
 		ScorchedServer::instance()->getContext(),
 		tank->getPosition().getTankPosition(), targetTank->getPosition().getTankPosition(),
-		100000.0f,
-		xy, yz, power);
+		100000, xy, yz, power);
 
 	// Check if this shot is burried
 	if (TankLib::intersection(
@@ -482,7 +481,9 @@ bool TankAICurrentMove::inHole(Vector &position)
 				pos[1] + offSetY);
 			newPos[2] =
 				ScorchedServer::instance()->getLandscapeMaps().
-					getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+					getGroundMaps().getInterpHeight(
+						fixed::fromFloat(newPos[0]), 
+						fixed::fromFloat(newPos[1])).asFloat();
 			if (newPos[2] < lowest[2]) lowest = newPos;
 		}
 
@@ -514,7 +515,9 @@ bool TankAICurrentMove::inHole(Vector &position)
 				pos[1] + offSetY);
 			newPos[2] =
 				ScorchedServer::instance()->getLandscapeMaps().
-					getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+					getGroundMaps().getInterpHeight(
+					fixed::fromFloat(newPos[0]), 
+					fixed::fromFloat(newPos[1])).asFloat();
 
 			float heightDiff = newPos[2] - pos[2];
 			if (heightDiff < -2.0f) 
@@ -552,8 +555,8 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 		// Try to find a position to move to that we want to move to
 		// For the moment, just use the 1st target
 		Tank *target = sortedTanks.front();
-		Vector targetPos = target->getPosition().getTankPosition();
-		Vector tankPos = tank->getPosition().getTankPosition();
+		Vector targetPos = target->getPosition().getTankPosition().asVector();
+		Vector tankPos = tank->getPosition().getTankPosition().asVector();
 		float totalDistance = MAX(100.0f, MIN(500.0f, (targetPos - tankPos).Magnitude() * 2.0f));
 
 		// Can we move to this target at all?
@@ -563,8 +566,9 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 			tank, 
 			moveWeapon, 
 			context);
-		if (!mmap.calculatePosition(targetPos, totalDistance)) return false;
-		float totalFuel = mmap.getFuel();
+		if (!mmap.calculatePosition(FixedVector::fromVector(targetPos), 
+			fixed::fromFloat(totalDistance))) return false;
+		float totalFuel = mmap.getFuel().asFloat();
 
 		// Calculate the path
 		MovementMap::MovementMapEntry entry =
@@ -581,11 +585,11 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 
 			Vector position((float) x, (float) y,
 				ScorchedServer::instance()->getLandscapeMaps().getGroundMaps().getHeight(
-					(int) x, (int) y));
+					(int) x, (int) y).asFloat());
 			float distance = (position - targetPos).Magnitude();
 			if (distance > movementCloseness_)
 			{
-				if (entry.dist < totalFuel)
+				if (entry.dist.asFloat() < totalFuel)
 				{
 					// Move
 					totalDamageBeforeMove_ = targets_.getTotalDamageTaken();
@@ -632,12 +636,12 @@ bool TankAICurrentMove::makeGroupShot(Tank *tank,
 		for (int x=0; x<map.getMapWidth(); x+=4)
 		{
 			GroupingEntry entry;
-			entry.position = Vector(float(x), float(y), map.getHeight(x, y));
+			entry.position = Vector(float(x), float(y), map.getHeight(x, y).asFloat());
 			entry.totalDistance = 0.0f;
 
 			// Check this is not too near to us!
 			float distance = 
-				(tank->getPosition().getTankPosition() - 
+				(tank->getPosition().getTankPosition().asVector() - 
 				entry.position).Magnitude();
 			if (distance < groupTargetDistance_ * 2.0f) continue;
 			
@@ -650,7 +654,7 @@ bool TankAICurrentMove::makeGroupShot(Tank *tank,
 				Tank *to = *toItor;
 
 				distance = 
-					(to->getPosition().getTankPosition() - 
+					(to->getPosition().getTankPosition().asVector() - 
 					entry.position).Magnitude();
 				if (distance < groupTargetDistance_)
 				{
@@ -731,12 +735,13 @@ bool TankAICurrentMove::useAvailableBatteries(Tank *tank)
 Vector TankAICurrentMove::lowestHighest(TankAICurrentMoveWeapons &weapons, 
 	Vector &directTarget, bool highest)
 {
-	float radius = weapons.shield->getBoundingSize() + 2.0f;
+	float radius = weapons.shield->getBoundingSize().asFloat() + 2.0f;
 	Vector bestPos = directTarget;
 	bestPos[1] += radius;
 	bestPos[2] = 
 		ScorchedServer::instance()->getLandscapeMaps().
-			getGroundMaps().getInterpHeight(bestPos[0], bestPos[1]);
+			getGroundMaps().getInterpHeight(
+				fixed::fromFloat(bestPos[0]), fixed::fromFloat(bestPos[1])).asFloat();
 	for (float a=0.0f; a<360.0f; a+=22.5f)
 	{
 		float offSetX = sinf(a / 180.0f * PI) * radius;
@@ -747,7 +752,8 @@ Vector TankAICurrentMove::lowestHighest(TankAICurrentMoveWeapons &weapons,
 			directTarget[1] + offSetY);
 		newPos[2] =
 			ScorchedServer::instance()->getLandscapeMaps().
-				getGroundMaps().getInterpHeight(newPos[0], newPos[1]);
+				getGroundMaps().getInterpHeight(
+					fixed::fromFloat(newPos[0]), fixed::fromFloat(newPos[1])).asFloat();
 
 		if (highest)
 		{
@@ -791,20 +797,20 @@ void TankAICurrentMove::shotAtTank(Tank *tank, bool projectile, float newDistanc
 		ShotRecord record;
 		record.projectileCurrentDistance = projectileStartDistance_; 
 		record.sniperCurrentDistance = sniperStartDistance_;
-		record.position = tank->getPosition().getTankPosition();
+		record.position = tank->getPosition().getTankPosition().asVector();
 		shotRecords_[tank] = record;
 	}
 
 	// Update the new record with the details about the current shot
 	ShotRecord &record = shotRecords_[tank];
-	float distance = (record.position - tank->getPosition().getTankPosition()).Magnitude();
+	float distance = (record.position - tank->getPosition().getTankPosition().asVector()).Magnitude();
 	float distanceDec = 0.0f;
 	if (distance > 5.0f)
 	{
 		distanceDec = MIN(distance - 5.0f, 20.0f) / 20.0f;
 	}
 
-	record.position = tank->getPosition().getTankPosition();
+	record.position = tank->getPosition().getTankPosition().asVector();
 	if (projectile)
 	{
 		record.projectileCurrentDistance = newDistance;

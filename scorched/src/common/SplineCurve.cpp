@@ -32,12 +32,12 @@
    If the numerator and denominator are 0 the expression is 0.
    If the deonimator is 0 the expression is 0
 */
-static float splineBlend(int k,int t,int *u,float v)
+static fixed splineBlend(int k,int t,int *u,fixed v)
 {
-   float value;
+   fixed value;
 
    if (t == 1) {
-      if ((u[k] <= v) && (v < u[k+1]))
+      if ((v > u[k]) && (v < u[k+1]))
          value = 1;
       else
          value = 0;
@@ -45,12 +45,12 @@ static float splineBlend(int k,int t,int *u,float v)
       if ((u[k+t-1] == u[k]) && (u[k+t] == u[k+1]))
          value = 0;
       else if (u[k+t-1] == u[k]) 
-         value = (u[k+t] - v) / (u[k+t] - u[k+1]) * splineBlend(k+1,t-1,u,v);
+         value = (fixed(u[k+t]) - v) / (u[k+t] - u[k+1]) * splineBlend(k+1,t-1,u,v);
       else if (u[k+t] == u[k+1])
          value = (v - u[k]) / (u[k+t-1] - u[k]) * splineBlend(k,t-1,u,v);
      else
          value = (v - u[k]) / (u[k+t-1] - u[k]) * splineBlend(k,t-1,u,v) + 
-                 (u[k+t] - v) / (u[k+t] - u[k+1]) * splineBlend(k+1,t-1,u,v);
+                 (fixed(u[k+t]) - v) / (u[k+t] - u[k+1]) * splineBlend(k+1,t-1,u,v);
    }
    return(value);
 }
@@ -60,15 +60,15 @@ static float splineBlend(int k,int t,int *u,float v)
    The parameter "v" indicates the position, it ranges from 0 to n-t+2
    
 */
-static void splinePoint(int *u,int n,int t,float v, 
-	std::vector<Vector> &control, Vector &output)
+static void splinePoint(int *u,int n,int t,fixed v, 
+	std::vector<FixedVector> &control, FixedVector &output)
 {
    output[0] = 0;
    output[1] = 0;
    output[2] = 0;
 
    for (int k=0;k<=n;k++) {
-      float b = splineBlend(k,t,u,v);
+      fixed b = splineBlend(k,t,u,v);
       output[0] += (control[k])[0] * b;
       output[1] += (control[k])[1] * b;
       output[2] += (control[k])[2] * b;
@@ -102,17 +102,18 @@ static void splineKnots(int *u,int n,int t)
    Knots "knots", degree "t".
    Ouput curve "outp", "res" of them.
 */
-static void splineCurve(std::vector<Vector> &inp_list,int n,int *knots,int t, 
-	std::vector<Vector> &outp_list,int res)
+static void splineCurve(std::vector<FixedVector> &inp_list,
+	int n,int *knots,int t, 
+	std::vector<FixedVector> &outp_list,int res)
 {
    int i;
-   float interval,increment;
+   fixed interval,increment;
 
    interval = 0;
-   increment = (n - t + 2) / (float)(res - 1);
+   increment = fixed(n - t + 2) / fixed(res - 1);
    for (i=0;i<=res-1;i++) {
 
-	   Vector outp;
+	   FixedVector outp;
       splinePoint(knots,n,t,interval,inp_list,outp);
 	  outp_list.push_back(outp);
       interval += increment;
@@ -121,8 +122,8 @@ static void splineCurve(std::vector<Vector> &inp_list,int n,int *knots,int t,
 }
 
 void SplineCurve::generate(
-		std::vector<Vector> &inPoints, 
-		std::vector<Vector> &outPoints,
+		std::vector<FixedVector> &inPoints, 
+		std::vector<FixedVector> &outPoints,
 		int resolution,
 		int polynomials)
 {

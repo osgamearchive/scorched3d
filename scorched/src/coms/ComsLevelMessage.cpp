@@ -46,6 +46,31 @@ bool ComsLevelMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!hdef_.writeMessage(buffer)) return false;
 	if (!hMap_.writeMessage(buffer)) return false;
+	buffer.addToBuffer(newTargets_);
+	buffer.addToBuffer(oldTargets_);
+
+	buffer.addToBuffer((int) tankPositions_.size());
+	{
+		std::list<FixedVector>::iterator itor;
+		for (itor = tankPositions_.begin();
+			itor != tankPositions_.end();
+			itor++)
+		{
+			buffer.addToBuffer(*itor);
+		}
+	}
+
+	buffer.addToBuffer((int) targetIds_.size());
+	{
+		std::set<unsigned int>::iterator itor;
+		for (itor = targetIds_.begin();
+			itor != targetIds_.end();
+			itor++)
+		{
+			buffer.addToBuffer(*itor);
+		}
+	}
+
 	return true;
 }
 
@@ -53,6 +78,27 @@ bool ComsLevelMessage::readMessage(NetBufferReader &reader)
 {
 	if (!hdef_.readMessage(reader)) return false;
 	if (!hMap_.readMessage(reader)) return false;
+	if (!reader.getFromBuffer(newTargets_)) return false;
+	if (!reader.getFromBuffer(oldTargets_)) return false;
+
+	int tankPosSize = 0;
+	if (!reader.getFromBuffer(tankPosSize)) return false;
+	for (int i=0; i<tankPosSize; i++)
+	{
+		FixedVector tankPos;
+		if (!reader.getFromBuffer(tankPos)) return false;
+		tankPositions_.push_back(tankPos);
+	}
+
+	int targetIdSize = 0;
+	if (!reader.getFromBuffer(targetIdSize)) return false;
+	for (int i=0; i<targetIdSize; i++)
+	{
+		unsigned int targetId = 0;
+		if (!reader.getFromBuffer(targetId)) return false;
+		targetIds_.insert(targetId);
+	}
+
 	return true;
 }
 

@@ -29,28 +29,30 @@ class WeaponCallback : public Weapon
 public:
 	virtual void weaponCallback(
 		ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 		unsigned int userData) = 0;
 };
 
 class CallbackWeapon : public ActionReferenced
 {
 public:
-	CallbackWeapon(WeaponCallback *callback,
-		float delay, unsigned int callbackData,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+	CallbackWeapon(const char *name,
+		WeaponCallback *callback,
+		fixed delay, unsigned int callbackData,
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 	virtual ~CallbackWeapon();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
-	float totalTime_;
+	fixed totalTime_;
 
-	Vector position_;
-	Vector velocity_;
+	FixedVector position_;
+	FixedVector velocity_;
 	WeaponFireContext weaponContext_;
-	float delay_;
+	fixed delay_;
 	unsigned int callbackData_;
 	WeaponCallback *callback_;
 

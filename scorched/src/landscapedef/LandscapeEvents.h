@@ -21,19 +21,17 @@
 #if !defined(__INCLUDE_LandscapeEventsh_INCLUDE__)
 #define __INCLUDE_LandscapeEventsh_INCLUDE__
 
-#include <list>
-#include <vector>
-#include <common/Vector.h>
+#include <common/fixed.h>
 #include <common/ModelID.h>
 
 class ScorchedContext;
 class LandscapeCondition
 {
 public:
-	virtual float getNextEventTime(ScorchedContext &context, 
+	virtual fixed getNextEventTime(ScorchedContext &context, 
 		int eventNumber) = 0;
 	virtual bool fireEvent(ScorchedContext &context, 
-		float timeLeft, int eventNumber) = 0;
+		fixed timeLeft, int eventNumber) = 0;
 	virtual bool readXML(XMLNode *node) = 0;
 
 	static LandscapeCondition *create(const char *name);
@@ -45,37 +43,37 @@ public:
 	int groupsize;
 	std::string groupname;
 
-	virtual float getNextEventTime(ScorchedContext &context, 
+	virtual fixed getNextEventTime(ScorchedContext &context, 
 		int eventNumber);
 	virtual bool fireEvent(ScorchedContext &context, 
-		float timeLeft, int eventNumber);
+		fixed timeLeft, int eventNumber);
 	virtual bool readXML(XMLNode *node);	
 };
 
 class LandscapeConditionTime : public LandscapeCondition
 {
 public:
-	float mintime;
-	float maxtime;
+	fixed mintime;
+	fixed maxtime;
 	bool singletimeonly;
 
-	virtual float getNextEventTime(ScorchedContext &context, 
+	virtual fixed getNextEventTime(ScorchedContext &context, 
 		int eventNumber);
 	virtual bool fireEvent(ScorchedContext &context, 
-		float timeLeft, int eventNumber);
+		fixed timeLeft, int eventNumber);
 	virtual bool readXML(XMLNode *node);
 };
 
 class LandscapeConditionRandom : public LandscapeCondition
 {
 public:
-	float randomchance;
-	float randomdelay;
+	fixed randomchance;
+	fixed randomdelay;
 
-	virtual float getNextEventTime(ScorchedContext &context, 
+	virtual fixed getNextEventTime(ScorchedContext &context, 
 		int eventNumber);
 	virtual bool fireEvent(ScorchedContext &context, 
-		float timeLeft, int eventNumber);
+		fixed timeLeft, int eventNumber);
 	virtual bool readXML(XMLNode *node);
 };
 

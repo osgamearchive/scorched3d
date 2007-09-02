@@ -19,15 +19,53 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <target/TargetState.h>
+#include <net/NetBuffer.h>
 
 TargetState::TargetState() :
 	falling_(0),
 	displayDamage_(true), displayShadow_(true),
 	noDamageBurn_(false), noCollision_(false), noFalling_(false),
-	movement_(false), noFallingDamage_(false)
+	movement_(false), noFallingDamage_(false), 
+	driveOverToDestroy_(false), flattenDestroy_(false),
+	displayHardwareShadow_(true)
 {
 }
 
 TargetState::~TargetState()
 {
 }
+
+bool TargetState::writeMessage(NetBuffer &buffer)
+{
+	unsigned int value =
+		(displayDamage_?1:0) |
+		(displayShadow_?2:0) |
+		(noDamageBurn_?4:0) |
+		(noCollision_?8:0) |
+		(noFalling_?16:0) |
+		(movement_?32:0) |
+		(noFallingDamage_?64:0) |
+		(driveOverToDestroy_?128:0) |
+		(flattenDestroy_?256:0);
+	buffer.addToBuffer(value);
+	return true;
+}
+
+bool TargetState::readMessage(NetBufferReader &reader)
+{
+	unsigned int value = 0;
+	if (!reader.getFromBuffer(value)) return false;
+
+	displayDamage_ = (value & 1) != 0;
+	displayShadow_ = (value & 2) != 0;
+	noDamageBurn_ = (value & 4) != 0;
+	noCollision_ = (value & 8) != 0;
+	noFalling_ = (value & 16) != 0;
+	movement_ = (value & 32) != 0;
+	noFallingDamage_ = (value & 64) != 0;
+	driveOverToDestroy_ = (value & 128) != 0;
+	flattenDestroy_ = (value & 256) != 0;
+
+	return true;
+}
+

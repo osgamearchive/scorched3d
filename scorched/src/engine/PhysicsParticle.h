@@ -34,29 +34,29 @@ public:
 
 	virtual void setPhysics(
 		PhysicsParticleInfo info,
-		Vector &position, Vector &velocity,
-		float sphereSize = 0.0f,
-		float sphereDensity = 0.0f,
-		float windFactor = 1.0f,
+		FixedVector &position, FixedVector &velocity,
+		fixed sphereSize = 0,
+		fixed sphereDensity = 0,
+		fixed windFactor = 1,
 		bool underGroundCollision = false,
 		bool rotateOnCollision = false);
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
 
-	Vector &getCurrentPosition();
-	Vector &getCurrentVelocity();
-	Vector4 &getRotationQuat();
-	void setCurrentPosition(Vector &position);
+	FixedVector &getCurrentPosition();
+	FixedVector &getCurrentVelocity();
+	FixedVector4 &getRotationQuat();
+	void setCurrentPosition(FixedVector &position);
 
-	void applyForce(Vector &force);
+	void applyForce(FixedVector &force);
 
 	// Inherited from action
-	virtual void simulate(float timepassed, bool &remove);
+	virtual void simulate(fixed timepassed, bool &remove);
 
 protected:
 	PhysicsParticleActionObject physicsObject_;
 	bool collision_;
-	float totalActionTime_;
+	fixed totalActionTime_;
 
 };
 

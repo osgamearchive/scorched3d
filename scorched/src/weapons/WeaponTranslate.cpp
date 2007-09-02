@@ -25,7 +25,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponTranslate);
 
 WeaponTranslate::WeaponTranslate() :
-	translateDist_(0.0f), nextAction_(0)
+	translateDist_(0), nextAction_(0)
 {
 
 }
@@ -58,10 +58,10 @@ bool WeaponTranslate::parseXML(AccessoryCreateContext &context,XMLNode *accessor
 }
 
 void WeaponTranslate::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	Vector newVelocity = velocity.Normalize() * translateDist_.getValue(context);
-	Vector newPosition = position + newVelocity;
+	FixedVector newVelocity = velocity.Normalize() * translateDist_.getValue(context);
+	FixedVector newPosition = position + newVelocity;
 	
 	nextAction_->fireWeapon(context, weaponContext, newPosition, velocity);
 	

@@ -33,20 +33,20 @@ public:
 		XMLNode *accessoryNode);
 
 	// ShieldRound attributes
-	float getActualRadius() { return radius_; }
+	fixed getActualRadius() { return radius_; }
 	bool getHalfShield() { return halfShield_; }
 	bool getGlow() { return glow_; }
 
-	virtual bool inShield(Vector &offset);
-	virtual bool tankInShield(Vector &offset);
+	virtual bool inShield(FixedVector &offset);
+	virtual bool tankInShield(FixedVector &offset);
 	virtual ShieldType getShieldType();
 	virtual bool getRound() { return true; }
-	virtual float getBoundingSize() { return radius_; }
+	virtual fixed getBoundingSize() { return radius_; }
 
 	REGISTER_ACCESSORY_HEADER(ShieldRound, AccessoryPart::AccessoryShield);
 
 protected:
-	float radius_;
+	fixed radius_;
 	bool halfShield_;
 	bool glow_;
 };

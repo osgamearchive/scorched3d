@@ -27,8 +27,8 @@
 REGISTER_ACCESSORY_SOURCE(WeaponSound);
 
 WeaponSound::WeaponSound() : 
-	gain_(1.0f), relative_(false),
-	rolloff_(1.0f), referenceDistance_(75.0f)
+	gain_(1), relative_(false),
+	rolloff_(1), referenceDistance_(75)
 {
 
 }
@@ -62,7 +62,7 @@ bool WeaponSound::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponSound::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	context.actionController->addAction(
 		new SoundAction(position, this));

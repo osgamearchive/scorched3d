@@ -22,15 +22,14 @@
 #include <tank/TankContainer.h>
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
-#include <common/Vector.h>
 #include <common/Logger.h>
 #include <engine/ActionController.h>
 #include <actions/TankDamage.h>
 
 void TargetDamageCalc::explosion(ScorchedContext &context,
 							   Weapon *weapon,WeaponFireContext &weaponContext,
-							   Vector &position, float radius,
-							   float damageAmount, bool checkFall,
+							   FixedVector &position, fixed radius,
+							   fixed damageAmount, bool checkFall,
 							   bool shieldOnlyDamage)
 {
 	std::map<unsigned int, Target *> collisionTargets;
@@ -44,15 +43,15 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 		if (!current->getAlive()) continue;
 		
 		// Check if the explosion causes damage
-		float dist = current->getLife().collisionDistance(position);
+		fixed dist = current->getLife().collisionDistance(position);
 		if (dist < radius)
 		{
 			// Direct hit by explosion
-			float damage = 100.0f;
-			if (dist > radius / 3.0f)
+			fixed damage = 100;
+			if (dist > radius / 3)
 			{
-				damage = ((dist - (radius / 3.0f)) / (radius * 0.66f)) * 100.0f;
-				damage = 100.0f - damage;
+				damage = ((dist - (radius / 3)) / (radius * fixed(true, 6600))) * 100;
+				damage = fixed(100) - damage;
 			}
 
 			damageTarget(context, current, weapon, weaponContext, 
@@ -60,11 +59,11 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 		}
 		else 
 		{
-			Vector &currentPosition = current->getLife().getCenterPosition();
-			Vector direction = position - currentPosition;
-			float dist2d = sqrtf(direction[0] * direction[0] + 
-				direction[1] * direction[1]);
-			if (dist2d < radius + 5.0f)
+			FixedVector &currentPosition = current->getLife().getCenterPosition();
+			FixedVector direction = position - currentPosition;
+			fixed dist2d = (direction[0] * direction[0] + 
+				direction[1] * direction[1]).sqrt();
+			if (dist2d < radius + 5)
 			{
 				// explosion under tank
 				damageTarget(context, current, weapon, weaponContext, 
@@ -76,7 +75,7 @@ void TargetDamageCalc::explosion(ScorchedContext &context,
 
 void TargetDamageCalc::damageTarget(ScorchedContext &context,
 								Target *target, Weapon *weapon, 
-								WeaponFireContext &weaponContext, float damage,
+								WeaponFireContext &weaponContext, fixed damage,
 								bool useShieldDamage, bool checkFall,
 								bool shieldOnlyDamage)
 {

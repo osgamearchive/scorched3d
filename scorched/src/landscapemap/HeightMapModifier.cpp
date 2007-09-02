@@ -30,18 +30,18 @@ void HeightMapModifier::levelSurround(HeightMap &hmap)
 {
 	for (int x=0; x<=hmap.getMapWidth(); x++)
 	{	
-		hmap.setHeight(x, 0, 0.0f);
-		hmap.setHeight(x, 1, 0.0f);
-		hmap.setHeight(x, hmap.getMapHeight(), 0.0f);
-		hmap.setHeight(x, hmap.getMapHeight()-1, 0.0f);
+		hmap.setHeight(x, 0, fixed(0));
+		hmap.setHeight(x, 1, fixed(0));
+		hmap.setHeight(x, hmap.getMapHeight(), fixed(0));
+		hmap.setHeight(x, hmap.getMapHeight()-1, fixed(0));
 	}
 
 	for (int y=0; y<=hmap.getMapHeight(); y++)
 	{
-		hmap.setHeight(0, y, 0.0f);
-		hmap.setHeight(1, y, 0.0f);
-		hmap.setHeight(hmap.getMapWidth(), y, 0.0f);
-		hmap.setHeight(hmap.getMapWidth()-1, y, 0.0f);
+		hmap.setHeight(0, y, fixed(0));
+		hmap.setHeight(1, y, fixed(0));
+		hmap.setHeight(hmap.getMapWidth(), y, fixed(0));
+		hmap.setHeight(hmap.getMapWidth()-1, y, fixed(0));
 	}
 }
 
@@ -49,18 +49,18 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 							   LandscapeDefnHeightMapGenerate &defn,
 							   ProgressCounter *counter)
 {
-	if (defn.landsmoothing == 0.0f) return;
+	if (defn.landsmoothing == 0) return;
 	if (counter) counter->setNewOp("Smoothing");
 
-	float *newhMap_ = new float[(hmap.getMapWidth()+1) * (hmap.getMapHeight()+1)];
+	fixed *newhMap_ = new fixed[(hmap.getMapWidth()+1) * (hmap.getMapHeight()+1)];
 
-	float matrix[5][5];
+	fixed matrix[5][5];
 	for (int i=0; i<5; i++)
 	{
 		for (int j=0; j<5; j++)
 		{
-			matrix[i][j] = defn.landsmoothing; // How much smoothing is done (> is more)
-			if (i==2 && j==2) matrix[i][j] = 1.0f;
+			matrix[i][j] = fixed(defn.landsmoothing); // How much smoothing is done (> is more)
+			if (i==2 && j==2) matrix[i][j] = fixed(1);
 		}
 	}
 
@@ -71,8 +71,8 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 		for (int y=0; y<=hmap.getMapHeight(); y++)
 		{
 			// Total is used to catch corner cases
-			float total = 0.0f;
-			float inc = 0.0f;
+			fixed total = fixed(0);
+			fixed inc = fixed(0);
 			for (int i=0; i<5; i++)
 			{
 				for (int j=0; j<5; j++)
@@ -92,7 +92,7 @@ void HeightMapModifier::smooth(HeightMap &hmap,
 		}
 	}
 
-	float *start = newhMap_;
+	fixed *start = newhMap_;
 	for (int y=0; y<=hmap.getMapHeight(); y++)
 	{
 		for (x=0; x<=hmap.getMapWidth(); x++)
@@ -110,8 +110,8 @@ void HeightMapModifier::scale(HeightMap &hmap,
 {
 	if (counter) counter->setNewOp("Scaling Phase 1");
 
-	float max = hmap.getHeight(0,0);
-	float min = hmap.getHeight(0,0);
+	fixed max = hmap.getHeight(0,0);
+	fixed min = hmap.getHeight(0,0);
 
 	int x;
 	for (x=0; x<=hmap.getMapWidth(); x++)
@@ -126,53 +126,54 @@ void HeightMapModifier::scale(HeightMap &hmap,
 
 	if (counter) counter->setNewOp("Scaling Phase 2");
 
-	float realMax = ((defn.landheightmax - defn.landheightmin) * generator.getRandFloat()) + 
+	fixed realMax = ((fixed(defn.landheightmax) - fixed(defn.landheightmin)) * generator.getRandFixed()) + 
 		defn.landheightmin;
-	float per = realMax / max;
+	fixed per = realMax / max;
 
 	for (x=0; x<=hmap.getMapWidth(); x++)
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(x)) / float(hmap.getMapWidth()));
 		for (int y=0; y<=hmap.getMapHeight(); y++)
 		{
-			float height = hmap.getHeight(x,y);
+			fixed height = hmap.getHeight(x,y);
 			hmap.setHeight(x,y, height * per);
 		}
 	}
 }
 
-void HeightMapModifier::addCirclePeak(HeightMap &hmap, Vector &start, 
-									  float sizew, float sizew2, float sizeh,
+void HeightMapModifier::addCirclePeak(HeightMap &hmap, FixedVector &start, 
+									  fixed sizew, fixed sizew2, fixed sizeh,
 									  RandomGenerator &offsetGenerator)
 {
-	float maxdist = MAX(sizew2, sizew);
-	float sizewsq = sizew * sizew * 1.2f;
-	int startx = MAX(0, int(start[0] - maxdist));
-	int starty = MAX(0, int(start[1] - maxdist));
-	int endx = MIN(hmap.getMapWidth(), int(start[0] + maxdist));
-	int endy = MIN(hmap.getMapHeight(), int(start[1] + maxdist));
+	fixed maxdist = MAX(sizew2, sizew);
+	fixed sizewsq = sizew * sizew * fixed(true, 12000);
+	int startx = MAX(0, (start[0] - maxdist).asInt());
+	int starty = MAX(0, (start[1] - maxdist).asInt());
+	int endx = MIN(hmap.getMapWidth(), (start[0] + maxdist).asInt());
+	int endy = MIN(hmap.getMapHeight(), (start[1] + maxdist).asInt());
 
-	float posX, posY;
+	fixed posX, posY;
+	fixed pt2 = fixed(1) / fixed(5);
 	for (int x=startx; x<=endx; x++)
 	{
 		for (int y=starty; y<=endy; y++)
 		{
-			posX = float(x);
-			posY = float(y);
+			posX = fixed(x);
+			posY = fixed(y);
 
-			float distX = (posX - start[0]) * sizew2 / sizew;
-			float distY = posY - start[1];
-			float distsq = distX * distX + distY * distY;
+			fixed distX = (posX - start[0]) * sizew2 / sizew;
+			fixed distY = posY - start[1];
+			fixed distsq = distX * distX + distY * distY;
 
 			if (distsq < sizewsq)
 			{
-				float dist = sqrtf(distsq);
-				float distRand = (dist / 20.0f) * 0.2f;
-				if (distRand > 0.2f) distRand = 0.2f;
-				dist *= offsetGenerator.getRandFloat() * distRand + 1.0f - (distRand / 2.0f);
+				fixed dist = distsq.sqrt();
+				fixed distRand = (dist / fixed(20)) * pt2;
+				if (distRand > pt2) distRand = pt2;
+				dist *= offsetGenerator.getRandFixed() * distRand + fixed(1) - (distRand / fixed(2));
 				if (dist < sizew)
 				{
-					float newHeight = (float) cos(dist * PI / sizew) * sizeh / 4 + sizeh / 4;
+					fixed newHeight = (dist * fixed::XPI / sizew).cos() * sizeh / fixed(4) + sizeh / fixed(4);
 					newHeight += hmap.getHeight(x,y);
 					hmap.setHeight(x, y, newHeight);
 				}
@@ -208,65 +209,65 @@ void HeightMapModifier::generateTerrain(HeightMap &hmap,
 
 	// Generate the landscape
 	hmap.reset();
-	float useWidthX = (float) hmap.getMapWidth(); // Use all the width
-	float useWidthY = (float) hmap.getMapHeight();
-	float useBorderX = (float(hmap.getMapWidth()) - useWidthX) / 2.0f;
-	float useBorderY = (float(hmap.getMapHeight()) - useWidthY) / 2.0f;
-	float maskMultX = float(maskMap.getWidth()) / float(hmap.getMapWidth());
-	float maskMultY = float(maskMap.getHeight()) / float(hmap.getMapHeight());
+	fixed useWidthX = fixed(hmap.getMapWidth()); // Use all the width
+	fixed useWidthY = fixed(hmap.getMapHeight());
+	fixed useBorderX = (fixed(hmap.getMapWidth()) - useWidthX) / fixed(2);
+	fixed useBorderY = (fixed(hmap.getMapHeight()) - useWidthY) / fixed(2);
+	fixed maskMultX = fixed(maskMap.getWidth()) / fixed(hmap.getMapWidth());
+	fixed maskMultY = fixed(maskMap.getHeight()) / fixed(hmap.getMapHeight());
 
-	const int noItter = int((defn.landhillsmax - defn.landhillsmin) *
-		generator.getRandFloat() + defn.landhillsmin);
+	const int noItter = (fixed(defn.landhillsmax - defn.landhillsmin) *
+		generator.getRandFixed() + fixed(defn.landhillsmin)).asInt();
 
 	for (int i=0; i<noItter; i++)
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(i)) / float(noItter));
 
 		// Choose settings for a random hemisphere
-		float sizew = (defn.landpeakwidthxmax - defn.landpeakwidthxmin) * generator.getRandFloat() 
-			+ defn.landpeakwidthxmin;
-		float sizew2 = (defn.landpeakwidthymax - defn.landpeakwidthymin) * generator.getRandFloat() 
-			+ defn.landpeakwidthymin + sizew;
-		float sizeh = ((defn.landpeakheightmax - defn.landpeakheightmin) * generator.getRandFloat() 
+		fixed sizew = (fixed(defn.landpeakwidthxmax) - fixed(defn.landpeakwidthxmin)) * generator.getRandFixed() 
+			+ fixed(defn.landpeakwidthxmin);
+		fixed sizew2 = (fixed(defn.landpeakwidthymax) - fixed(defn.landpeakwidthymin)) * generator.getRandFixed() 
+			+ fixed(defn.landpeakwidthymin) + sizew;
+		fixed sizeh = ((fixed(defn.landpeakheightmax) - fixed(defn.landpeakheightmin)) * generator.getRandFixed() 
 					   + defn.landpeakheightmin) * MAX(sizew, sizew2);
 
 		// Choose a border around this hemisphere
-		float bordersizex = 0.0f;
-		float bordersizey = 0.0f;
+		fixed bordersizex = fixed(0);
+		fixed bordersizey = fixed(0);
 		if (defn.levelsurround)
 		{
-			float bordersize = MAX(sizew, sizew2) * 1.2f;
+			fixed bordersize = MAX(sizew, sizew2) * fixed(true, 12000); // 1.2
 			bordersizex = bordersize + useBorderX;
 			bordersizey = bordersize + useBorderY;
 		}
 
 		// Choose a point for this hemisphere
-		float sx = (generator.getRandFloat() * (float(hmap.getMapWidth()) - 
-												(bordersizex * 2))) + bordersizex;
-		float sy = (generator.getRandFloat() * (float(hmap.getMapHeight()) - 
-												(bordersizey * 2))) + bordersizey;
+		fixed sx = (generator.getRandFixed() * (fixed(hmap.getMapWidth()) - 
+												(bordersizex * fixed(2)))) + bordersizex;
+		fixed sy = (generator.getRandFixed() * (fixed(hmap.getMapHeight()) - 
+												(bordersizey * fixed(2)))) + bordersizey;
 
 		// Check if the point passes the mask
 		bool ok = true;
-		if (int(sx) >= 0 && int(sx) < hmap.getMapWidth() &&
-			int(sy) >= 0 && int(sy) < hmap.getMapHeight())
+		if (sx.asInt() >= 0 && sx.asInt() < hmap.getMapWidth() &&
+			sy.asInt() >= 0 && sy.asInt() < hmap.getMapHeight())
 		{
-			int bx = int(sx * maskMultX);
-			int by = maskMap.getWidth() - int(sy * maskMultY);
+			int bx = (sx * maskMultX).asInt();
+			int by = maskMap.getWidth() - (sy * maskMultY).asInt();
 			if (bx >= 0 && bx < maskMap.getWidth() && 
 				by >= 0 && by < maskMap.getHeight())
 			{
 			unsigned char maskPt = maskMap.getBits()[(bx * 3) + (by * maskMap.getWidth() * 3)];
 
 			//printf("%i %i %i %s\n", maskPt, bx, by, defn.mask.c_str());
-			ok = ((generator.getRandFloat() * 255.0f) < float(maskPt));
+			ok = ((generator.getRandFixed() * fixed(255)) < fixed(maskPt));
 			}
 		}
 
 		if (ok)
 		{
 			// Actually add the hemisphere
-			Vector start(sx, sy);
+			FixedVector start(sx, sy, fixed(0));
 			addCirclePeak(hmap, start, sizew, sizew2, sizeh, offsetGenerator);
 		}
 	}

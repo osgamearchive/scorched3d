@@ -82,7 +82,8 @@ void InfoMap::showHeightBands()
 			float posX = float(x) * sqSizeWidth;
 			heights[x + y * newMap.getWidth()] = 
 				ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getInterpHeight(posX, posY);
+					getGroundMaps().getInterpHeight(
+						fixed::fromFloat(posX), fixed::fromFloat(posY)).asFloat();
 		}
 	}
 

@@ -70,7 +70,15 @@ protected:
 	unsigned int droppedPackets_; // Packets droped
 	unsigned int packetsWaiting_; // Packets waiting to be sent
 	unsigned int packetsSent_; // Packets sent
+	unsigned int packetsRecieved_; // Packets recieved
+	unsigned int packetsAsyncRecieved_;
+	unsigned int packetsOutOfSequenceRecieved_;
+	unsigned int packetsSequenceRecieved_;
+	unsigned int packetsDuplicateRecieved_;
 	unsigned int packetTime_; // Time for last packet
+	unsigned int packetsAcked_; // The number of sent packets that have been acked
+	unsigned int messagesSent_;
+	unsigned int messagesRecieved_;
 	bool packetLogging_;
 	NetServerUDP *server_;
 	IPaddress address_;

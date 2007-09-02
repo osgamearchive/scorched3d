@@ -82,7 +82,7 @@ bool TankDeadContainer::getTank(Tank *tank)
 	NetBuffer *buffer = finditor->second;
 
 	// Read from the buffer
-	NetBufferReader reader(NetBufferDefault::defaultBuffer);
+	NetBufferReader reader(*buffer);
 	if (!tank->getAccessories().readMessage(reader) ||
 		!tank->getScore().readMessage(reader))
 	{

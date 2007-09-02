@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_PlacementTypeh_INCLUDE__)
 #define __INCLUDE_PlacementTypeh_INCLUDE__
 
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <string>
 #include <list>
 
@@ -44,8 +44,8 @@ public:
 	};
 	struct Position
 	{
-		Vector position;
-		Vector velocity;
+		FixedVector position;
+		FixedVector velocity;
 	};
 
 	static PlacementType *create(const char *type);
@@ -68,10 +68,10 @@ public:
 protected:
 	PlacementObject *placementobject;
 
-	bool checkCloseness(Vector &position,
+	bool checkCloseness(FixedVector &position,
 		ScorchedContext &context,
 		std::list<Position> &returnPositions,
-		float mincloseness);
+		fixed mincloseness);
 };
 
 #endif // __INCLUDE_PlacementTypeh_INCLUDE__

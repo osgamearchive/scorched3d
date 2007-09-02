@@ -24,6 +24,7 @@
 #include <engine/GameStateI.h>
 #include <engine/GameStateStimulusI.h>
 #include <engine/ShotState.h>
+#include <set>
 
 // Sends out the new game message
 class ServerShotState : 
@@ -39,8 +40,11 @@ public:
 		const unsigned nextState,
 		float frameTime);
 
+	std::set<unsigned int> &getPlaying() { return playing_; }
+
 protected:
 	ShotState shotState_;
+	std::set<unsigned int> playing_;
 
 };
 

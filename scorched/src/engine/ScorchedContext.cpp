@@ -58,6 +58,7 @@ ScorchedContext::ScorchedContext(const char *name) :
 
 	viewPoints->setContext(this);
 	actionController->setScorchedContext(this);
+	targetSpace->setContext(this);
 }
 
 ScorchedContext::~ScorchedContext()

@@ -35,7 +35,7 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 	void fireWeapon(ScorchedContext &context, 
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponAddTarget, AccessoryPart::AccessoryWeapon);
 

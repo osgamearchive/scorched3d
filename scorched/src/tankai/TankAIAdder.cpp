@@ -47,30 +47,30 @@ unsigned int TankAIAdder::getNextTankId(const char *uniqueId, ScorchedContext &c
 		if (id != 0 &&
 			!context.targetContainer->getTargetById(id))
 		{
-			DIALOG_ASSERT(id >= MIN_TANK_ID && id <= MAX_TANK_ID);
+			DIALOG_ASSERT(id >= TargetID::MIN_TANK_ID && id <= TargetID::MAX_TANK_ID);
 			return id;
 		}
 	}
 
 	// Get the transient id
-	static unsigned int id = START_TRANSIENT_TANK_ID;
+	static unsigned int id = TargetID::START_TRANSIENT_TANK_ID;
 	while (context.targetContainer->getTargetById(id))
 	{
 		++id;
-		if (id >= MAX_TANK_ID) id = START_TRANSIENT_TANK_ID;
+		if (id >= TargetID::MAX_TANK_ID) id = TargetID::START_TRANSIENT_TANK_ID;
 	}
 
-	DIALOG_ASSERT(id >= START_TRANSIENT_TANK_ID && id <= MAX_TANK_ID);
+	DIALOG_ASSERT(id >= TargetID::START_TRANSIENT_TANK_ID && id <= TargetID::MAX_TANK_ID);
 	return id;
 }
 
 unsigned int TankAIAdder::getNextTargetId(ScorchedContext &context)
 {
-	unsigned int targetId_ = TankAIAdder::MIN_TARGET_TRANSIENT_ID;
+	unsigned int targetId_ = TargetID::MIN_TARGET_TRANSIENT_ID;
 	while (context.targetContainer->getTargetById(targetId_))
 	{
 		++targetId_;
-		if (targetId_ >= MAX_TARGET_ID) targetId_ = MIN_TARGET_TRANSIENT_ID;
+		if (targetId_ >= TargetID::MAX_TARGET_ID) targetId_ = TargetID::MIN_TARGET_TRANSIENT_ID;
 	}
 
 	return targetId_;
@@ -199,7 +199,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		if (context.getGameState().getState() == ServerState::ServerStateTooFewPlayers ||
 			context.getGameState().getState() == ServerState::ServerStateStarting)
 		{
-			ComsPlayerStateMessage message(ComsPlayerStateMessage::eTankNoAccessories);
+			ComsPlayerStateMessage message(false, false);
 			ComsMessageSender::sendToAllConnectedClients(message);
 		}
 	}

@@ -20,15 +20,17 @@
 
 #include <engine/Action.h>
 
-Action::Action(ActionRenderer *renderer) : 
+Action::Action(const char *name, ActionRenderer *renderer) : 
+	name_(name),
 	renderer_(renderer), context_(0), 
-	actionStartTime_(0.0f), actionEvent_(false)
+	actionStartTime_(0), actionEvent_(false)
 {
 }
 
 Action::~Action()
 {
 	if (renderer_) delete renderer_;
+	renderer_ = 0;
 }
 
 void Action::draw()
@@ -52,9 +54,9 @@ ScorchedContext *Action::getScorchedContext()
 	return context_;
 }
 
-void Action::simulate(float frameTime, bool &removeAction)
+void Action::simulate(fixed frameTime, bool &removeAction)
 {
-	if (renderer_) renderer_->simulate(this, frameTime, removeAction);
+	if (renderer_) renderer_->simulate(this, frameTime.asFloat(), removeAction);
 }
 
 ActionRenderer::ActionRenderer()
@@ -69,7 +71,8 @@ void ActionRenderer::simulate(Action *action, float frametime, bool &removeActio
 {
 }
 
-SpriteAction::SpriteAction(ActionRenderer *render) : Action(render)
+SpriteAction::SpriteAction(ActionRenderer *render) : 
+	Action("SpriteAction", render)
 {
 }
 
@@ -80,13 +83,3 @@ SpriteAction::~SpriteAction()
 void SpriteAction::init()
 {
 }
-
-SpriteActionReferenced::SpriteActionReferenced(ActionRenderer *render) : SpriteAction(render)
-{
-
-}
-
-SpriteActionReferenced::~SpriteActionReferenced()
-{
-}
-

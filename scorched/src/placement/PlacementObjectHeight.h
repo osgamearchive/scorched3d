@@ -41,8 +41,8 @@ protected:
 	struct HeightObject
 	{
 		PlacementObject *object;
-		float min;
-		float max;
+		fixed min;
+		fixed max;
 	};
 	std::vector<HeightObject> objects_;
 };

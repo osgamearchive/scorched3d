@@ -20,7 +20,8 @@
 
 #include <engine/ActionReferenced.h>
 
-ActionReferenced::ActionReferenced()
+ActionReferenced::ActionReferenced(const char *name) :
+	Action(name)
 {
 }
 

@@ -39,7 +39,7 @@ bool WeaponAddTarget::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponAddTarget::fireWeapon(ScorchedContext &context, 
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	Action *action = new AddTarget(position, this);
 	context.actionController->addAction(action);

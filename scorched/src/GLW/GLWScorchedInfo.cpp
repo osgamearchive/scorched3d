@@ -97,7 +97,7 @@ void GLWScorchedInfo::draw()
 			{
 				snprintf(buffer, 256, "Force %.0f", 
 					ScorchedClient::instance()->
-					getOptionsTransient().getWindSpeed());
+					getOptionsTransient().getWindSpeed().asFloat());
 			}
 			float windwidth = GLWFont::instance()->
 				getGameFont()->getWidth(
@@ -201,7 +201,7 @@ void GLWScorchedInfo::draw()
 			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
-				formatString("%.0f", current->getLife().getLife()));
+				formatString("%.0f", current->getLife().getLife().asFloat()));
 		break;
 		case eShieldCount:
 			setToolTip(&renderer->getTips()->shieldTip);
@@ -217,7 +217,7 @@ void GLWScorchedInfo::draw()
 				GLWFont::instance()->getGameFont()->draw(
 					*fontColor, fontSize_,
 					x_, y_, 0.0f,
-					formatString("%.0f", current->getShield().getShieldPower()));
+					formatString("%.0f", current->getShield().getShieldPower().asFloat()));
 			}
 		break;
 		case eBatteryCount:
@@ -317,14 +317,14 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.1f",
-				360.0f - current->getPosition().getRotationGunXY()));
+				360.0f - current->getPosition().getRotationGunXY().asFloat()));
 		break;
 		case eRotationDiff:
 			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%+.1f",
-				current->getPosition().getRotationXYDiff()));
+				current->getPosition().getRotationXYDiff().asFloat()));
 		break;
 		case eElevation:
 			setToolTip(&renderer->getTips()->elevationTip);
@@ -332,14 +332,14 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.1f",
-				current->getPosition().getRotationGunYZ()));
+				current->getPosition().getRotationGunYZ().asFloat()));
 		break;
 		case eElevationDiff:
 			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%+.1f",
-				current->getPosition().getRotationYZDiff()));
+				current->getPosition().getRotationYZDiff().asFloat()));
 		break;
 		case ePower:
 			setToolTip(&renderer->getTips()->powerTip);
@@ -347,14 +347,14 @@ void GLWScorchedInfo::draw()
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%.1f",
-				current->getPosition().getPower()));
+				current->getPosition().getPower().asFloat()));
 		break;
 		case ePowerDiff:
 			GLWFont::instance()->getGameFont()->draw(
 				*fontColor, fontSize_,
 				x_, y_, 0.0f,
 				formatString("%+.1f",
-				current->getPosition().getPowerDiff()));
+				current->getPosition().getPowerDiff().asFloat()));
 		break;
 	}
 }

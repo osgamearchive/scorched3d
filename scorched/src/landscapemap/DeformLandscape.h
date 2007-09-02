@@ -21,25 +21,27 @@
 #if !defined(AFX_DEFORMCIRCULAR_H__7E191509_3CD0_4EA5_A6B2_7C96C081C1AD__INCLUDED_)
 #define AFX_DEFORMCIRCULAR_H__7E191509_3CD0_4EA5_A6B2_7C96C081C1AD__INCLUDED_
 
-class Vector;
+class FixedVector;
 class ScorchedContext;
+
+#include <common/fixed.h>
 
 namespace DeformLandscape
 {
 	struct DeformPoints
 	{
-		float map[100][100];
+		fixed map[100][100];
 	};
 
 	bool deformLandscape(
 		ScorchedContext &context,
-		Vector &pos, float radius, 
+		FixedVector &pos, fixed radius, 
 		bool down, DeformPoints &map);
 	void flattenArea(
 		ScorchedContext &context, 
-		Vector &tankPos,
+		FixedVector &tankPos,
 		bool removeObjects = true,
-		float size = 2.0f);
+		fixed size = 2);
 
 };
 

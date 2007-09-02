@@ -23,28 +23,29 @@
 
 #include <engine/ActionReferenced.h>
 #include <engine/ViewPoints.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <weapons/WeaponTeleport.h>
 
 class Teleport : public ActionReferenced
 {
 public:
 	Teleport(
-		Vector position,
+		FixedVector position,
 		WeaponFireContext &weaponContext,
 		WeaponTeleport *weapon);
 	virtual ~Teleport();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	ViewPoints::ViewPoint *vPoint_;
 	bool firstTime_;
-	Vector position_;
+	FixedVector position_;
 	WeaponFireContext weaponContext_;
 	WeaponTeleport *weapon_;
-	float totalTime_;
+	fixed totalTime_;
 
 };
 

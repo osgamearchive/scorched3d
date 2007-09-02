@@ -34,21 +34,21 @@ public:
 		XMLNode *accessoryNode);
 
 	const char *getSound();
-	float getGain() { return gain_; }
-	float getRolloff() { return rolloff_; }
-	float getReferenceDistance() { return referenceDistance_; }
+	fixed getGain() { return gain_; }
+	fixed getRolloff() { return rolloff_; }
+	fixed getReferenceDistance() { return referenceDistance_; }
 	bool getRelative() { return relative_; }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponSound, AccessoryPart::AccessoryWeapon);
 protected:
 	std::vector<std::string> sounds_;
-	float gain_;
-	float rolloff_;
-	float referenceDistance_;
+	fixed gain_;
+	fixed rolloff_;
+	fixed referenceDistance_;
 	bool relative_;
 };
 

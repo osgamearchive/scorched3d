@@ -10,3 +10,4 @@
 *.htm
 *.msi
 *pure*.*
+*.exe

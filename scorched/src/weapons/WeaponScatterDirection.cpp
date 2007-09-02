@@ -62,16 +62,16 @@ bool WeaponScatterDirection::parseXML(AccessoryCreateContext &context, XMLNode *
 }
 
 void WeaponScatterDirection::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &v)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &v)
 {
 	RandomGenerator &random = context.actionController->getRandom();
-	Vector vel;
+	FixedVector vel;
 	vel[0] += direction_[0] - directionOffset_[0] + 
-		directionOffset_[0] * 2.0f * random.getRandFloat();
+		directionOffset_[0] * 2 * random.getRandFixed();
 	vel[1] += direction_[1] - directionOffset_[1] + 
-		directionOffset_[1] * 2.0f * random.getRandFloat();
+		directionOffset_[1] * 2 * random.getRandFixed();
 	vel[2] += direction_[2] - directionOffset_[2] + 
-		directionOffset_[2] * 2.0f * random.getRandFloat();
+		directionOffset_[2] * 2 * random.getRandFixed();
 
 	aimedWeapon_->fireWeapon(context, weaponContext, position, vel);
 

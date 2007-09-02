@@ -60,25 +60,25 @@ public:
 
 	// Shield attributes
 	const char *getCollisionSound();
-	float getHitRemovePower() { return removePower_; }
-	float getHitPenetration() { return penetration_; }
-	float getPower() { return power_; }
+	fixed getHitRemovePower() { return removePower_; }
+	fixed getHitPenetration() { return penetration_; }
+	fixed getPower() { return power_; }
 	Vector &getColor() { return color_; }
 	ShieldLaserProofType getLaserProof() { return laserProof_; }
 	ShieldMovementType getMovementProof() { return movementProof_; }
 
-	virtual float getBoundingSize() = 0;
-	virtual bool inShield(Vector &offset) = 0;
-	virtual bool tankInShield(Vector &offset) = 0;
+	virtual fixed getBoundingSize() = 0;
+	virtual bool inShield(FixedVector &offset) = 0;
+	virtual bool tankInShield(FixedVector &offset) = 0;
 	virtual ShieldType getShieldType() = 0;
 	virtual bool getRound() = 0;
 
 protected:
 	std::string collisionSound_;
 	Vector color_;
-	float removePower_;
-	float penetration_;
-	float power_;
+	fixed removePower_;
+	fixed penetration_;
+	fixed power_;
 	ShieldLaserProofType laserProof_;
 	ShieldMovementType movementProof_;
 };

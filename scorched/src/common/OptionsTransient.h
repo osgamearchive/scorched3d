@@ -66,10 +66,10 @@ public:
 	int getCurrentGameNo() { return currentGameNo_.getValue(); }
 
 	// Wind
-	float getWindAngle() { return windAngle_.getValue(); }
-	float getWindSpeed() { return windSpeed_.getValue(); }
-	Vector &getWindDirection() { return windDirection_.getValue(); }
-	bool getWindOn() { return (windSpeed_.getValue() > 0.0f); }
+	fixed getWindAngle() { return windAngle_.getValue(); }
+	fixed getWindSpeed() { return windSpeed_.getValue(); }
+	FixedVector &getWindDirection() { return windDirection_.getValue(); }
+	bool getWindOn() { return (windSpeed_.getValue() > fixed(0)); }
 
 	// Arms Level
 	int getArmsLevel();
@@ -83,10 +83,10 @@ protected:
 	OptionsScorched &optionsGame_;
 	OptionEntryInt currentRoundNo_;
 	OptionEntryInt currentGameNo_;
-	OptionEntryFloat windAngle_;
-	OptionEntryFloat windStartAngle_;
-	OptionEntryFloat windSpeed_;
-	OptionEntryVector windDirection_;
+	OptionEntryFixed windAngle_;
+	OptionEntryFixed windStartAngle_;
+	OptionEntryFixed windSpeed_;
+	OptionEntryFixedVector windDirection_;
 	OptionEntryInt wallType_;
 
 	bool newGame_;

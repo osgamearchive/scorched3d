@@ -49,11 +49,11 @@ bool LandscapeSoundPositionSet::setPosition(VirtualSoundSource *source, unsigned
 	if (!groupEntry) return false;
 	if (groupEntry->getObjectCount() <= 0) return false;
 
-	TargetGroupEntry *obj = groupEntry->getObjectById(data);
+	TargetGroup *obj = groupEntry->getObjectById(data);
 	if (!obj) return false;
 
-	Vector position = obj->getPosition();
-	Vector velocity = obj->getTarget()->getLife().getVelocity();
+	Vector position = obj->getPosition().asVector();
+	Vector velocity = obj->getTarget()->getLife().getVelocity().asVector();
 	source->setPosition(position);
 	source->setVelocity(velocity);
 #endif
@@ -167,7 +167,7 @@ bool LandscapeSoundPositionAmbient::setPosition(VirtualSoundSource *source, unsi
 {
 #ifndef S3D_SERVER
 	source->setRelative();
-	source->setPosition(Vector::nullVector);
+	source->setPosition(Vector::getNullVector());
 #endif
 
 	return true;

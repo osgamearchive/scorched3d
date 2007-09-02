@@ -28,25 +28,26 @@ class Laser : public ActionReferenced
 {
 public:
 	Laser(WeaponLaser *weapon,
-		Vector &position, Vector &direction,
+		FixedVector &position, FixedVector &direction,
 		WeaponFireContext &weaponContext);
 	virtual ~Laser();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 	virtual void draw();
+	virtual const char *getActionDetails();
 
 protected:
-	float totalTime_;
-	float drawLength_;
+	fixed totalTime_;
+	fixed drawLength_;
 	WeaponFireContext weaponContext_;
 	WeaponLaser *weapon_;
-	Vector position_, direction_;
+	FixedVector position_, direction_;
 
 	bool firstTime_;
-	float laserTime_, hurtRadius_;
+	fixed laserTime_, hurtRadius_;
 	float angXY_, angYZ_;
-	float length_, damage_;
+	fixed length_, damage_;
 
 };
 

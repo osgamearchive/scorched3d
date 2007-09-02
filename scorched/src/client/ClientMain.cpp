@@ -40,12 +40,9 @@
 #include <client/ClientGameStateHandler.h>
 #include <client/ClientInitializeHandler.h>
 #include <client/ClientPlayerStateHandler.h>
-#include <client/ClientTargetStateHandler.h>
 #include <client/ClientStartTimerHandler.h>
 #include <client/ClientSyncCheckHandler.h>
 #include <client/ClientFileHandler.h>
-#include <client/ClientPlayerAimHandler.h>
-#include <client/ClientPlayMovesHandler.h>
 #include <client/ClientDefenseHandler.h>
 #include <client/ClientPlayerStatusHandler.h>
 #include <client/ClientKeepAliveSender.h>
@@ -183,7 +180,6 @@ static bool initComsHandlers()
 	ClientNewGameHandler::instance();
 	ClientInitializeHandler::instance();
 	ClientRmPlayerHandler::instance();
-	ClientPlayerAimHandler::instance();
 	ClientStartTimerHandler::instance();
 	ClientSyncCheckHandler::instance();
 	ClientFileHandler::instance();
@@ -191,9 +187,7 @@ static bool initComsHandlers()
 	ClientStartGameHandler::instance();
 	ClientGameStateHandler::instance();
 	ClientPlayerStateHandler::instance();
-	ClientTargetStateHandler::instance();
 	ClientDefenseHandler::instance();
-	ClientPlayMovesHandler::instance();
 	ClientPlayerStatusHandler::instance();
 	ClientScoreHandler::instance();
 

@@ -123,7 +123,7 @@ void ServerDefenseHandler::processDefenseMessage(
 			if (battery)
 			{
 				tank->getAccessories().rm(battery);
-				tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
+				tank->getLife().setLife(tank->getLife().getLife() + 10);
 				sendMessage = true;
 			}
 		}

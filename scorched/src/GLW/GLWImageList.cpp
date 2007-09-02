@@ -72,7 +72,7 @@ void GLWImageList::addDirectory(const char *directory)
 		}
 	}
 
-	setCurrent("");
+	setCurrentShortPath("");
 }
 
 void GLWImageList::draw()
@@ -110,7 +110,7 @@ void GLWImageList::draw()
 	glEnd();
 }
 
-bool GLWImageList::setCurrent(const char *current)
+bool GLWImageList::setCurrentShortPath(const char *current)
 {
 	std::list<GLWImageListEntry*>::iterator itor;
 	for (itor = entries_.begin();
@@ -132,9 +132,15 @@ bool GLWImageList::setCurrent(const char *current)
 	return false;
 }
 
-const char *GLWImageList::getCurrent()
+const char *GLWImageList::getCurrentLongPath()
 {
 	if (current_) return current_->longFileName.c_str();
+	return "";
+}
+
+const char *GLWImageList::getCurrentShortPath()
+{
+	if (current_) return current_->shortFileName.c_str();
 	return "";
 }
 
@@ -189,6 +195,6 @@ void GLWImageList::mouseDrag(int button, float mx, float my,
 
 void GLWImageList::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	setCurrent(entry->getText());
+	setCurrentShortPath(entry->getText());
 }
 

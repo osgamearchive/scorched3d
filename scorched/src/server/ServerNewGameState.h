@@ -22,6 +22,7 @@
 #define __INCLUDE_ServerNewGameStateh_INCLUDE__
 
 #include <engine/GameStateI.h>
+#include <common/FixedVector.h>
 
 // Sends out the new game message
 class RandomGenerator;
@@ -44,6 +45,7 @@ public:
 	static void removeTargets();
 
 protected:
+	static std::list<FixedVector> tankPositions_;
 
 	static void checkTeamsAuto();
 	static void checkTeamsBotsVs();

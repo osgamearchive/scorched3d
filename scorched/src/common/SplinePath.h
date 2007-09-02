@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_SplinePathh_INCLUDE__)
 #define __INCLUDE_SplinePathh_INCLUDE__
 
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <vector>
 
 class SplinePath
@@ -31,26 +31,26 @@ public:
 	virtual ~SplinePath();
 
 	void generate(
-		std::vector<Vector> &inPoints, 
+		std::vector<FixedVector> &inPoints, 
 		int resolution = 200,
 		int polynomials = 3,
-		float pointsPerSecond = 5.0f);
+		fixed pointsPerSecond = 5);
 
 	void draw();
-	void simulate(float frameTime);
-	void getPathAttrs(Vector &position, Vector &direction);
+	void simulate(fixed frameTime);
+	void getPathAttrs(FixedVector &position, FixedVector &direction);
 
-	float getPathTime() { return pathTime_; }
-	void setPathTime(float pathTime) { pathTime_ = pathTime; }
+	fixed getPathTime() { return pathTime_; }
+	void setPathTime(fixed pathTime) { pathTime_ = pathTime; }
 
-	std::vector<Vector> &getControlPoints() { return controlPoints_; }
-	std::vector<Vector> &getPathPoints() { return pathPoints_; }
+	std::vector<FixedVector> &getControlPoints() { return controlPoints_; }
+	std::vector<FixedVector> &getPathPoints() { return pathPoints_; }
 
 protected:
-	std::vector<Vector> controlPoints_;
-	std::vector<Vector> pathPoints_;
-	float pathTime_;
-	float pointsPerSecond_;
+	std::vector<FixedVector> controlPoints_;
+	std::vector<FixedVector> pathPoints_;
+	fixed pathTime_;
+	fixed pointsPerSecond_;
 };
 
 #endif // __INCLUDE_SplinePathh_INCLUDE__

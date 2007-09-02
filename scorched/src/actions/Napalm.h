@@ -44,7 +44,8 @@ public:
 	virtual ~Napalm();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 	unsigned int getPlayerId() { return weaponContext_.getPlayerId(); }
 	WeaponNapalm *getWeapon() { return weapon_; }
@@ -58,18 +59,18 @@ protected:
 
 	// Not sent by wire
 	bool hitWater_;
-	float totalTime_, hurtTime_;
-	float napalmTime_;
-	float allowedNapalmTime_;
-	float napalmHeight_;
-	float stepTime_;
-	float hurtStepTime_;
-	float hurtPerSecond_;
-	float groundScorchPer_;
+	fixed totalTime_, hurtTime_;
+	fixed napalmTime_;
+	fixed allowedNapalmTime_;
+	fixed napalmHeight_;
+	fixed stepTime_;
+	fixed hurtStepTime_;
+	fixed hurtPerSecond_;
+	fixed groundScorchPer_;
 	int effectRadius_;
 	std::list<NapalmEntry *> napalmPoints_;
 
-	float getHeight(int x, int y);
+	fixed getHeight(int x, int y);
 	void simulateAddStep();
 	void simulateRmStep();
 	void simulateDamage();

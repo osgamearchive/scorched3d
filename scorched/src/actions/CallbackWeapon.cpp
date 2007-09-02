@@ -22,16 +22,18 @@
 #include <weapons/AccessoryStore.h>
 
 CallbackWeapon::CallbackWeapon(
+	const char *name,
 	WeaponCallback *callback,
-	float delay, unsigned int callbackData,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity) :
+	fixed delay, unsigned int callbackData,
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity) :
+	ActionReferenced(name),
 	callback_(callback),
 	delay_(delay),
 	callbackData_(callbackData),
 	position_(position),
 	velocity_(velocity),
 	weaponContext_(weaponContext),
-	totalTime_(0.0f)
+	totalTime_(0)
 {
 
 }
@@ -44,7 +46,7 @@ void CallbackWeapon::init()
 {
 }
 
-void CallbackWeapon::simulate(float frameTime, bool &remove)
+void CallbackWeapon::simulate(fixed frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
 	if (totalTime_ > delay_)
@@ -55,4 +57,10 @@ void CallbackWeapon::simulate(float frameTime, bool &remove)
 	}
 
 	Action::simulate(frameTime, remove);
+}
+
+const char *CallbackWeapon::getActionDetails()
+{
+	if (callback_) return callback_->getParent()->getName();
+	return "";
 }

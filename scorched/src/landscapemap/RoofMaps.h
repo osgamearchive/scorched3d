@@ -35,8 +35,8 @@ public:
 		ScorchedContext &context,
 		ProgressCounter *counter = 0);
 
-	float getRoofHeight(int x, int y);
-	float getInterpRoofHeight(float x, float y);
+	fixed getRoofHeight(int x, int y);
+	fixed getInterpRoofHeight(fixed x, fixed y);
 
 	HeightMap &getRoofMap() { return rmap_; }
 

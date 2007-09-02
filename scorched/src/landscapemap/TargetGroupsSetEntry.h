@@ -21,28 +21,32 @@
 #if !defined(__INCLUDE_TargetGroupsSetEntryh_INCLUDE__)
 #define __INCLUDE_TargetGroupsSetEntryh_INCLUDE__
 
-#include <target/TargetGroupEntry.h>
+#include <target/TargetGroup.h>
 #include <map>
+#include <string>
 
 class TargetGroupsSetEntry
 {
 public:
-	TargetGroupsSetEntry();
+	TargetGroupsSetEntry(const char *name);
 	virtual ~TargetGroupsSetEntry();
 
-	TargetGroupEntry *getObjectByPos(int position);
-	TargetGroupEntry *getObjectById(unsigned int playerId);
-	bool hasObject(TargetGroupEntry *object);
-	bool hasObjectById(unsigned int playerId);
-	std::map<unsigned int, TargetGroupEntry *> &getObjects() { return objects_; }
+	const char *getName() { return name_.c_str(); }
 
-	virtual void addObject(TargetGroupEntry *object, bool thin);
-	virtual bool removeObject(TargetGroupEntry *object);
+	TargetGroup *getObjectByPos(int position);
+	TargetGroup *getObjectById(unsigned int playerId);
+	bool hasObject(TargetGroup *object);
+	bool hasObjectById(unsigned int playerId);
+	std::map<unsigned int, TargetGroup *> &getObjects() { return objects_; }
+
+	virtual void addObject(TargetGroup *object, bool thin);
+	virtual bool removeObject(TargetGroup *object);
 
 	virtual int getObjectCount();
 
 protected:
-	std::map<unsigned int, TargetGroupEntry *> objects_;
+	std::string name_;
+	std::map<unsigned int, TargetGroup *> objects_;
 };
 
 #endif // __INCLUDE_TargetGroupsSetEntryh_INCLUDE__

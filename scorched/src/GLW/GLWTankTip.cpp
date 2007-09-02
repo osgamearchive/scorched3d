@@ -60,8 +60,8 @@ void TankUndoMenu::showItems(float x, float y)
 		char buffer[128];
 		snprintf(buffer, 128, "%s%i: Pwr:%.1f Ele:%.1f Rot:%.1f",
 			(oldShots[i].current?"* ":"  "),
-			i, oldShots[i].power, oldShots[i].ele,
-			(360.0f - oldShots[i].rot));
+			i, oldShots[i].power.asFloat(), oldShots[i].ele.asFloat(),
+			(360.0f - oldShots[i].rot.asFloat()));
 		entries.push_back(
 			GLWSelectorEntry(buffer, &useTip, 0, 0, (void *) 
 				((unsigned int) (oldShots.size() - 1 - i))));
@@ -320,7 +320,7 @@ void TankShieldTip::populate()
 			"Shield Power : %.0f",
 			tank_->getShield().getCurrentShield()->getName(),
 			buffer,
-			tank_->getShield().getShieldPower()));
+			tank_->getShield().getShieldPower().asFloat()));
 	}
 	else
 	{
@@ -357,9 +357,9 @@ void TankHealthTip::populate()
 		"The amount of life this player has.\n"
 		"The tank explodes when life reaches 0.\n"
 		"Less weapon power is available with less life.\n"
-		"Life : %i/%i",
-		(int) tank_->getLife().getLife(),
-		(int) tank_->getLife().getMaxLife()));
+		"Life : %.0f/%.0f",
+		tank_->getLife().getLife().asFloat(),
+		tank_->getLife().getMaxLife().asFloat()));
 }
 
 TankParachutesTip::TankParachutesTip(Tank *tank) : 
@@ -632,15 +632,15 @@ static void generateTargetTip(std::string &tip, Target *target)
 {
 	tip += formatString(
 		"Life   : %.0f/%.0f", 
-		target->getLife().getLife(), 
-		target->getLife().getMaxLife());
+		target->getLife().getLife().asFloat(), 
+		target->getLife().getMaxLife().asFloat());
 	if (target->getShield().getCurrentShield())
 	{
 		Shield *shield = (Shield*) 
 			target->getShield().getCurrentShield()->getAction();
 		tip += formatString("\nShield : %.0f/%.0f",
-			target->getShield().getShieldPower(),
-			shield->getPower());
+			target->getShield().getShieldPower().asFloat(),
+			shield->getPower().asFloat());
 	}
 	if (!target->isTarget())
 	{

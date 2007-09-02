@@ -102,21 +102,21 @@ void WaterWaves::findPoints(WaterWaveContext *context,
 		{
 			float height =
 				ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x, y);
+					getGroundMaps().getHeight(x, y).asFloat();
 			if (height > waterHeight - 4.0f && height < waterHeight)
 			{
 				float height2=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x+context->pointsMult, y);
+					getGroundMaps().getHeight(x+context->pointsMult, y).asFloat();
 				float height3=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x-context->pointsMult, y);
+					getGroundMaps().getHeight(x-context->pointsMult, y).asFloat();
 				float height4=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x, y+context->pointsMult);
+					getGroundMaps().getHeight(x, y+context->pointsMult).asFloat();
 				float height5=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x, y-context->pointsMult);
+					getGroundMaps().getHeight(x, y-context->pointsMult).asFloat();
 
 				if (height2 > waterHeight || height3 > waterHeight ||
 					height4 > waterHeight || height5 > waterHeight)
@@ -227,7 +227,7 @@ void WaterWaves::constructLines(WaterWaveContext *context,
 			else
 			{
 				if (ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
-					newx, newy) > waterHeight)
+					newx, newy).asFloat() > waterHeight)
 				{
 					perp =- perp;
 					entry.ptA = current - perp / 3.0f;
@@ -272,7 +272,7 @@ void WaterWaves::draw(Water2Patches &currentPatch)
 	//if (OptionsDisplay::instance()->getNoWaves()) return;
 
 	Vector windDir = 
-		ScorchedClient::instance()->getOptionsTransient().getWindDirection();
+		ScorchedClient::instance()->getOptionsTransient().getWindDirection().asVector();
 	Vector windDirPerp = windDir.Normalize();
 
 	GLState state(GLState::TEXTURE_ON | GLState::BLEND_ON); 

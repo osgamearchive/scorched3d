@@ -27,18 +27,19 @@
 #include <engine/ActionController.h>
 #include <tankai/TankAIAdder.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 
 TargetLife::TargetLife(ScorchedContext &context, unsigned int playerId) :
 	context_(context), sphereGeom_(true),
-	life_(100.0f), maxLife_(1.0f), target_(0),
-	size_(2.0f, 2.0f, 2.0f), 
-	driveOverToDestroy_(false), flattenDestroy_(false)
+	life_(0), maxLife_(1), target_(0),
+	size_(2, 2, 2)
 {
 }
 
 TargetLife::~TargetLife()
 {
-	removeFromSpace();
+	life_ = 0;
+	updateSpace();
 }
 
 void TargetLife::newGame()
@@ -46,7 +47,7 @@ void TargetLife::newGame()
 	setLife(maxLife_);
 }
 
-void TargetLife::setLife(float life)
+void TargetLife::setLife(fixed life)
 {
 	life_ = life;
 
@@ -54,75 +55,81 @@ void TargetLife::setLife(float life)
 	if (life_ <= 0)
 	{
 		life_ = 0;
-		setRotation(0.0f);
-
-		removeFromSpace();
+		setRotation(0); // Updates space too
 	}
 	else
 	{
 		updateAABB();
-		addToSpace();
+		updateSpace();
 	}
 }
 
-void TargetLife::setSize(Vector &size)
+void TargetLife::setSize(FixedVector &size)
 {
 	size_ = size;
 
 	updateAABB();
+	updateSpace();
 }
 
-void TargetLife::setRotation(float rotation)
+void TargetLife::setTargetPositionAndRotation(FixedVector &pos, fixed rotation)
 {
-	Vector zaxis(0.0f, 0.0f, 1.0f);
-	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation / 180.0f * PI);
+	targetPosition_ = pos;
+	FixedVector zaxis(0, 0, 1);
+	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation / 180 * fixed::XPI);
 
 	updateAABB();
+	updateSpace();
 }
 
-Vector &TargetLife::getCenterPosition()
+void TargetLife::setTargetPosition(FixedVector &pos)
 {
-	static Vector result;
+	targetPosition_ = pos;
+	updateSpace();
+}
+
+void TargetLife::setRotation(fixed rotation)
+{
+	FixedVector zaxis(0, 0, 1);
+	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation / 180 * fixed::XPI);
+
+	updateAABB();
+	updateSpace();
+}
+
+FixedVector &TargetLife::getCenterPosition()
+{
+	static FixedVector result;
 	result = getTargetPosition();
-	result[2] += getSize()[2] / 2.0f;
+	result[2] += getSize()[2] / 2;
 	return result;
 }
 
-void TargetLife::setTargetPosition(Vector &pos)
+fixed TargetLife::collisionDistance(FixedVector &position)
 {
-	targetPosition_ = pos;
-
-	if (life_ > 0)
-	{
-		addToSpace();
-	}
-}
-
-float TargetLife::collisionDistance(Vector &position)
-{
-	Vector &currentPosition = getCenterPosition();
-	Vector direction = position - currentPosition;
-	float dist = 0.0f;
+	FixedVector &currentPosition = getCenterPosition();
+	FixedVector direction = position - currentPosition;
+	fixed dist = 0;
 
 	// Get how close the explosion was
 	if (getBoundingSphere())
 	{
 		// Find how close the explosion was to the 
 		// outside of the sphere
-		float sphereRadius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2.0f;
+		fixed sphereRadius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2;
 		dist = direction.Magnitude() - sphereRadius;
-		if (dist < 0.0f) dist = 0.0f;
+		if (dist < 0) dist = 0;
 	}
 	else
 	{
 		// Make the direction relative to the geom
 		// incase the geom has been rotated
-		Vector relativeDirection;
+		FixedVector relativeDirection;
 		quaternion_.getRelativeVector(relativeDirection, direction);
 
 		// Find how close the explosion was to the 
 		// outside edge of the cube
-		Vector touchPosition = relativeDirection;
+		FixedVector touchPosition = relativeDirection;
 
 		// Check each size of the cube to see if the point is outside.
 		// If it is, then scale it back until the point sits on the
@@ -130,17 +137,17 @@ float TargetLife::collisionDistance(Vector &position)
 		int inner = 0;
 		for (int i=0; i<3; i++)
 		{
-			float halfSize = size_[i] / 2.0f;
+			fixed halfSize = size_[i] / 2;
 			if (touchPosition[i] < -halfSize)
 			{
 				// Scale the point so it sits on this edge
-				float diff = -halfSize / touchPosition[i];
+				fixed diff = -halfSize / touchPosition[i];
 				touchPosition *= diff;
 			}
 			else if (touchPosition[i] > halfSize)
 			{
 				// Scale the point so it sits on this edge
-				float diff = halfSize / touchPosition[i];
+				fixed diff = halfSize / touchPosition[i];
 				touchPosition *= diff;
 			}
 			else inner++; // The point is inside this edge
@@ -149,7 +156,7 @@ float TargetLife::collisionDistance(Vector &position)
 		if (inner == 3)
 		{
 			// We are inside the cube
-			dist = 0.0f;
+			dist = 0;
 		}
 		else
 		{
@@ -162,10 +169,10 @@ float TargetLife::collisionDistance(Vector &position)
 	return dist;
 }
 
-bool TargetLife::collision(Vector &position)
+bool TargetLife::collision(FixedVector &position)
 {
-	Vector &currentPosition = getCenterPosition();
-	Vector direction = position - currentPosition;
+	FixedVector &currentPosition = getCenterPosition();
+	FixedVector direction = position - currentPosition;
 
 	// Check against bounding box
 	if (direction[0] < -aabbSize_[0] ||
@@ -181,21 +188,21 @@ bool TargetLife::collision(Vector &position)
 	// Check against actual bounds
 	if (sphereGeom_)
 	{
-		float radius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2.0f;
+		fixed radius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2;
 		if (direction.Magnitude() > radius) return false;
 	}
 	else
 	{
 		// Make the direction relative to the geom
 		// incase the geom has been rotated
-		Vector relativeDirection;
+		FixedVector relativeDirection;
 		quaternion_.getRelativeVector(relativeDirection, direction);
 
 		// Check each side of the cube to see if the point is inside it
 		int inner = 0;
 		for (int i=0; i<3; i++)
 		{
-			float halfSize = size_[i] / 2.0f;
+			fixed halfSize = size_[i] / 2;
 			if (-halfSize < relativeDirection[i] && 
 				relativeDirection[i] < halfSize)
 			{
@@ -215,21 +222,12 @@ void TargetLife::setBoundingSphere(bool sphereGeom)
 	sphereGeom_ = sphereGeom; 
 
 	updateAABB();
-	removeFromSpace();
+	updateSpace();
 }
 
-void TargetLife::addToSpace()
+void TargetLife::updateSpace()
 {
-	removeFromSpace();
-	if (!target_->getTargetState().getNoCollision())
-	{
-		context_.targetSpace->addTarget(target_);
-	}
-}
-
-void TargetLife::removeFromSpace()
-{
-	context_.targetSpace->removeTarget(target_);
+	context_.targetSpace->updateTarget(target_);
 }
 
 bool TargetLife::writeMessage(NetBuffer &buffer)
@@ -245,20 +243,51 @@ bool TargetLife::writeMessage(NetBuffer &buffer)
 
 bool TargetLife::readMessage(NetBufferReader &reader)
 {
-	float l;
-	if (!reader.getFromBuffer(maxLife_)) return false;
-	if (!reader.getFromBuffer(l)) return false;
-	setLife(l);
-	if (!reader.getFromBuffer(size_)) return false;
-	if (!reader.getFromBuffer(velocity_)) return false;
+	life_ = 0; // Suppress target space updates
 
-	Vector pos;
-	if (!reader.getFromBuffer(pos)) return false;
-	if (pos != targetPosition_)
+	fixed newLife;
+	if (!reader.getFromBuffer(maxLife_))
 	{
-		setTargetPosition(pos);
+		Logger::log("TargetLife::maxLife_ read failed");
+		return false;
 	}
-	if (!reader.getFromBuffer(quaternion_)) return false;
+	if (!reader.getFromBuffer(newLife))
+	{
+		Logger::log("TargetLife::life_ read failed");
+		return false;
+	}
+
+	FixedVector newSize;
+	if (!reader.getFromBuffer(newSize))
+	{
+		Logger::log("TargetLife::size_ read failed");
+		return false;
+	}
+	setSize(newSize);
+
+	if (!reader.getFromBuffer(velocity_))
+	{
+		Logger::log("TargetLife::velocity_ read failed");
+		return false;
+	}
+
+	FixedVector newPosition;
+	if (!reader.getFromBuffer(newPosition))
+	{
+		Logger::log("TargetLife::targetPosition_ read failed");
+		return false;
+	}
+	setTargetPosition(newPosition);
+
+	if (!reader.getFromBuffer(quaternion_))
+	{
+		Logger::log("TargetLife::quaternion_ read failed");
+		return false;
+	}
+
+	// Update target space
+	setLife(newLife);
+
 	return true;
 }
 
@@ -266,43 +295,43 @@ void TargetLife::updateAABB()
 {
 	if (sphereGeom_)
 	{
-		float radius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2.0f;
-		aabbSize_ = Vector(radius * 2.0f, radius * 2.0f, radius * 2.0f);
+		fixed radius = MAX(MAX(size_[0], size_[1]), size_[2]) / 2;
+		aabbSize_ = FixedVector(radius * 2, radius * 2, radius * 2);
 	}
 	else
 	{
 		for (int i=0; i<8; i++)
 		{
-			Vector position;
+			FixedVector position;
 			switch (i)
 			{
 			case 0:
-				position = Vector(size_[0], size_[1], size_[2]);
+				position = FixedVector(size_[0], size_[1], size_[2]);
 				break;
 			case 1:
-				position = Vector(-size_[0], size_[1], size_[2]);
+				position = FixedVector(-size_[0], size_[1], size_[2]);
 				break;
 			case 2:
-				position = Vector(size_[0], -size_[1], size_[2]);
+				position = FixedVector(size_[0], -size_[1], size_[2]);
 				break;
 			case 3:
-				position = Vector(-size_[0], -size_[1], size_[2]);
+				position = FixedVector(-size_[0], -size_[1], size_[2]);
 				break;
 			case 4:
-				position = Vector(size_[0], size_[1], -size_[2]);
+				position = FixedVector(size_[0], size_[1], -size_[2]);
 				break;
 			case 5:
-				position = Vector(-size_[0], size_[1], -size_[2]);
+				position = FixedVector(-size_[0], size_[1], -size_[2]);
 				break;
 			case 6:
-				position = Vector(size_[0], -size_[1], -size_[2]);
+				position = FixedVector(size_[0], -size_[1], -size_[2]);
 				break;
 			case 7:
-				position = Vector(-size_[0], -size_[1], -size_[2]);
+				position = FixedVector(-size_[0], -size_[1], -size_[2]);
 				break;
 			}
 
-			Vector result;
+			FixedVector result;
 			quaternion_.getRelativeVector(result, position);
 
 			if (i == 0) aabbSize_ = result;

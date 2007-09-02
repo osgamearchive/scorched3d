@@ -82,7 +82,7 @@ bool WeaponRandomChoice::parseXML(AccessoryCreateContext &context, XMLNode *acce
 }
 
 void WeaponRandomChoice::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	RandomGenerator &random = context.actionController->getRandom();
 	int randWeight = random.getRandUInt() % totalWeight_;

@@ -29,7 +29,7 @@ REGISTER_ACCESSORY_SOURCE(WeaponNapalm);
 
 WeaponNapalm::WeaponNapalm() : 
 	noSmoke_(false), noObjectDamage_(false),
-	groundScorchPer_(0.2f)
+	groundScorchPer_(fixed(true, 2000))
 {
 
 }
@@ -79,15 +79,15 @@ bool WeaponNapalm::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 }
 
 void WeaponNapalm::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+	fixed minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
 
 	// Make sure position is not underground
 	if (position[2] < minHeight)
 	{
-		if (minHeight - position[2] > 10.0f) // Give room for shields as well
+		if (minHeight - position[2] > 10) // Give room for shields as well
 		{
 			return;
 		}
@@ -96,8 +96,8 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 	RandomGenerator &random = context.actionController->getRandom();
 	for (int i=0; i<numberStreams_; i++)
 	{
-		int x = int(position[0] + random.getRandFloat() * 4.0f - 2.0f);
-		int y = int(position[1] + random.getRandFloat() * 4.0f - 2.0f);
+		int x = (position[0] + random.getRandFixed() * 4 - 2).asInt();
+		int y = (position[1] + random.getRandFixed() * 4 - 2).asInt();
 		addNapalm(context, weaponContext, x, y);
 	}
 
@@ -111,7 +111,7 @@ void WeaponNapalm::fireWeapon(ScorchedContext &context,
 				Sound::instance()->fetchOrCreateBuffer((char *)
 					getDataFile(formatString("data/wav/%s", getNapalmSound())));
 			SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-				expSound, position);
+				expSound, position.asVector());
 		}
 	}
 #endif

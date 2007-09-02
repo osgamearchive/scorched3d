@@ -82,9 +82,17 @@ unsigned int RandomGenerator::getRandUInt()
 	return lvalue | rvalue;
 }
 
-float RandomGenerator::getRandFloat()
+/*float RandomGenerator::getRandFloat()
 {
 	unsigned int y = getRandUInt();
 	return float(y) / float(UINT_MAX);
-}
+}*/
 
+fixed RandomGenerator::getRandFixed()
+{
+	unsigned int rd = getRandUInt();
+	unsigned int fract = rd % 10000;
+	fixed result(true, fract);
+
+	return result;
+}

@@ -34,15 +34,15 @@
 #include <weapons/AccessoryStore.h>
 #include <math.h>
 
-ShotProjectile::ShotProjectile(Vector &startPosition, Vector &velocity,
+ShotProjectile::ShotProjectile(FixedVector &startPosition, FixedVector &velocity,
 							   WeaponProjectile *weapon, WeaponFireContext &weaponContext,
 							   unsigned int flareType,
-							   float spinSpeed ) :
+							   fixed spinSpeed ) :
 	startPosition_(startPosition), velocity_(velocity), 
 	weapon_(weapon), weaponContext_(weaponContext), 
 	flareType_(flareType), vPoint_(0),
-	snapTime_(0.2f), up_(false),
-	totalTime_(0.0), spinSpeed_(spinSpeed)
+	snapTime_(fixed(true, 2000)), up_(false),
+	totalTime_(0), spinSpeed_(spinSpeed)
 {
 
 }
@@ -53,19 +53,27 @@ void ShotProjectile::init()
 	if (!context_->serverMode) 
 	{
 		setActionRender(new MissileActionRenderer(flareType_, 
-				weapon_->getScale(*context_),
-				spinSpeed_));
+				weapon_->getScale(*context_).asFloat(),
+				spinSpeed_.asFloat()));
 	}
 #endif // #ifndef S3D_SERVER
 
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 	PhysicsParticleInfo info(ParticleTypeShot, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		0.0f, 0.0f, weapon_->getWindFactor(*context_), getWeapon()->getUnder());
+		0, 0, weapon_->getWindFactor(*context_), getWeapon()->getUnder());
 	thrustTime_ = getWeapon()->getThrustTime(*context_);
 	thrustAmount_ = getWeapon()->getThrustAmount(*context_);
 	timedCollision_ = getWeapon()->getTimedCollision(*context_);
 	drag_ = getWeapon()->getDrag(*context_);
+}
+
+const char *ShotProjectile::getActionDetails()
+{
+	return formatString("%li,%li,%li %li,%li,%li %s",
+		startPosition_[0].getInternal(), startPosition_[1].getInternal(), startPosition_[2].getInternal(),
+		velocity_[0].getInternal(), velocity_[1].getInternal(), velocity_[2].getInternal(),
+		weapon_->getParent()->getName());
 }
 
 ShotProjectile::~ShotProjectile()
@@ -95,7 +103,7 @@ void ShotProjectile::collision(PhysicsParticleObject &position,
 				{
 					ai->shotLanded(collisionId, 
 						getWeapon(), getPlayerId(), 
-						getCurrentPosition());
+						getCurrentPosition().asVector());
 				}
 			}
 		}
@@ -108,7 +116,7 @@ void ShotProjectile::collision(PhysicsParticleObject &position,
 		{
 			doColl = false;
 		}
-		if ((getWeapon()->getTimedCollision(*context_) > 0.0f) && getWeapon()->getTimedDud())
+		if ((getWeapon()->getTimedCollision(*context_) > 0) && getWeapon()->getTimedDud())
 		{
 			doColl = false;
 		}
@@ -118,15 +126,15 @@ void ShotProjectile::collision(PhysicsParticleObject &position,
 	PhysicsParticleReferenced::collision(position, collisionId);
 }
 
-void ShotProjectile::simulate(float frameTime, bool &remove)
+void ShotProjectile::simulate(fixed frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
 	if (vPoint_)
 	{
 		vPoint_->setPosition(getCurrentPosition());
 
-		Vector velocity = -getCurrentVelocity();
-		velocity[2] = 10.0f;
+		FixedVector velocity = -getCurrentVelocity();
+		velocity[2] = 10;
 		vPoint_->setLookFrom(velocity);
 	}
 
@@ -134,7 +142,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	if (!remove &&
 		getWeapon()->getWaterCollision())
 	{
-		float waterHeight = -10.0f;
+		fixed waterHeight = -10;
 		LandscapeTex &tex = *context_->landscapeMaps->getDefinitions().getTex();
 		if (tex.border->getType() == LandscapeTexType::eWater)
 		{
@@ -155,7 +163,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	if (!remove &&
 		getWeapon()->getApexCollision())
 	{
-		if (getCurrentVelocity()[2] > 0.0f) up_ = true;
+		if (getCurrentVelocity()[2] > 0) up_ = true;
 		else if (up_)
 		{
 			doCollision(getCurrentPosition());
@@ -164,12 +172,12 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	}
 
 	// Thrust
-	if (thrustAmount_ > 0.0f)
+	if (thrustAmount_ > 0)
 	{
 		if (totalTime_ < thrustTime_ ||
-			thrustTime_ == 0.0f)
+			thrustTime_ == 0)
 		{
-			Vector direction = getCurrentVelocity();
+			FixedVector direction = getCurrentVelocity();
 			direction.StoreNormalize();
 			direction *= thrustAmount_;
 			applyForce(direction);
@@ -177,16 +185,16 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	}
 
 	// Drag
-	if (drag_ > 0.0f)
+	if (drag_ > 0)
 	{
-		Vector direction = getCurrentVelocity();
+		FixedVector direction = getCurrentVelocity();
 		direction *= -drag_;
 		applyForce(direction);
 	}
 
 	// Timed collision
 	if (!remove &&
-		timedCollision_ > 0.0f)
+		timedCollision_ > 0)
 	{
 		if (totalTime_ > timedCollision_)
 		{
@@ -202,14 +210,14 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 		if (getWeapon()->getShowShotPath())
 		{
 			snapTime_ += frameTime;
-			if (snapTime_ > 0.1f || remove)
+			if (snapTime_.asFloat() > 0.1f || remove)
 			{
 				Vector up (0.0f, 0.0f, 1.0f);
 				RenderTracer::TracerLinePoint point;
-				point.position = getCurrentPosition();
-				point.cross = (getCurrentVelocity() * up).Normalize();
+				point.position = getCurrentPosition().asVector();
+				point.cross = (getCurrentVelocity().asVector() * up).Normalize();
 				positions_.push_back(point);
-				snapTime_ = 0.0f;
+				snapTime_ = 0;
 			}
 		}
 	}
@@ -218,7 +226,7 @@ void ShotProjectile::simulate(float frameTime, bool &remove)
 	PhysicsParticleReferenced::simulate(frameTime, remove);
 }
 
-void ShotProjectile::doCollision(Vector &position)
+void ShotProjectile::doCollision(FixedVector &position)
 {	
 #ifndef S3D_SERVER
 	if (!context_->serverMode)
@@ -226,17 +234,18 @@ void ShotProjectile::doCollision(Vector &position)
 		if (getWeapon()->getShowShotPath())
 		{
 			RenderTracer::instance()->
-				addSmokeTracer(weaponContext_.getPlayerId(), position, positions_);
+				addSmokeTracer(weaponContext_.getPlayerId(), 
+					position.asVector(), positions_);
 		}
 		else if (getWeapon()->getShowEndPoint())
 		{
 			RenderTracer::instance()->
-				addTracer(weaponContext_.getPlayerId(), position);
+				addTracer(weaponContext_.getPlayerId(), position.asVector());
 		}
 	}
 #endif // #ifndef S3D_SERVER
 
-	Vector velocity;
+	FixedVector velocity;
 	getWeapon()->getCollisionAction()->fireWeapon(
 		*context_, weaponContext_, position, getCurrentVelocity());
 }

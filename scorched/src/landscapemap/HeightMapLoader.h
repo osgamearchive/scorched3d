@@ -32,7 +32,6 @@ namespace HeightMapLoader
 		GLImage &image, 
 		bool levelSurround,
 		ProgressCounter *counter= 0);
-	GLImage *saveTerrain(HeightMap &hmap);
 	
 	bool generateTerrain(
 		unsigned int seed,

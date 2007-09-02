@@ -30,16 +30,17 @@ class TankFired : public ActionReferenced
 public:
 	TankFired(unsigned int playerId,
 		Weapon *weapon,
-		float rotXY, float rotYZ);
+		fixed rotXY, fixed rotYZ);
 	virtual ~TankFired();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	unsigned int playerId_;
 	Weapon *weapon_;
-	float rotXY_, rotXZ_;
+	fixed rotXY_, rotXZ_;
 	bool firstTime_;
 
 };

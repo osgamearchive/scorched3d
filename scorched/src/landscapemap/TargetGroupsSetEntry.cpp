@@ -22,7 +22,8 @@
 #include <target/Target.h>
 #include <common/Defines.h>
 
-TargetGroupsSetEntry::TargetGroupsSetEntry()
+TargetGroupsSetEntry::TargetGroupsSetEntry(const char *name) :
+	name_(name)
 {
 }
 
@@ -30,28 +31,28 @@ TargetGroupsSetEntry::~TargetGroupsSetEntry()
 {
 }
 
-void TargetGroupsSetEntry::addObject(TargetGroupEntry *object, bool thin)
+void TargetGroupsSetEntry::addObject(TargetGroup *object, bool thin)
 {
 	objects_[object->getTarget()->getPlayerId()] = object;
 }
 
-bool TargetGroupsSetEntry::removeObject(TargetGroupEntry *object)
+bool TargetGroupsSetEntry::removeObject(TargetGroup *object)
 {
 	return (objects_.erase(object->getTarget()->getPlayerId()) > 0);
 }
 
-TargetGroupEntry *TargetGroupsSetEntry::getObjectById(unsigned int playerId)
+TargetGroup *TargetGroupsSetEntry::getObjectById(unsigned int playerId)
 {
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor =
+	std::map<unsigned int, TargetGroup *>::iterator itor =
 		objects_.find(playerId);
 	if (itor == objects_.end()) return 0;
 	return (*itor).second;
 }
 
-TargetGroupEntry *TargetGroupsSetEntry::getObjectByPos(int position)
+TargetGroup *TargetGroupsSetEntry::getObjectByPos(int position)
 {
 	int pos = position % int(objects_.size());
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects_.begin();
 		itor != objects_.end();
 		itor ++, pos--)
@@ -61,7 +62,7 @@ TargetGroupEntry *TargetGroupsSetEntry::getObjectByPos(int position)
 	return 0;
 }
 
-bool TargetGroupsSetEntry::hasObject(TargetGroupEntry *object)
+bool TargetGroupsSetEntry::hasObject(TargetGroup *object)
 {
 	return (objects_.find(object->getTarget()->getPlayerId()) != objects_.end());
 }

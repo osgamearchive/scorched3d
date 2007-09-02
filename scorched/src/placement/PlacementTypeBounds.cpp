@@ -40,9 +40,9 @@ bool PlacementTypeBounds::readXML(XMLNode *node)
 	if (!node->getNamedChild("minbounds", minbounds)) return false;
 	if (!node->getNamedChild("maxbounds", maxbounds)) return false;
 
-	if (maxbounds[0] - minbounds[0] < 25.0f ||
-		maxbounds[1] - minbounds[1] < 25.0f ||
-		maxbounds[2] - minbounds[2] < 10.0f)
+	if (maxbounds[0] - minbounds[0] < 25 ||
+		maxbounds[1] - minbounds[1] < 25 ||
+		maxbounds[2] - minbounds[2] < 10)
 	{
 		return node->returnError(
 			"PlacementTypeBounds bounding box is too small, it must be at least 25x10 units");
@@ -63,20 +63,20 @@ void PlacementTypeBounds::getPositions(ScorchedContext &context,
 		do
 		{
 			position.position[0] = 
-				generator.getRandFloat() * (maxbounds[0] - minbounds[0]) + minbounds[0];
+				generator.getRandFixed() * (maxbounds[0] - minbounds[0]) + minbounds[0];
 			position.position[1] = 
-				generator.getRandFloat() * (maxbounds[1] - minbounds[1]) + minbounds[1];
+				generator.getRandFixed() * (maxbounds[1] - minbounds[1]) + minbounds[1];
 			position.position[2] = 
-				generator.getRandFloat() * (maxbounds[2] - minbounds[2]) + minbounds[2];
+				generator.getRandFixed() * (maxbounds[2] - minbounds[2]) + minbounds[2];
 		} 
 		while (context.landscapeMaps->getGroundMaps().
 			getInterpHeight(position.position[0], position.position[1]) >= position.position[2]);
 
 		// Set velocity pointing into the middle
-		position.velocity[0] = (maxbounds[0] + minbounds[0]) / 2;
-		position.velocity[1] = (maxbounds[1] + minbounds[1]) / 2;
-		position.velocity[2] = (maxbounds[2] + minbounds[2]) / 2;
+		FixedVector middle = (maxbounds + minbounds) / 2;
+		position.velocity = middle - position.position;
 		position.velocity.StoreNormalize();
+		position.velocity[2] = 0;
 
 		returnPositions.push_back(position);
 	}

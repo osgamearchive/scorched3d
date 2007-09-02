@@ -120,6 +120,33 @@ XMLNode::XMLNode(const char *name, bool content, NodeType type) :
 	addContent(buffer, strlen(buffer));
 }
 
+XMLNode::XMLNode(const char *name, fixed content, NodeType type) :
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
+{
+	const char *buffer = content.asString();
+	addContent(buffer, strlen(buffer));
+}
+
+XMLNode::XMLNode(const char *name, FixedVector &content, NodeType type) :
+	name_(name), parent_(0), type_(type), useContentNodes_(false)
+{
+	XMLNode *nodeA = new XMLNode("a");
+	addChild(nodeA);
+	XMLNode *nodeB = new XMLNode("b");
+	addChild(nodeB);
+	XMLNode *nodeC = new XMLNode("c");
+	addChild(nodeC);
+
+	const char *buffer = content[0].asString();
+	nodeA->addContent(buffer, strlen(buffer));
+
+	buffer = content[1].asString();
+	nodeB->addContent(buffer, strlen(buffer));
+
+	buffer = content[2].asString();
+	nodeC->addContent(buffer, strlen(buffer));
+}
+
 XMLNode::XMLNode(const char *name, Vector &content, NodeType type) :
 	name_(name), parent_(0), type_(type), useContentNodes_(false)
 {
@@ -391,13 +418,13 @@ bool XMLNode::getNamedChild(const char *name, bool &value,
 bool XMLNode::getNamedChild(const char *name, NumberParser &value,
         bool failOnError, bool remove)
 {
-        XMLNode *node;
-        if (!getNamedChild(name, node, failOnError, remove)) return false;
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
 
-        if (!value.setExpression(node->getContent()))
-                return node->returnError("Failed to parse expression");
+	if (!value.setExpression(node->getContent()))
+			return node->returnError("Failed to parse expression");
 
-        return true;
+	return true;
 }
 
 bool XMLNode::getNamedChild(const char *name, float &value,
@@ -430,6 +457,48 @@ bool XMLNode::getNamedChild(const char *name, unsigned int &value,
 
 	if (sscanf(node->getContent(), "%u", &value) != 1)
 		return node->returnError("Failed to parse unsigned int value");
+	return true;
+}
+
+bool XMLNode::getNamedChild(const char *name, fixed &value,
+	bool failOnError, bool remove)
+{
+	std::string v;
+	if (!getNamedChild(name, v, failOnError, remove)) return false;
+	value = fixed(v.c_str());
+	return true;
+}
+
+bool XMLNode::getNamedChild(const char *name, FixedVector &value, 
+	bool failOnError, bool remove)
+{
+	XMLNode *node;
+	if (!getNamedChild(name, node, failOnError, remove)) return false;
+
+	std::string a, b, c;
+	if (!node->getNamedChild("A", a, false, true) &&
+		!node->getNamedChild("a", a, false, true))
+	{
+		if (failOnError) node->returnError("Failed to find a node");
+		return false;
+	}
+	if (!node->getNamedChild("B", b, false, true) &&
+		!node->getNamedChild("b", b, false, true))
+	{
+		if (failOnError) node->returnError("Failed to find b node");
+		return false;
+	}
+	if (!node->getNamedChild("C", c, false, true) &&
+		!node->getNamedChild("c", c, false, true))
+	{
+		if (failOnError) node->returnError("Failed to find c node");
+		return false;
+	}
+	if (failOnError && !node->failChildren()) return false;
+
+	value[0] = fixed(a.c_str());
+	value[1] = fixed(b.c_str());
+	value[2] = fixed(c.c_str());
 	return true;
 }
 

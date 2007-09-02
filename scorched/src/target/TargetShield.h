@@ -40,8 +40,8 @@ public:
 	Accessory *getCurrentShield() { return currentShield_; }
 	void setCurrentShield(Accessory *sh);
 
-	float getShieldPower() { return power_; }
-	void setShieldPower(float power);
+	fixed getShieldPower() { return power_; }
+	void setShieldPower(fixed power);
 
 	// Serialize
     bool writeMessage(NetBuffer &buffer);
@@ -49,10 +49,9 @@ public:
 
 protected:
 	Target *target_;
-	Vector position_;
 	ScorchedContext &context_;
 	Accessory *currentShield_;
-	float power_;
+	fixed power_;
 };
 
 #endif // __INCLUDE_TargetShieldh_INCLUDE__

@@ -33,7 +33,8 @@
 
 TankFired::TankFired(unsigned int playerId,
 					 Weapon *weapon,
-					 float rotXY, float rotXZ) :
+					 fixed rotXY, fixed rotXZ) :
+	ActionReferenced("TankFired"),
 	playerId_(playerId), weapon_(weapon),
 	rotXY_(rotXY), rotXZ_(rotXZ), firstTime_(true)
 {
@@ -49,7 +50,13 @@ void TankFired::init()
 
 }
 
-void TankFired::simulate(float frameTime, bool &remove)
+const char *TankFired::getActionDetails()
+{
+	return formatString("%u %s",
+		playerId_, weapon_->getParent()->getName());
+}
+
+void TankFired::simulate(fixed frameTime, bool &remove)
 {
 	if (firstTime_)
 	{
@@ -91,7 +98,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 							getDataFile(formatString("data/wav/%s", 
 							weapon_->getParent()->getActivationSound())));
 					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-						firedSound, tank->getPosition().getTankPosition());
+						firedSound, tank->getPosition().getTankPosition().asVector());
 				}
 			}
 #endif // #ifndef S3D_SERVER
@@ -101,7 +108,7 @@ void TankFired::simulate(float frameTime, bool &remove)
 				WeaponFireContext weaponContext(playerId_, 0);
 				Weapon *muzzleFlash = context_->accessoryStore->getMuzzelFlash();
 				if (muzzleFlash) muzzleFlash->fireWeapon(*context_, weaponContext, 
-					tank->getPosition().getTankGunPosition(), Vector::nullVector);
+					tank->getPosition().getTankGunPosition(), FixedVector::getNullVector());
 			}
 		}
 	}

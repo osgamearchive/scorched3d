@@ -32,9 +32,10 @@
 #endif
 
 ShieldHit::ShieldHit(unsigned int playerId,
-	Vector &position,
-	float hitPercentage) :
-	totalTime_(0.0f),
+	FixedVector &position,
+	fixed hitPercentage) :
+	ActionReferenced("ShieldHit"),
+	totalTime_(0),
 	firstTime_(true), playerId_(playerId),
 	hitPercentage_(hitPercentage),
 	position_(position)
@@ -49,7 +50,7 @@ void ShieldHit::init()
 {
 }
 
-void ShieldHit::simulate(float frameTime, bool &remove)
+void ShieldHit::simulate(fixed frameTime, bool &remove)
 {
 	if (firstTime_)
 	{
@@ -71,7 +72,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 						Sound::instance()->fetchOrCreateBuffer( (char *)
 							getDataFile(formatString("data/wav/%s", shield->getCollisionSound())));
 					SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-						shieldSound, position_);
+						shieldSound, position_.asVector());
 
 					TargetRenderer *renderer = target->getRenderer();
 					if (renderer)
@@ -89,7 +90,7 @@ void ShieldHit::simulate(float frameTime, bool &remove)
 	}
 
 	totalTime_ += frameTime;
-	if (totalTime_ > 0.2f) remove = true;
+	if (totalTime_ > fixed(true, 2000)) remove = true;
 	Action::simulate(frameTime, remove);
 }
 
@@ -98,7 +99,7 @@ void ShieldHit::draw()
 #ifndef S3D_SERVER
 	if (!context_->serverMode)
 	{
-		GLLenseFlare::instance()->draw(position_, false, 0, 
+		GLLenseFlare::instance()->draw(position_.asVector(), false, 0, 
 			1.0f, 1.0f);
 	}
 #endif // #ifndef S3D_SERVER

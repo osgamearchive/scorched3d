@@ -29,6 +29,7 @@
 #include <common/OptionsScorched.h>
 
 TankResign::TankResign(unsigned int playerId) :
+	ActionReferenced("TankResign"),
 	firstTime_(true),
 	playerId_(playerId)
 {
@@ -43,7 +44,7 @@ void TankResign::init()
 {
 }
 
-void TankResign::simulate(float frameTime, bool &remove)
+void TankResign::simulate(fixed frameTime, bool &remove)
 {
 	if (firstTime_)
 	{
@@ -115,6 +116,11 @@ void TankResign::simulate(float frameTime, bool &remove)
 		}
 	}
 
-	if (!renderer_) remove = true;
+	remove = true;
 	Action::simulate(frameTime, remove);
+}
+
+const char *TankResign::getActionDetails()
+{
+	return formatString("%u", playerId_);
 }

@@ -25,7 +25,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponDelay);
 
 WeaponDelay::WeaponDelay() :
-	delay_(0.0f)
+	delay_(0)
 {
 
 }
@@ -58,9 +58,10 @@ bool WeaponDelay::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponDelay::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	Action *action = new CallbackWeapon(
+		"WeaponDelay", 
 		this, delay_.getValue(context), 0,
 		weaponContext, position, velocity);
 	context.actionController->addAction(action);
@@ -68,7 +69,7 @@ void WeaponDelay::fireWeapon(ScorchedContext &context,
 
 void WeaponDelay::weaponCallback(
 			ScorchedContext &context,
-			WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+			WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 			unsigned int userData)
 {
 	delayedWeapon_->fireWeapon(context, weaponContext, position, velocity);

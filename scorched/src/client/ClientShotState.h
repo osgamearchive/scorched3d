@@ -22,15 +22,24 @@
 #if !defined(__INCLUDE_ClientShotStateh_INCLUDE__)
 #define __INCLUDE_ClientShotStateh_INCLUDE__
 
+#include <coms/ComsMessageHandler.h>
+#include <engine/PlayShots.h>
 #include <engine/GameStateStimulusI.h>
 #include <engine/GameStateI.h>
 #include <engine/ShotState.h>
 
-class ClientShotState : public GameStateStimulusI,
-	public GameStateI
+class ClientShotState : 
+	public GameStateStimulusI,
+	public GameStateI,
+	public ComsMessageHandlerI
 {
 public:
 	static ClientShotState *instance();
+
+	virtual bool processMessage(
+		NetMessage &message,
+		const char *messageType,
+		NetBufferReader &reader);
 
 	virtual void enterState(const unsigned state);
 	virtual bool acceptStateChange(const unsigned state, 
@@ -39,8 +48,8 @@ public:
 
 protected:
 	static ClientShotState *instance_;
+	PlayShots playShots_;
 	ShotState shotState_;
-
 
 private:
 	ClientShotState();

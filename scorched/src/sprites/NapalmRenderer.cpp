@@ -40,7 +40,7 @@ void NapalmRenderer::draw(Particle *particle)
 	particle->position_[2] = 
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
 			(int) particle->position_[0],
-			(int) particle->position_[1]) + particle->size_[1] * 2.0f;
+			(int) particle->position_[1]).asFloat() + particle->size_[1] * 2.0f;
 }
 
 void NapalmRenderer::simulate(Particle *particle, float timepassed)

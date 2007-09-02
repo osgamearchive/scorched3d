@@ -60,7 +60,7 @@ unsigned int Variance::recursComputeVariance( int leftX,  int leftY,  float left
 	int centerY = (leftY + rightY) >>1;		// Compute Y coord.
 
 	// Get the height value at the middle of the Hypotenuse
-	float centerZ  = hMap_->getHeight(centerX, centerY);
+	float centerZ  = hMap_->getHeight(centerX, centerY).asFloat();
 
 	// Variance of this triangle is the actual height at it's hypotenuse midpoint minus the interpolated height.
 	// Use values passed on the stack instead of re-accessing the Height Field.
@@ -87,8 +87,8 @@ unsigned int Variance::recursComputeVariance( int leftX,  int leftY,  float left
 void Variance::computeVariance()
 {
 	memset(variance_, 0, maxPos_ * sizeof(unsigned int));
-	recursComputeVariance(	left_ + width_,		top_ + width_, 	hMap_->getHeight(left_+ width_, top_ + width_),
-							left_,				top_, hMap_->getHeight(left_, top_),
-							left_ + width_,				top_, hMap_->getHeight(left_ + width_, top_),
+	recursComputeVariance(	left_ + width_,		top_ + width_, 	hMap_->getHeight(left_+ width_, top_ + width_).asFloat(),
+							left_,				top_, hMap_->getHeight(left_, top_).asFloat(),
+							left_ + width_,				top_, hMap_->getHeight(left_ + width_, top_).asFloat(),
 							1);	
 }

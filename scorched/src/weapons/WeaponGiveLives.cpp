@@ -48,16 +48,16 @@ bool WeaponGiveLives::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponGiveLives::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	context.actionController->addAction(
-		new CallbackWeapon(this, 0.0f, 0, 
+		new CallbackWeapon("WeaponGiveLives", this, 0, 0, 
 			weaponContext, position, velocity));
 }
 
 void WeaponGiveLives::weaponCallback(
 	ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 	unsigned int userData)
 {
 	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());

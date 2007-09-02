@@ -750,3 +750,125 @@ bool OptionEntryVector::addToArgParser(ARGParser &parser)
 	DIALOG_ASSERT(0);
 	return false;
 }
+
+OptionEntryFixed::OptionEntryFixed(std::list<OptionEntry *> &group,
+							   const char *name,
+							   const char *description,
+							   unsigned int data,
+							   fixed value) :
+	OptionEntry(group, name, description, data), 
+	value_(value), defaultValue_(value)
+{
+	
+}
+
+OptionEntryFixed::~OptionEntryFixed()
+{
+
+}
+
+const char *OptionEntryFixed::getValueAsString()
+{
+	return value_.asString();
+}
+
+const char *OptionEntryFixed::getDefaultValueAsString()
+{
+	return defaultValue_.asString();
+}
+
+bool OptionEntryFixed::setValueFromString(const char *string)
+{
+	return setValue(fixed(string));
+}
+
+fixed OptionEntryFixed::getValue() 
+{
+	return value_;
+}
+
+bool OptionEntryFixed::setValue(fixed value)
+{
+	changedValue_ = true;
+	value_ = value;
+	return true;
+}
+
+bool OptionEntryFixed::addToArgParser(ARGParser &parser)
+{
+	DIALOG_ASSERT(0);
+	return false;
+}
+
+OptionEntryFixedVector::OptionEntryFixedVector(std::list<OptionEntry *> &group,
+							   const char *name,
+							   const char *description,
+							   unsigned int data,
+							   FixedVector value) :
+	OptionEntry(group, name, description, data), 
+	value_(value), defaultValue_(value)
+{
+	
+}
+
+OptionEntryFixedVector::~OptionEntryFixedVector()
+{
+
+}
+
+const char *OptionEntryFixedVector::getValueAsString()
+{
+	std::string a = value_[0].asString();
+	std::string b = value_[1].asString();
+	std::string c = value_[2].asString();
+
+	static char value[256];
+	snprintf(value, 256, "%s %s %s", 
+		a.c_str(), b.c_str(), c.c_str());
+	return value;
+}
+
+const char *OptionEntryFixedVector::getDefaultValueAsString()
+{
+	std::string a = defaultValue_[0].asString();
+	std::string b = defaultValue_[1].asString();
+	std::string c = defaultValue_[2].asString();
+
+	static char value[256];
+	snprintf(value, 256, "%s %s %s", 
+		a.c_str(), b.c_str(), c.c_str());
+	return value;
+}
+
+bool OptionEntryFixedVector::setValueFromString(const char *string)
+{
+	FixedVector value;
+
+	int i=0;
+	char *token = strtok((char *) string, " ");
+	while(token != 0)
+	{
+		value[i++] = fixed(token);		
+		token = strtok(0, " ");
+	}
+
+	return setValue(value);
+}
+
+FixedVector &OptionEntryFixedVector::getValue() 
+{
+	return value_;
+}
+
+bool OptionEntryFixedVector::setValue(FixedVector value)
+{
+	changedValue_ = true;
+	value_ = value;
+	return true;
+}
+
+bool OptionEntryFixedVector::addToArgParser(ARGParser &parser)
+{
+	DIALOG_ASSERT(0);
+	return false;
+}

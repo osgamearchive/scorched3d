@@ -97,18 +97,18 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 			SoundBuffer *rocket = Sound::instance()->fetchOrCreateBuffer(
 				(char *) getDataFile(engineSound));
 			sound_ = new VirtualSoundSource(VirtualSoundPriority::eMissile, true, false);
-			sound_->setPosition(shot->getCurrentPosition());
+			sound_->setPosition(shot->getCurrentPosition().asVector());
 			sound_->setGain(0.25f);
 			sound_->play(rocket);
 		}
 	}
 	if (sound_)
 	{
-		sound_->setPosition(shot->getCurrentPosition());
-		sound_->setVelocity(shot->getCurrentVelocity());
+		sound_->setPosition(shot->getCurrentPosition().asVector());
+		sound_->setVelocity(shot->getCurrentVelocity().asVector());
 	}
 
-	Vector &actualPos = shot->getCurrentPosition();
+	Vector &actualPos = shot->getCurrentPosition().asVector();
 	Vector actualPos1;
 	actualPos1[0] = actualPos[0] - 0.25f;
 	actualPos1[1] = actualPos[1] - 0.25f;
@@ -120,7 +120,7 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 
 	// Rotate the shot
 	frame_ += timepassed * 20.0f;
-	rotation_ += shot->getCurrentVelocity().Magnitude() * spinSpeed_;
+	rotation_ += shot->getCurrentVelocity().Magnitude().asFloat() * spinSpeed_;
 		//shot->getWeapon()->getSpinSpeed();
 
 	// Add flame trail
@@ -136,13 +136,13 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 	{
 		if (counter_.nextDraw(timepassed))
 		{
-			Vector vel1 = shot->getCurrentVelocity();
+			Vector vel1 = shot->getCurrentVelocity().asVector();
 			Vector vel2;
 			vel1 *= -0.4f;
 			vel2 = vel1 * 0.7f;
 
-			actualPos1 -= shot->getCurrentVelocity() * 0.2f;
-			actualPos2 -= shot->getCurrentVelocity() * 0.2f;
+			actualPos1 -= shot->getCurrentVelocity().asVector() * 0.2f;
+			actualPos2 -= shot->getCurrentVelocity().asVector() * 0.2f;
 
 			smokeemitter_->setVelocity(vel1, vel2);
 			smokeemitter_->emitLinear(3, actualPos1, actualPos2, 
@@ -155,8 +155,8 @@ void MissileActionRenderer::simulate(Action *action, float timepassed, bool &rem
 void MissileActionRenderer::draw(Action *action)
 {
 	ShotProjectile *shot = (ShotProjectile *) action;
-	Vector &actualPos = shot->getCurrentPosition();
-	Vector &actualdir = shot->getCurrentVelocity();
+	Vector &actualPos = shot->getCurrentPosition().asVector();
+	Vector &actualdir = shot->getCurrentVelocity().asVector();
 
 	if (shot->getWeapon()->getShowShotPath())
 	{
@@ -194,7 +194,7 @@ void MissileActionRenderer::draw(Action *action)
 	// Draw the missile shadow
 	float aboveGround =
 		actualPos[2] - ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().
-		getHeight((int) actualPos[0], (int) actualPos[1]);
+		getHeight((int) actualPos[0], (int) actualPos[1]).asFloat();
 	Landscape::instance()->getShadowMap().
 		addCircle(actualPos[0], actualPos[1], aboveGround / 10.0f);
 }

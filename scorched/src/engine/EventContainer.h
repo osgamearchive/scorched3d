@@ -21,6 +21,7 @@
 #if !defined(__INCLUDE_EventContainerh_INCLUDE__)
 #define __INCLUDE_EventContainerh_INCLUDE__
 
+#include <common/fixed.h>
 #include <landscapedef/LandscapeInclude.h>
 #include <map>
 
@@ -32,12 +33,12 @@ public:
 
 	void clear();
 	void initialize(ScorchedContext &context);
-	void simulate(float frameTime, ScorchedContext &context);
+	void simulate(fixed frameTime, ScorchedContext &context);
 
 protected:
 	struct EventEntry
 	{
-		float eventTime;
+		fixed eventTime;
 		int eventNumber;
 	};
 

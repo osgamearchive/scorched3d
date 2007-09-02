@@ -40,19 +40,19 @@ public:
 	virtual ~ComsPlayedMoveMessage();
 
 	void setShot(unsigned int weaponId,
-		float rotationXY,
-		float rotationYZ,
-		float power,
+		fixed rotationXY,
+		fixed rotationYZ,
+		fixed power,
 		int positionX, 
 		int positionY);
 
 	unsigned int getPlayerId() { return playerId_; }
 	unsigned int getWeaponId() { return weaponId_; }
-	float getRotationXY() { return rotationXY_; }
-	float getRotationYZ() { return rotationYZ_; }
+	fixed getRotationXY() { return rotationXY_; }
+	fixed getRotationYZ() { return rotationYZ_; }
 	int getSelectPositionX() { return selectPositionX_; }
 	int getSelectPositionY() { return selectPositionY_; }
-	float getPower() { return power_; }
+	fixed getPower() { return power_; }
 	MoveType getType() { return moveType_; }
 
 	// Inherited from ComsMessage
@@ -63,9 +63,9 @@ protected:
 	unsigned int playerId_;
 	unsigned int weaponId_;
 	MoveType moveType_;
-	float rotationXY_;
-	float rotationYZ_;
-	float power_;
+	fixed rotationXY_;
+	fixed rotationYZ_;
+	fixed power_;
 	int selectPositionX_;
 	int selectPositionY_;
 

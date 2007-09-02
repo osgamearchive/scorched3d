@@ -21,15 +21,15 @@
 #if !defined(__INCLUDE_SplineCurveh_INCLUDE__)
 #define __INCLUDE_SplineCurveh_INCLUDE__
 
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <vector>
 
 class SplineCurve
 {
 public:
 	static void generate(
-		std::vector<Vector> &inPoints, 
-		std::vector<Vector> &outPoints,
+		std::vector<FixedVector> &inPoints, 
+		std::vector<FixedVector> &outPoints,
 		int resolution,
 		int polynomials = 3);
 

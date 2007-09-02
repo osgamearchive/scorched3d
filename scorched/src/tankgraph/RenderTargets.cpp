@@ -126,9 +126,9 @@ void RenderTargets::draw(DrawType dt)
 		case Type3D:
 			{
 				float distance = approx_distance(
-					target->getLife().getTargetPosition()[0] - campos[0],
-					target->getLife().getTargetPosition()[1] - campos[1],
-					target->getLife().getTargetPosition()[2] - campos[2]);
+					target->getLife().getTargetPosition()[0].asFloat() - campos[0],
+					target->getLife().getTargetPosition()[1].asFloat() - campos[1],
+					target->getLife().getTargetPosition()[2].asFloat() - campos[2]);
 
 				model->draw(distance, (dt == TypeShadow));
 			}

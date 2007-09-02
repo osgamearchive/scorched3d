@@ -102,7 +102,7 @@ void ParticleRendererQuads::renderParticle(Particle &particle)
 		float aboveGround =
 			posZ - ScorchedClient::instance()->getLandscapeMaps().
 			getGroundMaps().getHeight(
-			int(posX), int(posY));
+			int(posX), int(posY)).asFloat();
 		float smokeAlpha = particle.alpha_ + .2f; 
 		if (smokeAlpha > 1.0f) smokeAlpha = 1.0f;
 		Landscape::instance()->getShadowMap().

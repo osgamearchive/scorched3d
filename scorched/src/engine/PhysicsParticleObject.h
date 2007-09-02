@@ -22,8 +22,8 @@
 #if !defined(__INCLUDE_PhysicsParticleObjecth_INCLUDE__)
 #define __INCLUDE_PhysicsParticleObjecth_INCLUDE__
 
-#include <common/Vector.h>
-#include <common/Vector4.h>
+#include <common/FixedVector.h>
+#include <common/FixedVector4.h>
 #include <engine/ScorchedCollisionIds.h>
 
 enum PhysicsParticleType
@@ -72,22 +72,22 @@ public:
 	void setPhysics(
 		PhysicsParticleInfo info,
 		ScorchedContext &context, 
-		Vector &position, Vector &velocity,
-		float sphereSize = 0.0f,
-		float sphereDensity = 0.0f,
-		float windFactor = 1.0f,
+		FixedVector &position, FixedVector &velocity,
+		fixed sphereSize = 0,
+		fixed sphereDensity = 0,
+		fixed windFactor = 1,
 		bool underGroundCollision = false,
 		bool rotateOnCollision = false);
 
-	void applyForce(Vector &force);
-	void simulate(float frameTime);
+	void applyForce(FixedVector &force);
+	void simulate(fixed frameTime);
 
-	Vector &getPosition() { return position_; }
-	Vector &getVelocity() { return velocity_; }
-	Vector4 &getRotationQuat() { return rotation_; }
+	FixedVector &getPosition() { return position_; }
+	FixedVector &getVelocity() { return velocity_; }
+	FixedVector4 &getRotationQuat() { return rotation_; }
 
 	void setHandler(PhysicsParticleObjectHandler *handler) { handler_ = handler; }
-	void setPosition(Vector &position) { position_ = position; }
+	void setPosition(FixedVector &position) { position_ = position; }
 
 protected:
 	PhysicsParticleInfo info_;
@@ -96,11 +96,11 @@ protected:
 	bool underGroundCollision_;
 	bool rotateOnCollision_;
 	unsigned int iterations_;
-	Vector position_;
-	Vector velocity_;
-	Vector windFactor_;
-	Vector4 rotation_;
-	Vector4 avelocity_;
+	FixedVector position_;
+	FixedVector velocity_;
+	FixedVector windFactor_;
+	FixedVector4 rotation_;
+	FixedVector4 avelocity_;
 
 	enum CollisionAction
 	{
@@ -111,8 +111,8 @@ protected:
 	struct CollisionInfo
 	{
 		ScorchedCollisionId collisionId;
-		float deflectFactor;
-		Vector normal;
+		fixed deflectFactor;
+		FixedVector normal;
 	};
 
 	virtual void shotWallHit(CollisionInfo &collision);

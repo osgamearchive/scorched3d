@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_RandomGeneratorh_INCLUDE__)
 #define __INCLUDE_RandomGeneratorh_INCLUDE__
 
+#include <common/fixed.h>
+
 class RandomGenerator
 {
 public:
@@ -31,7 +33,8 @@ public:
 	unsigned int getSeed();
 
 	unsigned int getRandUInt();
-	float getRandFloat();
+	//float getRandFloat();
+	fixed getRandFixed();
 
 protected:
 	static unsigned int bufferSize_;

@@ -331,7 +331,7 @@ bool ClientChannelManager::processMessage(
 			// put a speach bubble over the talking tank
 			Vector white(1.0f, 1.0f, 1.0f);
 			TalkRenderer *talk = new TalkRenderer(
-				tank->getPosition().getTankTurretPosition(),
+				tank->getPosition().getTankTurretPosition().asVector(),
 				white);
 			ScorchedClient::instance()->getActionController().
 				addAction(new SpriteAction(talk));

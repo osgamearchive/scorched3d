@@ -34,11 +34,11 @@ public:
 
 	const char *getSound() { return sound_.c_str(); }
 	bool getGroundOnly() { return groundOnly_; }
-	float getDelay(ScorchedContext &context);
+	fixed getDelay(ScorchedContext &context);
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponTeleport, AccessoryPart::AccessoryWeapon);
 

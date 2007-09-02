@@ -57,12 +57,12 @@ bool WeaponTankVelocity::parseXML(AccessoryCreateContext &context, XMLNode *acce
 }
 
 void WeaponTankVelocity::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (tank && tank->getState().getState() == TankState::sNormal)
 	{
-		Vector newVelocity = tank->getPosition().getVelocityVector();
+		FixedVector newVelocity = tank->getPosition().getVelocityVector();
 		aimedWeapon_->fireWeapon(context, weaponContext, position, newVelocity);
 	}
 }

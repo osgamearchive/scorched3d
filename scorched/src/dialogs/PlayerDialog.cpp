@@ -88,7 +88,7 @@ PlayerDialog::PlayerDialog() :
 	imageList_ = new GLWImageList(10.0f, 20.0f);
 	imageList_->addDirectory(getSettingsFile("avatars"));
 	imageList_->addDirectory(getDataFile("data/avatars"));
-	imageList_->setCurrent("player.png");
+	imageList_->setCurrentShortPath("player.png");
 	imageList_->setToolTip(&avatarTip1_);
 	imageList_->setName("Avatar");
 	infoPanel->addWidget(imageList_);
@@ -179,11 +179,11 @@ void PlayerDialog::select(unsigned int id, const int pos,
 	{
 		if (0 == strcmp("Human", value.getText()))
 		{
-			imageList_->setCurrent("player.png");
+			imageList_->setCurrentShortPath("player.png");
 		}
 		else
 		{
-			imageList_->setCurrent("computer.png");
+			imageList_->setCurrentShortPath("computer.png");
 		}
 	}
 	else if (id == teamDropDown_->getId())
@@ -286,10 +286,10 @@ void PlayerDialog::nextPlayer()
 			OptionsDisplay::instance()->getOnlineUserName());
 		viewer_->selectModelByName(
 			OptionsDisplay::instance()->getOnlineTankModel());
-		if (!imageList_->setCurrent(
+		if (!imageList_->setCurrentShortPath(
 			OptionsDisplay::instance()->getOnlineUserIcon()))
 		{
-			imageList_->setCurrent("player.png");
+			imageList_->setCurrentShortPath("player.png");
 		}
 	}
 	else
@@ -388,7 +388,7 @@ void PlayerDialog::buttonDown(unsigned int id)
 				OptionsDisplay::instance()->getOnlineTankModelEntry().setValue(
 					viewer_->getModelName());
 				OptionsDisplay::instance()->getOnlineUserIconEntry().setValue(
-					imageList_->getCurrent());
+					imageList_->getCurrentShortPath());
 				if (ScorchedClient::instance()->getOptionsGame().getTeams() == 1)
 				{
 					OptionsDisplay::instance()->getOnlineColorEntry().setValue(
@@ -419,12 +419,12 @@ void PlayerDialog::buttonDown(unsigned int id)
 				getTankById(currentPlayerId_);
 			if (tank && !tank->getAvatar().getName()[0])
 			{
-				if (tank->getAvatar().loadFromFile(imageList_->getCurrent()))
+				if (tank->getAvatar().loadFromFile(imageList_->getCurrentLongPath()))
 				{
 					if (tank->getAvatar().getFile().getBufferUsed() <=
 						(unsigned) ScorchedClient::instance()->getOptionsGame().getMaxAvatarSize())
 					{
-						message.setPlayerIconName(imageList_->getCurrent());
+						message.setPlayerIconName(imageList_->getCurrentShortPath());
 						message.getPlayerIcon().addDataToBuffer(
 							tank->getAvatar().getFile().getBuffer(),
 							tank->getAvatar().getFile().getBufferUsed());

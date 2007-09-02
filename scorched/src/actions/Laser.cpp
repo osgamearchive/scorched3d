@@ -38,10 +38,11 @@
 #include <set>
 
 Laser::Laser(WeaponLaser *weapon,
-		Vector &position, Vector &direction,
+		FixedVector &position, FixedVector &direction,
 		WeaponFireContext &weaponContext) :
-	totalTime_(0.0f),
-	drawLength_(0.0f),
+	ActionReferenced("Laser"),
+	totalTime_(0),
+	drawLength_(0),
 	firstTime_(true),
 	weaponContext_(weaponContext), 
 	weapon_(weapon),
@@ -56,18 +57,27 @@ Laser::~Laser()
 
 void Laser::init()
 {
-	float per = direction_.Magnitude() / 50.0f;
+	fixed per = direction_.Magnitude() / 50;
 	length_ = weapon_->getMinimumDistance(*context_) + 
 		(weapon_->getMaximumDistance(*context_) - weapon_->getMinimumDistance(*context_)) * per;
 	damage_ = weapon_->getMinimumHurt(*context_) + 
-		(weapon_->getMaximumHurt(*context_) - weapon_->getMinimumHurt(*context_)) * (1.0f - per);
+		(weapon_->getMaximumHurt(*context_) - weapon_->getMinimumHurt(*context_)) * (fixed(1) - per);
 
-	Vector dir = direction_.Normalize();
-	angXY_ = 180.0f - atan2f(dir[0], dir[1]) / 3.14f * 180.0f;
-	angYZ_ = acosf(dir[2]) / 3.14f * 180.0f;
+	FixedVector dir = direction_.Normalize();
+
+	angXY_ = 180.0f - atan2f(dir[0].asFloat(), dir[1].asFloat()) / 3.14f * 180.0f;
+	angYZ_ = acosf(dir[2].asFloat()) / 3.14f * 180.0f;
 }
 
-void Laser::simulate(float frameTime, bool &remove)
+const char *Laser::getActionDetails()
+{
+	return formatString("%li,%li,%li %li,%li,%li %s",
+		position_[0].getInternal(), position_[1].getInternal(), position_[2].getInternal(),
+		direction_[0].getInternal(), direction_[1].getInternal(), direction_[2].getInternal(),
+		weapon_->getParent()->getName());
+}
+
+void Laser::simulate(fixed frameTime, bool &remove)
 {
 	if (firstTime_)
 	{
@@ -77,19 +87,19 @@ void Laser::simulate(float frameTime, bool &remove)
 		laserTime_ = weapon_->getTotalTime(*context_);
 		hurtRadius_ = weapon_->getHurtRadius(*context_);
 
-		if (damage_ > 0.0f && direction_.Magnitude() > 0.0f)
+		if (damage_ > 0 && direction_.Magnitude() > 0)
 		{
 			std::set<unsigned int> damagedTargets_;
 
 			// Build a set of all tanks in the path of the laser
-			Vector pos = position_;
-			Vector dir = direction_.Normalize() / 4.0f;
+			FixedVector pos = position_;
+			FixedVector dir = direction_.Normalize() / 4;
 			bool end = false;
 			while (!end)
 			{
 				std::map<unsigned int, Target *> collisionTargets;
 				context_->targetSpace->getCollisionSet(pos, 
-					float(weapon_->getHurtRadius(*context_)), collisionTargets);
+					fixed(weapon_->getHurtRadius(*context_)), collisionTargets);
 				std::map<unsigned int, Target *>::iterator itor;
 				for (itor = collisionTargets.begin();
 					itor != collisionTargets.end();
@@ -108,11 +118,11 @@ void Laser::simulate(float frameTime, bool &remove)
 							if (shield->getLaserProof() != Shield::ShieldLaserProofNone)
 							{
 								laserProof = shield->getLaserProof();
-								Vector offset = current->getLife().getTargetPosition() - pos;
+								FixedVector offset = current->getLife().getTargetPosition() - pos;
 								if (shield->inShield(offset))
 								{
 									context_->actionController->addAction(
-										new ShieldHit(current->getPlayerId(), pos, 0.0f));
+										new ShieldHit(current->getPlayerId(), pos, 0));
 
 									end = true;
 									break;
@@ -122,8 +132,8 @@ void Laser::simulate(float frameTime, bool &remove)
 
 						if (laserProof != Shield::ShieldLaserProofTotal)
 						{
-							Vector offset = current->getLife().getTargetPosition() - pos;
-							float targetDistance = offset.Magnitude();
+							FixedVector offset = current->getLife().getTargetPosition() - pos;
+							fixed targetDistance = offset.Magnitude();
 
 							if (targetDistance < weapon_->getHurtRadius(*context_) + 
 								MAX(current->getLife().getSize()[0], current->getLife().getSize()[1]))
@@ -166,34 +176,37 @@ void Laser::simulate(float frameTime, bool &remove)
 void Laser::draw()
 {
 #ifndef S3D_SERVER
-	if (!context_->serverMode && (drawLength_ > 0.0f))
+	if (!context_->serverMode && (drawLength_ > 0))
 	{
 		static GLUquadric *obj = 0;
 		if (!obj)
 		{
 			obj = gluNewQuadric();
 		}
-		float timePer = (1.0f - totalTime_ / laserTime_) * 0.5f;
-		float radius1 = 0.05f / 2.0f * hurtRadius_;
-		float radius2 = 0.2f / 2.0f * hurtRadius_;
+		float timePer = (1.0f - totalTime_.asFloat() / laserTime_.asFloat()) * 0.5f;
+		float radius1 = 0.05f / 2.0f * hurtRadius_.asFloat();
+		float radius2 = 0.2f / 2.0f * hurtRadius_.asFloat();
 
 		GLState glState(GLState::TEXTURE_OFF | GLState::BLEND_ON);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		glColor4f(1.0f, 1.0f, 1.0f,	timePer);
 		glPushMatrix();
-			glTranslatef(position_[0], position_[1], position_[2]);
+			glTranslatef(
+				position_[0].asFloat(), 
+				position_[1].asFloat(), 
+				position_[2].asFloat());
 			glRotatef(angXY_, 0.0f, 0.0f, 1.0f);
 			glRotatef(angYZ_, 1.0f, 0.0f, 0.0f);
 
 			glColor4f(1.0f, 1.0f, 1.0f,	timePer);
-			gluCylinder(obj, radius1, radius1, drawLength_, 3, 1);
+			gluCylinder(obj, radius1, radius1, drawLength_.asFloat(), 3, 1);
 
 			glColor4f(
 				weapon_->getColor()[0],
 				weapon_->getColor()[1],
 				weapon_->getColor()[2],
 				timePer);
-			gluCylinder(obj, radius2, radius2, drawLength_, 5, 1);
+			gluCylinder(obj, radius2, radius2, drawLength_.asFloat(), 5, 1);
 		glPopMatrix();
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}

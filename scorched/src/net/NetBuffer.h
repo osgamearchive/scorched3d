@@ -22,7 +22,8 @@
 #define _NETBUFFER_H_
 
 #include <string>
-#include <common/Vector4.h>
+#include <common/FixedVector4.h>
+#include <common/FixedVector.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
 
@@ -41,13 +42,16 @@ public:
 	void setBufferUsed(unsigned size) { usedSize_ = size; }
 
 	void addToBuffer(Vector &vector);
-	void addToBuffer(Vector4 &vector);
+	void addToBuffer(FixedVector &vector);
+	void addToBuffer(FixedVector4 &vector);
 	void addToBuffer(const char *add);
 	void addToBuffer(std::string &string);
 	void addToBuffer(const int add);
+	void addToBuffer(const float add);
 	void addToBuffer(const bool add);
 	void addToBuffer(const unsigned int add);
-	void addToBuffer(const float add);
+	void addToBuffer(const fixed add);
+	void addToBuffer(NetBuffer &add);
 
 	bool compressBuffer();
 	bool uncompressBuffer();
@@ -96,12 +100,15 @@ public:
 	void setBufferSize(unsigned size) { bufferSize_ = size; }
 
 	bool getFromBuffer(Vector &result);
-	bool getFromBuffer(Vector4 &result);
+	bool getFromBuffer(FixedVector &result);
+	bool getFromBuffer(FixedVector4 &result);
+	bool getFromBuffer(fixed &result);
 	bool getFromBuffer(int &result);
 	bool getFromBuffer(float &result);
 	bool getFromBuffer(bool &result);
 	bool getFromBuffer(unsigned int &result);
 	bool getFromBuffer(std::string &string, bool safe = true);
+	bool getFromBuffer(NetBuffer &buffer);
 
 	// Gets raw data from the buffer
 	// NOTE: Care must be taken to ensure that the data

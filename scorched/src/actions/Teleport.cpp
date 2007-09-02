@@ -21,6 +21,7 @@
 #include <actions/Teleport.h>
 #include <actions/CameraPositionAction.h>
 #include <common/Defines.h>
+#include <common/OptionsScorched.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankPosition.h>
@@ -36,13 +37,14 @@
 	#include <sprites/TeleportRenderer.h>
 #endif
 
-Teleport::Teleport(Vector position,
+Teleport::Teleport(FixedVector position,
 		WeaponFireContext &weaponContext,
 		WeaponTeleport *weapon) :
+	ActionReferenced("Teleport"),
 	position_(position), 
 	weaponContext_(weaponContext),
 	weapon_(weapon),
-	totalTime_(0.0f),
+	totalTime_(0),
 	firstTime_(true),
 	vPoint_(0)
 {
@@ -58,28 +60,27 @@ void Teleport::init()
 {
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 
-	const float ShowTime = 5.0f;
 #ifndef S3D_SERVER
-        if (!context_->serverMode)
+	if (!context_->serverMode)
 	{
 		Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
 			Vector white(1.0f, 1.0f, 1.0f);
 			TeleportRenderer *teleport = new TeleportRenderer(
-				tank->getPosition().getTankTurretPosition(),
+				tank->getPosition().getTankTurretPosition().asVector(),
 				white);
 			context_->actionController->addAction(new SpriteAction(teleport));
-
-			CameraPositionAction *pos = new CameraPositionAction(
-				position_, ShowTime, 5);
-			context_->actionController->addAction(pos);
 		}
 	}
 #endif
+
+	CameraPositionAction *pos = new CameraPositionAction(
+		position_, 5, 5);
+	context_->actionController->addAction(pos);
 }
 
-void Teleport::simulate(float frameTime, bool &remove)
+void Teleport::simulate(fixed frameTime, bool &remove)
 {
 	if (vPoint_) vPoint_->setPosition(position_);
 
@@ -97,7 +98,7 @@ void Teleport::simulate(float frameTime, bool &remove)
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile(weapon_->getSound()));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					activateSound, tank->getPosition().getTankPosition());
+					activateSound, tank->getPosition().getTankPosition().asVector());
 			}
 		}
 #endif // #ifndef S3D_SERVER
@@ -109,12 +110,22 @@ void Teleport::simulate(float frameTime, bool &remove)
 		Tank *tank = context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 		if (tank && tank->getState().getState() == TankState::sNormal)
 		{
-			float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
+			fixed height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
 				position_[0], position_[1]);
 			if (weapon_->getGroundOnly() || height >= position_[2])
 			{
 				// Set the position on the ground
 				position_[2] = height;
+
+				if (context_->optionsGame->getAutoSendSyncCheck())
+				{
+					context_->actionController->addSyncCheck(
+						formatString("Telport: %u %li, %li, %li", 
+							tank->getPlayerId(),
+							position_[0].getInternal(),
+							position_[1].getInternal(),
+							position_[2].getInternal()));
+				}
 
 				// Set this position and flatten the landscape
 				tank->getLife().setTargetPosition(position_);
@@ -122,12 +133,22 @@ void Teleport::simulate(float frameTime, bool &remove)
 			}
 			else
 			{
+				if (context_->optionsGame->getAutoSendSyncCheck())
+				{
+					context_->actionController->addSyncCheck(
+						formatString("Telport: %u %li, %li, %li", 
+							tank->getPlayerId(),
+							position_[0].getInternal(),
+							position_[1].getInternal(),
+							position_[2].getInternal()));
+				}
+
 				// Set the position, what ever this is
 				tank->getLife().setTargetPosition(position_);
 
 				// Check if this tank can fall, this will result in flattening the area
 				TargetDamageCalc::damageTarget(*context_, tank, weapon_, 
-					weaponContext_, 0.0f, false, true, false);
+					weaponContext_, 0, false, true, false);
 			}
 		}
 
@@ -135,4 +156,14 @@ void Teleport::simulate(float frameTime, bool &remove)
 	}
 
 	Action::simulate(frameTime, remove);
+}
+
+const char *Teleport::getActionDetails()
+{
+	return formatString("%u %li,%li,%li %s", 
+		weaponContext_.getPlayerId(), 
+		position_[0].getInternal(),
+		position_[1].getInternal(),
+		position_[2].getInternal(),
+		weapon_->getParent()->getName());
 }

@@ -74,55 +74,26 @@ bool ComsMessageSender::sendToServer(
 }
 #endif
 
-bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
-	unsigned int destination, unsigned int flags)
+bool ComsMessageSender::sendToMultipleClients(
+	ComsMessage &message, std::list<unsigned int> sendDestinations, unsigned int flags)
 {
-	if (destination == 0) return true;
-	if (!ScorchedServer::instance()->getContext().netInterface ||
-		!ScorchedServer::instance()->getNetInterface().started())
-	{
-		Logger::log( "ERROR: ComsMessageSender::sendToSingleClient - Server not started");
-		return false;
-	}
-
-	if (!formMessage(message)) return false;
-
-	if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
-	{
-		Logger::log(formatString("Server::send(%s, %u, %u)", 
-			message.getMessageType(),
-			destination,
-			NetBufferDefault::defaultBuffer.getBufferUsed()));
-	}	
-	ScorchedServer::instance()->getNetInterface().sendMessageDest(
-		NetBufferDefault::defaultBuffer, destination, flags);
-	return true;
-}
-
-bool ComsMessageSender::sendToAllConnectedClients(
-	ComsMessage &message, unsigned int flags)
-{
-	std::map<unsigned int, Tank *>::iterator itor;
-	std::map<unsigned int, Tank *> tanks = 
-		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	if (tanks.empty()) return true;
-
-	// Serialize the same message once for all client
+	if (sendDestinations.empty()) return true;
 	if (!formMessage(message)) return false;
 
 	// Used to ensure we only send messages to each
 	// destination once
 	std::set<unsigned int> destinations;
-	destinations.insert(0); // Make sure we don't send to dest 0
 	std::set<unsigned int>::iterator findItor;
-	for (itor = tanks.begin();
-		itor != tanks.end();
+	destinations.insert(0); // Make sure we don't send to dest 0
+
+	std::list<unsigned int>::iterator itor;
+	for (itor = sendDestinations.begin();
+		itor != sendDestinations.end();
 		itor++)
 	{
-		Tank *tank = (*itor).second;
-
-		unsigned int destination = tank->getDestinationId();
+		unsigned int destination = *itor;
 		findItor = destinations.find(destination);
+
 		if (findItor == destinations.end())
 		{
 			destinations.insert(destination);
@@ -137,7 +108,7 @@ bool ComsMessageSender::sendToAllConnectedClients(
 			if (!ScorchedServer::instance()->getContext().netInterface ||
 				!ScorchedServer::instance()->getNetInterface().started())
 			{
-				Logger::log( "ERROR: ComsMessageSender::sendToAllConnectedClients - Server not started");
+				Logger::log( "ERROR: ComsMessageSender::sendToMultipleClients - Server not started");
 				return false;
 			}
 			ScorchedServer::instance()->getNetInterface().sendMessageDest(
@@ -148,22 +119,40 @@ bool ComsMessageSender::sendToAllConnectedClients(
 	return true;
 }
 
-bool ComsMessageSender::sendToAllPlayingClients(
+bool ComsMessageSender::sendToSingleClient(ComsMessage &message,
+	unsigned int destination, unsigned int flags)
+{
+	if (destination == 0) return true;
+
+	std::list<unsigned int> destinations;
+	destinations.push_back(destination);
+	return sendToMultipleClients(message, destinations, flags);
+}
+
+bool ComsMessageSender::sendToAllConnectedClients(
 	ComsMessage &message, unsigned int flags)
 {
+	std::list<unsigned int> destinations;
 	std::map<unsigned int, Tank *>::iterator itor;
 	std::map<unsigned int, Tank *> tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	if (tanks.empty()) return true;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		destinations.push_back(tank->getDestinationId());
+	}
+	return sendToMultipleClients(message, destinations, flags);
+}
 
-	// Serialize the same message once for all client
-	if (!formMessage(message)) return false;
-
-	// Used to ensure we only send messages to each
-	// destination once
-	std::set<unsigned int> destinations;
-	destinations.insert(0); // Make sure we don't send to dest 0
-	std::set<unsigned int>::iterator findItor;
+bool ComsMessageSender::sendToAllPlayingClients(
+	ComsMessage &message, unsigned int flags)
+{
+	std::list<unsigned int> destinations;
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
 		itor != tanks.end();
 		itor++)
@@ -173,30 +162,8 @@ bool ComsMessageSender::sendToAllPlayingClients(
 			tank->getState().getState() != TankState::sLoading &&
 			tank->getState().getState() != TankState::sInitializing)
 		{
-			unsigned int destination = tank->getDestinationId();
-			findItor = destinations.find(destination);
-			if (findItor == destinations.end())
-			{
-				destinations.insert(destination);
-
-				if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
-				{
-					Logger::log(formatString("Server::send(%s, %u, %u)", 
-						message.getMessageType(),
-						destination,
-						NetBufferDefault::defaultBuffer.getBufferUsed()));
-				}	
-				if (!ScorchedServer::instance()->getContext().netInterface ||
-					!ScorchedServer::instance()->getNetInterface().started())
-				{
-					Logger::log( "ERROR: ComsMessageSender::sendToAllPlayingClients - Server not started");
-					return false;
-				}
-				ScorchedServer::instance()->getNetInterface().sendMessageDest(
-					NetBufferDefault::defaultBuffer, destination, flags);
-			}
+			destinations.push_back(tank->getDestinationId());
 		}
 	}
-
-	return true;
+	return sendToMultipleClients(message, destinations, flags);
 }

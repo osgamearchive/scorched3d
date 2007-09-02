@@ -20,7 +20,6 @@
 
 #include <engine/PhysicsParticleObject.h>
 #include <engine/ScorchedContext.h>
-#include <engine/SyncCheck.h>
 #include <engine/ActionController.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <target/TargetSpace.h>
@@ -50,7 +49,7 @@ PhysicsParticleObject::~PhysicsParticleObject()
 {
 }
 
-void PhysicsParticleObject::applyForce(Vector &force)
+void PhysicsParticleObject::applyForce(FixedVector &force)
 {
 	velocity_ += force;
 }
@@ -58,8 +57,8 @@ void PhysicsParticleObject::applyForce(Vector &force)
 void PhysicsParticleObject::setPhysics(
 	PhysicsParticleInfo info,
 	ScorchedContext &context, 
-	Vector &position, Vector &velocity,
-	float sphereSize, float sphereDensity, float windFactor,
+	FixedVector &position, FixedVector &velocity,
+	fixed sphereSize, fixed sphereDensity, fixed windFactor,
 	bool underGroundCollision, bool rotateOnCollision)
 {
 	info_ = info;
@@ -67,45 +66,31 @@ void PhysicsParticleObject::setPhysics(
 	underGroundCollision_ = underGroundCollision;
 	rotateOnCollision_ = rotateOnCollision;
 
-	Vector zaxis(0.0f, 0.0f, 1.0f);
-	rotation_.setQuatFromAxisAndAngle(zaxis, 0.0f);
+	FixedVector zaxis(0, 0, 1);
+	rotation_.setQuatFromAxisAndAngle(zaxis, 0);
 	position_ = position;
-	velocity_ = velocity * 1.2f;
+	velocity_ = velocity * fixed(true, 12000);
 	windFactor_ = 
 		context_->optionsTransient->getWindDirection() * 
 		context_->optionsTransient->getWindSpeed() / 
-		2.5f * windFactor;
+		fixed(true, 25000) * windFactor;
 
-	/*SyncCheck::instance()->addString(*context_, 
-		formatString("Init :%f %f,%f,%f %f",
-		windFactor,
-		context_->optionsTransient->getWindDirection()[0], 
-		context_->optionsTransient->getWindDirection()[1], 
-		context_->optionsTransient->getWindDirection()[2],
-		context_->optionsTransient->getWindSpeed()));*/
-
-	Vector gravity(0.0f, 0.0f, (float) context_->optionsGame->getGravity());
+	FixedVector gravity(0, 0, context_->optionsGame->getGravity());
 	windFactor_ += gravity;
-	windFactor_ /= 70.0f;
+	windFactor_ /= 70;
 }
 
-void PhysicsParticleObject::simulate(float frameTime)
+void PhysicsParticleObject::simulate(fixed frameTime)
 {
 	iterations_++;
 	velocity_ += windFactor_;
-	position_ += velocity_ / 100.0f;
+	position_ += velocity_ / 100;
 
 	if (rotateOnCollision_)
 	{
 		rotation_ += avelocity_;
 		rotation_.Normalize();
 	}
-
-	/*SyncCheck::instance()->addString(*context_, 
-		formatString("Move : %u P%f,%f,%f W%f,%f,%f",
-			iterations_,
-			position_[0], position_[1], position_[2],
-			windFactor_[0], windFactor_[1], windFactor_[2]));*/
 
 	if (!handler_ || !context_) return;
 
@@ -130,6 +115,19 @@ void PhysicsParticleObject::checkCollision()
 			getWallCollision(collision)) 
 		{
 			action = checkShotCollision(collision, target);
+			if (action != CollisionActionNone)
+			{
+				if (context_->optionsGame->getAutoSendSyncCheck())
+				{
+					context_->actionController->addSyncCheck(
+						formatString("Shot Collision : %i %i %li,%li,%li", 
+							(int) action,
+							(int) collision.collisionId,
+							position_[0].getInternal(),
+							position_[1].getInternal(),
+							position_[2].getInternal()));
+				}
+			}
 		}
 		break;
 	case ParticleTypeBounce:
@@ -141,7 +139,7 @@ void PhysicsParticleObject::checkCollision()
 		{
 			action = checkBounceCollision(collision, target);
 
-			velocity_[2] = MIN(velocity_[2], 10.0f);
+			velocity_[2] = MIN(velocity_[2], 10);
 		}
 		break;
 	case ParticleTypeFalling:
@@ -163,34 +161,36 @@ void PhysicsParticleObject::checkCollision()
 		{
 			// Move the shot back to the original position so that the
 			// shot is outside the object after the bounce
-			position_ -= velocity_ / 100.0f;
+			position_ -= velocity_ / 100;
 
 			// Calculate the new bounce position
-			float strength = velocity_.Magnitude();
-			Vector direction = velocity_ / strength;
-			float dotp = -collision.normal.dotP(direction);
-			direction = direction + collision.normal * (2.0f * dotp);
+			fixed strength = velocity_.Magnitude();
+			FixedVector direction = velocity_ / strength;
+			fixed dotp = -collision.normal.dotP(direction);
+			direction = direction + collision.normal * (dotp * 2);
 			velocity_ = direction * strength * collision.deflectFactor;
 
-			float landHeight = 
+			fixed landHeight = 
 				context_->landscapeMaps->getGroundMaps().
 					getInterpHeight(position_[0], position_[1]);
-			float particleHeight = position_[2] - landHeight;
+			fixed particleHeight = position_[2] - landHeight;
 			if (underGroundCollision_)
 			{
-				if (particleHeight > -0.1f) position_[2] = landHeight - 0.1f;
+				if (particleHeight > fixed(true, -1000)) 
+					position_[2] = landHeight - fixed(true, 1000);
 			}
 			else
 			{
-				if (particleHeight < 0.1f) position_[2] = landHeight + 0.1f;
+				if (particleHeight < fixed(true, 1000)) 
+					position_[2] = landHeight + fixed(true, 1000);
 			}
 
 			if (rotateOnCollision_)
 			{
-				Vector up(0.0f, 0.0f, -1.0f);
-				Vector rotAxis = velocity_ * up;
+				FixedVector up(0, 0, -1);
+				FixedVector rotAxis = velocity_ * up;
 				rotAxis.StoreNormalize();
-				avelocity_.setQuatFromAxisAndAngle(rotAxis, velocity_.Magnitude() * 5.0f);
+				avelocity_.setQuatFromAxisAndAngle(rotAxis, velocity_.Magnitude() * 5);
 			}
 		}
 		break;
@@ -226,7 +226,7 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 				case Shield::ShieldTypeRoundMag:
 					{
 						ShieldRoundMag *magShield = (ShieldRoundMag *) shield;
-						Vector force(0.0f, 0.0f, magShield->getDeflectPower() / 50.0f);
+						FixedVector force(0, 0, magShield->getDeflectPower() / 50);
 						velocity_ += force;
 					}
 					return CollisionActionNone;
@@ -254,20 +254,20 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 			case CollisionIdWallLeft:
 				{
 					int landscapeWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
-					position_[0] = landscapeWidth - 10.0f;
+					position_[0] = landscapeWidth - 10;
 				}
 				break;
 			case CollisionIdWallRight:
-				position_[0] = 10.0f;
+				position_[0] = 10;
 				break;
 			case CollisionIdWallTop:
 				{
 					int landscapeHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();
-					position_[1] = landscapeHeight - 10.0f;
+					position_[1] = landscapeHeight - 10;
 				}
 				break;
 			case CollisionIdWallBottom:
-				position_[1] = 10.0f;
+				position_[1] = 10;
 				break;
 			}
 			return CollisionActionNone;
@@ -332,22 +332,22 @@ bool PhysicsParticleObject::getLandscapeCollision(CollisionInfo &collision)
 {
 	// Check for collision with the ground
 	// (or underground collision if applicable)
-	float landHeight = 
+	fixed landHeight = 
 		context_->landscapeMaps->getGroundMaps().
 			getInterpHeight(position_[0], position_[1]);
 	if (underGroundCollision_)
 	{
-		if (position_[2] <= 0.0f) 
+		if (position_[2] <= 0) 
 		{
 			collision.collisionId = CollisionIdLandscape;
-			collision.deflectFactor = 1.0f;
-			collision.normal = Vector(0.0f, 0.0f, -1.0f);
+			collision.deflectFactor = 1;
+			collision.normal = FixedVector(0, 0, -1);
 			return true;
 		}
 		if (position_[2] >= landHeight)
 		{
 			collision.collisionId = CollisionIdLandscape;
-			collision.deflectFactor = 1.0f;
+			collision.deflectFactor = 1;
 			context_->landscapeMaps->getGroundMaps().
 				getInterpNormal(position_[0], position_[1], collision.normal);
 			collision.normal = -collision.normal;
@@ -356,17 +356,17 @@ bool PhysicsParticleObject::getLandscapeCollision(CollisionInfo &collision)
 	}
 	else
 	{
-		if (position_[2] <= 0.0f)
+		if (position_[2] <= 0)
 		{
 			collision.collisionId = CollisionIdLandscape;
-			collision.deflectFactor = 1.0f;
-			collision.normal = Vector(0.0f, 0.0f, 1.0f);
+			collision.deflectFactor = 1;
+			collision.normal = FixedVector(0, 0, 1);
 			return true;
 		}
 		if (position_[2] <= landHeight)
 		{
 			collision.collisionId = CollisionIdLandscape;
-			collision.deflectFactor = 1.0f;
+			collision.deflectFactor = 1;
 			context_->landscapeMaps->getGroundMaps().
 				getInterpNormal(position_[0], position_[1], collision.normal);
 			return true;
@@ -378,13 +378,13 @@ bool PhysicsParticleObject::getLandscapeCollision(CollisionInfo &collision)
 bool PhysicsParticleObject::getRoofCollision(CollisionInfo &collision)
 {
 	// This will return MAX_FLT when there is no roof
-	float maxHeight = context_->landscapeMaps->getRoofMaps().getInterpRoofHeight(
+	fixed maxHeight = context_->landscapeMaps->getRoofMaps().getInterpRoofHeight(
 		position_[0], position_[1]);
 	if (position_[2] >= maxHeight)
 	{
 		collision.collisionId = CollisionIdRoof;
-		collision.deflectFactor = 1.0f;
-		collision.normal = Vector(0.0f, 0.0f, -1.0f);
+		collision.deflectFactor = 1;
+		collision.normal = FixedVector(0, 0, -1);
 		return true;
 	}
 	return false;
@@ -400,32 +400,32 @@ bool PhysicsParticleObject::getWallCollision(CollisionInfo &collision)
 
 	int landscapeWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
 	int landscapeHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();
-	if (position_[0] <= 0.0f)
+	if (position_[0] <= 0)
 	{
 		collision.collisionId = CollisionIdWallLeft;
-		collision.deflectFactor = 1.0f;
-		collision.normal = Vector(1.0f, 0.0f, 0.0f);
+		collision.deflectFactor = 1;
+		collision.normal = FixedVector(1, 0, 0);
 		return true;
 	}
 	else if (position_[0] >= landscapeWidth)
 	{
 		collision.collisionId = CollisionIdWallRight;
-		collision.deflectFactor = 1.0f;
-		collision.normal = Vector(-1.0f, 0.0f, 0.0f);
+		collision.deflectFactor = 1;
+		collision.normal = FixedVector(-1, 0, 0);
 		return true;
 	}
-	else if (position_[1] <= 0.0f)
+	else if (position_[1] <= 0)
 	{
 		collision.collisionId = CollisionIdWallTop;
-		collision.deflectFactor = 1.0f;
-		collision.normal = Vector(0.0f, 1.0f, 0.0f);
+		collision.deflectFactor = 1;
+		collision.normal = FixedVector(0, 1, 0);
 		return true;
 	}
 	else if (position_[1] >= landscapeHeight)
 	{
 		collision.collisionId = CollisionIdWallBottom;
-		collision.deflectFactor = 1.0f;
-		collision.normal = Vector(0.0f, -1.0f, 0.0f);
+		collision.deflectFactor = 1;
+		collision.normal = FixedVector(0, -1, 0);
 		return true;
 	}
 	return false;
@@ -451,7 +451,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	Tank *shotTank = context_->tankContainer->getTankById(info_.playerId_);
 	if (shotTank)
 	{
-		Vector offset = shotTank->getPosition().getTankPosition() -
+		FixedVector offset = shotTank->getPosition().getTankPosition() -
 			target->getLife().getTargetPosition();
 		if (shield->tankInShield(offset))
 		{
@@ -461,7 +461,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	}
 
 	// Check we are in this shield
-	Vector direction = position_ - target->getLife().getTargetPosition();
+	FixedVector direction = position_ - target->getLife().getTargetPosition();
 	if (!shield->inShield(direction)) return false;
 
 	// Perform the shield action
@@ -469,14 +469,14 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	{
 	case Shield::ShieldTypeRoundMag:
 		collision.collisionId = CollisionIdShield;
-		collision.deflectFactor = 1.0f;
-		collision.normal = Vector(0.0f, 0.0f, 1.0f);
+		collision.deflectFactor = 1;
+		collision.normal = FixedVector(0, 0, 1);
 		return true;
 	case Shield::ShieldTypeRoundNormal:
 	case Shield::ShieldTypeRoundReflective:
 		{
 			// Find the deflect factor
-			float deflectFactor = 1.0f;
+			fixed deflectFactor = 1;
 			if (shield->getShieldType() == Shield::ShieldTypeRoundReflective)
 			{
 				ShieldRoundReflective *squareRoundReflective = 
@@ -493,7 +493,7 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 	case Shield::ShieldTypeSquareNormal:
 		{
 			// Find the deflect factor
-			float deflectFactor = 1.0f;
+			fixed deflectFactor = 1;
 			if (shield->getShieldType() == Shield::ShieldTypeSquareReflective)
 			{
 				ShieldSquareReflective *squareSquareReflective = 
@@ -503,25 +503,25 @@ bool PhysicsParticleObject::getShieldCollision(CollisionInfo &collision, Target 
 
 			// Find the smallest penetration side
 			ShieldSquare *squareShield = (ShieldSquare *) shield;
-			Vector &size = squareShield->getSize();
+			FixedVector &size = squareShield->getSize();
 
-			float diff0 = size[0] - fabs(direction[0]);
-			float diff1 = size[1] - fabs(direction[1]);
-			float diff2 = size[2] - fabs(direction[2]);
+			fixed diff0 = size[0] - (direction[0].abs());
+			fixed diff1 = size[1] - (direction[1].abs());
+			fixed diff2 = size[2] - (direction[2].abs());
 			if (diff0 <= diff1 && diff0 <= diff2)
 			{
-				if (direction[0] > 0.0f) collision.normal = Vector(-1.0f, 0.0f, 0.0f);
-				else collision.normal = Vector(1.0f, 0.0f, 0.0f);
+				if (direction[0] > 0) collision.normal = FixedVector(-1, 0, 0);
+				else collision.normal = FixedVector(1, 0, 0);
 			}
 			if (diff1 <= diff0 && diff1 <= diff2)
 			{
-				if (direction[1] > 0.0f) collision.normal = Vector(0.0f, -1.0f, 0.0f);
-				else collision.normal = Vector(0.0f, 1.0f, 0.0f);
+				if (direction[1] > 0) collision.normal = FixedVector(0, -1, 0);
+				else collision.normal = FixedVector(0, 1, 0);
 			}
 			if (diff2 <= diff0 && diff2 <= diff1)
 			{
-				if (direction[2] > 0.0f) collision.normal = Vector(0.0f, 0.0f, -1.0f);
-				else collision.normal = Vector(0.0f, 0.0f, 1.0f);
+				if (direction[2] > 0) collision.normal = FixedVector(0, 0, -1);
+				else collision.normal = FixedVector(0, 0, 1);
 			}
 
 			collision.collisionId = CollisionIdShield;
@@ -544,7 +544,7 @@ bool PhysicsParticleObject::getTargetCollision(CollisionInfo &collision, Target 
 	if (target->getLife().collision(position_))
 	{
 		collision.normal = (position_ - target->getLife().getCenterPosition()).Normalize();	
-		collision.deflectFactor = 1.0f;
+		collision.deflectFactor = 1;
 		collision.collisionId = CollisionIdTarget;
 		return true;
 	}
@@ -559,7 +559,7 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 	// A special case, to add some width to the bounce particle to make it easier
 	// to hit targets with
 	std::map<unsigned int, Target *> collisionTargets;
-	context_->targetSpace->getCollisionSet(position_, 3.0f, collisionTargets, false);
+	context_->targetSpace->getCollisionSet(position_, 3, collisionTargets, false);
 	std::map<unsigned int, Target *>::iterator itor;
 	for (itor = collisionTargets.begin();
 		itor != collisionTargets.end();
@@ -567,10 +567,10 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 	{
 		Target *target = (*itor).second;
 		if (target->getLife().collision(position_) ||
-			target->getLife().collisionDistance(position_) < 3.0f)
+			target->getLife().collisionDistance(position_) < 3)
 		{
 			collision.normal = (position_ - target->getLife().getCenterPosition()).Normalize();	
-			collision.deflectFactor = 1.0f;
+			collision.deflectFactor = 1;
 			collision.collisionId = CollisionIdTarget;
 			return true;
 		}
@@ -603,8 +603,8 @@ void PhysicsParticleActionObject::shotShieldHit(Target *target)
 {
 	Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 	ShotProjectile *shot = (ShotProjectile *) info_.data_;
-	float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
-	if (hurtFactor > 0.0f)
+	fixed hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
+	if (hurtFactor > 0)
 	{
 		if (shield->getShieldType() != Shield::ShieldTypeRoundMag)
 		{
@@ -626,8 +626,8 @@ void PhysicsParticleActionObject::bounceShieldHit(Target *target)
 {
 	Shield *shield = (Shield *) target->getShield().getCurrentShield()->getAction();
 	ShotBounce *shot = (ShotBounce *) info_.data_;
-	float hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
-	if (shield->getShieldType() != Shield::ShieldTypeRoundMag && hurtFactor > 0.0f)
+	fixed hurtFactor = shot->getWeapon()->getShieldHurtFactor(*context_);
+	if (shield->getShieldType() != Shield::ShieldTypeRoundMag && hurtFactor > 0)
 	{
 		context_->actionController->addAction(
 			new ShieldHit(target->getPlayerId(),
@@ -689,6 +689,6 @@ static void addWallCollisionParticle(Vector &position, ScorchedCollisionId colli
 void PhysicsParticleActionObject::shotWallHit(CollisionInfo &collision)
 {
 #ifndef S3D_SERVER
-		addWallCollisionParticle(position_, collision.collisionId);
+		addWallCollisionParticle(position_.asVector(), collision.collisionId);
 #endif
 }

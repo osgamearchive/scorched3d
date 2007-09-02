@@ -32,40 +32,41 @@ class Lightning : public ActionReferenced
 public:
 	Lightning(WeaponLightning *weapon,
 		WeaponFireContext &weaponContext,
-		Vector &position, Vector &velocity);
+		FixedVector &position, FixedVector &velocity);
 	virtual ~Lightning();
 
 	virtual void draw();
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	struct Segment
 	{
-		Vector start;
-		Vector end;
-		Vector direction;
+		FixedVector start;
+		FixedVector end;
+		FixedVector direction;
 		bool endsegment;
-		float size;
+		fixed size;
 	};
 	bool firstTime_;
-	float totalTime_;
+	fixed totalTime_;
 	std::list<Segment> segments_;
 
 	GLTexture *texture_;
 	WeaponLightning *weapon_;
-	Vector position_;
-	Vector velocity_;
+	FixedVector position_;
+	FixedVector velocity_;
 	WeaponFireContext weaponContext_;
 
-	void damageTargets(Vector &position, 
-		std::map<unsigned int, float> &hurtMap);
-	void dispaceDirection(Vector &direction, 
-		Vector &originalDirection, float angle);
-	void generateLightning(int id, int depth, float size, 
-		Vector &originalPosition, Vector &originalDirection,
-		Vector &position, Vector &direction,
-		std::map<unsigned int, float> &hurtMap);
+	void damageTargets(FixedVector &position, 
+		std::map<unsigned int, fixed> &hurtMap);
+	void dispaceDirection(FixedVector &direction, 
+		FixedVector &originalDirection, fixed angle);
+	void generateLightning(int id, int depth, fixed size, 
+		FixedVector &originalPosition, FixedVector &originalDirection,
+		FixedVector &position, FixedVector &direction,
+		std::map<unsigned int, fixed> &hurtMap);
 };
 
 #endif // __INCLUDE_Lightningh_INCLUDE__

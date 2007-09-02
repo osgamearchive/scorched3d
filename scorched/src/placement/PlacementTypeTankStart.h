@@ -39,7 +39,7 @@ public:
 protected:
 	int numobjects;
 	int team;
-	float mincloseness;
+	fixed mincloseness;
 };
 
 

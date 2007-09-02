@@ -24,6 +24,7 @@
 
 #include <engine/GameStateI.h>
 #include <common/Clock.h>
+#include <common/fixed.h>
 
 class SpeedChange : public GameStateI
 {
@@ -41,7 +42,7 @@ public:
 
 protected:
 	static SpeedChange *instance_;
-	void setSpeed(float speed);
+	void setSpeed(fixed speed);
 	Clock frameClock_;
 
 private:

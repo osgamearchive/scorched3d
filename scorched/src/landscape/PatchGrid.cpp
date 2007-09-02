@@ -153,8 +153,8 @@ void PatchGrid::recalculateTankVariance()
 		Target *current = (*itor).second;
 		if (current->getAlive())
 		{
-			float posX = current->getLife().getTargetPosition()[0];
-			float posY = current->getLife().getTargetPosition()[1];
+			float posX = current->getLife().getTargetPosition()[0].asFloat();
+			float posY = current->getLife().getTargetPosition()[1].asFloat();
 
 			posX /= float(patchSize_);
 			posY /= float(patchSize_);
@@ -250,7 +250,7 @@ void PatchGrid::tesselate()
 		if ((*patch)->getVisible())
 		{
 			point = (*patch)->getMidPoint();
-			point[2] = float(hMap_->getHeight((int) point[0], (int) point[1]));
+			point[2] = float(hMap_->getHeight((int) point[0], (int) point[1]).asFloat());
 			point -= pos;
 
 			// Ramp is stored in a factor of 10 i.e. devide by 10
@@ -294,14 +294,14 @@ void PatchGrid::visibility()
 			point2 = (*patch)->getMidPoint();
 			point2[2] = MAX(
 				hMap_->getMaxHeight(((*patch)->getX() + 2) / divideWidth, 
-					((*patch)->getY() + 2)  / divideHeight),
+					((*patch)->getY() + 2)  / divideHeight).asFloat(),
 				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divideWidth, 
-					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight )) / 2.0f;
+					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight ).asFloat()) / 2.0f;
 			point[2] = MAX(
 				hMap_->getMaxHeight(((*patch)->getX() + 2) / divideWidth, 
-					((*patch)->getY() + 2)  / divideHeight),
+					((*patch)->getY() + 2)  / divideHeight).asFloat(),
 				hMap_->getMaxHeight(((*patch)->getX() + (*patch)->getWidth() - 2) / divideWidth, 
-					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight )) / 2.0f;
+					((*patch)->getY() + (*patch)->getWidth() - 2) / divideHeight ).asFloat()) / 2.0f;
 
 			float width = MAX(point[2], (*patch)->getWidth() + 5.0f);
 

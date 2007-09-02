@@ -27,13 +27,13 @@ class HeightMap;
 class TargetGroupsGroupEntry : public TargetGroupsSetEntry
 {
 public:
-	TargetGroupsGroupEntry(HeightMap &map);
+	TargetGroupsGroupEntry(const char *name, HeightMap &map);
 	virtual ~TargetGroupsGroupEntry();
 
 	virtual float getDistance(int x, int y);
 
-	virtual void addObject(TargetGroupEntry *object, bool thin);
-	virtual bool removeObject(TargetGroupEntry *object);
+	virtual void addObject(TargetGroup *object, bool thin);
+	virtual bool removeObject(TargetGroup *object);
 
 protected:
 	float *distance_;

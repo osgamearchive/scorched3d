@@ -141,8 +141,8 @@ bool ServerShotHolder::validateFiredMessage(
 	// Check weapons selection parameters
 	if (accessory->getPositionSelect() == Accessory::ePositionSelectLimit)
 	{
-		Vector position(
-			message.getSelectPositionX(), message.getSelectPositionY());
+		FixedVector position(
+			message.getSelectPositionX(), message.getSelectPositionY(), 0);
 		if ((position - tank->getLife().getTargetPosition()).Magnitude() > 
 			accessory->getPositionSelectLimit())
 		{

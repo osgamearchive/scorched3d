@@ -33,18 +33,18 @@ public:
 		XMLNode *accessoryNode);
 
 	int getMaximumRange() { return maximumRange_; }
-	float getStepTime() { return stepTime_; }
+	fixed getStepTime() { return stepTime_; }
 	int getUseFuel() { return useFuel_; }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponMoveTank, AccessoryPart::AccessoryWeapon);
 
 protected:
 	int maximumRange_;
-	float stepTime_;
+	fixed stepTime_;
 	int useFuel_;
 
 };

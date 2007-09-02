@@ -40,8 +40,8 @@ protected:
 	int maxobjects;
 	int numobjects;
 	int numclusters;
-	float minheight, maxheight;
-	float mincloseness;
+	fixed minheight, maxheight;
+	fixed mincloseness;
 	std::string mask;
 };
 

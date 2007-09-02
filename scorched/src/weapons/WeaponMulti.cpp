@@ -61,7 +61,7 @@ bool WeaponMulti::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponMulti::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	std::list<Weapon *>::iterator itor;
 	for (itor = subWeapons_.begin();

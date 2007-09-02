@@ -22,31 +22,31 @@
 #define __INCLUDE_CameraPositionActionh_INCLUDE__
 
 #include <engine/ActionReferenced.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <set>
 
 class CameraPositionAction : public ActionReferenced
 {
 public:
-	CameraPositionAction(Vector &showPosition,
-		float showTime,
+	CameraPositionAction(FixedVector &showPosition,
+		fixed showTime,
 		unsigned int priority);
 	virtual ~CameraPositionAction();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 
-	float getShowTime() { return showTime_; }
-	float getStartTime() { return startTime_; }
-	Vector &getShowPosition() { return showPosition_; }
+	fixed getShowTime() { return showTime_; }
+	fixed getStartTime() { return startTime_; }
+	FixedVector &getShowPosition() { return showPosition_; }
 	unsigned int &getShowPriority() { return showPriority_; }
 
 protected:
-	float totalTime_;
-	float startTime_;
-	float showTime_;
+	fixed totalTime_;
+	fixed startTime_;
+	fixed showTime_;
 	unsigned int showPriority_;
-	Vector showPosition_;
+	FixedVector showPosition_;
 };
 
 class CameraPositionActionRegistry

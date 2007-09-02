@@ -25,17 +25,18 @@
 #include <map>
 #include <set>
 
+class ScorchedContext;
 class TargetSpace
 {
 public:
 	TargetSpace();
 	virtual ~TargetSpace();
 
-	void addTarget(Target *target);
-	void removeTarget(Target *target);
+	void updateTarget(Target *target);
+	void setContext(ScorchedContext *context) { context_ = context; }
 
-	Target *getCollision(Vector &position);
-	void getCollisionSet(Vector &position, float radius, 
+	Target *getCollision(FixedVector &position);
+	void getCollisionSet(FixedVector &position, fixed radius, 
 		std::map<unsigned int, Target *> &collisionTargets, 
 		bool ignoreHeight = false);
 
@@ -48,6 +49,7 @@ protected:
 		std::map<unsigned int, Target *> targets;
 	};
 
+	ScorchedContext *context_;
 	Square *squares_;
 	int spaceX_, spaceY_; // Position of bottom left of space
 	int spaceW_, spaceH_; // Width, height of space
@@ -69,6 +71,9 @@ protected:
 		x /= spaceSq_;
 		y /= spaceSq_;
 	}
+
+	void addTarget(Target *target);
+	void removeTarget(Target *target);
 
 private:
 	TargetSpace(TargetSpace &other);

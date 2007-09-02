@@ -60,7 +60,7 @@ bool WeaponGroupSelect::parseXML(AccessoryCreateContext &context,XMLNode *access
 }
 
 void WeaponGroupSelect::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	// Find the group to select the objects in
 	TargetGroupsSetEntry *groupEntry = context.landscapeMaps->getGroundMaps().getGroups().
@@ -71,10 +71,10 @@ void WeaponGroupSelect::fireWeapon(ScorchedContext &context,
 	int objectCount = groupEntry->getObjectCount();
 	if (objectCount == 0) return;
 	int object = context.actionController->getRandom().getRandUInt() % objectCount;
-	TargetGroupEntry *entry = groupEntry->getObjectByPos(object);
+	TargetGroup *entry = groupEntry->getObjectByPos(object);
 
-	Vector newPosition = entry->getTarget()->getLife().getTargetPosition();
-	Vector newVelocity = entry->getTarget()->getLife().getVelocity();
+	FixedVector newPosition = entry->getTarget()->getLife().getTargetPosition();
+	FixedVector newVelocity = entry->getTarget()->getLife().getVelocity();
 
 	nextAction_->fireWeapon(context, weaponContext, newPosition, newVelocity);
 }

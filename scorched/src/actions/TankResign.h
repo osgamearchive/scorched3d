@@ -31,7 +31,8 @@ public:
 	virtual ~TankResign();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	bool firstTime_;

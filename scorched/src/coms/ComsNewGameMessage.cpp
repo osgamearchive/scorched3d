@@ -27,8 +27,7 @@
 
 ComsNewGameMessage::ComsNewGameMessage() :
 	ComsMessage("ComsNewGameMessage"),
-	gameStateEnclosed_(false),
-	playerState_(ComsPlayerStateMessage::eTankStateOnly)
+	gameStateEnclosed_(false)
 {
 
 }
@@ -54,7 +53,11 @@ bool ComsNewGameMessage::writeMessage(NetBuffer &buffer)
 	}
 	if (!ScorchedServer::instance()->
 		getOptionsTransient().writeToBuffer(buffer)) return false;
-	if (!playerState_.writeMessage(buffer)) return false;
+
+	ComsPlayerStateMessage playerState(false, true);
+	if (!playerState.writeMessage(playerStateMessage_)) return false;
+	buffer.addToBuffer(playerStateMessage_);
+
 	if (!ScorchedServer::instance()->getAccessoryStore().
 		writeEconomyToBuffer(buffer)) return false;
 
@@ -75,10 +78,22 @@ bool ComsNewGameMessage::readMessage(NetBufferReader &reader)
 		ScorchedClient::instance()->getContext(), levelMessage_.getGroundMapsDefn());
 	if (!ScorchedClient::instance()->
 		getOptionsTransient().readFromBuffer(reader)) return false;
-	if (!playerState_.readMessage(reader)) return false;
+	if (!reader.getFromBuffer(playerStateMessage_)) return false;
 	if (!ScorchedClient::instance()->getAccessoryStore().
 		readEconomyFromBuffer(reader)) return false;
 #endif
 
 	return true;
 }
+
+bool ComsNewGameMessage::parsePlayerStateMessage()
+{
+	NetBufferReader reader(playerStateMessage_);
+	ComsPlayerStateMessage playerState(false, true);
+	if (!playerState.readMessage(reader))
+	{
+		return false;
+	}
+	return true;
+}
+

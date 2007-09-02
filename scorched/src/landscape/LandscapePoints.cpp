@@ -42,7 +42,7 @@ void LandscapePoints::draw()
 		Vector &current = points_[i];
 		current[2] = 
 			ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeight(
-				(int) current[0], (int) current[1]);
+				(int) current[0], (int) current[1]).asFloat();
 		glPushMatrix();
 			glTranslatef(current[0], current[1], current[2]);
 			glScalef(0.15f, 0.15f, 0.15f);

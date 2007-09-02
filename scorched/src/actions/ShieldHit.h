@@ -27,20 +27,20 @@ class ShieldHit : public ActionReferenced
 {
 public:
 	ShieldHit(unsigned int playerId,
-		Vector &position,
-		float hitPercentage);
+		FixedVector &position,
+		fixed hitPercentage);
 	virtual ~ShieldHit();
 
 	virtual void draw();
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 
 protected:
 	bool firstTime_;
-	float totalTime_;
+	fixed totalTime_;
 	unsigned int playerId_;
-	float hitPercentage_;
-	Vector position_;
+	fixed hitPercentage_;
+	FixedVector position_;
 
 };
 

@@ -22,15 +22,25 @@
 #define AFX_TARGET_H__52F37177_46EA_49C8_9B58_E6C57ABDB78A__INCLUDED_
 
 #include <engine/ScorchedContext.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <string>
+
+namespace TargetID
+{
+	const int MIN_TANK_ID = 1;
+	const int START_TRANSIENT_TANK_ID = 9000000;
+	const int MAX_TANK_ID = 10000000;
+	const int MIN_TARGET_ID = 20000000;
+	const int MIN_TARGET_TRANSIENT_ID = 39000000;
+	const int MAX_TARGET_ID = 40000000;
+};
 
 class NetBuffer;
 class NetBufferReader;
 class TargetState;
 class TargetLife;
 class TargetShield;
-class TargetGroupEntry;
+class TargetGroup;
 class TargetParachute;
 class TargetRenderer;
 class Weapon;
@@ -53,7 +63,7 @@ public:
 	TargetLife &getLife() { return *life_; }
 	TargetShield &getShield() { return *shield_; }
 	TargetParachute &getParachute() { return *parachute_; }
-	TargetGroupEntry &getGroup() { return *group_; }
+	TargetGroup &getGroup() { return *group_; }
 	TargetState &getTargetState() { return *targetState_; }
 
 	// Actions
@@ -63,8 +73,8 @@ public:
 	virtual Weapon *getBurnAction() { return burnAction_; }
 
 	// Renderer
-	float getBorder() { return border_; }
-	void setBorder(float b) { border_ = b; }
+	fixed getBorder() { return border_; }
+	void setBorder(fixed b) { border_ = b; }
 	TargetRenderer *getRenderer() { return renderer_; }
 	void setRenderer(TargetRenderer *renderer) { renderer_ = renderer; }
 
@@ -79,14 +89,14 @@ public:
 
 protected:
 	unsigned int playerId_;
-	float border_;
+	fixed border_;
 	ScorchedContext &context_;
 	TargetLife *life_;
 	TargetShield *shield_;
 	TargetParachute *parachute_;
 	TargetRenderer *renderer_;
 	TargetState *targetState_;
-	TargetGroupEntry *group_;
+	TargetGroup *group_;
 	std::string name_;
 	Weapon *deathAction_, *burnAction_;
 

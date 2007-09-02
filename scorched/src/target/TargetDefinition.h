@@ -36,8 +36,8 @@ public:
 
 	virtual bool readXML(XMLNode *node, const char *base);
 	Target *createTarget(unsigned int playerId,
-		Vector &position,
-		Vector &velocity,
+		FixedVector &position,
+		FixedVector &velocity,
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
@@ -45,20 +45,21 @@ public:
 	PlacementGroupDefinition &getGroups() { return groups_; }
 
 protected:
-	float life_;
+	fixed life_;
 	bool boundingsphere_;
 	bool driveovertodestroy_, flattendestroy_;
 	bool nocollision_, nodamageburn_, nofalling_;
 	bool displaydamage_, displayshadow_;
+	bool displayhardwareshadow_;
 	bool nofallingdamage_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;
-	Vector size_;
-	float modelscale_, modelscalediff_;
-	float modelrotation_, modelbrightness_;
-	float modelrotationsnap_;
-	float border_;
+	FixedVector size_;
+	fixed modelscale_, modelscalediff_;
+	fixed modelrotation_, modelbrightness_;
+	fixed modelrotationsnap_;
+	fixed border_;
 	std::string removeaction_;
 	std::string burnaction_;
 	ModelID modelId_;

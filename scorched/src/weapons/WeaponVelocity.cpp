@@ -24,7 +24,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponVelocity);
 
 WeaponVelocity::WeaponVelocity() :
-	velocityChange_(0.0f), abs_(false)
+	velocityChange_(0), abs_(false)
 {
 
 }
@@ -59,14 +59,14 @@ bool WeaponVelocity::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponVelocity::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	// Add a shot that will fall where the original was aimed
 	// but with altered velocity
-	Vector newVelocity;
+	FixedVector newVelocity;
 	if (abs_)
 	{
-		newVelocity = velocity.Normalize() * 50.0f * velocityChange_.getValue(context); 
+		newVelocity = velocity.Normalize() * 50 * velocityChange_.getValue(context); 
 		aimedWeapon_->fireWeapon(context, weaponContext, position, newVelocity);
 	}
 	else

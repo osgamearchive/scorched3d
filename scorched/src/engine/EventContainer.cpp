@@ -82,7 +82,7 @@ void EventContainer::addEvent(ScorchedContext &context,
 	}
 }
 
-void EventContainer::simulate(float frameTime, ScorchedContext &context)
+void EventContainer::simulate(fixed frameTime, ScorchedContext &context)
 {
 	std::map<LandscapeEvent *, EventEntry>::iterator itor;
 	for (itor = events_.begin();

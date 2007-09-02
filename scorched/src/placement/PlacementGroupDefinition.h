@@ -21,7 +21,7 @@
 #if !defined(__INCLUDE_PlacementGroupDefinitionh_INCLUDE__)
 #define __INCLUDE_PlacementGroupDefinitionh_INCLUDE__
 
-#include <target/TargetGroupEntry.h>
+#include <target/TargetGroup.h>
 #include <XML/XMLNode.h>
 #include <vector>
 #include <string>
@@ -36,7 +36,7 @@ public:
 	bool readXML(XMLNode *node);
 
 	void addToGroups(ScorchedContext &context,
-		TargetGroupEntry *objectEntry,
+		TargetGroup *objectEntry,
 		bool thin);
 
 protected:
@@ -44,7 +44,7 @@ protected:
 
 	void addToGroup(const char *groupName,
 		ScorchedContext &context,
-		TargetGroupEntry *objectEntry,
+		TargetGroup *objectEntry,
 		bool thin);
 };
 

@@ -74,7 +74,7 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 				256.0f * (x / (patchesSize / patchSize)) + offset[0],
 				256.0f * (y / (patchesSize / patchSize)) + offset[1],
 				offset[2]);
-			entry.anyoffset = (entry.offset != Vector::nullVector);
+			entry.anyoffset = (entry.offset != Vector::getNullVector());
 			entry.ignore = (((middle - entry.offset).Magnitude()) > allowedDistance);
 		}
 	}

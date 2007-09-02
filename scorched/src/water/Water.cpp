@@ -94,7 +94,7 @@ void Water::generate(ProgressCounter *counter)
 		(LandscapeTexBorderWater *) tex.border;
 
 	// Set quick water attributes
-	height_ = water->height;
+	height_ = water->height.asFloat();
 	waterOn_ = true;
 
 	// General all other water items

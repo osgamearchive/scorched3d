@@ -36,8 +36,8 @@
 #endif
 
 unsigned int ScorchedPort = 27270;
-char *ScorchedVersion = "41-BETA2";
-char *ScorchedProtocolVersion = "dc";
+char *ScorchedVersion = "41-BETA3";
+char *ScorchedProtocolVersion = "dd";
 #ifdef __DATE__
 char *ScorchedBuildTime = __DATE__;
 #else

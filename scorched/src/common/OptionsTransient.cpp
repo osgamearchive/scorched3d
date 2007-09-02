@@ -33,13 +33,13 @@ OptionsTransient::OptionsTransient(OptionsScorched &optionsGame) :
 	currentGameNo_(options_, "CurrentGameNo",
 		"The current game", 0, 0),
 	windAngle_(options_, "WindAngle",
-		"The current wind angle (direction)", 0, 0.0f),
+		"The current wind angle (direction)", 0, 0),
 	windStartAngle_(options_, "WindStartAngle",
-		"The angle (direction) the wind started the round on", 0, 0.0f),
+		"The angle (direction) the wind started the round on", 0, 0),
 	windSpeed_(options_, "WindSpeed",
-		"The current speed of the wind", 0, 0.0f),	
+		"The current speed of the wind", 0, 0),	
 	windDirection_(options_, "WindDirection",
-		"The current wind direction vector", 0, Vector::nullVector),
+		"The current wind direction vector", 0, FixedVector::getNullVector()),
 	wallType_(options_, "WallType",
 		"The current wall type", 0, 0)
 {
@@ -167,11 +167,14 @@ void OptionsTransient::nextRound()
 
 void OptionsTransient::newGameWind()
 {
+	RandomGenerator random;
+	random.seed(rand());
+
 	switch(optionsGame_.getWindForce())
 	{
 		case OptionsGame::WindRandom:
 			windSpeed_.setValue(
-				float((int)(RAND * 5.9f))); // ie range 0->5
+				random.getRandFixed() * fixed(true, 59000).asInt()); // ie range 0->5
 			break;
 		case OptionsGame::Wind1:
 		case OptionsGame::Wind2:
@@ -179,41 +182,38 @@ void OptionsTransient::newGameWind()
 		case OptionsGame::Wind4:
 		case OptionsGame::Wind5:
 			windSpeed_.setValue(
-				float(int(optionsGame_.getWindForce()) - 1));
+				fixed(int(optionsGame_.getWindForce()) - 1));
 			break;
 		case OptionsGame::WindBreezy:
 			windSpeed_.setValue(
-				float((int)(RAND * 2.9f))); // ie range 0->2);
+				random.getRandFixed() * fixed(true, 29000).asInt());// ie range 0->2);
 			break;
 		case OptionsGame::WindGale:
 			windSpeed_.setValue(
-				float((int)(RAND * 2.9f)) + 3.0f); // ie range 3->5);
+				random.getRandFixed() * fixed(true, 29000).asInt() + 3); // ie range 3->5);
 			break;
 		case OptionsGame::WindNone:
 		default:
-			windSpeed_.setValue(0.0f);
+			windSpeed_.setValue(0);
 			break;
 	}
 
-	if (windSpeed_.getValue() > 0.0f)
+	if (windSpeed_.getValue() > 0)
 	{
-		float winAngle = RAND * 360.0f;
-		winAngle = float(int(winAngle * 100.0f)) / 100.0f; // Round
+		fixed winAngle = random.getRandFixed() * 360;
 		windStartAngle_.setValue(winAngle);
 		windAngle_.setValue(winAngle);
 		
-		float windDirX = sinf(winAngle / 180.0f * 3.14f);
-		float windDirY = cosf(winAngle / 180.0f * 3.14f);
-		windDirX = float(int(windDirX * 100.0f)) / 100.0f; // Round
-		windDirY = float(int(windDirY * 100.0f)) / 100.0f; // Round
-		Vector windDir(windDirX, windDirY, 0.0f);
+		fixed windDirX = (winAngle / fixed(180) * fixed::XPI).sin();
+		fixed windDirY = (winAngle / fixed(180) * fixed::XPI).cos();
+		FixedVector windDir(windDirX, windDirY, 0);
 		windDirection_.setValue(windDir);
 	}
 	else
 	{
-		windStartAngle_.setValue(0.0f);
-		windAngle_.setValue(0.0f);
-		windDirection_.setValue(Vector::nullVector);
+		windStartAngle_.setValue(0);
+		windAngle_.setValue(0);
+		windDirection_.setValue(FixedVector::getNullVector());
 	}
 }
 
@@ -224,14 +224,18 @@ void OptionsTransient::nextRoundWind()
 		return;
 	}
 
-	if (windSpeed_.getValue() > 0.0f)
+	if (windSpeed_.getValue() > 0)
 	{
-		float winAngle = windStartAngle_.getValue() + ((RAND * 40.0f) - 20.0f);
+		RandomGenerator random;
+		random.seed(rand());
+
+		fixed winAngle = windStartAngle_.getValue() + ((random.getRandFixed() * 40) - 20);
 		windAngle_.setValue(winAngle);
 		
-		Vector winDir(sinf(winAngle / 180.0f * 3.14f),
-				cosf(winAngle / 180.0f * 3.14f), 0.0f);
-		windDirection_.setValue(winDir);
+		fixed windDirX = (winAngle / fixed(180) * fixed::XPI).sin();
+		fixed windDirY = (winAngle / fixed(180) * fixed::XPI).cos();
+		FixedVector windDir(windDirX, windDirY, 0);
+		windDirection_.setValue(windDir);
 	}
 }
 

@@ -38,17 +38,18 @@ public:
 	// Generates the next level
 	void generateMaps(
 		ScorchedContext &context,
+		std::list<FixedVector> &tankPositions,
 		ProgressCounter *counter = 0);
 
 	// Height map functions
-	float getHeight(int w, int h);
-	float getInterpHeight(float w, float h);
-	Vector &getNormal(int w, int h);
-	void getInterpNormal(float w, float h, Vector &normal);
+	fixed getHeight(int w, int h);
+	fixed getInterpHeight(fixed w, fixed h);
+	FixedVector &getNormal(int w, int h);
+	void getInterpNormal(fixed w, fixed h, FixedVector &normal);
 	bool getIntersect(Line &direction, Vector &intersect);
 
 	// Napalm map functions
-	float &getNapalmHeight(int w, int h)
+	fixed &getNapalmHeight(int w, int h)
 		{ return nmap_.getNapalmHeight(w, h); }
 
 	// Playable landscape area fns

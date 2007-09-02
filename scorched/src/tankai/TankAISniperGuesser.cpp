@@ -37,18 +37,21 @@ TankAISniperGuesser::~TankAISniperGuesser()
 bool TankAISniperGuesser::guess(Tank *tank, Vector &target, 
 	float distForSniper, bool checkIntersection, float offset)
 {
-	float angleXYDegs, angleYZDegs, power;
+	fixed angleXYDegs, angleYZDegs, power;
+	RandomGenerator generator;
+	generator.seed(rand());
 
-	Vector shotPosition = tank->getPosition().getTankPosition();
+	FixedVector shotPosition = tank->getPosition().getTankPosition();
 	if (TankLib::getSniperShotTowardsPosition(
 		ScorchedServer::instance()->getContext(),
-		shotPosition, target, 
-		distForSniper, 
+		shotPosition, 
+		FixedVector::fromVector(target), 
+		fixed::fromFloat(distForSniper), 
 		angleXYDegs, angleYZDegs, power,
 		checkIntersection))
 	{
-		float xyOffset = RAND * offset;
-		float yzOffset = offset - xyOffset;
+		fixed xyOffset = generator.getRandFixed() * fixed::fromFloat(offset);
+		fixed yzOffset = fixed::fromFloat(offset) - xyOffset;
 
 		tank->getPosition().rotateGunXY(angleXYDegs + xyOffset, false);
 		tank->getPosition().rotateGunYZ(angleYZDegs + yzOffset, false);

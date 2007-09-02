@@ -24,6 +24,7 @@
 #include <server/ServerTooFewPlayersStimulus.h>
 #include <server/ServerMessageHandler.h>
 #include <server/ServerNextShotState.h>
+#include <server/ServerShotState.h>
 #include <server/ServerCommon.h>
 #include <common/Logger.h>
 #include <common/StatsLogger.h>
@@ -42,8 +43,9 @@
 
 float ServerShotFinishedState::speed_(1.0f);
 
-ServerShotFinishedState::ServerShotFinishedState() :
-	GameStateI("ServerShotFinishedState")
+ServerShotFinishedState::ServerShotFinishedState(ServerShotState *shotState) :
+	GameStateI("ServerShotFinishedState"),
+	shotState_(shotState)
 {
 }
 
@@ -57,8 +59,18 @@ void ServerShotFinishedState::enterState(const unsigned state)
 	if (ScorchedServer::instance()->getOptionsGame().getAutoSendSyncCheck())
 	{
 		ServerCommon::serverLog("Sending auto synccheck");
+
+		std::list<unsigned int> destinations;
+		std::set<unsigned int> &playing = shotState_->getPlaying();
+		std::set<unsigned int>::iterator itor;
+		for (itor = playing.begin();
+			itor != playing.end();
+			itor++)
+		{
+			destinations.push_back(*itor);
+		}
 		ComsSyncCheckMessage syncCheck;
-		ComsMessageSender::sendToAllPlayingClients(syncCheck);
+		ComsMessageSender::sendToMultipleClients(syncCheck, destinations);
 	}
 
 	// Remove any tanks that have disconected during the shot state
@@ -88,7 +100,7 @@ void ServerShotFinishedState::enterState(const unsigned state)
 				getOptionsGame().getRoundScoreTime();
 		}
 
-		ComsPlayerStateMessage playerMessage(ComsPlayerStateMessage::eTankFullState);
+		ComsPlayerStateMessage playerMessage(true, true);
 		ComsMessageSender::sendToAllPlayingClients(playerMessage);
 		ComsScoreMessage message(finalScore);
 		ComsMessageSender::sendToAllPlayingClients(message);

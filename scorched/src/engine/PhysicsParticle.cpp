@@ -22,6 +22,7 @@
 #include <engine/ScorchedContext.h>
 
 PhysicsParticle::PhysicsParticle()  : 
+	Action("PhysicsParticle"),
 	collision_(false), totalActionTime_(0)
 {
 
@@ -34,8 +35,8 @@ PhysicsParticle::~PhysicsParticle()
 
 void PhysicsParticle::setPhysics(
 	PhysicsParticleInfo info,
-	Vector &position, Vector &velocity,
-	float sphereSize, float sphereDensity, float windFactor,
+	FixedVector &position, FixedVector &velocity,
+	fixed sphereSize, fixed sphereDensity, fixed windFactor,
 	bool underGroundCollision, bool rotateOnCollision)
 {
 	physicsObject_.setPhysics(
@@ -48,7 +49,7 @@ void PhysicsParticle::setPhysics(
 	physicsObject_.setHandler(this);
 }
 
-void PhysicsParticle::applyForce(Vector &force)
+void PhysicsParticle::applyForce(FixedVector &force)
 {
 	physicsObject_.applyForce(force);
 }
@@ -59,33 +60,33 @@ void PhysicsParticle::collision(PhysicsParticleObject &position,
 	collision_ = true;
 }
 
-void PhysicsParticle::setCurrentPosition(Vector &position)
+void PhysicsParticle::setCurrentPosition(FixedVector &position)
 {
 	physicsObject_.setPosition(position);
 }
 
-Vector &PhysicsParticle::getCurrentPosition()
+FixedVector &PhysicsParticle::getCurrentPosition()
 {
 	return physicsObject_.getPosition();
 }
 
-Vector &PhysicsParticle::getCurrentVelocity()
+FixedVector &PhysicsParticle::getCurrentVelocity()
 {
 	return physicsObject_.getVelocity();
 }
 
-Vector4 &PhysicsParticle::getRotationQuat()
+FixedVector4 &PhysicsParticle::getRotationQuat()
 {
 	return physicsObject_.getRotationQuat();
 }
 
-void PhysicsParticle::simulate(float frameTime, bool &remove)
+void PhysicsParticle::simulate(fixed frameTime, bool &remove)
 {
 	physicsObject_.simulate(frameTime);
 	Action::simulate(frameTime, remove);
 	if (collision_) remove = true;
 	totalActionTime_ += frameTime;
-	if (totalActionTime_ > 30.0f) remove = true;
+	if (totalActionTime_ > 30) remove = true;
 }
 
 PhysicsParticleReferenced::PhysicsParticleReferenced()

@@ -27,6 +27,7 @@
 #include <target/TargetLife.h>
 #include <target/TargetParachute.h>
 #include <target/TargetShield.h>
+#include <target/TargetState.h>
 #include <tankai/TankAIStore.h>
 #ifndef S3D_SERVER
 	#include <tankgraph/TargetRendererImplTank.h>
@@ -40,8 +41,8 @@
 
 TankDefinition::TankDefinition() :
 	team_(0),
-	life_(100.0f), boundingsphere_(true),
-	size_(2.0f, 2.0f, 2.0f),
+	life_(100), boundingsphere_(true),
+	size_(2, 2, 2),
 	driveovertodestroy_(false)
 {
 	shadow_.setDrawShadow(false);
@@ -74,7 +75,7 @@ bool TankDefinition::readXML(XMLNode *node, const char *base)
 }
 
 Tank *TankDefinition::createTank(unsigned int playerId,
-	Vector &position,
+	FixedVector &position,
 	ScorchedContext &context,
 	RandomGenerator &generator)
 {
@@ -124,7 +125,7 @@ Tank *TankDefinition::createTank(unsigned int playerId,
 	tank->getAvatar().loadFromFile(getDataFile("data/avatars/computer.png"));
 	tank->getLife().setMaxLife(life_);
 	tank->getLife().setSize(size_);
-	tank->getLife().setDriveOverToDestroy(driveovertodestroy_);
+	tank->getTargetState().setDriveOverToDestroy(driveovertodestroy_);
 	tank->getState().setState(TankState::sInitializing);
 	tank->getState().setState(TankState::sPending);
 	tank->newMatch();

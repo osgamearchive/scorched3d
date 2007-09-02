@@ -75,8 +75,6 @@ public:
 	int getLives() { return lives_; }
 	void setLives(int lives) { lives_ = lives; }
 	int getMaxLives() { return maxLives_; }
-	void setNeedSync(bool needsync) { needsync_ = needsync; }
-	bool getNeedSync() { return needsync_; }
 	void setDestroy(bool destroy) { destroy_ = destroy; }
 	bool getDestroy() { return destroy_; }
 	
@@ -97,7 +95,6 @@ protected:
 	bool spectator_;
 	bool muted_;
 	bool skipshots_;
-	bool needsync_;
 	bool destroy_;
 
 };

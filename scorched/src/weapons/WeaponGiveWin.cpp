@@ -54,16 +54,16 @@ bool WeaponGiveWin::parseXML(AccessoryCreateContext &context, XMLNode *accessory
 }
 
 void WeaponGiveWin::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	context.actionController->addAction(
-		new CallbackWeapon(this, 0.0f, 0, 
+		new CallbackWeapon("WeaponGiveWin", this, 0, 0, 
 			weaponContext, position, velocity));
 }
 
 void WeaponGiveWin::weaponCallback(
 	ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 	unsigned int data)
 {
 	if (context.optionsGame->getTeams() > 1)

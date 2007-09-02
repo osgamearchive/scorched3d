@@ -33,26 +33,27 @@ class ShotBounce :
 public:
 	ShotBounce(
 		WeaponRoller *weapon, 
-		Vector &startPosition, Vector &velocity,
+		FixedVector &startPosition, FixedVector &velocity,
 		WeaponFireContext &weaponContext);
 	virtual ~ShotBounce();
 
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 	virtual void init();
 	virtual void draw();
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
+	virtual const char *getActionDetails();
 
 	unsigned int getPlayerId() { return weaponContext_.getPlayerId(); }
 	WeaponRoller *getWeapon() { return weapon_; }
 
 protected:
 	ViewPoints::ViewPoint *vPoint_;
-	Vector startPosition_, velocity_;
-	Vector lookFrom_;
+	FixedVector startPosition_, velocity_;
+	FixedVector lookFrom_;
 	WeaponRoller *weapon_;
 	WeaponFireContext weaponContext_;
-	float totalTime_;
+	fixed totalTime_;
 	ModelRendererSimulator *model_;
 
 	void doCollision();

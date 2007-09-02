@@ -24,7 +24,7 @@
 #include <math.h>
 
 SplinePath::SplinePath() : 
-	pathTime_(0.0f), pointsPerSecond_(0.0f)
+	pathTime_(0), pointsPerSecond_(0)
 {
 }
 
@@ -33,46 +33,46 @@ SplinePath::~SplinePath()
 }
 
 void SplinePath::generate(
-	std::vector<Vector> &inPoints, 
+	std::vector<FixedVector> &inPoints, 
 	int resolution,
 	int polynomials,
-	float pointsPerSecond)
+	fixed pointsPerSecond)
 {
 	pointsPerSecond_ = pointsPerSecond;
 	controlPoints_ = inPoints;
 	SplineCurve::generate(controlPoints_, pathPoints_, 
 		resolution, polynomials);
 
-	DIALOG_ASSERT(pointsPerSecond_ > 0.0f);
+	DIALOG_ASSERT(pointsPerSecond_ > 0);
 	DIALOG_ASSERT(!controlPoints_.empty());
 	DIALOG_ASSERT(!pathPoints_.empty());
 }
 
-void SplinePath::simulate(float frameTime)
+void SplinePath::simulate(fixed frameTime)
 {
 	pathTime_ += frameTime;
 }
 
-void SplinePath::getPathAttrs(Vector &position, Vector &direction)
+void SplinePath::getPathAttrs(FixedVector &position, FixedVector &direction)
 {
-	float currentPointTime = pathTime_ * pointsPerSecond_;
+	fixed currentPointTime = pathTime_ * pointsPerSecond_;
 
 	int noPoints = (int) pathPoints_.size();
-	int currentPointId = (int) floorf(currentPointTime);
-	float currentPointDiff = currentPointTime - float(currentPointId);
+	int currentPointId = (int) (currentPointTime).asInt();
+	fixed currentPointDiff = currentPointTime - fixed(currentPointId);
 	currentPointId = currentPointId % noPoints;
 	int nextPointId = currentPointId + 1;
 	nextPointId = nextPointId % noPoints;
 	int nextNextPointId = currentPointId + 2;
 	nextNextPointId = nextNextPointId % noPoints;
 
-	Vector &currentPoint = pathPoints_[currentPointId];
-	Vector &nextPoint = pathPoints_[nextPointId];
-	Vector &nextNextPoint = pathPoints_[nextNextPointId];
+	FixedVector &currentPoint = pathPoints_[currentPointId];
+	FixedVector &nextPoint = pathPoints_[nextPointId];
+	FixedVector &nextNextPoint = pathPoints_[nextNextPointId];
 
-	Vector diff = nextPoint - currentPoint;
-	Vector nextDiff = nextNextPoint - nextPoint;
-	Vector diffDiff = nextDiff - diff;
+	FixedVector diff = nextPoint - currentPoint;
+	FixedVector nextDiff = nextNextPoint - nextPoint;
+	FixedVector diffDiff = nextDiff - diff;
 
 	diffDiff *= currentPointDiff;
 	direction = diff;
@@ -91,7 +91,7 @@ void SplinePath::getPathAttrs(Vector &position, Vector &direction)
 void SplinePath::draw()
 {
 #ifndef S3D_SERVER
-	std::vector<Vector>::iterator itor;
+	std::vector<FixedVector>::iterator itor;
 	GLState state(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_LINE_LOOP);
@@ -99,7 +99,7 @@ void SplinePath::draw()
 			itor != pathPoints_.end();
 			itor++)
 		{
-			Vector &pt = (*itor);
+			Vector &pt = (*itor).asVector();
 			glVertex3fv(pt);
 		}
 	glEnd();
@@ -111,13 +111,13 @@ void SplinePath::draw()
 			itor != controlPoints_.end();
 			itor++)
 		{
-			Vector &pt = (*itor);
+			Vector &pt = (*itor).asVector();
 			glVertex3fv(pt);
 		}
 		glColor3f(0.5f, 0.5f, 1.0f);
-		Vector position, direction;
+		FixedVector position, direction;
 		getPathAttrs(position, direction);
-		glVertex3fv(position);
+		glVertex3fv(position.asVector());
 	glEnd();
 
 	glPointSize(1.0f);

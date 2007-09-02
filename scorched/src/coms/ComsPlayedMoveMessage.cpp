@@ -24,7 +24,7 @@ ComsPlayedMoveMessage::ComsPlayedMoveMessage(unsigned int playerId, MoveType typ
 	ComsMessage("ComsPlayedMoveMessage"),
 	moveType_(type),
 	weaponId_(0),
-	rotationXY_(0.0f), rotationYZ_(0.0f), power_(0.0f), playerId_(playerId),
+	rotationXY_(0), rotationYZ_(0), power_(0), playerId_(playerId),
 	selectPositionX_(0), selectPositionY_(0)
 {
 }
@@ -34,9 +34,9 @@ ComsPlayedMoveMessage::~ComsPlayedMoveMessage()
 }
 
 void ComsPlayedMoveMessage::setShot(unsigned int weaponId,
-	float rotationXY,
-	float rotationYZ,
-	float power,
+	fixed rotationXY,
+	fixed rotationYZ,
+	fixed power,
 	int selectPositionX, 
 	int selectPositionY)
 {

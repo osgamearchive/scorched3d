@@ -56,9 +56,10 @@ static const int NoMovementTransitions = 4;
 TankMovement::TankMovement(WeaponFireContext &weaponContext,
 	WeaponMoveTank *weapon,
 	int positionX, int positionY) : 
+	ActionReferenced("TankMovement"),
 	weaponContext_(weaponContext), 
 	positionX_(positionX), positionY_(positionY),
-	timePassed_(0.0f), vPoint_(0), weapon_(weapon),
+	timePassed_(0), vPoint_(0), weapon_(weapon),
 	remove_(false), moving_(true), moveSoundSource_(0),
 	smokeCounter_(0.1f, 0.1f), stepCount_(0)
 {
@@ -92,7 +93,7 @@ void TankMovement::init()
 			Sound::instance()->fetchOrCreateBuffer((char *)
 				getDataFile("data/wav/movement/tankmove.wav"));
 		moveSoundSource_ = new VirtualSoundSource(VirtualSoundPriority::eAction, true, false);
-		moveSoundSource_->setPosition(tank->getPosition().getTankPosition());
+		moveSoundSource_->setPosition(tank->getPosition().getTankPosition().asVector());
 		moveSoundSource_->play(moveSound);
 	}
 #endif // #ifndef S3D_SERVER
@@ -109,7 +110,7 @@ void TankMovement::init()
 		tank, 
 		weapon_, 
 		*context_);
-	Vector pos((int) positionX_, (int) positionY_);
+	FixedVector pos(positionX_, positionY_, 0);
 	mmap.calculatePosition(pos);
 	
 	MovementMap::MovementMapEntry entry =
@@ -152,12 +153,12 @@ void TankMovement::init()
 			int secy = int(secpt & 0xffff);
 			int diffX = secx - firstx;
 			int diffY = secy - firsty;
-			float ang = (atan2f((float) diffY, (float) diffX) / 3.14f * 180.0f) - 90.0f;
+			fixed ang = (atan2x(fixed(diffY), fixed(diffX)) / fixed::XPI * 180) - 90;
 
 			for (int i=0; i<NoMovementTransitions; i++)
 			{
-				float currentX = firstx + diffX/float(NoMovementTransitions)*float(i+1);
-				float currentY = firsty + diffY/float(NoMovementTransitions)*float(i+1);
+				fixed currentX = fixed(firstx) + fixed(diffX)/fixed(NoMovementTransitions)*fixed(i+1);
+				fixed currentY = fixed(firsty) + fixed(diffY)/fixed(NoMovementTransitions)*fixed(i+1);
 				expandedPositions_.push_back(
 					PositionEntry(
 						firstx, firsty, 
@@ -175,7 +176,14 @@ void TankMovement::init()
 	}
 }
 
-void TankMovement::simulate(float frameTime, bool &remove)
+const char *TankMovement::getActionDetails()
+{
+	return formatString("%u %i,%i %s",
+		weaponContext_.getPlayerId(), positionX_, positionY_, 
+		weapon_->getParent()->getName());
+}
+
+void TankMovement::simulate(fixed frameTime, bool &remove)
 {
 	if (!remove_)
 	{
@@ -199,7 +207,7 @@ void TankMovement::simulate(float frameTime, bool &remove)
 	ActionReferenced::simulate(frameTime, remove);
 }
 
-void TankMovement::simulationMove(float frameTime)
+void TankMovement::simulationMove(fixed frameTime)
 {
 	Tank *tank = 
 		context_->tankContainer->getTankById(weaponContext_.getPlayerId());
@@ -224,12 +232,12 @@ void TankMovement::simulationMove(float frameTime)
 						tank->isTemp());
 					if (model && model->getMovementSmoke())
 					{
-						if (smokeCounter_.nextDraw(frameTime))
+						if (smokeCounter_.nextDraw(frameTime.asFloat()))
 						{
 							Landscape::instance()->getSmoke().addSmoke(
-								tank->getLife().getTargetPosition()[0],
-								tank->getLife().getTargetPosition()[1],
-								tank->getLife().getTargetPosition()[2]);
+								tank->getLife().getTargetPosition()[0].asFloat(),
+								tank->getLife().getTargetPosition()[1].asFloat(),
+								tank->getLife().getTargetPosition()[2].asFloat());
 						}
 					}
 				}
@@ -238,7 +246,7 @@ void TankMovement::simulationMove(float frameTime)
 				// Move the tank one position every stepTime seconds
 				// i.e. 1/stepTime positions a second
 				timePassed_ += frameTime;
-				float stepTime = weapon_->getStepTime();
+				fixed stepTime = weapon_->getStepTime();
 				while (timePassed_ >= stepTime)
 				{
 					timePassed_ -= stepTime;
@@ -262,7 +270,7 @@ void TankMovement::simulationMove(float frameTime)
 			context_->tankContainer->getTankById(weaponContext_.getPlayerId());
 		if (current)
 		{
-			current->getLife().setRotation(0.0f);
+			current->getLife().setRotation(0);
 			if (current->getState().getState() == TankState::sNormal)
 			{
 				// Move the tank to the final position
@@ -276,23 +284,23 @@ void TankMovement::simulationMove(float frameTime)
 
 void TankMovement::moveTank(Tank *tank)
 {
-	float x = expandedPositions_.front().x;
-	float y = expandedPositions_.front().y;
-	float a = expandedPositions_.front().ang;
+	fixed x = expandedPositions_.front().x;
+	fixed y = expandedPositions_.front().y;
+	fixed a = expandedPositions_.front().ang;
 	bool useF = expandedPositions_.front().useFuel;
 
 	int firstx = expandedPositions_.front().firstX;
 	int firsty = expandedPositions_.front().firstY;
-	float firstz = context_->landscapeMaps->getGroundMaps().getHeight(firstx, firsty);
+	fixed firstz = context_->landscapeMaps->getGroundMaps().getHeight(firstx, firsty);
 
 	int secondx = expandedPositions_.front().secondX;
 	int secondy = expandedPositions_.front().secondY;
-	float secondz = context_->landscapeMaps->getGroundMaps().getHeight(secondx, secondy);
-	float z = context_->landscapeMaps->getGroundMaps().getInterpHeight(x, y);
+	fixed secondz = context_->landscapeMaps->getGroundMaps().getHeight(secondx, secondy);
+	fixed z = context_->landscapeMaps->getGroundMaps().getInterpHeight(x, y);
 	expandedPositions_.pop_front();
 
 	// Form the new tank position
-	Vector newPos(x, y, z);
+	FixedVector newPos(x, y, z);
 
 	// Check we are not trying to climb to high (this may be due
 	// to the landscape changing after we started move)
@@ -309,7 +317,7 @@ void TankMovement::moveTank(Tank *tank)
 		context_->optionsGame->getMovementRestriction() ==
 		OptionsGame::MovementRestrictionLandOrAbove)
 	{
-		float waterHeight = -10.0f;
+		fixed waterHeight = -10;
 		LandscapeTex &tex = *context_->landscapeMaps->getDefinitions().getTex();
 		if (tex.border->getType() == LandscapeTexType::eWater)
 		{
@@ -321,9 +329,9 @@ void TankMovement::moveTank(Tank *tank)
 		if (context_->optionsGame->getMovementRestriction() ==
 			OptionsGame::MovementRestrictionLandOrAbove)
 		{
-			if (waterHeight > startPosition_[2] - 0.1f)
+			if (waterHeight > startPosition_[2] - fixed(true, 1000))
 			{
-				waterHeight = startPosition_[2] - 0.1f;
+				waterHeight = startPosition_[2] - fixed(true, 1000);
 			}
 		}
 
@@ -356,7 +364,7 @@ void TankMovement::moveTank(Tank *tank)
 	// Remove the targets that this tank "drives over"
 	std::map<unsigned int, Target *> collisionTargets;
 	context_->targetSpace->getCollisionSet(
-		tank->getLife().getTargetPosition(), 3.0f, collisionTargets, false);
+		tank->getLife().getTargetPosition(), 3, collisionTargets, false);
 	std::map<unsigned int, Target *>::iterator itor;
 	for (itor = collisionTargets.begin();
 		itor != collisionTargets.end();
@@ -366,7 +374,7 @@ void TankMovement::moveTank(Tank *tank)
 		// and we can destroy it
 		Target *target = (*itor).second;
 		if (target->isTarget() &&
-			target->getLife().getDriveOverToDestroy())
+			target->getTargetState().getDriveOverToDestroy())
 		{
 			// Kill the target we've driven over
 			context_->actionController->addAction(
@@ -383,7 +391,7 @@ void TankMovement::moveTank(Tank *tank)
 				weapon->fireWeapon(*context_, 
 					weaponContext_,
 					tank->getLife().getTargetPosition(), 
-					Vector::nullVector);
+					FixedVector::getNullVector());
 			}
 		}
 	}
@@ -426,15 +434,15 @@ void TankMovement::moveTank(Tank *tank)
 				GLImageModifier::addBitmapToLandscape(
 					*context_,
 					*image,
-					newPos[0], 
-					newPos[1],
+					newPos[0].asFloat(), 
+					newPos[1].asFloat(),
 					0.04f, 0.04f,
 					true);
 			}
 		}
 	}
 
-	if (moveSoundSource_) moveSoundSource_->setPosition(newPos);
+	if (moveSoundSource_) moveSoundSource_->setPosition(newPos.asVector());
 
 #endif // #ifndef S3D_SERVER
 

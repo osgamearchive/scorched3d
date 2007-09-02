@@ -24,6 +24,7 @@
 #include <string>
 #include <list>
 #include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <common/FileLines.h>
 #include <common/NumberParser.h>
 
@@ -52,6 +53,11 @@ public:
 		NodeType = XMLNode::XMLNodeType);
 	XMLNode(const char *name, unsigned int content, 
 		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, fixed content, 
+		NodeType = XMLNode::XMLNodeType);
+	XMLNode(const char *name, FixedVector &content, 
+		NodeType = XMLNode::XMLNodeType);
+
 	virtual ~XMLNode();
 
 	bool writeToFile(const char *fileName);
@@ -83,7 +89,11 @@ public:
 		bool failOnError = true, bool remove = true);
 	bool getNamedChild(const char *name, unsigned int &value,
 		bool failOnError = true, bool remove = true);
+	bool getNamedChild(const char *name, fixed &value,
+		bool failOnError = true, bool remove = true);
 	bool getNamedChild(const char *name, Vector &value,
+		bool failOnError = true, bool remove = true);
+	bool getNamedChild(const char *name, FixedVector &value,
 		bool failOnError = true, bool remove = true);
 
 	bool failChildren();

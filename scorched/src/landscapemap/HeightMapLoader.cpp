@@ -23,25 +23,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
-
-GLImage *HeightMapLoader::saveTerrain(HeightMap &hmap)
-{
-	GLBitmap *bitmap = new GLBitmap(hmap.getMapWidth(), hmap.getMapHeight());
-	unsigned char *bits = bitmap->getBits();
-	for (int y=0; y<hmap.getMapHeight(); y++)
-	{
-		for (int x=0; x<hmap.getMapWidth(); x++)
-		{
-			float height = hmap.getHeight(x,y);
-			bits[0] = (unsigned char)(height);
-			bits[1] = (unsigned char)(height);
-			bits[2] = (unsigned char)(height);
-
-			bits+=3;
-		}
-	}
-	return bitmap;
-}
+#include <common/Logger.h>
 
 void HeightMapLoader::loadTerrain(HeightMap &hmap, 
 	GLImage &bitmap,
@@ -51,44 +33,48 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 	if (counter) counter->setNewOp("Loading Landscape");
 	hmap.reset();
 
-	float dhx =  (float) bitmap.getWidth() / (float) (hmap.getMapWidth()+1);
-	float dhy =  (float) bitmap.getHeight() / (float) (hmap.getMapHeight()+1);
+	fixed dhx = fixed(bitmap.getWidth()) / fixed(hmap.getMapWidth()+1);
+	fixed dhy = fixed(bitmap.getHeight()) / fixed(hmap.getMapHeight()+1);
 	unsigned char *bits = bitmap.getBits();
 
 	int bwidth = 3 * bitmap.getWidth();
 	bwidth   = (bwidth + 3) & ~3;
 
-	float hy = 0.0f;
+	fixed hy = fixed(0);
 	for (int by=0; by<=hmap.getMapHeight(); by++, hy+=dhy)
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(by)) / float(hmap.getMapHeight()));
 
-		int ihy = (int) hy;
-		int ihy2 = ihy + 1; if (ihy2 >= bitmap.getHeight()) ihy2--;
-		unsigned char *posYA = (unsigned char*) (bitmap.getBits() + (ihy  * bwidth));
-		unsigned char *posYB = (unsigned char*) (bitmap.getBits() + (ihy2 * bwidth));
+		fixed bh = fixed(bitmap.getHeight());
+		fixed ihy = hy.floor();
+		fixed ihy2 = ihy + fixed(1); if (ihy2 >= bh) --ihy2;
+		unsigned char *posYA = (unsigned char*) (bitmap.getBits() + (ihy  * fixed(bwidth)).asInt());
+		unsigned char *posYB = (unsigned char*) (bitmap.getBits() + (ihy2 * fixed(bwidth)).asInt());
 
-		float hx = 0.0f;
+		fixed hx = fixed(0);
+		fixed scale(true, 25000);
 		for (int bx=0; bx<=hmap.getMapWidth(); bx++, hx+=dhx)
 		{
-			int ihx = (int) hx;
-			int ihx2 = ihx + 1; if (ihx2 >= bitmap.getWidth()) ihx2--;
-			unsigned char *posXA1 = posYA + ihx * 3;
-			unsigned char *posXA2 = posYA + ihx2 * 3;
-			unsigned char *posXB1 = posYB + ihx * 3;
-			unsigned char *posXB2 = posYB + ihx2 * 3;
+			fixed ihx = fixed(hx);
+			fixed bw = fixed(bitmap.getWidth());
+			fixed ihx2 = ihx + fixed(1); if (ihx2 >= bw) --ihx2;
 
-			float heightXA1 = float(posXA1[0]);
-			float heightXA2 = float(posXA2[0]);
-			float heightXB1 = float(posXB1[0]);
-			float heightXB2 = float(posXB2[0]);
+			unsigned char *posXA1 = posYA + ihx.asInt() * 3;
+			unsigned char *posXA2 = posYA + ihx2.asInt() * 3;
+			unsigned char *posXB1 = posYB + ihx.asInt() * 3;
+			unsigned char *posXB2 = posYB + ihx2.asInt() * 3;
 
-			float XA = ((heightXA2 - heightXA1) * (hx - ihx)) + heightXA1;
-			float XB = ((heightXB2 - heightXB1) * (hx - ihx)) + heightXB1;
+			fixed heightXA1 = fixed(posXA1[0]);
+			fixed heightXA2 = fixed(posXA2[0]);
+			fixed heightXB1 = fixed(posXB1[0]);
+			fixed heightXB2 = fixed(posXB2[0]);
 
-			float h = ((XB - XA) * (hy - ihy)) + XA;
+			fixed XA = ((heightXA2 - heightXA1) * (hx - ihx)) + heightXA1;
+			fixed XB = ((heightXB2 - heightXB1) * (hx - ihx)) + heightXB1;
 
-			hmap.setHeight(bx, by, h / 2.5f);
+			fixed h = ((XB - XA) * (hy - ihy)) + XA;
+			
+			hmap.setHeight(bx, by, h / scale);
 		}
 	}
 

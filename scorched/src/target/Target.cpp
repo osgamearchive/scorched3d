@@ -26,9 +26,12 @@
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
 #include <target/TargetParachute.h>
-#include <target/TargetGroupEntry.h>
+#include <target/TargetGroup.h>
 #include <engine/ScorchedContext.h>
+#include <weapons/AccessoryStore.h>
+#include <landscapemap/LandscapeMaps.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 
 Target::Target(unsigned int playerId, 
 	const char *name,
@@ -38,12 +41,12 @@ Target::Target(unsigned int playerId,
 	context_(context),
 	deathAction_(0), burnAction_(0),
 	renderer_(0), 
-	border_(0.0f)
+	border_(0)
 {
 	life_ = new TargetLife(context, playerId);
 	shield_ = new TargetShield(context, playerId);
 	parachute_ = new TargetParachute(context);
-	group_ = new TargetGroupEntry();
+	group_ = new TargetGroup(context);
 	targetState_ = new TargetState();
 
 	life_->setTarget(this);
@@ -55,6 +58,9 @@ Target::Target(unsigned int playerId,
 
 Target::~Target()
 {
+	context_.landscapeMaps->getGroundMaps().getGroups().
+		removeFromGroups(&getGroup());	
+
 	delete renderer_; renderer_ = 0;
 	delete life_; life_ = 0;
 	delete shield_; shield_ = 0;
@@ -74,12 +80,12 @@ void Target::newGame()
 bool Target::isTemp()
 {
 	return (isTarget() || 
-		getPlayerId() >= TankAIAdder::MIN_TARGET_ID);
+		getPlayerId() >= TargetID::MIN_TARGET_ID);
 }
 
 bool Target::getAlive()
 {
-	return (life_->getLife() > 0.0f);
+	return (life_->getLife() > 0);
 }
 
 bool Target::writeMessage(NetBuffer &buffer)
@@ -88,14 +94,54 @@ bool Target::writeMessage(NetBuffer &buffer)
 	if (!shield_->writeMessage(buffer)) return false;
 	if (!life_->writeMessage(buffer)) return false;
 	if (!parachute_->writeMessage(buffer)) return false;
+	if (!targetState_->writeMessage(buffer)) return false;
+	if (!group_->writeMessage(buffer)) return false;
+	buffer.addToBuffer(border_);
+	if (!context_.accessoryStore->writeWeapon(buffer, deathAction_)) return false;
+	if (!context_.accessoryStore->writeWeapon(buffer, burnAction_)) return false;
+
 	return true;
 }
 
 bool Target::readMessage(NetBufferReader &reader)
 {
-	if (!reader.getFromBuffer(name_)) return false;
-	if (!shield_->readMessage(reader)) return false;
-	if (!life_->readMessage(reader)) return false;
-	if (!parachute_->readMessage(reader)) return false;
+	if (!reader.getFromBuffer(name_))
+	{
+		Logger::log("Target::name_ read failed");
+		return false;
+	}
+	if (!shield_->readMessage(reader))
+	{
+		Logger::log("Target::shield_ read failed");
+		return false;
+	}
+	if (!life_->readMessage(reader))
+	{
+		Logger::log("Target::life_ read failed");
+		return false;
+	}
+	if (!parachute_->readMessage(reader))
+	{
+		Logger::log("Target::parachute_ read failed");
+		return false;
+	}
+	if (!targetState_->readMessage(reader))
+	{
+		Logger::log("Target::targetState_ read failed");
+		return false;
+	}
+	if (!group_->readMessage(reader))
+	{
+		Logger::log("Target::group_ read failed");
+		return false;
+	}
+	if (!reader.getFromBuffer(border_))
+	{
+		Logger::log("Target::border read failed");
+		return false;
+	}
+	deathAction_ = context_.accessoryStore->readWeapon(reader);
+	burnAction_ = context_.accessoryStore->readWeapon(reader);
+
 	return true;
 }

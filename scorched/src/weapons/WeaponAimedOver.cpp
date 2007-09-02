@@ -76,43 +76,43 @@ bool WeaponAimedOver::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponAimedOver::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &sentPosition, Vector &oldvelocity)
+	WeaponFireContext &weaponContext, FixedVector &sentPosition, FixedVector &oldvelocity)
 {
-	Vector position = sentPosition;
+	FixedVector position = sentPosition;
 
 	// Make sure that this position is inside the walls (if any)
 	if (context.optionsTransient->getWallType() != OptionsTransient::wallNone)
 	{
-		if (position[0] < 6.0f) position[0] = 6.0f;
-		else if (position[0] > (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6) 
-			position[0] = (float)context.landscapeMaps->getGroundMaps().getMapWidth() - 6;
-		if (position[1] < 6.0f) position[1] = 6.0f;
-		else if (position[1] > (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6)
-				position[1] = (float)context.landscapeMaps->getGroundMaps().getMapHeight() - 6;
+		if (position[0] < 6) position[0] = 6;
+		else if (position[0] > (fixed)context.landscapeMaps->getGroundMaps().getMapWidth() - 6) 
+			position[0] = (fixed)context.landscapeMaps->getGroundMaps().getMapWidth() - 6;
+		if (position[1] < 6) position[1] = 6;
+		else if (position[1] > (fixed)context.landscapeMaps->getGroundMaps().getMapHeight() - 6)
+				position[1] = (fixed)context.landscapeMaps->getGroundMaps().getMapHeight() - 6;
 	}
 
 	// Make sure that this position is above ground
-	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+	fixed minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
-	if (position[2] < minHeight + 0.5f)
+	if (position[2] < minHeight + fixed(true, 5000))
 	{
-		position[2] = minHeight + 0.5f;
+		position[2] = minHeight + fixed(true, 5000);
 	}
 
 	bool ceiling = false;
 	{
 		// This will return MAX_FLT when there is no roof
-		float maxHeight = context.landscapeMaps->getRoofMaps().getInterpRoofHeight(
-			position[0] / 4.0f, position[1] / 4.0f);
-		if (position[2] > maxHeight - 1.0f)
+		fixed maxHeight = context.landscapeMaps->getRoofMaps().getInterpRoofHeight(
+			position[0] / 4, position[1] / 4);
+		if (position[2] > maxHeight - 1)
 		{
 			ceiling = true;
-			position[2] = maxHeight - 1.0f;
+			position[2] = maxHeight - 1;
 		}
 	}
 
 	// Get all of the distances of the tanks less than maxAimedDistance_ away
-	std::list<std::pair<float, Tank *> > sortedTanks;
+	std::list<std::pair<fixed, Tank *> > sortedTanks;
 	TankLib::getTanksSortedByDistance(
 		context,
 		position, 
@@ -121,8 +121,8 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 		maxAimedDistance_.getValue(context));
 
 	// Add all of these distances together
-	float totalDist = 0.0f;
-	std::list<std::pair<float, Tank *> >::iterator itor;
+	fixed totalDist = 0;
+	std::list<std::pair<fixed, Tank *> >::iterator itor;
 	for (itor = sortedTanks.begin();
 		itor != sortedTanks.end();
 		itor++)
@@ -131,7 +131,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	}
 
 	// Turn distance into a probablity that we will fire a the tank
-	float maxDist = 0.0f;
+	fixed maxDist = 0;
 	if (sortedTanks.size() == 1)
 	{
 		maxDist = totalDist;
@@ -150,17 +150,17 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 	RandomGenerator &random = context.actionController->getRandom();
 	
 	// Add a percetage that we will not fire at any tank
-	maxDist *= 1.0f + (percentageMissChance_.getValue(context) / 100.0f);
+	maxDist *= (percentageMissChance_.getValue(context) / 100) + 1;
 
 	// For each war head
 	for (int i=0; i<warHeads_; i++)
 	{
 		// Random probablity
-		float dist = maxDist * random.getRandFloat();
+		fixed dist = maxDist * random.getRandFixed();
 
 		// Find which tank fits this probability
 		Tank *shootAt = 0;
-		float distC = 0.0f;
+		fixed distC = 0;
 		for (itor = sortedTanks.begin();
 			itor != sortedTanks.end();
 			itor++)
@@ -174,9 +174,9 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 		}			
 
 		// Calcuate the angle for the shot
-		float angleXYDegs = 360.0f * random.getRandFloat();
-		float angleYZDegs = 30.0f * random.getRandFloat() + 50.0f;
-		float power = 300.0f * random.getRandFloat() + 150.0f;
+		fixed angleXYDegs = random.getRandFixed() * 360;
+		fixed angleYZDegs = random.getRandFixed() * 30 + 50;
+		fixed power = random.getRandFixed() * 300 + 150;
 		if (shootAt)
 		{
 			// We have a tank to aim at
@@ -188,15 +188,15 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 				shootAt->getPosition().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
-				(maxInacuracy_.getValue(context) / 2.0f);
-			angleYZDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
-				(maxInacuracy_.getValue(context) / 2.0f);
+			angleXYDegs += (random.getRandFixed() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2);
+			angleYZDegs += (random.getRandFixed() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2);
 		}
-		if (ceiling) angleYZDegs += 180.0f;
+		if (ceiling) angleYZDegs += 180;
 
 		// Create the shot
-		Vector &velocity = TankLib::getVelocityVector(
+		FixedVector &velocity = TankLib::getVelocityVector(
 			angleXYDegs, angleYZDegs);
 		velocity *= power;
 

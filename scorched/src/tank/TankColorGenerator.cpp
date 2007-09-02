@@ -162,7 +162,7 @@ Vector &TankColorGenerator::getTeamColor(int team)
 	else if (team == 2) return blue;
 	else if (team == 3) return green;
 	else if (team == 4) return yellow;
-	return Vector::nullVector;
+	return Vector::getNullVector();
 }
 
 const char *TankColorGenerator::getTeamName(int team)

@@ -26,7 +26,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponLeapFrog);
 
 WeaponLeapFrog::WeaponLeapFrog():  
-	collisionAction_(0), bounce_(0.6f)
+	collisionAction_(0), bounce_(fixed(true, 6000))
 {
 
 }
@@ -60,24 +60,24 @@ bool WeaponLeapFrog::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponLeapFrog::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	Vector newVelocity = velocity * bounce_.getValue(context);
-	if (newVelocity[2] < 0.0f) newVelocity[2] *= -1.0f;
+	FixedVector newVelocity = velocity * bounce_.getValue(context);
+	if (newVelocity[2] < 0) newVelocity[2] *= -1;
 
-	Vector newPosition = position;
-	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+	FixedVector newPosition = position;
+	fixed minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		position[0], position[1]);
 
-	if (position[2] < minHeight + 0.7f)
+	if (position[2] < minHeight + fixed(true, 7000))
 	{
 		// Make sure position is not fired underground
-		if (minHeight - position[2] > 6.5f) // Give room for shields as well
+		if (minHeight - position[2] > fixed(true, 6500)) // Give room for shields as well
 		{
 		}
 		else
 		{
-			newPosition[2] = minHeight + 0.7f;
+			newPosition[2] = minHeight + fixed(true, 7000);
 		}
 	}
 

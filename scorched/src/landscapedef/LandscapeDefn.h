@@ -22,10 +22,10 @@
 #define __INCLUDE_LandscapeDefnh_INCLUDE__
 
 #include <landscapedef/LandscapeTexDefn.h>
+#include <common/fixed.h>
 #include <coms/ComsMessage.h>
 #include <XML/XMLFile.h>
 #include <string>
-#include <vector>
 
 class LandscapeDefnType
 {
@@ -53,8 +53,8 @@ public:
 class LandscapeDefnStartHeight : public LandscapeDefnType
 {
 public:
-	float startcloseness;
-	float heightmin, heightmax;
+	fixed startcloseness;
+	fixed heightmin, heightmax;
 	std::string startmask;
 
 	virtual bool readXML(XMLNode *node);
@@ -67,8 +67,8 @@ public:
 	LandscapeDefnRoofCavern();
 	virtual ~LandscapeDefnRoofCavern();
 
-	float width;
-	float height;
+	fixed width;
+	fixed height;
 	LandscapeDefnType *heightmap;
 
 	virtual bool readXML(XMLNode *node);
@@ -89,12 +89,12 @@ class LandscapeDefnHeightMapGenerate : public LandscapeDefnType
 {
 public:
 	std::string mask;
-	float landhillsmax, landhillsmin;
-	float landheightmax, landheightmin;
-	float landpeakwidthxmax, landpeakwidthxmin;
-	float landpeakwidthymax, landpeakwidthymin;
-	float landpeakheightmax, landpeakheightmin;
-	float landsmoothing;
+	int landhillsmax, landhillsmin;
+	fixed landheightmax, landheightmin;
+	fixed landpeakwidthxmax, landpeakwidthxmin;
+	fixed landpeakwidthymax, landpeakwidthymin;
+	fixed landpeakheightmax, landpeakheightmin;
+	fixed landsmoothing;
 	bool levelsurround;
 
 	virtual bool readXML(XMLNode *node);

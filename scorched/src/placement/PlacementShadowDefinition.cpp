@@ -26,7 +26,7 @@
 #include <graph/ImageStore.h>
 
 PlacementShadowDefinition::PlacementShadowDefinition() :
-	drawShadow_(true), flattenArea_(0.0f)
+	drawShadow_(true), flattenArea_(0)
 {
 }
 
@@ -50,14 +50,14 @@ bool PlacementShadowDefinition::readXML(XMLNode *node, const char *base)
 
 void PlacementShadowDefinition::updateLandscapeHeight(
 	ScorchedContext &context,
-	Vector &position, Vector &size)
+	FixedVector &position, FixedVector &size)
 {
-	if (flattenArea_ != 0.0f)
+	if (flattenArea_ != 0)
 	{
-		float areaSize = flattenArea_;
-		if (areaSize < 0.0f)
+		fixed areaSize = flattenArea_;
+		if (areaSize < 0)
 		{
-			areaSize = MAX(size[0], size[1])/2.0f + 1.0f;
+			areaSize = MAX(size[0], size[1])/2 + 1;
 		}
 
 		DeformLandscape::flattenArea(context, position, false, areaSize);
@@ -70,7 +70,7 @@ void PlacementShadowDefinition::updateLandscapeHeight(
 void PlacementShadowDefinition::updateLandscapeTexture(
 	bool useShadows,
 	ScorchedContext &context,
-	Vector &position, Vector &size)
+	FixedVector &position, FixedVector &size)
 {
 	if (groundMap_.imageValid())
 	{
@@ -78,8 +78,8 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 		GLImageModifier::addBitmapToLandscape(
 			context,
 			*image,
-			position[0], 
-			position[1],
+			position[0].asFloat(), 
+			position[1].asFloat(),
 			0.25f, 0.25f);
 	}
 
@@ -87,9 +87,9 @@ void PlacementShadowDefinition::updateLandscapeTexture(
 	{
 		GLImageModifier::addCircleToLandscape(
 			context,
-			position[0], 
-			position[1], 
-			MAX(size[0], size[1]), 1.0f);
+			position[0].asFloat(), 
+			position[1].asFloat(), 
+			MAX(size[0], size[1]).asFloat(), 1.0f);
 	}
 }
 

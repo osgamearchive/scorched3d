@@ -22,6 +22,7 @@
 #include <water/Water2.h>
 #include <water/WaterMapPoints.h>
 #include <water/WaterWaves.h>
+#include <common/Vector4.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLImageFactory.h>
@@ -328,7 +329,7 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 	}
 
 	// Set the water height
-	waterHeight_ = water->height;
+	waterHeight_ = water->height.asFloat();
 
 	// fixme: color depends also on weather. bad weather -> light is less bright
 	// so this will be computed implicitly. Environment can also change water color
@@ -410,9 +411,9 @@ void Water2Renderer::generate(LandscapeTexBorderWater *water, ProgressCounter *c
 
 	// Setup wind dir/speed
 	windSpeed1_ = ScorchedClient::instance()->
-		getOptionsTransient().getWindSpeed() * 2.0f + 3.0f;
+		getOptionsTransient().getWindSpeed().asFloat() * 2.0f + 3.0f;
 	windDir1_ = ScorchedClient::instance()->
-		getOptionsTransient().getWindDirection();
+		getOptionsTransient().getWindDirection().asVector();
 	windDir1_[2] = 0.0f;
 	windSpeed2_ = MAX(0.0f, RAND * 2.0f - 1.0f + windSpeed1_);
 	windDir2_ = Vector(windDir1_[0] + RAND * 0.4f - 0.2f,

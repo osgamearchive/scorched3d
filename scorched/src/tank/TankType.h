@@ -21,6 +21,7 @@
 #if !defined(__INCLUDE_TankTypeh_INCLUDE__)
 #define __INCLUDE_TankTypeh_INCLUDE__
 
+#include <common/fixed.h>
 #include <string>
 #include <map>
 #include <set>
@@ -36,8 +37,8 @@ public:
 
 	const char *getName() { return name_.c_str(); }
 	const char *getDescription();
-	float getLife() { return life_; }
-	float getPower() { return power_; }
+	fixed getLife() { return life_; }
+	fixed getPower() { return power_; }
 
 	std::map<Accessory *, int> &getAccessories() { return accessories_; }
 	bool getAccessoryDisabled(Accessory *accessory);
@@ -48,8 +49,8 @@ protected:
 	std::string name_;
 	std::map<Accessory *, int> accessories_;
 	std::set<Accessory *> disabledAccessories_;
-	float life_;
-	float power_;
+	fixed life_;
+	fixed power_;
 };
 
 #endif // __INCLUDE_TankTypeh_INCLUDE__

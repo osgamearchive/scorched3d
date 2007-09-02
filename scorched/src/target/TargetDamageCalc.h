@@ -22,7 +22,7 @@
 #define AFX_TargetDamageCalc_H__3B055B6D_C8E7_42C7_9D29_FBBFD88457D1__INCLUDED_
 
 #include <engine/ScorchedContext.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 
 class Target;
 class Weapon;
@@ -32,14 +32,14 @@ class TargetDamageCalc
 public:
 	static void explosion(ScorchedContext &context,
 		Weapon *weapon, WeaponFireContext &weaponContext,
-		Vector &position, float radius,
-		float damageAmount,
+		FixedVector &position, fixed radius,
+		fixed damageAmount,
 		bool checkFall,
 		bool shieldOnlyDamage);
 	static void damageTarget(ScorchedContext &context,
 		Target *target, 
 		Weapon *weapon, WeaponFireContext &weaponContext,
-		float damage,
+		fixed damage,
 		bool useShieldDamage, bool checkFall,
 		bool shieldOnlyDamage);
 

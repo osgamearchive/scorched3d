@@ -29,11 +29,10 @@
 class ActionReferenced : public Action
 {
 public:
-	ActionReferenced();
+	ActionReferenced(const char *name);
 	virtual ~ActionReferenced();
 
 	virtual bool getReferenced() { return true; }
-	virtual const char *getActionType() { return "ActionReferenced"; }
 };
 
 #endif

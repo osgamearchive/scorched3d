@@ -22,7 +22,7 @@
 
 ComsGameStoppedMessage::ComsGameStoppedMessage() :
 	ComsMessage("ComsGameStoppedMessage"),
-	stateMessage_(ComsPlayerStateMessage::eTankNoAccessories)
+	stateMessage_(false, false)
 {
 }
 

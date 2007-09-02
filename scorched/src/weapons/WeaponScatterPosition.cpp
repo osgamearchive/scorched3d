@@ -63,10 +63,10 @@ bool WeaponScatterPosition::parseXML(AccessoryCreateContext &context, XMLNode *a
 }
 
 void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &p, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &p, FixedVector &velocity)
 {
 	// Mininum height, if we are grounding
-	float allowedHeight = 0.0f;
+	fixed allowedHeight = 0;
 	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
 		if (tex.border->getType() == LandscapeTexType::eWater)
 	{
@@ -76,23 +76,23 @@ void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
 		allowedHeight = water->height;
 	}
 
-	float scatterpercentage = scatterpercentage_.getValue(context);
-	float width = 
-		float(context.landscapeMaps->getGroundMaps().getMapWidth()) *
-		scatterpercentage / 100.0f;
-	float height = 
-		float(context.landscapeMaps->getGroundMaps().getMapHeight()) *
-		scatterpercentage / 100.0f;
+	fixed scatterpercentage = scatterpercentage_.getValue(context);
+	fixed width = 
+		fixed(context.landscapeMaps->getGroundMaps().getMapWidth()) *
+		scatterpercentage / 100;
+	fixed height = 
+		fixed(context.landscapeMaps->getGroundMaps().getMapHeight()) *
+		scatterpercentage / 100;
 
-	Vector pos;
+	FixedVector pos;
 	RandomGenerator &random = context.actionController->getRandom();
 	bool ok = false;
 	while (!ok)
 	{
 		ok = true;
 
-		pos[0] = p[0] + (random.getRandFloat() * width) - (width / 2.0f);
-		pos[1] = p[1] + (random.getRandFloat() * height) - (height / 2.0f);
+		pos[0] = p[0] + (random.getRandFixed() * width) - (width / 2);
+		pos[1] = p[1] + (random.getRandFixed() * height) - (height / 2);
 		pos[2] = p[2];
 		if (landheight_)
 		{
@@ -105,7 +105,7 @@ void WeaponScatterPosition::fireWeapon(ScorchedContext &context,
 			if (pos[2] < allowedHeight)
 			{
 				ok = false;
-				allowedHeight -= 0.01f;
+				allowedHeight -= fixed(true, 100);
 			}
 		}
 	}

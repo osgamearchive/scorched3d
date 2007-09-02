@@ -21,58 +21,53 @@
 #if !defined(__INCLUDE_TargetMovementEntryBoidsh_INCLUDE__)
 #define __INCLUDE_TargetMovementEntryBoidsh_INCLUDE__
 
-#include <common/SplinePath.h>
+#include <common/FixedVector.h>
 #include <movement/TargetMovementEntry.h>
 #include <landscapemap/TargetGroupsSetEntry.h>
 #include <map>
 #include <vector>
 
 class Obstacle;
-class Boid;
+class Boid2;
 class TargetMovementEntryBoids : public TargetMovementEntry
 {
 public:
 	TargetMovementEntryBoids();
 	virtual ~TargetMovementEntryBoids();
 
+	fixed getCruiseDistance() { return cruiseDistance_; }
+	fixed getCruiseVelocity() { return cruiseVelocity_; }
+	fixed getMaxVelocity() { return maxVelocity_; }
+	fixed getMaxAcceleration() { return maxAcceleration_; }
+	FixedVector &getMinBounds() { return minBounds_; }
+	FixedVector &getMaxBounds() { return maxBounds_; }
+
 	// Overridden from TargetMovementEntry
 	virtual void generate(ScorchedContext &context, 
 		RandomGenerator &random, 
 		LandscapeMovementType *movementType);
-	virtual void simulate(float frameTime);
+	virtual void simulate(fixed frameTime);
 	virtual void draw();
 	virtual bool writeMessage(NetBuffer &buffer);
 	virtual bool readMessage(NetBufferReader &reader);
 
-	// Accessors for boids
-	float getCruiseDistance() { return cruiseDistance_; }
-	float getMaxVelocity() { return maxVelocity_; }
-	float getMaxAcceleration() { return maxAcceleration_; }
-
-	std::map<unsigned int, TargetGroupEntry *> &getTargets() { return groupEntry_->getObjects(); }
-	std::map<unsigned int, Boid *> &getBoidsMap() { return boidsMap_; }
-	std::vector<Obstacle *> &getObstacles() { return obstacles_; }
+	std::map<unsigned int, TargetGroup *> &getTargets() { return groupEntry_->getObjects(); }
+	std::map<unsigned int, Boid2 *> &getBoidsMap() { return boidsMap_; }
 
 protected:
 	TargetGroupsSetEntry *groupEntry_;
 
+	FixedVector minBounds_, maxBounds_;
+	fixed cruiseDistance_;
+	fixed maxVelocity_, cruiseVelocity_;
+	fixed maxAcceleration_;
+
 	// All boids have access to this list, and use it to 
 	// determine where all the other boids are. 
-	std::map<unsigned int, Boid *> boidsMap_;
-
-	// Linked list of obstacles that every boid will try to avoid. By default
-	// there are no obstacles.
-	std::vector<Obstacle *> obstacles_;
-
-	// Boid settings
-	float cruiseDistance_;
-	float maxVelocity_;
-	float maxAcceleration_;
+	std::map<unsigned int, Boid2 *> boidsMap_;
 
 	void makeBoids(ScorchedContext &context, RandomGenerator &random,
-		Vector &maxBounds, Vector &minBounds);
-	void makeObstacles(ScorchedContext &context, RandomGenerator &random,
-		Vector &maxBounds, Vector &minBounds);
+		FixedVector &maxBounds, FixedVector &minBounds);
 };
 
 #endif // __INCLUDE_TargetMovementEntryBoidsh_INCLUDE__

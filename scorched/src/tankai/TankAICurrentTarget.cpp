@@ -193,8 +193,8 @@ void TankAICurrentTarget::getTargets(Tank *thisTank, std::list<Tank *> &resultTa
 				shotAt_[currentTank], currentTank));
 		}
 		distanceSorted.insert(std::pair<float, Tank *>(
-			(currentTank->getPosition().getTankPosition() - 
-			thisTank->getPosition().getTankPosition()).Magnitude(), currentTank));
+			((currentTank->getPosition().getTankPosition() - 
+			thisTank->getPosition().getTankPosition()).Magnitude()).asFloat(), currentTank));
 	}
 
 	// Sort the tanks in score order
@@ -211,11 +211,11 @@ void TankAICurrentTarget::getTargets(Tank *thisTank, std::list<Tank *> &resultTa
 	{
 		Tank *currentTank = *itor;
 
-		float healthScore = ((currentTank->getLife().getLife() * 2.0f) 
-			/ currentTank->getLife().getMaxLife()) - 1.0f;
+		float healthScore = ((currentTank->getLife().getLife() * 2) 
+			/ currentTank->getLife().getMaxLife()).asFloat() - 1.0f;
 		float randomScore = RAND * 2.0f - 1.0f;
 		float playerScore = ((currentTank->getDestinationId() == 0)?-1.0f:1.0f);
-		float shieldScore = ((currentTank->getShield().getShieldPower() * 2.0f) 
+		float shieldScore = ((currentTank->getShield().getShieldPower() * 2).asFloat() 
 			/ 100.0f) - 1.0f;
 		float scoreScore = rankPlayer(scoreSorted, currentTank);
 		float repeatScore = rankPlayer(shotAtSorted, currentTank);

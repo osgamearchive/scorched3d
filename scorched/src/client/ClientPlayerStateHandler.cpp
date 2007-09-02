@@ -51,7 +51,7 @@ bool ClientPlayerStateHandler::processMessage(
 	const char *messageType,
 	NetBufferReader &reader)
 {
-	ComsPlayerStateMessage message(ComsPlayerStateMessage::eTankFullState);
+	ComsPlayerStateMessage message(true, true);
 	if (!message.readMessage(reader)) return false;
 
 	return true;

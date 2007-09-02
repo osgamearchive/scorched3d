@@ -34,12 +34,12 @@ public:
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponScatterDirection, AccessoryPart::AccessoryWeapon);
 
 protected:
-	Vector direction_, directionOffset_;
+	FixedVector direction_, directionOffset_;
 	Weapon *aimedWeapon_;
 };
 

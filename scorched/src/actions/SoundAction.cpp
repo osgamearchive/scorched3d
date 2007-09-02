@@ -24,7 +24,8 @@
 #include <sound/SoundUtils.h>
 #include <common/Defines.h>
 
-SoundAction::SoundAction(Vector &position, WeaponSound *weapon) :
+SoundAction::SoundAction(FixedVector &position, WeaponSound *weapon) :
+	ActionReferenced("SoundAction"),
 	weapon_(weapon), position_(position)
 {
 
@@ -38,7 +39,7 @@ void SoundAction::init()
 {
 }
 
-void SoundAction::simulate(float frameTime, bool &remove)
+void SoundAction::simulate(fixed frameTime, bool &remove)
 {
 #ifndef S3D_SERVER
 	if (!context_->serverMode)
@@ -50,14 +51,19 @@ void SoundAction::simulate(float frameTime, bool &remove)
 		VirtualSoundSource *source = new VirtualSoundSource(
 			VirtualSoundPriority::eAction, false, true);
 		if (weapon_->getRelative())	source->setRelative();
-		else source->setPosition(position_);
-		source->setGain(weapon_->getGain());
-		source->setReferenceDistance(weapon_->getReferenceDistance());
-		source->setRolloff(weapon_->getRolloff());
+		else source->setPosition(position_.asVector());
+		source->setGain(weapon_->getGain().asFloat());
+		source->setReferenceDistance(weapon_->getReferenceDistance().asFloat());
+		source->setRolloff(weapon_->getRolloff().asFloat());
 		source->play(activateSound);
 	}
 #endif // #ifndef S3D_SERVER
 
 	remove = true;
 	Action::simulate(frameTime, remove);
+}
+
+const char *SoundAction::getActionDetails()
+{
+	return weapon_->getParent()->getName();
 }

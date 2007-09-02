@@ -28,7 +28,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponRedirect);
 
 WeaponRedirect::WeaponRedirect() :
-	hredirect_(0.0f), vredirect_(0.0f),
+	hredirect_(0), vredirect_(0),
 	habs_(false), vabs_(false),
 	nextAction_(0)
 {
@@ -65,19 +65,19 @@ bool WeaponRedirect::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponRedirect::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	float currentMag = velocity.Magnitude();
-	float currenth = (atan2f(velocity[1], velocity[0]) / 3.14f * 180.0f) - 90.0f;
-	float dist = (float) sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
-	float currentv = atan2f(dist, velocity[2]) / 3.14f * 180.0f;
+	fixed currentMag = velocity.Magnitude();
+	fixed currenth = (atan2x(velocity[1], velocity[0]) / fixed::XPI * 180) - 90;
+	fixed dist = (velocity[0] * velocity[0] + velocity[1] * velocity[1]).sqrt();
+	fixed currentv = atan2x(dist, velocity[2]) / fixed::XPI * 180;
 
 	if (habs_) currenth = hredirect_.getValue(context);	// call NumberParser::getValue
 	else currenth += hredirect_.getValue(context);		// to evaluate at runtime
 	if (vabs_) currentv = vredirect_.getValue(context);
 	else currentv += vredirect_.getValue(context);
 	
-	Vector newVelocity = TankLib::getVelocityVector(currenth, 90.0f - currentv);
+	FixedVector newVelocity = TankLib::getVelocityVector(currenth, fixed(90) - currentv);
 	newVelocity.StoreNormalize();
 	newVelocity *= currentMag;
 	

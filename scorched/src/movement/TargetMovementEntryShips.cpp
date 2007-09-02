@@ -46,7 +46,7 @@ void TargetMovementEntryShips::generate(ScorchedContext &context,
 	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
 
 	// Get the water height (if water is on)
-	float waterHeight = 0.0f;
+	fixed waterHeight = 0;
 	if (tex.border->getType() == LandscapeTexType::eWater)
 	{
 		LandscapeTexBorderWater *water = 
@@ -58,24 +58,24 @@ void TargetMovementEntryShips::generate(ScorchedContext &context,
 	// Do this from the set of control points specified in the xml file
 	LandscapeMovementTypeShips *shipGroup = 
 		(LandscapeMovementTypeShips *) movementType;
-	std::vector<Vector> controlPoints;
-	controlPoints.push_back(Vector::nullVector);
-	float diff = 360.0f / float(shipGroup->controlpoints);
-	for (float i=0.0f; i<360.0f; i+=diff)
+	std::vector<FixedVector> controlPoints;
+	controlPoints.push_back(FixedVector::getNullVector());
+	fixed diff = fixed(360) / fixed(shipGroup->controlpoints);
+	for (fixed i=0; i<360; i+=diff)
 	{
-		float distWidth = random.getRandFloat() * 
+		fixed distWidth = random.getRandFixed() * 
 			shipGroup->controlpointsrand + shipGroup->controlpointswidth;
-		float distHeight = random.getRandFloat() * 
+		fixed distHeight = random.getRandFixed() * 
 			shipGroup->controlpointsrand + shipGroup->controlpointsheight;
-		float x = getFastSin(i / 180.0f * PI) * distWidth + float(mapWidth) / 2.0f;
-		float y = getFastCos(i / 180.0f * PI) * distHeight + float(mapHeight) / 2.0f;
+		fixed x = (i / 180 * fixed::XPI).sin() * distWidth + fixed(mapWidth) / 2;
+		fixed y = (i / 180 * fixed::XPI).cos() * distHeight + fixed(mapHeight) / 2;
 
-		Vector pt(x,y,waterHeight);
+		FixedVector pt(x,y,waterHeight);
 		controlPoints.push_back(pt);
 	}
 
 	// Add a control point at the end to join the loop
-	Vector midPt = (controlPoints[1] + controlPoints.back()) / 2.0;
+	FixedVector midPt = (controlPoints[1] + controlPoints.back()) / 2;
 	controlPoints.push_back(midPt);
 	controlPoints.front() = midPt;
 
@@ -94,84 +94,85 @@ void TargetMovementEntryShips::generate(ScorchedContext &context,
 	}
 
 	// Generate the list of offsets for all of the targets in the group
-	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *> &objects = groupEntry_->getObjects();
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects.begin();
 		itor != objects.end();
 		itor++)
 	{
 		unsigned int playerId = (*itor).first;
-		TargetGroupEntry *entry = (*itor).second;
+		TargetGroup *entry = (*itor).second;
 
-		if (!entry->getTarget()->isTarget())
+		if (!entry->getTarget()->isTarget() ||
+			entry->getTarget()->getPlayerId() >= TargetID::MIN_TARGET_TRANSIENT_ID)
 		{
 			dialogExit("TargetMovementEntryShips",
-				"Movement can be assigned to targets only (no tanks)");
+				"Movement can be assigned to level targets only (no tanks)");
 		}
 
 		// Set this target as moving
 		entry->getTarget()->getTargetState().setMovement(true);
 
 		// Generate the offsets for each target
-		float offX = random.getRandFloat() * 200.0f;
-		float offY = random.getRandFloat() * 200.0f;
-		Vector offset(offX, offY - 100.0f);
+		fixed offX = random.getRandFixed() * 200;
+		fixed offY = random.getRandFixed() * 200;
+		FixedVector offset(offX, offY - 100, 0);
 		offsets_[playerId] = offset;
 	}
 }
 
-void TargetMovementEntryShips::simulate(float frameTime)
+void TargetMovementEntryShips::simulate(fixed frameTime)
 {
 	// Update the position of all of the ships along the path
 	path_.simulate(frameTime);
 
 	// Get the position and direction along the current ship path
-	Vector position;
-	Vector direction;
+	FixedVector position;
+	FixedVector direction;
 	path_.getPathAttrs(position, direction);
-	Vector directionPerp = direction.get2DPerp();
+	FixedVector directionPerp = direction.get2DPerp();
 
 	// For each target set position and rotation based on its offset
-	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *> &objects = groupEntry_->getObjects();
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects.begin();
 		itor != objects.end();
 		itor++)
 	{
 		unsigned int playerId = (*itor).first;
-		TargetGroupEntry *groupEntry = (*itor).second;
+		TargetGroup *groupEntry = (*itor).second;
 		
 		// Find the offset for this player
-		std::map<unsigned int, Vector>::iterator findItor =
+		std::map<unsigned int, FixedVector>::iterator findItor =
 			offsets_.find(playerId);
 		if (findItor != offsets_.end())
 		{
 			// Calculate position
-			Vector &offset = (*findItor).second;
-			Vector shipPosition = position;
+			FixedVector &offset = (*findItor).second;
+			FixedVector shipPosition = position;
 			shipPosition += directionPerp * -offset[0];
 			shipPosition += direction * offset[1];
-			shipPosition[2] -= 1.0f;
-			float angle = atan2f(direction[1], direction[0]);
-			float angleDegs = (angle / 3.14f) * 180.0f - 90.0f;
+			shipPosition[2] -= 1;
+			fixed angle = atan2x(direction[1], direction[0]);
+			fixed angleDegs = (angle / fixed::XPI) * 180 - 90;
 
 			// Update target
-			groupEntry->getTarget()->getLife().setTargetPosition(shipPosition);
-			groupEntry->getTarget()->getLife().setRotation(angleDegs);
+			groupEntry->getTarget()->getLife().setTargetPositionAndRotation(
+				position, angleDegs);
 		}
 	}
 }
 
 bool TargetMovementEntryShips::writeMessage(NetBuffer &buffer)
 {
-	float pathTime = path_.getPathTime();
+	fixed pathTime = path_.getPathTime();
 	buffer.addToBuffer(pathTime);
 	return true;
 }
 
 bool TargetMovementEntryShips::readMessage(NetBufferReader &reader)
 {
-	float pathTime = 0.0f;
+	fixed pathTime = 0;
 	if (!reader.getFromBuffer(pathTime)) return false;
 	path_.setPathTime(pathTime);
 	return true;

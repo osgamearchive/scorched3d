@@ -30,7 +30,6 @@
 #include <actions/CameraPositionAction.h>
 #include <engine/ScorchedContext.h>
 #include <engine/ActionController.h>
-#include <engine/SyncCheck.h>
 #ifndef S3D_SERVER
 	#include <graph/OptionsDisplay.h>
 	#include <graph/ParticleEmitter.h>
@@ -48,9 +47,10 @@
 #endif
 #include <math.h>
 
-Explosion::Explosion(Vector &position,
+Explosion::Explosion(FixedVector &position,
 	WeaponExplosion *weapon, WeaponFireContext &weaponContext) :
-	firstTime_(true), totalTime_(0.0f),
+	ActionReferenced("Explosion"),
+	firstTime_(true), totalTime_(0),
 	weapon_(weapon), weaponContext_(weaponContext), 
 	position_(position)
 {
@@ -62,32 +62,23 @@ Explosion::~Explosion()
 
 void Explosion::init()
 {
-	/*SyncCheck::instance()->addString(*context_, 
-		formatString("Explosion %f,%f,%f %s", 
-			position_[0], position_[1], position_[2], weapon_->getParent()->getName()));*/
+	const fixed ShowTime = 4;
+	CameraPositionAction *pos = new CameraPositionAction(
+		position_, ShowTime, 10);
+	context_->actionController->addAction(pos);
 
-	const float ShowTime = 4.0f;
-#ifndef S3D_SERVER
-	if (!context_->serverMode)
-	{
-		CameraPositionAction *pos = new CameraPositionAction(
-			position_, ShowTime, 10);
-		context_->actionController->addAction(pos);
-	}
-#endif
-
-	float multiplier = float(((int) context_->optionsGame->getWeapScale()) - 
+	fixed multiplier = fixed(((int) context_->optionsGame->getWeapScale()) - 
 							 OptionsGame::ScaleMedium);
-	multiplier *= 0.5f;
-	multiplier += 1.0f;
-	float explosionSize = weapon_->getSize() * multiplier;	
+	multiplier *= fixed(true, 5000);
+	multiplier += 1;
+	fixed explosionSize = weapon_->getSize() * multiplier;	
 
 #ifndef S3D_SERVER
 	if (!context_->serverMode) 
 	{
 		float height = context_->landscapeMaps->getGroundMaps().getInterpHeight(
-			position_[0], position_[1]);
-		float aboveGround = position_[2] - height;
+			position_[0], position_[1]).asFloat();
+		float aboveGround = position_[2].asFloat() - height;
 
 		// If there is a weapon play a splash sound when in water
 		bool waterSplash = false;
@@ -95,7 +86,7 @@ void Explosion::init()
 		{
 			waterSplash = 
 				Landscape::instance()->getWater().explosion(
-					position_, weapon_->getSize());
+					position_.asVector(), weapon_->getSize().asFloat());
 		}
 
 		// Create particles from the center of the explosion
@@ -121,9 +112,9 @@ void Explosion::init()
 					false,
 					true);
 
-				sprayemitter.emitSpray(position_, 
+				sprayemitter.emitSpray(position_.asVector(), 
 					ScorchedClient::instance()->getParticleEngine(),
-					weapon_->getSize() - 2.0f,
+					weapon_->getSize().asFloat() - 2.0f,
 					&Landscape::instance()->getLandscapeTexture1());
 			}
 
@@ -146,9 +137,9 @@ void Explosion::init()
 			// Create debris
 			float mult = float(
 				OptionsDisplay::instance()->getExplosionParticlesMult()) / 40.0f;
-			int debris = 5 + int(weapon_->getSize() * mult);
+			int debris = 5 + int(weapon_->getSize().asFloat() * mult);
 			emitter.emitDebris(debris,
-				position_, 
+				position_.asVector(), 
 				ScorchedClient::instance()->getParticleEngine());
 		}
 
@@ -161,7 +152,9 @@ void Explosion::init()
 				float posYZ = (RAND * 4.0f) - 2.0f;
 
 				Landscape::instance()->getSmoke().addSmoke(
-					position_[0] + posXY, position_[1] + posYZ, position_[2] + 2.0f);
+					position_[0].asFloat() + posXY, 
+					position_[1].asFloat() + posYZ, 
+					position_[2].asFloat() + 2.0f);
 			}
 		}
 		else
@@ -179,11 +172,11 @@ void Explosion::init()
 
 			if (texture)
 			{
-				Vector expColor = weapon_->getExplosionColor();
+				Vector expColor = weapon_->getExplosionColor().asVector();
 
 				ParticleEmitter exploemitter;
 				exploemitter.setAttributes(
-					weapon_->getMinLife(), weapon_->getMaxLife(), // Life
+					weapon_->getMinLife().asFloat(), weapon_->getMaxLife().asFloat(), // Life
 					0.2f, 0.5f, // Mass
 					0.01f, 0.02f, // Friction
 					Vector(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 0.0f), // Velocity
@@ -196,31 +189,38 @@ void Explosion::init()
 					Vector(0.0f, 0.0f, 0.0f), // Gravity
 					weapon_->getLuminance(),
 					weapon_->getWindAffected());
-				exploemitter.emitExplosion(position_,
+				exploemitter.emitExplosion(position_.asVector(),
 					ScorchedClient::instance()->getParticleEngine(),
-					explosionSize,
+					explosionSize.asFloat(),
 					texture,
 					weapon_->getAnimate());
 			}
 		}
 
-		if (weapon_->getCreateMushroomAmount() > 0.0f)
+		if (weapon_->getCreateMushroomAmount() > 0)
 		{
-			if (RAND <= weapon_->getCreateMushroomAmount())
+			if (RAND <= weapon_->getCreateMushroomAmount().asFloat())
 			{
 				context_->actionController->addAction(
 					new SpriteAction(
-					new ExplosionNukeRenderer(position_, weapon_->getSize() - 2.0f)));	
+					new ExplosionNukeRenderer(position_.asVector(), weapon_->getSize().asFloat() - 2.0f)));	
 			}
 		}
 
 		// Make the camera shake
-		MainCamera::instance()->getCamera().addShake(weapon_->getShake());
+		MainCamera::instance()->getCamera().addShake(weapon_->getShake().asFloat());
 	}
 #endif // #ifndef S3D_SERVER
 }
 
-void Explosion::simulate(float frameTime, bool &remove)
+const char *Explosion::getActionDetails()
+{
+	return formatString("%li,%li,%li %s", 
+		position_[0].getInternal(), position_[1].getInternal(), position_[2].getInternal(), 
+		weapon_->getParent()->getName());
+}
+
+void Explosion::simulate(fixed frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
 	if (firstTime_)
@@ -236,13 +236,13 @@ void Explosion::simulate(float frameTime, bool &remove)
 					Sound::instance()->fetchOrCreateBuffer(
 						(char *) getDataFile(formatString("data/wav/%s", weapon_->getExplosionSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					expSound, position_);
+					expSound, position_.asVector());
 			}
 		}
 #endif // #ifndef S3D_SERVER
 
 		// Dirt should only form along the ground
-		Vector newPosition = position_;
+		FixedVector newPosition = position_;
 		if (weapon_->getDeformType() == DeformUp)
 		{
 			newPosition[2] = context_->landscapeMaps->getGroundMaps().
@@ -252,12 +252,12 @@ void Explosion::simulate(float frameTime, bool &remove)
 		if (weapon_->getDeformType() != DeformNone)
 		{
 			// Get the actual explosion size
-			float multiplier = 
-				float(((int) context_->optionsGame->getWeapScale()) - 
+			fixed multiplier = 
+				fixed(((int) context_->optionsGame->getWeapScale()) - 
 					OptionsGame::ScaleMedium);
-			multiplier *= 0.5f;
-			multiplier += 1.0f;
-			float explosionSize = weapon_->getSize() * multiplier;	
+			multiplier *= fixed(true, 5000);
+			multiplier += 1;
+			fixed explosionSize = weapon_->getSize() * multiplier;	
 
 			// Remove areas from the height map
 			static DeformLandscape::DeformPoints map;
@@ -270,10 +270,13 @@ void Explosion::simulate(float frameTime, bool &remove)
 				if (!context_->serverMode) 
 				{
 					Landscape::instance()->recalculate(
-						(int) newPosition[0], (int) newPosition[1], 
-						(int) explosionSize);
+						(int) newPosition[0].asFloat(), 
+						(int) newPosition[1].asFloat(), 
+						(int) explosionSize.asFloat());
 
-					DeformTextures::deformLandscape(newPosition, explosionSize,  
+					DeformTextures::deformLandscape(
+						newPosition.asVector(), 
+						explosionSize.asFloat(),  
 						ExplosionTextures::instance()->getScorchBitmap(weapon_->getDeformTexture()),
 						map);
 				}
@@ -281,7 +284,7 @@ void Explosion::simulate(float frameTime, bool &remove)
 			}
 		}
 
-		if (weapon_->getHurtAmount() != 0.0f ||
+		if (weapon_->getHurtAmount() != 0 ||
 			weapon_->getDeformType() != DeformNone)
 		{
 			// Check the tanks for damage
@@ -296,6 +299,6 @@ void Explosion::simulate(float frameTime, bool &remove)
 		}
 	}
 
-	if (!renderer_) remove = true;
+	remove = true;
 	Action::simulate(frameTime, remove);
 }

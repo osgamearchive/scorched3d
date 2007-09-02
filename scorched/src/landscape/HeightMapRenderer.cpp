@@ -37,24 +37,24 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 			for (int y=0; y<map.getMapHeight()-1; y++)
 			{
 				glTexCoord2f(float(x) / width, float(y) / height);
-				glNormal3fv(map.getNormal(x, y));
-				glVertex3f((float)x, (float)y, map.getHeight(x, y));
+				glNormal3fv(map.getNormal(x, y).asVector());
+				glVertex3f((float)x, (float)y, map.getHeight(x, y).asFloat());
 				glTexCoord2f(float(x+1) / width, float(y) / height);
-				glNormal3fv(map.getNormal(x + 1, y));
-				glVertex3f((float)x + 1.0f, (float)y, map.getHeight(x + 1, y));
+				glNormal3fv(map.getNormal(x + 1, y).asVector());
+				glVertex3f((float)x + 1.0f, (float)y, map.getHeight(x + 1, y).asFloat());
 				glTexCoord2f(float(x+1) / width, float(y+1) / height);
-				glNormal3fv(map.getNormal(x + 1, y + 1));
-				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1));
+				glNormal3fv(map.getNormal(x + 1, y + 1).asVector());
+				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1).asFloat());
 
 				glTexCoord2f(float(x+1) / width, float(y+1) / height);
-				glNormal3fv(map.getNormal(x+1, y+1));
-				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1));
+				glNormal3fv(map.getNormal(x+1, y+1).asVector());
+				glVertex3f((float)x + 1.0f, (float)y + 1.0f, map.getHeight(x + 1, y + 1).asFloat());
 				glTexCoord2f(float(x) / width, float(y+1) / height);
-				glNormal3fv(map.getNormal(x, y+1));
-				glVertex3f((float)x, (float)y + 1.0f, map.getHeight(x, y + 1));
+				glNormal3fv(map.getNormal(x, y+1).asVector());
+				glVertex3f((float)x, (float)y + 1.0f, map.getHeight(x, y + 1).asFloat());
 				glTexCoord2f(float(x) / width, float(y) / height);
-				glNormal3fv(map.getNormal(x, y));
-				glVertex3f((float)x, (float)y, map.getHeight(x, y));
+				glNormal3fv(map.getNormal(x, y).asVector());
+				glVertex3f((float)x, (float)y, map.getHeight(x, y).asFloat());
 			}
 		}
 		glEnd();
@@ -68,8 +68,8 @@ void HeightMapRenderer::drawHeightMap(HeightMap &map)
 			{
 				for (int y=0; y<=map.getMapWidth(); y++)
 				{
-					Vector &Normal = map.getNormal(x, y);
-					Vector Position((float)x, (float)y, map.getHeight(x, y));
+					Vector &Normal = map.getNormal(x, y).asVector();
+					Vector Position((float)x, (float)y, map.getHeight(x, y).asFloat());
 
 					glVertex3fv(Position);
 					glVertex3fv(Position + Normal * 2.0f);

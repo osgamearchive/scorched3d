@@ -52,7 +52,7 @@ bool GLImageModifier::findIntersection(HeightMap &hMap,
 	while (pt0 >= 0.0f && pt1 >= 0.0f &&
 		pt0 <= width && pt1 <= height)
 	{
-		float height = hMap.getHeight(int(point[0]), int(point[1])) - 0.1f;
+		float height = hMap.getHeight(int(point[0]), int(point[1])).asFloat() - 0.1f;
 		float rayHeight = height - pt2;
 		if (rayHeight > 0.0f)
 		{
@@ -112,11 +112,14 @@ void GLImageModifier::addLightMapToBitmap(GLImage &destBitmap,
 		{
 			float dx = float(x)/float(lightMapWidth)*float(hMap.getMapWidth());
 			float dy = float(y)/float(lightMapWidth)*float(hMap.getMapHeight());
-			float dz = hMap.getInterpHeight(dx, dy);
+			float dz = hMap.getInterpHeight(
+				fixed::fromFloat(dx), fixed::fromFloat(dy)).asFloat();
 			
 			Vector testPosition(dx, dy, dz);
-			Vector testNormal;
-			hMap.getInterpNormal(dx, dy, testNormal);
+			FixedVector fixedTestNormal;
+			hMap.getInterpNormal(
+				fixed::fromFloat(dx), fixed::fromFloat(dy), fixedTestNormal);
+			Vector testNormal = fixedTestNormal.asVector();
 			Vector sunDirection = (sunPos - testPosition).Normalize();
 
 			// Calculate light based on whether obejcts in path
@@ -203,7 +206,7 @@ void GLImageModifier::addHeightToBitmap(HeightMap &hMap,
 	{
 		for (int mb=0;mb<hMap.getMapHeight(); mb++)
 		{
-			float height = hMap.getHeight(ma, mb);
+			float height = hMap.getHeight(ma, mb).asFloat();
 			if (height > hMapMaxHeight) hMapMaxHeight = height;
 		}
 	}
@@ -272,12 +275,13 @@ void GLImageModifier::addHeightToBitmap(HeightMap &hMap,
 		GLfloat hx = 0.0f;
 		for (int bx=0; bx<destBitmap.getWidth(); bx++, destBits+=3, hx+=hdx)
 		{
-			static Vector normal;
-			hMap.getInterpNormal(hx, hy, normal);
-			float height = hMap.getInterpHeight(hx, hy);
+			static FixedVector fixedNormal;
+			hMap.getInterpNormal(fixed::fromFloat(hx), fixed::fromFloat(hy), fixedNormal);
+			Vector &normal = fixedNormal.asVector();
+			float height = hMap.getInterpHeight(fixed::fromFloat(hx), fixed::fromFloat(hy)).asFloat();
 			float offSetHeight = hMap.getInterpHeight(
-				(float)hMap.getMapWidth() - hx, 
-				(float)hMap.getMapHeight() - hy);
+				fixed::fromFloat((float)hMap.getMapWidth() - hx), 
+				fixed::fromFloat((float)hMap.getMapHeight() - hy)).asFloat();
 			height *= (1.0f - (noiseMax/2.0f)) + ((offSetHeight*noiseMax)/hMapMaxHeight);
 
 			// Find the index of the current texture by deviding the height into strips
@@ -431,7 +435,8 @@ void GLImageModifier::removeWaterFromBitmap(HeightMap &hMap,
 			GLubyte alpha = 255 - alphaBits[0];
 			if (alpha > 0)
 			{
-				float height = hMap.getInterpHeight(hx, hy);
+				float height = hMap.getInterpHeight(
+					fixed::fromFloat(hx), fixed::fromFloat(hy)).asFloat();
 				if (height > waterHeight - 0.3)
 				{
 					alpha = 128;
@@ -475,7 +480,8 @@ void GLImageModifier::addWaterToBitmap(HeightMap &hMap,
 		GLfloat hx = 0.0f;
 		for (int bx=0; bx<destBitmap.getWidth(); bx++, destBits+=3, hx+=hdx, bitmapItor.incX())
 		{
-			float height = hMap.getInterpHeight(hx, hy);
+			float height = hMap.getInterpHeight(
+				fixed::fromFloat(hx), fixed::fromFloat(hy)).asFloat();
 
 			if (height <= waterHeight)
 			{

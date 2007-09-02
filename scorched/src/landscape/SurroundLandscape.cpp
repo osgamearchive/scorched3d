@@ -87,7 +87,7 @@ void SurroundLandscape::makeList(bool detail, bool lightMap)
 	int stopHeight = 640 / 16;
 	int startHeight = stopHeight + mapHeight / 16;
 
-	Vector offset(-640.0f, -640.0f, 0.0f);
+	Vector offset(-640.0f, -640.0f, -0.1f);
 	Vector center(mapWidth / 2.0f, mapHeight / 2.0f, 0.0f);
 
 	glNewList(list_ = glGenLists(1), GL_COMPILE);
@@ -106,8 +106,9 @@ void SurroundLandscape::makeList(bool detail, bool lightMap)
 				Vector b(
 					i * mult + offset[0], 
 					(j + 1) * mult + offset[1], 
-					smap.getHeight(i, j + 1) + offset[2]);
-				Vector nb = smap.getNormal(i, j + 1);
+					smap.getHeight(i, j + 1).asFloat() + offset[2]);
+				FixedVector nbf = smap.getNormal(i, j + 1);
+				Vector nb(nbf[0].asFloat(), nbf[1].asFloat(), nbf[2].asFloat());
 				glNormal3fv(nb);
 				if (lightMap) makeNormal(b, nb);
 				else glColor3f(1.0f, 1.0f, 1.0f);
@@ -119,8 +120,9 @@ void SurroundLandscape::makeList(bool detail, bool lightMap)
 				Vector a(
 					i * mult + offset[0], 
 					j * mult + offset[1], 
-					smap.getHeight(i, j) + offset[2]);
-				Vector na = smap.getNormal(i, j);
+					smap.getHeight(i, j).asFloat() + offset[2]);
+				FixedVector naf = smap.getNormal(i, j);
+				Vector na(naf[0].asFloat(), naf[1].asFloat(), naf[2].asFloat());
 				glNormal3fv(na);
 				if (lightMap) makeNormal(b, na);
 				else glColor3f(1.0f, 1.0f, 1.0f);

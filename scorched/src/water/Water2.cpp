@@ -57,10 +57,10 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 
 	// Calculate water for position n
 	float windSpeed = ScorchedClient::instance()->
-		getOptionsTransient().getWindSpeed() * 2.0f + 3.0f;
+		getOptionsTransient().getWindSpeed().asFloat() * 2.0f + 3.0f;
 	Vector windDir = ScorchedClient::instance()->
-		getOptionsTransient().getWindDirection();
-	if (windDir == Vector::nullVector)
+		getOptionsTransient().getWindDirection().asVector();
+	if (windDir == Vector::getNullVector())
 	{
 		windDir = Vector(0.8f, 0.8f);
 	}
@@ -97,13 +97,13 @@ void Water2::generate(LandscapeTexBorderWater *water, ProgressCounter *counter)
 			for (int x=0; x<wave_resolution; x++)	
 			{
 				Vector &point = displacements[i].getPoint(x, y);
-				point[2] += water->height;
+				point[2] += water->height.asFloat();
 			}
 		}
 
 		// Create the patches
 		patches_[i].generate(displacements[i], wave_resolution, 
-			wave_patch_width, water->height);
+			wave_patch_width, water->height.asFloat());
 		generatedPatches_++;
 
 		// If we are not drawing water or no movement generate one patch
@@ -276,7 +276,7 @@ void Water2::generateTransparency(Water2Points &wd,
 			int lx = int(float(x) * float(defn.landscapewidth) / float(wave_resolution));
 			int ly = int(float(y) * float(defn.landscapeheight) / float(wave_resolution));
 			float groundHeight = ScorchedClient::instance()->getLandscapeMaps().
-				getGroundMaps().getHeight(lx, ly);
+				getGroundMaps().getHeight(lx, ly).asFloat();
 			
 			// Water depth
 			float waterDepth = waterHeight - groundHeight;

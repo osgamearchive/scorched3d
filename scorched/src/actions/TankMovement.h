@@ -23,7 +23,7 @@
 
 #include <engine/ActionReferenced.h>
 #include <engine/ViewPoints.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <common/Counter.h>
 #include <weapons/Weapon.h>
 #include <list>
@@ -41,7 +41,8 @@ public:
 	virtual ~TankMovement();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	// A list containing smooth positions
@@ -50,7 +51,7 @@ protected:
 		PositionEntry(
 			int fX, int fY,
 			int sX, int sY,
-			float newx, float newy, float newa, bool useF) :
+			fixed newx, fixed newy, fixed newa, bool useF) :
 		firstX(fX), firstY(fY),
 		secondX(sX), secondY(sY),
 		x(newx), y(newy), ang(newa), 
@@ -60,25 +61,25 @@ protected:
 		int firstX, firstY;
 		int secondX, secondY;
 
-		float x, y;
-		float ang;
+		fixed x, y;
+		fixed ang;
 		bool useFuel;
 	};
 	WeaponMoveTank *weapon_;
 	std::list<PositionEntry> expandedPositions_;
-	float timePassed_;
+	fixed timePassed_;
 	ViewPoints::ViewPoint *vPoint_;
 	VirtualSoundSource *moveSoundSource_;
 	Counter smokeCounter_;
 
 	WeaponFireContext weaponContext_;
-	Vector startPosition_;
+	FixedVector startPosition_;
 	int positionX_, positionY_;
 	int stepCount_;
 	bool remove_, moving_;
 
 	void moveTank(Tank *tank);
-	void simulationMove(float frameTime);
+	void simulationMove(fixed frameTime);
 
 };
 

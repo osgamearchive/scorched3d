@@ -22,7 +22,7 @@
 #define __INCLUDE_TargetGroupsh_INCLUDE__
 
 #include <landscapemap/TargetGroupsGroupEntry.h>
-#include <target/TargetGroupEntry.h>
+#include <target/TargetGroup.h>
 #include <placement/PlacementShadowDefinition.h>
 #include <map>
 #include <list>
@@ -37,7 +37,7 @@ public:
 	virtual ~TargetGroups();
 
 	// Groups
-	void removeFromGroups(TargetGroupEntry *obj);
+	void removeFromGroups(TargetGroup *obj);
 	TargetGroupsGroupEntry *getGroup(const char *name, HeightMap *create = 0);
 	void clearGroups();
 

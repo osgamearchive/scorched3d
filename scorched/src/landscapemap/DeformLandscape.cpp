@@ -25,56 +25,62 @@
 #include <target/TargetContainer.h>
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
+#include <target/TargetState.h>
 #include <engine/ScorchedContext.h>
-#include <engine/SyncCheck.h>
+#include <engine/ActionController.h>
+#include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <math.h>
 
 bool DeformLandscape::deformLandscape(
 	ScorchedContext &context,
-	Vector &pos, float radius, bool down, DeformPoints &map)
+	FixedVector &pos, fixed radius, bool down, DeformPoints &map)
 {
-	/*SyncCheck::instance()->addString(context, 
-		formatString("Deform : %f,%f,%f %f %s", 
-			pos[0], pos[1], pos[2], radius, (down?"Down":"Up")));*/
+	if (context.optionsGame->getAutoSendSyncCheck())
+	{
+		context.actionController->addSyncCheck(
+			formatString("Deform : %li,%li,%li %li %s", 
+				pos[0].getInternal(), pos[1].getInternal(), pos[2].getInternal(), 
+				radius.getInternal(), (down?"Down":"Up")));
+	}
 
 	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
 
 	bool hits = false;
-	int iradius = (int) radius + 1;
+	int iradius = (int) radius.asInt() + 1;
 	if (iradius > 49) iradius = 49;
 
-	float lowestHeight = 
-		context.landscapeMaps->getDefinitions().getTex()->lowestlandheight;
+	fixed lowestHeight = fixed(0);
+		//context.landscapeMaps->getDefinitions().getTex()->lowestlandheight;
 
 	// Take out or add a chunk into the landsacpe
 	for (int x=-iradius; x<=iradius; x++)
 	{
 		for (int y=-iradius; y<=iradius; y++)
 		{
-			map.map[x+iradius][y+iradius] = -1.0f;
+			map.map[x+iradius][y+iradius] = fixed(-1);
 
-			Vector newPos(pos[0] + x, pos[1] + y, pos[2]);
-			if (((int) newPos[0] >=0) && (newPos[0] < hmap.getMapWidth()) &&
-				((int) newPos[1] >=0) && (newPos[1] < hmap.getMapHeight()))
+			FixedVector newPos(pos[0] + x, pos[1] + y, pos[2]);
+			if ((newPos[0] >= fixed(0)) && (newPos[0] < hmap.getMapWidth()) &&
+				(newPos[1] >= fixed(0)) && (newPos[1] < hmap.getMapHeight()))
 			{
-				float dist = (pos - newPos).Magnitude();
+				fixed dist = (pos - newPos).Magnitude();
 
 				if (dist < radius)
 				{
-					float distToRadius = radius - dist;
-					float currentHeight = hmap.getHeight((int) newPos[0], (int) newPos[1]);
-					float explosionDepth = (float) sin((distToRadius / radius) * 1.57) * radius;
+					fixed distToRadius = radius - dist;
+					fixed currentHeight = hmap.getHeight(newPos[0].asInt(), newPos[1].asInt());
+					fixed explosionDepth = ((distToRadius / radius) * fixed::XPIO2).sin() * radius;
 
-					float newHeight = currentHeight;
-					float newMap = -1.0f;
+					fixed newHeight = currentHeight;
+					fixed newMap = fixed(-1);
 					if (down)
 					{
 						if (currentHeight > newPos[2] - explosionDepth)
 						{
-							newMap = 1.0f - (dist / radius);
-							newMap *= 3.0f;
-							if (newMap > 1.0f) newMap = 1.0f;
+							newMap = fixed(1) - (dist / radius);
+							newMap *= fixed(3);
+							if (newMap > fixed(1)) newMap = fixed(1);
 
 							if (currentHeight > newPos[2] + explosionDepth)
 							{
@@ -100,9 +106,9 @@ bool DeformLandscape::deformLandscape(
 					}
 					else
 					{
-						newMap = 1.0f - (dist / radius);
-						newMap *= 3.0f;
-						if (newMap > 1.0f) newMap = 1.0f;
+						newMap = fixed(1) - (dist / radius);
+						newMap *= fixed(3);
+						if (newMap > fixed(1)) newMap = fixed(1);
 
 						if (currentHeight < newPos[2] + explosionDepth)
 						{
@@ -119,7 +125,7 @@ bool DeformLandscape::deformLandscape(
 					}
 
 					if (newHeight != currentHeight)	hits = true;
-					hmap.setHeight((int) newPos[0], (int) newPos[1], newHeight);
+					hmap.setHeight(newPos[0].asInt(), newPos[1].asInt(), newHeight);
 					map.map[x+iradius][y+iradius] = newMap;
 				}
 			}
@@ -130,17 +136,21 @@ bool DeformLandscape::deformLandscape(
 }
 
 void DeformLandscape::flattenArea(
-	ScorchedContext &context, Vector &tankPos, 
-	bool removeObjects, float size)
+	ScorchedContext &context, FixedVector &tankPos, 
+	bool removeObjects, fixed size)
 {
-	/*SyncCheck::instance()->addString(context, 
-		formatString("Flatten : %f,%f,%f %f", 
-			tankPos[0], tankPos[1], tankPos[2], size));*/
+	if (context.optionsGame->getAutoSendSyncCheck())
+	{
+		context.actionController->addSyncCheck(
+			formatString("Flatten : %li,%li,%li %li", 
+			tankPos[0].getInternal(), tankPos[1].getInternal(), tankPos[2].getInternal(), 
+			size.getInternal()));
+	}
 
-	int iSize = (int) size;
+	int iSize = size.asInt();
 	HeightMap &hmap = context.landscapeMaps->getGroundMaps().getHeightMap();
-	int posX = (int) tankPos[0];
-	int posY = (int) tankPos[1];
+	int posX = tankPos[0].asInt();
+	int posY = tankPos[1].asInt();
 
 	// Flatten a small area around the tank
 	for (int x=-iSize; x<=iSize; x++)
@@ -162,7 +172,7 @@ void DeformLandscape::flattenArea(
 	{
 		// Remove any targets in this location
 		std::map<unsigned int, Target *> collisionTargets;
-		context.targetSpace->getCollisionSet(tankPos, size * 1.5f, collisionTargets);
+		context.targetSpace->getCollisionSet(tankPos, size * fixed(true, 15000), collisionTargets);
 		std::map<unsigned int, Target *>::iterator itor;
 		for (itor = collisionTargets.begin();
 			itor != collisionTargets.end();
@@ -170,7 +180,7 @@ void DeformLandscape::flattenArea(
 		{
 			Target *target = (*itor).second;
 			if (target->isTarget() &&
-				target->getLife().getFlattenDestroy())
+				target->getTargetState().getFlattenDestroy())
 			{
 				Target *removedTarget = 
 					context.targetContainer->removeTarget(target->getPlayerId());

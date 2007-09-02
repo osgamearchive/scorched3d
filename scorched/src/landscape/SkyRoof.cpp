@@ -81,13 +81,13 @@ void SkyRoof::makeList()
 			glBegin(GL_QUAD_STRIP);
 			for (int i=0; i<=rmap.getMapWidth(); i++)
 			{
-				Vector a(i * multWidth, j * multHeight, rmap.getHeight(i, j));
-				makeNormal(a, rmap.getNormal(i, j));
+				Vector a(i * multWidth, j * multHeight, rmap.getHeight(i, j).asFloat());
+				makeNormal(a, rmap.getNormal(i, j).asVector());
 				glTexCoord2f(a[0] / float(rmap.getMapWidth()), a[1] / float(rmap.getMapHeight()));
 				glVertex3fv(a);
 				
-				Vector b(i * multWidth, (j + 1) * multHeight, rmap.getHeight(i, j + 1));
-				makeNormal(b, rmap.getNormal(i, j + 1));
+				Vector b(i * multWidth, (j + 1) * multHeight, rmap.getHeight(i, j + 1).asFloat());
+				makeNormal(b, rmap.getNormal(i, j + 1).asVector());
 				glTexCoord2f(b[0] / float(rmap.getMapWidth()), b[1] / float(rmap.getMapHeight()));
 				glVertex3fv(b);
 
@@ -99,38 +99,38 @@ void SkyRoof::makeList()
 		for (int i=0; i<rmap.getMapWidth(); i++)
 		{
 			{
-				Vector a(i * multWidth, 0.0f, rmap.getHeight(i, 0));
-				Vector na = rmap.getNormal(i,0);
-				Vector b((i + 1) * multWidth, 0.0f, rmap.getHeight(i + 1, 0));
-				Vector nb = rmap.getNormal(i + 1, 0);
+				Vector a(i * multWidth, 0.0f, rmap.getHeight(i, 0).asFloat());
+				Vector na = rmap.getNormal(i,0).asVector();
+				Vector b((i + 1) * multWidth, 0.0f, rmap.getHeight(i + 1, 0).asFloat());
+				Vector nb = rmap.getNormal(i + 1, 0).asVector();
 				drawSegment(a, b, na, nb);
 			}
 			{
 				Vector b(i * multWidth, (float) hmap.getMapHeight(), 
-					rmap.getHeight(i, rmap.getMapHeight()));
-				Vector nb = rmap.getNormal(i, rmap.getMapHeight());
+					rmap.getHeight(i, rmap.getMapHeight()).asFloat());
+				Vector nb = rmap.getNormal(i, rmap.getMapHeight()).asVector();
 				Vector a((i + 1) * multWidth, (float) hmap.getMapHeight(), 
-					rmap.getHeight(i + 1, rmap.getMapHeight()));
-				Vector na = rmap.getNormal(i + 1, rmap.getMapHeight());
+					rmap.getHeight(i + 1, rmap.getMapHeight()).asFloat());
+				Vector na = rmap.getNormal(i + 1, rmap.getMapHeight()).asVector();
 				drawSegment(a, b, na, nb);
 			}
 		}
 		for (int i=0; i<rmap.getMapHeight(); i++)
 		{
 			{
-				Vector b(0.0f, i * multHeight, rmap.getHeight(0, i));
-				Vector nb = rmap.getNormal(0, i);
-				Vector a(0.0f, (i + 1) * multHeight, rmap.getHeight(0, i + 1));
-				Vector na = rmap.getNormal(0, i + 1);
+				Vector b(0.0f, i * multHeight, rmap.getHeight(0, i).asFloat());
+				Vector nb = rmap.getNormal(0, i).asVector();
+				Vector a(0.0f, (i + 1) * multHeight, rmap.getHeight(0, i + 1).asFloat());
+				Vector na = rmap.getNormal(0, i + 1).asVector();
 				drawSegment(a, b, na, nb);
 			}
 			{
 				Vector a((float) hmap.getMapWidth(), i * multHeight, 
-					rmap.getHeight(rmap.getMapWidth(), i));
-				Vector na = rmap.getNormal(rmap.getMapWidth(), i);
+					rmap.getHeight(rmap.getMapWidth(), i).asFloat());
+				Vector na = rmap.getNormal(rmap.getMapWidth(), i).asVector();
 				Vector b((float) hmap.getMapWidth(), (i + 1) * multHeight, 
-					rmap.getHeight(rmap.getMapWidth(), i + 1));
-				Vector nb = rmap.getNormal(rmap.getMapWidth(), i + 1);
+					rmap.getHeight(rmap.getMapWidth(), i + 1).asFloat());
+				Vector nb = rmap.getNormal(rmap.getMapWidth(), i + 1).asVector();
 				drawSegment(a, b, na, nb);
 			}
 		}
@@ -148,7 +148,7 @@ void SkyRoof::drawSegment(Vector &a, Vector &b, Vector &na, Vector &nb)
 		*ScorchedClient::instance()->getLandscapeMaps().getDefinitions().getDefn();
 	LandscapeDefnRoofCavern *cavern = 
 		(LandscapeDefnRoofCavern *) defn.roof;
-	float hemispehereRadius = cavern->width;
+	float hemispehereRadius = cavern->width.asFloat();
 
 	const int steps = 5;
 

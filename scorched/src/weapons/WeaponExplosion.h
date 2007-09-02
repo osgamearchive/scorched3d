@@ -35,41 +35,41 @@ public:
 
 	const char *getExplosionTexture();
 	const char *getExplosionSound();
-	virtual Vector &getExplosionColor();
-	float getSize() { return size_; }
-	float getMaxLife() { return maxLife_; }
-	float getMinLife() { return minLife_; }
+	virtual FixedVector &getExplosionColor();
+	fixed getSize() { return size_; }
+	fixed getMaxLife() { return maxLife_; }
+	fixed getMinLife() { return minLife_; }
 	Explosion::DeformType getDeformType() { return deform_; }
-	float getHurtAmount() { return hurtAmount_; }
+	fixed getHurtAmount() { return hurtAmount_; }
 	bool getCreateDebris() { return createDebris_; }
-	float getCreateMushroomAmount() { return createMushroomAmount_; }
+	fixed getCreateMushroomAmount() { return createMushroomAmount_; }
 	bool getCreateSplash() { return createSplash_; }
 	bool getWindAffected() { return windAffected_; }
 	bool getOnlyHurtShield() { return onlyHurtShield_; }
 	bool getLuminance() { return luminance_; }
 	bool getAnimate() { return animate_; }
-	float getShake() { return shake_; }
+	fixed getShake() { return shake_; }
 	const char *getDeformTexture() { return deformTexture_.c_str(); }
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponExplosion, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float size_;
-	float shake_;
-	float minLife_, maxLife_;
+	fixed size_;
+	fixed shake_;
+	fixed minLife_, maxLife_;
 	bool luminance_;
 	bool windAffected_;
 	bool multiColored_;
 	bool createDebris_;
-	float createMushroomAmount_;
+	fixed createMushroomAmount_;
 	bool createSplash_;
 	bool onlyHurtShield_;
 	bool animate_;
-	float hurtAmount_;
+	fixed hurtAmount_;
 	std::string deformTexture_;
 	std::string explosionTexture_;
 	std::string explosionSound_;

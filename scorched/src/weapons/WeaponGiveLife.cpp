@@ -49,23 +49,23 @@ bool WeaponGiveLife::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponGiveLife::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	context.actionController->addAction(
-		new CallbackWeapon(this, 0.0f, 0, 
+		new CallbackWeapon("WeaponGiveLife", this, 0, 0, 
 			weaponContext, position, velocity));
 }
 
 void WeaponGiveLife::weaponCallback(
 	ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 	unsigned int userData)
 {
 	Tank *tank = context.tankContainer->getTankById(weaponContext.getPlayerId());
 	if (!tank) return;
 
-	float life = life_.getValue(context);
-	if (life > 0.0f)
+	fixed life = life_.getValue(context);
+	if (life > 0)
 	{
 		if (life > tank->getLife().getMaxLife() &&
 			exceedMax_)
@@ -79,17 +79,17 @@ void WeaponGiveLife::weaponCallback(
 		{
 			ChannelText text("combat", 
 				formatString("[p:%s] received %.0f life", 
-				tank->getName(), life));
+				tank->getName(), life.asFloat()));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
 		}
 	}
 	else
 	{
-		if (tank->getLife().getLife() + life <= 0.0f)
+		if (tank->getLife().getLife() + life <= 0)
 		{
 			tank->getLife().setLife(
-				MIN(1.0f, tank->getLife().getLife()));
+				MIN(fixed(1), tank->getLife().getLife()));
 		}
 		else
 		{
@@ -101,7 +101,7 @@ void WeaponGiveLife::weaponCallback(
 		{
 			ChannelText text("combat", 
 				formatString("[p:%s] lost %.0f life", 
-				tank->getName(), -life));
+				tank->getName(), -life.asFloat()));
 			//info.setPlayerId(weaponContext.getPlayerId());
 			ChannelManager::showText(text);
 		}

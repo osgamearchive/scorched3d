@@ -50,7 +50,7 @@ bool WeaponLaser::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponLaser::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	// convert NumberParser expressions to values
 	//minimumHurt_ = minimumHurtExp_.getValue(context);

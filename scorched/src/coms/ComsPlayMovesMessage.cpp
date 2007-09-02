@@ -22,7 +22,7 @@
 
 ComsPlayMovesMessage::ComsPlayMovesMessage() :
 	ComsMessage("ComsPlayMovesMessage"),
-	playerState_(ComsPlayerStateMessage::eTankFullState), targetState_(false)
+	playerState_(true, true)
 {
 }
 
@@ -33,7 +33,6 @@ ComsPlayMovesMessage::~ComsPlayMovesMessage()
 bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer)
 {
 	if (!playerState_.writeMessage(buffer)) return false;
-	if (!targetState_.writeMessage(buffer)) return false;
 
 	int size = (int) moves_.size();
 	buffer.addToBuffer(size);
@@ -56,7 +55,6 @@ bool ComsPlayMovesMessage::writeMessage(NetBuffer &buffer)
 bool ComsPlayMovesMessage::readMessage(NetBufferReader &reader)
 {
 	if (!playerState_.readMessage(reader)) return false;
-	if (!targetState_.readMessage(reader)) return false;
 
 	int size = 0;
 	if (!reader.getFromBuffer(size)) return false;

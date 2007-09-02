@@ -41,9 +41,9 @@ protected:
 	struct RandomObject
 	{
 		PlacementObject *object;
-		float weight;
+		fixed weight;
 	};
-	float totalWeight_;
+	fixed totalWeight_;
 	std::vector<RandomObject> objects_;
 };
 #endif // __INCLUDE_PlacementObjectRandomh_INCLUDE__

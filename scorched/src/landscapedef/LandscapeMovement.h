@@ -21,9 +21,8 @@
 #if !defined(__INCLUDE_LandscapeMovementh_INCLUDE__)
 #define __INCLUDE_LandscapeMovementh_INCLUDE__
 
-#include <list>
 #include <vector>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <common/ModelID.h>
 
 class LandscapeMovementType
@@ -48,10 +47,10 @@ class LandscapeMovementTypeBoids : public LandscapeMovementType
 {
 public:
 	ModelID model;
-	Vector minbounds, maxbounds;
-	float maxvelocity;
-	float cruisedistance;
-	float maxacceleration;
+	FixedVector minbounds, maxbounds;
+	fixed maxvelocity;
+	fixed cruisedistance;
+	fixed maxacceleration;
 
 	virtual bool readXML(XMLNode *node);
 	virtual Type getType() { return eBoids; }
@@ -60,12 +59,12 @@ public:
 class LandscapeMovementTypeShips : public LandscapeMovementType
 {
 public:
-	float speed;
+	fixed speed;
 	int controlpoints;
-	float controlpointswidth;
-	float controlpointsheight;
-	float controlpointsrand;
-	float starttime;
+	fixed controlpointswidth;
+	fixed controlpointsheight;
+	fixed controlpointsrand;
+	fixed starttime;
 
 	virtual bool readXML(XMLNode *node);
 	virtual Type getType() { return eShips; }
@@ -74,10 +73,10 @@ public:
 class LandscapeMovementTypeSpline : public LandscapeMovementType
 {
 public:
-	float speed;
-	float starttime;
+	fixed speed;
+	fixed starttime;
 	bool groundonly;
-	std::vector<Vector> points;
+	std::vector<FixedVector> points;
 
 	virtual bool readXML(XMLNode *node);
 	virtual Type getType() { return eSpline; }

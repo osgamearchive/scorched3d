@@ -33,6 +33,7 @@
 
 TankSay::TankSay(unsigned int playerId,
 		const char *text) :
+	ActionReferenced("TankSay"),
 	playerId_(playerId), text_(text)
 {
 
@@ -54,7 +55,7 @@ void TankSay::init()
 			// put a speach bubble over the talking tank
 			Vector white(1.0f, 1.0f, 1.0f);
 			TalkRenderer *talk = new TalkRenderer(
-				tank->getPosition().getTankTurretPosition(),
+				tank->getPosition().getTankTurretPosition().asVector(),
 				white);
 			context_->actionController->addAction(new SpriteAction(talk));
 
@@ -66,7 +67,7 @@ void TankSay::init()
 	}
 }
 
-void TankSay::simulate(float frameTime, bool &remove)
+void TankSay::simulate(fixed frameTime, bool &remove)
 {
 	remove = true;
 	Action::simulate(frameTime, remove);

@@ -31,31 +31,26 @@
 #include <common/RandomGenerator.h>
 #include <engine/ScorchedContext.h>
 
-
-
 class NumberParser
 {
 public:
-        NumberParser();
-        NumberParser(const char *expression);
-        NumberParser(float value);
-        NumberParser(int value);
-        virtual ~NumberParser();
+	NumberParser();
+	NumberParser(fixed value);
+	virtual ~NumberParser();
 
-        float getValue(ScorchedContext &context); //RandomGenerator &generator);
-	float getValue(ScorchedContext &context, float defaultValue);
-        unsigned int getUInt(ScorchedContext &context);
+	fixed getValue(ScorchedContext &context); 
+	fixed getValue(ScorchedContext &context, fixed defaultValue);
 	int getInt(ScorchedContext &context);
-        bool setExpression(const char *expression);
-        bool setExpression(int value);  // FIXME Just testing...
-        bool setExpression(float value);
+	unsigned int getUInt(ScorchedContext &context);
+	bool setExpression(const char *expression);
+	bool setExpression(fixed value);
 
 protected:
-        bool getOperands();
-        bool isInt_, isFloat_, isValid_;
-        std::string expression_;
-        std::list<float> operands_;
-        float max_, min_, step_;
+	bool getOperands();
+	bool isFixed_, isValid_;
+	std::string expression_;
+	std::list<fixed> operands_;
+	fixed max_, min_, step_;
 
 };
 

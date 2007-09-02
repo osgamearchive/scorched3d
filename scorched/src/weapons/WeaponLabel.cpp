@@ -62,7 +62,7 @@ bool WeaponLabel::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 }
 
 void WeaponLabel::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	nextWeapon_->fireWeapon(context, weaponContext, position, velocity);
 }

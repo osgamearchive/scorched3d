@@ -36,22 +36,22 @@ public:
 
 	virtual bool readXML(XMLNode *node, const char *base);
 	Tank *createTank(unsigned int playerId,
-		Vector &position,
+		FixedVector &position,
 		ScorchedContext &context,
 		RandomGenerator &generator);
 
-	Vector &getSize() { return size_; }
+	FixedVector &getSize() { return size_; }
 	PlacementShadowDefinition &getShadow() { return shadow_; }
 	PlacementGroupDefinition &getGroups() { return groups_; }
 
 protected:
-	float life_;
+	fixed life_;
 	bool boundingsphere_;
 	bool driveovertodestroy_;
 	std::string name_;
 	std::string parachute_;
 	std::string shield_;
-	Vector size_;
+	FixedVector size_;
 	std::string removeaction_;
 	std::string burnaction_;
 	PlacementShadowDefinition shadow_;

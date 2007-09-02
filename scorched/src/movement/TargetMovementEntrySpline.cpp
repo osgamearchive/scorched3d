@@ -49,24 +49,24 @@ void TargetMovementEntrySpline::generate(ScorchedContext &context,
 	groundOnly_ = splineGroup->groundonly;
 
 	// Create the control points from those specified
-	std::vector<Vector> controlPoints;
-	controlPoints.push_back(Vector::nullVector);
+	std::vector<FixedVector> controlPoints;
+	controlPoints.push_back(FixedVector::getNullVector());
 	controlPoints.insert(controlPoints.end(), splineGroup->points.begin(), splineGroup->points.end());
 
 	// Add a control point at the end to join the loop
-	Vector midPt = (controlPoints[1] + controlPoints.back()) / 2.0;
+	FixedVector midPt = (controlPoints[1] + controlPoints.back()) / 2;
 	controlPoints.push_back(midPt);
 	controlPoints.front() = midPt;
 
 	// This is done mainly so they are draw correctly for debug
 	if (groundOnly_) 
 	{
-		std::vector<Vector>::iterator itor;
+		std::vector<FixedVector>::iterator itor;
 		for (itor = controlPoints.begin();
 			itor != controlPoints.end();
 			itor++)
 		{
-			Vector &point = (*itor);
+			FixedVector &point = (*itor);
 			point[2] = context.landscapeMaps->getGroundMaps().getInterpHeight(
 				point[0], point[1]);
 		}
@@ -87,19 +87,20 @@ void TargetMovementEntrySpline::generate(ScorchedContext &context,
 	}
 
 	// Generate the list of offsets for all of the targets in the group
-	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *> &objects = groupEntry_->getObjects();
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects.begin();
 		itor != objects.end();
 		itor++)
 	{
 		unsigned int playerId = (*itor).first;
-		TargetGroupEntry *entry = (*itor).second;
+		TargetGroup *entry = (*itor).second;
 
-		if (!entry->getTarget()->isTarget())
+		if (!entry->getTarget()->isTarget() ||
+			entry->getTarget()->getPlayerId() >= TargetID::MIN_TARGET_TRANSIENT_ID)
 		{
 			dialogExit("TargetMovementEntrySpline",
-				"Movement can be assigned to targets only (no tanks)");
+				"Movement can be assigned to level targets only (no tanks)");
 		}
 
 		// Set this target as moving
@@ -107,16 +108,16 @@ void TargetMovementEntrySpline::generate(ScorchedContext &context,
 	}
 }
 
-void TargetMovementEntrySpline::simulate(float frameTime)
+void TargetMovementEntrySpline::simulate(fixed frameTime)
 {
 	// Update the position of all of the targets along the path
 	path_.simulate(frameTime);
 
 	// Get the position and direction along the current path
-	Vector position;
-	Vector direction;
+	FixedVector position;
+	FixedVector direction;
 	path_.getPathAttrs(position, direction);
-	Vector directionPerp = direction.get2DPerp();
+	FixedVector directionPerp = direction.get2DPerp();
 
 	// Move the position to the ground if set
 	if (groundOnly_)
@@ -126,34 +127,34 @@ void TargetMovementEntrySpline::simulate(float frameTime)
 	}
 
 	// For each target set position and rotation based on its offset
-	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *> &objects = groupEntry_->getObjects();
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects.begin();
 		itor != objects.end();
 		itor++)
 	{
 		unsigned int playerId = (*itor).first;
-		TargetGroupEntry *groupEntry = (*itor).second;
+		TargetGroup *groupEntry = (*itor).second;
 		
-		float angle = atan2f(direction[1], direction[0]);
-		float angleDegs = (angle / 3.14f) * 180.0f - 90.0f;
+		fixed angle = atan2x(direction[1], direction[0]);
+		fixed angleDegs = (angle / fixed::XPI) * 180 - 90;
 
 		// Update target
-		groupEntry->getTarget()->getLife().setTargetPosition(position);
-		groupEntry->getTarget()->getLife().setRotation(angleDegs);
+		groupEntry->getTarget()->getLife().setTargetPositionAndRotation(
+			position, angleDegs);
 	}
 }
 
 bool TargetMovementEntrySpline::writeMessage(NetBuffer &buffer)
 {
-	float pathTime = path_.getPathTime();
+	fixed pathTime = path_.getPathTime();
 	buffer.addToBuffer(pathTime);
 	return true;
 }
 
 bool TargetMovementEntrySpline::readMessage(NetBufferReader &reader)
 {
-	float pathTime = 0.0f;
+	fixed pathTime = 0;
 	if (!reader.getFromBuffer(pathTime)) return false;
 	path_.setPathTime(pathTime);
 	return true;

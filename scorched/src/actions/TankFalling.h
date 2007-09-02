@@ -38,7 +38,8 @@ public:
 	virtual ~TankFalling();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
@@ -51,7 +52,7 @@ protected:
 	unsigned int fallingPlayerId_;
 	WeaponFireContext weaponContext_;
 	unsigned int data_;
-	Vector tankStartPosition_;
+	FixedVector tankStartPosition_;
 
 };
 

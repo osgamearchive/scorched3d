@@ -32,12 +32,12 @@ public:
 
 	struct ShotEntry
 	{
-		ShotEntry(float p = 0.0f, float r = 0.0f, float e = 0.0f) : 
+		ShotEntry(fixed p = 0, fixed r = 0, fixed e = 0) : 
 			power(p), rot(r), ele(e) { }
 	
-		float power;
-		float rot;
-		float ele;
+		fixed power;
+		fixed rot;
+		fixed ele;
 		bool current;
 	};
 
@@ -52,18 +52,18 @@ public:
 	void newGame();
 	
 	// Saved settings
-	float getRotationXYDiff();
-	float getRotationYZDiff();
-	float getPowerDiff();
+	fixed getRotationXYDiff();
+	fixed getRotationYZDiff();
+	fixed getPowerDiff();
 	void revertSettings(unsigned int index = 0);
 	void undo();
 	std::vector<ShotEntry> &getOldShots();
 
 	// Gun/Turret Rotation
-	float rotateGunXY(float angle, bool diff=true);
-	float rotateGunYZ(float angle, bool diff=true);
-	float getRotationGunXY() { return turretRotXY_; }
-	float getRotationGunYZ() { return turretRotYZ_; }
+	fixed rotateGunXY(fixed angle, bool diff=true);
+	fixed rotateGunYZ(fixed angle, bool diff=true);
+	fixed getRotationGunXY() { return turretRotXY_; }
+	fixed getRotationGunYZ() { return turretRotYZ_; }
 
 	// Select position
 	int getSelectPositionX() { return selectPositionX_; }
@@ -72,17 +72,17 @@ public:
 		selectPositionX_ = x; selectPositionY_ = y; }
 
 	// Power of gun
-	float getPower() { return power_; }
-	float changePower(float power, bool diff=true);
+	fixed getPower() { return power_; }
+	fixed changePower(fixed power, bool diff=true);
 
-	float getMaxPower() { return maxPower_; }
-	void setMaxPower(float power) { maxPower_ = power; }
+	fixed getMaxPower() { return maxPower_; }
+	void setMaxPower(fixed power) { maxPower_ = power; }
 
 	// Position
-	Vector &getVelocityVector();
-	Vector &getTankPosition(); // Position of center bottom of tank
-	Vector &getTankTurretPosition(); // Position of center of turret
-	Vector &getTankGunPosition(); // Position of end of gun
+	FixedVector &getVelocityVector();
+	FixedVector &getTankPosition(); // Position of center bottom of tank
+	FixedVector &getTankTurretPosition(); // Position of center of turret
+	FixedVector &getTankGunPosition(); // Position of end of gun
 
 	const char *getRotationString();
 	const char *getElevationString();
@@ -98,9 +98,9 @@ protected:
 
 	// Turret angles
 	std::vector<ShotEntry> oldShots_;
-	float turretRotXY_, turretRotYZ_, power_;
-	float oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
-	float maxPower_;
+	fixed turretRotXY_, turretRotYZ_, power_;
+	fixed oldTurretRotXY_, oldTurretRotYZ_, oldPower_;
+	fixed maxPower_;
 	int selectPositionX_, selectPositionY_;
 };
 

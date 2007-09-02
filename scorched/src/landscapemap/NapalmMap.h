@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_NapalmMaph_INCLUDE__)
 #define __INCLUDE_NapalmMaph_INCLUDE__
 
+#include <common/fixed.h>
+
 class NapalmMap
 {
 public:
@@ -28,10 +30,10 @@ public:
 	virtual ~NapalmMap();
 
 	void create(int width, int height);
-	float &getNapalmHeight(int w, int h);
+	fixed &getNapalmHeight(int w, int h);
 
 protected:
-	float *entries_;
+	fixed *entries_;
 	int width_, height_;
 
 	void clear();

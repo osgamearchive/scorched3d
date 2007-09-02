@@ -30,19 +30,20 @@ class TankDamage : public ActionReferenced
 public:
 	TankDamage(Weapon *weapon, 
 		unsigned int damagedPlayerId, WeaponFireContext &weaponContext,
-		float damage, bool useShieldDamage, bool checkFall,
+		fixed damage, bool useShieldDamage, bool checkFall,
 		bool shieldOnlyDamage);
 	virtual ~TankDamage();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	bool firstTime_;
 	Weapon *weapon_;
 	WeaponFireContext weaponContext_;
 	unsigned int damagedPlayerId_;
-	float damage_;
+	fixed damage_;
 	bool useShieldDamage_, checkFall_, shieldOnlyDamage_;
 
 	void calculateDamage();

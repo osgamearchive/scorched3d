@@ -24,6 +24,7 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefinitions.h>
 #include <landscapedef/LandscapeDefinitionCache.h>
+#include <target/Target.h>
 #include <placement/PlacementTankPosition.h>
 #include <movement/TargetMovement.h>
 #include <common/Logger.h>
@@ -40,6 +41,7 @@ GroundMaps::~GroundMaps()
 
 void GroundMaps::generateMaps(
 	ScorchedContext &context,
+	std::list<FixedVector> &tankPositions,
 	ProgressCounter *counter)
 {
 	generateHMap(context, counter);
@@ -47,7 +49,7 @@ void GroundMaps::generateMaps(
 
 	// Place the tanks after the objects and hmap
 	// This can remove objects, and flatten the hmap
-	PlacementTankPosition::calculateStartPosition(defnCache_.getSeed(), context);
+	PlacementTankPosition::flattenTankPositions(tankPositions, context);
 
 	// Create movement after targets, so we can mark 
 	// those targets that are in movement groups
@@ -145,7 +147,7 @@ void GroundMaps::generateObjects(
 
 	// Add objects to the landscape (if any)
 	// Do this now as it adds shadows to the mainmap
-	unsigned int playerId = TankAIAdder::MIN_TARGET_ID;
+	unsigned int playerId = TargetID::MIN_TARGET_ID;
 	{
 		// Do this for the definition file
 		std::vector<LandscapeInclude *>::iterator itor;
@@ -199,7 +201,7 @@ void GroundMaps::saveHMap()
 	map_.backup();
 }
 
-float GroundMaps::getHeight(int w, int h)
+fixed GroundMaps::getHeight(int w, int h)
 {
 	// Check if we are in the normal heightmap
 	if (w < 0 || h < 0 || w > map_.getMapWidth() || h > map_.getMapHeight())
@@ -207,7 +209,7 @@ float GroundMaps::getHeight(int w, int h)
 		// Check for no surround
 		if (defnCache_.getDefn()->surround->getType() == LandscapeDefnType::eNone)
 		{
-			return 0.0f;
+			return fixed(0);
 		}
 
 		// Check if we are in the surround
@@ -215,7 +217,7 @@ float GroundMaps::getHeight(int w, int h)
 			w > map_.getMapWidth() + 640 || 
 			h > map_.getMapHeight() + 640)
 		{
-			return 0.0f;
+			return fixed(0);
 		}
 
 		// Return surround
@@ -226,32 +228,33 @@ float GroundMaps::getHeight(int w, int h)
 	return map_.getHeight(w, h);
 }
 
-float GroundMaps::getInterpHeight(float w, float h)
+fixed GroundMaps::getInterpHeight(fixed w, fixed h)
 {
 	if (w < 0 || h < 0 || w > map_.getMapWidth() || h > map_.getMapHeight())
 	{
-		return getHeight((int) w, (int) h);
+		return getHeight(w.asInt(), h.asInt());
 	}
 	return map_.getInterpHeight(w, h);
 }
 
-Vector &GroundMaps::getNormal(int w, int h)
+FixedVector &GroundMaps::getNormal(int w, int h)
 {
 	if (w < 0 || h < 0 || w > map_.getMapWidth() || h > map_.getMapHeight())
 	{
-		static Vector up(0.0f, 0.0f, 1.0f);
+		static FixedVector up(0, 0, 1);
 		return up;
 	}
-	return map_.getNormal(w, h);
+	return  map_.getNormal(w, h);
 }
 
-void GroundMaps::getInterpNormal(float w, float h, Vector &normal)
+void GroundMaps::getInterpNormal(fixed w, fixed h, FixedVector &normal)
 {
 	if (w < 0 || h < 0 || w > map_.getMapWidth() || h > map_.getMapHeight())
 	{
-		static Vector up(0.0f, 0.0f, 1.0f);
+		static FixedVector up(0, 0, 1);
 		normal = up;
 	}
+	FixedVector result;
 	map_.getInterpNormal(w, h, normal);
 }
 

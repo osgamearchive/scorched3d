@@ -48,16 +48,16 @@ bool WeaponMessage::parseXML(AccessoryCreateContext &context, XMLNode *accessory
 }
 
 void WeaponMessage::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	context.actionController->addAction(
-		new CallbackWeapon(this, 0.0f, 0, 
+		new CallbackWeapon("WeaponMessage", this, 0, 0, 
 			weaponContext, position, velocity));
 }
 
 void WeaponMessage::weaponCallback(
 	ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 	unsigned int userData)
 {
 	if (!context.serverMode)

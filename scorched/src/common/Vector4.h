@@ -26,8 +26,6 @@
 class Vector4  
 {
 public:
-	static Vector4 nullVector;
-
 	Vector4()
 	{
 		V[0] = V[1] = V[2] = V[3] = 0.0f;
@@ -143,6 +141,7 @@ public:
 	float const &operator[](const int m) const { DIALOG_ASSERT(m<=3); return V[m]; }
 
 	operator float*() { return V; }
+	static Vector4 &getNullVector();
 
 protected:
 	float V[4];

@@ -390,6 +390,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\fixed.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\fixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\Keyboard.cpp"
 				>
 			</File>

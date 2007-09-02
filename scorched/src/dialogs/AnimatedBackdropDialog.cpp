@@ -83,9 +83,11 @@ void AnimatedBackdropDialog::init()
 			definition.getName());
 
 	// Generate new landscape
+	std::list<FixedVector> tankPositions;
 	ScorchedClient::instance()->getLandscapeMaps().generateMaps(
 		ScorchedClient::instance()->getContext(),
 		definition,
+		tankPositions,
 		&progressCounter);
 
 	// Calculate all the new landscape settings (graphics)

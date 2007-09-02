@@ -31,16 +31,16 @@
 #include <common/OptionsScorched.h>
 
 TankPosition::TankPosition(ScorchedContext &context) :
-	turretRotXY_(0.0f), turretRotYZ_(0.0f),
-	oldTurretRotXY_(0.0f), oldTurretRotYZ_(0.0f),
-	power_(1000.0f), oldPower_(1000.0f),
-	maxPower_(1000.0f),
+	turretRotXY_(0), turretRotYZ_(0),
+	oldTurretRotXY_(0), oldTurretRotYZ_(0),
+	power_(1000), oldPower_(1000),
+	maxPower_(1000),
 	tank_(0), context_(context),
 	selectPositionX_(0), selectPositionY_(0)
 {
 	// Only make the very first shot random angle
-	oldTurretRotXY_ = turretRotXY_ = RAND * 360;
-	oldTurretRotYZ_ = turretRotYZ_ = RAND * 90;
+	oldTurretRotXY_ = turretRotXY_ = 0;
+	oldTurretRotYZ_ = turretRotYZ_ = 45;
 }
 
 TankPosition::~TankPosition()
@@ -125,9 +125,9 @@ void TankPosition::undo()
 	changePower(oldPower_, false);
 }
 
-Vector &TankPosition::getTankGunPosition()
+FixedVector &TankPosition::getTankGunPosition()
 {
-	static Vector tankGunPosition;
+	static FixedVector tankGunPosition;
 	tankGunPosition = TankLib::getGunPosition(
 			getRotationGunXY(), getRotationGunYZ());
 	tankGunPosition += getTankTurretPosition();
@@ -135,57 +135,57 @@ Vector &TankPosition::getTankGunPosition()
 	return tankGunPosition;
 }
 
-Vector &TankPosition::getTankTurretPosition()
+FixedVector &TankPosition::getTankTurretPosition()
 {
-	static Vector tankTurretPosition;
+	static FixedVector tankTurretPosition;
 	tankTurretPosition = getTankPosition();
-	tankTurretPosition[2] += 1.0f;//model_->getTurretHeight();
+	tankTurretPosition[2] += 1;//model_->getTurretHeight();
 
 	return tankTurretPosition;
 }
 
-Vector &TankPosition::getTankPosition()
+FixedVector &TankPosition::getTankPosition()
 { 
 	return tank_->getLife().getTargetPosition();
 }
 
-Vector &TankPosition::getVelocityVector()
+FixedVector &TankPosition::getVelocityVector()
 {
 	return TankLib::getVelocityVector(
 		getRotationGunXY(), getRotationGunYZ());
 }
 
-float TankPosition::rotateGunXY(float angle, bool diff)
+fixed TankPosition::rotateGunXY(fixed angle, bool diff)
 {
 	if (diff) turretRotXY_ += angle;
 	else turretRotXY_ = angle;
 
-	if (turretRotXY_ <= 0.0f) turretRotXY_ = 360.0f + turretRotXY_;
-	else if (turretRotXY_ > 360.0f) turretRotXY_ = turretRotXY_ - 360.0f;
+	if (turretRotXY_ <= 0) turretRotXY_ = turretRotXY_ + 360;
+	else if (turretRotXY_ > 360) turretRotXY_ = turretRotXY_ - 360;
 
 	return turretRotXY_;
 }
 
-float TankPosition::rotateGunYZ(float angle, bool diff)
+fixed TankPosition::rotateGunYZ(fixed angle, bool diff)
 {
 	if (diff) turretRotYZ_ += angle;
 	else turretRotYZ_ = angle;
 
-	if (turretRotYZ_ < 0.0f) turretRotYZ_ = 0.0f;
-	else if (turretRotYZ_ > 90.0f) turretRotYZ_ = 90.0f;
+	if (turretRotYZ_ < 0) turretRotYZ_ = 0;
+	else if (turretRotYZ_ > 90) turretRotYZ_ = 90;
 
 	return turretRotYZ_;
 }
 
-float TankPosition::changePower(float power, bool diff)
+fixed TankPosition::changePower(fixed power, bool diff)
 {
 	if (diff) power_ += power;
 	else power_ = power;
 
-	if (power_ < 0.0f) power_ = 0.0f;
+	if (power_ < 0) power_ = 0;
 	if (context_.optionsGame->getLimitPowerByHealth())
 	{
-		float maxPosPower = 
+		fixed maxPosPower = 
 			tank_->getLife().getLife() / tank_->getLife().getMaxLife() * maxPower_;
 		if (power_ > maxPosPower) power_ = maxPosPower;
 	}
@@ -194,20 +194,20 @@ float TankPosition::changePower(float power, bool diff)
 	return power_;
 }
 
-float TankPosition::getRotationXYDiff()
+fixed TankPosition::getRotationXYDiff()
 {
-	float rotDiff = (360.0f - turretRotXY_) - (360.0f - oldTurretRotXY_);
-	if (rotDiff > 180.0f) rotDiff -= 360.0f;
-	else if (rotDiff < -180.0f) rotDiff += 360.0f;
+	fixed rotDiff = (fixed(360) - turretRotXY_) - (fixed(360) - oldTurretRotXY_);
+	if (rotDiff > 180) rotDiff -= 360;
+	else if (rotDiff < -180) rotDiff += 360;
 	return rotDiff;
 }
 
-float TankPosition::getRotationYZDiff()
+fixed TankPosition::getRotationYZDiff()
 {
 	return turretRotYZ_ - oldTurretRotYZ_;
 }
 
-float TankPosition::getPowerDiff()
+fixed TankPosition::getPowerDiff()
 {
 	return power_ - oldPower_;
 }
@@ -215,34 +215,33 @@ float TankPosition::getPowerDiff()
 const char *TankPosition::getRotationString()
 {
 	static char messageBuffer[255];
-	float rotDiff = getRotationXYDiff();
+	fixed rotDiff = getRotationXYDiff();
 
-	snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
-			360.0f - getRotationGunXY(),
-			rotDiff);
-
+	snprintf(messageBuffer, 255, "%+.1f (%+.1f)", 
+		(fixed(360) - getRotationGunXY()).asFloat(),
+		rotDiff.asFloat());
 	return messageBuffer;
 }
 
 const char *TankPosition::getElevationString()
 {
 	static char messageBuffer[255];
-	float rotDiff = getRotationYZDiff();
+	fixed rotDiff = getRotationYZDiff();
 
-	snprintf(messageBuffer, 255, "%.1f (%+.1f)", 
-			getRotationGunYZ(),
-			rotDiff);
+	snprintf(messageBuffer, 255, "%+.1f (%+.1f)", 
+		getRotationGunYZ().asFloat(),
+		rotDiff.asFloat());
 	return messageBuffer;
 }
 
 const char *TankPosition::getPowerString()
 {
 	static char messageBuffer[255];
-	float powDiff = getPowerDiff();
+	fixed powDiff = getPowerDiff();
 
-	snprintf(messageBuffer, 255, "%.1f (%+.1f)", 		
-			getPower(),
-			powDiff);
+	snprintf(messageBuffer, 255, "%+.1f (%+.1f)", 		
+		getPower().asFloat(),
+		powDiff.asFloat());
 	return messageBuffer;
 }
 

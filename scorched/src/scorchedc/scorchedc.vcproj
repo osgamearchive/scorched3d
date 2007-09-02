@@ -171,14 +171,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\actions\Animation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\Animation.h"
-				>
-			</File>
-			<File
 				RelativePath="..\actions\CallbackWeapon.cpp"
 				>
 			</File>
@@ -492,6 +484,30 @@
 			</File>
 			<File
 				RelativePath="..\common\FileLogger.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\fixed.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\fixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector4.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector4.h"
 				>
 			</File>
 			<File
@@ -1007,14 +1023,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\server\ServerPlayerAimHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\server\ServerPlayerAimHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\server\ServerPlayerReadyHandler.cpp"
 				>
 			</File>
@@ -1387,14 +1395,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\coms\ComsPlayerReadyMessage.cpp"
 				>
 			</File>
@@ -1456,14 +1456,6 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsSyncCheckMessage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTargetStateMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTargetStateMessage.h"
 				>
 			</File>
 			<File
@@ -1852,14 +1844,6 @@
 			</File>
 			<File
 				RelativePath="..\engine\ShotState.h"
-				>
-			</File>
-			<File
-				RelativePath="..\engine\SyncCheck.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\engine\SyncCheck.h"
 				>
 			</File>
 			<File
@@ -2503,11 +2487,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\target\TargetGroupEntry.cpp"
+				RelativePath="..\target\TargetGroup.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\target\TargetGroupEntry.h"
+				RelativePath="..\target\TargetGroup.h"
 				>
 			</File>
 			<File
@@ -3703,14 +3687,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\ClientPlayerAimHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientPlayerAimHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\client\ClientPlayerStateHandler.cpp"
 				>
 			</File>
@@ -3724,14 +3700,6 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientPlayerStatusHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientPlayMovesHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientPlayMovesHandler.h"
 				>
 			</File>
 			<File
@@ -3796,14 +3764,6 @@
 			</File>
 			<File
 				RelativePath="..\client\ClientSyncCheckHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientTargetStateHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ClientTargetStateHandler.h"
 				>
 			</File>
 			<File
@@ -5451,63 +5411,11 @@
 			Name="movement"
 			>
 			<File
-				RelativePath="..\movement\Boid.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\movement\Boid.h"
+				RelativePath="..\movement\Boid2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\movement\BoidsObstacle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\movement\BoidsObstacle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\movement\BoidVector.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\movement\BoidVector.h"
+				RelativePath="..\movement\Boid2.h"
 				>
 			</File>
 			<File

@@ -61,7 +61,7 @@ bool WeaponLightning::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponLightning::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	coneLength_ = coneLengthExp_.getValue(context);
 	segLength_ = segLengthExp_.getValue(context);

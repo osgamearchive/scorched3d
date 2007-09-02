@@ -28,7 +28,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponMoveTank);
 
 WeaponMoveTank::WeaponMoveTank() :
-	stepTime_(0.05f), useFuel_(-1), maximumRange_(100)
+	stepTime_(fixed(true, 500)), useFuel_(-1), maximumRange_(100)
 {
 
 }
@@ -56,10 +56,10 @@ bool WeaponMoveTank::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponMoveTank::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	int posX = (int) position[0];
-	int posY = (int) position[1];
+	int posX = position[0].asInt();
+	int posY = position[1].asInt();
 	if (posX > 5 && posX < context.landscapeMaps->getDefinitions().getDefn()->landscapewidth - 5 &&
 		posY > 5 && posY < context.landscapeMaps->getDefinitions().getDefn()->landscapeheight - 5)
 	{

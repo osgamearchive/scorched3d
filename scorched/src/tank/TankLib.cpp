@@ -31,22 +31,22 @@
 #endif
 #include <math.h>
 
-float TankLib::getDistanceToTank(Vector &position, Tank *targetTank)
+fixed TankLib::getDistanceToTank(FixedVector &position, Tank *targetTank)
 {
-	Vector currentdirection = 
+	FixedVector currentdirection = 
 			targetTank->getPosition().getTankPosition() - position;
-	float maxdistance2D = sqrtf(currentdirection[0] * 
-		currentdirection[0] + currentdirection[1] * currentdirection[1]);
+	fixed maxdistance2D = (currentdirection[0] * 
+		currentdirection[0] + currentdirection[1] * currentdirection[1]).sqrt();
 	return maxdistance2D;
 }
 
 void TankLib::getTanksSortedByDistance(ScorchedContext &context,
-									   Vector &position, 
-									  std::list<std::pair<float, Tank *> > &result,
+									   FixedVector &position, 
+									  std::list<std::pair<fixed, Tank *> > &result,
 									  unsigned int teams,
-									  float maxDistance)
+									  fixed maxDistance)
 {
-	std::list<std::pair<float, Tank *> > tankDistList;
+	std::list<std::pair<fixed, Tank *> > tankDistList;
 	std::map<unsigned int, Tank *> &allCurrentTanks = 
 		context.tankContainer->getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
@@ -59,15 +59,15 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 		{
 			if (teams > 0 && teams == targetTank->getTeam()) continue;
 
-			float maxdistance2D = getDistanceToTank(position, targetTank);
-			tankDistList.push_back(std::pair<float, Tank*>(maxdistance2D, targetTank));
+			fixed maxdistance2D = getDistanceToTank(position, targetTank);
+			tankDistList.push_back(std::pair<fixed, Tank*>(maxdistance2D, targetTank));
 		}
 	}
 
 	while (!tankDistList.empty())
 	{
-		std::list<std::pair<float, Tank *> >::iterator removeItor = tankDistList.begin();
-		std::list<std::pair<float, Tank *> >::iterator itor = tankDistList.begin(); itor++;
+		std::list<std::pair<fixed, Tank *> >::iterator removeItor = tankDistList.begin();
+		std::list<std::pair<fixed, Tank *> >::iterator itor = tankDistList.begin(); itor++;
 		for (;itor != tankDistList.end(); itor++)
 		{
 			if ((*itor).first <  (*removeItor).first) 
@@ -82,11 +82,11 @@ void TankLib::getTanksSortedByDistance(ScorchedContext &context,
 }
 
 bool TankLib::intersection(ScorchedContext &context,
-	Vector position, float xy, float yz, float power, 
+	FixedVector position, fixed xy, fixed yz, fixed power, 
 	int dist)
 {
-	Vector startPosition = position;
-	Vector velocity = getVelocityVector(xy, yz) * power / 250.0f;
+	FixedVector startPosition = position;
+	FixedVector velocity = getVelocityVector(xy, yz) * power / fixed(250);
 
 	do
 	{
@@ -96,35 +96,35 @@ bool TankLib::intersection(ScorchedContext &context,
 			return true;
 		}
 		position += velocity;
-		velocity += Vector(0.0f, 0.0f, -0.00015f);
+		velocity += FixedVector(0, 0, fixed(true, -0002));
 	} while ((position - startPosition).Magnitude() < dist);
 
     return false;
 }
 
 bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
-	Vector &position, Vector &shootAt, float distForSniper, 
-	float &angleXYDegs, float &angleYZDegs, float &power,
+	FixedVector &position, FixedVector &shootAt, fixed distForSniper, 
+	fixed &angleXYDegs, fixed &angleYZDegs, fixed &power,
 	bool checkIntersection)
 {
 	// Calculate power
-	power = 1000.0f;
+	power = fixed(1000);
 
 	// Calculate direction
-	Vector direction = shootAt - position;
-	float angleXYRads = atan2f(direction[1], direction[0]);
-	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+	FixedVector direction = shootAt - position;
+	fixed angleXYRads = atan2x(direction[1], direction[0]);
+	angleXYDegs = (angleXYRads / fixed::XPI) * fixed(180) - fixed(90);
 
-	float distance2D = sqrtf(direction[0] * direction[0] + 
-		direction[1] * direction[1]);
-	float angleYZRads = atan2f(distance2D, direction[2]);
-	angleYZDegs = 90.0f - ((angleYZRads / 3.14f) * 180.0f);	
+	fixed distance2D = (direction[0] * direction[0] + 
+		direction[1] * direction[1]).sqrt();
+	fixed angleYZRads = atan2x(distance2D, direction[2]);
+	angleYZDegs = fixed(90) - ((angleYZRads /fixed::XPI) * fixed(180));	
 
 	// Special case
 	// If we are less than a certain distance and under the position we
 	// will use a direct shot on full power
-	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2] - 2.0f)) ||
-		(distForSniper == -1.0f);
+	bool useSniper = ((distance2D < distForSniper) && (shootAt[2] >= position[2] - fixed(2))) ||
+		(distForSniper == fixed(-1));
 	if (!useSniper) return false;
 
 	// If we check intersection
@@ -132,8 +132,8 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 	{
 		// Ensure that the sniper shot wont collide with the ground
 		// nearer than 10 units from the target
-		int allowedIntersectDist = int(direction.Magnitude() - 10.0f);
-		if (intersection(context, position - Vector(0.0f, 0.0f, 1.0f), 
+		int allowedIntersectDist = (direction.Magnitude() - fixed(10)).asInt();
+		if (intersection(context, position - FixedVector(0, 0, 1), 
 			angleXYDegs, angleYZDegs, power, allowedIntersectDist))
 		{
 			return false;
@@ -145,25 +145,25 @@ bool TankLib::getSniperShotTowardsPosition(ScorchedContext &context,
 
 void TankLib::getShotTowardsPosition(ScorchedContext &context,
 	RandomGenerator &random,
-	Vector &position, Vector &shootAt,
-	float &angleXYDegs, float &angleYZDegs, float &power)
+	FixedVector &position, FixedVector &shootAt,
+	fixed &angleXYDegs, fixed &angleYZDegs, fixed &power)
 {
 	// Calculate direction
-	Vector direction = shootAt - position;
-	float angleXYRads = atan2f(direction[1], direction[0]);
-	angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
-	float distance2D = sqrtf(direction[0] * direction[0] + 
-		direction[1] * direction[1]);
+	FixedVector direction = shootAt - position;
+	fixed angleXYRads = atan2x(direction[1], direction[0]);
+	angleXYDegs = (angleXYRads / fixed::XPI) * fixed(180) - fixed(90);
+	fixed distance2D = (direction[0] * direction[0] + 
+		direction[1] * direction[1]).sqrt();
 
 	// Calculate power (very roughly)
-	power = 1000.0f;
-	if (distance2D < 200.0f)
+	power = fixed(1000);
+	if (distance2D < 200)
 	{
 		power = 750;
-		if (distance2D < 100.0f)
+		if (distance2D < 100)
 		{
 			power = 550;
-			if (distance2D < 50.0f)
+			if (distance2D < 5)
 			{
 				power = 350;
 			}
@@ -171,56 +171,55 @@ void TankLib::getShotTowardsPosition(ScorchedContext &context,
 	}
 
 	// Add some randomness to the power
-	power += (random.getRandFloat() * 200.0f) - 100.0f;
+	power += (random.getRandFixed() * 200) - 100;
 	if (power < 100) power = 100;
 
 	if (context.optionsTransient->getWindOn())
 	{
 		// Make less adjustments for less wind
-		float windMag = context.optionsTransient->getWindSpeed() / 5.0f;
+		fixed windMag = context.optionsTransient->getWindSpeed() / 5;
 
 		// Try to account for the wind direction
-		Vector ndirection = direction;
-		ndirection[2] = 0.0f;
+		FixedVector ndirection = direction;
+		ndirection[2] = 0;
 		ndirection = ndirection.Normalize();
 		ndirection = ndirection.get2DPerp();
-		float windoffsetLR = context.optionsTransient->getWindDirection().dotP(ndirection);
-		angleXYDegs += windoffsetLR * distance2D * (0.12f + random.getRandFloat() * 0.04f) * windMag;
+		fixed windoffsetLR = context.optionsTransient->getWindDirection().dotP(ndirection);
+		angleXYDegs += windoffsetLR * distance2D * (fixed(true, 1200) + random.getRandFixed()) * fixed(true, 400) * windMag;
 
-		float windoffsetFB = context.optionsTransient->getWindDirection().dotP(direction.Normalize());
-		windoffsetFB /= 10.0f;
+		fixed windoffsetFB = context.optionsTransient->getWindDirection().dotP(direction.Normalize());
+		windoffsetFB /= 10;
 		windoffsetFB *= windMag;
-		windoffsetFB += 1.0f; // windowoffset FB 0.9 > 1.1
+		windoffsetFB += 1; // windowoffset FB 0.9 > 1.1
 
 		power *= windoffsetFB;
 	}
 
 	// Angle
-	angleYZDegs = 45.0f;
+	angleYZDegs = 45;
 }
 
-Vector &TankLib::getVelocityVector(float xy, float yz)
+FixedVector &TankLib::getVelocityVector(fixed xy, fixed yz)
 {
-	static Vector diff;
-	diff = Vector((float) sinf(-xy / 180.0f * 3.14f) *
-				cosf(yz / 180.0f * 3.14f),
-				(float) cosf(-xy / 180.0f * 3.14f) * 
-				cosf(yz / 180.0f * 3.14f),
-				(float) sinf(yz/ 180.0f * 3.14f));	
-	diff /= 20.0f;
+	static FixedVector diff;
+	diff = FixedVector(
+		(-xy / fixed(180) * fixed::XPI).sin() * (yz / fixed(180) * fixed::XPI).cos(),
+		(-xy / fixed(180) * fixed::XPI).cos() * (yz / fixed(180) * fixed::XPI).cos(),
+		( yz / fixed(180) * fixed::XPI).sin());	
+	diff /= 20;
 	return diff;
 }
 
-Vector &TankLib::getGunPosition(float xy, float yz)
+FixedVector &TankLib::getGunPosition(fixed xy, fixed yz)
 {
-	static Vector pos;
-	const float gunLength = 1.0f;
-	const float degToRad = 180.0f * 3.14f;
-	pos[0] = gunLength * sinf(xy / degToRad) * 
-		sinf((90.0f - yz) / degToRad);
-	pos[1] = gunLength * cosf(xy / degToRad) * 
-		sinf((90.0f - yz) / degToRad);
-	pos[2] = gunLength * cosf((90.0f - yz) / degToRad);
+	static FixedVector pos;
+	fixed gunLength = 1;
+	fixed degToRad = fixed(180) * fixed::XPI;
+	pos[0] = gunLength * (xy / degToRad).sin() * 
+		((fixed(90) - yz) / degToRad).sin();
+	pos[1] = gunLength * (xy / degToRad).cos() * 
+		((fixed(90) - yz) / degToRad).sin();
+	pos[2] = gunLength * ((fixed(90) - yz) / degToRad).cos();
 
 	return pos;
 }

@@ -313,10 +313,12 @@ bool NetServerUDP::checkIncoming()
 		{
 		case eConnect:
 			// A connect request
-			if (destinationId == 0)
+			if (destinationId != 0)
 			{
-				addDestination(packetVIn_[i]->address);
+				destroyDestination(destinationId, NetMessage::TimeoutDisconnect);
 			}
+
+			addDestination(packetVIn_[i]->address);
 			sendConnect(packetVIn_[i]->address, eConnectAck);
 			break;
 		case eConnectAck:
@@ -442,7 +444,7 @@ void NetServerUDP::destroyDestination(unsigned int destinationId,
 			destinationId, destination->getIpAddress());
 	message->setFlags((unsigned int) type);
 
-	destinations_.erase(destinationId);
+	destinations_.erase(itor);
 	destination->printStats(destinationId);
 	delete destination;
 

@@ -23,10 +23,11 @@
 #include <actions/CameraPositionAction.h>
 #include <dialogs/ScoreDialog.h>
 
-CameraPositionAction::CameraPositionAction(Vector &showPosition,
-		float showTime,
+CameraPositionAction::CameraPositionAction(FixedVector &showPosition,
+		fixed showTime,
 		unsigned int priority) : 
-		totalTime_(0.0f), showTime_(showTime),
+		ActionReferenced("CameraPositionAction"),
+		totalTime_(0), showTime_(showTime),
 		showPosition_(showPosition), showPriority_(priority)
 {
 
@@ -49,7 +50,7 @@ void CameraPositionAction::init()
 	startTime_ = context_->actionController->getActionTime();
 }
 
-void CameraPositionAction::simulate(float frameTime, bool &remove)
+void CameraPositionAction::simulate(fixed frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
 	if (totalTime_ > showTime_)
@@ -111,10 +112,10 @@ CameraPositionAction *CameraPositionActionRegistry::getCurrentBest()
 			CameraPositionAction *action = (*itor);
 			
 			// Check that this action is near the beginning
-			float currentTime = action->getScorchedContext()->
+			fixed currentTime = action->getScorchedContext()->
 				actionController->getActionTime();
-			float actionTime = action->getStartTime();
-			if (currentTime - actionTime < 1.0f)
+			fixed actionTime = action->getStartTime();
+			if (currentTime - actionTime < 1)
 			{
 				// Is there an action to beat
 				if (!currentBest) currentBest = action;

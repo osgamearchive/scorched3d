@@ -61,7 +61,7 @@ void WindDialogToolTip::populate()
 		break;
 	}
 
-	if ((int) ScorchedClient::instance()->
+	if (ScorchedClient::instance()->
 		getOptionsTransient().getWindSpeed() == 0)
 	{
 		setText("Wind", formatString(
@@ -78,7 +78,7 @@ void WindDialogToolTip::populate()
 			"Current Wind Force : %i (out of 5)\n"
 			"%s",
 			(int) ScorchedClient::instance()->
-			getOptionsTransient().getWindSpeed(),
+			getOptionsTransient().getWindSpeed().asFloat(),
 			wallTypeStr));
 	}
 }
@@ -161,7 +161,8 @@ void GLWWindView::drawDisplay()
 			glTranslatef(0.0f, 0.0f, 20.0f);
 			glScalef(scale, scale, scale);
 
-			glRotatef(-ScorchedClient::instance()->getOptionsTransient().getWindAngle(), 0.0f, 0.0f, 1.0f);
+			glRotatef(-ScorchedClient::instance()->getOptionsTransient().getWindAngle().asFloat(), 
+				0.0f, 0.0f, 1.0f);
 			drawArrow();
 		}
 	glPopMatrix();
@@ -197,9 +198,9 @@ void GLWWindView::drawScene()
 			float yPos2 = yPer2 * squareSizeHeight * 2 - squareSizeHeight;
 
 			glTexCoord2f(xPer, yPer2);
-			glVertex3f(xPos, yPos2, hmp.getHeight(x, y+sqSizeH) * heightPer);
+			glVertex3f(xPos, yPos2, hmp.getHeight(x, y+sqSizeH).asFloat() * heightPer);
 			glTexCoord2f(xPer, yPer);
-			glVertex3f(xPos, yPos, hmp.getHeight(x, y) * heightPer);
+			glVertex3f(xPos, yPos, hmp.getHeight(x, y).asFloat() * heightPer);
 		}
 		glEnd();
 	}

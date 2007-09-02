@@ -58,7 +58,17 @@ static LandscapeDefnType *fetchSurroundDefnType(const char *type)
 }
 
 static bool parseMinMax(XMLNode *parent, const char *name, 
-	float &min, float &max)
+	fixed &min, fixed &max)
+{
+	XMLNode *node = 0;
+	if (!parent->getNamedChild(name, node)) return false;
+	if (!node->getNamedChild("max", max)) return false;
+	if (!node->getNamedChild("min", min)) return false;
+	return node->failChildren();
+}
+
+static bool parseMinMaxInt(XMLNode *parent, const char *name, 
+	int &min, int &max)
 {
 	XMLNode *node = 0;
 	if (!parent->getNamedChild(name, node)) return false;
@@ -122,7 +132,7 @@ bool LandscapeDefnHeightMapFile::readXML(XMLNode *node)
 bool LandscapeDefnHeightMapGenerate::readXML(XMLNode *node)
 {
 	if (!node->getNamedChild("mask", mask)) return false;
-	if (!parseMinMax(node, "landhills", 
+	if (!parseMinMaxInt(node, "landhills", 
 		landhillsmin, landhillsmax)) return false;
 	if (!parseMinMax(node, "landheight", 
 		landheightmin, landheightmax)) return false;

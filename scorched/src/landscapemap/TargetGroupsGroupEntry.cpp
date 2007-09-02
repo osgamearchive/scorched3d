@@ -23,7 +23,9 @@
 #include <common/Defines.h>
 #include <common/Vector.h>
 
-TargetGroupsGroupEntry::TargetGroupsGroupEntry(HeightMap &map) :
+TargetGroupsGroupEntry::TargetGroupsGroupEntry(
+	const char *name, HeightMap &map) :
+	TargetGroupsSetEntry(name),
 	distance_(0)
 {
 	mapWidthMult_ = 4;
@@ -58,15 +60,15 @@ float TargetGroupsGroupEntry::getDistance(int x, int y)
 	return 255.0f;
 }
 
-void TargetGroupsGroupEntry::addObject(TargetGroupEntry *object, bool thin)
+void TargetGroupsGroupEntry::addObject(TargetGroup *object, bool thin)
 {
 	TargetGroupsSetEntry::addObject(object, thin);
 
 	static unsigned int objectCount = 0;
 	if (thin && objectCount++ % 3 != 0) return;
 
-	int x = (int) object->getPosition()[0];
-	int y = (int) object->getPosition()[1];
+	int x = object->getPosition()[0].asInt();
+	int y = object->getPosition()[1].asInt();
 
 	x /= mapWidthMult_;
 	y /= mapHeightMult_;
@@ -87,10 +89,10 @@ void TargetGroupsGroupEntry::addObject(TargetGroupEntry *object, bool thin)
 	}
 }
 
-bool TargetGroupsGroupEntry::removeObject(TargetGroupEntry *object)
+bool TargetGroupsGroupEntry::removeObject(TargetGroup *object)
 {
-	int x = (int) object->getPosition()[0];
-	int y = (int) object->getPosition()[1];
+	int x = object->getPosition()[0].asInt();
+	int y = object->getPosition()[1].asInt();
 
 	x /= mapWidthMult_;
 	y /= mapHeightMult_;

@@ -82,15 +82,17 @@ void DeformTextures::deformLandscape(Vector &pos, float radius,
 					float mag = 0.0f;
 					if (a < w-1 && b < h-1)
 					{
-						float maga = map.map[mapX][mapY] * mapXa +
-							map.map[mapX + 1][mapY] * mapXb;
-						float magb = map.map[mapX][mapY + 1] * mapXa +
-							map.map[mapX + 1][mapY + 1] * mapXb;
+						float maga = 
+							map.map[mapX][mapY].asFloat() * mapXa +
+							map.map[mapX + 1][mapY].asFloat() * mapXb;
+						float magb = 
+							map.map[mapX][mapY + 1].asFloat() * mapXa +
+							map.map[mapX + 1][mapY + 1].asFloat() * mapXb;
 						mag = maga * mapYa + magb * mapYb;
 					}
 					else 
 					{
-						mag = map.map[mapX][mapY];
+						mag = map.map[mapX][mapY].asFloat();
 					}
 					
 					if (mag > 0.0f)

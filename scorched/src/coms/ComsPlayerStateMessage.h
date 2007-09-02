@@ -27,14 +27,7 @@
 class ComsPlayerStateMessage : public ComsMessage
 {
 public:
-	enum MessageContents
-	{
-		eTankStateOnly = 1,
-		eTankNoAccessories = 2,
-		eTankFullState = 3
-	};
-
-	ComsPlayerStateMessage(MessageContents contents);
+	ComsPlayerStateMessage(bool full, bool accessories);
 	virtual ~ComsPlayerStateMessage();
 
 	// Inherited from ComsMessage
@@ -42,7 +35,7 @@ public:
     virtual bool readMessage(NetBufferReader &reader);
 
 protected:
-	MessageContents contents_;
+	bool targets_, accessories_;
 
 private:
 	ComsPlayerStateMessage(const ComsPlayerStateMessage &);

@@ -188,7 +188,7 @@ float TargetCamera::minHeightFunc(int x, int y, void *data)
 	float addition = 5.0f;
 
 	float h = ScorchedClient::instance()->getLandscapeMaps().
-			getGroundMaps().getHeight(x, y) + addition;
+		getGroundMaps().getHeight(x, y).asFloat() + addition;
 	return (h>heightMin + addition?h:heightMin + addition);
 }
 
@@ -196,7 +196,7 @@ float TargetCamera::maxHeightFunc(int x, int y, void *data)
 {
 	float h = 
 		ScorchedClient::instance()->getLandscapeMaps().
-			getRoofMaps().getRoofHeight(x, y) - 2.0f;
+			getRoofMaps().getRoofHeight(x, y).asFloat() - 2.0f;
 	return h;
 }
 
@@ -258,8 +258,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	if (currentTank && 
 		currentTank->getState().getState() == TankState::sNormal)
 	{
-		position = currentTank->getPosition().getTankTurretPosition();
-		currentRotation = (180.0f - currentTank->getPosition().getRotationGunXY()) / 57.32f;
+		position = currentTank->getPosition().getTankTurretPosition().asVector();
+		currentRotation = (180.0f - currentTank->getPosition().getRotationGunXY().asFloat()) / 57.32f;
 	}
 
 	bool viewFromBehindTank = false;
@@ -271,7 +271,7 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 				CameraPositionActionRegistry::getCurrentAction();
 			if (action)
 			{
-				mainCam_.setLookAt(action->getShowPosition());
+				mainCam_.setLookAt(action->getShowPosition().asVector());
 				mainCam_.movePosition(currentRotation + 0.3f, 0.7f, 80.0f);
 			}
 			else viewFromBehindTank = true;
@@ -296,12 +296,12 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 	case CamGun:
 		if (ScorchedClient::instance()->getContext().viewPoints->getLookAtCount() > 0)
 		{
-			Vector lookatPos, lookfromPos;
+			FixedVector lookatPos, lookfromPos;
 			ScorchedClient::instance()->getContext().viewPoints->
 				getValues(lookatPos, lookfromPos);
 
-			mainCam_.setLookAt(lookatPos, true);
-			mainCam_.setOffSet(lookfromPos, true);
+			mainCam_.setLookAt(lookatPos.asVector(), true);
+			mainCam_.setOffSet(lookfromPos.asVector(), true);
 			//simulateCamera = false;
 		}
 		else viewFromBehindTank = true;
@@ -382,8 +382,8 @@ bool TargetCamera::moveCamera(float frameTime, bool playing)
 			if (playing &&
 				currentTank && currentTank->getState().getState() == TankState::sNormal)
 			{
-				float currentElevation = (currentTank->getPosition().getRotationGunYZ()) / 160.0f;
-				Vector newPos = currentTank->getPosition().getTankGunPosition();
+				float currentElevation = (currentTank->getPosition().getRotationGunYZ().asFloat()) / 160.0f;
+				Vector newPos = currentTank->getPosition().getTankGunPosition().asVector();
 				Vector diff = newPos - position;
 				Vector newPos2 = position + (diff);
 				newPos2[2] += 0.5f;
@@ -546,7 +546,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 				moveWeapon,
 				ScorchedClient::instance()->getContext());
 
-			Vector pos((int) posX, (int) posY);
+			FixedVector pos((int) posX, (int) posY, 0);
 			mmap.calculatePosition(pos);
 
 			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
@@ -555,7 +555,7 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 		else if (selectType == Accessory::ePositionSelectLimit)
 		{
 			int limit = currentWeapon->getPositionSelectLimit();
-			Vector position(posX, posY);
+			FixedVector position(posX, posY, 0);
 			if ((currentTank->getLife().getTargetPosition() - position).Magnitude() > limit)
 			{
 				// Out of limit

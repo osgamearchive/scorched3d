@@ -23,7 +23,6 @@
 
 #include <coms/ComsPlayedMoveMessage.h>
 #include <coms/ComsPlayerStateMessage.h>
-#include <coms/ComsTargetStateMessage.h>
 #include <map>
 
 class ComsPlayMovesMessage : public ComsMessage
@@ -43,7 +42,6 @@ protected:
 	std::map<unsigned int, ComsPlayedMoveMessage *> moves_;
 	unsigned int seed_;
 	ComsPlayerStateMessage playerState_;
-	ComsTargetStateMessage targetState_;
 
 private:
 	ComsPlayMovesMessage(const ComsPlayMovesMessage &);

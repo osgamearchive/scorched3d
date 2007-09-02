@@ -22,22 +22,22 @@
 #define __INCLUDE_Resurrectionh_INCLUDE__
 
 #include <engine/ActionReferenced.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 
 class Resurrection : public ActionReferenced
 {
 public:
 	Resurrection(
 		unsigned int playerId,
-		Vector &position);
+		FixedVector &position);
 	virtual ~Resurrection();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 
 protected:
 	unsigned int playerId_;
-	Vector position_;
+	FixedVector position_;
 
 };
 

@@ -70,10 +70,10 @@ void TankFalling::init()
 		// Store the start positions
 		tankStartPosition_ = current->getLife().getTargetPosition();
 
-		Vector velocity(0.0f, 0.0f, 0.0f);
+		FixedVector velocity(0, 0, 0);
 		PhysicsParticleInfo info(ParticleTypeFalling, fallingPlayerId_, this);
 		setPhysics(info, tankStartPosition_, velocity, 
-			0.0f, 0.0f, 0.0f, false);
+			0, 0, 0, false);
 	}
 	else
 	{
@@ -81,7 +81,13 @@ void TankFalling::init()
 	}
 }
 
-void TankFalling::simulate(float frameTime, bool &remove)
+const char *TankFalling::getActionDetails()
+{
+	return formatString("%u %s",
+		fallingPlayerId_, weapon_->getParent()->getName());
+}
+
+void TankFalling::simulate(fixed frameTime, bool &remove)
 {
 	if (!collision_)
 	{
@@ -92,8 +98,8 @@ void TankFalling::simulate(float frameTime, bool &remove)
 		Target *target = context_->targetContainer->getTargetById(fallingPlayerId_);
 		if (target && target->getAlive())
 		{
-			Vector &position = getCurrentPosition();
-			if (position[0] != 0.0f || position[1] != 0.0f || position[2] != 0.0f)
+			FixedVector &position = getCurrentPosition();
+			if (position[0] != 0 || position[1] != 0 || position[2] != 0)
 			{
 				target->getLife().setTargetPosition(position);
 			}
@@ -111,28 +117,28 @@ void TankFalling::collision(PhysicsParticleObject &position,
 	if (current && current->getAlive())
 	{
 		// Find how far we have falled to get the total damage
-		float dist = (tankStartPosition_ - position.getPosition()).Magnitude();
-		float damage = dist * 20.0f;
+		fixed dist = (tankStartPosition_ - position.getPosition()).Magnitude();
+		fixed damage = dist * 20;
 
 		// Check we need to cancel the damage
-		float minDist = float(context_->optionsGame->
-			getMinFallingDistance()) / 10.0f;
+		fixed minDist = fixed(context_->optionsGame->
+			getMinFallingDistance()) / 10;
 		if (dist < minDist)
 		{
 			// No damage (or parachutes used for tiny falls)
-			damage = 0.0f;
+			damage = 0;
 		}
 		else if (current->getTargetState().getNoFallingDamage())
 		{
-			damage = 0.0f;
+			damage = 0;
 		}
 		if (parachute_)
 		{
-			const float ParachuteThreshold = 0.0f;
+			const fixed ParachuteThreshold = 0;
 			if (dist >= ParachuteThreshold)
 			{
 				// No damage we were using parachutes
-				damage = 0.0f;
+				damage = 0;
 
 				// Remove parachutes if we have one
 				if (!current->isTarget())
@@ -145,6 +151,16 @@ void TankFalling::collision(PhysicsParticleObject &position,
 					}
 				}
 			}
+		}
+
+		if (context_->optionsGame->getAutoSendSyncCheck())
+		{
+			context_->actionController->addSyncCheck(
+				formatString("TankFalling: %u %li, %li, %li", 
+					current->getPlayerId(),
+					position.getPosition()[0].getInternal(),
+					position.getPosition()[1].getInternal(),
+					position.getPosition()[2].getInternal()));
 		}
 
 		// Move the tank to the final position

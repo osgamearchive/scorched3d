@@ -73,9 +73,9 @@ const char *TankAIStrings::getAIPlayerName()
 const char *TankAIStrings::getDeathLine(RandomGenerator &generator)
 {
 	const char *deathLine = 0;
-	float percentage = 
-		float(ScorchedServer::instance()->getOptionsGame().getComputersDeathTalk());
-	float talkPer = generator.getRandFloat() * 100.0f;
+	fixed percentage = 
+		fixed(ScorchedServer::instance()->getOptionsGame().getComputersDeathTalk());
+	fixed talkPer = generator.getRandFixed() * 100;
 	if (talkPer < percentage)
 	{
 		deathLine = deathLines_.getLines()
@@ -88,9 +88,9 @@ const char *TankAIStrings::getDeathLine(RandomGenerator &generator)
 const char *TankAIStrings::getAttackLine(RandomGenerator &generator)
 {
 	const char *attackLine = 0;
-	float percentage = 
-		float(ScorchedServer::instance()->getOptionsGame().getComputersAttackTalk());
-	float talkPer = generator.getRandFloat() * 100.0f;
+	fixed percentage = 
+		fixed(ScorchedServer::instance()->getOptionsGame().getComputersAttackTalk());
+	fixed talkPer = generator.getRandFixed() * 100;
 	if (talkPer < percentage)
 	{
 		attackLine = attackLines_.getLines()

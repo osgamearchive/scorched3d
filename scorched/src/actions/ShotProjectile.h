@@ -35,15 +35,16 @@ class ShotProjectile :
 {
 public:
 	ShotProjectile(
-		Vector &startPosition, Vector &velocity,
+		FixedVector &startPosition, FixedVector &velocity,
 		WeaponProjectile *weapon, WeaponFireContext &weaponContext,
-		unsigned int flareType, float spinSpeed);
+		unsigned int flareType, fixed spinSpeed);
 	virtual ~ShotProjectile();
 
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 	virtual void init();
 	virtual void collision(PhysicsParticleObject &position, 
 		ScorchedCollisionId collisionId);
+	virtual const char *getActionDetails();
 
 	unsigned int getPlayerId() { return weaponContext_.getPlayerId(); }
 	WeaponProjectile *getWeapon() { return weapon_; }
@@ -52,26 +53,26 @@ public:
 #endif
 
 protected:
-	Vector startPosition_, velocity_;
+	FixedVector startPosition_, velocity_;
 	WeaponProjectile *weapon_;
 	ViewPoints::ViewPoint *vPoint_;
 	WeaponFireContext weaponContext_;
 	unsigned int flareType_;
 	bool up_;
-	float snapTime_;
-	float totalTime_;
+	fixed snapTime_;
+	fixed totalTime_;
 	// 	things like thrusttime etc should have their 
 	// 	values set ONCE per projectile
-	float thrustTime_;
-	float thrustAmount_;
-	float drag_;
-	float timedCollision_;
-	float spinSpeed_;
+	fixed thrustTime_;
+	fixed thrustAmount_;
+	fixed drag_;
+	fixed timedCollision_;
+	fixed spinSpeed_;
 #ifndef S3D_SERVER
 	std::list<RenderTracer::TracerLinePoint> positions_;
 #endif
 
-	void doCollision(Vector &position);
+	void doCollision(FixedVector &position);
 
 private:
 	ShotProjectile(const ShotProjectile &);

@@ -33,18 +33,18 @@ public:
 		XMLNode *accessoryNode);
 
 	// ShieldSquare attributes
-	Vector &getSize() { return size_; }
+	FixedVector &getSize() { return size_; }
 
-	virtual bool inShield(Vector &offset);
-	virtual bool tankInShield(Vector &offset);
+	virtual bool inShield(FixedVector &offset);
+	virtual bool tankInShield(FixedVector &offset);
 	virtual ShieldType getShieldType();
 	virtual bool getRound() { return false; }
-	virtual float getBoundingSize() { return size_.Max(); }
+	virtual fixed getBoundingSize() { return size_.Max(); }
 
 	REGISTER_ACCESSORY_HEADER(ShieldSquare, AccessoryPart::AccessoryShield);
 
 protected:
-	Vector size_;
+	FixedVector size_;
 };
 
 #endif // !defined(AFX_ShieldSquare_H__F9BCDF39_FB62_4BB4_9D64_C70215669F9C__INCLUDED_)

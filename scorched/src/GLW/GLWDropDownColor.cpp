@@ -51,7 +51,7 @@ void GLWDropDownColor::addColor(Vector &color)
 
 Vector &GLWDropDownColor::getCurrentColor()
 {
-	if (!getCurrentEntry()) return Vector::nullVector;
+	if (!getCurrentEntry()) return Vector::getNullVector();
 	return getCurrentEntry()->getColor();
 }
 

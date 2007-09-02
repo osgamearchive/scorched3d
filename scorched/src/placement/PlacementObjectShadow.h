@@ -39,7 +39,7 @@ public:
 
 protected:
 	PlacementShadowDefinition shadowDef_;
-	Vector size_;
+	FixedVector size_;
 };
 
 #endif // __INCLUDE_PlacementObjectShadowh_INCLUDE__

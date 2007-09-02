@@ -56,20 +56,20 @@ TargetGroupsGroupEntry *TargetGroups::getGroup(
 	}
 	if (create)
 	{
-		TargetGroupsGroupEntry *entry = new TargetGroupsGroupEntry(*create);
+		TargetGroupsGroupEntry *entry = new TargetGroupsGroupEntry(name, *create);
 		groups_[name] = entry;
 		return entry;
 	}
 	return 0;
 }
 
-void TargetGroups::removeFromGroups(TargetGroupEntry *obj)
+void TargetGroups::removeFromGroups(TargetGroup *obj)
 {
-	if (obj->groups.empty()) return;
+	if (obj->getGroups().empty()) return;
 
 	std::vector<TargetGroupsGroupEntry *>::iterator itor;
-	for (itor = obj->groups.begin();
-		itor != obj->groups.end();
+	for (itor = obj->getGroups().begin();
+		itor != obj->getGroups().end();
 		itor++)
 	{
 		TargetGroupsGroupEntry *entry = (*itor);

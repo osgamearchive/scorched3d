@@ -46,7 +46,7 @@ TankState::TankState(ScorchedContext &context, unsigned int playerId) :
 	readyState_(sReady), sid_(0),
 	context_(context), spectator_(false), 
 	muted_(false), adminTries_(0),
-	skipshots_(false), needsync_(false),
+	skipshots_(false),
 	lives_(0), maxLives_(1), destroy_(false)
 {
 }
@@ -95,8 +95,13 @@ void TankState::setState(State s)
 	{
 		// Make sure the target and shield physics
 		// are disabled
-		tank_->getLife().setLife(0.0f);
+		tank_->getLife().setLife(0);
 		tank_->getShield().setCurrentShield(0);
+	}
+	else
+	{
+		// Make sure target space contains tank
+		tank_->getLife().setLife(tank_->getLife().getLife());
 	}
 }
 
@@ -107,7 +112,7 @@ const char *TankState::getStateString()
 		((readyState_==sReady)?"Rdy":"Wait"),
 		getSmallStateString(),
 		(muted_?"muted ":""),
-		(int) tank_->getLife().getLife());
+		(int) tank_->getLife().getLife().asInt());
 	return string;
 }
 

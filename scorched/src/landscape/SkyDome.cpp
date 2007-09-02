@@ -83,8 +83,8 @@ void SkyDome::simulate(float frameTime)
 
 	float fastSpeed = 100;
 	float slowSpeed = 500;
-	float currentSpeed = ScorchedClient::instance()->getOptionsTransient().getWindSpeed();
-	float wantedAngle = 180.0f-ScorchedClient::instance()->getOptionsTransient().getWindAngle();
+	float currentSpeed = ScorchedClient::instance()->getOptionsTransient().getWindSpeed().asFloat();
+	float wantedAngle = 180.0f-ScorchedClient::instance()->getOptionsTransient().getWindAngle().asFloat();
 	float wantedSpeed = (((5.0f - currentSpeed) / 5.0f) * (slowSpeed - fastSpeed)) + fastSpeed;
 
 	// Move the cloud layer

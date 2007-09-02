@@ -21,6 +21,8 @@
 #if !defined(AFX_ACTION_H__2C00E711_B337_4665_AB54_C6661FD67E5D__INCLUDED_)
 #define AFX_ACTION_H__2C00E711_B337_4665_AB54_C6661FD67E5D__INCLUDED_
 
+#include <common/fixed.h>
+
 class Action;
 class ScorchedContext;
 class ActionRenderer
@@ -39,31 +41,33 @@ public:
 class Action
 {
 public:
-	Action(ActionRenderer *render = 0);
+	Action(const char *name, ActionRenderer *render = 0);
 	virtual ~Action();
 
 	virtual void init() = 0;
 
 	virtual void draw();
-	virtual void simulate(float frameTime, bool &removeAction);
+	virtual void simulate(fixed frameTime, bool &removeAction);
 
 	virtual void setActionRender(ActionRenderer *renderer);
 	virtual void setScorchedContext(ScorchedContext *context);
 	virtual ScorchedContext *getScorchedContext();
 	virtual bool getReferenced() { return false; }
-	virtual const char *getActionType() { return "Action"; }
+	virtual const char *getActionType() { return name_; }
+	virtual const char *getActionDetails() { return ""; }
 
-	void setActionStartTime(float time) { actionStartTime_ = time; }
-	float getActionStartTime() { return actionStartTime_; }
+	void setActionStartTime(fixed time) { actionStartTime_ = time; }
+	fixed getActionStartTime() { return actionStartTime_; }
 	bool getActionEvent() { return actionEvent_; }
 	void setActionEvent(bool ae) { actionEvent_ = ae; }
 	unsigned int getActionNumber() { return actionNumber_; }
 	void setActionNumber(unsigned int number) { actionNumber_ = number; }
 
 protected:
+	const char *name_;
 	ActionRenderer *renderer_;
 	ScorchedContext *context_;
-	float actionStartTime_;
+	fixed actionStartTime_;
 	unsigned int actionNumber_;
 	bool actionEvent_;
 
@@ -76,18 +80,6 @@ public:
 	virtual ~SpriteAction();
 
 	virtual void init();
-	virtual const char *getActionType() { return "SpriteAction"; }
-
-};
-
-class SpriteActionReferenced : public SpriteAction
-{
-public:
-	SpriteActionReferenced(ActionRenderer *render = 0);
-	virtual ~SpriteActionReferenced();
-
-	virtual bool getReferenced() { return true; }
-	virtual const char *getActionType() { return "SpriteActionReferenced"; }
 
 };
 

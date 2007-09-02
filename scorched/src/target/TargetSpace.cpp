@@ -21,14 +21,19 @@
 #include <target/TargetSpace.h>
 #include <target/TargetLife.h>
 #include <target/TargetShield.h>
+#include <target/TargetState.h>
 #include <weapons/Accessory.h>
 #include <weapons/ShieldRound.h>
 #include <weapons/ShieldSquare.h>
+#include <engine/ScorchedContext.h>
+#include <engine/ActionController.h>
+#include <common/OptionsScorched.h>
+#include <common/Logger.h>
 
 TargetSpace::TargetSpace() :
 	spaceX_(-128), spaceY_(-128),
 	spaceW_(1024), spaceH_(1024),
-	spaceSq_(4)
+	spaceSq_(4), context_(0)
 {
 	spaceWSq_ = (spaceW_ / spaceSq_);
 	spaceHSq_ = (spaceH_ / spaceSq_);
@@ -41,13 +46,23 @@ TargetSpace::~TargetSpace()
 	delete squares_;
 }
 
+void TargetSpace::updateTarget(Target *target)
+{
+	removeTarget(target);
+	if (target->getAlive() &&
+		!target->getTargetState().getNoCollision())
+	{
+		addTarget(target);
+	}
+}
+
 void TargetSpace::addTarget(Target *target)
 {
 	// Set the bounding constaints
-	int x = (int) target->getLife().getTargetPosition()[0];
-	int y = (int) target->getLife().getTargetPosition()[1];
-	int w = (int) target->getLife().getAabbSize()[0];
-	int h = (int) target->getLife().getAabbSize()[1];
+	int x = target->getLife().getTargetPosition()[0].asInt();
+	int y = target->getLife().getTargetPosition()[1].asInt();
+	int w = target->getLife().getAabbSize()[0].asInt();
+	int h = target->getLife().getAabbSize()[1].asInt();
 
 	// Update bounding constraints for shield
 	Accessory *shieldAcc = target->getShield().getCurrentShield();
@@ -58,15 +73,15 @@ void TargetSpace::addTarget(Target *target)
 		{
 			ShieldRound *round = (ShieldRound *) shield;
 
-			w = MAX(w, int(round->getActualRadius() * 2.0f));
-			h = MAX(w, int(round->getActualRadius() * 2.0f));
+			w = MAX(w, (round->getActualRadius() * 2).asInt());
+			h = MAX(w, (round->getActualRadius() * 2).asInt());
 		}
 		else
 		{
 			ShieldSquare *square = (ShieldSquare *) shield;
 
-			w = MAX(w, int(square->getSize()[0] * 2.0f));
-			h = MAX(w, int(square->getSize()[1] * 2.0f));
+			w = MAX(w, (square->getSize()[0] * 2).asInt());
+			h = MAX(w, (square->getSize()[1] * 2).asInt());
 		}
 	}
 
@@ -112,10 +127,10 @@ void TargetSpace::removeTarget(Target *target)
 	squares.clear();
 }
 
-Target *TargetSpace::getCollision(Vector &position)
+Target *TargetSpace::getCollision(FixedVector &position)
 {
-	int x = (int) position[0];
-	int y = (int) position[1];
+	int x = position[0].asInt();
+	int y = position[1].asInt();
 
 	// Find the square positions
 	normalizeCoords(x, y);
@@ -125,6 +140,7 @@ Target *TargetSpace::getCollision(Vector &position)
 
 	Square *square = &squares_[num];
 
+	Target *result = 0;
 	std::map<unsigned int, Target *> &potentialTargets = square->targets;
 	std::map<unsigned int, Target *>::iterator itor;
 	for (itor = potentialTargets.begin();
@@ -132,27 +148,63 @@ Target *TargetSpace::getCollision(Vector &position)
 		itor++)
 	{
 		Target *target = (*itor).second;
+		if (!target->getAlive())
+		{
+			Logger::log(formatString("ERROR: Dead target %u:%s in space",
+				target->getPlayerId(), target->getName()));
+			continue;
+		}
+
 		Accessory *shieldAcc = target->getShield().getCurrentShield();
 		if (shieldAcc)
 		{
 			Shield *shield = (Shield *) shieldAcc->getAction();
-			Vector direction = position - target->getLife().getTargetPosition();
-			if (shield->inShield(direction)) return target;
+			FixedVector direction = position - target->getLife().getTargetPosition();
+			if (shield->inShield(direction))
+			{
+				result = target;
+				break;
+			}
 		}
 
-		if (target->getLife().collision(position)) return target;
+		if (target->getLife().collision(position)) 
+		{
+			result = target;
+			break;
+		}
 	}
-	return 0;
+
+	if (context_->optionsGame->getAutoSendSyncCheck())
+	{
+		std::string targets;
+		if (result)
+		{
+			targets.append(formatString("%u:%li,%li,%li ", 
+				result->getPlayerId(),
+				result->getLife().getTargetPosition()[0].getInternal(),
+				result->getLife().getTargetPosition()[1].getInternal(),
+				result->getLife().getTargetPosition()[2].getInternal()));
+		}
+
+		context_->actionController->addSyncCheck(
+			formatString("CollisionSet : %li,%li,%li %s", 
+				position[0].getInternal(),
+				position[1].getInternal(),
+				position[2].getInternal(),
+				targets.c_str()));
+	}
+
+	return result;
 }
 
-void TargetSpace::getCollisionSet(Vector &position, float radius, 
+void TargetSpace::getCollisionSet(FixedVector &position, fixed radius, 
 	std::map<unsigned int, Target *> &collisionTargets, 
 	bool ignoreHeight)
 {
-	int x = (int) position[0];
-	int y = (int) position[1];
-	int w = (int) radius;
-	int h = (int) radius;
+	int x = position[0].asInt();
+	int y = position[1].asInt();
+	int w = radius.asInt();
+	int h = radius.asInt();
 
 	// Find the bounding box coords
 	int halfW = w; // Not need 1/2 as its the radius thats passed in
@@ -184,19 +236,50 @@ void TargetSpace::getCollisionSet(Vector &position, float radius,
 				itor++)
 			{
 				Target *target = (*itor).second;
-				Vector checkPos = position;
+				if (!target->getAlive())
+				{
+					Logger::log(formatString("ERROR: Dead target %u:%s in space",
+						target->getPlayerId(), target->getName()));
+					continue;
+				}
+
+				FixedVector checkPos = position;
 				if (ignoreHeight)
 				{
-					Vector centerPos = target->getLife().getCenterPosition();
+					FixedVector centerPos = target->getLife().getCenterPosition();
 					checkPos[2] = centerPos[2];
 				}
-				float distance = target->getLife().collisionDistance(checkPos);
+				fixed distance = target->getLife().collisionDistance(checkPos);
 				if (distance < radius)
 				{
 					collisionTargets[target->getPlayerId()] = target;
 				}
 			}
 		}
+	}
+
+	if (context_->optionsGame->getAutoSendSyncCheck())
+	{
+		std::string targets;
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = collisionTargets.begin();
+			itor != collisionTargets.end();
+			itor++)
+		{
+			targets.append(formatString("%u:%li,%li,%li ", 
+				itor->second->getPlayerId(),
+				itor->second->getLife().getTargetPosition()[0].getInternal(),
+				itor->second->getLife().getTargetPosition()[1].getInternal(),
+				itor->second->getLife().getTargetPosition()[2].getInternal()));
+		}
+
+		context_->actionController->addSyncCheck(
+			formatString("CollisionSet : %li,%li,%li %li \"%s\"", 
+				position[0].getInternal(),
+				position[1].getInternal(),
+				position[2].getInternal(),
+				radius.getInternal(),
+				targets.c_str()));
 	}
 }
 
@@ -284,7 +367,7 @@ void TargetSpace::draw()
 				b * spaceSq_ + spaceY_ + spaceSq_ / 2, 0);
 			position[2] = 
 				ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight((int) position[0], (int) position[1]) - 7.0f;
+					getGroundMaps().getHeight((int) position[0], (int) position[1]).asFloat() - 7.0f;
 			Vector size(spaceSq_, spaceSq_, 20);
 
 			if (position[0] > ScorchedClient::instance()->getLandscapeMaps().
@@ -305,7 +388,7 @@ void TargetSpace::draw()
 				itor++)
 			{
 				Target *target = (*itor).second;
-				glVertex3fv(target->getLife().getTargetPosition());
+				glVertex3fv(target->getLife().getTargetPosition().asVector());
 				glVertex3f(position[0], position[1], position[2] + 10.0f);
 			}
 			glEnd();

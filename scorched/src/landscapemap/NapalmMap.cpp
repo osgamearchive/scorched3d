@@ -32,7 +32,7 @@ NapalmMap::~NapalmMap()
 	entries_ = 0;
 }
 
-float &NapalmMap::getNapalmHeight(int w, int h) 
+fixed &NapalmMap::getNapalmHeight(int w, int h) 
 {
 	DIALOG_ASSERT(entries_);
 
@@ -41,8 +41,8 @@ float &NapalmMap::getNapalmHeight(int w, int h)
         return entries_[(width_+1) * h + w]; 
 	}
 
-	static float tmp;
-	tmp = 1000.0f;
+	static fixed tmp(1000);
+	tmp = fixed(1000);
 	return tmp;
 }
 
@@ -52,7 +52,7 @@ void NapalmMap::create(int width, int height)
     height_ = height;
 	delete [] entries_;
 
-	entries_ = new float[(width_ + 1) * (height_ + 1)];
+	entries_ = new fixed[(width_ + 1) * (height_ + 1)];
 	clear();
 }
 

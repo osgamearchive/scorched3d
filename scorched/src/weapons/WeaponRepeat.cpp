@@ -24,7 +24,7 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponRepeat);
 
-WeaponRepeat::WeaponRepeat() : delay_(0.0f)
+WeaponRepeat::WeaponRepeat() : delay_(0)
 {
 
 }
@@ -59,9 +59,9 @@ bool WeaponRepeat::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 }
 
 void WeaponRepeat::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	if (delay_.getValue(context) == 0.0f)
+	if (delay_.getValue(context) == 0)
 	{
 		for (int i=0; i<repeat_; i++)
 		{
@@ -76,7 +76,7 @@ void WeaponRepeat::fireWeapon(ScorchedContext &context,
 
 void WeaponRepeat::weaponCallback(
 	ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity,
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity,
 	unsigned int userData)
 {
 	repeatWeapon_->fireWeapon(context, weaponContext, position, velocity);
@@ -84,7 +84,7 @@ void WeaponRepeat::weaponCallback(
 	if (userData > 1)
 	{
 		context.actionController->addAction(
-			new CallbackWeapon(this, delay_.getValue(context), userData - 1, 
+			new CallbackWeapon("WeaponRepeat", this, delay_.getValue(context), userData - 1, 
 				weaponContext, position, velocity));
 	}
 }

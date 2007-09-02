@@ -42,7 +42,7 @@ bool PlacementGroupDefinition::readXML(XMLNode *node)
 
 void PlacementGroupDefinition::addToGroups(
 	ScorchedContext &context,
-	TargetGroupEntry *objectEntry,
+	TargetGroup *objectEntry,
 	bool thin)
 {
 	for (unsigned int i=0; i<groupnames_.size(); i++)
@@ -55,7 +55,7 @@ void PlacementGroupDefinition::addToGroups(
 void PlacementGroupDefinition::addToGroup(
 	const char *groupName,
 	ScorchedContext &context,
-	TargetGroupEntry *objectEntry,
+	TargetGroup *objectEntry,
 	bool thin)
 {
 	TargetGroupsGroupEntry *group =
@@ -65,6 +65,6 @@ void PlacementGroupDefinition::addToGroup(
 	if (group)
 	{
 		group->addObject(objectEntry, thin);
-		objectEntry->groups.push_back(group);
+		objectEntry->getGroups().push_back(group);
 	}
 }

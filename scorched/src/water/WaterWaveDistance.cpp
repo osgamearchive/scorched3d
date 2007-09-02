@@ -63,21 +63,21 @@ void WaterWaveDistance::generate(
 		{
 			float height =
 				ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x, y);
+					getGroundMaps().getHeight(x, y).asFloat();
 			if (height > waterHeight - 4.0f && height < waterHeight)
 			{
 				float height2=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x+skip, y);
+					getGroundMaps().getHeight(x+skip, y).asFloat();
 				float height3=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x-skip, y);
+					getGroundMaps().getHeight(x-skip, y).asFloat();
 				float height4=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x, y+skip);
+					getGroundMaps().getHeight(x, y+skip).asFloat();
 				float height5=
 					ScorchedClient::instance()->getLandscapeMaps().
-					getGroundMaps().getHeight(x, y-skip);
+					getGroundMaps().getHeight(x, y-skip).asFloat();
 
 				if (height2 > waterHeight || height3 > waterHeight ||
 					height4 > waterHeight || height5 > waterHeight)

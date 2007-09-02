@@ -24,7 +24,7 @@
 #include <engine/ScorchedCollisionIds.h>
 #include <target/TargetSpaceContainment.h>
 #include <net/NetBuffer.h>
-#include <common/Vector4.h>
+#include <common/FixedVector4.h>
 
 class ScorchedContext;
 class Target;
@@ -37,35 +37,32 @@ public:
 	void newGame();
 
 	// Position
-	void setTargetPosition(Vector &position);
-	Vector &getTargetPosition() { return targetPosition_; }
-	Vector &getCenterPosition();
-	void setSize(Vector &size);
-	Vector &getSize() { return size_; }
-	Vector4 &getQuaternion() { return quaternion_; }
-	Vector &getAabbSize() { return aabbSize_; }
-	void setRotation(float rotation);
-	Vector &getVelocity() { return velocity_; }
-	void setVelocity(Vector &velocity) { velocity_ = velocity; }
+	void setTargetPositionAndRotation(FixedVector &position, fixed rotation);
+	void setTargetPosition(FixedVector &position);
+	FixedVector &getTargetPosition() { return targetPosition_; }
+	FixedVector &getCenterPosition();
+	void setSize(FixedVector &size);
+	FixedVector &getSize() { return size_; }
+	FixedVector4 &getQuaternion() { return quaternion_; }
+	FixedVector &getAabbSize() { return aabbSize_; }
+	void setRotation(fixed rotation);
+	FixedVector &getVelocity() { return velocity_; }
+	void setVelocity(FixedVector &velocity) { velocity_ = velocity; }
 
 	void setTarget(Target *target) { target_ = target; }
-	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
-	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
-	void setFlattenDestroy(bool d) { flattenDestroy_ = d; }
-	bool getFlattenDestroy() { return flattenDestroy_; }
 	void setBoundingSphere(bool sphereGeom);
 	bool getBoundingSphere() { return sphereGeom_; }
 	TargetSpaceContainment &getSpaceContainment() { return spaceContainment_; }
 
 	// Collision
-	float collisionDistance(Vector &position);
-	bool collision(Vector &position);
+	fixed collisionDistance(FixedVector &position);
+	bool collision(FixedVector &position);
 
 	// Tank Life / Health
-	float getLife() { return life_; }
-	void setLife(float life);
-	float getMaxLife() { return maxLife_; }
-	void setMaxLife(float life) { maxLife_ = life; }
+	fixed getLife() { return life_; }
+	void setLife(fixed life);
+	fixed getMaxLife() { return maxLife_; }
+	void setMaxLife(fixed life) { maxLife_ = life; }
 
 	// Serialize the tank
 	bool writeMessage(NetBuffer &buffer);
@@ -75,19 +72,16 @@ protected:
 	ScorchedContext &context_;
 	TargetSpaceContainment spaceContainment_;
 	Target *target_;
-	Vector4 quaternion_;
-	Vector targetPosition_;
-	Vector velocity_;
-	Vector aabbSize_;
-	Vector size_;
-	float life_;
-	float maxLife_;
+	FixedVector4 quaternion_;
+	FixedVector targetPosition_;
+	FixedVector velocity_;
+	FixedVector aabbSize_;
+	FixedVector size_;
+	fixed life_;
+	fixed maxLife_;
 	bool sphereGeom_;
-	bool driveOverToDestroy_;
-	bool flattenDestroy_;
 
-	void addToSpace();
-	void removeFromSpace();
+	void updateSpace();
 	void updateAABB();
 
 };

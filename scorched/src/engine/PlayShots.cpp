@@ -133,7 +133,7 @@ void PlayShots::processPlayedMoveMessage(ScorchedContext &context,
 				}
 				else if (context.optionsGame->getResignMode() == OptionsGame::ResignDueToHealth)
 				{
-					if (tank->getLife().getMaxLife() / 2.0f <= tank->getLife().getLife())
+					if (tank->getLife().getMaxLife() / 2 <= tank->getLife().getLife())
 					{
 						processResignMessage(context, message, tank);
 					}
@@ -219,9 +219,9 @@ void PlayShots::processFiredMessage(ScorchedContext &context,
 
 	// Create the action for the weapon and
 	// add it to the action controller
-	Vector velocity = tank->getPosition().getVelocityVector() *
-		(tank->getPosition().getPower() + 1.0f);
-	Vector position = tank->getPosition().getTankGunPosition();
+	FixedVector velocity = tank->getPosition().getVelocityVector() *
+		(tank->getPosition().getPower() + 1);
+	FixedVector position = tank->getPosition().getTankGunPosition();
 
 	WeaponFireContext weaponContext(tank->getPlayerId(), 0);
 	weapon->fireWeapon(context, weaponContext, position, velocity);

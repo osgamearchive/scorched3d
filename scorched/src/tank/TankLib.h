@@ -22,7 +22,7 @@
 #define __INCLUDE_TankLibh_INCLUDE__
 
 #include <engine/ScorchedContext.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <list>
 
 class Tank;
@@ -30,26 +30,26 @@ class RandomGenerator;
 namespace TankLib
 {
 	bool intersection(ScorchedContext &context,
-		Vector position, float xy, float yz, float power,
+		FixedVector position, fixed xy, fixed yz, fixed power,
 		int dist);
-	float getDistanceToTank(Vector &position, Tank *targetTank);
+	fixed getDistanceToTank(FixedVector &position, Tank *targetTank);
 	void getTanksSortedByDistance(
 		ScorchedContext &context,
-		Vector &position, 
-		std::list<std::pair<float, Tank *> > &result,
+		FixedVector &position, 
+		std::list<std::pair<fixed, Tank *> > &result,
 		unsigned int teams,
-		float maxDistance = -1);
+		fixed maxDistance = -1);
 	bool getSniperShotTowardsPosition(ScorchedContext &context,
-		Vector &position, Vector &shootAt, float distForSniper, 
-		float &angleXYDegs, float &angleYZDegs, float &power,
+		FixedVector &position, FixedVector &shootAt, fixed distForSniper, 
+		fixed &angleXYDegs, fixed &angleYZDegs, fixed &power,
 		bool checkIntersection = false);
 	void getShotTowardsPosition(
 		ScorchedContext &context,
 		RandomGenerator &random,
-		Vector &position, Vector &shootAt, 
-		float &angleXYDegs, float &angleYZDegs, float &power);
-	Vector &getVelocityVector(float xy, float yz);
-	Vector &getGunPosition(float xy, float yz);
+		FixedVector &position, FixedVector &shootAt, 
+		fixed &angleXYDegs, fixed &angleYZDegs, fixed &power);
+	FixedVector &getVelocityVector(fixed xy, fixed yz);
+	FixedVector &getGunPosition(fixed xy, fixed yz);
 };
 
 

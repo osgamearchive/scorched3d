@@ -32,12 +32,12 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 
-	Vector &getSlowForce() { return slowForce_; }
+	FixedVector &getSlowForce() { return slowForce_; }
 
 	REGISTER_ACCESSORY_HEADER(Parachute, AccessoryPart::AccessoryParachute);
 
 protected:
-	Vector slowForce_;
+	FixedVector slowForce_;
 };
 
 #endif // !defined(AFX_PARACHUTE_H__F934B35F_3195_45F7_A6B4_D10CCDB296BD__INCLUDED_)

@@ -54,7 +54,5 @@ bool ClientSyncCheckHandler::processMessage(
 	ComsSyncCheckMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	Logger::log("sync checked.");
-
 	return true;
 }

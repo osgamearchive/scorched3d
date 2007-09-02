@@ -32,44 +32,44 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 
-	float getConeLength() { return coneLength_; }
-	float getSegLength() { return segLength_; }
-	float getSegVar() { return segVar_; }
-	float getSize() { return size_; }
-	float getSizeVar() { return sizeVar_; }
-	float getMinSize() { return minSize_; }
-	float getSplitProb() { return splitProb_; }
-	float getSplitVar() { return splitVar_; }
-	float getDeathProb() { return deathProb_; }
-	float getDerivAngle() { return derivAngle_; }
-	float getAngleVar() { return angleVar_; }
-	float getTotalTime() { return totalTime_; }
-	float getSegHurt() { return segHurt_; }
-	float getSegHurtRadius() { return segHurtRadius_; }
+	fixed getConeLength() { return coneLength_; }
+	fixed getSegLength() { return segLength_; }
+	fixed getSegVar() { return segVar_; }
+	fixed getSize() { return size_; }
+	fixed getSizeVar() { return sizeVar_; }
+	fixed getMinSize() { return minSize_; }
+	fixed getSplitProb() { return splitProb_; }
+	fixed getSplitVar() { return splitVar_; }
+	fixed getDeathProb() { return deathProb_; }
+	fixed getDerivAngle() { return derivAngle_; }
+	fixed getAngleVar() { return angleVar_; }
+	fixed getTotalTime() { return totalTime_; }
+	fixed getSegHurt() { return segHurt_; }
+	fixed getSegHurtRadius() { return segHurtRadius_; }
 	const char *getSound() { return sound_.c_str(); }
 	const char *getTexture() { return texture_.c_str(); }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponLightning, AccessoryPart::AccessoryWeapon);
 
 protected:
-	float coneLength_;
-	float segLength_;
-	float segVar_;
-	float size_;
-	float sizeVar_;
-	float minSize_;
-	float splitProb_;
-	float splitVar_;
-	float deathProb_;
-	float derivAngle_;
-	float angleVar_;
-	float totalTime_;
-	float segHurt_;
-	float segHurtRadius_;
+	fixed coneLength_;
+	fixed segLength_;
+	fixed segVar_;
+	fixed size_;
+	fixed sizeVar_;
+	fixed minSize_;
+	fixed splitProb_;
+	fixed splitVar_;
+	fixed deathProb_;
+	fixed derivAngle_;
+	fixed angleVar_;
+	fixed totalTime_;
+	fixed segHurt_;
+	fixed segHurtRadius_;
 	std::string sound_;
 	std::string texture_;
 	NumberParser coneLengthExp_;

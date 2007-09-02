@@ -40,7 +40,7 @@ void TargetParticleRenderer::simulateParticle(Particle &particle, float time)
 	{
 		// Target and particle alive
 		particle.life_ = 1000.0f; // Alive
-		particle.position_ = target->getLife().getTargetPosition();
+		particle.position_ = target->getLife().getTargetPosition().asVector();
 	}
 	else
 	{

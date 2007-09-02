@@ -43,6 +43,7 @@
 #include <landscape/Landscape.h>
 #include <tank/TankContainer.h>
 #include <tank/TankCamera.h>
+#include <tankai/TankAIAdder.h>
 
 ClientNewGameHandler *ClientNewGameHandler::instance_ = 0;
 
@@ -76,6 +77,15 @@ bool ClientNewGameHandler::processMessage(
 	ComsNewGameMessage message;
 	if (!message.readMessage(reader)) return false;
 
+	// Update all of the tank state
+	// Do this at the begining as the ProgressDialog processes network
+	// events and tanks may leave an join meantime
+	if (!message.parsePlayerStateMessage())
+	{
+		Logger::log("ClientNewGameHandler: Failed to parse playerstate");
+		return false;
+	}
+
 	// make sure we can only see the correct settings
 	OptionsDisplayConsole::instance()->addDisplayToConsole();
 
@@ -99,6 +109,7 @@ bool ClientNewGameHandler::processMessage(
 	ScorchedClient::instance()->getLandscapeMaps().generateMaps(
 		ScorchedClient::instance()->getContext(),
 		message.getLevelMessage().getGroundMapsDefn(),
+		message.getLevelMessage().getTankPositions(),
 		ProgressDialogSync::instance());
 
 	if (!HeightMapSender::generateHMapFromDiff(
@@ -110,6 +121,66 @@ bool ClientNewGameHandler::processMessage(
 
 	// Calculate all the new landscape settings (graphics)
 	Landscape::instance()->generate(ProgressDialogSync::instance());
+
+	// Remove any targets that have been removed due to game play
+	std::map<unsigned int, Target *> targets =
+		ScorchedClient::instance()->getTargetContainer().getTargets(); // Copy
+	std::map<unsigned int, Target *>::iterator targetItor;
+	for (targetItor = targets.begin();
+		targetItor != targets.end();
+		targetItor++)
+	{
+		Target *target = targetItor->second;
+		if (target->getPlayerId() >= TargetID::MIN_TARGET_ID &&
+			target->getPlayerId() < TargetID::MIN_TARGET_TRANSIENT_ID)
+		{
+			if (message.getLevelMessage().getTargetIds().find(target->getPlayerId()) ==
+				message.getLevelMessage().getTargetIds().end())
+			{
+				Target *removedTarget = 
+					ScorchedClient::instance()->getTargetContainer().removeTarget(target->getPlayerId());
+				delete removedTarget;
+			}
+		}
+	}
+
+	// Add any targets that have been added due to game play
+	NetBufferReader newTargets(message.getLevelMessage().getNewTargets());
+	unsigned int newTargetId = 0;
+	while (newTargets.getFromBuffer(newTargetId))
+	{
+		Target *newTarget = new Target(
+			newTargetId, 
+			"", 
+			ScorchedClient::instance()->getContext());
+		if (!newTarget->readMessage(newTargets))
+		{
+			Logger::log("ClientNewGameHandler: Failed to parse new target message");
+			return false;
+		}
+
+		ScorchedClient::instance()->getTargetContainer().addTarget(newTarget);
+	}
+
+	// Change any target values that may have been altered
+	NetBufferReader oldTargets(message.getLevelMessage().getOldTargets());
+	unsigned int oldTargetId = 0;
+	while (oldTargets.getFromBuffer(oldTargetId))
+	{
+		Target *oldTarget = ScorchedClient::instance()->
+			getTargetContainer().getTargetById(oldTargetId);
+		if (!oldTarget)
+		{
+			Logger::log("ClientNewGameHandler: Failed to find old target");
+			return false;
+		}
+
+		if (!oldTarget->readMessage(oldTargets))
+		{
+			Logger::log("ClientNewGameHandler: Failed to parse old target message");
+			return false;
+		}
+	}
 
 	// Make sure the landscape has been optimized
 	Landscape::instance()->reset(ProgressDialogSync::instance());

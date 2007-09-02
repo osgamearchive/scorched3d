@@ -32,25 +32,25 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 
-	float getMinimumHurt(ScorchedContext &context) { return minimumHurt_.getValue(context); }
-	float getMaximumHurt(ScorchedContext &context) { return maximumHurt_.getValue(context); }
-	float getMinimumDistance(ScorchedContext &context) { return minimumDistance_.getValue(context); }
-	float getMaximumDistance(ScorchedContext &context) { return maximumDistance_.getValue(context); }
-	float getHurtRadius(ScorchedContext &context) { return hurtRadius_.getValue(context); }
-	float getTotalTime(ScorchedContext &context) { return totalTime_.getValue(context); }
+	fixed getMinimumHurt(ScorchedContext &context) { return minimumHurt_.getValue(context); }
+	fixed getMaximumHurt(ScorchedContext &context) { return maximumHurt_.getValue(context); }
+	fixed getMinimumDistance(ScorchedContext &context) { return minimumDistance_.getValue(context); }
+	fixed getMaximumDistance(ScorchedContext &context) { return maximumDistance_.getValue(context); }
+	fixed getHurtRadius(ScorchedContext &context) { return hurtRadius_.getValue(context); }
+	fixed getTotalTime(ScorchedContext &context) { return totalTime_.getValue(context); }
 	bool getHurtFirer() { return hurtFirer_; }
 	Vector &getColor() { return color_; }
 
 	// Inherited from Weapon
 	void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponLaser, AccessoryPart::AccessoryWeapon);
 
 protected:
 	Vector color_;
 	bool hurtFirer_;
-	// Use the following to hold the NumberParser float expression
+	// Use the following to hold the NumberParser fixed expression
 	// convert to values in actions/Laser
 	NumberParser minimumHurt_, maximumHurt_;
 	NumberParser minimumDistance_, maximumDistance_;

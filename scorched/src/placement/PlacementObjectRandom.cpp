@@ -22,7 +22,7 @@
 #include <common/RandomGenerator.h>
 #include <XML/XMLParser.h>
 
-PlacementObjectRandom::PlacementObjectRandom() : totalWeight_(0.0f)
+PlacementObjectRandom::PlacementObjectRandom() : totalWeight_(0)
 {
 }
 
@@ -38,7 +38,7 @@ bool PlacementObjectRandom::readXML(XMLNode *initialNode)
 		RandomObject randomObject;
 
 		// Get the weight
-		randomObject.weight = 1.0f;
+		randomObject.weight = 1;
 		node->getNamedChild("weight", randomObject.weight, false);
 		totalWeight_ += randomObject.weight;
 
@@ -62,8 +62,8 @@ void PlacementObjectRandom::createObject(ScorchedContext &context,
 	unsigned int &playerId,
 	PlacementType::Position &position)
 {
-	float totalWeight = generator.getRandFloat() * totalWeight_;
-	float currentWeight = 0.0f;
+	fixed totalWeight = generator.getRandFixed() * totalWeight_;
+	fixed currentWeight = 0;
 
 	std::vector<RandomObject>::iterator itor;
 	for (itor = objects_.begin();

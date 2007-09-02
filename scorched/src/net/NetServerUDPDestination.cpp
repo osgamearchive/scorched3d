@@ -28,7 +28,11 @@ NetServerUDPDestination::NetServerUDPDestination(NetServerUDP *server, IPaddress
 	server_(server),
 	sendSeq_(1), recvSeq_(1), recvMessage_(0),
 	packetLogging_(false),
-	packetsSent_(0), packetsWaiting_(0),  droppedPackets_(0)
+	packetsSent_(0), packetsWaiting_(0), droppedPackets_(0), 
+	packetsAcked_(0), 
+	packetsRecieved_(0), packetsAsyncRecieved_(0),
+	packetsOutOfSequenceRecieved_(0), packetsSequenceRecieved_(0), packetsDuplicateRecieved_(0),
+	messagesSent_(0), messagesRecieved_(0)
 {
 	memcpy(&address_, &address, sizeof(address));
 }
@@ -72,6 +76,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 	memcpy(&seqValue, data, sizeof(seqValue));
 	unsigned int seq = SDLNet_Read32(&seqValue);
     data+=4; len-=4;// Remove seq
+	packetsRecieved_++;
 
 	if (packetLogging_)
 	{
@@ -86,11 +91,13 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 				destinationId, getIpAddress());
 		recvMessage->getBuffer().addDataToBuffer(data, len);
 		server_->incomingMessageHandler_.addMessage(recvMessage);
+		packetsAsyncRecieved_++;
 	}
 	else if (seq == recvSeq_) // Is this is next packet we want
 	{
 		// We've recieved the next message in the sequence
 		// add the data to the current buffer
+		packetsSequenceRecieved_++;
 		addData(destinationId, len, data, fin);
 		recvSeq_++;
 
@@ -118,12 +125,18 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		// Check we have not already got this message
 		if (incomingMessages_.find(seq) == incomingMessages_.end())
 		{
+			packetsOutOfSequenceRecieved_++;
+
 			// We don't have this packet yet, add the data
 			NetMessage *message = NetMessagePool::instance()->
 				getFromPool((fin?NetMessage::DisconnectMessage:NetMessage::BufferMessage),
 					destinationId, getIpAddress());
 			message->getBuffer().addDataToBuffer(data, len);
 			incomingMessages_[seq] = message;
+		}
+		else
+		{
+			packetsDuplicateRecieved_++;
 		}
 	}
 
@@ -180,6 +193,7 @@ void NetServerUDPDestination::addData(unsigned int destinationId, int len, unsig
 	{
 		server_->incomingMessageHandler_.addMessage(recvMessage_);
 		recvMessage_ = 0;
+		messagesRecieved_++;
 	}
 }
 
@@ -214,6 +228,7 @@ void NetServerUDPDestination::processAck(unsigned int seq)
 		MessagePart &part = (*findItor).second;
 		packetTime_ = theTime - part.sendtime;
 		packetsWaiting_--; // One packet sent and acked
+		packetsAcked_++;
 
 		message->sentParts_.erase(findItor);
 	}
@@ -222,6 +237,8 @@ void NetServerUDPDestination::processAck(unsigned int seq)
 	if (message->pendingParts_.empty() &&
 		message->sentParts_.empty())
 	{
+		messagesSent_++;
+
 		// Inform the client that this message has been fully sent
 		server_->incomingMessageHandler_.addMessage(message->message_);
 		delete message;
@@ -424,6 +441,13 @@ unsigned int NetServerUDPDestination::getIpAddress()
 
 void NetServerUDPDestination::printStats(unsigned int destination)
 {
-	Logger::log(formatString("UDP Destination %u - %u sent, %u waiting, %u dropped, %u time",
-		destination, packetsSent_, packetsWaiting_, droppedPackets_, packetTime_));
+	Logger::log(formatString("UDP Destination %u", destination));
+	Logger::log(formatString("  %u messages sent, %u messages recieved",
+		messagesSent_, messagesRecieved_));
+	Logger::log(formatString("  %u sent, %u acked, %u waiting, %u dropped, %u time",
+		packetsSent_, packetsAcked_, packetsWaiting_, 
+		droppedPackets_, packetTime_));
+	Logger::log(formatString("  %u recieved, %u sequence, %u noseq, %u duplicate",
+		packetsRecieved_, packetsSequenceRecieved_, packetsOutOfSequenceRecieved_, 
+		packetsDuplicateRecieved_));
 }

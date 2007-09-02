@@ -25,7 +25,8 @@
 	#include <landscape/Sky.h>
 #endif
 
-SkyFlash::SkyFlash() 
+SkyFlash::SkyFlash() :
+	ActionReferenced("SkyFlash")
 {
 }
 
@@ -37,7 +38,7 @@ void SkyFlash::init()
 {
 }
 
-void SkyFlash::simulate(float frameTime, bool &remove)
+void SkyFlash::simulate(fixed frameTime, bool &remove)
 {
 #ifndef S3D_SERVER
 	if (!context_->serverMode)

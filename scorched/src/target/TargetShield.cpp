@@ -54,21 +54,20 @@ void TargetShield::setCurrentShield(Accessory *sh)
 	}
 	else
 	{
-		power_ = 0.0f;
+		power_ = 0;
 		currentShield_ = 0;
 	}
 
 	// Update the target space with this new shield information
-	context_.targetSpace->removeTarget(target_);
-	context_.targetSpace->addTarget(target_);
+	context_.targetSpace->updateTarget(target_);
 }
 
-void TargetShield::setShieldPower(float power)
+void TargetShield::setShieldPower(fixed power)
 {
 	power_ = power;
-	if (power_ <= 0.0f)
+	if (power_ <= 0)
 	{
-		power_ = 0.0f;
+		power_ = 0;
 		setCurrentShield(0);
 	}
 }

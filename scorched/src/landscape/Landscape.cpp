@@ -109,7 +109,7 @@ void Landscape::simulate(float frameTime)
 	}
 
 	float speedMult = ScorchedClient::instance()->
-		getActionController().getFast();
+		getActionController().getFast().asFloat();
 	water_->simulate(frameTime * speedMult);
 	patchGrid_->simulate(frameTime);
 	sky_->simulate(frameTime * speedMult);
@@ -161,7 +161,11 @@ void Landscape::drawShadows()
 	// Get the sun's position and landscape dimensions
 	Vector sunPosition = Landscape::instance()->getSky().getSun().getPosition();
 	sunPosition *= 0.5f + (maxWidth - 128.0f) / 256.0f; 
-	float magnitude = sunPosition.Magnitude();
+
+	Vector relativePosition = sunPosition;
+	relativePosition[0] -= landWidth;
+	relativePosition[1] -= landHeight;
+	float magnitude = relativePosition.Magnitude();
 
 	// Bind the frame buffer so we can render into it
 	shadowFrameBuffer_.bind();
@@ -181,7 +185,7 @@ void Landscape::drawShadows()
 	// Setup the view from the sun
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
-	gluPerspective(60.0f, 1.0f, magnitude * 0.5f, magnitude * 1.5f);
+	gluPerspective(60.0f, 1.0f, magnitude - (maxWidth * 1.5f), magnitude + (maxWidth * 1.5f));
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(
@@ -209,8 +213,6 @@ void Landscape::drawShadows()
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_PRE");
 
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_LAND");
-	//GLState hmmState(GLState::TEXTURE_ON);
-	//texture_.draw();
 	patchGrid_->draw(PatchSide::typeTop);
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_LAND");
 
@@ -332,6 +334,8 @@ void Landscape::drawLand()
 
 void Landscape::drawWater()
 {
+	if (!water_->getWaterOn()) return;
+
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "WATER_REFLECTIONS");
 	if (GLStateExtension::hasFBO() &&
 		GLStateExtension::hasShaders() &&
@@ -842,20 +846,20 @@ void Landscape::actualDrawLandShader()
 
 	if (OptionsDisplay::instance()->getDrawGraphicalShadowMap())
 	{
+		GLState state(GLState::TEXTURE_ON);
+
 		glColor3f( 1.f, 1.f, 1.f );
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadIdentity();
-		////glViewport(0,   0, 800, 600);
-		gluOrtho2D( 0, 800, 0, 600 );
-		//glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable( GL_TEXTURE_2D );
+		gluOrtho2D(0, 800, 0, 600);
+		glMatrixMode(GL_TEXTURE);
+		glPushMatrix();
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
 		getColorDepthMap().draw(true);
-		//glDisable( GL_DEPTH_TEST );
-		glMatrixMode( GL_TEXTURE );
-		glLoadIdentity();
-		glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity();
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.f,   0.f);
 			glVertex2i  (0,   0);
@@ -866,9 +870,9 @@ void Landscape::actualDrawLandShader()
 			glTexCoord2f(0.f,   1.f);
 			glVertex2i  (0,   300);
 		glEnd();  
-		glDisable( GL_TEXTURE_2D );
-		//glEnable( GL_DEPTH_TEST );
 		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode( GL_TEXTURE );
 		glPopMatrix();
 		glMatrixMode( GL_MODELVIEW );
 		glPopMatrix();

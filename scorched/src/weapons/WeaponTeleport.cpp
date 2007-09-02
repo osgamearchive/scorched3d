@@ -49,16 +49,16 @@ bool WeaponTeleport::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 	return true;
 }
 
-float WeaponTeleport::getDelay(ScorchedContext &context)
+fixed WeaponTeleport::getDelay(ScorchedContext &context)
 {
 	return delay_.getValue(context);
 }
 
 void WeaponTeleport::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	// Mininum height
-	float allowedHeight = 0.0f;
+	fixed allowedHeight = 0;
 	LandscapeTex &tex = *context.landscapeMaps->getDefinitions().getTex();
 		if (tex.border->getType() == LandscapeTexType::eWater)
 	{
@@ -71,14 +71,14 @@ void WeaponTeleport::fireWeapon(ScorchedContext &context,
 	int mapWidth = context.landscapeMaps->getGroundMaps().getMapWidth();
 	int mapHeight = context.landscapeMaps->getGroundMaps().getMapHeight();
 
-	if (position[0] > 5.0f && 
-		position[1] > 5.0f &&
-		position[0] < float(mapWidth - 5) &&
-		position[1] < float(mapHeight - 5))
+	if (position[0] > 5 && 
+		position[1] > 5 &&
+		position[0] < fixed(mapWidth - 5) &&
+		position[1] < fixed(mapHeight - 5))
 	{
-		float landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+		fixed landscapeHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 			position[0], position[1]);
-		if (landscapeHeight >= allowedHeight - 1.0f)
+		if (landscapeHeight >= allowedHeight - 1)
 		{
 			context.actionController->addAction(
 				new Teleport(position, weaponContext, this));

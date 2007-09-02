@@ -193,12 +193,12 @@ void PatchSide::recursRender( TriNode *tri,
 	}
 	else
 	{
-		GLfloat leftZ  = hMap_->getHeight(leftX, leftY);
-		Vector &leftN = hMap_->getNormal(leftX, leftY);
-		GLfloat rightZ = hMap_->getHeight(rightX, rightY);
-		Vector &rightN = hMap_->getNormal(rightX, rightY);
-		GLfloat apexZ  = hMap_->getHeight(apexX, apexY);
-		Vector &apexN = hMap_->getNormal(apexX, apexY);
+		GLfloat leftZ  = hMap_->getHeight(leftX, leftY).asFloat();
+		Vector leftN = hMap_->getNormal(leftX, leftY).asVector();
+		GLfloat rightZ = hMap_->getHeight(rightX, rightY).asFloat();
+		Vector rightN = hMap_->getNormal(rightX, rightY).asVector();
+		GLfloat apexZ  = hMap_->getHeight(apexX, apexY).asFloat();
+		Vector apexN = hMap_->getNormal(apexX, apexY).asVector();
 
 		switch (side)
 		{
@@ -251,9 +251,9 @@ void PatchSide::recursRender( TriNode *tri,
 			break;
 		case typeNormals:
 		{
-			Vector &leftNormal = hMap_->getNormal(leftX, leftY);
-			Vector &rightNormal = hMap_->getNormal(rightX, rightY);
-			Vector &apexNormal = hMap_->getNormal(apexX, apexY);
+			Vector leftNormal = hMap_->getNormal(leftX, leftY).asVector();
+			Vector rightNormal = hMap_->getNormal(rightX, rightY).asVector();
+			Vector apexNormal = hMap_->getNormal(apexX, apexY).asVector();
 
 			glVertex3f((GLfloat) leftX, (GLfloat) leftY, (GLfloat) leftZ );
 			glVertex3f((GLfloat) leftX + leftNormal[0] * 5.0f, 

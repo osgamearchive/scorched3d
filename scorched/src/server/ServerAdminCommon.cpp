@@ -143,7 +143,7 @@ bool ServerAdminCommon::slapPlayer(const char *adminUser, unsigned int playerId,
 		targetTank->getName(),
 		slap));
 	targetTank->getLife().setLife(
-		targetTank->getLife().getLife() - slap);
+		targetTank->getLife().getLife() - fixed(int(slap)));
 
 	return true;
 }

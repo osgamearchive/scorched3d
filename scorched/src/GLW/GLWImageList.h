@@ -36,8 +36,9 @@ public:
 
 	void addDirectory(const char *directory);
 
-	const char *getCurrent();
-	bool setCurrent(const char *current);
+	const char *getCurrentShortPath();
+	const char *getCurrentLongPath();
+	bool setCurrentShortPath(const char *current);
 
 	// GLWidget
 	virtual void draw();

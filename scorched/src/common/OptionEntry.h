@@ -24,6 +24,7 @@
 
 #include <net/NetBuffer.h>
 #include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <common/ARGParser.h>
 #include <XML/XMLParser.h>
 
@@ -42,7 +43,9 @@ public:
 		OptionEntryTextType,
 		OptionEntryBoolType,
 		OptionEntryFloatType,
+		OptionEntryFixedType,
 		OptionEntryVectorType,
+		OptionEntryFixedVectorType,
 		OptionEntryEnumType,
 		OptionEntryStringEnumType,
 		OptionEntryBoundedIntType
@@ -344,6 +347,64 @@ protected:
 	bool truncate_;
 	Vector defaultValue_;
 	Vector value_;
+
+};
+
+class OptionEntryFixed : public OptionEntry
+{
+public:
+	OptionEntryFixed(std::list<OptionEntry *> &group,
+				   const char *name, 
+				   const char *description,
+				   unsigned int data,
+				   fixed defaultValue);
+	virtual ~OptionEntryFixed();
+
+	virtual EntryType getEntryType() { return OptionEntryFixedType; }
+	virtual const char *getValueAsString();
+	virtual const char *getDefaultValueAsString();
+	virtual bool setValueFromString(const char *string);
+
+	virtual fixed getValue();
+	virtual bool setValue(fixed value);
+
+	virtual bool addToArgParser(ARGParser &parser);
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
+
+	operator fixed () { return value_; }
+
+protected:
+	fixed defaultValue_;
+	fixed value_;
+
+};
+
+class OptionEntryFixedVector : public OptionEntry
+{
+public:
+	OptionEntryFixedVector(std::list<OptionEntry *> &group,
+				   const char *name, 
+				   const char *description,
+				   unsigned int data,
+				   FixedVector defaultValue);
+	virtual ~OptionEntryFixedVector();
+
+	virtual EntryType getEntryType() { return OptionEntryFixedVectorType; }
+	virtual const char *getValueAsString();
+	virtual const char *getDefaultValueAsString();
+	virtual bool setValueFromString(const char *string);
+
+	virtual FixedVector &getValue();
+	virtual bool setValue(FixedVector value);
+
+	virtual bool addToArgParser(ARGParser &parser);
+	virtual bool isDefaultValue() { return value_ == defaultValue_; }
+
+	operator FixedVector() { return value_; }
+
+protected:
+	FixedVector defaultValue_;
+	FixedVector value_;
 
 };
 

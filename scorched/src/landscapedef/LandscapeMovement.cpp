@@ -55,7 +55,7 @@ bool LandscapeMovementTypeSpline::readXML(XMLNode *node)
 	if (!node->getNamedChild("speed", speed)) return false;
 	if (!node->getNamedChild("starttime", starttime)) return false;
 	if (!node->getNamedChild("groundonly", groundonly)) return false;
-	Vector point;
+	FixedVector point;
 	while (node->getNamedChild("controlpoint", point, false))
 	{
 		points.push_back(point);
@@ -74,9 +74,9 @@ bool LandscapeMovementTypeBoids::readXML(XMLNode *node)
 	if (!node->getNamedChild("cruisedistance", cruisedistance)) return false;
 	if (!node->getNamedChild("maxacceleration", maxacceleration)) return false;
 
-	if (maxbounds[0] - minbounds[0] < 25.0f ||
-		maxbounds[1] - minbounds[1] < 25.0f ||
-		maxbounds[2] - minbounds[2] < 10.0f)
+	if (maxbounds[0] - minbounds[0] < fixed(25) ||
+		maxbounds[1] - minbounds[1] < fixed(25) ||
+		maxbounds[2] - minbounds[2] < fixed(10))
 	{
 		return node->returnError(
 			"Boid bounding box is too small, it must be at least 25x10 units");

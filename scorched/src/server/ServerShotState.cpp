@@ -40,6 +40,27 @@ ServerShotState::~ServerShotState()
 
 void ServerShotState::enterState(const unsigned state)
 {
+	// Record the players that are actualy playing shots
+	playing_.clear();
+	std::map<unsigned int, Tank *>::iterator itor;
+	std::map<unsigned int, Tank *> tanks = 
+		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+	std::set<unsigned int>::iterator findItor;
+	for (itor = tanks.begin();
+		itor != tanks.end();
+		itor++)
+	{
+		Tank *tank = (*itor).second;
+		if (tank->getState().getState() != TankState::sPending &&
+			tank->getState().getState() != TankState::sLoading &&
+			tank->getState().getState() != TankState::sInitializing &&
+			tank->getDestinationId() != 0)
+		{
+			unsigned int destination = tank->getDestinationId();
+			playing_.insert(destination);
+		}
+	}
+
 	// Check if all the players have skipped, and only
 	// computer AIs are playing
 	if (ServerShotHolder::instance()->allSkipped() &&
@@ -86,12 +107,12 @@ void ServerShotState::enterState(const unsigned state)
 	// Play the shots
 	ScorchedServer::instance()->getTankContainer().setAllNotReady();
 	ScorchedServer::instance()->getActionController().getRandom().seed(seed);
-	shotState_.enterState(state);
+	shotState_.setup();
 }
 
 bool ServerShotState::acceptStateChange(const unsigned state, 
 		const unsigned nextState,
 		float frameTime)
 {
-	return shotState_.acceptStateChange(state, nextState, frameTime);
+	return shotState_.run(frameTime);
 }

@@ -35,18 +35,18 @@ Shield::ShieldType ShieldSquare::getShieldType()
 	return ShieldTypeSquareNormal;
 }
 
-bool ShieldSquare::inShield(Vector &offset)
+bool ShieldSquare::inShield(FixedVector &offset)
 {
 	return 
 		offset[0] > -size_[0] &&
-		offset[0] < +size_[0] &&
+		offset[0] < size_[0] &&
 		offset[1] > -size_[1] &&
-		offset[1] < +size_[1] &&
+		offset[1] < size_[1] &&
 		offset[2] > -size_[2] &&
-		offset[2] < +size_[2];
+		offset[2] < size_[2];
 }
 
-bool ShieldSquare::tankInShield(Vector &offset)
+bool ShieldSquare::tankInShield(FixedVector &offset)
 {
 	return inShield(offset);
 }

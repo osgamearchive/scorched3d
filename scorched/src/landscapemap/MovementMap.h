@@ -44,18 +44,18 @@ public:
 		MovementMapEntry() {}
 		MovementMapEntry(
 			MovementMapEntryType t,
-			float d,
+			fixed d,
 			unsigned int s,
 			unsigned int e) : type(t), dist(d), srcEntry(s), epoc(e) {}
 
 		MovementMapEntryType type;
-		float dist;
+		fixed dist;
 		unsigned int srcEntry;
 		unsigned int epoc;
 	};
 	struct QueuePosition
 	{
-		float distance;
+		fixed distance;
 		unsigned int square;
 	};
 
@@ -65,27 +65,27 @@ public:
 		ScorchedContext &context);
 	virtual ~MovementMap();
 
-	bool calculatePosition(Vector &position, float fuel = 0.0f);
-	void calculateAllPositions(float fuel = 0.0f);
+	bool calculatePosition(FixedVector &position, fixed fuel = fixed(0));
+	void calculateAllPositions(fixed fuel = fixed(0));
 	MovementMapEntry &getEntry(int w, int h);
 
 	// Create landscape textures that show where the tank can move to
 	void movementTexture();
-	static void limitTexture(Vector &center, int limit);
-	float getFuel();
+	static void limitTexture(FixedVector &center, int limit);
+	fixed getFuel();
 
 	// Functions returns true if a tank can move into the give position,
 	// false otherwise.  Shields and obstacles my prevent a tank moving.
-	static bool inShield(Target *target, Tank *tank, Vector &position);
+	static bool inShield(Target *target, Tank *tank, FixedVector &position);
 	static bool movementProof(ScorchedContext &context, 
 		Target *target, Tank *tank);
 	static bool allowedPosition(ScorchedContext &context, 
-		Tank *tank, Vector &position);
+		Tank *tank, FixedVector &position);
 
 protected:
 	MovementMapEntry *entries_;
 	int width_, height_;
-	float minHeight_;
+	fixed minHeight_;
 	Tank *tank_;
 	WeaponMoveTank *weapon_;
 	ScorchedContext &context_;
@@ -93,19 +93,19 @@ protected:
 
 	unsigned int POINT_TO_UINT(unsigned int x, unsigned int y);
 	void addPoint(unsigned int x, unsigned int y, 
-					 float height, float dist,
+					 fixed height, fixed dist,
 					 std::list<unsigned int> &edgeList,
 					 unsigned int sourcePt,
 					 unsigned int epoc);
 	void addPoint(unsigned int x, unsigned int y, 
-					 float height, float dist,
+					 fixed height, fixed dist,
 					 std::priority_queue<QueuePosition, 
 						std::vector<QueuePosition>, 
 						std::less<QueuePosition> > &priorityQueue,
 					 unsigned int sourcePt,
-					 Vector &position);
+					 FixedVector &position);
 
-	float getWaterHeight();
+	fixed getWaterHeight();
 	bool tankBurried();
 	MovementMapEntry &getAndCheckEntry(int w, int h);
 

@@ -25,14 +25,14 @@
 
 REGISTER_ACCESSORY_SOURCE(WeaponExplosion);
 
-WeaponExplosion::WeaponExplosion() : size_(0.0f), 
-	multiColored_(false), hurtAmount_(0.0f),
+WeaponExplosion::WeaponExplosion() : size_(0), 
+	multiColored_(false), hurtAmount_(0),
 	deform_(Explosion::DeformNone),
-	createDebris_(true), createMushroomAmount_(0.0f),
+	createDebris_(true), createMushroomAmount_(0),
 	createSplash_(true), windAffected_(true),
 	luminance_(true), animate_(true),
 	onlyHurtShield_(false),
-	minLife_(0.5f), maxLife_(1.0f), shake_(0.0f),
+	minLife_(true, 5000), maxLife_(1), shake_(0),
 	explosionTexture_("exp00")
 {
 
@@ -142,15 +142,15 @@ const char *WeaponExplosion::getExplosionSound()
 	return explosionSound_.c_str();
 }
 
-Vector &WeaponExplosion::getExplosionColor()
+FixedVector &WeaponExplosion::getExplosionColor()
 {
-	static Vector white(1.0f, 1.0f, 1.0f);
+	static FixedVector white(1, 1, 1);
 	if (!multiColored_) return white;
 
-    static Vector red(1.0f, 0.0f, 0.0f);
-    static Vector green(0.0f, 1.0f, 0.0f);
-    static Vector blue(0.0f, 0.0f, 1.0f);
-    static Vector yellow(1.0f, 1.0f, 0.0f);
+    static FixedVector red(1, 0, 0);
+    static FixedVector green(0, 1, 0);
+    static FixedVector blue(0, 0, 1);
+    static FixedVector yellow(1, 1, 0);
 
     int color = int(RAND * 4.0f);
     switch (color)
@@ -168,7 +168,7 @@ Vector &WeaponExplosion::getExplosionColor()
 }
 
 void WeaponExplosion::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	size_ = sizeExp_.getValue(context, size_);
 	shake_= shakeExp_.getValue(context, shake_);

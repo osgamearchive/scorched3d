@@ -87,7 +87,7 @@ public:
 	Vector wavelight;
 
 	// Both
-	float height;
+	fixed height;
 	
 	virtual bool readXML(XMLNode *node);
 	virtual TexType getType() { return eWater; }
@@ -124,7 +124,6 @@ public:
 	bool nosunfog;
 	std::string suntexture;
 	float fogdensity;
-	float lowestlandheight;
 	std::string skytexture;
 	std::string skytexturestatic;
 	std::string skytexturemask;

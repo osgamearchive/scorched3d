@@ -40,7 +40,7 @@ Accessory::Accessory() :
 	accessoryId_(++nextAccessoryId_),
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
 	price_(0), bundle_(1), armsLevel_(9),
-	modelScale_(1.0f),
+	modelScale_(1),
 	positionSelect_(ePositionSelectNone), positionSelectLimit_(10),
 	maximumNumber_(0),
 	startingNumber_(0),

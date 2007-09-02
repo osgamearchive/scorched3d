@@ -23,6 +23,7 @@
 
 #include <set>
 #include <list>
+#include <vector>
 #include <engine/GameStateI.h>
 #include <engine/Action.h>
 #include <engine/EventContainer.h>
@@ -47,14 +48,18 @@ public:
 	void logProfiledActions();
 	void logActions();
 
+	// SyncCheck
+	void addSyncCheck(const char *msg);
+	std::vector<std::string> &getSyncCheck() { return syncCheck_; }
+
 	RandomGenerator &getRandom() { return random_; }
 	EventContainer &getEvents() { return events_; }
-	float getActionTime() { return time_; }
+	fixed getActionTime() { return time_; }
 
 	// Set the simulation speed
 	void setScorchedContext(ScorchedContext *context);
-	void setFast(float speedMult);
-	float getFast() { return speed_; }
+	void setFast(fixed speedMult);
+	fixed getFast() { return speed_; }
 
 	// Inherited from GameStateI
 	virtual void simulate(const unsigned state, float frameTime);
@@ -96,20 +101,21 @@ protected:
 	EventContainer events_;
 	RandomGenerator random_;
 	std::list<Action *> newActions_;
+	std::vector<std::string> syncCheck_;
 	ActionList actions_;
 	std::map<std::string, int> actionProfile_;
 	int referenceCount_;
 	unsigned int actionNumber_;
-	float speed_;
-	float time_;
-	float lastTraceTime_;
-	float stepTime_;
+	fixed speed_;
+	fixed time_;
+	fixed lastTraceTime_;
+	fixed stepTime_;
 	bool actionProfiling_;
 	bool actionTracing_;
 	bool actionEvents_;
 
 	bool allEvents();
-	void stepActions(float frameTime);
+	void stepActions(fixed frameTime);
 	void addNewActions();
 
 };

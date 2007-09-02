@@ -351,13 +351,13 @@ void MSModelFactory::loadFile(FILE *in, const char *fileName, Model *model)
 			Vector4 diffuseColor(0.8f, 0.8f, 0.8f, 1.0f);
 			mesh->getAmbientColor() = ambientColor;
 			mesh->getDiffuseColor() = diffuseColor;
-			mesh->getEmissiveColor() = Vector::nullVector;
-			mesh->getSpecularColor() = Vector::nullVector;
+			mesh->getEmissiveColor() = Vector::getNullVector();
+			mesh->getSpecularColor() = Vector::getNullVector();
 
 			mesh->getAmbientNoTexColor() = ambientColor;
 			mesh->getDiffuseNoTexColor() = diffuseColor;
-			mesh->getEmissiveNoTexColor() = Vector::nullVector;
-			mesh->getSpecularNoTexColor() = Vector::nullVector;
+			mesh->getEmissiveNoTexColor() = Vector::getNullVector();
+			mesh->getSpecularNoTexColor() = Vector::getNullVector();
 
 			mesh->getShininessColor() = 0.0f;
 		}

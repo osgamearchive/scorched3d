@@ -22,6 +22,7 @@
 #define AFX_HEIGHTMAPMODIFIER_H__26733049_91D4_4AB9_8870_1BC94F531E9A__INCLUDED_
 
 #include <common/RandomGenerator.h>
+#include <common/FixedVector.h>
 #include <landscapemap/HeightMap.h>
 
 class LandscapeDefnHeightMapGenerate;
@@ -42,8 +43,8 @@ namespace HeightMapModifier
 		RandomGenerator &generator, 
 		RandomGenerator &offsetGenerator,
 		ProgressCounter *counter = 0);
-	void addCirclePeak(HeightMap &hmap, Vector &start, 
-		float sizew, float sizew2, float sizeh,
+	void addCirclePeak(HeightMap &hmap, FixedVector &start, 
+		fixed sizew, fixed sizew2, fixed sizeh,
 		RandomGenerator &generator);
 };
 

@@ -34,7 +34,13 @@ do { \
 } while(0)
 #define dMULTIPLY1_331(A,B,C) dMULTIPLYOP1_331(A,=,B,C)
 
-Vector4 Vector4::nullVector;
+static Vector4 nullVector;
+
+Vector4 &Vector4::getNullVector()
+{
+	nullVector.zero();
+	return nullVector;
+}
 
 void Vector4::setQuatFromAxisAndAngle(Vector &axis, float angle)
 {

@@ -61,10 +61,10 @@ void PlacementTypeDirect::getPositions(ScorchedContext &context,
 			counter->setNewPercentage(float(i)/float(positions.size())*100.0f);
 
 		Position position = (*itor);
-		float height = 
+		fixed height = 
 			context.landscapeMaps->
 				getGroundMaps().getInterpHeight(position.position[0], position.position[1]);
-		if (position.position[2] == 0.0f) position.position[2] = height;
+		if (position.position[2] == 0) position.position[2] = height;
 
 		returnPositions.push_back(position);
 	}

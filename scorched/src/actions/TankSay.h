@@ -31,7 +31,7 @@ public:
 	virtual ~TankSay();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
 
 protected:
 	unsigned int playerId_;

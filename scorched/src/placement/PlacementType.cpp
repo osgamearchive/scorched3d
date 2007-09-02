@@ -84,10 +84,10 @@ void PlacementType::createObjects(ScorchedContext &context,
 	}
 }
 
-bool PlacementType::checkCloseness(Vector &position,
+bool PlacementType::checkCloseness(FixedVector &position,
 	ScorchedContext &context,
 	std::list<Position> &returnPositions,
-	float mincloseness)
+	fixed mincloseness)
 {
 	// Check for border closeness for targets
 	std::map<unsigned int, Target *> &targets = 
@@ -100,13 +100,13 @@ bool PlacementType::checkCloseness(Vector &position,
 		Target *target = (*targetsitor).second;
 		if (!target->isTarget()) continue;
 
-		float distx = target->getLife().getTargetPosition()[0] - position[0];
-		float disty = target->getLife().getTargetPosition()[1] - position[1];
-		float closeness = mincloseness + target->getBorder();
+		fixed distx = target->getLife().getTargetPosition()[0] - position[0];
+		fixed disty = target->getLife().getTargetPosition()[1] - position[1];
+		fixed closeness = mincloseness + target->getBorder();
 
-		if (closeness > 0.0f)
+		if (closeness > 0)
 		{
-			float distsq = closeness * closeness;
+			fixed distsq = closeness * closeness;
 			if (distx * distx + disty *disty < distsq)
 			{
 				return false;
@@ -115,7 +115,7 @@ bool PlacementType::checkCloseness(Vector &position,
 	}
 
 	// Check for mincloseness closeness for objects in the current group
-	if (mincloseness > 0.0f)
+	if (mincloseness > 0)
 	{
 		std::list<Position>::iterator currentItor;
 		for (currentItor = returnPositions.begin();
@@ -124,10 +124,10 @@ bool PlacementType::checkCloseness(Vector &position,
 		{
 			Position *object = &(*currentItor);
 
-			float distx = object->position[0] - position[0];
-			float disty = object->position[1] - position[1];
+			fixed distx = object->position[0] - position[0];
+			fixed disty = object->position[1] - position[1];
 
-			float distsq = mincloseness * mincloseness;
+			fixed distsq = mincloseness * mincloseness;
 			if (distx * distx + disty *disty < distsq)
 			{
 				return false;

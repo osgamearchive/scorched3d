@@ -32,30 +32,30 @@ ViewPoints::~ViewPoints()
 {
 }
 
-void ViewPoints::getValues(Vector &lookAt, 
-						   Vector &lookFrom)
+void ViewPoints::getValues(FixedVector &lookAt, 
+						   FixedVector &lookFrom)
 {
 	lookAt = lookAt_;
 	lookFrom = lookFrom_;
 }
 
-void ViewPoints::setValues(Vector &lookAt, 
-						   Vector &lookFrom)
+void ViewPoints::setValues(FixedVector &lookAt, 
+						   FixedVector &lookFrom)
 {
 	lookAt_ = lookAt;
 	lookFrom_ = lookFrom;
 }
 
-void ViewPoints::simulate(float frameTime)
+void ViewPoints::simulate(fixed frameTime)
 {
 	if (getLookAtCount() == 0) return;
 
-	Vector max, min;
+	FixedVector max, min;
 	bool firstItor = true;
-	float count = 0.0f;
+	fixed count = 0;
 
-	static Vector lookAt;
-	static Vector lookFrom;
+	static FixedVector lookAt;
+	static FixedVector lookFrom;
 	lookAt.zero();
 	lookFrom.zero();
 
@@ -65,9 +65,9 @@ void ViewPoints::simulate(float frameTime)
 		points_.end();
 	for (; itor != enditor; itor++)
 	{
-		Vector &itorPosition = (*itor)->getPosition();
-		Vector &itorLookAt = (*itor)->getLookFrom();
-		float itorRadius = (*itor)->getRadius();
+		FixedVector &itorPosition = (*itor)->getPosition();
+		FixedVector &itorLookAt = (*itor)->getLookFrom();
+		fixed itorRadius = (*itor)->getRadius();
 
 		if (firstItor)
 		{
@@ -85,14 +85,14 @@ void ViewPoints::simulate(float frameTime)
 
 		lookAt += itorPosition;
 		lookFrom += itorLookAt;
-		count += 1.0f;
+		count += 1;
 	}
 
-	float dist = 25.0f;
-	float maxMin = (max - min).Magnitude();
-	if (maxMin > 0.0f)
+	fixed dist = 25;
+	fixed maxMin = (max - min).Magnitude();
+	if (maxMin > 0)
 	{
-		dist = 25.0f + maxMin;
+		dist = maxMin + 25;
 	}
 	lookFrom.StoreNormalize();
 

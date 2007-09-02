@@ -20,7 +20,6 @@
 
 #include <landscapemap/HeightMapSender.h>
 #include <common/Logger.h>
-#include <float.h>
 #include <stdlib.h>
 #include <zlib.h>
 
@@ -30,8 +29,8 @@ bool HeightMapSender::generateHMapDiff(
 	ProgressCounter *counter)
 {
 	// Buffer sizes
-	unsigned long destLen = (hMap.getMapWidth() + 1) * (hMap.getMapHeight() + 1) * sizeof(float) * 2;
-	unsigned long srcLen = (hMap.getMapWidth() + 1) * (hMap.getMapHeight() + 1) * sizeof(float);
+	unsigned long destLen = (hMap.getMapWidth() + 1) * (hMap.getMapHeight() + 1) * sizeof(fixed) * 2;
+	unsigned long srcLen = (hMap.getMapWidth() + 1) * (hMap.getMapHeight() + 1) * sizeof(fixed);
 
 	// Storage
 	unsigned char *diffMap = new unsigned char[srcLen];
@@ -46,17 +45,17 @@ bool HeightMapSender::generateHMapDiff(
 	{
 		for (int i = 0; i<(hMap.getMapWidth() + 1); i++)
 		{
-			float current = hMap.getHeight(i, j);
-			float stored = hMap.getBackupHeight(i, j);
+			fixed current = hMap.getHeight(i, j);
+			fixed stored = hMap.getBackupHeight(i, j);
 
 			// Send the current height if it is different from the original
 			// or FLT_MAX is it the same as the original.
 			// The idea is that a large number of FLT_MAX will compress well
 			// if the level is mostly the same.
-			float diff = current;
+			fixed diff = current;
 			if (current == stored)
 			{
-				diff = FLT_MAX;
+				diff = fixed::MAX_FIXED;
 			}
 
 			Uint32 value = 0;
@@ -99,7 +98,7 @@ bool HeightMapSender::generateHMapFromDiff(
 	// Buffer sizes
 	unsigned long wantedDestLen = 
 		(hMap.getMapWidth() + 1) * 
-		(hMap.getMapHeight() + 1) * sizeof(float);
+		(hMap.getMapHeight() + 1) * sizeof(fixed);
 	unsigned long destLen = wantedDestLen * 2;
 	
 	// Storage
@@ -128,13 +127,13 @@ bool HeightMapSender::generateHMapFromDiff(
 		{
 			for (int i = 0; i<(hMap.getMapWidth() + 1); i++)
 			{
-				float diff = 0.0f;
+				fixed diff = fixed(0);
 				Uint32 value = 0;
 				memcpy(&value, destCurrent, 4);
 				Uint32 result = SDLNet_Read32(&value);
 				memcpy(&diff, &result, sizeof(Uint32));
 
-				if (diff != FLT_MAX)
+				if (diff != fixed::MAX_FIXED)
 				{
 					hMap.setHeight(i, j, diff);
 				}

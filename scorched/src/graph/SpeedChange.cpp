@@ -53,12 +53,12 @@ SpeedChange::~SpeedChange()
 
 void SpeedChange::resetSpeed()
 {
-	setSpeed(1.0f);
+	setSpeed(1);
 }
 
 void SpeedChange::draw(const unsigned state)
 {
-	float speed = ScorchedClient::instance()->getActionController().getFast();
+	float speed = ScorchedClient::instance()->getActionController().getFast().asFloat();
 	if (speed != 1.0f)
 	{
 		GLState state(GLState::BLEND_ON | GLState::TEXTURE_OFF); 
@@ -72,11 +72,11 @@ void SpeedChange::draw(const unsigned state)
 
 void SpeedChange::simulate(const unsigned state, float simTime)
 {
-	float speed = ScorchedClient::instance()->getActionController().getFast();
+	fixed speed = ScorchedClient::instance()->getActionController().getFast();
 	float timeTaken = frameClock_.getTimeDifference();
-	if (timeTaken > 0.2f && speed > 1.0f)
+	if (timeTaken > 0.2f && speed > 1)
 	{
-		setSpeed(speed / 2.0f);
+		setSpeed(speed / 2);
 	}
 }
 
@@ -101,38 +101,38 @@ void SpeedChange::keyboardCheck(const unsigned state, float frameTime,
 	}
 	else if (x2Key->keyDown(buffer, keyState))
 	{
-		setSpeed(2.0f);
+		setSpeed(2);
 	}
 	else if (x3Key->keyDown(buffer, keyState))
 	{
-		setSpeed(4.0f);
+		setSpeed(4);
 	}
 	else if (x4Key->keyDown(buffer, keyState))
 	{
-		setSpeed(8.0f);
+		setSpeed(8);
 	}
 	else if (xHalfKey->keyDown(buffer, keyState))
 	{
-		setSpeed(1.0f / 2.0f);
+		setSpeed(fixed(1) / fixed(2));
 	}
 	else if (xQuarterKey->keyDown(buffer, keyState))
 	{
-		setSpeed(1.0f / 4.0f);
+		setSpeed(fixed(1) / fixed(4));
 	}
 	else if (xEighthKey->keyDown(buffer, keyState))
 	{
-		setSpeed(1.0f / 8.0f);
+		setSpeed(fixed(1) / fixed(8));
 	}
 }
 
-void SpeedChange::setSpeed(float speed)
+void SpeedChange::setSpeed(fixed speed)
 {
 	ScorchedClient::instance()->getActionController().setFast(speed);
-	ParticleEngine::setFast(speed);
+	ParticleEngine::setFast(speed.asFloat());
 
 	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		ScorchedServer::instance()->getActionController().setFast(speed);
-		ServerShotFinishedState::setSpeed(speed); // Hack!!
+		ServerShotFinishedState::setSpeed(speed.asFloat()); // Hack!!
 	}
 }

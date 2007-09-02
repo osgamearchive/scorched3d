@@ -26,7 +26,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponPosition);
 
 WeaponPosition::WeaponPosition() :
-	positionOffset_(0.0f, 0.0f, 0.0f)
+	positionOffset_(0, 0, 0)
 {
 
 }
@@ -65,7 +65,7 @@ bool WeaponPosition::parseXML(AccessoryCreateContext &context, XMLNode *accessor
 }
 
 void WeaponPosition::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	// Position the fired weapon at the desired position, 
 	// +/- optional random offset
@@ -73,18 +73,18 @@ void WeaponPosition::fireWeapon(ScorchedContext &context,
 
 	if(onGround_)
 	{
-		float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+		fixed minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		                position[0], position[1]);
 		position_[2] = minHeight;
 	}
 
-	Vector newPosition;
+	FixedVector newPosition;
 	newPosition[0] = position_[0] - positionOffset_[0] +
-			positionOffset_[0] * 2.0f * random.getRandFloat();
+		positionOffset_[0] * 2 * random.getRandFixed();
 	newPosition[1] = position_[1] - positionOffset_[1] +
-	                positionOffset_[1] * 2.0f * random.getRandFloat();
+		positionOffset_[1] * 2 * random.getRandFixed();
 	newPosition[2] = position_[2] - positionOffset_[2] +		
-	                positionOffset_[2] * 2.0f * random.getRandFloat();
+		positionOffset_[2] * 2 * random.getRandFixed();
 	
 	aimedWeapon_->fireWeapon(context, weaponContext, newPosition, velocity);
 

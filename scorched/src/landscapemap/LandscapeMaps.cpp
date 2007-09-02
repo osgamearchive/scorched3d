@@ -33,10 +33,11 @@ LandscapeMaps::~LandscapeMaps()
 void LandscapeMaps::generateMaps(
 	ScorchedContext &context,
 	LandscapeDefinition &defn,
+	std::list<FixedVector> &tankPositions,
 	ProgressCounter *counter)
 {
 	dCache_.setDefinition(context, defn);
-	gMaps_.generateMaps(context, counter);
+	gMaps_.generateMaps(context, tankPositions, counter);
 	rMaps_.generateMaps(context, counter);
 }
 

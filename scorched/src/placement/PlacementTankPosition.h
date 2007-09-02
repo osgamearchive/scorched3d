@@ -21,14 +21,19 @@
 #if !defined(__INCLUDE_PlacementTankPositionh_INCLUDE__)
 #define __INCLUDE_PlacementTankPositionh_INCLUDE__
 
-#include <common/Vector.h>
+#include <list>
+#include <common/FixedVector.h>
 #include <common/RandomGenerator.h>
 #include <engine/ScorchedContext.h>
 
 namespace PlacementTankPosition 
 {
-	void calculateStartPosition(unsigned int seed, ScorchedContext &context);
-	Vector placeTank(unsigned int playerId, int team,
+	void flattenTankPositions(std::list<FixedVector> &tankPositions, 
+		ScorchedContext & context);
+
+
+
+	FixedVector placeTank(unsigned int playerId, int team,
 		ScorchedContext &context, RandomGenerator &generator);
 };
 

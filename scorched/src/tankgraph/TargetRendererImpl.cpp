@@ -177,7 +177,7 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	Shield *shield = (Shield *) accessory->getAction();
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
-	Vector &position = target->getLife().getTargetPosition();
+	Vector &position = target->getLife().getTargetPosition().asVector();
 	Vector &color = shield->getColor();
 
 	if (shield->getRound())
@@ -192,7 +192,7 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 			glColor4f(color[0], color[1], color[2], 0.4f);
 			glPushMatrix();
 				glTranslatef(position[0], position[1], position[2] + 1.0f);
-				float scale = round->getActualRadius() / 3.0f;
+				float scale = round->getActualRadius().asFloat() / 3.0f;
 				glScalef(scale, scale, scale);
 
 				glRotatef(totalTime * 800.0f, 0.0f, 0.0f, 1.0f);
@@ -211,7 +211,10 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 			glPushMatrix();
 				glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
 				glTranslatef(position[0], position[1], position[2]);
-				glScalef(round->getActualRadius(), round->getActualRadius(), round->getActualRadius());
+				glScalef(
+					round->getActualRadius().asFloat(), 
+					round->getActualRadius().asFloat(), 
+					round->getActualRadius().asFloat());
 				glCallList(smallHalfListNo);
 			glPopMatrix();
 		}
@@ -221,7 +224,10 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 			glPushMatrix();
 				glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
 				glTranslatef(position[0], position[1], position[2]);
-				glScalef(round->getActualRadius(), round->getActualRadius(), round->getActualRadius());
+				glScalef(
+					round->getActualRadius().asFloat(), 
+					round->getActualRadius().asFloat(), 
+					round->getActualRadius().asFloat());
 				glCallList(smallListNo);
 			glPopMatrix();
 
@@ -232,8 +238,8 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 					position,
 					color,
 					1.0f - shieldHit,
-					round->getActualRadius() * 0.95f, 
-					round->getActualRadius() * 0.95f,
+					round->getActualRadius().asFloat() * 0.95f, 
+					round->getActualRadius().asFloat() * 0.95f,
 					true, // Additive
 					0); // texcoord
 			}
@@ -247,7 +253,10 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 		glPushMatrix();
 			glColor4f(color[0], color[1], color[2], 0.5f + shieldHit);
 			glTranslatef(position[0], position[1], position[2]);
-			glScalef(square->getSize()[0], square->getSize()[1], square->getSize()[2]);
+			glScalef(
+				square->getSize()[0].asFloat(), 
+				square->getSize()[1].asFloat(), 
+				square->getSize()[2].asFloat());
 			glCallList(squareListNo);
 		glPopMatrix();
 	}
@@ -289,7 +298,7 @@ void TargetRendererImpl::drawParachute(Target *target)
 		return;
 	}
 
-	Vector &position = target->getLife().getTargetPosition();
+	Vector &position = target->getLife().getTargetPosition().asVector();
 	GLState state(GLState::TEXTURE_OFF);
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
@@ -328,9 +337,9 @@ void TargetRendererImpl::createParticle(Target *target)
 		{
 			particle->setParticle(
 				1000.0f,  1.0f, 1.0f, //float life, float mass, float friction,
-				Vector::nullVector, Vector::nullVector, //Vector &velocity, Vector &gravity,
-				Vector::nullVector, Vector::nullVector, //Vector &color, Vector &colorCounter,
-				Vector::nullVector, Vector::nullVector, //Vector &size, Vector &sizeCounter,
+				Vector::getNullVector(), Vector::getNullVector(), //Vector &velocity, Vector &gravity,
+				Vector::getNullVector(), Vector::getNullVector(), //Vector &color, Vector &colorCounter,
+				Vector::getNullVector(), Vector::getNullVector(), //Vector &size, Vector &sizeCounter,
 				1.0f, 0.0f, // float alpha, float alphaCounter,
 				false, //bool additiveTexture,
 				false); //bool windAffect);

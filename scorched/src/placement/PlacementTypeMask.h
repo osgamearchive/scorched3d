@@ -39,9 +39,9 @@ public:
 protected:
 	int numobjects;
 	std::string mask;
-	float minheight, maxheight;
-	float mincloseness, minslope;
-	float xsnap, ysnap;
+	fixed minheight, maxheight;
+	fixed mincloseness, minslope;
+	fixed xsnap, ysnap;
 };
 
 #endif // __INCLUDE_PlacementTypeMaskh_INCLUDE__

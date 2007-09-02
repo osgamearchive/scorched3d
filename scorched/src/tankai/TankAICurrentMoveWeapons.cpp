@@ -49,7 +49,7 @@ TankAICurrentMoveWeapons::TankAICurrentMoveWeapons(Tank *tank,
 	uncover = weapons->getTankAccessoryByType(tank, "uncover");
 
 	// Check for being under water
-	float waterHeight = -10.0f;
+	fixed waterHeight = -10;
 	LandscapeTex &tex = *ScorchedServer::instance()->getLandscapeMaps().getDefinitions().getTex();
 	if (tex.border->getType() == LandscapeTexType::eWater)
 	{

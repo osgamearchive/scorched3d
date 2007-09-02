@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2003
+//    Scorched3D (c) 2000-2004
 //
 //    This file is part of Scorched3D.
 //
@@ -18,26 +18,37 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerPlayerAimHandlerh_INCLUDE__)
-#define __INCLUDE_ServerPlayerAimHandlerh_INCLUDE__
+#ifndef __BOID2_H
+#define __BOID2_H
 
-#include <coms/ComsMessageHandler.h>
+#include <common/FixedVector.h>
 
-class ServerPlayerAimHandler : 
-	public ComsMessageHandlerI
+class ScorchedContext;
+class TargetMovementEntryBoids;
+class Target;
+
+class Boid2 
 {
-public:
-	static ServerPlayerAimHandler *instance();
+public:  					 
+	Boid2(ScorchedContext &context, Target *target, TargetMovementEntryBoids *world); 
+	~Boid2();
 
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
+	void update(fixed frameTime);  
+	void clearTarget();
 
-private:
-	ServerPlayerAimHandler();
-	virtual ~ServerPlayerAimHandler();
+protected:
+	ScorchedContext &context_;
+	Target *target_;
+	TargetMovementEntryBoids *world_;
+
+	FixedVector checkGrouping();
+	bool checkCollision(FixedVector &normal);
+	FixedVector &getPosition();
+	FixedVector &getVelocity();
+
+	fixed directionMag_;
+	FixedVector direction_;
 
 };
 
-#endif
+#endif /* __BOID2_H */

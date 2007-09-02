@@ -84,7 +84,7 @@ bool ClientDefenseHandler::processMessage(
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile(formatString("data/wav/%s", battery->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					batSound, tank->getPosition().getTankPosition());
+					batSound, tank->getPosition().getTankPosition().asVector());
 
 				if (tank->getDestinationId() != 
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
@@ -92,7 +92,7 @@ bool ClientDefenseHandler::processMessage(
 					tank->getAccessories().add(battery, 1);
 				}
 
-				tank->getLife().setLife(tank->getLife().getLife() + 10.0f);
+				tank->getLife().setLife(tank->getLife().getLife() + 10);
 				tank->getAccessories().rm(battery, 1);
 			}
 		}
@@ -108,7 +108,7 @@ bool ClientDefenseHandler::processMessage(
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile(formatString("data/wav/%s", accessory->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					activateSound, tank->getPosition().getTankPosition());
+					activateSound, tank->getPosition().getTankPosition().asVector());
 
 				if (tank->getDestinationId() != 
 					ScorchedClient::instance()->getTankContainer().getCurrentDestinationId())
@@ -137,7 +137,7 @@ bool ClientDefenseHandler::processMessage(
 					Sound::instance()->fetchOrCreateBuffer((char *)
 						getDataFile(formatString("data/wav/%s", parachute->getActivationSound())));
 				SoundUtils::playAbsoluteSound(VirtualSoundPriority::eAction,
-					paraSound, tank->getPosition().getTankPosition());
+					paraSound, tank->getPosition().getTankPosition().asVector());
 			}
 
 			tank->getParachute().setCurrentParachute(parachute);

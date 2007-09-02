@@ -39,7 +39,7 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 	float angleYZDegs, float distance, 
 	Vector &actualPosition)
 {
-	tank->getPosition().rotateGunYZ(angleYZDegs, false);
+	tank->getPosition().rotateGunYZ(fixed::fromFloat(angleYZDegs), false);
 
 	// Make an initial randomish shot up
 	initialShot(tank, target);
@@ -56,8 +56,8 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 		}
 
 		// Its landed
-		actualPosition = currentGuess_.getPosition();
-		Vector direction = currentGuess_.getPosition() - target;
+		actualPosition = currentGuess_.getPosition().asVector();
+		Vector direction = currentGuess_.getPosition().asVector() - target;
 		float actualDistance = 
 			float(sqrt(direction[0]*direction[0] + direction[1]*direction[1]));
 		if (actualDistance < distance)
@@ -75,7 +75,7 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 		}
 
 		// Not close
-		refineShot(tank, currentGuess_.getPosition(), target);
+		refineShot(tank, currentGuess_.getPosition().asVector(), target);
 	}
 
 	// Never gets here
@@ -84,9 +84,9 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 
 void TankAIAimGuesser::initialShot(Tank *tank, Vector &target)
 {
-	float angleXYDegs;
-	float angleYZDegs;
-	float power;
+	fixed angleXYDegs;
+	fixed angleYZDegs;
+	fixed power;
 
 	// Makes a randow powered shot towards the target
 	RandomGenerator random;
@@ -95,7 +95,7 @@ void TankAIAimGuesser::initialShot(Tank *tank, Vector &target)
 		ScorchedServer::instance()->getContext(),
 		random,
 		tank->getPosition().getTankPosition(), 
-		target, 
+		FixedVector::fromVector(target), 
 		angleXYDegs, angleYZDegs, power);
 
 	// Set the parameters
@@ -108,31 +108,31 @@ void TankAIAimGuesser::refineShot(Tank *tank,
 	Vector &currentPos, Vector &wantedPos)
 {
 	// Get the used velocity
-	Vector shotVelocity = tank->getPosition().getVelocityVector() *
-		(tank->getPosition().getPower() + 1.0f);
+	FixedVector shotVelocity = tank->getPosition().getVelocityVector() *
+		(tank->getPosition().getPower() + 1);
 
 	// Figure out how much the last shot missed by
 	Vector missedBy = wantedPos - currentPos;
 	
 	// Adjust velocity to take this into account
-	shotVelocity[0] += missedBy[0] * 0.04f;
-	shotVelocity[1] += missedBy[1] * 0.04f;
+	shotVelocity[0] += fixed::fromFloat(missedBy[0]) * fixed(true, 400);
+	shotVelocity[1] += fixed::fromFloat(missedBy[1]) * fixed(true, 400);
 
 	// Figure out a new XY angle based on these
-	float angleXYRads = atan2f(shotVelocity[1], shotVelocity[0]);
-	float angleXYDegs = (angleXYRads / 3.14f) * 180.0f - 90.0f;
+	fixed angleXYRads = atan2x(shotVelocity[1], shotVelocity[0]);
+	fixed angleXYDegs = (angleXYRads / fixed::XPI) * 180 - 90;
 
 	tank->getPosition().rotateGunXY(angleXYDegs, false);
 
 	// And the new best power
-	Vector resultingVelocity = tank->getPosition().getVelocityVector();
-	float resultingDistance = sqrtf(
+	FixedVector resultingVelocity = tank->getPosition().getVelocityVector();
+	fixed resultingDistance = (
 		resultingVelocity[0] * resultingVelocity[0] +
-		resultingVelocity[1] * resultingVelocity[1]);
-	float wantedDistance = sqrtf(
+		resultingVelocity[1] * resultingVelocity[1]).sqrt();
+	fixed wantedDistance = (
 		shotVelocity[0] * shotVelocity[0] +
-		shotVelocity[1] * shotVelocity[1]);
-	float power = wantedDistance / resultingDistance - 1.0f;
+		shotVelocity[1] * shotVelocity[1]).sqrt();
+	fixed power = wantedDistance / resultingDistance - 1;
 
 	tank->getPosition().changePower(power, false);
 }
@@ -155,9 +155,9 @@ void TankAIAimGuesser::wallCollision(PhysicsParticleObject &position,
 
 void TankAIAimGuesser::getCurrentGuess(Tank *tank)
 {
-	Vector shotVelocity = tank->getPosition().getVelocityVector() *
-		(tank->getPosition().getPower() + 1.0f);
-	Vector shotPosition = tank->getPosition().getTankGunPosition();
+	FixedVector shotVelocity = tank->getPosition().getVelocityVector() *
+		(tank->getPosition().getPower() + 1);
+	FixedVector shotPosition = tank->getPosition().getTankGunPosition();
 
 	PhysicsParticleObject particleObject;
 	PhysicsParticleInfo info(ParticleTypeShot, tank->getPlayerId(), 0);
@@ -168,6 +168,6 @@ void TankAIAimGuesser::getCurrentGuess(Tank *tank)
 	collision_ = false;
 	for (int i=0; i<10000 && !collision_; i++)
 	{
-		particleObject.simulate(1.0f);
+		particleObject.simulate(1);
 	}
 }

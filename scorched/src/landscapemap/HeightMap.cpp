@@ -18,7 +18,6 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <float.h>
 #include <common/Triangle.h>
 #include <landscapemap/HeightMap.h>
 #include <common/Defines.h>
@@ -27,7 +26,7 @@ static const int minMapShift = 3;
 
 HeightMap::HeightMap() : 
 	hMap_(0), normals_(0), minMap_(0), maxMap_(0), backupMap_(0),
-	nvec(0.0f, 0.0f, 1.0f)
+	nvec(fixed(0), fixed(0), fixed(1))
 {
 }
 
@@ -48,45 +47,45 @@ void HeightMap::create(const int width, const int height)
 	delete [] hMap_;
 	delete [] normals_;
 	delete [] backupMap_;
-	hMap_ = new float[(width_ + 1) * (height_ + 1)];
-	normals_ = new Vector[(width_ + 1) * (height_ + 1)];
-	backupMap_ = new float[(width_ + 1) * (height_ + 1)];
+	hMap_ = new fixed[(width_ + 1) * (height_ + 1)];
+	normals_ = new FixedVector[(width_ + 1) * (height_ + 1)];
+	backupMap_ = new fixed[(width_ + 1) * (height_ + 1)];
 
     delete [] minMap_;
 	delete [] maxMap_;
 	minWidth_ = width >> minMapShift;
 	minHeight_ = height >> minMapShift;
-	minMap_ = new float[(minWidth_ + 1) * (minHeight_ + 1)];
-	maxMap_ = new float[(minWidth_ + 1) * (minHeight_ + 1)];
+	minMap_ = new fixed[(minWidth_ + 1) * (minHeight_ + 1)];
+	maxMap_ = new fixed[(minWidth_ + 1) * (minHeight_ + 1)];
 
 	reset();
 }
 
 void HeightMap::backup()
 {
-	memcpy(backupMap_, hMap_, sizeof(float)  * (width_ + 1) * (height_ + 1));
+	memcpy(backupMap_, hMap_, sizeof(fixed)  * (width_ + 1) * (height_ + 1));
 }
 
 void HeightMap::reset()
 {
-	memset(hMap_, 0, sizeof(float)  * (width_ + 1) * (height_ + 1));
-	memset(backupMap_, 0, sizeof(float)  * (width_ + 1) * (height_ + 1));
+	memset(hMap_, 0, sizeof(fixed)  * (width_ + 1) * (height_ + 1));
+	memset(backupMap_, 0, sizeof(fixed)  * (width_ + 1) * (height_ + 1));
 	resetNormals();
-	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = FLT_MAX;
-	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = 0.0f;
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = fixed::MAX_FIXED;
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = fixed(0);
 }
 
 void HeightMap::resetNormals()
 {
-	memset(normals_, 0, sizeof(Vector)  * (width_ + 1) * (height_ + 1));
+	memset(normals_, 0, sizeof(FixedVector)  * (width_ + 1) * (height_ + 1));
 }
 
-bool HeightMap::getVector(Vector &vec, int x, int y)
+bool HeightMap::getVector(FixedVector &vec, int x, int y)
 {
 	if (x < 0 || y < 0 || x>width_ || y>height_) return false;
 
-	vec[0] = (float) x;
-	vec[1] = (float) y;
+	vec[0] = fixed(x);
+	vec[1] = fixed(y);
 	vec[2] = getHeight(x,y);
 	return true;
 }
@@ -109,16 +108,6 @@ void HeightMap::getVectorPos(int pos, int &x, int &y, int dist)
 	}
 }
 
-float HeightMap::getDist(Vector &start, Vector &dir, Vector &pos)
-{
-	Vector dir2 = dir.get2DPerp();
-
-	float u1 = dir.dotP(pos - start)/dir.dotP(dir);
-	Vector pt = dir * u1 + start;
-	
-	return (pos - pt).Magnitude();
-}
-
 bool HeightMap::getIntersect(Line &line, Vector &intersect)
 {
 	Vector direction = -((Vector &)line.getDirection()).Normalize();
@@ -126,7 +115,8 @@ bool HeightMap::getIntersect(Line &line, Vector &intersect)
 
 	for (int i=0; i<1000; i++)
 	{
-		if (getHeight((int) start[0], (int) start[1]) > start[2])
+		fixed height = getHeight((int) start[0], (int) start[1]);
+		if (height > fixed(int(start[2])))
 		{
 			if (start[0] < 0 || start[0] > getMapWidth() ||
 				start[1] < 0 || start[1] > getMapHeight())
@@ -143,49 +133,49 @@ bool HeightMap::getIntersect(Line &line, Vector &intersect)
 	return false;
 }
 
-float HeightMap::getInterpHeight(float w, float h)
+fixed HeightMap::getInterpHeight(fixed w, fixed h)
 {
-	int ihx = (int) w; 
-	int ihy = (int) h;
-	int ihx2 = ihx+1;
-	int ihy2 = ihy+1; 
+	fixed ihx = w.floor(); 
+	fixed ihy = h.floor();
+	fixed ihx2 = ihx+1;
+	fixed ihy2 = ihy+1; 
 
-	float fhx = w - (float) ihx;
-	float fhy = h - (float) ihy;
+	fixed fhx = w - ihx;
+	fixed fhy = h - ihy;
 	
-	float heightA = getHeight(ihx, ihy);
-	float heightB = getHeight(ihx, ihy2);
-	float heightC = getHeight(ihx2, ihy);
-	float heightD = getHeight(ihx2, ihy2);
+	fixed heightA = getHeight(ihx.asInt(), ihy.asInt());
+	fixed heightB = getHeight(ihx.asInt(), ihy2.asInt());
+	fixed heightC = getHeight(ihx2.asInt(), ihy.asInt());
+	fixed heightD = getHeight(ihx2.asInt(), ihy2.asInt());
 
-	float heightDiffAB = heightB-heightA;
-	float heightDiffCD = heightD-heightC;
-	float heightE = heightA + (heightDiffAB * fhy);
-	float heightF = heightC + (heightDiffCD * fhy);
+	fixed heightDiffAB = heightB-heightA;
+	fixed heightDiffCD = heightD-heightC;
+	fixed heightE = heightA + (heightDiffAB * fhy);
+	fixed heightF = heightC + (heightDiffCD * fhy);
 
-	float heightDiffEF = heightF - heightE;
-	float height = heightE + (heightDiffEF * fhx);	
+	fixed heightDiffEF = heightF - heightE;
+	fixed height = heightE + (heightDiffEF * fhx);	
 
 	return height;
 }
 
-Vector &HeightMap::getNormal(int w, int h)
+FixedVector &HeightMap::getNormal(int w, int h)
 {
 	if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
 	{
 		int pos = (width_+1) * h + w;
-		Vector &normal = normals_[pos];
-		if (normal[0] == 0.0f && 
-			normal[1] == 0.0f && 
-			normal[2] == 0.0f)
+		FixedVector &normal = normals_[pos];
+		if (normal[0] == fixed(0) && 
+			normal[1] == fixed(0) && 
+			normal[2] == fixed(0))
 		{
 			int x = w;
 			int y = h;
 
-			static Vector C;
+			static FixedVector C;
 			getVector(C, x, y);
 
-			static Vector total;
+			static FixedVector total;
 			total.zero();
 
 			int times = 0;
@@ -195,12 +185,12 @@ Vector &HeightMap::getNormal(int w, int h)
 				{
 					if (b>3) b=0;
 
-					static Vector A;
+					static FixedVector A;
 					int aPosX, aPosY;
 					getVectorPos(a, aPosX, aPosY, dist);
 					if (!getVector(A, aPosX + x, aPosY + y)) continue;
 
-					static Vector B;
+					static FixedVector B;
 					int bPosX, bPosY;				
 					getVectorPos(b, bPosX, bPosY, dist);
 					if (!getVector(B, bPosX + x, bPosY + y)) continue;
@@ -217,7 +207,7 @@ Vector &HeightMap::getNormal(int w, int h)
 				if (times > 4) break;
 			}
 
-			normal = total / (float) times;
+			normal = total.Normalize();
 		}
 
 		return normal; 
@@ -226,38 +216,38 @@ Vector &HeightMap::getNormal(int w, int h)
 	return nvec; 
 }
 
-void HeightMap::getInterpNormal(float w, float h, Vector &normal)
+void HeightMap::getInterpNormal(fixed w, fixed h, FixedVector &normal)
 {
-	int ihx = (int) w;
-	int ihy = (int) h;
-	int ihx2 = ihx+1;
-	int ihy2 = ihy+1;
+	fixed ihx = w.floor();
+	fixed ihy = h.floor();
+	fixed ihx2 = ihx+1;
+	fixed ihy2 = ihy+1;
 
-	float fhx = w - (float) ihx;
-	float fhy = h - (float) ihy;
+	fixed fhx = w - ihx;
+	fixed fhy = h - ihy;
 
-	Vector &normalA = getNormal(ihx, ihy);
-	Vector &normalB = getNormal(ihx, ihy2);
-	Vector &normalC = getNormal(ihx2, ihy);
-	Vector &normalD = getNormal(ihx2, ihy2);
+	FixedVector &normalA = getNormal(ihx.asInt(), ihy.asInt());
+	FixedVector &normalB = getNormal(ihx.asInt(), ihy2.asInt());
+	FixedVector &normalC = getNormal(ihx2.asInt(), ihy.asInt());
+	FixedVector &normalD = getNormal(ihx2.asInt(), ihy2.asInt());
 
-	static Vector normalDiffAB;
+	static FixedVector normalDiffAB;
 	normalDiffAB = normalB;
 	normalDiffAB -= normalA;
 	normalDiffAB *= fhy;
-	static Vector normalDiffCD;
+	static FixedVector normalDiffCD;
 	normalDiffCD = normalD;
 	normalDiffCD -= normalC;
 	normalDiffCD *= fhy;
 
-	static Vector normalE;
+	static FixedVector normalE;
 	normalE = normalA;
 	normalE += normalDiffAB;
-	static Vector normalF;
+	static FixedVector normalF;
 	normalF = normalC;
 	normalF += normalDiffCD;
 
-	static Vector normalDiffEF;
+	static FixedVector normalDiffEF;
 	normalDiffEF = normalF;
 	normalDiffEF -= normalE;
 	normalDiffEF *= fhx;
@@ -266,7 +256,7 @@ void HeightMap::getInterpNormal(float w, float h, Vector &normal)
 	normal += normalDiffEF;
 }
 
-void HeightMap::setHeight(int w, int h, float height)
+void HeightMap::setHeight(int w, int h, fixed height)
 {
 	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=width_ && h<=height_);
 	hMap_[(width_+1) * h + w] = height;
@@ -293,12 +283,12 @@ void HeightMap::setHeight(int w, int h, float height)
 	int newH = h >> minMapShift;
 	DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minHeight_);
 	int minOffSet = (minWidth_+1) * newH + newW;
-	float *minHeight = &minMap_[minOffSet];
+	fixed *minHeight = &minMap_[minOffSet];
 	if (*minHeight > height)
 	{
 		*minHeight = height;
 	}
-	float *maxHeight = &maxMap_[minOffSet];
+	fixed *maxHeight = &maxMap_[minOffSet];
 	if (*maxHeight < height)
 	{
 		*maxHeight = height;
@@ -307,23 +297,23 @@ void HeightMap::setHeight(int w, int h, float height)
 
 void HeightMap::resetMinHeight()
 {
-	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = FLT_MAX;
-	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = 0.0f;
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) minMap_[i] = fixed::MAX_FIXED;
+	for (int i=0; i<(minWidth_ + 1) * (minHeight_ + 1); i++) maxMap_[i] = fixed(0);
 	for (int h=0; h<height_; h++)
 	{
 		for (int w=0; w<width_; w++)
 		{
-			float height = getHeight(w, h);
+			fixed height = getHeight(w, h);
 			int newW = w >> minMapShift;
 			int newH = h >> minMapShift;
 			DIALOG_ASSERT(newW >= 0 && newH >= 0 && newW<=minWidth_ && newH<=minHeight_);
 			int minOffSet = (minWidth_+1) * newH + newW;
-			float *minHeight = &minMap_[minOffSet];
+			fixed *minHeight = &minMap_[minOffSet];
 			if (*minHeight > height)
 			{
 				*minHeight = height;
 			}
-			float *maxHeight = &maxMap_[minOffSet];
+			fixed *maxHeight = &maxMap_[minOffSet];
 			if (*maxHeight < height)
 			{
 				*maxHeight = height;
@@ -332,17 +322,17 @@ void HeightMap::resetMinHeight()
 	}
 }
 
-float HeightMap::getMinHeight(int w, int h)
+fixed HeightMap::getMinHeight(int w, int h)
 {
 	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minHeight_);
-	float minHeight = minMap_[(minWidth_+1) * h + w];
+	fixed minHeight = minMap_[(minWidth_+1) * h + w];
 	return minHeight;
 }
 
-float HeightMap::getMaxHeight(int w, int h)
+fixed HeightMap::getMaxHeight(int w, int h)
 {
 	DIALOG_ASSERT(w >= 0 && h >= 0 && w<=minWidth_ && h<=minHeight_);
-	float maxHeight = maxMap_[(minWidth_+1) * h + w];
+	fixed maxHeight = maxMap_[(minWidth_+1) * h + w];
 	return maxHeight;
 }
 

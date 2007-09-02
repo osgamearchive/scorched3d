@@ -27,8 +27,6 @@
 class Vector  
 {
 public:
-	static Vector nullVector;
-
 	Vector()
 	{
 		V[0] = V[1] = V[2] = 0.0f;
@@ -297,6 +295,7 @@ public:
 	float const &operator[](const int m) const { DIALOG_ASSERT(m<=2); return V[m]; }
 
 	operator float*() { return V; }
+	static Vector &getNullVector();
 
 protected:
 	float V[3];

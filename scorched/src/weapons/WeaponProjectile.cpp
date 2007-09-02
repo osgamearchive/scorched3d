@@ -31,17 +31,17 @@ WeaponProjectile::WeaponProjectile() :
 	apexCollision_(false), waterCollision_(false),
 	showShotPath_(false), showEndPoint_(false), 
 	createSmoke_(true),	createFlame_(true), 
-	spinSpeed_(1.0f), apexNoDud_(false), timedDud_(false),
-	timedCollision_(0.0f), shieldHurtFactor_(1.0f), windFactor_(1.0f),
+	spinSpeed_(1), apexNoDud_(false), timedDud_(false),
+	timedCollision_(0), shieldHurtFactor_(1), windFactor_(1),
 	flameLife_(1.0f), smokeLife_(4.0f),
 	flameStartColor1_(0.9f, 0.0f, 0.0f), flameStartColor2_(1.0f, 0.2f, 0.2f),
 	flameEndColor1_(0.95f, 0.9f, 0.2f), flameEndColor2_(1.0f, 1.0f, 0.3f),
 	flameStartSize_(0.5f), flameEndSize_(3.0f),
 	smokeStartSize_(0.5f), smokeEndSize_(4.0f),
-	thrustAmount_(0.0f), thrustTime_(0.0f),
-	drag_(0.0f),
+	thrustAmount_(0), thrustTime_(0),
+	drag_(0),
 	engineSound_("data/wav/misc/rocket.wav"),
-	scale_(1.0f), flareType_(0)
+	scale_(1), flareType_(0)
 {
 
 }
@@ -160,18 +160,18 @@ bool WeaponProjectile::parseXML(AccessoryCreateContext &context, XMLNode *access
 	return true;
 }
 
-float WeaponProjectile::getWindFactor(ScorchedContext &context)
+fixed WeaponProjectile::getWindFactor(ScorchedContext &context)
 {
 	return windFactor_.getValue(context);
 }
 
-float WeaponProjectile::getShieldHurtFactor(ScorchedContext &context)
+fixed WeaponProjectile::getShieldHurtFactor(ScorchedContext &context)
 {
 	return shieldHurtFactor_.getValue(context);
 }
 
 void WeaponProjectile::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	Action *action = new ShotProjectile(
 		position, 

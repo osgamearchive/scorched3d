@@ -33,12 +33,12 @@ public:
 		XMLNode *accessoryNode);
 	virtual ShieldType getShieldType();
 
-	float getDeflectPower() { return deflectPower_; }
+	fixed getDeflectPower() { return deflectPower_; }
 
 	REGISTER_ACCESSORY_HEADER(ShieldRoundMag, AccessoryPart::AccessoryShield);
 
 protected:
-	float deflectPower_;
+	fixed deflectPower_;
 };
 
 #endif

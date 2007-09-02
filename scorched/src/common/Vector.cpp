@@ -22,4 +22,10 @@
 #include <common/Vector.h>
 #include <common/Defines.h>
 
-Vector Vector::nullVector;
+static Vector nullVector;
+
+Vector &Vector::getNullVector()
+{
+	nullVector.zero();
+	return nullVector;
+}

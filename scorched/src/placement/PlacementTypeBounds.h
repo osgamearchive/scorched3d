@@ -38,7 +38,7 @@ public:
 
 protected:
 	int count;
-	Vector minbounds, maxbounds;
+	FixedVector minbounds, maxbounds;
 };
 
 #endif // __INCLUDE_PlacementTypeBoundsh_INCLUDE__

@@ -24,7 +24,7 @@
 #include <engine/ActionReferenced.h>
 #include <engine/ViewPoints.h>
 #include <weapons/Weapon.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 
 class WeaponExplosion;
 class Explosion : public ActionReferenced
@@ -37,19 +37,19 @@ public:
 		DeformNone
 	};
 
-	Explosion(Vector &position, WeaponExplosion *weapon, 
+	Explosion(FixedVector &position, WeaponExplosion *weapon, 
 		WeaponFireContext &weaponContext);
 	virtual ~Explosion();
 
-	Vector &getPosition() { return position_; }
+	FixedVector &getPosition() { return position_; }
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
-
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 protected:
 	bool firstTime_;
-	Vector position_;
-	float totalTime_;
+	FixedVector position_;
+	fixed totalTime_;
 	WeaponExplosion *weapon_;
 	WeaponFireContext weaponContext_;
 	

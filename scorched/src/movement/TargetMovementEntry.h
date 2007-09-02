@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_TargetMovementEntryh_INCLUDE__)
 #define __INCLUDE_TargetMovementEntryh_INCLUDE__
 
+#include <common/fixed.h>
+
 class NetBuffer;
 class NetBufferReader;
 class RandomGenerator;
@@ -32,7 +34,7 @@ public:
 	virtual void generate(ScorchedContext &context, 
 		RandomGenerator &random, 
 		LandscapeMovementType *movementType) = 0;
-	virtual void simulate(float frameTime) = 0;
+	virtual void simulate(fixed frameTime) = 0;
 	virtual void draw() = 0;
 
 	virtual bool writeMessage(NetBuffer &buffer) = 0;

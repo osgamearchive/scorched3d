@@ -62,7 +62,7 @@ TargetRendererImplTargetModel::~TargetRendererImplTargetModel()
 
 void TargetRendererImplTargetModel::simulate(float frameTime)
 {
-	frameTime *= ScorchedClient::instance()->getActionController().getFast();
+	frameTime *= ScorchedClient::instance()->getActionController().getFast().asFloat();
 	totalTime_ += frameTime;
 	if (shieldHit_ > 0.0f)
 	{
@@ -79,7 +79,7 @@ void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 	// Don't draw the tank/target if we are drawing shadows and shadows are off
 	// for this target
 	if (shadowdraw &&
-		!target_->getTargetState().getDisplayShadow())
+		!target_->getTargetState().getDisplayHardwareShadow())
 	{
 		return;
 	}
@@ -87,8 +87,8 @@ void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 	// Check we can see the tank
 	canSeeTank_ = true;
 	if (!GLCameraFrustum::instance()->
-		sphereInFrustum(target_->getLife().getTargetPosition(), 
-		target_->getLife().getSize().Max() / 2.0f,
+		sphereInFrustum(target_->getLife().getTargetPosition().asVector(), 
+		target_->getLife().getSize().Max().asFloat() / 2.0f,
 		GLCameraFrustum::FrustrumRed) ||
 		!target_->getAlive())
 	{
@@ -97,12 +97,12 @@ void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 	}
 
 	// Get the size of the object
-	float size = target_->getLife().getAabbSize().Max();
+	float size = target_->getLife().getAabbSize().Max().asFloat();
 	Accessory *shieldAcc = target_->getShield().getCurrentShield();
 	if (shieldAcc)
 	{
 		Shield *shield = (Shield *) shieldAcc->getAction();
-		size = MAX(shield->getBoundingSize(), size);
+		size = MAX(shield->getBoundingSize().asFloat(), size);
 	}	
 
 	// Figure out the drawing distance
@@ -123,9 +123,9 @@ void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 	if (target_->getTargetState().getDisplayShadow())
 	{
 		Landscape::instance()->getShadowMap().addCircle(
-			target_->getLife().getTargetPosition()[0], 
-			target_->getLife().getTargetPosition()[1], 
-			target_->getLife().getSize().Max() + 2.0f,
+			target_->getLife().getTargetPosition()[0].asFloat(), 
+			target_->getLife().getTargetPosition()[1].asFloat(), 
+			target_->getLife().getSize().Max().asFloat() + 2.0f,
 			fade);
 	}
 
@@ -136,9 +136,9 @@ void TargetRendererImplTargetModel::draw(float distance, bool shadowdraw)
 	glColor4f(color_, color_, color_, 1.0f);
 	glPushMatrix();
 		glTranslatef(
-			target_->getLife().getTargetPosition()[0], 
-			target_->getLife().getTargetPosition()[1], 
-			target_->getLife().getTargetPosition()[2]);
+			target_->getLife().getTargetPosition()[0].asFloat(), 
+			target_->getLife().getTargetPosition()[1].asFloat(), 
+			target_->getLife().getTargetPosition()[2].asFloat());
 		glMultMatrixf(rotMatrix);
 		glScalef(scale_, scale_, scale_);
 		if (burnt_) burntModelRenderer_->drawBottomAligned(distance, fade);
@@ -176,7 +176,7 @@ void TargetRendererImplTargetModel::storeTank2DPos()
 	if (!target_->getName()[0]) return;
 
 	Vector &tankTurretPos = 
-		target_->getLife().getCenterPosition();
+		target_->getLife().getCenterPosition().asVector();
 	Vector camDir = 
 		GLCamera::getCurrentCamera()->getLookAt() - 
 		GLCamera::getCurrentCamera()->getCurrentPos();

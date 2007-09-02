@@ -39,15 +39,15 @@ Shield::ShieldType ShieldRound::getShieldType()
 	return ShieldTypeRoundNormal;
 }
 
-bool ShieldRound::inShield(Vector &offset)
+bool ShieldRound::inShield(FixedVector &offset)
 {
 	if (offset.Magnitude() <= radius_)
 	{
 		if (!halfShield_) return true;
 
-		Vector normal = offset.Normalize();
-		Vector up(0.0f, 0.0f, 1.0f);
-		if (normal.dotP(up) > 0.7f)
+		FixedVector normal = offset.Normalize();
+		FixedVector up(0, 0, 1);
+		if (normal.dotP(up) > fixed(true, 7000))
 		{
 			return true;
 		}
@@ -55,7 +55,7 @@ bool ShieldRound::inShield(Vector &offset)
 	return false;
 }
 
-bool ShieldRound::tankInShield(Vector &offset)
+bool ShieldRound::tankInShield(FixedVector &offset)
 {
 	if (offset.Magnitude() <= radius_)
 	{
@@ -70,7 +70,7 @@ bool ShieldRound::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNo
 
 	// Get the penetration
 	if (!accessoryNode->getNamedChild("radius", radius_)) return false;
-	if (radius_ <= 0.0f) return accessoryNode->returnError("ShieldRound radius must be > 0");
+	if (radius_ <= 0) return accessoryNode->returnError("ShieldRound radius must be > 0");
 
 	// Get the half size
 	if (!accessoryNode->getNamedChild("halfshield", halfShield_)) return false;

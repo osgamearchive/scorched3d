@@ -35,11 +35,11 @@
 #include <string.h>
 
 ShotBounce::ShotBounce(WeaponRoller *weapon, 
-		Vector &startPosition, Vector &velocity,
+		FixedVector &startPosition, FixedVector &velocity,
 		WeaponFireContext &weaponContext) : 
 	startPosition_(startPosition),
 	velocity_(velocity), weapon_(weapon), weaponContext_(weaponContext),
-	totalTime_(0.0f), 
+	totalTime_(0), 
 	vPoint_(0), model_(0)
 {
 }
@@ -48,30 +48,30 @@ void ShotBounce::init()
 {
 	PhysicsParticleInfo info(ParticleTypeBounce, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		1.0f, 5.0f, weapon_->getWindFactor(*context_), false, weapon_->getRoll());
+		1, 5, weapon_->getWindFactor(*context_), false, weapon_->getRoll());
 
-	Vector lookatPos;
+	FixedVector lookatPos;
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 	context_->viewPoints->getValues(lookatPos, lookFrom_);
 
 	// Point the action camera at this event
-	const float ShowTime = 5.0f;
-#ifndef S3D_SERVER
-        if (!context_->serverMode)
-	{
-		CameraPositionAction *pos = new CameraPositionAction(
-			startPosition_, ShowTime,
-			5);
-		context_->actionController->addAction(pos);
-	}
-#endif
-
+	CameraPositionAction *pos = new CameraPositionAction(
+		startPosition_, 5, 5);
+	context_->actionController->addAction(pos);
 }
 
 ShotBounce::~ShotBounce()
 {
 	delete model_;
 	if (vPoint_) context_->viewPoints->releaseViewPoint(vPoint_);
+}
+
+const char *ShotBounce::getActionDetails()
+{
+	return formatString("%li,%li,%li %li,%li,%li %s",
+		startPosition_[0].getInternal(), startPosition_[1].getInternal(), startPosition_[2].getInternal(),
+		velocity_[0].getInternal(), velocity_[1].getInternal(), velocity_[2].getInternal(),
+		weapon_->getParent()->getName());
 }
 
 void ShotBounce::collision(PhysicsParticleObject &position, 
@@ -84,7 +84,7 @@ void ShotBounce::collision(PhysicsParticleObject &position,
 	PhysicsParticleReferenced::collision(position, collisionId);
 }
 
-void ShotBounce::simulate(float frameTime, bool &remove)
+void ShotBounce::simulate(fixed frameTime, bool &remove)
 {
 	totalTime_ += frameTime;
 	if (totalTime_ > weapon_->getTime(*context_))
@@ -121,9 +121,9 @@ void ShotBounce::draw()
 		GLState state(GLState::TEXTURE_OFF);
 		glPushMatrix();
 			glTranslatef(
-				getCurrentPosition()[0], 
-				getCurrentPosition()[1], 
-				getCurrentPosition()[2] -
+				getCurrentPosition()[0].asFloat(), 
+				getCurrentPosition()[1].asFloat(), 
+				getCurrentPosition()[2].asFloat() -
 				model_->getRenderer()->getModel()->getMin()[2] * 0.08f);
 
 			glMultMatrixf(rotMatrix);

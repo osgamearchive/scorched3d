@@ -60,8 +60,8 @@ void PlacementObjectHeight::createObject(ScorchedContext &context,
 	unsigned int &playerId,
 	PlacementType::Position &position)
 {
-	float offset = generator.getRandFloat() * 10.0f - 5.0f;
-	float height = position.position[2] + offset;
+	fixed offset = generator.getRandFixed() * 10 - 5;
+	fixed height = position.position[2] + offset;
 
 	std::vector<HeightObject>::iterator itor;
 	for (itor = objects_.begin();

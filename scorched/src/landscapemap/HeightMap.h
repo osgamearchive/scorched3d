@@ -23,6 +23,7 @@
 
 #include <stdlib.h>
 #include <common/ProgressCounter.h>
+#include <common/FixedVector.h>
 #include <common/Vector.h>
 
 class Line;
@@ -46,38 +47,36 @@ public:
 	int getMapMinHeight() { return minHeight_; }
 
 	// Get height fns (z values)
-	float getMinHeight(int w, int h);
-	float getMaxHeight(int w, int h);
-	inline float getBackupHeight(int w, int h) {
+	fixed getMinHeight(int w, int h);
+	fixed getMaxHeight(int w, int h);
+	inline fixed getBackupHeight(int w, int h) {
 		if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
 			return backupMap_[(width_+1) * h + w]; 
-		return 0.0f; }
-	inline float getHeight(int w, int h) { 
+		return fixed(0); }
+	inline fixed getHeight(int w, int h) { 
 		if (w >= 0 && h >= 0 && w<=width_ && h<=height_) 
 			return hMap_[(width_+1) * h + w]; 
-		return 0.0f; }
-	float getInterpHeight(float w, float h);
+		return fixed(0); }
+	fixed getInterpHeight(fixed w, fixed h);
 
 	// Get normal functions
-	inline Vector &getNormal(int w, int h);
-	void getInterpNormal(float w, float h, Vector &normal);
+	inline FixedVector &getNormal(int w, int h);
+	void getInterpNormal(fixed w, fixed h, FixedVector &normal);
 
 	bool getIntersect(Line &direction, Vector &intersect);
 
 	// Returns the actual internal HeightMap points
 	// Should not be used
-	void setHeight(int w, int h, float height);
+	void setHeight(int w, int h, fixed height);
 
 protected:
-	Vector nvec;
+	FixedVector nvec;
 	int width_, height_, minWidth_, minHeight_;
-	float *hMap_, *backupMap_;
-	float *minMap_, *maxMap_;
-	Vector *normals_;
+	fixed *hMap_, *backupMap_;
+	fixed *minMap_, *maxMap_;
+	FixedVector *normals_;
 
-	void performItteration();
-	float getDist(Vector &start, Vector &dir, Vector &pos);
-	bool getVector(Vector &vec, int x, int y);
+	bool getVector(FixedVector &vec, int x, int y);
 	void getVectorPos(int pos, int &x, int &y, int dist=1);
 };
 

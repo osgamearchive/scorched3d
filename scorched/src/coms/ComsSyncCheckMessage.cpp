@@ -20,10 +20,14 @@
 
 #include <coms/ComsSyncCheckMessage.h>
 #include <common/Logger.h>
+#include <common/OptionsTransient.h>
+#include <engine/ActionController.h>
 #include <client/ScorchedClient.h>
 #include <server/ScorchedServer.h>
 #include <target/TargetContainer.h>
 #include <target/TargetState.h>
+#include <target/TargetLife.h>
+#include <tank/TankState.h>
 #include <tank/Tank.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <set>
@@ -41,6 +45,18 @@ ComsSyncCheckMessage::~ComsSyncCheckMessage()
 
 bool ComsSyncCheckMessage::writeMessage(NetBuffer &buffer)
 {
+	// Send action sync data
+	std::vector<std::string>::iterator syncItor;
+	std::vector<std::string> &syncs = 
+		ScorchedServer::instance()->getActionController().getSyncCheck();
+	buffer.addToBuffer((int) syncs.size());
+	for (syncItor = syncs.begin();
+		syncItor != syncs.end();
+		syncItor++)
+	{
+		buffer.addToBuffer(syncItor->c_str());
+	}
+
 	// Send the height map data
 	HeightMap &map = ScorchedServer::instance()->getLandscapeMaps().
 		getGroundMaps().getHeightMap();
@@ -48,9 +64,9 @@ bool ComsSyncCheckMessage::writeMessage(NetBuffer &buffer)
 	{
 		for (int x=0; x<map.getMapWidth(); x++)
 		{
-			float height = map.getHeight(x, y);
+			fixed height = map.getHeight(x, y);
 			buffer.addToBuffer(height);
-			Vector &normal = map.getNormal(x, y);
+			FixedVector &normal = map.getNormal(x, y);
 			buffer.addToBuffer(normal);
 		}
 	}
@@ -88,6 +104,8 @@ bool ComsSyncCheckMessage::writeMessage(NetBuffer &buffer)
 
 static FileLogger *syncCheckFileLogger = 0;
 
+static int syncCount = 0;
+
 static void syncCheckLog(const char *message)
 {
 	if (!syncCheckFileLogger) 
@@ -105,6 +123,41 @@ static void syncCheckLog(const char *message)
 
 bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 {
+	syncCount++;
+
+	std::vector<std::string> &clientsyncs = 
+		ScorchedClient::instance()->getActionController().getSyncCheck();
+	int serverSyncNo = 0, clientSyncNo = (int) clientsyncs.size();
+	if (!reader.getFromBuffer(serverSyncNo)) return false;
+
+	bool printOutput = false;
+	std::string output;
+	for (int s=0; s<MAX(serverSyncNo, clientSyncNo); s++)
+	{
+		std::string clientsync, serversync;
+		if (s < serverSyncNo)
+		{
+			if (!reader.getFromBuffer(serversync)) return false;
+		}
+		if (s < clientSyncNo)
+		{
+			clientsync = clientsyncs[s];
+		}
+
+		bool diff = (serversync != clientsync);
+		if (diff) printOutput = true;
+
+		output.append(formatString("%i: %s %s ::: %s\n", 
+			syncCount,
+			(diff?"***":""),
+			serversync.c_str(), 
+			clientsync.c_str()));
+	}
+	if (printOutput)
+	{
+		syncCheckLog(output.c_str());
+	}
+
 	// Read the height map data
 	HeightMap &map = ScorchedClient::instance()->getLandscapeMaps().
 		getGroundMaps().getHeightMap();
@@ -114,14 +167,19 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 	{
 		for (int x=0; x<map.getMapWidth(); x++)
 		{
-			float actualheight = map.getHeight(x, y);
-			Vector actualnormal = map.getNormal(x, y);
-			float sentheight;
-			Vector sentnormal;
+			fixed actualheight = map.getHeight(x, y);
+			FixedVector actualnormal = map.getNormal(x, y);
+			fixed sentheight;
+			FixedVector sentnormal;
 			if (!reader.getFromBuffer(sentheight)) return false;
 			if (!reader.getFromBuffer(sentnormal)) return false;
 			
-			if (actualheight != sentheight) heightDiffs++;
+			if (actualheight != sentheight) 
+			{
+				syncCheckLog(formatString("%li %li", 
+					actualheight.getInternal(), sentheight.getInternal()));
+				heightDiffs++;
+			}
 			if (actualnormal != sentnormal) normalDiffs++;
 
 			heightDiff[x + y * map.getMapWidth()] = (actualheight != sentheight);
@@ -130,7 +188,8 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 	if (heightDiffs > 0 || normalDiffs > 0)
 	{
 		const char *message = formatString(
-			"SyncCheck - Height diffs %i, Normal diffs %i",
+			"SyncCheck %i - Height diffs %i, Normal diffs %i",
+			syncCount,
 			heightDiffs, normalDiffs);
 		syncCheckLog(message);
 
@@ -183,7 +242,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		if (!target)
 		{
 			const char *message = formatString(
-				"SyncCheck - Failed to find a client target : %u", playerId);
+				"SyncCheck %i - Failed to find a client target : %u", syncCount, playerId);
 			syncCheckLog(message);
 			return true;
 		}
@@ -198,6 +257,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 			((Tank*)target)->writeMessage(tmpBuffer, true);
 		}
 
+		bool different = false;
 		if (!target->getTargetState().getMovement())
 		{
 			for (unsigned int i=0; i<tmpBuffer.getBufferUsed(); i++)
@@ -205,18 +265,20 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 				if (tmpBuffer.getBuffer()[i] != reader.getBuffer()[reader.getReadSize() + i])
 				{
 					const char *message =
-						formatString("SyncCheck - Targets values differ : %u:%s, position %i", 
-							playerId, target->getName(), i);
+						formatString("SyncCheck %i - Targets values differ : %u:%s, position %i", 
+							syncCount, playerId, target->getName(), i);
 					syncCheckLog(message);
+
+					different = true;
+					Logger::addLogger(syncCheckFileLogger);
 
 					// Only used for step-through debugging to see where the
 					// differences are
 					tmpBuffer.setBufferUsed(i);
 					NetBufferReader tmpReader(tmpBuffer);
-					if (!target->readMessage(tmpReader))
-					{
-						syncCheckLog(formatString("Re-parse failed"));
-					}
+					target->readMessage(tmpReader);
+
+					Logger::remLogger(syncCheckFileLogger);
 
 					break;
 				}
@@ -225,12 +287,52 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 
 		if (target->isTarget())
 		{
-			if (!target->readMessage(reader)) return false;
+			static Target *tmpTarget = new Target(0, "",
+				ScorchedClient::instance()->getContext());
+			if (!tmpTarget->readMessage(reader)) return false;
+			tmpTarget->getLife().setLife(0);
 		}
 		else
 		{
-			if (!((Tank*)target)->readMessage(reader)) return false;
+			static Tank *tmpTank = new Tank(
+				ScorchedClient::instance()->getContext(),
+				0,
+				0, 
+				"",
+				Vector::getNullVector(),
+				"",
+				"");
+			if (!tmpTank->readMessage(reader)) return false;
+			tmpTank->getLife().setLife(0);
+
+			if (different)
+			{
+				syncCheckLog(formatString("%s %s", 
+					tmpTank->getState().getStateString(),
+					((Tank*)target)->getState().getStateString()));
+			}
 		}
+	}
+	if (reader.getBufferSize() != reader.getReadSize())
+	{
+		syncCheckLog(formatString("SyncCheck not all bytes read : %i   %i,%i",
+			syncCount, reader.getBufferSize(), reader.getReadSize()));
+	}
+
+	if (syncCheckFileLogger)
+	{
+		syncCheckLog(formatString("SyncCheck : %i,%i",
+			syncCount,
+			ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo()));
+	}
+
+	if (syncCheckFileLogger)
+	{
+		syncCheckLog(formatString("SyncCheck %i checked. (%i syncs)", syncCount, serverSyncNo));
+	}
+	else
+	{
+		Logger::log(formatString("SyncCheck %i checked. (%i syncs)", syncCount, serverSyncNo));
 	}
 
 	return true;

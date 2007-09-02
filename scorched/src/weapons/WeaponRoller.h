@@ -37,13 +37,13 @@ public:
 	Weapon *getCollisionAction() { return collisionAction_; }
 	ModelID &getRollerModelID() { return rollerModelId_; }
 	bool getRoll() { return roll_; }
-	float getShieldHurtFactor(ScorchedContext &context);
-	float getTime(ScorchedContext &context);
-	float getWindFactor(ScorchedContext &context);
+	fixed getShieldHurtFactor(ScorchedContext &context);
+	fixed getTime(ScorchedContext &context);
+	fixed getWindFactor(ScorchedContext &context);
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponRoller, AccessoryPart::AccessoryWeapon);
 
@@ -54,18 +54,18 @@ protected:
 	NumberParser shieldHurtFactorExp_;
 	NumberParser windFactorExp_;
 	NumberParser timeExp_;
-	float shieldHurtFactor_;
-	float windFactor_;
-	float time_;
+	fixed shieldHurtFactor_;
+	fixed windFactor_;
+	fixed time_;
 	bool roll_;
 
 	bool maintainVelocity_;
 	NumberParser dampenVelocityExp_;
-	float dampenVelocity_;;
+	fixed dampenVelocity_;;
 
 	void addRoller(ScorchedContext &context, 
 		WeaponFireContext &weaponContext,
-		Vector &position, Vector &velocity);
+		FixedVector &position, FixedVector &velocity);
 
 };
 

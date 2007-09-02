@@ -18,10 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-// BoidVector.c++
-//
-// CODE: Class for 3-BoidVectors with double precision
-//
-// (c) 1996 Christopher Kline <ckline@acm.org>
+#if !defined(__INCLUDE_TargetGrouph_INCLUDE__)
+#define __INCLUDE_TargetGrouph_INCLUDE__
 
-#include "BoidVector.h"
+#include <common/FixedVector.h>
+#include <vector>
+
+class ScorchedContext;
+class NetBuffer;
+class NetBufferReader;
+class TargetGroupsGroupEntry;
+class Target;
+class TargetGroup
+{
+public:
+	TargetGroup(ScorchedContext &context);
+	virtual ~TargetGroup();
+
+	void setTarget(Target *target) { target_ = target; }
+	Target *getTarget() { return target_; }
+
+	std::vector<TargetGroupsGroupEntry *> &getGroups() { return groups; }
+	FixedVector &getPosition();
+
+	virtual bool writeMessage(NetBuffer &buffer);
+	virtual bool readMessage(NetBufferReader &reader);
+
+protected:
+	ScorchedContext &context_;
+	Target *target_;
+	std::vector<TargetGroupsGroupEntry *> groups;
+};
+
+#endif // __INCLUDE_TargetGrouph_INCLUDE__

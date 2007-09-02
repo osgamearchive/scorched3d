@@ -98,7 +98,7 @@ void GLWPlanView::simulate(float frameTime)
 			ComsLinesMessage message(
 				ScorchedClient::instance()->getTankContainer().getCurrentPlayerId());
 			message.getLines() = sendPoints;
-			if (dragging_) message.getLines().push_back(Vector::nullVector);
+			if (dragging_) message.getLines().push_back(Vector::getNullVector());
 			sendPoints.clear();
 			ComsMessageSender::sendToServer(message);
 
@@ -485,7 +485,7 @@ void GLWPlanView::drawTanks()
 		if (tank->getState().getState() == TankState::sNormal &&
 			!tank->getState().getSpectator())
 		{
-			position = tank->getPosition().getTankPosition();
+			position = tank->getPosition().getTankPosition().asVector();
 			position[0] += (maxWidth - mapWidth) / 2.0f;
 			position[1] += (maxWidth - mapHeight) / 2.0f;
 			position /= maxWidth;
@@ -506,7 +506,7 @@ void GLWPlanView::drawTanks()
 			!tank->getState().getSpectator())
 		{
 			glColor3fv(tank->getColor());
-			position = tank->getPosition().getTankPosition();
+			position = tank->getPosition().getTankPosition().asVector();
 			position[0] += (maxWidth - mapWidth) / 2.0f;
 			position[1] += (maxWidth - mapHeight) / 2.0f;
 			position /= maxWidth;
@@ -552,8 +552,8 @@ void GLWPlanView::drawCurrentTank()
 	float maxWidth = MAX(mapWidth, mapHeight);
 	float scale = animationTime_ / maxAnimationTime;
 	Vector position;
-	float rot = -currentTank->getPosition().getRotationGunXY() * degToRad;
-	position = currentTank->getPosition().getTankPosition();
+	float rot = -currentTank->getPosition().getRotationGunXY().asFloat() * degToRad;
+	position = currentTank->getPosition().getTankPosition().asVector();
 	position[0] += (maxWidth - mapWidth) / 2.0f;
 	position[1] += (maxWidth - mapHeight) / 2.0f;
 	position /= maxWidth;
@@ -615,7 +615,8 @@ void GLWPlanView::mouseDown(int button, float x, float y, bool &skipRest)
 			mapY -= (maxWidth - mapHeight) / 2.0f;
 
 			Vector lookAt(mapX, mapY, ScorchedClient::instance()->
-				getLandscapeMaps().getGroundMaps().getInterpHeight(mapX, mapY) + 5.0f);
+				getLandscapeMaps().getGroundMaps().getInterpHeight(
+					fixed::fromFloat(mapX), fixed::fromFloat(mapY)).asFloat() + 5.0f);
 			MainCamera::instance()->getTarget().setCameraType(TargetCamera::CamFree);
 			MainCamera::instance()->getCamera().setLookAt(lookAt);
 		}
@@ -661,8 +662,8 @@ void GLWPlanView::mouseUp(int button, float x, float y, bool &skipRest)
 	if (dragging_)
 	{
 		dragging_ = false;
-		localPoints_.points.push_back(Vector::nullVector);
-		sendPoints.push_back(Vector::nullVector);
+		localPoints_.points.push_back(Vector::getNullVector());
+		sendPoints.push_back(Vector::getNullVector());
 	}
 }
 

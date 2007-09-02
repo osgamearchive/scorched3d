@@ -27,16 +27,17 @@ class WeaponSound;
 class SoundAction : public ActionReferenced
 {
 public:
-	SoundAction(Vector &position = Vector::nullVector, 
+	SoundAction(FixedVector &position = FixedVector::getNullVector(), 
 		WeaponSound *weapon = 0);
 	virtual ~SoundAction();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
 	WeaponSound *weapon_;
-	Vector position_;
+	FixedVector position_;
 
 };
 

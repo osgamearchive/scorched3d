@@ -19,8 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <movement/TargetMovementEntryBoids.h>
-#include <movement/BoidsObstacle.h>
-#include <movement/Boid.h>
+#include <movement/Boid2.h>
 #include <common/Defines.h>
 #include <common/RandomGenerator.h>
 #include <graph/OptionsDisplay.h>
@@ -39,23 +38,15 @@ TargetMovementEntryBoids::TargetMovementEntryBoids()
 TargetMovementEntryBoids::~TargetMovementEntryBoids()
 {
 	{
-		std::map<unsigned int, Boid *>::iterator itor;
+		std::map<unsigned int, Boid2 *>::iterator itor;
 		for (itor = boidsMap_.begin();
 			itor != boidsMap_.end();
 			itor++)
 		{
-			Boid *boid = (*itor).second;
+			Boid2 *boid = (*itor).second;
 			delete boid;
 		}
 		boidsMap_.clear();
-	}
-	{
-		while (!obstacles_.empty())
-		{
-			Obstacle *obstacle = obstacles_.back();
-			obstacles_.pop_back();
-			delete obstacle;
-		}
 	}
 }
 
@@ -66,9 +57,12 @@ void TargetMovementEntryBoids::generate(ScorchedContext &context,
 		(LandscapeMovementTypeBoids *) movementType;
 
 	// Set the boid parameters
-	cruiseDistance_ = 0.75f * boids->cruisedistance;
-	maxVelocity_ = 1.0f * boids->maxvelocity;
-	maxAcceleration_ = 0.15f * boids->maxacceleration;
+	cruiseDistance_ = boids->cruisedistance * fixed(10);
+	maxVelocity_ = boids->maxvelocity * fixed(true, 750);
+	cruiseVelocity_ = boids->maxvelocity * fixed(true, 400);
+	maxAcceleration_ = boids->maxacceleration * fixed(true, 20);
+	minBounds_ = boids->minbounds;
+	maxBounds_ = boids->maxbounds;
 
 	// Find the group to move the objects in
 	groupEntry_ = context.landscapeMaps->getGroundMaps().getGroups().
@@ -82,68 +76,56 @@ void TargetMovementEntryBoids::generate(ScorchedContext &context,
 
 	// Create boids
 	makeBoids(context, random, boids->maxbounds, boids->minbounds);
-	makeObstacles(context, random, boids->maxbounds, boids->minbounds);
 }
 
 void TargetMovementEntryBoids::makeBoids(ScorchedContext &context, 
-	RandomGenerator &random, Vector &maxBounds, Vector &minBounds)
+	RandomGenerator &random, FixedVector &maxBounds, FixedVector &minBounds)
 {
-	BoidVector p;
-	BoidVector attitude;      // roll, pitch, yaw
-	BoidVector v;             // velocity vector
-
 	// Generate the list of offsets for all of the targets in the group
-	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *> &objects = groupEntry_->getObjects();
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects.begin();
 		itor != objects.end();
 		itor++)
 	{
 		unsigned int playerId = (*itor).first;
-		TargetGroupEntry *groupEntry = (*itor).second;
+		TargetGroup *groupEntry = (*itor).second;
 
-		if (!groupEntry->getTarget()->isTarget())
+		if (!groupEntry->getTarget()->isTarget() ||
+			groupEntry->getTarget()->getPlayerId() >= TargetID::MIN_TARGET_TRANSIENT_ID)
 		{
 			dialogExit("TargetMovementEntryBoids",
-				"Movement can be assigned to targets only (no tanks)");
+				"Movement can be assigned to level targets only (no tanks)");
 		}
 
 		// Set this target as moving
 		groupEntry->getTarget()->getTargetState().setMovement(true);
 
 		// Add to world
-		Boid *boid = new Boid(groupEntry->getTarget(), this);
+		Boid2 *boid = new Boid2(context, groupEntry->getTarget(), this);
 		boidsMap_[playerId] = boid;
 	}
 }
 
-void TargetMovementEntryBoids::makeObstacles(ScorchedContext &context, 
-	RandomGenerator &random, Vector &maxBounds, Vector &minBounds) 
-{
-	BoidsObstacle *o = 
-		new BoidsObstacle(context, maxBounds, minBounds);
-	getObstacles().push_back(o);
-}
-
-void TargetMovementEntryBoids::simulate(float frameTime)
+void TargetMovementEntryBoids::simulate(fixed frameTime)
 {
 	// For each target set position and rotation based on its offset
-	std::map<unsigned int, TargetGroupEntry *> &objects = groupEntry_->getObjects();
-	std::map<unsigned int, TargetGroupEntry *>::iterator itor;
+	std::map<unsigned int, TargetGroup *> &objects = groupEntry_->getObjects();
+	std::map<unsigned int, TargetGroup *>::iterator itor;
 	for (itor = objects.begin();
 		itor != objects.end();
 		itor++)
 	{
 		unsigned int playerId = (*itor).first;
-		TargetGroupEntry *groupEntry = (*itor).second;
+		TargetGroup *groupEntry = (*itor).second;
 		
 		// Find the boid for this target
-		std::map<unsigned int, Boid *>::iterator findItor = boidsMap_.find(playerId);
+		std::map<unsigned int, Boid2 *>::iterator findItor = boidsMap_.find(playerId);
 		if (findItor != boidsMap_.end())
 		{
 			// Update boid and target
-			Boid *boid = (*findItor).second;
-			boid->update((double) frameTime);
+			Boid2 *boid = (*findItor).second;
+			boid->update(frameTime);
 		}
 	}
 }

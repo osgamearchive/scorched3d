@@ -22,7 +22,7 @@
 #define __INCLUDE_ViewPointsh_INCLUDE__
 
 #include <list>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 
 class ScorchedContext;
 class ViewPoints
@@ -31,21 +31,21 @@ public:
 	class ViewPoint 
 	{
 	public:
-		ViewPoint() : radius_(0.0f), from_(1.0f, 0.0f, 0.0f) { }
+		ViewPoint() : radius_(0), from_(1, 0, 0) { }
 
-		void setLookFrom(Vector &from) { from_ = from; }
-		Vector &getLookFrom() { return from_; }
+		void setLookFrom(FixedVector &from) { from_ = from; }
+		FixedVector &getLookFrom() { return from_; }
 		
-		void setPosition(Vector &pos) { position_ = pos; }
-		Vector &getPosition() { return position_; }
+		void setPosition(FixedVector &pos) { position_ = pos; }
+		FixedVector &getPosition() { return position_; }
 
-		void setRadius(float radius) { radius_ = radius; }
-		float getRadius() { return radius_; }
+		void setRadius(fixed radius) { radius_ = radius; }
+		fixed getRadius() { return radius_; }
 
 	protected:
-		float radius_;
-		Vector position_;
-		Vector from_;
+		fixed radius_;
+		FixedVector position_;
+		FixedVector from_;
 	};
 
 	ViewPoints();
@@ -54,11 +54,11 @@ public:
 	void reset() { finished_ = false; }
 	void explosion(unsigned int playerId);
 
-	void simulate(float frameTime);
-	void getValues(Vector &lookAt, 
-				   Vector &lookFrom);
-	void setValues(Vector &lookAt, 
-				   Vector &lookFrom);
+	void simulate(fixed frameTime);
+	void getValues(FixedVector &lookAt, 
+				   FixedVector &lookFrom);
+	void setValues(FixedVector &lookAt, 
+				   FixedVector &lookFrom);
 	int getLookAtCount();
 
 	ViewPoints::ViewPoint *getNewViewPoint(unsigned int playerId);
@@ -69,8 +69,8 @@ public:
 protected:
 	std::list<ViewPoint *> points_;
 	ScorchedContext *context_;
-	Vector lookAt_, lookFrom_;
-	float totalTime_;
+	FixedVector lookAt_, lookFrom_;
+	fixed totalTime_;
 	bool finished_;
 
 };

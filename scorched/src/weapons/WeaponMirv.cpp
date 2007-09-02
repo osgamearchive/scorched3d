@@ -26,7 +26,7 @@
 REGISTER_ACCESSORY_SOURCE(WeaponMirv);
 
 WeaponMirv::WeaponMirv() :
-	noWarheads_(0), hspreadDist_(0.0f), vspreadDist_(0.0f)
+	noWarheads_(0), hspreadDist_(0), vspreadDist_(0)
 {
 
 }
@@ -66,7 +66,7 @@ bool WeaponMirv::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNod
 }
 
 void WeaponMirv::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
 	// Add a shot that will fall where the original was aimed
 	aimedWeapon_->fireWeapon(context, weaponContext, position, velocity);
@@ -74,23 +74,23 @@ void WeaponMirv::fireWeapon(ScorchedContext &context,
 	RandomGenerator &random = context.actionController->getRandom();
 
 	// Add all of the sub warheads that have a random spread
-	float hspreadDist;
+	fixed hspreadDist;
 	for (int i=0; i<noWarheads_ - 1; i++)
 	{
-		Vector newDiff = velocity;
-		newDiff[2] = 0.0f;
+		FixedVector newDiff = velocity;
+		newDiff[2] = 0;
 		// Ensure the same value is used in all parts of the calc
 		hspreadDist = hspreadDist_.getValue(context);
-		if (hspreadDist != 0.0f)
+		if (hspreadDist != 0)
 		{
-			Vector diff = newDiff;
-			diff[2] -= 1.0f;
-			Vector perp = newDiff * diff;
+			FixedVector diff = newDiff;
+			diff[2] -= 1;
+			FixedVector perp = newDiff * diff;
 
-			newDiff += (perp * ((random.getRandFloat() * hspreadDist) - (hspreadDist * 0.5f)));
+			newDiff += (perp * ((random.getRandFixed() * hspreadDist) - (hspreadDist * fixed(true, 5000))));
 		}
-		newDiff[2] += (float(i - (noWarheads_ / 2)) / 
-			float(noWarheads_ / 2)) * vspreadDist_.getValue(context);
+		newDiff[2] += (fixed(i - (noWarheads_ / 2)) / 
+			fixed(noWarheads_ / 2)) * vspreadDist_.getValue(context);
 
 		aimedWeapon_->fireWeapon(context, weaponContext, position, newDiff);
 	}

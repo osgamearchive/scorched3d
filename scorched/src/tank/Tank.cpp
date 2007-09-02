@@ -37,6 +37,7 @@
 #include <target/TargetLife.h>
 #include <engine/ScorchedContext.h>
 #include <common/Defines.h>
+#include <common/Logger.h>
 
 Tank::Tank(ScorchedContext &context, 
 		unsigned int playerId, 
@@ -161,15 +162,51 @@ bool Tank::writeMessage(NetBuffer &buffer, bool writeAccessories)
 
 bool Tank::readMessage(NetBufferReader &reader)
 {
-	if (!Target::readMessage(reader)) return false; // Base class 1st
-	if (!reader.getFromBuffer(destinationId_)) return false;
-	if (!reader.getFromBuffer(team_)) return false;
-	if (!reader.getFromBuffer(color_)) return false;
-	if (!state_->readMessage(reader)) return false;
-	if (!accessories_->readMessage(reader)) return false;
-	if (!score_->readMessage(reader)) return false;
-	if (!position_->readMessage(reader)) return false;
-	if (!modelContainer_->readMessage(reader)) return false;
+	if (!Target::readMessage(reader)) 
+	{
+		Logger::log("Target::readMessage failed");
+		return false; // Base class 1st
+	}
+	if (!reader.getFromBuffer(destinationId_))
+	{
+		Logger::log("Tank::destinationId_ read failed");
+		return false;
+	}
+	if (!reader.getFromBuffer(team_))
+	{
+		Logger::log("Tank::team_ read failed");
+		return false;
+	}
+	if (!reader.getFromBuffer(color_))
+	{
+		Logger::log("Tank::color_ read failed");
+		return false;
+	}
+	if (!state_->readMessage(reader))
+	{
+		Logger::log("Tank::state_ read failed");
+		return false;
+	}
+	if (!accessories_->readMessage(reader))
+	{
+		Logger::log("Tank::accessories_ read failed");
+		return false;
+	}
+	if (!score_->readMessage(reader))
+	{
+		Logger::log("Tank::score_ read failed");
+		return false;
+	}
+	if (!position_->readMessage(reader))
+	{
+		Logger::log("Tank::position_ read failed");
+		return false;
+	}
+	if (!modelContainer_->readMessage(reader))
+	{
+		Logger::log("Tank::modelContainer_ read failed");
+		return false;
+	}
 
 	if (!context_.serverMode)
 	{

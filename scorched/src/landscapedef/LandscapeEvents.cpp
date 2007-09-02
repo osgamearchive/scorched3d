@@ -25,7 +25,6 @@
 #include <weapons/AccessoryStore.h>
 #include <common/Logger.h>
 #include <XML/XMLNode.h>
-#include <float.h>
 
 // LandscapeEvent
 LandscapeEvent::~LandscapeEvent()
@@ -66,13 +65,13 @@ LandscapeCondition *LandscapeCondition::create(const char *type)
 }
 
 // LandscapeConditionGroupSize
-float LandscapeConditionGroupSize::getNextEventTime(ScorchedContext &context, int eventNumber)
+fixed LandscapeConditionGroupSize::getNextEventTime(ScorchedContext &context, int eventNumber)
 {
-	return FLT_MAX;
+	return fixed::MAX_FIXED;
 }
 
 bool LandscapeConditionGroupSize::fireEvent(ScorchedContext &context, 
-	float timeLeft, int eventNumber)
+	fixed timeLeft, int eventNumber)
 {
 	if (eventNumber == 1) // i.e. the first event
 	{
@@ -97,22 +96,22 @@ bool LandscapeConditionGroupSize::readXML(XMLNode *node)
 }
 
 // LandscapeConditionTime
-float LandscapeConditionTime::getNextEventTime(ScorchedContext &context, int eventNumber)
+fixed LandscapeConditionTime::getNextEventTime(ScorchedContext &context, int eventNumber)
 {
 	if (eventNumber > 1 &&
 		singletimeonly)
 	{
-		return FLT_MAX;
+		return fixed::MAX_FIXED;
 	}
 
-	return context.actionController->getRandom().getRandFloat() * 
+	return context.actionController->getRandom().getRandFixed() * 
 		(maxtime - mintime) + mintime;
 }
 
 bool LandscapeConditionTime::fireEvent(ScorchedContext &context, 
-	float timeLeft, int eventNumber)
+	fixed timeLeft, int eventNumber)
 {
-	return (timeLeft < 0.0f);
+	return (timeLeft < fixed(0));
 }
 
 bool LandscapeConditionTime::readXML(XMLNode *node)
@@ -124,24 +123,24 @@ bool LandscapeConditionTime::readXML(XMLNode *node)
 }
 
 // LandscapeConditionRandom
-float LandscapeConditionRandom::getNextEventTime(ScorchedContext &context, int eventNumber)
+fixed LandscapeConditionRandom::getNextEventTime(ScorchedContext &context, int eventNumber)
 {
 	if (eventNumber > 1)
 	{
-		return FLT_MAX;
+		return fixed::MAX_FIXED;
 	}
 
-	if (context.actionController->getRandom().getRandFloat() < randomchance)
+	if (context.actionController->getRandom().getRandFixed() < randomchance)
 	{
 		return randomdelay;
 	}
-	return FLT_MAX;
+	return fixed::MAX_FIXED;
 }
 
 bool LandscapeConditionRandom::fireEvent(ScorchedContext &context, 
-	float timeLeft, int eventNumber)
+	fixed timeLeft, int eventNumber)
 {
-	return (timeLeft < 0.0f);
+	return (timeLeft < fixed(0));
 }
 
 bool LandscapeConditionRandom::readXML(XMLNode *node)
@@ -172,7 +171,7 @@ void LandscapeActionFireWeapon::fireAction(ScorchedContext &context)
 	Weapon *weapon = (Weapon *) accessory->getAction();
 
 	WeaponFireContext weaponContext(0, Weapon::eDataDeathAnimation);
-	Vector pos, vel;
+	FixedVector pos, vel;
 	weapon->fireWeapon(context, weaponContext, pos, vel);
 }
 

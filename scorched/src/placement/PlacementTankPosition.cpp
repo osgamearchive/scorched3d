@@ -29,44 +29,62 @@
 #include <target/TargetSpace.h>
 #include <GLEXT/GLImageFactory.h>
 
-void PlacementTankPosition::calculateStartPosition(unsigned int seed, ScorchedContext &context)
+void PlacementTankPosition::flattenTankPositions(std::list<FixedVector> &tankPositions, 
+	ScorchedContext &context)
 {
-	RandomGenerator generator;
-	generator.seed(seed);
-
-	std::map<unsigned int, Tank *> &tanks = 
-		context.tankContainer->getPlayingTanks();
-	std::map<unsigned int, Tank *>::iterator mainitor;
-	for (mainitor = tanks.begin();
-		mainitor != tanks.end();
-		mainitor++)
+	if (context.serverMode)
 	{
-		Tank *tank = (*mainitor).second;
+		tankPositions.clear();
 
-		if (!tank->getState().getSpectator() &&
-			((tank->getState().getState() == TankState::sDead && context.serverMode) ||
-			tank->getState().getState() == TankState::sNormal))
+		RandomGenerator generator;
+		generator.seed(rand());
+
+		std::map<unsigned int, Tank *> &tanks = 
+			context.tankContainer->getPlayingTanks();
+		std::map<unsigned int, Tank *>::iterator mainitor;
+		for (mainitor = tanks.begin();
+			mainitor != tanks.end();
+			mainitor++)
 		{
-			Vector tankPos = PlacementTankPosition::placeTank(
-				tank->getPlayerId(), tank->getTeam(), 
-				context, generator);
+			Tank *tank = (*mainitor).second;
 
-			// Set the starting position of the tank
+			if (!tank->getState().getSpectator() &&
+				((tank->getState().getState() == TankState::sDead) ||
+				tank->getState().getState() == TankState::sNormal))
+			{
+				FixedVector tankPos = PlacementTankPosition::placeTank(
+					tank->getPlayerId(), tank->getTeam(), 
+					context, generator);
+
+				tank->getLife().setTargetPosition(tankPos);
+				DeformLandscape::flattenArea(context, tankPos);
+
+				tankPositions.push_back(tankPos);
+			}
+		}
+	}
+	else
+	{
+		std::list<FixedVector>::iterator itor;
+		for (itor = tankPositions.begin();
+			itor != tankPositions.end();
+			itor++)
+		{
+			FixedVector &tankPos = *itor;
 			DeformLandscape::flattenArea(context, tankPos);
-			tank->getLife().setTargetPosition(tankPos);
 		}
 	}
 }
 
-Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
+FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 	ScorchedContext &context, RandomGenerator &generator)
 {
-	Vector tankPos;
+	FixedVector tankPos;
 	const int tankBorder = 10;
 
-	float minHeight = -1000.0f;
-	float maxHeight = 1000.0f;
-	float tankCloseness = 0.0f;
+	fixed minHeight = -1000;
+	fixed maxHeight = 1000;
+	fixed tankCloseness = 0;
 	GLImage *tankMask = 0;
 
 	LandscapeDefnType *defn =
@@ -93,28 +111,28 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 	}
     
 	bool tooClose = true;
-	float closeness = tankCloseness;
+	fixed closeness = tankCloseness;
 	while (tooClose)
 	{
 		tooClose = false;
 
 		// Find a new position for the tank
-		float posX = float (context.landscapeMaps->getDefinitions().
+		fixed posX = fixed (context.landscapeMaps->getDefinitions().
 			getDefn()->landscapewidth - tankBorder * 2) * 
-			generator.getRandFloat() + float(tankBorder);
-		float posY = float (context.landscapeMaps->getDefinitions().
+			generator.getRandFixed() + fixed(tankBorder);
+		fixed posY = fixed (context.landscapeMaps->getDefinitions().
 			getDefn()->landscapeheight - tankBorder * 2) * 
-			generator.getRandFloat() + float(tankBorder);
-		float height = context.landscapeMaps->getGroundMaps().
-			getHeight((int) posX, (int) posY);
-		tankPos = Vector(posX, posY, height);
+			generator.getRandFixed() + fixed(tankBorder);
+		fixed height = context.landscapeMaps->getGroundMaps().
+			getHeight(posX.asInt(), posY.asInt());
+		tankPos = FixedVector(posX, posY, height);
 
 		// Make sure not lower than water line
 		if (tankPos[2] < minHeight ||
 			tankPos[2] > maxHeight) 
 		{
 			tooClose = true;
-			closeness -= 0.1f;
+			closeness -= fixed(true, 1000);
 		}
 		
 		// Make sure the mask allows the tank
@@ -123,9 +141,9 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 			if (tankMask)
 			{
 				// Find the mask position
-				int maskX = int(posX * float(tankMask->getWidth())) / 
+				int maskX = (posX * fixed(tankMask->getWidth())).asInt() / 
 					context.landscapeMaps->getDefinitions().getDefn()->landscapewidth;
-				int maskY = int(posY * float(tankMask->getHeight())) / 
+				int maskY = (posY * fixed(tankMask->getHeight())).asInt() / 
 					context.landscapeMaps->getDefinitions().getDefn()->landscapeheight;
 				unsigned char *maskPos = tankMask->getBits() +
 					maskX * 3 + maskY * tankMask->getWidth() * 3;
@@ -135,7 +153,7 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 					// No tank is allowed on the black parts ot the mask
 					// regardless of the team
 					tooClose = true;
-					closeness -= 0.1f;				
+					closeness -= fixed(true, 1000);
 				}
 				else if (maskPos[0] == 255 && maskPos[1] == 255 && maskPos[2] == 255)
 				{
@@ -151,28 +169,28 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 						if (maskPos[0] != 255 || maskPos[1] != 0 || maskPos[2] != 0)
 						{
 							tooClose = true;
-							closeness -= 0.1f;
+							closeness -= fixed(true, 1000);
 						}
 						break;
 					case 2:
 						if (maskPos[0] != 0 || maskPos[1] != 0 || maskPos[2] != 255)
 						{
 							tooClose = true;
-							closeness -= 0.1f;
+							closeness -= fixed(true, 1000);
 						}
 						break;
 					case 3:
 						if (maskPos[0] != 0 || maskPos[1] != 255 || maskPos[2] != 0)
 						{
 							tooClose = true;
-							closeness -= 0.1f;
+							closeness -= fixed(true, 1000);
 						}
 						break;
 					case 4:
 						if (maskPos[0] != 255 || maskPos[1] != 255 || maskPos[2] != 0)
 						{
 							tooClose = true;
-							closeness -= 0.1f;
+							closeness -= fixed(true, 1000);
 						}
 						break;						
 					}
@@ -185,8 +203,7 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 		{
 			std::map<unsigned int, Target *> targets;
 			std::map<unsigned int, Target *>::iterator itor;
-			context.targetSpace->getCollisionSet(
-				tankPos, 4.0f, targets);
+			context.targetSpace->getCollisionSet(tankPos, 4, targets);
 			for (itor = targets.begin();
 				itor != targets.end();
 				itor++)
@@ -204,7 +221,7 @@ Vector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 		}
 		
 		// Ensure we never go inifinite
-		if (closeness < 1.0f) tooClose = false;
+		if (closeness < 1) tooClose = false;
 	}
 
 	delete tankMask;

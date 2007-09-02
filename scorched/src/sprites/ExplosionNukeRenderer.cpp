@@ -70,7 +70,7 @@ ExplosionNukeRenderer::ExplosionNukeRenderer(Vector &position, float size)
 {
 	position_[2] -= size_;
 	float height = ScorchedClient::instance()->getLandscapeMaps().
-		getGroundMaps().getHeight((int) position_[0], (int) position_[1]);
+		getGroundMaps().getHeight((int) position_[0], (int) position_[1]).asFloat();
 	if (position_[2] < height) position_[2] = height;
 
 	if (!positions_)

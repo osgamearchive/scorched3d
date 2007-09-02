@@ -23,6 +23,7 @@
 #define __INCLUDE_DeformTexturesh_INCLUDE__
 
 #include <landscapemap/DeformLandscape.h>
+#include <common/Vector.h>
 
 class GLImage;
 namespace DeformTextures

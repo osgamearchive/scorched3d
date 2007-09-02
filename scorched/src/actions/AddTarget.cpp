@@ -28,9 +28,11 @@
 #include <weapons/WeaponAddTarget.h>
 #include <weapons/Shield.h>
 #include <common/RandomGenerator.h>
+#include <common/OptionsScorched.h>
 
-AddTarget::AddTarget(Vector &position,
+AddTarget::AddTarget(FixedVector &position,
 	WeaponAddTarget *addTarget) :
+	ActionReferenced("AddTarget"),
 	position_(position),
 	addTarget_(addTarget)
 {
@@ -45,19 +47,35 @@ void AddTarget::init()
 {
 }
 
-void AddTarget::simulate(float frameTime, bool &remove)
+void AddTarget::simulate(fixed frameTime, bool &remove)
 {
 	unsigned int playerId = TankAIAdder::getNextTargetId(*context_);
 
 	Target *target = addTarget_->getTargetDefinition().createTarget(
-		playerId, position_, Vector::nullVector, *context_, context_->actionController->getRandom());
+		playerId, position_, FixedVector::getNullVector(), *context_, context_->actionController->getRandom());
 	context_->targetContainer->addTarget(target);
+
+	if (context_->optionsGame->getAutoSendSyncCheck())
+	{
+		context_->actionController->addSyncCheck(
+			formatString("AddTarget : %u %s %li,%li,%li", 
+				playerId,
+				target->getName(),
+				position_[0].getInternal(),
+				position_[1].getInternal(),
+				position_[2].getInternal()));
+	}
 
 	// Check if this new target can fall
 	WeaponFireContext weaponContext(0, 0);
 	TargetDamageCalc::damageTarget(*context_, target, addTarget_, 
-		weaponContext, 0.0f, false, true, false);
+		weaponContext, 0, false, true, false);
 
 	remove = true;
 	Action::simulate(frameTime, remove);
+}
+
+const char *AddTarget::getActionDetails()
+{
+	return addTarget_->getParent()->getName();
 }

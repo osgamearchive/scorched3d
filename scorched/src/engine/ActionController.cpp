@@ -20,7 +20,6 @@
 
 #include <engine/ActionController.h>
 #include <engine/ScorchedContext.h>
-#include <engine/SyncCheck.h>
 #include <movement/TargetMovement.h>
 #include <common/Logger.h>
 #include <common/OptionsScorched.h>
@@ -28,9 +27,9 @@
 
 ActionController::ActionController() : 
 	GameStateI("ActionController"),
-	speed_(1.0f), referenceCount_(0), time_(0.0f), 
-	context_(0), lastTraceTime_(0.0f),
-	actionTracing_(false), stepTime_(0.0f),
+	speed_(1), referenceCount_(0), time_(0), 
+	context_(0), lastTraceTime_(0),
+	actionTracing_(false), stepTime_(0),
 	actionEvents_(false), actionProfiling_(false),
 	actionNumber_(0)
 {
@@ -103,7 +102,7 @@ bool ActionController::allEvents()
 void ActionController::logActions()
 {
 	Logger::log(formatString("ActionLog : Time %.2f, New %i, Ref %i",
-		time_,
+		time_.asFloat(),
 		(int) newActions_.size(), 
 		referenceCount_));
 	for (int a=0; a<actions_.actionCount; a++)
@@ -142,7 +141,7 @@ bool ActionController::noReferencedActions()
 
 	if (actionTracing_)
 	{
-		if (time_ - lastTraceTime_ > 5.0f)
+		if (time_ - lastTraceTime_ > 5)
 		{
 			lastTraceTime_ = time_;
 			logActions();
@@ -154,9 +153,11 @@ bool ActionController::noReferencedActions()
 
 void ActionController::resetTime()
 {
-	time_ = 0.0f;
-	lastTraceTime_ = 0.0f;
-	stepTime_ = 0.0f;
+	time_ = 0;
+	lastTraceTime_ = 0;
+	stepTime_ = 0;
+
+	syncCheck_.clear();
 }
 
 void ActionController::setScorchedContext(ScorchedContext *context)
@@ -164,9 +165,15 @@ void ActionController::setScorchedContext(ScorchedContext *context)
 	context_ = context;
 }
 
-void ActionController::setFast(float speedMult)
+void ActionController::setFast(fixed speedMult)
 {
 	speed_ = speedMult;
+}
+
+void ActionController::addSyncCheck(const char *msg)
+{
+	DIALOG_ASSERT(context_->optionsGame->getAutoSendSyncCheck());
+	syncCheck_.push_back(msg);
 }
 
 void ActionController::addAction(Action *action)
@@ -178,10 +185,14 @@ void ActionController::addAction(Action *action)
 	if (action->getReferenced())
 	{
 		action->setActionNumber(++actionNumber_);
-
-		/*SyncCheck::instance()->addString(*context_, 
-			formatString("Action : %f %u %s", 
-				time_, action->getActionNumber(), action->getActionType()));*/
+		if (context_->optionsGame->getAutoSendSyncCheck())
+		{
+			addSyncCheck(
+				formatString("Add Action : %li %s:%s", 
+					time_.getInternal(), 
+					action->getActionType(), 
+					action->getActionDetails()));
+		}
 	}
 
 	newActions_.push_back(action);
@@ -228,8 +239,10 @@ void ActionController::draw(const unsigned state)
 	}
 }
 
-void ActionController::simulate(const unsigned state, float frameTime)
+void ActionController::simulate(const unsigned state, float ft)
 {
+	fixed frameTime = fixed::fromFloat(ft);
+
 	frameTime *= speed_;
 
 	// As this simulator gives differing results dependant on
@@ -237,7 +250,7 @@ void ActionController::simulate(const unsigned state, float frameTime)
 	stepTime_ += frameTime;
 
 	// step size = 1.0 / physics fps = steps per second
-	const float stepSize = 1.0f / float(context_->optionsGame->getPhysicsFPS());
+	const fixed stepSize = fixed(1) / fixed(context_->optionsGame->getPhysicsFPS());
 	while (stepTime_ >= stepSize)
 	{
 		time_ += stepSize;
@@ -248,13 +261,13 @@ void ActionController::simulate(const unsigned state, float frameTime)
 	}
 }
 
-void ActionController::stepActions(float frameTime)
+void ActionController::stepActions(fixed frameTime)
 {
 	// Ensure any new actions are added
 	addNewActions();
 
 	// Add any new events (if allowed)
-	if (time_ < 10.0f && !allEvents())
+	if (time_ < 10 && !allEvents())
 	{
 		actionEvents_ = true;
 		events_.simulate(frameTime, *context_);
@@ -275,7 +288,7 @@ void ActionController::stepActions(float frameTime)
 		// Ensure that no referenced actions over do their time
 		if (act->getReferenced())
 		{
-			if ((time_ - act->getActionStartTime() > 30.0f))
+			if ((time_ - act->getActionStartTime() > 30))
 			{
 				Logger::log(formatString("Warning: removing timed out action %s",
 					act->getActionType()));
@@ -290,6 +303,15 @@ void ActionController::stepActions(float frameTime)
 			{
 				referenceCount_--;
 				if (referenceCount_<0) referenceCount_ = 0;
+
+				if (context_->optionsGame->getAutoSendSyncCheck())
+				{
+					addSyncCheck(
+						formatString("Rm Action : %li %s:%s", 
+							time_.getInternal(), 
+							act->getActionType(), 
+							act->getActionDetails()));
+				}
 			}
 
 			delete act;

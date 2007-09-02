@@ -37,7 +37,7 @@ public:
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponProjectile, AccessoryPart::AccessoryWeapon);
 
@@ -50,25 +50,25 @@ public:
 	bool getCreateSmoke() { return createSmoke_; }
 	bool getCreateFlame() { return createFlame_; }
 	bool getTimedDud() { return timedDud_; }
-	float getWindFactor(ScorchedContext &context);
-	float getShieldHurtFactor(ScorchedContext &context);
-	float getTimedCollision(ScorchedContext &context) { return timedCollision_.getValue(context); }
-	float getSpinSpeed(ScorchedContext &context) { return spinSpeed_.getValue(context); }
+	fixed getWindFactor(ScorchedContext &context);
+	fixed getShieldHurtFactor(ScorchedContext &context);
+	fixed getTimedCollision(ScorchedContext &context) { return timedCollision_.getValue(context); }
+	fixed getSpinSpeed(ScorchedContext &context) { return spinSpeed_.getValue(context); }
 	float getFlameLife() { return flameLife_; }
 	float getFlameStartSize() { return flameStartSize_; }
 	float getFlameEndSize() { return flameEndSize_; }
 	float getSmokeLife() { return smokeLife_; }
 	float getSmokeStartSize() { return smokeStartSize_; }
 	float getSmokeEndSize() { return smokeEndSize_; }
-	float getThrustAmount(ScorchedContext &context) { return thrustAmount_.getValue(context); }
-	float getThrustTime(ScorchedContext &context) { return thrustTime_.getValue(context); }
-	float getDrag(ScorchedContext &context) { return drag_.getValue(context); }
+	fixed getThrustAmount(ScorchedContext &context) { return thrustAmount_.getValue(context); }
+	fixed getThrustTime(ScorchedContext &context) { return thrustTime_.getValue(context); }
+	fixed getDrag(ScorchedContext &context) { return drag_.getValue(context); }
 	Vector &getFlameStartColor1() { return flameStartColor1_; }
 	Vector &getFlameStartColor2() { return flameStartColor2_; }
 	Vector &getFlameEndColor1() { return flameEndColor1_; }
 	Vector &getFlameEndColor2() { return flameEndColor2_; }
 	const char *getEngineSound() { return engineSound_.c_str(); }
-	float getScale(ScorchedContext &context) { return scale_.getValue(context); }
+	fixed getScale(ScorchedContext &context) { return scale_.getValue(context); }
 	ModelID &getModelID() { return modelId_; }
 
 protected:

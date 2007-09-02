@@ -77,23 +77,23 @@ bool WeaponAimedUnder::parseXML(AccessoryCreateContext &context, XMLNode *access
 }
 
 void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &oldvelocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &oldvelocity)
 {
 	// NOTE: This code is very similar to the funky bomb code
 	// except it works under ground
 	if (moveUnderground_)
 	{
-		float height = context.landscapeMaps->getGroundMaps().
+		fixed height = context.landscapeMaps->getGroundMaps().
 			getInterpHeight(position[0], position[1]);
-		if (position[2] < height + 1.0f)
+		if (position[2] < height + 1)
 		{
 			position[2] = context.landscapeMaps->getGroundMaps().
-				getInterpHeight(position[0], position[1]) / 2.0f;
+				getInterpHeight(position[0], position[1]) / 2;
 		}
 	}
 
 	// Get all of the distances of the tanks less than 50 away
-	std::list<std::pair<float, Tank *> > sortedTanks;
+	std::list<std::pair<fixed, Tank *> > sortedTanks;
 	TankLib::getTanksSortedByDistance(
 		context,
 		position, 
@@ -102,8 +102,8 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 		maxAimedDistance_.getValue(context));
 
 	// Add all of these distances together
-	float totalDist = 0.0f;
-	std::list<std::pair<float, Tank *> >::iterator itor;
+	fixed totalDist = 0;
+	std::list<std::pair<fixed, Tank *> >::iterator itor;
 	for (itor = sortedTanks.begin();
 		itor != sortedTanks.end();
 		itor++)
@@ -112,7 +112,7 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 	}
 
 	// Turn distance into a probablity that we will fire a the tank
-	float maxDist = 0.0f;
+	fixed maxDist = 0;
 	if (sortedTanks.size() == 1)
 	{
 		maxDist = totalDist;
@@ -129,7 +129,7 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 	}
 	
 	// Add a percetage that we will not fire at any tank
-	maxDist *= 1.0f + (percentageMissChance_.getValue(context)/ 100.0f);
+	maxDist *= (percentageMissChance_.getValue(context)/ 100) + 1;
 
 	RandomGenerator &random = context.actionController->getRandom();
 
@@ -137,11 +137,11 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 	for (int i=0; i<warHeads_; i++)
 	{
 		// Random probablity
-		float dist = maxDist * random.getRandFloat();
+		fixed dist = maxDist * random.getRandFixed();
 
 		// Find which tank fits this probability
 		Tank *shootAt = 0;
-		float distC = 0.0f;
+		fixed distC = 0;
 		for (itor = sortedTanks.begin();
 			itor != sortedTanks.end();
 			itor++)
@@ -155,9 +155,9 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 		}			
 
 		// Calcuate the angle for the shot
-		float angleXYDegs = 360.0f * random.getRandFloat();
-		float angleYZDegs = 30.0f * random.getRandFloat() + 50.0f;
-		float power = 1000.0f;
+		fixed angleXYDegs = random.getRandFixed() * 360;
+		fixed angleYZDegs = random.getRandFixed() * 30 + 50;
+		fixed power = 1000;
 		if (shootAt)
 		{
 			// We have a tank to aim at
@@ -165,17 +165,17 @@ void WeaponAimedUnder::fireWeapon(ScorchedContext &context,
 			TankLib::getSniperShotTowardsPosition(
 				context,
 				position, 
-				shootAt->getPosition().getTankPosition(), -1.0f, 
+				shootAt->getPosition().getTankPosition(), -1, 
 				angleXYDegs, angleYZDegs, power);
 
-			angleXYDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
-				(maxInacuracy_.getValue(context) / 2.0f);
-			angleYZDegs += (random.getRandFloat() * maxInacuracy_.getValue(context)) - 
-				(maxInacuracy_.getValue(context) / 2.0f);
+			angleXYDegs += (random.getRandFixed() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2);
+			angleYZDegs += (random.getRandFixed() * maxInacuracy_.getValue(context)) - 
+				(maxInacuracy_.getValue(context) / 2);
 		}
 
 		// Create the shot
-		Vector &velocity = TankLib::getVelocityVector(
+		FixedVector &velocity = TankLib::getVelocityVector(
 			angleXYDegs, angleYZDegs);
 		velocity *= power;
 

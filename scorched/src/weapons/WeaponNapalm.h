@@ -33,12 +33,12 @@ public:
 	virtual bool parseXML(AccessoryCreateContext &context,
 		XMLNode *accessoryNode);
 
-	const float getNapalmTime(ScorchedContext &context) { return napalmTime_.getValue(context); }
-	const float getNaplamHeight(ScorchedContext &context) { return napalmHeight_.getValue(context); }
-	const float getStepTime(ScorchedContext &context) { return stepTime_.getValue(context); }
-	const float getHurtStepTime(ScorchedContext &context) { return hurtStepTime_.getValue(context); }
-	const float getHurtPerSecond(ScorchedContext &context) { return hurtPerSecond_.getValue(context); }
-	const float getGroundScorchPer(ScorchedContext &context) { return groundScorchPer_.getValue(context); }
+	const fixed getNapalmTime(ScorchedContext &context) { return napalmTime_.getValue(context); }
+	const fixed getNaplamHeight(ScorchedContext &context) { return napalmHeight_.getValue(context); }
+	const fixed getStepTime(ScorchedContext &context) { return stepTime_.getValue(context); }
+	const fixed getHurtStepTime(ScorchedContext &context) { return hurtStepTime_.getValue(context); }
+	const fixed getHurtPerSecond(ScorchedContext &context) { return hurtPerSecond_.getValue(context); }
+	const fixed getGroundScorchPer(ScorchedContext &context) { return groundScorchPer_.getValue(context); }
 	const int getEffectRadius() { return effectRadius_; }
 	const int getNumberStreams() { return numberStreams_; }
 	const char *getNapalmSound() { return napalmSound_.c_str(); }
@@ -51,7 +51,7 @@ public:
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponNapalm, AccessoryPart::AccessoryWeapon);
 

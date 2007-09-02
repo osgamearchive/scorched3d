@@ -39,7 +39,7 @@ public:
 protected:
 	struct GroupObject
 	{
-		Vector offset;
+		FixedVector offset;
 		PlacementObject *object;
 	};
 	std::list<GroupObject> groups_;

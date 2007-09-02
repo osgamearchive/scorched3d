@@ -23,7 +23,7 @@
 
 #include <weapons/AccessoryPart.h>
 #include <net/NetBuffer.h>
-#include <common/Vector.h>
+#include <common/FixedVector.h>
 #include <engine/ScorchedContext.h>
 #include <common/NumberParser.h>
 
@@ -64,7 +64,7 @@ public:
 	
 	virtual void fireWeapon(ScorchedContext &context,
 		WeaponFireContext &weaponContext,
-		Vector &position, Vector &velocity) = 0;
+		FixedVector &position, FixedVector &velocity) = 0;
 
 	int getArmsLevel();
 

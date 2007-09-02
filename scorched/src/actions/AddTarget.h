@@ -27,14 +27,15 @@ class WeaponAddTarget;
 class AddTarget : public ActionReferenced
 {
 public:
-	AddTarget(Vector &position, WeaponAddTarget *addTarget);
+	AddTarget(FixedVector &position, WeaponAddTarget *addTarget);
 	virtual ~AddTarget();
 
 	virtual void init();
-	virtual void simulate(float frameTime, bool &remove);
+	virtual void simulate(fixed frameTime, bool &remove);
+	virtual const char *getActionDetails();
 
 protected:
-	Vector position_;
+	FixedVector position_;
 	WeaponAddTarget *addTarget_;
 
 };

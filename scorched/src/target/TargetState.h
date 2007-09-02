@@ -22,6 +22,8 @@
 #define __INCLUDE_TargetStateh_INCLUDE__
 
 class TankFalling;
+class NetBuffer;
+class NetBufferReader;
 
 class TargetState
 {
@@ -38,6 +40,9 @@ public:
 	bool getDisplayShadow() { return displayShadow_; }
 	void setDisplayShadow(bool displayShadow) { displayShadow_ = displayShadow; }
 
+	bool getDisplayHardwareShadow() { return displayHardwareShadow_; }
+	void setDisplayHardwareShadow(bool displayHardwareShadow) { displayHardwareShadow_ = displayHardwareShadow; }
+
 	bool getNoDamageBurn() { return noDamageBurn_; }
 	void setNoDamageBurn(bool noDamageBurn) { noDamageBurn_ = noDamageBurn; }
 
@@ -53,15 +58,27 @@ public:
 	bool getMovement() { return movement_; }
 	void setMovement(bool movement) { movement_ = movement; }
 
+	void setDriveOverToDestroy(bool d) { driveOverToDestroy_ = d; }
+	bool getDriveOverToDestroy() { return driveOverToDestroy_; }
+
+	void setFlattenDestroy(bool d) { flattenDestroy_ = d; }
+	bool getFlattenDestroy() { return flattenDestroy_; }
+
+    bool writeMessage(NetBuffer &buffer);
+    bool readMessage(NetBufferReader &reader);
+
 protected:
 	TankFalling *falling_;
 	bool movement_;
+	bool displayHardwareShadow_;
 	bool displayShadow_;
 	bool displayDamage_;
 	bool noDamageBurn_;
 	bool noCollision_;
 	bool noFalling_;
 	bool noFallingDamage_;
+	bool driveOverToDestroy_;
+	bool flattenDestroy_;
 
 };
 

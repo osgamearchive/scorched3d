@@ -35,12 +35,12 @@
 #include <XML/XMLNode.h>
 
 TargetDefinition::TargetDefinition() : 
-	life_(1.0f), boundingsphere_(true),
-	size_(0.0f, 0.0f, 0.0f), 
-	modelscale_(0.05f), modelscalediff_(0.0f),
-	modelrotation_(0.0f), modelrotationsnap_(-1.0f),
-	driveovertodestroy_(false), flattendestroy_(false), border_(0.0f), 
-	displaydamage_(true), displayshadow_(true), 
+	life_(1), boundingsphere_(true),
+	size_(0, 0, 0), 
+	modelscale_(fixed(true, 500)), modelscalediff_(0),
+	modelrotation_(0), modelrotationsnap_(-1),
+	driveovertodestroy_(false), flattendestroy_(false), border_(0), 
+	displaydamage_(true), displayshadow_(true), displayhardwareshadow_(true),
 	nodamageburn_(false), nocollision_(false), nofalling_(false),
 	nofallingdamage_(false)
 {
@@ -64,6 +64,7 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 	node->getNamedChild("nodamageburn", nodamageburn_, false);
 	node->getNamedChild("displaydamage", displaydamage_, false);
 	node->getNamedChild("displayshadow", displayshadow_, false);
+	node->getNamedChild("displayhardwareshadow", displayhardwareshadow_, false);
 
 	node->getNamedChild("size", size_, false);
 	node->getNamedChild("modelscale", modelscale_, false);
@@ -98,8 +99,8 @@ bool TargetDefinition::readXML(XMLNode *node, const char *base)
 }
 
 Target *TargetDefinition::createTarget(unsigned int playerId,
-	Vector &position,
-	Vector &velocity,
+	FixedVector &position,
+	FixedVector &velocity,
 	ScorchedContext &context,
 	RandomGenerator &generator)
 {
@@ -107,42 +108,44 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		name_.c_str(), context);
 	target->getLife().setBoundingSphere(boundingsphere_);
 
-	float rotation = modelrotation_;
-	if (modelrotationsnap_ > 0.0f)
+	fixed rotation = modelrotation_;
+	if (modelrotationsnap_ > 0)
 	{
-		rotation = float(int(generator.getRandFloat() * 360.0f) / 
-			int(modelrotationsnap_)) * modelrotationsnap_;
+		rotation = fixed((generator.getRandFixed() * 360).asInt() / 
+			(modelrotationsnap_.asInt())) * modelrotationsnap_;
 	}
-	float finalModelScale = modelscale_;
-	if (modelscalediff_ > 0.0f)
+	fixed finalModelScale = modelscale_;
+	if (modelscalediff_ > 0)
 	{
-		finalModelScale += generator.getRandFloat() * modelscalediff_;
+		finalModelScale += generator.getRandFixed() * modelscalediff_;
 	}
-	float finalBrightness = modelbrightness_;
-	if (finalBrightness == -1.0)
+	fixed finalBrightness = modelbrightness_;
+	if (finalBrightness == -1)
 	{
-		finalBrightness = generator.getRandFloat() * 0.7f + 0.3f;
+		finalBrightness = generator.getRandFixed() * fixed(true, 7000) + fixed(true, 3000);
 	}
 
-	Vector finalSize = size_;
-	if (finalSize == Vector::nullVector)
+	FixedVector finalSize = size_;
+	if (finalSize == FixedVector::getNullVector())
 	{
 		Model *model = ModelStore::instance()->loadModel(modelId_);
-		finalSize = model->getMax() - model->getMin();
+		Vector size = model->getMax() - model->getMin();
+		finalSize = FixedVector::fromVector(size);
 		finalSize *= finalModelScale;
 	}
 
 	target->getTargetState().setNoCollision(nocollision_);
 	target->getTargetState().setDisplayDamage(displaydamage_);
 	target->getTargetState().setDisplayShadow(displayshadow_);
+	target->getTargetState().setDisplayHardwareShadow(displayhardwareshadow_);
 	target->getTargetState().setNoDamageBurn(nodamageburn_);
 	target->getTargetState().setNoFalling(nofalling_);
 	target->getTargetState().setNoFallingDamage(nofallingdamage_);
+	target->getTargetState().setDriveOverToDestroy(driveovertodestroy_);
+	target->getTargetState().setFlattenDestroy(flattendestroy_);
 	target->getLife().setMaxLife(life_);
 	target->getLife().setSize(finalSize);
 	target->getLife().setVelocity(velocity);
-	target->getLife().setDriveOverToDestroy(driveovertodestroy_);
-	target->getLife().setFlattenDestroy(flattendestroy_);
 	target->getLife().setRotation(rotation);
 	target->setBorder(border_);
 	target->newGame();
@@ -212,7 +215,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 		target->setRenderer(
 			new TargetRendererImplTargetModel(
 				target, modelId_, modelburntId_,
-				finalModelScale, finalBrightness));
+				finalModelScale.asFloat(), finalBrightness.asFloat()));
 	}
 #endif // #ifndef S3D_SERVER
 

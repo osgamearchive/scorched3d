@@ -170,19 +170,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\actions\Animation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\actions\Animation.h"
-				>
-			</File>
-			<File
 				RelativePath="..\actions\CallbackWeapon.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\actions\CallbackWeapon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\actions\CameraPositionAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\actions\CameraPositionAction.h"
 				>
 			</File>
 			<File
@@ -451,6 +451,30 @@
 			</File>
 			<File
 				RelativePath="..\common\FileLogger.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\fixed.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\fixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector4.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\FixedVector4.h"
 				>
 			</File>
 			<File
@@ -970,14 +994,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\server\ServerPlayerAimHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\server\ServerPlayerAimHandler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\server\ServerPlayerReadyHandler.cpp"
 				>
 			</File>
@@ -1350,14 +1366,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsPlayerAimMessage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\coms\ComsPlayerReadyMessage.cpp"
 				>
 			</File>
@@ -1419,14 +1427,6 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsSyncCheckMessage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTargetStateMessage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\coms\ComsTargetStateMessage.h"
 				>
 			</File>
 			<File
@@ -2426,11 +2426,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\target\TargetGroupEntry.cpp"
+				RelativePath="..\target\TargetGroup.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\target\TargetGroupEntry.h"
+				RelativePath="..\target\TargetGroup.h"
 				>
 			</File>
 			<File
@@ -3306,27 +3306,11 @@
 			Name="movement"
 			>
 			<File
-				RelativePath="..\movement\Boid.cpp"
+				RelativePath="..\movement\Boid2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\movement\Boid.h"
-				>
-			</File>
-			<File
-				RelativePath="..\movement\BoidsObstacle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\movement\BoidsObstacle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\movement\BoidVector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\movement\BoidVector.h"
+				RelativePath="..\movement\Boid2.h"
 				>
 			</File>
 			<File

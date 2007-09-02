@@ -103,7 +103,7 @@ void TargetMovement::addMovementType(ScorchedContext &context,
 	}
 }
 
-void TargetMovement::simulate(float frameTime)
+void TargetMovement::simulate(fixed frameTime)
 {
 	std::vector<TargetMovementEntry *>::iterator itor;
 	for (itor = movements_.begin();
@@ -111,7 +111,7 @@ void TargetMovement::simulate(float frameTime)
 		itor++)
 	{
 		TargetMovementEntry *movementEntry = *itor;
-		movementEntry->simulate(frameTime * 20.0f);
+		movementEntry->simulate(frameTime * 20);
 	}
 }
 

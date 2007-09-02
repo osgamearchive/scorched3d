@@ -75,7 +75,7 @@ void ExplosionLaserBeamRenderer::init(unsigned int playerId,
 			10.0f, 0.9f, // Life
 			0.5f, 9.5f, // Mass
 			0.0f, 0.0f, // Friction
-			Vector::nullVector, Vector::nullVector, // Velocity
+			Vector::getNullVector(), Vector::getNullVector(), // Velocity
 			Vector(0.9f, 0.9f, 0.1f), 0.9f, // StartColor1
 			Vector(0.9f, 0.9f, 0.1f), 0.1f, // StartColor2
 			Vector(0.6f, 0.6f, 0.95f), 0.0f, // EndColor1

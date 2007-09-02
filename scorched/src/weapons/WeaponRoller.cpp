@@ -33,9 +33,9 @@
 REGISTER_ACCESSORY_SOURCE(WeaponRoller);
 
 WeaponRoller::WeaponRoller() : 
-	shieldHurtFactor_(0.0f), windFactor_(1.0f), 
+	shieldHurtFactor_(0), windFactor_(1), 
 	maintainVelocity_(false), roll_(true),
-	dampenVelocityExp_(1.0f)
+	dampenVelocityExp_(1)
 {
 
 }
@@ -89,23 +89,23 @@ bool WeaponRoller::parseXML(AccessoryCreateContext &context, XMLNode *accessoryN
 	return true;
 }
 
-float WeaponRoller::getWindFactor(ScorchedContext &context)
+fixed WeaponRoller::getWindFactor(ScorchedContext &context)
 {
 	return windFactor_;
 }
 
-float WeaponRoller::getTime(ScorchedContext &context)
+fixed WeaponRoller::getTime(ScorchedContext &context)
 {
 	return timeExp_.getValue(context);
 }
 
-float WeaponRoller::getShieldHurtFactor(ScorchedContext &context)
+fixed WeaponRoller::getShieldHurtFactor(ScorchedContext &context)
 {
 	return shieldHurtFactor_;
 }
 
 void WeaponRoller::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &oldposition, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &oldposition, FixedVector &velocity)
 {
 	// Get the values from the numberparser expressions
 	// leaving time in the sim loop so that individual rollers can
@@ -117,13 +117,13 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 
 	dampenVelocity_ = dampenVelocityExp_.getValue(context, dampenVelocity_);
 
-	float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+	fixed minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
 		oldposition[0], oldposition[1]);
 
 	// Make sure position is not underground
 	if (oldposition[2] < minHeight)
 	{
-		if (minHeight - oldposition[2] > 10.0f) // Give room for shields as well
+		if (minHeight - oldposition[2] > 10) // Give room for shields as well
 		{
 			return;
 		}
@@ -133,23 +133,23 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 	int numberRollers = numberRollers_.getUInt(context);
 	for (int i=0; i<numberRollers; i++)
 	{
-		Vector position = oldposition;
-		position[2] += 1.5f;
+		FixedVector position = oldposition;
+		position[2] += fixed(true, 1500);
 		
 		// Make a slightly different starting position
-		position[0] += random.getRandFloat() * 2.0f - 1.0f;
-		position[1] += random.getRandFloat() * 2.0f - 1.0f;
-		float minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
-			position[0], position[1]) + 1.0f;
+		position[0] += random.getRandFixed() * 2 - 1;
+		position[1] += random.getRandFixed() * 2 - 1;
+		fixed minHeight = context.landscapeMaps->getGroundMaps().getInterpHeight(
+			position[0], position[1]) + 1;
 		if (position[2] < minHeight) position[2] = minHeight;
 				
 		// Check if we have hit the roof (quite litteraly)
 		{
-			float maxHeight = context.landscapeMaps->getRoofMaps().getInterpRoofHeight(
-				position[0] / 4.0f, position[1] / 4.0f);
-			if (position[2] > maxHeight - 1.0f)
+			fixed maxHeight = context.landscapeMaps->getRoofMaps().getInterpRoofHeight(
+				position[0] / 4, position[1] / 4);
+			if (position[2] > maxHeight - 1)
 			{
-				position[2] = maxHeight - 1.0f;
+				position[2] = maxHeight - 1;
 			}
 		}
 
@@ -166,18 +166,18 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 				itor++)
 			{
 				Target *current = (*itor).second;
-				Vector &tankPos = 
+				FixedVector &tankPos = 
 					current->getLife().getTargetPosition();
 				Accessory *accessory = 
 					current->getShield().getCurrentShield();
 				if (accessory)
 				{
 					Shield *shield = (Shield *) accessory->getAction();
-					Vector offset = position - tankPos;
+					FixedVector offset = position - tankPos;
 					if (shield->inShield(offset))
 					{
 						ok = false;
-						position[2] += 1.0f;
+						position[2] += 1;
 					}
 				}
 			}
@@ -189,7 +189,7 @@ void WeaponRoller::fireWeapon(ScorchedContext &context,
 
 void WeaponRoller::addRoller(ScorchedContext &context,
 	WeaponFireContext &weaponContext,
-	Vector &position, Vector &velocity)
+	FixedVector &position, FixedVector &velocity)
 {
 	// Ensure that the Roller has not hit the walls
 	// or anything outside the landscape
@@ -198,16 +198,16 @@ void WeaponRoller::addRoller(ScorchedContext &context,
 		position[0] < context.landscapeMaps->getGroundMaps().getMapWidth() - 1 &&
 		position[1] < context.landscapeMaps->getGroundMaps().getMapHeight() - 1)
 	{
-		Vector newVelocity;
+		FixedVector newVelocity;
 		if (maintainVelocity_)
 		{
 			newVelocity = velocity * dampenVelocity_;
 		}
 		else
 		{
-			newVelocity[0] = random.getRandFloat() - 0.5f;
-			newVelocity[1] = random.getRandFloat() - 0.5f;
-			newVelocity[2] = random.getRandFloat() * 2.0f;
+			newVelocity[0] = random.getRandFixed() - fixed(true, 5000);
+			newVelocity[1] = random.getRandFixed() - fixed(true, 5000);
+			newVelocity[2] = random.getRandFixed() * 2;
 		}
 		
 		context.actionController->addAction(

@@ -39,19 +39,9 @@ NumberParser::NumberParser()
 
 }
 
-NumberParser::NumberParser(const char *expression)
+NumberParser::NumberParser(fixed value)
 {
-        expression_ = expression;
-}
-
-NumberParser::NumberParser(float value)
-{
-        this->setExpression(value);
-}
-
-NumberParser::NumberParser(int value)
-{
-        this->setExpression(value);
+	this->setExpression(value);
 }
 
 NumberParser::~NumberParser()
@@ -70,7 +60,7 @@ bool NumberParser::getOperands()
 	if (pos == std::string::npos)
 	{
 		//value = expression_.substr(pos + 1, nextPos - pos + 1);
-		operands_.push_back((float) atof(expression_.c_str()));
+		operands_.push_back(fixed(expression_.c_str()));
 		return true;
 	}
 
@@ -81,7 +71,7 @@ bool NumberParser::getOperands()
                 if (nextPos == std::string::npos)
                         nextPos = expression_.length() -1;
                 value = expression_.substr(pos, nextPos - pos);
-                operands_.push_back((float) atof(value.c_str()));
+                operands_.push_back(fixed(value.c_str()));
                 pos = nextPos + 1;
         }
         return true;
@@ -90,43 +80,31 @@ bool NumberParser::getOperands()
 
 bool NumberParser::setExpression(const char *expression)
 {
-        expression_ = expression;
-        // test to ensure it's valid! TODO
+	expression_ = expression;
+	// test to ensure it's valid! TODO
 	this->getOperands();
-        return true;
+
+	return true;
 }
 
-bool NumberParser::setExpression(int value)
+bool NumberParser::setExpression(fixed value)
 {
-        std::ostringstream convert;
-        if (!(convert << value))
-                return false;
-        expression_ = convert.str();
-	this->getOperands();
-        return true;
-}
-
-bool NumberParser::setExpression(float value)
-{
-        std::ostringstream convert;
-        if (!(convert << value))
-                return false;
-        expression_ = convert.str();
+	expression_ = value.asString();
 	this->getOperands();
 
-        return true;
+	return true;
 }
 
-float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &generator)
+fixed NumberParser::getValue(ScorchedContext &context) //RandomGenerator &generator)
 {
         // Examples: 10, RANGE(1,10)
-        float value = 0;
+        fixed value = 0;
         // Constant
         if (operands_.size() == 1)
                 return operands_.front();
 
         step_ = 0;
-        std::list<float>::iterator itor;
+        std::list<fixed>::iterator itor;
         itor = operands_.begin();
         RandomGenerator &random = context.actionController->getRandom();
 
@@ -138,9 +116,9 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
                         step_ = *(++itor);
 
                 if (step_ == 0)
-                        value = random.getRandFloat() * (max_ - min_) + min_;
+                        value = random.getRandFixed() * (max_ - min_) + min_;
                 else
-                        value = float((int(random.getRandFloat() * (max_ - min_) /  step_ )) * step_) + min_;
+					value = fixed(((random.getRandFixed() * (max_ - min_) /  step_ ).asInt()) * step_.asInt()) + min_;
                 return value;
         }
 
@@ -150,20 +128,20 @@ float NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
         		dialogExit("NumberParser.cpp",
 		                formatString("Invalid DISTRIBUTION expression: \"%s\"",
 				expression_.c_str()));
-                int operandNo = int(random.getRandFloat() * float(operands_.size()));
+				int operandNo = (random.getRandFixed() * fixed(operands_.size())).asInt();
                 for (int i = 0; i <= operandNo; i++) itor++;
                 value = *itor;
                 return value;
         }
 
         dialogExit("NumberParser.cpp",
-	        formatString("Invalid float expression: \"%s\"",
+	        formatString("Invalid fixed expression: \"%s\"",
                 expression_.c_str()));
 	return false;  // VC++ complains
 }
 
 // Allow for default values to be passed along for optional attributes
-float NumberParser::getValue(ScorchedContext &context, float defaultValue)
+fixed NumberParser::getValue(ScorchedContext &context, fixed defaultValue)
 {
 	if (expression_.size() == 0)
 		this->setExpression(defaultValue);
@@ -173,50 +151,13 @@ float NumberParser::getValue(ScorchedContext &context, float defaultValue)
 
 unsigned int NumberParser::getUInt(ScorchedContext &context)
 {
-	unsigned int value = 0;
-	// Constant
-	if (operands_.size() == 1)
-		return (unsigned int) operands_.front();
-	
-	step_ = 0;
-	std::list<float>::iterator itor;
-	itor = operands_.begin();
-
-	RandomGenerator &random = context.actionController->getRandom();
-
-	if (expression_.find("RANGE",0) != std::string::npos)
-	{
-		min_ = *itor; 
-		max_ = *(++itor); 
-		if (operands_.size() >= 3)
-			step_ = *(++itor);
-		
-		if (step_ == 0)
-			value = random.getRandUInt() % (int) (max_ - min_) + (int) min_;
-		else
-			value = random.getRandUInt() % ((int) (max_ - min_)) / (int) step_ * (int) step_  + (int) min_;
-
-		return (unsigned int) value;
-	}
-	else if (expression_.find("DISTRIBUTION",0) != std::string::npos)
-	{
-		if (operands_.size() < 2)
-			dialogExit("NumberParser.cpp",
-				formatString("Invalid integer expression: \"%s\"",
-				expression_.c_str()));
-
-		int operandNo = random.getRandUInt() % operands_.size();
-		for (int i = 0; i <= operandNo; i++) itor++;
-		return (unsigned int) *itor;
-	}
-	dialogExit("NumberParser.cpp",
-		formatString("Invalid integer expression: \"%s\"",
-		expression_.c_str()));
-	return false;  // VC++ complains
+	fixed result = getValue(context);
+	return result.asInt();
 }
 
 int NumberParser::getInt(ScorchedContext &context)
 {
-	return (int) (this->getValue(context) + 0.5f);
+	fixed result = getValue(context);
+	return result.asInt();
 }
 

@@ -20,9 +20,11 @@
 
 #include <weapons/WeaponAnimation.h>
 #include <weapons/Accessory.h>
-#include <actions/Animation.h>
 #include <engine/ActionController.h>
 #include <common/Defines.h>
+#ifndef S3D_SERVER
+#include <sprites/MetaActionRenderer.h>
+#endif
 
 REGISTER_ACCESSORY_SOURCE(WeaponAnimation);
 
@@ -57,11 +59,27 @@ bool WeaponAnimation::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 }
 
 void WeaponAnimation::fireWeapon(ScorchedContext &context,
-	WeaponFireContext &weaponContext, Vector &position, Vector &velocity)
+	WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity)
 {
-	context.actionController->addAction(
-		new Animation(weaponContext.getPlayerId(), 
-			position, velocity,
-			rendererName_.c_str(), 
-			data_.c_str()));
+
+#ifndef S3D_SERVER
+	if (!context.serverMode)
+	{
+		MetaActionRenderer *renderer = (MetaActionRenderer *) 
+			MetaClassRegistration::getNewClass(rendererName_.c_str());
+
+		if (renderer)
+		{
+			renderer->init(weaponContext.getPlayerId(), 
+				position.asVector(), velocity.asVector(), data_.c_str());
+			context.actionController->addAction(new SpriteAction(renderer));
+		}
+		else
+		{
+			dialogMessage("Animation", formatString(
+						  "No renderer named \"%s\"",
+						  rendererName_.c_str()));
+		}
+	}
+#endif // #ifndef S3D_SERVER
 }

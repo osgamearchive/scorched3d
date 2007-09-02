@@ -79,10 +79,8 @@ void ServerState::setupStates(GameState &gameState)
 	gameState.addStateStimulus(ServerStateNewGame, 
 		ServerStimulusNewGameReady, ServerStateNewGameReady);
 
-	ServerShotState *serverShot = new ServerShotState();
-
 	// ServerStateNewGameReady
-	ServerReadyState *serverNewGameReady = new ServerReadyState(serverShot);
+	ServerReadyState *serverNewGameReady = new ServerReadyState();
 #ifdef S3D_SERVER
 	// Only required on the server.
 	// For client games, there will only be one client waiting
@@ -157,6 +155,7 @@ void ServerState::setupStates(GameState &gameState)
 		serverBuying, ServerStateNextTurn);
 
 	// ServerStateShot
+	ServerShotState *serverShot = new ServerShotState();
 	gameState.addStateLoop(ServerStateShot, &dummyLoop_, 
 		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateShot,
@@ -165,7 +164,7 @@ void ServerState::setupStates(GameState &gameState)
 		serverShot, ServerStateShotReady);
 
 	// ServerStateShotReady
-	ServerReadyState *serverShotReady = new ServerReadyState(serverShot);
+	ServerReadyState *serverShotReady = new ServerReadyState();
 	gameState.addStateLoop(ServerStateShotReady, &dummyLoop_, 
 		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateShotReady,
@@ -174,7 +173,7 @@ void ServerState::setupStates(GameState &gameState)
 		serverShotReady, ServerStateShotFinished);
 
 	// ServerStateShotFinished
-	ServerShotFinishedState *serverShotFinished = new ServerShotFinishedState();
+	ServerShotFinishedState *serverShotFinished = new ServerShotFinishedState(serverShot);
 	gameState.addStateLoop(ServerStateShotFinished, &dummyLoop_, 
 		&ScorchedServer::instance()->getActionController());
 	gameState.addStateEntry(ServerStateShotFinished,

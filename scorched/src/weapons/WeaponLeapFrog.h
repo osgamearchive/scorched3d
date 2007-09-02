@@ -36,7 +36,7 @@ public:
 
 	// Inherited from Weapon
 	virtual void fireWeapon(ScorchedContext &context,
-		WeaponFireContext &weaponContext, Vector &position, Vector &velocity);
+		WeaponFireContext &weaponContext, FixedVector &position, FixedVector &velocity);
 
 	REGISTER_ACCESSORY_HEADER(WeaponLeapFrog, AccessoryPart::AccessoryWeapon);
 

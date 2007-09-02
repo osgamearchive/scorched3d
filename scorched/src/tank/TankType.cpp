@@ -116,7 +116,7 @@ const char *TankType::getDescription()
 	return formatString(
 		"Life : %.0f\n"
 		"Power : %.0f%s",
-		getLife(),
-		getPower(),
+		getLife().asFloat(),
+		getPower().asFloat(),
 		accessoryBuffer.c_str());		
 }
