@@ -38,11 +38,12 @@ public:
 protected:
 	struct EventEntry
 	{
+		LandscapeEvent *event;
 		fixed eventTime;
 		int eventNumber;
 	};
 
-	std::map<LandscapeEvent *, EventEntry> events_;
+	std::vector<EventEntry> events_;
 
 	void addEvent(ScorchedContext &context, 
 		std::vector<LandscapeEvent *> &events);

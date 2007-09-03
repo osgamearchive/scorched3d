@@ -78,20 +78,21 @@ void EventContainer::addEvent(ScorchedContext &context,
 		entry.eventNumber = 0;
 		entry.eventTime = 
 			event->condition->getNextEventTime(context, ++entry.eventNumber);
-		events_[event] = entry;
+		entry.event = event;
+		events_.push_back(entry);
 	}
 }
 
 void EventContainer::simulate(fixed frameTime, ScorchedContext &context)
 {
-	std::map<LandscapeEvent *, EventEntry>::iterator itor;
+	std::vector<EventEntry>::iterator itor;
 	for (itor = events_.begin();
 		itor != events_.end();
 		itor++)
 	{
-		LandscapeEvent *event = (*itor).first;
-		EventEntry &entry = (*itor).second;
+		EventEntry &entry = (*itor);
 		
+		LandscapeEvent *event = entry.event;
 		entry.eventTime -= frameTime;
 		if (event->condition->fireEvent(context, 
 			entry.eventTime, entry.eventNumber))
