@@ -3,8 +3,6 @@ bin_PROGRAMS = scorched3dc
 scorched3dc_SOURCES = \
 	../actions/AddTarget.cpp \
 	../actions/AddTarget.h \
-	../actions/Animation.cpp \
-	../actions/Animation.h \
 	../actions/CallbackWeapon.cpp \
 	../actions/CallbackWeapon.h \
 	../actions/CameraPositionAction.cpp \
@@ -82,6 +80,12 @@ scorched3dc_SOURCES = \
 	../common/FileList.h \
 	../common/FileLogger.cpp \
 	../common/FileLogger.h \
+	../common/fixed.cpp \
+	../common/fixed.h \
+	../common/FixedVector.cpp \
+	../common/FixedVector.h \
+	../common/FixedVector4.cpp \
+	../common/FixedVector4.h \
 	../common/ImageID.cpp \
 	../common/ImageID.h \
 	../common/Keyboard.cpp \
@@ -209,8 +213,6 @@ scorched3dc_SOURCES = \
 	../server/ServerParams.h \
 	../server/ServerPlayedMoveHandler.cpp \
 	../server/ServerPlayedMoveHandler.h \
-	../server/ServerPlayerAimHandler.cpp \
-	../server/ServerPlayerAimHandler.h \
 	../server/ServerPlayerReadyHandler.cpp \
 	../server/ServerPlayerReadyHandler.h \
 	../server/ServerPlayingState.cpp \
@@ -303,8 +305,6 @@ scorched3dc_SOURCES = \
 	../coms/ComsNewGameMessage.h \
 	../coms/ComsPlayedMoveMessage.cpp \
 	../coms/ComsPlayedMoveMessage.h \
-	../coms/ComsPlayerAimMessage.cpp \
-	../coms/ComsPlayerAimMessage.h \
 	../coms/ComsPlayerReadyMessage.cpp \
 	../coms/ComsPlayerReadyMessage.h \
 	../coms/ComsPlayerStateMessage.cpp \
@@ -321,8 +321,6 @@ scorched3dc_SOURCES = \
 	../coms/ComsStartGameMessage.h \
 	../coms/ComsSyncCheckMessage.cpp \
 	../coms/ComsSyncCheckMessage.h \
-	../coms/ComsTargetStateMessage.cpp \
-	../coms/ComsTargetStateMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
 	../net/NetBuffer.cpp \
@@ -417,8 +415,6 @@ scorched3dc_SOURCES = \
 	../engine/ScorchedContext.h \
 	../engine/ShotState.cpp \
 	../engine/ShotState.h \
-	../engine/SyncCheck.cpp \
-	../engine/SyncCheck.h \
 	../engine/ViewPoints.cpp \
 	../engine/ViewPoints.h \
 	../landscapedef/LandscapeDefinition.cpp \
@@ -574,8 +570,8 @@ scorched3dc_SOURCES = \
 	../target/TargetDamageCalc.h \
 	../target/TargetDefinition.cpp \
 	../target/TargetDefinition.h \
-	../target/TargetGroupEntry.cpp \
-	../target/TargetGroupEntry.h \
+	../target/TargetGroup.cpp \
+	../target/TargetGroup.h \
 	../target/TargetLife.cpp \
 	../target/TargetLife.h \
 	../target/TargetParachute.cpp \
@@ -870,14 +866,10 @@ scorched3dc_SOURCES = \
 	../client/ClientNewGameHandler.h \
 	../client/ClientParams.cpp \
 	../client/ClientParams.h \
-	../client/ClientPlayerAimHandler.cpp \
-	../client/ClientPlayerAimHandler.h \
 	../client/ClientPlayerStateHandler.cpp \
 	../client/ClientPlayerStateHandler.h \
 	../client/ClientPlayerStatusHandler.cpp \
 	../client/ClientPlayerStatusHandler.h \
-	../client/ClientPlayMovesHandler.cpp \
-	../client/ClientPlayMovesHandler.h \
 	../client/ClientRmPlayerHandler.cpp \
 	../client/ClientRmPlayerHandler.h \
 	../client/ClientSave.cpp \
@@ -894,8 +886,6 @@ scorched3dc_SOURCES = \
 	../client/ClientState.h \
 	../client/ClientSyncCheckHandler.cpp \
 	../client/ClientSyncCheckHandler.h \
-	../client/ClientTargetStateHandler.cpp \
-	../client/ClientTargetStateHandler.h \
 	../client/ClientWaitState.cpp \
 	../client/ClientWaitState.h \
 	../client/ClientWindowSetup.cpp \
@@ -1298,12 +1288,8 @@ scorched3dc_SOURCES = \
 	../sound/VirtualSoundPriority.h \
 	../sound/VirtualSoundSource.cpp \
 	../sound/VirtualSoundSource.h \
-	../movement/Boid.cpp \
-	../movement/Boid.h \
-	../movement/BoidsObstacle.cpp \
-	../movement/BoidsObstacle.h \
-	../movement/BoidVector.cpp \
-	../movement/BoidVector.h \
+	../movement/Boid2.cpp \
+	../movement/Boid2.h \
 	../movement/TargetMovement.cpp \
 	../movement/TargetMovement.h \
 	../movement/TargetMovementEntry.cpp \

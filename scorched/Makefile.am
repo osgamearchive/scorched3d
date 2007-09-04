@@ -1550,7 +1550,9 @@ scorcheddataglobalmodsapocdatawindowsdir = ${datadir}/data/globalmods/apoc/data/
 scorcheddataglobalmodsapocdatawindows_DATA = data/globalmods/apoc/data/windows/diff.bmp \
 	data/globalmods/apoc/data/windows/nuke-hard.bmp \
 	data/globalmods/apoc/data/windows/player.bmp \
+	data/globalmods/apoc/data/windows/scorched.jpg \
 	data/globalmods/apoc/data/windows/playera.bmp \
+	data/globalmods/apoc/data/windows/scorcheda.jpg \
 	data/globalmods/apoc/data/windows/wait.bmp \
 	data/globalmods/apoc/data/windows/weapon.bmp \
 	data/globalmods/apoc/data/windows/nuke-easy.bmp \

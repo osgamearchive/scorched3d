@@ -49,6 +49,10 @@ scorched3d_SOURCES = \
 	../common/FileLines.h \
 	../common/FileList.cpp \
 	../common/FileList.h \
+	../common/fixed.cpp \
+	../common/fixed.h \
+	../common/FixedVector.cpp \
+	../common/FixedVector.h \
 	../common/Keyboard.cpp \
 	../common/Keyboard.h \
 	../common/KeyboardHistory.h \

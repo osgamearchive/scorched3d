@@ -3,10 +3,10 @@ bin_PROGRAMS = scorched3ds
 scorched3ds_SOURCES = \
 	../actions/AddTarget.cpp \
 	../actions/AddTarget.h \
-	../actions/Animation.cpp \
-	../actions/Animation.h \
 	../actions/CallbackWeapon.cpp \
 	../actions/CallbackWeapon.h \
+	../actions/CameraPositionAction.cpp \
+	../actions/CameraPositionAction.h \
 	../actions/Explosion.cpp \
 	../actions/Explosion.h \
 	../actions/Laser.cpp \
@@ -72,6 +72,12 @@ scorched3ds_SOURCES = \
 	../common/FileList.h \
 	../common/FileLogger.cpp \
 	../common/FileLogger.h \
+	../common/fixed.cpp \
+	../common/fixed.h \
+	../common/FixedVector.cpp \
+	../common/FixedVector.h \
+	../common/FixedVector4.cpp \
+	../common/FixedVector4.h \
 	../common/ImageID.cpp \
 	../common/ImageID.h \
 	../common/Keyboard.cpp \
@@ -200,8 +206,6 @@ scorched3ds_SOURCES = \
 	../server/ServerParams.h \
 	../server/ServerPlayedMoveHandler.cpp \
 	../server/ServerPlayedMoveHandler.h \
-	../server/ServerPlayerAimHandler.cpp \
-	../server/ServerPlayerAimHandler.h \
 	../server/ServerPlayerReadyHandler.cpp \
 	../server/ServerPlayerReadyHandler.h \
 	../server/ServerPlayingState.cpp \
@@ -294,8 +298,6 @@ scorched3ds_SOURCES = \
 	../coms/ComsNewGameMessage.h \
 	../coms/ComsPlayedMoveMessage.cpp \
 	../coms/ComsPlayedMoveMessage.h \
-	../coms/ComsPlayerAimMessage.cpp \
-	../coms/ComsPlayerAimMessage.h \
 	../coms/ComsPlayerReadyMessage.cpp \
 	../coms/ComsPlayerReadyMessage.h \
 	../coms/ComsPlayerStateMessage.cpp \
@@ -312,8 +314,6 @@ scorched3ds_SOURCES = \
 	../coms/ComsStartGameMessage.h \
 	../coms/ComsSyncCheckMessage.cpp \
 	../coms/ComsSyncCheckMessage.h \
-	../coms/ComsTargetStateMessage.cpp \
-	../coms/ComsTargetStateMessage.h \
 	../coms/ComsTimerStartMessage.cpp \
 	../coms/ComsTimerStartMessage.h \
 	../net/NetBuffer.cpp \
@@ -555,8 +555,8 @@ scorched3ds_SOURCES = \
 	../target/TargetDamageCalc.h \
 	../target/TargetDefinition.cpp \
 	../target/TargetDefinition.h \
-	../target/TargetGroupEntry.cpp \
-	../target/TargetGroupEntry.h \
+	../target/TargetGroup.cpp \
+	../target/TargetGroup.h \
 	../target/TargetLife.cpp \
 	../target/TargetLife.h \
 	../target/TargetParachute.cpp \
@@ -770,12 +770,8 @@ scorched3ds_SOURCES = \
 	../3dsparse/TreeModelFactory.h \
 	../3dsparse/Vertex.cpp \
 	../3dsparse/Vertex.h \
-	../movement/Boid.cpp \
-	../movement/Boid.h \
-	../movement/BoidsObstacle.cpp \
-	../movement/BoidsObstacle.h \
-	../movement/BoidVector.cpp \
-	../movement/BoidVector.h \
+	../movement/Boid2.cpp \
+	../movement/Boid2.h \
 	../movement/TargetMovement.cpp \
 	../movement/TargetMovement.h \
 	../movement/TargetMovementEntry.cpp \
