@@ -117,6 +117,7 @@ Added: Servers with stats support with always give the same players the same pla
 Added: Players that are muted and then leave and rejoin are still muted when stats support is enabled
 Added: WeaponPosition primitive to set explicit position of an accessory
 Added: Apply button to sound dialog
+Added: Most dirt weapons cannot create more dirt when underground (optional)
 
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

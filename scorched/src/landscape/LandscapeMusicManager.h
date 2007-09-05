@@ -36,18 +36,27 @@ public:
 	virtual void simulate(const unsigned state, float simTime);
 
 	void addMusics();
-	void removeAllMusic();
 
 protected:
-	std::vector<LandscapeMusicType *> globalMusics_;
-	std::map<LandscapeMusicType::PlayState, LandscapeMusicType *> stateMusic_;
-	std::string currentMusicFile_;
-	float currentGain_;
-	VirtualSoundSource *currentSource_;
+	struct MusicStateEntry
+	{
+		std::string file;
+		float gain;
+	};
+	struct MusicPlayingEntry
+	{
+		std::string file;
+		float currentGain;
+		VirtualSoundSource *currentSource;
+	};
+
+	std::map<LandscapeMusicType::PlayState, MusicStateEntry> stateMusic_;
+	std::list<MusicPlayingEntry *> currentMusic_;
 
 	void readGlobalMusicFile();
 	void addMusic(std::vector<LandscapeInclude *> &musics);
 	void addMusicTypes(std::vector<LandscapeMusicType *> &musics);
+	void addMusicType(LandscapeMusicType *music);
 
 private:
 	LandscapeMusicManager();

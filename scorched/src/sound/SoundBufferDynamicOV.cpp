@@ -24,7 +24,7 @@
 
 #ifdef HAVE_OGG
 
-#define BUFFER_SIZE (4096 * 50)
+#define BUFFER_SIZE (1024 * 1024)
 
 SoundBufferDynamicOVSourceInstance::SoundBufferDynamicOVSourceInstance(
 	unsigned int source, const char *fileName) :
@@ -121,7 +121,7 @@ void SoundBufferDynamicOVSourceInstance::simulate(bool repeat)
 
 bool SoundBufferDynamicOVSourceInstance::addDataToBuffer(unsigned int buffer, bool loop)
 {
-    char data[BUFFER_SIZE];    
+    static char data[BUFFER_SIZE];    
 	int size = 0;    
 	int section;    
 	int result;     

@@ -36,8 +36,7 @@ LandscapeMusicManager *LandscapeMusicManager::instance()
 }
 
 LandscapeMusicManager::LandscapeMusicManager() : 
-	GameStateI("LandscapeMusicManager"),
-	currentSource_(0), currentGain_(0.0f)
+	GameStateI("LandscapeMusicManager")
 {
 	addMusics();
 }
@@ -48,12 +47,11 @@ LandscapeMusicManager::~LandscapeMusicManager()
 
 void LandscapeMusicManager::addMusics()
 {
-	removeAllMusic();
+	stateMusic_.clear();
 	
 	// Read in the global music defaults
 	// Do this first so that levels can override the music if required
 	readGlobalMusicFile();
-	addMusicTypes(globalMusics_);
 
 	// Load in the per level music
 	LandscapeDefn *defn = 
@@ -81,23 +79,21 @@ void LandscapeMusicManager::readGlobalMusicFile()
 			file.getParserError()));
 	}
 
-	// Clear the last set of globalmusics
-	globalMusics_.clear();
-
 	// just return for an empty file
 	if (!file.getRootNode()) return;
 
 	XMLNode *musicNode = 0;
 	while (file.getRootNode()->getNamedChild("music", musicNode, false))
 	{
-		LandscapeMusicType *musicType = new LandscapeMusicType();
-		if (!musicType->readXML(musicNode))
+		LandscapeMusicType musicType;
+		musicType.playstates.clear();
+		if (!musicType.readXML(musicNode))
 		{
 			dialogExit("Scorched3D", formatString(
 				"ERROR: Failed to parse music file \"%s\"\n",
 				filePath));
 		}
-		globalMusics_.push_back(musicType);
+		addMusicType(&musicType);
 	}
 }
 
@@ -121,20 +117,24 @@ void LandscapeMusicManager::addMusicTypes(std::vector<LandscapeMusicType *> &mus
 		itor++)
 	{
 		LandscapeMusicType *music = (*itor);
-		std::vector<LandscapeMusicType::PlayState>::iterator stateitor;
-		for (stateitor = music->playstates.begin();
-			stateitor != music->playstates.end();
-			stateitor++)
-		{
-			LandscapeMusicType::PlayState playState = (*stateitor);
-			stateMusic_[playState] = music;
-		}
+		addMusicType(music);
 	}
 }
 
-void LandscapeMusicManager::removeAllMusic()
+void LandscapeMusicManager::addMusicType(LandscapeMusicType *music)
 {
-	stateMusic_.clear();
+	std::vector<LandscapeMusicType::PlayState>::iterator stateitor;
+	for (stateitor = music->playstates.begin();
+		stateitor != music->playstates.end();
+		stateitor++)
+	{
+		LandscapeMusicType::PlayState playState = (*stateitor);
+
+		MusicStateEntry stateEntry;
+		stateEntry.file = music->file;
+		stateEntry.gain = music->gain;
+		stateMusic_[playState] = stateEntry;
+	}
 }
 
 void LandscapeMusicManager::simulate(const unsigned state, float simTime)
@@ -174,64 +174,103 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 	}
 
 	// Find which music entry we should be playing in this state
-	std::string wantedMusicFile;
-	float wantedGain = 0.0f;
+	MusicStateEntry *wantedEntry = 0;
 	if (!OptionsDisplay::instance()->getNoMusic())
 	{
-		std::map<LandscapeMusicType::PlayState, LandscapeMusicType *>::iterator findItor =
+		std::map<LandscapeMusicType::PlayState, MusicStateEntry>::iterator findItor =
 			stateMusic_.find(playState);
 		if (findItor != stateMusic_.end())
 		{
-			wantedMusicFile = (*findItor).second->file;	
-			wantedGain = (*findItor).second->gain *
-				float(OptionsDisplay::instance()->getMusicVolume()) / 128.0f;
+			wantedEntry = &(*findItor).second;				
 		}
 	}
 
-	// Check if this is different from the currently playing music
-	// If its the same music then there is nothing to do
-	if (currentMusicFile_ == wantedMusicFile)
+	// Find if we are currently playing this music
+	bool found = false;
+	std::list<MusicPlayingEntry *> remove;
+	std::list<MusicPlayingEntry *>::iterator itor;
+	for (itor = currentMusic_.begin();
+		itor != currentMusic_.end();
+		itor++)
 	{
-		// If we are playing the correct music, check that the
-		// current volume is correct
-		if (currentGain_ != wantedGain)
+		MusicPlayingEntry *playingEntry = *itor;
+
+		float wantedGain = 0;
+		if (wantedEntry &&
+			wantedEntry->file == playingEntry->file)
 		{
-			currentGain_ = wantedGain;
-			if (currentSource_) currentSource_->setGain(wantedGain);
+			found = true;
+			wantedGain = 
+				float(OptionsDisplay::instance()->getMusicVolume()) / 128.0f *
+				wantedEntry->gain;
 		}
-		return;
+		else
+		{
+			wantedGain = 0;
+			if (playingEntry->currentGain == 0)
+			{
+				remove.push_back(playingEntry);
+			}
+		}
+
+		if (playingEntry->currentGain < wantedGain)
+		{
+			playingEntry->currentGain += simTime * 0.2f;
+			playingEntry->currentGain = MIN(
+				wantedGain, 
+				playingEntry->currentGain);
+			playingEntry->currentSource->setGain(playingEntry->currentGain);
+		}
+		else if (playingEntry->currentGain > wantedGain)
+		{
+			playingEntry->currentGain -= simTime * 0.2f;
+			playingEntry->currentGain = MAX(
+				wantedGain, 
+				playingEntry->currentGain);
+			playingEntry->currentSource->setGain(playingEntry->currentGain);
+		}
 	}
 
-	// Stop the currently playing sound source (if any)
+	// Stop the finished playing sound sources (if any)
 	// Since the source is managed it will be automatically deleted once it has stopped
-	if (currentSource_)
+	for (itor = remove.begin();
+		itor != remove.end();
+		itor++)
 	{
-		currentSource_->stop();
-		delete currentSource_;
+		MusicPlayingEntry *playingEntry = *itor;
+		playingEntry->currentSource->stop();
+		delete playingEntry->currentSource;
+		currentMusic_.remove(playingEntry);
+		delete playingEntry;
 	}
 
-	// Update the state
-	currentSource_ = 0;
-	currentGain_ = wantedGain;
-	currentMusicFile_ = wantedMusicFile;
+	// Create the new sounds sources (if any)
+	if (!found && wantedEntry)
+	{
+		// Play the next set of music
+		// Load the next sound buffer
+		SoundBuffer *buffer = 
+			Sound::instance()->fetchOrCreateBuffer((char *)
+				getDataFile(wantedEntry->file.c_str()));
+		if (buffer)
+		{
+			// Start a new sound source
+			VirtualSoundSource *currentSource = new VirtualSoundSource(
+				VirtualSoundPriority::eMusic, // A high music priority
+				true, // Its a looping sound
+				false); // Its not automatically deleted when finished
 
-	// Check if this state wants any music
-	// If there is no music to play then there is nothing to do
-	if (currentMusicFile_.empty()) return;
+			// Add to currently playing
+			MusicPlayingEntry *playingEntry = new MusicPlayingEntry();
+			playingEntry->currentGain = 0;
+			playingEntry->currentSource = currentSource;
+			playingEntry->file = wantedEntry->file;
+			currentMusic_.push_back(playingEntry);
 
-	// Play the next set of music
-	// Load the next sound buffer
-	SoundBuffer *buffer = 
-		Sound::instance()->fetchOrCreateBuffer((char *)
-			getDataFile(currentMusicFile_.c_str()));
-	if (!buffer) return;
-
-	// Start a new sound source
-	currentSource_ = new VirtualSoundSource(
-		VirtualSoundPriority::eMusic, // A high music priority
-		true, // Its a looping sound
-		false); // Its not automatically deleted when finished
-	currentSource_->setGain(currentGain_);
-	currentSource_->setRelative();
-	currentSource_->play(buffer);
+			// Play it
+			playingEntry->currentSource->setGain(0);
+			playingEntry->currentSource->setRelative();
+			playingEntry->currentSource->play(buffer);
+		}
+	}
 }
