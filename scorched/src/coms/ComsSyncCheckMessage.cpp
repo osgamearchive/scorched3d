@@ -304,6 +304,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 				"");
 			if (!tmpTank->readMessage(reader)) return false;
 			tmpTank->getLife().setLife(0);
+			tmpTank->getState().setState(TankState::sDead);
 
 			if (different)
 			{
