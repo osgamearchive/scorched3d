@@ -133,6 +133,7 @@ public:
 	OPTIONBOOL_GETTER(PublishServer);
 	OPTIONBOOL_GETTER(ResidualPlayers);
 	OPTIONBOOL_GETTER(AutoSendSyncCheck);
+	OPTIONBOOL_GETTER(ActionSyncCheck);
 
 	OPTIONSTRING_GETTER(AuthHandler);
 	OPTIONBOOL_GETTER(RegisteredUserNames);

@@ -46,7 +46,9 @@ GLWToolTip::GLWToolTip() :
 	GameStateI("GLWToolTip"),
 	lastTip_(0), currentTip_(0),
 	timeDrawn_(0.0f), timeSeen_(0.0),
-	refreshTime_(100.0f)
+	refreshTime_(100.0f),
+	tipX_(0.0f), tipY_(0.0f),
+	tipW_(0.0f), tipH_(0.0f)
 {
 }
 

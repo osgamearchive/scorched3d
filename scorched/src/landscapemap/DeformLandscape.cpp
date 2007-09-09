@@ -36,7 +36,7 @@ bool DeformLandscape::deformLandscape(
 	ScorchedContext &context,
 	FixedVector &pos, fixed radius, bool down, DeformPoints &map)
 {
-	if (context.optionsGame->getAutoSendSyncCheck())
+	if (context.optionsGame->getActionSyncCheck())
 	{
 		context.actionController->addSyncCheck(
 			formatString("Deform : %li,%li,%li %li %s", 
@@ -58,6 +58,7 @@ bool DeformLandscape::deformLandscape(
 	{
 		for (int y=-iradius; y<=iradius; y++)
 		{
+			DIALOG_ASSERT(x+iradius<100 && y+iradius<100);
 			map.map[x+iradius][y+iradius] = fixed(-1);
 
 			FixedVector newPos(pos[0] + x, pos[1] + y, pos[2]);
@@ -139,7 +140,7 @@ void DeformLandscape::flattenArea(
 	ScorchedContext &context, FixedVector &tankPos, 
 	bool removeObjects, fixed size)
 {
-	if (context.optionsGame->getAutoSendSyncCheck())
+	if (context.optionsGame->getActionSyncCheck())
 	{
 		context.actionController->addSyncCheck(
 			formatString("Flatten : %li,%li,%li %li", 

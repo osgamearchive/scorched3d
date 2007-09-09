@@ -18,44 +18,28 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <string>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <common/Defines.h>
+#if !defined(__INCLUDE_ClientSaveScreenStateh_INCLUDE__)
+#define __INCLUDE_ClientSaveScreenStateh_INCLUDE__
 
-char *s3d_stristr(const char *x, const char *y)
+#include <engine/GameStateI.h>
+
+class ClientSaveScreenState : public GameStateI
 {
-	std::string newX(x);
-	std::string newY(y);
-	_strlwr((char *) newX.c_str());
-	_strlwr((char *) newY.c_str());
+public:
+	static ClientSaveScreenState *instance();
 
-	char *result = (char *) strstr(newX.c_str(), newY.c_str());
-	if (!result) return 0;
+	void saveScreen() { saveScreen_ = true; }
 
-	return (char *)(x + (result - newX.c_str()));
-}
+	// GameStateI
+	virtual void draw(const unsigned state);
 
-const char *formatStringList(const char *format, va_list ap)
-{
-	// A little fix to allow formatString to be used more than once in
-	// the same calling line.  Does waste 100K though :(
-	static char buffers[5][20048];
-	static int pos = 0;
-	char *buffer = buffers[pos++ % 5];
+protected:
+	static ClientSaveScreenState *instance_;
+	bool saveScreen_;
 
-	vsnprintf(buffer, 20048, format, ap);
-	return buffer;
-}
+private:
+	ClientSaveScreenState();
+	virtual ~ClientSaveScreenState();
+};
 
-const char *formatString(const char *file, ...)
-{
-	if (!file) return "";
-
-	va_list ap; 
-	va_start(ap, file); 
-	const char *result = formatStringList(file, ap);
-	va_end(ap); 
-
-	return result;
-}
+#endif

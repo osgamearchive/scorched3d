@@ -55,7 +55,7 @@ void AddTarget::simulate(fixed frameTime, bool &remove)
 		playerId, position_, FixedVector::getNullVector(), *context_, context_->actionController->getRandom());
 	context_->targetContainer->addTarget(target);
 
-	if (context_->optionsGame->getAutoSendSyncCheck())
+	if (context_->optionsGame->getActionSyncCheck())
 	{
 		context_->actionController->addSyncCheck(
 			formatString("AddTarget : %u %s %li,%li,%li", 

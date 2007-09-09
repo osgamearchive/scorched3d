@@ -58,7 +58,7 @@ GLWWindow::GLWWindow(const char *name, float w, float h,
 	needCentered_(true), showTitle_(false), 
 	disabled_(false), windowState_(states),
 	description_(description), toolTip_(name, description),
-	windowLevel_(100000)
+	initPosition_(false), windowLevel_(100000)
 {
 	setName(name);
 	getDrawPanel() = false;

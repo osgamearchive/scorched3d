@@ -117,7 +117,7 @@ void Teleport::simulate(fixed frameTime, bool &remove)
 				// Set the position on the ground
 				position_[2] = height;
 
-				if (context_->optionsGame->getAutoSendSyncCheck())
+				if (context_->optionsGame->getActionSyncCheck())
 				{
 					context_->actionController->addSyncCheck(
 						formatString("Telport: %u %li, %li, %li", 
@@ -133,7 +133,7 @@ void Teleport::simulate(fixed frameTime, bool &remove)
 			}
 			else
 			{
-				if (context_->optionsGame->getAutoSendSyncCheck())
+				if (context_->optionsGame->getActionSyncCheck())
 				{
 					context_->actionController->addSyncCheck(
 						formatString("Telport: %u %li, %li, %li", 

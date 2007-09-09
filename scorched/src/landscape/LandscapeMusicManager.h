@@ -50,7 +50,7 @@ protected:
 		VirtualSoundSource *currentSource;
 	};
 
-	std::map<LandscapeMusicType::PlayState, MusicStateEntry> stateMusic_;
+	std::map<int, MusicStateEntry> stateMusic_;
 	std::list<MusicPlayingEntry *> currentMusic_;
 
 	void readGlobalMusicFile();

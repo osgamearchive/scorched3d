@@ -65,7 +65,7 @@ void Resurrection::simulate(fixed frameTime, bool &remove)
 		}
 #endif
 
-		if (context_->optionsGame->getAutoSendSyncCheck())
+		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
 				formatString("TankRez: %u %li, %li, %li", 

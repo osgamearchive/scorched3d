@@ -3719,6 +3719,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\ClientSaveScreenState.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientSaveScreenState.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\ClientScoreHandler.cpp"
 				>
 			</File>

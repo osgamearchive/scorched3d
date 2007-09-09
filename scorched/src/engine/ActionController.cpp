@@ -172,7 +172,7 @@ void ActionController::setFast(fixed speedMult)
 
 void ActionController::addSyncCheck(const char *msg)
 {
-	DIALOG_ASSERT(context_->optionsGame->getAutoSendSyncCheck());
+	DIALOG_ASSERT(context_->optionsGame->getActionSyncCheck());
 	syncCheck_.push_back(msg);
 }
 
@@ -185,7 +185,7 @@ void ActionController::addAction(Action *action)
 	if (action->getReferenced())
 	{
 		action->setActionNumber(++actionNumber_);
-		if (context_->optionsGame->getAutoSendSyncCheck())
+		if (context_->optionsGame->getActionSyncCheck())
 		{
 			addSyncCheck(
 				formatString("Add Action : %li %s:%s", 
@@ -304,7 +304,7 @@ void ActionController::stepActions(fixed frameTime)
 				referenceCount_--;
 				if (referenceCount_<0) referenceCount_ = 0;
 
-				if (context_->optionsGame->getAutoSendSyncCheck())
+				if (context_->optionsGame->getActionSyncCheck())
 				{
 					addSyncCheck(
 						formatString("Rm Action : %li %s:%s", 

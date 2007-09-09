@@ -313,6 +313,8 @@ void Napalm::simulateAddStep()
 					float dist = (center - pos).Magnitude();
 					dist /= deformSize;
 					dist = 1.0f - MIN(1.0f, dist);
+
+					DIALOG_ASSERT(x < 100 && y < 100);
 					deformMap.map[x][y] = fixed::fromFloat(dist);
 				}
 			}

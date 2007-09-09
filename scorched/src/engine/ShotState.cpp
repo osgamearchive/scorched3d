@@ -65,7 +65,7 @@ void ShotState::setup()
 	context_.actionController->resetTime();
 	context_.actionController->clear();
 
-	if (context_.optionsGame->getAutoSendSyncCheck())
+	if (context_.optionsGame->getActionSyncCheck())
 	{
 		std::map<unsigned int, Target *> &targets =
 			context_.targetContainer->getTargets();

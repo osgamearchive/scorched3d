@@ -117,7 +117,7 @@ void PhysicsParticleObject::checkCollision()
 			action = checkShotCollision(collision, target);
 			if (action != CollisionActionNone)
 			{
-				if (context_->optionsGame->getAutoSendSyncCheck())
+				if (context_->optionsGame->getActionSyncCheck())
 				{
 					context_->actionController->addSyncCheck(
 						formatString("Shot Collision : %i %i %li,%li,%li", 

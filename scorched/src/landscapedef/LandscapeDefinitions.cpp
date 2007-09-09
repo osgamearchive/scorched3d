@@ -184,7 +184,7 @@ LandscapeDefinition LandscapeDefinitions::getLandscapeDefn(
 	// Return the chosen definition
 	std::string tex = getLeastUsedFile(result->texs);
 	std::string defn = getLeastUsedFile(result->defns);
-	unsigned int seed = (unsigned int) rand();
+	unsigned int seed = 33;//(unsigned int) rand();
 
 	LandscapeDefinition entry(
 		tex.c_str(), defn.c_str(), seed, result->name.c_str());

@@ -22,6 +22,7 @@
 #include <client/ClientScoreHandler.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
+#include <client/ClientSaveScreenState.h>
 #include <tank/TankContainer.h>
 #include <tank/TankScore.h>
 #include <coms/ComsScoreMessage.h>
@@ -75,6 +76,8 @@ bool ClientScoreHandler::processMessage(
 		}
 		Logger::log("--------------------");
 	}
+
+	ClientSaveScreenState::instance()->saveScreen();
 
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimWait);
 	ScorchedClient::instance()->getGameState().checkStimulate();

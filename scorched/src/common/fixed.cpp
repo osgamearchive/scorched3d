@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
+#include <common/DefinesAssert.h>
 #include <common/DefinesString.h>
 
 #define _XPI      31415 // 3.1415926535897932384626433832795
@@ -68,6 +69,7 @@ fixed::fixed(const char *nVal)
 	}
 	i[ip] = '\0';
 	f[fp] = '\0';
+	DIALOG_ASSERT(ip < 15 && fp < 15);
 
 	long ipa = atol(i);
 	long fpa = atol(f);
@@ -120,6 +122,7 @@ const char *fixed::asString()
 	}
 
 	result[r++] = '\0';
+	DIALOG_ASSERT(r < 15);
 
 	return result;
 }
@@ -462,7 +465,7 @@ fixed tanx(fixed x)
 fixed fixed::fromFloat(float flt)
 {
 	fixed result;
-	result.m_nVal = long(flt * FIXED_RESOLUTION_FLOATf);
+	result.m_nVal = long(flt * FIXED_RESOLUTION_FLOAT);
 	return result;
 }
 

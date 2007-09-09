@@ -31,7 +31,7 @@ WeaponExplosion::WeaponExplosion() : size_(0),
 	createDebris_(true), createMushroomAmount_(0),
 	createSplash_(true), windAffected_(true),
 	luminance_(true), animate_(true),
-	onlyHurtShield_(false),
+	onlyHurtShield_(false), explodeUnderGround_(true),
 	minLife_(true, 5000), maxLife_(1), shake_(0),
 	explosionTexture_("exp00")
 {
@@ -63,6 +63,8 @@ bool WeaponExplosion::parseXML(AccessoryCreateContext &context, XMLNode *accesso
 
 	// Get the hurt shield node
 	accessoryNode->getNamedChild("onlyhurtshield", onlyHurtShield_, false);
+
+	accessoryNode->getNamedChild("explodeunderground", explodeUnderGround_, false);
 
 	// Get the no debris node
 	XMLNode *noCreateDebrisNode = 0;

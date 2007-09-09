@@ -59,7 +59,8 @@ Target::Target(unsigned int playerId,
 Target::~Target()
 {
 	context_.landscapeMaps->getGroundMaps().getGroups().
-		removeFromGroups(&getGroup());	
+		removeFromGroups(&getGroup());
+	life_->setLife(0);
 
 	delete renderer_; renderer_ = 0;
 	delete life_; life_ = 0;

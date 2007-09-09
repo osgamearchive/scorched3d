@@ -177,12 +177,12 @@ void BackdropDialog::capture()
 	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
 	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
 
-	unsigned char *screenpixels = 
-		new unsigned char[GLViewPort::getActualWidth() * GLViewPort::getActualHeight() * 3];
+	int imageSize = GLViewPort::getActualWidth() * GLViewPort::getActualHeight() * 3;
+	unsigned char *screenpixels = new unsigned char[imageSize];
 	glReadPixels(0, 0, GLViewPort::getActualWidth(), GLViewPort::getActualHeight(), 
 		GL_RGB, GL_UNSIGNED_BYTE, screenpixels);
 
-	if (!pixels_) pixels_ = new unsigned char[GLViewPort::getActualWidth() * GLViewPort::getActualHeight() * 3];
+	if (!pixels_) pixels_ = new unsigned char[imageSize];
 
 	unsigned char *dest = pixels_;
 	unsigned char *src = screenpixels;
@@ -203,10 +203,12 @@ void BackdropDialog::capture()
 						int srcx = a + x;
 						int srcy = b + y;
 						unsigned char *src2 = src + a * 3 + b * GLViewPort::getActualWidth() * 3;
-
-						totalr += src2[0];
-						totalg += src2[1];
-						totalb += src2[2];
+						if (src2 >= screenpixels && src2 - screenpixels < imageSize)
+						{
+							totalr += src2[0];
+							totalg += src2[1];
+							totalb += src2[2];
+						}
 					}
 				}
 				totalr /= 49;

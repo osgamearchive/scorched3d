@@ -189,7 +189,7 @@ void TankDamage::calculateDamage()
 			damagedTank->getPosition().changePower(0, true);
 		}
 
-		if (context_->optionsGame->getAutoSendSyncCheck())
+		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
 				formatString("TankDamage: %u %li", 
@@ -383,7 +383,7 @@ void TankDamage::calculateDamage()
 		Target *removedTarget = 
 			context_->targetContainer->
 				removeTarget(damagedTarget->getPlayerId());
-		if (context_->optionsGame->getAutoSendSyncCheck())
+		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
 				formatString("RemoveTarget : %u %s", 
@@ -409,7 +409,7 @@ void TankDamage::calculateDeath()
 	Weapon *weapon = killedTarget->getDeathAction();
 	if (weapon)
 	{
-		if (context_->optionsGame->getAutoSendSyncCheck())
+		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
 				formatString("DeathAction: %s", 

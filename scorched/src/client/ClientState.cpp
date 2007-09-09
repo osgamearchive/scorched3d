@@ -30,6 +30,7 @@
 #include <client/ClientShotState.h>
 #include <client/ClientWaitState.h>
 #include <client/ClientLoadPlayersState.h>
+#include <client/ClientSaveScreenState.h>
 #include <client/ScorchedClient.h>
 #include <sound/Sound.h>
 #include <tankgraph/RenderTargets.h>
@@ -278,6 +279,8 @@ void ClientState::setupGameState()
 
 	// StateScore
 	addStandardComponents(gameState, StateScore);
+	gameState.addStateLoop(StateScore,
+		MainCamera::instance(), ClientSaveScreenState::instance());
 	gameState.addStateStimulus(StateScore, 
 		StimDisconnected, StateDisconnected);
 	gameState.addStateStimulus(StateScore, 

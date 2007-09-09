@@ -74,14 +74,14 @@ void TargetSpace::addTarget(Target *target)
 			ShieldRound *round = (ShieldRound *) shield;
 
 			w = MAX(w, (round->getActualRadius() * 2).asInt());
-			h = MAX(w, (round->getActualRadius() * 2).asInt());
+			h = MAX(h, (round->getActualRadius() * 2).asInt());
 		}
 		else
 		{
 			ShieldSquare *square = (ShieldSquare *) shield;
 
 			w = MAX(w, (square->getSize()[0] * 2).asInt());
-			h = MAX(w, (square->getSize()[1] * 2).asInt());
+			h = MAX(h, (square->getSize()[1] * 2).asInt());
 		}
 	}
 
@@ -174,7 +174,7 @@ Target *TargetSpace::getCollision(FixedVector &position)
 		}
 	}
 
-	if (context_->optionsGame->getAutoSendSyncCheck())
+	if (context_->optionsGame->getActionSyncCheck())
 	{
 		std::string targets;
 		if (result)
@@ -258,7 +258,7 @@ void TargetSpace::getCollisionSet(FixedVector &position, fixed radius,
 		}
 	}
 
-	if (context_->optionsGame->getAutoSendSyncCheck())
+	if (context_->optionsGame->getActionSyncCheck())
 	{
 		std::string targets;
 		std::map<unsigned int, Target *>::iterator itor;

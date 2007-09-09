@@ -133,7 +133,7 @@ void LandscapeMusicManager::addMusicType(LandscapeMusicType *music)
 		MusicStateEntry stateEntry;
 		stateEntry.file = music->file;
 		stateEntry.gain = music->gain;
-		stateMusic_[playState] = stateEntry;
+		stateMusic_.insert(std::pair<int, MusicStateEntry>(int(playState), stateEntry));
 	}
 }
 
@@ -177,8 +177,8 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 	MusicStateEntry *wantedEntry = 0;
 	if (!OptionsDisplay::instance()->getNoMusic())
 	{
-		std::map<LandscapeMusicType::PlayState, MusicStateEntry>::iterator findItor =
-			stateMusic_.find(playState);
+		std::map<int, MusicStateEntry>::iterator findItor =
+			stateMusic_.find(int(playState));
 		if (findItor != stateMusic_.end())
 		{
 			wantedEntry = &(*findItor).second;				

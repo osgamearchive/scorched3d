@@ -7,6 +7,8 @@
 //  Released under GNU license
 //		Erik H Gawtry
 //			July, 2005	Version 1.0
+//		Altered G Camp
+//			Aug, 2007 Version 1.1
 //
 //
 //  Algorythms borrowed from:
@@ -24,10 +26,7 @@
 #define _FIXED_H
 
 #define	FIXED_RESOLUTION		10000L
-#define	FIXED_RESOLUTION_FLOAT	10000.0
-#define	FIXED_RESOLUTION_FLOATf	10000.0f
-#define	FLOAT_FIXED_RESOLUTION	0.00005
-#define	FLOAT_FIXED_RESOLUTIONf	0.00005f
+#define	FIXED_RESOLUTION_FLOAT	10000.0f
 
 class fixed
 {
@@ -127,7 +126,7 @@ public:
 
 	float asFloat()
 	{
-		return m_nVal/FIXED_RESOLUTION_FLOATf;
+		return m_nVal/FIXED_RESOLUTION_FLOAT;
 	}
 
 	int asInt()

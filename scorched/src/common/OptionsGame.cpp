@@ -205,6 +205,8 @@ OptionsGame::OptionsGame() :
 		"Players that leave will have the same state when reconnecting", 0, true),
 	autoSendSyncCheck_(options_, "AutoSendSyncCheck",
 		"Automatically send a sync check at the end of each shot", 0, false),
+	actionSyncCheck_(options_, "ActionSyncCheck",
+		"Gather enhanced action syncchecking", 0, false),
 	resignMode_(options_, "ResignMode",
 		"When does a players resign take place", 0, int(ResignEnd), resignEnum),
 	movementRestriction_(options_, "MovementRestriction",

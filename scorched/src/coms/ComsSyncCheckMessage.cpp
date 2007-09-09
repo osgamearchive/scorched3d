@@ -262,7 +262,8 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		{
 			for (unsigned int i=0; i<tmpBuffer.getBufferUsed(); i++)
 			{
-				if (tmpBuffer.getBuffer()[i] != reader.getBuffer()[reader.getReadSize() + i])
+				if (reader.getReadSize() + i >= reader.getBufferSize() ||
+					tmpBuffer.getBuffer()[i] != reader.getBuffer()[reader.getReadSize() + i])
 				{
 					const char *message =
 						formatString("SyncCheck %i - Targets values differ : %u:%s, position %i", 
@@ -303,6 +304,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 				"",
 				"");
 			if (!tmpTank->readMessage(reader)) return false;
+			tmpTank->getState().setState(TankState::sDead);
 			tmpTank->getLife().setLife(0);
 			tmpTank->getState().setState(TankState::sDead);
 

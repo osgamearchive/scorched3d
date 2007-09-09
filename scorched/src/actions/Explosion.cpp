@@ -241,12 +241,15 @@ void Explosion::simulate(fixed frameTime, bool &remove)
 		}
 #endif // #ifndef S3D_SERVER
 
+		// Get the land height at the explosion
+		fixed landHeight = context_->landscapeMaps->getGroundMaps().
+				getInterpHeight(position_[0], position_[1]);
+
 		// Dirt should only form along the ground
 		FixedVector newPosition = position_;
 		if (weapon_->getDeformType() == DeformUp)
 		{
-			newPosition[2] = context_->landscapeMaps->getGroundMaps().
-				getInterpHeight(newPosition[0], newPosition[1]);			
+			newPosition[2] = landHeight;
 		}
 
 		if (weapon_->getDeformType() != DeformNone)
@@ -259,28 +262,41 @@ void Explosion::simulate(fixed frameTime, bool &remove)
 			multiplier += 1;
 			fixed explosionSize = weapon_->getSize() * multiplier;	
 
-			// Remove areas from the height map
-			static DeformLandscape::DeformPoints map;
-			if (DeformLandscape::deformLandscape(
-				*context_,
-				newPosition, explosionSize, 
-				(weapon_->getDeformType() == DeformDown), map))
+			// Check if we are allowed to explode underground
+			if (!weapon_->getExplodeUnderGround())
 			{
-#ifndef S3D_SERVER
-				if (!context_->serverMode) 
+				if (position_[2] - landHeight < -1)
 				{
-					Landscape::instance()->recalculate(
-						(int) newPosition[0].asFloat(), 
-						(int) newPosition[1].asFloat(), 
-						(int) explosionSize.asFloat());
-
-					DeformTextures::deformLandscape(
-						newPosition.asVector(), 
-						explosionSize.asFloat(),  
-						ExplosionTextures::instance()->getScorchBitmap(weapon_->getDeformTexture()),
-						map);
+					explosionSize = 0;
 				}
+			}
+
+			// Remove areas from the height map
+			if (explosionSize > 0)
+			{
+				static DeformLandscape::DeformPoints map;
+
+				if (DeformLandscape::deformLandscape(
+					*context_,
+					newPosition, explosionSize, 
+					(weapon_->getDeformType() == DeformDown), map))
+				{
+#ifndef S3D_SERVER
+					if (!context_->serverMode) 
+					{
+						Landscape::instance()->recalculate(
+							(int) newPosition[0].asFloat(), 
+							(int) newPosition[1].asFloat(), 
+							(int) explosionSize.asFloat());
+
+						DeformTextures::deformLandscape(
+							newPosition.asVector(), 
+							explosionSize.asFloat(),  
+							ExplosionTextures::instance()->getScorchBitmap(weapon_->getDeformTexture()),
+							map);
+					}
 #endif // #ifndef S3D_SERVER
+				}
 			}
 		}
 

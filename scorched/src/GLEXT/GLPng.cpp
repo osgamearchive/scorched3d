@@ -41,7 +41,9 @@ bool GLPng::loadFromFile(const char * filename, const char *alphafilename, bool 
 
 	if (bitmap.getBits() && alpha.getBits() && 
 		bitmap.getWidth() == alpha.getWidth() &&
-		bitmap.getHeight() == alpha.getHeight())
+		bitmap.getHeight() == alpha.getHeight() &&
+		bitmap.getComponents() == alpha.getComponents() &&
+		bitmap.getComponents() == 3)
 	{
 		createBlankInternal(bitmap.getWidth(), bitmap.getHeight(), true);
 		unsigned char *bbits = bitmap.getBits();
@@ -55,7 +57,11 @@ bool GLPng::loadFromFile(const char * filename, const char *alphafilename, bool 
 				bits[1] = bbits[1];
 				bits[2] = bbits[2];
 
-				unsigned char avg = (unsigned char)(int(abits[0] + abits[1] + abits[2]) / 3);
+				unsigned char avg = (unsigned char)
+					((
+					int(abits[0]) + 
+					int(abits[1]) + 
+					int(abits[2])) / 3);
 				if (invert)
 				{
 					bits[3] = (unsigned char)(255 - avg);

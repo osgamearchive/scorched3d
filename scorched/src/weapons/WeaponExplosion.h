@@ -48,6 +48,7 @@ public:
 	bool getOnlyHurtShield() { return onlyHurtShield_; }
 	bool getLuminance() { return luminance_; }
 	bool getAnimate() { return animate_; }
+	bool getExplodeUnderGround() { return explodeUnderGround_; }
 	fixed getShake() { return shake_; }
 	const char *getDeformTexture() { return deformTexture_.c_str(); }
 
@@ -67,6 +68,7 @@ protected:
 	bool createDebris_;
 	fixed createMushroomAmount_;
 	bool createSplash_;
+	bool explodeUnderGround_;
 	bool onlyHurtShield_;
 	bool animate_;
 	fixed hurtAmount_;
