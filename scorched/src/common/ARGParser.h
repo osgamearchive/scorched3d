@@ -33,18 +33,21 @@
 class ARGParserBoolI
 {
 public:
+	virtual ~ARGParserBoolI() {}
 	virtual bool setBoolArgument(bool value) = 0;
 };
 
 class ARGParserIntI
 {
 public:
+	virtual ~ARGParserIntI() {}
 	virtual bool setIntArgument(int value) = 0;
 };
 
 class ARGParserStringI
 {
 public:
+	virtual ~ARGParserStringI() {}
 	virtual bool setStringArgument(const char *value) = 0;
 };
 

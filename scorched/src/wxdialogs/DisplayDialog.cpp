@@ -234,7 +234,7 @@ void DisplayFrame::onKeyButton(wxCommandEvent &event)
 	unsigned int wxKey = (unsigned int) resultKey;
 	unsigned int sdlKey = 0;
 
-	for (int i=0; i<sizeof(KeyTranslationTableWx)/sizeof(KeyTranslationWx); i++)
+	for (int i=0; i<int(sizeof(KeyTranslationTableWx)/sizeof(KeyTranslationWx)); i++)
 	{
 		if (KeyTranslationTableWx[i].wxKeySym == wxKey)
 		{
@@ -556,7 +556,7 @@ void DisplayFrame::refreshResolutions()
 		const char *extraModes[] = 
 			{ "320 x 200", "320 x 240", "512 x 384", 
 			"640 x 480", "800 x 600", "1024 x 768", "1024 x 384" };
-		for (int i=0; i<sizeof(extraModes)/sizeof(const char *); i++)
+		for (int i=0; i<int(sizeof(extraModes)/sizeof(const char *)); i++)
 		{
 			std::string newDisplay(extraModes[i]);
 			if (displaySet.find(newDisplay) == displaySet.end())
