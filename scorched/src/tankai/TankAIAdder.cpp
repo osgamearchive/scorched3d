@@ -137,7 +137,8 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 		// For the tank ai's name
 		std::string newname = 
 			context.getOptionsGame().getBotNamePrefix();
-		newname += TankAIStrings::instance()->getAIPlayerName();
+		newname += TankAIStrings::instance()->getAIPlayerName(
+			ScorchedServer::instance()->getContext());
 
 		// Form the tank ai model
 		Vector color = TankColorGenerator::instance()->getNextColor(

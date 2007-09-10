@@ -86,7 +86,10 @@ bool ClientInitializeHandler::initialize()
 {
 	// Clear any memory used by stored mod files as they will not be required now
 	ScorchedClient::instance()->getModFiles().clearData();
-	ScorchedServer::instance()->getModFiles().clearData();
+	if (!ClientParams::instance()->getConnectedToServer())
+	{
+		ScorchedServer::instance()->getModFiles().clearData();
+	}
 
 	// Load the accessory files
 	if (!ScorchedClient::instance()->getAccessoryStore().parseFile(

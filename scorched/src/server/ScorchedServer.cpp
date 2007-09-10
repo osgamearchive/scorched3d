@@ -20,8 +20,14 @@
 
 #include <server/ScorchedServer.h>
 #include <tank/TankDeadContainer.h>
+#include <tank/TankContainer.h>
 #include <tankai/TankAIStore.h>
 #include <landscapedef/LandscapeDefinitions.h>
+
+#ifndef S3D_SERVER
+#include <client/ClientParams.h>
+#include <client/ScorchedClient.h>
+#endif
 
 ScorchedServer *ScorchedServer::instance_ = 0;
 
@@ -31,6 +37,15 @@ ScorchedServer *ScorchedServer::instance()
 	{
 		instance_ = new ScorchedServer;
 	}
+
+#ifndef S3D_SERVER
+	if (ClientParams::instance()->getConnectedToServer() &&
+		ScorchedClient::instance()->getTankContainer().getCurrentDestinationId() != 0)
+	{
+		DIALOG_ASSERT(0);
+	}
+#endif
+
 	return instance_;
 }
 

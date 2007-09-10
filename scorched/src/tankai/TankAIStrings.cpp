@@ -19,9 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <tankai/TankAIStrings.h>
-#include <server/ScorchedServer.h>
 #include <common/Defines.h>
 #include <common/OptionsScorched.h>
+#include <engine/ActionController.h>
 
 TankAIStrings *TankAIStrings::instance_ = 0;
 
@@ -57,10 +57,10 @@ const char *TankAIStrings::getPlayerName()
 	return playerName;
 }
 
-const char *TankAIStrings::getAIPlayerName()
+const char *TankAIStrings::getAIPlayerName(ScorchedContext &context)
 {
 	static int counter = 0;
-	if (ScorchedServer::instance()->getOptionsGame().getRandomizeBotNames())
+	if (context.optionsGame->getRandomizeBotNames())
 	{
 		counter = (int) rand();
 	}
@@ -70,11 +70,12 @@ const char *TankAIStrings::getAIPlayerName()
 	return playerName;
 }
 
-const char *TankAIStrings::getDeathLine(RandomGenerator &generator)
+const char *TankAIStrings::getDeathLine(ScorchedContext &context)
 {
+	RandomGenerator &generator = context.actionController->getRandom();
 	const char *deathLine = 0;
 	fixed percentage = 
-		fixed(ScorchedServer::instance()->getOptionsGame().getComputersDeathTalk());
+		fixed(context.optionsGame->getComputersDeathTalk());
 	fixed talkPer = generator.getRandFixed() * 100;
 	if (talkPer < percentage)
 	{
@@ -85,11 +86,12 @@ const char *TankAIStrings::getDeathLine(RandomGenerator &generator)
 	return deathLine;
 }
 
-const char *TankAIStrings::getAttackLine(RandomGenerator &generator)
+const char *TankAIStrings::getAttackLine(ScorchedContext &context)
 {
+	RandomGenerator &generator = context.actionController->getRandom();
 	const char *attackLine = 0;
 	fixed percentage = 
-		fixed(ScorchedServer::instance()->getOptionsGame().getComputersAttackTalk());
+		fixed(context.optionsGame->getComputersAttackTalk());
 	fixed talkPer = generator.getRandFixed() * 100;
 	if (talkPer < percentage)
 	{

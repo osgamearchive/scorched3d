@@ -127,6 +127,11 @@ void Logger::addLog(LoggerInfo &info)
 			start++;
 
 			found = strchr(start, '\n');
+
+			/*if (SDL_ThreadID() == threadId)
+			{
+				processLogEntries();
+			}*/
 		}
 		if (start[0] != '\0')
 		{

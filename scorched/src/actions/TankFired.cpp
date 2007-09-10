@@ -71,8 +71,7 @@ void TankFired::simulate(fixed frameTime, bool &remove)
 
 			if (tank->getDestinationId() == 0)
 			{
-				const char *line = TankAIStrings::instance()->getAttackLine(
-					context_->actionController->getRandom());
+				const char *line = TankAIStrings::instance()->getAttackLine(*context_);
 				if (line)
 				{
 					context_->actionController->addAction(

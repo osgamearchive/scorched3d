@@ -115,7 +115,6 @@ static void syncCheckLog(const char *message)
 		syncCheckFileLogger = new FileLogger(buffer);
 	}	
 
-	Logger::log(message);
 	LoggerInfo info(message);
 	info.setTime();
 	syncCheckFileLogger->logMessage(info);
