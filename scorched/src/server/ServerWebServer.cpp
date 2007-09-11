@@ -26,7 +26,6 @@
 #include <server/ServerWebSettingsHandler.h>
 #include <server/ServerWebAppletHandler.h>
 #include <server/ServerCommon.h>
-#include <server/ServerAdminSessions.h>
 #include <server/ServerWebServerUtil.h>
 #include <server/ScorchedServer.h>
 #include <net/NetMessagePool.h>
@@ -520,11 +519,16 @@ bool ServerWebServer::processQueue(ServerWebServerQueue &queue, bool keepEntries
 	{
 		bool keepEntry = keepEntries;
 
+		// Get the session for the user
+		ServerAdminSessions::SessionParams *session = ServerAdminSessions::instance()->getSession(
+			entry->getSid());
+		entry->getRequest().setSession(session);
+
 		// Call handler
 		std::string resultText;
-		if (entry->getHandler()->processRequest(
-				entry->getUrl(), entry->getFields(), 
-				entry->getParts(), resultText))
+		if (session &&
+			entry->getHandler()->processRequest(
+			entry->getRequest(), resultText))
 		{
 			if (!resultText.empty())
 			{

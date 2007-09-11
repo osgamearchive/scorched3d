@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,39 +18,33 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/ChannelText.h>
+#include <server/ServerWebServerI.h>
+#include <net/NetMessagePool.h>
 
-ChannelText::ChannelText(const char *channel, const char *message) : 
-	srcPlayerId_(0), destPlayerId_(0),
-	channel_(channel),
-	message_(message),
-	flags_(0)
+ServerWebServerIRequest::ServerWebServerIRequest(const char *url,
+		std::map<std::string, std::string> &fields,
+		std::map<std::string, NetMessage *> &parts) :
+	url_(url),
+	fields_(fields),
+	parts_(parts),
+	session_(0)
 {
+	parts.clear();
 }
 
-bool ChannelText::writeMessage(NetBuffer &buffer)
+ServerWebServerIRequest::~ServerWebServerIRequest()
 {
-	buffer.addToBuffer(channel_);
-	buffer.addToBuffer(message_);
-	buffer.addToBuffer(srcPlayerId_);
-	buffer.addToBuffer(destPlayerId_);
-	buffer.addToBuffer(admin_);
-	buffer.addToBuffer(flags_);
-	return true;
+	// Add any message parts back to the pool
+	std::map<std::string, NetMessage *>::iterator partitor;
+	for (partitor = parts_.begin();
+		partitor != parts_.end();
+		partitor++)
+	{
+		NetMessage *newMessage = (*partitor).second;
+		NetMessagePool::instance()->addToPool(newMessage);
+	}
 }
 
-bool ChannelText::readMessage(NetBufferReader &reader)
-{
-	if (!reader.getFromBuffer(channel_)) return false;
-	if (!reader.getFromBuffer(message_)) return false;
-	if (!reader.getFromBuffer(srcPlayerId_)) return false;
-	if (!reader.getFromBuffer(destPlayerId_)) return false;
-	if (!reader.getFromBuffer(admin_)) return false;
-	if (!reader.getFromBuffer(flags_)) return false;
-	return true;
-}
-
-ChannelDefinition::ChannelDefinition(const char *c, unsigned int t) :
-	channel_(c), type_(t)
+ServerWebServerI::~ServerWebServerI()
 {
 }

@@ -22,6 +22,7 @@
 #define __INCLUDE_ServerAdminCommonh_INCLUDE__
 
 #include <common/DefinesString.h>
+#include <server/ServerAdminSessions.h>
 
 namespace ServerAdminCommon
 {
@@ -35,6 +36,9 @@ namespace ServerAdminCommon
 	bool unpermMutePlayer(const char *adminUser, unsigned int playerId);
 	bool newGame(const char *adminUser);
 	bool killAll(const char *adminUser);
+
+	bool adminSay(ServerAdminSessions::SessionParams *session,
+		const char *channel, const char *text);
 }
 
 #endif

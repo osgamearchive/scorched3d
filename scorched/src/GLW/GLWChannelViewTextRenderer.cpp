@@ -79,22 +79,22 @@ void GLWChannelViewTextRenderer::drawCharacter(
 			toolTip_.setText("Weapon",
 				textEntry->part.c_str());	
 			break;
+		case eAdminEntry:
+			toolTip_.setText("Admin",
+				textEntry->part.c_str());	
+			break;
 		}
 	}
 
 	// Set the appropriate text colours etc.
 	switch (textEntry->type)
 	{
-	case ePlayerEntry:
-	case eTipEntry:
+	case eChannelEntry:
+		break;
+	default:
 		color[0] = textEntry->color[0];
 		color[1] = textEntry->color[1];
 		color[2] = textEntry->color[2];
-		break;
-	case eWeaponEntry:
-		color[0] = 1.0f;
-		color[1] = 1.0f;
-		color[2] = 1.0f;
 		break;
 	}
 }

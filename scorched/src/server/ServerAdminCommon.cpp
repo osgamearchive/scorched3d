@@ -22,6 +22,7 @@
 #include <server/ServerCommon.h>
 #include <server/ScorchedServer.h>
 #include <server/ScorchedServerUtil.h>
+#include <server/ServerChannelManager.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankScore.h>
@@ -240,6 +241,16 @@ bool ServerAdminCommon::killAll(const char *adminUser)
 		formatString("\"%s\" admin kill all",
 		adminUser));
 	ServerCommon::killAll();
+
+	return true;
+}
+
+bool ServerAdminCommon::adminSay(ServerAdminSessions::SessionParams *session,
+	const char *channel, const char *text)
+{
+	ChannelText channelText(channel, text);
+	channelText.setAdminPlayer(session->userName.c_str());
+	ServerChannelManager::instance()->sendText(channelText, true);
 
 	return true;
 }

@@ -18,52 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerWebServerQueueh_INCLUDE__)
-#define __INCLUDE_ServerWebServerQueueh_INCLUDE__
+#if !defined(__INCLUDE_ServerWebServerIh_INCLUDE__)
+#define __INCLUDE_ServerWebServerIh_INCLUDE__
 
-#include <SDL/SDL.h>
-#include <server/ServerWebServerI.h>
-#include <list>
+#include <net/NetMessage.h>
+#include <map>
+#include <server/ServerAdminSessions.h>
 
-class ServerWebServerQueueEntry
+class ServerWebServerIRequest
 {
 public:
-	ServerWebServerQueueEntry(
-		unsigned int destinationId,
-		unsigned int sid,
-		const char *url,
-		ServerWebServerI *handler,
+	ServerWebServerIRequest(const char *url,
 		std::map<std::string, std::string> &fields,
 		std::map<std::string, NetMessage *> &parts);
-	~ServerWebServerQueueEntry();
+	~ServerWebServerIRequest();
 
-	unsigned int getDestinationId() { return destinationId_; }
-	unsigned int getSid() { return sid_; }
-	ServerWebServerI *getHandler() { return handler_; }
-	ServerWebServerIRequest &getRequest() { return request_; }
+	const char *getUrl() { return url_.c_str(); }
+	std::map<std::string, std::string> &getFields() { return fields_; }
+	std::map<std::string, NetMessage *> &getParts() { return parts_; }
+	ServerAdminSessions::SessionParams *getSession() { return session_; }
+	void setSession(ServerAdminSessions::SessionParams *session) { session_ = session; }
 
-protected:
-	ServerWebServerI *handler_;
-	unsigned int destinationId_;
-	unsigned int sid_;
-	ServerWebServerIRequest request_;
+private:
+	std::string url_;
+	std::map<std::string, std::string> fields_;
+	std::map<std::string, NetMessage *> parts_;
+	ServerAdminSessions::SessionParams *session_;
 };
 
-class ServerWebServerQueue
+class ServerWebServerI
 {
 public:
-	ServerWebServerQueue();
-	virtual ~ServerWebServerQueue();
-
-	void addEntry(ServerWebServerQueueEntry *entry);
-	ServerWebServerQueueEntry *getEntry();
-
-	void removeEntry(unsigned int destinationId);
-	bool hasEntry(unsigned int destinationId);
-	
-protected:
-	SDL_mutex *queueMutex_;
-	std::list<ServerWebServerQueueEntry *> entries_;
+	virtual ~ServerWebServerI();
+	virtual ServerWebServerI *createCopy() = 0;
+	virtual bool processRequest(
+		ServerWebServerIRequest &request,
+		std::string &text) = 0;
 };
 
-#endif
+#endif // __INCLUDE_ServerWebServerIh_INCLUDE__

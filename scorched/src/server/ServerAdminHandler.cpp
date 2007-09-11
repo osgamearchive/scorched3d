@@ -291,13 +291,13 @@ bool ServerAdminHandler::processMessage(
 		}
 		break;
 	case ComsAdminMessage::AdminTalk:
-		ServerCommon::sendString(0, message.getParam1());
+		ServerAdminCommon::adminSay(adminSession, "info", message.getParam1());
 		break;
 	case ComsAdminMessage::AdminAdminTalk:
-		ServerCommon::sendStringAdmin(message.getParam1());
+		ServerAdminCommon::adminSay(adminSession, "admin", message.getParam1());
 		break;
 	case ComsAdminMessage::AdminMessage:
-		ServerCommon::sendStringMessage(0, message.getParam1());
+		ServerAdminCommon::adminSay(adminSession, "banner", message.getParam1());
 		break;
 	case ComsAdminMessage::AdminSyncCheck:
 		{

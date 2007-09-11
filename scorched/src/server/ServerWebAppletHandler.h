@@ -30,9 +30,8 @@ namespace ServerWebAppletHandler
 	{
 	public:
 		virtual ServerWebServerI *createCopy() { return new AppletFileHandler(); }
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::map<std::string, NetMessage *> &parts,
+		virtual bool processRequest(
+			ServerWebServerIRequest &request,
 			std::string &text);
 	};
 
@@ -40,9 +39,8 @@ namespace ServerWebAppletHandler
 	{
 	public:
 		virtual ServerWebServerI *createCopy() { return new AppletHtmlHandler(); }
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::map<std::string, NetMessage *> &parts,
+		virtual bool processRequest(
+			ServerWebServerIRequest &request,
 			std::string &text);
 	};
 
@@ -50,9 +48,8 @@ namespace ServerWebAppletHandler
 	{
 	public:
 		virtual ServerWebServerI *createCopy() { return new AppletActionHandler(); }
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::map<std::string, NetMessage *> &parts,
+		virtual bool processRequest(
+			ServerWebServerIRequest &request,
 			std::string &text);
 	};
 
@@ -62,9 +59,8 @@ namespace ServerWebAppletHandler
 		AppletAsyncHandler();
 
 		virtual ServerWebServerI *createCopy() { return new AppletAsyncHandler(); }
-		virtual bool processRequest(const char *url,
-			std::map<std::string, std::string> &fields,
-			std::map<std::string, NetMessage *> &parts,
+		virtual bool processRequest(
+			ServerWebServerIRequest &request,
 			std::string &text);
 
 	protected:

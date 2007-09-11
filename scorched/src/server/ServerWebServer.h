@@ -25,16 +25,6 @@
 #include <common/FileLogger.h>
 #include <server/ServerWebServerQueue.h>
 
-class ServerWebServerI
-{
-public:
-	virtual ServerWebServerI *createCopy() = 0;
-	virtual bool processRequest(const char *url,
-		std::map<std::string, std::string> &fields,
-		std::map<std::string, NetMessage *> &parts,
-		std::string &text) = 0;
-};
-
 class ServerWebServer : public NetMessageHandlerI
 {
 public:

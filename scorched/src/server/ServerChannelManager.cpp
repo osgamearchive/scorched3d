@@ -512,6 +512,13 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 				tank->getName(),
 				filteredText.c_str());
 		}
+		else if (text.getAdminPlayer()[0])
+		{
+			logtext = formatString("[%s][%s (Admin)] : \"%s\"", 
+				text.getChannel(),
+				text.getAdminPlayer(),
+				filteredText.c_str());
+		}
 		else
 		{
 			logtext = formatString("[%s] : \"%s\"", 
@@ -586,6 +593,7 @@ bool ServerChannelManager::processMessage(
 		// We have a ChannelTextMessage from the server
 		ComsChannelTextMessage textMessage;
 		if (!textMessage.readMessage(reader)) return false;
+		textMessage.getChannelText().setAdminPlayer("");
 
 		// Validate that this message came from this tank
 		Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(

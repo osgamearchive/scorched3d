@@ -288,11 +288,20 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkBounceCollisi
 		return CollisionActionNone;
 		break;
 	case CollisionIdLandscape:
+		return CollisionActionBounce;
 	case CollisionIdWallLeft:
 	case CollisionIdWallRight:
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
-		return CollisionActionBounce;
+		switch (context_->optionsTransient->getWallType())
+		{
+		case OptionsTransient::wallBouncy:
+			return CollisionActionBounce;
+		case OptionsTransient::wallWrapAround:
+			return CollisionActionNone;
+		case OptionsTransient::wallConcrete:
+			return CollisionActionCollision;
+		}
 		break;
 	case CollisionIdShield:
 		bounceShieldHit(target);

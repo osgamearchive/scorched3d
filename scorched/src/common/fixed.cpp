@@ -27,6 +27,7 @@
 #include <string.h>
 #include <common/DefinesAssert.h>
 #include <common/DefinesString.h>
+#include <common/Logger.h>
 
 #define _XPI      31415 // 3.1415926535897932384626433832795
 fixed fixed::XPI = fixed(true,_XPI);
@@ -45,6 +46,15 @@ fixed fixed::MAX_FIXED(true, LONG_MAX);
 
 fixed::fixed(const char *nVal)
 {
+	if (strlen(nVal) > 12)
+	{
+		Logger::log(
+			formatString("Warning: Ignoring fixed string conversion of %s", nVal));
+
+		m_nVal = 0;
+		return;
+	}
+
 	static char i[15];
 	static char f[15];
 

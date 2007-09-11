@@ -65,9 +65,11 @@ public:
 	void setSrcPlayerId(unsigned int srcPlayerId) { srcPlayerId_ = srcPlayerId; }
 	void setDestPlayerId(unsigned int destPlayerId) { destPlayerId_ = destPlayerId; }
 	void setFlags(unsigned int flags) { flags_ = flags; }
+	void setAdminPlayer(const char *admin) { admin_ = admin; }
 
 	const char *getChannel() { return channel_.c_str(); }
 	const char *getMessage() { return message_.c_str(); }
+	const char *getAdminPlayer() { return admin_.c_str(); }
     unsigned int getSrcPlayerId() { return srcPlayerId_; }
 	unsigned int getDestPlayerId() { return destPlayerId_; }
 	unsigned int getFlags() { return flags_; }
@@ -81,6 +83,7 @@ protected:
 	unsigned int flags_;
 	std::string channel_;
 	std::string message_;
+	std::string admin_;
 };
 
 #endif // __INCLUDE_ChannelTexth_INCLUDE__

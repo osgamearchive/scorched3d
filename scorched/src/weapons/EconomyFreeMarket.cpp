@@ -187,7 +187,7 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 		{
 			Accessory *accessory = *itor;
 	
-			if (accessory->getPrice() <= tank->getScore().getMoney() &&
+			if (//accessory->getPrice() <= tank->getScore().getMoney() && // Commented to allow expensive weapons to drop
 				accessory->getPrice() >= int(float(boughtAccessory->getPrice()) * 0.3f) &&
 				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.75f) &&
 				((accessory->getType() == AccessoryPart::AccessoryWeapon) == (boughtAccessory->getType() == AccessoryPart::AccessoryWeapon)) &&
@@ -252,12 +252,14 @@ void EconomyFreeMarket::setPrice(Accessory *accessory, int price)
 {
 	price = (price / 10) * 10; // Round to 10
 
+	float limit = float(accessory->getFreeMarketLimits()) / 100.0f;
+
 	// Make suse price does not get greater than 1.5X the original price
-	if (price > int(float(accessory->getOriginalPrice()) * 1.5f))
-		price = int(float(accessory->getOriginalPrice()) * 1.5f);
-	// Make sure price does not get lower than 0.75X the original price
-	else if (price < int(float(accessory->getOriginalPrice()) * 0.75f))
-		price = int(float(accessory->getOriginalPrice()) * 0.75f);
+	if (price > int(float(accessory->getOriginalPrice()) * limit))
+		price = int(float(accessory->getOriginalPrice()) * limit);
+	// Make sure price does not get lower than 1.5X the original price
+	else if (price < int(float(accessory->getOriginalPrice()) / limit))
+		price = int(float(accessory->getOriginalPrice()) / limit);
 	accessory->setPrice(price);
 
 	// Sell price is 0.8X the buy price

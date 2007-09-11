@@ -68,13 +68,12 @@ static const char *getAdminUserName(std::map<std::string, std::string> &fields)
 	return "Unknown";
 }
 
-bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::PlayerHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	// Check for an add
-	const char *addType = ServerWebServerUtil::getField(fields, "add");
+	const char *addType = ServerWebServerUtil::getField(request.getFields(), "add");
 	if (addType)
 	{
 		TankAIAdder::addTankAI(*ScorchedServer::instance(), addType);
@@ -84,17 +83,17 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 		ScorchedServer::instance()->getTankContainer().getAllTanks();
 	std::map<unsigned int, Tank *>::iterator itor;
 
-	const char *adminName = getAdminUserName(fields);
+	const char *adminName = getAdminUserName(request.getFields());
 
 	// Check for any action
-	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 	if (action)
 	{
 		for (itor = tanks.begin(); itor != tanks.end(); itor++)
 		{
 			// Is this tank selected
 			Tank *tank = (*itor).second;
-			if (ServerWebServerUtil::getField(fields, formatString("player-%u", tank->getPlayerId())))
+			if (ServerWebServerUtil::getField(request.getFields(), formatString("player-%u", tank->getPlayerId())))
 			{
 				if (0 == strcmp(action, "Kick"))
 				{
@@ -112,7 +111,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				else if (0 == strcmp(action, "Flag"))
 				{
 					ServerAdminCommon::flagPlayer(adminName, tank->getPlayerId(),
-						ServerWebServerUtil::getField(fields, "reason"));
+						ServerWebServerUtil::getField(request.getFields(), "reason"));
 				}
 				else if (0 == strcmp(action, "Poor"))
 				{
@@ -121,7 +120,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				else if (0 == strcmp(action, "PermMute"))
 				{
 					ServerAdminCommon::permMutePlayer(adminName, tank->getPlayerId(),
-						ServerWebServerUtil::getField(fields, "reason"));
+						ServerWebServerUtil::getField(request.getFields(), "reason"));
 				}
 				else if (0 == strcmp(action, "UnPermMute"))
 				{
@@ -130,7 +129,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				else if (0 == strcmp(action, "Banned"))
 				{
 					ServerAdminCommon::banPlayer(adminName, tank->getPlayerId(),
-						ServerWebServerUtil::getField(fields, "reason"));
+						ServerWebServerUtil::getField(request.getFields(), "reason"));
 				}
 				else if (0 == strcmp(action, "Slap"))
 				{
@@ -140,8 +139,8 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				{
 					ServerWebServerUtil::getHtmlRedirect(
 						formatString("/playersthreaded?sid=%s&action=%s&uniqueid=%s",
-							ServerWebServerUtil::getField(fields, "sid"),
-							ServerWebServerUtil::getField(fields, "action"),
+							ServerWebServerUtil::getField(request.getFields(), "sid"),
+							ServerWebServerUtil::getField(request.getFields(), "action"),
 							tank->getUniqueId()), text);
 					return true;
 				}
@@ -149,8 +148,8 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				{
 					ServerWebServerUtil::getHtmlRedirect(
 						formatString("/playersthreaded?sid=%s&action=%s&uniqueid=%s",
-							ServerWebServerUtil::getField(fields, "sid"),
-							ServerWebServerUtil::getField(fields, "action"),
+							ServerWebServerUtil::getField(request.getFields(), "sid"),
+							ServerWebServerUtil::getField(request.getFields(), "action"),
 							tank->getUniqueId()), text);
 					return true;
 				}
@@ -191,8 +190,8 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 			tank->getPlayerId()
 		);
 	}
-	fields["PLAYERS"] = players;
-	fields["NOPLAYERS"] = formatString("%i/%i", tanks.size(), 
+	request.getFields()["PLAYERS"] = players;
+	request.getFields()["NOPLAYERS"] = formatString("%i/%i", tanks.size(), 
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 
 	// Add entries
@@ -211,19 +210,18 @@ bool ServerWebHandler::PlayerHandler::processRequest(const char *url,
 				ai->getName());
 		}
 	}
-	fields["ADD"] = add;
+	request.getFields()["ADD"] = add;
 
-	return ServerWebServerUtil::getHtmlTemplate("player.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("player.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::PlayerHandlerThreaded::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::PlayerHandlerThreaded::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	// Check for any action
-	const char *action = ServerWebServerUtil::getField(fields, "action");
-	const char *uniqueid = ServerWebServerUtil::getField(fields, "uniqueid");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
+	const char *uniqueid = ServerWebServerUtil::getField(request.getFields(), "uniqueid");
 	if (action && uniqueid)
 	{
 		if (0 == strcmp(action, "ShowAliases"))
@@ -232,7 +230,7 @@ bool ServerWebHandler::PlayerHandlerThreaded::processRequest(const char *url,
 				StatsLogger::instance()->getAliases(uniqueid);
 			std::string lines = ServerWebServerUtil::concatLines(aliases);
 			return ServerWebServerUtil::getHtmlMessage(
-				"ShowAliases", lines.c_str(), fields, text);
+				"ShowAliases", lines.c_str(), request.getFields(), text);
 		}
 		else if (0 == strcmp(action, "ShowIPAliases"))
 		{
@@ -240,16 +238,15 @@ bool ServerWebHandler::PlayerHandlerThreaded::processRequest(const char *url,
 				StatsLogger::instance()->getIpAliases(uniqueid);
 			std::string lines = ServerWebServerUtil::concatLines(aliases);
 			return ServerWebServerUtil::getHtmlMessage(
-				"ShowIPAliases", lines.c_str(), fields, text);
+				"ShowIPAliases", lines.c_str(), request.getFields(), text);
 		}
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("player.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("player.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::LogHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::LogHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::deque<ServerLog::ServerLogEntry> &entries = 
@@ -257,7 +254,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 
 	const int pagesize = 20;
 	int start = (int(entries.size()) / pagesize) * pagesize;
-	const char *page = ServerWebServerUtil::getField(fields, "page");
+	const char *page = ServerWebServerUtil::getField(request.getFields(), "page");
 	if (page) start = atoi(page);
 	else start = entries.size() - pagesize;
 
@@ -278,7 +275,7 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 			i,
 			cleanText.c_str());
 	}
-	fields["LOG"] = log;
+	request.getFields()["LOG"] = log;
 
 	// Pages
 	std::string pages;
@@ -286,34 +283,34 @@ bool ServerWebHandler::LogHandler::processRequest(const char *url,
 	{
 		pages +=
 			formatString("<a href='?sid=%s&page=%i'>%i - %i</a>&nbsp;",
-				fields["sid"].c_str(), 
+				request.getFields()["sid"].c_str(), 
 				i * pagesize, i * pagesize, i * pagesize + pagesize - 1);
 	}
 	pages +=
 		formatString("<a href='?sid=%s'>Last</a>",
-			fields["sid"].c_str());
-	fields["PAGES"] = pages;
+			request.getFields()["sid"].c_str());
+	request.getFields()["PAGES"] = pages;
 
-        const char *refreshRate = ServerWebServerUtil::getField(fields, "RefreshRate");
+        const char *refreshRate = ServerWebServerUtil::getField(request.getFields(), "RefreshRate");
         int refreshSeconds = 0;
         if (refreshRate) refreshSeconds = atoi(refreshRate);
-        else fields["RefreshRate"]="0";
+        else request.getFields()["RefreshRate"]="0";
 
 	if (refreshSeconds > 0)
-        fields["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, url,fields["sid"].c_str(),refreshRate);
+        request.getFields()["Meta"] = formatString("<meta  HTTP-EQUIV=\"Refresh\" CONTENT=\"%d;URL=%s?sid=%s&RefreshRate=%s\">", refreshSeconds, 
+			request.getUrl(),request.getFields()["sid"].c_str(),refreshRate);
 
-	return ServerWebServerUtil::getHtmlTemplate("log.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("log.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::LogFileHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::deque<ServerLog::ServerLogEntry> &entries = 
 		ServerLog::instance()->getEntries();
 
-	const char *logFilename = ServerWebServerUtil::getField(fields, "filename");
+	const char *logFilename = ServerWebServerUtil::getField(request.getFields(), "filename");
 	if (logFilename &&
 		// Disallow directory backtracking
 		!strstr(logFilename, "..") &&
@@ -333,9 +330,9 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 
 		const char *filename = getLogFile(logFilename);
 		std::string file = ServerWebServerUtil::getFile(filename);
-		fields["FILE"] = file;
+		request.getFields()["FILE"] = file;
 
-		return ServerWebServerUtil::getTemplate("logfile.html", fields, text);
+		return ServerWebServerUtil::getTemplate("logfile.html", request.getFields(), text);
 	}
 	else
 	{
@@ -343,10 +340,10 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 
 		// Check to see if we want to search these files
 		const char *search = 0;
-		const char *action = ServerWebServerUtil::getField(fields, "action");
+		const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 		if (action && 0 == strcmp(action, "Search"))
 		{
-			search = ServerWebServerUtil::getField(fields, "search");
+			search = ServerWebServerUtil::getField(request.getFields(), "search");
 		}
 
 		// Iterator through all of the log files in the logs directory
@@ -404,27 +401,26 @@ bool ServerWebHandler::LogFileHandler::processRequest(const char *url,
 					"<td><font size=-1>%s</font></td>"
 					"</tr>\n",
 					fileName,
-					fields["sid"].c_str(),
+					request.getFields()["sid"].c_str(),
 					fileName,
 					ctime(&logFile.fileTime));
 			}
 		}
-		fields["LOG"] = log;
+		request.getFields()["LOG"] = log;
 
-		return ServerWebServerUtil::getHtmlTemplate("logfiles.html", fields, text);
+		return ServerWebServerUtil::getHtmlTemplate("logfiles.html", request.getFields(), text);
 	}
 	return false;
 }
 
-bool ServerWebHandler::GameHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::GameHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
-	const char *adminName = getAdminUserName(fields);
+	const char *adminName = getAdminUserName(request.getFields());
 
 	// Check for any action
-	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 	if (action)
 	{
 		if (0 == strcmp(action, "NewGame"))
@@ -439,30 +435,29 @@ bool ServerWebHandler::GameHandler::processRequest(const char *url,
 
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
-	fields["PLAYERS"] = formatString("%i/%i", tanks.size(), 
+	request.getFields()["PLAYERS"] = formatString("%i/%i", tanks.size(), 
 		ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers());
 
 	unsigned int state = ScorchedServer::instance()->getGameState().getState();
-	fields["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
+	request.getFields()["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
 
-	fields["ROUND"] = formatString("%i/%i",
+	request.getFields()["ROUND"] = formatString("%i/%i",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentRoundNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoRounds());
-	fields["MOVE"] = formatString("%i/%i",
+	request.getFields()["MOVE"] = formatString("%i/%i",
 		ScorchedServer::instance()->getOptionsTransient().getCurrentGameNo(),
 		ScorchedServer::instance()->getOptionsGame().getNoMaxRoundTurns());
 	
-	fields["BI"] = formatString("%uK", NetInterface::getBytesIn() / 1000);
-	fields["BO"] = formatString("%uK", NetInterface::getBytesOut() / 1000);
-	fields["P"] = formatString("%u", NetInterface::getPings());
-	fields["C"] = formatString("%u", NetInterface::getConnects());
+	request.getFields()["BI"] = formatString("%uK", NetInterface::getBytesIn() / 1000);
+	request.getFields()["BO"] = formatString("%uK", NetInterface::getBytesOut() / 1000);
+	request.getFields()["P"] = formatString("%u", NetInterface::getPings());
+	request.getFields()["C"] = formatString("%u", NetInterface::getConnects());
 
-	return ServerWebServerUtil::getHtmlTemplate("game.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("game.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::ServerHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::ServerHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	bool &messageLogging = ScorchedServer::instance()->
@@ -471,7 +466,7 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 		getGameState().getStateLogging();
 
 	// Check for any action
-	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 	if (action)
 	{
 		if (0 == strcmp(action, "Stop Server"))
@@ -484,18 +479,18 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 		}
 		else if (0 == strcmp(action, "Set Logging"))
 		{
-			messageLogging = (0 == strcmp(fields["MessageLogging"].c_str(), "on"));
-			stateLogging = (0 == strcmp(fields["StateLogging"].c_str(), "on"));
+			messageLogging = (0 == strcmp(request.getFields()["MessageLogging"].c_str(), "on"));
+			stateLogging = (0 == strcmp(request.getFields()["StateLogging"].c_str(), "on"));
 		}
 	}
 
 	{
-		fields["MESSAGELOGGING"] = formatString(
+		request.getFields()["MESSAGELOGGING"] = formatString(
 			"<input type='radio' name='MessageLogging' %s value='on'>On</input>"
 			"<input type='radio' name='MessageLogging' %s value='off'>Off</input>",
 			(messageLogging?"checked":""),
 			(!messageLogging?"checked":""));
-		fields["STATELOGGING"] =  formatString(
+		request.getFields()["STATELOGGING"] =  formatString(
 			"<input type='radio' name='StateLogging' %s value='on'>On</input>"
 			"<input type='radio' name='StateLogging' %s value='off'>Off</input>",
 			(stateLogging?"checked":""),
@@ -503,25 +498,24 @@ bool ServerWebHandler::ServerHandler::processRequest(const char *url,
 	}
 
 	unsigned int state = ScorchedServer::instance()->getGameState().getState();
-	fields["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
-	fields["VERSION"] = formatString("%s (%s) - Built %s", 
+	request.getFields()["STATE"] = ((state == ServerState::ServerStateTooFewPlayers)?"Not Playing":"Playing");
+	request.getFields()["VERSION"] = formatString("%s (%s) - Built %s", 
 		ScorchedVersion, ScorchedProtocolVersion, ScorchedBuildTime);
-	fields["STARTTIME"] = getStartTime();
-	fields["EXITEMPTY"] = (ServerCommon::getExitEmpty()?"True":"False");
+	request.getFields()["STARTTIME"] = getStartTime();
+	request.getFields()["EXITEMPTY"] = (ServerCommon::getExitEmpty()?"True":"False");
 
-	return ServerWebServerUtil::getHtmlTemplate("server.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("server.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::BannedHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::BannedHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
-	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 	if (action && 0 == strcmp(action, "Load")) 
 		ScorchedServerUtil::instance()->bannedPlayers.load(true);
 
-	const char *selected = ServerWebServerUtil::getField(fields, "selected");
+	const char *selected = ServerWebServerUtil::getField(request.getFields(), "selected");
 	std::string banned;
 	std::list<ServerBanned::BannedRange> &bannedIps = 
 		ScorchedServerUtil::instance()->bannedPlayers.getBannedIps();
@@ -563,17 +557,16 @@ bool ServerWebHandler::BannedHandler::processRequest(const char *url,
 				ipName.c_str());
 		}
 	}
-	fields["BANNED"] = banned;
+	request.getFields()["BANNED"] = banned;
 
 	if (action && 0 == strcmp(action, "Save")) 
 		ScorchedServerUtil::instance()->bannedPlayers.save();
 
-	return ServerWebServerUtil::getHtmlTemplate("banned.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("banned.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::ModsHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::ModsHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::string modfiles;
@@ -594,14 +587,13 @@ bool ServerWebHandler::ModsHandler::processRequest(const char *url,
 			entry->getCompressedCrc(),
 			entry->getUncompressedSize());
 	}
-	fields["MODFILES"] = modfiles;
+	request.getFields()["MODFILES"] = modfiles;
 
-	return ServerWebServerUtil::getHtmlTemplate("mods.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("mods.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::SessionsHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	// Sessions Entries
@@ -627,7 +619,7 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 				params.ipAddress.c_str()
 			);
 		}
-		fields["SESSIONS"] = sessions;
+		request.getFields()["SESSIONS"] = sessions;
 	}
 
 	// List of admins
@@ -648,32 +640,31 @@ bool ServerWebHandler::SessionsHandler::processRequest(const char *url,
 				crendential.username.c_str()
 			);
 		}
-		fields["ADMINS"] = admins;
+		request.getFields()["ADMINS"] = admins;
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("sessions.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("sessions.html", request.getFields(), text);
 }
 
-bool ServerWebHandler::StatsHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebHandler::StatsHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::string message;
 
 	const char *find;
-	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 	if (action && 
 		(0 == strcmp(action, "Find")) &&
-		(find = ServerWebServerUtil::getField(fields, "find")))
+		(find = ServerWebServerUtil::getField(request.getFields(), "find")))
 	{
 		message.append("<b>Players</b>\n");
 		message.append(StatsLogger::instance()->getPlayerInfo(find));
 	}
 	else if (action && (0 == strcmp(action, "Combine")))
 	{
-		const char *player1 = ServerWebServerUtil::getField(fields, "player1");
-		const char *player2 = ServerWebServerUtil::getField(fields, "player2");
+		const char *player1 = ServerWebServerUtil::getField(request.getFields(), "player1");
+		const char *player2 = ServerWebServerUtil::getField(request.getFields(), "player2");
 		if (player1 && player2)
 		{
 			int p1 = atoi(player1);
@@ -697,7 +688,7 @@ bool ServerWebHandler::StatsHandler::processRequest(const char *url,
 		message.replace(pos, 1, "<br>");
 	}
 
-	fields["RANKS"] = message;
+	request.getFields()["RANKS"] = message;
 
-	return ServerWebServerUtil::getHtmlTemplate("stats.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("stats.html", request.getFields(), text);
 }

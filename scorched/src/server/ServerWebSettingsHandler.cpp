@@ -91,12 +91,11 @@ static void setValues(std::map<std::string, std::string> &fields)
 	}
 }
 
-bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
-	const char *action = getField(fields, "action");
+	const char *action = getField(request.getFields(), "action");
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
@@ -104,7 +103,7 @@ bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char
 	}
 	else
 	{
-		setValues(fields);
+		setValues(request.getFields());
 	}
 
 	{
@@ -143,7 +142,7 @@ bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char
 			players.append(value);
 		}
 		
-		fields["PLAYERS"] = players;
+		request.getFields()["PLAYERS"] = players;
 	}	
 
 	if (action && 0 == strcmp(action, "Save"))
@@ -152,15 +151,14 @@ bool ServerWebSettingsHandler::SettingsPlayersHandler::processRequest(const char
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("settingsplayers.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsplayers.html", request.getFields(), text);
 }
 
-bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
-	const char *action = getField(fields, "action");
+	const char *action = getField(request.getFields(), "action");
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
@@ -193,7 +191,7 @@ bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const ch
 			{
 				LandscapeDefinitionsEntry &dfn = *itor;
 		
-				const char *setting = getField(fields, dfn.name.c_str());
+				const char *setting = getField(request.getFields(), dfn.name.c_str());
 				if (0 == strcmp(action, "Select All") || 
 					(setting && 0 == strcmp(setting, "on")))
 				{
@@ -231,7 +229,7 @@ bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const ch
 			(dfn.description.c_str()[0]?dfn.description.c_str():"-"), 
 			value.c_str()));
 	}
-	fields["LANDSCAPES"] = landscapes;
+	request.getFields()["LANDSCAPES"] = landscapes;
 
 	if (action && 0 == strcmp(action, "Save"))
 	{
@@ -239,12 +237,11 @@ bool ServerWebSettingsHandler::SettingsLandscapeHandler::processRequest(const ch
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("settingslandscape.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingslandscape.html", request.getFields(), text);
 }
 
-bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::list<OptionEntry *>::iterator itor;
@@ -252,7 +249,7 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 		ScorchedServer::instance()->getOptionsGame().
 			getChangedOptions().getOptions();
 
-	const char *action = getField(fields, "action");
+	const char *action = getField(request.getFields(), "action");
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
@@ -261,7 +258,7 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 	else
 	{
 		// Check if any changes have been made
-		setValues(fields);
+		setValues(request.getFields());
 	}
 
 	// Show the current settings
@@ -293,7 +290,7 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 		}
 	}
 
-	fields["SETTINGS"] = settings;
+	request.getFields()["SETTINGS"] = settings;
 
 	if (action && 0 == strcmp(action, "Save"))
 	{
@@ -301,12 +298,11 @@ bool ServerWebSettingsHandler::SettingsAllHandler::processRequest(const char *ur
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("settingsall.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsall.html", request.getFields(), text);
 }
 
-bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::list<OptionEntry *>::iterator itor;
@@ -314,7 +310,7 @@ bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *u
 		ScorchedServer::instance()->getOptionsGame().
 			getChangedOptions().getOptions();
 
-	const char *action = getField(fields, "action");
+	const char *action = getField(request.getFields(), "action");
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
@@ -323,7 +319,7 @@ bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *u
 	else
 	{
 		// Check if any changes have been made
-		setValues(fields);
+		setValues(request.getFields());
 	}
 
 	if (action && 0 == strcmp(action, "Save"))
@@ -332,12 +328,11 @@ bool ServerWebSettingsHandler::SettingsMainHandler::processRequest(const char *u
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("settingsmain.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsmain.html", request.getFields(), text);
 }
 
-bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebSettingsHandler::SettingsModHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	std::list<OptionEntry *>::iterator itor;
@@ -345,7 +340,7 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 		ScorchedServer::instance()->getOptionsGame().
 			getChangedOptions().getOptions();
 
-	const char *action = getField(fields, "action");
+	const char *action = getField(request.getFields(), "action");
 	if (action && 0 == strcmp(action, "Load"))
 	{
 		ScorchedServer::instance()->getOptionsGame().getChangedOptions().
@@ -354,15 +349,15 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 	else
 	{
 		// Check if any changes have been made
-		setValues(fields);
+		setValues(request.getFields());
 	}
 
 	// Import/upload a mod (if specified)
-	if (!parts.empty())
+	if (!request.getParts().empty())
 	{
 		std::map<std::string, NetMessage *>::iterator modupload =
-			parts.find("modupload");
-		if (modupload != parts.end())
+			request.getParts().find("modupload");
+		if (modupload != request.getParts().end())
 		{
 			NetMessage *message = (*modupload).second;
 			ModFiles files;
@@ -374,20 +369,23 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 					return ServerWebServerUtil::getHtmlMessage(
 						"Mod Upload", 
 						formatString("Successfuly uploaded and imported mod %s",
-						(mod?mod:"Unknown")), fields, text);
+						(mod?mod:"Unknown")), 
+						request.getFields(), text);
 				}
 				else
 				{
 					return ServerWebServerUtil::getHtmlMessage(
 						"Mod Upload", 
-						"Failed to write mod files to disk", fields, text);
+						"Failed to write mod files to disk", 
+						request.getFields(), text);
 				}
 			}
 			else
 			{
 				return ServerWebServerUtil::getHtmlMessage(
 					"Mod Upload", 
-					"Failed to load mod files from network", fields, text);
+					"Failed to load mod files from network", 
+					request.getFields(), text);
 			}
 		}
 	}
@@ -415,7 +413,7 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 				modInfo.getName()));
 		}
 
-		fields["MODS"] = mods;
+		request.getFields()["MODS"] = mods;
 	}
 
 	if (action && 0 == strcmp(action, "Save"))
@@ -424,5 +422,5 @@ bool ServerWebSettingsHandler::SettingsModHandler::processRequest(const char *ur
 			writeOptionsToFile((char *) ServerParams::instance()->getServerFile());
 	}
 
-	return ServerWebServerUtil::getHtmlTemplate("settingsmod.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("settingsmod.html", request.getFields(), text);
 }

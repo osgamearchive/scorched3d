@@ -22,15 +22,16 @@
 #include <server/ServerWebServerUtil.h>
 #include <server/ServerWebServer.h>
 #include <server/ServerChannelManager.h>
+#include <server/ServerAdminCommon.h>
 #include <XML/XMLNode.h>
 
-bool ServerWebAppletHandler::AppletFileHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebAppletHandler::AppletFileHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	// Get file
-	const char *file = getDataFile(formatString("data/html/server/binary/%s", url));
+	const char *file = 
+		getDataFile(formatString("data/html/server/binary/%s", request.getUrl()));
 	if (!file) return false;
 
 	// Read file contents
@@ -59,32 +60,29 @@ bool ServerWebAppletHandler::AppletFileHandler::processRequest(const char *url,
 	return true;
 }
 
-bool ServerWebAppletHandler::AppletHtmlHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebAppletHandler::AppletHtmlHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
-	return ServerWebServerUtil::getHtmlTemplate("applet.html", fields, text);
+	return ServerWebServerUtil::getHtmlTemplate("applet.html", request.getFields(), text);
 }
 
-bool ServerWebAppletHandler::AppletActionHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebAppletHandler::AppletActionHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
-	const char *action = ServerWebServerUtil::getField(fields, "action");
+	const char *action = ServerWebServerUtil::getField(request.getFields(), "action");
 	if (action)
 	{
 		// Check which action we need to perform
 		if (0 == strcmp(action, "chat"))
 		{
 			// Add a new chat message
-			const char *text = ServerWebServerUtil::getField(fields, "text");
-			const char *channel = ServerWebServerUtil::getField(fields, "channel");
-			if (text && channel)
+			const char *text = ServerWebServerUtil::getField(request.getFields(), "text");
+			const char *channel = ServerWebServerUtil::getField(request.getFields(), "channel");
+			if (text && channel && request.getSession())
 			{
-				ServerChannelManager::instance()->sendText(
-					ChannelText(channel, text), true);
+				ServerAdminCommon::adminSay(request.getSession(), channel, text);
 			}
 		}
 	}
@@ -98,9 +96,8 @@ ServerWebAppletHandler::AppletAsyncHandler::AppletAsyncHandler() :
 {
 }
 
-bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(const char *url,
-	std::map<std::string, std::string> &fields,
-	std::map<std::string, NetMessage *> &parts,
+bool ServerWebAppletHandler::AppletAsyncHandler::processRequest(
+	ServerWebServerIRequest &request,
 	std::string &text)
 {
 	// Check if we have sent the initial data

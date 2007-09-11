@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <server/ServerWebServer.h>
-#include <net/NetMessagePool.h>
 
 ServerWebServerQueueEntry::ServerWebServerQueueEntry(
 	unsigned int destinationId,
@@ -29,24 +28,14 @@ ServerWebServerQueueEntry::ServerWebServerQueueEntry(
 	std::map<std::string, std::string> &fields,
 	std::map<std::string, NetMessage *> &parts) :
 	destinationId_(destinationId),
-	sid_(sid), url_(url),
-	handler_(handler),
-	fields_(fields), parts_(parts)
+	sid_(sid), 
+	request_(url, fields, parts),
+	handler_(handler)
 {
-	parts.clear();
 }
 
 ServerWebServerQueueEntry::~ServerWebServerQueueEntry()
 {
-	// Add any message parts back to the pool
-	std::map<std::string, NetMessage *>::iterator partitor;
-	for (partitor = parts_.begin();
-		partitor != parts_.end();
-		partitor++)
-	{
-		NetMessage *newMessage = (*partitor).second;
-		NetMessagePool::instance()->addToPool(newMessage);
-	}
 	delete handler_;
 }
 

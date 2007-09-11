@@ -34,6 +34,7 @@ public:
 		ePlayerEntry,
 		eWeaponEntry,
 		eChannelEntry,
+		eAdminEntry,
 		eTipEntry
 	};
 	struct ChannelTextEntry
@@ -70,6 +71,9 @@ protected:
 		const char *part, ChannelTextEntry &entry);
 	bool createTipEntry(ScorchedContext &context, 
 		const char *part, ChannelTextEntry &entry);
+	bool createAdminEntry(ScorchedContext &context, 
+		const char *part, ChannelTextEntry &entry);
+	void addIndex(int number, unsigned char index);
 };
 
 #endif

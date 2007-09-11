@@ -53,16 +53,20 @@ void ChannelTextParser::subset(ChannelTextParser &other, int start, int len)
 	}
 }
 
+void ChannelTextParser::addIndex(int number, unsigned char index)
+{
+	for (int i=0; i<number; i++)
+	{
+		entryIndex_.push_back(index);
+	}
+}
+
 void ChannelTextParser::parseText(ScorchedContext &context, const char *text)
 {
 	// Clear any existing items
 	text_.clear();
 	entryIndex_.clear();
 	entries_.clear();
-
-	// Set the entryIndex array to nulls
-	std::vector<unsigned char> emptyVector(strlen(text), 0);
-	entryIndex_ = emptyVector;
 
 	// Parse out all of the urls
 	const char *pos = text;
@@ -73,6 +77,7 @@ void ChannelTextParser::parseText(ScorchedContext &context, const char *text)
 	{
 		// Add all text before [
 		text_.append(pos, start - pos);
+		addIndex(start - pos, 0);
 		pos = start; // Skip to this point
 
 		// Find the next ]
@@ -89,10 +94,7 @@ void ChannelTextParser::parseText(ScorchedContext &context, const char *text)
 			{
 				// Update the entryIndex array to point to the newEntry
 				entries_.push_back(newEntry);
-				for (int i=0; i<(int) newEntry.text.size(); i++)
-				{
-					entryIndex_[i + (int) text_.size()] = (unsigned int) entries_.size();
-				}
+				addIndex((int) newEntry.text.size(), (unsigned char) entries_.size());
 
 				// Add the new url text
 				text_.append(newEntry.text);
@@ -101,6 +103,7 @@ void ChannelTextParser::parseText(ScorchedContext &context, const char *text)
 			{
 				// Add the normal text
 				text_.append(url);
+				addIndex((int) url.size(), 0);
 			}
 
 			// Skip the url
@@ -110,6 +113,7 @@ void ChannelTextParser::parseText(ScorchedContext &context, const char *text)
 
 	// Add all remaining text
 	text_.append(pos);
+	addIndex((int) strlen(pos), 0);
 }
 
 bool ChannelTextParser::parseUrl(ScorchedContext &context, 
@@ -141,6 +145,10 @@ bool ChannelTextParser::parseUrl(ScorchedContext &context,
 	else if (0 == strcmp(urlPart.c_str(), "w")) // A weapon
 	{
 		return createWeaponEntry(context, otherPart.c_str(), entry);
+	} 
+	else if (0 == strcmp(urlPart.c_str(), "a")) // An admin
+	{
+		return createAdminEntry(context, otherPart.c_str(), entry);
 	}
 	return false;
 }
@@ -167,6 +175,7 @@ bool ChannelTextParser::createWeaponEntry(ScorchedContext &context,
 {
 	entry.type = eWeaponEntry;
 	entry.text = formatString("[%s]", part);
+	entry.color = Vector(1.0f, 1.0f, 1.0f);
 
 	return true;
 }
@@ -186,6 +195,16 @@ bool ChannelTextParser::createChannelEntry(ScorchedContext &context,
 {
 	entry.type = eChannelEntry;
 	entry.text = formatString("[%s]", part);
+
+	return true;
+}
+
+bool ChannelTextParser::createAdminEntry(ScorchedContext &context, 
+	const char *part, ChannelTextEntry &entry)
+{
+	entry.type = eAdminEntry;
+	entry.text = formatString("%s (Admin)", part);
+	entry.color = Vector(1.0f, 1.0f, 1.0f);
 
 	return true;
 }

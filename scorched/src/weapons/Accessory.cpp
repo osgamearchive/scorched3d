@@ -39,7 +39,7 @@ unsigned int Accessory::nextAccessoryId_ = 0;
 Accessory::Accessory() :
 	accessoryId_(++nextAccessoryId_),
 	name_("NONAME"), description_("NODESC"), toolTip_("", ""),
-	price_(0), bundle_(1), armsLevel_(9),
+	price_(0), bundle_(1), armsLevel_(9), freemarketLimits_(150),
 	modelScale_(1),
 	positionSelect_(ePositionSelectNone), positionSelectLimit_(10),
 	maximumNumber_(0),
@@ -101,6 +101,9 @@ bool Accessory::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode
 
 	// Get the starting number
 	accessoryNode->getNamedChild("startingnumber", startingNumber_, false);
+
+	// Freemarket limits
+	accessoryNode->getNamedChild("freemarketlimits", freemarketLimits_, false);
 
 	// Get the accessory cost
 	accessoryNode->getNamedChild("cost", price_, false);

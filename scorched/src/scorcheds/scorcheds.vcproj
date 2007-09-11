@@ -1130,6 +1130,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerWebServerI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerWebServerI.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerWebServerQueue.cpp"
 				>
 			</File>

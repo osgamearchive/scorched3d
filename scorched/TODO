@@ -118,7 +118,10 @@ Added: Players that are muted and then leave and rejoin are still muted when sta
 Added: WeaponPosition primitive to set explicit position of an accessory
 Added: Apply button to sound dialog
 Added: Most dirt weapons cannot create more dirt when underground (optional)
+Added: freemarketlimits attribute to Accessories to allow freemarket prices to be controlled
+Added: Admin messages are marked with the admin's name
 
+Fixed: Rollers don't hit wrap wall
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests
 Fixed: Server will only show log files via the management interface that it created

@@ -208,7 +208,11 @@ void GLWChannelView::channelText(ChannelText &channelText)
 	}
 	if (tank)
 	{
-		 channelName.append(formatString("[p:%s]", tank->getName()));
+		channelName.append(formatString("[p:%s]", tank->getName()));
+	}
+	if (channelText.getAdminPlayer()[0])
+	{
+		channelName.append(formatString("[a:%s]", channelText.getAdminPlayer()));
 	}
 	if (!channelName.empty())
 	{
