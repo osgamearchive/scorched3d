@@ -116,7 +116,7 @@ void LandscapeSoundManager::loadSound(std::vector<LandscapeInclude *> &sounds)
 
 void LandscapeSoundManager::simulate(float frameTime)
 {
-	if (OptionsDisplay::instance()->getNoAmbientSound())
+	if (OptionsDisplay::instance()->getAmbientSoundVolume() == 0)
 	{
 		if (haveSound_) cleanUp();
 		return;
@@ -149,6 +149,13 @@ void LandscapeSoundManager::simulate(float frameTime)
 		}
 		else
 		{
+			// Set the volume
+			if (entry.soundSource)
+			{
+				entry.soundSource->setGain(
+					(float)OptionsDisplay::instance()->getAmbientSoundVolume() / 128.0f);
+			}
+
 			// Check if looped
 			if (entry.timeLeft >= 0.0f) 
 			{

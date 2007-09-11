@@ -53,6 +53,7 @@ public:
 class LandscapeDefnStartHeight : public LandscapeDefnType
 {
 public:
+	fixed flatness;
 	fixed startcloseness;
 	fixed heightmin, heightmax;
 	std::string startmask;

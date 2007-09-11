@@ -874,7 +874,12 @@ void TankAICurrentMove::fireShot(Tank *tank)
 			tank->getPosition().getSelectPositionX(),
 			tank->getPosition().getSelectPositionY());
 	
-		ServerShotHolder::instance()->addShot(tank->getPlayerId(), message);
+		if (!ServerShotHolder::instance()->addShot(tank->getPlayerId(), message))
+		{
+			Logger::log(formatString("AI %u failed to make a shot, shot refused",
+				tank->getPlayerId()));
+			skipMove(tank);
+		}
 	}
 }
 

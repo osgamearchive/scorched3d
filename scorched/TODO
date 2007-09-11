@@ -120,6 +120,8 @@ Added: Apply button to sound dialog
 Added: Most dirt weapons cannot create more dirt when underground (optional)
 Added: freemarketlimits attribute to Accessories to allow freemarket prices to be controlled
 Added: Admin messages are marked with the admin's name
+Added: Flatness attribute to tank placement to stop tanks from being placed on slopes
+Added: Seperate ambient sound volume control
 
 Fixed: Rollers don't hit wrap wall
 Fixed: High detail tanks being used for other players when detail level set low

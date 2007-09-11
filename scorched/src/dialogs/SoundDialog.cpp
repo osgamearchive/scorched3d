@@ -42,25 +42,36 @@ SoundDialog::SoundDialog() :
 {
 	needCentered_ = true;
 
+	{
 	GLWPanel *soundVolumePanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
-	soundVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Sound Volume"), 0, SpaceRight, 10.0f);
+	soundVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Sound Volume    "), 0, SpaceRight, 10.0f);
 	soundVolume_ = new GLWSlider(0.0f, 0.0f, 300.0f);
 	soundVolumePanel->addWidget(soundVolume_, 0, AlignCenterLeftRight);
 	soundVolumePanel->setLayout(GLWPanel::LayoutHorizontal);
 	addWidget(soundVolumePanel, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+	}
 
+	{
+	GLWPanel *ambientSoundVolumePanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
+	ambientSoundVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Ambient Volume"), 0, SpaceRight, 10.0f);
+	ambientSoundVolume_ = new GLWSlider(0.0f, 0.0f, 300.0f);
+	ambientSoundVolumePanel->addWidget(ambientSoundVolume_, 0, AlignCenterLeftRight);
+	ambientSoundVolumePanel->setLayout(GLWPanel::LayoutHorizontal);
+	addWidget(ambientSoundVolumePanel, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+	}
+
+	{
 	GLWPanel *musicVolumePanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
-	musicVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Music Volume"), 0, SpaceRight, 10.0f);
+	musicVolumePanel->addWidget(new GLWLabel(0.0f, 0.0f, "Music Volume    "), 0, SpaceRight, 10.0f);
 	musicVolume_ = new GLWSlider(0.0f, 0.0f, 300.0f);
 	musicVolumePanel->addWidget(musicVolume_, 0, AlignCenterLeftRight);
 	musicVolumePanel->setLayout(GLWPanel::LayoutHorizontal);
 	addWidget(musicVolumePanel, 0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
+	}
 
 	GLWPanel *checkPanel = new GLWPanel(0.0f, 0.0f, 0.0f, 0.0f, false, false);
 	noSoundBox_ = new GLWCheckBoxText(0.0f, 0.0f, "No Sound");
 	checkPanel->addWidget(noSoundBox_, 0, SpaceRight, 10.0f);
-	noAmbientSoundBox_ = new GLWCheckBoxText(0.0f, 0.0f, "No Ambient Sound");
-	checkPanel->addWidget(noAmbientSoundBox_, 0, SpaceRight, 10.0f);
 	noMusicBox_ = new GLWCheckBoxText(0.0f, 0.0f, "No Music");
 	checkPanel->addWidget(noMusicBox_);
 	checkPanel->setLayout(GLWPanel::LayoutHorizontal);
@@ -96,14 +107,14 @@ void SoundDialog::display()
 
 	soundVolume_->setCurrent(
 		float(OptionsDisplay::instance()->getSoundVolume()) / 1.28f);
+	ambientSoundVolume_->setCurrent(
+		float(OptionsDisplay::instance()->getAmbientSoundVolume()) / 1.28f);
 	musicVolume_->setCurrent(
 		float(OptionsDisplay::instance()->getMusicVolume()) / 1.28f);
 	noSoundBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getNoSound());
 	noMusicBox_->getCheckBox().setState(
 		OptionsDisplay::instance()->getNoMusic());
-	noAmbientSoundBox_->getCheckBox().setState(
-		OptionsDisplay::instance()->getNoAmbientSound());
 }
 
 void SoundDialog::buttonDown(unsigned int id)
@@ -114,8 +125,6 @@ void SoundDialog::buttonDown(unsigned int id)
 			noSoundBox_->getCheckBox().getState());
 		OptionsDisplay::instance()->getNoMusicEntry().setValue(
 			noMusicBox_->getCheckBox().getState());
-		OptionsDisplay::instance()->getNoAmbientSoundEntry().setValue(
-			noAmbientSoundBox_->getCheckBox().getState());
 
 		int volume = int(soundVolume_->getCurrent() * 1.28f);
 		OptionsDisplay::instance()->getSoundVolumeEntry().setValue(volume);
@@ -123,6 +132,9 @@ void SoundDialog::buttonDown(unsigned int id)
 
 		volume = int(musicVolume_->getCurrent() * 1.28f);
 		OptionsDisplay::instance()->getMusicVolumeEntry().setValue(volume);
+
+		volume = int(ambientSoundVolume_->getCurrent() * 1.28f);
+		OptionsDisplay::instance()->getAmbientSoundVolumeEntry().setValue(volume);
 	}
 
 	if (id != applyId_)

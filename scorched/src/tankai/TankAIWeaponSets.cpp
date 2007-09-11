@@ -24,6 +24,7 @@
 #include <tank/TankAccessories.h>
 #include <server/ScorchedServer.h>
 #include <common/OptionsScorched.h>
+#include <common/OptionsTransient.h>
 #include <weapons/AccessoryStore.h>
 #include <XML/XMLFile.h>
 
@@ -155,12 +156,17 @@ Accessory *TankAIWeaponSets::WeaponSet::
 		WeaponSetEntry &current = *itor;
 		if (current.type == getType)
 		{
-			if (tank->getAccessories().getAccessoryCount(current.accessory) != 0)
+			if ((10 - current.accessory->getArmsLevel()) <=
+				ScorchedServer::instance()->getOptionsTransient().getArmsLevel() ||
+				ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons())
 			{
-				if (!result ||
-					result->priorityuse < current.priorityuse)
+				if (tank->getAccessories().getAccessoryCount(current.accessory) != 0)
 				{
-					result = &current;
+					if (!result ||
+						result->priorityuse < current.priorityuse)
+					{
+						result = &current;
+					}
 				}
 			}
 		}
@@ -226,6 +232,11 @@ bool TankAIWeaponSets::WeaponSetEntry::weaponValid(Tank *tank, bool lastRound)
 
 	if (currentCount < 0) return false;
 	if (currentMoney < accessory->getPrice()) return false;
+
+	if ((10 - accessory->getArmsLevel()) <=
+		ScorchedServer::instance()->getOptionsTransient().getArmsLevel() ||
+		ScorchedServer::instance()->getOptionsGame().getGiveAllWeapons()) {}
+	else return false;
 
 	if (type == "autodefense")
 	{

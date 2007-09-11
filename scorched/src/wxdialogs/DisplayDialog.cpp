@@ -353,8 +353,6 @@ void DisplayFrame::refreshScreen()
 	IDC_NOMIPMAPS_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().getDescription(), wxConvUTF8));
 	IDC_NOSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoSound());
 	IDC_NOSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoSoundEntry().getDescription(), wxConvUTF8));
-	IDC_NOAMBIENTSOUND_CTRL->SetValue(OptionsDisplay::instance()->getNoAmbientSound());
-	IDC_NOAMBIENTSOUND_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoAmbientSoundEntry().getDescription(), wxConvUTF8));
 	IDC_NOMUSIC_CTRL->SetValue(OptionsDisplay::instance()->getNoMusic());
 	IDC_NOMUSIC_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoMusicEntry().getDescription(), wxConvUTF8));
 	IDC_NOSKINS_CTRL->SetValue(OptionsDisplay::instance()->getNoSkins());
@@ -410,6 +408,10 @@ void DisplayFrame::refreshScreen()
 	IDC_MUSICVOLUME_CTRL->SetTickFreq(4, 0);
 	IDC_MUSICVOLUME_CTRL->SetValue(OptionsDisplay::instance()->getMusicVolume());
 	IDC_MUSICVOLUME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getMusicVolumeEntry().getDescription(), wxConvUTF8));
+	IDC_AMBIENTVOLUME_CTRL->SetRange(0, 128);
+	IDC_AMBIENTVOLUME_CTRL->SetTickFreq(4, 0);
+	IDC_AMBIENTVOLUME_CTRL->SetValue(OptionsDisplay::instance()->getAmbientSoundVolume());
+	IDC_AMBIENTVOLUME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getAmbientSoundVolumeEntry().getDescription(), wxConvUTF8));
 	IDC_USERNAME_CTRL->SetValue(wxString(OptionsDisplay::instance()->getOnlineUserName(), wxConvUTF8));
 	IDC_USERNAME_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getOnlineUserNameEntry().getDescription(), wxConvUTF8));
 	IDC_TANKMODEL_CTRL->SetValue(wxString(OptionsDisplay::instance()->getOnlineTankModel(), wxConvUTF8));
@@ -588,7 +590,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoVBOEntry().setValue(IDC_NOVBO_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLHardwareMipmapsEntry().setValue(IDC_NOMIPMAPS_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSoundEntry().setValue(IDC_NOSOUND_CTRL->GetValue());
-	OptionsDisplay::instance()->getNoAmbientSoundEntry().setValue(IDC_NOAMBIENTSOUND_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoMusicEntry().setValue(IDC_NOMUSIC_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoundChannelsEntry().setValue(atoi(IDC_SOUNDCHANNELS_CTRL->GetValue().mb_str(wxConvUTF8)));
 	OptionsDisplay::instance()->getNoSkinsEntry().setValue(IDC_NOSKINS_CTRL->GetValue());
@@ -605,6 +606,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getBrightnessEntry().setValue(IDC_SLIDER1_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoundVolumeEntry().setValue(IDC_VOLUME_CTRL->GetValue());
 	OptionsDisplay::instance()->getMusicVolumeEntry().setValue(IDC_MUSICVOLUME_CTRL->GetValue());
+	OptionsDisplay::instance()->getAmbientSoundVolumeEntry().setValue(IDC_AMBIENTVOLUME_CTRL->GetValue());
 	OptionsDisplay::instance()->getDrawWaterEntry().setValue(!IDC_NOWATER_CTRL->GetValue());
 	OptionsDisplay::instance()->getDrawSurroundEntry().setValue(!IDC_NOSURROUND_CTRL->GetValue());
 	OptionsDisplay::instance()->getInvertElevationEntry().setValue(IDC_INVERT_CTRL->GetValue());

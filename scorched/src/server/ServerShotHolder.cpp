@@ -85,33 +85,36 @@ void ServerShotHolder::sendWaitingMessage()
 	ComsMessageSender::sendToAllPlayingClients(statusMessage, NetInterfaceFlags::fAsync);
 }
 
-void ServerShotHolder::addShot(unsigned int playerId,
+bool ServerShotHolder::addShot(unsigned int playerId,
 	ComsPlayedMoveMessage *message)
 {
 	// Check the tank exists for this player
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-	if (!tank) return;
+	if (!tank) return false;
 
 	// Check the tank is alive
 	if (tank->getState().getState() != TankState::sNormal)
 	{
-		return;
+		return false;
 	}
 
 	// Validate this message
 	if (message->getType() == ComsPlayedMoveMessage::eShot)
 	{
 		// Check this player can fire this weapon etc...
-		if (!validateFiredMessage(ScorchedServer::instance()->getContext(), *message, tank)) return;
+		if (!validateFiredMessage(ScorchedServer::instance()->getContext(), *message, tank)) return false;
 	}
 
 	// Ensure each player can only add one message
-	if (!haveShot(playerId))
+	if (haveShot(playerId))
 	{
-		messages_[playerId] = message;
-
-		sendWaitingMessage();
+		return false;
 	}
+
+	messages_[playerId] = message;
+	sendWaitingMessage();
+
+	return true;
 }
 
 bool ServerShotHolder::validateFiredMessage(
@@ -184,7 +187,9 @@ bool ServerShotHolder::haveAllTurnShots()
 		unsigned int playerId = (*itor);
 		Tank *tank = 
 			ScorchedServer::instance()->getTankContainer().getTankById(playerId);
-		if (tank && tank->getState().getState() == TankState::sNormal)
+		if (tank && 
+			tank->getState().getState() == TankState::sNormal &&
+			tank->getDestinationId() != 0)
 		{
 			if (!haveShot(tank->getPlayerId())) return false;
 		}

@@ -175,7 +175,8 @@ void LandscapeMusicManager::simulate(const unsigned state, float simTime)
 
 	// Find which music entry we should be playing in this state
 	MusicStateEntry *wantedEntry = 0;
-	if (!OptionsDisplay::instance()->getNoMusic())
+	if (!OptionsDisplay::instance()->getNoMusic() &&
+		OptionsDisplay::instance()->getMusicVolume() > 0)
 	{
 		std::map<int, MusicStateEntry>::iterator findItor =
 			stateMusic_.find(int(playState));

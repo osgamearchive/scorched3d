@@ -108,12 +108,13 @@ bool LandscapeDefnRoofCavern::readXML(XMLNode *node)
 
 bool LandscapeDefnStartHeight::readXML(XMLNode *node)
 {
-	if (!node->getNamedChild("startcloseness", 
-		startcloseness)) return false;
-	if (!parseMinMax(node, "height", 
-		heightmin, heightmax)) return false;
-	if (!node->getNamedChild("startmask", 
-		startmask)) return false;
+	if (!node->getNamedChild("startcloseness", startcloseness)) return false;
+	if (!parseMinMax(node, "height", heightmin, heightmax)) return false;
+	if (!node->getNamedChild("startmask", startmask)) return false;
+	if (!node->getNamedChild("flatness", flatness, false))
+	{
+		flatness = 0;
+	}
 	if (!startmask.empty())
 	{
 		if (!checkDataFile(startmask.c_str())) return false;

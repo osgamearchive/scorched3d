@@ -28,7 +28,7 @@ class ServerShotHolder : public PlayShots
 public:
 	static ServerShotHolder *instance();
 
-	virtual void addShot(unsigned int playerId, ComsPlayedMoveMessage *message);
+	bool addShot(unsigned int playerId, ComsPlayedMoveMessage *message);
 	bool haveAllTurnShots();
 	bool allSkipped();
 

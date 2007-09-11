@@ -184,9 +184,6 @@ public:
 	bool getNoMusic() { return noMusic_; }
 	OptionEntryBool &getNoMusicEntry() { return noMusic_; }
 
-	bool getNoAmbientSound() { return noAmbientSound_; }
-	OptionEntryBool &getNoAmbientSoundEntry() { return noAmbientSound_; }
-
 	bool getNoSkins() { return noSkins_; }
 	OptionEntryBool &getNoSkinsEntry() { return noSkins_; }
 
@@ -298,6 +295,9 @@ public:
 	int getSoundVolume() { return soundVolume_; }
 	OptionEntryInt &getSoundVolumeEntry() { return soundVolume_; }
 
+	int getAmbientSoundVolume() { return ambientSoundVolume_; }
+	OptionEntryInt &getAmbientSoundVolumeEntry() { return ambientSoundVolume_; }
+
 	int getMusicVolume() { return musicVolume_; }
 	OptionEntryInt &getMusicVolumeEntry() { return musicVolume_; }
 
@@ -387,6 +387,7 @@ protected:
 	OptionEntryBool depricatedFirstTimePlayed_;
 	OptionEntryBool depricatedNoWaves_;
 	OptionEntryBool depricatedNoCg_;
+	OptionEntryBool depricatedNoAmbientSound_;
 
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
@@ -422,7 +423,6 @@ protected:
 	OptionEntryBool invertMouse_;
 	OptionEntryBool noSound_;
 	OptionEntryBool noMusic_;
-	OptionEntryBool noAmbientSound_;
 	OptionEntryBool noShadows_;
 	OptionEntryBool noGLShadows_;
 	OptionEntryBool noDrawParticles_;
@@ -485,6 +485,7 @@ protected:
 	OptionEntryBoundedInt tankDetail_;
 	OptionEntryBoundedInt effectsDetail_;
 	OptionEntryBoundedInt soundVolume_;
+	OptionEntryBoundedInt ambientSoundVolume_;
 	OptionEntryBoundedInt musicVolume_;
 	OptionEntryInt screenWidth_;
 	OptionEntryInt screenHeight_;

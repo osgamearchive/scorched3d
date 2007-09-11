@@ -92,6 +92,7 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	wxGridSizer *soundSizer2 = new wxGridSizer(3, 3, 10, 10);
 	wxStaticText *volumeText = new wxStaticText(parent, -1, wxT("Sound Volume :"));
 	wxStaticText *musicVolumeText = new wxStaticText(parent, -1, wxT("Music Volume :"));
+	wxStaticText *ambientVolumeText = new wxStaticText(parent, -1, wxT("Ambient Volume :"));
 	IDC_VOLUME_CTRL = 
 		new wxSlider(parent, -1,
 		0,0,0,
@@ -107,10 +108,13 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 		0,0,0,
 		wxDefaultPosition, wxSize(315, -1),
 		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
+	IDC_AMBIENTVOLUME_CTRL = 
+		new wxSlider(parent, -1,
+		0,0,0,
+		wxDefaultPosition, wxSize(315, -1),
+		wxSL_HORIZONTAL | wxSL_AUTOTICKS);
 	IDC_NOSOUND_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No Sound"));
-	IDC_NOAMBIENTSOUND_CTRL = 
-		new wxCheckBox(parent, -1, wxT("No Ambient Sound"));
 	IDC_NOMUSIC_CTRL = 
 		new wxCheckBox(parent, -1, wxT("No Music"));
 	soundSizer1->Add(volumeText, 0, wxRIGHT, 10);
@@ -118,8 +122,11 @@ static void createMainControls(wxWindow *parent, wxSizer *sizer)
 	soundSizer1->Add(IDC_SOUNDCHANNELS_CTRL, 0, wxRIGHT, 5);
 	soundSizer1->Add(new wxStaticText(parent, -1, wxT("Channels")), 0, wxALIGN_CENTRE_VERTICAL);
 	soundSizer2->Add(IDC_NOSOUND_CTRL, 0, wxRIGHT, 10);
-	soundSizer2->Add(IDC_NOAMBIENTSOUND_CTRL, 0, wxRIGHT, 5);
 	soundSizer2->Add(IDC_NOMUSIC_CTRL, 0, wxRIGHT, 5);
+	soundSizer1->Add(ambientVolumeText, 0, wxRIGHT, 10);
+	soundSizer1->Add(IDC_AMBIENTVOLUME_CTRL, 0, wxRIGHT, 10);
+	soundSizer1->Add(new wxStaticText(parent, -1, wxT("")), 0, wxRIGHT, 0);
+	soundSizer1->Add(new wxStaticText(parent, -1, wxT("")), 0, wxRIGHT, 0);
 	soundSizer1->Add(musicVolumeText, 0, wxRIGHT, 10);
 	soundSizer1->Add(IDC_MUSICVOLUME_CTRL, 0, wxRIGHT, 10);
 	soundSizerMain->Add(soundSizer1, 0, wxGROW | wxTOP, 5);

@@ -85,6 +85,7 @@ FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 	fixed minHeight = -1000;
 	fixed maxHeight = 1000;
 	fixed tankCloseness = 0;
+	fixed flatness = 0;
 	GLImage *tankMask = 0;
 
 	LandscapeDefnType *defn =
@@ -96,6 +97,7 @@ FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 		minHeight = height->heightmin;
 		maxHeight = height->heightmax;
 		tankCloseness = height->startcloseness;
+		flatness = height->flatness;
 		if (!height->startmask.empty())
 		{
 			tankMask = GLImageFactory::loadImage(
@@ -125,11 +127,20 @@ FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 			generator.getRandFixed() + fixed(tankBorder);
 		fixed height = context.landscapeMaps->getGroundMaps().
 			getHeight(posX.asInt(), posY.asInt());
+		FixedVector normal = context.landscapeMaps->getGroundMaps().
+			getNormal(posX.asInt(), posY.asInt());
 		tankPos = FixedVector(posX, posY, height);
 
 		// Make sure not lower than water line
 		if (tankPos[2] < minHeight ||
 			tankPos[2] > maxHeight) 
+		{
+			tooClose = true;
+			closeness -= fixed(true, 1000);
+		}
+
+		// Make sure normal is less than given
+		if (normal[2] < flatness)
 		{
 			tooClose = true;
 			closeness -= fixed(true, 1000);
