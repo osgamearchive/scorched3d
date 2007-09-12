@@ -102,12 +102,12 @@ bool ServerTimedMessage::load()
 	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		Logger::log(formatString("Failed to parse user file \"%s\"\n%s", 
+		Logger::log(formatStringBuffer("Failed to parse user file \"%s\"\n%s", 
 			filename, file.getParserError()));
 		return false;
 	}
 
-	Logger::log(formatString("Refreshing message list %s", filename));
+	Logger::log(formatStringBuffer("Refreshing message list %s", filename));
 	lastReadTime_ = fileTime;
 	entries_.clear();
 	if (!file.getRootNode()) return true; // Empty File

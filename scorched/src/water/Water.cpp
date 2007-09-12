@@ -101,7 +101,7 @@ void Water::generate(ProgressCounter *counter)
 	Clock timer;
 	wMap_->generate(water, counter);
 	float timeDifference = timer.getTimeDifference();
-	Logger::log(formatString("Water time %.3f", timeDifference));
+	Logger::log(formatStringBuffer("Water time %.3f", timeDifference));
 
 	wTex_->generate(water, counter);
 	wMapPoints_->generate(defn.landscapewidth, defn.landscapewidth);

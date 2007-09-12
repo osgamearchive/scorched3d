@@ -133,7 +133,7 @@ bool ShotState::run(float frameTime)
 		else
 		{
 			// We have finished all shots
-			Logger::log(formatString(
+			Logger::log(formatStringBuffer(
 				"Finished playing Shots %.2f seconds", 
 					context_.actionController->getActionTime().asFloat()));
 			context_.actionController->getEvents().clear();

@@ -155,7 +155,7 @@ void LandscapeDefinitions::checkEnabled(OptionsScorched &context)
 	}
 
 	context.getChangedOptions().getLandscapesEntry().setValue("");
-	Logger::log(formatString(
+	Logger::log(formatStringBuffer(
 		"Warning: No existing landscapes are enabled (Landscapes : %s)",
 		context.getLandscapes()));
 }

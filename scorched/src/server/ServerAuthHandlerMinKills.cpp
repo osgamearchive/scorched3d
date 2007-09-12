@@ -81,7 +81,7 @@ void ServerAuthHandlerMinKills::setup()
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
-		Logger::log(formatString("Failed to parse %s settings file. Error: %s", 
+		Logger::log(formatStringBuffer("Failed to parse %s settings file. Error: %s", 
 			fileName,
 			file.getParserError()));
 		return;
@@ -90,9 +90,9 @@ void ServerAuthHandlerMinKills::setup()
 	if (!file.getRootNode()->getNamedChild("minkills", minKills_) ||
 		!file.getRootNode()->getNamedChild("maxkills", maxKills_)) 
 	{
-		Logger::log(formatString("Failed to parse %s settings file.", fileName));
+		Logger::log(formatStringBuffer("Failed to parse %s settings file.", fileName));
 		return;
 	}
-	Logger::log(formatString("ServerAuthHandlerMinKills : minkills=%i, maxkills=%i",
+	Logger::log(formatStringBuffer("ServerAuthHandlerMinKills : minkills=%i, maxkills=%i",
 		minKills_, maxKills_));
 }

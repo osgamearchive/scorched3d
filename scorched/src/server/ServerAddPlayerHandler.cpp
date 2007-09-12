@@ -125,7 +125,7 @@ bool ServerAddPlayerHandler::processMessage(NetMessage &netMessage,
 		// Tell this computer that a new tank has connected
 #ifdef S3D_SERVER
 		{
-			Logger::log(formatString("Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
+			Logger::log(formatStringBuffer("Player playing dest=\"%i\" id=\"%i\" \"%s\"->\"%s\"",
 				tank->getDestinationId(), tank->getPlayerId(),
 				tank->getName(), name.c_str()));
 

@@ -124,7 +124,7 @@ void TankMenus::groupInfo()
 	{
 		const std::string &name = itor->first;
 		TargetGroupsGroupEntry *entry = itor->second;
-		Logger::log(formatString("Group %s count %i", 
+		Logger::log(formatStringBuffer("Group %s count %i", 
 			name.c_str(),
 			entry->getObjectCount()));
 	}

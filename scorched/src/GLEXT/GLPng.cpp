@@ -121,7 +121,7 @@ bool GLPng::loadFromFile(const char *filename, bool readalpha)
 
 	if (!loadFromBuffer(netBuffer, readalpha))
 	{
-		Logger::log(formatString("Failed to load PNG file \"%s\"", filename));
+		Logger::log(formatStringBuffer("Failed to load PNG file \"%s\"", filename));
 		return false;
 	}
 	return true;

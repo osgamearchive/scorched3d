@@ -88,7 +88,7 @@ bool EconomyFreeMarket::loadPrices()
 				findByPrimaryAccessoryName(nameNode->getContent());
 			if (!accessory)
 			{
-				Logger::log(formatString(
+				Logger::log(formatStringBuffer(
 					"Warning: Economy free market failed to find accessory named \"%s\"",
 					nameNode->getContent()));
 			}

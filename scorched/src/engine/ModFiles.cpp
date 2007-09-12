@@ -72,7 +72,7 @@ bool ModFiles::excludeFile(const char *file)
 		!fileEnding(file, ".wav") &&
 		!fileEnding(file, ".ogg"))
 	{
-		Logger::log(formatString("Excluding mod file \"%s\"", file));
+		Logger::log(formatStringBuffer("Excluding mod file \"%s\"", file));
 		return true;
 	}
 
@@ -140,7 +140,7 @@ bool ModFiles::loadModFiles(const char *mod, bool createDir, ProgressCounter *co
 			totalSize += entry->getUncompressedSize();
 		}
 
-		Logger::log(formatString("Loaded mod \"%s\", %u files, space required %u (%u) bytes", 
+		Logger::log(formatStringBuffer("Loaded mod \"%s\", %u files, space required %u (%u) bytes", 
 			mod, files_.size(), totalCompSize, totalSize));
 
 		if (!createDir && files_.empty())

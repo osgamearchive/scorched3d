@@ -338,7 +338,7 @@ void MainCamera::setQuick(int key)
 		targetCam_.getCamera().getRotationYZ(),
 		targetCam_.getCamera().getZoom()));
 	quickKeys_[key] = value;
-	Logger::log(formatString("Saved camera preset %i", key));
+	Logger::log(formatStringBuffer("Saved camera preset %i", key));
 }
 
 void MainCamera::useQuick(int key)
@@ -352,7 +352,7 @@ void MainCamera::useQuick(int key)
 		targetCam_.getCamera().setLookAt(value.first);
 		targetCam_.getCamera().movePosition(value.second[0],
 			value.second[1], value.second[2]);
-		Logger::log(formatString("Using camera preset %i", key));
+		Logger::log(formatStringBuffer("Using camera preset %i", key));
 	}
 }
 
@@ -376,8 +376,7 @@ void MainCamera::SaveScreen::draw(const unsigned state)
 
 	// Don't print to banner otherwise this message will be in
 	// the screenshot!
-	Logger::log(
-		formatString("Screen shot saved as file \"%s\"", fileName));
+	Logger::log(formatStringBuffer("Screen shot saved as file \"%s\"", fileName));
 
 	// snapshot sound
 	CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));

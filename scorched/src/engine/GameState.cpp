@@ -365,7 +365,7 @@ void GameState::simulate(float simTime)
 				{
 					if (stateLogging_)
 					{
-						Logger::log(formatString("%s::acceptStateChange(%i, %i)", 
+						Logger::log(formatStringBuffer("%s::acceptStateChange(%i, %i)", 
 							name_.c_str(), thisState, p.second));
 					}
 					setState(itor->second);
@@ -416,7 +416,7 @@ void GameState::setState(const unsigned state)
 {
 	if (stateLogging_)
 	{
-		Logger::log(formatString("%s::setState(%i)", name_.c_str(), state));
+		Logger::log(formatStringBuffer("%s::setState(%i)", name_.c_str(), state));
 	}
 
 	clearTimers();
@@ -456,7 +456,7 @@ void GameState::setState(const unsigned state)
 
 	if (stateLogging_)
 	{
-		Logger::log(formatString("%s::setStateFinished(%i)", name_.c_str(), state));
+		Logger::log(formatStringBuffer("%s::setStateFinished(%i)", name_.c_str(), state));
 	}
 }
 
@@ -488,7 +488,7 @@ void GameState::stimulate(const unsigned stimulus)
 {
 	if (stateLogging_)
 	{
-		Logger::log(formatString("%s::stimulate(%i)", name_.c_str(), stimulus));
+		Logger::log(formatStringBuffer("%s::stimulate(%i)", name_.c_str(), stimulus));
 	}
 
 	pendingStimulus_ = stimulus;
@@ -672,8 +672,7 @@ void GameState::clearTimers(bool printTimers)
 
 		Logger::log(
 			"----------------------------------------");
-		Logger::log(
-			formatString("%s Draw : %u (%u), Simulate : %u (%u), Other : %i (%u)", 
+		Logger::log(formatStringBuffer("%s Draw : %u (%u), Simulate : %u (%u), Other : %i (%u)", 
 			name_.c_str(),
 			drawTotal, drawTotalPer,
 			simulateTotal, simulateTotalPer,
@@ -686,8 +685,7 @@ void GameState::clearTimers(bool printTimers)
 					(100 * timers_[i].simulateTime) / bothTotal;
 				unsigned int percentageDraw =
 					(100 * timers_[i].drawTime) / bothTotal;
-				Logger::log(
-					formatString("%i:%s - Draw : %u (%u%%), Simulate : %u (%u%%)", 
+				Logger::log(formatStringBuffer("%i:%s - Draw : %u (%u%%), Simulate : %u (%u%%)", 
 					i, 
 					timers_[i].gameStateI->getGameStateIName(),
 					timers_[i].drawTime, percentageDraw,
@@ -703,8 +701,7 @@ void GameState::clearTimers(bool printTimers)
 					const char *state2 = counter->getGameStateI()->getGameStateIName();
 					if (state1 == state2)
 					{
-						Logger::log(
-							formatString("    %s : %u", 
+						Logger::log(formatStringBuffer("    %s : %u", 
 							counter->getName(),
 							counter->getTotal()));
 					}

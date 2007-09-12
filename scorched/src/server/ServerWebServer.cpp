@@ -52,7 +52,7 @@ ServerWebServer::ServerWebServer() :
 	sendThread_ = SDL_CreateThread(ServerWebServer::sendThreadFunc, 0);
 	if (sendThread_ == 0)
 	{
-		Logger::log(formatString("ServerWebServer: Failed to create thread"));
+		Logger::log(formatStringBuffer("ServerWebServer: Failed to create thread"));
 	}	
 
 	addRequestHandler("/players", new ServerWebHandler::PlayerHandler());
@@ -94,7 +94,7 @@ int ServerWebServer::sendThreadFunc(void *)
 
 void ServerWebServer::start(int port)
 {
-	Logger::log(formatString("Starting management web server on port %i", port));
+	Logger::log(formatStringBuffer("Starting management web server on port %i", port));
 	netServer_.setMessageHandler(this);
 	netServer_.start(port);
 

@@ -66,7 +66,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 {
 	if (len<6)
 	{
-		Logger::log(formatString("NetServerUDP: Small packet encountered, size %i", len));
+		Logger::log(formatStringBuffer("NetServerUDP: Small packet encountered, size %i", len));
 		return;
 	}
 
@@ -80,7 +80,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 
 	if (packetLogging_)
 	{
-		Logger::log(formatString("Recieving part %u%s - %i bytes", seq, (fin?"*":" "), len));
+		Logger::log(formatStringBuffer("Recieving part %u%s - %i bytes", seq, (fin?"*":" "), len));
 	}
 
 	if (seq == 0) // Is this async
@@ -160,7 +160,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		// Send an ack
 		if (packetLogging_)
 		{
-			Logger::log(formatString("Sending ack %u", seq));
+			Logger::log(formatStringBuffer("Sending ack %u", seq));
 		}
 		server_->packetVOut_[0]->len = 5;
 		server_->packetVOut_[0]->address.host = address_.host;
@@ -170,7 +170,7 @@ void NetServerUDPDestination::processData(unsigned int destinationId, int len, u
 		SDLNet_Write32(seq, &server_->packetVOut_[0]->data[1]);
 		if (SDLNet_UDP_SendV(server_->udpsock_, server_->packetVOut_, 1) == 0)
 		{
-			Logger::log(formatString("NetServerUDP: Failed to send ack packet"));
+			Logger::log(formatStringBuffer("NetServerUDP: Failed to send ack packet"));
 		}
 	}
 }
@@ -207,7 +207,7 @@ void NetServerUDPDestination::processDataAck(unsigned int destinationId, int len
 
 	if (packetLogging_)
 	{
-		Logger::log(formatString("Recieving ack %u", seq));
+		Logger::log(formatStringBuffer("Recieving ack %u", seq));
 	}
 
 	// Process this ack
@@ -420,13 +420,13 @@ bool NetServerUDPDestination::sendPart(MessagePart &part, NetMessage &message)
 	memcpy(&server_->packetVOut_[0]->data[5], &message.getBuffer().getBuffer()[part.offset], part.length);
 	if (SDLNet_UDP_SendV(server_->udpsock_, server_->packetVOut_, 1) == 0)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to send part packet"));
+		Logger::log(formatStringBuffer("NetServerUDP: Failed to send part packet"));
 		return false;
 	}
 
 	if (packetLogging_)
 	{
-		Logger::log(formatString("Sending part %u%s - %i bytes, %i offset", 
+		Logger::log(formatStringBuffer("Sending part %u%s - %i bytes, %i offset", 
 			part.seq, (part.end?"*":" "), part.length, part.offset));
 	}
 	
@@ -441,13 +441,13 @@ unsigned int NetServerUDPDestination::getIpAddress()
 
 void NetServerUDPDestination::printStats(unsigned int destination)
 {
-	Logger::log(formatString("UDP Destination %u", destination));
-	Logger::log(formatString("  %u messages sent, %u messages recieved",
+	Logger::log(formatStringBuffer("UDP Destination %u", destination));
+	Logger::log(formatStringBuffer("  %u messages sent, %u messages recieved",
 		messagesSent_, messagesRecieved_));
-	Logger::log(formatString("  %u sent, %u acked, %u waiting, %u dropped, %u time",
+	Logger::log(formatStringBuffer("  %u sent, %u acked, %u waiting, %u dropped, %u time",
 		packetsSent_, packetsAcked_, packetsWaiting_, 
 		droppedPackets_, packetTime_));
-	Logger::log(formatString("  %u recieved, %u sequence, %u noseq, %u duplicate",
+	Logger::log(formatStringBuffer("  %u recieved, %u sequence, %u noseq, %u duplicate",
 		packetsRecieved_, packetsSequenceRecieved_, packetsOutOfSequenceRecieved_, 
 		packetsDuplicateRecieved_));
 }

@@ -108,7 +108,7 @@ void checkSettings()
 
 bool startServer(bool local, ProgressCounter *counter)
 {
-	Logger::log(formatString("Scorched3D - Version %s (%s) - %s",
+	Logger::log(formatStringBuffer("Scorched3D - Version %s (%s) - %s",
 		ScorchedVersion, ScorchedProtocolVersion, ScorchedBuildTime));
 
 	// Setup the message handling classes
@@ -205,13 +205,12 @@ void serverMain(ProgressCounter *counter)
 		ServerWebServer::instance()->start(
 			ScorchedServer::instance()->getOptionsGame().getManagementPortNo());
 
-		Logger::log(
-			formatString("Management server running on url http://127.0.0.1:%i",
+		Logger::log(formatStringBuffer("Management server running on url http://127.0.0.1:%i",
 			ScorchedServer::instance()->getOptionsGame().getManagementPortNo()));
 	}
 	ServerLog::instance();
 
-	Logger::log(formatString("Server started : %s", getStartTime()));
+	Logger::log(formatStringBuffer("Server started : %s", getStartTime()));
 }
 
 void serverLoop()
@@ -237,7 +236,7 @@ void serverLoop()
 
 		if (timeDifference > 5.0f)
 		{
-			Logger::log(formatString("Warning: Server loop took %.2f seconds", 
+			Logger::log(formatStringBuffer("Warning: Server loop took %.2f seconds", 
 				timeDifference));
 		}
 	}

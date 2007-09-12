@@ -125,7 +125,7 @@ bool OptionEntryHelper::readFromBuffer(std::list<OptionEntry *> &options,
 			entryMap.find(name);
 		if (finditor == entryMap.end())
 		{
-			Logger::log(formatString("Warning:Does not support server option \"%s\"",
+			Logger::log(formatStringBuffer("Warning:Does not support server option \"%s\"",
 				name.c_str()));
 		}
 		else
@@ -218,7 +218,7 @@ bool OptionEntryHelper::readFromXML(std::list<OptionEntry *> &options,
 			entryMap.find(name);
 		if (finditor == entryMap.end())
 		{
-			Logger::log(formatString(
+			Logger::log(formatStringBuffer(
 				"ERROR: Failed to parse file \"%s\". Cannot find option \"%s\"",
 				currentNode->getSource(), name.c_str()));
 		}

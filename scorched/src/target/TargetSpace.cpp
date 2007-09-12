@@ -150,7 +150,7 @@ Target *TargetSpace::getCollision(FixedVector &position)
 		Target *target = (*itor).second;
 		if (!target->getAlive())
 		{
-			Logger::log(formatString("ERROR: Dead target %u:%s in space",
+			Logger::log(formatStringBuffer("ERROR: Dead target %u:%s in space",
 				target->getPlayerId(), target->getName()));
 			continue;
 		}
@@ -238,7 +238,7 @@ void TargetSpace::getCollisionSet(FixedVector &position, fixed radius,
 				Target *target = (*itor).second;
 				if (!target->getAlive())
 				{
-					Logger::log(formatString("ERROR: Dead target %u:%s in space",
+					Logger::log(formatStringBuffer("ERROR: Dead target %u:%s in space",
 						target->getPlayerId(), target->getName()));
 					continue;
 				}

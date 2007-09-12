@@ -204,7 +204,7 @@ void NetServerTCPRead::actualSendRecvThreadFunc(bool send)
 		float timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 15.0f)
 		{
-			Logger::log(formatString(
+			Logger::log(formatStringBuffer(
 				"Warning: %s net loop took %.2f seconds, client %u", 
 				(send?"Send":"Recv"),
 				timeDiff, id_));

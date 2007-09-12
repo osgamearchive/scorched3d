@@ -99,7 +99,7 @@ void SettingsSelectDialog::display()
 	}
 	else
 	{
-		Logger::log(formatString("Single custom file not found \"%s\"",
+		Logger::log(formatStringBuffer("Single custom file not found \"%s\"",
 			singlecustom));
 	}
 

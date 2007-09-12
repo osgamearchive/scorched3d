@@ -48,8 +48,7 @@ fixed::fixed(const char *nVal)
 {
 	if (strlen(nVal) > 12)
 	{
-		Logger::log(
-			formatString("Warning: Ignoring fixed string conversion of %s", nVal));
+		Logger::log(formatStringBuffer("Warning: Ignoring fixed string conversion of %s", nVal));
 
 		m_nVal = 0;
 		return;

@@ -89,7 +89,7 @@ bool ClientAddPlayerHandler::processMessage(
 			tank->getState().setMuted(true);
 		}
 
-		Logger::log(formatString("Tank connected \"%s\"", tank->getName()));
+		Logger::log(formatStringBuffer("Tank connected \"%s\"", tank->getName()));
 	}
 	else
 	{

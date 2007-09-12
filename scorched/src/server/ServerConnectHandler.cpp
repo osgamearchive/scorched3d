@@ -198,7 +198,7 @@ bool ServerConnectHandler::processMessage(
 				"Connection failed.\n"
 				"--------------------------------------------------",
 				resultMessage.c_str());
-			Logger::log(formatString("User failed authentication \"%s\" [%s]",
+			Logger::log(formatStringBuffer("User failed authentication \"%s\" [%s]",
 				message.getUserName(), uniqueId.c_str()));
 
 			ServerCommon::kickDestination(destinationId, kickMessage);			
@@ -211,7 +211,7 @@ bool ServerConnectHandler::processMessage(
 		ScorchedServerUtil::instance()->bannedPlayers.getBanned(ipAddress, uniqueId.c_str(), SUid.c_str());
 	if (type == ServerBanned::Banned)
 	{
-		Logger::log(formatString("Banned uniqueid/suid connection from destination \"%i\"", 
+		Logger::log(formatStringBuffer("Banned uniqueid/suid connection from destination \"%i\"", 
 			destinationId));
 		ServerCommon::kickDestination(destinationId);
 		return true;
@@ -233,7 +233,7 @@ bool ServerConnectHandler::processMessage(
 			{
 				if (0 == strcmp(current->getUniqueId(), uniqueId.c_str()))
 				{
-					Logger::log(formatString("Duplicate uniqueid connection from destination \"%i\"", 
+					Logger::log(formatStringBuffer("Duplicate uniqueid connection from destination \"%i\"", 
 						destinationId));
 					ServerCommon::kickDestination(destinationId);
 					return true;
@@ -243,7 +243,7 @@ bool ServerConnectHandler::processMessage(
 			{
 				if (0 == strcmp(current->getSUI(), SUid.c_str()))
 				{
-					Logger::log(formatString("Duplicate SUI connection from destination \"%i\"", 
+					Logger::log(formatStringBuffer("Duplicate SUI connection from destination \"%i\"", 
 						destinationId));
 					ServerCommon::kickDestination(destinationId);
 					return true;
@@ -279,7 +279,7 @@ bool ServerConnectHandler::processMessage(
 #endif
 	if (!ComsMessageSender::sendToSingleClient(acceptMessage, destinationId))
 	{
-		Logger::log(formatString(
+		Logger::log(formatStringBuffer(
 			"Failed to send accept to client \"%i\"",
 			destinationId));
 		ServerCommon::kickDestination(destinationId);
@@ -420,7 +420,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 #ifdef S3D_SERVER
 	{
 		// Add to dialog
-		Logger::log(formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s] SUI=[%s]",
+		Logger::log(formatStringBuffer("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s] SUI=[%s]",
 			tank->getDestinationId(),
 			tank->getPlayerId(),
 			tank->getName(),

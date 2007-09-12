@@ -113,7 +113,7 @@ void ServerRegistrationEntry::actualThreadFunc()
 		success_ = false;
 		finished_ = false;
 
-		Logger::log(formatString(
+		Logger::log(formatStringBuffer(
 			"Connecting to registration server %s...", masterListServer_));
 		if (registerGame())
 		{
@@ -137,14 +137,13 @@ void ServerRegistrationEntry::actualThreadFunc()
 				}
 			}
 
-			Logger::log(
-				formatString("Registration to %s %s.", 
+			Logger::log(formatStringBuffer("Registration to %s %s.", 
 				masterListServer_,
 				(success_?"was successfull":"failed")));
 		}
 		else
 		{
-			Logger::log(formatString(
+			Logger::log(formatStringBuffer(
 				"Failed to connect to registration server %s", masterListServer_));
 		}
 

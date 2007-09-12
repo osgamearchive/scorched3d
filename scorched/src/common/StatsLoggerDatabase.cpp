@@ -79,7 +79,7 @@ void StatsLoggerDatabase::createLogger()
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
-		Logger::log(formatString("Failed to parse %s settings file. Error: %s", 
+		Logger::log(formatStringBuffer("Failed to parse %s settings file. Error: %s", 
 			fileName,
 			file.getParserError()));
 		return;
@@ -92,7 +92,7 @@ void StatsLoggerDatabase::createLogger()
 		!file.getRootNode()->getNamedChild("db", db) ||
 		!file.getRootNode()->getNamedChild("prefix", prefix)) 
 	{
-		Logger::log(formatString("Failed to parse %s settings file.", fileName));
+		Logger::log(formatStringBuffer("Failed to parse %s settings file.", fileName));
 		return;
 	}
 
@@ -274,7 +274,7 @@ void StatsLoggerDatabase::createLogger()
 		weaponId_[accessory->getName()] = weaponId;
 	}
 
-	Logger::log(formatString("database stats logger started, prefix=%i, server=%i, series=%i",
+	Logger::log(formatStringBuffer("database stats logger started, prefix=%i, server=%i, series=%i",
 		prefixid_, serverid_, seriesid_));
 	periodicUpdate();
 }
@@ -696,7 +696,7 @@ void StatsLoggerDatabase::periodicUpdate()
 	time_t currentTime = time(0);
 	if (currentTime - updateTime_ > 60 * 60 * 12) // 12 hrs
 	{
-		Logger::log(formatString("statslogger database starting periodics"));
+		Logger::log(formatStringBuffer("statslogger database starting periodics"));
 
 		// Cleanup orphaned avatars
 		std::list<StatsLoggerDatabase::RowResult> binaryRows =
@@ -742,7 +742,7 @@ void StatsLoggerDatabase::periodicUpdate()
 				playerRow.columns[0].c_str());
 		}
 
-		Logger::log(formatString("statslogger database finished periodics"));
+		Logger::log(formatStringBuffer("statslogger database finished periodics"));
 	}
 }
 
@@ -902,12 +902,12 @@ void StatsLoggerDatabase::tankConnected(Tank *tank)
 			tank->getUniqueId()))
 		{
 			playerId = getLastInsertId();
-			Logger::log(formatString("Add new stats user \"%i\"", playerId));
+			Logger::log(formatStringBuffer("Add new stats user \"%i\"", playerId));
 		}
 	}
 	else
 	{
-		Logger::log(formatString("Found stats user \"%i\"", playerId));
+		Logger::log(formatStringBuffer("Found stats user \"%i\"", playerId));
 	}
 
 	// Create the players stats entry if it does not exist

@@ -64,7 +64,7 @@ bool ComsMessageSender::sendToServer(
 
 	if (ScorchedClient::instance()->getComsMessageHandler().getMessageLogging())
 	{
-		Logger::log(formatString("Client::send(%s, %u)", 
+		Logger::log(formatStringBuffer("Client::send(%s, %u)", 
 			message.getMessageType(),
 			NetBufferDefault::defaultBuffer.getBufferUsed()));
 	}	
@@ -100,7 +100,7 @@ bool ComsMessageSender::sendToMultipleClients(
 
 			if (ScorchedServer::instance()->getComsMessageHandler().getMessageLogging())
 			{
-				Logger::log(formatString("Server::send(%s, %u, %u)", 
+				Logger::log(formatStringBuffer("Server::send(%s, %u, %u)", 
 					message.getMessageType(),
 					destination,
 					NetBufferDefault::defaultBuffer.getBufferUsed()));

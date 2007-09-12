@@ -44,7 +44,7 @@ void GLStateExtension::setup()
 	{
 		dialogExit("GLEW", (const char *) glewGetErrorString(err));
 	}
-	Logger::log(formatString("GLEW VERSION:%s", glewGetString(GLEW_VERSION)));
+	Logger::log(formatStringBuffer("GLEW VERSION:%s", glewGetString(GLEW_VERSION)));
 
 	if (!OptionsDisplay::instance()->getNoGLExt())
 	{
@@ -123,26 +123,26 @@ void GLStateExtension::setup()
 
 	noTexSubImage_ = OptionsDisplay::instance()->getNoGLTexSubImage();
 
-	Logger::log(formatString("GL_VENDOR:%s", glGetString(GL_VENDOR)));
-	Logger::log(formatString("GL_RENDERER:%s", glGetString(GL_RENDERER)));
-	Logger::log(formatString("GL_VERSION:%s", glGetString(GL_VERSION)));
-	Logger::log(formatString("GL_EXTENSIONS:%s", glGetString(GL_EXTENSIONS)));
-	Logger::log(formatString("TEXTURE UNITS: %s (%i units)", 
+	Logger::log(formatStringBuffer("GL_VENDOR:%s", glGetString(GL_VENDOR)));
+	Logger::log(formatStringBuffer("GL_RENDERER:%s", glGetString(GL_RENDERER)));
+	Logger::log(formatStringBuffer("GL_VERSION:%s", glGetString(GL_VERSION)));
+	Logger::log(formatStringBuffer("GL_EXTENSIONS:%s", glGetString(GL_EXTENSIONS)));
+	Logger::log(formatStringBuffer("TEXTURE UNITS: %s (%i units)", 
 		(hasMultiTex()?"On":"Off"),textureUnits_));
-	Logger::log(formatString("VERTEX BUFFER OBJECT:%s", 
+	Logger::log(formatStringBuffer("VERTEX BUFFER OBJECT:%s", 
 		(hasVBO()?"On":"Off")));
-	Logger::log(formatString("FRAME BUFFER OBJECT:%s", 
+	Logger::log(formatStringBuffer("FRAME BUFFER OBJECT:%s", 
 		(hasFBO()?"On":"Off")));
-	Logger::log(formatString("SHADERS:%s", 
+	Logger::log(formatStringBuffer("SHADERS:%s", 
 		(!hasShaders_?"Off":"On")));
-	Logger::log(formatString("ENV COMBINE:%s", 
+	Logger::log(formatStringBuffer("ENV COMBINE:%s", 
 		(envCombine_?"On":"Off")));
-	Logger::log(formatString("CUBE MAP:%s", 
+	Logger::log(formatStringBuffer("CUBE MAP:%s", 
 		(hasCubeMap_?"On":"Off")));
-	Logger::log(formatString("HW MIP MAPS:%s", 
+	Logger::log(formatStringBuffer("HW MIP MAPS:%s", 
 		(hasHardwareMipmaps_?"On":"Off")));
-	Logger::log(formatString("HW SHADOWS:%s", 
+	Logger::log(formatStringBuffer("HW SHADOWS:%s", 
 		(hasHardwareShadows_?"On":"Off")));
-	Logger::log(formatString("BLEND COLOR:%s", 
+	Logger::log(formatStringBuffer("BLEND COLOR:%s", 
 		(hasBlendColor_?"On":"Off")));
 }

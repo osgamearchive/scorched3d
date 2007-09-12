@@ -95,7 +95,7 @@ void ServerCommon::sendStringAdmin(const char *text)
 void ServerCommon::kickDestination(unsigned int destinationId, 
 	const char *message)
 {
-	Logger::log(formatString("Kicking destination \"%i\"", 
+	Logger::log(formatStringBuffer("Kicking destination \"%i\"", 
 		destinationId));
 
 	if (message[0])
@@ -132,7 +132,7 @@ void ServerCommon::kickDestination(unsigned int destinationId,
 
 void ServerCommon::kickPlayer(unsigned int playerId)
 {
-	Logger::log(formatString("Kicking player \"%i\"", playerId));
+	Logger::log(formatStringBuffer("Kicking player \"%i\"", playerId));
 
 	Tank *tank = ScorchedServer::instance()->
 		getTankContainer().getTankById(playerId);
@@ -141,7 +141,7 @@ void ServerCommon::kickPlayer(unsigned int playerId)
 		sendString(0, formatString(
 			"Player \"%s\" has been kicked from the server",
 			tank->getName(), tank->getPlayerId()));
-		Logger::log(formatString("Kicking client \"%s\" \"%i\"", 
+		Logger::log(formatStringBuffer("Kicking client \"%s\" \"%i\"", 
 			tank->getName(), tank->getPlayerId()));
 
 		if (tank->getDestinationId() == 0)

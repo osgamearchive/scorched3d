@@ -123,15 +123,15 @@ bool Sound::init(int channels)
 	alcMakeContextCurrent(soundContext); 
 	alDistanceModel(AL_INVERSE_DISTANCE);
 
-	Logger::log(formatString("AL_VENDOR:%s",
+	Logger::log(formatStringBuffer("AL_VENDOR:%s",
 		checkString((char *) alGetString(AL_VENDOR))));
-	Logger::log(formatString("AL_VERSION:%s",
+	Logger::log(formatStringBuffer("AL_VERSION:%s",
 		checkString((char *) alGetString(AL_VERSION))));
-	Logger::log(formatString("AL_RENDERER:%s",
+	Logger::log(formatStringBuffer("AL_RENDERER:%s",
 		checkString((char *) alGetString(AL_RENDERER))));
-	Logger::log(formatString("AL_EXTENSIONS:%s",
+	Logger::log(formatStringBuffer("AL_EXTENSIONS:%s",
 		checkString((char *) alGetString(AL_EXTENSIONS))));
-	Logger::log(formatString("ALC_DEVICE_SPECIFIER:%s",
+	Logger::log(formatStringBuffer("ALC_DEVICE_SPECIFIER:%s",
 		checkString((char *) alcGetString(soundDevice, ALC_DEVICE_SPECIFIER))));
 
 	// Create all sound channels
@@ -171,7 +171,7 @@ void Sound::showSoundBuffers()
 {
 	// Show some debug of the current playing sounds
 	int i = 1;
-	Logger::log(formatString("%i sounds playing, %i sources free",
+	Logger::log(formatStringBuffer("%i sounds playing, %i sources free",
 		getPlayingChannels(),
 		getAvailableChannels()));
 	PlayingSourceList::iterator itor;
@@ -182,7 +182,7 @@ void Sound::showSoundBuffers()
 		PlayingSoundSource *source = (*itor);
 		if (source->getVirtualSource())
 		{
-			Logger::log(formatString("%i - %u,%f - %s%s:%s",
+			Logger::log(formatStringBuffer("%i - %u,%f - %s%s:%s",
 				i, 
 				source->getVirtualSource()->getPriority(),
 				source->getVirtualSource()->getDistance(),
@@ -192,7 +192,7 @@ void Sound::showSoundBuffers()
 		}
 		else
 		{
-			Logger::log(formatString("%i - Pending Removal"));
+			Logger::log(formatStringBuffer("%i - Pending Removal"));
 		}
 	}
 }

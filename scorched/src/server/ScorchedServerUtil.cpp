@@ -71,6 +71,6 @@ ServerAuthHandler *ScorchedServerUtil::getAuthHandler()
 			formatString("Unknown auth handler \"%s\"", handler));
 	}
 	
-	Logger::log(formatString("Using \"%s\" authentication handler.", handler));
+	Logger::log(formatStringBuffer("Using \"%s\" authentication handler.", handler));
 	return authHandler_;
 }

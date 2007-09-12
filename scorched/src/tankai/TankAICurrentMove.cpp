@@ -277,7 +277,7 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 	float tankAimDistance = getShotDistance(targetTank, true);
 	tankAimDistance -= 5.0f;
 	if (tankAimDistance < 0.0f) tankAimDistance = 0.0f;
-	//Logger::log(formatString("Aim Distance %.2f", tankAimDistance));
+	//Logger::log(formatStringBuffer("Aim Distance %.2f", tankAimDistance));
 
 	// Find a place where we will hit
 	Vector aimPosition = directTarget;
@@ -876,7 +876,7 @@ void TankAICurrentMove::fireShot(Tank *tank)
 	
 		if (!ServerShotHolder::instance()->addShot(tank->getPlayerId(), message))
 		{
-			Logger::log(formatString("AI %u failed to make a shot, shot refused",
+			Logger::log(formatStringBuffer("AI %u failed to make a shot, shot refused",
 				tank->getPlayerId()));
 			skipMove(tank);
 		}

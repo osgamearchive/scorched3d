@@ -67,7 +67,7 @@ void ClientKeepAliveSender::sendKeepAlive()
 	sendThread_ = SDL_CreateThread(ClientKeepAliveSender::sendThreadFunc, 0);
 	if (sendThread_ == 0)
 	{
-		Logger::log(formatString("ClientKeepAliveSender: Failed to create send thread"));
+		Logger::log(formatStringBuffer("ClientKeepAliveSender: Failed to create send thread"));
 		return;
 	}	
 }

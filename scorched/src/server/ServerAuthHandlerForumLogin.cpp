@@ -229,7 +229,7 @@ bool ServerAuthHandlerForumLogin::connect()
 	if (!file.readFile(fileName) ||
 		!file.getRootNode())
 	{
-		Logger::log(formatString("Failed to parse %s settings file. Error: %s", 
+		Logger::log(formatStringBuffer("Failed to parse %s settings file. Error: %s", 
 			fileName,
 			file.getParserError()));
 		return false;
@@ -241,7 +241,7 @@ bool ServerAuthHandlerForumLogin::connect()
 		!file.getRootNode()->getNamedChild("passwd", passwd) ||
 		!file.getRootNode()->getNamedChild("db", db)) 
 	{
-		Logger::log(formatString("Failed to parse %s settings file.", fileName));
+		Logger::log(formatStringBuffer("Failed to parse %s settings file.", fileName));
 		return false;
 	}
 
@@ -253,10 +253,10 @@ bool ServerAuthHandlerForumLogin::connect()
 		db.c_str(),
 		0, "/tmp/mysql.sock", 0))
 	{
-		Logger::log(formatString("forum login auth handler failed to start. "
+		Logger::log(formatStringBuffer("forum login auth handler failed to start. "
 			"Error: %s",
 			mysql_error(mysql_)));
-		Logger::log(formatString("mysql params : host %s, user %s, passwd %s, db %s",
+		Logger::log(formatStringBuffer("mysql params : host %s, user %s, passwd %s, db %s",
 			host.c_str(), user.c_str(),
 			passwd.c_str(), db.c_str()));
 		return false;

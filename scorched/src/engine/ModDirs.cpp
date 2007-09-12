@@ -112,7 +112,7 @@ bool ModDirs::loadModFile(const char *fileName, bool global)
 		// Just log and return as this may be the result of
 		// only downloading 1/2 the mod and not having the icons required
 		// for the modinfo
-		Logger::log(formatString(
+		Logger::log(formatStringBuffer(
 			"Failed to parse mod info file \"%s\"",
 			modGamesFile.c_str()));
 		return true;

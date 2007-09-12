@@ -271,7 +271,7 @@ void ClientChannelManager::showText(const ChannelText &constText)
 	// Add this line to the console
 	if (!(text.getFlags() & ChannelText::eNoLog))
 	{
-		Logger::log(formatString("[%s] : %s",
+		Logger::log(formatStringBuffer("[%s] : %s",
 			text.getChannel(),
 			text.getMessage()));
 	}
@@ -342,16 +342,14 @@ bool ClientChannelManager::processMessage(
 		// Log this message
 		if (tank)
 		{
-			Logger::log(
-				formatString("[%s][%s] : %s",
+			Logger::log(formatStringBuffer("[%s][%s] : %s",
 				textMessage.getChannelText().getChannel(),
 				tank->getName(),
 				textMessage.getChannelText().getMessage()));
 		}
 		else
 		{
-			Logger::log(
-				formatString("[%s] : %s",
+			Logger::log(formatStringBuffer("[%s] : %s",
 				textMessage.getChannelText().getChannel(),
 				textMessage.getChannelText().getMessage()));
 		}

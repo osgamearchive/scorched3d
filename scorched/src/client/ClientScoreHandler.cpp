@@ -70,7 +70,7 @@ bool ClientScoreHandler::processMessage(
 			itor++)
 		{
 			Tank *tank = (*itor).second;
-			Logger::log(formatString("%s - %s",
+			Logger::log(formatStringBuffer("%s - %s",
 				tank->getName(),
 				tank->getScore().getScoreString()));
 		}

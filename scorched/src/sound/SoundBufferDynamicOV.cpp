@@ -108,7 +108,7 @@ void SoundBufferDynamicOVSourceInstance::simulate(bool repeat)
 	}
 	while(processed--)
 	{
-		//Logger::log(formatString("Processed %u %i", source_, processed));
+		//Logger::log(formatStringBuffer("Processed %u %i", source_, processed));
 
 		ALuint buffer;                
 		alSourceUnqueueBuffers(source_, 1, &buffer);

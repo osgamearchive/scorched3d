@@ -72,7 +72,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		ScorchedServerUtil::instance()->bannedPlayers.getBanned(message.getIpAddress(), "", "") == 
 		ServerBanned::Banned)
 	{
-		Logger::log(formatString("Banned client connected dest=\"%i\" ip=\"%s\"", 
+		Logger::log(formatStringBuffer("Banned client connected dest=\"%i\" ip=\"%s\"", 
 			message.getDestinationId(),
 			NetInterface::getIpName(message.getIpAddress())));
 		ScorchedServer::instance()->getNetInterface().
@@ -91,7 +91,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		Tank *current = (*playingItor).second;
 		if (current->getDestinationId() == message.getDestinationId())
 		{
-			Logger::log(formatString("Duplicate connection from destination \"%i\"", 
+			Logger::log(formatStringBuffer("Duplicate connection from destination \"%i\"", 
 				message.getDestinationId()));
 			ScorchedServer::instance()->getNetInterface().
 				disconnectClient(message.getDestinationId());
@@ -103,7 +103,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		{
 			if (message.getIpAddress() == current->getIpAddress())
 			{
-				Logger::log(formatString("Duplicate ip connection from ip address \"%s\"", 
+				Logger::log(formatStringBuffer("Duplicate ip connection from ip address \"%s\"", 
 					NetInterface::getIpName(message.getIpAddress())));
 				ScorchedServer::instance()->getNetInterface().
 					disconnectClient(message.getDestinationId());
@@ -112,7 +112,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 		}
 	}
 
-	Logger::log(formatString("Client connected dest=\"%i\" ip=\"%s\"", 
+	Logger::log(formatStringBuffer("Client connected dest=\"%i\" ip=\"%s\"", 
 		message.getDestinationId(),
 		NetInterface::getIpName(message.getIpAddress())));
 }
@@ -124,7 +124,7 @@ void ServerMessageHandler::clientDisconnected(NetMessage &message)
 	else if (message.getFlags() == NetMessage::KickDisconnect) reason = "Kicked";
 	else if (message.getFlags() == NetMessage::TimeoutDisconnect) reason = "Timeout";
 
-	Logger::log(formatString("Client disconnected dest=\"%i\" ip=\"%s\" reason=\"%s\"", 
+	Logger::log(formatStringBuffer("Client disconnected dest=\"%i\" ip=\"%s\" reason=\"%s\"", 
 		message.getDestinationId(),
 		NetInterface::getIpName(message.getIpAddress()),
 		reason));
@@ -166,7 +166,7 @@ void ServerMessageHandler::destroyPlayer(unsigned int tankId, const char *reason
 	Tank *tank = ScorchedServer::instance()->getTankContainer().getTankById(tankId);
 	if (!tank)
 	{
-		Logger::log(formatString("Unknown player disconnected id=\"%i\" (%s)", 
+		Logger::log(formatStringBuffer("Unknown player disconnected id=\"%i\" (%s)", 
 			tankId, reason));
 		return;
 	}
@@ -244,7 +244,7 @@ void ServerMessageHandler::actualDestroyPlayer(unsigned int tankId)
 void ServerMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log(formatString("Client \"%i\", ***Server Error*** \"%s\"", 
+	Logger::log(formatStringBuffer("Client \"%i\", ***Server Error*** \"%s\"", 
 		message.getDestinationId(),
 		errorString));
 	ServerCommon::kickDestination(message.getDestinationId());

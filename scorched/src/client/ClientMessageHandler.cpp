@@ -70,7 +70,7 @@ void ClientMessageHandler::clientDisconnected(NetMessage &message)
 		type = "User";
 	}
 
-	Logger::log(formatString("Disconnected %s", type));
+	Logger::log(formatStringBuffer("Disconnected %s", type));
 	ScorchedClient::instance()->getGameState().stimulate(ClientState::StimDisconnected);
 	ScorchedClient::instance()->getGameState().checkStimulate();
 	ScorchedClient::instance()->getTankContainer().setCurrentDestinationId(0);
@@ -79,6 +79,6 @@ void ClientMessageHandler::clientDisconnected(NetMessage &message)
 void ClientMessageHandler::clientError(NetMessage &message,
 		const char *errorString)
 {
-	Logger::log(formatString("***Client Error*** \"%s\"", errorString));
+	Logger::log(formatStringBuffer("***Client Error*** \"%s\"", errorString));
 	ScorchedClient::instance()->getNetInterface().disconnectAllClients();
 }

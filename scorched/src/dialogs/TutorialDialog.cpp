@@ -176,8 +176,7 @@ void TutorialDialog::processHighlight(bool log)
 	{
 		if (log)
 		{
-			Logger::log(
-				formatString("Tutorial cannot find window \"%s\"", windowName));
+			Logger::log(formatStringBuffer("Tutorial cannot find window \"%s\"", windowName));
 		}
 		return;
 	}
@@ -187,8 +186,7 @@ void TutorialDialog::processHighlight(bool log)
 	{
 		if (log)
 		{
-			Logger::log(
-				formatString("Tutorial cannot find control \"%s\" in window \"%s\"", 
+			Logger::log(formatStringBuffer("Tutorial cannot find control \"%s\" in window \"%s\"", 
 				controlName, windowName));
 		}
 		return;

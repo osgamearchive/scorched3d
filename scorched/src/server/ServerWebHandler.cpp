@@ -155,7 +155,7 @@ bool ServerWebHandler::PlayerHandler::processRequest(
 				}
 				else
 				{
-					Logger::log(formatString("Unknown web handler player action \"%s\"", action));
+					Logger::log(formatStringBuffer("Unknown web handler player action \"%s\"", action));
 				}
 			}
 		}

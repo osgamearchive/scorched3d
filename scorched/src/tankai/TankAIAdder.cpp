@@ -168,8 +168,7 @@ void TankAIAdder::addTankAI(ScorchedServer &context, const char *aiName)
 			tank->setTeam(team);
 		}
 
-		Logger::log(
-			formatString("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
+		Logger::log(formatStringBuffer("Player connected dest=\"%i\" id=\"%i\" name=\"%s\" unique=[%s]",
 			tank->getDestinationId(),
 			tank->getPlayerId(),
 			tank->getName(),

@@ -87,7 +87,7 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::DisconnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log(formatString("ComsMessage::Disconnected(%i, %i)",
+				Logger::log(formatStringBuffer("ComsMessage::Disconnected(%i, %i)",
 					message.getDestinationId(), message.getFlags()));
 			}
 
@@ -97,7 +97,7 @@ void ComsMessageHandler::processMessage(NetMessage &message)
 		case NetMessage::ConnectMessage:
 			if (comsMessageLogging_)
 			{
-				Logger::log(formatString("ComsMessage::Connected(%i)",
+				Logger::log(formatStringBuffer("ComsMessage::Connected(%i)",
 					message.getDestinationId()));
 			}
 
@@ -134,7 +134,7 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log(formatString("%s::process(%s, %i, %u)",
+		Logger::log(formatStringBuffer("%s::process(%s, %i, %u)",
 			instanceName_.c_str(),
 			messageType.c_str(), message.getDestinationId(),
 			bufferUsed));
@@ -171,7 +171,7 @@ void ComsMessageHandler::processReceiveMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log(formatString("%s::processFinished(%s, %i)",
+		Logger::log(formatStringBuffer("%s::processFinished(%s, %i)",
 			instanceName_.c_str(),
 			messageType.c_str(), message.getDestinationId()));
 	}
@@ -195,7 +195,7 @@ void ComsMessageHandler::processSentMessage(NetMessage &message)
 
 	if (comsMessageLogging_)
 	{
-		Logger::log(formatString("%s::processSentMessage(%s, %i)",
+		Logger::log(formatStringBuffer("%s::processSentMessage(%s, %i)",
 			instanceName_.c_str(),
 			messageType.c_str(), message.getDestinationId()));
 	}

@@ -48,12 +48,12 @@ bool ServerBanned::load(bool force)
 	XMLFile file;
 	if (!file.readFile(filename))
 	{
-		Logger::log(formatString("Failed to parse banned file \"%s\"\n%s", 
+		Logger::log(formatStringBuffer("Failed to parse banned file \"%s\"\n%s", 
 			filename, file.getParserError()));
 		return false;
 	}
 
-	Logger::log(formatString("Refreshing banned list %s", filename));
+	Logger::log(formatStringBuffer("Refreshing banned list %s", filename));
 	lastReadTime_ = fileTime;
 	bannedIps_.clear();
 	bannedIds_.clear();

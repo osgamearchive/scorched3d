@@ -52,7 +52,7 @@ void ActionController::clear(bool warn)
 		Action *act = *newItor;
 		if (warn)
 		{
-			Logger::log(formatString("Warning: removing added timed out action %s, %s",
+			Logger::log(formatStringBuffer("Warning: removing added timed out action %s, %s",
 				act->getActionType(), (act->getReferenced()?"Ref":"UnRef")));
 		}
 		delete act;
@@ -65,7 +65,7 @@ void ActionController::clear(bool warn)
 		Action *act = actions_.actions[a];
 		if (warn)
 		{
-			Logger::log(formatString("Warning: removing added timed out action %s, %s",
+			Logger::log(formatStringBuffer("Warning: removing added timed out action %s, %s",
 				act->getActionType(), (act->getReferenced()?"Ref":"UnRef")));
 		}
 		delete act;
@@ -101,14 +101,14 @@ bool ActionController::allEvents()
 
 void ActionController::logActions()
 {
-	Logger::log(formatString("ActionLog : Time %.2f, New %i, Ref %i",
+	Logger::log(formatStringBuffer("ActionLog : Time %.2f, New %i, Ref %i",
 		time_.asFloat(),
 		(int) newActions_.size(), 
 		referenceCount_));
 	for (int a=0; a<actions_.actionCount; a++)
 	{
 		Action *act = actions_.actions[a];
-		Logger::log(formatString("Action : %s", act->getActionType()));
+		Logger::log(formatStringBuffer("Action : %s", act->getActionType()));
 	}
 }
 
@@ -126,9 +126,9 @@ void ActionController::logProfiledActions()
 		const std::string &name = (*itor).first;
 		int count = (*itor).second;
 		totalCount += count;
-		Logger::log(formatString("%s - %i", name.c_str(), count));
+		Logger::log(formatStringBuffer("%s - %i", name.c_str(), count));
 	}
-	Logger::log(formatString("Total - %i", totalCount));
+	Logger::log(formatStringBuffer("Total - %i", totalCount));
 	Logger::log("---------------------------------------------");
 
 	actionProfile_.clear();
@@ -290,7 +290,7 @@ void ActionController::stepActions(fixed frameTime)
 		{
 			if ((time_ - act->getActionStartTime() > 30))
 			{
-				Logger::log(formatString("Warning: removing timed out action %s",
+				Logger::log(formatStringBuffer("Warning: removing timed out action %s",
 					act->getActionType()));
 				remove = true;
 			}

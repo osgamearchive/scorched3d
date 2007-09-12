@@ -55,7 +55,7 @@ bool NetServerUDP::connect(const char *hostName, int portNo)
 	IPaddress serverAddress;
 	if (SDLNet_ResolveHost(&serverAddress, hostName, portNo) != 0)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to resolve host %s:%i",
+		Logger::log(formatStringBuffer("NetServerUDP: Failed to resolve host %s:%i",
 			hostName, portNo));
 		return false;
 	}
@@ -67,7 +67,7 @@ bool NetServerUDP::connect(const char *hostName, int portNo)
 	udpsock_ = SDLNet_UDP_Open(0);
 	if (!udpsock_)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to open client socket : %s",
+		Logger::log(formatStringBuffer("NetServerUDP: Failed to open client socket : %s",
 			SDLNet_GetError()));
 		return false;		
 	}
@@ -96,7 +96,7 @@ bool NetServerUDP::start(int portNo)
 	udpsock_ = SDLNet_UDP_Open(portNo);
 	if (!udpsock_)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to open server socket %i", portNo));
+		Logger::log(formatStringBuffer("NetServerUDP: Failed to open server socket %i", portNo));
 		return false;
 	}
 
@@ -125,7 +125,7 @@ bool NetServerUDP::sendConnect(IPaddress &address, PacketType type)
 	packetVOut_[0]->channel = -1;
 	if (SDLNet_UDP_SendV(udpsock_, packetVOut_, 1) == 0)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to send connect packet"));
+		Logger::log(formatStringBuffer("NetServerUDP: Failed to send connect packet"));
 		return false;
 	}
 	return true;
@@ -144,7 +144,7 @@ bool NetServerUDP::startProcessing()
 		NetServerUDP::sendRecvThreadFunc, (void *) this);
 	if (sendRecvThread_ == 0)
 	{
-		Logger::log(formatString("NetServerUDP: Failed to create NetServerUDP thread"));
+		Logger::log(formatStringBuffer("NetServerUDP: Failed to create NetServerUDP thread"));
 		return false;
 	}
 
@@ -158,7 +158,7 @@ int NetServerUDP::sendRecvThreadFunc(void *c)
 	th->actualSendRecvFunc();
 
 	th->sendRecvThread_ = 0;
-	Logger::log(formatString("NetServerUDP: shutdown"));
+	Logger::log(formatStringBuffer("NetServerUDP: shutdown"));
 	return 0;
 }
 
@@ -181,7 +181,7 @@ void NetServerUDP::actualSendRecvFunc()
 		float timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 1.0f)
 		{
-			Logger::log(formatString(
+			Logger::log(formatStringBuffer(
 				"NetServerUDP: coms loop took %.2f seconds", 
 				timeDiff));
 		}
@@ -208,7 +208,7 @@ void NetServerUDP::processMessage(NetMessage &message)
 			sendConnect(destination->getAddress(), eDisconnect);
 
 			// This is a message telling us to kick the client, do so
-			//Logger::log(formatString("Disconnected %u - kicked", destinationId));
+			//Logger::log(formatStringBuffer("Disconnected %u - kicked", destinationId));
 			destroyDestination(destinationId, NetMessage::KickDisconnect);
 		}
 
@@ -228,7 +228,7 @@ void NetServerUDP::processMessage(NetMessage &message)
 		destinations_.find(message.getDestinationId());
 	if (itor == destinations_.end())
 	{
-		Logger::log(formatString(
+		Logger::log(formatStringBuffer(
 			"NetServerUDP: Invalid send destination %u", message.getDestinationId()));
 		return;
 	}
@@ -240,7 +240,7 @@ void NetServerUDP::processMessage(NetMessage &message)
 		sendConnect(destination->getAddress(), eDisconnect);
 
 		// This is a message telling us to kick the client, do so
-		//Logger::log(formatString("Disconnected %u - kicked", message.getDestinationId()));
+		//Logger::log(formatStringBuffer("Disconnected %u - kicked", message.getDestinationId()));
 		destroyDestination(message.getDestinationId(), NetMessage::KickDisconnect);
 	}
 	else
@@ -271,7 +271,7 @@ bool NetServerUDP::checkOutgoing()
 		case NetServerUDPDestination::OutgoingTimeout:
 
 			// Client timedout
-			//Logger::log(formatString("Disconnected %u - timedout", destinationId));
+			//Logger::log(formatStringBuffer("Disconnected %u - timedout", destinationId));
 			destroyDestination(destinationId, NetMessage::TimeoutDisconnect);
 			return true; // Because we are in iterator
 			break;
@@ -301,7 +301,7 @@ bool NetServerUDP::checkIncoming()
 		unsigned char *packetData = packetVIn_[i]->data;
 		if (packetLen < 1)
 		{
-			Logger::log(formatString("NetServerUDP: Invalid incoming packet size %i", packetLen));
+			Logger::log(formatStringBuffer("NetServerUDP: Invalid incoming packet size %i", packetLen));
 			continue;
 		}
 		NetInterface::getBytesIn() += packetLen;
@@ -332,7 +332,7 @@ bool NetServerUDP::checkIncoming()
 			// A disconnect request
 			if (destinationId != 0)
 			{
-				//Logger::log(formatString("Disconnected %u - user", destinationId));
+				//Logger::log(formatStringBuffer("Disconnected %u - user", destinationId));
 				destroyDestination(destinationId, NetMessage::UserDisconnect);
 			}
 			break;

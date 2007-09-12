@@ -125,12 +125,12 @@ bool NetBuffer::uncompressBuffer()
 	{
 		if (destLen > 2400000)
 		{
-			Logger::log(formatString("ERROR: Asked to allocated %u bytes", destLen));
+			Logger::log(formatStringBuffer("ERROR: Asked to allocated %u bytes", destLen));
 			return false;
 		}
 		else
 		{
-			Logger::log(formatString("Warning: Asked to allocated %u bytes", destLen));
+			Logger::log(formatStringBuffer("Warning: Asked to allocated %u bytes", destLen));
 		}
 	}
 #endif

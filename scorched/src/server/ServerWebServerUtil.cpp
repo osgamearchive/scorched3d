@@ -306,7 +306,7 @@ bool ServerWebServerUtil::getTemplate(
 	FILE *in = fopen(fileName, "r");
 	if (!in) 
 	{
-		Logger::log(formatString("ERROR: Failed to open web template \"%s\"", fileName));
+		Logger::log(formatStringBuffer("ERROR: Failed to open web template \"%s\"", fileName));
 		return false;
 	}
 

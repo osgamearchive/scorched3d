@@ -119,10 +119,10 @@ bool StatsLoggerMySQL::connectDatabase(const char *host, const char *port,
 		connectPort, 
 		connectSocket, 0))
 	{
-		Logger::log(formatString("mysql stats logger failed to start. "
+		Logger::log(formatStringBuffer("mysql stats logger failed to start. "
 			"Error: %s",
 			mysql_error(mysql_)));
-		Logger::log(formatString("mysql params : host %s, user %s, passwd %s, db %s",
+		Logger::log(formatStringBuffer("mysql params : host %s, user %s, passwd %s, db %s",
 			host, user, passwd, db));
 		return false;
 	}

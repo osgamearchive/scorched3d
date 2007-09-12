@@ -85,7 +85,7 @@ bool ClientConnectionAcceptHandler::processMessage(
 		setCurrentDestinationId(message.getDestinationId());
 
 	// Tell the user to wait
-	Logger::log(formatString(
+	Logger::log(formatStringBuffer(
 		"Connection accepted by \"%s\".\nPlease wait...",
 		message.getServerName()));
 

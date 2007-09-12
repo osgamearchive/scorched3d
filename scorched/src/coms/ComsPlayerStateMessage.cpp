@@ -136,7 +136,7 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 		{
 			std::string name;
 			reader.getFromBuffer(name);
-			Logger::log(formatString("Error: Failed to find tank %u\"%s\"",
+			Logger::log(formatStringBuffer("Error: Failed to find tank %u\"%s\"",
 				playerId, name.c_str()));
 
 			std::map<unsigned int, Tank *> &tanks = 
@@ -147,7 +147,7 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 				itor++)
 			{
 				Tank *tank = itor->second;
-				Logger::log(formatString("  Possible tank %u\"%s\"",
+				Logger::log(formatStringBuffer("  Possible tank %u\"%s\"",
 					tank->getPlayerId(), tank->getName()));
 			}
 
@@ -176,7 +176,7 @@ bool ComsPlayerStateMessage::readMessage(NetBufferReader &reader)
 			{
 				std::string name;
 				reader.getFromBuffer(name);
-				Logger::log(formatString("Error: Failed to find target %u\"%s\"",
+				Logger::log(formatStringBuffer("Error: Failed to find target %u\"%s\"",
 					playerId, name.c_str()));
 				return false;
 			}

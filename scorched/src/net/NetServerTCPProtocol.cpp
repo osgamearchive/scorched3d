@@ -49,7 +49,7 @@ bool NetServerTCPScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socke
 	int result = SDLNet_TCP_Send(socket, &netlen, sizeof(netlen));
 	if(result<(int) sizeof(netlen))
 	{
-		Logger::log(formatString("Failed to send buffer length. Sent %i of %i.",
+		Logger::log(formatStringBuffer("Failed to send buffer length. Sent %i of %i.",
 			result, sizeof(netlen)));
 		return false;
 	}
@@ -58,7 +58,7 @@ bool NetServerTCPScorchedProtocol::sendBuffer(NetBuffer &buffer, TCPsocket socke
 	result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log(formatString("Failed to send buffer. Sent %i of %i.",
+		Logger::log(formatStringBuffer("Failed to send buffer. Sent %i of %i.",
 			result, int(len)));
 		return false;
 	}
@@ -116,7 +116,7 @@ NetMessage *NetServerTCPScorchedProtocol::readBuffer(TCPsocket socket, unsigned 
 	// Cannot recieve a message large than .5 MB
 	if (len > 5000000)
 	{
-		Logger::log(formatString("Buffer was too large to recieve.  Size %i.",
+		Logger::log(formatStringBuffer("Buffer was too large to recieve.  Size %i.",
 			len));
 		return 0;
 	}
@@ -161,7 +161,7 @@ bool NetServerHTTPProtocolSend::sendBuffer(NetBuffer &buffer, TCPsocket socket, 
 	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log(formatString("Failed to send HTTP buffer. Sent %i of %i.",
+		Logger::log(formatStringBuffer("Failed to send HTTP buffer. Sent %i of %i.",
 			result, int(len)));
 		return false;
 	}
@@ -224,7 +224,7 @@ bool NetServerHTTPProtocolRecv::sendBuffer(NetBuffer &buffer, TCPsocket socket, 
 	int result = SDLNet_TCP_Send(socket,buffer.getBuffer(),len);
 	if(result<int(len))
 	{
-		Logger::log(formatString("Failed to send HTTP buffer. Sent %i of %i.",
+		Logger::log(formatStringBuffer("Failed to send HTTP buffer. Sent %i of %i.",
 			result, int(len)));
 		return false;
 	}

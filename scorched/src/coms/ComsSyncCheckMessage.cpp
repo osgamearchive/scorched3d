@@ -334,7 +334,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 	}
 	else
 	{
-		Logger::log(formatString("SyncCheck %i checked. (%i syncs)", syncCount, serverSyncNo));
+		Logger::log(formatStringBuffer("SyncCheck %i checked. (%i syncs)", syncCount, serverSyncNo));
 	}
 
 	return true;
