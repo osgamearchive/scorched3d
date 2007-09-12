@@ -247,6 +247,8 @@ scorched3dc_SOURCES = \
 	../server/ServerWebHandler.h \
 	../server/ServerWebServer.cpp \
 	../server/ServerWebServer.h \
+	../server/ServerWebServerI.cpp \
+	../server/ServerWebServerI.h \
 	../server/ServerWebServerQueue.cpp \
 	../server/ServerWebServerQueue.h \
 	../server/ServerWebServerUtil.cpp \

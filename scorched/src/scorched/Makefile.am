@@ -4,21 +4,6 @@ scorched3d_SOURCES = \
 	./main.cpp \
 	./ScorchedParams.cpp \
 	./ScorchedParams.h \
-	../wxdialogs/CreateDialogs.cpp \
-	../wxdialogs/DialogUtils.cpp \
-	../wxdialogs/DialogUtils.h \
-	../wxdialogs/DisplayDialog.cpp \
-	../wxdialogs/DisplayDialog.h \
-	../wxdialogs/KeyDialog.cpp \
-	../wxdialogs/KeyDialog.h \
-	../wxdialogs/MainDialog.cpp \
-	../wxdialogs/MainDialog.h \
-	../wxdialogs/OptionEntrySetter.cpp \
-	../wxdialogs/OptionEntrySetter.h \
-	../wxdialogs/ServerSDialog.cpp \
-	../wxdialogs/ServerSDialog.h \
-	../wxdialogs/SettingsDialog.cpp \
-	../wxdialogs/SettingsDialog.h \
 	../engine/ModDirs.cpp \
 	../engine/ModDirs.h \
 	../engine/ModFileEntry.cpp \
@@ -116,6 +101,21 @@ scorched3d_SOURCES = \
 	../XML/xmltok.h \
 	../tankai/TankAINames.cpp \
 	../tankai/TankAINames.h \
+	../wxdialogs/CreateDialogs.cpp \
+	../wxdialogs/DialogUtils.cpp \
+	../wxdialogs/DialogUtils.h \
+	../wxdialogs/DisplayDialog.cpp \
+	../wxdialogs/DisplayDialog.h \
+	../wxdialogs/KeyDialog.cpp \
+	../wxdialogs/KeyDialog.h \
+	../wxdialogs/MainDialog.cpp \
+	../wxdialogs/MainDialog.h \
+	../wxdialogs/OptionEntrySetter.cpp \
+	../wxdialogs/OptionEntrySetter.h \
+	../wxdialogs/ServerSDialog.cpp \
+	../wxdialogs/ServerSDialog.h \
+	../wxdialogs/SettingsDialog.cpp \
+	../wxdialogs/SettingsDialog.h \
 	../landscapedef/LandscapeDefinitionsBase.cpp \
 	../landscapedef/LandscapeDefinitionsBase.h
 
