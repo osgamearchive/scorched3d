@@ -26,6 +26,7 @@
 #ifndef HAVE_SNPRINTF
 
 #include <stdarg.h> // For va_list
+#include <string>
 
 #define snprintf smb_snprintf
 #define vsnprintf smb_vsnprintf
@@ -57,6 +58,7 @@ extern int vsnprintf(char *str, size_t size, const char *format, va_list ap);
 */
 
 extern const char *formatString(const char *format, ...);
+extern std::string formatStringBuffer(const char *format, ...);
 extern char *s3d_stristr(const char *x, const char *y);
 
 #endif // __SNPRINTF_SAMBA__

@@ -42,6 +42,7 @@ public:
 
 	static void log(const LoggerInfo &info);
 	static void log(const char *text);
+	static void log(const std::string &text);
 
 protected:
 	static Logger *instance_;

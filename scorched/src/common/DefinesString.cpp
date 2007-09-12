@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <common/Defines.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_thread.h>
 
 char *s3d_stristr(const char *x, const char *y)
 {
@@ -36,26 +38,69 @@ char *s3d_stristr(const char *x, const char *y)
 	return (char *)(x + (result - newX.c_str()));
 }
 
-const char *formatStringList(const char *format, va_list ap)
+static std::string formatStringList(const char *format, va_list ap)
 {
-	// A little fix to allow formatString to be used more than once in
-	// the same calling line.  Does waste 100K though :(
-	static char buffers[5][20048];
-	static int pos = 0;
-	char *buffer = buffers[pos++ % 5];
+	int size = 256;
+	char *p = new char[256];
 
-	vsnprintf(buffer, 20048, format, ap);
-	return buffer;
+	while (1) 
+	{
+		/* Try to print in the allocated space. */
+		int n = vsnprintf (p, size, format, ap);
+
+		/* If that worked, return the string. */
+		if (n > -1 && n < size) break;
+
+		/* Check size is within limits */
+		if (size > 10 * 1024) break;
+
+		/* Else try again with more space. */
+		if (n > -1)    /* glibc 2.1 */
+			size = n+1; /* precisely what is needed */
+		else           /* glibc 2.0 */
+			size *= 2;  /* twice the old size */
+
+		/* Allocate more space */
+		delete [] p;
+		p = new char[size];
+	}
+
+	std::string result(p);
+	delete [] p;
+
+	return result;
 }
 
-const char *formatString(const char *file, ...)
+extern std::string formatStringBuffer(const char *format, ...)
 {
-	if (!file) return "";
-
 	va_list ap; 
-	va_start(ap, file); 
-	const char *result = formatStringList(file, ap);
+	va_start(ap, format); 
+	std::string result = formatStringList(format, ap);
 	va_end(ap); 
 
 	return result;
+}
+
+const char *formatString(const char *format, ...)
+{
+	if (!format) return "";
+
+	static SDL_mutex *formatMutex = SDL_CreateMutex();
+
+	// A little fix to allow formatString to be used more than once in
+	// the same calling line.  Does waste memory though.
+	// Also made thread safe although the formatStringBuffer is better
+	// as thread safty is lost if the number of buffers in use is exceeded
+	SDL_LockMutex(formatMutex);
+	static std::string buffers[25];
+	static int pos = 0;
+	std::string *buffer = &buffers[pos++ % 25];
+	SDL_UnlockMutex(formatMutex);
+
+	va_list ap; 
+	va_start(ap, format); 
+	(*buffer) = formatStringList(format, ap);
+	va_end(ap); 
+
+	return buffer->c_str();
 }

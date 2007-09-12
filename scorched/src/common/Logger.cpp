@@ -78,6 +78,11 @@ void Logger::remLogger(LoggerI *logger)
 	SDL_UnlockMutex(logMutex_);
 }
 
+void Logger::log(const std::string &text)
+{
+	log(text.c_str());
+}
+
 void Logger::log(const char *text)
 {
 	if (!text) return;
