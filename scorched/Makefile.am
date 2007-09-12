@@ -36,6 +36,7 @@ scorcheddata_DATA = data/singlecustom.xml \
 	data/fastestdisplay.xml \
 	data/tips.txt \
 	data/random.no \
+	data/music.xml \
 	data/custominfo.xml \
 	data/prunetables.sql \
 	data/mysql.xml \
@@ -1868,3 +1869,7 @@ scorcheddataglobalmodsapocdatalandscapesmasks_DATA = data/globalmods/apoc/data/l
 	data/globalmods/apoc/data/landscapes/masks/center-square.bmp \
 	data/globalmods/apoc/data/landscapes/masks/city2suburban2.bmp \
 	data/globalmods/apoc/data/landscapes/masks/usa-pines.bmp
+scorcheddatamusicdir = ${datadir}/data/music
+scorcheddatamusic_DATA = data/music/mix3_loop1.ogg \
+	data/music/mix3_loop2.ogg \
+	data/music/mix3_loop3.ogg

@@ -22,11 +22,11 @@
 #define __SNPRINTF_SAMBA__
 
 #include <stdio.h> // For snprintf on linux
+#include <string>
 
 #ifndef HAVE_SNPRINTF
 
 #include <stdarg.h> // For va_list
-#include <string>
 
 #define snprintf smb_snprintf
 #define vsnprintf smb_vsnprintf

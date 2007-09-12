@@ -874,6 +874,8 @@ scorched3dc_SOURCES = \
 	../client/ClientRmPlayerHandler.h \
 	../client/ClientSave.cpp \
 	../client/ClientSave.h \
+	../client/ClientSaveScreenState.cpp \
+	../client/ClientSaveScreenState.h \
 	../client/ClientScoreHandler.cpp \
 	../client/ClientScoreHandler.h \
 	../client/ClientShotState.cpp \
