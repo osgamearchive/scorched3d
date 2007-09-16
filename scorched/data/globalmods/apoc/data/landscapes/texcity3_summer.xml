@@ -7,8 +7,8 @@
 	<skytexturemask>data/textures/landscape/tropical/cloud1m.bmp</skytexturemask>
 	<skycolormap>data/textures/clearsky.bmp</skycolormap>
 	<skytimeofday>3</skytimeofday>
-	<skysunxy>110</skysunxy>
-	<skysunyz>15</skysunyz>
+	<skysunxy>90</skysunxy>
+	<skysunyz>30</skysunyz>
 	<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 	<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
 	<fog><A>0.8</A><B>0.8</B><C>0.8</C></fog>

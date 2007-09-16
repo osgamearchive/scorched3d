@@ -9,8 +9,8 @@
 	<skytexturemask>data/textures/landscape/default/cloud1m.bmp</skytexturemask>
 	<skycolormap>data/textures/landscape/tuscan/clearsky.bmp</skycolormap>
 	<skytimeofday>3</skytimeofday>
-	<skysunxy>110</skysunxy>
-	<skysunyz>15</skysunyz>
+	<skysunxy>90</skysunxy>
+	<skysunyz>30</skysunyz>
 	<skyambience><A>0.3</A><B>0.3</B><C>0.3</C></skyambience>
 	<skydiffuse><A>0.8</A><B>0.8</B><C>0.8</C></skydiffuse>
 	<suncolor><A>0.8</A><B>0.7</B><C>0.5</C></suncolor>
