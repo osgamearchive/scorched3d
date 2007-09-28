@@ -207,6 +207,7 @@ void ServerBrowserInfo::processInfoMessage(std::list<std::string> &reply)
 void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 {
 	// Add all of the player information
+	char tmp[128];
 	std::map<unsigned int, Tank *> &tanks =
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	std::map<unsigned int, Tank *>::iterator tankItor;
@@ -216,7 +217,6 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 		tankItor++, i++)
 	{
 		Tank *tank = (*tankItor).second;
-		static char tmp[128];
 
 		snprintf(tmp, 128, "pn%i", i);
 		reply.push_back(addTag(tmp, tank->getName()));
@@ -239,12 +239,10 @@ void ServerBrowserInfo::processPlayerMessage(std::list<std::string> &reply)
 
 }
 
-const char *ServerBrowserInfo::addTag(const char *name, const char *value)
+std::string ServerBrowserInfo::addTag(const char *name, const char *value)
 {
 	std::string content(value), result;
 	XMLNode::removeSpecialChars(content, result);
 
-	static char buffer[10000];
-	snprintf(buffer, sizeof(buffer), "%s='%s' ", name, result.c_str());
-	return buffer;
+	return formatStringBuffer("%s='%s' ", name, result.c_str());
 }

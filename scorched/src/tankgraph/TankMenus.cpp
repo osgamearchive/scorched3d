@@ -392,7 +392,7 @@ bool TankMenus::AccessoryMenu::getMenuItems(const char* menuName,
 			lastGroup = accessory->getTabGroupName();
 			firstIteration = false;
 
-			static char buffer[1024];
+			char buffer[1024];
 			if (accessoryCount > 0)
 			{
 				snprintf(buffer, 1024, "%s (%i)", 

@@ -106,7 +106,7 @@ static FileLogger *syncCheckFileLogger = 0;
 
 static int syncCount = 0;
 
-static void syncCheckLog(const char *message)
+static void syncCheckLog(const std::string &message)
 {
 	if (!syncCheckFileLogger) 
 	{
@@ -115,7 +115,7 @@ static void syncCheckLog(const char *message)
 		syncCheckFileLogger = new FileLogger(buffer);
 	}	
 
-	LoggerInfo info(message);
+	LoggerInfo info(message.c_str());
 	info.setTime();
 	syncCheckFileLogger->logMessage(info);
 }
@@ -146,7 +146,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		bool diff = (serversync != clientsync);
 		if (diff) printOutput = true;
 
-		output.append(formatString("%i: %s %s ::: %s\n", 
+		output.append(formatStringBuffer("%i: %s %s ::: %s\n", 
 			syncCount,
 			(diff?"***":""),
 			serversync.c_str(), 
@@ -175,7 +175,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 			
 			if (actualheight != sentheight) 
 			{
-				syncCheckLog(formatString("%li %li", 
+				syncCheckLog(formatStringBuffer("%li %li", 
 					actualheight.getInternal(), sentheight.getInternal()));
 				heightDiffs++;
 			}
@@ -186,11 +186,10 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 	}
 	if (heightDiffs > 0 || normalDiffs > 0)
 	{
-		const char *message = formatString(
+		syncCheckLog(formatStringBuffer(
 			"SyncCheck %i - Height diffs %i, Normal diffs %i",
 			syncCount,
-			heightDiffs, normalDiffs);
-		syncCheckLog(message);
+			heightDiffs, normalDiffs));
 
 		GLBitmap newMap(
 			Landscape::instance()->getMainMap().getWidth(),
@@ -240,9 +239,8 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 		Target *target = ScorchedClient::instance()->getTargetContainer().getTargetById(playerId);
 		if (!target)
 		{
-			const char *message = formatString(
-				"SyncCheck %i - Failed to find a client target : %u", syncCount, playerId);
-			syncCheckLog(message);
+			syncCheckLog(formatStringBuffer(
+				"SyncCheck %i - Failed to find a client target : %u", syncCount, playerId));
 			return true;
 		}
 
@@ -264,10 +262,8 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 				if (reader.getReadSize() + i >= reader.getBufferSize() ||
 					tmpBuffer.getBuffer()[i] != reader.getBuffer()[reader.getReadSize() + i])
 				{
-					const char *message =
-						formatString("SyncCheck %i - Targets values differ : %u:%s, position %i", 
-							syncCount, playerId, target->getName(), i);
-					syncCheckLog(message);
+					syncCheckLog(formatStringBuffer("SyncCheck %i - Targets values differ : %u:%s, position %i", 
+							syncCount, playerId, target->getName(), i));
 
 					different = true;
 					Logger::addLogger(syncCheckFileLogger);
@@ -309,7 +305,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 
 			if (different)
 			{
-				syncCheckLog(formatString("%s %s", 
+				syncCheckLog(formatStringBuffer("%s %s", 
 					tmpTank->getState().getStateString(),
 					((Tank*)target)->getState().getStateString()));
 			}
@@ -317,20 +313,20 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 	}
 	if (reader.getBufferSize() != reader.getReadSize())
 	{
-		syncCheckLog(formatString("SyncCheck not all bytes read : %i   %i,%i",
+		syncCheckLog(formatStringBuffer("SyncCheck not all bytes read : %i   %i,%i",
 			syncCount, reader.getBufferSize(), reader.getReadSize()));
 	}
 
 	if (syncCheckFileLogger)
 	{
-		syncCheckLog(formatString("SyncCheck : %i,%i",
+		syncCheckLog(formatStringBuffer("SyncCheck : %i,%i",
 			syncCount,
 			ScorchedClient::instance()->getOptionsTransient().getCurrentGameNo()));
 	}
 
 	if (syncCheckFileLogger)
 	{
-		syncCheckLog(formatString("SyncCheck %i checked. (%i syncs)", syncCount, serverSyncNo));
+		syncCheckLog(formatStringBuffer("SyncCheck %i checked. (%i syncs)", syncCount, serverSyncNo));
 	}
 	else
 	{

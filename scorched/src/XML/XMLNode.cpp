@@ -62,7 +62,7 @@ void XMLNode::addSpecialChars(std::string &content, std::string &result)
 				if (pos <= c + 3)
 				{
 					c+=2;
-					result += formatString("%c", atoi(c));
+					result += formatStringBuffer("%c", atoi(c));
 					*pos = '\0';
 					c = pos + 1;
 				}

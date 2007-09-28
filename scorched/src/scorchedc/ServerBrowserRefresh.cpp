@@ -101,7 +101,7 @@ void ServerBrowserRefresh::refreshList()
 void ServerBrowserRefresh::sendNextEntry(
 	ServerBrowserRefreshEntry &entry, time_t theTime)
 {
-	static char buffer[256];
+	char buffer[256];
 	snprintf(buffer, sizeof(buffer), "%s", entry.address_.c_str());
 	char *port = strchr(buffer, ':');
 	if (!port) return;

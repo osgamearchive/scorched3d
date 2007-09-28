@@ -32,33 +32,29 @@ StatsLoggerMySQL::~StatsLoggerMySQL()
 {
 }
 
-bool StatsLoggerMySQL::runQuery(const char *fmt, ...)
+bool StatsLoggerMySQL::runQuery(const char *format, ...)
 {
 	if (!success_) return false;
 
-	static char text[50000];
-	va_list ap;
-	va_start(ap, fmt);
-	int used = vsnprintf(text, 50000, fmt, ap);
-	va_end(ap);
+	va_list ap; 
+	va_start(ap, format); 
+	std::string text = formatStringList(format, ap);
+	va_end(ap); 
 
-	if (used == 50000) return false;
-	return (mysql_real_query(mysql_, text, strlen(text)) == 0);
+	return (mysql_real_query(mysql_, text.c_str(), (int) text.size()) == 0);
 }
 
-std::list<StatsLoggerDatabase::RowResult> StatsLoggerMySQL::runSelectQuery(const char *fmt, ...)
+std::list<StatsLoggerDatabase::RowResult> StatsLoggerMySQL::runSelectQuery(const char *format, ...)
 {
 	std::list<StatsLoggerDatabase::RowResult> results;
 	if (!success_) return results;
 
-	static char text[50000];
-	va_list ap;
-	va_start(ap, fmt);
-	int used = vsnprintf(text, 50000, fmt, ap);
-	va_end(ap);
+	va_list ap; 
+	va_start(ap, format); 
+	std::string text = formatStringList(format, ap);
+	va_end(ap); 
 
-	if (used == 50000) return results;
-	if (mysql_real_query(mysql_, text, strlen(text)) != 0) return results;
+	if (mysql_real_query(mysql_, text.c_str(), (int) text.size()) != 0) return results;
 
 	MYSQL_RES *result = mysql_store_result(mysql_);
 	if (result)

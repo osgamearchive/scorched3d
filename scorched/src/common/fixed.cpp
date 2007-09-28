@@ -54,8 +54,8 @@ fixed::fixed(const char *nVal)
 		return;
 	}
 
-	static char i[15];
-	static char f[15];
+	char i[15];
+	char f[15];
 
 	int ip = 0;
 	int fp = 0;
@@ -89,10 +89,10 @@ fixed::fixed(const char *nVal)
 
 const char *fixed::asString()
 {
-	static char result[15];
+	char result[15];
 	int r = 0;
 
-	static char buffer[15];
+	char buffer[15];
 	if (m_nVal < 0) 
 	{
 		snprintf(buffer, 15, "%li", -m_nVal);
@@ -133,7 +133,7 @@ const char *fixed::asString()
 	result[r++] = '\0';
 	DIALOG_ASSERT(r < 15);
 
-	return result;
+	return formatString("%s", result);
 }
 
 fixed fixed::operator*(fixed b)

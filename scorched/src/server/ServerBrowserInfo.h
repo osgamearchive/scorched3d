@@ -43,7 +43,7 @@ protected:
 	void processStatusMessage(std::list<std::string> &reply);
 	void processPlayerMessage(std::list<std::string> &reply);
 	void processInfoMessage(std::list<std::string> &reply);
-	const char *addTag(const char *name, const char *value);
+	std::string addTag(const char *name, const char *value);
 
 private:
 	ServerBrowserInfo();

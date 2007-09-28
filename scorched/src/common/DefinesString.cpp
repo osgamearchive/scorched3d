@@ -38,7 +38,7 @@ char *s3d_stristr(const char *x, const char *y)
 	return (char *)(x + (result - newX.c_str()));
 }
 
-static std::string formatStringList(const char *format, va_list ap)
+std::string formatStringList(const char *format, va_list ap)
 {
 	int size = 256;
 	char *p = new char[256];

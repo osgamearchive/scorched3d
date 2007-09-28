@@ -50,8 +50,7 @@ bool ServerBrowserCollect::fetchServerList(
 	const char *masterListServerURI)
 {
 	// Create the message that will be sent to the master server
-	static char buffer[1024];
-	snprintf(buffer, 1024,
+	std::string buffer = formatStringBuffer(
 		"GET %s/servers.php HTTP/1.0\r\n"
 		"User-Agent: Scorched3D\r\n"
 		"Host: %s\r\n"
@@ -61,7 +60,7 @@ bool ServerBrowserCollect::fetchServerList(
 		masterListServerURI,
 		masterListServer);
 	sendNetBuffer_.reset();
-	sendNetBuffer_.addDataToBuffer(buffer, strlen(buffer)); // Note no null
+	sendNetBuffer_.addDataToBuffer(buffer.c_str(), (int) buffer.size()); // Note no null
 
 	complete_ = false;
 
