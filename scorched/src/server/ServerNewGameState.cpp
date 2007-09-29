@@ -618,7 +618,8 @@ void ServerNewGameState::checkBots(bool removeBots)
 		{
 			const char *playerType = 
 				ScorchedServer::instance()->getOptionsGame().getPlayerType(i);
-			if (0 != stricmp(playerType, "Human"))
+			if (0 != stricmp(playerType, "Human") &&
+				0 != stricmp(playerType, "Random"))
 			{
 				std::multimap<std::string, unsigned int>::iterator findItor =
 					ais_.find(playerType);
@@ -635,6 +636,29 @@ void ServerNewGameState::checkBots(bool removeBots)
 				{
 					// This player does exist dont add them
 					ais_.erase(findItor);
+				}
+			}
+		}
+		for (int i=0; i<maxComputerAIs; i++)
+		{
+			const char *playerType = 
+				ScorchedServer::instance()->getOptionsGame().getPlayerType(i);
+			if (0 != stricmp(playerType, "Human") &&
+				0 == stricmp(playerType, "Random"))
+			{
+				if (ais_.empty())
+				{
+					if (noPlayers < requiredPlayers)
+					{
+						// This player does not exist add them
+						TankAIAdder::addTankAI(*ScorchedServer::instance(), playerType);
+						noPlayers++;
+					}										
+				}
+				else
+				{
+					// This player does exist dont add them
+					ais_.erase(ais_.begin());
 				}
 			}
 		}

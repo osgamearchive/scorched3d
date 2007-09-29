@@ -35,45 +35,46 @@ void HeightMapLoader::loadTerrain(HeightMap &hmap,
 
 	fixed dhx = fixed(bitmap.getWidth()) / fixed(hmap.getMapWidth()+1);
 	fixed dhy = fixed(bitmap.getHeight()) / fixed(hmap.getMapHeight()+1);
-	unsigned char *bits = bitmap.getBits();
 
-	int bwidth = 3 * bitmap.getWidth();
-	bwidth   = (bwidth + 3) & ~3;
+	int bh = bitmap.getHeight();
+	int bw = bitmap.getWidth();
+
+	fixed scale(true, 25000);
 
 	fixed hy = fixed(0);
 	for (int by=0; by<=hmap.getMapHeight(); by++, hy+=dhy)
 	{
 		if (counter) counter->setNewPercentage((100.0f * float(by)) / float(hmap.getMapHeight()));
 
-		fixed bh = fixed(bitmap.getHeight());
-		fixed ihy = hy.floor();
-		fixed ihy2 = ihy + fixed(1); if (ihy2 >= bh) --ihy2;
-		unsigned char *posYA = (unsigned char*) (bitmap.getBits() + (ihy  * fixed(bwidth)).asInt());
-		unsigned char *posYB = (unsigned char*) (bitmap.getBits() + (ihy2 * fixed(bwidth)).asInt());
+		int ihy = hy.floor().asInt();
+		int ihy2 = ihy + 1; if (ihy2 >= bh) --ihy2;
+
+		int offsety  = ihy  * bw * 3;
+		int offsety2 = ihy2 * bw * 3;
+		unsigned char *posYA = (unsigned char*) (bitmap.getBits() + offsety);
+		unsigned char *posYB = (unsigned char*) (bitmap.getBits() + offsety2);
 
 		fixed hx = fixed(0);
-		fixed scale(true, 25000);
 		for (int bx=0; bx<=hmap.getMapWidth(); bx++, hx+=dhx)
 		{
-			fixed ihx = fixed(hx);
-			fixed bw = fixed(bitmap.getWidth());
-			fixed ihx2 = ihx + fixed(1); if (ihx2 >= bw) --ihx2;
+			int ihx = hx.floor().asInt();
+			int ihx2 = ihx + 1; if (ihx2 >= bw) --ihx2;
 
-			unsigned char *posXA1 = posYA + ihx.asInt() * 3;
-			unsigned char *posXA2 = posYA + ihx2.asInt() * 3;
-			unsigned char *posXB1 = posYB + ihx.asInt() * 3;
-			unsigned char *posXB2 = posYB + ihx2.asInt() * 3;
+			unsigned char *posXA1 = posYA + ihx * 3;
+			unsigned char *posXA2 = posYA + ihx2 * 3;
+			unsigned char *posXB1 = posYB + ihx * 3;
+			unsigned char *posXB2 = posYB + ihx2 * 3;
 
 			fixed heightXA1 = fixed(posXA1[0]);
 			fixed heightXA2 = fixed(posXA2[0]);
 			fixed heightXB1 = fixed(posXB1[0]);
 			fixed heightXB2 = fixed(posXB2[0]);
 
-			fixed XA = ((heightXA2 - heightXA1) * (hx - ihx)) + heightXA1;
-			fixed XB = ((heightXB2 - heightXB1) * (hx - ihx)) + heightXB1;
+			fixed XA = ((heightXA2 - heightXA1) * (hx - fixed(ihx))) + heightXA1;
+			fixed XB = ((heightXB2 - heightXB1) * (hx - fixed(ihx))) + heightXB1;
 
-			fixed h = ((XB - XA) * (hy - ihy)) + XA;
-			
+			fixed h = ((XB - XA) * (hy - fixed(ihy))) + XA;
+
 			hmap.setHeight(bx, by, h / scale);
 		}
 	}

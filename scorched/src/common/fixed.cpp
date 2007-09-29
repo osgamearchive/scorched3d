@@ -140,6 +140,12 @@ fixed fixed::operator*(fixed b)
 {
 	fixed a;
 	a.m_nVal = (long)(((long long)m_nVal*b.m_nVal)/FIXED_RESOLUTION);
+
+	if (a.getInternal() < 0 && m_nVal > 0 && b.m_nVal > 0)
+	{
+		Logger::log("Fixed overflow");
+	}
+
 	return a;
 }
 
@@ -153,7 +159,14 @@ fixed fixed::operator/(fixed b)
 
 fixed fixed::operator*=(fixed val)
 {
-	m_nVal = (long)(((long long)m_nVal*val.m_nVal)/FIXED_RESOLUTION);
+	long res = (long)(((long long)m_nVal*val.m_nVal)/FIXED_RESOLUTION);
+
+	if (res < 0 && m_nVal > 0 && val.m_nVal > 0)
+	{
+		Logger::log("Fixed overflow");
+	}
+	m_nVal = res;
+
 	return *this;
 }
 

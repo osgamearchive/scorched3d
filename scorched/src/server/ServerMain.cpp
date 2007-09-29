@@ -71,29 +71,6 @@ Clock serverTimer;
 
 void checkSettings()
 {
-	/*if (ScorchedServer::instance()->getOptionsGame().getTeams() > 
-		ScorchedServer::instance()->getOptionsGame().getNoMinPlayers())
-	{
-		dialogExit("ScorchedServer",
-			"Cannot start a game with more teams than minimum players");
-	}*/
-
-	if (ScorchedServer::instance()->getOptionsGame().getRemoveBotsAtPlayers() > 0)
-	{
-		int maxComputerAIs = 
-			ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers();
-		for (int i=0; i<maxComputerAIs; i++)
-		{
-			const char *playerType = 
-				ScorchedServer::instance()->getOptionsGame().getPlayerType(i);
-			if (0 == stricmp(playerType, "Random"))
-			{
-				dialogExit("ScorchedServer",
-					"Cannot use removebots setting with random bots");	
-			}
-		}
-	}
-
 	ScorchedServer::instance()->getLandscapes().checkEnabled(
 		ScorchedServer::instance()->getOptionsGame());
 	
