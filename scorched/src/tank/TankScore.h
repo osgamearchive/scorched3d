@@ -26,12 +26,15 @@
 #include <time.h>
 #include <net/NetBuffer.h>
 
+class Tank;
 class ScorchedContext;
 class TankScore  
 {
 public:
 	TankScore(ScorchedContext &context);
 	virtual ~TankScore();
+
+	void setTank(Tank *tank) { tank_ = tank; }
 
 	void newMatch();
 	void newGame();
@@ -83,6 +86,7 @@ public:
 	bool readMessage(NetBufferReader &reader);
 
 protected:
+	Tank *tank_;
 	std::string statsRank_;
 	std::set<unsigned int> hurtBy_;
 	ScorchedContext &context_;

@@ -65,6 +65,7 @@ Tank::Tank(ScorchedContext &context,
 	camera_ = new TankCamera(context);
 
 	position_->setTank(this);
+	score_->setTank(this);
 	state_->setTank(this);
 	accessories_->setTank(this);
 	modelContainer_->setTank(this);

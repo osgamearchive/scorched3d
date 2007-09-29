@@ -286,18 +286,15 @@ void ScoreDialog::draw()
 	GLWToolTip::instance()->addToolTip("Rank", "The current online ranking for this player.",
 		x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 40.0f, 16.0f);
 
-	if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
-	{
-		GLWFont::instance()->getGameFont()->draw(
-			white,
-			12,
-			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
-			"L");
-		GLWToolTip::instance()->addToolTip("Lives", 
-			formatString("The current number of lives this player has left.\n%i score awarded for each life remaining.",
-			ScorchedClient::instance()->getOptionsGame().getScoreWonForLives()),
-			x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
-	}
+	GLWFont::instance()->getGameFont()->draw(
+		white,
+		12,
+		x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
+		"L");
+	GLWToolTip::instance()->addToolTip("Lives", 
+		formatString("The current number of lives this player has left.\n%i score awarded for each life remaining.",
+		ScorchedClient::instance()->getOptionsGame().getScoreWonForLives()),
+		x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
 	y+= lineSpacer + lineSpacer;
 
 	int tmpLastScoreValue = 0;
@@ -531,11 +528,10 @@ void ScoreDialog::addLine(Tank *current, float y, char *rank, bool finished)
 			10,
 			textX + statsLeft, textY, 0.0f,
 			formatString("%s", current->getScore().getStatsRank()));
-		if (ScorchedClient::instance()->getOptionsGame().getPlayerLives() > 1)
-			GLWFont::instance()->getGameFont()->draw(
-				current->getColor(),
-				10,
-				textX + livesLeft, textY, 0.0f,
-				formatString("%i", current->getState().getLives()));
+		GLWFont::instance()->getGameFont()->draw(
+			current->getColor(),
+			10,
+			textX + livesLeft, textY, 0.0f,
+			formatString("%i", current->getState().getLives()));
 	}
 }

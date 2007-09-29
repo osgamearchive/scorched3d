@@ -18,7 +18,9 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <tank/Tank.h>
 #include <tank/TankScore.h>
+#include <tank/TankState.h>
 #include <engine/ScorchedContext.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
@@ -30,7 +32,7 @@ static const int maxMoney = 999999;
 TankScore::TankScore(ScorchedContext &context) : 
 	context_(context), 
 	totalMoneyEarned_(0), totalScoreEarned_(0),
-	statsRank_("-")
+	statsRank_("-"), tank_(0)
 {
 	startTime_ = lastStatTime_ = time(0);
 	newMatch();
@@ -103,8 +105,9 @@ const char *TankScore::getTimePlayedString()
 const char *TankScore::getScoreString()
 {
 	static char score[256];
-	snprintf(score, 256, "%i (%i$ %iK %iA %iW)", 
-		getScore(), getMoney(), getKills(), getAssists(), getWins(), getMoney());
+	snprintf(score, 256, "%i (%i$ %iK %iA %iW $iL)", 
+		getScore(), getMoney(), getKills(), getAssists(), 
+		getWins(), getMoney(), tank_->getState().getLives());
 	return score;
 }
 
