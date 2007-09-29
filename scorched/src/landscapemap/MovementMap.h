@@ -61,18 +61,17 @@ public:
 
 	MovementMap(int width, int height, 
 		Tank *tank, 
-		WeaponMoveTank *weapon,
 		ScorchedContext &context);
 	virtual ~MovementMap();
 
-	bool calculatePosition(FixedVector &position, fixed fuel = fixed(0));
-	void calculateAllPositions(fixed fuel = fixed(0));
+	bool calculatePosition(FixedVector &position, fixed fuel);
+	void calculateAllPositions(fixed fuel);
 	MovementMapEntry &getEntry(int w, int h);
 
 	// Create landscape textures that show where the tank can move to
 	void movementTexture();
 	static void limitTexture(FixedVector &center, int limit);
-	fixed getFuel();
+	fixed getFuel(WeaponMoveTank *weapon);
 
 	// Functions returns true if a tank can move into the give position,
 	// false otherwise.  Shields and obstacles my prevent a tank moving.
@@ -87,7 +86,6 @@ protected:
 	int width_, height_;
 	fixed minHeight_;
 	Tank *tank_;
-	WeaponMoveTank *weapon_;
 	ScorchedContext &context_;
 	std::list<Target *> checkTargets_;
 

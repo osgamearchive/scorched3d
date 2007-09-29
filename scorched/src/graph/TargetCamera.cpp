@@ -543,11 +543,23 @@ void TargetCamera::mouseUp(GameState::MouseButton button,
 
 			MovementMap mmap(landWidth, landHeight, 
 				currentTank,
-				moveWeapon,
 				ScorchedClient::instance()->getContext());
 
 			FixedVector pos((int) posX, (int) posY, 0);
-			mmap.calculatePosition(pos);
+			mmap.calculatePosition(pos, mmap.getFuel(moveWeapon));
+
+			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
+			if (entry.type != MovementMap::eMovement) return;  // Do nothing
+		}
+		else if (selectType == Accessory::ePositionSelectFuelLimit)
+		{
+			int limit = currentWeapon->getPositionSelectLimit();
+			MovementMap mmap(landWidth, landHeight, 
+				currentTank,
+				ScorchedClient::instance()->getContext());
+
+			FixedVector pos((int) posX, (int) posY, 0);
+			mmap.calculatePosition(pos, fixed(limit));
 
 			MovementMap::MovementMapEntry &entry =	mmap.getEntry(posX, posY);
 			if (entry.type != MovementMap::eMovement) return;  // Do nothing

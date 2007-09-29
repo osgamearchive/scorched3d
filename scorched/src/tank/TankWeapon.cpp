@@ -117,11 +117,20 @@ void TankWeapon::setCurrentWeapon(Accessory *wp)
 						context_.landscapeMaps->getGroundMaps().getMapWidth(),
 						context_.landscapeMaps->getGroundMaps().getMapHeight(),
 						tank_, 
-						moveWeapon, 
 						context_);
-					mmap.calculateAllPositions();
+					mmap.calculateAllPositions(mmap.getFuel(moveWeapon));
 					mmap.movementTexture();	
 				}
+			}
+			else if (wp->getPositionSelect() == Accessory::ePositionSelectFuelLimit)
+			{
+				MovementMap mmap(
+					context_.landscapeMaps->getGroundMaps().getMapWidth(),
+					context_.landscapeMaps->getGroundMaps().getMapHeight(),
+					tank_, 
+					context_);
+				mmap.calculateAllPositions(fixed(wp->getPositionSelectLimit()));
+				mmap.movementTexture();	
 			}
 			else if (wp->getPositionSelect() == Accessory::ePositionSelectLimit)
 			{

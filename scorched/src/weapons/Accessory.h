@@ -43,7 +43,8 @@ public:
 		ePositionSelectNone = 0,
 		ePositionSelectFuel = 1,
 		ePositionSelectGeneric = 2,
-		ePositionSelectLimit = 3
+		ePositionSelectLimit = 3,
+		ePositionSelectFuelLimit = 4
 	};
 
 	bool parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode);

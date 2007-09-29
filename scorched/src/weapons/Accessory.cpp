@@ -159,6 +159,11 @@ bool Accessory::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode
 					"Fuel selection can only be used with WeaponMoveTank weapons");
 			}
 		}
+		else if (0 == strcmp(positionSelection.c_str(), "fuellimit"))
+		{
+			positionSelect_ = ePositionSelectFuelLimit;
+			if (!accessoryNode->getNamedChild("positionselectionlimit", positionSelectLimit_)) return false;
+		}
 		else if (0 == strcmp(positionSelection.c_str(), "limit"))
 		{
 			positionSelect_ = ePositionSelectLimit;

@@ -108,10 +108,9 @@ void TankMovement::init()
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapewidth,
 		context_->landscapeMaps->getDefinitions().getDefn()->landscapeheight,
 		tank, 
-		weapon_, 
 		*context_);
 	FixedVector pos(positionX_, positionY_, 0);
-	mmap.calculatePosition(pos);
+	mmap.calculatePosition(pos, mmap.getFuel(weapon_));
 	
 	MovementMap::MovementMapEntry entry =
 		mmap.getEntry(positionX_, positionY_);

@@ -32,6 +32,7 @@
 #include <actions/TankMovement.h>
 #include <actions/TankResign.h>
 #include <landscapemap/LandscapeMaps.h>
+#include <landscapemap/MovementMap.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <weapons/AccessoryStore.h>
 #include <coms/ComsMessageSender.h>
@@ -142,14 +143,41 @@ bool ServerShotHolder::validateFiredMessage(
 	else return false;
 
 	// Check weapons selection parameters
-	if (accessory->getPositionSelect() == Accessory::ePositionSelectLimit)
+	if (accessory->getPositionSelect() != Accessory::ePositionSelectNone)
 	{
-		FixedVector position(
-			message.getSelectPositionX(), message.getSelectPositionY(), 0);
-		if ((position - tank->getLife().getTargetPosition()).Magnitude() > 
-			accessory->getPositionSelectLimit())
+		int landWidth = ScorchedServer::instance()->
+			getLandscapeMaps().getDefinitions().getDefn()->landscapewidth;
+		int landHeight = ScorchedServer::instance()->
+			getLandscapeMaps().getDefinitions().getDefn()->landscapeheight;
+		if (message.getSelectPositionX() <= 0 || message.getSelectPositionX() >= landWidth &&
+			message.getSelectPositionY() <= 0 || message.getSelectPositionY() >= landHeight)
 		{
 			return false;
+		}
+
+		if (accessory->getPositionSelect() == Accessory::ePositionSelectLimit)
+		{
+			FixedVector position(
+				message.getSelectPositionX(), message.getSelectPositionY(), 0);
+			if ((position - tank->getLife().getTargetPosition()).Magnitude() > 
+				accessory->getPositionSelectLimit())
+			{
+				return false;
+			}
+		}
+		else if (accessory->getPositionSelect() == Accessory::ePositionSelectFuelLimit)
+		{
+			MovementMap mmap(landWidth, landHeight, 
+				tank,
+				ScorchedServer::instance()->getContext());
+
+			FixedVector position(
+				message.getSelectPositionX(), message.getSelectPositionY(), 0);
+			mmap.calculatePosition(position, fixed(accessory->getPositionSelectLimit()));
+
+			MovementMap::MovementMapEntry &entry =	mmap.getEntry(
+				message.getSelectPositionX(), message.getSelectPositionY());
+			if (entry.type != MovementMap::eMovement) return false;  // Do nothing
 		}
 	}
 

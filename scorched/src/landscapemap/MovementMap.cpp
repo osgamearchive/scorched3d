@@ -41,10 +41,9 @@
 
 MovementMap::MovementMap(int width, int height,
 	Tank *tank, 
-	WeaponMoveTank *weapon,
 	ScorchedContext &context) :
 	width_(width), height_(height),
-	tank_(tank), weapon_(weapon), context_(context)
+	tank_(tank), context_(context)
 {
 	// Create the empty movement map
 	entries_ = new MovementMapEntry[(width + 1) * (height + 1)];
@@ -317,17 +316,17 @@ fixed MovementMap::getWaterHeight()
 	return waterHeight;
 }
 
-fixed MovementMap::getFuel()
+fixed MovementMap::getFuel(WeaponMoveTank *weapon)
 {
 	fixed fuel = fixed(0);
-	int numberFuel = tank_->getAccessories().getAccessoryCount(weapon_->getParent());
+	int numberFuel = tank_->getAccessories().getAccessoryCount(weapon->getParent());
 	if (numberFuel == -1)
 	{
-		fuel = weapon_->getMaximumRange();
+		fuel = weapon->getMaximumRange();
 	}
 	else
 	{
-		fuel = MIN(weapon_->getMaximumRange(), numberFuel);
+		fuel = MIN(weapon->getMaximumRange(), numberFuel);
 	}
 	return fuel;
 }
@@ -415,12 +414,6 @@ bool MovementMap::calculatePosition(FixedVector &position, fixed fuel)
 	// Check if the tank is buried and cannot move
 	if (tankBurried()) return false;
 
-	// Get fuel
-	if (fuel == fixed(0))
-	{
-		fuel = getFuel();
-	}
-
 	// A very clever weighted queue thingy
 	std::priority_queue<QueuePosition, 
 		std::vector<QueuePosition>, 
@@ -491,12 +484,6 @@ void MovementMap::calculateAllPositions(fixed fuel)
 {
 	// Check if the tank is buried and cannot move
 	if (tankBurried()) return;
-
-	// Get fuel
-	if (fuel == fixed(0))
-	{
-		fuel = getFuel();
-	}
 
 	std::list<unsigned int> edgeList;
 	unsigned int epoc = 0;

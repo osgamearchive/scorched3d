@@ -25,6 +25,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
 #include <tank/TankAvatar.h>
+#include <tank/TankTeamScore.h>
 #include <tank/TankModelContainer.h>
 #include <net/NetBuffer.h>
 #include <coms/ComsAddPlayerMessage.h>
@@ -51,6 +52,8 @@ bool ClientSave::storeClient()
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().writeToBuffer(
+		buffer)) return false;
+	if (!ScorchedServer::instance()->getContext().tankTeamScore->writeMessage(
 		buffer)) return false;
 	
 	// No Players
@@ -138,6 +141,8 @@ bool ClientSave::restoreClient(bool loadGameState, bool loadPlayers)
 	
 	// Transient State
 	if (!ScorchedServer::instance()->getOptionsTransient().readFromBuffer(
+		reader)) return false;
+	if (!ScorchedServer::instance()->getContext().tankTeamScore->readMessage(
 		reader)) return false;
 	
 	if (!loadPlayers) return true;

@@ -564,11 +564,10 @@ bool TankAICurrentMove::makeMoveShot(Tank *tank,
 			context.landscapeMaps->getGroundMaps().getMapWidth(),
 			context.landscapeMaps->getGroundMaps().getMapHeight(),
 			tank, 
-			moveWeapon, 
 			context);
 		if (!mmap.calculatePosition(FixedVector::fromVector(targetPos), 
 			fixed::fromFloat(totalDistance))) return false;
-		float totalFuel = mmap.getFuel().asFloat();
+		float totalFuel = mmap.getFuel(moveWeapon).asFloat();
 
 		// Calculate the path
 		MovementMap::MovementMapEntry entry =

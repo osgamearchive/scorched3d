@@ -1688,7 +1688,7 @@ and shields damaging the tank directly.</description>
 				<delay>2.0</delay>
 			</aimedweapon>
 		</accessoryaction>
-		<positionselection>limit</positionselection>
+		<positionselection>fuellimit</positionselection>
 		<positionselectionlimit>40</positionselectionlimit>
 	</accessory>
 	
