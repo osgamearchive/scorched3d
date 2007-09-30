@@ -105,7 +105,6 @@ Added: FramesPerSecondLimit option to settings dialog
 Added: Admin audit log showing all admin operations on players
 Added: Admin username and optional reason are added to the list of banned players
 Added: Realtime-shadows
-Added: Depth-cueing on landscape
 Added: Assists are awarded when a tank resigns
 Added: Player tank remains when a player disconnects during shots being played
 Added: dampenvelocity tag to control amount of inertia given to rollers with maintainvelocity true
@@ -121,8 +120,13 @@ Added: Most dirt weapons cannot create more dirt when underground (optional)
 Added: freemarketlimits attribute to Accessories to allow freemarket prices to be controlled
 Added: Admin messages are marked with the admin's name
 Added: Flatness attribute to tank placement to stop tanks from being placed on slopes
-Added: Seperate ambient sound volume control
+Added: fixed point simulation to ensure similar cross-platform simulation
+Added: Separate ambient sound volume control
+Added: Music
+Added: Final scores printed in server log
+Added: fuellimit selection type for accessories
 
+Fixed: Team score not being saved with saved game
 Fixed: Rollers don't hit wrap wall
 Fixed: High detail tanks being used for other players when detail level set low
 Fixed: Removed keep-alive header in http requests

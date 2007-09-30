@@ -104,6 +104,24 @@ void ServerShotFinishedState::enterState(const unsigned state)
 		ComsMessageSender::sendToAllPlayingClients(playerMessage);
 		ComsScoreMessage message(finalScore);
 		ComsMessageSender::sendToAllPlayingClients(message);
+
+		if (finalScore)
+		{
+			ServerCommon::serverLog("Final scores -------");
+			std::map<unsigned int, Tank *> &tanks =
+				ScorchedServer::instance()->getTankContainer().getPlayingTanks();
+			std::map<unsigned int, Tank *>::iterator itor;
+			for (itor = tanks.begin();
+				itor != tanks.end();
+				itor++)
+			{
+				Tank *tank = (*itor).second;
+				ServerCommon::serverLog(formatString("%s - %s",
+					tank->getName(),
+					tank->getScore().getScoreString()));
+			}
+			ServerCommon::serverLog("--------------------");
+		}
 	}
 }
 
