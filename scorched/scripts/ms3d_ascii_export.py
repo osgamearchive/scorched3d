@@ -1,10 +1,10 @@
 #!BPY
 
 """
-Name: 'MS3D ASCII (.txt) v 1.5'
+Name: 'MS3D ASCII (.txt) v 1.5.1'
 Blender: 242
 Group: 'Export'
-Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5'
+Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5.1'
 """
 
 #Copyright (C) 2004-2007 Paul Vint cbx550f@sourceforge.net
