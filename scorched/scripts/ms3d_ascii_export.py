@@ -33,6 +33,7 @@ Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5'
 # Updated for Blender 2.4x - thanks for the help, Berem!
 # TODO: Stop using face nrmals, should be vertex normals! - done. 05/09/06
 # Added proper support for emitted light 05/11/06
+# TODO - Have it export quads as triangles automagically (a la 3ds export)
 
 import Blender
 from Blender import Draw, BGL
@@ -40,7 +41,6 @@ from Blender.BGL import *
 from Blender.Draw import *
 import os, time, sys
 import meshtools
-import mesh_tri2quad
 
 ## Events
 EVENT_NOEVENT = 1
@@ -215,6 +215,7 @@ def write(filename):
 					exitmsg = 'MS3D Export Error:|Mesh \"' + objects[obj].data.name + '\" has ' + str(len(mesh.faces[i].v)) + ' verts in a face, needs to be converted to triangles with CTRL-T!' 
 					Blender.Draw.PupMenu(exitmsg)
 					return
+					######## Keeping depricated (and broken) tri2quad for future reference
 					#if convertToTris==0:	#only ask once
 					#	print "Object",objects[obj].data.name, "has", len(mesh.faces[i].v), "vertices in face", i, "Must have THREE verts per face"
 					#	convertToTris=Blender.Draw.PupMenu("Model not made entirely out of Triangles-Convert?%t|YES|NO")
