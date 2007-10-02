@@ -66,7 +66,7 @@ void LandscapeMusicManager::addMusics()
 
 void LandscapeMusicManager::readGlobalMusicFile()
 {
-	const char *filePath = "data/music.xml";
+	const char *filePath = getDataFile("data/music.xml");
 
 	// Parse the XML file
 	XMLFile file;
@@ -133,7 +133,14 @@ void LandscapeMusicManager::addMusicType(LandscapeMusicType *music)
 		MusicStateEntry stateEntry;
 		stateEntry.file = music->file;
 		stateEntry.gain = music->gain;
-		stateMusic_.insert(std::pair<int, MusicStateEntry>(int(playState), stateEntry));
+		if (stateMusic_.find(int(playState)) == stateMusic_.end())
+		{
+			stateMusic_.insert(std::pair<int, MusicStateEntry>(int(playState), stateEntry));
+		}
+		else
+		{
+			stateMusic_[int(playState)] = stateEntry;
+		}
 	}
 }
 
