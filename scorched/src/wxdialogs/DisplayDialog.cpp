@@ -327,8 +327,6 @@ bool DisplayFrame::TransferDataToWindow()
 
 void DisplayFrame::refreshScreen()
 {
-	IDC_FULLCLEAR_CTRL->SetValue(OptionsDisplay::instance()->getFullClear());
-	IDC_FULLCLEAR_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFullClearEntry().getDescription(), wxConvUTF8));
 	IDC_NOEXT_CTRL->SetValue(OptionsDisplay::instance()->getNoGLExt());
 	IDC_NOEXT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoGLExtEntry().getDescription(), wxConvUTF8));
 	IDC_NOCUBEMAP_CTRL->SetValue(OptionsDisplay::instance()->getNoGLCubeMap());
@@ -577,7 +575,6 @@ void DisplayFrame::refreshResolutions()
 
 bool DisplayFrame::TransferDataFromWindow()
 {
-	OptionsDisplay::instance()->getFullClearEntry().setValue(IDC_FULLCLEAR_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLTexSubImageEntry().setValue(IDC_NOLANDSCAPESCORCH_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLExtEntry().setValue(IDC_NOEXT_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoGLMultiTexEntry().setValue(IDC_NOMULTITEX_CTRL->GetValue());

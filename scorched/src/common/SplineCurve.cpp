@@ -109,7 +109,7 @@ static void splineCurve(std::vector<FixedVector> &inp_list,
    int i;
    fixed interval,increment;
 
-   interval = 0;
+   interval = fixed(true, 10);
    increment = fixed(n - t + 2) / fixed(res - 1);
    for (i=0;i<=res-1;i++) {
 

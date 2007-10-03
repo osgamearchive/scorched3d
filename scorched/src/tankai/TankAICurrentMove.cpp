@@ -134,13 +134,10 @@ void TankAICurrentMove::playMove(Tank *tank,
 	TankAIWeaponSets::WeaponSet *weapons, bool useBatteries)
 {
 	std::list<Tank *> sortedTanks;	
-	// If we have no weapons, we can't do anything!!
-	if (!weapons->weapons.empty())
-	{
-		// Find the list of tanks we can shoot at 
-		// In the order we want to shoot at them
-		targets_.getTargets(tank, sortedTanks);
-	}
+
+	// Find the list of tanks we can shoot at 
+	// In the order we want to shoot at them
+	targets_.getTargets(tank, sortedTanks);
 
 	// Check if we have taken a lot of damage and we can move
 	float totalDamage = 
@@ -240,6 +237,13 @@ bool TankAICurrentMove::shootAtTank(Tank *tank, Tank *targetTank,
 bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
+	// Check we have any weapons to fire
+	if (!weapons.roller &&
+		!weapons.digger &&
+		!weapons.napalm &&
+		!weapons.large &&
+		!weapons.small) return false;
+
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition().asVector();
 
@@ -355,6 +359,12 @@ bool TankAICurrentMove::makeProjectileShot(Tank *tank, Tank *targetTank,
 bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
+	// Check if we have any weapons we can use for sniper
+	if (!weapons.digger &&
+		!weapons.laser &&
+		!weapons.large &&
+		!weapons.small) return false;
+
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition().asVector();
 
@@ -410,6 +420,9 @@ bool TankAICurrentMove::makeSniperShot(Tank *tank, Tank *targetTank,
 bool TankAICurrentMove::makeLaserSniperShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
+	// Check if we have any lasers to fire
+	if (!weapons.laser) return false;
+
 	// Get the place we want to shoot at
 	Vector directTarget = targetTank->getPosition().getTankPosition().asVector();
 	
@@ -435,6 +448,9 @@ bool TankAICurrentMove::makeLaserSniperShot(Tank *tank, Tank *targetTank,
 bool TankAICurrentMove::makeBurriedShot(Tank *tank, Tank *targetTank, 
 	TankAICurrentMoveWeapons &weapons)
 {
+	// Don't check if we can't uncover
+	if (!weapons.uncover) return false;
+
 	// Find a shot towards a target
 	fixed xy, yz, power;
 	TankLib::getSniperShotTowardsPosition(

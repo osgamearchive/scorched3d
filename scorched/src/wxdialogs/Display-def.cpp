@@ -39,7 +39,6 @@ static wxCheckBox *IDC_NOSHADERS_CTRL = 0;
 static wxCheckBox *IDC_NOCUBEMAP_CTRL = 0;
 static wxCheckBox *IDC_NOSPHEREMAP_CTRL = 0;
 static wxCheckBox *IDC_NOMIPMAPS_CTRL = 0;
-static wxCheckBox *IDC_FULLCLEAR_CTRL = 0;
 static wxCheckBox *IDC_NOEXT_CTRL = 0;
 static wxCheckBox *IDC_NOSOUND_CTRL = 0;
 static wxCheckBox *IDC_NOMUSIC_CTRL = 0;

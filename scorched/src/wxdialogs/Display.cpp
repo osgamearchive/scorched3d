@@ -330,9 +330,6 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		IDC_NODEPTHSORT_CTRL = 
 			new wxCheckBox(parent, -1, wxT("No sprite depth sorting"));
 		miscDetailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
-		IDC_FULLCLEAR_CTRL = 
-			new wxCheckBox(parent, -1, wxT("Full Clear"));
-		miscDetailSizer2->Add(IDC_FULLCLEAR_CTRL, 0);
 
 		miscDetailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
 		miscDetailSizer->Add(miscDetailSizer2, 0, wxGROW);

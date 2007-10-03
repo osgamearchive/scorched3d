@@ -56,7 +56,6 @@ protected:
 	Clock fTimer_; // Frame/simulation timer
 	Clock dTimer_; // Draw timer
 	bool exitLoop_;
-	bool flip_;
 	float lastDrawTime_;
 
 	void simulate(float frameTime);

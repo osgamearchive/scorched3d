@@ -67,7 +67,7 @@ bool TankAIAimGuesser::guess(Tank *tank, Vector &target,
 			return true;
 		}
 
-		if (i > 50)
+		if (i > 25)
 		{
 			// No soultion
 			// A bad thing

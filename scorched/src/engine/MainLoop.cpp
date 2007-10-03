@@ -27,7 +27,7 @@
 #include <SDL/SDL.h>
 #endif
 
-MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f), flip_(false)
+MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f)
 {
 
 }
@@ -35,11 +35,6 @@ MainLoop::MainLoop() :  exitLoop_(false), lastDrawTime_(0.0f), flip_(false)
 MainLoop::~MainLoop()
 {
 
-}
-
-bool MainLoop::getFlip()
-{
-	return flip_;
 }
 
 void MainLoop::clear()
@@ -122,27 +117,11 @@ void MainLoop::draw()
 
 	glFlush();
 	swapBuffers();
-	if (OptionsDisplay::instance()->getFullClear())
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearDepth(1.0f);
 		glDepthRange(0.0, 1.0);
 		glDepthFunc(GL_LESS);
-	}
-	else
-	{
-		if (flip_)
-		{
-			glDepthRange(0.0, 0.5);
-			glDepthFunc(GL_LESS);
-			flip_ = false;
-		}
-		else
-		{
-			glDepthRange(1.0, 0.5);
-			glDepthFunc(GL_GREATER);
-			flip_ = true;
-		}
 	}
 #endif
 }

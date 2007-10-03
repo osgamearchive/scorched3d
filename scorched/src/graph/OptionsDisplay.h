@@ -130,9 +130,6 @@ public:
 	bool getMoreRes() { return moreRes_; }
 	OptionEntryBool &getMoreResEntry() { return moreRes_; }
 
-	bool getFullClear() { return fullClear_; }
-	OptionEntryBool &getFullClearEntry() { return fullClear_; }
-
 	bool getInvertElevation() { return invertElevation_; }
 	OptionEntryBool &getInvertElevationEntry() { return invertElevation_; }
 
@@ -388,6 +385,7 @@ protected:
 	OptionEntryBool depricatedNoWaves_;
 	OptionEntryBool depricatedNoCg_;
 	OptionEntryBool depricatedNoAmbientSound_;
+	OptionEntryBool depricatedFullClear_;
 
 	OptionEntryBoundedInt brightness_;
 	OptionEntryBoundedInt explosionParts_;
@@ -409,7 +407,6 @@ protected:
 	OptionEntryBool smoothLines_;
 	OptionEntryBool moreRes_;
 	OptionEntryBool fullScreen_;
-	OptionEntryBool fullClear_;
 	OptionEntryBool noGLTexSubImage_;
 	OptionEntryBool noGLCubeMap_;
 	OptionEntryBool noGLSphereMap_;
