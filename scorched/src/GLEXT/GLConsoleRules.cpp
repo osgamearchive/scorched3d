@@ -56,10 +56,13 @@ bool GLConsoleRules::addRule(GLConsoleRule *rule)
 	return true;
 }
 
-GLConsoleRule *GLConsoleRules::removeRule(const char *rule) 
+GLConsoleRule *GLConsoleRules::removeRule(const char *rulename) 
 {
+	std::string removeName(rulename);
+	_strlwr((char *) removeName.c_str());
+
 	std::map<std::string, GLConsoleRule *>::iterator itor =
-		rules_.find(rule);
+		rules_.find(removeName);
 	if (itor == rules_.end()) return 0;
 
 	GLConsoleRule *result = itor->second;

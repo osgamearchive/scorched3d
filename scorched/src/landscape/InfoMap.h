@@ -27,6 +27,8 @@ class InfoMap
 public:
 	static InfoMap *instance();
 
+	void addAdapters();
+
 protected:
 	static InfoMap *instance_;
 	void showHeightBands();

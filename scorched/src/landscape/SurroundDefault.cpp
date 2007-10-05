@@ -21,7 +21,6 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLInfo.h>
-#include <cgext/CGFog.h>
 #include <client/ScorchedClient.h>
 #include <graph/OptionsDisplay.h>
 #include <landscape/Sky.h>

@@ -39,7 +39,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;../../visualc/include/jpg;../../visualc/include/fftw3;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/png/png;../../visualc/include/jpg;../../visualc/include/fftw3;$(NOINHERIT)"
 				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32;GLEW_STATIC"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:WINDOWS /NODEFAULTLIB:msvcrt.lib  /FIXED:NO"
-				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib ../../visualc/lib/fftw3/fftw3.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib ../../visualc/lib/fftw3/fftw3.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 			/>
@@ -111,7 +111,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/cg;../../visualc/include/png/png;../../visualc/include/jpg;../../visualc/include/fftw3;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;../../visualc/include/SDL;../../visualc/include/al;../../visualc/include/freetype;../../visualc/include/ogg;../../visualc/include/vorbis;../../visualc/include/zlib;../../visualc/include/zlib/zlib;../../visualc/include/mysql;../../visualc/include/png/png;../../visualc/include/jpg;../../visualc/include/fftw3;$(NOINHERIT)"
 				PreprocessorDefinitions="COMPILED_FROM_DSP;XML_STATIC;HAVE_OGG;HAVE_CG;_WIN32;WIN32;GLEW_STATIC"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -128,7 +128,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/SUBSYSTEM:WINDOWS"
-				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/cg/cg.lib ../../visualc/lib/cg/cgGL.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib ../../visualc/lib/fftw3/fftw3.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib user32.lib Ws2_32.lib ../../visualc/lib/SDL/SDL.lib ../../visualc/lib/SDL/SDL_net.lib ../../visualc/lib/SDL/SDLmain.lib ../../visualc/lib/zlib/zlib1.lib ../../visualc/lib/png/libpng13.lib ../../visualc/lib/al/ALut.lib ../../visualc/lib/al/OpenAL32.lib ../../visualc/lib/truetype/libfreetype.lib ../../visualc/lib/ogg/ogg.lib ../../visualc/lib/ogg/vorbis.lib ../../visualc/lib/ogg/vorbisfile.lib ../../visualc/lib/jpg/jpeg.lib ../../visualc/lib/fftw3/fftw3.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -422,7 +422,7 @@ int Landscape::getMapTexSize()
 void Landscape::generate(ProgressCounter *counter)
 {
 	textureType_ = eDefault;
-	InfoMap::instance();
+	InfoMap::instance()->addAdapters();
 
 	// Choose the correct sizes for the current LOD
 	int mapTexSize = getMapTexSize();

@@ -36,12 +36,13 @@ class GLConsoleRuleMethodIAdapter : public GLConsoleRuleMethodI
 {
 public:
 	GLConsoleRuleMethodIAdapter(T *inst, void (T::*call)(), const char *name) 
-		: inst_(inst), call_(call)
+		: inst_(inst), call_(call), name_(name)
 	{
-		GLConsole::instance()->addMethod(name, this);
+		GLConsole::instance()->addMethod(name_.c_str(), this);
 	};
 	virtual ~GLConsoleRuleMethodIAdapter()
 	{
+		GLConsole::instance()->removeMethod(name_.c_str());
 	};
 
 	virtual void runMethod(const char *name, 
@@ -53,6 +54,7 @@ public:
 	};
 
 protected:
+	std::string name_;
 	T *inst_;
 	void (T::*call_)();
 };
@@ -63,12 +65,13 @@ class GLConsoleRuleMethodIAdapterEx : public GLConsoleRuleMethodI
 {
 public:
 	GLConsoleRuleMethodIAdapterEx(T *inst, void (T::*call)(std::list<GLConsoleRuleSplit>), const char *name) 
-		: inst_(inst), call_(call)
+		: inst_(inst), call_(call), name_(name)
 	{
-		GLConsole::instance()->addMethod(name, this);
+		GLConsole::instance()->addMethod(name_.c_str(), this);
 	};
 	virtual ~GLConsoleRuleMethodIAdapterEx()
 	{
+		GLConsole::instance()->removeMethod(name_.c_str());
 	};
 
 	virtual void runMethod(const char *name, 
@@ -80,6 +83,7 @@ public:
 	};
 
 protected:
+	std::string name_;
 	T *inst_;
 	void (T::*call_)(std::list<GLConsoleRuleSplit>);
 };
@@ -91,12 +95,13 @@ class GLConsoleRuleMethodIAdapterEx2 : public GLConsoleRuleMethodI
 public:
 	GLConsoleRuleMethodIAdapterEx2(T *inst, void (T::*call)(std::list<GLConsoleRuleSplit>, 
 		std::list<std::string>&), const char *name)
-		: inst_(inst), call_(call)
+		: inst_(inst), call_(call), name_(name)
 	{
-		GLConsole::instance()->addMethod(name, this);
+		GLConsole::instance()->addMethod(name_.c_str(), this);
 	};
 	virtual ~GLConsoleRuleMethodIAdapterEx2()
 	{
+		GLConsole::instance()->removeMethod(name_.c_str());
 	};
 	virtual void runMethod(const char *name,  
 		std::list<GLConsoleRuleSplit> split,
@@ -107,6 +112,7 @@ public:
 	};
 	
 protected:
+	std::string name_;
 	T *inst_;
 	void (T::*call_)(std::list<GLConsoleRuleSplit>, std::list<std::string>&);
 };                         

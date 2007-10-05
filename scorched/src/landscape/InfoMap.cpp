@@ -40,20 +40,32 @@ InfoMap *InfoMap::instance()
 
 InfoMap::InfoMap()
 {
-	if(ScorchedClient::instance()->getOptionsGame().getDebugFeatures() ||
-		!ClientParams::instance()->getConnectedToServer())
-	{
-		new GLConsoleRuleMethodIAdapter<Landscape>(
-			Landscape::instance(), &Landscape::restoreLandscapeTexture, "LandscapeInfoOff");
-		new GLConsoleRuleMethodIAdapter<InfoMap>(
-			this, &InfoMap::showHeightBands, "LandscapeInfoHeightBands");
-		new GLConsoleRuleMethodIAdapter<InfoMap>(
-			this, &InfoMap::showGrid, "LandscapeInfoGrid");
-	}
 }
 
 InfoMap::~InfoMap()
 {
+}
+
+void InfoMap::addAdapters()
+{
+	static GLConsoleRuleMethodIAdapter<Landscape> *off = 0;
+	static GLConsoleRuleMethodIAdapter<InfoMap> *bands = 0;
+	static GLConsoleRuleMethodIAdapter<InfoMap> *grid = 0;
+	
+	delete off; off = 0;
+	delete bands; bands = 0;
+	delete grid; grid = 0;
+
+	if(ScorchedClient::instance()->getOptionsGame().getDebugFeatures() ||
+		!ClientParams::instance()->getConnectedToServer())
+	{
+		off = new GLConsoleRuleMethodIAdapter<Landscape>(
+			Landscape::instance(), &Landscape::restoreLandscapeTexture, "LandscapeInfoOff");
+		bands = new GLConsoleRuleMethodIAdapter<InfoMap>(
+			this, &InfoMap::showHeightBands, "LandscapeInfoHeightBands");
+		grid = new GLConsoleRuleMethodIAdapter<InfoMap>(
+			this, &InfoMap::showGrid, "LandscapeInfoGrid");
+	}
 }
 
 void InfoMap::showHeightBands()
