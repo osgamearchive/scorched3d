@@ -33,13 +33,14 @@ public:
 	void drawBackground();
 	void drawBackgroundTiled();
 	void drawLogo();
+	void drawFooter();
 
 	void capture();
 
 protected:
 	static BackdropDialog *instance_;
 	GLTexture backTex_;
-	GLTexture logoTex_;
+	GLTexture logoTex_, footerTex_;
 	std::string lastMod_;
 	unsigned char *pixels_;
 

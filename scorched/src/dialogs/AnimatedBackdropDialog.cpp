@@ -107,6 +107,7 @@ void AnimatedBackdropDialog::draw()
 {
 	drawBackground();
 	BackdropDialog::instance()->drawLogo();
+	BackdropDialog::instance()->drawFooter();
 }
 
 void AnimatedBackdropDialog::drawBackground()

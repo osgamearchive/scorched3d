@@ -75,6 +75,7 @@ void BackdropDialog::draw()
 	}
 
 	drawLogo();
+	drawFooter();
 }
 
 void BackdropDialog::drawBackground()
@@ -154,6 +155,44 @@ void BackdropDialog::drawLogo()
 		glTranslatef(
 			wWidth - logoWidth - 50.0f, 
 			wHeight - logoHeight - 50.0f, 
+			0.0f);
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex2f(0.0f, 0.0f);
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex2f(logoWidth, 0.0f);
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex2f(logoWidth, logoHeight);
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex2f(0.0f, logoHeight);
+		glEnd();
+	glPopMatrix();
+}
+
+void BackdropDialog::drawFooter()
+{
+	if (!footerTex_.textureValid())
+	{
+		GLImageHandle logoMap = GLImageFactory::loadAlphaImageHandle(
+			formatString(getDataFile("data/windows/hiscore.png")));
+		footerTex_.create(logoMap, false);
+	}
+
+	GLState currentState(GLState::DEPTH_OFF | GLState::BLEND_ON | GLState::TEXTURE_ON);
+
+	// Calcuate how may tiles are needed
+	float wWidth = (float) GLViewPort::getWidth();
+	float wHeight = (float) GLViewPort::getHeight();
+
+	// Draw the higer rez logo
+	const float logoWidth = 200.0f;
+	const float logoHeight = 90.0f;
+	footerTex_.draw(true);
+	glColor4f(1.0f, 1.0f, 1.0f, 0.6f);
+	glPushMatrix();
+		glTranslatef(
+			wWidth - logoWidth - 10.0f,
+			10.0f, 
 			0.0f);
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
