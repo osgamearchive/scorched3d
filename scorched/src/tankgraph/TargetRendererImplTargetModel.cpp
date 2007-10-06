@@ -41,6 +41,7 @@
 TargetRendererImplTargetModel::TargetRendererImplTargetModel(Target *target,
 	ModelID model, ModelID burntModel, 
 	float scale, float color) :
+	TargetRendererImplTarget(model),
 	target_(target),
 	canSeeTank_(false), burnt_(false),
 	shieldHit_(0.0f), totalTime_(0.0f),

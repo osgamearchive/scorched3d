@@ -162,12 +162,18 @@ void MovementMap::addPoint(unsigned int x, unsigned int y,
 		x, y);
 
 	// Check water height 
-	if (newHeight < minHeight_) return; 
+	if (newHeight < minHeight_) 
+	{
+		return; 
+	}
 
 	// Check climing height
 	fixed MaxTankClimbHeight = fixed(context_.optionsGame->
 		getMaxClimbingDistance()) / fixed(10);
-	if (newHeight - height > MaxTankClimbHeight) return;
+	if (newHeight - height > MaxTankClimbHeight) 
+	{
+		return;
+	}
 
 	// Check if we can also reach this point from another edge point
 	if (priorEntry.epoc == epoc)
@@ -308,9 +314,9 @@ fixed MovementMap::getWaterHeight()
 	if (context_.optionsGame->getMovementRestriction() ==
 		OptionsGame::MovementRestrictionLandOrAbove)
 	{
-		if (waterHeight > tank_->getPosition().getTankPosition()[2] - fixed(1000))
+		if (waterHeight > tank_->getPosition().getTankPosition()[2] - fixed(true, 1000))
 		{
-			waterHeight = tank_->getPosition().getTankPosition()[2] - fixed(1000);
+			waterHeight = tank_->getPosition().getTankPosition()[2] - fixed(true, 1000);
 		}
 	}
 	return waterHeight;

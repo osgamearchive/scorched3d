@@ -22,12 +22,18 @@
 #define __INCLUDE_TargetRendererImplTargeth_INCLUDE__
 
 #include <tankgraph/TargetRendererImpl.h>
+#include <common/ModelID.h>
 
 class TargetRendererImplTarget : public TargetRendererImpl
 {
 public:
-	TargetRendererImplTarget();
+	TargetRendererImplTarget(ModelID &model);
 	virtual ~TargetRendererImplTarget();
+
+	ModelID &getModelId() { return model_; }
+
+private:
+	ModelID model_;
 };
 
 #endif // __INCLUDE_TargetRendererImplTargeth_INCLUDE__

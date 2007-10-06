@@ -60,6 +60,7 @@ protected:
 	} accessoryMenu_;	
 
 	void showTankDetails();
+	void showTargetDetails();
 	void showInventory();
 	void showTextureDetails();
 	void resetLandscape();

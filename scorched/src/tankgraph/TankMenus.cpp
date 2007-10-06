@@ -44,6 +44,7 @@
 #include <landscape/Landscape.h>
 #include <landscapemap/LandscapeMaps.h>
 #include <tankgraph/RenderTracer.h>
+#include <tankgraph/TargetRendererImplTarget.h>
 #include <dialogs/MainMenuDialog.h>
 #include <dialogs/QuitDialog.h>
 #include <dialogs/SaveDialog.h>
@@ -67,6 +68,8 @@ TankMenus::TankMenus() : logger_("ClientLog")
 		this, &TankMenus::clearTracerLines, "ClearTracerLines");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTankDetails, "TankDetails");
+	new GLConsoleRuleMethodIAdapter<TankMenus>(
+		this, &TankMenus::showTargetDetails, "TargetDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
 		this, &TankMenus::showTextureDetails, "TextureDetails");
 	new GLConsoleRuleMethodIAdapter<TankMenus>(
@@ -184,6 +187,49 @@ void TankMenus::showInventory()
 		GLConsole::instance()->addLine(false,
 			"----------------------------------------------------");
 	}
+}
+
+void TankMenus::showTargetDetails()
+{
+	std::map<std::string, unsigned int> results;
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		Target *target = (*itor).second;
+
+		std::string name = target->getName();
+		if (target->isTarget() &&
+			target->getRenderer() &&
+			name.empty())
+		{
+			TargetRendererImplTarget *renderer =
+				(TargetRendererImplTarget *) target->getRenderer();
+			name = renderer->getModelId().getMeshName();
+		}
+
+		if (results.find(name) == results.end()) results[name] = 1;
+		else results[name]++;
+	}
+
+	char buffer[1024];
+	GLConsole::instance()->addLine(false,
+		"--Target Dump-----------------------------------------");
+	std::map<std::string, unsigned int>::iterator resultItor;
+	for (resultItor = results.begin();
+		resultItor != results.end();
+		resultItor++)
+	{
+		snprintf(buffer, 1024, "\"%s\" - %u", resultItor->first.c_str(), resultItor->second);
+		GLConsole::instance()->addLine(false, buffer);
+	}
+	snprintf(buffer, 1024, "TOTAL - %u", targets.size());
+	GLConsole::instance()->addLine(false, buffer);
+	GLConsole::instance()->addLine(false,
+		"----------------------------------------------------");
 }
 
 void TankMenus::showTankDetails()

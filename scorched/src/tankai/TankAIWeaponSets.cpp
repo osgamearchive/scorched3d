@@ -230,6 +230,9 @@ bool TankAIWeaponSets::WeaponSetEntry::weaponValid(Tank *tank, bool lastRound)
 	int currentCount = tank->getAccessories().getAccessoryCount(accessory);
 	int currentMoney = tank->getScore().getMoney();
 
+	int maxCount = accessory->getMaximumNumber();
+	if (currentCount >= maxCount) return false;
+
 	if (currentCount < 0) return false;
 	if (currentMoney < accessory->getPrice()) return false;
 

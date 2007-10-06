@@ -20,7 +20,8 @@
 
 #include <tankgraph/TargetRendererImplTarget.h>
 
-TargetRendererImplTarget::TargetRendererImplTarget()
+TargetRendererImplTarget::TargetRendererImplTarget(ModelID &model) :
+	model_(model)
 {
 }
 
