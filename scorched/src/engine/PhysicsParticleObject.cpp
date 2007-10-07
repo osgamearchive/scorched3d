@@ -41,7 +41,7 @@
 
 PhysicsParticleObject::PhysicsParticleObject() : 
 	handler_(0), context_(0), underGroundCollision_(false), iterations_(0),
-	info_(ParticleTypeNone, 0, 0), rotateOnCollision_(false)
+	info_(ParticleTypeNone, 0, 0), rotateOnCollision_(false), wallCollision_(true)
 {
 }
 
@@ -59,12 +59,13 @@ void PhysicsParticleObject::setPhysics(
 	ScorchedContext &context, 
 	FixedVector &position, FixedVector &velocity,
 	fixed sphereSize, fixed sphereDensity, fixed windFactor,
-	bool underGroundCollision, bool rotateOnCollision)
+	bool underGroundCollision, bool rotateOnCollision, bool wallCollision)
 {
 	info_ = info;
 	context_ = &context;
 	underGroundCollision_ = underGroundCollision;
 	rotateOnCollision_ = rotateOnCollision;
+	wallCollision_ = wallCollision;
 
 	FixedVector zaxis(0, 0, 1);
 	rotation_.setQuatFromAxisAndAngle(zaxis, 0);
@@ -239,6 +240,32 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkShotCollision
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
 
+		switch(collision.collisionId)
+		{
+		case CollisionIdWallLeft:
+			{
+				position_[0] = fixed(true, 1000);
+			}
+			break;
+		case CollisionIdWallRight:
+			{
+				int landscapeWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
+				position_[0] = fixed(landscapeWidth) - fixed(true, 1000);
+			}
+			break;
+		case CollisionIdWallTop:
+			{
+				position_[1] = fixed(true, 1000);
+			}
+			break;
+		case CollisionIdWallBottom:
+			{
+				int landscapeHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();
+				position_[1] = fixed(landscapeHeight) - fixed(true, 1000);
+			}
+			break;
+		}
+
 		shotWallHit(collision);
 
 		handler_->wallCollision(*this, collision.collisionId);
@@ -293,6 +320,37 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkBounceCollisi
 	case CollisionIdWallRight:
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
+
+		if (context_->optionsTransient->getWallType() == OptionsTransient::wallBouncy ||
+			context_->optionsTransient->getWallType() == OptionsTransient::wallConcrete)
+		{
+			switch(collision.collisionId)
+			{
+			case CollisionIdWallLeft:
+				{
+					position_[0] = fixed(true, 1000);
+				}
+				break;
+			case CollisionIdWallRight:
+				{
+					int landscapeWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
+					position_[0] = fixed(landscapeWidth) - fixed(true, 1000);
+				}
+				break;
+			case CollisionIdWallTop:
+				{
+					position_[1] = fixed(true, 1000);
+				}
+				break;
+			case CollisionIdWallBottom:
+				{
+					int landscapeHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();
+					position_[1] = fixed(landscapeHeight) - fixed(true, 1000);
+				}
+				break;
+			}
+		}
+
 		switch (context_->optionsTransient->getWallType())
 		{
 		case OptionsTransient::wallBouncy:
@@ -328,6 +386,32 @@ PhysicsParticleObject::CollisionAction PhysicsParticleObject::checkFallingCollis
 	case CollisionIdWallRight:
 	case CollisionIdWallTop:
 	case CollisionIdWallBottom:
+		switch(collision.collisionId)
+		{
+		case CollisionIdWallLeft:
+			{
+				position_[0] = fixed(true, 1000);
+			}
+			break;
+		case CollisionIdWallRight:
+			{
+				int landscapeWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
+				position_[0] = fixed(landscapeWidth) - fixed(true, 1000);
+			}
+			break;
+		case CollisionIdWallTop:
+			{
+				position_[1] = fixed(true, 1000);
+			}
+			break;
+		case CollisionIdWallBottom:
+			{
+				int landscapeHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();
+				position_[1] = fixed(landscapeHeight) - fixed(true, 1000);
+			}
+			break;
+		}
+
 		return CollisionActionBounce;
 		break;
 	case CollisionIdLandscape:
@@ -406,6 +490,9 @@ bool PhysicsParticleObject::getWallCollision(CollisionInfo &collision)
 	{
 		return false;
 	}
+
+	// Check if we collide with walls
+	if (!wallCollision_) return false;
 
 	int landscapeWidth = context_->landscapeMaps->getGroundMaps().getMapWidth();
 	int landscapeHeight = context_->landscapeMaps->getGroundMaps().getMapHeight();

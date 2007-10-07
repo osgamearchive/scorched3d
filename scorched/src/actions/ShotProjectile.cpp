@@ -61,7 +61,8 @@ void ShotProjectile::init()
 	vPoint_ = context_->viewPoints->getNewViewPoint(weaponContext_.getPlayerId());
 	PhysicsParticleInfo info(ParticleTypeShot, weaponContext_.getPlayerId(), this);
 	setPhysics(info, startPosition_, velocity_, 
-		0, 0, weapon_->getWindFactor(*context_), getWeapon()->getUnder());
+		0, 0, weapon_->getWindFactor(*context_), getWeapon()->getUnder(), 
+		false, getWeapon()->getWallCollision());
 	thrustTime_ = getWeapon()->getThrustTime(*context_);
 	thrustAmount_ = getWeapon()->getThrustAmount(*context_);
 	timedCollision_ = getWeapon()->getTimedCollision(*context_);

@@ -77,7 +77,8 @@ public:
 		fixed sphereDensity = 0,
 		fixed windFactor = 1,
 		bool underGroundCollision = false,
-		bool rotateOnCollision = false);
+		bool rotateOnCollision = false,
+		bool wallCollision = true);
 
 	void applyForce(FixedVector &force);
 	void simulate(fixed frameTime);
@@ -95,6 +96,7 @@ protected:
 	PhysicsParticleObjectHandler *handler_;
 	bool underGroundCollision_;
 	bool rotateOnCollision_;
+	bool wallCollision_;
 	unsigned int iterations_;
 	FixedVector position_;
 	FixedVector velocity_;
