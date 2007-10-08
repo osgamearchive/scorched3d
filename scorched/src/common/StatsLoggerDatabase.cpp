@@ -358,12 +358,16 @@ char *StatsLoggerDatabase::getTopRanks()
 			columns, seriesid_, prefixid_);
 
 	stringResult.append("<table>");
-	char *token = strtok((char *) columns, " ");
+
+	std::string cols(columns);
+	char *token = strtok((char *) cols.c_str(), " ");
+	stringResult.append("<tr>");
 	while(token != 0)
 	{
-		stringResult.append("<tr><td><b>").append(token).append("</b></td></tr>");
+		stringResult.append("<td><b>").append(token).append("</b></td>");
 		token = strtok(0, " ");
 	}
+	stringResult.append("</tr>");
 
 	if (!rankRows.empty())
 	{
