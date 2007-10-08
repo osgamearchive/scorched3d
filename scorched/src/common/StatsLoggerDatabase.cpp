@@ -356,7 +356,15 @@ char *StatsLoggerDatabase::getTopRanks()
 			"scorched3d_players.playerid where seriesid=%i and prefixid=%i "
 			"order by kills desc limit 0,50",
 			columns, seriesid_, prefixid_);
-	stringResult.append(columns).append("\n");
+
+	stringResult.append("<table>");
+	char *token = strtok((char *) columns, " ");
+	while(token != 0)
+	{
+		stringResult.append("<tr><td><b>").append(token).append("</b></td></tr>");
+		token = strtok(0, " ");
+	}
+
 	if (!rankRows.empty())
 	{
 		std::list<StatsLoggerDatabase::RowResult>::iterator itor;
@@ -365,14 +373,15 @@ char *StatsLoggerDatabase::getTopRanks()
 			itor++)
 		{
 			StatsLoggerDatabase::RowResult &result = (*itor);
+			stringResult.append("<tr>");
 			for (unsigned int i=0; i<result.columns.size(); i++)
 			{
-				stringResult.append(result.columns[i]);
-				if (i < result.columns.size() - 1) stringResult.append(",");
-				else stringResult.append("\n");
+				stringResult.append("<td>").append(result.columns[i]).append("</td>");
 			}
+			stringResult.append("</tr>");
 		}
 	}
+	stringResult.append("</table>");
 	return (char *) formatString("%s", stringResult.c_str());
 }
 
