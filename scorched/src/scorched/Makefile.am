@@ -101,6 +101,8 @@ scorched3d_SOURCES = \
 	../XML/xmltok.h \
 	../tankai/TankAINames.cpp \
 	../tankai/TankAINames.h \
+	../landscapedef/LandscapeDefinitionsBase.cpp \
+	../landscapedef/LandscapeDefinitionsBase.h \
 	../wxdialogs/CreateDialogs.cpp \
 	../wxdialogs/DialogUtils.cpp \
 	../wxdialogs/DialogUtils.h \
@@ -115,9 +117,7 @@ scorched3d_SOURCES = \
 	../wxdialogs/ServerSDialog.cpp \
 	../wxdialogs/ServerSDialog.h \
 	../wxdialogs/SettingsDialog.cpp \
-	../wxdialogs/SettingsDialog.h \
-	../landscapedef/LandscapeDefinitionsBase.cpp \
-	../landscapedef/LandscapeDefinitionsBase.h
+	../wxdialogs/SettingsDialog.h
 
 AM_CPPFLAGS = -I../porting -I.. @WX_CFLAGS@ @FT2_CFLAGS@ @SDL_CFLAGS@
 LDADD = @WX_LIBS@ @FT2_LIBS@ @SDL_LIBS@
