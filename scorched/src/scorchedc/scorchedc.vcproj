@@ -1487,6 +1487,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\net\NetBufferPool.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\net\NetBufferPool.h"
+				>
+			</File>
+			<File
 				RelativePath="..\net\NetBufferUtil.cpp"
 				>
 			</File>

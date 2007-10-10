@@ -33,23 +33,25 @@
 #include <set>
 #include <zlib.h>
 
+static NetBuffer defaultBuffer;
+
 bool ComsMessageSender::formMessage(ComsMessage &message)
 {
 	// Write the message and its type to the buffer
-	NetBufferDefault::defaultBuffer.reset();
-	if (!message.writeTypeMessage(NetBufferDefault::defaultBuffer))
+	defaultBuffer.reset();
+	if (!message.writeTypeMessage(defaultBuffer))
 	{
 		Logger::log( "ERROR: ComsMessageSender - Failed to write message type");
 		return false;
 	}
-	if (!message.writeMessage(NetBufferDefault::defaultBuffer))
+	if (!message.writeMessage(defaultBuffer))
 	{
 		Logger::log( "ERROR: ComsMessageSender - Failed to write message");
 		return false;
 	}
 
 	// Compress the message
-	NetBufferDefault::defaultBuffer.compressBuffer();
+	defaultBuffer.compressBuffer();
 
 	return true;
 }
@@ -66,10 +68,10 @@ bool ComsMessageSender::sendToServer(
 	{
 		Logger::log(formatStringBuffer("Client::send(%s, %u)", 
 			message.getMessageType(),
-			NetBufferDefault::defaultBuffer.getBufferUsed()));
+			defaultBuffer.getBufferUsed()));
 	}	
 	ScorchedClient::instance()->getNetInterface().sendMessageServer(
-		NetBufferDefault::defaultBuffer, flags);
+		defaultBuffer, flags);
 	return true;
 }
 #endif
@@ -103,7 +105,7 @@ bool ComsMessageSender::sendToMultipleClients(
 				Logger::log(formatStringBuffer("Server::send(%s, %u, %u)", 
 					message.getMessageType(),
 					destination,
-					NetBufferDefault::defaultBuffer.getBufferUsed()));
+					defaultBuffer.getBufferUsed()));
 			}	
 			if (!ScorchedServer::instance()->getContext().netInterface ||
 				!ScorchedServer::instance()->getNetInterface().started())
@@ -112,7 +114,7 @@ bool ComsMessageSender::sendToMultipleClients(
 				return false;
 			}
 			ScorchedServer::instance()->getNetInterface().sendMessageDest(
-				NetBufferDefault::defaultBuffer, destination, flags);
+				defaultBuffer, destination, flags);
 		}
 	}
 

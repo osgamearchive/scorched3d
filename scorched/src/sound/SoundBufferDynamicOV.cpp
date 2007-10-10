@@ -66,7 +66,23 @@ SoundBufferDynamicOVSourceInstance::SoundBufferDynamicOVSourceInstance(
 
 SoundBufferDynamicOVSourceInstance::~SoundBufferDynamicOVSourceInstance()
 {
-	if (buffers_[0]) alDeleteBuffers(2, buffers_);
+	if (buffers_[0]) 
+	{
+		if (alIsBuffer(buffers_[0]) || 
+			alIsBuffer(buffers_[1]))
+		{
+			stop();
+
+			alGetError();
+			alDeleteBuffers(2, buffers_);
+
+			int errorNum = alGetError();
+			if(errorNum != AL_NO_ERROR)
+			{
+				Logger::log("ERROR deleting AL buffers");
+			}
+		}
+	}
 	ov_clear(&oggStream_);
 }
 
@@ -89,13 +105,15 @@ void SoundBufferDynamicOVSourceInstance::play(bool repeat)
 
 void SoundBufferDynamicOVSourceInstance::stop()
 {
+	alSourceStop(source_);
+
     int queued = 2;
 	while(queued--)
 	{        
 		ALuint buffer;            
 		alSourceUnqueueBuffers(source_, 1, &buffer);
+		alGetError();
 	}
-	alSourceStop(source_);
 }
 
 void SoundBufferDynamicOVSourceInstance::simulate(bool repeat)

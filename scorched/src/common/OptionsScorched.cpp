@@ -26,6 +26,7 @@
 #include <landscapedef/LandscapeDefinitions.h>
 #include <landscapedef/LandscapeOptions.h>
 #include <landscapedef/LandscapeInclude.h>
+#include <net/NetBufferPool.h>
 
 OptionsScorched::OptionsScorched()
 {
@@ -126,10 +127,14 @@ void OptionsScorched::updateLevelOptions(std::vector<LandscapeInclude *> &option
 
 void OptionsScorched::updateChangeSet()
 {
-	NetBufferDefault::defaultBuffer.reset();
-	mainOptions_.writeToBuffer(NetBufferDefault::defaultBuffer, true, true);
-	NetBufferReader reader(NetBufferDefault::defaultBuffer);
+	NetBuffer *defaultBuffer = NetBufferPool::instance()->getFromPool();
+
+	defaultBuffer->reset();
+	mainOptions_.writeToBuffer(*defaultBuffer, true, true);
+	NetBufferReader reader(*defaultBuffer);
 	changedOptions_.readFromBuffer(reader, true, true);
+
+	NetBufferPool::instance()->addToPool(defaultBuffer);
 }
 
 bool OptionsScorched::commitChanges()

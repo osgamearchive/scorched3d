@@ -72,16 +72,6 @@ protected:
 
 };
 
-class NetBufferDefault
-{
-public:
-	static NetBuffer defaultBuffer;
-	static NetBuffer compressBuffer;
-
-private:
-	NetBufferDefault();
-};
-
 class NetBufferReader
 {
 public:

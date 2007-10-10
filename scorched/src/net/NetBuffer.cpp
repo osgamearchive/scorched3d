@@ -19,14 +19,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#include <net/NetBuffer.h>
+#include <net/NetBufferPool.h>
 #include <SDL/SDL_net.h>
 #include <common/Logger.h>
 #include <string.h>
 #include <zlib.h>
 
-NetBuffer NetBufferDefault::defaultBuffer;
-NetBuffer NetBufferDefault::compressBuffer;
 static const unsigned startSize = 1024 * 10;
 
 NetBuffer::NetBuffer() : 
@@ -88,23 +86,27 @@ void NetBuffer::clear()
 
 bool NetBuffer::compressBuffer()
 {
-	NetBuffer &newBuffer = NetBufferDefault::compressBuffer;
+	NetBuffer *newBuffer = NetBufferPool::instance()->getFromPool();
 
 	unsigned long destLen = getBufferUsed() * 2;
 	unsigned long srcLen = getBufferUsed();
 
 	// Compress the message into the new buffer
-	newBuffer.allocate(destLen);
-	newBuffer.reset();
-	newBuffer.addToBuffer((unsigned int) srcLen); // First 4 bytes are for uncompressed size
-	if (compress2((unsigned char *) (newBuffer.getBuffer() + 4), &destLen, 
+	newBuffer->allocate(destLen);
+	newBuffer->reset();
+	newBuffer->addToBuffer((unsigned int) srcLen); // First 4 bytes are for uncompressed size
+	if (compress2((unsigned char *) (newBuffer->getBuffer() + 4), &destLen, 
 				   (unsigned char *) getBuffer(), srcLen, 
-				   6) != Z_OK) return false;
-	newBuffer.setBufferUsed(destLen + 4);
+				   6) == Z_OK)
+	{
+		newBuffer->setBufferUsed(destLen + 4);
 
-	// Copy the new buffer into the current buffer
-	reset();
-	addDataToBuffer(newBuffer.getBuffer(), newBuffer.getBufferUsed());
+		// Copy the new buffer into the current buffer
+		reset();
+		addDataToBuffer(newBuffer->getBuffer(), newBuffer->getBufferUsed());
+	}
+
+	NetBufferPool::instance()->addToPool(newBuffer);
 
 	return true;
 }
@@ -135,17 +137,19 @@ bool NetBuffer::uncompressBuffer()
 	}
 #endif
 
-	NetBuffer &newBuffer = NetBufferDefault::compressBuffer;
-	newBuffer.allocate(destLen);
-	newBuffer.setBufferUsed(destLen);
+	NetBuffer *newBuffer = NetBufferPool::instance()->getFromPool();
+	newBuffer->allocate(destLen);
+	newBuffer->setBufferUsed(destLen);
 
 	// Uncompress the data
-	if (uncompress((unsigned char *) newBuffer.getBuffer(), &destLen, 
-				   (unsigned char *) (getBuffer() + 4), srcLen) != Z_OK) return false;
-
-	// Copy the new buffer into the current buffer
-	reset();
-	addDataToBuffer(newBuffer.getBuffer(), newBuffer.getBufferUsed());
+	if (uncompress((unsigned char *) newBuffer->getBuffer(), &destLen, 
+				   (unsigned char *) (getBuffer() + 4), srcLen) == Z_OK)
+	{
+		// Copy the new buffer into the current buffer
+		reset();
+		addDataToBuffer(newBuffer->getBuffer(), newBuffer->getBufferUsed());
+	}
+	NetBufferPool::instance()->addToPool(newBuffer);
 
 	return true;
 }
