@@ -55,7 +55,7 @@ void showURL(const char *url)
 #ifdef __DARWIN__
 	system(formatString("open %s", url));
 #else
-	system(formatString("mozilla %s", url));
+	system(formatString("firefox %s", url));
 	dialogMessage("Web site location", formatString("%s", url));
 #endif // __DARWIN__
 #endif // _WIN32
