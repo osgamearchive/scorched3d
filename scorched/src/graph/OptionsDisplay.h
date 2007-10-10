@@ -360,6 +360,7 @@ public:
 
 	void loadSafeValues();
 	void loadDefaultValues();
+	void loadMediumValues();
 	void loadFastestValues();
 	bool writeOptionsToFile();
 	bool readOptionsFromFile();

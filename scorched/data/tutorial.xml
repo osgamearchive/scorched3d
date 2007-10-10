@@ -11,10 +11,10 @@
 				</condition>
 			</conditions>
 			<text>Welcome to Scorched3D.
-
 This is a short tutorial to help you get to grips with the game.
 
-<a href="rulesDialog">Click Here to Continue...</a></text>
+If the game runs slowly you can adjust the speed of the game in the settings menu accessed via the main game launcher.
+<a href="rulesDialog">Click Here to Continue The Tutorial...</a></text>
 		</step>
 		
 		<!-- Rules Dialog -->

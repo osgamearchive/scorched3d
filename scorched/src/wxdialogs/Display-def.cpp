@@ -23,6 +23,7 @@ enum
 	ID_LOADDEFAULTS = 60,
 	ID_LOADFASTEST,
 	ID_LOADSAFE,
+	ID_LOADMEDIUM,
 	ID_MORERES,
 	ID_KEYDEFAULTS,
 	ID_IMPORT,
@@ -100,6 +101,7 @@ static wxButton *IDC_LOADDEFAULTS_CTRL = 0;
 static wxButton *IDC_LOADKEYDEFAULTS_CTRL = 0;
 static wxButton *IDC_LOADSAFE_CTRL = 0;
 static wxButton *IDC_LOADFASTEST_CTRL = 0;
+static wxButton *IDC_LOADMEDIUM_CTRL = 0;
 
 static wxButton *IDOK_CTRL = 0;
 static wxButton *IDCANCEL_CTRL = 0;

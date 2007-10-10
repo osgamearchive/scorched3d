@@ -52,6 +52,7 @@ public:
 
 	void onLoadDefaultsButton(wxCommandEvent &event);
 	void onLoadFastestButton(wxCommandEvent &event);
+	void onLoadMediumButton(wxCommandEvent &event);
 	void onLoadSafeButton(wxCommandEvent &event);
 	void onLoadDefaultKeysButton(wxCommandEvent &event);
 	void onKeyButton(wxCommandEvent &event);
@@ -64,6 +65,7 @@ public:
 	wxNotebook *book_;
 	wxPanel *mainPanel_;
 	wxPanel *troublePanel_;
+	wxPanel *otherPanel_;
 	wxPanel *identPanel_;
 	wxPanel *keysPanel_;
 	wxPanel *modsPanel_;
@@ -79,6 +81,7 @@ protected:
 BEGIN_EVENT_TABLE(DisplayFrame, wxDialog)
     EVT_BUTTON(ID_LOADDEFAULTS,  DisplayFrame::onLoadDefaultsButton)
 	EVT_BUTTON(ID_LOADFASTEST,  DisplayFrame::onLoadFastestButton)
+	EVT_BUTTON(ID_LOADMEDIUM,  DisplayFrame::onLoadMediumButton)
 	EVT_BUTTON(ID_KEYDEFAULTS,  DisplayFrame::onLoadDefaultKeysButton)
     EVT_BUTTON(ID_LOADSAFE,  DisplayFrame::onLoadSafeButton)
     EVT_BUTTON(ID_KEY,  DisplayFrame::onKeyButton)
@@ -126,9 +129,17 @@ DisplayFrame::DisplayFrame() :
 	troublePanel_ = new wxPanel(book_, -1);
 	wxSizer *troublePanelSizer = new wxBoxSizer(wxVERTICAL);
 	createTroubleControls(troublePanel_, troublePanelSizer);
-	book_->AddPage(troublePanel_, wxT("&Troubleshooting / Detail"));
+	book_->AddPage(troublePanel_, wxT("&Speed/Troubleshooting"));
 	troublePanel_->SetAutoLayout(TRUE);
 	troublePanel_->SetSizer(troublePanelSizer);
+
+	// Misc Panel
+	otherPanel_ = new wxPanel(book_, -1);
+	wxSizer *otherPanelSizer = new wxBoxSizer(wxVERTICAL);
+	createOtherControls(otherPanel_, otherPanelSizer);
+	book_->AddPage(otherPanel_, wxT("&Other"));
+	otherPanel_->SetAutoLayout(TRUE);
+	otherPanel_->SetSizer(otherPanelSizer);
 
 	// Keys Panel
 	keysPanel_ = new wxPanel(book_, -1);
@@ -188,6 +199,13 @@ void DisplayFrame::onLoadFastestButton(wxCommandEvent &event)
 {
 	OptionsDisplay::instance()->loadDefaultValues();
 	OptionsDisplay::instance()->loadFastestValues();
+	refreshScreen();
+}
+
+void DisplayFrame::onLoadMediumButton(wxCommandEvent &event)
+{
+	OptionsDisplay::instance()->loadDefaultValues();
+	OptionsDisplay::instance()->loadMediumValues();
 	refreshScreen();
 }
 
