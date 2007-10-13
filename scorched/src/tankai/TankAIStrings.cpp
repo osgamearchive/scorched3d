@@ -51,7 +51,7 @@ TankAIStrings::~TankAIStrings()
 
 const char *TankAIStrings::getPlayerName()
 {
-	static int counter = 0;
+	static unsigned int counter = 0;
 	const char *playerName = 
 		playerNames_.getLines()[counter++ % playerNames_.getLines().size()].c_str();
 	return playerName;
@@ -59,7 +59,7 @@ const char *TankAIStrings::getPlayerName()
 
 const char *TankAIStrings::getAIPlayerName(ScorchedContext &context)
 {
-	static int counter = 0;
+	static unsigned int counter = 0;
 	if (context.optionsGame->getRandomizeBotNames())
 	{
 		counter = (int) rand();

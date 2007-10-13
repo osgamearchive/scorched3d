@@ -93,7 +93,7 @@ const char *formatString(const char *format, ...)
 	// as thread safty is lost if the number of buffers in use is exceeded
 	SDL_LockMutex(formatMutex);
 	static std::string buffers[25];
-	static int pos = 0;
+	static unsigned int pos = 0;
 	std::string *buffer = &buffers[pos++ % 25];
 	SDL_UnlockMutex(formatMutex);
 

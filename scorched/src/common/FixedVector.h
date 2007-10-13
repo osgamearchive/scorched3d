@@ -168,13 +168,20 @@ public:
 	Vector &asVector()
 	{
 		static Vector a[10];
-		static int count = 0;
+		static unsigned int count = 0;
 		
 		Vector &b = a[++count % 10];
 		b[0] = V[0].asFloat();
 		b[1] = V[1].asFloat();
 		b[2] = V[2].asFloat();
 		return b;
+	}
+
+	void asVector(Vector &dest)
+	{
+		dest[0] = V[0].asFloat();
+		dest[1] = V[1].asFloat();
+		dest[2] = V[2].asFloat();
 	}
 
 	static FixedVector &fromVector(Vector &vec)

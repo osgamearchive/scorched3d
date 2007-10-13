@@ -57,13 +57,13 @@ void SplinePath::getPathAttrs(FixedVector &position, FixedVector &direction)
 {
 	fixed currentPointTime = pathTime_ * pointsPerSecond_;
 
-	int noPoints = (int) pathPoints_.size();
-	int currentPointId = (int) (currentPointTime).asInt();
+	unsigned int noPoints = pathPoints_.size();
+	unsigned int currentPointId = (unsigned int) (currentPointTime).asInt();
 	fixed currentPointDiff = currentPointTime - fixed(currentPointId);
 	currentPointId = currentPointId % noPoints;
-	int nextPointId = currentPointId + 1;
+	unsigned int nextPointId = currentPointId + 1;
 	nextPointId = nextPointId % noPoints;
-	int nextNextPointId = currentPointId + 2;
+	unsigned int nextNextPointId = currentPointId + 2;
 	nextNextPointId = nextNextPointId % noPoints;
 
 	FixedVector &currentPoint = pathPoints_[currentPointId];

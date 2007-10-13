@@ -75,7 +75,7 @@ protected:
 	WeaponFireContext weaponContext_;
 	FixedVector startPosition_;
 	int positionX_, positionY_;
-	int stepCount_;
+	unsigned int stepCount_;
 	bool remove_, moving_;
 
 	void moveTank(Tank *tank);

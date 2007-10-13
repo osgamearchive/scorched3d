@@ -25,6 +25,10 @@
 #include <GLEXT/GLStateExtension.h>
 #include <landscape/PatchSide.h>
 
+static Vector leftN;
+static Vector rightN;
+static Vector apexN;
+
 PatchSide::PatchSide(HeightMap *hMap, PatchTexCoord *coord, 
 	int left, int top, int width) : 
 	triNodePool_(*TriNodePool::instance()),
@@ -194,11 +198,11 @@ void PatchSide::recursRender( TriNode *tri,
 	else
 	{
 		GLfloat leftZ  = hMap_->getHeight(leftX, leftY).asFloat();
-		Vector leftN = hMap_->getNormal(leftX, leftY).asVector();
+		hMap_->getNormal(leftX, leftY).asVector(leftN);
 		GLfloat rightZ = hMap_->getHeight(rightX, rightY).asFloat();
-		Vector rightN = hMap_->getNormal(rightX, rightY).asVector();
+		hMap_->getNormal(rightX, rightY).asVector(rightN);
 		GLfloat apexZ  = hMap_->getHeight(apexX, apexY).asFloat();
-		Vector apexN = hMap_->getNormal(apexX, apexY).asVector();
+		hMap_->getNormal(apexX, apexY).asVector(apexN);
 
 		switch (side)
 		{
@@ -251,24 +255,24 @@ void PatchSide::recursRender( TriNode *tri,
 			break;
 		case typeNormals:
 		{
-			Vector leftNormal = hMap_->getNormal(leftX, leftY).asVector();
-			Vector rightNormal = hMap_->getNormal(rightX, rightY).asVector();
-			Vector apexNormal = hMap_->getNormal(apexX, apexY).asVector();
+			hMap_->getNormal(leftX, leftY).asVector(leftN);
+			hMap_->getNormal(rightX, rightY).asVector(rightN);
+			hMap_->getNormal(apexX, apexY).asVector(apexN);
 
 			glVertex3f((GLfloat) leftX, (GLfloat) leftY, (GLfloat) leftZ );
-			glVertex3f((GLfloat) leftX + leftNormal[0] * 5.0f, 
-					(GLfloat) leftY + leftNormal[1] * 5.0f, 
-					(GLfloat) leftZ + leftNormal[2] * 5.0f);
+			glVertex3f((GLfloat) leftX + leftN[0] * 5.0f, 
+					(GLfloat) leftY + leftN[1] * 5.0f, 
+					(GLfloat) leftZ + leftN[2] * 5.0f);
 
 			glVertex3f((GLfloat) rightX,(GLfloat) rightY,(GLfloat) rightZ );
-			glVertex3f((GLfloat) rightX + rightNormal[0] * 5.0f, 
-					(GLfloat) rightY + rightNormal[1] * 5.0f, 
-					(GLfloat) rightZ + rightNormal[2] * 5.0f);
+			glVertex3f((GLfloat) rightX + rightN[0] * 5.0f, 
+					(GLfloat) rightY + rightN[1] * 5.0f, 
+					(GLfloat) rightZ + rightN[2] * 5.0f);
 
 			glVertex3f((GLfloat) apexX, (GLfloat) apexY, (GLfloat) apexZ );
-			glVertex3f((GLfloat) apexX + apexNormal[0] * 5.0f, 
-					(GLfloat) apexY + apexNormal[1] * 5.0f, 
-					(GLfloat) apexZ + apexNormal[2] * 5.0f);
+			glVertex3f((GLfloat) apexX + apexN[0] * 5.0f, 
+					(GLfloat) apexY + apexN[1] * 5.0f, 
+					(GLfloat) apexZ + apexN[2] * 5.0f);
 		}
 		break;
 		}

@@ -184,7 +184,7 @@ void ModelRendererMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 		// If we have bones, make sure the frame falls within the accepted bounds
 		if (model_->getTotalFrames() > 1)
 		{
-			frame = int(currentFrame) % model_->getTotalFrames();
+			frame = ((unsigned int)(currentFrame)) % model_->getTotalFrames();
 			if (frame < 0) frame = 0;
 		}
 	}

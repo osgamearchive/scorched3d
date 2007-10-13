@@ -46,7 +46,7 @@ Water2::~Water2()
 
 Water2Patches &Water2::getPatch(float time)
 {
-	int index = int(time) % generatedPatches_;
+	unsigned int index = ((unsigned int)(time)) % generatedPatches_;
 	DIALOG_ASSERT(index < generatedPatches_);
 	return patches_[index];
 }
