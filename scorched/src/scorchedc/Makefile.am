@@ -327,6 +327,8 @@ scorched3dc_SOURCES = \
 	../coms/ComsTimerStartMessage.h \
 	../net/NetBuffer.cpp \
 	../net/NetBuffer.h \
+	../net/NetBufferPool.cpp \
+	../net/NetBufferPool.h \
 	../net/NetBufferUtil.cpp \
 	../net/NetBufferUtil.h \
 	../net/NetInterface.cpp \

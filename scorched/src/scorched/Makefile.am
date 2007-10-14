@@ -72,6 +72,8 @@ scorched3d_SOURCES = \
 	../common/VectorLib.h \
 	../net/NetBuffer.cpp \
 	../net/NetBuffer.h \
+	../net/NetBufferPool.cpp \
+	../net/NetBufferPool.h \
 	../net/NetInterface.cpp \
 	../net/NetInterface.h \
 	../net/UniqueIdStore.cpp \
