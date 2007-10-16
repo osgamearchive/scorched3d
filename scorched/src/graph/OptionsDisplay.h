@@ -172,6 +172,9 @@ public:
 	bool getNoGLShaders() { return noGLShaders_; }
 	OptionEntryBool &getNoGLShadersEntry() { return noGLShaders_; }
 
+	bool getNoProgressBackdrop() { return noProgressBackdrop_; }
+	OptionEntryBool &getNoProgressBackdropEntry() { return noProgressBackdrop_; }
+	
 	int getSoundChannels() { return soundChannels_; }
 	OptionEntryInt &getSoundChannelsEntry() { return soundChannels_; }
 
@@ -467,6 +470,7 @@ protected:
 	OptionEntryBool noWaterWaves_;
 	OptionEntryBool noWaterLOD_;
 	OptionEntryBool noWaterReflections_;
+	OptionEntryBool noProgressBackdrop_;
 	OptionEntryBool showContextHelp_;
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;

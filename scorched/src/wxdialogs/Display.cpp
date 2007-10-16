@@ -341,8 +341,10 @@ static void createTroubleControls(wxWindow *parent, wxSizer *sizer)
 		IDC_NODEPTHSORT_CTRL = 
 			new wxCheckBox(parent, -1, wxT("No sprite depth sorting"));
 		miscDetailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
+		IDC_NOBACKDROP_CTRL = 
+			new wxCheckBox(parent, -1, wxT("No progress backdrop"));
+		miscDetailSizer2->Add(IDC_NOBACKDROP_CTRL, 0);
 
-		miscDetailSizer2->Add(IDC_NODEPTHSORT_CTRL, 0);
 		miscDetailSizer->Add(miscDetailSizer2, 0, wxGROW);
 		sizer->Add(miscDetailSizer, 0, wxGROW | wxLEFT | wxRIGHT | wxTOP, 5);
 	}

@@ -397,6 +397,8 @@ void DisplayFrame::refreshScreen()
 	IDC_NOPRECIPITATION_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoPrecipitationEntry().getDescription(), wxConvUTF8));
 	IDC_NODEPTHSORT_CTRL->SetValue(OptionsDisplay::instance()->getNoDepthSorting());
 	IDC_NODEPTHSORT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoDepthSortingEntry().getDescription(), wxConvUTF8));
+	IDC_NOBACKDROP_CTRL->SetValue(OptionsDisplay::instance()->getNoProgressBackdrop());
+	IDC_NOBACKDROP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getNoProgressBackdropEntry().getDescription(), wxConvUTF8));
 	IDC_INVERT_CTRL->SetValue(OptionsDisplay::instance()->getInvertElevation());
 	IDC_INVERT_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getInvertElevationEntry().getDescription(), wxConvUTF8));
 	IDC_INVERTMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getInvertMouse());
@@ -611,6 +613,7 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getNoModelLightingEntry().setValue(IDC_NODYNAMICLIGHT_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoPrecipitationEntry().setValue(IDC_NOPRECIPITATION_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoDepthSortingEntry().setValue(IDC_NODEPTHSORT_CTRL->GetValue());
+	OptionsDisplay::instance()->getNoProgressBackdropEntry().setValue(IDC_NOBACKDROP_CTRL->GetValue());
 	OptionsDisplay::instance()->getFullScreenEntry().setValue(IDC_FULLSCREEN_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSkyLayersEntry().setValue(IDC_SINGLESKYLAYER_CTRL->GetValue());
 	OptionsDisplay::instance()->getNoSkyMovementEntry().setValue(IDC_NOSKYANI_CTRL->GetValue());

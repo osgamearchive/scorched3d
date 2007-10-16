@@ -22,6 +22,7 @@
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLImageFactory.h>
 #include <graph/Main2DCamera.h>
+#include <graph/OptionsDisplay.h>
 #include <dialogs/BackdropDialog.h>
 #include <common/Defines.h>
 
@@ -209,6 +210,8 @@ void BackdropDialog::drawFooter()
 
 void BackdropDialog::capture()
 {
+	if (OptionsDisplay::instance()->getNoProgressBackdrop()) return;
+
 	glRasterPos2i(0, 0);
 
 	glPixelStorei(GL_PACK_ALIGNMENT, 4);

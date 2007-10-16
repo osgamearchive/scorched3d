@@ -62,7 +62,8 @@ create table if not exists scorched3d_players (
 	avatarid INTEGER NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (playerid),
-	UNIQUE (uniqueid)
+	UNIQUE (uniqueid),
+	INDEX uniqueid_index (uniqueid) 
 );
 
 create table if not exists scorched3d_statssource (
@@ -102,8 +103,7 @@ create table if not exists scorched3d_stats (
 	PRIMARY KEY (playerid, prefixid, seriesid),
 	FOREIGN KEY (playerid) REFERENCES scorched3d_players(playerid) on delete cascade,
 	FOREIGN KEY (prefixid) REFERENCES scorched3d_prefixs(prefixid) on delete cascade,
-	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid) on delete cascade,
-	INDEX uniqueid_index (uniqueid) 
+	FOREIGN KEY (seriesid) REFERENCES scorched3d_series(seriesid) on delete cascade
 );
 
 create table if not exists scorched3d_weapons (

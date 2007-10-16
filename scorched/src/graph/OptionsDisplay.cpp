@@ -158,6 +158,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not play any sound.", RWAccess, false),
 	noMusic_(options_, "NoMusic", 
 		"Do not play any music.", RWAccess, false),
+	noProgressBackdrop_(options_, "NoProgressBackdrop", 
+		"Do capture a screen shot and use it as the progress backdrop", RWAccess, false),
 	depricatedNoAmbientSound_(options_, "NoAmbientSound", 
 		"Do not play any ambient sounds.", OptionEntry::DataDepricated, false),
 	depricatedNoBoidSound_(options_, "NoBoidSound", 
