@@ -75,8 +75,11 @@ void TargetLife::setSize(FixedVector &size)
 void TargetLife::setTargetPositionAndRotation(FixedVector &pos, fixed rotation)
 {
 	targetPosition_ = pos;
+	if (!context_.serverMode) targetPosition_.asVector(floatPosition_);
+
 	FixedVector zaxis(0, 0, 1);
 	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation / 180 * fixed::XPI);
+	if (!context_.serverMode) quaternion_.getOpenGLRotationMatrix(floatRotMatrix_);
 
 	updateAABB();
 	updateSpace();
@@ -85,6 +88,8 @@ void TargetLife::setTargetPositionAndRotation(FixedVector &pos, fixed rotation)
 void TargetLife::setTargetPosition(FixedVector &pos)
 {
 	targetPosition_ = pos;
+	if (!context_.serverMode) targetPosition_.asVector(floatPosition_);
+
 	updateSpace();
 }
 
@@ -92,6 +97,7 @@ void TargetLife::setRotation(fixed rotation)
 {
 	FixedVector zaxis(0, 0, 1);
 	quaternion_.setQuatFromAxisAndAngle(zaxis, rotation / 180 * fixed::XPI);
+	if (!context_.serverMode) quaternion_.getOpenGLRotationMatrix(floatRotMatrix_);
 
 	updateAABB();
 	updateSpace();
@@ -343,4 +349,5 @@ void TargetLife::updateAABB()
 			}
 		}
 	}
+	if (!context_.serverMode) aabbSize_.asVector(floatAabbSize_);
 }

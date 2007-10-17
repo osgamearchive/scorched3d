@@ -54,6 +54,11 @@ public:
 	bool getBoundingSphere() { return sphereGeom_; }
 	TargetSpaceContainment &getSpaceContainment() { return spaceContainment_; }
 
+	// Client only performance functions
+	Vector &getFloatPosition() { return floatPosition_; }
+	Vector &getFloatAabbSize() { return floatAabbSize_; }
+	float *getFloatRotMatrix() { return floatRotMatrix_; }
+
 	// Collision
 	fixed collisionDistance(FixedVector &position);
 	bool collision(FixedVector &position);
@@ -77,6 +82,9 @@ protected:
 	FixedVector velocity_;
 	FixedVector aabbSize_;
 	FixedVector size_;
+	Vector floatPosition_;
+	Vector floatAabbSize_;
+	float floatRotMatrix_[16];
 	fixed life_;
 	fixed maxLife_;
 	bool sphereGeom_;
