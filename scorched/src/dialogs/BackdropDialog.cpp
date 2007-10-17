@@ -42,11 +42,6 @@ BackdropDialog::BackdropDialog() :
 		"The backdrop dialog")
 {
 	windowLevel_ = 5000000;
-
-	GLImageHandle backMap = GLImageFactory::loadImageHandle(
-		getDataFile("data/windows/backdrop.jpg"));
-		//getDataFile("data/windows/logotiled.bmp"));
-	backTex_.create(backMap, false);
 }
 
 BackdropDialog::~BackdropDialog()
@@ -62,6 +57,22 @@ void BackdropDialog::draw()
 
 void BackdropDialog::drawBackground()
 {
+	if (!backTex_.textureValid())
+	{
+		GLImageHandle originalBackMap = GLImageFactory::loadImageHandle(
+			getDataFile("data/windows/backdrop.jpg"));
+		int w = originalBackMap.getWidth();
+		int h = originalBackMap.getHeight();
+		while (w > GLViewPort::getActualWidth() || h > GLViewPort::getActualHeight())
+		{
+			w /= 2;
+			h /= 2;
+		}
+
+		GLImageHandle backMap = originalBackMap.createResize(w, h);
+		backTex_.create(backMap, false);
+	}
+
 	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_ON);
 
 	// Calcuate how may tiles are needed
@@ -81,32 +92,6 @@ void BackdropDialog::drawBackground()
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex2f(0.0f, wHeight);
 	glEnd();	
-}
-
-void BackdropDialog::drawBackgroundTiled()
-{
-	GLState currentState(GLState::DEPTH_OFF | GLState::TEXTURE_ON);
-
-	// Calcuate how may tiles are needed
-	float wWidth = (float) GLViewPort::getWidth();
-	float wHeight = (float) GLViewPort::getHeight();
-	float xScale = wWidth / 128.0f;
-	float yScale = wHeight / 128.0f;
-
-	// Draw the tiled logo backdrop
-	float offset_ = 0.0f;
-	backTex_.draw(true);
-	glColor3f(0.2f, 0.2f, 0.2f);
-	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f - offset_, 0.0f + offset_);
-		glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(xScale - offset_, 0.0f + offset_);
-		glVertex2f(wWidth, 0.0f);
-		glTexCoord2f(xScale - offset_, yScale + offset_);
-		glVertex2f(wWidth, wHeight);
-		glTexCoord2f(0.0f - offset_, yScale + offset_);
-		glVertex2f(0.0f, wHeight);
-	glEnd();
 }
 
 void BackdropDialog::drawLogo()
@@ -192,6 +177,7 @@ void BackdropDialog::drawFooter()
 void BackdropDialog::capture()
 {
 	if (OptionsDisplay::instance()->getNoProgressBackdrop()) return;
+	if (!backTex_.textureValid()) return;
 
 	glRasterPos2i(0, 0);
 

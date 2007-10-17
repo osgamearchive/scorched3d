@@ -31,7 +31,6 @@ public:
 
 	virtual void draw();
 	void drawBackground();
-	void drawBackgroundTiled();
 	void drawLogo();
 	void drawFooter();
 
