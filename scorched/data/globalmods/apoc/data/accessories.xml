@@ -14506,6 +14506,84 @@ release lethal clouds of gas when destroyed.</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>Hornet</name>
+		<armslevel>10</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponMulti'>
+			<subweapon1 type='WeaponExplosion'>
+				<hurtamount>0.25</hurtamount>
+				<deform>down</deform>
+				<size>4</size>
+				<explosionsound>explosions/gloop.wav</explosionsound>
+				<explosiontexture>exp04</explosiontexture>
+			</subweapon1>
+			<subweapon2 type='WeaponExplosion'>
+				<nocreatedebris/>
+				<nocreatesplash/>
+				<noluminance/>
+				<minlife>6</minlife>
+				<maxlife>8</maxlife>
+				<hurtamount>0</hurtamount>
+				<deform>down</deform>
+				<size>6</size>
+				<explosionsound>none</explosionsound>
+				<explosiontexture>smoke-orange</explosiontexture>
+			</subweapon2>
+			<subweapon3 type='WeaponAimedOver'>
+				<nowarheads>6</nowarheads>
+				<percentagemiss>0</percentagemiss>
+				<maxaimdistance>0</maxaimdistance>
+				<inaccuracy>0</inaccuracy>
+				<aimedweapon type='WeaponRedirect'>
+					<habs>false</habs>
+					<vabs>false</vabs>
+					<hredirect>0</hredirect>
+					<vredirect>20</vredirect>
+					<nextaction type='WeaponVelocity'>
+						<abs>true</abs>
+						<velocitychange>0.25</velocitychange>
+						<aimedweapon type='WeaponProjectile'>
+							<nocreatesmoke/>
+							<flamestartsize>0.1</flamestartsize>
+							<flameendsize>0.5</flameendsize>
+							<flamelife>1.0</flamelife>
+							<flamestartcolor1>
+								<A>0.75</A><B>0</B><C>0</C>
+							</flamestartcolor1>
+							<flameendcolor1>
+								<A>0.5</A><B>0</B><C>0</C>
+							</flameendcolor1>
+							<flamestartcolor2>
+								<A>0.5</A><B>0</B><C>0</C>
+							</flamestartcolor2>
+							<flameendcolor2>
+								<A>0.25</A><B>0</B><C>0</C>
+							</flameendcolor2>
+							<shieldhurtfactor>0.25</shieldhurtfactor>
+							<enginesound>none</enginesound>
+							<projectilescale>0.5</projectilescale>
+							<projectilemodel type='ase'>
+								<mesh>roller.ase</mesh>
+								<skin>default.bmp</skin>
+							</projectilemodel>
+							<collisionaction type='WeaponExplosion'>
+								<nocreatedebris/>
+								<hurtamount>0.25</hurtamount>
+								<deform>none</deform>
+								<size>4</size>
+								<explosiontexture>none</explosiontexture>
+								<explosionsound>none</explosionsound>
+							</collisionaction>
+						</aimedweapon>
+					</nextaction>
+				</aimedweapon>
+			</subweapon3>
+			<subweapon4 type='WeaponGiveScore'>
+				<score>10</score>
+			</subweapon4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>WeaponDeathAnimation</name>
 		<armslevel>0</armslevel>
 		<description>The tank explosion weapon</description>

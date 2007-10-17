@@ -116,7 +116,7 @@
 			<model type="MilkShape">data/meshes/ah64d/ah64d.txt</model>
 			<modelscale>0.01</modelscale>
 			<nocollision>false</nocollision>
-			<displayshadow>false</displayshadow>
+			<displayshadow>true</displayshadow>
 			<groupname>boids-city4</groupname>
 			<removeaction>Airplane</removeaction>
 		</object>

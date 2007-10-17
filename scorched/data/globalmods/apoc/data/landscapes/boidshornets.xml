@@ -5,10 +5,11 @@
 		<maxbounds><A>256</A><B>256</B><C>30</C></maxbounds>
 		<object type='target'>
 			<model type="MilkShape">data/accessories/weapons/redhornet_anim.txt</model>
-			<modelscale>0.25</modelscale>	  
-			<nocollision>true</nocollision>
-			<displayshadow>false</displayshadow>
+			<modelscale>0.05</modelscale>	  
+			<nocollision>false</nocollision>
+			<displayshadow>true</displayshadow>
 			<groupname>boids-hornets</groupname>
+			<removeaction>Hornet</removeaction>
 		</object>
 	</placement>
 	<movement type="boids">
