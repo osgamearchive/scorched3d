@@ -2,6 +2,7 @@
 Added: Option to turn off landscape captured progress backdrop
 Added: Changed progress backdrop to use textures rather than pixel drawing (speedup on some cards)
 Added: Moved the player id of the single player spectator to allow stats user 1 to connect online
+Added: Scorched client supports remote game connection initiated via .s3l file
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

@@ -39,3 +39,9 @@ std::list<OptionEntry *> &OptionsParameters::getOptions()
 {
 	return options_;
 }
+
+std::list<OptionEntry *> &OptionsParameters::getNonParamOptions()
+{
+	return nonParamOptions_;
+}
+

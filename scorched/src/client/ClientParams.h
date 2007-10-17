@@ -33,6 +33,7 @@ public:
 	const char *getSaveFile() { return save_.getValue(); }
 	const char *getUserName() { return username_.getValue(); }
 	const char *getPassword() { return password_.getValue(); }
+	const char *getNonParam() { return nonParam_.getValue(); }
 	int getExitTime() { return exittime_.getValue(); }
 	bool getStartCustom() { return startcustom_.getValue(); }
 	bool getConnectedToServer() { return (getConnect()[0] != '\0'); }
@@ -54,6 +55,7 @@ protected:
 	OptionEntryString password_;
 	OptionEntryString username_;
 	OptionEntryString save_;
+	OptionEntryString nonParam_;
 	OptionEntryBool startcustom_;
 	OptionEntryInt exittime_;
 

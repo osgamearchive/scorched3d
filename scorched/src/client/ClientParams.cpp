@@ -46,7 +46,9 @@ ClientParams::ClientParams() :
 	username_(options_, "username",
 		"The username of the NET/LAN server", 0, ""),
 	password_(options_, "password",
-		"The password of the NET/LAN server", 0, "")
+		"The password of the NET/LAN server", 0, ""),
+	nonParam_(nonParamOptions_, "launch file", 
+		".3dl scorched3d online gaming launching config", 0, "")
 {
 
 }

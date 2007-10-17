@@ -99,6 +99,17 @@ bool ARGParser::parse(char *lpCmdLine)
 				return false;
 			}
 		}
+		else if (!nonParamMap_.empty() &&
+			firstCommand.c_str()[0] != '-')
+		{
+			if (!nonParamMap_.begin()->second.destString->
+				setStringArgument(cmdLine.front().c_str()))
+			{
+				showArgs("ERROR: Parameter is not within allowed values\n\n");
+				return false;
+			}
+			cmdLine.pop_front();
+		}
 		else
 		{
 			char buffer[255];
@@ -252,7 +263,24 @@ void ARGParser::showArgs(char *topString)
 		snprintf(buffer2, 255, "\t%s %s", itor->first.c_str(), type);
 		if (itor->second.help.size())
 		{
-			strcat(buffer2, std::string(abs(30 - int(strlen(buffer2))), ' ').c_str());
+			strcat(buffer2, std::string(abs(10 - int(strlen(buffer2))), ' ').c_str());
+			strcat(buffer2, itor->second.help.c_str());
+		}
+		strcat(buffer2, "\n");
+
+		strcat(buffer, buffer2);
+	}
+	for (itor = nonParamMap_.begin();
+		itor != nonParamMap_.end();
+		itor++)
+	{
+		char buffer2[255];
+		strcat(buffer2, "\t[");
+		strcat(buffer2, itor->first.c_str());
+		strcat(buffer2, "]");
+		if (itor->second.help.size())
+		{
+			strcat(buffer2, std::string(abs(10 - int(strlen(buffer2))), ' ').c_str());
 			strcat(buffer2, itor->second.help.c_str());
 		}
 		strcat(buffer2, "\n");
@@ -302,4 +330,10 @@ void ARGParser::addEntry(char *cmd, ARGParserStringI *destString, char *help)
 void ARGParser::addNewEntry(char *cmd, ARGParser::Entry &newEntry)
 {
 	argMap_[cmd] = newEntry;
+}
+
+void ARGParser::addNonParamEntry(char *cmd, ARGParserStringI *destString, char *help)
+{
+	Entry newEntry(NULL, NULL, destString, NULL, NULL, NULL, help);
+	nonParamMap_[cmd] = newEntry;
 }

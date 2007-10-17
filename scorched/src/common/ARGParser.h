@@ -67,6 +67,8 @@ public:
 	void addEntry(char *cmd, ARGParserIntI *destInt, char *help = "");
 	void addEntry(char *cmd, ARGParserStringI *destString, char *help = "");
 
+	void addNonParamEntry(char *cmd, ARGParserStringI *destString, char *help = "");
+
 	void showArgs(char *topString = NULL);
 
 protected:
@@ -90,6 +92,7 @@ protected:
 	};
 
 	std::map<std::string, Entry> argMap_;
+	std::map<std::string, Entry> nonParamMap_;
 	void addNewEntry(char *cmd, ARGParser::Entry &entry);
 	bool parseLineIntoStrings(char *line, std::list<std::string> &cmdLine);
 	bool parseArg(ARGParser::Entry &newEntry, std::list<std::string> &cmdLine);

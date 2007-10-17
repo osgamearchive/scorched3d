@@ -33,8 +33,30 @@
 #include <signal.h>
 #include <float.h>
 #include <time.h>
+#include <direct.h>
 #include <common/main.h>
 #include <SDL/SDL.h>
+
+void checkLaunchFile(char *progPath)
+{
+	if (!ClientParams::instance()->getNonParam()[0]) return;
+
+	// Read launcher file
+	FILE *in = fopen(ClientParams::instance()->getNonParam(), "r");
+	if (!in)
+	{
+		dialogExit(scorched3dAppName, "Failed to open launchfile");
+	}
+	char buffer[2048];
+	if (!fgets(buffer, 2048, in))
+	{
+		dialogExit(scorched3dAppName, "Failed to read launchfile");
+	}
+	fclose(in);
+
+	// Set the launch
+	ClientParams::instance()->setConnect(buffer);
+}
 
 int main(int argc, char *argv[])
 {
@@ -42,12 +64,13 @@ int main(int argc, char *argv[])
 
 	// From main.h
 	run_main(argc, argv, *ClientParams::instance());
+	checkLaunchFile(argv[0]);
 
 	// Read display options from a file
 	// **This NEEDS to be after the arg parser**
 	if (!OptionsDisplay::instance()->readOptionsFromFile())
 	{
-		return false;
+		return 0;
 	}
 
 	// Set the exittime

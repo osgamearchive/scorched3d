@@ -60,6 +60,16 @@ void run_main(int argc, char *argv[], OptionsParameters &params)
 	// Read options from command line
 	if (!OptionEntryHelper::addToArgParser(
 		params.getOptions(), aParser)) exit(64);
+	std::list<OptionEntry *>::iterator nonParamItor;
+	for (nonParamItor = params.getNonParamOptions().begin();
+		nonParamItor != params.getNonParamOptions().end();
+		nonParamItor++)
+	{
+		OptionEntryString *str = (OptionEntryString *) *nonParamItor;
+		aParser.addNonParamEntry(
+			(char *) str->getName(), str, 
+			(char *) str->getDescription());
+	}
 	if (!aParser.parse(argc, argv)) exit(64);
 	setSettingsDir(params.getSettingsDir());
 
@@ -70,6 +80,7 @@ void run_main(int argc, char *argv[], OptionsParameters &params)
 		// Perhaps we can get the directory from the executables path name
 		char path[1024];
 		snprintf(path, sizeof(path), "%s", argv[0]);
+		s3d_fileDos2Unix(path);
 		char *sep = strrchr(path, '/');
 		if (sep)
 		{

@@ -33,9 +33,11 @@ public:
 	bool getAllowExceptions() { return allowexceptions_.getValue(); }
 
 	std::list<OptionEntry *> &getOptions();
+	std::list<OptionEntry *> &getNonParamOptions();
 
 protected:
 	std::list<OptionEntry *> options_;
+	std::list<OptionEntry *> nonParamOptions_;
 
 	OptionEntryString settingsdir_;
 	OptionEntryBool allowexceptions_;
