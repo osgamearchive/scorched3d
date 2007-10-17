@@ -360,7 +360,7 @@ void ServerConnectHandler::addNextTank(unsigned int destinationId,
 
 	if (extraSpectator)
 	{
-		tankId = 1;
+		tankId = TargetID::SPEC_TANK_ID;
 		playerName = "Spectator";
 		color = Vector(0.7f, 0.7f, 0.7f);
 	}

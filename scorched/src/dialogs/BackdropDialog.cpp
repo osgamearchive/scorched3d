@@ -39,8 +39,7 @@ BackdropDialog *BackdropDialog::instance()
 
 BackdropDialog::BackdropDialog() : 
 	GLWWindow("", 0.0f, 0.0f, 0.0f, 0.0f, 0,
-		"The backdrop dialog"),
-	pixels_(0)
+		"The backdrop dialog")
 {
 	windowLevel_ = 5000000;
 
@@ -56,25 +55,7 @@ BackdropDialog::~BackdropDialog()
 
 void BackdropDialog::draw()
 {
-	if (!pixels_)
-	{
-		drawBackground();
-	}
-	else
-	{
-		GLState state(GLState::DEPTH_OFF | GLState::TEXTURE_OFF);
-
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-		glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-		glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-
-		glRasterPos2i(0, 0);
-		glDrawPixels(GLViewPort::getActualWidth(), GLViewPort::getActualHeight(), 
-			GL_RGB, GL_UNSIGNED_BYTE, pixels_);
-	}
-
+	drawBackground();
 	drawLogo();
 	drawFooter();
 }
@@ -224,13 +205,13 @@ void BackdropDialog::capture()
 	glReadPixels(0, 0, GLViewPort::getActualWidth(), GLViewPort::getActualHeight(), 
 		GL_RGB, GL_UNSIGNED_BYTE, screenpixels);
 
-	if (!pixels_) pixels_ = new unsigned char[imageSize];
+	GLImageHandle handle = GLImageFactory::createBlank(
+		backTex_.getWidth(), backTex_.getHeight());
 
-	unsigned char *dest = pixels_;
 	unsigned char *src = screenpixels;
 	for (int y=0; y<GLViewPort::getActualHeight(); y++)
 	{
-		for (int x=0; x<GLViewPort::getActualWidth(); x++, dest+=3, src+=3)
+		for (int x=0; x<GLViewPort::getActualWidth(); x++, src+=3)
 		{
 			int totalr = 0;
 			int totalg = 0;
@@ -264,6 +245,10 @@ void BackdropDialog::capture()
 				totalb = src[2];
 			}
 
+			int destx = (x * backTex_.getWidth() / GLViewPort::getActualWidth()) % backTex_.getWidth();
+			int desty = (y * backTex_.getHeight() / GLViewPort::getActualHeight()) % backTex_.getHeight();
+			unsigned char *dest = &handle.getBits()[destx * 3 + desty * backTex_.getWidth() * 3];
+
 			dest[0] = totalr;
 			dest[1] = totalg;
 			dest[2] = totalb;
@@ -271,4 +256,6 @@ void BackdropDialog::capture()
 	}
 
 	delete [] screenpixels;
+
+	backTex_.replace(handle, false);
 }

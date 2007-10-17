@@ -355,7 +355,7 @@ unsigned int PlayerDialog::getNextPlayer(unsigned int current)
 		Tank *tank = (*itor).second;
 		if ((tank->getDestinationId() == 
 			ScorchedClient::instance()->getTankContainer().getCurrentDestinationId()) &&
-			(tank->getPlayerId() != 1) &&
+			(tank->getPlayerId() != TargetID::SPEC_TANK_ID) &&
 			(tank->getState().getState() != TankState::sNormal))
 		{
 			if (current == 0)

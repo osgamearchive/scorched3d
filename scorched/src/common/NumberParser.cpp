@@ -128,7 +128,7 @@ fixed NumberParser::getValue(ScorchedContext &context) //RandomGenerator &genera
         		dialogExit("NumberParser.cpp",
 		                formatString("Invalid DISTRIBUTION expression: \"%s\"",
 				expression_.c_str()));
-				int operandNo = (random.getRandFixed() * fixed(operands_.size())).asInt();
+				int operandNo = (random.getRandFixed() * fixed((unsigned int) operands_.size())).asInt();
                 for (int i = 0; i <= operandNo; i++) itor++;
                 value = *itor;
                 return value;

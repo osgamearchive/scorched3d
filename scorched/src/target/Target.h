@@ -29,6 +29,7 @@ namespace TargetID
 {
 	const int MIN_TANK_ID = 1;
 	const int START_TRANSIENT_TANK_ID = 9000000;
+	const int SPEC_TANK_ID = START_TRANSIENT_TANK_ID - 1;
 	const int MAX_TANK_ID = 10000000;
 	const int MIN_TARGET_ID = 20000000;
 	const int MIN_TARGET_TRANSIENT_ID = 39000000;

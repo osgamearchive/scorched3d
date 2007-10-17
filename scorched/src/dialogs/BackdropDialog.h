@@ -42,7 +42,6 @@ protected:
 	GLTexture backTex_;
 	GLTexture logoTex_, footerTex_;
 	std::string lastMod_;
-	unsigned char *pixels_;
 
 private:
 	BackdropDialog();
