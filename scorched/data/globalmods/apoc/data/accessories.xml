@@ -156,7 +156,7 @@ Capacity: 150 dmg | Collision Damage: 10 dmg</description>
 		<bundlesize>2</bundlesize>
 		<cost>7000</cost>
 		<accessoryaction type='ShieldRound'>
-			<radius>3.0</radius>
+			<radius>4.5</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>1.0</r>
@@ -180,7 +180,7 @@ Capacity: 200 dmg | Collision Damage: 10 dmg</description>
 		<bundlesize>2</bundlesize>
 		<cost>12000</cost>
 		<accessoryaction type='ShieldRound'>
-			<radius>4.5</radius>
+			<radius>5.0</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>1.0</r>
@@ -230,7 +230,7 @@ Capacity: 100 dmg | Collision Damage: 15 dmg</description>
 		<cost>8000</cost>
 		<accessoryaction type='ShieldRoundReflective'>
 			<deflectfactor>1.0</deflectfactor>
-			<radius>3.0</radius>
+			<radius>4.5</radius>
 			<halfshield>false</halfshield>
 			<color>
 				<r>0.5</r>
@@ -282,7 +282,7 @@ Capacity: 125 dmg | Collision Damage: Timed</description>
 		<bundlesize>2</bundlesize>
 		<cost>6000</cost>
 		<accessoryaction type='ShieldRoundMag'>
-			<radius>3.0</radius>
+			<radius>4.0</radius>
 			<halfshield>true</halfshield>
 			<deflectpower>75</deflectpower>
 			<color>
