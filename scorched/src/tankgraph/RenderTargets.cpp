@@ -50,7 +50,7 @@ RenderTargets *RenderTargets::instance()
 	return instance_;
 }
 
-RenderTargets::RenderTargets()
+RenderTargets::RenderTargets() : createLists_(false)
 {
 }
 
@@ -79,15 +79,39 @@ void RenderTargets::Renderer3D::draw(const unsigned state)
 
 void RenderTargets::Renderer3D::simulate(const unsigned state, float simTime)
 {
+	// Simulate all of the tanks
+	std::map<unsigned int, Target *> &targets = 
+		ScorchedClient::instance()->getTargetContainer().getTargets();
+	std::map<unsigned int, Target *>::iterator itor;
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		Target *target = (*itor).second;
+		TargetRenderer *renderer = target->getRenderer();
+		if (renderer)
+		{
+			TargetRendererImpl *rendererImpl = (TargetRendererImpl *) renderer;
+			rendererImpl->simulate(simTime);
+		}
+	}
+
+	RenderTargets::instance()->createLists_ = true;
+}
+
+void RenderTargets::createLists()
+{
+	if (!createLists_) return;
+	createLists_ = false;
+
+	// Camera position for LOD
+	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
+
 	// Reset everything that is to be drawn
 	RenderObjectLists &objectsList = 
 		RenderTargets::instance()->renderObjectLists_;
 	objectsList.reset();
 
-	// Camera position for LOD
-	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
-
-	// Simulate all of the tanks
 	std::map<unsigned int, Target *> &targets = 
 		ScorchedClient::instance()->getTargetContainer().getTargets();
 	std::map<unsigned int, Target *>::iterator itor;
@@ -105,13 +129,15 @@ void RenderTargets::Renderer3D::simulate(const unsigned state, float simTime)
 				target->getLife().getFloatPosition()[2] - campos[2]);
 
 			TargetRendererImpl *rendererImpl = (TargetRendererImpl *) renderer;
-			rendererImpl->simulate(simTime, distance, objectsList);
+			rendererImpl->addToLists(distance, objectsList);
 		}
 	}
 }
 
 void RenderTargets::shadowDraw()
 {
+	createLists();
+
 	unsigned int wantedstate = GLState::BLEND_OFF | 
 		GLState::ALPHATEST_OFF | GLState::TEXTURE_OFF;
 	GLState glstate(wantedstate);
@@ -129,6 +155,8 @@ void RenderTargets::shadowDraw()
 
 void RenderTargets::draw()
 {
+	createLists();
+
 	// Don't put fully transparent areas into the depth buffer
 	unsigned int wantedstate = GLState::BLEND_ON | 
 		GLState::ALPHATEST_ON | GLState::TEXTURE_ON | 
@@ -164,6 +192,8 @@ void RenderTargets::draw()
 
 void RenderTargets::draw2d()
 {
+	createLists();
+
 	// 2D
 	{
 		RenderObjectList &renderList = renderObjectLists_.get2DList();

@@ -55,15 +55,11 @@ TargetRendererImplTarget::~TargetRendererImplTarget()
 	delete burntModelRenderer_;
 }
 
-void TargetRendererImplTarget::simulate(float frameTime, float distance, 
-	RenderObjectLists &renderList)
+void TargetRendererImplTarget::addToLists(float distance, RenderObjectLists &renderList)
 {
 	distance_ = distance;
 	canSeeTank_ = false;
 	if (!target_->getAlive()) return;
-
-	// Simulate
-	simulate(frameTime);
 
 	// Get target size
 	size_ = getTargetSize(target_);
@@ -112,6 +108,8 @@ void TargetRendererImplTarget::simulate(float frameTime, float distance,
 
 void TargetRendererImplTarget::simulate(float frameTime)
 {
+	if (!target_->getAlive()) return;
+
 	frameTime *= ScorchedClient::instance()->getActionController().getFast().asFloat();
 	totalTime_ += frameTime;
 	if (shieldHit_ > 0.0f)

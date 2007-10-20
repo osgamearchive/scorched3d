@@ -120,15 +120,11 @@ TankMesh *TargetRendererImplTank::getMesh()
 	return mesh_;
 }
 
-void TargetRendererImplTank::simulate(float frameTime, float distance, 
-	RenderObjectLists &renderList)
+void TargetRendererImplTank::addToLists(float distance, RenderObjectLists &renderList)
 {
 	distance_ = distance;
 	canSeeTank_ = false;
 	if (!tank_->getAlive()) return;
-
-	// Simulate
-	simulate(frameTime);
 
 	// Get target size
 	size_ = getTargetSize(tank_);
@@ -337,7 +333,7 @@ void TargetRendererImplTank::shieldHit()
 
 void TargetRendererImplTank::simulate(float frameTime)
 {
-	if (tank_->getState().getState() != TankState::sNormal) return;
+	if (!tank_->getAlive()) return;
 
 	frameTime *= ScorchedClient::instance()->getActionController().getFast().asFloat();
 	totalTime_ += frameTime;

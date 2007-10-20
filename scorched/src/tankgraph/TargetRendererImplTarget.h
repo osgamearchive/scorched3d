@@ -37,8 +37,8 @@ public:
 
 	// TargetRendererImpl
 	virtual void drawParticle(float distance);
-	virtual void simulate(float frameTime, float distance, 
-		RenderObjectLists &renderList);
+	virtual void simulate(float frameTime);
+	virtual void addToLists(float distance, RenderObjectLists &renderList);
 
 	// RenderObject
 	virtual void render();
@@ -64,8 +64,6 @@ protected:
 	float scale_, color_, size_;
 	float fade_, distance_;
 	GLWTargetTips targetTips_;
-
-	void simulate(float frameTime);
 };
 
 #endif // __INCLUDE_TargetRendererImplTargeth_INCLUDE__

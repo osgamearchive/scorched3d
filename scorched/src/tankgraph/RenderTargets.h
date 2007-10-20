@@ -55,10 +55,12 @@ protected:
 	static RenderTargets *instance_;
 
 	TankMenus menus_;
+	bool createLists_;
 	RenderObjectLists renderObjectLists_;
 
 	void draw2d();
 	void draw();
+	void createLists();
 
 private:
 	RenderTargets();

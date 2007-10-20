@@ -71,8 +71,8 @@ public:
 	virtual ~TargetRendererImplTank();
 
 	// TargetRendererImpl
-	virtual void simulate(float frameTime, float distance, 
-		RenderObjectLists &renderList);
+	virtual void simulate(float frameTime);
+	virtual void addToLists(float distance, RenderObjectLists &renderList);
 	virtual void drawParticle(float distance);
 
 	// RenderObject
@@ -109,7 +109,6 @@ protected:
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);
 	void drawSight();
 	void drawArrow();
-	void simulate(float frameTime);
 };
 
 

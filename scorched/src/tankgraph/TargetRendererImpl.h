@@ -36,8 +36,8 @@ public:
 
 	// Interface
 	virtual void drawParticle(float distance) = 0;
-	virtual void simulate(float frameTime, float distance, 
-		RenderObjectLists &renderList) = 0;
+	virtual void simulate(float frameTime) = 0;
+	virtual void addToLists(float distance, RenderObjectLists &renderList) = 0;
 
 	// Particles
 	void setMakeParticle() { particleMade_ = false; }
