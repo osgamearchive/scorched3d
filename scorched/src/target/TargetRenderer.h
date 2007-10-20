@@ -29,11 +29,6 @@ public:
 	TargetRenderer();
 	virtual ~TargetRenderer();
 
-	virtual void simulate(float frameTime) = 0;
-	virtual void draw(float distance, bool shadowdraw) = 0; // Called during the main drawing loop
-	virtual void drawSecond(float distance) = 0; // Called during the particle drawing loop
-	virtual void draw2d() = 0; // Called during the 2d drawing loop
-
 	virtual void targetBurnt() = 0;
 	virtual void shieldHit() = 0;
 	virtual void fired() = 0;

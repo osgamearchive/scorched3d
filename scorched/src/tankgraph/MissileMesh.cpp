@@ -89,7 +89,7 @@ void MissileMesh::draw(Vector &position, Vector &direction, int flareType, float
 
 		glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 		glScalef(scale, scale, scale);
-		model_->draw(frame, 0.0f, 1.0f);
+		model_->draw(frame, 0.0f, 1.0f, true);
 	glPopMatrix();
 
 	// Draw any lense flares associated with the missile

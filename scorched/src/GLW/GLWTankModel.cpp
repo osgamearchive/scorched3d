@@ -90,9 +90,12 @@ void GLWTankModel::draw()
 		if (mesh)
 		{
 			Vector4 rotation(1.0f, 0.0f, 0.0f, 0.0f);
+			float matrix[16];
+			rotation.getOpenGLRotationMatrix(matrix);
+
 			mesh->draw(
 				totalTime_ * 20.0f,
-				false, rotation, position, 0.0f,
+				false, matrix, position, 0.0f,
 				current->getPosition().getRotationGunXY().asFloat(),
 				current->getPosition().getRotationGunYZ().asFloat(),
 				true);

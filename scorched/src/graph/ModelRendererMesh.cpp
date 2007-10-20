@@ -82,16 +82,16 @@ void ModelRendererMesh::setup()
 }
 
 void ModelRendererMesh::drawBottomAligned(float currentFrame, 
-	float distance, float fade)
+	float distance, float fade, bool setState)
 {
 	glPushMatrix();
 		glTranslatef(0.0f, 0.0f, -model_->getMin()[2]);
-		draw(currentFrame, distance, fade);
+		draw(currentFrame, distance, fade, setState);
 	glPopMatrix();
 }
 
 void ModelRendererMesh::draw(float currentFrame, 
-	float distance, float fade)
+	float distance, float fade, bool setState)
 {
 	// Set transparency on
 	GLState glstate(GLState::BLEND_ON | GLState::ALPHATEST_ON);
@@ -109,7 +109,7 @@ void ModelRendererMesh::draw(float currentFrame,
 	for (unsigned int m=0; m<model_->getMeshes().size(); m++)
 	{
 		Mesh *mesh = model_->getMeshes()[m];
-		drawMesh(m, mesh, currentFrame);
+		drawMesh(m, mesh, currentFrame, setState);
 	}
 
 	// Turn off fading
@@ -119,60 +119,69 @@ void ModelRendererMesh::draw(float currentFrame,
 	}
 }
 
-void ModelRendererMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
+void ModelRendererMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame, bool setState)
 {
 	MeshInfo &meshInfo = meshInfos_[m];
 
+	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
 	bool useTextures =
 		(!OptionsDisplay::instance()->getNoSkins() &&
 		mesh->getTextureName()[0]);
-	unsigned state = GLState::TEXTURE_OFF;
-	if (useTextures)
+	unsigned state = 0;
+	
+	//if (setState)
 	{
-		state = GLState::TEXTURE_ON;
-		if (!meshInfo.texture)
-		{
-			meshInfo.texture = 
-				TextureStore::instance()->loadTexture(
- 					mesh->getTextureName(), mesh->getATextureName());
-		}
-		if (meshInfo.texture) meshInfo.texture->draw();
-		
-		if (mesh->getSphereMap())
-		{
-			state |= GLState::NORMALIZE_ON;
-
-			glEnable(GL_TEXTURE_GEN_S);						
-			glEnable(GL_TEXTURE_GEN_T);	
-			glEnable(GL_TEXTURE_GEN_R);
-			glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-			glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-			glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-		}
-	}
-	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
-	if (!vertexLighting)
-	{
-		state |= 
-			GLState::NORMALIZE_ON | 
-			GLState::LIGHTING_ON | 
-			GLState::LIGHT1_ON;
-
 		if (useTextures)
 		{
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientColor());
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseColor());
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularColor());
-			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveColor());
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+			state |= GLState::TEXTURE_ON;
+			if (!meshInfo.texture)
+			{
+				meshInfo.texture = 
+					TextureStore::instance()->loadTexture(
+ 						mesh->getTextureName(), mesh->getATextureName());
+			}
+			if (meshInfo.texture) meshInfo.texture->draw();
+			
+			if (mesh->getSphereMap())
+			{
+				state |= GLState::NORMALIZE_ON;
+
+				glEnable(GL_TEXTURE_GEN_S);						
+				glEnable(GL_TEXTURE_GEN_T);	
+				glEnable(GL_TEXTURE_GEN_R);
+				glTexGenf(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+				glTexGenf(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+				glTexGenf(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+			}
 		}
 		else
 		{
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientNoTexColor());
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseNoTexColor());
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularNoTexColor());
-			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveNoTexColor());
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+			state |= GLState::TEXTURE_OFF;
+		}
+
+		if (!vertexLighting)
+		{
+			state |= 
+				GLState::NORMALIZE_ON | 
+				GLState::LIGHTING_ON | 
+				GLState::LIGHT1_ON;
+
+			if (useTextures)
+			{
+				glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientColor());
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseColor());
+				glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularColor());
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveColor());
+				glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+			}
+			else
+			{
+				glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mesh->getAmbientNoTexColor());
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mesh->getDiffuseNoTexColor());
+				glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mesh->getSpecularNoTexColor());
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mesh->getEmissiveNoTexColor());
+				glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
+			}
 		}
 	}
 
@@ -344,4 +353,18 @@ void ModelRendererMesh::drawVerts(unsigned int m, Mesh *mesh, bool vertexLightin
 		}
 	}
 	glEnd();
+}
+
+void ModelRendererMesh::setupDraw()
+{
+}
+void ModelRendererMesh::tearDownDraw()
+{
+}
+
+void ModelRendererMesh::staticSetupDraw()
+{
+}
+void ModelRendererMesh::staticTearDownDraw()
+{
 }

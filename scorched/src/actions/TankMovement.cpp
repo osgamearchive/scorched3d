@@ -234,9 +234,9 @@ void TankMovement::simulationMove(fixed frameTime)
 						if (smokeCounter_.nextDraw(frameTime.asFloat()))
 						{
 							Landscape::instance()->getSmoke().addSmoke(
-								tank->getLife().getTargetPosition()[0].asFloat(),
-								tank->getLife().getTargetPosition()[1].asFloat(),
-								tank->getLife().getTargetPosition()[2].asFloat());
+								tank->getLife().getFloatPosition()[0],
+								tank->getLife().getFloatPosition()[1],
+								tank->getLife().getFloatPosition()[2]);
 						}
 					}
 				}

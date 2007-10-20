@@ -21,7 +21,7 @@
 #include <weapons/AccessoryStore.h>
 #include <common/RandomGenerator.h>
 #ifndef S3D_SERVER
-	#include <tankgraph/TargetRendererImplTargetModel.h>
+	#include <tankgraph/TargetRendererImplTarget.h>
 #endif
 #include <target/TargetDefinition.h>
 #include <target/Target.h>
@@ -213,7 +213,7 @@ Target *TargetDefinition::createTarget(unsigned int playerId,
 	if (!context.serverMode)
 	{
 		target->setRenderer(
-			new TargetRendererImplTargetModel(
+			new TargetRendererImplTarget(
 				target, modelId_, modelburntId_,
 				finalModelScale.asFloat(), finalBrightness.asFloat()));
 	}

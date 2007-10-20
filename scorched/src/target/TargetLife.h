@@ -58,6 +58,7 @@ public:
 	Vector &getFloatPosition() { return floatPosition_; }
 	Vector &getFloatAabbSize() { return floatAabbSize_; }
 	float *getFloatRotMatrix() { return floatRotMatrix_; }
+	Vector &getFloatCenterPosition();
 
 	// Collision
 	fixed collisionDistance(FixedVector &position);

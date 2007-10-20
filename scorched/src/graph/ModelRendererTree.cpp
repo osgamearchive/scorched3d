@@ -353,13 +353,13 @@ ModelRendererTree::~ModelRendererTree()
 }
 
 void ModelRendererTree::draw(float currentFrame, 
-	float distance, float fade)
+	float distance, float fade, bool setState)
 {
-	draw(currentFrame, distance, fade);
+	draw(currentFrame, distance, fade, setState);
 }
 
 void ModelRendererTree::drawBottomAligned(float currentFrame, 
-	float distance, float fade)
+	float distance, float fade, bool setState)
 {
 	// Create the tree textures and models
 	if (!pineTextureA_.textureValid())
@@ -642,149 +642,182 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 	if (OptionsDisplay::instance()->getNoTrees()) return;
 
 	// Figure out which display list to call
+	GLTexture *texture = 0;
 	GLuint treeList = 0;
 	GLuint smallTreeList = 0;
 	switch(treeType_)
 	{
 	case TreeModelFactory::ePineNormal:
-		pineTextureA_.draw();
+		texture = &pineTextureA_;
 		treeList = treePineList;
 		smallTreeList = treePineSmallList;
 		break;
 	case TreeModelFactory::ePine2:
-		pineTextureB_.draw();
+		texture = &pineTextureB_;
 		treeList = treePine2List;
 		smallTreeList = treePine2SmallList;
 		break;
 	case TreeModelFactory::ePine3:
-		pineTextureB_.draw();
+		texture = &pineTextureB_;
 		treeList = treePine3List;
 		smallTreeList = treePine3SmallList;
 		break;
 	case TreeModelFactory::ePine4:
-		pineTextureB_.draw();
+		texture = &pineTextureB_;
 		treeList = treePine4List;
 		smallTreeList = treePine4SmallList;
 		break;
 	case TreeModelFactory::ePine2Snow:
-		pineTextureB_.draw();
+		texture = &pineTextureB_;
 		treeList = treePine2SnowList;
 		smallTreeList = treePine2SnowSmallList;
 		break;
 	case TreeModelFactory::ePine3Snow:
-		pineTextureB_.draw();
+		texture = &pineTextureB_;
 		treeList = treePine3SnowList;
 		smallTreeList = treePine3SnowSmallList;
 		break;
 	case TreeModelFactory::ePine4Snow:
-		pineTextureB_.draw();
+		texture = &pineTextureB_;
 		treeList = treePine4SnowList;
 		smallTreeList = treePine4SnowSmallList;
 		break;
 	case TreeModelFactory::ePineBurnt:
-		pineTextureA_.draw();
+		texture = &pineTextureA_;
 		treeList = treePineBurntList;
 		smallTreeList = treePineBurntSmallList;
 		break;
 	case TreeModelFactory::ePineSnow:
-		pineTextureA_.draw();
+		texture = &pineTextureA_;
 		treeList = treePineSnowList;
 		smallTreeList = treePineSnowSmallList;
 		break;
 	case TreeModelFactory::ePineYellow:
-		pineTextureA_.draw();
+		texture = &pineTextureA_;
 		treeList = treePineYellowList;
 		smallTreeList = treePineYellowSmallList;
 		break;
 	case TreeModelFactory::ePineLight:
-		pineTextureA_.draw();
+		texture = &pineTextureA_;
 		treeList = treePineLightList;
 		smallTreeList = treePineLightSmallList;
 		break;
 	case TreeModelFactory::ePalmNormal:
-		palmTextureA_.draw();
+		texture = &palmTextureA_;
 		treeList = treePalmList;
 		smallTreeList = treePalmSmallList;
 		break;
 	case TreeModelFactory::ePalm2:
-		palmTextureA_.draw();
+		texture = &palmTextureA_;
 		treeList = treePalm2List;
 		smallTreeList = treePalm2SmallList;
 		break;
 	case TreeModelFactory::ePalm3:
-		palmTextureA_.draw();
+		texture = &palmTextureA_;
 		treeList = treePalm3List;
 		smallTreeList = treePalm3SmallList;
 		break;
 	case TreeModelFactory::ePalm4:
-		palmTextureA_.draw();
+		texture = &palmTextureA_;
 		treeList = treePalm4List;
 		smallTreeList = treePalm4SmallList;
 		break;
 	case TreeModelFactory::ePalmB:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmBList;
 		smallTreeList = treePalmBList;
 		break;
 	case TreeModelFactory::ePalmB2:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmB2List;
 		smallTreeList = treePalmB2List;
 		break;
 	case TreeModelFactory::ePalmB3:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmB3List;
 		smallTreeList = treePalmB3List;
 		break;
 	case TreeModelFactory::ePalmB4:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmB4List;
 		smallTreeList = treePalmB4List;
 		break;
 	case TreeModelFactory::ePalmB5:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmB5List;
 		smallTreeList = treePalmB5List;
 		break;
 	case TreeModelFactory::ePalmB6:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmB6List;
 		smallTreeList = treePalmB6List;
 		break;
 	case TreeModelFactory::ePalmB7:
-		palmTextureB_.draw();
+		texture = &palmTextureB_;
 		treeList = treePalmB7List;
 		smallTreeList = treePalmB7List;
 		break;
 	case TreeModelFactory::ePalmBurnt:
-		palmTextureA_.draw();
+		texture = &palmTextureA_;
 		treeList = treePalmBurntList;
 		smallTreeList = treePalmBurntSmallList;
 		break;
 	case TreeModelFactory::eOak:
-		oakTextureA_.draw();
+		texture = &oakTextureA_;
 		treeList = treeOakList;
 		smallTreeList = treeOakSmallList;
 		break;
 	case TreeModelFactory::eOak2:
-		oakTextureA_.draw();
+		texture = &oakTextureA_;
 		treeList = treeOak2List;
 		smallTreeList = treeOak2SmallList;
 		break;
 	case TreeModelFactory::eOak3:
-		oakTextureA_.draw();
+		texture = &oakTextureA_;
 		treeList = treeOak3List;
 		smallTreeList = treeOak3SmallList;
 		break;
 	case TreeModelFactory::eOak4:
-		oakTextureA_.draw();
+		texture = &oakTextureA_;
 		treeList = treeOak4List;
 		smallTreeList = treeOak4SmallList;
 		break;
 	};
 
-	DIALOG_ASSERT(treeList && smallTreeList);
+	if (texture && setState)
+	{
+		texture->draw();
+	}
 
+	DIALOG_ASSERT(treeList && smallTreeList);
+	glPushMatrix();
+		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000)
+		{
+			glCallList(smallTreeList);
+			GLInfo::addNoTriangles(20);
+		}
+		else 
+		{
+			glCallList(treeList);
+			GLInfo::addNoTriangles(10);
+		}
+	glPopMatrix();
+}
+
+void ModelRendererTree::setupDraw()
+{
+	staticSetupDraw();
+}
+
+void ModelRendererTree::tearDownDraw()
+{
+	staticTearDownDraw();
+}
+
+static GLState *glState = 0;
+
+void ModelRendererTree::staticSetupDraw()
+{
 	unsigned int state = GLState::TEXTURE_ON;
 
 	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
@@ -806,30 +839,24 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 	}
-	GLState glState(state);
+	glState = new GLState(state);
 
-	bool useBlendColor = (GLStateExtension::hasBlendColor() && fade < 1.0f);
+	bool useBlendColor = false;//GLStateExtension::hasBlendColor();
 	if (useBlendColor)
 	{
-		fade = MIN(1.0f, MAX(fade, 0.2f));
+		/*fade = MIN(1.0f, MAX(fade, 0.2f));
 		glBlendColorEXT(0.0f, 0.0f, 0.0f, fade);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);*/
 	}
+}
 
-	glPushMatrix();
-		if (OptionsDisplay::instance()->getLowTreeDetail() || distance > 16000)
-		{
-			glCallList(smallTreeList);
-			GLInfo::addNoTriangles(20);
-		}
-		else 
-		{
-			glCallList(treeList);
-			GLInfo::addNoTriangles(10);
-		}
-	glPopMatrix();
+void ModelRendererTree::staticTearDownDraw()
+{
+	delete glState;
+	glState = 0;
 
 	// Turn off fading
+	bool useBlendColor = false;//GLStateExtension::hasBlendColor();
 	if (useBlendColor)
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

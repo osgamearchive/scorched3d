@@ -18,52 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_RenderTargetsh_INCLUDE__)
-#define __INCLUDE_RenderTargetsh_INCLUDE__
+#if !defined(__INCLUDE_RenderObjecth_INCLUDE__)
+#define __INCLUDE_RenderObjecth_INCLUDE__
 
-#include <engine/GameStateI.h>
-#include <tankgraph/TankMenus.h>
-#include <tankgraph/RenderObjectLists.h>
-
-class RenderTargets
+class RenderObject
 {
 public:
-	static RenderTargets *instance();
+	RenderObject();
+	virtual ~RenderObject();
 
-	struct Renderer3D : public GameStateI
-	{
-		Renderer3D() : GameStateI("RenderTargets3D") {}
+	virtual void render() = 0;
+	virtual void renderShadow() = 0;
+	virtual void render2D() = 0;
 
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
-	} render3D;
-	struct Renderer2D : public GameStateI
-	{
-		Renderer2D() : GameStateI("RenderTargets2D") {}
-
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
-	} render2D;
-
-	void shadowDraw();
-
-	friend struct Renderer3D;
-	friend struct Renderer2D;
 protected:
-	static RenderTargets *instance_;
-
-	TankMenus menus_;
-	RenderObjectLists renderObjectLists_;
-
-	void draw2d();
-	void draw();
-
-private:
-	RenderTargets();
-	virtual ~RenderTargets();
 };
-
 
 #endif

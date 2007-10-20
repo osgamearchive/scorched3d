@@ -32,9 +32,15 @@ public:
 	virtual ~ModelRendererMesh();
 
 	virtual void draw(float currentFrame, 
-		float distance, float fade);
+		float distance, float fade, bool setState);
 	virtual void drawBottomAligned(float currentFrame, 
-		float distance, float fade);
+		float distance, float fade, bool setState);
+
+	virtual void setupDraw();
+	virtual void tearDownDraw();
+
+	static void staticSetupDraw();
+	static void staticTearDownDraw();
 
 	virtual Model *getModel() { return model_; }
 
@@ -60,7 +66,7 @@ protected:
 	std::vector<MeshInfo> meshInfos_;
 	Vector vertexTranslation_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame, bool setState);
 	virtual void drawVerts(unsigned int m, Mesh *mesh, bool vertexLighting, int frame);
 	virtual void setup();
 };

@@ -388,7 +388,7 @@ void TargetSpace::draw()
 				itor++)
 			{
 				Target *target = (*itor).second;
-				glVertex3fv(target->getLife().getTargetPosition().asVector());
+				glVertex3fv(target->getLife().getFloatPosition());
 				glVertex3f(position[0], position[1], position[2] + 10.0f);
 			}
 			glEnd();

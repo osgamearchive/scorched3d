@@ -73,12 +73,18 @@ void ShadowMap::addCircle(float sx, float sy, float sw, float opacity)
 	addShadow(sx, sy, sw, opacity, true);
 }
 
-void ShadowMap::addShadow(float mapx, float mapy, float mapw, float opacity, bool circle)
+bool ShadowMap::shouldAddShadow()
 {
 	if (!GLStateExtension::hasMultiTex() ||
 		GLStateExtension::getNoTexSubImage() ||
 		OptionsDisplay::instance()->getNoShadows() ||
-		GLStateExtension::hasHardwareShadows()) return;
+		GLStateExtension::hasHardwareShadows()) return false;
+	return true;
+}
+
+void ShadowMap::addShadow(float mapx, float mapy, float mapw, float opacity, bool circle)
+{
+	if (!shouldAddShadow()) return;
 
 	int mapWidth = 
 		ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getMapWidth();

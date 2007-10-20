@@ -18,52 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_RenderTargetsh_INCLUDE__)
-#define __INCLUDE_RenderTargetsh_INCLUDE__
+#if !defined(__INCLUDE_RenderObjectListsh_INCLUDE__)
+#define __INCLUDE_RenderObjectListsh_INCLUDE__
 
-#include <engine/GameStateI.h>
-#include <tankgraph/TankMenus.h>
-#include <tankgraph/RenderObjectLists.h>
+#include <tankgraph/RenderObjectList.h>
 
-class RenderTargets
+class RenderObjectLists
 {
 public:
-	static RenderTargets *instance();
+	RenderObjectLists();
+	virtual ~RenderObjectLists();
 
-	struct Renderer3D : public GameStateI
+	void reset()
 	{
-		Renderer3D() : GameStateI("RenderTargets3D") {}
+		treeList_.reset();
+		modelList_.reset();
+		shadowList_.reset();
+		twoDList_.reset();
+	}
 
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
-	} render3D;
-	struct Renderer2D : public GameStateI
-	{
-		Renderer2D() : GameStateI("RenderTargets2D") {}
+	RenderObjectList &getTreeList() { return treeList_; }
+	RenderObjectList &getModelList() { return modelList_; }
+	RenderObjectList &getShadowList() { return shadowList_; }
+	RenderObjectList &get2DList() { return twoDList_; }
 
-		// Inherited from GameStateI
-		virtual void draw(const unsigned state);
-		virtual void simulate(const unsigned state, float simTime);
-	} render2D;
-
-	void shadowDraw();
-
-	friend struct Renderer3D;
-	friend struct Renderer2D;
 protected:
-	static RenderTargets *instance_;
-
-	TankMenus menus_;
-	RenderObjectLists renderObjectLists_;
-
-	void draw2d();
-	void draw();
-
-private:
-	RenderTargets();
-	virtual ~RenderTargets();
+	RenderObjectList treeList_;
+	RenderObjectList modelList_;
+	RenderObjectList shadowList_;
+	RenderObjectList twoDList_;
 };
-
 
 #endif

@@ -153,8 +153,8 @@ void PatchGrid::recalculateTankVariance()
 		Target *current = (*itor).second;
 		if (current->getAlive())
 		{
-			float posX = current->getLife().getTargetPosition()[0].asFloat();
-			float posY = current->getLife().getTargetPosition()[1].asFloat();
+			float posX = current->getLife().getFloatPosition()[0];
+			float posY = current->getLife().getFloatPosition()[1];
 
 			posX /= float(patchSize_);
 			posY /= float(patchSize_);

@@ -26,6 +26,7 @@
 #include <common/Defines.h>
 #include <sound/Sound.h>
 #include <GLEXT/GLInfo.h>
+#include <GLEXT/GLState.h>
 #include <client/ScorchedClient.h>
 #include <client/ClientChannelManager.h>
 #include <engine/ActionController.h>
@@ -47,7 +48,7 @@ FrameTimer *FrameTimer::instance()
 
 FrameTimer::FrameTimer() : 
 	GameStateI("FrameTimer"),
-	totalTime_(0.0f), frameCount_(0)
+	totalTime_(0.0f), frameCount_(0), lastStateCount_(0)
 {
 
 }
@@ -60,6 +61,9 @@ FrameTimer::~FrameTimer()
 void FrameTimer::draw(const unsigned state)
 {
 	frameCount_++;
+
+	lastStateCount_ = GLState::getStateSwitches();
+	GLState::resetStateSwitches();
 }
 
 void FrameTimer::simulate(const unsigned state, float frameTime)
@@ -83,13 +87,14 @@ void FrameTimer::simulate(const unsigned state, float frameTime)
 		{
 			ChannelText chText
 				("info",
-					formatString("%.2f FPS (%iTRI %iPART %iSQR %iSND %uSHD)", 
+					formatString("%.2f FPS (%iTRI %iPART %iSQR %iSND %uSHD %uS)", 
 					fps,
 					tris,
 					pOnScreen,
 					Landscape::instance()->getPatchGrid().getDrawnPatches(),
 					Sound::instance()->getPlayingChannels(),
-					Landscape::instance()->getShadowMap().getShadowCount()));
+					Landscape::instance()->getShadowMap().getShadowCount(), 
+					lastStateCount_));
 			chText.setFlags(ChannelText::eNoLog | ChannelText::eNoSound);
 			ClientChannelManager::instance()->showText(chText);
 		}

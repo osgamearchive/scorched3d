@@ -29,6 +29,7 @@ unsigned GLState::currentState_ =
 	GLState::DEPTH_OFF | GLState::CUBEMAP_OFF | 
 	GLState::LIGHTING_OFF | GLState::NORMALIZE_OFF | 
 	GLState::LIGHT1_OFF | GLState::ALPHATEST_OFF;
+unsigned int GLState::stateSwitches_ = 0;
 
 GLState::GLState(unsigned wantedState)
 {
@@ -45,6 +46,8 @@ GLState::~GLState()
 
 void GLState::setState(unsigned wanted)
 {
+	if (wanted == currentState_) return;
+
 	GL_ASSERT();
 
 	if ((wanted & ALPHATEST_ON) && (currentState_ & ALPHATEST_OFF))
@@ -52,12 +55,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= ALPHATEST_OFF;
 		currentState_ |= ALPHATEST_ON;
 		glEnable(GL_ALPHA_TEST);
+		stateSwitches_++;
 	}
 	else if ((wanted & ALPHATEST_OFF) && (currentState_ & ALPHATEST_ON))
 	{
 		currentState_ ^= ALPHATEST_ON;
 		currentState_ |= ALPHATEST_OFF;
 		glDisable(GL_ALPHA_TEST);
+		stateSwitches_++;
 	}
 
 	if ((wanted & LIGHT1_ON) && (currentState_ & LIGHT1_OFF))
@@ -65,12 +70,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= LIGHT1_OFF;
 		currentState_ |= LIGHT1_ON;
 		glEnable(GL_LIGHT1);
+		stateSwitches_++;
 	}
 	else if ((wanted & LIGHT1_OFF) && (currentState_ & LIGHT1_ON))
 	{
 		currentState_ ^= LIGHT1_ON;
 		currentState_ |= LIGHT1_OFF;
 		glDisable(GL_LIGHT1);
+		stateSwitches_++;
 	}
 
 	if ((wanted & LIGHTING_ON) && (currentState_ & LIGHTING_OFF))
@@ -78,12 +85,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= LIGHTING_OFF;
 		currentState_ |= LIGHTING_ON;
 		glEnable(GL_LIGHTING);
+		stateSwitches_++;
 	}
 	else if ((wanted & LIGHTING_OFF) && (currentState_ & LIGHTING_ON))
 	{
 		currentState_ ^= LIGHTING_ON;
 		currentState_ |= LIGHTING_OFF;
 		glDisable(GL_LIGHTING);
+		stateSwitches_++;
 	}
 
 	if ((wanted & NORMALIZE_ON) && (currentState_ & NORMALIZE_OFF))
@@ -91,12 +100,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= NORMALIZE_OFF;
 		currentState_ |= NORMALIZE_ON;
 		glEnable(GL_NORMALIZE);
+		stateSwitches_++;
 	}
 	else if ((wanted & NORMALIZE_OFF) && (currentState_ & NORMALIZE_ON))
 	{
 		currentState_ ^= NORMALIZE_ON;
 		currentState_ |= NORMALIZE_OFF;
 		glDisable(GL_NORMALIZE);
+		stateSwitches_++;
 	}
 
 	if ((wanted & TEXTURE_ON) && (currentState_ & TEXTURE_OFF))
@@ -104,12 +115,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= TEXTURE_OFF;
 		currentState_ |= TEXTURE_ON;
 		glEnable(GL_TEXTURE_2D);
+		stateSwitches_++;
 	}
 	else if ((wanted & TEXTURE_OFF) && (currentState_ & TEXTURE_ON))
 	{
 		currentState_ ^= TEXTURE_ON;
 		currentState_ |= TEXTURE_OFF;
 		glDisable(GL_TEXTURE_2D);
+		stateSwitches_++;
 	}
 
 	if ((wanted & DEPTH_ON) && (currentState_ & DEPTH_OFF))
@@ -117,12 +130,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= DEPTH_OFF;
 		currentState_ |= DEPTH_ON;
 		glEnable(GL_DEPTH_TEST);
+		stateSwitches_++;
 	}
 	else if ((wanted & DEPTH_OFF) && (currentState_ & DEPTH_ON))
 	{
 		currentState_ ^= DEPTH_ON;
 		currentState_ |= DEPTH_OFF;
 		glDisable(GL_DEPTH_TEST);
+		stateSwitches_++;
 	}
 
 	if ((wanted & BLEND_ON) && (currentState_ & BLEND_OFF))
@@ -130,12 +145,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= BLEND_OFF;
 		currentState_ |= BLEND_ON;
 		glEnable(GL_BLEND);
+		stateSwitches_++;
 	}
 	else if ((wanted & BLEND_OFF) && (currentState_ & BLEND_ON))
 	{
 		currentState_ ^= BLEND_ON;
 		currentState_ |= BLEND_OFF;
 		glDisable(GL_BLEND);
+		stateSwitches_++;
 	}
 
 	if ((wanted & CUBEMAP_ON) && (currentState_ & CUBEMAP_OFF))
@@ -143,12 +160,14 @@ void GLState::setState(unsigned wanted)
 		currentState_ ^= CUBEMAP_OFF;
 		currentState_ |= CUBEMAP_ON;
 		glEnable(GL_TEXTURE_CUBE_MAP_EXT);
+		stateSwitches_++;
 	}
 	else if ((wanted & CUBEMAP_OFF) && (currentState_ & CUBEMAP_ON))
 	{
 		currentState_ ^= CUBEMAP_ON;
 		currentState_ |= CUBEMAP_OFF;
 		glDisable(GL_TEXTURE_CUBE_MAP_EXT);
+		stateSwitches_++;
 	}
 
 	GL_ASSERT();

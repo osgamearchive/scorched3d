@@ -136,6 +136,7 @@ void AnimatedBackdropDialog::simulate(float frameTime)
 	MainCamera::instance()->simulate(0, frameTime);
 	Landscape::instance()->simulate(frameTime);
 	RenderTargets::instance()->render2D.simulate(0, frameTime);
+	RenderTargets::instance()->render3D.simulate(0, frameTime);
 	ScorchedClient::instance()->getActionController().simulate(0, frameTime);
 	ScorchedClient::instance()->getParticleEngine().simulate(0, frameTime);
 

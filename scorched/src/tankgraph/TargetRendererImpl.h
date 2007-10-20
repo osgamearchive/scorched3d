@@ -23,15 +23,26 @@
 
 #include <target/Target.h>
 #include <target/TargetRenderer.h>
+#include <tankgraph/RenderObject.h>
 
-class TargetRendererImpl : public TargetRenderer
+class RenderObjectLists;
+class TargetRendererImpl : 
+	public TargetRenderer, 
+	public RenderObject
 {
 public:
 	TargetRendererImpl();
 	virtual ~TargetRendererImpl();
 
+	// Interface
+	virtual void drawParticle(float distance) = 0;
+	virtual void simulate(float frameTime, float distance, 
+		RenderObjectLists &renderList) = 0;
+
+	// Particles
 	void setMakeParticle() { particleMade_ = false; }
 
+	// Highlight
 	enum HighlightType
 	{
 		eNoHighlight,
@@ -47,6 +58,12 @@ protected:
 
 	void drawShield(Target *target, float shieldHit, float totalTime);
 	void drawParachute(Target *target);
+
+	float getTargetSize(Target *target);
+	float getTargetFade(Target *target, float distance, float size);
+	void storeTarget2DPos(Target *target);
+
+	double posX_, posY_, posZ_;
 };
 
 #endif // __INCLUDE_TargetRendererImplh_INCLUDE__

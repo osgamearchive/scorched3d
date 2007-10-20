@@ -111,6 +111,14 @@ FixedVector &TargetLife::getCenterPosition()
 	return result;
 }
 
+Vector &TargetLife::getFloatCenterPosition()
+{
+	static Vector result;
+	result = getFloatPosition();
+	result[2] += getFloatAabbSize()[2] / 2.0f;
+	return result;
+}
+
 fixed TargetLife::collisionDistance(FixedVector &position)
 {
 	FixedVector &currentPosition = getCenterPosition();

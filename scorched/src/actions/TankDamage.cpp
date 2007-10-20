@@ -163,7 +163,7 @@ void TankDamage::calculateDamage()
 		if (!context_->serverMode &&
 			damagedTarget->getTargetState().getDisplayDamage())
 		{
-			Vector position = damagedTarget->getLife().getTargetPosition().asVector();
+			Vector position = damagedTarget->getLife().getFloatPosition();
 			position[0] += RAND * 5.0f - 2.5f;
 			position[1] += RAND * 5.0f - 2.5f;
 			position[2] += RAND * 5.0f - 2.5f;

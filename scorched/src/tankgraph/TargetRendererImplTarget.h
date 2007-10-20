@@ -22,18 +22,50 @@
 #define __INCLUDE_TargetRendererImplTargeth_INCLUDE__
 
 #include <tankgraph/TargetRendererImpl.h>
+#include <graph/ModelRendererSimulator.h>
 #include <common/ModelID.h>
+#include <GLW/GLWTankTip.h>
 
-class TargetRendererImplTarget : public TargetRendererImpl
+class TargetRendererImplTarget : 
+	public TargetRendererImpl
 {
 public:
-	TargetRendererImplTarget(ModelID &model);
+	TargetRendererImplTarget(Target *target, 
+		ModelID model, ModelID burntModel,
+		float scale, float color);
 	virtual ~TargetRendererImplTarget();
 
-	ModelID &getModelId() { return model_; }
+	// TargetRendererImpl
+	virtual void drawParticle(float distance);
+	virtual void simulate(float frameTime, float distance, 
+		RenderObjectLists &renderList);
 
-private:
-	ModelID model_;
+	// RenderObject
+	virtual void render();
+	virtual void renderShadow();
+	virtual void render2D();
+
+	// TargetRenderer
+	virtual void shieldHit();
+	virtual void fired();
+	virtual void targetBurnt();
+
+	GLWTargetTips &getTips() { return targetTips_; }
+	ModelID &getModelId() { return modelId_; }
+
+protected:
+	ModelID modelId_, burntModelId_;
+	Target *target_;
+	ModelRendererSimulator *modelRenderer_;
+	ModelRendererSimulator *burntModelRenderer_;
+	bool canSeeTank_;
+	bool burnt_;
+	float shieldHit_, totalTime_;
+	float scale_, color_, size_;
+	float fade_, distance_;
+	GLWTargetTips targetTips_;
+
+	void simulate(float frameTime);
 };
 
 #endif // __INCLUDE_TargetRendererImplTargeth_INCLUDE__

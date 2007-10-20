@@ -70,12 +70,19 @@ public:
 	TargetRendererImplTank(Tank *tank);
 	virtual ~TargetRendererImplTank();
 
-	virtual void draw(float distance, bool shadowdraw);
-	virtual void drawSecond(float distance);
-	virtual void draw2d();
+	// TargetRendererImpl
+	virtual void simulate(float frameTime, float distance, 
+		RenderObjectLists &renderList);
+	virtual void drawParticle(float distance);
+
+	// RenderObject
+	virtual void render();
+	virtual void renderShadow();
+	virtual void render2D();
+
+	// TargetRenderer
 	virtual void fired();
 	virtual void shieldHit();
-	virtual void simulate(float frameTime);
 	virtual void targetBurnt() {}
 
 	void resetModel() { model_ = 0; mesh_ = 0; }
@@ -93,18 +100,16 @@ protected:
 	float smokeTime_, smokeWaitForTime_;
 	float totalTime_;
 	float frame_;
+	float distance_, fade_;
+	float size_;
 	bool canSeeTank_;
-	GLdouble posX_, posY_, posZ_; // 2d Position
 
-	void storeTank2DPos();
-	void drawMain(float fade);
-	void drawShadow(float fade);
-	void drawTank(float fade, bool currentTank);
 	void drawInfo();
 	void drawLife();
 	void drawLifeBar(Vector &bilX, float value, float height, float barheight);
 	void drawSight();
 	void drawArrow();
+	void simulate(float frameTime);
 };
 
 

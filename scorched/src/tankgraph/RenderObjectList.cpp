@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,24 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModelRendererh_INCLUDE__)
-#define __INCLUDE_ModelRendererh_INCLUDE__
+#include <tankgraph/RenderObjectList.h>
+#include <string.h>
 
-class Model;
-class ModelRenderer
+RenderObjectList::RenderObjectList() :
+	count_(0),
+	capacity_(200)
 {
-public:
-	ModelRenderer();
-	virtual ~ModelRenderer();
+	objects_ = current_ = new RenderObject*[capacity_];
+}
 
-	virtual void draw(float currentFrame, 
-		float distance, float fade, bool setState) = 0;
-	virtual void drawBottomAligned(float currentFrame, 
-		float distance, float fade, bool setState) = 0;
-	virtual void setupDraw() = 0;
-	virtual void tearDownDraw() = 0;
+RenderObjectList::~RenderObjectList()
+{
+}
 
-	virtual Model *getModel() = 0;
-};
+void RenderObjectList::add(RenderObject *object)
+{
+	if (count_ == capacity_)
+	{
+		unsigned int newcapacity = capacity_ * 2;
+		RenderObject **newobjects = new RenderObject*[newcapacity];
 
-#endif // __INCLUDE_ModelRendererh_INCLUDE__
+		memcpy(newobjects, objects_, capacity_ * sizeof(RenderObject *));
+		delete [] objects_;
+
+		objects_ = newobjects;
+		capacity_ = newcapacity;
+		current_ = &objects_[count_];
+	}
+
+	*current_ = object;
+	current_++;
+	count_++;
+}

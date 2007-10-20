@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,24 +18,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ModelRendererh_INCLUDE__)
-#define __INCLUDE_ModelRendererh_INCLUDE__
+#include <tankgraph/RenderObject.h>
 
-class Model;
-class ModelRenderer
+RenderObject::RenderObject()
 {
-public:
-	ModelRenderer();
-	virtual ~ModelRenderer();
+}
 
-	virtual void draw(float currentFrame, 
-		float distance, float fade, bool setState) = 0;
-	virtual void drawBottomAligned(float currentFrame, 
-		float distance, float fade, bool setState) = 0;
-	virtual void setupDraw() = 0;
-	virtual void tearDownDraw() = 0;
-
-	virtual Model *getModel() = 0;
-};
-
-#endif // __INCLUDE_ModelRendererh_INCLUDE__
+RenderObject::~RenderObject()
+{
+}

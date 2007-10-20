@@ -55,12 +55,16 @@ public:
 	static void setBaseState(unsigned baseState);
 	static const char *getStateString();
 	static unsigned int getState() { return currentState_; }
+	static void setState(unsigned wanted);
+
+	static unsigned int getStateSwitches() { return stateSwitches_; }
+	static void resetStateSwitches() { stateSwitches_ = 0; }
 
 protected:
 	static unsigned currentState_;
+	static unsigned int stateSwitches_;
 	unsigned returnState_;
 
-	static void setState(unsigned wanted);
 
 };
 

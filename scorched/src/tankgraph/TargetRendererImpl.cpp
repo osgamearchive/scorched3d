@@ -25,6 +25,7 @@
 #include <target/TargetLife.h>
 #include <client/ScorchedClient.h>
 #include <graph/ParticleEngine.h>
+#include <graph/OptionsDisplay.h>
 #include <common/Defines.h>
 #include <landscape/Hemisphere.h>
 #include <weapons/ShieldRound.h>
@@ -36,11 +37,14 @@
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLViewPort.h>
 #include <GLEXT/GLCameraFrustum.h>
+#include <GLEXT/GLCamera.h>
 
 TargetRendererImpl::HighlightType TargetRendererImpl::highlightType_ = 
 	TargetRendererImpl::eNoHighlight;
 
-TargetRendererImpl::TargetRendererImpl() : particleMade_(false)
+TargetRendererImpl::TargetRendererImpl() : 
+	particleMade_(false),
+	posX_(0.0f), posY_(0.0f), posZ_(0.0f)
 {
 }
 
@@ -177,7 +181,7 @@ void TargetRendererImpl::drawShield(Target *target, float shieldHit, float total
 	Shield *shield = (Shield *) accessory->getAction();
 
 	GLState state(GLState::BLEND_ON | GLState::TEXTURE_ON); 
-	Vector &position = target->getLife().getTargetPosition().asVector();
+	Vector &position = target->getLife().getFloatPosition();
 	Vector &color = shield->getColor();
 
 	if (shield->getRound())
@@ -298,7 +302,7 @@ void TargetRendererImpl::drawParachute(Target *target)
 		return;
 	}
 
-	Vector &position = target->getLife().getTargetPosition().asVector();
+	Vector &position = target->getLife().getFloatPosition();
 	GLState state(GLState::TEXTURE_OFF);
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
@@ -349,5 +353,72 @@ void TargetRendererImpl::createParticle(Target *target)
 			particle->renderer_ = TargetParticleRenderer::getInstance();
 			particle->userData_ = new TargetParticleUserData(target->getPlayerId());
 		}
+	}
+}
+
+float TargetRendererImpl::getTargetSize(Target *target)
+{
+	// Target size
+	float size = target->getLife().getFloatAabbSize().Max();
+	Accessory *shieldAcc = target->getShield().getCurrentShield();
+	if (shieldAcc)
+	{
+		Shield *shield = (Shield *) shieldAcc->getAction();
+		size = MAX(shield->getBoundingSize().asFloat(), size);
+	}
+	return size;
+}
+
+float TargetRendererImpl::getTargetFade(Target *target, float distance, float size)
+{
+	// Figure out the drawing distance
+	float drawDistance = OptionsDisplay::instance()->getDrawDistance() * size;
+	float drawDistanceFade =  OptionsDisplay::instance()->getDrawDistanceFade();
+	float drawDistanceFadeStart = drawDistance - drawDistanceFade;
+	float fade = 1.0f;
+	if (distance > drawDistanceFadeStart)
+	{
+		fade = 1.0f - ((distance - drawDistanceFadeStart) / drawDistanceFade);
+	}
+
+	return fade;
+}
+
+void TargetRendererImpl::storeTarget2DPos(Target *target)
+{
+	if (!target->getName()[0]) return;
+
+	Vector &tankTurretPos = 
+		target->getLife().getFloatCenterPosition();
+	Vector camDir = 
+		GLCamera::getCurrentCamera()->getLookAt() - 
+		GLCamera::getCurrentCamera()->getCurrentPos();
+	Vector tankDir = tankTurretPos - 
+		GLCamera::getCurrentCamera()->getCurrentPos();
+
+	if (camDir.dotP(tankDir) < 0.0f)
+	{
+		posX_ = - 1000.0;
+	}
+	else
+	{
+		static GLdouble modelMatrix[16];
+		static GLdouble projMatrix[16];
+		static GLint viewport[4];
+
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+		glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
+		glGetIntegerv(GL_VIEWPORT, viewport);
+
+		viewport[2] = GLViewPort::getWidth();
+		viewport[3] = GLViewPort::getHeight();
+		int result = gluProject(
+			tankTurretPos[0], 
+			tankTurretPos[1], 
+			tankTurretPos[2],
+			modelMatrix, projMatrix, viewport,
+			&posX_, 
+			&posY_,
+			&posZ_);
 	}
 }

@@ -33,6 +33,8 @@ public:
 	void addSquare(float x, float y, float w, float opacity = 1.0f);
 	void addCircle(float sx, float sy, float sw, float opacity = 1.0f);
 
+	bool shouldAddShadow();
+
 	unsigned int getShadowCount() { return shadowCount_; }
 
 protected:

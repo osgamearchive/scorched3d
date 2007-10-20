@@ -38,6 +38,7 @@ protected:
 	float totalTime_;
 	int frameCount_;
 	Clock frameClock_;
+	unsigned int lastStateCount_;
 
 private:
 	FrameTimer();

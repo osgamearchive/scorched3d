@@ -33,9 +33,14 @@ public:
 	virtual ~ModelRendererTree();
 
 	virtual void draw(float currentFrame, 
-		float distance, float fade);
+		float distance, float fade, bool setState);
 	virtual void drawBottomAligned(float currentFrame, 
-		float distance, float fade);
+		float distance, float fade, bool setState);
+	virtual void setupDraw();
+	virtual void tearDownDraw();
+
+	static void staticSetupDraw();
+	static void staticTearDownDraw();
 
 	virtual Model *getModel() { return model_; }
 

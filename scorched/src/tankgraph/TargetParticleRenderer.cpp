@@ -40,7 +40,7 @@ void TargetParticleRenderer::simulateParticle(Particle &particle, float time)
 	{
 		// Target and particle alive
 		particle.life_ = 1000.0f; // Alive
-		particle.position_ = target->getLife().getTargetPosition().asVector();
+		particle.position_ = target->getLife().getFloatPosition();
 	}
 	else
 	{
@@ -59,7 +59,9 @@ void TargetParticleRenderer::renderParticle(Particle &particle)
 		TargetRenderer *renderer = target->getRenderer();
 		if (renderer)
 		{
-			renderer->drawSecond(particle.distance_);
+			TargetRendererImpl *rendererImpl =
+				(TargetRendererImpl *) renderer;
+			rendererImpl->drawParticle(particle.distance_);
 			glDepthMask(GL_FALSE);
 		}
 	}

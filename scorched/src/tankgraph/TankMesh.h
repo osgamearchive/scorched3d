@@ -31,9 +31,10 @@ public:
 	TankMesh(Model &tank);
 	virtual ~TankMesh();
 
-	void draw(float frame, bool drawS, Vector4 &angle, Vector &position, 
+	void draw(float frame, bool drawS, float *rotMatrix, Vector &position, 
 		float fireOffSet, float rotXY, float rotXZ,
-		bool absCenter = false, float scale = 1.0f, float fade = 1.0f);
+		bool absCenter = false, float scale = 1.0f, float fade = 1.0f, 
+		bool setState = true);
 	int getNoTris();
 
 	static void drawSight();
@@ -54,7 +55,7 @@ protected:
 	Vector turretCenter_;
 	std::vector<MeshType> meshTypes_;
 
-	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame);
+	virtual void drawMesh(unsigned int m, Mesh *mesh, float currentFrame, bool setState);
 	void setupTankMesh();
 };
 

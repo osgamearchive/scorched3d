@@ -116,29 +116,26 @@ void TankMesh::setupTankMesh()
 	gunOffset_ = gunCenter - turretCenter_;
 }
 
-void TankMesh::draw(float frame, bool drawS, Vector4 &angle, Vector &position, 
+void TankMesh::draw(float frame, bool drawS, float *rotMatrix, Vector &position, 
 					float fireOffset, float rotXY, float rotXZ,
-					bool absCenter, float scale, float fade)
+					bool absCenter, float scale, float fade, bool setState)
 {
 	rotXY_ = rotXY;
 	rotXZ_ = rotXZ;
 	drawS_ = drawS;
 	fireOffSet_ = fireOffset;
 
-	static float rotMatrix[16];
-	angle.getOpenGLRotationMatrix(rotMatrix);
-
 	glPushMatrix();
 		glTranslatef(position[0], position[1], position[2]);
 		glMultMatrixf(rotMatrix);
 		glScalef(scale * scale_, scale * scale_, scale * scale_);
 
-		if (absCenter) ModelRendererMesh::draw(frame, 0.0f, fade);
-		else ModelRendererMesh::drawBottomAligned(frame, 0.0f, fade);
+		if (absCenter) ModelRendererMesh::draw(frame, 0.0f, fade, setState);
+		else ModelRendererMesh::drawBottomAligned(frame, 0.0f, fade, setState);
 	glPopMatrix();
 }
 
-void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
+void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame, bool setState)
 {
 	glPushMatrix();
 		MeshType type = meshTypes_[m];
@@ -158,7 +155,7 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 					OptionsDisplay::instance()->getDrawPlayerSight() &&
 					OptionsDisplay::instance()->getOldSightPosition())
 				{
-					GLState sightState(GLState::BLEND_OFF | GLState::TEXTURE_OFF);
+					GLState sightState(GLState::BLEND_OFF | GLState::TEXTURE_OFF | GLState::LIGHTING_OFF);
 					glPushMatrix();
 						glScalef(1.0f / scale_, 1.0f / scale_, 1.0f / scale_);
 						drawSight();
@@ -169,7 +166,7 @@ void TankMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame)
 			}
 		}
 
-		ModelRendererMesh::drawMesh(m, mesh, currentFrame);
+		ModelRendererMesh::drawMesh(m, mesh, currentFrame, setState);
 	glPopMatrix();
 
 	vertexTranslation_.zero();

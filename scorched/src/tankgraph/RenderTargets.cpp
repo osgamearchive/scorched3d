@@ -22,12 +22,22 @@
 #include <tankgraph/TargetRendererImplTank.h>
 #include <tankgraph/RenderTracer.h>
 #include <tankgraph/RenderGeoms.h>
+#include <graph/ModelRendererTree.h>
+#include <graph/ModelRendererMesh.h>
 #include <tank/TankContainer.h>
 #include <target/TargetLife.h>
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLCamera.h>
+#include <landscape/Landscape.h>
+#include <landscape/Sky.h>
 #include <algorithm>
+
+static inline float approx_distance(float  dx, float dy, float dz)
+{
+   float approx = (dx * dx) + (dy * dy) + (dz * dz);
+   return approx;
+}
 
 RenderTargets *RenderTargets::instance_ = 0;
 
@@ -50,14 +60,7 @@ RenderTargets::~RenderTargets()
 
 void RenderTargets::Renderer2D::draw(const unsigned state)
 {
-	RenderTargets::instance()->draw(RenderTargets::Type2D);
-}
-
-void RenderTargets::Renderer3D::draw(const unsigned state)
-{
-	RenderTracer::instance()->draw(state);
-	RenderGeoms::instance()->draw(state);
-	RenderTargets::instance()->draw(RenderTargets::Type3D);
+	RenderTargets::instance()->draw2d();
 }
 
 void RenderTargets::Renderer2D::simulate(const unsigned state, float simTime)
@@ -65,6 +68,24 @@ void RenderTargets::Renderer2D::simulate(const unsigned state, float simTime)
 	// Simulate the HUD
 	TargetRendererImplTankHUD::simulate(simTime);
 	TargetRendererImplTankAIM::simulate(simTime);
+}
+
+void RenderTargets::Renderer3D::draw(const unsigned state)
+{
+	RenderTracer::instance()->draw(state);
+	RenderGeoms::instance()->draw(state);
+	RenderTargets::instance()->draw();
+}
+
+void RenderTargets::Renderer3D::simulate(const unsigned state, float simTime)
+{
+	// Reset everything that is to be drawn
+	RenderObjectLists &objectsList = 
+		RenderTargets::instance()->renderObjectLists_;
+	objectsList.reset();
+
+	// Camera position for LOD
+	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
 
 	// Simulate all of the tanks
 	std::map<unsigned int, Target *> &targets = 
@@ -75,67 +96,81 @@ void RenderTargets::Renderer2D::simulate(const unsigned state, float simTime)
 		itor++)
 	{
 		Target *target = (*itor).second;
-		TargetRenderer *model = target->getRenderer();
-		if (model)
+		TargetRenderer *renderer = target->getRenderer();
+		if (renderer)
 		{
-			model->simulate(simTime);
+			float distance = approx_distance(
+				target->getLife().getFloatPosition()[0] - campos[0],
+				target->getLife().getFloatPosition()[1] - campos[1],
+				target->getLife().getFloatPosition()[2] - campos[2]);
+
+			TargetRendererImpl *rendererImpl = (TargetRendererImpl *) renderer;
+			rendererImpl->simulate(simTime, distance, objectsList);
 		}
 	}
 }
 
-static inline float approx_distance(float  dx, float dy, float dz)
-{
-   float approx = (dx * dx) + (dy * dy) + (dz * dz);
-   return approx;
-}
-
 void RenderTargets::shadowDraw()
 {
-	draw(TypeShadow);
+	unsigned int wantedstate = GLState::BLEND_OFF | 
+		GLState::ALPHATEST_OFF | GLState::TEXTURE_OFF;
+	GLState glstate(wantedstate);
+
+	// Shadows
+	{
+		RenderObjectList &renderList = renderObjectLists_.getShadowList();
+		RenderObject **object = renderList.getObjects();
+		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
+		{
+			(*object)->renderShadow();
+		}
+	}
 }
 
-void RenderTargets::draw(DrawType dt)
+void RenderTargets::draw()
 {
-	Vector &campos = GLCamera::getCurrentCamera()->getCurrentPos();
-
 	// Don't put fully transparent areas into the depth buffer
-	unsigned int wantedstate = GLState::BLEND_ON | GLState::ALPHATEST_ON;
-	if (dt != TypeShadow)
-	{
-		wantedstate |= GLState::TEXTURE_ON;
-	}
+	unsigned int wantedstate = GLState::BLEND_ON | 
+		GLState::ALPHATEST_ON | GLState::TEXTURE_ON | 
+		GLState::NORMALIZE_ON | GLState::LIGHTING_ON | 
+		GLState::LIGHT1_ON;
 	GLState glstate(wantedstate);
-	
-	// Draw all of the tanks
-	std::map<unsigned int, Target *> &targets = 
-		ScorchedClient::instance()->getTargetContainer().getTargets();
-	std::map<unsigned int, Target *>::iterator itor;
-	for (itor = targets.begin();
-		itor != targets.end();
-		itor++)
+	Landscape::instance()->getSky().getSun().setLightPosition(false);
+
+	// Trees
 	{
-		Target *target = (*itor).second;
-
-		// Check we have the tank model for each target
-		TargetRenderer *model = target->getRenderer();
-		if (!model) continue;
-
-		switch (dt)
+		ModelRendererTree::staticSetupDraw();
+		RenderObjectList &renderList = renderObjectLists_.getTreeList();
+		RenderObject **object = renderList.getObjects();
+		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
 		{
-		case TypeShadow:
-		case Type3D:
-			{
-				float distance = approx_distance(
-					target->getLife().getTargetPosition()[0].asFloat() - campos[0],
-					target->getLife().getTargetPosition()[1].asFloat() - campos[1],
-					target->getLife().getTargetPosition()[2].asFloat() - campos[2]);
+			(*object)->render();
+		}
+		ModelRendererTree::staticTearDownDraw();
+	}
 
-				model->draw(distance, (dt == TypeShadow));
-			}
-			break;
-		case Type2D:
-			model->draw2d();
-			break;
+	// Models
+	{
+		ModelRendererMesh::staticSetupDraw();
+		RenderObjectList &renderList = renderObjectLists_.getModelList();
+		RenderObject **object = renderList.getObjects();
+		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
+		{
+			(*object)->render();
+		}
+		ModelRendererMesh::staticTearDownDraw();
+	}
+}
+
+void RenderTargets::draw2d()
+{
+	// 2D
+	{
+		RenderObjectList &renderList = renderObjectLists_.get2DList();
+		RenderObject **object = renderList.getObjects();
+		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
+		{
+			(*object)->render2D();
 		}
 	}
 }
