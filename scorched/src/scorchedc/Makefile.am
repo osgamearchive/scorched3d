@@ -1133,6 +1133,12 @@ scorched3dc_SOURCES = \
 	../tankgraph/MissileMesh.h \
 	../tankgraph/RenderGeoms.cpp \
 	../tankgraph/RenderGeoms.h \
+	../tankgraph/RenderObject.cpp \
+	../tankgraph/RenderObject.h \
+	../tankgraph/RenderObjectList.cpp \
+	../tankgraph/RenderObjectList.h \
+	../tankgraph/RenderObjectLists.cpp \
+	../tankgraph/RenderObjectLists.h \
 	../tankgraph/RenderTargets.cpp \
 	../tankgraph/RenderTargets.h \
 	../tankgraph/RenderTracer.cpp \
@@ -1151,8 +1157,6 @@ scorched3dc_SOURCES = \
 	../tankgraph/TargetRendererImplTank.h \
 	../tankgraph/TargetRendererImplTarget.cpp \
 	../tankgraph/TargetRendererImplTarget.h \
-	../tankgraph/TargetRendererImplTargetModel.cpp \
-	../tankgraph/TargetRendererImplTargetModel.h \
 	../graph/Display.cpp \
 	../graph/Display.h \
 	../graph/FrameLimiter.cpp \

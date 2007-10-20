@@ -33,7 +33,6 @@
 #include <signal.h>
 #include <float.h>
 #include <time.h>
-#include <direct.h>
 #include <common/main.h>
 #include <SDL/SDL.h>
 
