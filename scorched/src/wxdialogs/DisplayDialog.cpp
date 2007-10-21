@@ -105,7 +105,12 @@ DisplayFrame::DisplayFrame() :
 
 	// Create all the display controls
 	book_ = new wxNotebook(this, ID_NOTEBOOK);
+#if wxCHECK_VERSION(2,6,0)
+	wxBoxSizer *nbs = new wxBoxSizer(wxVERTICAL);
+	nbs->Add(book_);
+#else
 	wxNotebookSizer *nbs = new wxNotebookSizer(book_);
+#endif
 
 	// Main Panel
 	mainPanel_ = new wxPanel(book_, -1);

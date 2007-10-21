@@ -443,7 +443,12 @@ SettingsFrame::SettingsFrame(bool server, OptionsGame &context) :
 
 	// Create all the display controls
 	book_ = new wxNotebook(this, -1);
-	wxNotebookSizer *nbs = new wxNotebookSizer(book_);
+#if wxCHECK_VERSION(2,6,0)
+        wxBoxSizer *nbs = new wxBoxSizer(wxVERTICAL);
+	nbs->Add(book_);
+#else
+        wxNotebookSizer *nbs = new wxNotebookSizer(book_);
+#endif
 
 	// Re-read just in case a new mod has been loaded
 	DIALOG_ASSERT(landscapeDefinitions.readLandscapeDefinitions());

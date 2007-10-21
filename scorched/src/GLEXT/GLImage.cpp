@@ -22,6 +22,7 @@
 #include <GLEXT/GLBitmap.h>
 #include <GLEXT/GLImageHandle.h>
 #include <SDL/SDL.h>
+#include "string.h"
 
 GLImage::~GLImage()
 {
