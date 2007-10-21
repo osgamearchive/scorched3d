@@ -42,11 +42,14 @@ std::string formatStringList(const char *format, va_list ap)
 {
 	int size = 256;
 	char *p = new char[256];
+	va_list ap_copy;
 
 	while (1) 
 	{
 		/* Try to print in the allocated space. */
-		int n = vsnprintf (p, size, format, ap);
+		va_copy(ap_copy, ap);
+		int n = vsnprintf (p, size, format, ap_copy);
+		va_end(ap_copy);
 
 		/* If that worked, return the string. */
 		if (n > -1 && n < size) break;

@@ -62,7 +62,7 @@ Explosion::~Explosion()
 
 void Explosion::init()
 {
-	const fixed ShowTime = 4;
+	fixed ShowTime = 4;
 	CameraPositionAction *pos = new CameraPositionAction(
 		position_, ShowTime, 10);
 	context_->actionController->addAction(pos);

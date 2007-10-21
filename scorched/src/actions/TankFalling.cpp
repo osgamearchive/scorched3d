@@ -134,7 +134,7 @@ void TankFalling::collision(PhysicsParticleObject &position,
 		}
 		if (parachute_)
 		{
-			const fixed ParachuteThreshold = 0;
+			fixed ParachuteThreshold = 0;
 			if (dist >= ParachuteThreshold)
 			{
 				// No damage we were using parachutes

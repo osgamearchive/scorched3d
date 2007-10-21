@@ -143,9 +143,9 @@ void GiftMoneyDialog::buttonDown(unsigned int id)
 			players_->getCurrentEntry())
 		{
 			int money = (int) 
-				money_->getCurrentEntry()->getUserData();
+				long(money_->getCurrentEntry()->getUserData());
 			unsigned int playerId = (unsigned int)
-				players_->getCurrentEntry()->getUserData();
+				long(players_->getCurrentEntry()->getUserData());
 
 			Tank *currentTank = 
 				ScorchedClient::instance()->getTankContainer().getCurrentTank();

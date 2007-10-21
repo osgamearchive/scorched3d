@@ -70,7 +70,7 @@ void Napalm::init()
 	groundScorchPer_ = getWeapon()->getGroundScorchPer(*context_);
 
 
-	const fixed ShowTime = 5;
+	fixed ShowTime = 5;
 	FixedVector position(fixed(x_), fixed(y_), context_->landscapeMaps->
 		getGroundMaps().getHeight(x_, y_));
 	CameraPositionAction *pos = new CameraPositionAction(

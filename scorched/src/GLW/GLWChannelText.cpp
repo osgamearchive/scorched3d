@@ -533,7 +533,7 @@ void GLWChannelText::buttonDown(unsigned int id)
 
 void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 {
-	int type = int(entry->getUserData());
+	int type = int(long(entry->getUserData()));
 	switch (type)
 	{
 	case eMuteSelectorStart:

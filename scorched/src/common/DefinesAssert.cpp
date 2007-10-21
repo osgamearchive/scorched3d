@@ -44,7 +44,7 @@ void dialogMessage(const char *header, const char *text)
 			count = 0;
 		}
 
-		newtext.append(formatString("%c", *t));
+		newtext.push_back(*t);
 	}
 
 	// Make sure that this is logged
