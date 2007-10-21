@@ -99,6 +99,11 @@ void RenderTargets::Renderer3D::simulate(const unsigned state, float simTime)
 	RenderTargets::instance()->createLists_ = true;
 }
 
+void RenderTargets::Renderer3D::enterState(const unsigned state)
+{
+	RenderTargets::instance()->createLists_ = true;
+}
+
 void RenderTargets::createLists()
 {
 	if (!createLists_) return;

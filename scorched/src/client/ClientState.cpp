@@ -71,6 +71,7 @@ void ClientState::addWindowManager(GameState &gameState, unsigned state)
 void ClientState::addStandardComponents(GameState &gameState, unsigned state)
 {
 	gameState.addStateKeyEntry(state, SpeedChange::instance());
+	gameState.addStateEntry(state, &RenderTargets::instance()->render3D);
 	gameState.addStateLoop(state, 
 		MainCamera::instance(), GLCameraFrustum::instance());
 	gameState.addStateLoop(state, 

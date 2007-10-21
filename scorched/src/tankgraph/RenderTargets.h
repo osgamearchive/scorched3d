@@ -37,6 +37,7 @@ public:
 		// Inherited from GameStateI
 		virtual void draw(const unsigned state);
 		virtual void simulate(const unsigned state, float simTime);
+		virtual void enterState(const unsigned state);
 	} render3D;
 	struct Renderer2D : public GameStateI
 	{
