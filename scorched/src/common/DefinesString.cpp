@@ -38,6 +38,10 @@ char *s3d_stristr(const char *x, const char *y)
 	return (char *)(x + (result - newX.c_str()));
 }
 
+#ifndef va_copy
+# define va_copy(d, s)		(d) = (s)
+#endif
+
 std::string formatStringList(const char *format, va_list ap)
 {
 	int size = 256;
