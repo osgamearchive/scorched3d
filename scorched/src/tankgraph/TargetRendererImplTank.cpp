@@ -151,6 +151,8 @@ void TargetRendererImplTank::addToLists(float distance, RenderObjectLists &rende
 		return;
 	}
 	canSeeTank_ = true;
+
+	renderList.get2DList().add(this);
 }
 
 void TargetRendererImplTank::render()
