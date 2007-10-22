@@ -26,6 +26,9 @@
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLInfo.h>
 
+static unsigned int lastWantedState = 0;
+static GLState *staticState = 0;
+
 ModelRendererMesh::ModelRendererMesh(Model *model) : 
 	model_(model)
 {
@@ -94,8 +97,6 @@ void ModelRendererMesh::draw(float currentFrame,
 	float distance, float fade, bool setState)
 {
 	// Set transparency on
-	GLState glstate(GLState::BLEND_ON | GLState::ALPHATEST_ON);
-
 	// Fade the model (make it transparent)
 	bool useBlendColor = (GLStateExtension::hasBlendColor() && fade < 1.0f);
 	if (useBlendColor)
@@ -198,7 +199,12 @@ void ModelRendererMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame,
 		}
 	}
 
-	GLState glState(state);
+	if (state != lastWantedState)
+	{
+		staticState->setState(state);
+		lastWantedState = state;
+	}
+
 	{
 		int frameNo = frame;
 		DIALOG_ASSERT(frameNo >= 0 && frameNo < (int) meshInfo.frameInfos_.size());
@@ -357,14 +363,20 @@ void ModelRendererMesh::drawVerts(unsigned int m, Mesh *mesh, bool vertexLightin
 
 void ModelRendererMesh::setupDraw()
 {
+	staticSetupDraw();
 }
 void ModelRendererMesh::tearDownDraw()
 {
+	staticTearDownDraw();
 }
 
 void ModelRendererMesh::staticSetupDraw()
 {
+	lastWantedState = 0;
+	staticState = new GLState(GLState::BLEND_ON | GLState::ALPHATEST_ON);
 }
 void ModelRendererMesh::staticTearDownDraw()
 {
+	delete staticState;
+	staticState = 0;
 }

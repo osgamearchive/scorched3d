@@ -141,21 +141,29 @@ void RenderTargets::createLists()
 
 void RenderTargets::shadowDraw()
 {
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_CREATE_LISTS");
 	createLists();
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_CREATE_LISTS");
 
-	unsigned int wantedstate = GLState::BLEND_OFF | 
-		GLState::ALPHATEST_OFF | GLState::TEXTURE_OFF;
-	GLState glstate(wantedstate);
+	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
 
 	// Shadows
 	{
+		ModelRendererMesh::staticSetupDraw();
+
+		unsigned int wantedstate = GLState::BLEND_OFF | 
+			GLState::ALPHATEST_OFF | GLState::TEXTURE_OFF;
+		GLState glstate(wantedstate);
+
 		RenderObjectList &renderList = renderObjectLists_.getShadowList();
 		RenderObject **object = renderList.getObjects();
 		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
 		{
 			(*object)->renderShadow();
 		}
+		ModelRendererMesh::staticTearDownDraw();
 	}
+	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
 }
 
 void RenderTargets::draw()

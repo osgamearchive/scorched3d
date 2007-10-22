@@ -24,6 +24,7 @@
 #include <3dsparse/ModelStore.h>
 #include <client/ScorchedClient.h>
 #include <graph/OptionsDisplay.h>
+#include <graph/ModelRendererMesh.h>
 #include <common/DefinesString.h>
 #include <GLW/GLWFont.h>
 #include <GLW/GLWTranslate.h>
@@ -393,6 +394,7 @@ void GLWTankViewer::drawItem(int pos, bool selected)
 	tankRot.getOpenGLRotationMatrix(matrix);
 
 	Vector tankPos;
+	ModelRendererMesh::staticSetupDraw();
 	if (selected)
 	{
 		mesh->draw(totalTime_ * 20.0f, false, 
@@ -403,6 +405,7 @@ void GLWTankViewer::drawItem(int pos, bool selected)
 		mesh->draw(totalTime_ * 20.0f, false, 
 			matrix, tankPos, 0.0f, 45.0f, 45.0f);
 	}
+	ModelRendererMesh::staticTearDownDraw();
 
 	// Ground
 	GLState state(GLState::TEXTURE_OFF);

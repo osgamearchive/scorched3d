@@ -21,6 +21,7 @@
 #include <water/WaterMapPoints.h>
 #include <water/Water2Patches.h>
 #include <graph/ModelRendererSimulator.h>
+#include <graph/ModelRendererMesh.h>
 #include <landscape/MapPoints.h>
 #include <GLEXT/GLState.h>
 #include <client/ScorchedClient.h>
@@ -37,6 +38,7 @@ WaterMapPoints::~WaterMapPoints()
 void WaterMapPoints::draw(Water2Patches &currentPatch)
 {
 	GLState currentState(GLState::TEXTURE_OFF);
+	ModelRendererMesh::staticSetupDraw();
 	for (int i=0; i<(int) pts_.size(); i++)
 	{
 		Vector &current = pts_[i];
@@ -51,19 +53,20 @@ void WaterMapPoints::draw(Water2Patches &currentPatch)
 			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
 			case OptionsTransient::wallWrapAround:
-				MapPoints::instance()->getBorderModelWrap()->draw();
+				MapPoints::instance()->getBorderModelWrap()->draw(0.0f, 1.0f, false);
 				break;
 			case OptionsTransient::wallBouncy:
-				MapPoints::instance()->getBorderModelBounce()->draw();
+				MapPoints::instance()->getBorderModelBounce()->draw(0.0f, 1.0f, false);
 				break;
 			case OptionsTransient::wallConcrete:
-				MapPoints::instance()->getBorderModelConcrete()->draw();
+				MapPoints::instance()->getBorderModelConcrete()->draw(0.0f, 1.0f, false);
 				break;
 			default:
 				break;
 			}
 		glPopMatrix();
 	}
+	ModelRendererMesh::staticTearDownDraw();
 }
 
 void WaterMapPoints::generate(int mapWidth, int mapHeight)

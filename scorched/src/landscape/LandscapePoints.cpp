@@ -24,6 +24,7 @@
 #include <client/ScorchedClient.h>
 #include <common/OptionsTransient.h>
 #include <graph/ModelRendererSimulator.h>
+#include <graph/ModelRendererMesh.h>
 #include <GLEXT/GLState.h>
 
 LandscapePoints::LandscapePoints()
@@ -37,6 +38,7 @@ LandscapePoints::~LandscapePoints()
 void LandscapePoints::draw()
 {
 	GLState currentState(GLState::TEXTURE_OFF);
+	ModelRendererMesh::staticSetupDraw();
 	for (int i=0; i<(int) points_.size(); i++)
 	{
 		Vector &current = points_[i];
@@ -49,19 +51,20 @@ void LandscapePoints::draw()
 			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
 			{
 			case OptionsTransient::wallWrapAround:
-				MapPoints::instance()->getBorderModelWrap()->draw();
+				MapPoints::instance()->getBorderModelWrap()->draw(0.0f, 1.0f, false);
 				break;
 			case OptionsTransient::wallBouncy:
-				MapPoints::instance()->getBorderModelBounce()->draw();
+				MapPoints::instance()->getBorderModelBounce()->draw(0.0f, 1.0f, false);
 				break;
 			case OptionsTransient::wallConcrete:
-				MapPoints::instance()->getBorderModelConcrete()->draw();
+				MapPoints::instance()->getBorderModelConcrete()->draw(0.0f, 1.0f, false);
 				break;
 			default:
 				break;
 			}
 		glPopMatrix();
 	}
+	ModelRendererMesh::staticTearDownDraw();
 }
 
 void LandscapePoints::generate()
