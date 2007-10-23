@@ -168,6 +168,8 @@ OptionsDisplay::OptionsDisplay() :
 		"Do not draw real-time shadows.", RWAccess, false), 
 	noGLShadows_(options_, "NoGLShadows", 
 		"Do not draw GL shadow map shadows.", RAccess, false), 
+	noGLObjectShadows_(options_, "NoGLObjectShadows", 
+		"Do not draw GL shadow map shadows for objects (trees/tanks).", RWAccess, true), 
 	noSimulateParticles_(options_, "NoParticleSimulate", 
 		"Do not use custom simulations for the  particles.", RWAccess, false), 
 	noDrawParticles_(options_, "NoParticleDraw", 

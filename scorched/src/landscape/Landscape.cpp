@@ -171,17 +171,6 @@ void Landscape::drawShadows()
 	shadowFrameBuffer_.bind();
 	glViewport(0, 0, shadowFrameBuffer_.getWidth(), shadowFrameBuffer_.getHeight());
 
-	// Reset depth buffer attributes
-	float originalDepthRange[2];
-	glGetFloatv(GL_DEPTH_RANGE, originalDepthRange);
-	int originalDepthFunc;
-	glGetIntegerv(GL_DEPTH_FUNC, &originalDepthFunc);
-	float originalClearDepth;
-	glGetFloatv(GL_DEPTH_CLEAR_VALUE, &originalClearDepth);
-	glDepthRange(0.0f, 1.0f);
-	glDepthFunc(GL_LESS);
-	glClearDepth(1.0f);
-
 	// Setup the view from the sun
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
@@ -257,9 +246,6 @@ void Landscape::drawShadows()
 
 	//restore states
     glColorMask(1, 1, 1, 1); 
-	glDepthRange(originalDepthRange[0], originalDepthRange[1]);
-	glDepthFunc(originalDepthFunc);
-	glClearDepth(originalClearDepth);
 
 	// Reset offset
 	glDisable(GL_POLYGON_OFFSET_FILL);
@@ -540,7 +526,8 @@ void Landscape::generate(ProgressCounter *counter)
 		PlacementShadowDefinition::Entry &entry = (*itor);
 
 		entry.definition_->updateLandscapeTexture(
-			!GLStateExtension::hasHardwareShadows(),
+			!GLStateExtension::hasHardwareShadows() ||
+			OptionsDisplay::instance()->getNoGLObjectShadows(),
 			ScorchedClient::instance()->getContext(),
 			entry.position_, entry.size_);
 	}

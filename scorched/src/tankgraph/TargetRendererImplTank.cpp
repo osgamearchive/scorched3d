@@ -133,7 +133,7 @@ void TargetRendererImplTank::addToLists(float distance, RenderObjectLists &rende
 	// for this target
 	if (tank_->getTargetState().getDisplayHardwareShadow())
 	{
-		//renderList.getShadowList().add(this);
+		renderList.getShadowList().add(this);
 	}
 
 	// Figure out the drawing distance
@@ -180,7 +180,8 @@ void TargetRendererImplTank::render()
 	if (fade_ > 0.0f)
 	{
 		// Add the tank shadow
-		if (tank_->getTargetState().getDisplayShadow())
+		if (tank_->getTargetState().getDisplayShadow() &&
+			Landscape::instance()->getShadowMap().shouldAddShadow())
 		{
 			float modelSize = float(OptionsDisplay::instance()->getTankModelSize()) / 100.0f;
 			Landscape::instance()->getShadowMap().addCircle(

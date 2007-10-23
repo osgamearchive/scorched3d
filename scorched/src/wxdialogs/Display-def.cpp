@@ -35,6 +35,7 @@ enum
 
 static wxCheckBox *IDC_NOCOMPILEDARRAYS_CTRL = 0;
 static wxCheckBox *IDC_NOENVCOMBINE_CTRL = 0;
+static wxCheckBox *IDC_NOOBJECTSHADOWS_CTRL = 0;
 static wxCheckBox *IDC_NOSHADOWS_CTRL = 0;
 static wxCheckBox *IDC_NOSHADERS_CTRL = 0;
 static wxCheckBox *IDC_NOCUBEMAP_CTRL = 0;

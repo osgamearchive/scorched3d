@@ -24,6 +24,7 @@
 #include <tankgraph/RenderGeoms.h>
 #include <graph/ModelRendererTree.h>
 #include <graph/ModelRendererMesh.h>
+#include <graph/OptionsDisplay.h>
 #include <tank/TankContainer.h>
 #include <target/TargetLife.h>
 #include <client/ClientState.h>
@@ -146,8 +147,8 @@ void RenderTargets::shadowDraw()
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_CREATE_LISTS");
 
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
-
 	// Shadows
+	if (!OptionsDisplay::instance()->getNoGLObjectShadows())
 	{
 		ModelRendererMesh::staticSetupDraw();
 
