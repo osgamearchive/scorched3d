@@ -245,13 +245,15 @@ bool GLPng::loadFromBuffer(NetBuffer &buffer, bool readalpha)
 	}
 	else
 	{
-		dialogExit("PNG", formatString(
+		png_destroy_read_struct(&png_ptr, &info_ptr, png_infopp_NULL);
+
+		Logger::log(formatStringBuffer(
 			"Invalid PNG format.\n"
 			"width %d, hei %d, rowbytes %d, bitd %d, "
 			"colt %d, channels %d\n",
             (int)width,(int)height,(int)bytes,(int)bitdepth,
-            (int)coltype,(int)channels)
-			);
+            (int)coltype,(int)channels));
+		return false;
 	}
 
 	// END NEW CODE
