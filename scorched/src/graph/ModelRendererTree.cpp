@@ -839,6 +839,7 @@ void ModelRendererTree::staticSetupDraw()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 	}
+	delete glState;
 	glState = new GLState(state);
 
 	bool useBlendColor = false;//GLStateExtension::hasBlendColor();
