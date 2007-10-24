@@ -3,6 +3,12 @@ Added: Option to turn off landscape captured progress backdrop
 Added: Changed progress backdrop to use textures rather than pixel drawing (speedup on some cards)
 Added: Moved the player id of the single player spectator to allow stats user 1 to connect online
 Added: Scorched client supports remote game connection initiated via .s3l file
+Added: Option to turn off real-time object shadows to improve framerate
+
+Fixed: Applied some small patches to help cross platform compilation
+Fixed: Support for wxWidgets 2.8 added
+Fixed: Disconnects caused by players having invalid PNG files
+Fixed: Optimized OpenGL state changes to improve framerate
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
