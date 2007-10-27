@@ -94,14 +94,12 @@ void GLWTankModel::draw()
 			float matrix[16];
 			rotation.getOpenGLRotationMatrix(matrix);
 
-			ModelRendererMesh::staticSetupDraw();
 			mesh->draw(
 				totalTime_ * 20.0f,
 				false, matrix, position, 0.0f,
 				current->getPosition().getRotationGunXY().asFloat(),
 				current->getPosition().getRotationGunYZ().asFloat(),
 				true);
-			ModelRendererMesh::staticTearDownDraw();
 		}
 	glPopMatrix();
 

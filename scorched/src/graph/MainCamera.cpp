@@ -111,7 +111,9 @@ static int getNumberOfPlayers()
 
 void MainCamera::simulate(const unsigned state, float frameTime)
 {
-	if (OptionsDisplay::instance()->getFullScreen() &&
+	if (state != 0 &&
+		state != ClientState::StateOptions &&
+		OptionsDisplay::instance()->getFullScreen() &&
 		OptionsDisplay::instance()->getSideScroll())
 	{
 		int mouseX = ScorchedClient::instance()->getGameState().getMouseX();

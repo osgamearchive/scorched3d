@@ -3335,6 +3335,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\GLEXT\GLGlobalState.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\GLEXT\GLGlobalState.h"
+				>
+			</File>
+			<File
 				RelativePath="..\GLEXT\GLImage.cpp"
 				>
 			</File>

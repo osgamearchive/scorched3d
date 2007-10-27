@@ -23,6 +23,7 @@
 #include <3dsparse/TreeModelFactory.h>
 #include <GLEXT/GLImageFactory.h>
 #include <GLEXT/GLStateExtension.h>
+#include <GLEXT/GLGlobalState.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLInfo.h>
 
@@ -784,6 +785,39 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 		break;
 	};
 
+	unsigned int state = 0;
+	if (setState)
+	{
+		state = GLState::TEXTURE_ON;
+		bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
+		if (!vertexLighting)
+		{
+			state |= 
+				GLState::NORMALIZE_ON | 
+				GLState::LIGHTING_ON | 
+				GLState::LIGHT1_ON;
+
+			Vector4 ambientColor(0.4f, 0.4f, 0.4f, 1.0f);
+			Vector4 diffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+			Vector4 specularColor(0.0f, 0.0f, 0.0f, 1.0f);
+			Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
+			float shininess = 0.0f;
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientColor);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseColor);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+		}
+		else
+		{
+			state |= 
+				GLState::NORMALIZE_OFF | 
+				GLState::LIGHTING_OFF | 
+				GLState::LIGHT1_OFF;
+		}
+	}
+	GLGlobalState globalState(state);
+
 	if (texture && setState)
 	{
 		texture->draw();
@@ -802,65 +836,5 @@ void ModelRendererTree::drawBottomAligned(float currentFrame,
 			GLInfo::addNoTriangles(10);
 		}
 	glPopMatrix();
-}
-
-void ModelRendererTree::setupDraw()
-{
-	staticSetupDraw();
-}
-
-void ModelRendererTree::tearDownDraw()
-{
-	staticTearDownDraw();
-}
-
-static GLState *glState = 0;
-
-void ModelRendererTree::staticSetupDraw()
-{
-	unsigned int state = GLState::TEXTURE_ON;
-
-	bool vertexLighting = OptionsDisplay::instance()->getNoModelLighting();
-	if (!vertexLighting)
-	{
-		state |= 
-			GLState::NORMALIZE_ON | 
-			GLState::LIGHTING_ON | 
-			GLState::LIGHT1_ON;
-
-		Vector4 ambientColor(0.4f, 0.4f, 0.4f, 1.0f);
-		Vector4 diffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Vector4 specularColor(0.0f, 0.0f, 0.0f, 1.0f);
-		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
-		float shininess = 0.0f;
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientColor);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseColor);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emissiveColor);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
-	}
-	delete glState;
-	glState = new GLState(state);
-
-	bool useBlendColor = false;//GLStateExtension::hasBlendColor();
-	if (useBlendColor)
-	{
-		/*fade = MIN(1.0f, MAX(fade, 0.2f));
-		glBlendColorEXT(0.0f, 0.0f, 0.0f, fade);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA_EXT);*/
-	}
-}
-
-void ModelRendererTree::staticTearDownDraw()
-{
-	delete glState;
-	glState = 0;
-
-	// Turn off fading
-	bool useBlendColor = false;//GLStateExtension::hasBlendColor();
-	if (useBlendColor)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
 }
 

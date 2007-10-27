@@ -22,12 +22,10 @@
 #include <graph/OptionsDisplay.h>
 #include <graph/TextureStore.h>
 #include <3dsparse/ModelMaths.h>
+#include <GLEXT/GLGlobalState.h>
 #include <GLEXT/GLStateExtension.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLInfo.h>
-
-static unsigned int lastWantedState = 0;
-static GLState *staticState = 0;
 
 ModelRendererMesh::ModelRendererMesh(Model *model) : 
 	model_(model)
@@ -96,6 +94,8 @@ void ModelRendererMesh::drawBottomAligned(float currentFrame,
 void ModelRendererMesh::draw(float currentFrame, 
 	float distance, float fade, bool setState)
 {
+	GLGlobalState globalState(GLState::BLEND_ON | GLState::ALPHATEST_ON);
+
 	// Set transparency on
 	// Fade the model (make it transparent)
 	bool useBlendColor = (GLStateExtension::hasBlendColor() && fade < 1.0f);
@@ -184,6 +184,13 @@ void ModelRendererMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame,
 				glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mesh->getShininessColor());
 			}
 		}
+		else
+		{
+			state |= 
+				GLState::NORMALIZE_OFF | 
+				GLState::LIGHTING_OFF | 
+				GLState::LIGHT1_OFF;
+		}
 	}
 
 	// Get the current frame for the animation
@@ -199,11 +206,7 @@ void ModelRendererMesh::drawMesh(unsigned int m, Mesh *mesh, float currentFrame,
 		}
 	}
 
-	if (state != lastWantedState)
-	{
-		staticState->setState(state);
-		lastWantedState = state;
-	}
+	GLGlobalState globalState(state);
 
 	{
 		int frameNo = frame;
@@ -359,24 +362,4 @@ void ModelRendererMesh::drawVerts(unsigned int m, Mesh *mesh, bool vertexLightin
 		}
 	}
 	glEnd();
-}
-
-void ModelRendererMesh::setupDraw()
-{
-	staticSetupDraw();
-}
-void ModelRendererMesh::tearDownDraw()
-{
-	staticTearDownDraw();
-}
-
-void ModelRendererMesh::staticSetupDraw()
-{
-	lastWantedState = 0;
-	staticState = new GLState(GLState::BLEND_ON | GLState::ALPHATEST_ON);
-}
-void ModelRendererMesh::staticTearDownDraw()
-{
-	delete staticState;
-	staticState = 0;
 }

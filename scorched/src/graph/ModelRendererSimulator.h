@@ -29,9 +29,9 @@ public:
 	virtual ~ModelRendererSimulator();
 
 	void draw(float distance = 0.0f, float fade = 1.0f, 
-		bool setup = true, bool setState = true);
+		bool setState = true);
 	void drawBottomAligned(float distance = 0.0f, float fade = 1.0f, 
-		bool setup = true, bool setState = true);
+		bool setState = true);
 	void simulate(float frameTime);
 
 	ModelRenderer *getRenderer() { return renderer_; }

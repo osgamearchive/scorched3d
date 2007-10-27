@@ -9,6 +9,9 @@ Fixed: Applied some small patches to help cross platform compilation
 Fixed: Support for wxWidgets 2.8 added
 Fixed: Disconnects caused by players having invalid PNG files
 Fixed: Optimized OpenGL state changes to improve framerate
+Fixed: Aimed over tag so it generates particles with the correct power
+Fixed: Roller collisions to make them less sensitive
+Fixed: Roller strength to make them less powerfull against shields
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

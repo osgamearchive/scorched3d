@@ -140,7 +140,7 @@ void PhysicsParticleObject::checkCollision()
 		{
 			action = checkBounceCollision(collision, target);
 
-			velocity_[2] = MIN(velocity_[2], 10);
+			velocity_[2] = MIN(velocity_[2], 1);
 		}
 		break;
 	case ParticleTypeFalling:
@@ -655,7 +655,7 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 	// A special case, to add some width to the bounce particle to make it easier
 	// to hit targets with
 	std::map<unsigned int, Target *> collisionTargets;
-	context_->targetSpace->getCollisionSet(position_, 3, collisionTargets, false);
+	context_->targetSpace->getCollisionSet(position_, 1, collisionTargets, false);
 	std::map<unsigned int, Target *>::iterator itor;
 	for (itor = collisionTargets.begin();
 		itor != collisionTargets.end();
@@ -663,7 +663,7 @@ bool PhysicsParticleObject::getTargetBounceCollision(CollisionInfo &collision, T
 	{
 		Target *target = (*itor).second;
 		if (target->getLife().collision(position_) ||
-			target->getLife().collisionDistance(position_) < 3)
+			target->getLife().collisionDistance(position_) < 1)
 		{
 			collision.normal = (position_ - target->getLife().getCenterPosition()).Normalize();	
 			collision.deflectFactor = 1;

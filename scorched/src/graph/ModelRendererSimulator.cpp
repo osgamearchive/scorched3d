@@ -37,18 +37,14 @@ ModelRendererSimulator::~ModelRendererSimulator()
 {
 }
 
-void ModelRendererSimulator::drawBottomAligned(float distance, float fade, bool setup, bool setState)
+void ModelRendererSimulator::drawBottomAligned(float distance, float fade, bool setState)
 {
-	if (setup) renderer_->setupDraw();
 	renderer_->drawBottomAligned(currentFrame_, distance, fade, setState);
-	if (setup) renderer_->tearDownDraw();
 }
 
-void ModelRendererSimulator::draw(float distance, float fade, bool setup, bool setState)
+void ModelRendererSimulator::draw(float distance, float fade, bool setState)
 {
-	if (setup) renderer_->setupDraw();
 	renderer_->draw(currentFrame_, distance, fade, setState);
-	if (setup) renderer_->tearDownDraw();
 }
 
 void ModelRendererSimulator::simulate(float frameTime)

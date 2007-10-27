@@ -32,8 +32,6 @@ public:
 		float distance, float fade, bool setState) = 0;
 	virtual void drawBottomAligned(float currentFrame, 
 		float distance, float fade, bool setState) = 0;
-	virtual void setupDraw() = 0;
-	virtual void tearDownDraw() = 0;
 
 	virtual Model *getModel() = 0;
 };

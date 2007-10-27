@@ -147,8 +147,8 @@ void TargetRendererImplTarget::render()
 			target_->getLife().getFloatPosition()[2]);
 		glMultMatrixf(target_->getLife().getFloatRotMatrix());
 		glScalef(scale_, scale_, scale_);
-		if (burnt_) burntModelRenderer_->drawBottomAligned(distance_, fade_, false, true);
-		else modelRenderer_->drawBottomAligned(distance_, fade_, false, true);
+		if (burnt_) burntModelRenderer_->drawBottomAligned(distance_, fade_);
+		else modelRenderer_->drawBottomAligned(distance_, fade_);
 	glPopMatrix();
 }
 
@@ -176,8 +176,8 @@ void TargetRendererImplTarget::renderShadow()
 			target_->getLife().getFloatPosition()[2]);
 		glMultMatrixf(target_->getLife().getFloatRotMatrix());
 		glScalef(scale_, scale_, scale_);
-		if (burnt_) burntModelRenderer_->drawBottomAligned(FLT_MAX, 1.0f, false, false);
-		else modelRenderer_->drawBottomAligned(FLT_MAX, 1.0f, false, false);
+		if (burnt_) burntModelRenderer_->drawBottomAligned(FLT_MAX, 1.0f, false);
+		else modelRenderer_->drawBottomAligned(FLT_MAX, 1.0f, false);
 	glPopMatrix();
 }
 

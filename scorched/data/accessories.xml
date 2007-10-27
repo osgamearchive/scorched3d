@@ -281,7 +281,7 @@ contact with any tank.</description>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
-					<size>6</size>
+					<size>2</size>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionsound>explosions/small.wav</explosionsound>
 				</collisionaction>
@@ -307,7 +307,7 @@ with any tank.</description>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
-					<size>7.5</size>
+					<size>5</size>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionsound>explosions/medium.wav</explosionsound>
 				</collisionaction>
@@ -333,7 +333,7 @@ with any tank.</description>
 				<collisionaction type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<deform>down</deform>
-					<size>12</size>
+					<size>9</size>
 					<explosiontexture>exp00</explosiontexture>
 					<explosionsound>explosions/large.wav</explosionsound>
 				</collisionaction>

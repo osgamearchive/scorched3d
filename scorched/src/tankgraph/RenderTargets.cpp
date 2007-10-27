@@ -30,6 +30,7 @@
 #include <client/ClientState.h>
 #include <client/ScorchedClient.h>
 #include <GLEXT/GLCamera.h>
+#include <GLEXT/GLGlobalState.h>
 #include <landscape/Landscape.h>
 #include <landscape/Sky.h>
 #include <algorithm>
@@ -150,19 +151,16 @@ void RenderTargets::shadowDraw()
 	// Shadows
 	if (!OptionsDisplay::instance()->getNoGLObjectShadows())
 	{
-		ModelRendererMesh::staticSetupDraw();
-
 		unsigned int wantedstate = GLState::BLEND_OFF | 
 			GLState::ALPHATEST_OFF | GLState::TEXTURE_OFF;
-		GLState glstate(wantedstate);
 
+		GLGlobalState globalState(wantedstate);
 		RenderObjectList &renderList = renderObjectLists_.getShadowList();
 		RenderObject **object = renderList.getObjects();
 		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
 		{
 			(*object)->renderShadow();
 		}
-		ModelRendererMesh::staticTearDownDraw();
 	}
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SHADOWS_DRAW_OBJ");
 }
@@ -181,26 +179,24 @@ void RenderTargets::draw()
 
 	// Trees
 	{
-		ModelRendererTree::staticSetupDraw();
+		GLGlobalState globalState(0);
 		RenderObjectList &renderList = renderObjectLists_.getTreeList();
 		RenderObject **object = renderList.getObjects();
 		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
 		{
 			(*object)->render();
 		}
-		ModelRendererTree::staticTearDownDraw();
 	}
 
 	// Models
 	{
-		ModelRendererMesh::staticSetupDraw();
+		GLGlobalState globalState(0);
 		RenderObjectList &renderList = renderObjectLists_.getModelList();
 		RenderObject **object = renderList.getObjects();
 		for (unsigned int c=0; c<renderList.getCount(); c++, object++)
 		{
 			(*object)->render();
 		}
-		ModelRendererMesh::staticTearDownDraw();
 	}
 }
 
