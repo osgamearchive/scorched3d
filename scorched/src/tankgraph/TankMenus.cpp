@@ -250,19 +250,23 @@ void TankMenus::showTankDetails()
 		Tank *tank = (*itor).second;
 
 		const char *description = "Unknown";
-		Tank *otherTank = ScorchedServer::instance()->
-			getTankContainer().getTankById(tank->getPlayerId());
-		if (otherTank && !otherTank->getTankAI())
+		if (!ClientParams::instance()->getConnectedToServer())
 		{
-			description = "Human";
-		}
-		else if (otherTank && otherTank->getTankAI())
-		{
-			description = otherTank->getTankAI()->getName();
+			Tank *otherTank = ScorchedServer::instance()->
+				getTankContainer().getTankById(tank->getPlayerId());
+			if (otherTank && !otherTank->getTankAI())
+			{
+				description = "Human";
+			}
+			else if (otherTank && otherTank->getTankAI())
+			{
+				description = otherTank->getTankAI()->getName();
+			}
 		}
 
 		char buffer[1024];
-		snprintf(buffer, 1024, "%c %8s - \"%10s\" (%s)", 
+		snprintf(buffer, 1024, "%u %c %8s - \"%10s\" (%s)", 
+			tank->getPlayerId(),
 			currentTank == tank?'>':' ',
 			description,
 			tank->getName(), 
