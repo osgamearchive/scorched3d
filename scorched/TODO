@@ -12,6 +12,9 @@ Fixed: Optimized OpenGL state changes to improve framerate
 Fixed: Aimed over tag so it generates particles with the correct power
 Fixed: Roller collisions to make them less sensitive
 Fixed: Roller strength to make them less powerfull against shields
+Fixed: Water transparency when shaders off
+Fixed: Fractional wind speeds used (Speed 0 shown on display)
+Fixed: Being able to scroll island menu backdrop when in fullscreen mode
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

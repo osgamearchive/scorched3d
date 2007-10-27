@@ -174,7 +174,7 @@ void OptionsTransient::newGameWind()
 	{
 		case OptionsGame::WindRandom:
 			windSpeed_.setValue(
-				random.getRandFixed() * fixed(true, 59000).asInt()); // ie range 0->5
+				(random.getRandFixed() * fixed(true, 59000)).asInt()); // ie range 0->5
 			break;
 		case OptionsGame::Wind1:
 		case OptionsGame::Wind2:
@@ -186,11 +186,11 @@ void OptionsTransient::newGameWind()
 			break;
 		case OptionsGame::WindBreezy:
 			windSpeed_.setValue(
-				random.getRandFixed() * fixed(true, 29000).asInt());// ie range 0->2);
+				(random.getRandFixed() * fixed(true, 29000)).asInt());// ie range 0->2);
 			break;
 		case OptionsGame::WindGale:
 			windSpeed_.setValue(
-				random.getRandFixed() * fixed(true, 29000).asInt() + 3); // ie range 3->5);
+				(random.getRandFixed() * fixed(true, 29000)).asInt() + 3); // ie range 3->5);
 			break;
 		case OptionsGame::WindNone:
 		default:

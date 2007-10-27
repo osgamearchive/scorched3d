@@ -217,6 +217,9 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 		glTexGenfv(GL_T, GL_OBJECT_PLANE, PlaneT);
 		reflectionTexture_.draw(true);
 
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
+		glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
+
 		glActiveTexture(GL_TEXTURE0);
 	}
 
@@ -228,11 +231,11 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 			GLState::LIGHTING_ON | 
 			GLState::LIGHT1_ON;
 
-		Vector4 ambientColor(0.4f, 0.4f, 0.4f, 1.0f);
-		Vector4 diffuseColor(0.6f, 0.6f, 0.6f, 1.0f);
-		Vector4 specularColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 1.0f);
-		float shininess = 1.0f;
+		Vector4 ambientColor(0.2f, 0.2f, 0.2f, 0.8f);
+		Vector4 diffuseColor(1.0f, 1.0f, 1.0f, 0.8f);
+		Vector4 specularColor(1.0f, 1.0f, 1.0f, 0.8f);
+		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 0.8f);
+		float shininess = 100.0f;
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientColor);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseColor);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specularColor);
