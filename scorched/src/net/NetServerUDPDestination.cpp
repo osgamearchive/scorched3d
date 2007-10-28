@@ -51,6 +51,13 @@ NetServerUDPDestination::~NetServerUDPDestination()
 		NetMessagePool::instance()->addToPool(message->message_);
 		delete message;
 	}
+	while (!outgoingAsyncMessages_.empty())
+	{
+		OutgoingMessage *message = outgoingAsyncMessages_.front();
+		outgoingAsyncMessages_.pop_front();
+		NetMessagePool::instance()->addToPool(message->message_);
+		delete message;
+	}
 
 	// Tidy the current list of incoming messages
 	std::map<unsigned int, NetMessage *>::iterator itor;
@@ -248,6 +255,42 @@ void NetServerUDPDestination::processAck(unsigned int seq)
 
 NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoing()
 {
+	checkOutgoingAsync();
+	return checkOutgoingSync();
+}
+
+void NetServerUDPDestination::checkOutgoingAsync()
+{
+	// Check we have stuff to send
+	while (!outgoingAsyncMessages_.empty())
+	{
+		OutgoingMessage *message = outgoingAsyncMessages_.front();
+		outgoingAsyncMessages_.pop_front();
+
+		// Get the next part to send
+		MessagePart part = message->pendingParts_.front();
+
+		// Send this part
+		if (sendPart(part, *message->message_))
+		{
+			message->pendingParts_.pop_front();
+			message->sentParts_[part.seq] = part;
+		}
+
+		DIALOG_ASSERT(part.seq == 0);
+
+		messagesSent_++;
+		packetsWaiting_--; 
+		packetsAcked_++;
+
+		// Inform the client that this message has been fully sent
+		server_->incomingMessageHandler_.addMessage(message->message_);
+		delete message;
+	}
+}
+
+NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoingSync()
+{
 	OutgoingResult result = OutgoingEmpty;
 
 	// Check we have stuff to send
@@ -271,16 +314,9 @@ NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoing()
 		{
 			message->pendingParts_.pop_front();
 			message->sentParts_[part.seq] = part;
-
-			// This is an async packet, so we ack it here
-			// as the other end won't send an ack
-			if (part.seq == 0)
-			{
-				processAck(0);
-				// Must return as the outgoing messages will now be changed
-				return result;
-			}
 		}
+
+		DIALOG_ASSERT(part.seq != 0);
 	}
 
 	// Check for any out of date parts
@@ -298,7 +334,7 @@ NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoing()
 			// Check if this part was sent longer than the timeout
 			// period ago
 			MessagePart &part = (*itor).second;
-			if (theTime - part.sendtime > (part.retries + 2) * 250)
+			if (theTime - part.sendtime > (part.retries + 2) * 100)
 			{
 				// If it was then this is a dropped part (or ack)
 				droppedPackets_++;
@@ -399,7 +435,15 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 		outgoingMessage->pendingParts_.push_back(part);
 #endif // UDP_TEST
 	}
-	outgoingMessages_.push_back(outgoingMessage);
+
+	if (oldmessage.getFlags() & NetInterfaceFlags::fAsync)
+	{
+		outgoingAsyncMessages_.push_back(outgoingMessage);
+	}
+	else
+	{
+		outgoingMessages_.push_back(outgoingMessage);
+	}
 }
 
 bool NetServerUDPDestination::sendPart(MessagePart &part, NetMessage &message)

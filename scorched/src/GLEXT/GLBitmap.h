@@ -47,6 +47,8 @@ public:
 	virtual int getComponents() { return alpha_?4:3; }
 	virtual bool getAlpha() { return alpha_; }
 
+	void setBits(unsigned char *bits) { newbits_ = bits; }
+
 	/**
 	Overwrite the bitmap with the contents of the given file.
 	If alpha is true then any black areas in the bitmap have full

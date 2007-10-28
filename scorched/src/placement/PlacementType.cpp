@@ -106,8 +106,8 @@ bool PlacementType::checkCloseness(FixedVector &position,
 
 		if (closeness > 0)
 		{
-			fixed distsq = closeness * closeness;
-			if (distx * distx + disty *disty < distsq)
+			if (distx.abs() < closeness &&
+				disty.abs() < closeness)
 			{
 				return false;
 			}
@@ -127,11 +127,11 @@ bool PlacementType::checkCloseness(FixedVector &position,
 			fixed distx = object->position[0] - position[0];
 			fixed disty = object->position[1] - position[1];
 
-			fixed distsq = mincloseness * mincloseness;
-			if (distx * distx + disty *disty < distsq)
+			if (distx.abs() < mincloseness &&
+				disty.abs() < mincloseness)
 			{
 				return false;
-			}		
+			}	
 		}
 	}
 

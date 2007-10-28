@@ -752,9 +752,9 @@ void GLImageModifier::scalePlanBitmap(GLImage &destBitmap,
 		srcIncBitmap.createResize(newX, newY);
 
 	GLubyte *dest = destBitmap.getBits();
-	for (int y=0; y<destBitmap.getWidth(); y++)
+	for (int y=0; y<destBitmap.getHeight(); y++)
 	{
-		for (int x=0; x<destBitmap.getHeight(); x++, dest+=destBitmap.getComponents())
+		for (int x=0; x<destBitmap.getWidth(); x++, dest+=destBitmap.getComponents())
 		{
 			int srcX = MIN(x + offsetX, srcBitmap.getWidth() - 1);
 			int srcY = MIN(y + offsetY, srcBitmap.getHeight() - 1);

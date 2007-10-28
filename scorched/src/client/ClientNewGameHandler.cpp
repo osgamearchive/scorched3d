@@ -137,9 +137,20 @@ bool ClientNewGameHandler::processMessage(
 			if (message.getLevelMessage().getTargetIds().find(target->getPlayerId()) ==
 				message.getLevelMessage().getTargetIds().end())
 			{
-				Target *removedTarget = 
-					ScorchedClient::instance()->getTargetContainer().removeTarget(target->getPlayerId());
-				delete removedTarget;
+				if (target->isTarget())
+				{
+					Target *removedTarget = 
+						ScorchedClient::instance()->getTargetContainer().removeTarget(target->getPlayerId());
+					delete removedTarget;
+				}
+				else
+				{
+					// Should never happen as tanks (even temporary ones) aren't removed
+					// from the container set when killed
+					Tank *removedTank = 
+						ScorchedClient::instance()->getTankContainer().removeTank(target->getPlayerId());
+					delete removedTank;
+				}
 			}
 		}
 	}

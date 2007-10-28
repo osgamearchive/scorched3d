@@ -78,10 +78,15 @@ public:
 		wxProcess(!server?wxPROCESS_REDIRECT:0),
 		server_(server)
 	{ 
+		if (server_) serverProcessesRunning_++;
+		else clientProcessesRunning_++;
 	}
 	
 	virtual void OnTerminate(int pid, int status) 
 	{
+		if (server_) serverProcessesRunning_--;
+		else clientProcessesRunning_--;
+
 		if (status != 0)
 		{
 			SDL_LockMutex(messageMutex_);
@@ -111,12 +116,39 @@ public:
 		wxProcess::OnTerminate(pid, status);
 	}
 
+	static unsigned int getClientProcessesRunning()
+	{
+		return clientProcessesRunning_;
+	}
+
+	static unsigned int getServerProcessesRunning()
+	{
+		return serverProcessesRunning_;
+	}
+
 protected:
 	bool server_;
+	static unsigned int clientProcessesRunning_;
+	static unsigned int serverProcessesRunning_;
 };
+
+unsigned int ScorchedProcess::clientProcessesRunning_(0);
+unsigned int ScorchedProcess::serverProcessesRunning_(0);
 
 void runScorched3D(const char *text, bool server)
 {
+	if (!server &&
+		ScorchedProcess::getClientProcessesRunning() > 0)
+	{
+		if (::wxMessageBox(
+			wxT("You are already running the game, do you wish to run another copy?"),
+			wxT("Scorched3D"),
+			wxCANCEL | wxOK | wxICON_EXCLAMATION) == wxCANCEL)
+		{
+			return;
+		}
+	}
+
 	const char *exeName = formatString("%s", getExeName());
 	const char *exePart = strstr(exeName, ".exe");
 	if (exePart) ((char *)exePart)[0] = '\0';

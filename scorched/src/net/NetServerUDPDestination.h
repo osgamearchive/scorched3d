@@ -87,10 +87,13 @@ protected:
 	NetMessage *recvMessage_;
 	std::map<unsigned int, NetMessage *> incomingMessages_;
 	std::list<OutgoingMessage *> outgoingMessages_;
+	std::list<OutgoingMessage *> outgoingAsyncMessages_;
 
 	void processAck(unsigned int seq);
 	void addData(unsigned int destinationId, int len, unsigned char *data, bool fin);
 	bool sendPart(MessagePart &part, NetMessage &message);
+	OutgoingResult checkOutgoingSync();
+	void checkOutgoingAsync();
 };
 
 #endif // __INCLUDE_NetServerUDPDestinationh_INCLUDE__

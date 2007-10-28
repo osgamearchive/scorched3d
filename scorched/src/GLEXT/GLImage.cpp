@@ -115,6 +115,11 @@ GLImageHandle GLImage::createResize(int newWidth, int newHeight)
 	if (!getBits()) return GLImageHandle();
 
 	GLBitmap map(newWidth, newHeight);
+
+	// Odd hack to fix a seeming memory corruption with gluScaleImage
+	delete [] map.getBits();
+	map.setBits(new unsigned char[newWidth * 2 * newHeight * map.getComponents()]);
+
 	if (getWidth() != newWidth || getHeight() != newHeight)
 	{
 		int result = gluScaleImage(
@@ -127,7 +132,7 @@ GLImageHandle GLImage::createResize(int newWidth, int newHeight)
 		{
 			const char *error = (const char *) gluErrorString(result);
 			dialogExit("gluScaleImage", error);
-		}	
+		}
 	}
 	else
 	{
