@@ -5286,6 +5286,160 @@ Higher shot = more spread, lower = less spread</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>FunkyExplosion</name>
+		<armslevel>3</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>
+				<weight>5</weight>
+				<weapon type='WeaponExplosion'>
+					<hurtamount>RANGE(0.8,1.0)</hurtamount>
+					<multicolor></multicolor>
+					<minlife>1.2</minlife>
+					<maxlife>2</maxlife>
+					<deform>down</deform>
+					<size>4</size>
+					<explosionsound>explosions/small.wav</explosionsound>
+					<explosiontexture>exp02</explosiontexture>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>
+				<weight>5</weight>
+				<weapon type='WeaponExplosion'>
+					<hurtamount>RANGE(0.8,1.0)</hurtamount>
+					<multicolor></multicolor>
+					<minlife>1.2</minlife>
+					<maxlife>2</maxlife>
+					<deform>down</deform>
+					<size>7</size>
+					<explosionsound>explosions/medium.wav</explosionsound>
+					<explosiontexture>exp02</explosiontexture>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>
+				<weight>5</weight>
+				<weapon type='WeaponExplosion'>
+					<hurtamount>RANGE(0.8,1.0)</hurtamount>
+					<multicolor></multicolor>
+					<minlife>1.2</minlife>
+					<maxlife>2</maxlife>
+					<deform>down</deform>
+					<size>9</size>
+					<explosionsound>explosions/large.wav</explosionsound>
+					<explosiontexture>exp02</explosiontexture>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>
+				<weight>5</weight>
+				<weapon type='WeaponExplosion'>
+					<hurtamount>RANGE(0.8,1.0)</hurtamount>
+					<multicolor></multicolor>
+					<minlife>1.2</minlife>
+					<maxlife>2</maxlife>
+					<deform>down</deform>
+					<size>12</size>
+					<explosionsound>explosions/large.wav</explosionsound>
+					<explosiontexture>exp02</explosiontexture>
+				</weapon>
+			</weaponchoice4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
+		<name>FunkyBomblet</name>
+		<armslevel>3</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>				<!-- Red Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0.75</A><B>0</B><C>0</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0.5</A><B>0</B><C>0</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0.5</A><B>0</B><C>0</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0.25</A><B>0</B><C>0</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponReference'>
+						<weapon>FunkyExplosion</weapon>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>				<!-- Green Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0</A><B>0.75</B><C>0</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0</A><B>0.5</B><C>0</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0</A><B>0.5</B><C>0</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0</A><B>0.25</B><C>0</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponReference'>
+						<weapon>FunkyExplosion</weapon>
+					</collisionaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>				<!-- Blue Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0</A><B>0</B><C>0.75</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0</A><B>0</B><C>0.5</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0</A><B>0</B><C>0.5</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0</A><B>0</B><C>0.25</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponReference'>
+						<weapon>FunkyExplosion</weapon>
+					</collisionaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>				<!-- Yellow Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0.75</A><B>0.75</B><C>0</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0.5</A><B>0.5</B><C>0</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0.5</A><B>0.5</B><C>0</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0.25</A><B>0.25</B><C>0</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponReference'>
+						<weapon>FunkyExplosion</weapon>
+					</collisionaction>
+				</weapon>
+			</weaponchoice4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>Funky Bomb</name>
 		<armslevel>3</armslevel>
 		<description>A projectile weapon that on 
@@ -5294,38 +5448,13 @@ missiles.  These missiles automatically
 target nearby tanks.</description>
 		<icon>fbomb.bmp</icon>
 		<bundlesize>1</bundlesize>
-		<cost>10000</cost>
+		<cost>8000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<model type='MilkShape'>icbm/icbm.txt</model>
 		<accessoryaction type='WeaponProjectile'>
 			<projectilemodel type='MilkShape'>icbm/icbm.txt</projectilemodel>
 			<collisionaction type='WeaponMulti'>
-				<subweapon1 type='WeaponRepeat'>
-					<repeat>6</repeat>
-					<delay>0.05</delay>
-					<repeatweapon type='WeaponAimedOver'>
-						<nowarheads>2</nowarheads>
-						<percentagemiss>20</percentagemiss>
-						<maxaimdistance>50</maxaimdistance>
-						<inaccuracy>10</inaccuracy>
-						<aimedweapon type='WeaponProjectile'>
-							<enginesound>none</enginesound>
-							<nocreateflame/>
-							<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
-							<collisionaction type='WeaponExplosion'>
-								<armslevel>2</armslevel>
-								<hurtamount>1.0</hurtamount>
-								<multicolor></multicolor>
-								<deform>down</deform>
-								<size>8</size>
-								<explosionsound>explosions/large.wav</explosionsound>
-								<explosiontexture>exp02</explosiontexture>
-							</collisionaction>
-						</aimedweapon>
-					</repeatweapon>
-				</subweapon1>
-				<subweapon2 type='WeaponExplosion'>
-					<armslevel>2</armslevel>
+				<subweapon1 type='WeaponExplosion'>
 					<hurtamount>1.0</hurtamount>
 					<multicolor></multicolor>
 					<deform>down</deform>
@@ -5333,7 +5462,33 @@ target nearby tanks.</description>
 					<explosionsound>explosions/large.wav</explosionsound>
 					<explosiontexture>exp02</explosiontexture>
 					<explosionshake>1.0</explosionshake>
-				</subweapon2>
+				</subweapon1>			
+				<subweapon2 type='WeaponAimedOver'>
+					<nowarheads>12</nowarheads>
+					<percentagemiss>12</percentagemiss>
+					<maxaimdistance>RANGE(40,55)</maxaimdistance>
+					<inaccuracy>12</inaccuracy>
+					<aimedweapon type='WeaponDelay'>
+						<delay>RANGE(0.4,8)</delay>
+						<delayedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponVelocity'>
+								<velocitychange>RANGE(0.9,1.1)</velocitychange>
+								<aimedweapon type='WeaponReference'>
+									<weapon>FunkyBomblet</weapon>
+								</aimedweapon>
+							</subweapon1>
+							<subweapon2 type='WeaponExplosion'>
+								<hurtamount>0</hurtamount>
+								<multicolor></multicolor>
+								<nocreatedebris/>
+								<deform>none</deform>
+								<size>8</size>
+								<explosionsound>shoot/flare.wav</explosionsound>
+								<explosiontexture>exp02</explosiontexture>
+							</subweapon2>			
+						</delayedweapon>
+					</aimedweapon>
+				</subweapon2>				
 			</collisionaction>
 		</accessoryaction>
 	</accessory>
@@ -5726,6 +5881,213 @@ around attack nearby opponents twice</description>
 		</accessoryaction>
 	</accessory>
 	<accessory>
+		<name>TravoltaBomblet</name>
+		<armslevel>1</armslevel>
+		<maximumnumber>0</maximumnumber>
+		<accessoryaction type='WeaponRandomChoice'>
+			<weaponchoice1>				<!-- Red Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0.75</A><B>0</B><C>0</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0.5</A><B>0</B><C>0</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0.5</A><B>0</B><C>0</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0.25</A><B>0</B><C>0</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>FunkyExplosion</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAimedOver'>
+							<nowarheads>8</nowarheads>
+							<percentagemiss>20</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<inaccuracy>10</inaccuracy>
+							<aimedweapon type='WeaponDelay'>
+								<delay>RANGE(0.1,4.0)</delay>
+								<delayedweapon type='WeaponMulti'>
+									<subweapon1 type='WeaponVelocity'>
+										<velocitychange>RANGE(1.0,1.25)</velocitychange>
+										<aimedweapon type='WeaponReference'>
+											<weapon>FunkyBomblet</weapon>
+										</aimedweapon>
+									</subweapon1>						
+									<subweapon2 type='WeaponExplosion'>
+										<hurtamount>0</hurtamount>
+										<multicolor></multicolor>
+										<nocreatedebris/>
+										<deform>none</deform>
+										<size>8</size>
+										<explosionsound>shoot/flare.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+									</subweapon2>			
+								</delayedweapon>
+							</aimedweapon>
+						</subweapon2>
+					</collisionaction>
+				</weapon>
+			</weaponchoice1>
+			<weaponchoice2>				<!-- Green Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0</A><B>0.75</B><C>0</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0</A><B>0.5</B><C>0</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0</A><B>0.5</B><C>0</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0</A><B>0.25</B><C>0</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>FunkyExplosion</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAimedOver'>
+							<nowarheads>8</nowarheads>
+							<percentagemiss>20</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<inaccuracy>10</inaccuracy>
+							<aimedweapon type='WeaponDelay'>
+								<delay>RANGE(0.1,4.0)</delay>
+								<delayedweapon type='WeaponMulti'>
+									<subweapon1 type='WeaponVelocity'>
+										<velocitychange>RANGE(1.0,1.25)</velocitychange>
+										<aimedweapon type='WeaponReference'>
+											<weapon>FunkyBomblet</weapon>
+										</aimedweapon>
+									</subweapon1>						
+									<subweapon2 type='WeaponExplosion'>
+										<hurtamount>0</hurtamount>
+										<multicolor></multicolor>
+										<nocreatedebris/>
+										<deform>none</deform>
+										<size>8</size>
+										<explosionsound>shoot/flare.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+									</subweapon2>			
+								</delayedweapon>
+							</aimedweapon>
+						</subweapon2>
+					</collisionaction>
+				</weapon>
+			</weaponchoice2>
+			<weaponchoice3>				<!-- Blue Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0</A><B>0</B><C>0.75</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0</A><B>0</B><C>0.5</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0</A><B>0</B><C>0.5</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0</A><B>0</B><C>0.25</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>FunkyExplosion</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAimedOver'>
+							<nowarheads>8</nowarheads>
+							<percentagemiss>20</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<inaccuracy>10</inaccuracy>
+							<aimedweapon type='WeaponDelay'>
+								<delay>RANGE(0.1,4.0)</delay>
+								<delayedweapon type='WeaponMulti'>
+									<subweapon1 type='WeaponVelocity'>
+										<velocitychange>RANGE(1.0,1.25)</velocitychange>
+										<aimedweapon type='WeaponReference'>
+											<weapon>FunkyBomblet</weapon>
+										</aimedweapon>
+									</subweapon1>						
+									<subweapon2 type='WeaponExplosion'>
+										<hurtamount>0</hurtamount>
+										<multicolor></multicolor>
+										<nocreatedebris/>
+										<deform>none</deform>
+										<size>8</size>
+										<explosionsound>shoot/flare.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+									</subweapon2>			
+								</delayedweapon>
+							</aimedweapon>
+						</subweapon2>
+					</collisionaction>
+				</weapon>
+			</weaponchoice3>
+			<weaponchoice4>				<!-- Yellow Flames -->
+				<weight>5</weight>
+				<weapon type='WeaponProjectile'>
+					<flamestartcolor1>
+						<A>0.75</A><B>0.75</B><C>0</C>
+					</flamestartcolor1>
+					<flameendcolor1>
+						<A>0.5</A><B>0.5</B><C>0</C>
+					</flameendcolor1>
+					<flamestartcolor2>
+						<A>0.5</A><B>0.5</B><C>0</C>
+					</flamestartcolor2>
+					<flameendcolor2>
+						<A>0.25</A><B>0.25</B><C>0</C>
+					</flameendcolor2>
+					<shieldhurtfactor>0.85</shieldhurtfactor>
+					<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
+					<collisionaction type='WeaponMulti'>
+						<subweapon1 type='WeaponReference'>
+							<weapon>FunkyExplosion</weapon>
+						</subweapon1>
+						<subweapon2 type='WeaponAimedOver'>
+							<nowarheads>8</nowarheads>
+							<percentagemiss>20</percentagemiss>
+							<maxaimdistance>50</maxaimdistance>
+							<inaccuracy>10</inaccuracy>
+							<aimedweapon type='WeaponDelay'>
+								<delay>RANGE(0.1,4.0)</delay>
+								<delayedweapon type='WeaponMulti'>
+									<subweapon1 type='WeaponVelocity'>
+										<velocitychange>RANGE(1.0,1.25)</velocitychange>
+										<aimedweapon type='WeaponReference'>
+											<weapon>FunkyBomblet</weapon>
+										</aimedweapon>
+									</subweapon1>						
+									<subweapon2 type='WeaponExplosion'>
+										<hurtamount>0</hurtamount>
+										<multicolor></multicolor>
+										<nocreatedebris/>
+										<deform>none</deform>
+										<size>8</size>
+										<explosionsound>shoot/flare.wav</explosionsound>
+										<explosiontexture>exp02</explosiontexture>
+									</subweapon2>			
+								</delayedweapon>
+							</aimedweapon>
+						</subweapon2>
+					</collisionaction>
+				</weapon>
+			</weaponchoice4>
+		</accessoryaction>
+	</accessory>
+	<accessory>
 		<name>The Travolta</name>
 		<armslevel>1</armslevel>
 		<description>Light this far away from yourself.</description>
@@ -5745,39 +6107,25 @@ around attack nearby opponents twice</description>
 					<percentagemiss>20</percentagemiss>
 					<maxaimdistance>60</maxaimdistance>
 					<inaccuracy>10</inaccuracy>
-					<aimedweapon type='WeaponProjectile'>
-						<enginesound>none</enginesound>
-						<spinspeed>0</spinspeed>
-						<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
-						<collisionaction type='WeaponMulti'>
-							<subweapon1 type='WeaponAimedOver'>
-								<nowarheads>6</nowarheads>
-								<percentagemiss>20</percentagemiss>
-								<maxaimdistance>50</maxaimdistance>
-								<inaccuracy>10</inaccuracy>
-								<aimedweapon type='WeaponProjectile'>
-									<enginesound>none</enginesound>
-									<spinspeed>0</spinspeed>
-									<projectilemodel type='MilkShape'>bomb/bomb.txt</projectilemodel>
-									<collisionaction type='WeaponExplosion'>
-										<hurtamount>1.0</hurtamount>
-										<multicolor></multicolor>
-										<deform>down</deform>
-										<size>6</size>
-										<explosionsound>explosions/large.wav</explosionsound>
-										<explosiontexture>exp02</explosiontexture>
-									</collisionaction>
+					<aimedweapon type='WeaponDelay'>
+						<delay>RANGE(0.1,4.0)</delay>
+						<delayedweapon type='WeaponMulti'>
+							<subweapon1 type='WeaponVelocity'>
+								<velocitychange>RANGE(1.0,1.25)</velocitychange>
+								<aimedweapon type='WeaponReference'>
+									<weapon>TravoltaBomblet</weapon>
 								</aimedweapon>
-							</subweapon1>
+							</subweapon1>						
 							<subweapon2 type='WeaponExplosion'>
-								<hurtamount>1.0</hurtamount>
+								<hurtamount>0</hurtamount>
 								<multicolor></multicolor>
-								<deform>down</deform>
+								<nocreatedebris/>
+								<deform>none</deform>
 								<size>8</size>
-								<explosionsound>explosions/large.wav</explosionsound>
+								<explosionsound>shoot/flare.wav</explosionsound>
 								<explosiontexture>exp02</explosiontexture>
-							</subweapon2>
-						</collisionaction>
+							</subweapon2>			
+						</delayedweapon>
 					</aimedweapon>
 				</subweapon1>
 				<subweapon2 type='WeaponExplosion'>
@@ -6326,7 +6674,7 @@ aimed at enemy tanks.</description>
 			<projectilemodel type='MilkShape'>napalm/napalm.txt</projectilemodel> 
 			<collisionaction type='WeaponMulti'>
 				<subweapon1 type='WeaponRepeat'>
-					<repeat>8</repeat>
+					<repeat>10</repeat>
 					<delay>0.5</delay>
 					<repeatweapon type='WeaponAimedOver'>
 						<nowarheads>1</nowarheads>
@@ -10210,7 +10558,7 @@ contact with any tank.</description>
 					<nextaction type='WeaponRoller'>
 						<shieldhurtfactor>0.02</shieldhurtfactor>
 						<numberrollers>8</numberrollers>
-						<time>8</time>
+						<time>RANGE(7,9)</time>
 						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 						<collisionaction type='WeaponExplosion'>
 							<hurtamount>1.0</hurtamount>
@@ -10246,7 +10594,7 @@ with any tank.</description>
 					<nextaction type='WeaponRoller'>
 					    <shieldhurtfactor>0.035</shieldhurtfactor>
 						<numberrollers>8</numberrollers>
-						<time>8</time>
+						<time>RANGE(7,9)</time>
 						<rollermodel type='MilkShape'>roller/roller.txt</rollermodel>
 						<collisionaction type='WeaponExplosion'>
 							<hurtamount>1.0</hurtamount>
