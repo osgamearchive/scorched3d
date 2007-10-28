@@ -311,7 +311,7 @@ bool ServerBanned::save()
 					entry.name.c_str(),
 					XMLNode::XMLParameterType));
 			optionNode->addParameter(new XMLNode("time", 
-					formatString("%u", entry.bantime),
+					formatString("%u", (unsigned int) entry.bantime),
 					XMLNode::XMLParameterType));
 			optionNode->addParameter(new XMLNode("type", 
 					getBannedTypeStr(entry.type),

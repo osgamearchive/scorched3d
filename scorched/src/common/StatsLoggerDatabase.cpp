@@ -692,13 +692,15 @@ void StatsLoggerDatabase::updateStats(Tank *tank)
 
 	if (!tank->getState().getSpectator())
 	{
+		unsigned int playerId = playerId_[tank->getUniqueId()];
+
 		runQuery("UPDATE scorched3d_stats SET "
 			"timeplayed=timeplayed+%i, moneyearned=moneyearned+%i, scoreearned=scoreearned+%i "
 			"WHERE playerid = %i AND prefixid = %i AND seriesid = %i;", 
-			tank->getScore().getTimePlayedStat(), 
+			((unsigned int) tank->getScore().getTimePlayedStat()),
 			tank->getScore().getTotalMoneyEarnedStat(), 
 			tank->getScore().getTotalScoreEarnedStat(),
-			playerId_[tank->getUniqueId()],
+			playerId,
 			prefixid_,
 			seriesid_);
 	}

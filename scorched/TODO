@@ -20,6 +20,7 @@ Fixed: Async coms messages are sent even if outgoing message queue is full
 Fixed: Overflow causing placement closeness to be ignored
 Fixed: An issue connecting midway through maps that have level created tanks on them
 Fixed: A crash when using levels with odd dimensions
+Fixed: An issue where timeplayed, money earned and score earned stats where not being recorded
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

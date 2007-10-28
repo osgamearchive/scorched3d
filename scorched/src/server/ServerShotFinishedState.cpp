@@ -320,7 +320,6 @@ bool ServerShotFinishedState::scoreWinners()
 
 	// Update the stats for the players before sending out the
 	// stats message
-	StatsLogger::instance()->periodicUpdate();
 	std::map<unsigned int, Tank *> &tanks = 
 		ScorchedServer::instance()->getTankContainer().getPlayingTanks();
 	for (itor = tanks.begin();
@@ -378,6 +377,8 @@ bool ServerShotFinishedState::scoreWinners()
 
 void ServerShotFinishedState::scoreOverallWinner()
 {
+	StatsLogger::instance()->periodicUpdate();
+
 	if (ScorchedServer::instance()->getOptionsGame().getTeams() == 1)
 	{
 		std::list<Tank *> sortedTanks;
