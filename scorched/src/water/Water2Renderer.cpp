@@ -221,6 +221,13 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 		glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
 
 		glActiveTexture(GL_TEXTURE0);
+
+
+		glColor4f(0.3f, 0.3f, 0.3f, 0.8f);
+	}
+	else
+	{
+		glColor4f(0.7f, 0.7f, 0.7f, 0.8f);
 	}
 
 	// Turn lighting on (if enabled)
@@ -232,7 +239,7 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 			GLState::LIGHT1_ON;
 
 		Vector4 ambientColor(0.2f, 0.2f, 0.2f, 0.8f);
-		Vector4 diffuseColor(1.0f, 1.0f, 1.0f, 0.8f);
+		Vector4 diffuseColor(0.8f, 0.8f, 0.8f, 0.8f);
 		Vector4 specularColor(1.0f, 1.0f, 1.0f, 0.8f);
 		Vector4 emissiveColor(0.0f, 0.0f, 0.0f, 0.8f);
 		float shininess = 100.0f;
@@ -245,7 +252,6 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 		Landscape::instance()->getSky().getSun().setLightPosition();
 	}
 
-	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	if (GLStateExtension::hasCubeMap())
 	{
 		GLState currentState(state | GLState::TEXTURE_OFF | GLState::BLEND_ON | GLState::CUBEMAP_ON);
