@@ -1,10 +1,10 @@
 #!BPY
 
 """
-Name: 'MS3D ASCII (.txt) v 1.5.1'
+Name: 'MS3D ASCII (.txt) v 1.5.2'
 Blender: 242
 Group: 'Export'
-Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5.1'
+Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5.2'
 """
 
 #Copyright (C) 2004-2007 Paul Vint cbx550f@sourceforge.net
@@ -34,6 +34,7 @@ Tooltip: 'MilkShape3d ASCII format for Scorched3d models v1.5.1'
 # TODO: Stop using face nrmals, should be vertex normals! - done. 05/09/06
 # Added proper support for emitted light 05/11/06
 # TODO - Have it export quads as triangles automagically (a la 3ds export)
+# Fix: Smoothing groups are now properly supported 28/10/2007
 
 import Blender
 from Blender import Draw, BGL
@@ -195,10 +196,13 @@ def write(filename):
 				#file.write('\n' + str(round(mesh.faces[i].no[0],4)) + ' ' + str(round(mesh.faces[i].no[2],4)) + ' ' + str(round(mesh.faces[i].no[1],4)))
 				faceVerts = len(mesh.faces[i].v)
 				for fv in range(faceVerts):  # Scan through each vert in face
-					file.write('\n' + str(round(-mesh.faces[i].v[faceVerts-fv-1].no[0],4)))
-					file.write(' ' + str(round(mesh.faces[i].v[faceVerts-fv-1].no[2],4)))
-					file.write(' ' + str(round(-mesh.faces[i].v[faceVerts-fv-1].no[1],4)))
-
+					# Check if the face is smoothed or not:
+					if (mesh.faces[i].smooth):
+						file.write('\n' + str(round(-mesh.faces[i].v[faceVerts-fv-1].no[0],4)))
+						file.write(' ' + str(round(mesh.faces[i].v[faceVerts-fv-1].no[2],4)))
+						file.write(' ' + str(round(-mesh.faces[i].v[faceVerts-fv-1].no[1],4)))
+					else:
+						file.write('\n' + str(round(-mesh.faces[i].no[0],4)) + ' ' + str(round(mesh.faces[i].no[2],4)) + ' ' + str(round(-mesh.faces[i].no[1],4)))
 
 			# Faces
 			print "Triangles: " ,len(mesh.faces)
