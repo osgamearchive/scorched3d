@@ -341,7 +341,7 @@ NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoingSy
 				part.retries ++;
 
 				// Check if we have exceeded maximum number of part retries
-				const int MaxNumberOfRetries = 10;
+				const int MaxNumberOfRetries = 30;
 				if (part.retries >= MaxNumberOfRetries)
 				{
 					// We have, its a timeout
