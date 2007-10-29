@@ -34,7 +34,7 @@ NetOptions *NetOptions::instance()
 
 NetOptions::NetOptions() :
 	numberRetries_(options_, "NumberRetries",
-		"The number of retries before deeming a connection terminated", 0, 30, 5, 100, 5),
+		"The number of retries before deeming a connection terminated", 0, 40, 5, 100, 5),
 	outstandingPackets_(options_, "OutstandingPackets",
 		"The number of packets to send in a block", 0, 10, 1, 100, 10),
 	packetSize_(options_, "PacketSize",
