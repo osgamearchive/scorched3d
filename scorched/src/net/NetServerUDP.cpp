@@ -20,6 +20,7 @@
 
 #include <net/NetServerUDP.h>
 #include <net/NetMessagePool.h>
+#include <net/NetOptions.h>
 #include <common/Logger.h>
 #include <common/Clock.h>
 #include <limits.h>
@@ -28,6 +29,9 @@ NetServerUDP::NetServerUDP() :
 	serverDestinationId_(UINT_MAX), udpsock_(0), nextDestinationId_(1),
 	sendRecvThread_(0)
 {
+	NetOptions::instance()->readOptionsFromFile();
+	NetOptions::instance()->writeOptionsToFile();
+
 	packetVIn_ = SDLNet_AllocPacketV(20, 10000);
 	packetVOut_ = SDLNet_AllocPacketV(20, 10000);
 }

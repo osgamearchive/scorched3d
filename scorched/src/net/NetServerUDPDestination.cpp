@@ -20,6 +20,7 @@
 
 #include <net/NetServerUDP.h>
 #include <net/NetMessagePool.h>
+#include <net/NetOptions.h>
 #include <common/Logger.h>
 
 //#define UDP_TEST
@@ -296,7 +297,8 @@ NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoingSy
 	// Check we have stuff to send
 	if (outgoingMessages_.empty()) return result;
 
-	const unsigned int MaximumOutstandingParts = 10;
+	const unsigned int MaximumOutstandingParts = 
+		(unsigned int) NetOptions::instance()->getOutstandingPackets();
 	// Send more parts if
 	// 1) There are more parts to send
 	// 2) We dont have more than MaximumOutstandingParts parts
@@ -334,14 +336,15 @@ NetServerUDPDestination::OutgoingResult NetServerUDPDestination::checkOutgoingSy
 			// Check if this part was sent longer than the timeout
 			// period ago
 			MessagePart &part = (*itor).second;
-			if (theTime - part.sendtime > (part.retries + 2) * 100)
+			if (theTime - part.sendtime > ((25 * part.retries) + 100))
 			{
 				// If it was then this is a dropped part (or ack)
 				droppedPackets_++;
 				part.retries ++;
 
 				// Check if we have exceeded maximum number of part retries
-				const int MaxNumberOfRetries = 30;
+				unsigned int MaxNumberOfRetries = 
+					(unsigned int) NetOptions::instance()->getNumberRetries();
 				if (part.retries >= MaxNumberOfRetries)
 				{
 					// We have, its a timeout
@@ -377,7 +380,7 @@ void NetServerUDPDestination::addMessage(NetMessage &oldmessage)
 	message->getBuffer().setBufferUsed(buffer.getBufferUsed());
 
 	// Split this message into parts that will be sent
-	const int SendLength = 800;
+	const int SendLength = NetOptions::instance()->getPacketSize();
 	OutgoingMessage *outgoingMessage = new OutgoingMessage();
 	outgoingMessage->message_ = message;
 

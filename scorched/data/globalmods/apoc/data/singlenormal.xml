@@ -3,37 +3,37 @@
 	<!-- (default value : "Human") -->
 	<option>
 		<name>PlayerType1</name>
-		<value>Shark</value>
+		<value>Chemist</value>
 	</option>
 	<!-- The type of the player e.g. human, computer etc.. -->
 	<!-- (default value : "Human") -->
 	<option>
 		<name>PlayerType2</name>
-		<value>Shark</value>
+		<value>Chemist</value>
 	</option>
 	<!-- The type of the player e.g. human, computer etc.. -->
 	<!-- (default value : "Human") -->
 	<option>
 		<name>PlayerType3</name>
-		<value>Chooser</value>
+		<value>Chemist</value>
 	</option>
 	<!-- The type of the player e.g. human, computer etc.. -->
 	<!-- (default value : "Human") -->
 	<option>
 		<name>PlayerType4</name>
-		<value>Chooser</value>
+		<value>Pyro</value>
 	</option>
 	<!-- The type of the player e.g. human, computer etc.. -->
 	<!-- (default value : "Human") -->
 	<option>
 		<name>PlayerType5</name>
-		<value>Tosser</value>
+		<value>Pyro</value>
 	</option>
 	<!-- The type of the player e.g. human, computer etc.. -->
 	<!-- (default value : "Human") -->
 	<option>
 		<name>PlayerType6</name>
-		<value>Shooter</value>
+		<value>Shocker</value>
 	</option>
 	<!-- The type of the player e.g. human, computer etc.. -->
 	<!-- (default value : "Human") -->

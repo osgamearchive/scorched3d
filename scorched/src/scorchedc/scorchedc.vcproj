@@ -1547,6 +1547,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\net\NetOptions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\net\NetOptions.h"
+				>
+			</File>
+			<File
 				RelativePath="..\net\NetServerTCP.cpp"
 				>
 			</File>
