@@ -711,6 +711,7 @@ void StatsLoggerDatabase::periodicUpdate()
 	time_t currentTime = time(0);
 	if (currentTime - updateTime_ > 60 * 60 * 12) // 12 hrs
 	{
+		updateTime_ = currentTime;
 		Logger::log(formatStringBuffer("statslogger database starting periodics"));
 
 		// Cleanup orphaned avatars
