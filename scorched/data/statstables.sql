@@ -63,7 +63,8 @@ create table if not exists scorched3d_players (
 	
 	PRIMARY KEY (playerid),
 	UNIQUE (uniqueid),
-	INDEX uniqueid_index (uniqueid) 
+	INDEX uniqueid_index (uniqueid),
+	INDEX avatarid_index (avatarid)
 );
 
 create table if not exists scorched3d_statssource (
