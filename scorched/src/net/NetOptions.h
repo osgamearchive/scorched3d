@@ -31,6 +31,7 @@ public:
 	int getNumberRetries() { return numberRetries_; }
 	int getOutstandingPackets() { return outstandingPackets_; }
 	int getPacketSize() { return packetSize_; }
+	bool getPacketLogging() { return packetLogging_; }
 
 	bool writeOptionsToFile();
 	bool readOptionsFromFile();
@@ -42,6 +43,7 @@ protected:
 	OptionEntryBoundedInt numberRetries_;
 	OptionEntryBoundedInt outstandingPackets_;
 	OptionEntryBoundedInt packetSize_;
+	OptionEntryBool packetLogging_;
 
 private:
 	NetOptions();

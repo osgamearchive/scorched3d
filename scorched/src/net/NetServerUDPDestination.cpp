@@ -35,6 +35,7 @@ NetServerUDPDestination::NetServerUDPDestination(NetServerUDP *server, IPaddress
 	packetsOutOfSequenceRecieved_(0), packetsSequenceRecieved_(0), packetsDuplicateRecieved_(0),
 	messagesSent_(0), messagesRecieved_(0)
 {
+	packetLogging_ = NetOptions::instance()->getPacketLogging();
 	memcpy(&address_, &address, sizeof(address));
 }
 
@@ -457,24 +458,36 @@ bool NetServerUDPDestination::sendPart(MessagePart &part, NetMessage &message)
 	// Update the last time this part was sent
 	part.sendtime = SDL_GetTicks();
 
-	// Send this part
-	server_->packetVOut_[0]->len = 5 + part.length;
-	server_->packetVOut_[0]->address.host = address_.host;
-	server_->packetVOut_[0]->address.port = address_.port;
-	server_->packetVOut_[0]->channel = -1;
-	server_->packetVOut_[0]->data[0] = (part.end?server_->eDataFin:server_->eData);
-	SDLNet_Write32(part.seq, &server_->packetVOut_[0]->data[1]);
-	memcpy(&server_->packetVOut_[0]->data[5], &message.getBuffer().getBuffer()[part.offset], part.length);
-	if (SDLNet_UDP_SendV(server_->udpsock_, server_->packetVOut_, 1) == 0)
+	bool sendPacket = true;
+#ifdef UDP_TEST
+	// Simulate packet loss from send
+	if (rand() > RAND_MAX / 2)
 	{
-		Logger::log(formatStringBuffer("NetServerUDP: Failed to send part packet"));
-		return false;
+		sendPacket = false;
 	}
+#endif
 
-	if (packetLogging_)
+	if (sendPacket)
 	{
-		Logger::log(formatStringBuffer("Sending part %u%s - %i bytes, %i offset", 
-			part.seq, (part.end?"*":" "), part.length, part.offset));
+		// Send this part
+		server_->packetVOut_[0]->len = 5 + part.length;
+		server_->packetVOut_[0]->address.host = address_.host;
+		server_->packetVOut_[0]->address.port = address_.port;
+		server_->packetVOut_[0]->channel = -1;
+		server_->packetVOut_[0]->data[0] = (part.end?server_->eDataFin:server_->eData);
+		SDLNet_Write32(part.seq, &server_->packetVOut_[0]->data[1]);
+		memcpy(&server_->packetVOut_[0]->data[5], &message.getBuffer().getBuffer()[part.offset], part.length);
+		if (SDLNet_UDP_SendV(server_->udpsock_, server_->packetVOut_, 1) == 0)
+		{
+			Logger::log(formatStringBuffer("NetServerUDP: Failed to send part packet"));
+			return false;
+		}
+
+		if (packetLogging_)
+		{
+			Logger::log(formatStringBuffer("Sending part %u%s - %i bytes, %i offset", 
+				part.seq, (part.end?"*":" "), part.length, part.offset));
+		}
 	}
 	
 	return true;

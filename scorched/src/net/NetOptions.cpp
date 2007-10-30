@@ -38,7 +38,9 @@ NetOptions::NetOptions() :
 	outstandingPackets_(options_, "OutstandingPackets",
 		"The number of packets to send in a block", 0, 10, 1, 100, 10),
 	packetSize_(options_, "PacketSize",
-		"The size of packets to send", 0, 800, 100, 1500, 100)
+		"The size of packets to send", 0, 800, 100, 1500, 100),
+	packetLogging_(options_, "PacketLogging",
+		"Log in depth packet sends/receives (performance affecting)", 0, false)
 {
 }
 
