@@ -342,6 +342,8 @@ scorched3dc_SOURCES = \
 	../net/NetMessageHandler.h \
 	../net/NetMessagePool.cpp \
 	../net/NetMessagePool.h \
+	../net/NetOptions.cpp \
+	../net/NetOptions.h \
 	../net/NetServerTCP.cpp \
 	../net/NetServerTCP.h \
 	../net/NetServerTCPProtocol.cpp \
@@ -779,6 +781,8 @@ scorched3dc_SOURCES = \
 	../GLEXT/GLFont2d.h \
 	../GLEXT/GLFrameBufferObject.cpp \
 	../GLEXT/GLFrameBufferObject.h \
+	../GLEXT/GLGlobalState.cpp \
+	../GLEXT/GLGlobalState.h \
 	../GLEXT/GLImage.cpp \
 	../GLEXT/GLImage.h \
 	../GLEXT/GLImageFactory.cpp \

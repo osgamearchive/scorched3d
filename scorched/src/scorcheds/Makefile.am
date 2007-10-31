@@ -335,6 +335,8 @@ scorched3ds_SOURCES = \
 	../net/NetMessageHandler.h \
 	../net/NetMessagePool.cpp \
 	../net/NetMessagePool.h \
+	../net/NetOptions.cpp \
+	../net/NetOptions.h \
 	../net/NetServerTCP.cpp \
 	../net/NetServerTCP.h \
 	../net/NetServerTCPProtocol.cpp \
