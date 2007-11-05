@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
-#include <limits.h>
 #include <GLEXT/GLState.h>
 #include <GLEXT/GLDynamicVertexArray.h>
 #include <GLEXT/GLStateExtension.h>

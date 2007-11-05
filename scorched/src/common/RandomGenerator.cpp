@@ -23,7 +23,6 @@
 #include <SDL/SDL_net.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
 
 // Yes you guessed it, a really sucky way to create cross platform
 // random numbers.  Store them in a file and read them in each system!
@@ -81,12 +80,6 @@ unsigned int RandomGenerator::getRandUInt()
 	unsigned int rvalue = value >> maskpos;
 	return lvalue | rvalue;
 }
-
-/*float RandomGenerator::getRandFloat()
-{
-	unsigned int y = getRandUInt();
-	return float(y) / float(UINT_MAX);
-}*/
 
 fixed RandomGenerator::getRandFixed()
 {

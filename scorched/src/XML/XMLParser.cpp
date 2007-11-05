@@ -20,8 +20,6 @@
 
 #include <XML/XMLParser.h>
 #include <common/Defines.h>
-#include <limits.h>
-#include <float.h>
 #include <stdlib.h>
 #include <stdio.h>
 

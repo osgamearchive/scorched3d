@@ -23,7 +23,6 @@
 #include "fixed.h"
 #include <math.h>
 #include <stdlib.h>
-#include <limits.h>
 #include <string.h>
 #include <common/DefinesAssert.h>
 #include <common/DefinesString.h>
@@ -42,7 +41,7 @@ fixed fixed::XPIO2 =   fixed(true,_XPIO2);
 #define _XLN_10   23025 // 2.30258509299404568402
 #define XLN_10   fixed(true,_XLN_10)
 
-fixed fixed::MAX_FIXED(true, LONG_MAX);
+fixed fixed::MAX_FIXED(true, 2147483647L); // 32 bit
 
 fixed::fixed(const char *nVal)
 {
