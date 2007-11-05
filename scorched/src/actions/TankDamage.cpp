@@ -77,7 +77,7 @@ void TankDamage::init()
 
 const char *TankDamage::getActionDetails()
 {
-	return formatString("%u %li %s",
+	return formatString("%u %i %s",
 		damagedPlayerId_, damage_.getInternal(), weapon_->getParent()->getName());
 }
 
@@ -192,7 +192,7 @@ void TankDamage::calculateDamage()
 		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
-				formatString("TankDamage: %u %li", 
+				formatString("TankDamage: %u %i", 
 					damagedTarget->getPlayerId(),
 					damagedTarget->getLife().getLife().getInternal()));
 		}

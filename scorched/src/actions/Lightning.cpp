@@ -81,7 +81,7 @@ void Lightning::init()
 
 const char *Lightning::getActionDetails()
 {
-	return formatString("%li,%li,%li %li,%li,%li %s",
+	return formatString("%i,%i,%i %i,%i,%i %s",
 		position_[0].getInternal(), position_[1].getInternal(), position_[2].getInternal(),
 		velocity_[0].getInternal(), velocity_[1].getInternal(), velocity_[2].getInternal(),
 		weapon_->getParent()->getName());

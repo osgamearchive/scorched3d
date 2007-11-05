@@ -120,7 +120,7 @@ void Teleport::simulate(fixed frameTime, bool &remove)
 				if (context_->optionsGame->getActionSyncCheck())
 				{
 					context_->actionController->addSyncCheck(
-						formatString("Telport: %u %li, %li, %li", 
+						formatString("Telport: %u %i, %i, %i", 
 							tank->getPlayerId(),
 							position_[0].getInternal(),
 							position_[1].getInternal(),
@@ -136,7 +136,7 @@ void Teleport::simulate(fixed frameTime, bool &remove)
 				if (context_->optionsGame->getActionSyncCheck())
 				{
 					context_->actionController->addSyncCheck(
-						formatString("Telport: %u %li, %li, %li", 
+						formatString("Telport: %u %i, %i, %i", 
 							tank->getPlayerId(),
 							position_[0].getInternal(),
 							position_[1].getInternal(),
@@ -160,7 +160,7 @@ void Teleport::simulate(fixed frameTime, bool &remove)
 
 const char *Teleport::getActionDetails()
 {
-	return formatString("%u %li,%li,%li %s", 
+	return formatString("%u %i,%i,%i %s", 
 		weaponContext_.getPlayerId(), 
 		position_[0].getInternal(),
 		position_[1].getInternal(),

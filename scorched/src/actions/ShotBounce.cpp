@@ -68,7 +68,7 @@ ShotBounce::~ShotBounce()
 
 const char *ShotBounce::getActionDetails()
 {
-	return formatString("%li,%li,%li %li,%li,%li %s",
+	return formatString("%i,%i,%i %i,%i,%i %s",
 		startPosition_[0].getInternal(), startPosition_[1].getInternal(), startPosition_[2].getInternal(),
 		velocity_[0].getInternal(), velocity_[1].getInternal(), velocity_[2].getInternal(),
 		weapon_->getParent()->getName());

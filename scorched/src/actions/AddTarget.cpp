@@ -58,7 +58,7 @@ void AddTarget::simulate(fixed frameTime, bool &remove)
 	if (context_->optionsGame->getActionSyncCheck())
 	{
 		context_->actionController->addSyncCheck(
-			formatString("AddTarget : %u %s %li,%li,%li", 
+			formatString("AddTarget : %u %s %i,%i,%i", 
 				playerId,
 				target->getName(),
 				position_[0].getInternal(),

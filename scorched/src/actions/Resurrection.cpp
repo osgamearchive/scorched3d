@@ -68,7 +68,7 @@ void Resurrection::simulate(fixed frameTime, bool &remove)
 		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
-				formatString("TankRez: %u %li, %li, %li", 
+				formatString("TankRez: %u %i, %i, %i", 
 					tank->getPlayerId(),
 					position_[0].getInternal(),
 					position_[1].getInternal(),

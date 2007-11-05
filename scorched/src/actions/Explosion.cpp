@@ -215,7 +215,7 @@ void Explosion::init()
 
 const char *Explosion::getActionDetails()
 {
-	return formatString("%li,%li,%li %s", 
+	return formatString("%i,%i,%i %s", 
 		position_[0].getInternal(), position_[1].getInternal(), position_[2].getInternal(), 
 		weapon_->getParent()->getName());
 }

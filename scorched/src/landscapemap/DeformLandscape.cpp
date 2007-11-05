@@ -39,7 +39,7 @@ bool DeformLandscape::deformLandscape(
 	if (context.optionsGame->getActionSyncCheck())
 	{
 		context.actionController->addSyncCheck(
-			formatString("Deform : %li,%li,%li %li %s", 
+			formatString("Deform : %i,%i,%i %i %s", 
 				pos[0].getInternal(), pos[1].getInternal(), pos[2].getInternal(), 
 				radius.getInternal(), (down?"Down":"Up")));
 	}
@@ -143,7 +143,7 @@ void DeformLandscape::flattenArea(
 	if (context.optionsGame->getActionSyncCheck())
 	{
 		context.actionController->addSyncCheck(
-			formatString("Flatten : %li,%li,%li %li", 
+			formatString("Flatten : %i,%i,%i %i", 
 			tankPos[0].getInternal(), tankPos[1].getInternal(), tankPos[2].getInternal(), 
 			size.getInternal()));
 	}

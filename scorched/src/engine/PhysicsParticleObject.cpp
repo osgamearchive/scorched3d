@@ -121,7 +121,7 @@ void PhysicsParticleObject::checkCollision()
 				if (context_->optionsGame->getActionSyncCheck())
 				{
 					context_->actionController->addSyncCheck(
-						formatString("Shot Collision : %i %i %li,%li,%li", 
+						formatString("Shot Collision : %i %i %i,%i,%i", 
 							(int) action,
 							(int) collision.collisionId,
 							position_[0].getInternal(),

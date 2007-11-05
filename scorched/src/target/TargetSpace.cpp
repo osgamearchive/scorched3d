@@ -179,7 +179,7 @@ Target *TargetSpace::getCollision(FixedVector &position)
 		std::string targets;
 		if (result)
 		{
-			targets.append(formatString("%u:%li,%li,%li ", 
+			targets.append(formatString("%u:%i,%i,%i ", 
 				result->getPlayerId(),
 				result->getLife().getTargetPosition()[0].getInternal(),
 				result->getLife().getTargetPosition()[1].getInternal(),
@@ -187,7 +187,7 @@ Target *TargetSpace::getCollision(FixedVector &position)
 		}
 
 		context_->actionController->addSyncCheck(
-			formatString("CollisionSet : %li,%li,%li %s", 
+			formatString("CollisionSet : %i,%i,%i %s", 
 				position[0].getInternal(),
 				position[1].getInternal(),
 				position[2].getInternal(),
@@ -266,7 +266,7 @@ void TargetSpace::getCollisionSet(FixedVector &position, fixed radius,
 			itor != collisionTargets.end();
 			itor++)
 		{
-			targets.append(formatString("%u:%li,%li,%li ", 
+			targets.append(formatString("%u:%i,%i,%i ", 
 				itor->second->getPlayerId(),
 				itor->second->getLife().getTargetPosition()[0].getInternal(),
 				itor->second->getLife().getTargetPosition()[1].getInternal(),
@@ -274,7 +274,7 @@ void TargetSpace::getCollisionSet(FixedVector &position, fixed radius,
 		}
 
 		context_->actionController->addSyncCheck(
-			formatString("CollisionSet : %li,%li,%li %li \"%s\"", 
+			formatString("CollisionSet : %i,%i,%i %i \"%s\"", 
 				position[0].getInternal(),
 				position[1].getInternal(),
 				position[2].getInternal(),

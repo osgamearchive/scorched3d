@@ -80,7 +80,7 @@ void ShotState::setup()
 				!target->isTarget())
 			{
 				context_.actionController->addSyncCheck(
-					formatString("TargetDef : %u %s %li %li,%li,%li %li,%li,%li %s", 
+					formatString("TargetDef : %u %s %i %i,%i,%i %i,%i,%i %s", 
 						target->getPlayerId(),
 						target->getName(),
 						target->getLife().getLife().getInternal(),

@@ -156,7 +156,7 @@ void TankFalling::collision(PhysicsParticleObject &position,
 		if (context_->optionsGame->getActionSyncCheck())
 		{
 			context_->actionController->addSyncCheck(
-				formatString("TankFalling: %u %li, %li, %li", 
+				formatString("TankFalling: %u %i, %i, %i", 
 					current->getPlayerId(),
 					position.getPosition()[0].getInternal(),
 					position.getPosition()[1].getInternal(),

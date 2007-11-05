@@ -188,7 +188,7 @@ void ActionController::addAction(Action *action)
 		if (context_->optionsGame->getActionSyncCheck())
 		{
 			addSyncCheck(
-				formatString("Add Action : %li %s:%s", 
+				formatString("Add Action : %i %s:%s", 
 					time_.getInternal(), 
 					action->getActionType(), 
 					action->getActionDetails()));
@@ -307,7 +307,7 @@ void ActionController::stepActions(fixed frameTime)
 				if (context_->optionsGame->getActionSyncCheck())
 				{
 					addSyncCheck(
-						formatString("Rm Action : %li %s:%s", 
+						formatString("Rm Action : %i %s:%s", 
 							time_.getInternal(), 
 							act->getActionType(), 
 							act->getActionDetails()));

@@ -175,7 +175,7 @@ bool ComsSyncCheckMessage::readMessage(NetBufferReader &reader)
 			
 			if (actualheight != sentheight) 
 			{
-				syncCheckLog(formatStringBuffer("%li %li", 
+				syncCheckLog(formatStringBuffer("%i %i", 
 					actualheight.getInternal(), sentheight.getInternal()));
 				heightDiffs++;
 			}
