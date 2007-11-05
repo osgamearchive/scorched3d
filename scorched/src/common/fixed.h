@@ -25,13 +25,13 @@
 #ifndef _FIXED_H
 #define _FIXED_H
 
-#define	FIXED_RESOLUTION		10000L
+#define	FIXED_RESOLUTION		10000
 #define	FIXED_RESOLUTION_FLOAT	10000.0f
 
 class fixed
 {
 private:
-	long	m_nVal;
+	int	m_nVal;
 public:
 	fixed()
 	{
@@ -43,17 +43,12 @@ public:
 		m_nVal = fixedVal.m_nVal;
 	}
 
-	fixed(bool bInternal, long nVal)
+	fixed(bool bInternal, int nVal)
 	{
 		m_nVal = nVal;
 	}
 
 	fixed(unsigned int nVal)
-	{
-		m_nVal = nVal*FIXED_RESOLUTION;
-	}
-
-	fixed(long nVal)
 	{
 		m_nVal = nVal*FIXED_RESOLUTION;
 	}
@@ -134,7 +129,7 @@ public:
 		return (int)(m_nVal/FIXED_RESOLUTION);
 	}
 
-	long getInternal() 
+	int getInternal() 
 	{ 
 		return m_nVal; 
 	}

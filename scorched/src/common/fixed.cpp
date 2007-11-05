@@ -24,6 +24,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include <common/DefinesAssert.h>
 #include <common/DefinesString.h>
 #include <common/Logger.h>
@@ -41,7 +42,37 @@ fixed fixed::XPIO2 =   fixed(true,_XPIO2);
 #define _XLN_10   23025 // 2.30258509299404568402
 #define XLN_10   fixed(true,_XLN_10)
 
-fixed fixed::MAX_FIXED(true, 2147483647L); // 32 bit
+fixed fixed::MAX_FIXED(true, INT_MAX); // 32 bit
+
+inline int fixed_internal_mult(int a, int b)
+{
+	int c = 0;
+	if (sizeof(long) == 8)
+	{
+		c = (int)((((long)a)*((long)b))/FIXED_RESOLUTION);
+	}
+	else if (sizeof(long long) == 8)
+	{
+		c = (int)((((long long)a)*((long long)b))/FIXED_RESOLUTION);
+	}
+	return c;
+}
+
+inline int fixed_internal_div(int a, int b)
+{
+	if(b == 0) return 0xFFFFFFF;
+
+	int c = 0;
+	if (sizeof(long) == 8)
+	{
+		c = (int)((((long)a)*((long)FIXED_RESOLUTION))/b);
+	}
+	else if (sizeof(long long) == 8)
+	{
+		c = (int)((((long long)a)*((long long)FIXED_RESOLUTION))/b);
+	}
+	return c;
+}
 
 fixed::fixed(const char *nVal)
 {
@@ -79,8 +110,8 @@ fixed::fixed(const char *nVal)
 	f[fp] = '\0';
 	DIALOG_ASSERT(ip < 15 && fp < 15);
 
-	long ipa = atol(i);
-	long fpa = atol(f);
+	int ipa = atoi(i);
+	int fpa = atoi(f);
 
 	m_nVal = ipa * FIXED_RESOLUTION + fpa;
 	if (neg) m_nVal =- m_nVal;
@@ -137,41 +168,23 @@ const char *fixed::asString()
 
 fixed fixed::operator*(fixed b)
 {
-	fixed a;
-	a.m_nVal = (long)(((long long)m_nVal*b.m_nVal)/FIXED_RESOLUTION);
-
-	if (a.getInternal() < 0 && m_nVal > 0 && b.m_nVal > 0)
-	{
-		Logger::log("Fixed overflow");
-	}
-
-	return a;
+	return fixed(true, fixed_internal_mult(m_nVal, b.m_nVal));
 }
 
 fixed fixed::operator/(fixed b)
 {
-	if( b == fixed(0) ) return fixed(true, 0xFFFFFFFL);
-	fixed a;
-	a.m_nVal = (long)(((long long)m_nVal*FIXED_RESOLUTION/b.m_nVal));
-	return a;
+	return fixed(true, fixed_internal_div(m_nVal, b.m_nVal));
 }
 
-fixed fixed::operator*=(fixed val)
+fixed fixed::operator*=(fixed b)
 {
-	long res = (long)(((long long)m_nVal*val.m_nVal)/FIXED_RESOLUTION);
-
-	if (res < 0 && m_nVal > 0 && val.m_nVal > 0)
-	{
-		Logger::log("Fixed overflow");
-	}
-	m_nVal = res;
-
+	m_nVal = fixed_internal_mult(m_nVal, b.m_nVal);
 	return *this;
 }
 
-fixed fixed::operator/=(fixed val)
+fixed fixed::operator/=(fixed b)
 {
-	m_nVal = (long)(((long long)m_nVal*FIXED_RESOLUTION)/val.m_nVal);
+	m_nVal = fixed_internal_div(m_nVal, b.m_nVal);
 	return *this;
 }
 
@@ -186,10 +199,9 @@ fixed fixed::operator/=(fixed val)
         root = root >> 1;                               \
     }
 
-static long 
-iSqrt(long value)
+static int iSqrt(int value)
 {
-    long root = 0;
+    int root = 0;
 
     sqrt_step( 0);
     sqrt_step( 2);
@@ -230,8 +242,7 @@ fixed absx( fixed p_Base )
 
 */
 
-static
-fixed iLog2( fixed p_Base )
+static fixed iLog2( fixed p_Base )
 {   
     fixed w = 0;
 	fixed y = 0;
@@ -265,8 +276,7 @@ fixed iLog2( fixed p_Base )
 
 */
 
-static
-fixed iExp2(fixed p_Base)
+static fixed iExp2(fixed p_Base)
 {
 	fixed w;
 	fixed y;
@@ -278,8 +288,7 @@ fixed iExp2(fixed p_Base)
 	return y;
 }
 
-static
-fixed ipow( fixed p_Base, fixed p_Power )
+static fixed ipow( fixed p_Base, fixed p_Power )
 {
 	if( p_Base < fixed(0) && p_Power%2 != fixed(0) )
 		return - iExp2( (p_Power * iLog2( -p_Base )) );
@@ -287,15 +296,14 @@ fixed ipow( fixed p_Base, fixed p_Power )
 		return iExp2( (p_Power * iLog2(absx( p_Base ))) );
 }
 
-static
-fixed ilog10( fixed p_Base )
+static fixed ilog10( fixed p_Base )
 {
 	return iLog2( p_Base ) / XLN_10;
 }
 
 fixed fixed::sqrt()
 {
-	long val = iSqrt(m_nVal);
+	int val = iSqrt(m_nVal);
 	val *= 100;
 	return fixed(true, val);
 }
@@ -369,11 +377,10 @@ fixed ceilx(fixed fixedVal)
 //
 // Only accurate from -PI/2 to PI/2
 
-static
-fixed _sinx(fixed x)
+static fixed _sinx(fixed x)
 {
 	fixed xpwr;
-	long xftl;
+	int xftl;
 	fixed xresult;
 	bool positive;
 
@@ -382,7 +389,7 @@ fixed _sinx(fixed x)
 	xftl = 1;
 	positive = true;
 
-	// Note: 12! largest for long
+	// Note: 12! largest for int
 	for(int i = 1; i < 7; i+=2)
 	{
 		if( positive )
@@ -486,7 +493,7 @@ fixed tanx(fixed x)
 fixed fixed::fromFloat(float flt)
 {
 	fixed result;
-	result.m_nVal = long(flt * FIXED_RESOLUTION_FLOAT);
+	result.m_nVal = int(flt * FIXED_RESOLUTION_FLOAT);
 	return result;
 }
 
