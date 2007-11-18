@@ -73,7 +73,7 @@ dnl
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "SDL.h"
+#include <SDL/SDL.h>
 
 char*
 my_strdup (char *str)
@@ -152,7 +152,7 @@ int main (int argc, char *argv[])
           LIBS="$LIBS $SDL_LIBS"
           AC_TRY_LINK([
 #include <stdio.h>
-#include "SDL.h"
+#include <SDL/SDL.h>
 
 int main(int argc, char *argv[])
 { return 0; }
@@ -583,7 +583,11 @@ AC_ARG_ENABLE(oggtest, [  --disable-oggtest       Do not try to compile and run 
     OGG_LIBS="-L$prefix/lib"
   fi
 
+if test `uname` == Darwin; then
+  OGG_LIBS="$OGG_LIBS -framework Ogg"
+else
   OGG_LIBS="$OGG_LIBS -logg"
+fi
 
   if test "x$ogg_includes" != "x" ; then
     OGG_CFLAGS="-I$ogg_includes"
@@ -686,9 +690,15 @@ AC_ARG_ENABLE(vorbistest, [  --disable-vorbistest       Do not try to compile an
     VORBIS_LIBS="-L$prefix/lib"
   fi
 
-  VORBIS_LIBS="$VORBIS_LIBS -lvorbis -lm"
-  VORBISFILE_LIBS="-lvorbisfile"
-  VORBISENC_LIBS="-lvorbisenc"
+  if test `uname` == Darwin; then
+    VORBIS_LIBS="$VORBIS_LIBS -framework Vorbis -lm"
+    VORBISFILE_LIBS=""
+    VORBISENC_LIBS=""
+  else
+    VORBIS_LIBS="$VORBIS_LIBS -lvorbis -lm"
+    VORBISFILE_LIBS="-lvorbisfile"
+    VORBISENC_LIBS="-lvorbisenc"
+  fi
 
   if test "x$vorbis_includes" != "x" ; then
     VORBIS_CFLAGS="-I$vorbis_includes"

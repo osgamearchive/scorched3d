@@ -25,7 +25,11 @@
 #include <common/FixedVector4.h>
 #include <common/FixedVector.h>
 #include <SDL/SDL.h>
+#ifdef __MACOSX__
+#include <SDL_net/SDL_net.h>
+#else
 #include <SDL/SDL_net.h>
+#endif
 
 class NetBuffer
 {

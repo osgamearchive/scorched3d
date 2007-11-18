@@ -29,7 +29,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <SDL/SDL.h>
-#include <SDL/SDL_net.h>
 #include <wxdialogs/MainDialog.h>
 #include <wxdialogs/DisplayDialog.h>
 #include <wxdialogs/ServerSDialog.h>

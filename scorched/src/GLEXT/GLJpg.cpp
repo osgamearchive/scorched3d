@@ -20,9 +20,22 @@
 
 #include <stdio.h>
 #include <math.h>
-#include <jpeglib.h>
 #include <common/Defines.h>
 #include <GLEXT/GLJpg.h>
+
+#ifdef __cplusplus
+extern "C" { 
+#endif /* __cplusplus */
+
+#ifdef __DARWIN__
+#include <UnixImageIO/jpeglib.h>
+#else
+#include <jpeglib.h>
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 GLJpg::GLJpg() :
 	width_(0), height_(0), bits_(0), alpha_(false),

@@ -1,22 +1,15 @@
-#ifndef _WIN32
+#include <net/SecureID.h>
+#include <net/NetInterface.h>
+#include <common/Defines.h>
 
-#include <sys/ioctl.h>
-#include <net/if.h>
-
-#else
+#ifdef _WIN32
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #include <windows.h>
 #include <iphlpapi.h>
 
-#endif
-
-#include <net/SecureID.h>
-#include <common/Defines.h>
-#include <net/NetInterface.h>
-
-#ifdef _WIN32
 #pragma comment(lib, "iphlpapi.lib")
+
 std::string SecureID::GetPrivateKey(void)
 {
     IP_ADAPTER_INFO AdapterInfo[16];       // Allocate information for 16 cards
@@ -33,7 +26,18 @@ std::string SecureID::GetPrivateKey(void)
     }
     return Key;
 }
+
+#elif defined(__DARWIN__)
+
+std::string SecureID::GetPrivateKey(void)
+{
+	return "0:0:0:0:0:0";
+}
+
 #else
+
+#include <sys/ioctl.h>
+#include <net/if.h>
 
 std::string SecureID::GetPrivateKey(void)
 {

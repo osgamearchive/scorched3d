@@ -21,10 +21,14 @@ if test x$have_opengl != xyes; then
     AC_MSG_ERROR([*** Can't find the OpenGL library Try: http://www.opengl.org])
 fi
 
-if test `uname -s` != FreeBSD; then 
-    GL_LIBS="-lGL -lGLU -lpthread" 
+if test `uname -s` == FreeBSD; then 
+    GL_LIBS="-lGL -lGLU"
 else 
-    GL_LIBS="-lGL -lGLU" 
+    if test `uname -s` == Darwin; then 
+        GL_LIBS="-framework OpenGL"
+    else
+        GL_LIBS="-lGL -lGLU -lpthread" 
+    fi
 fi 
 
 AC_SUBST(GL_LIBS)

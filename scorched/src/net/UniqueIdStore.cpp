@@ -24,7 +24,6 @@
 #include <graph/OptionsDisplay.h>
 #include <net/NetInterface.h>
 #include <XML/XMLFile.h>
-#include <SDL/SDL_net.h>
 #include <stdlib.h>
 
 UniqueIdStore::UniqueIdStore()

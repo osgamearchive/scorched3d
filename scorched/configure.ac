@@ -13,12 +13,15 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 
-LDFLAGS="-L/usr/X11R6/lib -L/usr/X11R6 -L/usr/local/lib"
-CPPFLAGS="-I/usr/X11R6/include -I/usr/X11R6 -I/usr/local/include"
+LDFLAGS="-L/usr/X11R6/lib -L/usr/X11R6"
+CPPFLAGS="-I/usr/X11R6/include -I/usr/X11R6"
 
 if test `uname` == Darwin; then
 LDFLAGS="$LDFLAGS -lmx"
-CPPFLAGS="$CPPFLAGS -D__DARWIN__"
+CPPFLAGS="$CPPFLAGS -DFFTW_USE_DOUBLE -D__DARWIN__ -D__MACOSX__"
+else
+LDFLAGS="$LDFLAGS -L/usr/local/lib"
+CPPFLAGS="$CPPFLAGS -I/usr/local/include"
 fi
 
 AC_CHECK_LIB(fridge, beer, echo "Hmm?!",[
@@ -63,15 +66,19 @@ if test "x$enable_profiling" = "xyes" ; then
 fi
 AC_MSG_RESULT($enable_profiling)
 
-# FIXEME
-dnl Checking for Zlib Png Jpeg
-LIBS="$LIBS -lz -lpng -ljpeg"
-
 # Check for extra functions
-AC_CHECK_FUNCS(vsnprintf snprintf vasprintf asprintf)
+AC_CHECK_FUNCS(vsnprintf snprintf vasprintf asprintf iconv)
 
 # Check for extra headers
-AC_CHECK_HEADERS(unistd.h)
+AC_CHECK_HEADERS(unistd.h iconv.h)
+
+# FIXEME
+dnl Checking for Zlib Png Jpeg
+if test `uname` == Darwin; then
+LIBS="$LIBS -lz -framework UnixImageIO"
+else
+LIBS="$LIBS -lz -lpng -ljpeg"
+fi
 
 # Directory setup stuff
 dnl --with-docdir
@@ -87,6 +94,10 @@ fi
 AC_SUBST(docdir)
 
 AC_PREFIX_DEFAULT(/usr/local/games/scorched3d)
+if test `uname` == Darwin; then
+prefix=./
+fi
+
 CFLAGS="$CFLAGS -DS3D_DOCDIR=\\\"${docdir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
 CXXFLAGS="$CXXFLAGS -DS3D_DOCDIR=\\\"${docdir}\\\" -DS3D_DATADIR=\\\"${datadir}\\\" -DS3D_BINDIR=\\\"${bindir}\\\""
 

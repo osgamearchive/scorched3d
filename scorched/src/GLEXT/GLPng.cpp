@@ -23,7 +23,11 @@
 #include <common/Defines.h>
 #include <common/Logger.h>
 #include <GLEXT/GLPng.h>
+#ifdef __DARWIN__
+#include <UnixImageIO/png.h>
+#else
 #include <png.h>
+#endif
 
 GLPng::GLPng() :
 	width_(0), height_(0), bits_(0), alpha_(false),

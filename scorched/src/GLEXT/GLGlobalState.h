@@ -22,7 +22,6 @@
 #define AFX_GLGlobalState_H__32B0E2D0_566D_4438_94E4_B12FE82430B1__INCLUDED_
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-#undef __MACH__
 
 #include <GLEXT/GLState.h>
 

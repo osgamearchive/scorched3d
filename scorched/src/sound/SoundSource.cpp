@@ -20,7 +20,11 @@
 
 #include <sound/SoundSource.h>
 #include <sound/SoundBuffer.h>
+#ifdef __DARWIN__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 SoundSource::SoundSource() : 
 	source_(0), buffer_(0)

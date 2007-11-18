@@ -21,6 +21,8 @@
 #if !defined(__INCLUDE_GLVertexBufferObjecth_INCLUDE__)
 #define __INCLUDE_GLVertexBufferObjecth_INCLUDE__
 
+#include <GLEXT/GLState.h>
+
 class GLVertexBufferObject
 {
 public:
@@ -50,7 +52,7 @@ public:
 	void unmap();
 
 protected:
-	unsigned int id_;
+	GLuint id_;
 	unsigned int size_;
 	bool mapped_;
 	int target_;

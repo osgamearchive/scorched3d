@@ -25,16 +25,29 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define OCEAN_WAVE_GENERATOR
 
 #include <common/Vector.h>
+#ifdef __DARWIN__
+#include <FFTW3/fftw3.h>
+#else
 #include "fftw3.h"
+#endif
 #include <complex>
 #include <vector>
 
+#ifdef FFTW_USE_DOUBLE
+#define FFT_COMPLEX_TYPE fftw_complex
+#define FFT_REAL_TYPE double
+#define FFT_PLAN_TYPE fftw_plan
+#define FFT_CREATE_PLAN fftw_plan_dft_c2r_2d
+#define FFT_DELETE_PLAN fftw_destroy_plan
+#define FFT_EXECUTE_PLAN fftw_execute
+#else
 #define FFT_COMPLEX_TYPE fftwf_complex
 #define FFT_REAL_TYPE float
 #define FFT_PLAN_TYPE fftwf_plan
 #define FFT_CREATE_PLAN fftwf_plan_dft_c2r_2d
 #define FFT_DELETE_PLAN fftwf_destroy_plan
 #define FFT_EXECUTE_PLAN fftwf_execute
+#endif
 
 #define GRAVITY 10.0f
 

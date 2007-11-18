@@ -20,7 +20,11 @@
 
 #include <sound/SoundListener.h>
 #include <sound/Sound.h>
+#ifdef __DARWIN__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 SoundListener::SoundListener()
 {

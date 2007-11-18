@@ -20,7 +20,6 @@
 
 
 #include <net/NetBufferPool.h>
-#include <SDL/SDL_net.h>
 #include <common/Logger.h>
 #include <string.h>
 #include <zlib.h>

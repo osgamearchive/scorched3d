@@ -20,7 +20,7 @@
 
 #include <common/RandomGenerator.h>
 #include <common/Defines.h>
-#include <SDL/SDL_net.h>
+#include <net/NetBuffer.h>
 #include <stdlib.h>
 #include <stdio.h>
 

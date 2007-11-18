@@ -26,9 +26,15 @@
 #include <sound/SoundBufferFactory.h>
 #include <sound/PlayingSoundSource.h>
 #include <graph/OptionsDisplay.h>
+#ifdef __DARWIN__
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#include <OpenAL/alut.h>
+#else
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>
+#endif
 #include <algorithm>
 
 Sound *Sound::instance_ = 0;

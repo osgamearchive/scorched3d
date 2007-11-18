@@ -153,7 +153,7 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	//       setup below?!
 
 	// Tex 0
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTextureARB(GL_TEXTURE0);
 	waterShader_->set_uniform("noise_xform_0", noise_0_pos);
 	waterShader_->set_uniform("noise_xform_1", noise_1_pos);
 	waterShader_->set_gl_texture(normalTexture_, "tex_normal", 0);
@@ -165,7 +165,7 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	glMatrixMode(GL_MODELVIEW);
 
 	// Tex 1
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTextureARB(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
 	waterShader_->set_gl_texture(reflectionTexture_, "tex_reflection", 1);
 
@@ -176,19 +176,19 @@ void Water2Renderer::drawWaterShaders(Water2 &water2)
 	// Cleanup	
 	waterShader_->use_fixed();
 
-	glActiveTexture(GL_TEXTURE2);
+	glActiveTextureARB(GL_TEXTURE2);
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 	glDisable(GL_TEXTURE_2D);
 
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTextureARB(GL_TEXTURE1);
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 	glDisable(GL_TEXTURE_2D);
 
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTextureARB(GL_TEXTURE0);
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
@@ -207,7 +207,7 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 	if (GLStateExtension::hasMultiTex())
 	{
 		// Set up texture coordinate generation for base texture
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTextureARB(GL_TEXTURE1);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_TEXTURE_GEN_S); 
 		glEnable(GL_TEXTURE_GEN_T);
@@ -220,7 +220,7 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
 		glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
 
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTextureARB(GL_TEXTURE0);
 
 
 		glColor4f(0.3f, 0.3f, 0.3f, 0.8f);
@@ -299,13 +299,13 @@ void Water2Renderer::drawWaterNoShaders(Water2 &water2)
 
 	if (GLStateExtension::hasMultiTex())
 	{
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTextureARB(GL_TEXTURE1);
 		glDisable(GL_TEXTURE_GEN_S); 
 		glDisable(GL_TEXTURE_GEN_T);
 		glDisable(GL_TEXTURE_GEN_R);
 		glDisable(GL_TEXTURE_2D);
 
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTextureARB(GL_TEXTURE0);
 		glDisable(GL_TEXTURE_GEN_S); 
 		glDisable(GL_TEXTURE_GEN_T);
 		glDisable(GL_TEXTURE_GEN_R);

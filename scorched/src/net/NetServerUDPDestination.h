@@ -22,7 +22,6 @@
 #define __INCLUDE_NetServerUDPDestinationh_INCLUDE__
 
 #include <net/NetInterface.h>
-#include <SDL/SDL_net.h>
 #include <list>
 #include <map>
 

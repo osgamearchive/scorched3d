@@ -18,7 +18,11 @@ if test "x$enable_sdltest" = "xyes" ; then
 
 	AC_TRY_COMPILE([
 		#include <SDL/SDL.h>
+#ifdef __DARWIN__
+		#include <SDL_net/SDL_net.h>
+#else
 		#include <SDL/SDL_net.h>
+#endif
 
 		int main(int argc, char *argv[])
 		{ return 0; }
@@ -39,5 +43,9 @@ AC_MSG_RESULT($have_SDLnet)
 if test x$have_SDLnet != xyes; then
     AC_MSG_ERROR([*** Can't find the SDL_net library Try: http://www.libsdl.org/projects/SDL_net])
 fi
-SDL_LIBS="$SDL_LIBS -lSDL_net"
 
+if test `uname` == Darwin; then
+SDL_LIBS="$SDL_LIBS -framework SDL_net"
+else
+SDL_LIBS="$SDL_LIBS -lSDL_net"
+fi

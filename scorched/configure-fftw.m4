@@ -15,7 +15,12 @@ AC_ARG_ENABLE(fftwtest, [  --disable-fftwtest       Do not try to compile and ru
   elif test "x$prefix" != "xNONE"; then
     FFTW_LIBS="-L$prefix/lib"
   fi
+
+if test `uname` == Darwin; then
+  FFTW_LIBS="$FFTW_LIBS -framework FFTW3"
+else        
   FFTW_LIBS="$FFTW_LIBS -lfftw3f"
+fi
 
   if test "x$fftw_includes" != "x" ; then
     FFTW_CFLAGS="-I$fftw_includes"
@@ -41,14 +46,27 @@ dnl
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "fftw3.h"
+#ifdef __DARWIN__
+#include <fftw3/fftw3.h>
+#else
+#include <fftw3.h>
+#endif
 
+#ifdef FFTW_USE_DOUBLE
+#define FFT_COMPLEX_TYPE fftw_complex
+#define FFT_REAL_TYPE double
+#define FFT_PLAN_TYPE fftw_plan
+#define FFT_CREATE_PLAN fftw_plan_dft_c2r_2d
+#define FFT_DELETE_PLAN fftw_destroy_plan
+#define FFT_EXECUTE_PLAN fftw_execute
+#else
 #define FFT_COMPLEX_TYPE fftwf_complex
 #define FFT_REAL_TYPE float
 #define FFT_PLAN_TYPE fftwf_plan
 #define FFT_CREATE_PLAN fftwf_plan_dft_c2r_2d
 #define FFT_DELETE_PLAN fftwf_destroy_plan
 #define FFT_EXECUTE_PLAN fftwf_execute
+#endif
 
 #define N 10
 
@@ -82,7 +100,11 @@ int main ()
        LIBS="$LIBS $FFTW_LIBS"
        AC_TRY_LINK([
 #include <stdio.h>
-#include "fftw3.h"
+#ifdef __DARWIN__
+#include <fftw3/fftw3.h>
+#else
+#include <fftw3.h>
+#endif
 ],     [ return 0; ],
        [ echo "*** The test program compiled, but did not run. This usually means"
        echo "*** that the run-time linker is not finding FFTW or finding the wrong"

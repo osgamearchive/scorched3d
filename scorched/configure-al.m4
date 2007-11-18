@@ -52,9 +52,15 @@ if test "x$enable_openaltest" = "xyes" ; then
 	LIBS="$AL_LIBS $LIBS"
 
 	AC_TRY_COMPILE([
+#ifdef __APPLE__
+		#include <OpenAL/al.h>
+		#include <OpenAL/alut.h>
+		#include <OpenAL/alc.h>
+#else
 		#include <AL/al.h>
 		#include <AL/alut.h>
 		#include <AL/alc.h>
+#endif
 
 		],[
 		],[
@@ -66,9 +72,15 @@ if test "x$enable_openaltest" = "xyes" ; then
 	])
 
 	AC_TRY_LINK([
+#ifdef __APPLE__
+		#include <OpenAL/al.h>
+		#include <OpenAL/alut.h>
+		#include <OpenAL/alc.h>
+#else
 		#include <AL/al.h>
 		#include <AL/alut.h>
 		#include <AL/alc.h>
+#endif
 
 		int main(int argc, char *argv[])
 		{
