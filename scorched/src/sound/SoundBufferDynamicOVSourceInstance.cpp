@@ -18,47 +18,20 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sound/SoundBufferDynamicOV.h>
+#include <sound/SoundBufferDynamicOVSourceInstance.h>
+#include <sound/SoundBufferOV.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
 
 #ifdef HAVE_OGG
 
-#define BUFFER_SIZE (1024 * 1024)
-
 SoundBufferDynamicOVSourceInstance::SoundBufferDynamicOVSourceInstance(
 	unsigned int source, const char *fileName) :
 	SoundBufferSourceInstance(source)
 {
-	ov_callbacks callbacks = {
-		read_func,
-		seek_func,
-		close_func,
-		tell_func 
-	};
-
-	FILE *oggFile = fopen(fileName, "rb");
-	if (!oggFile)
-	{
-		dialogMessage("OGG Vorbis",
-			formatString("Could not open ogg file \"%s\"",
-			fileName));
-		return;
-	}
-
-	int result = ov_open_callbacks((void *) oggFile, &oggStream_, 0, 0, callbacks);
-	if(result < 0)
-	{        
-		fclose(oggFile);
-		dialogMessage("OGG Vorbis",
-			formatString("Could not open ogg stream \"%s\" : %s",
-			fileName, errorString(result)));
-		return; 
-	}
-
+	// Open stream
+	if (!SoundBufferOV::openStream(fileName, oggStream_)) return;
 	vorbisInfo_ = ov_info(&oggStream_, -1);
-    if(vorbisInfo_->channels == 1) format_ = AL_FORMAT_MONO16;
-	else format_ = AL_FORMAT_STEREO16;
 
 	alGenBuffers(2, buffers_);
 	if (alGetError() != AL_NO_ERROR) return;
@@ -139,18 +112,8 @@ void SoundBufferDynamicOVSourceInstance::simulate(bool repeat)
 
 bool SoundBufferDynamicOVSourceInstance::addDataToBuffer(unsigned int buffer, bool loop)
 {
-    static char data[BUFFER_SIZE];    
-	int size = 0;    
-	int section;    
-	int result;     
-	while(size < BUFFER_SIZE)    
-	{        
-		result = ov_read(&oggStream_, data + size, 
-			BUFFER_SIZE - size, 0, 2, 1, &section);            
-		if (result > 0) size += result;        
-		else if (result < 0) return false; // Error
-		else break;    
-	}
+    static char data[OGG_BUFFER_SIZE];    
+	int size = SoundBufferOV::readData(oggStream_, data, OGG_BUFFER_SIZE);
 	if(size == 0)
 	{
 		if (!loop) return false;
@@ -161,61 +124,8 @@ bool SoundBufferDynamicOVSourceInstance::addDataToBuffer(unsigned int buffer, bo
 		}
 	}
 
-	alBufferData(buffer, format_, data, size, vorbisInfo_->rate);    
+	SoundBufferOV::addDataToBuffer(vorbisInfo_, buffer, data, size);
 	return true;
-}
-
-const char *SoundBufferDynamicOVSourceInstance::errorString(int code)
-{    
-	switch(code)    
-	{        
-	case OV_EREAD:            
-		return ("Read from media.");        
-	case OV_ENOTVORBIS:            
-		return ("Not Vorbis data.");        
-	case OV_EVERSION:            
-		return ("Vorbis version mismatch.");        
-	case OV_EBADHEADER:            
-		return ("Invalid Vorbis header.");        
-	case OV_EFAULT:            
-		return ("Internal logic fault (bug or heap/stack corruption.");        
-	default:            
-		return ("Unknown Ogg error.");    
-	}
-}
-
-size_t SoundBufferDynamicOVSourceInstance::read_func(void *ptr, size_t size, size_t nmemb, void *datasource)
-{
-	return fread(ptr, size, nmemb, (FILE *) datasource);
-}
-
-int SoundBufferDynamicOVSourceInstance::seek_func(void *datasource, ogg_int64_t offset, int whence)
-{
-	return fseek((FILE*) datasource, (long) offset, whence);
-}
-
-int SoundBufferDynamicOVSourceInstance::close_func(void *datasource)
-{
-	return fclose((FILE *) datasource);
-}
-
-long SoundBufferDynamicOVSourceInstance::tell_func(void *datasource)
-{
-	return ftell((FILE *) datasource);
-}
-
-SoundBufferDynamicOV::SoundBufferDynamicOV(const char *fileName) :
-	SoundBuffer(fileName)
-{
-}
-
-SoundBufferDynamicOV::~SoundBufferDynamicOV()
-{
-}
-
-SoundBufferSourceInstance *SoundBufferDynamicOV::createSourceInstance(unsigned int source)
-{
-	return new SoundBufferDynamicOVSourceInstance(source, fileName_.c_str());
 }
 
 #endif // HAVE_OGG

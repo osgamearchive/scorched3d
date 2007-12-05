@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,40 +18,42 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <sound/SoundBufferStaticSourceInstance.h>
 #include <sound/Sound.h>
-#include <sound/SoundBufferFactory.h>
-#include <sound/SoundBufferEmpty.h>
-#include <sound/SoundBufferWav.h>
-#include <sound/SoundBufferOV.h>
-#include <common/Defines.h>
-
-SoundBuffer *SoundBufferFactory::createBuffer(const char *fileName)
-{
-	if (Sound::instance()->getInit())
-	{
-		int len = strlen(fileName);
-		if (len >= 3)
-		{
-			if (0 == strcmp(&fileName[len-3], "wav"))
-			{
-				return new SoundBufferWav(fileName);
-			}
-			else if (0 == strcmp(&fileName[len-3], "ogg"))
-			{
-#ifdef HAVE_OGG
-				return new SoundBufferOV(fileName);
+#ifdef __DARWIN__
+#include <OpenAL/al.h>
+#include <OpenAL/alut.h>
 #else
-				return new SoundBufferEmpty(fileName);
-#endif // HAVE_OGG			
-			}
-			else
-			{
-				dialogExit("Scorched3D",
-					formatString("Error: Unknown sound file type \"%s\"",
-					fileName));
-			}
-		}
-	}
+#include <AL/al.h>
+#include <AL/alut.h>
+#endif
 
-	return new SoundBufferEmpty(fileName);
+SoundBufferStaticSourceInstance::SoundBufferStaticSourceInstance(
+	unsigned int source, unsigned int buffer) :
+	SoundBufferSourceInstance(source), buffer_(buffer)
+{
+}
+
+SoundBufferStaticSourceInstance::~SoundBufferStaticSourceInstance()
+{
+}
+
+void SoundBufferStaticSourceInstance::play(bool repeat)
+{
+	if (!buffer_) return;
+
+	alSourcei(source_, AL_BUFFER, 0);
+    alSourcei(source_, AL_BUFFER, buffer_);
+	alSourcei(source_, AL_LOOPING, (repeat?AL_TRUE:AL_FALSE));
+	alSourcePlay(source_);
+}
+
+void SoundBufferStaticSourceInstance::stop()
+{
+	if (!buffer_) return;
+	alSourceStop(source_);
+}
+
+void SoundBufferStaticSourceInstance::simulate(bool repeat)
+{
 }

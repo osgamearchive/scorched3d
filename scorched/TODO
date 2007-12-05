@@ -1,27 +1,6 @@
 -- Bugs Fixed and Ready For Release 
-Added: Option to turn off landscape captured progress backdrop
-Added: Changed progress backdrop to use textures rather than pixel drawing (speedup on some cards)
-Added: Moved the player id of the single player spectator to allow stats user 1 to connect online
-Added: Scorched client supports remote game connection initiated via .s3l file
-Added: Option to turn off real-time object shadows to improve framerate
-Added: Trying to launch more than one copy of the game will produce a warning
-Added: Options file to allow network protocol to be tweeked (netoptions.xml)
-
-Fixed: Applied some small patches to help cross platform compilation
-Fixed: Support for wxWidgets 2.8 added
-Fixed: Disconnects caused by players having invalid PNG files
-Fixed: Optimized OpenGL state changes to improve framerate
-Fixed: Aimed over tag so it generates particles with the correct power
-Fixed: Roller collisions to make them less sensitive
-Fixed: Roller strength to make them less powerfull against shields
-Fixed: Water transparency when shaders off
-Fixed: Fractional wind speeds used (Speed 0 shown on display)
-Fixed: Being able to scroll island menu backdrop when in fullscreen mode
-Fixed: Async coms messages are sent even if outgoing message queue is full
-Fixed: Overflow causing placement closeness to be ignored
-Fixed: An issue connecting midway through maps that have level created tanks on them
-Fixed: A crash when using levels with odd dimensions
-Fixed: An issue where timeplayed, money earned and score earned stats where not being recorded
+Fixed: Falling powerup objects are automatically collected by tanks
+Fixed: Small ogg files not playing correctly
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

@@ -19,11 +19,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <actions/TankFalling.h>
+#include <actions/TankDamage.h>
 #include <target/TargetContainer.h>
 #include <target/TargetState.h>
 #include <target/TargetParachute.h>
 #include <target/TargetDamageCalc.h>
 #include <target/TargetLife.h>
+#include <target/TargetSpace.h>
 #include <tank/Tank.h>
 #include <tank/TankAccessories.h>
 #include <engine/ScorchedContext.h>
@@ -105,6 +107,46 @@ void TankFalling::simulate(fixed frameTime, bool &remove)
 			}
 		}
 		else collision_ = true;
+
+		// Check if we have collected/given any items
+		std::map<unsigned int, Target *> collisionTargets;
+		context_->targetSpace->getCollisionSet(
+			target->getLife().getTargetPosition(), 3, collisionTargets, false);
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = collisionTargets.begin();
+			itor != collisionTargets.end();
+			itor++)
+		{
+			Target *collisionTarget = (*itor).second;
+
+			if (target->isTarget() &&
+				target->getTargetState().getDriveOverToDestroy() &&
+				!collisionTarget->isTarget())
+			{
+				// Kill the falling target
+				WeaponFireContext weaponContext(weaponContext_);
+				weaponContext.setPlayerId(collisionTarget->getPlayerId());
+
+				context_->actionController->addAction(
+					new TankDamage(weapon_, target->getPlayerId(), weaponContext, 
+						target->getLife().getLife(),
+						false, false, false));
+			}
+			else if (collisionTarget->isTarget() &&
+				collisionTarget->getTargetState().getDriveOverToDestroy() &&
+				!target->isTarget())
+			{
+				// Kill the target we've fallen on
+				WeaponFireContext weaponContext(weaponContext_);
+				weaponContext.setPlayerId(target->getPlayerId());
+
+				context_->actionController->addAction(
+					new TankDamage(weapon_, 
+					collisionTarget->getPlayerId(), weaponContext_, 
+					collisionTarget->getLife().getLife(),
+					false, false, false));
+			}
+		}
 	}
 
 	PhysicsParticleReferenced::simulate(frameTime, remove);

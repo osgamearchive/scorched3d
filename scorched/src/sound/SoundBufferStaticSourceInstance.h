@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,40 +18,24 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sound/Sound.h>
-#include <sound/SoundBufferFactory.h>
-#include <sound/SoundBufferEmpty.h>
-#include <sound/SoundBufferWav.h>
-#include <sound/SoundBufferOV.h>
-#include <common/Defines.h>
+#ifndef _SoundBufferStaticSourceInstance_H_
+#define _SoundBufferStaticSourceInstance_H_
 
-SoundBuffer *SoundBufferFactory::createBuffer(const char *fileName)
+#include <sound/SoundBuffer.h>
+
+class SoundBufferStaticSourceInstance : public SoundBufferSourceInstance
 {
-	if (Sound::instance()->getInit())
-	{
-		int len = strlen(fileName);
-		if (len >= 3)
-		{
-			if (0 == strcmp(&fileName[len-3], "wav"))
-			{
-				return new SoundBufferWav(fileName);
-			}
-			else if (0 == strcmp(&fileName[len-3], "ogg"))
-			{
-#ifdef HAVE_OGG
-				return new SoundBufferOV(fileName);
-#else
-				return new SoundBufferEmpty(fileName);
-#endif // HAVE_OGG			
-			}
-			else
-			{
-				dialogExit("Scorched3D",
-					formatString("Error: Unknown sound file type \"%s\"",
-					fileName));
-			}
-		}
-	}
+public:
+	SoundBufferStaticSourceInstance(
+		unsigned int source, unsigned int buffer);
+	virtual ~SoundBufferStaticSourceInstance();
 
-	return new SoundBufferEmpty(fileName);
-}
+	virtual void play(bool loop);
+	virtual void stop();
+	virtual void simulate(bool loop);
+
+protected:
+	unsigned int buffer_;
+};
+
+#endif /* _SoundBufferStaticSourceInstance_H_ */

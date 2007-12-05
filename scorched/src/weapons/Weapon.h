@@ -35,6 +35,7 @@ public:
 	virtual ~WeaponFireContext();
 
 	unsigned int getPlayerId() { return playerId_; }
+	void setPlayerId(unsigned int playerId) { playerId_ = playerId; }
 	unsigned int getData() { return data_; }
 	int getIncLabelCount(unsigned int label);
 

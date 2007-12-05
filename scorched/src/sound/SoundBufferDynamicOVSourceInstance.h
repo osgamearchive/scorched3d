@@ -18,40 +18,41 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sound/Sound.h>
-#include <sound/SoundBufferFactory.h>
-#include <sound/SoundBufferEmpty.h>
-#include <sound/SoundBufferWav.h>
-#include <sound/SoundBufferOV.h>
-#include <common/Defines.h>
+#if !defined(__INCLUDE_SoundBufferDynamicOVh_INCLUDE__)
+#define __INCLUDE_SoundBufferDynamicOVh_INCLUDE__
 
-SoundBuffer *SoundBufferFactory::createBuffer(const char *fileName)
-{
-	if (Sound::instance()->getInit())
-	{
-		int len = strlen(fileName);
-		if (len >= 3)
-		{
-			if (0 == strcmp(&fileName[len-3], "wav"))
-			{
-				return new SoundBufferWav(fileName);
-			}
-			else if (0 == strcmp(&fileName[len-3], "ogg"))
-			{
 #ifdef HAVE_OGG
-				return new SoundBufferOV(fileName);
-#else
-				return new SoundBufferEmpty(fileName);
-#endif // HAVE_OGG			
-			}
-			else
-			{
-				dialogExit("Scorched3D",
-					formatString("Error: Unknown sound file type \"%s\"",
-					fileName));
-			}
-		}
-	}
 
-	return new SoundBufferEmpty(fileName);
-}
+#include <sound/SoundBuffer.h>
+#ifdef __DARWIN__
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+#include <ogg/ogg.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
+
+class SoundBufferDynamicOVSourceInstance : public SoundBufferSourceInstance
+{
+public:
+	SoundBufferDynamicOVSourceInstance(
+		unsigned int source, const char *fileName);
+	virtual ~SoundBufferDynamicOVSourceInstance();
+
+	virtual void play(bool loop);
+	virtual void stop();
+	virtual void simulate(bool loop);
+
+protected:
+	unsigned int buffers_[2];
+	ALenum format_;
+	OggVorbis_File oggStream_;
+	vorbis_info *vorbisInfo_;
+
+	bool addDataToBuffer(unsigned int buffer, bool loop);
+};
+
+#endif // HAVEOGG
+
+#endif // __INCLUDE_SoundBufferDynamicOVh_INCLUDE__

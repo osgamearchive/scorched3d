@@ -5395,11 +5395,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\sound\SoundBufferDynamicOV.cpp"
+				RelativePath="..\sound\SoundBufferDynamicOVSourceInstance.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\sound\SoundBufferDynamicOV.h"
+				RelativePath="..\sound\SoundBufferDynamicOVSourceInstance.h"
 				>
 			</File>
 			<File
@@ -5419,11 +5419,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\sound\SoundBufferStaticWav.cpp"
+				RelativePath="..\sound\SoundBufferOV.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\sound\SoundBufferStaticWav.h"
+				RelativePath="..\sound\SoundBufferOV.h"
+				>
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferStaticSourceInstance.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferStaticSourceInstance.h"
+				>
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferWav.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\sound\SoundBufferWav.h"
 				>
 			</File>
 			<File

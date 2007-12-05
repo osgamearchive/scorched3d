@@ -18,7 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sound/SoundBufferStaticWav.h>
+#include <sound/SoundBufferWav.h>
+#include <sound/SoundBufferStaticSourceInstance.h>
 #include <sound/Sound.h>
 #ifdef __DARWIN__
 #include <OpenAL/al.h>
@@ -28,37 +29,7 @@
 #include <AL/alut.h>
 #endif
 
-SoundBufferStaticWavSourceInstance::SoundBufferStaticWavSourceInstance(
-	unsigned int source, unsigned int buffer) :
-	SoundBufferSourceInstance(source), buffer_(buffer)
-{
-}
-
-SoundBufferStaticWavSourceInstance::~SoundBufferStaticWavSourceInstance()
-{
-}
-
-void SoundBufferStaticWavSourceInstance::play(bool repeat)
-{
-	if (!buffer_) return;
-
-	alSourcei(source_, AL_BUFFER, 0);
-    alSourcei(source_, AL_BUFFER, buffer_);
-	alSourcei(source_, AL_LOOPING, (repeat?AL_TRUE:AL_FALSE));
-	alSourcePlay(source_);
-}
-
-void SoundBufferStaticWavSourceInstance::stop()
-{
-	if (!buffer_) return;
-	alSourceStop(source_);
-}
-
-void SoundBufferStaticWavSourceInstance::simulate(bool repeat)
-{
-}
-
-SoundBufferStaticWav::SoundBufferStaticWav(const char *fileName) : 
+SoundBufferWav::SoundBufferWav(const char *fileName) : 
 	SoundBuffer(fileName),
 	buffer_(0)
 {
@@ -105,13 +76,13 @@ SoundBufferStaticWav::SoundBufferStaticWav(const char *fileName) :
 	}
 }
 
-SoundBufferStaticWav::~SoundBufferStaticWav()
+SoundBufferWav::~SoundBufferWav()
 {
 	if (buffer_) alDeleteBuffers (1, &buffer_);
 	buffer_ = 0;
 }
 
-SoundBufferSourceInstance *SoundBufferStaticWav::createSourceInstance(unsigned int source)
+SoundBufferSourceInstance *SoundBufferWav::createSourceInstance(unsigned int source)
 {
-	return new SoundBufferStaticWavSourceInstance(source, buffer_);
+	return new SoundBufferStaticSourceInstance(source, buffer_);
 }
