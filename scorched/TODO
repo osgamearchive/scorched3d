@@ -2,6 +2,7 @@
 Fixed: Falling powerup objects are automatically collected by tanks
 Fixed: Small ogg files not playing correctly
 Fixed: MOTD is correct when it is reshown
+Fixed: Music plays correctly on big endian machines (e.g. PPC macs)
 
 Added: Rules tab shows options changed for this level(L) and options changed from default(*)
 
