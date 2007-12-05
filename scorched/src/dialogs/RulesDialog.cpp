@@ -91,14 +91,14 @@ void RulesDialog::addMOTD(const char *text)
 	{
 		OptionEntry *mainentry = (*mainitor);
 		OptionEntry *levelentry = (*levelitor);
-		OptionEntry *entry = levelentry;
-		if (levelentry->isChangedValue()) entry = mainentry;
+		OptionEntry *entry = mainentry;
+		if (levelentry->isChangedValue()) entry = levelentry;
 
 		rulesList_->addLine(
 			formatString("%s = %s%s",
 				entry->getName(),
 				entry->getValueAsString(),
-				((entry == levelentry)?" *":"")));
+				((entry == levelentry)?" L":(entry->isDefaultValue()?"":"*"))));
 	}
 
 	// Add single or multiple lines
@@ -112,6 +112,7 @@ void RulesDialog::addMOTD(const char *text)
 			motdList_->addLine(start);
 			start = found;
 			start++;
+			*found = '\n';
 
 			found = strchr(start, '\n');
 		}

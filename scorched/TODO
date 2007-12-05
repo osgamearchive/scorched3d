@@ -1,6 +1,9 @@
 -- Bugs Fixed and Ready For Release 
 Fixed: Falling powerup objects are automatically collected by tanks
 Fixed: Small ogg files not playing correctly
+Fixed: MOTD is correct when it is reshown
+
+Added: Rules tab shows options changed for this level(L) and options changed from default(*)
 
 -- Bugs in current development release
 Dvorak keyboard support is broken
