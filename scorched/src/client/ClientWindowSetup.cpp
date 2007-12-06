@@ -48,6 +48,7 @@
 #include <dialogs/SkipDialog.h>
 #include <dialogs/SkipAllDialog.h>
 #include <dialogs/HUDDialog.h>
+#include <dialogs/TipDialog.h>
 #include <dialogs/SoundDialog.h>
 #include <dialogs/HelpButtonDialog.h>
 #include <dialogs/TutorialDialog.h>
@@ -88,6 +89,10 @@ void ClientWindowSetup::addCommonComponents(GLWWindowSkinManager *skinManager,
 	KEYBOARDKEY("HUD_ITEMS", hudItemsKey);
 	GLWWindowManager::instance()->addWindow(state, 
  		HUDDialog::instance(), hudItemsKey, false);
+
+	KEYBOARDKEY("TIP_ITEMS", tipItemsKey);
+	GLWWindowManager::instance()->addWindow(state, 
+ 		TipDialog::instance(), tipItemsKey, false);
 
 	KEYBOARDKEY("SHOW_SOUND_DIALOG", showSoundKey);
 	GLWWindowManager::instance()->addWindow(state, 

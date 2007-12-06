@@ -37,7 +37,7 @@ SettingsSubSelectDialogListItem::SettingsSubSelectDialogListItem(
 	bool selected) :
 	name_(name), 
 	selected_(0.0f, 0.0f, selected), 
-	tip_(name, description),
+	tip_(ToolTip::ToolTipHelp, name, description),
 	icon_(0.0f, 0.0f, 40.0f, 40.0f)
 {
 	if (s3d_fileExists(icon))

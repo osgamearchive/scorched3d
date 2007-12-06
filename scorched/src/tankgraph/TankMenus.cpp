@@ -292,25 +292,27 @@ TankMenus::PlayerMenu::PlayerMenu()
 
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Skip Move",
-		new ToolTip("Skip Move", 
+		new ToolTip(ToolTip::ToolTipHelp, "Skip Move", 
 			"Player forfits this move.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Resign Round",
-		new ToolTip("Resign Round", 
+		new ToolTip(ToolTip::ToolTipHelp, "Resign Round", 
 			"Player resigns from this round.\n"
 			"Player takes no part in the rest of the round.")));
 	MainMenuDialog::instance()->addMenuItem("Player", 
 		GLMenuItem("Exit Game",
-		new ToolTip("Exit Game", "Stop Playing Scorched.")));
+		new ToolTip(ToolTip::ToolTipHelp, "Exit Game", 
+			"Stop Playing Scorched.")));
 	if (!ClientParams::instance()->getConnectedToServer())
 	{
 		MainMenuDialog::instance()->addMenuItem("Player",
 			GLMenuItem("Mass Tank Kill",
-			new ToolTip("Mass Tank Kill",
+			new ToolTip(ToolTip::ToolTipHelp, "Mass Tank Kill",
 				"Kill all tanks.\nStarts the next round.")));
 		MainMenuDialog::instance()->addMenuItem("Player",
 			GLMenuItem("Save",
-			new ToolTip("Save", "Save this game.")));
+			new ToolTip(ToolTip::ToolTipHelp, "Save", 
+				"Save this game.")));
 	}
 }
 

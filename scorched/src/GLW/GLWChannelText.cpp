@@ -46,7 +46,8 @@ GLWChannelText::GLWChannelText() :
 {
 	view_.setHandler(this);
 	button_.setHandler(this);
-	button_.setToolTip(new ToolTip("Chat", "Select channels, mute players..."));
+	button_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, 
+		"Chat", "Select channels, mute players..."));
 	prompt_.setChannelView(&view_);
 }
 
@@ -405,17 +406,25 @@ void GLWChannelText::buttonDown(unsigned int id)
 	checkCurrentChannel();
 
 	// All of the tooltips
-	static ToolTip muteTooltip("Ignore", "Ignore chat from another player (mute)");
-	static ToolTip whisperTooltip("Whisper", "Send private chat to another player");
-	static ToolTip joinTooltip("Join Channel", "Join another chat channel.\n"
+	static ToolTip muteTooltip(ToolTip::ToolTipHelp, 
+		"Ignore", "Ignore chat from another player (mute)");
+	static ToolTip whisperTooltip(ToolTip::ToolTipHelp, 
+		"Whisper", "Send private chat to another player");
+	static ToolTip joinTooltip(ToolTip::ToolTipHelp, 
+		"Join Channel", "Join another chat channel.\n"
 		"You will be able to see messages sent on this channel");
-	static ToolTip leaveTooltip("Leave Channel", "Leave a current chat channel.\n"
+	static ToolTip leaveTooltip(ToolTip::ToolTipHelp, 
+		"Leave Channel", "Leave a current chat channel.\n"
 		"You will stop recieving messages sent on this channel");
-	static ToolTip selectTooltip("Select Channel", "Select the current channel.\n"
+	static ToolTip selectTooltip(ToolTip::ToolTipHelp, 
+		"Select Channel", "Select the current channel.\n"
 		"This is the channel you will send messages on.");
-	static ToolTip colorTooltip("Channel Color", "Change the color of the current channel.");
-	static ToolTip replyTooltip("Reply", "Reply to the last person that whispered you.");
-	static ToolTip chatTooltip("Chat", "Show or hide the chat text entry box.");
+	static ToolTip colorTooltip(ToolTip::ToolTipHelp, 
+		"Channel Color", "Change the color of the current channel.");
+	static ToolTip replyTooltip(ToolTip::ToolTipHelp, 
+		"Reply", "Reply to the last person that whispered you.");
+	static ToolTip chatTooltip(ToolTip::ToolTipHelp, 
+		"Chat", "Show or hide the chat text entry box.");
 
 	GLWSelectorEntry mute("Ignore", &muteTooltip);
 	GLWSelectorEntry whisper("Whisper", &whisperTooltip);

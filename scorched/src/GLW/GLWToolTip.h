@@ -30,7 +30,7 @@ class GLWToolTip : public GameStateI
 public:
 	static GLWToolTip *instance();
 
-	bool addToolTip(const char *title, const char *text,
+	bool addToolTip(ToolTip::ToolTipType type, const char *title, const char *text,
 		float x, float y, float w, float h);
 	bool addToolTip(ToolTip *tip, 
 		float x, float y, float w, float h);

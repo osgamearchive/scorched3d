@@ -5359,6 +5359,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\dialogs\TipDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\TipDialog.h"
+				>
+			</File>
+			<File
 				RelativePath="..\dialogs\TutorialDialog.cpp"
 				>
 			</File>

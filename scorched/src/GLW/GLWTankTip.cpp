@@ -48,7 +48,7 @@ TankUndoMenu::~TankUndoMenu()
 
 void TankUndoMenu::showItems(float x, float y)
 {
-	static ToolTip useTip("Undo", 
+	static ToolTip useTip(ToolTip::ToolTipHelp, "Undo", 
 		"Reverts back to the selected rotation,\n"
 		"elevtaion and power.\n");
 
@@ -97,7 +97,7 @@ void TankFuelTip::populate()
 		if (count >= 0) snprintf(buffer, 128, "%i", count);
 		else snprintf(buffer, 128, "Infinite");
 
-		setText("Fuel", formatString(
+		setText(ToolTip::ToolTipHelp, "Fuel", formatString(
 			"Allows the tank to move.\n"
 			"Click to toggle movement mode.\n"
 			"Current Fuel : %s (%s)",
@@ -106,7 +106,7 @@ void TankFuelTip::populate()
 	}
 	else
 	{
-		setText("Fuel", formatString(
+		setText(ToolTip::ToolTipHelp, "Fuel", formatString(
 			"Allows the tank to move.\n"
 			"Click to toggle movement mode.\n"
 			"Current Fuel : Off"));
@@ -115,7 +115,7 @@ void TankFuelTip::populate()
 
 void TankFuelTip::showItems(float x, float y)
 {
-	static ToolTip offTip("Fuel Off", 
+	static ToolTip offTip(ToolTip::ToolTipHelp, "Fuel Off", 
 		"Don't select fuel or\n"
 		"turn off any fuel.");
 
@@ -190,7 +190,7 @@ void TankBatteryTip::populate()
 	int count = tank_->getAccessories().getBatteries().getNoBatteries();
 	if (count < 0)
 	{
-		setText("Batteries",
+		setText(ToolTip::ToolTipHelp, "Batteries",
 			"Can be used to recharge life.\n"
 			"Each battery gives back 10 life.\n"
 			"Click to use some battery(s).\n"
@@ -198,7 +198,7 @@ void TankBatteryTip::populate()
 	}
 	else
 	{
-		setText("Batteries", formatString(
+		setText(ToolTip::ToolTipHelp, "Batteries", formatString(
 			"Can be used to recharge life.\n"
 			"Each battery gives back 10 life.\n"
 			"Click to use some battery(s).\n"
@@ -209,9 +209,9 @@ void TankBatteryTip::populate()
 
 void TankBatteryTip::showItems(float x, float y)
 {
-	static ToolTip useTip("Battery", 
+	static ToolTip useTip(ToolTip::ToolTipHelp, "Battery", 
 		"Use some batteries");
-	static ToolTip offTip("Battery Cancel", 
+	static ToolTip offTip(ToolTip::ToolTipHelp, "Battery Cancel", 
 		"Don't use any batteries");
 	
 	int count = tank_->getAccessories().getBatteries().getNoBatteries();
@@ -260,7 +260,7 @@ TankShieldTip::~TankShieldTip()
 
 void TankShieldTip::showItems(float x, float y)
 {
-	static ToolTip offTip("Shield Off", 
+	static ToolTip offTip(ToolTip::ToolTipHelp, "Shield Off", 
 		"Don't select a shield or\n"
 		"turn off any current shield");
 
@@ -311,7 +311,7 @@ void TankShieldTip::populate()
 		if (count >= 0) snprintf(buffer, 128, "%i", count);
 		else snprintf(buffer, 128, "Infinite");
 
-		setText("Shields", formatString(
+		setText(ToolTip::ToolTipHelp, "Shields", formatString(
 			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
@@ -324,7 +324,7 @@ void TankShieldTip::populate()
 	}
 	else
 	{
-		setText("Shields", formatString(
+		setText(ToolTip::ToolTipHelp, "Shields", formatString(
 			"Protect the tank from taking shot damage.\n"
 			"Shields must be enabled before they take\n"
 			"effect.\n"
@@ -353,7 +353,7 @@ TankHealthTip::~TankHealthTip()
 
 void TankHealthTip::populate()
 {
-	setText("Life", formatString(
+	setText(ToolTip::ToolTipHelp, "Life", formatString(
 		"The amount of life this player has.\n"
 		"The tank explodes when life reaches 0.\n"
 		"Less weapon power is available with less life.\n"
@@ -381,7 +381,7 @@ void TankParachutesTip::populate()
 		if (count >= 0) snprintf(buffer, 128, "%i", count);
 		else snprintf(buffer, 128, "Infinite");
 
-		setText("Parachutes", formatString(
+		setText(ToolTip::ToolTipHelp, "Parachutes", formatString(
 			"Prevents the tank from taking damage\n"
 			"when falling.  Must be enabled before\n"
 			"they take effect.\n"
@@ -392,7 +392,7 @@ void TankParachutesTip::populate()
 	}
 	else
 	{
-		setText("Parachutes", formatString(
+		setText(ToolTip::ToolTipHelp, "Parachutes", formatString(
 			"Prevents the tank from taking damage\n"
 			"when falling.  Must be enabled before\n"
 			"they take effect.\n"
@@ -403,7 +403,7 @@ void TankParachutesTip::populate()
 
 void TankParachutesTip::showItems(float x, float y)
 {
-	static ToolTip offTip("Parachute Off", 
+	static ToolTip offTip(ToolTip::ToolTipHelp, "Parachute Off", 
 		"Don't select a parachute or\n"
 		"turn off any current parachute");
 
@@ -465,7 +465,7 @@ TankAutoDefenseTip::~TankAutoDefenseTip()
 
 void TankAutoDefenseTip::populate()
 {
-	setText("Auto Defense", formatString(
+	setText(ToolTip::ToolTipHelp, "Auto Defense", formatString(
 		"Allows the tank to raise shields and\n"
 		"activate parachutes before the round\n"
 		"starts.\n"
@@ -477,9 +477,9 @@ void TankAutoDefenseTip::populate()
 
 void TankAutoDefenseTip::showItems(float x, float y)
 {
-	static ToolTip useTip("Auto Defense On", 
+	static ToolTip useTip(ToolTip::ToolTipHelp, "Auto Defense On", 
 		"Enable the auto defense.");
-	static ToolTip offTip("Auto Defense Off", 
+	static ToolTip offTip(ToolTip::ToolTipHelp, "Auto Defense Off", 
 		"Disable the auto defense.");
 	
 	std::list<GLWSelectorEntry> entries;
@@ -504,7 +504,7 @@ void TankWeaponTip::populate()
 	if (tank_->getAccessories().getAccessoryCount(
 		tank_->getAccessories().getWeapons().getCurrent()) > 0)
 	{
-		setText("Weapon", formatString(
+		setText(ToolTip::ToolTipHelp, "Weapon", formatString(
 			"The currently selected weapon.\n"
 			"Click to change weapon.\n"
 			"Weapon : %s (%i)\n"
@@ -516,7 +516,7 @@ void TankWeaponTip::populate()
 	}
 	else if (tank_->getAccessories().getWeapons().getCurrent())
 	{
-		setText("Weapon", formatString(
+		setText(ToolTip::ToolTipHelp, "Weapon", formatString(
 			"The currently selected weapon.\n"
 			"Click to change weapon.\n"
 			"Weapon : %s (Infinite)\n"
@@ -582,7 +582,7 @@ TankPowerTip::~TankPowerTip()
 void TankPowerTip::populate()
 {
 	{
-		setText("Power", formatString(
+		setText(ToolTip::ToolTipHelp, "Power", formatString(
 			"The power used to fire the %s.\n"
 			"Click to revert back to previous settings.\n"
 			"Power : %s",
@@ -603,7 +603,7 @@ TankRotationTip::~TankRotationTip()
 
 void TankRotationTip::populate()
 {
-	setText("Rotation", formatString(
+	setText(ToolTip::ToolTipHelp, "Rotation", formatString(
 		"The rotation of the current player's tank turret.\n"
 		"Click to revert back to previous settings.\n"
 		"Rotation : %s",
@@ -621,7 +621,7 @@ TankElevationTip::~TankElevationTip()
 
 void TankElevationTip::populate()
 {
-	setText("Elevation", formatString(
+	setText(ToolTip::ToolTipHelp, "Elevation", formatString(
 		"The elevation of the current player's gun.\n"
 		"Click to revert back to previous settings.\n"
 		"Elevation : %s",
@@ -672,7 +672,7 @@ void TankTip::populate()
 {
 	std::string tip;
 	generateTargetTip(tip, tank_);
-	setText(tank_->getName(), tip.c_str());
+	setText(ToolTip::ToolTipInfo, tank_->getName(), tip.c_str());
 }
 
 TargetTip::TargetTip(Target *target) : 
@@ -688,7 +688,7 @@ void TargetTip::populate()
 {
 	std::string tip;
 	generateTargetTip(tip, target_);
-	setText(target_->getName(), tip.c_str());
+	setText(ToolTip::ToolTipInfo, target_->getName(), tip.c_str());
 }
 
 GLWTargetTips::GLWTargetTips(Target *target) : 
@@ -713,7 +713,7 @@ GLWTankTips::GLWTankTips(Tank *tank) :
 	shieldTip(tank),
 	batteryTip(tank),
 	fuelTip(tank),
-	nameTip("Player Name",
+	nameTip(ToolTip::ToolTipHelp, "Player Name",
 		"Shows the name of the player currently\n"
 		"making their move.")
 {

@@ -147,7 +147,7 @@ void NetworkSelectDialog::drawIcon(GLTexture *tex, float &x, float y, const char
 		GLWTranslate::getPosY() + y, 
 		w, h))
 	{
-		colToolTip_.setText("Status Icon", message);
+		colToolTip_.setText(ToolTip::ToolTipInfo, "Status Icon", message);
 	}
 
 	x += w;
@@ -326,7 +326,7 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 				GLWTranslate::getPosY() + y, 
 				w, 20.0f))
 			{
-				colToolTip_.setText(cols[col].col.name.c_str(), tipValue);
+				colToolTip_.setText(ToolTip::ToolTipInfo, cols[col].col.name.c_str(), tipValue);
 			}
 		}
 	}

@@ -51,12 +51,12 @@ AutoDefenseDialog::AutoDefenseDialog() :
 	ddpara_ = (GLWDropDownText *) addWidget(new GLWDropDownText(120, 170, 420),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
 	ddpara_->setHandler(this);
-	ddpara_->setToolTip(new ToolTip("Enable Parachutes",
+	ddpara_->setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Enable Parachutes",
 		"Choose to enable parachutes before the\n"
 		"beginning of the next round."));
 	ddshields_ = (GLWDropDownText *) addWidget(new GLWDropDownText(120, 200, 420),
 		0, SpaceLeft | SpaceRight | SpaceTop, 10.0f);
-	ddshields_->setToolTip(new ToolTip("Choose Shields",
+	ddshields_->setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Choose Shields",
 		"Choose the shield to use at the beginning\n"
 		"of the next round."));
 	ddshields_->setHandler(this);
@@ -178,7 +178,7 @@ void AutoDefenseDialog::displayCurrent()
 		ScorchedClient::instance()->getOptionsGame().getNoRounds())));
 
 	// Put shields info
-	static ToolTip shieldsOffTip("Shields Off",
+	static ToolTip shieldsOffTip(ToolTip::ToolTipHelp, "Shields Off",
 		"Turns off shields.");
 	ddshields_->clear();
 	std::list<Accessory *>::iterator shieldsItor;
@@ -209,7 +209,7 @@ void AutoDefenseDialog::displayCurrent()
 	}
 
 	// Put paras info
-	static ToolTip parachutesOffTip("Parachutes Off",
+	static ToolTip parachutesOffTip(ToolTip::ToolTipHelp, "Parachutes Off",
 		"Turns off parachutes.");
 	ddpara_->clear();
 	std::list<Accessory *>::iterator parachutesItor;

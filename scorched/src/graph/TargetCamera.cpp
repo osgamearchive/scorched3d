@@ -162,7 +162,7 @@ ToolTip *TargetCamera::getCameraToolTips()
 		cameraToolTips = new ToolTip[noCameraDescriptions];
 		for (int i=0; i<noCameraDescriptions; i++)
 		{
-			cameraToolTips[i].setText(getCameraNames()[i],
+			cameraToolTips[i].setText(ToolTip::ToolTipHelp, getCameraNames()[i],
 				cameraDescriptions[i]);
 		}
 	}

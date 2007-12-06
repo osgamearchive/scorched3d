@@ -34,7 +34,7 @@ GLWTankSlider::GLWTankSlider() :
 	GLWDragger(0.0f, 0.0f, 0.0f, 100.0f)
 {
 	setHandler(this);
-	setToolTip(new ToolTip("Power",
+	setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Power",
 		"Change the power of the current tank\n"
 		"by clicking with the left mouse button\n"
 		"and dragging up and down.\n"

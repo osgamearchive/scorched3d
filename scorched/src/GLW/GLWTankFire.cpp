@@ -30,7 +30,7 @@ REGISTER_CLASS_SOURCE(GLWTankFire);
 GLWTankFire::GLWTankFire() :
 	GLWidget(0.0f, 0.0f, 0.0f, 0.0f)
 {
-	setToolTip(new ToolTip("Fire Current Weapon",
+	setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Fire Current Weapon",
 		"Fires the current tanks currently selected\n"
 		"weapon."));
 }

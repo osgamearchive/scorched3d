@@ -183,9 +183,6 @@ static void createOtherControls(wxWindow *parent, wxSizer *sizer)
 	IDC_TIMER_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Show frames per second"));
 	miscSizer2->Add(IDC_TIMER_CTRL, 0);
-	IDC_TOOLTIP_CTRL = 
-		new wxCheckBox(parent, -1, wxT("Show ToolTips"));
-	miscSizer2->Add(IDC_TOOLTIP_CTRL, 0);
 	IDC_SMOUSE_CTRL = 
 		new wxCheckBox(parent, -1, wxT("Software Mouse"));
 	miscSizer2->Add(IDC_SMOUSE_CTRL, 0);

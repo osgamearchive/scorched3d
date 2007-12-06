@@ -64,7 +64,7 @@ void WindDialogToolTip::populate()
 	if (ScorchedClient::instance()->
 		getOptionsTransient().getWindSpeed() == 0)
 	{
-		setText("Wind", formatString(
+		setText(ToolTip::ToolTipHelp, "Wind", formatString(
 			"Displays the current wind direction\n"
 			"and speed, and the wall type.\n"
 			"Currently No Wind.\n"
@@ -72,7 +72,7 @@ void WindDialogToolTip::populate()
 	}
 	else
 	{
-		setText("Wind", formatString(
+		setText(ToolTip::ToolTipHelp, "Wind", formatString(
 			"Displays the current wind direction\n"
 			"and speed, and the wall type.\n"
 			"Current Wind Force : %i (out of 5)\n"

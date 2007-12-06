@@ -286,6 +286,9 @@ public:
 	bool getShowContextHelp() { return showContextHelp_; }
 	OptionEntryBool &getShowContextHelpEntry() { return showContextHelp_; }
 
+	bool getShowContextInfo() { return showContextInfo_; }
+	OptionEntryBool &getShowContextInfoEntry() { return showContextInfo_; }
+
 	bool getClientLogToFile() { return clientLogToFile_; }
 	OptionEntryBool &getClientLogToFileEntry() { return clientLogToFile_; }
 
@@ -476,6 +479,7 @@ protected:
 	OptionEntryBool noWaterReflections_;
 	OptionEntryBool noProgressBackdrop_;
 	OptionEntryBool showContextHelp_;
+	OptionEntryBool showContextInfo_;
 	OptionEntryBool lowTreeDetail_;
 	OptionEntryBool softwareMouse_;
 	OptionEntryBool sideScroll_;

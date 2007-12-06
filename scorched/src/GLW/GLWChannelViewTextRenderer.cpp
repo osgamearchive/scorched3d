@@ -66,21 +66,21 @@ void GLWChannelViewTextRenderer::drawCharacter(
 				}
 				else
 				{
-					toolTip_.setText(textEntry->part.c_str(),
+					toolTip_.setText(ToolTip::ToolTipInfo, textEntry->part.c_str(),
 						"Player disconnected");		
 				}
 			}
 			break;
 		case eChannelEntry:
-			toolTip_.setText("Channel",
+			toolTip_.setText(ToolTip::ToolTipHelp, "Channel",
 				textEntry->part.c_str());		
 			break;
 		case eWeaponEntry:
-			toolTip_.setText("Weapon",
+			toolTip_.setText(ToolTip::ToolTipHelp, "Weapon",
 				textEntry->part.c_str());	
 			break;
 		case eAdminEntry:
-			toolTip_.setText("Admin",
+			toolTip_.setText(ToolTip::ToolTipHelp, "Admin",
 				textEntry->part.c_str());	
 			break;
 		}

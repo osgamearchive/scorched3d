@@ -56,10 +56,13 @@ GLWToolTip::~GLWToolTip()
 {
 }
 
-bool GLWToolTip::addToolTip(const char *title, const char *text,
+bool GLWToolTip::addToolTip(ToolTip::ToolTipType type, const char *title, const char *text,
 	float x, float y, float w, float h)
 {
-	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;
+	if (!OptionsDisplay::instance()->getShowContextInfo() &&
+		type == ToolTip::ToolTipInfo) return false;
+	if (!OptionsDisplay::instance()->getShowContextHelp() &&
+		type == ToolTip::ToolTipHelp) return false;
 
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
@@ -69,7 +72,7 @@ bool GLWToolTip::addToolTip(const char *title, const char *text,
 		y < mouseY && mouseY < y + h)
 	{
 		static ToolTip singleTip;
-		singleTip.setText(title, text);
+		singleTip.setText(type, title, text);
 
 		currentX_ = x;
 		currentY_ = y;
@@ -84,7 +87,10 @@ bool GLWToolTip::addToolTip(const char *title, const char *text,
 
 bool GLWToolTip::addToolTip(ToolTip *tip, float x, float y, float w, float h)
 {
-	if (!OptionsDisplay::instance()->getShowContextHelp()) return false;
+	if (!OptionsDisplay::instance()->getShowContextInfo() &&
+		tip->getType() == ToolTip::ToolTipInfo) return false;
+	if (!OptionsDisplay::instance()->getShowContextHelp() &&
+		tip->getType() == ToolTip::ToolTipHelp) return false;
 
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
@@ -143,8 +149,6 @@ void GLWToolTip::calculateTip(ToolTip *tip)
 
 void GLWToolTip::clearToolTip(float x, float y, float w, float h)
 {
-	if (!OptionsDisplay::instance()->getShowContextHelp()) return;
-
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
 	

@@ -226,7 +226,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Name");
-	GLWToolTip::instance()->addToolTip("Name", "The name of the player",
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Name", "The name of the player",
 		x_ + nameLeft, y_ + h_ - y - lineSpacer - 26.0f, 100.0f, 16.0f);
 
 	GLWFont::instance()->getGameFont()->draw(
@@ -234,7 +234,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"K");
-	GLWToolTip::instance()->addToolTip("Kills", 
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Kills", 
 		formatString("The number of players this player has killed.\n%i score awarded per kill.",
 		ScorchedClient::instance()->getOptionsGame().getScorePerKill()),
 		x_ + killsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
@@ -244,7 +244,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"W");
-	GLWToolTip::instance()->addToolTip("Wins", 
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Wins", 
 		formatString("The number of rounds this player has won.\n%i score awarded per round won.",
 		ScorchedClient::instance()->getOptionsGame().getScoreWonForRound()),
 		x_ + winsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
@@ -254,7 +254,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"A");
-	GLWToolTip::instance()->addToolTip("Assists", 
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Assists", 
 		formatString("The number of kills this player has assisted in.\n%i score awarded per assist.",
 		ScorchedClient::instance()->getOptionsGame().getScorePerAssist()),
 		x_ + assistsLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
@@ -264,7 +264,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + moneyLeft + 10, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"$");
-	GLWToolTip::instance()->addToolTip("Money", 
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Money", 
 		formatString("The amount of money this player has.\n%.1f score awarded per dollar.",
 		float(ScorchedClient::instance()->getOptionsGame().getScorePerMoney()) / 1000.0f),
 		x_ + moneyLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);
@@ -274,7 +274,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Score");
-	GLWToolTip::instance()->addToolTip("Score", 
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Score", 
 		"The current score for this player.\nCalculated from the number of kills, wins, money and bonus score awards.",
 		x_ + scoreLeft, y_ + h_ - y - lineSpacer - 26.0f, 80.0f, 16.0f);
 
@@ -283,7 +283,7 @@ void ScoreDialog::draw()
 			12,
 			x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 			"Rank");
-	GLWToolTip::instance()->addToolTip("Rank", "The current online ranking for this player.",
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Rank", "The current online ranking for this player.",
 		x_ + statsLeft, y_ + h_ - y - lineSpacer - 26.0f, 40.0f, 16.0f);
 
 	GLWFont::instance()->getGameFont()->draw(
@@ -291,7 +291,7 @@ void ScoreDialog::draw()
 		12,
 		x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 0.0f,
 		"L");
-	GLWToolTip::instance()->addToolTip("Lives", 
+	GLWToolTip::instance()->addToolTip(ToolTip::ToolTipHelp, "Lives", 
 		formatString("The current number of lives this player has left.\n%i score awarded for each life remaining.",
 		ScorchedClient::instance()->getOptionsGame().getScoreWonForLives()),
 		x_ + livesLeft, y_ + h_ - y - lineSpacer - 26.0f, 20.0f, 16.0f);

@@ -325,7 +325,7 @@ bool BuyAccessoryDialog::addAccessory(
 	sortBox->setHandler(this);
 	sortBox->setW(14);
 	sortBox->setH(14);
-	sortBox->setToolTip(new ToolTip("Favorite Weapon",
+	sortBox->setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Favorite Weapon",
 		"Set/unset this weapon as a favorite.\n"
 		"Favorite weapons will show in the\n"
 		"favorites tab."));
@@ -349,7 +349,7 @@ bool BuyAccessoryDialog::addAccessory(
 					210, 2, 100, this, 
 			GLWButton::ButtonFlagCenterX, 12.0f));
 		button->setColor(Vector(0.0f, 0.4f, 0.0f));
-		button->setToolTip(new ToolTip("Buy", 
+		button->setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Buy", 
 			formatString("Buy %i %s(s) for $%i", 
 				current->getBundle(), current->getName(), current->getPrice())));
 		button->setH(button->getH() - 2.0f);
@@ -376,7 +376,7 @@ bool BuyAccessoryDialog::addAccessory(
 					312, 2, 100, this,
 			GLWButton::ButtonFlagCenterX, 12.0f));
 		button->setColor(Vector(0.7f, 0.0f, 0.0f));
-		button->setToolTip(new ToolTip("Sell", 
+		button->setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Sell", 
 			formatString("Sell 1 %s for $%i", 
 				current->getName(), current->getSellPrice())));
 		button->setH(button->getH() - 2.0f);

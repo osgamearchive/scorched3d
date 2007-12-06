@@ -35,12 +35,18 @@ public:
 class ToolTip
 {
 public:
+	enum ToolTipType
+	{
+		ToolTipHelp,
+		ToolTipInfo
+	};
+
 	friend class GLWToolTip;
-	ToolTip(const char *title = "", const char *text = "");
+	ToolTip(ToolTipType type = ToolTipHelp, const char *title = "", const char *text = "");
 	virtual ~ToolTip();
 
 	// Used to set the title and text of the tooltip
-	void setText(const char *title, const char *text);
+	void setText(ToolTipType type, const char *title, const char *text);
 
 	// Called just before the tooltip is shown
 	// can be used to dynamically populate the title and text fields
@@ -51,8 +57,10 @@ public:
 	unsigned int getId() { return id_; }
 	const char *getText() { return text_.c_str(); }
 	const char *getTitle() { return title_.c_str(); }
+	ToolTipType getType() { return type_; }
 
 protected:
+	ToolTipType type_;
 	ToolTipI *handler_;
 	unsigned int id_;
 	static unsigned int nextId_;

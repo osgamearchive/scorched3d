@@ -43,6 +43,6 @@ bool TankAI::parseConfig(XMLNode *node)
 
 ToolTip *TankAI::getToolTip()
 {
-	toolTip_.setText(name_.c_str(), description_.c_str());
+	toolTip_.setText(ToolTip::ToolTipInfo, name_.c_str(), description_.c_str());
 	return &toolTip_;
 }

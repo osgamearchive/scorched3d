@@ -44,7 +44,7 @@ GLWWindow::GLWWindow(const char *name, float x, float y,
 	GLWPanel(x, y, w, h), dragging_(NoDrag), 
 	needCentered_(false), showTitle_(false), 
 	disabled_(false), windowState_(states), maxWindowSize_(0.0f),
-	description_(description), toolTip_(name, description),
+	description_(description), toolTip_(ToolTip::ToolTipHelp, name, description),
 	initPosition_(false), windowLevel_(100000)
 {
 	setName(name);
@@ -57,7 +57,7 @@ GLWWindow::GLWWindow(const char *name, float w, float h,
 	GLWPanel(0.0f, 0.0f, w, h), dragging_(NoDrag), 
 	needCentered_(true), showTitle_(false), 
 	disabled_(false), windowState_(states),
-	description_(description), toolTip_(name, description),
+	description_(description), toolTip_(ToolTip::ToolTipHelp, name, description),
 	initPosition_(false), windowLevel_(100000)
 {
 	setName(name);
@@ -202,7 +202,7 @@ void GLWWindow::drawMaximizedWindow()
 				float sizeX = 20.0f;
 				float sizeY = 20.0f;
 
-				static ToolTip moveTip("Move",
+				static ToolTip moveTip(ToolTip::ToolTipHelp, "Move",
 					"Left click and drag to move the window.");
 				GLWToolTip::instance()->addToolTip(&moveTip, 
 					x_, y_ + h_ - sizeY, sizeX, sizeY);
@@ -485,7 +485,7 @@ bool GLWWindow::initFromXML(XMLNode *node)
 
 	// Desc
 	if (!node->getNamedChild("description", description_)) return false;
-	if (!noTooltip) toolTip_.setText(name_.c_str(), description_.c_str());
+	if (!noTooltip) toolTip_.setText(ToolTip::ToolTipHelp, name_.c_str(), description_.c_str());
 
 	// Disabled
 	XMLNode *disabled = 0;

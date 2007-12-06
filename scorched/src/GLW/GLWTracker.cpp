@@ -85,7 +85,7 @@ GLWTankTracker::GLWTankTracker() :
 	GLWTracker(0.0f, 0.0f, 0.0f, 100.0f)
 {
 	setHandler(this);
-	setToolTip(new ToolTip("Rotation/Elevation",
+	setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Rotation/Elevation",
 		"Change the rotation and elevation of the\n"
 		"current tank by clicking with the left\n"
 		"mouse button and dragging up and down,\n"

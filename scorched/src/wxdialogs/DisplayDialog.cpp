@@ -412,8 +412,6 @@ void DisplayFrame::refreshScreen()
 	IDC_INVERTMOUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getInvertMouseEntry().getDescription(), wxConvUTF8));
 	IDC_SMOUSE_CTRL->SetValue(OptionsDisplay::instance()->getSoftwareMouse());
 	IDC_SMOUSE_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getSoftwareMouseEntry().getDescription(), wxConvUTF8));
-	IDC_TOOLTIP_CTRL->SetValue(OptionsDisplay::instance()->getShowContextHelp());
-	IDC_TOOLTIP_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getShowContextHelpEntry().getDescription(), wxConvUTF8));
 	IDC_TIMER_CTRL->SetValue(OptionsDisplay::instance()->getFrameTimer());
 	IDC_TIMER_CTRL->SetToolTip(wxString(OptionsDisplay::instance()->getFrameTimerEntry().getDescription(), wxConvUTF8));
 	IDC_SIDESCROLL_CTRL->SetValue(OptionsDisplay::instance()->getSideScroll());
@@ -638,7 +636,6 @@ bool DisplayFrame::TransferDataFromWindow()
 	OptionsDisplay::instance()->getInvertElevationEntry().setValue(IDC_INVERT_CTRL->GetValue());
 	OptionsDisplay::instance()->getInvertMouseEntry().setValue(IDC_INVERTMOUSE_CTRL->GetValue());
 	OptionsDisplay::instance()->getSoftwareMouseEntry().setValue(IDC_SMOUSE_CTRL->GetValue());
-	OptionsDisplay::instance()->getShowContextHelpEntry().setValue(IDC_TOOLTIP_CTRL->GetValue());
 	OptionsDisplay::instance()->getFrameTimerEntry().setValue(IDC_TIMER_CTRL->GetValue());
 	OptionsDisplay::instance()->getSideScrollEntry().setValue(IDC_SIDESCROLL_CTRL->GetValue());
 	OptionsDisplay::instance()->getStorePlayerCameraEntry().setValue(IDC_PLAYERCAMERA_CTRL->GetValue());

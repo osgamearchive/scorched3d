@@ -78,10 +78,10 @@ PlayerDialog::PlayerDialog() :
 	colorTexture_.create(map);
 
 	// Create players avatar choice
-	avatarTip1_.setText("Avatar", 
+	avatarTip1_.setText(ToolTip::ToolTipHelp, "Avatar", 
 		"The current player's avatar.\n"
 		"Click to change.\n");
-	avatarTip2_.setText("Avatar", 
+	avatarTip2_.setText(ToolTip::ToolTipHelp, "Avatar", 
 		"The current player's avatar.\n"
 		"CANNOT be changed while playing,\n"
 		"you must quit to change.");
@@ -94,7 +94,7 @@ PlayerDialog::PlayerDialog() :
 	infoPanel->addWidget(imageList_);
 
 	// Create player name choice
-	ToolTip *nameTip = new ToolTip("Player Name",
+	ToolTip *nameTip = new ToolTip(ToolTip::ToolTipHelp, "Player Name",
 		"The name of this player.\n"
 		"Use the backspace or delete key to remove this name.\n"
 		"Type in a new player name via the keyboad to change.");
@@ -108,7 +108,7 @@ PlayerDialog::PlayerDialog() :
 	playerName_->setName("Name");
 	
 	// Create team choice
-	ToolTip *teamTip = new ToolTip("Team Selection",
+	ToolTip *teamTip = new ToolTip(ToolTip::ToolTipHelp, "Team Selection",
 		"Change the team this player will join.\n"
 		"This is only available when playing team games.");
 	teamLabel_ = (GLWLabel *) 
@@ -121,7 +121,7 @@ PlayerDialog::PlayerDialog() :
 	teamDropDown_->setName("Team");
 
 	// Create color choice
-	ToolTip *colorTip = new ToolTip("Color Selection",
+	ToolTip *colorTip = new ToolTip(ToolTip::ToolTipHelp, "Color Selection",
 		"Change the color this player displayed as.\n"
 		"This is only available when playing non-team games.");
 	colorLabel_ = (GLWLabel *) 
@@ -134,7 +134,7 @@ PlayerDialog::PlayerDialog() :
 	colorDropDown_->setName("Color");
 
 	// Create computer type choice
-	ToolTip *typeTip = new ToolTip("Player Type",
+	ToolTip *typeTip = new ToolTip(ToolTip::ToolTipHelp, "Player Type",
 		"Change between human and computer controlled\n"
 		"players.  This is only available when playing\n"
 		"single player games.");
@@ -147,7 +147,7 @@ PlayerDialog::PlayerDialog() :
 	typeDropDown_->setToolTip(typeTip);
 	typeDropDown_->setName("Type");
 
-	humanToolTip_.setText("Human", "A human controlled player.");
+	humanToolTip_.setText(ToolTip::ToolTipHelp, "Human", "A human controlled player.");
 }
 
 PlayerDialog::~PlayerDialog()

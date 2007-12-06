@@ -52,7 +52,7 @@ GLWPlanView::GLWPlanView(float x, float y, float w, float h) :
 	flash_(true), dragging_(false), firstTime_(true),
 	planColor_(1.0f)
 {
-	setToolTip(new ToolTip("Plan View",
+	setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Plan View",
 		"Shows the position of the the tanks\n"
 		"on a overhead map of the island.\n"
 		"Flashing tanks are still to make a move.\n"

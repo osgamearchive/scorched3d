@@ -54,7 +54,7 @@ MsgBoxDialog::MsgBoxDialog() :
 		addWidget(new GLWTextButton("Cancel", 95, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagOk | 
 		GLWButton::ButtonFlagCenterX), 0, SpaceAll | AlignRight, 10.0f);
-	okButton_->setToolTip(new ToolTip("Cancel",
+	okButton_->setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Cancel",
 		"Return to the game."));
 
 	windowLevel_ = 1000;

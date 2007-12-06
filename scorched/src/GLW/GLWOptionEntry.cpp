@@ -42,7 +42,7 @@ void GLWOptionEntry::createEntry(
 	GLWPanel *parent, OptionEntry &entry)
 {
 	GLWLabel *staticText = new GLWLabel(0.0f, 0.0f, (char *) entry.getName());
-	staticText->setToolTip(new ToolTip(entry.getName(), entry.getDescription()));
+	staticText->setToolTip(new ToolTip(ToolTip::ToolTipHelp, entry.getName(), entry.getDescription()));
 	parent->addWidget(staticText, 0, GLWPanel::AlignRight | 
 		GLWPanel::SpaceLeft | GLWPanel::SpaceTop, 10.0f);
 
@@ -117,7 +117,7 @@ void GLWOptionEntry::createEntry(
 			entry.getName(), entry.getEntryType()));
 	}
 
-	control->setToolTip(new ToolTip(entry.getName(), entry.getDescription()));
+	control->setToolTip(new ToolTip(ToolTip::ToolTipHelp, entry.getName(), entry.getDescription()));
 	parent->addWidget(control, 0, 
 		GLWPanel::SpaceRight | GLWPanel::SpaceLeft | GLWPanel::SpaceTop, 10.0f);
 

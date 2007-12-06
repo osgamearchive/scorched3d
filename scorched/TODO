@@ -4,6 +4,7 @@ Fixed: Small ogg files not playing correctly
 Fixed: MOTD is correct when it is reshown
 Fixed: Music plays correctly on big endian machines (e.g. PPC macs)
 
+Added: Tooltips are split into two catagories (info and help) each of which can be disabled
 Added: Rules tab shows options changed for this level(L) and options changed from default(*)
 
 -- Bugs in current development release

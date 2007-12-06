@@ -66,11 +66,11 @@ GLWTankViewer::GLWTankViewer(float x, float y, int numH, int numV) :
 	catagoryChoice_.setCurrentPosition(0);
 	select(0, 0, GLWSelectorEntry(catagoryChoice_.getCurrentText()));
 
-	catagoryChoice_.setToolTip(new ToolTip("Model Catagory",
+	catagoryChoice_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Model Catagory",
 		"Displays the currently selected model catagory.\n"
 		"To make models easier to locate\n"
 		"tank models are grouped by catagory."));
-	infoWindow_.setToolTip(new ToolTip("Current Model",
+	infoWindow_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, "Current Model",
 		"Displays the currently selected tank model.\n"
 		"This is the model this player will use in game.\n"
 		"Choose a new model from the selection on the\n"
@@ -278,6 +278,7 @@ void GLWTankViewer::draw()
 					TankType *type = ScorchedClient::instance()->getTankModels().
 						getTypeByName(models_[vectorPos].model->getTypeName());
 					toolTip_.setText(
+						ToolTip::ToolTipInfo, 
 						models_[vectorPos].model->getName(),
 						type->getDescription());	
 				}

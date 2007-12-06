@@ -285,6 +285,13 @@
 		<key>i</key>
 	</keyentry>
 	<keyentry>
+		<name>TIP_ITEMS</name>
+		<title>Change Tooltips</title>
+		<description>Toggles the various tooltip items on and off</description>
+		<group>2</group>
+		<key>j</key>
+	</keyentry>
+	<keyentry>
 		<name>CONSOLE</name>
 		<title>Show console</title>
 		<description>Shows or hides the game console</description>

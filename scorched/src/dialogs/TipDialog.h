@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,31 +18,35 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <common/ToolTip.h>
+#if !defined(__INCLUDE_TipDialogh_INCLUDE__)
+#define __INCLUDE_TipDialogh_INCLUDE__
 
-unsigned int ToolTip::nextId_ = 0;
+#include <GLW/GLWWindow.h>
+#include <GLW/GLWButton.h>
+#include <GLW/GLWCheckBoxText.h>
 
-ToolTipI::~ToolTipI()
+class TipDialog : 
+	public GLWWindow ,
+	public GLWButtonI
 {
+public:
+	static TipDialog *instance();
 
-}
+	// Inherited from GLWButtonI
+	virtual void buttonDown(unsigned int id);
 
-ToolTip::ToolTip(ToolTipType type, const char *tit, const char *tex) 
-	: id_(++nextId_), handler_(0)
-{
-	setText(type, tit, tex);
-}
+	// Inherited from GLWWindow
+	virtual void display();
 
-ToolTip::~ToolTip()
-{
-}
+protected:
+	static TipDialog *instance_;
+	unsigned int okId_, cancelId_;
+	GLWCheckBoxText *helpBox_;
+	GLWCheckBoxText *infoBox_;
 
-void ToolTip::populate()
-{
-	if (handler_) handler_->populateCalled(id_);
-}
+private:
+	TipDialog();
+	virtual ~TipDialog();
+};
 
-void ToolTip::setText(ToolTipType type, const char *title, const char *text)
-{
-	type_ = type; title_ = title; text_ = text;
-}
+#endif
