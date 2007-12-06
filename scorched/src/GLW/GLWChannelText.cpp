@@ -46,8 +46,9 @@ GLWChannelText::GLWChannelText() :
 {
 	view_.setHandler(this);
 	button_.setHandler(this);
-	button_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, 
-		"Chat", "Select channels, mute players..."));
+	button_.setToolTip(new ToolTip(
+		ToolTip::ToolTipAlignLeft | ToolTip::ToolTipHelp, 
+		"Chat", "Show chat menu"));
 	prompt_.setChannelView(&view_);
 }
 

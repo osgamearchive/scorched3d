@@ -3,6 +3,8 @@ Fixed: Falling powerup objects are automatically collected by tanks
 Fixed: Small ogg files not playing correctly
 Fixed: MOTD is correct when it is reshown
 Fixed: Music plays correctly on big endian machines (e.g. PPC macs)
+Fixed: Chat tooltips have been moved out the way
+Fixed: Bilboard aspect ratios in camera mode
 
 Added: Tooltips are split into two catagories (info and help) each of which can be disabled
 Added: Rules tab shows options changed for this level(L) and options changed from default(*)

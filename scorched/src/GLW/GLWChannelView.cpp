@@ -57,13 +57,19 @@ GLWChannelView::GLWChannelView() :
 	downButton_.setHandler(this);
 	resetButton_.setHandler(this);
 
-	upButton_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, 
-		"Chat", "Show previous chat entry"));
-	downButton_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, 
-		"Chat", "Show next chat entry"));
-	resetButton_.setToolTip(new ToolTip(ToolTip::ToolTipHelp, 
-		"Chat", "Go to the end of the chat\n"
-		"and hide all elapsed log entries"));
+	upButton_.setToolTip(new ToolTip(
+		ToolTip::ToolTipAlignLeft | ToolTip::ToolTipHelp, 
+		"Chat", 
+		"Show previous chat entry"));
+	downButton_.setToolTip(new ToolTip(
+		ToolTip::ToolTipAlignLeft | ToolTip::ToolTipHelp, 
+		"Chat", 
+		"Show next chat entry"));
+	resetButton_.setToolTip(new ToolTip(
+		ToolTip::ToolTipAlignLeft | ToolTip::ToolTipHelp, 
+		"Chat", 
+		"View end of the chat log, \n"
+		"hide all elapsed entries"));
 }
 
 GLWChannelView::~GLWChannelView()

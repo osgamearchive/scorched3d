@@ -48,7 +48,8 @@ GLWToolTip::GLWToolTip() :
 	timeDrawn_(0.0f), timeSeen_(0.0),
 	refreshTime_(100.0f),
 	tipX_(0.0f), tipY_(0.0f),
-	tipW_(0.0f), tipH_(0.0f)
+	tipW_(0.0f), tipH_(0.0f),
+	tipOffX_(0.0f), tipOffY_(0.0f)
 {
 }
 
@@ -60,9 +61,9 @@ bool GLWToolTip::addToolTip(ToolTip::ToolTipType type, const char *title, const 
 	float x, float y, float w, float h)
 {
 	if (!OptionsDisplay::instance()->getShowContextInfo() &&
-		type == ToolTip::ToolTipInfo) return false;
+		(type & ToolTip::ToolTipInfo)) return false;
 	if (!OptionsDisplay::instance()->getShowContextHelp() &&
-		type == ToolTip::ToolTipHelp) return false;
+		(type & ToolTip::ToolTipHelp)) return false;
 
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
@@ -88,9 +89,9 @@ bool GLWToolTip::addToolTip(ToolTip::ToolTipType type, const char *title, const 
 bool GLWToolTip::addToolTip(ToolTip *tip, float x, float y, float w, float h)
 {
 	if (!OptionsDisplay::instance()->getShowContextInfo() &&
-		tip->getType() == ToolTip::ToolTipInfo) return false;
+		(tip->getType() & ToolTip::ToolTipInfo)) return false;
 	if (!OptionsDisplay::instance()->getShowContextHelp() &&
-		tip->getType() == ToolTip::ToolTipHelp) return false;
+		(tip->getType() & ToolTip::ToolTipHelp)) return false;
 
 	int mouseX = ScorchedClient::instance()->getGameState().getMouseX();
 	int mouseY = ScorchedClient::instance()->getGameState().getMouseY();
@@ -196,7 +197,14 @@ void GLWToolTip::draw(const unsigned state)
 		setupTip(lastTip_);
 		refreshTime_ = 0.0f;
 	}
-	if (lastTip_) calculateTip(lastTip_);
+	if (lastTip_) 
+	{
+		calculateTip(lastTip_);
+
+		if (lastTip_->getType() & ToolTip::ToolTipAlignLeft)
+			tipOffX_ = -currentW_ - tipTextWidth_ - 5;
+		else tipOffX_ = 0.0f;
+	}
 
 	float alpha = timeSeen_ * 
 		float(OptionsDisplay::instance()->getToolTipSpeed());
@@ -209,8 +217,8 @@ void GLWToolTip::draw(const unsigned state)
 
 	GLState currentState(GLState::TEXTURE_OFF | GLState::DEPTH_OFF);
 
-	float posX = tipX_;
-	float posY = tipY_;
+	float posX = tipX_ + tipOffX_;
+	float posY = tipY_ + tipOffY_;
 	float posW = tipTextWidth_;
 	float posH = tipTextHeight_;
 

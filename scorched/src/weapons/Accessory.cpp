@@ -72,7 +72,7 @@ bool Accessory::parseXML(AccessoryCreateContext &context, XMLNode *accessoryNode
 
 	// Get the accessory description
 	accessoryNode->getNamedChild("description", description_, false);
-	toolTip_.setText(ToolTip::ToolTipInfo, getName(), getDescription());
+	toolTip_.setText(ToolTip::ToolTipHelp, getName(), getDescription());
 
 	// Get the accessory icon
 	if (accessoryNode->getNamedChild("icon", iconName_, false))

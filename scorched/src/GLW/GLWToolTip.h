@@ -52,6 +52,7 @@ protected:
 	float currentW_, currentH_;
 	float tipX_, tipY_;
 	float tipW_, tipH_;
+	float tipOffX_, tipOffY_;
 	float tipTextWidth_;
 	float tipTextHeight_;
 	std::string tipTitle_, tipText_;

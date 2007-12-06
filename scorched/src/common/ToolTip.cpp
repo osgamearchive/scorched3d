@@ -27,7 +27,7 @@ ToolTipI::~ToolTipI()
 
 }
 
-ToolTip::ToolTip(ToolTipType type, const char *tit, const char *tex) 
+ToolTip::ToolTip(unsigned int type, const char *tit, const char *tex) 
 	: id_(++nextId_), handler_(0)
 {
 	setText(type, tit, tex);
@@ -42,7 +42,7 @@ void ToolTip::populate()
 	if (handler_) handler_->populateCalled(id_);
 }
 
-void ToolTip::setText(ToolTipType type, const char *title, const char *text)
+void ToolTip::setText(unsigned int type, const char *title, const char *text)
 {
 	type_ = type; title_ = title; text_ = text;
 }
