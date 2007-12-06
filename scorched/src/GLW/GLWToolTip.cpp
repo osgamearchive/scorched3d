@@ -202,8 +202,12 @@ void GLWToolTip::draw(const unsigned state)
 		calculateTip(lastTip_);
 
 		if (lastTip_->getType() & ToolTip::ToolTipAlignLeft)
-			tipOffX_ = -currentW_ - tipTextWidth_ - 5;
+			tipOffX_ = -currentW_ - tipTextWidth_ - 10;
 		else tipOffX_ = 0.0f;
+
+		if (lastTip_->getType() & ToolTip::ToolTipAlignBottom)
+			tipOffY_ = 15.0f;
+		else tipOffY_ = 0.0f;
 	}
 
 	float alpha = timeSeen_ * 

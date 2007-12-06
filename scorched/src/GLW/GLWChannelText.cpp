@@ -35,6 +35,8 @@
 #include <common/Defines.h>
 #include <common/Keyboard.h>
 
+std::list<ChannelText> GLWChannelText::lastMessages_;
+
 REGISTER_CLASS_SOURCE(GLWChannelText);
 
 GLWChannelText::GLWChannelText() :
@@ -285,6 +287,9 @@ void GLWChannelText::processNormalText()
 	{
 		text.setDestPlayerId(whisperDest_);
 	}
+
+	lastMessages_.push_back(text);
+	if (lastMessages_.size() > 10) lastMessages_.pop_front();
 	ClientChannelManager::instance()->sendText(text);
 }
 
@@ -398,7 +403,8 @@ enum
 	eSelectSelectorStart = 5000,
 	eColorSelectorStart = 6000,
 	eChatSelectorStart = 7000,
-	eReplySelectorStart = 8000
+	eReplySelectorStart = 8000,
+	eResendSelectorStart = 9000
 };
 
 void GLWChannelText::buttonDown(unsigned int id)
@@ -407,24 +413,26 @@ void GLWChannelText::buttonDown(unsigned int id)
 	checkCurrentChannel();
 
 	// All of the tooltips
-	static ToolTip muteTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip muteTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Ignore", "Ignore chat from another player (mute)");
-	static ToolTip whisperTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip whisperTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Whisper", "Send private chat to another player");
-	static ToolTip joinTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip joinTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Join Channel", "Join another chat channel.\n"
 		"You will be able to see messages sent on this channel");
-	static ToolTip leaveTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip leaveTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Leave Channel", "Leave a current chat channel.\n"
 		"You will stop recieving messages sent on this channel");
-	static ToolTip selectTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip selectTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Select Channel", "Select the current channel.\n"
 		"This is the channel you will send messages on.");
-	static ToolTip colorTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip colorTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Channel Color", "Change the color of the current channel.");
-	static ToolTip replyTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip resendTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
+		"Resend", "Resend a previously sent message.");
+	static ToolTip replyTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Reply", "Reply to the last person that whispered you.");
-	static ToolTip chatTooltip(ToolTip::ToolTipHelp, 
+	static ToolTip chatTooltip(ToolTip::ToolTipHelp | ToolTip::ToolTipAlignBottom, 
 		"Chat", "Show or hide the chat text entry box.");
 
 	GLWSelectorEntry mute("Ignore", &muteTooltip);
@@ -434,8 +442,20 @@ void GLWChannelText::buttonDown(unsigned int id)
 	GLWSelectorEntry leaveChannel("Leave Channel", &leaveTooltip);
 	GLWSelectorEntry selectChannel("Select Channel", &selectTooltip);
 	GLWSelectorEntry colorChannel("Channel Color", &colorTooltip);
+	GLWSelectorEntry resend("Resend", &resendTooltip);
 	GLWSelectorEntry reply("Reply (/r)", &replyTooltip, false, 0, (void *) eReplySelectorStart);
 	GLWSelectorEntry chat("Chat", &chatTooltip, false, 0, (void *) eChatSelectorStart);
+
+	// For each resend
+	std::list<ChannelText>::iterator resendItor;
+	for (resendItor = lastMessages_.begin();
+		resendItor != lastMessages_.end();
+		resendItor++)
+	{
+		ChannelText &channelText = *resendItor;
+		resend.getPopups().push_back(GLWSelectorEntry(channelText.getMessage(), 
+			0, false, 0, (void *) eResendSelectorStart, channelText.getMessage()));
+	}
 
 	// For each tank
 	Tank *currentTank = 
@@ -532,6 +552,7 @@ void GLWChannelText::buttonDown(unsigned int id)
 	topLevel.push_back(selectChannel);
 	topLevel.push_back(colorChannel);
 	topLevel.push_back(bar);
+	topLevel.push_back(resend);
 	topLevel.push_back(reply);
 	topLevel.push_back(chat);
 
@@ -628,6 +649,22 @@ void GLWChannelText::itemSelected(GLWSelectorEntry *entry, int position)
 
 				text_ = "";
 				setVisible(true);
+			}
+		}
+		break;
+	case eResendSelectorStart:
+		{
+			std::list<ChannelText>::iterator resendItor;
+			for (resendItor = lastMessages_.begin();
+				resendItor != lastMessages_.end();
+				resendItor++)
+			{
+				ChannelText &text = *resendItor;
+				if (0 == strcmp(text.getMessage(), entry->getDataText())) 
+				{
+					ClientChannelManager::instance()->sendText(text);
+					break;
+				}
 			}
 		}
 		break;

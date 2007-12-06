@@ -40,7 +40,8 @@ public:
 		ToolTipNone = 0,
 		ToolTipHelp = 1,
 		ToolTipInfo = 2,
-		ToolTipAlignLeft = 4
+		ToolTipAlignLeft = 4,
+		ToolTipAlignBottom = 8
 	};
 
 	friend class GLWToolTip;
