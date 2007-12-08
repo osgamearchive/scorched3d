@@ -207,6 +207,7 @@ FixedVector &TankLib::getVelocityVector(fixed xy, fixed yz)
 		(-xy / fixed(180) * fixed::XPI).cos() * (yz / fixed(180) * fixed::XPI).cos(),
 		( yz / fixed(180) * fixed::XPI).sin());	
 	diff /= 20;
+	diff *= fixed(true, 12000);
 	return diff;
 }
 

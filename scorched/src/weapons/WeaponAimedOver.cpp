@@ -187,7 +187,7 @@ void WeaponAimedOver::fireWeapon(ScorchedContext &context,
 				position, 
 				shootAt->getPosition().getTankPosition(), 
 				angleXYDegs, angleYZDegs, power);
-			power *= fixed(true, 5000);
+			power *= fixed(true, 6000);
 
 			angleXYDegs += (random.getRandFixed() * maxInacuracy_.getValue(context)) - 
 				(maxInacuracy_.getValue(context) / 2);

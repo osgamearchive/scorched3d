@@ -70,7 +70,7 @@ void PhysicsParticleObject::setPhysics(
 	FixedVector zaxis(0, 0, 1);
 	rotation_.setQuatFromAxisAndAngle(zaxis, 0);
 	position_ = position;
-	velocity_ = velocity * fixed(true, 12000);
+	velocity_ = velocity;
 	windFactor_ = 
 		context_->optionsTransient->getWindDirection() * 
 		context_->optionsTransient->getWindSpeed() / 
