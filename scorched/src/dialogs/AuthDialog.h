@@ -18,37 +18,44 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _ClientConnectionAuthHandler_h
-#define _ClientConnectionAuthHandler_h
+#if !defined(__INCLUDE_AuthDialogh_INCLUDE__)
+#define __INCLUDE_AuthDialogh_INCLUDE__
 
-#include <coms/ComsMessageHandler.h>
+#include <GLW/GLWWindow.h>
+#include <GLW/GLWButton.h>
+#include <GLW/GLWTextBox.h>
 
-class ClientConnectionAuthHandler : 
-	public ComsMessageHandlerI
+class AuthDialog : public GLWWindow,
+	public GLWButtonI
 {
 public:
-	static ClientConnectionAuthHandler* instance();
+	static AuthDialog *instance();
 
-	// Inherited from ComsMessageHandlerI
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
+	enum AuthRequired
+	{
+		eNameRequired = 1,
+		ePasswordRequired = 2
+	};
 
-	void sendAuth();
-	void cancelAuth();
+	// Inherited from GLWButtonI
+	virtual void buttonDown(unsigned int id);
+
+	// Inherited from GLWWindow
+	virtual void display();
+
+	void setRequiredAuth(unsigned int auth) { auth_ = auth; }
 
 protected:
-	static ClientConnectionAuthHandler* instance_;
+	static AuthDialog *instance_;
+	unsigned int okId_, cancelId_;
+	unsigned int auth_;
+
+	GLWTextBox *username_;
+	GLWTextBox *password_;
 
 private:
-	ClientConnectionAuthHandler();
-	virtual ~ClientConnectionAuthHandler();
-
-	ClientConnectionAuthHandler(const ClientConnectionAuthHandler &);
-	const ClientConnectionAuthHandler & operator=(const ClientConnectionAuthHandler &);
-
+	AuthDialog();
+	virtual ~AuthDialog();
 };
 
-#endif // _ClientConnectionAuthHandler_h
-
+#endif

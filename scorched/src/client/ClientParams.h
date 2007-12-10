@@ -41,6 +41,7 @@ public:
 	void setStartCustom(bool custom) { startcustom_.setValue(custom); }
 	void setClientFile(const char *file) { client_.setValue(file); }
 	void setSaveFile(const char *file) { save_.setValue(file); }
+	void setUserName(const char *username) { username_.setValue(username); }
 	void setPassword(const char *password) { password_.setValue(password); }
 	void setConnect(const char *address) { connect_.setValue(address); }
 	void setExitTime(int time) { exittime_.setValue(time); }

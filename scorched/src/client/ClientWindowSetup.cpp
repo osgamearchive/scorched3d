@@ -36,6 +36,7 @@
 #include <dialogs/SaveDialog.h>
 #include <dialogs/LogDialog.h>
 #include <dialogs/ConnectDialog.h>
+#include <dialogs/AuthDialog.h>
 #include <dialogs/BackdropDialog.h>
 #include <dialogs/ProgressDialog.h>
 #include <dialogs/GiftMoneyDialog.h>
@@ -208,6 +209,8 @@ void ClientWindowSetup::setupStartWindows(GLWWindowSkinManager *skinManager)
 		ProgressDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		ConnectDialog::instance(), 0, true);
+	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
+		AuthDialog::instance(), 0, false);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 
 		MainMenuDialog::instance(), 0, true);
 	GLWWindowManager::instance()->addWindow(ClientState::StateConnect, 

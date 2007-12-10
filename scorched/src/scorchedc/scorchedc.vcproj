@@ -5143,6 +5143,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\dialogs\AuthDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dialogs\AuthDialog.h"
+				>
+			</File>
+			<File
 				RelativePath="..\dialogs\AutoDefenseDialog.cpp"
 				>
 			</File>

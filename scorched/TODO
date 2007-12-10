@@ -7,6 +7,8 @@ Fixed: Chat tooltips have been moved out the way
 Fixed: Bilboard aspect ratios in camera mode
 Fixed: MIRV shot path being slightly out
 
+Added: Authentication dialog for when server needs name/password
+Added: Player view on network browsing dialog
 Added: Re-send functionality to chat menu
 Added: Tooltips are split into two catagories (info and help) each of which can be disabled
 Added: Rules tab shows options changed for this level(L) and options changed from default(*)

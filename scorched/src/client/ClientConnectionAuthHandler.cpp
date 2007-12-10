@@ -28,6 +28,8 @@
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/MsgBoxDialog.h>
 #include <dialogs/ProgressDialog.h>
+#include <dialogs/AuthDialog.h>
+#include <GLW/GLWWindowManager.h>
 #include <coms/ComsConnectAuthMessage.h>
 #include <coms/ComsMessageSender.h>
 #include <graph/OptionsDisplay.h>
@@ -67,11 +69,16 @@ bool ClientConnectionAuthHandler::processMessage(
 	ComsConnectAuthMessage message;
 	if (!message.readMessage(reader)) return false;
 
-	if ((0 == strcmp(message.getPassword(), "required") &&
-		!ClientParams::instance()->getPassword()[0]) ||
-		(0 == strcmp(message.getUserName(), "required") &&
-		!ClientParams::instance()->getUserName()[0]))
+	bool nameRequired = (0 == strcmp(message.getUserName(), "required"));
+	bool passwordRequired = (0 == strcmp(message.getPassword(), "required"));
+	if ((passwordRequired && !ClientParams::instance()->getPassword()[0]) ||
+		(nameRequired && !ClientParams::instance()->getUserName()[0]))
 	{
+		AuthDialog::instance()->setRequiredAuth(
+			(nameRequired?AuthDialog::eNameRequired:0) |
+			(passwordRequired?AuthDialog::ePasswordRequired:0));
+		GLWWindowManager::instance()->showWindow(
+			AuthDialog::instance()->getId());
 	}
 	else
 	{
@@ -122,15 +129,19 @@ void ClientConnectionAuthHandler::sendAuth()
 
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
-		ScorchedClient::instance()->getNetInterface().stop();
-
 		const char *msg = 
 			formatString("Failed to send auth to server \"%s:%i\", send failed.",
 				hostName, portNumber);
 		Logger::log(msg);
 		MsgBoxDialog::instance()->show(msg);
 
-		ScorchedClient::instance()->getGameState().stimulate(
-			ClientState::StimOptions);
+		cancelAuth();
 	}
+}
+
+void ClientConnectionAuthHandler::cancelAuth()
+{
+	ScorchedClient::instance()->getNetInterface().stop();
+	ScorchedClient::instance()->getGameState().stimulate(
+		ClientState::StimOptions);
 }
