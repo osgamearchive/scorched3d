@@ -144,7 +144,7 @@ std::list<ServerBanned::BannedRange> &ServerBanned::getBannedIps()
 }
 
 ServerBanned::BannedType ServerBanned::getBanned(
-	unsigned int ip, const char *unqiueid, const char *SUI)
+	const char *unqiueid, const char *SUI)
 {
 	load();
 
@@ -165,6 +165,13 @@ ServerBanned::BannedType ServerBanned::getBanned(
 		BannedEntry &entry = (*findItor2).second;
 		return entry.type;
 	}
+	return NotBanned;
+}
+
+ServerBanned::BannedType ServerBanned::getBanned(
+	unsigned int ip)
+{
+	load();
 
 	// Check if the ip address has been banned
 	std::list<BannedRange>::iterator itor;

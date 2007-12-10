@@ -20,22 +20,15 @@
 
 #include <dialogs/ConnectDialog.h>
 #include <dialogs/PlayerDialog.h>
-#include <dialogs/ProgressDialog.h>
 #include <dialogs/MsgBoxDialog.h>
+#include <dialogs/ProgressDialog.h>
 #include <client/ScorchedClient.h>
-#include <client/ClientState.h>
-#include <tank/TankContainer.h>
-#include <server/ScorchedServer.h>
-#include <graph/OptionsDisplay.h>
 #include <client/ClientParams.h>
-#include <common/OptionsScorched.h>
-#include <common/Defines.h>
-#include <common/Logger.h>
-#include <coms/ComsMessageHandler.h>
+#include <client/ClientState.h>
 #include <coms/ComsMessageSender.h>
 #include <coms/ComsConnectMessage.h>
 #include <net/NetInterface.h>
-#include <net/SecureID.h>
+#include <common/Logger.h>
 
 ConnectDialog *ConnectDialog::instance_ = 0;
 
@@ -178,38 +171,10 @@ void ConnectDialog::connected()
 {
 	ProgressDialog::instance()->progressChange("Connected", 100);
 
-	// Update unique id store
-	if (ClientParams::instance()->getConnectedToServer())
-	{
-		IPaddress address;
-		if (SDLNet_ResolveHost(&address, (char *) host_.c_str(), 0) == 0)
-		{
-			unsigned int ipAddress = SDLNet_Read32(&address.host);
-			uniqueId_ = getIdStore().getUniqueId(ipAddress);
-
-			SecureID MakeKey;
-			SUI_ = MakeKey.getSecureID(ipAddress);
-		}
-	}
-
-	// Check the number of players that are connecting
-	unsigned int noPlayers = 1;
-	if (!ClientParams::instance()->getConnectedToServer())
-	{
-		noPlayers = ScorchedServer::instance()->getOptionsGame().getNoMaxPlayers() -
-			ScorchedServer::instance()->getTankContainer().getNoOfTanks();
-	}
-
 	// If we connected then send our details to the server
 	ComsConnectMessage connectMessage;
 	connectMessage.setVersion(ScorchedVersion);
 	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
-	connectMessage.setUserName(ClientParams::instance()->getUserName());
-	connectMessage.setPassword(ClientParams::instance()->getPassword());
-	connectMessage.setUniqueId(uniqueId_.c_str());
-	connectMessage.setSUI(SUI_.c_str());
-	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
-	connectMessage.setNoPlayers(noPlayers);
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
 		ScorchedClient::instance()->getNetInterface().stop();
@@ -226,4 +191,3 @@ void ConnectDialog::connected()
 
 	connectionState_ = eFinished;
 }
-

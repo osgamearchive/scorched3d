@@ -28,7 +28,7 @@ GLWIconTable::GLWIconTable(
 	float rowHeight) :
 	GLWidget(x, y, w, h),
 	rowHeight_(rowHeight),
-	scrollBar_(w_ - 7.0f, y + 2.0f, h_ - 4.0f, 0, 0, int((h - 25.0f) / rowHeight)),
+	scrollBar_(x + w_ - 17.0f, y + 2.0f, h_ - 4.0f, 0, 0, int((h - 25.0f) / rowHeight)),
 	selected_(-1), handler_(0), itemCount_(0)
 {
 	if (columns)
@@ -84,10 +84,10 @@ void GLWIconTable::draw()
 	glEnd();
 
 	// Draw all the column headers
-	for (int j=1; j<(int) columns_.size(); j++)
+	for (int j=0; j<(int) columns_.size(); j++)
 	{
 		GLWTextButton *column = columns_[j];
-		column->draw();
+		if (column->getText()[0]) column->draw();
 	}
 
 	// Figure out how many rows to show

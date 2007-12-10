@@ -18,21 +18,26 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <coms/ComsConnectMessage.h>
+#include <coms/ComsConnectAuthMessage.h>
 #include <common/Defines.h>
 
-ComsConnectMessage::ComsConnectMessage()
-	: ComsMessage("ComsConnectMessage")
+ComsConnectAuthMessage::ComsConnectAuthMessage()
+	: ComsMessage("ComsConnectAuthMessage")
 {
 
 }
 
-ComsConnectMessage::~ComsConnectMessage()
+ComsConnectAuthMessage::~ComsConnectAuthMessage()
 {
 
 }
 
-bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
+void ComsConnectAuthMessage::setNoPlayers(unsigned int players)
+{
+	char buf[10]; snprintf(buf, 10, "%i", players); setValue("numplayers", buf);
+}
+
+bool ComsConnectAuthMessage::writeMessage(NetBuffer &buffer)
 {
 	buffer.addToBuffer((unsigned int) values_.size());
 	std::map<std::string, std::string>::iterator itor;
@@ -47,7 +52,7 @@ bool ComsConnectMessage::writeMessage(NetBuffer &buffer)
 	return true;
 }
 
-bool ComsConnectMessage::readMessage(NetBufferReader &reader)
+bool ComsConnectAuthMessage::readMessage(NetBufferReader &reader)
 {
 	unsigned int noV = 0;
 	values_.clear();
@@ -71,7 +76,7 @@ bool ComsConnectMessage::readMessage(NetBufferReader &reader)
 	return true;
 }
 
-const char *ComsConnectMessage::getValue(const char *name)
+const char *ComsConnectAuthMessage::getValue(const char *name)
 {
 	std::map<std::string, std::string>::iterator itor =
 		values_.find(name);
@@ -80,7 +85,7 @@ const char *ComsConnectMessage::getValue(const char *name)
 	return (*itor).second.c_str();
 }
 
-void ComsConnectMessage::setValue(const char *name, const char *value)
+void ComsConnectAuthMessage::setValue(const char *name, const char *value)
 {
 	values_[name] = value;
 }

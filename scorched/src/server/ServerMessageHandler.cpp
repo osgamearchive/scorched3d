@@ -69,7 +69,7 @@ void ServerMessageHandler::clientConnected(NetMessage &message)
 {
 	// Check if this destination has been banned
 	if (message.getIpAddress() != 0 &&
-		ScorchedServerUtil::instance()->bannedPlayers.getBanned(message.getIpAddress(), "", "") == 
+		ScorchedServerUtil::instance()->bannedPlayers.getBanned(message.getIpAddress()) == 
 		ServerBanned::Banned)
 	{
 		Logger::log(formatStringBuffer("Banned client connected dest=\"%i\" ip=\"%s\"", 

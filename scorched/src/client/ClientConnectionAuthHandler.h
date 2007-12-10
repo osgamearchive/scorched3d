@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//    Scorched3D (c) 2000-2004
+//    Scorched3D (c) 2000-2003
 //
 //    This file is part of Scorched3D.
 //
@@ -18,38 +18,36 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__)
-#define __INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__
+#ifndef _ClientConnectionAuthHandler_h
+#define _ClientConnectionAuthHandler_h
 
-#include <server/ServerAuthHandler.h>
-#include <list>
+#include <coms/ComsMessageHandler.h>
 
-class ServerAuthHandlerPrefered : public ServerAuthHandler
+class ClientConnectionAuthHandler : 
+	public ComsMessageHandlerI
 {
 public:
-	struct UserEntry
-	{
-		std::string name;
-		std::string uniqueid;
-	};
+	static ClientConnectionAuthHandler* instance();
 
-	ServerAuthHandlerPrefered();
-	virtual ~ServerAuthHandlerPrefered();
+	// Inherited from ComsMessageHandlerI
+	virtual bool processMessage(
+		NetMessage &message,
+		const char *messageType,
+		NetBufferReader &reader);
 
-	virtual void createAuthentication(ComsConnectAuthMessage &authMessage);
-	virtual bool authenticateUser(ComsConnectAuthMessage &authMessage, 
-		std::string &message);
-	virtual bool authenticateUserName(const char *uniqueId, 
-		const char *playername);
-	virtual void banUser(const char *uniqueId);
+	void sendAuth();
 
 protected:
-	std::list<UserEntry> entries_;
-	unsigned int lastReadTime_;
+	static ClientConnectionAuthHandler* instance_;
 
-	UserEntry *getUserByName(const char *name);
-	UserEntry *getUserById(const char *uniqueId);
-	bool load();
+private:
+	ClientConnectionAuthHandler();
+	virtual ~ClientConnectionAuthHandler();
+
+	ClientConnectionAuthHandler(const ClientConnectionAuthHandler &);
+	const ClientConnectionAuthHandler & operator=(const ClientConnectionAuthHandler &);
+
 };
 
-#endif // __INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__
+#endif // _ClientConnectionAuthHandler_h
+

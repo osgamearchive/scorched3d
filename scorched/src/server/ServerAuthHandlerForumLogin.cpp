@@ -36,19 +36,27 @@ ServerAuthHandlerForumLogin::~ServerAuthHandlerForumLogin()
 {
 }
 
-bool ServerAuthHandlerForumLogin::authenticateUser(std::string &uniqueId, 
-	const char *username, const char *password, std::string &message)
+void ServerAuthHandlerForumLogin::createAuthentication(ComsConnectAuthMessage &authMessage)
 {
-	if (!connect()) return false;
+	authMessage.setPassword("required");
+	authMessage.setUserName("required");
+}
+
+bool ServerAuthHandlerForumLogin::authenticateUser(ComsConnectAuthMessage &authMessage, 
+	std::string &message)
+{
+	if (!connectHandler()) return false;
 
 	// Check to see if a username has been provided
-	if (!username[0])
+	if (!authMessage.getUserName()[0] ||
+		!authMessage.getPassword()[0])
 	{
 		message = formatString(
 			"This server is running in secure mode.\n"
 			"You need to supply a username and password to connect.\n"
 			"These should match your forum username and password.\n"
-			"Please go to %s to register a forum account.\n", name_.c_str());;
+			"Please go to %s to register a forum account.\n", 
+			authMessage.getUserName());;
 		return false;
 	}
 
@@ -57,7 +65,7 @@ bool ServerAuthHandlerForumLogin::authenticateUser(std::string &uniqueId,
 	{
 		const char *text = formatString(
 			"SELECT user_id FROM phpbb2_users WHERE username = \"%s\"",
-			username);
+			authMessage.getUserName());
 		mysql_real_query(mysql_, text, strlen(text));
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -89,7 +97,7 @@ bool ServerAuthHandlerForumLogin::authenticateUser(std::string &uniqueId,
 			"SELECT user_id, user_scorched3duid, user_scorched3dbanned "
 			"FROM phpbb2_users WHERE username = \"%s\" "
 			"AND user_password = MD5(\"%s\")",
-			username, password);
+			authMessage.getUserName(), authMessage.getPassword());
 		mysql_real_query(mysql_, text, strlen(text));
 		MYSQL_RES *result = mysql_store_result(mysql_);
 		if (result)
@@ -125,26 +133,26 @@ bool ServerAuthHandlerForumLogin::authenticateUser(std::string &uniqueId,
 	// Update unique id on forum or from fourm
 	if (password_user_statsid.c_str()[0])
 	{
-		uniqueId = password_user_statsid;
+		authMessage.setUniqueId(password_user_statsid.c_str());
 	}
-	else if (uniqueId.c_str()[0])
+	else if (authMessage.getUniqueId()[0])
 	{
 		const char *text = formatString(
 			"UPDATE phpbb2_users SET user_scorched3duid = \"%s\" WHERE user_id = %i ",
-			uniqueId.c_str(),
+			authMessage.getUniqueId(),
 			password_user_id);
 		mysql_real_query(mysql_, text, strlen(text));
 	}
 
 	// Check if this unique id has been banned
-	if (uniqueId.c_str()[0])
+	if (authMessage.getUniqueId()[0])
 	{
 		bool bannedUniqueId = false;
 		{
 			const char *text = formatString(
 				"SELECT user_id, user_scorched3dbanned "
 				"FROM phpbb2_users WHERE user_scorched3duid = \"%s\" ",
-				uniqueId.c_str());
+				authMessage.getUniqueId());
 			mysql_real_query(mysql_, text, strlen(text));
 			MYSQL_RES *result = mysql_store_result(mysql_);
 			if (result)
@@ -173,7 +181,7 @@ bool ServerAuthHandlerForumLogin::authenticateUser(std::string &uniqueId,
 bool ServerAuthHandlerForumLogin::authenticateUserName(const char *uniqueId, 
 	const char *playername)
 {
-	if (!connect()) return false;
+	if (!connectHandler()) return false;
 
 	bool userResult = true;
 	{
@@ -200,7 +208,7 @@ bool ServerAuthHandlerForumLogin::authenticateUserName(const char *uniqueId,
 
 void ServerAuthHandlerForumLogin::banUser(const char *uniqueId)
 {
-	if (!connect()) return;
+	if (!connectHandler()) return;
 
 	{
 		const char *text = formatString(
@@ -210,7 +218,7 @@ void ServerAuthHandlerForumLogin::banUser(const char *uniqueId)
 	}
 }
 
-bool ServerAuthHandlerForumLogin::connect()
+bool ServerAuthHandlerForumLogin::connectHandler()
 {
 	if (mysql_) return success_;
 

@@ -18,23 +18,16 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(__INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__)
-#define __INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__
+#if !defined(__INCLUDE_ServerAuthHandlerDefaulth_INCLUDE__)
+#define __INCLUDE_ServerAuthHandlerDefaulth_INCLUDE__
 
 #include <server/ServerAuthHandler.h>
-#include <list>
 
-class ServerAuthHandlerPrefered : public ServerAuthHandler
+class ServerAuthHandlerDefault : public ServerAuthHandler
 {
 public:
-	struct UserEntry
-	{
-		std::string name;
-		std::string uniqueid;
-	};
-
-	ServerAuthHandlerPrefered();
-	virtual ~ServerAuthHandlerPrefered();
+	ServerAuthHandlerDefault();
+	virtual ~ServerAuthHandlerDefault();
 
 	virtual void createAuthentication(ComsConnectAuthMessage &authMessage);
 	virtual bool authenticateUser(ComsConnectAuthMessage &authMessage, 
@@ -44,12 +37,6 @@ public:
 	virtual void banUser(const char *uniqueId);
 
 protected:
-	std::list<UserEntry> entries_;
-	unsigned int lastReadTime_;
-
-	UserEntry *getUserByName(const char *name);
-	UserEntry *getUserById(const char *uniqueId);
-	bool load();
 };
 
-#endif // __INCLUDE_ServerAuthHandlerPreferedh_INCLUDE__
+#endif // __INCLUDE_ServerAuthHandlerDefaulth_INCLUDE__

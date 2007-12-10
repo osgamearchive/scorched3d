@@ -770,6 +770,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerAuthHandlerDefault.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerAuthHandlerDefault.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerAuthHandlerForumLogin.cpp"
 				>
 			</File>
@@ -847,6 +855,14 @@
 			</File>
 			<File
 				RelativePath="..\server\ServerCommon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerConnectAuthHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerConnectAuthHandler.h"
 				>
 			</File>
 			<File
@@ -1219,6 +1235,14 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsConnectAcceptMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectAuthMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsConnectAuthMessage.h"
 				>
 			</File>
 			<File

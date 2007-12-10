@@ -38,6 +38,8 @@ public:
 	virtual void simulate(float frameTime);
 
 	UniqueIdStore &getIdStore();
+	const char *getHost() { return host_.c_str(); }
+	int getPort() { return port_; }
 
 protected:
 	enum ConnectState
@@ -54,8 +56,6 @@ protected:
 	int tryCount_;
 	ConnectState connectionState_;
 	time_t lastTime_;
-	std::string uniqueId_;
-	std::string SUI_;
 
 	void tryConnection();
 	static int tryRemoteConnection(void *);

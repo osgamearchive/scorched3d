@@ -33,10 +33,14 @@ ServerAuthHandlerPrefered::~ServerAuthHandlerPrefered()
 {
 }
 
-bool ServerAuthHandlerPrefered::authenticateUser(std::string &uniqueId, 
-	const char *username, const char *password, std::string &message)
+void ServerAuthHandlerPrefered::createAuthentication(ComsConnectAuthMessage &authMessage)
 {
-	if (!getUserById(uniqueId.c_str()))
+}
+
+bool ServerAuthHandlerPrefered::authenticateUser(ComsConnectAuthMessage &authMessage, 
+		std::string &message)
+{
+	if (!getUserById(authMessage.getUniqueId()))
 	{
 		message = 
 			"This server is running a prefered player only game.\n"

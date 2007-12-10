@@ -23,6 +23,7 @@
 #include <server/ServerAuthHandlerForumLogin.h>
 #include <server/ServerAuthHandlerPrefered.h>
 #include <server/ServerAuthHandlerMinKills.h>
+#include <server/ServerAuthHandlerDefault.h>
 #include <common/OptionsScorched.h>
 #include <common/Logger.h>
 
@@ -49,7 +50,7 @@ ServerAuthHandler *ScorchedServerUtil::getAuthHandler()
 	const char *handler = ScorchedServer::instance()->getOptionsGame().getAuthHandler();
 	if (0 == strcmp("none", handler))
 	{
-		return 0;
+		authHandler_ = new ServerAuthHandlerDefault;
 	} 
 	else if (0 == strcmp("prefered", handler))
 	{

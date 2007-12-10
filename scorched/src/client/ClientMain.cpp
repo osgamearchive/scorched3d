@@ -36,6 +36,7 @@
 #include <client/ClientAddPlayerHandler.h>
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientConnectionAcceptHandler.h>
+#include <client/ClientConnectionAuthHandler.h>
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientGameStateHandler.h>
 #include <client/ClientInitializeHandler.h>
@@ -176,6 +177,7 @@ static bool initComsHandlers()
 	ClientGiftMoneyHandler::instance();
 	ClientLinesHandler::instance();
 	ClientConnectionAcceptHandler::instance();
+	ClientConnectionAuthHandler::instance();
 	ClientAddPlayerHandler::instance();
 	ClientNewGameHandler::instance();
 	ClientInitializeHandler::instance();

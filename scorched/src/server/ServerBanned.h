@@ -57,7 +57,8 @@ public:
 	};	
 
 	std::list<BannedRange> &getBannedIps();
-	BannedType getBanned(unsigned int ip, const char *unqiueid, const char *SUI);
+	BannedType getBanned(const char *unqiueid, const char *SUI);
+	BannedType getBanned(unsigned int ip);
 	void addBanned(unsigned int ip, 
 		const char *name, 
 		const char *uniqueId,

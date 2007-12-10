@@ -18,8 +18,8 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _comsConnectMessage_h
-#define _comsConnectMessage_h
+#ifndef _ComsConnectAuthMessage_h
+#define _ComsConnectAuthMessage_h
 
 // The very first message sent from the client to the server
 // requesting a connection.
@@ -34,17 +34,26 @@
 #include <map>
 #include <string>
 
-class ComsConnectMessage : public ComsMessage
+class ComsConnectAuthMessage : public ComsMessage
 {
 public:
-	ComsConnectMessage();
-	virtual ~ComsConnectMessage();
+	ComsConnectAuthMessage();
+	virtual ~ComsConnectAuthMessage();
 
-	void setVersion(const char *version) { setValue("version", version); }
-	void setProtocolVersion(const char *pversion) { setValue("pversion", pversion); }
+	void setUserName(const char *username) { setValue("username", username); }
+	void setPassword(const char *password) { setValue("password", password); }
+	void setUniqueId(const char *uid) { setValue("uid", uid); }
+	void setSUI(const char *SUId) { setValue("SUId", SUId); }
+	void setHostDesc(const char *host) { setValue("host", host); }
+	void setNoPlayers(unsigned int players);
 
-	const char *getVersion() { return getValue("version"); }
-	const char *getProtocolVersion() { return getValue("pversion"); }
+	const char *getUserName() { return getValue("username"); }
+	const char *getPassword() { return getValue("password"); }
+	const char *getHostDesc() { return getValue("host"); }
+	const char *getUniqueId() { return getValue("uid"); }
+	const char *getSUI() { return getValue("SUId"); }
+	unsigned int getNoPlayers() { 
+		return (unsigned int) atoi(getValue("numplayers")?getValue("numplayers"):"0"); }
 
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
@@ -57,10 +66,10 @@ protected:
 	const char *getValue(const char *name);
 
 private:
-	ComsConnectMessage(const ComsConnectMessage &);
-	const ComsConnectMessage & operator=(const ComsConnectMessage &);
+	ComsConnectAuthMessage(const ComsConnectAuthMessage &);
+	const ComsConnectAuthMessage & operator=(const ComsConnectAuthMessage &);
 
 };
 
-#endif // _comsConnectMessage_h
+#endif // _ComsConnectAuthMessage_h
 

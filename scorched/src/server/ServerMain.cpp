@@ -54,6 +54,7 @@
 #include <server/ServerInitializeHandler.h>
 #include <server/ServerChannelManager.h>
 #include <server/ServerConnectHandler.h>
+#include <server/ServerConnectAuthHandler.h>
 #include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
 #include <server/ServerWebServer.h>
@@ -104,6 +105,7 @@ bool startServer(bool local, ProgressCounter *counter)
 	ScorchedServer::instance()->getComsMessageHandler().setConnectionHandler(
 		ServerMessageHandler::instance());
 	ServerConnectHandler::instance();
+	ServerConnectAuthHandler::instance();
 	ServerLinesHandler::instance();
 	ServerChannelManager::instance();
 	ServerGiftMoneyHandler::instance();

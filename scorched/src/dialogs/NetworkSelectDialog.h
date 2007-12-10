@@ -67,9 +67,10 @@ protected:
 	GLTexture *warningTex_, *noentryTex_;
 	GLTexture *tankTex_, *exclaimTex_;
 	GLTexture *keyTex_, *cogTex_;
-	GLWIconTable *iconTable_;
+	GLWIconTable *gamesIconTable_;
+	GLWIconTable *playersIconTable_;
 	GLWTextButton *ok_, *refresh_, *favourites_;
-	GLWTextBox *ipaddress_, *password_;
+	GLWTextBox *ipaddress_;
 	GLWDropDownText *refreshType_;
 	unsigned int invalidateId_;
 	unsigned int cancelId_, addFavouriteId_;
@@ -81,6 +82,12 @@ protected:
 	bool serverCompatable(std::string pversion, std::string version);
 	GLTexture *getTexture(int row, const char *&message);
 	void drawIcon(GLTexture *tex, float &x, float y, const char *message);
+
+	void drawColumnGames(unsigned int id, int row, int column, float x, float y, float w);
+	void drawColumnPlayers(unsigned int id, int row, int col, float x, float y, float w);
+	void rowSelectedGames(unsigned int id, int row);
+	void rowChosenGames(unsigned int id, int row);
+	void columnSelectedGames(unsigned int id, int col);
 
 private:
 	NetworkSelectDialog();

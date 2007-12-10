@@ -34,12 +34,20 @@ ServerAuthHandlerMinKills::~ServerAuthHandlerMinKills()
 {
 }
 
-bool ServerAuthHandlerMinKills::authenticateUser(std::string &uniqueId, 
-	const char *username, const char *password, std::string &message)
+void createAuthentication(ComsConnectAuthMessage &authMessage)
+{
+}
+
+void ServerAuthHandlerMinKills::createAuthentication(ComsConnectAuthMessage &authMessage)
+{
+}
+
+bool ServerAuthHandlerMinKills::authenticateUser(ComsConnectAuthMessage &authMessage, 
+	std::string &message)
 {
 	setup();
 
-	int killCount = StatsLogger::instance()->getKillCount(uniqueId.c_str());
+	int killCount = StatsLogger::instance()->getKillCount(authMessage.getUniqueId());
 	if (minKills_ > 0 && killCount < minKills_)
 	{
 		message = formatString(

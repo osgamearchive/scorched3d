@@ -35,15 +35,10 @@ public:
 		const char *messageType,
 		NetBufferReader &reader);
 
+	bool checkStandardParams(unsigned int destinationId, unsigned int ipAddress);
+
 protected:
 	static ServerConnectHandler *instance_;
-
-	void addNextTank(unsigned int destinationId,
-		unsigned int ipAddress,
-		const char *uniqueId,
-		const char *SUI,
-		const char *hostDesc,
-		bool extraSpectator);
 
 private:
 	ServerConnectHandler();

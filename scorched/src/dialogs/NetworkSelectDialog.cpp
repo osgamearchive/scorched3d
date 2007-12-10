@@ -26,23 +26,32 @@
 #include <GLW/GLWTranslate.h>
 #include <graph/TextureStore.h>
 #include <scorchedc/ServerBrowser.h>
+#include <client/ScorchedClient.h>
 #include <client/ClientParams.h>
 #include <client/ClientMain.h>
 #include <common/Defines.h>
+#include <common/OptionsScorched.h>
 
-static struct ColumnInfo
+struct ColumnInfo
 {
 	GLWIconTable::Column col;
 	const char *dataName;
-}
-cols[] = 
+};
+static ColumnInfo gamescols[] = 
 {
-	"", 60 , "",
-	"Server Name", 250, "servername",
-	"Plyrs", 55, "noplayers",
-	"Round", 50, "round",
-	"Mod", 70, "mod",
-	"Game Type", 160, "gametype"
+	GLWIconTable::Column("", 60), "",
+	GLWIconTable::Column("Server Name", 250), "servername",
+	GLWIconTable::Column("Plyrs", 55), "noplayers",
+	GLWIconTable::Column("Round", 50), "round",
+	GLWIconTable::Column("Mod", 70), "mod",
+	GLWIconTable::Column("Game Type", 160), "gametype"
+};
+static ColumnInfo playerscols[] =
+{
+	GLWIconTable::Column("Player", 250), "pn",
+	GLWIconTable::Column("Score", 240), "ps",
+	GLWIconTable::Column("Time", 100), "pt",
+	GLWIconTable::Column("Real", 60), "pa"
 };
 
 NetworkSelectDialog *NetworkSelectDialog::instance_ = 0;
@@ -57,21 +66,29 @@ NetworkSelectDialog *NetworkSelectDialog::instance()
 }
 
 NetworkSelectDialog::NetworkSelectDialog() : 
-	GLWWindow("", 700.0f, 540.0f, 0, ""),
+	GLWWindow("", 700.0f, 560.0f, 0, ""),
 	totalTime_(0.0f), invalidateId_(0),
 	okTex_(0), questionTex_(0),
 	warningTex_(0), noentryTex_(0),
 	tankTex_(0)
 {
-	std::list<GLWIconTable::Column> columns;
-	for (int i=0; i<sizeof(cols)/sizeof(ColumnInfo); i++)
+	std::list<GLWIconTable::Column> gamescolumns, playerscolumns;
+	for (int i=0; i<sizeof(gamescols)/sizeof(ColumnInfo); i++)
 	{
-		columns.push_back(cols[i].col);
+		gamescolumns.push_back(gamescols[i].col);
+	}
+	for (int i=0; i<sizeof(playerscols)/sizeof(ColumnInfo); i++)
+	{
+		playerscolumns.push_back(playerscols[i].col);
 	}
 
-	iconTable_ = new GLWIconTable(10.0f, 70.0f, 680.0f, 400.0f, &columns, 20.0f);
-	addWidget(iconTable_);
-	iconTable_->setHandler(this);
+	gamesIconTable_ = new GLWIconTable(10.0f, 165.0f, 680.0f, 350.0f, &gamescolumns, 20.0f);
+	addWidget(gamesIconTable_);
+	gamesIconTable_->setHandler(this);
+
+	playersIconTable_ = new GLWIconTable(10.0f, 45.0f, 680.0f, 110.0f, &playerscolumns, 20.0f);
+	addWidget(playersIconTable_);
+	playersIconTable_->setHandler(this);
 
 	ok_ = (GLWTextButton *) addWidget(
 		new GLWTextButton("Join Game", 560, 10, 130, this, 
@@ -80,24 +97,19 @@ NetworkSelectDialog::NetworkSelectDialog() :
 		new GLWTextButton("Cancel", 450, 10, 105, this, 
 		GLWButton::ButtonFlagCancel | GLWButton::ButtonFlagCenterX))->getId();
 	refresh_ = (GLWTextButton *) addWidget(
-		new GLWTextButton("Refresh", 595, 40, 95, this, 
+		new GLWTextButton("Refresh List", 175, 10, 150, this, 
 		GLWButton::ButtonFlagCenterX));
 	favourites_ = (GLWTextButton *) addWidget(
-		new GLWTextButton("Add Favourite", 435, 40, 155, this, 
+		new GLWTextButton("Add Favourite", 10, 10, 155, this, 
 		GLWButton::ButtonFlagCenterX));
 
 	ipaddress_ = (GLWTextBox *) addWidget(
-		new GLWTextBox(170.0f, 510.0f, 300.0));
-	addWidget(new GLWLabel(35.0f, 510.0f, "Connect To :"));
+		new GLWTextBox(170.0f, 525.0f, 300.0));
+	addWidget(new GLWLabel(35.0f, 525.0f, "Connect To :"));
 	ipaddress_->setHandler(this);
 
-	password_ = (GLWTextBox *) addWidget(
-		new GLWTextBox(170.0f, 480.0f, 300.0, 
-		"", GLWTextBox::eFlagPassword));
-	addWidget(new GLWLabel(50.0f, 480.0f, "Password :"));
-
 	refreshType_ = (GLWDropDownText *) addWidget(
-		new GLWDropDownText(490.0f, 480.0f, 150.0f));
+		new GLWDropDownText(490.0f, 525.0f, 150.0f));
 	refreshType_->addText("Internet");
 	refreshType_->addText("LAN");
 	refreshType_->addText("Favourites");
@@ -198,7 +210,14 @@ GLTexture *NetworkSelectDialog::getTexture(int row, const char *&message)
 	return questionTex_;
 }
 
-void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col, 
+void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
+	float x, float y, float w)
+{
+	if (id == gamesIconTable_->getId()) drawColumnGames(id, row, col, x, y, w);
+	else if (id == playersIconTable_->getId()) drawColumnPlayers(id, row, col, x, y, w);
+}
+
+void NetworkSelectDialog::drawColumnGames(unsigned int id, int row, int col, 
 	float x, float y, float w)
 {
 	if (row < 0 || row >= ServerBrowser::instance()->getServerList().getNoEntries())
@@ -305,7 +324,7 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 	}
 	else
 	{
-		tipValue = value = ServerBrowser::instance()->getServerList().getEntryValue(row, cols[col].dataName);
+		tipValue = value = ServerBrowser::instance()->getServerList().getEntryValue(row, gamescols[col].dataName);
 		if (value[0] == '\0' && col == 1)
 		{
 			tipValue = value = ServerBrowser::instance()->getServerList().getEntryValue(row, "address");
@@ -326,10 +345,30 @@ void NetworkSelectDialog::drawColumn(unsigned int id, int row, int col,
 				GLWTranslate::getPosY() + y, 
 				w, 20.0f))
 			{
-				colToolTip_.setText(ToolTip::ToolTipInfo, cols[col].col.name.c_str(), tipValue);
+				colToolTip_.setText(ToolTip::ToolTipInfo, gamescols[col].col.name.c_str(), tipValue);
 			}
 		}
 	}
+}
+
+void NetworkSelectDialog::drawColumnPlayers(unsigned int id, int row, int col, 
+	float x, float y, float w)
+{
+	int gamesrow = gamesIconTable_->getSelected();
+	if (gamesrow < 0 || gamesrow >= ServerBrowser::instance()->getServerList().getNoEntries())
+	{
+		return;
+	}
+
+	std::string valuestr = 
+		ServerBrowser::instance()->getServerList().getEntryValue(
+			gamesrow, formatString("%s%i", playerscols[col].dataName, row));
+	const char *value = valuestr.c_str();
+
+	Vector color(0.3f, 0.3f, 0.3f);
+	GLWFont::instance()->getGameFont()->drawWidth(w, 
+		color, 
+		10.0f, x + 3.0f, y + 5.0f, 0.0f, value);
 }
 
 bool NetworkSelectDialog::serverCompatable(std::string pversion, std::string version)
@@ -345,15 +384,22 @@ bool NetworkSelectDialog::serverCompatable(std::string pversion, std::string ver
 
 void NetworkSelectDialog::rowSelected(unsigned int id, int row)
 {
+	if (id == gamesIconTable_->getId()) rowSelectedGames(id, row);
+}
+
+void NetworkSelectDialog::rowSelectedGames(unsigned int id, int row)
+{
 	if (row < 0 || row >= ServerBrowser::instance()->getServerList().getNoEntries())
 	{
 		return;
 	}
 
+	// Check if we have any information for this row
 	std::string ipaddress = ServerBrowser::instance()->
 		getServerList().getEntryValue(row, "address");
 	if (ipaddress.empty()) return;
 
+	// Check if this server is compatible
 	std::string protocolVersion = 
 		ServerBrowser::instance()->getServerList().getEntryValue(row, "protocolversion");
 	std::string version =
@@ -372,18 +418,34 @@ void NetworkSelectDialog::rowSelected(unsigned int id, int row)
 			ScorchedVersion, ScorchedProtocolVersion));
 	}
 
+	// Set ip address for this server
 	ipaddress_->setText(ipaddress.c_str());
-	password_->setText("");
+
+	// Set players for this server
+	std::string players = 
+		ServerBrowser::instance()->getServerList().getEntryValue(row, "noplayers");
+	int noplayers = atoi(players.c_str());
+	playersIconTable_->setItemCount(noplayers);
 }
 
 void NetworkSelectDialog::rowChosen(unsigned int id, int row)
+{
+	if (id == gamesIconTable_->getId()) rowChosenGames(id, row);
+}
+
+void NetworkSelectDialog::rowChosenGames(unsigned int id, int row)
 {
 	if (ok_->getEnabled()) buttonDown(ok_->getId());
 }
 
 void NetworkSelectDialog::columnSelected(unsigned int id, int col)
 {
-	ServerBrowser::instance()->getServerList().sortEntries(cols[col].dataName);
+	if (id == gamesIconTable_->getId()) columnSelectedGames(id, col);
+}
+
+void NetworkSelectDialog::columnSelectedGames(unsigned int id, int col)
+{
+	ServerBrowser::instance()->getServerList().sortEntries(gamescols[col].dataName);
 }
 
 void NetworkSelectDialog::display()
@@ -403,11 +465,11 @@ void NetworkSelectDialog::updateTable()
 	// Set the button accordingly
 	if (!ServerBrowser::instance()->getRefreshing())
 	{
-		refresh_->setText("Refresh");
+		refresh_->setText("Refresh List");
 	}
 	else
 	{
-		refresh_->setText("Stop");
+		refresh_->setText("Stop Refresh");
 	}
 
 	// Check if we have more items to display
@@ -416,7 +478,7 @@ void NetworkSelectDialog::updateTable()
 	{
 		invalidateId_ = ServerBrowser::instance()->
 			getServerList().getRefreshId();
-		iconTable_->setItemCount(
+		gamesIconTable_->setItemCount(
 			ServerBrowser::instance()->getServerList().getNoEntries());
 	}
 }
@@ -439,7 +501,8 @@ void NetworkSelectDialog::startRefresh()
 {
 	stopRefresh();
 
-	iconTable_->setItemCount(0);
+	gamesIconTable_->setItemCount(0);
+	playersIconTable_->setItemCount(0);
 
 	ServerBrowser::RefreshType t = ServerBrowser::RefreshNone;
 	if (0 == strcmp(refreshType_->getCurrentText(), "LAN")) t = ServerBrowser::RefreshLan;
@@ -483,7 +546,6 @@ void NetworkSelectDialog::buttonDown(unsigned int id)
 		{
 			ClientParams::instance()->reset();
 			ClientParams::instance()->setConnect(ipaddress_->getText().c_str());
-			ClientParams::instance()->setPassword(password_->getText().c_str());
 			ClientMain::startClient();
 		}
 	}

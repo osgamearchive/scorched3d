@@ -35,8 +35,9 @@ public:
 	ServerAuthHandlerForumLogin();
 	virtual ~ServerAuthHandlerForumLogin();
 
-	virtual bool authenticateUser(std::string &uniqueId, 
-		const char *username, const char *password, std::string &message);
+	virtual void createAuthentication(ComsConnectAuthMessage &authMessage);
+	virtual bool authenticateUser(ComsConnectAuthMessage &authMessage, 
+		std::string &message);
 	virtual bool authenticateUserName(const char *uniqueId, 
 		const char *playername);
 	virtual void banUser(const char *uniqueId);
@@ -46,7 +47,7 @@ protected:
 	std::string name_;
 	bool success_;
 
-	bool connect();
+	bool connectHandler();
 };
 
 #endif // HAVE_MYSQL
