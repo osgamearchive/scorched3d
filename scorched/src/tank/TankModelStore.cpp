@@ -61,6 +61,7 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context,
 
 	// Itterate all of the tanks in the file
 	int count = 0;
+	std::vector<TankModel *> randomModels, lowModels, midModels, highModels;
     std::list<XMLNode *>::iterator childrenItor;
 	std::list<XMLNode *> &children = file.getRootNode()->getChildren();
     for (childrenItor = children.begin();
@@ -82,24 +83,45 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context,
 			return currentNode->returnError("Failed to parse tank node");;
 		}
 
-		if (detailLevel != 2)
+		// Add models depending on the number of triangles in each model
+		Model *model = ModelStore::instance()->loadModel(
+			tankModel->getTankModelID());
+		if (strcmp(tankModel->getName(), "Random") == 0)
 		{
-			Model *model = ModelStore::instance()->loadModel(
-				tankModel->getTankModelID());
-			if (strcmp(tankModel->getName(), "Random") != 0)
-			{
-				// Check if the model uses too many triangles
-				int triangles = model->getNumberTriangles();
-				if (detailLevel == 0)
-				{
-					if (triangles > 250) continue;
-				}
-				else if (detailLevel == 1)
-				{
-					if (triangles > 500) continue;
-				}
-			}
+			randomModels.push_back(tankModel);
 		}
+		else 
+		{
+			int triangles = model->getNumberTriangles();
+			if (triangles <= 250) lowModels.push_back(tankModel);
+			else if (triangles <= 500) midModels.push_back(tankModel);
+			else highModels.push_back(tankModel);
+		}
+	}
+
+	// Add tanks dependant on the set detail level
+	if (detailLevel >= 2) addModels(highModels);
+	if (detailLevel >= 1) addModels(midModels);
+	if (detailLevel >= 0) addModels(lowModels);
+	if (models_.empty()) addModels(midModels);
+	if (models_.empty()) addModels(highModels);
+	addModels(randomModels);
+
+	// Remove any models we don't use
+	killModels(randomModels);
+	killModels(lowModels);
+	killModels(midModels);
+	killModels(highModels);
+
+	return true;
+}
+
+void TankModelStore::addModels(std::vector<TankModel *> &src)
+{
+	while (!src.empty())
+	{
+		TankModel *tankModel = src.back();
+		src.pop_back();
 
 		// Add catagories to list of all catagories
 		std::set<std::string> &catagories = tankModel->getCatagories();
@@ -111,10 +133,18 @@ bool TankModelStore::loadTankMeshes(ScorchedContext &context,
 			modelCatagories_.insert((*catitor).c_str());
 		}
 
-		// Add this model to the store
 		models_.push_back(tankModel);
 	}
-	return true;
+}
+
+void TankModelStore::killModels(std::vector<TankModel *> &src)
+{
+	while (!src.empty())
+	{
+		TankModel *tankModel = src.back();
+		src.pop_back();
+		delete tankModel;
+	}
 }
 
 TankModel *TankModelStore::getRandomModel(int team, bool ai)

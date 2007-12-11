@@ -50,6 +50,9 @@ protected:
 	std::vector<TankModel *> models_;
 	std::set<std::string, std::less<std::string> > modelCatagories_;
 
+	void addModels(std::vector<TankModel *> &src);
+	void killModels(std::vector<TankModel *> &src);
+
 private:
 	TankModelStore(const TankModelStore &);
 	const TankModelStore & operator=(const TankModelStore &);
