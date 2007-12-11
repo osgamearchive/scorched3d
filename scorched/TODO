@@ -6,6 +6,7 @@ Fixed: Music plays correctly on big endian machines (e.g. PPC macs)
 Fixed: Chat tooltips have been moved out the way
 Fixed: Bilboard aspect ratios in camera mode
 Fixed: MIRV shot path being slightly out
+Fixed: Game will switch to medium/high detail models if there are no low detail ones
 
 Added: Authentication dialog for when server needs name/password
 Added: Player view on network browsing dialog
