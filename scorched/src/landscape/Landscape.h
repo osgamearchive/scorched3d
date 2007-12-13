@@ -30,7 +30,6 @@ class ShadowMap;
 class Smoke;
 class ProgressCounter;
 class PatchGrid;
-class LandscapeSoundManager;
 class Water;
 class LandscapePoints;
 class Surround;
@@ -108,7 +107,6 @@ protected:
 	Water *water_;
 	LandscapeTextureType textureType_;
 	LandscapePoints *points_;
-	LandscapeSoundManager *soundManager_;
 
 	// Textures used for landscape
 	GLTexture texture_;

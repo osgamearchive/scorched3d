@@ -39,8 +39,9 @@ public:
 	static void setAimPosition(Vector &pos) { aimPosition_ = pos; timeLeft_= 5.0f; }
 	static Vector &getAimPosition() { return aimPosition_; }
 
-protected:
 	static Vector aimPosition_;
+
+protected:
 	static float timeLeft_;
 };
 

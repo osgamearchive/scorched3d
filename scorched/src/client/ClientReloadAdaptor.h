@@ -18,35 +18,29 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _clientNewGameHandler_h
-#define _clientNewGameHandler_h
+#ifndef _ClientReloadAdaptor_h
+#define _ClientReloadAdaptor_h
 
-#include <coms/ComsMessageHandler.h>
-
-class ClientNewGameHandler : 
-	public ComsMessageHandlerI
+class ClientReloadAdaptor 
 {
 public:
-	static ClientNewGameHandler* instance();
-
-	virtual bool processMessage(
-		NetMessage &message,
-		const char *messageType,
-		NetBufferReader &reader);
-
-	void removeTargets();
+	static ClientReloadAdaptor* instance();
 
 protected:
-	static ClientNewGameHandler* instance_;
+	static ClientReloadAdaptor* instance_;
+
+	void reloadLandscapeObjects();
+	void showLandscapeInfo();
+	void showLandscapeAimInfo();
 
 private:
-	ClientNewGameHandler();
-	virtual ~ClientNewGameHandler();
+	ClientReloadAdaptor();
+	virtual ~ClientReloadAdaptor();
 
-	ClientNewGameHandler(const ClientNewGameHandler &);
-	const ClientNewGameHandler & operator=(const ClientNewGameHandler &);
+	ClientReloadAdaptor(const ClientReloadAdaptor &);
+	const ClientReloadAdaptor & operator=(const ClientReloadAdaptor &);
 
 };
 
-#endif // _clientNewGameHandler_h
+#endif // _ClientReloadAdaptor_h
 

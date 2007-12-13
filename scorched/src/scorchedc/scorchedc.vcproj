@@ -3767,6 +3767,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\ClientReloadAdaptor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\client\ClientReloadAdaptor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\ClientRmPlayerHandler.cpp"
 				>
 			</File>

@@ -72,7 +72,6 @@ Landscape::Landscape() :
 	changeCount_(1),
 	landShader_(0)
 {
-	soundManager_ = new LandscapeSoundManager();
 	patchGrid_ = new PatchGrid(
 		&ScorchedClient::instance()->getLandscapeMaps().getGroundMaps().getHeightMap(), 16), 
 	water_ = new Water();
@@ -114,7 +113,7 @@ void Landscape::simulate(float frameTime)
 	patchGrid_->simulate(frameTime);
 	sky_->simulate(frameTime * speedMult);
 	wall_->simulate(frameTime * speedMult);
-	soundManager_->simulate(frameTime * speedMult);
+	LandscapeSoundManager::instance()->simulate(frameTime * speedMult);
 }
 
 void Landscape::recalculate(int posX, int posY, int dist)
@@ -599,9 +598,8 @@ void Landscape::generate(ProgressCounter *counter)
 	}
 
 	// Add any ambientsounds
-	soundManager_->addSounds();
+	LandscapeSoundManager::instance()->addSounds();
 	LandscapeMusicManager::instance()->addMusics();
-
 }
 
 void Landscape::updatePlanTexture()

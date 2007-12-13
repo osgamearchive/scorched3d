@@ -29,6 +29,14 @@
 #include <common/Defines.h>
 #include <sound/Sound.h>
 
+LandscapeSoundManager *LandscapeSoundManager::instance_(0);
+
+LandscapeSoundManager *LandscapeSoundManager::instance()
+{
+	if (!instance_) instance_ = new LandscapeSoundManager();
+	return instance_;
+}
+
 LandscapeSoundManager::LandscapeSoundManager() : 
 	lastTime_(0), haveSound_(false)
 {

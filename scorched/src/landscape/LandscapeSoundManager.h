@@ -31,14 +31,15 @@ class LandscapeSoundType;
 class LandscapeSoundManager
 {
 public:
-	LandscapeSoundManager();
-	virtual ~LandscapeSoundManager();
+	static LandscapeSoundManager *instance();
 
 	void addSounds();
 	void simulate(float frameTime);
 	void cleanUp();
 
 protected:
+	static LandscapeSoundManager *instance_;
+
 	struct LandscapeSoundManagerEntry
 	{
 		LandscapeSoundManagerEntry() : 
@@ -57,6 +58,10 @@ protected:
 	bool haveSound_;
 
 	void loadSound(std::vector<LandscapeInclude *> &sounds);
+
+private:
+	LandscapeSoundManager();
+	virtual ~LandscapeSoundManager();
 };
 
 #endif // __INCLUDE_LandscapeSoundManagerh_INCLUDE__

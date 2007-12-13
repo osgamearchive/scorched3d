@@ -8,6 +8,9 @@ Fixed: Bilboard aspect ratios in camera mode
 Fixed: MIRV shot path being slightly out
 Fixed: Game will switch to medium/high detail models if there are no low detail ones
 
+Added: Console command ReloadLandscapeObjects that reloads the landscape definition from disk and re-displays
+Added: Console command ShowLandscapeInfo that shows which map files are currently in use
+Added: Console command ShowLandscapeAimInfo that shows the current position of the auto aim cursor ("A" key)
 Added: Authentication dialog for when server needs name/password
 Added: Player view on network browsing dialog
 Added: Re-send functionality to chat menu
