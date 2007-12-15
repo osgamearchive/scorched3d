@@ -662,17 +662,16 @@ void GameState::clearTimers(bool printTimers)
 				drawTotal += timers_[i].drawTime;
 			}
 		}
-		int bothTotal = drawTotal + simulateTotal;
-		int timeLeft = int(sinceLastTime) - int(bothTotal);
-		if (bothTotal == 0) bothTotal = 1;
+		int timeLeft = int(sinceLastTime) - int(drawTotal + simulateTotal);
+		if (sinceLastTime == 0) sinceLastTime = 1;
 
-		unsigned int drawTotalPer = (100 * drawTotal) / bothTotal;
-		unsigned int simulateTotalPer = (100 * simulateTotal) / bothTotal;
-		unsigned int timeLeftPer =  (100 * timeLeft) / bothTotal;
+		unsigned int drawTotalPer = (100 * drawTotal) / sinceLastTime;
+		unsigned int simulateTotalPer = (100 * simulateTotal) / sinceLastTime;
+		unsigned int timeLeftPer =  (100 * timeLeft) / sinceLastTime;
 
 		Logger::log(
 			"----------------------------------------");
-		Logger::log(formatStringBuffer("%s Draw : %u (%u), Simulate : %u (%u), Other : %i (%u)", 
+		Logger::log(formatStringBuffer("%s Draw : %u (%u%%), Simulate : %u (%u%%), Other : %i (%u%%)", 
 			name_.c_str(),
 			drawTotal, drawTotalPer,
 			simulateTotal, simulateTotalPer,
@@ -682,9 +681,9 @@ void GameState::clearTimers(bool printTimers)
 			if (timers_[i].gameStateI)
 			{
 				unsigned int percentageSimulate =
-					(100 * timers_[i].simulateTime) / bothTotal;
+					(100 * timers_[i].simulateTime) / sinceLastTime;
 				unsigned int percentageDraw =
-					(100 * timers_[i].drawTime) / bothTotal;
+					(100 * timers_[i].drawTime) / sinceLastTime;
 				Logger::log(formatStringBuffer("%i:%s - Draw : %u (%u%%), Simulate : %u (%u%%)", 
 					i, 
 					timers_[i].gameStateI->getGameStateIName(),

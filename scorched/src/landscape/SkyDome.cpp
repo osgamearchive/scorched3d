@@ -130,7 +130,7 @@ void SkyDome::draw()
 			glScalef(9.0f, 9.0f, 0.0f);
 			glMatrixMode(GL_MODELVIEW);
 
-			stars_.draw(2000, 225, Hemisphere::eWidthTexture);
+			stars_.draw(1990, 215, Hemisphere::eWidthTexture);
 			//Hemisphere::draw(2000, 225, 10, 10, 0, 0, false, Hemisphere::eWidthTexture);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

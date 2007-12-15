@@ -7,6 +7,7 @@ Fixed: Chat tooltips have been moved out the way
 Fixed: Bilboard aspect ratios in camera mode
 Fixed: MIRV shot path being slightly out
 Fixed: Game will switch to medium/high detail models if there are no low detail ones
+Fixed: Stars not showing when specified
 
 Added: Console command ReloadLandscapeObjects that reloads the landscape definition from disk and re-displays
 Added: Console command ShowLandscapeInfo that shows which map files are currently in use
