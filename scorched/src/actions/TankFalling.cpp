@@ -107,46 +107,6 @@ void TankFalling::simulate(fixed frameTime, bool &remove)
 			}
 		}
 		else collision_ = true;
-
-		// Check if we have collected/given any items
-		std::map<unsigned int, Target *> collisionTargets;
-		context_->targetSpace->getCollisionSet(
-			target->getLife().getTargetPosition(), 3, collisionTargets, false);
-		std::map<unsigned int, Target *>::iterator itor;
-		for (itor = collisionTargets.begin();
-			itor != collisionTargets.end();
-			itor++)
-		{
-			Target *collisionTarget = (*itor).second;
-
-			if (target->isTarget() &&
-				target->getTargetState().getDriveOverToDestroy() &&
-				!collisionTarget->isTarget())
-			{
-				// Kill the falling target
-				WeaponFireContext weaponContext(weaponContext_);
-				weaponContext.setPlayerId(collisionTarget->getPlayerId());
-
-				context_->actionController->addAction(
-					new TankDamage(weapon_, target->getPlayerId(), weaponContext, 
-						target->getLife().getLife(),
-						false, false, false));
-			}
-			else if (collisionTarget->isTarget() &&
-				collisionTarget->getTargetState().getDriveOverToDestroy() &&
-				!target->isTarget())
-			{
-				// Kill the target we've fallen on
-				WeaponFireContext weaponContext(weaponContext_);
-				weaponContext.setPlayerId(target->getPlayerId());
-
-				context_->actionController->addAction(
-					new TankDamage(weapon_, 
-					collisionTarget->getPlayerId(), weaponContext_, 
-					collisionTarget->getLife().getLife(),
-					false, false, false));
-			}
-		}
 	}
 
 	PhysicsParticleReferenced::simulate(frameTime, remove);
@@ -220,6 +180,46 @@ void TankFalling::collision(PhysicsParticleObject &position,
 			current, weapon_, 
 			weaponContext_, damage, 
 			false, false, false);
+
+		// Check if we have collected/given any items
+		std::map<unsigned int, Target *> collisionTargets;
+		context_->targetSpace->getCollisionSet(
+			current->getLife().getTargetPosition(), 3, collisionTargets, false);
+		std::map<unsigned int, Target *>::iterator itor;
+		for (itor = collisionTargets.begin();
+			itor != collisionTargets.end();
+			itor++)
+		{
+			Target *collisionTarget = (*itor).second;
+
+			if (current->isTarget() &&
+				current->getTargetState().getDriveOverToDestroy() &&
+				!collisionTarget->isTarget())
+			{
+				// Kill the falling target
+				WeaponFireContext weaponContext(weaponContext_);
+				weaponContext.setPlayerId(collisionTarget->getPlayerId());
+
+				context_->actionController->addAction(
+					new TankDamage(weapon_, current->getPlayerId(), weaponContext, 
+						current->getLife().getLife(),
+						false, false, false));
+			}
+			else if (collisionTarget->isTarget() &&
+				collisionTarget->getTargetState().getDriveOverToDestroy() &&
+				!current->isTarget())
+			{
+				// Kill the target we've fallen on
+				WeaponFireContext weaponContext(weaponContext_);
+				weaponContext.setPlayerId(current->getPlayerId());
+
+				context_->actionController->addAction(
+					new TankDamage(weapon_, 
+					collisionTarget->getPlayerId(), weaponContext_, 
+					collisionTarget->getLife().getLife(),
+					false, false, false));
+			}
+		}
 	}
 
 	PhysicsParticleReferenced::collision(position, collisionId);
