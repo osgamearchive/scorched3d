@@ -93,7 +93,8 @@ void Hemisphere::drawColored(float radius, float radius2,
 	int heightSlices, int rotationSlices,
 	int startHeightSlice, int startRotationSlice,
 	int endHeightSlice, int endRotationSlice,
-	bool inverse, GLImage &colors, Vector &sunDir, int daytime)
+	bool inverse, GLImage &colors, Vector &sunDir, int daytime,
+	bool horizonGlow)
 {
 	GLubyte *bits = colors.getBits();
 
@@ -129,8 +130,13 @@ void Hemisphere::drawColored(float radius, float radius2,
 			p1[1] = radius * e1[1];
 
 			{
-				float dotP = e1.Normalize().dotP(sunDir);
-				dotP = (dotP + 1.0f) / 4.0f;
+				float dotP = 0.0f;
+				if (horizonGlow)
+				{
+					dotP = e1.Normalize().dotP(sunDir);
+					dotP = (dotP + 1.0f) / 4.0f;
+				}
+
 				c1[0] = MIN(float(bits[bitmapIndexA]) / 255.0f + dotP, 1.0f);
 				c1[1] = MIN(float(bits[bitmapIndexA + 1]) / 255.0f + dotP, 1.0f);
 				c1[2] = MIN(float(bits[bitmapIndexA + 2]) / 255.0f + dotP, 1.0f);
@@ -145,8 +151,13 @@ void Hemisphere::drawColored(float radius, float radius2,
 			p2[1] = radius * e2[1];
 			
 			{
-				float dotP = e2.Normalize().dotP(sunDir);
-				dotP = (dotP + 1.0f) / 4.0f;
+				float dotP = 0.0f;
+				if (horizonGlow)
+				{
+					dotP = e2.Normalize().dotP(sunDir);
+					dotP = (dotP + 1.0f) / 4.0f;
+				}
+
 				c2[0] = MIN(float(bits[bitmapIndexB]) / 255.0f + dotP, 1.0f);
 				c2[1] = MIN(float(bits[bitmapIndexB + 1]) / 255.0f + dotP, 1.0f);
 				c2[2] = MIN(float(bits[bitmapIndexB + 2]) / 255.0f + dotP, 1.0f);

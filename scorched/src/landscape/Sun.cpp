@@ -62,8 +62,17 @@ void Sun::generate()
 		getLandscapeMaps().getDefinitions().getTex();
 
 	std::string file = getDataFile(tex.suntexture.c_str());
-	GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
-	DIALOG_ASSERT(texture_.replace(map, true));
+	if (!tex.suntexturemask.c_str()[0])
+	{
+		GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), file.c_str(), false);
+		DIALOG_ASSERT(texture_.replace(map, true));
+	}
+	else
+	{
+		std::string mask = getDataFile(tex.suntexturemask.c_str());
+		GLImageHandle map = GLImageFactory::loadImageHandle(file.c_str(), mask.c_str(), true);
+		DIALOG_ASSERT(texture_.replace(map, true));
+	}
 }
 
 void Sun::setLightPosition(bool light0)
@@ -98,10 +107,11 @@ void Sun::draw()
 		getLandscapeMaps().getDefinitions().getTex();
 
 	GLCameraFrustum::instance()->drawBilboard(
-		position_, tex.suncolor, 
+		position_, 
+		tex.suncolor, 
 		1.0f, // alpha
 		60.0f, 60.0f, // width, height
-		true, // additive texture
+		!tex.nosunblend, // additive texture
 		0); // tex coord
 }
 

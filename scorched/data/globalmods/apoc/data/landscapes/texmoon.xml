@@ -14,9 +14,12 @@
 	<skydiffuse><A>0.3</A><B>0.3</B><C>0.3</C></skydiffuse>
 	<fog><A>0</A><B>0</B><C>0</C></fog>
 	<fogdensity>0.004</fogdensity>
-	<suncolor><A>0.3</A><B>0.3</B><C>0.3</C></suncolor>
+	<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
 	<suntexture>data/textures/landscape/moon/earth.bmp</suntexture>
+	<suntexturemask>data/textures/landscape/moon/earthm.bmp</suntexturemask>
+	<nosunblend>true</nosunblend>
 	<nosunfog>true</nosunfog>
+	<nohorizonglow>true</nohorizonglow>
 	<border type="none"></border>
 	<texture type="generate">
 		<rockside>data/textures/landscape/moon/texture0.bmp</rockside>

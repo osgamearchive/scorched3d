@@ -15,7 +15,10 @@
 	<fog><A>0.1</A><B>0.1</B><C>0.1</C></fog>
 	<suncolor><A>1.0</A><B>1.0</B><C>1.0</C></suncolor>
 	<suntexture>data/textures/moon.bmp</suntexture>
+	<suntexturemask>data/textures/moonm.bmp</suntexturemask>
+	<nosunblend>true</nosunblend>
 	<nosunfog>true</nosunfog>
+	<nohorizonglow>true</nohorizonglow>
 	<fogdensity>0.0011</fogdensity>
 	<border type="water">
 		<reflection>data/textures/landscape/default/cubemap.bmp</reflection>

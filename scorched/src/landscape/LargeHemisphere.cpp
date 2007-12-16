@@ -76,7 +76,7 @@ void LargeHemisphere::draw(float radius, float radius2,
 }
 
 void LargeHemisphere::drawColored(float radius, float radius2, 
-	GLImage &colors, Vector &sunDir, int daytime)
+	GLImage &colors, Vector &sunDir, int daytime, bool horizonGlow)
 {
 	if (entries_.empty())
 	{
@@ -87,7 +87,7 @@ void LargeHemisphere::drawColored(float radius, float radius2,
 				Entry entry;
 				glNewList(entry.listNo_ = glGenLists(1), GL_COMPILE_AND_EXECUTE);
 					Hemisphere::drawColored(radius, radius2, 10, 10, i, j, i+2, j+2, 
-						false, colors, sunDir, daytime);
+						false, colors, sunDir, daytime, horizonGlow);
 				glEndList();
 				entries_.push_back(entry);
 			}

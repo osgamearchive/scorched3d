@@ -31,7 +31,8 @@ public:
 	Sky();
 	virtual ~Sky();
 
-	void draw();
+	void drawBackdrop();
+	void drawLayers();
 	void simulate(float frameTime);
 	void generate();
 	void flashSky();

@@ -123,17 +123,20 @@ LandscapeTex::~LandscapeTex()
 bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 {
 	skytexturestatic = "";
-	nosunfog = false;
+	nosunfog = false; nohorizonglow = false; nosunblend = false;
 	if (!node->getNamedChild("detail", detail)) return false;
 	if (!node->getNamedChild("magmasmall", magmasmall)) return false;
 	if (!node->getNamedChild("scorch", scorch)) return false;
 	if (!node->getNamedChild("fog", fog)) return false;
 	if (!node->getNamedChild("suncolor", suncolor)) return false;
 	if (!node->getNamedChild("suntexture", suntexture)) return false;
+	node->getNamedChild("suntexturemask", suntexturemask, false);
 	if (!node->getNamedChild("fogdensity", fogdensity)) return false;
 	if (!node->getNamedChild("skytexture", skytexture)) return false;
 	node->getNamedChild("skytexturestatic", skytexturestatic, false);
 	node->getNamedChild("nosunfog", nosunfog, false);
+	node->getNamedChild("nohorizonglow", nohorizonglow, false);
+	node->getNamedChild("nosunblend", nosunblend, false);
 	if (!node->getNamedChild("skytexturemask", skytexturemask)) return false;
 	if (!node->getNamedChild("skycolormap", skycolormap)) return false;
 	if (!node->getNamedChild("skytimeofday", skytimeofday)) return false;

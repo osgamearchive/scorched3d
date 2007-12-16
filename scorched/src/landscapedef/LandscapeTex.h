@@ -122,7 +122,10 @@ public:
 	Vector fog;
 	Vector suncolor;
 	bool nosunfog;
+	bool nohorizonglow;
+	bool nosunblend;
 	std::string suntexture;
+	std::string suntexturemask;
 	float fogdensity;
 	std::string skytexture;
 	std::string skytexturestatic;

@@ -282,7 +282,7 @@ void Landscape::drawLand()
 	drawSetup();
 
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SKY");
-	sky_->draw();
+	sky_->drawBackdrop();
 	GAMESTATE_PERF_COUNTER_END(ScorchedClient::instance()->getGameState(), "LANDSCAPE_SKY");
 	GAMESTATE_PERF_COUNTER_START(ScorchedClient::instance()->getGameState(), "LANDSCAPE_LAND");
 	if (OptionsDisplay::instance()->getDrawLandscape())
@@ -339,7 +339,8 @@ void Landscape::drawWater()
 		glCullFace(GL_FRONT);
 
 		drawSetup();
-		sky_->draw();
+		sky_->drawBackdrop();
+		sky_->drawLayers();
 		actualDrawLandReflection();
 		drawTearDown();
 
@@ -364,6 +365,7 @@ void Landscape::drawObjects()
 	drawSetup();
 
 	wall_->draw();
+	sky_->drawLayers();
 
 	drawTearDown();
 }

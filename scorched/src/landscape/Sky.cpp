@@ -31,7 +31,7 @@ Sky::~Sky()
 {
 }
 
-void Sky::draw()
+void Sky::drawBackdrop()
 {
 	LandscapeDefinitionCache &defnCache = ScorchedClient::instance()->
 		getLandscapeMaps().getDefinitions();
@@ -43,7 +43,21 @@ void Sky::draw()
 	}
 	else
 	{
-		dome_.draw();
+		dome_.drawBackdrop();
+	}
+}
+
+void Sky::drawLayers()
+{
+	LandscapeDefinitionCache &defnCache = ScorchedClient::instance()->
+		getLandscapeMaps().getDefinitions();
+
+	if (defnCache.getDefn()->roof->getType() == LandscapeDefnType::eRoofCavern)
+	{
+	}
+	else
+	{
+		dome_.drawLayers();
 	}
 }
 

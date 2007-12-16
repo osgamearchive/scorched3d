@@ -36,7 +36,8 @@ public:
 	void draw(float radius, float radius2, 
 		unsigned int flags = 0);
 	void drawColored(float radius, float radius2, 
-		GLImage &colors, Vector &sunDir, int daytime);
+		GLImage &colors, Vector &sunDir, int daytime, 
+		bool horizonGlow);
 
 private:
 	struct Entry

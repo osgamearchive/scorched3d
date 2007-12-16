@@ -40,7 +40,8 @@ public:
 		int heightSlices, int rotationSlices,
 		int startHeightSlice, int startRotationSlice,
 		int endHeightSlice, int endRotationSlice,
-		bool inverse, GLImage &colors, Vector &sunDir, int daytime);
+		bool inverse, GLImage &colors, Vector &sunDir, int daytime, 
+		bool horizonGlow);
 
 private:
 	Hemisphere();

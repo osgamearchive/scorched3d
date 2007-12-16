@@ -32,20 +32,22 @@ public:
 	virtual ~SkyDome();
 
 	void simulate(float frameTime);
-	void draw();
+	void drawBackdrop();
+	void drawLayers();
 	void generate();
 	void flash();
 
 protected:
 	float xy_;
 	float cloudSpeed_;
-	float cloudDirection_;
+	Vector cloudDirection_;
 	float flashTime_;
 	GLTexture cloudTexture_;
 	GLTexture starTexture_;
 	GLImageHandle skyColorsMap_;
 	bool useStarTexture_;
 	bool noSunFog_;
+	bool horizonGlow_;
 
 	LargeHemisphere clouds1_;
 	LargeHemisphere clouds2_;

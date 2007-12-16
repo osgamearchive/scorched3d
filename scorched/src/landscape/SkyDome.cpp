@@ -36,7 +36,6 @@
 SkyDome::SkyDome() : 
 	xy_(0.0f), 
 	cloudSpeed_(500.0f), 
-	cloudDirection_(0.0f),
 	flashTime_(0.0f)
 {
 }
@@ -72,6 +71,7 @@ void SkyDome::generate()
 		DIALOG_ASSERT(starTexture_.replace(bitmapStars));
 	}
 	noSunFog_ = tex->nosunfog;
+	horizonGlow_ = !tex->nohorizonglow;
 
 	// Force refresh of colors
 	colors_.clear();
@@ -84,19 +84,19 @@ void SkyDome::simulate(float frameTime)
 	float fastSpeed = 100;
 	float slowSpeed = 500;
 	float currentSpeed = ScorchedClient::instance()->getOptionsTransient().getWindSpeed().asFloat();
-	float wantedAngle = 180.0f-ScorchedClient::instance()->getOptionsTransient().getWindAngle().asFloat();
+	float wantedAngle = ScorchedClient::instance()->getOptionsTransient().getWindAngle().asFloat();
 	float wantedSpeed = (((5.0f - currentSpeed) / 5.0f) * (slowSpeed - fastSpeed)) + fastSpeed;
 
 	// Move the cloud layer
 	cloudSpeed_ = wantedSpeed;
-	cloudDirection_ = wantedAngle;
+	cloudDirection_ = -ScorchedClient::instance()->getOptionsTransient().getWindDirection().asVector();
 	xy_ += frameTime / cloudSpeed_;
 
 	// The sky flash
 	flashTime_ -= frameTime;
 }
 
-void SkyDome::draw()
+void SkyDome::drawBackdrop()
 {
 	Vector &pos = GLCamera::getCurrentCamera()->getCurrentPos();
 	Vector sunDir = 
@@ -112,13 +112,13 @@ void SkyDome::draw()
 
 		// Draw sky color
 		GLState mainState2(GLState::TEXTURE_OFF | GLState::BLEND_OFF);
-		colors_.drawColored(2000, 225, skyColorsMap_, sunDir, tex.skytimeofday);
-		//Hemisphere::drawColored(2000, 225, 10, 10, 0, 0, false, 
-		//	skyColorsMap_, sunDir, tex.skytimeofday);
+		colors_.drawColored(2000, 225, skyColorsMap_, sunDir, tex.skytimeofday, horizonGlow_);
 
 		// Draw stars
 		if (useStarTexture_)
 		{
+			glDisable(GL_FOG); 
+
 			glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
 			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 			starTexture_.draw();
@@ -131,7 +131,6 @@ void SkyDome::draw()
 			glMatrixMode(GL_MODELVIEW);
 
 			stars_.draw(1990, 215, Hemisphere::eWidthTexture);
-			//Hemisphere::draw(2000, 225, 10, 10, 0, 0, false, Hemisphere::eWidthTexture);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glMatrixMode(GL_TEXTURE);
@@ -140,13 +139,24 @@ void SkyDome::draw()
 		}
 	glPopMatrix();
 
-	// Draw Sun Glow
-	if (noSunFog_) glDisable(GL_FOG); 
-	Landscape::instance()->getSky().getSun().draw();
 	if (!OptionsDisplay::instance()->getNoFog())
 	{
 		glEnable(GL_FOG);
 	}
+
+	// Draw Sun Glow
+	if (noSunFog_) glDisable(GL_FOG); 
+	Landscape::instance()->getSky().getSun().draw();
+
+	if (!OptionsDisplay::instance()->getNoFog())
+	{
+		glEnable(GL_FOG);
+	}
+}
+
+void SkyDome::drawLayers()
+{
+	Vector &pos = GLCamera::getCurrentCamera()->getCurrentPos();
 
 	// Layer 2
 	if (!OptionsDisplay::instance()->getNoSkyLayers())
@@ -156,31 +166,30 @@ void SkyDome::draw()
 			glTranslatef(pos[0], pos[1], -15.0f);
 
 			// Rotate the scene so clouds blow the correct way
-			float slowXY = xy_ / 1.5f;
-			glRotatef(cloudDirection_, 0.0f, 0.0f, 1.0f);
+			float slowXY = (xy_ + 45.5f) / 1.5f;
 			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
 			glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
 
 			// Cloud texture
 			cloudTexture_.draw();
-	
+
 			// Cloud Layer 1
 			glMatrixMode(GL_TEXTURE);
 			glLoadIdentity();
-			glTranslatef(0.0f, xy_ + 0.3f, 0.0f);
+			glTranslatef(xy_ * cloudDirection_[0], 
+				xy_ * cloudDirection_[1], 0.0f);
 			glMatrixMode(GL_MODELVIEW);
 
-			clouds1_.draw(1850, 210, Hemisphere::eWidthTexture);
-			//Hemisphere::draw(1850, 210, 10, 10, 0, 0, false, Hemisphere::eWidthTexture);
+			clouds1_.draw(1980, 210, Hemisphere::eWidthTexture);
 
 			// Cloud Layer 2
 			glMatrixMode(GL_TEXTURE);
 			glLoadIdentity();
-			glTranslatef(slowXY, slowXY + 0.4f, 0.0f);
+			glTranslatef((slowXY) * (cloudDirection_[0] + cloudDirection_[1] * 0.3f), 
+				(slowXY) * (cloudDirection_[1] - cloudDirection_[0] * 0.3f), 0.0f);
 			glMatrixMode(GL_MODELVIEW);
 
-			clouds2_.draw(1900, 170, Hemisphere::eWidthTexture);
-			//Hemisphere::draw(1900, 170, 10, 10, 0, 0, false, Hemisphere::eWidthTexture);
+			clouds2_.draw(1980, 170, Hemisphere::eWidthTexture);
 
 			// Reset tex matrix
 			glMatrixMode(GL_TEXTURE);

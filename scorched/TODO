@@ -8,7 +8,9 @@ Fixed: Bilboard aspect ratios in camera mode
 Fixed: MIRV shot path being slightly out
 Fixed: Game will switch to medium/high detail models if there are no low detail ones
 Fixed: Stars not showing when specified
+Fixed: Sky layers drawn correctly so flying objects can be seen behind them
 
+Added: nohorizonglow, nosunblend and suntexturemask attributes to landscape textures to allow decent planets
 Added: Console command ReloadLandscapeObjects that reloads the landscape definition from disk and re-displays
 Added: Console command ShowLandscapeInfo that shows which map files are currently in use
 Added: Console command ShowLandscapeAimInfo that shows the current position of the auto aim cursor ("A" key)
