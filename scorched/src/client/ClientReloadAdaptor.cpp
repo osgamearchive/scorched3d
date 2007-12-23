@@ -108,7 +108,11 @@ void ClientReloadAdaptor::showLandscapeInfo()
 
 void ClientReloadAdaptor::showLandscapeAimInfo()
 {
-	if (!ScorchedClient::instance()->getOptionsGame().getDebugFeatures()) return;
+	if (!ScorchedClient::instance()->getOptionsGame().getDebugFeatures())
+	{
+		Logger::log("Debug features must be enabled to view aim position");
+		return;
+	}
 
 	Logger::log(formatStringBuffer("Aim Position : %.4f,%.4f,%.4f\n", 
 		TargetRendererImplTankAIM::aimPosition_[0],
