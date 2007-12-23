@@ -73,6 +73,18 @@ void SkyDome::generate()
 	noSunFog_ = tex->nosunfog;
 	horizonGlow_ = !tex->nohorizonglow;
 
+	// Skyline
+	skyLine1_.clear();
+	useSkyLine_ = false;
+	if (!tex->skyline.empty())
+	{
+		useSkyLine_ = true;
+		std::string stex(getDataFile(tex->skyline.c_str()));
+		std::string stexa(getDataFile(tex->skylinemask.c_str()));
+		GLImageHandle bitmapSkyLine = GLImageFactory::loadImageHandle(stex.c_str(), stexa.c_str());
+		DIALOG_ASSERT(skyLineTexture_.replace(bitmapSkyLine));
+	}
+
 	// Force refresh of colors
 	colors_.clear();
 }
@@ -137,6 +149,7 @@ void SkyDome::drawBackdrop()
 			glLoadIdentity();
 			glMatrixMode(GL_MODELVIEW);
 		}
+
 	glPopMatrix();
 
 	if (!OptionsDisplay::instance()->getNoFog())
@@ -158,13 +171,24 @@ void SkyDome::drawLayers()
 {
 	Vector &pos = GLCamera::getCurrentCamera()->getCurrentPos();
 
-	// Layer 2
-	if (!OptionsDisplay::instance()->getNoSkyLayers())
-	{
-		glPushMatrix();
-			// Translate scene so it is in the middle of the land
-			glTranslatef(pos[0], pos[1], -15.0f);
+	glPushMatrix();
+		// Translate scene so it is in the middle of the land
+		glTranslatef(pos[0], pos[1], -15.0f);
 
+		// Skyline
+		if (useSkyLine_)
+		{
+			//glDisable(GL_FOG);
+
+			skyLineTexture_.draw();
+			skyLine1_.draw(1000.0f, 1000.0f, 200.0f);
+
+			//glEnable(GL_FOG);
+		}
+
+		// Layer 2
+		if (!OptionsDisplay::instance()->getNoSkyLayers())
+		{
 			// Rotate the scene so clouds blow the correct way
 			float slowXY = (xy_ + 45.5f) / 1.5f;
 			GLState currentState(GLState::TEXTURE_ON | GLState::BLEND_ON);
@@ -195,7 +219,7 @@ void SkyDome::drawLayers()
 			glMatrixMode(GL_TEXTURE);
 			glLoadIdentity();
 			glMatrixMode(GL_MODELVIEW);
+		}
 
-		glPopMatrix();
-	}
+	glPopMatrix();
 }

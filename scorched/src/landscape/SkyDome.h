@@ -22,6 +22,7 @@
 #define __INCLUDE_SkyDomeh_INCLUDE__
 
 #include <landscape/LargeHemisphere.h>
+#include <landscape/SkyLine.h>
 #include <GLEXT/GLTexture.h>
 #include <GLEXT/GLImageHandle.h>
 
@@ -44,11 +45,14 @@ protected:
 	float flashTime_;
 	GLTexture cloudTexture_;
 	GLTexture starTexture_;
+	GLTexture skyLineTexture_;
 	GLImageHandle skyColorsMap_;
 	bool useStarTexture_;
 	bool noSunFog_;
 	bool horizonGlow_;
+	bool useSkyLine_;
 
+	SkyLine skyLine1_;
 	LargeHemisphere clouds1_;
 	LargeHemisphere clouds2_;
 	LargeHemisphere colors_;

@@ -18,34 +18,23 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_LargeHemisphere_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
-#define AFX_LargeHemisphere_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_
+#if !defined(AFX_SkyLine_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
+#define AFX_SkyLine_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_
 
-#include <list>
-#include <common/Vector.h>
-
-class GLImage;
-class LargeHemisphere  
+class SkyLine  
 {
 public:
-	LargeHemisphere();
-	~LargeHemisphere();
+	SkyLine();
+	virtual ~SkyLine();
 
 	void clear();
 
-	void draw(float radius, float radius2, 
-		unsigned int flags = 0);
-	void drawColored(float radius, float radius2, 
-		GLImage &colors, Vector &sunDir, int daytime, 
-		bool horizonGlow);
+	void draw(float radius, float radius2, float height);
 
 private:
-	struct Entry
-	{
-		unsigned int listNo_;
-	};
+	unsigned int listNo_;
 
-	std::list<Entry> entries_;
+	void actualDraw(float radius, float radius2, float height);
 };
 
-#endif // !defined(AFX_LargeHemisphere_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)
+#endif // !defined(AFX_SkyLine_H__3577D267_2B6C_4300_B0EE_61E1E50E57DD__INCLUDED_)

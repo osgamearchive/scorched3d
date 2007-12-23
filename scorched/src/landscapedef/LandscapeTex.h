@@ -131,6 +131,8 @@ public:
 	std::string skytexturestatic;
 	std::string skytexturemask;
 	std::string skycolormap;
+	std::string skyline;
+	std::string skylinemask;
 	int skytimeofday;
 	float skysunxy;
 	float skysunyz;

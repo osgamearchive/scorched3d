@@ -4615,6 +4615,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\landscape\SkyLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\landscape\SkyLine.h"
+				>
+			</File>
+			<File
 				RelativePath="..\landscape\SkyRoof.cpp"
 				>
 			</File>

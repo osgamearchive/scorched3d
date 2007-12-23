@@ -137,6 +137,8 @@ bool LandscapeTex::readXML(LandscapeDefinitions *definitions, XMLNode *node)
 	node->getNamedChild("nosunfog", nosunfog, false);
 	node->getNamedChild("nohorizonglow", nohorizonglow, false);
 	node->getNamedChild("nosunblend", nosunblend, false);
+	node->getNamedChild("skyline", skyline, false);
+	node->getNamedChild("skylinemask", skylinemask, false);
 	if (!node->getNamedChild("skytexturemask", skytexturemask)) return false;
 	if (!node->getNamedChild("skycolormap", skycolormap)) return false;
 	if (!node->getNamedChild("skytimeofday", skytimeofday)) return false;

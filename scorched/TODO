@@ -10,6 +10,7 @@ Fixed: Game will switch to medium/high detail models if there are no low detail 
 Fixed: Stars not showing when specified
 Fixed: Sky layers drawn correctly so flying objects can be seen behind them
 
+Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline
 Added: nohorizonglow, nosunblend and suntexturemask attributes to landscape textures to allow decent planets
 Added: Console command ReloadLandscapeObjects that reloads the landscape definition from disk and re-displays
 Added: Console command ShowLandscapeInfo that shows which map files are currently in use
