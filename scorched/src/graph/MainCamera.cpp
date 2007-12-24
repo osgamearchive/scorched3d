@@ -34,6 +34,8 @@
 #include <common/Keyboard.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
+#include <coms/ComsOperationResultMessage.h>
+#include <coms/ComsMessageSender.h>
 #include <tank/TankContainer.h>
 #include <tank/TankCamera.h>
 #include <math.h>
@@ -360,29 +362,44 @@ void MainCamera::useQuick(int key)
 
 void MainCamera::SaveScreen::draw(const unsigned state)
 {
-	if (!saveScreen_) return;
-	saveScreen_ = false;
+	if (saveScreen_)
+	{
+		saveScreen_ = false;
 
-	bool hide = Main2DCamera::instance()->getHide();
-	Main2DCamera::instance()->setHide(false);
-	Main2DCamera::instance()->draw(0);
-	Main2DCamera::instance()->setHide(hide);
+		bool hide = Main2DCamera::instance()->getHide();
+		Main2DCamera::instance()->setHide(false);
+		Main2DCamera::instance()->draw(0);
+		Main2DCamera::instance()->setHide(hide);
 
-	static unsigned counter = 0;
-	time_t currentTime = time(0);
-	char *fileName = (char *) 
-		getHomeFile(formatString("ScreenShot-%i-%i.bmp", currentTime, counter++));
+		static unsigned counter = 0;
+		time_t currentTime = time(0);
+		char *fileName = (char *) 
+			getHomeFile(formatString("ScreenShot-%i-%i.bmp", currentTime, counter++));
 
-	GLImageHandle screenMap = GLImageFactory::grabScreen();
-	screenMap.writeToFile(fileName);
+		GLImageHandle screenMap = GLImageFactory::grabScreen();
+		screenMap.writeToFile(fileName);
 
-	// Don't print to banner otherwise this message will be in
-	// the screenshot!
-	Logger::log(formatStringBuffer("Screen shot saved as file \"%s\"", fileName));
+		// Don't print to banner otherwise this message will be in
+		// the screenshot!
+		Logger::log(formatStringBuffer("Screen shot saved as file \"%s\"", fileName));
 
-	// snapshot sound
-	CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));
-	SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);
+		// snapshot sound
+		CACHE_SOUND(sound,  (char *) getDataFile("data/wav/misc/camera.wav"));
+		SoundUtils::playRelativeSound(VirtualSoundPriority::eText, sound);
+	}
+	if (saveScreenTest_)
+	{
+		saveScreenTest_ = false;
+
+		GLImageHandle screenMap = GLImageFactory::grabScreen();
+		ComsOperationResultMessage resultMessage;
+		resultMessage.getResultBuffer().addDataToBuffer(
+			screenMap.getBits(), 
+			screenMap.getWidth() * screenMap.getHeight() * 3);
+		resultMessage.getWidth() = screenMap.getWidth();
+		resultMessage.getHeight() = screenMap.getHeight();
+		ComsMessageSender::sendToServer(resultMessage);
+	}
 }
 
 void MainCamera::Precipitation::draw(const unsigned state)

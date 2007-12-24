@@ -994,6 +994,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\server\ServerOperationResultHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\server\ServerOperationResultHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\server\ServerParams.cpp"
 				>
 			</File>
@@ -1387,6 +1395,22 @@
 			</File>
 			<File
 				RelativePath="..\coms\ComsNewGameMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsOperationMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsOperationMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsOperationResultMessage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\coms\ComsOperationResultMessage.h"
 				>
 			</File>
 			<File

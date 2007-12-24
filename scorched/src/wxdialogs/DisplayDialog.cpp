@@ -234,7 +234,7 @@ void DisplayFrame::onMoreRes(wxCommandEvent &event)
 
 void DisplayFrame::onPageChange(wxNotebookEvent &event)
 {
-	if (event.GetSelection() == 3)
+	if (event.GetSelection() == 4)
 	{
 		refreshIdentControls();
 	}

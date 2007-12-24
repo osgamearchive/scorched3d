@@ -9,6 +9,7 @@ Fixed: MIRV shot path being slightly out
 Fixed: Game will switch to medium/high detail models if there are no low detail ones
 Fixed: Stars not showing when specified
 Fixed: Sky layers drawn correctly so flying objects can be seen behind them
+Fixed: Server unique ids correctly displayed in the game settings dialog
 
 Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline
 Added: nohorizonglow, nosunblend and suntexturemask attributes to landscape textures to allow decent planets

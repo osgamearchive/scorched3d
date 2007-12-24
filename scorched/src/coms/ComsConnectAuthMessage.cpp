@@ -34,7 +34,12 @@ ComsConnectAuthMessage::~ComsConnectAuthMessage()
 
 void ComsConnectAuthMessage::setNoPlayers(unsigned int players)
 {
-	char buf[10]; snprintf(buf, 10, "%i", players); setValue("numplayers", buf);
+	char buf[10]; snprintf(buf, 10, "%u", players); setValue("numplayers", buf);
+}
+
+void ComsConnectAuthMessage::setCompatabilityVer(unsigned int compatver)
+{
+	char buf[10]; snprintf(buf, 10, "%u", compatver); setValue("compatver", buf);
 }
 
 bool ComsConnectAuthMessage::writeMessage(NetBuffer &buffer)

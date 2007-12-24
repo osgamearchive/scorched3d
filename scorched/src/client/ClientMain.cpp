@@ -37,6 +37,7 @@
 #include <client/ClientNewGameHandler.h>
 #include <client/ClientConnectionAcceptHandler.h>
 #include <client/ClientConnectionAuthHandler.h>
+#include <client/ClientOperationHandler.h>
 #include <client/ClientRmPlayerHandler.h>
 #include <client/ClientGameStateHandler.h>
 #include <client/ClientInitializeHandler.h>
@@ -185,6 +186,7 @@ static bool initComsHandlers()
 	ClientStartTimerHandler::instance();
 	ClientSyncCheckHandler::instance();
 	ClientFileHandler::instance();
+	ClientOperationHandler::instance();
 	ClientGameStoppedHandler::instance();
 	ClientStartGameHandler::instance();
 	ClientGameStateHandler::instance();

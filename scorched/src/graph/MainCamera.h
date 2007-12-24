@@ -65,10 +65,11 @@ public:
 	class SaveScreen : public GameStateI
 	{
 	public:
-		SaveScreen() : GameStateI("SaveScreen"), saveScreen_(false) {}
+		SaveScreen() : GameStateI("SaveScreen"), saveScreen_(false), saveScreenTest_(false) {}
 		virtual void draw(const unsigned state);
 
 		bool saveScreen_;
+		bool saveScreenTest_;
 	} saveScreen_;
 
 	class Precipitation : public GameStateI

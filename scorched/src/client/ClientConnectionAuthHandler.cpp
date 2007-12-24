@@ -126,6 +126,7 @@ void ClientConnectionAuthHandler::sendAuth()
 	connectMessage.setSUI(SUI.c_str());
 	connectMessage.setHostDesc(OptionsDisplay::instance()->getHostDescription());
 	connectMessage.setNoPlayers(noPlayers);
+	connectMessage.setCompatabilityVer((unsigned int) OptionsDisplay::instance()->getOptions().size());
 
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{

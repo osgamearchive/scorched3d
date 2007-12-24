@@ -55,6 +55,7 @@
 #include <server/ServerChannelManager.h>
 #include <server/ServerConnectHandler.h>
 #include <server/ServerConnectAuthHandler.h>
+#include <server/ServerOperationResultHandler.h>
 #include <server/ServerFileServer.h>
 #include <server/ServerRegistration.h>
 #include <server/ServerWebServer.h>
@@ -119,6 +120,7 @@ bool startServer(bool local, ProgressCounter *counter)
 	ServerBuyAccessoryHandler::instance();
 	ServerAddPlayerHandler::instance();
 	ServerDefenseHandler::instance();
+	ServerOperationResultHandler::instance();
 
 	// Set the mod
 	setDataFileMod(

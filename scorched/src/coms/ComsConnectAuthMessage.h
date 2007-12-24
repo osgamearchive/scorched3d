@@ -45,6 +45,7 @@ public:
 	void setUniqueId(const char *uid) { setValue("uid", uid); }
 	void setSUI(const char *SUId) { setValue("SUId", SUId); }
 	void setHostDesc(const char *host) { setValue("host", host); }
+	void setCompatabilityVer(unsigned int settingsver);
 	void setNoPlayers(unsigned int players);
 
 	const char *getUserName() { return getValue("username"); }
@@ -54,6 +55,8 @@ public:
 	const char *getSUI() { return getValue("SUId"); }
 	unsigned int getNoPlayers() { 
 		return (unsigned int) atoi(getValue("numplayers")?getValue("numplayers"):"0"); }
+	unsigned int getCompatabilityVer() { 
+		return (unsigned int) atoi(getValue("compatver")?getValue("compatver"):"0"); }
 
 	// Inherited from ComsMessage
 	virtual bool writeMessage(NetBuffer &buffer);
