@@ -30,7 +30,8 @@ extern void dialogAssert(const char *lineText, const int line, const char *file)
 
 extern void glAssert(unsigned int e, const int line, const char *file);
 #ifndef S3D_SERVER
-#define GL_ASSERT() { GLenum e=glGetError(); if(e!= GL_NO_ERROR) glAssert(e, __LINE__, __FILE__); }
+//#define GL_ASSERT() { GLenum e=glGetError(); if(e!= GL_NO_ERROR) glAssert(e, __LINE__, __FILE__); }
+#define GL_ASSERT() {}
 #else
 #define GL_ASSERT() {}
 #endif

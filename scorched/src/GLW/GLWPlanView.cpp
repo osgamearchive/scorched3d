@@ -418,9 +418,6 @@ void GLWPlanView::drawBuoys()
 	}
 
 	// Plot the dots, scaling for non-square maps
-	// TODO - split this into separate generate and draw functions
-	GLfloat tmpColor[4];
-
 	// Draw the dots!
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(5.0f);
@@ -442,8 +439,21 @@ void GLWPlanView::drawBuoys()
 		{
 			glEnd();	
 
-			glGetFloatv(GL_CURRENT_COLOR, tmpColor);	// lighten up the color for the centre
-			glColor3f(tmpColor[0] + 0.4f, tmpColor[1] + 0.4f, tmpColor[2] + 0.4f);
+			switch(ScorchedClient::instance()->getOptionsTransient().getWallType())
+			{
+			case OptionsTransient::wallWrapAround:
+				glColor3f(0.9f, 0.9f, 0.4f);	// Keep the colours dark on the outside
+				break;				// to try to give a look of shape
+			case OptionsTransient::wallBouncy:
+				glColor3f(0.4f, 0.4f, 0.4f);
+				break;
+			case OptionsTransient::wallConcrete:
+				glColor3f(0.6f, 0.6f, 0.6f);
+				break;
+			default:
+				break;	// should never happen....
+			}
+
 			glPointSize(2.0f);
 			glBegin(GL_POINTS);
 		}
@@ -684,7 +694,7 @@ void GLWPlanView::addRecievePoints(unsigned int playerId,
 	}
 	if (!foundInfo)
 	{
-		planColor_ = 0.5f;
+		planColor_ = 0.2f;
 
 		dragPoints_.push_back(PlayerDrawnInfo());
 		foundInfo = &dragPoints_.back();

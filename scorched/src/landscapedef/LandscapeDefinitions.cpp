@@ -22,6 +22,7 @@
 #include <landscapedef/LandscapeTex.h>
 #include <landscapedef/LandscapeDefn.h>
 #include <landscapedef/LandscapeInclude.h>
+#include <tank/TankContainer.h>
 #include <common/OptionsScorched.h>
 #include <common/Defines.h>
 #include <common/Logger.h>
@@ -166,19 +167,13 @@ LandscapeDefinition LandscapeDefinitions::getLandscapeDefn(
 	LandscapeDefinitionsEntry *result = 0;
 
 	// Build a list of the maps that are enabled
-	float totalWeight = 0.0f;
-	std::list<LandscapeDefinitionsEntry *> passedLandscapes;
 	std::list<LandscapeDefinitionsEntry>::iterator itor;
 	for (itor = entries_.begin();
 		itor != entries_.end();
 		itor++)
 	{
 		result = &(*itor);
-		if (0 == strcmp(name, result->name.c_str()))
-		{
-
-			break;
-		}
+		if (0 == strcmp(name, result->name.c_str())) break;
 	}
 
 	// Return the chosen definition
@@ -192,27 +187,73 @@ LandscapeDefinition LandscapeDefinitions::getLandscapeDefn(
 }
 
 LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
-	OptionsScorched &context)
+	OptionsScorched &context, TankContainer &tankContainer)
 {
 	// Build a list of the maps that are enabled
-	float totalWeight = 0.0f;
-	std::list<LandscapeDefinitionsEntry *> passedLandscapes;
+	int players = tankContainer.getNoOfNonSpectatorTanks();
+	std::list<LandscapeDefinitionsEntry *> allPassedLandscapes;
+	std::list<LandscapeDefinitionsEntry *> minMaxPassedLandscapes;
 	std::list<LandscapeDefinitionsEntry>::iterator itor;
 	for (itor = entries_.begin();
 		itor != entries_.end();
 		itor++)
 	{
-		LandscapeDefinitionsEntry &result = *itor;
-		if (landscapeEnabled(context.getMainOptions(), result.name.c_str()))
+		LandscapeDefinitionsEntry &current = *itor;
+		if (landscapeEnabled(context.getMainOptions(), current.name.c_str()))
 		{
-			passedLandscapes.push_back(&result);
-			totalWeight += result.weight;
+			allPassedLandscapes.push_back(&current);
+
+			// Check that min/max players are ok
+			std::vector<std::string>::iterator defnitor;
+			for (defnitor = current.defns.begin();
+				defnitor != current.defns.end();
+				defnitor++)
+			{
+				LandscapeDefn *defn = getDefn(defnitor->c_str());
+				if (players >= defn->minplayers && players <= defn->maxplayers)
+				{
+					minMaxPassedLandscapes.push_back(&current);
+					break;
+				}
+			}
 		}
 	}
 
 	// Check we have a least one map
-	DIALOG_ASSERT(!passedLandscapes.empty());
+	DIALOG_ASSERT(!allPassedLandscapes.empty());
 
+	// Try min max maps
+	LandscapeDefinitionsEntry *result = getRandomLandscapeDefnEntry(
+		context, minMaxPassedLandscapes);
+	if (!result)
+	{
+		// Try all maps
+		Logger::log("Warning: Cannot find any landscapes for number of players");
+		result = getRandomLandscapeDefnEntry(context, allPassedLandscapes);
+	}
+
+	// Check we found map
+	if (!result)
+	{
+		dialogExit("Scorched3D",
+			"Failed to select a landscape definition");
+	}
+
+	// Return the chosen definition
+	std::string tex = getLeastUsedFile(result->texs);
+	std::string defn = getLeastUsedFile(result->defns);
+	unsigned int seed = (unsigned int) rand();
+
+	LandscapeDefinition entry(
+		tex.c_str(), defn.c_str(), seed, result->name.c_str());
+	return entry;
+}
+
+
+LandscapeDefinitionsEntry *LandscapeDefinitions::getRandomLandscapeDefnEntry(
+	OptionsScorched &context,
+	std::list<LandscapeDefinitionsEntry *> passedLandscapes)
+{
 	// Map cycle mode
 	LandscapeDefinitionsEntry *result = 0;
 	if (context.getCycleMaps())
@@ -237,11 +278,19 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 	}
 	else
 	{
+		float totalWeight = 0.0f;
+		std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
+		for (passedItor = passedLandscapes.begin();
+			passedItor != passedLandscapes.end();
+			passedItor++)
+		{
+			LandscapeDefinitionsEntry *current = *passedItor;
+			totalWeight += current->weight;
+		}
+
 		// Choose a map based on probablity
 		float pos = RAND * totalWeight;
 		float soFar = 0.0f;
-
-		std::list<LandscapeDefinitionsEntry*>::iterator passedItor;
 		for (passedItor = passedLandscapes.begin();
 			passedItor != passedLandscapes.end();
 			passedItor++)
@@ -257,20 +306,5 @@ LandscapeDefinition LandscapeDefinitions::getRandomLandscapeDefn(
 		}
 	}
 
-	// Check we found map
-	if (!result)
-	{
-		dialogExit("Scorched3D",
-			"Failed to select a landscape definition");
-	}
-
-	// Return the chosen definition
-	std::string tex = getLeastUsedFile(result->texs);
-	std::string defn = getLeastUsedFile(result->defns);
-	unsigned int seed = (unsigned int) rand();
-
-	LandscapeDefinition entry(
-		tex.c_str(), defn.c_str(), seed, result->name.c_str());
-	return entry;
+	return result;
 }
-

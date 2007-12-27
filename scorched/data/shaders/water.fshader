@@ -98,7 +98,7 @@ void main()
 	float aoflandyclamp = clamp(aoflandyper, 0.0, 1.0);
 	if (aoflandxper == aoflandxclamp &&
 		aoflandyper == aoflandyclamp &&
-		aoftexcoord.z == 1.0)
+		aoftexcoord.z > 0.0)
 	{
 		float aofland = texture2D(tex_foamamount, vec2(aoflandxper, aoflandyper)).y;
 		trans = min(1.0, 0.4 + aofland * 1.8);

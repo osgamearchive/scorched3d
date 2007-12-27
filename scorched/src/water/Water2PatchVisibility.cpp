@@ -57,7 +57,7 @@ void Water2PatchVisibility::generate(Vector &offset, unsigned int totalSize,
 	int height = ScorchedClient::instance()->getLandscapeMaps().
 		getGroundMaps().getMapWidth();
 	Vector middle(width / 2, height / 2);
-	float allowedDistance = 2048.0f + MAX(width, height)/2.0f - 128.0f;
+	float allowedDistance = 2048.0f + MAX(width, height)/2.0f;
 
 	int i=0;
 	for (int y=0; y<size_; y++)

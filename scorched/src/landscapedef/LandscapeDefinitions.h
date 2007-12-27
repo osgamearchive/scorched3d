@@ -30,6 +30,7 @@ class LandscapeDefn;
 class LandscapeTex;
 class LandscapeInclude;
 class OptionsGame;
+class TankContainer;
 
 class LandscapeDefinitions : public LandscapeDefinitionsBase
 {
@@ -42,7 +43,7 @@ public:
 
 	void checkEnabled(OptionsScorched &context);
 	LandscapeDefinition getLandscapeDefn(const char *name);
-	LandscapeDefinition getRandomLandscapeDefn(OptionsScorched &context);
+	LandscapeDefinition getRandomLandscapeDefn(OptionsScorched &context, TankContainer &tankContainer);
 	LandscapeTex *getTex(const char *file, bool load = false);
 	LandscapeDefn *getDefn(const char *file, bool load = false);
 	LandscapeInclude *getInclude(const char *file, bool load = false);
@@ -56,6 +57,9 @@ protected:
 	LandscapeDefinitionsItem<LandscapeInclude> include_;
 
 	const char *getLeastUsedFile(std::vector<std::string> &files);
+	LandscapeDefinitionsEntry *getRandomLandscapeDefnEntry(
+		OptionsScorched &context,
+		std::list<LandscapeDefinitionsEntry *> passedLandscapes);
 };
 
 #endif

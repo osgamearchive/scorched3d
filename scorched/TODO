@@ -10,7 +10,10 @@ Fixed: Game will switch to medium/high detail models if there are no low detail 
 Fixed: Stars not showing when specified
 Fixed: Sky layers drawn correctly so flying objects can be seen behind them
 Fixed: Server unique ids correctly displayed in the game settings dialog
+Fixed: Removed glGetError calls during GL state changes
+Fixed: Water transparency on NV8 series cards
 
+Added: Enabled support for the minplayers and maxplayers landscape defn attributes
 Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline
 Added: nohorizonglow, nosunblend and suntexturemask attributes to landscape textures to allow decent planets
 Added: Console command ReloadLandscapeObjects that reloads the landscape definition from disk and re-displays

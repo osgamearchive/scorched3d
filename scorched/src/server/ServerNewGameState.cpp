@@ -104,7 +104,8 @@ void ServerNewGameState::enterState(const unsigned state)
 
 	// Get a landscape definition to use
 	LandscapeDefinition defn = ScorchedServer::instance()->getLandscapes().getRandomLandscapeDefn(
-		*ScorchedServer::instance()->getContext().optionsGame);
+		*ScorchedServer::instance()->getContext().optionsGame,
+		*ScorchedServer::instance()->getContext().tankContainer);
 
 	// Load the per level options
 	ScorchedServer::instance()->getOptionsGame().updateLevelOptions(
