@@ -25,7 +25,7 @@
 #include <weapons/EconomyStore.h>
 #include <net/NetLoopBack.h>
 #include <net/NetServerTCP.h>
-#include <net/NetServerUDP.h>
+#include <net/NetServerTCP2.h>
 #include <common/Defines.h>
 #include <common/Clock.h>
 #include <common/ARGParser.h>
@@ -97,7 +97,8 @@ bool startServer(bool local, ProgressCounter *counter)
 		// A loopback is created by the client for a single player game 
 		ScorchedServer::instance()->getContext().netInterface = 
 			//new NetServerTCP(new NetServerTCPScorchedProtocol());
-			new NetServerUDP();
+			//new NetServerUDP();
+			new NetServerTCP2();
 	}
 
 	ScorchedServer::instance()->getOptionsGame().updateChangeSet();

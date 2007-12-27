@@ -1582,6 +1582,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\net\NetServerTCP2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\net\NetServerTCP2.h"
+				>
+			</File>
+			<File
+				RelativePath="..\net\NetServerTCP2Destination.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\net\NetServerTCP2Destination.h"
+				>
+			</File>
+			<File
 				RelativePath="..\net\NetServerTCPProtocol.cpp"
 				>
 			</File>
