@@ -52,6 +52,8 @@ public:
 	// Inherited from GLWTabI
 	virtual void tabDown(unsigned int id);
 
+	void playerRefreshKeepPos();
+
 protected:
 	static BuyAccessoryDialog *instance_;
 	unsigned int okId_, giftId_;
@@ -72,7 +74,6 @@ protected:
 	void loadFavorites();
 	void saveFavorites();
 	void playerRefresh();
-	void playerRefreshKeepPos();
 	void addPlayerName();
 	void addPlayerWeapons();
 	void addPlayerWeaponsSell();

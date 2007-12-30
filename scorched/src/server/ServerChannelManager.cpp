@@ -452,7 +452,7 @@ void ServerChannelManager::joinClient(unsigned int destinationId, unsigned int l
 }
 
 void ServerChannelManager::sendText(const ChannelText &constText, 
-	unsigned int destination, bool log)
+	unsigned int destination, bool log, bool filter)
 {
 	DestinationEntry *destinationEntry = getDestinationEntryById(
 		destination);
@@ -460,17 +460,17 @@ void ServerChannelManager::sendText(const ChannelText &constText,
 	{
 		std::map<unsigned int, DestinationEntry *> destinations;
 		destinations[destination] = destinationEntry;
-		actualSend(constText, destinations, log);
+		actualSend(constText, destinations, log, filter);
 	}
 }
 
-void ServerChannelManager::sendText(const ChannelText &constText, bool log)
+void ServerChannelManager::sendText(const ChannelText &constText, bool log, bool filter)
 {
-	actualSend(constText, destinationEntries_, log);
+	actualSend(constText, destinationEntries_, log, filter);
 }
 
 void ServerChannelManager::actualSend(const ChannelText &constText,
-	std::map<unsigned int, DestinationEntry *> &destinations, bool log)
+	std::map<unsigned int, DestinationEntry *> &destinations, bool log, bool filter)
 {
 	ChannelText text = constText;
 
@@ -486,19 +486,22 @@ void ServerChannelManager::actualSend(const ChannelText &constText,
 		return;
 	}
 
-	// Filter the string for bad language
 	std::string filteredText(text.getMessage());
-	ScorchedServerUtil::instance()->textFilter.filterString(filteredText);
+	if (filter)
+	{
+		// Filter the string for bad language
+		ScorchedServerUtil::instance()->textFilter.filterString(filteredText);
 
-	// Remove any bad characters
-	for (char *r = (char *) filteredText.c_str(); *r; r++)
-	{
-		if (*r == '%' || *r < 0) *r = ' ';
-	}
-	for (char *r = (char *) filteredText.c_str(); *r; r++)
-	{
-		if (*r == '[') *r = '(';
-		else if (*r == ']') *r = ')';
+		// Remove any bad characters
+		for (char *r = (char *) filteredText.c_str(); *r; r++)
+		{
+			if (*r == '%' || *r < 0) *r = ' ';
+		}
+		for (char *r = (char *) filteredText.c_str(); *r; r++)
+		{
+			if (*r == '[') *r = '(';
+			else if (*r == ']') *r = ')';
+		}
 	}
 
 	// Update the server console with the say text
@@ -638,6 +641,14 @@ bool ServerChannelManager::processMessage(
 			// Cannot send a non-whisper message to a whisper channel
 			return true;
 		}
+		if ((channelEntry->getDefinition().getType() &
+			ChannelDefinition::eWhisperChannel) &&
+			textMessage.getChannelText().getDestPlayerId() == 
+			textMessage.getChannelText().getSrcPlayerId())
+		{
+			// Cannot whisper to self
+			return true;
+		}
 
 		// Check that we don't recieve too much text
 		if (strlen(textMessage.getChannelText().getMessage()) > 1024) return true;
@@ -671,6 +682,10 @@ bool ServerChannelManager::processMessage(
 				// Send to this destination
 				sendText(textMessage.getChannelText(), 
 					destTank->getDestinationId(), true);
+
+				// And the the sender
+				sendText(textMessage.getChannelText(), 
+					tank->getDestinationId(), true);
 			}
 		}
 		else

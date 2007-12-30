@@ -12,6 +12,8 @@ Fixed: Sky layers drawn correctly so flying objects can be seen behind them
 Fixed: Server unique ids correctly displayed in the game settings dialog
 Fixed: Removed glGetError calls during GL state changes
 Fixed: Water transparency on NV8 series cards
+Fixed: Message is displayed correctly when money is gifted
+Fixed: Sent whisper text is also displayed on the sender
 
 Added: Enabled support for the minplayers and maxplayers landscape defn attributes
 Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline

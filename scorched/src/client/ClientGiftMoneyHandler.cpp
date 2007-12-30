@@ -23,6 +23,7 @@
 #include <tank/TankContainer.h>
 #include <tank/TankScore.h>
 #include <coms/ComsGiftMoneyMessage.h>
+#include <dialogs/BuyAccessoryDialog.h>
 
 ClientGiftMoneyHandler *ClientGiftMoneyHandler::instance_ = 0;
 
@@ -60,6 +61,7 @@ bool ClientGiftMoneyHandler::processMessage(
 
 	tank->getScore().setMoney(tank->getScore().getMoney() + 
 		message.getMoney());
+	BuyAccessoryDialog::instance()->playerRefreshKeepPos();
 
 	return true;
 }

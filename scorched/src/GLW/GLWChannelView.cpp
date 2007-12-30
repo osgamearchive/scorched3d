@@ -202,7 +202,10 @@ void GLWChannelView::channelText(ChannelText &channelText)
 	{
 		if (channel->type & ChannelDefinition::eWhisperChannel)
 		{
-			lastWhisperSrc_ = tank->getPlayerId();
+			if (tank != ScorchedClient::instance()->getTankContainer().getCurrentTank())
+			{
+				lastWhisperSrc_ = tank->getPlayerId();
+			}
 		}
 	}
 

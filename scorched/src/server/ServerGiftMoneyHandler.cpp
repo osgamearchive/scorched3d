@@ -22,6 +22,7 @@
 #include <server/ScorchedServer.h>
 #include <server/ServerShotHolder.h>
 #include <server/ServerState.h>
+#include <server/ServerChannelManager.h>
 #include <server/TurnController.h>
 #include <tank/TankContainer.h>
 #include <tank/TankState.h>
@@ -29,7 +30,6 @@
 #include <engine/GameState.h>
 #include <coms/ComsGiftMoneyMessage.h>
 #include <coms/ComsMessageSender.h>
-#include <common/ChannelManager.h>
 #include <common/OptionsTransient.h>
 #include <common/Logger.h>
 
@@ -150,7 +150,7 @@ bool ServerGiftMoneyHandler::processMessage(
 	ChannelText text(channel, 
 		formatString("[p:%s] gifts $%i to [p:%s]", 
 			fromTank->getName(), money, toTank->getName()));
-	ChannelManager::showText(text);		
+	ServerChannelManager::instance()->sendText(text, true, false);
 
 	// Forward this message to the intended
 	ComsMessageSender::sendToSingleClient(
