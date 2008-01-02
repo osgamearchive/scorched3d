@@ -142,6 +142,7 @@ void TargetMovementEntrySpline::simulate(fixed frameTime)
 		// Update target
 		groupEntry->getTarget()->getLife().setTargetPositionAndRotation(
 			position, angleDegs);
+		groupEntry->getTarget()->getLife().setVelocity(direction);
 	}
 }
 
