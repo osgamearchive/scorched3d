@@ -14,6 +14,8 @@ Fixed: Removed glGetError calls during GL state changes
 Fixed: Water transparency on NV8 series cards
 Fixed: Message is displayed correctly when money is gifted
 Fixed: Sent whisper text is also displayed on the sender
+Fixed: Tanks being placed too near to each other
+Fixed: COMs behaviour during large packet loss
 
 Added: Enabled support for the minplayers and maxplayers landscape defn attributes
 Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline

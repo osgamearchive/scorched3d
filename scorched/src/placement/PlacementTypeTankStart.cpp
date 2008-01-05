@@ -47,7 +47,7 @@ void PlacementTypeTankStart::getPositions(ScorchedContext &context,
 	std::list<Position> &returnPositions,
 	ProgressCounter *counter)
 {
-	for (int i=0; i<numobjects; i++)
+	for (int i=0; i<numobjects;)
 	{
 		Position position;
 		position.position = 
@@ -57,10 +57,7 @@ void PlacementTypeTankStart::getPositions(ScorchedContext &context,
 			returnPositions, mincloseness))
 		{
 			returnPositions.push_back(position);
-		}
-		else 
-		{
-			numobjects++;
+			i++;
 		}
 	}
 }

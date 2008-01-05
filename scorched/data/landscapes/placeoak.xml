@@ -26,6 +26,7 @@
 					<displaydamage>false</displaydamage>
 					<drawshadow>true</drawshadow>
 					<groupname>trees</groupname>
+					<flattendestroy>true</flattendestroy>
 				</object>
 			</randomobject>
 			<randomobject>
@@ -49,6 +50,7 @@
 					<displaydamage>false</displaydamage>
 					<drawshadow>true</drawshadow>
 					<groupname>trees</groupname>
+					<flattendestroy>true</flattendestroy>
 				</object>
 			</randomobject>
 			<randomobject>
@@ -72,6 +74,7 @@
 					<displaydamage>false</displaydamage>
 					<drawshadow>true</drawshadow>
 					<groupname>trees</groupname>
+					<flattendestroy>true</flattendestroy>
 				</object>
 			</randomobject>
 		</object>

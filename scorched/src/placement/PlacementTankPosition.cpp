@@ -27,7 +27,9 @@
 #include <tank/TankState.h>
 #include <target/TargetLife.h>
 #include <target/TargetSpace.h>
+#include <target/TargetState.h>
 #include <GLEXT/GLImageFactory.h>
+#include <common/Logger.h>
 
 void PlacementTankPosition::flattenTankPositions(std::list<FixedVector> &tankPositions, 
 	ScorchedContext &context)
@@ -79,6 +81,103 @@ void PlacementTankPosition::flattenTankPositions(std::list<FixedVector> &tankPos
 	}
 }
 
+static bool tankMaskCloseness(ScorchedContext &context, int team, 
+	FixedVector &tankPos, GLImage *tankMask)
+{
+	// Find the mask position
+	int maskX = (tankPos[0] * fixed(tankMask->getWidth())).asInt() / 
+		context.landscapeMaps->getDefinitions().getDefn()->landscapewidth;
+	int maskY = (tankPos[1] * fixed(tankMask->getHeight())).asInt() / 
+		context.landscapeMaps->getDefinitions().getDefn()->landscapeheight;
+	unsigned char *maskPos = tankMask->getBits() +
+		maskX * 3 + maskY * tankMask->getWidth() * 3;
+		
+	if (maskPos[0] == 0 && maskPos[1] == 0 && maskPos[2] == 0)
+	{
+		// No tank is allowed on the black parts ot the mask
+		// regardless of the team
+		return false;
+	}
+	else if (maskPos[0] == 255 && maskPos[1] == 255 && maskPos[2] == 255)
+	{
+		// All tanks are allowed on the white parts of the mask
+		// regardless of the team
+		return true;
+	}
+	else if (team > 0)
+	{
+		// Check for team specific colors
+		switch(team)
+		{
+		case 1:
+			if (maskPos[0] != 255 || maskPos[1] != 0 || maskPos[2] != 0)
+			{
+				return false;
+			}
+			break;
+		case 2:
+			if (maskPos[0] != 0 || maskPos[1] != 0 || maskPos[2] != 255)
+			{
+				return false;
+			}
+			break;
+		case 3:
+			if (maskPos[0] != 0 || maskPos[1] != 255 || maskPos[2] != 0)
+			{
+				return false;
+			}
+			break;
+		case 4:
+			if (maskPos[0] != 255 || maskPos[1] != 255 || maskPos[2] != 0)
+			{
+				return false;
+			}
+			break;						
+		}
+	}
+	return true;
+}
+
+static bool tankTargetCloseness(ScorchedContext &context, unsigned int playerId, 
+	FixedVector &tankPos, fixed tankCloseness)
+{
+	// Make sure the tank is not too close to other targets
+	std::map<unsigned int, Target *> targets;
+	std::map<unsigned int, Target *>::iterator itor;
+	context.targetSpace->getCollisionSet(tankPos, tankCloseness.asInt(), targets);
+	for (itor = targets.begin();
+		itor != targets.end();
+		itor++)
+	{
+		Target *thisTarget = (*itor).second;
+		if (!thisTarget->isTarget()) continue;
+
+		fixed closeness = MAX(tankCloseness/2, thisTarget->getBorder());
+		if ((tankPos - thisTarget->getLife().getTargetPosition()).Magnitude() < closeness) 
+		{
+			return false;
+		}
+	}
+
+	// Make sure the tank is not too close to other tanks
+	std::map<unsigned int, Tank *> tanks = context.tankContainer->getAllTanks();
+	std::map<unsigned int, Tank *>::iterator tankItor;
+	for (tankItor = tanks.begin();
+		tankItor != tanks.end();
+		tankItor++)
+	{
+		Tank *thisTank = (*tankItor).second;
+		if (thisTank->getPlayerId() == playerId) continue;
+
+		if ((tankPos - thisTank->getLife().getTargetPosition()).Magnitude() < tankCloseness) 
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 	ScorchedContext &context, RandomGenerator &generator)
 {
@@ -115,12 +214,10 @@ FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 			defn->getType()));
 	}
     
-	bool tooClose = true;
-	fixed closeness = tankCloseness;
-	while (tooClose)
+	int maxIt = 100;
+	int i;
+	for (i=maxIt; i>0; i--)
 	{
-		tooClose = false;
-
 		// Find a new position for the tank
 		fixed posX = fixed (context.landscapeMaps->getDefinitions().
 			getDefn()->landscapewidth - tankBorder * 2) * 
@@ -135,108 +232,23 @@ FixedVector PlacementTankPosition::placeTank(unsigned int playerId, int team,
 		tankPos = FixedVector(posX, posY, height);
 
 		// Make sure not lower than water line
-		if (tankPos[2] < minHeight ||
-			tankPos[2] > maxHeight) 
-		{
-			tooClose = true;
-			closeness -= fixed(true, 1000);
-		}
+		if (tankPos[2] < minHeight || tankPos[2] > maxHeight) continue;
 
 		// Make sure normal is less than given
-		if (normal[2] < flatness)
-		{
-			tooClose = true;
-			closeness -= fixed(true, 1000);
-		}
-		
+		if (normal[2] < flatness) continue;
+
 		// Make sure the mask allows the tank
-		if (!tooClose)
-		{
-			if (tankMask)
-			{
-				// Find the mask position
-				int maskX = (posX * fixed(tankMask->getWidth())).asInt() / 
-					context.landscapeMaps->getDefinitions().getDefn()->landscapewidth;
-				int maskY = (posY * fixed(tankMask->getHeight())).asInt() / 
-					context.landscapeMaps->getDefinitions().getDefn()->landscapeheight;
-				unsigned char *maskPos = tankMask->getBits() +
-					maskX * 3 + maskY * tankMask->getWidth() * 3;
-					
-				if (maskPos[0] == 0 && maskPos[1] == 0 && maskPos[2] == 0)
-				{
-					// No tank is allowed on the black parts ot the mask
-					// regardless of the team
-					tooClose = true;
-					closeness -= fixed(true, 1000);
-				}
-				else if (maskPos[0] == 255 && maskPos[1] == 255 && maskPos[2] == 255)
-				{
-					// All tanks are allowed on the white parts of the mask
-					// regardless of the team
-				}
-				else if (team > 0)
-				{
-					// Check for team specific colors
-					switch(team)
-					{
-					case 1:
-						if (maskPos[0] != 255 || maskPos[1] != 0 || maskPos[2] != 0)
-						{
-							tooClose = true;
-							closeness -= fixed(true, 1000);
-						}
-						break;
-					case 2:
-						if (maskPos[0] != 0 || maskPos[1] != 0 || maskPos[2] != 255)
-						{
-							tooClose = true;
-							closeness -= fixed(true, 1000);
-						}
-						break;
-					case 3:
-						if (maskPos[0] != 0 || maskPos[1] != 255 || maskPos[2] != 0)
-						{
-							tooClose = true;
-							closeness -= fixed(true, 1000);
-						}
-						break;
-					case 4:
-						if (maskPos[0] != 255 || maskPos[1] != 255 || maskPos[2] != 0)
-						{
-							tooClose = true;
-							closeness -= fixed(true, 1000);
-						}
-						break;						
-					}
-				}
-			}
-		}
+		if (tankMask && 
+			!tankMaskCloseness(context, team, tankPos, tankMask)) continue;
 
-		// Make sure the tank is not too close to other tanks
-		if (!tooClose)
-		{
-			std::map<unsigned int, Target *> targets;
-			std::map<unsigned int, Target *>::iterator itor;
-			context.targetSpace->getCollisionSet(tankPos, 4, targets);
-			for (itor = targets.begin();
-				itor != targets.end();
-				itor++)
-			{
-				Target *thisTarget = (*itor).second;
-				if (thisTarget->getPlayerId() == playerId) break;
+		// Check tanks are not too close to others or targets
+		fixed closeness = (tankCloseness * fixed(i)) / fixed(maxIt);
+		if (!tankTargetCloseness(context, playerId, tankPos, closeness)) continue;
 
-				if ((tankPos - thisTarget->getLife().getTargetPosition()).Magnitude() < 
-					MAX(closeness, thisTarget->getBorder())) 
-				{
-					tooClose = true;
-					break;
-				}
-			}
-		}
-		
-		// Ensure we never go inifinite
-		if (closeness < 1) tooClose = false;
+		// Everything looks ok
+		break;
 	}
+	if (i == 0) Logger::log("Tank closeness exceeded");
 
 	delete tankMask;
 
