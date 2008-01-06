@@ -169,9 +169,14 @@ static bool tankTargetCloseness(ScorchedContext &context, unsigned int playerId,
 		Tank *thisTank = (*tankItor).second;
 		if (thisTank->getPlayerId() == playerId) continue;
 
-		if ((tankPos - thisTank->getLife().getTargetPosition()).Magnitude() < tankCloseness) 
+		if (!thisTank->getState().getSpectator() &&
+			((thisTank->getState().getState() == TankState::sDead) ||
+			thisTank->getState().getState() == TankState::sNormal))
 		{
-			return false;
+			if ((tankPos - thisTank->getLife().getTargetPosition()).Magnitude() < tankCloseness) 
+			{
+				return false;
+			}
 		}
 	}
 
