@@ -17,6 +17,7 @@ Fixed: Sent whisper text is also displayed on the sender
 Fixed: Tanks being placed too near to each other
 Fixed: COMs behaviour during large packet loss
 
+Added: -hidewindow option to server to hide the console window on win32
 Added: Enabled support for the minplayers and maxplayers landscape defn attributes
 Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline
 Added: nohorizonglow, nosunblend and suntexturemask attributes to landscape textures to allow decent planets

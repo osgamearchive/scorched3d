@@ -68,12 +68,14 @@ int main(int argc, char *argv[])
 #ifdef WIN32
 	if (ServerParams::instance()->getHideWindow())
 	{
-		char titleBuffer[256];
-		GetConsoleTitle(titleBuffer,256);
+		char titleBuffer[MAX_PATH];
+		GetConsoleTitle(titleBuffer, MAX_PATH);
 		HWND window = FindWindow(NULL, titleBuffer);
 		if (window != NULL) 
 		{
 			ShowWindow(window, SW_HIDE);
+			strcat(titleBuffer, " (HIDDEN)");
+			SetWindowText(window, titleBuffer);
 		}
 	}
 #endif
