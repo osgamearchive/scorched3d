@@ -29,11 +29,13 @@ public:
 	static ServerParams *instance();
 
 	const char *getServerFile() { return server_.getValue(); }
+	bool getHideWindow() { return hideWindow_.getValue(); }
 
 protected:
 	static ServerParams *instance_;
 
 	OptionEntryString server_;
+	OptionEntryBool hideWindow_;
 
 private:
 	ServerParams();

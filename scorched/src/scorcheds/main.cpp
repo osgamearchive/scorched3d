@@ -65,6 +65,19 @@ int main(int argc, char *argv[])
 	ScorchedServer::instance()->getOptionsGame().getMainOptions().readOptionsFromFile(
 		(char *) ServerParams::instance()->getServerFile());
 
+#ifdef WIN32
+	if (ServerParams::instance()->getHideWindow())
+	{
+		char titleBuffer[256];
+		GetConsoleTitle(titleBuffer,256);
+		HWND window = FindWindow(NULL, titleBuffer);
+		if (window != NULL) 
+		{
+			ShowWindow(window, SW_HIDE);
+		}
+	}
+#endif
+
 	// Run Server
 	consoleServer();
 
