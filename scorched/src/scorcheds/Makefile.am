@@ -150,6 +150,8 @@ scorched3ds_SOURCES = \
 	../server/ServerAdminSessions.h \
 	../server/ServerAuthHandler.cpp \
 	../server/ServerAuthHandler.h \
+	../server/ServerAuthHandlerDefault.cpp \
+	../server/ServerAuthHandlerDefault.h \
 	../server/ServerAuthHandlerForumLogin.cpp \
 	../server/ServerAuthHandlerForumLogin.h \
 	../server/ServerAuthHandlerMinKills.cpp \
@@ -170,6 +172,8 @@ scorched3ds_SOURCES = \
 	../server/ServerChannelManager.h \
 	../server/ServerCommon.cpp \
 	../server/ServerCommon.h \
+	../server/ServerConnectAuthHandler.cpp \
+	../server/ServerConnectAuthHandler.h \
 	../server/ServerConnectHandler.cpp \
 	../server/ServerConnectHandler.h \
 	../server/ServerDefenseHandler.cpp \
@@ -202,6 +206,8 @@ scorched3ds_SOURCES = \
 	../server/ServerNextShotState.h \
 	../server/ServerNextTurnState.cpp \
 	../server/ServerNextTurnState.h \
+	../server/ServerOperationResultHandler.cpp \
+	../server/ServerOperationResultHandler.h \
 	../server/ServerParams.cpp \
 	../server/ServerParams.h \
 	../server/ServerPlayedMoveHandler.cpp \
@@ -262,6 +268,8 @@ scorched3ds_SOURCES = \
 	../coms/ComsChannelTextMessage.h \
 	../coms/ComsConnectAcceptMessage.cpp \
 	../coms/ComsConnectAcceptMessage.h \
+	../coms/ComsConnectAuthMessage.cpp \
+	../coms/ComsConnectAuthMessage.h \
 	../coms/ComsConnectMessage.cpp \
 	../coms/ComsConnectMessage.h \
 	../coms/ComsConnectRejectMessage.cpp \
@@ -298,6 +306,10 @@ scorched3ds_SOURCES = \
 	../coms/ComsMessageSender.h \
 	../coms/ComsNewGameMessage.cpp \
 	../coms/ComsNewGameMessage.h \
+	../coms/ComsOperationMessage.cpp \
+	../coms/ComsOperationMessage.h \
+	../coms/ComsOperationResultMessage.cpp \
+	../coms/ComsOperationResultMessage.h \
 	../coms/ComsPlayedMoveMessage.cpp \
 	../coms/ComsPlayedMoveMessage.h \
 	../coms/ComsPlayerReadyMessage.cpp \
@@ -339,6 +351,10 @@ scorched3ds_SOURCES = \
 	../net/NetOptions.h \
 	../net/NetServerTCP.cpp \
 	../net/NetServerTCP.h \
+	../net/NetServerTCP2.cpp \
+	../net/NetServerTCP2.h \
+	../net/NetServerTCP2Destination.cpp \
+	../net/NetServerTCP2Destination.h \
 	../net/NetServerTCPProtocol.cpp \
 	../net/NetServerTCPProtocol.h \
 	../net/NetServerTCPRead.cpp \
