@@ -361,6 +361,12 @@ void NetServerTCP2::destroyDestination(unsigned int destinationId,
 		return;
 	}
 
+	if (serverDestinationId_ == destinationId)
+	{
+		stopped_ = true;
+		serverDestinationId_ = UINT_MAX;
+	}
+
 	NetServerTCP2Destination *destination = (*itor).second;
 
 	// Get a new buffer from the pool (with the discconect type set)
