@@ -56,7 +56,7 @@ bool NumberParser::getOperands()
         int count = 0;
 	int nextPos = 0;
         std::string value;
-        int pos = expression_.find('(',0);
+        int pos = (int) expression_.find('(',0);
 	if (pos == std::string::npos)
 	{
 		//value = expression_.substr(pos + 1, nextPos - pos + 1);
@@ -67,9 +67,9 @@ bool NumberParser::getOperands()
 	pos += 1;
         while (pos < (int) expression_.length())
         {
-                nextPos = expression_.find_first_of(",)", pos);
+                nextPos = (int) expression_.find_first_of(",)", pos);
                 if (nextPos == std::string::npos)
-                        nextPos = expression_.length() -1;
+                        nextPos = (int) expression_.length() -1;
                 value = expression_.substr(pos, nextPos - pos);
                 operands_.push_back(fixed(value.c_str()));
                 pos = nextPos + 1;

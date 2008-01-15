@@ -162,26 +162,46 @@ int NetServerTCP2::sendRecvThreadFunc(void *c)
 
 void NetServerTCP2::actualSendRecvFunc()
 {
+	float timeDiff;
 	stopped_ = false;
 	Clock netClock;
 	while(!stopped_)
 	{
 		// Send/recv packets
-		if (!checkClients() &&
-			!checkNewConnections())
+		bool checkClientsWork = checkClients();
+		timeDiff = netClock.getTimeDifference();
+		if (timeDiff > 1.0f)
+		{
+			Logger::log(formatStringBuffer(
+				"NetServerTCP2: checkClients took %.2f seconds", 
+				timeDiff));
+		}
+
+		// Check for new connections
+		bool checkNewConnectionsWork = checkNewConnections();
+		timeDiff = netClock.getTimeDifference();
+		if (timeDiff > 1.0f)
+		{
+			Logger::log(formatStringBuffer(
+				"NetServerTCP2: checkNewConnections took %.2f seconds", 
+				timeDiff));
+		}
+
+		// If neither of the above has done anything,
+		// sleep so we don't go into an infinite loop
+		if (!checkClientsWork && !checkNewConnectionsWork)
 		{
 			SDL_Delay(10);
+			netClock.getTimeDifference();
 		}
 
 		// Check for any new messages we should send and process them
 		outgoingMessageHandler_.processMessages();
-
-		// Make sure this loop is progressing as expected
-		float timeDiff = netClock.getTimeDifference();
+		timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 1.0f)
 		{
 			Logger::log(formatStringBuffer(
-				"NetServerTCP2: coms loop took %.2f seconds", 
+				"NetServerTCP2: processMessages took %.2f seconds", 
 				timeDiff));
 		}
 	}
@@ -231,10 +251,6 @@ bool NetServerTCP2::checkClients()
 			destroyDestination(destinationId, NetMessage::UserDisconnect);
 			return true; // Because we are in iterator
 			break;
-		case NetServerTCP2Destination::SocketTimeout:
-			destroyDestination(destinationId, NetMessage::TimeoutDisconnect);
-			return true; // Because we are in iterator
-			break;
 		case NetServerTCP2Destination::SocketActivity:
 			sent = true;
 			break;
@@ -274,8 +290,9 @@ void NetServerTCP2::processMessage(NetMessage &message)
 		destinations_.find(message.getDestinationId());
 	if (itor == destinations_.end())
 	{
-		Logger::log(formatStringBuffer(
-			"NetServerTCP2: Invalid send destination %u", message.getDestinationId()));
+		//Logger::log(formatStringBuffer(
+		//	"NetServerTCP2: Invalid send destination %u", 
+		//	message.getDestinationId()));
 		return;
 	}
 
@@ -283,7 +300,8 @@ void NetServerTCP2::processMessage(NetMessage &message)
 	if (message.getMessageType() == NetMessage::DisconnectMessage)
 	{
 		// This is a message telling us to kick the client, do so
-		//Logger::log(formatStringBuffer("Disconnected %u - kicked", message.getDestinationId()));
+		//Logger::log(formatStringBuffer("Disconnected %u - kicked", 
+		//	message.getDestinationId()));
 		destroyDestination(message.getDestinationId(), NetMessage::KickDisconnect);
 	}
 	else

@@ -392,7 +392,7 @@ static size_t dopr(char *buffer, size_t maxlen, const char *format, va_list args
 				strvalue = va_arg (args, char *);
 				if (!strvalue) strvalue = "(NULL)";
 				if (max == -1) {
-					max = strlen(strvalue);
+					max = (int) strlen(strvalue);
 				}
 				if (min > 0 && max >= 0 && min > max) max = min;
 				fmtstr (buffer, &currlen, maxlen, strvalue, flags, min, max);
@@ -405,7 +405,7 @@ static size_t dopr(char *buffer, size_t maxlen, const char *format, va_list args
 				if (cflags == DP_C_SHORT) {
 					short int *num;
 					num = va_arg (args, short int *);
-					*num = currlen;
+					*num = (short int) currlen;
 				} else if (cflags == DP_C_LONG) {
 					long int *num;
 					num = va_arg (args, long int *);
@@ -417,7 +417,7 @@ static size_t dopr(char *buffer, size_t maxlen, const char *format, va_list args
 				} else {
 					int *num;
 					num = va_arg (args, int *);
-					*num = currlen;
+					*num = (int) currlen;
 				}
 				break;
 			case '%':
@@ -806,7 +806,7 @@ static void dopr_outch(char *buffer, size_t *currlen, size_t maxlen, char c)
 
  int smb_vsnprintf (char *str, size_t count, const char *fmt, va_list args)
 {
-	return dopr(str, count, fmt, args);
+	return (int) dopr(str, count, fmt, args);
 }
 #define vsnprintf smb_vsnprintf
 #endif
@@ -826,7 +826,7 @@ int smb_snprintf(char *str,size_t count,const char *fmt,...)
 	va_start(ap, fmt);
 	ret = vsnprintf(str, count, fmt, ap);
 	va_end(ap);
-	return ret;
+	return (int) ret;
 }
 #define snprintf smb_snprintf
 #endif

@@ -164,9 +164,9 @@ void NetServerTCP2Destination::addMessage(NetMessage &oldmessage)
 NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkSocket()
 {
 	SocketResult incomingResult = checkIncoming();
-	if (incomingResult == SocketClosed || incomingResult == SocketTimeout) return incomingResult;
+	if (incomingResult == SocketClosed) return incomingResult;
 	SocketResult outgoingResult = checkOutgoing();
-	if (outgoingResult == SocketClosed || incomingResult == SocketTimeout) return outgoingResult;
+	if (outgoingResult == SocketClosed) return outgoingResult;
 	
 	return ((incomingResult == SocketEmpty && 
 		outgoingResult == SocketEmpty)?SocketEmpty:SocketActivity);

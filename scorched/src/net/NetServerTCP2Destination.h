@@ -39,8 +39,7 @@ public:
 	{
 		SocketActivity,
 		SocketEmpty,
-		SocketClosed,
-		SocketTimeout
+		SocketClosed
 	};
 	SocketResult checkSocket();
 
