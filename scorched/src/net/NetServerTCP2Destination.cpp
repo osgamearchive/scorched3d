@@ -32,7 +32,7 @@ NetServerTCP2Destination::NetServerTCP2Destination(NetServerTCP2 *server,
 	destinationId_(destinationId), 
 	packetLogging_(false),
 	messagesSent_(0), messagesRecieved_(0), 
-	partialSends_(0), bytesIn_(0), bytesOut_(0)
+	bytesIn_(0), bytesOut_(0)
 {
 	socketSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_TCP_AddSocket(socketSet_, socket_);
@@ -180,6 +180,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 		int numready = SDLNet_CheckSockets(socketSet_, 0);
 		if (numready == -1) return SocketClosed;
 		if (numready == 0) return (i==0?SocketEmpty:SocketActivity);
+		if (!SDLNet_SocketReady(socket_)) return (i==0?SocketEmpty:SocketActivity);
 
 		char buffer[1];
 		int recv = SDLNet_TCP_Recv(socket_, &buffer, 1);
@@ -298,7 +299,6 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkOutgoing()
 	}
 
 	// See if we have any packets to send
-	bool sent = false;
 	while (!sendingParts_.empty())
 	{
 		// Send the packets in each part
@@ -311,30 +311,16 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkOutgoing()
 			const char *buffer = messagePart.message->getBuffer().getBuffer();
 
 			// Send buffer
-			int result = SDLNet_TCP_Send(socket_, &buffer[messagePart.offset], messagePart.length);
-
-			if(result == -1) // Socket Closed
+			int result = SDLNet_TCP_Send(socket_, (void *) &buffer[messagePart.offset], messagePart.length);
+			if(result < messagePart.length) // Socket Closed
 			{
 				Logger::log(formatStringBuffer("NetServerTCP2Destination: Failed to send buffer length. Socket closed"));
 				return SocketClosed;
 			}
 
-			if (result == 0) return SocketEmpty; // Nothing sent
 			NetInterface::getBytesOut() += result;
 			bytesOut_ += result;
 			
-			sent = true;
-			if (result < messagePart.length) // Partial send
-			{
-				partialSends_++;
-
-				MessagePart newPart;
-				newPart.length = messagePart.length - result;
-				newPart.offset = messagePart.offset + result;
-				newPart.message = messagePart.message;
-				messageParts.parts.push_front(newPart);
-			}
-
 			if (packetLogging_)
 			{
 				Logger::log(formatStringBuffer(
@@ -348,7 +334,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkOutgoing()
 		sendingParts_.pop_front();
 	}	
 
-	return (sent?SocketActivity:SocketEmpty);
+	return (!sendingParts_.empty()?SocketActivity:SocketEmpty);
 }
 
 void NetServerTCP2Destination::printStats(unsigned int destination)
@@ -358,6 +344,6 @@ void NetServerTCP2Destination::printStats(unsigned int destination)
 		messagesSent_, messagesRecieved_));
 	Logger::log(formatStringBuffer("  %u still sending, %u waiting for ack, %u pending send",
 		sendingParts_.size(), waitingParts_.size(), sendParts_.size()));
-	Logger::log(formatStringBuffer("  %u partial sends, %u bytes in, %u bytes out",
-		partialSends_, bytesIn_, bytesOut_));
+	Logger::log(formatStringBuffer("  %u bytes in, %u bytes out",
+		bytesIn_, bytesOut_));
 }

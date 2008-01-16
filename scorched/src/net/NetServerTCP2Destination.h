@@ -81,7 +81,6 @@ protected:
 	std::list<MessageParts> sendParts_;
 	std::list<MessageParts> sendingParts_;
 	unsigned int messagesSent_, messagesRecieved_;
-	unsigned int partialSends_;
 	unsigned int bytesIn_, bytesOut_;
 
 	SocketResult checkIncoming();
