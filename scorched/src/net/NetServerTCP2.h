@@ -61,11 +61,12 @@ protected:
 	SDL_Thread *sendRecvThread_;
 	bool stopped_;
 	std::map<unsigned int, NetServerTCP2Destination *> destinations_;
+	std::list<NetServerTCP2Destination *> finishedDestinations_;
 	unsigned int serverDestinationId_;
 	unsigned int nextDestinationId_;
 
-	bool checkNewConnections();
-	bool checkClients();
+	void checkNewConnections();
+	void checkClients();
 	bool startProcessing();
 
 	void actualSendRecvFunc();

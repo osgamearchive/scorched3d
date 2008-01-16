@@ -26,25 +26,27 @@
 #include <map>
 
 class NetServerTCP2;
-class NetServerTCP2Destination
+class NetServerTCP2Destination : public NetMessageHandlerI
 {
 public:
-	NetServerTCP2Destination(NetServerTCP2 *server, TCPsocket socket, unsigned int destinationId);
+	NetServerTCP2Destination(NetMessageHandler *incomingMessageHandler,
+		TCPsocket socket, unsigned int destinationId);
 	virtual ~NetServerTCP2Destination();
 
-	void addMessage(NetMessage &message);
 	void printStats(unsigned int destinationId);
-
-	enum SocketResult
-	{
-		SocketActivity,
-		SocketEmpty,
-		SocketClosed
-	};
-	SocketResult checkSocket();
+	void stop() { stopped_ = true; }
+	bool finished() { return finished_; }
 
 	unsigned int getIpAddress();
 	static unsigned int getIpAddressFromSocket(TCPsocket socket);
+
+	void addMessage(NetMessage *message) 
+	{
+		outgoingMessageHandler_.addMessage(message);
+	}
+
+	// NetMessageHandlerI
+	virtual void processMessage(NetMessage &message);
 
 protected:
 	enum HeaderType
@@ -55,37 +57,36 @@ protected:
 		TypeLast = 4
 	};
 
-	struct MessagePart
-	{
-		int offset;
-		int length;
-		NetMessage *message;
-	};
-	struct MessageParts
-	{
-		bool last;
-		NetMessage *message;
-		std::list<MessagePart> parts;
-	};
-
 	bool packetLogging_;
 	unsigned int destinationId_;
-	NetServerTCP2 *server_;
+	SDL_Thread *sendRecvThread_;
 	TCPsocket socket_;
 	SDLNet_SocketSet socketSet_;
-	NetMessage *currentMessage_, *currentMessagePart_;
+	NetBuffer currentMessagePart_;
+	NetMessage *currentMessage_;
 	int currentMessageLen_;
 	char currentMessageType_;
-	std::map<NetMessage *, int> messageRefs_;
-	std::list<MessageParts> waitingParts_;
-	std::list<MessageParts> sendParts_;
-	std::list<MessageParts> sendingParts_;
+	int currentMessageSentLen_;
 	unsigned int messagesSent_, messagesRecieved_;
 	unsigned int bytesIn_, bytesOut_;
+	unsigned int acksNeeded_;
+	bool stopped_, finished_;
+	NetMessageHandler outgoingMessageHandler_;
+	NetMessageHandler *incomingMessageHandler_;
+	std::list<NetMessage *> outgoingMessages_;
 
+	enum SocketResult
+	{
+		SocketActivity,
+		SocketEmpty,
+		SocketClosed
+	};
 	SocketResult checkIncoming();
 	SocketResult checkOutgoing();
 
+	static int sendRecvThreadFunc(void *c);
+	void actualSendRecvFunc();
+	bool sendHeader(char headerType, int len);
 };
 
 #endif // __INCLUDE_NetServerTCP2Destinationh_INCLUDE__

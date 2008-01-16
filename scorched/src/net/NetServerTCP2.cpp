@@ -168,7 +168,7 @@ void NetServerTCP2::actualSendRecvFunc()
 	while(!stopped_)
 	{
 		// Send/recv packets
-		bool checkClientsWork = checkClients();
+		checkClients();
 		timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 1.0f)
 		{
@@ -178,7 +178,7 @@ void NetServerTCP2::actualSendRecvFunc()
 		}
 
 		// Check for new connections
-		bool checkNewConnectionsWork = checkNewConnections();
+		checkNewConnections();
 		timeDiff = netClock.getTimeDifference();
 		if (timeDiff > 1.0f)
 		{
@@ -187,13 +187,9 @@ void NetServerTCP2::actualSendRecvFunc()
 				timeDiff));
 		}
 
-		// If neither of the above has done anything,
 		// sleep so we don't go into an infinite loop
-		if (!checkClientsWork && !checkNewConnectionsWork)
-		{
-			SDL_Delay(10);
-			netClock.getTimeDifference();
-		}
+		SDL_Delay(10);
+		netClock.getTimeDifference();
 
 		// Check for any new messages we should send and process them
 		outgoingMessageHandler_.processMessages();
@@ -210,13 +206,13 @@ void NetServerTCP2::actualSendRecvFunc()
 	serverSock_ = 0;
 }
 
-bool NetServerTCP2::checkNewConnections()
+void NetServerTCP2::checkNewConnections()
 {
-	if (!serverSock_) return false; // Check if we are running a server
+	if (!serverSock_) return; // Check if we are running a server
 
 	int numready = SDLNet_CheckSockets(serverSockSet_, 10);
-	if (numready == -1) return false;
-	if (numready == 0) return true;
+	if (numready == -1) return;
+	if (numready == 0) return;
 
 	if(SDLNet_SocketReady(serverSock_))
 	{
@@ -227,37 +223,33 @@ bool NetServerTCP2::checkNewConnections()
 			addDestination(clientSock);
 		}
 	}
-
-	return true;
 }
 
-bool NetServerTCP2::checkClients()
+void NetServerTCP2::checkClients()
 {
-	bool sent = false;
-
-	// Each client checks to see if they have any parts to send
+	// Check each destination to see if it has closed
 	std::map<unsigned int, NetServerTCP2Destination *>::iterator itor;
 	for (itor = destinations_.begin();
 		itor != destinations_.end();
-		itor ++)
+		itor++)
 	{
-		unsigned int destinationId = (*itor).first;
-		NetServerTCP2Destination *destination = (*itor).second;
-
-		NetServerTCP2Destination::SocketResult outResult = destination->checkSocket();
-		switch (outResult)
+		NetServerTCP2Destination *destination = itor->second;
+		if (destination->finished())
 		{
-		case NetServerTCP2Destination::SocketClosed:
-			destroyDestination(destinationId, NetMessage::UserDisconnect);
-			return true; // Because we are in iterator
-			break;
-		case NetServerTCP2Destination::SocketActivity:
-			sent = true;
+			destroyDestination(itor->first, NetMessage::UserDisconnect);
 			break;
 		}
 	}
 
-	return sent;
+	// Check each destination that is closing to see if it has finished
+	if (finishedDestinations_.empty()) return;
+
+	NetServerTCP2Destination *destination = finishedDestinations_.front();
+	if (destination->finished())
+	{
+		delete destination;
+		finishedDestinations_.pop_front();
+	}
 }
 
 void NetServerTCP2::processMessage(NetMessage &message)
@@ -307,7 +299,16 @@ void NetServerTCP2::processMessage(NetMessage &message)
 	else
 	{
 		// Add this buffer to the list of items to be sent
-		destination->addMessage(message);
+		NetMessage *newMessage = NetMessagePool::instance()->getFromPool(
+			message.getMessageType(), message.getDestinationId(),
+			message.getIpAddress(), message.getFlags());
+		newMessage->getBuffer().allocate(message.getBuffer().getBufferUsed());
+		memcpy(newMessage->getBuffer().getBuffer(), 
+			message.getBuffer().getBuffer(),
+			message.getBuffer().getBufferUsed());
+		newMessage->getBuffer().setBufferUsed(message.getBuffer().getBufferUsed());
+
+		destination->addMessage(newMessage);
 	}
 }
 
@@ -395,7 +396,8 @@ void NetServerTCP2::destroyDestination(unsigned int destinationId,
 
 	destinations_.erase(itor);
 	destination->printStats(destinationId);
-	delete destination;
+	destination->stop();
+	finishedDestinations_.push_back(destination);
 
 	// Add to outgoing message pool
 	incomingMessageHandler_.addMessage(message);
@@ -413,7 +415,8 @@ unsigned int NetServerTCP2::addDestination(TCPsocket &socket)
 
 	// Create new destination 
 	NetServerTCP2Destination *destination = 
-		new NetServerTCP2Destination(this, socket, destinationId);
+		new NetServerTCP2Destination(
+			&incomingMessageHandler_, socket, destinationId);
 	destinations_[destinationId] = destination;
 
 	// Get a new buffer from the pool (with the connect type set)
