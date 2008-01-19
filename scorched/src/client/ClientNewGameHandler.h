@@ -39,6 +39,11 @@ public:
 protected:
 	static ClientNewGameHandler* instance_;
 
+	bool actualProcessMessage(
+		NetMessage &netMessage,
+		const char *messageType,
+		NetBufferReader &reader);
+
 private:
 	ClientNewGameHandler();
 	virtual ~ClientNewGameHandler();

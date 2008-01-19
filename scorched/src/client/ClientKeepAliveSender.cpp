@@ -63,6 +63,8 @@ void ClientKeepAliveSender::sendKeepAlive()
 		return;
 	}
 
+	lastSendTime_ = (unsigned int) time(0);
+
 	// Create the processing thread
 	sendThread_ = SDL_CreateThread(ClientKeepAliveSender::sendThreadFunc, 0);
 	if (sendThread_ == 0)
@@ -90,6 +92,11 @@ void ClientKeepAliveSender::send()
 
 	if (theTime - lastSendTime_ >= sendTime)
 	{
+		if (theTime - lastSendTime_ >= sendTime + 5)
+		{
+			Logger::log("Warning: Keepalive sender falling behind");
+		}
+
 		// Use this directly as it is thread safe
 		if (ScorchedClient::instance()->getNetInterface().started())
 		{
@@ -98,7 +105,5 @@ void ClientKeepAliveSender::send()
 		}
 
 		lastSendTime_ = theTime;
-		lastWarnTime_ = theTime;
 	}
 }
-

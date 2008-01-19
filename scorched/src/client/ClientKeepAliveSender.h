@@ -34,7 +34,6 @@ protected:
 	static ClientKeepAliveSender *instance_;
 	static int sendThreadFunc(void *);
 	unsigned int lastSendTime_;
-	unsigned int lastWarnTime_;
 	SDL_Thread *sendThread_;
 	bool recvMessage_;
 	NetBuffer buffer_;

@@ -212,8 +212,10 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 {
 	static Clock localTimer;
 	static float timeDelay = 0.0f;
+	static float timeDelay2 = 0.0f;
 	float frameTime = localTimer.getTimeDifference();
 	timeDelay += frameTime;
+	timeDelay2 += frameTime;
 
 	ClientMain::clientEventLoop(frameTime);	
 
@@ -243,5 +245,11 @@ void ProgressDialogSync::progressChange(const char *op, const float percentage)
 		ScorchedClient::instance()->getMainLoop().swapBuffers();
 
 		timeDelay = 0.0f;
+	}
+
+	if (timeDelay2 > 5.0f)
+	{
+		SDL_Delay(50);
+		timeDelay2 = 0.0f;
 	}
 }

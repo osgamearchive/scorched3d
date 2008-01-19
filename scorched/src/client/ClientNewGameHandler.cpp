@@ -33,6 +33,8 @@
 #include <GLW/GLWWindowManager.h>
 #include <client/ClientParams.h>
 #include <common/OptionsScorched.h>
+#include <common/ChannelManager.h>
+#include <common/Clock.h>
 #include <common/Logger.h>
 #include <coms/ComsNewGameMessage.h>
 #include <dialogs/PlayerDialog.h>
@@ -71,6 +73,31 @@ ClientNewGameHandler::~ClientNewGameHandler()
 }
 
 bool ClientNewGameHandler::processMessage(
+	NetMessage &netMessage,
+	const char *messageType,
+	NetBufferReader &reader)
+{
+	Clock generateClock;
+	bool result = actualProcessMessage(netMessage, messageType, reader);
+	float generateTime = generateClock.getTimeDifference();
+	int idleTime = ScorchedClient::instance()->getOptionsGame().getIdleKickTime();
+
+	if (idleTime > 0 && int(generateTime) > idleTime - 5)
+	{
+		std::string message = formatStringBuffer(
+			"Warning: Your PC is taking a long time to generate levels.\n"
+			"This may cause you to be kicked by some servers.\n"
+			"You can fix this by lowering your display settings");
+
+		Logger::log(message);
+		ChannelText text("info", message.c_str());
+		ChannelManager::showText(text);
+	}
+
+	return result;
+}
+
+bool ClientNewGameHandler::actualProcessMessage(
 	NetMessage &netMessage,
 	const char *messageType,
 	NetBufferReader &reader)
