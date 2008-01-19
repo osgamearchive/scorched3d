@@ -7,42 +7,4 @@ Added: Level generation code will yield every 5 seconds
 Added: Updated freemarket defaults so weapons can fall and increase by 300%
 Added: Changed aimed distance for baby sandhogs and sandhogs
 Added: Increased base price for funky bombs
-
--- Bugs in current development release
-Dvorak keyboard support is broken
-Crashing when minimized during texture/level load
-
--- Server Stuff
-A way to set the maximum and minimum players for a map (half done)
-Allow same ip addresses to connect but don't collect stats
-Bobirovs list of stuff (http://apochq.handwired.net/ideas.txt)
-
--- Client Stuff
-Scripting language
-Gun fires at same point for all tanks (ignores turret/gun position in model)
-Option to reconnect when disconected from server.
-Ability to re center view around other tanks
-Make a count down sound when timer runs out.
-Add option for human players to say stuff when firing/killed
-A way to add and remove players in single player game
-
--- Other Stuff
-Dirt cannot be raised when underground (or other dirting stopping)
-Add the ability to customize the languages (for dialogs etc..) (localisation)
-Smoke bombs
-Bouncing debris
-Cloaking device for tanks
-Low level cloud or fog
-Patriot missile type defense
-plasma blast
-different hp / weapons capabilities for different tanks?
-fire control
-explosion shockwaves
-
--- Game Play
-Guidance systems (lazy boy)
-Communism (economy type)
-
--- Graphics Stuff
-Add action replay type functionality
-
+Added: useup attribute for weapons to indicate if any weapons are used when fired

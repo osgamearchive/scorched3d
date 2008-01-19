@@ -191,7 +191,9 @@ void PlayShots::processFiredMessage(ScorchedContext &context,
 		context.accessoryStore->findByAccessoryId(message.getWeaponId());
 	if (!accessory) return;
 
-	if (accessory->getPositionSelect() != Accessory::ePositionSelectFuel)
+	Weapon *weapon = (Weapon *) accessory->getAction();
+	if (accessory->getPositionSelect() != Accessory::ePositionSelectFuel &&
+		weapon->getUseUp())
 	{
 		// Actually use up one of the weapons
 		// Fuel, is used up differently at the rate of one weapon per movement square
@@ -200,7 +202,6 @@ void PlayShots::processFiredMessage(ScorchedContext &context,
 	}
 
 	// shot fired action
-	Weapon *weapon = (Weapon *) accessory->getAction();
 	TankFired *fired = new TankFired(tank->getPlayerId(), 
 		weapon,
 		message.getRotationXY(), message.getRotationYZ());
