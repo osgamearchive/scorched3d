@@ -171,10 +171,17 @@ void ConnectDialog::connected()
 {
 	ProgressDialog::instance()->progressChange("Connected", 100);
 
+	// Wait for the coms to start
+	for (int i=0; i<10 && !ScorchedClient::instance()->getNetInterface().started(); i++)
+	{
+		SDL_Delay(500);
+	}
+
 	// If we connected then send our details to the server
 	ComsConnectMessage connectMessage;
 	connectMessage.setVersion(ScorchedVersion);
 	connectMessage.setProtocolVersion(ScorchedProtocolVersion);
+
 	if (!ComsMessageSender::sendToServer(connectMessage))
 	{
 		ScorchedClient::instance()->getNetInterface().stop();
@@ -185,6 +192,7 @@ void ConnectDialog::connected()
 		Logger::log(msg);
 		MsgBoxDialog::instance()->show(msg);
 
+		ScorchedClient::instance()->getNetInterface().stop();
 		ScorchedClient::instance()->getGameState().stimulate(
 			ClientState::StimOptions);
 	}

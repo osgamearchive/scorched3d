@@ -239,6 +239,8 @@ OptionsGame::OptionsGame() :
 		"The interest awarded at the end of each round", 0, 15, 0, 100, 5),
 	freeMarketAdjustment_(options_, "FreeMarketAdjustment",
 		"The scale of the adjustment changes made by the free market", 0, 100),
+	freeMarketLimits_(options_, "FreeMarketLimits",
+		"The scale of the max/min prices (*1.5) allowed by the free market e.g. 2 is a 300% increase/reduction", 0, 2),
 	windForce_(options_, "WindForce", 
 		"The force of the wind", 0, int(WindRandom), windForceEnum),
 	windType_(options_, "WindType", 

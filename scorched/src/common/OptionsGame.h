@@ -146,6 +146,9 @@ public:
 	int getFreeMarketAdjustment() { return freeMarketAdjustment_; }
 	OptionEntryInt &getFreeMarketAdjustmentEntry() { return freeMarketAdjustment_; }
 
+	int getFreeMarketLimits() { return freeMarketLimits_; }
+	OptionEntryInt &getFreeMarketLimitsEntry() { return freeMarketLimits_; }
+
 	int getMaxLandscapeSize() { return maxLandscapeSize_; }
 	OptionEntryInt &getMaxLandscapeSizeEntry() { return maxLandscapeSize_; }
 
@@ -388,6 +391,7 @@ protected:
 	OptionEntryBoundedInt scoreWonForLives_;
 	OptionEntryInt maxLandscapeSize_;
 	OptionEntryInt freeMarketAdjustment_;
+	OptionEntryInt freeMarketLimits_;
 	OptionEntryBoundedInt moneyStarting_;
 	OptionEntryBoundedInt idleKickTime_;
 	OptionEntryBoundedInt idleShotKickTime_;

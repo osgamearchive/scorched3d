@@ -34,7 +34,7 @@ NetServerTCP2Destination::NetServerTCP2Destination(
 	destinationId_(destinationId), 
 	packetLogging_(false),
 	messagesSent_(0), messagesRecieved_(0), 
-	bytesIn_(0), bytesOut_(0), acksNeeded_(0),
+	bytesIn_(0), bytesOut_(0), 
 	incomingMessageHandler_(incomingMessageHandler),
 	sendRecvThread_(0),
 	stopped_(false), finished_(false)
@@ -194,11 +194,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 		if (currentMessagePart_.getBufferUsed() >= 5 &&
 			currentMessagePart_.getBufferUsed() == currentMessageLen_)
 		{
-			if (currentMessageType_ & TypeAck)
-			{
-				// Do, nothing just for backward compatability
-			}
-			else if (currentMessageType_ & TypeMessage)
+			if (currentMessageType_ & TypeMessage)
 			{
 				if (!currentMessage_)
 				{
@@ -218,9 +214,6 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 					incomingMessageHandler_->addMessage(currentMessage_);
 					currentMessage_ = 0;
 				}
-
-				// Acknowledge
-				acksNeeded_++;
 
 				// Log
 				if (packetLogging_)
@@ -250,19 +243,6 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 
 NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkOutgoing()
 {
-	// Send out any acks, just for backward compatability
-	if (currentMessageSentLen_ == 0)
-	{
-		while (acksNeeded_ > 0)
-		{
-			acksNeeded_--;
-			if(!sendHeader(TypeAck, 5))
-			{
-				return SocketClosed;
-			}
-		}
-	}
-
 	// See if we have any messages to send
 	if (outgoingMessages_.empty()) return SocketEmpty;
 

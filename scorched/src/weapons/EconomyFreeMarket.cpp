@@ -253,6 +253,7 @@ void EconomyFreeMarket::setPrice(Accessory *accessory, int price)
 	price = (price / 10) * 10; // Round to 10
 
 	float limit = float(accessory->getFreeMarketLimits()) / 100.0f;
+	limit *= ScorchedServer::instance()->getOptionsGame().getFreeMarketLimits();
 
 	// Make suse price does not get greater than 1.5X the original price
 	if (price > int(float(accessory->getOriginalPrice()) * limit))

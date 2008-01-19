@@ -1,34 +1,12 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Falling powerup objects are automatically collected by tanks
-Fixed: Small ogg files not playing correctly
-Fixed: MOTD is correct when it is reshown
-Fixed: Music plays correctly on big endian machines (e.g. PPC macs)
-Fixed: Chat tooltips have been moved out the way
-Fixed: Bilboard aspect ratios in camera mode
-Fixed: MIRV shot path being slightly out
-Fixed: Game will switch to medium/high detail models if there are no low detail ones
-Fixed: Stars not showing when specified
-Fixed: Sky layers drawn correctly so flying objects can be seen behind them
-Fixed: Server unique ids correctly displayed in the game settings dialog
-Fixed: Removed glGetError calls during GL state changes
-Fixed: Water transparency on NV8 series cards
-Fixed: Message is displayed correctly when money is gifted
-Fixed: Sent whisper text is also displayed on the sender
-Fixed: Tanks being placed too near to each other
-Fixed: COMs behaviour during large packet loss
+Fixed: Coms for each client can't block each other
+Fixed: Client not being able to send connect message
 
-Added: -hidewindow option to server to hide the console window on win32
-Added: Enabled support for the minplayers and maxplayers landscape defn attributes
-Added: skyline and skylinemask attributes to landscape textures to allow a bitmap skyline
-Added: nohorizonglow, nosunblend and suntexturemask attributes to landscape textures to allow decent planets
-Added: Console command ReloadLandscapeObjects that reloads the landscape definition from disk and re-displays
-Added: Console command ShowLandscapeInfo that shows which map files are currently in use
-Added: Console command ShowLandscapeAimInfo that shows the current position of the auto aim cursor ("A" key)
-Added: Authentication dialog for when server needs name/password
-Added: Player view on network browsing dialog
-Added: Re-send functionality to chat menu
-Added: Tooltips are split into two catagories (info and help) each of which can be disabled
-Added: Rules tab shows options changed for this level(L) and options changed from default(*)
+Added: Client will warn user if they are taking too long generating levels
+Added: Level generation code will yield every 5 seconds
+Added: Updated freemarket defaults so weapons can fall and increase by 300%
+Added: Changed aimed distance for baby sandhogs and sandhogs
+Added: Increased base price for funky bombs
 
 -- Bugs in current development release
 Dvorak keyboard support is broken

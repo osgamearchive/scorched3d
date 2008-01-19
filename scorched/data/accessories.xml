@@ -946,7 +946,7 @@ missiles target nearby tanks.</description>
 				<nowarheads>2</nowarheads>
 				<inaccuracy>30</inaccuracy>
 				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>75</maxaimdistance>
+				<maxaimdistance>40</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
 					<projectilescale>0.5</projectilescale>
 					<under></under>
@@ -979,7 +979,7 @@ missiles target nearby tanks.</description>
 				<nowarheads>5</nowarheads>
 				<inaccuracy>20</inaccuracy>
 				<percentagemiss>20</percentagemiss>
-				<maxaimdistance>75</maxaimdistance>
+				<maxaimdistance>50</maxaimdistance>
 				<aimedweapon type='WeaponProjectile'>
 					<under></under>
 					<projectilemodel type='MilkShape'>digger/digger.txt</projectilemodel>
@@ -1154,7 +1154,7 @@ missiles that automatically
 target nearby tanks.</description>
 		<icon>fbomb.bmp</icon>
 		<bundlesize>2</bundlesize>
-		<cost>12000</cost>
+		<cost>15000</cost>
 		<activationsound>shoot/large.wav</activationsound>
 		<model type='MilkShape'>icbm/icbm.txt</model>
 		<accessoryaction type='WeaponProjectile'>

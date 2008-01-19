@@ -53,7 +53,6 @@ protected:
 	{
 		TypeNone = 0,
 		TypeMessage = 1,
-		TypeAck = 2,
 		TypeLast = 4
 	};
 
@@ -69,7 +68,6 @@ protected:
 	int currentMessageSentLen_;
 	unsigned int messagesSent_, messagesRecieved_;
 	unsigned int bytesIn_, bytesOut_;
-	unsigned int acksNeeded_;
 	bool stopped_, finished_;
 	NetMessageHandler outgoingMessageHandler_;
 	NetMessageHandler *incomingMessageHandler_;

@@ -94,6 +94,7 @@ public:
 	OPTIONINT_GETTER(StartMoney);
 	OPTIONINT_GETTER(Interest);
 	OPTIONINT_GETTER(FreeMarketAdjustment);
+	OPTIONINT_GETTER(FreeMarketLimits);
 	OPTIONINT_GETTER(BuyOnRound);
 	OPTIONINT_GETTER(MoneyPerRound);
 	OPTIONINT_GETTER(MoneyWonForRound);
