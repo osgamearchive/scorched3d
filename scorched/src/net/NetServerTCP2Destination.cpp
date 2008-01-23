@@ -167,14 +167,32 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 	{
 		// Check if the socket is ready to give us data
 		int numready = SDLNet_CheckSockets(socketSet_, 0);
-		if (numready == -1) return SocketClosed;
+		if (numready == -1) 
+		{
+			if (packetLogging_)
+			{
+				Logger::log(formatStringBuffer(
+					"NetServerTCP2Destination %u: CheckSockets returned an error %i", 
+					numready));
+			}
+			return SocketClosed;
+		}
 		if (numready == 0) return (i==0?SocketEmpty:SocketActivity);
 		if (!SDLNet_SocketReady(socket_)) return (activity?SocketActivity:SocketEmpty);
 
 		// Get data from socket
 		char buffer[1];
 		int recv = SDLNet_TCP_Recv(socket_, &buffer, 1);
-		if (recv <= 0) return SocketClosed;
+		if (recv <= 0)
+		{
+			if (packetLogging_)
+			{
+				Logger::log(formatStringBuffer(
+					"NetServerTCP2Destination %u: Recv returned an error %i", 
+					recv));
+			}
+			return SocketClosed;
+		}
 		currentMessagePart_.addDataToBuffer(buffer, 1);
 
 		// Update stats
