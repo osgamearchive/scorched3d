@@ -1,10 +1,3 @@
 -- Bugs Fixed and Ready For Release 
-Fixed: Coms for each client can't block each other
-Fixed: Client not being able to send connect message
-
-Added: Client will warn user if they are taking too long generating levels
-Added: Level generation code will yield every 5 seconds
-Added: Updated freemarket defaults so weapons can fall and increase by 300%
-Added: Changed aimed distance for baby sandhogs and sandhogs
-Added: Increased base price for funky bombs
-Added: useup attribute for weapons to indicate if any weapons are used when fired
+Added: It's now possible to fix the price of an Accessory by setting the FreeMarketLimit of it to 0
+Added: The price of each accessory is calculated and stored exactly with no rounding, the rounding is only applied to the visible prices.
