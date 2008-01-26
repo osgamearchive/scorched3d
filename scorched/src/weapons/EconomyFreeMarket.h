@@ -50,7 +50,7 @@ public:
 REGISTER_CLASS_HEADER(EconomyFreeMarket);
 
 protected:
-	std::map<unsigned int, int> newPrices_;
+	std::map<unsigned int, int> economyPrices_;
 
 	void setPrice(Accessory *accessory, int price);
 };

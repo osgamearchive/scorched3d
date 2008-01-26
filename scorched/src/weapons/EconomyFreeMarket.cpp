@@ -40,7 +40,7 @@ static const char *getEconomyFileName()
 		ScorchedServer::instance()->getOptionsGame().getPortNo()));
 }
 
-bool validAccessory(Accessory *accessory)
+static bool validAccessory(Accessory *accessory)
 {
 	return 
 		accessory->getStartingNumber() != -1 &&
@@ -70,6 +70,7 @@ bool EconomyFreeMarket::loadPrices()
 	}
 
 	// If there are entries in the file
+	economyPrices_.clear();
 	XMLNode *rootnode = file.getRootNode();
 	if (rootnode)
 	{
@@ -86,13 +87,7 @@ bool EconomyFreeMarket::loadPrices()
 
 			Accessory *accessory = ScorchedServer::instance()->getAccessoryStore().
 				findByPrimaryAccessoryName(nameNode->getContent());
-			if (!accessory)
-			{
-				Logger::log(formatStringBuffer(
-					"Warning: Economy free market failed to find accessory named \"%s\"",
-					nameNode->getContent()));
-			}
-			else
+			if (accessory)
 			{	
 				// Check that this accessory is still valid
 				// (just in case the file has been changed)
@@ -100,11 +95,12 @@ bool EconomyFreeMarket::loadPrices()
 				{
 					// Set the actual accessory price (based on the last used market prices)
 					int price = atoi(buyNode->getContent());
-					setPrice(accessory, price);
+					economyPrices_[accessory->getAccessoryId()] = price;
 				}
 			}
 		}
 	}
+	calculatePrices();
 
 	return true;	
 }
@@ -113,16 +109,17 @@ bool EconomyFreeMarket::savePrices()
 {
 	FileLines file;
 	file.addLine("<prices source=\"Scorched3D\">");
-
-	std::list<Accessory *> weapons = 
-		ScorchedServer::instance()->getAccessoryStore().getAllAccessories();
-	std::list<Accessory *>::iterator itor;
-	for (itor = weapons.begin();
-		itor != weapons.end();
+	std::map<unsigned int, int>::iterator itor;
+	for (itor = economyPrices_.begin();
+		itor != economyPrices_.end();
 		itor++)
 	{
-		Accessory *accessory = *itor;
-		if (validAccessory(accessory))
+		unsigned int accessoryId = itor->first;
+		int price = itor->second;
+
+		Accessory *accessory = 
+			ScorchedServer::instance()->getAccessoryStore().findByAccessoryId(accessoryId);
+		if (accessory && validAccessory(accessory))
 		{
 			std::string cleanName;
 			std::string dirtyName(accessory->getName());
@@ -131,7 +128,7 @@ bool EconomyFreeMarket::savePrices()
 			file.addLine(formatString("    <!-- %s, original Price %i -->", 
 				cleanName.c_str(), accessory->getOriginalPrice()));
 			file.addLine(formatString("    <name>%s</name>", cleanName.c_str()));
-			file.addLine(formatString("    <buyprice>%i</buyprice>", accessory->getPrice()));
+			file.addLine(formatString("    <buyprice>%i</buyprice>", price));
 			file.addLine("  </accessory>");
 		}
 	}
@@ -145,22 +142,20 @@ bool EconomyFreeMarket::savePrices()
 void EconomyFreeMarket::calculatePrices()
 {
 	std::map<unsigned int, int>::iterator itor;
-	for (itor = newPrices_.begin();
-		itor != newPrices_.end();
+	for (itor = economyPrices_.begin();
+		itor != economyPrices_.end();
 		itor++)
 	{
-		int diff = (*itor).second;
-		if (diff != 0)
+		unsigned int accessoryId = itor->first;
+		int price = itor->second;
+
+		Accessory *accessory = 
+			ScorchedServer::instance()->getAccessoryStore().findByAccessoryId(accessoryId);
+		if (accessory && validAccessory(accessory))
 		{
-			Accessory *accessory = 
-				ScorchedServer::instance()->getAccessoryStore().
-				findByAccessoryId((*itor).first);
-			
-			int price = accessory->getPrice() + diff;
 			setPrice(accessory, price);
 		}
 	}
-	newPrices_.clear();
 }
 
 void EconomyFreeMarket::accessoryBought(Tank *tank, 
@@ -186,15 +181,17 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			itor++)
 		{
 			Accessory *accessory = *itor;
-	
-			if (//accessory->getPrice() <= tank->getScore().getMoney() && // Commented to allow expensive weapons to drop
-				accessory->getPrice() >= int(float(boughtAccessory->getPrice()) * 0.3f) &&
-				accessory->getPrice() <= int(float(boughtAccessory->getPrice()) * 1.75f) &&
-				((accessory->getType() == AccessoryPart::AccessoryWeapon) == (boughtAccessory->getType() == AccessoryPart::AccessoryWeapon)) &&
-				tank->getAccessories().accessoryAllowed(accessory, accessory->getBundle()) &&
-				validAccessory(accessory))
-			{
-				possibleAccessories.push_back(accessory);
+
+			int accessoryPrice = 
+				accessory->getOriginalPrice() / accessory->getBundle(); 
+			int boughtAccessoryPrice = 
+				boughtAccessory->getOriginalPrice() / accessory->getBundle(); 
+			if (accessoryPrice >= int(float(boughtAccessoryPrice) * 0.33f) && 
+				accessoryPrice <= int(float(boughtAccessoryPrice) * 3.33f) && 
+				tank->getAccessories().accessoryAllowed(accessory, accessory->getBundle()) && 
+				validAccessory(accessory)) 
+			{ 
+				possibleAccessories.push_back(accessory); 
 			}
 		}
 	}
@@ -229,7 +226,7 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			{
 				// This weapon was not bought, decrease its price
 				priceDiff = -adjustment / int(possibleAccessories.size());
-				priceDiff /= 2;
+				//priceDiff /= 2;
 			}
 			else if (moneyDidAquire >= moneyShouldAquire)
 			{
@@ -239,31 +236,45 @@ void EconomyFreeMarket::accessoryBought(Tank *tank,
 			}
 
 			// Update the price difference for this weapon
-			std::map<unsigned int, int>::iterator findItor = newPrices_.
-				find(accessory->getAccessoryId());
-			if (findItor == newPrices_.end()) 
-				newPrices_[accessory->getAccessoryId()] = priceDiff;
-			else newPrices_[accessory->getAccessoryId()] += priceDiff;
+			std::map<unsigned int, int>::iterator findItor = 
+				economyPrices_.find(accessory->getAccessoryId());
+			if (findItor == economyPrices_.end()) 
+			{
+				economyPrices_[accessory->getAccessoryId()] = 
+					accessory->getOriginalPrice() + priceDiff;
+			}
+			else 
+			{
+				economyPrices_[accessory->getAccessoryId()] += 
+					priceDiff;
+			}
 		}
 	}
 }
 
 void EconomyFreeMarket::setPrice(Accessory *accessory, int price)
 {
-	price = (price / 10) * 10; // Round to 10
-
 	float limit = float(accessory->getFreeMarketLimits()) / 100.0f;
 	limit *= ScorchedServer::instance()->getOptionsGame().getFreeMarketLimits();
+	if (limit == 0) // No limits accessory should stay at fixed price
+	{
+		price = accessory->getOriginalPrice();
+	}
+	else // Make sure price is within limits
+	{
+		// Make suse price does not get greater than 1.5X the original price
+		if (price > int(float(accessory->getOriginalPrice()) * limit))
+			price = int(float(accessory->getOriginalPrice()) * limit);
+		// Make sure price does not get lower than 1.5X the original price
+		else if (price < int(float(accessory->getOriginalPrice()) / limit))
+			price = int(float(accessory->getOriginalPrice()) / limit);
+	}
+	price = (price / 10) * 10; // Round to 10
 
-	// Make suse price does not get greater than 1.5X the original price
-	if (price > int(float(accessory->getOriginalPrice()) * limit))
-		price = int(float(accessory->getOriginalPrice()) * limit);
-	// Make sure price does not get lower than 1.5X the original price
-	else if (price < int(float(accessory->getOriginalPrice()) / limit))
-		price = int(float(accessory->getOriginalPrice()) / limit);
+	// Set Buy Price
 	accessory->setPrice(price);
 
-	// Sell price is 0.8X the buy price
+	// Set sell price to 0.8X the buy price
 	int selPrice = int(float(accessory->getPrice()) /
 		float(accessory->getBundle()) * 0.8f);
 	selPrice = (selPrice / 10) * 10; // Round to 10
