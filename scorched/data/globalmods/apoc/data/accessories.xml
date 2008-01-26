@@ -3953,7 +3953,7 @@ in a random direction.</description>
 			</projectilemodel>
 			<collisionaction type='WeaponVelocity'>
 				<abs>false</abs>
-				<velocitychange>0.83</velocitychange>
+				<velocitychange>1.0</velocitychange>
 				<aimedweapon type='WeaponMulti'>
 					<subweapon1 type='WeaponReference'>
 						<weapon>MirvBomblet</weapon>
@@ -4022,7 +4022,7 @@ direction of the firer.</description>
 			</projectilemodel> 
 			<collisionaction type='WeaponVelocity'>
 				<abs>false</abs>
-				<velocitychange>0.83</velocitychange>
+				<velocitychange>1.0</velocitychange>
 				<aimedweapon type='WeaponMulti'> 
 					<subweapon1 type='WeaponReference'> 
 					   <weapon>MirvBomblet</weapon> 
@@ -4100,7 +4100,7 @@ sized warheads in a vertical line.</description>
 			<projectilemodel type='MilkShape'>weapons/megamirv.txt</projectilemodel>
 			<collisionaction type='WeaponVelocity'>
 				<abs>false</abs>
-				<velocitychange>0.83</velocitychange>
+				<velocitychange>1.0</velocitychange>
 				<aimedweapon type='WeaponMulti'> 
 					<subweapon1 type='WeaponReference'> 
 					   <weapon>MegaBomblet</weapon> 
@@ -4163,7 +4163,7 @@ sized warheads in a horizontal line.</description>
 			<projectilemodel type='MilkShape'>weapons/megamirv.txt</projectilemodel>
 			<collisionaction type='WeaponVelocity'>
 				<abs>false</abs>
-				<velocitychange>0.83</velocitychange>
+				<velocitychange>1.0</velocitychange>
 				<aimedweapon type='WeaponMirv'>
 					<nowarheads>8</nowarheads>
 					<hspreaddist>0.8</hspreaddist>
