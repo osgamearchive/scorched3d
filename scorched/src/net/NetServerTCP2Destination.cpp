@@ -169,7 +169,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 		int numready = SDLNet_CheckSockets(socketSet_, 0);
 		if (numready == -1) 
 		{
-			if (packetLogging_)
+			//if (packetLogging_)
 			{
 				Logger::log(formatStringBuffer(
 					"NetServerTCP2Destination %u: CheckSockets returned an error %i", 
@@ -185,7 +185,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 		int recv = SDLNet_TCP_Recv(socket_, &buffer, 1);
 		if (recv <= 0)
 		{
-			if (packetLogging_)
+			//if (packetLogging_)
 			{
 				Logger::log(formatStringBuffer(
 					"NetServerTCP2Destination %u: Recv returned an error %i", 
