@@ -173,6 +173,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 			{
 				Logger::log(formatStringBuffer(
 					"NetServerTCP2Destination %u: CheckSockets returned an error %i", 
+					destinationId_,
 					numready));
 			}
 			return SocketClosed;
@@ -189,6 +190,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 			{
 				Logger::log(formatStringBuffer(
 					"NetServerTCP2Destination %u: Recv returned an error %i", 
+					destinationId_,
 					recv));
 			}
 			return SocketClosed;
