@@ -18,11 +18,66 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <winsock2.h>
+#else
+#include <errno.h>
+#endif
+
 #include <net/NetServerTCP2.h>
 #include <net/NetMessagePool.h>
 #include <net/NetOptions.h>
 #include <common/Logger.h>
+#include <common/Clock.h>
 #include <set>
+
+static int SDLNet_TCP_Recv_Wrapper(TCPsocket sock, void *data, int maxlen)
+{
+#ifdef WIN32
+	WSASetLastError(0);
+#else
+	errno = 0;
+#endif
+
+	int result = SDLNet_TCP_Recv(sock, data, maxlen);
+	if (result <= 0)
+	{
+#ifdef WIN32
+		Logger::log(formatStringBuffer(
+			"SDLNet_TCP_Recv_Wrapper: WSA Error code %i", WSAGetLastError()));
+#else
+		Logger::log(formatStringBuffer(
+			"SDLNet_TCP_Recv_Wrapper: Error code %i", errno));
+#endif
+	}
+
+	return result;
+}
+
+static int SDLNet_TCP_Send_Wrapper(TCPsocket sock, const void *datap, int len)
+{
+#ifdef WIN32
+	WSASetLastError(0);
+#else
+	errno = 0;
+#endif
+
+	int result = SDLNet_TCP_Send(sock, datap, len);
+	if (result <= 0)
+	{
+#ifdef WIN32
+		Logger::log(formatStringBuffer(
+			"SDLNet_TCP_Send_Wrapper: WSA Error code %i", WSAGetLastError()));
+#else
+		Logger::log(formatStringBuffer(
+			"SDLNet_TCP_Send_Wrapper: Error code %i", errno));
+#endif
+	}
+
+	return result;
+}
 
 NetServerTCP2Destination::NetServerTCP2Destination(
 	NetMessageHandler *incomingMessageHandler, 
@@ -111,14 +166,56 @@ int NetServerTCP2Destination::sendRecvThreadFunc(void *c)
 
 void NetServerTCP2Destination::actualSendRecvFunc()
 {
+	Clock netClock;
 	while (!stopped_)
 	{
-		outgoingMessageHandler_.processMessages();
-		SocketResult sendResult = checkOutgoing();
-		if (sendResult == SocketClosed) break;
+		{
+			// Reset clock
+			netClock.getTimeDifference();
+		}
 
-		SocketResult recvResult = checkIncoming();
-		if (recvResult == SocketClosed) break;
+		{
+			// Update messages
+			outgoingMessageHandler_.processMessages();
+			float timeDiff = netClock.getTimeDifference();
+			if (timeDiff > 5.0f)
+			{
+				Logger::log(formatStringBuffer(
+					"NetServerTCP2Destination %u: messages took %.2f seconds", 
+					destinationId_,
+					timeDiff));
+			}
+		}
+
+		SocketResult sendResult;
+		{
+			// Send
+			sendResult = checkOutgoing();
+			float timeDiff = netClock.getTimeDifference();
+			if (timeDiff > 5.0f)
+			{
+				Logger::log(formatStringBuffer(
+					"NetServerTCP2Destination %u: outgoing took %.2f seconds", 
+					destinationId_,
+					timeDiff));
+			}
+			if (sendResult == SocketClosed) break;
+		}
+
+		SocketResult recvResult;
+		{
+			// Recv
+			recvResult = checkIncoming();
+			float timeDiff = netClock.getTimeDifference();
+			if (timeDiff > 5.0f)
+			{
+				Logger::log(formatStringBuffer(
+					"NetServerTCP2Destination %u: incoming took %.2f seconds", 
+					destinationId_,
+					timeDiff));
+			}
+			if (recvResult == SocketClosed) break;
+		}
 
 		if (sendResult == SocketEmpty &&
 			recvResult == SocketEmpty)
@@ -183,7 +280,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkIncoming()
 
 		// Get data from socket
 		char buffer[1];
-		int recv = SDLNet_TCP_Recv(socket_, &buffer, 1);
+		int recv = SDLNet_TCP_Recv_Wrapper(socket_, &buffer, 1);
 		if (recv <= 0)
 		{
 			//if (packetLogging_)
@@ -282,7 +379,7 @@ NetServerTCP2Destination::SocketResult NetServerTCP2Destination::checkOutgoing()
 	}
 
 	// Send data
-	int result = SDLNet_TCP_Send(socket_, 
+	int result = SDLNet_TCP_Send_Wrapper(socket_, 
 		(void *) &message->getBuffer().getBuffer()[currentMessageSentLen_], 
 		sendAmount);
 	if(result < sendAmount) // Socket Closed
@@ -327,7 +424,7 @@ bool NetServerTCP2Destination::sendHeader(char headerType, int len)
 	ackMessage->getBuffer().addToBuffer(len);
 
 	// Send Header
-	int result = SDLNet_TCP_Send(socket_, 
+	int result = SDLNet_TCP_Send_Wrapper(socket_, 
 		(void *) ackMessage->getBuffer().getBuffer(), 
 		ackMessage->getBuffer().getBufferUsed());
 
