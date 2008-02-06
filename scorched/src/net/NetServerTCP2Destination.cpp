@@ -45,11 +45,19 @@ static int SDLNet_TCP_Recv_Wrapper(TCPsocket sock, void *data, int maxlen)
 	if (result <= 0)
 	{
 #ifdef WIN32
-		Logger::log(formatStringBuffer(
-			"SDLNet_TCP_Recv_Wrapper: WSA Error code %i", WSAGetLastError()));
+		int wsacp = WSAGetLastError();
+		if (wsacp != WSAECONNRESET)
+		{
+			Logger::log(formatStringBuffer(
+				"SDLNet_TCP_Recv_Wrapper: WSA Error code %i", wsacp));
+		}
 #else
-		Logger::log(formatStringBuffer(
-			"SDLNet_TCP_Recv_Wrapper: Error code %i", errno));
+		int errnocp = errno;
+		if (errnocp != ECONNRESET)
+		{
+			Logger::log(formatStringBuffer(
+				"SDLNet_TCP_Recv_Wrapper: Error code %i", errnocp));
+		}
 #endif
 	}
 
@@ -68,11 +76,19 @@ static int SDLNet_TCP_Send_Wrapper(TCPsocket sock, const void *datap, int len)
 	if (result <= 0)
 	{
 #ifdef WIN32
-		Logger::log(formatStringBuffer(
-			"SDLNet_TCP_Send_Wrapper: WSA Error code %i", WSAGetLastError()));
+		int wsacp = WSAGetLastError();
+		if (wsacp != WSAECONNRESET)
+		{
+			Logger::log(formatStringBuffer(
+				"SDLNet_TCP_Send_Wrapper: WSA Error code %i", wsacp));
+		}
 #else
-		Logger::log(formatStringBuffer(
-			"SDLNet_TCP_Send_Wrapper: Error code %i", errno));
+		int errnocp = errno;
+		if (errnocp != ECONNRESET)
+		{
+			Logger::log(formatStringBuffer(
+				"SDLNet_TCP_Send_Wrapper: Error code %i", errnocp));
+		}
 #endif
 	}
 
