@@ -1,3 +1,0 @@
--- Bugs Fixed and Ready For Release 
-Added: It's now possible to fix the price of an Accessory by setting the FreeMarketLimit of it to 0
-Added: The price of each accessory is calculated and stored exactly with no rounding, the rounding is only applied to the visible prices.

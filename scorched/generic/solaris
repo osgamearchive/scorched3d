@@ -1,2 +1,0 @@
-export CPPFLAGS="-I/opt/SDL/include -DNO_FLOAT_MATH"
-export SDL_CONFIG=/opt/SDL/bin/sdl-config
